@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A012D5A509A
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 17:49:00 +0200 (CEST)
-Received: from localhost ([::1]:33366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F1315A5063
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 17:44:22 +0200 (CEST)
+Received: from localhost ([::1]:35622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSh0V-0003D0-Lf
-	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 11:48:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41310)
+	id 1oSgw1-0006lm-8k
+	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 11:44:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1oSgt1-0002d8-Oq
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 11:41:15 -0400
+ id 1oSgt0-0002cV-Ff
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 11:41:14 -0400
 Received: from madras.collabora.co.uk
- ([2a00:1098:0:82:1000:25:2eeb:e5ab]:52566)
+ ([2a00:1098:0:82:1000:25:2eeb:e5ab]:52568)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1oSgsy-0004de-Lu
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 11:41:15 -0400
+ id 1oSgsy-0004df-MK
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 11:41:14 -0400
 Received: from dellino.fritz.box (host-95-235-60-93.retail.telecomitalia.it
  [95.235.60.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: fahien)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id A03B56601E7E;
- Mon, 29 Aug 2022 16:41:08 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 26A3D6601EFA;
+ Mon, 29 Aug 2022 16:41:09 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1661787668;
- bh=R2tFqz8RM2Rm+/prWUuIW47hDImWGlMBY35DEiXqzGI=;
- h=From:To:Cc:Subject:Date:From;
- b=CRArWFQS/nFBq0jOaiUjFCpEFZrYPVnKasdzmlEXHXx8p9E3Movuvt9pGs6CERYeA
- ZadZaDLxZyOc8EGSzUixqIHBHzs2M3roKVVSGjvhXAK4QztgXmw9I82m9Bg7uzv5cl
- mXwadACcw8GK0ht22x8dtauTL0GDOnNZyQhS4QCYp8JpOW2/b/KbH6k2koetiPejVo
- 5OFTen5HezypxCRkCwJVqQPASM0bx2nTUQ3/d3g6mlyfGO98HNJemJ3JEOJoQ87Nir
- KJ6Cgbv5xuVmwXqq6w/9vKYS1M2feJAZl/0+EAOTx108cnTS7GLxKDN+vQNzZLc8+f
- vmDJ8Ql0SZWNg==
+ s=mail; t=1661787669;
+ bh=XIi4qSO0RmH+GIApCIgGlWGW/G2VTXFcHQPJf/yKSiE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=kKAZhokLzXe9YwKzDju0E1lc63O0zfmVJ4qCaE0VFOqZMe6oLpdiLfPmncDeQHAPN
+ 6TY5/LYpMdO3Mjm8FtnsGDqecrqrxElFgSMScR7WPKM9LqmKXq/tpq6eGGZzGz4FcK
+ Kop3E9G63WItOQSvtgV/tZ4WAAdelQCc2HUepcdu5eqOODwWYpeEzuy05xges+LBOY
+ PuUPyHcLynb2NpVANQuBth+nr9dDg5uorOJKUZvvOjuNVpqKIkCvJcy1nr5j8yaWeE
+ Ol0YT4yWgDPHOlgHEWRsizDH+Hm+OF8ej3Z2hobHmMSNkRszF1fnlcGt5CGZYdQxPp
+ D9mrFHWKh22oQ==
 From: Antonio Caggiano <antonio.caggiano@collabora.com>
 To: qemu-devel@nongnu.org
-Cc: gert.wollny@collabora.com,
-	dmitry.osipenko@collabora.com
-Subject: [PATCH 0/5] virtio-gpu: Blob resources
-Date: Mon, 29 Aug 2022 17:40:53 +0200
-Message-Id: <20220829154058.524413-1-antonio.caggiano@collabora.com>
+Cc: gert.wollny@collabora.com, dmitry.osipenko@collabora.com,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH 1/5] Update version for v7.1.0-rc4 release
+Date: Mon, 29 Aug 2022 17:40:54 +0200
+Message-Id: <20220829154058.524413-2-antonio.caggiano@collabora.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220829154058.524413-1-antonio.caggiano@collabora.com>
+References: <20220829154058.524413-1-antonio.caggiano@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1098:0:82:1000:25:2eeb:e5ab;
@@ -70,38 +72,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add shared memory and support blob resource creation, mapping and
-unmapping through virglrenderer new stable APIs[0] when available.
+From: Richard Henderson <richard.henderson@linaro.org>
 
-[0] https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/891
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ VERSION | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Antonio Caggiano (1):
-  virtio-gpu: Handle resource blob commands
-
-Dmitry Osipenko (1):
-  virtio-gpu: Don't require udmabuf when blob support is enabled
-
-Dr. David Alan Gilbert (1):
-  virtio: Add shared memory capability
-
-Gerd Hoffmann (1):
-  virtio-gpu: hostmem
-
-Richard Henderson (1):
-  Update version for v7.1.0-rc4 release
-
- VERSION                              |   2 +-
- hw/display/virtio-gpu-pci.c          |  15 +++
- hw/display/virtio-gpu-virgl.c        | 169 +++++++++++++++++++++++++++
- hw/display/virtio-gpu.c              |  25 ++--
- hw/display/virtio-vga.c              |  33 ++++--
- hw/virtio/virtio-pci.c               |  18 +++
- include/hw/virtio/virtio-gpu-bswap.h |  18 +++
- include/hw/virtio/virtio-gpu.h       |  11 ++
- include/hw/virtio/virtio-pci.h       |   4 +
- meson.build                          |   5 +
- 10 files changed, 276 insertions(+), 24 deletions(-)
-
+diff --git a/VERSION b/VERSION
+index 1c944b9863..b8d5f3ebb6 100644
+--- a/VERSION
++++ b/VERSION
+@@ -1 +1 @@
+-7.0.93
++7.0.94
 -- 
 2.34.1
 
