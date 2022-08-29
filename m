@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5C025A421E
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 07:05:48 +0200 (CEST)
-Received: from localhost ([::1]:35616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC19E5A422A
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 07:22:29 +0200 (CEST)
+Received: from localhost ([::1]:60164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSWy3-0000uc-LH
-	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 01:05:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55672)
+	id 1oSXEB-0004mj-S0
+	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 01:22:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oSWuI-0007gH-S6
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 01:01:54 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:46998)
+ id 1oSX9j-0003It-Rw
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 01:17:51 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:39785)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oSWuH-0008TO-3y
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 01:01:54 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id p185so7081249pfb.13
- for <qemu-devel@nongnu.org>; Sun, 28 Aug 2022 22:01:52 -0700 (PDT)
+ id 1oSX9h-0002OT-QX
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 01:17:51 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id d12so6897029plr.6
+ for <qemu-devel@nongnu.org>; Sun, 28 Aug 2022 22:17:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=sOiyB0Qcxl0jw1HlGK3XIYV9Y+XQkyxXZvHzd5DuLCk=;
- b=kBtcBZws6m2HWq9CdIRJoaI3vCXmAz3X5uUNvZYWZM4Q3vcNqioFbZL3AFwmOCuJYs
- HPJedmsB0SI7nwtsMUqR9YqZfiLyDVoZQO2TTImTPdu7YXJXuKAdNNcYadztd92/0M3V
- fMp9TTeBi+1wKFXzf9zctRdokBbxZ1gQT4Pw9aJ/Z/MV1nSUmP9LdzjjR6eRpg4LnWLy
- 3DdO27Z2ASAjW01G2ZwbqLgbqbTAxUvsr6dEy4zBki3iAVZgzRgMCG0ol1l5Q/tRxq5e
- kvfke5zF4CuOEcdJOaEQDcXeZjtTXz7xPjnwbJqcbLk+6ubvgtT9V5axKjgYbcYq8hc1
- BNsA==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=4kOy2oqciXP8M6ZCGRBBHU9ZeT9d/lVmiyFCtuhiNAA=;
+ b=axRd0AvWKv9yh8JrtHNfTH0O8c/edo8UAAt2849zlJNUGd9oFiLL9Y6k19+Nqx9lSK
+ AignLftfqpDXy68i29Nqh9YuyZzgW+BTvSsOas7r1LfMLsBELG9nAioK/g/yJue2HAAX
+ JeI7w5Vu16oNJUp+sRxUmQoPnZN2tLLmAVBr5K/i/uegKMOyktLEv1tdz+9SGIyF55bB
+ 80hTpc78KW/rSeNhHlKjDE/yEcmaIY3ai39evYvk8kqP+8rvUhmF0thw9ID5QGdnblwh
+ 28eG/3NXaw5L0+9QiOz55iFIVAUaEmG31glaHm3LhtDsV5Mp4wxOyV62dQ0euTQC0ojm
+ BkSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=sOiyB0Qcxl0jw1HlGK3XIYV9Y+XQkyxXZvHzd5DuLCk=;
- b=TlviLft8q5QOPwPGqa+K3IPLokIZJljvS6c+n2ZqJ8z/x0vw4iYM4BdLDdm73DctYV
- szjMSqIwrjwONFS4jSXwNf8hWP8ALUkjPOWQ7ow7mNCgaexqa+pER5dDylL+26LIcRYF
- 2kdJhAmrQjiR8X81vwqOfFMuRpKYoSpFQ3px5hljWO951ZeC7i6bGT/xEVt3pGyiBiOF
- t8e4Wd73R6GtXscYHuwWiPryhnIzSn1VFBhIFotiUrrRPCc7JkZouxLIBuNYpSTck6iU
- Xxl8F6SP18HuEJMu0MJ1MhmtdFPhCfRY4KXK64RQPBRiPZ1C8n0Cw1HZ+kCieU7Aa1hF
- rPLA==
-X-Gm-Message-State: ACgBeo0Gk4Jo5hg2yO0hoOWGlcAI7ePeEErhw1k/SlrhrGMQFDUT6yhD
- 6zMldTS22gUvfKG1mFzjfGY2Vw==
-X-Google-Smtp-Source: AA6agR6Hc+LwjzJPunLc5JLx7/JCT5wPYGqD5AhBTTeExa9Zx+993M0gZMA4/9cwzrnYIT5VxY6pOw==
-X-Received: by 2002:a05:6a00:174f:b0:537:6845:8b1a with SMTP id
- j15-20020a056a00174f00b0053768458b1amr15263324pfc.68.1661749311203; 
- Sun, 28 Aug 2022 22:01:51 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:2fa6:2ab5:a96e:2a35?
- ([2602:47:d49d:ec01:2fa6:2ab5:a96e:2a35])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=4kOy2oqciXP8M6ZCGRBBHU9ZeT9d/lVmiyFCtuhiNAA=;
+ b=5dWk/evpf58rrRc+wNQ6OgdFVlRYV7gd6moC3ONfPzmueSDHc/BtPMhwTj21ZpEb21
+ /vdBgNVqyRZ5OcX2yjarRmj8AjQM8dNcH+7L1lqSlEdxxMFZO5Qa2umHb1JDDuKkHOdi
+ pDGh88ZXYvHA4shgowqkXoKSLkF7b3PtT4M7lHjPQJYuyb3hCF4PTznFsJLi8Gk9Wpjc
+ z3Hg55aDxQr6GXmrRIYWZTM8N0me5TaOffVKtQEZl6zmGslzCbtyIXXfYq4kRCZH1a9w
+ W2ef18wRo+Ukjf5c0G3gNuKR7dNs1b+OcCMKxKNwxoIO1mR3CsJJ2dWnViBZhtB1osCj
+ Bwcg==
+X-Gm-Message-State: ACgBeo3tQsJO37cO56CewShAZtOw/Gxq9BCJUOIaJnm1OTTr8U4pFrr0
+ lngaw9vc3bdF5+VqvC0+iNsJMW8LK+w5OA==
+X-Google-Smtp-Source: AA6agR6NSapqTlJCzY7kIAMjyn7ftD3BRPGl+gQaPIIVzVnHteGS9N7GomK0Qe16Y0f0oLHR1SlVOg==
+X-Received: by 2002:a17:90b:1d83:b0:1fb:6795:5cc9 with SMTP id
+ pf3-20020a17090b1d8300b001fb67955cc9mr16916662pjb.162.1661750268005; 
+ Sun, 28 Aug 2022 22:17:48 -0700 (PDT)
+Received: from stoup.. ([2602:47:d49d:ec01:2fa6:2ab5:a96e:2a35])
  by smtp.gmail.com with ESMTPSA id
- b67-20020a62cf46000000b005364e0ec330sm6154942pfg.59.2022.08.28.22.01.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 28 Aug 2022 22:01:49 -0700 (PDT)
-Message-ID: <6ed26864-d3b1-493c-c19f-70ebfb8449bd@linaro.org>
-Date: Sun, 28 Aug 2022 22:01:48 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 01/13] linux-user: Add missing signals in strace output
-Content-Language: en-US
-To: Helge Deller <deller@gmx.de>, Laurent Vivier <laurent@vivier.eu>,
- qemu-devel@nongnu.org
-References: <20220826141853.419564-1-deller@gmx.de>
- <20220826141853.419564-2-deller@gmx.de>
+ y10-20020a1709027c8a00b00172f4835f53sm6307392pll.192.2022.08.28.22.17.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 28 Aug 2022 22:17:47 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220826141853.419564-2-deller@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+To: qemu-devel@nongnu.org
+Cc: laurent@vivier.eu
+Subject: [PATCH] target/m68k: Implement atomic test-and-set
+Date: Sun, 28 Aug 2022 22:17:46 -0700
+Message-Id: <20220829051746.227094-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,48 +86,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/26/22 07:18, Helge Deller wrote:
-> Some of the guest signal numbers are currently not converted to
-> their representative names in the strace output, e.g. SIGVTALRM.
-> 
-> This patch introduces a smart way to generate and keep in sync the
-> host-to-guest and guest-to-host signal conversion tables for usage in
-> the qemu signal and strace code. This ensures that any signals
-> will now show up in both tables.
-> 
-> There is no functional change in this patch - with the exception that yet
-> missing signal names now show up in the strace code too.
-> 
-> Signed-off-by: Helge Deller <deller@gmx.de>
-> ---
->   linux-user/signal-common.h | 46 ++++++++++++++++++++++++++++++++++++++
->   linux-user/signal.c        | 37 +++---------------------------
->   linux-user/strace.c        | 31 +++++++++----------------
->   3 files changed, 60 insertions(+), 54 deletions(-)
-> 
-> diff --git a/linux-user/signal-common.h b/linux-user/signal-common.h
-> index 6a7e4a93fc..c2549bcd3e 100644
-> --- a/linux-user/signal-common.h
-> +++ b/linux-user/signal-common.h
-> @@ -118,4 +118,50 @@ static inline void finish_sigsuspend_mask(int ret)
->       }
->   }
-> 
-> +#ifdef SIGSTKFLT
-> +#define MAKE_SIG_ENTRY_SIGSTKFLT        MAKE_SIG_ENTRY(SIGSTKFLT)
-> +#else
-> +#define MAKE_SIG_ENTRY_SIGSTKFLT
-> +#endif
-> +
-> +#ifdef SIGIOT
-> +#define MAKE_SIG_ENTRY_SIGIOT           MAKE_SIG_ENTRY(SIGIOT)
-> +#else
-> +#define MAKE_SIG_ENTRY_SIGIOT
-> +#endif
+This is slightly more complicated than cas,
+because tas is allowed on data registers.
 
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/m68k/translate.c | 40 ++++++++++++++++++++++++++++++----------
+ 1 file changed, 30 insertions(+), 10 deletions(-)
 
-This doesn't compile when TARGET_SIGIOT does not exist, e.g. qemu-arm.
+diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+index 8f3c298ad0..0aef827b38 100644
+--- a/target/m68k/translate.c
++++ b/target/m68k/translate.c
+@@ -2825,19 +2825,39 @@ DISAS_INSN(illegal)
+     gen_exception(s, s->base.pc_next, EXCP_ILLEGAL);
+ }
+ 
+-/* ??? This should be atomic.  */
+ DISAS_INSN(tas)
+ {
+-    TCGv dest;
+-    TCGv src1;
+-    TCGv addr;
++    int mode = extract32(insn, 3, 3);
++    int reg0 = REG(insn, 0);
+ 
+-    dest = tcg_temp_new();
+-    SRC_EA(env, src1, OS_BYTE, 1, &addr);
+-    gen_logic_cc(s, src1, OS_BYTE);
+-    tcg_gen_ori_i32(dest, src1, 0x80);
+-    DEST_EA(env, insn, OS_BYTE, dest, &addr);
+-    tcg_temp_free(dest);
++    if (mode == 0) {
++        /* data register direct */
++        TCGv dest = cpu_dregs[reg0];
++        gen_logic_cc(s, dest, OS_BYTE);
++        tcg_gen_ori_tl(dest, dest, 0x80);
++    } else {
++        TCGv src1, addr;
++
++        addr = gen_lea_mode(env, s, mode, reg0, OS_BYTE);
++        if (IS_NULL_QREG(addr)) {
++            gen_addr_fault(s);
++            return;
++        }
++        src1 = tcg_temp_new();
++        tcg_gen_atomic_fetch_or_tl(src1, addr, tcg_constant_tl(0x80),
++                                   IS_USER(s), MO_SB);
++        gen_logic_cc(s, src1, OS_BYTE);
++        tcg_temp_free(src1);
++
++        switch (mode) {
++        case 3: /* Indirect postincrement.  */
++            tcg_gen_addi_i32(AREG(insn, 0), addr, 1);
++            break;
++        case 4: /* Indirect predecrememnt.  */
++            tcg_gen_mov_i32(AREG(insn, 0), addr);
++            break;
++        }
++    }
+ }
+ 
+ DISAS_INSN(mull)
+-- 
+2.34.1
 
-
-r~
 
