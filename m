@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF85D5A52C5
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 19:10:47 +0200 (CEST)
-Received: from localhost ([::1]:53872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF05E5A52C7
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 19:10:51 +0200 (CEST)
+Received: from localhost ([::1]:39818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSiHe-0006Fb-Km
-	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 13:10:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57968)
+	id 1oSiHj-0006Or-3Z
+	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 13:10:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oSi4X-0002d8-JP
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oSi4Z-0002d9-CE
  for qemu-devel@nongnu.org; Mon, 29 Aug 2022 12:57:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35480)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58151)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oSi4W-0008Fq-1i
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 12:57:13 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oSi4X-0008G8-V6
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 12:57:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661792231;
+ s=mimecast20190719; t=1661792232;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RnBByk/sg3d5WrRRuIt463rDLN2iKCyHCcDizi40DdU=;
- b=ZBCi9hSkXUvkYxI1KbseyN+A1kd5qy7ROintCCkLPQt5PSA7YD17Wjxaj/mM/1sJ3+xWBa
- V21Qh/K1E3eLVh+SFv/UHJe/uBrblRdyeQjZt9nLuSd/tFNjoNrODJe2ce9xj+zY1zQfD5
- 0EGPL1209a1uULqj7XE/vU7T/aBfTsc=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=cC3mgjSqsxkLeKj7H0avzhkHAl95oTqWqQAf5MqmKUk=;
+ b=R+vbtWr7BpbC0Z2D9rFzBheGusxCb717WrrrpntnjjHUa33mVxaCXeBAcArqjrJRFiw4IY
+ /h23OxsrZ9spXMwZ5+dmoE5qaUOrYJXLoYPLMWXsYBEXxFuGWUiHDqqTd7IWgEaZGCc0pD
+ xx897V5ljhbatsmPkAOSeLuZCxn2G2U=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-53-eNzzH4u8PeS1ZAlImPvLrg-1; Mon, 29 Aug 2022 12:57:10 -0400
-X-MC-Unique: eNzzH4u8PeS1ZAlImPvLrg-1
-Received: by mail-il1-f198.google.com with SMTP id
- l20-20020a056e02067400b002dfa7256498so6364573ilt.4
- for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 09:57:10 -0700 (PDT)
+ us-mta-487-0w4yNk2BM369AmLjINyEYg-1; Mon, 29 Aug 2022 12:57:11 -0400
+X-MC-Unique: 0w4yNk2BM369AmLjINyEYg-1
+Received: by mail-io1-f72.google.com with SMTP id
+ x9-20020a056602210900b006897b3869e4so5051027iox.16
+ for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 09:57:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=RnBByk/sg3d5WrRRuIt463rDLN2iKCyHCcDizi40DdU=;
- b=jbVKinA1hpOa6ayIcow3EFoSiWaMSnTOxp6rSDwTAthrqDX54MzOo6H0tMKWhe4Hht
- xmupb4tBOhLApoO3W+LXmeBC3EtmQjFZMayS2LNS9BsaOSA0r6Kpr/jH0VoDTE1gWxnS
- gqKjw76Z0EDgWIJinbR4xXzbKGfNEaNabQGvM/7AaB7ULYUhWmfmu5NzRIEiUwQBHit/
- 9Z8PUpIH6+QwEzrnAmZ9USMJpDmrv+QXiEV7myBWqdgsy1GJppA5ggCdV5jXSf54sWXU
- 8JBaST/6vZeTpRjYMlQxNftajZHHCSv5UnxWWHrQkPTl2cBtYfS6PIuwmlHw12NSiEAl
- /5fw==
-X-Gm-Message-State: ACgBeo38Dt0XGPYK9Kn5AiQjO1cayhwon7R4pdG2APIgnwfOO+FSnYWb
- KW7sUW3irNza1h4xRw9mSmywLCWEdvKfvB2sdwHx09Pzrnfv/Sg6oWyEujb2mY1R0sJJiROBu+P
- czeuMzcFPDEm9nQlm7ELFa6lfLpreA5kZR+dSYFwwd8FawDVOrEt9jYKFrd83xlZ2
-X-Received: by 2002:a05:6638:3e17:b0:34a:49dc:48c3 with SMTP id
- co23-20020a0566383e1700b0034a49dc48c3mr2399988jab.158.1661792229508; 
- Mon, 29 Aug 2022 09:57:09 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7Qk21U1y9qvjOiBy2eAeX9NJJ4MbXjk6MlS69URDLn0/r5/kM6T9Aqe3TWs25AeAOBVtpGbA==
-X-Received: by 2002:a05:6638:3e17:b0:34a:49dc:48c3 with SMTP id
- co23-20020a0566383e1700b0034a49dc48c3mr2399970jab.158.1661792229125; 
- Mon, 29 Aug 2022 09:57:09 -0700 (PDT)
+ bh=cC3mgjSqsxkLeKj7H0avzhkHAl95oTqWqQAf5MqmKUk=;
+ b=JXhkqqX6DW9KhQFb5goKXpep9RTV/a81plVO70D2w5wRh+aTBHDA6k20APYyraqJe8
+ vav9gExmkJbj2/kErO6IWNLdgZ2hm3riosd8WccPzbQ+cyFzvlIsvt81iHGoezA3bXur
+ qXKelSWTSEhbFlwhyoG/grBcaD+WdycTcCAS3/Oon9DcHwB9CHokyEJ32JViP5G8tb73
+ gDlZ98qUWgTEErUKnn/g80+N0psHJDhWiXTB/NrYPnF5JzvTbryC45YbA9oiVXqiYM1v
+ 5beBqgnSW2AUbe8eQR/N6AgvaO0DDaPu+AHO8ATbEcvbFEe7lj99k9Ye5OY2bbBnChSX
+ rM5g==
+X-Gm-Message-State: ACgBeo14Oqoe06grXg4W1ytkF0sPs6FUAAycDms6BKNsveeQWkjTWoS4
+ ekkINMm86ZOYbzkdkk2Sj/bvAMPlY8y6JiILPRcH47qfdb3mC3t9pALCUkRKvGSdKkWxvNiNQrx
+ lukZPb08kFAKsenNdiwhld9NaOykw0zE7ZSxBtq8giUqie0eh4aobwejKzfc7f8Fh
+X-Received: by 2002:a6b:5d0f:0:b0:688:6559:7a00 with SMTP id
+ r15-20020a6b5d0f000000b0068865597a00mr9005444iob.42.1661792230803; 
+ Mon, 29 Aug 2022 09:57:10 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5kqEtgNIcXipnoc3ypE8mxcYkk9943WRYI/A++IoF5+jN2Rr8Fk9QU69MwkIOxjD6Z0t/AHg==
+X-Received: by 2002:a6b:5d0f:0:b0:688:6559:7a00 with SMTP id
+ r15-20020a6b5d0f000000b0068865597a00mr9005432iob.42.1661792230561; 
+ Mon, 29 Aug 2022 09:57:10 -0700 (PDT)
 Received: from localhost.localdomain
  (bras-base-aurron9127w-grc-35-70-27-3-10.dsl.bell.ca. [70.27.3.10])
  by smtp.gmail.com with ESMTPSA id
- y9-20020a056638228900b00344c3de5ec7sm4404709jas.150.2022.08.29.09.57.07
+ y9-20020a056638228900b00344c3de5ec7sm4404709jas.150.2022.08.29.09.57.09
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 29 Aug 2022 09:57:08 -0700 (PDT)
+ Mon, 29 Aug 2022 09:57:10 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Daniel P . Berrange" <berrange@redhat.com>,
@@ -69,10 +69,10 @@ Cc: "Daniel P . Berrange" <berrange@redhat.com>,
  Manish Mishra <manish.mishra@nutanix.com>,
  Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com
-Subject: [PATCH RFC 04/13] migration: Cleanup xbzrle zero page cache update
- logic
-Date: Mon, 29 Aug 2022 12:56:50 -0400
-Message-Id: <20220829165659.96046-5-peterx@redhat.com>
+Subject: [PATCH RFC 05/13] migration: Disallow postcopy preempt to be used
+ with compress
+Date: Mon, 29 Aug 2022 12:56:51 -0400
+Message-Id: <20220829165659.96046-6-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220829165659.96046-1-peterx@redhat.com>
 References: <20220829165659.96046-1-peterx@redhat.com>
@@ -103,50 +103,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The major change is to replace "!save_page_use_compression()" with
-"xbzrle_enabled" to make it clear.
-
-Reasonings:
-
-(1) When compression enabled, "!save_page_use_compression()" is exactly the
-    same as checking "xbzrle_enabled".
-
-(2) When compression disabled, "!save_page_use_compression()" always return
-    true.  We used to try calling the xbzrle code, but after this change we
-    won't, and we shouldn't need to.
-
-Since at it, drop the xbzrle_enabled check in xbzrle_cache_zero_page()
-because with this change it's not needed anymore.
+The preempt mode requires the capability to assign channel for each of the
+page, while the compression logic will currently assign pages to different
+compress thread/local-channel so potentially they're incompatible.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/ram.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ migration/migration.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 9e96a46323..612c7dd708 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -741,10 +741,6 @@ void mig_throttle_counter_reset(void)
-  */
- static void xbzrle_cache_zero_page(RAMState *rs, ram_addr_t current_addr)
- {
--    if (!rs->xbzrle_enabled) {
--        return;
--    }
--
-     /* We don't care if this fails to allocate a new cache page
-      * as long as it updated an old one */
-     cache_insert(XBZRLE.cache, current_addr, XBZRLE.zero_target_page,
-@@ -2301,7 +2297,7 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
-         /* Must let xbzrle know, otherwise a previous (now 0'd) cached
-          * page would be stale
-          */
--        if (!save_page_use_compression(rs)) {
-+        if (rs->xbzrle_enabled) {
-             XBZRLE_cache_lock();
-             xbzrle_cache_zero_page(rs, block->offset + offset);
-             XBZRLE_cache_unlock();
+diff --git a/migration/migration.c b/migration/migration.c
+index bb8bbddfe4..844bca1ff6 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1336,6 +1336,17 @@ static bool migrate_caps_check(bool *cap_list,
+             error_setg(errp, "Postcopy preempt requires postcopy-ram");
+             return false;
+         }
++
++        /*
++         * Preempt mode requires urgent pages to be sent in separate
++         * channel, OTOH compression logic will disorder all pages into
++         * different compression channels, which is not compatible with the
++         * preempt assumptions on channel assignments.
++         */
++        if (cap_list[MIGRATION_CAPABILITY_COMPRESS]) {
++            error_setg(errp, "Postcopy preempt not compatible with compress");
++            return false;
++        }
+     }
+ 
+     return true;
 -- 
 2.32.0
 
