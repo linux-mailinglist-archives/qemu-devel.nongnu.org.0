@@ -2,82 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFFD85A5239
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 18:52:18 +0200 (CEST)
-Received: from localhost ([::1]:50942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A623C5A527F
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 19:02:50 +0200 (CEST)
+Received: from localhost ([::1]:59568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oShzl-0000Qz-JS
-	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 12:52:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53184)
+	id 1oSi9x-0008O2-NV
+	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 13:02:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oShtV-0004gy-2B
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 12:45:51 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:42542)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oShtT-0006lx-2s
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 12:45:48 -0400
-Received: by mail-pg1-x535.google.com with SMTP id q63so8177661pga.9
- for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 09:45:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=t9jvOJl7s83u4NMUJhD9JJcrzTEsB9TshE6iuCC1S/s=;
- b=IidjNQkri7y0kM6/+hy8quCEXt3BQ28Cwsa2olGavH43FhzWDCTskN7p11GafHcCtY
- WdV+InDFT2SNjSFgXNWqcZOfHDmjAyzemloYgxgHTyv55qUX7MgcUGYubohtf/RhMbDc
- EQeo0N/ktFZ8E3GwEIclJXyyYDtpZb2acK5dthM9K5aaZXcAyVbGvUUeDBUTSo3rltCJ
- 9gsRojdWAN/pp6pP7lSkmRl8KjJDDSG1FLhOFBVTqXObiSMFPg8bZCHIFe48RX2VGGo3
- FbYmoscBYPKRuGW+C2cbO9JlRS76teGV/S1ddB+Xiitbyf21ac6XT5BnOoZXyLozNoUW
- BZdw==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oSi4X-0002ck-Rn
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 12:57:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24493)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oSi4U-0008Fa-67
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 12:57:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661792228;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=M+d5uYF66pD0Qu1VRQe74zRfCvzYPDt4nUubpvwQNa0=;
+ b=dYgCilgUAjUnkcZtrUMZHMrnIz7zyGooSZQEfS743dySe4SM1XWHF5Y5wrB7W+bQ3ugEgj
+ pMoJNmuD+yS+cTCgdyGr9Biei/7nZVJ/TLoOeHhmz2tI1RWkEkEr8eqjOPCJU1QAuKnuey
+ Q6jiem4gu0xGG+g8MCy1rWpgqU6gJeU=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-258-CgsZ_VOGNUq3xT4sc8NY6A-1; Mon, 29 Aug 2022 12:57:04 -0400
+X-MC-Unique: CgsZ_VOGNUq3xT4sc8NY6A-1
+Received: by mail-io1-f71.google.com with SMTP id
+ i14-20020a5d934e000000b006892db5bcd4so5093014ioo.22
+ for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 09:57:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=t9jvOJl7s83u4NMUJhD9JJcrzTEsB9TshE6iuCC1S/s=;
- b=6nXGlpgL8t8IevDpSDw1Qz8F0gmPGaOtBHpm1vZu8qbtvvX7muUJNyjrymAgwVQ80v
- PSP216uuhF9pTxWxl0nYwJgA/U/q/Aitfp1CnpDb2wQuCzt2yfySC4UmTZm6KbsMAsa8
- jMl5cJix1GFRg1dyhG9tfO9CCRpNvVkQpZQ1eh5VEavTsYyUxYW4Ky7GPdjskdeSgEiA
- qG/+094s9MUpzqQijMfyqZyrdMJUZcSlhkv2I1uK9lpiaY73nW59J+2CysokaPeKexpz
- uz+o5EF+Cxrq4Du3we/TCOrUCT3bEBen4TVOqhO6HLpzGL8kXe3nQFNS0sgNs5B8X+rg
- VE4A==
-X-Gm-Message-State: ACgBeo2isvihMvXhJvn+LijUrw1jUrXtm7HxNuljkMFZIqy9WYpG0z2O
- 2pi6JUyzAblMSwJBX1MptdM6MA==
-X-Google-Smtp-Source: AA6agR4YKbOAjA7RTGf0VESOtghnuAjGWhv5U1DS6s+naf5JGNcAmlZkVbSafNPyzeUNr46ZuUH1FA==
-X-Received: by 2002:a05:6a00:1a93:b0:536:5dca:a685 with SMTP id
- e19-20020a056a001a9300b005365dcaa685mr17554113pfv.13.1661791545625; 
- Mon, 29 Aug 2022 09:45:45 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:be85:d5a:94bd:75bd?
- ([2602:47:d49d:ec01:be85:d5a:94bd:75bd])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=M+d5uYF66pD0Qu1VRQe74zRfCvzYPDt4nUubpvwQNa0=;
+ b=ZAGFP6+4ecd7DotJUpif6T/q8cFdf5qMzQhpxl8Grt9liUcJ3qh4ex2mU9/yMiEhFI
+ slwI1Y2TLdGHwh98psC01Ag99Lq3AoMpQ5DbRaeIU9l1M2E0EqLnDbqPqMfNFITFYsqZ
+ efrXPKdyCCBT9kwHz5f/E1ezHwwFTSuQLCrKcf/a1gt9RGn8RbKiQ2VT+KuLPAoUgoW1
+ Ws/5x/8/oodSYa67/vi8Cwiw30X4tLkJgtaIx6Yr8TScwag8ZP7a5yS7lISgaJmn20u9
+ 8yVVxHDG+u0fOz1nAGIak+eDDvPxbCQwtYhKK3929Isv17BjGh4IFBbXdexIAGkHi9Ud
+ Ow7Q==
+X-Gm-Message-State: ACgBeo2oAjbyDmFZTckVnxrHoa0ZT6jrWetIB0A2ZJJn45hcX/qa4gPv
+ wt1tIQZtdSpP55x+0neIj1KOuWmRCHlVWkzYyr0ADLewakgS0e6A6IdN3VGJy1Wei09GEcosb3F
+ dx4J3FydPPIPeEiWhsxuW9PW8Nacvh1Z1qdI60CMbgSNN51IiHhVwpF/YIJF4GION
+X-Received: by 2002:a05:6638:2105:b0:34a:694:4fa4 with SMTP id
+ n5-20020a056638210500b0034a06944fa4mr11367933jaj.116.1661792223546; 
+ Mon, 29 Aug 2022 09:57:03 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6cLUF2U1P/YcsSA6QIdxtHfSMQhPWyMVllhWB3JOIXX2fHbwegqn5pgat5oUUBwxzlxncrOg==
+X-Received: by 2002:a05:6638:2105:b0:34a:694:4fa4 with SMTP id
+ n5-20020a056638210500b0034a06944fa4mr11367914jaj.116.1661792223150; 
+ Mon, 29 Aug 2022 09:57:03 -0700 (PDT)
+Received: from localhost.localdomain
+ (bras-base-aurron9127w-grc-35-70-27-3-10.dsl.bell.ca. [70.27.3.10])
  by smtp.gmail.com with ESMTPSA id
- g16-20020aa796b0000000b005385555e647sm1725296pfk.155.2022.08.29.09.45.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Aug 2022 09:45:45 -0700 (PDT)
-Message-ID: <a0972b9f-7fbc-8403-6db6-cb30b741d247@linaro.org>
-Date: Mon, 29 Aug 2022 09:45:43 -0700
+ y9-20020a056638228900b00344c3de5ec7sm4404709jas.150.2022.08.29.09.57.01
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 29 Aug 2022 09:57:02 -0700 (PDT)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: "Daniel P . Berrange" <berrange@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Manish Mishra <manish.mishra@nutanix.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com
+Subject: [PATCH RFC 00/13] migration: Postcopy Preempt-Full
+Date: Mon, 29 Aug 2022 12:56:46 -0400
+Message-Id: <20220829165659.96046-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.32.0
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/1] target/i386: Raise #GP on unaligned m128 accesses
- when required.
-Content-Language: en-US
-To: Ricky Zhou <ricky@rzhou.org>, qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, eduardo@habkost.net
-References: <20220829142326.39562-1-ricky@rzhou.org>
- <20220829142326.39562-2-ricky@rzhou.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220829142326.39562-2-ricky@rzhou.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,55 +99,234 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/29/22 07:23, Ricky Zhou wrote:
-> Many instructions which load/store 128-bit values are supposed to
-> raise #GP when the memory operand isn't 16-byte aligned. This includes:
->   - Instructions explicitly requiring memory alignment (Exceptions Type 1
->     in the "AVX and SSE Instruction Exception Specification" section of
->     the SDM)
->   - Legacy SSE instructions that load/store 128-bit values (Exceptions
->     Types 2 and 4).
-> 
-> This change adds a raise_gp_if_unaligned helper which raises #GP if an
-> address is not properly aligned. This helper is called before 128-bit
-> loads/stores where appropriate.
-> 
-> Resolves:https://gitlab.com/qemu-project/qemu/-/issues/217
-> Signed-off-by: Ricky Zhou<ricky@rzhou.org>
-> ---
->   target/i386/helper.h         |  1 +
->   target/i386/tcg/mem_helper.c |  8 ++++++++
->   target/i386/tcg/translate.c  | 38 +++++++++++++++++++++++++++++++++---
->   3 files changed, 44 insertions(+), 3 deletions(-)
+This is a RFC series.  Tree is here:
 
+  https://github.com/xzpeter/qemu/tree/preempt-full
 
-This trap should be raised via the memory operation:
+It's not complete because there're still something we need to do which will
+be attached to the end of this cover letter, however this series can
+already safely pass qtest and any of my test.
 
-- static inline void gen_ldo_env_A0(DisasContext *s, int offset)
+Comparing to the recently merged preempt mode I called it "preempt-full"
+because it threadifies the postcopy channels so now urgent pages can be
+fully handled separately outside of the ram save loop.  Sorry to have the
+same name as the PREEMPT_FULL in the Linux RT world, it's just that we
+needed a name for the capability and it was named as preempt already
+anyway..
 
-+ static inline void gen_ldo_env_A0(DisasContext *s, int offset, bool aligned)
-   {
+The existing preempt code has reduced ramdom page req latency over 10Gbps
+network from ~12ms to ~500us which has already landed.
 
-       int mem_index = s->mem_index;
+This preempt-full series can further reduces that ~500us to ~230us per my
+initial test.  More to share below.
 
--     tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, mem_index, MO_LEUQ);
+Note that no new capability is needed, IOW it's fully compatible with the
+existing preempt mode.  So the naming is actually not important but just to
+identify the difference on the binaries.  It's because this series only
+reworks the sender side code and does not change the migration protocol, it
+just runs faster.
 
-+     tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, mem_index,
-+                         MO_LEUQ | (aligned ? MO_ALIGN_16 : 0));
-       tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(0)));
+IOW, old "preempt" QEMU can also migrate to "preempt-full" QEMU, vice versa.
 
-       tcg_gen_addi_tl(s->tmp0, s->A0, 8);
+  - When old "preempt" mode QEMU migrates to "preempt-full" QEMU, it'll be
+    the same as running both old "preempt" QEMUs.
 
-       tcg_gen_qemu_ld_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
+  - When "preempt-full" QEMU migrates to old "preempt" QEMU, it'll be the
+    same as running both "preempt-full".
 
-       tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(1)));
+The logic of the series is quite simple too: simply moving the existing
+preempt channel page sends to rp-return thread.  It can slow down rp-return
+thread on receiving pages, but I don't really see a major issue with it so
+far.
 
-   }
+This latency number is getting close to the extreme of 4K page request
+latency of any TCP roundtrip of the 10Gbps nic I have.  The 'extreme
+number' is something I get from mig_mon tool which has a mode [1] to
+emulate the extreme tcp roundtrips of page requests.
 
+Performance
+===========
 
-Only the first of the two loads/stores must be aligned, as the other is known to be +8. 
-You then must fill in the x86_tcg_ops.do_unaligned_access hook to raise #GP.
+Page request latencies has distributions as below, with a VM of 20G mem, 20
+cores, 10Gbps nic, 18G fully random writes:
 
+Postcopy Vanilla
+----------------
 
-r~
+Average: 12093 (us)
+@delay_us:
+[1]                    1 |                                                    |
+[2, 4)                 0 |                                                    |
+[4, 8)                 0 |                                                    |
+[8, 16)                0 |                                                    |
+[16, 32)               1 |                                                    |
+[32, 64)               8 |                                                    |
+[64, 128)             11 |                                                    |
+[128, 256)            14 |                                                    |
+[256, 512)            19 |                                                    |
+[512, 1K)             14 |                                                    |
+[1K, 2K)              35 |                                                    |
+[2K, 4K)              18 |                                                    |
+[4K, 8K)              87 |@                                                   |
+[8K, 16K)           2397 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+[16K, 32K)             7 |                                                    |
+[32K, 64K)             2 |                                                    |
+[64K, 128K)           20 |                                                    |
+[128K, 256K)           6 |                                                    |
+
+Postcopy Preempt
+----------------
+
+Average: 496 (us)
+
+@delay_us:
+[32, 64)               2 |                                                    |
+[64, 128)           2306 |@@@@                                                |
+[128, 256)         25422 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+[256, 512)          8238 |@@@@@@@@@@@@@@@@                                    |
+[512, 1K)           1066 |@@                                                  |
+[1K, 2K)            2167 |@@@@                                                |
+[2K, 4K)            3329 |@@@@@@                                              |
+[4K, 8K)             109 |                                                    |
+[8K, 16K)             48 |                                                    |
+
+Postcopy Preempt-Full
+---------------------
+
+Average: 229 (us)
+
+@delay_us:
+[8, 16)                1 |                                                    |
+[16, 32)               3 |                                                    |
+[32, 64)               2 |                                                    |
+[64, 128)          11956 |@@@@@@@@@@                                          |
+[128, 256)         60403 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+[256, 512)         15047 |@@@@@@@@@@@@                                        |
+[512, 1K)            846 |                                                    |
+[1K, 2K)              25 |                                                    |
+[2K, 4K)              41 |                                                    |
+[4K, 8K)             131 |                                                    |
+[8K, 16K)             72 |                                                    |
+[16K, 32K)             2 |                                                    |
+[32K, 64K)             8 |                                                    |
+[64K, 128K)            6 |                                                    |
+
+For fully sequential page access workloads, I have described in the
+previous preempt-mode work that such workload may not benefit much from
+preempt mode much, but surprisingly at least in my seq write test the
+preempt-full mode can also benefit sequential access patterns at least when
+I measured it:
+
+Postcopy Vanilla
+----------------
+
+Average: 1487 (us)
+
+@delay_us:
+[0]                   93 |@                                                   |
+[1]                 1920 |@@@@@@@@@@@@@@@@@@@@@@@                             |
+[2, 4)               504 |@@@@@@                                              |
+[4, 8)              2234 |@@@@@@@@@@@@@@@@@@@@@@@@@@@                         |
+[8, 16)             4199 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+[16, 32)            3782 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@      |
+[32, 64)            1016 |@@@@@@@@@@@@                                        |
+[64, 128)             81 |@                                                   |
+[128, 256)            14 |                                                    |
+[256, 512)            26 |                                                    |
+[512, 1K)             69 |                                                    |
+[1K, 2K)             208 |@@                                                  |
+[2K, 4K)             429 |@@@@@                                               |
+[4K, 8K)            2779 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                  |
+[8K, 16K)            792 |@@@@@@@@@                                           |
+[16K, 32K)             9 |                                                    |
+
+Postcopy Preempt-Full
+---------------------
+
+Average: 1582 (us)
+
+@delay_us:
+[0]                   45 |                                                    |
+[1]                 1786 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                       |
+[2, 4)               423 |@@@@@@@                                             |
+[4, 8)              1903 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                     |
+[8, 16)             2933 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    |
+[16, 32)            3132 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+[32, 64)             518 |@@@@@@@@                                            |
+[64, 128)             30 |                                                    |
+[128, 256)           218 |@@@                                                 |
+[256, 512)           214 |@@@                                                 |
+[512, 1K)            211 |@@@                                                 |
+[1K, 2K)             131 |@@                                                  |
+[2K, 4K)             336 |@@@@@                                               |
+[4K, 8K)            3023 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  |
+[8K, 16K)            479 |@@@@@@@                                             |
+
+Postcopy Preempt-Full
+---------------------
+
+Average: 439 (us)
+
+@delay_us:
+[0]                    3 |                                                    |
+[1]                 1058 |@                                                   |
+[2, 4)               179 |                                                    |
+[4, 8)              1079 |@                                                   |
+[8, 16)             2251 |@@@                                                 |
+[16, 32)            2345 |@@@@                                                |
+[32, 64)             713 |@                                                   |
+[64, 128)           5386 |@@@@@@@@@                                           |
+[128, 256)         30252 |@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@|
+[256, 512)         10789 |@@@@@@@@@@@@@@@@@@                                  |
+[512, 1K)            367 |                                                    |
+[1K, 2K)              26 |                                                    |
+[2K, 4K)             256 |                                                    |
+[4K, 8K)            1840 |@@@                                                 |
+[8K, 16K)            300 |                                                    |
+
+I always don't think seq access is important in migrations, because for any
+not-small VM that has a migration challenge, any multiple seq accesses will
+also be grown into a random access pattern.  But I'm anyway laying the data
+around for good reference.
+
+Comments welcomed, thanks.
+
+TODO List
+=========
+
+- Make migration accountings atomic
+- Drop rs->f?
+- Disable xbzrle for preempt mode?  Is it already perhaps disabled for postcopy?
+- If this series can be really accepted, we can logically drop some of the
+  old (complcated) code with the old preempt series.
+- Drop x-postcopy-preempt-break-huge parameter?
+- More to come
+
+[1] https://github.com/xzpeter/mig_mon#vm-live-migration-network-emulator
+
+Peter Xu (13):
+  migration: Use non-atomic ops for clear log bitmap
+  migration: Add postcopy_preempt_active()
+  migration: Yield bitmap_mutex properly when sending/sleeping
+  migration: Cleanup xbzrle zero page cache update logic
+  migration: Disallow postcopy preempt to be used with compress
+  migration: Trivial cleanup save_page_header() on same block check
+  migration: Remove RAMState.f references in compression code
+  migration: Teach PSS about host page
+  migration: Introduce pss_channel
+  migration: Add pss_init()
+  migration: Make PageSearchStatus part of RAMState
+  migration: Move last_sent_block into PageSearchStatus
+  migration: Send requested page directly in rp-return thread
+
+ include/exec/ram_addr.h |  11 +-
+ include/qemu/bitmap.h   |   1 +
+ migration/migration.c   |  11 +
+ migration/ram.c         | 496 +++++++++++++++++++++++++++++-----------
+ util/bitmap.c           |  45 ++++
+ 5 files changed, 421 insertions(+), 143 deletions(-)
+
+-- 
+2.32.0
+
 
