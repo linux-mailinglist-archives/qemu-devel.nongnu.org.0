@@ -2,87 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CACAB5A5748
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 00:55:51 +0200 (CEST)
-Received: from localhost ([::1]:49240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 374B25A5772
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 01:12:53 +0200 (CEST)
+Received: from localhost ([::1]:55876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSnfa-0005B3-FJ
-	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 18:55:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47888)
+	id 1oSnw3-0002uB-Sp
+	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 19:12:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oSndy-0003py-IB
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 18:54:10 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:43577)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oSnuU-00010F-Dr
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 19:11:14 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:34726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oSndw-0004xt-SS
- for qemu-devel@nongnu.org; Mon, 29 Aug 2022 18:54:10 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- h11-20020a17090a470b00b001fbc5ba5224so10095189pjg.2
- for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 15:54:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oSnuS-0007Td-MV
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 19:11:14 -0400
+Received: by mail-pg1-x533.google.com with SMTP id 73so702945pga.1
+ for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 16:11:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=whcdy4WKp3VhQKIU3L5UgjWN84HXLLpoXKdoQ9Qa2lY=;
- b=UpLLO9hmRgi98xukbcz7Z+PE1L1h9xvpfeXBeHBYx9cS9kvM6vSognyU6rylBt4e+G
- BWvdecYZgHhKIEk5+m8OxGh1u0+ado33hqptNELWu8yqtQ5CTJJF4+u6hsph091qNFNT
- itol6c6z7UGtUEC6qgOBo+pzyEaZskFH/WQEZKt25/ijuuKl50orScsQHTLfZ6qB44vB
- MsvwXrIe4tltyv4cADtNgrnKA4MjGgF2qI/eK5GcAcKFZKLdD5fkkjO3bXtaL5bnFZOy
- EIER6t0183uwt6LHKFlASF5wPHpCvWNFoZKBNvLOwO6bxxIg3nNLeCWXdhtJiTuSzbVc
- UvPw==
+ :sender:from:to:cc;
+ bh=PchSa28i0LCv6Gn6EzBUL/FHY+g82q7iUETkYfLnuJc=;
+ b=kyaNFucg0TzUxXkOHWck1vyB3sbWAJYLDGBOuLhAyWB9wNs76Ui7HAb7vvcjaW4gSN
+ h+A355wlnbU/9oIoL2NEqdLzfTfFlHN97AgXEerFK83Q4L3Rdzrsg6RmqBc0rWG5BqN9
+ x6Fz0p4Y/HDrJifV3kcSwvsVaUJmuP8Z4Y11Z5NHCBEAMIGicweszvtT08xJ0rXkmfyO
+ BzqVrUvhjpb6+t/G8eTTIBli23F+XTkX1yl+q0z8ZaAysgldkxLBE/XeszbSGredQMcs
+ GV0i2nC1Q1U3lswMSXllKbSoJhbSuBsFRnyGcVhgKe8gsiVnVN+7Skd8MtNfvmdXwP0W
+ LvrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=whcdy4WKp3VhQKIU3L5UgjWN84HXLLpoXKdoQ9Qa2lY=;
- b=BNNocd/CYEGAy0OR7IFuCK1pBw0jf2eiAxSgxEsipPIABqklidzNRipTjnCK54e8dT
- eZwMGRVo9q3skFLcMvcritNvNuFEjSbeRDsgQ4DvTdCiGoJZoVJzllWPFyBFM9DvkhNG
- H0EVBnUe+G8IfHBvk+xUaF89Uf1z0N9YUkzrnUyCDFjD5yfI8kLm3YxH971RsEcrsPHu
- wdUj8OxSs04zuhgxmM6ozVgAxvJ3lw9AFyjpdSoeZH5EZcutSbT9+zHDz7sVTXA/TmjC
- /LCFDxWKxtnM8bx7DBk1K3lruWyHHjxqRvSNqbUZjNsVHrJJ5WDbCOxagQRIUfs+DAjM
- jnUg==
-X-Gm-Message-State: ACgBeo1UX+VsLVOMwLUnvaLHO+f/rhIF4Kv3G/5G7n3xA3Ieu+Ea0RzF
- jaiCxSmLra/2Q7t3JaysMkE0ZA==
-X-Google-Smtp-Source: AA6agR5ahHlpQAbXGB+HHJKa7t2r2+pzNp1FLFyE1zEAaU2ZX0NIOk3nTzV+D2P+a7f1mcXCR/8wXQ==
-X-Received: by 2002:a17:90a:4008:b0:1fd:9c55:fdfb with SMTP id
- u8-20020a17090a400800b001fd9c55fdfbmr12105889pjc.89.1661813647328; 
- Mon, 29 Aug 2022 15:54:07 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:ecdc:4f14:189e:85b3?
- ([2602:47:d49d:ec01:ecdc:4f14:189e:85b3])
+ :sender:x-gm-message-state:from:to:cc;
+ bh=PchSa28i0LCv6Gn6EzBUL/FHY+g82q7iUETkYfLnuJc=;
+ b=O2FTReBAectVHJuFk5d1+wIwDfpzz0QC4Fcpfp8ZbRK+wmgJXigjgYYiezQZI5Wf7n
+ MuDWAJF+Tbxi+BtB3yWBfCrCoWBoCgSBI1gaXvqRkMTy8ZFne55MRemtS+wtpaNlJv1S
+ SFToGciRNMfwI49dDVv0aibqbE4xEf+ICFpwSptw9Cz/FjinrCcgvcnJWHYVHnCpza1T
+ D4Fvcz0/uwV3Rk+ax1Haf/vjMR3dvKwXpZKBvhrSMm+dS1fP0ANvpcW1JyuNV1J9fpa1
+ B1nWtwNzZG1R2fjO2fHmJc4TQkaUqyzfRAL3JiyXTh6c0XN3hbfAI/5uf2yFjSoiGE4Y
+ WWiw==
+X-Gm-Message-State: ACgBeo1YpfBiEJWMa3y5ycev9vjqd7EZTe3bzDsA5j4Qz/dZIas7s5vx
+ ILNR3h5U+W0bx21Wznwytk8=
+X-Google-Smtp-Source: AA6agR7/y9fX/hA/GKVfgj4gcjl/TbQYGuRn4RtW6zydvXFyL3pMJwVGFYreY4ryCU/ETnjNMtLzBQ==
+X-Received: by 2002:a05:6a00:1996:b0:52e:b0f7:8c67 with SMTP id
+ d22-20020a056a00199600b0052eb0f78c67mr18660079pfl.20.1661814670927; 
+ Mon, 29 Aug 2022 16:11:10 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- g3-20020a1709026b4300b0016eef326febsm8068964plt.1.2022.08.29.15.54.05
+ i14-20020aa796ee000000b00537ff911a89sm5079683pfq.105.2022.08.29.16.11.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 29 Aug 2022 15:54:06 -0700 (PDT)
-Message-ID: <fda2702b-5bf2-91c4-3a96-5a51e9438e20@linaro.org>
-Date: Mon, 29 Aug 2022 15:54:04 -0700
+ Mon, 29 Aug 2022 16:11:10 -0700 (PDT)
+Message-ID: <abe4a4d6-5ee0-e451-719c-ec631904763e@amsat.org>
+Date: Tue, 30 Aug 2022 01:11:01 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/1] target/i386: Raise #GP on unaligned m128 accesses
- when required.
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.0
+Subject: Re: [PATCH] tests/avocado/migration: Get find_free_port() from the
+ ports
 Content-Language: en-US
-To: Ricky Zhou <ricky@rzhou.org>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, eduardo@habkost.net
-References: <20220829142326.39562-1-ricky@rzhou.org>
- <20220829142326.39562-2-ricky@rzhou.org>
- <a0972b9f-7fbc-8403-6db6-cb30b741d247@linaro.org>
- <CAFoVXjgHBPs8XhOqLN9BpD1-GN7Amsor5o660WOmBdQ54dxW5w@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFoVXjgHBPs8XhOqLN9BpD1-GN7Amsor5o660WOmBdQ54dxW5w@mail.gmail.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20220829121939.209329-1-thuth@redhat.com>
+In-Reply-To: <20220829121939.209329-1-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x533.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,43 +95,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 8/29/22 13:46, Ricky Zhou wrote:
-> Thanks for taking a look at this - did you see the bit in the cover
-> letter where I discuss doing this via alignment requirements on the
-> memory operation? My logic was that the memop alignment checks seem to
-> be more oriented towards triggering #AC exceptions (even though this is
-> not currently implemented),
+On 29/8/22 14:19, Thomas Huth wrote:
+> In upstream Avocado, the find_free_port() function is not available
+> from "network" anymore, but must be used via "ports", see:
+> 
+>   https://github.com/avocado-framework/avocado/commit/22fc98c6ff76cc55c48
+> 
+> To be able to update to a newer Avocado version later, let's use
+> the new way for accessing the find_free_port() function here.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   tests/avocado/migration.py | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
-I missed that in the cover.  However... implementing #AC is pretty hypothetical.  It's not 
-something that I've ever seen used, and not something that anyone has asked for.
-
-> One slightly more involved way to use alignment on the MemOp could be to
-> arrange to pass the problematic MemOp to do_unaligned_access and
-> helper_unaligned_{ld,st}. Then we could allow CPUs to handle
-> misalignment of different MemOps differently (e.g. raise #GP/SIGSEGV for
-> certain ops and #AC/SIGBUS for others). For this change to x86, we could
-> maybe get away with making MO_ALIGN_16 and above trigger #GP/SIGSEGV and
-> everything else trigger #AC/SIGBUS. If that's a little hacky, we could
-> instead add some dedicated bits to MemOp that distinguish different
-> types of unaligned accesses.
-
-There's another related problem that actually has gotten a bug report in the past: when 
-the form of the address should raise #SS instead of #GP in system mode.
-
-My initial thought was to record information about "the" memory access in the per-insn 
-unwind info, until I realized that there are insns with  multiple memory operations 
-requiring different treatment.  E.g. "push (%rax)", where the read might raise #GP and the 
-write might raise #SS.  So I think we'd need to encode #GP vs #SS into the mmu_idx used 
-(e.g. in the lsb).
-
-However, I don't think there are any similar situations of multiple memory types affecting 
-SSE, so #AC vs #GP could in fact be encoded into the per-insn unwind info.
-
-As for SIGBUS vs SIGSEGV for SSE and user-only, you only need implement the 
-x86_cpu_ops.record_sigbus hook.  C.f. the s390x version which raises PGM_SPECIFICATION -> 
-SIGILL for unaligned atomic operations.
-
-
-r~
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
