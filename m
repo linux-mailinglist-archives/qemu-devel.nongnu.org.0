@@ -2,56 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC0CB5A5320
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 19:27:49 +0200 (CEST)
-Received: from localhost ([::1]:48950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7945E5A5353
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Aug 2022 19:38:33 +0200 (CEST)
+Received: from localhost ([::1]:58542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSiY8-0006xb-Rs
-	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 13:27:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47922)
+	id 1oSiiW-0000jF-CV
+	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 13:38:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oSiBK-0001Ry-0M; Mon, 29 Aug 2022 13:04:16 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:54669)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oSiBG-0000nJ-Lj; Mon, 29 Aug 2022 13:04:13 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 1D8787462D3;
- Mon, 29 Aug 2022 19:04:07 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id C1DF37461AE; Mon, 29 Aug 2022 19:04:06 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id BCA8A745702;
- Mon, 29 Aug 2022 19:04:06 +0200 (CEST)
-Date: Mon, 29 Aug 2022 19:04:06 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: BB <shentey@gmail.com>
-cc: QEMU Developers <qemu-devel@nongnu.org>, 
- Jiaxun Yang <jiaxun.yang@flygoat.com>, 
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>, 
- Huacai Chen <chenhuacai@kernel.org>, 
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oSiEd-0004AB-Tg; Mon, 29 Aug 2022 13:07:42 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:41624)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oSiEa-0001Ux-Ei; Mon, 29 Aug 2022 13:07:38 -0400
+Received: by mail-wr1-x434.google.com with SMTP id v16so8277988wrm.8;
+ Mon, 29 Aug 2022 10:07:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc;
+ bh=RjGj0qo2guE5uyURlAk2DfDhT9tWQ0U8Jw7WFrOYBeg=;
+ b=TuF1tCnFi/GqzY1RleNnwADf4ag+nuJ7Iw9DZPl0vnwHlNErnBtz+aa0ME6DRy0laC
+ EOaRYWf8pDaNrgL+ILizKxNdQUbCAUC0lYRTFeuscXkswEM76HDqmKHEsuYzuBnVhAW2
+ cRTctanbYkUwhXedseH2YVDpvswWrAWy0i9UMBWl434Qtzp+8ruhCZSjBt5HwXRux7vz
+ CYDfs0rCyirnUhOoAHeVMOkdOuSd3CCgaMzqaQLOxDQXqdHcvH9oWbXNoqxnhbxjc0cy
+ eW7AFtvu762eY9gDo9L17W76valH8ptp8eSPxUfTUutaP10+QV9CAqt57MCKbRrN4wML
+ HzWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc;
+ bh=RjGj0qo2guE5uyURlAk2DfDhT9tWQ0U8Jw7WFrOYBeg=;
+ b=5i/QhL4Zj9nLfbACsQKMGoGbB/4gPZNKWS+5kvornwri3xQ1tin72nrcdx2bwvQz1x
+ CWnp6vEXrD0Q0f1bhTUZYsKmbF8wSgkfz/4WaJD9ezChwTgDy5oU7sqYsIMT+KYJgFN5
+ dmrhlDyLNY2jARN9Q6vhzDwFBByfHGwkZEJi6Det3wNpDU4ZpfgkvR+0vSeqaZE50dsV
+ qhtL2QDU7kmJFamdROG//NI2Y8TGIUk/brTmeBeWDctT48LUwILrnfyeAiWE9mjkWcgF
+ lOiFKydnBVhW7hfTFNdS28hskwSnVYm52FtBwoFiuaPdwo4GXFpNqWy/L5Bpacud0wI3
+ XcDw==
+X-Gm-Message-State: ACgBeo1pgXN2+45Lpv1N0acOvogo4irdUtVU9jIM9xCSwqwH1f93Pyif
+ FsN5G0AlnH4oxi0a83NpTPc=
+X-Google-Smtp-Source: AA6agR47X4ItLkH4NgrZzd88n4XtCY6Pq+w2d9l9BDR0DrOEPEOBITbW/Jl/a8ltOW8iW47jER2uNg==
+X-Received: by 2002:a5d:6245:0:b0:225:3e24:e5b1 with SMTP id
+ m5-20020a5d6245000000b002253e24e5b1mr7049451wrv.698.1661792854664; 
+ Mon, 29 Aug 2022 10:07:34 -0700 (PDT)
+Received: from ?IPv6:::1?
+ (p200300faaf0bb2008dcc9db01b9c79b4.dip0.t-ipconnect.de.
+ [2003:fa:af0b:b200:8dcc:9db0:1b9c:79b4])
+ by smtp.gmail.com with ESMTPSA id
+ i12-20020a1c540c000000b003a2f2bb72d5sm10448096wmb.45.2022.08.29.10.07.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 29 Aug 2022 10:07:34 -0700 (PDT)
+Date: Mon, 29 Aug 2022 19:07:25 +0200
+From: BB <shentey@gmail.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+CC: QEMU Developers <qemu-devel@nongnu.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Huacai Chen <chenhuacai@kernel.org>,
  "open list:sam460ex" <qemu-ppc@nongnu.org>
-Subject: Re: [PATCH 4/9] hw/isa/vt82c686: QOM'ify via-ide creation
-In-Reply-To: <BF0B3207-F80F-4653-BC43-D0735C16B4DB@gmail.com>
-Message-ID: <6c69a78-f461-1b78-9e8d-2d1c11475a3@eik.bme.hu>
+Subject: Re: [PATCH 8/9] hw/isa/vt82c686: QOM'ify RTC creation
+User-Agent: K-9 Mail for Android
+In-Reply-To: <e65366d-9aed-4b6f-50e9-603756f281@eik.bme.hu>
 References: <20220822224355.11753-1-shentey@gmail.com>
- <20220822224355.11753-5-shentey@gmail.com>
- <14e283f-7bbd-dd70-5458-af897cd7ff4a@eik.bme.hu>
- <CAG4p6K51DvVFndv+ZuokigksdqjaegkRRnt1ZaOOQqJxp9xGEw@mail.gmail.com>
- <3ae09c8f-36c0-3874-db91-776f175a649c@eik.bme.hu>
- <BF0B3207-F80F-4653-BC43-D0735C16B4DB@gmail.com>
+ <20220822224355.11753-9-shentey@gmail.com>
+ <96f054aa-41b5-b3c0-accc-46678485b87d@eik.bme.hu>
+ <CAG4p6K4BhgTAXAApG4CyRH3bCgMF97wBV5Vm0caBc-krOgEX_Q@mail.gmail.com>
+ <e65366d-9aed-4b6f-50e9-603756f281@eik.bme.hu>
+Message-ID: <C5B98752-D291-419B-B9EE-D62D137DADD3@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=shentey@gmail.com; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,153 +99,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 29 Aug 2022, BB wrote:
-> Am 25. August 2022 01:18:56 MESZ schrieb BALATON Zoltan <balaton@eik.bme.hu>:
->> On Thu, 25 Aug 2022, Bernhard Beschow wrote:
->>> On Wed, Aug 24, 2022 at 3:54 PM BALATON Zoltan <balaton@eik.bme.hu> wrote:
->>>> On Tue, 23 Aug 2022, Bernhard Beschow wrote:
->>>>> The IDE function is closely tied to the ISA function (e.g. the IDE
->>>>> interrupt routing happens there), so it makes sense that the IDE
->>>>> function is instantiated within the southbridge itself. As a side effect,
->>>>> duplicated code in the boards is resolved.
->>>>>
->>>>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->>>>> ---
->>>>> configs/devices/mips64el-softmmu/default.mak |  1 -
->>>>> hw/isa/Kconfig                               |  1 +
->>>>> hw/isa/vt82c686.c                            | 18 ++++++++++++++++++
->>>>> hw/mips/fuloong2e.c                          |  3 ---
->>>>> hw/ppc/Kconfig                               |  1 -
->>>>> hw/ppc/pegasos2.c                            |  4 ----
->>>>> 6 files changed, 19 insertions(+), 9 deletions(-)
->>>>>
->>>>> diff --git a/configs/devices/mips64el-softmmu/default.mak
->>>> b/configs/devices/mips64el-softmmu/default.mak
->>>>> index c610749ac1..d5188f7ea5 100644
->>>>> --- a/configs/devices/mips64el-softmmu/default.mak
->>>>> +++ b/configs/devices/mips64el-softmmu/default.mak
->>>>> @@ -1,7 +1,6 @@
->>>>> # Default configuration for mips64el-softmmu
->>>>>
->>>>> include ../mips-softmmu/common.mak
->>>>> -CONFIG_IDE_VIA=y
->>>>> CONFIG_FULOONG=y
->>>>> CONFIG_LOONGSON3V=y
->>>>> CONFIG_ATI_VGA=y
->>>>> diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
->>>>> index d42143a991..20de7e9294 100644
->>>>> --- a/hw/isa/Kconfig
->>>>> +++ b/hw/isa/Kconfig
->>>>> @@ -53,6 +53,7 @@ config VT82C686
->>>>>     select I8254
->>>>>     select I8257
->>>>>     select I8259
->>>>> +    select IDE_VIA
->>>>>     select MC146818RTC
->>>>>     select PARALLEL
->>>>>
->>>>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
->>>>> index 5582c0b179..37d9ed635d 100644
->>>>> --- a/hw/isa/vt82c686.c
->>>>> +++ b/hw/isa/vt82c686.c
->>>>> @@ -17,6 +17,7 @@
->>>>> #include "hw/isa/vt82c686.h"
->>>>> #include "hw/pci/pci.h"
->>>>> #include "hw/qdev-properties.h"
->>>>> +#include "hw/ide/pci.h"
->>>>> #include "hw/isa/isa.h"
->>>>> #include "hw/isa/superio.h"
->>>>> #include "hw/intc/i8259.h"
->>>>> @@ -544,6 +545,7 @@ struct ViaISAState {
->>>>>     qemu_irq cpu_intr;
->>>>>     qemu_irq *isa_irqs;
->>>>>     ViaSuperIOState via_sio;
->>>>> +    PCIIDEState ide;
->>>>> };
->>>>>
->>>>> static const VMStateDescription vmstate_via = {
->>>>> @@ -556,10 +558,18 @@ static const VMStateDescription vmstate_via = {
->>>>>     }
->>>>> };
->>>>>
->>>>> +static void via_isa_init(Object *obj)
->>>>> +{
->>>>> +    ViaISAState *s = VIA_ISA(obj);
->>>>> +
->>>>> +    object_initialize_child(obj, "ide", &s->ide, "via-ide");
->>>>> +}
->>>>> +
->>>>> static const TypeInfo via_isa_info = {
->>>>>     .name          = TYPE_VIA_ISA,
->>>>>     .parent        = TYPE_PCI_DEVICE,
->>>>>     .instance_size = sizeof(ViaISAState),
->>>>> +    .instance_init = via_isa_init,
->>>>>     .abstract      = true,
->>>>>     .interfaces    = (InterfaceInfo[]) {
->>>>>         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
->>>>> @@ -583,6 +593,7 @@ static void via_isa_realize(PCIDevice *d, Error
->>>> **errp)
->>>>> {
->>>>>     ViaISAState *s = VIA_ISA(d);
->>>>>     DeviceState *dev = DEVICE(d);
->>>>> +    PCIBus *pci_bus = pci_get_bus(d);
->>>>>     qemu_irq *isa_irq;
->>>>>     ISABus *isa_bus;
->>>>>     int i;
->>>>> @@ -607,6 +618,13 @@ static void via_isa_realize(PCIDevice *d, Error
->>>> **errp)
->>>>>     if (!qdev_realize(DEVICE(&s->via_sio), BUS(isa_bus), errp)) {
->>>>>         return;
->>>>>     }
->>>>> +
->>>>> +    /* Function 1: IDE */
->>>>> +    qdev_prop_set_int32(DEVICE(&s->ide), "addr", d->devfn + 1);
->>>>> +    if (!qdev_realize(DEVICE(&s->ide), BUS(pci_bus), errp)) {
->>>>> +        return;
->>>>> +    }
->>>>> +    pci_ide_create_devs(PCI_DEVICE(&s->ide));
->>>>
->>>> I'm not sure about moving pci_ide_create_devs() here. This is usally
->>>> called from board code and only piix4 seems to do this. Maybe that's wrong
->>>> because if all IDE devices did this then one machine could not have more
->>>> than one different ide devices (like having an on-board ide and adding a
->>>> pci ide controoler with -device) so this probably belongs to the board
->>>> code to add devices to its default ide controller only as this is machine
->>>> specific. Unless I'm wrong in which case somebody will correct me.
->>>>
->>>
->>> Grepping the code it can be seen that it's always called right after
->>> creating the IDE controllers. The only notable exception is the "sii3112"
->>> device in the sam460ex board which is not emulated yet. Since the IDE
->>
->> The problem with sii3112 is that it only has 2 channels becuase I did not bother to implement more so pci_ide_create_devs() probably would not work as it assumes 4 channels. AFAIK this means that the short -hda, -cdrom, etc. convenience options don't work with sam460ex but yhou have to use the long way of creating ide-hd and ide-cd devices on the command line. I think there's a version of this controller with 4 channels, maybe called sii3114 or similar and it would be easy to enhance the current model for that but I haven't done that. What's not emulated on sam460ex is the on-board SATA ports of the SoC because it's too complex and all guest OSes have sii31xx drivers so it was simpler to implement that instead. The network port is the same as we already have working PCI network cards so I did not try to implement the 460EX network ports.
->>
->>> controllers are often created in board code this means
->>> pci_ide_create_devs() is called there as well.
->>>
->>> Grouping these calls together does make sense since it keeps the logic
->>> together. Otherwise it could happen all too easily that code becomes
->>> inconsistent such that pci_ide_create_devs() could be called without an IDE
->>> controller actually being available. Right?
->>
->> I don't know for sure but I think you cannot assign the devices to more than one controller and if this was called by every ide model then adding two of such ide controllers would call pci_ide_create_devs() twice which I don't think is correct and may cause problems.
->
-> This sounds reasonable.
->
->> So I think it belongs to the board code even if the ide controller is created within another device instantiated by the board so it's only called by once.
->
-> pci_ide_create_devs() isn't called by the VIA IDE controller. Instead, 
-> it gets called by the VIA south bridges, of which there should only be 
-> one per board. Do you still see a risk of pci_ide_create_devs() being 
-> called multiple times? If so, I'd need to change the piix4 south bridge 
-> as well for consistency.
 
-Since the vt8231 is user_creatable = false there's probably no way to add 
-a second one accidentally so in this case there's no direct risk. Yet for 
-consistency I'd keep the call to pci_ide_create_devs() in board code as 
-done by all other machines just to avoid any misunderstanding and keep it 
-consistent accross the board(s) :-)
 
-Regards,
-BALATON Zoltan
+Am 24=2E August 2022 01:23:14 MESZ schrieb BALATON Zoltan <balaton@eik=2Eb=
+me=2Ehu>:
+>On Tue, 23 Aug 2022, Bernhard Beschow wrote:
+>> On Tue, Aug 23, 2022 at 2:20 AM BALATON Zoltan <balaton@eik=2Ebme=2Ehu>=
+ wrote:
+>>> On Tue, 23 Aug 2022, Bernhard Beschow wrote:
+>>>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>>>> ---
+>>>> hw/isa/vt82c686=2Ec | 12 +++++++++++-
+>>>> 1 file changed, 11 insertions(+), 1 deletion(-)
+>>>>=20
+>>>> diff --git a/hw/isa/vt82c686=2Ec b/hw/isa/vt82c686=2Ec
+>>>> index 47f2fd2669=2E=2Eee745d5d49 100644
+>>>> --- a/hw/isa/vt82c686=2Ec
+>>>> +++ b/hw/isa/vt82c686=2Ec
+>>>> @@ -546,6 +546,7 @@ struct ViaISAState {
+>>>>     qemu_irq cpu_intr;
+>>>>     qemu_irq *isa_irqs;
+>>>>     ViaSuperIOState via_sio;
+>>>> +    RTCState rtc;
+>>>>     PCIIDEState ide;
+>>>>     UHCIState uhci[2];
+>>>>     ViaPMState pm;
+>>>> @@ -567,6 +568,7 @@ static void via_isa_init(Object *obj)
+>>>> {
+>>>>     ViaISAState *s =3D VIA_ISA(obj);
+>>>>=20
+>>>> +    object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
+>>>>     object_initialize_child(obj, "ide", &s->ide, "via-ide");
+>>>>     object_initialize_child(obj, "uhci1", &s->uhci[0],
+>>> "vt82c686b-usb-uhci");
+>>>>     object_initialize_child(obj, "uhci2", &s->uhci[1],
+>>> "vt82c686b-usb-uhci");
+>>>> @@ -615,7 +617,15 @@ static void via_isa_realize(PCIDevice *d, Error
+>>> **errp)
+>>>>     isa_bus_irqs(isa_bus, s->isa_irqs);
+>>>>     i8254_pit_init(isa_bus, 0x40, 0, NULL);
+>>>>     i8257_dma_init(isa_bus, 0);
+>>>> -    mc146818_rtc_init(isa_bus, 2000, NULL);
+>>>> +
+>>>> +    /* RTC */
+>>>> +    qdev_prop_set_int32(DEVICE(&s->rtc), "base_year", 2000);
+>>>> +    if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
+>>>> +        return;
+>>>> +    }
+>>>> +    object_property_add_alias(qdev_get_machine(), "rtc-time",
+>>> OBJECT(&s->rtc),
+>>>> +                              "date");
+>>>> +    isa_connect_gpio_out(ISA_DEVICE(&s->rtc), 0, s->rtc=2Eisairq);
+>>>>=20
+>>>>     for (i =3D 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
+>>>>         if (i < PCI_COMMAND || i >=3D PCI_REVISION_ID) {
+>>>>=20
+>>>=20
+>>> This actually introduces code duplication as all other places except p=
+iix4
+>>> seem to still use the init function (probably to ensure that the rtc-r=
+ime
+>>> alias on the machine is properly set) so I'd keep this the same as
+>>> everything else and drop this patch until this init function is remove=
+d
+>>> from all other places as well=2E
+>>>=20
+>>=20
+>> Hi Zoltan,
+>>=20
+>> Thanks for the fast reply! Regarding code homogeneity and duplication I=
+'ve
+>> made a similar argument for mc146818_rtc_init() in the past [1] and I'v=
+e
+>> learnt that my patch went backwards=2E Incidentally, Peter mentioned vt=
+686c
+>> as a candidate for the embed-the-device-struct style which - again
+>> incidentally - I've now done=2E
+>
+>I've seen patches embedding devices recently but in this case it looked n=
+ot that simple because of the rtc-time alias=2E
+>
+>> The rtc-time alias is actually only used by a couple of PPC machines wh=
+ere
+>> Pegasos II is one of them=2E So the alias actually needs to be created =
+only
+>> for these machines, and identifying the cases where it has to be preser=
+ved
+>> requires a lot of careful investigation=2E In the Pegasos II case this =
+seems
+>> especially complicated since one needs to look through several layers o=
+f
+>> devices=2E During my work on the VT82xx south bridges I've gained some
+>> knowledge such that I'd like to make this simplifying contribution=2E
+>
+>I've used it to implement the get-time-of-day rtas call with VOF in pegas=
+os2 because otherwise it would need to access internals of the RTC model an=
+d/or duplicate some code=2E Here's the message discussing this:
+>
+>https://lists=2Enongnu=2Eorg/archive/html/qemu-ppc/2021-10/msg00170=2Ehtm=
+l
+>
+>so this alias still seems to be the simplest way=2E
+>
+>I think the primary function of this alias is not these ppc machines but =
+some QMP/HMP command or to make the guest time available from the monitor o=
+r something like that so it's probably also used from there and therefore a=
+ll rtc probably should have it but I'm not sure about it=2E
+
+Indeed, the alias seems to be a convenience for some QMP/HMP commands=2E A=
+FAICS only the mc146818 sets the alias while it is probably not the only RT=
+C modelled in QEMU=2E So I wonder why boards using another RTC don't need i=
+t and whether removing the alias constitutes a compatibility break=2E=20
+
+>> Our discussion makes me realize that the creation of the alias could no=
+w
+>> actually be moved to the Pegasos II board=2E This way, the Pegasos II b=
+oard
+>> would both create and consume that alias, which seems to remove quite s=
+ome
+>> cognitive load=2E Do you agree? Would moving the alias to the board wor=
+k for
+>> you?
+>
+>Yes I think that would be better=2E This way the vt82xx and piix4 would b=
+e similar and the alias would also be clear within the pegasos2 code and it=
+ also has the machine directly at that point so it's clearer that way=2E
+
+All in all I wonder if we need to preserve the alias for the fuloong2e boa=
+rd?
+
+Best regards,
+Bernhard
+>
+>Regards,
+>BALATON Zoltan
 
