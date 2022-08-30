@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23ADD5A6351
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E49A5A6352
 	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 14:29:25 +0200 (CEST)
-Received: from localhost ([::1]:51208 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:51210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oT0Mt-0003JI-TV
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 08:29:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52290)
+	id 1oT0Mu-0003K8-AT
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 08:29:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oT0AQ-0008Um-Ff
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 08:16:30 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:34508)
+ id 1oT0Ga-0004SI-Lt
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 08:23:09 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:37741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oT0AO-0008S7-6J
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 08:16:30 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id f24so8175244plr.1
- for <qemu-devel@nongnu.org>; Tue, 30 Aug 2022 05:16:27 -0700 (PDT)
+ id 1oT0GZ-00015J-1A
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 08:22:52 -0400
+Received: by mail-pg1-x531.google.com with SMTP id bh13so10522030pgb.4
+ for <qemu-devel@nongnu.org>; Tue, 30 Aug 2022 05:22:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc;
- bh=tncN8vpLg+fwno95vO2HO8IaqKkTdm7lzL9m6S71fe4=;
- b=ItdpzKrzispU5kxumCPGdRqlQ87M68701XbE2w/wXFt0NguTwpbvFyzzFJl6ylXH23
- d7BNpGThVkuSjxmBEmo+gBJzX+H3u8/R7Z8/KFst2vdLo3viZ5OMk+CL8oG74kmon6nN
- 664MgD97516xUUBFcHVMnhdMtOifGMKxGIhZlSpFexDyhRF2wavJUFIkLMBuyFnAtW4i
- TeCvPqks9vU3y4j62JDc9vity8ZbRLJ+GRfxPk1EC7Hp1lEmhpCxAN5nSdwrXlD7Sb63
- ge66W2X6cI5+E3r5WPo0+qBfcwyK8VU8g8PnNwyGgoqz42zyUPzSo7F7zwHqT68+opei
- 8WEA==
+ bh=d79T3r+QbfAIOUrw6kQa03k0z2PJfETRZaP3a/azmpg=;
+ b=cpG6Uz3ZH4jUTFLaCNpNY1h4i1vFB4haWPCaF7JaVhOBiMj/TAELMJOkpsZiLzJYdJ
+ IDhJ7EcSUKw4U1fmXc7/jWjNrjms2Y6DxuB1TOjfpaKHyar2Ebh8HL23b66EbzFLScp+
+ gu5EM0KF6pJgrDLGr/l1RlM85gYizJW/pteww6B4FUC5CDdbiK4cwY0xOnSVm9olcQL2
+ v044nwdjDnoBYAzzjUVNZDMu/mp5S8QZEuxH2+Gsi+GpI+zzpm07Mm+nyZYRynXoHvPH
+ 2ecMvXcxBacNCn6LD87umNLlF4m7XmSllP0XAlcXF+DSZR3e7dnVMeXOrkHJX2Xb0l7I
+ qJaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc;
- bh=tncN8vpLg+fwno95vO2HO8IaqKkTdm7lzL9m6S71fe4=;
- b=PYkv5nkTZBo4qSJFXZJT9jNi5uCAxlxXtnLsjjCkMh0TQ1qMmfkhfNXgYqOdi5xdUy
- O2uugxHn3mIb9ITnvUvcgzEckva+3uajXbuaDtoqLu8gnVp6aXnYZlGBiVV8LHE2KKYz
- alN72349Znn6V+2vjs9NwEubpJ2jH3MlgOTyh7Q4EM+NX1iPD8VqhKGEiFy0GVAadcr+
- WhPC2aLgbyzgfUT2tHd70zpyZIavnbmF6vCAT0vTTj3rN3oHai6w7F0t6YsUaWYnS/rx
- bX5/RCsJ0ysT5j4TM9T5Z7Jps2qwtN0slA7xslK01RTH4rviBaVVNNQyVyoagp6F4ASQ
- 6urQ==
-X-Gm-Message-State: ACgBeo0juWqeggkiCsu/D2qrL9b0Jge9ZrTOUHQFOvJl9mRlx2v965o9
- 7h5n2Fwe6EZkqNp4eO4nJJC8XyBQO1c=
-X-Google-Smtp-Source: AA6agR6gXeIbbzD8AP0ZTvwiHqb2dc+RfIPFGDHMLk6Z0lxCCjQdC9D+zB3Z4EvyL7BANHzCedNLDg==
-X-Received: by 2002:a17:90b:3e8b:b0:1f5:2a52:9148 with SMTP id
- rj11-20020a17090b3e8b00b001f52a529148mr22968585pjb.175.1661861786853; 
- Tue, 30 Aug 2022 05:16:26 -0700 (PDT)
+ bh=d79T3r+QbfAIOUrw6kQa03k0z2PJfETRZaP3a/azmpg=;
+ b=zjJ4GSwllN5+r/xiNuEW0TwHcp92Y7LqhySTfgB57FHkPCGH5pnh56xJkm5OFFm1XU
+ 3KRif47Z0eVO1x7NLBxNOH6IHY4a4a3Km+4/B9l3/CViLrm6woG9hyQznk5zVmJs49Mm
+ iVm4WnMc0iSfLfCiQVIUzxx6HVBsEc0l/tSH2kScLcDSqq5HtjdeiT8bghiFiEmzp17C
+ SdbTnAVfMLUchq9Vtqxt03rblkeCkzXs1h+BYhCVZXPMuiYiHYSy2gV6ZqrS1U9tnLaU
+ Yqeug87MiVOanOPkPmnkl3U/sB0f5ebHoOUjYHlmjBB5Z2CagRJIuuNjdgrYWU2iVnqT
+ kJmg==
+X-Gm-Message-State: ACgBeo2xdG5pDhvwFGshFV782vwe5RA6b43vzGsCSTzaNQkafkxeb73f
+ fE34eBS3mrHh6WCBZEx+gcI=
+X-Google-Smtp-Source: AA6agR5gplY/fiBFwI0FnLvpkyGvOIC0e9V0NyR9eHxVvfyEbe0NcG8/sMYwLN6/ygjft5iaY6TtNA==
+X-Received: by 2002:a63:4142:0:b0:42b:5b22:f2fc with SMTP id
+ o63-20020a634142000000b0042b5b22f2fcmr18346632pga.573.1661862169198; 
+ Tue, 30 Aug 2022 05:22:49 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- p9-20020a1709027ec900b00172c7d6badcsm9425525plb.251.2022.08.30.05.16.25
+ p4-20020a17090a284400b001fd81970d1fsm6389280pjf.47.2022.08.30.05.22.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Aug 2022 05:16:26 -0700 (PDT)
-Message-ID: <387638d7-8c4c-2096-d24d-9d2b7b5f3a0b@amsat.org>
-Date: Tue, 30 Aug 2022 14:16:23 +0200
+ Tue, 30 Aug 2022 05:22:48 -0700 (PDT)
+Message-ID: <cb58cf0b-7b1a-916b-d0e9-70ed9daaa704@amsat.org>
+Date: Tue, 30 Aug 2022 14:22:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH 0/7] configure: fix misc shellcheck warnings
+Subject: Re: [PATCH v3 2/3] util/main-loop: Avoid adding the same HANDLE twice
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20220825150703.4074125-1-peter.maydell@linaro.org>
-In-Reply-To: <20220825150703.4074125-1-peter.maydell@linaro.org>
+To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+Cc: Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20220824085231.1630804-1-bmeng.cn@gmail.com>
+ <20220824085231.1630804-2-bmeng.cn@gmail.com>
+In-Reply-To: <20220824085231.1630804-2-bmeng.cn@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,27 +97,22 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 25/8/22 17:06, Peter Maydell wrote:
-> Currently if you run shellcheck on our configure script it
-> generates a ton of warnings. This patchset fixes some of the
-> easier ones. I wasn't aiming for completeness or consistency;
-> I just wanted to zap some of the ones where the fix is clear
-> and didn't take long to write and is hopefully easy to review.
-> We can always come back and take another swing at it later.
+On 24/8/22 10:52, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
 > 
-> thanks
-> -- PMM
+> Fix the logic in qemu_add_wait_object() to avoid adding the same
+> HANDLE twice, as the behavior is undefined when passing an array
+> that contains same HANDLEs to WaitForMultipleObjects() API.
 > 
-> Peter Maydell (7):
->    configure: Remove unused python_version variable
->    configure: Remove unused meson_args variable
->    configure: Add missing quoting for some easy cases
->    configure: Add './' on front of glob of */config-devices.mak.d
->    configure: Remove use of backtick `...` syntax
->    configure: Check mkdir result directly, not via $?
->    configure: Avoid use of 'local' as it is non-POSIX
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
+> 
+> Changes in v3:
+> - new patch: avoid adding the same HANDLE twice
+> 
+>   include/qemu/main-loop.h |  2 ++
+>   util/main-loop.c         | 10 ++++++++++
+>   2 files changed, 12 insertions(+)
 
-Series:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
 
