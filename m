@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBBC95A587F
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 02:42:16 +0200 (CEST)
-Received: from localhost ([::1]:46674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 114095A588C
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 02:50:32 +0200 (CEST)
+Received: from localhost ([::1]:46380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSpKZ-00009u-Cp
-	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 20:42:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52828)
+	id 1oSpSY-00022W-NJ
+	for lists+qemu-devel@lfdr.de; Mon, 29 Aug 2022 20:50:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oSpG9-00060H-EH; Mon, 29 Aug 2022 20:37:41 -0400
-Received: from mail-vs1-xe36.google.com ([2607:f8b0:4864:20::e36]:35835)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oSpG7-00035E-Kz; Mon, 29 Aug 2022 20:37:40 -0400
-Received: by mail-vs1-xe36.google.com with SMTP id 67so9998639vsv.2;
- Mon, 29 Aug 2022 17:37:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=2VJ+crMNWXeBYx+K++9KvdhJn18QmuRSk1nhg177Q3M=;
- b=F+DYTGa5pY4KmhX9YDaevVQiBlsLpMSqs6Xvq90+fPjP5oWQ3zjvCNbbpBZmmJmgRt
- lm2ZuOKJQqivJS17sool3/xYPB+xLTiex2baRx7NT5UbS1pXEaF1SP8uQ7UNA4yi/uvR
- 1D3QsbmX844jll4LOMAeFPxkMP0g1YvMym8Qzwl+DmU0bDfreVCJ1LYZrk4ikMlS/5xA
- aWjaVV7IT2Vseglg5quPYhFhTtbpjEBfj8aG0HjZ9uIRfpmmpBwTvd4ZyleqfScrlUuD
- NSQb2Yy/t0gCSp6PuGEpUXpnL9Ufmykp6eTl0VE50HyQc/3ziR/gssuMBGaj1kYMDRC1
- SFrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=2VJ+crMNWXeBYx+K++9KvdhJn18QmuRSk1nhg177Q3M=;
- b=kN/+28wWywDpMHcODzjvAl9ODu2EyVVFohxK2LWaJn9c071F84XsjbCHkRQtYpWkfa
- 5jIfE7y0rQQpjj4aep7ePxW927Fppxei5M1nWPfEhGDdQoVgE8j59h2AvQnqkuaB9AhP
- DQzGq8ry29jcOpw2w15bMHIBZP7rOO6kjHKslCPgX4hI9uAJVnFgPb6FjM4CED3LQom2
- ayJqfJyCWSKgNfuP+DkJ+KGGE/NLKK6v2EveZgr8y7iJEgPj6fOd4Bt1vFVWW3HkOMFj
- OKCYe0UBEtdpc1EvD16WRhcgwprCjUsPNQda/y8jk4MRszVB7AQQWfYSBQeN+/3Aofk+
- 7haw==
-X-Gm-Message-State: ACgBeo3KtzH8E8wWAk7w6zPGy+0WT2MiiHA7lJNZ+Dla37GjiG3/TPFu
- C3IP1MqCKd6ZBfsbA1uOwaZ1YIGge1ebmmPLqik=
-X-Google-Smtp-Source: AA6agR4qsx7XbC3JnSbjqnR0r6il9Omn/o5DSofExg4PUpltkYsrWhCQwcfDNuftpcdYzOR9UD4NoPSQu8DlWB/AMpQ=
-X-Received: by 2002:a67:ec47:0:b0:388:8294:10b4 with SMTP id
- z7-20020a67ec47000000b00388829410b4mr4520457vso.54.1661819857406; Mon, 29 Aug
- 2022 17:37:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
+ id 1oSpPH-0000ct-HJ
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 20:47:11 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:33978)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
+ id 1oSpPE-0004Gv-9d
+ for qemu-devel@nongnu.org; Mon, 29 Aug 2022 20:47:05 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 9BEFBB81091
+ for <qemu-devel@nongnu.org>; Tue, 30 Aug 2022 00:46:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 654C2C433C1
+ for <qemu-devel@nongnu.org>; Tue, 30 Aug 2022 00:46:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1661820417;
+ bh=yoX1CfVS0LbXA4j7rU9G6987OMDa3/oYInsEeO8j04w=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Wpf73274K9hr15+/JwwaaxKULijoKEBqj81+RGZ6RznShy5DU2498gfdwMV+lo/cw
+ 3N4G6+qpRjBKhXvckeK1s5baUrIhie4bvtzmceAcI693S0kmKW2u9MQTGBtEyLQURv
+ FxfiiBnX6gGYFI9yAVqKZVC/vXe3w9Hnul9gX9AY/MzISRMaag8YjWBeegWtt5wKWW
+ zHI67vGonD2cCI9K6vBy4mYV9W0AIkJi8w96vZU/UASyflcaLUsEFDsO0IB4TLBfyn
+ dhZlHqGvZun0kpT7a7Y6hNkQc7F7ye1lD60r0lmMNgQb5w0mGIhxfkwL8PYgjpa2zL
+ k42AdWFxH00+A==
+Received: by mail-vs1-f46.google.com with SMTP id o123so10025413vsc.3
+ for <qemu-devel@nongnu.org>; Mon, 29 Aug 2022 17:46:57 -0700 (PDT)
+X-Gm-Message-State: ACgBeo07ux7XXnXbZXq1BEMB7EjgUVF9E3qIJw0BlkuZe61aqLkd/xm8
+ kkdauUsKyCQHaMJggx9wIk28mVWMHm3Zt+9s96I=
+X-Google-Smtp-Source: AA6agR7Mvuqdy1YNKrceLBPcL6bhCaUpa7psA04jIC8SXMnVtjehMYb8adXyO4CbzZ/7P69l2YAFmEatrT+ucpyTZQA=
+X-Received: by 2002:a05:6102:30bc:b0:390:da09:3a8c with SMTP id
+ y28-20020a05610230bc00b00390da093a8cmr2538134vsd.84.1661820416344; Mon, 29
+ Aug 2022 17:46:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220826151529.6601-1-faithilikerun@gmail.com>
- <Yw0W/VdybcXXhPn0@fedora>
-In-Reply-To: <Yw0W/VdybcXXhPn0@fedora>
-From: Sam Li <faithilikerun@gmail.com>
-Date: Tue, 30 Aug 2022 08:37:49 +0800
-Message-ID: <CAAAx-8+ASi-Fp9UCNzmnuJXzSwsZCTv6wNYyFwVuAoWt3C2shA@mail.gmail.com>
-Subject: Re: [PATCH v8 0/7] Add support for zoned device
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, 
- Hannes Reinecke <hare@suse.de>, qemu block <qemu-block@nongnu.org>,
- Hanna Reitz <hreitz@redhat.com>, 
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Fam Zheng <fam@euphon.net>, 
- Kevin Wolf <kwolf@redhat.com>, Damien Le Moal <damien.lemoal@wdc.com>
+References: <20220826172128.353798-1-alex.bennee@linaro.org>
+ <20220826172128.353798-16-alex.bennee@linaro.org>
+ <9f5c9c75-e4d7-b262-73ec-d9727ac372e4@amsat.org>
+In-Reply-To: <9f5c9c75-e4d7-b262-73ec-d9727ac372e4@amsat.org>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Tue, 30 Aug 2022 08:46:42 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H65xV4zbwsvQhjS4CbkRRtV+GQVi_xOFm429cErDAJaaw@mail.gmail.com>
+Message-ID: <CAAhV-H65xV4zbwsvQhjS4CbkRRtV+GQVi_xOFm429cErDAJaaw@mail.gmail.com>
+Subject: Re: [PATCH v1 15/25] Deprecate 32 bit big-endian MIPS
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ QEMU Developers <qemu-devel@nongnu.org>, fam@euphon.net, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Aurelien Jarno <aurelien@aurel32.net>, stefanha@redhat.com,
+ Cleber Rosa <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, 
+ "reviewer:Incompatible changes" <libvir-list@redhat.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e36;
- envelope-from=faithilikerun@gmail.com; helo=mail-vs1-xe36.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=chenhuacai@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,55 +92,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan Hajnoczi <stefanha@redhat.com> =E4=BA=8E2022=E5=B9=B48=E6=9C=8830=E6=
-=97=A5=E5=91=A8=E4=BA=8C 03:44=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Fri, Aug 26, 2022 at 11:15:29PM +0800, Sam Li wrote:
-> > Zoned Block Devices (ZBDs) devide the LBA space to block regions called=
- zones
-> > that are larger than the LBA size. It can only allow sequential writes,=
- which
-> > reduces write amplification in SSD, leading to higher throughput and in=
-creased
-> > capacity. More details about ZBDs can be found at:
-> >
-> > https://zonedstorage.io/docs/introduction/zoned-storage
-> >
-> > The zoned device support aims to let guests (virtual machines) access z=
-oned
-> > storage devices on the host (hypervisor) through a virtio-blk device. T=
-his
-> > involves extending QEMU's block layer and virtio-blk emulation code.  I=
-n its
-> > current status, the virtio-blk device is not aware of ZBDs but the gues=
-t sees
-> > host-managed drives as regular drive that will runs correctly under the=
- most
-> > common write workloads.
-> >
-> > This patch series extend the block layer APIs with the minimum set of z=
-oned
-> > commands that are necessary to support zoned devices. The commands are =
-- Report
-> > Zones, four zone operations and Zone Append (developing).
-> >
-> > It can be tested on a null_blk device using qemu-io or qemu-iotests. Fo=
-r
-> > example, the command line for zone report using qemu-io is:
-> > $ path/to/qemu-io --image-opts -n driver=3Dzoned_host_device,filename=
-=3D/dev/nullb0
-> > -c "zrp offset nr_zones"
-> >
-> > v8:
-> > - address review comments
-> >   * solve patch conflicts and merge sysfs helper funcations into one pa=
-tch
-> >   * add cache.direct=3Don check in config
->
-> Hi Sam,
-> I have left a few comments.
+Reviewed-by: Huacai Chen <chenhuacai@kernel.org>
 
-That's great! Thanks for reviewing. I'll send a revision soon.
-
-Sam
+On Tue, Aug 30, 2022 at 7:39 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Hi Alex,
+>
+> (+Aleksandar/Huacai)
+>
+> On 26/8/22 19:21, Alex Benn=C3=A9e wrote:
+> > It's becoming harder to maintain a cross-compiler to test this host
+> > architecture as the old stable Debian 10 ("Buster") moved into LTS
+> > which supports fewer architectures. For now:
+> >
+> >    - mark it's deprecation in the docs
+> >    - downgrade the containers to build TCG tests only
+> >    - drop the cross builds from our CI
+> >
+> > Users with an appropriate toolchain and user-space can still take
+> > their chances building it.
+> >
+> > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> > ---
+> >   docs/about/build-platforms.rst                |  2 +-
+> >   docs/about/deprecated.rst                     | 13 ++++++
+> >   .gitlab-ci.d/container-cross.yml              |  1 -
+> >   .gitlab-ci.d/crossbuilds.yml                  | 14 -------
+> >   tests/docker/Makefile.include                 |  5 +--
+> >   .../dockerfiles/debian-mips-cross.docker      | 40 +++++-------------=
+-
+> >   6 files changed, 27 insertions(+), 48 deletions(-)
+> >
+> > diff --git a/docs/about/build-platforms.rst b/docs/about/build-platform=
+s.rst
+> > index 26028756d0..1ca9144a7d 100644
+> > --- a/docs/about/build-platforms.rst
+> > +++ b/docs/about/build-platforms.rst
+> > @@ -41,7 +41,7 @@ Those hosts are officially supported, with various ac=
+celerators:
+> >        - Accelerators
+> >      * - Arm
+> >        - kvm (64 bit only), tcg, xen
+> > -   * - MIPS
+> > +   * - MIPS (LE only)
+> >        - kvm, tcg
+> >      * - PPC
+> >        - kvm, tcg
+> > diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> > index 91b03115ee..22c2f4f4de 100644
+> > --- a/docs/about/deprecated.rst
+> > +++ b/docs/about/deprecated.rst
+> > @@ -213,6 +213,19 @@ MIPS ``Trap-and-Emul`` KVM support (since 6.0)
+> >   The MIPS ``Trap-and-Emul`` KVM host and guest support has been remove=
+d
+> >   from Linux upstream kernel, declare it deprecated.
+> >
+> > +Host Architectures
+> > +------------------
+> > +
+> > +BE MIPS (since 7.2)
+> > +'''''''''''''''''''
+> > +
+> > +A Debian 10 ("Buster") moved into LTS the big endian 32 bit version of
+> > +MIPS moved out of support making it hard to maintain our
+> > +cross-compilation CI tests of the architecture. As we no longer have
+> > +CI coverage support may bitrot away before the deprecation process
+> > +completes. The little endian variants of MIPS (both 32 and 64 bit) are
+> > +still a supported host architecture.
+>
+> For completeness we should update meson.build to consider
+> host_machine.endian() and adapt this section:
+>
+>
+>    if not supported_cpus.contains(cpu)
+>      message()
+>      warning('SUPPORT FOR THIS HOST CPU WILL GO AWAY IN FUTURE RELEASES!'=
+)
+>      message()
+>      message('CPU host architecture ' + cpu + ' support is not currently
+> maintained.')
+>    ...
+>
+> This can be done later, and I might be able to do so in few weeks,
+> so meanwhile (with Thomas comment addressed):
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
