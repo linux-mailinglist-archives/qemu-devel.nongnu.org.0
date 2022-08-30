@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 042605A6C85
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 20:45:07 +0200 (CEST)
-Received: from localhost ([::1]:45136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A8A5A6C8F
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 20:50:00 +0200 (CEST)
+Received: from localhost ([::1]:52714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oT6ET-0004dl-Ul
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 14:45:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50974)
+	id 1oT6JD-0001s4-CC
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 14:49:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oT6A2-0007L1-6f
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oT6A2-0007L2-8A
  for qemu-devel@nongnu.org; Tue, 30 Aug 2022 14:40:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28458)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oT69z-00054l-2d
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oT69x-00054h-6L
  for qemu-devel@nongnu.org; Tue, 30 Aug 2022 14:40:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661884825;
+ s=mimecast20190719; t=1661884824;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=w0egD9Eogz8rPxc55iTt5FN1zSnqy/4Dc/efaDL748E=;
- b=Th+OCmghaEIvtCb4cgoKExEQJOR2OZLQdLcdVdtPkPKxJUobW+GwqBTBM6MAkrLsC01ZAV
- BuZUFpv8AlciGwdqFPmfz9LoNkW8m/VEmNIy00Mwv7lkuno6RTz0WsgN2XOCdo9hoNPKz5
- HZw98YvRWT9/IdDY0fjwuHTZtTZf67I=
+ bh=F0wZmGF91WF9+Ut01va2IM4oyXsdYvxYKoHedmbsD4s=;
+ b=DMDzj5SOghe7fZsqUC8wGVKS8vwluilz5kg118JaFJyAciAZFK1LTjl8TmuRhL8gBPWoFz
+ 8qFYk4AueghzZTl3HQTVMR6s/6KDlxxxCrGwbRWKJvN+8BxHM+A7v683GKd+4zQxyNZebD
+ xlGlHhwAbupzPVY774x/IhzaO3qtzCE=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-403-C5cNcV-nM4-OXq9AUUhjqg-1; Tue, 30 Aug 2022 14:40:19 -0400
-X-MC-Unique: C5cNcV-nM4-OXq9AUUhjqg-1
+ us-mta-83-4SQynGqqPyii23r4hv0Q4A-1; Tue, 30 Aug 2022 14:40:21 -0400
+X-MC-Unique: 4SQynGqqPyii23r4hv0Q4A-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2520B101AA47;
- Tue, 30 Aug 2022 18:40:19 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B1429101AA4D;
+ Tue, 30 Aug 2022 18:40:20 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.125])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F1E3A1410DD5;
- Tue, 30 Aug 2022 18:40:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 709C3141512E;
+ Tue, 30 Aug 2022 18:40:19 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>
-Cc: Bin Meng <bin.meng@windriver.com>
-Subject: [PULL 02/23] tests/qtest: Use g_mkdtemp()
-Date: Tue, 30 Aug 2022 20:39:51 +0200
-Message-Id: <20220830184012.77978-3-thuth@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: [PULL 03/23] tests: Use g_mkdir_with_parents()
+Date: Tue, 30 Aug 2022 20:39:52 +0200
+Message-Id: <20220830184012.77978-4-thuth@redhat.com>
 In-Reply-To: <20220830184012.77978-1-thuth@redhat.com>
 References: <20220830184012.77978-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -79,187 +80,134 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Windows does not provide a mkdtemp() API, but glib does.
-Replace mkdtemp() call with the glib version.
+Use the same g_mkdir_with_parents() call to create a directory on
+all platforms.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20220824094029.1634519-3-bmeng.cn@gmail.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20220824094029.1634519-13-bmeng.cn@gmail.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/fuzz/generic_fuzz_configs.h | 2 +-
- tests/qtest/cdrom-test.c                | 2 +-
- tests/qtest/cxl-test.c                  | 6 +++---
- tests/qtest/ivshmem-test.c              | 4 ++--
- tests/qtest/libqos/virtio-9p.c          | 4 ++--
- tests/qtest/libqtest.c                  | 2 +-
- tests/qtest/migration-test.c            | 4 ++--
- tests/qtest/qmp-test.c                  | 4 ++--
- tests/qtest/vhost-user-test.c           | 4 ++--
- tests/unit/test-qga.c                   | 2 +-
- 10 files changed, 17 insertions(+), 17 deletions(-)
+ tests/migration/stress.c              | 2 +-
+ tests/qtest/migration-test.c          | 6 +++---
+ tests/unit/test-crypto-tlscredsx509.c | 4 ++--
+ tests/unit/test-crypto-tlssession.c   | 6 +++---
+ tests/unit/test-io-channel-tls.c      | 6 +++---
+ 5 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
-index 004c701915..0775e6702b 100644
---- a/tests/qtest/fuzz/generic_fuzz_configs.h
-+++ b/tests/qtest/fuzz/generic_fuzz_configs.h
-@@ -21,7 +21,7 @@ typedef struct generic_fuzz_config {
+diff --git a/tests/migration/stress.c b/tests/migration/stress.c
+index b7240a15c8..88acf8dc25 100644
+--- a/tests/migration/stress.c
++++ b/tests/migration/stress.c
+@@ -232,7 +232,7 @@ static void stress(unsigned long long ramsizeGB, int ncpus)
  
- static inline gchar *generic_fuzzer_virtio_9p_args(void){
-     char tmpdir[] = "/tmp/qemu-fuzz.XXXXXX";
--    g_assert_nonnull(mkdtemp(tmpdir));
-+    g_assert_nonnull(g_mkdtemp(tmpdir));
- 
-     return g_strdup_printf("-machine q35 -nodefaults "
-     "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
-diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
-index a7766a9e65..26a2400181 100644
---- a/tests/qtest/cdrom-test.c
-+++ b/tests/qtest/cdrom-test.c
-@@ -52,7 +52,7 @@ static int prepare_image(const char *arch, char *isoimage)
-         perror("Error creating temporary iso image file");
+ static int mount_misc(const char *fstype, const char *dir)
+ {
+-    if (mkdir(dir, 0755) < 0 && errno != EEXIST) {
++    if (g_mkdir_with_parents(dir, 0755) < 0 && errno != EEXIST) {
+         fprintf(stderr, "%s (%05d): ERROR: cannot create %s: %s\n",
+                 argv0, gettid(), dir, strerror(errno));
          return -1;
-     }
--    if (!mkdtemp(srcdir)) {
-+    if (!g_mkdtemp(srcdir)) {
-         perror("Error creating temporary directory");
-         goto cleanup;
-     }
-diff --git a/tests/qtest/cxl-test.c b/tests/qtest/cxl-test.c
-index 2133e973f4..4e6d285061 100644
---- a/tests/qtest/cxl-test.c
-+++ b/tests/qtest/cxl-test.c
-@@ -95,7 +95,7 @@ static void cxl_t3d(void)
-     char template[] = "/tmp/cxl-test-XXXXXX";
-     const char *tmpfs;
- 
--    tmpfs = mkdtemp(template);
-+    tmpfs = g_mkdtemp(template);
- 
-     g_string_printf(cmdline, QEMU_PXB_CMD QEMU_RP QEMU_T3D, tmpfs, tmpfs);
- 
-@@ -109,7 +109,7 @@ static void cxl_1pxb_2rp_2t3d(void)
-     char template[] = "/tmp/cxl-test-XXXXXX";
-     const char *tmpfs;
- 
--    tmpfs = mkdtemp(template);
-+    tmpfs = g_mkdtemp(template);
- 
-     g_string_printf(cmdline, QEMU_PXB_CMD QEMU_2RP QEMU_2T3D,
-                     tmpfs, tmpfs, tmpfs, tmpfs);
-@@ -124,7 +124,7 @@ static void cxl_2pxb_4rp_4t3d(void)
-     char template[] = "/tmp/cxl-test-XXXXXX";
-     const char *tmpfs;
- 
--    tmpfs = mkdtemp(template);
-+    tmpfs = g_mkdtemp(template);
- 
-     g_string_printf(cmdline, QEMU_2PXB_CMD QEMU_4RP QEMU_4T3D,
-                     tmpfs, tmpfs, tmpfs, tmpfs, tmpfs, tmpfs,
-diff --git a/tests/qtest/ivshmem-test.c b/tests/qtest/ivshmem-test.c
-index e23a97fa8e..9611d05eb5 100644
---- a/tests/qtest/ivshmem-test.c
-+++ b/tests/qtest/ivshmem-test.c
-@@ -481,8 +481,8 @@ int main(int argc, char **argv)
-     tmpshmem = mmap(0, TMPSHMSIZE, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
-     g_assert(tmpshmem != MAP_FAILED);
-     /* server */
--    if (mkdtemp(dir) == NULL) {
--        g_error("mkdtemp: %s", g_strerror(errno));
-+    if (g_mkdtemp(dir) == NULL) {
-+        g_error("g_mkdtemp: %s", g_strerror(errno));
-     }
-     tmpdir = dir;
-     tmpserver = g_strconcat(tmpdir, "/server", NULL);
-diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
-index 70aea8bf62..ae9b0a20e2 100644
---- a/tests/qtest/libqos/virtio-9p.c
-+++ b/tests/qtest/libqos/virtio-9p.c
-@@ -48,9 +48,9 @@ void virtio_9p_create_local_test_dir(void)
-      */
-     char *template = concat_path(pwd, "qtest-9p-local-XXXXXX");
- 
--    local_test_path = mkdtemp(template);
-+    local_test_path = g_mkdtemp(template);
-     if (!local_test_path) {
--        g_test_message("mkdtemp('%s') failed: %s", template, strerror(errno));
-+        g_test_message("g_mkdtemp('%s') failed: %s", template, strerror(errno));
-     }
- 
-     g_assert(local_test_path != NULL);
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index ad6860d774..7c9fc07de4 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -393,7 +393,7 @@ QTestState *qtest_init_with_serial(const char *extra_args, int *sock_fd)
-     char *sock_path, sock_dir[] = "/tmp/qtest-serial-XXXXXX";
-     QTestState *qts;
- 
--    g_assert_true(mkdtemp(sock_dir) != NULL);
-+    g_assert_true(g_mkdtemp(sock_dir) != NULL);
-     sock_path = g_strdup_printf("%s/sock", sock_dir);
- 
-     sock_fd_init = init_socket(sock_path);
 diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index f63edd0bc8..60f3d4e9d2 100644
+index 60f3d4e9d2..21bd76be19 100644
 --- a/tests/qtest/migration-test.c
 +++ b/tests/qtest/migration-test.c
-@@ -2452,9 +2452,9 @@ int main(int argc, char **argv)
-         return g_test_run();
+@@ -761,14 +761,14 @@ test_migrate_tls_psk_start_common(QTestState *from,
+     data->workdir = g_strdup_printf("%s/tlscredspsk0", tmpfs);
+     data->pskfile = g_strdup_printf("%s/%s", data->workdir,
+                                     QCRYPTO_TLS_CREDS_PSKFILE);
+-    mkdir(data->workdir, 0700);
++    g_mkdir_with_parents(data->workdir, 0700);
+     test_tls_psk_init(data->pskfile);
+ 
+     if (mismatch) {
+         data->workdiralt = g_strdup_printf("%s/tlscredspskalt0", tmpfs);
+         data->pskfilealt = g_strdup_printf("%s/%s", data->workdiralt,
+                                            QCRYPTO_TLS_CREDS_PSKFILE);
+-        mkdir(data->workdiralt, 0700);
++        g_mkdir_with_parents(data->workdiralt, 0700);
+         test_tls_psk_init_alt(data->pskfilealt);
      }
  
--    tmpfs = mkdtemp(template);
-+    tmpfs = g_mkdtemp(template);
-     if (!tmpfs) {
--        g_test_message("mkdtemp on path (%s): %s", template, strerror(errno));
-+        g_test_message("g_mkdtemp on path (%s): %s", template, strerror(errno));
+@@ -873,7 +873,7 @@ test_migrate_tls_x509_start_common(QTestState *from,
+         data->clientcert = g_strdup_printf("%s/client-cert.pem", data->workdir);
      }
-     g_assert(tmpfs);
  
-diff --git a/tests/qtest/qmp-test.c b/tests/qtest/qmp-test.c
-index 9a42480cef..bf7304c7dc 100644
---- a/tests/qtest/qmp-test.c
-+++ b/tests/qtest/qmp-test.c
-@@ -166,8 +166,8 @@ char *fifo_name;
+-    mkdir(data->workdir, 0700);
++    g_mkdir_with_parents(data->workdir, 0700);
  
- static void setup_blocking_cmd(void)
- {
--    if (!mkdtemp(tmpdir)) {
--        g_error("mkdtemp: %s", strerror(errno));
-+    if (!g_mkdtemp(tmpdir)) {
-+        g_error("g_mkdtemp: %s", strerror(errno));
-     }
-     fifo_name = g_strdup_printf("%s/fifo", tmpdir);
-     if (mkfifo(fifo_name, 0666)) {
-diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
-index 8bf390be20..d7d6cfc9bd 100644
---- a/tests/qtest/vhost-user-test.c
-+++ b/tests/qtest/vhost-user-test.c
-@@ -491,9 +491,9 @@ static TestServer *test_server_new(const gchar *name,
-     /* run the main loop thread so the chardev may operate */
-     server->thread = g_thread_new(NULL, thread_function, server->loop);
+     test_tls_init(data->keyfile);
+     g_assert(link(data->keyfile, data->serverkey) == 0);
+diff --git a/tests/unit/test-crypto-tlscredsx509.c b/tests/unit/test-crypto-tlscredsx509.c
+index aab4149b56..3c25d75ca1 100644
+--- a/tests/unit/test-crypto-tlscredsx509.c
++++ b/tests/unit/test-crypto-tlscredsx509.c
+@@ -75,7 +75,7 @@ static void test_tls_creds(const void *opaque)
+     QCryptoTLSCreds *creds;
  
--    tmpfs = mkdtemp(template);
-+    tmpfs = g_mkdtemp(template);
-     if (!tmpfs) {
--        g_test_message("mkdtemp on path (%s): %s", template, strerror(errno));
-+        g_test_message("g_mkdtemp on path (%s): %s", template, strerror(errno));
-     }
-     g_assert(tmpfs);
+ #define CERT_DIR "tests/test-crypto-tlscredsx509-certs/"
+-    mkdir(CERT_DIR, 0700);
++    g_mkdir_with_parents(CERT_DIR, 0700);
  
-diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
-index b27c77a695..a05a4628ed 100644
---- a/tests/unit/test-qga.c
-+++ b/tests/unit/test-qga.c
-@@ -60,7 +60,7 @@ fixture_setup(TestFixture *fixture, gconstpointer data, gchar **envp)
-     fixture->loop = g_main_loop_new(NULL, FALSE);
+     unlink(CERT_DIR QCRYPTO_TLS_CREDS_X509_CA_CERT);
+     if (data->isServer) {
+@@ -141,7 +141,7 @@ int main(int argc, char **argv)
+     g_test_init(&argc, &argv, NULL);
+     g_setenv("GNUTLS_FORCE_FIPS_MODE", "2", 1);
  
-     fixture->test_dir = g_strdup("/tmp/qgatest.XXXXXX");
--    g_assert_nonnull(mkdtemp(fixture->test_dir));
-+    g_assert_nonnull(g_mkdtemp(fixture->test_dir));
+-    mkdir(WORKDIR, 0700);
++    g_mkdir_with_parents(WORKDIR, 0700);
  
-     path = g_build_filename(fixture->test_dir, "sock", NULL);
-     cwd = g_get_current_dir();
+     test_tls_init(KEYFILE);
+ 
+diff --git a/tests/unit/test-crypto-tlssession.c b/tests/unit/test-crypto-tlssession.c
+index f222959d36..615a1344b4 100644
+--- a/tests/unit/test-crypto-tlssession.c
++++ b/tests/unit/test-crypto-tlssession.c
+@@ -249,8 +249,8 @@ static void test_crypto_tls_session_x509(const void *opaque)
+ 
+ #define CLIENT_CERT_DIR "tests/test-crypto-tlssession-client/"
+ #define SERVER_CERT_DIR "tests/test-crypto-tlssession-server/"
+-    mkdir(CLIENT_CERT_DIR, 0700);
+-    mkdir(SERVER_CERT_DIR, 0700);
++    g_mkdir_with_parents(CLIENT_CERT_DIR, 0700);
++    g_mkdir_with_parents(SERVER_CERT_DIR, 0700);
+ 
+     unlink(SERVER_CERT_DIR QCRYPTO_TLS_CREDS_X509_CA_CERT);
+     unlink(SERVER_CERT_DIR QCRYPTO_TLS_CREDS_X509_SERVER_CERT);
+@@ -398,7 +398,7 @@ int main(int argc, char **argv)
+     g_test_init(&argc, &argv, NULL);
+     g_setenv("GNUTLS_FORCE_FIPS_MODE", "2", 1);
+ 
+-    mkdir(WORKDIR, 0700);
++    g_mkdir_with_parents(WORKDIR, 0700);
+ 
+     test_tls_init(KEYFILE);
+     test_tls_psk_init(PSKFILE);
+diff --git a/tests/unit/test-io-channel-tls.c b/tests/unit/test-io-channel-tls.c
+index f6fb988c01..cc39247556 100644
+--- a/tests/unit/test-io-channel-tls.c
++++ b/tests/unit/test-io-channel-tls.c
+@@ -125,8 +125,8 @@ static void test_io_channel_tls(const void *opaque)
+ 
+ #define CLIENT_CERT_DIR "tests/test-io-channel-tls-client/"
+ #define SERVER_CERT_DIR "tests/test-io-channel-tls-server/"
+-    mkdir(CLIENT_CERT_DIR, 0700);
+-    mkdir(SERVER_CERT_DIR, 0700);
++    g_mkdir_with_parents(CLIENT_CERT_DIR, 0700);
++    g_mkdir_with_parents(SERVER_CERT_DIR, 0700);
+ 
+     unlink(SERVER_CERT_DIR QCRYPTO_TLS_CREDS_X509_CA_CERT);
+     unlink(SERVER_CERT_DIR QCRYPTO_TLS_CREDS_X509_SERVER_CERT);
+@@ -273,7 +273,7 @@ int main(int argc, char **argv)
+     g_test_init(&argc, &argv, NULL);
+     g_setenv("GNUTLS_FORCE_FIPS_MODE", "2", 1);
+ 
+-    mkdir(WORKDIR, 0700);
++    g_mkdir_with_parents(WORKDIR, 0700);
+ 
+     test_tls_init(KEYFILE);
+ 
 -- 
 2.31.1
 
