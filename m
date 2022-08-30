@@ -2,73 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A5A5A6144
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 12:59:43 +0200 (CEST)
-Received: from localhost ([::1]:58498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CA425A614A
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 13:03:24 +0200 (CEST)
+Received: from localhost ([::1]:59732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSyy6-00034E-BC
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 06:59:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44246)
+	id 1oSz1f-000513-1i
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 07:03:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oSyuZ-0008JF-7c
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 06:56:08 -0400
-Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132]:39863)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oSyuW-0000vb-AY
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 06:56:02 -0400
-Received: by mail-lf1-x132.google.com with SMTP id p5so11838655lfc.6
- for <qemu-devel@nongnu.org>; Tue, 30 Aug 2022 03:55:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=xPjUNX+CSXVabqJt8HSXk/CaFzsVKOsS76J5qhdAb5I=;
- b=OVQiZrVUqH57QiHIsN+KYlOX68tHN2jiJvwNF0nl/W7LLuE+KogyGjAO5zQrwJNGBN
- FeLcXHgyvY/ljqVx1qyAmLLAUM1R/Qq5NdxSPZFHQx15r21vrobpJoQJXCC4Qu5fG2XY
- 9yXf+GN4LTJbo1uHjzjtTieI5WdMUNJVADDVyq036qeFYn0pfwdspKfvqTfcQStqoUIs
- 10ThYWyWbccbh/nRBpcAFz9XEWm4MfciBel7HFDrntzDZocxkNjnlerhAbXVB2nn7qm1
- EGHrbOdw+BqcN+i/Oi9IPlZH3UI+xjSY+MyV5WYQGU4lS7k1+zU+eUXUtM5phoj1NN4x
- Yzog==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oSyyL-0003D1-Pr
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 06:59:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24893)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oSyyH-0001In-LB
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 06:59:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661857191;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6zYu4Rswu3fgZ8KgLqAlhfqI/MTWsVxlsGOUdPxztzk=;
+ b=IsnZn+TVdrRiQ+wr9++82xemCjofNPxit9R0tdYFSYd/VoKltjOZ6o4bJ0bYgHyHSi7Lw5
+ wQS4JW/NUkgvyn7rVpwlCoH38157LkNFDYR75Z2YiDqrZixwQlDWvUxQYeX97MH5UrH87R
+ UwRMSfwH8IjR3loh0ULsjvr/RWRUTTo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-615-meDvNHd0PgCiCIR2t3KuGQ-1; Tue, 30 Aug 2022 06:59:50 -0400
+X-MC-Unique: meDvNHd0PgCiCIR2t3KuGQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ t12-20020adfa2cc000000b00224f577fad1so1672136wra.4
+ for <qemu-devel@nongnu.org>; Tue, 30 Aug 2022 03:59:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=xPjUNX+CSXVabqJt8HSXk/CaFzsVKOsS76J5qhdAb5I=;
- b=G9FoNLbj06V/jfQGHEKGolmaKHyeurm5iRn32EUoNMMjvga4bkwQaXxV/HaooON2Pa
- GS9QjfXiRYkAT/Fl2me5900pkZTG4tOCXsnhtWXpRvOW9CZLFHPKknDK/fJfvPs0N1e+
- IQ7OP+JwF0gfTKLG5ihT3H/o/SUDE4iGfChG/CCmo2hCnXKJLFC8uBvRJ6XwwCTOG8mO
- fHiUq7F8BCR8yvpzQKuBRzsI9kx1mvbEFpGLpQRGfd8ci1la5bZSZsQYH3NUmZvkV3Ip
- Q2S6IhIx/VCP7WrnfRmPVXUhNuS0p2uEdx0tT5eBeXzYfwJFW9+RJyZS/IZ4D9ktJvzf
- NPRw==
-X-Gm-Message-State: ACgBeo012+cYQJnVj1osdZYV7TUzXX1UpTpr+tJhKv9QMCbLOCsFc1Vi
- 0Srnnd6eoQzJ/QZgnrfpCY6ynTX0oiBq6x6ld+g=
-X-Google-Smtp-Source: AA6agR6ID5UACsTfE0fDXk8GmZ8ZOeIiWfOQlR/HdpfYlui4f9EVfs01yNacucke8LKzUDnInPRY2whw74mSBNLLt4A=
-X-Received: by 2002:ac2:4f03:0:b0:48b:2179:5249 with SMTP id
- k3-20020ac24f03000000b0048b21795249mr8706033lfr.356.1661856956471; Tue, 30
- Aug 2022 03:55:56 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:subject:organization:from
+ :references:cc:to:content-language:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc;
+ bh=6zYu4Rswu3fgZ8KgLqAlhfqI/MTWsVxlsGOUdPxztzk=;
+ b=8EnTEA4B14IECblZcbNDfrMAZ6NU80aOzhnNGHc1/Ep9z8etiFIc8gTL394bqblrSp
+ iw4K7Xw9mc7J55zHZolOjEX9OdfhcmNRL+KrCmKFcBQS1jGdiCySYD+R7quXyXrsH6Nv
+ r6JwW1K5L+yle2fGtzsV4Q6i3dloco4BljX/uO/puEDfMee+aZ6W4+tfmR88Q03Ay7Kx
+ /YYe3UrBM6VeZ8pRVGeWg51SX9Fc/phl6vgPE3u/2sLTsQJmk7oSIX14R7YTrvxDS+0j
+ Y2SpPyW7R5a34JAsCAWc3tFoJC9wllD/QTEYwXHIBLq50Gkf0t5Dy8C/FU+k+sQyIc0f
+ EPwQ==
+X-Gm-Message-State: ACgBeo2//r+uhAWZoYAMQlc1YpRmEqlbNRaBgRoJHWZt0PclABNP6CcH
+ CXwpeB/VJJX85+CSOif3O4zf7Oa7YnIH8bwzeVgQea3LVHlibdQifKgUhMwsHg1rNgUuGPoYSlO
+ B4fKhzAXDHZCzcHk=
+X-Received: by 2002:a5d:6e8e:0:b0:220:5fa1:d508 with SMTP id
+ k14-20020a5d6e8e000000b002205fa1d508mr9202671wrz.337.1661857189329; 
+ Tue, 30 Aug 2022 03:59:49 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5lGsBox+69uaFFHcIdly3TYMqybdSHUIVTFKVN7rX9IGVZwxq/KmA65ehoeZ3QPWeXU7uIGQ==
+X-Received: by 2002:a5d:6e8e:0:b0:220:5fa1:d508 with SMTP id
+ k14-20020a5d6e8e000000b002205fa1d508mr9202649wrz.337.1661857188931; 
+ Tue, 30 Aug 2022 03:59:48 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c70a:1000:ecb4:919b:e3d3:e20b?
+ (p200300cbc70a1000ecb4919be3d3e20b.dip0.t-ipconnect.de.
+ [2003:cb:c70a:1000:ecb4:919b:e3d3:e20b])
+ by smtp.gmail.com with ESMTPSA id
+ j9-20020a05600c190900b003a2e92edeccsm13792728wmq.46.2022.08.30.03.59.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Aug 2022 03:59:48 -0700 (PDT)
+Message-ID: <d02d6a6e-637e-48f9-9acc-811344712cd3@redhat.com>
+Date: Tue, 30 Aug 2022 12:59:47 +0200
 MIME-Version: 1.0
-References: <20220829154058.524413-1-antonio.caggiano@collabora.com>
- <20220829154058.524413-5-antonio.caggiano@collabora.com>
-In-Reply-To: <20220829154058.524413-5-antonio.caggiano@collabora.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 30 Aug 2022 14:55:44 +0400
-Message-ID: <CAJ+F1CL1S1bTwyhKKuCj_YnR2Ke_pEq6Ajc5Sp=RMZz9eciC=A@mail.gmail.com>
-Subject: Re: [PATCH 4/5] virtio-gpu: Handle resource blob commands
-To: Antonio Caggiano <antonio.caggiano@collabora.com>
-Cc: qemu-devel@nongnu.org, gert.wollny@collabora.com, 
- dmitry.osipenko@collabora.com, Gerd Hoffmann <kraxel@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000008edf5705e7733931"
-Received-SPF: pass client-ip=2a00:1450:4864:20::132;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x132.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Content-Language: en-US
+To: Peter Xu <peterx@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org
+References: <20220816101250.1715523-1-eesposit@redhat.com>
+ <20220816101250.1715523-3-eesposit@redhat.com> <Yv6baJoNikyuZ38R@xz-m1.local>
+ <CAJ6HWG6maoPjbP8T5qo=iXCbNeHu4dq3wHLKtRLahYKuJmMY-g@mail.gmail.com>
+ <YwOOcC72KKABKgU+@xz-m1.local>
+ <d4601180-4c95-a952-2b40-d40fa8e55005@redhat.com>
+ <YwqFfyZ1fMA9knnK@xz-m1.local>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [RFC PATCH 2/2] kvm/kvm-all.c: listener should delay kvm_vm_ioctl
+ to the commit phase
+In-Reply-To: <YwqFfyZ1fMA9knnK@xz-m1.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,836 +114,288 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000008edf5705e7733931
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 27.08.22 22:58, Peter Xu wrote:
+> Hi, Emanuele,
+> 
+> On Fri, Aug 26, 2022 at 04:07:01PM +0200, Emanuele Giuseppe Esposito wrote:
+>>
+>>
+>> Am 22/08/2022 um 16:10 schrieb Peter Xu:
+>>> On Thu, Aug 18, 2022 at 09:55:20PM -0300, Leonardo Bras Soares Passos wrote:
+>>>> On Thu, Aug 18, 2022 at 5:05 PM Peter Xu <peterx@redhat.com> wrote:
+>>>>>
+>>>>> On Tue, Aug 16, 2022 at 06:12:50AM -0400, Emanuele Giuseppe Esposito wrote:
+>>>>>> +static void kvm_memory_region_node_add(KVMMemoryListener *kml,
+>>>>>> +                                       struct kvm_userspace_memory_region *mem)
+>>>>>> +{
+>>>>>> +    MemoryRegionNode *node;
+>>>>>> +
+>>>>>> +    node = g_malloc(sizeof(MemoryRegionNode));
+>>>>>> +    *node = (MemoryRegionNode) {
+>>>>>> +        .mem = mem,
+>>>>>> +    };
+>>>>>
+>>>>> Nit: direct assignment of struct looks okay, but maybe pointer assignment
+>>>>> is clearer (with g_malloc0?  Or iirc we're suggested to always use g_new0):
+>>>>>
+>>>>>   node = g_new0(MemoryRegionNode, 1);
+>>>>>   node->mem = mem;
+>>>>>
+>>>>> [...]
+>>
+>> Makes sense
+>>
+>>>>>
+>>>>>> +/* for KVM_SET_USER_MEMORY_REGION_LIST */
+>>>>>> +struct kvm_userspace_memory_region_list {
+>>>>>> +     __u32 nent;
+>>>>>> +     __u32 flags;
+>>>>>> +     struct kvm_userspace_memory_region entries[0];
+>>>>>> +};
+>>>>>> +
+>>>>>>  /*
+>>>>>>   * The bit 0 ~ bit 15 of kvm_memory_region::flags are visible for userspace,
+>>>>>>   * other bits are reserved for kvm internal use which are defined in
+>>>>>> @@ -1426,6 +1433,8 @@ struct kvm_vfio_spapr_tce {
+>>>>>>                                       struct kvm_userspace_memory_region)
+>>>>>>  #define KVM_SET_TSS_ADDR          _IO(KVMIO,   0x47)
+>>>>>>  #define KVM_SET_IDENTITY_MAP_ADDR _IOW(KVMIO,  0x48, __u64)
+>>>>>> +#define KVM_SET_USER_MEMORY_REGION_LIST _IOW(KVMIO, 0x49, \
+>>>>>> +                                     struct kvm_userspace_memory_region_list)
+>>>>>
+>>>>> I think this is probably good enough, but just to provide the other small
+>>>>> (but may not be important) piece of puzzle here.  I wanted to think through
+>>>>> to understand better but I never did..
+>>>>>
+>>>>> For a quick look, please read the comment in kvm_set_phys_mem().
+>>>>>
+>>>>>                 /*
+>>>>>                  * NOTE: We should be aware of the fact that here we're only
+>>>>>                  * doing a best effort to sync dirty bits.  No matter whether
+>>>>>                  * we're using dirty log or dirty ring, we ignored two facts:
+>>>>>                  *
+>>>>>                  * (1) dirty bits can reside in hardware buffers (PML)
+>>>>>                  *
+>>>>>                  * (2) after we collected dirty bits here, pages can be dirtied
+>>>>>                  * again before we do the final KVM_SET_USER_MEMORY_REGION to
+>>>>>                  * remove the slot.
+>>>>>                  *
+>>>>>                  * Not easy.  Let's cross the fingers until it's fixed.
+>>>>>                  */
+>>>>>
+>>>>> One example is if we have 16G mem, we enable dirty tracking and we punch a
+>>>>> hole of 1G at offset 1G, it'll change from this:
+>>>>>
+>>>>>                      (a)
+>>>>>   |----------------- 16G -------------------|
+>>>>>
+>>>>> To this:
+>>>>>
+>>>>>      (b)    (c)              (d)
+>>>>>   |--1G--|XXXXXX|------------14G------------|
+>>>>>
+>>>>> Here (c) will be a 1G hole.
+>>>>>
+>>>>> With current code, the hole punching will del region (a) and add back
+>>>>> region (b) and (d).  After the new _LIST ioctl it'll be atomic and nicer.
+>>>>>
+>>>>> Here the question is if we're with dirty tracking it means for each region
+>>>>> we have a dirty bitmap.  Currently we do the best effort of doing below
+>>>>> sequence:
+>>>>>
+>>>>>   (1) fetching dirty bmap of (a)
+>>>>>   (2) delete region (a)
+>>>>>   (3) add region (b) (d)
+>>>>>
+>>>>> Here (a)'s dirty bmap is mostly kept as best effort, but still we'll lose
+>>>>> dirty pages written between step (1) and (2) (and actually if the write
+>>>>> comes within (2) and (3) I think it'll crash qemu, and iiuc that's what
+>>>>> we're going to fix..).
+>>>>>
+>>>>> So ideally the atomic op can be:
+>>>>>
+>>>>>   "atomically fetch dirty bmap for removed regions, remove regions, and add
+>>>>>    new regions"
+>>>>>
+>>>>> Rather than only:
+>>>>>
+>>>>>   "atomically remove regions, and add new regions"
+>>>>>
+>>>>> as what the new _LIST ioctl do.
+>>>>>
+>>>>> But... maybe that's not a real problem, at least I didn't know any report
+>>>>> showing issue with current code yet caused by losing of dirty bits during
+>>>>> step (1) and (2).  Neither do I know how to trigger an issue with it.
+>>>>>
+>>>>> I'm just trying to still provide this information so that you should be
+>>>>> aware of this problem too, at the meantime when proposing the new ioctl
+>>>>> change for qemu we should also keep in mind that we won't easily lose the
+>>>>> dirty bmap of (a) here, which I think this patch does the right thing.
+>>>>>
+>>>>
+>>>> Thanks for bringing these details Peter!
+>>>>
+>>>> What do you think of adding?
+>>>> (4) Copy the corresponding part of (a)'s dirty bitmap to (b) and (d)'s
+>>>> dirty bitmaps.
+>>>
+>>> Sounds good to me, but may not cover dirty ring?  Maybe we could move on
+>>> with the simple but clean scheme first and think about a comprehensive
+>>> option only if very necessary.  The worst case is we need one more kvm cap
+>>> but we should still have enough.
+>>
+>> Ok then, I will not consider this for now.
+>>
+>> Might or might not be relevant, but I was also considering to
+>> pre-process the list of memslots passed to the ioctl and merge
+>> operations when necessary, to avoid unnecessary operations.
+>>
+>> For example, if we are creating an area and punching a hole (assuming
+>> this is a valid example), we would have
+>>
+>> transaction_begin()
+>> CREATE(offset=0, memory area)
+>> DELETE(memory area)
+>> CREATE(offset=0, memory area / 2 - 1)
+>> CREATE(offset=memory_area/2, memory area / 2)
+>> transaction_commmit()
+>>
+>> Instead, if we pre-process the memory regions and detect overlaps with
+>> an interval tree, we could simplify the above with:
+>> CREATE(offset=0, memory area / 2 - 1)
+>> CREATE(offset=memory_area/2, memory area / 2)
+> 
+> As I replied in the private email, I don't think the pre-process here is
+> needed, because afaict flat views already handle that.
+> 
+> See generate_memory_topology() and especially render_memory_region().
+> 
+> In above example, the 1st CREATE + DELETE shouldn't reach any of the memory
+> listners, including the KVM one, because the flatview only contains the
+> final layout of the address space when commit() happens.
+> 
+>>
+>> In addition, I was thinking to also provide the operation type (called
+>> enum kvm_mr_change) from userspace directly, and not "figure" it
+>> ourselves in KVM.
+>>
+>> The reason for these two changes come from KVM implementation. I know
+>> this is no KVM place, but a background explanation might be necessary.
+>> Basically KVM 1) figures the request type by looking at the fields
+>> passed by userspace (for example mem_size == 0 means DELETE) and the
+>> current status of the memslot (id not found means CREATE, found means
+>> MOVE/UPDATE_FLAGS), and 2) has 2 memslot lists per address space: the
+>> active (visible) and inactive. Any operation is performed in the
+>> inactive list, then we "swap" the two so that the change is visible.
+>>
+>> The "atomic" goal of this serie just means that we want to apply
+>> multiple memslot operation and then perform a single "swap".
+>> The problem is that each DELETE and MOVE request perform 2 swaps: first
+>> substitute current memslot with an invalid one (so that page faults are
+>> retried), and then remove the invalid one (in case of MOVE, substitute
+>> with new memslot).
+>>
+>> Therefore:
+>> - KVM should ideally pre-process all DELETE/MOVE memslots and perform a
+>> first swap(s) to replace the current memslot with an invalid one, and
+>> then perform all other operations in order (deletion/move included).
+> 
+> This sounds correct.
+> 
+>> This is why QEMU should just send pre-merged MR, so that we don't have
+>> CREATE(x)- DELETE(x). Otherwise we would process a DELETE on a MR that
+>> doesn't exist yet.
+> 
+> As discussed above, IMHO pre-merge isn't an issue here and I think the
+> sequence in your example won't happen.  But you raised a great question on
+> whether we should allow the new ioctl (if there's going to be one) to do
+> whatever it wants by batching any sequence of memslot operations.
+> 
+> More below.
+> 
+>>
+>> - Doing the above is still not enough, as KVM figures what operation to
+>> do depending on the current state of the memslots.
+>> Assuming we already have an already existing MR y, and now we get the
+>> list DELETE(y) CREATE(y/2) (ie reducing y to half its size).
+>> In this case the interval tree can't do anything, but it's very hard to
+>> understand that the second request in the list is a CREATE, because when
+>> KVM performs the check to understand which type of operation it is
+>> (before doing any modification at all in the memslot list), it finds
+>> that y (memslot with same id) exist, but has a different size than what
+>> provided from userspace, therefore it could either fail, or misinterpret
+>> it as another operation (currently fails -EINVALID).
+> 
+> Another good question..  I think that can be partly solved by not allowing
+> ID duplication in the same batched ioctl, or maybe we can fail it.  From
+> qemu perspective, we may need to change the memslot id allocation to not
+> reuse IDs of being-deleted memslots until the batch is processed.
+> 
+> Something like adding similar INVALID tags to kvm memslots in QEMU when we
+> are preparing the batch, then we should only reset memory_size==0 and clear
+> INVALID tag after the ioctl returns.  Then during the batch, any new slots
+> to be added from kvm_get_free_slot() will not return any duplication of a
+> deleting one.
+> 
+>> If we instead already provide the labels, then we can:
+>> 	1. substitute the memslots pointed by DELETE/MOVE with invalid & swap
+>> (so it is visible, non-atomic. But we don't care, as we are not deleting
+>> anything)
+>> 	2. delete the invalid memslot (in the inactive memslot list)
+>> 	3. process the other requests (in the inactive memslot list)
+>> 	4. single and atomic swap (step 2 and 3 are now visible).
+>>
+>> What do you think?
+> 
+> Adding some limitation to the new ioctl makes sense to me, especially
+> moving the DELETE/MOVE to be handled earlier, rather than a complete
+> mixture of all of them.
+> 
+> I'm wondering whether the batch ioctl can be layed out separately on the
+> operations, then it can be clearly documented on the sequence of handling
+> each op:
+> 
+>   struct kvm_userspace_memory_region_batch {
+>          struct kvm_userspace_memory_region deletes[];
+>          struct kvm_userspace_memory_region moves[];
+>          struct kvm_userspace_memory_region creates[];
+>          struct kvm_userspace_memory_region flags_only[];
+>   };
+> 
+> So that the ordering can be very obvious.  But I didn't really think deeper
+> than that.
+> 
+> Side note: do we use MOVE at all in QEMU?
+> 
+>>
+>> Bonus question: with this atomic operation, do we really need the
+>> invalid memslot logic for MOVE/DELETE?
+> 
+> I think so.  Not an expert on that, but iiuc that's to make sure we'll zap
+> all shadow paging that maps to the slots being deleted/moved.
+> 
+> Paolo can always help to keep me honest above.
+> 
+> One thing I forgot to ask: iirc we used to have a workaround to kick all
+> vcpus out, update memory slots, then continue all vcpus.  Would that work
+> for us too for the problem you're working on?
 
-Hi
+As reference, here is one such approach for region resizes only:
 
-On Mon, Aug 29, 2022 at 7:44 PM Antonio Caggiano <
-antonio.caggiano@collabora.com> wrote:
+https://lore.kernel.org/qemu-devel/20200312161217.3590-1-david@redhat.com/
 
-> Support BLOB resources creation by calling
-> virgl_renderer_resource_create_blob.
->
-> Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  hw/display/virtio-gpu-virgl.c        | 169 +++++++++++++++++++++++++++
->  hw/display/virtio-gpu.c              |   8 +-
->  include/hw/virtio/virtio-gpu-bswap.h |  18 +++
->  include/hw/virtio/virtio-gpu.h       |   6 +
->  meson.build                          |   5 +
->  5 files changed, 202 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.=
-c
-> index 73cb92c8d5..c4c2c31d76 100644
-> --- a/hw/display/virtio-gpu-virgl.c
-> +++ b/hw/display/virtio-gpu-virgl.c
-> @@ -16,6 +16,8 @@
->  #include "trace.h"
->  #include "hw/virtio/virtio.h"
->  #include "hw/virtio/virtio-gpu.h"
-> +#include "hw/virtio/virtio-gpu-bswap.h"
-> +#include "hw/virtio/virtio-iommu.h"
->
->  #include <virglrenderer.h>
->
-> @@ -398,6 +400,162 @@ static void virgl_cmd_get_capset(VirtIOGPU *g,
->      g_free(resp);
->  }
->
-> +#ifdef HAVE_VIRGL_RESOURCE_BLOB
-> +
-> +static void virgl_cmd_resource_create_blob(VirtIOGPU *g,
-> +                                           struct virtio_gpu_ctrl_comman=
-d
-> *cmd)
-> +{
-> +    struct virtio_gpu_simple_resource *res;
-> +    struct virtio_gpu_resource_create_blob cblob;
-> +    int ret;
-> +
-> +    VIRTIO_GPU_FILL_CMD(cblob);
-> +    virtio_gpu_create_blob_bswap(&cblob);
-> +    trace_virtio_gpu_cmd_res_create_blob(cblob.resource_id, cblob.size);
-> +
-> +    if (cblob.resource_id =3D=3D 0) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: resource id 0 is not
-> allowed\n",
-> +                      __func__);
-> +        cmd->error =3D VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-> +        return;
-> +    }
-> +
-> +    res =3D virtio_gpu_find_resource(g, cblob.resource_id);
-> +    if (res) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: resource already exists %d\n=
-",
-> +                      __func__, cblob.resource_id);
-> +        cmd->error =3D VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-> +        return;
-> +    }
-> +
-> +    res =3D g_new0(struct virtio_gpu_simple_resource, 1);
-> +    res->resource_id =3D cblob.resource_id;
-> +    res->blob_size =3D cblob.size;
-> +
-> +    if (res->iov) {
-> +        cmd->error =3D VIRTIO_GPU_RESP_ERR_UNSPEC;
->
+which notes:
 
-res is leaked
+"Instead of inhibiting during the region_resize(), we could inhibit for
+the hole memory transaction (from begin() to commit()). This could be
+nice, because also splitting of memory regions would be atomic (I
+remember there was a BUG report regarding that), however, I am not sure
+if that might impact any RT users."
 
 
-> +        return;
-> +    }
-> +
-> +    if (cblob.blob_mem !=3D VIRTIO_GPU_BLOB_MEM_HOST3D) {
-> +        ret =3D virtio_gpu_create_mapping_iov(g, cblob.nr_entries,
-> sizeof(cblob),
-> +                                            cmd, &res->addrs, &res->iov,
-> +                                            &res->iov_cnt);
-> +        if (ret !=3D 0) {
-> +            cmd->error =3D VIRTIO_GPU_RESP_ERR_UNSPEC;
->
+-- 
+Thanks,
 
-same
+David / dhildenb
 
-
-> +            return;
-> +        }
-> +    }
-> +
-> +    if (cblob.blob_mem =3D=3D VIRTIO_GPU_BLOB_MEM_GUEST) {
-> +        virtio_gpu_init_udmabuf(res);
->
-
-I wonder what happens when the command fails, but this is ignored by
-virtio_gpu_resource_create_blob as well, ok.
-
-
-> +    }
-> +    QTAILQ_INSERT_HEAD(&g->reslist, res, next);
-> +
-> +    const struct virgl_renderer_resource_create_blob_args virgl_args =3D=
- {
-> +        .res_handle =3D cblob.resource_id,
-> +        .ctx_id =3D cblob.hdr.ctx_id,
-> +        .blob_mem =3D cblob.blob_mem,
-> +        .blob_id =3D cblob.blob_id,
-> +        .blob_flags =3D cblob.blob_flags,
-> +        .size =3D cblob.size,
-> +        .iovecs =3D res->iov,
-> +        .num_iovs =3D res->iov_cnt,
-> +    };
-> +    ret =3D virgl_renderer_resource_create_blob(&virgl_args);
-> +    if (ret) {
-> +        g_print("Virgl blob create error: %s\n", strerror(-ret));
->
-
-why g_print?  If not qemu_log_mask, then warn_report() perhaps?
-
-
-
-> +    }
-> +}
-> +
-> +static void virgl_cmd_resource_map_blob(VirtIOGPU *g,
-> +                                        struct virtio_gpu_ctrl_command
-> *cmd)
-> +{
-> +    struct virtio_gpu_simple_resource *res;
-> +    struct virtio_gpu_resource_map_blob mblob;
-> +    int ret;
-> +    void *data;
-> +    uint64_t size;
-> +    struct virtio_gpu_resp_map_info resp;
-> +
-> +    VIRTIO_GPU_FILL_CMD(mblob);
-> +    virtio_gpu_map_blob_bswap(&mblob);
-> +
-> +    if (mblob.resource_id =3D=3D 0) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: resource id 0 is not
-> allowed\n",
-> +                      __func__);
-> +        cmd->error =3D VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-> +        return;
-> +    }
-> +
-> +    res =3D virtio_gpu_find_resource(g, mblob.resource_id);
-> +    if (!res) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: resource does not exist %d\n=
-",
-> +                      __func__, mblob.resource_id);
-> +        cmd->error =3D VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-> +        return;
-> +    }
-> +
-> +    ret =3D virgl_renderer_resource_map(res->resource_id, &data, &size);
-> +    if (ret) {
-> +        g_print("Virgl blob resource map error: %s\n", strerror(-ret));
->
-
-same about g_print
-
-
-> +        cmd->error =3D VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-> +        return;
-> +    }
-> +
-> +    memory_region_init_ram_device_ptr(&res->region, OBJECT(g), NULL,
-> size, data);
-> +    memory_region_add_subregion(&g->parent_obj.hostmem, mblob.offset,
-> &res->region);
-> +    memory_region_set_enabled(&res->region, true);
-> +
-> +    memset(&resp, 0, sizeof(resp));
-> +    resp.hdr.type =3D VIRTIO_GPU_RESP_OK_MAP_INFO;
-> +    virgl_renderer_resource_get_map_info(mblob.resource_id,
-> &resp.map_info);
-> +    virtio_gpu_ctrl_response(g, cmd, &resp.hdr, sizeof(resp));
-> +
-> +    res->mapped =3D true;
-> +}
-> +
-> +static void virgl_cmd_resource_unmap_blob(VirtIOGPU *g,
-> +                                        struct virtio_gpu_ctrl_command
-> *cmd)
-> +{
-> +    struct virtio_gpu_simple_resource *res;
-> +    struct virtio_gpu_resource_unmap_blob ublob;
-> +    VIRTIO_GPU_FILL_CMD(ublob);
-> +    virtio_gpu_unmap_blob_bswap(&ublob);
-> +
-> +    if (ublob.resource_id =3D=3D 0) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: resource id 0 is not
-> allowed\n",
-> +                      __func__);
-> +        cmd->error =3D VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-> +        return;
-> +    }
-> +
-> +    res =3D virtio_gpu_find_resource(g, ublob.resource_id);
-> +    if (!res) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: resource does not exist %d\n=
-",
-> +                      __func__, ublob.resource_id);
-> +        cmd->error =3D VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-> +        return;
-> +    }
-> +
-> +    if (!res->mapped) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: resource already unmapped
-> %d\n",
-> +                      __func__, ublob.resource_id);
-> +        cmd->error =3D VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-> +        return;
-> +    }
-> +
-> +    memory_region_set_enabled(&res->region, false);
-> +    memory_region_del_subregion(&g->parent_obj.hostmem, &res->region);
-> +    object_unparent(OBJECT(&res->region));
-> +
-> +    virgl_renderer_resource_unmap(ublob.resource_id);
->
-
-
-Shouldn't the mapped resources be unmap during unrealize?
-
-
-> +
-> +    res->mapped =3D false;
-> +}
-> +
-> +#endif /* HAVE_VIRGL_RESOURCE_BLOB */
-> +
->  void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
->                                        struct virtio_gpu_ctrl_command *cm=
-d)
->  {
-> @@ -464,6 +622,17 @@ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
->      case VIRTIO_GPU_CMD_GET_EDID:
->          virtio_gpu_get_edid(g, cmd);
->          break;
-> +#ifdef HAVE_VIRGL_RESOURCE_BLOB
-> +    case VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB:
-> +        virgl_cmd_resource_create_blob(g, cmd);
-> +        break;
-> +    case VIRTIO_GPU_CMD_RESOURCE_MAP_BLOB:
-> +        virgl_cmd_resource_map_blob(g, cmd);
-> +        break;
-> +    case VIRTIO_GPU_CMD_RESOURCE_UNMAP_BLOB:
-> +        virgl_cmd_resource_unmap_blob(g, cmd);
-> +        break;
-> +#endif /* HAVE_VIRGL_RESOURCE_BLOB */
->      default:
->          cmd->error =3D VIRTIO_GPU_RESP_ERR_UNSPEC;
->          break;
-> diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-> index 506b3b8eef..527c0aeede 100644
-> --- a/hw/display/virtio-gpu.c
-> +++ b/hw/display/virtio-gpu.c
-> @@ -33,8 +33,6 @@
->
->  #define VIRTIO_GPU_VM_VERSION 1
->
-> -static struct virtio_gpu_simple_resource*
-> -virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resource_id);
->  static struct virtio_gpu_simple_resource *
->  virtio_gpu_find_check_resource(VirtIOGPU *g, uint32_t resource_id,
->                                 bool require_backing,
-> @@ -115,7 +113,7 @@ static void update_cursor(VirtIOGPU *g, struct
-> virtio_gpu_update_cursor *cursor)
->                    cursor->resource_id ? 1 : 0);
->  }
->
-> -static struct virtio_gpu_simple_resource *
-> +struct virtio_gpu_simple_resource *
->  virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resource_id)
->  {
->      struct virtio_gpu_simple_resource *res;
-> @@ -1323,10 +1321,12 @@ void virtio_gpu_device_realize(DeviceState *qdev,
-> Error **errp)
->              return;
->          }
->
-> +#ifndef HAVE_VIRGL_RESOURCE_BLOB
->          if (virtio_gpu_virgl_enabled(g->parent_obj.conf)) {
-> -            error_setg(errp, "blobs and virgl are not compatible (yet)")=
-;
-> +            error_setg(errp, "Linked virglrenderer does not support blob
-> resources");
->              return;
->          }
-> +#endif
->      }
->
->      if (!virtio_gpu_base_device_realize(qdev,
-> diff --git a/include/hw/virtio/virtio-gpu-bswap.h
-> b/include/hw/virtio/virtio-gpu-bswap.h
-> index 9124108485..dd1975e2d4 100644
-> --- a/include/hw/virtio/virtio-gpu-bswap.h
-> +++ b/include/hw/virtio/virtio-gpu-bswap.h
-> @@ -63,10 +63,28 @@ virtio_gpu_create_blob_bswap(struct
-> virtio_gpu_resource_create_blob *cblob)
->  {
->      virtio_gpu_ctrl_hdr_bswap(&cblob->hdr);
->      le32_to_cpus(&cblob->resource_id);
-> +    le32_to_cpus(&cblob->blob_mem);
->      le32_to_cpus(&cblob->blob_flags);
-> +    le32_to_cpus(&cblob->nr_entries);
-> +    le64_to_cpus(&cblob->blob_id);
->      le64_to_cpus(&cblob->size);
->  }
->
-> +static inline void
-> +virtio_gpu_map_blob_bswap(struct virtio_gpu_resource_map_blob *mblob)
-> +{
-> +    virtio_gpu_ctrl_hdr_bswap(&mblob->hdr);
-> +    le32_to_cpus(&mblob->resource_id);
-> +    le64_to_cpus(&mblob->offset);
-> +}
-> +
-> +static inline void
-> +virtio_gpu_unmap_blob_bswap(struct virtio_gpu_resource_unmap_blob *ublob=
-)
-> +{
-> +    virtio_gpu_ctrl_hdr_bswap(&ublob->hdr);
-> +    le32_to_cpus(&ublob->resource_id);
-> +}
-> +
->  static inline void
->  virtio_gpu_scanout_blob_bswap(struct virtio_gpu_set_scanout_blob *ssb)
->  {
-> diff --git a/include/hw/virtio/virtio-gpu.h
-> b/include/hw/virtio/virtio-gpu.h
-> index eafce75b04..4f4cabf3b3 100644
-> --- a/include/hw/virtio/virtio-gpu.h
-> +++ b/include/hw/virtio/virtio-gpu.h
-> @@ -55,6 +55,9 @@ struct virtio_gpu_simple_resource {
->      int dmabuf_fd;
->      uint8_t *remapped;
->
-> +    MemoryRegion region;
-> +    bool mapped;
-> +
->      QTAILQ_ENTRY(virtio_gpu_simple_resource) next;
->  };
->
-> @@ -245,6 +248,9 @@ void virtio_gpu_base_fill_display_info(VirtIOGPUBase
-> *g,
->                          struct virtio_gpu_resp_display_info *dpy_info);
->
->  /* virtio-gpu.c */
-> +struct virtio_gpu_simple_resource *
-> +virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resource_id);
-> +
->  void virtio_gpu_ctrl_response(VirtIOGPU *g,
->                                struct virtio_gpu_ctrl_command *cmd,
->                                struct virtio_gpu_ctrl_hdr *resp,
-> diff --git a/meson.build b/meson.build
-> index 20fddbd707..058fe03fd7 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -718,6 +718,11 @@ if not get_option('virglrenderer').auto() or
-> have_system or have_vhost_user_gpu
->                       method: 'pkg-config',
->                       required: get_option('virglrenderer'),
->                       kwargs: static_kwargs)
-> +
-> +  config_host_data.set('HAVE_VIRGL_RESOURCE_BLOB',
-> +
->  cc.has_function('virgl_renderer_resource_create_blob',
-> +                                       prefix: '#include
-> <virglrenderer.h>',
-> +                                       dependencies: virgl))
->  endif
->  curl =3D not_found
->  if not get_option('curl').auto() or have_block
-> --
-> 2.34.1
->
->
->
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---0000000000008edf5705e7733931
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 29, 2022 at 7:44 PM Ant=
-onio Caggiano &lt;<a href=3D"mailto:antonio.caggiano@collabora.com">antonio=
-.caggiano@collabora.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">Support BLOB resources creation by calling virgl_ren=
-derer_resource_create_blob.<br>
-<br>
-Signed-off-by: Antonio Caggiano &lt;<a href=3D"mailto:antonio.caggiano@coll=
-abora.com" target=3D"_blank">antonio.caggiano@collabora.com</a>&gt;<br>
-Signed-off-by: Dmitry Osipenko &lt;<a href=3D"mailto:dmitry.osipenko@collab=
-ora.com" target=3D"_blank">dmitry.osipenko@collabora.com</a>&gt;<br>
----<br>
-=C2=A0hw/display/virtio-gpu-virgl.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 169 ++++++=
-+++++++++++++++++++++<br>
-=C2=A0hw/display/virtio-gpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 =C2=A08 +-<br>
-=C2=A0include/hw/virtio/virtio-gpu-bswap.h |=C2=A0 18 +++<br>
-=C2=A0include/hw/virtio/virtio-gpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=
-=A06 +<br>
-=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A05 +<br>
-=C2=A05 files changed, 202 insertions(+), 4 deletions(-)<br>
-<br>
-diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c<=
-br>
-index 73cb92c8d5..c4c2c31d76 100644<br>
---- a/hw/display/virtio-gpu-virgl.c<br>
-+++ b/hw/display/virtio-gpu-virgl.c<br>
-@@ -16,6 +16,8 @@<br>
-=C2=A0#include &quot;trace.h&quot;<br>
-=C2=A0#include &quot;hw/virtio/virtio.h&quot;<br>
-=C2=A0#include &quot;hw/virtio/virtio-gpu.h&quot;<br>
-+#include &quot;hw/virtio/virtio-gpu-bswap.h&quot;<br>
-+#include &quot;hw/virtio/virtio-iommu.h&quot;<br>
-<br>
-=C2=A0#include &lt;virglrenderer.h&gt;<br>
-<br>
-@@ -398,6 +400,162 @@ static void virgl_cmd_get_capset(VirtIOGPU *g,<br>
-=C2=A0 =C2=A0 =C2=A0g_free(resp);<br>
-=C2=A0}<br>
-<br>
-+#ifdef HAVE_VIRGL_RESOURCE_BLOB<br>
-+<br>
-+static void virgl_cmd_resource_create_blob(VirtIOGPU *g,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0struct virtio_gpu_ctrl_command *cmd)<br>
-+{<br>
-+=C2=A0 =C2=A0 struct virtio_gpu_simple_resource *res;<br>
-+=C2=A0 =C2=A0 struct virtio_gpu_resource_create_blob cblob;<br>
-+=C2=A0 =C2=A0 int ret;<br>
-+<br>
-+=C2=A0 =C2=A0 VIRTIO_GPU_FILL_CMD(cblob);<br>
-+=C2=A0 =C2=A0 virtio_gpu_create_blob_bswap(&amp;cblob);<br>
-+=C2=A0 =C2=A0 trace_virtio_gpu_cmd_res_create_blob(cblob.resource_id, cblo=
-b.size);<br>
-+<br>
-+=C2=A0 =C2=A0 if (cblob.resource_id =3D=3D 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERROR, &quot;%s: resou=
-rce id 0 is not allowed\n&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 __func__);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd-&gt;error =3D VIRTIO_GPU_RESP_ERR_INVALID_=
-RESOURCE_ID;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 res =3D virtio_gpu_find_resource(g, cblob.resource_id);<br>
-+=C2=A0 =C2=A0 if (res) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERROR, &quot;%s: resou=
-rce already exists %d\n&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 __func__, cblob.resource_id);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd-&gt;error =3D VIRTIO_GPU_RESP_ERR_INVALID_=
-RESOURCE_ID;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 res =3D g_new0(struct virtio_gpu_simple_resource, 1);<br>
-+=C2=A0 =C2=A0 res-&gt;resource_id =3D cblob.resource_id;<br>
-+=C2=A0 =C2=A0 res-&gt;blob_size =3D cblob.size;<br>
-+<br>
-+=C2=A0 =C2=A0 if (res-&gt;iov) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd-&gt;error =3D VIRTIO_GPU_RESP_ERR_UNSPEC;<=
-br></blockquote><div><br></div><div>res is leaked</div><div>=C2=A0<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 if (cblob.blob_mem !=3D VIRTIO_GPU_BLOB_MEM_HOST3D) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D virtio_gpu_create_mapping_iov(g, cblob=
-.nr_entries, sizeof(cblob),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 cmd, &amp;res-&gt;addrs, &amp;res-&gt;iov,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 &amp;res-&gt;iov_cnt);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret !=3D 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd-&gt;error =3D VIRTIO_GPU_RES=
-P_ERR_UNSPEC;<br></blockquote><div><br></div><div>same</div><div>=C2=A0<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 if (cblob.blob_mem =3D=3D VIRTIO_GPU_BLOB_MEM_GUEST) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 virtio_gpu_init_udmabuf(res);<br>
-</blockquote><div><br></div><div>I wonder what happens when the command fai=
-ls, but this is ignored by virtio_gpu_resource_create_blob as well, ok.<br>=
-</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">+=
-=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 QTAILQ_INSERT_HEAD(&amp;g-&gt;reslist, res, next);<br>
-+<br>
-+=C2=A0 =C2=A0 const struct virgl_renderer_resource_create_blob_args virgl_=
-args =3D {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .res_handle =3D cblob.resource_id,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .ctx_id =3D cblob.hdr.ctx_id,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .blob_mem =3D cblob.blob_mem,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .blob_id =3D cblob.blob_id,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .blob_flags =3D cblob.blob_flags,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .size =3D cblob.size,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .iovecs =3D res-&gt;iov,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .num_iovs =3D res-&gt;iov_cnt,<br>
-+=C2=A0 =C2=A0 };<br>
-+=C2=A0 =C2=A0 ret =3D virgl_renderer_resource_create_blob(&amp;virgl_args)=
-;<br>
-+=C2=A0 =C2=A0 if (ret) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_print(&quot;Virgl blob create error: %s\n&qu=
-ot;, strerror(-ret));<br></blockquote><div><br></div><div>why g_print?=C2=
-=A0 If not qemu_log_mask, then warn_report() perhaps?</div><div><br></div><=
-div>=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 }<br>
-+}<br>
-+<br>
-+static void virgl_cmd_resource_map_blob(VirtIOGPU *g,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct v=
-irtio_gpu_ctrl_command *cmd)<br>
-+{<br>
-+=C2=A0 =C2=A0 struct virtio_gpu_simple_resource *res;<br>
-+=C2=A0 =C2=A0 struct virtio_gpu_resource_map_blob mblob;<br>
-+=C2=A0 =C2=A0 int ret;<br>
-+=C2=A0 =C2=A0 void *data;<br>
-+=C2=A0 =C2=A0 uint64_t size;<br>
-+=C2=A0 =C2=A0 struct virtio_gpu_resp_map_info resp;<br>
-+<br>
-+=C2=A0 =C2=A0 VIRTIO_GPU_FILL_CMD(mblob);<br>
-+=C2=A0 =C2=A0 virtio_gpu_map_blob_bswap(&amp;mblob);<br>
-+<br>
-+=C2=A0 =C2=A0 if (mblob.resource_id =3D=3D 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERROR, &quot;%s: resou=
-rce id 0 is not allowed\n&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 __func__);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd-&gt;error =3D VIRTIO_GPU_RESP_ERR_INVALID_=
-RESOURCE_ID;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 res =3D virtio_gpu_find_resource(g, mblob.resource_id);<br>
-+=C2=A0 =C2=A0 if (!res) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERROR, &quot;%s: resou=
-rce does not exist %d\n&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 __func__, mblob.resource_id);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd-&gt;error =3D VIRTIO_GPU_RESP_ERR_INVALID_=
-RESOURCE_ID;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 ret =3D virgl_renderer_resource_map(res-&gt;resource_id, &am=
-p;data, &amp;size);<br>
-+=C2=A0 =C2=A0 if (ret) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_print(&quot;Virgl blob resource map error: %=
-s\n&quot;, strerror(-ret));<br></blockquote><div><br></div><div>same about =
-g_print</div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd-&gt;error =3D VIRTIO_GPU_RESP_ERR_INVALID_=
-RESOURCE_ID;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 memory_region_init_ram_device_ptr(&amp;res-&gt;region, OBJEC=
-T(g), NULL, size, data);<br>
-+=C2=A0 =C2=A0 memory_region_add_subregion(&amp;g-&gt;parent_obj.hostmem, m=
-blob.offset, &amp;res-&gt;region);<br>
-+=C2=A0 =C2=A0 memory_region_set_enabled(&amp;res-&gt;region, true);<br>
-+<br>
-+=C2=A0 =C2=A0 memset(&amp;resp, 0, sizeof(resp));<br>
-+=C2=A0 =C2=A0 resp.hdr.type =3D VIRTIO_GPU_RESP_OK_MAP_INFO;<br>
-+=C2=A0 =C2=A0 virgl_renderer_resource_get_map_info(mblob.resource_id, &amp=
-;resp.map_info);<br>
-+=C2=A0 =C2=A0 virtio_gpu_ctrl_response(g, cmd, &amp;resp.hdr, sizeof(resp)=
-);<br>
-+<br>
-+=C2=A0 =C2=A0 res-&gt;mapped =3D true;<br>
-+}<br>
-+<br>
-+static void virgl_cmd_resource_unmap_blob(VirtIOGPU *g,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct v=
-irtio_gpu_ctrl_command *cmd)<br>
-+{<br>
-+=C2=A0 =C2=A0 struct virtio_gpu_simple_resource *res;<br>
-+=C2=A0 =C2=A0 struct virtio_gpu_resource_unmap_blob ublob;<br>
-+=C2=A0 =C2=A0 VIRTIO_GPU_FILL_CMD(ublob);<br>
-+=C2=A0 =C2=A0 virtio_gpu_unmap_blob_bswap(&amp;ublob);<br>
-+<br>
-+=C2=A0 =C2=A0 if (ublob.resource_id =3D=3D 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERROR, &quot;%s: resou=
-rce id 0 is not allowed\n&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 __func__);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd-&gt;error =3D VIRTIO_GPU_RESP_ERR_INVALID_=
-RESOURCE_ID;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 res =3D virtio_gpu_find_resource(g, ublob.resource_id);<br>
-+=C2=A0 =C2=A0 if (!res) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERROR, &quot;%s: resou=
-rce does not exist %d\n&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 __func__, ublob.resource_id);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd-&gt;error =3D VIRTIO_GPU_RESP_ERR_INVALID_=
-RESOURCE_ID;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 if (!res-&gt;mapped) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERROR, &quot;%s: resou=
-rce already unmapped %d\n&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 __func__, ublob.resource_id);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd-&gt;error =3D VIRTIO_GPU_RESP_ERR_INVALID_=
-RESOURCE_ID;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 memory_region_set_enabled(&amp;res-&gt;region, false);<br>
-+=C2=A0 =C2=A0 memory_region_del_subregion(&amp;g-&gt;parent_obj.hostmem, &=
-amp;res-&gt;region);<br>
-+=C2=A0 =C2=A0 object_unparent(OBJECT(&amp;res-&gt;region));<br>
-+<br>
-+=C2=A0 =C2=A0 virgl_renderer_resource_unmap(ublob.resource_id);<br></block=
-quote><div><br></div><div><br></div><div>Shouldn&#39;t the mapped resources=
- be unmap during unrealize?</div><div>=C2=A0<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">
-+<br>
-+=C2=A0 =C2=A0 res-&gt;mapped =3D false;<br>
-+}<br>
-+<br>
-+#endif /* HAVE_VIRGL_RESOURCE_BLOB */<br>
-+<br>
-=C2=A0void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct vi=
-rtio_gpu_ctrl_command *cmd)<br>
-=C2=A0{<br>
-@@ -464,6 +622,17 @@ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,<br>
-=C2=A0 =C2=A0 =C2=A0case VIRTIO_GPU_CMD_GET_EDID:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0virtio_gpu_get_edid(g, cmd);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-+#ifdef HAVE_VIRGL_RESOURCE_BLOB<br>
-+=C2=A0 =C2=A0 case VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 virgl_cmd_resource_create_blob(g, cmd);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 case VIRTIO_GPU_CMD_RESOURCE_MAP_BLOB:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 virgl_cmd_resource_map_blob(g, cmd);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 case VIRTIO_GPU_CMD_RESOURCE_UNMAP_BLOB:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 virgl_cmd_resource_unmap_blob(g, cmd);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+#endif /* HAVE_VIRGL_RESOURCE_BLOB */<br>
-=C2=A0 =C2=A0 =C2=A0default:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cmd-&gt;error =3D VIRTIO_GPU_RESP_ERR_UNS=
-PEC;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c<br>
-index 506b3b8eef..527c0aeede 100644<br>
---- a/hw/display/virtio-gpu.c<br>
-+++ b/hw/display/virtio-gpu.c<br>
-@@ -33,8 +33,6 @@<br>
-<br>
-=C2=A0#define VIRTIO_GPU_VM_VERSION 1<br>
-<br>
--static struct virtio_gpu_simple_resource*<br>
--virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resource_id);<br>
-=C2=A0static struct virtio_gpu_simple_resource *<br>
-=C2=A0virtio_gpu_find_check_resource(VirtIOGPU *g, uint32_t resource_id,<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bool require_backing,<br>
-@@ -115,7 +113,7 @@ static void update_cursor(VirtIOGPU *g, struct virtio_g=
-pu_update_cursor *cursor)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cursor=
--&gt;resource_id ? 1 : 0);<br>
-=C2=A0}<br>
-<br>
--static struct virtio_gpu_simple_resource *<br>
-+struct virtio_gpu_simple_resource *<br>
-=C2=A0virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resource_id)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0struct virtio_gpu_simple_resource *res;<br>
-@@ -1323,10 +1321,12 @@ void virtio_gpu_device_realize(DeviceState *qdev, E=
-rror **errp)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-+#ifndef HAVE_VIRGL_RESOURCE_BLOB<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (virtio_gpu_virgl_enabled(g-&gt;parent=
-_obj.conf)) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;blobs and=
- virgl are not compatible (yet)&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;Linked vi=
-rglrenderer does not support blob resources&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+#endif<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0if (!virtio_gpu_base_device_realize(qdev,<br>
-diff --git a/include/hw/virtio/virtio-gpu-bswap.h b/include/hw/virtio/virti=
-o-gpu-bswap.h<br>
-index 9124108485..dd1975e2d4 100644<br>
---- a/include/hw/virtio/virtio-gpu-bswap.h<br>
-+++ b/include/hw/virtio/virtio-gpu-bswap.h<br>
-@@ -63,10 +63,28 @@ virtio_gpu_create_blob_bswap(struct virtio_gpu_resource=
-_create_blob *cblob)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0virtio_gpu_ctrl_hdr_bswap(&amp;cblob-&gt;hdr);<br>
-=C2=A0 =C2=A0 =C2=A0le32_to_cpus(&amp;cblob-&gt;resource_id);<br>
-+=C2=A0 =C2=A0 le32_to_cpus(&amp;cblob-&gt;blob_mem);<br>
-=C2=A0 =C2=A0 =C2=A0le32_to_cpus(&amp;cblob-&gt;blob_flags);<br>
-+=C2=A0 =C2=A0 le32_to_cpus(&amp;cblob-&gt;nr_entries);<br>
-+=C2=A0 =C2=A0 le64_to_cpus(&amp;cblob-&gt;blob_id);<br>
-=C2=A0 =C2=A0 =C2=A0le64_to_cpus(&amp;cblob-&gt;size);<br>
-=C2=A0}<br>
-<br>
-+static inline void<br>
-+virtio_gpu_map_blob_bswap(struct virtio_gpu_resource_map_blob *mblob)<br>
-+{<br>
-+=C2=A0 =C2=A0 virtio_gpu_ctrl_hdr_bswap(&amp;mblob-&gt;hdr);<br>
-+=C2=A0 =C2=A0 le32_to_cpus(&amp;mblob-&gt;resource_id);<br>
-+=C2=A0 =C2=A0 le64_to_cpus(&amp;mblob-&gt;offset);<br>
-+}<br>
-+<br>
-+static inline void<br>
-+virtio_gpu_unmap_blob_bswap(struct virtio_gpu_resource_unmap_blob *ublob)<=
-br>
-+{<br>
-+=C2=A0 =C2=A0 virtio_gpu_ctrl_hdr_bswap(&amp;ublob-&gt;hdr);<br>
-+=C2=A0 =C2=A0 le32_to_cpus(&amp;ublob-&gt;resource_id);<br>
-+}<br>
-+<br>
-=C2=A0static inline void<br>
-=C2=A0virtio_gpu_scanout_blob_bswap(struct virtio_gpu_set_scanout_blob *ssb=
-)<br>
-=C2=A0{<br>
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.=
-h<br>
-index eafce75b04..4f4cabf3b3 100644<br>
---- a/include/hw/virtio/virtio-gpu.h<br>
-+++ b/include/hw/virtio/virtio-gpu.h<br>
-@@ -55,6 +55,9 @@ struct virtio_gpu_simple_resource {<br>
-=C2=A0 =C2=A0 =C2=A0int dmabuf_fd;<br>
-=C2=A0 =C2=A0 =C2=A0uint8_t *remapped;<br>
-<br>
-+=C2=A0 =C2=A0 MemoryRegion region;<br>
-+=C2=A0 =C2=A0 bool mapped;<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0QTAILQ_ENTRY(virtio_gpu_simple_resource) next;<br>
-=C2=A0};<br>
-<br>
-@@ -245,6 +248,9 @@ void virtio_gpu_base_fill_display_info(VirtIOGPUBase *g=
-,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0struct virtio_gpu_resp_display_info *dpy_info);<br>
-<br>
-=C2=A0/* virtio-gpu.c */<br>
-+struct virtio_gpu_simple_resource *<br>
-+virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resource_id);<br>
-+<br>
-=C2=A0void virtio_gpu_ctrl_response(VirtIOGPU *g,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct virtio_gpu_ctrl_command *cmd,<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct virtio_gpu_ctrl_hdr *resp,<br>
-diff --git a/meson.build b/meson.build<br>
-index 20fddbd707..058fe03fd7 100644<br>
---- a/meson.build<br>
-+++ b/meson.build<br>
-@@ -718,6 +718,11 @@ if not get_option(&#39;virglrenderer&#39;).auto() or h=
-ave_system or have_vhost_user_gpu<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 method: &#39;pkg-config&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 required: get_option(&#39;virglrenderer&#39;),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 kwargs: static_kwargs)<br>
-+<br>
-+=C2=A0 config_host_data.set(&#39;HAVE_VIRGL_RESOURCE_BLOB&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0cc.has_function(&#39;virgl_renderer_resource_create_blob&#39;,<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0prefix: &=
-#39;#include &lt;virglrenderer.h&gt;&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dependenc=
-ies: virgl))<br>
-=C2=A0endif<br>
-=C2=A0curl =3D not_found<br>
-=C2=A0if not get_option(&#39;curl&#39;).auto() or have_block<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000008edf5705e7733931--
 
