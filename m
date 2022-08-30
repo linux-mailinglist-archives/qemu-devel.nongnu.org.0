@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6019A5A6FB2
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 23:50:38 +0200 (CEST)
-Received: from localhost ([::1]:57706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E3D15A6FE4
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 23:52:21 +0200 (CEST)
+Received: from localhost ([::1]:56396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oT980-0005kw-Ue
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 17:50:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47564)
+	id 1oT99g-0007MK-HR
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 17:52:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oT94g-0003TQ-C9; Tue, 30 Aug 2022 17:47:11 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:42770)
+ id 1oT96z-00053h-DA; Tue, 30 Aug 2022 17:49:37 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:46037)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oT94a-0001JB-DM; Tue, 30 Aug 2022 17:47:08 -0400
-Received: by mail-pl1-x632.google.com with SMTP id v5so6161268plo.9;
- Tue, 30 Aug 2022 14:47:03 -0700 (PDT)
+ id 1oT96x-0001Vr-V9; Tue, 30 Aug 2022 17:49:33 -0400
+Received: by mail-pf1-x431.google.com with SMTP id z187so12619837pfb.12;
+ Tue, 30 Aug 2022 14:49:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc;
- bh=dqnLut5namHZD74eIATKZw8djbDbQNUsrtlzssd1Drg=;
- b=pEq5JTXnswQOPREP6QVaMNGn0l81l6Ij72ptjT0ALVBeTeuKKTV/WHqX1tiZZouLOO
- 7Wlilc+qZcmeWuunseHIx+G5Z2jxTIq1WpIPbyeiRGfjvyHIICU2439QsrtrBdmIIxBK
- 9GxQm4r3UOXykFJUH4MFkFJuDj0FEHVI2mh0YnH71ARrWPZudjxoD1Pg216We8rfHshf
- AOOXc7JnuSmGetAIIOu4JvfqK9ZkwvcsAPIJia4up0ssoNnLqOKrekKWJDTwlJsRbejv
- 6WOy+pT38NSohOA47HHe++atCeDbyK4KEeWsGwaPJRKq6Ko2ZWct3+/a0dYqUClViC3m
- gNAA==
+ bh=RnlWIAApBjHbrNK6LPS8O4ZDdrrnwcinxb/f5ynDCp8=;
+ b=bv02qNIppEMVn6LVZrqgTaTHfGHJBnBAaX43gLOdooTpHsrUtei7D4/c3ADEn7Tgd1
+ ZYvcohBD3JIKROxwLeFFPXJl+pggL220Bxm76dZXD99XvzDnBurcEULygzzuGgWGiwc8
+ KBLpGvkx89uDPClcQ0cWBA6PBQ8KdTQDmNsoba8QZzUtJoQ18gDky0n85WA7TTkTy1Kw
+ iPQxAAm1yk1jI7t36yQeVnYXAh6CtVM9fulMRDeleGV8j+oiSRyrJMqYlHkrDOzFoIlL
+ 5Zi3OjTrg8L9koNPWgYZSVknlhfCUGDQJoo1tQlSg93aUf1wRjUJdLa4XGuE24lJx0lq
+ OlVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc;
- bh=dqnLut5namHZD74eIATKZw8djbDbQNUsrtlzssd1Drg=;
- b=DCWRQet+yBm5TbBYE1TB7CTLwJi5pRajiUOe8NbUfpmEQDRdPNMYQlWGEvdsKLB+KR
- 1IYpkxSkYraXjHRcq8DPrjdk7URTB5ri86t+lU9e6jMuiSPojn23r1wEjBt+3hTJQTpZ
- uVxwcJF93y6tUKVOPED2BKJG1y/ZlK7dEd95TaqprsvwiSlYgQDQ22m3DB6c8xrNZlzt
- tr04+a2zSWJsmcmUkGFPr2Y+rIWGElK58lAiXMwK5r0fFumRRCTkBy3JwL7xF7hzWATz
- muyxDrDXiwi37dZDfGB6X7Ujpai0AFHDjXVUTpQnvjz/zSWUkaI+LvghgS4pGIIjFFzm
- htSg==
-X-Gm-Message-State: ACgBeo24i6SRQ+i0EdxzE3q5PW/lIkHFBA3FqnsTDbj2ph4cp2qdxC1m
- 33a+06ua0FmWxOtpLDF2O0s=
-X-Google-Smtp-Source: AA6agR6cRWICO54vSZgGpAPwvaSN9RmL/s5C2+d88Mii91kH7eiasggB9X8y43IaLKCbpglmrnn8Ug==
-X-Received: by 2002:a17:903:110e:b0:171:3afa:e68c with SMTP id
- n14-20020a170903110e00b001713afae68cmr22727487plh.12.1661896022643; 
- Tue, 30 Aug 2022 14:47:02 -0700 (PDT)
+ bh=RnlWIAApBjHbrNK6LPS8O4ZDdrrnwcinxb/f5ynDCp8=;
+ b=5WXlgtpC6Gq2qM4/a8XOh7B6k4MpfHtAJWFt8dQBaqtwZaCTpKHQsjnq+CudIzMVKE
+ IhSE8+6bL2a1xWfZywK0PkwnivR6DbEN87GQzCdpKv6ECfo8TMJnKWxn4Jr/EFUOptDs
+ j/L5DqDVUSVCo7ZhND71NSi6igeR+nnZCLV8ws30hqrqI23cfD9MbVTAb7DcP6pauxp1
+ TjIHSu3YNeXpkoeD5iUANvwDeaUTsuWZoNnLnReYgXwjg1TomzCT99ye0q38GaQ+tp5S
+ yI55nGegoG+2llwz4Svs+/nuwC8tYOpZkIWxe7i+IAeSrUYydRWyTHUWW+xdJHaaEH6G
+ Oy4Q==
+X-Gm-Message-State: ACgBeo2L++DcmfwG9SzRhm2p076+cKt/tXb9mc1FP3U9JGUWeL1FgTSX
+ KgID4+DWls8rVgXpS2+3R8c=
+X-Google-Smtp-Source: AA6agR6GllB7BK2lB1NO3D3iCT5v4olCecQ4K5n7YD38adc7ZEsdsNHq7uD1zhDDAlvV8pQsBMzB6g==
+X-Received: by 2002:a63:491f:0:b0:41d:89d5:b3e7 with SMTP id
+ w31-20020a63491f000000b0041d89d5b3e7mr19436147pga.18.1661896170073; 
+ Tue, 30 Aug 2022 14:49:30 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- y3-20020a17090322c300b0016c4f0065b4sm10454048plg.84.2022.08.30.14.47.00
+ u18-20020a170902e5d200b00172eb493487sm2770337plf.167.2022.08.30.14.49.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Aug 2022 14:47:02 -0700 (PDT)
-Message-ID: <113d22be-283c-ebe5-8db3-e622447c7bf5@amsat.org>
-Date: Tue, 30 Aug 2022 23:46:57 +0200
+ Tue, 30 Aug 2022 14:49:29 -0700 (PDT)
+Message-ID: <5d827b49-41a8-dacc-2752-c6c56efa7a31@amsat.org>
+Date: Tue, 30 Aug 2022 23:49:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH v2 10/10] hw/isa/vt82c686: Create rtc-time alias in boards
- instead
+Subject: Re: [PATCH v2 00/10] Instantiate VT82xx functions in host device
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, Huacai Chen <chenhuacai@kernel.org>,
  BALATON Zoltan <balaton@eik.bme.hu>, Jiaxun Yang <jiaxun.yang@flygoat.com>
 References: <20220830190048.67448-1-shentey@gmail.com>
- <20220830190048.67448-11-shentey@gmail.com>
-In-Reply-To: <20220830190048.67448-11-shentey@gmail.com>
+In-Reply-To: <20220830190048.67448-1-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x632.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,65 +95,19 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 30/8/22 21:00, Bernhard Beschow wrote:
-> According to good QOM practice, an object should only deal with objects
-> of its own sub tree. Having devices create an alias on the machine
-> object doesn't respect this good practice. To resolve this, create the
-> alias in the machine's code.
-
-IIUC, this is only true for Pegasos II, not (yet) for the Fuloong 2E.
-
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->   hw/isa/vt82c686.c   | 2 --
->   hw/mips/fuloong2e.c | 4 ++++
->   hw/ppc/pegasos2.c   | 4 ++++
->   3 files changed, 8 insertions(+), 2 deletions(-)
+> v2:
+> * Keep the call to pci_ide_create_devs() in board code for consistency (Zoltan)
+> * Create rtc-time alias in board rather than in south bridge code
+> * Remove stale comments about PCI functions
 > 
-> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-> index 0ef9446374..a23ffbb3ff 100644
-> --- a/hw/isa/vt82c686.c
-> +++ b/hw/isa/vt82c686.c
-> @@ -631,8 +631,6 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
->       if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
->           return;
->       }
-> -    object_property_add_alias(qdev_get_machine(), "rtc-time", OBJECT(&s->rtc),
-> -                              "date");
->       isa_connect_gpio_out(ISA_DEVICE(&s->rtc), 0, s->rtc.isairq);
->   
->       for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
-> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-> index 2d8723ab74..0f4cfe1188 100644
-> --- a/hw/mips/fuloong2e.c
-> +++ b/hw/mips/fuloong2e.c
-> @@ -203,6 +203,10 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
->   
->       via = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(slot, 0), true,
->                                             TYPE_VT82C686B_ISA);
-> +    object_property_add_alias(qdev_get_machine(), "rtc-time",
-> +                              object_resolve_path_component(OBJECT(via),
-> +                                                            "rtc"),
-> +                              "date");
->       qdev_connect_gpio_out(DEVICE(via), 0, intc);
->   
->       dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"));
-> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-> index 09fdb7557f..f50e1d8b3f 100644
-> --- a/hw/ppc/pegasos2.c
-> +++ b/hw/ppc/pegasos2.c
-> @@ -161,6 +161,10 @@ static void pegasos2_init(MachineState *machine)
->       /* VIA VT8231 South Bridge (multifunction PCI device) */
->       via = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0), true,
->                                             TYPE_VT8231_ISA);
-> +    object_property_add_alias(qdev_get_machine(), "rtc-time",
+> v1:
+> This series instantiates all PCI functions of the VT82xx south bridges in the south bridges themselves.
+> For the IDE function this is especially important since its interrupt routing is configured in the
+> ISA function, hence doesn't make sense to instantiate it as a "Frankenstein" device. The interrupt
+> routing is currently hardcoded and changing that is currently not in the scope of this series.
 
-We already have a 'machine' pointer.
+Excellent!
 
-> +                              object_resolve_path_component(OBJECT(via),
-> +                                                            "rtc"),
-> +                              "date");
->       qdev_connect_gpio_out(DEVICE(via), 0,
->                             qdev_get_gpio_in_named(pm->mv, "gpp", 31));
->   
-
+Series:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
