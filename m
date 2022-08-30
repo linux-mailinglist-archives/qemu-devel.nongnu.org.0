@@ -2,84 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9F9A5A6379
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 14:36:44 +0200 (CEST)
-Received: from localhost ([::1]:34700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1914C5A6383
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 14:37:30 +0200 (CEST)
+Received: from localhost ([::1]:34760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oT0Tz-0001Lt-R5
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 08:36:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58020)
+	id 1oT0Ui-00027X-SZ
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 08:37:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oT0N9-0003ym-BY; Tue, 30 Aug 2022 08:29:39 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:41730)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oT0Nt-0004Mt-8f
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 08:30:26 -0400
+Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133]:36641)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oT0N7-0002D9-8i; Tue, 30 Aug 2022 08:29:38 -0400
-Received: by mail-pg1-x536.google.com with SMTP id 202so10530567pgc.8;
- Tue, 30 Aug 2022 05:29:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oT0Nr-0002Vh-1G
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 08:30:24 -0400
+Received: by mail-lf1-x133.google.com with SMTP id p7so4173226lfu.3
+ for <qemu-devel@nongnu.org>; Tue, 30 Aug 2022 05:30:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc;
- bh=xnvS/CYfuTz1/ilpxt5qGgQ0++4Q2pQvCLjkghcnA6Q=;
- b=JI8Rkx6fcj1PkCxKlBnF3UNgcpWzSBbscXnBpsGtFo6q5xDLnw0raZ+fp4ZRXVhzRr
- Tg/VUy9bEljJ+Tqxlm4CBvBvJ0gaFdzCoRahgoscZm+u6ws+EWobpISq8k0CzEAe6vrj
- ROfvOiwbBB2XA9va79zJ/R4NzmUgUOuBfOwOV0uPiwPqmtYEN4Nk6Mvc251F6iCFQrFX
- qBx3ZEmKRoyM6pj2b3EDj0E8+Wt+CcFnUWJCtKzQVxtp67gAGPgx2P9PSkQex11pMHQk
- glxgdi1LRs1clTuIWc3NmUjgQpEtVg1h7oBzMd+RExPI6QuBSvBFt8DI3zszyPftzpG0
- +xbQ==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=tMKW6BoIEOPTRNwrv54nqam5eQtgF2zz/BUoSs/XhrI=;
+ b=A9xpgdyS/W39aJAXAdeJMKCXS3d7tLa8LEmAEVo5wjnH7m+SvnI1B68O49eSFZEYed
+ Id3qKJhto2oebHKn4Bni1amrIPeULjZkeZx/PPuaKNz8bROtBEZq00Ah0oqZB8rkISIB
+ J0qkMPr0YezX0WlsbJ+8sc8TiTBhNN6ONYYTxwtJvQ6cdNWtidqnEjXX7YbBEzkSjHhL
+ LqWekjylu9XIZouSWiY0lsEwgos1yfYmemhXtMyWvZE83WPNvcm9969tBjQpoAaoJp/u
+ TjgmRuN4wR5ox9FZF33mttPEKnE415kK8z1EjrrSBkxyB0zNRQBs96QBSH+C7Eq3M6G1
+ 2mPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc;
- bh=xnvS/CYfuTz1/ilpxt5qGgQ0++4Q2pQvCLjkghcnA6Q=;
- b=tVFrosVTH3Tb5G5m/yHRfio+sPMbzHcDlUhlBA55djk0Iv4jA9aeBQ//8vtIxfkqOH
- zyZDpefZ42pI67fNRypF22IfTepfJ7rrRIVVvTYdD120p9D3JYFdUPuvJyaWj4TMDoxW
- hA/mXlLTI7UDKRM9DxrKQWe3shjLgTgQl8PhRrxFknNHIw5miJy0BJxCW1/WCoy3YIkx
- 7SiYubPfq8TZ/Jw1EQontdaZRgsRVSjxYAc7eGt+9AGPGhmavQnH5WjvJvWfsJwhrC5K
- jRtVoKadeI5yMclNlfPbh59Q4VI8gDaZYTdFrgc/gTZN4rJD7l+0sg07T/mlgm9DQNIm
- P9nQ==
-X-Gm-Message-State: ACgBeo0dvzZubBTOAE57mW2iN8vaLKSXLRX56hYZQtZnphIh2c+hydan
- VFe7Cp+1zwSOxOmvOcm3VZ4=
-X-Google-Smtp-Source: AA6agR7rsuwbB3cVn5ZGkd8ZjUl7cSuuflDW3RXBWn4+gBpChUJTiJM8yfp31+qBr/N3wtjs/1UgCQ==
-X-Received: by 2002:a62:1d86:0:b0:52d:9df0:2151 with SMTP id
- d128-20020a621d86000000b0052d9df02151mr20836611pfd.33.1661862575591; 
- Tue, 30 Aug 2022 05:29:35 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- n18-20020a170902d2d200b00174dccaf31esm3932928plc.122.2022.08.30.05.29.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Aug 2022 05:29:35 -0700 (PDT)
-Message-ID: <315989e7-a295-fa73-c686-066a2090aca8@amsat.org>
-Date: Tue, 30 Aug 2022 14:29:30 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=tMKW6BoIEOPTRNwrv54nqam5eQtgF2zz/BUoSs/XhrI=;
+ b=L05CbMTM+7sR4tlNC/xJegBkwUs1FqYGyos+BO7ihPsOZo0FQIZn2W7j/yTWAI/upN
+ qKeot+fH93cGJ8RGv8nvqcWRE5ZQ84OR1nvkawcjz9e8twEy/ZGCpvfQaw49690pLjz3
+ LQ1xAVWrzG4i7lhm8hDvm742FaX68tK9A2jnrE5pMp4vJIqVBOoONeT2+VTxBii5cjrC
+ qgGtZ7yb5suamSP/lWHiQzgKWoIm/eNCa4oXrpZ88lrohQiat5XC2D4uejnDkdZ3Cov6
+ phjoG+zKN5IujawUftaDluygqml1lBTzfyveDaNWi1s7QXDFmBsqVNMDlW35z7QZk/fq
+ NDFw==
+X-Gm-Message-State: ACgBeo2DDBZ8JoxgEBWiwKLo1Bb7uWEJmBBOE6PSD6rnx+59aAhJqB4w
+ YIWlsg5ZpW6Hlxu5nPbpJQva5oFAbVamrjel3mo=
+X-Google-Smtp-Source: AA6agR5+XPafPSZbIPmYSzRR7FkYGLlnNEZktit8zuo+xCeNphPoP2NAmnxbLgvfqKSxiCGDipLAbFBuQE1wkOQVlmA=
+X-Received: by 2002:a05:6512:12d6:b0:492:cfab:ffae with SMTP id
+ p22-20020a05651212d600b00492cfabffaemr8119820lfg.329.1661862620953; Tue, 30
+ Aug 2022 05:30:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH 2/2] target/arm: Make boards pass base address to
- armv7m_load_kernel()
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Cc: Shiny Saana <shinysaana@gmail.com>,
- Alistair Francis <alistair@alistair23.me>
-References: <20220823160417.3858216-1-peter.maydell@linaro.org>
- <20220823160417.3858216-3-peter.maydell@linaro.org>
-In-Reply-To: <20220823160417.3858216-3-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x536.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
+ <20220824094029.1634519-41-bmeng.cn@gmail.com>
+ <CAMxuvawYwmo=-TicWwgn-JRB0u_9a04-Rx80TphOybNQ89Pf6Q@mail.gmail.com>
+ <CAEUhbmV28TJGxf9JCrN-D8rDA47vgMJ4nO0gSGBcKcyEqPxEUA@mail.gmail.com>
+ <CAJ+F1CKMcAfOAYbN3TXqjiiW-yqOYdoroN6BHp+PV+24-Ty7mg@mail.gmail.com>
+ <CAEUhbmXkZCWJ86wnLNMoxKzP5Qpi5HMtLSCki0-MrLyMEEM7gw@mail.gmail.com>
+In-Reply-To: <CAEUhbmXkZCWJ86wnLNMoxKzP5Qpi5HMtLSCki0-MrLyMEEM7gw@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 30 Aug 2022 16:30:09 +0400
+Message-ID: <CAJ+F1CJL0mTPhn5euhgDWsNSKh8y729TECoG9=R_Oc+Pyjo5Yg@mail.gmail.com>
+Subject: Re: [PATCH 40/51] chardev/char-file: Add FILE_SHARE_WRITE when
+ openning the file for win32
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, 
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000300a1a05e7748b7c"
+Received-SPF: pass client-ip=2a00:1450:4864:20::133;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x133.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,223 +89,197 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 23/8/22 18:04, Peter Maydell wrote:
-> Currently armv7m_load_kernel() takes the size of the block of memory
-> where it should load the initial guest image, but assumes that it
-> should always load it at address 0.  This happens to be true of all
-> our M-profile boards at the moment, but it isn't guaranteed to always
-> be so: M-profile CPUs can be configured (via init-svtor and
-> init-nsvtor, which match equivalent hardware configuration signals)
-> to have the initial vector table at any address, not just zero.  (For
-> instance the Teeny board has the boot ROM at address 0x0200_0000.)
-> 
-> Add a base address argument to armv7m_load_kernel(), so that
-> callers now pass in both base address and size. All the current
-> callers pass 0, so this is not a behaviour change.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+--000000000000300a1a05e7748b7c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Hi
 
-> ---
-> I thought about having armv7m_load_kernel() be "clever" and ask the
-> CPU what init-svtor/init-nsvtor were set to, but that seems like it
-> might have unanticipated consequences.  "Just pass the base address"
-> is simpler and is how A-profile does it (though for A-profile it's
-> the loader_start field in struct arm_boot_info rather than an
-> extra argument).
-> ---
->   include/hw/arm/boot.h     | 5 ++++-
->   hw/arm/armv7m.c           | 5 +++--
->   hw/arm/aspeed.c           | 1 +
->   hw/arm/microbit.c         | 2 +-
->   hw/arm/mps2-tz.c          | 2 +-
->   hw/arm/mps2.c             | 2 +-
->   hw/arm/msf2-som.c         | 2 +-
->   hw/arm/musca.c            | 3 ++-
->   hw/arm/netduino2.c        | 2 +-
->   hw/arm/netduinoplus2.c    | 2 +-
->   hw/arm/stellaris.c        | 2 +-
->   hw/arm/stm32vldiscovery.c | 2 +-
->   12 files changed, 18 insertions(+), 12 deletions(-)
-> 
-> diff --git a/include/hw/arm/boot.h b/include/hw/arm/boot.h
-> index c7ebae156ec..f18cc3064ff 100644
-> --- a/include/hw/arm/boot.h
-> +++ b/include/hw/arm/boot.h
-> @@ -25,13 +25,16 @@ typedef enum {
->    * armv7m_load_kernel:
->    * @cpu: CPU
->    * @kernel_filename: file to load
-> + * @mem_base: base address to load image at (should be where the
-> + *            CPU expects to find its vector table on reset)
->    * @mem_size: mem_size: maximum image size to load
->    *
->    * Load the guest image for an ARMv7M system. This must be called by
->    * any ARMv7M board. (This is necessary to ensure that the CPU resets
->    * correctly on system reset, as well as for kernel loading.)
->    */
-> -void armv7m_load_kernel(ARMCPU *cpu, const char *kernel_filename, int mem_size);
-> +void armv7m_load_kernel(ARMCPU *cpu, const char *kernel_filename,
-> +                        hwaddr mem_base, int mem_size);
->   
->   /* arm_boot.c */
->   struct arm_boot_info {
-> diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-> index fa4c2c735da..50a9507c0bd 100644
-> --- a/hw/arm/armv7m.c
-> +++ b/hw/arm/armv7m.c
-> @@ -568,7 +568,8 @@ static void armv7m_reset(void *opaque)
->       cpu_reset(CPU(cpu));
->   }
->   
-> -void armv7m_load_kernel(ARMCPU *cpu, const char *kernel_filename, int mem_size)
-> +void armv7m_load_kernel(ARMCPU *cpu, const char *kernel_filename,
-> +                        hwaddr mem_base, int mem_size)
->   {
->       ssize_t image_size;
->       uint64_t entry;
-> @@ -588,7 +589,7 @@ void armv7m_load_kernel(ARMCPU *cpu, const char *kernel_filename, int mem_size)
->                                    &entry, NULL, NULL,
->                                    NULL, 0, EM_ARM, 1, 0, as);
->           if (image_size < 0) {
-> -            image_size = load_image_targphys_as(kernel_filename, 0,
-> +            image_size = load_image_targphys_as(kernel_filename, mem_base,
->                                                   mem_size, as);
->           }
->           if (image_size < 0) {
-> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> index b3bbe06f8fa..bc3ecdb6199 100644
-> --- a/hw/arm/aspeed.c
-> +++ b/hw/arm/aspeed.c
-> @@ -1430,6 +1430,7 @@ static void aspeed_minibmc_machine_init(MachineState *machine)
->   
->       armv7m_load_kernel(ARM_CPU(first_cpu),
->                          machine->kernel_filename,
-> +                       0,
->                          AST1030_INTERNAL_FLASH_SIZE);
->   }
->   
-> diff --git a/hw/arm/microbit.c b/hw/arm/microbit.c
-> index e9494334ce7..50df3620882 100644
-> --- a/hw/arm/microbit.c
-> +++ b/hw/arm/microbit.c
-> @@ -57,7 +57,7 @@ static void microbit_init(MachineState *machine)
->                                           mr, -1);
->   
->       armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename,
-> -                       s->nrf51.flash_size);
-> +                       0, s->nrf51.flash_size);
->   }
->   
->   static void microbit_machine_class_init(ObjectClass *oc, void *data)
-> diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-> index 4017392bf5a..394192b9b20 100644
-> --- a/hw/arm/mps2-tz.c
-> +++ b/hw/arm/mps2-tz.c
-> @@ -1197,7 +1197,7 @@ static void mps2tz_common_init(MachineState *machine)
->       }
->   
->       armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename,
-> -                       boot_ram_size(mms));
-> +                       0, boot_ram_size(mms));
->   }
->   
->   static void mps2_tz_idau_check(IDAUInterface *ii, uint32_t address,
-> diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-> index bb76fa68890..a86a994dbac 100644
-> --- a/hw/arm/mps2.c
-> +++ b/hw/arm/mps2.c
-> @@ -450,7 +450,7 @@ static void mps2_common_init(MachineState *machine)
->                                     mmc->fpga_type == FPGA_AN511 ? 47 : 13));
->   
->       armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename,
-> -                       0x400000);
-> +                       0, 0x400000);
->   }
->   
->   static void mps2_class_init(ObjectClass *oc, void *data)
-> diff --git a/hw/arm/msf2-som.c b/hw/arm/msf2-som.c
-> index d9f881690e0..a6df473ec90 100644
-> --- a/hw/arm/msf2-som.c
-> +++ b/hw/arm/msf2-som.c
-> @@ -98,7 +98,7 @@ static void emcraft_sf2_s2s010_init(MachineState *machine)
->       sysbus_connect_irq(SYS_BUS_DEVICE(&soc->spi[0]), 1, cs_line);
->   
->       armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename,
-> -                       soc->envm_size);
-> +                       0, soc->envm_size);
->   }
->   
->   static void emcraft_sf2_machine_init(MachineClass *mc)
-> diff --git a/hw/arm/musca.c b/hw/arm/musca.c
-> index 7a83f7dda7d..6eeee57c9dd 100644
-> --- a/hw/arm/musca.c
-> +++ b/hw/arm/musca.c
-> @@ -597,7 +597,8 @@ static void musca_init(MachineState *machine)
->                                                        "cfg_sec_resp", 0));
->       }
->   
-> -    armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename, 0x2000000);
-> +    armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename,
-> +                       0, 0x2000000);
->   }
->   
->   static void musca_class_init(ObjectClass *oc, void *data)
-> diff --git a/hw/arm/netduino2.c b/hw/arm/netduino2.c
-> index 3365da11bf7..83753d53a3f 100644
-> --- a/hw/arm/netduino2.c
-> +++ b/hw/arm/netduino2.c
-> @@ -49,7 +49,7 @@ static void netduino2_init(MachineState *machine)
->       sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
->   
->       armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename,
-> -                       FLASH_SIZE);
-> +                       0, FLASH_SIZE);
->   }
->   
->   static void netduino2_machine_init(MachineClass *mc)
-> diff --git a/hw/arm/netduinoplus2.c b/hw/arm/netduinoplus2.c
-> index 76cea8e4891..515c0816054 100644
-> --- a/hw/arm/netduinoplus2.c
-> +++ b/hw/arm/netduinoplus2.c
-> @@ -50,7 +50,7 @@ static void netduinoplus2_init(MachineState *machine)
->   
->       armv7m_load_kernel(ARM_CPU(first_cpu),
->                          machine->kernel_filename,
-> -                       FLASH_SIZE);
-> +                       0, FLASH_SIZE);
->   }
->   
->   static void netduinoplus2_machine_init(MachineClass *mc)
-> diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-> index 12c673c9172..a9e96c37f89 100644
-> --- a/hw/arm/stellaris.c
-> +++ b/hw/arm/stellaris.c
-> @@ -1302,7 +1302,7 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
->       create_unimplemented_device("hibernation", 0x400fc000, 0x1000);
->       create_unimplemented_device("flash-control", 0x400fd000, 0x1000);
->   
-> -    armv7m_load_kernel(ARM_CPU(first_cpu), ms->kernel_filename, flash_size);
-> +    armv7m_load_kernel(ARM_CPU(first_cpu), ms->kernel_filename, 0, flash_size);
->   }
->   
->   /* FIXME: Figure out how to generate these from stellaris_boards.  */
-> diff --git a/hw/arm/stm32vldiscovery.c b/hw/arm/stm32vldiscovery.c
-> index 04036da3ee0..67675e952fc 100644
-> --- a/hw/arm/stm32vldiscovery.c
-> +++ b/hw/arm/stm32vldiscovery.c
-> @@ -53,7 +53,7 @@ static void stm32vldiscovery_init(MachineState *machine)
->   
->       armv7m_load_kernel(ARM_CPU(first_cpu),
->                          machine->kernel_filename,
-> -                       FLASH_SIZE);
-> +                       0, FLASH_SIZE);
->   }
->   
->   static void stm32vldiscovery_machine_init(MachineClass *mc)
+On Sun, Aug 28, 2022 at 3:19 AM Bin Meng <bmeng.cn@gmail.com> wrote:
 
+> On Fri, Aug 26, 2022 at 9:23 PM Marc-Andr=C3=A9 Lureau
+> <marcandre.lureau@gmail.com> wrote:
+> >
+> > Hi
+> >
+> > On Fri, Aug 26, 2022 at 5:16 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >>
+> >> On Thu, Aug 25, 2022 at 3:59 PM Marc-Andr=C3=A9 Lureau
+> >> <marcandre.lureau@redhat.com> wrote:
+> >> >
+> >> > Hi
+> >> >
+> >> > On Wed, Aug 24, 2022 at 1:43 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >> > >
+> >> > > From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> >> > >
+> >> > > The combination of GENERIC_WRITE and FILE_SHARE_READ options does
+> >> > > not allow the same file to be opened again by CreateFile() from
+> >> > > another QEMU process with the same options when the previous QEMU
+> >> > > process still holds the file handle openned.
+> >> >
+> >> > opened
+> >> >
+> >> > >
+> >> > > As per [1] we should add FILE_SHARE_WRITE to the share mode to all=
+ow
+> >> > > such use case. This change makes the behavior be consisten with th=
+e
+> >> > > POSIX platforms.
+> >> > >
+> >> >
+> >> > consistent
+> >> >
+> >> > > [1]
+> https://docs.microsoft.com/en-us/windows/win32/fileio/creating-and-openin=
+g-files
+> >> > >
+> >> > > Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> >> > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> >> > > ---
+> >> >
+> >> >
+> >> > What's the benefit to allow multiple processes write access to the
+> >> > same file? It seems it could easily lead to corruption or unexpected
+> >> > results.
+> >>
+> >> This was triggered by running the test_multifd_tcp_cancel() case on
+> >> windows, which cancels the migration, and launches another QEMU
+> >> process to migrate with the same file opened for write. Chances are
+> >> that the previous QEMU process does not quit before the new QEMU
+> >> process runs hence the new one still holds the file handle that does
+> >> not allow shared write permission then the new QEMU process will fail.
+> >>
+> >
+> > Thanks for the details, that's worth to add in commit message imho.
+>
+> Sure, I can add this in the commit message.
+>
+> >
+> > But can't we fix the test instead to use different paths?
+> >
+>
+> Yeah, the test case fix is here:
+>
+> https://lore.kernel.org/qemu-devel/20220824094029.1634519-42-bmeng.cn@gma=
+il.com/
+>
+> I think this patch is still needed as it makes the Windows char-file
+> behavior be consistent with the posix because there is no lock
+> mechanism in posix.
+>
+
+In this case, I would rather make posix consistent with the windows
+behaviour :)
+
+I am not sure how to proceed from there, but I would discard your windows
+patch for now.
+
+--000000000000300a1a05e7748b7c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Aug 28, 2022 at 3:19 AM Bin=
+ Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, A=
+ug 26, 2022 at 9:23 PM Marc-Andr=C3=A9 Lureau<br>
+&lt;<a href=3D"mailto:marcandre.lureau@gmail.com" target=3D"_blank">marcand=
+re.lureau@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Hi<br>
+&gt;<br>
+&gt; On Fri, Aug 26, 2022 at 5:16 PM Bin Meng &lt;<a href=3D"mailto:bmeng.c=
+n@gmail.com" target=3D"_blank">bmeng.cn@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; On Thu, Aug 25, 2022 at 3:59 PM Marc-Andr=C3=A9 Lureau<br>
+&gt;&gt; &lt;<a href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blan=
+k">marcandre.lureau@redhat.com</a>&gt; wrote:<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Hi<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; On Wed, Aug 24, 2022 at 1:43 PM Bin Meng &lt;<a href=3D"mailt=
+o:bmeng.cn@gmail.com" target=3D"_blank">bmeng.cn@gmail.com</a>&gt; wrote:<b=
+r>
+&gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; From: Xuzhou Cheng &lt;<a href=3D"mailto:xuzhou.cheng@wi=
+ndriver.com" target=3D"_blank">xuzhou.cheng@windriver.com</a>&gt;<br>
+&gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; The combination of GENERIC_WRITE and FILE_SHARE_READ opt=
+ions does<br>
+&gt;&gt; &gt; &gt; not allow the same file to be opened again by CreateFile=
+() from<br>
+&gt;&gt; &gt; &gt; another QEMU process with the same options when the prev=
+ious QEMU<br>
+&gt;&gt; &gt; &gt; process still holds the file handle openned.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; opened<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; As per [1] we should add FILE_SHARE_WRITE to the share m=
+ode to allow<br>
+&gt;&gt; &gt; &gt; such use case. This change makes the behavior be consist=
+en with the<br>
+&gt;&gt; &gt; &gt; POSIX platforms.<br>
+&gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; consistent<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; &gt; [1] <a href=3D"https://docs.microsoft.com/en-us/windows/=
+win32/fileio/creating-and-opening-files" rel=3D"noreferrer" target=3D"_blan=
+k">https://docs.microsoft.com/en-us/windows/win32/fileio/creating-and-openi=
+ng-files</a><br>
+&gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt; &gt; Signed-off-by: Xuzhou Cheng &lt;<a href=3D"mailto:xuzhou=
+.cheng@windriver.com" target=3D"_blank">xuzhou.cheng@windriver.com</a>&gt;<=
+br>
+&gt;&gt; &gt; &gt; Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@w=
+indriver.com" target=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
+&gt;&gt; &gt; &gt; ---<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; What&#39;s the benefit to allow multiple processes write acce=
+ss to the<br>
+&gt;&gt; &gt; same file? It seems it could easily lead to corruption or une=
+xpected<br>
+&gt;&gt; &gt; results.<br>
+&gt;&gt;<br>
+&gt;&gt; This was triggered by running the test_multifd_tcp_cancel() case o=
+n<br>
+&gt;&gt; windows, which cancels the migration, and launches another QEMU<br=
+>
+&gt;&gt; process to migrate with the same file opened for write. Chances ar=
+e<br>
+&gt;&gt; that the previous QEMU process does not quit before the new QEMU<b=
+r>
+&gt;&gt; process runs hence the new one still holds the file handle that do=
+es<br>
+&gt;&gt; not allow shared write permission then the new QEMU process will f=
+ail.<br>
+&gt;&gt;<br>
+&gt;<br>
+&gt; Thanks for the details, that&#39;s worth to add in commit message imho=
+.<br>
+<br>
+Sure, I can add this in the commit message.<br>
+<br>
+&gt;<br>
+&gt; But can&#39;t we fix the test instead to use different paths?<br>
+&gt;<br>
+<br>
+Yeah, the test case fix is here:<br>
+<a href=3D"https://lore.kernel.org/qemu-devel/20220824094029.1634519-42-bme=
+ng.cn@gmail.com/" rel=3D"noreferrer" target=3D"_blank">https://lore.kernel.=
+org/qemu-devel/20220824094029.1634519-42-bmeng.cn@gmail.com/</a><br>
+<br>
+I think this patch is still needed as it makes the Windows char-file<br>
+behavior be consistent with the posix because there is no lock<br>
+mechanism in posix.<br></blockquote><div><br></div><div>In this case, I wou=
+ld rather make posix consistent with the windows behaviour :)</div><div><br=
+></div><div>I am not sure how to proceed from there, but I would discard yo=
+ur windows patch for now.<br></div><br></div></div>
+
+--000000000000300a1a05e7748b7c--
 
