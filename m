@@ -2,92 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F06885A6DCF
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 21:51:16 +0200 (CEST)
-Received: from localhost ([::1]:33766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A1935A6DC4
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 21:49:56 +0200 (CEST)
+Received: from localhost ([::1]:47108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oT7GW-00080u-2R
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 15:51:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34598)
+	id 1oT7FD-00079G-1p
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 15:49:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oT6YT-0006Or-RT; Tue, 30 Aug 2022 15:05:45 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:37674)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oT6YR-0000ry-NS; Tue, 30 Aug 2022 15:05:45 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- r204-20020a1c44d5000000b003a84b160addso2387888wma.2; 
- Tue, 30 Aug 2022 12:05:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc;
- bh=BtsDtktfYFvzQJnvXsb46XWjQy4Jtv98mS+JYC3iS5o=;
- b=lbZD1WwMhQHcFLrsKn/MrSNLC+SxcHia8AUhTXM1G39yQUsc4RDglLHRnM0LzDSgva
- wwwlROO/C8IZgtQUgbFcTPgT7RgFoWaP59m8leBYRZ4MSTWAPR/Kase2hyQ9kad1lxOC
- b+yPILzUaueeVXszrXwNpCm2xCXnN5ryIlew2iiNpU3zxaayDnq1ZSHM5sFm/P9O+eK/
- dncL6wcy36BLKZwuOlpgDcOSS8YlMDf2ts0sWcSc2CyPX+wqFqKKoVEezzLmp3WDk6hM
- oxq4VCjACHmz6ZPvYeGRJleopFKeZGgpVuhpnbby5Q9cjeFMgdF906hi4OC8Bpq+HQ5Q
- +gkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc;
- bh=BtsDtktfYFvzQJnvXsb46XWjQy4Jtv98mS+JYC3iS5o=;
- b=yaxZl3l01uYIHpKSlqGYixcGzcX1hB9tgzTqLIrn80FA33C23pFU3/R5Xqu06mFY4e
- fHeLUFo2BeanjtiC33GDSPzjHdYqQLLpGR784QAW78vIjQAMuhFczYnlD/PvwGPG5nBc
- efxFOEu6VktvFzLaM6tyP3umF4y//UbqG6NxX8g9F1qSRE0rYl+hkvx0lXppQptnUtco
- 4cUZDWFVw93uPvkMy09ZEFGgfZ9b5lvKROY0qt/3OM3nl4H/NZ4rjUFLY1EtiAYJ1t/G
- 0cE3iqiYQwGG2peeTPXlEjThJZWuaSKI0speOc/eH12jFQAtGloKP8ouFANmA90XTRHh
- bI6A==
-X-Gm-Message-State: ACgBeo0TDR4Ox/+x8fL53COSiU2QRFiwN5HzDmkamC19WFaMrCwvw6NL
- lcZkf83ksQv4jXk+pUdWE04=
-X-Google-Smtp-Source: AA6agR5sLs5rgWzfCwHN0NbaALd5DXKks6i128+f+/E8Lh0Eo9LaOErpkgy92sl0zsoYtPxXkR3riA==
-X-Received: by 2002:a05:600c:3488:b0:3a8:52f7:b869 with SMTP id
- a8-20020a05600c348800b003a852f7b869mr2265080wmq.36.1661886341831; 
- Tue, 30 Aug 2022 12:05:41 -0700 (PDT)
-Received: from ?IPv6:::1?
- (p200300faaf0bb2005049a168885e8d4b.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:5049:a168:885e:8d4b])
- by smtp.gmail.com with ESMTPSA id
- b15-20020a056000054f00b00226e173b61esm2991136wrf.111.2022.08.30.12.05.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Aug 2022 12:05:41 -0700 (PDT)
-Date: Tue, 30 Aug 2022 21:05:27 +0200
-From: BB <shentey@gmail.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-CC: QEMU Developers <qemu-devel@nongnu.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Huacai Chen <chenhuacai@kernel.org>,
- "open list:sam460ex" <qemu-ppc@nongnu.org>
-Subject: Re: [PATCH 4/9] hw/isa/vt82c686: QOM'ify via-ide creation
-User-Agent: K-9 Mail for Android
-In-Reply-To: <1178BE31-FB26-408D-AB88-253DBC9F128D@gmail.com>
-References: <20220822224355.11753-1-shentey@gmail.com>
- <20220822224355.11753-5-shentey@gmail.com>
- <14e283f-7bbd-dd70-5458-af897cd7ff4a@eik.bme.hu>
- <CAG4p6K51DvVFndv+ZuokigksdqjaegkRRnt1ZaOOQqJxp9xGEw@mail.gmail.com>
- <3ae09c8f-36c0-3874-db91-776f175a649c@eik.bme.hu>
- <BF0B3207-F80F-4653-BC43-D0735C16B4DB@gmail.com>
- <6c69a78-f461-1b78-9e8d-2d1c11475a3@eik.bme.hu>
- <1178BE31-FB26-408D-AB88-253DBC9F128D@gmail.com>
-Message-ID: <7B5369A6-DB67-40D3-A98C-D73DE381E1E8@gmail.com>
+ (Exim 4.90_1) (envelope-from <lk@c--e.de>)
+ id 1oT7BP-0002ye-QM; Tue, 30 Aug 2022 15:46:00 -0400
+Received: from cae.in-ulm.de ([217.10.14.231]:58988)
+ by eggs.gnu.org with esmtp (Exim 4.90_1) (envelope-from <lk@c--e.de>)
+ id 1oT7BK-0007SU-NV; Tue, 30 Aug 2022 15:45:59 -0400
+Received: by cae.in-ulm.de (Postfix, from userid 1000)
+ id AF27A140306; Tue, 30 Aug 2022 21:45:37 +0200 (CEST)
+Date: Tue, 30 Aug 2022 21:45:37 +0200
+From: "Christian A. Ehrhardt" <lk@c--e.de>
+To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+Cc: Laszlo Ersek <lersek@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ Linuxarm <linuxarm@huawei.com>,
+ "chenxiang (M)" <chenxiang66@hisilicon.com>,
+ "Ard Biesheuvel (kernel.org address)" <ardb@kernel.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH] fw_cfg: Don't set callback_opaque NULL in
+ fw_cfg_modify_bytes_read()
+Message-ID: <Yw5o4U/Vqdb+pp9E@cae.in-ulm.de>
+References: <20220825161842.841-1-shameerali.kolothum.thodi@huawei.com>
+ <43c62060-7a5d-25cf-91a3-1c391d3a58f9@redhat.com>
+ <ab43b53b-546a-4056-0e91-31691f716109@redhat.com>
+ <ab49a753129e48bd96cb44d876ddf1cf@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=shentey@gmail.com; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ab49a753129e48bd96cb44d876ddf1cf@huawei.com>
+Received-SPF: none client-ip=217.10.14.231; envelope-from=lk@c--e.de;
+ helo=cae.in-ulm.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,206 +65,169 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+Hi,
 
-Am 29=2E August 2022 20:12:21 MESZ schrieb BB <shentey@gmail=2Ecom>:
->
->
->Am 29=2E August 2022 19:04:06 MESZ schrieb BALATON Zoltan <balaton@eik=2E=
-bme=2Ehu>:
->>On Mon, 29 Aug 2022, BB wrote:
->>> Am 25=2E August 2022 01:18:56 MESZ schrieb BALATON Zoltan <balaton@eik=
-=2Ebme=2Ehu>:
->>>> On Thu, 25 Aug 2022, Bernhard Beschow wrote:
->>>>> On Wed, Aug 24, 2022 at 3:54 PM BALATON Zoltan <balaton@eik=2Ebme=2E=
-hu> wrote:
->>>>>> On Tue, 23 Aug 2022, Bernhard Beschow wrote:
->>>>>>> The IDE function is closely tied to the ISA function (e=2Eg=2E the=
- IDE
->>>>>>> interrupt routing happens there), so it makes sense that the IDE
->>>>>>> function is instantiated within the southbridge itself=2E As a sid=
-e effect,
->>>>>>> duplicated code in the boards is resolved=2E
->>>>>>>=20
->>>>>>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->>>>>>> ---
->>>>>>> configs/devices/mips64el-softmmu/default=2Emak |  1 -
->>>>>>> hw/isa/Kconfig                               |  1 +
->>>>>>> hw/isa/vt82c686=2Ec                            | 18 ++++++++++++++=
-++++
->>>>>>> hw/mips/fuloong2e=2Ec                          |  3 ---
->>>>>>> hw/ppc/Kconfig                               |  1 -
->>>>>>> hw/ppc/pegasos2=2Ec                            |  4 ----
->>>>>>> 6 files changed, 19 insertions(+), 9 deletions(-)
->>>>>>>=20
->>>>>>> diff --git a/configs/devices/mips64el-softmmu/default=2Emak
->>>>>> b/configs/devices/mips64el-softmmu/default=2Emak
->>>>>>> index c610749ac1=2E=2Ed5188f7ea5 100644
->>>>>>> --- a/configs/devices/mips64el-softmmu/default=2Emak
->>>>>>> +++ b/configs/devices/mips64el-softmmu/default=2Emak
->>>>>>> @@ -1,7 +1,6 @@
->>>>>>> # Default configuration for mips64el-softmmu
->>>>>>>=20
->>>>>>> include =2E=2E/mips-softmmu/common=2Emak
->>>>>>> -CONFIG_IDE_VIA=3Dy
->>>>>>> CONFIG_FULOONG=3Dy
->>>>>>> CONFIG_LOONGSON3V=3Dy
->>>>>>> CONFIG_ATI_VGA=3Dy
->>>>>>> diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
->>>>>>> index d42143a991=2E=2E20de7e9294 100644
->>>>>>> --- a/hw/isa/Kconfig
->>>>>>> +++ b/hw/isa/Kconfig
->>>>>>> @@ -53,6 +53,7 @@ config VT82C686
->>>>>>>     select I8254
->>>>>>>     select I8257
->>>>>>>     select I8259
->>>>>>> +    select IDE_VIA
->>>>>>>     select MC146818RTC
->>>>>>>     select PARALLEL
->>>>>>>=20
->>>>>>> diff --git a/hw/isa/vt82c686=2Ec b/hw/isa/vt82c686=2Ec
->>>>>>> index 5582c0b179=2E=2E37d9ed635d 100644
->>>>>>> --- a/hw/isa/vt82c686=2Ec
->>>>>>> +++ b/hw/isa/vt82c686=2Ec
->>>>>>> @@ -17,6 +17,7 @@
->>>>>>> #include "hw/isa/vt82c686=2Eh"
->>>>>>> #include "hw/pci/pci=2Eh"
->>>>>>> #include "hw/qdev-properties=2Eh"
->>>>>>> +#include "hw/ide/pci=2Eh"
->>>>>>> #include "hw/isa/isa=2Eh"
->>>>>>> #include "hw/isa/superio=2Eh"
->>>>>>> #include "hw/intc/i8259=2Eh"
->>>>>>> @@ -544,6 +545,7 @@ struct ViaISAState {
->>>>>>>     qemu_irq cpu_intr;
->>>>>>>     qemu_irq *isa_irqs;
->>>>>>>     ViaSuperIOState via_sio;
->>>>>>> +    PCIIDEState ide;
->>>>>>> };
->>>>>>>=20
->>>>>>> static const VMStateDescription vmstate_via =3D {
->>>>>>> @@ -556,10 +558,18 @@ static const VMStateDescription vmstate_via =
-=3D {
->>>>>>>     }
->>>>>>> };
->>>>>>>=20
->>>>>>> +static void via_isa_init(Object *obj)
->>>>>>> +{
->>>>>>> +    ViaISAState *s =3D VIA_ISA(obj);
->>>>>>> +
->>>>>>> +    object_initialize_child(obj, "ide", &s->ide, "via-ide");
->>>>>>> +}
->>>>>>> +
->>>>>>> static const TypeInfo via_isa_info =3D {
->>>>>>>     =2Ename          =3D TYPE_VIA_ISA,
->>>>>>>     =2Eparent        =3D TYPE_PCI_DEVICE,
->>>>>>>     =2Einstance_size =3D sizeof(ViaISAState),
->>>>>>> +    =2Einstance_init =3D via_isa_init,
->>>>>>>     =2Eabstract      =3D true,
->>>>>>>     =2Einterfaces    =3D (InterfaceInfo[]) {
->>>>>>>         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
->>>>>>> @@ -583,6 +593,7 @@ static void via_isa_realize(PCIDevice *d, Erro=
-r
->>>>>> **errp)
->>>>>>> {
->>>>>>>     ViaISAState *s =3D VIA_ISA(d);
->>>>>>>     DeviceState *dev =3D DEVICE(d);
->>>>>>> +    PCIBus *pci_bus =3D pci_get_bus(d);
->>>>>>>     qemu_irq *isa_irq;
->>>>>>>     ISABus *isa_bus;
->>>>>>>     int i;
->>>>>>> @@ -607,6 +618,13 @@ static void via_isa_realize(PCIDevice *d, Err=
-or
->>>>>> **errp)
->>>>>>>     if (!qdev_realize(DEVICE(&s->via_sio), BUS(isa_bus), errp)) {
->>>>>>>         return;
->>>>>>>     }
->>>>>>> +
->>>>>>> +    /* Function 1: IDE */
->>>>>>> +    qdev_prop_set_int32(DEVICE(&s->ide), "addr", d->devfn + 1);
->>>>>>> +    if (!qdev_realize(DEVICE(&s->ide), BUS(pci_bus), errp)) {
->>>>>>> +        return;
->>>>>>> +    }
->>>>>>> +    pci_ide_create_devs(PCI_DEVICE(&s->ide));
->>>>>>=20
->>>>>> I'm not sure about moving pci_ide_create_devs() here=2E This is usa=
-lly
->>>>>> called from board code and only piix4 seems to do this=2E Maybe tha=
-t's wrong
->>>>>> because if all IDE devices did this then one machine could not have=
- more
->>>>>> than one different ide devices (like having an on-board ide and add=
-ing a
->>>>>> pci ide controoler with -device) so this probably belongs to the bo=
-ard
->>>>>> code to add devices to its default ide controller only as this is m=
-achine
->>>>>> specific=2E Unless I'm wrong in which case somebody will correct me=
-=2E
->>>>>>=20
->>>>>=20
->>>>> Grepping the code it can be seen that it's always called right after
->>>>> creating the IDE controllers=2E The only notable exception is the "s=
-ii3112"
->>>>> device in the sam460ex board which is not emulated yet=2E Since the =
-IDE
->>>>=20
->>>> The problem with sii3112 is that it only has 2 channels becuase I did=
- not bother to implement more so pci_ide_create_devs() probably would not w=
-ork as it assumes 4 channels=2E AFAIK this means that the short -hda, -cdro=
-m, etc=2E convenience options don't work with sam460ex but yhou have to use=
- the long way of creating ide-hd and ide-cd devices on the command line=2E =
-I think there's a version of this controller with 4 channels, maybe called =
-sii3114 or similar and it would be easy to enhance the current model for th=
-at but I haven't done that=2E What's not emulated on sam460ex is the on-boa=
-rd SATA ports of the SoC because it's too complex and all guest OSes have s=
-ii31xx drivers so it was simpler to implement that instead=2E The network p=
-ort is the same as we already have working PCI network cards so I did not t=
-ry to implement the 460EX network ports=2E
->>>>=20
->>>>> controllers are often created in board code this means
->>>>> pci_ide_create_devs() is called there as well=2E
->>>>>=20
->>>>> Grouping these calls together does make sense since it keeps the log=
-ic
->>>>> together=2E Otherwise it could happen all too easily that code becom=
-es
->>>>> inconsistent such that pci_ide_create_devs() could be called without=
- an IDE
->>>>> controller actually being available=2E Right?
->>>>=20
->>>> I don't know for sure but I think you cannot assign the devices to mo=
-re than one controller and if this was called by every ide model then addin=
-g two of such ide controllers would call pci_ide_create_devs() twice which =
-I don't think is correct and may cause problems=2E
->>>=20
->>> This sounds reasonable=2E
->>>=20
->>>> So I think it belongs to the board code even if the ide controller is=
- created within another device instantiated by the board so it's only calle=
-d by once=2E
->>>=20
->>> pci_ide_create_devs() isn't called by the VIA IDE controller=2E Instea=
-d, it gets called by the VIA south bridges, of which there should only be o=
-ne per board=2E Do you still see a risk of pci_ide_create_devs() being call=
-ed multiple times? If so, I'd need to change the piix4 south bridge as well=
- for consistency=2E
->>
->>Since the vt8231 is user_creatable =3D false there's probably no way to =
-add a second one accidentally so in this case there's no direct risk=2E Yet=
- for consistency I'd keep the call to pci_ide_create_devs() in board code a=
-s done by all other machines just to avoid any misunderstanding and keep it=
- consistent accross the board(s) :-)
->
->:-)
->
->I'll add a patch for Malta/Piix4 to the series then=2E
+Shameer: Thanks for bringing this to my attention.
 
-I'll actually add this patch to my piix consolidation series=2E Otherwise =
-this patch would interfere with it=2E
+Some comments inline.
 
->
->Best regards,
->Bernhard
->>
->>Regards,
->>BALATON Zoltan
+On Tue, Aug 30, 2022 at 06:43:56AM +0000, Shameerali Kolothum Thodi wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: Shameerali Kolothum Thodi
+> > Sent: 26 August 2022 13:15
+> > To: 'Laszlo Ersek' <lersek@redhat.com>; qemu-devel@nongnu.org;
+> > qemu-arm@nongnu.org
+> > Cc: imammedo@redhat.com; peter.maydell@linaro.org; Linuxarm
+> > <linuxarm@huawei.com>; chenxiang (M) <chenxiang66@hisilicon.com>; Ard
+> > Biesheuvel (kernel.org address) <ardb@kernel.org>; Gerd Hoffmann
+> > <kraxel@redhat.com>
+> > Subject: RE: [PATCH] fw_cfg: Don't set callback_opaque NULL in
+> > fw_cfg_modify_bytes_read()
+> > 
+> > 
+> > 
+> > > -----Original Message-----
+> > > From: Laszlo Ersek [mailto:lersek@redhat.com]
+> > > Sent: 26 August 2022 13:07
+> > > To: Shameerali Kolothum Thodi
+> > <shameerali.kolothum.thodi@huawei.com>;
+> > > qemu-devel@nongnu.org; qemu-arm@nongnu.org
+> > > Cc: imammedo@redhat.com; peter.maydell@linaro.org; Linuxarm
+> > > <linuxarm@huawei.com>; chenxiang (M) <chenxiang66@hisilicon.com>;
+> > Ard
+> > > Biesheuvel (kernel.org address) <ardb@kernel.org>; Gerd Hoffmann
+> > > <kraxel@redhat.com>
+> > > Subject: Re: [PATCH] fw_cfg: Don't set callback_opaque NULL in
+> > > fw_cfg_modify_bytes_read()
+> > >
+> > > +Ard +Gerd, one pointer at the bottom
+> > >
+> > > On 08/26/22 13:59, Laszlo Ersek wrote:
+> > > > On 08/25/22 18:18, Shameer Kolothum wrote:
+> > > >> Hi
+> > > >>
+> > > >> On arm/virt platform, Chen Xiang reported a Guest crash while
+> > > >> attempting the below steps,
+> > > >>
+> > > >> 1. Launch the Guest with nvdimm=on
+> > > >> 2. Hot-add a NVDIMM dev
+> > > >> 3. Reboot
+> > > >> 4. Guest boots fine.
+> > > >> 5. Reboot again.
+> > > >> 6. Guest boot fails.
+> > > >>
+> > > >> QEMU_EFI reports the below error:
+> > > >> ProcessCmdAddPointer: invalid pointer value in "etc/acpi/tables"
+> > > >> OnRootBridgesConnected: InstallAcpiTables: Protocol Error
+> > > >>
+> > > >> Debugging shows that on first reboot(after hot-adding NVDIMM),
+> > > >> Qemu updates the etc/table-loader len,
+> > > >>
+> > > >> qemu_ram_resize()
+> > > >>   fw_cfg_modify_file()
+> > > >>      fw_cfg_modify_bytes_read()
+> > > >>
+> > > >> And in fw_cfg_modify_bytes_read() we set the "callback_opaque" for
+> > > >> the "key" entry to NULL. Because of this, on the second reboot,
+> > > >> virt_acpi_build_update() is called with a NULL "build_state" and
+> > > >> returns without updating the ACPI tables. This seems to be
+> > > >> upsetting the firmware.
+> > > >>
+> > > >> To fix this, don't change the callback_opaque in
+> > > fw_cfg_modify_bytes_read().
+> > > >>
+> > > >> Reported-by: chenxiang <chenxiang66@hisilicon.com>
+> > > >> Signed-off-by: Shameer Kolothum
+> > > <shameerali.kolothum.thodi@huawei.com>
+> > > >> ---
+> > > >> I am still not very convinced this is the root cause of the issue.
+> > > >> Though it looks like setting callback_opaque to NULL while updating
+> > > >> the file size is wrong, what puzzles me is that on the second reboot
+> > > >> we don't have any ACPI table size changes and ideally firmware should
+> > > >> see the updated tables from the first reboot itself.
+> > > >>
+> > > >> Please take a look and let me know.
+> > > >>
+> > > >> Thanks,
+> > > >> Shameer
+> > > >>
+> > > >> ---
+> > > >>  hw/nvram/fw_cfg.c | 1 -
+> > > >>  1 file changed, 1 deletion(-)
+> > > >>
+> > > >> diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+> > > >> index d605f3f45a..dfe8404c01 100644
+> > > >> --- a/hw/nvram/fw_cfg.c
+> > > >> +++ b/hw/nvram/fw_cfg.c
+> > > >> @@ -728,7 +728,6 @@ static void
+> > > *fw_cfg_modify_bytes_read(FWCfgState *s, uint16_t key,
+> > > >>      ptr = s->entries[arch][key].data;
+> > > >>      s->entries[arch][key].data = data;
+> > > >>      s->entries[arch][key].len = len;
+> > > >> -    s->entries[arch][key].callback_opaque = NULL;
+> > > >>      s->entries[arch][key].allow_write = false;
+> > > >>
+> > > >>      return ptr;
+> > > >>
+
+
+The code as it stands clears callback_opaque (the data pointer
+of the callbacks) while leaving the actual callbacks in place.
+I think it is obvious that this cannot be correct.
+
+IMHO the change to allow_write is wrong for similar reasons but
+I don't think that this matters in practice.
+
+If this path is hit for the table-loader file the ACPI tables in the
+guest will be corrupt.
+
+
+> > > > I vaguely recall seeing the same issue report years ago (also in
+> > > > relation to hot-adding NVDIMM). However, I have no capacity to
+> > > > participate in the discussion. Making this remark just for clarity.
+> > >
+> > > The earlier report I've had in mind was from Shameer as well:
+> > >
+> > >
+> > http://mid.mail-archive.com/5FC3163CFD30C246ABAA99954A238FA83F3F
+> > > B328@lhreml524-mbs.china.huawei.com
+> > 
+> > Right. That was a slightly different issue though. It was basically ACPI table
+> > size not
+> > getting updated on the first reboot of Guest after we hot-add NVDIMM dev.
+> > The error
+> > from firmware was different in that case,
+> > 
+> > ProcessCmdAddChecksum: invalid checksum range in "etc/acpi/tables"
+> > OnRootBridgesConnected: InstallAcpiTables: Protocol Error
+> > 
+> > And it was fixed with this series here,
+> > https://patchwork.kernel.org/project/qemu-devel/cover/20200403101827.3
+> > 0664-1-shameerali.kolothum.thodi@huawei.com/
+> > 
+> > The current issue only happens on the second reboot of the Guest as
+> > described in
+> > the steps above.
+> > 
+> 
+> [+Christian]
+> 
+> I just found that a similar issue was reported here sometime back on Q35/Windows
+> setup,
+> https://patchew.org/QEMU/YldFMTbFLUcdFIfa@cae.in-ulm.de/
+> 
+> But there are no further discussions on that thread.
+
+I convinced myself that this cannot happen upstream as the number of
+entries in the table-loader is always small. However, it does happen
+for us and the suggested patch fixes the issue for us.
+
+Given that Shameer independantly came to the same conclusion
+the patch should by considered for inclusion.
+
+    thanks   Christian
+
+
 
