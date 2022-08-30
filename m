@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB1A55A678F
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 17:42:49 +0200 (CEST)
-Received: from localhost ([::1]:40290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28FDD5A67BE
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 17:55:03 +0200 (CEST)
+Received: from localhost ([::1]:42990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oT3Nz-0006ra-5t
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 11:42:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54906)
+	id 1oT3Zt-0008Ii-O0
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 11:55:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oT3Da-0008De-Sj
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 11:32:01 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:34546)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oT3W8-000410-V1; Tue, 30 Aug 2022 11:51:09 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:33724)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oT3DV-0001IS-MP
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 11:31:58 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- p8-20020a17090ad30800b001fdfc8c7567so1535053pju.1
- for <qemu-devel@nongnu.org>; Tue, 30 Aug 2022 08:31:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=LGjbXhLsmvHrubO4TKvzcY8jbthiOjwwqeeXvBZOSlg=;
- b=QibcUH4vWwCVciOKkxL+Xei5NokNpekU3v7BY8vegPupOE03wF/wqlyxvUgDvWU+06
- a+fFEGyC7hEiFVr/UO/Acrq2goFcjyQdKSg5NQrSRCBrNuyrTYkKNY4oq4Bxc2T9LJyy
- e332hjQSMIqP2yx6QjA2aTezwI4V+mOslsQxvpy4Ew5QWPrGpe3rE5za5AgkO8CH0kO3
- 1NwmqaERK+sCr8GrFmMnuBHEfr8+rFZefVORXVlU2+NJHlzsbcorLTfn4/DoLQdfFPHT
- vmF19Ych7SlxaqM5TGG1E4h7xpbOuPkJI9vZm/nApCo9ZLLDjDxFCBLa5iYf+ae1aXqD
- G/JA==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oT3W1-0005Z2-CC; Tue, 30 Aug 2022 11:51:08 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id y29so7684256pfq.0;
+ Tue, 30 Aug 2022 08:50:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc;
+ bh=xe5d1mSk0lqNreQ0cpgaPtMY0JUytZvbiYEPDSHq6LM=;
+ b=eUhg4ZBliQgFrD+OJWIqv/ThyAObeQWtZX5t9nhn/jUpdxat4dICjVmNSEwOC9EEdr
+ /AhaEEAifFo/hW2rsr6H49sZxP+W0fWT81oJtGA1XSkungPQyauwDHt3SsQzUu1BPkQ7
+ 5tpSPCydUQmFNGn3JJ/ZHWBO50CIG8xkCA5exigJw0ZDzoIzHSLf7D10hsBs/gXbgfu7
+ fvxdycfgMAwZOBX9m8W60C92ul7m45SMhc3/5xlNCP8TOxj32jTCTzqaSzTn7FAb25eV
+ 4y/DfyKU1UfFyvtnxh7GsR3dqvGxgqL0kbJ+FYV6QWp0eB2QF8eA5yFVBlN/LrJLUM6G
+ 9ozQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=LGjbXhLsmvHrubO4TKvzcY8jbthiOjwwqeeXvBZOSlg=;
- b=qjW8ZyuIBiz23/FgrQu0Ey6V1bBa/VkfvqYwpqm+gH92Jzq/RdoHdjwiox0STBYO3Z
- gfBUuogogiPkkXWyh4f91zz0GwS14Epj0pZJ2gU+o1juADaOG58oq7XDgHJeADpRPm/T
- AOrpeuNdq/elnTr3by8viP9/y0oLVVrg+JVQypuXhpyLug+FONWfQhb9FByOAURnNjP4
- 4e7tqxSmkTuVNVUySJ4/jMOYUSNkYjp212cRpGq1vkGXVU41Qqt3ht2u5dvfbfLaIjyq
- MD3C5FMaoBfE+LZOLnkTUdfwDB95e7WFP7rMByb6xPy+fh367WThI+TyrriBDDqlHrNj
- 9lBg==
-X-Gm-Message-State: ACgBeo0Nuf9+993GR0+H502829b25+TzbtI2OtwILJSuuJciC68e4YjU
- pSNPjxHZph9f2Uq7qFerX9E+Vw==
-X-Google-Smtp-Source: AA6agR4x7oajzHcwNTSVpQpLnMEPSN97cuX0aGgm5y7dz7qSWtqTgoBa0/LXZwKL6F5Kmi5TV+U59Q==
-X-Received: by 2002:a17:90b:388e:b0:1fb:62c1:9cb7 with SMTP id
- mu14-20020a17090b388e00b001fb62c19cb7mr23376373pjb.207.1661873511126; 
- Tue, 30 Aug 2022 08:31:51 -0700 (PDT)
-Received: from [192.168.0.4] ([71.212.157.236])
- by smtp.gmail.com with ESMTPSA id
- n12-20020a170902d2cc00b001750b31faabsm2426001plc.262.2022.08.30.08.31.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Aug 2022 08:31:50 -0700 (PDT)
-Message-ID: <56952aa9-823b-252b-33c3-7a7c5b31d2fc@linaro.org>
-Date: Tue, 30 Aug 2022 08:31:48 -0700
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=xe5d1mSk0lqNreQ0cpgaPtMY0JUytZvbiYEPDSHq6LM=;
+ b=vlNI/9kv79g+ndBCIn9gHL8d+T0B9+nL9Dn2Ob4Yd8/EK43wug1iR6hF554F4jrbqw
+ c3NQsyrPeHPzeMPhBSMYgBijZm4sRjfkZL2/G71z8pxb29vz9xGVXIvpMZDTg3B6F314
+ jbC2lbgJT2QQMjvb5W9OKmuEnjAW5NJO38rN/4fEuLu89FncCuKUyy4FkirCgUQnXDP9
+ Nrt4RcpSPqx4GSQaV9I0mvEgYD3aMePnQgpqdwpNXwFk/fJayM1FGgR0rSLwR709ugcI
+ cYSHyhUIsy7CYxtyIe56gc+9B6qKpTQShl6n2tSI6Kp4lhGCzXGSNDZJg51WmvEk7oGQ
+ WUpg==
+X-Gm-Message-State: ACgBeo2zjml6IrZxUpsRoY1GPqZFSM6MiaeQBHsUmSxiXls8gsSWd5d/
+ rHzcaCIMwfbC3TqbGILJ9Q8nqRZPQ1cwrzv40Yg=
+X-Google-Smtp-Source: AA6agR7mBSVFBEMZZ6+84+8vyWZkhaUlLYm5NWBfq4gxmzPnPWjD7F+WjYX4YSf+7rh2BGmVLtVu/igZ4osEGShg9FA=
+X-Received: by 2002:a05:6a00:2402:b0:52c:81cf:8df8 with SMTP id
+ z2-20020a056a00240200b0052c81cf8df8mr22309751pfh.60.1661874658210; Tue, 30
+ Aug 2022 08:50:58 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 2/2] util/log: add timestamp to logs via qemu_log()
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>,
- Dongli Zhang <dongli.zhang@oracle.com>
-Cc: qemu-devel@nongnu.org, joe.jin@oracle.com, alex.bennee@linaro.org,
- f4bug@amsat.org
-References: <20220829100622.1554-1-dongli.zhang@oracle.com>
- <20220829100622.1554-2-dongli.zhang@oracle.com> <87czcihts0.fsf@pond.sub.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <87czcihts0.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <20220823061201.132342-1-wilfred.mallawa@opensource.wdc.com>
+ <20220823061201.132342-4-wilfred.mallawa@opensource.wdc.com>
+ <c33257a3-645f-9386-52e5-21a15ef0ebe5@amsat.org>
+In-Reply-To: <c33257a3-645f-9386-52e5-21a15ef0ebe5@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 30 Aug 2022 17:50:31 +0200
+Message-ID: <CAKmqyKMGZrRfMvtAHb9V+C8UU40wEKj9qefvP-ahiOGsFVZATA@mail.gmail.com>
+Subject: Re: [PATCH v4 3/4] hw/ssi: ibex_spi: fixup/add rw1c functionality
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Wilfred Mallawa <wilfred.mallawa@opensource.wdc.com>, 
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=alistair23@gmail.com; helo=mail-pf1-x42a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,90 +88,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/30/22 04:09, Markus Armbruster wrote:
-> Dongli Zhang <dongli.zhang@oracle.com> writes:
-> 
->> The qemu_log is very helpful for diagnostic. Add the timestamp to the log
->> when it is enabled (e.g., "-msg timestamp=on").
->>
->> While there are many other places that may print to log file, this patch is
->> only for qemu_log(), e.g., the developer may add qemu_log/qemu_log_mask to
->> selected locations to diagnose QEMU issue.
-> 
-> Opinions on the new feature, anyone?
-> 
->> Cc: Joe Jin <joe.jin@oracle.com>
->> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
->> ---
->> Please let me know if we should use 'error_with_guestname' as well.
->>
->>   util/log.c | 7 +++++++
->>   1 file changed, 7 insertions(+)
->>
->> diff --git a/util/log.c b/util/log.c
->> index d6eb037..f0a081a 100644
->> --- a/util/log.c
->> +++ b/util/log.c
->> @@ -129,8 +129,15 @@ void qemu_log(const char *fmt, ...)
->>   {
->>       FILE *f = qemu_log_trylock();
->>       if (f) {
->> +        gchar *timestr;
->>           va_list ap;
->>   
->> +        if (message_with_timestamp) {
->> +            timestr = real_time_iso8601();
->> +            fprintf(f, "%s ", timestr);
->> +            g_free(timestr);
->> +        }
->> +
->>           va_start(ap, fmt);
->>           vfprintf(f, fmt, ap);
->>           va_end(ap);
-> 
-> This extends -msg timestamp=on to apply to log messages without
-> documenting it in -help or anywhere else.  Needs fixing.
+On Tue, Aug 30, 2022 at 2:37 PM Philippe Mathieu-Daud=C3=A9 via
+<qemu-devel@nongnu.org> wrote:
+>
+> On 23/8/22 08:12, Wilfred Mallawa wrote:
+> > From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+> >
+> > This patch adds the `rw1c` functionality to the respective
+> > registers. The status fields are cleared when the respective
+> > field is set.
+> >
+> > Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >   hw/ssi/ibex_spi_host.c         | 34 ++++++++++++++++++++++++++++++++-=
+-
+> >   include/hw/ssi/ibex_spi_host.h |  4 ++--
+> >   2 files changed, 34 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/hw/ssi/ibex_spi_host.c b/hw/ssi/ibex_spi_host.c
+> > index d52b193a1a..40d401ad47 100644
+> > --- a/hw/ssi/ibex_spi_host.c
+> > +++ b/hw/ssi/ibex_spi_host.c
+> > @@ -352,7 +352,17 @@ static void ibex_spi_host_write(void *opaque, hwad=
+dr addr,
+> >
+> >       switch (addr) {
+> >       /* Skipping any R/O registers */
+> > -    case IBEX_SPI_HOST_INTR_STATE...IBEX_SPI_HOST_INTR_ENABLE:
+> > +    case IBEX_SPI_HOST_INTR_STATE:
+> > +        /* rw1c status register */
+> > +        if (FIELD_EX32(val32, INTR_STATE, ERROR)) {
+> > +            data =3D FIELD_DP32(data, INTR_STATE, ERROR, 0);
+> > +        }
+> > +        if (FIELD_EX32(val32, INTR_STATE, SPI_EVENT)) {
+> > +            data =3D FIELD_DP32(data, INTR_STATE, SPI_EVENT, 0);
+> > +        }
+> > +        s->regs[addr] =3D data;
+> > +        break;
+> > +    case IBEX_SPI_HOST_INTR_ENABLE:
+> >           s->regs[addr] =3D val32;
+> >           break;
+> >       case IBEX_SPI_HOST_INTR_TEST:
+> > @@ -495,7 +505,27 @@ static void ibex_spi_host_write(void *opaque, hwad=
+dr addr,
+> >        *  When an error occurs, the corresponding bit must be cleared
+> >        *  here before issuing any further commands
+> >        */
+> > -        s->regs[addr] =3D val32;
+> > +        status =3D s->regs[addr];
+> > +        /* rw1c status register */
+> > +        if (FIELD_EX32(val32, ERROR_STATUS, CMDBUSY)) {
+> > +            status =3D FIELD_DP32(status, ERROR_STATUS, CMDBUSY, 0);
+> > +        }
+> > +        if (FIELD_EX32(val32, ERROR_STATUS, OVERFLOW)) {
+> > +            status =3D FIELD_DP32(status, ERROR_STATUS, OVERFLOW, 0);
+> > +        }
+> > +        if (FIELD_EX32(val32, ERROR_STATUS, UNDERFLOW)) {
+> > +            status =3D FIELD_DP32(status, ERROR_STATUS, UNDERFLOW, 0);
+> > +        }
+> > +        if (FIELD_EX32(val32, ERROR_STATUS, CMDINVAL)) {
+> > +            status =3D FIELD_DP32(status, ERROR_STATUS, CMDINVAL, 0);
+> > +        }
+> > +        if (FIELD_EX32(val32, ERROR_STATUS, CSIDINVAL)) {
+> > +            status =3D FIELD_DP32(status, ERROR_STATUS, CSIDINVAL, 0);
+> > +        }
+> > +        if (FIELD_EX32(val32, ERROR_STATUS, ACCESSINVAL)) {
+> > +            status =3D FIELD_DP32(status, ERROR_STATUS, ACCESSINVAL, 0=
+);
+> > +        }
+>
+> Alistair, does this call to add some FIELD_1CLEAR() API?
 
-I think this is a poor place to add the timestamp.
+Yeah, that's probably something useful to add! Good idea
 
-You'll find that qemu_log is used many times to assemble pieces, e.g.
+Alistair
 
-linux-user/thunk.c:360:            qemu_log("%" PRIu64, tswap64(val));
-
-linux-user/thunk.c:376:                qemu_log("\"");
-
-linux-user/thunk.c:379:                qemu_log("[");
-
-linux-user/thunk.c:384:                    qemu_log(",");
-
-linux-user/thunk.c:391:                qemu_log("\"");
-
-linux-user/thunk.c:393:                qemu_log("]");
-
-linux-user/thunk.c:417:                qemu_log("{");
-
-linux-user/thunk.c:420:                        qemu_log(",");
-
-linux-user/thunk.c:424:                qemu_log("}");
-
-
-Not the best idea, really, but the replacement for this is to avoid qemu_log entirely, and use
-
-     f = qemu_log_trylock();
-     if (f) {
-         fprintf
-         some
-         stuff
-         qemu_log_unlock(f);
-     }
-
-at which point you don't get your timestamp either.  You'd need to explicitly add 
-timestamps to individual locations.
-
-It would probably be easier to add timestamps to tracepoints, which are always emitted as 
-a unit.
-
-
-r~
-
+>
 
