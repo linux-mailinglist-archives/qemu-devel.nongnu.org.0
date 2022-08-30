@@ -2,75 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28FDD5A67BE
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 17:55:03 +0200 (CEST)
-Received: from localhost ([::1]:42990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42FD65A6856
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 18:25:59 +0200 (CEST)
+Received: from localhost ([::1]:39672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oT3Zt-0008Ii-O0
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 11:55:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50974)
+	id 1oT43n-0007pB-It
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 12:25:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oT3W8-000410-V1; Tue, 30 Aug 2022 11:51:09 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:33724)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oT3W1-0005Z2-CC; Tue, 30 Aug 2022 11:51:08 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id y29so7684256pfq.0;
- Tue, 30 Aug 2022 08:50:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=xe5d1mSk0lqNreQ0cpgaPtMY0JUytZvbiYEPDSHq6LM=;
- b=eUhg4ZBliQgFrD+OJWIqv/ThyAObeQWtZX5t9nhn/jUpdxat4dICjVmNSEwOC9EEdr
- /AhaEEAifFo/hW2rsr6H49sZxP+W0fWT81oJtGA1XSkungPQyauwDHt3SsQzUu1BPkQ7
- 5tpSPCydUQmFNGn3JJ/ZHWBO50CIG8xkCA5exigJw0ZDzoIzHSLf7D10hsBs/gXbgfu7
- fvxdycfgMAwZOBX9m8W60C92ul7m45SMhc3/5xlNCP8TOxj32jTCTzqaSzTn7FAb25eV
- 4y/DfyKU1UfFyvtnxh7GsR3dqvGxgqL0kbJ+FYV6QWp0eB2QF8eA5yFVBlN/LrJLUM6G
- 9ozQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=xe5d1mSk0lqNreQ0cpgaPtMY0JUytZvbiYEPDSHq6LM=;
- b=vlNI/9kv79g+ndBCIn9gHL8d+T0B9+nL9Dn2Ob4Yd8/EK43wug1iR6hF554F4jrbqw
- c3NQsyrPeHPzeMPhBSMYgBijZm4sRjfkZL2/G71z8pxb29vz9xGVXIvpMZDTg3B6F314
- jbC2lbgJT2QQMjvb5W9OKmuEnjAW5NJO38rN/4fEuLu89FncCuKUyy4FkirCgUQnXDP9
- Nrt4RcpSPqx4GSQaV9I0mvEgYD3aMePnQgpqdwpNXwFk/fJayM1FGgR0rSLwR709ugcI
- cYSHyhUIsy7CYxtyIe56gc+9B6qKpTQShl6n2tSI6Kp4lhGCzXGSNDZJg51WmvEk7oGQ
- WUpg==
-X-Gm-Message-State: ACgBeo2zjml6IrZxUpsRoY1GPqZFSM6MiaeQBHsUmSxiXls8gsSWd5d/
- rHzcaCIMwfbC3TqbGILJ9Q8nqRZPQ1cwrzv40Yg=
-X-Google-Smtp-Source: AA6agR7mBSVFBEMZZ6+84+8vyWZkhaUlLYm5NWBfq4gxmzPnPWjD7F+WjYX4YSf+7rh2BGmVLtVu/igZ4osEGShg9FA=
-X-Received: by 2002:a05:6a00:2402:b0:52c:81cf:8df8 with SMTP id
- z2-20020a056a00240200b0052c81cf8df8mr22309751pfh.60.1661874658210; Tue, 30
- Aug 2022 08:50:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
+ id 1oT3uG-0001sa-1v
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 12:16:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41603)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
+ id 1oT3u8-00020G-14
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 12:15:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661876152;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Mgfp9Kfm8+8VnpVA5PeH9BoHGs2IGHPwq0P2IshG0lk=;
+ b=WzO1ZNyT2yAOFce2vLdE3h4p3xAbka+Kn9CJy+OaLsYBgSx0LmkbbfmN/IGracnb6M0B/Q
+ mSdv4oLwH3+YEZLNC+vgEgiECQSj9yU7mydAONy3QWdJ2vcOk+3s/wb6GtvjMIRleEW0i9
+ Mx8z/qTTfYx1B+mgH77CLsm5BBI2Lkk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-354-pnMclsTwMN65PXApn7u8xg-1; Tue, 30 Aug 2022 12:15:48 -0400
+X-MC-Unique: pnMclsTwMN65PXApn7u8xg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7177E802E5D;
+ Tue, 30 Aug 2022 16:15:48 +0000 (UTC)
+Received: from tapioca.redhat.com (unknown [10.40.192.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0DEE81415117;
+ Tue, 30 Aug 2022 16:15:46 +0000 (UTC)
+From: Victor Toso <victortoso@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ John Snow <jsnow@redhat.com>, Michael Roth <michael.roth@amd.com>
+Subject: [PATCH v1 00/16] qapi examples fixes and rfc for another generator
+Date: Tue, 30 Aug 2022 18:15:29 +0200
+Message-Id: <20220830161545.84198-1-victortoso@redhat.com>
 MIME-Version: 1.0
-References: <20220823061201.132342-1-wilfred.mallawa@opensource.wdc.com>
- <20220823061201.132342-4-wilfred.mallawa@opensource.wdc.com>
- <c33257a3-645f-9386-52e5-21a15ef0ebe5@amsat.org>
-In-Reply-To: <c33257a3-645f-9386-52e5-21a15ef0ebe5@amsat.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 30 Aug 2022 17:50:31 +0200
-Message-ID: <CAKmqyKMGZrRfMvtAHb9V+C8UU40wEKj9qefvP-ahiOGsFVZATA@mail.gmail.com>
-Subject: Re: [PATCH v4 3/4] hw/ssi: ibex_spi: fixup/add rw1c functionality
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Cc: Wilfred Mallawa <wilfred.mallawa@opensource.wdc.com>, 
- Alistair Francis <Alistair.Francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=alistair23@gmail.com; helo=mail-pf1-x42a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,81 +77,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 30, 2022 at 2:37 PM Philippe Mathieu-Daud=C3=A9 via
-<qemu-devel@nongnu.org> wrote:
->
-> On 23/8/22 08:12, Wilfred Mallawa wrote:
-> > From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-> >
-> > This patch adds the `rw1c` functionality to the respective
-> > registers. The status fields are cleared when the respective
-> > field is set.
-> >
-> > Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >   hw/ssi/ibex_spi_host.c         | 34 ++++++++++++++++++++++++++++++++-=
--
-> >   include/hw/ssi/ibex_spi_host.h |  4 ++--
-> >   2 files changed, 34 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/hw/ssi/ibex_spi_host.c b/hw/ssi/ibex_spi_host.c
-> > index d52b193a1a..40d401ad47 100644
-> > --- a/hw/ssi/ibex_spi_host.c
-> > +++ b/hw/ssi/ibex_spi_host.c
-> > @@ -352,7 +352,17 @@ static void ibex_spi_host_write(void *opaque, hwad=
-dr addr,
-> >
-> >       switch (addr) {
-> >       /* Skipping any R/O registers */
-> > -    case IBEX_SPI_HOST_INTR_STATE...IBEX_SPI_HOST_INTR_ENABLE:
-> > +    case IBEX_SPI_HOST_INTR_STATE:
-> > +        /* rw1c status register */
-> > +        if (FIELD_EX32(val32, INTR_STATE, ERROR)) {
-> > +            data =3D FIELD_DP32(data, INTR_STATE, ERROR, 0);
-> > +        }
-> > +        if (FIELD_EX32(val32, INTR_STATE, SPI_EVENT)) {
-> > +            data =3D FIELD_DP32(data, INTR_STATE, SPI_EVENT, 0);
-> > +        }
-> > +        s->regs[addr] =3D data;
-> > +        break;
-> > +    case IBEX_SPI_HOST_INTR_ENABLE:
-> >           s->regs[addr] =3D val32;
-> >           break;
-> >       case IBEX_SPI_HOST_INTR_TEST:
-> > @@ -495,7 +505,27 @@ static void ibex_spi_host_write(void *opaque, hwad=
-dr addr,
-> >        *  When an error occurs, the corresponding bit must be cleared
-> >        *  here before issuing any further commands
-> >        */
-> > -        s->regs[addr] =3D val32;
-> > +        status =3D s->regs[addr];
-> > +        /* rw1c status register */
-> > +        if (FIELD_EX32(val32, ERROR_STATUS, CMDBUSY)) {
-> > +            status =3D FIELD_DP32(status, ERROR_STATUS, CMDBUSY, 0);
-> > +        }
-> > +        if (FIELD_EX32(val32, ERROR_STATUS, OVERFLOW)) {
-> > +            status =3D FIELD_DP32(status, ERROR_STATUS, OVERFLOW, 0);
-> > +        }
-> > +        if (FIELD_EX32(val32, ERROR_STATUS, UNDERFLOW)) {
-> > +            status =3D FIELD_DP32(status, ERROR_STATUS, UNDERFLOW, 0);
-> > +        }
-> > +        if (FIELD_EX32(val32, ERROR_STATUS, CMDINVAL)) {
-> > +            status =3D FIELD_DP32(status, ERROR_STATUS, CMDINVAL, 0);
-> > +        }
-> > +        if (FIELD_EX32(val32, ERROR_STATUS, CSIDINVAL)) {
-> > +            status =3D FIELD_DP32(status, ERROR_STATUS, CSIDINVAL, 0);
-> > +        }
-> > +        if (FIELD_EX32(val32, ERROR_STATUS, ACCESSINVAL)) {
-> > +            status =3D FIELD_DP32(status, ERROR_STATUS, ACCESSINVAL, 0=
-);
-> > +        }
->
-> Alistair, does this call to add some FIELD_1CLEAR() API?
+Hi,
 
-Yeah, that's probably something useful to add! Good idea
+I've been using the examples as a way to test the qapi-go proposal [0]
+and I thought it would be neat to have a way to parse those examples and
+regenerate them in a way that we could use for testing.
 
-Alistair
+The first 10 patches are fixes to issues found when loading the Example
+into python's json library.
 
->
+Patches 11-15 are fixes to issues found when using those exampels in the
+qapi-go module [1].
+
+Patch 16 is the RFC for the generator used. If the idea is interesting,
+I can rework it and add some qapi/qmp verification of the examples at
+generation time with python-qemu-qmp [2].
+
+[0] https://lists.nongnu.org/archive/html/qemu-devel/2022-06/msg03105.html
+[1] https://gitlab.com/victortoso/qapi-go/-/tree/wip-v3/test
+[2] https://gitlab.com/qemu-project/python-qemu-qmp
+
+Cheers,
+Victor
+
+Victor Toso (16):
+  qapi: fix example of query-ballon command
+  qapi: fix example of query-vnc command
+  qapi: fix example of query-spice command
+  qapi: fix example of query-rocker-of-dpa-flows command
+  qapi: fix example of query-dump-guest-memory-capability command
+  qapi: fix example of query-blockstats command
+  qapi: fix example of BLOCK_JOB_READY event
+  qapi: fix example of NIC_RX_FILTER_CHANGED event
+  qapi: fix example of DEVICE_UNPLUG_GUEST_ERROR event
+  qapi: fix example of MEM_UNPLUG_ERROR event
+  qapi: fix examples of blockdev-add with qcow2
+  qapi: fix example of blockdev-add command
+  qapi: fix example of query-hotpluggable-cpus command
+  qapi: fix example of query-migrate command
+  qapi: fix examples of events missing timestamp
+  RFC: add a generator for qapi's examples
+
+ qapi/block-core.json         |  46 ++++-----
+ qapi/dump.json               |   1 +
+ qapi/machine.json            |   8 +-
+ qapi/migration.json          |  83 +++++++++++++--
+ qapi/net.json                |   2 +-
+ qapi/qdev.json               |   3 +-
+ qapi/rocker.json             |   3 +-
+ qapi/ui.json                 |   7 +-
+ scripts/qapi/dumpexamples.py | 194 +++++++++++++++++++++++++++++++++++
+ scripts/qapi/main.py         |   2 +
+ 10 files changed, 304 insertions(+), 45 deletions(-)
+ create mode 100644 scripts/qapi/dumpexamples.py
+
+-- 
+2.37.2
+
 
