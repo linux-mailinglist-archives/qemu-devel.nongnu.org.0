@@ -2,53 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A1935A6DC4
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 21:49:56 +0200 (CEST)
-Received: from localhost ([::1]:47108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E571B5A6E66
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 22:22:17 +0200 (CEST)
+Received: from localhost ([::1]:40756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oT7FD-00079G-1p
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 15:49:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43780)
+	id 1oT7kW-0005cm-Ew
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 16:22:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lk@c--e.de>)
- id 1oT7BP-0002ye-QM; Tue, 30 Aug 2022 15:46:00 -0400
-Received: from cae.in-ulm.de ([217.10.14.231]:58988)
- by eggs.gnu.org with esmtp (Exim 4.90_1) (envelope-from <lk@c--e.de>)
- id 1oT7BK-0007SU-NV; Tue, 30 Aug 2022 15:45:59 -0400
-Received: by cae.in-ulm.de (Postfix, from userid 1000)
- id AF27A140306; Tue, 30 Aug 2022 21:45:37 +0200 (CEST)
-Date: Tue, 30 Aug 2022 21:45:37 +0200
-From: "Christian A. Ehrhardt" <lk@c--e.de>
-To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-Cc: Laszlo Ersek <lersek@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "imammedo@redhat.com" <imammedo@redhat.com>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- Linuxarm <linuxarm@huawei.com>,
- "chenxiang (M)" <chenxiang66@hisilicon.com>,
- "Ard Biesheuvel (kernel.org address)" <ardb@kernel.org>,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH] fw_cfg: Don't set callback_opaque NULL in
- fw_cfg_modify_bytes_read()
-Message-ID: <Yw5o4U/Vqdb+pp9E@cae.in-ulm.de>
-References: <20220825161842.841-1-shameerali.kolothum.thodi@huawei.com>
- <43c62060-7a5d-25cf-91a3-1c391d3a58f9@redhat.com>
- <ab43b53b-546a-4056-0e91-31691f716109@redhat.com>
- <ab49a753129e48bd96cb44d876ddf1cf@huawei.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oT7f7-0002sg-IQ
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 16:16:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43654)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oT7f3-0004IR-3P
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 16:16:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661890591;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=JBve28ZhvjzE5igwY/wwIZYry+4KMJhxSmZ+5jphH8I=;
+ b=gu5XmKrHep4I0fQoQregKQgO4aG2gyIKrDYj98pNcNORDnIUQwbeq/eIQSNYFLtnn3lZfJ
+ qTApOqXXd7VLL66kFTaSEVtcJIQTSf3ZISgAuoZKff/rjsdpkb1acyvP0ugWTF97ELXgYZ
+ 9+X6D3u1rq+vlcjsBpxggVoraekSyGA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-446-OVjL_rbnMoWMEL3U56xYNw-1; Tue, 30 Aug 2022 16:16:28 -0400
+X-MC-Unique: OVjL_rbnMoWMEL3U56xYNw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C1EF81C06EDD;
+ Tue, 30 Aug 2022 20:16:27 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8D4C2492C3B;
+ Tue, 30 Aug 2022 20:16:26 +0000 (UTC)
+Date: Tue, 30 Aug 2022 16:16:24 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ "Denis V. Lunev" <den@openvz.org>, Peter Xu <peterx@redhat.com>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Richard W.M. Jones" <rjones@redhat.com>, qemu-block@nongnu.org,
+ John Snow <jsnow@redhat.com>, integration@gluster.org,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Laurent Vivier <lvivier@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Fam Zheng <fam@euphon.net>, sgarzare@redhat.com,
+ Alberto Faria <afaria@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Eric Blake <eblake@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Jeff Cody <codyprime@gmail.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>
+Subject: Re: [RFC v4 11/11] virtio-blk: use BDRV_REQ_REGISTERED_BUF
+ optimization hint
+Message-ID: <Yw5wGEhdsztxhV2s@fedora>
+References: <20220822222402.176088-1-stefanha@redhat.com>
+ <20220822222402.176088-12-stefanha@redhat.com>
+ <b068f95e-fc8f-1ecc-5bf5-d7774ce6c13a@redhat.com>
+ <YwUo5UgdHjJ7k9QX@fedora>
+ <9f6d41c6-6d67-611b-a8b6-2a1a93242ff4@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="qUKTmzNfBTo69cyH"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ab49a753129e48bd96cb44d876ddf1cf@huawei.com>
-Received-SPF: none client-ip=217.10.14.231; envelope-from=lk@c--e.de;
- helo=cae.in-ulm.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <9f6d41c6-6d67-611b-a8b6-2a1a93242ff4@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,169 +104,121 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Hi,
+--qUKTmzNfBTo69cyH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Shameer: Thanks for bringing this to my attention.
+On Thu, Aug 25, 2022 at 09:43:16AM +0200, David Hildenbrand wrote:
+> On 23.08.22 21:22, Stefan Hajnoczi wrote:
+> > On Tue, Aug 23, 2022 at 10:01:59AM +0200, David Hildenbrand wrote:
+> >> On 23.08.22 00:24, Stefan Hajnoczi wrote:
+> >>> Register guest RAM using BlockRAMRegistrar and set the
+> >>> BDRV_REQ_REGISTERED_BUF flag so block drivers can optimize memory
+> >>> accesses in I/O requests.
+> >>>
+> >>> This is for vdpa-blk, vhost-user-blk, and other I/O interfaces that r=
+ely
+> >>> on DMA mapping/unmapping.
+> >>
+> >> Can you explain why we're monitoring RAMRegistrar to hook into "guest
+> >> RAM" and not go the usual path of the MemoryListener?
+> >=20
+> > The requirements are similar to VFIO, which uses RAMBlockNotifier. We
+>=20
+> Only VFIO NVME uses RAMBlockNotifier. Ordinary VFIO uses the MemoryListen=
+er.
+>=20
+> Maybe the difference is that ordinary VFIO has to replicate the actual
+> guest physical memory layout, and VFIO NVME is only interested in
+> possible guest RAM inside guest physical memory.
+>=20
+> > need to learn about all guest RAM because that's where I/O buffers are
+> > located.
+> >=20
+> > Do you think RAMBlockNotifier should be avoided?
+>=20
+> I assume it depends on the use case. For saying "this might be used for
+> I/O" it might be good enough I guess.
+>=20
+> >=20
+> >> What will BDRV_REQ_REGISTERED_BUF actually do? Pin all guest memory in
+> >> the worst case such as io_uring fixed buffers would do ( I hope not ).
+> >=20
+> > BLK_REQ_REGISTERED_BUF is a hint that no bounce buffer is necessary
+> > because the I/O buffer is located in memory that was previously
+> > registered with bdrv_registered_buf().
+> >=20
+> > The RAMBlockNotifier calls bdrv_register_buf() to let the libblkio
+> > driver know about RAM. Some libblkio drivers ignore this hint, io_uring
+> > may use the fixed buffers feature, vhost-user sends the shared memory
+> > file descriptors to the vhost device server, and VFIO/vhost may pin
+> > pages.
+> >=20
+> > So the blkio block driver doesn't add anything new, it's the union of
+> > VFIO/vhost/vhost-user/etc memory requirements.
+>=20
+> The issue is if that backend pins memory inside any of these regions.
+> Then, you're instantly incompatible to anything the relies on sparse
+> RAMBlocks, such as memory ballooning or virtio-mem, and have to properly
+> fence it.
+>=20
+> In that case, you'd have to successfully trigger
+> ram_block_discard_disable(true) first, before pinning. Who would do that
+> now conditionally, just like e.g., VFIO does?
+>=20
+> io_uring fixed buffers would be one such example that pins memory and is
+> problematic. vfio (unless on s390x) is another example, as you point out.
 
-Some comments inline.
+Okay, I think libblkio needs to expose a bool property called
+"mem-regions-pinned" so QEMU whether or not the registered buffers will
+be pinned.
 
-On Tue, Aug 30, 2022 at 06:43:56AM +0000, Shameerali Kolothum Thodi wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Shameerali Kolothum Thodi
-> > Sent: 26 August 2022 13:15
-> > To: 'Laszlo Ersek' <lersek@redhat.com>; qemu-devel@nongnu.org;
-> > qemu-arm@nongnu.org
-> > Cc: imammedo@redhat.com; peter.maydell@linaro.org; Linuxarm
-> > <linuxarm@huawei.com>; chenxiang (M) <chenxiang66@hisilicon.com>; Ard
-> > Biesheuvel (kernel.org address) <ardb@kernel.org>; Gerd Hoffmann
-> > <kraxel@redhat.com>
-> > Subject: RE: [PATCH] fw_cfg: Don't set callback_opaque NULL in
-> > fw_cfg_modify_bytes_read()
-> > 
-> > 
-> > 
-> > > -----Original Message-----
-> > > From: Laszlo Ersek [mailto:lersek@redhat.com]
-> > > Sent: 26 August 2022 13:07
-> > > To: Shameerali Kolothum Thodi
-> > <shameerali.kolothum.thodi@huawei.com>;
-> > > qemu-devel@nongnu.org; qemu-arm@nongnu.org
-> > > Cc: imammedo@redhat.com; peter.maydell@linaro.org; Linuxarm
-> > > <linuxarm@huawei.com>; chenxiang (M) <chenxiang66@hisilicon.com>;
-> > Ard
-> > > Biesheuvel (kernel.org address) <ardb@kernel.org>; Gerd Hoffmann
-> > > <kraxel@redhat.com>
-> > > Subject: Re: [PATCH] fw_cfg: Don't set callback_opaque NULL in
-> > > fw_cfg_modify_bytes_read()
-> > >
-> > > +Ard +Gerd, one pointer at the bottom
-> > >
-> > > On 08/26/22 13:59, Laszlo Ersek wrote:
-> > > > On 08/25/22 18:18, Shameer Kolothum wrote:
-> > > >> Hi
-> > > >>
-> > > >> On arm/virt platform, Chen Xiang reported a Guest crash while
-> > > >> attempting the below steps,
-> > > >>
-> > > >> 1. Launch the Guest with nvdimm=on
-> > > >> 2. Hot-add a NVDIMM dev
-> > > >> 3. Reboot
-> > > >> 4. Guest boots fine.
-> > > >> 5. Reboot again.
-> > > >> 6. Guest boot fails.
-> > > >>
-> > > >> QEMU_EFI reports the below error:
-> > > >> ProcessCmdAddPointer: invalid pointer value in "etc/acpi/tables"
-> > > >> OnRootBridgesConnected: InstallAcpiTables: Protocol Error
-> > > >>
-> > > >> Debugging shows that on first reboot(after hot-adding NVDIMM),
-> > > >> Qemu updates the etc/table-loader len,
-> > > >>
-> > > >> qemu_ram_resize()
-> > > >>   fw_cfg_modify_file()
-> > > >>      fw_cfg_modify_bytes_read()
-> > > >>
-> > > >> And in fw_cfg_modify_bytes_read() we set the "callback_opaque" for
-> > > >> the "key" entry to NULL. Because of this, on the second reboot,
-> > > >> virt_acpi_build_update() is called with a NULL "build_state" and
-> > > >> returns without updating the ACPI tables. This seems to be
-> > > >> upsetting the firmware.
-> > > >>
-> > > >> To fix this, don't change the callback_opaque in
-> > > fw_cfg_modify_bytes_read().
-> > > >>
-> > > >> Reported-by: chenxiang <chenxiang66@hisilicon.com>
-> > > >> Signed-off-by: Shameer Kolothum
-> > > <shameerali.kolothum.thodi@huawei.com>
-> > > >> ---
-> > > >> I am still not very convinced this is the root cause of the issue.
-> > > >> Though it looks like setting callback_opaque to NULL while updating
-> > > >> the file size is wrong, what puzzles me is that on the second reboot
-> > > >> we don't have any ACPI table size changes and ideally firmware should
-> > > >> see the updated tables from the first reboot itself.
-> > > >>
-> > > >> Please take a look and let me know.
-> > > >>
-> > > >> Thanks,
-> > > >> Shameer
-> > > >>
-> > > >> ---
-> > > >>  hw/nvram/fw_cfg.c | 1 -
-> > > >>  1 file changed, 1 deletion(-)
-> > > >>
-> > > >> diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-> > > >> index d605f3f45a..dfe8404c01 100644
-> > > >> --- a/hw/nvram/fw_cfg.c
-> > > >> +++ b/hw/nvram/fw_cfg.c
-> > > >> @@ -728,7 +728,6 @@ static void
-> > > *fw_cfg_modify_bytes_read(FWCfgState *s, uint16_t key,
-> > > >>      ptr = s->entries[arch][key].data;
-> > > >>      s->entries[arch][key].data = data;
-> > > >>      s->entries[arch][key].len = len;
-> > > >> -    s->entries[arch][key].callback_opaque = NULL;
-> > > >>      s->entries[arch][key].allow_write = false;
-> > > >>
-> > > >>      return ptr;
-> > > >>
+Then the QEMU BlockDriver can do:
 
+  if (mem_regions_pinned) {
+      if (ram_block_discard_disable(true) < 0) {
+          ...fail to open block device...
+      }
+  }
 
-The code as it stands clears callback_opaque (the data pointer
-of the callbacks) while leaving the actual callbacks in place.
-I think it is obvious that this cannot be correct.
+Does that sound right?
 
-IMHO the change to allow_write is wrong for similar reasons but
-I don't think that this matters in practice.
+Is "pinned" the best word to describe this or is there a more general
+characteristic we are looking for?
 
-If this path is hit for the table-loader file the ACPI tables in the
-guest will be corrupt.
+>=20
+> This has to be treated with care. Another thing to consider is that
+> different backends might only support a limited number of such regions.
+> I assume there is a way for QEMU to query this limit upfront? It might
+> be required for memory hot(un)plug to figure out how many memory slots
+> we actually have (for ordinary DIMMs, and if we ever want to make this
+> compatible to virtio-mem, it might be required as well when the backend
+> pins memory).
 
+Yes, libblkio reports the maximum number of blkio_mem_regions supported
+by the device. The property is called "max-mem-regions".
 
-> > > > I vaguely recall seeing the same issue report years ago (also in
-> > > > relation to hot-adding NVDIMM). However, I have no capacity to
-> > > > participate in the discussion. Making this remark just for clarity.
-> > >
-> > > The earlier report I've had in mind was from Shameer as well:
-> > >
-> > >
-> > http://mid.mail-archive.com/5FC3163CFD30C246ABAA99954A238FA83F3F
-> > > B328@lhreml524-mbs.china.huawei.com
-> > 
-> > Right. That was a slightly different issue though. It was basically ACPI table
-> > size not
-> > getting updated on the first reboot of Guest after we hot-add NVDIMM dev.
-> > The error
-> > from firmware was different in that case,
-> > 
-> > ProcessCmdAddChecksum: invalid checksum range in "etc/acpi/tables"
-> > OnRootBridgesConnected: InstallAcpiTables: Protocol Error
-> > 
-> > And it was fixed with this series here,
-> > https://patchwork.kernel.org/project/qemu-devel/cover/20200403101827.3
-> > 0664-1-shameerali.kolothum.thodi@huawei.com/
-> > 
-> > The current issue only happens on the second reboot of the Guest as
-> > described in
-> > the steps above.
-> > 
-> 
-> [+Christian]
-> 
-> I just found that a similar issue was reported here sometime back on Q35/Windows
-> setup,
-> https://patchew.org/QEMU/YldFMTbFLUcdFIfa@cae.in-ulm.de/
-> 
-> But there are no further discussions on that thread.
+The QEMU BlockDriver currently doesn't use this information. Are there
+any QEMU APIs that should be called to propagate this value?
 
-I convinced myself that this cannot happen upstream as the number of
-entries in the table-loader is always small. However, it does happen
-for us and the suggested patch fixes the issue for us.
+Stefan
 
-Given that Shameer independantly came to the same conclusion
-the patch should by considered for inclusion.
+--qUKTmzNfBTo69cyH
+Content-Type: application/pgp-signature; name="signature.asc"
 
-    thanks   Christian
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMOcBgACgkQnKSrs4Gr
+c8hO7Qf8C+Fox1MAjmvcWp4eVyW29STdyYkIo/l8ZTW/JllKXJ4Htn7ZsbfHLXnT
+bZT/4TMrZKW4jpl9g6SC+eWtADItKU5L0qnuZgWj+julzoRHPOVGp6YrgDYWyzyt
+lJNZrCIGu8wZKdoRyoMr3+u4ewnsibYFVlVyAIrKTSr1MURi70qx704kRIsUCg9d
+TqPIG34Pgs4W4KQ0Z/bNQjfZBZkYOj9aO2XIKDswVIGSpt1bzsRwHqBZkyHZLWtn
+cLN+Da6njnu6Sa+Eldkmzewp07fxPnLaPX9t1yUfjqOTDHaQeVTTp8DmmlscS20+
+lzFqyInnZD91m3wDXM18E4mYSOGTTw==
+=2kw7
+-----END PGP SIGNATURE-----
+
+--qUKTmzNfBTo69cyH--
 
 
