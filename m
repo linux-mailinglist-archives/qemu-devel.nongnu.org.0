@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 407725A6DB5
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 21:46:19 +0200 (CEST)
-Received: from localhost ([::1]:51774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D2DA5A6D5C
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 21:29:12 +0200 (CEST)
+Received: from localhost ([::1]:55178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oT7Bi-0002zM-Ay
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 15:46:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36314)
+	id 1oT6v9-0003Iw-8W
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 15:29:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oT6UI-0003A8-1G; Tue, 30 Aug 2022 15:01:29 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:43703)
+ id 1oT6UI-0003AD-A9; Tue, 30 Aug 2022 15:01:29 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:44807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oT6UD-0008SF-1c; Tue, 30 Aug 2022 15:01:25 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- ay39-20020a05600c1e2700b003a5503a80cfso6703277wmb.2; 
- Tue, 30 Aug 2022 12:01:20 -0700 (PDT)
+ id 1oT6UG-0008Sb-Kh; Tue, 30 Aug 2022 15:01:26 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ n17-20020a05600c501100b003a84bf9b68bso1749785wmr.3; 
+ Tue, 30 Aug 2022 12:01:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=0EO7KtOsw0C06qyl69zDnh5KxcY3cif0atwpxtZ2XmY=;
- b=Vq0HKZQaGEPyjJd+dFzbIufxthuiJCBqC0RnPPa09X1ahcQO59MlqgqLZw4CjgOCNq
- uD3IQG+vMF45iU7/VwMRWfxKsLAhIRTAWSCY4fcsefm+ZD+u7wV8B9J+/zVJ+vnbWVR8
- tN+qmW/yDsfTdTjW2d2J80bAVJESzQbuKABLP5YevEscDYD1/neahPsW7/ndyxh3jgX/
- Odd5oEZg1+3dOMU1vwoBioECDEqKhQ4XT9p9ueY6H4BCMpbeF9wyttjTtD2hcTaKPOwJ
- L0MQDdlPLMLn/FDulhbgSq9iM9s+fYnoegxTwtPLGOfVkgMjYxymx6Rc3bf9MvRYsjNE
- UA8A==
+ bh=nmcgz1gXNUhjBIJ2W+p0Z4n0UItAGPtSr6Xm0Wuhb+I=;
+ b=An+eGfSD+AE2PHtzmk2e8PZsnFyUbJnrf/QEH3yB91l8C7ySWPZ4XaHjCXNRVf4xlU
+ UBrBRdGZgZs2tbIx/bLQBuqa63ENMLIFAGX8qe7c6M8N9KnGUACbpoL7FjSkMuQN16Wx
+ kfFI+avXMA6LT4XNgL3XjoKLs1Lum98oA82sL+vTtR4K3T0g3ttDY7is5sQSRefDgJBe
+ bQOaYqKBuQBoIuPc12fEwnaFMFyAaK7CqFr1XhGb8hw3Fou1A4p7/e/uiu5tEnPPzeHM
+ kmC/EXAsKIOxAWp5MX3Vx1CqhlMDlI8HYlmqfhMlLtCW/pz7NEEkWTpiGiEfw44jBnTU
+ c3SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=0EO7KtOsw0C06qyl69zDnh5KxcY3cif0atwpxtZ2XmY=;
- b=VlYcKGliLkKrKbYGjdgIN5JjRww0W6NQhgwvJzH7q84YsCQ2x/LRRaM1FeHtlRGs9C
- +nXdbNQhkMK8mWCI+ZqCaBO8SWDPNEmMoHQJrfEtP0pdvgsCG1aeD4OWyOMIP3PYeGdf
- nJ+6Dw65P4lKMjNDWdZnQdt1+IEXmOtEqIhPRNjh0XzFQo/Ymc1DPQaWVOxJOwxEJuqM
- r6rEJXNeIMA2WM1E53LuldO3BWSoM8ZqvohSpg6b5yVV4oap+3meygYPSzPAuCdKK54h
- XLFc5eBN38S4EpXyA0IHAk5qVeXafwVRyIvAybNnoiJpZrrMIPfVMANYjKsHcwMYMdw2
- 3BUA==
-X-Gm-Message-State: ACgBeo2MibIVwxmqwTquemQRbE2xcwRRINOAoLak89dP+h1uimWQGv5i
- g0Jnt6Dg4bXtG1ym2+7G7mqd4XDMWiI=
-X-Google-Smtp-Source: AA6agR5lkJxAX5cb5bsQH3tmWVQa7jY04c44xoN6fUP7xLvS7vS+kPRSviDs5GZlE1ZTHk6JbRS79A==
-X-Received: by 2002:a05:600c:4fd4:b0:3a6:2694:e3bc with SMTP id
- o20-20020a05600c4fd400b003a62694e3bcmr10257134wmq.60.1661886078765; 
- Tue, 30 Aug 2022 12:01:18 -0700 (PDT)
+ bh=nmcgz1gXNUhjBIJ2W+p0Z4n0UItAGPtSr6Xm0Wuhb+I=;
+ b=7bde+7adfSzxSE9z5zpzpUtlUFl4Dt5QD6EtP0v3QPV0PpxP8ZOEqerG++B7x6LoEA
+ YRyt08w3qO9IAjDwvLSqakSmbtMn3zITcDdKuoPYRWSq5dRl44vSYwQolTisSrwH+Vyp
+ /toeJhx/xtRyBLYktJ2339ws5pwiciG0Ijd3iXnwXuLCJ0p6NaPBwa7Tz2VyxwBzIzfC
+ EFN0oZ4tCZopW4VlI6bSyqC/zcEZO0+YJTeR0TQSysMSDyTBei1N0QyLH5Nwg/E8IvJU
+ zw0gQX0ApsMCHr39cq8dhXKSyyurbIk/1HwcV3DQOZqIH+liCFUBAfZOtORZjgMfwYEY
+ KOjw==
+X-Gm-Message-State: ACgBeo11w23JFWiw0h037bwNkwVYTeRO4Hx7Qd2XqSSdsnYyh3qwsK64
+ 6/Spw2+zWJYarqWfthYwLgSPPDmrxyY=
+X-Google-Smtp-Source: AA6agR7lw4ZVou8XLMiZMbL+PqXr/YxD+SltTYJqxqi27QY7l9vhaq7cuqp2aBIhXr+37DO8PTtGIw==
+X-Received: by 2002:a05:600c:1f1a:b0:3a6:2569:496b with SMTP id
+ bd26-20020a05600c1f1a00b003a62569496bmr10341278wmb.176.1661886080079; 
+ Tue, 30 Aug 2022 12:01:20 -0700 (PDT)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- j18-20020adfea52000000b002206203ed3dsm9821285wrn.29.2022.08.30.12.01.17
+ j18-20020adfea52000000b002206203ed3dsm9821285wrn.29.2022.08.30.12.01.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Aug 2022 12:01:18 -0700 (PDT)
+ Tue, 30 Aug 2022 12:01:19 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, Huacai Chen <chenhuacai@kernel.org>,
  BALATON Zoltan <balaton@eik.bme.hu>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 08/10] hw/isa/vt82c686: Instantiate AC97 and MC97 functions
- in host device
-Date: Tue, 30 Aug 2022 21:00:46 +0200
-Message-Id: <20220830190048.67448-9-shentey@gmail.com>
+Subject: [PATCH v2 09/10] hw/isa/vt82c686: Embed RTCState in host device
+Date: Tue, 30 Aug 2022 21:00:47 +0200
+Message-Id: <20220830190048.67448-10-shentey@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220830190048.67448-1-shentey@gmail.com>
 References: <20220830190048.67448-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=shentey@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=shentey@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,95 +92,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AC97 function's wakeup status is wired to the PM function and both
-the AC97 and MC97 interrupt routing is determined by the ISA function.
+Embed the rtc in the host device, analoguous to the other child devices
+and analoguous to PIIX4.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/vt82c686.c   | 16 ++++++++++++++++
- hw/mips/fuloong2e.c |  4 ----
- hw/ppc/pegasos2.c   |  5 -----
- 3 files changed, 16 insertions(+), 9 deletions(-)
+ hw/isa/vt82c686.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 4e66570655..150e9401d0 100644
+index 150e9401d0..0ef9446374 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -552,6 +552,8 @@ struct ViaISAState {
+@@ -549,6 +549,7 @@ struct ViaISAState {
+     qemu_irq cpu_intr;
+     qemu_irq *isa_irqs;
+     ViaSuperIOState via_sio;
++    RTCState rtc;
      PCIIDEState ide;
      UHCIState uhci[2];
      ViaPMState pm;
-+    PCIDevice ac97;
-+    PCIDevice mc97;
- };
+@@ -570,6 +571,7 @@ static void via_isa_init(Object *obj)
+ {
+     ViaISAState *s = VIA_ISA(obj);
  
- static const VMStateDescription vmstate_via = {
-@@ -571,6 +573,8 @@ static void via_isa_init(Object *obj)
++    object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
      object_initialize_child(obj, "ide", &s->ide, "via-ide");
      object_initialize_child(obj, "uhci1", &s->uhci[0], "vt82c686b-usb-uhci");
      object_initialize_child(obj, "uhci2", &s->uhci[1], "vt82c686b-usb-uhci");
-+    object_initialize_child(obj, "ac97", &s->ac97, TYPE_VIA_AC97);
-+    object_initialize_child(obj, "mc97", &s->mc97, TYPE_VIA_MC97);
- }
- 
- static const TypeInfo via_isa_info = {
-@@ -651,6 +655,18 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
-     if (!qdev_realize(DEVICE(&s->pm), BUS(pci_bus), errp)) {
-         return;
-     }
+@@ -623,7 +625,15 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+     isa_bus_irqs(isa_bus, s->isa_irqs);
+     i8254_pit_init(isa_bus, 0x40, 0, NULL);
+     i8257_dma_init(isa_bus, 0);
+-    mc146818_rtc_init(isa_bus, 2000, NULL);
 +
-+    /* Function 5: AC97 Audio */
-+    qdev_prop_set_int32(DEVICE(&s->ac97), "addr", d->devfn + 5);
-+    if (!qdev_realize(DEVICE(&s->ac97), BUS(pci_bus), errp)) {
++    /* RTC */
++    qdev_prop_set_int32(DEVICE(&s->rtc), "base_year", 2000);
++    if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
 +        return;
 +    }
-+
-+    /* Function 6: AC97 Modem */
-+    qdev_prop_set_int32(DEVICE(&s->mc97), "addr", d->devfn + 6);
-+    if (!qdev_realize(DEVICE(&s->mc97), BUS(pci_bus), errp)) {
-+        return;
-+    }
- }
++    object_property_add_alias(qdev_get_machine(), "rtc-time", OBJECT(&s->rtc),
++                              "date");
++    isa_connect_gpio_out(ISA_DEVICE(&s->rtc), 0, s->rtc.isairq);
  
- /* TYPE_VT82C686B_ISA */
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index 377108d313..2d8723ab74 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -210,10 +210,6 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
- 
-     dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "pm"));
-     *i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
--
--    /* Audio support */
--    pci_create_simple(pci_bus, PCI_DEVFN(slot, 5), TYPE_VIA_AC97);
--    pci_create_simple(pci_bus, PCI_DEVFN(slot, 6), TYPE_VIA_MC97);
- }
- 
- /* Network support */
-diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-index e32944ee2b..09fdb7557f 100644
---- a/hw/ppc/pegasos2.c
-+++ b/hw/ppc/pegasos2.c
-@@ -159,7 +159,6 @@ static void pegasos2_init(MachineState *machine)
-     pci_bus = mv64361_get_pci_bus(pm->mv, 1);
- 
-     /* VIA VT8231 South Bridge (multifunction PCI device) */
--    /* VT8231 function 0: PCI-to-ISA Bridge */
-     via = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0), true,
-                                           TYPE_VT8231_ISA);
-     qdev_connect_gpio_out(DEVICE(via), 0,
-@@ -173,10 +172,6 @@ static void pegasos2_init(MachineState *machine)
-     spd_data = spd_data_generate(DDR, machine->ram_size);
-     smbus_eeprom_init_one(i2c_bus, 0x57, spd_data);
- 
--    /* VT8231 function 5-6: AC97 Audio & Modem */
--    pci_create_simple(pci_bus, PCI_DEVFN(12, 5), TYPE_VIA_AC97);
--    pci_create_simple(pci_bus, PCI_DEVFN(12, 6), TYPE_VIA_MC97);
--
-     /* other PC hardware */
-     pci_vga_init(pci_bus);
- 
+     for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
+         if (i < PCI_COMMAND || i >= PCI_REVISION_ID) {
 -- 
 2.37.2
 
