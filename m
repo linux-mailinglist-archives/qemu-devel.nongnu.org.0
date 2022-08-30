@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6265A6346
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 14:26:18 +0200 (CEST)
-Received: from localhost ([::1]:57978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EEAC5A6344
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 14:24:25 +0200 (CEST)
+Received: from localhost ([::1]:42272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oT0Jt-0008M9-VT
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 08:26:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52828)
+	id 1oT0I3-0005l4-85
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 08:24:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oT07W-0004Cp-2i
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 08:13:30 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:44023)
+ id 1oT09F-0006aH-Ax
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 08:15:17 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:41574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oT07U-0007Nq-IK
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 08:13:29 -0400
-Received: by mail-pl1-x635.google.com with SMTP id l3so10905968plb.10
- for <qemu-devel@nongnu.org>; Tue, 30 Aug 2022 05:13:28 -0700 (PDT)
+ id 1oT09D-00082r-OZ
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 08:15:17 -0400
+Received: by mail-pl1-x633.google.com with SMTP id p18so10910810plr.8
+ for <qemu-devel@nongnu.org>; Tue, 30 Aug 2022 05:15:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc;
- bh=azxX8DQotjUpRkIL701uWfK9BXbxrQr+NwSoJrP9yyQ=;
- b=m2eQDzoFquLlp3faKXFLGaSysbCJIKuywq2gcn1wMmA9OiOkHGVDpVcwbZINY39lMK
- 2cNc8e6XGxhE+Ws0LitMyTAv6C9vwwgA9rtMqqtttEg1D9m6VbI13p1M4eqmIXCqyPUw
- 4X9z2waupY4VOZ26tOIf1D+9RtWtvilgMQUBOP3/RVx5vVQA4/UYBUGRwv2TNZyJRqH/
- Cq3XQatzkGIDEIpuxLxvr9n9CK0EGShUY4aoTCPMttZdt2MbhAr0IImA5iPOkgE7Tw0a
- pIUlM1IeZx9CrJkp+dO9oHAo7ie/FnJLtn1UgFpKmJldQxIb02+sWLukT5OJ3fzS2JZb
- ipLg==
+ bh=3g5QStANU68qgNs/XR6eXxqEfg8hDtCsIC+xOuuYaic=;
+ b=WJCUwoyIgCryyjg8mcY91k+rjbJ0NJQg9EqBOsYHlaYyDtE25ZsaXAKPhD6ecR1488
+ cxb1LfG/xl/MemNqrgaNueV7TbKnN+IzkF6Rqqc6TK4EwvruPgufZ7Mt7WSkH19CAWci
+ I8mWl+JfZ7kaM2An9GT2B4WUBe8c1qWSW8w9T0NRB6BzuUE4cHmwisb8ailJrQa279t/
+ YZY3+9Go6OZca3zIRama5Q8+LNFGBb6ubYECWL6UU1Dus4ktwnfjMhKOLMDEuIQ37XVQ
+ b08G2CF701sZygPpjjMJwhufo8k4/dNISHgiIqC+1rBBooLi6NdpVJEWEV3EI+jf8cNg
+ Ehdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc;
- bh=azxX8DQotjUpRkIL701uWfK9BXbxrQr+NwSoJrP9yyQ=;
- b=nxFXAmdHLvamECmabmrgYvfudpb7NiTgwr+nuz0Emyr4Uq4YRkRJTihO8w2E4wkbrR
- Vf6144VT9E0lpn+1VyU+W76jQV6vwXEROLksk4mSNJTJwf0e6EKv4dBDxZMRTMjp4YP9
- VxfbnWl/CkgJTWdLyYmxkX03eLI1TZngvUo8MJ+ZAzUVDNeMgBrw6S/E/TNo/KAICRkU
- Dd1IojE7MkEJQRwrdVABmsLMzqK558tuApwfEP2l6NzANLuCWUsYEHJpSYqlG3nX3cJ/
- JHcChd7VgYj2wn7rlKF0dPS+qF6Xd5jFRIcJ9wUF6k8wG4CkXvOaDyj5i0pOlErCDC4f
- fl3w==
-X-Gm-Message-State: ACgBeo2h0yK8XbvxZL12U9TdwPxhIgOGbMcfES2ROx7ley/JKO42HQvY
- kmNdOaNqYI28jPuRIUt58PtORvJoDfk=
-X-Google-Smtp-Source: AA6agR4ib6I83OhNfnAMTeM3GAhz45coGrx5QdVY073NSgKIQq0cfm0IIi0qlUT0iUIHUMCN4u5LHw==
-X-Received: by 2002:a17:90a:4801:b0:1fa:98ec:fa2 with SMTP id
- a1-20020a17090a480100b001fa98ec0fa2mr22717724pjh.41.1661861607097; 
- Tue, 30 Aug 2022 05:13:27 -0700 (PDT)
+ bh=3g5QStANU68qgNs/XR6eXxqEfg8hDtCsIC+xOuuYaic=;
+ b=y8PhxnJ+ngxwlxQkp3m2u3swKsivVTGqf3ht/N23xdatKVwxZOLduoxkFmR/16ew6W
+ hzpgkYrZn/UKmFbutt70ggPqdd4FtprxrRvfA1lRrUui+jvQPiBc9roy7v0cnCsjMy5V
+ LBu0qhf4krW4NrtEArpK7st+ZWeD6jJZnMdsut1/1ng+bpiQUtJT4apYgAtVM9W4HcR7
+ Sz8bONglDR2TsHpC1ZAgDp2cuccu2alR3gQ0bUMup2XcpsFljA/RcYhZbzlZRog8rJDc
+ BwEDUPMHZKnxZM1mpEzSQXKFWTXjpvkBLYhEnBNSFJqNiQiWSHC/UNiMMwptRbpCdt4+
+ qevQ==
+X-Gm-Message-State: ACgBeo0/debSIN6X1X5sRn/7mApQd8wQPTBSFA9Ok6glXEi5w86LgYLE
+ Hx4srQ7rV7H8JV3Nje0DUVeJ+G8BcCA=
+X-Google-Smtp-Source: AA6agR6Uw0EFlgHxhNSluV54hKZsTD1sDp8iYCxpYH1mCF7d32w6Clw9KnIp3RSnGxUBOUFmj4Skww==
+X-Received: by 2002:a17:902:a40f:b0:172:d0c7:ede1 with SMTP id
+ p15-20020a170902a40f00b00172d0c7ede1mr21286710plq.88.1661861714283; 
+ Tue, 30 Aug 2022 05:15:14 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- z1-20020a63c041000000b0041a67913d5bsm1491628pgi.71.2022.08.30.05.13.25
+ g14-20020aa796ae000000b00528bd940390sm9240529pfk.153.2022.08.30.05.15.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Aug 2022 05:13:26 -0700 (PDT)
-Message-ID: <1b56c62b-4a13-98f2-eb65-133f080c71b8@amsat.org>
-Date: Tue, 30 Aug 2022 14:13:24 +0200
+ Tue, 30 Aug 2022 05:15:13 -0700 (PDT)
+Message-ID: <39c79e52-7ea6-0bb2-b1dc-22dc32e8e565@amsat.org>
+Date: Tue, 30 Aug 2022 14:15:10 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH 5/7] configure: Remove use of backtick `...` syntax
+Subject: Re: [PATCH 6/7] configure: Check mkdir result directly, not via $?
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20220825150703.4074125-1-peter.maydell@linaro.org>
- <20220825150703.4074125-6-peter.maydell@linaro.org>
-In-Reply-To: <20220825150703.4074125-6-peter.maydell@linaro.org>
+ <20220825150703.4074125-7-peter.maydell@linaro.org>
+In-Reply-To: <20220825150703.4074125-7-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,32 +96,32 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 25/8/22 17:07, Peter Maydell wrote:
-> There's only one place in configure where we use `...` to execute a
-> command and capture the result.  Switch to $() to match the rest of
-> the script. This silences a shellcheck warning.
-> 
+> Shellcheck warns that we have one place where we run a command and
+> then check if it failed using $?; this is better written to simply
+> check the command in the 'if' statement directly.
+
+It is also safer, in case someone add another command between the
+two lines.
+
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   configure | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   configure | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 > 
 > diff --git a/configure b/configure
-> index d5b6546ae81..5c1992d5bce 100755
+> index 5c1992d5bce..f8d7270a60e 100755
 > --- a/configure
 > +++ b/configure
-> @@ -2317,7 +2317,7 @@ LINKS="$LINKS python"
->   LINKS="$LINKS contrib/plugins/Makefile "
->   for f in $LINKS ; do
->       if [ -e "$source_path/$f" ]; then
-> -        mkdir -p `dirname ./$f`
-> +        mkdir -p "$(dirname ./"$f")"
-
-Nitpicking, easier to read as "$(dirname ./${f})"
+> @@ -67,8 +67,7 @@ fi
+>   # it when configure exits.)
+>   TMPDIR1="config-temp"
+>   rm -rf "${TMPDIR1}"
+> -mkdir -p "${TMPDIR1}"
+> -if [ $? -ne 0 ]; then
+> +if ! mkdir -p "${TMPDIR1}"; then
+>       echo "ERROR: failed to create temporary directory"
+>       exit 1
+>   fi
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
->           symlink "$source_path/$f" "$f"
->       fi
->   done
-
 
