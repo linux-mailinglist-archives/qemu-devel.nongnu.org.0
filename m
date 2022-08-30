@@ -2,64 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84FCE5A5C27
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 08:52:54 +0200 (CEST)
-Received: from localhost ([::1]:49430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7A705A5CAF
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 09:16:12 +0200 (CEST)
+Received: from localhost ([::1]:58760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSv7E-00072e-9W
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 02:52:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55492)
+	id 1oSvTm-0006CG-JJ
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 03:16:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1oSuyz-0003yi-La; Tue, 30 Aug 2022 02:44:23 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:4029)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1oSuyu-000497-UR; Tue, 30 Aug 2022 02:44:19 -0400
-Received: from dggems706-chm.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4MGyMr50ynzPrsR;
- Tue, 30 Aug 2022 14:39:36 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- dggems706-chm.china.huawei.com (10.3.19.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 30 Aug 2022 14:43:58 +0800
-Received: from lhrpeml500005.china.huawei.com ([7.191.163.240]) by
- lhrpeml500005.china.huawei.com ([7.191.163.240]) with mapi id 15.01.2375.024; 
- Tue, 30 Aug 2022 07:43:56 +0100
-To: Laszlo Ersek <lersek@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>
-CC: "imammedo@redhat.com" <imammedo@redhat.com>, "peter.maydell@linaro.org"
- <peter.maydell@linaro.org>, Linuxarm <linuxarm@huawei.com>, "chenxiang (M)"
- <chenxiang66@hisilicon.com>, "Ard Biesheuvel (kernel.org address)"
- <ardb@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>, "Christian A. Ehrhardt"
- <lk@c--e.de>
-Subject: RE: [PATCH] fw_cfg: Don't set callback_opaque NULL in
- fw_cfg_modify_bytes_read()
-Thread-Topic: [PATCH] fw_cfg: Don't set callback_opaque NULL in
- fw_cfg_modify_bytes_read()
-Thread-Index: AQHYuJ5p23rvTq/DF0St1dy35YWrx63BBLQAgAAB6oCAABHCkIAF7EsQ
-Date: Tue, 30 Aug 2022 06:43:56 +0000
-Message-ID: <ab49a753129e48bd96cb44d876ddf1cf@huawei.com>
-References: <20220825161842.841-1-shameerali.kolothum.thodi@huawei.com>
- <43c62060-7a5d-25cf-91a3-1c391d3a58f9@redhat.com>
- <ab43b53b-546a-4056-0e91-31691f716109@redhat.com> 
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.195.34.255]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
+ id 1oSvQv-0004lP-2B
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 03:13:14 -0400
+Received: from mail-vs1-xe35.google.com ([2607:f8b0:4864:20::e35]:42763)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
+ id 1oSvQs-0008SL-KJ
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 03:13:12 -0400
+Received: by mail-vs1-xe35.google.com with SMTP id i1so440974vsc.9
+ for <qemu-devel@nongnu.org>; Tue, 30 Aug 2022 00:13:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=t6EdYenelYEAKvYI7l5sMM1+TCE0xZ4wvYAEChvTwwY=;
+ b=ZnRkpIK4p52NmfjpwCK+1O4J6pwXnzbMfzpHmeIC6YF7fo30Jij+In4Rd++7h3izUW
+ NZYyeA2PzGmV0Tqhh5mjp4RAUPz92mj9JT09KusBlcfn4gsFmo3C/xd1eBZFUhaq2lrH
+ M0TNF5WyYmNnxepUxTEIyhOx/tRwL8TehEG3Q1rX/eq0jAPwui45RmgsWWzj9hX7ADB5
+ aJtwWmsS1q/Mw9exKaUgvY6wTuRCb6XlOKgm2nMBy3YoucaNZJSOfvGwVf4RWz+eflVs
+ hGrDRubBgtAiVIdnr/I1xgqjuovoFx249OhTrGK7Exsrg8/FZ7O+X5osuW33Gi74InPX
+ PguA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=t6EdYenelYEAKvYI7l5sMM1+TCE0xZ4wvYAEChvTwwY=;
+ b=q+b0SirDuI8yycVt0qyi8NNHC6sJuk1/mQ9/7gew6S4LDOKCyyB2HCsNy+8WYYSV7z
+ kjZrNtyMGrqLs2A/bFvv2emraiyetKZjXcKWvQf0M6zfgYz9PZdo8Jr+iRoCOecRDeUF
+ 4gwH799deLQIHf6UUB3jY3/3m7xlYwlxg6d7IozbXK7JplDVYMYoT7/KgagdoJ3irs05
+ hP5jgLlh9tWhVE0m/hPdX+H3mO/fsVKgwHguVdKvxXEcAjgOuv6GoDybEoZO8+3MVK1T
+ GI0mvzZ9YjoDNsqPwT28WO2UIW/2ORJFJg1ndU98SNZB8bnnwlTrl9tsijyodn8DVa3k
+ GNOw==
+X-Gm-Message-State: ACgBeo0rdBUWhBv9blYtySJS692IOLkze5IfMtUx8sVwHuZDdOm2hk2r
+ fbk0sN5PeFu72/jwMkcr20qIQ9Svai7A5QAqX+k=
+X-Google-Smtp-Source: AA6agR5Ko3un9ehOGBZssqQmXGbKc0Lh9sXjRme1db4OHbYECjn6Sz9ffZyq9cuyLGCD66zWSa0DT4QXleWWXq+YVOk=
+X-Received: by 2002:a05:6102:390d:b0:387:78b9:bf9c with SMTP id
+ e13-20020a056102390d00b0038778b9bf9cmr4648016vsu.43.1661843589474; Tue, 30
+ Aug 2022 00:13:09 -0700 (PDT)
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35;
- envelope-from=shameerali.kolothum.thodi@huawei.com; helo=szxga07-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220830063827.813053-1-kraxel@redhat.com>
+ <20220830063827.813053-3-kraxel@redhat.com>
+In-Reply-To: <20220830063827.813053-3-kraxel@redhat.com>
+From: Qiang Liu <cyruscyliu@gmail.com>
+Date: Tue, 30 Aug 2022 15:12:58 +0800
+Message-ID: <CAAKa2j=Z3Qmgkzwm4ogYgpfLOxJ2zwYWNSGKYQoWrYPtHpqz9g@mail.gmail.com>
+Subject: Re: [PATCH 2/2] usb/msd: add usb_msd_fatal_error() and fix
+ guest-triggerable assert
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e35;
+ envelope-from=cyruscyliu@gmail.com; helo=mail-vs1-xe35.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,95 +83,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-From:  Shameerali Kolothum Thodi via <qemu-devel@nongnu.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogU2hhbWVlcmFsaSBLb2xv
-dGh1bSBUaG9kaQ0KPiBTZW50OiAyNiBBdWd1c3QgMjAyMiAxMzoxNQ0KPiBUbzogJ0xhc3psbyBF
-cnNlaycgPGxlcnNla0ByZWRoYXQuY29tPjsgcWVtdS1kZXZlbEBub25nbnUub3JnOw0KPiBxZW11
-LWFybUBub25nbnUub3JnDQo+IENjOiBpbWFtbWVkb0ByZWRoYXQuY29tOyBwZXRlci5tYXlkZWxs
-QGxpbmFyby5vcmc7IExpbnV4YXJtDQo+IDxsaW51eGFybUBodWF3ZWkuY29tPjsgY2hlbnhpYW5n
-IChNKSA8Y2hlbnhpYW5nNjZAaGlzaWxpY29uLmNvbT47IEFyZA0KPiBCaWVzaGV1dmVsIChrZXJu
-ZWwub3JnIGFkZHJlc3MpIDxhcmRiQGtlcm5lbC5vcmc+OyBHZXJkIEhvZmZtYW5uDQo+IDxrcmF4
-ZWxAcmVkaGF0LmNvbT4NCj4gU3ViamVjdDogUkU6IFtQQVRDSF0gZndfY2ZnOiBEb24ndCBzZXQg
-Y2FsbGJhY2tfb3BhcXVlIE5VTEwgaW4NCj4gZndfY2ZnX21vZGlmeV9ieXRlc19yZWFkKCkNCj4g
-DQo+IA0KPiANCj4gPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+IEZyb206IExhc3ps
-byBFcnNlayBbbWFpbHRvOmxlcnNla0ByZWRoYXQuY29tXQ0KPiA+IFNlbnQ6IDI2IEF1Z3VzdCAy
-MDIyIDEzOjA3DQo+ID4gVG86IFNoYW1lZXJhbGkgS29sb3RodW0gVGhvZGkNCj4gPHNoYW1lZXJh
-bGkua29sb3RodW0udGhvZGlAaHVhd2VpLmNvbT47DQo+ID4gcWVtdS1kZXZlbEBub25nbnUub3Jn
-OyBxZW11LWFybUBub25nbnUub3JnDQo+ID4gQ2M6IGltYW1tZWRvQHJlZGhhdC5jb207IHBldGVy
-Lm1heWRlbGxAbGluYXJvLm9yZzsgTGludXhhcm0NCj4gPiA8bGludXhhcm1AaHVhd2VpLmNvbT47
-IGNoZW54aWFuZyAoTSkgPGNoZW54aWFuZzY2QGhpc2lsaWNvbi5jb20+Ow0KPiBBcmQNCj4gPiBC
-aWVzaGV1dmVsIChrZXJuZWwub3JnIGFkZHJlc3MpIDxhcmRiQGtlcm5lbC5vcmc+OyBHZXJkIEhv
-ZmZtYW5uDQo+ID4gPGtyYXhlbEByZWRoYXQuY29tPg0KPiA+IFN1YmplY3Q6IFJlOiBbUEFUQ0hd
-IGZ3X2NmZzogRG9uJ3Qgc2V0IGNhbGxiYWNrX29wYXF1ZSBOVUxMIGluDQo+ID4gZndfY2ZnX21v
-ZGlmeV9ieXRlc19yZWFkKCkNCj4gPg0KPiA+ICtBcmQgK0dlcmQsIG9uZSBwb2ludGVyIGF0IHRo
-ZSBib3R0b20NCj4gPg0KPiA+IE9uIDA4LzI2LzIyIDEzOjU5LCBMYXN6bG8gRXJzZWsgd3JvdGU6
-DQo+ID4gPiBPbiAwOC8yNS8yMiAxODoxOCwgU2hhbWVlciBLb2xvdGh1bSB3cm90ZToNCj4gPiA+
-PiBIaQ0KPiA+ID4+DQo+ID4gPj4gT24gYXJtL3ZpcnQgcGxhdGZvcm0sIENoZW4gWGlhbmcgcmVw
-b3J0ZWQgYSBHdWVzdCBjcmFzaCB3aGlsZQ0KPiA+ID4+IGF0dGVtcHRpbmcgdGhlIGJlbG93IHN0
-ZXBzLA0KPiA+ID4+DQo+ID4gPj4gMS4gTGF1bmNoIHRoZSBHdWVzdCB3aXRoIG52ZGltbT1vbg0K
-PiA+ID4+IDIuIEhvdC1hZGQgYSBOVkRJTU0gZGV2DQo+ID4gPj4gMy4gUmVib290DQo+ID4gPj4g
-NC4gR3Vlc3QgYm9vdHMgZmluZS4NCj4gPiA+PiA1LiBSZWJvb3QgYWdhaW4uDQo+ID4gPj4gNi4g
-R3Vlc3QgYm9vdCBmYWlscy4NCj4gPiA+Pg0KPiA+ID4+IFFFTVVfRUZJIHJlcG9ydHMgdGhlIGJl
-bG93IGVycm9yOg0KPiA+ID4+IFByb2Nlc3NDbWRBZGRQb2ludGVyOiBpbnZhbGlkIHBvaW50ZXIg
-dmFsdWUgaW4gImV0Yy9hY3BpL3RhYmxlcyINCj4gPiA+PiBPblJvb3RCcmlkZ2VzQ29ubmVjdGVk
-OiBJbnN0YWxsQWNwaVRhYmxlczogUHJvdG9jb2wgRXJyb3INCj4gPiA+Pg0KPiA+ID4+IERlYnVn
-Z2luZyBzaG93cyB0aGF0IG9uIGZpcnN0IHJlYm9vdChhZnRlciBob3QtYWRkaW5nIE5WRElNTSks
-DQo+ID4gPj4gUWVtdSB1cGRhdGVzIHRoZSBldGMvdGFibGUtbG9hZGVyIGxlbiwNCj4gPiA+Pg0K
-PiA+ID4+IHFlbXVfcmFtX3Jlc2l6ZSgpDQo+ID4gPj4gwqAgZndfY2ZnX21vZGlmeV9maWxlKCkN
-Cj4gPiA+PiDCoCDCoCDCoGZ3X2NmZ19tb2RpZnlfYnl0ZXNfcmVhZCgpDQo+ID4gPj4NCj4gPiA+
-PiBBbmQgaW4gZndfY2ZnX21vZGlmeV9ieXRlc19yZWFkKCkgd2Ugc2V0IHRoZSAiY2FsbGJhY2tf
-b3BhcXVlIiBmb3INCj4gPiA+PiB0aGUgImtleSIgZW50cnkgdG8gTlVMTC4gQmVjYXVzZcKgb2Yg
-dGhpcywgb24gdGhlIHNlY29uZCByZWJvb3QsDQo+ID4gPj4gdmlydF9hY3BpX2J1aWxkX3VwZGF0
-ZSgpIGlzIGNhbGxlZCB3aXRoIGEgTlVMTCAiYnVpbGRfc3RhdGUiIGFuZA0KPiA+ID4+IHJldHVy
-bnMgd2l0aG91dCB1cGRhdGluZyB0aGUgQUNQSSB0YWJsZXMuIFRoaXMgc2VlbXMgdG8gYmUNCj4g
-PiA+PiB1cHNldHRpbmcgdGhlIGZpcm13YXJlLg0KPiA+ID4+DQo+ID4gPj4gVG8gZml4IHRoaXMs
-IGRvbid0IGNoYW5nZSB0aGUgY2FsbGJhY2tfb3BhcXVlIGluDQo+ID4gZndfY2ZnX21vZGlmeV9i
-eXRlc19yZWFkKCkuDQo+ID4gPj4NCj4gPiA+PiBSZXBvcnRlZC1ieTogY2hlbnhpYW5nIDxjaGVu
-eGlhbmc2NkBoaXNpbGljb24uY29tPg0KPiA+ID4+IFNpZ25lZC1vZmYtYnk6IFNoYW1lZXIgS29s
-b3RodW0NCj4gPiA8c2hhbWVlcmFsaS5rb2xvdGh1bS50aG9kaUBodWF3ZWkuY29tPg0KPiA+ID4+
-IC0tLQ0KPiA+ID4+IEkgYW0gc3RpbGwgbm90IHZlcnkgY29udmluY2VkIHRoaXMgaXMgdGhlIHJv
-b3QgY2F1c2Ugb2YgdGhlIGlzc3VlLg0KPiA+ID4+IFRob3VnaCBpdCBsb29rcyBsaWtlIHNldHRp
-bmcgY2FsbGJhY2tfb3BhcXVlIHRvIE5VTEwgd2hpbGUgdXBkYXRpbmcNCj4gPiA+PiB0aGUgZmls
-ZSBzaXplIGlzIHdyb25nLCB3aGF0IHB1enpsZXMgbWUgaXMgdGhhdCBvbiB0aGUgc2Vjb25kIHJl
-Ym9vdA0KPiA+ID4+IHdlIGRvbid0IGhhdmUgYW55IEFDUEkgdGFibGUgc2l6ZSBjaGFuZ2VzIGFu
-ZCBpZGVhbGx5IGZpcm13YXJlIHNob3VsZA0KPiA+ID4+IHNlZSB0aGUgdXBkYXRlZCB0YWJsZXMg
-ZnJvbSB0aGUgZmlyc3QgcmVib290IGl0c2VsZi4NCj4gPiA+Pg0KPiA+ID4+IFBsZWFzZSB0YWtl
-IGEgbG9vayBhbmQgbGV0IG1lIGtub3cuDQo+ID4gPj4NCj4gPiA+PiBUaGFua3MsDQo+ID4gPj4g
-U2hhbWVlcg0KPiA+ID4+DQo+ID4gPj4gLS0tDQo+ID4gPj4gIGh3L252cmFtL2Z3X2NmZy5jIHwg
-MSAtDQo+ID4gPj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGRlbGV0aW9uKC0pDQo+ID4gPj4NCj4gPiA+
-PiBkaWZmIC0tZ2l0IGEvaHcvbnZyYW0vZndfY2ZnLmMgYi9ody9udnJhbS9md19jZmcuYw0KPiA+
-ID4+IGluZGV4IGQ2MDVmM2Y0NWEuLmRmZTg0MDRjMDEgMTAwNjQ0DQo+ID4gPj4gLS0tIGEvaHcv
-bnZyYW0vZndfY2ZnLmMNCj4gPiA+PiArKysgYi9ody9udnJhbS9md19jZmcuYw0KPiA+ID4+IEBA
-IC03MjgsNyArNzI4LDYgQEAgc3RhdGljIHZvaWQNCj4gPiAqZndfY2ZnX21vZGlmeV9ieXRlc19y
-ZWFkKEZXQ2ZnU3RhdGUgKnMsIHVpbnQxNl90IGtleSwNCj4gPiA+PiAgICAgIHB0ciA9IHMtPmVu
-dHJpZXNbYXJjaF1ba2V5XS5kYXRhOw0KPiA+ID4+ICAgICAgcy0+ZW50cmllc1thcmNoXVtrZXld
-LmRhdGEgPSBkYXRhOw0KPiA+ID4+ICAgICAgcy0+ZW50cmllc1thcmNoXVtrZXldLmxlbiA9IGxl
-bjsNCj4gPiA+PiAtICAgIHMtPmVudHJpZXNbYXJjaF1ba2V5XS5jYWxsYmFja19vcGFxdWUgPSBO
-VUxMOw0KPiA+ID4+ICAgICAgcy0+ZW50cmllc1thcmNoXVtrZXldLmFsbG93X3dyaXRlID0gZmFs
-c2U7DQo+ID4gPj4NCj4gPiA+PiAgICAgIHJldHVybiBwdHI7DQo+ID4gPj4NCj4gPiA+DQo+ID4g
-PiBJIHZhZ3VlbHkgcmVjYWxsIHNlZWluZyB0aGUgc2FtZSBpc3N1ZSByZXBvcnQgeWVhcnMgYWdv
-IChhbHNvIGluDQo+ID4gPiByZWxhdGlvbiB0byBob3QtYWRkaW5nIE5WRElNTSkuIEhvd2V2ZXIs
-IEkgaGF2ZSBubyBjYXBhY2l0eSB0bw0KPiA+ID4gcGFydGljaXBhdGUgaW4gdGhlIGRpc2N1c3Np
-b24uIE1ha2luZyB0aGlzIHJlbWFyayBqdXN0IGZvciBjbGFyaXR5Lg0KPiA+DQo+ID4gVGhlIGVh
-cmxpZXIgcmVwb3J0IEkndmUgaGFkIGluIG1pbmQgd2FzIGZyb20gU2hhbWVlciBhcyB3ZWxsOg0K
-PiA+DQo+ID4NCj4gaHR0cDovL21pZC5tYWlsLWFyY2hpdmUuY29tLzVGQzMxNjNDRkQzMEMyNDZB
-QkFBOTk5NTRBMjM4RkE4M0YzRg0KPiA+IEIzMjhAbGhyZW1sNTI0LW1icy5jaGluYS5odWF3ZWku
-Y29tDQo+IA0KPiBSaWdodC4gVGhhdCB3YXMgYSBzbGlnaHRseSBkaWZmZXJlbnQgaXNzdWUgdGhv
-dWdoLiBJdCB3YXMgYmFzaWNhbGx5IEFDUEkgdGFibGUNCj4gc2l6ZSBub3QNCj4gZ2V0dGluZyB1
-cGRhdGVkIG9uIHRoZSBmaXJzdCByZWJvb3Qgb2YgR3Vlc3QgYWZ0ZXIgd2UgaG90LWFkZCBOVkRJ
-TU0gZGV2Lg0KPiBUaGUgZXJyb3INCj4gZnJvbSBmaXJtd2FyZSB3YXMgZGlmZmVyZW50IGluIHRo
-YXQgY2FzZSwNCj4gDQo+IFByb2Nlc3NDbWRBZGRDaGVja3N1bTogaW52YWxpZCBjaGVja3N1bSBy
-YW5nZSBpbiAiZXRjL2FjcGkvdGFibGVzIg0KPiBPblJvb3RCcmlkZ2VzQ29ubmVjdGVkOiBJbnN0
-YWxsQWNwaVRhYmxlczogUHJvdG9jb2wgRXJyb3INCj4gDQo+IEFuZCBpdCB3YXMgZml4ZWQgd2l0
-aCB0aGlzIHNlcmllcyBoZXJlLA0KPiBodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3Byb2pl
-Y3QvcWVtdS1kZXZlbC9jb3Zlci8yMDIwMDQwMzEwMTgyNy4zDQo+IDA2NjQtMS1zaGFtZWVyYWxp
-LmtvbG90aHVtLnRob2RpQGh1YXdlaS5jb20vDQo+IA0KPiBUaGUgY3VycmVudCBpc3N1ZSBvbmx5
-IGhhcHBlbnMgb24gdGhlIHNlY29uZCByZWJvb3Qgb2YgdGhlIEd1ZXN0IGFzDQo+IGRlc2NyaWJl
-ZCBpbg0KPiB0aGUgc3RlcHMgYWJvdmUuDQo+IA0KDQpbK0NocmlzdGlhbl0NCg0KSSBqdXN0IGZv
-dW5kIHRoYXQgYSBzaW1pbGFyIGlzc3VlIHdhcyByZXBvcnRlZCBoZXJlIHNvbWV0aW1lIGJhY2sg
-b24gUTM1L1dpbmRvd3MNCnNldHVwLA0KaHR0cHM6Ly9wYXRjaGV3Lm9yZy9RRU1VL1lsZEZNVGJG
-TFVjZEZJZmFAY2FlLmluLXVsbS5kZS8NCg0KQnV0IHRoZXJlIGFyZSBubyBmdXJ0aGVyIGRpc2N1
-c3Npb25zIG9uIHRoYXQgdGhyZWFkLg0KDQpUaGFua3MsDQpTaGFtZWVyDQoNCg==
+I've checked out the patches and re-run my PoC. I see no crash anymore.
+I also fuzzed the latest code for a while (with the patches) and I saw
+no related crashes.
+
+Tested-by: Qiang Liu <cyruscyliu@gmail.com>
+
+On Tue, Aug 30, 2022 at 2:38 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> Add handler for fatal errors.  Moves device into error state where it
+> stops responding until the guest resets it.
+>
+> Guest can send illegal requests where scsi command and usb packet
+> transfer directions are inconsistent.  Use the new usb_msd_fatal_error()
+> function instead of assert() in that case.
+>
+> Reported-by: Qiang Liu <cyruscyliu@gmail.com>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  include/hw/usb/msd.h |  1 +
+>  hw/usb/dev-storage.c | 30 +++++++++++++++++++++++++++++-
+>  hw/usb/trace-events  |  1 +
+>  3 files changed, 31 insertions(+), 1 deletion(-)
+>
+> diff --git a/include/hw/usb/msd.h b/include/hw/usb/msd.h
+> index 54e9f38bda46..f9fd862b529a 100644
+> --- a/include/hw/usb/msd.h
+> +++ b/include/hw/usb/msd.h
+> @@ -40,6 +40,7 @@ struct MSDState {
+>      bool removable;
+>      bool commandlog;
+>      SCSIDevice *scsi_dev;
+> +    bool needs_reset;
+>  };
+>
+>  typedef struct MSDState MSDState;
+> diff --git a/hw/usb/dev-storage.c b/hw/usb/dev-storage.c
+> index 4485a2411797..3928209b8249 100644
+> --- a/hw/usb/dev-storage.c
+> +++ b/hw/usb/dev-storage.c
+> @@ -191,6 +191,23 @@ static void usb_msd_packet_complete(MSDState *s)
+>      usb_packet_complete(&s->dev, p);
+>  }
+>
+> +static void usb_msd_fatal_error(MSDState *s)
+> +{
+> +    trace_usb_msd_fatal_error();
+> +
+> +    if (s->packet) {
+> +        s->packet->status = USB_RET_STALL;
+> +        usb_msd_packet_complete(s);
+> +    }
+> +
+> +    /*
+> +     * Guest messed up up device state with illegal requests.  Go
+> +     * ignore any requests until the guests resets the device (and
+> +     * brings it into a known state that way).
+> +     */
+> +    s->needs_reset = true;
+> +}
+> +
+>  static void usb_msd_copy_data(MSDState *s, USBPacket *p)
+>  {
+>      uint32_t len;
+> @@ -227,7 +244,11 @@ void usb_msd_transfer_data(SCSIRequest *req, uint32_t len)
+>      MSDState *s = DO_UPCAST(MSDState, dev.qdev, req->bus->qbus.parent);
+>      USBPacket *p = s->packet;
+>
+> -    assert((s->mode == USB_MSDM_DATAOUT) == (req->cmd.mode == SCSI_XFER_TO_DEV));
+> +    if ((s->mode == USB_MSDM_DATAOUT) != (req->cmd.mode == SCSI_XFER_TO_DEV)) {
+> +        usb_msd_fatal_error(s);
+> +        return;
+> +    }
+> +
+>      s->scsi_len = len;
+>      s->scsi_off = 0;
+>      if (p) {
+> @@ -317,6 +338,8 @@ void usb_msd_handle_reset(USBDevice *dev)
+>
+>      memset(&s->csw, 0, sizeof(s->csw));
+>      s->mode = USB_MSDM_CBW;
+> +
+> +    s->needs_reset = false;
+>  }
+>
+>  static void usb_msd_handle_control(USBDevice *dev, USBPacket *p,
+> @@ -382,6 +405,11 @@ static void usb_msd_handle_data(USBDevice *dev, USBPacket *p)
+>      SCSIDevice *scsi_dev;
+>      uint32_t len;
+>
+> +    if (s->needs_reset) {
+> +        p->status = USB_RET_STALL;
+> +        return;
+> +    }
+> +
+>      switch (p->pid) {
+>      case USB_TOKEN_OUT:
+>          if (devep != 2)
+> diff --git a/hw/usb/trace-events b/hw/usb/trace-events
+> index 914ca7166829..b65269892c5e 100644
+> --- a/hw/usb/trace-events
+> +++ b/hw/usb/trace-events
+> @@ -263,6 +263,7 @@ usb_msd_packet_complete(void) ""
+>  usb_msd_cmd_submit(unsigned lun, unsigned tag, unsigned flags, unsigned len, unsigned data_len) "lun %u, tag 0x%x, flags 0x%08x, len %d, data-len %d"
+>  usb_msd_cmd_complete(unsigned status, unsigned tag) "status %d, tag 0x%x"
+>  usb_msd_cmd_cancel(unsigned tag) "tag 0x%x"
+> +usb_msd_fatal_error(void) ""
+>
+>  # dev-uas.c
+>  usb_uas_reset(int addr) "dev %d"
+> --
+> 2.37.2
+>
 
