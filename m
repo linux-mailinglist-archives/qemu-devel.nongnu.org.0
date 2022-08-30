@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CEFA5A5D10
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 09:36:47 +0200 (CEST)
-Received: from localhost ([::1]:55650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76FB05A5DC6
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 10:10:24 +0200 (CEST)
+Received: from localhost ([::1]:57808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSvnc-00079y-Lx
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 03:36:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40934)
+	id 1oSwKE-0005fd-Qd
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 04:10:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oSvhb-0003FY-4K
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 03:30:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30683)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oSvhX-0002nt-H1
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 03:30:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661844622;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0urpd1EeImC3ondQloXrINnAKmaviNOvckEnw2fnGv4=;
- b=ABv2/tBCJLewtirabDaLJnNj9U7bpfPwIoATFfTAlUxXyK87Rr5YfjE8b+rhq8urzvw+hW
- 9gc3cbHIfsUljotR0/kDsdHdea3pXgkXH0Y7LRq9iVLh6P4RleR376t68c/TB+TreB7v5G
- OPJ8BEeMayvaaKaibQs11r1IU9qQN40=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-282-mqPtLM5-O46jMI0wBW1UPg-1; Tue, 30 Aug 2022 03:30:19 -0400
-X-MC-Unique: mqPtLM5-O46jMI0wBW1UPg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 925DB85A58F;
- Tue, 30 Aug 2022 07:30:18 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 837E440315A;
- Tue, 30 Aug 2022 07:30:17 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 063E521E6900; Tue, 30 Aug 2022 09:30:16 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org,  Paolo Bonzini <pbonzini@redhat.com>,  "Denis V.
- Lunev" <den@openvz.org>,  Peter Xu <peterx@redhat.com>,  Yanan Wang
- <wangyanan55@huawei.com>,  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Richard W.M. Jones" <rjones@redhat.com>,  qemu-block@nongnu.org,  John
- Snow <jsnow@redhat.com>,  integration@gluster.org,  Vladimir
- Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,  Vladimir
- Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,  David Hildenbrand
- <david@redhat.com>,  Laurent Vivier <lvivier@redhat.com>,  Raphael Norwitz
- <raphael.norwitz@nutanix.com>,  Richard Henderson
- <richard.henderson@linaro.org>,  Fam Zheng <fam@euphon.net>,
- sgarzare@redhat.com,  Alberto Faria <afaria@redhat.com>,  Kevin Wolf
- <kwolf@redhat.com>,  Wen Congyang <wencongyang2@huawei.com>,  Eric Blake
- <eblake@redhat.com>,  Hanna Reitz <hreitz@redhat.com>,  Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,  Eduardo Habkost
- <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>,  Thomas Huth <thuth@redhat.com>,
- Jeff Cody <codyprime@gmail.com>,  Xie Changlong <xiechanglong.d@gmail.com>
-Subject: Re: [RFC v4 01/11] blkio: add libblkio block driver
-References: <20220822222402.176088-1-stefanha@redhat.com>
- <20220822222402.176088-2-stefanha@redhat.com>
-Date: Tue, 30 Aug 2022 09:30:16 +0200
-In-Reply-To: <20220822222402.176088-2-stefanha@redhat.com> (Stefan Hajnoczi's
- message of "Mon, 22 Aug 2022 18:23:52 -0400")
-Message-ID: <877d2qkx2v.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <john@john-millikin.com>)
+ id 1oSwGL-0003sq-12
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 04:06:21 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:43881)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <john@john-millikin.com>)
+ id 1oSwGF-0008FY-4Z
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 04:06:18 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ h11-20020a17090a470b00b001fbc5ba5224so11073671pjg.2
+ for <qemu-devel@nongnu.org>; Tue, 30 Aug 2022 01:06:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=john-millikin.com; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc;
+ bh=crq6Bxoap3ruVpfxQqPYGnDt95/gQ4Hk3CYIxlxhoNc=;
+ b=mq57Yj/19+AyL7s8LUSAMOpp3s1LiX6t2TdpURHXGbVdtwrTwStveTLxg8YTdPjqtx
+ JMskrM3aN+dFM9EeXlhAp3qI+XMH3REIw+B1XahGliyXGBF3EkMmwgqfLSs6K7+SFXip
+ qGckBQZTr840SxGp8VB1rFk5+MJjlcn3dpZOZDzPJugcXGiYZkyvKZJAd9CQBpyWD4sq
+ tPxaYW+KuZyYlM6asoDXO2ZnDabGO0eMeD++9bPDBLhHQAXa41KZEhDvPTxljOCt+0NK
+ WeMEg1rdFRL9EapngZOw2Z+7Y6j95vgMjdYFsatTxzLoudSEVgx0wGHADFFosm1PfzBE
+ 7Hew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=crq6Bxoap3ruVpfxQqPYGnDt95/gQ4Hk3CYIxlxhoNc=;
+ b=u+zn43VZkqDTFvr2t89CO4NehkjMcc4yPsHl25XV2FKOQkKSGEZ3TiquuDHiF/xErb
+ Q2PhzZ1Jt90H8/x4tOhs6McqFGj366CVglqD813DRcIuWpG3l9iWKGtb0fXLLIryzMYW
+ jEhQhwL9/Lt6o2cJY4J5bGMwje+EQsoPypDzN9TqSVK0FIZv7lJRi/rsUOC82wC1AbXc
+ 5NWZgtjXKe0LqmoIYXklC078DwRIoxDF0tOIdm6gq/+SUB+ayPd83kgtIhcOyGifTWwy
+ hrlQyh8UgjD19clsEKH3KBanJoJ5GHrcCwHwakJZ3z/TYpkZCkq44TbjpiTa0rP/g/V6
+ FjIA==
+X-Gm-Message-State: ACgBeo3XjCY3uAXCbKJaafSElQQ2w9n7dNh5099f3H2Y5d6s+iS21B1Y
+ hAWgek4PhWExQEwcKcePa/V4BKnNrekA+rnd
+X-Google-Smtp-Source: AA6agR56mOs5plyYbhSvJgTgHMgtmSEj+XBMKmV5tnb7Hk52jqsRg5AIRIJaBsdnyQjAYFPm5gXUQw==
+X-Received: by 2002:a17:90b:4a09:b0:1fd:d4be:fed4 with SMTP id
+ kk9-20020a17090b4a0900b001fdd4befed4mr8678285pjb.6.1661846771242; 
+ Tue, 30 Aug 2022 01:06:11 -0700 (PDT)
+Received: from john-millikin.com ([2405:6580:98c0:1200:eed:9c81:18d2:6802])
+ by smtp.gmail.com with ESMTPSA id
+ k3-20020a17090a4c8300b001ef81574355sm5790144pjh.12.2022.08.30.01.06.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Aug 2022 01:06:10 -0700 (PDT)
+Date: Tue, 30 Aug 2022 17:06:06 +0900
+From: John Millikin <john@john-millikin.com>
+To: qemu-devel@nongnu.org
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Bill Paul <noisetube@gmail.com>
+Subject: Re: [PATCH v2 1/2] scsi: Add buf_len parameter to scsi_req_new()
+Message-ID: <Yw3E7hveOmliHeXF@john-millikin.com>
+References: <20220820015648.902562-1-john@john-millikin.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220820015648.902562-1-john@john-millikin.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=john@john-millikin.com; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,186 +92,383 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan Hajnoczi <stefanha@redhat.com> writes:
+Gentle ping
 
-> libblkio (https://gitlab.com/libblkio/libblkio/) is a library for
-> high-performance disk I/O. It currently supports io_uring,
-> virtio-blk-vhost-user, and virtio-blk-vhost-vdpa with additional drivers
-> under development.
->
-> One of the reasons for developing libblkio is that other applications
-> besides QEMU can use it. This will be particularly useful for
-> virtio-blk-vhost-user which applications may wish to use for connecting
-> to qemu-storage-daemon.
->
-> libblkio also gives us an opportunity to develop in Rust behind a C API
-> that is easy to consume from QEMU.
->
-> This commit adds io_uring, virtio-blk-vhost-user, and
-> virtio-blk-vhost-vdpa BlockDrivers to QEMU using libblkio. It will be
-> easy to add other libblkio drivers since they will share the majority of
-> code.
->
-> For now I/O buffers are copied through bounce buffers if the libblkio
-> driver requires it. Later commits add an optimization for
-> pre-registering guest RAM to avoid bounce buffers.
->
-> The syntax is:
->
->   --blockdev io_uring,node-name=drive0,filename=test.img,readonly=on|off,cache.direct=on|off
->
-> and:
->
->   --blockdev virtio-blk-vhost-vdpa,node-name=drive0,path=/dev/vdpa...,readonly=on|off
->
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+On Sat, Aug 20, 2022 at 10:56:48AM +0900, John Millikin wrote:
+> When a SCSI command is received from the guest, the CDB length implied
+> by the first byte might exceed the number of bytes the guest sent. In
+> this case scsi_req_new() will read uninitialized data, causing
+> unpredictable behavior.
+> 
+> Adds the buf_len parameter to scsi_req_new() and plumbs it through the
+> call stack.
+> 
+> Signed-off-by: John Millikin <john@john-millikin.com>
+> Buglink: https://gitlab.com/qemu-project/qemu/-/issues/1127
 > ---
->  MAINTAINERS                   |   6 +
->  meson_options.txt             |   2 +
->  qapi/block-core.json          |  53 ++-
->  meson.build                   |   9 +
->  block/blkio.c                 | 725 ++++++++++++++++++++++++++++++++++
->  tests/qtest/modules-test.c    |   3 +
->  block/meson.build             |   1 +
->  scripts/meson-buildoptions.sh |   3 +
->  8 files changed, 800 insertions(+), 2 deletions(-)
->  create mode 100644 block/blkio.c
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5ce4227ff6..f8ccd5954c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -3397,6 +3397,12 @@ L: qemu-block@nongnu.org
->  S: Maintained
->  F: block/vdi.c
+>  hw/scsi/esp.c          |  2 +-
+>  hw/scsi/lsi53c895a.c   |  2 +-
+>  hw/scsi/megasas.c      | 12 +++++++-----
+>  hw/scsi/mptsas.c       |  3 ++-
+>  hw/scsi/scsi-bus.c     | 21 +++++++++++++--------
+>  hw/scsi/scsi-disk.c    |  7 ++++---
+>  hw/scsi/scsi-generic.c |  5 +++--
+>  hw/scsi/spapr_vscsi.c  |  3 ++-
+>  hw/scsi/virtio-scsi.c  |  5 +++--
+>  hw/scsi/vmw_pvscsi.c   |  3 ++-
+>  hw/usb/dev-storage.c   |  3 ++-
+>  hw/usb/dev-uas.c       |  5 +++--
+>  include/hw/scsi/scsi.h | 11 ++++++-----
+>  13 files changed, 49 insertions(+), 33 deletions(-)
+> 
+> Changes from v1:
+> * Applied Paolo's suggestions for proper CDB sizes instead of a TODO.
+>   https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg02928.html
+> 
+> v1: https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg02509.html
+> 
+> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+> index 2d3c649567..19fafad2a3 100644
+> --- a/hw/scsi/esp.c
+> +++ b/hw/scsi/esp.c
+> @@ -292,7 +292,7 @@ static void do_command_phase(ESPState *s)
+>      esp_fifo_pop_buf(&s->cmdfifo, buf, cmdlen);
 >  
-> +blkio
-> +M: Stefan Hajnoczi <stefanha@redhat.com>
-> +L: qemu-block@nongnu.org
-> +S: Maintained
-> +F: block/blkio.c
-> +
->  iSCSI
->  M: Ronnie Sahlberg <ronniesahlberg@gmail.com>
->  M: Paolo Bonzini <pbonzini@redhat.com>
-> diff --git a/meson_options.txt b/meson_options.txt
-> index e58e158396..67d841a8d2 100644
-> --- a/meson_options.txt
-> +++ b/meson_options.txt
-> @@ -117,6 +117,8 @@ option('bzip2', type : 'feature', value : 'auto',
->         description: 'bzip2 support for DMG images')
->  option('cap_ng', type : 'feature', value : 'auto',
->         description: 'cap_ng support')
-> +option('blkio', type : 'feature', value : 'auto',
-> +       description: 'libblkio block device driver')
->  option('bpf', type : 'feature', value : 'auto',
->          description: 'eBPF support')
->  option('cocoa', type : 'feature', value : 'auto',
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 2173e7734a..c8d217b50c 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -2951,11 +2951,16 @@
->              'file', 'snapshot-access', 'ftp', 'ftps', 'gluster',
->              {'name': 'host_cdrom', 'if': 'HAVE_HOST_BLOCK_DEVICE' },
->              {'name': 'host_device', 'if': 'HAVE_HOST_BLOCK_DEVICE' },
-> -            'http', 'https', 'iscsi',
-> +            'http', 'https',
-> +            { 'name': 'io_uring', 'if': 'CONFIG_BLKIO' },
-> +            'iscsi',
->              'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels',
->              'preallocate', 'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
->              { 'name': 'replication', 'if': 'CONFIG_REPLICATION' },
-> -            'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat' ] }
-> +            'ssh', 'throttle', 'vdi', 'vhdx',
-> +            { 'name': 'virtio-blk-vhost-user', 'if': 'CONFIG_BLKIO' },
-> +            { 'name': 'virtio-blk-vhost-vdpa', 'if': 'CONFIG_BLKIO' },
-> +            'vmdk', 'vpc', 'vvfat' ] }
+>      current_lun = scsi_device_find(&s->bus, 0, s->current_dev->id, s->lun);
+> -    s->current_req = scsi_req_new(current_lun, 0, s->lun, buf, s);
+> +    s->current_req = scsi_req_new(current_lun, 0, s->lun, buf, cmdlen, s);
+>      datalen = scsi_req_enqueue(s->current_req);
+>      s->ti_size = datalen;
+>      fifo8_reset(&s->cmdfifo);
+> diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
+> index ad5f5e5f39..05a43ec807 100644
+> --- a/hw/scsi/lsi53c895a.c
+> +++ b/hw/scsi/lsi53c895a.c
+> @@ -864,7 +864,7 @@ static void lsi_do_command(LSIState *s)
+>      s->current = g_new0(lsi_request, 1);
+>      s->current->tag = s->select_tag;
+>      s->current->req = scsi_req_new(dev, s->current->tag, s->current_lun, buf,
+> -                                   s->current);
+> +                                   s->dbc, s->current);
 >  
->  ##
->  # @BlockdevOptionsFile:
-> @@ -3678,6 +3683,42 @@
->              '*debug': 'int',
->              '*logfile': 'str' } }
+>      n = scsi_req_enqueue(s->current->req);
+>      if (n) {
+> diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
+> index d5dfb412ba..04d48b9cb8 100644
+> --- a/hw/scsi/megasas.c
+> +++ b/hw/scsi/megasas.c
+> @@ -1062,7 +1062,8 @@ static int megasas_pd_get_info_submit(SCSIDevice *sdev, int lun,
+>          info->inquiry_data[0] = 0x7f; /* Force PQual 0x3, PType 0x1f */
+>          info->vpd_page83[0] = 0x7f;
+>          megasas_setup_inquiry(cmdbuf, 0, sizeof(info->inquiry_data));
+> -        cmd->req = scsi_req_new(sdev, cmd->index, lun, cmdbuf, cmd);
+> +        cmd->req = scsi_req_new(sdev, cmd->index, lun, cmdbuf,
+> +                                sizeof(cmdbuf), cmd);
+>          if (!cmd->req) {
+>              trace_megasas_dcmd_req_alloc_failed(cmd->index,
+>                                                  "PD get info std inquiry");
+> @@ -1080,7 +1081,8 @@ static int megasas_pd_get_info_submit(SCSIDevice *sdev, int lun,
+>          return MFI_STAT_INVALID_STATUS;
+>      } else if (info->inquiry_data[0] != 0x7f && info->vpd_page83[0] == 0x7f) {
+>          megasas_setup_inquiry(cmdbuf, 0x83, sizeof(info->vpd_page83));
+> -        cmd->req = scsi_req_new(sdev, cmd->index, lun, cmdbuf, cmd);
+> +        cmd->req = scsi_req_new(sdev, cmd->index, lun, cmdbuf,
+> +                                sizeof(cmdbuf), cmd);
+>          if (!cmd->req) {
+>              trace_megasas_dcmd_req_alloc_failed(cmd->index,
+>                                                  "PD get info vpd inquiry");
+> @@ -1268,7 +1270,7 @@ static int megasas_ld_get_info_submit(SCSIDevice *sdev, int lun,
+>          cmd->iov_buf = g_malloc0(dcmd_size);
+>          info = cmd->iov_buf;
+>          megasas_setup_inquiry(cdb, 0x83, sizeof(info->vpd_page83));
+> -        cmd->req = scsi_req_new(sdev, cmd->index, lun, cdb, cmd);
+> +        cmd->req = scsi_req_new(sdev, cmd->index, lun, cdb, sizeof(cdb), cmd);
+>          if (!cmd->req) {
+>              trace_megasas_dcmd_req_alloc_failed(cmd->index,
+>                                                  "LD get info vpd inquiry");
+> @@ -1748,7 +1750,7 @@ static int megasas_handle_scsi(MegasasState *s, MegasasCmd *cmd,
+>          return MFI_STAT_SCSI_DONE_WITH_ERROR;
+>      }
 >  
-> +##
-> +# @BlockdevOptionsIoUring:
-> +#
-> +# Driver specific block device options for the io_uring backend.
-> +#
-> +# @filename: path to the image file
-> +#
-> +# Since: 7.2
-> +##
-> +{ 'struct': 'BlockdevOptionsIoUring',
-> +  'data': { 'filename': 'str' } }
-> +
-> +##
-> +# @BlockdevOptionsVirtioBlkVhostUser:
-> +#
-> +# Driver specific block device options for the virtio-blk-vhost-user backend.
-> +#
-> +# @path: path to the vhost-user UNIX domain socket.
-> +#
-> +# Since: 7.2
-> +##
-> +{ 'struct': 'BlockdevOptionsVirtioBlkVhostUser',
-> +  'data': { 'path': 'str' } }
-> +
-> +##
-> +# @BlockdevOptionsVirtioBlkVhostVdpa:
-> +#
-> +# Driver specific block device options for the virtio-blk-vhost-vdpa backend.
-> +#
-> +# @path: path to the vhost-vdpa character device.
-> +#
-> +# Since: 7.2
-> +##
-> +{ 'struct': 'BlockdevOptionsVirtioBlkVhostVdpa',
-> +  'data': { 'path': 'str' } }
-> +
-
-We seem to be evenly split between 'filename' and 'path'.  Before the
-patch we have four uses of 'filename' in this schema file (ImageInfo,
-ImageCheck, BlockDriverOptionsFile, BlockdevCreateOptionsFile), and
-three of 'path' (BlockdevOptionsSsh, BlockdevOptionsGluster,
-BlockdevOptionsNfs).  There's also 'backing-file', 'data-file',
-'backing-filename', 'file', and probably more (I stopped looking).
-
-I dislike 'path'.  For what it's worth, POSIX calls this "pathname", and
-the components "filename".  Everyday use hardly ever distinguishes
-between the two.  Plain "path", however, is commonly used for lists of
-directories.
-
->  ##
->  # @IscsiTransport:
->  #
-> @@ -4305,6 +4346,8 @@
->                         'if': 'HAVE_HOST_BLOCK_DEVICE' },
->        'http':       'BlockdevOptionsCurlHttp',
->        'https':      'BlockdevOptionsCurlHttps',
-> +      'io_uring':   { 'type': 'BlockdevOptionsIoUring',
-> +                      'if': 'CONFIG_BLKIO' },
->        'iscsi':      'BlockdevOptionsIscsi',
->        'luks':       'BlockdevOptionsLUKS',
->        'nbd':        'BlockdevOptionsNbd',
-> @@ -4327,6 +4370,12 @@
->        'throttle':   'BlockdevOptionsThrottle',
->        'vdi':        'BlockdevOptionsGenericFormat',
->        'vhdx':       'BlockdevOptionsGenericFormat',
-> +      'virtio-blk-vhost-user':
-> +                    { 'type': 'BlockdevOptionsVirtioBlkVhostUser',
-> +                      'if': 'CONFIG_BLKIO' },
-> +      'virtio-blk-vhost-vdpa':
-> +                    { 'type': 'BlockdevOptionsVirtioBlkVhostVdpa',
-> +                      'if': 'CONFIG_BLKIO' },
->        'vmdk':       'BlockdevOptionsGenericCOWFormat',
->        'vpc':        'BlockdevOptionsGenericFormat',
->        'vvfat':      'BlockdevOptionsVVFAT'
-
-[...]
-
-Since the naming mess is not a new one made by this patch,
-Acked-by: Markus Armbruster <armbru@redhat.com>
-
+> -    cmd->req = scsi_req_new(sdev, cmd->index, lun_id, cdb, cmd);
+> +    cmd->req = scsi_req_new(sdev, cmd->index, lun_id, cdb, cdb_len, cmd);
+>      if (!cmd->req) {
+>          trace_megasas_scsi_req_alloc_failed(
+>                  mfi_frame_desc(frame_cmd), target_id, lun_id);
+> @@ -1823,7 +1825,7 @@ static int megasas_handle_io(MegasasState *s, MegasasCmd *cmd, int frame_cmd)
+>  
+>      megasas_encode_lba(cdb, lba_start, lba_count, is_write);
+>      cmd->req = scsi_req_new(sdev, cmd->index,
+> -                            lun_id, cdb, cmd);
+> +                            lun_id, cdb, cdb_len, cmd);
+>      if (!cmd->req) {
+>          trace_megasas_scsi_req_alloc_failed(
+>              mfi_frame_desc(frame_cmd), target_id, lun_id);
+> diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
+> index 706cf0df3a..c4eedb6e0f 100644
+> --- a/hw/scsi/mptsas.c
+> +++ b/hw/scsi/mptsas.c
+> @@ -324,7 +324,8 @@ static int mptsas_process_scsi_io_request(MPTSASState *s,
+>      }
+>  
+>      req->sreq = scsi_req_new(sdev, scsi_io->MsgContext,
+> -                            scsi_io->LUN[1], scsi_io->CDB, req);
+> +                            scsi_io->LUN[1], scsi_io->CDB,
+> +                            scsi_io->CDBLength, req);
+>  
+>      if (req->sreq->cmd.xfer > scsi_io->DataLength) {
+>          goto overrun;
+> diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+> index b2e2bc3c96..b35fde0a30 100644
+> --- a/hw/scsi/scsi-bus.c
+> +++ b/hw/scsi/scsi-bus.c
+> @@ -102,15 +102,15 @@ static void scsi_device_unrealize(SCSIDevice *s)
+>  }
+>  
+>  int scsi_bus_parse_cdb(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
+> -                       void *hba_private)
+> +                       size_t buf_len, void *hba_private)
+>  {
+>      SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, dev->qdev.parent_bus);
+>      int rc;
+>  
+>      assert(cmd->len == 0);
+> -    rc = scsi_req_parse_cdb(dev, cmd, buf);
+> +    rc = scsi_req_parse_cdb(dev, cmd, buf, buf_len);
+>      if (bus->info->parse_cdb) {
+> -        rc = bus->info->parse_cdb(dev, cmd, buf, hba_private);
+> +        rc = bus->info->parse_cdb(dev, cmd, buf, buf_len, hba_private);
+>      }
+>      return rc;
+>  }
+> @@ -703,7 +703,7 @@ SCSIRequest *scsi_req_alloc(const SCSIReqOps *reqops, SCSIDevice *d,
+>  }
+>  
+>  SCSIRequest *scsi_req_new(SCSIDevice *d, uint32_t tag, uint32_t lun,
+> -                          uint8_t *buf, void *hba_private)
+> +                          uint8_t *buf, size_t buf_len, void *hba_private)
+>  {
+>      SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, d->qdev.parent_bus);
+>      const SCSIReqOps *ops;
+> @@ -734,9 +734,9 @@ SCSIRequest *scsi_req_new(SCSIDevice *d, uint32_t tag, uint32_t lun,
+>      }
+>  
+>      if (ops != NULL || !sc->parse_cdb) {
+> -        ret = scsi_req_parse_cdb(d, &cmd, buf);
+> +        ret = scsi_req_parse_cdb(d, &cmd, buf, buf_len);
+>      } else {
+> -        ret = sc->parse_cdb(d, &cmd, buf, hba_private);
+> +        ret = sc->parse_cdb(d, &cmd, buf, buf_len, hba_private);
+>      }
+>  
+>      if (ret != 0) {
+> @@ -1308,7 +1308,8 @@ static void scsi_cmd_xfer_mode(SCSICommand *cmd)
+>      }
+>  }
+>  
+> -int scsi_req_parse_cdb(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf)
+> +int scsi_req_parse_cdb(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
+> +                       size_t buf_len)
+>  {
+>      int rc;
+>      int len;
+> @@ -1713,7 +1714,11 @@ static int get_scsi_requests(QEMUFile *f, void *pv, size_t size,
+>          qemu_get_buffer(f, buf, sizeof(buf));
+>          qemu_get_be32s(f, &tag);
+>          qemu_get_be32s(f, &lun);
+> -        req = scsi_req_new(s, tag, lun, buf, NULL);
+> +        /*
+> +         * A too-short CDB would have been rejected by scsi_req_new, so just use
+> +         * SCSI_CMD_BUF_SIZE as the CDB length.
+> +         */
+> +        req = scsi_req_new(s, tag, lun, buf, SCSI_CMD_BUF_SIZE, NULL);
+>          req->retry = (sbyte == 1);
+>          if (bus->info->load_request) {
+>              req->hba_private = bus->info->load_request(f, req);
+> diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+> index efee6739f9..399e1787ea 100644
+> --- a/hw/scsi/scsi-disk.c
+> +++ b/hw/scsi/scsi-disk.c
+> @@ -3030,14 +3030,15 @@ static SCSIRequest *scsi_block_new_request(SCSIDevice *d, uint32_t tag,
+>  }
+>  
+>  static int scsi_block_parse_cdb(SCSIDevice *d, SCSICommand *cmd,
+> -                                  uint8_t *buf, void *hba_private)
+> +                                  uint8_t *buf, size_t buf_len,
+> +                                  void *hba_private)
+>  {
+>      SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, d);
+>  
+>      if (scsi_block_is_passthrough(s, buf)) {
+> -        return scsi_bus_parse_cdb(&s->qdev, cmd, buf, hba_private);
+> +        return scsi_bus_parse_cdb(&s->qdev, cmd, buf, buf_len, hba_private);
+>      } else {
+> -        return scsi_req_parse_cdb(&s->qdev, cmd, buf);
+> +        return scsi_req_parse_cdb(&s->qdev, cmd, buf, buf_len);
+>      }
+>  }
+>  
+> diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
+> index ada24d7486..55db1684de 100644
+> --- a/hw/scsi/scsi-generic.c
+> +++ b/hw/scsi/scsi-generic.c
+> @@ -784,9 +784,10 @@ static Property scsi_generic_properties[] = {
+>  };
+>  
+>  static int scsi_generic_parse_cdb(SCSIDevice *dev, SCSICommand *cmd,
+> -                                  uint8_t *buf, void *hba_private)
+> +                                  uint8_t *buf, size_t buf_len,
+> +                                  void *hba_private)
+>  {
+> -    return scsi_bus_parse_cdb(dev, cmd, buf, hba_private);
+> +    return scsi_bus_parse_cdb(dev, cmd, buf, buf_len, hba_private);
+>  }
+>  
+>  static void scsi_generic_class_initfn(ObjectClass *klass, void *data)
+> diff --git a/hw/scsi/spapr_vscsi.c b/hw/scsi/spapr_vscsi.c
+> index e320ccaa23..0a8cbf5a4b 100644
+> --- a/hw/scsi/spapr_vscsi.c
+> +++ b/hw/scsi/spapr_vscsi.c
+> @@ -783,6 +783,7 @@ static int vscsi_queue_cmd(VSCSIState *s, vscsi_req *req)
+>      union srp_iu *srp = &req_iu(req)->srp;
+>      SCSIDevice *sdev;
+>      int n, lun;
+> +    size_t cdb_len = sizeof (srp->cmd.cdb) + (srp->cmd.add_cdb_len & ~3);
+>  
+>      if ((srp->cmd.lun == 0 || be64_to_cpu(srp->cmd.lun) == SRP_REPORT_LUNS_WLUN)
+>        && srp->cmd.cdb[0] == REPORT_LUNS) {
+> @@ -801,7 +802,7 @@ static int vscsi_queue_cmd(VSCSIState *s, vscsi_req *req)
+>          } return 1;
+>      }
+>  
+> -    req->sreq = scsi_req_new(sdev, req->qtag, lun, srp->cmd.cdb, req);
+> +    req->sreq = scsi_req_new(sdev, req->qtag, lun, srp->cmd.cdb, cdb_len, req);
+>      n = scsi_req_enqueue(req->sreq);
+>  
+>      trace_spapr_vscsi_queue_cmd(req->qtag, srp->cmd.cdb[0],
+> diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+> index 4141dddd51..41f2a56301 100644
+> --- a/hw/scsi/virtio-scsi.c
+> +++ b/hw/scsi/virtio-scsi.c
+> @@ -622,7 +622,8 @@ static void virtio_scsi_command_complete(SCSIRequest *r, size_t resid)
+>  }
+>  
+>  static int virtio_scsi_parse_cdb(SCSIDevice *dev, SCSICommand *cmd,
+> -                                 uint8_t *buf, void *hba_private)
+> +                                 uint8_t *buf, size_t buf_len,
+> +                                 void *hba_private)
+>  {
+>      VirtIOSCSIReq *req = hba_private;
+>  
+> @@ -696,7 +697,7 @@ static int virtio_scsi_handle_cmd_req_prepare(VirtIOSCSI *s, VirtIOSCSIReq *req)
+>      virtio_scsi_ctx_check(s, d);
+>      req->sreq = scsi_req_new(d, req->req.cmd.tag,
+>                               virtio_scsi_get_lun(req->req.cmd.lun),
+> -                             req->req.cmd.cdb, req);
+> +                             req->req.cmd.cdb, vs->cdb_size, req);
+>  
+>      if (req->sreq->cmd.mode != SCSI_XFER_NONE
+>          && (req->sreq->cmd.mode != req->mode ||
+> diff --git a/hw/scsi/vmw_pvscsi.c b/hw/scsi/vmw_pvscsi.c
+> index 4d9969f3b1..670279b66d 100644
+> --- a/hw/scsi/vmw_pvscsi.c
+> +++ b/hw/scsi/vmw_pvscsi.c
+> @@ -730,7 +730,8 @@ pvscsi_process_request_descriptor(PVSCSIState *s,
+>          r->sg.elemAddr = descr->dataAddr;
+>      }
+>  
+> -    r->sreq = scsi_req_new(d, descr->context, r->lun, descr->cdb, r);
+> +    r->sreq = scsi_req_new(d, descr->context, r->lun, descr->cdb,
+> +                           descr->cdbLen, r);
+>      if (r->sreq->cmd.mode == SCSI_XFER_FROM_DEV &&
+>          (descr->flags & PVSCSI_FLAG_CMD_DIR_TODEVICE)) {
+>          r->cmp.hostStatus = BTSTAT_BADMSG;
+> diff --git a/hw/usb/dev-storage.c b/hw/usb/dev-storage.c
+> index dca62d544f..8a28fd199d 100644
+> --- a/hw/usb/dev-storage.c
+> +++ b/hw/usb/dev-storage.c
+> @@ -415,7 +415,8 @@ static void usb_msd_handle_data(USBDevice *dev, USBPacket *p)
+>                                       cbw.cmd_len, s->data_len);
+>              assert(le32_to_cpu(s->csw.residue) == 0);
+>              s->scsi_len = 0;
+> -            s->req = scsi_req_new(scsi_dev, tag, cbw.lun, cbw.cmd, NULL);
+> +            s->req = scsi_req_new(scsi_dev, tag, cbw.lun, cbw.cmd,
+> +                                  cbw.cmd_len, NULL);
+>              if (s->commandlog) {
+>                  scsi_req_print(s->req);
+>              }
+> diff --git a/hw/usb/dev-uas.c b/hw/usb/dev-uas.c
+> index c9f295e7e4..5192b062d6 100644
+> --- a/hw/usb/dev-uas.c
+> +++ b/hw/usb/dev-uas.c
+> @@ -71,7 +71,7 @@ typedef struct {
+>      uint8_t    reserved_2;
+>      uint64_t   lun;
+>      uint8_t    cdb[16];
+> -    uint8_t    add_cdb[1];      /* not supported by QEMU */
+> +    uint8_t    add_cdb[1];
+>  } QEMU_PACKED  uas_iu_command;
+>  
+>  typedef struct {
+> @@ -699,6 +699,7 @@ static void usb_uas_command(UASDevice *uas, uas_iu *iu)
+>      UASRequest *req;
+>      uint32_t len;
+>      uint16_t tag = be16_to_cpu(iu->hdr.tag);
+> +    size_t cdb_len = sizeof(iu->command.cdb) + iu->command.add_cdb_length;
+>  
+>      if (iu->command.add_cdb_length > 0) {
+>          qemu_log_mask(LOG_UNIMP, "additional adb length not yet supported\n");
+> @@ -729,7 +730,7 @@ static void usb_uas_command(UASDevice *uas, uas_iu *iu)
+>  
+>      req->req = scsi_req_new(req->dev, req->tag,
+>                              usb_uas_get_lun(req->lun),
+> -                            iu->command.cdb, req);
+> +                            iu->command.cdb, cdb_len, req);
+>      if (uas->requestlog) {
+>          scsi_req_print(req->req);
+>      }
+> diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
+> index e284e3a4ec..001103488c 100644
+> --- a/include/hw/scsi/scsi.h
+> +++ b/include/hw/scsi/scsi.h
+> @@ -59,7 +59,7 @@ struct SCSIDeviceClass {
+>      void (*realize)(SCSIDevice *dev, Error **errp);
+>      void (*unrealize)(SCSIDevice *dev);
+>      int (*parse_cdb)(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
+> -                     void *hba_private);
+> +                     size_t buf_len, void *hba_private);
+>      SCSIRequest *(*alloc_req)(SCSIDevice *s, uint32_t tag, uint32_t lun,
+>                                uint8_t *buf, void *hba_private);
+>      void (*unit_attention_reported)(SCSIDevice *s);
+> @@ -122,7 +122,7 @@ struct SCSIBusInfo {
+>      int tcq;
+>      int max_channel, max_target, max_lun;
+>      int (*parse_cdb)(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
+> -                     void *hba_private);
+> +                     size_t buf_len, void *hba_private);
+>      void (*transfer_data)(SCSIRequest *req, uint32_t arg);
+>      void (*fail)(SCSIRequest *req);
+>      void (*complete)(SCSIRequest *req, size_t residual);
+> @@ -192,14 +192,15 @@ void scsi_legacy_handle_cmdline(void);
+>  SCSIRequest *scsi_req_alloc(const SCSIReqOps *reqops, SCSIDevice *d,
+>                              uint32_t tag, uint32_t lun, void *hba_private);
+>  SCSIRequest *scsi_req_new(SCSIDevice *d, uint32_t tag, uint32_t lun,
+> -                          uint8_t *buf, void *hba_private);
+> +                          uint8_t *buf, size_t buf_len, void *hba_private);
+>  int32_t scsi_req_enqueue(SCSIRequest *req);
+>  SCSIRequest *scsi_req_ref(SCSIRequest *req);
+>  void scsi_req_unref(SCSIRequest *req);
+>  
+>  int scsi_bus_parse_cdb(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
+> -                       void *hba_private);
+> -int scsi_req_parse_cdb(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf);
+> +                       size_t buf_len, void *hba_private);
+> +int scsi_req_parse_cdb(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
+> +                       size_t buf_len);
+>  void scsi_req_build_sense(SCSIRequest *req, SCSISense sense);
+>  void scsi_req_print(SCSIRequest *req);
+>  void scsi_req_continue(SCSIRequest *req);
+> -- 
+> 2.25.1
+> 
 
