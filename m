@@ -2,83 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A4615A7022
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 23:54:08 +0200 (CEST)
-Received: from localhost ([::1]:58444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E05F55A70E2
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 00:35:44 +0200 (CEST)
+Received: from localhost ([::1]:57992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oT9BP-0000Tn-Li
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 17:54:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43166)
+	id 1oT9pf-0004DJ-IF
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 18:35:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oT97E-0005Ac-Vo; Tue, 30 Aug 2022 17:49:49 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:41980)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oT97C-0001Wk-Fr; Tue, 30 Aug 2022 17:49:47 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- n8-20020a17090a73c800b001fd832b54f6so10531294pjk.0; 
- Tue, 30 Aug 2022 14:49:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc;
- bh=RnlWIAApBjHbrNK6LPS8O4ZDdrrnwcinxb/f5ynDCp8=;
- b=S4Y+sGLzbQJRoI1Th+BW4LkKVfKEPwOypREioijxlnpQyDqMLSQzMf6g1TK4UIE7TM
- VcDqH7r1JtqHGLd6Q9DQBryHbm5T6rZknE483Y1+ueGK7fbyS4FAO19BC+ajBTQc/hAK
- Jpl5rduo0uNbq1wNtB9MZtKNVY/+1UsyLIlQ+2ApGxR5cSvA02lKvyWQuMEl6zg9AES/
- g/2S0iEUWlc3g2HJIOoZ1I8/WBl69KGnYbYqmEsTFFxNlMnISjSdbeYZj4xoN2R5Eymd
- v5IbZvQaKyutJgxz7ua6XyUTPUgZFuzdwMsTHlDa2BxCbh8V05GYLmPwh6GPRve0vK4I
- RGXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc;
- bh=RnlWIAApBjHbrNK6LPS8O4ZDdrrnwcinxb/f5ynDCp8=;
- b=IygqdVmE3G98Chq/seaVwR2megJdiRXSXErfGMD/74H6kAkUmLBlsCHXAQiGj+Nca+
- MVEeHniyM0X8/omwwYs0SWWfMTwc28ZpgCxAio8uSauz18ltr5f++SUwyLRKGJEkpUhu
- ARyaRP0zsoqrZCf/UnThAhuv78FvLNS3Pc36w8v9ODwaYMiLMmdLv3GJEuV4+d7etDkD
- Bm+jgJA+T66uuI0v/CviKFGn8yfTN72x4Q+cEKbQ+KIKSo80bIXtKotr9i7RdWQnQxvR
- sJUHIaG4gCHTPSGiwzgKtVIZL9MzHmDOAti0wUIFha8DNJKXcl2Ou4QpKK7pKRMl1prc
- X04g==
-X-Gm-Message-State: ACgBeo1FPdqLk2hra50QUHdvoGqRaxFlPp1GnEiNaCasIlVESGMEy7pW
- DlHCk9sJt4YiYJpcfUz0f6NxH5XsEiU=
-X-Google-Smtp-Source: AA6agR4oXUhaLymKjU6KEhJUzgZMrutJ51MYHnACZ+eI8xCtMc5JiORpA6LumfwHCWCRGo+KAYWmtQ==
-X-Received: by 2002:a17:902:e80e:b0:16f:14ea:897b with SMTP id
- u14-20020a170902e80e00b0016f14ea897bmr22450262plg.6.1661896184629; 
- Tue, 30 Aug 2022 14:49:44 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- k191-20020a636fc8000000b0042b435c6526sm2054719pgc.79.2022.08.30.14.49.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Aug 2022 14:49:44 -0700 (PDT)
-Message-ID: <dafc689a-a7ef-0b98-bc68-6645e513e588@amsat.org>
-Date: Tue, 30 Aug 2022 23:49:39 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH v2 00/10] Instantiate VT82xx functions in host device
-Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, Huacai Chen <chenhuacai@kernel.org>,
- BALATON Zoltan <balaton@eik.bme.hu>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oT9nk-0002Bo-4U; Tue, 30 Aug 2022 18:33:44 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:21159)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oT9ng-0008Gw-UW; Tue, 30 Aug 2022 18:33:43 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id BBB707462D3;
+ Wed, 31 Aug 2022 00:33:33 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 816C07461AE; Wed, 31 Aug 2022 00:33:33 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 7F50A745702;
+ Wed, 31 Aug 2022 00:33:33 +0200 (CEST)
+Date: Wed, 31 Aug 2022 00:33:33 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Bernhard Beschow <shentey@gmail.com>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 06/10] hw/isa/vt82c686: Instantiate USB functions in
+ host device
+In-Reply-To: <20220830190048.67448-7-shentey@gmail.com>
+Message-ID: <43c077df-a5ca-239b-7b5-1ca4880edef@eik.bme.hu>
 References: <20220830190048.67448-1-shentey@gmail.com>
-In-Reply-To: <20220830190048.67448-1-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ <20220830190048.67448-7-shentey@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,23 +62,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 30/8/22 21:00, Bernhard Beschow wrote:
-> v2:
-> * Keep the call to pci_ide_create_devs() in board code for consistency (Zoltan)
-> * Create rtc-time alias in board rather than in south bridge code
-> * Remove stale comments about PCI functions
-> 
-> v1:
-> This series instantiates all PCI functions of the VT82xx south bridges in the south bridges themselves.
-> For the IDE function this is especially important since its interrupt routing is configured in the
-> ISA function, hence doesn't make sense to instantiate it as a "Frankenstein" device. The interrupt
-> routing is currently hardcoded and changing that is currently not in the scope of this series.
+On Tue, 30 Aug 2022, Bernhard Beschow wrote:
+> The USB functions can be enabled/disabled through the ISA function. Also
+> its interrupt routing can be influenced there.
+>
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+> hw/isa/vt82c686.c   | 12 ++++++++++++
+> hw/mips/fuloong2e.c |  3 ---
+> hw/ppc/pegasos2.c   |  4 ----
+> 3 files changed, 12 insertions(+), 7 deletions(-)
+>
+> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+> index 9d946cea54..6aba7f29de 100644
+> --- a/hw/isa/vt82c686.c
+> +++ b/hw/isa/vt82c686.c
+> @@ -23,6 +23,7 @@
+> #include "hw/intc/i8259.h"
+> #include "hw/irq.h"
+> #include "hw/dma/i8257.h"
+> +#include "hw/usb/hcd-uhci.h"
+> #include "hw/timer/i8254.h"
+> #include "hw/rtc/mc146818rtc.h"
+> #include "migration/vmstate.h"
+> @@ -546,6 +547,7 @@ struct ViaISAState {
+>     qemu_irq *isa_irqs;
+>     ViaSuperIOState via_sio;
+>     PCIIDEState ide;
+> +    UHCIState uhci[2];
+> };
+>
+> static const VMStateDescription vmstate_via = {
+> @@ -563,6 +565,8 @@ static void via_isa_init(Object *obj)
+>     ViaISAState *s = VIA_ISA(obj);
+>
+>     object_initialize_child(obj, "ide", &s->ide, "via-ide");
+> +    object_initialize_child(obj, "uhci1", &s->uhci[0], "vt82c686b-usb-uhci");
+> +    object_initialize_child(obj, "uhci2", &s->uhci[1], "vt82c686b-usb-uhci");
+> }
+>
+> static const TypeInfo via_isa_info = {
+> @@ -629,6 +633,14 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+>     if (!qdev_realize(DEVICE(&s->ide), BUS(pci_bus), errp)) {
+>         return;
+>     }
+> +
+> +    /* Functions 2-3: USB Ports */
+> +    for (i = 0; i < ARRAY_SIZE(s->uhci); ++i) {
 
-Excellent!
+It does not really matter but Usually i++ is used in for loops so seeing 
+++i here is a bit odd but this alone isn't worth a new version.
 
-Series:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Regards,
+BALATON Zoltan
+
+> +        qdev_prop_set_int32(DEVICE(&s->uhci[i]), "addr", d->devfn + 2 + i);
+> +        if (!qdev_realize(DEVICE(&s->uhci[i]), BUS(pci_bus), errp)) {
+> +            return;
+> +        }
+> +    }
+> }
+>
+> /* TYPE_VT82C686B_ISA */
+> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+> index 32605901e7..dc92223b76 100644
+> --- a/hw/mips/fuloong2e.c
+> +++ b/hw/mips/fuloong2e.c
+> @@ -208,9 +208,6 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
+>     dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"));
+>     pci_ide_create_devs(dev);
+>
+> -    pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
+> -    pci_create_simple(pci_bus, PCI_DEVFN(slot, 3), "vt82c686b-usb-uhci");
+> -
+>     dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 4), TYPE_VT82C686B_PM);
+>     *i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
+>
+> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+> index 8bc528a560..85cca6f7a6 100644
+> --- a/hw/ppc/pegasos2.c
+> +++ b/hw/ppc/pegasos2.c
+> @@ -168,10 +168,6 @@ static void pegasos2_init(MachineState *machine)
+>     dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"));
+>     pci_ide_create_devs(dev);
+>
+> -    /* VT8231 function 2-3: USB Ports */
+> -    pci_create_simple(pci_bus, PCI_DEVFN(12, 2), "vt82c686b-usb-uhci");
+> -    pci_create_simple(pci_bus, PCI_DEVFN(12, 3), "vt82c686b-usb-uhci");
+> -
+>     /* VT8231 function 4: Power Management Controller */
+>     dev = pci_create_simple(pci_bus, PCI_DEVFN(12, 4), TYPE_VT8231_PM);
+>     i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
+>
 
