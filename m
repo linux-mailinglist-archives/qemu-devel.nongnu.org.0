@@ -2,77 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46D3C5A674B
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 17:24:44 +0200 (CEST)
-Received: from localhost ([::1]:36156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB1A55A678F
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 17:42:49 +0200 (CEST)
+Received: from localhost ([::1]:40290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oT36Y-0003uS-Qr
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 11:24:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39812)
+	id 1oT3Nz-0006ra-5t
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 11:42:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oT30v-0000E5-TL; Tue, 30 Aug 2022 11:18:53 -0400
-Received: from mail-vs1-xe2b.google.com ([2607:f8b0:4864:20::e2b]:41785)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oT3Da-0008De-Sj
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 11:32:01 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:34546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oT30u-0007SY-CK; Tue, 30 Aug 2022 11:18:53 -0400
-Received: by mail-vs1-xe2b.google.com with SMTP id k2so11801325vsk.8;
- Tue, 30 Aug 2022 08:18:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=LUG4rL4bIcSiU0bkykcXV8CaqlavRaeQbZ28aYUWypo=;
- b=FZanKKMq4SG/0J9no98wGyoQkNSPrWt70W76z5JRTh6A7N5+5Az/1YkuKhD3MJPpYU
- nwfKiLU8Xj4OjgaD3sgi2detsQvqGSt4WClpmCXQjovSWJQepKXuscILBjL8mXLI8cSY
- 0hPqMCazE+v8ICSHLpk5X3MkOuHdxmOiVvFT3IdYzmPlzxTOgdHRLiTcnvFmWAajqDsc
- X5sbgGahZYX8xysSMbUYl7Tg89IHfo8e9SxY/secZpuKQGfkiyWNFxaMasjBkTS5hOoa
- lWxfbGCKTWGSoUu/xoLID8ur15KrYVfLRiWFyeS2sl6DyVk9ATmcEnpcrYorOQmK8nUY
- 52mA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oT3DV-0001IS-MP
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 11:31:58 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ p8-20020a17090ad30800b001fdfc8c7567so1535053pju.1
+ for <qemu-devel@nongnu.org>; Tue, 30 Aug 2022 08:31:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=LGjbXhLsmvHrubO4TKvzcY8jbthiOjwwqeeXvBZOSlg=;
+ b=QibcUH4vWwCVciOKkxL+Xei5NokNpekU3v7BY8vegPupOE03wF/wqlyxvUgDvWU+06
+ a+fFEGyC7hEiFVr/UO/Acrq2goFcjyQdKSg5NQrSRCBrNuyrTYkKNY4oq4Bxc2T9LJyy
+ e332hjQSMIqP2yx6QjA2aTezwI4V+mOslsQxvpy4Ew5QWPrGpe3rE5za5AgkO8CH0kO3
+ 1NwmqaERK+sCr8GrFmMnuBHEfr8+rFZefVORXVlU2+NJHlzsbcorLTfn4/DoLQdfFPHT
+ vmF19Ych7SlxaqM5TGG1E4h7xpbOuPkJI9vZm/nApCo9ZLLDjDxFCBLa5iYf+ae1aXqD
+ G/JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=LUG4rL4bIcSiU0bkykcXV8CaqlavRaeQbZ28aYUWypo=;
- b=s36/T+lsnUUTeAFqVHIszEITv8bh/Gz/TtC92mQFUJatHEpNgqi3L3aOgb955voLPF
- KSEyuBC7sPRzFbFrNbvqYSP2bMtYwGfpcTtEVzwaZul8niNRr3YJgqyzEc6AnZ/EpQxN
- RDssylDT46FeQUv+knv0HJsx+8xKVkrULgrY6G6A/HTJqNBPw6yEraIinRulioSVx9Ez
- tjcT7U//iqJ0dCZ1gUyJF15loWDbC0ZnZ0ZyUcDETo4zs4s7HJaaf6WA7TtrcKLSERnp
- AumlxHbv2TLsIZWyvj8fEnJAAHtoSYBzmQInnwwfJkju1s56fAWFEgu058R5/DICinlB
- Indw==
-X-Gm-Message-State: ACgBeo1mUmP5JwgqgPQOUG22pHf8PU+vvUoQsKI9GsZbu2F8iWmR4zY1
- nk3LMFsTtk5lz1saXdkZfXR9vEZURVEZqX8R04w=
-X-Google-Smtp-Source: AA6agR6PWsun4k0RdgnZ1aNlCnZvegt8VsSXDBrmNKY1g5NfsO7LrncUiteBxubUyBM+VD4D8hevgC3uHQcq2JPX+dM=
-X-Received: by 2002:a67:e207:0:b0:390:f3f6:a2fc with SMTP id
- g7-20020a67e207000000b00390f3f6a2fcmr2096046vsa.42.1661872730953; Tue, 30 Aug
- 2022 08:18:50 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=LGjbXhLsmvHrubO4TKvzcY8jbthiOjwwqeeXvBZOSlg=;
+ b=qjW8ZyuIBiz23/FgrQu0Ey6V1bBa/VkfvqYwpqm+gH92Jzq/RdoHdjwiox0STBYO3Z
+ gfBUuogogiPkkXWyh4f91zz0GwS14Epj0pZJ2gU+o1juADaOG58oq7XDgHJeADpRPm/T
+ AOrpeuNdq/elnTr3by8viP9/y0oLVVrg+JVQypuXhpyLug+FONWfQhb9FByOAURnNjP4
+ 4e7tqxSmkTuVNVUySJ4/jMOYUSNkYjp212cRpGq1vkGXVU41Qqt3ht2u5dvfbfLaIjyq
+ MD3C5FMaoBfE+LZOLnkTUdfwDB95e7WFP7rMByb6xPy+fh367WThI+TyrriBDDqlHrNj
+ 9lBg==
+X-Gm-Message-State: ACgBeo0Nuf9+993GR0+H502829b25+TzbtI2OtwILJSuuJciC68e4YjU
+ pSNPjxHZph9f2Uq7qFerX9E+Vw==
+X-Google-Smtp-Source: AA6agR4x7oajzHcwNTSVpQpLnMEPSN97cuX0aGgm5y7dz7qSWtqTgoBa0/LXZwKL6F5Kmi5TV+U59Q==
+X-Received: by 2002:a17:90b:388e:b0:1fb:62c1:9cb7 with SMTP id
+ mu14-20020a17090b388e00b001fb62c19cb7mr23376373pjb.207.1661873511126; 
+ Tue, 30 Aug 2022 08:31:51 -0700 (PDT)
+Received: from [192.168.0.4] ([71.212.157.236])
+ by smtp.gmail.com with ESMTPSA id
+ n12-20020a170902d2cc00b001750b31faabsm2426001plc.262.2022.08.30.08.31.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Aug 2022 08:31:50 -0700 (PDT)
+Message-ID: <56952aa9-823b-252b-33c3-7a7c5b31d2fc@linaro.org>
+Date: Tue, 30 Aug 2022 08:31:48 -0700
 MIME-Version: 1.0
-References: <20220826161704.8076-1-faithilikerun@gmail.com>
- <87h71ugczz.fsf@pond.sub.org>
- <CAAAx-8Kc0UQDVXCTdFWz1E1K1xJTnUoGDko_khxEnHrPH6MYxw@mail.gmail.com>
- <8735ddg44k.fsf@pond.sub.org>
-In-Reply-To: <8735ddg44k.fsf@pond.sub.org>
-From: Sam Li <faithilikerun@gmail.com>
-Date: Tue, 30 Aug 2022 23:19:03 +0800
-Message-ID: <CAAAx-8+Oh_qf_g_pOP9fZg3oMOKYvriJw1whPfvMMqHR7-h=rQ@mail.gmail.com>
-Subject: Re: [PATCH v8 3/7] block: add block layer APIs resembling Linux
- ZonedBlockDevice ioctls
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>, 
- Damien Le Moal <damien.lemoal@opensource.wdc.com>, 
- Dmitry Fomichev <Dmitry.Fomichev@wdc.com>, Hannes Reinecke <hare@suse.de>, 
- qemu block <qemu-block@nongnu.org>, Hanna Reitz <hreitz@redhat.com>, 
- Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
- Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2b;
- envelope-from=faithilikerun@gmail.com; helo=mail-vs1-xe2b.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 2/2] util/log: add timestamp to logs via qemu_log()
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>,
+ Dongli Zhang <dongli.zhang@oracle.com>
+Cc: qemu-devel@nongnu.org, joe.jin@oracle.com, alex.bennee@linaro.org,
+ f4bug@amsat.org
+References: <20220829100622.1554-1-dongli.zhang@oracle.com>
+ <20220829100622.1554-2-dongli.zhang@oracle.com> <87czcihts0.fsf@pond.sub.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <87czcihts0.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,71 +96,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> =E4=BA=8E2022=E5=B9=B48=E6=9C=8830=E6=
-=97=A5=E5=91=A8=E4=BA=8C 23:09=E5=86=99=E9=81=93=EF=BC=9A
->
-> Sam Li <faithilikerun@gmail.com> writes:
->
-> > Markus Armbruster <armbru@redhat.com> =E4=BA=8E2022=E5=B9=B48=E6=9C=883=
-0=E6=97=A5=E5=91=A8=E4=BA=8C 19:57=E5=86=99=E9=81=93=EF=BC=9A
-> >>
-> >> Sam Li <faithilikerun@gmail.com> writes:
-> >>
-> >> > By adding zone management operations in BlockDriver, storage control=
-ler
-> >> > emulation can use the new block layer APIs including Report Zone and
-> >> > four zone management operations (open, close, finish, reset).
-> >> >
-> >> > Add zoned storage commands of the device: zone_report(zrp), zone_ope=
-n(zo),
-> >> > zone_close(zc), zone_reset(zrs), zone_finish(zf).
-> >> >
-> >> > For example, to test zone_report, use following command:
-> >> > $ ./build/qemu-io --image-opts driver=3Dzoned_host_device, filename=
-=3D/dev/nullb0
-> >> > -c "zrp offset nr_zones"
-> >> >
-> >> > Signed-off-by: Sam Li <faithilikerun@gmail.com>
-> >> > Reviewed-by: Hannes Reinecke <hare@suse.de>
->
-> [...]
->
-> >> > diff --git a/qapi/block-core.json b/qapi/block-core.json
-> >> > index 2173e7734a..c6bbb7a037 100644
-> >> > --- a/qapi/block-core.json
-> >> > +++ b/qapi/block-core.json
-> >> > @@ -2942,6 +2942,7 @@
-> >> >  # @compress: Since 5.0
-> >> >  # @copy-before-write: Since 6.2
-> >> >  # @snapshot-access: Since 7.0
-> >> > +# @zoned_host_device: Since 7.2
-> >> >  #
-> >> >  # Since: 2.9
-> >> >  ##
-> >> > @@ -2955,7 +2956,8 @@
-> >> >              'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'p=
-arallels',
-> >> >              'preallocate', 'qcow', 'qcow2', 'qed', 'quorum', 'raw',=
- 'rbd',
-> >> >              { 'name': 'replication', 'if': 'CONFIG_REPLICATION' },
-> >> > -            'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat=
-' ] }
-> >> > +            'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat=
-',
-> >> > +            { 'name': 'zoned_host_device', 'if': 'CONFIG_BLKZONED' =
-} ] }
-> >>
-> >> QAPI naming conventions ask for 'zoned-host-device'.  We may choose to
-> >> ignore them to stay closer to existing 'host_device'.
-> >
-> > I am not sure why should ignore zoned_host_device. Can you be more spec=
-ific?
->
-> "them" =3D QAPI naming conventions.  Clear now?
+On 8/30/22 04:09, Markus Armbruster wrote:
+> Dongli Zhang <dongli.zhang@oracle.com> writes:
+> 
+>> The qemu_log is very helpful for diagnostic. Add the timestamp to the log
+>> when it is enabled (e.g., "-msg timestamp=on").
+>>
+>> While there are many other places that may print to log file, this patch is
+>> only for qemu_log(), e.g., the developer may add qemu_log/qemu_log_mask to
+>> selected locations to diagnose QEMU issue.
+> 
+> Opinions on the new feature, anyone?
+> 
+>> Cc: Joe Jin <joe.jin@oracle.com>
+>> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
+>> ---
+>> Please let me know if we should use 'error_with_guestname' as well.
+>>
+>>   util/log.c | 7 +++++++
+>>   1 file changed, 7 insertions(+)
+>>
+>> diff --git a/util/log.c b/util/log.c
+>> index d6eb037..f0a081a 100644
+>> --- a/util/log.c
+>> +++ b/util/log.c
+>> @@ -129,8 +129,15 @@ void qemu_log(const char *fmt, ...)
+>>   {
+>>       FILE *f = qemu_log_trylock();
+>>       if (f) {
+>> +        gchar *timestr;
+>>           va_list ap;
+>>   
+>> +        if (message_with_timestamp) {
+>> +            timestr = real_time_iso8601();
+>> +            fprintf(f, "%s ", timestr);
+>> +            g_free(timestr);
+>> +        }
+>> +
+>>           va_start(ap, fmt);
+>>           vfprintf(f, fmt, ap);
+>>           va_end(ap);
+> 
+> This extends -msg timestamp=on to apply to log messages without
+> documenting it in -help or anywhere else.  Needs fixing.
 
-Ok, I thought "them" means 'zoned_host_device'.
+I think this is a poor place to add the timestamp.
 
->
-> [...]
->
+You'll find that qemu_log is used many times to assemble pieces, e.g.
+
+linux-user/thunk.c:360:            qemu_log("%" PRIu64, tswap64(val));
+
+linux-user/thunk.c:376:                qemu_log("\"");
+
+linux-user/thunk.c:379:                qemu_log("[");
+
+linux-user/thunk.c:384:                    qemu_log(",");
+
+linux-user/thunk.c:391:                qemu_log("\"");
+
+linux-user/thunk.c:393:                qemu_log("]");
+
+linux-user/thunk.c:417:                qemu_log("{");
+
+linux-user/thunk.c:420:                        qemu_log(",");
+
+linux-user/thunk.c:424:                qemu_log("}");
+
+
+Not the best idea, really, but the replacement for this is to avoid qemu_log entirely, and use
+
+     f = qemu_log_trylock();
+     if (f) {
+         fprintf
+         some
+         stuff
+         qemu_log_unlock(f);
+     }
+
+at which point you don't get your timestamp either.  You'd need to explicitly add 
+timestamps to individual locations.
+
+It would probably be easier to add timestamps to tracepoints, which are always emitted as 
+a unit.
+
+
+r~
+
 
