@@ -2,102 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 652835A65F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 16:09:02 +0200 (CEST)
-Received: from localhost ([::1]:48126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A28D5A6618
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 16:19:46 +0200 (CEST)
+Received: from localhost ([::1]:57468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oT1vJ-0007W6-00
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 10:09:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51136)
+	id 1oT25g-0003Bu-Vg
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 10:19:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oT1u1-0005oh-IE; Tue, 30 Aug 2022 10:07:41 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8568)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1oT228-00016d-A2
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 10:16:04 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:17264)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oT1tz-0002Kl-Ha; Tue, 30 Aug 2022 10:07:41 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27UE2hcF028658;
- Tue, 30 Aug 2022 14:07:36 GMT
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1oT226-0003nb-2V
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 10:16:04 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27UEBvkw029980;
+ Tue, 30 Aug 2022 14:15:52 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : date :
- mime-version : to : cc : references : from : subject : in-reply-to :
+ mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=SOCr/66Ngjul8aIHV1LtaxUoc1OQgbby7m0V9TDhPOs=;
- b=hTdqPVT4dBa+JBr8CWLWTcgxMH38YgM4UaDfqPdI12iWx6B+kq5CBv2HlNHS0o8N8eON
- Uj1YYBSlWEdyUhNk7CKJ8KNvykwOINcx4ZHjV8x+CUuFShPaDTeyyctqedGGfy/h5HYK
- CD8GYQgHuPAjPtERe2WQL/qImUk+ONUpnby+hZrnMj0kFTXlKTjKJbKrLVUrl7LBECtU
- GqjTgxexbSvvNsQjq5OQ7fQjEAYb6CPkzIY/1kQrv1MMEO6lBfz9Deq4qrp7QqDBYNUL
- zR07F16vhUlf48d62FJ6AKjBaxvD6XsYIA3cC2mVo3LeEIuUe7Ji2L9AVuVFAkCH6v1s gQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3j9kp50v1c-1
+ bh=RzuId8ubi0fz0Ooy4dimMBw7Ls0Rrbh3Uy8YPRBqiA4=;
+ b=EyXQCqQMCSLdEGZ6mw6Sle1TD6uc5MQ5ntNp0xLl1JLUlO3Thy/vSgsWGnrYsLRbUZlp
+ OEo3DQmbmmX2FukkypwnUX/H51aPjGp7uv0YxEM0qeGgFQ7E85JRM51WVNNRcVjagNp4
+ qgix9PZ4alaACVupJBms1t8C9o2Mo03gHj0fgydwjEmx9KUTTRJEomjxkp3KHd73Bbvi
+ BsaJrVwF/Fp3wYSRGWzqY2ZqYzG3tb3Fa1wluxJcRwVsHaKmZaFZCmK6DhIYE9Pe5Iro
+ ezprgMwck96tj5682EZ/T7Rw4IvH/+mYY1bMEiSrWCCuZYuWhoWD6r544CQamGHnbHGu 3g== 
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3j9m3qr485-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Aug 2022 14:07:35 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27UE3GCW035663;
- Tue, 30 Aug 2022 14:07:35 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3j9kp50v01-1
+ Tue, 30 Aug 2022 14:15:51 +0000
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27UE5FLO004323;
+ Tue, 30 Aug 2022 14:15:50 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma04wdc.us.ibm.com with ESMTP id 3j7aw9m8td-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Aug 2022 14:07:35 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 27UDpjrr022870;
- Tue, 30 Aug 2022 14:02:33 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma01fra.de.ibm.com with ESMTP id 3j8hka9mwy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 30 Aug 2022 14:02:33 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 27UDxGQd41222446
+ Tue, 30 Aug 2022 14:15:50 +0000
+Received: from b03ledav002.gho.boulder.ibm.com
+ (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 27UEFoJW10551990
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 30 Aug 2022 13:59:16 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EB4B0A405B;
- Tue, 30 Aug 2022 14:02:29 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 763DCA4054;
- Tue, 30 Aug 2022 14:02:29 +0000 (GMT)
-Received: from [9.145.56.39] (unknown [9.145.56.39])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 30 Aug 2022 14:02:29 +0000 (GMT)
-Message-ID: <3ff3331d-d192-b7d9-a2aa-c48877cf4f16@linux.ibm.com>
-Date: Tue, 30 Aug 2022 16:02:28 +0200
+ Tue, 30 Aug 2022 14:15:50 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C457C136059;
+ Tue, 30 Aug 2022 14:15:49 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 88B20136051;
+ Tue, 30 Aug 2022 14:15:49 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue, 30 Aug 2022 14:15:49 +0000 (GMT)
+Message-ID: <8cb19038-ec06-c441-4cc6-5b9ea8d6aee0@linux.ibm.com>
+Date: Tue, 30 Aug 2022 10:15:49 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
+ Thunderbird/91.12.0
+Subject: Re: [PATCH] tpm_crb: Avoid backend startup just before shutdown under
+ Xen
 Content-Language: en-US
-To: Steffen Eiden <seiden@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
- borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
- cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
- scgl@linux.ibm.com
-References: <20220811121111.9878-1-frankja@linux.ibm.com>
- <20220811121111.9878-13-frankja@linux.ibm.com>
- <67ed362f-2e25-0ee9-baae-5e2a0ac52749@linux.ibm.com>
-From: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v5 12/18] dump/dump: Add section string table support
-In-Reply-To: <67ed362f-2e25-0ee9-baae-5e2a0ac52749@linux.ibm.com>
+To: Ross Lagerwall <ross.lagerwall@citrix.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20220826143841.1515326-1-ross.lagerwall@citrix.com>
+ <12d8f3b7-ae22-73c9-c0ab-eca403f421bb@linux.ibm.com>
+ <PH0PR03MB6382266A55B2CDB9745015D5F0759@PH0PR03MB6382.namprd03.prod.outlook.com>
+ <b27f4f82-87a6-c181-8fae-730e747ac14d@linux.ibm.com>
+ <SJ0PR03MB6374B091035E9A19B7A1E7B6F0799@SJ0PR03MB6374.namprd03.prod.outlook.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <SJ0PR03MB6374B091035E9A19B7A1E7B6F0799@SJ0PR03MB6374.namprd03.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: zP9mVMHnVrKA5FP5ZIsqAGYExXctAfk8
-X-Proofpoint-GUID: ZiQGaqEobNCKuQeazKwzSYmxDqhUyfIm
+X-Proofpoint-ORIG-GUID: NG37ejQiXEkPwIIxbIxOiLVwZL6mxhQq
+X-Proofpoint-GUID: NG37ejQiXEkPwIIxbIxOiLVwZL6mxhQq
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-08-30_08,2022-08-30_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- mlxlogscore=999 suspectscore=0 malwarescore=0 phishscore=0 impostorscore=0
- mlxscore=0 bulkscore=0 spamscore=0 clxscore=1015 priorityscore=1501
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ clxscore=1015 suspectscore=0
+ lowpriorityscore=0 adultscore=0 phishscore=0 malwarescore=0
+ priorityscore=1501 mlxscore=0 impostorscore=0 spamscore=0 mlxlogscore=999
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2207270000 definitions=main-2208300070
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -120,101 +116,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/30/22 13:35, Steffen Eiden wrote:
-> Hi Janosch,
-> 
-> On 8/11/22 14:11, Janosch Frank wrote:
->> As sections don't have a type like the notes do we need another way to
->> determine their contents. The string table allows us to assign each
->> section an identification string which architectures can then use to
->> tag their sections with.
+
+
+On 8/30/22 09:51, Ross Lagerwall wrote:
+>> From: Stefan Berger <stefanb@linux.ibm.com>
+>> Sent: Friday, August 26, 2022 5:27 PM
+>> To: Ross Lagerwall <ross.lagerwall@citrix.com>; Stefan Berger <stefanb@linux.vnet.ibm.com>
+>> Cc: qemu-devel@nongnu.org <qemu-devel@nongnu.org>
+>> Subject: Re: [PATCH] tpm_crb: Avoid backend startup just before shutdown under Xen
+>>   
+>> On 8/26/22 12:15, Ross Lagerwall wrote:
+>>>> From: Stefan Berger <stefanb@linux.ibm.com>
+>>>> Sent: Friday, August 26, 2022 4:20 PM
+>>>> To: Ross Lagerwall <ross.lagerwall@citrix.com>; Stefan Berger <stefanb@linux.vnet.ibm.com>
+>>>> Cc: qemu-devel@nongnu.org <qemu-devel@nongnu.org>
+>>>> Subject: Re: [PATCH] tpm_crb: Avoid backend startup just before shutdown under Xen
+>>>>     
+>>>> On 8/26/22 10:38, Ross Lagerwall wrote:
+>>>>> When running under Xen and the guest reboots, it boots into a new domain
+>>>>> with a new QEMU process (and a new swtpm process if using the emulator
+>>>>> backend). The existing reset function is triggered just before the old
+>>>>> QEMU process exists which causes QEMU to startup the TPM backend and
+>>>>> then immediately shut it down. This is probably harmless but when using
+>>>>> the emulated backend, it wastes CPU and IO time reloading state, etc.
+>>>>>
+>>>>> Fix this by calling the reset function directly from realize() when
+>>>>> running under Xen. During a reboot, this will be called by the QEMU
+>>>>> process for the new domain.
+>>>>>
+>>>>> Signed-off-by: Ross Lagerwall <ross.lagerwall@citrix.com>
+>>>>> ---
+>>>>>
+>>>>> This conditional logic is ugly. Is there a cleaner way of doing this?
+>>>>>
+>>>>>       hw/tpm/tpm_crb.c | 7 ++++++-
+>>>>>       1 file changed, 6 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/hw/tpm/tpm_crb.c b/hw/tpm/tpm_crb.c
+>>>>> index 67db594c48..ea930da545 100644
+>>>>> --- a/hw/tpm/tpm_crb.c
+>>>>> +++ b/hw/tpm/tpm_crb.c
+>>>>> @@ -26,6 +26,7 @@
+>>>>>       #include "sysemu/tpm_backend.h"
+>>>>>       #include "sysemu/tpm_util.h"
+>>>>>       #include "sysemu/reset.h"
+>>>>> +#include "sysemu/xen.h"
+>>>>>       #include "tpm_prop.h"
+>>>>>       #include "tpm_ppi.h"
+>>>>>       #include "trace.h"
+>>>>> @@ -308,7 +309,11 @@ static void tpm_crb_realize(DeviceState *dev, Error **errp)
+>>>>>                            TPM_PPI_ADDR_BASE, OBJECT(s));
+>>>>>           }
+>>>>>
+>>>>> -    qemu_register_reset(tpm_crb_reset, dev);
+>>>>> +    if (xen_enabled()) {
+>>>>> +        tpm_crb_reset(dev);
+>>>>> +    } else {
+>>>>> +        qemu_register_reset(tpm_crb_reset, dev);
+>>>>> +    }
+>>>>>       }
+>>>>>
+>>>>>       static void tpm_crb_class_init(ObjectClass *klass, void *data)
+>>>>
+>>>> This doesn't look right also for Xen. Shouldn't it be something like this?
+>>>>
+>>>>         qemu_register_reset(tpm_crb_reset, dev);
+>>>>         if (xen_enabled()) {
+>>>>            tpm_crb_reset(dev);
+>>>>         }
+>>>>
+>>>>
+>>>> We need the reset callback for VM reset.
+>>>
+>>> This patch doesn't change anything for the QEMU/KVM case which works
+>>> fine as is.
+>>>
+>>> In the Xen architecture, the guest is rebooted into a new domain which
+>>> has new instances of QEMU and swtpm. The old instances are terminated.
+>>> So during a guest reboot it doesn't make sense to have the QEMU for the
+>>> old domain call tpm_crb_reset() just as it is about to exit since it
+>>> causes swtpm to be sent CMD_INIT which causes it to needlessly
+>>> reinitialize and reload the state. Instead, the new QEMU instance
+>>> post-reboot will call tpm_crb_reset() to start the backend directly from
+>>> the realize() function, just as for the initial guest boot.
 >>
->> There will be no string table if the architecture doesn't add custom
->> sections which are introduced in a following patch.
 >>
->> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
->> ---
->>    dump/dump.c           | 71 +++++++++++++++++++++++++++++++++++++++++++
->>    include/sysemu/dump.h |  4 +++
->>    2 files changed, 75 insertions(+)
->>
->> diff --git a/dump/dump.c b/dump/dump.c
->> index 31eb20108c..0d6dbf453a 100644
->> --- a/dump/dump.c
->> +++ b/dump/dump.c
-> [ snip ]
->>    }
->>    
->> +static void prepare_elf_section_hdr_string(DumpState *s, void *buff)
->> +{
->> +    Elf32_Shdr shdr32;
->> +    Elf64_Shdr shdr64;
->> +    int shdr_size;
->> +    void *shdr;
->> +
->> +    if (dump_is_64bit(s)) {
->> +        shdr_size = sizeof(Elf64_Shdr);
->> +        memset(&shdr64, 0, shdr_size);
->> +        shdr64.sh_type = SHT_STRTAB;
->> +        shdr64.sh_offset = s->section_offset + s->elf_section_data_size;
->> +        shdr64.sh_name = s->string_table_buf->len;
->> +        g_array_append_vals(s->string_table_buf, ".strtab", sizeof(".strtab"));
-> I think you mixed up .strtab and .shstrtab here.
-> '.shstrtab' should be used here.
+>> You should probably add this to the commit text because I wouldn't have
+>> known that a VM reset in Xen causes a new domain to be created...
 > 
-> The ELF specs define bots as follows (from man 5 elf) :
+> Hi Stefan,
 > 
->          .shstrtab
->                 This section holds section names.  This section is of type
->                 SHT_STRTAB.  No attribute types are used.
+> This is already included at the start of the commit message:
 > 
->          .strtab
->                 This section holds strings, most commonly the strings that
->                 represent the names associated with symbol table entries.
->                 If the file has a loadable segment that includes the
->                 symbol string table, the section's attributes will include
->                 the SHF_ALLOC bit.  Otherwise, the bit will be off.  This
->                 section is of type SHT_STRTAB.
+> """
+> When running under Xen and the guest reboots, it boots into a new domain
+> with a new QEMU process (and a new swtpm process if using the emulator
+> backend).
+> """
 > 
-> However, the name lookup works, as you correctly specified that this
-> section holds the section header names via the 'e_shstrndx' field in the
-> elf header.
+> Ignoring the commit message, is the code change acceptable?
 
-Sigh
-We can make this a shstrtab only strtab since that's effectively what it 
-does right now. It annoys me that we'll need a second strtab if we ever 
-want to name other structures. Or at least we'll need special handling.
+Yes, I am fine with it.
 
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 > 
->> +        shdr64.sh_size = s->string_table_buf->len;
->> +        shdr = &shdr64;
->> +    } else {
->> +        shdr_size = sizeof(Elf32_Shdr);
->> +        memset(&shdr32, 0, shdr_size);
->> +        shdr32.sh_type = SHT_STRTAB;
->> +        shdr32.sh_offset = s->section_offset + s->elf_section_data_size;
->> +        shdr32.sh_name = s->string_table_buf->len;
->> +        g_array_append_vals(s->string_table_buf, ".strtab", sizeof(".strtab"));
->> +        shdr32.sh_size = s->string_table_buf->len;
->> +        shdr = &shdr32;
->> +    }
->> +
->> +    memcpy(buff, shdr, shdr_size);
->> +
-> [snip]
-> Also, with your patches the dump output places the headers in this ordering:
-> [elf hdr]
-> [section hdrs]
-> [program hdrs]
-> 
-> **normally** program hdrs are placed before section hdrs,
-> but this is just a convention IIRC.
-
-I don't see why this should be a problem, that's what the offsets are for.
-
-> 
-> 
-> Steffen
-> 
-
+> Thanks,
+> Ross
 
