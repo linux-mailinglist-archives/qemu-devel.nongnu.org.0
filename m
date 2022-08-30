@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76FB05A5DC6
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 10:10:24 +0200 (CEST)
-Received: from localhost ([::1]:57808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A548B5A5EE5
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 11:07:27 +0200 (CEST)
+Received: from localhost ([::1]:40516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSwKE-0005fd-Qd
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 04:10:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52264)
+	id 1oSxDR-0002n2-Te
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 05:07:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <john@john-millikin.com>)
- id 1oSwGL-0003sq-12
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 04:06:21 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:43881)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oSx9q-00076W-JC; Tue, 30 Aug 2022 05:03:42 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:41487)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <john@john-millikin.com>)
- id 1oSwGF-0008FY-4Z
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 04:06:18 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- h11-20020a17090a470b00b001fbc5ba5224so11073671pjg.2
- for <qemu-devel@nongnu.org>; Tue, 30 Aug 2022 01:06:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=john-millikin.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc;
- bh=crq6Bxoap3ruVpfxQqPYGnDt95/gQ4Hk3CYIxlxhoNc=;
- b=mq57Yj/19+AyL7s8LUSAMOpp3s1LiX6t2TdpURHXGbVdtwrTwStveTLxg8YTdPjqtx
- JMskrM3aN+dFM9EeXlhAp3qI+XMH3REIw+B1XahGliyXGBF3EkMmwgqfLSs6K7+SFXip
- qGckBQZTr840SxGp8VB1rFk5+MJjlcn3dpZOZDzPJugcXGiYZkyvKZJAd9CQBpyWD4sq
- tPxaYW+KuZyYlM6asoDXO2ZnDabGO0eMeD++9bPDBLhHQAXa41KZEhDvPTxljOCt+0NK
- WeMEg1rdFRL9EapngZOw2Z+7Y6j95vgMjdYFsatTxzLoudSEVgx0wGHADFFosm1PfzBE
- 7Hew==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oSx9n-0008K4-Fe; Tue, 30 Aug 2022 05:03:41 -0400
+Received: by mail-pl1-x635.google.com with SMTP id p18so10476412plr.8;
+ Tue, 30 Aug 2022 02:03:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=8VyaC5Ykgf7c6qkE5KVqxeWRX+OF9MY9k6Sp+6bZDQg=;
+ b=naMo53QTmXA/tTgSHF/KPxXsU6uHfWe8kHu4dZg/UhqmSZAXTsLUNBbG9MYL1MJugA
+ F/OjUADxAn1cewbot5Gwaz6aNJMPHtRm804tQC1nVtPTyMyzwUocif0kg2Rw+I4p+jyS
+ TxNC1l1QCJY5loItclnc3sVgsszlqB+O9u6VsfDzQr4gvdrE3fHJw2YejTjj2p5oumCn
+ DbgjUFTnvS+XqihKgDAeFPWOeQ6CspvA/hcDLyAOtT/2q6t1wopHyYdRfJ0oY+8QmZDQ
+ OADJBFRxTJoqau89zlQlSDIBoVTup71REAtrRVNLOTpI+ytukkWAmi61Y2e+JrB4v1EG
+ 9iQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=crq6Bxoap3ruVpfxQqPYGnDt95/gQ4Hk3CYIxlxhoNc=;
- b=u+zn43VZkqDTFvr2t89CO4NehkjMcc4yPsHl25XV2FKOQkKSGEZ3TiquuDHiF/xErb
- Q2PhzZ1Jt90H8/x4tOhs6McqFGj366CVglqD813DRcIuWpG3l9iWKGtb0fXLLIryzMYW
- jEhQhwL9/Lt6o2cJY4J5bGMwje+EQsoPypDzN9TqSVK0FIZv7lJRi/rsUOC82wC1AbXc
- 5NWZgtjXKe0LqmoIYXklC078DwRIoxDF0tOIdm6gq/+SUB+ayPd83kgtIhcOyGifTWwy
- hrlQyh8UgjD19clsEKH3KBanJoJ5GHrcCwHwakJZ3z/TYpkZCkq44TbjpiTa0rP/g/V6
- FjIA==
-X-Gm-Message-State: ACgBeo3XjCY3uAXCbKJaafSElQQ2w9n7dNh5099f3H2Y5d6s+iS21B1Y
- hAWgek4PhWExQEwcKcePa/V4BKnNrekA+rnd
-X-Google-Smtp-Source: AA6agR56mOs5plyYbhSvJgTgHMgtmSEj+XBMKmV5tnb7Hk52jqsRg5AIRIJaBsdnyQjAYFPm5gXUQw==
-X-Received: by 2002:a17:90b:4a09:b0:1fd:d4be:fed4 with SMTP id
- kk9-20020a17090b4a0900b001fdd4befed4mr8678285pjb.6.1661846771242; 
- Tue, 30 Aug 2022 01:06:11 -0700 (PDT)
-Received: from john-millikin.com ([2405:6580:98c0:1200:eed:9c81:18d2:6802])
- by smtp.gmail.com with ESMTPSA id
- k3-20020a17090a4c8300b001ef81574355sm5790144pjh.12.2022.08.30.01.06.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Aug 2022 01:06:10 -0700 (PDT)
-Date: Tue, 30 Aug 2022 17:06:06 +0900
-From: John Millikin <john@john-millikin.com>
-To: qemu-devel@nongnu.org
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- Bill Paul <noisetube@gmail.com>
-Subject: Re: [PATCH v2 1/2] scsi: Add buf_len parameter to scsi_req_new()
-Message-ID: <Yw3E7hveOmliHeXF@john-millikin.com>
-References: <20220820015648.902562-1-john@john-millikin.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=8VyaC5Ykgf7c6qkE5KVqxeWRX+OF9MY9k6Sp+6bZDQg=;
+ b=TvI7lxXIXb65zkGE92qWAdMKtL9e+7HVpdaNL/59ZTtQj6rJJ7MgsAIEf1Kgk4Xowa
+ a1Gu8oXEAnSj/OERbm1AOlJdIO/skJq/rE6BS4IwUQdgPNU4ahf1Ctr8uGsT6MW6dVmQ
+ BdvOUuApO5LKq7KSfM6qOVFUrgV5EyAdlRpnOzh+IOXN914BaVLY2HwWkRSin5A/LcFG
+ 4HypHB8MaAPSt+ASSVXXGHiYX673ceFAu7wO4xBIC+XWvx33JfwMBQi6TUTkq/QXypRc
+ zdFG+Az4ek9sFbNlqnlGnw+bSSL+2gvm9hxclN1hWmrNopsyyMiPQqs80RzIkJS57tS3
+ Cxbw==
+X-Gm-Message-State: ACgBeo2WftY2TUAeuhcF41xBg63qIx0Qh4S643SC5FL3pYzgbauWQeGf
+ RbkWhZ6KIcAfFzPC54x3LTaAMzXOqzuS2wH+vh0=
+X-Google-Smtp-Source: AA6agR636Av6mIryMlcEyk85+Ibz5LSNrelRGgrFxUw4uysE4CyGppJRAvcBP7wJe3Iwp+NQ++DmXofLqT1Z8s1KAuM=
+X-Received: by 2002:a17:902:f64f:b0:172:a790:320a with SMTP id
+ m15-20020a170902f64f00b00172a790320amr20061327plg.149.1661850217284; Tue, 30
+ Aug 2022 02:03:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220820015648.902562-1-john@john-millikin.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=john@john-millikin.com; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20220824130331.21315-1-zhiwei_liu@linux.alibaba.com>
+ <20220824130331.21315-5-zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <20220824130331.21315-5-zhiwei_liu@linux.alibaba.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 30 Aug 2022 11:03:10 +0200
+Message-ID: <CAKmqyKN7ZWrJW_tJyeqTJxKqSOV=nmXx-hb996EvD_6M5hxhZA@mail.gmail.com>
+Subject: Re: [RFC PATCH 4/4] target/riscv: Support Ventana disassemble
+To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=alistair23@gmail.com; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,383 +85,229 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Gentle ping
-
-On Sat, Aug 20, 2022 at 10:56:48AM +0900, John Millikin wrote:
-> When a SCSI command is received from the guest, the CDB length implied
-> by the first byte might exceed the number of bytes the guest sent. In
-> this case scsi_req_new() will read uninitialized data, causing
-> unpredictable behavior.
-> 
-> Adds the buf_len parameter to scsi_req_new() and plumbs it through the
-> call stack.
-> 
-> Signed-off-by: John Millikin <john@john-millikin.com>
-> Buglink: https://gitlab.com/qemu-project/qemu/-/issues/1127
+On Wed, Aug 24, 2022 at 5:37 PM LIU Zhiwei <zhiwei_liu@linux.alibaba.com> wrote:
+>
+> Pass through the custom information to disassemble by the target_info
+> field. In disassemble, select the decode path according to the custom
+> extension.
+>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 > ---
->  hw/scsi/esp.c          |  2 +-
->  hw/scsi/lsi53c895a.c   |  2 +-
->  hw/scsi/megasas.c      | 12 +++++++-----
->  hw/scsi/mptsas.c       |  3 ++-
->  hw/scsi/scsi-bus.c     | 21 +++++++++++++--------
->  hw/scsi/scsi-disk.c    |  7 ++++---
->  hw/scsi/scsi-generic.c |  5 +++--
->  hw/scsi/spapr_vscsi.c  |  3 ++-
->  hw/scsi/virtio-scsi.c  |  5 +++--
->  hw/scsi/vmw_pvscsi.c   |  3 ++-
->  hw/usb/dev-storage.c   |  3 ++-
->  hw/usb/dev-uas.c       |  5 +++--
->  include/hw/scsi/scsi.h | 11 ++++++-----
->  13 files changed, 49 insertions(+), 33 deletions(-)
-> 
-> Changes from v1:
-> * Applied Paolo's suggestions for proper CDB sizes instead of a TODO.
->   https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg02928.html
-> 
-> v1: https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg02509.html
-> 
-> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-> index 2d3c649567..19fafad2a3 100644
-> --- a/hw/scsi/esp.c
-> +++ b/hw/scsi/esp.c
-> @@ -292,7 +292,7 @@ static void do_command_phase(ESPState *s)
->      esp_fifo_pop_buf(&s->cmdfifo, buf, cmdlen);
->  
->      current_lun = scsi_device_find(&s->bus, 0, s->current_dev->id, s->lun);
-> -    s->current_req = scsi_req_new(current_lun, 0, s->lun, buf, s);
-> +    s->current_req = scsi_req_new(current_lun, 0, s->lun, buf, cmdlen, s);
->      datalen = scsi_req_enqueue(s->current_req);
->      s->ti_size = datalen;
->      fifo8_reset(&s->cmdfifo);
-> diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
-> index ad5f5e5f39..05a43ec807 100644
-> --- a/hw/scsi/lsi53c895a.c
-> +++ b/hw/scsi/lsi53c895a.c
-> @@ -864,7 +864,7 @@ static void lsi_do_command(LSIState *s)
->      s->current = g_new0(lsi_request, 1);
->      s->current->tag = s->select_tag;
->      s->current->req = scsi_req_new(dev, s->current->tag, s->current_lun, buf,
-> -                                   s->current);
-> +                                   s->dbc, s->current);
->  
->      n = scsi_req_enqueue(s->current->req);
->      if (n) {
-> diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
-> index d5dfb412ba..04d48b9cb8 100644
-> --- a/hw/scsi/megasas.c
-> +++ b/hw/scsi/megasas.c
-> @@ -1062,7 +1062,8 @@ static int megasas_pd_get_info_submit(SCSIDevice *sdev, int lun,
->          info->inquiry_data[0] = 0x7f; /* Force PQual 0x3, PType 0x1f */
->          info->vpd_page83[0] = 0x7f;
->          megasas_setup_inquiry(cmdbuf, 0, sizeof(info->inquiry_data));
-> -        cmd->req = scsi_req_new(sdev, cmd->index, lun, cmdbuf, cmd);
-> +        cmd->req = scsi_req_new(sdev, cmd->index, lun, cmdbuf,
-> +                                sizeof(cmdbuf), cmd);
->          if (!cmd->req) {
->              trace_megasas_dcmd_req_alloc_failed(cmd->index,
->                                                  "PD get info std inquiry");
-> @@ -1080,7 +1081,8 @@ static int megasas_pd_get_info_submit(SCSIDevice *sdev, int lun,
->          return MFI_STAT_INVALID_STATUS;
->      } else if (info->inquiry_data[0] != 0x7f && info->vpd_page83[0] == 0x7f) {
->          megasas_setup_inquiry(cmdbuf, 0x83, sizeof(info->vpd_page83));
-> -        cmd->req = scsi_req_new(sdev, cmd->index, lun, cmdbuf, cmd);
-> +        cmd->req = scsi_req_new(sdev, cmd->index, lun, cmdbuf,
-> +                                sizeof(cmdbuf), cmd);
->          if (!cmd->req) {
->              trace_megasas_dcmd_req_alloc_failed(cmd->index,
->                                                  "PD get info vpd inquiry");
-> @@ -1268,7 +1270,7 @@ static int megasas_ld_get_info_submit(SCSIDevice *sdev, int lun,
->          cmd->iov_buf = g_malloc0(dcmd_size);
->          info = cmd->iov_buf;
->          megasas_setup_inquiry(cdb, 0x83, sizeof(info->vpd_page83));
-> -        cmd->req = scsi_req_new(sdev, cmd->index, lun, cdb, cmd);
-> +        cmd->req = scsi_req_new(sdev, cmd->index, lun, cdb, sizeof(cdb), cmd);
->          if (!cmd->req) {
->              trace_megasas_dcmd_req_alloc_failed(cmd->index,
->                                                  "LD get info vpd inquiry");
-> @@ -1748,7 +1750,7 @@ static int megasas_handle_scsi(MegasasState *s, MegasasCmd *cmd,
->          return MFI_STAT_SCSI_DONE_WITH_ERROR;
->      }
->  
-> -    cmd->req = scsi_req_new(sdev, cmd->index, lun_id, cdb, cmd);
-> +    cmd->req = scsi_req_new(sdev, cmd->index, lun_id, cdb, cdb_len, cmd);
->      if (!cmd->req) {
->          trace_megasas_scsi_req_alloc_failed(
->                  mfi_frame_desc(frame_cmd), target_id, lun_id);
-> @@ -1823,7 +1825,7 @@ static int megasas_handle_io(MegasasState *s, MegasasCmd *cmd, int frame_cmd)
->  
->      megasas_encode_lba(cdb, lba_start, lba_count, is_write);
->      cmd->req = scsi_req_new(sdev, cmd->index,
-> -                            lun_id, cdb, cmd);
-> +                            lun_id, cdb, cdb_len, cmd);
->      if (!cmd->req) {
->          trace_megasas_scsi_req_alloc_failed(
->              mfi_frame_desc(frame_cmd), target_id, lun_id);
-> diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
-> index 706cf0df3a..c4eedb6e0f 100644
-> --- a/hw/scsi/mptsas.c
-> +++ b/hw/scsi/mptsas.c
-> @@ -324,7 +324,8 @@ static int mptsas_process_scsi_io_request(MPTSASState *s,
->      }
->  
->      req->sreq = scsi_req_new(sdev, scsi_io->MsgContext,
-> -                            scsi_io->LUN[1], scsi_io->CDB, req);
-> +                            scsi_io->LUN[1], scsi_io->CDB,
-> +                            scsi_io->CDBLength, req);
->  
->      if (req->sreq->cmd.xfer > scsi_io->DataLength) {
->          goto overrun;
-> diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-> index b2e2bc3c96..b35fde0a30 100644
-> --- a/hw/scsi/scsi-bus.c
-> +++ b/hw/scsi/scsi-bus.c
-> @@ -102,15 +102,15 @@ static void scsi_device_unrealize(SCSIDevice *s)
->  }
->  
->  int scsi_bus_parse_cdb(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
-> -                       void *hba_private)
-> +                       size_t buf_len, void *hba_private)
->  {
->      SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, dev->qdev.parent_bus);
->      int rc;
->  
->      assert(cmd->len == 0);
-> -    rc = scsi_req_parse_cdb(dev, cmd, buf);
-> +    rc = scsi_req_parse_cdb(dev, cmd, buf, buf_len);
->      if (bus->info->parse_cdb) {
-> -        rc = bus->info->parse_cdb(dev, cmd, buf, hba_private);
-> +        rc = bus->info->parse_cdb(dev, cmd, buf, buf_len, hba_private);
->      }
->      return rc;
->  }
-> @@ -703,7 +703,7 @@ SCSIRequest *scsi_req_alloc(const SCSIReqOps *reqops, SCSIDevice *d,
->  }
->  
->  SCSIRequest *scsi_req_new(SCSIDevice *d, uint32_t tag, uint32_t lun,
-> -                          uint8_t *buf, void *hba_private)
-> +                          uint8_t *buf, size_t buf_len, void *hba_private)
->  {
->      SCSIBus *bus = DO_UPCAST(SCSIBus, qbus, d->qdev.parent_bus);
->      const SCSIReqOps *ops;
-> @@ -734,9 +734,9 @@ SCSIRequest *scsi_req_new(SCSIDevice *d, uint32_t tag, uint32_t lun,
->      }
->  
->      if (ops != NULL || !sc->parse_cdb) {
-> -        ret = scsi_req_parse_cdb(d, &cmd, buf);
-> +        ret = scsi_req_parse_cdb(d, &cmd, buf, buf_len);
->      } else {
-> -        ret = sc->parse_cdb(d, &cmd, buf, hba_private);
-> +        ret = sc->parse_cdb(d, &cmd, buf, buf_len, hba_private);
->      }
->  
->      if (ret != 0) {
-> @@ -1308,7 +1308,8 @@ static void scsi_cmd_xfer_mode(SCSICommand *cmd)
->      }
->  }
->  
-> -int scsi_req_parse_cdb(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf)
-> +int scsi_req_parse_cdb(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
-> +                       size_t buf_len)
->  {
->      int rc;
->      int len;
-> @@ -1713,7 +1714,11 @@ static int get_scsi_requests(QEMUFile *f, void *pv, size_t size,
->          qemu_get_buffer(f, buf, sizeof(buf));
->          qemu_get_be32s(f, &tag);
->          qemu_get_be32s(f, &lun);
-> -        req = scsi_req_new(s, tag, lun, buf, NULL);
-> +        /*
-> +         * A too-short CDB would have been rejected by scsi_req_new, so just use
-> +         * SCSI_CMD_BUF_SIZE as the CDB length.
-> +         */
-> +        req = scsi_req_new(s, tag, lun, buf, SCSI_CMD_BUF_SIZE, NULL);
->          req->retry = (sbyte == 1);
->          if (bus->info->load_request) {
->              req->hba_private = bus->info->load_request(f, req);
-> diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-> index efee6739f9..399e1787ea 100644
-> --- a/hw/scsi/scsi-disk.c
-> +++ b/hw/scsi/scsi-disk.c
-> @@ -3030,14 +3030,15 @@ static SCSIRequest *scsi_block_new_request(SCSIDevice *d, uint32_t tag,
->  }
->  
->  static int scsi_block_parse_cdb(SCSIDevice *d, SCSICommand *cmd,
-> -                                  uint8_t *buf, void *hba_private)
-> +                                  uint8_t *buf, size_t buf_len,
-> +                                  void *hba_private)
->  {
->      SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, d);
->  
->      if (scsi_block_is_passthrough(s, buf)) {
-> -        return scsi_bus_parse_cdb(&s->qdev, cmd, buf, hba_private);
-> +        return scsi_bus_parse_cdb(&s->qdev, cmd, buf, buf_len, hba_private);
->      } else {
-> -        return scsi_req_parse_cdb(&s->qdev, cmd, buf);
-> +        return scsi_req_parse_cdb(&s->qdev, cmd, buf, buf_len);
->      }
->  }
->  
-> diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
-> index ada24d7486..55db1684de 100644
-> --- a/hw/scsi/scsi-generic.c
-> +++ b/hw/scsi/scsi-generic.c
-> @@ -784,9 +784,10 @@ static Property scsi_generic_properties[] = {
->  };
->  
->  static int scsi_generic_parse_cdb(SCSIDevice *dev, SCSICommand *cmd,
-> -                                  uint8_t *buf, void *hba_private)
-> +                                  uint8_t *buf, size_t buf_len,
-> +                                  void *hba_private)
->  {
-> -    return scsi_bus_parse_cdb(dev, cmd, buf, hba_private);
-> +    return scsi_bus_parse_cdb(dev, cmd, buf, buf_len, hba_private);
->  }
->  
->  static void scsi_generic_class_initfn(ObjectClass *klass, void *data)
-> diff --git a/hw/scsi/spapr_vscsi.c b/hw/scsi/spapr_vscsi.c
-> index e320ccaa23..0a8cbf5a4b 100644
-> --- a/hw/scsi/spapr_vscsi.c
-> +++ b/hw/scsi/spapr_vscsi.c
-> @@ -783,6 +783,7 @@ static int vscsi_queue_cmd(VSCSIState *s, vscsi_req *req)
->      union srp_iu *srp = &req_iu(req)->srp;
->      SCSIDevice *sdev;
->      int n, lun;
-> +    size_t cdb_len = sizeof (srp->cmd.cdb) + (srp->cmd.add_cdb_len & ~3);
->  
->      if ((srp->cmd.lun == 0 || be64_to_cpu(srp->cmd.lun) == SRP_REPORT_LUNS_WLUN)
->        && srp->cmd.cdb[0] == REPORT_LUNS) {
-> @@ -801,7 +802,7 @@ static int vscsi_queue_cmd(VSCSIState *s, vscsi_req *req)
->          } return 1;
->      }
->  
-> -    req->sreq = scsi_req_new(sdev, req->qtag, lun, srp->cmd.cdb, req);
-> +    req->sreq = scsi_req_new(sdev, req->qtag, lun, srp->cmd.cdb, cdb_len, req);
->      n = scsi_req_enqueue(req->sreq);
->  
->      trace_spapr_vscsi_queue_cmd(req->qtag, srp->cmd.cdb[0],
-> diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-> index 4141dddd51..41f2a56301 100644
-> --- a/hw/scsi/virtio-scsi.c
-> +++ b/hw/scsi/virtio-scsi.c
-> @@ -622,7 +622,8 @@ static void virtio_scsi_command_complete(SCSIRequest *r, size_t resid)
->  }
->  
->  static int virtio_scsi_parse_cdb(SCSIDevice *dev, SCSICommand *cmd,
-> -                                 uint8_t *buf, void *hba_private)
-> +                                 uint8_t *buf, size_t buf_len,
-> +                                 void *hba_private)
->  {
->      VirtIOSCSIReq *req = hba_private;
->  
-> @@ -696,7 +697,7 @@ static int virtio_scsi_handle_cmd_req_prepare(VirtIOSCSI *s, VirtIOSCSIReq *req)
->      virtio_scsi_ctx_check(s, d);
->      req->sreq = scsi_req_new(d, req->req.cmd.tag,
->                               virtio_scsi_get_lun(req->req.cmd.lun),
-> -                             req->req.cmd.cdb, req);
-> +                             req->req.cmd.cdb, vs->cdb_size, req);
->  
->      if (req->sreq->cmd.mode != SCSI_XFER_NONE
->          && (req->sreq->cmd.mode != req->mode ||
-> diff --git a/hw/scsi/vmw_pvscsi.c b/hw/scsi/vmw_pvscsi.c
-> index 4d9969f3b1..670279b66d 100644
-> --- a/hw/scsi/vmw_pvscsi.c
-> +++ b/hw/scsi/vmw_pvscsi.c
-> @@ -730,7 +730,8 @@ pvscsi_process_request_descriptor(PVSCSIState *s,
->          r->sg.elemAddr = descr->dataAddr;
->      }
->  
-> -    r->sreq = scsi_req_new(d, descr->context, r->lun, descr->cdb, r);
-> +    r->sreq = scsi_req_new(d, descr->context, r->lun, descr->cdb,
-> +                           descr->cdbLen, r);
->      if (r->sreq->cmd.mode == SCSI_XFER_FROM_DEV &&
->          (descr->flags & PVSCSI_FLAG_CMD_DIR_TODEVICE)) {
->          r->cmp.hostStatus = BTSTAT_BADMSG;
-> diff --git a/hw/usb/dev-storage.c b/hw/usb/dev-storage.c
-> index dca62d544f..8a28fd199d 100644
-> --- a/hw/usb/dev-storage.c
-> +++ b/hw/usb/dev-storage.c
-> @@ -415,7 +415,8 @@ static void usb_msd_handle_data(USBDevice *dev, USBPacket *p)
->                                       cbw.cmd_len, s->data_len);
->              assert(le32_to_cpu(s->csw.residue) == 0);
->              s->scsi_len = 0;
-> -            s->req = scsi_req_new(scsi_dev, tag, cbw.lun, cbw.cmd, NULL);
-> +            s->req = scsi_req_new(scsi_dev, tag, cbw.lun, cbw.cmd,
-> +                                  cbw.cmd_len, NULL);
->              if (s->commandlog) {
->                  scsi_req_print(s->req);
->              }
-> diff --git a/hw/usb/dev-uas.c b/hw/usb/dev-uas.c
-> index c9f295e7e4..5192b062d6 100644
-> --- a/hw/usb/dev-uas.c
-> +++ b/hw/usb/dev-uas.c
-> @@ -71,7 +71,7 @@ typedef struct {
->      uint8_t    reserved_2;
->      uint64_t   lun;
->      uint8_t    cdb[16];
-> -    uint8_t    add_cdb[1];      /* not supported by QEMU */
-> +    uint8_t    add_cdb[1];
->  } QEMU_PACKED  uas_iu_command;
->  
+>  disas/riscv.c         | 56 +++++++++++++++++++++++++++++++++++++++++--
+>  target/riscv/cpu.c    | 19 +++++++++++++++
+>  target/riscv/custom.h | 25 +++++++++++++++++++
+>  3 files changed, 98 insertions(+), 2 deletions(-)
+>  create mode 100644 target/riscv/custom.h
+>
+> diff --git a/disas/riscv.c b/disas/riscv.c
+> index aaf85b2aba..590cdba0f6 100644
+> --- a/disas/riscv.c
+> +++ b/disas/riscv.c
+> @@ -19,6 +19,7 @@
+>
+>  #include "qemu/osdep.h"
+>  #include "disas/dis-asm.h"
+> +#include "target/riscv/custom.h"
+>
+>
+>  /* types */
+> @@ -562,6 +563,11 @@ typedef enum {
+>      rv_op_xperm8 = 398,
+>  } rv_op;
+>
+> +typedef enum {
+> +    Ventana_op_vt_maskc = 0,
+> +    Ventana_op_vt_maskcn = 1,
+> +} rv_Ventana_op;
+
+This is unused right?
+
+> +
+>  /* structures */
+>
 >  typedef struct {
-> @@ -699,6 +699,7 @@ static void usb_uas_command(UASDevice *uas, uas_iu *iu)
->      UASRequest *req;
->      uint32_t len;
->      uint16_t tag = be16_to_cpu(iu->hdr.tag);
-> +    size_t cdb_len = sizeof(iu->command.cdb) + iu->command.add_cdb_length;
->  
->      if (iu->command.add_cdb_length > 0) {
->          qemu_log_mask(LOG_UNIMP, "additional adb length not yet supported\n");
-> @@ -729,7 +730,7 @@ static void usb_uas_command(UASDevice *uas, uas_iu *iu)
->  
->      req->req = scsi_req_new(req->dev, req->tag,
->                              usb_uas_get_lun(req->lun),
-> -                            iu->command.cdb, req);
-> +                            iu->command.cdb, cdb_len, req);
->      if (uas->requestlog) {
->          scsi_req_print(req->req);
+> @@ -602,6 +608,7 @@ typedef struct {
+>      uint8_t   bs;
+>      uint8_t   rnum;
+>      const rv_opcode_data *used_opcode_data;
+> +    const rv_opcode_data *custom_opcode_data;
+>  } rv_decode;
+>
+>  /* register names */
+> @@ -1287,6 +1294,11 @@ const rv_opcode_data opcode_data[] = {
+>      { "xperm8", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 }
+>  };
+>
+> +const rv_opcode_data Ventana_opcode_data[] = {
+> +    { "vt.maskc", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+> +    { "vt.maskcn", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+> +};
+
+Could we keep this in a vendor file instead?
+
+> +
+>  /* CSR names */
+>
+>  static const char *csr_name(int csrno)
+> @@ -2244,6 +2256,18 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
+>              case 0: op = rv_op_addd; break;
+>              case 1: op = rv_op_slld; break;
+>              case 5: op = rv_op_srld; break;
+> +            case 6: /* Todo: Move custom decode to sperate decode function */
+> +                if (dec->custom_opcode_data == Ventana_opcode_data) {
+> +                    op = Ventana_op_vt_maskc;
+> +                    dec->used_opcode_data = dec->custom_opcode_data;
+> +                }
+> +                break;
+> +            case 7:
+> +                if (dec->custom_opcode_data == Ventana_opcode_data) {
+> +                    op = Ventana_op_vt_maskcn;
+> +                    dec->used_opcode_data = dec->custom_opcode_data;
+> +                }
+> +                break;
+
+This seems like it won't scale very well as we add more custom extensions
+
+>              case 8: op = rv_op_muld; break;
+>              case 12: op = rv_op_divd; break;
+>              case 13: op = rv_op_divud; break;
+> @@ -3190,15 +3214,43 @@ static void decode_inst_decompress(rv_decode *dec, rv_isa isa)
 >      }
-> diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
-> index e284e3a4ec..001103488c 100644
-> --- a/include/hw/scsi/scsi.h
-> +++ b/include/hw/scsi/scsi.h
-> @@ -59,7 +59,7 @@ struct SCSIDeviceClass {
->      void (*realize)(SCSIDevice *dev, Error **errp);
->      void (*unrealize)(SCSIDevice *dev);
->      int (*parse_cdb)(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
-> -                     void *hba_private);
-> +                     size_t buf_len, void *hba_private);
->      SCSIRequest *(*alloc_req)(SCSIDevice *s, uint32_t tag, uint32_t lun,
->                                uint8_t *buf, void *hba_private);
->      void (*unit_attention_reported)(SCSIDevice *s);
-> @@ -122,7 +122,7 @@ struct SCSIBusInfo {
->      int tcq;
->      int max_channel, max_target, max_lun;
->      int (*parse_cdb)(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
-> -                     void *hba_private);
-> +                     size_t buf_len, void *hba_private);
->      void (*transfer_data)(SCSIRequest *req, uint32_t arg);
->      void (*fail)(SCSIRequest *req);
->      void (*complete)(SCSIRequest *req, size_t residual);
-> @@ -192,14 +192,15 @@ void scsi_legacy_handle_cmdline(void);
->  SCSIRequest *scsi_req_alloc(const SCSIReqOps *reqops, SCSIDevice *d,
->                              uint32_t tag, uint32_t lun, void *hba_private);
->  SCSIRequest *scsi_req_new(SCSIDevice *d, uint32_t tag, uint32_t lun,
-> -                          uint8_t *buf, void *hba_private);
-> +                          uint8_t *buf, size_t buf_len, void *hba_private);
->  int32_t scsi_req_enqueue(SCSIRequest *req);
->  SCSIRequest *scsi_req_ref(SCSIRequest *req);
->  void scsi_req_unref(SCSIRequest *req);
->  
->  int scsi_bus_parse_cdb(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
-> -                       void *hba_private);
-> -int scsi_req_parse_cdb(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf);
-> +                       size_t buf_len, void *hba_private);
-> +int scsi_req_parse_cdb(SCSIDevice *dev, SCSICommand *cmd, uint8_t *buf,
-> +                       size_t buf_len);
->  void scsi_req_build_sense(SCSIRequest *req, SCSISense sense);
->  void scsi_req_print(SCSIRequest *req);
->  void scsi_req_continue(SCSIRequest *req);
-> -- 
+>  }
+>
+> +static const struct {
+> +    enum RISCVCustom ext;
+> +    const rv_opcode_data *opcode_data;
+> +} custom_opcode_table[] = {
+> +    { VENTANA_CUSTOM,   Ventana_opcode_data },
+> +};
+> +
+> +static const rv_opcode_data *
+> +get_custom_opcode_data(struct disassemble_info *info)
+> +{
+> +    for (size_t i = 0; i < ARRAY_SIZE(custom_opcode_table); ++i) {
+> +        if (info->target_info & (1ULL << custom_opcode_table[i].ext)) {
+> +            return custom_opcode_table[i].opcode_data;
+> +        }
+> +    }
+> +    return NULL;
+> +}
+> +
+>  /* disassemble instruction */
+>
+>  static void
+> -disasm_inst(char *buf, size_t buflen, rv_isa isa, uint64_t pc, rv_inst inst)
+> +disasm_inst(char *buf, size_t buflen, rv_isa isa, uint64_t pc, rv_inst inst,
+> +            struct disassemble_info *info)
+>  {
+>      rv_decode dec = { 0 };
+>      dec.pc = pc;
+>      dec.inst = inst;
+> +
+> +    /*
+> +     * Set default opcode_data.
+> +     * Only overide the default opcode_data only when
+> +     * 1. There is a custom opcode data.
+> +     * 2. The instruction belongs to the custom extension.
+> +     */
+>      dec.used_opcode_data = opcode_data;
+> +    dec.custom_opcode_data = get_custom_opcode_data(info);
+
+What if something has two vendor extensions?
+
+I'm not sure we need this, it might be better to just check if the
+extension is enabled and then use that decoder
+
+Alistair
+
+> +
+>      decode_inst_opcode(&dec, isa);
+>      decode_inst_operands(&dec);
+>      decode_inst_decompress(&dec, isa);
+> @@ -3253,7 +3305,7 @@ print_insn_riscv(bfd_vma memaddr, struct disassemble_info *info, rv_isa isa)
+>          break;
+>      }
+>
+> -    disasm_inst(buf, sizeof(buf), isa, memaddr, inst);
+> +    disasm_inst(buf, sizeof(buf), isa, memaddr, inst, info);
+>      (*info->fprintf_func)(info->stream, "%s", buf);
+>
+>      return len;
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index a5f84f211d..cc6ef9303f 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -31,6 +31,7 @@
+>  #include "fpu/softfloat-helpers.h"
+>  #include "sysemu/kvm.h"
+>  #include "kvm_riscv.h"
+> +#include "custom.h"
+>
+>  /* RISC-V CPU definitions */
+>
+> @@ -504,11 +505,29 @@ static void riscv_cpu_reset(DeviceState *dev)
+>  #endif
+>  }
+>
+> +static bool has_Ventana_ext(const RISCVCPUConfig *cfg_ptr)
+> +{
+> +    return cfg_ptr->ext_XVentanaCondOps;
+> +}
+> +
+>  static void riscv_cpu_disas_set_info(CPUState *s, disassemble_info *info)
+>  {
+>      RISCVCPU *cpu = RISCV_CPU(s);
+>      CPURISCVState *env = &cpu->env;
+>
+> +    static const struct {
+> +        bool (*guard_func)(const RISCVCPUConfig *);
+> +        enum RISCVCustom ext;
+> +    } customs[] = {
+> +        { has_Ventana_ext, VENTANA_CUSTOM },
+> +    };
+> +
+> +    for (size_t i = 0; i < ARRAY_SIZE(customs); ++i) {
+> +        if (customs[i].guard_func(&(cpu->cfg))) {
+> +            info->target_info |= 1ULL << customs[i].ext;
+> +        }
+> +    }
+> +
+>      switch (env->xl) {
+>      case MXL_RV32:
+>          info->print_insn = print_insn_riscv32;
+> diff --git a/target/riscv/custom.h b/target/riscv/custom.h
+> new file mode 100644
+> index 0000000000..1a161984c0
+> --- /dev/null
+> +++ b/target/riscv/custom.h
+> @@ -0,0 +1,25 @@
+> +/*
+> + * QEMU RISC-V CPU -- custom extensions
+> + *
+> + * Copyright (c) 2022 T-Head Semiconductor Co., Ltd. All rights reserved.
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +#ifndef RISCV_CPU_CUSTOM_H
+> +#define RISCV_CPU_CUSTOM_H
+> +
+> +enum RISCVCustom {
+> +    VENTANA_CUSTOM = 0,
+> +};
+> +
+> +#endif
+> --
 > 2.25.1
-> 
+>
+>
 
