@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7A705A5CAF
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 09:16:12 +0200 (CEST)
-Received: from localhost ([::1]:58760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CEFA5A5D10
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 09:36:47 +0200 (CEST)
+Received: from localhost ([::1]:55650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oSvTm-0006CG-JJ
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 03:16:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60896)
+	id 1oSvnc-00079y-Lx
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 03:36:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
- id 1oSvQv-0004lP-2B
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 03:13:14 -0400
-Received: from mail-vs1-xe35.google.com ([2607:f8b0:4864:20::e35]:42763)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
- id 1oSvQs-0008SL-KJ
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 03:13:12 -0400
-Received: by mail-vs1-xe35.google.com with SMTP id i1so440974vsc.9
- for <qemu-devel@nongnu.org>; Tue, 30 Aug 2022 00:13:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=t6EdYenelYEAKvYI7l5sMM1+TCE0xZ4wvYAEChvTwwY=;
- b=ZnRkpIK4p52NmfjpwCK+1O4J6pwXnzbMfzpHmeIC6YF7fo30Jij+In4Rd++7h3izUW
- NZYyeA2PzGmV0Tqhh5mjp4RAUPz92mj9JT09KusBlcfn4gsFmo3C/xd1eBZFUhaq2lrH
- M0TNF5WyYmNnxepUxTEIyhOx/tRwL8TehEG3Q1rX/eq0jAPwui45RmgsWWzj9hX7ADB5
- aJtwWmsS1q/Mw9exKaUgvY6wTuRCb6XlOKgm2nMBy3YoucaNZJSOfvGwVf4RWz+eflVs
- hGrDRubBgtAiVIdnr/I1xgqjuovoFx249OhTrGK7Exsrg8/FZ7O+X5osuW33Gi74InPX
- PguA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=t6EdYenelYEAKvYI7l5sMM1+TCE0xZ4wvYAEChvTwwY=;
- b=q+b0SirDuI8yycVt0qyi8NNHC6sJuk1/mQ9/7gew6S4LDOKCyyB2HCsNy+8WYYSV7z
- kjZrNtyMGrqLs2A/bFvv2emraiyetKZjXcKWvQf0M6zfgYz9PZdo8Jr+iRoCOecRDeUF
- 4gwH799deLQIHf6UUB3jY3/3m7xlYwlxg6d7IozbXK7JplDVYMYoT7/KgagdoJ3irs05
- hP5jgLlh9tWhVE0m/hPdX+H3mO/fsVKgwHguVdKvxXEcAjgOuv6GoDybEoZO8+3MVK1T
- GI0mvzZ9YjoDNsqPwT28WO2UIW/2ORJFJg1ndU98SNZB8bnnwlTrl9tsijyodn8DVa3k
- GNOw==
-X-Gm-Message-State: ACgBeo0rdBUWhBv9blYtySJS692IOLkze5IfMtUx8sVwHuZDdOm2hk2r
- fbk0sN5PeFu72/jwMkcr20qIQ9Svai7A5QAqX+k=
-X-Google-Smtp-Source: AA6agR5Ko3un9ehOGBZssqQmXGbKc0Lh9sXjRme1db4OHbYECjn6Sz9ffZyq9cuyLGCD66zWSa0DT4QXleWWXq+YVOk=
-X-Received: by 2002:a05:6102:390d:b0:387:78b9:bf9c with SMTP id
- e13-20020a056102390d00b0038778b9bf9cmr4648016vsu.43.1661843589474; Tue, 30
- Aug 2022 00:13:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oSvhb-0003FY-4K
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 03:30:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30683)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oSvhX-0002nt-H1
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 03:30:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661844622;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0urpd1EeImC3ondQloXrINnAKmaviNOvckEnw2fnGv4=;
+ b=ABv2/tBCJLewtirabDaLJnNj9U7bpfPwIoATFfTAlUxXyK87Rr5YfjE8b+rhq8urzvw+hW
+ 9gc3cbHIfsUljotR0/kDsdHdea3pXgkXH0Y7LRq9iVLh6P4RleR376t68c/TB+TreB7v5G
+ OPJ8BEeMayvaaKaibQs11r1IU9qQN40=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-282-mqPtLM5-O46jMI0wBW1UPg-1; Tue, 30 Aug 2022 03:30:19 -0400
+X-MC-Unique: mqPtLM5-O46jMI0wBW1UPg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 925DB85A58F;
+ Tue, 30 Aug 2022 07:30:18 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 837E440315A;
+ Tue, 30 Aug 2022 07:30:17 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 063E521E6900; Tue, 30 Aug 2022 09:30:16 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org,  Paolo Bonzini <pbonzini@redhat.com>,  "Denis V.
+ Lunev" <den@openvz.org>,  Peter Xu <peterx@redhat.com>,  Yanan Wang
+ <wangyanan55@huawei.com>,  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Richard W.M. Jones" <rjones@redhat.com>,  qemu-block@nongnu.org,  John
+ Snow <jsnow@redhat.com>,  integration@gluster.org,  Vladimir
+ Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,  Vladimir
+ Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,  David Hildenbrand
+ <david@redhat.com>,  Laurent Vivier <lvivier@redhat.com>,  Raphael Norwitz
+ <raphael.norwitz@nutanix.com>,  Richard Henderson
+ <richard.henderson@linaro.org>,  Fam Zheng <fam@euphon.net>,
+ sgarzare@redhat.com,  Alberto Faria <afaria@redhat.com>,  Kevin Wolf
+ <kwolf@redhat.com>,  Wen Congyang <wencongyang2@huawei.com>,  Eric Blake
+ <eblake@redhat.com>,  Hanna Reitz <hreitz@redhat.com>,  Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,  Eduardo Habkost
+ <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,  Thomas Huth <thuth@redhat.com>,
+ Jeff Cody <codyprime@gmail.com>,  Xie Changlong <xiechanglong.d@gmail.com>
+Subject: Re: [RFC v4 01/11] blkio: add libblkio block driver
+References: <20220822222402.176088-1-stefanha@redhat.com>
+ <20220822222402.176088-2-stefanha@redhat.com>
+Date: Tue, 30 Aug 2022 09:30:16 +0200
+In-Reply-To: <20220822222402.176088-2-stefanha@redhat.com> (Stefan Hajnoczi's
+ message of "Mon, 22 Aug 2022 18:23:52 -0400")
+Message-ID: <877d2qkx2v.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220830063827.813053-1-kraxel@redhat.com>
- <20220830063827.813053-3-kraxel@redhat.com>
-In-Reply-To: <20220830063827.813053-3-kraxel@redhat.com>
-From: Qiang Liu <cyruscyliu@gmail.com>
-Date: Tue, 30 Aug 2022 15:12:58 +0800
-Message-ID: <CAAKa2j=Z3Qmgkzwm4ogYgpfLOxJ2zwYWNSGKYQoWrYPtHpqz9g@mail.gmail.com>
-Subject: Re: [PATCH 2/2] usb/msd: add usb_msd_fatal_error() and fix
- guest-triggerable assert
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e35;
- envelope-from=cyruscyliu@gmail.com; helo=mail-vs1-xe35.google.com
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,116 +96,186 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've checked out the patches and re-run my PoC. I see no crash anymore.
-I also fuzzed the latest code for a while (with the patches) and I saw
-no related crashes.
+Stefan Hajnoczi <stefanha@redhat.com> writes:
 
-Tested-by: Qiang Liu <cyruscyliu@gmail.com>
-
-On Tue, Aug 30, 2022 at 2:38 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> libblkio (https://gitlab.com/libblkio/libblkio/) is a library for
+> high-performance disk I/O. It currently supports io_uring,
+> virtio-blk-vhost-user, and virtio-blk-vhost-vdpa with additional drivers
+> under development.
 >
-> Add handler for fatal errors.  Moves device into error state where it
-> stops responding until the guest resets it.
+> One of the reasons for developing libblkio is that other applications
+> besides QEMU can use it. This will be particularly useful for
+> virtio-blk-vhost-user which applications may wish to use for connecting
+> to qemu-storage-daemon.
 >
-> Guest can send illegal requests where scsi command and usb packet
-> transfer directions are inconsistent.  Use the new usb_msd_fatal_error()
-> function instead of assert() in that case.
+> libblkio also gives us an opportunity to develop in Rust behind a C API
+> that is easy to consume from QEMU.
 >
-> Reported-by: Qiang Liu <cyruscyliu@gmail.com>
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> This commit adds io_uring, virtio-blk-vhost-user, and
+> virtio-blk-vhost-vdpa BlockDrivers to QEMU using libblkio. It will be
+> easy to add other libblkio drivers since they will share the majority of
+> code.
+>
+> For now I/O buffers are copied through bounce buffers if the libblkio
+> driver requires it. Later commits add an optimization for
+> pre-registering guest RAM to avoid bounce buffers.
+>
+> The syntax is:
+>
+>   --blockdev io_uring,node-name=drive0,filename=test.img,readonly=on|off,cache.direct=on|off
+>
+> and:
+>
+>   --blockdev virtio-blk-vhost-vdpa,node-name=drive0,path=/dev/vdpa...,readonly=on|off
+>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  include/hw/usb/msd.h |  1 +
->  hw/usb/dev-storage.c | 30 +++++++++++++++++++++++++++++-
->  hw/usb/trace-events  |  1 +
->  3 files changed, 31 insertions(+), 1 deletion(-)
+>  MAINTAINERS                   |   6 +
+>  meson_options.txt             |   2 +
+>  qapi/block-core.json          |  53 ++-
+>  meson.build                   |   9 +
+>  block/blkio.c                 | 725 ++++++++++++++++++++++++++++++++++
+>  tests/qtest/modules-test.c    |   3 +
+>  block/meson.build             |   1 +
+>  scripts/meson-buildoptions.sh |   3 +
+>  8 files changed, 800 insertions(+), 2 deletions(-)
+>  create mode 100644 block/blkio.c
 >
-> diff --git a/include/hw/usb/msd.h b/include/hw/usb/msd.h
-> index 54e9f38bda46..f9fd862b529a 100644
-> --- a/include/hw/usb/msd.h
-> +++ b/include/hw/usb/msd.h
-> @@ -40,6 +40,7 @@ struct MSDState {
->      bool removable;
->      bool commandlog;
->      SCSIDevice *scsi_dev;
-> +    bool needs_reset;
->  };
->
->  typedef struct MSDState MSDState;
-> diff --git a/hw/usb/dev-storage.c b/hw/usb/dev-storage.c
-> index 4485a2411797..3928209b8249 100644
-> --- a/hw/usb/dev-storage.c
-> +++ b/hw/usb/dev-storage.c
-> @@ -191,6 +191,23 @@ static void usb_msd_packet_complete(MSDState *s)
->      usb_packet_complete(&s->dev, p);
->  }
->
-> +static void usb_msd_fatal_error(MSDState *s)
-> +{
-> +    trace_usb_msd_fatal_error();
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5ce4227ff6..f8ccd5954c 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3397,6 +3397,12 @@ L: qemu-block@nongnu.org
+>  S: Maintained
+>  F: block/vdi.c
+>  
+> +blkio
+> +M: Stefan Hajnoczi <stefanha@redhat.com>
+> +L: qemu-block@nongnu.org
+> +S: Maintained
+> +F: block/blkio.c
 > +
-> +    if (s->packet) {
-> +        s->packet->status = USB_RET_STALL;
-> +        usb_msd_packet_complete(s);
-> +    }
+>  iSCSI
+>  M: Ronnie Sahlberg <ronniesahlberg@gmail.com>
+>  M: Paolo Bonzini <pbonzini@redhat.com>
+> diff --git a/meson_options.txt b/meson_options.txt
+> index e58e158396..67d841a8d2 100644
+> --- a/meson_options.txt
+> +++ b/meson_options.txt
+> @@ -117,6 +117,8 @@ option('bzip2', type : 'feature', value : 'auto',
+>         description: 'bzip2 support for DMG images')
+>  option('cap_ng', type : 'feature', value : 'auto',
+>         description: 'cap_ng support')
+> +option('blkio', type : 'feature', value : 'auto',
+> +       description: 'libblkio block device driver')
+>  option('bpf', type : 'feature', value : 'auto',
+>          description: 'eBPF support')
+>  option('cocoa', type : 'feature', value : 'auto',
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 2173e7734a..c8d217b50c 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -2951,11 +2951,16 @@
+>              'file', 'snapshot-access', 'ftp', 'ftps', 'gluster',
+>              {'name': 'host_cdrom', 'if': 'HAVE_HOST_BLOCK_DEVICE' },
+>              {'name': 'host_device', 'if': 'HAVE_HOST_BLOCK_DEVICE' },
+> -            'http', 'https', 'iscsi',
+> +            'http', 'https',
+> +            { 'name': 'io_uring', 'if': 'CONFIG_BLKIO' },
+> +            'iscsi',
+>              'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels',
+>              'preallocate', 'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
+>              { 'name': 'replication', 'if': 'CONFIG_REPLICATION' },
+> -            'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat' ] }
+> +            'ssh', 'throttle', 'vdi', 'vhdx',
+> +            { 'name': 'virtio-blk-vhost-user', 'if': 'CONFIG_BLKIO' },
+> +            { 'name': 'virtio-blk-vhost-vdpa', 'if': 'CONFIG_BLKIO' },
+> +            'vmdk', 'vpc', 'vvfat' ] }
+>  
+>  ##
+>  # @BlockdevOptionsFile:
+> @@ -3678,6 +3683,42 @@
+>              '*debug': 'int',
+>              '*logfile': 'str' } }
+>  
+> +##
+> +# @BlockdevOptionsIoUring:
+> +#
+> +# Driver specific block device options for the io_uring backend.
+> +#
+> +# @filename: path to the image file
+> +#
+> +# Since: 7.2
+> +##
+> +{ 'struct': 'BlockdevOptionsIoUring',
+> +  'data': { 'filename': 'str' } }
 > +
-> +    /*
-> +     * Guest messed up up device state with illegal requests.  Go
-> +     * ignore any requests until the guests resets the device (and
-> +     * brings it into a known state that way).
-> +     */
-> +    s->needs_reset = true;
-> +}
+> +##
+> +# @BlockdevOptionsVirtioBlkVhostUser:
+> +#
+> +# Driver specific block device options for the virtio-blk-vhost-user backend.
+> +#
+> +# @path: path to the vhost-user UNIX domain socket.
+> +#
+> +# Since: 7.2
+> +##
+> +{ 'struct': 'BlockdevOptionsVirtioBlkVhostUser',
+> +  'data': { 'path': 'str' } }
 > +
->  static void usb_msd_copy_data(MSDState *s, USBPacket *p)
->  {
->      uint32_t len;
-> @@ -227,7 +244,11 @@ void usb_msd_transfer_data(SCSIRequest *req, uint32_t len)
->      MSDState *s = DO_UPCAST(MSDState, dev.qdev, req->bus->qbus.parent);
->      USBPacket *p = s->packet;
->
-> -    assert((s->mode == USB_MSDM_DATAOUT) == (req->cmd.mode == SCSI_XFER_TO_DEV));
-> +    if ((s->mode == USB_MSDM_DATAOUT) != (req->cmd.mode == SCSI_XFER_TO_DEV)) {
-> +        usb_msd_fatal_error(s);
-> +        return;
-> +    }
+> +##
+> +# @BlockdevOptionsVirtioBlkVhostVdpa:
+> +#
+> +# Driver specific block device options for the virtio-blk-vhost-vdpa backend.
+> +#
+> +# @path: path to the vhost-vdpa character device.
+> +#
+> +# Since: 7.2
+> +##
+> +{ 'struct': 'BlockdevOptionsVirtioBlkVhostVdpa',
+> +  'data': { 'path': 'str' } }
 > +
->      s->scsi_len = len;
->      s->scsi_off = 0;
->      if (p) {
-> @@ -317,6 +338,8 @@ void usb_msd_handle_reset(USBDevice *dev)
->
->      memset(&s->csw, 0, sizeof(s->csw));
->      s->mode = USB_MSDM_CBW;
-> +
-> +    s->needs_reset = false;
->  }
->
->  static void usb_msd_handle_control(USBDevice *dev, USBPacket *p,
-> @@ -382,6 +405,11 @@ static void usb_msd_handle_data(USBDevice *dev, USBPacket *p)
->      SCSIDevice *scsi_dev;
->      uint32_t len;
->
-> +    if (s->needs_reset) {
-> +        p->status = USB_RET_STALL;
-> +        return;
-> +    }
-> +
->      switch (p->pid) {
->      case USB_TOKEN_OUT:
->          if (devep != 2)
-> diff --git a/hw/usb/trace-events b/hw/usb/trace-events
-> index 914ca7166829..b65269892c5e 100644
-> --- a/hw/usb/trace-events
-> +++ b/hw/usb/trace-events
-> @@ -263,6 +263,7 @@ usb_msd_packet_complete(void) ""
->  usb_msd_cmd_submit(unsigned lun, unsigned tag, unsigned flags, unsigned len, unsigned data_len) "lun %u, tag 0x%x, flags 0x%08x, len %d, data-len %d"
->  usb_msd_cmd_complete(unsigned status, unsigned tag) "status %d, tag 0x%x"
->  usb_msd_cmd_cancel(unsigned tag) "tag 0x%x"
-> +usb_msd_fatal_error(void) ""
->
->  # dev-uas.c
->  usb_uas_reset(int addr) "dev %d"
-> --
-> 2.37.2
->
+
+We seem to be evenly split between 'filename' and 'path'.  Before the
+patch we have four uses of 'filename' in this schema file (ImageInfo,
+ImageCheck, BlockDriverOptionsFile, BlockdevCreateOptionsFile), and
+three of 'path' (BlockdevOptionsSsh, BlockdevOptionsGluster,
+BlockdevOptionsNfs).  There's also 'backing-file', 'data-file',
+'backing-filename', 'file', and probably more (I stopped looking).
+
+I dislike 'path'.  For what it's worth, POSIX calls this "pathname", and
+the components "filename".  Everyday use hardly ever distinguishes
+between the two.  Plain "path", however, is commonly used for lists of
+directories.
+
+>  ##
+>  # @IscsiTransport:
+>  #
+> @@ -4305,6 +4346,8 @@
+>                         'if': 'HAVE_HOST_BLOCK_DEVICE' },
+>        'http':       'BlockdevOptionsCurlHttp',
+>        'https':      'BlockdevOptionsCurlHttps',
+> +      'io_uring':   { 'type': 'BlockdevOptionsIoUring',
+> +                      'if': 'CONFIG_BLKIO' },
+>        'iscsi':      'BlockdevOptionsIscsi',
+>        'luks':       'BlockdevOptionsLUKS',
+>        'nbd':        'BlockdevOptionsNbd',
+> @@ -4327,6 +4370,12 @@
+>        'throttle':   'BlockdevOptionsThrottle',
+>        'vdi':        'BlockdevOptionsGenericFormat',
+>        'vhdx':       'BlockdevOptionsGenericFormat',
+> +      'virtio-blk-vhost-user':
+> +                    { 'type': 'BlockdevOptionsVirtioBlkVhostUser',
+> +                      'if': 'CONFIG_BLKIO' },
+> +      'virtio-blk-vhost-vdpa':
+> +                    { 'type': 'BlockdevOptionsVirtioBlkVhostVdpa',
+> +                      'if': 'CONFIG_BLKIO' },
+>        'vmdk':       'BlockdevOptionsGenericCOWFormat',
+>        'vpc':        'BlockdevOptionsGenericFormat',
+>        'vvfat':      'BlockdevOptionsVVFAT'
+
+[...]
+
+Since the naming mess is not a new one made by this patch,
+Acked-by: Markus Armbruster <armbru@redhat.com>
+
 
