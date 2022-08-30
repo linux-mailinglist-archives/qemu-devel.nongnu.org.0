@@ -2,93 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C46735A6BD0
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 20:10:44 +0200 (CEST)
-Received: from localhost ([::1]:46770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96FA15A6C84
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 20:45:02 +0200 (CEST)
+Received: from localhost ([::1]:45132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oT5hD-0001X9-11
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 14:10:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33816)
+	id 1oT6EO-0004WH-VN
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 14:45:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1oT5YN-0004Bw-T7
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 14:01:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37830)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oT6A2-0007L0-5z
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 14:40:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59195)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1oT5YM-0005Xy-5L
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 14:01:35 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oT69t-00051Y-Mk
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 14:40:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661882493;
+ s=mimecast20190719; t=1661884819;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QQQH5ELV9lfJk1pm5p+2zXE9V/M6oFJYxtdVlp7QE84=;
- b=cyyTX6QC3cJMosYE+KIybsOPGcflAUDTpVSlhE7J8l+y87/RBKf3b/0449PFKpylog2fp8
- LDay6356bIYlPGl++o+RxlJzs5tutLJkx47p+tNnqwihm0c9WPwZ0Bhp1Na9s1tzHDm+0j
- Uy8Psot3n+CfVHXTAciAWgsTMmmP80w=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-45-zQ0If9jGNYu7soZN7CmVZw-1; Tue, 30 Aug 2022 14:00:17 -0400
-X-MC-Unique: zQ0If9jGNYu7soZN7CmVZw-1
-Received: by mail-io1-f71.google.com with SMTP id
- q10-20020a0566022f0a00b00688d703717bso7090116iow.9
- for <qemu-devel@nongnu.org>; Tue, 30 Aug 2022 11:00:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:organization:references
- :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc;
- bh=QQQH5ELV9lfJk1pm5p+2zXE9V/M6oFJYxtdVlp7QE84=;
- b=e34u4AfpNR2V0VInZ9sMxxNpXd0g8mPtrp2Xu3pn6nz10JSDbxD1hHL+0itBlqhnKP
- 4k3nON3KXOatJW5APEt5KX+o4cuZIwIFMFMjQ2xO6L/4SGhXUAGYT4F+Xgab4U5440CX
- btcIu8UqP1p2pqacPjLctwmPiAMtQSADnd2qKgzMbiUxrMd4UFpq2YEegnQynVtH+TiB
- 46l9vgIkxvNSeh7oWUPoJfIbcr9eTcXfPBsvzQIJtQ9GzMR/lZytuQ4T7UX+5CHIrK5S
- UTyki/t0+Y3NtC9DdObk2GLDfWMKYe0l+H7swzqhkKl4jWMH8b5iQy2YKqGOoxh/nZ8a
- rgxw==
-X-Gm-Message-State: ACgBeo2b7OWwHaR6Oa7LNSZUhRGd3dUa7PS+t1h5sodmQ+f9KRK598nn
- vPXen4056k92MtllQQJDcSgh1BygeY87Ks+iZuDMxgeowbn8izp894hWuXr5jObkN+oSdgqK0bb
- TMCNoFcnwGE6rvas=
-X-Received: by 2002:a92:6903:0:b0:2e5:8f47:22e0 with SMTP id
- e3-20020a926903000000b002e58f4722e0mr13024954ilc.97.1661882416773; 
- Tue, 30 Aug 2022 11:00:16 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6uchcyY1jibr7InsznXFT6DzXfN1STJUzYewmMHK5uJsWa5XNbhRzZ4Cjo1t5wAOQI5qjDgg==
-X-Received: by 2002:a92:6903:0:b0:2e5:8f47:22e0 with SMTP id
- e3-20020a926903000000b002e58f4722e0mr13024945ilc.97.1661882416554; 
- Tue, 30 Aug 2022 11:00:16 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- y9-20020a056638228900b00344c3de5ec7sm5691940jas.150.2022.08.30.11.00.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Aug 2022 11:00:16 -0700 (PDT)
-Date: Tue, 30 Aug 2022 12:00:14 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: =?UTF-8?B?5bCP55Sw5Zac6Zm95b2m?= <akihiko.odaki@daynix.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org, "Michael
- S. Tsirkin" <mst@redhat.com>, Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>, Paolo
- Bonzini <pbonzini@redhat.com>, Richard Henderson
- <richard.henderson@linaro.org>, Eduardo Habkost <eduardo@habkost.net>, John
- Snow <jsnow@redhat.com>, Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason
- Wang <jasowang@redhat.com>, Stefan Weil <sw@weilnetz.de>, Keith Busch
- <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>, Peter Maydell
- <peter.maydell@linaro.org>, Andrey Smirnov <andrew.smirnov@gmail.com>, Paul
- Burton <paulburton@kernel.org>, Aleksandar Rikalo
- <aleksandar.rikalo@syrmia.com>
-Subject: Re: [PATCH] pci: Abort if pci_add_capability fails
-Message-ID: <20220830120014.55f55b24.alex.williamson@redhat.com>
-In-Reply-To: <874jxuhshs.fsf@pond.sub.org>
-References: <20220829084417.144739-1-akihiko.odaki@daynix.com>
- <874jxuhshs.fsf@pond.sub.org>
-Organization: Red Hat
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=BLg+27tJuULr+t2qwnsI+6mSUBm9TnlfWJuQngiL3fs=;
+ b=hgCLblIAWsVZ7FpMCoF8kpG4Fvjt6HUDzYPHl0kKqNfB9EhaOEnt+jsKMxaLm2LQ49jedO
+ XK51nul9WA+GMLxv7pvVvmfmHWZkRhjV2ibvoJs1NXbkn9ZWTwWtR+4yXmvEB2H9WkRfem
+ WhZUz0DVP2T5x9BZ28/Nh7tjAKnOLS4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-191-9fgmuc60MXmzYyucUIIF-g-1; Tue, 30 Aug 2022 14:40:16 -0400
+X-MC-Unique: 9fgmuc60MXmzYyucUIIF-g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F063D185A7B2;
+ Tue, 30 Aug 2022 18:40:15 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.125])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E9ED31410F37;
+ Tue, 30 Aug 2022 18:40:14 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 00/23] First testing patches for QEMU 7.2
+Date: Tue, 30 Aug 2022 20:39:49 +0200
+Message-Id: <20220830184012.77978-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -96,7 +58,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,58 +74,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 30 Aug 2022 13:37:35 +0200
-Markus Armbruster <armbru@redhat.com> wrote:
->        if (!offset) {
->            offset = pci_find_space(pdev, size);
->            /* out of PCI config space is programming error */
->            assert(offset);
->        } else {
->            /* Verify that capabilities don't overlap.  Note: device assignment
->             * depends on this check to verify that the device is not broken.
->             * Should never trigger for emulated devices, but it's helpful
->             * for debugging these. */
-> 
-> The comment makes me suspect that device assignment of a broken device
-> could trigger the error.  It goes back to
-> 
-> commit c9abe111209abca1b910e35c6ca9888aced5f183
-> Author: Jan Kiszka <jan.kiszka@siemens.com>
-> Date:   Wed Aug 24 14:29:30 2011 +0200
-> 
->     pci: Error on PCI capability collisions
->     
->     Nothing good can happen when we overlap capabilities. This may happen
->     when plugging in assigned devices or when devices models contain bugs.
->     Detect the overlap and report it.
->     
->     Based on qemu-kvm commit by Alex Williamson.
->     
->     Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
->     Acked-by: Don Dutile <ddutile@redhat.com>
->     Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> If this is still correct, then your patch is a regression: QEMU is no
-> longer able to gracefully handle assignment of a broken device.  Does
-> this matter?  Alex, maybe?
+ Hi Peter, hi Richard,
 
-Ok, that was a long time ago.  I have some vague memories of hitting
-something like this with a Broadcom NIC, but a google search for the
-error string doesn't turn up anything recently.  So there's a fair
-chance this wouldn't break anyone initially.
+sorry for flooding you with so many pull request mails right after
+QEMU 7.1 has been tagged, but I'll be away from keyboard starting
+tomorrow, and I still wanted to get these out before I'm away...
 
-Even back when the above patch was proposed, there were some
-suggestions to turn the error path into an abort, which I pushed back
-on since clearly enumerating capabilities of a device can occur due to
-a hot-plug and we don't necessarily have control of the device being
-added.  This is only more true with the possibility of soft-devices out
-of tree, through things like vfio-user.
+The following changes since commit 9a99f964b152f8095949bbddca7841744ad418da:
 
-Personally I think the right approach is to support an error path such
-that we can abort when triggered by a cold-plug device, while simply
-rejecting a broken hot-plug device, but that seems to be the minority
-opinion among QEMU developers afaict.  Thanks,
+  Update version for v7.1.0-rc4 release (2022-08-24 19:27:56 -0700)
 
-Alex
+are available in the Git repository at:
+
+  https://gitlab.com/thuth/qemu.git tags/testing-pull-request-2022-08-30
+
+for you to fetch changes up to da55be562ea2b082da5d55cc12730fe8fe118852:
+
+  tests/avocado/migration: Get find_free_port() from the ports (2022-08-30 07:55:43 +0200)
+
+----------------------------------------------------------------
+* First batch of patches to get qtests adapted for Windows
+* Two preparation patches for the upcoming removal of the slirp submodule
+* Some other small test fixes (typos, etc.)
+
+----------------------------------------------------------------
+Akihiko Odaki (1):
+      tests/qtest/ac97-test: Correct reference to driver
+
+Bin Meng (14):
+      tests/qtest: Use g_setenv()
+      tests/qtest: Use g_mkdtemp()
+      tests: Use g_mkdir_with_parents()
+      tests/qtest: migration-test: Handle link() for win32
+      backends/tpm: Exclude headers and macros that don't exist on win32
+      tests/qtest: Adapt {m48t59,rtc}-test cases for win32
+      tests/qtest: Build e1000e-test for posix only
+      tests/qtest: Build cases that use memory-backend-file for posix only
+      tests/qtest: i440fx-test: Skip running request_{bios, pflash} for win32
+      tests/qtest: migration-test: Skip running test_migrate_fd_proto on win32
+      tests/qtest: device-plug-test: Reverse the usage of double/single quotes
+      tests/qtest: machine-none-test: Use double quotes to pass the cpu option
+      tests/qtest: npcm7xx_emc-test: Skip running test_{tx, rx} on win32
+      tests/qtest: prom-env-test: Use double quotes to pass the prom-env option
+
+Matheus Tavares Bernardino (1):
+      docs/devel/testing: fix minor typo
+
+Thomas Huth (5):
+      tests/vm: Add libslirp to the VM tests
+      tests/avocado: Do not run tests that require libslirp if it is not available
+      tests/avocado: Fix trivial typo
+      gitlab-ci: Only use one process in Windows jobs for compilation
+      tests/avocado/migration: Get find_free_port() from the ports
+
+Xuzhou Cheng (2):
+      tests/qtest: libqos: Drop inclusion of <sys/wait.h>
+      tests/qtest: libqos: Rename malloc.h to libqos-malloc.h
+
+ docs/devel/testing.rst                           |  2 +-
+ backends/tpm/tpm_ioctl.h                         |  4 ++++
+ tests/qtest/fuzz/generic_fuzz_configs.h          |  2 +-
+ tests/qtest/libqos/generic-pcihost.h             |  2 +-
+ tests/qtest/libqos/{malloc.h => libqos-malloc.h} |  0
+ tests/qtest/libqos/libqos.h                      |  2 +-
+ tests/qtest/libqos/malloc-pc.h                   |  2 +-
+ tests/qtest/libqos/malloc-spapr.h                |  2 +-
+ tests/qtest/libqos/pci-pc.h                      |  2 +-
+ tests/qtest/libqos/pci-spapr.h                   |  2 +-
+ tests/qtest/libqos/qgraph.h                      |  2 +-
+ tests/qtest/libqos/qos_external.h                |  2 +-
+ tests/qtest/libqos/rtas.h                        |  2 +-
+ tests/qtest/libqos/virtio.h                      |  2 +-
+ tests/qtest/migration-helpers.h                  |  2 ++
+ tests/migration/stress.c                         |  2 +-
+ tests/qtest/ac97-test.c                          |  2 +-
+ tests/qtest/bios-tables-test.c                   | 10 ++++++++++
+ tests/qtest/cdrom-test.c                         |  2 +-
+ tests/qtest/cxl-test.c                           | 10 +++++++---
+ tests/qtest/device-plug-test.c                   |  2 +-
+ tests/qtest/e1000e-test.c                        |  2 +-
+ tests/qtest/fuzz/generic_fuzz.c                  |  8 ++++----
+ tests/qtest/fuzz/qos_fuzz.c                      |  2 +-
+ tests/qtest/i440fx-test.c                        |  6 ++++++
+ tests/qtest/ivshmem-test.c                       |  4 ++--
+ tests/qtest/libqos/aarch64-xlnx-zcu102-machine.c |  2 +-
+ tests/qtest/libqos/arm-imx25-pdk-machine.c       |  2 +-
+ tests/qtest/libqos/arm-n800-machine.c            |  2 +-
+ tests/qtest/libqos/arm-raspi2-machine.c          |  2 +-
+ tests/qtest/libqos/arm-sabrelite-machine.c       |  2 +-
+ tests/qtest/libqos/arm-smdkc210-machine.c        |  2 +-
+ tests/qtest/libqos/arm-virt-machine.c            |  2 +-
+ tests/qtest/libqos/arm-xilinx-zynq-a9-machine.c  |  2 +-
+ tests/qtest/libqos/e1000e.c                      |  2 +-
+ tests/qtest/libqos/{malloc.c => libqos-malloc.c} |  2 +-
+ tests/qtest/libqos/libqos.c                      |  2 --
+ tests/qtest/libqos/qos_external.c                |  2 +-
+ tests/qtest/libqos/virtio-9p.c                   |  4 ++--
+ tests/qtest/libqos/virtio-mmio.c                 |  2 +-
+ tests/qtest/libqos/virtio-pci.c                  |  2 +-
+ tests/qtest/libqtest.c                           |  4 ++--
+ tests/qtest/m48t59-test.c                        |  2 +-
+ tests/qtest/machine-none-test.c                  |  2 +-
+ tests/qtest/migration-helpers.c                  |  2 ++
+ tests/qtest/migration-test.c                     | 22 +++++++++++++++++-----
+ tests/qtest/npcm7xx_emc-test.c                   |  8 ++++++++
+ tests/qtest/prom-env-test.c                      |  4 ++--
+ tests/qtest/qmp-test.c                           |  4 ++--
+ tests/qtest/qos-test.c                           |  2 +-
+ tests/qtest/rtc-test.c                           |  2 +-
+ tests/qtest/vhost-user-test.c                    |  4 ++--
+ tests/unit/test-crypto-tlscredsx509.c            |  4 ++--
+ tests/unit/test-crypto-tlssession.c              |  6 +++---
+ tests/unit/test-io-channel-tls.c                 |  6 +++---
+ tests/unit/test-qga.c                            |  2 +-
+ .gitlab-ci.d/windows.yml                         |  4 ++--
+ tests/avocado/avocado_qemu/__init__.py           |  9 ++++++++-
+ tests/avocado/info_usernet.py                    |  1 +
+ tests/avocado/migration.py                       |  4 ++--
+ tests/avocado/replay_linux.py                    |  1 +
+ tests/qtest/libqos/meson.build                   |  2 +-
+ tests/qtest/meson.build                          |  7 +++++--
+ tests/vm/freebsd                                 |  3 +++
+ tests/vm/haiku.x86_64                            |  3 ++-
+ tests/vm/netbsd                                  |  3 +++
+ 66 files changed, 144 insertions(+), 79 deletions(-)
+ rename tests/qtest/libqos/{malloc.h => libqos-malloc.h} (100%)
+ rename tests/qtest/libqos/{malloc.c => libqos-malloc.c} (99%)
 
 
