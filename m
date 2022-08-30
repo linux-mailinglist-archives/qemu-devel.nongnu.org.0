@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4402A5A6CA9
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 21:00:18 +0200 (CEST)
-Received: from localhost ([::1]:50064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BC5A5A6CEE
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 21:16:46 +0200 (CEST)
+Received: from localhost ([::1]:51880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oT6TA-0002VD-Os
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 15:00:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38910)
+	id 1oT6j6-0001CN-Uw
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 15:16:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oT6AB-0007PI-1G
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 14:40:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31502)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oT6AC-0007ST-Ib
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 14:40:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53053)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oT6A6-00056Y-Sd
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 14:40:36 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oT6A8-00056r-P3
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 14:40:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661884834;
+ s=mimecast20190719; t=1661884836;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ftPwrgWCFS+Lpkyl6UYQ2VP3sjUlfXCBiqOHOk1jIIM=;
- b=CkgpG6pccL9qrqb1vnuk0I2ffRVGDP+qyFtDZ416+GfsUuP3mKoW1YK44Pq/pZxF2xpZ/I
- gn0xU4+CRvE/5ortXryLvFv4mDRiBeupr36DO0TwXq6ykeJT+4R6snzj0b9ifcLtu+HItw
- coxP084bY3CWSJAlZ7yFX8HTvLhzz8s=
+ bh=24uGYpCNJr6h0jnUzVcWePHtkya9TltsdggymPXJfB4=;
+ b=f/uwTsR99hzB9V+Fs6gimgUVIWH82uzQ7f8Z2TX/Q2e8o/q1oH35ErK1KUaoyI2BmzKrC5
+ InLY9uVYfGVlQG3eFoeakb4LuMbPDh878DsbEURigQW6c+1TscAvc8YLozxwtX+HEVmFqV
+ PsG8j8kZnSvar8nH7R1/vDmLTru8PZE=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-32-WjbYvdSPO4WHPIElt51Yrg-1; Tue, 30 Aug 2022 14:40:30 -0400
-X-MC-Unique: WjbYvdSPO4WHPIElt51Yrg-1
+ us-mta-416-pLRiX-KWPo2g-tpCF7GSBw-1; Tue, 30 Aug 2022 14:40:32 -0400
+X-MC-Unique: pLRiX-KWPo2g-tpCF7GSBw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 93C1880231E;
- Tue, 30 Aug 2022 18:40:30 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27510811E81;
+ Tue, 30 Aug 2022 18:40:32 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.125])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5A4F11415117;
- Tue, 30 Aug 2022 18:40:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E5D5C1415117;
+ Tue, 30 Aug 2022 18:40:30 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>
-Cc: Bin Meng <bin.meng@windriver.com>
-Subject: [PULL 09/23] tests/qtest: i440fx-test: Skip running request_{bios,
- pflash} for win32
-Date: Tue, 30 Aug 2022 20:39:58 +0200
-Message-Id: <20220830184012.77978-10-thuth@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: [PULL 10/23] tests/qtest: migration-test: Skip running
+ test_migrate_fd_proto on win32
+Date: Tue, 30 Aug 2022 20:39:59 +0200
+Message-Id: <20220830184012.77978-11-thuth@redhat.com>
 In-Reply-To: <20220830184012.77978-1-thuth@redhat.com>
 References: <20220830184012.77978-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -80,50 +81,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-The request_{bios,pflash} test cases call mmap() which does not
-exist on win32. Exclude them.
+The test case 'test_migrate_fd_proto' calls socketpair() which does
+not exist on win32. Exclude it. The helper function wait_command_fd()
+is not needed anymore, hence exclude it too.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20220824094029.1634519-21-bmeng.cn@gmail.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20220824094029.1634519-22-bmeng.cn@gmail.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/i440fx-test.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ tests/qtest/migration-helpers.h | 2 ++
+ tests/qtest/migration-helpers.c | 2 ++
+ tests/qtest/migration-test.c    | 4 ++++
+ 3 files changed, 8 insertions(+)
 
-diff --git a/tests/qtest/i440fx-test.c b/tests/qtest/i440fx-test.c
-index 6d7d4d8d8f..3890f1237c 100644
---- a/tests/qtest/i440fx-test.c
-+++ b/tests/qtest/i440fx-test.c
-@@ -278,6 +278,8 @@ static void test_i440fx_pam(gconstpointer opaque)
-     qtest_end();
- }
+diff --git a/tests/qtest/migration-helpers.h b/tests/qtest/migration-helpers.h
+index 59561898d0..db0684de48 100644
+--- a/tests/qtest/migration-helpers.h
++++ b/tests/qtest/migration-helpers.h
+@@ -17,8 +17,10 @@
+ 
+ extern bool got_stop;
  
 +#ifndef _WIN32
-+
- #define BLOB_SIZE ((size_t)65536)
- #define ISA_BIOS_MAXSZ ((size_t)(128 * 1024))
- 
-@@ -396,6 +398,8 @@ static void request_pflash(FirmwareTestFixture *fixture,
-     fixture->is_bios = false;
- }
- 
-+#endif /* _WIN32 */
-+
- int main(int argc, char **argv)
- {
-     TestData data;
-@@ -406,8 +410,10 @@ int main(int argc, char **argv)
- 
-     qtest_add_data_func("i440fx/defaults", &data, test_i440fx_defaults);
-     qtest_add_data_func("i440fx/pam", &data, test_i440fx_pam);
-+#ifndef _WIN32
-     add_firmware_test("i440fx/firmware/bios", request_bios);
-     add_firmware_test("i440fx/firmware/pflash", request_pflash);
+ G_GNUC_PRINTF(3, 4)
+ QDict *wait_command_fd(QTestState *who, int fd, const char *command, ...);
 +#endif
  
-     return g_test_run();
+ G_GNUC_PRINTF(2, 3)
+ QDict *wait_command(QTestState *who, const char *command, ...);
+diff --git a/tests/qtest/migration-helpers.c b/tests/qtest/migration-helpers.c
+index c6fbeb3974..f6f3c6680f 100644
+--- a/tests/qtest/migration-helpers.c
++++ b/tests/qtest/migration-helpers.c
+@@ -34,6 +34,7 @@ static void check_stop_event(QTestState *who)
+     }
  }
+ 
++#ifndef _WIN32
+ /*
+  * Events can get in the way of responses we are actually waiting for.
+  */
+@@ -58,6 +59,7 @@ QDict *wait_command_fd(QTestState *who, int fd, const char *command, ...)
+ 
+     return ret;
+ }
++#endif
+ 
+ /*
+  * Events can get in the way of responses we are actually waiting for.
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index 18d30bfc3c..4728d528bb 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -1631,6 +1631,7 @@ static void test_precopy_tcp_tls_x509_reject_anon_client(void)
+ #endif /* CONFIG_TASN1 */
+ #endif /* CONFIG_GNUTLS */
+ 
++#ifndef _WIN32
+ static void *test_migrate_fd_start_hook(QTestState *from,
+                                         QTestState *to)
+ {
+@@ -1699,6 +1700,7 @@ static void test_migrate_fd_proto(void)
+     };
+     test_precopy_common(&args);
+ }
++#endif /* _WIN32 */
+ 
+ static void do_test_validate_uuid(MigrateStart *args, bool should_fail)
+ {
+@@ -2531,7 +2533,9 @@ int main(int argc, char **argv)
+ #endif /* CONFIG_GNUTLS */
+ 
+     /* qtest_add_func("/migration/ignore_shared", test_ignore_shared); */
++#ifndef _WIN32
+     qtest_add_func("/migration/fd_proto", test_migrate_fd_proto);
++#endif
+     qtest_add_func("/migration/validate_uuid", test_validate_uuid);
+     qtest_add_func("/migration/validate_uuid_error", test_validate_uuid_error);
+     qtest_add_func("/migration/validate_uuid_src_not_set",
 -- 
 2.31.1
 
