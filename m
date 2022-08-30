@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0FC65A6D84
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 21:41:40 +0200 (CEST)
-Received: from localhost ([::1]:54624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B1B75A6DB2
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 21:45:00 +0200 (CEST)
+Received: from localhost ([::1]:55740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oT77D-0007Yl-Ou
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 15:41:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57198)
+	id 1oT7AR-00021s-Ll
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 15:44:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oT6U7-0002zO-Tj; Tue, 30 Aug 2022 15:01:15 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:44869)
+ id 1oT6U7-0002z5-Oi; Tue, 30 Aug 2022 15:01:15 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42521)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oT6U5-0008Pm-40; Tue, 30 Aug 2022 15:01:15 -0400
-Received: by mail-wr1-x434.google.com with SMTP id c7so8782076wrp.11;
- Tue, 30 Aug 2022 12:01:09 -0700 (PDT)
+ id 1oT6U5-0008Px-8K; Tue, 30 Aug 2022 15:01:15 -0400
+Received: by mail-wr1-x434.google.com with SMTP id m16so15416081wru.9;
+ Tue, 30 Aug 2022 12:01:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=I6X3vE/Uc+qT5j8hdi0r3ATIc1MxCB7p/1oogRD6oQc=;
- b=d1idZiiO6JRXKJMWClh0UTH9/yyRd/YSKVTkugPmJXbFs5aqGd7QXjCat4b/WtdayH
- wcuK7clRj2flNe50gcGY02zRyhn7JBUOMR9hVkhy1vOWBjGcSrimMbL5Lb7BDvggnrFN
- 7N5L6EFttsh7/u4Kjn0Y/PHeRtB78zxk+kcbwMs5g5baDBMlVvfd1M4TxzJbhFTzAY1r
- aDwqmd2G0D8fLyTkNigd97E5Yzny6GLswm+Z/gVN2jRYE6l9fOmriVxcs/lcIHMw7tr2
- gP6uawySfKzVCwPBbO4B7Ssiqc3RpWZT8micDHXCkXmgOlN6NsudMAniyqL6wR2oJc9A
- s3og==
+ bh=tfjpe0kq5Hqkrre7mfBlqhm29F5/cPJTQ5XTLa09A84=;
+ b=eOeNsH8K41tkz/6zpSHEsRuQy4gmv0LLrFaaQPD4kJgok53EenZjKGW5U7kIGPZKG6
+ 2wbSkXBStMjDrH0B8PiW2rKMmF3iCl5MZXSa1UK5+nZCifRsOzgSGRBd1Pd9Psw8T6VY
+ jllAjBjEBEsF47Fg80iBT2qeXLVEq3LKMbF/OUQYNmR0gBME/RooGE+TgeeSkM6YmqpY
+ 4SlYiJd+4xo5mNiP25xq6csWEq6dmUmukaBpzrflKACOgO/kFzOJBiJFPF4hl1aj277a
+ gETCrpuF+6anPsA/EoyIDPRMFMYLBe4KQ8Lm4QdBvn6cdI/itXHXWI4fICIO+Y+i7O31
+ bz3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=I6X3vE/Uc+qT5j8hdi0r3ATIc1MxCB7p/1oogRD6oQc=;
- b=qcDeND9tt02nMWr72oWfrZOVyGbHcDKfs/HgBvslZvjjxg1yYUP7UMlBRnv05/v6ol
- ma65XBHkcKfHNg6OrK1VJ5aKlJ5WWCUxLRlBrpxxbLcIE0EhNwb4FRAhq6Rh82XMqL/A
- QyF3G1Zm1NemCe+OTd+JgRFa1NOtVw8RbFYzW+6xquVl6cX0bfYpvHqyIks92cY2e+c/
- Y7Cbr3RE/5giRP4ZE0vLRylrqqL1PWeWu0+QZhGelQ8WYUMapTiHKbgZ59Q4CchxvW6S
- nkHyCmhXqEUgoJuQIC4k9acIVfjgzHqEbt3VzNiXzWhT/CsvZ24No2G2Wbr7W7Slz8NW
- L04Q==
-X-Gm-Message-State: ACgBeo3azNzNuGn/DjWakRLnvtyYIW7qGJ+EuJ70AOK7Yb7gFZ0ApRBN
- TGylEnIueFbdZZJOiy21MjTXHhWR5QA=
-X-Google-Smtp-Source: AA6agR4LXe7AVFSTlnIpp2i08+FKN3ei/WQ84MV9Hg+WGXOTk8ajC/eBUWnsRbj6gHQVbuCf1CoD7Q==
-X-Received: by 2002:adf:d23b:0:b0:226:d4e4:4a6 with SMTP id
- k27-20020adfd23b000000b00226d4e404a6mr8216655wrh.246.1661886067918; 
- Tue, 30 Aug 2022 12:01:07 -0700 (PDT)
+ bh=tfjpe0kq5Hqkrre7mfBlqhm29F5/cPJTQ5XTLa09A84=;
+ b=7B7qPXQnYXzUX0ArDrjPLnXMK+LrFE0aT6E8zBwhZtn9aUchetgeLOzftiwe0QoTfg
+ RpPF0MXa+hJVTFlB3Px8CFLqIIF9yb6j09UFICpyBBgXsEfauBIuP3tSme33aHwqUFu+
+ Ft/OtOcaLpFUAz+3dIEwrRtAEjUxyyPTRUtjHBqV9rCgmPW+db8Ag90tKPZ4cxmsIxwl
+ yFwWfDnkPPkUGMobNpZyBIW53oLxY/uNL2KrRQVcPfVLQH0p4g+fnsAGMlQJyYTutR5a
+ Sg8BHq/YBC47sOZTv32p03wW1x3XuguAf2Xp6bh3Dh/HgNJENbCw8N3PBUEIaINgkoNJ
+ 6dCw==
+X-Gm-Message-State: ACgBeo0hEZhixeYQ+1/XD0TincZYo1y8rNa5daq2S3giBc4j7/bh1gj1
+ bYvsk51yC0x7RMjvTEIJ/dgGuQKHslU=
+X-Google-Smtp-Source: AA6agR5DPe59namO6iGM/LMidoCsi741yv94jjOmPI7z+8Idi+NebIWdVxEe7h+teafVyhCQuVIq8Q==
+X-Received: by 2002:a05:6000:68c:b0:226:e12f:6ec8 with SMTP id
+ bo12-20020a056000068c00b00226e12f6ec8mr2977434wrb.681.1661886069449; 
+ Tue, 30 Aug 2022 12:01:09 -0700 (PDT)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- j18-20020adfea52000000b002206203ed3dsm9821285wrn.29.2022.08.30.12.01.06
+ j18-20020adfea52000000b002206203ed3dsm9821285wrn.29.2022.08.30.12.01.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Aug 2022 12:01:07 -0700 (PDT)
+ Tue, 30 Aug 2022 12:01:08 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, Huacai Chen <chenhuacai@kernel.org>,
  BALATON Zoltan <balaton@eik.bme.hu>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 01/10] hw/isa/vt82c686: Resolve chip-specific realize
- methods
-Date: Tue, 30 Aug 2022 21:00:39 +0200
-Message-Id: <20220830190048.67448-2-shentey@gmail.com>
+Subject: [PATCH v2 02/10] hw/isa/vt82c686: Resolve unneeded attribute
+Date: Tue, 30 Aug 2022 21:00:40 +0200
+Message-Id: <20220830190048.67448-3-shentey@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220830190048.67448-1-shentey@gmail.com>
 References: <20220830190048.67448-1-shentey@gmail.com>
@@ -92,128 +91,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The object creation now happens in chip-specific init methods which
-allows the realize methods to be consolidated into one method. Shifting
-the logic into the init methods has the addidional advantage that the
-parent object's init methods are called implicitly - like constructors
-in object-oriented languages.
+Now that also the super io device is realized in the common realize method,
+the isa_bus attribute can be turned into a temporary.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/vt82c686.c | 33 ++++++++++++++++++---------------
- 1 file changed, 18 insertions(+), 15 deletions(-)
+ hw/isa/vt82c686.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 8f656251b8..0217c98fe4 100644
+index 0217c98fe4..9d12e1cae4 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -544,7 +544,7 @@ struct ViaISAState {
+@@ -543,7 +543,6 @@ struct ViaISAState {
+     PCIDevice dev;
      qemu_irq cpu_intr;
      qemu_irq *isa_irqs;
-     ISABus *isa_bus;
--    ViaSuperIOState *via_sio;
-+    ViaSuperIOState via_sio;
+-    ISABus *isa_bus;
+     ViaSuperIOState via_sio;
  };
  
- static const VMStateDescription vmstate_via = {
-@@ -602,6 +602,11 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
-             d->wmask[i] = 0;
-         }
+@@ -585,17 +584,18 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+     ViaISAState *s = VIA_ISA(d);
+     DeviceState *dev = DEVICE(d);
+     qemu_irq *isa_irq;
++    ISABus *isa_bus;
+     int i;
+ 
+     qdev_init_gpio_out(dev, &s->cpu_intr, 1);
+     isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
+-    s->isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
++    isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
+                           &error_fatal);
+-    s->isa_irqs = i8259_init(s->isa_bus, *isa_irq);
+-    isa_bus_irqs(s->isa_bus, s->isa_irqs);
+-    i8254_pit_init(s->isa_bus, 0x40, 0, NULL);
+-    i8257_dma_init(s->isa_bus, 0);
+-    mc146818_rtc_init(s->isa_bus, 2000, NULL);
++    s->isa_irqs = i8259_init(isa_bus, *isa_irq);
++    isa_bus_irqs(isa_bus, s->isa_irqs);
++    i8254_pit_init(isa_bus, 0x40, 0, NULL);
++    i8257_dma_init(isa_bus, 0);
++    mc146818_rtc_init(isa_bus, 2000, NULL);
+ 
+     for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
+         if (i < PCI_COMMAND || i >= PCI_REVISION_ID) {
+@@ -604,7 +604,7 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
      }
-+
-+    /* Super I/O */
-+    if (!qdev_realize(DEVICE(&s->via_sio), BUS(s->isa_bus), errp)) {
-+        return;
-+    }
- }
  
- /* TYPE_VT82C686B_ISA */
-@@ -615,7 +620,7 @@ static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
-     pci_default_write_config(d, addr, val, len);
-     if (addr == 0x85) {
-         /* BIT(1): enable or disable superio config io ports */
--        via_superio_io_enable(s->via_sio, val & BIT(1));
-+        via_superio_io_enable(&s->via_sio, val & BIT(1));
-     }
- }
- 
-@@ -639,13 +644,11 @@ static void vt82c686b_isa_reset(DeviceState *dev)
-     pci_conf[0x77] = 0x10; /* GPIO Control 1/2/3/4 */
- }
- 
--static void vt82c686b_realize(PCIDevice *d, Error **errp)
-+static void vt82c686b_init(Object *obj)
- {
--    ViaISAState *s = VIA_ISA(d);
-+    ViaISAState *s = VIA_ISA(obj);
- 
--    via_isa_realize(d, errp);
--    s->via_sio = VIA_SUPERIO(isa_create_simple(s->isa_bus,
--                                               TYPE_VT82C686B_SUPERIO));
-+    object_initialize_child(obj, "sio", &s->via_sio, TYPE_VT82C686B_SUPERIO);
- }
- 
- static void vt82c686b_class_init(ObjectClass *klass, void *data)
-@@ -653,7 +656,7 @@ static void vt82c686b_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
- 
--    k->realize = vt82c686b_realize;
-+    k->realize = via_isa_realize;
-     k->config_write = vt82c686b_write_config;
-     k->vendor_id = PCI_VENDOR_ID_VIA;
-     k->device_id = PCI_DEVICE_ID_VIA_82C686B_ISA;
-@@ -670,6 +673,7 @@ static const TypeInfo vt82c686b_isa_info = {
-     .name          = TYPE_VT82C686B_ISA,
-     .parent        = TYPE_VIA_ISA,
-     .instance_size = sizeof(ViaISAState),
-+    .instance_init = vt82c686b_init,
-     .class_init    = vt82c686b_class_init,
- };
- 
-@@ -684,7 +688,7 @@ static void vt8231_write_config(PCIDevice *d, uint32_t addr,
-     pci_default_write_config(d, addr, val, len);
-     if (addr == 0x50) {
-         /* BIT(2): enable or disable superio config io ports */
--        via_superio_io_enable(s->via_sio, val & BIT(2));
-+        via_superio_io_enable(&s->via_sio, val & BIT(2));
+     /* Super I/O */
+-    if (!qdev_realize(DEVICE(&s->via_sio), BUS(s->isa_bus), errp)) {
++    if (!qdev_realize(DEVICE(&s->via_sio), BUS(isa_bus), errp)) {
+         return;
      }
  }
- 
-@@ -703,13 +707,11 @@ static void vt8231_isa_reset(DeviceState *dev)
-     pci_conf[0x6b] = 0x01; /* Fast IR I/O Base */
- }
- 
--static void vt8231_realize(PCIDevice *d, Error **errp)
-+static void vt8231_init(Object *obj)
- {
--    ViaISAState *s = VIA_ISA(d);
-+    ViaISAState *s = VIA_ISA(obj);
- 
--    via_isa_realize(d, errp);
--    s->via_sio = VIA_SUPERIO(isa_create_simple(s->isa_bus,
--                                               TYPE_VT8231_SUPERIO));
-+    object_initialize_child(obj, "sio", &s->via_sio, TYPE_VT8231_SUPERIO);
- }
- 
- static void vt8231_class_init(ObjectClass *klass, void *data)
-@@ -717,7 +719,7 @@ static void vt8231_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
- 
--    k->realize = vt8231_realize;
-+    k->realize = via_isa_realize;
-     k->config_write = vt8231_write_config;
-     k->vendor_id = PCI_VENDOR_ID_VIA;
-     k->device_id = PCI_DEVICE_ID_VIA_8231_ISA;
-@@ -734,6 +736,7 @@ static const TypeInfo vt8231_isa_info = {
-     .name          = TYPE_VT8231_ISA,
-     .parent        = TYPE_VIA_ISA,
-     .instance_size = sizeof(ViaISAState),
-+    .instance_init = vt8231_init,
-     .class_init    = vt8231_class_init,
- };
- 
 -- 
 2.37.2
 
