@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A87D85A62F5
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 14:13:36 +0200 (CEST)
-Received: from localhost ([::1]:54916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 251DC5A62EF
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 14:11:32 +0200 (CEST)
+Received: from localhost ([::1]:59292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oT07b-00049t-Hr
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 08:13:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48314)
+	id 1oT05a-0002UF-Oe
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 08:11:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oT00y-0005de-QI
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 08:07:03 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:36630)
+ id 1oT02E-0006mv-Gr
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 08:08:02 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:53974)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oT00w-0005ob-NW
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 08:06:44 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id c2so10906165plo.3
- for <qemu-devel@nongnu.org>; Tue, 30 Aug 2022 05:06:39 -0700 (PDT)
+ id 1oT02C-000649-P0
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 08:08:02 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id q3so7685941pjg.3
+ for <qemu-devel@nongnu.org>; Tue, 30 Aug 2022 05:08:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc;
- bh=BHPxseXnbLvtanD2tjSZdyf+SlzZS08tvZMdGKudPgg=;
- b=JVr1fRoTGBy7ctmxTnzieaPQ3kouTI6q6YnPGQ3YHVEJp9zfKhrJgvMamXdD9CgUMQ
- LZR1kntkTAj2jZF5m4zd6gQ41spJ8Hzq3Y6dadXrcIfwfq7ixjgHoYdZX+aD64SaDljk
- +QYiRUdgsP3cKI2HE8D1EG+gQQJHAZgTZ/dQs1pgVabovM6tfiv2Wgwho2rPapAqENQf
- 5xO75IKKBMJ3iejY8MVG6YguUfBqu6UD06ZCBeb92BwZ7S45mYvRC3EpREeaiDEPWRdP
- /2QXqVio0K7PsVQsCjKB18AtPm1z5va6jVnUI48SZWILpHkOc7sN+NTWR+r2FHdGC1ke
- THQQ==
+ bh=v2mknBGhh4NgL0POsOtBxzJobMgZrQHRFaoFPemT8pk=;
+ b=B0tZHe+7+qPY849awdirRCKSKCLXrF6VEY4BzOSS1DzxzpVbhejWr77Va7noQ31ntP
+ FPoJDzUqjafhTfuKAugUltNorwcDsB/Tn+Kg40rqeF1HwmD7QxDU58lgrFjsEqVwK0Sv
+ EgBJXkFrE/HEIZ4QBsNC1EyYFnKS3PF/RTF43JFnx5h/LAgRlpAIWcJxtobymK1gqccW
+ 8IeivJOopOq0O1+gSzxwmVhP75M4l314iqMoway4iGwZ1nA7JlPANIOHJdQhsYM51R8d
+ C+mmIy5J2pvnwv5bBkrKKc5id6QV0W0lsn6LOsyJug+XgdQHdhYED+LMwEfl05hXfZu6
+ e09g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc;
- bh=BHPxseXnbLvtanD2tjSZdyf+SlzZS08tvZMdGKudPgg=;
- b=XTWrcPyZeRa2c55g8EdwD+luIXWY6qm3DzKwwkGgkMRyILfx3aSw9WEWTTB3eGZSaq
- dG18xuC19omuc07h7pSI1y6q9SEAYr9ldibcZ5sPn4c8eMJ+dz5hvpyxLiOXAmAwfO/X
- CQQR14NydAYUl2w0LUOK5T/zsHQldsZVWK1GmM1/9ppWlBchqcG6ce+B500q7EDMXc8p
- 2N+DoqYcQsNyQ+Jnbpl8enqihSLLBSSumUwPa7RXUmI6vzZTw2Id76Km39AwxXqSBo94
- n+nv05y4KAawfyYCe0oLtYOZ3cZBAj3AdGfjePuBuiyh4bezIqcf6geHoyijzGpVnGlI
- FMBw==
-X-Gm-Message-State: ACgBeo2lmM2Qebq0rp3FVcyVHbdFmmQbnldNcqpjMWjsJgKqWYxo8gOc
- Ggc03vXaThLZycml5L6RPhY=
-X-Google-Smtp-Source: AA6agR6pHAZ5M2nv2gy1iK7WuE+nIcD3uqiyzvMEe3m/K3K8TvILOgtjMF+NQsQ9xUY4/kU0LzFS1g==
-X-Received: by 2002:a17:90a:d151:b0:1fa:b2a6:226a with SMTP id
- t17-20020a17090ad15100b001fab2a6226amr23596077pjw.104.1661861197942; 
- Tue, 30 Aug 2022 05:06:37 -0700 (PDT)
+ bh=v2mknBGhh4NgL0POsOtBxzJobMgZrQHRFaoFPemT8pk=;
+ b=N0RIY+q1kaYlRZ9ggsjAK3OQT7mg6h6YOC2DfiDSoX1Q7GpDMYGONGN3MLPmYKOAGF
+ xlRBxAYDXmTuv3/ruSmhhZdgvvpddHcRAfUSQmeTglLsWUtlkZ1Fn3T8KZVeXsDU0EA9
+ 97IW4qlcUCE2xlMin/Tg4kW5NZ8JoDJVEbqSbjf1WZI12OBGn7oXo+6JSQcbhjxZdykd
+ 1sPpOJGB3JDyNWWMfCiXZAVKKil0EeU+oXWTm4if54G7PxZd0Piwxcb0y1Lg3qywG7ro
+ ytOlRcXJGki3otT1rrCK94GxuRSnUvXAXYrO4jtIiZVFLSY80tH85sLMflloKezTlzQb
+ 3QUw==
+X-Gm-Message-State: ACgBeo3iSCUPABwodUp6zaxD1B4x7ANw+KRJCUmjepDz/+wTYvcEtoq3
+ VHrfewslcSQ3gnkIkUH3rkzif3Ooacs=
+X-Google-Smtp-Source: AA6agR60TB5hm3EGwVk7HS41n1H24Dgnk05tQNsLGTJQn3eqDgt7C+/8o5+AZlfwieKt9QThMZbG2A==
+X-Received: by 2002:a17:902:bd08:b0:16d:4230:cb45 with SMTP id
+ p8-20020a170902bd0800b0016d4230cb45mr20881725pls.59.1661861279098; 
+ Tue, 30 Aug 2022 05:07:59 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- i13-20020a170902c94d00b0015e8d4eb1d5sm7650055pla.31.2022.08.30.05.06.35
+ q11-20020a170902a3cb00b001745919b197sm7813262plb.243.2022.08.30.05.07.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 30 Aug 2022 05:06:37 -0700 (PDT)
-Message-ID: <f79cbf92-bb68-67c2-7e7d-a4ac2e09151a@amsat.org>
-Date: Tue, 30 Aug 2022 14:06:32 +0200
+ Tue, 30 Aug 2022 05:07:58 -0700 (PDT)
+Message-ID: <8fd4c34c-f010-a5ec-af54-3bb8e17f0ad4@amsat.org>
+Date: Tue, 30 Aug 2022 14:07:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH] softmmu/physmem: Fix address of FlatView access in
- address_space_(read|write)_cached_slow()
+Subject: Re: [PATCH v2] KVM: dirty ring: add missing memory barrier
 Content-Language: en-US
-To: Peter Xu <peterx@redhat.com>, Alberto Faria <afaria@redhat.com>
-Cc: qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20220826160927.322797-1-afaria@redhat.com>
- <YwppmYUOLTqQ7K25@xz-m1.local>
-In-Reply-To: <YwppmYUOLTqQ7K25@xz-m1.local>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Xu <peterx@redhat.com>, Gavin Shan <gshan@redhat.com>
+References: <20220827082218.214001-1-pbonzini@redhat.com>
+In-Reply-To: <20220827082218.214001-1-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62e.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -99,81 +95,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 27/8/22 20:59, Peter Xu wrote:
-> Hi, Alberto,
+On 27/8/22 10:22, Paolo Bonzini wrote:
+> The KVM_DIRTY_GFN_F_DIRTY flag ensures that the entry is valid.  If
+> the read of the fields are not ordered after the read of the flag,
+> QEMU might see stale values.
 > 
-> On Fri, Aug 26, 2022 at 05:09:27PM +0100, Alberto Faria wrote:
->> Apply cache->xlat to addr before passing it to
->> flatview_(read|write)_continue(), to convert it from the
->> MemoryRegionCache's address space to the FlatView's.
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Gavin Shan <gshan@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   accel/kvm/kvm-all.c | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> Any bug encountered?  It'll be great to add more information into the
-> commit message if there is.  We could also mention the issue was observed
-> by code review or so.
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index 8d81ab74de..136c8eaed3 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -719,7 +719,11 @@ static void kvm_dirty_ring_mark_page(KVMState *s, uint32_t as_id,
+>   
+>   static bool dirty_gfn_is_dirtied(struct kvm_dirty_gfn *gfn)
+>   {
+> -    return gfn->flags == KVM_DIRTY_GFN_F_DIRTY;
+> +    /*
+> +     * Read the flags before the value.  Pairs with barrier in
+> +     * KVM's kvm_dirty_ring_push() function.
+> +     */
+> +    return qatomic_load_acquire(&gfn->flags) == KVM_DIRTY_GFN_F_DIRTY;
+>   }
+>   
+>   static void dirty_gfn_set_collected(struct kvm_dirty_gfn *gfn)
 
-Agreed.
-
->>
->> Fixes: 48564041a7 ("exec: reintroduce MemoryRegion caching")
->> Co-Developed-by: Stefan Hajnoczi <stefanha@redhat.com>
->> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
->> Signed-off-by: Alberto Faria <afaria@redhat.com>
->> ---
->>   softmmu/physmem.c | 12 ++++++------
->>   1 file changed, 6 insertions(+), 6 deletions(-)
->>
->> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
->> index dc3c3e5f2e..95d4c77cc3 100644
->> --- a/softmmu/physmem.c
->> +++ b/softmmu/physmem.c
->> @@ -3450,9 +3450,9 @@ address_space_read_cached_slow(MemoryRegionCache *cache, hwaddr addr,
->>       l = len;
->>       mr = address_space_translate_cached(cache, addr, &addr1, &l, false,
->>                                           MEMTXATTRS_UNSPECIFIED);
->> -    return flatview_read_continue(cache->fv,
->> -                                  addr, MEMTXATTRS_UNSPECIFIED, buf, len,
->> -                                  addr1, l, mr);
->> +    return flatview_read_continue(cache->fv, cache->xlat + addr,
-
-So this is just addr1...
-
->> +                                  MEMTXATTRS_UNSPECIFIED, buf, len, addr1, l,
->> +                                  mr);
->>   }
->>   
->>   /* Called from RCU critical section. address_space_write_cached uses this
->> @@ -3468,9 +3468,9 @@ address_space_write_cached_slow(MemoryRegionCache *cache, hwaddr addr,
->>       l = len;
->>       mr = address_space_translate_cached(cache, addr, &addr1, &l, true,
->>                                           MEMTXATTRS_UNSPECIFIED);
->> -    return flatview_write_continue(cache->fv,
->> -                                   addr, MEMTXATTRS_UNSPECIFIED, buf, len,
->> -                                   addr1, l, mr);
->> +    return flatview_write_continue(cache->fv, cache->xlat + addr,
->> +                                   MEMTXATTRS_UNSPECIFIED, buf, len, addr1, l,
->> +                                   mr);
->>   }
-> 
-> The issue looks correct, but I hesitate on the fix.. since afaict
-> cache->xlat is per memory region not flat view, so the new calculation is
-> offset within memory region but not flat view too.
-> 
-> So I'm wondering whether it should become:
-> 
->    cache->xlat + addr - cache.mrs.offset_within_region +
->      cache.mrs.offset_within_address_space
-
-If so, shouldn't this be calculated [*] within 
-address_space_translate_cached() instead of the caller?
-
-[*] Maybe passed as another pointer to hwaddr
-
-> If the issue happens on vIOMMU+virtio on x86, then offset_within_region and
-> offset_within_address_space should be all zeros for vt-d emulation since
-> vt-d only has one huge vIOMMU window, then the outcome could be the same.
-> However maybe there might be a difference with other vIOMMUs.
-> 
-> Thanks,
-> 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 
