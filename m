@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E571B5A6E66
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 22:22:17 +0200 (CEST)
-Received: from localhost ([::1]:40756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 643AA5A6E68
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Aug 2022 22:23:46 +0200 (CEST)
+Received: from localhost ([::1]:46880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oT7kW-0005cm-Ew
-	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 16:22:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38790)
+	id 1oT7lx-00075h-3i
+	for lists+qemu-devel@lfdr.de; Tue, 30 Aug 2022 16:23:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oT7f7-0002sg-IQ
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 16:16:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43654)
+ id 1oT7hO-000482-PQ
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 16:19:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48146)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oT7f3-0004IR-3P
- for qemu-devel@nongnu.org; Tue, 30 Aug 2022 16:16:39 -0400
+ id 1oT7hM-0004Z0-0v
+ for qemu-devel@nongnu.org; Tue, 30 Aug 2022 16:19:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661890591;
+ s=mimecast20190719; t=1661890739;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=JBve28ZhvjzE5igwY/wwIZYry+4KMJhxSmZ+5jphH8I=;
- b=gu5XmKrHep4I0fQoQregKQgO4aG2gyIKrDYj98pNcNORDnIUQwbeq/eIQSNYFLtnn3lZfJ
- qTApOqXXd7VLL66kFTaSEVtcJIQTSf3ZISgAuoZKff/rjsdpkb1acyvP0ugWTF97ELXgYZ
- 9+X6D3u1rq+vlcjsBpxggVoraekSyGA=
+ bh=OnLtN/TlpoP0TdKeCUJ5aqshqha6fV5qBMpeZLj6bMg=;
+ b=bGZ+ek3Seu27iH5XyWNjnO5lcg0f/4QRk7jY62ziY5ixIDSZ7GtuOWKaqPDzGZsG5HbvFd
+ RSrnlsO0V7/RR7iw/LFInVYkIetQsthlO5IrdZ5a8BGOb7KQJAFhm7flUmcsBJYzZuX5rk
+ cs3WWAH4ZwPkY0a3Ojifo+uh0D5cK2o=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-446-OVjL_rbnMoWMEL3U56xYNw-1; Tue, 30 Aug 2022 16:16:28 -0400
-X-MC-Unique: OVjL_rbnMoWMEL3U56xYNw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-49-l3n47Ok3P5aiZBbQeCvFIA-1; Tue, 30 Aug 2022 16:18:55 -0400
+X-MC-Unique: l3n47Ok3P5aiZBbQeCvFIA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C1EF81C06EDD;
- Tue, 30 Aug 2022 20:16:27 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B4D702999B4C;
+ Tue, 30 Aug 2022 20:18:54 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.81])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8D4C2492C3B;
- Tue, 30 Aug 2022 20:16:26 +0000 (UTC)
-Date: Tue, 30 Aug 2022 16:16:24 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 19E3F1121314;
+ Tue, 30 Aug 2022 20:18:53 +0000 (UTC)
+Date: Tue, 30 Aug 2022 16:18:52 -0400
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: David Hildenbrand <david@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
 Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  "Denis V. Lunev" <den@openvz.org>, Peter Xu <peterx@redhat.com>,
  Yanan Wang <wangyanan55@huawei.com>,
@@ -53,7 +53,7 @@ Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  John Snow <jsnow@redhat.com>, integration@gluster.org,
  Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Laurent Vivier <lvivier@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Raphael Norwitz <raphael.norwitz@nutanix.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Fam Zheng <fam@euphon.net>, sgarzare@redhat.com,
@@ -65,28 +65,25 @@ Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Jeff Cody <codyprime@gmail.com>,
  Xie Changlong <xiechanglong.d@gmail.com>
-Subject: Re: [RFC v4 11/11] virtio-blk: use BDRV_REQ_REGISTERED_BUF
- optimization hint
-Message-ID: <Yw5wGEhdsztxhV2s@fedora>
+Subject: Re: [RFC v4 01/11] blkio: add libblkio block driver
+Message-ID: <Yw5wrI79q5wWV+KF@fedora>
 References: <20220822222402.176088-1-stefanha@redhat.com>
- <20220822222402.176088-12-stefanha@redhat.com>
- <b068f95e-fc8f-1ecc-5bf5-d7774ce6c13a@redhat.com>
- <YwUo5UgdHjJ7k9QX@fedora>
- <9f6d41c6-6d67-611b-a8b6-2a1a93242ff4@redhat.com>
+ <20220822222402.176088-2-stefanha@redhat.com>
+ <877d2qkx2v.fsf@pond.sub.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qUKTmzNfBTo69cyH"
+ protocol="application/pgp-signature"; boundary="qWeLKRfB3sU7qG+L"
 Content-Disposition: inline
-In-Reply-To: <9f6d41c6-6d67-611b-a8b6-2a1a93242ff4@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+In-Reply-To: <877d2qkx2v.fsf@pond.sub.org>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,121 +101,189 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---qUKTmzNfBTo69cyH
+--qWeLKRfB3sU7qG+L
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 25, 2022 at 09:43:16AM +0200, David Hildenbrand wrote:
-> On 23.08.22 21:22, Stefan Hajnoczi wrote:
-> > On Tue, Aug 23, 2022 at 10:01:59AM +0200, David Hildenbrand wrote:
-> >> On 23.08.22 00:24, Stefan Hajnoczi wrote:
-> >>> Register guest RAM using BlockRAMRegistrar and set the
-> >>> BDRV_REQ_REGISTERED_BUF flag so block drivers can optimize memory
-> >>> accesses in I/O requests.
-> >>>
-> >>> This is for vdpa-blk, vhost-user-blk, and other I/O interfaces that r=
-ely
-> >>> on DMA mapping/unmapping.
-> >>
-> >> Can you explain why we're monitoring RAMRegistrar to hook into "guest
-> >> RAM" and not go the usual path of the MemoryListener?
-> >=20
-> > The requirements are similar to VFIO, which uses RAMBlockNotifier. We
+On Tue, Aug 30, 2022 at 09:30:16AM +0200, Markus Armbruster wrote:
+> Stefan Hajnoczi <stefanha@redhat.com> writes:
 >=20
-> Only VFIO NVME uses RAMBlockNotifier. Ordinary VFIO uses the MemoryListen=
-er.
+> > libblkio (https://gitlab.com/libblkio/libblkio/) is a library for
+> > high-performance disk I/O. It currently supports io_uring,
+> > virtio-blk-vhost-user, and virtio-blk-vhost-vdpa with additional drivers
+> > under development.
+> >
+> > One of the reasons for developing libblkio is that other applications
+> > besides QEMU can use it. This will be particularly useful for
+> > virtio-blk-vhost-user which applications may wish to use for connecting
+> > to qemu-storage-daemon.
+> >
+> > libblkio also gives us an opportunity to develop in Rust behind a C API
+> > that is easy to consume from QEMU.
+> >
+> > This commit adds io_uring, virtio-blk-vhost-user, and
+> > virtio-blk-vhost-vdpa BlockDrivers to QEMU using libblkio. It will be
+> > easy to add other libblkio drivers since they will share the majority of
+> > code.
+> >
+> > For now I/O buffers are copied through bounce buffers if the libblkio
+> > driver requires it. Later commits add an optimization for
+> > pre-registering guest RAM to avoid bounce buffers.
+> >
+> > The syntax is:
+> >
+> >   --blockdev io_uring,node-name=3Ddrive0,filename=3Dtest.img,readonly=
+=3Don|off,cache.direct=3Don|off
+> >
+> > and:
+> >
+> >   --blockdev virtio-blk-vhost-vdpa,node-name=3Ddrive0,path=3D/dev/vdpa.=
+=2E.,readonly=3Don|off
+> >
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> >  MAINTAINERS                   |   6 +
+> >  meson_options.txt             |   2 +
+> >  qapi/block-core.json          |  53 ++-
+> >  meson.build                   |   9 +
+> >  block/blkio.c                 | 725 ++++++++++++++++++++++++++++++++++
+> >  tests/qtest/modules-test.c    |   3 +
+> >  block/meson.build             |   1 +
+> >  scripts/meson-buildoptions.sh |   3 +
+> >  8 files changed, 800 insertions(+), 2 deletions(-)
+> >  create mode 100644 block/blkio.c
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 5ce4227ff6..f8ccd5954c 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -3397,6 +3397,12 @@ L: qemu-block@nongnu.org
+> >  S: Maintained
+> >  F: block/vdi.c
+> > =20
+> > +blkio
+> > +M: Stefan Hajnoczi <stefanha@redhat.com>
+> > +L: qemu-block@nongnu.org
+> > +S: Maintained
+> > +F: block/blkio.c
+> > +
+> >  iSCSI
+> >  M: Ronnie Sahlberg <ronniesahlberg@gmail.com>
+> >  M: Paolo Bonzini <pbonzini@redhat.com>
+> > diff --git a/meson_options.txt b/meson_options.txt
+> > index e58e158396..67d841a8d2 100644
+> > --- a/meson_options.txt
+> > +++ b/meson_options.txt
+> > @@ -117,6 +117,8 @@ option('bzip2', type : 'feature', value : 'auto',
+> >         description: 'bzip2 support for DMG images')
+> >  option('cap_ng', type : 'feature', value : 'auto',
+> >         description: 'cap_ng support')
+> > +option('blkio', type : 'feature', value : 'auto',
+> > +       description: 'libblkio block device driver')
+> >  option('bpf', type : 'feature', value : 'auto',
+> >          description: 'eBPF support')
+> >  option('cocoa', type : 'feature', value : 'auto',
+> > diff --git a/qapi/block-core.json b/qapi/block-core.json
+> > index 2173e7734a..c8d217b50c 100644
+> > --- a/qapi/block-core.json
+> > +++ b/qapi/block-core.json
+> > @@ -2951,11 +2951,16 @@
+> >              'file', 'snapshot-access', 'ftp', 'ftps', 'gluster',
+> >              {'name': 'host_cdrom', 'if': 'HAVE_HOST_BLOCK_DEVICE' },
+> >              {'name': 'host_device', 'if': 'HAVE_HOST_BLOCK_DEVICE' },
+> > -            'http', 'https', 'iscsi',
+> > +            'http', 'https',
+> > +            { 'name': 'io_uring', 'if': 'CONFIG_BLKIO' },
+> > +            'iscsi',
+> >              'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'para=
+llels',
+> >              'preallocate', 'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'r=
+bd',
+> >              { 'name': 'replication', 'if': 'CONFIG_REPLICATION' },
+> > -            'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat' ]=
+ }
+> > +            'ssh', 'throttle', 'vdi', 'vhdx',
+> > +            { 'name': 'virtio-blk-vhost-user', 'if': 'CONFIG_BLKIO' },
+> > +            { 'name': 'virtio-blk-vhost-vdpa', 'if': 'CONFIG_BLKIO' },
+> > +            'vmdk', 'vpc', 'vvfat' ] }
+> > =20
+> >  ##
+> >  # @BlockdevOptionsFile:
+> > @@ -3678,6 +3683,42 @@
+> >              '*debug': 'int',
+> >              '*logfile': 'str' } }
+> > =20
+> > +##
+> > +# @BlockdevOptionsIoUring:
+> > +#
+> > +# Driver specific block device options for the io_uring backend.
+> > +#
+> > +# @filename: path to the image file
+> > +#
+> > +# Since: 7.2
+> > +##
+> > +{ 'struct': 'BlockdevOptionsIoUring',
+> > +  'data': { 'filename': 'str' } }
+> > +
+> > +##
+> > +# @BlockdevOptionsVirtioBlkVhostUser:
+> > +#
+> > +# Driver specific block device options for the virtio-blk-vhost-user b=
+ackend.
+> > +#
+> > +# @path: path to the vhost-user UNIX domain socket.
+> > +#
+> > +# Since: 7.2
+> > +##
+> > +{ 'struct': 'BlockdevOptionsVirtioBlkVhostUser',
+> > +  'data': { 'path': 'str' } }
+> > +
+> > +##
+> > +# @BlockdevOptionsVirtioBlkVhostVdpa:
+> > +#
+> > +# Driver specific block device options for the virtio-blk-vhost-vdpa b=
+ackend.
+> > +#
+> > +# @path: path to the vhost-vdpa character device.
+> > +#
+> > +# Since: 7.2
+> > +##
+> > +{ 'struct': 'BlockdevOptionsVirtioBlkVhostVdpa',
+> > +  'data': { 'path': 'str' } }
+> > +
 >=20
-> Maybe the difference is that ordinary VFIO has to replicate the actual
-> guest physical memory layout, and VFIO NVME is only interested in
-> possible guest RAM inside guest physical memory.
+> We seem to be evenly split between 'filename' and 'path'.  Before the
+> patch we have four uses of 'filename' in this schema file (ImageInfo,
+> ImageCheck, BlockDriverOptionsFile, BlockdevCreateOptionsFile), and
+> three of 'path' (BlockdevOptionsSsh, BlockdevOptionsGluster,
+> BlockdevOptionsNfs).  There's also 'backing-file', 'data-file',
+> 'backing-filename', 'file', and probably more (I stopped looking).
 >=20
-> > need to learn about all guest RAM because that's where I/O buffers are
-> > located.
-> >=20
-> > Do you think RAMBlockNotifier should be avoided?
->=20
-> I assume it depends on the use case. For saying "this might be used for
-> I/O" it might be good enough I guess.
->=20
-> >=20
-> >> What will BDRV_REQ_REGISTERED_BUF actually do? Pin all guest memory in
-> >> the worst case such as io_uring fixed buffers would do ( I hope not ).
-> >=20
-> > BLK_REQ_REGISTERED_BUF is a hint that no bounce buffer is necessary
-> > because the I/O buffer is located in memory that was previously
-> > registered with bdrv_registered_buf().
-> >=20
-> > The RAMBlockNotifier calls bdrv_register_buf() to let the libblkio
-> > driver know about RAM. Some libblkio drivers ignore this hint, io_uring
-> > may use the fixed buffers feature, vhost-user sends the shared memory
-> > file descriptors to the vhost device server, and VFIO/vhost may pin
-> > pages.
-> >=20
-> > So the blkio block driver doesn't add anything new, it's the union of
-> > VFIO/vhost/vhost-user/etc memory requirements.
->=20
-> The issue is if that backend pins memory inside any of these regions.
-> Then, you're instantly incompatible to anything the relies on sparse
-> RAMBlocks, such as memory ballooning or virtio-mem, and have to properly
-> fence it.
->=20
-> In that case, you'd have to successfully trigger
-> ram_block_discard_disable(true) first, before pinning. Who would do that
-> now conditionally, just like e.g., VFIO does?
->=20
-> io_uring fixed buffers would be one such example that pins memory and is
-> problematic. vfio (unless on s390x) is another example, as you point out.
+> I dislike 'path'.  For what it's worth, POSIX calls this "pathname", and
+> the components "filename".  Everyday use hardly ever distinguishes
+> between the two.  Plain "path", however, is commonly used for lists of
+> directories.
 
-Okay, I think libblkio needs to expose a bool property called
-"mem-regions-pinned" so QEMU whether or not the registered buffers will
-be pinned.
-
-Then the QEMU BlockDriver can do:
-
-  if (mem_regions_pinned) {
-      if (ram_block_discard_disable(true) < 0) {
-          ...fail to open block device...
-      }
-  }
-
-Does that sound right?
-
-Is "pinned" the best word to describe this or is there a more general
-characteristic we are looking for?
-
->=20
-> This has to be treated with care. Another thing to consider is that
-> different backends might only support a limited number of such regions.
-> I assume there is a way for QEMU to query this limit upfront? It might
-> be required for memory hot(un)plug to figure out how many memory slots
-> we actually have (for ordinary DIMMs, and if we ever want to make this
-> compatible to virtio-mem, it might be required as well when the backend
-> pins memory).
-
-Yes, libblkio reports the maximum number of blkio_mem_regions supported
-by the device. The property is called "max-mem-regions".
-
-The QEMU BlockDriver currently doesn't use this information. Are there
-any QEMU APIs that should be called to propagate this value?
+Yes :/
 
 Stefan
 
---qUKTmzNfBTo69cyH
+--qWeLKRfB3sU7qG+L
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMOcBgACgkQnKSrs4Gr
-c8hO7Qf8C+Fox1MAjmvcWp4eVyW29STdyYkIo/l8ZTW/JllKXJ4Htn7ZsbfHLXnT
-bZT/4TMrZKW4jpl9g6SC+eWtADItKU5L0qnuZgWj+julzoRHPOVGp6YrgDYWyzyt
-lJNZrCIGu8wZKdoRyoMr3+u4ewnsibYFVlVyAIrKTSr1MURi70qx704kRIsUCg9d
-TqPIG34Pgs4W4KQ0Z/bNQjfZBZkYOj9aO2XIKDswVIGSpt1bzsRwHqBZkyHZLWtn
-cLN+Da6njnu6Sa+Eldkmzewp07fxPnLaPX9t1yUfjqOTDHaQeVTTp8DmmlscS20+
-lzFqyInnZD91m3wDXM18E4mYSOGTTw==
-=2kw7
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMOcKwACgkQnKSrs4Gr
+c8h4MAf7BlCyiiWqT4Fl2uG9+bvlVAjSWothYzSM+7WHHOXeX3q4UTlayAkIHgQ8
+Id+VpFvRjuiSfD5cduysxLj2znsGZ7Q25TMszk0OAVULc2IiurgI8EPU3rXh8ePH
+U5yIlnA1NGuvJt+hHfzrUvhw3xtLEVIpn1Wo+50bW7vqEzbwza5caMu4p3TDaEu1
+iwWxeiyWYdt+3k+3sbmHgJT4xHDHAYmmkv5i9FtVKszhCTgfqlJbvmTdvq0AYvRV
+/ZvZkGgPTi1YjHdWbY5FFgeeqMwVNhDeZzpTs0TJglDe/vbCsxTsL+HuwPB9wIKz
+1Rm0F3ycRs0cc6Asm97Mag31hb0kRA==
+=P99S
 -----END PGP SIGNATURE-----
 
---qUKTmzNfBTo69cyH--
+--qWeLKRfB3sU7qG+L--
 
 
