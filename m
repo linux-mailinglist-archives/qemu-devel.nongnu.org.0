@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24A265A7B07
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 12:10:45 +0200 (CEST)
-Received: from localhost ([::1]:59474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1CA25A7B1A
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 12:11:59 +0200 (CEST)
+Received: from localhost ([::1]:54382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTKgF-000665-4Q
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 06:10:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49062)
+	id 1oTKhS-0007IC-Lg
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 06:11:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTKXp-0006aB-SD; Wed, 31 Aug 2022 06:02:01 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:42911)
+ id 1oTKXu-0006ho-Qz; Wed, 31 Aug 2022 06:02:08 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:44906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTKXn-0002tc-TK; Wed, 31 Aug 2022 06:02:01 -0400
-Received: by mail-ej1-x630.google.com with SMTP id p16so24174428ejb.9;
- Wed, 31 Aug 2022 03:01:58 -0700 (PDT)
+ id 1oTKXo-0002uk-An; Wed, 31 Aug 2022 06:02:06 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id kk26so27268644ejc.11;
+ Wed, 31 Aug 2022 03:01:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=bEVoRSXcrRzaQgrfpsjgEaEoGMvIu/5y+odrkvqlkLw=;
- b=GN0kVRyVCuN0LTi10YfU6HzT8Xav65WiFstQo/462w7udG9o/m3/nK0YZNut5C3dnH
- 3sroWhTiqmycXtNjEyFpO8Rd54gLdqWySs4+Dm40tV+E+0roORd6rQqQ04FLTGcA0qZI
- vlEHp9wd/5BmIhA+Xc+ab1hKQjou9ld3BdvTpjA5We37jr6J7Uc61jffK8kPPADhnr16
- jpLMr+K6puEBhsEUES8yK+VpkmdCOYtx6ndof3vfnni8v6l6vo+jzqoJFa6wbfoO/a61
- hjLu3KRzBRgFnTK4Yylekl6taVVKKeC4gUT8XbwSl2HEbC1RsHVOT0tDThfJLGGigo+l
- G7IQ==
+ bh=Pf0QjczUiEZOR1B24+CfCkAPEvD+NiZS4nVxeZEgpts=;
+ b=nIkMqGr5HWp8misygPgJyPSCKQRgztcYRXYcjhkcHDWhFNGgShCb+yTBDrFtdW/gtg
+ aTM10qOounpdtK7umNvG6yNzmw0zAI6hsa+tF3eB4FEuJ6k8kLs5JeIds6YB3l+yS0c4
+ mACzXKVxFO9Zed7Es84flG4x2xO1JdRSpGME3t/tufNmjcSV21v7BGOa0u+Arj8aRMGR
+ rj6NDdNrZc+uTQrO7iGgwyJYGLdvwB6g3dcwJwM+L8MAOu/lhAhthPlgfA1brari5x9u
+ juHGfot6JWTPaxVoqsaKvP5jLlp9/cIQspofPXcLUwpSRWpvgvPkXSZi6ljfuODVSVHM
+ BM+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=bEVoRSXcrRzaQgrfpsjgEaEoGMvIu/5y+odrkvqlkLw=;
- b=CVc9APsdK0Dx0MnDfE6taTqRS9Qj8/hhMq1A0kpURbWmiM6hntxDZ1fbL3ZBvVfv4a
- U423x79w0P6NpZYfw8e+EIcGPic/xOBvOkHEmENqmcoA8xyFJ42he6XcD8NqVNtTG2NI
- 6+xiMsPaVNxH4QdpmvXJ2xqY1Wu/NFwRwdOdWTcyZgaTVPtQiy13wgsG2Qh2PeDhykRK
- w1XRQ9dlkzoM7pp5BOTWp3HE0LKLtOOD9F1NMnS2tMvqO6SpFRNpwy/ZIOrQCshlHkPo
- lgBeUPTvC/gaVZnvLuHpX5eAmrRj+3OOFhq+Ti7lLppEjD7g+qCAyX8T1TI89sooqtt4
- 5zAw==
-X-Gm-Message-State: ACgBeo17zZx8NFl/KrDJFXnb88jUmgKLKXFbTgwHkdAOyuMAPen9PTWJ
- 7uRF487wITN0GO6jhceiPBHWTp3+Vfs=
-X-Google-Smtp-Source: AA6agR4T0Ikgm3WnkQYfMERKxold48l5aSxRnspqps89pGDKQsaenNNUNFoXxmg0YojAXGG8GBONUw==
-X-Received: by 2002:a17:907:7630:b0:73d:d749:975b with SMTP id
- jy16-20020a170907763000b0073dd749975bmr18539444ejc.632.1661940117438; 
- Wed, 31 Aug 2022 03:01:57 -0700 (PDT)
+ bh=Pf0QjczUiEZOR1B24+CfCkAPEvD+NiZS4nVxeZEgpts=;
+ b=gSfR038LYV4RHrhw+Upnhk2xnT9g+cnZuxopDzY8lUf9K5PwlNyrDB1Ni/NDnvazwr
+ zjWoAIkm/ehDL9q/Bg3bfI4wYvCocAr6a6gm4chUUfKMfHQwKVy9Sa4kqcTSQvIXbQOz
+ 2SSSOIBNcRynj0tl7MKxwyBO5kz+i9QvaYbkSamxqt3n+cl8AHZhY42gUVPxrE7N23Rj
+ uT95/nldxSe3NNBEtWyQmBZmb/dgShLv87Y+sxwox0/SOMmOPWUBxkzRFW/QhN/oHd8o
+ vQiC9KDq4UNAA2NNBEWaeduj0CSUDl5rhx3m22GwmeKispIdmkOK0C4JAYmfYbFX78FP
+ Jh4A==
+X-Gm-Message-State: ACgBeo1bUvQeOYP7ysdxvMeb4+3+WwoZ3tRoI0uVTXLiOQ/pGahQpBuK
+ IS0N8GmRS9NxB0HuMYAQxDAhZDSFRY4=
+X-Google-Smtp-Source: AA6agR5E8nhndwHQCLvnp7iUhidomKVUE1hdY75o0yuCWTHEsO0RJG4JqCpimKXTCXRYnsKXyW94SQ==
+X-Received: by 2002:a17:907:3fa2:b0:73d:79b4:2c9c with SMTP id
+ hr34-20020a1709073fa200b0073d79b42c9cmr12581044ejc.644.1661940118287; 
+ Wed, 31 Aug 2022 03:01:58 -0700 (PDT)
 Received: from osoxes.fritz.box (pd95ed71f.dip0.t-ipconnect.de.
  [217.94.215.31]) by smtp.gmail.com with ESMTPSA id
- 6-20020a170906310600b0073c10031dc9sm6449583ejx.80.2022.08.31.03.01.56
+ 6-20020a170906310600b0073c10031dc9sm6449583ejx.80.2022.08.31.03.01.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 31 Aug 2022 03:01:57 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
@@ -57,17 +57,17 @@ Cc: qemu-ppc@nongnu.org, Huacai Chen <chenhuacai@kernel.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  BALATON Zoltan <balaton@eik.bme.hu>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v3 07/10] hw/isa/vt82c686: Instantiate PM function in host
- device
-Date: Wed, 31 Aug 2022 11:59:11 +0200
-Message-Id: <20220831095914.2041-8-shentey@gmail.com>
+Subject: [PATCH v3 08/10] hw/isa/vt82c686: Instantiate AC97 and MC97 functions
+ in host device
+Date: Wed, 31 Aug 2022 11:59:12 +0200
+Message-Id: <20220831095914.2041-9-shentey@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220831095914.2041-1-shentey@gmail.com>
 References: <20220831095914.2041-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x630.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,116 +90,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The PM controller has activity bits which monitor activity of other
-built-in devices in the host device.
+The AC97 function's wakeup status is wired to the PM function and both
+the AC97 and MC97 interrupt routing is determined by the ISA function.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/vt82c686.c         | 13 +++++++++++++
- hw/mips/fuloong2e.c       |  2 +-
- hw/ppc/pegasos2.c         |  3 +--
- include/hw/isa/vt82c686.h |  2 --
- 4 files changed, 15 insertions(+), 5 deletions(-)
+ hw/isa/vt82c686.c   | 16 ++++++++++++++++
+ hw/mips/fuloong2e.c |  4 ----
+ hw/ppc/pegasos2.c   |  5 -----
+ 3 files changed, 16 insertions(+), 9 deletions(-)
 
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 66a4b9c230..fcc9894e8b 100644
+index fcc9894e8b..691a467b2c 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -250,6 +250,8 @@ static const ViaPMInitInfo vt82c686b_pm_init_info = {
-     .device_id = PCI_DEVICE_ID_VIA_82C686B_PM,
- };
- 
-+#define TYPE_VT82C686B_PM "vt82c686b-pm"
-+
- static const TypeInfo vt82c686b_pm_info = {
-     .name          = TYPE_VT82C686B_PM,
-     .parent        = TYPE_VIA_PM,
-@@ -261,6 +263,8 @@ static const ViaPMInitInfo vt8231_pm_init_info = {
-     .device_id = PCI_DEVICE_ID_VIA_8231_PM,
- };
- 
-+#define TYPE_VT8231_PM "vt8231-pm"
-+
- static const TypeInfo vt8231_pm_info = {
-     .name          = TYPE_VT8231_PM,
-     .parent        = TYPE_VIA_PM,
-@@ -548,6 +552,7 @@ struct ViaISAState {
-     ViaSuperIOState via_sio;
+@@ -553,6 +553,8 @@ struct ViaISAState {
      PCIIDEState ide;
      UHCIState uhci[2];
-+    ViaPMState pm;
+     ViaPMState pm;
++    PCIDevice ac97;
++    PCIDevice mc97;
  };
  
  static const VMStateDescription vmstate_via = {
-@@ -641,6 +646,12 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
-             return;
-         }
+@@ -572,6 +574,8 @@ static void via_isa_init(Object *obj)
+     object_initialize_child(obj, "ide", &s->ide, "via-ide");
+     object_initialize_child(obj, "uhci1", &s->uhci[0], "vt82c686b-usb-uhci");
+     object_initialize_child(obj, "uhci2", &s->uhci[1], "vt82c686b-usb-uhci");
++    object_initialize_child(obj, "ac97", &s->ac97, TYPE_VIA_AC97);
++    object_initialize_child(obj, "mc97", &s->mc97, TYPE_VIA_MC97);
+ }
+ 
+ static const TypeInfo via_isa_info = {
+@@ -652,6 +656,18 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+     if (!qdev_realize(DEVICE(&s->pm), BUS(pci_bus), errp)) {
+         return;
      }
 +
-+    /* Function 4: Power Management */
-+    qdev_prop_set_int32(DEVICE(&s->pm), "addr", d->devfn + 4);
-+    if (!qdev_realize(DEVICE(&s->pm), BUS(pci_bus), errp)) {
++    /* Function 5: AC97 Audio */
++    qdev_prop_set_int32(DEVICE(&s->ac97), "addr", d->devfn + 5);
++    if (!qdev_realize(DEVICE(&s->ac97), BUS(pci_bus), errp)) {
++        return;
++    }
++
++    /* Function 6: AC97 Modem */
++    qdev_prop_set_int32(DEVICE(&s->mc97), "addr", d->devfn + 6);
++    if (!qdev_realize(DEVICE(&s->mc97), BUS(pci_bus), errp)) {
 +        return;
 +    }
  }
  
  /* TYPE_VT82C686B_ISA */
-@@ -683,6 +694,7 @@ static void vt82c686b_init(Object *obj)
-     ViaISAState *s = VIA_ISA(obj);
- 
-     object_initialize_child(obj, "sio", &s->via_sio, TYPE_VT82C686B_SUPERIO);
-+    object_initialize_child(obj, "pm", &s->pm, TYPE_VT82C686B_PM);
- }
- 
- static void vt82c686b_class_init(ObjectClass *klass, void *data)
-@@ -746,6 +758,7 @@ static void vt8231_init(Object *obj)
-     ViaISAState *s = VIA_ISA(obj);
- 
-     object_initialize_child(obj, "sio", &s->via_sio, TYPE_VT8231_SUPERIO);
-+    object_initialize_child(obj, "pm", &s->pm, TYPE_VT8231_PM);
- }
- 
- static void vt8231_class_init(ObjectClass *klass, void *data)
 diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index dc92223b76..377108d313 100644
+index 377108d313..2d8723ab74 100644
 --- a/hw/mips/fuloong2e.c
 +++ b/hw/mips/fuloong2e.c
-@@ -208,7 +208,7 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
-     dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"));
-     pci_ide_create_devs(dev);
+@@ -210,10 +210,6 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
  
--    dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 4), TYPE_VT82C686B_PM);
-+    dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "pm"));
+     dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "pm"));
      *i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
+-
+-    /* Audio support */
+-    pci_create_simple(pci_bus, PCI_DEVFN(slot, 5), TYPE_VIA_AC97);
+-    pci_create_simple(pci_bus, PCI_DEVFN(slot, 6), TYPE_VIA_MC97);
+ }
  
-     /* Audio support */
+ /* Network support */
 diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-index 85cca6f7a6..e32944ee2b 100644
+index e32944ee2b..09fdb7557f 100644
 --- a/hw/ppc/pegasos2.c
 +++ b/hw/ppc/pegasos2.c
-@@ -168,8 +168,7 @@ static void pegasos2_init(MachineState *machine)
-     dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"));
-     pci_ide_create_devs(dev);
+@@ -159,7 +159,6 @@ static void pegasos2_init(MachineState *machine)
+     pci_bus = mv64361_get_pci_bus(pm->mv, 1);
  
--    /* VT8231 function 4: Power Management Controller */
--    dev = pci_create_simple(pci_bus, PCI_DEVFN(12, 4), TYPE_VT8231_PM);
-+    dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "pm"));
-     i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
+     /* VIA VT8231 South Bridge (multifunction PCI device) */
+-    /* VT8231 function 0: PCI-to-ISA Bridge */
+     via = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0), true,
+                                           TYPE_VT8231_ISA);
+     qdev_connect_gpio_out(DEVICE(via), 0,
+@@ -173,10 +172,6 @@ static void pegasos2_init(MachineState *machine)
      spd_data = spd_data_generate(DDR, machine->ram_size);
      smbus_eeprom_init_one(i2c_bus, 0x57, spd_data);
-diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
-index 56ac141be3..559f7c8926 100644
---- a/include/hw/isa/vt82c686.h
-+++ b/include/hw/isa/vt82c686.h
-@@ -4,9 +4,7 @@
- #include "hw/pci/pci.h"
  
- #define TYPE_VT82C686B_ISA "vt82c686b-isa"
--#define TYPE_VT82C686B_PM "vt82c686b-pm"
- #define TYPE_VT8231_ISA "vt8231-isa"
--#define TYPE_VT8231_PM "vt8231-pm"
- #define TYPE_VIA_AC97 "via-ac97"
- #define TYPE_VIA_MC97 "via-mc97"
+-    /* VT8231 function 5-6: AC97 Audio & Modem */
+-    pci_create_simple(pci_bus, PCI_DEVFN(12, 5), TYPE_VIA_AC97);
+-    pci_create_simple(pci_bus, PCI_DEVFN(12, 6), TYPE_VIA_MC97);
+-
+     /* other PC hardware */
+     pci_vga_init(pci_bus);
  
 -- 
 2.37.3
