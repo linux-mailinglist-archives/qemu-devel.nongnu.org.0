@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACD965A7EB4
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 15:26:42 +0200 (CEST)
-Received: from localhost ([::1]:48002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF22E5A7EB7
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 15:26:55 +0200 (CEST)
+Received: from localhost ([::1]:48004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTNjt-0004VW-Bu
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 09:26:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48014)
+	id 1oTNk7-0004Yr-13
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 09:26:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oTNdO-0007vB-9Y
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 09:19:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44173)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oTNdM-00063m-Hc
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 09:19:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661951995;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dcoR1v2Oy0G6BAz+VU013GPCqkYcQG9ELM6miiMGjoE=;
- b=h480aBQrOY96HtBBXj9C6lwgWWkvEChvZ5cW5Y4b0OiLwEM5Ws5ESJ/+upUORrJEZFJiOS
- +w+SgJJ5nWbknxwXM/fN8uYpd/x+fd3VWxsEtNI3ifB9teoIi58AtG8++iPJCOL66253sB
- 4V8qxTYM5Vo2r4R1H3GcUYQVcaJY/C4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-639-f5ib_zRVNr-NvTq4P5nA9Q-1; Wed, 31 Aug 2022 09:19:50 -0400
-X-MC-Unique: f5ib_zRVNr-NvTq4P5nA9Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 256A1296A608;
- Wed, 31 Aug 2022 13:19:50 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 64DF91121314;
- Wed, 31 Aug 2022 13:19:48 +0000 (UTC)
-Date: Wed, 31 Aug 2022 14:19:45 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Cc: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org,
- Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Subject: Re: [PATCH 03/51] block: Unify the get_tmp_filename() implementation
-Message-ID: <Yw9f8bjPrfg5OI6r@redhat.com>
-References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-4-bmeng.cn@gmail.com>
- <CAJ+F1CJAb-jz8=4hwDhpUQbbtXj_SoW44TwOmuH8MQWagbrD5Q@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oTNdx-00006Q-PY
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 09:20:38 -0400
+Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c]:36511)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oTNdv-0006OR-J7
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 09:20:33 -0400
+Received: by mail-lf1-x12c.google.com with SMTP id p7so8793716lfu.3
+ for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 06:20:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=86UyIQ4fk+5bWAB2z4Cy5OrtZmxY7Rpx7fs9PiVGevY=;
+ b=EPDyvflHqjaJGSiSIWodee6tkFr5FFL8ClrzUFDBLRpV5tZPYt2xzfHJhxT82QlJIi
+ //jxo0AIb/eQXW8IPQ1CAejQcQj+/c/rcalu37M+9D6Nv0mGp+xvyxy5oIre6W4lfeOg
+ W2dH6/UqS7Q8nDqj73elD8I0ywwHcpHKozjKmC7k0bJrnGDL5TD5SjcLaZ8d0nLdytS9
+ LE/fsHhfCw8u5xdKVPVX1Z+4QBzz5a/zcDGQK0/M4exiZn+Ps1gza7BaU0P6VDFyTULO
+ /i5BIPcCxtbd2NSfjetoPx4c1t68T3fEsxkmtUEEOynzDFyhOZ31h00NXSdbcpUt1yf5
+ Ed6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=86UyIQ4fk+5bWAB2z4Cy5OrtZmxY7Rpx7fs9PiVGevY=;
+ b=3szKRsYxSzRfbRHese5cChSEVWxgDzpmOfl7+S2ZicxIgf3SRz/ZlRYvuGx1B8pUQi
+ L0bmHIu6c24VdKrLy9ArM4XIlaemMoVteWSOCEDw8D+TONF5CB0sZKlavsJF4zteUbe8
+ VtS8Q306Izpx/vxmbxDgl3mIP7ZZ5A7hB5b0NM77rQZC1THpcVp/qep/zSAi7wVBiFnr
+ ma8sFC1XOudmoZo05o6SJFmCEzC86PsNlS4Uzx1yVgqBuLY+bo8Ed92CIvCI09TpVTgx
+ E135kLy/2gH1FwgNFYk14wiB9EDtwwePPAGC1Lj/hZpNBPwFwgWWtVojVNKqV71BInzl
+ 60nw==
+X-Gm-Message-State: ACgBeo0UHMP1Juf8DR8ScQ84yYCnu37Miw92xZbdGqNhB1A5SP6L7Uat
+ xccUMkS5NWOOWMna0xWZZXtpffhFHtC48QqQseI=
+X-Google-Smtp-Source: AA6agR5CHLzopjJoQXdoKZKLbfdw2YIk212zMhkJS3AOB/bhHfe5Bkwq/JXZA9B4GR+FAYYFUNP3K4ZiKxCBTV1WyZw=
+X-Received: by 2002:a19:2d08:0:b0:494:62f3:fcc3 with SMTP id
+ k8-20020a192d08000000b0049462f3fcc3mr5795336lfj.362.1661952028915; Wed, 31
+ Aug 2022 06:20:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJ+F1CJAb-jz8=4hwDhpUQbbtXj_SoW44TwOmuH8MQWagbrD5Q@mail.gmail.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
+ <20220824094029.1634519-15-bmeng.cn@gmail.com>
+ <dc3c5917-e0bf-93a1-0538-563a720dcfc7@linux.ibm.com>
+In-Reply-To: <dc3c5917-e0bf-93a1-0538-563a720dcfc7@linux.ibm.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 31 Aug 2022 17:20:17 +0400
+Message-ID: <CAJ+F1CK-ZwOtPFzqFOh3DKpOfCKVAL0hnTuFxa3gtypu7mYN+w@mail.gmail.com>
+Subject: Re: [PATCH 14/51] backends/tpm: Exclude headers and macros that don't
+ exist on win32
+To: Stefan Berger <stefanb@linux.ibm.com>
+Cc: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org, 
+ Bin Meng <bin.meng@windriver.com>, Stefan Berger <stefanb@linux.vnet.ibm.com>
+Content-Type: multipart/alternative; boundary="00000000000051418805e7895cbf"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,105 +83,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 31, 2022 at 04:54:41PM +0400, Marc-André Lureau wrote:
-> Hi Bin
-> 
-> On Wed, Aug 24, 2022 at 1:42 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> 
+--00000000000051418805e7895cbf
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+On Wed, Aug 24, 2022 at 5:26 PM Stefan Berger <stefanb@linux.ibm.com> wrote=
+:
+
+>
+>
+> On 8/24/22 05:39, Bin Meng wrote:
 > > From: Bin Meng <bin.meng@windriver.com>
 > >
-> > At present get_tmp_filename() has platform specific implementations
-> > to get the directory to use for temporary files. Switch over to use
-> > g_get_tmp_dir() which works on all supported platforms.
+> > These headers and macros do not exist on Windows. Exclude them.
 > >
-> >
-> It "works" quite differently though. Is this patch really necessary here?
-> 
-> If yes, please explain why.
-> 
-> If not, I suggest you drop optional / rfc / "nice to have" patches from the
-> series. It will help to get it merged faster.
-> 
-> thanks
-> 
-> 
-> 
 > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > > ---
 > >
-> >  block.c | 16 ++--------------
-> >  1 file changed, 2 insertions(+), 14 deletions(-)
+> >   backends/tpm/tpm_ioctl.h | 4 ++++
+> >   1 file changed, 4 insertions(+)
 > >
-> > diff --git a/block.c b/block.c
-> > index bc85f46eed..d06df47f72 100644
-> > --- a/block.c
-> > +++ b/block.c
-> > @@ -864,21 +864,10 @@ int bdrv_probe_geometry(BlockDriverState *bs,
-> > HDGeometry *geo)
-> >   */
-> >  int get_tmp_filename(char *filename, int size)
-> >  {
-> > -#ifdef _WIN32
-> > -    char temp_dir[MAX_PATH];
-> > -    /* GetTempFileName requires that its output buffer (4th param)
-> > -       have length MAX_PATH or greater.  */
-> > -    assert(size >= MAX_PATH);
-> > -    return (GetTempPath(MAX_PATH, temp_dir)
-> > -            && GetTempFileName(temp_dir, "qem", 0, filename)
-> > -            ? 0 : -GetLastError());
-> > -#else
-> >      int fd;
-> >      const char *tmpdir;
-> > -    tmpdir = getenv("TMPDIR");
-> > -    if (!tmpdir) {
-> > -        tmpdir = "/var/tmp";
-> > -    }
-> > +    tmpdir = g_get_tmp_dir();
-> > +
-> >      if (snprintf(filename, size, "%s/vl.XXXXXX", tmpdir) >= size) {
-> >          return -EOVERFLOW;
-> >      }
+> > diff --git a/backends/tpm/tpm_ioctl.h b/backends/tpm/tpm_ioctl.h
+> > index bd6c12cb86..d67bf0283b 100644
+> > --- a/backends/tpm/tpm_ioctl.h
+> > +++ b/backends/tpm/tpm_ioctl.h
+> > @@ -9,8 +9,10 @@
+> >   #ifndef TPM_IOCTL_H
+> >   #define TPM_IOCTL_H
+> >
+> > +#ifndef _WIN32
+> >   #include <sys/uio.h>
+> >   #include <sys/ioctl.h>
+> > +#endif
+> >
+> >   #ifdef HAVE_SYS_IOCCOM_H
+> >   #include <sys/ioccom.h>
+> > @@ -222,6 +224,7 @@ typedef struct ptm_setbuffersize ptm_setbuffersize;
+> >   #define PTM_CAP_SET_DATAFD         (1 << 12)
+> >   #define PTM_CAP_SET_BUFFERSIZE     (1 << 13)
+> >
+> > +#ifndef _WIN32
+> >   enum {
+> >       PTM_GET_CAPABILITY     =3D _IOR('P', 0, ptm_cap),
+> >       PTM_INIT               =3D _IOWR('P', 1, ptm_init),
+> > @@ -241,6 +244,7 @@ enum {
+> >       PTM_SET_DATAFD         =3D _IOR('P', 15, ptm_res),
+> >       PTM_SET_BUFFERSIZE     =3D _IOWR('P', 16, ptm_setbuffersize),
+> >   };
+> > +#endif
+> >
+> >   /*
+> >    * Commands used by the non-CUSE TPMs
+>
+> Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+>
+>
+I guess it would be worthy to make libtpms/swtpm work under windows too,
+but this is a larger goal.
 
-I know this is pre-existing, but this use of snprintf is really
-undesirable and should be culled while we're touching this code.
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-There are only two callers of get_tmp_filename and they're
-inconsistent too
+--=20
+Marc-Andr=C3=A9 Lureau
 
-One does
+--00000000000051418805e7895cbf
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-    /* TODO: extra byte is a hack to ensure MAX_PATH space on Windows. */
-    char *tmp_filename = g_malloc0(PATH_MAX + 1);
-    ...
-    ret = get_tmp_filename(tmp_filename, PATH_MAX + 1);
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 24, 2022 at 5:26 PM Ste=
+fan Berger &lt;<a href=3D"mailto:stefanb@linux.ibm.com">stefanb@linux.ibm.c=
+om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+"><br>
+<br>
+On 8/24/22 05:39, Bin Meng wrote:<br>
+&gt; From: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" target=3D=
+"_blank">bin.meng@windriver.com</a>&gt;<br>
+&gt; <br>
+&gt; These headers and macros do not exist on Windows. Exclude them.<br>
+&gt; <br>
+&gt; Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" =
+target=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
+&gt; ---<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0backends/tpm/tpm_ioctl.h | 4 ++++<br>
+&gt;=C2=A0 =C2=A01 file changed, 4 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/backends/tpm/tpm_ioctl.h b/backends/tpm/tpm_ioctl.h<br>
+&gt; index bd6c12cb86..d67bf0283b 100644<br>
+&gt; --- a/backends/tpm/tpm_ioctl.h<br>
+&gt; +++ b/backends/tpm/tpm_ioctl.h<br>
+&gt; @@ -9,8 +9,10 @@<br>
+&gt;=C2=A0 =C2=A0#ifndef TPM_IOCTL_H<br>
+&gt;=C2=A0 =C2=A0#define TPM_IOCTL_H<br>
+&gt; <br>
+&gt; +#ifndef _WIN32<br>
+&gt;=C2=A0 =C2=A0#include &lt;sys/uio.h&gt;<br>
+&gt;=C2=A0 =C2=A0#include &lt;sys/ioctl.h&gt;<br>
+&gt; +#endif<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0#ifdef HAVE_SYS_IOCCOM_H<br>
+&gt;=C2=A0 =C2=A0#include &lt;sys/ioccom.h&gt;<br>
+&gt; @@ -222,6 +224,7 @@ typedef struct ptm_setbuffersize ptm_setbuffersize=
+;<br>
+&gt;=C2=A0 =C2=A0#define PTM_CAP_SET_DATAFD=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0(1 &lt;&lt; 12)<br>
+&gt;=C2=A0 =C2=A0#define PTM_CAP_SET_BUFFERSIZE=C2=A0 =C2=A0 =C2=A0(1 &lt;&=
+lt; 13)<br>
+&gt; <br>
+&gt; +#ifndef _WIN32<br>
+&gt;=C2=A0 =C2=A0enum {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0PTM_GET_CAPABILITY=C2=A0 =C2=A0 =C2=A0=3D _I=
+OR(&#39;P&#39;, 0, ptm_cap),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0PTM_INIT=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0=3D _IOWR(&#39;P&#39;, 1, ptm_init),<br>
+&gt; @@ -241,6 +244,7 @@ enum {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0PTM_SET_DATAFD=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0=3D _IOR(&#39;P&#39;, 15, ptm_res),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0PTM_SET_BUFFERSIZE=C2=A0 =C2=A0 =C2=A0=3D _I=
+OWR(&#39;P&#39;, 16, ptm_setbuffersize),<br>
+&gt;=C2=A0 =C2=A0};<br>
+&gt; +#endif<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0/*<br>
+&gt;=C2=A0 =C2=A0 * Commands used by the non-CUSE TPMs<br>
+<br>
+Reviewed-by: Stefan Berger &lt;<a href=3D"mailto:stefanb@linux.ibm.com" tar=
+get=3D"_blank">stefanb@linux.ibm.com</a>&gt;<br>
+<br>
+</blockquote></div><div><br></div><div>I guess it would be worthy to make l=
+ibtpms/swtpm work under windows too, but this is a larger goal.</div><div><=
+br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:mar=
+candre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;<br></div><br>=
+-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br=
+></div></div>
 
-while the other does
-
-    s->qcow_filename = g_malloc(PATH_MAX);
-    ret = get_tmp_filename(s->qcow_filename, PATH_MAX);
-
-either the comment is wrong and adding "+1" to PATH_MAX is not
-required, or the second caller is wrong on Windows. This may even
-be totally irrelevant with the switch to g_get_tmp_dir. Whatever
-the answer is, at least 1 of the callers needs updating.
-
-It would be way better if the method signature was
-
-  char *get_tmp_filename(void);
-
-and we uses g_strdup_printf() instead of snprintf so the corret
-size is allocated right away, removing the question about whether
-we need PATH_MAX or PATH_MAX + 1 entirely.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--00000000000051418805e7895cbf--
 
