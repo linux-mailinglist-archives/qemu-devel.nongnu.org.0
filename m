@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED4515A8698
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 21:18:01 +0200 (CEST)
-Received: from localhost ([::1]:50974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D770A5A86B4
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 21:25:04 +0200 (CEST)
+Received: from localhost ([::1]:32966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTTDt-0005P7-5R
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 15:18:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53948)
+	id 1oTTKi-0001aI-1c
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 15:25:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oTSoM-00037y-G3; Wed, 31 Aug 2022 14:51:38 -0400
-Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31]:41793)
+ id 1oTSoO-0003Cf-9w; Wed, 31 Aug 2022 14:51:42 -0400
+Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32]:46815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oTSoJ-00081R-Ts; Wed, 31 Aug 2022 14:51:37 -0400
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-12243fcaa67so3628678fac.8; 
- Wed, 31 Aug 2022 11:51:35 -0700 (PDT)
+ id 1oTSoM-0007yo-Js; Wed, 31 Aug 2022 14:51:40 -0400
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-11f4e634072so12018835fac.13; 
+ Wed, 31 Aug 2022 11:51:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=QPNTxdwWE3vaQVFRdXAXSpvuE70hTKvUqdlAdBfJrZo=;
- b=QQuXaKhDN1tVpWY87jg0PIiCss8iA9mA9Qc6zfP2zO4CNIBc3a0L1Jgj6kJPlKF+Py
- nurMLkvoxwvEiMHVC7hvN8PR8DZ9UQlkRgI6Y6r8tjFJuPEuhlavTUmGjiRAFlNYcTCG
- drnK4l8kAMtrZbScDwgio91Lnx7ndC/7Gf2Hk6hH6g77CHFnj26FKzSN+TTJwxihM9O2
- Yfm5UXYuEVdXe8h7SGAB2PHGGo3SvE+6nZMPreDmF+vHtoS86Qf3ghWfDse99HbsSoWt
- TDi6gWxl+xmAOM0GkriMQekDqPmPfTfGsIcmwKbvGXwciZGLCPlalGxLu3J3+oLwybHe
- NSKw==
+ bh=5KQhj9pnj+xLB3PZtsl+i8wQRPJtYdrACds5jfEHUaY=;
+ b=Bub8XNxyl/pjjQhO8MOD3yNgB2YjzxVgFLIuH8Ya/sTN/voR095IovBSZ4Ktx7o5ty
+ 7c3Vjq7gegbZ9xTs6XbcAkjimiOWUvYW6dslcx2wcvgjxGT2B89zbjWrKne5ZfXvuw/I
+ qc0VGZ+36H8Uw4R1p0pNZm5hCiQEqbOZ4JDtv278/GY4JhJuwe7acmnCJs92wrRjwsv7
+ oB9mzEbSqUcKRUFiXj0lGWb2HtWL+XhtEK8HGohgPk9aQFoUjt0V76QEdR++VCT14Uu8
+ 18m0dmRYMIRyCZuCUp8+lLPESdYWu9FXYmbmnInkVSDJqqF9fTJa8NKyFANiS8j37NnE
+ R8KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=QPNTxdwWE3vaQVFRdXAXSpvuE70hTKvUqdlAdBfJrZo=;
- b=1YByaMoroTjevo4bWJs/fGTfEGa7sguHSyJ8JeIpKocMuVM+YRIGLyzPQAcgE9ki90
- C8fq+y+rAskCI/PoppbrEjCcMYVuCyomjVFcW/g9nYSMynkWCJ99DcAkcK/Vw1J7OxxO
- 1F/gs9aqTcLsYoANKebKrUNWQ/3kt7wbx8MNbYbnwmwP4ExHtwsEAbzcVhBN51c9+g5E
- zg6h24hTP3fsf1XRpuzhk573cfz4lQI0nGgOs5Gxe94urIanzBRlRUWdP5wueFZoimBk
- /XpPaX7cOYFrk89uu/ggx6pPEtefaUmnqft+T6EmjrPQ5pEtYpIBoM1QRLKtRxS8Gu3E
- RaKQ==
-X-Gm-Message-State: ACgBeo1GCUxeD1K7Z3mNHH4IYawF+hH4RgE3JPRlqZrnCevpVOa32Q9b
- RVOwHwFE+dSANb4/7uW/cvBoI0AT39s=
-X-Google-Smtp-Source: AA6agR6EGGhh0E36zmkNYGbsOBRFYclxkfBli7YDfYG1lk5gToeNV67OsRIndLVhPn0apM/S4amH6w==
-X-Received: by 2002:aca:3ac3:0:b0:344:821:525f with SMTP id
- h186-20020aca3ac3000000b003440821525fmr1724904oia.63.1661971894623; 
- Wed, 31 Aug 2022 11:51:34 -0700 (PDT)
+ bh=5KQhj9pnj+xLB3PZtsl+i8wQRPJtYdrACds5jfEHUaY=;
+ b=mj5QLdPwEp/9jrsjrTui0onwWlBXhCEKOeUr5HGwg57ieg3I7yRqa/CCV/uV6+e2WK
+ x6ztZ+bNWj2X6ee0hwTGwvnScx/scGNAQpvix+MnHK8VXZPTpGtGmHVuqdj6CLSO7qY1
+ 5j+FqzzrtCv4zybiBVCwJOTmOmG/9Gu9DmbI9yCB1NpQnqOMvVdalkkVaDJmZpq2xRj9
+ FNDsOTr1N6fMvTWufd5ftbJ9BkHjibAh875Dlw7SxV9HxjgdLMd7Kwwxgs48r+951I99
+ Mh87i7dzVfusEZIGLiqYJcBxfGcJxw1Al3kNx/siQH7bj0eAVoEoTFdP6rMCNzDGVaDK
+ uDgQ==
+X-Gm-Message-State: ACgBeo3yhAAevan4S/bpKtmYOq34o9CAQaxx1cQWISmdUjCavyVgVgOQ
+ DvXsX+ck8vIl7ls4bVCapmIN6XwntO4=
+X-Google-Smtp-Source: AA6agR7xjFPK7imyHy1WIRjWIuyiNoTODXqp+tgZnjTHBnKpzr9QG894zunt9//bIGvYrjyWWacLrA==
+X-Received: by 2002:a05:6871:784:b0:11c:291d:6147 with SMTP id
+ o4-20020a056871078400b0011c291d6147mr2139704oap.66.1661971897453; 
+ Wed, 31 Aug 2022 11:51:37 -0700 (PDT)
 Received: from balboa.COMFAST ([177.189.45.98])
  by smtp.gmail.com with ESMTPSA id
- p4-20020a9d4544000000b0061cbd18bd18sm9599927oti.45.2022.08.31.11.51.31
+ p4-20020a9d4544000000b0061cbd18bd18sm9599927oti.45.2022.08.31.11.51.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 11:51:34 -0700 (PDT)
+ Wed, 31 Aug 2022 11:51:37 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  richard.henderson@linaro.org,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Frederic Barrat <fbarrat@linux.ibm.com>
-Subject: [PULL 18/60] ppc/pnv: add phb-id/chip-id PnvPHB3RootBus properties
-Date: Wed, 31 Aug 2022 15:49:52 -0300
-Message-Id: <20220831185034.23240-19-danielhb413@gmail.com>
+Subject: [PULL 19/60] ppc/pnv: add phb-id/chip-id PnvPHB4RootBus properties
+Date: Wed, 31 Aug 2022 15:49:53 -0300
+Message-Id: <20220831185034.23240-20-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220831185034.23240-1-danielhb413@gmail.com>
 References: <20220831185034.23240-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::31;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x31.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::32;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x32.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,58 +93,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We rely on the phb-id and chip-id, which are PHB properties, to assign
-chassis and slot to the root port. For default devices this is no big
-deal: the root port is being created under pnv_phb_realize() and the
-values are being passed on via the 'index' and 'chip-id' of the
-pnv_phb_attach_root_port() helper.
+The same rationale provided in the PHB3 bus case applies here.
 
-If we want to implement user created root ports we have a problem. The
-user created root port will not be aware of which PHB it belongs to,
-unless we're willing to violate QOM best practices and access the PHB
-via dev->parent_bus->parent. What we can do is to access the root bus
-parent bus.
+Note: we could have merged both buses in a single object, like we did
+with the root ports, and spare some boilerplate. The reason we opted to
+preserve both buses objects is twofold:
 
-Since we're already assigning the root port as QOM child of the bus, and
-the bus is initiated using PHB properties, let's add phb-id and chip-id
-as properties of the bus. This will allow us trivial access to them, for
-both user-created and default root ports, without doing anything too
-shady with QOM.
+- there's not user side advantage in doing so. Unifying the root ports
+presents a clear user QOL change when we enable user created devices back.
+The buses objects, aside from having a different QOM name, is transparent
+to the user;
+
+- we leave a door opened in case we want to increase the root port limit
+for phb4/5 later on without having to deal with phb3 code.
 
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
-Message-Id: <20220811163950.578927-2-danielhb413@gmail.com>
+Message-Id: <20220811163950.578927-3-danielhb413@gmail.com>
 ---
- hw/pci-host/pnv_phb3.c         | 50 ++++++++++++++++++++++++++++++++++
- include/hw/pci-host/pnv_phb3.h |  9 +++++-
- 2 files changed, 58 insertions(+), 1 deletion(-)
+ hw/pci-host/pnv_phb4.c         | 51 ++++++++++++++++++++++++++++++++++
+ include/hw/pci-host/pnv_phb4.h | 10 +++++++
+ 2 files changed, 61 insertions(+)
 
-diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-index d4c04a281a..af8575c007 100644
---- a/hw/pci-host/pnv_phb3.c
-+++ b/hw/pci-host/pnv_phb3.c
-@@ -1006,6 +1006,11 @@ void pnv_phb3_bus_init(DeviceState *dev, PnvPHB3 *phb)
+diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+index b98c394713..824e1a73fb 100644
+--- a/hw/pci-host/pnv_phb4.c
++++ b/hw/pci-host/pnv_phb4.c
+@@ -1551,6 +1551,12 @@ void pnv_phb4_bus_init(DeviceState *dev, PnvPHB4 *phb)
+                                      pnv_phb4_set_irq, pnv_phb4_map_irq, phb,
                                       &phb->pci_mmio, &phb->pci_io,
-                                      0, 4, TYPE_PNV_PHB3_ROOT_BUS);
- 
+                                      0, 4, TYPE_PNV_PHB4_ROOT_BUS);
++
 +    object_property_set_int(OBJECT(pci->bus), "phb-id", phb->phb_id,
 +                            &error_abort);
 +    object_property_set_int(OBJECT(pci->bus), "chip-id", phb->chip_id,
 +                            &error_abort);
 +
-     pci_setup_iommu(pci->bus, pnv_phb3_dma_iommu, phb);
+     pci_setup_iommu(pci->bus, pnv_phb4_dma_iommu, phb);
+     pci->bus->flags |= PCI_BUS_EXTENDED_CONFIG_SPACE;
  }
- 
-@@ -1105,10 +1110,55 @@ static const TypeInfo pnv_phb3_type_info = {
-     .instance_init = pnv_phb3_instance_init,
+@@ -1708,10 +1714,55 @@ static const TypeInfo pnv_phb5_type_info = {
+     .instance_size = sizeof(PnvPHB4),
  };
  
-+static void pnv_phb3_root_bus_get_prop(Object *obj, Visitor *v,
++static void pnv_phb4_root_bus_get_prop(Object *obj, Visitor *v,
 +                                       const char *name,
 +                                       void *opaque, Error **errp)
 +{
-+    PnvPHB3RootBus *bus = PNV_PHB3_ROOT_BUS(obj);
++    PnvPHB4RootBus *bus = PNV_PHB4_ROOT_BUS(obj);
 +    uint64_t value = 0;
 +
 +    if (strcmp(name, "phb-id") == 0) {
@@ -156,12 +153,12 @@ index d4c04a281a..af8575c007 100644
 +    visit_type_size(v, name, &value, errp);
 +}
 +
-+static void pnv_phb3_root_bus_set_prop(Object *obj, Visitor *v,
++static void pnv_phb4_root_bus_set_prop(Object *obj, Visitor *v,
 +                                       const char *name,
 +                                       void *opaque, Error **errp)
 +
 +{
-+    PnvPHB3RootBus *bus = PNV_PHB3_ROOT_BUS(obj);
++    PnvPHB4RootBus *bus = PNV_PHB4_ROOT_BUS(obj);
 +    uint64_t value;
 +
 +    if (!visit_type_size(v, name, &value, errp)) {
@@ -175,45 +172,45 @@ index d4c04a281a..af8575c007 100644
 +    }
 +}
 +
- static void pnv_phb3_root_bus_class_init(ObjectClass *klass, void *data)
+ static void pnv_phb4_root_bus_class_init(ObjectClass *klass, void *data)
  {
      BusClass *k = BUS_CLASS(klass);
  
 +    object_class_property_add(klass, "phb-id", "int",
-+                              pnv_phb3_root_bus_get_prop,
-+                              pnv_phb3_root_bus_set_prop,
++                              pnv_phb4_root_bus_get_prop,
++                              pnv_phb4_root_bus_set_prop,
 +                              NULL, NULL);
 +
 +    object_class_property_add(klass, "chip-id", "int",
-+                              pnv_phb3_root_bus_get_prop,
-+                              pnv_phb3_root_bus_set_prop,
++                              pnv_phb4_root_bus_get_prop,
++                              pnv_phb4_root_bus_set_prop,
 +                              NULL, NULL);
 +
      /*
-      * PHB3 has only a single root complex. Enforce the limit on the
+      * PHB4 has only a single root complex. Enforce the limit on the
       * parent bus
-diff --git a/include/hw/pci-host/pnv_phb3.h b/include/hw/pci-host/pnv_phb3.h
-index bff69201d9..4854f6d2f6 100644
---- a/include/hw/pci-host/pnv_phb3.h
-+++ b/include/hw/pci-host/pnv_phb3.h
-@@ -104,9 +104,16 @@ struct PnvPBCQState {
- };
+diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
+index 20aa4819d3..50d4faa001 100644
+--- a/include/hw/pci-host/pnv_phb4.h
++++ b/include/hw/pci-host/pnv_phb4.h
+@@ -45,7 +45,17 @@ typedef struct PnvPhb4DMASpace {
+     QLIST_ENTRY(PnvPhb4DMASpace) list;
+ } PnvPhb4DMASpace;
  
- /*
-- * PHB3 PCIe Root port
-+ * PHB3 PCIe Root Bus
-  */
- #define TYPE_PNV_PHB3_ROOT_BUS "pnv-phb3-root"
-+struct PnvPHB3RootBus {
++/*
++ * PHB4 PCIe Root Bus
++ */
+ #define TYPE_PNV_PHB4_ROOT_BUS "pnv-phb4-root"
++struct PnvPHB4RootBus {
 +    PCIBus parent;
 +
 +    uint32_t chip_id;
 +    uint32_t phb_id;
 +};
-+OBJECT_DECLARE_SIMPLE_TYPE(PnvPHB3RootBus, PNV_PHB3_ROOT_BUS)
++OBJECT_DECLARE_SIMPLE_TYPE(PnvPHB4RootBus, PNV_PHB4_ROOT_BUS)
  
  /*
-  * PHB3 PCIe Host Bridge for PowerNV machines (POWER8)
+  * PHB4 PCIe Host Bridge for PowerNV machines (POWER9)
 -- 
 2.37.2
 
