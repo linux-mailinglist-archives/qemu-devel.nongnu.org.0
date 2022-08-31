@@ -2,73 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BBC65A7EB9
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 15:28:12 +0200 (CEST)
-Received: from localhost ([::1]:57214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0ECA5A7EBA
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 15:28:33 +0200 (CEST)
+Received: from localhost ([::1]:35000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTNlL-0006do-2n
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 09:28:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59412)
+	id 1oTNlh-00075T-1N
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 09:28:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oTNfx-0001KF-Bq
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 09:22:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39119)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oTNh2-00027T-11; Wed, 31 Aug 2022 09:23:48 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:16839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oTNfv-0006eg-FB
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 09:22:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661952154;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=U/i6dhph7aiQE8w8EAKBVg+i418lACY9jc66jx+fmaI=;
- b=UzsT5J5rNka54z6q0TnEzrcW2LkKnBpRMhcfrk+JQNiFvqcMEcwA1mJ8MAcwATFspVL345
- c2XMJ+bc7+RHL6eBPheOixQuJMMIzwkW9Ts50HpAh2VNDHA2Vs2LG5j/8G0FfM0vkTMyGS
- ktDWeA4LBO7cR2mYBkRTRVSkID4dkd4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-538-Kywed6LrO_OHYUMkM14gKw-1; Wed, 31 Aug 2022 09:22:31 -0400
-X-MC-Unique: Kywed6LrO_OHYUMkM14gKw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3ACD5811E87;
- Wed, 31 Aug 2022 13:22:31 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 11174492C3B;
- Wed, 31 Aug 2022 13:22:31 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id EB20821E6900; Wed, 31 Aug 2022 15:22:29 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Victor Toso <victortoso@redhat.com>
-Cc: qemu-devel@nongnu.org,  Eric Blake <eblake@redhat.com>,  John Snow
- <jsnow@redhat.com>,  Michael Roth <michael.roth@amd.com>,  Gerd Hoffmann
- <kraxel@redhat.com>
-Subject: Re: [PATCH v1 03/16] qapi: fix example of query-spice command
-References: <20220830161545.84198-1-victortoso@redhat.com>
- <20220830161545.84198-4-victortoso@redhat.com>
- <87sflcaayg.fsf@pond.sub.org>
- <20220831125505.ezjevpomvsns7db7@tapioca>
-Date: Wed, 31 Aug 2022 15:22:29 +0200
-In-Reply-To: <20220831125505.ezjevpomvsns7db7@tapioca> (Victor Toso's message
- of "Wed, 31 Aug 2022 14:55:05 +0200")
-Message-ID: <87czcg8s4q.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oTNgy-0006iV-Nu; Wed, 31 Aug 2022 09:23:42 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 233697470B9;
+ Wed, 31 Aug 2022 15:23:38 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id D96CE746FDE; Wed, 31 Aug 2022 15:23:37 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id D7EC8746E07;
+ Wed, 31 Aug 2022 15:23:37 +0200 (CEST)
+Date: Wed, 31 Aug 2022 15:23:37 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Bernhard Beschow <shentey@gmail.com>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Huacai Chen <chenhuacai@kernel.org>, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: Re: [PATCH v3 06/10] hw/isa/vt82c686: Instantiate USB functions in
+ host device
+In-Reply-To: <20220831095914.2041-7-shentey@gmail.com>
+Message-ID: <331bbd5a-aeaa-d5c0-cf8f-cde5b22d8a3@eik.bme.hu>
+References: <20220831095914.2041-1-shentey@gmail.com>
+ <20220831095914.2041-7-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,64 +63,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Victor Toso <victortoso@redhat.com> writes:
-
-> Hi,
+On Wed, 31 Aug 2022, Bernhard Beschow wrote:
+> The USB functions can be enabled/disabled through the ISA function. Also
+> its interrupt routing can be influenced there.
 >
-> On Wed, Aug 31, 2022 at 01:50:31PM +0200, Markus Armbruster wrote:
->> Victor Toso <victortoso@redhat.com> writes:
->>
->> > Example output has an extra ',' delimiter and a foreign comment
->> > format. Fix it.
->> >
->> > Problem was noticed when trying to load the example into python's json
->> > library.
->> >
->> > Signed-off-by: Victor Toso <victortoso@redhat.com>
->> > ---
->> >  qapi/ui.json | 3 +--
->> >  1 file changed, 1 insertion(+), 2 deletions(-)
->> >
->> > diff --git a/qapi/ui.json b/qapi/ui.json
->> > index 286c5731d1..901b84da8a 100644
->> > --- a/qapi/ui.json
->> > +++ b/qapi/ui.json
->> > @@ -356,8 +356,7 @@
->> >  #                "host": "127.0.0.1",
->> >  #                "channel-id": 0,
->> >  #                "tls": false
->> > -#             },
->> > -#             [ ... more channels follow ... ]
->> > +#             }
->> >  #          ]
->> >  #       }
->> >  #    }
->>
->> Hmm.  You're removing an ellipsis Gerd put there for a reason,
->> I presume (commit cb42a870c3 "spice: add qmp 'query-spice' and
->> hmp 'info spice' commands.")
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+> hw/isa/vt82c686.c   | 12 ++++++++++++
+> hw/mips/fuloong2e.c |  3 ---
+> hw/ppc/pegasos2.c   |  4 ----
+> 3 files changed, 12 insertions(+), 7 deletions(-)
 >
-> I guess the reason is just that we get a too big array of
-> SpiceChannels so the example output would be big but not
-> interesting.
+> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+> index 9d946cea54..66a4b9c230 100644
+> --- a/hw/isa/vt82c686.c
+> +++ b/hw/isa/vt82c686.c
+> @@ -23,6 +23,7 @@
+> #include "hw/intc/i8259.h"
+> #include "hw/irq.h"
+> #include "hw/dma/i8257.h"
+> +#include "hw/usb/hcd-uhci.h"
+> #include "hw/timer/i8254.h"
+> #include "hw/rtc/mc146818rtc.h"
+> #include "migration/vmstate.h"
+> @@ -546,6 +547,7 @@ struct ViaISAState {
+>     qemu_irq *isa_irqs;
+>     ViaSuperIOState via_sio;
+>     PCIIDEState ide;
+> +    UHCIState uhci[2];
+> };
 >
->> Even if we can do without it here, We may still want a way to
->> abridge examples.  Thoughts?
+> static const VMStateDescription vmstate_via = {
+> @@ -563,6 +565,8 @@ static void via_isa_init(Object *obj)
+>     ViaISAState *s = VIA_ISA(obj);
 >
-> I just want something that can be a valid QMP message so we can
-> transform JSON to a specific language type and then back to QMP
-> message and compare that both matches.
+>     object_initialize_child(obj, "ide", &s->ide, "via-ide");
+> +    object_initialize_child(obj, "uhci1", &s->uhci[0], "vt82c686b-usb-uhci");
+> +    object_initialize_child(obj, "uhci2", &s->uhci[1], "vt82c686b-usb-uhci");
+
+Sorry for not saying this yesterday, this can also be done separately so 
+no need for another version of this series if not needed for another 
+reason but could we add a define for vt82c686b-usb-uhci in 
+include/hw/isa/vt82c686.h and use that here and in 
+hw/usb/vt82c686-uhci-pci.c ?
+
+Regards,
+BALATON Zoltan
+
+> }
 >
-> I don't think that, for the purpose of query-spice documentation
-> it is worth to have a very similar but with 10 or more entries of
-> array of channels. So, I'd say it is fine to simply cut it here.
-> If we have a reason to put it out a 100% valid message, well, we
-> would have that reason to back it up... but I don't have one.
-
-I agree listing more channels in the example wouldn't help users.
-
-But do we want to indicate that the example is abridged?
-
-Gerd, I'd like to have your Acked-by for this patch.
-
+> static const TypeInfo via_isa_info = {
+> @@ -629,6 +633,14 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+>     if (!qdev_realize(DEVICE(&s->ide), BUS(pci_bus), errp)) {
+>         return;
+>     }
+> +
+> +    /* Functions 2-3: USB Ports */
+> +    for (i = 0; i < ARRAY_SIZE(s->uhci); i++) {
+> +        qdev_prop_set_int32(DEVICE(&s->uhci[i]), "addr", d->devfn + 2 + i);
+> +        if (!qdev_realize(DEVICE(&s->uhci[i]), BUS(pci_bus), errp)) {
+> +            return;
+> +        }
+> +    }
+> }
+>
+> /* TYPE_VT82C686B_ISA */
+> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+> index 32605901e7..dc92223b76 100644
+> --- a/hw/mips/fuloong2e.c
+> +++ b/hw/mips/fuloong2e.c
+> @@ -208,9 +208,6 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
+>     dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"));
+>     pci_ide_create_devs(dev);
+>
+> -    pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
+> -    pci_create_simple(pci_bus, PCI_DEVFN(slot, 3), "vt82c686b-usb-uhci");
+> -
+>     dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 4), TYPE_VT82C686B_PM);
+>     *i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
+>
+> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+> index 8bc528a560..85cca6f7a6 100644
+> --- a/hw/ppc/pegasos2.c
+> +++ b/hw/ppc/pegasos2.c
+> @@ -168,10 +168,6 @@ static void pegasos2_init(MachineState *machine)
+>     dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"));
+>     pci_ide_create_devs(dev);
+>
+> -    /* VT8231 function 2-3: USB Ports */
+> -    pci_create_simple(pci_bus, PCI_DEVFN(12, 2), "vt82c686b-usb-uhci");
+> -    pci_create_simple(pci_bus, PCI_DEVFN(12, 3), "vt82c686b-usb-uhci");
+> -
+>     /* VT8231 function 4: Power Management Controller */
+>     dev = pci_create_simple(pci_bus, PCI_DEVFN(12, 4), TYPE_VT8231_PM);
+>     i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
+>
 
