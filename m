@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F3D5A8284
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 17:57:26 +0200 (CEST)
-Received: from localhost ([::1]:60514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 542E55A828A
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 17:59:53 +0200 (CEST)
+Received: from localhost ([::1]:40538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTQ5l-0001Hd-Mz
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 11:57:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58978)
+	id 1oTQ88-00062E-Ad
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 11:59:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTPvO-000320-HO; Wed, 31 Aug 2022 11:46:42 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:37802)
+ id 1oTPvR-00037l-2f; Wed, 31 Aug 2022 11:46:45 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:40480)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTPvL-00039R-PZ; Wed, 31 Aug 2022 11:46:42 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id nc14so24304097ejc.4;
+ id 1oTPvO-000367-Cl; Wed, 31 Aug 2022 11:46:44 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id qh18so8958890ejb.7;
  Wed, 31 Aug 2022 08:46:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=gLfUGnAVToF9YqO6CURY5qXIngPZ9Wpmw00YUrrVUss=;
- b=nrOmPDbW1xMgOamol/V0T3/qzGyFPYaLZFFrsfY//7Bsb9fAyeE6N6suG/1em073AA
- IESq1O1DLC/ItC4Kyr3i+zcE9A7fHsoSg+wkjwj2aBxqWR98QScoYmrvXRR5F87cJft8
- 0aEhty+F48jJ2SKsu8F68HLumY37VAJEt9ML7mA3ZkyMFp/LPlEJjYjCRbpWdZMFYFWA
- 8Uhtiapox/lgHEWxQxZU7HSYv+zjn/c4gaJGK9wrOxJ0KB0eT0I1y8Ch+R7NuDLenk2J
- gB69qkCoZVxvcGRFOr7pW+JY1N6lgtk+jIKGUqsFeJnfZDKI8oWWizyZCa8PvYYdU1mQ
- H0xA==
+ bh=Q9dSVrHRL2GS9HzdC/aqcNa7UQpy/akV7EXowwCZurw=;
+ b=eNkAct7B1FQcMvOHqh8QX4KsgaLwGbTqrf893Y00gPpGwD2pKYqjY7x3Vjffv62WO9
+ q7XcoL0+kHCzSJT//iytB3ftd/ry5ueccQbLmZUbdKfShtWkJT7Pd5ueuFMulXGWlqtg
+ QiHuRDscH+ODBVxJdGA0B0STJo1/EHH1ofPCFred6lgUU0tIdB0sHtUCKWAB7KwaBsge
+ HgUf9jjYodgiQH4y9fK24s6qPIdBXkIivAFF8XmvpITOntSgh31nlk/zsqlqO/+K8tj9
+ 2z6xEMLnt2wFFKBPeCv7gYb1S+2nUfNVg2Q2Nt7ZTM5R6Zk6aXyW2fkGu4D4YHYn3k/u
+ 6CyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=gLfUGnAVToF9YqO6CURY5qXIngPZ9Wpmw00YUrrVUss=;
- b=0q3VzaGt2EduSYB+FRL/9AEVWW2J38SH5yuanZrQkgvnk9CjgY2aSjAIpe54m5LdeB
- A/taOdxnHLMe36UpQs+/KvfK7LbtaejgaZ6IvH5UUcgf+G1hXj2pQYYv6TsSrRgwMKNV
- 0ZLKkvXvD+4HbESoPEZxpWpotND9Rf1+bWChncf3S9X4W+rnvHTU93huzuIWMuv1rWow
- +5HqkxozOcNEVlE0X5xQ7QpW7pfQ5m8ycpgk7xqoQG3uyXzLc52fpCv56hnfmOydn5DY
- Hy01BELf6lG11pQumZIZGHV4KnGnTIokAfZ+mI+M5ItitnB3zfzHdH+puotSYCQjLYRu
- eC5g==
-X-Gm-Message-State: ACgBeo2k6urN2dznZ941u6Qmo6nOHdh5B4zVD/iCfa7dXQ48NwFM0bud
- bmgW+7iGvRTEWd6Zaebue8puFA41f8c=
-X-Google-Smtp-Source: AA6agR5Ps8hpXpWhwLR2yQPCrK/mjdhesph0GyWVLOf/7Oa9n1BdAAL6WFFKFORZKkK242Tj9YxLhw==
-X-Received: by 2002:a17:906:4fd0:b0:73d:be5b:291b with SMTP id
- i16-20020a1709064fd000b0073dbe5b291bmr20858888ejw.157.1661960797372; 
- Wed, 31 Aug 2022 08:46:37 -0700 (PDT)
+ bh=Q9dSVrHRL2GS9HzdC/aqcNa7UQpy/akV7EXowwCZurw=;
+ b=UgpCtcqRJXkJjSJpUT78Bex2ed3ZlqxQFG5w297//KdlYAtUDqSc7tVj/hcFEeBWjp
+ AIGWLIwf7oPQfIM5oHWc1IjF5maKxUtKKaFSzctLkST/Y9e8KF2ElgEhC+rg8l0kc4Ey
+ dAaysw/sXJobBoP8OuJxtAR+gNW1b+9i/1qBIYEYoOgiWXGfkvK4igBUfMeeoFOo9+iT
+ 8z0oK0gCoRCLXaWTDK5127u6xE0iO4bhmC7Oyo2XGL4qN3NCN6BW5kMwCTn+/RQrPHdM
+ /Lc48CdK/njiIovWIQBpjf/HQ8qEMEwGeCW2jcN2Jg4pF6Ru/nVkClA8pIGOOHTUw5bO
+ Pf4w==
+X-Gm-Message-State: ACgBeo2ato0CKe39GQ+c6kUVGkrdIHxza0+wh6wqjiuTSP0Lt2Lvv9Tu
+ cEl/Joj9llLIr0oZKZzrF5afNBxyI4g=
+X-Google-Smtp-Source: AA6agR6pNZkAADWVn0PFAGopVxfqPlOpmByaPleDMP3xVud3iuGs4eM3AZZMcaeNNU0BSOs27s6N3Q==
+X-Received: by 2002:a17:906:d7a9:b0:731:2189:4f58 with SMTP id
+ pk9-20020a170906d7a900b0073121894f58mr21050694ejb.471.1661960798181; 
+ Wed, 31 Aug 2022 08:46:38 -0700 (PDT)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- k9-20020a508ac9000000b00445e930e20esm9252123edk.64.2022.08.31.08.46.35
+ k9-20020a508ac9000000b00445e930e20esm9252123edk.64.2022.08.31.08.46.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 08:46:36 -0700 (PDT)
+ Wed, 31 Aug 2022 08:46:37 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: BALATON Zoltan <balaton@eik.bme.hu>, John Snow <jsnow@redhat.com>,
@@ -61,16 +61,17 @@ Cc: BALATON Zoltan <balaton@eik.bme.hu>, John Snow <jsnow@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v4 11/12] hw/isa/vt82c686: Embed RTCState in host device
-Date: Wed, 31 Aug 2022 17:46:04 +0200
-Message-Id: <20220831154605.12773-12-shentey@gmail.com>
+Subject: [PATCH v4 12/12] hw/isa/vt82c686: Create rtc-time alias in boards
+ instead
+Date: Wed, 31 Aug 2022 17:46:05 +0200
+Message-Id: <20220831154605.12773-13-shentey@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220831154605.12773-1-shentey@gmail.com>
 References: <20220831154605.12773-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,51 +94,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Embed the rtc in the host device, analoguous to the other child devices
-and analoguous to PIIX4.
+According to good QOM practice, an object should only deal with objects
+of its own sub tree. Having devices create an alias on the machine
+object doesn't respect this good practice. To resolve this, create the
+alias in the machine's code.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/vt82c686.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ hw/isa/vt82c686.c   | 2 --
+ hw/mips/fuloong2e.c | 4 ++++
+ hw/ppc/pegasos2.c   | 4 ++++
+ 3 files changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 91686e9570..48cd4d0036 100644
+index 48cd4d0036..3f9bd0c04d 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -550,6 +550,7 @@ struct ViaISAState {
-     qemu_irq cpu_intr;
-     qemu_irq *isa_irqs;
-     ViaSuperIOState via_sio;
-+    RTCState rtc;
-     PCIIDEState ide;
-     UHCIState uhci[2];
-     ViaPMState pm;
-@@ -571,6 +572,7 @@ static void via_isa_init(Object *obj)
- {
-     ViaISAState *s = VIA_ISA(obj);
- 
-+    object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
-     object_initialize_child(obj, "ide", &s->ide, TYPE_VIA_IDE);
-     object_initialize_child(obj, "uhci1", &s->uhci[0], TYPE_VT82C686B_USB_UHCI);
-     object_initialize_child(obj, "uhci2", &s->uhci[1], TYPE_VT82C686B_USB_UHCI);
-@@ -624,7 +626,15 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
-     isa_bus_irqs(isa_bus, s->isa_irqs);
-     i8254_pit_init(isa_bus, 0x40, 0, NULL);
-     i8257_dma_init(isa_bus, 0);
--    mc146818_rtc_init(isa_bus, 2000, NULL);
-+
-+    /* RTC */
-+    qdev_prop_set_int32(DEVICE(&s->rtc), "base_year", 2000);
-+    if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
-+        return;
-+    }
-+    object_property_add_alias(qdev_get_machine(), "rtc-time", OBJECT(&s->rtc),
-+                              "date");
-+    isa_connect_gpio_out(ISA_DEVICE(&s->rtc), 0, s->rtc.isairq);
+@@ -632,8 +632,6 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+     if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
+         return;
+     }
+-    object_property_add_alias(qdev_get_machine(), "rtc-time", OBJECT(&s->rtc),
+-                              "date");
+     isa_connect_gpio_out(ISA_DEVICE(&s->rtc), 0, s->rtc.isairq);
  
      for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
-         if (i < PCI_COMMAND || i >= PCI_REVISION_ID) {
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index 2d8723ab74..0f4cfe1188 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -203,6 +203,10 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
+ 
+     via = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(slot, 0), true,
+                                           TYPE_VT82C686B_ISA);
++    object_property_add_alias(qdev_get_machine(), "rtc-time",
++                              object_resolve_path_component(OBJECT(via),
++                                                            "rtc"),
++                              "date");
+     qdev_connect_gpio_out(DEVICE(via), 0, intc);
+ 
+     dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"));
+diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+index 09fdb7557f..f50e1d8b3f 100644
+--- a/hw/ppc/pegasos2.c
++++ b/hw/ppc/pegasos2.c
+@@ -161,6 +161,10 @@ static void pegasos2_init(MachineState *machine)
+     /* VIA VT8231 South Bridge (multifunction PCI device) */
+     via = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0), true,
+                                           TYPE_VT8231_ISA);
++    object_property_add_alias(qdev_get_machine(), "rtc-time",
++                              object_resolve_path_component(OBJECT(via),
++                                                            "rtc"),
++                              "date");
+     qdev_connect_gpio_out(DEVICE(via), 0,
+                           qdev_get_gpio_in_named(pm->mv, "gpp", 31));
+ 
 -- 
 2.37.3
 
