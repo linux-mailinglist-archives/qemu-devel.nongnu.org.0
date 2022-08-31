@@ -2,67 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 799BA5A790B
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 10:29:12 +0200 (CEST)
-Received: from localhost ([::1]:53686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB31C5A791D
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 10:33:50 +0200 (CEST)
+Received: from localhost ([::1]:39696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTJ5z-0007PD-3V
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 04:29:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60104)
+	id 1oTJAT-0001Lv-O3
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 04:33:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tugy@chinatelecom.cn>)
- id 1oTJ2z-0005D4-Rl
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 04:26:06 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.227]:47368
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tugy@chinatelecom.cn>) id 1oTJ2k-0005J4-Nc
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 04:26:05 -0400
-HMM_SOURCE_IP: 172.18.0.48:42410.832384431
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-36.111.64.85 (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id 50E1C280098;
- Wed, 31 Aug 2022 16:25:29 +0800 (CST)
-X-189-SAVE-TO-SEND: tugy@chinatelecom.cn
-Received: from  ([172.18.0.48])
- by app0024 with ESMTP id 3215e3c8ada44313bb36baab6533c8f0 for
- qemu_oss@crudebyte.com; Wed, 31 Aug 2022 16:25:39 CST
-X-Transaction-ID: 3215e3c8ada44313bb36baab6533c8f0
-X-Real-From: tugy@chinatelecom.cn
-X-Receive-IP: 172.18.0.48
-X-MEDUSA-Status: 0
-Message-ID: <4d00eb30-73bc-25c3-4450-d4f8b1199063@chinatelecom.cn>
-Date: Wed, 31 Aug 2022 16:25:27 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] osdep: Introduce qemu_get_fd() to wrap the common codes
-Content-Language: en-US
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <f73d60dd-fbc7-2873-4ed1-d30df19ce661@chinatelecom.cn>
- <1442ced4-ab22-c379-76ee-5e1f1c17108a@chinatelecom.cn>
- <47453703.NBG3G7Ahn1@silver>
-From: Guoyi Tu <tugy@chinatelecom.cn>
-In-Reply-To: <47453703.NBG3G7Ahn1@silver>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=42.123.76.227; envelope-from=tugy@chinatelecom.cn;
- helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+ (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
+ id 1oTJ7Z-0008At-ID
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 04:30:50 -0400
+Received: from hsmtpd-def.xspmail.jp ([202.238.198.245]:58544)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
+ id 1oTJ7V-0005wF-SF
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 04:30:49 -0400
+X-Country-Code: JP
+Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
+ [153.127.30.23])
+ by hsmtpd-out-0.asahinet.cluster.xspmail.jp (Halon) with ESMTPA
+ id 155de646-c144-4164-aa5c-89b238251017;
+ Wed, 31 Aug 2022 17:30:41 +0900 (JST)
+Received: from SIOS1075.ysato.ml (ae222174.dynamic.ppp.asahi-net.or.jp
+ [14.3.222.174])
+ by sakura.ysato.name (Postfix) with ESMTPSA id B4ACF1C01B6;
+ Wed, 31 Aug 2022 17:30:39 +0900 (JST)
+Date: Wed, 31 Aug 2022 17:30:37 +0900
+Message-ID: <874jxsddci.wl-ysato@users.sourceforge.jp>
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ alex.bennee@linaro.org, qemu-stable@nongnu.org
+Subject: Re: [PATCH] target/sh4: Fix TB_FLAG_UNALIGN
+In-Reply-To: <ecaee2a6-c2be-388e-425d-3cbe3dda2a4a@linaro.org>
+References: <20220829021325.154978-1-richard.henderson@linaro.org>
+ <c2c0edec-c93b-f6fa-b148-9452e4e7b7@eik.bme.hu>
+ <ecaee2a6-c2be-388e-425d-3cbe3dda2a4a@linaro.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/27.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=202.238.198.245;
+ envelope-from=ysato@users.sourceforge.jp; helo=hsmtpd-def.xspmail.jp
+X-Spam_score_int: -11
+X-Spam_score: -1.2
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_SOFTFAIL=0.665, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,202 +68,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/18/22 20:58, Christian Schoenebeck wrote:
-> On Donnerstag, 18. August 2022 14:06:04 CEST Guoyi Tu wrote:
->> Ping...
->>
->> Any comments are welcome
->>
->> On 8/12/22 19:01, Guoyi Tu wrote:
->>> socket_get_fd() have much the same codes as monitor_fd_param(),
->>> so qemu_get_fd() is introduced to implement the common logic.
->>> now socket_get_fd() and monitor_fd_param() directly call this
->>> function.
-> 
-> s/have/has/, s/now/Now/, some proper rephrasing wouldn't hurt either.
+On Tue, 30 Aug 2022 01:10:29 +0900,
+Richard Henderson wrote:
+>=20
+> On 8/29/22 02:05, BALATON Zoltan wrote:
+> > On Sun, 28 Aug 2022, Richard Henderson wrote:
+> >> The value previously chosen overlaps GUSA_MASK.
+> >>=20
+> >> Cc: qemu-stable@nongnu.org
+> >> Fixes: 4da06fb3062 ("target/sh4: Implement prctl_unalign_sigbus")
+> >> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/856
+> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> >> ---
+> >> target/sh4/cpu.h | 2 +-
+> >> 1 file changed, 1 insertion(+), 1 deletion(-)
+> >>=20
+> >> diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
+> >> index 9f15ef913c..e79cbc59e2 100644
+> >> --- a/target/sh4/cpu.h
+> >> +++ b/target/sh4/cpu.h
+> >> @@ -84,7 +84,7 @@
+> >> #define DELAY_SLOT_RTE=A0=A0=A0=A0=A0=A0=A0=A0 (1 << 2)
+> >>=20
+> >> #define TB_FLAG_PENDING_MOVCA=A0 (1 << 3)
+> >> -#define TB_FLAG_UNALIGN=A0=A0=A0=A0=A0=A0=A0 (1 << 4)
+> >> +#define TB_FLAG_UNALIGN=A0=A0=A0=A0=A0=A0=A0 (1 << 13)
+> >=20
+> > Is it worth a comment to note why that value to avoid the same
+> > problem if another flag is added in the future?
+>=20
+> Hmm, or perhaps move it down below, so that we see bit 3 used, then bits =
+4-12, then bit 13.
+>=20
+>=20
+> r~
 
-will fix it.
+How about this fix?
 
->>> Signed-off-by: Guoyi Tu <tugy@chinatelecom.cn>
->>> ---
->>>
->>>    include/qemu/osdep.h |  1 +
->>>    monitor/misc.c       | 21 +--------------------
->>>    util/osdep.c         | 25 +++++++++++++++++++++++++
->>>    util/qemu-sockets.c  | 17 +++++------------
->>>    4 files changed, 32 insertions(+), 32 deletions(-)
->>>
->>> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
->>> index b1c161c035..b920f128a7 100644
->>> --- a/include/qemu/osdep.h
->>> +++ b/include/qemu/osdep.h
->>> @@ -491,6 +491,7 @@ int qemu_open_old(const char *name, int flags, ...);
->>>
->>>    int qemu_open(const char *name, int flags, Error **errp);
->>>    int qemu_create(const char *name, int flags, mode_t mode, Error **errp);
->>>    int qemu_close(int fd);
->>>
->>> +int qemu_get_fd(Monitor *mon, const char *fdname, Error **errp);
->>>
->>>    int qemu_unlink(const char *name);
->>>    #ifndef _WIN32
->>>    int qemu_dup_flags(int fd, int flags);
->>>
->>> diff --git a/monitor/misc.c b/monitor/misc.c
->>> index 3d2312ba8d..0d3372cf2b 100644
->>> --- a/monitor/misc.c
->>> +++ b/monitor/misc.c
->>> @@ -1395,26 +1395,7 @@ void monitor_fdset_dup_fd_remove(int dup_fd)
->>>
->>>    int monitor_fd_param(Monitor *mon, const char *fdname, Error **errp)
->>>    {
->>>
->>> -    int fd;
->>> -    Error *local_err = NULL;
->>> -
->>> -    if (!qemu_isdigit(fdname[0]) && mon) {
->>> -        fd = monitor_get_fd(mon, fdname, &local_err);
->>> -    } else {
->>> -        fd = qemu_parse_fd(fdname);
->>> -        if (fd == -1) {
->>> -            error_setg(&local_err, "Invalid file descriptor number '%s'",
->>> -                       fdname);
->>> -        }
->>> -    }
->>> -    if (local_err) {
->>> -        error_propagate(errp, local_err);
->>> -        assert(fd == -1);
->>> -    } else {
->>> -        assert(fd != -1);
->>> -    }
->>> -
->>> -    return fd;
->>> +    return qemu_get_fd(mon, fdname, errp);
->>>
->>>    }
->>>   
->>>    /* Please update hmp-commands.hx when adding or changing commands */
->>>
->>> diff --git a/util/osdep.c b/util/osdep.c
->>> index 60fcbbaebe..c57551ca78 100644
->>> --- a/util/osdep.c
->>> +++ b/util/osdep.c
->>> @@ -23,6 +23,7 @@
->>>
->>>     */
->>>    #include "qemu/osdep.h"
->>>    #include "qapi/error.h"
->>>
->>> +#include "qemu/ctype.h"
->>>
->>>    #include "qemu/cutils.h"
->>>    #include "qemu/sockets.h"
->>>    #include "qemu/error-report.h"
->>>
->>> @@ -413,6 +414,30 @@ int qemu_close(int fd)
->>>
->>>        return close(fd);
->>>    }
->>>
->>> +int qemu_get_fd(Monitor *mon, const char *fdname, Error **errp)
->>> +{
->>> +    int fd;
->>> +    Error *local_err = NULL;
->>> +
->>> +    if (!qemu_isdigit(fdname[0]) && mon) {
->>> +        fd = monitor_get_fd(mon, fdname, &local_err);
->>> +    } else {
->>> +        fd = qemu_parse_fd(fdname);
->>> +        if (fd == -1) {
->>> +            error_setg(&local_err, "Invalid file descriptor number '%s'",
->>> +                       fdname);
->>> +        }
->>> +    }
->>> +    if (local_err) {
->>> +        error_propagate(errp, local_err);
->>> +        assert(fd == -1);
->>> +    } else {
->>> +        assert(fd != -1);
->>> +    }
->>> +
->>> +    return fd;
->>> +}
->>> +
-> 
-> Up to here you are basically just moving the code of monitor_fd_param() to a
-> project wide shared new function qemu_get_fd(), but why? I mean you could
-> simply call monitor_fd_param() in socket_get_fd() below, no?
-> 
+=46rom 69fc46c0e439026cabedc8ddfa0a880d0df09a6b Mon Sep 17 00:00:00 2001
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+Date: Wed, 31 Aug 2022 17:12:59 +0900
+Subject: [PATCH] sh4: cleanup for flags definition.
 
-monitor_fd_param() is implemented in misc.c which is not linkded when 
-build the test codes that test the socket_connect() api, such as 
-test-unit-sockets.c and test-char.c. If call monitor_fd_param() directly 
-in socket_get_fd(), we need to implement a stub version of 
-monitor_fd_param() which actually has the same codes according to the 
-codes in test-unit-socket.c which overwrite the monitor_get_fd().
+Fix conflict TB_FLAG_UNALIGN and GUSA field.
+Add comment for gUSA operations.
 
-what about moving monitor_fd_param() to the osdep.c and calling 
-monitor_fd_param() in socket_get_fd() ?
+Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+---
+ target/sh4/cpu.h       | 9 +++++++--
+ target/sh4/translate.c | 5 ++++-
+ 2 files changed, 11 insertions(+), 3 deletions(-)
 
+diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
+index 9f15ef913c..91810fda9b 100644
+--- a/target/sh4/cpu.h
++++ b/target/sh4/cpu.h
+@@ -86,9 +86,14 @@
+ #define TB_FLAG_PENDING_MOVCA  (1 << 3)
+ #define TB_FLAG_UNALIGN        (1 << 4)
+=20
+-#define GUSA_SHIFT             4
+ #ifdef CONFIG_USER_ONLY
+-#define GUSA_EXCLUSIVE         (1 << 12)
++/* gUSA information field in CPUArchState.flags */
++/*
++   b16 - b23: Exclusive region range (negative)
++   b24: pc in exclusive region flag (use normal decode)
++*/
++#define GUSA_SHIFT             16
++#define GUSA_EXCLUSIVE         (1 << 24)
+ #define GUSA_MASK              ((0xff << GUSA_SHIFT) | GUSA_EXCLUSIVE)
+ #else
+ /* Provide dummy versions of the above to allow tests against tbflags
+diff --git a/target/sh4/translate.c b/target/sh4/translate.c
+index f1b190e7cf..1d79a0721b 100644
+--- a/target/sh4/translate.c
++++ b/target/sh4/translate.c
+@@ -516,7 +516,7 @@ static void _decode_opc(DisasContext * ctx)
+         /* Detect the start of a gUSA region.  If so, update envflags
+            and end the TB.  This will allow us to see the end of the
+            region (stored in R0) in the next TB.  */
+-        if (B11_8 =3D=3D 15 && B7_0s < 0 &&
++        if (B11_8 =3D=3D 15 && B7_0s < 0 &&		/* mov #-xxx, r15 */
+             (tb_cflags(ctx->base.tb) & CF_PARALLEL)) {
+             ctx->envflags =3D deposit32(ctx->envflags, GUSA_SHIFT, 8, B7_0=
+s);
+             ctx->base.is_jmp =3D DISAS_STOP;
+@@ -2267,7 +2267,9 @@ static void sh4_tr_init_disas_context(DisasContextBas=
+e *dcbase, CPUState *cs)
+                   (tbflags & (1 << SR_RB))) * 0x10;
+     ctx->fbank =3D tbflags & FPSCR_FR ? 0x10 : 0;
+=20
++#ifdef CONFIG_USER_ONLY
+     if (tbflags & GUSA_MASK) {
++        /* In gUSA exclusive region */
+         uint32_t pc =3D ctx->base.pc_next;
+         uint32_t pc_end =3D ctx->base.tb->cs_base;
+         int backup =3D sextract32(ctx->tbflags, GUSA_SHIFT, 8);
+@@ -2285,6 +2287,7 @@ static void sh4_tr_init_disas_context(DisasContextBas=
+e *dcbase, CPUState *cs)
+             return;
+         }
+     }
++#endif
+=20
+     /* Since the ISA is fixed-width, we can bound by the number
+        of instructions remaining on the page.  */
+--=20
+2.30.2
 
->>>    /*
->>>     * Delete a file from the filesystem, unless the filename is
->>>
->>> /dev/fdset/...
->>>
->>>     *
->>>
->>> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
->>> index 13b5b197f9..92960ee6eb 100644
->>> --- a/util/qemu-sockets.c
->>> +++ b/util/qemu-sockets.c
->>> @@ -1142,19 +1142,12 @@ static int socket_get_fd(const char *fdstr,
->>> Error **errp)
->>>
->>>    {
->>>        Monitor *cur_mon = monitor_cur();
->>>        int fd;
->>>
->>> -    if (cur_mon) {
->>> -        fd = monitor_get_fd(cur_mon, fdstr, errp);
->>> -        if (fd < 0) {
->>> -            return -1;
->>> -        }
->>> -    } else {
->>> -        if (qemu_strtoi(fdstr, NULL, 10, &fd) < 0) {
->>> -            error_setg_errno(errp, errno,
->>> -                             "Unable to parse FD number %s",
->>> -                             fdstr);
->>> -            return -1;
->>> -        }
->>> +
->>> +    fd = qemu_get_fd(cur_mon, fdstr, errp);
->>> +    if (fd < 0) {
->>> +        return -1;
->>>
->>>        }
-> 
-> This part looks like behaviour change to me. Haven't looked into the details
-> though whether it would be OK. Just saying.
-
-In my opinion the logic is almost the same.
-
-> 
->>>
->>> +
-> 
-> Unintentional white line added?
-
-will delete it.
-
-Thanks for your coomments
-
-> 
->>>
->>>        if (!fd_is_socket(fd)) {
->>>            error_setg(errp, "File descriptor '%s' is not a socket", fdstr);
->>>            close(fd);
-> 
-> 
-> 
+--=20
+Yosinori Sato
 
