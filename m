@@ -2,60 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 967585A74B6
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 06:12:25 +0200 (CEST)
-Received: from localhost ([::1]:38008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C0CF5A754C
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 06:54:41 +0200 (CEST)
+Received: from localhost ([::1]:56668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTF5R-0007lL-Ib
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 00:12:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49172)
+	id 1oTFkN-0005gG-SX
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 00:54:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanwj@mail.ustc.edu.cn>)
- id 1oTF3a-0006Kj-KR
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 00:10:26 -0400
-Received: from email6.ustc.edu.cn ([2001:da8:d800::8]:53462 helo=ustc.edu.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanwj@mail.ustc.edu.cn>) id 1oTF3V-00034G-DG
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 00:10:25 -0400
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oTFjL-0004Kx-9j
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 00:53:35 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:39658)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oTFjJ-0000W1-4v
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 00:53:34 -0400
+Received: by mail-pg1-x530.google.com with SMTP id q9so12537702pgq.6
+ for <qemu-devel@nongnu.org>; Tue, 30 Aug 2022 21:53:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mail.ustc.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
- Content-Type:MIME-Version:Message-ID; bh=iGC7w709Myv5ZZgt4ZNaFmx
- sdlW8rP6O6qIiphSzdTQ=; b=ySduoC3QvpR+n0VVFODh0KAem6gK094UAgCedGh
- p2dLZQcP/rVtE6UkhDLFBhBV7jq3u5Owk2xLlAu57YdJJTgDeuiYUhSVayp66FCj
- GSvVaOMxTOZcpbY+/7s4Cq4ucZPm9xBvxzhcTSoqhd7frNk893KjJcG5Okyn+lsu
- tOoc=
-Received: by ajax-webmail-newmailweb.ustc.edu.cn (Coremail) ; Wed, 31 Aug
- 2022 12:10:03 +0800 (GMT+08:00)
-X-Originating-IP: [120.204.79.75]
-Date: Wed, 31 Aug 2022 12:10:03 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: fanwj@mail.ustc.edu.cn
-To: qemu-devel@nongnu.org
-Cc: laurent@vivier.eu
-Subject: [PATCH] linux-user: fix bug about missing signum convert of sigqueue
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT3.0.8 dev build
- 20210401(c5ff3689) Copyright (c) 2002-2022 www.mailtech.cn ustccn
-X-SendMailWithSms: false
-Content-Type: multipart/alternative; 
- boundary="----=_Part_1156652_2103501274.1661919003076"
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=5S1k0UfW7PcX5X7JTXkjd9XtAaVsCGqGjoGRP8StfjU=;
+ b=Jhe97V/7Y/aYkZ3nOAnipzTSRRRadCJt4G+LubWEC6gNfgj7LuFRzYEtDFfCSL7XT0
+ YG0EvcJeQ7oJyc8VBaN3+o0blE2fyMRD2jsl03EL67JR1ybYkYdPyncFXPGtqIzbSo3q
+ 6z7AuEooSlm+MzobYM6RXvNNjUnS2ikBD+QMdZYsxWgzt1UMiuKKjOcCPG9XSPIL3jP/
+ 6WPQcCsYfqIzb/X9504ucX7VShRTyLCQZfS8oqwdHWWIgi0FdDVQ5QAOWmx8wEklnA/u
+ /LSG+U0urqQPFnnIYN9yA765RCD+vi0NY5nuO94SK6ikuwVBzIaOwSkjQLCqB6TeQeW0
+ HuxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=5S1k0UfW7PcX5X7JTXkjd9XtAaVsCGqGjoGRP8StfjU=;
+ b=GztYQbUjXCtL8BYmTOdetaTKpMJnDapJYfS9AdaQ8XxcX12QChvN9RvcvpXIzaxH9U
+ 7TaS72zlGgH92hU8Z/COPDZKAxm3HpCx+BZs5Y0UHWZz6B21EDmIqEEaS2ACHbEYWWls
+ 6rhIM+dbm8QR1dwt22AbT/g7QGqOJBZLXmo3UtGI+C1UVJrEdq+vltd7MS7HfP9kBqPM
+ mkZwT8lU1bBWwOo1AY+awqkR8MyLlQfEfO5cmZ0sMjnVWX7h8xK57pNikwK8X7d8Af0W
+ 6LZv2wYDnTBb/LpgW/F8RZYtd/xI8GrtKp4h9ORdFb7mZSJ5Hm5dBspcxDsPstOOmCh8
+ RmTg==
+X-Gm-Message-State: ACgBeo1zgaXf+ROhnU2QjVilfdVKFfwaig+ScAGRN/Ld/BKjgFlxt56V
+ 27Fz07jB6WnRMeCXvVN2ZWgeyQ==
+X-Google-Smtp-Source: AA6agR63fYYJuUTr79xiYmN/gllt7M9oO5FYTBUQbJxUKibNEn5YoSi1oIZX3grb4Tyy8X10vicfpg==
+X-Received: by 2002:a63:3509:0:b0:42b:15a6:8267 with SMTP id
+ c9-20020a633509000000b0042b15a68267mr20742051pga.570.1661921610956; 
+ Tue, 30 Aug 2022 21:53:30 -0700 (PDT)
+Received: from anisinha-lenovo.ba.nuagenetworks.net ([203.163.233.36])
+ by smtp.googlemail.com with ESMTPSA id
+ g12-20020a65594c000000b003fdc16f5de2sm2471961pgu.15.2022.08.30.21.53.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Aug 2022 21:53:30 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Sergio Lopez <slp@redhat.com>
+Cc: qemu-devel@nongnu.org, Ani Sinha <ani@anisinha.ca>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH REPOST] hw/i386/e820: remove legacy reserved entries for e820
+Date: Wed, 31 Aug 2022 10:23:10 +0530
+Message-Id: <20220831045311.33083-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Message-ID: <7819f62a.51d7c.182f21781c5.Coremail.fanwj@mail.ustc.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: LkAmygDHzq4b3w5jyVimAQ--.2W
-X-CM-SenderInfo: pidq4yo6pdxzwoxv3uoohg3hdfq/1tbiAQ4PEFQhoKfxWQADsJ
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWUJw
- CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
- daVFxhVjvjDU=
-Received-SPF: pass client-ip=2001:da8:d800::8;
- envelope-from=fanwj@mail.ustc.edu.cn; helo=ustc.edu.cn
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HTML_MESSAGE=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::530;
+ envelope-from=ani@anisinha.ca; helo=mail-pg1-x530.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,79 +90,150 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------=_Part_1156652_2103501274.1661919003076
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+e820 reserved entries were used before the dynamic entries with fw config files
+were intoduced. Please see the following change:
+7d67110f2d9a6("pc: add etc/e820 fw_cfg file")
 
-RnJvbSA0ZWJlOGE2N2VkN2M0YjEyMjA5NTdiMmI2N2E2MmJhNjBlMGU4MGVjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBmYW53ZW5qaWUgPGZhbndqQG1haWwudXN0Yy5lZHUuY24+CkRh
-dGU6IFdlZCwgMzEgQXVnIDIwMjIgMTE6NTU6MjUgKzA4MDAKU3ViamVjdDogW1BBVENIXSBsaW51
-eC11c2VyOiBmaXggYnVnIGFib3V0IG1pc3Npbmcgc2lnbnVtIGNvbnZlcnQgb2Ygc2lncXVldWUK
-CgpTaWduZWQtb2ZmLWJ5OiBmYW53ZW5qaWUgPGZhbndqQG1haWwudXN0Yy5lZHUuY24+Ci0tLQog
-bGludXgtdXNlci9zeXNjYWxsLmMgfCA0ICsrLS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlv
-bnMoKyksIDIgZGVsZXRpb25zKC0pCgoKZGlmZiAtLWdpdCBhL2xpbnV4LXVzZXIvc3lzY2FsbC5j
-IGIvbGludXgtdXNlci9zeXNjYWxsLmMKaW5kZXggZjQwOTEyMTIwMi4uM2U1YWI0ZjBiMiAxMDA2
-NDQKLS0tIGEvbGludXgtdXNlci9zeXNjYWxsLmMKKysrIGIvbGludXgtdXNlci9zeXNjYWxsLmMK
-QEAgLTk2OTAsNyArOTY5MCw3IEBAIHN0YXRpYyBhYmlfbG9uZyBkb19zeXNjYWxsMShDUFVBcmNo
-U3RhdGUgKmNwdV9lbnYsIGludCBudW0sIGFiaV9sb25nIGFyZzEsCiAgICAgICAgICAgICB9CiAg
-ICAgICAgICAgICB0YXJnZXRfdG9faG9zdF9zaWdpbmZvKCZ1aW5mbywgcCk7CiAgICAgICAgICAg
-ICB1bmxvY2tfdXNlcihwLCBhcmczLCAwKTsKLSAgICAgICAgICAgIHJldCA9IGdldF9lcnJubyhz
-eXNfcnRfc2lncXVldWVpbmZvKGFyZzEsIGFyZzIsICZ1aW5mbykpOworICAgICAgICAgICAgcmV0
-ID0gZ2V0X2Vycm5vKHN5c19ydF9zaWdxdWV1ZWluZm8oYXJnMSwgdGFyZ2V0X3RvX2hvc3Rfc2ln
-bmFsKGFyZzIpLCAmdWluZm8pKTsKICAgICAgICAgfQogICAgICAgICByZXR1cm4gcmV0OwogICAg
-IGNhc2UgVEFSR0VUX05SX3J0X3Rnc2lncXVldWVpbmZvOgpAQCAtOTcwMyw3ICs5NzAzLDcgQEAg
-c3RhdGljIGFiaV9sb25nIGRvX3N5c2NhbGwxKENQVUFyY2hTdGF0ZSAqY3B1X2VudiwgaW50IG51
-bSwgYWJpX2xvbmcgYXJnMSwKICAgICAgICAgICAgIH0KICAgICAgICAgICAgIHRhcmdldF90b19o
-b3N0X3NpZ2luZm8oJnVpbmZvLCBwKTsKICAgICAgICAgICAgIHVubG9ja191c2VyKHAsIGFyZzQs
-IDApOwotICAgICAgICAgICAgcmV0ID0gZ2V0X2Vycm5vKHN5c19ydF90Z3NpZ3F1ZXVlaW5mbyhh
-cmcxLCBhcmcyLCBhcmczLCAmdWluZm8pKTsKKyAgICAgICAgICAgIHJldCA9IGdldF9lcnJubyhz
-eXNfcnRfdGdzaWdxdWV1ZWluZm8oYXJnMSwgYXJnMiwgdGFyZ2V0X3RvX2hvc3Rfc2lnbmFsKGFy
-ZzMpLCAmdWluZm8pKTsKICAgICAgICAgfQogICAgICAgICByZXR1cm4gcmV0OwogI2lmZGVmIFRB
-UkdFVF9OUl9zaWdyZXR1cm4KLS0gCgo=
-------=_Part_1156652_2103501274.1661919003076
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: base64
+Identical support was introduced into seabios as well with the following commit:
+ce39bd4031820 ("Add support for etc/e820 fw_cfg file")
 
-PGRpdj5Gcm9tIDRlYmU4YTY3ZWQ3YzRiMTIyMDk1N2IyYjY3YTYyYmE2MGUwZTgwZWMgTW9uIFNl
-cCAxNyAwMDowMDowMCAyMDAxPC9kaXY+PGRpdj5Gcm9tOiBmYW53ZW5qaWUgJmx0O2ZhbndqQG1h
-aWwudXN0Yy5lZHUuY24mZ3Q7PC9kaXY+PGRpdj5EYXRlOiBXZWQsIDMxIEF1ZyAyMDIyIDExOjU1
-OjI1ICswODAwPC9kaXY+PGRpdj5TdWJqZWN0OiBbUEFUQ0hdIGxpbnV4LXVzZXI6IGZpeCBidWcg
-YWJvdXQgbWlzc2luZyBzaWdudW0gY29udmVydCBvZiBzaWdxdWV1ZTwvZGl2PjxkaXY+PGJyPjwv
-ZGl2PjxkaXY+U2lnbmVkLW9mZi1ieTogZmFud2VuamllICZsdDtmYW53akBtYWlsLnVzdGMuZWR1
-LmNuJmd0OzwvZGl2PjxkaXY+LS0tPC9kaXY+PGRpdj4mbmJzcDtsaW51eC11c2VyL3N5c2NhbGwu
-YyB8IDQgKystLTwvZGl2PjxkaXY+Jm5ic3A7MSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygr
-KSwgMiBkZWxldGlvbnMoLSk8L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2PmRpZmYgLS1naXQgYS9s
-aW51eC11c2VyL3N5c2NhbGwuYyBiL2xpbnV4LXVzZXIvc3lzY2FsbC5jPC9kaXY+PGRpdj5pbmRl
-eCBmNDA5MTIxMjAyLi4zZTVhYjRmMGIyIDEwMDY0NDwvZGl2PjxkaXY+LS0tIGEvbGludXgtdXNl
-ci9zeXNjYWxsLmM8L2Rpdj48ZGl2PisrKyBiL2xpbnV4LXVzZXIvc3lzY2FsbC5jPC9kaXY+PGRp
-dj5AQCAtOTY5MCw3ICs5NjkwLDcgQEAgc3RhdGljIGFiaV9sb25nIGRvX3N5c2NhbGwxKENQVUFy
-Y2hTdGF0ZSAqY3B1X2VudiwgaW50IG51bSwgYWJpX2xvbmcgYXJnMSw8L2Rpdj48ZGl2PiZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO308L2Rpdj48ZGl2PiZu
-YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO3RhcmdldF90b19o
-b3N0X3NpZ2luZm8oJmFtcDt1aW5mbywgcCk7PC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDt1bmxvY2tfdXNlcihwLCBhcmczLCAwKTs8L2Rp
-dj48ZGl2Pi0mbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyByZXQgPSBn
-ZXRfZXJybm8oc3lzX3J0X3NpZ3F1ZXVlaW5mbyhhcmcxLCBhcmcyLCAmYW1wO3VpbmZvKSk7PC9k
-aXY+PGRpdj4rJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgcmV0ID0g
-Z2V0X2Vycm5vKHN5c19ydF9zaWdxdWV1ZWluZm8oYXJnMSwgdGFyZ2V0X3RvX2hvc3Rfc2lnbmFs
-KGFyZzIpLCAmYW1wO3VpbmZvKSk7PC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7fTwvZGl2PjxkaXY+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO3Jl
-dHVybiByZXQ7PC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7ICZuYnNwO2Nhc2UgVEFSR0VUX05SX3J0
-X3Rnc2lncXVldWVpbmZvOjwvZGl2PjxkaXY+QEAgLTk3MDMsNyArOTcwMyw3IEBAIHN0YXRpYyBh
-YmlfbG9uZyBkb19zeXNjYWxsMShDUFVBcmNoU3RhdGUgKmNwdV9lbnYsIGludCBudW0sIGFiaV9s
-b25nIGFyZzEsPC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmbmJzcDt9PC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
-ICZuYnNwOyAmbmJzcDt0YXJnZXRfdG9faG9zdF9zaWdpbmZvKCZhbXA7dWluZm8sIHApOzwvZGl2
-PjxkaXY+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7dW5s
-b2NrX3VzZXIocCwgYXJnNCwgMCk7PC9kaXY+PGRpdj4tJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
-c3A7ICZuYnNwOyAmbmJzcDsgcmV0ID0gZ2V0X2Vycm5vKHN5c19ydF90Z3NpZ3F1ZXVlaW5mbyhh
-cmcxLCBhcmcyLCBhcmczLCAmYW1wO3VpbmZvKSk7PC9kaXY+PGRpdj4rJm5ic3A7ICZuYnNwOyAm
-bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgcmV0ID0gZ2V0X2Vycm5vKHN5c19ydF90Z3NpZ3F1
-ZXVlaW5mbyhhcmcxLCBhcmcyLCB0YXJnZXRfdG9faG9zdF9zaWduYWwoYXJnMyksICZhbXA7dWlu
-Zm8pKTs8L2Rpdj48ZGl2PiZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDt9PC9kaXY+
-PGRpdj4mbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7cmV0dXJuIHJldDs8L2Rpdj48
-ZGl2PiZuYnNwOyNpZmRlZiBUQVJHRVRfTlJfc2lncmV0dXJuPC9kaXY+PGRpdj4tLSZuYnNwOzwv
-ZGl2PjxkaXY+PGJyPjwvZGl2Pg==
-------=_Part_1156652_2103501274.1661919003076--
+Both the above commits are now quite old. QEMU machines 1.7 and newer no longer
+use the reserved entries. Seabios uses fw config files and
+dynamic e820 entries by default and only falls back to using reserved entries
+when it has to work with old qemu (versions earlier than 1.7). Please see
+functions qemu_cfg_e820() and qemu_early_e820(). It is safe to remove legacy
+FW_CFG_E820_TABLE and associated code now as QEMU 7.0 has deprecated i440fx
+machines 1.7 and older. It would be incredibly rare to run the latest qemu
+version with a very old version of seabios that did not support fw config files
+for e820.
+
+As far as I could see, edk2/ovfm never supported reserved entries and uses fw
+config files from the beginning. So there should be no incompatibilities with
+ovfm as well.
+
+CC: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ hw/i386/e820_memory_layout.c | 20 +-------------------
+ hw/i386/e820_memory_layout.h |  8 --------
+ hw/i386/fw_cfg.c             |  3 ---
+ hw/i386/fw_cfg.h             |  1 -
+ hw/i386/microvm.c            |  2 --
+ 5 files changed, 1 insertion(+), 33 deletions(-)
+
+Please see:
+https://patchwork.ozlabs.org/project/qemu-devel/patch/20220420043904.1225153-1-ani@anisinha.ca/
+for the previous post. Now that we are in 7.2 devel cycle, time to push
+this patch.
+
+diff --git a/hw/i386/e820_memory_layout.c b/hw/i386/e820_memory_layout.c
+index bcf9eaf837..06970ac44a 100644
+--- a/hw/i386/e820_memory_layout.c
++++ b/hw/i386/e820_memory_layout.c
+@@ -11,29 +11,11 @@
+ #include "e820_memory_layout.h"
+ 
+ static size_t e820_entries;
+-struct e820_table e820_reserve;
+ struct e820_entry *e820_table;
+ 
+ int e820_add_entry(uint64_t address, uint64_t length, uint32_t type)
+ {
+-    int index = le32_to_cpu(e820_reserve.count);
+-    struct e820_entry *entry;
+-
+-    if (type != E820_RAM) {
+-        /* old FW_CFG_E820_TABLE entry -- reservations only */
+-        if (index >= E820_NR_ENTRIES) {
+-            return -EBUSY;
+-        }
+-        entry = &e820_reserve.entry[index++];
+-
+-        entry->address = cpu_to_le64(address);
+-        entry->length = cpu_to_le64(length);
+-        entry->type = cpu_to_le32(type);
+-
+-        e820_reserve.count = cpu_to_le32(index);
+-    }
+-
+-    /* new "etc/e820" file -- include ram too */
++    /* new "etc/e820" file -- include ram and reserved entries */
+     e820_table = g_renew(struct e820_entry, e820_table, e820_entries + 1);
+     e820_table[e820_entries].address = cpu_to_le64(address);
+     e820_table[e820_entries].length = cpu_to_le64(length);
+diff --git a/hw/i386/e820_memory_layout.h b/hw/i386/e820_memory_layout.h
+index 04f93780f9..7c239aa033 100644
+--- a/hw/i386/e820_memory_layout.h
++++ b/hw/i386/e820_memory_layout.h
+@@ -16,20 +16,12 @@
+ #define E820_NVS        4
+ #define E820_UNUSABLE   5
+ 
+-#define E820_NR_ENTRIES 16
+-
+ struct e820_entry {
+     uint64_t address;
+     uint64_t length;
+     uint32_t type;
+ } QEMU_PACKED __attribute((__aligned__(4)));
+ 
+-struct e820_table {
+-    uint32_t count;
+-    struct e820_entry entry[E820_NR_ENTRIES];
+-} QEMU_PACKED __attribute((__aligned__(4)));
+-
+-extern struct e820_table e820_reserve;
+ extern struct e820_entry *e820_table;
+ 
+ int e820_add_entry(uint64_t address, uint64_t length, uint32_t type);
+diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
+index a283785a8d..72a42f3c66 100644
+--- a/hw/i386/fw_cfg.c
++++ b/hw/i386/fw_cfg.c
+@@ -36,7 +36,6 @@ const char *fw_cfg_arch_key_name(uint16_t key)
+         {FW_CFG_ACPI_TABLES, "acpi_tables"},
+         {FW_CFG_SMBIOS_ENTRIES, "smbios_entries"},
+         {FW_CFG_IRQ0_OVERRIDE, "irq0_override"},
+-        {FW_CFG_E820_TABLE, "e820_table"},
+         {FW_CFG_HPET, "hpet"},
+     };
+ 
+@@ -127,8 +126,6 @@ FWCfgState *fw_cfg_arch_create(MachineState *ms,
+ #endif
+     fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, 1);
+ 
+-    fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
+-                     &e820_reserve, sizeof(e820_reserve));
+     fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
+                     sizeof(struct e820_entry) * e820_get_num_entries());
+ 
+diff --git a/hw/i386/fw_cfg.h b/hw/i386/fw_cfg.h
+index 275f15c1c5..86ca7c1c0c 100644
+--- a/hw/i386/fw_cfg.h
++++ b/hw/i386/fw_cfg.h
+@@ -17,7 +17,6 @@
+ #define FW_CFG_ACPI_TABLES      (FW_CFG_ARCH_LOCAL + 0)
+ #define FW_CFG_SMBIOS_ENTRIES   (FW_CFG_ARCH_LOCAL + 1)
+ #define FW_CFG_IRQ0_OVERRIDE    (FW_CFG_ARCH_LOCAL + 2)
+-#define FW_CFG_E820_TABLE       (FW_CFG_ARCH_LOCAL + 3)
+ #define FW_CFG_HPET             (FW_CFG_ARCH_LOCAL + 4)
+ 
+ FWCfgState *fw_cfg_arch_create(MachineState *ms,
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 52cafa003d..a591161c02 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -324,8 +324,6 @@ static void microvm_memory_init(MicrovmMachineState *mms)
+     fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, machine->smp.max_cpus);
+     fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)machine->ram_size);
+     fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, 1);
+-    fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
+-                     &e820_reserve, sizeof(e820_reserve));
+     fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
+                     sizeof(struct e820_entry) * e820_get_num_entries());
+ 
+-- 
+2.34.1
 
 
