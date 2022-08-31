@@ -2,136 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 101475A7896
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 10:12:22 +0200 (CEST)
-Received: from localhost ([::1]:37318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF14E5A78E6
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 10:21:55 +0200 (CEST)
+Received: from localhost ([::1]:37430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTIpg-00070f-B6
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 04:12:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56686)
+	id 1oTIyw-00035Z-ES
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 04:21:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>) id 1oTIn4-0005VE-B6
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 04:09:39 -0400
-Received: from mail-am6eur05on20729.outbound.protection.outlook.com
- ([2a01:111:f400:7e1b::729]:63830
- helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oTIvr-0000l5-G3
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 04:18:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>) id 1oTImw-0002nM-Uv
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 04:09:36 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T2Eb6ifqmet+730swKjCiGcmVGy6upNne2Vdlh2qKwCVcUcfku/aoienZswbH3qMguNyxqj0k0U36oke0uApew/jmnMfUenRXzXwwvDgbMBMuM3Haga8sS32XLFrJdInKP5wzR/PuB6zQZNaj4ygXRTTu4mQw+q3Er8oTeOmyfKFVnNslhgq14kKBjzcmBGg7zCK3mkO+yBNipFil34a8LuJ1IZRIVmtypWqL+yyaNHp2cqNuvecZ9m5YRWXY6wA0Np7W4rgodOPx76PRx/e88sOoeoxDPA0SDGNeL0LgLgsPmYcXd0bjk9bdPGP6HgX35nhNomr3x2sw7McUWrGOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hfn5GIejtj6QxTSNoiUyGJsyFuxvafi6hyNVdAZjSK8=;
- b=kjmZtOpnmiGUw3ZWg968Uf/2I6j9atRrZw1MEkddR4XYcbOsNM5XPjf5Gh70ju4E4arKmZtovIiOYQp9EkUdeStffTBCb+33QingslQ8ar8vo33pRFKl2jqTylXHpAJMpHu03R14jFBAt9GD/yyjOYJsKwZT8RX1xGVjSDb9oIkDW+Rv2yO6DcE+N5Z3LZeRCFZ/aG7eQSusN+hYsGNkuCJUWp+1dnrsWdqaXM2RW4EXzfegpIjfV5Pha+uVgKGoXulXeSypJckK379l7W0B5sLxIauDiN4G7que1CeNhbUyOD8nDShjqayZaD7DHLMCDvz1erGVRIedPKwZcqRa+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hfn5GIejtj6QxTSNoiUyGJsyFuxvafi6hyNVdAZjSK8=;
- b=NP4juKiEYJsIPRO8zFM7QKUHLliF0buKGe94zKXA5H7qXH0w60M3QfAhh7caq7EXul8wMAZ2HexILd+GbrA9ZqmTIykDPlSrSx2vTVHcGeQG4o4NoENriYbA7job5AeVPrhySQkadfxkqJnc2QEE5VG8ZuilpW2Hyf/4u0oPOYspNXTrskjGd/VhlFQvORApQXAqbUBUOAe50NQVKq2dRdL5iRJoU+O1kkwQvVMkk+2mGg9TSUPyAv77zog2UalVHoGjtYlcZ84qgXUI2A2dcVKS08uvdNYr+SAZ/JNwASBlBpNHjVccFGwI8IliHgg8mqeltEF5BopD4156YKnnlw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from PAXPR08MB6956.eurprd08.prod.outlook.com (2603:10a6:102:1db::9)
- by AS8PR08MB9477.eurprd08.prod.outlook.com (2603:10a6:20b:5ee::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Wed, 31 Aug
- 2022 08:04:26 +0000
-Received: from PAXPR08MB6956.eurprd08.prod.outlook.com
- ([fe80::5593:9fae:255d:ee6]) by PAXPR08MB6956.eurprd08.prod.outlook.com
- ([fe80::5593:9fae:255d:ee6%4]) with mapi id 15.20.5588.010; Wed, 31 Aug 2022
- 08:04:26 +0000
-Message-ID: <0885c8cb-8834-40ff-0214-d790219ecd1a@virtuozzo.com>
-Date: Wed, 31 Aug 2022 10:04:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 0/4] Add 'q35' machine type to hotplug tests
-Content-Language: en-US
-To: Michael Labiuk <michael.labiuk@virtuozzo.com>, qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-References: <20220829170106.110195-1-michael.labiuk@virtuozzo.com>
-From: "Denis V. Lunev" <den@virtuozzo.com>
-In-Reply-To: <20220829170106.110195-1-michael.labiuk@virtuozzo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR02CA0066.eurprd02.prod.outlook.com
- (2603:10a6:802:14::37) To PAXPR08MB6956.eurprd08.prod.outlook.com
- (2603:10a6:102:1db::9)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oTIvo-00046k-0M
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 04:18:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661933911;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=B1ApHMyNcR8l6cmhGppzVS345Vzpi8LgO32+LHSG7c0=;
+ b=TugcjYt71GxiBIqvZx4zqKcYSb1q4Op/3vgJSlBC0+T78T1a4hTlp9mSK1Nma84cyt/D+B
+ 0b3ZXFq/+7Wkd9EDIa7CYffDJ01Bzq3qTqRPqPW8PRJN6vaYTbIkrvt9UmJwKaUBi2ZrPC
+ nqtY/EqSUxD3BZhYgKrPQ90Rprxx1AU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-591-hGSD1Co3PAK_-6tYgZpbdA-1; Wed, 31 Aug 2022 04:18:26 -0400
+X-MC-Unique: hGSD1Co3PAK_-6tYgZpbdA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1451E8039B5;
+ Wed, 31 Aug 2022 08:18:26 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A7B11415117;
+ Wed, 31 Aug 2022 08:18:24 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A0B6721E6900; Wed, 31 Aug 2022 10:18:22 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>,  =?utf-8?B?5bCP55Sw5Zac6Zm95b2m?=
+ <akihiko.odaki@daynix.com>,  qemu-devel@nongnu.org,
+ qemu-block@nongnu.org,  qemu-arm@nongnu.org,  "Michael S. Tsirkin"
+ <mst@redhat.com>,  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,  Gerd
+ Hoffmann <kraxel@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,  Eduardo Habkost
+ <eduardo@habkost.net>,  John Snow <jsnow@redhat.com>,  Dmitry Fleytman
+ <dmitry.fleytman@gmail.com>,  Jason Wang <jasowang@redhat.com>,  Stefan
+ Weil <sw@weilnetz.de>,  Keith Busch <kbusch@kernel.org>,  Klaus Jensen
+ <its@irrelevant.dk>,  Peter Maydell <peter.maydell@linaro.org>,  Andrey
+ Smirnov <andrew.smirnov@gmail.com>,  Paul Burton <paulburton@kernel.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Subject: Re: [PATCH] pci: Abort if pci_add_capability fails
+References: <20220829084417.144739-1-akihiko.odaki@daynix.com>
+ <874jxuhshs.fsf@pond.sub.org>
+ <20220830120014.55f55b24.alex.williamson@redhat.com>
+Date: Wed, 31 Aug 2022 10:18:22 +0200
+In-Reply-To: <20220830120014.55f55b24.alex.williamson@redhat.com> (Alex
+ Williamson's message of "Tue, 30 Aug 2022 12:00:14 -0600")
+Message-ID: <87y1v4ddwx.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d81a7b15-03ea-428a-6e94-08da8b276c18
-X-MS-TrafficTypeDiagnostic: AS8PR08MB9477:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LNZZcSdvIbLdU1y4C/O4J0Uz6C9SX/6YZGSWIIPBABNO3ahSk5snl6Pa17GVpMEC13F4hsSrcYIb+0ovSXttu69tJR4CAiobOuLUetZqDs5iGQD86wXhp6aZXX/OfpBaCGsjj6iRCGDHOy98uOi3RoEk+INfvr4rWJuadW46HdljYAZ/ReOV7HRGt1FVlGV0+n//ZRlRiUC+1yVnVMRi52kwA1xkNQIlDWXpI2jSopW6WW5Uay16N6GQD1XQPOvaROK34Hazx8lwAe9Ok8c07dHJK/rjnXjrL6eWrYprtWYJzSvPLaFjtEOmPcfGvHTbnOJnfImVZkEQFIgaihpmfOjkSITaPoD5hSW8BRD9+TuVXsGOWg2a9dNoSI7N1aC4S/5VqUC+jl2UmZuhlcLSXmlkK6/ysDPQFtfYn2+2pOzqHK2SRrGkr5T1koxT9Wo31l/gxbQqw8w8LaZYId8ohN7MuCLBGdsEb0BU9tA9+RfT+C/k10gctppPDQYtLwo229a0QOhNmRFzODmvtt36+qcJs36oZh955OxKcZmasJGX6feD4GgM7W9qtXG9FZPvENYMUP5zv22C5ZBpXBylb6tz8gPm2U/3A8LLdK9fOgNom0kAkq9uT0ZRsVFAn2PWiaSvlgDyW0ZoESbLbrTE3DbCP0mhOQG8vYYK6G0rTsoh9U+pahBJ5fVSEMtMS3TrIj0t6DmUnajXZRojPlrYw2c29DLXrr6mTeaHxbBLccDxmRmWqyZ1lFiUyE0rSEfarILc1Z2ZLpodcbEmVnorFFvLtixVyHcPZJAoC0Zolzu3agr7/aRNfnJkuhoTvcw4zQTUCl7GN9xQEjf2+jXzAw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PAXPR08MB6956.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(136003)(39850400004)(376002)(396003)(346002)(366004)(53546011)(52116002)(2616005)(66946007)(4744005)(66556008)(66476007)(6506007)(6512007)(6486002)(316002)(26005)(86362001)(31696002)(41300700001)(38100700002)(54906003)(2906002)(38350700002)(8676002)(4326008)(186003)(478600001)(5660300002)(31686004)(36756003)(8936002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q2k4Zmw2M09xdzdNNGQ2L2tqN08xSGdJU0NONmd3V3RVV3RHNU95KzJXdGUz?=
- =?utf-8?B?SUR0ajc2MWtRN1l4OWdPTnpQQWdDbmFONDhJUUdqdnRLdDFrZ3N5WnY4bEp3?=
- =?utf-8?B?d2dJVml5R1l4YmVxU1JZUzNleVhJYmxicVFFUkxLU2NRbkc1TGJvMkJjT3Ur?=
- =?utf-8?B?OTlGQlAzRTFaVzZmZzlWcDg2TWdNRXdPc0QyYjVsYzFKclpRV1RDVHVkVGpS?=
- =?utf-8?B?R1FyUE40SldxelZQWGpXc3hNNnViQlBNeS9kV2lneGlKbm85Z1VUOHptWUY0?=
- =?utf-8?B?K3N0ZDZEZlp0VDVHUHFicVN0MVExZFBGallHZ1REbFV4aXFxOVF4TkV6RnY0?=
- =?utf-8?B?Tk05MDd6RzcyT0djMlZRNUVQS004S20zT3A0cHlQN2srUjFRUTh0VGtKbVcv?=
- =?utf-8?B?dWNIaFBBR1plVzNXRXJDTXlVV1RaTi9ITER4S2VybEN4ZzRKczcvc05mOHQz?=
- =?utf-8?B?ZTdqSUhrcUtKL1ZUUlZmbDhlWng0YktIYjNSb2QvOWdhL3FzS1I0aWp5Q0ps?=
- =?utf-8?B?aG5WVUNrTjYydDRKMGgzaFd2OU9tMjNGSm1TTS9lRlRDT1lrMHpZS1gwQTBX?=
- =?utf-8?B?dnM3bXJ3UnBDSTVEcjY3UE9VNUxyS0RYOE9ydmdUTDVMZVg5S20yYis3aG1I?=
- =?utf-8?B?TVRTS3JWaUhwdnE5bUNXdmV0RU5LYWpFejExR0RDNkFlVFRRSWdwNERESXhS?=
- =?utf-8?B?ZWhISVZDeVFqKzJVa0RhRG5uN0VMZ1BqdG41cXNFM2pZZGx6MnRiaWRQNU40?=
- =?utf-8?B?ZmZzWGRMbDVheS9mMnI5MmE4Y0JDaGoxMnI5TUdVWE9BVmtrMHcyWUNCS0pj?=
- =?utf-8?B?dUZiUEJFS0FyaVZsNFlRaGhXSDZXQnRZVyszanBSZW1uOFBoa1lPS05CSlNx?=
- =?utf-8?B?Q2hwRzlmeDFYRGNUdTJHemNjRGZJdmlBUWxGa1pid05OTmFwM3dGTHo0a1NM?=
- =?utf-8?B?bDNUOXhhRkNuZmNyWmJTTHR6MnVpNEQ1N2phczc1VHY4UU9kOXc2WUhyVm5v?=
- =?utf-8?B?bEZNMHJmZXVWTUd4aWZsWWl0VEg4NjRJMzhUNmUvb2ovNE5LYlRkNTc4QWZx?=
- =?utf-8?B?M0o0QTh5a3dFTGRjczNOSiszWDRZODFWTWVWVVIxdEc1aVcwWUNSQXMxWWNF?=
- =?utf-8?B?ZVVibWc4cElGdnl0dDQwZ2tlK0ttaGVWL0ROOUdtOHVCR3BJYnFMem53VjN1?=
- =?utf-8?B?ZVVIcldTRHYrc1kweHYzcU4zTEFCVjYvLzc5T1A2Yk02bDN3QWxEQ2U0M3Zu?=
- =?utf-8?B?TE0rampKc2Q1WGtOK1F2QXUwQjU0NWc0K0lac0VudDhjbzdRNW5OcjJLaHps?=
- =?utf-8?B?elJmcEpTN1lEZnY1Y01VMEZsWGd5cVN1ZEFBZG5qS1AxZitxc2k3ZnJiNjcz?=
- =?utf-8?B?WG1rbG9XQzJvNmFsL1djZFF3dWQ1SDdYNXRZUGNwSXp0N1lTNk5RL1FieXZ6?=
- =?utf-8?B?VzFvUUlJSzhpVkdmTGlNRW0vQVpiVGlLMzdXNjFTT2ZzZkhxNFJGKy82Y1cr?=
- =?utf-8?B?YjFNZkIrQVFOWm5CUHJ6clhxUXFlb0ZObXlVc3VQRVNLamc0QTB3ZnJuQTBR?=
- =?utf-8?B?WWZ3RmwxNC96bURhSnVZNWdZcXNGVEl4TGI0WmRHQ1FSb3MrRnFEZlVBZld6?=
- =?utf-8?B?REs3MWRmYjdabEdWQ1J1TmJtaTNuRVFRQkgvck1JUy9FMi80K2VtTFMwdk1a?=
- =?utf-8?B?RFAreUdEWmN3Ym9vVlpuZFdYMWpOVmdpMjZCQkFnSWNyM3FRd1JScWZZL01j?=
- =?utf-8?B?aFhYb2lKZ2pJTlhmbjFzSHFPV2lNN1JKSXFoMnpkcGliQUR2QjBOeFJsTlJz?=
- =?utf-8?B?dUw5SGszckUyVEtJWHpvKzI2M0lObVQycHM4RnppSzFWOVpPYXk2aDVSa3Bi?=
- =?utf-8?B?ZSttWnNOZUZYL0xEem0wUE40L2xrQk5ka1VkMUJxQ2gwTFYyV2JPS0tMczYv?=
- =?utf-8?B?NzZWc09YbFBacVFkUlREM3V6d2VxOUhwcnhnckFyQzRTUkFVYUZtbUR0alNL?=
- =?utf-8?B?NlFiRENmVXZTak8xb0tSQWg2d3QxbmlERGEwcmhuaWxWcmlYYVk0US9BeEJj?=
- =?utf-8?B?M1c2aXJjSXUzOUV2c2YzNHM3MWQvVWFHbkN5dENQZkU3b0pHY1JYSnArUDFW?=
- =?utf-8?Q?6PFa+ZW0FFyjS4CrKBWYOKLgb?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d81a7b15-03ea-428a-6e94-08da8b276c18
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6956.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2022 08:04:26.1747 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7wSeg5BYAifFL0TCleXr3n2nzjroHiAknfmzAR5DOnhfVDXt7Rqdvu/TBQD5keCENpevNDEVOugcvdTb6WCVfA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB9477
-Received-SPF: pass client-ip=2a01:111:f400:7e1b::729;
- envelope-from=den@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -147,25 +92,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29.08.2022 19:01, Michael Labiuk wrote:
-> Add pci bridge setting to run hotplug tests on q35 machine type.
-> Hotplug tests was bounded to 'pc' machine type by commit 7b172333f1b
->
-> Michael Labiuk (4):
->    tests/x86: Add subtest with 'q35' machine type to device-plug-test
->    tests/x86: Add 'q35' machine type to ivshmem-test
->    tests/x86: Add 'q35' machine type to hd-geo-test
->    tests/x86: Add 'q35' machine type to drive_del-test
->
->   tests/qtest/device-plug-test.c |  26 ++++++
->   tests/qtest/drive_del-test.c   | 111 +++++++++++++++++++++++++
->   tests/qtest/hd-geo-test.c      | 148 +++++++++++++++++++++++++++++++++
->   tests/qtest/ivshmem-test.c     |  30 +++++++
->   4 files changed, 315 insertions(+)
->
-I do believe that there was neither discussion nor implementation
-of my previous notes to the previous version of the patchset
-except splitting.
+Alex Williamson <alex.williamson@redhat.com> writes:
 
-Den
+> On Tue, 30 Aug 2022 13:37:35 +0200
+> Markus Armbruster <armbru@redhat.com> wrote:
+>>        if (!offset) {
+>>            offset = pci_find_space(pdev, size);
+>>            /* out of PCI config space is programming error */
+>>            assert(offset);
+>>        } else {
+>>            /* Verify that capabilities don't overlap.  Note: device assignment
+>>             * depends on this check to verify that the device is not broken.
+>>             * Should never trigger for emulated devices, but it's helpful
+>>             * for debugging these. */
+>> 
+>> The comment makes me suspect that device assignment of a broken device
+>> could trigger the error.  It goes back to
+>> 
+>> commit c9abe111209abca1b910e35c6ca9888aced5f183
+>> Author: Jan Kiszka <jan.kiszka@siemens.com>
+>> Date:   Wed Aug 24 14:29:30 2011 +0200
+>> 
+>>     pci: Error on PCI capability collisions
+>>     
+>>     Nothing good can happen when we overlap capabilities. This may happen
+>>     when plugging in assigned devices or when devices models contain bugs.
+>>     Detect the overlap and report it.
+>>     
+>>     Based on qemu-kvm commit by Alex Williamson.
+>>     
+>>     Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+>>     Acked-by: Don Dutile <ddutile@redhat.com>
+>>     Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>> 
+>> If this is still correct, then your patch is a regression: QEMU is no
+>> longer able to gracefully handle assignment of a broken device.  Does
+>> this matter?  Alex, maybe?
+>
+> Ok, that was a long time ago.  I have some vague memories of hitting
+
+Indeed!
+
+> something like this with a Broadcom NIC, but a google search for the
+> error string doesn't turn up anything recently.  So there's a fair
+> chance this wouldn't break anyone initially.
+
+I like your careful phrasing.
+
+> Even back when the above patch was proposed, there were some
+> suggestions to turn the error path into an abort, which I pushed back
+> on since clearly enumerating capabilities of a device can occur due to
+> a hot-plug and we don't necessarily have control of the device being
+> added.  This is only more true with the possibility of soft-devices out
+> of tree, through things like vfio-user.
+
+Valid point.
+
+When an compiled-in device model asks for overlapping PCI capabilities,
+it's a programming error.
+
+When an assigned device (be it physical or virtual) has overlapping PCI
+capabilities, it's bad input.
+
+Abort on programming error is okay.  Abort on bad input isn't.
+
+I think callers of the former sort should pass &error_abort to
+pci_add_capability(), and callers of the latter sort should handle the
+error.
+
+> Personally I think the right approach is to support an error path such
+> that we can abort when triggered by a cold-plug device, while simply
+> rejecting a broken hot-plug device, but that seems to be the minority
+> opinion among QEMU developers afaict.  Thanks,
+
+I'm in the "aborting on programming errors is okay" camp.
+
+Recovery from certain programming errors is possible.  However,
+different programming errors can manifest themselves the same way, and
+not all need permit safe recovery.
+
+Say we detect overlapping PCI capabilities when hot-plugging a virtual
+device model.
+
+If this is because the programmer passed an incorrect literal offset, we
+can recover safely by failing the hot plug.
+
+But perhaps the offset comes from a table, and some other bug scribbled
+over it.  Continuing the process is *unsafe*, and may increase the
+damage and/or obstruct the root cause.
+
+The former kind of bug is unlikely to survive even cursory testing.
+
 
