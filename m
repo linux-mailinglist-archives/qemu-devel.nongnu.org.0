@@ -2,45 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ADC95A8159
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 17:37:20 +0200 (CEST)
-Received: from localhost ([::1]:36672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EFE65A815C
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 17:37:33 +0200 (CEST)
+Received: from localhost ([::1]:49852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTPmI-0004vK-O2
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 11:37:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51162)
+	id 1oTPmW-0005La-BT
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 11:37:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oTPj4-0001wu-Ag
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 11:33:58 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2689)
+ id 1oTPjE-00029O-Qp
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 11:34:09 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oTPj1-0000f1-FY
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 11:33:58 -0400
-Received: from fraeml701-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MHp591g8xz6813w;
- Wed, 31 Aug 2022 23:29:49 +0800 (CST)
+ id 1oTPjD-0000je-86
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 11:34:08 -0400
+Received: from fraeml744-chm.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MHp9Q5MB4z67y8J;
+ Wed, 31 Aug 2022 23:33:30 +0800 (CST)
 Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml701-chm.china.huawei.com (10.206.15.50) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2375.31; Wed, 31 Aug 2022 17:33:33 +0200
+ fraeml744-chm.china.huawei.com (10.206.15.225) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 31 Aug 2022 17:34:04 +0200
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Wed, 31 Aug 2022 16:33:33 +0100
+ 15.1.2375.24; Wed, 31 Aug 2022 16:34:04 +0100
 To: <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>
 CC: Ben Widawsky <bwidawsk@kernel.org>, Dan Williams <dan.j.williams@intel.com>
-Subject: [RFC PATCH 0/3] CXL Performance Monitoring Unit QEMU emulation.
-Date: Wed, 31 Aug 2022 16:33:33 +0100
-Message-ID: <20220831153336.16165-1-Jonathan.Cameron@huawei.com>
+Subject: [RFC PATCH 1/3] hw/mem/cxl-type3: Add MSI/MSIX support
+Date: Wed, 31 Aug 2022 16:33:34 +0100
+Message-ID: <20220831153336.16165-2-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220831153336.16165-1-Jonathan.Cameron@huawei.com>
+References: <20220831153336.16165-1-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
+X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
  lhrpeml500005.china.huawei.com (7.191.163.240)
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=185.176.79.56;
@@ -68,54 +70,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
 From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-CXL 3.0 introduces a CXL Performance Monitoring Unit.
-(13.2 Performance Monitoring)
-These unit may be present in any CXL component but for now the kernel
-code only supports them in Type 3 Memory devices.
+This will be used by several upcoming patch sets so break it out
+such that it doesn't matter which one lands first.
 
-Add basic emulation of such units and instantiate 2 in each CXL Type 3 device.
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+---
+ hw/mem/cxl_type3.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Kernel driver was developed against this fairly minimal emulation.
-https://lore.kernel.org/linux-cxl/20220824103617.21781-1-Jonathan.Cameron@huawei.com/T/#t
-
-For now, this RFC is both to seek general feedback on the approach used and to
-provide a platform for testing the kernel driver against.
-
-Note that the CPMU definition is extremely flexible and configuring the
-available options via the QEMU command line may be impractical.
-To avoid that complexity, this configuration is currently fixed.
-This code provides a pair of identical CPMU instances on each CXL type 3
-device which were constructed to hit some of the corner cases in the
-enumeration code.
-
-The counters themselves just get bigger in a fashion designed to overflow
-fairly quickly. Actual values are meaningless.  For now there is no
-control over the existence of CPMU instances.  Likely we will add at least
-an option to enable them or not.
-
-Precursor patch to add MSI/MSIX support may well merge as part of a
-different series, but is needed to apply this to 7.1.
-
-Jonathan Cameron (3):
-  hw/mem/cxl-type3: Add MSI/MSIX support
-  hw/cxl: Switch to using an array for CXLRegisterLocator base
-    addresses.
-  hw/cxl: CXL Performance Monitoring Unit (CPMU) Emulation
-
- hw/cxl/cxl-cpmu.c              | 295 +++++++++++++++++++++++++++++++++
- hw/cxl/meson.build             |   1 +
- hw/mem/cxl_type3.c             |  31 +++-
- hw/pci-bridge/cxl_downstream.c |   4 +-
- hw/pci-bridge/cxl_root_port.c  |   4 +-
- hw/pci-bridge/cxl_upstream.c   |   4 +-
- include/hw/cxl/cxl.h           |   1 +
- include/hw/cxl/cxl_cpmu.h      |  99 +++++++++++
- include/hw/cxl/cxl_device.h    |  31 +++-
- include/hw/cxl/cxl_pci.h       |  15 +-
- 10 files changed, 463 insertions(+), 22 deletions(-)
- create mode 100644 hw/cxl/cxl-cpmu.c
- create mode 100644 include/hw/cxl/cxl_cpmu.h
-
+diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+index e0c1535b73..68d200144b 100644
+--- a/hw/mem/cxl_type3.c
++++ b/hw/mem/cxl_type3.c
+@@ -13,6 +13,8 @@
+ #include "qemu/rcu.h"
+ #include "sysemu/hostmem.h"
+ #include "hw/cxl/cxl.h"
++#include "hw/pci/msi.h"
++#include "hw/pci/msix.h"
+ 
+ /*
+  * Null value of all Fs suggested by IEEE RA guidelines for use of
+@@ -146,6 +148,8 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+     ComponentRegisters *regs = &cxl_cstate->crb;
+     MemoryRegion *mr = &regs->component_registers;
+     uint8_t *pci_conf = pci_dev->config;
++    unsigned short msix_num = 1;
++    int i;
+ 
+     if (!cxl_setup_memory(ct3d, errp)) {
+         return;
+@@ -180,6 +184,12 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+                      PCI_BASE_ADDRESS_SPACE_MEMORY |
+                          PCI_BASE_ADDRESS_MEM_TYPE_64,
+                      &ct3d->cxl_dstate.device_registers);
++
++    /* MSI(-X) Initailization */
++    msix_init_exclusive_bar(pci_dev, msix_num, 4, NULL);
++    for (i = 0; i < msix_num; i++) {
++        msix_vector_use(pci_dev, i);
++    }
+ }
+ 
+ static void ct3_exit(PCIDevice *pci_dev)
 -- 
 2.32.0
 
