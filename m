@@ -2,84 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D0B65A7B1B
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 12:12:19 +0200 (CEST)
-Received: from localhost ([::1]:52076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A28405A7B37
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 12:19:43 +0200 (CEST)
+Received: from localhost ([::1]:34334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTKhm-00082A-Lm
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 06:12:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36596)
+	id 1oTKow-0005MJ-62
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 06:19:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTKcA-0006VS-3m; Wed, 31 Aug 2022 06:06:30 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:35384)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTKc8-0003ZL-8a; Wed, 31 Aug 2022 06:06:29 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id og21so27337910ejc.2;
- Wed, 31 Aug 2022 03:06:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc;
- bh=fS4KmTCuNmeg1WjIYma/YKff8JsqTF8amplMTHAukeE=;
- b=Be/UYwb29q5xmBMP61kUzAAT0KQV7wX6eHZy2EATGqQJaODlHpnFI2334U5lT0XtfP
- 1QEgceSRBIpTU0CnqCyX4EJawciyAW6YjD6aYKJtt97qQrYjbjRhQe9zqOsuqr+F/pZc
- q3v+OPpUVAWzf14EPD/Reh73KWBo4Ku36NOKRLriXHgrqIPeRopaNeEuqc7k1cAvOK0P
- 7TCwCxxtvrT+FQ+muXMXzMqg3QhdxZopMYwGz+mZjNRsFc9/9dBe8pkeax27pROcY3ek
- oJtjo5IDN9hWVfutgDfWAeJS1udzs3UeKsAFA3n/iwQdu9K1fJhRKviOEaPoVqIXYmQE
- Mv0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc;
- bh=fS4KmTCuNmeg1WjIYma/YKff8JsqTF8amplMTHAukeE=;
- b=luhtnd/9ntcQk44nJl7mlwKcWuCdDXKbq+2BXJNHG55VJIyCvNoAisXYtUwWjyZMp2
- 1t4o8P1AT2QsDDAGiKsrpex1FABQtztoyL1lLKvHPxL6Sg9YrK316+qWqJTiDAiMRvdh
- T4zrkArsrnnomifJLObzUlc/a7gnJX7ez/5Y6EvMbE0z6NCRnDKywLShW4n+9ikRfQEM
- ge8IA8spmjMSQLsDIBh20Up1fN2PCpgOU2lt/9bvibpL68kf7TE+nOE03ER7L++WEjHn
- KYA2FRHVpBAXOia/nxG/+LWWIUDeak+6KdjrmahQ/7xHg8zFlWKDcqmiAd4unzi3HP9c
- 58TQ==
-X-Gm-Message-State: ACgBeo0NUo/hJLGLUOUHZcP6cjNlK76KPg8MULymttckAWycK/OMRbS2
- 38HBCz/yvQKUAGm0mEx9DQ9TMy5xrjA=
-X-Google-Smtp-Source: AA6agR50jjRc31iIYLHjgGuag3eZuHRXwC9/gHGtbb7RxSNPB3lAvC+KcXmSza1ZfaCXtbJ3K2YxVg==
-X-Received: by 2002:a17:906:a0d3:b0:73d:be5b:2b52 with SMTP id
- bh19-20020a170906a0d300b0073dbe5b2b52mr20196037ejb.727.1661940385814; 
- Wed, 31 Aug 2022 03:06:25 -0700 (PDT)
-Received: from ?IPv6:::1?
- (p200300faaf0bb200a5066d0f8b32ea85.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:a506:6d0f:8b32:ea85])
- by smtp.gmail.com with ESMTPSA id
- u14-20020a17090657ce00b0073dd0b0ba67sm6907093ejr.200.2022.08.31.03.06.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 31 Aug 2022 03:06:25 -0700 (PDT)
-Date: Wed, 31 Aug 2022 12:06:22 +0200
-From: BB <shentey@gmail.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-CC: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_06/10=5D_hw/isa/vt82c686=3A_I?=
- =?US-ASCII?Q?nstantiate_USB_functions_in_host_device?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <43c077df-a5ca-239b-7b5-1ca4880edef@eik.bme.hu>
-References: <20220830190048.67448-1-shentey@gmail.com>
- <20220830190048.67448-7-shentey@gmail.com>
- <43c077df-a5ca-239b-7b5-1ca4880edef@eik.bme.hu>
-Message-ID: <2DA9181D-8525-4A79-AEE6-4242659BA5D7@gmail.com>
+ (Exim 4.90_1) (envelope-from <michael.labiuk@virtuozzo.com>)
+ id 1oTKlr-0003Cv-Rt
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 06:16:31 -0400
+Received: from mail-db3eur04on072b.outbound.protection.outlook.com
+ ([2a01:111:f400:fe0c::72b]:43427
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <michael.labiuk@virtuozzo.com>)
+ id 1oTKln-0005DD-RJ
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 06:16:30 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gC8xgpVpl4nlFAvAJsLfNmnm2rNk6X5NhWnpvXHNxAs6ARvYyI3i1jTlj43aK3GsymiDmOeNmG7VrLUjJZEY5ObiVbMzlcEgg5heHFMUqw+M/hY44mgiYoIHYu+udW/5QYlnc0iS0PBj+HBKQWto8xoRPxVB+GpedPTu7UZNwfGM47hXqfygMXU34Eil7++s66veOoVaCFK+1M8aZC9i7opzuacDQaa5upoxnecPxQdeWTiGEJmIeq0LZeinhvpGCKRs8heVcwZx+s0KnzQmYwLW5npEvxBRRtxtzPjuBcp1eXX+1cmwXgaCCUGUsIx4wPUfYqbxiUd+abh4tcs31w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=A2VE5vdhNYgW0kKBQGVPOZkibijMRiccqEjcduYAFlU=;
+ b=ThIXpaSS6VUvUbYV1XG0ZobKvhqAUkR1+sciBrB3uNXhn0xPv4zi2G4PTgNsLhgsoZ6orOTDNkxGnkFWd2NtuV3Qd2oRhwJ8QVkvNXROHxW16+Nx0S25m/pYMWvW44HIzeNEqrdpB/TVEgqB0miIw+2aBDp8w/JGn1Xt3ZMDjV1yvTvVh/B9qs8/+g+FdsB770D+YA96K7If1qH4CNKzldwQ06IJHSkIH2fqr6+BvU4z9K2xUiSga0JtXu6UOEp2QvxTCx5gUhORdt0MZttop8Bn6GiGnQ61CL90tWHoDG0NUSE3+Ig53MJiywtF7U27v1W3rX53GI17H6GtdZj4mQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A2VE5vdhNYgW0kKBQGVPOZkibijMRiccqEjcduYAFlU=;
+ b=ZF3fJVEvKPKK+ApUdR3Ui4roziTVZgFIQWiozV5wNzsBf5tfavGoGN2c1cOBA5x9wZliAstboCl49PaC0at8OC++AmkL8HZyilJJZsy1dbyBPOCyI+0F9gqd79xDa/xJrqZ52OmDAheimlyckTNfpVfO11wZWitu1dod/0nrjiUtF6Xka9o/31nX1LLLQ/yZnRhK8ayRGRqbO5b0LkoPkIJqlSI3sAlC3sKOj7yaE0MBNSPlEkZ1eUHnisvZroHSd0GjGX1TPcY27b9gyXjdEMBYLZU0zS3g6s8X7R1lgrA1GB3vRMyYQqFq9H+WuIzjQ80fL9lbxlH6aA4XD8g3vQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM0PR08MB3298.eurprd08.prod.outlook.com (2603:10a6:208:5e::31)
+ by DU0PR08MB7809.eurprd08.prod.outlook.com (2603:10a6:10:3b7::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.21; Wed, 31 Aug
+ 2022 10:11:20 +0000
+Received: from AM0PR08MB3298.eurprd08.prod.outlook.com
+ ([fe80::b559:fa97:6603:5335]) by AM0PR08MB3298.eurprd08.prod.outlook.com
+ ([fe80::b559:fa97:6603:5335%4]) with mapi id 15.20.5588.010; Wed, 31 Aug 2022
+ 10:11:20 +0000
+Message-ID: <89bd52be-3a59-5466-e3d6-f70d4469f2dc@virtuozzo.com>
+Date: Wed, 31 Aug 2022 13:11:18 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] tests/x86: Add 'q35' machine type to hotplug tests
+Content-Language: en-US
+To: "Denis V. Lunev" <den@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+References: <20220826114159.6370-1-michael.labiuk@virtuozzo.com>
+ <e344f9f1-2dc9-5fdc-77e0-32900b721d42@virtuozzo.com>
+From: Michael Labiuk <michael.labiuk@virtuozzo.com>
+In-Reply-To: <e344f9f1-2dc9-5fdc-77e0-32900b721d42@virtuozzo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0008.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1d::14) To AM0PR08MB3298.eurprd08.prod.outlook.com
+ (2603:10a6:208:5e::31)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62b.google.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 216536af-70dd-4c5a-c09b-08da8b3926b2
+X-MS-TrafficTypeDiagnostic: DU0PR08MB7809:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: aLHFDKLRZGuemisSgRWBlrIpqdq3ElMemomz20qVmTORiww6yM0487JZXVrAxp8j2/baWmTM2MH4VYCTzb1G73WuttPCs0owMue4OlVlX2YZsSZ91bJfCxLwuUPHr/ei/DsIJ0Z+EKzKpB3YYR9Qtu4vB7tQT67TeOQt/vaDF9ZtjE0GZaq5KxRXfJLS8Yjn2fCW+Vj60pMGACQQVMJZHRf0QtTRuC2sVT0f3L9EPpSZLivJBJoivRcGBsbYpKFJPmVLaMFDXYi3m+AuznKClFu1GYYb4vzDkuTwt6kzKUpFCX2yudPbZDwuAg3YE6Dar3YDJhoTL5AgWXfTKzzreBMiZ0sHZnwLZOomFp/MbLlfoaanRLgI74Yd8pNg6ZtfT3pwqu0Dx7Z3FnPlau0sn0lXzjEvTa+d4GOjuRuXD6rE1iQrqGAup6QDJ9YYqlYbQCZ3qh84ufCymzGxgRUmVuOYZchmO9lp7qgPxF+uRYWg+2IILcToTYnyOXKZPDlE4e4AEjYuYCm5m2oaCs6ogsi2Edm3kGxU8iztUh/4TuOIhG4PFwPHeMeJnzeYY4Ifwf2gtWKDXpjpoEL/6X7ql104JxEDqJ0GGrEF7dwf7bc2TXEjC3NOCjFFh/fbMb06F/cBuLJk9qsDa3ffL0HGMoJqbxFcwfsO2yOxr+sQOcP1tiOVg3bTqS/kqcyVQ010O2F/jo+0DjHwVxpV338oJ45h5hoaMP2MWY+H3WHT7OFdRsqij9S/mqTw6ytuez4Ppz2HpmsKLmpXXIMWjU/OooUclOcJrEnhjBuw9jaEbX8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM0PR08MB3298.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(376002)(366004)(136003)(346002)(396003)(39850400004)(38100700002)(26005)(53546011)(6486002)(6512007)(6506007)(478600001)(41300700001)(86362001)(31696002)(31686004)(8936002)(36756003)(2616005)(83380400001)(4326008)(66946007)(5660300002)(2906002)(66476007)(186003)(8676002)(66556008)(54906003)(44832011)(316002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b1c3ODNQRTRiQnkvb2Y5VDY5K3B0VGh6UEIrUnhOeWRhUVA3Ym9xVUtjS2c0?=
+ =?utf-8?B?MFlxaGlrMXdzS3BlUUdrb3NweEJUcUUvb0FkYjhaQUJiemNJSUhCcmxwZFFz?=
+ =?utf-8?B?Vnd3OG12dEt4eksrenFQb1JDWm9ybWd4Z3BYL0lWWmF5MVhVcjZRTG50eFpQ?=
+ =?utf-8?B?N0ZhZzg4TzJKbitJVzB5TjVublJOVGI0OEw0NXJLa053MzY4VkJSMVJuUnR2?=
+ =?utf-8?B?K3dCeEpwSkVqZVpWckdWQk0rMWZ2SkRXazdkUE9HMVp0TTVkWFNaT210OU1j?=
+ =?utf-8?B?MmpUNVdTWkVQNHpHM29iZEF3eXJpaVA3TU9IWG0zd0V2N200dFBYR29abHFG?=
+ =?utf-8?B?K2hsWG5XYm8za3NtSlM2SEZJYUxFa3p4WHYyV1N5aUtMV05QaVNsSE9Uejgy?=
+ =?utf-8?B?MXNtQk9qTER0NmU5d3orL3V5TDBJTlJiRGFPNnI5UnptTDN1ZTk1a2FrUFBU?=
+ =?utf-8?B?bHdTR29HUVJYRldUdkI4cVBYQTR0c3ZuM1hYK3JGYWN5QmpwSHc3YWpuU0xC?=
+ =?utf-8?B?MmZVYWtKbUJOdGMrZUlEaVN1N2U0ZmVSb29hOHV5anBGNHFRN1I4aHpzKzJH?=
+ =?utf-8?B?MXhYV3lDaE5VL281QUwxV3QwTVFNQ3ZLVTFraGdiSTNHaUpZNThodHdZWEds?=
+ =?utf-8?B?NXNjTnlabHdGTkJRSkMwZEp6ZlkxcEJEc2xZb2t0QVZKWjduK1N4SU5MS25h?=
+ =?utf-8?B?b1BOWGs1a3MvaVN4aEpOUWliQ3VsM1F5ZnVHa0NkdkZXS1l6VXdWR2NoZ0hx?=
+ =?utf-8?B?QnlUQWJhdXpINFFIa0IycnhpeTc0Mk10U2tMVXJxYlhmV2hoR2lES2YzY2Fw?=
+ =?utf-8?B?SjhCZFFxQzlpcDBRMW9MSmFYNmg2ak5MKzAyRE1zZEFYSjN1YloyNGxZdzBx?=
+ =?utf-8?B?Y3hUemROZGl1emU2ekVHMVhsL3ErUkhTdGp5QjVOck5IdVNoR0hDQlZ6bEM0?=
+ =?utf-8?B?UFJrVXpwMXlqeDFiZHRCYmRHTzdYSHMvNVBGR1pUaEdMb1VrSTRqNSswc0RP?=
+ =?utf-8?B?a2ltdjArbDRRRjAvajZhd2tYSldJZjJmMFVIcElKRjdtZ1hKRTJUdTZOSkxT?=
+ =?utf-8?B?a2lzdFpHVG1sYi9FR05sdmN4R0ZSNHFvaEkyOVhQendXcThnYWZTZlowNWpH?=
+ =?utf-8?B?OHNYNS9SRUV2bXBkZGJXci8wYWNQNzV3aVNRcGJIenI5bmFNWmttNndPay9n?=
+ =?utf-8?B?enZYTG9PL2dzZXFQalNCNkFqMUFCdktSWkQxVVBSOXZTWmxNZmt0OFV1TFFr?=
+ =?utf-8?B?T0R6RG5FazBzOHh4dm82ZThDK0QvTUhTeDdXakMxVlljQVJlVjlpd0FwZisw?=
+ =?utf-8?B?dUcvVHlMWElpSkJPNHhPWm5LeU1nNzdld0ZWbkhFTEtaV3ViNWt0ZlVJUUZr?=
+ =?utf-8?B?VEcyUU5pUkNBNTR4ZkV4Tlc4am1jaFlLMktzSTZQUUNpL3p2YTlUUi9yZmps?=
+ =?utf-8?B?d1lNUThoOEhrYXQyaXhKL21SOU1CSzJCbk11WHg4cm1IcFZVR1oxcWJaQ2pQ?=
+ =?utf-8?B?cUUrSzVHKzkzYnFrMVNZSFd1VVlKOVczdG1qTU0rQm5oVkVWVUpSR2h1TlJL?=
+ =?utf-8?B?WkZvRlRvR1BkUi9BYjMrMFZDck90SitDYUhaclhnbldGMWNIejZLTUp2Yk1U?=
+ =?utf-8?B?clhKQklWRzhzdkZlam96YmJmbWx6a1RoeFFHa2ZTOVBZdHhpU0dFMFlzVG5Z?=
+ =?utf-8?B?QkJXQzI3VFhrU2U2LzNpWEFOQUgyZnJKSHlVRkFJMk00b1JTQ0RRbk9qM21z?=
+ =?utf-8?B?UE82VWVuSlNVZzBvV1lCa0hlUXI0RXZQbTQxU1MvZEFOb2pZVkV2V0NsOElz?=
+ =?utf-8?B?TGNZa0Z2RTZzYktOWmFlTFlodzEzYzhsUEhEWlQvNkMvTUg0TGZOUS9OcTE1?=
+ =?utf-8?B?bEp6VDd0dHhRRXU1RU5HUHNxR2ttOG9VeHZpYno1cTdyeTVWZDY0R2F1ZHdQ?=
+ =?utf-8?B?cVl3RmZSL3R4OXBRRGo1TVVzTUpFZHJmUVBHQ1h0M1o2NndQUXdSMGRZVi91?=
+ =?utf-8?B?M1kzbFUwazF2enlncDd5MmFPT3ExSTlBcXp3OWlTVnphVHYvWmMrWERiK21q?=
+ =?utf-8?B?ZVpFd1Rka2gwaUgvMk1NU2RRb3cyRDNvNzVJSC9zWTl2cUQ3ZkdERzVobWs5?=
+ =?utf-8?B?QTl0ZkpvbFFpbUhYOGJrUUhvSEMvN3RJTVVuMXBLbEo2UWV4cVo2ak9jWndD?=
+ =?utf-8?B?aFE9PQ==?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 216536af-70dd-4c5a-c09b-08da8b3926b2
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR08MB3298.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2022 10:11:20.6085 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qsWVGLtvz4zLeFlD1smw/3RdLCiWbyygW6Xw1383dpz73Ij5EWZ/j7oPelh9BuWPUSKrbsKHPu/CVB1BmxNAALK6JE321Xr0aaSQZuoqmfc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB7809
+Received-SPF: pass client-ip=2a01:111:f400:fe0c::72b;
+ envelope-from=michael.labiuk@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,119 +151,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 8/26/22 15:39, Denis V. Lunev wrote:
+> On 26.08.2022 13:41, Michael Labiuk wrote:
+>> +static void test_q35_pci_unplug_request(void)
+> that seems a little bit wrong. we have pcie test and thus
+> the naming should be appropriate.
+> 
+> What about test_pcie_unplug_request()?
 
+I don't think so. Device type remains PCI. Only bridge configuration to 
+allow hotplug.
 
-Am 31=2E August 2022 00:33:33 MESZ schrieb BALATON Zoltan <balaton@eik=2Eb=
-me=2Ehu>:
->On Tue, 30 Aug 2022, Bernhard Beschow wrote:
->> The USB functions can be enabled/disabled through the ISA function=2E A=
-lso
->> its interrupt routing can be influenced there=2E
->>=20
->> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->> ---
->> hw/isa/vt82c686=2Ec   | 12 ++++++++++++
->> hw/mips/fuloong2e=2Ec |  3 ---
->> hw/ppc/pegasos2=2Ec   |  4 ----
->> 3 files changed, 12 insertions(+), 7 deletions(-)
->>=20
->> diff --git a/hw/isa/vt82c686=2Ec b/hw/isa/vt82c686=2Ec
->> index 9d946cea54=2E=2E6aba7f29de 100644
->> --- a/hw/isa/vt82c686=2Ec
->> +++ b/hw/isa/vt82c686=2Ec
->> @@ -23,6 +23,7 @@
->> #include "hw/intc/i8259=2Eh"
->> #include "hw/irq=2Eh"
->> #include "hw/dma/i8257=2Eh"
->> +#include "hw/usb/hcd-uhci=2Eh"
->> #include "hw/timer/i8254=2Eh"
->> #include "hw/rtc/mc146818rtc=2Eh"
->> #include "migration/vmstate=2Eh"
->> @@ -546,6 +547,7 @@ struct ViaISAState {
->>     qemu_irq *isa_irqs;
->>     ViaSuperIOState via_sio;
->>     PCIIDEState ide;
->> +    UHCIState uhci[2];
->> };
->>=20
->> static const VMStateDescription vmstate_via =3D {
->> @@ -563,6 +565,8 @@ static void via_isa_init(Object *obj)
->>     ViaISAState *s =3D VIA_ISA(obj);
->>=20
->>     object_initialize_child(obj, "ide", &s->ide, "via-ide");
->> +    object_initialize_child(obj, "uhci1", &s->uhci[0], "vt82c686b-usb-=
-uhci");
->> +    object_initialize_child(obj, "uhci2", &s->uhci[1], "vt82c686b-usb-=
-uhci");
->> }
->>=20
->> static const TypeInfo via_isa_info =3D {
->> @@ -629,6 +633,14 @@ static void via_isa_realize(PCIDevice *d, Error **=
-errp)
->>     if (!qdev_realize(DEVICE(&s->ide), BUS(pci_bus), errp)) {
->>         return;
->>     }
+>> diff --git a/tests/qtest/drive_del-test.c b/tests/qtest/drive_del-test.c
+>> index 5e6d58b4dd..3a2ddecf22 100644
+>> --- a/tests/qtest/drive_del-test.c
+>> +++ b/tests/qtest/drive_del-test.c
+>> @@ -258,6 +258,27 @@ static void test_cli_device_del(void)
+>>       qtest_quit(qts);
+>>   }
+> 
+> this patch seems trashes the internal structure of the test.
+> originally it was unified for all archs through
+>    qvirtio_get_dev_type(void)
+> and this change makes the test non-uniform.
+> This should be rethinked
+
+We have to add test with explicit machine type. Existing test works fine 
+but use default machine type. Type returned by 
+qvirtio_get_dev_type(void) is the same for 'pc' and 'q35' machine types.
+May be better to create a new test instead of extending drive-del-test. 
+Can you make suggestion?
+
+>> diff --git a/tests/qtest/ivshmem-test.c b/tests/qtest/ivshmem-test.c
+>> index e23a97fa8e..c4ca7efc62 100644
+>> --- a/tests/qtest/ivshmem-test.c
+>> +++ b/tests/qtest/ivshmem-test.c
+>> @@ -378,6 +378,32 @@ static void test_ivshmem_server(void)
+>>       close(thread.pipe[0]);
+>>   }
+>> +static void device_del(QTestState *qtest, const char *id)
+>> +{
+>> +    QDict *resp;
 >> +
->> +    /* Functions 2-3: USB Ports */
->> +    for (i =3D 0; i < ARRAY_SIZE(s->uhci); ++i) {
->
->It does not really matter but Usually i++ is used in for loops so seeing =
-++i here is a bit odd but this alone isn't worth a new version=2E
+>> +    resp = qtest_qmp(qtest,
+>> +                     "{'execute': 'device_del',"
+>> +                     " 'arguments': { 'id': %s } }", id);
+>> +
+>> +    g_assert(qdict_haskey(resp, "return"));
+>> +    qobject_unref(resp);
+>> +}
+>> +
+>> +static void test_ivshmem_hotplug_q35(void)
+>> +{
+>> +    QTestState *qts = qtest_init("-object 
+>> memory-backend-ram,size=1M,id=mb1 "
+>> +                                 "-device pcie-root-port,id=p1 "
+>> +                                 "-device pcie-pci-bridge,bus=p1,id=b1 "
+>> +                                 "-machine q35");
+>> +
+>> +    qtest_qmp_device_add(qts, "ivshmem-plain", "iv1",
+>> +                         "{'memdev': 'mb1', 'bus': 'b1'}");
+>> +    device_del(qts, "iv1");
+>> +
+>> +    qtest_quit(qts);
+>> +}
+>> +
+> I think that we need something like we have observed in 
+> tests/qtest/drive_del-test.c
+> to avoid copy/pasted code
+> 
+Could you explain where you find duplicate?
+We can't select behavior because we do not want to replace test for 
+default machine type. Needed new test for 'q35'.
 
-Fixed in v3=2E
-
-Regards,
-Bernhard
->
->Regards,
->BALATON Zoltan
->
->> +        qdev_prop_set_int32(DEVICE(&s->uhci[i]), "addr", d->devfn + 2 =
-+ i);
->> +        if (!qdev_realize(DEVICE(&s->uhci[i]), BUS(pci_bus), errp)) {
->> +            return;
->> +        }
->> +    }
->> }
->>=20
->> /* TYPE_VT82C686B_ISA */
->> diff --git a/hw/mips/fuloong2e=2Ec b/hw/mips/fuloong2e=2Ec
->> index 32605901e7=2E=2Edc92223b76 100644
->> --- a/hw/mips/fuloong2e=2Ec
->> +++ b/hw/mips/fuloong2e=2Ec
->> @@ -208,9 +208,6 @@ static void vt82c686b_southbridge_init(PCIBus *pci_=
-bus, int slot, qemu_irq intc,
->>     dev =3D PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"=
-));
->>     pci_ide_create_devs(dev);
->>=20
->> -    pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci=
-");
->> -    pci_create_simple(pci_bus, PCI_DEVFN(slot, 3), "vt82c686b-usb-uhci=
-");
->> -
->>     dev =3D pci_create_simple(pci_bus, PCI_DEVFN(slot, 4), TYPE_VT82C68=
-6B_PM);
->>     *i2c_bus =3D I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
->>=20
->> diff --git a/hw/ppc/pegasos2=2Ec b/hw/ppc/pegasos2=2Ec
->> index 8bc528a560=2E=2E85cca6f7a6 100644
->> --- a/hw/ppc/pegasos2=2Ec
->> +++ b/hw/ppc/pegasos2=2Ec
->> @@ -168,10 +168,6 @@ static void pegasos2_init(MachineState *machine)
->>     dev =3D PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"=
-));
->>     pci_ide_create_devs(dev);
->>=20
->> -    /* VT8231 function 2-3: USB Ports */
->> -    pci_create_simple(pci_bus, PCI_DEVFN(12, 2), "vt82c686b-usb-uhci")=
-;
->> -    pci_create_simple(pci_bus, PCI_DEVFN(12, 3), "vt82c686b-usb-uhci")=
-;
->> -
->>     /* VT8231 function 4: Power Management Controller */
->>     dev =3D pci_create_simple(pci_bus, PCI_DEVFN(12, 4), TYPE_VT8231_PM=
-);
->>     i2c_bus =3D I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
->>=20
+Thanks,
+Michael
 
