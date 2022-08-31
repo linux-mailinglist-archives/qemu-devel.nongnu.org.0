@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25FB35A80AF
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 16:56:28 +0200 (CEST)
-Received: from localhost ([::1]:42044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9942E5A80BF
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 16:57:19 +0200 (CEST)
+Received: from localhost ([::1]:40066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTP8k-0003lj-LG
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 10:56:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54254)
+	id 1oTP9a-00058F-Lr
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 10:57:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTP2S-0006k7-UF; Wed, 31 Aug 2022 10:50:00 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:33514)
+ id 1oTP3Z-0007TY-Fe; Wed, 31 Aug 2022 10:51:07 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:41870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTP2R-0008AC-3U; Wed, 31 Aug 2022 10:49:56 -0400
-Received: by mail-ej1-x633.google.com with SMTP id cu2so28955046ejb.0;
- Wed, 31 Aug 2022 07:49:54 -0700 (PDT)
+ id 1oTP3X-0000AK-KX; Wed, 31 Aug 2022 10:51:05 -0400
+Received: by mail-ed1-x530.google.com with SMTP id r4so18707953edi.8;
+ Wed, 31 Aug 2022 07:51:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc;
- bh=jQirx8cZ2TjrtLkZRlGGSINfEvCu9nPUr02nKJ7EdLw=;
- b=TL0kB9VBvXLguOaHvq2EfWdXX1NCYD4Qm+2gr20qgSI6oQ3iSZpStIAVLnbWJGJ0Rg
- GbX/Z811RkwabPmoKQNgKing+awK5xQzaZHVyuKuZYSJL1r7DfV6FUwybc1ri6n9hDBO
- sQWg3IvzelER4S9zm2LoL+WxLCk/ak9CShlLFh2FN1yehdvdoqCtYqhMxjw29TBUpqqY
- /sIxVSzcOuDph1QOyhzEZU2ZMurM17m0+lwOt/IrJ1fSGbyBzfYT1EgA4e30DhUenFjP
- cuIiuLD5SYbeGZ3quWUYrdwAYjJ2AIFnT/NwUWmaPQFioCvdaBPlBL0XLyVK+q7MggcY
- AleA==
+ bh=XvaGGmn/O0YwI8Z4jYx/XecuYrlby8QTtEfKouYfOiA=;
+ b=MWCvDbTvD1PAm/hMOIdOvXU284wCte1OKOAELrfRYAoyNF0oNhwHOL4+WiZ4+msiCj
+ 9q5hlwY9OhQptz3UN6k7EBLlzhpuZ1UFyNAhyrWNUvxQFkKxQQqgmbD/wiDuizSObwFS
+ gEbl7F2VQ3v15Ri9g/ACFpKv6q2DaByjF+/OEQ0OiDBolXaCdRSusD/oJ6rS3ns4Qhv2
+ khlTmfTiaGNXtYIs0DlgVNv0NPW/GrLaMTA5YkU2FL6PCMjGkwuxU7lFtVeiDMnJQv2V
+ gTIjGBsLn541wnIHN/ZrrV03svWrdekSjPROKreT/tOX4j4mH3AjQejh8MpNuWqOJ3vE
+ 4IGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
  :from:to:cc;
- bh=jQirx8cZ2TjrtLkZRlGGSINfEvCu9nPUr02nKJ7EdLw=;
- b=by75qVKxTL9QGNaaJ6/iG4ftI14gX36a9mL3/gcHyAHSA1lB8x3hYsLIa+5V+soTqa
- DHw4Vy0Dnv5yZHFgIZbugOOP7soa6kP/HJYYCFzwnM8g/doFXYqvXJ9X4IKKZ/NRQdi6
- N/sHjNTT6REST46jjqcPib17BOGuQkQyPkAzBxmMUHtIJkrvze7N/tgi9vMleuuLNfw/
- O6J6xuafL6upsMvndddT5NBGgRe4N9a2OdqwL81PDWWc345JdPKOkWi+cpTiDaQNFe5y
- XBWmlj6OlzZWUiCx0tF62JwqQCDWRD6yfUE97lOb9xFsUTYWgWS/U+QsKrWDfIdUk1M1
- bk1w==
-X-Gm-Message-State: ACgBeo0doXiO9UMP1UfIE9ij6tFeTSI2RQcDFiNS7P/BV7P/eVMci6jU
- 38yqcZZip+xOuJzgKKETut8=
-X-Google-Smtp-Source: AA6agR5LODfCa1iPeDEv6MaSyRqCcvRtVovOgYlX2DqXRuzC54nC7pEc2kW8C3G+eDLMwm6bfiuV0A==
-X-Received: by 2002:a17:907:9812:b0:741:973d:fe78 with SMTP id
- ji18-20020a170907981200b00741973dfe78mr9667761ejc.490.1661957393092; 
- Wed, 31 Aug 2022 07:49:53 -0700 (PDT)
+ bh=XvaGGmn/O0YwI8Z4jYx/XecuYrlby8QTtEfKouYfOiA=;
+ b=QlFwRJG7AjBqMYWj0mcRtprJm1RiSuH7X22ei7kY0NnRNGfcza07RivmWqdf2tJXRe
+ 0YrIU6p7hNs7RyNlLgrkpWwyC5XevXAvVJAyOAbLxjoKngL2MZ/5Y/GEMewgLXMkzUgS
+ oqkyYyeLtEdP8I8UPUdsqigod67wJsYkkPkqD8zy2s55aJuuf4eOMqg+VVwCgPArFYgP
+ 2wcPYhWJz3YYqo2vjo2/g5DEtUp7CyNqFkRw6eqQVZfLArFrqKT/roLrRO2ak0c9BFZZ
+ +3S2p/5/svGQ02sleXLVPNYuosGfe9uK7nRY58D015ul6b0IrWzsWtpyvZncIbH//LXa
+ XS0A==
+X-Gm-Message-State: ACgBeo3H6b+AWlCEpiZepi13pJWu7n4fNy13S0GBIxNPK8zMl+cjS5ss
+ 0iz8HTrTGSKU2qwXX3AzGqJiQ8z36Y8=
+X-Google-Smtp-Source: AA6agR7mUekfgf325n9xJGmNKDwnLbRWIbGvfD8+lJUxUINtJBnO15QSjrsSXkm6AE5YU2AeOpFoVw==
+X-Received: by 2002:a05:6402:2949:b0:445:dc8d:44d with SMTP id
+ ed9-20020a056402294900b00445dc8d044dmr25222275edb.60.1661957461052; 
+ Wed, 31 Aug 2022 07:51:01 -0700 (PDT)
 Received: from ?IPv6:::1?
  (p200300faaf0bb200a5066d0f8b32ea85.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:a506:6d0f:8b32:ea85])
  by smtp.gmail.com with ESMTPSA id
- kw14-20020a170907770e00b0073d685a2985sm7197331ejc.108.2022.08.31.07.49.52
+ fh10-20020a1709073a8a00b007307d099ed7sm7127454ejc.121.2022.08.31.07.51.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 31 Aug 2022 07:49:52 -0700 (PDT)
-Date: Wed, 31 Aug 2022 16:49:48 +0200
+ Wed, 31 Aug 2022 07:51:00 -0700 (PDT)
+Date: Wed, 31 Aug 2022 16:50:57 +0200
 From: BB <shentey@gmail.com>
 To: BALATON Zoltan <balaton@eik.bme.hu>
 CC: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
  Huacai Chen <chenhuacai@kernel.org>,
  =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_06/10=5D_hw/isa/vt82c686=3A_I?=
- =?US-ASCII?Q?nstantiate_USB_functions_in_host_device?=
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_08/10=5D_hw/isa/vt82c686=3A_Instan?=
+ =?US-ASCII?Q?tiate_AC97_and_MC97_functions_in_host_device?=
 User-Agent: K-9 Mail for Android
-In-Reply-To: <331bbd5a-aeaa-d5c0-cf8f-cde5b22d8a3@eik.bme.hu>
+In-Reply-To: <7e52791-f51d-9d5e-51b9-1bab67c58027@eik.bme.hu>
 References: <20220831095914.2041-1-shentey@gmail.com>
- <20220831095914.2041-7-shentey@gmail.com>
- <331bbd5a-aeaa-d5c0-cf8f-cde5b22d8a3@eik.bme.hu>
-Message-ID: <96C4E9E5-4875-4B49-B176-673BAAEE7993@gmail.com>
+ <20220831095914.2041-9-shentey@gmail.com>
+ <7e52791-f51d-9d5e-51b9-1bab67c58027@eik.bme.hu>
+Message-ID: <04A3C565-7278-423F-844A-C5EA95FB8A00@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,56 +99,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-Am 31=2E August 2022 15:23:37 MESZ schrieb BALATON Zoltan <balaton@eik=2Eb=
+Am 31=2E August 2022 15:24:28 MESZ schrieb BALATON Zoltan <balaton@eik=2Eb=
 me=2Ehu>:
 >On Wed, 31 Aug 2022, Bernhard Beschow wrote:
->> The USB functions can be enabled/disabled through the ISA function=2E A=
-lso
->> its interrupt routing can be influenced there=2E
+>> The AC97 function's wakeup status is wired to the PM function and both
+>> the AC97 and MC97 interrupt routing is determined by the ISA function=
+=2E
 >>=20
 >> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
 >> ---
->> hw/isa/vt82c686=2Ec   | 12 ++++++++++++
->> hw/mips/fuloong2e=2Ec |  3 ---
->> hw/ppc/pegasos2=2Ec   |  4 ----
->> 3 files changed, 12 insertions(+), 7 deletions(-)
+>> hw/isa/vt82c686=2Ec   | 16 ++++++++++++++++
+>> hw/mips/fuloong2e=2Ec |  4 ----
+>> hw/ppc/pegasos2=2Ec   |  5 -----
+>> 3 files changed, 16 insertions(+), 9 deletions(-)
 >>=20
 >> diff --git a/hw/isa/vt82c686=2Ec b/hw/isa/vt82c686=2Ec
->> index 9d946cea54=2E=2E66a4b9c230 100644
+>> index fcc9894e8b=2E=2E691a467b2c 100644
 >> --- a/hw/isa/vt82c686=2Ec
 >> +++ b/hw/isa/vt82c686=2Ec
->> @@ -23,6 +23,7 @@
->> #include "hw/intc/i8259=2Eh"
->> #include "hw/irq=2Eh"
->> #include "hw/dma/i8257=2Eh"
->> +#include "hw/usb/hcd-uhci=2Eh"
->> #include "hw/timer/i8254=2Eh"
->> #include "hw/rtc/mc146818rtc=2Eh"
->> #include "migration/vmstate=2Eh"
->> @@ -546,6 +547,7 @@ struct ViaISAState {
->>     qemu_irq *isa_irqs;
->>     ViaSuperIOState via_sio;
+>> @@ -553,6 +553,8 @@ struct ViaISAState {
 >>     PCIIDEState ide;
->> +    UHCIState uhci[2];
+>>     UHCIState uhci[2];
+>>     ViaPMState pm;
+>> +    PCIDevice ac97;
+>> +    PCIDevice mc97;
 >> };
 >>=20
 >> static const VMStateDescription vmstate_via =3D {
->> @@ -563,6 +565,8 @@ static void via_isa_init(Object *obj)
->>     ViaISAState *s =3D VIA_ISA(obj);
->>=20
+>> @@ -572,6 +574,8 @@ static void via_isa_init(Object *obj)
 >>     object_initialize_child(obj, "ide", &s->ide, "via-ide");
->> +    object_initialize_child(obj, "uhci1", &s->uhci[0], "vt82c686b-usb-=
-uhci");
->> +    object_initialize_child(obj, "uhci2", &s->uhci[1], "vt82c686b-usb-=
-uhci");
+>>     object_initialize_child(obj, "uhci1", &s->uhci[0], "vt82c686b-usb-u=
+hci");
+>>     object_initialize_child(obj, "uhci2", &s->uhci[1], "vt82c686b-usb-u=
+hci");
+>> +    object_initialize_child(obj, "ac97", &s->ac97, TYPE_VIA_AC97);
+>> +    object_initialize_child(obj, "mc97", &s->mc97, TYPE_VIA_MC97);
+>> }
+>>=20
+>> static const TypeInfo via_isa_info =3D {
+>> @@ -652,6 +656,18 @@ static void via_isa_realize(PCIDevice *d, Error **=
+errp)
+>>     if (!qdev_realize(DEVICE(&s->pm), BUS(pci_bus), errp)) {
+>>         return;
+>>     }
+>> +
+>> +    /* Function 5: AC97 Audio */
+>> +    qdev_prop_set_int32(DEVICE(&s->ac97), "addr", d->devfn + 5);
+>> +    if (!qdev_realize(DEVICE(&s->ac97), BUS(pci_bus), errp)) {
+>> +        return;
+>> +    }
+>> +
+>> +    /* Function 6: AC97 Modem */
 >
->Sorry for not saying this yesterday, this can also be done separately so =
-no need for another version of this series if not needed for another reason=
- but could we add a define for vt82c686b-usb-uhci in include/hw/isa/vt82c68=
-6=2Eh and use that here and in hw/usb/vt82c686-uhci-pci=2Ec ?
+>Is this MC97 Modem instead?
 
-Would creating a dedicated header work, too? Board code doesn't need to se=
-e the define any longer=2E
+Yeah, MC97 Modem=2E I''ll send a v4=2E
 
 Regards,
 Bernhard
@@ -156,63 +161,53 @@ Bernhard
 >Regards,
 >BALATON Zoltan
 >
->> }
->>=20
->> static const TypeInfo via_isa_info =3D {
->> @@ -629,6 +633,14 @@ static void via_isa_realize(PCIDevice *d, Error **=
-errp)
->>     if (!qdev_realize(DEVICE(&s->ide), BUS(pci_bus), errp)) {
->>         return;
->>     }
->> +
->> +    /* Functions 2-3: USB Ports */
->> +    for (i =3D 0; i < ARRAY_SIZE(s->uhci); i++) {
->> +        qdev_prop_set_int32(DEVICE(&s->uhci[i]), "addr", d->devfn + 2 =
-+ i);
->> +        if (!qdev_realize(DEVICE(&s->uhci[i]), BUS(pci_bus), errp)) {
->> +            return;
->> +        }
+>> +    qdev_prop_set_int32(DEVICE(&s->mc97), "addr", d->devfn + 6);
+>> +    if (!qdev_realize(DEVICE(&s->mc97), BUS(pci_bus), errp)) {
+>> +        return;
 >> +    }
 >> }
 >>=20
 >> /* TYPE_VT82C686B_ISA */
 >> diff --git a/hw/mips/fuloong2e=2Ec b/hw/mips/fuloong2e=2Ec
->> index 32605901e7=2E=2Edc92223b76 100644
+>> index 377108d313=2E=2E2d8723ab74 100644
 >> --- a/hw/mips/fuloong2e=2Ec
 >> +++ b/hw/mips/fuloong2e=2Ec
->> @@ -208,9 +208,6 @@ static void vt82c686b_southbridge_init(PCIBus *pci_=
-bus, int slot, qemu_irq intc,
->>     dev =3D PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"=
-));
->>     pci_ide_create_devs(dev);
+>> @@ -210,10 +210,6 @@ static void vt82c686b_southbridge_init(PCIBus *pci=
+_bus, int slot, qemu_irq intc,
 >>=20
->> -    pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci=
-");
->> -    pci_create_simple(pci_bus, PCI_DEVFN(slot, 3), "vt82c686b-usb-uhci=
-");
->> -
->>     dev =3D pci_create_simple(pci_bus, PCI_DEVFN(slot, 4), TYPE_VT82C68=
-6B_PM);
+>>     dev =3D PCI_DEVICE(object_resolve_path_component(OBJECT(via), "pm")=
+);
 >>     *i2c_bus =3D I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
+>> -
+>> -    /* Audio support */
+>> -    pci_create_simple(pci_bus, PCI_DEVFN(slot, 5), TYPE_VIA_AC97);
+>> -    pci_create_simple(pci_bus, PCI_DEVFN(slot, 6), TYPE_VIA_MC97);
+>> }
 >>=20
+>> /* Network support */
 >> diff --git a/hw/ppc/pegasos2=2Ec b/hw/ppc/pegasos2=2Ec
->> index 8bc528a560=2E=2E85cca6f7a6 100644
+>> index e32944ee2b=2E=2E09fdb7557f 100644
 >> --- a/hw/ppc/pegasos2=2Ec
 >> +++ b/hw/ppc/pegasos2=2Ec
->> @@ -168,10 +168,6 @@ static void pegasos2_init(MachineState *machine)
->>     dev =3D PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"=
-));
->>     pci_ide_create_devs(dev);
+>> @@ -159,7 +159,6 @@ static void pegasos2_init(MachineState *machine)
+>>     pci_bus =3D mv64361_get_pci_bus(pm->mv, 1);
 >>=20
->> -    /* VT8231 function 2-3: USB Ports */
->> -    pci_create_simple(pci_bus, PCI_DEVFN(12, 2), "vt82c686b-usb-uhci")=
-;
->> -    pci_create_simple(pci_bus, PCI_DEVFN(12, 3), "vt82c686b-usb-uhci")=
-;
+>>     /* VIA VT8231 South Bridge (multifunction PCI device) */
+>> -    /* VT8231 function 0: PCI-to-ISA Bridge */
+>>     via =3D pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0), =
+true,
+>>                                           TYPE_VT8231_ISA);
+>>     qdev_connect_gpio_out(DEVICE(via), 0,
+>> @@ -173,10 +172,6 @@ static void pegasos2_init(MachineState *machine)
+>>     spd_data =3D spd_data_generate(DDR, machine->ram_size);
+>>     smbus_eeprom_init_one(i2c_bus, 0x57, spd_data);
+>>=20
+>> -    /* VT8231 function 5-6: AC97 Audio & Modem */
+>> -    pci_create_simple(pci_bus, PCI_DEVFN(12, 5), TYPE_VIA_AC97);
+>> -    pci_create_simple(pci_bus, PCI_DEVFN(12, 6), TYPE_VIA_MC97);
 >> -
->>     /* VT8231 function 4: Power Management Controller */
->>     dev =3D pci_create_simple(pci_bus, PCI_DEVFN(12, 4), TYPE_VT8231_PM=
-);
->>     i2c_bus =3D I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
+>>     /* other PC hardware */
+>>     pci_vga_init(pci_bus);
+>>=20
 >>=20
 
