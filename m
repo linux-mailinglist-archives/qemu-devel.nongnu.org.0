@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA62B5A8620
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 20:57:56 +0200 (CEST)
-Received: from localhost ([::1]:47462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20A065A865D
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 21:02:37 +0200 (CEST)
+Received: from localhost ([::1]:56284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTSuR-0003ob-OS
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 14:57:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37214)
+	id 1oTSyw-000199-P6
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 15:02:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oTSni-0001f2-DI; Wed, 31 Aug 2022 14:50:59 -0400
-Received: from mail-oa1-x34.google.com ([2001:4860:4864:20::34]:36841)
+ id 1oTSnl-0001if-CJ; Wed, 31 Aug 2022 14:51:01 -0400
+Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:34809)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oTSng-0007wu-FZ; Wed, 31 Aug 2022 14:50:58 -0400
-Received: by mail-oa1-x34.google.com with SMTP id
- 586e51a60fabf-11f11d932a8so17868900fac.3; 
- Wed, 31 Aug 2022 11:50:54 -0700 (PDT)
+ id 1oTSni-0007yY-6e; Wed, 31 Aug 2022 14:51:01 -0400
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-11ee4649dfcso19831353fac.1; 
+ Wed, 31 Aug 2022 11:50:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=rH1YGZ9eN+Fe6GUWgr5ltiNXy3QFC8xKrs4659x9y3g=;
- b=ER4aBg5M3y8jkeNFBGy471aT4RNytoLD/kznlfV4IiiJ8Mn/b/7GDT4hD4SOPI8Ffw
- SnH3S750If8UmjtwcM5EqtCRvPq2shvdDQAjIYkrxQVV31tL0kjGC5q+rrJCr+wz5tUM
- rT8hGpxYskKolRUbnetvK2LR0bUBZ9cLGrXlFWwASdp98O1eSpISaanlYZwOGpQkVnG/
- xExazRJUr2SJBbm4cs2iyxvORTgcDeE6xmpRT/Cpv9R1qLX4sSQ2zrR2SRp3LnAXYOI6
- 6LKndYzquFOLkTXrY9sSBdrImQdvP95SYySzehEZZslgA/J0ME5xnigCW4ShClGb2gch
- 15WA==
+ bh=Ytz+rqbz1Tak5bNsQTorQyhlvtxwEHyFnk2RDLTKhIE=;
+ b=gVZd4pxxAlnoA+yt3k4ZZ3HjbL5T/GQD9Qm44wMWKdZFPPOp7D1FmCAlj7FnUCuYBN
+ tH6eajI+KynBKSQd87iSQwytdHhFlgwabulyp/20U/cCuYOUrusL0/ya2XCvur/qvh7L
+ HyZKQFSwwZkc6LnKoTcimqi4TOcq7NKU+XHWlIR/vWzWnd+FiTqR2CN6M59foXKcPKRk
+ bH2Ei2KiPlDalTFga6prnRDHgqPHUSVuf2x7w4IJm8T8+rV782LJJbEdlRqttsdQ3X+7
+ mxmcAGmhrfPq0ScB+FKCARYNw1plcahwVCkmcmLuInPD461eNXTw8RMYDJFkNwrOZP57
+ hhDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=rH1YGZ9eN+Fe6GUWgr5ltiNXy3QFC8xKrs4659x9y3g=;
- b=IZqDNAuZYy1KYPrN/7I0xzqJcMKvMA+3tItw+1jO3nFsoXtBmJzmbtkFriK8J2tZaE
- SVZWfPESjjeT1nY3ck78F9iVpa68bO6H8SFNgiKJsEWMC0VhfauCsSz09TeRYM+2KQIZ
- Yc9ebZl3TJeqLBfuh/AMcJj8vkJ7aRw0PNIcJBgQ07H36HFeDHqwxoNdCrK48aPAfOMt
- 5ACqYh9GXLag1UoBxgq3DQQf2TfJNQWBk0Nt8rgZF/n/BFoZ1B9MSmsVljbJcR939q3g
- baT8nGE5BgwoNPnD6JkCjJUDCJWYD78PV/j9YbTc5+ss4aZPY66R0dVxr7wQ1u7pceCS
- MLrw==
-X-Gm-Message-State: ACgBeo0ExPgQL8GoZqt6kmy4wGoOU9wI9lm3xVAh1CX3CdgsFJBK2zsq
- fhDvJqf3DllaAYVjzlM++Xlu1KHqBgk=
-X-Google-Smtp-Source: AA6agR7bFCcSOuHTCIlBmnyr4cndd7e8dZmtJAKn2s0N9ty7cFPa8QuvTGdWwoKLvz9eOQz03Dx9SQ==
-X-Received: by 2002:a05:6870:a446:b0:11e:9189:b25d with SMTP id
- n6-20020a056870a44600b0011e9189b25dmr2282379oal.206.1661971853642; 
- Wed, 31 Aug 2022 11:50:53 -0700 (PDT)
+ bh=Ytz+rqbz1Tak5bNsQTorQyhlvtxwEHyFnk2RDLTKhIE=;
+ b=B58Ljqaax2Wkcf1hKVGNT7Rlo0OYl7Xz129v/rGIq+IyUzDTxTikJMZadIomGnuotC
+ kDBJViRymh2zJl2toYRwfzJnHaBD6FtAA2e3a83Bco3UHjWp7K5qxMGtYawnN9y7dxot
+ Y706oz1aExhuYwVY3uqZ7EwJu8ALaVhZt6UB/pNHmdbaGdcJUVy9l53IefRe1EvfFEmc
+ Zb9ZdYAL6B+LjALzFSukcwNHSlPJgzkODmv1qOp8fUEtwiLmVQFMalhFl1zrgSek+6Vg
+ DXqwsZWKYXa7krFtjersKg4y/ibYT6cSXJ7CsJViT+dKY8WlY/JTeH9jfaA8ae2DK40M
+ s2Qg==
+X-Gm-Message-State: ACgBeo2NzrOhTnpyTjUUr4tKibgwL0VSbA/f3W4u/SR3exEf8L+sZK6z
+ BBFGSJC9o8uGRiiYy8fiALqA4pC3fCI=
+X-Google-Smtp-Source: AA6agR6CTsZ8ujRbSKdnmP2OjxsK+rLgsvT9+IO1tHrcQIp38Y0dVYnVxcQc9BTrCdOA7mr0fIRu+w==
+X-Received: by 2002:a05:6870:8092:b0:121:ece2:e41d with SMTP id
+ q18-20020a056870809200b00121ece2e41dmr2259350oab.28.1661971856347; 
+ Wed, 31 Aug 2022 11:50:56 -0700 (PDT)
 Received: from balboa.COMFAST ([177.189.45.98])
  by smtp.gmail.com with ESMTPSA id
- p4-20020a9d4544000000b0061cbd18bd18sm9599927oti.45.2022.08.31.11.50.51
+ p4-20020a9d4544000000b0061cbd18bd18sm9599927oti.45.2022.08.31.11.50.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 11:50:53 -0700 (PDT)
+ Wed, 31 Aug 2022 11:50:55 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- richard.henderson@linaro.org, Nicholas Piggin <npiggin@gmail.com>
-Subject: [PULL 02/60] target/ppc: Fix host PVR matching for KVM
-Date: Wed, 31 Aug 2022 15:49:36 -0300
-Message-Id: <20220831185034.23240-3-danielhb413@gmail.com>
+ richard.henderson@linaro.org, Nicholas Piggin <npiggin@gmail.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PULL 03/60] ppc/pnv: Add initial P9/10 SBE model
+Date: Wed, 31 Aug 2022 15:49:37 -0300
+Message-Id: <20220831185034.23240-4-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220831185034.23240-1-danielhb413@gmail.com>
 References: <20220831185034.23240-1-danielhb413@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::34;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x34.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2c;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,232 +94,678 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Nicholas Piggin <npiggin@gmail.com>
 
-ppc_cpu_compare_class_pvr_mask() should match the best CPU class in the
-family, because it is used by the KVM subsystem to find the host CPU
-class. Since commit 03ae4133ab8 ("target-ppc: Add pvr_match()
-callback"), it matches any class in the family (the first one in the
-comparison list).
+The SBE (Self Boot Engine) are on-chip microcontrollers that perform
+early boot steps, as well as provide some runtime facilities (e.g.,
+timer, secure register access, MPIPL). The latter facilities are
+accessed mostly via a message system called SBEFIFO.
 
-Since commit f30c843ced5 ("ppc/pnv: Introduce PowerNV machines with
-fixed CPU models"), pnv has relied on pnv_match having these new
-semantics to check machine compatibility with a CPU family.
+This driver provides initial emulation for the SBE runtime registers
+and a very basic SBEFIFO implementation that provides the timer
+command. This covers the basic SBE behaviour expected by skiboot when
+booting.
 
-Resolve this by adding a parameter to the pvr_match function to select
-the best or any match, and restore the old behaviour for the KVM case.
-
-Prior to this fix, e.g., a POWER9 DD2.3 KVM host matches to the
-power9_v1.0 class (because that happens to be the first POWER9 family
-CPU compared). After the patch, it matches the power9_v2.0 class.
-
-This approach requires pnv_match contain knowledge of the CPU classes
-implemented in the same family, which feels ugly. But pushing the 'best'
-match down to the class would still require they know about one another
-which is not obviously much better. For now this gets things working.
-
-Fixes: 03ae4133ab8 ("target-ppc: Add pvr_match() callback")
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20220731013358.170187-1-npiggin@gmail.com>
+Message-Id: <20220811093726.1442343-1-npiggin@gmail.com>
+[danielhb: fixed SBE_HOST_RESPONSE_MASK long line]
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/pnv.c          |  2 +-
- target/ppc/cpu-qom.h  |  6 ++-
- target/ppc/cpu_init.c | 91 +++++++++++++++++++++++++++++++++----------
- target/ppc/machine.c  |  2 +-
- 4 files changed, 77 insertions(+), 24 deletions(-)
+ hw/ppc/meson.build         |   1 +
+ hw/ppc/pnv.c               |  25 +++
+ hw/ppc/pnv_sbe.c           | 414 +++++++++++++++++++++++++++++++++++++
+ hw/ppc/pnv_xscom.c         |   3 +
+ hw/ppc/trace-events        |  11 +
+ include/hw/ppc/pnv.h       |   3 +
+ include/hw/ppc/pnv_sbe.h   |  55 +++++
+ include/hw/ppc/pnv_xscom.h |  12 ++
+ 8 files changed, 524 insertions(+)
+ create mode 100644 hw/ppc/pnv_sbe.c
+ create mode 100644 include/hw/ppc/pnv_sbe.h
 
+diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
+index aa4c8e6a2e..62801923f3 100644
+--- a/hw/ppc/meson.build
++++ b/hw/ppc/meson.build
+@@ -46,6 +46,7 @@ ppc_ss.add(when: 'CONFIG_POWERNV', if_true: files(
+   'pnv_lpc.c',
+   'pnv_psi.c',
+   'pnv_occ.c',
++  'pnv_sbe.c',
+   'pnv_bmc.c',
+   'pnv_homer.c',
+   'pnv_pnor.c',
 diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index d3f77c8367..a4cb4cf10b 100644
+index a4cb4cf10b..0c3aad430b 100644
 --- a/hw/ppc/pnv.c
 +++ b/hw/ppc/pnv.c
-@@ -714,7 +714,7 @@ static bool pnv_match_cpu(const char *default_type, const char *cpu_type)
-     PowerPCCPUClass *ppc =
-         POWERPC_CPU_CLASS(object_class_by_name(cpu_type));
+@@ -1397,6 +1397,8 @@ static void pnv_chip_power9_instance_init(Object *obj)
  
--    return ppc_default->pvr_match(ppc_default, ppc->pvr);
-+    return ppc_default->pvr_match(ppc_default, ppc->pvr, false);
- }
+     object_initialize_child(obj, "occ", &chip9->occ, TYPE_PNV9_OCC);
  
- static void pnv_ipmi_bt_init(ISABus *bus, IPMIBmc *bmc, uint32_t irq)
-diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
-index ad7e3c3db9..89ff88f28c 100644
---- a/target/ppc/cpu-qom.h
-+++ b/target/ppc/cpu-qom.h
-@@ -158,7 +158,11 @@ struct PowerPCCPUClass {
-     void (*parent_parse_features)(const char *type, char *str, Error **errp);
- 
-     uint32_t pvr;
--    bool (*pvr_match)(struct PowerPCCPUClass *pcc, uint32_t pvr);
-+    /*
-+     * If @best is false, match if pcc is in the family of pvr
-+     * Else match only if pcc is the best match for pvr in this family.
-+     */
-+    bool (*pvr_match)(struct PowerPCCPUClass *pcc, uint32_t pvr, bool best);
-     uint64_t pcr_mask;          /* Available bits in PCR register */
-     uint64_t pcr_supported;     /* Bits for supported PowerISA versions */
-     uint32_t svr;
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index d1493a660c..899c4a586e 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -5912,15 +5912,25 @@ static void init_proc_POWER7(CPUPPCState *env)
-     ppcPOWER7_irq_init(env_archcpu(env));
- }
- 
--static bool ppc_pvr_match_power7(PowerPCCPUClass *pcc, uint32_t pvr)
-+static bool ppc_pvr_match_power7(PowerPCCPUClass *pcc, uint32_t pvr, bool best)
- {
--    if ((pvr & CPU_POWERPC_POWER_SERVER_MASK) == CPU_POWERPC_POWER7P_BASE) {
--        return true;
-+    uint32_t base = pvr & CPU_POWERPC_POWER_SERVER_MASK;
-+    uint32_t pcc_base = pcc->pvr & CPU_POWERPC_POWER_SERVER_MASK;
++    object_initialize_child(obj, "sbe", &chip9->sbe, TYPE_PNV9_SBE);
 +
-+    if (!best) {
-+        if (base == CPU_POWERPC_POWER7_BASE) {
-+            return true;
+     object_initialize_child(obj, "homer", &chip9->homer, TYPE_PNV9_HOMER);
+ 
+     /* Number of PECs is the chip default */
+@@ -1549,6 +1551,17 @@ static void pnv_chip_power9_realize(DeviceState *dev, Error **errp)
+     memory_region_add_subregion(get_system_memory(), PNV9_OCC_SENSOR_BASE(chip),
+                                 &chip9->occ.sram_regs);
+ 
++    /* SBE */
++    if (!qdev_realize(DEVICE(&chip9->sbe), NULL, errp)) {
++        return;
++    }
++    pnv_xscom_add_subregion(chip, PNV9_XSCOM_SBE_CTRL_BASE,
++                            &chip9->sbe.xscom_ctrl_regs);
++    pnv_xscom_add_subregion(chip, PNV9_XSCOM_SBE_MBOX_BASE,
++                            &chip9->sbe.xscom_mbox_regs);
++    qdev_connect_gpio_out(DEVICE(&chip9->sbe), 0, qdev_get_gpio_in(
++                              DEVICE(&chip9->psi), PSIHB9_IRQ_PSU));
++
+     /* HOMER */
+     object_property_set_link(OBJECT(&chip9->homer), "chip", OBJECT(chip),
+                              &error_abort);
+@@ -1613,6 +1626,7 @@ static void pnv_chip_power10_instance_init(Object *obj)
+     object_initialize_child(obj, "psi", &chip10->psi, TYPE_PNV10_PSI);
+     object_initialize_child(obj, "lpc", &chip10->lpc, TYPE_PNV10_LPC);
+     object_initialize_child(obj, "occ",  &chip10->occ, TYPE_PNV10_OCC);
++    object_initialize_child(obj, "sbe",  &chip10->sbe, TYPE_PNV10_SBE);
+     object_initialize_child(obj, "homer", &chip10->homer, TYPE_PNV10_HOMER);
+ 
+     chip->num_pecs = pcc->num_pecs;
+@@ -1754,6 +1768,17 @@ static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
+                                 PNV10_OCC_SENSOR_BASE(chip),
+                                 &chip10->occ.sram_regs);
+ 
++    /* SBE */
++    if (!qdev_realize(DEVICE(&chip10->sbe), NULL, errp)) {
++        return;
++    }
++    pnv_xscom_add_subregion(chip, PNV10_XSCOM_SBE_CTRL_BASE,
++                            &chip10->sbe.xscom_ctrl_regs);
++    pnv_xscom_add_subregion(chip, PNV10_XSCOM_SBE_MBOX_BASE,
++                            &chip10->sbe.xscom_mbox_regs);
++    qdev_connect_gpio_out(DEVICE(&chip10->sbe), 0, qdev_get_gpio_in(
++                              DEVICE(&chip10->psi), PSIHB9_IRQ_PSU));
++
+     /* HOMER */
+     object_property_set_link(OBJECT(&chip10->homer), "chip", OBJECT(chip),
+                              &error_abort);
+diff --git a/hw/ppc/pnv_sbe.c b/hw/ppc/pnv_sbe.c
+new file mode 100644
+index 0000000000..1c7812a135
+--- /dev/null
++++ b/hw/ppc/pnv_sbe.c
+@@ -0,0 +1,414 @@
++/*
++ * QEMU PowerPC PowerNV Emulation of some SBE behaviour
++ *
++ * Copyright (c) 2022, IBM Corporation.
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License, version 2, as
++ * published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "target/ppc/cpu.h"
++#include "qapi/error.h"
++#include "qemu/log.h"
++#include "qemu/module.h"
++#include "hw/irq.h"
++#include "hw/qdev-properties.h"
++#include "hw/ppc/pnv.h"
++#include "hw/ppc/pnv_xscom.h"
++#include "hw/ppc/pnv_sbe.h"
++#include "trace.h"
++
++/*
++ * Most register and command definitions come from skiboot.
++ *
++ * xscom addresses are adjusted to be relative to xscom subregion bases
++ */
++
++/*
++ * SBE MBOX register address
++ *   Reg 0 - 3 : Host to send command packets to SBE
++ *   Reg 4 - 7 : SBE to send response packets to Host
++ */
++#define PSU_HOST_SBE_MBOX_REG0          0x00000000
++#define PSU_HOST_SBE_MBOX_REG1          0x00000001
++#define PSU_HOST_SBE_MBOX_REG2          0x00000002
++#define PSU_HOST_SBE_MBOX_REG3          0x00000003
++#define PSU_HOST_SBE_MBOX_REG4          0x00000004
++#define PSU_HOST_SBE_MBOX_REG5          0x00000005
++#define PSU_HOST_SBE_MBOX_REG6          0x00000006
++#define PSU_HOST_SBE_MBOX_REG7          0x00000007
++#define PSU_SBE_DOORBELL_REG_RW         0x00000010
++#define PSU_SBE_DOORBELL_REG_AND        0x00000011
++#define PSU_SBE_DOORBELL_REG_OR         0x00000012
++#define PSU_HOST_DOORBELL_REG_RW        0x00000013
++#define PSU_HOST_DOORBELL_REG_AND       0x00000014
++#define PSU_HOST_DOORBELL_REG_OR        0x00000015
++
++/*
++ * Doorbell register to trigger SBE interrupt. Set by OPAL to inform
++ * the SBE about a waiting message in the Host/SBE mailbox registers
++ */
++#define HOST_SBE_MSG_WAITING            PPC_BIT(0)
++
++/*
++ * Doorbell register for host bridge interrupt. Set by the SBE to inform
++ * host about a response message in the Host/SBE mailbox registers
++ */
++#define SBE_HOST_RESPONSE_WAITING       PPC_BIT(0)
++#define SBE_HOST_MSG_READ               PPC_BIT(1)
++#define SBE_HOST_STOP15_EXIT            PPC_BIT(2)
++#define SBE_HOST_RESET                  PPC_BIT(3)
++#define SBE_HOST_PASSTHROUGH            PPC_BIT(4)
++#define SBE_HOST_TIMER_EXPIRY           PPC_BIT(14)
++#define SBE_HOST_RESPONSE_MASK          (PPC_BITMASK(0, 4) | \
++                                         SBE_HOST_TIMER_EXPIRY)
++
++/* SBE Control Register */
++#define SBE_CONTROL_REG_RW              0x00000000
++
++/* SBE interrupt s0/s1 bits */
++#define SBE_CONTROL_REG_S0              PPC_BIT(14)
++#define SBE_CONTROL_REG_S1              PPC_BIT(15)
++
++struct sbe_msg {
++    uint64_t reg[4];
++};
++
++static uint64_t pnv_sbe_power9_xscom_ctrl_read(void *opaque, hwaddr addr,
++                                          unsigned size)
++{
++    uint32_t offset = addr >> 3;
++    uint64_t val = 0;
++
++    switch (offset) {
++    default:
++        qemu_log_mask(LOG_UNIMP, "SBE Unimplemented register: Ox%"
++                      HWADDR_PRIx "\n", addr >> 3);
++    }
++
++    trace_pnv_sbe_xscom_ctrl_read(addr, val);
++
++    return val;
++}
++
++static void pnv_sbe_power9_xscom_ctrl_write(void *opaque, hwaddr addr,
++                                       uint64_t val, unsigned size)
++{
++    uint32_t offset = addr >> 3;
++
++    trace_pnv_sbe_xscom_ctrl_write(addr, val);
++
++    switch (offset) {
++    default:
++        qemu_log_mask(LOG_UNIMP, "SBE Unimplemented register: Ox%"
++                      HWADDR_PRIx "\n", addr >> 3);
++    }
++}
++
++static const MemoryRegionOps pnv_sbe_power9_xscom_ctrl_ops = {
++    .read = pnv_sbe_power9_xscom_ctrl_read,
++    .write = pnv_sbe_power9_xscom_ctrl_write,
++    .valid.min_access_size = 8,
++    .valid.max_access_size = 8,
++    .impl.min_access_size = 8,
++    .impl.max_access_size = 8,
++    .endianness = DEVICE_BIG_ENDIAN,
++};
++
++static void pnv_sbe_set_host_doorbell(PnvSBE *sbe, uint64_t val)
++{
++    val &= SBE_HOST_RESPONSE_MASK; /* Is this right? What does HW do? */
++    sbe->host_doorbell = val;
++
++    trace_pnv_sbe_reg_set_host_doorbell(val);
++    qemu_set_irq(sbe->psi_irq, !!val);
++}
++
++/* SBE Target Type */
++#define SBE_TARGET_TYPE_PROC            0x00
++#define SBE_TARGET_TYPE_EX              0x01
++#define SBE_TARGET_TYPE_PERV            0x02
++#define SBE_TARGET_TYPE_MCS             0x03
++#define SBE_TARGET_TYPE_EQ              0x04
++#define SBE_TARGET_TYPE_CORE            0x05
++
++/* SBE MBOX command class */
++#define SBE_MCLASS_FIRST                0xD1
++#define SBE_MCLASS_CORE_STATE           0xD1
++#define SBE_MCLASS_SCOM                 0xD2
++#define SBE_MCLASS_RING                 0xD3
++#define SBE_MCLASS_TIMER                0xD4
++#define SBE_MCLASS_MPIPL                0xD5
++#define SBE_MCLASS_SECURITY             0xD6
++#define SBE_MCLASS_GENERIC              0xD7
++#define SBE_MCLASS_LAST                 0xD7
++
++/*
++ * Commands are provided in xxyy form where:
++ *   - xx : command class
++ *   - yy : command
++ *
++ * Both request and response message uses same seq ID,
++ * command class and command.
++ */
++#define SBE_CMD_CTRL_DEADMAN_LOOP       0xD101
++#define SBE_CMD_MULTI_SCOM              0xD201
++#define SBE_CMD_PUT_RING_FORM_IMAGE     0xD301
++#define SBE_CMD_CONTROL_TIMER           0xD401
++#define SBE_CMD_GET_ARCHITECTED_REG     0xD501
++#define SBE_CMD_CLR_ARCHITECTED_REG     0xD502
++#define SBE_CMD_SET_UNSEC_MEM_WINDOW    0xD601
++#define SBE_CMD_GET_SBE_FFDC            0xD701
++#define SBE_CMD_GET_CAPABILITY          0xD702
++#define SBE_CMD_READ_SBE_SEEPROM        0xD703
++#define SBE_CMD_SET_FFDC_ADDR           0xD704
++#define SBE_CMD_QUIESCE_SBE             0xD705
++#define SBE_CMD_SET_FABRIC_ID_MAP       0xD706
++#define SBE_CMD_STASH_MPIPL_CONFIG      0xD707
++
++/* SBE MBOX control flags */
++
++/* Generic flags */
++#define SBE_CMD_CTRL_RESP_REQ           0x0100
++#define SBE_CMD_CTRL_ACK_REQ            0x0200
++
++/* Deadman loop */
++#define CTRL_DEADMAN_LOOP_START         0x0001
++#define CTRL_DEADMAN_LOOP_STOP          0x0002
++
++/* Control timer */
++#define CONTROL_TIMER_START             0x0001
++#define CONTROL_TIMER_STOP              0x0002
++
++/* Stash MPIPL config */
++#define SBE_STASH_KEY_SKIBOOT_BASE      0x03
++
++static void sbe_timer(void *opaque)
++{
++    PnvSBE *sbe = opaque;
++
++    trace_pnv_sbe_cmd_timer_expired();
++
++    pnv_sbe_set_host_doorbell(sbe, sbe->host_doorbell | SBE_HOST_TIMER_EXPIRY);
++}
++
++static void do_sbe_msg(PnvSBE *sbe)
++{
++    struct sbe_msg msg;
++    uint16_t cmd, ctrl_flags, seq_id;
++    int i;
++
++    memset(&msg, 0, sizeof(msg));
++
++    for (i = 0; i < 4; i++) {
++        msg.reg[i] = sbe->mbox[i];
++    }
++
++    cmd = msg.reg[0];
++    seq_id = msg.reg[0] >> 16;
++    ctrl_flags = msg.reg[0] >> 32;
++
++    trace_pnv_sbe_msg_recv(cmd, seq_id, ctrl_flags);
++
++    if (ctrl_flags & SBE_CMD_CTRL_ACK_REQ) {
++        pnv_sbe_set_host_doorbell(sbe, sbe->host_doorbell | SBE_HOST_MSG_READ);
++    }
++
++    switch (cmd) {
++    case SBE_CMD_CONTROL_TIMER:
++        if (ctrl_flags & CONTROL_TIMER_START) {
++            uint64_t us = msg.reg[1];
++            trace_pnv_sbe_cmd_timer_start(us);
++            timer_mod(sbe->timer, qemu_clock_get_us(QEMU_CLOCK_VIRTUAL) + us);
 +        }
-+        if (base == CPU_POWERPC_POWER7P_BASE) {
-+            return true;
++        if (ctrl_flags & CONTROL_TIMER_STOP) {
++            trace_pnv_sbe_cmd_timer_stop();
++            timer_del(sbe->timer);
 +        }
-     }
--    if ((pvr & CPU_POWERPC_POWER_SERVER_MASK) == CPU_POWERPC_POWER7_BASE) {
--        return true;
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "SBE Unimplemented command: 0x%x\n", cmd);
++    }
++}
 +
-+    if (base != pcc_base) {
-+        return false;
-     }
--    return false;
++static void pnv_sbe_set_sbe_doorbell(PnvSBE *sbe, uint64_t val)
++{
++    val &= HOST_SBE_MSG_WAITING;
++    sbe->sbe_doorbell = val;
 +
-+    return true;
- }
- 
- static bool cpu_has_work_POWER7(CPUState *cs)
-@@ -6073,18 +6083,27 @@ static void init_proc_POWER8(CPUPPCState *env)
-     ppcPOWER7_irq_init(env_archcpu(env));
- }
- 
--static bool ppc_pvr_match_power8(PowerPCCPUClass *pcc, uint32_t pvr)
-+static bool ppc_pvr_match_power8(PowerPCCPUClass *pcc, uint32_t pvr, bool best)
- {
--    if ((pvr & CPU_POWERPC_POWER_SERVER_MASK) == CPU_POWERPC_POWER8NVL_BASE) {
--        return true;
--    }
--    if ((pvr & CPU_POWERPC_POWER_SERVER_MASK) == CPU_POWERPC_POWER8E_BASE) {
--        return true;
-+    uint32_t base = pvr & CPU_POWERPC_POWER_SERVER_MASK;
-+    uint32_t pcc_base = pcc->pvr & CPU_POWERPC_POWER_SERVER_MASK;
++    if (val & HOST_SBE_MSG_WAITING) {
++        sbe->sbe_doorbell &= ~HOST_SBE_MSG_WAITING;
++        do_sbe_msg(sbe);
++    }
++}
 +
-+    if (!best) {
-+        if (base == CPU_POWERPC_POWER8_BASE) {
-+            return true;
-+        }
-+        if (base == CPU_POWERPC_POWER8E_BASE) {
-+            return true;
-+        }
-+        if (base == CPU_POWERPC_POWER8NVL_BASE) {
-+            return true;
-+        }
-     }
--    if ((pvr & CPU_POWERPC_POWER_SERVER_MASK) == CPU_POWERPC_POWER8_BASE) {
--        return true;
-+    if (base != pcc_base) {
-+        return false;
-     }
--    return false;
++static uint64_t pnv_sbe_power9_xscom_mbox_read(void *opaque, hwaddr addr,
++                                          unsigned size)
++{
++    PnvSBE *sbe = PNV_SBE(opaque);
++    uint32_t offset = addr >> 3;
++    uint64_t val = 0;
 +
-+    return true;
- }
- 
- static bool cpu_has_work_POWER8(CPUState *cs)
-@@ -6282,11 +6301,26 @@ static void init_proc_POWER9(CPUPPCState *env)
-     ppcPOWER9_irq_init(env_archcpu(env));
- }
- 
--static bool ppc_pvr_match_power9(PowerPCCPUClass *pcc, uint32_t pvr)
-+static bool ppc_pvr_match_power9(PowerPCCPUClass *pcc, uint32_t pvr, bool best)
- {
--    if ((pvr & CPU_POWERPC_POWER_SERVER_MASK) == CPU_POWERPC_POWER9_BASE) {
-+    uint32_t base = pvr & CPU_POWERPC_POWER_SERVER_MASK;
-+    uint32_t pcc_base = pcc->pvr & CPU_POWERPC_POWER_SERVER_MASK;
-+
-+    if (!best) {
-+        if (base == CPU_POWERPC_POWER9_BASE) {
-+            return true;
++    if (offset <= PSU_HOST_SBE_MBOX_REG7) {
++        uint32_t idx = offset - PSU_HOST_SBE_MBOX_REG0;
++        val = sbe->mbox[idx];
++    } else {
++        switch (offset) {
++        case PSU_SBE_DOORBELL_REG_RW:
++            val = sbe->sbe_doorbell;
++            break;
++        case PSU_HOST_DOORBELL_REG_RW:
++            val = sbe->host_doorbell;
++            break;
++        default:
++            qemu_log_mask(LOG_UNIMP, "SBE Unimplemented register: Ox%"
++                          HWADDR_PRIx "\n", addr >> 3);
 +        }
 +    }
 +
-+    if (base != pcc_base) {
-+        return false;
-+    }
++    trace_pnv_sbe_xscom_mbox_read(addr, val);
 +
-+    if ((pvr & 0x0f00) == (pcc->pvr & 0x0f00)) {
-+        /* Major DD version matches to power9_v1.0 and power9_v2.0 */
-         return true;
-     }
++    return val;
++}
 +
-     return false;
- }
- 
-@@ -6499,11 +6533,26 @@ static void init_proc_POWER10(CPUPPCState *env)
-     ppcPOWER9_irq_init(env_archcpu(env));
- }
- 
--static bool ppc_pvr_match_power10(PowerPCCPUClass *pcc, uint32_t pvr)
-+static bool ppc_pvr_match_power10(PowerPCCPUClass *pcc, uint32_t pvr, bool best)
- {
--    if ((pvr & CPU_POWERPC_POWER_SERVER_MASK) == CPU_POWERPC_POWER10_BASE) {
-+    uint32_t base = pvr & CPU_POWERPC_POWER_SERVER_MASK;
-+    uint32_t pcc_base = pcc->pvr & CPU_POWERPC_POWER_SERVER_MASK;
++static void pnv_sbe_power9_xscom_mbox_write(void *opaque, hwaddr addr,
++                                       uint64_t val, unsigned size)
++{
++    PnvSBE *sbe = PNV_SBE(opaque);
++    uint32_t offset = addr >> 3;
 +
-+    if (!best) {
-+        if (base == CPU_POWERPC_POWER10_BASE) {
-+            return true;
++    trace_pnv_sbe_xscom_mbox_write(addr, val);
++
++    if (offset <= PSU_HOST_SBE_MBOX_REG7) {
++        uint32_t idx = offset - PSU_HOST_SBE_MBOX_REG0;
++        sbe->mbox[idx] = val;
++    } else {
++        switch (offset) {
++        case PSU_SBE_DOORBELL_REG_RW:
++            pnv_sbe_set_sbe_doorbell(sbe, val);
++            break;
++        case PSU_SBE_DOORBELL_REG_AND:
++            pnv_sbe_set_sbe_doorbell(sbe, sbe->sbe_doorbell & val);
++            break;
++        case PSU_SBE_DOORBELL_REG_OR:
++            pnv_sbe_set_sbe_doorbell(sbe, sbe->sbe_doorbell | val);
++            break;
++
++        case PSU_HOST_DOORBELL_REG_RW:
++            pnv_sbe_set_host_doorbell(sbe, val);
++            break;
++        case PSU_HOST_DOORBELL_REG_AND:
++            pnv_sbe_set_host_doorbell(sbe, sbe->host_doorbell & val);
++            break;
++        case PSU_HOST_DOORBELL_REG_OR:
++            pnv_sbe_set_host_doorbell(sbe, sbe->host_doorbell | val);
++            break;
++
++        default:
++            qemu_log_mask(LOG_UNIMP, "SBE Unimplemented register: Ox%"
++                          HWADDR_PRIx "\n", addr >> 3);
 +        }
 +    }
++}
 +
-+    if (base != pcc_base) {
-+        return false;
++static const MemoryRegionOps pnv_sbe_power9_xscom_mbox_ops = {
++    .read = pnv_sbe_power9_xscom_mbox_read,
++    .write = pnv_sbe_power9_xscom_mbox_write,
++    .valid.min_access_size = 8,
++    .valid.max_access_size = 8,
++    .impl.min_access_size = 8,
++    .impl.max_access_size = 8,
++    .endianness = DEVICE_BIG_ENDIAN,
++};
++
++static void pnv_sbe_power9_class_init(ObjectClass *klass, void *data)
++{
++    PnvSBEClass *psc = PNV_SBE_CLASS(klass);
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->desc = "PowerNV SBE Controller (POWER9)";
++    psc->xscom_ctrl_size = PNV9_XSCOM_SBE_CTRL_SIZE;
++    psc->xscom_ctrl_ops = &pnv_sbe_power9_xscom_ctrl_ops;
++    psc->xscom_mbox_size = PNV9_XSCOM_SBE_MBOX_SIZE;
++    psc->xscom_mbox_ops = &pnv_sbe_power9_xscom_mbox_ops;
++}
++
++static const TypeInfo pnv_sbe_power9_type_info = {
++    .name          = TYPE_PNV9_SBE,
++    .parent        = TYPE_PNV_SBE,
++    .instance_size = sizeof(PnvSBE),
++    .class_init    = pnv_sbe_power9_class_init,
++};
++
++static void pnv_sbe_power10_class_init(ObjectClass *klass, void *data)
++{
++    PnvSBEClass *psc = PNV_SBE_CLASS(klass);
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->desc = "PowerNV SBE Controller (POWER10)";
++    psc->xscom_ctrl_size = PNV10_XSCOM_SBE_CTRL_SIZE;
++    psc->xscom_ctrl_ops = &pnv_sbe_power9_xscom_ctrl_ops;
++    psc->xscom_mbox_size = PNV10_XSCOM_SBE_MBOX_SIZE;
++    psc->xscom_mbox_ops = &pnv_sbe_power9_xscom_mbox_ops;
++}
++
++static const TypeInfo pnv_sbe_power10_type_info = {
++    .name          = TYPE_PNV10_SBE,
++    .parent        = TYPE_PNV9_SBE,
++    .class_init    = pnv_sbe_power10_class_init,
++};
++
++static void pnv_sbe_realize(DeviceState *dev, Error **errp)
++{
++    PnvSBE *sbe = PNV_SBE(dev);
++    PnvSBEClass *psc = PNV_SBE_GET_CLASS(sbe);
++
++    /* XScom regions for SBE registers */
++    pnv_xscom_region_init(&sbe->xscom_ctrl_regs, OBJECT(dev),
++                          psc->xscom_ctrl_ops, sbe, "xscom-sbe-ctrl",
++                          psc->xscom_ctrl_size);
++    pnv_xscom_region_init(&sbe->xscom_mbox_regs, OBJECT(dev),
++                          psc->xscom_mbox_ops, sbe, "xscom-sbe-mbox",
++                          psc->xscom_mbox_size);
++
++    qdev_init_gpio_out(DEVICE(dev), &sbe->psi_irq, 1);
++
++    sbe->timer = timer_new_us(QEMU_CLOCK_VIRTUAL, sbe_timer, sbe);
++}
++
++static void pnv_sbe_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->realize = pnv_sbe_realize;
++    dc->desc = "PowerNV SBE Controller";
++    dc->user_creatable = false;
++}
++
++static const TypeInfo pnv_sbe_type_info = {
++    .name          = TYPE_PNV_SBE,
++    .parent        = TYPE_DEVICE,
++    .instance_size = sizeof(PnvSBE),
++    .class_init    = pnv_sbe_class_init,
++    .class_size    = sizeof(PnvSBEClass),
++    .abstract      = true,
++};
++
++static void pnv_sbe_register_types(void)
++{
++    type_register_static(&pnv_sbe_type_info);
++    type_register_static(&pnv_sbe_power9_type_info);
++    type_register_static(&pnv_sbe_power10_type_info);
++}
++
++type_init(pnv_sbe_register_types);
+diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
+index 9ce018dbc2..79f10de57f 100644
+--- a/hw/ppc/pnv_xscom.c
++++ b/hw/ppc/pnv_xscom.c
+@@ -295,6 +295,9 @@ int pnv_dt_xscom(PnvChip *chip, void *fdt, int root_offset,
+     _FDT((fdt_setprop(fdt, xscom_offset, "reg", reg, sizeof(reg))));
+     _FDT((fdt_setprop(fdt, xscom_offset, "compatible", compat, compat_size)));
+     _FDT((fdt_setprop(fdt, xscom_offset, "scom-controller", NULL, 0)));
++    if (chip->chip_id == 0) {
++        _FDT((fdt_setprop(fdt, xscom_offset, "primary", NULL, 0)));
 +    }
+ 
+     args.fdt = fdt;
+     args.xscom_offset = xscom_offset;
+diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
+index 5c0a215cad..f6990439d1 100644
+--- a/hw/ppc/trace-events
++++ b/hw/ppc/trace-events
+@@ -95,6 +95,17 @@ vof_write(uint32_t ih, unsigned cb, const char *msg) "ih=0x%x [%u] \"%s\""
+ vof_avail(uint64_t start, uint64_t end, uint64_t size) "0x%"PRIx64"..0x%"PRIx64" size=0x%"PRIx64
+ vof_claimed(uint64_t start, uint64_t end, uint64_t size) "0x%"PRIx64"..0x%"PRIx64" size=0x%"PRIx64
+ 
++# pnv_sbe.c
++pnv_sbe_xscom_ctrl_read(uint64_t addr, uint64_t val) "addr 0x%" PRIx64 " val 0x%" PRIx64
++pnv_sbe_xscom_ctrl_write(uint64_t addr, uint64_t val) "addr 0x%" PRIx64 " val 0x%" PRIx64
++pnv_sbe_xscom_mbox_read(uint64_t addr, uint64_t val) "addr 0x%" PRIx64 " val 0x%" PRIx64
++pnv_sbe_xscom_mbox_write(uint64_t addr, uint64_t val) "addr 0x%" PRIx64 " val 0x%" PRIx64
++pnv_sbe_reg_set_host_doorbell(uint64_t val) "val 0x%" PRIx64
++pnv_sbe_cmd_timer_start(uint64_t ns) "ns 0x%" PRIu64
++pnv_sbe_cmd_timer_stop(void) ""
++pnv_sbe_cmd_timer_expired(void) ""
++pnv_sbe_msg_recv(uint16_t cmd, uint16_t seq, uint16_t ctrl_flags) "cmd 0x%" PRIx16 " seq %"PRIu16 " ctrl_flags 0x%" PRIx16
 +
-+    if ((pvr & 0x0f00) == (pcc->pvr & 0x0f00)) {
-+        /* Major DD version matches to power10_v1.0 and power10_v2.0 */
-         return true;
-     }
+ # ppc.c
+ ppc_tb_adjust(uint64_t offs1, uint64_t offs2, int64_t diff, int64_t seconds) "adjusted from 0x%"PRIx64" to 0x%"PRIx64", diff %"PRId64" (%"PRId64"s)"
+ ppc_tb_load(uint64_t tb) "tb 0x%016" PRIx64
+diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+index b991194223..37c303bf36 100644
+--- a/include/hw/ppc/pnv.h
++++ b/include/hw/ppc/pnv.h
+@@ -27,6 +27,7 @@
+ #include "hw/ppc/pnv_pnor.h"
+ #include "hw/ppc/pnv_psi.h"
+ #include "hw/ppc/pnv_occ.h"
++#include "hw/ppc/pnv_sbe.h"
+ #include "hw/ppc/pnv_homer.h"
+ #include "hw/ppc/pnv_xive.h"
+ #include "hw/ppc/pnv_core.h"
+@@ -100,6 +101,7 @@ struct Pnv9Chip {
+     Pnv9Psi      psi;
+     PnvLpcController lpc;
+     PnvOCC       occ;
++    PnvSBE       sbe;
+     PnvHomer     homer;
+ 
+     uint32_t     nr_quads;
+@@ -129,6 +131,7 @@ struct Pnv10Chip {
+     Pnv9Psi      psi;
+     PnvLpcController lpc;
+     PnvOCC       occ;
++    PnvSBE       sbe;
+     PnvHomer     homer;
+ 
+     uint32_t     nr_quads;
+diff --git a/include/hw/ppc/pnv_sbe.h b/include/hw/ppc/pnv_sbe.h
+new file mode 100644
+index 0000000000..f54a3ae9ba
+--- /dev/null
++++ b/include/hw/ppc/pnv_sbe.h
+@@ -0,0 +1,55 @@
++/*
++ * QEMU PowerPC PowerNV Emulation of some SBE behaviour
++ *
++ * Copyright (c) 2022, IBM Corporation.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
 +
-     return false;
- }
++#ifndef PPC_PNV_SBE_H
++#define PPC_PNV_SBE_H
++
++#include "qom/object.h"
++
++#define TYPE_PNV_SBE "pnv-sbe"
++OBJECT_DECLARE_TYPE(PnvSBE, PnvSBEClass, PNV_SBE)
++#define TYPE_PNV9_SBE TYPE_PNV_SBE "-POWER9"
++DECLARE_INSTANCE_CHECKER(PnvSBE, PNV9_SBE, TYPE_PNV9_SBE)
++#define TYPE_PNV10_SBE TYPE_PNV_SBE "-POWER10"
++DECLARE_INSTANCE_CHECKER(PnvSBE, PNV10_SBE, TYPE_PNV10_SBE)
++
++struct PnvSBE {
++    DeviceState xd;
++
++    uint64_t mbox[8];
++    uint64_t sbe_doorbell;
++    uint64_t host_doorbell;
++
++    qemu_irq psi_irq;
++    QEMUTimer *timer;
++
++    MemoryRegion xscom_mbox_regs;
++    MemoryRegion xscom_ctrl_regs;
++};
++
++struct PnvSBEClass {
++    DeviceClass parent_class;
++
++    int xscom_ctrl_size;
++    int xscom_mbox_size;
++    const MemoryRegionOps *xscom_ctrl_ops;
++    const MemoryRegionOps *xscom_mbox_ops;
++};
++
++#endif /* PPC_PNV_SBE_H */
+diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
+index 7c7440de0c..c6e9ef8dd2 100644
+--- a/include/hw/ppc/pnv_xscom.h
++++ b/include/hw/ppc/pnv_xscom.h
+@@ -92,6 +92,12 @@ struct PnvXScomInterfaceClass {
+ #define PNV9_XSCOM_OCC_BASE       PNV_XSCOM_OCC_BASE
+ #define PNV9_XSCOM_OCC_SIZE       0x8000
  
-@@ -6910,7 +6959,7 @@ static gint ppc_cpu_compare_class_pvr_mask(gconstpointer a, gconstpointer b)
-         return -1;
-     }
++#define PNV9_XSCOM_SBE_CTRL_BASE  0x00050008
++#define PNV9_XSCOM_SBE_CTRL_SIZE  0x1
++
++#define PNV9_XSCOM_SBE_MBOX_BASE  0x000D0050
++#define PNV9_XSCOM_SBE_MBOX_SIZE  0x16
++
+ #define PNV9_XSCOM_PBA_BASE       0x5012b00
+ #define PNV9_XSCOM_PBA_SIZE       0x40
  
--    if (pcc->pvr_match(pcc, pvr)) {
-+    if (pcc->pvr_match(pcc, pvr, true)) {
-         return 0;
-     }
+@@ -134,6 +140,12 @@ struct PnvXScomInterfaceClass {
+ #define PNV10_XSCOM_OCC_BASE       PNV9_XSCOM_OCC_BASE
+ #define PNV10_XSCOM_OCC_SIZE       PNV9_XSCOM_OCC_SIZE
  
-@@ -7308,7 +7357,7 @@ static void ppc_cpu_instance_finalize(Object *obj)
-     ppc_hash64_finalize(cpu);
- }
++#define PNV10_XSCOM_SBE_CTRL_BASE  PNV9_XSCOM_SBE_CTRL_BASE
++#define PNV10_XSCOM_SBE_CTRL_SIZE  PNV9_XSCOM_SBE_CTRL_SIZE
++
++#define PNV10_XSCOM_SBE_MBOX_BASE  PNV9_XSCOM_SBE_MBOX_BASE
++#define PNV10_XSCOM_SBE_MBOX_SIZE  PNV9_XSCOM_SBE_MBOX_SIZE
++
+ #define PNV10_XSCOM_PBA_BASE       0x01010CDA
+ #define PNV10_XSCOM_PBA_SIZE       0x40
  
--static bool ppc_pvr_match_default(PowerPCCPUClass *pcc, uint32_t pvr)
-+static bool ppc_pvr_match_default(PowerPCCPUClass *pcc, uint32_t pvr, bool best)
- {
-     return pcc->pvr == pvr;
- }
-diff --git a/target/ppc/machine.c b/target/ppc/machine.c
-index a7d9036c09..be6eb3d968 100644
---- a/target/ppc/machine.c
-+++ b/target/ppc/machine.c
-@@ -234,7 +234,7 @@ static bool pvr_match(PowerPCCPU *cpu, uint32_t pvr)
-     if (pvr == pcc->pvr) {
-         return true;
-     }
--    return pcc->pvr_match(pcc, pvr);
-+    return pcc->pvr_match(pcc, pvr, true);
- }
- 
- static int cpu_post_load(void *opaque, int version_id)
 -- 
 2.37.2
 
