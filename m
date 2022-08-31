@@ -2,72 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1E585A80D1
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 17:01:54 +0200 (CEST)
-Received: from localhost ([::1]:46280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FBE85A80E9
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 17:07:58 +0200 (CEST)
+Received: from localhost ([::1]:52698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTPE1-0002M0-81
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 11:01:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46806)
+	id 1oTPJs-0005ad-OI
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 11:07:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oTP9m-0005xQ-Ps
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 10:57:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55576)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oTPFw-0003Sa-8f; Wed, 31 Aug 2022 11:03:52 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:24576)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oTP9j-0001PI-TD
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 10:57:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661957845;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Wa7ujc7M0yZd7Cly3nWkxnmKzsyqwn7nj9+C1cFO78Y=;
- b=SSBJUZHdDcMaUmJawyFfOnSh1KYax569+Rf0zu86KFMzeB0iLKb5rlvh64d64rmLezgD3/
- iJmRKLmdIuX+jyobsl3Jg+wxQJliFcwuwgcIoPtYPNqy4NnhboNVAF4LpCJq30mzJG5uEr
- dYmDNmbiUmNsBHf8WG1A2CnDmCUm4EA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-632-Im02CDTkMJ-jR1yiYbF1XQ-1; Wed, 31 Aug 2022 10:57:22 -0400
-X-MC-Unique: Im02CDTkMJ-jR1yiYbF1XQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 155991C06ED5;
- Wed, 31 Aug 2022 14:57:22 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DD30F2026D4C;
- Wed, 31 Aug 2022 14:57:21 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C6AF921E6900; Wed, 31 Aug 2022 16:57:20 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Victor Toso <victortoso@redhat.com>
-Cc: qemu-devel@nongnu.org,  Eric Blake <eblake@redhat.com>,  John Snow
- <jsnow@redhat.com>,  Michael Roth <michael.roth@amd.com>
-Subject: Re: [PATCH v1 16/16] RFC: add a generator for qapi's examples
-References: <20220830161545.84198-1-victortoso@redhat.com>
- <20220830161545.84198-17-victortoso@redhat.com>
- <87ilm8aafh.fsf@pond.sub.org>
- <20220831133255.os2xaxtkolbvmcq5@tapioca>
-Date: Wed, 31 Aug 2022 16:57:20 +0200
-In-Reply-To: <20220831133255.os2xaxtkolbvmcq5@tapioca> (Victor Toso's message
- of "Wed, 31 Aug 2022 15:32:55 +0200")
-Message-ID: <87sflc5ulr.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oTPFk-00034O-JO; Wed, 31 Aug 2022 11:03:42 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id A7F50746FDE;
+ Wed, 31 Aug 2022 17:03:35 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 70E9F746E07; Wed, 31 Aug 2022 17:03:35 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 6F0C7746396;
+ Wed, 31 Aug 2022 17:03:35 +0200 (CEST)
+Date: Wed, 31 Aug 2022 17:03:35 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: BB <shentey@gmail.com>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Huacai Chen <chenhuacai@kernel.org>, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: Re: [PATCH v3 06/10] hw/isa/vt82c686: Instantiate USB functions in
+ host device
+In-Reply-To: <96C4E9E5-4875-4B49-B176-673BAAEE7993@gmail.com>
+Message-ID: <48b1c17d-fa2f-c2f7-b22-79eb6e8f55b@eik.bme.hu>
+References: <20220831095914.2041-1-shentey@gmail.com>
+ <20220831095914.2041-7-shentey@gmail.com>
+ <331bbd5a-aeaa-d5c0-cf8f-cde5b22d8a3@eik.bme.hu>
+ <96C4E9E5-4875-4B49-B176-673BAAEE7993@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,121 +65,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Victor Toso <victortoso@redhat.com> writes:
+On Wed, 31 Aug 2022, BB wrote:
+> Am 31. August 2022 15:23:37 MESZ schrieb BALATON Zoltan <balaton@eik.bme.hu>:
+>> On Wed, 31 Aug 2022, Bernhard Beschow wrote:
+>>> The USB functions can be enabled/disabled through the ISA function. Also
+>>> its interrupt routing can be influenced there.
+>>>
+>>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+>>> ---
+>>> hw/isa/vt82c686.c   | 12 ++++++++++++
+>>> hw/mips/fuloong2e.c |  3 ---
+>>> hw/ppc/pegasos2.c   |  4 ----
+>>> 3 files changed, 12 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+>>> index 9d946cea54..66a4b9c230 100644
+>>> --- a/hw/isa/vt82c686.c
+>>> +++ b/hw/isa/vt82c686.c
+>>> @@ -23,6 +23,7 @@
+>>> #include "hw/intc/i8259.h"
+>>> #include "hw/irq.h"
+>>> #include "hw/dma/i8257.h"
+>>> +#include "hw/usb/hcd-uhci.h"
+>>> #include "hw/timer/i8254.h"
+>>> #include "hw/rtc/mc146818rtc.h"
+>>> #include "migration/vmstate.h"
+>>> @@ -546,6 +547,7 @@ struct ViaISAState {
+>>>     qemu_irq *isa_irqs;
+>>>     ViaSuperIOState via_sio;
+>>>     PCIIDEState ide;
+>>> +    UHCIState uhci[2];
+>>> };
+>>>
+>>> static const VMStateDescription vmstate_via = {
+>>> @@ -563,6 +565,8 @@ static void via_isa_init(Object *obj)
+>>>     ViaISAState *s = VIA_ISA(obj);
+>>>
+>>>     object_initialize_child(obj, "ide", &s->ide, "via-ide");
+>>> +    object_initialize_child(obj, "uhci1", &s->uhci[0], "vt82c686b-usb-uhci");
+>>> +    object_initialize_child(obj, "uhci2", &s->uhci[1], "vt82c686b-usb-uhci");
+>>
+>> Sorry for not saying this yesterday, this can also be done separately 
+>> so no need for another version of this series if not needed for another 
+>> reason but could we add a define for vt82c686b-usb-uhci in 
+>> include/hw/isa/vt82c686.h and use that here and in 
+>> hw/usb/vt82c686-uhci-pci.c ?
+>
+> Would creating a dedicated header work, too? Board code doesn't need to see the define any longer.
 
-> Hi,
->
-> On Wed, Aug 31, 2022 at 02:01:54PM +0200, Markus Armbruster wrote:
->> Victor Toso <victortoso@redhat.com> writes:
->>
->> > The goal of this generator is to validate QAPI examples and transform
->> > them into a format that can be used for 3rd party applications to
->> > validate their QAPI/QMP introspection.
->> >
->> > For each Example section, we parse server and client messages into a
->> > python dictionary. This step alone has found several ill formatted
->> > JSON messages in the examples.
->> >
->> > The generator outputs another JSON file with all the examples in the
->> > QAPI module that they came from. This can be used to validate the
->> > introspection between QAPI/QMP to language bindings.
->> >
->> > When used with the POC qapi-go branch, we have found bad QMP messages
->> > with wrong member names, mandatory members that were missing and
->> > optional members that were being set with null (not needed).
->> >
->> > A simple example of the output format is:
->> >
->> >  { "examples": [
->> >    {
->> >      "id": "ksuxwzfayw",
->> >      "client": [
->> >      {
->> >        "sequence-order": 1
->> >        "message-type": "command",
->> >        "message":
->> >        { "arguments":
->> >          { "device": "scratch", "size": 1073741824 },
->> >          "execute": "block_resize"
->> >        },
->> >     } ],
->> >     "server": [
->> >     {
->> >       "sequence-order": 2
->> >       "message-type": "return",
->> >       "message": { "return": {} },
->> >     } ]
->> >     }
->> >   ] }
->> >
->> > If this idea seems reasonable, we can add python-qemu-qmp to validate
->> > each message at generation time already.
->> >
->> > Signed-off-by: Victor Toso <victortoso@redhat.com>
->>
->> If I understand you correctly, there are two benefits:
->>
->> 1. Mechanical syntax check for examples
->>
->>    Love it.
->
-> Not just JSON syntax but can be extend to the introspection
-> layer. Errors like wrong member names would fail while parsing
-> the examples (issues such as fixed by patches 11 and 13/16 should
-> not happen anymore).
+I don't think it needs a separate header just for this so I'd put it in 
+vt82c686.h but I don't mind either way.
 
-It's also a mechanical check against the schema.  Still love it :)
-
->> 2. Can extract examples for use as test cases
->>
->>    Sounds good to me.  Possible redundancy with existing tests.
->>    Probably nothing to worry about.
->>
->>    Can you explain in a bit more detail how the extracted data
->>    is (to be) used?
->
-> Sure.
->
-> The Golang test that consumes this is 152 lines of code [0]. The
-> idea is that we can use the examples to feed Golang unmarshalling
-> code and then marshall it back to JSON and compare input JSON
-> with output JSON and see that their content matches.
->
-> [0] https://gitlab.com/victortoso/qapi-go/-/blob/wip-v3/test/examples_test.go
->
-> I have generated the examples with this patch series and stored
-> the output here [1]
->
-> [1] https://gitlab.com/victortoso/qapi-go/-/tree/wip-v3/test/data/examples
->
-> The examples are QMP messages that are either sent by Client "->"
-> or sent by Server "<-". The order matters so I take the order set
-> in the examples and store it as "sequence-order".
->
-> In the Go test code, I follow the sequence-order. One example of
-> this being useful is that we know which Return type to expect
-> after a Command is issued.
->
-> I've also included metadata about the type of message, which is
-> one of three options: command, event or return. (Errors are
-> return too).
->
-> This is important because it makes the tests very easy to write.
-> Different Unmarshal/Marshal code can be set in the code block of
-> the specific message type.
->
-> --
->
-> The things that makes me quite excited with this idea are:
->
->  1. We have valid functional examples documented. If the examples
->     break, we would have the software in place to know it (plug
->     to ci or some other ninja check seems reasonable to me)
->
->  2. Developers should get more interested in documenting examples
->     as that alone is is a valid test case, even if only useful
->     for language binding's syntax.
-
-Thanks!  Would you like to work some of this into your commit message?
-
+Regards,
+BALATON Zoltan
 
