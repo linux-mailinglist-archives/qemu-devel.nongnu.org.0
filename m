@@ -2,81 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF14E5A78E6
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 10:21:55 +0200 (CEST)
-Received: from localhost ([::1]:37430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 799BA5A790B
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 10:29:12 +0200 (CEST)
+Received: from localhost ([::1]:53686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTIyw-00035Z-ES
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 04:21:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58970)
+	id 1oTJ5z-0007PD-3V
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 04:29:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oTIvr-0000l5-G3
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 04:18:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52675)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oTIvo-00046k-0M
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 04:18:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661933911;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=B1ApHMyNcR8l6cmhGppzVS345Vzpi8LgO32+LHSG7c0=;
- b=TugcjYt71GxiBIqvZx4zqKcYSb1q4Op/3vgJSlBC0+T78T1a4hTlp9mSK1Nma84cyt/D+B
- 0b3ZXFq/+7Wkd9EDIa7CYffDJ01Bzq3qTqRPqPW8PRJN6vaYTbIkrvt9UmJwKaUBi2ZrPC
- nqtY/EqSUxD3BZhYgKrPQ90Rprxx1AU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-591-hGSD1Co3PAK_-6tYgZpbdA-1; Wed, 31 Aug 2022 04:18:26 -0400
-X-MC-Unique: hGSD1Co3PAK_-6tYgZpbdA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1451E8039B5;
- Wed, 31 Aug 2022 08:18:26 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A7B11415117;
- Wed, 31 Aug 2022 08:18:24 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A0B6721E6900; Wed, 31 Aug 2022 10:18:22 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>,  =?utf-8?B?5bCP55Sw5Zac6Zm95b2m?=
- <akihiko.odaki@daynix.com>,  qemu-devel@nongnu.org,
- qemu-block@nongnu.org,  qemu-arm@nongnu.org,  "Michael S. Tsirkin"
- <mst@redhat.com>,  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,  Gerd
- Hoffmann <kraxel@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,  Eduardo Habkost
- <eduardo@habkost.net>,  John Snow <jsnow@redhat.com>,  Dmitry Fleytman
- <dmitry.fleytman@gmail.com>,  Jason Wang <jasowang@redhat.com>,  Stefan
- Weil <sw@weilnetz.de>,  Keith Busch <kbusch@kernel.org>,  Klaus Jensen
- <its@irrelevant.dk>,  Peter Maydell <peter.maydell@linaro.org>,  Andrey
- Smirnov <andrew.smirnov@gmail.com>,  Paul Burton <paulburton@kernel.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Subject: Re: [PATCH] pci: Abort if pci_add_capability fails
-References: <20220829084417.144739-1-akihiko.odaki@daynix.com>
- <874jxuhshs.fsf@pond.sub.org>
- <20220830120014.55f55b24.alex.williamson@redhat.com>
-Date: Wed, 31 Aug 2022 10:18:22 +0200
-In-Reply-To: <20220830120014.55f55b24.alex.williamson@redhat.com> (Alex
- Williamson's message of "Tue, 30 Aug 2022 12:00:14 -0600")
-Message-ID: <87y1v4ddwx.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <tugy@chinatelecom.cn>)
+ id 1oTJ2z-0005D4-Rl
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 04:26:06 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.227]:47368
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <tugy@chinatelecom.cn>) id 1oTJ2k-0005J4-Nc
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 04:26:05 -0400
+HMM_SOURCE_IP: 172.18.0.48:42410.832384431
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-36.111.64.85 (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id 50E1C280098;
+ Wed, 31 Aug 2022 16:25:29 +0800 (CST)
+X-189-SAVE-TO-SEND: tugy@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by app0024 with ESMTP id 3215e3c8ada44313bb36baab6533c8f0 for
+ qemu_oss@crudebyte.com; Wed, 31 Aug 2022 16:25:39 CST
+X-Transaction-ID: 3215e3c8ada44313bb36baab6533c8f0
+X-Real-From: tugy@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+Message-ID: <4d00eb30-73bc-25c3-4450-d4f8b1199063@chinatelecom.cn>
+Date: Wed, 31 Aug 2022 16:25:27 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] osdep: Introduce qemu_get_fd() to wrap the common codes
+Content-Language: en-US
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <f73d60dd-fbc7-2873-4ed1-d30df19ce661@chinatelecom.cn>
+ <1442ced4-ab22-c379-76ee-5e1f1c17108a@chinatelecom.cn>
+ <47453703.NBG3G7Ahn1@silver>
+From: Guoyi Tu <tugy@chinatelecom.cn>
+In-Reply-To: <47453703.NBG3G7Ahn1@silver>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=42.123.76.227; envelope-from=tugy@chinatelecom.cn;
+ helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,95 +78,202 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alex Williamson <alex.williamson@redhat.com> writes:
+On 8/18/22 20:58, Christian Schoenebeck wrote:
+> On Donnerstag, 18. August 2022 14:06:04 CEST Guoyi Tu wrote:
+>> Ping...
+>>
+>> Any comments are welcome
+>>
+>> On 8/12/22 19:01, Guoyi Tu wrote:
+>>> socket_get_fd() have much the same codes as monitor_fd_param(),
+>>> so qemu_get_fd() is introduced to implement the common logic.
+>>> now socket_get_fd() and monitor_fd_param() directly call this
+>>> function.
+> 
+> s/have/has/, s/now/Now/, some proper rephrasing wouldn't hurt either.
 
-> On Tue, 30 Aug 2022 13:37:35 +0200
-> Markus Armbruster <armbru@redhat.com> wrote:
->>        if (!offset) {
->>            offset = pci_find_space(pdev, size);
->>            /* out of PCI config space is programming error */
->>            assert(offset);
->>        } else {
->>            /* Verify that capabilities don't overlap.  Note: device assignment
->>             * depends on this check to verify that the device is not broken.
->>             * Should never trigger for emulated devices, but it's helpful
->>             * for debugging these. */
->> 
->> The comment makes me suspect that device assignment of a broken device
->> could trigger the error.  It goes back to
->> 
->> commit c9abe111209abca1b910e35c6ca9888aced5f183
->> Author: Jan Kiszka <jan.kiszka@siemens.com>
->> Date:   Wed Aug 24 14:29:30 2011 +0200
->> 
->>     pci: Error on PCI capability collisions
->>     
->>     Nothing good can happen when we overlap capabilities. This may happen
->>     when plugging in assigned devices or when devices models contain bugs.
->>     Detect the overlap and report it.
->>     
->>     Based on qemu-kvm commit by Alex Williamson.
->>     
->>     Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
->>     Acked-by: Don Dutile <ddutile@redhat.com>
->>     Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->> 
->> If this is still correct, then your patch is a regression: QEMU is no
->> longer able to gracefully handle assignment of a broken device.  Does
->> this matter?  Alex, maybe?
->
-> Ok, that was a long time ago.  I have some vague memories of hitting
+will fix it.
 
-Indeed!
+>>> Signed-off-by: Guoyi Tu <tugy@chinatelecom.cn>
+>>> ---
+>>>
+>>>    include/qemu/osdep.h |  1 +
+>>>    monitor/misc.c       | 21 +--------------------
+>>>    util/osdep.c         | 25 +++++++++++++++++++++++++
+>>>    util/qemu-sockets.c  | 17 +++++------------
+>>>    4 files changed, 32 insertions(+), 32 deletions(-)
+>>>
+>>> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+>>> index b1c161c035..b920f128a7 100644
+>>> --- a/include/qemu/osdep.h
+>>> +++ b/include/qemu/osdep.h
+>>> @@ -491,6 +491,7 @@ int qemu_open_old(const char *name, int flags, ...);
+>>>
+>>>    int qemu_open(const char *name, int flags, Error **errp);
+>>>    int qemu_create(const char *name, int flags, mode_t mode, Error **errp);
+>>>    int qemu_close(int fd);
+>>>
+>>> +int qemu_get_fd(Monitor *mon, const char *fdname, Error **errp);
+>>>
+>>>    int qemu_unlink(const char *name);
+>>>    #ifndef _WIN32
+>>>    int qemu_dup_flags(int fd, int flags);
+>>>
+>>> diff --git a/monitor/misc.c b/monitor/misc.c
+>>> index 3d2312ba8d..0d3372cf2b 100644
+>>> --- a/monitor/misc.c
+>>> +++ b/monitor/misc.c
+>>> @@ -1395,26 +1395,7 @@ void monitor_fdset_dup_fd_remove(int dup_fd)
+>>>
+>>>    int monitor_fd_param(Monitor *mon, const char *fdname, Error **errp)
+>>>    {
+>>>
+>>> -    int fd;
+>>> -    Error *local_err = NULL;
+>>> -
+>>> -    if (!qemu_isdigit(fdname[0]) && mon) {
+>>> -        fd = monitor_get_fd(mon, fdname, &local_err);
+>>> -    } else {
+>>> -        fd = qemu_parse_fd(fdname);
+>>> -        if (fd == -1) {
+>>> -            error_setg(&local_err, "Invalid file descriptor number '%s'",
+>>> -                       fdname);
+>>> -        }
+>>> -    }
+>>> -    if (local_err) {
+>>> -        error_propagate(errp, local_err);
+>>> -        assert(fd == -1);
+>>> -    } else {
+>>> -        assert(fd != -1);
+>>> -    }
+>>> -
+>>> -    return fd;
+>>> +    return qemu_get_fd(mon, fdname, errp);
+>>>
+>>>    }
+>>>   
+>>>    /* Please update hmp-commands.hx when adding or changing commands */
+>>>
+>>> diff --git a/util/osdep.c b/util/osdep.c
+>>> index 60fcbbaebe..c57551ca78 100644
+>>> --- a/util/osdep.c
+>>> +++ b/util/osdep.c
+>>> @@ -23,6 +23,7 @@
+>>>
+>>>     */
+>>>    #include "qemu/osdep.h"
+>>>    #include "qapi/error.h"
+>>>
+>>> +#include "qemu/ctype.h"
+>>>
+>>>    #include "qemu/cutils.h"
+>>>    #include "qemu/sockets.h"
+>>>    #include "qemu/error-report.h"
+>>>
+>>> @@ -413,6 +414,30 @@ int qemu_close(int fd)
+>>>
+>>>        return close(fd);
+>>>    }
+>>>
+>>> +int qemu_get_fd(Monitor *mon, const char *fdname, Error **errp)
+>>> +{
+>>> +    int fd;
+>>> +    Error *local_err = NULL;
+>>> +
+>>> +    if (!qemu_isdigit(fdname[0]) && mon) {
+>>> +        fd = monitor_get_fd(mon, fdname, &local_err);
+>>> +    } else {
+>>> +        fd = qemu_parse_fd(fdname);
+>>> +        if (fd == -1) {
+>>> +            error_setg(&local_err, "Invalid file descriptor number '%s'",
+>>> +                       fdname);
+>>> +        }
+>>> +    }
+>>> +    if (local_err) {
+>>> +        error_propagate(errp, local_err);
+>>> +        assert(fd == -1);
+>>> +    } else {
+>>> +        assert(fd != -1);
+>>> +    }
+>>> +
+>>> +    return fd;
+>>> +}
+>>> +
+> 
+> Up to here you are basically just moving the code of monitor_fd_param() to a
+> project wide shared new function qemu_get_fd(), but why? I mean you could
+> simply call monitor_fd_param() in socket_get_fd() below, no?
+> 
 
-> something like this with a Broadcom NIC, but a google search for the
-> error string doesn't turn up anything recently.  So there's a fair
-> chance this wouldn't break anyone initially.
+monitor_fd_param() is implemented in misc.c which is not linkded when 
+build the test codes that test the socket_connect() api, such as 
+test-unit-sockets.c and test-char.c. If call monitor_fd_param() directly 
+in socket_get_fd(), we need to implement a stub version of 
+monitor_fd_param() which actually has the same codes according to the 
+codes in test-unit-socket.c which overwrite the monitor_get_fd().
 
-I like your careful phrasing.
+what about moving monitor_fd_param() to the osdep.c and calling 
+monitor_fd_param() in socket_get_fd() ?
 
-> Even back when the above patch was proposed, there were some
-> suggestions to turn the error path into an abort, which I pushed back
-> on since clearly enumerating capabilities of a device can occur due to
-> a hot-plug and we don't necessarily have control of the device being
-> added.  This is only more true with the possibility of soft-devices out
-> of tree, through things like vfio-user.
 
-Valid point.
+>>>    /*
+>>>     * Delete a file from the filesystem, unless the filename is
+>>>
+>>> /dev/fdset/...
+>>>
+>>>     *
+>>>
+>>> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+>>> index 13b5b197f9..92960ee6eb 100644
+>>> --- a/util/qemu-sockets.c
+>>> +++ b/util/qemu-sockets.c
+>>> @@ -1142,19 +1142,12 @@ static int socket_get_fd(const char *fdstr,
+>>> Error **errp)
+>>>
+>>>    {
+>>>        Monitor *cur_mon = monitor_cur();
+>>>        int fd;
+>>>
+>>> -    if (cur_mon) {
+>>> -        fd = monitor_get_fd(cur_mon, fdstr, errp);
+>>> -        if (fd < 0) {
+>>> -            return -1;
+>>> -        }
+>>> -    } else {
+>>> -        if (qemu_strtoi(fdstr, NULL, 10, &fd) < 0) {
+>>> -            error_setg_errno(errp, errno,
+>>> -                             "Unable to parse FD number %s",
+>>> -                             fdstr);
+>>> -            return -1;
+>>> -        }
+>>> +
+>>> +    fd = qemu_get_fd(cur_mon, fdstr, errp);
+>>> +    if (fd < 0) {
+>>> +        return -1;
+>>>
+>>>        }
+> 
+> This part looks like behaviour change to me. Haven't looked into the details
+> though whether it would be OK. Just saying.
 
-When an compiled-in device model asks for overlapping PCI capabilities,
-it's a programming error.
+In my opinion the logic is almost the same.
 
-When an assigned device (be it physical or virtual) has overlapping PCI
-capabilities, it's bad input.
+> 
+>>>
+>>> +
+> 
+> Unintentional white line added?
 
-Abort on programming error is okay.  Abort on bad input isn't.
+will delete it.
 
-I think callers of the former sort should pass &error_abort to
-pci_add_capability(), and callers of the latter sort should handle the
-error.
+Thanks for your coomments
 
-> Personally I think the right approach is to support an error path such
-> that we can abort when triggered by a cold-plug device, while simply
-> rejecting a broken hot-plug device, but that seems to be the minority
-> opinion among QEMU developers afaict.  Thanks,
-
-I'm in the "aborting on programming errors is okay" camp.
-
-Recovery from certain programming errors is possible.  However,
-different programming errors can manifest themselves the same way, and
-not all need permit safe recovery.
-
-Say we detect overlapping PCI capabilities when hot-plugging a virtual
-device model.
-
-If this is because the programmer passed an incorrect literal offset, we
-can recover safely by failing the hot plug.
-
-But perhaps the offset comes from a table, and some other bug scribbled
-over it.  Continuing the process is *unsafe*, and may increase the
-damage and/or obstruct the root cause.
-
-The former kind of bug is unlikely to survive even cursory testing.
-
+> 
+>>>
+>>>        if (!fd_is_socket(fd)) {
+>>>            error_setg(errp, "File descriptor '%s' is not a socket", fdstr);
+>>>            close(fd);
+> 
+> 
+> 
 
