@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3480F5A8670
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 21:08:54 +0200 (CEST)
-Received: from localhost ([::1]:51284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9C025A8684
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 21:13:39 +0200 (CEST)
+Received: from localhost ([::1]:41458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTT4y-0007Vm-6t
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 15:08:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37220)
+	id 1oTT9e-0007pX-GE
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 15:13:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oTSno-0001sO-Kn; Wed, 31 Aug 2022 14:51:04 -0400
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:34809)
+ id 1oTSnt-00024X-53; Wed, 31 Aug 2022 14:51:09 -0400
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:38617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oTSnn-0007yY-1O; Wed, 31 Aug 2022 14:51:04 -0400
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-11ee4649dfcso19831947fac.1; 
- Wed, 31 Aug 2022 11:51:02 -0700 (PDT)
+ id 1oTSnq-0007zm-Bc; Wed, 31 Aug 2022 14:51:08 -0400
+Received: by mail-ot1-x32c.google.com with SMTP id
+ m21-20020a9d6ad5000000b00638df677850so10877147otq.5; 
+ Wed, 31 Aug 2022 11:51:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=keRmCV4x+h1kcxkk8ZQ1BtS05ePUa0EmosGaaVfQTbw=;
- b=RkZ0jMeoVp8Qq1MZh2p/C2BxNdiRcV6m8uH6JvUPJ7w/F1oosnCkbAlSi4DDmiNsik
- B0G9oDKUWrrXSfmB5urKKa2E4W+CYobCgKNUKYYBnm9tz9q4SLRegxggnFQCo4jb6wdw
- R5jw7KPJTL2uocNqjWQoEh0ymd0msYzVflQcYx00cjaKwVSJArnB+l/dr922tvxjJkzZ
- YYXQ32UnoIMTrgwC31iZlVhimyyFYe/EgNNwIKwbyoWnVgGF5jgQsYwL78KvlpuEZKEl
- jeoWai3lVARYwI8/F/KoPXBvHIp2zZ4pdrr3VNMszhirWvVMNH4EBSIxoxo8/UFvDDFk
- P3og==
+ bh=/N+BWY8Skhcx+k/LacHI6yeg2qY5tnuLB8PKd655Elw=;
+ b=mBUDkDCnCrL2/FiC6nqFHijmIlcvZsLDqWhlIaOIe1Y0AUC1DWuZTc3JsI1LClRrfT
+ sSd2OL9cwmo3pFuyW9L9aVHQo4y522UyHIvOb+sq8S43SETjtlL/zQDqSc2qk+O0oaon
+ 0v356ZOJidg311sRTA4TFkoedYZx9Z87FnyVo1Tt9q3J7+mvCaJctm0IU8mPcWtUqCqG
+ S9nui2XxIV1BbrT/16j2PLjbq91N7qzN7mDqMfiZFErgtO5W+ym+tnKEDdRTN/73eD6p
+ Cnk9+D4UAh+dVGT6er5VSMmkXPxy0cIDMLSS3tXoLQe/5Zk3MzWImsnOzeIIn6c57Ppo
+ 9Dew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=keRmCV4x+h1kcxkk8ZQ1BtS05ePUa0EmosGaaVfQTbw=;
- b=qKJrocfd0r8bKgs/5I6xNhLNyB2qPVbHJ6jRBHxnSJbOm95p8ORAF/5Q0N6O42JJqw
- 5SYBGcY/geK4OMekkfPoAq2cBus7SBfn/1RGInoWUJ8E2HiSHW8qHjnMERzXR7s3qqfF
- 6eaiQ0LLZT9IPqIhPtbihPGgRhGXMGRK0eFLBfEGWrS/YWQ3Jg711EL6/JdZ4gtqxYfg
- 79iXlWiESPg1W7kkV51pmAe1+yHZEK9nJ9QacIU3nxaQbiRtTuQh/o3XBIOhbNqzt+3l
- yS0Gs0Wu9tZ0ofreRG2aKns+S6CRG3Q3EvFzBw2EVVn4HZZ2rrod/IwHS/lHDH/B5EKK
- 1YPQ==
-X-Gm-Message-State: ACgBeo1hJ+T8+5useOCGxTpWuxppSJjitq6fj1ukIwgsUZC7IeCncoDr
- T58+GMqej2mkOcEOLWzMv0i58lfue7s=
-X-Google-Smtp-Source: AA6agR7eh/nYZrA0XUVMKkRMtQpxfQgEy77Z4xkw4tuMHU1nXNie9FYqn6BlWbdBrhIRZDyKWkwqXQ==
-X-Received: by 2002:aca:3ac3:0:b0:344:821:525f with SMTP id
- h186-20020aca3ac3000000b003440821525fmr1724215oia.63.1661971861755; 
- Wed, 31 Aug 2022 11:51:01 -0700 (PDT)
+ bh=/N+BWY8Skhcx+k/LacHI6yeg2qY5tnuLB8PKd655Elw=;
+ b=TGiIhVfucvzgRiubWvyD7w/EbKb5BIfep02YKir0smNV+ztSfC9/u6UQlEBvin2ZYl
+ xo02d9u25DppP7S9IFLylTzFbjkCcI9rbGVtO4Lgq6Y205rAE5U7GNII9opew5QpAZUf
+ LMoWWB0AsA8JV9XQ5l/pGLqFF4k+kd+nXl/N1jT1H9UykiflXrj6MtqPgm5pqRbPpAtb
+ QYMFXSNn8eh/xvnzYHcyiyqOPUezyByb8uj0YC1RTqUzW1YmJBXFaEsFQQcAaNEFL45Q
+ H7quYjdx9D3cS9vLPTeg5tENUxTe2Xvpn5bUQlShku5u6JKAxWvSTdv4ipzX2RMGy1ct
+ Fh8w==
+X-Gm-Message-State: ACgBeo027VtkudIpQfcIklmGQhOeJzx+PDfhMzeDCKhg4Sdnqqon9r0P
+ yaiPjvIJPw2u5zBI4g8zMBz3selyXNE=
+X-Google-Smtp-Source: AA6agR7wlWW1/o4O7SpXnVGaqprWcDmH777FETZRMTc/k5kLbkhkFdyUrbLQija5ZEDbHMnoJuUfpA==
+X-Received: by 2002:a05:6830:3696:b0:61c:af74:13d7 with SMTP id
+ bk22-20020a056830369600b0061caf7413d7mr10965860otb.28.1661971864180; 
+ Wed, 31 Aug 2022 11:51:04 -0700 (PDT)
 Received: from balboa.COMFAST ([177.189.45.98])
  by smtp.gmail.com with ESMTPSA id
- p4-20020a9d4544000000b0061cbd18bd18sm9599927oti.45.2022.08.31.11.50.59
+ p4-20020a9d4544000000b0061cbd18bd18sm9599927oti.45.2022.08.31.11.51.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 11:51:01 -0700 (PDT)
+ Wed, 31 Aug 2022 11:51:03 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- richard.henderson@linaro.org,
- "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
-Subject: [PULL 05/60] target/ppc: Bugfix FP when OE/UE are set
-Date: Wed, 31 Aug 2022 15:49:39 -0300
-Message-Id: <20220831185034.23240-6-danielhb413@gmail.com>
+ richard.henderson@linaro.org, Frederic Barrat <fbarrat@linux.ibm.com>
+Subject: [PULL 06/60] ppc/pnv: add PHB3 bus init helper
+Date: Wed, 31 Aug 2022 15:49:40 -0300
+Message-Id: <20220831185034.23240-7-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220831185034.23240-1-danielhb413@gmail.com>
 References: <20220831185034.23240-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2c;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,58 +90,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
+The PnvPHB3 bus init consists of initializing the pci_io and pci_mmio
+regions, registering it via pci_register_root_bus() and then setup the
+iommu.
 
-When an overflow exception occurs and OE is set the intermediate result
-should be adjusted (by subtracting from the exponent) to avoid rounding
-to inf. The same applies to an underflow exceptionion and UE (but adding
-to the exponent). To do this set the fp_status.rebias_overflow when OE
-is set and fp_status.rebias_underflow when UE is set as the FPU will
-recalculate in case of a overflow/underflow if the according rebias* is
-set.
+We'll want to init the bus from outside pnv_phb3.c when the bus is
+removed from the PnvPHB3 device and put into a new parent PnvPHB device.
+The new pnv_phb3_bus_init() helper will be used by the parent to init
+the bus when using the PHB3 backend.
 
-Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220805141522.412864-3-lucas.araujo@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
+Message-Id: <20220624084921.399219-2-danielhb413@gmail.com>
 ---
- target/ppc/cpu.c        | 2 ++
- target/ppc/fpu_helper.c | 2 --
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/pci-host/pnv_phb3.c         | 39 ++++++++++++++++++++--------------
+ include/hw/pci-host/pnv_phb3.h |  1 +
+ 2 files changed, 24 insertions(+), 16 deletions(-)
 
-diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
-index 401b6f9e63..0ebac04bc4 100644
---- a/target/ppc/cpu.c
-+++ b/target/ppc/cpu.c
-@@ -120,6 +120,8 @@ void ppc_store_fpscr(CPUPPCState *env, target_ulong val)
-         val |= FP_FEX;
-     }
-     env->fpscr = val;
-+    env->fp_status.rebias_overflow  = (FP_OE & env->fpscr) ? true : false;
-+    env->fp_status.rebias_underflow = (FP_UE & env->fpscr) ? true : false;
-     if (tcg_enabled()) {
-         fpscr_set_rounding_mode(env);
-     }
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 7ab6beadad..0f045b70f8 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -348,7 +348,6 @@ static inline int float_overflow_excp(CPUPPCState *env)
+diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+index d58d3c1701..058cbab555 100644
+--- a/hw/pci-host/pnv_phb3.c
++++ b/hw/pci-host/pnv_phb3.c
+@@ -986,6 +986,28 @@ static void pnv_phb3_instance_init(Object *obj)
  
-     bool overflow_enabled = !!(env->fpscr & FP_OE);
-     if (overflow_enabled) {
--        /* XXX: should adjust the result */
-         /* Update the floating-point enabled exception summary */
-         env->fpscr |= FP_FEX;
-         /* We must update the target FPR before raising the exception */
-@@ -367,7 +366,6 @@ static inline void float_underflow_excp(CPUPPCState *env)
-     /* Update the floating-point exception summary */
-     env->fpscr |= FP_FX;
-     if (env->fpscr & FP_UE) {
--        /* XXX: should adjust the result */
-         /* Update the floating-point enabled exception summary */
-         env->fpscr |= FP_FEX;
-         /* We must update the target FPR before raising the exception */
+ }
+ 
++void pnv_phb3_bus_init(DeviceState *dev, PnvPHB3 *phb)
++{
++    PCIHostState *pci = PCI_HOST_BRIDGE(dev);
++
++    /*
++     * PHB3 doesn't support IO space. However, qemu gets very upset if
++     * we don't have an IO region to anchor IO BARs onto so we just
++     * initialize one which we never hook up to anything
++     */
++    memory_region_init(&phb->pci_io, OBJECT(phb), "pci-io", 0x10000);
++    memory_region_init(&phb->pci_mmio, OBJECT(phb), "pci-mmio",
++                       PCI_MMIO_TOTAL_SIZE);
++
++    pci->bus = pci_register_root_bus(dev,
++                                     dev->id ? dev->id : NULL,
++                                     pnv_phb3_set_irq, pnv_phb3_map_irq, phb,
++                                     &phb->pci_mmio, &phb->pci_io,
++                                     0, 4, TYPE_PNV_PHB3_ROOT_BUS);
++
++    pci_setup_iommu(pci->bus, pnv_phb3_dma_iommu, phb);
++}
++
+ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
+ {
+     PnvPHB3 *phb = PNV_PHB3(dev);
+@@ -1035,22 +1057,7 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
+     memory_region_init_io(&phb->mr_regs, OBJECT(phb), &pnv_phb3_reg_ops, phb,
+                           "phb3-regs", 0x1000);
+ 
+-    /*
+-     * PHB3 doesn't support IO space. However, qemu gets very upset if
+-     * we don't have an IO region to anchor IO BARs onto so we just
+-     * initialize one which we never hook up to anything
+-     */
+-    memory_region_init(&phb->pci_io, OBJECT(phb), "pci-io", 0x10000);
+-    memory_region_init(&phb->pci_mmio, OBJECT(phb), "pci-mmio",
+-                       PCI_MMIO_TOTAL_SIZE);
+-
+-    pci->bus = pci_register_root_bus(dev,
+-                                     dev->id ? dev->id : NULL,
+-                                     pnv_phb3_set_irq, pnv_phb3_map_irq, phb,
+-                                     &phb->pci_mmio, &phb->pci_io,
+-                                     0, 4, TYPE_PNV_PHB3_ROOT_BUS);
+-
+-    pci_setup_iommu(pci->bus, pnv_phb3_dma_iommu, phb);
++    pnv_phb3_bus_init(dev, phb);
+ 
+     pnv_phb_attach_root_port(pci, TYPE_PNV_PHB3_ROOT_PORT,
+                              phb->phb_id, phb->chip_id);
+diff --git a/include/hw/pci-host/pnv_phb3.h b/include/hw/pci-host/pnv_phb3.h
+index af6ec83cf6..1375f18fc1 100644
+--- a/include/hw/pci-host/pnv_phb3.h
++++ b/include/hw/pci-host/pnv_phb3.h
+@@ -164,5 +164,6 @@ uint64_t pnv_phb3_reg_read(void *opaque, hwaddr off, unsigned size);
+ void pnv_phb3_reg_write(void *opaque, hwaddr off, uint64_t val, unsigned size);
+ void pnv_phb3_update_regions(PnvPHB3 *phb);
+ void pnv_phb3_remap_irqs(PnvPHB3 *phb);
++void pnv_phb3_bus_init(DeviceState *dev, PnvPHB3 *phb);
+ 
+ #endif /* PCI_HOST_PNV_PHB3_H */
 -- 
 2.37.2
 
