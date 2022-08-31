@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CED445A826A
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 17:55:13 +0200 (CEST)
-Received: from localhost ([::1]:59718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B2A75A824C
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 17:52:45 +0200 (CEST)
+Received: from localhost ([::1]:42206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTQ3b-0005oa-O3
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 11:55:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43982)
+	id 1oTQ1E-0001pa-AA
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 11:52:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTPvE-0002fY-1w; Wed, 31 Aug 2022 11:46:33 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:42520)
+ id 1oTPvF-0002fb-9B; Wed, 31 Aug 2022 11:46:33 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:39594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTPvB-00036E-Kp; Wed, 31 Aug 2022 11:46:31 -0400
-Received: by mail-ej1-x633.google.com with SMTP id p16so26096034ejb.9;
- Wed, 31 Aug 2022 08:46:28 -0700 (PDT)
+ id 1oTPvD-00036S-3A; Wed, 31 Aug 2022 11:46:33 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id fy31so28822836ejc.6;
+ Wed, 31 Aug 2022 08:46:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=ccpcYMGxqn8WXNFI2X2jCqAbkQ1k7CgYSp60BbZylhE=;
- b=KRJAPydy6BGrD99QFyZyLpSmpNAOv5khBb9fNHDUsanIjUajpo64ybIcouBQc6wzWS
- yf3Xfec0Ya37YO1ls0Tk5DYlU54cJOSJ+LS8Zkd+ywDXLq2XqOGqKWCq83oc0GCsgot1
- mCHv9Oo6+C53i6JZAGbjJ1u6/s7FQVbR7NJ2XzFUNru7pb0HCavFNxTL9vetb13hiarb
- C/JX4a4KXwbCFvc7G+EzGWjw7t+KRWkAcvPA73Z2GPme74cAmDRv+U/XxilT1adIOHQi
- rft3cGmljtiQmf3DpFy5HnsvdV+Rif/VHfolftkl6V7gqjK4kN26cLVQDa/5ASIhfRGz
- E3XA==
+ bh=kziy975Ku9ck3Do5y4RHLxQM6WcJLVSaw/Wzvh4zx/s=;
+ b=XGVDLu//PkX5DB5M+3wFUb6A2+b7TsOdxhKze6BO4JP4WB1eihbsrX8o9iWpQzsFup
+ NsdVJdVhTzscOtakb8jgtJrFOQyhfhCb2g4RKq4xuHciWIzI6pBSC7xCBDjf0kisYq6W
+ p5yDQAhAvzLtFAp/ybmJcrIQASvDnla9cyF6EzVp1bNAzkT0YWO3R2ejfO/ONBUttNtB
+ AkgVmp2nCddxY4i8dUjtLBEE/PT9LSqMpOUvwZfujmEv9WKsgvlKqQW36waxEKYgEFr4
+ 5OnVq1zHSpsMyBxaefcBhw7qnKB+uWX2Oucr3kWyMVzgy/nK/smCZScewji4Jjde3NnG
+ FP8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=ccpcYMGxqn8WXNFI2X2jCqAbkQ1k7CgYSp60BbZylhE=;
- b=OpR0MIYDri9QfdhTeMKhXm7bmj8Ns8F8SQlJTQ8OY48Jk83iW/haeS5qohAQqGuKWP
- JNsBhAcJh/dd2IOI0RzEKeIPeciK9VR+8b/HR7oHAfveY6vQl0vNnk9oohGNkB9uMS1n
- WZ7exErKJ6ktVSwVud3mE9gtrA0vsLTCkKj37EZx24DgBFUICiRtq3FG/335vVAbkXgd
- pvCTKvQAVDUs/+/OGIQwr92H2EfQRQJyj6ztkIBN9EBi4Ik5fCEx+d+pgBPTfewcFh8W
- 1C+JOuP33jaELnOI0Qm4gHaBVJbARJ+Oar7ZIWhwwE6Czlfvmqn1/tDR39xl9Ai1eYFI
- 7EsA==
-X-Gm-Message-State: ACgBeo1MhE7+QSXRY6scYYtHXeWZZeONqBeM+bGQHt8sVPflk2q/YHBC
- 1lOo49Sp7bIR/EGzhsqDS6xU2tCmF6w=
-X-Google-Smtp-Source: AA6agR4HubmOYEiIIdoTTN/E8s8xZemJQ1BX+KPlJcOC/aLXO+JfRbVnn6YBK//GY9d1G8jfnwkPng==
-X-Received: by 2002:a17:907:868b:b0:741:8f8c:6ab5 with SMTP id
- qa11-20020a170907868b00b007418f8c6ab5mr10534674ejc.194.1661960787263; 
- Wed, 31 Aug 2022 08:46:27 -0700 (PDT)
+ bh=kziy975Ku9ck3Do5y4RHLxQM6WcJLVSaw/Wzvh4zx/s=;
+ b=zYLcHdFPE2PFej+bfa3Pxuhs15roadDarxS3DMFtFt+czQRB3xZJvlfas56Sec8FqK
+ vvvzfNjADAPW479LmNjepJLyDhGUwgvxKvAuIPZbTaOyq68MlrfL2Nm/W5cQUS4sYxEp
+ 4R3ozFH5QcOQTWX9c3/lVNJ/dSPzLqHMJ8Q75UMyeyhyhSxkGsMU7Xc4Mz4HxIFJTYwQ
+ ikdlPBn44C2NxoHnjhodP2m6R0tQlmsPrYvMp+8E9t61ViKBWD8QoUwxM4q4lNTkMDY/
+ LeGztGSDPswP7HDzDtho/XQqtEApR++y+j/MHh09fAHWOetMudyMovT2kGBnRogRW82M
+ MkWA==
+X-Gm-Message-State: ACgBeo3A6EYjjnrkyh9XQ+GxegrASBsuk//tNHVFeuvxrHAHef1fIWbu
+ GfBLnqpMAOYMjItAMhbYQnWv5K5em1Y=
+X-Google-Smtp-Source: AA6agR4UiN7P1de0TfveeRLbjdZ1nAI3+wsShuwBRhMcktcAvPha3wwyEUfsByUG8UXHWjLvV98/9Q==
+X-Received: by 2002:a17:906:491:b0:73d:c060:7cef with SMTP id
+ f17-20020a170906049100b0073dc0607cefmr21023395eja.111.1661960788737; 
+ Wed, 31 Aug 2022 08:46:28 -0700 (PDT)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- k9-20020a508ac9000000b00445e930e20esm9252123edk.64.2022.08.31.08.46.26
+ k9-20020a508ac9000000b00445e930e20esm9252123edk.64.2022.08.31.08.46.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 08:46:26 -0700 (PDT)
+ Wed, 31 Aug 2022 08:46:28 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: BALATON Zoltan <balaton@eik.bme.hu>, John Snow <jsnow@redhat.com>,
@@ -61,16 +61,17 @@ Cc: BALATON Zoltan <balaton@eik.bme.hu>, John Snow <jsnow@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v4 02/12] hw/isa/vt82c686: Resolve unneeded attribute
-Date: Wed, 31 Aug 2022 17:45:55 +0200
-Message-Id: <20220831154605.12773-3-shentey@gmail.com>
+Subject: [PATCH v4 03/12] hw/isa/vt82c686: Prefer pci_address_space() over
+ get_system_memory()
+Date: Wed, 31 Aug 2022 17:45:56 +0200
+Message-Id: <20220831154605.12773-4-shentey@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220831154605.12773-1-shentey@gmail.com>
 References: <20220831154605.12773-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,60 +94,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that also the super io device is realized in the common realize method,
-the isa_bus attribute can be turned into a temporary.
+Unlike get_system_memory(), pci_address_space() respects the memory tree
+available to the parent device.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/vt82c686.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ hw/isa/vt82c686.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 0217c98fe4..9d12e1cae4 100644
+index 9d12e1cae4..5582c0b179 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -543,7 +543,6 @@ struct ViaISAState {
-     PCIDevice dev;
-     qemu_irq cpu_intr;
-     qemu_irq *isa_irqs;
--    ISABus *isa_bus;
-     ViaSuperIOState via_sio;
- };
- 
-@@ -585,17 +584,18 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
-     ViaISAState *s = VIA_ISA(d);
-     DeviceState *dev = DEVICE(d);
-     qemu_irq *isa_irq;
-+    ISABus *isa_bus;
-     int i;
+@@ -589,7 +589,7 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
  
      qdev_init_gpio_out(dev, &s->cpu_intr, 1);
      isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
--    s->isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
-+    isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
+-    isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
++    isa_bus = isa_bus_new(dev, pci_address_space(d), pci_address_space_io(d),
                            &error_fatal);
--    s->isa_irqs = i8259_init(s->isa_bus, *isa_irq);
--    isa_bus_irqs(s->isa_bus, s->isa_irqs);
--    i8254_pit_init(s->isa_bus, 0x40, 0, NULL);
--    i8257_dma_init(s->isa_bus, 0);
--    mc146818_rtc_init(s->isa_bus, 2000, NULL);
-+    s->isa_irqs = i8259_init(isa_bus, *isa_irq);
-+    isa_bus_irqs(isa_bus, s->isa_irqs);
-+    i8254_pit_init(isa_bus, 0x40, 0, NULL);
-+    i8257_dma_init(isa_bus, 0);
-+    mc146818_rtc_init(isa_bus, 2000, NULL);
- 
-     for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
-         if (i < PCI_COMMAND || i >= PCI_REVISION_ID) {
-@@ -604,7 +604,7 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
-     }
- 
-     /* Super I/O */
--    if (!qdev_realize(DEVICE(&s->via_sio), BUS(s->isa_bus), errp)) {
-+    if (!qdev_realize(DEVICE(&s->via_sio), BUS(isa_bus), errp)) {
-         return;
-     }
- }
+     s->isa_irqs = i8259_init(isa_bus, *isa_irq);
+     isa_bus_irqs(isa_bus, s->isa_irqs);
 -- 
 2.37.3
 
