@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE7DF5A7A0C
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 11:21:24 +0200 (CEST)
-Received: from localhost ([::1]:49042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A7D5A7AD8
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 12:04:36 +0200 (CEST)
+Received: from localhost ([::1]:53680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTJuV-0007ZJ-K7
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 05:21:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35246)
+	id 1oTKaJ-0003F6-5B
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 06:04:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
- id 1oTJrt-0005pR-Tu
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 05:18:42 -0400
-Received: from mga01.intel.com ([192.55.52.88]:56118)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
- id 1oTJrr-0004lD-C7
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 05:18:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661937519; x=1693473519;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Tl53ZsaaI85qSLvVD6xYWCQaX/sbT5dxWuHKCNvcoWs=;
- b=gT04i0iYIW6TdViCrItyRr+znbZ8DuQcVmoL4VW6KFwbGjCjU8idDy+p
- aAwpThuk6+KaeI0WlfWxvjUc0iKihQIjfHNy2QaacxwhgUyKhWBJ/QcWe
- nnSeuctpOG8dGOqLvwossFfdjv6hHNlrXgwAJZzK2tr6Dth3pZqw+6hSJ
- s5BV8kIeIU/Hk8okZIHPn9rwXoROyPqPxOc8uEM4elj1hUJqFo1feyYua
- aTrxPY1jOryAMNUVyZUz5mAl4ylPBT80NGrfozSKc6QZxHLMHbmvv/HWg
- Vtqb0K/a8+kg/47hMH6bjgQOsGHWdUoGyLUY+1dHRdQA3DXjVklH41f6N A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10455"; a="321548671"
-X-IronPort-AV: E=Sophos;i="5.93,277,1654585200"; d="scan'208";a="321548671"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2022 02:18:37 -0700
-X-IronPort-AV: E=Sophos;i="5.93,277,1654585200"; d="scan'208";a="673275500"
-Received: from leiwang7-mobl.ccr.corp.intel.com (HELO [10.238.4.77])
- ([10.238.4.77])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2022 02:18:36 -0700
-Message-ID: <6f4292c6-5f85-f3c7-7b65-e5a59dd71dbc@intel.com>
-Date: Wed, 31 Aug 2022 17:18:34 +0800
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oTKXj-0006MV-Ex; Wed, 31 Aug 2022 06:01:55 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:43541)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oTKXh-0002sU-KJ; Wed, 31 Aug 2022 06:01:55 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id c59so11451076edf.10;
+ Wed, 31 Aug 2022 03:01:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=F5xy2Mkh8h9720Ym4ErnjCGWdqH+nrmnZC4hRYuhMck=;
+ b=DOl5FVhdJvqB4YqeYh3jLhHZN8Wg5pwSMqFj6nY5kyltmZnCIs0RnEgZdZst4CHACB
+ e5dHNRvO5D+EG87Kp0cxJrlS9rBL5cFRQDv9NH5D2Q3/fgo0Yu4FoOIXy3E5Prj4mz0K
+ lG9Y/cjBnOwud/x966Lpam9Pm0aIDl/QahiNq95y06s9sicfm8eQ5wD2sUvZAjm0789d
+ IAhpgYfCVsqa9nwJ1P6qe4SNLfzl0VUa0Q4PVzEsu5jvl3AnOq9whkhIuOzsvYaLs6WW
+ bikkltJzlJZx3HvwS5WPDxHN64NGHU7Wke8Ll/7kRMLHg8Xo/a/3LHguJPNWWBu7LPs7
+ c20w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=F5xy2Mkh8h9720Ym4ErnjCGWdqH+nrmnZC4hRYuhMck=;
+ b=Ryx8EXfj3SBp9u7H3Gn3mES26DYGhcxooEL/M/jTxMHKorADOFru37IDiOyV21J/GM
+ kQcO8toEKOY6VO5WAVhFDE3chu18KeBSVPCO6xueCBJ8rFF6+Y0Mt1mAcW1YYNhk0le7
+ 5oGbyeYqcprdyQS8nkm78bcWw1rb5vdVT60VvFmUrDaPUXrAMP6UFFrr4/w5qtffqiky
+ pxXKF0BAgytICsLXWbW/UkWqsZNfs0u79g6Z1gSeBe4Fith6RpiKCDMdPbjte2LhlC6E
+ U6Z+XNRF+pFiO/Oepw2ojJtKR4+jeN6QVIpqlapv0IIAPbyogZJ0RQpu7/sQ6ck+vCfp
+ tIeA==
+X-Gm-Message-State: ACgBeo2bJRFuCdQlIz0j3vx5mwLD9h0oLbtb4ATdem+dXkbFhfQPcxUI
+ MnNFhDnmMw5lR3hkRn31XGZ7XE5KDzU=
+X-Google-Smtp-Source: AA6agR71aQ2eZFhdWVmiTOQzGPvzVMgZS8Vka3+5RnxPakxbUZnALlK2HuoKyzA/awRRlALKj60f2A==
+X-Received: by 2002:a50:9344:0:b0:448:ce76:7c81 with SMTP id
+ n4-20020a509344000000b00448ce767c81mr5819177eda.187.1661940111075; 
+ Wed, 31 Aug 2022 03:01:51 -0700 (PDT)
+Received: from osoxes.fritz.box (pd95ed71f.dip0.t-ipconnect.de.
+ [217.94.215.31]) by smtp.gmail.com with ESMTPSA id
+ 6-20020a170906310600b0073c10031dc9sm6449583ejx.80.2022.08.31.03.01.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 31 Aug 2022 03:01:50 -0700 (PDT)
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, Huacai Chen <chenhuacai@kernel.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH v3 00/10] Instantiate VT82xx functions in host device
+Date: Wed, 31 Aug 2022 11:59:04 +0200
+Message-Id: <20220831095914.2041-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.37.3
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.13.0
-Subject: Re: [Qemu-devel] [RFC PATCH] Add qemu .clang-format
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <1443720628-16512-1-git-send-email-marcandre.lureau@redhat.com>
- <9cb1a173-c703-1787-90e1-4668710b323b@intel.com>
- <Yw8gpOzspxrcE8rE@redhat.com>
-From: "Wang, Lei" <lei4.wang@intel.com>
-In-Reply-To: <Yw8gpOzspxrcE8rE@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: permerror client-ip=192.55.52.88;
- envelope-from=lei4.wang@intel.com; helo=mga01.intel.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,74 +88,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 8/31/2022 4:49 PM, Daniel P. Berrangé wrote:
-> On Wed, Aug 31, 2022 at 02:23:51PM +0800, Wang, Lei wrote:
->>
->> On 10/2/2015 1:30 AM, marcandre.lureau@redhat.com wrote:
->>> From: Marc-André Lureau <marcandre.lureau@redhat.com>
->>>
->>> clang-format is awesome to reflow your code according to qemu coding
->>> style in an editor (in the region you modify).
->>>
->>> (note: clang-tidy should be able to add missing braces around
->>> statements, but I haven't tried it, it's quite recent)
->>>
->>> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
->>> ---
->>>    .clang-format | 6 ++++++
->>>    1 file changed, 6 insertions(+)
->>>    create mode 100644 .clang-format
->>>
->>> diff --git a/.clang-format b/.clang-format
->>> new file mode 100644
->>> index 0000000..6422547
->>> --- /dev/null
->>> +++ b/.clang-format
->>> @@ -0,0 +1,6 @@
->>> +BasedOnStyle: LLVM
->>> +IndentWidth: 4
->>> +UseTab: Never
->>> +BreakBeforeBraces: Linux
->>> +AllowShortIfStatementsOnASingleLine: false
->>> +IndentCaseLabels: false
->>
->> Hi, any progress on this? I also found a gist on GitHub which can be a
->> reference: https://gist.github.com/elmarco/aa5e0b23567f46fb7f0e73cde586a0c1
-> 
-> clang-format is a great tool and I'd highly recommend its use on
-> any newly started projects, and even retrospectively on existing
-> projects which are small scale. Adding it to large existing projects
-> is problematic though.
-> 
-> None of the QEMU code complies with it today and indeed there is
-> quite a bit of style variance across different parts of QEMU. If
-> we add this config file, and someone makes a 1 line change in a
-> file, clang-format will reformat the entire file contents.
-> 
-> The only practical way to introduce use of clang-format would be
-> to do a bulk reformat of the entire codebase. That is something
-> that is quite disruptive to both people with patches they're
-> working on but not submitted yet, as well as people wanting to
-> cherry-pick new commits back to old code branches.
-> 
-> With regards,
-> Daniel
-
-I think the benefits of introducing clang-format mainly for its ability 
-to format a code range, which means for any future contributions, we 
-could encourage a range format before the patch is generated. This can 
-extensively simplify my workflow, especially because I use the Neovim + 
-LSP combination, which supports a built-in function "lua 
-vim.lsp.buf.range_formatting()".
-
-I have no interest in reformatting the existing code and also think 
-using it to reformat an entire file shouldn't be encouraged, but, we can 
-leverage this tool to give future contributions a better experience. 
-It's also important to note that the kernel already has a 
-".clang-format" file, so I think we can give it a try:)
-
-BR,
-Lei
+v3:=0D
+* Replace pre increment by post increment in for loop (Zoltan)=0D
+* Move class defines close to where the class is defined (Zoltan)=0D
+=0D
+Testing done:=0D
+* `make check-avocado`=0D
+  Passes for boot_linux_console.py for mips64el_fuloong2e=0D
+* `qemu-system-ppc -machine pegasos2 -rtc base=3Dlocaltime -device ati-vga,=
+guest_hwcursor=3Dtrue,romfile=3D"" -cdrom morphos-3.17.iso -kernel morphos-=
+3.17/boot.img`=0D
+  Boots successfully and it is possible to open games and tools.=0D
+=0D
+v2:=0D
+* Keep the call to pci_ide_create_devs() in board code for consistency (Zol=
+tan)=0D
+* Create rtc-time alias in board rather than in south bridge code=0D
+* Remove stale comments about PCI functions (Zoltan)=0D
+=0D
+v1:=0D
+This series instantiates all PCI functions of the VT82xx south bridges in t=
+he south bridges themselves.=0D
+For the IDE function this is especially important since its interrupt routi=
+ng is configured in the=0D
+ISA function, hence doesn't make sense to instantiate it as a "Frankenstein=
+" device. The interrupt=0D
+routing is currently hardcoded and changing that is currently not in the sc=
+ope of this series.=0D
+=0D
+Testing done:=0D
+* `qemu-system-ppc -machine pegasos2 -rtc base=3Dlocaltime -device ati-vga,=
+guest_hwcursor=3Dtrue,romfile=3D"" -cdrom morphos-3.17.iso -kernel morphos-=
+3.17/boot.img`=0D
+  Boots successfully and it is possible to open games and tools.=0D
+=0D
+* I was unable to test the fuloong2e board even before this series since it=
+ seems to be unfinished [1].=0D
+  A buildroot-baked kernel [2] booted but doesn't find its root partition, =
+though the issues could be in the buildroot receipt I created.=0D
+=0D
+[1] https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2=0D
+[2] https://github.com/shentok/buildroot/commits/fuloong2e=0D
+=0D
+Bernhard Beschow (10):=0D
+  hw/isa/vt82c686: Resolve chip-specific realize methods=0D
+  hw/isa/vt82c686: Resolve unneeded attribute=0D
+  hw/isa/vt82c686: Prefer pci_address_space() over get_system_memory()=0D
+  hw/isa/vt82c686: Reuse errp=0D
+  hw/isa/vt82c686: Instantiate IDE function in host device=0D
+  hw/isa/vt82c686: Instantiate USB functions in host device=0D
+  hw/isa/vt82c686: Instantiate PM function in host device=0D
+  hw/isa/vt82c686: Instantiate AC97 and MC97 functions in host device=0D
+  hw/isa/vt82c686: Embed RTCState in host device=0D
+  hw/isa/vt82c686: Create rtc-time alias in boards instead=0D
+=0D
+ configs/devices/mips64el-softmmu/default.mak |   1 -=0D
+ hw/isa/Kconfig                               |   1 +=0D
+ hw/isa/vt82c686.c                            | 120 +++++++++++++++----=0D
+ hw/mips/fuloong2e.c                          |  21 ++--=0D
+ hw/ppc/Kconfig                               |   1 -=0D
+ hw/ppc/pegasos2.c                            |  25 ++--=0D
+ include/hw/isa/vt82c686.h                    |   2 -=0D
+ 7 files changed, 116 insertions(+), 55 deletions(-)=0D
+=0D
+-- =0D
+2.37.3=0D
+=0D
 
