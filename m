@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACAE65A7F16
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 15:42:09 +0200 (CEST)
-Received: from localhost ([::1]:44880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A06005A7F38
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 15:50:12 +0200 (CEST)
+Received: from localhost ([::1]:58916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTNyq-0003iO-AQ
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 09:42:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48870)
+	id 1oTO6Y-0006G1-9b
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 09:50:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oTNxG-0001mJ-Mi
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 09:40:30 -0400
-Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131]:38676)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oTNxA-0000z5-BW
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 09:40:30 -0400
-Received: by mail-lf1-x131.google.com with SMTP id q7so19994319lfu.5
- for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 06:40:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=OE5najel9Uz9w82RmO6ObHxIex4gwPJGcnKGyoHXr9Y=;
- b=G9CNg5hOofJGTx3OOq4UOtkD6d9pBZ2NhRyztedcdClh3WhAZ07NN/PTCK9fO0Wkyt
- hjz6ikT8Pzlh2VkqF5V148Xqn7d9ovmS8/X+J/WisRBsfYMkLH9Nlr5cexroYovGKKX2
- 71xW1VghwqOkZq/dxjztZHIiX7/uasnc66H/iMLSIq9SOcvojZxdwpc324fzuKPX4qIw
- m1hDeRc96bG7of4yyIm47pPHsMX9/34Z946cbX5FFd+QEtQTVSbPV3lyYkYcPl/BAMt+
- 2buFi8MH1aYAG9TlXaiqyhGCa4fiHs49DfcYu7OWFAOcB5xmwJE5OHfnGaZm3z40WJ7C
- OM4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=OE5najel9Uz9w82RmO6ObHxIex4gwPJGcnKGyoHXr9Y=;
- b=6uAZWGpk3b71w6LqQgsyKBNQYE3yPVVA0Lm5YiRZhY8wShXEikPTq4V5GDcsgjsdQC
- VaVoKTNpXgnLvYfgZvrxu12Ho31jpBGs33Hycgf6loLdTaTM+jYCOye4v3A7/5WkxZif
- HSTprFGaRCWf87vb6JIsA+mlF92sGK7RAtG23+KlhFdGyXcEj5slODdgWbAip1HoW5eC
- KEbUoNyKpP0IrkcJGa2q4ZWOhNkIBFdapiR0XRqoejCctWFezoTDNNIDhdKB3uAUzkln
- T+kZN6vFHG+SQt4Y/XCwET4qR6vm+3zhRRJpOd7pdzmTux6BhPSZl+yFyILRI/AdJoB0
- cHaA==
-X-Gm-Message-State: ACgBeo0sY6W/9TyiF/c9j5nP5Ta3FwKLD1wiVCGodZ1dOTU2E4pNzK0e
- brLovxdhTAWMyUsBSS/mwwnlW10AFRtzPVO1Rsk=
-X-Google-Smtp-Source: AA6agR6JywpXhSqkiR1Xg/jZHSKsyRnyX+ffx+bcljI41SS/vevCClNPLCzUuQuEghetUFKLKfRDL/dAtpxuxNxq5Yk=
-X-Received: by 2002:ac2:4f03:0:b0:48b:2179:5249 with SMTP id
- k3-20020ac24f03000000b0048b21795249mr10688538lfr.356.1661953221025; Wed, 31
- Aug 2022 06:40:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
+ id 1oTO4Q-0004r7-Oh
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 09:47:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26157)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
+ id 1oTO4N-0002Lc-1G
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 09:47:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661953669;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fv0qHHXhU11VQYc1TwhTUSkwBz+0E+alqYb2rjwGJnE=;
+ b=EM6pZ8cYbxsB/6cWBDRYsAa6fALqQMQ8L8X9c4GD799nXEPzkP13InGtKlXKHWCy/zoIeq
+ sKtLi4IN7cFiSv8ptybdurSTPzZ6tBwb6D0tlignh7f0CmtrkDntvn4DDp9N1aKb4oz4LS
+ l00k1Jv5d1I+ezxk446rYdP14MLHC64=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-7-FQa0jfeqOD-wtM2YljO1iQ-1; Wed, 31 Aug 2022 09:47:45 -0400
+X-MC-Unique: FQa0jfeqOD-wtM2YljO1iQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 88EBD1C0E042;
+ Wed, 31 Aug 2022 13:47:27 +0000 (UTC)
+Received: from localhost (unknown [10.40.195.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2081C40CF8EE;
+ Wed, 31 Aug 2022 13:47:26 +0000 (UTC)
+Date: Wed, 31 Aug 2022 15:47:25 +0200
+From: Victor Toso <victortoso@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
+ John Snow <jsnow@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v1 12/16] qapi: fix example of blockdev-add command
+Message-ID: <20220831134725.j7lsf7nzt2tc3glr@tapioca>
+References: <20220830161545.84198-1-victortoso@redhat.com>
+ <20220830161545.84198-13-victortoso@redhat.com>
+ <87zgfkabel.fsf@pond.sub.org>
+ <20220831124512.ngotphuwnsx6pyqn@tapioca>
+ <87pmgg8se1.fsf@pond.sub.org>
 MIME-Version: 1.0
-References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-21-bmeng.cn@gmail.com>
-In-Reply-To: <20220824094029.1634519-21-bmeng.cn@gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 31 Aug 2022 17:40:09 +0400
-Message-ID: <CAJ+F1C+iDMHYA6WFsCSiY5XnAWF0dBhGjE-qPSCCrdoXaQZHog@mail.gmail.com>
-Subject: Re: [PATCH 20/51] tests/qtest: i440fx-test: Skip running
- request_{bios, pflash} for win32
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000005f689e05e789a3de"
-Received-SPF: pass client-ip=2a00:1450:4864:20::131;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x131.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="dzdzrrabw7wyow65"
+Content-Disposition: inline
+In-Reply-To: <87pmgg8se1.fsf@pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,173 +85,150 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005f689e05e789a3de
-Content-Type: text/plain; charset="UTF-8"
+
+--dzdzrrabw7wyow65
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+Hi,
 
-On Wed, Aug 24, 2022 at 2:15 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Wed, Aug 31, 2022 at 03:16:54PM +0200, Markus Armbruster wrote:
+> Cc: Kevin for an improved chance of getting any nonsense I might write
+> corrected.
+>
+> Victor Toso <victortoso@redhat.com> writes:
+>
+> > Hi,
+> >
+> > On Wed, Aug 31, 2022 at 01:40:50PM +0200, Markus Armbruster wrote:
+> >> Victor Toso <victortoso@redhat.com> writes:
+> >>
+> >> > The example output is setting optional member "backing" with null.
+> >> > This has no runtime impact. Remove it.
+> >> >
+> >> > Problem was noticed when using the example as a test case for Go
+> >> > bindings.
+> >>
+> >> "Fix example" and "problem" implies there's something wrong.
+> >> "No runtime impact" sounds like it's redundant, but not wrong.
+> >> Wrong or not wrong?
+> >
+> > I take your comment is more about the wording which is confusing.
+> >
+> > Would it be better if I change to:
+> > '''
+> >    The example output is setting optional member "backing" with
+> >    null. While this has no runtime impact, setting optional
+> >    members with empty value should not be encouraged. Remove it.
+> > '''
+> >
+> > While I think the above is true, my main reason for proposing
+> > this change is to re-use the example as a test case, but I'm not
+> > sure if adding anything related to it would make it better (only
+> > more confusing!).
+>=20
+> I had a closer look at the schema.
+>=20
+> The definition of backing is
+>=20
+>     ##
+>     # @BlockdevOptionsGenericCOWFormat:
+>     #
+>     # Driver specific block device options for image format that have no =
+option
+>     # besides their data source and an optional backing file.
+>     #
+>     # @backing: reference to or definition of the backing file block
+>     #           device, null disables the backing file entirely.
+>     #           Defaults to the backing file stored the image file.
+>     #
+>     # Since: 2.9
+>     ##
+>     { 'struct': 'BlockdevOptionsGenericCOWFormat',
+>       'base': 'BlockdevOptionsGenericFormat',
+>       'data': { '*backing': 'BlockdevRefOrNull' } }
+>=20
+> Meaning, if I remember correctly (with some help from commit
+> c42e8742f52's message):
+>=20
+> 1. Present @backing
+>=20
+> 1.a. of type 'str' means use the existing block device with this ID as
+>      backing image
+>=20
+> 1.b. of type 'BlockdevOptions' means use the new block device defined by
+>      it as backing image
+>=20
+> 1.c. that is null means use no backing image
+>
+> 2. Absent @backing means default to the backing file named in the COW
+>    image.
 
-> From: Bin Meng <bin.meng@windriver.com>
->
-> The request_{bios,pflash} test cases call mmap() which does not
-> exist on win32. Exclude them.
->
->
-We can fairly easily rewrite the create_blob_file() function to be portable
-though, something like:
+Over the wire, how you get the difference between 1.c and 2? Are
+you saying that for optional member "backing" we should be
+explicit sending null over the wire?
 
-static char *create_blob_file(void)
-{
-    g_autofree uint8_t *buf =3D g_malloc(BLOB_SIZE);
-    GError *error =3D NULL;
-    char *pathname;
-    int fd;
-    size_t i;
+> Therefore, ...
+>
+> >
+> > Cheers,
+> > Victor
+> >
+> >> > Signed-off-by: Victor Toso <victortoso@redhat.com>
+> >> > ---
+> >> >  qapi/block-core.json | 4 +---
+> >> >  1 file changed, 1 insertion(+), 3 deletions(-)
+> >> >
+> >> > diff --git a/qapi/block-core.json b/qapi/block-core.json
+> >> > index dcc6d41494..302164d575 100644
+> >> > --- a/qapi/block-core.json
+> >> > +++ b/qapi/block-core.json
+> >> > @@ -1542,9 +1542,7 @@
+> >> >  #      "arguments": { "driver": "qcow2",
+> >> >  #                     "node-name": "node1534",
+> >> >  #                     "data-file": { "driver": "file",
+> >> > -#                                    "filename": "hd1.qcow2" },
+> >> > -#                     "backing": null } }
+> >> > -#
+> >> > +#                                    "filename": "hd1.qcow2" } } }
+> >> >  # <- { "return": {} }
+> >> >  #
+> >> >  # -> { "execute": "blockdev-snapshot",
+> >>
+>
+> ... your patch changes the example from 1.c. to 2.  Which is probably
+> not what you intended.
 
-    fd =3D g_file_open_tmp("blob_XXXXXX", &pathname, &error);
-    g_assert_no_error(error);
+Yep, you are correct but not just with my patch. It is confusing
+that an optional member must be set to JSON Null over the wire..
+I'll need to think a bit more on this.
 
-    for (i =3D 0; i < BLOB_SIZE; ++i) {
-        buf[i] =3D i;
-    }
+Many many thanks for your review. Really appreciate it.
 
-    g_file_set_contents(pathname, (char *)buf, BLOB_SIZE, &error);
-    g_assert_no_error(error);
-    close(fd);
+Cheers,
+Victor
 
-    return pathname;
-}
+--dzdzrrabw7wyow65
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
->
->  tests/qtest/i440fx-test.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/tests/qtest/i440fx-test.c b/tests/qtest/i440fx-test.c
-> index 6d7d4d8d8f..3890f1237c 100644
-> --- a/tests/qtest/i440fx-test.c
-> +++ b/tests/qtest/i440fx-test.c
-> @@ -278,6 +278,8 @@ static void test_i440fx_pam(gconstpointer opaque)
->      qtest_end();
->  }
->
-> +#ifndef _WIN32
-> +
->  #define BLOB_SIZE ((size_t)65536)
->  #define ISA_BIOS_MAXSZ ((size_t)(128 * 1024))
->
-> @@ -396,6 +398,8 @@ static void request_pflash(FirmwareTestFixture
-> *fixture,
->      fixture->is_bios =3D false;
->  }
->
-> +#endif /* _WIN32 */
-> +
->  int main(int argc, char **argv)
->  {
->      TestData data;
-> @@ -406,8 +410,10 @@ int main(int argc, char **argv)
->
->      qtest_add_data_func("i440fx/defaults", &data, test_i440fx_defaults);
->      qtest_add_data_func("i440fx/pam", &data, test_i440fx_pam);
-> +#ifndef _WIN32
->      add_firmware_test("i440fx/firmware/bios", request_bios);
->      add_firmware_test("i440fx/firmware/pflash", request_pflash);
-> +#endif
->
->      return g_test_run();
->  }
-> --
-> 2.34.1
->
->
->
+-----BEGIN PGP SIGNATURE-----
 
---=20
-Marc-Andr=C3=A9 Lureau
+iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmMPZm0ACgkQl9kSPeN6
+SE//1w//YWyJGIbf5oyOtL8rM+RA1bq5qYijAOAlHSaWR+1qYX0YG0XuwULGiF5i
+qkgq75wlLTHuD4E8pyYGfJE/g084PuWTwTZ1aT6ACoD5Hok1blNRXxXShFszrJUg
+LHfx3uPioS7S6PgpngALUxXSNI5z7IPfmeAlciZhFLDUQEeQOU5QhyV+l6jdIJxI
+q6mshye0UI+rYJ3XmjiUs02xdwjK+Vq+nSDQ4PgYkivIAFes8DeODQfyhX0372Pg
+1YgmsBdCf4uvKpnnXJptlM5hUXj3OtjxbtbXiIDzecq8ZJMFq/34qFq4/eDKxKar
+7STVO1ysdNPkHj7GgVW5uNLpN1TULj+ci/qGSqiEqcKtv9VmhuXN/aAs4zxTEBJN
+0RRrJ5AykKGrki9kM7f/fmszbT6YZzTnvhXRzlEiOZpoUnJfzV1BHpnJXEvj0rfI
+RO5r4dGFXqbU6v1evXqFsMmDZTTMtNY9EK7hSW3PxltotVJnfonfSr4A04jC++92
+wxJiStrJauQvyM4AZONIJSytr67XKV+rfwUWHpwwdjJ7h0VFY9lMIeecP2Zhlk+3
+NAT4GBvmnYHkxP7Ey3+pOyo9vbLR/cPYTRv9H0Ma7Ne9eUI1c0CLGG8CurkA9mMG
+lnKhDgogA4aDgAtCEWuP2LuRzWMwWmQnGbQbbcGstrjztu5gD/g=
+=vNIX
+-----END PGP SIGNATURE-----
 
---0000000000005f689e05e789a3de
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--dzdzrrabw7wyow65--
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 24, 2022 at 2:15 PM Bin=
- Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Bin=
- Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" target=3D"_blank">bin.m=
-eng@windriver.com</a>&gt;<br>
-<br>
-The request_{bios,pflash} test cases call mmap() which does not<br>
-exist on win32. Exclude them.<br>
-<br></blockquote><div><br></div><div>We can fairly easily rewrite the creat=
-e_blob_file() function to be portable though, something like:</div><div><br=
-></div><div>static char *create_blob_file(void)<br>{<br>=C2=A0 =C2=A0 g_aut=
-ofree uint8_t *buf =3D g_malloc(BLOB_SIZE);<br>=C2=A0 =C2=A0 GError *error =
-=3D NULL;<br>=C2=A0 =C2=A0 char *pathname;<br>=C2=A0 =C2=A0 int fd;<br>=C2=
-=A0 =C2=A0 size_t i;<br><br>=C2=A0 =C2=A0 fd =3D g_file_open_tmp(&quot;blob=
-_XXXXXX&quot;, &amp;pathname, &amp;error);<br>=C2=A0 =C2=A0 g_assert_no_err=
-or(error);<br><br>=C2=A0 =C2=A0 for (i =3D 0; i &lt; BLOB_SIZE; ++i) {<br>=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 buf[i] =3D i;<br>=C2=A0 =C2=A0 }<br><br>=C2=A0 =
-=C2=A0 g_file_set_contents(pathname, (char *)buf, BLOB_SIZE, &amp;error);<b=
-r>=C2=A0 =C2=A0 g_assert_no_error(error);<br>=C2=A0 =C2=A0 close(fd);<br><b=
-r>=C2=A0 =C2=A0 return pathname;<br>}</div><div><br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" targe=
-t=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
----<br>
-<br>
-=C2=A0tests/qtest/i440fx-test.c | 6 ++++++<br>
-=C2=A01 file changed, 6 insertions(+)<br>
-<br>
-diff --git a/tests/qtest/i440fx-test.c b/tests/qtest/i440fx-test.c<br>
-index 6d7d4d8d8f..3890f1237c 100644<br>
---- a/tests/qtest/i440fx-test.c<br>
-+++ b/tests/qtest/i440fx-test.c<br>
-@@ -278,6 +278,8 @@ static void test_i440fx_pam(gconstpointer opaque)<br>
-=C2=A0 =C2=A0 =C2=A0qtest_end();<br>
-=C2=A0}<br>
-<br>
-+#ifndef _WIN32<br>
-+<br>
-=C2=A0#define BLOB_SIZE ((size_t)65536)<br>
-=C2=A0#define ISA_BIOS_MAXSZ ((size_t)(128 * 1024))<br>
-<br>
-@@ -396,6 +398,8 @@ static void request_pflash(FirmwareTestFixture *fixture=
-,<br>
-=C2=A0 =C2=A0 =C2=A0fixture-&gt;is_bios =3D false;<br>
-=C2=A0}<br>
-<br>
-+#endif /* _WIN32 */<br>
-+<br>
-=C2=A0int main(int argc, char **argv)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0TestData data;<br>
-@@ -406,8 +410,10 @@ int main(int argc, char **argv)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0qtest_add_data_func(&quot;i440fx/defaults&quot;, &amp;d=
-ata, test_i440fx_defaults);<br>
-=C2=A0 =C2=A0 =C2=A0qtest_add_data_func(&quot;i440fx/pam&quot;, &amp;data, =
-test_i440fx_pam);<br>
-+#ifndef _WIN32<br>
-=C2=A0 =C2=A0 =C2=A0add_firmware_test(&quot;i440fx/firmware/bios&quot;, req=
-uest_bios);<br>
-=C2=A0 =C2=A0 =C2=A0add_firmware_test(&quot;i440fx/firmware/pflash&quot;, r=
-equest_pflash);<br>
-+#endif<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0return g_test_run();<br>
-=C2=A0}<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000005f689e05e789a3de--
 
