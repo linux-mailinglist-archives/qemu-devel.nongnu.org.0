@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 783125A7E1E
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 14:58:17 +0200 (CEST)
-Received: from localhost ([::1]:42478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D1B85A7E2F
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 15:01:52 +0200 (CEST)
+Received: from localhost ([::1]:58016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTNIN-0003pR-0g
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 08:58:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34022)
+	id 1oTNLr-0007mU-BC
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 09:01:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oTNFC-0007zz-9G; Wed, 31 Aug 2022 08:54:58 -0400
-Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b]:46736)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oTNF9-0001KP-KQ; Wed, 31 Aug 2022 08:54:57 -0400
-Received: by mail-lj1-x22b.google.com with SMTP id k18so8123526lji.13;
- Wed, 31 Aug 2022 05:54:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=ETY0PHffKg53qROeEeN5OdhIGLApMmoln1S1hh4FPpM=;
- b=HM9cj2qTO68TVlA0MsSELGqB5pYID82R2pMK1BazG6V63r9kgquciHASHjscRO89YL
- e3TF2SnddDT3SZSf1onayiadV11TkP8nf5x2QiwTA9JQB4wVnSSuaqjbMCEE4cITvCov
- huJwjQGdkBvzpnkfVAHsDZRfC25IlC04jzdJF2qBE14kop0zYCFpb60sWigfD1ppQsRE
- fvR1h5ByPR4a8QtrHBh5Z9GEAlLSCUgE+d+xlCJlIARdZZXkxyasj/7UXRX9BFZkf3lq
- VPftFyXJ9uIB084lSFfK1FqQf1ctVcqAiXFS4d/CJ6jk3FQVovOakLw3zJsGprBtQg2d
- Lw0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=ETY0PHffKg53qROeEeN5OdhIGLApMmoln1S1hh4FPpM=;
- b=DbHMCQpqUnw+KUoR74SRmUx98FHKtqm5RcenOTtSdQ0ZM5/aV4B9LJkW3gpxGVm/hN
- 98O8TOSoplAAXHh6p8G7/wEczx6ycr5Sf2eHVm640ELls/FO+juUMh4G8+Y+0WzUT6Bp
- +IRx33j5H1Ubj9s7Nuu7laGr7++Y1a9jtzUJd5HDtrBVya9FGp7RovLkp2k9UnoS3GDj
- kloeZYOvafLlW0d2JcvphED24e+w4j9B0VmKYQpDgxTbMDG/Ak+NwEuFt5N+itpBj40J
- cuuY7KdrLv9MCAtywBHqgAcRVk+k5ndRqvYWPKaYwjXAmWrrOeN8CiqneVccU9c2aQAb
- woAg==
-X-Gm-Message-State: ACgBeo3ol2MXA6mdtsN1bGeVcrFRNxTdWpz2gPanrvObSOXlheP9086f
- s850XlPPk4rgLQrZWSuJRYyDNWRf7jNKCavGKzo=
-X-Google-Smtp-Source: AA6agR63ZztN7PWdVlvfRM3DWWR0DtWQnObu2JUUrfYcZYqjHkXBbd/HQtGk+chPa4JD2wUJV5XE20FbtXUQBYfMKmU=
-X-Received: by 2002:a05:651c:451:b0:263:7cfc:1c0b with SMTP id
- g17-20020a05651c045100b002637cfc1c0bmr5213409ljg.94.1661950493230; Wed, 31
- Aug 2022 05:54:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
+ id 1oTNFQ-0008Cd-Qq
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 08:55:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49346)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
+ id 1oTNFO-0001X0-0Y
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 08:55:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1661950508;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=l+Wi8MFIKiSgFZ88HL6nSZ9hxi9MpQujPjvAffmbgTE=;
+ b=Cdb196kgPE7fbaqtOMXM/J1cXXvvV+hdot0fva6yGszNYIRQTgF9mg6oL34Ia6SFxDEJ+E
+ dxMsiFMltbbF/CUr3nwOXArDKFUVfPjZBzcYWue6EMFcTEmLkf7MnYz81qeY/N0VVJr6bq
+ +N1c/nu575SnzKnO7xyB/3Z2QiqGQbI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-665-24wkEIw5MwO_dcI1jLt-Og-1; Wed, 31 Aug 2022 08:55:06 -0400
+X-MC-Unique: 24wkEIw5MwO_dcI1jLt-Og-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 863F5101A54E;
+ Wed, 31 Aug 2022 12:55:06 +0000 (UTC)
+Received: from localhost (unknown [10.40.195.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2BCB9909FF;
+ Wed, 31 Aug 2022 12:55:06 +0000 (UTC)
+Date: Wed, 31 Aug 2022 14:55:05 +0200
+From: Victor Toso <victortoso@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
+ John Snow <jsnow@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v1 03/16] qapi: fix example of query-spice command
+Message-ID: <20220831125505.ezjevpomvsns7db7@tapioca>
+References: <20220830161545.84198-1-victortoso@redhat.com>
+ <20220830161545.84198-4-victortoso@redhat.com>
+ <87sflcaayg.fsf@pond.sub.org>
 MIME-Version: 1.0
-References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-4-bmeng.cn@gmail.com>
-In-Reply-To: <20220824094029.1634519-4-bmeng.cn@gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 31 Aug 2022 16:54:41 +0400
-Message-ID: <CAJ+F1CJAb-jz8=4hwDhpUQbbtXj_SoW44TwOmuH8MQWagbrD5Q@mail.gmail.com>
-Subject: Re: [PATCH 03/51] block: Unify the get_tmp_filename() implementation
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
- Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000c88a3c05e78900f2"
-Received-SPF: pass client-ip=2a00:1450:4864:20::22b;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="a3yc56idd2awvrha"
+Content-Disposition: inline
+In-Reply-To: <87sflcaayg.fsf@pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,160 +83,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c88a3c05e78900f2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Bin
+--a3yc56idd2awvrha
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Aug 24, 2022 at 1:42 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+Hi,
 
-> From: Bin Meng <bin.meng@windriver.com>
+On Wed, Aug 31, 2022 at 01:50:31PM +0200, Markus Armbruster wrote:
+> Victor Toso <victortoso@redhat.com> writes:
 >
-> At present get_tmp_filename() has platform specific implementations
-> to get the directory to use for temporary files. Switch over to use
-> g_get_tmp_dir() which works on all supported platforms.
+> > Example output has an extra ',' delimiter and a foreign comment
+> > format. Fix it.
+> >
+> > Problem was noticed when trying to load the example into python's json
+> > library.
+> >
+> > Signed-off-by: Victor Toso <victortoso@redhat.com>
+> > ---
+> >  qapi/ui.json | 3 +--
+> >  1 file changed, 1 insertion(+), 2 deletions(-)
+> >
+> > diff --git a/qapi/ui.json b/qapi/ui.json
+> > index 286c5731d1..901b84da8a 100644
+> > --- a/qapi/ui.json
+> > +++ b/qapi/ui.json
+> > @@ -356,8 +356,7 @@
+> >  #                "host": "127.0.0.1",
+> >  #                "channel-id": 0,
+> >  #                "tls": false
+> > -#             },
+> > -#             [ ... more channels follow ... ]
+> > +#             }
+> >  #          ]
+> >  #       }
+> >  #    }
 >
->
-It "works" quite differently though. Is this patch really necessary here?
+> Hmm.  You're removing an ellipsis Gerd put there for a reason,
+> I presume (commit cb42a870c3 "spice: add qmp 'query-spice' and
+> hmp 'info spice' commands.")
 
-If yes, please explain why.
+I guess the reason is just that we get a too big array of
+SpiceChannels so the example output would be big but not
+interesting.
 
-If not, I suggest you drop optional / rfc / "nice to have" patches from the
-series. It will help to get it merged faster.
+> Even if we can do without it here, We may still want a way to
+> abridge examples.  Thoughts?
 
-thanks
+I just want something that can be a valid QMP message so we can
+transform JSON to a specific language type and then back to QMP
+message and compare that both matches.
 
+I don't think that, for the purpose of query-spice documentation
+it is worth to have a very similar but with 10 or more entries of
+array of channels. So, I'd say it is fine to simply cut it here.
+If we have a reason to put it out a 100% valid message, well, we
+would have that reason to back it up... but I don't have one.
 
+Cheers,
+Victor
 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
->
->  block.c | 16 ++--------------
->  1 file changed, 2 insertions(+), 14 deletions(-)
->
-> diff --git a/block.c b/block.c
-> index bc85f46eed..d06df47f72 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -864,21 +864,10 @@ int bdrv_probe_geometry(BlockDriverState *bs,
-> HDGeometry *geo)
->   */
->  int get_tmp_filename(char *filename, int size)
->  {
-> -#ifdef _WIN32
-> -    char temp_dir[MAX_PATH];
-> -    /* GetTempFileName requires that its output buffer (4th param)
-> -       have length MAX_PATH or greater.  */
-> -    assert(size >=3D MAX_PATH);
-> -    return (GetTempPath(MAX_PATH, temp_dir)
-> -            && GetTempFileName(temp_dir, "qem", 0, filename)
-> -            ? 0 : -GetLastError());
-> -#else
->      int fd;
->      const char *tmpdir;
-> -    tmpdir =3D getenv("TMPDIR");
-> -    if (!tmpdir) {
-> -        tmpdir =3D "/var/tmp";
-> -    }
-> +    tmpdir =3D g_get_tmp_dir();
-> +
->      if (snprintf(filename, size, "%s/vl.XXXXXX", tmpdir) >=3D size) {
->          return -EOVERFLOW;
->      }
-> @@ -891,7 +880,6 @@ int get_tmp_filename(char *filename, int size)
->          return -errno;
->      }
->      return 0;
-> -#endif
->  }
->
->  /*
-> --
-> 2.34.1
->
->
->
+--a3yc56idd2awvrha
+Content-Type: application/pgp-signature; name="signature.asc"
 
---=20
-Marc-Andr=C3=A9 Lureau
+-----BEGIN PGP SIGNATURE-----
 
---000000000000c88a3c05e78900f2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmMPWikACgkQl9kSPeN6
+SE/SZg/6A/iy+Eao7VP0Ny+FXkupHVMF4xSe6tREYM1MGconisFYpzal78aBGMSf
+b7j1Z6RJvIrqgjjNb9kg7M0IbvNz55jt9btTZIlY51I8w2QAn8NeXDmRWYo+tNge
+3AcQrWIBG3extr00/ss8hHwFckhIIZiSoMY6K8WzBQEEUPh6EDfELc+UqpGeiRR1
+QHmSGMM+FRkDrEs/tXiexljRynKloPqWdcj2kImnqbYi090GPsM2Blej5Lhv7F5d
+5wKW6LnEmDwma3dI48m4jCns9ln0su7oN1DEAIzC5GLaw6Kx+IJ1Rj0/JSBU8JNc
+h9GMbVWmzMP0xkDstqEBd6WM1r2Sxzf0xto6IYsJGHtR2ewTYGPQLjZqEdWW+OjQ
+rZQzSMGWRH77gImwOscrh0pX+J2n+OsbK0fYr/KU0m3AtSkdcMDsU2uGspETrOkv
+EgyY/q6yFGqO2qV/D/4HnA42OLygDp10o46+YJB4IdE7jATtmNqtlGujH/etgCpD
+G3rpQS9owRGfLjNgEZG9bBGt+q6Nowc5NMi017aLJOV3v5w1WXJLGSmCcFpf3Yf9
+VSjhU/tHySMT792eHXLEr8qUKn/DIfG+ACgYBpvlBy1EkYENI6T8ta/P4hTo6Oho
+XuPXdxxaRc+69AiLA0serJt9FfruZVNDYR+dlrqxLanNPUwb3Hk=
+=q+E+
+-----END PGP SIGNATURE-----
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Bin<br></div><br><div class=3D"gmail_q=
-uote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 24, 2022 at 1:42 PM=
- Bin Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From:=
- Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" target=3D"_blank">b=
-in.meng@windriver.com</a>&gt;<br>
-<br>
-At present get_tmp_filename() has platform specific implementations<br>
-to get the directory to use for temporary files. Switch over to use<br>
-g_get_tmp_dir() which works on all supported platforms.<br>
-<br></blockquote><div><br></div><div>It &quot;works&quot; quite differently=
- though. Is this patch really necessary here? <br></div><div><br></div><div=
->If yes, please explain why.</div><div><br></div><div>If not, I suggest you=
- drop optional / rfc / &quot;nice to have&quot; patches from the series. It=
- will help to get it merged faster.</div><div><br></div><div>thanks<br></di=
-v><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" targe=
-t=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
----<br>
-<br>
-=C2=A0block.c | 16 ++--------------<br>
-=C2=A01 file changed, 2 insertions(+), 14 deletions(-)<br>
-<br>
-diff --git a/block.c b/block.c<br>
-index bc85f46eed..d06df47f72 100644<br>
---- a/block.c<br>
-+++ b/block.c<br>
-@@ -864,21 +864,10 @@ int bdrv_probe_geometry(BlockDriverState *bs, HDGeome=
-try *geo)<br>
-=C2=A0 */<br>
-=C2=A0int get_tmp_filename(char *filename, int size)<br>
-=C2=A0{<br>
--#ifdef _WIN32<br>
--=C2=A0 =C2=A0 char temp_dir[MAX_PATH];<br>
--=C2=A0 =C2=A0 /* GetTempFileName requires that its output buffer (4th para=
-m)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0have length MAX_PATH or greater.=C2=A0 */<br>
--=C2=A0 =C2=A0 assert(size &gt;=3D MAX_PATH);<br>
--=C2=A0 =C2=A0 return (GetTempPath(MAX_PATH, temp_dir)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;&amp; GetTempFileName(temp_=
-dir, &quot;qem&quot;, 0, filename)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ? 0 : -GetLastError());<br>
--#else<br>
-=C2=A0 =C2=A0 =C2=A0int fd;<br>
-=C2=A0 =C2=A0 =C2=A0const char *tmpdir;<br>
--=C2=A0 =C2=A0 tmpdir =3D getenv(&quot;TMPDIR&quot;);<br>
--=C2=A0 =C2=A0 if (!tmpdir) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 tmpdir =3D &quot;/var/tmp&quot;;<br>
--=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 tmpdir =3D g_get_tmp_dir();<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0if (snprintf(filename, size, &quot;%s/vl.XXXXXX&quot;, =
-tmpdir) &gt;=3D size) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EOVERFLOW;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-@@ -891,7 +880,6 @@ int get_tmp_filename(char *filename, int size)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -errno;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0return 0;<br>
--#endif<br>
-=C2=A0}<br>
-<br>
-=C2=A0/*<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+--a3yc56idd2awvrha--
 
---000000000000c88a3c05e78900f2--
 
