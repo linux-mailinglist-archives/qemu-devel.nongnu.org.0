@@ -2,83 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 704175A82AE
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 18:07:51 +0200 (CEST)
-Received: from localhost ([::1]:52252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E532F5A82D4
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 18:15:39 +0200 (CEST)
+Received: from localhost ([::1]:53218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTQFp-0004Cv-V7
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 12:07:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58974)
+	id 1oTQNO-0005WA-KT
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 12:15:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTPvM-0002pP-28; Wed, 31 Aug 2022 11:46:40 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:38704)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTPvJ-00038k-1e; Wed, 31 Aug 2022 11:46:38 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id a36so15132709edf.5;
- Wed, 31 Aug 2022 08:46:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=Jlk6oFJAY+l1qPvv1++yQk3ViQamm2gz/v6Qx4/s2dE=;
- b=UImNWLK7vk3fDrDdjw6vcsIJa6sdOzTDCg/5w9VPo9ju8F7ebvEHNd29jkPAe35F1b
- bhwN587iJmjOLSMb2m1/ooNyccLOd7Gab22zBdvht5rV/NLNiqo86WUCHbeudOFazUBs
- W4db/csLGQs4I5Nmf9McKTmHkHOaZa2S+6lp8fmAhhHJpMit0KH2MYWawpwmiqgaB3PD
- ad42X7Pm9UdfFxkHJeC/19NN0ZBVKLJIAQgG3wcV+suoJvyhLLPfXGjFxkqcLT967RSl
- 3Yy3or4l4tgQcyLVBpqBsWvajbF6ICk7ppzcUGnTK78aQsfXD0tnMjppvG3nJXTLN12c
- KzZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=Jlk6oFJAY+l1qPvv1++yQk3ViQamm2gz/v6Qx4/s2dE=;
- b=Q5jOcYVDTxamIWvGzMiS0iP3iWbz/6Rp5UiBwCCy1BiOPC2a8NTdJ1nSJvi8Uc+JLf
- AHpBZJ6C7mC3y2Ia739/DKihn9yGTSMng77veglyQq6a0uF/ILde/4PDyH9dd/NMAbdw
- MySZLmKDno10Y1UPGUg8KYgJ1ygVkaCfSo1sHaicsxu3uLH1fjK6/qIw+KzTY0A/0SIP
- hGq7AxkcTjmI7XBk3pcyhQO7pzK+ZTAqWpM/e+OkdiYNMYnZabO0NesENOOH72OuEoeD
- k+260lrhAgbBJZjD4y8VHf+FGdHlvcsGIKOgFlihW8LNDQPEHrE5+T9rMD8yfXNFnOpj
- qUWw==
-X-Gm-Message-State: ACgBeo1JhJJgEkkILLfZt+J2Te8Mw5899m86U6UHF/5GaWKpLDU24wAD
- FjmsbYh27/+85FJvOLdL99dO/NW4z4o=
-X-Google-Smtp-Source: AA6agR6NhBWHuSqPd12HXvFM4oYU6qhEGBdoeMjsSeT+/UiVgGvuXzKiHD3U6L3utMYcOnsztivkNA==
-X-Received: by 2002:a05:6402:524c:b0:43e:aba4:a42d with SMTP id
- t12-20020a056402524c00b0043eaba4a42dmr25163156edd.328.1661960794768; 
- Wed, 31 Aug 2022 08:46:34 -0700 (PDT)
-Received: from osoxes.fritz.box
- (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
- by smtp.gmail.com with ESMTPSA id
- k9-20020a508ac9000000b00445e930e20esm9252123edk.64.2022.08.31.08.46.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 08:46:34 -0700 (PDT)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: BALATON Zoltan <balaton@eik.bme.hu>, John Snow <jsnow@redhat.com>,
- qemu-ppc@nongnu.org, Huacai Chen <chenhuacai@kernel.org>,
- qemu-block@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v4 09/12] hw/isa/vt82c686: Instantiate PM function in host
- device
-Date: Wed, 31 Aug 2022 17:46:02 +0200
-Message-Id: <20220831154605.12773-10-shentey@gmail.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220831154605.12773-1-shentey@gmail.com>
-References: <20220831154605.12773-1-shentey@gmail.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oTQAa-0000gp-Az; Wed, 31 Aug 2022 12:02:24 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:22209)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oTQAV-0005aE-Pb; Wed, 31 Aug 2022 12:02:23 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id CDA12746324;
+ Wed, 31 Aug 2022 18:02:15 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 8F7C07462D3; Wed, 31 Aug 2022 18:02:15 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 8DFF7745702;
+ Wed, 31 Aug 2022 18:02:15 +0200 (CEST)
+Date: Wed, 31 Aug 2022 18:02:15 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: BB <shentey@gmail.com>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Huacai Chen <chenhuacai@kernel.org>, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: Re: [PATCH v3 06/10] hw/isa/vt82c686: Instantiate USB functions in
+ host device
+In-Reply-To: <5DE06ABD-34E9-4186-9922-B62C92A56798@gmail.com>
+Message-ID: <d32d6e66-ed13-2c9-6da4-d3c63796d66@eik.bme.hu>
+References: <20220831095914.2041-1-shentey@gmail.com>
+ <20220831095914.2041-7-shentey@gmail.com>
+ <331bbd5a-aeaa-d5c0-cf8f-cde5b22d8a3@eik.bme.hu>
+ <96C4E9E5-4875-4B49-B176-673BAAEE7993@gmail.com>
+ <48b1c17d-fa2f-c2f7-b22-79eb6e8f55b@eik.bme.hu>
+ <5DE06ABD-34E9-4186-9922-B62C92A56798@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,119 +67,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The PM controller has activity bits which monitor activity of other
-built-in devices in the host device.
+On Wed, 31 Aug 2022, BB wrote:
+> Am 31. August 2022 17:03:35 MESZ schrieb BALATON Zoltan <balaton@eik.bme.hu>:
+>> On Wed, 31 Aug 2022, BB wrote:
+>>> Am 31. August 2022 15:23:37 MESZ schrieb BALATON Zoltan <balaton@eik.bme.hu>:
+>>>> On Wed, 31 Aug 2022, Bernhard Beschow wrote:
+>>>>> The USB functions can be enabled/disabled through the ISA function. Also
+>>>>> its interrupt routing can be influenced there.
+>>>>>
+>>>>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+>>>>> ---
+>>>>> hw/isa/vt82c686.c   | 12 ++++++++++++
+>>>>> hw/mips/fuloong2e.c |  3 ---
+>>>>> hw/ppc/pegasos2.c   |  4 ----
+>>>>> 3 files changed, 12 insertions(+), 7 deletions(-)
+>>>>>
+>>>>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+>>>>> index 9d946cea54..66a4b9c230 100644
+>>>>> --- a/hw/isa/vt82c686.c
+>>>>> +++ b/hw/isa/vt82c686.c
+>>>>> @@ -23,6 +23,7 @@
+>>>>> #include "hw/intc/i8259.h"
+>>>>> #include "hw/irq.h"
+>>>>> #include "hw/dma/i8257.h"
+>>>>> +#include "hw/usb/hcd-uhci.h"
+>>>>> #include "hw/timer/i8254.h"
+>>>>> #include "hw/rtc/mc146818rtc.h"
+>>>>> #include "migration/vmstate.h"
+>>>>> @@ -546,6 +547,7 @@ struct ViaISAState {
+>>>>>     qemu_irq *isa_irqs;
+>>>>>     ViaSuperIOState via_sio;
+>>>>>     PCIIDEState ide;
+>>>>> +    UHCIState uhci[2];
+>>>>> };
+>>>>>
+>>>>> static const VMStateDescription vmstate_via = {
+>>>>> @@ -563,6 +565,8 @@ static void via_isa_init(Object *obj)
+>>>>>     ViaISAState *s = VIA_ISA(obj);
+>>>>>
+>>>>>     object_initialize_child(obj, "ide", &s->ide, "via-ide");
+>>>>> +    object_initialize_child(obj, "uhci1", &s->uhci[0], "vt82c686b-usb-uhci");
+>>>>> +    object_initialize_child(obj, "uhci2", &s->uhci[1], "vt82c686b-usb-uhci");
+>>>>
+>>>> Sorry for not saying this yesterday, this can also be done separately so no need for another version of this series if not needed for another reason but could we add a define for vt82c686b-usb-uhci in include/hw/isa/vt82c686.h and use that here and in hw/usb/vt82c686-uhci-pci.c ?
+>>>
+>>> Would creating a dedicated header work, too? Board code doesn't need to see the define any longer.
+>>
+>> I don't think it needs a separate header just for this so I'd put it in vt82c686.h but I don't mind either way.
+>
+> Alright, I'll take the easy route for now. Splitting in dedicated headers (also for the other devices) could be done in a separate series.
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- hw/isa/vt82c686.c         | 13 +++++++++++++
- hw/mips/fuloong2e.c       |  2 +-
- hw/ppc/pegasos2.c         |  3 +--
- include/hw/isa/vt82c686.h |  2 --
- 4 files changed, 15 insertions(+), 5 deletions(-)
+I'll do this for via-ac97 when rabasing my WIP patch:
 
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index f05fd9948a..d048607079 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -250,6 +250,8 @@ static const ViaPMInitInfo vt82c686b_pm_init_info = {
-     .device_id = PCI_DEVICE_ID_VIA_82C686B_PM,
- };
- 
-+#define TYPE_VT82C686B_PM "vt82c686b-pm"
-+
- static const TypeInfo vt82c686b_pm_info = {
-     .name          = TYPE_VT82C686B_PM,
-     .parent        = TYPE_VIA_PM,
-@@ -261,6 +263,8 @@ static const ViaPMInitInfo vt8231_pm_init_info = {
-     .device_id = PCI_DEVICE_ID_VIA_8231_PM,
- };
- 
-+#define TYPE_VT8231_PM "vt8231-pm"
-+
- static const TypeInfo vt8231_pm_info = {
-     .name          = TYPE_VT8231_PM,
-     .parent        = TYPE_VIA_PM,
-@@ -548,6 +552,7 @@ struct ViaISAState {
-     ViaSuperIOState via_sio;
-     PCIIDEState ide;
-     UHCIState uhci[2];
-+    ViaPMState pm;
- };
- 
- static const VMStateDescription vmstate_via = {
-@@ -641,6 +646,12 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
-             return;
-         }
-     }
-+
-+    /* Function 4: Power Management */
-+    qdev_prop_set_int32(DEVICE(&s->pm), "addr", d->devfn + 4);
-+    if (!qdev_realize(DEVICE(&s->pm), BUS(pci_bus), errp)) {
-+        return;
-+    }
- }
- 
- /* TYPE_VT82C686B_ISA */
-@@ -683,6 +694,7 @@ static void vt82c686b_init(Object *obj)
-     ViaISAState *s = VIA_ISA(obj);
- 
-     object_initialize_child(obj, "sio", &s->via_sio, TYPE_VT82C686B_SUPERIO);
-+    object_initialize_child(obj, "pm", &s->pm, TYPE_VT82C686B_PM);
- }
- 
- static void vt82c686b_class_init(ObjectClass *klass, void *data)
-@@ -746,6 +758,7 @@ static void vt8231_init(Object *obj)
-     ViaISAState *s = VIA_ISA(obj);
- 
-     object_initialize_child(obj, "sio", &s->via_sio, TYPE_VT8231_SUPERIO);
-+    object_initialize_child(obj, "pm", &s->pm, TYPE_VT8231_PM);
- }
- 
- static void vt8231_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index dc92223b76..377108d313 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -208,7 +208,7 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
-     dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"));
-     pci_ide_create_devs(dev);
- 
--    dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 4), TYPE_VT82C686B_PM);
-+    dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "pm"));
-     *i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
- 
-     /* Audio support */
-diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-index 85cca6f7a6..e32944ee2b 100644
---- a/hw/ppc/pegasos2.c
-+++ b/hw/ppc/pegasos2.c
-@@ -168,8 +168,7 @@ static void pegasos2_init(MachineState *machine)
-     dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"));
-     pci_ide_create_devs(dev);
- 
--    /* VT8231 function 4: Power Management Controller */
--    dev = pci_create_simple(pci_bus, PCI_DEVFN(12, 4), TYPE_VT8231_PM);
-+    dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "pm"));
-     i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
-     spd_data = spd_data_generate(DDR, machine->ram_size);
-     smbus_eeprom_init_one(i2c_bus, 0x57, spd_data);
-diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
-index e6f6dd4d43..eaa07881c5 100644
---- a/include/hw/isa/vt82c686.h
-+++ b/include/hw/isa/vt82c686.h
-@@ -4,10 +4,8 @@
- #include "hw/pci/pci.h"
- 
- #define TYPE_VT82C686B_ISA "vt82c686b-isa"
--#define TYPE_VT82C686B_PM "vt82c686b-pm"
- #define TYPE_VT82C686B_USB_UHCI "vt82c686b-usb-uhci"
- #define TYPE_VT8231_ISA "vt8231-isa"
--#define TYPE_VT8231_PM "vt8231-pm"
- #define TYPE_VIA_AC97 "via-ac97"
- #define TYPE_VIA_IDE "via-ide"
- #define TYPE_VIA_MC97 "via-mc97"
--- 
-2.37.3
+https://osdn.net/projects/qmiga/scm/git/qemu/commits
 
+as I'll need to move ViaAC97State there too for embedding in ViaISAState. 
+The other ones 
+can stay in vt82c686.h I think.
+
+(The reason this is still WIP is that it does not work and I'm not sure 
+why, Maybe I need to test with a Linux guest to find out more but I 
+haven't got to that yet.)
+
+Regards,
+BALATON Zoltan
 
