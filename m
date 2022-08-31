@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4C95A7F90
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 16:08:53 +0200 (CEST)
-Received: from localhost ([::1]:58026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBC565A7FA4
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 16:12:30 +0200 (CEST)
+Received: from localhost ([::1]:55914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTOOh-00008g-L0
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 10:08:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46682)
+	id 1oTOSC-0001pO-Sg
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 10:12:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oTOM3-0006BP-PD
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 10:06:07 -0400
-Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231]:37630)
+ id 1oTOQT-0000N6-IR
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 10:10:42 -0400
+Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234]:33315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oTOM0-0005Hh-N4
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 10:06:07 -0400
-Received: by mail-lj1-x231.google.com with SMTP id x10so14732170ljq.4
- for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 07:06:04 -0700 (PDT)
+ id 1oTOQR-0006Fz-Bb
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 10:10:41 -0400
+Received: by mail-lj1-x234.google.com with SMTP id y10so11620237ljq.0
+ for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 07:10:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=2Pvtkt+r9GFMJi99HQyowsPmEftNjiyM6hxuWEfmue4=;
- b=Veadr822K2KJ89KnFoPbfFqaEi6edGHNJDIBhdoAIhTc0on+Zle+IS9D+NC6DXnsLT
- KoioWkGcr8QbAU4DU8uOYrLz+OFcAozbYkibNMhLcA2BxWBSlklZq3nipwyHnu3U87Al
- kfJzdOj4sr95F/CrJlj6CcqyB5nZIVQpsgfPRMwPmQyw8Qk8G5VRKc2UVlIEf0e7ehNt
- i4AP+sIxLObJxz1pqvdRgwuYIrVWZ1vanXkiGmrho+7ARQ3IM4obgsP5K174p0pv4i4+
- N55LaoPLrcfAlFQkgFLI8bHS7MmxE2nRyn7fJPblGJkdtVh45Yk/b85qwUiBFQdBpY9s
- HICA==
+ bh=8QLfrF4qcJQZ/kMQCoDwF9sR9h/aaJntImb+3TqJ/uQ=;
+ b=qMkIMieXf8IZ7lVM+zW5TSypphvnWW7nM1KnK/nA87j6pzPYcCk3X+hVZaKcvJqncf
+ qtP+C6kiAw6bbmcVZbPZNYwQm0UD3tM3H0St1ZZslGkHsm6ieT/cOgdoUdJLXTQ29zPd
+ U+q0hAiO/0xJli0j1KUWjVboyQ2YieJp5IvblE1jtvrxjIsrNOckxc1PewCm3Mrfi11V
+ /tuxWEI6VyvTNTSRmGjemWkpluNeW2EUwGTmm8U0LxyPTfFOCBlyPREzjtN8OkVzzUGN
+ +yB4kfRQN6yofNADXVa3N9G3b9wn8IbfLyqtNTd4YcxoerefTpaViJ0J1Vl+MnB4WDJ+
+ 9x2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=2Pvtkt+r9GFMJi99HQyowsPmEftNjiyM6hxuWEfmue4=;
- b=GCTSatqa+zvPlITkwr3sAAqWp+cyJa1dJ46KJ5PY1Ak/YAVJrdtY47wHOFqOUXCret
- nuCesw9aUOCegeBBPlVbnDitt4CCTcJfiS0P3OEENFWtYmWJiOeyj6deY2xC4t4Z5KTb
- URsVtSOxgfBlDkFxfsfvFNXyrz0ouI78HnSbaSxeuf4leWB4nC/ZqPZ7tTb78dEZm/sB
- XYvt4wXbWRJrAh9htiKLkxgiIgHsq6G+LxtbnYRq4ao2RcMDuGYeBfNKpq6pt/bOdc4d
- j8JLkzLxtdwTQNk/qEuG+xXkWnVm0htklYj6GTI420meaJ4NNHqvRCN28EDEvpmqk1MP
- HKiA==
-X-Gm-Message-State: ACgBeo1BJqAb4HMpJ2c7lNGrrtWXX0B+IwveZO298SEE+QzX5lySKnFR
- 70bw+OI5vfzkL5UzJ4npwGlNuswxOSsPVisSrDc=
-X-Google-Smtp-Source: AA6agR7j4HjSbP35+rZAcm7f3/zCpJtC5ReMaRriCatNUoKe539JboVNGIjLXk6/CROspsmx0HqLbZxPCr9ASoyH+ho=
-X-Received: by 2002:a2e:596:0:b0:264:1a1e:469b with SMTP id
- 144-20020a2e0596000000b002641a1e469bmr4781253ljf.463.1661954762759; Wed, 31
- Aug 2022 07:06:02 -0700 (PDT)
+ bh=8QLfrF4qcJQZ/kMQCoDwF9sR9h/aaJntImb+3TqJ/uQ=;
+ b=sJtfikgju2fzkNKc2fx9jFK5EVxvmvcPo7YT1+MP4fbn2YT/ynIuoOFI25X1LKzr6B
+ 8VMZV86SIxNP2onkyVEqSjBytebjsZK43hR80MFRKsQppoaUy1eviUZRr4M1OfKmOVUn
+ 5YUAq9YG66mBwjXvmsua4P4/quadBnyfmB3Ym4DFMrcmm2GZaRjJUZzxG/Bx2j9JPpna
+ wgQFDb98tlxcrK3f00TWmYlB+tZq7FJS8nVd0oSGz2FIIU+V/PJoo95hFYHSgLevXcpe
+ 5igKTCHUJxr0nnPDn0bjSGpKEgkETgvAQwhk5Wz5KcBUhocrYGClbyuvMMwcA0MUgywT
+ R98A==
+X-Gm-Message-State: ACgBeo2ZWQQpmP9qopI8PuZiTO9eh7X/noMypRS0vjDPT1CdI4+OQoPm
+ OR9+2TjmC7N5iqIJJlipzIUFHWblsrri3Wg/N08=
+X-Google-Smtp-Source: AA6agR73NnAN8UkfLUlgwZTbi8C0+utk1Tf3IpWqfkfUwz6A5K5sTdanXDQ+Ylz0WEv8oHHE/YVeEhPDWYJurgBfoxk=
+X-Received: by 2002:a05:651c:a04:b0:25e:753b:db42 with SMTP id
+ k4-20020a05651c0a0400b0025e753bdb42mr8490869ljq.529.1661955037189; Wed, 31
+ Aug 2022 07:10:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-28-bmeng.cn@gmail.com>
- <dbb7f0fd-22e6-a5e0-88ce-5810290170ce@redhat.com>
- <CAEUhbmVmyT7ETTJdJH=UzZyf5_PaA8QMfsc=0rjJKK+8RHeztw@mail.gmail.com>
- <91c5a3b9-555e-51d4-1daa-9a4692ea437a@redhat.com>
-In-Reply-To: <91c5a3b9-555e-51d4-1daa-9a4692ea437a@redhat.com>
+ <20220824094029.1634519-29-bmeng.cn@gmail.com>
+In-Reply-To: <20220824094029.1634519-29-bmeng.cn@gmail.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 31 Aug 2022 18:05:51 +0400
-Message-ID: <CAJ+F1CJNt1d2uymwy-ONdAbqWd+MGMvw46B3VOTPPhd8FrVJMw@mail.gmail.com>
-Subject: Re: [PATCH 27/51] tests/qtest: Use send/recv for socket communication
-To: Thomas Huth <thuth@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>
-Cc: Bin Meng <bmeng.cn@gmail.com>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, 
- Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000044644705e789ff39"
-Received-SPF: pass client-ip=2a00:1450:4864:20::231;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x231.google.com
+Date: Wed, 31 Aug 2022 18:10:25 +0400
+Message-ID: <CAJ+F1CLBR6chChurLOtsp8op21sM3gC5-GGRDK5sBfY9eJ3y7w@mail.gmail.com>
+Subject: Re: [PATCH 28/51] tests/qtest: libqtest: Exclude the *_fds APIs for
+ win32
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000009fdc8105e78a0fa8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::234;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x234.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,173 +86,401 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000044644705e789ff39
+--0000000000009fdc8105e78a0fa8
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+On Wed, Aug 24, 2022 at 2:38 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 
-On Fri, Aug 26, 2022 at 10:27 PM Thomas Huth <thuth@redhat.com> wrote:
-
-> On 26/08/2022 16.59, Bin Meng wrote:
-> > On Thu, Aug 25, 2022 at 9:04 PM Thomas Huth <thuth@redhat.com> wrote:
-> >>
-> >> On 24/08/2022 11.40, Bin Meng wrote:
-> >>> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> >>>
-> >>> Socket communication in the libqtest and libqmp codes uses read()
-> >>> and write() which work on any file descriptor on *nix, and sockets
-> >>> in *nix are an example of a file descriptor.
-> >>>
-> >>> However sockets on Windows do not use *nix-style file descriptors,
-> >>> so read() and write() cannot be used on sockets on Windows.
-> >>> Switch over to use send() and recv() instead which work on both
-> >>> Windows and *nix.
-> >>>
-> >>> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> >>> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> >>> ---
-> >>>
-> >>>    tests/qtest/libqmp.c   | 4 ++--
-> >>>    tests/qtest/libqtest.c | 4 ++--
-> >>>    2 files changed, 4 insertions(+), 4 deletions(-)
-> >>>
-> >>> diff --git a/tests/qtest/libqmp.c b/tests/qtest/libqmp.c
-> >>> index ade26c15f0..995a39c1f8 100644
-> >>> --- a/tests/qtest/libqmp.c
-> >>> +++ b/tests/qtest/libqmp.c
-> >>> @@ -36,7 +36,7 @@ typedef struct {
-> >>>
-> >>>    static void socket_send(int fd, const char *buf, size_t size)
-> >>>    {
-> >>> -    size_t res =3D qemu_write_full(fd, buf, size);
-> >>> +    ssize_t res =3D send(fd, buf, size, 0);
-> >>
-> >> This way we're losing the extra logic from qemu_write_full() here (i.e=
-.
-> the
-> >> looping and EINTR handling) ... not sure whether that's really OK?
-> Maybe you
-> >> have to introduce a qemu_send_full() first?
-> >>
-> >
-> > I am not sure if qemu_send_full() is really needed because there is an
-> > assert() right after the send() call.
+> From: Bin Meng <bin.meng@windriver.com>
 >
-> That's just a sanity check ... I think this function still has to take
-> care
-> of EINTR - it originally looked like this:
+> libqmp.c::qmp_fd_vsend_fds() is not available on Windows, hence any
+> APIs in libqtest that call libqmp.c::qmp_fd_vsend_fds() should be
+> excluded for win32 too. This includes the following:
 >
->   https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Dc3e5704af19ac6
+>   * qtest_qmp_vsend_fds()
+>   * qtest_vqmp_fds()
+>   * qtest_qmp_fds()
+>   * qtest_qmp_add_client()
 >
-> ... and you can also see the while loop there.
+> Note qtest_qmp_vsend() was wrongly written to call qmp_fd_vsend_fds()
+> previously, but it should call the non fds version API qmp_fd_vsend().
+>
+
+This doesn't look relevant anymore
+
+
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+
+> ---
+>
+>  tests/qtest/libqtest.h |  8 ++++++++
+>  tests/qtest/libqtest.c | 10 +++++++++-
+>  2 files changed, 17 insertions(+), 1 deletion(-)
+>
+> diff --git a/tests/qtest/libqtest.h b/tests/qtest/libqtest.h
+> index 94b187837d..3abc75964d 100644
+> --- a/tests/qtest/libqtest.h
+> +++ b/tests/qtest/libqtest.h
+> @@ -94,6 +94,7 @@ void qtest_kill_qemu(QTestState *s);
+>   */
+>  void qtest_quit(QTestState *s);
+>
+> +#ifndef _WIN32
+>  /**
+>   * qtest_qmp_fds:
+>   * @s: #QTestState instance to operate on.
+> @@ -108,6 +109,7 @@ void qtest_quit(QTestState *s);
+>  QDict *qtest_qmp_fds(QTestState *s, int *fds, size_t fds_num,
+>                       const char *fmt, ...)
+>      G_GNUC_PRINTF(4, 5);
+> +#endif /* _WIN32 */
+>
+>  /**
+>   * qtest_qmp:
+> @@ -152,6 +154,7 @@ void qtest_qmp_send_raw(QTestState *s, const char
+> *fmt, ...)
+>   */
+>  int qtest_socket_server(const char *socket_path);
+>
+> +#ifndef _WIN32
+>  /**
+>   * qtest_vqmp_fds:
+>   * @s: #QTestState instance to operate on.
+> @@ -167,6 +170,7 @@ int qtest_socket_server(const char *socket_path);
+>  QDict *qtest_vqmp_fds(QTestState *s, int *fds, size_t fds_num,
+>                        const char *fmt, va_list ap)
+>      G_GNUC_PRINTF(4, 0);
+> +#endif /* _WIN32 */
+>
+>  /**
+>   * qtest_vqmp:
+> @@ -181,6 +185,7 @@ QDict *qtest_vqmp_fds(QTestState *s, int *fds, size_t
+> fds_num,
+>  QDict *qtest_vqmp(QTestState *s, const char *fmt, va_list ap)
+>      G_GNUC_PRINTF(2, 0);
+>
+> +#ifndef _WIN32
+>  /**
+>   * qtest_qmp_vsend_fds:
+>   * @s: #QTestState instance to operate on.
+> @@ -196,6 +201,7 @@ QDict *qtest_vqmp(QTestState *s, const char *fmt,
+> va_list ap)
+>  void qtest_qmp_vsend_fds(QTestState *s, int *fds, size_t fds_num,
+>                           const char *fmt, va_list ap)
+>      G_GNUC_PRINTF(4, 0);
+> +#endif /* _WIN32 */
+>
+>  /**
+>   * qtest_qmp_vsend:
+> @@ -743,6 +749,7 @@ void qtest_qmp_device_add_qdict(QTestState *qts, cons=
+t
+> char *drv,
+>  void qtest_qmp_device_add(QTestState *qts, const char *driver, const cha=
+r
+> *id,
+>                            const char *fmt, ...) G_GNUC_PRINTF(4, 5);
+>
+> +#ifndef _WIN32
+>  /**
+>   * qtest_qmp_add_client:
+>   * @qts: QTestState instance to operate on
+> @@ -752,6 +759,7 @@ void qtest_qmp_device_add(QTestState *qts, const char
+> *driver, const char *id,
+>   * Call QMP ``getfd`` followed by ``add_client`` with the given @fd.
+>   */
+>  void qtest_qmp_add_client(QTestState *qts, const char *protocol, int fd)=
+;
+> +#endif /* _WIN32 */
+>
+>  /**
+>   * qtest_qmp_device_del:
+> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+> index b7b7c9c541..1b24a4f1f7 100644
+> --- a/tests/qtest/libqtest.c
+> +++ b/tests/qtest/libqtest.c
+> @@ -594,17 +594,20 @@ int qtest_socket_server(const char *socket_path)
+>      return sock;
+>  }
+>
+> +#ifndef _WIN32
+>  void qtest_qmp_vsend_fds(QTestState *s, int *fds, size_t fds_num,
+>                           const char *fmt, va_list ap)
+>  {
+>      qmp_fd_vsend_fds(s->qmp_fd, fds, fds_num, fmt, ap);
+>  }
+> +#endif
+>
+>  void qtest_qmp_vsend(QTestState *s, const char *fmt, va_list ap)
+>  {
+> -    qmp_fd_vsend_fds(s->qmp_fd, NULL, 0, fmt, ap);
+> +    qmp_fd_vsend(s->qmp_fd, fmt, ap);
+>  }
+>
+> +#ifndef _WIN32
+>  QDict *qtest_vqmp_fds(QTestState *s, int *fds, size_t fds_num,
+>                        const char *fmt, va_list ap)
+>  {
+> @@ -613,6 +616,7 @@ QDict *qtest_vqmp_fds(QTestState *s, int *fds, size_t
+> fds_num,
+>      /* Receive reply */
+>      return qtest_qmp_receive(s);
+>  }
+> +#endif
+>
+>  QDict *qtest_vqmp(QTestState *s, const char *fmt, va_list ap)
+>  {
+> @@ -622,6 +626,7 @@ QDict *qtest_vqmp(QTestState *s, const char *fmt,
+> va_list ap)
+>      return qtest_qmp_receive(s);
+>  }
+>
+> +#ifndef _WIN32
+>  QDict *qtest_qmp_fds(QTestState *s, int *fds, size_t fds_num,
+>                       const char *fmt, ...)
+>  {
+> @@ -633,6 +638,7 @@ QDict *qtest_qmp_fds(QTestState *s, int *fds, size_t
+> fds_num,
+>      va_end(ap);
+>      return response;
+>  }
+> +#endif
+>
+>  QDict *qtest_qmp(QTestState *s, const char *fmt, ...)
+>  {
+> @@ -1329,6 +1335,7 @@ void qtest_qmp_device_add(QTestState *qts, const
+> char *driver, const char *id,
+>      qobject_unref(args);
+>  }
+>
+> +#ifndef _WIN32
+>  void qtest_qmp_add_client(QTestState *qts, const char *protocol, int fd)
+>  {
+>      QDict *resp;
+> @@ -1348,6 +1355,7 @@ void qtest_qmp_add_client(QTestState *qts, const
+> char *protocol, int fd)
+>      g_assert(!qdict_haskey(resp, "error"));
+>      qobject_unref(resp);
+>  }
+> +#endif
+>
+>  /*
+>   * Generic hot-unplugging test via the device_del QMP command.
+> --
+> 2.34.1
 >
 >
-Agree, that would be the correct thing to do.
-
-Fwiw, the SOCKET vs fd situation is giving me some nervous feelings,
-sometimes.
-
-For ex, as I checked recently, it seems close(fd) correctly closes the
-underlying SOCKET - as if closesocket() was called on it.. but this is not
-really documented.
-
-And it's easy to mix fd vs SOCKET in QEMU code paths (we cast/map SOCKET to
-"int fd" in general), and reach a close() on a SOCKET. That wouldn't be
-valid, and would likely create leaks or other issues.
-
-Maybe we should introduce a type for safety / documentation purposes...
+>
 
 --=20
 Marc-Andr=C3=A9 Lureau
 
---00000000000044644705e789ff39
+--0000000000009fdc8105e78a0fa8
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Aug 26, 2022 at 10:27 PM Th=
-omas Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 26/08/=
-2022 16.59, Bin Meng wrote:<br>
-&gt; On Thu, Aug 25, 2022 at 9:04 PM Thomas Huth &lt;<a href=3D"mailto:thut=
-h@redhat.com" target=3D"_blank">thuth@redhat.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; On 24/08/2022 11.40, Bin Meng wrote:<br>
-&gt;&gt;&gt; From: Xuzhou Cheng &lt;<a href=3D"mailto:xuzhou.cheng@windrive=
-r.com" target=3D"_blank">xuzhou.cheng@windriver.com</a>&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Socket communication in the libqtest and libqmp codes uses rea=
-d()<br>
-&gt;&gt;&gt; and write() which work on any file descriptor on *nix, and soc=
-kets<br>
-&gt;&gt;&gt; in *nix are an example of a file descriptor.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; However sockets on Windows do not use *nix-style file descript=
-ors,<br>
-&gt;&gt;&gt; so read() and write() cannot be used on sockets on Windows.<br=
->
-&gt;&gt;&gt; Switch over to use send() and recv() instead which work on bot=
-h<br>
-&gt;&gt;&gt; Windows and *nix.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Signed-off-by: Xuzhou Cheng &lt;<a href=3D"mailto:xuzhou.cheng=
-@windriver.com" target=3D"_blank">xuzhou.cheng@windriver.com</a>&gt;<br>
-&gt;&gt;&gt; Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriv=
-er.com" target=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
-&gt;&gt;&gt; ---<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 tests/qtest/libqmp.c=C2=A0 =C2=A0| 4 ++--<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 tests/qtest/libqtest.c | 4 ++--<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 2 files changed, 4 insertions(+), 4 deletions(-)<=
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 24, 2022 at 2:38 PM Bin M=
+eng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Bin M=
+eng &lt;<a href=3D"mailto:bin.meng@windriver.com" target=3D"_blank">bin.men=
+g@windriver.com</a>&gt;<br>
+<br>
+libqmp.c::qmp_fd_vsend_fds() is not available on Windows, hence any<br>
+APIs in libqtest that call libqmp.c::qmp_fd_vsend_fds() should be<br>
+excluded for win32 too. This includes the following:<br>
+<br>
+=C2=A0 * qtest_qmp_vsend_fds()<br>
+=C2=A0 * qtest_vqmp_fds()<br>
+=C2=A0 * qtest_qmp_fds()<br>
+=C2=A0 * qtest_qmp_add_client()<br>
+<br>
+Note qtest_qmp_vsend() was wrongly written to call qmp_fd_vsend_fds()<br>
+previously, but it should call the non fds version API qmp_fd_vsend().<br><=
+/blockquote><div><br></div><div>This doesn&#39;t look relevant anymore</div=
+><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" targe=
+t=3D"_blank">bin.meng@windriver.com</a>&gt;<br></blockquote><div><br></div>=
+<div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lu=
+reau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div>=C2=A0<br></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+<br>
+=C2=A0tests/qtest/libqtest.h |=C2=A0 8 ++++++++<br>
+=C2=A0tests/qtest/libqtest.c | 10 +++++++++-<br>
+=C2=A02 files changed, 17 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/tests/qtest/libqtest.h b/tests/qtest/libqtest.h<br>
+index 94b187837d..3abc75964d 100644<br>
+--- a/tests/qtest/libqtest.h<br>
++++ b/tests/qtest/libqtest.h<br>
+@@ -94,6 +94,7 @@ void qtest_kill_qemu(QTestState *s);<br>
+=C2=A0 */<br>
+=C2=A0void qtest_quit(QTestState *s);<br>
+<br>
++#ifndef _WIN32<br>
+=C2=A0/**<br>
+=C2=A0 * qtest_qmp_fds:<br>
+=C2=A0 * @s: #QTestState instance to operate on.<br>
+@@ -108,6 +109,7 @@ void qtest_quit(QTestState *s);<br>
+=C2=A0QDict *qtest_qmp_fds(QTestState *s, int *fds, size_t fds_num,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 const char *fmt, ...)<br>
+=C2=A0 =C2=A0 =C2=A0G_GNUC_PRINTF(4, 5);<br>
++#endif /* _WIN32 */<br>
+<br>
+=C2=A0/**<br>
+=C2=A0 * qtest_qmp:<br>
+@@ -152,6 +154,7 @@ void qtest_qmp_send_raw(QTestState *s, const char *fmt,=
+ ...)<br>
+=C2=A0 */<br>
+=C2=A0int qtest_socket_server(const char *socket_path);<br>
+<br>
++#ifndef _WIN32<br>
+=C2=A0/**<br>
+=C2=A0 * qtest_vqmp_fds:<br>
+=C2=A0 * @s: #QTestState instance to operate on.<br>
+@@ -167,6 +170,7 @@ int qtest_socket_server(const char *socket_path);<br>
+=C2=A0QDict *qtest_vqmp_fds(QTestState *s, int *fds, size_t fds_num,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0const char *fmt, va_list ap)<br>
+=C2=A0 =C2=A0 =C2=A0G_GNUC_PRINTF(4, 0);<br>
++#endif /* _WIN32 */<br>
+<br>
+=C2=A0/**<br>
+=C2=A0 * qtest_vqmp:<br>
+@@ -181,6 +185,7 @@ QDict *qtest_vqmp_fds(QTestState *s, int *fds, size_t f=
+ds_num,<br>
+=C2=A0QDict *qtest_vqmp(QTestState *s, const char *fmt, va_list ap)<br>
+=C2=A0 =C2=A0 =C2=A0G_GNUC_PRINTF(2, 0);<br>
+<br>
++#ifndef _WIN32<br>
+=C2=A0/**<br>
+=C2=A0 * qtest_qmp_vsend_fds:<br>
+=C2=A0 * @s: #QTestState instance to operate on.<br>
+@@ -196,6 +201,7 @@ QDict *qtest_vqmp(QTestState *s, const char *fmt, va_li=
+st ap)<br>
+=C2=A0void qtest_qmp_vsend_fds(QTestState *s, int *fds, size_t fds_num,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 const char *fmt, va_list ap)<br>
+=C2=A0 =C2=A0 =C2=A0G_GNUC_PRINTF(4, 0);<br>
++#endif /* _WIN32 */<br>
+<br>
+=C2=A0/**<br>
+=C2=A0 * qtest_qmp_vsend:<br>
+@@ -743,6 +749,7 @@ void qtest_qmp_device_add_qdict(QTestState *qts, const =
+char *drv,<br>
+=C2=A0void qtest_qmp_device_add(QTestState *qts, const char *driver, const =
+char *id,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0const char *fmt, ...) G_GNUC_PRINTF(4, 5);<br>
+<br>
++#ifndef _WIN32<br>
+=C2=A0/**<br>
+=C2=A0 * qtest_qmp_add_client:<br>
+=C2=A0 * @qts: QTestState instance to operate on<br>
+@@ -752,6 +759,7 @@ void qtest_qmp_device_add(QTestState *qts, const char *=
+driver, const char *id,<br>
+=C2=A0 * Call QMP ``getfd`` followed by ``add_client`` with the given @fd.<=
 br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; diff --git a/tests/qtest/libqmp.c b/tests/qtest/libqmp.c<br>
-&gt;&gt;&gt; index ade26c15f0..995a39c1f8 100644<br>
-&gt;&gt;&gt; --- a/tests/qtest/libqmp.c<br>
-&gt;&gt;&gt; +++ b/tests/qtest/libqmp.c<br>
-&gt;&gt;&gt; @@ -36,7 +36,7 @@ typedef struct {<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 static void socket_send(int fd, const char *buf, =
-size_t size)<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 {<br>
-&gt;&gt;&gt; -=C2=A0 =C2=A0 size_t res =3D qemu_write_full(fd, buf, size);<=
+=C2=A0 */<br>
+=C2=A0void qtest_qmp_add_client(QTestState *qts, const char *protocol, int =
+fd);<br>
++#endif /* _WIN32 */<br>
+<br>
+=C2=A0/**<br>
+=C2=A0 * qtest_qmp_device_del:<br>
+diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c<br>
+index b7b7c9c541..1b24a4f1f7 100644<br>
+--- a/tests/qtest/libqtest.c<br>
++++ b/tests/qtest/libqtest.c<br>
+@@ -594,17 +594,20 @@ int qtest_socket_server(const char *socket_path)<br>
+=C2=A0 =C2=A0 =C2=A0return sock;<br>
+=C2=A0}<br>
+<br>
++#ifndef _WIN32<br>
+=C2=A0void qtest_qmp_vsend_fds(QTestState *s, int *fds, size_t fds_num,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 const char *fmt, va_list ap)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0qmp_fd_vsend_fds(s-&gt;qmp_fd, fds, fds_num, fmt, ap);<=
 br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 ssize_t res =3D send(fd, buf, size, 0);<br>
-&gt;&gt;<br>
-&gt;&gt; This way we&#39;re losing the extra logic from qemu_write_full() h=
-ere (i.e. the<br>
-&gt;&gt; looping and EINTR handling) ... not sure whether that&#39;s really=
- OK? Maybe you<br>
-&gt;&gt; have to introduce a qemu_send_full() first?<br>
-&gt;&gt;<br>
-&gt; <br>
-&gt; I am not sure if qemu_send_full() is really needed because there is an=
+=C2=A0}<br>
++#endif<br>
 <br>
-&gt; assert() right after the send() call.<br>
+=C2=A0void qtest_qmp_vsend(QTestState *s, const char *fmt, va_list ap)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 qmp_fd_vsend_fds(s-&gt;qmp_fd, NULL, 0, fmt, ap);<br>
++=C2=A0 =C2=A0 qmp_fd_vsend(s-&gt;qmp_fd, fmt, ap);<br>
+=C2=A0}<br>
 <br>
-That&#39;s just a sanity check ... I think this function still has to take =
-care <br>
-of EINTR - it originally looked like this:<br>
++#ifndef _WIN32<br>
+=C2=A0QDict *qtest_vqmp_fds(QTestState *s, int *fds, size_t fds_num,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0const char *fmt, va_list ap)<br>
+=C2=A0{<br>
+@@ -613,6 +616,7 @@ QDict *qtest_vqmp_fds(QTestState *s, int *fds, size_t f=
+ds_num,<br>
+=C2=A0 =C2=A0 =C2=A0/* Receive reply */<br>
+=C2=A0 =C2=A0 =C2=A0return qtest_qmp_receive(s);<br>
+=C2=A0}<br>
++#endif<br>
 <br>
-=C2=A0 <a href=3D"https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Dc3e=
-5704af19ac6" rel=3D"noreferrer" target=3D"_blank">https://git.qemu.org/?p=
-=3Dqemu.git;a=3Dcommitdiff;h=3Dc3e5704af19ac6</a><br>
+=C2=A0QDict *qtest_vqmp(QTestState *s, const char *fmt, va_list ap)<br>
+=C2=A0{<br>
+@@ -622,6 +626,7 @@ QDict *qtest_vqmp(QTestState *s, const char *fmt, va_li=
+st ap)<br>
+=C2=A0 =C2=A0 =C2=A0return qtest_qmp_receive(s);<br>
+=C2=A0}<br>
 <br>
-... and you can also see the while loop there.<br clear=3D"all"><br></block=
-quote><div><br></div><div>Agree, that would be the correct thing to do. <br=
-></div><div><br></div><div>Fwiw, the SOCKET vs fd situation is giving me so=
-me nervous feelings, sometimes.</div><div><br></div><div>For ex, as I check=
-ed recently, it seems close(fd) correctly closes the underlying SOCKET - as=
- if closesocket() was called on it.. but this is not really documented.</di=
-v><div><br></div></div><div>And it&#39;s easy to mix fd vs SOCKET in QEMU c=
-ode paths (we cast/map SOCKET to &quot;int fd&quot; in general), and reach =
-a close() on a SOCKET. That wouldn&#39;t be valid, and would likely create =
-leaks or other issues.</div><div><br></div><div>Maybe we should introduce a=
- type for safety / documentation purposes...<br></div><div><br></div><div>-=
-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br>=
-</div></div></div>
++#ifndef _WIN32<br>
+=C2=A0QDict *qtest_qmp_fds(QTestState *s, int *fds, size_t fds_num,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 const char *fmt, ...)<br>
+=C2=A0{<br>
+@@ -633,6 +638,7 @@ QDict *qtest_qmp_fds(QTestState *s, int *fds, size_t fd=
+s_num,<br>
+=C2=A0 =C2=A0 =C2=A0va_end(ap);<br>
+=C2=A0 =C2=A0 =C2=A0return response;<br>
+=C2=A0}<br>
++#endif<br>
+<br>
+=C2=A0QDict *qtest_qmp(QTestState *s, const char *fmt, ...)<br>
+=C2=A0{<br>
+@@ -1329,6 +1335,7 @@ void qtest_qmp_device_add(QTestState *qts, const char=
+ *driver, const char *id,<br>
+=C2=A0 =C2=A0 =C2=A0qobject_unref(args);<br>
+=C2=A0}<br>
+<br>
++#ifndef _WIN32<br>
+=C2=A0void qtest_qmp_add_client(QTestState *qts, const char *protocol, int =
+fd)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0QDict *resp;<br>
+@@ -1348,6 +1355,7 @@ void qtest_qmp_add_client(QTestState *qts, const char=
+ *protocol, int fd)<br>
+=C2=A0 =C2=A0 =C2=A0g_assert(!qdict_haskey(resp, &quot;error&quot;));<br>
+=C2=A0 =C2=A0 =C2=A0qobject_unref(resp);<br>
+=C2=A0}<br>
++#endif<br>
+<br>
+=C2=A0/*<br>
+=C2=A0 * Generic hot-unplugging test via the device_del QMP command.<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---00000000000044644705e789ff39--
+--0000000000009fdc8105e78a0fa8--
 
