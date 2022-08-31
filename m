@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 341D35A868E
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 21:16:57 +0200 (CEST)
-Received: from localhost ([::1]:60582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F40C75A86D6
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 21:36:47 +0200 (CEST)
+Received: from localhost ([::1]:32808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTTCq-0003Op-0S
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 15:16:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35866)
+	id 1oTTW3-0008Ar-37
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 15:36:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oTSov-00047b-Jf; Wed, 31 Aug 2022 14:52:13 -0400
-Received: from mail-oa1-x2a.google.com ([2001:4860:4864:20::2a]:35767)
+ id 1oTSoy-0004J3-RZ; Wed, 31 Aug 2022 14:52:16 -0400
+Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29]:37475)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oTSou-00088T-2c; Wed, 31 Aug 2022 14:52:13 -0400
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-1225219ee46so1584694fac.2; 
- Wed, 31 Aug 2022 11:52:11 -0700 (PDT)
+ id 1oTSox-000890-5S; Wed, 31 Aug 2022 14:52:16 -0400
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-11e7e0a63e2so25419471fac.4; 
+ Wed, 31 Aug 2022 11:52:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=Anc1w1CQ/MerJF77nBxH9FmJtQaXv6rK9mp9VdCq9j4=;
- b=d9t9Z24RCHNtRsvdJ9fZXEiaC+iS1okWkquJF9YZ2zNiUL6mrxspI6ZIn2/G8jdpem
- k9dDCotqACMRUhgB+yUSoK8qqUwCjp9Xn8Y13UNzBA1z8sOrVfJ602UNr2dVTs+324Pt
- AD1ClNcha9+J+xjT1/lVXjMe5OPgw14dKsnxjrqg+qqn/MV1r3j9vy0gcvrBIrT4zfT7
- GOIsV1XiiA+xjeUQMaBms+Gsh26Mt9Tt8NPFEFR4CBFLTkUnEQjdKV+oaplWxIbkPuAG
- /qhZkIB3DmuAPRSZYMglnGD2EFAxY7El+Flw82ntNvJU+K3wX0BQ/iR8/eIhPeZoILw0
- le0w==
+ bh=q1+VQkCSgg5aO6+8TVFVWgwMo1nmNCm3IPfxXJPnBJA=;
+ b=jLWXT2Sl4Ob8ujWSNTEdGM3q9PjmFkpAC0NV6sMzkW1fPi0dXHPHMBz5cT0Posd1iY
+ n5ECU0iKOhU9nDOmV+9QqFSgeh3wcULmnj5BiCVi+DUx2WZX1h1IJY+MyweAhWATmJqw
+ GxBb6Kt0M+BI9sDROYy1T6Zre8lIfIi8+FjbzwgU/9fqRATazk+GB2q7poZ0xwCVwuzE
+ Zmegua158T+9zn6Gaw8RScsj92M9UTCkNBOd7S1xaHi84CXIEWVlccx9RJ4UqTY1OC9V
+ XlSrVX6RwS7AKgcI2erSG2fVAOlDbM7o/RE92A9AOwNewQCAwf+EOa7MVah0f1g1lWh7
+ h2Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=Anc1w1CQ/MerJF77nBxH9FmJtQaXv6rK9mp9VdCq9j4=;
- b=wZ0dhNHbsIfzh21I4wtwPfPKnGo7+bFxdAS+PsJ8eiqyTA3Emi3gLFZvp2TcHYHOy/
- 4z1VmMEUc5jDGp8gS8+uGz6/Hse1XjeXB/gXcpFIFrV7e1buBN2Mb/GMCY0Z/BDS4p7A
- xdu/c0q84eU5Wf+EKuhwhZzClHQfIJQ+J9CV/mZz87oTR6sEKuYEdujn5AKa1cPIkSPb
- R7m4SW7b5Jmvnt960uvq3tgcUVQyeGbHWZJunQIWGv0QSeI+FxObswqNSiksDfxHAoOc
- Bj6Z9+rO4RaDqVJ1KeHlJyfsNimS2PBIhE8I2e3yOL6oU6gM0mBnz74SlqAQuf5qWGtC
- y5mA==
-X-Gm-Message-State: ACgBeo1S3bWYp8SESqrLn5zrYdlGY6yHE321GXVbyf/1+X9zRRQhzakb
- FYINDl3cfv1ZD8eIZV572yfHh6SObuk=
-X-Google-Smtp-Source: AA6agR5FmlR3elTNGXFyVw5Y/ZfAcYfJV3yCUOrGuiRDK+oc4dHAEc18bLYdwxh6jtm/l0dOKAXv4g==
-X-Received: by 2002:a05:6870:4597:b0:11c:ab4e:9fe8 with SMTP id
- y23-20020a056870459700b0011cab4e9fe8mr2267203oao.123.1661971930414; 
- Wed, 31 Aug 2022 11:52:10 -0700 (PDT)
+ bh=q1+VQkCSgg5aO6+8TVFVWgwMo1nmNCm3IPfxXJPnBJA=;
+ b=PFq55cDybW5mXNhfS0iQlkHZtKnPCWHA8cWWukmnYc8oBMDeO62q+ttWlYO5Cozlhl
+ irmn0fsQKD3TISKOd9Fvgn7tthajuKKFWG056JKRog9Tkfh7AOXYbDDdgCmYnGZwnIom
+ Yad85wu7d+UJZZdYwtAn6viIbgVY7fObMuVBG5EDvIrxv7yGz0zDhXWR/j4hgCVGDmwP
+ 2qyQqUK323kcwPnyPcKmHDoo1U7XtLBaWSbE7icL7/5ra5MssNZShASKKKixLmWLoimD
+ 1sVA5VRbJHmzCKh+JgvArU/p8uhH7JOV+quOXJSOVv147Eub/9uqpDXgN+gTZo0UMBHC
+ vmlg==
+X-Gm-Message-State: ACgBeo3SzETGTUwEjqmR3U6EoBbPi6lcC9Zlbvu1gIXQ6yOqVGH1YV1R
+ BrmDSFtafO7B5aVcWVZKDRHzxazMWpk=
+X-Google-Smtp-Source: AA6agR4aKW96u3WEg0byC/2uLiDBu85vehMFscG4y6SG8opkA2Oz53uQNreyraQk7VbVZDsBVT+jTg==
+X-Received: by 2002:a05:6870:8092:b0:121:ece2:e41d with SMTP id
+ q18-20020a056870809200b00121ece2e41dmr2261991oab.28.1661971933391; 
+ Wed, 31 Aug 2022 11:52:13 -0700 (PDT)
 Received: from balboa.COMFAST ([177.189.45.98])
  by smtp.gmail.com with ESMTPSA id
- p4-20020a9d4544000000b0061cbd18bd18sm9599927oti.45.2022.08.31.11.52.07
+ p4-20020a9d4544000000b0061cbd18bd18sm9599927oti.45.2022.08.31.11.52.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 11:52:09 -0700 (PDT)
+ Wed, 31 Aug 2022 11:52:12 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  richard.henderson@linaro.org,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PULL 31/60] ppc/ppc405: Introduce a PPC405 generic machine
-Date: Wed, 31 Aug 2022 15:50:05 -0300
-Message-Id: <20220831185034.23240-32-danielhb413@gmail.com>
+Subject: [PULL 32/60] ppc/ppc405: Move devices under the ref405ep machine
+Date: Wed, 31 Aug 2022 15:50:06 -0300
+Message-Id: <20220831185034.23240-33-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220831185034.23240-1-danielhb413@gmail.com>
 References: <20220831185034.23240-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2a;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2a.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::29;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x29.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -95,75 +95,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-We will use this machine as a base to define the ref405ep and possibly
-the PPC405 hotfoot board as found in the Linux kernel.
-
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20220809153904.485018-3-clg@kaod.org>
+Message-Id: <20220809153904.485018-4-clg@kaod.org>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/ppc405_boards.c | 31 ++++++++++++++++++++++++++++---
- 1 file changed, 28 insertions(+), 3 deletions(-)
+ hw/ppc/ppc405_boards.c | 31 +++++++++++++++++++------------
+ 1 file changed, 19 insertions(+), 12 deletions(-)
 
 diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-index 1a4e7588c5..96700be74d 100644
+index 96700be74d..f4794ba40c 100644
 --- a/hw/ppc/ppc405_boards.c
 +++ b/hw/ppc/ppc405_boards.c
-@@ -50,6 +50,15 @@
- 
- #define USE_FLASH_BIOS
- 
-+#define TYPE_PPC405_MACHINE MACHINE_TYPE_NAME("ppc405")
-+OBJECT_DECLARE_SIMPLE_TYPE(Ppc405MachineState, PPC405_MACHINE);
-+
-+struct Ppc405MachineState {
-+    /* Private */
-+    MachineState parent_obj;
-+    /* Public */
-+};
-+
- /*****************************************************************************/
- /* PPC405EP reference board (IBM) */
- /* Standalone board with:
-@@ -332,18 +341,34 @@ static void ref405ep_class_init(ObjectClass *oc, void *data)
- 
-     mc->desc = "ref405ep";
-     mc->init = ref405ep_init;
--    mc->default_ram_size = 0x08000000;
--    mc->default_ram_id = "ef405ep.ram";
+@@ -230,13 +230,11 @@ static void boot_from_kernel(MachineState *machine, PowerPCCPU *cpu)
+     env->load_info = &boot_info;
  }
  
- static const TypeInfo ref405ep_type = {
-     .name = MACHINE_TYPE_NAME("ref405ep"),
--    .parent = TYPE_MACHINE,
-+    .parent = TYPE_PPC405_MACHINE,
-     .class_init = ref405ep_class_init,
- };
+-static void ref405ep_init(MachineState *machine)
++static void ppc405_init(MachineState *machine)
+ {
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
+     const char *kernel_filename = machine->kernel_filename;
+     PowerPCCPU *cpu;
+-    DeviceState *dev;
+-    SysBusDevice *s;
+     MemoryRegion *sram = g_new(MemoryRegion, 1);
+     MemoryRegion *ram_memories = g_new(MemoryRegion, 2);
+     hwaddr ram_bases[2], ram_sizes[2];
+@@ -294,15 +292,6 @@ static void ref405ep_init(MachineState *machine)
+         memory_region_add_subregion(sysmem, (uint32_t)(-bios_size), bios);
+     }
  
-+static void ppc405_machine_class_init(ObjectClass *oc, void *data)
+-    /* Register FPGA */
+-    ref405ep_fpga_init(sysmem, PPC405EP_FPGA_BASE);
+-    /* Register NVRAM */
+-    dev = qdev_new("sysbus-m48t08");
+-    qdev_prop_set_int32(dev, "base-year", 1968);
+-    s = SYS_BUS_DEVICE(dev);
+-    sysbus_realize_and_unref(s, &error_fatal);
+-    sysbus_mmio_map(s, 0, PPC405EP_NVRAM_BASE);
+-
+     /* Load kernel and initrd using U-Boot images */
+     if (kernel_filename && machine->firmware) {
+         target_ulong kernel_base, initrd_base;
+@@ -335,6 +324,23 @@ static void ref405ep_init(MachineState *machine)
+     }
+ }
+ 
++static void ref405ep_init(MachineState *machine)
 +{
-+    MachineClass *mc = MACHINE_CLASS(oc);
++    DeviceState *dev;
++    SysBusDevice *s;
 +
-+    mc->desc = "PPC405 generic machine";
-+    mc->default_ram_size = 128 * MiB;
-+    mc->default_ram_id = "ppc405.ram";
++    ppc405_init(machine);
++
++    /* Register FPGA */
++    ref405ep_fpga_init(get_system_memory(), PPC405EP_FPGA_BASE);
++    /* Register NVRAM */
++    dev = qdev_new("sysbus-m48t08");
++    qdev_prop_set_int32(dev, "base-year", 1968);
++    s = SYS_BUS_DEVICE(dev);
++    sysbus_realize_and_unref(s, &error_fatal);
++    sysbus_mmio_map(s, 0, PPC405EP_NVRAM_BASE);
 +}
 +
-+static const TypeInfo ppc405_machine_type = {
-+    .name = TYPE_PPC405_MACHINE,
-+    .parent = TYPE_MACHINE,
-+    .instance_size = sizeof(Ppc405MachineState),
-+    .class_init = ppc405_machine_class_init,
-+    .abstract = true,
-+};
-+
- static void ppc405_machine_init(void)
+ static void ref405ep_class_init(ObjectClass *oc, void *data)
  {
-+    type_register_static(&ppc405_machine_type);
-     type_register_static(&ref405ep_type);
- }
+     MachineClass *mc = MACHINE_CLASS(oc);
+@@ -354,6 +360,7 @@ static void ppc405_machine_class_init(ObjectClass *oc, void *data)
+     MachineClass *mc = MACHINE_CLASS(oc);
  
+     mc->desc = "PPC405 generic machine";
++    mc->init = ppc405_init;
+     mc->default_ram_size = 128 * MiB;
+     mc->default_ram_id = "ppc405.ram";
+ }
 -- 
 2.37.2
 
