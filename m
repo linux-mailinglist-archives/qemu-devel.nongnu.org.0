@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D46495A7E47
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 15:08:47 +0200 (CEST)
-Received: from localhost ([::1]:56290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C29335A7E50
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 15:11:07 +0200 (CEST)
+Received: from localhost ([::1]:37682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTNSY-00062g-Tk
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 09:08:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53576)
+	id 1oTNUo-0000NM-Tj
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 09:11:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oTNPL-0002Bt-O2
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 09:05:27 -0400
-Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c]:41814)
+ id 1oTNSS-00061B-KO; Wed, 31 Aug 2022 09:08:40 -0400
+Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235]:46028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oTNPJ-0003nL-W9
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 09:05:27 -0400
-Received: by mail-lj1-x22c.google.com with SMTP id q16so14542527ljp.8
- for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 06:05:25 -0700 (PDT)
+ id 1oTNSQ-0004Mt-Rm; Wed, 31 Aug 2022 09:08:40 -0400
+Received: by mail-lj1-x235.google.com with SMTP id b26so7647644ljk.12;
+ Wed, 31 Aug 2022 06:08:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=m1MfnVemuTh/uZctmqKZJGI2XeeHKkWXkNQShh8gqhg=;
- b=oOaDb2rZEmzetqGDL2p9VNpK1HHQgbsAjirsBGgcN/aOc5OktE2xURL3BdFGf6lN1A
- JQbUojhIFfCSF3Z7/VLI19nkXPjD4A+xcgn+Pty+Dkdhg8rTivF07ffpXYBUKbMbTfWH
- 7/IJWLZhjynwupHn0mVnP9a8GSzeExZuyNlywuZljMFjVSWV6OY9fsb9lqHVH5Zr2oWA
- +8WEuu+MKjPcggTN55V4gx7lj3M/FrPgB5XmjeW49wEQs39gl+5S1jw3gY7XXtc+ywqC
- up8MFURd1Fb2CwjJGoGtXgKeaCvGvkazyv+9+UBAdjNvgtc/dTmnNyKR6Z4sfI9c1mEZ
- aHjw==
+ bh=T31IdmnajtaKqoKPNRjrb5IqCMx20iM6Frl3HKDnMso=;
+ b=TvIOrV5pwHxOZNzyge8UVxpxIDkeT0aoL1LpvUCgGdKifZoGLVXh+yYpCdhl61OgPU
+ uaSuWGcWCLUIG7JDL23WW7wRwg7H6c+ESHgilTd/2THKET/Iry9N6wYl9mZ5ddvCm+Md
+ zAUoGo0lqLFukqM0cUcZ/Js/5nRXB/HmfD7sqZsvyuLxh1Tr0IAVd6yXb1u4NuSjR+6g
+ edC6qYbN07Mzv8GzYI2ZhtnnCdsBZxvZYe9ycfqE78PqEQKXiWq3+wnndSaIXNdMslRu
+ KKTxqbB14GtyyqJieVvdcGIEwwmu/ZvNylIs02Na+F+7iMA4UcxkOslApMxQp4aVZQqh
+ kSqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=m1MfnVemuTh/uZctmqKZJGI2XeeHKkWXkNQShh8gqhg=;
- b=bNmZXP+Tp5JhcoYemA2UjPS/dZIy5qRBy0v2pU3Nj+ih0z1eF4kHKEFFAGyL3eZJK+
- hyRgCQuN4U29JoHzb7H6rwOICCTzJYclrLzNWMUiZmlCN9agpIKBzhx5F6UY4qDs/iPb
- Z2Jkc10uvdBthmj9VIybj3eatxurR3+uHpDDyx7LMRr9pkjKA0a3tV2W37VeLpI3ruR5
- eHS8n+hu/vgdS3+howyRT/tHOUV7MWA0QeYtaO67Jv49q/6+olcEQv0KvQ8BgQQtS26X
- +wSsSrdncl6ihVXg1RGdRIaHC2nwzB9xSNxop43aEgWrmd/VGPm4sJoiJ1BRWz/mfaav
- PthQ==
-X-Gm-Message-State: ACgBeo0rJC2z7l7N/Svt64sUGG29cnYMPfYmke+1Gb25rOczsyMXzovY
- S8CSyKI/7PB/OxRGizmZM9VuO9fmPgGJ+T9xXlA=
-X-Google-Smtp-Source: AA6agR6LZhU170BMPj1rdRRohRCmGdj8xI4YFUYc4p5thfew5BsXXYAeJeoUlwPaaNRsAqbC4PZ+Zs0gbOJ8e+i+II4=
+ bh=T31IdmnajtaKqoKPNRjrb5IqCMx20iM6Frl3HKDnMso=;
+ b=K1gOnDp6kn6Nxy3sGP04KzHnMJ9owzErVQf9uE/MNt9DJgJO2V6bThLxo+OCI0N0Sf
+ SCgtwKo8eps4JCyoyB5aaF81NqEjF8uJhS4N6M9Sf+wApnZUmZnT0PE4BZ+lkYg3tzfS
+ 3yEV0z0aah26Dp4ATfQZUCRSE46/Z38eV4W9ZxfNOMlWShvvpFsTFePPo4dYoILEEn/V
+ ukE8uuh0h+rJtMjP7joax9/AWSOIXsKFKUDatpCSHNXqI4OIzAPTCCiFpH4jjASgR7D9
+ TYMYlniJ5qymk1IGYvz2hg9EKShedfXRDXwDtMvJcbRNX5YdtiDuTOz7q9jxZQaBNTPH
+ efCg==
+X-Gm-Message-State: ACgBeo1b2bUmD3wLjx2jyhhJcRL01kgE1vwssB7jJN2oDCk3gthum2E5
+ fywLj9LOLossmt8o/+xqlG3oWFe2VM9wcaopmrI=
+X-Google-Smtp-Source: AA6agR6TI6GkvIGyUFXO5WcNzijmJ8143MuDNVJ3R/qt8n9Z9tz6AK51B3X9b4wwom/oZxpq6ZqkYbmG9YFuaSFeacw=
 X-Received: by 2002:a2e:9942:0:b0:265:e313:7fb7 with SMTP id
- r2-20020a2e9942000000b00265e3137fb7mr3586868ljj.449.1661951124277; Wed, 31
- Aug 2022 06:05:24 -0700 (PDT)
+ r2-20020a2e9942000000b00265e3137fb7mr3591007ljj.449.1661951316749; Wed, 31
+ Aug 2022 06:08:36 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-7-bmeng.cn@gmail.com>
-In-Reply-To: <20220824094029.1634519-7-bmeng.cn@gmail.com>
+ <20220824094029.1634519-9-bmeng.cn@gmail.com>
+In-Reply-To: <20220824094029.1634519-9-bmeng.cn@gmail.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 31 Aug 2022 17:05:12 +0400
-Message-ID: <CAJ+F1CJAzNKESGowwnykcWC46L5UF0EJ8uYkxM+oaVi=hjbOyA@mail.gmail.com>
-Subject: Re: [PATCH 06/51] util/qemu-sockets: Use g_get_tmp_dir() to get the
- directory for temporary files
+Date: Wed, 31 Aug 2022 17:08:25 +0400
+Message-ID: <CAJ+F1CKEg+h+=+-_kjOip_=PZ9f1dN4OcMBz1JAVtp_58VPA1w@mail.gmail.com>
+Subject: Re: [PATCH 08/51] block/vvfat: Unify the mkdir() call
 To: Bin Meng <bmeng.cn@gmail.com>
 Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000658d2905e789269d"
-Received-SPF: pass client-ip=2a00:1450:4864:20::22c;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22c.google.com
+ Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000de72a805e78931f2"
+Received-SPF: pass client-ip=2a00:1450:4864:20::235;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x235.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,49 +83,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000658d2905e789269d
+--000000000000de72a805e78931f2
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-On Wed, Aug 24, 2022 at 1:59 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Wed, Aug 24, 2022 at 2:20 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 
 > From: Bin Meng <bin.meng@windriver.com>
 >
-> Replace the existing logic to get the directory for temporary files
-> with g_get_tmp_dir(), which works for win32 too.
+> There is a difference in the mkdir() call for win32 and non-win32
+> platforms, and currently is handled in the codes with #ifdefs.
+>
+> glib provides a portable g_mkdir_with_parents() API and we can use
+> it to unify the codes without #ifdefs.
+>
+
+Why use the _with_parents() version?
+
+You should replace with g_mkdir(), or explain the reasons.
+
+thanks
+
+
 >
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
->
-
-Makes sense to me here,
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-
 > ---
 >
->  util/qemu-sockets.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+>  block/vvfat.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
 >
-> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-> index 83f4bd6fd2..0c41ca9e42 100644
-> --- a/util/qemu-sockets.c
-> +++ b/util/qemu-sockets.c
-> @@ -919,9 +919,8 @@ static int unix_listen_saddr(UnixSocketAddress *saddr=
-,
->      if (saddr->path[0] || abstract) {
->          path =3D saddr->path;
->      } else {
-> -        const char *tmpdir =3D getenv("TMPDIR");
-> -        tmpdir =3D tmpdir ? tmpdir : "/tmp";
-> -        path =3D pathbuf =3D g_strdup_printf("%s/qemu-socket-XXXXXX", tm=
-pdir);
-> +        path =3D pathbuf =3D g_strdup_printf("%s/qemu-socket-XXXXXX",
-> +                                         g_get_tmp_dir());
->      }
+> diff --git a/block/vvfat.c b/block/vvfat.c
+> index d6dd919683..9c389ce5ea 100644
+> --- a/block/vvfat.c
+> +++ b/block/vvfat.c
+> @@ -2726,13 +2726,9 @@ static int
+> handle_renames_and_mkdirs(BDRVVVFATState* s)
+>              mapping_t* mapping;
+>              int j, parent_path_len;
 >
->      pathlen =3D strlen(path);
+> -#ifdef __MINGW32__
+> -            if (mkdir(commit->path))
+> +            if (g_mkdir_with_parents(commit->path, 0755)) {
+>                  return -5;
+> -#else
+> -            if (mkdir(commit->path, 0755))
+> -                return -5;
+> -#endif
+> +            }
+>
+>              mapping =3D insert_mapping(s, commit->param.mkdir.cluster,
+>                      commit->param.mkdir.cluster + 1);
 > --
 > 2.34.1
 >
@@ -137,56 +144,62 @@ pdir);
 --=20
 Marc-Andr=C3=A9 Lureau
 
---000000000000658d2905e789269d
+--000000000000de72a805e78931f2
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 24, 2022 at 1:59 PM Bin=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 24, 2022 at 2:20 PM Bin=
  Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; =
 wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
 px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Bin=
  Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" target=3D"_blank">bin.m=
 eng@windriver.com</a>&gt;<br>
 <br>
-Replace the existing logic to get the directory for temporary files<br>
-with g_get_tmp_dir(), which works for win32 too.<br>
+There is a difference in the mkdir() call for win32 and non-win32<br>
+platforms, and currently is handled in the codes with #ifdefs.<br>
+<br>
+glib provides a portable g_mkdir_with_parents() API and we can use<br>
+it to unify the codes without #ifdefs.<br></blockquote><div><br></div><div>=
+Why use the _with_parents() version?</div><div><br></div><div>You should re=
+place with g_mkdir(), or explain the reasons.</div><div><br></div><div>than=
+ks<br></div><div>=C2=A0 <br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
 <br>
 Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" targe=
-t=3D"_blank">bin.meng@windriver.com</a>&gt;<br></blockquote><div><br></div>=
-<div>Makes sense to me here,</div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau =
-&lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.=
-com</a>&gt;</div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">
+t=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
 ---<br>
 <br>
-=C2=A0util/qemu-sockets.c | 5 ++---<br>
-=C2=A01 file changed, 2 insertions(+), 3 deletions(-)<br>
+=C2=A0block/vvfat.c | 8 ++------<br>
+=C2=A01 file changed, 2 insertions(+), 6 deletions(-)<br>
 <br>
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c<br>
-index 83f4bd6fd2..0c41ca9e42 100644<br>
---- a/util/qemu-sockets.c<br>
-+++ b/util/qemu-sockets.c<br>
-@@ -919,9 +919,8 @@ static int unix_listen_saddr(UnixSocketAddress *saddr,<=
-br>
-=C2=A0 =C2=A0 =C2=A0if (saddr-&gt;path[0] || abstract) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0path =3D saddr-&gt;path;<br>
-=C2=A0 =C2=A0 =C2=A0} else {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 const char *tmpdir =3D getenv(&quot;TMPDIR&quo=
-t;);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 tmpdir =3D tmpdir ? tmpdir : &quot;/tmp&quot;;=
+diff --git a/block/vvfat.c b/block/vvfat.c<br>
+index d6dd919683..9c389ce5ea 100644<br>
+--- a/block/vvfat.c<br>
++++ b/block/vvfat.c<br>
+@@ -2726,13 +2726,9 @@ static int handle_renames_and_mkdirs(BDRVVVFATState*=
+ s)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mapping_t* mapping;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int j, parent_path_len;<br>
 <br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 path =3D pathbuf =3D g_strdup_printf(&quot;%s/=
-qemu-socket-XXXXXX&quot;, tmpdir);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 path =3D pathbuf =3D g_strdup_printf(&quot;%s/=
-qemu-socket-XXXXXX&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_=
-get_tmp_dir());<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
+-#ifdef __MINGW32__<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (mkdir(commit-&gt;path))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (g_mkdir_with_parents(commit-=
+&gt;path, 0755)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -5;<br=
+>
+-#else<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (mkdir(commit-&gt;path, 0755)=
+)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -5;<br>
+-#endif<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0pathlen =3D strlen(path);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mapping =3D insert_mapping(=
+s, commit-&gt;param.mkdir.cluster,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0commit-&gt;param.mkdir.cluster + 1);<br>
 -- <br>
 2.34.1<br>
 <br>
@@ -194,5 +207,5 @@ get_tmp_dir());<br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
 mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---000000000000658d2905e789269d--
+--000000000000de72a805e78931f2--
 
