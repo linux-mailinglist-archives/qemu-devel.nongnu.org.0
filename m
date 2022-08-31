@@ -2,91 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 434CA5A8406
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 19:12:04 +0200 (CEST)
-Received: from localhost ([::1]:47200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECEAE5A8448
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 19:25:31 +0200 (CEST)
+Received: from localhost ([::1]:55444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTRFy-0006YX-Pg
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 13:12:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44446)
+	id 1oTRT0-0006Ai-GL
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 13:25:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oTRE5-00052L-J1
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 13:10:05 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:36627)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oTRRf-0004o3-0t
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 13:24:07 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oTRE3-0000i5-HP
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 13:10:05 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- v7-20020a1cac07000000b003a6062a4f81so12054834wme.1
- for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 10:10:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oTRRb-00037e-EJ
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 13:24:06 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id n17so19174531wrm.4
+ for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 10:24:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=pKlU/vD9u5EnFDevRM9wfXhSNbkGJIZPYZ8Gvv90l+c=;
- b=M4Mc19htt+3ABuXDvVaB72yLNr6g2Q8ilVjHy0wbtIDgaaOO1G3emvSMRdHLoFaUwC
- BUVE9xK4I+RbVUTmEkO16232npLC4GoWTLgeJBu5pEoJu6+HJoXybRU3jkRpC085/prL
- EQJUo1DH/Yr8/Gi42/lIVOqjBvvpGx4eNrkpHLeV4rpe189s4Z87DGRQ/Qotqu0uyG7h
- 52uo0UAgBUuGtO9MMrWT298nAWu2KDWu9hjiCkJC6cTIlSdhVgNzrhXQQ+B/wLLGn/BM
- 4tMzQjU9GmKqLthXtvIdyU0h0JmjkcY6Uvhq3ITgmm0fhC9pmVKIYmZ+4f4A651icMd0
- ZFag==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=qqDiIi34BDvLReEKYiiDkXzAKaLH7/rDBJD/asaAsWA=;
+ b=ow8qbW04npfAH5LekMI6AIZDTCTnEnEt1N+bUgJCW6oNoWD/Di/ZFYfzB8KKzbvF/8
+ srAMLPL28dgavmVKtns93V7zNQ6pw8piw5r3R9vWlDSJlIvDX3jqGRZ9V0/d/KtgtKue
+ TxptHPS4Z+cqhDDk3F5UmFtjKxsGno6kGDopBUAuxS5aWw+y2/aoFeEIQLXIMmObLN51
+ UASZGuVX05gc89FzhGgaVD+ZjZjc59ZlJj2Iafm2zFbdiman9frDJEt9OPz0zja8LBKF
+ PpVzpqdkCIp4aXQPVMstIPhLShSEwN3bYsfKrXNxGb+ZDlwOuYM1BhV/TsNws+e4JZ3+
+ h6Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=pKlU/vD9u5EnFDevRM9wfXhSNbkGJIZPYZ8Gvv90l+c=;
- b=FiNn3ORWlYOJeXs0TdwlZIwPaMAIt9XuvH+CKf8T8UrVUNocZoRIiL2j6rGOE6cntG
- QFzj6mIw69LAYZ2mSBzOsx5tRiMCFXTKdox2i4DkqNORq8znJIWeFKCORIfeVrCFcXA4
- RFIHhbPbRo40uDULa34A+HIYL/sjeBuDJ0oEIuYfvccfEsyTZMwduKUbJTKB/WOraUQm
- PVPcPebJt+5pwFQGmNV/BhkUvM5JMfUcRXcI9B2DLfYnI1lbxamvS6iyGRvoDAua75na
- v5cdkVDN15lhsxOxbxE2EQSDdN0vpK1w5oTxf9apjbwEoSorOEyRSYNmi7Y+DkWeCuzZ
- S9hQ==
-X-Gm-Message-State: ACgBeo2p6hUfI6gn9mbRcMnhQFzXLsgMez7XydOmKZ3SCBlEa1GvkrR8
- TU4A/VzrPC9h0POM0NLVY53hQQ==
-X-Google-Smtp-Source: AA6agR44snuHjeSpmM1bJj5y69SoPGAooV9o+MAYeqqek1XphRCHg6r0++t/xFreGhRsKf6PfZTOZg==
-X-Received: by 2002:a05:600c:4e04:b0:3a5:a34e:ae81 with SMTP id
- b4-20020a05600c4e0400b003a5a34eae81mr2571707wmq.147.1661965801460; 
- Wed, 31 Aug 2022 10:10:01 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=qqDiIi34BDvLReEKYiiDkXzAKaLH7/rDBJD/asaAsWA=;
+ b=pFj1bRIhrjhc2OSqFt9bjNBEVYuFA7Jvj2J3kYHwXhY0ZDpNeY+QfsfI4pdTKyaUbq
+ 42mxSiwrTpUF+yqWvfICKYmE/26TM03yhtzuVM8j40yu4B2M/Ktjn7un5sXaoN9cK9Sc
+ +PU+Iq3Ph80H5B3E0CJyL75HD7ZxjjRfiztFzpEpYuWGuqipf+BJohJdPK9aC+VD7syh
+ +041gL1m71ntN70BVjJn86NpV1qGhzcEe9F/S2yedFj8RI7i0pq6PQpNSRaJIO7laDMQ
+ QnZVyBMakftDADH4gcD6Nzu4WMP5+4SQSBH54meN1CDiX8dGbbsiFqSLAyjVCLxEidVn
+ 7uRA==
+X-Gm-Message-State: ACgBeo2xTaFp3dFs+uGzzuc4Hxb9Owne0wd4BBNtq8HW7RODBSK3LyGN
+ AjDd4csyyIrvacxGiAPUvxu1KA==
+X-Google-Smtp-Source: AA6agR6tw/YtRTEuJ+nkBmu4Zz51agqN5X5g/BV/qVcvuz6MtBt30hOgrxSNXAnYC4ZG3PQ64SG5Fw==
+X-Received: by 2002:adf:eecc:0:b0:226:dfe8:12e with SMTP id
+ a12-20020adfeecc000000b00226dfe8012emr6692514wrp.713.1661966642052; 
+ Wed, 31 Aug 2022 10:24:02 -0700 (PDT)
+Received: from [192.168.30.32] ([87.192.221.83])
  by smtp.gmail.com with ESMTPSA id
- w5-20020a5d6805000000b0021e8d205705sm12183526wru.51.2022.08.31.10.10.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 10:10:00 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E73621FFB7;
- Wed, 31 Aug 2022 18:09:59 +0100 (BST)
-References: <87a67kphih.fsf@linaro.org>
-User-agent: mu4e 1.9.0; emacs 28.1.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: Mark Burton <mburton@qti.qualcomm.com>, "Edgar  E. Iglesias"
- <edgar.iglesias@gmail.com>, Richard Henderson
- <richard.henderson@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>, Peter
- Maydell <peter.maydell@linaro.org>, Song Gao <gaosong@loongson.cn>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>, =?utf-8?Q?C=C3=A9dric?= Le Goater
- <clg@kaod.org>, Palmer Dabbelt <palmer@dabbelt.com>, Alistair Francis
- <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>, David
- Gibson <david@gibson.dropbear.id.au>, Markus Armbruster
- <armbru@redhat.com>, Michael Roth <michael.roth@amd.com>, Luc Michel
- <luc@lmichel.fr>, Damien Hedde <damien.hedde@greensocs.com>, Alessandro Di
- Federico <ale@rev.ng>
-Subject: Re: Any interest in a QEMU emulation BoF at KVM Forum?
-Date: Wed, 31 Aug 2022 18:08:22 +0100
-In-reply-to: <87a67kphih.fsf@linaro.org>
-Message-ID: <87wnaonxug.fsf@linaro.org>
+ d14-20020a05600c34ce00b003a5f54e3bbbsm2792208wmq.38.2022.08.31.10.24.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 31 Aug 2022 10:24:01 -0700 (PDT)
+Message-ID: <65dc5777-e40a-2733-db65-233aa6a82e2d@linaro.org>
+Date: Wed, 31 Aug 2022 18:23:59 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: QEMU 7.2 release schedule
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: michael.roth@amd.com, peter.maydell@linaro.org
+References: <Yw59JU3ja/EU3HL6@fedora>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <Yw59JU3ja/EU3HL6@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -104,66 +92,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 8/30/22 14:12, Stefan Hajnoczi wrote:
+> Please check the proposed release schedule and let me know if they fall
+> on inconvenient dates:
+> - 2022-08-30: Beginning of development phase
+> - 2022-11-1: Soft feature freeze. Only bug fixes after this point. All feature changes must be already in a sub maintainer tree and all pull requests from submaintainers must have been sent to the list by this date.
+> - 2022-11-8: Hard feature freeze. Tag rc0
+> - 2022-11-15: Tag rc1
+> - 2022-11-22: Tag rc2
+> - 2022-11-29: Tag rc3
+> - 2022-12-06: Release; or tag rc4 if needed
+> - 2022-12-13: Release if we needed an rc4
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
-
-qemu-devel keeps bouncing the message so replying with a cut down CC list.
-
-> Hi,
->
-> Given our slowly growing range of TCG emulations and the evident
-> interest in keeping up with modern processor architectures is it worth
-> having an emulation focused BoF at the up-coming KVM Forum?
->
-> Some potential topics for discussion I could think of might include:
->
->  * Progress towards heterogeneous vCPU emulation
->
->  We've been making slow progress in removing assumptions from the
->  various front-ends about their global nature and adding accel:TCG
->  abstractions and support for the translator loop. We can already have
->  CPUs from the same architecture family in a model. What else do we need
->  to do so we can have those funky ARM+RiscV+Tricore heterogeneous
->  models? Is it library or something else?
->
->  * External Device Models
->
->  I know this is a contentious topic given the potential for GPL
->  end-runs. However there are also good arguments for enabling the
->  testing of open source designs without having forcing the
->  implementation of a separate C model to test software. For example if
->  we hypothetically modelled a Pi Pico would it make sense to model the
->  PIO in C if we could just compile the Verilog for it into a SystemC
->  model? Would a plethora of closed device models be the inevitable
->  consequence of such an approach? Would it matter if we just
->  concentrated on supporting useful open source solutions?
->
->  * Dynamic Machine Models
->
->  While we try and avoid modelling bespoke virtual HW in QEMU
->  (virt/goldfish not withstanding ;-) there is obviously a desire in the
->  EDA space to allow such experimentation. Is this something we can
->  provide so aspiring HW engineers can experiment with system
->  architectures without having to form QEMU and learn QOM. There have
->  been suggestions about consuming device trees or maybe translating to
->  QMP calls and adding support for wiring devices together. Given the
->  number of forks that exist is this something that could be better
->  supported upstream without degenerating into messy hacks?
->
->  * A sense of time
->
->  Currently we have the fairly limited support for -icount in QEMU. At
->  the same time we have no desire to start expanding frontends with
->  the details cost models required for a more realistic sense of time to
->  be presented. One suggestion is to expand the TCG plugin interface to
->  allow for the plugin to control time allowing as much or little logic
->  to be pushed there as we like and freeing up frontends from ever having
->  to consider it.
->
-> Are any of these topics of interest? Are there any other emulation
-> topics people would like to discuss?
+Looks good to me, matching the 6.2 cycle well in having the release completed with a 
+comfortable margin before the Christmas & New Year's seasons.
 
 
---=20
-Alex Benn=C3=A9e
+r~
 
