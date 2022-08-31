@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B57F5A871B
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 21:57:04 +0200 (CEST)
-Received: from localhost ([::1]:33032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2540E5A86BF
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 21:31:18 +0200 (CEST)
+Received: from localhost ([::1]:39284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTTpf-0004VC-LF
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 15:57:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52986)
+	id 1oTTQj-0007vw-8z
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 15:31:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oTSpR-0005Om-86; Wed, 31 Aug 2022 14:52:45 -0400
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:38624)
+ id 1oTSpS-0005Tf-Ql; Wed, 31 Aug 2022 14:52:46 -0400
+Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29]:37475)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oTSpP-0008Ci-60; Wed, 31 Aug 2022 14:52:44 -0400
-Received: by mail-ot1-x329.google.com with SMTP id
- m21-20020a9d6ad5000000b00638df677850so10880187otq.5; 
- Wed, 31 Aug 2022 11:52:42 -0700 (PDT)
+ id 1oTSpQ-000890-Uh; Wed, 31 Aug 2022 14:52:46 -0400
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-11e7e0a63e2so25422753fac.4; 
+ Wed, 31 Aug 2022 11:52:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=cz0JKKaL1dCt49jK1VnK66Eqwn7B6P4v7MowjnHm5sc=;
- b=DkpMiGK+qmUhUQYhjhOWPlgmtvQ8u1HNIpiiOP/SCrAAqluIs0VzM8DOh9K/KuPnpj
- LMZqzXUaU/Jj0EMwymd6E2/ALUyXL5SjHAIP2Xt2IifTGgSqQMywFoArOlqSzhYOfl1g
- 8fC71C09ma+Fpkb7f27rAMJrdrnUvR8D8tQoK57tCLCRe78MND6uDfOjvvSTkF+1QZ2P
- PMSDVFkT95GaP/73wLYsBOj3tmmO3kBLGjyMO9UpU9Q3SkqX9rLDSkQnHjcuChb1Veq3
- Oe4Wc6XeM1kH6M6h2ADyR8BEdpg1RhUoZGoRvNgSxDdaeLWQtqZBf1L/82q623RDEZPS
- Tbaw==
+ bh=WvgrZreNJVwVxCAG8r1WouiihndF6Ok2THG78cBDGJo=;
+ b=GyJd0boT/UHKkGFR459c7hQorlIpHcJ3IGJWPxU35UzRC2g9fNIsVSRCYUxl736kyh
+ CxJ86Uytp6s1/F+oTPPPInwPIf2kE9EqxcD8dn5z61EtkspM+4HBNwS1zx4rIAt6vwMi
+ o5EXRSElj6xminblqBXPl5gtQZi555FSxfuNSQOLfAwJ1EVS0ZnIbLE9jyrtYoIlfZY4
+ et+W4GjmJqknBam5W4pHhFRIEbUnjkbCLwsxv8PVrIVXV2zQxXOxuzi2zmnnWJz0uJ53
+ 5HVZ83GVD0rqaq5BRbfnN+Gw8+BBbYQAPRr+czFKIVUgFRvfdTfkpW4sZg5+wbZyAhzT
+ cacQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=cz0JKKaL1dCt49jK1VnK66Eqwn7B6P4v7MowjnHm5sc=;
- b=WaTEOsdVCPWN+NrxWLZ48WYAxvFsLdhrbrkh2W8umveK/gFz/WVcCwNkvaDOG393HV
- bju5/fibYpKnEGfOKlhqoFjFIUIcBUi2eRSHCQQSuuQkWJ/Qa+VZJmG7NxfEPuDzoaJu
- f3qtVuwZ8jA4yLLP70HCBRhd8E/tBqR0gMyEVTYCN9otrVo/ZwKC/KznP8MUtFRiLcou
- wC2/MmGix2684W1bdJMmnxyupdQeEZ+6k/2c/2Pk+1EGB84PvyyU8cNh/mIcFeUau80I
- IoeXfXtmDnNligK8J7xifdDNpADK+AttE3BimBXOVVKjnQ3iHM2+QxT1w+2PS4U19CMl
- m6EQ==
-X-Gm-Message-State: ACgBeo2CDWhpv14H+sa/2bExelshTrRDDrpFb+ZxeSupYIWWUL9ep0lt
- EOsqKqfDG0f6J8uoMOGbqCshuZsVnj0=
-X-Google-Smtp-Source: AA6agR5gJBCq/7b3LVW6qMiFRqVjqer8W9r8QtemW2UntM5z7+RZ7rd7bXZCmUV3FRHzb2tb+NdYuA==
-X-Received: by 2002:a9d:62c3:0:b0:639:48a8:f007 with SMTP id
- z3-20020a9d62c3000000b0063948a8f007mr10119522otk.104.1661971961440; 
- Wed, 31 Aug 2022 11:52:41 -0700 (PDT)
+ bh=WvgrZreNJVwVxCAG8r1WouiihndF6Ok2THG78cBDGJo=;
+ b=E/Gnpnk1DPnpqPR09bFOuGNt2aH61U7Q2srD2+yN6xN0p0FhpQ+tmxm+4Mf29ymV6Z
+ QhZmkEp3eW+zX+SiOMchswGu/0vnANdEY9epBe8cyENwnbr0Qlbxooxq7zgCtg581S41
+ +jqmQkghIi1yKn6DdsJTZVOQAFqEGFG6aJb0NDBYvhWKyq7aeqdKFA2b6o3cMk1QPF82
+ fVTYoGvuN8bsW8axhhAcvkkITopDX7Jbf04XOdC4WnPZ3bElIGVN5Dzke7685MJof7Jt
+ READH5vTa8RtZjbio2dE6GZYRCPe5pq3KoreWjpOO2UKZMlmxGm1pJ1yDZARkIUoxUbP
+ t5JQ==
+X-Gm-Message-State: ACgBeo3Ccx3efg0msZJ9wPcYdeJU28JmebEKVujx7VOAzFojaF/1s+kW
+ QxAiUv4fLZwQRoCwYf1QpVpsjTsi8xE=
+X-Google-Smtp-Source: AA6agR7nRRtsUjQ/kYW2cNCme3GFOnixnxO8RbdGmJm0nDvzdJ+ShsQPDkuGZJpCB3CYPU17xS+9rQ==
+X-Received: by 2002:a05:6870:ec88:b0:11f:963:1019 with SMTP id
+ eo8-20020a056870ec8800b0011f09631019mr2183734oab.201.1661971963782; 
+ Wed, 31 Aug 2022 11:52:43 -0700 (PDT)
 Received: from balboa.COMFAST ([177.189.45.98])
  by smtp.gmail.com with ESMTPSA id
- p4-20020a9d4544000000b0061cbd18bd18sm9599927oti.45.2022.08.31.11.52.39
+ p4-20020a9d4544000000b0061cbd18bd18sm9599927oti.45.2022.08.31.11.52.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 11:52:41 -0700 (PDT)
+ Wed, 31 Aug 2022 11:52:43 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  richard.henderson@linaro.org,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 42/60] ppc/ppc405: QOM'ify DMA
-Date: Wed, 31 Aug 2022 15:50:16 -0300
-Message-Id: <20220831185034.23240-43-danielhb413@gmail.com>
+Subject: [PULL 43/60] ppc/ppc405: QOM'ify EBC
+Date: Wed, 31 Aug 2022 15:50:17 -0300
+Message-Id: <20220831185034.23240-44-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220831185034.23240-1-danielhb413@gmail.com>
 References: <20220831185034.23240-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::329;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x329.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::29;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x29.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -94,255 +94,205 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-The DMA controller is currently modeled as a DCR device with a couple
-of IRQs.
+EBC is currently modeled as a DCR device. Also drop the ppc405_ebc_init()
+helper and adapt the sam460ex machine.
 
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 [balaton: ppc4xx_dcr_register changes]
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-Id: <4738b3c7cf18c328f05aaaddc555a46219431335.1660746880.git.balaton@eik.bme.hu>
+Message-Id: <51a0769ab605c5158f4f2f1c896725d5fe7a073b.1660746880.git.balaton@eik.bme.hu>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/ppc405.h    |  19 ++++++
- hw/ppc/ppc405_uc.c | 141 ++++++++++++++++++++-------------------------
- 2 files changed, 81 insertions(+), 79 deletions(-)
+ hw/ppc/ppc405.h    | 17 ++++++++++++-
+ hw/ppc/ppc405_uc.c | 62 ++++++++++++++++++++++++----------------------
+ hw/ppc/sam460ex.c  |  4 ++-
+ 3 files changed, 51 insertions(+), 32 deletions(-)
 
 diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-index 21f6cb3585..c75e4c7cb5 100644
+index c75e4c7cb5..82bf8dae93 100644
 --- a/hw/ppc/ppc405.h
 +++ b/hw/ppc/ppc405.h
-@@ -63,6 +63,24 @@ struct ppc4xx_bd_info_t {
+@@ -63,6 +63,21 @@ struct ppc4xx_bd_info_t {
      uint32_t bi_iic_fast[2];
  };
  
-+/* DMA controller */
-+#define TYPE_PPC405_DMA "ppc405-dma"
-+OBJECT_DECLARE_SIMPLE_TYPE(Ppc405DmaState, PPC405_DMA);
-+struct Ppc405DmaState {
++/* Peripheral controller */
++#define TYPE_PPC405_EBC "ppc405-ebc"
++OBJECT_DECLARE_SIMPLE_TYPE(Ppc405EbcState, PPC405_EBC);
++struct Ppc405EbcState {
 +    Ppc4xxDcrDeviceState parent_obj;
 +
-+    qemu_irq irqs[4];
-+    uint32_t cr[4];
-+    uint32_t ct[4];
-+    uint32_t da[4];
-+    uint32_t sa[4];
-+    uint32_t sg[4];
-+    uint32_t sr;
-+    uint32_t sgc;
-+    uint32_t slp;
-+    uint32_t pol;
++    uint32_t addr;
++    uint32_t bcr[8];
++    uint32_t bap[8];
++    uint32_t bear;
++    uint32_t besr0;
++    uint32_t besr1;
++    uint32_t cfg;
 +};
 +
- /* GPIO */
- #define TYPE_PPC405_GPIO "ppc405-gpio"
- OBJECT_DECLARE_SIMPLE_TYPE(Ppc405GpioState, PPC405_GPIO);
-@@ -173,6 +191,7 @@ struct Ppc405SoCState {
-     Ppc405GptState gpt;
+ /* DMA controller */
+ #define TYPE_PPC405_DMA "ppc405-dma"
+ OBJECT_DECLARE_SIMPLE_TYPE(Ppc405DmaState, PPC405_DMA);
+@@ -192,12 +207,12 @@ struct Ppc405SoCState {
      Ppc405OcmState ocm;
      Ppc405GpioState gpio;
-+    Ppc405DmaState dma;
+     Ppc405DmaState dma;
++    Ppc405EbcState ebc;
  };
  
  /* PowerPC 405 core */
+ ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ram_addr_t ram_size);
+ 
+ void ppc4xx_plb_init(CPUPPCState *env);
+-void ppc405_ebc_init(CPUPPCState *env);
+ 
+ #endif /* PPC405_H */
 diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-index 3f4a5b36f5..3845c0fec1 100644
+index 3845c0fec1..ff81fb3e20 100644
 --- a/hw/ppc/ppc405_uc.c
 +++ b/hw/ppc/ppc405_uc.c
-@@ -613,35 +613,20 @@ enum {
-     DMA0_POL = 0x126,
- };
+@@ -393,28 +393,16 @@ static void ppc4xx_opba_init(hwaddr base)
  
--typedef struct ppc405_dma_t ppc405_dma_t;
--struct ppc405_dma_t {
--    qemu_irq irqs[4];
--    uint32_t cr[4];
--    uint32_t ct[4];
--    uint32_t da[4];
--    uint32_t sa[4];
--    uint32_t sg[4];
--    uint32_t sr;
--    uint32_t sgc;
--    uint32_t slp;
--    uint32_t pol;
+ /*****************************************************************************/
+ /* Peripheral controller */
+-typedef struct ppc4xx_ebc_t ppc4xx_ebc_t;
+-struct ppc4xx_ebc_t {
+-    uint32_t addr;
+-    uint32_t bcr[8];
+-    uint32_t bap[8];
+-    uint32_t bear;
+-    uint32_t besr0;
+-    uint32_t besr1;
+-    uint32_t cfg;
 -};
 -
--static uint32_t dcr_read_dma (void *opaque, int dcrn)
-+static uint32_t dcr_read_dma(void *opaque, int dcrn)
+ enum {
+     EBC0_CFGADDR = 0x012,
+     EBC0_CFGDATA = 0x013,
+ };
+ 
+-static uint32_t dcr_read_ebc (void *opaque, int dcrn)
++static uint32_t dcr_read_ebc(void *opaque, int dcrn)
  {
-     return 0;
+-    ppc4xx_ebc_t *ebc;
++    Ppc405EbcState *ebc = opaque;
+     uint32_t ret;
+ 
+-    ebc = opaque;
+     switch (dcrn) {
+     case EBC0_CFGADDR:
+         ret = ebc->addr;
+@@ -494,11 +482,10 @@ static uint32_t dcr_read_ebc (void *opaque, int dcrn)
+     return ret;
  }
  
--static void dcr_write_dma (void *opaque, int dcrn, uint32_t val)
-+static void dcr_write_dma(void *opaque, int dcrn, uint32_t val)
+-static void dcr_write_ebc (void *opaque, int dcrn, uint32_t val)
++static void dcr_write_ebc(void *opaque, int dcrn, uint32_t val)
  {
+-    ppc4xx_ebc_t *ebc;
++    Ppc405EbcState *ebc = opaque;
+ 
+-    ebc = opaque;
+     switch (dcrn) {
+     case EBC0_CFGADDR:
+         ebc->addr = val;
+@@ -554,12 +541,11 @@ static void dcr_write_ebc (void *opaque, int dcrn, uint32_t val)
+     }
  }
  
--static void ppc405_dma_reset (void *opaque)
-+static void ppc405_dma_reset(DeviceState *dev)
+-static void ebc_reset (void *opaque)
++static void ppc405_ebc_reset(DeviceState *dev)
  {
--    ppc405_dma_t *dma;
-+    Ppc405DmaState *dma = PPC405_DMA(dev);
+-    ppc4xx_ebc_t *ebc;
++    Ppc405EbcState *ebc = PPC405_EBC(dev);
      int i;
  
--    dma = opaque;
-     for (i = 0; i < 4; i++) {
-         dma->cr[i] = 0x00000000;
-         dma->ct[i] = 0x00000000;
-@@ -655,61 +640,50 @@ static void ppc405_dma_reset (void *opaque)
-     dma->pol = 0x00000000;
+-    ebc = opaque;
+     ebc->addr = 0x00000000;
+     ebc->bap[0] = 0x7F8FFE80;
+     ebc->bcr[0] = 0xFFE28000;
+@@ -572,16 +558,23 @@ static void ebc_reset (void *opaque)
+     ebc->cfg = 0x80400000;
  }
  
--static void ppc405_dma_init(CPUPPCState *env, qemu_irq irqs[4])
-+static void ppc405_dma_realize(DeviceState *dev, Error **errp)
-+{
-+    Ppc405DmaState *dma = PPC405_DMA(dev);
+-void ppc405_ebc_init(CPUPPCState *env)
++static void ppc405_ebc_realize(DeviceState *dev, Error **errp)
+ {
+-    ppc4xx_ebc_t *ebc;
+-
+-    ebc = g_new0(ppc4xx_ebc_t, 1);
+-    qemu_register_reset(&ebc_reset, ebc);
+-    ppc_dcr_register(env, EBC0_CFGADDR,
+-                     ebc, &dcr_read_ebc, &dcr_write_ebc);
+-    ppc_dcr_register(env, EBC0_CFGDATA,
+-                     ebc, &dcr_read_ebc, &dcr_write_ebc);
++    Ppc405EbcState *ebc = PPC405_EBC(dev);
 +    Ppc4xxDcrDeviceState *dcr = PPC4xx_DCR_DEVICE(dev);
-+    int i;
 +
-+    for (i = 0; i < ARRAY_SIZE(dma->irqs); i++) {
-+        sysbus_init_irq(SYS_BUS_DEVICE(dma), &dma->irqs[i]);
-+    }
-+
-+    ppc4xx_dcr_register(dcr, DMA0_CR0, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_CT0, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_DA0, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_SA0, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_SG0, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_CR1, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_CT1, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_DA1, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_SA1, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_SG1, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_CR2, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_CT2, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_DA2, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_SA2, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_SG2, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_CR3, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_CT3, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_DA3, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_SA3, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_SG3, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_SR,  dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_SGC, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_SLP, dma, &dcr_read_dma, &dcr_write_dma);
-+    ppc4xx_dcr_register(dcr, DMA0_POL, dma, &dcr_read_dma, &dcr_write_dma);
++    ppc4xx_dcr_register(dcr, EBC0_CFGADDR, ebc, &dcr_read_ebc, &dcr_write_ebc);
++    ppc4xx_dcr_register(dcr, EBC0_CFGDATA, ebc, &dcr_read_ebc, &dcr_write_ebc);
 +}
 +
-+static void ppc405_dma_class_init(ObjectClass *oc, void *data)
- {
--    ppc405_dma_t *dma;
--
--    dma = g_new0(ppc405_dma_t, 1);
--    memcpy(dma->irqs, irqs, 4 * sizeof(qemu_irq));
--    qemu_register_reset(&ppc405_dma_reset, dma);
--    ppc_dcr_register(env, DMA0_CR0,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_CT0,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_DA0,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_SA0,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_SG0,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_CR1,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_CT1,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_DA1,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_SA1,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_SG1,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_CR2,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_CT2,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_DA2,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_SA2,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_SG2,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_CR3,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_CT3,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_DA3,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_SA3,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_SG3,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_SR,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_SGC,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_SLP,
--                     dma, &dcr_read_dma, &dcr_write_dma);
--    ppc_dcr_register(env, DMA0_POL,
--                     dma, &dcr_read_dma, &dcr_write_dma);
++static void ppc405_ebc_class_init(ObjectClass *oc, void *data)
++{
 +    DeviceClass *dc = DEVICE_CLASS(oc);
 +
-+    dc->realize = ppc405_dma_realize;
-+    dc->reset = ppc405_dma_reset;
++    dc->realize = ppc405_ebc_realize;
++    dc->reset = ppc405_ebc_reset;
 +    /* Reason: only works as function of a ppc4xx SoC */
 +    dc->user_creatable = false;
  }
  
  /*****************************************************************************/
-@@ -1402,6 +1376,8 @@ static void ppc405_soc_instance_init(Object *obj)
-     object_initialize_child(obj, "ocm", &s->ocm, TYPE_PPC405_OCM);
- 
+@@ -1378,6 +1371,8 @@ static void ppc405_soc_instance_init(Object *obj)
      object_initialize_child(obj, "gpio", &s->gpio, TYPE_PPC405_GPIO);
+ 
+     object_initialize_child(obj, "dma", &s->dma, TYPE_PPC405_DMA);
 +
-+    object_initialize_child(obj, "dma", &s->dma, TYPE_PPC405_DMA);
++    object_initialize_child(obj, "ebc", &s->ebc, TYPE_PPC405_EBC);
  }
  
  static void ppc405_reset(void *opaque)
-@@ -1412,7 +1388,7 @@ static void ppc405_reset(void *opaque)
- static void ppc405_soc_realize(DeviceState *dev, Error **errp)
- {
-     Ppc405SoCState *s = PPC405_SOC(dev);
--    qemu_irq dma_irqs[4], mal_irqs[4];
-+    qemu_irq mal_irqs[4];
-     CPUPPCState *env;
-     SysBusDevice *sbd;
-     int i;
-@@ -1471,11 +1447,13 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
-     ppc405_ebc_init(env);
+@@ -1444,7 +1439,9 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+                       s->do_dram_init);
  
-     /* DMA controller */
--    dma_irqs[0] = qdev_get_gpio_in(s->uic, 5);
--    dma_irqs[1] = qdev_get_gpio_in(s->uic, 6);
--    dma_irqs[2] = qdev_get_gpio_in(s->uic, 7);
--    dma_irqs[3] = qdev_get_gpio_in(s->uic, 8);
--    ppc405_dma_init(env, dma_irqs);
-+    if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->dma), &s->cpu, errp)) {
+     /* External bus controller */
+-    ppc405_ebc_init(env);
++    if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->ebc), &s->cpu, errp)) {
 +        return;
 +    }
-+    sbd = SYS_BUS_DEVICE(&s->dma);
-+    for (i = 0; i < ARRAY_SIZE(s->dma.irqs); i++) {
-+        sysbus_connect_irq(sbd, i, qdev_get_gpio_in(s->uic, 5 + i));
-+    }
  
-     /* I2C controller */
-     sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500,
-@@ -1548,6 +1526,11 @@ static void ppc405_soc_class_init(ObjectClass *oc, void *data)
+     /* DMA controller */
+     if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->dma), &s->cpu, errp)) {
+@@ -1526,6 +1523,11 @@ static void ppc405_soc_class_init(ObjectClass *oc, void *data)
  
  static const TypeInfo ppc405_types[] = {
      {
-+        .name           = TYPE_PPC405_DMA,
++        .name           = TYPE_PPC405_EBC,
 +        .parent         = TYPE_PPC4xx_DCR_DEVICE,
-+        .instance_size  = sizeof(Ppc405DmaState),
-+        .class_init     = ppc405_dma_class_init,
++        .instance_size  = sizeof(Ppc405EbcState),
++        .class_init     = ppc405_ebc_class_init,
 +    }, {
-         .name           = TYPE_PPC405_GPIO,
-         .parent         = TYPE_SYS_BUS_DEVICE,
-         .instance_size  = sizeof(Ppc405GpioState),
+         .name           = TYPE_PPC405_DMA,
+         .parent         = TYPE_PPC4xx_DCR_DEVICE,
+         .instance_size  = sizeof(Ppc405DmaState),
+diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+index 0357ee077f..320c61a7f3 100644
+--- a/hw/ppc/sam460ex.c
++++ b/hw/ppc/sam460ex.c
+@@ -371,7 +371,9 @@ static void sam460ex_init(MachineState *machine)
+                                qdev_get_gpio_in(uic[0], 3));
+ 
+     /* External bus controller */
+-    ppc405_ebc_init(env);
++    dev = qdev_new(TYPE_PPC405_EBC);
++    ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(dev), cpu, &error_fatal);
++    object_unref(OBJECT(dev));
+ 
+     /* CPR */
+     ppc4xx_cpr_init(env);
 -- 
 2.37.2
 
