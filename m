@@ -2,87 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A0355A7956
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 10:48:35 +0200 (CEST)
-Received: from localhost ([::1]:46220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF475A7977
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 10:52:53 +0200 (CEST)
+Received: from localhost ([::1]:41122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTJOk-0008Td-45
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 04:48:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38580)
+	id 1oTJSu-0004ED-U9
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 04:52:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aburgess@redhat.com>)
- id 1oTJJQ-0003Zy-2f
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 04:43:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32253)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aburgess@redhat.com>)
- id 1oTJJN-0007tk-Qg
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 04:43:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1661935381;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xuN1AbMHxaL8zO8+2+jI/oXQZ565O/pfjes8Gp/0XuM=;
- b=Ob7eBuoWFxpd5AwRwU5DIikIO5NaImYj5AFp2smr3in2UTxOmUwTTnWsgtKH4rDse0/eD5
- az/jLM3kdhPmK3nkw5+PQUU3v/QLO8i288sc6MyUI0ha65htYN2eliJZ+pYRZX5E0CSyNu
- yduE7U2wUCNnwvXogLTf4JewJ0xOwgs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-358-MpAIe5g9OLO4GZhI8-4-YA-1; Wed, 31 Aug 2022 04:41:31 -0400
-X-MC-Unique: MpAIe5g9OLO4GZhI8-4-YA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c66-20020a1c3545000000b003a5f6dd6a25so11425013wma.1
- for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 01:41:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=xuN1AbMHxaL8zO8+2+jI/oXQZ565O/pfjes8Gp/0XuM=;
- b=QL7Sik6yrUnPIIjp7W9oxi4HeQqHg4Ts0VYol1Z7Zu38xKWO6GDaY9Kfp4lc31PDfQ
- N/iOUrniHbyQi4olPdZVK087NQ7ruAfaPM3+2cyt5Uwd/kk8c6i8iMnRTAiWQ+vS4pP8
- Ce6jXhj6Y6UdKOgNt1lE7P0AuR7PtqWkyn3bX4IqxbRXKOQRA8+PY8Bv+4TGUIN6MeYA
- jRDIAQ5XL4+YUcUyHTSbAOuwXrsEeZXAH426C2JkfKgRIntOu4B1CEJHCYMxL7SkR9gb
- S5MRVYQKxhoJuNl/OnM+wyuUB61NAKuXNKmLET+vVNnaoh15kBT/PorXARsGJC2bLX/o
- i6Sw==
-X-Gm-Message-State: ACgBeo2zQxTvDOhBbnQ/KmP469EtFOGKE7fR3DIb/pKVkF0BRwemn0vz
- picRb14Xss54Iyld6wQPA9AQOQ4j8AYC9J1fPRSis90qHFGv6yYM5zHhFqtRU6fw+3RwQoO++Rp
- PyzX8DGZ9Hrt6KS3baucd0Taxb+dcIBE3RbGk32a8CIXMyqaF5jKyIkWa1VKwybK2Bv4=
-X-Received: by 2002:a05:6000:54d:b0:225:4d5c:4615 with SMTP id
- b13-20020a056000054d00b002254d5c4615mr10385489wrf.107.1661935290436; 
- Wed, 31 Aug 2022 01:41:30 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4+4HvfXdz5482ZCK5FAZC9mCEmXeh0wryNV6+N5dD9bcr+dH0SJCzfbmKC/+7So0lyjRoUBQ==
-X-Received: by 2002:a05:6000:54d:b0:225:4d5c:4615 with SMTP id
- b13-20020a056000054d00b002254d5c4615mr10385474wrf.107.1661935290056; 
- Wed, 31 Aug 2022 01:41:30 -0700 (PDT)
-Received: from localhost ([31.111.84.229]) by smtp.gmail.com with ESMTPSA id
- ay21-20020a05600c1e1500b003a536d5aa2esm1464030wmb.11.2022.08.31.01.41.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 01:41:29 -0700 (PDT)
-From: Andrew Burgess <aburgess@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Andrew Burgess <aburgess@redhat.com>
-Subject: [PATCH 2/2] target/riscv: remove fixed numbering from GDB xml feature
- files
-Date: Wed, 31 Aug 2022 09:41:23 +0100
-Message-Id: <6069395f90e6fc24dac92197be815fedf42f5974.1661934573.git.aburgess@redhat.com>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <cover.1661934573.git.aburgess@redhat.com>
-References: <cover.1661934573.git.aburgess@redhat.com>
+ (Exim 4.90_1) (envelope-from <tugy@chinatelecom.cn>)
+ id 1oTJOF-0007oi-V2
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 04:48:10 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:47416
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <tugy@chinatelecom.cn>) id 1oTJOC-00008q-Ps
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 04:48:03 -0400
+HMM_SOURCE_IP: 172.18.0.218:54632.1118712417
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-36.111.64.85 (unknown [172.18.0.218])
+ by chinatelecom.cn (HERMES) with SMTP id B23472800FE;
+ Wed, 31 Aug 2022 16:47:39 +0800 (CST)
+X-189-SAVE-TO-SEND: +tugy@chinatelecom.cn
+Received: from  ([172.18.0.218])
+ by app0025 with ESMTP id f7edb14bd7a24798a56b892943c07c92 for
+ armbru@redhat.com; Wed, 31 Aug 2022 16:47:51 CST
+X-Transaction-ID: f7edb14bd7a24798a56b892943c07c92
+X-Real-From: tugy@chinatelecom.cn
+X-Receive-IP: 172.18.0.218
+X-MEDUSA-Status: 0
+Message-ID: <23418b2a-54ab-17ef-2708-118befb925be@chinatelecom.cn>
+Date: Wed, 31 Aug 2022 16:47:37 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=aburgess@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Cc: tugy@chinatelecom.cn, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH] osdep: Introduce qemu_get_fd() to wrap the common codes
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>
+References: <f73d60dd-fbc7-2873-4ed1-d30df19ce661@chinatelecom.cn>
+ <1442ced4-ab22-c379-76ee-5e1f1c17108a@chinatelecom.cn>
+ <47453703.NBG3G7Ahn1@silver> <87mtbml12r.fsf@pond.sub.org>
+From: Guoyi Tu <tugy@chinatelecom.cn>
+In-Reply-To: <87mtbml12r.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=42.123.76.228; envelope-from=tugy@chinatelecom.cn;
+ helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,115 +78,210 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The fixed register numbering in the various GDB feature files for
-RISC-V only exists because these files were originally copied from the
-GDB source tree.
 
-However, the fixed numbering only exists in the GDB source tree so
-that GDB, when it connects to a target that doesn't provide a target
-description, will use a specific numbering scheme.
+On 8/30/22 14:03, Markus Armbruster wrote:
+> Christian Schoenebeck <qemu_oss@crudebyte.com> writes:
+> 
+>> On Donnerstag, 18. August 2022 14:06:04 CEST Guoyi Tu wrote:
+>>> Ping...
+>>>
+>>> Any comments are welcome
+>>>
+>>> On 8/12/22 19:01, Guoyi Tu wrote:
+>>>> socket_get_fd() have much the same codes as monitor_fd_param(),
+>>>> so qemu_get_fd() is introduced to implement the common logic.
+>>>> now socket_get_fd() and monitor_fd_param() directly call this
+>>>> function.
+>>
+>> s/have/has/, s/now/Now/, some proper rephrasing wouldn't hurt either.
+>>
+>>>> Signed-off-by: Guoyi Tu <tugy@chinatelecom.cn>
+>>>> ---
+>>>>
+>>>>    include/qemu/osdep.h |  1 +
+>>>>    monitor/misc.c       | 21 +--------------------
+>>>>    util/osdep.c         | 25 +++++++++++++++++++++++++
+>>>>    util/qemu-sockets.c  | 17 +++++------------
+>>>>    4 files changed, 32 insertions(+), 32 deletions(-)
+>>>>
+>>>> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+>>>> index b1c161c035..b920f128a7 100644
+>>>> --- a/include/qemu/osdep.h
+>>>> +++ b/include/qemu/osdep.h
+>>>> @@ -491,6 +491,7 @@ int qemu_open_old(const char *name, int flags, ...);
+>>>>
+>>>>    int qemu_open(const char *name, int flags, Error **errp);
+>>>>    int qemu_create(const char *name, int flags, mode_t mode, Error **errp);
+>>>>    int qemu_close(int fd);
+>>>>
+>>>> +int qemu_get_fd(Monitor *mon, const char *fdname, Error **errp);
+>>>>
+>>>>    int qemu_unlink(const char *name);
+>>>>    #ifndef _WIN32
+>>>>    int qemu_dup_flags(int fd, int flags);
+>>>>
+>>>> diff --git a/monitor/misc.c b/monitor/misc.c
+>>>> index 3d2312ba8d..0d3372cf2b 100644
+>>>> --- a/monitor/misc.c
+>>>> +++ b/monitor/misc.c
+>>>> @@ -1395,26 +1395,7 @@ void monitor_fdset_dup_fd_remove(int dup_fd)
+>>>>
+>>>>    int monitor_fd_param(Monitor *mon, const char *fdname, Error **errp)
+>>>>    {
+>>>>
+>>>> -    int fd;
+>>>> -    Error *local_err = NULL;
+>>>> -
+>>>> -    if (!qemu_isdigit(fdname[0]) && mon) {
+>>>> -        fd = monitor_get_fd(mon, fdname, &local_err);
+>>>> -    } else {
+>>>> -        fd = qemu_parse_fd(fdname);
+>>>> -        if (fd == -1) {
+>>>> -            error_setg(&local_err, "Invalid file descriptor number '%s'",
+>>>> -                       fdname);
+>>>> -        }
+>>>> -    }
+>>>> -    if (local_err) {
+>>>> -        error_propagate(errp, local_err);
+>>>> -        assert(fd == -1);
+>>>> -    } else {
+>>>> -        assert(fd != -1);
+>>>> -    }
+>>>> -
+>>>> -    return fd;
+>>>> +    return qemu_get_fd(mon, fdname, errp);
+>>>>
+>>>>    }
+> 
+> This becomes a trivial wrapper around qemu_get_fd().  Why do we need
+> both functions?
 
-That numbering scheme is designed to be compatible with the first
-versions of QEMU (for RISC-V), that didn't send a target description,
-and relied on a fixed numbering scheme.
+As Donnerstag said, the qemu_get_fd() in osdep.c is project wide 
+function that is also needed by the test codes, such as 
+test-unit-sockets.c and test-char.c. if direclty call monitor_fd_param() 
+in socket_get_fd(), a stub version of monitor_fd_param() need to be 
+defined for the test codes and adjust the overwritten api in test codes.
 
-Because of the way that QEMU manages its target descriptions,
-recording the number of registers in each feature, and just relying on
-GDB's numbering starting from 0, then I propose that we remove all the
-fixed numbering from the RISC-V feature xml files, and just rely on
-the standard numbering scheme.  Plenty of other targets manage their
-xml files this way, e.g. ARM, AArch64, Loongarch, m68k, rx, and s390.
 
-Signed-off-by: Andrew Burgess <aburgess@redhat.com>
----
- gdb-xml/riscv-32bit-cpu.xml | 6 +-----
- gdb-xml/riscv-32bit-fpu.xml | 6 +-----
- gdb-xml/riscv-64bit-cpu.xml | 6 +-----
- gdb-xml/riscv-64bit-fpu.xml | 6 +-----
- 4 files changed, 4 insertions(+), 20 deletions(-)
+>>>>   
+>>>>    /* Please update hmp-commands.hx when adding or changing commands */
+>>>>
+>>>> diff --git a/util/osdep.c b/util/osdep.c
+>>>> index 60fcbbaebe..c57551ca78 100644
+>>>> --- a/util/osdep.c
+>>>> +++ b/util/osdep.c
+>>>> @@ -23,6 +23,7 @@
+>>>>
+>>>>     */
+>>>>    #include "qemu/osdep.h"
+>>>>    #include "qapi/error.h"
+>>>>
+>>>> +#include "qemu/ctype.h"
+>>>>
+>>>>    #include "qemu/cutils.h"
+>>>>    #include "qemu/sockets.h"
+>>>>    #include "qemu/error-report.h"
+>>>>
+>>>> @@ -413,6 +414,30 @@ int qemu_close(int fd)
+>>>>
+>>>>        return close(fd);
+>>>>    }
+>>>>
+>>>> +int qemu_get_fd(Monitor *mon, const char *fdname, Error **errp)
+>>>> +{
+>>>> +    int fd;
+>>>> +    Error *local_err = NULL;
+>>>> +
+>>>> +    if (!qemu_isdigit(fdname[0]) && mon) {
+>>>> +        fd = monitor_get_fd(mon, fdname, &local_err);
+>>>> +    } else {
+>>>> +        fd = qemu_parse_fd(fdname);
+>>>> +        if (fd == -1) {
+>>>> +            error_setg(&local_err, "Invalid file descriptor number '%s'",
+>>>> +                       fdname);
+>>>> +        }
+>>>> +    }
+>>>> +    if (local_err) {
+>>>> +        error_propagate(errp, local_err);
+>>>> +        assert(fd == -1);
+>>>> +    } else {
+>>>> +        assert(fd != -1);
+>>>> +    }
+>>>> +
+>>>> +    return fd;
+>>>> +}
+>>>> +
+>>
+>> Up to here you are basically just moving the code of monitor_fd_param() to a
+>> project wide shared new function qemu_get_fd(), but why? I mean you could
+>> simply call monitor_fd_param() in socket_get_fd() below, no?
+> 
+> Point.
+> 
+>>>>    /*
+>>>>     * Delete a file from the filesystem, unless the filename is
+>>>>
+>>>> /dev/fdset/...
+>>>>
+>>>>     *
+>>>>
+>>>> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+>>>> index 13b5b197f9..92960ee6eb 100644
+>>>> --- a/util/qemu-sockets.c
+>>>> +++ b/util/qemu-sockets.c
+>>>> @@ -1142,19 +1142,12 @@ static int socket_get_fd(const char *fdstr,
+>>>> Error **errp)
+>>>>
+>>>>    {
+>>>>        Monitor *cur_mon = monitor_cur();
+>>>>        int fd;
+>>>>
+>>>> -    if (cur_mon) {
+>>>> -        fd = monitor_get_fd(cur_mon, fdstr, errp);
+>>>> -        if (fd < 0) {
+>>>> -            return -1;
+>>>> -        }
+>>>> -    } else {
+>>>> -        if (qemu_strtoi(fdstr, NULL, 10, &fd) < 0) {
+>>>> -            error_setg_errno(errp, errno,
+>>>> -                             "Unable to parse FD number %s",
+>>>> -                             fdstr);
+>>>> -            return -1;
+>>>> -        }
+>>>> +
+>>>> +    fd = qemu_get_fd(cur_mon, fdstr, errp);
+>>>> +    if (fd < 0) {
+>>>> +        return -1;
+>>>>
+>>>>        }
+>>
+>> This part looks like behaviour change to me. Haven't looked into the details
+>> though whether it would be OK. Just saying.
+> 
+> When factoring out code that isn't obviously the same, it often makes
+> sense to first make it more obviously the same in-place, and only then
+> factor it out.
+> 
+> In this case: have PATCH 1/2 change socket_get_fd() in-place to make the
+> code obviously common, then de-duplicate it in PATCH 2/2.
+> 
 
-diff --git a/gdb-xml/riscv-32bit-cpu.xml b/gdb-xml/riscv-32bit-cpu.xml
-index 0d07aaec85..466f2c0648 100644
---- a/gdb-xml/riscv-32bit-cpu.xml
-+++ b/gdb-xml/riscv-32bit-cpu.xml
-@@ -5,13 +5,9 @@
-      are permitted in any medium without royalty provided the copyright
-      notice and this notice are preserved.  -->
- 
--<!-- Register numbers are hard-coded in order to maintain backward
--     compatibility with older versions of tools that didn't use xml
--     register descriptions.  -->
--
- <!DOCTYPE feature SYSTEM "gdb-target.dtd">
- <feature name="org.gnu.gdb.riscv.cpu">
--  <reg name="zero" bitsize="32" type="int" regnum="0"/>
-+  <reg name="zero" bitsize="32" type="int"/>
-   <reg name="ra" bitsize="32" type="code_ptr"/>
-   <reg name="sp" bitsize="32" type="data_ptr"/>
-   <reg name="gp" bitsize="32" type="data_ptr"/>
-diff --git a/gdb-xml/riscv-32bit-fpu.xml b/gdb-xml/riscv-32bit-fpu.xml
-index 84a44ba8df..24aa087031 100644
---- a/gdb-xml/riscv-32bit-fpu.xml
-+++ b/gdb-xml/riscv-32bit-fpu.xml
-@@ -5,13 +5,9 @@
-      are permitted in any medium without royalty provided the copyright
-      notice and this notice are preserved.  -->
- 
--<!-- Register numbers are hard-coded in order to maintain backward
--     compatibility with older versions of tools that didn't use xml
--     register descriptions.  -->
--
- <!DOCTYPE feature SYSTEM "gdb-target.dtd">
- <feature name="org.gnu.gdb.riscv.fpu">
--  <reg name="ft0" bitsize="32" type="ieee_single" regnum="33"/>
-+  <reg name="ft0" bitsize="32" type="ieee_single"/>
-   <reg name="ft1" bitsize="32" type="ieee_single"/>
-   <reg name="ft2" bitsize="32" type="ieee_single"/>
-   <reg name="ft3" bitsize="32" type="ieee_single"/>
-diff --git a/gdb-xml/riscv-64bit-cpu.xml b/gdb-xml/riscv-64bit-cpu.xml
-index b8aa424ae4..c4d83de09b 100644
---- a/gdb-xml/riscv-64bit-cpu.xml
-+++ b/gdb-xml/riscv-64bit-cpu.xml
-@@ -5,13 +5,9 @@
-      are permitted in any medium without royalty provided the copyright
-      notice and this notice are preserved.  -->
- 
--<!-- Register numbers are hard-coded in order to maintain backward
--     compatibility with older versions of tools that didn't use xml
--     register descriptions.  -->
--
- <!DOCTYPE feature SYSTEM "gdb-target.dtd">
- <feature name="org.gnu.gdb.riscv.cpu">
--  <reg name="zero" bitsize="64" type="int" regnum="0"/>
-+  <reg name="zero" bitsize="64" type="int"/>
-   <reg name="ra" bitsize="64" type="code_ptr"/>
-   <reg name="sp" bitsize="64" type="data_ptr"/>
-   <reg name="gp" bitsize="64" type="data_ptr"/>
-diff --git a/gdb-xml/riscv-64bit-fpu.xml b/gdb-xml/riscv-64bit-fpu.xml
-index 9856a9d1d3..d0f17f9984 100644
---- a/gdb-xml/riscv-64bit-fpu.xml
-+++ b/gdb-xml/riscv-64bit-fpu.xml
-@@ -5,10 +5,6 @@
-      are permitted in any medium without royalty provided the copyright
-      notice and this notice are preserved.  -->
- 
--<!-- Register numbers are hard-coded in order to maintain backward
--     compatibility with older versions of tools that didn't use xml
--     register descriptions.  -->
--
- <!DOCTYPE feature SYSTEM "gdb-target.dtd">
- <feature name="org.gnu.gdb.riscv.fpu">
- 
-@@ -17,7 +13,7 @@
-     <field name="double" type="ieee_double"/>
-   </union>
- 
--  <reg name="ft0" bitsize="64" type="riscv_double" regnum="33"/>
-+  <reg name="ft0" bitsize="64" type="riscv_double"/>
-   <reg name="ft1" bitsize="64" type="riscv_double"/>
-   <reg name="ft2" bitsize="64" type="riscv_double"/>
-   <reg name="ft3" bitsize="64" type="riscv_double"/>
--- 
-2.25.4
+Thanks for you advice,
+If the codes is okay, i will send a patch set as suggested
 
+Guoyi.
+
+
+>>
+>>>>
+>>>> +
+>>
+>> Unintentional white line added?
+>>
+>>>>
+>>>>        if (!fd_is_socket(fd)) {
+>>>>            error_setg(errp, "File descriptor '%s' is not a socket", fdstr);
+>>>>            close(fd);
+> 
+> 
 
