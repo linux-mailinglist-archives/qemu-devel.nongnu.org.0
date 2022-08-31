@@ -2,56 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E532F5A82D4
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 18:15:39 +0200 (CEST)
-Received: from localhost ([::1]:53218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FD1D5A831C
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 18:25:30 +0200 (CEST)
+Received: from localhost ([::1]:40222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTQNO-0005WA-KT
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 12:15:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51974)
+	id 1oTQWu-0005my-V3
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 12:25:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oTQAa-0000gp-Az; Wed, 31 Aug 2022 12:02:24 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:22209)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oTQAV-0005aE-Pb; Wed, 31 Aug 2022 12:02:23 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id CDA12746324;
- Wed, 31 Aug 2022 18:02:15 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 8F7C07462D3; Wed, 31 Aug 2022 18:02:15 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 8DFF7745702;
- Wed, 31 Aug 2022 18:02:15 +0200 (CEST)
-Date: Wed, 31 Aug 2022 18:02:15 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: BB <shentey@gmail.com>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- Huacai Chen <chenhuacai@kernel.org>, 
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>, 
- Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: Re: [PATCH v3 06/10] hw/isa/vt82c686: Instantiate USB functions in
- host device
-In-Reply-To: <5DE06ABD-34E9-4186-9922-B62C92A56798@gmail.com>
-Message-ID: <d32d6e66-ed13-2c9-6da4-d3c63796d66@eik.bme.hu>
-References: <20220831095914.2041-1-shentey@gmail.com>
- <20220831095914.2041-7-shentey@gmail.com>
- <331bbd5a-aeaa-d5c0-cf8f-cde5b22d8a3@eik.bme.hu>
- <96C4E9E5-4875-4B49-B176-673BAAEE7993@gmail.com>
- <48b1c17d-fa2f-c2f7-b22-79eb6e8f55b@eik.bme.hu>
- <5DE06ABD-34E9-4186-9922-B62C92A56798@gmail.com>
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1oTQMJ-0004tM-6d
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 12:14:32 -0400
+Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:39544)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1oTQMH-0007ei-Bo
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 12:14:30 -0400
+Received: by mail-lf1-x12d.google.com with SMTP id p16so2634275lfd.6
+ for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 09:14:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc; bh=rBgwgKoSwyzt+MgliJUiZyW9I34EqddDEjKPCPEjTXU=;
+ b=LvhDh6Kl6Od8204gd3TtxfeebQaZfiyBelCwJxk+PWVdVKhrAIzrM9z5UGn5c45ULj
+ spnF59goWGZF21qqBkzVuTr0kJ5SzNuabNT6dMaLsFtwM+IcVjDHxztAH6Exl0UJp64G
+ 15HOfOjlPH42pdFd0XsASrfVGp9fhNpsSxurGUJDy2DivFoQq0m3YDKsahhhdjR/j+HN
+ Upnga0Lwqf/3sj9DWV+Mgdk+sZp0Ox44N4+ejjI+Zg5MB7iyQlL/qzVGnxIDJLI1fDlI
+ z4aI1pF0PpcE/G9eKJvN1Yrlmq33Vy3fQ0EFo0Nl+XH/n79C72BQFuVg7tYiNgXYch5F
+ PoBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc;
+ bh=rBgwgKoSwyzt+MgliJUiZyW9I34EqddDEjKPCPEjTXU=;
+ b=BCpn1HpV+QpbvVVxP6hA4JEGtQsOEc7sX3uhUl9lpgF3w4YW6NDNQq+kJYcNl2LWIV
+ GLf42JUdtJrw15+8LI0Rwsm4VphrlJUNmcvA0txf8t67pgyVrklfiiVH2V00ne+PqV6s
+ XjOVeBPuo7C+LAJdhO0q6RMVS0e/mhIfmVvVLz7r7X5gWACjLUZUhrp1hcPWa/aNFREX
+ eVJQoaGlgIRZfRlFqCLEJIzIelpWLJIvGP6UE+X6kNBRkaMBE/rvei3bwVga3B9jVWcj
+ OfSSt8zYyYFcnhqrFF1dtkdP3j34nc9Q4526A9EsmQ28ldCjfFdfnJBD8lclN7PcCnWd
+ rVAQ==
+X-Gm-Message-State: ACgBeo1d2niKYUP29MZM5qfCIyJm9T6R7sAEKoTJ++Vz/MXzRS4FfqTr
+ /fUh18rkclr7dDtUEsdAavo=
+X-Google-Smtp-Source: AA6agR52XbP9gmK99itPuXpj3GwJbuBuUPkR/wVQpqBOAb9Yo6+K2op0T70Z4U96yaNA9L6JpYRlcQ==
+X-Received: by 2002:a05:6512:c1c:b0:494:6c98:a298 with SMTP id
+ z28-20020a0565120c1c00b004946c98a298mr4278565lfu.18.1661962467070; 
+ Wed, 31 Aug 2022 09:14:27 -0700 (PDT)
+Received: from gmail.com (81-232-4-135-no39.tbcn.telia.com. [81.232.4.135])
+ by smtp.gmail.com with ESMTPSA id
+ g8-20020a2ea4a8000000b0026707e5a611sm791580ljm.20.2022.08.31.09.14.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 31 Aug 2022 09:14:26 -0700 (PDT)
+Date: Wed, 31 Aug 2022 18:14:26 +0200
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Mark Burton <mburton@qti.qualcomm.com>, Bill Mills <bill.mills@linaro.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Michael Rolnik <mrolnik@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Song Gao <gaosong@loongson.cn>, Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Markus Armbruster <armbru@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Luc Michel <luc@lmichel.fr>,
+ Damien Hedde <damien.hedde@greensocs.com>,
+ Alessandro Di Federico <ale@rev.ng>
+Subject: Re: Any interest in a QEMU emulation BoF at KVM Forum?
+Message-ID: <20220831161426.GA813051@toto>
+References: <87a67kphih.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87a67kphih.fsf@linaro.org>
+Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x12d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,68 +106,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 31 Aug 2022, BB wrote:
-> Am 31. August 2022 17:03:35 MESZ schrieb BALATON Zoltan <balaton@eik.bme.hu>:
->> On Wed, 31 Aug 2022, BB wrote:
->>> Am 31. August 2022 15:23:37 MESZ schrieb BALATON Zoltan <balaton@eik.bme.hu>:
->>>> On Wed, 31 Aug 2022, Bernhard Beschow wrote:
->>>>> The USB functions can be enabled/disabled through the ISA function. Also
->>>>> its interrupt routing can be influenced there.
->>>>>
->>>>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->>>>> ---
->>>>> hw/isa/vt82c686.c   | 12 ++++++++++++
->>>>> hw/mips/fuloong2e.c |  3 ---
->>>>> hw/ppc/pegasos2.c   |  4 ----
->>>>> 3 files changed, 12 insertions(+), 7 deletions(-)
->>>>>
->>>>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
->>>>> index 9d946cea54..66a4b9c230 100644
->>>>> --- a/hw/isa/vt82c686.c
->>>>> +++ b/hw/isa/vt82c686.c
->>>>> @@ -23,6 +23,7 @@
->>>>> #include "hw/intc/i8259.h"
->>>>> #include "hw/irq.h"
->>>>> #include "hw/dma/i8257.h"
->>>>> +#include "hw/usb/hcd-uhci.h"
->>>>> #include "hw/timer/i8254.h"
->>>>> #include "hw/rtc/mc146818rtc.h"
->>>>> #include "migration/vmstate.h"
->>>>> @@ -546,6 +547,7 @@ struct ViaISAState {
->>>>>     qemu_irq *isa_irqs;
->>>>>     ViaSuperIOState via_sio;
->>>>>     PCIIDEState ide;
->>>>> +    UHCIState uhci[2];
->>>>> };
->>>>>
->>>>> static const VMStateDescription vmstate_via = {
->>>>> @@ -563,6 +565,8 @@ static void via_isa_init(Object *obj)
->>>>>     ViaISAState *s = VIA_ISA(obj);
->>>>>
->>>>>     object_initialize_child(obj, "ide", &s->ide, "via-ide");
->>>>> +    object_initialize_child(obj, "uhci1", &s->uhci[0], "vt82c686b-usb-uhci");
->>>>> +    object_initialize_child(obj, "uhci2", &s->uhci[1], "vt82c686b-usb-uhci");
->>>>
->>>> Sorry for not saying this yesterday, this can also be done separately so no need for another version of this series if not needed for another reason but could we add a define for vt82c686b-usb-uhci in include/hw/isa/vt82c686.h and use that here and in hw/usb/vt82c686-uhci-pci.c ?
->>>
->>> Would creating a dedicated header work, too? Board code doesn't need to see the define any longer.
->>
->> I don't think it needs a separate header just for this so I'd put it in vt82c686.h but I don't mind either way.
->
-> Alright, I'll take the easy route for now. Splitting in dedicated headers (also for the other devices) could be done in a separate series.
+On Wed, Aug 31, 2022 at 03:35:19PM +0100, Alex Bennée wrote:
+> Hi,
+> 
+> Given our slowly growing range of TCG emulations and the evident
+> interest in keeping up with modern processor architectures is it worth
+> having an emulation focused BoF at the up-coming KVM Forum?
 
-I'll do this for via-ac97 when rabasing my WIP patch:
 
-https://osdn.net/projects/qmiga/scm/git/qemu/commits
+Hi Alex,
 
-as I'll need to move ViaAC97State there too for embedding in ViaISAState. 
-The other ones 
-can stay in vt82c686.h I think.
+Yes, I'd be interested in all topics you mention.
 
-(The reason this is still WIP is that it does not work and I'm not sure 
-why, Maybe I need to test with a Linux guest to find out more but I 
-haven't got to that yet.)
+Best regards,
+Edgar
 
-Regards,
-BALATON Zoltan
+
+
+> 
+> Some potential topics for discussion I could think of might include:
+> 
+>  * Progress towards heterogeneous vCPU emulation
+> 
+>  We've been making slow progress in removing assumptions from the
+>  various front-ends about their global nature and adding accel:TCG
+>  abstractions and support for the translator loop. We can already have
+>  CPUs from the same architecture family in a model. What else do we need
+>  to do so we can have those funky ARM+RiscV+Tricore heterogeneous
+>  models? Is it library or something else?
+> 
+>  * External Device Models
+> 
+>  I know this is a contentious topic given the potential for GPL
+>  end-runs. However there are also good arguments for enabling the
+>  testing of open source designs without having forcing the
+>  implementation of a separate C model to test software. For example if
+>  we hypothetically modelled a Pi Pico would it make sense to model the
+>  PIO in C if we could just compile the Verilog for it into a SystemC
+>  model? Would a plethora of closed device models be the inevitable
+>  consequence of such an approach? Would it matter if we just
+>  concentrated on supporting useful open source solutions?
+> 
+>  * Dynamic Machine Models
+> 
+>  While we try and avoid modelling bespoke virtual HW in QEMU
+>  (virt/goldfish not withstanding ;-) there is obviously a desire in the
+>  EDA space to allow such experimentation. Is this something we can
+>  provide so aspiring HW engineers can experiment with system
+>  architectures without having to form QEMU and learn QOM. There have
+>  been suggestions about consuming device trees or maybe translating to
+>  QMP calls and adding support for wiring devices together. Given the
+>  number of forks that exist is this something that could be better
+>  supported upstream without degenerating into messy hacks?
+> 
+>  * A sense of time
+> 
+>  Currently we have the fairly limited support for -icount in QEMU. At
+>  the same time we have no desire to start expanding frontends with
+>  the details cost models required for a more realistic sense of time to
+>  be presented. One suggestion is to expand the TCG plugin interface to
+>  allow for the plugin to control time allowing as much or little logic
+>  to be pushed there as we like and freeing up frontends from ever having
+>  to consider it.
+> 
+> Are any of these topics of interest? Are there any other emulation
+> topics people would like to discuss?
+> 
+> -- 
+> Alex Bennée
 
