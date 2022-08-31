@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B0E5A7AE4
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 12:05:31 +0200 (CEST)
-Received: from localhost ([::1]:54464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 622A15A7B22
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 12:14:58 +0200 (CEST)
+Received: from localhost ([::1]:42418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTKb7-0004dg-8c
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 06:05:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60240)
+	id 1oTKkL-0002Kp-Eu
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 06:14:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTKXu-0006hq-Re; Wed, 31 Aug 2022 06:02:08 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:34527)
+ id 1oTKaG-0003MP-Hk; Wed, 31 Aug 2022 06:04:32 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:36733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTKXp-0002tN-Ci; Wed, 31 Aug 2022 06:02:06 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id y3so27339135ejc.1;
- Wed, 31 Aug 2022 03:02:00 -0700 (PDT)
+ id 1oTKaD-00037z-HB; Wed, 31 Aug 2022 06:04:32 -0400
+Received: by mail-ej1-x636.google.com with SMTP id h5so15744096ejb.3;
+ Wed, 31 Aug 2022 03:04:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=obQp6NQzWI+X1Co65VCGEoT2U7NzfSKh1zFM6ypADqQ=;
- b=NgQ5wc0SKsYCxCtVxdel2NUzm918gJM40NyoRd/KCFGjTAQRrazmk9RvC90DNnCPCG
- tb4MRROk+yb+NHrSwE1/He3S1PEG29ayAeg9JWiFS+2hChOENAMibc7fEtz72qdf8wQw
- jkiioim/FTw6Of9MnRag2kI26zIGkinmXQrW4jc9UiAypxzacrzRYXHroO5gads00jJW
- k8mrKVI4PTusS86cGSS4Z32a8WLEGHuu+iEbOn0XHtIfVQuZOXUJ6Tf4l3xVR730O6jb
- D0xyNg4L2HA1hjy59x2n47D9SHd2zuJUnfpUXxJxvHt6eIs9iM0PWDNOoBkgLGnFr5yx
- n+ow==
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc;
+ bh=CG8DkFmdjJ+sXBHlXVRu1V/JVQKirJlrvRphf/U0eM0=;
+ b=lb+A2kBznrczqtwpUFCWPHzesloCt83+vKuQ+ED7KoaZmKD/yLblmUTymmDHjF90Ln
+ osk01zg51NKjT1ASJurwq6H8+HrXmtwGAmf8GQDrAQA/A7tUPUFUvWUXYpemSXn7sbBf
+ b+k1IuwQNMXuXdGax7LsLGrNS2jhuw7qyiuuFYdb6YX/NvFBr8Te5cwRijMh3bs22mio
+ ZY0JSVu9FBPtKolv8GVSgOcwB/GzOOOl0HGl7bpSnwoz2l+WYI3bAvoMbvah4OjI+2X7
+ q6KJUT4/z/vMLtmjeBl1b1VPFguhSpvuMNXAYUoCU/ct+Lnj2UI0Tvf/1MdGTroR7Wjp
+ zrDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=obQp6NQzWI+X1Co65VCGEoT2U7NzfSKh1zFM6ypADqQ=;
- b=WUbpOHRbPb/44f5ZPeVsPOQOL9Ihl0snSu+Npf4nDip9O8jP4ol+nPn1HoBJxj0fVU
- LOecW7naCHQeEnFOesW/tsUG0NiHVgli5pbKzYaOQxpIZ7Jnmc/YAacP6dr6BqCTBzlx
- QvhCNo1lXA9a3dZ58a5kp7zPJ8zjpTRB3d3ESMv7wraA2/Wp78wlMKc1vuGg69hCUwC+
- I4H+l8qWeER3OTsgG+X4nHFTrV38Mr7AQFxO7CIbUqJ5h4ZcVnv4rpGAhYrXDP2QdPgQ
- 0upPWvZhsHIIWawk46NFSR24HV32f8FxmO1EjqqxERzEyjbOQgdi13LNN7hyOMlofFtI
- 2loA==
-X-Gm-Message-State: ACgBeo1DdYMcqHKwuQg1+IrDZg5oKz5q0AU9RUAhJVrxyIBSGohS++Je
- yeXusyyCCz6FLPiXpMgQzL8ARQENv6s=
-X-Google-Smtp-Source: AA6agR564hlNxDKWQ1ABz93bapnMeo2ZJpJLZ9GWPLOWZrM+Nyja96RHby5NHOfqtfjYWz1A1ObfiA==
-X-Received: by 2002:a17:906:fe46:b0:73d:939a:ec99 with SMTP id
- wz6-20020a170906fe4600b0073d939aec99mr20004715ejb.169.1661940120095; 
- Wed, 31 Aug 2022 03:02:00 -0700 (PDT)
-Received: from osoxes.fritz.box (pd95ed71f.dip0.t-ipconnect.de.
- [217.94.215.31]) by smtp.gmail.com with ESMTPSA id
- 6-20020a170906310600b0073c10031dc9sm6449583ejx.80.2022.08.31.03.01.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 03:01:59 -0700 (PDT)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, Huacai Chen <chenhuacai@kernel.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- BALATON Zoltan <balaton@eik.bme.hu>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v3 10/10] hw/isa/vt82c686: Create rtc-time alias in boards
- instead
-Date: Wed, 31 Aug 2022 11:59:14 +0200
-Message-Id: <20220831095914.2041-11-shentey@gmail.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220831095914.2041-1-shentey@gmail.com>
-References: <20220831095914.2041-1-shentey@gmail.com>
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc;
+ bh=CG8DkFmdjJ+sXBHlXVRu1V/JVQKirJlrvRphf/U0eM0=;
+ b=7xFiNse4OY6a0kYiH+MXPQamei7ELzxyFC+OZ3RTVLsh+yYmi0URBsWNTYzLIQrYKl
+ VdIKXxz+27GkjhbH8FMQ64rttumA7Klqjy8t7/RuXbi42BpiZRA1pEW+yt3r8Zyao9O/
+ hQlo5UyYonVPJ1Su7iHl+qmD8wK4+7cPxM/fxjisyqeyJak67sr+IkuNt9G19dvpxRPS
+ opmLPeCAb9/JdJ01mJLQXb4MIlvIvzMZL8aVtvGj4T7fQ20N9kcGXrQG1cOpockacVQ8
+ 7hnW8G1pqrH05DytmV/LJlzv/sgpw33TyxsX0UPqrXspVlVL+iVpuTEcJuAQ95+e6Mzx
+ P2wg==
+X-Gm-Message-State: ACgBeo3JiXV0q9lQ14467dJOxKYDGj1LCWaUkxRMgFtPTxrzzYKWrptU
+ DKLlBKof0wCt3aEV9UIO2/Q=
+X-Google-Smtp-Source: AA6agR5eWd7kJRDUbulaIfMnxkzqHAtb2KT1/8tTeER84v8SnS6Tn2LgV89p6YcMttnh6eZi/DORJg==
+X-Received: by 2002:a17:906:7e43:b0:738:6395:8d94 with SMTP id
+ z3-20020a1709067e4300b0073863958d94mr20344675ejr.54.1661940267895; 
+ Wed, 31 Aug 2022 03:04:27 -0700 (PDT)
+Received: from ?IPv6:::1?
+ (p200300faaf0bb200a5066d0f8b32ea85.dip0.t-ipconnect.de.
+ [2003:fa:af0b:b200:a506:6d0f:8b32:ea85])
+ by smtp.gmail.com with ESMTPSA id
+ 1-20020a170906218100b0072af4af2f46sm6911624eju.74.2022.08.31.03.04.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 31 Aug 2022 03:04:27 -0700 (PDT)
+Date: Wed, 31 Aug 2022 12:04:23 +0200
+From: BB <shentey@gmail.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+CC: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_07/10=5D_hw/isa/vt82c686=3A_?=
+ =?US-ASCII?Q?Instantiate_PM_function_in_host_device?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <a41e60b2-7e36-fd5a-e440-1a5b20bf2543@eik.bme.hu>
+References: <20220830190048.67448-1-shentey@gmail.com>
+ <20220830190048.67448-8-shentey@gmail.com>
+ <a41e60b2-7e36-fd5a-e440-1a5b20bf2543@eik.bme.hu>
+Message-ID: <749FA66B-4740-458D-9E17-928950280797@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62b.google.com
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,62 +96,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to good QOM practice, an object should only deal with objects
-of its own sub tree. Having devices create an alias on the machine
-object doesn't respect this good practice. To resolve this, create the
-alias in the machine's code.
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- hw/isa/vt82c686.c   | 2 --
- hw/mips/fuloong2e.c | 4 ++++
- hw/ppc/pegasos2.c   | 4 ++++
- 3 files changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 0ddb04b433..d5200af0ff 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -632,8 +632,6 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
-     if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
-         return;
-     }
--    object_property_add_alias(qdev_get_machine(), "rtc-time", OBJECT(&s->rtc),
--                              "date");
-     isa_connect_gpio_out(ISA_DEVICE(&s->rtc), 0, s->rtc.isairq);
- 
-     for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index 2d8723ab74..0f4cfe1188 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -203,6 +203,10 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
- 
-     via = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(slot, 0), true,
-                                           TYPE_VT82C686B_ISA);
-+    object_property_add_alias(qdev_get_machine(), "rtc-time",
-+                              object_resolve_path_component(OBJECT(via),
-+                                                            "rtc"),
-+                              "date");
-     qdev_connect_gpio_out(DEVICE(via), 0, intc);
- 
-     dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"));
-diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-index 09fdb7557f..f50e1d8b3f 100644
---- a/hw/ppc/pegasos2.c
-+++ b/hw/ppc/pegasos2.c
-@@ -161,6 +161,10 @@ static void pegasos2_init(MachineState *machine)
-     /* VIA VT8231 South Bridge (multifunction PCI device) */
-     via = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0), true,
-                                           TYPE_VT8231_ISA);
-+    object_property_add_alias(qdev_get_machine(), "rtc-time",
-+                              object_resolve_path_component(OBJECT(via),
-+                                                            "rtc"),
-+                              "date");
-     qdev_connect_gpio_out(DEVICE(via), 0,
-                           qdev_get_gpio_in_named(pm->mv, "gpp", 31));
- 
--- 
-2.37.3
+Am 31=2E August 2022 00:39:22 MESZ schrieb BALATON Zoltan <balaton@eik=2Eb=
+me=2Ehu>:
+>On Tue, 30 Aug 2022, Bernhard Beschow wrote:
+>> The PM controller has activity bits which monitor activity of other
+>> built-in devices in the host device=2E
+>>=20
+>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>> ---
+>> hw/isa/vt82c686=2Ec         | 12 ++++++++++++
+>> hw/mips/fuloong2e=2Ec       |  2 +-
+>> hw/ppc/pegasos2=2Ec         |  3 +--
+>> include/hw/isa/vt82c686=2Eh |  2 --
+>> 4 files changed, 14 insertions(+), 5 deletions(-)
+>>=20
+>> diff --git a/hw/isa/vt82c686=2Ec b/hw/isa/vt82c686=2Ec
+>> index 6aba7f29de=2E=2E4e66570655 100644
+>> --- a/hw/isa/vt82c686=2Ec
+>> +++ b/hw/isa/vt82c686=2Ec
+>> @@ -40,6 +40,9 @@
+>> #define TYPE_VIA_PM "via-pm"
+>> OBJECT_DECLARE_SIMPLE_TYPE(ViaPMState, VIA_PM)
+>>=20
+>> +#define TYPE_VT82C686B_PM "vt82c686b-pm"
+>> +#define TYPE_VT8231_PM "vt8231-pm"
+>
+>These defines should be further down before vt82c686b_pm_init_info and vt=
+8231_pm_init_info respectively to keep object class definitions together=2E=
+ Here the generic abstract superclass is defined, followed be the specific =
+chips so it's too early to define these at this point=2E
 
+Right=2E Fixed in v3=2E
+
+Regards,
+Bernhard
+>
+>Regards,
+>BALATON Zoltan
+>
+>> +
+>> struct ViaPMState {
+>>     PCIDevice dev;
+>>     MemoryRegion io;
+>> @@ -548,6 +551,7 @@ struct ViaISAState {
+>>     ViaSuperIOState via_sio;
+>>     PCIIDEState ide;
+>>     UHCIState uhci[2];
+>> +    ViaPMState pm;
+>> };
+>>=20
+>> static const VMStateDescription vmstate_via =3D {
+>> @@ -641,6 +645,12 @@ static void via_isa_realize(PCIDevice *d, Error **=
+errp)
+>>             return;
+>>         }
+>>     }
+>> +
+>> +    /* Function 4: Power Management */
+>> +    qdev_prop_set_int32(DEVICE(&s->pm), "addr", d->devfn + 4);
+>> +    if (!qdev_realize(DEVICE(&s->pm), BUS(pci_bus), errp)) {
+>> +        return;
+>> +    }
+>> }
+>>=20
+>> /* TYPE_VT82C686B_ISA */
+>> @@ -683,6 +693,7 @@ static void vt82c686b_init(Object *obj)
+>>     ViaISAState *s =3D VIA_ISA(obj);
+>>=20
+>>     object_initialize_child(obj, "sio", &s->via_sio, TYPE_VT82C686B_SUP=
+ERIO);
+>> +    object_initialize_child(obj, "pm", &s->pm, TYPE_VT82C686B_PM);
+>> }
+>>=20
+>> static void vt82c686b_class_init(ObjectClass *klass, void *data)
+>> @@ -746,6 +757,7 @@ static void vt8231_init(Object *obj)
+>>     ViaISAState *s =3D VIA_ISA(obj);
+>>=20
+>>     object_initialize_child(obj, "sio", &s->via_sio, TYPE_VT8231_SUPERI=
+O);
+>> +    object_initialize_child(obj, "pm", &s->pm, TYPE_VT8231_PM);
+>> }
+>>=20
+>> static void vt8231_class_init(ObjectClass *klass, void *data)
+>> diff --git a/hw/mips/fuloong2e=2Ec b/hw/mips/fuloong2e=2Ec
+>> index dc92223b76=2E=2E377108d313 100644
+>> --- a/hw/mips/fuloong2e=2Ec
+>> +++ b/hw/mips/fuloong2e=2Ec
+>> @@ -208,7 +208,7 @@ static void vt82c686b_southbridge_init(PCIBus *pci_=
+bus, int slot, qemu_irq intc,
+>>     dev =3D PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"=
+));
+>>     pci_ide_create_devs(dev);
+>>=20
+>> -    dev =3D pci_create_simple(pci_bus, PCI_DEVFN(slot, 4), TYPE_VT82C6=
+86B_PM);
+>> +    dev =3D PCI_DEVICE(object_resolve_path_component(OBJECT(via), "pm"=
+));
+>>     *i2c_bus =3D I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
+>>=20
+>>     /* Audio support */
+>> diff --git a/hw/ppc/pegasos2=2Ec b/hw/ppc/pegasos2=2Ec
+>> index 85cca6f7a6=2E=2Ee32944ee2b 100644
+>> --- a/hw/ppc/pegasos2=2Ec
+>> +++ b/hw/ppc/pegasos2=2Ec
+>> @@ -168,8 +168,7 @@ static void pegasos2_init(MachineState *machine)
+>>     dev =3D PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"=
+));
+>>     pci_ide_create_devs(dev);
+>>=20
+>> -    /* VT8231 function 4: Power Management Controller */
+>> -    dev =3D pci_create_simple(pci_bus, PCI_DEVFN(12, 4), TYPE_VT8231_P=
+M);
+>> +    dev =3D PCI_DEVICE(object_resolve_path_component(OBJECT(via), "pm"=
+));
+>>     i2c_bus =3D I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
+>>     spd_data =3D spd_data_generate(DDR, machine->ram_size);
+>>     smbus_eeprom_init_one(i2c_bus, 0x57, spd_data);
+>> diff --git a/include/hw/isa/vt82c686=2Eh b/include/hw/isa/vt82c686=2Eh
+>> index 56ac141be3=2E=2E559f7c8926 100644
+>> --- a/include/hw/isa/vt82c686=2Eh
+>> +++ b/include/hw/isa/vt82c686=2Eh
+>> @@ -4,9 +4,7 @@
+>> #include "hw/pci/pci=2Eh"
+>>=20
+>> #define TYPE_VT82C686B_ISA "vt82c686b-isa"
+>> -#define TYPE_VT82C686B_PM "vt82c686b-pm"
+>> #define TYPE_VT8231_ISA "vt8231-isa"
+>> -#define TYPE_VT8231_PM "vt8231-pm"
+>> #define TYPE_VIA_AC97 "via-ac97"
+>> #define TYPE_VIA_MC97 "via-mc97"
+>>=20
+>>=20
 
