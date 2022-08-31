@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C125A7AFD
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 12:09:06 +0200 (CEST)
-Received: from localhost ([::1]:39506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61C645A7AF7
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 12:08:06 +0200 (CEST)
+Received: from localhost ([::1]:51666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTKef-0002an-Eg
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 06:09:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60242)
+	id 1oTKdh-00010D-8M
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 06:08:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTKXz-0006jd-2c; Wed, 31 Aug 2022 06:02:12 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:37622)
+ id 1oTKXn-0006T5-58; Wed, 31 Aug 2022 06:01:59 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:35832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTKXj-0002sk-Ht; Wed, 31 Aug 2022 06:02:10 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id nc14so22383154ejc.4;
- Wed, 31 Aug 2022 03:01:54 -0700 (PDT)
+ id 1oTKXl-0002su-HB; Wed, 31 Aug 2022 06:01:58 -0400
+Received: by mail-ej1-x636.google.com with SMTP id og21so27315309ejc.2;
+ Wed, 31 Aug 2022 03:01:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=kziy975Ku9ck3Do5y4RHLxQM6WcJLVSaw/Wzvh4zx/s=;
- b=ll6REgkrTF5ggEcd8E4a0O9eWmjzQDTduFH8PLL0184pauPl8/2NZEvBsK5r0LSMyf
- 6w/NdjJKVf1uAEGrnkvtPRiOZeL+iy9+9HwjqK2BuBHcDC6MUQ2BO32gskslbbU51Jqm
- ZhbtAzfDLAOEmXR5SHMKJNrSnSCa+TvJrh7x8VHv5yQtFCtx1RitB/4XWXSK2bDdSl4a
- o3kfMyYMqrmwT3m8xls9LIQEU0ywrySh1udcN2nyynf+wt8JKbJ6VJ+mkt24DC+hFKzn
- XSaEdDPYf4yYVCSXwIrqwYvNjX2pUZlhWHfthUcJ+RaZldVK3pOoKudX3s42AmkycruN
- 52Wg==
+ bh=nD+jGqQYURG5xsaq+oD5YvWClrYTdwH6ZUzIb2BISlw=;
+ b=QrsOWhoLGZxMRSXXTP8jaegdALU83PHnik1NeMSB27JqxKkg1hMrasqP+ntijQbmAj
+ Q2gumQcvuXuyxHtXZG/YebwZjNCfl0rKkt0jIFW/Ys86DZwW1CzltXPUUxr2zHshqX9V
+ wUTtjVQ75kyxOEuap7l5kpVhuuv9K/n33sMTLraWMXZC5OgjnEGFjaIeM+kk4pnnYaZN
+ F2DrmL28nIt+dx3bPK8hpV3fVKveTwJtnKOMFFmzWFDJuqE+nbpnIwj2Nz3qGLYTGFak
+ 42ciek03hPjymNicCB3qZKIDshxDp4wCRZ4dewzZaydSZjx0uipt6w6UovlFhEOkwiTh
+ M1yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=kziy975Ku9ck3Do5y4RHLxQM6WcJLVSaw/Wzvh4zx/s=;
- b=XLWWluDAFjtReCj9gu7UHNsCxc/WsIk76Wdt35/ZHGSWC2mNm4fWzZX1GWykZHqGsL
- b/RxmZIhad8CVOjEwmGY6xZcRioNMD9DNKQyRUXE7b6DzrV/tHKjMmPf3xVC4JesfE2j
- k1HN20oFyev2vA0ejhNsjz3Gha7VdoKbsjmKpZDbRQTzsn3+c35/kONHRiBDrCEgmKBm
- dcNJJYSXw9FWj2vqBQTkDkAeO0bgH+hCRV532wxsPHOmIAjY25ZMTEaXq+I+IwqakzEY
- aXbGhz6G7wvJ0XDDZp50H6HJ7ofNLVOsTgsTuIKe48i19F6S3hVCG2CngAeHiLbp7a/Y
- /DdA==
-X-Gm-Message-State: ACgBeo3ppFO0OX5Y79OcKDcgSutgjzdHS3XLoRgnc6AfllOJExKpL/LP
- X/+vlu/F6YZ9iy7sz57oRlH0CIqro8s=
-X-Google-Smtp-Source: AA6agR5clYhfiC4ZOcwtAqC1wDrjiJI1BIbz85U1oTewx4w94Yvn0isFGyNv+4mVElntDpC9TkCZ0g==
-X-Received: by 2002:a17:907:d08:b0:72f:b107:c07a with SMTP id
- gn8-20020a1709070d0800b0072fb107c07amr19897870ejc.340.1661940113766; 
- Wed, 31 Aug 2022 03:01:53 -0700 (PDT)
+ bh=nD+jGqQYURG5xsaq+oD5YvWClrYTdwH6ZUzIb2BISlw=;
+ b=RT0ulvey6U/GJCnj2JBzTYP2gYQ1yb8RZLTx9yw9I5cMnb8vrR1iHMtXL2dfMAoa7u
+ MvrcBnJIMdjv6gBbt1nF0FjhAuh8I9cU2l5Bhx/sPqYVmTcaearRKYnSoRV2rGTy9MLA
+ WUlTsmCoDjo/qJPhgpVXesQYPC93ZYK8zqcTXbV5D9OxTMF7SbezPYguJefqA38R2PBY
+ Uc/lbuIUf4u3dWhY8GFxENBEDik6w5WE3NPo2ErfYcJYX8r7IumZldO58ss51mw0XZaq
+ woufH+m09T9FueCBNaUrzLT+pemJSWbfhDySsob4ElZcZHr7cnSBGTlgF0HUFaftOgth
+ Ddvw==
+X-Gm-Message-State: ACgBeo1LQI8t1EFZtpSR64vvOY3FqN1iCRWiHoSnZM9kzBl7WUTNQuXM
+ 2Auq16ZbfkQAkXo/hwIGZcIWmcQJURE=
+X-Google-Smtp-Source: AA6agR73CU97SRuKT3bDoD/pCnYt8+/UH3NbJlzkRKf1j++5W7w2gK/30XZq7TdD0BBx+un+b6tFUw==
+X-Received: by 2002:a17:906:4fd0:b0:73d:be5b:291d with SMTP id
+ i16-20020a1709064fd000b0073dbe5b291dmr19702073ejw.506.1661940114643; 
+ Wed, 31 Aug 2022 03:01:54 -0700 (PDT)
 Received: from osoxes.fritz.box (pd95ed71f.dip0.t-ipconnect.de.
  [217.94.215.31]) by smtp.gmail.com with ESMTPSA id
  6-20020a170906310600b0073c10031dc9sm6449583ejx.80.2022.08.31.03.01.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 03:01:53 -0700 (PDT)
+ Wed, 31 Aug 2022 03:01:54 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, Huacai Chen <chenhuacai@kernel.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  BALATON Zoltan <balaton@eik.bme.hu>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v3 03/10] hw/isa/vt82c686: Prefer pci_address_space() over
- get_system_memory()
-Date: Wed, 31 Aug 2022 11:59:07 +0200
-Message-Id: <20220831095914.2041-4-shentey@gmail.com>
+Subject: [PATCH v3 04/10] hw/isa/vt82c686: Reuse errp
+Date: Wed, 31 Aug 2022 11:59:08 +0200
+Message-Id: <20220831095914.2041-5-shentey@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220831095914.2041-1-shentey@gmail.com>
 References: <20220831095914.2041-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, FREEMAIL_FROM=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,27 +89,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Unlike get_system_memory(), pci_address_space() respects the memory tree
-available to the parent device.
+Rather than terminating abruptly, make use of the already present errp and
+propagate the error to the caller.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/vt82c686.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/isa/vt82c686.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 9d12e1cae4..5582c0b179 100644
+index 5582c0b179..37e37b3855 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -589,7 +589,7 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
- 
+@@ -590,7 +590,12 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
      qdev_init_gpio_out(dev, &s->cpu_intr, 1);
      isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
--    isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
-+    isa_bus = isa_bus_new(dev, pci_address_space(d), pci_address_space_io(d),
-                           &error_fatal);
+     isa_bus = isa_bus_new(dev, pci_address_space(d), pci_address_space_io(d),
+-                          &error_fatal);
++                          errp);
++
++    if (!isa_bus) {
++        return;
++    }
++
      s->isa_irqs = i8259_init(isa_bus, *isa_irq);
      isa_bus_irqs(isa_bus, s->isa_irqs);
+     i8254_pit_init(isa_bus, 0x40, 0, NULL);
 -- 
 2.37.3
 
