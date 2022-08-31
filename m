@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0E905A8699
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 21:18:03 +0200 (CEST)
-Received: from localhost ([::1]:50976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B015A8665
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 21:05:08 +0200 (CEST)
+Received: from localhost ([::1]:54760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTTDu-0005RY-3R
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 15:18:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57204)
+	id 1oTT1J-00039S-Jk
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 15:05:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oTSnw-0002GO-QR; Wed, 31 Aug 2022 14:51:12 -0400
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:34809)
+ id 1oTSnz-0002QF-Ii; Wed, 31 Aug 2022 14:51:15 -0400
+Received: from mail-oa1-x2a.google.com ([2001:4860:4864:20::2a]:35751)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oTSnu-0007yY-NL; Wed, 31 Aug 2022 14:51:12 -0400
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-11ee4649dfcso19832814fac.1; 
- Wed, 31 Aug 2022 11:51:09 -0700 (PDT)
+ id 1oTSnx-00080r-Qt; Wed, 31 Aug 2022 14:51:15 -0400
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-1225219ee46so1578321fac.2; 
+ Wed, 31 Aug 2022 11:51:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=s34dAJgJQlTZYXXXG1VAC1DG4e52ZvBe1WrDqTJ/fzg=;
- b=kmzkdhM4IJsxqCs8WeAJwC2EQUkOjlG5hGadujyLOX07VZf/P9HerrC8br947yxEAF
- QlGJ2BAwfnTJu4yuiQEFcVFrfLsWdMSjoB2Nu67ZPiKHmaDAb0M3c9ltTpmWM1gxqelq
- /x8T2QDf9itqhYexEX1c9fvLd/SOIJt9LQirgtbSpNWNsE5x6Dd+647v5UfwPkF1Haey
- TXqoVMFwwl8RUMahjQ+l9nEf2c5/YXj4t56ZDDHEYozhF2yvqLgNbkT7eo2TI33xFeR4
- JxD+acUy8UOLzIiT3WqExqeKMAHhzbDMY9wJwnq0X4U+EQrWO/0614yW+VpjQXEOGsAZ
- JA/w==
+ bh=uoSuBMqd1OGd0FwTQOZvoXW2+dc1ZMYoev8zA16lDfc=;
+ b=aHkQmz3cR/Gy4rZOfOZhXiQu7Lh+C0ji/ySwpdMMSY3aCU1lcqyyLNgca/L6mJcO4p
+ Bwn0Cw5jV/G47wqN/eqO71a0aptJDj7p8w0GUIK5pxVn7co+H634GDcLPbXVC5E3RoNm
+ 9nh06hT3lp24V8IcDIVzfuGXgDacVFm5GO8Y4a3wLlG9/kL/RVqO2XRzHPAlpu90F+c1
+ 6J4me+AGCO/x8o/4ajGMe+Mxr+JRJyppODJb7+D/ScWkk4LDiUtJH8sw3JrJ2018SQgj
+ HAigC5UWXExA4WY1qsi0fpzPmHTEtP3/14vXMSkp5kx8WgXiOVLoVZT5g/D9rvR8l4XD
+ cQWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=s34dAJgJQlTZYXXXG1VAC1DG4e52ZvBe1WrDqTJ/fzg=;
- b=ZrH3brsNxYqeOq+xWsw1ovXp68Ke6xi5IJC+sEHMNDvfy1UB5eL+PB3DK7kmQkhADn
- pj8USkd5jYBPQL4+PbqxBC/q21NLbtoH6BbKv44WUD6TPCozIl/QwvWI6egQJftXPxC3
- nuPA9F15KxUTtV3CDQUd5tJtw9kHrKGLpqjdLP9kpgctzKl0TSKcgJIwOQ6xsXUTwHVq
- 87u03MQSs4MnGgWkvJD6a21DmunYlw2opklvFyJCxFIVu/O1yTxzMTBSaVaRxQDWBzlj
- Po4qD31jKMU2C/RYpuZgEzkzUJSXWD6/MPSNGl88z7Te73koN7YrvwTQjDgx1kMvoApN
- 56eg==
-X-Gm-Message-State: ACgBeo3DDrod6vUlUe/eVSo5KlZgodfvb453P41MS0IpXq8QrrdxAPv8
- m4aEu7zcsYHgi0RXkLfwYf4zK8SbvQ0=
-X-Google-Smtp-Source: AA6agR7iT0ew1g3iBFYXe5w56puKQ4TcMPYJ6KeyHEDvxXEoA6CV3hlueOmQi9daK7VuAAoNvHmi3g==
-X-Received: by 2002:a05:6808:209:b0:342:ed43:2f97 with SMTP id
- l9-20020a056808020900b00342ed432f97mr1711208oie.255.1661971869341; 
- Wed, 31 Aug 2022 11:51:09 -0700 (PDT)
+ bh=uoSuBMqd1OGd0FwTQOZvoXW2+dc1ZMYoev8zA16lDfc=;
+ b=xhybpXqeABtzZ9pUKsr6Q5etoMu4UAsyAh56DOplK/Pt0p5sxI4GjnkRZF6RyoXxrY
+ EDvJrKWey4eJ5O/TlXvH9Queqtal6kpV90oM57ccYp7EDfa76aiINotVs3IkSnATiT/d
+ o7FrEzxzon+K1JOed11T6yMyuDurVW6P+XiwrgjIjRoE6OvdtY75suKWhOULvalY/Kxx
+ ackDNZAQH9e3O7fsvIk8QQqZlpGrmRgVRQy9JPKb1K3gPpBbEAV++sOGos5VIIXu1ayf
+ nN2xOUPVpVYdLHh8YKh2BDUvQ6jdACb2nwIS9prGB3LXVofDuxKe6+lWf/mZx2gcntpv
+ WvBQ==
+X-Gm-Message-State: ACgBeo32kChKxNRrSP6y8iuUwIDnryL0XyG+tkYIy4F548Cu9bGRIdzT
+ gVF+r97dbQopElnS7xRgUNTTVaIbyQk=
+X-Google-Smtp-Source: AA6agR4XmHrf4EfPbfRygSKvZvAF/e0u5WXdsNRl6P6opaXPNI7Er9Mqp2ThAVtEJv6Z6dkkUnIntw==
+X-Received: by 2002:a05:6808:158e:b0:343:75de:38e4 with SMTP id
+ t14-20020a056808158e00b0034375de38e4mr1917056oiw.123.1661971872078; 
+ Wed, 31 Aug 2022 11:51:12 -0700 (PDT)
 Received: from balboa.COMFAST ([177.189.45.98])
  by smtp.gmail.com with ESMTPSA id
- p4-20020a9d4544000000b0061cbd18bd18sm9599927oti.45.2022.08.31.11.51.07
+ p4-20020a9d4544000000b0061cbd18bd18sm9599927oti.45.2022.08.31.11.51.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 11:51:08 -0700 (PDT)
+ Wed, 31 Aug 2022 11:51:11 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  richard.henderson@linaro.org, Frederic Barrat <fbarrat@linux.ibm.com>
-Subject: [PULL 08/60] ppc/pnv: turn PnvPHB3 into a PnvPHB backend
-Date: Wed, 31 Aug 2022 15:49:42 -0300
-Message-Id: <20220831185034.23240-9-danielhb413@gmail.com>
+Subject: [PULL 09/60] ppc/pnv: add PHB4 bus init helper
+Date: Wed, 31 Aug 2022 15:49:43 -0300
+Message-Id: <20220831185034.23240-10-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220831185034.23240-1-danielhb413@gmail.com>
 References: <20220831185034.23240-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2c;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2c.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2a;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,247 +90,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We need a handful of changes that needs to be done in a single swoop to
-turn PnvPHB3 into a PnvPHB backend.
-
-In the PnvPHB3, since the PnvPHB device implements PCIExpressHost and
-will hold the PCI bus, change PnvPHB3 parent to TYPE_DEVICE. There are a
-couple of instances in pnv_phb3.c that needs to access the PCI bus, so a
-phb_base pointer is added to allow access to the parent PnvPHB. The
-PnvPHB3 root port will now be connected to a PnvPHB object.
-
-In pnv.c, the powernv8 machine chip8 will now hold an array of PnvPHB
-objects.  pnv_get_phb3_child() needs to be adapted to return the PnvPHB3
-backend from the PnvPHB child. A global property is added in
-pnv_machine_power8_class_init() to ensure that all PnvPHBs are created
-with phb->version = 3.
-
-After all these changes we're still able to boot a powernv8 machine with
-default settings. The real gain will come with user created PnvPHB
-devices, coming up next.
+Similar to what we already did for the PnvPHB3 device, let's add a
+helper to init the bus when using a PnvPHB4. This helper will be used by
+PnvPHb when PnvPHB4 turns into a backend.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
-Message-Id: <20220624084921.399219-4-danielhb413@gmail.com>
+Message-Id: <20220624084921.399219-5-danielhb413@gmail.com>
 ---
- hw/pci-host/pnv_phb3.c         | 27 +++++----------------------
- hw/ppc/pnv.c                   | 21 +++++++++++++++------
- include/hw/pci-host/pnv_phb3.h |  5 ++++-
- include/hw/ppc/pnv.h           |  3 ++-
- 4 files changed, 26 insertions(+), 30 deletions(-)
+ hw/pci-host/pnv_phb.c          |  2 ++
+ hw/pci-host/pnv_phb4.c         | 39 ++++++++++++++++++++--------------
+ include/hw/pci-host/pnv_phb4.h |  1 +
+ 3 files changed, 26 insertions(+), 16 deletions(-)
 
-diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-index 058cbab555..ad9e983fe9 100644
---- a/hw/pci-host/pnv_phb3.c
-+++ b/hw/pci-host/pnv_phb3.c
-@@ -11,6 +11,7 @@
- #include "qapi/visitor.h"
- #include "qapi/error.h"
- #include "hw/pci-host/pnv_phb3_regs.h"
-+#include "hw/pci-host/pnv_phb.h"
- #include "hw/pci-host/pnv_phb3.h"
- #include "hw/pci/pcie_host.h"
- #include "hw/pci/pcie_port.h"
-@@ -26,7 +27,7 @@
+diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
+index 6fefff7d44..abcbcca445 100644
+--- a/hw/pci-host/pnv_phb.c
++++ b/hw/pci-host/pnv_phb.c
+@@ -69,6 +69,8 @@ static void pnv_phb_realize(DeviceState *dev, Error **errp)
  
- static PCIDevice *pnv_phb3_find_cfg_dev(PnvPHB3 *phb)
- {
--    PCIHostState *pci = PCI_HOST_BRIDGE(phb);
-+    PCIHostState *pci = PCI_HOST_BRIDGE(phb->phb_base);
-     uint64_t addr = phb->regs[PHB_CONFIG_ADDRESS >> 3];
-     uint8_t bus, devfn;
- 
-@@ -590,7 +591,7 @@ void pnv_phb3_reg_write(void *opaque, hwaddr off, uint64_t val, unsigned size)
- uint64_t pnv_phb3_reg_read(void *opaque, hwaddr off, unsigned size)
- {
-     PnvPHB3 *phb = opaque;
--    PCIHostState *pci = PCI_HOST_BRIDGE(phb);
-+    PCIHostState *pci = PCI_HOST_BRIDGE(phb->phb_base);
-     uint64_t val;
- 
-     if ((off & 0xfffc) == PHB_CONFIG_DATA) {
-@@ -1011,7 +1012,6 @@ void pnv_phb3_bus_init(DeviceState *dev, PnvPHB3 *phb)
- static void pnv_phb3_realize(DeviceState *dev, Error **errp)
- {
-     PnvPHB3 *phb = PNV_PHB3(dev);
--    PCIHostState *pci = PCI_HOST_BRIDGE(dev);
-     PnvMachineState *pnv = PNV_MACHINE(qdev_get_machine());
-     int i;
- 
-@@ -1056,11 +1056,6 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
-     /* Controller Registers */
-     memory_region_init_io(&phb->mr_regs, OBJECT(phb), &pnv_phb3_reg_ops, phb,
-                           "phb3-regs", 0x1000);
--
--    pnv_phb3_bus_init(dev, phb);
--
--    pnv_phb_attach_root_port(pci, TYPE_PNV_PHB3_ROOT_PORT,
--                             phb->phb_id, phb->chip_id);
- }
- 
- void pnv_phb3_update_regions(PnvPHB3 *phb)
-@@ -1085,38 +1080,26 @@ void pnv_phb3_update_regions(PnvPHB3 *phb)
-     pnv_phb3_check_all_m64s(phb);
- }
- 
--static const char *pnv_phb3_root_bus_path(PCIHostState *host_bridge,
--                                          PCIBus *rootbus)
--{
--    PnvPHB3 *phb = PNV_PHB3(host_bridge);
--
--    snprintf(phb->bus_path, sizeof(phb->bus_path), "00%02x:%02x",
--             phb->chip_id, phb->phb_id);
--    return phb->bus_path;
--}
--
- static Property pnv_phb3_properties[] = {
-     DEFINE_PROP_UINT32("index", PnvPHB3, phb_id, 0),
-     DEFINE_PROP_UINT32("chip-id", PnvPHB3, chip_id, 0),
-     DEFINE_PROP_LINK("chip", PnvPHB3, chip, TYPE_PNV_CHIP, PnvChip *),
-+    DEFINE_PROP_LINK("phb-base", PnvPHB3, phb_base, TYPE_PNV_PHB, PnvPHB *),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
- static void pnv_phb3_class_init(ObjectClass *klass, void *data)
- {
--    PCIHostBridgeClass *hc = PCI_HOST_BRIDGE_CLASS(klass);
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
--    hc->root_bus_path = pnv_phb3_root_bus_path;
-     dc->realize = pnv_phb3_realize;
-     device_class_set_props(dc, pnv_phb3_properties);
--    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-     dc->user_creatable = false;
- }
- 
- static const TypeInfo pnv_phb3_type_info = {
-     .name          = TYPE_PNV_PHB3,
--    .parent        = TYPE_PCIE_HOST_BRIDGE,
-+    .parent        = TYPE_DEVICE,
-     .instance_size = sizeof(PnvPHB3),
-     .class_init    = pnv_phb3_class_init,
-     .instance_init = pnv_phb3_instance_init,
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 0c3aad430b..5b60735c7a 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -43,6 +43,7 @@
- #include "hw/ipmi/ipmi.h"
- #include "target/ppc/mmu-hash64.h"
- #include "hw/pci/msi.h"
-+#include "hw/pci-host/pnv_phb.h"
- 
- #include "hw/ppc/xics.h"
- #include "hw/qdev-properties.h"
-@@ -660,7 +661,8 @@ static void pnv_chip_power8_pic_print_info(PnvChip *chip, Monitor *mon)
-     ics_pic_print_info(&chip8->psi.ics, mon);
- 
-     for (i = 0; i < chip8->num_phbs; i++) {
--        PnvPHB3 *phb3 = &chip8->phbs[i];
-+        PnvPHB *phb = &chip8->phbs[i];
-+        PnvPHB3 *phb3 = PNV_PHB3(phb->backend);
- 
-         pnv_phb3_msi_pic_print_info(&phb3->msis, mon);
-         ics_pic_print_info(&phb3->lsis, mon);
-@@ -1149,7 +1151,7 @@ static void pnv_chip_power8_instance_init(Object *obj)
-     chip8->num_phbs = pcc->num_phbs;
- 
-     for (i = 0; i < chip8->num_phbs; i++) {
--        object_initialize_child(obj, "phb[*]", &chip8->phbs[i], TYPE_PNV_PHB3);
-+        object_initialize_child(obj, "phb[*]", &chip8->phbs[i], TYPE_PNV_PHB);
+     if (phb->version == 3) {
+         pnv_phb3_bus_init(dev, PNV_PHB3(phb->backend));
++    } else {
++        pnv_phb4_bus_init(dev, PNV_PHB4(phb->backend));
      }
  
+     pnv_phb_attach_root_port(pci, phb_rootport_typename,
+diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+index 67ddde4a6e..a7425927fb 100644
+--- a/hw/pci-host/pnv_phb4.c
++++ b/hw/pci-host/pnv_phb4.c
+@@ -1528,30 +1528,16 @@ static void pnv_phb4_instance_init(Object *obj)
+     object_initialize_child(obj, "source", &phb->xsrc, TYPE_XIVE_SOURCE);
  }
-@@ -1287,9 +1289,9 @@ static void pnv_chip_power8_realize(DeviceState *dev, Error **errp)
-     memory_region_add_subregion(get_system_memory(), PNV_HOMER_BASE(chip),
-                                 &chip8->homer.regs);
  
--    /* PHB3 controllers */
-+    /* PHB controllers */
-     for (i = 0; i < chip8->num_phbs; i++) {
--        PnvPHB3 *phb = &chip8->phbs[i];
-+        PnvPHB *phb = &chip8->phbs[i];
+-static void pnv_phb4_realize(DeviceState *dev, Error **errp)
++void pnv_phb4_bus_init(DeviceState *dev, PnvPHB4 *phb)
+ {
+-    PnvPHB4 *phb = PNV_PHB4(dev);
+-    PnvPhb4PecClass *pecc = PNV_PHB4_PEC_GET_CLASS(phb->pec);
+     PCIHostState *pci = PCI_HOST_BRIDGE(dev);
+-    XiveSource *xsrc = &phb->xsrc;
+-    int nr_irqs;
+     char name[32];
  
-         object_property_set_int(OBJECT(phb), "index", i, &error_fatal);
-         object_property_set_int(OBJECT(phb), "chip-id", chip->chip_id,
-@@ -1982,7 +1984,8 @@ static ICSState *pnv_ics_get(XICSFabric *xi, int irq)
-         }
+-    /* Set the "big_phb" flag */
+-    phb->big_phb = phb->phb_id == 0 || phb->phb_id == 3;
+-
+-    /* Controller Registers */
+-    snprintf(name, sizeof(name), "phb4-%d.%d-regs", phb->chip_id,
+-             phb->phb_id);
+-    memory_region_init_io(&phb->mr_regs, OBJECT(phb), &pnv_phb4_reg_ops, phb,
+-                          name, 0x2000);
+-
+     /*
+      * PHB4 doesn't support IO space. However, qemu gets very upset if
+      * we don't have an IO region to anchor IO BARs onto so we just
+      * initialize one which we never hook up to anything
+      */
+-
+     snprintf(name, sizeof(name), "phb4-%d.%d-pci-io", phb->chip_id,
+              phb->phb_id);
+     memory_region_init(&phb->pci_io, OBJECT(phb), name, 0x10000);
+@@ -1561,12 +1547,33 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
+     memory_region_init(&phb->pci_mmio, OBJECT(phb), name,
+                        PCI_MMIO_TOTAL_SIZE);
  
-         for (j = 0; j < chip8->num_phbs; j++) {
--            PnvPHB3 *phb3 = &chip8->phbs[j];
-+            PnvPHB *phb = &chip8->phbs[j];
-+            PnvPHB3 *phb3 = PNV_PHB3(phb->backend);
- 
-             if (ics_valid_irq(&phb3->lsis, irq)) {
-                 return &phb3->lsis;
-@@ -2020,7 +2023,8 @@ static void pnv_ics_resend(XICSFabric *xi)
-         ics_resend(&chip8->psi.ics);
- 
-         for (j = 0; j < chip8->num_phbs; j++) {
--            PnvPHB3 *phb3 = &chip8->phbs[j];
-+            PnvPHB *phb = &chip8->phbs[j];
-+            PnvPHB3 *phb3 = PNV_PHB3(phb->backend);
- 
-             ics_resend(&phb3->lsis);
-             ics_resend(ICS(&phb3->msis));
-@@ -2120,8 +2124,13 @@ static void pnv_machine_power8_class_init(ObjectClass *oc, void *data)
-     PnvMachineClass *pmc = PNV_MACHINE_CLASS(oc);
-     static const char compat[] = "qemu,powernv8\0qemu,powernv\0ibm,powernv";
- 
-+    static GlobalProperty phb_compat[] = {
-+        { TYPE_PNV_PHB, "version", "3" },
-+    };
+-    pci->bus = pci_register_root_bus(dev, dev->id,
++    pci->bus = pci_register_root_bus(dev, dev->id ? dev->id : NULL,
+                                      pnv_phb4_set_irq, pnv_phb4_map_irq, phb,
+                                      &phb->pci_mmio, &phb->pci_io,
+                                      0, 4, TYPE_PNV_PHB4_ROOT_BUS);
+     pci_setup_iommu(pci->bus, pnv_phb4_dma_iommu, phb);
+     pci->bus->flags |= PCI_BUS_EXTENDED_CONFIG_SPACE;
++}
 +
-     mc->desc = "IBM PowerNV (Non-Virtualized) POWER8";
-     mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("power8_v2.0");
-+    compat_props_add(mc->compat_props, phb_compat, G_N_ELEMENTS(phb_compat));
- 
-     xic->icp_get = pnv_icp_get;
-     xic->ics_get = pnv_ics_get;
-diff --git a/include/hw/pci-host/pnv_phb3.h b/include/hw/pci-host/pnv_phb3.h
-index 1375f18fc1..3b9ff1096a 100644
---- a/include/hw/pci-host/pnv_phb3.h
-+++ b/include/hw/pci-host/pnv_phb3.h
-@@ -14,6 +14,7 @@
- #include "hw/pci/pcie_port.h"
- #include "hw/ppc/xics.h"
- #include "qom/object.h"
-+#include "hw/pci-host/pnv_phb.h"
- 
- typedef struct PnvPHB3 PnvPHB3;
- typedef struct PnvChip PnvChip;
-@@ -127,7 +128,9 @@ OBJECT_DECLARE_SIMPLE_TYPE(PnvPHB3, PNV_PHB3)
- #define PCI_MMIO_TOTAL_SIZE   (0x1ull << 60)
- 
- struct PnvPHB3 {
--    PCIExpressHost parent_obj;
-+    DeviceState parent;
++static void pnv_phb4_realize(DeviceState *dev, Error **errp)
++{
++    PnvPHB4 *phb = PNV_PHB4(dev);
++    PnvPhb4PecClass *pecc = PNV_PHB4_PEC_GET_CLASS(phb->pec);
++    PCIHostState *pci = PCI_HOST_BRIDGE(dev);
++    XiveSource *xsrc = &phb->xsrc;
++    int nr_irqs;
++    char name[32];
 +
-+    PnvPHB *phb_base;
++    /* Set the "big_phb" flag */
++    phb->big_phb = phb->phb_id == 0 || phb->phb_id == 3;
++
++    /* Controller Registers */
++    snprintf(name, sizeof(name), "phb4-%d.%d-regs", phb->chip_id,
++             phb->phb_id);
++    memory_region_init_io(&phb->mr_regs, OBJECT(phb), &pnv_phb4_reg_ops, phb,
++                          name, 0x2000);
++
++    pnv_phb4_bus_init(dev, phb);
  
-     uint32_t chip_id;
-     uint32_t phb_id;
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 37c303bf36..21fa90aaff 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -33,6 +33,7 @@
- #include "hw/ppc/pnv_core.h"
- #include "hw/pci-host/pnv_phb3.h"
- #include "hw/pci-host/pnv_phb4.h"
-+#include "hw/pci-host/pnv_phb.h"
- #include "qom/object.h"
+     /* Add a single Root port if running with defaults */
+     pnv_phb_attach_root_port(pci, pecc->rp_model,
+diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
+index 19dcbd6f87..90843ac3a9 100644
+--- a/include/hw/pci-host/pnv_phb4.h
++++ b/include/hw/pci-host/pnv_phb4.h
+@@ -157,6 +157,7 @@ struct PnvPHB4 {
  
- #define TYPE_PNV_CHIP "pnv-chip"
-@@ -81,7 +82,7 @@ struct Pnv8Chip {
-     PnvHomer     homer;
+ void pnv_phb4_pic_print_info(PnvPHB4 *phb, Monitor *mon);
+ int pnv_phb4_pec_get_phb_id(PnvPhb4PecState *pec, int stack_index);
++void pnv_phb4_bus_init(DeviceState *dev, PnvPHB4 *phb);
+ extern const MemoryRegionOps pnv_phb4_xscom_ops;
  
- #define PNV8_CHIP_PHB3_MAX 4
--    PnvPHB3      phbs[PNV8_CHIP_PHB3_MAX];
-+    PnvPHB       phbs[PNV8_CHIP_PHB3_MAX];
-     uint32_t     num_phbs;
- 
-     XICSFabric    *xics;
+ /*
 -- 
 2.37.2
 
