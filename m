@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE33F5A872C
-	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 22:00:53 +0200 (CEST)
-Received: from localhost ([::1]:39492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AC315A86F2
+	for <lists+qemu-devel@lfdr.de>; Wed, 31 Aug 2022 21:49:43 +0200 (CEST)
+Received: from localhost ([::1]:36028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTTtM-0002Bb-RJ
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 16:00:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49048)
+	id 1oTTiZ-0008Bg-0v
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 15:49:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oTSpk-0005lG-1t; Wed, 31 Aug 2022 14:53:04 -0400
-Received: from mail-oo1-xc2c.google.com ([2607:f8b0:4864:20::c2c]:44797)
+ id 1oTSpm-0005oe-E0; Wed, 31 Aug 2022 14:53:06 -0400
+Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29]:33743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oTSpe-0008Fh-Mz; Wed, 31 Aug 2022 14:53:03 -0400
-Received: by mail-oo1-xc2c.google.com with SMTP id
- q6-20020a4aa886000000b0044b06d0c453so2661885oom.11; 
- Wed, 31 Aug 2022 11:52:57 -0700 (PDT)
+ id 1oTSpk-0008G4-3U; Wed, 31 Aug 2022 14:53:06 -0400
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-11eb8b133fbso21861595fac.0; 
+ Wed, 31 Aug 2022 11:53:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=2EyoAadPCT5UNS7T6rrgozqXW/e8eQhhektGVzBwUIo=;
- b=LvZLzFeuh+UYROznibaR/WIgDtAO/eeTTOTOIuTDy0b02mQnyLxv4Hwu3Pc44shId0
- bLImhKKCXJUGUa8pNIa5fg4QaL+FhkDWOu0Imss2In/Sb7TOc8Ps/UGAc0epn8oc1qL/
- G7zPVD1igWUivL+WvIJHjGdcTl1dNjL4mka2wp9JEHib/D42TDS0btuFriHBO3Br+8et
- OiDzbX85Ty/0c/0HLG24OeVotJiNmmlUl5Xbh2xBNPrtoRW17qD3LOYP5CHh9bAE1JBe
- HpOsP+HAUzb+YAKXi3ZNwpumR1nYp636t8/bW2sLfdyaQGex383z1FEKA0M5kbjeQ5r9
- lSsQ==
+ bh=kNmkwpwxqhA5/JWfF5UKN4JOJ5vbN/VCHNECQcca3Dk=;
+ b=gLmhu8NByq15nVb27+XSjb7swwrBjqe+ZcZ+ZX6otdl9WZzXX2aQ4Hn7tlfiKpz29H
+ Hu570GIl4m+l+hR3SO69j0i3ZrrhDMSoeTf5oVul39l5uVKXqo3e5Ca978eLoLVB4EvD
+ wLyKpH87pYkNsZaCCZbY3AGLZtAGuF9tAysE6xkRjc5Tsw9n0vVy/kCmePsRW/J3Ocnd
+ IGfwYRjUX3lvk2Majxhzxtf5JKNk8F5Rp61HHF2fG/VyBGR+59pGCQXzkf/5wURG+So1
+ YC9Xk3kj/trEM42g4qg7QAn9u+TSXCPHMBkragkVJ8iGE09FtuLlHZs6LjNM0sRhnsxf
+ tA9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=2EyoAadPCT5UNS7T6rrgozqXW/e8eQhhektGVzBwUIo=;
- b=Bx6QohqIUWn2/2BgaLyZttl7Hoo73tUXzToO4iktwL84axsEZ0UHAUZ6MAozvMwOSW
- vG2OSYAwMmvy7NNP+B5ZzJeU7D8xrap50AKIGNWjR9vfvZgstFpZqRHLQZxA+S/jtnHN
- DeyhXXx7sheZa2i/jmplJ1uc1m2SF3spob02qHCQNp79mCqYJ6H8T4LvM7/gxZ9CUFB0
- RhpVyxvNik8/bouaYezO1rBstEHNPmC0u9EnumWKM4KB5Q7rfTYmPtk6lv8aZR4yvZ21
- fKme81D6ZDO7TyvSNYjDshJkvlMC3WOh0TyTy9K2Lu3cjLPxmH7cSRPKqZvtkrlcgIh6
- aGhA==
-X-Gm-Message-State: ACgBeo2PMlS7lurF4gs1Q44cHIKN47zv5iRTnTAITexZ+bz4NOzXbELS
- oWDgAbeEVRml2vtCs5D2BN9I09dvmlM=
-X-Google-Smtp-Source: AA6agR5GZYjXXPp7rxanNY0Or4bkTvV59ZW5tZwz7vonOCU9pFOl89dUSoJRPV22Ri8GFL9Nyt8q/Q==
-X-Received: by 2002:a4a:e1ad:0:b0:448:b28c:5fe3 with SMTP id
- 13-20020a4ae1ad000000b00448b28c5fe3mr9444275ooy.21.1661971976786; 
- Wed, 31 Aug 2022 11:52:56 -0700 (PDT)
+ bh=kNmkwpwxqhA5/JWfF5UKN4JOJ5vbN/VCHNECQcca3Dk=;
+ b=ndYV0ywCzzEdNlbti6WZzVj7UAScCRe3BeBRSkY9x083xZ8tPpE/YgfuC4cArDjlA4
+ ISL93Xp2HjqNa3yZsVyCF62EMov4s6PvE2yX5w/r4vKVRkleWzIJdvpw+jb1AdamEe1w
+ ut0mHGNtB8ehdwuruGUxjppcTF6v9RSBwOE+fnTndUe+dq09LxuS9p4rrCYHoI+hKO2X
+ i/okJohE0ffVUjAU1T85+ulwhYWrlts9OYgnctcqZ8YDrZyFQl2zQjk5UIrzSLBGCHJx
+ JzvX1/KXyb9/KgQUGVQNxkNqEYc1/U61Ef/bsZHV4MNZCC88ZhcjtSAh+ygoBsfkDurj
+ TQTA==
+X-Gm-Message-State: ACgBeo2WrIVbxGpkZjsM5KTSqX+kuaGFoSxLY/KsfsOY0jv/I9pv999S
+ jvovWGoPVAF+SzUoElcMhfT+LGxS+wc=
+X-Google-Smtp-Source: AA6agR7Ij2mFYO1zy6a6fYrFVK7K3ILLvWy+HVGtYrkKt8hWfNVXKTmZ6FwYK09b/GLFxOBW2LWgjA==
+X-Received: by 2002:a05:6870:4708:b0:122:4180:850b with SMTP id
+ b8-20020a056870470800b001224180850bmr1242193oaq.93.1661971981868; 
+ Wed, 31 Aug 2022 11:53:01 -0700 (PDT)
 Received: from balboa.COMFAST ([177.189.45.98])
  by smtp.gmail.com with ESMTPSA id
- p4-20020a9d4544000000b0061cbd18bd18sm9599927oti.45.2022.08.31.11.52.54
+ p4-20020a9d4544000000b0061cbd18bd18sm9599927oti.45.2022.08.31.11.52.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 11:52:56 -0700 (PDT)
+ Wed, 31 Aug 2022 11:53:01 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  richard.henderson@linaro.org, BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PULL 48/60] ppc4xx: Move PLB model to ppc4xx_devs.c
-Date: Wed, 31 Aug 2022 15:50:22 -0300
-Message-Id: <20220831185034.23240-49-danielhb413@gmail.com>
+Subject: [PULL 50/60] ppc4xx: Move EBC model to ppc4xx_devs.c
+Date: Wed, 31 Aug 2022 15:50:24 -0300
+Message-Id: <20220831185034.23240-51-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220831185034.23240-1-danielhb413@gmail.com>
 References: <20220831185034.23240-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2c;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2c.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::29;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x29.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,245 +92,444 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-The PLB is shared between 405 and 440 so move it to the shared file.
+The EBC is shared between 405 and 440 so move it to shared file.
 
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-Id: <2498384bf3e18959ee8cb984d72fb66b8a6ecadc.1660746880.git.balaton@eik.bme.hu>
+Message-Id: <10eae70509ca4bd74858fc2c0a0f0e4eb9330199.1660746880.git.balaton@eik.bme.hu>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/ppc405.h         | 11 -----
- hw/ppc/ppc405_uc.c      | 93 ----------------------------------------
- hw/ppc/ppc4xx_devs.c    | 94 +++++++++++++++++++++++++++++++++++++++++
- include/hw/ppc/ppc4xx.h | 11 +++++
- 4 files changed, 105 insertions(+), 104 deletions(-)
+ hw/ppc/ppc405.h         |  15 ----
+ hw/ppc/ppc405_uc.c      | 191 ----------------------------------------
+ hw/ppc/ppc4xx_devs.c    | 191 ++++++++++++++++++++++++++++++++++++++++
+ include/hw/ppc/ppc4xx.h |  15 ++++
+ 4 files changed, 206 insertions(+), 206 deletions(-)
 
 diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-index 31c94e4742..d85c595f9d 100644
+index 8521be317d..57e1494b05 100644
 --- a/hw/ppc/ppc405.h
 +++ b/hw/ppc/ppc405.h
-@@ -63,17 +63,6 @@ struct ppc4xx_bd_info_t {
-     uint32_t bi_iic_fast[2];
+@@ -85,21 +85,6 @@ struct Ppc405OpbaState {
+     uint8_t pr;
  };
  
--/* Peripheral local bus arbitrer */
--#define TYPE_PPC405_PLB "ppc405-plb"
--OBJECT_DECLARE_SIMPLE_TYPE(Ppc405PlbState, PPC405_PLB);
--struct Ppc405PlbState {
+-/* Peripheral controller */
+-#define TYPE_PPC405_EBC "ppc405-ebc"
+-OBJECT_DECLARE_SIMPLE_TYPE(Ppc405EbcState, PPC405_EBC);
+-struct Ppc405EbcState {
 -    Ppc4xxDcrDeviceState parent_obj;
 -
--    uint32_t acr;
+-    uint32_t addr;
+-    uint32_t bcr[8];
+-    uint32_t bap[8];
 -    uint32_t bear;
--    uint32_t besr;
+-    uint32_t besr0;
+-    uint32_t besr1;
+-    uint32_t cfg;
 -};
 -
- /* PLB to OPB bridge */
- #define TYPE_PPC405_POB "ppc405-pob"
- OBJECT_DECLARE_SIMPLE_TYPE(Ppc405PobState, PPC405_POB);
+ /* DMA controller */
+ #define TYPE_PPC405_DMA "ppc405-dma"
+ OBJECT_DECLARE_SIMPLE_TYPE(Ppc405DmaState, PPC405_DMA);
 diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-index b02dab05b3..3382ed3252 100644
+index b7f6d1c9c1..c7bc40ba08 100644
 --- a/hw/ppc/ppc405_uc.c
 +++ b/hw/ppc/ppc405_uc.c
-@@ -137,94 +137,6 @@ ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ram_addr_t ram_size)
- /*****************************************************************************/
- /* Shared peripherals */
+@@ -299,192 +299,6 @@ static void ppc405_opba_class_init(ObjectClass *oc, void *data)
+ /* Code decompression controller */
+ /* XXX: TODO */
  
 -/*****************************************************************************/
--/* Peripheral local bus arbitrer */
+-/* Peripheral controller */
 -enum {
--    PLB3A0_ACR = 0x077,
--    PLB4A0_ACR = 0x081,
--    PLB0_BESR  = 0x084,
--    PLB0_BEAR  = 0x086,
--    PLB0_ACR   = 0x087,
--    PLB4A1_ACR = 0x089,
+-    EBC0_CFGADDR = 0x012,
+-    EBC0_CFGDATA = 0x013,
 -};
 -
--static uint32_t dcr_read_plb(void *opaque, int dcrn)
+-static uint32_t dcr_read_ebc(void *opaque, int dcrn)
 -{
--    Ppc405PlbState *plb = opaque;
+-    Ppc405EbcState *ebc = opaque;
 -    uint32_t ret;
 -
 -    switch (dcrn) {
--    case PLB0_ACR:
--        ret = plb->acr;
+-    case EBC0_CFGADDR:
+-        ret = ebc->addr;
 -        break;
--    case PLB0_BEAR:
--        ret = plb->bear;
--        break;
--    case PLB0_BESR:
--        ret = plb->besr;
+-    case EBC0_CFGDATA:
+-        switch (ebc->addr) {
+-        case 0x00: /* B0CR */
+-            ret = ebc->bcr[0];
+-            break;
+-        case 0x01: /* B1CR */
+-            ret = ebc->bcr[1];
+-            break;
+-        case 0x02: /* B2CR */
+-            ret = ebc->bcr[2];
+-            break;
+-        case 0x03: /* B3CR */
+-            ret = ebc->bcr[3];
+-            break;
+-        case 0x04: /* B4CR */
+-            ret = ebc->bcr[4];
+-            break;
+-        case 0x05: /* B5CR */
+-            ret = ebc->bcr[5];
+-            break;
+-        case 0x06: /* B6CR */
+-            ret = ebc->bcr[6];
+-            break;
+-        case 0x07: /* B7CR */
+-            ret = ebc->bcr[7];
+-            break;
+-        case 0x10: /* B0AP */
+-            ret = ebc->bap[0];
+-            break;
+-        case 0x11: /* B1AP */
+-            ret = ebc->bap[1];
+-            break;
+-        case 0x12: /* B2AP */
+-            ret = ebc->bap[2];
+-            break;
+-        case 0x13: /* B3AP */
+-            ret = ebc->bap[3];
+-            break;
+-        case 0x14: /* B4AP */
+-            ret = ebc->bap[4];
+-            break;
+-        case 0x15: /* B5AP */
+-            ret = ebc->bap[5];
+-            break;
+-        case 0x16: /* B6AP */
+-            ret = ebc->bap[6];
+-            break;
+-        case 0x17: /* B7AP */
+-            ret = ebc->bap[7];
+-            break;
+-        case 0x20: /* BEAR */
+-            ret = ebc->bear;
+-            break;
+-        case 0x21: /* BESR0 */
+-            ret = ebc->besr0;
+-            break;
+-        case 0x22: /* BESR1 */
+-            ret = ebc->besr1;
+-            break;
+-        case 0x23: /* CFG */
+-            ret = ebc->cfg;
+-            break;
+-        default:
+-            ret = 0x00000000;
+-            break;
+-        }
 -        break;
 -    default:
--        /* Avoid gcc warning */
--        ret = 0;
+-        ret = 0x00000000;
 -        break;
 -    }
 -
 -    return ret;
 -}
 -
--static void dcr_write_plb(void *opaque, int dcrn, uint32_t val)
+-static void dcr_write_ebc(void *opaque, int dcrn, uint32_t val)
 -{
--    Ppc405PlbState *plb = opaque;
+-    Ppc405EbcState *ebc = opaque;
 -
 -    switch (dcrn) {
--    case PLB0_ACR:
--        /* We don't care about the actual parameters written as
--         * we don't manage any priorities on the bus
--         */
--        plb->acr = val & 0xF8000000;
+-    case EBC0_CFGADDR:
+-        ebc->addr = val;
 -        break;
--    case PLB0_BEAR:
--        /* Read only */
+-    case EBC0_CFGDATA:
+-        switch (ebc->addr) {
+-        case 0x00: /* B0CR */
+-            break;
+-        case 0x01: /* B1CR */
+-            break;
+-        case 0x02: /* B2CR */
+-            break;
+-        case 0x03: /* B3CR */
+-            break;
+-        case 0x04: /* B4CR */
+-            break;
+-        case 0x05: /* B5CR */
+-            break;
+-        case 0x06: /* B6CR */
+-            break;
+-        case 0x07: /* B7CR */
+-            break;
+-        case 0x10: /* B0AP */
+-            break;
+-        case 0x11: /* B1AP */
+-            break;
+-        case 0x12: /* B2AP */
+-            break;
+-        case 0x13: /* B3AP */
+-            break;
+-        case 0x14: /* B4AP */
+-            break;
+-        case 0x15: /* B5AP */
+-            break;
+-        case 0x16: /* B6AP */
+-            break;
+-        case 0x17: /* B7AP */
+-            break;
+-        case 0x20: /* BEAR */
+-            break;
+-        case 0x21: /* BESR0 */
+-            break;
+-        case 0x22: /* BESR1 */
+-            break;
+-        case 0x23: /* CFG */
+-            break;
+-        default:
+-            break;
+-        }
 -        break;
--    case PLB0_BESR:
--        /* Write-clear */
--        plb->besr &= ~val;
+-    default:
 -        break;
 -    }
 -}
 -
--static void ppc405_plb_reset(DeviceState *dev)
+-static void ppc405_ebc_reset(DeviceState *dev)
 -{
--    Ppc405PlbState *plb = PPC405_PLB(dev);
+-    Ppc405EbcState *ebc = PPC405_EBC(dev);
+-    int i;
 -
--    plb->acr = 0x00000000;
--    plb->bear = 0x00000000;
--    plb->besr = 0x00000000;
+-    ebc->addr = 0x00000000;
+-    ebc->bap[0] = 0x7F8FFE80;
+-    ebc->bcr[0] = 0xFFE28000;
+-    for (i = 0; i < 8; i++) {
+-        ebc->bap[i] = 0x00000000;
+-        ebc->bcr[i] = 0x00000000;
+-    }
+-    ebc->besr0 = 0x00000000;
+-    ebc->besr1 = 0x00000000;
+-    ebc->cfg = 0x80400000;
 -}
 -
--static void ppc405_plb_realize(DeviceState *dev, Error **errp)
+-static void ppc405_ebc_realize(DeviceState *dev, Error **errp)
 -{
--    Ppc405PlbState *plb = PPC405_PLB(dev);
+-    Ppc405EbcState *ebc = PPC405_EBC(dev);
 -    Ppc4xxDcrDeviceState *dcr = PPC4xx_DCR_DEVICE(dev);
 -
--    ppc4xx_dcr_register(dcr, PLB3A0_ACR, plb, &dcr_read_plb, &dcr_write_plb);
--    ppc4xx_dcr_register(dcr, PLB4A0_ACR, plb, &dcr_read_plb, &dcr_write_plb);
--    ppc4xx_dcr_register(dcr, PLB0_ACR, plb, &dcr_read_plb, &dcr_write_plb);
--    ppc4xx_dcr_register(dcr, PLB0_BEAR, plb, &dcr_read_plb, &dcr_write_plb);
--    ppc4xx_dcr_register(dcr, PLB0_BESR, plb, &dcr_read_plb, &dcr_write_plb);
--    ppc4xx_dcr_register(dcr, PLB4A1_ACR, plb, &dcr_read_plb, &dcr_write_plb);
+-    ppc4xx_dcr_register(dcr, EBC0_CFGADDR, ebc, &dcr_read_ebc, &dcr_write_ebc);
+-    ppc4xx_dcr_register(dcr, EBC0_CFGDATA, ebc, &dcr_read_ebc, &dcr_write_ebc);
 -}
 -
--static void ppc405_plb_class_init(ObjectClass *oc, void *data)
+-static void ppc405_ebc_class_init(ObjectClass *oc, void *data)
 -{
 -    DeviceClass *dc = DEVICE_CLASS(oc);
 -
--    dc->realize = ppc405_plb_realize;
--    dc->reset = ppc405_plb_reset;
+-    dc->realize = ppc405_ebc_realize;
+-    dc->reset = ppc405_ebc_reset;
 -    /* Reason: only works as function of a ppc4xx SoC */
 -    dc->user_creatable = false;
 -}
 -
  /*****************************************************************************/
- /* PLB to OPB bridge */
+ /* DMA controller */
  enum {
-@@ -1538,11 +1450,6 @@ static void ppc405_soc_class_init(ObjectClass *oc, void *data)
- 
- static const TypeInfo ppc405_types[] = {
-     {
--        .name           = TYPE_PPC405_PLB,
--        .parent         = TYPE_PPC4xx_DCR_DEVICE,
--        .instance_size  = sizeof(Ppc405PlbState),
--        .class_init     = ppc405_plb_class_init,
+@@ -1459,11 +1273,6 @@ static const TypeInfo ppc405_types[] = {
+         .parent         = TYPE_SYS_BUS_DEVICE,
+         .instance_size  = sizeof(Ppc405OpbaState),
+         .class_init     = ppc405_opba_class_init,
 -    }, {
-         .name           = TYPE_PPC405_POB,
+-        .name           = TYPE_PPC405_EBC,
+-        .parent         = TYPE_PPC4xx_DCR_DEVICE,
+-        .instance_size  = sizeof(Ppc405EbcState),
+-        .class_init     = ppc405_ebc_class_init,
+     }, {
+         .name           = TYPE_PPC405_DMA,
          .parent         = TYPE_PPC4xx_DCR_DEVICE,
-         .instance_size  = sizeof(Ppc405PobState),
 diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-index 7d40c1b68a..843d759b1b 100644
+index 3baa2fa2b3..00bb3fe974 100644
 --- a/hw/ppc/ppc4xx_devs.c
 +++ b/hw/ppc/ppc4xx_devs.c
-@@ -658,6 +658,95 @@ static void ppc4xx_mal_class_init(ObjectClass *oc, void *data)
-     device_class_set_props(dc, ppc4xx_mal_properties);
+@@ -747,6 +747,192 @@ static void ppc405_plb_class_init(ObjectClass *oc, void *data)
+     dc->user_creatable = false;
  }
  
 +/*****************************************************************************/
-+/* Peripheral local bus arbitrer */
++/* Peripheral controller */
 +enum {
-+    PLB3A0_ACR = 0x077,
-+    PLB4A0_ACR = 0x081,
-+    PLB0_BESR  = 0x084,
-+    PLB0_BEAR  = 0x086,
-+    PLB0_ACR   = 0x087,
-+    PLB4A1_ACR = 0x089,
++    EBC0_CFGADDR = 0x012,
++    EBC0_CFGDATA = 0x013,
 +};
 +
-+static uint32_t dcr_read_plb(void *opaque, int dcrn)
++static uint32_t dcr_read_ebc(void *opaque, int dcrn)
 +{
-+    Ppc405PlbState *plb = opaque;
++    Ppc405EbcState *ebc = opaque;
 +    uint32_t ret;
 +
 +    switch (dcrn) {
-+    case PLB0_ACR:
-+        ret = plb->acr;
++    case EBC0_CFGADDR:
++        ret = ebc->addr;
 +        break;
-+    case PLB0_BEAR:
-+        ret = plb->bear;
-+        break;
-+    case PLB0_BESR:
-+        ret = plb->besr;
++    case EBC0_CFGDATA:
++        switch (ebc->addr) {
++        case 0x00: /* B0CR */
++            ret = ebc->bcr[0];
++            break;
++        case 0x01: /* B1CR */
++            ret = ebc->bcr[1];
++            break;
++        case 0x02: /* B2CR */
++            ret = ebc->bcr[2];
++            break;
++        case 0x03: /* B3CR */
++            ret = ebc->bcr[3];
++            break;
++        case 0x04: /* B4CR */
++            ret = ebc->bcr[4];
++            break;
++        case 0x05: /* B5CR */
++            ret = ebc->bcr[5];
++            break;
++        case 0x06: /* B6CR */
++            ret = ebc->bcr[6];
++            break;
++        case 0x07: /* B7CR */
++            ret = ebc->bcr[7];
++            break;
++        case 0x10: /* B0AP */
++            ret = ebc->bap[0];
++            break;
++        case 0x11: /* B1AP */
++            ret = ebc->bap[1];
++            break;
++        case 0x12: /* B2AP */
++            ret = ebc->bap[2];
++            break;
++        case 0x13: /* B3AP */
++            ret = ebc->bap[3];
++            break;
++        case 0x14: /* B4AP */
++            ret = ebc->bap[4];
++            break;
++        case 0x15: /* B5AP */
++            ret = ebc->bap[5];
++            break;
++        case 0x16: /* B6AP */
++            ret = ebc->bap[6];
++            break;
++        case 0x17: /* B7AP */
++            ret = ebc->bap[7];
++            break;
++        case 0x20: /* BEAR */
++            ret = ebc->bear;
++            break;
++        case 0x21: /* BESR0 */
++            ret = ebc->besr0;
++            break;
++        case 0x22: /* BESR1 */
++            ret = ebc->besr1;
++            break;
++        case 0x23: /* CFG */
++            ret = ebc->cfg;
++            break;
++        default:
++            ret = 0x00000000;
++            break;
++        }
 +        break;
 +    default:
-+        /* Avoid gcc warning */
-+        ret = 0;
++        ret = 0x00000000;
 +        break;
 +    }
 +
 +    return ret;
 +}
 +
-+static void dcr_write_plb(void *opaque, int dcrn, uint32_t val)
++static void dcr_write_ebc(void *opaque, int dcrn, uint32_t val)
 +{
-+    Ppc405PlbState *plb = opaque;
++    Ppc405EbcState *ebc = opaque;
 +
 +    switch (dcrn) {
-+    case PLB0_ACR:
-+        /*
-+         * We don't care about the actual parameters written as
-+         * we don't manage any priorities on the bus
-+         */
-+        plb->acr = val & 0xF8000000;
++    case EBC0_CFGADDR:
++        ebc->addr = val;
 +        break;
-+    case PLB0_BEAR:
-+        /* Read only */
++    case EBC0_CFGDATA:
++        switch (ebc->addr) {
++        case 0x00: /* B0CR */
++            break;
++        case 0x01: /* B1CR */
++            break;
++        case 0x02: /* B2CR */
++            break;
++        case 0x03: /* B3CR */
++            break;
++        case 0x04: /* B4CR */
++            break;
++        case 0x05: /* B5CR */
++            break;
++        case 0x06: /* B6CR */
++            break;
++        case 0x07: /* B7CR */
++            break;
++        case 0x10: /* B0AP */
++            break;
++        case 0x11: /* B1AP */
++            break;
++        case 0x12: /* B2AP */
++            break;
++        case 0x13: /* B3AP */
++            break;
++        case 0x14: /* B4AP */
++            break;
++        case 0x15: /* B5AP */
++            break;
++        case 0x16: /* B6AP */
++            break;
++        case 0x17: /* B7AP */
++            break;
++        case 0x20: /* BEAR */
++            break;
++        case 0x21: /* BESR0 */
++            break;
++        case 0x22: /* BESR1 */
++            break;
++        case 0x23: /* CFG */
++            break;
++        default:
++            break;
++        }
 +        break;
-+    case PLB0_BESR:
-+        /* Write-clear */
-+        plb->besr &= ~val;
++    default:
 +        break;
 +    }
 +}
 +
-+static void ppc405_plb_reset(DeviceState *dev)
++static void ppc405_ebc_reset(DeviceState *dev)
 +{
-+    Ppc405PlbState *plb = PPC405_PLB(dev);
++    Ppc405EbcState *ebc = PPC405_EBC(dev);
++    int i;
 +
-+    plb->acr = 0x00000000;
-+    plb->bear = 0x00000000;
-+    plb->besr = 0x00000000;
++    ebc->addr = 0x00000000;
++    ebc->bap[0] = 0x7F8FFE80;
++    ebc->bcr[0] = 0xFFE28000;
++    for (i = 0; i < 8; i++) {
++        ebc->bap[i] = 0x00000000;
++        ebc->bcr[i] = 0x00000000;
++    }
++    ebc->besr0 = 0x00000000;
++    ebc->besr1 = 0x00000000;
++    ebc->cfg = 0x80400000;
 +}
 +
-+static void ppc405_plb_realize(DeviceState *dev, Error **errp)
++static void ppc405_ebc_realize(DeviceState *dev, Error **errp)
 +{
-+    Ppc405PlbState *plb = PPC405_PLB(dev);
++    Ppc405EbcState *ebc = PPC405_EBC(dev);
 +    Ppc4xxDcrDeviceState *dcr = PPC4xx_DCR_DEVICE(dev);
 +
-+    ppc4xx_dcr_register(dcr, PLB3A0_ACR, plb, &dcr_read_plb, &dcr_write_plb);
-+    ppc4xx_dcr_register(dcr, PLB4A0_ACR, plb, &dcr_read_plb, &dcr_write_plb);
-+    ppc4xx_dcr_register(dcr, PLB0_ACR, plb, &dcr_read_plb, &dcr_write_plb);
-+    ppc4xx_dcr_register(dcr, PLB0_BEAR, plb, &dcr_read_plb, &dcr_write_plb);
-+    ppc4xx_dcr_register(dcr, PLB0_BESR, plb, &dcr_read_plb, &dcr_write_plb);
-+    ppc4xx_dcr_register(dcr, PLB4A1_ACR, plb, &dcr_read_plb, &dcr_write_plb);
++    ppc4xx_dcr_register(dcr, EBC0_CFGADDR, ebc, &dcr_read_ebc, &dcr_write_ebc);
++    ppc4xx_dcr_register(dcr, EBC0_CFGDATA, ebc, &dcr_read_ebc, &dcr_write_ebc);
 +}
 +
-+static void ppc405_plb_class_init(ObjectClass *oc, void *data)
++static void ppc405_ebc_class_init(ObjectClass *oc, void *data)
 +{
 +    DeviceClass *dc = DEVICE_CLASS(oc);
 +
-+    dc->realize = ppc405_plb_realize;
-+    dc->reset = ppc405_plb_reset;
++    dc->realize = ppc405_ebc_realize;
++    dc->reset = ppc405_ebc_reset;
 +    /* Reason: only works as function of a ppc4xx SoC */
 +    dc->user_creatable = false;
 +}
@@ -338,35 +537,39 @@ index 7d40c1b68a..843d759b1b 100644
  /* PPC4xx_DCR_DEVICE */
  
  void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn, void *opaque,
-@@ -694,6 +783,11 @@ static const TypeInfo ppc4xx_types[] = {
-         .instance_size  = sizeof(Ppc4xxMalState),
-         .instance_finalize = ppc4xx_mal_finalize,
-         .class_init     = ppc4xx_mal_class_init,
+@@ -788,6 +974,11 @@ static const TypeInfo ppc4xx_types[] = {
+         .parent         = TYPE_PPC4xx_DCR_DEVICE,
+         .instance_size  = sizeof(Ppc4xxPlbState),
+         .class_init     = ppc405_plb_class_init,
 +    }, {
-+        .name           = TYPE_PPC405_PLB,
++        .name           = TYPE_PPC405_EBC,
 +        .parent         = TYPE_PPC4xx_DCR_DEVICE,
-+        .instance_size  = sizeof(Ppc405PlbState),
-+        .class_init     = ppc405_plb_class_init,
++        .instance_size  = sizeof(Ppc405EbcState),
++        .class_init     = ppc405_ebc_class_init,
      }, {
          .name           = TYPE_PPC4xx_DCR_DEVICE,
          .parent         = TYPE_SYS_BUS_DEVICE,
 diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
-index f40bd49bc7..e696e159f3 100644
+index b19e59271b..4472ec254e 100644
 --- a/include/hw/ppc/ppc4xx.h
 +++ b/include/hw/ppc/ppc4xx.h
-@@ -83,4 +83,15 @@ struct Ppc4xxMalState {
-     uint8_t  rxcnum;
+@@ -94,4 +94,19 @@ struct Ppc4xxPlbState {
+     uint32_t besr;
  };
  
-+/* Peripheral local bus arbitrer */
-+#define TYPE_PPC405_PLB "ppc405-plb"
-+OBJECT_DECLARE_SIMPLE_TYPE(Ppc405PlbState, PPC405_PLB);
-+struct Ppc405PlbState {
++/* Peripheral controller */
++#define TYPE_PPC405_EBC "ppc405-ebc"
++OBJECT_DECLARE_SIMPLE_TYPE(Ppc405EbcState, PPC405_EBC);
++struct Ppc405EbcState {
 +    Ppc4xxDcrDeviceState parent_obj;
 +
-+    uint32_t acr;
++    uint32_t addr;
++    uint32_t bcr[8];
++    uint32_t bap[8];
 +    uint32_t bear;
-+    uint32_t besr;
++    uint32_t besr0;
++    uint32_t besr1;
++    uint32_t cfg;
 +};
 +
  #endif /* PPC4XX_H */
