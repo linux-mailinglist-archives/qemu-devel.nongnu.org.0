@@ -2,89 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1619C5A916C
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 09:59:58 +0200 (CEST)
-Received: from localhost ([::1]:35424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF46C5A9176
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 10:01:55 +0200 (CEST)
+Received: from localhost ([::1]:57752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTf79-0002aW-MD
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 03:59:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46256)
+	id 1oTf98-00059i-04
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 04:01:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qyliss@x220.qyliss.net>)
- id 1oTeaF-0003hJ-Dh
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 03:25:51 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:38939)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oTewb-0000op-KI
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 03:48:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qyliss@x220.qyliss.net>)
- id 1oTeaC-00080S-K6
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 03:25:51 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 1FB343200944;
- Thu,  1 Sep 2022 03:18:29 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Thu, 01 Sep 2022 03:18:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alyssa.is; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :message-id:mime-version:reply-to:sender:subject:subject:to:to;
- s=fm3; t=1662016708; x=1662103108; bh=JxQxLw6B6JE7d86CxPCELN/mM
- hiuk8xUa49LYOz87Yk=; b=AhkzWMLi9d/u1xAz69bD35sWS31lJnBh/O2DXqyCB
- 9lUy+vTy0whX5/Zm/OUpYwffFV8eemqAI3LwGQPDmb+F3lcLiWJjUMbVBO1PGJMy
- 2n+VN6JDARFL17Uz8k+6kHoc1a/3WOQi0gZNhyBqPAm8HLUHUWG+RELlFOH8PmKJ
- TH9HaLjfJfGgY7bjtNt1XVz7x4awho7DxIvPi6lHDg0Zq9V/r9O1JLzhCLrNZNkE
- 2Ankseg05DuZf5fn1xoP5mgYovQDZxbGibMtr+cHbgM1yiw/YV6WISQK5Iv1RYwc
- JWZo6NeBt3389RU6CtClykUFYEFCQnOfwLCqK6yITj7Ug==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1662016708; x=1662103108; bh=JxQxLw6B6JE7d86CxPCELN/mMhiuk8xUa49
- LYOz87Yk=; b=xNtDVUkLLzD1tEp84F8Oo/qRHT785+LS2E+QGmP7j7i27agzWBS
- yMzAJD67Iqs7mE12lnvCOfEv3K/cxT12oAQl9wxLt4Kx8TMDiOQrnmDAi6tNyq+M
- TJ8jH3axa3vogpTic35E2kSRk3rBo+UBw1iX2EY0hXYYgiTMepeHGfH6NV4KJO5Z
- O77Y+ionMZBTx5aXZR8PM/Y7/erQRZNQZFfJmphz1q/BwIOAfZZvCXZUM3LgEfIU
- TMK8wLHU/p/lcb3bWgXZO5ODO4D1dwrzLQYzLqHf3MafJGN9RsC9cB/La/wKoFjU
- sdN4idVmmiL9K9uVgsZjG3TrTdeGcfnrZew==
-X-ME-Sender: <xms:xFwQYxjA2r_wqgUE-bdEH-aucc3l5ZuTe7iJD1DhcbdhJRXBjSZayg>
- <xme:xFwQY2B2z2YWcmMZ6aZA595s9CXhjX9OWHkauMYJGX9LGuSCCK7-ZeMd5wfEuFCe9
- 1iUHTGdSQ9cSBQjjA>
-X-ME-Received: <xmr:xFwQYxH_j4IGIlKSMIU31Vh6Bgnf-g0-7Hdr2L-SOlP5yA7fmIOpw_YknqKF41EH2BQOEbo99ozYddyfAP_nVyJB53q8a2nKnA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdekjedguddvudcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekre
- dtredttdenucfhrhhomheptehlhihsshgrucftohhsshcuoehhihesrghlhihsshgrrdhi
- sheqnecuggftrfgrthhtvghrnhepueefiedvheffveegieejjeevgfejjeduveekffeive
- euvedvtedvhfelieeutdfgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhu
- shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehqhihlihhsshesgi
- dvvddtrdhqhihlihhsshdrnhgvth
-X-ME-Proxy: <xmx:xFwQY2RMCB0VOKE0B6TXM3LfA7FdJlqPoACnu3MxZi9sXexMkvCfqg>
- <xmx:xFwQY-winjFw-oyTvDqniG-njhYbcQedzD9PqugLp2ijciSBD5BAwg>
- <xmx:xFwQY86CK44-R_IogfZ4824wNln5VNOgd_SDEWYwSgYpPIN1XcvzKg>
- <xmx:xFwQY0aNvdix-1Hilut4AdqhGbrbC2U7eTxmQ8k1-XEcghdPKPgTqw>
-Feedback-ID: i12284293:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 1 Sep 2022 03:18:28 -0400 (EDT)
-Received: by x220.qyliss.net (Postfix, from userid 1000)
- id 8BEC4566; Thu,  1 Sep 2022 07:18:26 +0000 (UTC)
-From: Alyssa Ross <hi@alyssa.is>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oTewS-000356-Hz
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 03:48:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662018527;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ksimOx/6TYzV5ef7HtghKYb7SC0X9TmgtcyvioAQI/k=;
+ b=HLF80tFD58npeNX1bnRDuKwEoui79x2nnnkd+8/R/IFjjk1AyWAwRmKevdK9FY0LZseyXq
+ jGkkvplYiyfQZQ87/5xykHfB3QR+ULOCsumEnY1c7TOAhxcre415oVjj5p86GAKdnFeruL
+ 3gY76L0ls22YjxatjQ8PqN2UopAeikI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-620-058kxjB4PJq2IiWx8FYQQw-1; Thu, 01 Sep 2022 03:48:46 -0400
+X-MC-Unique: 058kxjB4PJq2IiWx8FYQQw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ a17-20020a05600c349100b003a545125f6eso889665wmq.4
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 00:48:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=ksimOx/6TYzV5ef7HtghKYb7SC0X9TmgtcyvioAQI/k=;
+ b=C70JjJgHV05cN7Z5OI2gLz1F91Ybn2SYhu5PwAoMbont1TtH8syWppsmn+W9TTJ9kQ
+ hKSDCelnX+Nf8O+mF5i+bvd1/UVPWQvz9VPivb9eM8FCtnM75CUj2eS/7Lc0KeKDc9mc
+ O1lYFuanVHh+F7PHlmPseIgEUyY3tt5gjOSFSotHa1wubAszke4j9DIBHglCB83/nB4q
+ HpuGem63+dPImtS7Xw4RTLlNb6wwl9i2B5H3CVNFJEwMKbsq97NBJUW87vFmoEpPqmbN
+ sKy+C8rY7pGYs56/cQ2VsAE1JSryFwka8jnSK6vJdoEgDxGsOnt5EIwtYiXKMd+pC58T
+ wKtw==
+X-Gm-Message-State: ACgBeo3HlrXJS3GjCwyjHndJrsl48l5Jg1wSkskKQa9Z3vv+Ilo7jZm7
+ 2ihf5ELfDyBncnFOOQlVR5RHIu0AjK1c671t2SUkUNaF7CWQeGJvy8KNZiAj3KCQRS8C5XLCjPL
+ dj3IVMFF6uaAdpjy363VtufGSZfin0zHlv76F6XK4EBJBUMBc4j708MGe4S8l0MLwXGs=
+X-Received: by 2002:a05:600c:224c:b0:3a6:7234:551 with SMTP id
+ a12-20020a05600c224c00b003a672340551mr4224852wmm.27.1662018524789; 
+ Thu, 01 Sep 2022 00:48:44 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7XbyNDM/DWonTDbzzbm+mF7YM9mEBqitFVnxGG8HP9rAaFle97b9X8jqkEQFHffYOKIU52Ow==
+X-Received: by 2002:a05:600c:224c:b0:3a6:7234:551 with SMTP id
+ a12-20020a05600c224c00b003a672340551mr4224834wmm.27.1662018524396; 
+ Thu, 01 Sep 2022 00:48:44 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id
+ t64-20020a1c4643000000b003a673055e68sm4889108wma.0.2022.09.01.00.48.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Sep 2022 00:48:43 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: "Michael S . Tsirkin" <mst@redhat.com>
-Subject: [PATCH] docs: clarify absence of set_features in vhost-user
-Date: Thu,  1 Sep 2022 07:18:03 +0000
-Message-Id: <20220901071803.273291-1-hi@alyssa.is>
+Cc: paul@nowt.org,
+	richard.henderson@linaro.org
+Subject: [PATCH v3 00/23] target/i386: make SSE helpers generic in the vector
+ size
+Date: Thu,  1 Sep 2022 09:48:19 +0200
+Message-Id: <20220901074842.57424-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: softfail client-ip=64.147.123.21;
- envelope-from=qyliss@x220.qyliss.net; helo=wout5-smtp.messagingengine.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,61 +98,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The previous wording was (at least to me) ambiguous about whether a
-backend should enable features immediately after they were set using
-VHOST_USER_SET_PROTOCOL_FEATURES, or wait for support for protocol
-features to be acknowledged if it hasn't been yet before enabling
-those features.
+This is the first half of Paul's series from last April, reorganized
+so that there is no need for YMM_ONLY and SHIFT == 2 does not appear
+yet.  This means that it is independent of Paul's implementation
+of AVX decoding.
 
-This patch attempts to make it clearer that
-VHOST_USER_SET_PROTOCOL_FEATURES should immediately enable features,
-even if support for protocol features has not yet been acknowledged,
-while still also making clear that the frontend SHOULD acknowledge
-support for protocol features.
+This generally uses loops that apply the same code for all of MMX/SSE/AVX,
+and in fact this series removes basically all uses of XMM_ONLY in the code.
+In some cases AVX needs special-casing for the two 128-bit lanes; this is
+done with a new macro LANE_WIDTH that is currently the same as the register
+width, but remains 16 for AVX registers.
 
-Previous discussion begins here:
-<https://lore.kernel.org/qemu-devel/87sgd1ktx9.fsf@alyssa.is/>
+The full work, with the AVX parts rebased on top of these, is at branch
+i386-avx of https://gitlab.com/bonzini/qemu.  The branch passes the
+tests that Paul had posted, while this reduced part passes the reduced
+SSE version.
 
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Alyssa Ross <hi@alyssa.is>
----
- docs/interop/vhost-user.rst | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+Paolo
 
-diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-index 3f18ab424e..c8b9771a16 100644
---- a/docs/interop/vhost-user.rst
-+++ b/docs/interop/vhost-user.rst
-@@ -906,9 +906,9 @@ Front-end message types
-   ``VHOST_USER_SET_FEATURES``.
- 
- .. Note::
--   Back-ends that report ``VHOST_USER_F_PROTOCOL_FEATURES`` must
--   support this message even before ``VHOST_USER_SET_FEATURES`` was
--   called.
-+   While QEMU should acknowledge ``VHOST_USER_F_PROTOCOL_FEATURES``, a
-+   back-end must allow ``VHOST_USER_GET_PROTOCOL_FEATURES`` even if
-+   ``VHOST_USER_F_PROTOCOL_FEATURES`` has not been acknowledged yet.
- 
- ``VHOST_USER_SET_PROTOCOL_FEATURES``
-   :id: 16
-@@ -923,8 +923,12 @@ Front-end message types
-   ``VHOST_USER_SET_FEATURES``.
- 
- .. Note::
--   Back-ends that report ``VHOST_USER_F_PROTOCOL_FEATURES`` must support
--   this message even before ``VHOST_USER_SET_FEATURES`` was called.
-+   While QEMU should acknowledge ``VHOST_USER_F_PROTOCOL_FEATURES``, a
-+   back-end must allow ``VHOST_USER_SET_PROTOCOL_FEATURES`` even if
-+   ``VHOST_USER_F_PROTOCOL_FEATURES`` has not been acknowledged yet.
-+   The back-end must not wait for ``VHOST_USER_SET_FEATURES`` before
-+   enabling protocol features requested with
-+   ``VHOST_USER_SET_PROTOCOL_FEATURES``.
- 
- ``VHOST_USER_SET_OWNER``
-   :id: 3
+Supersedes: <20220826231204.201395-1-pbonzini@redhat.com>
+Based-on: <20220825164827.392942-1-pbonzini@redhat.com>
 
-base-commit: e93ded1bf6c94ab95015b33e188bc8b0b0c32670
+v2->v3: convert remaining lane-based operations (hadd/hsub, psrldq)
+	unify MMX and SSE hadd/hsub
+	move code generation after illegal_op checks
+	remove C++ comments
+
+v1->v2: get rid of XMM_ONLY
+	do not special case PMULHRW (yet)
+	remove dead macro for blend
+	do not copy table entries on the stack
+	remove AVXisms from sse_op_table rework
+	extract more code from the AVX patches
+
+Paolo Bonzini (6):
+  i386: do not use MOVL to move data between SSE registers
+  i386: formatting fixes
+  i386: check SSE table flags instead of hardcoding opcodes
+  i386: isolate MMX code more
+  i386: Add size suffix to vector FP helpers
+  i386: do not cast gen_helper_* function pointers
+
+Paul Brook (17):
+  i386: Add ZMM_OFFSET macro
+  i386: Rework sse_op_table1
+  i386: Rework sse_op_table6/7
+  i386: Move 3DNOW decoder
+  i386: Add CHECK_NO_VEX
+  i386: Rewrite vector shift helper
+  i386: Rewrite simple integer vector helpers
+  i386: Misc integer AVX helper prep
+  i386: Destructive vector helpers for AVX
+  i386: Floating point arithmetic helper AVX prep
+  i386: reimplement AVX comparison helpers
+  i386: Dot product AVX helper prep
+  i386: Destructive FP helpers for AVX
+  i386: Misc AVX helper prep
+  i386: Rewrite blendv helpers
+  i386: AVX pclmulqdq prep
+  i386: AVX+AES helpers prep
+
+ target/i386/ops_sse.h        | 1781 +++++++++++++++++-----------------
+ target/i386/ops_sse_header.h |   68 +-
+ target/i386/tcg/translate.c  |  831 +++++++++-------
+ 3 files changed, 1391 insertions(+), 1289 deletions(-)
+
 -- 
 2.37.1
 
