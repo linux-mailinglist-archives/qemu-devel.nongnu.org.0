@@ -2,58 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC15D5A9956
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 15:46:12 +0200 (CEST)
-Received: from localhost ([::1]:36674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 878265A9975
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 15:54:50 +0200 (CEST)
+Received: from localhost ([::1]:35496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTkWJ-0000BH-Si
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 09:46:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38958)
+	id 1oTkef-0001ZQ-0O
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 09:54:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oTkDs-0000GY-SR; Thu, 01 Sep 2022 09:27:08 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:57790)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oTkOg-0007Yj-Kx
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 09:38:34 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:54579)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oTkDp-0003ls-G2; Thu, 01 Sep 2022 09:27:07 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 04E9974637E;
- Thu,  1 Sep 2022 15:26:59 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id C063F746324; Thu,  1 Sep 2022 15:26:58 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id BEB1974632C;
- Thu,  1 Sep 2022 15:26:58 +0200 (CEST)
-Date: Thu, 1 Sep 2022 15:26:58 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Bernhard Beschow <shentey@gmail.com>
-cc: QEMU Developers <qemu-devel@nongnu.org>, 
- "open list:sam460ex" <qemu-ppc@nongnu.org>, 
- Huacai Chen <chenhuacai@kernel.org>, 
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>, 
- Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: Re: [PATCH v3 06/10] hw/isa/vt82c686: Instantiate USB functions in
- host device
-In-Reply-To: <CAG4p6K7_13QNemke_rr8+J5Fr1wqWCcd0pHqsygZRuzc6vDepw@mail.gmail.com>
-Message-ID: <dcaa58a0-353b-d1aa-f1e8-f38561da1f41@eik.bme.hu>
-References: <20220831095914.2041-1-shentey@gmail.com>
- <20220831095914.2041-7-shentey@gmail.com>
- <331bbd5a-aeaa-d5c0-cf8f-cde5b22d8a3@eik.bme.hu>
- <96C4E9E5-4875-4B49-B176-673BAAEE7993@gmail.com>
- <48b1c17d-fa2f-c2f7-b22-79eb6e8f55b@eik.bme.hu>
- <5DE06ABD-34E9-4186-9922-B62C92A56798@gmail.com>
- <d32d6e66-ed13-2c9-6da4-d3c63796d66@eik.bme.hu>
- <CAG4p6K7_13QNemke_rr8+J5Fr1wqWCcd0pHqsygZRuzc6vDepw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oTkOe-0005fJ-3Q
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 09:38:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=x7oBIwvwu8SGD2ntYWZjTk1EJw+AiW/a3ARGbxRbG+A=; b=ODKm21gE8m/MwyWBuuvzsomR9O
+ 9LRUBh/ZYfRI6fimNp++UxbhfuEDHvq+eVhRT4pZo1Ko7LRzIkoB2a4mpbl25yo+PMtWGvtXvnLUW
+ Uz1PacTnguKYTOr2DJWQZCoyfeeiCZ94C+o26Tvem2jLx4aaDnhMyAh/7lZQtC5L+aWq0XUbHKnLy
+ g7Dp3zzcbNDE5+BXMxnx3Hm+8XLbPcX0E6KN8lNdTBepFS3HYuks18wAeY5MN1ywLCdTjNsJvSqGS
+ Ljzp/fQZsA0+rojjPjo7Heo3CZUTUMXIW8zh+iSmHJpJHxvCvZ0JDixS8y5LFs6/pdxe/okFLf7Lz
+ qzAMZXvzmn2Te/n4umFMVIsgY8a+feKBIvxRYdOVDVdhJsJo/tpE6dzxHWj9xquExwL82yaetm68E
+ LXawg+1oe8U/L2EjoJ/F5NMbWf0B6fU6jtO8/13nUS4I+shpXtXSd2twUAfXdSjkphj/PvL4CTUF9
+ 68jJcwICMTODjB8LIOihHvffF/NlHVj8lazYhyjM/EfAreWvQwWMjh5ZUKD67qFGbWCkBeKudg/gb
+ h37S0BGKKRY70Fl+0ro4MeGmM6B68+orFETJ6+ahY3Q5k/RQjRRIYwBsd63dMZ6FuHMRWlCG/8QM+
+ YidzqRLmOYSFqTJUGXMR8khRAD1rMdXZZXI+oa/s8=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
+ =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Guoyi Tu <tugy@chinatelecom.cn>
+Subject: Re: [PATCH] osdep: Introduce qemu_get_fd() to wrap the common codes
+Date: Thu, 01 Sep 2022 15:38:07 +0200
+Message-ID: <2182625.T0M0iX6UXG@silver>
+In-Reply-To: <4d00eb30-73bc-25c3-4450-d4f8b1199063@chinatelecom.cn>
+References: <f73d60dd-fbc7-2873-4ed1-d30df19ce661@chinatelecom.cn>
+ <47453703.NBG3G7Ahn1@silver>
+ <4d00eb30-73bc-25c3-4450-d4f8b1199063@chinatelecom.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,109 +76,218 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 1 Sep 2022, Bernhard Beschow wrote:
-> On Wed, Aug 31, 2022 at 6:02 PM BALATON Zoltan <balaton@eik.bme.hu> wrote:
->> On Wed, 31 Aug 2022, BB wrote:
->>> Am 31. August 2022 17:03:35 MESZ schrieb BALATON Zoltan <
->> balaton@eik.bme.hu>:
->>>> On Wed, 31 Aug 2022, BB wrote:
->>>>> Am 31. August 2022 15:23:37 MESZ schrieb BALATON Zoltan <
->> balaton@eik.bme.hu>:
->>>>>> On Wed, 31 Aug 2022, Bernhard Beschow wrote:
->>>>>>> The USB functions can be enabled/disabled through the ISA function.
->> Also
->>>>>>> its interrupt routing can be influenced there.
->>>>>>>
->>>>>>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->>>>>>> ---
->>>>>>> hw/isa/vt82c686.c   | 12 ++++++++++++
->>>>>>> hw/mips/fuloong2e.c |  3 ---
->>>>>>> hw/ppc/pegasos2.c   |  4 ----
->>>>>>> 3 files changed, 12 insertions(+), 7 deletions(-)
->>>>>>>
->>>>>>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
->>>>>>> index 9d946cea54..66a4b9c230 100644
->>>>>>> --- a/hw/isa/vt82c686.c
->>>>>>> +++ b/hw/isa/vt82c686.c
->>>>>>> @@ -23,6 +23,7 @@
->>>>>>> #include "hw/intc/i8259.h"
->>>>>>> #include "hw/irq.h"
->>>>>>> #include "hw/dma/i8257.h"
->>>>>>> +#include "hw/usb/hcd-uhci.h"
->>>>>>> #include "hw/timer/i8254.h"
->>>>>>> #include "hw/rtc/mc146818rtc.h"
->>>>>>> #include "migration/vmstate.h"
->>>>>>> @@ -546,6 +547,7 @@ struct ViaISAState {
->>>>>>>     qemu_irq *isa_irqs;
->>>>>>>     ViaSuperIOState via_sio;
->>>>>>>     PCIIDEState ide;
->>>>>>> +    UHCIState uhci[2];
->>>>>>> };
->>>>>>>
->>>>>>> static const VMStateDescription vmstate_via = {
->>>>>>> @@ -563,6 +565,8 @@ static void via_isa_init(Object *obj)
->>>>>>>     ViaISAState *s = VIA_ISA(obj);
->>>>>>>
->>>>>>>     object_initialize_child(obj, "ide", &s->ide, "via-ide");
->>>>>>> +    object_initialize_child(obj, "uhci1", &s->uhci[0],
->> "vt82c686b-usb-uhci");
->>>>>>> +    object_initialize_child(obj, "uhci2", &s->uhci[1],
->> "vt82c686b-usb-uhci");
->>>>>>
->>>>>> Sorry for not saying this yesterday, this can also be done separately
->> so no need for another version of this series if not needed for another
->> reason but could we add a define for vt82c686b-usb-uhci in
->> include/hw/isa/vt82c686.h and use that here and in
->> hw/usb/vt82c686-uhci-pci.c ?
->>>>>
->>>>> Would creating a dedicated header work, too? Board code doesn't need
->> to see the define any longer.
->>>>
->>>> I don't think it needs a separate header just for this so I'd put it in
->> vt82c686.h but I don't mind either way.
->>>
->>> Alright, I'll take the easy route for now. Splitting in dedicated
->> headers (also for the other devices) could be done in a separate series.
->>
->> I'll do this for via-ac97 when rabasing my WIP patch:
->>
->> https://osdn.net/projects/qmiga/scm/git/qemu/commits
->>
->> as I'll need to move ViaAC97State there too for embedding in ViaISAState.
->> The other ones
->> can stay in vt82c686.h I think.
->>
->> (The reason this is still WIP is that it does not work and I'm not sure
->> why, Maybe I need to test with a Linux guest to find out more but I
->> haven't got to that yet.)
->>
->
-> Hi Zoltan,
->
-> I've given your AC97 patches a spin on top of my WIP pc-via branch with a
-> Mandriva Linux live CD and *drumroll* `qemu-system-x86_64 -M pc -accel kvm
-> -cpu host`:
->
-> https://github.com/shentok/qemu/commits/pc-via
+On Mittwoch, 31. August 2022 10:25:27 CEST Guoyi Tu wrote:
+> On 8/18/22 20:58, Christian Schoenebeck wrote:
+> > On Donnerstag, 18. August 2022 14:06:04 CEST Guoyi Tu wrote:
+> >> Ping...
+> >> 
+> >> Any comments are welcome
+> >> 
+> >> On 8/12/22 19:01, Guoyi Tu wrote:
+> >>> socket_get_fd() have much the same codes as monitor_fd_param(),
+> >>> so qemu_get_fd() is introduced to implement the common logic.
+> >>> now socket_get_fd() and monitor_fd_param() directly call this
+> >>> function.
+> > 
+> > s/have/has/, s/now/Now/, some proper rephrasing wouldn't hurt either.
+> 
+> will fix it.
+> 
+> >>> Signed-off-by: Guoyi Tu <tugy@chinatelecom.cn>
+> >>> ---
+> >>> 
+> >>>    include/qemu/osdep.h |  1 +
+> >>>    monitor/misc.c       | 21 +--------------------
+> >>>    util/osdep.c         | 25 +++++++++++++++++++++++++
+> >>>    util/qemu-sockets.c  | 17 +++++------------
+> >>>    4 files changed, 32 insertions(+), 32 deletions(-)
+> >>> 
+> >>> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> >>> index b1c161c035..b920f128a7 100644
+> >>> --- a/include/qemu/osdep.h
+> >>> +++ b/include/qemu/osdep.h
+> >>> @@ -491,6 +491,7 @@ int qemu_open_old(const char *name, int flags, ...);
+> >>> 
+> >>>    int qemu_open(const char *name, int flags, Error **errp);
+> >>>    int qemu_create(const char *name, int flags, mode_t mode, Error
+> >>>    **errp);
+> >>>    int qemu_close(int fd);
+> >>> 
+> >>> +int qemu_get_fd(Monitor *mon, const char *fdname, Error **errp);
+> >>> 
+> >>>    int qemu_unlink(const char *name);
+> >>>    #ifndef _WIN32
+> >>>    int qemu_dup_flags(int fd, int flags);
+> >>> 
+> >>> diff --git a/monitor/misc.c b/monitor/misc.c
+> >>> index 3d2312ba8d..0d3372cf2b 100644
+> >>> --- a/monitor/misc.c
+> >>> +++ b/monitor/misc.c
+> >>> @@ -1395,26 +1395,7 @@ void monitor_fdset_dup_fd_remove(int dup_fd)
+> >>> 
+> >>>    int monitor_fd_param(Monitor *mon, const char *fdname, Error **errp)
+> >>>    {
+> >>> 
+> >>> -    int fd;
+> >>> -    Error *local_err = NULL;
+> >>> -
+> >>> -    if (!qemu_isdigit(fdname[0]) && mon) {
+> >>> -        fd = monitor_get_fd(mon, fdname, &local_err);
+> >>> -    } else {
+> >>> -        fd = qemu_parse_fd(fdname);
+> >>> -        if (fd == -1) {
+> >>> -            error_setg(&local_err, "Invalid file descriptor number
+> >>> '%s'",
+> >>> -                       fdname);
+> >>> -        }
+> >>> -    }
+> >>> -    if (local_err) {
+> >>> -        error_propagate(errp, local_err);
+> >>> -        assert(fd == -1);
+> >>> -    } else {
+> >>> -        assert(fd != -1);
+> >>> -    }
+> >>> -
+> >>> -    return fd;
+> >>> +    return qemu_get_fd(mon, fdname, errp);
+> >>> 
+> >>>    }
+> >>>    
+> >>>    /* Please update hmp-commands.hx when adding or changing commands */
+> >>> 
+> >>> diff --git a/util/osdep.c b/util/osdep.c
+> >>> index 60fcbbaebe..c57551ca78 100644
+> >>> --- a/util/osdep.c
+> >>> +++ b/util/osdep.c
+> >>> @@ -23,6 +23,7 @@
+> >>> 
+> >>>     */
+> >>>    
+> >>>    #include "qemu/osdep.h"
+> >>>    #include "qapi/error.h"
+> >>> 
+> >>> +#include "qemu/ctype.h"
+> >>> 
+> >>>    #include "qemu/cutils.h"
+> >>>    #include "qemu/sockets.h"
+> >>>    #include "qemu/error-report.h"
+> >>> 
+> >>> @@ -413,6 +414,30 @@ int qemu_close(int fd)
+> >>> 
+> >>>        return close(fd);
+> >>>    
+> >>>    }
+> >>> 
+> >>> +int qemu_get_fd(Monitor *mon, const char *fdname, Error **errp)
+> >>> +{
+> >>> +    int fd;
+> >>> +    Error *local_err = NULL;
+> >>> +
+> >>> +    if (!qemu_isdigit(fdname[0]) && mon) {
+> >>> +        fd = monitor_get_fd(mon, fdname, &local_err);
+> >>> +    } else {
+> >>> +        fd = qemu_parse_fd(fdname);
+> >>> +        if (fd == -1) {
+> >>> +            error_setg(&local_err, "Invalid file descriptor number
+> >>> '%s'",
+> >>> +                       fdname);
+> >>> +        }
+> >>> +    }
+> >>> +    if (local_err) {
+> >>> +        error_propagate(errp, local_err);
+> >>> +        assert(fd == -1);
+> >>> +    } else {
+> >>> +        assert(fd != -1);
+> >>> +    }
+> >>> +
+> >>> +    return fd;
+> >>> +}
+> >>> +
+> > 
+> > Up to here you are basically just moving the code of monitor_fd_param() to
+> > a project wide shared new function qemu_get_fd(), but why? I mean you
+> > could simply call monitor_fd_param() in socket_get_fd() below, no?
+> 
+> monitor_fd_param() is implemented in misc.c which is not linkded when
+> build the test codes that test the socket_connect() api, such as
+> test-unit-sockets.c and test-char.c. If call monitor_fd_param() directly
 
-Interesting, now I see where this goes beyond just clean up.
+I guess you mean tests/unit/test-util-sockets.c, but I understand.
 
-> The good news is that the sound controls appeared in the UI but no sound
-> seemed to be played, though that could also be due to my setup (nested
-> virtualization).
+The thing is though, as you can see from the header of osdep.h, only things 
+should be added to osdep.h which are really needed project wide:
 
-Consodering that I get the same result with MorphOS on pegasos2 it's more 
-likely some problem with the emulation than your setup but I could not yet 
-find out what (I didn't try hard enough either). Probably I'm missing 
-something in how sound emulation in QEMU should work or how the via sound 
-function should work. The docs have detailed info in the regs but not much 
-on what actually should happen, when irq should be raised and such.
+  (1) things which everybody needs
+  (2) things without which code would work on most platforms but
+      fail to compile or misbehave on a minority of host OSes
 
-> Perhaps you find it convenient to test with Linux that way.
+I don't have the impression that this function would fall into this 
+definition, so it would be better to find another location for it.
 
-Definitly, it's easier to find an x86 live CD with support for this chip 
-than one for pegasos2. But I may wait a while before I get back to this.
+> in socket_get_fd(), we need to implement a stub version of
+> monitor_fd_param() which actually has the same codes according to the
+> codes in test-unit-socket.c which overwrite the monitor_get_fd().
+> 
+> what about moving monitor_fd_param() to the osdep.c and calling
+> monitor_fd_param() in socket_get_fd() ?
+> 
+> >>>    /*
+> >>>    
+> >>>     * Delete a file from the filesystem, unless the filename is
+> >>> 
+> >>> /dev/fdset/...
+> >>> 
+> >>>     *
+> >>> 
+> >>> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+> >>> index 13b5b197f9..92960ee6eb 100644
+> >>> --- a/util/qemu-sockets.c
+> >>> +++ b/util/qemu-sockets.c
+> >>> @@ -1142,19 +1142,12 @@ static int socket_get_fd(const char *fdstr,
+> >>> Error **errp)
+> >>> 
+> >>>    {
+> >>>    
+> >>>        Monitor *cur_mon = monitor_cur();
+> >>>        int fd;
+> >>> 
+> >>> -    if (cur_mon) {
+> >>> -        fd = monitor_get_fd(cur_mon, fdstr, errp);
+> >>> -        if (fd < 0) {
+> >>> -            return -1;
+> >>> -        }
+> >>> -    } else {
+> >>> -        if (qemu_strtoi(fdstr, NULL, 10, &fd) < 0) {
+> >>> -            error_setg_errno(errp, errno,
+> >>> -                             "Unable to parse FD number %s",
+> >>> -                             fdstr);
+> >>> -            return -1;
+> >>> -        }
+> >>> +
+> >>> +    fd = qemu_get_fd(cur_mon, fdstr, errp);
+> >>> +    if (fd < 0) {
+> >>> +        return -1;
+> >>> 
+> >>>        }
+> > 
+> > This part looks like behaviour change to me. Haven't looked into the
+> > details though whether it would be OK. Just saying.
+> 
+> In my opinion the logic is almost the same.
+> 
+> >>> +
+> > 
+> > Unintentional white line added?
+> 
+> will delete it.
+> 
+> Thanks for your coomments
+> 
+> >>>        if (!fd_is_socket(fd)) {
+> >>>        
+> >>>            error_setg(errp, "File descriptor '%s' is not a socket",
+> >>>            fdstr);
+> >>>            close(fd);
 
-Regards,
-BALATON Zoltan
+
 
