@@ -2,91 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE4695AA15B
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 23:07:20 +0200 (CEST)
-Received: from localhost ([::1]:57158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47C555AA185
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 23:32:24 +0200 (CEST)
+Received: from localhost ([::1]:41768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTrPD-0000sm-Od
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 17:07:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38938)
+	id 1oTrnS-0004Vr-Vp
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 17:32:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oTrND-00071H-Kn
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 17:05:16 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:42896)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oTrk7-0002Wy-5n
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 17:28:55 -0400
+Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133]:45581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oTrNB-0002u4-U4
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 17:05:15 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id q63so207859pga.9
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 14:05:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oTrk4-0002Xf-PM
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 17:28:54 -0400
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-33dba2693d0so348745297b3.12
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 14:28:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date;
- bh=aS10r/1PMAAHSx0kNfJ5xkK/KfV42VlHdUYd4wsQfxQ=;
- b=O91wvNilBJ8BA9zJ3UUE6/dfCZim2sPhnSn3Ruxb68cHreDwL4eYnSHVv7qceitYDm
- KqYpuWvFvuj/2FASlMj9bzVkEeplDpDgc3G5Wou8v4xM/kz/fp6NNn6sflxFV9wj9+eX
- OB1zpwiIbAhoomqPfbYa3HCgMlbs4wTF9ystRBgWK+3B2AEEpnxxfTXHdRMwVCVQTsr/
- UVOhPYLeUBQpHu1PeOgIZmWmXdhK/hw1dDBiOhu7QqBOiA0/GvJR1vr/kD0yIITbFenl
- 0kj3+huqxpUulueP5KTKeC21ATd4l4LGioPYedIbdg1kua6aJ7lFQ5/m2NDsuYERlIfq
- aEYA==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=KvU7ty+/1ntzPjvguN+GzX45oGkrWD0id1GgCYki6/I=;
+ b=JCmhrDSfFbOYfBJx2zHz3zONf7jeAGRn1CCSABXIkujB5tUYjeU1ZVdaxVkRehNVqe
+ EL4XYUNtx++fNCtsNFeuDpc/z3YZkvVLQKh4pw86+GIybx4DD0SHb6ESZkp+kHDwCwF6
+ QByX4bn5Nq7iGAVmUUdUTyzktwIgkYMpkAeF4L5h9jMuKw1pYzjlbj8Kb5O+yop/QC7n
+ wC6XE8fEGWvB2/aAy23u/2S3AuzR+4aMxm3A7Tt/iy9KQwLEo/9rfz8IGmavkfGmtoBC
+ yvsDbjbfP7/Z80S4+y07yWeAnourKLW1Eaf/bE1M1UXoGQYVaoU/j9Vao9jVyS9TCwTX
+ xDUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=aS10r/1PMAAHSx0kNfJ5xkK/KfV42VlHdUYd4wsQfxQ=;
- b=dhYb5O8k6ig+eGThMhbn7UHO4/i5hcYgK51gpKN4bYSODdGZ34pI2M+8zIxQWjMGob
- /1JAl2J0DhETzF0XSlVmfqnQKwDnH14vHwqCISOPAmkQi/4Qiilpf/kK/NQp3PfX1KzB
- moVXmp8yLN/3eXOsK1qkqqicTLXfRut4NfXVLhNuTjKcB47C7gOTZDw8a/S1iPAF1Tvy
- 3LeLUdrRMqlWfeVuVuedXR2AUWGom71E3SGpN+V8qHDYRWuDe3Mvk0ygaxKjqTZRs8za
- +p0f7RhUNWCMpKmO7RqKL93iayATPa54VV0F+HOjjLwRmN2qALawiCL6+K1+azqLOQNx
- m60w==
-X-Gm-Message-State: ACgBeo3lf4x8qQOfs/Sws/bS8i++XPySnrJ8XK0pfPfkvJ7I45Du5g8C
- Pjy6It6wnGwsadVtvb/qQTA=
-X-Google-Smtp-Source: AA6agR5ud4zAvO15/RcC2dUi2PA9yiSt2ej/P+n7wVLp5LzY8NBm8qU4c63wOEZbNwqmebW4WvX9ZA==
-X-Received: by 2002:a63:1257:0:b0:42f:fbe8:3ac0 with SMTP id
- 23-20020a631257000000b0042ffbe83ac0mr10832996pgs.412.1662066309853; 
- Thu, 01 Sep 2022 14:05:09 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- a7-20020a1709027e4700b0016d8d277c02sm24213pln.25.2022.09.01.14.05.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Sep 2022 14:05:09 -0700 (PDT)
-Message-ID: <aa1b63b7-fe8f-1d19-2716-c76525d5bc7a@amsat.org>
-Date: Thu, 1 Sep 2022 23:05:03 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=KvU7ty+/1ntzPjvguN+GzX45oGkrWD0id1GgCYki6/I=;
+ b=Y4sWuWOJEuVF3GD6QyBsy7Tevz+CNYewlGzCA6OZEfwed6pHurdbQwWMEjSNvBxgFI
+ BKGrAoPF+WlPLcisRl0sXK09OjAdw/Qd027h1HlezQmX3geDgZTOmLY+ebrFuHtiBRrT
+ 4hfaVjR5PpHKzPruC0ua7Lg4IPbG/joCpqPJuJYUJ5xmKz4z++N42pqGK+BrTRj4T33I
+ AA399yf9AF5WvMptXWJGD09g5/KhIvQQXex3qkBSn8c5yyZhz4lycd6tsTdNYZCOKc95
+ 19PZTEmoohTdfGAZspRTRy1N6HQJYIgzKys/SYOwQMR3DaE1FLED9/phalKulLBgt2zJ
+ 13bA==
+X-Gm-Message-State: ACgBeo0uNT/jGxPGmqKefR2CM6Jd64/SFafy7kfuGMYxjHvyRAJ//QB1
+ 4djMERCpaPTlPnVuV8A+OV+uSV7dpcbLBU0zWcY=
+X-Google-Smtp-Source: AA6agR7albOZWaJxxEVrOxNYNg5x/ns8/TyNsBqzpyeDS+6QMSM5vrxLZiig7Oq9QjbhFWda0QjzQTMCBC27RpAeYsg=
+X-Received: by 2002:a81:4e85:0:b0:33d:bff0:61d5 with SMTP id
+ c127-20020a814e85000000b0033dbff061d5mr24692407ywb.111.1662067731142; Thu, 01
+ Sep 2022 14:28:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH 42/42] hw/i386/acpi-build: Resolve PIIX ISA bridge rather
- than ACPI controller
-Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
-References: <20220901162613.6939-1-shentey@gmail.com>
- <20220901162613.6939-43-shentey@gmail.com>
-In-Reply-To: <20220901162613.6939-43-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+References: <20220901065210.117081-1-richard.henderson@linaro.org>
+In-Reply-To: <20220901065210.117081-1-richard.henderson@linaro.org>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 1 Sep 2022 17:28:39 -0400
+Message-ID: <CAJSP0QWdQC-Vv0bqOVDmdtfrs8+_VGi8gk=H4Go5nJxwyyjmdw@mail.gmail.com>
+Subject: Re: [PULL 00/20] tcg patch queue
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1133.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,36 +82,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 1/9/22 18:26, Bernhard Beschow wrote:
-> Resolving the PIIX ISA bridge rather than the PIIX ACPI controller mirrors
-> the ICH9 code one line below.
-> 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->   hw/i386/acpi-build.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 8af75b1e22..d7bb1ccb26 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -288,7 +288,7 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
->   
->   static void acpi_get_misc_info(AcpiMiscInfo *info)
->   {
-> -    Object *piix = object_resolve_type_unambiguous(TYPE_PIIX4_PM);
-> +    Object *piix = object_resolve_type_unambiguous(TYPE_PIIX_PCI_DEVICE);
->       Object *lpc = object_resolve_type_unambiguous(TYPE_ICH9_LPC_DEVICE);
->       assert(!!piix != !!lpc);
->   
+clang builds are failing:
 
-This looks correct to  me w.r.t the hardware, but my understanding is
-some x86 machines allow abusing the PIIX ACPI PCI function, by plugging
-it alone, without the rest of the south bridge... Then this patch would
-regress such Frankenstein use :/
+clang -m64 -mcx16 -Ilibqemu-alpha-softmmu.fa.p -I. -I.. -Itarget/alpha
+-I../target/alpha -Iqapi -Itrace -Iui -Iui/shader
+-I/usr/include/pixman-1 -I/usr/include/capstone
+-I/usr/include/spice-server -I/usr/include/spice-1
+-I/usr/include/cacard -I/usr/include/glib-2.0
+-I/usr/lib64/glib-2.0/include -I/usr/include/sysprof-4
+-I/usr/include/nss3 -I/usr/include/nspr4 -I/usr/include/PCSC
+-fcolor-diagnostics -Wall -Winvalid-pch -Werror -std=gnu11 -O2 -g
+-isystem /builds/qemu-project/qemu/linux-headers -isystem
+linux-headers -iquote . -iquote /builds/qemu-project/qemu -iquote
+/builds/qemu-project/qemu/include -iquote
+/builds/qemu-project/qemu/tcg/i386 -pthread -D_GNU_SOURCE
+-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Wstrict-prototypes
+-Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototypes
+-fno-strict-aliasing -fno-common -fwrapv -Wold-style-definition
+-Wtype-limits -Wformat-security -Wformat-y2k -Winit-self
+-Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels
+-Wexpansion-to-defined -Wno-initializer-overrides
+-Wno-missing-include-dirs -Wno-shift-negative-value
+-Wno-string-plus-int -Wno-typedef-redefinition
+-Wno-tautological-type-limit-compare -Wno-psabi
+-fstack-protector-strong -fsanitize=undefined
+-fno-sanitize-recover=undefined -fPIE -isystem../linux-headers
+-isystemlinux-headers -DNEED_CPU_H
+'-DCONFIG_TARGET="alpha-softmmu-config-target.h"'
+'-DCONFIG_DEVICES="alpha-softmmu-config-devices.h"' -MD -MQ
+libqemu-alpha-softmmu.fa.p/target_alpha_translate.c.o -MF
+libqemu-alpha-softmmu.fa.p/target_alpha_translate.c.o.d -o
+libqemu-alpha-softmmu.fa.p/target_alpha_translate.c.o -c
+../target/alpha/translate.c
+In file included from ../target/alpha/translate.c:30:
+/builds/qemu-project/qemu/include/exec/translator.h:206:1: error: all
+paths through this function will call itself
+[-Werror,-Winfinite-recursion]
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+https://gitlab.com/qemu-project/qemu/-/jobs/2968573429#L2247
+
+Stefan
 
