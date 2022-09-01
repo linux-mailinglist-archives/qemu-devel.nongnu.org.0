@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 849CC5A9957
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 15:46:24 +0200 (CEST)
-Received: from localhost ([::1]:34676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F1A5A995C
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 15:47:35 +0200 (CEST)
+Received: from localhost ([::1]:37458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTkWV-0000Vr-Au
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 09:46:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42734)
+	id 1oTkXe-0002gH-NK
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 09:47:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1oTk7L-00086b-0j; Thu, 01 Sep 2022 09:20:26 -0400
-Received: from [200.168.210.66] (port=59496 helo=outlook.eldorado.org.br)
+ id 1oTk8f-0000pK-Ru; Thu, 01 Sep 2022 09:21:45 -0400
+Received: from [200.168.210.66] (port=32839 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <victor.colombo@eldorado.org.br>)
- id 1oTk7I-0002b5-E9; Thu, 01 Sep 2022 09:20:21 -0400
+ id 1oTk8Z-00032X-AM; Thu, 01 Sep 2022 09:21:44 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Thu, 1 Sep 2022 10:18:20 -0300
+ Thu, 1 Sep 2022 10:18:21 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 85140800476;
+ by p9ibm (Postfix) with ESMTP id DF5078002C5;
  Thu,  1 Sep 2022 10:18:20 -0300 (-03)
 From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
@@ -31,17 +31,17 @@ Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  victor.colombo@eldorado.org.br, matheus.ferst@eldorado.org.br,
  lucas.araujo@eldorado.org.br, leandro.lupori@eldorado.org.br,
  lucas.coutinho@eldorado.org.br
-Subject: [PATCH 18/19] target/ppc: Clear fpstatus flags on VSX_CMP
-Date: Thu,  1 Sep 2022 10:17:55 -0300
-Message-Id: <20220901131756.26060-19-victor.colombo@eldorado.org.br>
+Subject: [PATCH 19/19] target/ppc: Clear fpstatus flags on VSX_ROUND
+Date: Thu,  1 Sep 2022 10:17:56 -0300
+Message-Id: <20220901131756.26060-20-victor.colombo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220901131756.26060-1-victor.colombo@eldorado.org.br>
 References: <20220901131756.26060-1-victor.colombo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 01 Sep 2022 13:18:20.0981 (UTC)
- FILETIME=[4E932650:01D8BE05]
+X-OriginalArrivalTime: 01 Sep 2022 13:18:21.0340 (UTC)
+ FILETIME=[4EC9EDC0:01D8BE05]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -66,24 +66,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Fix xsrdpic and other instructions not clearing the flags and saving
+incorrect values to FPSCR.
+
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 ---
  target/ppc/fpu_helper.c | 2 ++
  1 file changed, 2 insertions(+)
 
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 5f7f52ab5b..fd3a966371 100644
+index fd3a966371..be47d73b14 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -2639,6 +2639,8 @@ uint32_t helper_##op(CPUPPCState *env, ppc_vsr_t *xt,                     \
-     int all_true = 1;                                                     \
-     int all_false = 1;                                                    \
-                                                                           \
-+    helper_reset_fpstatus(env);                                           \
-+                                                                          \
-     for (i = 0; i < nels; i++) {                                          \
-         if (unlikely(tp##_is_any_nan(xa->fld) ||                          \
-                      tp##_is_any_nan(xb->fld))) {                         \
+@@ -3172,6 +3172,8 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt, ppc_vsr_t *xb)       \
+     int i;                                                             \
+     FloatRoundMode curr_rounding_mode;                                 \
+                                                                        \
++    helper_reset_fpstatus(env);                                        \
++                                                                       \
+     if (rmode != FLOAT_ROUND_CURRENT) {                                \
+         curr_rounding_mode = get_float_rounding_mode(&env->fp_status); \
+         set_float_rounding_mode(rmode, &env->fp_status);               \
 -- 
 2.25.1
 
