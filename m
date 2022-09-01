@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 608D65A9FA6
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 21:13:25 +0200 (CEST)
-Received: from localhost ([::1]:55394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04CC15A9F92
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 21:08:13 +0200 (CEST)
+Received: from localhost ([::1]:43874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTpct-0003om-F5
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 15:13:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48248)
+	id 1oTpXv-0005Hy-44
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 15:08:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oTosk-0008Ro-Cq
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:25:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33097)
+ id 1oToso-0008UF-Re
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:25:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23449)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oTosd-00009S-Bl
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:25:36 -0400
+ id 1oTosh-0000AC-4J
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:25:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662056730;
+ s=mimecast20190719; t=1662056734;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qWRuBFuFn0zt1yTA6S4gXVOk+6Vw66pAmiYsu1ZqiVo=;
- b=XR1y1iaoEXiM/z9WB1lBOLoRGvTHa/i9l84KM9HaoNXtbF7uM//yLTzxqt3sWk1UUs1YT0
- vHEmWJVZ6kiBRQBlgo7axIXBIQ0dDyUdzLHCam0YuyTredh+nVYXXvKBkwjKcdC1QPjSQL
- vUS5J8kBcnR8z+RjVWQOeV8i8C51etc=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TdIPTgOOHE5JGKRY0qGgJ75jQdJhojx3CZYrX4XDet8=;
+ b=a6kC07RrgaojNRGYYdb0XDig5K3IltXi22uUKT/pQvJLhAUxMJB6WTeS3AC8OlVtnBHfAX
+ GICP6itc9PEFj/GkEMiDSu5Sl8NNBVOpmSkZOKqjsEnu/uWw6wizLKMQkSSvk49XEE5fZr
+ zEhIxlsvAwAk5/BQBSV2+epgP+y0M+Y=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-193-d6qyUBB_MdewgIjL5-QKVg-1; Thu, 01 Sep 2022 14:25:29 -0400
-X-MC-Unique: d6qyUBB_MdewgIjL5-QKVg-1
-Received: by mail-ej1-f71.google.com with SMTP id
- dr17-20020a170907721100b00741a1ef8a20so5486500ejc.0
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 11:25:29 -0700 (PDT)
+ us-mta-635-G0V3B8LiONeaXY2Y3g2LHw-1; Thu, 01 Sep 2022 14:25:31 -0400
+X-MC-Unique: G0V3B8LiONeaXY2Y3g2LHw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ b13-20020a056402350d00b0043dfc84c533so12109094edd.5
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 11:25:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=qWRuBFuFn0zt1yTA6S4gXVOk+6Vw66pAmiYsu1ZqiVo=;
- b=sN06kxvW97izK3iQ+1WppnYG6BWMYUqLFSHWad9oOwBO58XcGcctkmw7dKDv2m65y8
- 9D0UXLiABhYGZV58CWErQVL/+PZgBq3BbSQlbbWxjk7/d7pI22MHKqSGFjKH37Cjcf+n
- OJB3BgWhEIy8ywXyHNpKN4gyjtMo3xLS+2r4JGxP3KwCVD1ZUnWRPd5ljhVEajB8pA82
- 5TG7Pq28XNegFd6A+IrGdUgMYizBA95CotFNyb21tUfcLYx1BUylfaa9xEvDxTDzzsMR
- l5bJPRGCnAQ/AWv26rL200BZO9KGWmirx7eZB208AvNmkt2ktJ+OzsRKtx8h1eR4TZYV
- l4pA==
-X-Gm-Message-State: ACgBeo2p/27dPuv9ln3GCHB/4fCTzVnwmnAnRdjTxOxC+SXzQMwBVpy2
- JDGjFYdGK4S84Ts4rt7BEqQtfTUhYv1NazhlGfjh32TG7kzC7OnPTPhpzAra+yBxNvAMRLIRH7f
- ur4yPH7+IH7OhjT9Xorb95X2IwCusrD9jjTPhy8lT9/6f6vkU1IN/s/QEQ15OGEREcnA=
-X-Received: by 2002:a17:907:60c7:b0:739:52ba:cbd0 with SMTP id
- hv7-20020a17090760c700b0073952bacbd0mr24941021ejc.152.1662056727970; 
- Thu, 01 Sep 2022 11:25:27 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5FuMjTW5CSOqVilhIRe8k2Ggsbwt/0k3VXjyfIdDjGPLZn8kQWCddeqySaj/hsm6+CTtT5BQ==
-X-Received: by 2002:a17:907:60c7:b0:739:52ba:cbd0 with SMTP id
- hv7-20020a17090760c700b0073952bacbd0mr24941004ejc.152.1662056727665; 
- Thu, 01 Sep 2022 11:25:27 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- v12-20020a056402184c00b0044629b54b00sm1763496edy.46.2022.09.01.11.25.26
+ bh=TdIPTgOOHE5JGKRY0qGgJ75jQdJhojx3CZYrX4XDet8=;
+ b=pkJwYObcwkys78rBvC49553yZVbruFogliSkfaQsvLnJJ94+Ik2RQU8crUzAW2movm
+ HMtPF6jbXdhzyFHrWbWGxccq3gQVXeIr4e2jVk5OwclbudZhrRZHATPUckELpkTVuzJW
+ XNu+WxUCGOXY/n2k+heQL71nRH4WJQ1spEYwfs5Bqw7JKPY7kMcTMQd27QEGO5P1C4UJ
+ //fFQVfkY/XgT7ErVJxUqbTx6BlcQy6CYQ3d9lxkhDPV8Rr9sckEiFMeG7p43bRFL1bI
+ jZpQoR2wGZBdGIAvhU2gfGi90OqxQP5/Q0nwuEdj56MNQNBZNId7cELBDyusfxnZDaYx
+ xnUQ==
+X-Gm-Message-State: ACgBeo2dMMfeXd2j3ddt3adPpNgqzy5CBR9mpLHGYQ4//22mD85UiEsP
+ 0uJufECoMIVgFxcH6bs5v/AUFDtR1CyK19PvbXbAJ/4LYWadKSM/cphXnggBMIxQioqioIbaNnA
+ hzT6Sv+Pk8SNr6O72QyKGz8ZetUby9GHfUp6n7t3X27EFs4BvlMUiK6+0IU66ZiJbYLs=
+X-Received: by 2002:a05:6402:5212:b0:446:6910:5549 with SMTP id
+ s18-20020a056402521200b0044669105549mr30100518edd.345.1662056729896; 
+ Thu, 01 Sep 2022 11:25:29 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5FfbmWWJ2USYvfx/aEOVWbPYxf/IOgKNNMJADLXukFPi2zx3ir9fBpTYvcfsROJW2Ji0bS+g==
+X-Received: by 2002:a05:6402:5212:b0:446:6910:5549 with SMTP id
+ s18-20020a056402521200b0044669105549mr30100480edd.345.1662056729194; 
+ Thu, 01 Sep 2022 11:25:29 -0700 (PDT)
+Received: from goa-sendmail ([93.56.160.208]) by smtp.gmail.com with ESMTPSA id
+ fd7-20020a056402388700b00447b4a7ed85sm1629241edb.86.2022.09.01.11.25.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 11:25:27 -0700 (PDT)
+ Thu, 01 Sep 2022 11:25:28 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Paul Brook <paul@nowt.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 30/39] target/i386: Misc integer AVX helper prep
-Date: Thu,  1 Sep 2022 20:24:20 +0200
-Message-Id: <20220901182429.93533-31-pbonzini@redhat.com>
+Cc: Paul Brook <paul@nowt.org>
+Subject: [PULL 31/39] target/i386: Destructive vector helpers for AVX
+Date: Thu,  1 Sep 2022 20:24:21 +0200
+Message-Id: <20220901182429.93533-32-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220901182429.93533-1-pbonzini@redhat.com>
 References: <20220901182429.93533-1-pbonzini@redhat.com>
@@ -103,250 +101,712 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paul Brook <paul@nowt.org>
 
-More preparatory work for AVX support in various integer vector helpers
-
-No functional changes to existing helpers.
+These helpers need to take special care to avoid overwriting source values
+before the wole result has been calculated.  Currently they use a dummy
+Reg typed variable to store the result then assign the whole register.
+This will cause 128 bit operations to corrupt the upper half of the register,
+so replace it with explicit temporaries and element assignments.
 
 Signed-off-by: Paul Brook <paul@nowt.org>
-Message-Id: <20220424220204.2493824-13-paul@nowt.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220424220204.2493824-14-paul@nowt.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/ops_sse.h | 164 +++++++++++++++++++++---------------------
- 1 file changed, 80 insertions(+), 84 deletions(-)
+ target/i386/ops_sse.h | 556 ++++++++++++++++++++----------------------
+ 1 file changed, 262 insertions(+), 294 deletions(-)
 
 diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
-index ce03362810..557cc7ce7d 100644
+index 557cc7ce7d..bb50ca6f8d 100644
 --- a/target/i386/ops_sse.h
 +++ b/target/i386/ops_sse.h
-@@ -390,19 +390,22 @@ SSE_HELPER_W(helper_pavgw, FAVG)
- 
- void glue(helper_pmuludq, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
- {
--    d->Q(0) = (uint64_t)s->L(0) * (uint64_t)d->L(0);
--#if SHIFT == 1
--    d->Q(1) = (uint64_t)s->L(2) * (uint64_t)d->L(2);
--#endif
-+    Reg *v = d;
-+    int i;
-+
-+    for (i = 0; i < (1 << SHIFT); i++) {
-+        d->Q(i) = (uint64_t)s->L(i * 2) * (uint64_t)v->L(i * 2);
-+    }
- }
- 
- void glue(helper_pmaddwd, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
- {
-+    Reg *v = d;
-     int i;
- 
-     for (i = 0; i < (2 << SHIFT); i++) {
--        d->L(i) = (int16_t)s->W(2 * i) * (int16_t)d->W(2 * i) +
--            (int16_t)s->W(2 * i + 1) * (int16_t)d->W(2 * i + 1);
-+        d->L(i) = (int16_t)s->W(2 * i) * (int16_t)v->W(2 * i) +
-+            (int16_t)s->W(2 * i + 1) * (int16_t)v->W(2 * i + 1);
-     }
- }
- 
-@@ -416,32 +419,24 @@ static inline int abs1(int a)
-     }
- }
+@@ -41,6 +41,7 @@
  #endif
-+
- void glue(helper_psadbw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
- {
--    unsigned int val;
-+    Reg *v = d;
-+    int i;
  
--    val = 0;
--    val += abs1(d->B(0) - s->B(0));
--    val += abs1(d->B(1) - s->B(1));
--    val += abs1(d->B(2) - s->B(2));
--    val += abs1(d->B(3) - s->B(3));
--    val += abs1(d->B(4) - s->B(4));
--    val += abs1(d->B(5) - s->B(5));
--    val += abs1(d->B(6) - s->B(6));
--    val += abs1(d->B(7) - s->B(7));
--    d->Q(0) = val;
--#if SHIFT == 1
--    val = 0;
--    val += abs1(d->B(8) - s->B(8));
--    val += abs1(d->B(9) - s->B(9));
--    val += abs1(d->B(10) - s->B(10));
--    val += abs1(d->B(11) - s->B(11));
--    val += abs1(d->B(12) - s->B(12));
--    val += abs1(d->B(13) - s->B(13));
--    val += abs1(d->B(14) - s->B(14));
--    val += abs1(d->B(15) - s->B(15));
--    d->Q(1) = val;
--#endif
-+    for (i = 0; i < (1 << SHIFT); i++) {
-+        unsigned int val = 0;
-+        val += abs1(v->B(8 * i + 0) - s->B(8 * i + 0));
-+        val += abs1(v->B(8 * i + 1) - s->B(8 * i + 1));
-+        val += abs1(v->B(8 * i + 2) - s->B(8 * i + 2));
-+        val += abs1(v->B(8 * i + 3) - s->B(8 * i + 3));
-+        val += abs1(v->B(8 * i + 4) - s->B(8 * i + 4));
-+        val += abs1(v->B(8 * i + 5) - s->B(8 * i + 5));
-+        val += abs1(v->B(8 * i + 6) - s->B(8 * i + 6));
-+        val += abs1(v->B(8 * i + 7) - s->B(8 * i + 7));
-+        d->Q(i) = val;
-+    }
- }
+ #define LANE_WIDTH (SHIFT ? 16 : 8)
++#define PACK_WIDTH (LANE_WIDTH / 2)
  
- void glue(helper_maskmov, SUFFIX)(CPUX86State *env, Reg *d, Reg *s,
-@@ -458,20 +453,24 @@ void glue(helper_maskmov, SUFFIX)(CPUX86State *env, Reg *d, Reg *s,
- 
- void glue(helper_movl_mm_T0, SUFFIX)(Reg *d, uint32_t val)
- {
-+    int i;
-+
-     d->L(0) = val;
-     d->L(1) = 0;
--#if SHIFT == 1
--    d->Q(1) = 0;
--#endif
-+    for (i = 1; i < (1 << SHIFT); i++) {
-+        d->Q(i) = 0;
-+    }
- }
- 
- #ifdef TARGET_X86_64
- void glue(helper_movq_mm_T0, SUFFIX)(Reg *d, uint64_t val)
- {
-+    int i;
-+
-     d->Q(0) = val;
--#if SHIFT == 1
--    d->Q(1) = 0;
--#endif
-+    for (i = 1; i < (1 << SHIFT); i++) {
-+        d->Q(i) = 0;
-+    }
+ /*
+  * Copy the relevant parts of a Reg value around. In the case where
+@@ -474,71 +475,81 @@ void glue(helper_movq_mm_T0, SUFFIX)(Reg *d, uint64_t val)
  }
  #endif
  
-@@ -1074,26 +1073,21 @@ uint32_t glue(helper_movmskpd, SUFFIX)(CPUX86State *env, Reg *s)
- uint32_t glue(helper_pmovmskb, SUFFIX)(CPUX86State *env, Reg *s)
++#define SHUFFLE4(F, a, b, offset) do {      \
++    r0 = a->F((order & 3) + offset);        \
++    r1 = a->F(((order >> 2) & 3) + offset); \
++    r2 = b->F(((order >> 4) & 3) + offset); \
++    r3 = b->F(((order >> 6) & 3) + offset); \
++    d->F(offset) = r0;                      \
++    d->F(offset + 1) = r1;                  \
++    d->F(offset + 2) = r2;                  \
++    d->F(offset + 3) = r3;                  \
++    } while (0)
++
+ #if SHIFT == 0
+ void glue(helper_pshufw, SUFFIX)(Reg *d, Reg *s, int order)
  {
-     uint32_t val;
+-    Reg r;
++    uint16_t r0, r1, r2, r3;
+ 
+-    r.W(0) = s->W(order & 3);
+-    r.W(1) = s->W((order >> 2) & 3);
+-    r.W(2) = s->W((order >> 4) & 3);
+-    r.W(3) = s->W((order >> 6) & 3);
+-    MOVE(*d, r);
++    SHUFFLE4(W, s, s, 0);
+ }
+ #else
+ void glue(helper_shufps, SUFFIX)(Reg *d, Reg *s, int order)
+ {
+-    Reg r;
++    Reg *v = d;
++    uint32_t r0, r1, r2, r3;
 +    int i;
  
-     val = 0;
--    val |= (s->B(0) >> 7);
--    val |= (s->B(1) >> 6) & 0x02;
--    val |= (s->B(2) >> 5) & 0x04;
--    val |= (s->B(3) >> 4) & 0x08;
--    val |= (s->B(4) >> 3) & 0x10;
--    val |= (s->B(5) >> 2) & 0x20;
--    val |= (s->B(6) >> 1) & 0x40;
--    val |= (s->B(7)) & 0x80;
--#if SHIFT == 1
--    val |= (s->B(8) << 1) & 0x0100;
--    val |= (s->B(9) << 2) & 0x0200;
--    val |= (s->B(10) << 3) & 0x0400;
--    val |= (s->B(11) << 4) & 0x0800;
--    val |= (s->B(12) << 5) & 0x1000;
--    val |= (s->B(13) << 6) & 0x2000;
--    val |= (s->B(14) << 7) & 0x4000;
--    val |= (s->B(15) << 8) & 0x8000;
--#endif
-+    for (i = 0; i < (1 << SHIFT); i++) {
-+        uint8_t byte = 0;
-+        byte |= (s->B(8 * i + 0) >> 7);
-+        byte |= (s->B(8 * i + 1) >> 6) & 0x02;
-+        byte |= (s->B(8 * i + 2) >> 5) & 0x04;
-+        byte |= (s->B(8 * i + 3) >> 4) & 0x08;
-+        byte |= (s->B(8 * i + 4) >> 3) & 0x10;
-+        byte |= (s->B(8 * i + 5) >> 2) & 0x20;
-+        byte |= (s->B(8 * i + 6) >> 1) & 0x40;
-+        byte |= (s->B(8 * i + 7)) & 0x80;
-+        val |= byte << (8 * i);
+-    r.L(0) = d->L(order & 3);
+-    r.L(1) = d->L((order >> 2) & 3);
+-    r.L(2) = s->L((order >> 4) & 3);
+-    r.L(3) = s->L((order >> 6) & 3);
+-    MOVE(*d, r);
++    for (i = 0; i < 2 << SHIFT; i += 4) {
++        SHUFFLE4(L, v, s, i);
 +    }
+ }
+ 
+ void glue(helper_shufpd, SUFFIX)(Reg *d, Reg *s, int order)
+ {
+-    Reg r;
++    Reg *v = d;
++    uint64_t r0, r1;
++    int i;
+ 
+-    r.Q(0) = d->Q(order & 1);
+-    r.Q(1) = s->Q((order >> 1) & 1);
+-    MOVE(*d, r);
++    for (i = 0; i < 1 << SHIFT; i += 2) {
++        r0 = v->Q(((order & 1) & 1) + i);
++        r1 = s->Q(((order >> 1) & 1) + i);
++        d->Q(i) = r0;
++        d->Q(i + 1) = r1;
++        order >>= 2;
++    }
+ }
+ 
+ void glue(helper_pshufd, SUFFIX)(Reg *d, Reg *s, int order)
+ {
+-    Reg r;
++    uint32_t r0, r1, r2, r3;
++    int i;
+ 
+-    r.L(0) = s->L(order & 3);
+-    r.L(1) = s->L((order >> 2) & 3);
+-    r.L(2) = s->L((order >> 4) & 3);
+-    r.L(3) = s->L((order >> 6) & 3);
+-    MOVE(*d, r);
++    for (i = 0; i < 2 << SHIFT; i += 4) {
++        SHUFFLE4(L, s, s, i);
++    }
+ }
+ 
+ void glue(helper_pshuflw, SUFFIX)(Reg *d, Reg *s, int order)
+ {
+-    Reg r;
++    uint16_t r0, r1, r2, r3;
++    int i, j;
+ 
+-    r.W(0) = s->W(order & 3);
+-    r.W(1) = s->W((order >> 2) & 3);
+-    r.W(2) = s->W((order >> 4) & 3);
+-    r.W(3) = s->W((order >> 6) & 3);
+-    r.Q(1) = s->Q(1);
+-    MOVE(*d, r);
++    for (i = 0, j = 1; j < 1 << SHIFT; i += 8, j += 2) {
++        SHUFFLE4(W, s, s, i);
++        d->Q(j) = s->Q(j);
++    }
+ }
+ 
+ void glue(helper_pshufhw, SUFFIX)(Reg *d, Reg *s, int order)
+ {
+-    Reg r;
++    uint16_t r0, r1, r2, r3;
++    int i, j;
+ 
+-    r.Q(0) = s->Q(0);
+-    r.W(4) = s->W(4 + (order & 3));
+-    r.W(5) = s->W(4 + ((order >> 2) & 3));
+-    r.W(6) = s->W(4 + ((order >> 4) & 3));
+-    r.W(7) = s->W(4 + ((order >> 6) & 3));
+-    MOVE(*d, r);
++    for (i = 4, j = 0; j < 1 << SHIFT; i += 8, j += 2) {
++        d->Q(j) = s->Q(j);
++        SHUFFLE4(W, s, s, i);
++    }
+ }
+ #endif
+ 
+@@ -1091,156 +1102,132 @@ uint32_t glue(helper_pmovmskb, SUFFIX)(CPUX86State *env, Reg *s)
      return val;
  }
  
-@@ -1638,46 +1632,48 @@ SSE_HELPER_V(helper_blendvpd, Q, 2, FBLENDVPD)
- 
- void glue(helper_ptest, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
- {
--    uint64_t zf = (s->Q(0) &  d->Q(0)) | (s->Q(1) &  d->Q(1));
--    uint64_t cf = (s->Q(0) & ~d->Q(0)) | (s->Q(1) & ~d->Q(1));
-+    uint64_t zf = 0, cf = 0;
-+    int i;
- 
-+    for (i = 0; i < 1 << SHIFT; i++) {
-+        zf |= (s->Q(i) &  d->Q(i));
-+        cf |= (s->Q(i) & ~d->Q(i));
-+    }
-     CC_SRC = (zf ? 0 : CC_Z) | (cf ? 0 : CC_C);
+-void glue(helper_packsswb, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+-{
+-    Reg r;
+-
+-    r.B(0) = satsb((int16_t)d->W(0));
+-    r.B(1) = satsb((int16_t)d->W(1));
+-    r.B(2) = satsb((int16_t)d->W(2));
+-    r.B(3) = satsb((int16_t)d->W(3));
+-#if SHIFT == 1
+-    r.B(4) = satsb((int16_t)d->W(4));
+-    r.B(5) = satsb((int16_t)d->W(5));
+-    r.B(6) = satsb((int16_t)d->W(6));
+-    r.B(7) = satsb((int16_t)d->W(7));
+-#endif
+-    r.B((4 << SHIFT) + 0) = satsb((int16_t)s->W(0));
+-    r.B((4 << SHIFT) + 1) = satsb((int16_t)s->W(1));
+-    r.B((4 << SHIFT) + 2) = satsb((int16_t)s->W(2));
+-    r.B((4 << SHIFT) + 3) = satsb((int16_t)s->W(3));
+-#if SHIFT == 1
+-    r.B(12) = satsb((int16_t)s->W(4));
+-    r.B(13) = satsb((int16_t)s->W(5));
+-    r.B(14) = satsb((int16_t)s->W(6));
+-    r.B(15) = satsb((int16_t)s->W(7));
+-#endif
+-    MOVE(*d, r);
++#define PACK_HELPER_B(name, F) \
++void glue(helper_pack ## name, SUFFIX)(CPUX86State *env,      \
++        Reg *d, Reg *s)                                       \
++{                                                             \
++    Reg *v = d;                                               \
++    uint8_t r[PACK_WIDTH * 2];                                \
++    int j, k;                                                 \
++    for (j = 0; j < 4 << SHIFT; j += PACK_WIDTH) {            \
++        for (k = 0; k < PACK_WIDTH; k++) {                    \
++            r[k] = F((int16_t)v->W(j + k));                   \
++        }                                                     \
++        for (k = 0; k < PACK_WIDTH; k++) {                    \
++            r[PACK_WIDTH + k] = F((int16_t)s->W(j + k));      \
++        }                                                     \
++        for (k = 0; k < PACK_WIDTH * 2; k++) {                \
++            d->B(2 * j + k) = r[k];                           \
++        }                                                     \
++    }                                                         \
  }
  
--#define SSE_HELPER_F(name, elem, num, F)        \
--    void glue(name, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)     \
--    {                                           \
--        if (num > 2) {                          \
--            if (num > 4) {                      \
--                d->elem(7) = F(7);              \
--                d->elem(6) = F(6);              \
--                d->elem(5) = F(5);              \
--                d->elem(4) = F(4);              \
--            }                                   \
--            d->elem(3) = F(3);                  \
--            d->elem(2) = F(2);                  \
--        }                                       \
--        d->elem(1) = F(1);                      \
--        d->elem(0) = F(0);                      \
-+#define SSE_HELPER_F(name, elem, num, F)                        \
-+    void glue(name, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)   \
-+    {                                                           \
-+        int n = num;                                            \
-+        for (int i = n; --i >= 0; ) {                           \
-+            d->elem(i) = F(i);                                  \
-+        }                                                       \
-     }
+-void glue(helper_packuswb, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+-{
+-    Reg r;
+-
+-    r.B(0) = satub((int16_t)d->W(0));
+-    r.B(1) = satub((int16_t)d->W(1));
+-    r.B(2) = satub((int16_t)d->W(2));
+-    r.B(3) = satub((int16_t)d->W(3));
+-#if SHIFT == 1
+-    r.B(4) = satub((int16_t)d->W(4));
+-    r.B(5) = satub((int16_t)d->W(5));
+-    r.B(6) = satub((int16_t)d->W(6));
+-    r.B(7) = satub((int16_t)d->W(7));
+-#endif
+-    r.B((4 << SHIFT) + 0) = satub((int16_t)s->W(0));
+-    r.B((4 << SHIFT) + 1) = satub((int16_t)s->W(1));
+-    r.B((4 << SHIFT) + 2) = satub((int16_t)s->W(2));
+-    r.B((4 << SHIFT) + 3) = satub((int16_t)s->W(3));
+-#if SHIFT == 1
+-    r.B(12) = satub((int16_t)s->W(4));
+-    r.B(13) = satub((int16_t)s->W(5));
+-    r.B(14) = satub((int16_t)s->W(6));
+-    r.B(15) = satub((int16_t)s->W(7));
+-#endif
+-    MOVE(*d, r);
+-}
++PACK_HELPER_B(sswb, satsb)
++PACK_HELPER_B(uswb, satub)
  
--SSE_HELPER_F(helper_pmovsxbw, W, 8, (int8_t) s->B)
--SSE_HELPER_F(helper_pmovsxbd, L, 4, (int8_t) s->B)
--SSE_HELPER_F(helper_pmovsxbq, Q, 2, (int8_t) s->B)
--SSE_HELPER_F(helper_pmovsxwd, L, 4, (int16_t) s->W)
--SSE_HELPER_F(helper_pmovsxwq, Q, 2, (int16_t) s->W)
--SSE_HELPER_F(helper_pmovsxdq, Q, 2, (int32_t) s->L)
--SSE_HELPER_F(helper_pmovzxbw, W, 8, s->B)
--SSE_HELPER_F(helper_pmovzxbd, L, 4, s->B)
--SSE_HELPER_F(helper_pmovzxbq, Q, 2, s->B)
--SSE_HELPER_F(helper_pmovzxwd, L, 4, s->W)
--SSE_HELPER_F(helper_pmovzxwq, Q, 2, s->W)
--SSE_HELPER_F(helper_pmovzxdq, Q, 2, s->L)
-+#if SHIFT > 0
-+SSE_HELPER_F(helper_pmovsxbw, W, 4 << SHIFT, (int8_t) s->B)
-+SSE_HELPER_F(helper_pmovsxbd, L, 2 << SHIFT, (int8_t) s->B)
-+SSE_HELPER_F(helper_pmovsxbq, Q, 1 << SHIFT, (int8_t) s->B)
-+SSE_HELPER_F(helper_pmovsxwd, L, 2 << SHIFT, (int16_t) s->W)
-+SSE_HELPER_F(helper_pmovsxwq, Q, 1 << SHIFT, (int16_t) s->W)
-+SSE_HELPER_F(helper_pmovsxdq, Q, 1 << SHIFT, (int32_t) s->L)
-+SSE_HELPER_F(helper_pmovzxbw, W, 4 << SHIFT, s->B)
-+SSE_HELPER_F(helper_pmovzxbd, L, 2 << SHIFT, s->B)
-+SSE_HELPER_F(helper_pmovzxbq, Q, 1 << SHIFT, s->B)
-+SSE_HELPER_F(helper_pmovzxwd, L, 2 << SHIFT, s->W)
-+SSE_HELPER_F(helper_pmovzxwq, Q, 1 << SHIFT, s->W)
-+SSE_HELPER_F(helper_pmovzxdq, Q, 1 << SHIFT, s->L)
-+#endif
- 
- void glue(helper_pmuldq, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+ void glue(helper_packssdw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
  {
--    d->Q(0) = (int64_t)(int32_t) d->L(0) * (int32_t) s->L(0);
--    d->Q(1) = (int64_t)(int32_t) d->L(2) * (int32_t) s->L(2);
+-    Reg r;
++    Reg *v = d;
++    uint16_t r[PACK_WIDTH];
++    int j, k;
+ 
+-    r.W(0) = satsw(d->L(0));
+-    r.W(1) = satsw(d->L(1));
+-#if SHIFT == 1
+-    r.W(2) = satsw(d->L(2));
+-    r.W(3) = satsw(d->L(3));
+-#endif
+-    r.W((2 << SHIFT) + 0) = satsw(s->L(0));
+-    r.W((2 << SHIFT) + 1) = satsw(s->L(1));
+-#if SHIFT == 1
+-    r.W(6) = satsw(s->L(2));
+-    r.W(7) = satsw(s->L(3));
+-#endif
+-    MOVE(*d, r);
++    for (j = 0; j < 2 << SHIFT; j += PACK_WIDTH / 2) {
++        for (k = 0; k < PACK_WIDTH / 2; k++) {
++            r[k] = satsw(v->L(j + k));
++        }
++        for (k = 0; k < PACK_WIDTH / 2; k++) {
++            r[PACK_WIDTH / 2 + k] = satsw(s->L(j + k));
++        }
++        for (k = 0; k < PACK_WIDTH; k++) {
++            d->W(2 * j + k) = r[k];
++        }
++    }
+ }
+ 
+ #define UNPCK_OP(base_name, base)                                       \
+                                                                         \
+     void glue(helper_punpck ## base_name ## bw, SUFFIX)(CPUX86State *env,\
+-                                                        Reg *d, Reg *s) \
++                                                Reg *d, Reg *s) \
+     {                                                                   \
+-        Reg r;                                                          \
++        Reg *v = d;                                                     \
++        uint8_t r[PACK_WIDTH * 2];                                      \
++        int j, i;                                                       \
+                                                                         \
+-        r.B(0) = d->B((base << (SHIFT + 2)) + 0);                       \
+-        r.B(1) = s->B((base << (SHIFT + 2)) + 0);                       \
+-        r.B(2) = d->B((base << (SHIFT + 2)) + 1);                       \
+-        r.B(3) = s->B((base << (SHIFT + 2)) + 1);                       \
+-        r.B(4) = d->B((base << (SHIFT + 2)) + 2);                       \
+-        r.B(5) = s->B((base << (SHIFT + 2)) + 2);                       \
+-        r.B(6) = d->B((base << (SHIFT + 2)) + 3);                       \
+-        r.B(7) = s->B((base << (SHIFT + 2)) + 3);                       \
+-        XMM_ONLY(                                                       \
+-                 r.B(8) = d->B((base << (SHIFT + 2)) + 4);              \
+-                 r.B(9) = s->B((base << (SHIFT + 2)) + 4);              \
+-                 r.B(10) = d->B((base << (SHIFT + 2)) + 5);             \
+-                 r.B(11) = s->B((base << (SHIFT + 2)) + 5);             \
+-                 r.B(12) = d->B((base << (SHIFT + 2)) + 6);             \
+-                 r.B(13) = s->B((base << (SHIFT + 2)) + 6);             \
+-                 r.B(14) = d->B((base << (SHIFT + 2)) + 7);             \
+-                 r.B(15) = s->B((base << (SHIFT + 2)) + 7);             \
+-                                                                      ) \
+-        MOVE(*d, r);                                                    \
++        for (j = 0; j < 8 << SHIFT; ) {                                 \
++            int k = j + base * PACK_WIDTH;                              \
++            for (i = 0; i < PACK_WIDTH; i++) {                          \
++                r[2 * i] = v->B(k + i);                                 \
++                r[2 * i + 1] = s->B(k + i);                             \
++            }                                                           \
++            for (i = 0; i < PACK_WIDTH * 2; i++, j++) {                 \
++                d->B(j) = r[i];                                         \
++            }                                                           \
++        }                                                               \
+     }                                                                   \
+                                                                         \
+     void glue(helper_punpck ## base_name ## wd, SUFFIX)(CPUX86State *env,\
+-                                                        Reg *d, Reg *s) \
++                                                Reg *d, Reg *s) \
+     {                                                                   \
+-        Reg r;                                                          \
++        Reg *v = d;                                                     \
++        uint16_t r[PACK_WIDTH];                                         \
++        int j, i;                                                       \
+                                                                         \
+-        r.W(0) = d->W((base << (SHIFT + 1)) + 0);                       \
+-        r.W(1) = s->W((base << (SHIFT + 1)) + 0);                       \
+-        r.W(2) = d->W((base << (SHIFT + 1)) + 1);                       \
+-        r.W(3) = s->W((base << (SHIFT + 1)) + 1);                       \
+-        XMM_ONLY(                                                       \
+-                 r.W(4) = d->W((base << (SHIFT + 1)) + 2);              \
+-                 r.W(5) = s->W((base << (SHIFT + 1)) + 2);              \
+-                 r.W(6) = d->W((base << (SHIFT + 1)) + 3);              \
+-                 r.W(7) = s->W((base << (SHIFT + 1)) + 3);              \
+-                                                                      ) \
+-            MOVE(*d, r);                                                \
++        for (j = 0; j < 4 << SHIFT; ) {                                 \
++            int k = j + base * PACK_WIDTH / 2;                          \
++            for (i = 0; i < PACK_WIDTH / 2; i++) {                      \
++                r[2 * i] = v->W(k + i);                                 \
++                r[2 * i + 1] = s->W(k + i);                             \
++            }                                                           \
++            for (i = 0; i < PACK_WIDTH; i++, j++) {                     \
++                d->W(j) = r[i];                                         \
++            }                                                           \
++        }                                                               \
+     }                                                                   \
+                                                                         \
+     void glue(helper_punpck ## base_name ## dq, SUFFIX)(CPUX86State *env,\
+-                                                        Reg *d, Reg *s) \
++                                                Reg *d, Reg *s) \
+     {                                                                   \
+-        Reg r;                                                          \
++        Reg *v = d;                                                     \
++        uint32_t r[PACK_WIDTH / 2];                                     \
++        int j, i;                                                       \
+                                                                         \
+-        r.L(0) = d->L((base << SHIFT) + 0);                             \
+-        r.L(1) = s->L((base << SHIFT) + 0);                             \
+-        XMM_ONLY(                                                       \
+-                 r.L(2) = d->L((base << SHIFT) + 1);                    \
+-                 r.L(3) = s->L((base << SHIFT) + 1);                    \
+-                                                                      ) \
+-            MOVE(*d, r);                                                \
++        for (j = 0; j < 2 << SHIFT; ) {                                 \
++            int k = j + base * PACK_WIDTH / 4;                          \
++            for (i = 0; i < PACK_WIDTH / 4; i++) {                      \
++                r[2 * i] = v->L(k + i);                                 \
++                r[2 * i + 1] = s->L(k + i);                             \
++            }                                                           \
++            for (i = 0; i < PACK_WIDTH / 2; i++, j++) {                 \
++                d->L(j) = r[i];                                         \
++            }                                                           \
++        }                                                               \
+     }                                                                   \
+                                                                         \
+     XMM_ONLY(                                                           \
+-          \
++                        CPUX86State *env, Reg *d, Reg *s)       \
+              {                                                          \
+-                 Reg r;                                                 \
++                 Reg *v = d;                                            \
++                 uint64_t r[2];                                         \
++                 int i;                                                 \
+                                                                         \
+-                 r.Q(0) = d->Q(base);                                   \
+-                 r.Q(1) = s->Q(base);                                   \
+-                 MOVE(*d, r);                                           \
++                 for (i = 0; i < 1 << SHIFT; i += 2) {                  \
++                     r[0] = v->Q(base + i);                             \
++                     r[1] = s->Q(base + i);                             \
++                     d->Q(i) = r[0];                                    \
++                     d->Q(i + 1) = r[1];                                \
++                 }                                                      \
+              }                                                          \
+                                                                         )
+ 
+ UNPCK_OP(l, 0)
+ UNPCK_OP(h, 1)
+ 
++#undef PACK_WIDTH
++#undef PACK_HELPER_B
++#undef UNPCK_OP
++
++
+ /* 3DNow! float ops */
+ #if SHIFT == 0
+ void helper_pi2fd(CPUX86State *env, MMXReg *d, MMXReg *s)
+@@ -1393,122 +1380,86 @@ void helper_pswapd(CPUX86State *env, MMXReg *d, MMXReg *s)
+ /* SSSE3 op helpers */
+ void glue(helper_pshufb, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+ {
++    Reg *v = d;
+     int i;
+-    Reg r;
++#if SHIFT == 0
++    uint8_t r[8];
+ 
+-    for (i = 0; i < (8 << SHIFT); i++) {
+-        r.B(i) = (s->B(i) & 0x80) ? 0 : (d->B(s->B(i) & ((8 << SHIFT) - 1)));
++    for (i = 0; i < 8; i++) {
++        r[i] = (s->B(i) & 0x80) ? 0 : (v->B(s->B(i) & 7));
+     }
++    for (i = 0; i < 8; i++) {
++        d->B(i) = r[i];
++    }
++#else
++    uint8_t r[8 << SHIFT];
+ 
+-    MOVE(*d, r);
+-}
+-
+-void glue(helper_phaddw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+-{
+-
+-    Reg r;
+-
+-    r.W(0) = (int16_t)d->W(0) + (int16_t)d->W(1);
+-    r.W(1) = (int16_t)d->W(2) + (int16_t)d->W(3);
+-    XMM_ONLY(r.W(2) = (int16_t)d->W(4) + (int16_t)d->W(5));
+-    XMM_ONLY(r.W(3) = (int16_t)d->W(6) + (int16_t)d->W(7));
+-    r.W((2 << SHIFT) + 0) = (int16_t)s->W(0) + (int16_t)s->W(1);
+-    r.W((2 << SHIFT) + 1) = (int16_t)s->W(2) + (int16_t)s->W(3);
+-    XMM_ONLY(r.W(6) = (int16_t)s->W(4) + (int16_t)s->W(5));
+-    XMM_ONLY(r.W(7) = (int16_t)s->W(6) + (int16_t)s->W(7));
+-
+-    MOVE(*d, r);
+-}
+-
+-void glue(helper_phaddd, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+-{
+-    Reg r;
+-
+-    r.L(0) = (int32_t)d->L(0) + (int32_t)d->L(1);
+-    XMM_ONLY(r.L(1) = (int32_t)d->L(2) + (int32_t)d->L(3));
+-    r.L((1 << SHIFT) + 0) = (int32_t)s->L(0) + (int32_t)s->L(1);
+-    XMM_ONLY(r.L(3) = (int32_t)s->L(2) + (int32_t)s->L(3));
+-
+-    MOVE(*d, r);
+-}
+-
+-void glue(helper_phaddsw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+-{
+-    Reg r;
+-
+-    r.W(0) = satsw((int16_t)d->W(0) + (int16_t)d->W(1));
+-    r.W(1) = satsw((int16_t)d->W(2) + (int16_t)d->W(3));
+-    XMM_ONLY(r.W(2) = satsw((int16_t)d->W(4) + (int16_t)d->W(5)));
+-    XMM_ONLY(r.W(3) = satsw((int16_t)d->W(6) + (int16_t)d->W(7)));
+-    r.W((2 << SHIFT) + 0) = satsw((int16_t)s->W(0) + (int16_t)s->W(1));
+-    r.W((2 << SHIFT) + 1) = satsw((int16_t)s->W(2) + (int16_t)s->W(3));
+-    XMM_ONLY(r.W(6) = satsw((int16_t)s->W(4) + (int16_t)s->W(5)));
+-    XMM_ONLY(r.W(7) = satsw((int16_t)s->W(6) + (int16_t)s->W(7)));
+-
+-    MOVE(*d, r);
+-}
+-
+-void glue(helper_pmaddubsw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+-{
+-    d->W(0) = satsw((int8_t)s->B(0) * (uint8_t)d->B(0) +
+-                    (int8_t)s->B(1) * (uint8_t)d->B(1));
+-    d->W(1) = satsw((int8_t)s->B(2) * (uint8_t)d->B(2) +
+-                    (int8_t)s->B(3) * (uint8_t)d->B(3));
+-    d->W(2) = satsw((int8_t)s->B(4) * (uint8_t)d->B(4) +
+-                    (int8_t)s->B(5) * (uint8_t)d->B(5));
+-    d->W(3) = satsw((int8_t)s->B(6) * (uint8_t)d->B(6) +
+-                    (int8_t)s->B(7) * (uint8_t)d->B(7));
+-#if SHIFT == 1
+-    d->W(4) = satsw((int8_t)s->B(8) * (uint8_t)d->B(8) +
+-                    (int8_t)s->B(9) * (uint8_t)d->B(9));
+-    d->W(5) = satsw((int8_t)s->B(10) * (uint8_t)d->B(10) +
+-                    (int8_t)s->B(11) * (uint8_t)d->B(11));
+-    d->W(6) = satsw((int8_t)s->B(12) * (uint8_t)d->B(12) +
+-                    (int8_t)s->B(13) * (uint8_t)d->B(13));
+-    d->W(7) = satsw((int8_t)s->B(14) * (uint8_t)d->B(14) +
+-                    (int8_t)s->B(15) * (uint8_t)d->B(15));
++    for (i = 0; i < 8 << SHIFT; i++) {
++        int j = i & ~0xf;
++        r[i] = (s->B(i) & 0x80) ? 0 : v->B(j | (s->B(i) & 0xf));
++    }
++    for (i = 0; i < 8 << SHIFT; i++) {
++        d->B(i) = r[i];
++    }
+ #endif
+ }
+ 
+-void glue(helper_phsubw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+-{
+-    Reg r;
+-
+-    r.W(0) = (int16_t)d->W(0) - (int16_t)d->W(1);
+-    r.W(1) = (int16_t)d->W(2) - (int16_t)d->W(3);
+-    XMM_ONLY(r.W(2) = (int16_t)d->W(4) - (int16_t)d->W(5));
+-    XMM_ONLY(r.W(3) = (int16_t)d->W(6) - (int16_t)d->W(7));
+-    r.W((2 << SHIFT) + 0) = (int16_t)s->W(0) - (int16_t)s->W(1);
+-    r.W((2 << SHIFT) + 1) = (int16_t)s->W(2) - (int16_t)s->W(3);
+-    XMM_ONLY(r.W(6) = (int16_t)s->W(4) - (int16_t)s->W(5));
+-    XMM_ONLY(r.W(7) = (int16_t)s->W(6) - (int16_t)s->W(7));
+-    MOVE(*d, r);
++#define SSE_HELPER_HW(name, F)  \
++void glue(helper_ ## name, SUFFIX)(CPUX86State *env, Reg *d, Reg *s) \
++{                                                          \
++    Reg *v = d;                                            \
++    uint16_t r[4 << SHIFT];                                \
++    int i, j, k;                                           \
++    for (k = 0; k < 4 << SHIFT; k += LANE_WIDTH / 2) {     \
++        for (i = j = 0; j < LANE_WIDTH / 2; i++, j += 2) { \
++            r[i + k] = F(v->W(j + k), v->W(j + k + 1));    \
++        }                                                  \
++        for (j = 0; j < LANE_WIDTH / 2; i++, j += 2) {     \
++            r[i + k] = F(s->W(j + k), s->W(j + k + 1));    \
++        }                                                  \
++    }                                                      \
++    for (i = 0; i < 4 << SHIFT; i++) {                     \
++        d->W(i) = r[i];                                    \
++    }                                                      \
+ }
+ 
+-void glue(helper_phsubd, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+-{
+-    Reg r;
+-
+-    r.L(0) = (int32_t)d->L(0) - (int32_t)d->L(1);
+-    XMM_ONLY(r.L(1) = (int32_t)d->L(2) - (int32_t)d->L(3));
+-    r.L((1 << SHIFT) + 0) = (int32_t)s->L(0) - (int32_t)s->L(1);
+-    XMM_ONLY(r.L(3) = (int32_t)s->L(2) - (int32_t)s->L(3));
+-    MOVE(*d, r);
++#define SSE_HELPER_HL(name, F)  \
++void glue(helper_ ## name, SUFFIX)(CPUX86State *env, Reg *d, Reg *s) \
++{                                                          \
++    Reg *v = d;                                            \
++    uint32_t r[2 << SHIFT];                                \
++    int i, j, k;                                           \
++    for (k = 0; k < 2 << SHIFT; k += LANE_WIDTH / 4) {     \
++        for (i = j = 0; j < LANE_WIDTH / 4; i++, j += 2) { \
++            r[i + k] = F(v->L(j + k), v->L(j + k + 1));    \
++        }                                                  \
++        for (j = 0; j < LANE_WIDTH / 4; i++, j += 2) {     \
++            r[i + k] = F(s->L(j + k), s->L(j + k + 1));    \
++        }                                                  \
++    }                                                      \
++    for (i = 0; i < 2 << SHIFT; i++) {                     \
++        d->L(i) = r[i];                                    \
++    }                                                      \
+ }
+ 
+-void glue(helper_phsubsw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+-{
+-    Reg r;
++SSE_HELPER_HW(phaddw, FADD)
++SSE_HELPER_HW(phsubw, FSUB)
++SSE_HELPER_HW(phaddsw, FADDSW)
++SSE_HELPER_HW(phsubsw, FSUBSW)
++SSE_HELPER_HL(phaddd, FADD)
++SSE_HELPER_HL(phsubd, FSUB)
+ 
+-    r.W(0) = satsw((int16_t)d->W(0) - (int16_t)d->W(1));
+-    r.W(1) = satsw((int16_t)d->W(2) - (int16_t)d->W(3));
+-    XMM_ONLY(r.W(2) = satsw((int16_t)d->W(4) - (int16_t)d->W(5)));
+-    XMM_ONLY(r.W(3) = satsw((int16_t)d->W(6) - (int16_t)d->W(7)));
+-    r.W((2 << SHIFT) + 0) = satsw((int16_t)s->W(0) - (int16_t)s->W(1));
+-    r.W((2 << SHIFT) + 1) = satsw((int16_t)s->W(2) - (int16_t)s->W(3));
+-    XMM_ONLY(r.W(6) = satsw((int16_t)s->W(4) - (int16_t)s->W(5)));
+-    XMM_ONLY(r.W(7) = satsw((int16_t)s->W(6) - (int16_t)s->W(7)));
+-    MOVE(*d, r);
++#undef SSE_HELPER_HW
++#undef SSE_HELPER_HL
++
++void glue(helper_pmaddubsw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
++{
 +    Reg *v = d;
 +    int i;
-+
-+    for (i = 0; i < 1 << SHIFT; i++) {
-+        d->Q(i) = (int64_t)(int32_t) v->L(2 * i) * (int32_t) s->L(2 * i);
++    for (i = 0; i < 4 << SHIFT; i++) {
++        d->W(i) = satsw((int8_t)s->B(i * 2) * (uint8_t)v->B(i * 2) +
++                        (int8_t)s->B(i * 2 + 1) * (uint8_t)v->B(i * 2 + 1));
 +    }
  }
  
- #define FCMPEQQ(d, s) (d == s ? -1 : 0)
+ #define FABSB(x) (x > INT8_MAX  ? -(int8_t)x : x)
+@@ -1531,32 +1482,38 @@ SSE_HELPER_L(helper_psignd, FSIGNL)
+ void glue(helper_palignr, SUFFIX)(CPUX86State *env, Reg *d, Reg *s,
+                                   int32_t shift)
+ {
+-    Reg r;
++    Reg *v = d;
++    int i;
+ 
+     /* XXX could be checked during translation */
+-    if (shift >= (16 << SHIFT)) {
+-        r.Q(0) = 0;
+-        XMM_ONLY(r.Q(1) = 0);
++    if (shift >= (SHIFT ? 32 : 16)) {
++        for (i = 0; i < (1 << SHIFT); i++) {
++            d->Q(i) = 0;
++        }
+     } else {
+         shift <<= 3;
+ #define SHR(v, i) (i < 64 && i > -64 ? i > 0 ? v >> (i) : (v << -(i)) : 0)
+ #if SHIFT == 0
+-        r.Q(0) = SHR(s->Q(0), shift - 0) |
+-            SHR(d->Q(0), shift -  64);
++        d->Q(0) = SHR(s->Q(0), shift - 0) |
++            SHR(v->Q(0), shift -  64);
+ #else
+-        r.Q(0) = SHR(s->Q(0), shift - 0) |
+-            SHR(s->Q(1), shift -  64) |
+-            SHR(d->Q(0), shift - 128) |
+-            SHR(d->Q(1), shift - 192);
+-        r.Q(1) = SHR(s->Q(0), shift + 64) |
+-            SHR(s->Q(1), shift -   0) |
+-            SHR(d->Q(0), shift -  64) |
+-            SHR(d->Q(1), shift - 128);
++        for (i = 0; i < (1 << SHIFT); i += 2) {
++            uint64_t r0, r1;
++
++            r0 = SHR(s->Q(i), shift - 0) |
++                 SHR(s->Q(i + 1), shift -  64) |
++                 SHR(v->Q(i), shift - 128) |
++                 SHR(v->Q(i + 1), shift - 192);
++            r1 = SHR(s->Q(i), shift + 64) |
++                 SHR(s->Q(i + 1), shift -   0) |
++                 SHR(v->Q(i), shift -  64) |
++                 SHR(v->Q(i + 1), shift - 128);
++            d->Q(i) = r0;
++            d->Q(i + 1) = r1;
++        }
+ #endif
+ #undef SHR
+     }
+-
+-    MOVE(*d, r);
+ }
+ 
+ #define XMM0 (env->xmm_regs[0])
+@@ -1681,17 +1638,23 @@ SSE_HELPER_Q(helper_pcmpeqq, FCMPEQQ)
+ 
+ void glue(helper_packusdw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+ {
+-    Reg r;
++    Reg *v = d;
++    uint16_t r[8];
++    int i, j, k;
+ 
+-    r.W(0) = satuw((int32_t) d->L(0));
+-    r.W(1) = satuw((int32_t) d->L(1));
+-    r.W(2) = satuw((int32_t) d->L(2));
+-    r.W(3) = satuw((int32_t) d->L(3));
+-    r.W(4) = satuw((int32_t) s->L(0));
+-    r.W(5) = satuw((int32_t) s->L(1));
+-    r.W(6) = satuw((int32_t) s->L(2));
+-    r.W(7) = satuw((int32_t) s->L(3));
+-    MOVE(*d, r);
++    for (i = 0, j = 0; i <= 2 << SHIFT; i += 8, j += 4) {
++        r[0] = satuw(v->L(j));
++        r[1] = satuw(v->L(j + 1));
++        r[2] = satuw(v->L(j + 2));
++        r[3] = satuw(v->L(j + 3));
++        r[4] = satuw(s->L(j));
++        r[5] = satuw(s->L(j + 1));
++        r[6] = satuw(s->L(j + 2));
++        r[7] = satuw(s->L(j + 3));
++        for (k = 0; k < 8; k++) {
++            d->W(i + k) = r[k];
++        }
++    }
+ }
+ 
+ #define FMINSB(d, s) MIN((int8_t)d, (int8_t)s)
+@@ -1947,20 +1910,25 @@ void glue(helper_dppd, SUFFIX)(CPUX86State *env, Reg *d, Reg *s, uint32_t mask)
+ void glue(helper_mpsadbw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s,
+                                   uint32_t offset)
+ {
+-    int s0 = (offset & 3) << 2;
+-    int d0 = (offset & 4) << 0;
+-    int i;
+-    Reg r;
++    Reg *v = d;
++    int i, j;
++    uint16_t r[8];
+ 
+-    for (i = 0; i < 8; i++, d0++) {
+-        r.W(i) = 0;
+-        r.W(i) += abs1(d->B(d0 + 0) - s->B(s0 + 0));
+-        r.W(i) += abs1(d->B(d0 + 1) - s->B(s0 + 1));
+-        r.W(i) += abs1(d->B(d0 + 2) - s->B(s0 + 2));
+-        r.W(i) += abs1(d->B(d0 + 3) - s->B(s0 + 3));
++    for (j = 0; j < 4 << SHIFT; ) {
++        int s0 = (j * 2) + ((offset & 3) << 2);
++        int d0 = (j * 2) + ((offset & 4) << 0);
++        for (i = 0; i < LANE_WIDTH / 2; i++, d0++) {
++            r[i] = 0;
++            r[i] += abs1(v->B(d0 + 0) - s->B(s0 + 0));
++            r[i] += abs1(v->B(d0 + 1) - s->B(s0 + 1));
++            r[i] += abs1(v->B(d0 + 2) - s->B(s0 + 2));
++            r[i] += abs1(v->B(d0 + 3) - s->B(s0 + 3));
++        }
++        for (i = 0; i < LANE_WIDTH / 2; i++, j++) {
++            d->W(j) = r[i];
++        }
++        offset >>= 3;
+     }
+-
+-    MOVE(*d, r);
+ }
+ 
+ /* SSE4.2 op helpers */
 -- 
 2.37.2
 
