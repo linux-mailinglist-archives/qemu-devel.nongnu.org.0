@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F4C5AA38B
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 01:15:07 +0200 (CEST)
-Received: from localhost ([::1]:57648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C9B5AA3A5
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 01:21:09 +0200 (CEST)
+Received: from localhost ([::1]:48148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTtOs-0005ho-HR
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 19:15:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40878)
+	id 1oTtUi-0007dq-Mj
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 19:21:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oTtMT-00048L-U2
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 19:12:38 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:35805)
+ id 1oTtSH-0006Bd-AK
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 19:18:37 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:44861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oTtMS-0003VH-34
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 19:12:37 -0400
-Received: by mail-pl1-x632.google.com with SMTP id y1so251324plb.2
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 16:12:35 -0700 (PDT)
+ id 1oTtSF-00051m-Es
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 19:18:36 -0400
+Received: by mail-pl1-x631.google.com with SMTP id f12so197654plb.11
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 16:18:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=MWcWOsKvaKOwc+q6n9IOw5T14nz61qlH85BwUguXML4=;
- b=WDhtHQz0CY/DLl2eKUVXFQYvtP9xDL++79c/IMgCia7d+MWLWtFGP7PpVcsDFXVc/a
- M8uo5HK5aQSvLeJZkVC2WwB9fDkUdxpWvQSMygTX5JgLCDyNSoip9m2k94T/Rl+8qJRd
- ARhjSAkDCSrfiYanIfT6wCSs6n/Tjhb4eKQ27Xtb7oNBo6HESeEtz9pYU9xjaJcCGYvZ
- XsfTqPJJOW2D+BFjL+XoZvVFlD379ULTRZC4zqTny2+RVz0opg7+pMRb2ZKsr6IN35RE
- Xs6zxG5GHGMZUKiqhjzc3ImHScFxpfM4wNjoU5F+2QxiumYQy1FYMr9rwz8WCt3/HOxu
- WnMQ==
+ bh=4zGaroD0Z/JmjsVNOWmP0kwIr+ZKSmGK/BM0e9CUpEE=;
+ b=k5WkchFK5p6HJ2t6dMyxTPL0N2j1wgLZpqkYmCtAupMO1LyMojpTuWYyGfOV3Z+Yyl
+ awVWSwpIkAw51tfdKAUWj7e72+ua6dF57ZA2pPff4tiF9FeJulzPqpa4PEFN4QacMv+c
+ DeO1LTQfto23QZxVyDidv/nRV+HvS1fR3x+TZ084hAo9palT6JfUC+m9xjyvzwZjX1SX
+ qH+lIMYvzxMUwu7McAkDGRm7zaGJW6AFvU3/IrPZ8/HFfzoB6O8GIfoAnkNKFQ24WINE
+ mk0LRG4W1mhDAxxdFYVYVJwHi0JfrfZOVfwaHju7kr2ixJOgtSGzkxTGPucr5fo8cBX0
+ +esQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=MWcWOsKvaKOwc+q6n9IOw5T14nz61qlH85BwUguXML4=;
- b=ptB+b4awTlJHhAP7Q2UxujjUAnKQl479pR5+H7SchFPGYacEXE+VAMBiQl7b6n0Hkc
- l/mPVBuYCgUig8iPkBfiYmx7B/PCm9qNLUbjX/as/yqwRWyqCmFICtJrai5n+RBLIPXt
- 8qs26oLv6w9UklVOa5EL/eRYto9Cey/uSP9HVfZxTm+deue7fR6aWKaS0Kburo8CuBzv
- /B3L1cco1tYg77fApH4zce/0jAyY0bbyzeP9MT2iThh1YnydCpvUcIBmDPw0Bz2DL47D
- oB9vHswJtkhKdPqOebc1+X6o3CgEYhvMYcOitO9q6ucdxipBRWrA+ArHI4hjLOJ3IEKU
- wTHA==
-X-Gm-Message-State: ACgBeo0wgAU+1q68pQvZPFD3W3RyTNhiYqwBQy1UhI/Oppv2DKeH7nSr
- OAOWj6hNaUdam10fbjj2gUo=
-X-Google-Smtp-Source: AA6agR5fHDT/140RpxvddtY2WGpa4zhGC21nwlk9QTca4fXp5vPGJmF9U60n2OM8ZgSvpIGM3JPNiw==
-X-Received: by 2002:a17:903:120d:b0:171:4fa0:7b4a with SMTP id
- l13-20020a170903120d00b001714fa07b4amr32031567plh.45.1662073954628; 
- Thu, 01 Sep 2022 16:12:34 -0700 (PDT)
+ bh=4zGaroD0Z/JmjsVNOWmP0kwIr+ZKSmGK/BM0e9CUpEE=;
+ b=w+xtVtF8dzTZ4R8q5kYjXG1smVcsXu1tuIvMO1k3sswWwbQGG9LoA2sGU/t3w2gKlN
+ rTQcF2Of3HkDtaWh1oA5HMfpFBMjw06y5LgYzrK3mzSv4Ve2HU1Q4bFdg8ULb28KXO2g
+ otXG3tQbNOzJJlCB7enxuth47jsJeqayGA9AEtCRdRd5TkVMjUMVmc+xi9DEZt8HA6u0
+ sX7SX+xwKB7w7x6M8EKwvnxmrEKwSpr52uITyKi9JkGpTUaryue0u5qACzH6Q1n0ZFtp
+ mu0P4Lb+Bti/372v2YSyOq209pYgkv2l2P1SU3zJ6Q9jEol2gjgVUUVUb5IxkpPfp7sa
+ 2Lhw==
+X-Gm-Message-State: ACgBeo1jdCd9683zZoif3x8eqJF3BoUpQnGuZxRJabGjvDNu3h5e3Vmh
+ oAGVQ/ZegxCW6UlC+10Kts0=
+X-Google-Smtp-Source: AA6agR7xRVYnApBdBcMqYTbAyOGMfgvCv/0q1voWjKcNnCp3qdpPCTTava4M11hGa/OjsE1QmHtr3g==
+X-Received: by 2002:a17:90b:4f4e:b0:1f5:8a65:9192 with SMTP id
+ pj14-20020a17090b4f4e00b001f58a659192mr1565638pjb.224.1662074313924; 
+ Thu, 01 Sep 2022 16:18:33 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- n11-20020a17090a2bcb00b001facb7bc1adsm3891813pje.26.2022.09.01.16.12.30
+ a5-20020a17090ae20500b001fb277223bdsm185233pjz.2.2022.09.01.16.18.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Sep 2022 16:12:34 -0700 (PDT)
-Message-ID: <180f2f90-d910-3185-d33f-6255b383dacb@amsat.org>
-Date: Fri, 2 Sep 2022 01:12:28 +0200
+ Thu, 01 Sep 2022 16:18:33 -0700 (PDT)
+Message-ID: <d6f71302-864c-b80f-84ea-d1dda4817f80@amsat.org>
+Date: Fri, 2 Sep 2022 01:18:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH 13/42] hw/isa/piix3: Add size constraints to rcr_ops
+Subject: Re: [RFC] hw/registerfields: add `FIELDx_1CLEAR()` macro
 Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
-References: <20220901162613.6939-1-shentey@gmail.com>
- <20220901162613.6939-14-shentey@gmail.com>
-In-Reply-To: <20220901162613.6939-14-shentey@gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Wilfred Mallawa <wilfred.mallawa@opensource.wdc.com>, alistair@alistair23.me
+Cc: qemu-devel@nongnu.org, Wilfred Mallawa <wilfred.mallawa@wdc.com>
+References: <20220901010220.495112-1-wilfred.mallawa@opensource.wdc.com>
+ <d2e49911-4aed-5031-f430-71d4e15b130e@linaro.org>
+In-Reply-To: <d2e49911-4aed-5031-f430-71d4e15b130e@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -103,15 +97,89 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 1/9/22 18:25, Bernhard Beschow wrote:
-> According to the PIIX3 datasheet, the reset control register is one byte in size.
-> Moreover, PIIX4 has it, so add it to PIIX3 as well.
+On 1/9/22 07:32, Richard Henderson wrote:
+> On 9/1/22 02:02, Wilfred Mallawa wrote:
+>> From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+>>
+>> Adds a helper macro that implements the `rw1c`
+>> behaviour.
+>>
+>> Ex:
+>>    uint32_t data = FIELD32_1CLEAR(val, REG, FIELD);
+>>
+>> if the specified `FIELD` is set (single/multi bit all fields)
+>> then the respective field is cleared and returned to `data`.
+>>
+>> If ALL bits of the bitfield are not set, then no change and
+>> val is returned.
+>>
+>> Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 > 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->   hw/isa/piix3.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
+> Why do these operations need to go into hw/registerfields.h?
+> It's not a common operation, since we've never needed it so far.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+I suggested it to improve readability of this patch:
+https://lore.kernel.org/qemu-devel/c33257a3-645f-9386-52e5-21a15ef0ebe5@amsat.org/
+
+>> ---
+>>   include/hw/registerfields.h | 28 ++++++++++++++++++++++++++++
+>>   1 file changed, 28 insertions(+)
+>>
+>> diff --git a/include/hw/registerfields.h b/include/hw/registerfields.h
+>> index 1330ca77de..5a804f72e3 100644
+>> --- a/include/hw/registerfields.h
+>> +++ b/include/hw/registerfields.h
+>> @@ -115,6 +115,34 @@
+>>                     R_ ## reg ## _ ## field ## _LENGTH, 
+>> _v.v);              \
+>>       _d; })
+>> +/* Get the max value (uint) discribed by `num_bits` bits */
+>> +#define MAX_N_BITS(num_bits) ((1 << (num_bits)) - 1)
+>> +
+>> +/*
+>> + * Clear the specified field in reg_val if
+>> + * all field bits are set, else no changes made. Implements
+>> + * single/multi-bit `rw1c`
+>> + */
+>> +#define FIELD8_1CLEAR(reg_val, reg, 
+>> field)                                \
+>> +    ((FIELD_EX8(reg_val, reg, field) 
+>> ==                                   \
+>> +      MAX_N_BITS(R_ ## reg ## _ ## field ## _LENGTH)) 
+>> ?                   \
+>> +      FIELD_DP8(reg_val, reg, field, 0x00) : reg_val)
+>> +
+>> +#define FIELD16_1CLEAR(reg_val, reg, 
+>> field)                               \
+>> +    ((FIELD_EX16(reg_val, reg, field) 
+>> ==                                  \
+>> +      MAX_N_BITS(R_ ## reg ## _ ## field ## _LENGTH)) 
+>> ?                   \
+>> +      FIELD_DP16(reg_val, reg, field, 0x00) : reg_val)
+>> +
+>> +#define FIELD32_1CLEAR(reg_val, reg, 
+>> field)                               \
+>> +    ((FIELD_EX32(reg_val, reg, field) 
+>> ==                                  \
+>> +      MAX_N_BITS(R_ ## reg ## _ ## field ## _LENGTH)) 
+>> ?                   \
+>> +      FIELD_DP32(reg_val, reg, field, 0x00) : reg_val)
+>> +
+>> +#define FIELD64_1CLEAR(reg_val, reg, 
+>> field)                               \
+>> +    ((FIELD_EX64(reg_val, reg, field) 
+>> ==                                  \
+>> +      MAX_N_BITS(R_ ## reg ## _ ## field ## _LENGTH)) 
+>> ?                   \
+>> +      FIELD_DP64(reg_val, reg, field, 0x00) : reg_val)
+>> +
+>>   #define FIELD_SDP8(storage, reg, field, val) 
+>> ({                           \
+>>       struct 
+>> {                                                              \
+>>           signed int v:R_ ## reg ## _ ## field ## 
+>> _LENGTH;                  \
+> 
+> 
 
 
