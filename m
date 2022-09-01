@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AED55A8DAF
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 07:53:24 +0200 (CEST)
-Received: from localhost ([::1]:57242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C1425A8DB0
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 07:53:29 +0200 (CEST)
+Received: from localhost ([::1]:38590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTd8k-0002nt-U1
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 01:53:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36216)
+	id 1oTd8q-0002zc-Er
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 01:53:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTd4L-00073S-5A
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 01:48:49 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36382)
+ id 1oTd4P-00073r-Eu
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 01:48:54 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:39426)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTd4J-0002Sd-AN
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 01:48:48 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- v7-20020a1cac07000000b003a6062a4f81so720956wme.1
- for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 22:48:46 -0700 (PDT)
+ id 1oTd4K-0002Sn-RM
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 01:48:51 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ i188-20020a1c3bc5000000b003a7b6ae4eb2so706508wma.4
+ for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 22:48:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc;
- bh=5T0LEWvQb6sC5Wxzx6nYF+W4479bRzvnG2ZDO8HgQPQ=;
- b=wQUldpecoq2/EEA9WmDMkmq9zykzGJbXM2bo9cASNw0/1t66MWVpQnfA/OC6z0bMNr
- Uj4BMbfAIkwegcKoyy/5pjMxbcQQViLXEDJOxORDcgWN1QdczDFEBgphcZosju507fZE
- zcwcTJsbalSFV3BV0C/Uf4UN14xuzvVmpCWEZ8vACnYN55wlNCZoJ8pqzoWBgfsmydKW
- ewZs7/WNdT0fMQdxmDZQV0nNdCGRLJUiBb+Tg+hUlY7lgeaX+narti7lnfg6Zx8ndGDQ
- iBsK/1h5jIvF40daNeB+lkUrlhxUhFJI2BnidGb52cqBf7Aqj5tr6RpUhZQmHu4Gd/Yu
- mMTQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=U/h2PuXjGmHqeTevSKtXVEUhLbvpxvYx+D8DjCnF93A=;
+ b=aZ2eXVYnP0GT4VRMHKspmAvo2o7RKWyg0XCUPZHTag0jRpDd94OUohCVq7rx4ey/dp
+ T/qabEpYT8fT1MpZufzRuCeKiaq9vHf5dgz6FStMbr3MTTMFcGmOlfG2mUTYz1MY7gRV
+ DohQL5CIrLXc6Sa6ytJeEyKQ250B8e4gtGK2IPfxM7Y4oika2HM3PUH1zioBOedjp8sp
+ ZZUkH/nd2lrzxATzgEFlQOCsXVHN2Zwe8xs7P77nKFBPlCMg9v3/DOZFzuimCDO4JHjv
+ 7g/3BV4itrHhH9tyPP/np48k1GfpU1LBfyga0QXi7pAd/KdqO9jFHSaF/IgqN9Diw3sJ
+ uC1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc;
- bh=5T0LEWvQb6sC5Wxzx6nYF+W4479bRzvnG2ZDO8HgQPQ=;
- b=v/ppfuCMxvsFi1rPslfZwp6odnd7uvFGJTIdmz7Mxj5F4uPrpCDq67lzm40c1cqTbE
- 68I3sUBH3xWwpiL02TTA7CaNB2pacdVzKOaxcsNOYD3JaccWJOrHcu5w/jSIAcO+9BC2
- NkuSaqjIO5UEBfUnxmaZZom+WMk/k4QT6pLxruK3nF2ecCrAcLC99BKwXFDSHT6Q7lt0
- PcVg+9Naa1T23OjKg+HjaMwjfUV4QNZ4ip3vCGCC/k9taT33sWrX0DRIRWmWVWC6WYOh
- xP2m2ZDdU3Wmdp6KAOEs1ftzlmZAQvnwrnn9Lj2+iCxUleklqV8oO3KXYz/YhbujwIys
- SbKQ==
-X-Gm-Message-State: ACgBeo2WC0GtBPBEef8NfTbUHAqoNcUwRzTWIwzc2UCAEFPW8meE/AEj
- X6htlNaaZWBnoGRQRr0LRKFbyDokvbQSK0O20jI=
-X-Google-Smtp-Source: AA6agR58Q6Oe/TOI71LR7DnnqYodSRyWOBePdR+qg1BKm/aRSUINbRRtcGjghO11BRa7+fzMGd5cFg==
-X-Received: by 2002:a1c:4b01:0:b0:3a5:94e8:948e with SMTP id
- y1-20020a1c4b01000000b003a594e8948emr3907205wma.197.1662011325495; 
- Wed, 31 Aug 2022 22:48:45 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=U/h2PuXjGmHqeTevSKtXVEUhLbvpxvYx+D8DjCnF93A=;
+ b=s+kEie0bKspGJW6KXN0sdkEHcZm+tnsq8qG50T+ZSMYPunQlOMP8Xhd3a62FqIx7xr
+ tKQz/qQeyiFiX1saPfPUwNkk077EYaAPZ36m/2W1vwVd8S/HdcVN2S9zAYIeux2Tb6JU
+ stDYWlypDikMw9abipfbtHLZcv6qSMwSGIPxnV3loXi0GzGrprmam4AZeFF6jaBTCbL/
+ sv12M/yV7kLw+wjLDqtXJNmXLnyxv5kJdyDwaSwfkKstFsdhMtZyz9s30JlgB/nuSU3w
+ ADPEWE4ieIRso+z3iP7uLaL64+qIl6OWHu8iNLCUC8JpFTW/SKaOniq7W5yTQB8FyTSR
+ /ZAg==
+X-Gm-Message-State: ACgBeo3gRbm6crJsWXCgI2aFnzcsuo82zBOvGKnV9+vbGuUqNZcHCd69
+ hrWkVzS29Fhxyan3doGUYG6Gm1Zp1asNhr5KU98=
+X-Google-Smtp-Source: AA6agR6BmvZfOEg5Mca6YVRDLIdKk5+10k0HS45zDwRx/LwgHa6HA8TSV9fOg9Hs0pdTieU3ejEtfA==
+X-Received: by 2002:a05:600c:35d4:b0:3a6:18ba:1585 with SMTP id
+ r20-20020a05600c35d400b003a618ba1585mr4026091wmq.48.1662011327263; 
+ Wed, 31 Aug 2022 22:48:47 -0700 (PDT)
 Received: from localhost.localdomain ([87.192.221.83])
  by smtp.gmail.com with ESMTPSA id
- q13-20020adff78d000000b0022533c4fa48sm13429938wrp.55.2022.08.31.22.48.43
- for <qemu-devel@nongnu.org>
+ q13-20020adff78d000000b0022533c4fa48sm13429938wrp.55.2022.08.31.22.48.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 22:48:44 -0700 (PDT)
+ Wed, 31 Aug 2022 22:48:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/4] target/avr patch queue
-Date: Thu,  1 Sep 2022 06:48:39 +0100
-Message-Id: <20220901054843.31646-1-richard.henderson@linaro.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PULL 1/4] target/avr: Support probe argument to tlb_fill
+Date: Thu,  1 Sep 2022 06:48:40 +0100
+Message-Id: <20220901054843.31646-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220901054843.31646-1-richard.henderson@linaro.org>
+References: <20220901054843.31646-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,30 +90,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit e93ded1bf6c94ab95015b33e188bc8b0b0c32670:
+While there are no target-specific nonfaulting probes,
+generic code may grow some uses at some point.
 
-  Merge tag 'testing-pull-request-2022-08-30' of https://gitlab.com/thuth/qemu into staging (2022-08-31 18:19:03 -0400)
+Note that the attrs argument was incorrect -- it should have
+been MEMTXATTRS_UNSPECIFIED. Just use the simpler interface.
 
-are available in the Git repository at:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/avr/helper.c | 46 ++++++++++++++++++++++++++++-----------------
+ 1 file changed, 29 insertions(+), 17 deletions(-)
 
-  https://gitlab.com/rth7680/qemu.git tags/pull-avr-20220901
+diff --git a/target/avr/helper.c b/target/avr/helper.c
+index db76452f9a..82284f8997 100644
+--- a/target/avr/helper.c
++++ b/target/avr/helper.c
+@@ -102,38 +102,50 @@ bool avr_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                       MMUAccessType access_type, int mmu_idx,
+                       bool probe, uintptr_t retaddr)
+ {
+-    int prot = 0;
+-    MemTxAttrs attrs = {};
++    int prot, page_size = TARGET_PAGE_SIZE;
+     uint32_t paddr;
+ 
+     address &= TARGET_PAGE_MASK;
+ 
+     if (mmu_idx == MMU_CODE_IDX) {
+-        /* access to code in flash */
++        /* Access to code in flash. */
+         paddr = OFFSET_CODE + address;
+         prot = PAGE_READ | PAGE_EXEC;
+-        if (paddr + TARGET_PAGE_SIZE > OFFSET_DATA) {
++        if (paddr >= OFFSET_DATA) {
++            /*
++             * This should not be possible via any architectural operations.
++             * There is certainly not an exception that we can deliver.
++             * Accept probing that might come from generic code.
++             */
++            if (probe) {
++                return false;
++            }
+             error_report("execution left flash memory");
+             abort();
+         }
+-    } else if (address < NUMBER_OF_CPU_REGISTERS + NUMBER_OF_IO_REGISTERS) {
+-        /*
+-         * access to CPU registers, exit and rebuilt this TB to use full access
+-         * incase it touches specially handled registers like SREG or SP
+-         */
+-        AVRCPU *cpu = AVR_CPU(cs);
+-        CPUAVRState *env = &cpu->env;
+-        env->fullacc = 1;
+-        cpu_loop_exit_restore(cs, retaddr);
+     } else {
+-        /* access to memory. nothing special */
++        /* Access to memory. */
+         paddr = OFFSET_DATA + address;
+         prot = PAGE_READ | PAGE_WRITE;
++        if (address < NUMBER_OF_CPU_REGISTERS + NUMBER_OF_IO_REGISTERS) {
++            /*
++             * Access to CPU registers, exit and rebuilt this TB to use
++             * full access in case it touches specially handled registers
++             * like SREG or SP.  For probing, set page_size = 1, in order
++             * to force tlb_fill to be called for the next access.
++             */
++            if (probe) {
++                page_size = 1;
++            } else {
++                AVRCPU *cpu = AVR_CPU(cs);
++                CPUAVRState *env = &cpu->env;
++                env->fullacc = 1;
++                cpu_loop_exit_restore(cs, retaddr);
++            }
++        }
+     }
+ 
+-    tlb_set_page_with_attrs(cs, address, paddr, attrs, prot,
+-                            mmu_idx, TARGET_PAGE_SIZE);
+-
++    tlb_set_page(cs, address, paddr, prot, mmu_idx, page_size);
+     return true;
+ }
+ 
+-- 
+2.34.1
 
-for you to fetch changes up to 36027c70974fef1392e6c73dfb94c3f94f0930bc:
-
-  target/avr: Disable interrupts when env->skip set (2022-09-01 06:42:21 +0100)
-
-----------------------------------------------------------------
-Fix avr_cpu_tlb_fill use of probe argument
-Fix skip instructions being separated from the next insn (#1118)
-
-----------------------------------------------------------------
-Richard Henderson (4):
-      target/avr: Support probe argument to tlb_fill
-      target/avr: Call avr_cpu_do_interrupt directly
-      target/avr: Only execute one interrupt at a time
-      target/avr: Disable interrupts when env->skip set
-
- target/avr/helper.c    | 69 +++++++++++++++++++++++++++++++-------------------
- target/avr/translate.c | 26 ++++++++++++++++---
- 2 files changed, 65 insertions(+), 30 deletions(-)
 
