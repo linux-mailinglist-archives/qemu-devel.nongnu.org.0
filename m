@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 844035A8EF5
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 08:59:54 +0200 (CEST)
-Received: from localhost ([::1]:58586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAD995A8F19
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 09:04:00 +0200 (CEST)
+Received: from localhost ([::1]:43390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTeB7-0003AK-Dg
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 02:59:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59758)
+	id 1oTeF5-0005wm-54
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 03:03:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTe3n-0005my-6D
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:52:19 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:45914)
+ id 1oTe3p-0005oY-H8
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:52:22 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:44639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTe3k-0003G2-RT
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:52:18 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id w5so4830600wrn.12
- for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 23:52:16 -0700 (PDT)
+ id 1oTe3n-0003G6-SS
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:52:21 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id c7so14347289wrp.11
+ for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 23:52:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc;
- bh=8PHg1CcIroSNM7BtVmVxL97bvtpUxPSvMiB/+m+fxUg=;
- b=lvGrA1dcySpNxAcHdtLlf4YUQJRjMDC9OrO8pc+Am0Ag+rLWh0unc7jTuqYSVnyk0Y
- 6HsVOBzv7CJz+qBE1LnUMEo87oqJc47qpYFQSP1Prkj+ViHr/hTY1PsFSL4YNlbXznV7
- YkMmcFApq8k+6YRg+wX86HNg7PBIg8h/QHqzCx2bKBEfkGgUvLCcKcbKI2kzcldI7Srh
- kAqWaBkGiCYbzDGbm3d1+BRjwKzKf+JP4eX7xPV14Xr5nRKZYW1I2s8eNKg+3GQ5+br3
- nC6NJ7tKLxazGnZy75L4gi/Y3jscw4rpfc8ceaFpTs1QP9jaZk2oq1LdEIIoRyiyU7Hw
- moEA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=cnDX4PL0OXe9dOqXgYaSV2oqzwR9gOMv9I1pf97HvaI=;
+ b=zL50RlddbX47dHMlS47xTJE7hK7f2JFYlGdgThDGU0uvA6HjRK/yuYHd4vq5Tk0drv
+ 53Nmd5h2AZNj35fTbXRfr9pC4y+xwOE2kPBCotGWMIGLqsnLkG8ebztXIYXDjlbFM9qk
+ tYIjm4cPYhZDB9gMmzCvcWpXJqXASrHtBsZWU2flscxZJNB9KS/3x3+67raebdtDW/yX
+ uK/H3YhXPvL3rgkIIen/Oe8bSekaU70D/01hBNqPZjmof6BaGolHzdLFQVdEHuBw9FcE
+ Py6S0RrSAQUlv6eMkaH4IX1k+88Kk/Fb2kUU7u52kGQE/82zIe97YwFSviYK8LGf9LmU
+ J0MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc;
- bh=8PHg1CcIroSNM7BtVmVxL97bvtpUxPSvMiB/+m+fxUg=;
- b=s1lxGHhm+Xovye7n/Dl2tnvaVXSPqI88vy7INXPUrDzy7w8T1KJbntnAwKyrtWsHlW
- cHrtfZ2XXcf/gNskFmhB52UPxvQ6a55K0PamNPEVv2CqmdaBXtuxmZvr7PK7lDPdYXLB
- 9mzSREOvXDUqDCp7ZKcAPxrxnS9MO9D2bMnpZJJcbM9uUhzgZ+0dbgFQJsk5ShRjDdBp
- rf19Lsax1kNDAMkQ4+Na/hztF2VjqNIZKUwIwef6yjaEJf7E7F0dJ0ieWBXW9Shj5khW
- VQAwMg8un3MIhO0KSiQaaF9NBmMG1RLwBHsqylY9SG1/D7NfcPZHyytfBWSW1WU6jcUe
- 0lyA==
-X-Gm-Message-State: ACgBeo1r+Sv5+7NlwFw61MhVkVuUjSqQX9YI58Wm5d4fkTvhi8WbdxZ2
- /OFPnbeVj3gIbVc8xN/FDgC4nTt3tNUUq9Xy
-X-Google-Smtp-Source: AA6agR504vjqqohYT3fI2ZGPxZ6yMw1T4s2qLrqKYZhAQRaO3Tk0x6N5EbBosQNAPZGgpn4cyOkFQg==
-X-Received: by 2002:a05:6000:1568:b0:226:e2d0:abcb with SMTP id
- 8-20020a056000156800b00226e2d0abcbmr6884853wrz.456.1662015135087; 
- Wed, 31 Aug 2022 23:52:15 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=cnDX4PL0OXe9dOqXgYaSV2oqzwR9gOMv9I1pf97HvaI=;
+ b=Sc7+c1fqI1jGxfU+lORbqrpE5LYeSYW9VA9DFTRceWVxXlzmzqhItYHiy59dArx+Tg
+ BCuWlrRs0hu5BKtsvpjpkngvq1ZXX9vyNPdRWjl4OSxIN66t+qHLAo24cev1I1FKNdTM
+ hxFMvqvuWQ1G3sPK5JpZgqRcXU8etMvL1gakzGnnxV+WEcdARiwbFlqG4x+88F85k+xm
+ LHaRThEqJBepBfWgAzm3BS5iVRAT2GBrYZS3OjOLr5Y1wDffwTKAkXGDeeRvWbKmhEFv
+ EkMoDLu+hr2LQVL4uLjPFYp5FhOBwpOblrvQiBR9DLLV9o/Mh/ZEOOw4Zl4YXlvmpYQH
+ I0AA==
+X-Gm-Message-State: ACgBeo1eaEJN0U3CqahGuK82lFBtxVOzhpCfbdw2YwBeyeF58MqQFlb1
+ 38/scA0lm91KTbrSUmM8Sxo/+DGJWCm89zjz
+X-Google-Smtp-Source: AA6agR6SMoWzz+itLwsLPbSqdBAnhet1LpqVKbk3v7eGZgWnqEWJt1eOfpXXhFCeoBNPfBYRt3YF/Q==
+X-Received: by 2002:adf:e411:0:b0:226:d3f9:4a03 with SMTP id
+ g17-20020adfe411000000b00226d3f94a03mr13322790wrm.673.1662015137710; 
+ Wed, 31 Aug 2022 23:52:17 -0700 (PDT)
 Received: from stoup.. ([87.192.221.83]) by smtp.gmail.com with ESMTPSA id
- a6-20020a5d4d46000000b00226dedf1ab7sm8308153wru.76.2022.08.31.23.52.12
- for <qemu-devel@nongnu.org>
+ a6-20020a5d4d46000000b00226dedf1ab7sm8308153wru.76.2022.08.31.23.52.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 23:52:13 -0700 (PDT)
+ Wed, 31 Aug 2022 23:52:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/20] tcg patch queue
-Date: Thu,  1 Sep 2022 07:51:46 +0100
-Message-Id: <20220901065210.117081-1-richard.henderson@linaro.org>
+Cc: Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PULL 01/20] linux-user/arm: Mark the commpage executable
+Date: Thu,  1 Sep 2022 07:51:47 +0100
+Message-Id: <20220901065210.117081-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220901065210.117081-1-richard.henderson@linaro.org>
+References: <20220901065210.117081-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
@@ -85,93 +87,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit e93ded1bf6c94ab95015b33e188bc8b0b0c32670:
+We're about to start validating PAGE_EXEC, which means
+that we've got to mark the commpage executable.  We had
+been placing the commpage outside of reserved_va, which
+was incorrect and lead to an abort.
 
-  Merge tag 'testing-pull-request-2022-08-30' of https://gitlab.com/thuth/qemu into staging (2022-08-31 18:19:03 -0400)
+Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Tested-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ linux-user/arm/target_cpu.h | 4 ++--
+ linux-user/elfload.c        | 6 +++++-
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-are available in the Git repository at:
+diff --git a/linux-user/arm/target_cpu.h b/linux-user/arm/target_cpu.h
+index 709d19bc9e..89ba274cfc 100644
+--- a/linux-user/arm/target_cpu.h
++++ b/linux-user/arm/target_cpu.h
+@@ -34,9 +34,9 @@ static inline unsigned long arm_max_reserved_va(CPUState *cs)
+     } else {
+         /*
+          * We need to be able to map the commpage.
+-         * See validate_guest_space in linux-user/elfload.c.
++         * See init_guest_commpage in linux-user/elfload.c.
+          */
+-        return 0xffff0000ul;
++        return 0xfffffffful;
+     }
+ }
+ #define MAX_RESERVED_VA  arm_max_reserved_va
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index ce902dbd56..3e3dc02499 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -398,7 +398,8 @@ enum {
+ 
+ static bool init_guest_commpage(void)
+ {
+-    void *want = g2h_untagged(HI_COMMPAGE & -qemu_host_page_size);
++    abi_ptr commpage = HI_COMMPAGE & -qemu_host_page_size;
++    void *want = g2h_untagged(commpage);
+     void *addr = mmap(want, qemu_host_page_size, PROT_READ | PROT_WRITE,
+                       MAP_ANONYMOUS | MAP_PRIVATE | MAP_FIXED, -1, 0);
+ 
+@@ -417,6 +418,9 @@ static bool init_guest_commpage(void)
+         perror("Protecting guest commpage");
+         exit(EXIT_FAILURE);
+     }
++
++    page_set_flags(commpage, commpage + qemu_host_page_size,
++                   PAGE_READ | PAGE_EXEC | PAGE_VALID);
+     return true;
+ }
+ 
+-- 
+2.34.1
 
-  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20220901
-
-for you to fetch changes up to 20011be2e30b8aa8ef1fc258485f00c688703deb:
-
-  target/riscv: Make translator stop before the end of a page (2022-09-01 07:43:08 +0100)
-
-----------------------------------------------------------------
-Respect PROT_EXEC in user-only mode.
-Fix s390x, i386 and riscv for translations crossing a page.
-
-----------------------------------------------------------------
-Ilya Leoshkevich (4):
-      linux-user: Clear translations on mprotect()
-      accel/tcg: Introduce is_same_page()
-      target/s390x: Make translator stop before the end of a page
-      target/i386: Make translator stop before the end of a page
-
-Richard Henderson (16):
-      linux-user/arm: Mark the commpage executable
-      linux-user/hppa: Allocate page zero as a commpage
-      linux-user/x86_64: Allocate vsyscall page as a commpage
-      linux-user: Honor PT_GNU_STACK
-      tests/tcg/i386: Move smc_code2 to an executable section
-      accel/tcg: Properly implement get_page_addr_code for user-only
-      accel/tcg: Unlock mmap_lock after longjmp
-      accel/tcg: Make tb_htable_lookup static
-      accel/tcg: Move qemu_ram_addr_from_host_nofail to physmem.c
-      accel/tcg: Use probe_access_internal for softmmu get_page_addr_code_hostp
-      accel/tcg: Document the faulting lookup in tb_lookup_cmp
-      accel/tcg: Remove translator_ldsw
-      accel/tcg: Add pc and host_pc params to gen_intermediate_code
-      accel/tcg: Add fast path for translator_ld*
-      target/riscv: Add MAX_INSN_LEN and insn_len
-      target/riscv: Make translator stop before the end of a page
-
- include/elf.h                     |   1 +
- include/exec/cpu-common.h         |   1 +
- include/exec/exec-all.h           |  89 ++++++++----------------
- include/exec/translator.h         |  96 ++++++++++++++++---------
- linux-user/arm/target_cpu.h       |   4 +-
- linux-user/qemu.h                 |   1 +
- accel/tcg/cpu-exec.c              | 143 ++++++++++++++++++++------------------
- accel/tcg/cputlb.c                |  93 +++++++------------------
- accel/tcg/translate-all.c         |  29 ++++----
- accel/tcg/translator.c            | 135 ++++++++++++++++++++++++++---------
- accel/tcg/user-exec.c             |  17 ++++-
- linux-user/elfload.c              |  82 ++++++++++++++++++++--
- linux-user/mmap.c                 |   6 +-
- softmmu/physmem.c                 |  12 ++++
- target/alpha/translate.c          |   5 +-
- target/arm/translate.c            |   5 +-
- target/avr/translate.c            |   5 +-
- target/cris/translate.c           |   5 +-
- target/hexagon/translate.c        |   6 +-
- target/hppa/translate.c           |   5 +-
- target/i386/tcg/translate.c       |  71 +++++++++++--------
- target/loongarch/translate.c      |   6 +-
- target/m68k/translate.c           |   5 +-
- target/microblaze/translate.c     |   5 +-
- target/mips/tcg/translate.c       |   5 +-
- target/nios2/translate.c          |   5 +-
- target/openrisc/translate.c       |   6 +-
- target/ppc/translate.c            |   5 +-
- target/riscv/translate.c          |  32 +++++++--
- target/rx/translate.c             |   5 +-
- target/s390x/tcg/translate.c      |  20 ++++--
- target/sh4/translate.c            |   5 +-
- target/sparc/translate.c          |   5 +-
- target/tricore/translate.c        |   6 +-
- target/xtensa/translate.c         |   6 +-
- tests/tcg/i386/test-i386.c        |   2 +-
- tests/tcg/riscv64/noexec.c        |  79 +++++++++++++++++++++
- tests/tcg/s390x/noexec.c          | 106 ++++++++++++++++++++++++++++
- tests/tcg/x86_64/noexec.c         |  75 ++++++++++++++++++++
- tests/tcg/multiarch/noexec.c.inc  | 139 ++++++++++++++++++++++++++++++++++++
- tests/tcg/riscv64/Makefile.target |   1 +
- tests/tcg/s390x/Makefile.target   |   1 +
- tests/tcg/x86_64/Makefile.target  |   3 +-
- 43 files changed, 966 insertions(+), 367 deletions(-)
- create mode 100644 tests/tcg/riscv64/noexec.c
- create mode 100644 tests/tcg/s390x/noexec.c
- create mode 100644 tests/tcg/x86_64/noexec.c
- create mode 100644 tests/tcg/multiarch/noexec.c.inc
 
