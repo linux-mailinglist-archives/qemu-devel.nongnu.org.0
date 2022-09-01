@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC9E05A9880
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 15:24:12 +0200 (CEST)
-Received: from localhost ([::1]:33588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7D45A988C
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 15:27:39 +0200 (CEST)
+Received: from localhost ([::1]:53266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTkB1-0003Tp-Uy
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 09:24:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59240)
+	id 1oTkEM-0001KA-GO
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 09:27:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1oTk5Y-0005Yc-EN; Thu, 01 Sep 2022 09:18:34 -0400
+ id 1oTk5b-0005aJ-Ku; Thu, 01 Sep 2022 09:18:41 -0400
 Received: from [200.168.210.66] (port=23956 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <victor.colombo@eldorado.org.br>)
- id 1oTk5W-0002Uu-Dc; Thu, 01 Sep 2022 09:18:32 -0400
+ id 1oTk5Z-0002Uu-Hx; Thu, 01 Sep 2022 09:18:34 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Thu, 1 Sep 2022 10:18:15 -0300
+ Thu, 1 Sep 2022 10:18:16 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 72E88800476;
+ by p9ibm (Postfix) with ESMTP id C48D18002C5;
  Thu,  1 Sep 2022 10:18:15 -0300 (-03)
 From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
@@ -31,18 +31,18 @@ Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  victor.colombo@eldorado.org.br, matheus.ferst@eldorado.org.br,
  lucas.araujo@eldorado.org.br, leandro.lupori@eldorado.org.br,
  lucas.coutinho@eldorado.org.br
-Subject: [PATCH 04/19] target/ppc: Set result to QNaN for DENBCD when VXCVI
- occurs
-Date: Thu,  1 Sep 2022 10:17:41 -0300
-Message-Id: <20220901131756.26060-5-victor.colombo@eldorado.org.br>
+Subject: [PATCH 05/19] target/ppc: Zero second doubleword for VSX madd
+ instructions
+Date: Thu,  1 Sep 2022 10:17:42 -0300
+Message-Id: <20220901131756.26060-6-victor.colombo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220901131756.26060-1-victor.colombo@eldorado.org.br>
 References: <20220901131756.26060-1-victor.colombo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 01 Sep 2022 13:18:15.0916 (UTC)
- FILETIME=[4B8E4AC0:01D8BE05]
+X-OriginalArrivalTime: 01 Sep 2022 13:18:16.0260 (UTC)
+ FILETIME=[4BC2C840:01D8BE05]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -67,75 +67,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the ISA, for instruction DENBCD:
-"If an invalid BCD digit or sign code is detected in the source
-operand, an invalid-operation exception (VXCVI) occurs."
+In 205eb5a89e we updated most VSX instructions to zero the
+second doubleword, as is requested by PowerISA since v3.1.
+However, VSX_MADD helper was left behind unchanged, while it
+is also affected and should be fixed as well.
 
-In the Invalid Operation Exception section, there is the situation:
-"When Invalid Operation Exception is disabled (VE=0) and Invalid
-Operation occurs (...) If the operation is an (...) or format the
-target FPR is set to a Quiet NaN". This was not being done in
-QEMU.
-
-This patch sets the result to QNaN when the instruction DENBCD causes
-an Invalid Operation Exception.
+This patch applies the fix for MADD instructions.
 
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 ---
- target/ppc/dfp_helper.c | 26 ++++++++++++++++++++++++--
- 1 file changed, 24 insertions(+), 2 deletions(-)
+ target/ppc/fpu_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
-index be7aa5357a..cc024316d5 100644
---- a/target/ppc/dfp_helper.c
-+++ b/target/ppc/dfp_helper.c
-@@ -1147,6 +1147,26 @@ static inline uint8_t dfp_get_bcd_digit_128(ppc_vsr_t *t, unsigned n)
-     return t->VsrD((n & 0x10) ? 0 : 1) >> ((n << 2) & 63) & 15;
- }
- 
-+static inline void dfp_invalid_op_vxcvi_64(struct PPC_DFP *dfp)
-+{
-+    /* TODO: fpscr is incorrectly not being saved to env */
-+    dfp_set_FPSCR_flag(dfp, FP_VX | FP_VXCVI, FPSCR_VE);
-+    if ((dfp->env->fpscr & FP_VE) == 0) {
-+        dfp->vt.VsrD(1) = 0x7c00000000000000; /* QNaN */
-+    }
-+}
-+
-+
-+static inline void dfp_invalid_op_vxcvi_128(struct PPC_DFP *dfp)
-+{
-+    /* TODO: fpscr is incorrectly not being saved to env */
-+    dfp_set_FPSCR_flag(dfp, FP_VX | FP_VXCVI, FPSCR_VE);
-+    if ((dfp->env->fpscr & FP_VE) == 0) {
-+        dfp->vt.VsrD(0) = 0x7c00000000000000; /* QNaN */
-+        dfp->vt.VsrD(1) = 0x0;
-+    }
-+}
-+
- #define DFP_HELPER_ENBCD(op, size)                                           \
- void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b,             \
-                  uint32_t s)                                                 \
-@@ -1173,7 +1193,8 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b,             \
-             sgn = 0;                                                         \
-             break;                                                           \
-         default:                                                             \
--            dfp_set_FPSCR_flag(&dfp, FP_VX | FP_VXCVI, FPSCR_VE);            \
-+            dfp_invalid_op_vxcvi_##size(&dfp);                               \
-+            set_dfp##size(t, &dfp.vt);                                       \
-             return;                                                          \
-         }                                                                    \
-         }                                                                    \
-@@ -1183,7 +1204,8 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b,             \
-         digits[(size) / 4 - n] = dfp_get_bcd_digit_##size(&dfp.vb,           \
-                                                           offset++);         \
-         if (digits[(size) / 4 - n] > 10) {                                   \
--            dfp_set_FPSCR_flag(&dfp, FP_VX | FP_VXCVI, FPSCR_VE);            \
-+            dfp_invalid_op_vxcvi_##size(&dfp);                               \
-+            set_dfp##size(t, &dfp.vt);                                       \
-             return;                                                          \
-         } else {                                                             \
-             nonzero |= (digits[(size) / 4 - n] > 0);                         \
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index 7ab6beadad..da79c64eca 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -2178,7 +2178,7 @@ VSX_TSQRT(xvtsqrtsp, 4, float32, VsrW(i), -126, 23)
+ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt,                             \
+                  ppc_vsr_t *s1, ppc_vsr_t *s2, ppc_vsr_t *s3)                 \
+ {                                                                             \
+-    ppc_vsr_t t = *xt;                                                        \
++    ppc_vsr_t t = { };                                                        \
+     int i;                                                                    \
+                                                                               \
+     helper_reset_fpstatus(env);                                               \
 -- 
 2.25.1
 
