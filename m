@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7CD55A958E
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 13:17:53 +0200 (CEST)
-Received: from localhost ([::1]:40042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 511C75A95DF
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 13:44:13 +0200 (CEST)
+Received: from localhost ([::1]:45100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTiCm-0003jn-Qe
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 07:17:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59302)
+	id 1oTicA-0006Ww-4O
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 07:44:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oTiB3-0002FL-L9
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 07:16:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53422)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oTiB0-0003Nf-6l
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 07:16:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662030960;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=KS4AGeEmcmtiUMPW3h0hwVizk8lQ2xRcgrvCLhe1u30=;
- b=JzjURLcSSpmACtmuT1S4OYfufd7m63BZBOj9cSmyl+9Bb831UAx/dkYHvH1hdIiF1TNbDL
- sf7KzOXOmFnN73z8loWEsBy2UdtV97r6Xqk+/u46hdOFIUHHg34a6/7rDjSvFTsT1tG7sy
- +uNX2jslKc1FHTJVLB9VTjOcqb1U5t0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-636-pdKJyIKPO3CQhvGN_VPefA-1; Thu, 01 Sep 2022 07:15:57 -0400
-X-MC-Unique: pdKJyIKPO3CQhvGN_VPefA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7DE06811E80;
- Thu,  1 Sep 2022 11:15:57 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5587C492C3B;
- Thu,  1 Sep 2022 11:15:56 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Cc: berrange@redhat.com, bin.meng@windriver.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH] io/command: implement portable spawn
-Date: Thu,  1 Sep 2022 15:15:53 +0400
-Message-Id: <20220901111553.2901487-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oTiUE-0001mK-9h
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 07:35:54 -0400
+Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232]:38461)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oTiUC-0007eE-Cs
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 07:35:53 -0400
+Received: by mail-lj1-x232.google.com with SMTP id s15so12426652ljp.5
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 04:35:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=tbzkMnKsL/XkT4iJIWTO5fCC4b2xoql5hc8OjlPCVhg=;
+ b=N91ztvPmJba7mns07HdjDSdCzU4mpR891GQ8d7LSt7J+HMTFuUg+/eJIa2lKyXEGSv
+ 5QbtNJ+t4I2pBZ2Di91VmcAuNAES2rGdkLAmWsD6gmLLTR35LhXa1P2v0b/p2w0/BiQ1
+ J8pG9raSNRy3MaBB28poqMTaBXf0XfsVH7J9+IWYb26QipzYqEit1JgCUX7cJxtLy2jR
+ vLuDm+iSv++eLK0y5ygCm4eWEFNX3hvdHEzKDWcCzaVQiSrknkVELNfnUDAv7xORwEtB
+ TEjV9xd4IBbElOOxpB6AHJOagkue92RDw75z2Bk9X4XRzt3k4kaOY2bJ17yp+y7HJPOs
+ 5gdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=tbzkMnKsL/XkT4iJIWTO5fCC4b2xoql5hc8OjlPCVhg=;
+ b=eplBIlcvEByG4tS2x19RLJqenFFC4/Q+JK3Zzyb5+ecEb9bSsGXfqz4Fe6a8T2nPoj
+ gw6keiHicSCsk7lyF+Uqp7lLikZjse5i57cQ6Q4qUpXKlwUcdsZUM3yqb0RMOpVLKrT7
+ YgBZFlhoGXKY9tTrLDLQyGLwebtGmE0suSgUrtAafJwNXwjUInpKvlpGkCFFqxfgcgXY
+ grHRWmZLRKeI0kT7stHDQf9AMgLYJRdQO/olg34eMEmHFQu1Bo6+mAVObGur8+h1VKpN
+ RK7ySrEgKY6Rpo+xeGSU6bK71vx8X8hawQQnXyAGUG9epXDtn5/aJFbsami3Ta5ert6q
+ FhNw==
+X-Gm-Message-State: ACgBeo2FCV3gE6JTGKTcyL9rtRjJWaI+x2kANBcs9e9iezbCqk0/5I5P
+ 0AerpmOww1qbofXHhn0JQ3uMEavibbqDpZn8t4o=
+X-Google-Smtp-Source: AA6agR5BJw5CUyVpBkkoLqaDjTl9o6TRksh0v+F6WKa83ItAWxJngus34iMgfFiXN0v+1U9hRREx0kNNmzHR3yaIyaU=
+X-Received: by 2002:a2e:9346:0:b0:261:8a31:b40c with SMTP id
+ m6-20020a2e9346000000b002618a31b40cmr9104909ljh.267.1662032148946; Thu, 01
+ Sep 2022 04:35:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
+ <20220824094029.1634519-42-bmeng.cn@gmail.com>
+ <YwZ0X6cGmK/4N1yk@work-vm>
+In-Reply-To: <YwZ0X6cGmK/4N1yk@work-vm>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 1 Sep 2022 15:35:37 +0400
+Message-ID: <CAJ+F1CLJ3SFzHrp=f7amCCi6cSwp0+ANk7gdO4tgPzJh12uKxg@mail.gmail.com>
+Subject: Re: [PATCH 41/51] tests/qtest: migration-test: Kill "to" after
+ migration is canceled
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org, 
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>, 
+ Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000d7e3cd05e79c038f"
+Received-SPF: pass client-ip=2a00:1450:4864:20::232;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x232.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FREEMAIL_REPLY=1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,157 +89,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+--000000000000d7e3cd05e79c038f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Using GLib spawn API is both simpler and portable.
+Hi
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- io/channel-command.c | 115 ++++++++-----------------------------------
- 1 file changed, 21 insertions(+), 94 deletions(-)
+On Wed, Aug 24, 2022 at 10:56 PM Dr. David Alan Gilbert <dgilbert@redhat.co=
+m>
+wrote:
 
-diff --git a/io/channel-command.c b/io/channel-command.c
-index 9f2f4a1793..c069732105 100644
---- a/io/channel-command.c
-+++ b/io/channel-command.c
-@@ -26,7 +26,6 @@
- #include "qemu/sockets.h"
- #include "trace.h"
- 
--#ifndef WIN32
- /**
-  * qio_channel_command_new_pid:
-  * @writefd: the FD connected to the command's stdin
-@@ -69,107 +68,35 @@ qio_channel_command_new_spawn(const char *const argv[],
-                               int flags,
-                               Error **errp)
- {
--    pid_t pid = -1;
--    int stdinfd[2] = { -1, -1 };
--    int stdoutfd[2] = { -1, -1 };
--    int devnull = -1;
--    bool stdinnull = false, stdoutnull = false;
-+    g_autoptr(GError) err = NULL;
-+    GPid pid = 0;
-     QIOChannelCommand *ioc;
-+    GSpawnFlags gflags = G_SPAWN_CLOEXEC_PIPES;
-+    int stdinfd = -1, stdoutfd = -1;
- 
-     flags = flags & O_ACCMODE;
--
--    if (flags == O_RDONLY) {
--        stdinnull = true;
--    }
--    if (flags == O_WRONLY) {
--        stdoutnull = true;
--    }
--
--    if (stdinnull || stdoutnull) {
--        devnull = open("/dev/null", O_RDWR);
--        if (devnull < 0) {
--            error_setg_errno(errp, errno,
--                             "Unable to open /dev/null");
--            goto error;
--        }
--    }
--
--    if ((!stdinnull && !g_unix_open_pipe(stdinfd, FD_CLOEXEC, NULL)) ||
--        (!stdoutnull && !g_unix_open_pipe(stdoutfd, FD_CLOEXEC, NULL))) {
--        error_setg_errno(errp, errno,
--                         "Unable to open pipe");
--        goto error;
--    }
--
--    pid = qemu_fork(errp);
--    if (pid < 0) {
--        goto error;
--    }
--
--    if (pid == 0) { /* child */
--        dup2(stdinnull ? devnull : stdinfd[0], STDIN_FILENO);
--        dup2(stdoutnull ? devnull : stdoutfd[1], STDOUT_FILENO);
--        /* Leave stderr connected to qemu's stderr */
--
--        if (!stdinnull) {
--            close(stdinfd[0]);
--            close(stdinfd[1]);
--        }
--        if (!stdoutnull) {
--            close(stdoutfd[0]);
--            close(stdoutfd[1]);
--        }
--        if (devnull != -1) {
--            close(devnull);
--        }
--
--        execv(argv[0], (char * const *)argv);
--        _exit(1);
-+    gflags |= flags == O_WRONLY ? G_SPAWN_STDOUT_TO_DEV_NULL : 0;
-+
-+    if (!g_spawn_async_with_pipes(NULL, (char **)argv, NULL, gflags, NULL, NULL,
-+                                  &pid,
-+                                  flags == O_RDONLY ? NULL : &stdinfd,
-+                                  flags == O_WRONLY ? NULL : &stdoutfd,
-+                                  NULL, &err)) {
-+        error_setg(errp, "%s", err->message);
-+        return NULL;
-     }
- 
--    if (!stdinnull) {
--        close(stdinfd[0]);
--    }
--    if (!stdoutnull) {
--        close(stdoutfd[1]);
--    }
- 
--    ioc = qio_channel_command_new_pid(stdinnull ? devnull : stdinfd[1],
--                                      stdoutnull ? devnull : stdoutfd[0],
--                                      pid);
--    trace_qio_channel_command_new_spawn(ioc, argv[0], flags);
-+    ioc = qio_channel_command_new_pid(stdinfd,
-+                                      stdoutfd,
-+#ifdef _WIN32
-+                                      GetProcessId(pid)
-+#else
-+                                      pid
-+#endif
-+        );
-     return ioc;
--
-- error:
--    if (devnull != -1) {
--        close(devnull);
--    }
--    if (stdinfd[0] != -1) {
--        close(stdinfd[0]);
--    }
--    if (stdinfd[1] != -1) {
--        close(stdinfd[1]);
--    }
--    if (stdoutfd[0] != -1) {
--        close(stdoutfd[0]);
--    }
--    if (stdoutfd[1] != -1) {
--        close(stdoutfd[1]);
--    }
--    return NULL;
--}
--
--#else /* WIN32 */
--QIOChannelCommand *
--qio_channel_command_new_spawn(const char *const argv[],
--                              int flags,
--                              Error **errp)
--{
--    error_setg_errno(errp, ENOSYS,
--                     "Command spawn not supported on this platform");
--    return NULL;
- }
--#endif /* WIN32 */
- 
- #ifndef WIN32
- static int qio_channel_command_abort(QIOChannelCommand *ioc,
--- 
-2.37.2
+> * Bin Meng (bmeng.cn@gmail.com) wrote:
+> > From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> >
+> > Make sure QEMU process "to" is killed before launching another target
+> > for migration in the test_multifd_tcp_cancel case.
+> >
+> > Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > ---
+> >
+> >  tests/qtest/migration-test.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.=
+c
+> > index 125d48d855..18ec079abf 100644
+> > --- a/tests/qtest/migration-test.c
+> > +++ b/tests/qtest/migration-test.c
+> > @@ -2132,6 +2132,10 @@ static void test_multifd_tcp_cancel(void)
+> >      wait_for_migration_pass(from);
+> >
+> >      migrate_cancel(from);
+> > +    /* Make sure QEMU process "to" is killed */
+> > +    if (qtest_probe_child(to)) {
+> > +        qtest_kill_qemu(to);
+> > +    }
+>
+> I'm not sure that's safe - what happens if the qemu exits between the
+> probe and kill?
+>
 
+It looks safe to me, qtest_probe_child() resets the qemu_pid if it already
+exited. Otherwise, there is a process/handle waiting for
+waitpid/CloseHandle done in qtest_kill_qemu().
+
+We are missing a CloseHandle() in qtest_probe_child() though, I'll send a
+patch.
+
+so lgtm,
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000d7e3cd05e79c038f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 24, 2022 at 10:56 PM Dr=
+. David Alan Gilbert &lt;<a href=3D"mailto:dgilbert@redhat.com">dgilbert@re=
+dhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">* Bin Meng (<a href=3D"mailto:bmeng.cn@gmail.com" target=3D"_blank"=
+>bmeng.cn@gmail.com</a>) wrote:<br>
+&gt; From: Xuzhou Cheng &lt;<a href=3D"mailto:xuzhou.cheng@windriver.com" t=
+arget=3D"_blank">xuzhou.cheng@windriver.com</a>&gt;<br>
+&gt; <br>
+&gt; Make sure QEMU process &quot;to&quot; is killed before launching anoth=
+er target<br>
+&gt; for migration in the test_multifd_tcp_cancel case.<br>
+&gt; <br>
+&gt; Signed-off-by: Xuzhou Cheng &lt;<a href=3D"mailto:xuzhou.cheng@windriv=
+er.com" target=3D"_blank">xuzhou.cheng@windriver.com</a>&gt;<br>
+&gt; Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" =
+target=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
+&gt; ---<br>
+&gt; <br>
+&gt;=C2=A0 tests/qtest/migration-test.c | 4 ++++<br>
+&gt;=C2=A0 1 file changed, 4 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test=
+.c<br>
+&gt; index 125d48d855..18ec079abf 100644<br>
+&gt; --- a/tests/qtest/migration-test.c<br>
+&gt; +++ b/tests/qtest/migration-test.c<br>
+&gt; @@ -2132,6 +2132,10 @@ static void test_multifd_tcp_cancel(void)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 wait_for_migration_pass(from);<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 migrate_cancel(from);<br>
+&gt; +=C2=A0 =C2=A0 /* Make sure QEMU process &quot;to&quot; is killed */<b=
+r>
+&gt; +=C2=A0 =C2=A0 if (qtest_probe_child(to)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 qtest_kill_qemu(to);<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+<br>
+I&#39;m not sure that&#39;s safe - what happens if the qemu exits between t=
+he<br>
+probe and kill?<br></blockquote><div><br></div><div>It looks safe to me, qt=
+est_probe_child() resets the qemu_pid if it already exited. Otherwise, ther=
+e is a process/handle waiting for waitpid/CloseHandle done in qtest_kill_qe=
+mu().<br></div></div><div><br></div><div>We are missing a CloseHandle() in =
+qtest_probe_child() though, I&#39;ll send a patch.<br></div><div><br></div>=
+<div>so lgtm,</div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"=
+mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;<br>=
+</div><div><br></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc=
+-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000d7e3cd05e79c038f--
 
