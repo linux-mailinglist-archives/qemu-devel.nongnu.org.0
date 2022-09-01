@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC345A8EC9
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 08:53:29 +0200 (CEST)
-Received: from localhost ([::1]:52428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 844035A8EF5
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 08:59:54 +0200 (CEST)
+Received: from localhost ([::1]:58586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTe4s-0006Oe-Sf
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 02:53:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58684)
+	id 1oTeB7-0003AK-Dg
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 02:59:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oTdyw-0003r2-10
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:47:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30506)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oTdyt-0002Ws-6y
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:47:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662014834;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jrEzREL90shy6AawylVcm82jSUz9UMrvvIXZZ5UbWPo=;
- b=OtVxG7aK56cL6GKgOVcha9Odc4IpAgxffq5d8W9JLcLDeWwZnhJnPGq1fBpUQzP3EpsUVu
- 77YIScKvirV6OctOu+VYbXtH03/AJ2kebjx8vUfTfEZJPkMU4cQSuWCVU9X1glDmI171DO
- TQv4eY7I9FljoCfXePIFMX1Rr06DLtE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-510-ZL_c75_AOmaQ-UWpElcr7g-1; Thu, 01 Sep 2022 02:47:09 -0400
-X-MC-Unique: ZL_c75_AOmaQ-UWpElcr7g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6E648811E80;
- Thu,  1 Sep 2022 06:47:09 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 438692166B26;
- Thu,  1 Sep 2022 06:47:09 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0DDD121E6900; Thu,  1 Sep 2022 08:47:08 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Dongli Zhang <dongli.zhang@oracle.com>
-Cc: Markus Armbruster <armbru@redhat.com>,  qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org,  dgilbert@redhat.com,  joe.jin@oracle.com,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 1/1] monitor/hmp: print trace as option in help for
- log command
-References: <20220829170316.3053-1-dongli.zhang@oracle.com>
- <87mtbmhu0o.fsf@pond.sub.org>
- <774cddc6-d2d6-a936-0beb-249d3e5877c2@oracle.com>
-Date: Thu, 01 Sep 2022 08:47:08 +0200
-In-Reply-To: <774cddc6-d2d6-a936-0beb-249d3e5877c2@oracle.com> (Dongli Zhang's
- message of "Wed, 31 Aug 2022 13:05:34 -0700")
-Message-ID: <87pmgf4mmr.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oTe3n-0005my-6D
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:52:19 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:45914)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oTe3k-0003G2-RT
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:52:18 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id w5so4830600wrn.12
+ for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 23:52:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc;
+ bh=8PHg1CcIroSNM7BtVmVxL97bvtpUxPSvMiB/+m+fxUg=;
+ b=lvGrA1dcySpNxAcHdtLlf4YUQJRjMDC9OrO8pc+Am0Ag+rLWh0unc7jTuqYSVnyk0Y
+ 6HsVOBzv7CJz+qBE1LnUMEo87oqJc47qpYFQSP1Prkj+ViHr/hTY1PsFSL4YNlbXznV7
+ YkMmcFApq8k+6YRg+wX86HNg7PBIg8h/QHqzCx2bKBEfkGgUvLCcKcbKI2kzcldI7Srh
+ kAqWaBkGiCYbzDGbm3d1+BRjwKzKf+JP4eX7xPV14Xr5nRKZYW1I2s8eNKg+3GQ5+br3
+ nC6NJ7tKLxazGnZy75L4gi/Y3jscw4rpfc8ceaFpTs1QP9jaZk2oq1LdEIIoRyiyU7Hw
+ moEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc;
+ bh=8PHg1CcIroSNM7BtVmVxL97bvtpUxPSvMiB/+m+fxUg=;
+ b=s1lxGHhm+Xovye7n/Dl2tnvaVXSPqI88vy7INXPUrDzy7w8T1KJbntnAwKyrtWsHlW
+ cHrtfZ2XXcf/gNskFmhB52UPxvQ6a55K0PamNPEVv2CqmdaBXtuxmZvr7PK7lDPdYXLB
+ 9mzSREOvXDUqDCp7ZKcAPxrxnS9MO9D2bMnpZJJcbM9uUhzgZ+0dbgFQJsk5ShRjDdBp
+ rf19Lsax1kNDAMkQ4+Na/hztF2VjqNIZKUwIwef6yjaEJf7E7F0dJ0ieWBXW9Shj5khW
+ VQAwMg8un3MIhO0KSiQaaF9NBmMG1RLwBHsqylY9SG1/D7NfcPZHyytfBWSW1WU6jcUe
+ 0lyA==
+X-Gm-Message-State: ACgBeo1r+Sv5+7NlwFw61MhVkVuUjSqQX9YI58Wm5d4fkTvhi8WbdxZ2
+ /OFPnbeVj3gIbVc8xN/FDgC4nTt3tNUUq9Xy
+X-Google-Smtp-Source: AA6agR504vjqqohYT3fI2ZGPxZ6yMw1T4s2qLrqKYZhAQRaO3Tk0x6N5EbBosQNAPZGgpn4cyOkFQg==
+X-Received: by 2002:a05:6000:1568:b0:226:e2d0:abcb with SMTP id
+ 8-20020a056000156800b00226e2d0abcbmr6884853wrz.456.1662015135087; 
+ Wed, 31 Aug 2022 23:52:15 -0700 (PDT)
+Received: from stoup.. ([87.192.221.83]) by smtp.gmail.com with ESMTPSA id
+ a6-20020a5d4d46000000b00226dedf1ab7sm8308153wru.76.2022.08.31.23.52.12
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 31 Aug 2022 23:52:13 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/20] tcg patch queue
+Date: Thu,  1 Sep 2022 07:51:46 +0100
+Message-Id: <20220901065210.117081-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,105 +85,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dongli Zhang <dongli.zhang@oracle.com> writes:
+The following changes since commit e93ded1bf6c94ab95015b33e188bc8b0b0c32670:
 
-> Hi Markus,
->
-> On 8/30/22 4:04 AM, Markus Armbruster wrote:
->> Dongli Zhang <dongli.zhang@oracle.com> writes:
->> 
->>> The below is printed when printing help information in qemu-system-x86_64
->>> command line, and when CONFIG_TRACE_LOG is enabled:
->>>
->>> $ qemu-system-x86_64 -d help
->>> ... ...
->>> trace:PATTERN   enable trace events
->>>
->>> Use "-d trace:help" to get a list of trace events.
->>>
->>> However, they are not printed in hmp "help log" command.
->> 
->> This leaves me guessing what exactly the patch tries to do.
->
-> I will clarify in the commit message.
->
->> 
->>> Cc: Joe Jin <joe.jin@oracle.com>
->>> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
->>> ---
->>> Changed since v1:
->>> - change format for "none" as well.
->>>
->>>  monitor/hmp.c | 9 +++++++--
->>>  1 file changed, 7 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/monitor/hmp.c b/monitor/hmp.c
->>> index 15ca047..467fc84 100644
->>> --- a/monitor/hmp.c
->>> +++ b/monitor/hmp.c
->>> @@ -285,10 +285,15 @@ void help_cmd(Monitor *mon, const char *name)
->>>          if (!strcmp(name, "log")) {
->>>              const QEMULogItem *item;
->>>              monitor_printf(mon, "Log items (comma separated):\n");
->>> -            monitor_printf(mon, "%-10s %s\n", "none", "remove all logs");
->>> +            monitor_printf(mon, "%-15s %s\n", "none", "remove all logs");
->>>              for (item = qemu_log_items; item->mask != 0; item++) {
->>> -                monitor_printf(mon, "%-10s %s\n", item->name, item->help);
->>> +                monitor_printf(mon, "%-15s %s\n", item->name, item->help);
->>>              }
->>> +#ifdef CONFIG_TRACE_LOG
->>> +            monitor_printf(mon, "trace:PATTERN   enable trace events\n");
->>> +            monitor_printf(mon, "\nUse \"info trace-events\" to get a list of "
->>> +                                "trace events.\n\n");
->> 
->> Aha: it fixes help to show "log trace:PATTERN".  Was that forgotten in
->> Paolo's commit c84ea00dc2 'log: add "-d trace:PATTERN"'?
->
-> I will add the Fixes tag.
->
->> 
->> "info trace-events", hmmm... it shows trace events and their state.
->> "log trace:help" also lists them, less their state, and in opposite
->> order.  Why do we need both?
+  Merge tag 'testing-pull-request-2022-08-30' of https://gitlab.com/thuth/qemu into staging (2022-08-31 18:19:03 -0400)
 
-I guess we have both because we want an HMP command to show the state of
-trace events ("info trace-events"), and we want "-d trace" to provide
-help.
+are available in the Git repository at:
 
-The latter also lets HMP command "log trace" help, which feels less
-important to me, since "info trace-events" exists and is easier to find
-and significantly more usable than "log trace:help": it can filter its
-output, and unfiltered output is too long to be useful without something
-like grep.
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20220901
 
-Could the two share more code?
+for you to fetch changes up to 20011be2e30b8aa8ef1fc258485f00c688703deb:
 
-Hmm, there seems to be something wrong with "log trace:help": I see
-truncated output.  Moreover, output goes to stdout instead of the
-monitor.  That's wrong.  Any help you can also emit from the monitor
-should be printed with qemu_printf().
+  target/riscv: Make translator stop before the end of a page (2022-09-01 07:43:08 +0100)
 
-> I will print "log trace:help" in the help output.
->
->> What about showing them in alphabetical order?
->
-> The order is following how they are defined in the qemu_log_items[] array. To
-> re-order them in the array may introduce more conflicts when backporting a
-> util/log patch to QEMU old version.
->
-> Please let me know if you prefer to re-order. Otherwise, I prefer to avoid that.
+----------------------------------------------------------------
+Respect PROT_EXEC in user-only mode.
+Fix s390x, i386 and riscv for translations crossing a page.
 
-I'm talking about the output of "log trace:help", not the output of "log
-help".
+----------------------------------------------------------------
+Ilya Leoshkevich (4):
+      linux-user: Clear translations on mprotect()
+      accel/tcg: Introduce is_same_page()
+      target/s390x: Make translator stop before the end of a page
+      target/i386: Make translator stop before the end of a page
 
-> Thank you very much for the suggestions!
->
-> Dongli Zhang
->
->> 
->>> +#endif
->>>              return;
->>>          }
->> 
+Richard Henderson (16):
+      linux-user/arm: Mark the commpage executable
+      linux-user/hppa: Allocate page zero as a commpage
+      linux-user/x86_64: Allocate vsyscall page as a commpage
+      linux-user: Honor PT_GNU_STACK
+      tests/tcg/i386: Move smc_code2 to an executable section
+      accel/tcg: Properly implement get_page_addr_code for user-only
+      accel/tcg: Unlock mmap_lock after longjmp
+      accel/tcg: Make tb_htable_lookup static
+      accel/tcg: Move qemu_ram_addr_from_host_nofail to physmem.c
+      accel/tcg: Use probe_access_internal for softmmu get_page_addr_code_hostp
+      accel/tcg: Document the faulting lookup in tb_lookup_cmp
+      accel/tcg: Remove translator_ldsw
+      accel/tcg: Add pc and host_pc params to gen_intermediate_code
+      accel/tcg: Add fast path for translator_ld*
+      target/riscv: Add MAX_INSN_LEN and insn_len
+      target/riscv: Make translator stop before the end of a page
 
+ include/elf.h                     |   1 +
+ include/exec/cpu-common.h         |   1 +
+ include/exec/exec-all.h           |  89 ++++++++----------------
+ include/exec/translator.h         |  96 ++++++++++++++++---------
+ linux-user/arm/target_cpu.h       |   4 +-
+ linux-user/qemu.h                 |   1 +
+ accel/tcg/cpu-exec.c              | 143 ++++++++++++++++++++------------------
+ accel/tcg/cputlb.c                |  93 +++++++------------------
+ accel/tcg/translate-all.c         |  29 ++++----
+ accel/tcg/translator.c            | 135 ++++++++++++++++++++++++++---------
+ accel/tcg/user-exec.c             |  17 ++++-
+ linux-user/elfload.c              |  82 ++++++++++++++++++++--
+ linux-user/mmap.c                 |   6 +-
+ softmmu/physmem.c                 |  12 ++++
+ target/alpha/translate.c          |   5 +-
+ target/arm/translate.c            |   5 +-
+ target/avr/translate.c            |   5 +-
+ target/cris/translate.c           |   5 +-
+ target/hexagon/translate.c        |   6 +-
+ target/hppa/translate.c           |   5 +-
+ target/i386/tcg/translate.c       |  71 +++++++++++--------
+ target/loongarch/translate.c      |   6 +-
+ target/m68k/translate.c           |   5 +-
+ target/microblaze/translate.c     |   5 +-
+ target/mips/tcg/translate.c       |   5 +-
+ target/nios2/translate.c          |   5 +-
+ target/openrisc/translate.c       |   6 +-
+ target/ppc/translate.c            |   5 +-
+ target/riscv/translate.c          |  32 +++++++--
+ target/rx/translate.c             |   5 +-
+ target/s390x/tcg/translate.c      |  20 ++++--
+ target/sh4/translate.c            |   5 +-
+ target/sparc/translate.c          |   5 +-
+ target/tricore/translate.c        |   6 +-
+ target/xtensa/translate.c         |   6 +-
+ tests/tcg/i386/test-i386.c        |   2 +-
+ tests/tcg/riscv64/noexec.c        |  79 +++++++++++++++++++++
+ tests/tcg/s390x/noexec.c          | 106 ++++++++++++++++++++++++++++
+ tests/tcg/x86_64/noexec.c         |  75 ++++++++++++++++++++
+ tests/tcg/multiarch/noexec.c.inc  | 139 ++++++++++++++++++++++++++++++++++++
+ tests/tcg/riscv64/Makefile.target |   1 +
+ tests/tcg/s390x/Makefile.target   |   1 +
+ tests/tcg/x86_64/Makefile.target  |   3 +-
+ 43 files changed, 966 insertions(+), 367 deletions(-)
+ create mode 100644 tests/tcg/riscv64/noexec.c
+ create mode 100644 tests/tcg/s390x/noexec.c
+ create mode 100644 tests/tcg/x86_64/noexec.c
+ create mode 100644 tests/tcg/multiarch/noexec.c.inc
 
