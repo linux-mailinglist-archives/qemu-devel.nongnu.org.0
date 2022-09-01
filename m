@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D55C75A9CFA
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 18:21:06 +0200 (CEST)
-Received: from localhost ([::1]:50684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A4D05A9D21
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 18:32:10 +0200 (CEST)
+Received: from localhost ([::1]:45454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTmwD-0000nK-QO
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 12:21:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36662)
+	id 1oTn6v-0007ZX-8G
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 12:32:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oTmtj-0006ah-Oz
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:18:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51239)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oTmtg-0000CC-WB
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:18:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662049107;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+VN0MhtvX7uLF0E33FMCr4HdgwzIuVffwDw6vjLPecg=;
- b=Q9xiFlY6W0ZHgUfyTAew1pbLPceG50hfLmgopW+ikJfa2/ADewdlxdY7+vqxrv4UR7NSKC
- Y5/grlome8A3VOIkVBMLSGvoItyJKT27M7JTdFpbsIsZ0XnGFoxKvQWl2DEkxXrB9Wmsbi
- eHYsVS10NW5NIZyurtdwZZ3ICc1dUIQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-394-DLIiE13fOxe39BaTwNGgrA-1; Thu, 01 Sep 2022 12:18:24 -0400
-X-MC-Unique: DLIiE13fOxe39BaTwNGgrA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0C0AC3C1068F;
- Thu,  1 Sep 2022 16:18:24 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 991561121314;
- Thu,  1 Sep 2022 16:18:23 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6084021E6900; Thu,  1 Sep 2022 18:18:21 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Sam Li <faithilikerun@gmail.com>,  qemu-devel <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,  Damien Le Moal
- <damien.lemoal@opensource.wdc.com>,  Dmitry Fomichev
- <Dmitry.Fomichev@wdc.com>,  Hannes Reinecke <hare@suse.de>,  qemu block
- <qemu-block@nongnu.org>,  Hanna Reitz <hreitz@redhat.com>,  Eric Blake
- <eblake@redhat.com>,  Fam Zheng <fam@euphon.net>,  Kevin Wolf
- <kwolf@redhat.com>
-Subject: Re: [PATCH v8 3/7] block: add block layer APIs resembling Linux
- ZonedBlockDevice ioctls
-References: <20220826161704.8076-1-faithilikerun@gmail.com>
- <87h71ugczz.fsf@pond.sub.org>
- <CAAAx-8Kc0UQDVXCTdFWz1E1K1xJTnUoGDko_khxEnHrPH6MYxw@mail.gmail.com>
- <87fshcdd4x.fsf@pond.sub.org>
- <CAAAx-8LN6tK+VkPVDNHM-hCkbpNE2iHZojCK1aO5GKtme1iRNQ@mail.gmail.com>
- <87r10vywg3.fsf@pond.sub.org>
-Date: Thu, 01 Sep 2022 18:18:21 +0200
-In-Reply-To: <87r10vywg3.fsf@pond.sub.org> (Markus Armbruster's message of
- "Thu, 01 Sep 2022 16:57:00 +0200")
-Message-ID: <87k06nysoi.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn1n-0001bY-9p
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:26:53 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:44991)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn1l-0001Sg-7N
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:26:51 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id kk26so35777665ejc.11
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 09:26:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=bXQsIF8kH/zcvVwSgijUJg04+KihRkyVLjU4F7uhh8s=;
+ b=NN6Wu2Zu1Vgasdk1Es93aPpho5OB6yvmQboK+nShRhTUpdqLzV5aTSMkZywpyycYUf
+ uB4Pf0bkpX20abbXg4mbvjw5bLoku1NW6jkbAeOlxnKcLtjrChvA0wp+SlnFyzNpoHDx
+ 2a0gCFu6pZFP0mEzQXpSl3GAq6LVCCeFDfjycMPVJ97CxD+kyOIF+T79LpyIBgu6ONgX
+ gFJhL00U7C0BxaFhOjnH0gwh6wMGoCCqOQPbFl2SUOr4XNnTaVUzGTiQdnIDveJaIIWS
+ XfuICFuX41gcME2W5kBi1zX7oPQ8a+V84CSRC0TyEnPlO1NU29h7SK0RuQ4fpFd192qI
+ ll/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=bXQsIF8kH/zcvVwSgijUJg04+KihRkyVLjU4F7uhh8s=;
+ b=H4o+dUL2nuvnj0ZJ5q0XefA1XyXhk81dVv83lNqs6xf3PYvcTf6LANPuO+4cEwfYQQ
+ fHYH0avSXJtoZBUNYHFlYdMZYrZHAvJ+rl/U6wktHYI6mj40Q5lka1mk5zASVvQdirJX
+ xHJGVgrgWzsNQUhAe9NKAxemZxmYvWxb1UvM3nl1+tFHJUeGSZ7NU6wE8lMWrIGrT4bB
+ Dr8pBil7ujJagfanrjBmfceMzi13hLCt2ETcXINeTXMevimfxbLVjp80PvwyaZ53HiLd
+ PlzMwHOloNeksKkY68AtSY8E95y7PCEo5/JMRLgQcZEvl7VRR2Oi//uwWJAJRA+gc3UR
+ dFPw==
+X-Gm-Message-State: ACgBeo2Bhnf29OE1shbsZDxzlwceuWWorYEv29onJ6dwCD06FwO2jHTY
+ D9HUv6q8LCI0kvaxJrsH8/FvJIzHoHI=
+X-Google-Smtp-Source: AA6agR6x4BlE1ys5jypYMiy5zzC96M1wjX23++69bsK2A4Uif4TcBetl/1y1s/e8DdPCujLwC4DzgQ==
+X-Received: by 2002:a17:907:948f:b0:731:3f2e:8916 with SMTP id
+ dm15-20020a170907948f00b007313f2e8916mr25108786ejc.442.1662049607338; 
+ Thu, 01 Sep 2022 09:26:47 -0700 (PDT)
+Received: from osoxes.fritz.box
+ (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
+ [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
+ by smtp.gmail.com with ESMTPSA id
+ p6-20020aa7d306000000b00447c0dcbb99sm1587672edq.83.2022.09.01.09.26.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Sep 2022 09:26:47 -0700 (PDT)
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH 00/42] Consolidate PIIX south bridges
+Date: Thu,  1 Sep 2022 18:25:31 +0200
+Message-Id: <20220901162613.6939-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,176 +95,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
-
-> Sam Li <faithilikerun@gmail.com> writes:
->
->> Markus Armbruster <armbru@redhat.com> =E4=BA=8E2022=E5=B9=B48=E6=9C=8831=
-=E6=97=A5=E5=91=A8=E4=B8=89 16:35=E5=86=99=E9=81=93=EF=BC=9A
->>>
->>> Sam Li <faithilikerun@gmail.com> writes:
->>>
->>> > Markus Armbruster <armbru@redhat.com> =E4=BA=8E2022=E5=B9=B48=E6=9C=
-=8830=E6=97=A5=E5=91=A8=E4=BA=8C 19:57=E5=86=99=E9=81=93=EF=BC=9A
->>> >>
->>> >> Sam Li <faithilikerun@gmail.com> writes:
->>> >>
->>> >> > By adding zone management operations in BlockDriver, storage contr=
-oller
->>> >> > emulation can use the new block layer APIs including Report Zone a=
-nd
->>> >> > four zone management operations (open, close, finish, reset).
->>> >> >
->>> >> > Add zoned storage commands of the device: zone_report(zrp), zone_o=
-pen(zo),
->>> >> > zone_close(zc), zone_reset(zrs), zone_finish(zf).
->>> >> >
->>> >> > For example, to test zone_report, use following command:
->>> >> > $ ./build/qemu-io --image-opts driver=3Dzoned_host_device, filenam=
-e=3D/dev/nullb0
->>> >> > -c "zrp offset nr_zones"
->>> >> >
->>> >> > Signed-off-by: Sam Li <faithilikerun@gmail.com>
->>> >> > Reviewed-by: Hannes Reinecke <hare@suse.de>
->>> >>
->>> >> [...]
->>> >>
->>> >> > diff --git a/block/file-posix.c b/block/file-posix.c
->>> >> > index 0a8b4b426e..e3efba6db7 100644
->>> >> > --- a/block/file-posix.c
->>> >> > +++ b/block/file-posix.c
->>> >>
->>> >> [...]
->>> >>
->>> >> > @@ -3752,6 +4025,54 @@ static BlockDriver bdrv_host_device =3D {
->>> >> >  #endif
->>> >> >  };
->>> >> >
->>> >> > +#if defined(CONFIG_BLKZONED)
->>> >> > +static BlockDriver bdrv_zoned_host_device =3D {
->>> >> > +        .format_name =3D "zoned_host_device",
->>> >>
->>> >> Indentation should be 4, not 8.
->>> >>
->>> >> > +        .protocol_name =3D "zoned_host_device",
->>> >> > +        .instance_size =3D sizeof(BDRVRawState),
->>> >> > +        .bdrv_needs_filename =3D true,
->>> >> > +        .bdrv_probe_device  =3D hdev_probe_device,
->>> >> > +        .bdrv_file_open     =3D hdev_open,
->>> >> > +        .bdrv_close         =3D raw_close,
->>> >> > +        .bdrv_reopen_prepare =3D raw_reopen_prepare,
->>> >> > +        .bdrv_reopen_commit  =3D raw_reopen_commit,
->>> >> > +        .bdrv_reopen_abort   =3D raw_reopen_abort,
->>> >> > +        .bdrv_co_create_opts =3D bdrv_co_create_opts_simple,
->>> >> > +        .create_opts         =3D &bdrv_create_opts_simple,
->>> >> > +        .mutable_opts        =3D mutable_opts,
->>> >> > +        .bdrv_co_invalidate_cache =3D raw_co_invalidate_cache,
->>> >> > +        .bdrv_co_pwrite_zeroes =3D hdev_co_pwrite_zeroes,
->>> >> > +
->>> >> > +        .bdrv_co_preadv         =3D raw_co_preadv,
->>> >> > +        .bdrv_co_pwritev        =3D raw_co_pwritev,
->>> >> > +        .bdrv_co_flush_to_disk  =3D raw_co_flush_to_disk,
->>> >> > +        .bdrv_co_pdiscard       =3D hdev_co_pdiscard,
->>> >> > +        .bdrv_co_copy_range_from =3D raw_co_copy_range_from,
->>> >> > +        .bdrv_co_copy_range_to  =3D raw_co_copy_range_to,
->>> >> > +        .bdrv_refresh_limits =3D raw_refresh_limits,
->>> >> > +        .bdrv_io_plug =3D raw_aio_plug,
->>> >> > +        .bdrv_io_unplug =3D raw_aio_unplug,
->>> >> > +        .bdrv_attach_aio_context =3D raw_aio_attach_aio_context,
->>> >> > +
->>> >> > +        .bdrv_co_truncate       =3D raw_co_truncate,
->>> >> > +        .bdrv_getlength =3D raw_getlength,
->>> >> > +        .bdrv_get_info =3D raw_get_info,
->>> >> > +        .bdrv_get_allocated_file_size
->>> >> > +                            =3D raw_get_allocated_file_size,
->>> >> > +        .bdrv_get_specific_stats =3D hdev_get_specific_stats,
->>> >> > +        .bdrv_check_perm =3D raw_check_perm,
->>> >> > +        .bdrv_set_perm   =3D raw_set_perm,
->>> >> > +        .bdrv_abort_perm_update =3D raw_abort_perm_update,
->>> >> > +        .bdrv_probe_blocksizes =3D hdev_probe_blocksizes,
->>> >> > +        .bdrv_probe_geometry =3D hdev_probe_geometry,
->>> >> > +        .bdrv_co_ioctl =3D hdev_co_ioctl,
->>> >> > +
->>> >> > +        /* zone management operations */
->>> >> > +        .bdrv_co_zone_report =3D raw_co_zone_report,
->>> >> > +        .bdrv_co_zone_mgmt =3D raw_co_zone_mgmt,
->>> >> > +};
->>> >>
->>> >> Differences to bdrv_host_device:
->>> >>
->>> >> * .bdrv_parse_filename is not set
->>> >>
->>> >> * .bdrv_co_ioctl is not set
->>> >>
->>> >> * .bdrv_co_zone_report and .bdrv_co_zone_mgmt are set
->>> >
->>> > As Stefan mentioned, zoned_host_device is a new driver that doesn't
->>> > work with string filenames. .bdrv_parse_filename() helps legacy
->>> > drivers strip the optional protocol prefix off the filename and no use
->>> > here. Therefore it can be dropped.
->>>
->>> Makes sense.
->>>
->>> > .bdrv_co_ioctl is set actually.
->>>
->>> You're right; I diffed the two and misread the result.
->>>
->>> > Zoned_host_device is basically host_device + zone operations. It
->>> > serves for a simple purpose: if the host device is zoned, register
->>> > zoned_host_device driver; else, register host_device.
->>>
->>> Why would I ever want to use host_device instead of zoned_host_device?
->>>
->>> To answer this question, we need to understand how their behavior
->>> differs.
->>>
->>> We can ignore the legacy protocol prefix / string filename part.
->>>
->>> All that's left seems to be "if the host device is zoned, then using the
->>> zoned_host_device driver gets you the zoned features, whereas using the
->>> host_device driver doesn't".  What am I missing?
->>
->> I think that's basically what users need to know about.
->
-> Now answer my previous question, please: why would I ever want to use
-> host_device instead of zoned_host_device?
->
-> Or in other words, why would I ever want to present a zoned host device
-> to a guest as non-zoned device?
->
->>> >> Notably common is .bdrv_file_open =3D hdev_open.  What happens when =
-you
->>> >> try to create a zoned_host_device where the @filename argument is no=
-t in
->>> >> fact a zoned device?
->>> >
->>> > If the device is a regular block device, QEMU will still open the
->>> > device. For instance, I use a loopback device to test zone_report in
->>> > qemu-io. It returns ENOTTY which indicates Inappropriate ioctl for the
->>> > device. Meanwhile, if using a regular block device when emulation a
->>> > zoned device on a guest os, the best case is that the guest can boot
->>> > but has no emulated block device. In some cases, QEMU just terminates
->>> > because the block device has not met the alignment requirements.
->>>
->>> I'm not sure I understand all of this.  I'm also not sure I have to :)
->>
->> Maybe I didn't explain it very well. Which part would you like to know
->> more about?
->
-> Let's try more specific questions.  Say I configure a zoned_host_device
-> backed by a host device that isn't zoned.
->
-> 1. Is this configuration accepted?
->
-> 2. Would a guest work as long as it doesn't touch this device?
-
-2.5. Does the device look like a zoned device to the guest?
-
-> 3. Would a guest using this device work as long as it uses no zoned
->    features?
->
-> 4. What happens when a guest tries to use zoned features?
->
-> [...]
-
+This series consolidates the implementations of the PIIX3 and PIIX4 south=0D
+bridges and is an extended version of [1]. The motivation is to share as mu=
+ch=0D
+code as possible and to bring both device models to feature parity such tha=
+t=0D
+perhaps PIIX4 can become a drop-in-replacement for PIIX3 in the pc machine.=
+ This=0D
+could resolve the "Frankenstein" PIIX4-PM problem in PIIX3 discussed on thi=
+s=0D
+list before.=0D
+=0D
+The series is structured as follows: First, PIIX3 is changed to instantiate=
+=0D
+internal devices itself, like PIIX4 does already. Second, PIIX3 gets prepar=
+ed=0D
+for the merge with PIIX4 which includes some fixes, cleanups, and renamings=
+.=0D
+Third, the same is done for PIIX4. In step four the implementations are mer=
+ged.=0D
+Since some consolidations could be done easier with merged implementations,=
+ the=0D
+consolidation continues in step five which concludes the series.=0D
+=0D
+One particular challenge in this series was that the PIC of PIIX3 used to b=
+e=0D
+instantiated outside of the south bridge while some sub functions require a=
+ PIC=0D
+with populated qemu_irqs. This has been solved by introducing a proxy PIC w=
+hich=0D
+furthermore allows PIIX3 to be agnostic towards the virtualization technolo=
+gy=0D
+used (KVM, TCG, Xen). Due to consolidation PIIX4 gained the PIC as well,=0D
+possibly allowing the Malta board to gain KVM capabilities in the future.=0D
+=0D
+Another challenge was dealing with optional devices where Peter already gav=
+e=0D
+advice in [1] which this series implements.=0D
+=0D
+An unsolved problem still is PCI interrupt handling. The first function=0D
+passed to pci_bus_irqs() is device-specific while the second one seems=0D
+board-specific. This causes both PIIX device models to be coupled to a=0D
+particular board. Any advice how to resolve this would be highly appreaciat=
+ed.=0D
+=0D
+Last but not least there might be some opportunity to consolidate VM state=
+=0D
+handling, probably by reusing the one from PIIX3. Since I'm not very famili=
+ar=0D
+with the requirements I didn't touch it so far.=0D
+=0D
+Testing done:=0D
+* make check=0D
+* Boot live CD:=0D
+  * `qemu-system-x86_64 -M pc -m 2G -accel kvm -cpu host -cdrom=0D
+manjaro-kde-21.3.2-220704-linux515.iso`=0D
+  * `qemu-system-x86_64 -M q35 -m 2G -accel kvm -cpu host -cdrom=0D
+manjaro-kde-21.3.2-220704-linux515.iso`=0D
+=0D
+[1] https://lists.nongnu.org/archive/html/qemu-devel/2022-07/msg02348.html=
+=0D
+=0D
+Bernhard Beschow (42):=0D
+  hw/i386/pc: Create DMA controllers in south bridges=0D
+  hw/i386/pc: Create RTC controllers in south bridges=0D
+  hw/i386/pc: No need for rtc_state to be an out-parameter=0D
+  hw/i386/pc_piix: Allow for setting properties before realizing PIIX3=0D
+    south bridge=0D
+  hw/isa/piix3: Create USB controller in host device=0D
+  hw/isa/piix3: Create power management controller in host device=0D
+  hw/intc/i8259: Introduce i8259 proxy "isa-pic"=0D
+  hw/isa/piix3: Create ISA PIC in host device=0D
+  hw/isa/piix3: Create IDE controller in host device=0D
+  hw/isa/piix3: Wire up ACPI interrupt internally=0D
+  hw/isa/piix3: Remove extra ';' outside of functions=0D
+  hw/isa/piix3: Remove unused include=0D
+  hw/isa/piix3: Add size constraints to rcr_ops=0D
+  hw/isa/piix3: Modernize reset handling=0D
+  hw/isa/piix3: Prefer pci_address_space() over get_system_memory()=0D
+  hw/isa/piix3: Allow board to provide PCI interrupt routes=0D
+  hw/isa/piix3: Resolve redundant PIIX_NUM_PIC_IRQS=0D
+  hw/isa/piix3: Rename pci_piix3_props for sharing with PIIX4=0D
+  hw/isa/piix3: Rename piix3_reset() for sharing with PIIX4=0D
+  hw/isa/piix3: Prefix pci_slot_get_pirq() with "piix3_"=0D
+  hw/isa/piix3: Rename typedef PIIX3State to PIIXState=0D
+  hw/mips/malta: Reuse dev variable=0D
+  meson: Fix dependencies of piix4 southbridge=0D
+  hw/isa/piix4: Add missing initialization=0D
+  hw/isa/piix4: Move pci_ide_create_devs() call to board code=0D
+  hw/isa/piix4: Make PIIX4's ACPI and USB functions optional=0D
+  hw/isa/piix4: Allow board to provide PCI interrupt routes=0D
+  hw/isa/piix4: Remove unused code=0D
+  hw/isa/piix4: Use ISA PIC device=0D
+  hw/isa/piix4: Reuse struct PIIXState from PIIX3=0D
+  hw/isa/piix4: Rename reset control operations to match PIIX3=0D
+  hw/isa/piix4: Rename wrongly named method=0D
+  hw/isa/piix4: Prefix pci_slot_get_pirq() with "piix4_"=0D
+  hw/isa/piix3: Merge hw/isa/piix4.c=0D
+  hw/isa/piix: Harmonize names of reset control memory regions=0D
+  hw/isa/piix: Reuse PIIX3 base class' realize method in PIIX4=0D
+  hw/isa/piix: Rename functions to be shared for interrupt triggering=0D
+  hw/isa/piix: Consolidate IRQ triggering=0D
+  hw/isa/piix: Unexport PIIXState=0D
+  hw/isa/piix: Share PIIX3 base class with PIIX4=0D
+  hw/isa/piix: Drop the "3" from the PIIX base class=0D
+  hw/i386/acpi-build: Resolve PIIX ISA bridge rather than ACPI=0D
+    controller=0D
+=0D
+ MAINTAINERS                             |   6 +-=0D
+ configs/devices/mips-softmmu/common.mak |   3 +-=0D
+ hw/i386/Kconfig                         |   3 +-=0D
+ hw/i386/acpi-build.c                    |   4 +-=0D
+ hw/i386/pc.c                            |  19 +-=0D
+ hw/i386/pc_piix.c                       |  72 +--=0D
+ hw/i386/pc_q35.c                        |   3 +-=0D
+ hw/intc/i8259.c                         |  27 +=0D
+ hw/isa/Kconfig                          |  14 +-=0D
+ hw/isa/lpc_ich9.c                       |  11 +=0D
+ hw/isa/meson.build                      |   3 +-=0D
+ hw/isa/piix.c                           | 669 ++++++++++++++++++++++++=0D
+ hw/isa/piix3.c                          | 431 ---------------=0D
+ hw/isa/piix4.c                          | 325 ------------=0D
+ hw/mips/malta.c                         |  34 +-=0D
+ include/hw/i386/ich9.h                  |   2 +=0D
+ include/hw/i386/pc.h                    |   2 +-=0D
+ include/hw/intc/i8259.h                 |  14 +=0D
+ include/hw/southbridge/piix.h           |  41 +-=0D
+ 19 files changed, 823 insertions(+), 860 deletions(-)=0D
+ create mode 100644 hw/isa/piix.c=0D
+ delete mode 100644 hw/isa/piix3.c=0D
+ delete mode 100644 hw/isa/piix4.c=0D
+=0D
+-- =0D
+2.37.3=0D
+=0D
 
