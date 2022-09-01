@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 849375A936C
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 11:42:30 +0200 (CEST)
-Received: from localhost ([::1]:47222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9DE5A92E0
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 11:15:35 +0200 (CEST)
+Received: from localhost ([::1]:43472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTgiT-0002kH-FG
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 05:42:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42158)
+	id 1oTgIQ-0006Xk-Em
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 05:15:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1oTfhP-00072b-DL
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 04:37:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30611)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1oTfhM-00023r-KS
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 04:37:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662021435;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8RDXT8g3KisK1TCmuPkueQ+F2HXK63Os+tghRf/HG5M=;
- b=YGe/zaK7TFD7co8nZRxRvQ6Nq67QQLC1Hr3V3eJ2kc/u1vXVeSgR9wgyOiae0UknSKGruX
- OKC81Z+BdHq++SENjgTy5Sj9Xv7ekFWxfup26AJENeA2uZQFvxczH2eE2bPtvI1ir3F1ZU
- qcURuE5VvfPrrl3wPo5fZcBmXO9HWAg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-w2xUg5ttOCWf0kkrqjQI9A-1; Thu, 01 Sep 2022 04:37:11 -0400
-X-MC-Unique: w2xUg5ttOCWf0kkrqjQI9A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 614A93C11041;
- Thu,  1 Sep 2022 08:37:11 +0000 (UTC)
-Received: from localhost (unknown [10.40.192.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ECD3240CF8F2;
- Thu,  1 Sep 2022 08:37:10 +0000 (UTC)
-Date: Thu, 1 Sep 2022 10:37:09 +0200
-From: Victor Toso <victortoso@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
- John Snow <jsnow@redhat.com>, Michael Roth <michael.roth@amd.com>
-Subject: Re: [PATCH v1 16/16] RFC: add a generator for qapi's examples
-Message-ID: <20220901083709.p6jpz3mqnew3rmsr@tapioca>
-References: <20220830161545.84198-1-victortoso@redhat.com>
- <20220830161545.84198-17-victortoso@redhat.com>
- <87ilm8aafh.fsf@pond.sub.org>
- <20220831133255.os2xaxtkolbvmcq5@tapioca>
- <87sflc5ulr.fsf@pond.sub.org>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oTfmE-00057S-2F; Thu, 01 Sep 2022 04:42:18 -0400
+Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:35826)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oTfmC-0002hX-6r; Thu, 01 Sep 2022 04:42:17 -0400
+Received: by mail-lf1-x12d.google.com with SMTP id z25so23403961lfr.2;
+ Thu, 01 Sep 2022 01:42:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=qbDtQ4m156li/kQR9DUBrjHPQ45lFW88NHXHCr5wgO8=;
+ b=MYkm575vSNzYc+Zwd0MBPXRX2uxu4PoBEOtOR+fk+ndtfxNr478Oqtlz/VyBESsNoV
+ lU1FR7piJotfw+4dKk9HPScFEc9/ZrZ470g1CvkILDUvjsRIt+8kWnawIkkwI/FrzuNK
+ Piw5czCvJET+3Ajf9PMF2SJIfX2DizWDzSP47EagKmuPd9Va+B8j4F6LFrOIXXbUrp4w
+ +G7f3yk6G3eILVV4qq/CKgyCY69gv+ioe0eM1G1oc5UyAS4pFLL8kA0UVpsv+XrtFMSD
+ GyYkOkfmwYByq9wKi+QPKGO73VZXBCMDDDXqergpIISTYO6ZJ1VIZkmilrWVSva3Qmid
+ SfOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=qbDtQ4m156li/kQR9DUBrjHPQ45lFW88NHXHCr5wgO8=;
+ b=5u2N2cetIYWBDmk+FBKWd9Xu0DDhRl+n/aIG6reB/PihWG7oQIWAtoyWkh1xM0RCEm
+ Y+ELrnw30/bQD165pwNGWm9rhROJaLwhEkmRRyCmqs8ny8okFIM3PSt5kXhQL7cTn+OL
+ EOgfF8cehecJHVexoKgFG0f5R7wrGNRibRv/Eg7Df4CT1Sxjkv9KJ9YGtdT7bpfbBYR2
+ bLrGdGcTB9hXO86kZ5yQJGFr9amL5CmQZ5Bru1svMo99CF2Bbk24RFnHIRAufxWO1AUz
+ rZvI3iKcmg8tUMdX31FafHAWjoy8cp4/Xwxtxp2ngPV7xohPReqAkzz4RY38gpD22pmU
+ hRAg==
+X-Gm-Message-State: ACgBeo38+Kjd3wg78JPscb0yKwvpxSGrZdKIPK2p0Y9CvI44lB4bcNJN
+ nSNY/VD73zPXRhidlcRWgVePdD2DjeaJ4jxAMac=
+X-Google-Smtp-Source: AA6agR5F26MidYRSlQSersYC7mMIdfb0quwYU7dBpZRyvdokl2DYSIAI9owIfHgx+WX8yZ9i3+ZCR/Sco8NWEScB0oI=
+X-Received: by 2002:a19:2d08:0:b0:494:62f3:fcc3 with SMTP id
+ k8-20020a192d08000000b0049462f3fcc3mr6833378lfj.362.1662021732246; Thu, 01
+ Sep 2022 01:42:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="6l4ltwtytz7oxixv"
-Content-Disposition: inline
-In-Reply-To: <87sflc5ulr.fsf@pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
+ <20220824094029.1634519-33-bmeng.cn@gmail.com>
+In-Reply-To: <20220824094029.1634519-33-bmeng.cn@gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 1 Sep 2022 12:42:00 +0400
+Message-ID: <CAJ+F1CKusZz5VS85zYD7gtaE0KhYSSPuam66CeVacbj863_5zg@mail.gmail.com>
+Subject: Re: [PATCH 32/51] tests/qtest: Fix ERROR_SHARING_VIOLATION for win32
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
+ John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000f5ac3b05e79996c4"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,168 +84,193 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---6l4ltwtytz7oxixv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--000000000000f5ac3b05e79996c4
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi
 
-On Wed, Aug 31, 2022 at 04:57:20PM +0200, Markus Armbruster wrote:
-> Victor Toso <victortoso@redhat.com> writes:
->=20
-> > Hi,
-> >
-> > On Wed, Aug 31, 2022 at 02:01:54PM +0200, Markus Armbruster wrote:
-> >> Victor Toso <victortoso@redhat.com> writes:
-> >>
-> >> > The goal of this generator is to validate QAPI examples and transform
-> >> > them into a format that can be used for 3rd party applications to
-> >> > validate their QAPI/QMP introspection.
-> >> >
-> >> > For each Example section, we parse server and client messages into a
-> >> > python dictionary. This step alone has found several ill formatted
-> >> > JSON messages in the examples.
-> >> >
-> >> > The generator outputs another JSON file with all the examples in the
-> >> > QAPI module that they came from. This can be used to validate the
-> >> > introspection between QAPI/QMP to language bindings.
-> >> >
-> >> > When used with the POC qapi-go branch, we have found bad QMP messages
-> >> > with wrong member names, mandatory members that were missing and
-> >> > optional members that were being set with null (not needed).
-> >> >
-> >> > A simple example of the output format is:
-> >> >
-> >> >  { "examples": [
-> >> >    {
-> >> >      "id": "ksuxwzfayw",
-> >> >      "client": [
-> >> >      {
-> >> >        "sequence-order": 1
-> >> >        "message-type": "command",
-> >> >        "message":
-> >> >        { "arguments":
-> >> >          { "device": "scratch", "size": 1073741824 },
-> >> >          "execute": "block_resize"
-> >> >        },
-> >> >     } ],
-> >> >     "server": [
-> >> >     {
-> >> >       "sequence-order": 2
-> >> >       "message-type": "return",
-> >> >       "message": { "return": {} },
-> >> >     } ]
-> >> >     }
-> >> >   ] }
-> >> >
-> >> > If this idea seems reasonable, we can add python-qemu-qmp to validate
-> >> > each message at generation time already.
-> >> >
-> >> > Signed-off-by: Victor Toso <victortoso@redhat.com>
-> >>
-> >> If I understand you correctly, there are two benefits:
-> >>
-> >> 1. Mechanical syntax check for examples
-> >>
-> >>    Love it.
-> >
-> > Not just JSON syntax but can be extend to the introspection
-> > layer. Errors like wrong member names would fail while parsing
-> > the examples (issues such as fixed by patches 11 and 13/16 should
-> > not happen anymore).
->=20
-> It's also a mechanical check against the schema.  Still love it :)
+On Wed, Aug 24, 2022 at 2:03 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 
-Great :)
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> On Windows, the MinGW provided mkstemp() API opens the file with
+> exclusive access, denying other processes to read/write the file.
+> Such behavior prevents the QEMU executable from opening the file,
+> (e.g.: CreateFile returns ERROR_SHARING_VIOLATION).
+>
 
-> >> 2. Can extract examples for use as test cases
-> >>
-> >>    Sounds good to me.  Possible redundancy with existing tests.
-> >>    Probably nothing to worry about.
-> >>
-> >>    Can you explain in a bit more detail how the extracted data
-> >>    is (to be) used?
-> >
-> > Sure.
-> >
-> > The Golang test that consumes this is 152 lines of code [0]. The
-> > idea is that we can use the examples to feed Golang unmarshalling
-> > code and then marshall it back to JSON and compare input JSON
-> > with output JSON and see that their content matches.
-> >
-> > [0] https://gitlab.com/victortoso/qapi-go/-/blob/wip-v3/test/examples_t=
-est.go
-> >
-> > I have generated the examples with this patch series and stored
-> > the output here [1]
-> >
-> > [1] https://gitlab.com/victortoso/qapi-go/-/tree/wip-v3/test/data/examp=
-les
-> >
-> > The examples are QMP messages that are either sent by Client "->"
-> > or sent by Server "<-". The order matters so I take the order set
-> > in the examples and store it as "sequence-order".
-> >
-> > In the Go test code, I follow the sequence-order. One example of
-> > this being useful is that we know which Return type to expect
-> > after a Command is issued.
-> >
-> > I've also included metadata about the type of message, which is
-> > one of three options: command, event or return. (Errors are
-> > return too).
-> >
-> > This is important because it makes the tests very easy to write.
-> > Different Unmarshal/Marshal code can be set in the code block of
-> > the specific message type.
-> >
-> > --
-> >
-> > The things that makes me quite excited with this idea are:
-> >
-> >  1. We have valid functional examples documented. If the examples
-> >     break, we would have the software in place to know it (plug
-> >     to ci or some other ninja check seems reasonable to me)
-> >
-> >  2. Developers should get more interested in documenting examples
-> >     as that alone is is a valid test case, even if only useful
-> >     for language binding's syntax.
->=20
-> Thanks!  Would you like to work some of this into your commit message?
+g_mkstemp() doesn't have this behaviour (after running a quick test). Use
+it?
 
-Yeah. I'll resend this series fixing the style you have proposed
-and I'll be removing the patches that might need some extra
-discussion, like this rfc and examples that are cut short with a
-comment.
 
-I'll improve this generator and send it later, probably after the
-next iteration of qapi-go. This also gives some room to feedback
-=66rom others, if any.
+>
+> This can be fixed by closing the file and reopening it.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
+>
+>  tests/qtest/ahci-test.c        | 14 ++++++++++++++
+>  tests/qtest/boot-serial-test.c | 13 +++++++++++++
+>  2 files changed, 27 insertions(+)
+>
+> diff --git a/tests/qtest/ahci-test.c b/tests/qtest/ahci-test.c
+> index f26cd6f86f..0e88cd0eef 100644
+> --- a/tests/qtest/ahci-test.c
+> +++ b/tests/qtest/ahci-test.c
+> @@ -1443,6 +1443,20 @@ static int prepare_iso(size_t size, unsigned char
+> **buf, char **name)
+>      int fd =3D mkstemp(cdrom_path);
+>
+>      g_assert(fd !=3D -1);
+> +#ifdef _WIN32
+> +    /*
+> +     * On Windows, the MinGW provided mkstemp() API opens the file with
+> +     * exclusive access, denying other processes to read/write the file.
+> +     * Such behavior prevents the QEMU executable from opening the file,
+> +     * (e.g.: CreateFile returns ERROR_SHARING_VIOLATION).
+> +     *
+> +     * Close the file and reopen it.
+> +     */
+> +    close(fd);
+> +    fd =3D open(cdrom_path, O_WRONLY);
+> +    g_assert(fd !=3D -1);
+> +#endif
+> +
+>      g_assert(buf);
+>      g_assert(name);
+>      patt =3D g_malloc(size);
+> diff --git a/tests/qtest/boot-serial-test.c
+> b/tests/qtest/boot-serial-test.c
+> index 404adcfa20..fb6c81bf35 100644
+> --- a/tests/qtest/boot-serial-test.c
+> +++ b/tests/qtest/boot-serial-test.c
+> @@ -235,6 +235,19 @@ static void test_machine(const void *data)
+>
+>      ser_fd =3D mkstemp(serialtmp);
+>      g_assert(ser_fd !=3D -1);
+> +#ifdef _WIN32
+> +    /*
+> +     * On Windows, the MinGW provided mkstemp() API opens the file with
+> +     * exclusive access, denying other processes to read/write the file.
+> +     * Such behavior prevents the QEMU executable from opening the file,
+> +     * (e.g.: CreateFile returns ERROR_SHARING_VIOLATION).
+> +     *
+> +     * Close the file and reopen it.
+> +     */
+> +    close(ser_fd);
+> +    ser_fd =3D open(serialtmp, O_RDONLY);
+> +    g_assert(ser_fd !=3D -1);
+> +#endif
+>
+>      if (test->kernel) {
+>          code =3D test->kernel;
+> --
+> 2.34.1
+>
+>
+>
 
-Cheers,
-Victor
+--=20
+Marc-Andr=C3=A9 Lureau
 
---6l4ltwtytz7oxixv
-Content-Type: application/pgp-signature; name="signature.asc"
+--000000000000f5ac3b05e79996c4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
------BEGIN PGP SIGNATURE-----
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 24, 2022 at 2:03 PM Bin=
+ Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Bin=
+ Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" target=3D"_blank">bin.m=
+eng@windriver.com</a>&gt;<br>
+<br>
+On Windows, the MinGW provided mkstemp() API opens the file with<br>
+exclusive access, denying other processes to read/write the file.<br>
+Such behavior prevents the QEMU executable from opening the file,<br>
+(e.g.: CreateFile returns ERROR_SHARING_VIOLATION).<br></blockquote><div><b=
+r></div><div>g_mkstemp() doesn&#39;t have this behaviour (after running a q=
+uick test). Use it?<br></div><div>=C2=A0<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">
+<br>
+This can be fixed by closing the file and reopening it.<br>
+<br>
+Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" targe=
+t=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
+---<br>
+<br>
+=C2=A0tests/qtest/ahci-test.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 14 +++++++++++++=
++<br>
+=C2=A0tests/qtest/boot-serial-test.c | 13 +++++++++++++<br>
+=C2=A02 files changed, 27 insertions(+)<br>
+<br>
+diff --git a/tests/qtest/ahci-test.c b/tests/qtest/ahci-test.c<br>
+index f26cd6f86f..0e88cd0eef 100644<br>
+--- a/tests/qtest/ahci-test.c<br>
++++ b/tests/qtest/ahci-test.c<br>
+@@ -1443,6 +1443,20 @@ static int prepare_iso(size_t size, unsigned char **=
+buf, char **name)<br>
+=C2=A0 =C2=A0 =C2=A0int fd =3D mkstemp(cdrom_path);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0g_assert(fd !=3D -1);<br>
++#ifdef _WIN32<br>
++=C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0* On Windows, the MinGW provided mkstemp() API opens t=
+he file with<br>
++=C2=A0 =C2=A0 =C2=A0* exclusive access, denying other processes to read/wr=
+ite the file.<br>
++=C2=A0 =C2=A0 =C2=A0* Such behavior prevents the QEMU executable from open=
+ing the file,<br>
++=C2=A0 =C2=A0 =C2=A0* (e.g.: CreateFile returns ERROR_SHARING_VIOLATION).<=
+br>
++=C2=A0 =C2=A0 =C2=A0*<br>
++=C2=A0 =C2=A0 =C2=A0* Close the file and reopen it.<br>
++=C2=A0 =C2=A0 =C2=A0*/<br>
++=C2=A0 =C2=A0 close(fd);<br>
++=C2=A0 =C2=A0 fd =3D open(cdrom_path, O_WRONLY);<br>
++=C2=A0 =C2=A0 g_assert(fd !=3D -1);<br>
++#endif<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0g_assert(buf);<br>
+=C2=A0 =C2=A0 =C2=A0g_assert(name);<br>
+=C2=A0 =C2=A0 =C2=A0patt =3D g_malloc(size);<br>
+diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.=
+c<br>
+index 404adcfa20..fb6c81bf35 100644<br>
+--- a/tests/qtest/boot-serial-test.c<br>
++++ b/tests/qtest/boot-serial-test.c<br>
+@@ -235,6 +235,19 @@ static void test_machine(const void *data)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0ser_fd =3D mkstemp(serialtmp);<br>
+=C2=A0 =C2=A0 =C2=A0g_assert(ser_fd !=3D -1);<br>
++#ifdef _WIN32<br>
++=C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0* On Windows, the MinGW provided mkstemp() API opens t=
+he file with<br>
++=C2=A0 =C2=A0 =C2=A0* exclusive access, denying other processes to read/wr=
+ite the file.<br>
++=C2=A0 =C2=A0 =C2=A0* Such behavior prevents the QEMU executable from open=
+ing the file,<br>
++=C2=A0 =C2=A0 =C2=A0* (e.g.: CreateFile returns ERROR_SHARING_VIOLATION).<=
+br>
++=C2=A0 =C2=A0 =C2=A0*<br>
++=C2=A0 =C2=A0 =C2=A0* Close the file and reopen it.<br>
++=C2=A0 =C2=A0 =C2=A0*/<br>
++=C2=A0 =C2=A0 close(ser_fd);<br>
++=C2=A0 =C2=A0 ser_fd =3D open(serialtmp, O_RDONLY);<br>
++=C2=A0 =C2=A0 g_assert(ser_fd !=3D -1);<br>
++#endif<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (test-&gt;kernel) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0code =3D test-&gt;kernel;<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
-iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmMQbzUACgkQl9kSPeN6
-SE9D3A//V+bjKLfPpp/n0CxS2f85s7GrxoX9vesULniUEaFLJ1OXxI1sntVTFTSs
-DgfqGnGvtbBlOw8uLmC8GlZIIzgswA5BPzjbvF6b8aN7/SeY1U9Rz3MoADwxfWeJ
-vAi3DVpRQ4TasFKOse5FJXvWncNGBPWz0v5hEK9cxVQ8UtKm55hDGh9MsKQFDM17
-uu2dXtnAMC+eVs6D/9k4AKOzPP5hETwVMO0xjFHxJEaU4/Cd2NXNXFiO6d+mpYf7
-rHzGGGPMqARr+CvKtoGySHPB/wLVeesz4pc9/d2UHMUICtoRdupfG09XCBb93F/N
-4jKpWzX4Y2le56sCbtFzkfRgJKBO2VlLjb0YFtmMra7SYKuaU0OOyze1wQI2oKQS
-irTQoksoJdD50aE1J4TvUf8dEMxAtjBSe1q1LcXg7mBMxyPm07dNLnqRry29hmr1
-aeqFGgad/CzENBr2pSPOzmmAWd/dVIWoljLa/2fbJviypqSt6H0QvA35ytYBSx3/
-iY3CPgq0fvmLKSqp/79y2rcYDy4fy6sCrKKzGSMe5842mOJW7Re2RspQHnZTwW01
-H2kkO2T654QY/KfE/1Z9APLGaR8ET0Y94l37os49XWUh/ChGuoxn3SjLN5N0zqW8
-L3f+QU9j8v0LOeticoiLL4wuYcKZl/IE7c3hKBmEzGvEbC/lMvk=
-=jMCY
------END PGP SIGNATURE-----
-
---6l4ltwtytz7oxixv--
-
+--000000000000f5ac3b05e79996c4--
 
