@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 654265A961D
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 13:58:50 +0200 (CEST)
-Received: from localhost ([::1]:40004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 501CC5A9611
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 13:52:50 +0200 (CEST)
+Received: from localhost ([::1]:38142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTiqN-00014p-QH
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 07:58:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41876)
+	id 1oTikb-00050U-AX
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 07:52:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTiaQ-0005gx-T9; Thu, 01 Sep 2022 07:42:27 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:44584)
+ id 1oTiaS-0005h5-9z; Thu, 01 Sep 2022 07:42:28 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:42627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTiaE-0000Ea-Cc; Thu, 01 Sep 2022 07:42:18 -0400
-Received: by mail-ej1-x636.google.com with SMTP id kk26so34031239ejc.11;
- Thu, 01 Sep 2022 04:42:05 -0700 (PDT)
+ id 1oTiaI-0000Ej-DP; Thu, 01 Sep 2022 07:42:19 -0400
+Received: by mail-ed1-x532.google.com with SMTP id b44so22157819edf.9;
+ Thu, 01 Sep 2022 04:42:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=JrsI/ne9g59XtZZjXBIVmp2BYTys8MQfr3EVDlgHowE=;
- b=SlwUrs3C2zc73Bdrq0Xnf7bvB3L/WMsUYGtqZiq6z7tam3PVRr5274CGhH5EqEXk+7
- e3+T13FxAtPaGWQ3a/o5QugFvQmPDJIVF1SwBXItBcws5dtQtFLfXNd3S9smdB1tBDCg
- MkxANfxUIX2xAgV8U7tQX0hUD72YEiU6fyuMeFTuxs6ojVYXof9+9qEbNpnlVw6UDHT2
- hHF9AtTqL3f3P7MTkI+rX1CPE05VeKDBHC0S5B+Bo7MdL2VCFZkRMANPeVBq3+x5eScV
- p7KEDtWs0Q66Xj/1is/lvpCnwwWHcb/N5/Ct91l2sCT/RCF06yEB9zukAoSDd5/4cPiX
- TeVA==
+ bh=RWj9GRHrzzr15/ZkR3tiTCwed+rhxbgqjltEgakH7eA=;
+ b=fQK46l2htxKZvYco8quosSuVPJHQXiz5L+P4M+oUcyIV9AL/at7g5xc1Vbb32xbFmv
+ dVq/wLP6tvWbRYvzdXFlUg/qSZGJIDR0VSBDmJKyaQg7x3RRB8ey7vjGgWIaLuPAXgk6
+ NJ2VT5oDil9pMuzGiu98zgsNoDhCCm45uoyxBYT9HLN/GelBotU90/XvGZvmMe2+PWyH
+ gj6d28V923rbmZQ188c73x4iPI8BLj/gXO7N1N4/Eet+I44U3KNvDWNs+seZbPqFdlR1
+ vAoIImvegwYFjl2TafHPdwdfRd8ek/mZ/StvwJdIes5w9voo/lHib9DV8lXZAM54oomp
+ dtsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=JrsI/ne9g59XtZZjXBIVmp2BYTys8MQfr3EVDlgHowE=;
- b=clMTqiq//qOz9nqakzIY+IyNRx2IKSVNx3+GHjee2KfBLNQjKjamzIkVKl2+rxnoy4
- tDumlpWSwdlCVWHVL70lRw2ctYay/dzuN/kr0SnYrsYs4mVy67ej20B0rOAIKe/eZnSP
- xzDAbgWoiwZEqOhuF4gtxUKlpW4slZnBsa7fw7ow7FV6wyD7NRt3Uycc5OSS4YCJ3FkO
- V9q/n/S6vMIgtc8IOg03qwZRDZYQUMYbBhrgeSkfseyxzezL2osZ6GfcutFJmK+dvt1K
- KLTX7JcYNklROVfLbBysSiPOqKdFc0ie5VAv5abH8Ws9KymNSB6by/7cPRIJamv0FNPF
- CY8Q==
-X-Gm-Message-State: ACgBeo1arOJgW2WCCG5ZbPUiKfesHhG0kdEymk0JC0NioBghhtdv3kSu
- dQpUoKRKWHGKYlCan2MzTajxyuVGp/k=
-X-Google-Smtp-Source: AA6agR52ODAk6m2govsXpT/yoB/6UmFivJWfKT7MhVJiSfVqrDNeYMyESVfIeqD04ZM4j72IptkXhw==
-X-Received: by 2002:a17:907:60c7:b0:731:4b42:4e3e with SMTP id
- hv7-20020a17090760c700b007314b424e3emr23459351ejc.236.1662032524089; 
+ bh=RWj9GRHrzzr15/ZkR3tiTCwed+rhxbgqjltEgakH7eA=;
+ b=HTiH2QNhX5oaNPiaA+Noufh9X+eS9UbBPJJWKUc6jWib4Ps1dyyD+9mQ0C3Z3Frhrk
+ uJRHbVr/nWYtOW6lmH910g60fAeNMkfEsdazOi52ZubiCTQWQ7tfCvYfgyFdhFXysbSG
+ Ow6DDvkgRznyUkurOGVagUDgei1uiC97TKkUXdvk1+FLFPesqx4SSKssRZ9TngKm6mqK
+ AHZ9+UqvU/m8XiFG1tTL5pahZpqtVMKhLQfB0h5vUMjzcSgpVv9/3WRvZ9KK/+6NOUmF
+ kf5qeuzoVLWzz61Xksh3qvzzerEwGCviR6x0kEyCO9Hzaa1+YHR3L8vLFQ937mgxy0oZ
+ RQrQ==
+X-Gm-Message-State: ACgBeo2P8pt4Sln2jcTlYzzcpsiPOGAJcTevwplJOyKcKh5/ZwnZU+AW
+ EBaeQYHs19mgUNrTvBaxj7Q25nr1rgU=
+X-Google-Smtp-Source: AA6agR5T6cvC+pJXX1YDHni6N2UrRX/Hb81NVPUS2rxo11za+nTjf3IF92NJ0zhSWl4Ww6C6kTTcSQ==
+X-Received: by 2002:a05:6402:2684:b0:448:6a69:4b59 with SMTP id
+ w4-20020a056402268400b004486a694b59mr16060987edd.390.1662032524965; 
  Thu, 01 Sep 2022 04:42:04 -0700 (PDT)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- f12-20020a17090660cc00b0073ddb2eff27sm8387455ejk.167.2022.09.01.04.42.02
+ f12-20020a17090660cc00b0073ddb2eff27sm8387455ejk.167.2022.09.01.04.42.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 04:42:03 -0700 (PDT)
+ Thu, 01 Sep 2022 04:42:04 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>,
@@ -60,17 +60,17 @@ Cc: qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  BALATON Zoltan <balaton@eik.bme.hu>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v5 07/13] hw/isa/vt82c686: Introduce TYPE_VT82C686B_USB_UHCI
- define
-Date: Thu,  1 Sep 2022 13:41:21 +0200
-Message-Id: <20220901114127.53914-8-shentey@gmail.com>
+Subject: [PATCH v5 08/13] hw/isa/vt82c686: Instantiate USB functions in host
+ device
+Date: Thu,  1 Sep 2022 13:41:22 +0200
+Message-Id: <20220901114127.53914-9-shentey@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220901114127.53914-1-shentey@gmail.com>
 References: <20220901114127.53914-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,79 +93,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
+The USB functions can be enabled/disabled through the ISA function. Also
+its interrupt routing can be influenced there.
+
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/mips/fuloong2e.c        | 4 ++--
- hw/ppc/pegasos2.c          | 4 ++--
- hw/usb/vt82c686-uhci-pci.c | 4 ++--
- include/hw/isa/vt82c686.h  | 1 +
- 4 files changed, 7 insertions(+), 6 deletions(-)
+ hw/isa/vt82c686.c   | 12 ++++++++++++
+ hw/mips/fuloong2e.c |  3 ---
+ hw/ppc/pegasos2.c   |  4 ----
+ 3 files changed, 12 insertions(+), 7 deletions(-)
 
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index 63c1e3b8ce..f05fd9948a 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -23,6 +23,7 @@
+ #include "hw/intc/i8259.h"
+ #include "hw/irq.h"
+ #include "hw/dma/i8257.h"
++#include "hw/usb/hcd-uhci.h"
+ #include "hw/timer/i8254.h"
+ #include "hw/rtc/mc146818rtc.h"
+ #include "migration/vmstate.h"
+@@ -546,6 +547,7 @@ struct ViaISAState {
+     qemu_irq *isa_irqs;
+     ViaSuperIOState via_sio;
+     PCIIDEState ide;
++    UHCIState uhci[2];
+ };
+ 
+ static const VMStateDescription vmstate_via = {
+@@ -563,6 +565,8 @@ static void via_isa_init(Object *obj)
+     ViaISAState *s = VIA_ISA(obj);
+ 
+     object_initialize_child(obj, "ide", &s->ide, TYPE_VIA_IDE);
++    object_initialize_child(obj, "uhci1", &s->uhci[0], TYPE_VT82C686B_USB_UHCI);
++    object_initialize_child(obj, "uhci2", &s->uhci[1], TYPE_VT82C686B_USB_UHCI);
+ }
+ 
+ static const TypeInfo via_isa_info = {
+@@ -629,6 +633,14 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+     if (!qdev_realize(DEVICE(&s->ide), BUS(pci_bus), errp)) {
+         return;
+     }
++
++    /* Functions 2-3: USB Ports */
++    for (i = 0; i < ARRAY_SIZE(s->uhci); i++) {
++        qdev_prop_set_int32(DEVICE(&s->uhci[i]), "addr", d->devfn + 2 + i);
++        if (!qdev_realize(DEVICE(&s->uhci[i]), BUS(pci_bus), errp)) {
++            return;
++        }
++    }
+ }
+ 
+ /* TYPE_VT82C686B_ISA */
 diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index 32605901e7..6b7370f2aa 100644
+index 6b7370f2aa..dc92223b76 100644
 --- a/hw/mips/fuloong2e.c
 +++ b/hw/mips/fuloong2e.c
-@@ -208,8 +208,8 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
+@@ -208,9 +208,6 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
      dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"));
      pci_ide_create_devs(dev);
  
--    pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
--    pci_create_simple(pci_bus, PCI_DEVFN(slot, 3), "vt82c686b-usb-uhci");
-+    pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), TYPE_VT82C686B_USB_UHCI);
-+    pci_create_simple(pci_bus, PCI_DEVFN(slot, 3), TYPE_VT82C686B_USB_UHCI);
- 
+-    pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), TYPE_VT82C686B_USB_UHCI);
+-    pci_create_simple(pci_bus, PCI_DEVFN(slot, 3), TYPE_VT82C686B_USB_UHCI);
+-
      dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 4), TYPE_VT82C686B_PM);
      *i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
+ 
 diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-index 8bc528a560..70776558c9 100644
+index 70776558c9..85cca6f7a6 100644
 --- a/hw/ppc/pegasos2.c
 +++ b/hw/ppc/pegasos2.c
-@@ -169,8 +169,8 @@ static void pegasos2_init(MachineState *machine)
+@@ -168,10 +168,6 @@ static void pegasos2_init(MachineState *machine)
+     dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"));
      pci_ide_create_devs(dev);
  
-     /* VT8231 function 2-3: USB Ports */
--    pci_create_simple(pci_bus, PCI_DEVFN(12, 2), "vt82c686b-usb-uhci");
--    pci_create_simple(pci_bus, PCI_DEVFN(12, 3), "vt82c686b-usb-uhci");
-+    pci_create_simple(pci_bus, PCI_DEVFN(12, 2), TYPE_VT82C686B_USB_UHCI);
-+    pci_create_simple(pci_bus, PCI_DEVFN(12, 3), TYPE_VT82C686B_USB_UHCI);
- 
+-    /* VT8231 function 2-3: USB Ports */
+-    pci_create_simple(pci_bus, PCI_DEVFN(12, 2), TYPE_VT82C686B_USB_UHCI);
+-    pci_create_simple(pci_bus, PCI_DEVFN(12, 3), TYPE_VT82C686B_USB_UHCI);
+-
      /* VT8231 function 4: Power Management Controller */
      dev = pci_create_simple(pci_bus, PCI_DEVFN(12, 4), TYPE_VT8231_PM);
-diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
-index 0bf2b72ff0..46a901f56f 100644
---- a/hw/usb/vt82c686-uhci-pci.c
-+++ b/hw/usb/vt82c686-uhci-pci.c
-@@ -31,7 +31,7 @@ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
- 
- static UHCIInfo uhci_info[] = {
-     {
--        .name      = "vt82c686b-usb-uhci",
-+        .name      = TYPE_VT82C686B_USB_UHCI,
-         .vendor_id = PCI_VENDOR_ID_VIA,
-         .device_id = PCI_DEVICE_ID_VIA_UHCI,
-         .revision  = 0x01,
-@@ -45,7 +45,7 @@ static UHCIInfo uhci_info[] = {
- 
- static const TypeInfo vt82c686b_usb_uhci_type_info = {
-     .parent         = TYPE_UHCI,
--    .name           = "vt82c686b-usb-uhci",
-+    .name           = TYPE_VT82C686B_USB_UHCI,
-     .class_init     = uhci_data_class_init,
-     .class_data     = uhci_info,
- };
-diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
-index 87aca3e5bb..e6f6dd4d43 100644
---- a/include/hw/isa/vt82c686.h
-+++ b/include/hw/isa/vt82c686.h
-@@ -5,6 +5,7 @@
- 
- #define TYPE_VT82C686B_ISA "vt82c686b-isa"
- #define TYPE_VT82C686B_PM "vt82c686b-pm"
-+#define TYPE_VT82C686B_USB_UHCI "vt82c686b-usb-uhci"
- #define TYPE_VT8231_ISA "vt8231-isa"
- #define TYPE_VT8231_PM "vt8231-pm"
- #define TYPE_VIA_AC97 "via-ac97"
+     i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
 -- 
 2.37.3
 
