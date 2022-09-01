@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE6B85A8DCD
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 07:56:47 +0200 (CEST)
-Received: from localhost ([::1]:46852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D8D5A8DCE
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 07:56:49 +0200 (CEST)
+Received: from localhost ([::1]:46854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTdC2-0005s5-OW
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 01:56:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36222)
+	id 1oTdC4-0005wT-P0
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 01:56:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTd4Q-00073y-Lo
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 01:48:54 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36726)
+ id 1oTd4S-00074P-4v
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 01:48:57 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:46621)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTd4O-0002T6-Uc
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 01:48:54 -0400
-Received: by mail-wr1-x436.google.com with SMTP id u17so1590833wrp.3
- for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 22:48:51 -0700 (PDT)
+ id 1oTd4P-0002TD-6T
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 01:48:55 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ k6-20020a05600c1c8600b003a54ecc62f6so761539wms.5
+ for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 22:48:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=onqIs+XT2WZfG8WtGyXgNUrHr/Df9zcYrXD6nOSwGCs=;
- b=uQBW/8tnJAsg7rFDlHOWg8jdifLXntZjgajxOcGQzxgXtKIlJcCDNzwRMMOh5hVFEO
- /IwhD4Cs1yVahJXjiIm2G4rKb5M8xc2mNOLDPbX4gLV2GlDc2csrDAKApWw7qUltPpYr
- Jw0PWiHGhqfcXpM5d4TllpA8xGMDrKtB/zmDymTQwSTDAoNyaWObb1FztG0/1aAK/Cmz
- Q8xuWNhJt/ux9jgfrkyryunPABrvC941pzlo+shDPP/JsBF+saBcSkbWeDBC/lGz1kap
- l5av28iMP/kSWW1WMsmGN8ukET5dVPTU9UtYBCSJ+xn0DmMi0WY+UVtUT5lYBkL+pPAj
- QHdA==
+ bh=osXM6kebf211jyJTnRVlg1LBiYlRKdmijrWPSS9x4Wo=;
+ b=x2uGWdT/ZYePepG3NSmVyD9zoGF6zyfvPZ5OcAfQxyFzIYvrb+GXL/vNJP4ALg6cHY
+ KWG8X4ZVfEQc1K6sbonJ3dNoi0yqwVrNs/aPmIeo84hSZms4mscZkORiIhFSw4sjszwg
+ 6jmC16xkNPpXzmU784EbkZ3EZ9q3jP83XxUSzslb4rLODnTRtY8H2cO24BJMHdt3W2d3
+ GEHlDHWUq0sQb3+qRKizl4VzUOuVbw5DAitU9P6eeBNjG+r6h2X2tsel1+eXiGY98lsh
+ B9/3wF1rrmlPmvvFyj87yMUssxaY+j+5TUJ8jibyhzuZEVERNKN/s/u/OI4Q8Q1kI0Q1
+ G/4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=onqIs+XT2WZfG8WtGyXgNUrHr/Df9zcYrXD6nOSwGCs=;
- b=jUqfocP8rApcfVVPQtOfOPDnjohAgUWhUmjzpsBuO2hs8LqyXG3nIy1B9SVOvPxUpI
- gG5zQm963tXBzXQbYZi5rlwhRBcfiG0cbOWKS7493JXJWJ3ACrs7bRSPlTq4zc96KhQB
- ZKvHdb1pvNsq/PCxYUNaxiTC+pj21r0BlkYX0Anl8oXnzsBI9FobhwdoOEfkeqga5LKk
- 7cT704/Y+YEzuY5UfRYIal2eosWl5emFwCMflgA8Us3+EyyF2x0FhH14vmcpf3asTKxr
- xUD3B95fss63UKYFdNXmaGeqEoL/BcGflx29V8xJzL3sMLLYgdamifRhBoElZKknXy+t
- 2ZuA==
-X-Gm-Message-State: ACgBeo0fvcmgCC9ENJjMU6UJD4S5FNzeJ9xLVuFSkTpmZgmBiYrBz6lQ
- n710/5FIDtTBr/w9bDYk+W6Zab7BqCYBc5ljGk4=
-X-Google-Smtp-Source: AA6agR6jj1H6feEsnHI1f0s5B3aHD2Ua0G3phEohnQbqXy0YiEAlZuVjdleFC+obN46N0yl8FlaHkA==
-X-Received: by 2002:a05:6000:1e18:b0:226:e095:a98c with SMTP id
- bj24-20020a0560001e1800b00226e095a98cmr7087054wrb.235.1662011330233; 
- Wed, 31 Aug 2022 22:48:50 -0700 (PDT)
+ bh=osXM6kebf211jyJTnRVlg1LBiYlRKdmijrWPSS9x4Wo=;
+ b=rCI+sYQt5pQM62LAcGSk7ky1i3yx61jJrJOl974yfhDY/wCwbNl65KO83pvTM6iaPE
+ IuPOTeqvzVbosJGBsS2JVayVTlWI7icTje/gkUq+27z6iloppWzukDdQFwAx0qq7/vfw
+ LX/soBykfUpxizvKHZKnBtzj3WR9CIGFcw6h7d0E0qVcyNzawD1qJdWU1hq5/OC+Q/Mn
+ snTH1XAneEmr7m83Xz/wnWj4w3CDre8Lh20kjNf+cN69FgGXfpWOIvL8l9FPGM/CW5YY
+ 8pk1UvAbPidNq+68GNs1FRErmJSKTJnIv8/u03Jn2b+SrX3FgpnWkPrpRp7A2TOB3z7Q
+ xM/A==
+X-Gm-Message-State: ACgBeo3AWNeFpAOEuwqdjYouprXMhdbnmkFDEMs3m1I1OLMZJyyOkmaA
+ 1uCHna5At9CBDNDOOr9M6cvTjKRGwgBgeXLPMhE=
+X-Google-Smtp-Source: AA6agR4DkKIm1RiyFgpRCOQPd0qwt9hnJ9iAnBr/ig6ci8QcU2N3z9zUpMPl5BC3/zttHqoqpKR3EA==
+X-Received: by 2002:a05:600c:1d14:b0:3a5:e8ba:f394 with SMTP id
+ l20-20020a05600c1d1400b003a5e8baf394mr3894705wms.137.1662011331566; 
+ Wed, 31 Aug 2022 22:48:51 -0700 (PDT)
 Received: from localhost.localdomain ([87.192.221.83])
  by smtp.gmail.com with ESMTPSA id
- q13-20020adff78d000000b0022533c4fa48sm13429938wrp.55.2022.08.31.22.48.49
+ q13-20020adff78d000000b0022533c4fa48sm13429938wrp.55.2022.08.31.22.48.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 22:48:49 -0700 (PDT)
+ Wed, 31 Aug 2022 22:48:50 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Michael Rolnik <mrolnik@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 3/4] target/avr: Only execute one interrupt at a time
-Date: Thu,  1 Sep 2022 06:48:42 +0100
-Message-Id: <20220901054843.31646-4-richard.henderson@linaro.org>
+Subject: [PULL 4/4] target/avr: Disable interrupts when env->skip set
+Date: Thu,  1 Sep 2022 06:48:43 +0100
+Message-Id: <20220901054843.31646-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220901054843.31646-1-richard.henderson@linaro.org>
 References: <20220901054843.31646-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,52 +91,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We cannot deliver two interrupts simultaneously;
-the first interrupt handler must execute first.
+This bit is not saved across interrupts, so we must
+delay delivering the interrupt until the skip has
+been processed.
 
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1118
 Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/avr/helper.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ target/avr/helper.c    |  9 +++++++++
+ target/avr/translate.c | 26 ++++++++++++++++++++++----
+ 2 files changed, 31 insertions(+), 4 deletions(-)
 
 diff --git a/target/avr/helper.c b/target/avr/helper.c
-index 9614ccf3e4..34f1cbffb2 100644
+index 34f1cbffb2..156dde4e92 100644
 --- a/target/avr/helper.c
 +++ b/target/avr/helper.c
-@@ -28,7 +28,6 @@
- 
- bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
- {
--    bool ret = false;
+@@ -31,6 +31,15 @@ bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
      AVRCPU *cpu = AVR_CPU(cs);
      CPUAVRState *env = &cpu->env;
  
-@@ -38,8 +37,7 @@ bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-             avr_cpu_do_interrupt(cs);
- 
-             cs->interrupt_request &= ~CPU_INTERRUPT_RESET;
--
--            ret = true;
-+            return true;
++    /*
++     * We cannot separate a skip from the next instruction,
++     * as the skip would not be preserved across the interrupt.
++     * Separating the two insn normally only happens at page boundaries.
++     */
++    if (env->skip) {
++        return false;
++    }
++
+     if (interrupt_request & CPU_INTERRUPT_RESET) {
+         if (cpu_interrupts_enabled(env)) {
+             cs->exception_index = EXCP_RESET;
+diff --git a/target/avr/translate.c b/target/avr/translate.c
+index dc9c3d6bcc..026753c963 100644
+--- a/target/avr/translate.c
++++ b/target/avr/translate.c
+@@ -2971,8 +2971,18 @@ static void avr_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+     if (skip_label) {
+         canonicalize_skip(ctx);
+         gen_set_label(skip_label);
+-        if (ctx->base.is_jmp == DISAS_NORETURN) {
++
++        switch (ctx->base.is_jmp) {
++        case DISAS_NORETURN:
+             ctx->base.is_jmp = DISAS_CHAIN;
++            break;
++        case DISAS_NEXT:
++            if (ctx->base.tb->flags & TB_FLAGS_SKIP) {
++                ctx->base.is_jmp = DISAS_TOO_MANY;
++            }
++            break;
++        default:
++            break;
          }
      }
-     if (interrupt_request & CPU_INTERRUPT_HARD) {
-@@ -52,11 +50,10 @@ bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-             if (!env->intsrc) {
-                 cs->interrupt_request &= ~CPU_INTERRUPT_HARD;
-             }
--
--            ret = true;
-+            return true;
-         }
-     }
--    return ret;
-+    return false;
- }
  
- void avr_cpu_do_interrupt(CPUState *cs)
+@@ -2989,6 +2999,11 @@ static void avr_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+ {
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+     bool nonconst_skip = canonicalize_skip(ctx);
++    /*
++     * Because we disable interrupts while env->skip is set,
++     * we must return to the main loop to re-evaluate afterward.
++     */
++    bool force_exit = ctx->base.tb->flags & TB_FLAGS_SKIP;
+ 
+     switch (ctx->base.is_jmp) {
+     case DISAS_NORETURN:
+@@ -2997,7 +3012,7 @@ static void avr_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+     case DISAS_NEXT:
+     case DISAS_TOO_MANY:
+     case DISAS_CHAIN:
+-        if (!nonconst_skip) {
++        if (!nonconst_skip && !force_exit) {
+             /* Note gen_goto_tb checks singlestep.  */
+             gen_goto_tb(ctx, 1, ctx->npc);
+             break;
+@@ -3005,8 +3020,11 @@ static void avr_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+         tcg_gen_movi_tl(cpu_pc, ctx->npc);
+         /* fall through */
+     case DISAS_LOOKUP:
+-        tcg_gen_lookup_and_goto_ptr();
+-        break;
++        if (!force_exit) {
++            tcg_gen_lookup_and_goto_ptr();
++            break;
++        }
++        /* fall through */
+     case DISAS_EXIT:
+         tcg_gen_exit_tb(NULL, 0);
+         break;
 -- 
 2.34.1
 
