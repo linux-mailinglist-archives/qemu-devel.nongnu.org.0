@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7EFF5A96EA
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 14:31:08 +0200 (CEST)
-Received: from localhost ([::1]:40806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49FAF5A96FD
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 14:37:20 +0200 (CEST)
+Received: from localhost ([::1]:39644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTjLf-0007F0-Bf
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 08:31:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37534)
+	id 1oTjRd-0003cj-Uw
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 08:37:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oTiek-0000DI-Ud
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 07:46:47 -0400
-Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129]:44626)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oTifm-0000rc-Jw; Thu, 01 Sep 2022 07:47:51 -0400
+Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:39748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oTiei-0000xZ-Tm
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 07:46:46 -0400
-Received: by mail-lf1-x129.google.com with SMTP id g7so7050577lfe.11
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 04:46:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oTifk-00013C-9f; Thu, 01 Sep 2022 07:47:50 -0400
+Received: by mail-qk1-x72f.google.com with SMTP id c9so12960098qkk.6;
+ Thu, 01 Sep 2022 04:47:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=I+6Ir3rQp/2WlWsU362rJmsaMCbX21JRRrMjwKHqPXM=;
- b=Z6SccB3rTbbTFxgiVwEAq1w1tVe9Zm6aiVc/HcPon1J26oG3c+BRskOHdYOgDKk9be
- LVacI5vXVBFrlfa0y8ukNmkpdrQdQkZ4u4iLSMMC1gVz/pg8Uvu3bqyZd7wE2LgD2DR/
- qZ17YQc3q4UHNM7r3okRPNjcg6bMXSB/PVjPKuN/CQvEWDwDpwcAkTaKGlGWZNGtZrf4
- kZWqbSYjye+OfEwD5Zx/sVfdFQFOWsVTjQZ4+SG6W06iPEraMJNwGrySI6p7O7wertK3
- rDCqsLuuCv6QYGzznRjOqg9KD7tiOqHZxMy2Ls6iy3AOHmnqiNHFn/LZbd9CQn550uvL
- o9EA==
+ :mime-version:from:to:cc;
+ bh=frPbpHnnMJ4WM7J9TzNdKY+8frhja70r73S8bLNja4g=;
+ b=fYD877qBr0Mi2yD1KYjXOjND9rafjlTlvhrDPFuiAsaFSBXxV62oQNwCctHdHXnKQP
+ +gs/zpHixAzt9vI8ZztAFZvgatzQeckjnmx/Xa7HH2b/vcZB5Dx8hFCg8MwFFxDzYmx8
+ HE83f4FZ/kn04zNh94Le1IBDfedDDVnq5jNO+vAGGXiySThF+56xAteHaNPR8g2MOxdo
+ d0vH5YXt5s7EFjBTmMTs1IDhSDIN4aS+Dr0l1bBNHGCa4SmG094ScOnt+cfyrsHUpfcO
+ LCoY/m7AqEO74h+4xQL9p7pXm7pVtSG73tXDYiadq9ruHTWvXQG8UN1aDpSOqtE6lSpm
+ fetg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=I+6Ir3rQp/2WlWsU362rJmsaMCbX21JRRrMjwKHqPXM=;
- b=qBH569alEojAAyY2rf/RSU+4zjqYWjtFMIwX73BDsg1PgTyEqd9dWUJfbdymRYeMwa
- y0izKm+/v4LZLdPBU4BiBUaEPi5HgyzEQkwq3XToWJ+mh9AF6MeDlA4hkwYqIdcgiro7
- wEdoZXkhFJLdATZdrdEHIyzXy3L4VyN+kmORlQK9LnDspbuNP7jHszgFj0IQXokJw9RK
- QqQUvDmmDKdIYgeNvzVIwXy2fZwvWO/JOM5uJhdv00ttipfEzj+c9mQF2SIdhMO9lwfM
- 4qwz7xofHQgKyXk6NpDjFS23706NR5wkFix8liT2C+fFVTqNPFa96Mmefy9f+1qmCD1x
- GNUQ==
-X-Gm-Message-State: ACgBeo2AN7w5nfC3vZ0nb7v5jNP+ZKcSmpyr3njA7UkAGXPr/kb1m6oJ
- 9OAoybAUjV5dih8mMM5t0zw6fz80vWJhmM5slPY=
-X-Google-Smtp-Source: AA6agR5Hj8WqE4Mwf99drat2F4b1KEGf40faJaXJ9JhO14AZJZ2trDWgrmu5wpGNIq/D8MB81b/P4D4TSuAlCx3q14k=
-X-Received: by 2002:a05:6512:1395:b0:48d:81c:5159 with SMTP id
- p21-20020a056512139500b0048d081c5159mr12015731lfa.375.1662032803326; Thu, 01
- Sep 2022 04:46:43 -0700 (PDT)
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=frPbpHnnMJ4WM7J9TzNdKY+8frhja70r73S8bLNja4g=;
+ b=n1MJd1yzEsN7w9oCj5BtdcGUcDp8hPReu/ymp+93v9uAODtsGw/FOquNqR9cgkCGso
+ 4gajnAVzlHYr2El+Bm6Iv7df+/nd/9bgJkjzqHjv7mvlk6QOPSIvUbJp7LHzZXkugXZG
+ LoiO0y9XKFwb3p3YzNnkb5H3HqcNoR4XVIKBwgxA/tIhvMjrrjkmeaI1hJOfm+Ps69IF
+ UcL3cVQXSNx5BZ1Jj1AN5/Fs4WyYma816235e1qQoJu2YyXrO+cJBu/dZO8ITmTKZaRp
+ Lb3i5NL7igJnVaXNctW3HiA7GqXXGyTASJFoDt2Aek5vfTDEn6So0Yl6CNNDlPWPTT6o
+ YjxA==
+X-Gm-Message-State: ACgBeo0pkMClQp9x0dAlY4jcvdWuwmhvRWXJDra9VpOV7xdSLQMeiAX2
+ cr99I5052EsEBncbogmL4E7goinnIcTiGB9evFojk/g8Gj8=
+X-Google-Smtp-Source: AA6agR6TBhxC1FmD2VIwXA0OBItuDkcLYLYSXzUV5B93NrlI3kNq6lfTqyGvfwLzhzRJsKG7hRd+mkUKnj7pwjj1fKE=
+X-Received: by 2002:a05:620a:bc3:b0:6a7:9e01:95ac with SMTP id
+ s3-20020a05620a0bc300b006a79e0195acmr19136163qki.91.1662032866559; Thu, 01
+ Sep 2022 04:47:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-47-bmeng.cn@gmail.com>
-In-Reply-To: <20220824094029.1634519-47-bmeng.cn@gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 1 Sep 2022 15:46:31 +0400
-Message-ID: <CAJ+F1CJQOpT3bNJ-UiDm_woppH020ps2+QcxZ65eTyLHqjQECw@mail.gmail.com>
-Subject: Re: [PATCH 46/51] tests/qtest: libqtest: Replace the call to close a
- socket with closesocket()
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000d8f23005e79c2afd"
-Received-SPF: pass client-ip=2a00:1450:4864:20::129;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x129.google.com
+References: <20220901114127.53914-1-shentey@gmail.com>
+In-Reply-To: <20220901114127.53914-1-shentey@gmail.com>
+From: Bernhard Beschow <shentey@gmail.com>
+Date: Thu, 1 Sep 2022 13:47:33 +0200
+Message-ID: <CAG4p6K4cvTXPuzFrf_rDUHNawk7kVjEHsm5uVspwUsgpiGpyKQ@mail.gmail.com>
+Subject: Re: [PATCH v5 00/13] Instantiate VT82xx functions in host device
+To: QEMU Developers <qemu-devel@nongnu.org>
+Cc: "open list:sam460ex" <qemu-ppc@nongnu.org>, John Snow <jsnow@redhat.com>, 
+ Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, "open list:Floppy" <qemu-block@nongnu.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ BALATON Zoltan <balaton@eik.bme.hu>
+Content-Type: multipart/alternative; boundary="0000000000009dc97305e79c2e3b"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
+ envelope-from=shentey@gmail.com; helo=mail-qk1-x72f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,170 +84,222 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d8f23005e79c2afd
+--0000000000009dc97305e79c2e3b
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 24, 2022 at 3:09 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Thu, Sep 1, 2022 at 1:41 PM Bernhard Beschow <shentey@gmail.com> wrote:
 
-> From: Bin Meng <bin.meng@windriver.com>
+> v5:
+> * Add patch "Inline vt82c686b_southbridge_init() and remove it" (Zoltan)
+> * Use machine parameter when creating rtc-time alias (Zoltan)
 >
-> close() is a *nix function. It works on any file descriptor, and
-> sockets in *nix are an example of a file descriptor.
+> Testing done: Same as in v3.
 >
-> closesocket() is a Windows-specific function, which works only
-> specifically with sockets. Sockets on Windows do not use *nix-style
-> file descriptors, and socket() returns a handle to a kernel object
-> instead, so it must be closed with closesocket().
+> v4:
+> * Fix in comment: AC97 Modem -> MC97 Modem (Zoltan)
+> * Introduce TYPE_VT82C686B_USB_UHCI define (Zoltan)
+> * Introduce TYPE_VIA_IDE define (for consistency)
 >
-> In QEMU there is already a logic to handle such platform difference
-> in os-posix.h and os-win32.h, that:
+> v3:
+> * Replace pre increment by post increment in for loop (Zoltan)
+> * Move class defines close to where the class is defined (Zoltan)
 >
->   * closesocket maps to close on POSIX
->   * closesocket maps to a wrapper that calls the real closesocket()
->     on Windows
+> Testing done:
+> * `make check-avocado`
+>   Passes for boot_linux_console.py for mips64el_fuloong2e
+> * `qemu-system-ppc -machine pegasos2 -rtc base=localtime -device
+> ati-vga,guest_hwcursor=true,romfile="" -cdrom morphos-3.17.iso -kernel
+> morphos-3.17/boot.img`
+>   Boots successfully and it is possible to open games and tools.
 >
-> Replace the call to close a socket with closesocket() instead.
+> v2:
+> * Keep the call to pci_ide_create_devs() in board code for consistency
+> (Zoltan)
+> * Create rtc-time alias in board rather than in south bridge code
+> * Remove stale comments about PCI functions (Zoltan)
 >
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> v1:
+> This series instantiates all PCI functions of the VT82xx south bridges in
+> the south bridges themselves.
+> For the IDE function this is especially important since its interrupt
+> routing is configured in the
+> ISA function, hence doesn't make sense to instantiate it as a
+> "Frankenstein" device. The interrupt
+> routing is currently hardcoded and changing that is currently not in the
+> scope of this series.
 >
+> Testing done:
+> * `qemu-system-ppc -machine pegasos2 -rtc base=localtime -device
+> ati-vga,guest_hwcursor=true,romfile="" -cdrom morphos-3.17.iso -kernel
+> morphos-3.17/boot.img`
+>   Boots successfully and it is possible to open games and tools.
+>
+> * I was unable to test the fuloong2e board even before this series since
+> it seems to be unfinished [1].
+>   A buildroot-baked kernel [2] booted but doesn't find its root partition,
+> though the issues could be in the buildroot receipt I created.
+>
+> [1] https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
+> [2] https://github.com/shentok/buildroot/commits/fuloong2e
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
+Forgot to mention: All patches except  "hw/mips/fuloong2e: Inline
+vt82c686b_southbridge_init() and remove it" are:
 
-> ---
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+
+Best regards,
+Bernhard
+
 >
->  tests/qtest/libqtest.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> Bernhard Beschow (13):
+>   hw/isa/vt82c686: Resolve chip-specific realize methods
+>   hw/isa/vt82c686: Resolve unneeded attribute
+>   hw/isa/vt82c686: Prefer pci_address_space() over get_system_memory()
+>   hw/isa/vt82c686: Reuse errp
+>   hw/isa/vt82c686: Introduce TYPE_VIA_IDE define
+>   hw/isa/vt82c686: Instantiate IDE function in host device
+>   hw/isa/vt82c686: Introduce TYPE_VT82C686B_USB_UHCI define
+>   hw/isa/vt82c686: Instantiate USB functions in host device
+>   hw/isa/vt82c686: Instantiate PM function in host device
+>   hw/isa/vt82c686: Instantiate AC97 and MC97 functions in host device
+>   hw/mips/fuloong2e: Inline vt82c686b_southbridge_init() and remove it
+>   hw/isa/vt82c686: Embed RTCState in host device
+>   hw/isa/vt82c686: Create rtc-time alias in boards instead
 >
-> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-> index 99e52ff571..918f4657ed 100644
-> --- a/tests/qtest/libqtest.c
-> +++ b/tests/qtest/libqtest.c
-> @@ -115,7 +115,7 @@ static int socket_accept(int sock)
->                     (void *)&timeout, sizeof(timeout))) {
->          fprintf(stderr, "%s failed to set SO_RCVTIMEO: %s\n",
->                  __func__, strerror(errno));
-> -        close(sock);
-> +        closesocket(sock);
->          return -1;
->      }
+>  configs/devices/mips64el-softmmu/default.mak |   1 -
+>  hw/ide/via.c                                 |   2 +-
+>  hw/isa/Kconfig                               |   1 +
+>  hw/isa/vt82c686.c                            | 120 +++++++++++++++----
+>  hw/mips/fuloong2e.c                          |  39 +++---
+>  hw/ppc/Kconfig                               |   1 -
+>  hw/ppc/pegasos2.c                            |  25 ++--
+>  hw/usb/vt82c686-uhci-pci.c                   |   4 +-
+>  include/hw/isa/vt82c686.h                    |   4 +-
+>  9 files changed, 126 insertions(+), 71 deletions(-)
 >
-> @@ -126,7 +126,7 @@ static int socket_accept(int sock)
->      if (ret =3D=3D -1) {
->          fprintf(stderr, "%s failed: %s\n", __func__, strerror(errno));
->      }
-> -    close(sock);
-> +    closesocket(sock);
->
->      return ret;
->  }
-> @@ -512,8 +512,8 @@ void qtest_quit(QTestState *s)
->      qtest_remove_abrt_handler(s);
->
->      qtest_kill_qemu(s);
-> -    close(s->fd);
-> -    close(s->qmp_fd);
-> +    closesocket(s->fd);
-> +    closesocket(s->qmp_fd);
->      g_string_free(s->rx, true);
->
->      for (GList *it =3D s->pending_events; it !=3D NULL; it =3D it->next)=
- {
 > --
-> 2.34.1
->
+> 2.37.3
 >
 >
 
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000d8f23005e79c2afd
+--0000000000009dc97305e79c2e3b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 24, 2022 at 3:09 PM Bin M=
-eng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Bin M=
-eng &lt;<a href=3D"mailto:bin.meng@windriver.com" target=3D"_blank">bin.men=
-g@windriver.com</a>&gt;<br>
+<div dir=3D"ltr"><div dir=3D"ltr">On Thu, Sep 1, 2022 at 1:41 PM Bernhard B=
+eschow &lt;<a href=3D"mailto:shentey@gmail.com">shentey@gmail.com</a>&gt; w=
+rote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">v5:<br>
+* Add patch &quot;Inline vt82c686b_southbridge_init() and remove it&quot; (=
+Zoltan)<br>
+* Use machine parameter when creating rtc-time alias (Zoltan)<br>
 <br>
-close() is a *nix function. It works on any file descriptor, and<br>
-sockets in *nix are an example of a file descriptor.<br>
+Testing done: Same as in v3.<br>
 <br>
-closesocket() is a Windows-specific function, which works only<br>
-specifically with sockets. Sockets on Windows do not use *nix-style<br>
-file descriptors, and socket() returns a handle to a kernel object<br>
-instead, so it must be closed with closesocket().<br>
+v4:<br>
+* Fix in comment: AC97 Modem -&gt; MC97 Modem (Zoltan)<br>
+* Introduce TYPE_VT82C686B_USB_UHCI define (Zoltan)<br>
+* Introduce TYPE_VIA_IDE define (for consistency)<br>
 <br>
-In QEMU there is already a logic to handle such platform difference<br>
-in os-posix.h and os-win32.h, that:<br>
+v3:<br>
+* Replace pre increment by post increment in for loop (Zoltan)<br>
+* Move class defines close to where the class is defined (Zoltan)<br>
 <br>
-=C2=A0 * closesocket maps to close on POSIX<br>
-=C2=A0 * closesocket maps to a wrapper that calls the real closesocket()<br=
->
-=C2=A0 =C2=A0 on Windows<br>
+Testing done:<br>
+* `make check-avocado`<br>
+=C2=A0 Passes for boot_linux_console.py for mips64el_fuloong2e<br>
+* `qemu-system-ppc -machine pegasos2 -rtc base=3Dlocaltime -device ati-vga,=
+guest_hwcursor=3Dtrue,romfile=3D&quot;&quot; -cdrom morphos-3.17.iso -kerne=
+l morphos-3.17/boot.img`<br>
+=C2=A0 Boots successfully and it is possible to open games and tools.<br>
 <br>
-Replace the call to close a socket with closesocket() instead.<br>
+v2:<br>
+* Keep the call to pci_ide_create_devs() in board code for consistency (Zol=
+tan)<br>
+* Create rtc-time alias in board rather than in south bridge code<br>
+* Remove stale comments about PCI functions (Zoltan)<br>
 <br>
-Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" targe=
-t=3D"_blank">bin.meng@windriver.com</a>&gt;<br></blockquote><div><br></div>=
-<div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lu=
-reau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div>=C2=A0<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
+v1:<br>
+This series instantiates all PCI functions of the VT82xx south bridges in t=
+he south bridges themselves.<br>
+For the IDE function this is especially important since its interrupt routi=
+ng is configured in the<br>
+ISA function, hence doesn&#39;t make sense to instantiate it as a &quot;Fra=
+nkenstein&quot; device. The interrupt<br>
+routing is currently hardcoded and changing that is currently not in the sc=
+ope of this series.<br>
 <br>
-=C2=A0tests/qtest/libqtest.c | 8 ++++----<br>
-=C2=A01 file changed, 4 insertions(+), 4 deletions(-)<br>
+Testing done:<br>
+* `qemu-system-ppc -machine pegasos2 -rtc base=3Dlocaltime -device ati-vga,=
+guest_hwcursor=3Dtrue,romfile=3D&quot;&quot; -cdrom morphos-3.17.iso -kerne=
+l morphos-3.17/boot.img`<br>
+=C2=A0 Boots successfully and it is possible to open games and tools.<br>
 <br>
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c<br>
-index 99e52ff571..918f4657ed 100644<br>
---- a/tests/qtest/libqtest.c<br>
-+++ b/tests/qtest/libqtest.c<br>
-@@ -115,7 +115,7 @@ static int socket_accept(int sock)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (void=
- *)&amp;timeout, sizeof(timeout))) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fprintf(stderr, &quot;%s failed to set SO=
-_RCVTIMEO: %s\n&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__func__, str=
-error(errno));<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(sock);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 closesocket(sock);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
+* I was unable to test the fuloong2e board even before this series since it=
+ seems to be unfinished [1].<br>
+=C2=A0 A buildroot-baked kernel [2] booted but doesn&#39;t find its root pa=
+rtition, though the issues could be in the buildroot receipt I created.<br>
 <br>
-@@ -126,7 +126,7 @@ static int socket_accept(int sock)<br>
-=C2=A0 =C2=A0 =C2=A0if (ret =3D=3D -1) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fprintf(stderr, &quot;%s failed: %s\n&quo=
-t;, __func__, strerror(errno));<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 close(sock);<br>
-+=C2=A0 =C2=A0 closesocket(sock);<br>
+[1] <a href=3D"https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2" rel=
+=3D"noreferrer" target=3D"_blank">https://osdn.net/projects/qmiga/wiki/Subp=
+rojectPegasos2</a><br>
+[2] <a href=3D"https://github.com/shentok/buildroot/commits/fuloong2e" rel=
+=3D"noreferrer" target=3D"_blank">https://github.com/shentok/buildroot/comm=
+its/fuloong2e</a></blockquote><div><br></div><div>Forgot to mention: All pa=
+tches except=C2=A0 &quot;hw/mips/fuloong2e: Inline vt82c686b_southbridge_in=
+it() and remove it&quot; are:</div><div><br></div>Reviewed-by: BALATON Zolt=
+an &lt;<a href=3D"mailto:balaton@eik.bme.hu">balaton@eik.bme.hu</a>&gt;</di=
+v><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">Best rega=
+rds,</div><div class=3D"gmail_quote">Bernhard<br></div><div class=3D"gmail_=
+quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex">
 <br>
-=C2=A0 =C2=A0 =C2=A0return ret;<br>
-=C2=A0}<br>
-@@ -512,8 +512,8 @@ void qtest_quit(QTestState *s)<br>
-=C2=A0 =C2=A0 =C2=A0qtest_remove_abrt_handler(s);<br>
+Bernhard Beschow (13):<br>
+=C2=A0 hw/isa/vt82c686: Resolve chip-specific realize methods<br>
+=C2=A0 hw/isa/vt82c686: Resolve unneeded attribute<br>
+=C2=A0 hw/isa/vt82c686: Prefer pci_address_space() over get_system_memory()=
 <br>
-=C2=A0 =C2=A0 =C2=A0qtest_kill_qemu(s);<br>
--=C2=A0 =C2=A0 close(s-&gt;fd);<br>
--=C2=A0 =C2=A0 close(s-&gt;qmp_fd);<br>
-+=C2=A0 =C2=A0 closesocket(s-&gt;fd);<br>
-+=C2=A0 =C2=A0 closesocket(s-&gt;qmp_fd);<br>
-=C2=A0 =C2=A0 =C2=A0g_string_free(s-&gt;rx, true);<br>
+=C2=A0 hw/isa/vt82c686: Reuse errp<br>
+=C2=A0 hw/isa/vt82c686: Introduce TYPE_VIA_IDE define<br>
+=C2=A0 hw/isa/vt82c686: Instantiate IDE function in host device<br>
+=C2=A0 hw/isa/vt82c686: Introduce TYPE_VT82C686B_USB_UHCI define<br>
+=C2=A0 hw/isa/vt82c686: Instantiate USB functions in host device<br>
+=C2=A0 hw/isa/vt82c686: Instantiate PM function in host device<br>
+=C2=A0 hw/isa/vt82c686: Instantiate AC97 and MC97 functions in host device<=
+br>
+=C2=A0 hw/mips/fuloong2e: Inline vt82c686b_southbridge_init() and remove it=
 <br>
-=C2=A0 =C2=A0 =C2=A0for (GList *it =3D s-&gt;pending_events; it !=3D NULL; =
-it =3D it-&gt;next) {<br>
+=C2=A0 hw/isa/vt82c686: Embed RTCState in host device<br>
+=C2=A0 hw/isa/vt82c686: Create rtc-time alias in boards instead<br>
+<br>
+=C2=A0configs/devices/mips64el-softmmu/default.mak |=C2=A0 =C2=A01 -<br>
+=C2=A0hw/ide/via.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=
+=A02 +-<br>
+=C2=A0hw/isa/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<b=
+r>
+=C2=A0hw/isa/vt82c686.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 120 +++++++++++++++----<br>
+=C2=A0hw/mips/fuloong2e.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 39 +++---<br>
+=C2=A0hw/ppc/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 -<b=
+r>
+=C2=A0hw/ppc/pegasos2.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 25 ++--<br>
+=C2=A0hw/usb/vt82c686-uhci-pci.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A04 +-<br>
+=C2=A0include/hw/isa/vt82c686.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A04 +-<br>
+=C2=A09 files changed, 126 insertions(+), 71 deletions(-)<br>
+<br>
 -- <br>
-2.34.1<br>
+2.37.3<br>
 <br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+</blockquote></div></div>
 
---000000000000d8f23005e79c2afd--
+--0000000000009dc97305e79c2e3b--
 
