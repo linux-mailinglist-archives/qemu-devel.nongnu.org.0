@@ -2,88 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D5B05A9241
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 10:42:11 +0200 (CEST)
-Received: from localhost ([::1]:44558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51E605A9211
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 10:28:09 +0200 (CEST)
+Received: from localhost ([::1]:38138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTfm6-0004dq-73
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 04:42:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60876)
+	id 1oTfYV-00055K-6d
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 04:28:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oTeww-0001SA-VO
+ id 1oTewz-0001SK-RO
  for qemu-devel@nongnu.org; Thu, 01 Sep 2022 03:49:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59159)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oTews-00039O-Po
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 03:49:17 -0400
+ id 1oTeww-00039a-MF
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 03:49:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662018553;
+ s=mimecast20190719; t=1662018555;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RnbqrRyb+Pgqqj81ijJJCqtS+n3s+WDNawbq5Qm6zEY=;
- b=BUebbpsNYBdma9uciRCOuQtttm/KWDjcYtteMZNjhohQhfPXDD+fGPvclW9BJqYxqJQoCa
- j52r9FKWyamtWsrmGhEBI5G4B0NQGA9mztq9BEP0dRFY/vdjNp4jxniuSVwwra1gnenSns
- 3H/Jod9TZCzNlQivU9aGKXJaCHoeasA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=YVDqfQsbPjz2PJzedAtKt9Ie3sZVvmyyqv7yLJZVb7Q=;
+ b=Pyt4Y98D/TWRJZ9LZ5CXONHHARuEqWlZUBX5B+ZDXWM1W9kmG2upCsIKAOShCh9o/KF2e3
+ l/U0ggtDP9M9fzQU3apwXQLcjj6BZuSy2/HPNKOQQSdGaLf35OOHsEuxqgH3EWVC9f1sP5
+ +4p07xelA/8yNSd1x69QtQd7hfIiyHU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-639-SjCkVOZgPUCXjuTHzcxF7A-1; Thu, 01 Sep 2022 03:49:11 -0400
-X-MC-Unique: SjCkVOZgPUCXjuTHzcxF7A-1
-Received: by mail-wr1-f69.google.com with SMTP id
- j12-20020adfff8c000000b002265dcdfad7so2781067wrr.2
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 00:49:10 -0700 (PDT)
+ us-mta-266-NsFmGk8TP3SVVYoAys-zJg-1; Thu, 01 Sep 2022 03:49:14 -0400
+X-MC-Unique: NsFmGk8TP3SVVYoAys-zJg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ n7-20020a1c2707000000b003a638356355so9486156wmn.2
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 00:49:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=RnbqrRyb+Pgqqj81ijJJCqtS+n3s+WDNawbq5Qm6zEY=;
- b=UTXj6/dwp7wxfRTkbJSiA5g6T3wgPlMvb9p+qML1eYcvKNrkIPZrjUpMA8jItCsYob
- n/9EoPN+LLTW2DdHT6jORactTD8J5zgUzuL2NCKq75X+dhySbmCk603Mq1YnSDJ1VcSL
- Oov7C1F6SBvAaxJtp2ye9jhIacUo5NZ6SkyV/BR9grdDgcHyy9W4SVDALN7C+unvdwnl
- 7fJYftBCkGNuAFjEZNzkJuC4lS8yffSKl9kYOVhrAlcl8MmC5p6lJO9mMk00IJHw1XgI
- KHq0YSy1oZkxm1iTfVs+j9QptK7FjflsUG3gtnHGzFwJlCjzKQRGOM4FuU2K/I1xfQZp
- E9DQ==
-X-Gm-Message-State: ACgBeo0zCw1aeJ7lOG0G5SsGsd9nwWJCcjn58ftnsyT/syg7QqzzyQLT
- zGumhPMKF21kRXXfpQxUslIANh5ZTg2lr9MqAnZP7Qxyxbl8VOf+a5sciWe6UhHL6KVGFOx1/Dw
- UD5o+fDM7uQt2dHNhj0z+59OOFjJ//rUnC477Kk7RVl5veHZ/e6ORQ6Mjf++cBS9q/4I=
-X-Received: by 2002:a05:600c:40d5:b0:3a5:3d9f:6e7f with SMTP id
- m21-20020a05600c40d500b003a53d9f6e7fmr4204932wmh.21.1662018548913; 
- Thu, 01 Sep 2022 00:49:08 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5Tt8ZjYP+7uE5NyfoOWiEKIXiUsbr/Dbg4k18hMeaY1sW0/IBB2pO0C2ydDU0W4gKtJOx5YA==
-X-Received: by 2002:a05:600c:40d5:b0:3a5:3d9f:6e7f with SMTP id
- m21-20020a05600c40d500b003a53d9f6e7fmr4204917wmh.21.1662018548539; 
- Thu, 01 Sep 2022 00:49:08 -0700 (PDT)
-Received: from goa-sendmail ([93.56.160.208]) by smtp.gmail.com with ESMTPSA id
- k36-20020a05600c1ca400b003a5f3de6fddsm5272964wms.25.2022.09.01.00.49.07
+ bh=YVDqfQsbPjz2PJzedAtKt9Ie3sZVvmyyqv7yLJZVb7Q=;
+ b=SELfyzSwTKWPyeNLvJSgoLV2DUUZMWsWL121i5aZ6RxNgMcn70VFpWJEmeepzWiADR
+ LDgW7pRaM8Q/hxGjZnc/8NrOjKDKZgh7pRRH94GLRZ6jXJ5qMVaUXCAn9aZSCg7DzAVy
+ DeMFa3Dkvl9/EFfegCPnHnA3XLIFisYztnK+tAIupHhAt+NuiY102+uN1TqvvyQ0YG2x
+ 4wHvIfmD9suaiT1dHP/F5gRIyvTCk10zKV7tbP2NXEOdywjIyRlpFBZGlujrJsoFQsRm
+ dku1bu7KTYWZq+UJWPUR3UCW8GNbn3Zv5qAVmNwS7bqQbMYjTkJEEcoesEqKrNzHQgJW
+ ei5Q==
+X-Gm-Message-State: ACgBeo3B+Fr0i/WI5D35N98SggOyLJYquOhUoXDMwIsnPypCk2NOw8Ub
+ VNpTc1l3xge7frlnvpajSkn8PsnUQBa4ehAwJrwgrW8NvqZP1N+pLITZERFebgtOFFaG3zUvmAi
+ wJ6L4sEa61Iup6Or2g6TgkajGAloNYppMdSNDVUWJT3R/4VyqdXYmIntf2BFiV0PP0XM=
+X-Received: by 2002:a5d:424f:0:b0:226:d206:cd6e with SMTP id
+ s15-20020a5d424f000000b00226d206cd6emr13013659wrr.554.1662018552495; 
+ Thu, 01 Sep 2022 00:49:12 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7OiT0WAA2pXLEaNV0vCtCAHvwXJGIB9e5rzr13DIJtUs3li9WfJ0K3hr/ITPhnc0FNz5midA==
+X-Received: by 2002:a5d:424f:0:b0:226:d206:cd6e with SMTP id
+ s15-20020a5d424f000000b00226d206cd6emr13013648wrr.554.1662018552150; 
+ Thu, 01 Sep 2022 00:49:12 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id
+ e20-20020a05600c4e5400b003a5bd5ea215sm4415013wmq.37.2022.09.01.00.49.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 00:49:07 -0700 (PDT)
+ Thu, 01 Sep 2022 00:49:11 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: paul@nowt.org,
 	richard.henderson@linaro.org
-Subject: [PATCH v3 12/23] i386: Rewrite vector shift helper
-Date: Thu,  1 Sep 2022 09:48:31 +0200
-Message-Id: <20220901074842.57424-13-pbonzini@redhat.com>
+Subject: [PATCH v3 13/23] i386: Rewrite simple integer vector helpers
+Date: Thu,  1 Sep 2022 09:48:32 +0200
+Message-Id: <20220901074842.57424-14-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220901074842.57424-1-pbonzini@redhat.com>
 References: <20220901074842.57424-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,343 +103,131 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paul Brook <paul@nowt.org>
 
-Rewrite the vector shift helpers in preperation for AVX support (3 operand
-form and 256 bit vectors).
+Rewrite the "simple" vector integer helpers in preperation for AVX support.
 
-For now keep the existing two operand interface.
+While the current code is able to use the same prototype for unary
+(a = F(b)) and binary (a = F(b, c)) operations, future changes will cause
+them to diverge.
 
-No functional changes to existing helpers.
+No functional changes to existing helpers
 
 Signed-off-by: Paul Brook <paul@nowt.org>
-Message-Id: <20220424220204.2493824-11-paul@nowt.org>
+Message-Id: <20220424220204.2493824-12-paul@nowt.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/ops_sse.h | 247 +++++++++++++++++++-----------------------
- 1 file changed, 112 insertions(+), 135 deletions(-)
+ target/i386/ops_sse.h | 83 +++++++++++++++----------------------------
+ 1 file changed, 28 insertions(+), 55 deletions(-)
 
 diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
-index 2c0090a647..a4a09226e3 100644
+index a4a09226e3..ce03362810 100644
 --- a/target/i386/ops_sse.h
 +++ b/target/i386/ops_sse.h
-@@ -40,6 +40,8 @@
- #define SUFFIX _xmm
+@@ -229,63 +229,36 @@ void glue(helper_pslldq, SUFFIX)(CPUX86State *env, Reg *d, Reg *c)
+ }
  #endif
  
-+#define LANE_WIDTH (SHIFT ? 16 : 8)
+-#define SSE_HELPER_B(name, F)                                   \
++#define SSE_HELPER_1(name, elem, num, F)                        \
+     void glue(name, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)   \
+     {                                                           \
+-        d->B(0) = F(d->B(0), s->B(0));                          \
+-        d->B(1) = F(d->B(1), s->B(1));                          \
+-        d->B(2) = F(d->B(2), s->B(2));                          \
+-        d->B(3) = F(d->B(3), s->B(3));                          \
+-        d->B(4) = F(d->B(4), s->B(4));                          \
+-        d->B(5) = F(d->B(5), s->B(5));                          \
+-        d->B(6) = F(d->B(6), s->B(6));                          \
+-        d->B(7) = F(d->B(7), s->B(7));                          \
+-        XMM_ONLY(                                               \
+-                 d->B(8) = F(d->B(8), s->B(8));                 \
+-                 d->B(9) = F(d->B(9), s->B(9));                 \
+-                 d->B(10) = F(d->B(10), s->B(10));              \
+-                 d->B(11) = F(d->B(11), s->B(11));              \
+-                 d->B(12) = F(d->B(12), s->B(12));              \
+-                 d->B(13) = F(d->B(13), s->B(13));              \
+-                 d->B(14) = F(d->B(14), s->B(14));              \
+-                 d->B(15) = F(d->B(15), s->B(15));              \
+-                                                        )       \
+-            }
++        int n = num;                                            \
++        for (int i = 0; i < n; i++) {                           \
++            d->elem(i) = F(s->elem(i));                         \
++        }                                                       \
++    }
 +
- /*
-  * Copy the relevant parts of a Reg value around. In the case where
-  * sizeof(Reg) > SIZE, these helpers operate only on the lower bytes of
-@@ -56,198 +58,173 @@
- #define MOVE(d, r) memcpy(&(d).B(0), &(r).B(0), SIZE)
- #endif
- 
--void glue(helper_psrlw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
--{
--    int shift;
-+#if SHIFT == 0
-+#define FPSRL(x, c) ((x) >> shift)
-+#define FPSRAW(x, c) ((int16_t)(x) >> shift)
-+#define FPSRAL(x, c) ((int32_t)(x) >> shift)
-+#define FPSLL(x, c) ((x) << shift)
-+#endif
- 
--    if (s->Q(0) > 15) {
--        d->Q(0) = 0;
--#if SHIFT == 1
--        d->Q(1) = 0;
--#endif
-+void glue(helper_psrlw, SUFFIX)(CPUX86State *env, Reg *d, Reg *c)
-+{
-+    Reg *s = d;
-+    int shift;
-+    if (c->Q(0) > 15) {
-+        for (int i = 0; i < 1 << SHIFT; i++) {
-+            d->Q(i) = 0;
-+        }
-     } else {
--        shift = s->B(0);
--        d->W(0) >>= shift;
--        d->W(1) >>= shift;
--        d->W(2) >>= shift;
--        d->W(3) >>= shift;
--#if SHIFT == 1
--        d->W(4) >>= shift;
--        d->W(5) >>= shift;
--        d->W(6) >>= shift;
--        d->W(7) >>= shift;
--#endif
-+        shift = c->B(0);
-+        for (int i = 0; i < 4 << SHIFT; i++) {
-+            d->W(i) = FPSRL(s->W(i), shift);
-+        }
-     }
- }
- 
--void glue(helper_psraw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
-+void glue(helper_psllw, SUFFIX)(CPUX86State *env, Reg *d, Reg *c)
- {
-+    Reg *s = d;
-     int shift;
-+    if (c->Q(0) > 15) {
-+        for (int i = 0; i < 1 << SHIFT; i++) {
-+            d->Q(i) = 0;
-+        }
-+    } else {
-+        shift = c->B(0);
-+        for (int i = 0; i < 4 << SHIFT; i++) {
-+            d->W(i) = FPSLL(s->W(i), shift);
-+        }
++#define SSE_HELPER_2(name, elem, num, F)                        \
++    void glue(name, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)   \
++    {                                                           \
++        Reg *v = d;                                             \
++        int n = num;                                            \
++        for (int i = 0; i < n; i++) {                           \
++            d->elem(i) = F(v->elem(i), s->elem(i));             \
++        }                                                       \
 +    }
-+}
++
++#define SSE_HELPER_B(name, F)                                   \
++    SSE_HELPER_2(name, B, 8 << SHIFT, F)
  
--    if (s->Q(0) > 15) {
-+void glue(helper_psraw, SUFFIX)(CPUX86State *env, Reg *d, Reg *c)
-+{
-+    Reg *s = d;
-+    int shift;
-+    if (c->Q(0) > 15) {
-         shift = 15;
-     } else {
--        shift = s->B(0);
-+        shift = c->B(0);
-+    }
-+    for (int i = 0; i < 4 << SHIFT; i++) {
-+        d->W(i) = FPSRAW(s->W(i), shift);
-     }
--    d->W(0) = (int16_t)d->W(0) >> shift;
--    d->W(1) = (int16_t)d->W(1) >> shift;
--    d->W(2) = (int16_t)d->W(2) >> shift;
--    d->W(3) = (int16_t)d->W(3) >> shift;
--#if SHIFT == 1
--    d->W(4) = (int16_t)d->W(4) >> shift;
--    d->W(5) = (int16_t)d->W(5) >> shift;
--    d->W(6) = (int16_t)d->W(6) >> shift;
--    d->W(7) = (int16_t)d->W(7) >> shift;
--#endif
+ #define SSE_HELPER_W(name, F)                                   \
+-    void glue(name, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)   \
+-    {                                                           \
+-        d->W(0) = F(d->W(0), s->W(0));                          \
+-        d->W(1) = F(d->W(1), s->W(1));                          \
+-        d->W(2) = F(d->W(2), s->W(2));                          \
+-        d->W(3) = F(d->W(3), s->W(3));                          \
+-        XMM_ONLY(                                               \
+-                 d->W(4) = F(d->W(4), s->W(4));                 \
+-                 d->W(5) = F(d->W(5), s->W(5));                 \
+-                 d->W(6) = F(d->W(6), s->W(6));                 \
+-                 d->W(7) = F(d->W(7), s->W(7));                 \
+-                                                        )       \
+-            }
++    SSE_HELPER_2(name, W, 4 << SHIFT, F)
+ 
+ #define SSE_HELPER_L(name, F)                                   \
+-    void glue(name, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)   \
+-    {                                                           \
+-        d->L(0) = F(d->L(0), s->L(0));                          \
+-        d->L(1) = F(d->L(1), s->L(1));                          \
+-        XMM_ONLY(                                               \
+-                 d->L(2) = F(d->L(2), s->L(2));                 \
+-                 d->L(3) = F(d->L(3), s->L(3));                 \
+-                                                        )       \
+-            }
++    SSE_HELPER_2(name, L, 2 << SHIFT, F)
+ 
+ #define SSE_HELPER_Q(name, F)                                   \
+-    void glue(name, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)   \
+-    {                                                           \
+-        d->Q(0) = F(d->Q(0), s->Q(0));                          \
+-        XMM_ONLY(                                               \
+-                 d->Q(1) = F(d->Q(1), s->Q(1));                 \
+-                                                        )       \
+-            }
++    SSE_HELPER_2(name, Q, 1 << SHIFT, F)
+ 
+ #if SHIFT == 0
+ static inline int satub(int x)
+@@ -1544,12 +1517,12 @@ void glue(helper_phsubsw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+     MOVE(*d, r);
  }
  
--void glue(helper_psllw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
-+void glue(helper_psrld, SUFFIX)(CPUX86State *env, Reg *d, Reg *c)
- {
-+    Reg *s = d;
-     int shift;
--
--    if (s->Q(0) > 15) {
--        d->Q(0) = 0;
--#if SHIFT == 1
--        d->Q(1) = 0;
--#endif
-+    if (c->Q(0) > 31) {
-+        for (int i = 0; i < 1 << SHIFT; i++) {
-+            d->Q(i) = 0;
-+        }
-     } else {
--        shift = s->B(0);
--        d->W(0) <<= shift;
--        d->W(1) <<= shift;
--        d->W(2) <<= shift;
--        d->W(3) <<= shift;
--#if SHIFT == 1
--        d->W(4) <<= shift;
--        d->W(5) <<= shift;
--        d->W(6) <<= shift;
--        d->W(7) <<= shift;
--#endif
-+        shift = c->B(0);
-+        for (int i = 0; i < 2 << SHIFT; i++) {
-+            d->L(i) = FPSRL(s->L(i), shift);
-+        }
-     }
- }
+-#define FABSB(_, x) (x > INT8_MAX  ? -(int8_t)x : x)
+-#define FABSW(_, x) (x > INT16_MAX ? -(int16_t)x : x)
+-#define FABSL(_, x) (x > INT32_MAX ? -(int32_t)x : x)
+-SSE_HELPER_B(helper_pabsb, FABSB)
+-SSE_HELPER_W(helper_pabsw, FABSW)
+-SSE_HELPER_L(helper_pabsd, FABSL)
++#define FABSB(x) (x > INT8_MAX  ? -(int8_t)x : x)
++#define FABSW(x) (x > INT16_MAX ? -(int16_t)x : x)
++#define FABSL(x) (x > INT32_MAX ? -(int32_t)x : x)
++SSE_HELPER_1(helper_pabsb, B, 8 << SHIFT, FABSB)
++SSE_HELPER_1(helper_pabsw, W, 4 << SHIFT, FABSW)
++SSE_HELPER_1(helper_pabsd, L, 2 << SHIFT, FABSL)
  
--void glue(helper_psrld, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
-+void glue(helper_pslld, SUFFIX)(CPUX86State *env, Reg *d, Reg *c)
- {
-+    Reg *s = d;
-     int shift;
--
--    if (s->Q(0) > 31) {
--        d->Q(0) = 0;
--#if SHIFT == 1
--        d->Q(1) = 0;
--#endif
-+    if (c->Q(0) > 31) {
-+        for (int i = 0; i < 1 << SHIFT; i++) {
-+            d->Q(i) = 0;
-+        }
-     } else {
--        shift = s->B(0);
--        d->L(0) >>= shift;
--        d->L(1) >>= shift;
--#if SHIFT == 1
--        d->L(2) >>= shift;
--        d->L(3) >>= shift;
--#endif
-+        shift = c->B(0);
-+        for (int i = 0; i < 2 << SHIFT; i++) {
-+            d->L(i) = FPSLL(s->L(i), shift);
-+        }
-     }
- }
- 
--void glue(helper_psrad, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
-+void glue(helper_psrad, SUFFIX)(CPUX86State *env, Reg *d, Reg *c)
- {
-+    Reg *s = d;
-     int shift;
--
--    if (s->Q(0) > 31) {
-+    if (c->Q(0) > 31) {
-         shift = 31;
-     } else {
--        shift = s->B(0);
-+        shift = c->B(0);
-+    }
-+    for (int i = 0; i < 2 << SHIFT; i++) {
-+        d->L(i) = FPSRAL(s->L(i), shift);
-     }
--    d->L(0) = (int32_t)d->L(0) >> shift;
--    d->L(1) = (int32_t)d->L(1) >> shift;
--#if SHIFT == 1
--    d->L(2) = (int32_t)d->L(2) >> shift;
--    d->L(3) = (int32_t)d->L(3) >> shift;
--#endif
- }
- 
--void glue(helper_pslld, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
-+void glue(helper_psrlq, SUFFIX)(CPUX86State *env, Reg *d, Reg *c)
- {
-+    Reg *s = d;
-     int shift;
--
--    if (s->Q(0) > 31) {
--        d->Q(0) = 0;
--#if SHIFT == 1
--        d->Q(1) = 0;
--#endif
-+    if (c->Q(0) > 63) {
-+        for (int i = 0; i < 1 << SHIFT; i++) {
-+            d->Q(i) = 0;
-+        }
-     } else {
--        shift = s->B(0);
--        d->L(0) <<= shift;
--        d->L(1) <<= shift;
--#if SHIFT == 1
--        d->L(2) <<= shift;
--        d->L(3) <<= shift;
--#endif
-+        shift = c->B(0);
-+        for (int i = 0; i < 1 << SHIFT; i++) {
-+            d->Q(i) = FPSRL(s->Q(i), shift);
-+        }
-     }
- }
- 
--void glue(helper_psrlq, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
-+void glue(helper_psllq, SUFFIX)(CPUX86State *env, Reg *d, Reg *c)
- {
-+    Reg *s = d;
-     int shift;
--
--    if (s->Q(0) > 63) {
--        d->Q(0) = 0;
--#if SHIFT == 1
--        d->Q(1) = 0;
--#endif
-+    if (c->Q(0) > 63) {
-+        for (int i = 0; i < 1 << SHIFT; i++) {
-+            d->Q(i) = 0;
-+        }
-     } else {
--        shift = s->B(0);
--        d->Q(0) >>= shift;
--#if SHIFT == 1
--        d->Q(1) >>= shift;
--#endif
-+        shift = c->B(0);
-+        for (int i = 0; i < 1 << SHIFT; i++) {
-+            d->Q(i) = FPSLL(s->Q(i), shift);
-+        }
-     }
- }
- 
--void glue(helper_psllq, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
-+#if SHIFT >= 1
-+void glue(helper_psrldq, SUFFIX)(CPUX86State *env, Reg *d, Reg *c)
- {
--    int shift;
-+    Reg *s = d;
-+    int shift, i, j;
- 
--    if (s->Q(0) > 63) {
--        d->Q(0) = 0;
--#if SHIFT == 1
--        d->Q(1) = 0;
--#endif
--    } else {
--        shift = s->B(0);
--        d->Q(0) <<= shift;
--#if SHIFT == 1
--        d->Q(1) <<= shift;
--#endif
--    }
--}
--
--#if SHIFT == 1
--void glue(helper_psrldq, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
--{
--    int shift, i;
--
--    shift = s->L(0);
-+    shift = c->L(0);
-     if (shift > 16) {
-         shift = 16;
-     }
--    for (i = 0; i < 16 - shift; i++) {
--        d->B(i) = d->B(i + shift);
--    }
--    for (i = 16 - shift; i < 16; i++) {
--        d->B(i) = 0;
-+    for (j = 0; j < 8 << SHIFT; j += LANE_WIDTH) {
-+        for (i = 0; i < 16 - shift; i++) {
-+            d->B(j + i) = s->B(j + i + shift);
-+        }
-+        for (i = 16 - shift; i < 16; i++) {
-+            d->B(j + i) = 0;
-+        }
-     }
- }
- 
--void glue(helper_pslldq, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
-+void glue(helper_pslldq, SUFFIX)(CPUX86State *env, Reg *d, Reg *c)
- {
--    int shift, i;
-+    Reg *s = d;
-+    int shift, i, j;
- 
--    shift = s->L(0);
-+    shift = c->L(0);
-     if (shift > 16) {
-         shift = 16;
-     }
--    for (i = 15; i >= shift; i--) {
--        d->B(i) = d->B(i - shift);
--    }
--    for (i = 0; i < shift; i++) {
--        d->B(i) = 0;
-+    for (j = 0; j < 8 << SHIFT; j += LANE_WIDTH) {
-+        for (i = 15; i >= shift; i--) {
-+            d->B(j + i) = s->B(j + i - shift);
-+        }
-+        for (i = 0; i < shift; i++) {
-+            d->B(j + i) = 0;
-+        }
-     }
- }
- #endif
+ #define FMULHRSW(d, s) (((int16_t) d * (int16_t)s + 0x4000) >> 15)
+ SSE_HELPER_W(helper_pmulhrsw, FMULHRSW)
 -- 
 2.37.1
 
