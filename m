@@ -2,69 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D7D5AA0E5
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 22:28:51 +0200 (CEST)
-Received: from localhost ([::1]:36714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DFA05AA0E6
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 22:29:05 +0200 (CEST)
+Received: from localhost ([::1]:52286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTqny-0005uO-Bz
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 16:28:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50284)
+	id 1oTqoC-0006L9-HT
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 16:29:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oTqlS-0003Az-Sf
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 16:26:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29138)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oTqlR-0000GP-Bk
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 16:26:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662063972;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xB+C7vxvO8AjTVloMttA64QuMOwIn8+meFfdqsqz8yo=;
- b=P71L90w4JMY09w8jkpPej93s+IZiJ0cd0zVL1CGa/RZPq36wRLQmpH+GbpYeGweMz0qNUm
- Jk0pdolwaKRwIxlssgKZUDBAbRXbSQ3afRCPlTd6J5W+x2HrDVpEBtN6wbqYp90QRGKr5l
- t/crrJHJ9TQNkltRNsVjYdbgdAW+wmw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-407-M2ItMx7hNPueONPg7rPkpg-1; Thu, 01 Sep 2022 16:26:08 -0400
-X-MC-Unique: M2ItMx7hNPueONPg7rPkpg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 795481C05147;
- Thu,  1 Sep 2022 20:26:08 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F0C70C15BB3;
- Thu,  1 Sep 2022 20:26:07 +0000 (UTC)
-Date: Thu, 1 Sep 2022 16:26:05 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, danielhb413@gmail.com,
- peter.maydell@linaro.org, richard.henderson@linaro.org
-Subject: Re: [PULL v2 00/60] ppc queue
-Message-ID: <YxEVXeFomrDrLHOx@fedora>
-References: <20220831202818.7630-1-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oTqlw-0003fI-VE
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 16:26:45 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:37489)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oTqlp-0000IO-IQ
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 16:26:44 -0400
+Received: by mail-pl1-x633.google.com with SMTP id m2so18128250pls.4
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 13:26:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc:subject:date;
+ bh=5Urj81quWnjLFIC3eGj7NKBmtk/+AE29bve09LoYDTE=;
+ b=aGALNGuD/D7wsWmUbfWRud3vdWcJRwuA/IpPAlChgCmHnv+jNy3RvVggCWmgLR94RO
+ h0JHYYiZg/qEVGxZ/UE9iTYL8M+V1WUIZJSDDmuv375vyYrZnppEwTFrzQ/+iLkL3Ktu
+ rA/ISEe0mHK1y1pMJnx0AuhrMa1A/MaAghVxkFuq4+DeUN3rLw7M8kAEYZCRAfFjP10d
+ Gya4E7RoCRII3eL5EQPUmGwGetsOZF0W6SfmcSEaTHaB59xBzoEFAPU50bRoHn66ghMD
+ 9yN+QWEuZypOainStF12GgsVeIRRNCXuVmCw55KltmH7OLR5/oWr4b6jxu9ixIN4Torn
+ N+0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc:subject:date;
+ bh=5Urj81quWnjLFIC3eGj7NKBmtk/+AE29bve09LoYDTE=;
+ b=2/BA91FhVbhasiwPUlUcpeBXn1HeBgU9YvG9KOOPM3rWcVAl50Gzm32Pop2gI8XOHE
+ teJKNPfUNVML9BrN1+WktAmkyrSO/bb5NHr1Kgam98otX20K2/O61Wd7N8REmeI/338K
+ AMjYcLjSmGkeK4M6fedNOUPWC+Yr0mHYklKND4ZXw9JHKM+0FiVR/XQkRX2tyg0LkuJX
+ E9Z+2rQjqsgvCJDpaUWxn/v7lVFvdd0OiNpS8moFZ/+Bfq9PmjfcLr1gjTbtuS5k0drv
+ fjsIo6G0bnmcsrOSJNcFIz05YQJ9A/68cWV4AO6S+Oo/TpwINenQGOGJDL4qns4pY9l3
+ lJzQ==
+X-Gm-Message-State: ACgBeo2+X17sdJVrgpNmrx05GtDrQcKoJ/MzF4jOt82HPRBBH1SD6VQg
+ qhiPtdiE+Zwvz/eApwBgB1U=
+X-Google-Smtp-Source: AA6agR548jS1ZLBz9FsHS21iaFKgrtE3hFAtaV4qBzDq2AlkANFD5wKAypnq5Xvf/jD3A0786+tmBg==
+X-Received: by 2002:a17:90a:948b:b0:1fd:c277:fcc9 with SMTP id
+ s11-20020a17090a948b00b001fdc277fcc9mr896738pjo.185.1662063995971; 
+ Thu, 01 Sep 2022 13:26:35 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ c5-20020a170902d48500b001744018def7sm14159580plg.90.2022.09.01.13.26.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Sep 2022 13:26:35 -0700 (PDT)
+Message-ID: <92a9d571-a76e-007c-56ec-e9a30151835d@amsat.org>
+Date: Thu, 1 Sep 2022 22:26:28 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="husGFZElWeFGTzmZ"
-Content-Disposition: inline
-In-Reply-To: <20220831202818.7630-1-danielhb413@gmail.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.0
+Subject: Re: [PATCH 11/42] hw/isa/piix3: Remove extra '; ' outside of functions
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20220901162613.6939-1-shentey@gmail.com>
+ <20220901162613.6939-12-shentey@gmail.com>
+In-Reply-To: <20220901162613.6939-12-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,31 +101,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
+On 1/9/22 18:25, Bernhard Beschow wrote:
+> Fixes the "extra-semi" clang-tidy check.
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   hw/isa/piix3.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 
---husGFZElWeFGTzmZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
-
---husGFZElWeFGTzmZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMRFV0ACgkQnKSrs4Gr
-c8jXuAf/eFfaV0lzZEQGPC0ojcwGzLASeA/XZlw0jtNShN3PEiQPhpXkzhGD88ge
-8ij5MytCIiJ2c74OupoJrNhiIhEvj1mtDW2ZKVgl/YUo1neEwfwV9OwEfnFb9fEe
-Yior3T2uk/yz1GF9fSQ1n9TUHpenXEvNEykAbxRt7VpwtTdrSK7WVZjX4ihhjx8Y
-nvFsUZpsmhIRYWeg8QtYXbCHqt6g6ENtSmZg7nw80LIklfVgocau/spwFfxMSQiR
-Xqh/hLJozBaBchrxiKQbSk9zO4T14FvozwkhpOZQG/dTRW1Fe3FaovTqoCoNA6Vr
-J85OB+ajfIxSju8aY0Iz7/fFuvhFbw==
-=fu5C
------END PGP SIGNATURE-----
-
---husGFZElWeFGTzmZ--
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
