@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3215A9D91
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 18:55:23 +0200 (CEST)
-Received: from localhost ([::1]:56242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18EBA5A9DB1
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 19:05:53 +0200 (CEST)
+Received: from localhost ([::1]:35070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTnTP-0001HU-1a
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 12:55:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37954)
+	id 1oTndX-00056p-Vy
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 13:05:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn2T-0002QR-OA
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:27:34 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:46747)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn2P-0002Ne-Ld
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:27:30 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:38604)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn2N-0001TY-Fh
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:27:31 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id bj12so35786353ejb.13
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 09:27:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn2J-0001YB-GI
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:27:27 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id a36so19485743edf.5
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 09:27:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=fg262DyFFhJoLbDKo7DrKpLbeDb7ag02YxRokkeeINU=;
- b=pb6t6SN5RKm51YHrrpIof+qN6ICzu1/Cz5hbswIO0if7yYZzqFgZyR3WD4mKIHiYiQ
- zxBI+Rq/pguH5D+n5USncRgkhIxQ5JNtc1yyJdUCEXikHttZzz3JckRHnzBwYBWgrg3t
- sJMMHsWxNyH9SDcKVwnrZf9AW3v7uuDJ+nXvIfEe1w3CPsUmtBWXUk+OiK9VsmMyIBa6
- PubL4YlJBg1xH2JQIKH/WG/mXZW1FGjmbIKuOX4aJwmqtHU4ydabSkwtKpDuPt8PLQGJ
- dnzfDPDVlZipURWkQtLhQ71lRD/Xc7mbNz0oZxuX7Mdcazq/G1+pXajAE6vuj3j9wJ5b
- 5zKQ==
+ bh=I53kXzOewMUSv21s1gd8I4HE4s8WT5KVfscPhYxO19A=;
+ b=CM26PMiVnWUeGD2Rp0y1nbNIrYCBJndNiOiiCFng6RFWGdcXdCh/1l0QH7WnQDwXy2
+ F3dX90MA9URYhZJjFtddTQgb9rEeO7iAlrY2f/N9tpJym+bN6F6vB1jzC1RJX7l+TAZg
+ donrfUA8kyYue1tkSy5qHrKt+J0dbdeK/FfLS0YWdhQ2eesI5zGBrWs7SwKFULfTUlNR
+ ISRPz6KzJ9J6Y0gNyMUyuFfIzXaN12fLnSaazC5+m9jT89JB8x8z7lIlIyPuD8E4XpIg
+ 5N/It3Rg0OCyu+KklkeSybLxmANzBPRqUK89ru5NhJ4mVLSI6wQPRt0fYIOvfKadJYUr
+ sYTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=fg262DyFFhJoLbDKo7DrKpLbeDb7ag02YxRokkeeINU=;
- b=rv2E2axoBYLc/3sUyGtoql6gQ+AiGicWLG+ARSWnydtn95mI6dM0TRWvT8Ab/AMqEm
- 3DqmhB5U4kRVY9l53tOCTHkhkvCk8WXhDNCsxtGP/c1YEQPmzd+n9EovTVBk5c5fT5C4
- GXFOTIUI4Hyv5tJa4ura7xoSCzSaD/ilTqvJvFodYQY8IX3+TzP4lf9e4pDgyNRITbvS
- 0FddDQlv5wEUqqh7SMl9OoDKGnAJ7vg4BHF9dC3fte4eZnJvQlul/kHm0qaudQX2fPmy
- 1JU/TqwO5dra8LcCHpyNtdNg8nJYC4tpnaD6lM2BcIBD1ddclVadm/HpKI8CQ4HuAK8o
- VcnQ==
-X-Gm-Message-State: ACgBeo0MX/S6Qqaxtcm6tkOcOK8Y14IPBLyRQBznM/PN/1EWElyJ54Zh
- Wq/5r66K8nRtWRBIXHHamWNfZrDQ55Q=
-X-Google-Smtp-Source: AA6agR7jweUBLnUdTeSXq1HHPK50WiBX9IKC18mlWx/hapfB5n6F3qEUpEeMDBk9r3IKuyHQbxQBxw==
-X-Received: by 2002:a17:907:948f:b0:731:3f2e:8916 with SMTP id
- dm15-20020a170907948f00b007313f2e8916mr25110088ejc.442.1662049635398; 
- Thu, 01 Sep 2022 09:27:15 -0700 (PDT)
+ bh=I53kXzOewMUSv21s1gd8I4HE4s8WT5KVfscPhYxO19A=;
+ b=XMdE5AhpiNLREV5NGySvIYkuiQJxD1WHi5eW27hv8h57Bk1jiRZnB4/sySRgh4NNJa
+ zLNWxVxdYgvlokK0iOE+TWDDDN0AUSOgwoGB+O54bsa9qALQsCNQ3RoeOckaXldwJpMu
+ F13iOlJDyHk6eqc3/EZ9jYxaS1TfkSOjuK2J87PIPVKrfFl8COsxZ4ujrjIADu/Cj+qu
+ NDkzNad0e5b0fU3iBQOL/xQ5UE+heGKT0Qai0okjMg6Sq6M0WvcaSGMZA9uM2Tu8O0WF
+ 4HDE2boSX2gewfGg1gpHyc4TWI2B4Btq6l2Wre30WTBeG9Row6Hm8F+gvlyiGgCIRFTe
+ O9MA==
+X-Gm-Message-State: ACgBeo0Ny7+0HvfceUKHdSTh7YwzwGYFQMqrzqQjMKhPNoLRRLfPAwRk
+ JmhUjOIEtUIPaodDB7s2Y4smJbV6n78=
+X-Google-Smtp-Source: AA6agR7CjXT0awGmEjnky9BgPu2YPkPjpj7EZVi1kkfFDwrvgq5zAqzJxgzrU2bloVm2+5HC1nndIg==
+X-Received: by 2002:a50:ee0f:0:b0:447:f097:aef with SMTP id
+ g15-20020a50ee0f000000b00447f0970aefmr25262582eds.20.1662049640975; 
+ Thu, 01 Sep 2022 09:27:20 -0700 (PDT)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- p6-20020aa7d306000000b00447c0dcbb99sm1587672edq.83.2022.09.01.09.27.14
+ p6-20020aa7d306000000b00447c0dcbb99sm1587672edq.83.2022.09.01.09.27.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 09:27:14 -0700 (PDT)
+ Thu, 01 Sep 2022 09:27:20 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
@@ -64,16 +64,16 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Igor Mammedov <imammedo@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 29/42] hw/isa/piix4: Use ISA PIC device
-Date: Thu,  1 Sep 2022 18:26:00 +0200
-Message-Id: <20220901162613.6939-30-shentey@gmail.com>
+Subject: [PATCH 30/42] hw/isa/piix4: Reuse struct PIIXState from PIIX3
+Date: Thu,  1 Sep 2022 18:26:01 +0200
+Message-Id: <20220901162613.6939-31-shentey@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220901162613.6939-1-shentey@gmail.com>
 References: <20220901162613.6939-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,152 +96,157 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Aligns the code with PIIX3 such that PIIXState can be used in PIIX4,
-too. Furthermore, using the isa-pic device in PIIX4 could allow the
-Malta board to gain KVM accelleration capabilities.
+Now that PIIX4 also uses the "isa-pic" proxy, both implementations
+can share the same struct.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/piix4.c  | 28 ++++++++++------------------
- hw/mips/malta.c | 11 +++++++++--
- 2 files changed, 19 insertions(+), 20 deletions(-)
+ hw/isa/piix4.c | 61 ++++++++++++++++----------------------------------
+ 1 file changed, 19 insertions(+), 42 deletions(-)
 
 diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 3e9a84de8b..128284bd0a 100644
+index 128284bd0a..95e4a9f3c1 100644
 --- a/hw/isa/piix4.c
 +++ b/hw/isa/piix4.c
-@@ -43,9 +43,8 @@
+@@ -41,34 +41,10 @@
+ #include "sysemu/runstate.h"
+ #include "qom/object.h"
  
- struct PIIX4State {
-     PCIDevice dev;
--    qemu_irq cpu_intr;
--    qemu_irq *isa;
+-struct PIIX4State {
+-    PCIDevice dev;
+-
+-    ISAPICState pic;
+-    RTCState rtc;
+-    PCIIDEState ide;
+-    UHCIState uhci;
+-    PIIX4PMState pm;
+-
+-    uint32_t smb_io_base;
+-
+-    /* Reset Control Register */
+-    MemoryRegion rcr_mem;
+-    uint8_t rcr;
+-
+-    uint8_t pci_irq_reset_mappings[PIIX_NUM_PIRQS];
+-
+-    bool has_acpi;
+-    bool has_usb;
+-    bool smm_enabled;
+-};
+-
+-OBJECT_DECLARE_SIMPLE_TYPE(PIIX4State, PIIX4_PCI_DEVICE)
+-
+ static void piix4_set_irq(void *opaque, int irq_num, int level)
+ {
+     int i, pic_irq, pic_level;
+-    PIIX4State *s = opaque;
++    PIIXState *s = opaque;
+     PCIBus *bus = pci_get_bus(&s->dev);
  
-+    ISAPICState pic;
-     RTCState rtc;
-     PCIIDEState ide;
-     UHCIState uhci;
-@@ -83,7 +82,7 @@ static void piix4_set_irq(void *opaque, int irq_num, int level)
-                 pic_level |= pci_bus_get_irq_level(bus, i);
-             }
-         }
--        qemu_set_irq(s->isa[pic_irq], pic_level);
-+        qemu_set_irq(s->pic.in_irqs[pic_irq], pic_level);
-     }
+     /* now we change the pic irq level according to the piix irq mappings */
+@@ -113,7 +89,7 @@ static int pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
+ 
+ static void piix4_isa_reset(DeviceState *dev)
+ {
+-    PIIX4State *d = PIIX4_PCI_DEVICE(dev);
++    PIIXState *d = PIIX_PCI_DEVICE(dev);
+     uint8_t *pci_conf = d->dev.config;
+ 
+     pci_conf[0x04] = 0x07; // master, memory and I/O
+@@ -148,12 +124,13 @@ static void piix4_isa_reset(DeviceState *dev)
+     pci_conf[0xac] = 0x00;
+     pci_conf[0xae] = 0x00;
+ 
++    d->pic_levels = 0; /* not used in PIIX4 */
+     d->rcr = 0;
  }
  
-@@ -175,12 +174,6 @@ static const VMStateDescription vmstate_piix4 = {
+ static int piix4_ide_post_load(void *opaque, int version_id)
+ {
+-    PIIX4State *s = opaque;
++    PIIXState *s = opaque;
+ 
+     if (version_id == 2) {
+         s->rcr = 0;
+@@ -168,8 +145,8 @@ static const VMStateDescription vmstate_piix4 = {
+     .minimum_version_id = 2,
+     .post_load = piix4_ide_post_load,
+     .fields = (VMStateField[]) {
+-        VMSTATE_PCI_DEVICE(dev, PIIX4State),
+-        VMSTATE_UINT8_V(rcr, PIIX4State, 3),
++        VMSTATE_PCI_DEVICE(dev, PIIXState),
++        VMSTATE_UINT8_V(rcr, PIIXState, 3),
+         VMSTATE_END_OF_LIST()
      }
  };
- 
--static void piix4_request_i8259_irq(void *opaque, int irq, int level)
--{
--    PIIX4State *s = opaque;
--    qemu_set_irq(s->cpu_intr, level);
--}
--
+@@ -177,7 +154,7 @@ static const VMStateDescription vmstate_piix4 = {
  static void piix4_rcr_write(void *opaque, hwaddr addr, uint64_t val,
                              unsigned int len)
  {
-@@ -216,7 +209,6 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
-     PIIX4State *s = PIIX4_PCI_DEVICE(dev);
+-    PIIX4State *s = opaque;
++    PIIXState *s = opaque;
+ 
+     if (val & 4) {
+         qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+@@ -189,7 +166,7 @@ static void piix4_rcr_write(void *opaque, hwaddr addr, uint64_t val,
+ 
+ static uint64_t piix4_rcr_read(void *opaque, hwaddr addr, unsigned int len)
+ {
+-    PIIX4State *s = opaque;
++    PIIXState *s = opaque;
+ 
+     return s->rcr;
+ }
+@@ -206,7 +183,7 @@ static const MemoryRegionOps piix4_rcr_ops = {
+ 
+ static void piix4_realize(PCIDevice *dev, Error **errp)
+ {
+-    PIIX4State *s = PIIX4_PCI_DEVICE(dev);
++    PIIXState *s = PIIX_PCI_DEVICE(dev);
      PCIBus *pci_bus = pci_get_bus(dev);
      ISABus *isa_bus;
--    qemu_irq *i8259_out_irq;
  
-     isa_bus = isa_bus_new(DEVICE(dev), pci_address_space(dev),
-                           pci_address_space_io(dev), errp);
-@@ -224,20 +216,18 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
-         return;
-     }
+@@ -276,7 +253,7 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
  
--    qdev_init_gpio_out_named(DEVICE(dev), &s->cpu_intr,
--                             "intr", 1);
--
-     memory_region_init_io(&s->rcr_mem, OBJECT(dev), &piix4_rcr_ops, s,
-                           "reset-control", 1);
-     memory_region_add_subregion_overlap(pci_address_space_io(dev),
-                                         PIIX_RCR_IOPORT, &s->rcr_mem, 1);
- 
-     /* initialize i8259 pic */
--    i8259_out_irq = qemu_allocate_irqs(piix4_request_i8259_irq, s, 1);
--    s->isa = i8259_init(isa_bus, *i8259_out_irq);
-+    if (!qdev_realize(DEVICE(&s->pic), BUS(isa_bus), errp)) {
-+        return;
-+    }
- 
-     /* initialize ISA irqs */
--    isa_bus_irqs(isa_bus, s->isa);
-+    isa_bus_irqs(isa_bus, s->pic.in_irqs);
- 
-     /* initialize pit */
-     i8254_pit_init(isa_bus, 0x40, 0, NULL);
-@@ -250,7 +240,7 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
-     if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
-         return;
-     }
--    s->rtc.irq = isa_get_irq(ISA_DEVICE(&s->rtc), s->rtc.isairq);
-+    s->rtc.irq = qdev_get_gpio_in(DEVICE(&s->pic), s->rtc.isairq);
- 
-     /* IDE */
-     qdev_prop_set_int32(DEVICE(&s->ide), "addr", dev->devfn + 1);
-@@ -277,7 +267,8 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
-         if (!qdev_realize(DEVICE(&s->pm), BUS(pci_bus), errp)) {
-             return;
-         }
--        qdev_connect_gpio_out(DEVICE(&s->pm), 0, s->isa[9]);
-+        qdev_connect_gpio_out(DEVICE(&s->pm), 0,
-+                              qdev_get_gpio_in(DEVICE(&s->pic), 9));
-     }
- 
-     pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s, PIIX_NUM_PIRQS);
-@@ -287,6 +278,7 @@ static void piix4_init(Object *obj)
+ static void piix4_init(Object *obj)
  {
-     PIIX4State *s = PIIX4_PCI_DEVICE(obj);
+-    PIIX4State *s = PIIX4_PCI_DEVICE(obj);
++    PIIXState *s = PIIX_PCI_DEVICE(obj);
  
-+    object_initialize_child(obj, "pic", &s->pic, TYPE_ISA_PIC);
+     object_initialize_child(obj, "pic", &s->pic, TYPE_ISA_PIC);
      object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
-     object_initialize_child(obj, "ide", &s->ide, "piix4-ide");
+@@ -284,14 +261,14 @@ static void piix4_init(Object *obj)
  }
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 44b6b14f3d..68e800b00f 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -28,6 +28,7 @@
- #include "qemu/datadir.h"
- #include "hw/clock.h"
- #include "hw/southbridge/piix.h"
-+#include "hw/intc/i8259.h"
- #include "hw/isa/superio.h"
- #include "hw/char/serial.h"
- #include "net/net.h"
-@@ -1232,10 +1233,11 @@ void mips_malta_init(MachineState *machine)
-     PCIBus *pci_bus;
-     ISABus *isa_bus;
-     qemu_irq cbus_irq, i8259_irq;
-+    qemu_irq *i8259;
-     I2CBus *smbus;
-     DriveInfo *dinfo;
-     int fl_idx = 0;
--    int be;
-+    int be, i;
-     MaltaState *s;
-     PCIDevice *piix4;
-     DeviceState *dev;
-@@ -1414,7 +1416,12 @@ void mips_malta_init(MachineState *machine)
-     pci_ide_create_devs(PCI_DEVICE(dev));
  
-     /* Interrupt controller */
--    qdev_connect_gpio_out_named(DEVICE(piix4), "intr", 0, i8259_irq);
-+    dev = DEVICE(object_resolve_path_component(OBJECT(piix4), "pic"));
-+    i8259 = i8259_init(isa_bus, i8259_irq);
-+    for (i = 0; i < ISA_NUM_IRQS; i++) {
-+        qdev_connect_gpio_out(dev, i, i8259[i]);
-+    }
-+    g_free(i8259);
+ static Property piix4_props[] = {
+-    DEFINE_PROP_UINT32("smb_io_base", PIIX4State, smb_io_base, 0),
+-    DEFINE_PROP_UINT8("pirqa", PIIX4State, pci_irq_reset_mappings[0], 0x80),
+-    DEFINE_PROP_UINT8("pirqb", PIIX4State, pci_irq_reset_mappings[1], 0x80),
+-    DEFINE_PROP_UINT8("pirqc", PIIX4State, pci_irq_reset_mappings[2], 0x80),
+-    DEFINE_PROP_UINT8("pirqd", PIIX4State, pci_irq_reset_mappings[3], 0x80),
+-    DEFINE_PROP_BOOL("has-acpi", PIIX4State, has_acpi, true),
+-    DEFINE_PROP_BOOL("has-usb", PIIX4State, has_usb, true),
+-    DEFINE_PROP_BOOL("smm-enabled", PIIX4State, smm_enabled, false),
++    DEFINE_PROP_UINT32("smb_io_base", PIIXState, smb_io_base, 0),
++    DEFINE_PROP_UINT8("pirqa", PIIXState, pci_irq_reset_mappings[0], 0x80),
++    DEFINE_PROP_UINT8("pirqb", PIIXState, pci_irq_reset_mappings[1], 0x80),
++    DEFINE_PROP_UINT8("pirqc", PIIXState, pci_irq_reset_mappings[2], 0x80),
++    DEFINE_PROP_UINT8("pirqd", PIIXState, pci_irq_reset_mappings[3], 0x80),
++    DEFINE_PROP_BOOL("has-acpi", PIIXState, has_acpi, true),
++    DEFINE_PROP_BOOL("has-usb", PIIXState, has_usb, true),
++    DEFINE_PROP_BOOL("smm-enabled", PIIXState, smm_enabled, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
-     /* generate SPD EEPROM data */
-     dev = DEVICE(object_resolve_path_component(OBJECT(piix4), "pm"));
+@@ -319,7 +296,7 @@ static void piix4_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo piix4_info = {
+     .name          = TYPE_PIIX4_PCI_DEVICE,
+     .parent        = TYPE_PCI_DEVICE,
+-    .instance_size = sizeof(PIIX4State),
++    .instance_size = sizeof(PIIXState),
+     .instance_init = piix4_init,
+     .class_init    = piix4_class_init,
+     .interfaces = (InterfaceInfo[]) {
 -- 
 2.37.3
 
