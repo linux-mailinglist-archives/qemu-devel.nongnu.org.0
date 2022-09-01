@@ -2,86 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9BB35A8B71
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 04:28:51 +0200 (CEST)
-Received: from localhost ([::1]:34728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB19B5A8BEE
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 05:31:08 +0200 (CEST)
+Received: from localhost ([::1]:53438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTZwo-00033Y-Lq
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 22:28:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53158)
+	id 1oTav5-0004Ac-FR
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 23:31:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1oTZv1-00017m-Cc
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 22:26:59 -0400
-Received: from out29-169.mail.aliyun.com ([115.124.29.169]:50636)
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1oTaro-0008RP-HC
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 23:27:44 -0400
+Received: from mga12.intel.com ([192.55.52.136]:17689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1oTZux-0007mF-Em
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 22:26:59 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07549508|-1;
- BR=01201311R111S64rulernew998_84748_2000303; CH=blue; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_enroll_verification|0.536354-0.0452023-0.418444;
- FP=17055458930845414707|10|1|15|0|-1|-1|-1; HT=ay29a033018047190;
- MF=zhiwei_liu@c-sky.com; NM=1; PH=DS; RN=1; RT=1; SR=0;
- TI=SMTPD_---.P4rfyXG_1661998895; 
-Received: from out0-134.mail.aliyun.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.P4rfyXG_1661998895) by smtp.aliyun-inc.com;
- Thu, 01 Sep 2022 10:21:35 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=alibaba-inc.com; s=default;
- t=1661998895; h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type;
- bh=iLQErYd/2TutWht8MsAY163h2AxYj+VYsaa0V5ROgfQ=;
- b=slTbFOh6Zv/W5+HygNK49x+A7BZEzp8o60wXVR4dlrcMbW+dFLGQJcouOp7kM6omBgdChXYq019rT2+dfrQTFuy/Gj7PE9hknNbpJXZaTyVq8hieUxrRZeq9hbN7CH4Ai8LO7G9ZLLz2T6Q1nELl/zDVMM6Syuz3h/5hnJWqb1Q=
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07549508|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_enroll_verification|0.536354-0.0452023-0.418444;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047190; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DA; RN=19; RT=19; SR=0;
- TI=W4_0.1.34_v5ForDingX_21254AE3_1661998539048_o7001c1j; 
-Received: from WS-web
- (lzw194868@alibaba-inc.com[W4_0.1.34_v5ForDingX_21254AE3_1661998539048_o7001c1j])
- at Thu, 01 Sep 2022 10:21:33 +0800
-Date: Thu, 01 Sep 2022 10:21:33 +0800
-From: "=?UTF-8?B?5YiY5b+X5Lyf?=" <zhiwei_liu@c-sky.com>
-To: "=?UTF-8?B?QWxleCBCZW5uw6ll?=" <alex.bennee@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: "Mark Burton" <mburton@qti.qualcomm.com>,
- "Edgar  E. Iglesias" <edgar.iglesias@gmail.com>,
- "Richard Henderson" <richard.henderson@linaro.org>,
- "Paolo Bonzini" <pbonzini@redhat.com>,
- "Peter Maydell" <peter.maydell@linaro.org>,
- "Song Gao" <gaosong@loongson.cn>,
- "Xiaojuan Yang" <yangxiaojuan@loongson.cn>,
- "=?UTF-8?B?Q8OpZHJpYyBMZSBHb2F0ZXI=?=" <clg@kaod.org>,
- "Palmer Dabbelt" <palmer@dabbelt.com>,
- "Alistair Francis" <alistair.francis@wdc.com>,
- "Bin Meng" <bin.meng@windriver.com>,
- "David Gibson" <david@gibson.dropbear.id.au>,
- "Markus Armbruster" <armbru@redhat.com>,
- "Michael Roth" <michael.roth@amd.com>, "Luc Michel" <luc@lmichel.fr>,
- "Damien Hedde" <damien.hedde@greensocs.com>,
- "Alessandro Di Federico" <ale@rev.ng>
-Message-ID: <5ba3509f-7125-42ea-93fc-552e88928b32.lzw194868@alibaba-inc.com>
-Subject: =?UTF-8?B?5Zue5aSN77yaQW55IGludGVyZXN0IGluIGEgUUVNVSBlbXVsYXRpb24gQm9GIGF0IEtWTSBG?=
- =?UTF-8?B?b3J1bT8=?=
-X-Mailer: [Alimail-Mailagent revision 7410][W4_0.1.34][v5ForDingX][Chrome]
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1oTarl-0007uc-Ux
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 23:27:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662002861; x=1693538861;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=XbvVMoekPwTCxZxCr293gg/bX+0S/GaA5ECQoGNUy3c=;
+ b=SbHN5OSRR2pCp/vhYM/hzSLxplokmh8YvSnzY1FnlA9Kj7pHYfkqxmo0
+ Aa56dMKqaHx2r96yIL/HOLY7fcMS8o7Lx1HJSlXyFN6Abzopk04DPJHzS
+ F5EDEQF0UdLoVqZavAOQy1NWWaGzZdmsSpzz9pOrJ2Jtn03V+Eo4Bl8K2
+ SlJW33Jqx/tK6hCPzxhYclmO4zywA4OHAwE6Cs5CHciEOw8MqoyitJZbr
+ cEwLVlnjdH3vnNaKEF+qqiIX0XVijkdvaZXwBfjHwFFYUCmMOiZeZ1my9
+ nFhL7RaILftkNYa1B2vv9P4v4bAXN81qGEvWUuRyuMOrysUROU04+XiHk A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10456"; a="275353996"
+X-IronPort-AV: E=Sophos;i="5.93,280,1654585200"; d="scan'208";a="275353996"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2022 20:27:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,280,1654585200"; d="scan'208";a="642142670"
+Received: from sqa-gate.sh.intel.com (HELO robert-clx2.tsp.org)
+ ([10.239.48.212])
+ by orsmga008.jf.intel.com with ESMTP; 31 Aug 2022 20:27:26 -0700
+From: Robert Hoo <robert.hu@linux.intel.com>
+To: imammedo@redhat.com, mst@redhat.com, xiaoguangrong.eric@gmail.com,
+ ani@anisinha.ca, dan.j.williams@intel.com, jingqi.liu@intel.com
+Cc: qemu-devel@nongnu.org, robert.hu@intel.com,
+ Robert Hoo <robert.hu@linux.intel.com>
+Subject: [PATCH v3 0/5] Support ACPI NVDIMM Label Methods
+Date: Thu,  1 Sep 2022 11:27:16 +0800
+Message-Id: <20220901032721.1392482-1-robert.hu@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <87a67kphih.fsf@linaro.org>,<87wnaonxug.fsf@linaro.org>
-x-aliyun-mail-creator: W4_0.1.34_v5ForDingX_LzETW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV09XNjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS85MS4wLjQ0NzIuMTY0IFNhZmFyaS81MzcuMzYgZGluZ3RhbGstd2luLzEuMC4wIG53KDAuMTQuNykgRGluZ1RhbGsoNi41LjEwLVJlbGVhc2UuODAwNTUpIE1vam8vMS4wLjAgTmF0aXZlIEFwcFR5cGUocmVsZWFzZSkgQ2hhbm5lbC8xNjI4NDg3OTcwNzAwIDJuZFR5cGUvZXhjbHVzaXZl2l
-In-Reply-To: <87wnaonxug.fsf@linaro.org>
-Content-Type: multipart/alternative;
- boundary="----=ALIBOUNDARY_121677_7ff32d65d700_6310172d_1bad73f"
-Received-SPF: none client-ip=115.124.29.169; envelope-from=zhiwei_liu@c-sky.com;
- helo=out29-169.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=192.55.52.136;
+ envelope-from=robert.hu@linux.intel.com; helo=mga12.intel.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,188 +73,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: =?UTF-8?B?5YiY5b+X5Lyf?= <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------=ALIBOUNDARY_121677_7ff32d65d700_6310172d_1bad73f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Originally NVDIMM Label methods was defined in Intel PMEM _DSM Interface
+Spec [1], of function index 4, 5 and 6.
+Recent ACPI spec [2] has deprecated those _DSM methods with ACPI NVDIMM
+Label Methods _LS{I,R,W}. The essence of these functions has no changes.
 
-VGhlc2UgdG9waWNzIGFyZSBpbnRlcmVzdGluZy4gSSBoYXZlIHR3byBxdWVzdGlvbnMuCjEuIENh
-biB3ZSBqb2luIGl0IG9uIG9ubGluZT8gSWYgc28sIGNvdWxkIHlvdSBzaGFyZSB0aGUgbWVldGlu
-ZyBsaW5rIGJlZm9yZSB0aGUgbWVldGluZy4KMi4gSWYgaXQgaXMgb25seSBvZmZsaW5lLCBjb3Vs
-ZCB5b3Ugc2hhcmUgdGhlIG1lZXRpbmcgY29udGVudCB0byB0aGUgcHVibGljPwpUaGFua3MsClpo
-aXdlaSAKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tCuWPkeS7tuS6uu+8mkFsZXggQmVubsOpZSA8YWxleC5iZW5uZWVAbGlu
-YXJvLm9yZz4K5Y+R6YCB5pe26Ze077yaMjAyMuW5tDnmnIgx5pelKOaYn+acn+WbmykgMDE6MDgK
-5pS25Lu25Lq677yacWVtdS1kZXZlbEBub25nbnUub3JnIDxxZW11LWRldmVsQG5vbmdudS5vcmc+
-CuaKhOOAgOmAge+8mk1hcmsgQnVydG9uIDxtYnVydG9uQHF0aS5xdWFsY29tbS5jb20+OyBFZGdh
-ciBFLiBJZ2xlc2lhcyA8ZWRnYXIuaWdsZXNpYXNAZ21haWwuY29tPjsgUmljaGFyZCBIZW5kZXJz
-b24gPHJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmc+OyBQYW9sbyBCb256aW5pIDxwYm9uemlu
-aUByZWRoYXQuY29tPjsgUGV0ZXIgTWF5ZGVsbCA8cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnPjsg
-U29uZyBHYW8gPGdhb3NvbmdAbG9vbmdzb24uY24+OyBYaWFvanVhbiBZYW5nIDx5YW5neGlhb2p1
-YW5AbG9vbmdzb24uY24+OyAiQ8OpZHJpYyBMZSBHb2F0ZXIiIDxjbGdAa2FvZC5vcmc+OyBQYWxt
-ZXIgRGFiYmVsdCA8cGFsbWVyQGRhYmJlbHQuY29tPjsgQWxpc3RhaXIgRnJhbmNpcyA8YWxpc3Rh
-aXIuZnJhbmNpc0B3ZGMuY29tPjsgQmluIE1lbmcgPGJpbi5tZW5nQHdpbmRyaXZlci5jb20+OyBE
-YXZpZCBHaWJzb24gPGRhdmlkQGdpYnNvbi5kcm9wYmVhci5pZC5hdT47IE1hcmt1cyBBcm1icnVz
-dGVyIDxhcm1icnVAcmVkaGF0LmNvbT47IE1pY2hhZWwgUm90aCA8bWljaGFlbC5yb3RoQGFtZC5j
-b20+OyBMdWMgTWljaGVsIDxsdWNAbG1pY2hlbC5mcj47IERhbWllbiBIZWRkZSA8ZGFtaWVuLmhl
-ZGRlQGdyZWVuc29jcy5jb20+OyBBbGVzc2FuZHJvIERpIEZlZGVyaWNvIDxhbGVAcmV2Lm5nPgrk
-uLvjgIDpopjvvJpSZTogQW55IGludGVyZXN0IGluIGEgUUVNVSBlbXVsYXRpb24gQm9GIGF0IEtW
-TSBGb3J1bT8KQWxleCBCZW5uw6llIDxhbGV4LmJlbm5lZUBsaW5hcm8ub3JnPiB3cml0ZXM6CnFl
-bXUtZGV2ZWwga2VlcHMgYm91bmNpbmcgdGhlIG1lc3NhZ2Ugc28gcmVwbHlpbmcgd2l0aCBhIGN1
-dCBkb3duIENDIGxpc3QuCj4gSGksCj4KPiBHaXZlbiBvdXIgc2xvd2x5IGdyb3dpbmcgcmFuZ2Ug
-b2YgVENHIGVtdWxhdGlvbnMgYW5kIHRoZSBldmlkZW50Cj4gaW50ZXJlc3QgaW4ga2VlcGluZyB1
-cCB3aXRoIG1vZGVybiBwcm9jZXNzb3IgYXJjaGl0ZWN0dXJlcyBpcyBpdCB3b3J0aAo+IGhhdmlu
-ZyBhbiBlbXVsYXRpb24gZm9jdXNlZCBCb0YgYXQgdGhlIHVwLWNvbWluZyBLVk0gRm9ydW0/Cj4K
-PiBTb21lIHBvdGVudGlhbCB0b3BpY3MgZm9yIGRpc2N1c3Npb24gSSBjb3VsZCB0aGluayBvZiBt
-aWdodCBpbmNsdWRlOgo+Cj4gKiBQcm9ncmVzcyB0b3dhcmRzIGhldGVyb2dlbmVvdXMgdkNQVSBl
-bXVsYXRpb24KPgo+IFdlJ3ZlIGJlZW4gbWFraW5nIHNsb3cgcHJvZ3Jlc3MgaW4gcmVtb3Zpbmcg
-YXNzdW1wdGlvbnMgZnJvbSB0aGUKPiB2YXJpb3VzIGZyb250LWVuZHMgYWJvdXQgdGhlaXIgZ2xv
-YmFsIG5hdHVyZSBhbmQgYWRkaW5nIGFjY2VsOlRDRwo+IGFic3RyYWN0aW9ucyBhbmQgc3VwcG9y
-dCBmb3IgdGhlIHRyYW5zbGF0b3IgbG9vcC4gV2UgY2FuIGFscmVhZHkgaGF2ZQo+IENQVXMgZnJv
-bSB0aGUgc2FtZSBhcmNoaXRlY3R1cmUgZmFtaWx5IGluIGEgbW9kZWwuIFdoYXQgZWxzZSBkbyB3
-ZSBuZWVkCj4gdG8gZG8gc28gd2UgY2FuIGhhdmUgdGhvc2UgZnVua3kgQVJNK1Jpc2NWK1RyaWNv
-cmUgaGV0ZXJvZ2VuZW91cwo+IG1vZGVscz8gSXMgaXQgbGlicmFyeSBvciBzb21ldGhpbmcgZWxz
-ZT8KPgo+ICogRXh0ZXJuYWwgRGV2aWNlIE1vZGVscwo+Cj4gSSBrbm93IHRoaXMgaXMgYSBjb250
-ZW50aW91cyB0b3BpYyBnaXZlbiB0aGUgcG90ZW50aWFsIGZvciBHUEwKPiBlbmQtcnVucy4gSG93
-ZXZlciB0aGVyZSBhcmUgYWxzbyBnb29kIGFyZ3VtZW50cyBmb3IgZW5hYmxpbmcgdGhlCj4gdGVz
-dGluZyBvZiBvcGVuIHNvdXJjZSBkZXNpZ25zIHdpdGhvdXQgaGF2aW5nIGZvcmNpbmcgdGhlCj4g
-aW1wbGVtZW50YXRpb24gb2YgYSBzZXBhcmF0ZSBDIG1vZGVsIHRvIHRlc3Qgc29mdHdhcmUuIEZv
-ciBleGFtcGxlIGlmCj4gd2UgaHlwb3RoZXRpY2FsbHkgbW9kZWxsZWQgYSBQaSBQaWNvIHdvdWxk
-IGl0IG1ha2Ugc2Vuc2UgdG8gbW9kZWwgdGhlCj4gUElPIGluIEMgaWYgd2UgY291bGQganVzdCBj
-b21waWxlIHRoZSBWZXJpbG9nIGZvciBpdCBpbnRvIGEgU3lzdGVtQwo+IG1vZGVsPyBXb3VsZCBh
-IHBsZXRob3JhIG9mIGNsb3NlZCBkZXZpY2UgbW9kZWxzIGJlIHRoZSBpbmV2aXRhYmxlCj4gY29u
-c2VxdWVuY2Ugb2Ygc3VjaCBhbiBhcHByb2FjaD8gV291bGQgaXQgbWF0dGVyIGlmIHdlIGp1c3QK
-PiBjb25jZW50cmF0ZWQgb24gc3VwcG9ydGluZyB1c2VmdWwgb3BlbiBzb3VyY2Ugc29sdXRpb25z
-Pwo+Cj4gKiBEeW5hbWljIE1hY2hpbmUgTW9kZWxzCj4KPiBXaGlsZSB3ZSB0cnkgYW5kIGF2b2lk
-IG1vZGVsbGluZyBiZXNwb2tlIHZpcnR1YWwgSFcgaW4gUUVNVQo+ICh2aXJ0L2dvbGRmaXNoIG5v
-dCB3aXRoc3RhbmRpbmcgOy0pIHRoZXJlIGlzIG9idmlvdXNseSBhIGRlc2lyZSBpbiB0aGUKPiBF
-REEgc3BhY2UgdG8gYWxsb3cgc3VjaCBleHBlcmltZW50YXRpb24uIElzIHRoaXMgc29tZXRoaW5n
-IHdlIGNhbgo+IHByb3ZpZGUgc28gYXNwaXJpbmcgSFcgZW5naW5lZXJzIGNhbiBleHBlcmltZW50
-IHdpdGggc3lzdGVtCj4gYXJjaGl0ZWN0dXJlcyB3aXRob3V0IGhhdmluZyB0byBmb3JtIFFFTVUg
-YW5kIGxlYXJuIFFPTS4gVGhlcmUgaGF2ZQo+IGJlZW4gc3VnZ2VzdGlvbnMgYWJvdXQgY29uc3Vt
-aW5nIGRldmljZSB0cmVlcyBvciBtYXliZSB0cmFuc2xhdGluZyB0bwo+IFFNUCBjYWxscyBhbmQg
-YWRkaW5nIHN1cHBvcnQgZm9yIHdpcmluZyBkZXZpY2VzIHRvZ2V0aGVyLiBHaXZlbiB0aGUKPiBu
-dW1iZXIgb2YgZm9ya3MgdGhhdCBleGlzdCBpcyB0aGlzIHNvbWV0aGluZyB0aGF0IGNvdWxkIGJl
-IGJldHRlcgo+IHN1cHBvcnRlZCB1cHN0cmVhbSB3aXRob3V0IGRlZ2VuZXJhdGluZyBpbnRvIG1l
-c3N5IGhhY2tzPwo+Cj4gKiBBIHNlbnNlIG9mIHRpbWUKPgo+IEN1cnJlbnRseSB3ZSBoYXZlIHRo
-ZSBmYWlybHkgbGltaXRlZCBzdXBwb3J0IGZvciAtaWNvdW50IGluIFFFTVUuIEF0Cj4gdGhlIHNh
-bWUgdGltZSB3ZSBoYXZlIG5vIGRlc2lyZSB0byBzdGFydCBleHBhbmRpbmcgZnJvbnRlbmRzIHdp
-dGgKPiB0aGUgZGV0YWlscyBjb3N0IG1vZGVscyByZXF1aXJlZCBmb3IgYSBtb3JlIHJlYWxpc3Rp
-YyBzZW5zZSBvZiB0aW1lIHRvCj4gYmUgcHJlc2VudGVkLiBPbmUgc3VnZ2VzdGlvbiBpcyB0byBl
-eHBhbmQgdGhlIFRDRyBwbHVnaW4gaW50ZXJmYWNlIHRvCj4gYWxsb3cgZm9yIHRoZSBwbHVnaW4g
-dG8gY29udHJvbCB0aW1lIGFsbG93aW5nIGFzIG11Y2ggb3IgbGl0dGxlIGxvZ2ljCj4gdG8gYmUg
-cHVzaGVkIHRoZXJlIGFzIHdlIGxpa2UgYW5kIGZyZWVpbmcgdXAgZnJvbnRlbmRzIGZyb20gZXZl
-ciBoYXZpbmcKPiB0byBjb25zaWRlciBpdC4KPgo+IEFyZSBhbnkgb2YgdGhlc2UgdG9waWNzIG9m
-IGludGVyZXN0PyBBcmUgdGhlcmUgYW55IG90aGVyIGVtdWxhdGlvbgo+IHRvcGljcyBwZW9wbGUg
-d291bGQgbGlrZSB0byBkaXNjdXNzPwotLSAKQWxleCBCZW5uw6llCg==
-------=ALIBOUNDARY_121677_7ff32d65d700_6310172d_1bad73f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
+This patch set is to update QEMU emulation on this, as well as update
+bios-table-test golden binaries.
 
-PGRpdiBjbGFzcz0iX19hbGl5dW5fZW1haWxfYm9keV9ibG9jayI+PGRpdiAgc3R5bGU9ImxpbmUt
-aGVpZ2h0OjEuNztmb250LWZhbWlseTpUYWhvbWEsQXJpYWwsU1RIZWl0aSxTaW1TdW47Zm9udC1z
-aXplOjE0LjBweDtjb2xvcjojMDAwMDAwOyI+PGRpdiAgc3R5bGU9ImNsZWFyOmJvdGg7Ij5UaGVz
-ZSB0b3BpY3MgYXJlIGludGVyZXN0aW5nLiZuYnNwOyBJIGhhdmUgdHdvIHF1ZXN0aW9ucy48L2Rp
-dj48ZGl2ICBzdHlsZT0iY2xlYXI6Ym90aDsiPjxiciA+PC9kaXY+PGRpdiAgc3R5bGU9ImNsZWFy
-OmJvdGg7Ij4xLiBDYW4gd2Ugam9pbiBpdCBvbiBvbmxpbmU/Jm5ic3A7IElmIHNvLCBjb3VsZCB5
-b3Ugc2hhcmUgdGhlIG1lZXRpbmcgbGluayBiZWZvcmUgdGhlIG1lZXRpbmcuPC9kaXY+PGRpdiAg
-c3R5bGU9ImNsZWFyOmJvdGg7Ij48YnIgPjwvZGl2PjxkaXYgIHN0eWxlPSJjbGVhcjpib3RoOyI+
-Mi4gSWYgaXQgaXMgb25seSBvZmZsaW5lLCBjb3VsZCB5b3Ugc2hhcmUgdGhlIG1lZXRpbmcgY29u
-dGVudCB0byB0aGUgcHVibGljPzwvZGl2PjxkaXYgIHN0eWxlPSJjbGVhcjpib3RoOyI+PGJyID48
-L2Rpdj48ZGl2ICBzdHlsZT0iY2xlYXI6Ym90aDsiPlRoYW5rcyw8YnIgPlpoaXdlaSZuYnNwOzxi
-ciA+PC9kaXY+PGRpdiAgc3R5bGU9ImNsZWFyOmJvdGg7Ij48YnIgPjwvZGl2PjxkaXYgIHN0eWxl
-PSJjbGVhcjpib3RoOyI+PGJyID48L2Rpdj48ZGl2ICBzdHlsZT0iY2xlYXI6Ym90aDsiPjxiciA+
-PC9kaXY+PGRpdiAgc3R5bGU9ImNsZWFyOmJvdGg7Ij48YnIgPjwvZGl2PjxkaXYgIHN0eWxlPSJj
-bGVhcjpib3RoOyI+PGJyID48L2Rpdj48YmxvY2txdW90ZSAgX3F1b3RlPSIxIiBzdHlsZT0ibWFy
-Z2luLXJpZ2h0Oi4wcHg7bWFyZ2luLXRvcDouMHB4O21hcmdpbi1ib3R0b206LjBweDtmb250LWZh
-bWlseTpUYWhvbWEsQXJpYWwsU1RIZWl0aSxTaW1TdW47Zm9udC1zaXplOjE0LjBweDtjb2xvcjoj
-MDAwMDAwOyI+PGRpdiAgc3R5bGU9ImNsZWFyOmJvdGg7Ij4tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS08L2Rpdj48ZGl2ICBz
-dHlsZT0iY2xlYXI6Ym90aDsiPuWPkeS7tuS6uu+8mkFsZXggQmVubsOpZSAmbHQ7YWxleC5iZW5u
-ZWVAbGluYXJvLm9yZyZndDs8L2Rpdj48ZGl2ICBzdHlsZT0iY2xlYXI6Ym90aDsiPuWPkemAgeaX
-tumXtO+8mjIwMjLlubQ55pyIMeaXpSjmmJ/mnJ/lm5spIDAxOjA4PC9kaXY+PGRpdiAgc3R5bGU9
-ImNsZWFyOmJvdGg7Ij7mlLbku7bkurrvvJpxZW11LWRldmVsQG5vbmdudS5vcmcgJmx0O3FlbXUt
-ZGV2ZWxAbm9uZ251Lm9yZyZndDs8L2Rpdj48ZGl2ICBzdHlsZT0iY2xlYXI6Ym90aDsiPuaKhOOA
-gOmAge+8mk1hcmsgQnVydG9uICZsdDttYnVydG9uQHF0aS5xdWFsY29tbS5jb20mZ3Q7OyBFZGdh
-ciAgRS4gSWdsZXNpYXMgJmx0O2VkZ2FyLmlnbGVzaWFzQGdtYWlsLmNvbSZndDs7IFJpY2hhcmQg
-SGVuZGVyc29uICZsdDtyaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnJmd0OzsgUGFvbG8gQm9u
-emluaSAmbHQ7cGJvbnppbmlAcmVkaGF0LmNvbSZndDs7IFBldGVyIE1heWRlbGwgJmx0O3BldGVy
-Lm1heWRlbGxAbGluYXJvLm9yZyZndDs7IFNvbmcgR2FvICZsdDtnYW9zb25nQGxvb25nc29uLmNu
-Jmd0OzsgWGlhb2p1YW4gWWFuZyAmbHQ7eWFuZ3hpYW9qdWFuQGxvb25nc29uLmNuJmd0OzsgIkPD
-qWRyaWMgTGUgR29hdGVyIiAmbHQ7Y2xnQGthb2Qub3JnJmd0OzsgUGFsbWVyIERhYmJlbHQgJmx0
-O3BhbG1lckBkYWJiZWx0LmNvbSZndDs7IEFsaXN0YWlyIEZyYW5jaXMgJmx0O2FsaXN0YWlyLmZy
-YW5jaXNAd2RjLmNvbSZndDs7IEJpbiBNZW5nICZsdDtiaW4ubWVuZ0B3aW5kcml2ZXIuY29tJmd0
-OzsgRGF2aWQgR2lic29uICZsdDtkYXZpZEBnaWJzb24uZHJvcGJlYXIuaWQuYXUmZ3Q7OyBNYXJr
-dXMgQXJtYnJ1c3RlciAmbHQ7YXJtYnJ1QHJlZGhhdC5jb20mZ3Q7OyBNaWNoYWVsIFJvdGggJmx0
-O21pY2hhZWwucm90aEBhbWQuY29tJmd0OzsgTHVjIE1pY2hlbCAmbHQ7bHVjQGxtaWNoZWwuZnIm
-Z3Q7OyBEYW1pZW4gSGVkZGUgJmx0O2RhbWllbi5oZWRkZUBncmVlbnNvY3MuY29tJmd0OzsgQWxl
-c3NhbmRybyBEaSBGZWRlcmljbyAmbHQ7YWxlQHJldi5uZyZndDs8L2Rpdj48ZGl2ICBzdHlsZT0i
-Y2xlYXI6Ym90aDsiPuS4u+OAgOmimO+8mlJlOiBBbnkgaW50ZXJlc3QgaW4gYSBRRU1VIGVtdWxh
-dGlvbiBCb0YgYXQgS1ZNIEZvcnVtPzwvZGl2PjxkaXYgIHN0eWxlPSJjbGVhcjpib3RoOyI+PGJy
-ID48L2Rpdj48YnIgPkFsZXggQmVubsOpZSAmbHQ7YWxleC5iZW5uZWVAbGluYXJvLm9yZyZndDsg
-d3JpdGVzOjxiciA+PGJyID5xZW11LWRldmVsIGtlZXBzIGJvdW5jaW5nIHRoZSBtZXNzYWdlIHNv
-IHJlcGx5aW5nIHdpdGggYSBjdXQgZG93biBDQyBsaXN0LjxiciA+PGJyID4mZ3Q7IEhpLDxiciA+
-Jmd0OzxiciA+Jmd0OyBHaXZlbiBvdXIgc2xvd2x5IGdyb3dpbmcgcmFuZ2Ugb2YgVENHIGVtdWxh
-dGlvbnMgYW5kIHRoZSBldmlkZW50PGJyID4mZ3Q7IGludGVyZXN0IGluIGtlZXBpbmcgdXAgd2l0
-aCBtb2Rlcm4gcHJvY2Vzc29yIGFyY2hpdGVjdHVyZXMgaXMgaXQgd29ydGg8YnIgPiZndDsgaGF2
-aW5nIGFuIGVtdWxhdGlvbiBmb2N1c2VkIEJvRiBhdCB0aGUgdXAtY29taW5nIEtWTSBGb3J1bT88
-YnIgPiZndDs8YnIgPiZndDsgU29tZSBwb3RlbnRpYWwgdG9waWNzIGZvciBkaXNjdXNzaW9uIEkg
-Y291bGQgdGhpbmsgb2YgbWlnaHQgaW5jbHVkZTo8YnIgPiZndDs8YnIgPiZndDsmbmJzcDsgKiBQ
-cm9ncmVzcyB0b3dhcmRzIGhldGVyb2dlbmVvdXMgdkNQVSBlbXVsYXRpb248YnIgPiZndDs8YnIg
-PiZndDsmbmJzcDsgV2UndmUgYmVlbiBtYWtpbmcgc2xvdyBwcm9ncmVzcyBpbiByZW1vdmluZyBh
-c3N1bXB0aW9ucyBmcm9tIHRoZTxiciA+Jmd0OyZuYnNwOyB2YXJpb3VzIGZyb250LWVuZHMgYWJv
-dXQgdGhlaXIgZ2xvYmFsIG5hdHVyZSBhbmQgYWRkaW5nIGFjY2VsOlRDRzxiciA+Jmd0OyZuYnNw
-OyBhYnN0cmFjdGlvbnMgYW5kIHN1cHBvcnQgZm9yIHRoZSB0cmFuc2xhdG9yIGxvb3AuIFdlIGNh
-biBhbHJlYWR5IGhhdmU8YnIgPiZndDsmbmJzcDsgQ1BVcyBmcm9tIHRoZSBzYW1lIGFyY2hpdGVj
-dHVyZSBmYW1pbHkgaW4gYSBtb2RlbC4gV2hhdCBlbHNlIGRvIHdlIG5lZWQ8YnIgPiZndDsmbmJz
-cDsgdG8gZG8gc28gd2UgY2FuIGhhdmUgdGhvc2UgZnVua3kgQVJNK1Jpc2NWK1RyaWNvcmUgaGV0
-ZXJvZ2VuZW91czxiciA+Jmd0OyZuYnNwOyBtb2RlbHM/IElzIGl0IGxpYnJhcnkgb3Igc29tZXRo
-aW5nIGVsc2U/PGJyID4mZ3Q7PGJyID4mZ3Q7Jm5ic3A7ICogRXh0ZXJuYWwgRGV2aWNlIE1vZGVs
-czxiciA+Jmd0OzxiciA+Jmd0OyZuYnNwOyBJIGtub3cgdGhpcyBpcyBhIGNvbnRlbnRpb3VzIHRv
-cGljIGdpdmVuIHRoZSBwb3RlbnRpYWwgZm9yIEdQTDxiciA+Jmd0OyZuYnNwOyBlbmQtcnVucy4g
-SG93ZXZlciB0aGVyZSBhcmUgYWxzbyBnb29kIGFyZ3VtZW50cyBmb3IgZW5hYmxpbmcgdGhlPGJy
-ID4mZ3Q7Jm5ic3A7IHRlc3Rpbmcgb2Ygb3BlbiBzb3VyY2UgZGVzaWducyB3aXRob3V0IGhhdmlu
-ZyBmb3JjaW5nIHRoZTxiciA+Jmd0OyZuYnNwOyBpbXBsZW1lbnRhdGlvbiBvZiBhIHNlcGFyYXRl
-IEMgbW9kZWwgdG8gdGVzdCBzb2Z0d2FyZS4gRm9yIGV4YW1wbGUgaWY8YnIgPiZndDsmbmJzcDsg
-d2UgaHlwb3RoZXRpY2FsbHkgbW9kZWxsZWQgYSBQaSBQaWNvIHdvdWxkIGl0IG1ha2Ugc2Vuc2Ug
-dG8gbW9kZWwgdGhlPGJyID4mZ3Q7Jm5ic3A7IFBJTyBpbiBDIGlmIHdlIGNvdWxkIGp1c3QgY29t
-cGlsZSB0aGUgVmVyaWxvZyBmb3IgaXQgaW50byBhIFN5c3RlbUM8YnIgPiZndDsmbmJzcDsgbW9k
-ZWw/IFdvdWxkIGEgcGxldGhvcmEgb2YgY2xvc2VkIGRldmljZSBtb2RlbHMgYmUgdGhlIGluZXZp
-dGFibGU8YnIgPiZndDsmbmJzcDsgY29uc2VxdWVuY2Ugb2Ygc3VjaCBhbiBhcHByb2FjaD8gV291
-bGQgaXQgbWF0dGVyIGlmIHdlIGp1c3Q8YnIgPiZndDsmbmJzcDsgY29uY2VudHJhdGVkIG9uIHN1
-cHBvcnRpbmcgdXNlZnVsIG9wZW4gc291cmNlIHNvbHV0aW9ucz88YnIgPiZndDs8YnIgPiZndDsm
-bmJzcDsgKiBEeW5hbWljIE1hY2hpbmUgTW9kZWxzPGJyID4mZ3Q7PGJyID4mZ3Q7Jm5ic3A7IFdo
-aWxlIHdlIHRyeSBhbmQgYXZvaWQgbW9kZWxsaW5nIGJlc3Bva2UgdmlydHVhbCBIVyBpbiBRRU1V
-PGJyID4mZ3Q7Jm5ic3A7ICh2aXJ0L2dvbGRmaXNoIG5vdCB3aXRoc3RhbmRpbmcgOy0pIHRoZXJl
-IGlzIG9idmlvdXNseSBhIGRlc2lyZSBpbiB0aGU8YnIgPiZndDsmbmJzcDsgRURBIHNwYWNlIHRv
-IGFsbG93IHN1Y2ggZXhwZXJpbWVudGF0aW9uLiBJcyB0aGlzIHNvbWV0aGluZyB3ZSBjYW48YnIg
-PiZndDsmbmJzcDsgcHJvdmlkZSBzbyBhc3BpcmluZyBIVyBlbmdpbmVlcnMgY2FuIGV4cGVyaW1l
-bnQgd2l0aCBzeXN0ZW08YnIgPiZndDsmbmJzcDsgYXJjaGl0ZWN0dXJlcyB3aXRob3V0IGhhdmlu
-ZyB0byBmb3JtIFFFTVUgYW5kIGxlYXJuIFFPTS4gVGhlcmUgaGF2ZTxiciA+Jmd0OyZuYnNwOyBi
-ZWVuIHN1Z2dlc3Rpb25zIGFib3V0IGNvbnN1bWluZyBkZXZpY2UgdHJlZXMgb3IgbWF5YmUgdHJh
-bnNsYXRpbmcgdG88YnIgPiZndDsmbmJzcDsgUU1QIGNhbGxzIGFuZCBhZGRpbmcgc3VwcG9ydCBm
-b3Igd2lyaW5nIGRldmljZXMgdG9nZXRoZXIuIEdpdmVuIHRoZTxiciA+Jmd0OyZuYnNwOyBudW1i
-ZXIgb2YgZm9ya3MgdGhhdCBleGlzdCBpcyB0aGlzIHNvbWV0aGluZyB0aGF0IGNvdWxkIGJlIGJl
-dHRlcjxiciA+Jmd0OyZuYnNwOyBzdXBwb3J0ZWQgdXBzdHJlYW0gd2l0aG91dCBkZWdlbmVyYXRp
-bmcgaW50byBtZXNzeSBoYWNrcz88YnIgPiZndDs8YnIgPiZndDsmbmJzcDsgKiBBIHNlbnNlIG9m
-IHRpbWU8YnIgPiZndDs8YnIgPiZndDsmbmJzcDsgQ3VycmVudGx5IHdlIGhhdmUgdGhlIGZhaXJs
-eSBsaW1pdGVkIHN1cHBvcnQgZm9yIC1pY291bnQgaW4gUUVNVS4gQXQ8YnIgPiZndDsmbmJzcDsg
-dGhlIHNhbWUgdGltZSB3ZSBoYXZlIG5vIGRlc2lyZSB0byBzdGFydCBleHBhbmRpbmcgZnJvbnRl
-bmRzIHdpdGg8YnIgPiZndDsmbmJzcDsgdGhlIGRldGFpbHMgY29zdCBtb2RlbHMgcmVxdWlyZWQg
-Zm9yIGEgbW9yZSByZWFsaXN0aWMgc2Vuc2Ugb2YgdGltZSB0bzxiciA+Jmd0OyZuYnNwOyBiZSBw
-cmVzZW50ZWQuIE9uZSBzdWdnZXN0aW9uIGlzIHRvIGV4cGFuZCB0aGUgVENHIHBsdWdpbiBpbnRl
-cmZhY2UgdG88YnIgPiZndDsmbmJzcDsgYWxsb3cgZm9yIHRoZSBwbHVnaW4gdG8gY29udHJvbCB0
-aW1lIGFsbG93aW5nIGFzIG11Y2ggb3IgbGl0dGxlIGxvZ2ljPGJyID4mZ3Q7Jm5ic3A7IHRvIGJl
-IHB1c2hlZCB0aGVyZSBhcyB3ZSBsaWtlIGFuZCBmcmVlaW5nIHVwIGZyb250ZW5kcyBmcm9tIGV2
-ZXIgaGF2aW5nPGJyID4mZ3Q7Jm5ic3A7IHRvIGNvbnNpZGVyIGl0LjxiciA+Jmd0OzxiciA+Jmd0
-OyBBcmUgYW55IG9mIHRoZXNlIHRvcGljcyBvZiBpbnRlcmVzdD8gQXJlIHRoZXJlIGFueSBvdGhl
-ciBlbXVsYXRpb248YnIgPiZndDsgdG9waWNzIHBlb3BsZSB3b3VsZCBsaWtlIHRvIGRpc2N1c3M/
-PGJyID48YnIgPjxiciA+LS0gPGJyID5BbGV4IEJlbm7DqWU8YnIgPjwvYmxvY2txdW90ZT48ZGl2
-ICBzdHlsZT0ibGluZS1oZWlnaHQ6MjAuMHB4O2NsZWFyOmJvdGg7Ij48YnIgPjwvZGl2PjwvZGl2
-PjwvZGl2Pg==
-------=ALIBOUNDARY_121677_7ff32d65d700_6310172d_1bad73f--
+[1] Intel PMEM _DSM Interface Spec v2.0, 3.10 Deprecated Functions
+https://pmem.io/documents/IntelOptanePMem_DSM_Interface-V2.0.pdf
+[2] ACPI Spec v6.4, 6.5.10 NVDIMM Label Methods
+https://uefi.org/sites/default/files/resources/ACPI_Spec_6_4_Jan22.pdf
+
+---
+Change Log:
+v2 --> v3:
+Patch of nvdimm_debug() --> qemu trace, has been separated and already
+upstream'ed.
+Patch of accepting _DSM rev.2 is dropped, as unnecessary.
+Roll back implementation to the idea of simply wrapper _DSM.
+
+v1 --> v2:
+Almost rewritten
+Separate Patch 2
+Dance with tests/qtest/bios-table-tests
+Add trace event
+
+Robert Hoo (5):
+  tests/acpi: allow SSDT changes
+  acpi/ssdt: Fix aml_or() and aml_and() in if clause
+  acpi/nvdimm: define macro for NVDIMM Device _DSM
+  acpi/nvdimm: Implement ACPI NVDIMM Label Methods
+  test/acpi/bios-tables-test: SSDT: update golden master binaries
+
+ hw/acpi/nvdimm.c                 | 102 +++++++++++++++++++++++++++++--
+ tests/data/acpi/pc/SSDT.dimmpxm  | Bin 734 -> 1893 bytes
+ tests/data/acpi/q35/SSDT.dimmpxm | Bin 734 -> 1893 bytes
+ 3 files changed, 96 insertions(+), 6 deletions(-)
+
+-- 
+2.31.1
 
 
