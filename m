@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D645A9625
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 14:01:02 +0200 (CEST)
-Received: from localhost ([::1]:39382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 654265A961D
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 13:58:50 +0200 (CEST)
+Received: from localhost ([::1]:40004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTisX-0003fT-0q
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 08:01:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41872)
+	id 1oTiqN-00014p-QH
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 07:58:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTiaQ-0005gv-D1; Thu, 01 Sep 2022 07:42:27 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:33532)
+ id 1oTiaQ-0005gx-T9; Thu, 01 Sep 2022 07:42:27 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:44584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTiaE-0000EB-4e; Thu, 01 Sep 2022 07:42:18 -0400
-Received: by mail-ej1-x632.google.com with SMTP id cu2so34163396ejb.0;
- Thu, 01 Sep 2022 04:42:02 -0700 (PDT)
+ id 1oTiaE-0000Ea-Cc; Thu, 01 Sep 2022 07:42:18 -0400
+Received: by mail-ej1-x636.google.com with SMTP id kk26so34031239ejc.11;
+ Thu, 01 Sep 2022 04:42:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=7oW9e9CQAQ6fs7n+6iH6aAQcJgkK+/GOKyNQf68VL6Q=;
- b=dFPUi+pN4qPKkRxbtPdmj6e7eDiqi5Aw+4bgKxJu2uZ8I2ktwmYjFsxZEWjQc5NKNS
- +Jcin0ZJPjeUM/6/ND/H/0+KX4yGTn2ZfDVxmQJXbTh07OzSpD6jcZSFBVgxCp2pEdTo
- ckE+aJSTgTbrOLD6rHYXCu1neseYQpjxK5fgmP7OI2IczcUy5ivJdSJBbaPPEc7HD0IW
- ZEyETNEt6tMRzbL3feupNXDGL/k99A5eMftEvUeFYQwJ9I/EY90gS3lnDpQS8NWb2YCL
- 8RGpjGu9uV0TTSBPkjmQLDen/gde9s1oO6vRWGPSNuGOzsrJrWhaaVTmy/H6lnnX2HUe
- fyGQ==
+ bh=JrsI/ne9g59XtZZjXBIVmp2BYTys8MQfr3EVDlgHowE=;
+ b=SlwUrs3C2zc73Bdrq0Xnf7bvB3L/WMsUYGtqZiq6z7tam3PVRr5274CGhH5EqEXk+7
+ e3+T13FxAtPaGWQ3a/o5QugFvQmPDJIVF1SwBXItBcws5dtQtFLfXNd3S9smdB1tBDCg
+ MkxANfxUIX2xAgV8U7tQX0hUD72YEiU6fyuMeFTuxs6ojVYXof9+9qEbNpnlVw6UDHT2
+ hHF9AtTqL3f3P7MTkI+rX1CPE05VeKDBHC0S5B+Bo7MdL2VCFZkRMANPeVBq3+x5eScV
+ p7KEDtWs0Q66Xj/1is/lvpCnwwWHcb/N5/Ct91l2sCT/RCF06yEB9zukAoSDd5/4cPiX
+ TeVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=7oW9e9CQAQ6fs7n+6iH6aAQcJgkK+/GOKyNQf68VL6Q=;
- b=TpLDFZ20EaZVcTkeA/0r1eLS9VlTvino0iYVxjTK7iVlKKvVEMcI5ge9TV0ZAzTadp
- B6u/EENIM44n/Eb3NVKZMtvoKNaMzxWUR3DhxB6RjyjJ8gjKetGqGvLQQ2P+7HZI18pi
- HJfG8BvfEAZs3C2BM9nI9/Occ93cJIzonqYO1aycDtWLaCdD94n70fmP8oqSLjTkh4rQ
- VcwQV2NBdEB8ALacvoMOzFHXpt43icnDeIOYHZ5MtzKSXb1PyLOJeWta0s68s7bK4xdf
- UD3eGGF8+vqIDIVwx5+oG+9Cg+VRa0X0EnvMW+IhPiwI1+5UgSG7cfdTNAgnX3Wuhokf
- 0W6w==
-X-Gm-Message-State: ACgBeo3I/Ra8XVuGZHbLj2tSCGl3IBkRGLlqRfcCu00ZWShvRSXZgaTv
- /Qc4jjm0BJR27CsTKJYwKt+/dCee9JA=
-X-Google-Smtp-Source: AA6agR5VLCrCvH1kAKB3UcMJdoDMIZg6h+kaJ/DzeSq4kPzlPUAwbnzAmh9F0KvQ8WRQZav43atkfw==
-X-Received: by 2002:a17:906:4fd2:b0:742:133b:3522 with SMTP id
- i18-20020a1709064fd200b00742133b3522mr9636573ejw.21.1662032521791; 
- Thu, 01 Sep 2022 04:42:01 -0700 (PDT)
+ bh=JrsI/ne9g59XtZZjXBIVmp2BYTys8MQfr3EVDlgHowE=;
+ b=clMTqiq//qOz9nqakzIY+IyNRx2IKSVNx3+GHjee2KfBLNQjKjamzIkVKl2+rxnoy4
+ tDumlpWSwdlCVWHVL70lRw2ctYay/dzuN/kr0SnYrsYs4mVy67ej20B0rOAIKe/eZnSP
+ xzDAbgWoiwZEqOhuF4gtxUKlpW4slZnBsa7fw7ow7FV6wyD7NRt3Uycc5OSS4YCJ3FkO
+ V9q/n/S6vMIgtc8IOg03qwZRDZYQUMYbBhrgeSkfseyxzezL2osZ6GfcutFJmK+dvt1K
+ KLTX7JcYNklROVfLbBysSiPOqKdFc0ie5VAv5abH8Ws9KymNSB6by/7cPRIJamv0FNPF
+ CY8Q==
+X-Gm-Message-State: ACgBeo1arOJgW2WCCG5ZbPUiKfesHhG0kdEymk0JC0NioBghhtdv3kSu
+ dQpUoKRKWHGKYlCan2MzTajxyuVGp/k=
+X-Google-Smtp-Source: AA6agR52ODAk6m2govsXpT/yoB/6UmFivJWfKT7MhVJiSfVqrDNeYMyESVfIeqD04ZM4j72IptkXhw==
+X-Received: by 2002:a17:907:60c7:b0:731:4b42:4e3e with SMTP id
+ hv7-20020a17090760c700b007314b424e3emr23459351ejc.236.1662032524089; 
+ Thu, 01 Sep 2022 04:42:04 -0700 (PDT)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- f12-20020a17090660cc00b0073ddb2eff27sm8387455ejk.167.2022.09.01.04.42.00
+ f12-20020a17090660cc00b0073ddb2eff27sm8387455ejk.167.2022.09.01.04.42.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 04:42:01 -0700 (PDT)
+ Thu, 01 Sep 2022 04:42:03 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>,
@@ -60,16 +60,17 @@ Cc: qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  BALATON Zoltan <balaton@eik.bme.hu>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v5 05/13] hw/isa/vt82c686: Introduce TYPE_VIA_IDE define
-Date: Thu,  1 Sep 2022 13:41:19 +0200
-Message-Id: <20220901114127.53914-6-shentey@gmail.com>
+Subject: [PATCH v5 07/13] hw/isa/vt82c686: Introduce TYPE_VT82C686B_USB_UHCI
+ define
+Date: Thu,  1 Sep 2022 13:41:21 +0200
+Message-Id: <20220901114127.53914-8-shentey@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220901114127.53914-1-shentey@gmail.com>
 References: <20220901114127.53914-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x632.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,67 +93,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Establishes consistency with other (VIA) devices.
-
+Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/ide/via.c              | 2 +-
- hw/mips/fuloong2e.c       | 2 +-
- hw/ppc/pegasos2.c         | 2 +-
- include/hw/isa/vt82c686.h | 1 +
- 4 files changed, 4 insertions(+), 3 deletions(-)
+ hw/mips/fuloong2e.c        | 4 ++--
+ hw/ppc/pegasos2.c          | 4 ++--
+ hw/usb/vt82c686-uhci-pci.c | 4 ++--
+ include/hw/isa/vt82c686.h  | 1 +
+ 4 files changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/hw/ide/via.c b/hw/ide/via.c
-index 82def819c4..e1a429405d 100644
---- a/hw/ide/via.c
-+++ b/hw/ide/via.c
-@@ -230,7 +230,7 @@ static void via_ide_class_init(ObjectClass *klass, void *data)
- }
- 
- static const TypeInfo via_ide_info = {
--    .name          = "via-ide",
-+    .name          = TYPE_VIA_IDE,
-     .parent        = TYPE_PCI_IDE,
-     .class_init    = via_ide_class_init,
- };
 diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index 5ee546f5f6..44225fbe33 100644
+index 32605901e7..6b7370f2aa 100644
 --- a/hw/mips/fuloong2e.c
 +++ b/hw/mips/fuloong2e.c
-@@ -205,7 +205,7 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
-                                           TYPE_VT82C686B_ISA);
-     qdev_connect_gpio_out(DEVICE(dev), 0, intc);
- 
--    dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 1), "via-ide");
-+    dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 1), TYPE_VIA_IDE);
+@@ -208,8 +208,8 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
+     dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"));
      pci_ide_create_devs(dev);
  
-     pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
+-    pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
+-    pci_create_simple(pci_bus, PCI_DEVFN(slot, 3), "vt82c686b-usb-uhci");
++    pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), TYPE_VT82C686B_USB_UHCI);
++    pci_create_simple(pci_bus, PCI_DEVFN(slot, 3), TYPE_VT82C686B_USB_UHCI);
+ 
+     dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 4), TYPE_VT82C686B_PM);
+     *i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
 diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-index 61f4263953..8039775f80 100644
+index 8bc528a560..70776558c9 100644
 --- a/hw/ppc/pegasos2.c
 +++ b/hw/ppc/pegasos2.c
-@@ -166,7 +166,7 @@ static void pegasos2_init(MachineState *machine)
-                           qdev_get_gpio_in_named(pm->mv, "gpp", 31));
- 
-     /* VT8231 function 1: IDE Controller */
--    dev = pci_create_simple(pci_bus, PCI_DEVFN(12, 1), "via-ide");
-+    dev = pci_create_simple(pci_bus, PCI_DEVFN(12, 1), TYPE_VIA_IDE);
+@@ -169,8 +169,8 @@ static void pegasos2_init(MachineState *machine)
      pci_ide_create_devs(dev);
  
      /* VT8231 function 2-3: USB Ports */
+-    pci_create_simple(pci_bus, PCI_DEVFN(12, 2), "vt82c686b-usb-uhci");
+-    pci_create_simple(pci_bus, PCI_DEVFN(12, 3), "vt82c686b-usb-uhci");
++    pci_create_simple(pci_bus, PCI_DEVFN(12, 2), TYPE_VT82C686B_USB_UHCI);
++    pci_create_simple(pci_bus, PCI_DEVFN(12, 3), TYPE_VT82C686B_USB_UHCI);
+ 
+     /* VT8231 function 4: Power Management Controller */
+     dev = pci_create_simple(pci_bus, PCI_DEVFN(12, 4), TYPE_VT8231_PM);
+diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
+index 0bf2b72ff0..46a901f56f 100644
+--- a/hw/usb/vt82c686-uhci-pci.c
++++ b/hw/usb/vt82c686-uhci-pci.c
+@@ -31,7 +31,7 @@ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
+ 
+ static UHCIInfo uhci_info[] = {
+     {
+-        .name      = "vt82c686b-usb-uhci",
++        .name      = TYPE_VT82C686B_USB_UHCI,
+         .vendor_id = PCI_VENDOR_ID_VIA,
+         .device_id = PCI_DEVICE_ID_VIA_UHCI,
+         .revision  = 0x01,
+@@ -45,7 +45,7 @@ static UHCIInfo uhci_info[] = {
+ 
+ static const TypeInfo vt82c686b_usb_uhci_type_info = {
+     .parent         = TYPE_UHCI,
+-    .name           = "vt82c686b-usb-uhci",
++    .name           = TYPE_VT82C686B_USB_UHCI,
+     .class_init     = uhci_data_class_init,
+     .class_data     = uhci_info,
+ };
 diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
-index 56ac141be3..87aca3e5bb 100644
+index 87aca3e5bb..e6f6dd4d43 100644
 --- a/include/hw/isa/vt82c686.h
 +++ b/include/hw/isa/vt82c686.h
-@@ -8,6 +8,7 @@
+@@ -5,6 +5,7 @@
+ 
+ #define TYPE_VT82C686B_ISA "vt82c686b-isa"
+ #define TYPE_VT82C686B_PM "vt82c686b-pm"
++#define TYPE_VT82C686B_USB_UHCI "vt82c686b-usb-uhci"
  #define TYPE_VT8231_ISA "vt8231-isa"
  #define TYPE_VT8231_PM "vt8231-pm"
  #define TYPE_VIA_AC97 "via-ac97"
-+#define TYPE_VIA_IDE "via-ide"
- #define TYPE_VIA_MC97 "via-mc97"
- 
- void via_isa_set_irq(PCIDevice *d, int n, int level);
 -- 
 2.37.3
 
