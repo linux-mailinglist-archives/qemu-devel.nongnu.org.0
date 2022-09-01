@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40DB45A9F5D
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 20:47:23 +0200 (CEST)
-Received: from localhost ([::1]:50824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 608DB5A9F41
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 20:42:09 +0200 (CEST)
+Received: from localhost ([::1]:42768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTpDg-0005om-NI
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 14:47:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55018)
+	id 1oTp8i-0000EM-HH
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 14:42:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oTosE-0007kD-9x
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:25:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39629)
+ id 1oTosD-0007kF-8f
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:25:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47696)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oTos3-0008JH-Ac
+ id 1oTos3-0008JP-CA
  for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:25:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662056692;
+ s=mimecast20190719; t=1662056694;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Cb+HzWBt+5qA+WSaoWzfg6LwCOHqGRupasAuR/wbsiU=;
- b=PTkZIaCGbV5Ui6YIvbQa7/hROlp/Yzl444bpG+hVeVNExJBCRcVREx31e3UzX8rAJ0YTlW
- qJ+4D5v5L+vZR1Dn7pugT1cVuFPA59quOfXSqs0EmVzWGg7js+mqL8uib+p6sLfLN72ut3
- fUFF6+j9y3st88HDGZnaUyqcM+DNxYk=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gAMTep0Tpgw9SwWBMdwCwDv0WRZgcQLollwdX+eXpNE=;
+ b=NJ3miN5HV5cLnwx5BY/Cl9UBvHARtcQqszzcO/989qOZ2ZQAEVd9tpV6WqjbwyshZ0KPCc
+ o/6uMIeTaWFSsCii8/pqkx3pRoV2nXw9ayGbi6dZIDLaIhzI1p2NFPr9GY6MTszGleX4f3
+ bCW4RawQLY+ONoFlHkRWUE3NdEx548E=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-37-CmjGxYTaMtadVE1sBWB_tQ-1; Thu, 01 Sep 2022 14:24:51 -0400
-X-MC-Unique: CmjGxYTaMtadVE1sBWB_tQ-1
-Received: by mail-ej1-f71.google.com with SMTP id
- gn30-20020a1709070d1e00b0074144af99d1so6502899ejc.17
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 11:24:51 -0700 (PDT)
+ us-mta-8-CTxC66hBMSWbbJAHP9_iPQ-1; Thu, 01 Sep 2022 14:24:53 -0400
+X-MC-Unique: CTxC66hBMSWbbJAHP9_iPQ-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ sh44-20020a1709076eac00b00741a01e2aafso6060211ejc.22
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 11:24:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=Cb+HzWBt+5qA+WSaoWzfg6LwCOHqGRupasAuR/wbsiU=;
- b=bO9GDhzTzlSZa9mVtCEzdUQ/5cZH3d3U6pkMTX0UDQgrao4Zixj6LoktCzEeQXcwFD
- B9oMlwJr2aurK2Lo5Ibqenf5ZCF4CCMC1j6k4VOoTO9GV82lZKTP33QATpl01O8fgkG1
- I8lakKpgnczJncwDLOkiqtG9tdT1916EM4trA6wCQH/MbH8vUFMHLBNg0B4XunduToSD
- Z1dQMVCTY2Nri5AwdyymX2lrLxKSzZkjUDrrk/yUjZEwLvb4cfWFYS9yjClw1Nb++Wla
- KogucrDz06R/HGwqPCwSp+wbnDlIEIuGXXdEkVSecFT7trHaJrM9T39z31G1uTT2OV8H
- 9Uvw==
-X-Gm-Message-State: ACgBeo2wql4bHl0YoYO6rqbrTu5aZ08VjP4zzx5ouG0Kx2IKToo5UD5p
- maNuUz5UbnKAV2wBDWQ9FZt93o/PDbQFCdIcc46VnZtRtrv/XvlcSfpA03lHwZznJqoRezMV78Q
- J0mjJGLioL28AZeVPj860/JVpjmp/XKVzMb5sujJujm/wbqBjXBwq976Ujdik5mN/QD8=
-X-Received: by 2002:a05:6402:1cc4:b0:440:5af8:41c9 with SMTP id
- ds4-20020a0564021cc400b004405af841c9mr29555593edb.339.1662056690165; 
- Thu, 01 Sep 2022 11:24:50 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5+8YbW+T2JAo1h8CB5K70WTuRIZkQiDFdMhWwE8NGtYNuXP4Ne8WN3y4wIsrXALulcCDE1WQ==
-X-Received: by 2002:a05:6402:1cc4:b0:440:5af8:41c9 with SMTP id
- ds4-20020a0564021cc400b004405af841c9mr29555573edb.339.1662056689856; 
- Thu, 01 Sep 2022 11:24:49 -0700 (PDT)
+ bh=gAMTep0Tpgw9SwWBMdwCwDv0WRZgcQLollwdX+eXpNE=;
+ b=2WXT+wMF6nJNzLezpTTmszVChT+EsZRNGv7QF7wkVKNdxPd2vkhRQJ+UjfZs2j8YOl
+ A9MtVm8LmMWkSGzRx6PvqqvPB9gmL21P/DvpwBM2dcjxMW3flBf3psbfTqdIfIeI6lx7
+ gIkv8Ubi22JrmcC2QM255f/IDI6c6O2U0TQEEu/HcBybB3AkA2vqLIkfVLtvK5MOCMnQ
+ eLsFtnbGd9kTnIR6NE0TAQQB/FbauV1S6XHCB/ljfMxFgGBf4EQ3kuM79I62hVNMYWPx
+ HtIUV70w/ZzX6XtqMO+2CUliaf7P2lw0IPQtSLFK4nOG5jm81pPUDObQjkyLcpI4ktW3
+ fYdA==
+X-Gm-Message-State: ACgBeo0Cyr+9qpExJNrbhi/usY+b7Npd/kVJYLoSqJbK/IuvOjGz8BZm
+ h0eZdIygqBoEDQzJoYN4XGnMlp6GegYP7vCKaqmPGQa+rA03IEqNfEfA9S4lz94QybfRi/pIY64
+ 5nHpi1OP3JTNr0G6h0GWa8SPtEGOf177P3zK8MChS0owjxH+GY3e1nDVNAuWMaggyLGY=
+X-Received: by 2002:a05:6402:5212:b0:446:6910:5549 with SMTP id
+ s18-20020a056402521200b0044669105549mr30098744edd.345.1662056691685; 
+ Thu, 01 Sep 2022 11:24:51 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5QithRFV2LBLpAptUccwWHtzn2N6HcLLewXTWmxE9fR6/qYWavw7HWVHX71uEQT+sL+ZdE4A==
+X-Received: by 2002:a05:6402:5212:b0:446:6910:5549 with SMTP id
+ s18-20020a056402521200b0044669105549mr30098726edd.345.1662056691445; 
+ Thu, 01 Sep 2022 11:24:51 -0700 (PDT)
 Received: from goa-sendmail ([93.56.160.208]) by smtp.gmail.com with ESMTPSA id
- ku20-20020a170907789400b007306a4ecc9dsm4573ejc.18.2022.09.01.11.24.49
+ fw8-20020a170907500800b0073d87068042sm8807296ejc.110.2022.09.01.11.24.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 11:24:49 -0700 (PDT)
+ Thu, 01 Sep 2022 11:24:51 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 09/39] meson: remove dead assignments
-Date: Thu,  1 Sep 2022 20:23:59 +0200
-Message-Id: <20220901182429.93533-10-pbonzini@redhat.com>
+Cc: Gavin Shan <gshan@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Peter Xu <peterx@redhat.com>
+Subject: [PULL 10/39] KVM: dirty ring: add missing memory barrier
+Date: Thu,  1 Sep 2022 20:24:00 +0200
+Message-Id: <20220901182429.93533-11-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220901182429.93533-1-pbonzini@redhat.com>
 References: <20220901182429.93533-1-pbonzini@redhat.com>
@@ -76,14 +78,14 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PP_MIME_FAKE_ASCII_TEXT=0.08, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PP_MIME_FAKE_ASCII_TEXT=0.08, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,77 +102,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Found with "muon analyze".
+The KVM_DIRTY_GFN_F_DIRTY flag ensures that the entry is valid.  If
+the read of the fields are not ordered after the read of the flag,
+QEMU might see stale values.
 
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Cc: Gavin Shan <gshan@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- plugins/meson.build           |  2 +-
- tests/fp/meson.build          |  2 +-
- tests/qapi-schema/meson.build | 24 ++++++++++++------------
- 3 files changed, 14 insertions(+), 14 deletions(-)
+ accel/kvm/kvm-all.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/plugins/meson.build b/plugins/meson.build
-index fa12047327..752377c66d 100644
---- a/plugins/meson.build
-+++ b/plugins/meson.build
-@@ -2,7 +2,7 @@ plugin_ldflags = []
- # Modules need more symbols than just those in plugins/qemu-plugins.symbols
- if not enable_modules
-   if targetos == 'darwin'
--    qemu_plugins_symbols_list = configure_file(
-+    configure_file(
-       input: files('qemu-plugins.symbols'),
-       output: 'qemu-plugins-ld64.symbols',
-       capture: true,
-diff --git a/tests/fp/meson.build b/tests/fp/meson.build
-index 2b4f00b916..6258e2bd7d 100644
---- a/tests/fp/meson.build
-+++ b/tests/fp/meson.build
-@@ -632,7 +632,7 @@ test('fp-test-mulAdd', fptest,
-            ['f16_mulAdd', 'f32_mulAdd', 'f64_mulAdd', 'f128_mulAdd'],
-      suite: ['softfloat-slow', 'softfloat-ops-slow', 'slow'], timeout: 90)
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 8d81ab74de..136c8eaed3 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -719,7 +719,11 @@ static void kvm_dirty_ring_mark_page(KVMState *s, uint32_t as_id,
  
--fpbench = executable(
-+executable(
-   'fp-bench',
-   ['fp-bench.c', '../../fpu/softfloat.c'],
-   link_with: [libtestfloat, libsoftfloat],
-diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
-index c18dd7d02f..406bc7255d 100644
---- a/tests/qapi-schema/meson.build
-+++ b/tests/qapi-schema/meson.build
-@@ -215,18 +215,18 @@ test('QAPI schema regression tests', python,
+ static bool dirty_gfn_is_dirtied(struct kvm_dirty_gfn *gfn)
+ {
+-    return gfn->flags == KVM_DIRTY_GFN_F_DIRTY;
++    /*
++     * Read the flags before the value.  Pairs with barrier in
++     * KVM's kvm_dirty_ring_push() function.
++     */
++    return qatomic_load_acquire(&gfn->flags) == KVM_DIRTY_GFN_F_DIRTY;
+ }
  
- diff = find_program('diff')
- 
--qapi_doc = custom_target('QAPI doc',
--                         output: ['doc-good-qapi-commands.c', 'doc-good-qapi-commands.h',
--                                  'doc-good-qapi-emit-events.c', 'doc-good-qapi-emit-events.h',
--                                  'doc-good-qapi-events.c', 'doc-good-qapi-events.h',
--                                  'doc-good-qapi-init-commands.c', 'doc-good-qapi-init-commands.h',
--                                  'doc-good-qapi-introspect.c', 'doc-good-qapi-introspect.h',
--                                  'doc-good-qapi-types.c', 'doc-good-qapi-types.h',
--                                  'doc-good-qapi-visit.c', 'doc-good-qapi-visit.h' ],
--                         input: files('doc-good.json'),
--                         command: [ qapi_gen, '-o', meson.current_build_dir(),
--                                    '-p', 'doc-good-', '@INPUT0@' ],
--                         depend_files: qapi_gen_depends)
-+custom_target('QAPI doc',
-+              output: ['doc-good-qapi-commands.c', 'doc-good-qapi-commands.h',
-+                       'doc-good-qapi-emit-events.c', 'doc-good-qapi-emit-events.h',
-+                       'doc-good-qapi-events.c', 'doc-good-qapi-events.h',
-+                       'doc-good-qapi-init-commands.c', 'doc-good-qapi-init-commands.h',
-+                       'doc-good-qapi-introspect.c', 'doc-good-qapi-introspect.h',
-+                       'doc-good-qapi-types.c', 'doc-good-qapi-types.h',
-+                       'doc-good-qapi-visit.c', 'doc-good-qapi-visit.h' ],
-+              input: files('doc-good.json'),
-+              command: [ qapi_gen, '-o', meson.current_build_dir(),
-+                         '-p', 'doc-good-', '@INPUT0@' ],
-+              depend_files: qapi_gen_depends)
- 
- if build_docs
-   # Test the document-comment document generation code by running a test schema
+ static void dirty_gfn_set_collected(struct kvm_dirty_gfn *gfn)
 -- 
 2.37.2
 
