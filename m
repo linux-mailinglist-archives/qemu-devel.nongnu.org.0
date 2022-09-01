@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64BEE5A9027
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 09:26:42 +0200 (CEST)
-Received: from localhost ([::1]:34456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE585A90BF
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 09:43:05 +0200 (CEST)
+Received: from localhost ([::1]:49844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTeb3-0004Wl-37
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 03:26:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55016)
+	id 1oTeqt-0002j5-TF
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 03:43:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTe4V-0005y9-So
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:53:03 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:36760)
+ id 1oTe4W-0005yn-6Q
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:53:04 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:39717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTe4U-0003HE-3K
+ id 1oTe4U-0003Gu-E0
  for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:53:03 -0400
-Received: by mail-wr1-x432.google.com with SMTP id u17so1744826wrp.3
- for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 23:52:59 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id az27so21015919wrb.6
+ for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 23:53:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=Kh1uN4/0ovlH8dCidDvOH33OgIiJlJt8Oo88s09rMG4=;
- b=nGES2j1zAYv6xQaIA/Mzd/GEs7tL4t3IGA7KxYeaoCbGfKVR9ko+7LB0A3O0cwcP7B
- qpeV4Kk1cAuLt9FdcuRiwGFetArRje7HHGGQT1c8HADZjGG2GP3VzkHPRZSCSUv1gn2H
- 6fYZKknyWyY8J9m6S5Flmnjxa0LC1FsOFZM1VqJPQGx3e9fU/XI2yWNeHAwNUSVcMgxt
- WvKyne/LLsyRty7s8CLLROS6ujhd30RpCBb7mHyLyYvS78FT14V7cT0huX6fAziGXa4L
- LQI2jpsAitmkLsAZXOR+tG6azvo78ndWBlA3PzpUvFnyiHCX6pfNISLElw80NDD+5MG1
- VqJQ==
+ bh=aenCwLhyHz+42ttancSjHI4JZk2Ya2FL+nx6M3jTwMg=;
+ b=z2D14sNY3YduiJeshwg3aEXmGQfRy716YpLt9ZO7I3RVYi8t+F3lK4ygqiYQzos1R2
+ o/iXxcyyacdJ9jm/kfJrDgc3alaruPfLsub/bf8kA1WA1FPdDA/s9KdHjnrWabR2KWqQ
+ nnEijWsDqwsTY0QXCQ6uC8uCiZi7WhOqxnVVan74+BN8cqnqVuDjo847lzEvd3T5LPYf
+ h4x128WYje/JjPQ9J4tJx+HKm/pGtn2x69sIeyz7wS4sVW4IjDgUdG2zGhWMEjX4SZC1
+ Auck4hQvwi+Mh3ozGHMq+PAGro68qZLbvMfBCvPeyWKoBLRtMXpjsZxEud3IvnYfkpUe
+ CYUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=Kh1uN4/0ovlH8dCidDvOH33OgIiJlJt8Oo88s09rMG4=;
- b=zjkP9+2IYlQ/6wuySWhRJ8K9FsNfE3uh1IxJh2errH3LJY/9BHhcWF2gi5v8WqBD7B
- GEDT65ws520e/+ge0bvUUiBGCbizxB6OAA7b0J2Zfp8xG9SFanMqaqG8XkfxCG6tZojq
- oTfDU9TjxaRXjj0QWNMhIxP50oNBRkOFSq7dDf4JQe1vJ+Au3uSswQ3WKVc8U/fn3kYe
- zBh64+HlttpfqBWt1JQLtVJmF4hyGypGHrTeHB4iN62FpLjS2ZzKLj3Ug4zdx0YRdQWu
- G1f6+H/jl1IEyPmFi41jl08WCUK4E5CbHzKo4Nm+bUjWj+48Ciftb2jt3cx7G23k7APB
- t1wQ==
-X-Gm-Message-State: ACgBeo0fgNOQfrD8p2UvF67w+4v5Hvv+Lk+FQS1NpJF2Dc/aArKIxOrZ
- 8D7VynbJ6FBBs6cpxtoWhaNxI5j0gkP6kJe+
-X-Google-Smtp-Source: AA6agR41af8jL3pLrNL3Fnr8GZ9eyEm9TpYXvD5qDAGOdFn8z5tamDFKUkZaz9g0lSOBhR3tW386ug==
-X-Received: by 2002:a05:6000:799:b0:226:e3e9:e482 with SMTP id
- bu25-20020a056000079900b00226e3e9e482mr6425475wrb.219.1662015179240; 
- Wed, 31 Aug 2022 23:52:59 -0700 (PDT)
+ bh=aenCwLhyHz+42ttancSjHI4JZk2Ya2FL+nx6M3jTwMg=;
+ b=E5WJxtE1YStRpVVTsZOAZvdkhn/lnDBmrf/Zi2XdoUhQE4tJCf1A3nKjebZWHuA7nL
+ MCbUZy1KNinEwHhsFFVyLTzl8+u3J/eE5GwM1+FOe7E6ok4MFv/WSVS+/168tn5qvK1m
+ ZQ0RcoJuvEdKqr8AtKsJzDZEGpwtNCMXrHpwLVdfbukkheM52EfslQHUPS1AAXFioOPv
+ 9gjFiWWDjhubCnVLXVoYbPYdd6kz2pk+l3/eG0mmYjyHSoitztCovTUBNgttfaOSHfsC
+ /Iq03+SOvtZS+jkSG77iSJhyhvwj3LRGaH9rqxiQ+67O4MJAAYc0T4DIhXzXZJnaH/dy
+ RIIw==
+X-Gm-Message-State: ACgBeo1bQhzhD2kKVBwD+6xNU7h78Z+KS7AWxqUfREwTFXaxfPZPCYI2
+ 77gv+xGksNQP8X7GuoEpjoUhioaqt+TfZcwc
+X-Google-Smtp-Source: AA6agR6FWbKjkXNfRa9sDnvcM6gnCjgMiLNfvsf9DObsGt99MvfZFv5Bpw2emnTtCyk5JiO+DbuDaQ==
+X-Received: by 2002:a05:6000:81b:b0:226:bada:a5 with SMTP id
+ bt27-20020a056000081b00b00226bada00a5mr13699436wrb.539.1662015181647; 
+ Wed, 31 Aug 2022 23:53:01 -0700 (PDT)
 Received: from stoup.. ([87.192.221.83]) by smtp.gmail.com with ESMTPSA id
- a6-20020a5d4d46000000b00226dedf1ab7sm8308153wru.76.2022.08.31.23.52.57
+ a6-20020a5d4d46000000b00226dedf1ab7sm8308153wru.76.2022.08.31.23.52.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 23:52:58 -0700 (PDT)
+ Wed, 31 Aug 2022 23:53:00 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PULL 11/20] accel/tcg: Move qemu_ram_addr_from_host_nofail to
- physmem.c
-Date: Thu,  1 Sep 2022 07:52:01 +0100
-Message-Id: <20220901065210.117081-16-richard.henderson@linaro.org>
+Cc: Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PULL 12/20] accel/tcg: Use probe_access_internal for softmmu
+ get_page_addr_code_hostp
+Date: Thu,  1 Sep 2022 07:52:02 +0100
+Message-Id: <20220901065210.117081-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220901065210.117081-1-richard.henderson@linaro.org>
 References: <20220901065210.117081-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,77 +88,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The base qemu_ram_addr_from_host function is already in
-softmmu/physmem.c; move the nofail version to be adjacent.
+Simplify the implementation of get_page_addr_code_hostp
+by reusing the existing probe_access infrastructure.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Tested-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-common.h |  1 +
- accel/tcg/cputlb.c        | 12 ------------
- softmmu/physmem.c         | 12 ++++++++++++
- 3 files changed, 13 insertions(+), 12 deletions(-)
+ accel/tcg/cputlb.c | 76 ++++++++++++++++------------------------------
+ 1 file changed, 26 insertions(+), 50 deletions(-)
 
-diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-index 2281be4e10..d909429427 100644
---- a/include/exec/cpu-common.h
-+++ b/include/exec/cpu-common.h
-@@ -72,6 +72,7 @@ typedef uintptr_t ram_addr_t;
- void qemu_ram_remap(ram_addr_t addr, ram_addr_t length);
- /* This should not be used by devices.  */
- ram_addr_t qemu_ram_addr_from_host(void *ptr);
-+ram_addr_t qemu_ram_addr_from_host_nofail(void *ptr);
- RAMBlock *qemu_ram_block_by_name(const char *name);
- RAMBlock *qemu_ram_block_from_host(void *ptr, bool round_offset,
-                                    ram_addr_t *offset);
 diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 43bd65c973..80a3eb4f1c 100644
+index 80a3eb4f1c..8fad2d9b83 100644
 --- a/accel/tcg/cputlb.c
 +++ b/accel/tcg/cputlb.c
-@@ -1283,18 +1283,6 @@ void tlb_set_page(CPUState *cpu, target_ulong vaddr,
-                             prot, mmu_idx, size);
- }
+@@ -1482,56 +1482,6 @@ static bool victim_tlb_hit(CPUArchState *env, size_t mmu_idx, size_t index,
+   victim_tlb_hit(env, mmu_idx, index, offsetof(CPUTLBEntry, TY), \
+                  (ADDR) & TARGET_PAGE_MASK)
  
--static inline ram_addr_t qemu_ram_addr_from_host_nofail(void *ptr)
+-/*
+- * Return a ram_addr_t for the virtual address for execution.
+- *
+- * Return -1 if we can't translate and execute from an entire page
+- * of RAM.  This will force us to execute by loading and translating
+- * one insn at a time, without caching.
+- *
+- * NOTE: This function will trigger an exception if the page is
+- * not executable.
+- */
+-tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
+-                                        void **hostp)
 -{
--    ram_addr_t ram_addr;
+-    uintptr_t mmu_idx = cpu_mmu_index(env, true);
+-    uintptr_t index = tlb_index(env, mmu_idx, addr);
+-    CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
+-    void *p;
 -
--    ram_addr = qemu_ram_addr_from_host(ptr);
--    if (ram_addr == RAM_ADDR_INVALID) {
--        error_report("Bad ram pointer %p", ptr);
--        abort();
+-    if (unlikely(!tlb_hit(entry->addr_code, addr))) {
+-        if (!VICTIM_TLB_HIT(addr_code, addr)) {
+-            tlb_fill(env_cpu(env), addr, 0, MMU_INST_FETCH, mmu_idx, 0);
+-            index = tlb_index(env, mmu_idx, addr);
+-            entry = tlb_entry(env, mmu_idx, addr);
+-
+-            if (unlikely(entry->addr_code & TLB_INVALID_MASK)) {
+-                /*
+-                 * The MMU protection covers a smaller range than a target
+-                 * page, so we must redo the MMU check for every insn.
+-                 */
+-                return -1;
+-            }
+-        }
+-        assert(tlb_hit(entry->addr_code, addr));
 -    }
--    return ram_addr;
+-
+-    if (unlikely(entry->addr_code & TLB_MMIO)) {
+-        /* The region is not backed by RAM.  */
+-        if (hostp) {
+-            *hostp = NULL;
+-        }
+-        return -1;
+-    }
+-
+-    p = (void *)((uintptr_t)addr + entry->addend);
+-    if (hostp) {
+-        *hostp = p;
+-    }
+-    return qemu_ram_addr_from_host_nofail(p);
 -}
 -
- /*
-  * Note: tlb_fill() can trigger a resize of the TLB. This means that all of the
-  * caller's prior references to the TLB table (e.g. CPUTLBEntry pointers) must
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 50231bab30..56e03e07b5 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2443,6 +2443,18 @@ ram_addr_t qemu_ram_addr_from_host(void *ptr)
-     return block->offset + offset;
+ static void notdirty_write(CPUState *cpu, vaddr mem_vaddr, unsigned size,
+                            CPUIOTLBEntry *iotlbentry, uintptr_t retaddr)
+ {
+@@ -1687,6 +1637,32 @@ void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
+     return flags ? NULL : host;
  }
  
-+ram_addr_t qemu_ram_addr_from_host_nofail(void *ptr)
++/*
++ * Return a ram_addr_t for the virtual address for execution.
++ *
++ * Return -1 if we can't translate and execute from an entire page
++ * of RAM.  This will force us to execute by loading and translating
++ * one insn at a time, without caching.
++ *
++ * NOTE: This function will trigger an exception if the page is
++ * not executable.
++ */
++tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
++                                        void **hostp)
 +{
-+    ram_addr_t ram_addr;
++    void *p;
 +
-+    ram_addr = qemu_ram_addr_from_host(ptr);
-+    if (ram_addr == RAM_ADDR_INVALID) {
-+        error_report("Bad ram pointer %p", ptr);
-+        abort();
++    (void)probe_access_internal(env, addr, 1, MMU_INST_FETCH,
++                                cpu_mmu_index(env, true), false, &p, 0);
++    if (p == NULL) {
++        return -1;
 +    }
-+    return ram_addr;
++    if (hostp) {
++        *hostp = p;
++    }
++    return qemu_ram_addr_from_host_nofail(p);
 +}
 +
- static MemTxResult flatview_read(FlatView *fv, hwaddr addr,
-                                  MemTxAttrs attrs, void *buf, hwaddr len);
- static MemTxResult flatview_write(FlatView *fv, hwaddr addr, MemTxAttrs attrs,
+ #ifdef CONFIG_PLUGIN
+ /*
+  * Perform a TLB lookup and populate the qemu_plugin_hwaddr structure.
 -- 
 2.34.1
 
