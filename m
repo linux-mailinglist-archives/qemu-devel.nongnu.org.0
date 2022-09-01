@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CA3F5A9EAB
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 20:11:11 +0200 (CEST)
-Received: from localhost ([::1]:52354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 153905A9EEE
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 20:29:17 +0200 (CEST)
+Received: from localhost ([::1]:46140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oToeh-0004gS-Vn
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 14:11:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49936)
+	id 1oTowG-00051a-8d
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 14:29:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oTocc-00030Z-Cj
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:08:58 -0400
-Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29]:41845)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oTocY-0005a1-KP
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:08:57 -0400
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-12243fcaa67so10888223fac.8
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 11:08:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=wz2zghdb0WuP0w8zos30IZXlygDKXBqFShLT7myYizM=;
- b=TEgjI5o9PyBuoUumAWRjMANkO56SesWA2mUSmH68O4+nysquC8YDI2Zn6QFhTkn7Xl
- 9/mRdlmpkWt5UmtsnikBEfCtmG6jF0V9akHQuHBHMp9BYdJvoquJi3zkLLox0odm8LLs
- +bCyC7xh21eRIzHAyj11tNWPOjVkqB3VzSrnicazpjNPqzWNjEnoynbKD0wJdE29bLT4
- haG/nJHp96T5TKJvdGJNgO1KikeSUoOVA/Ma4oLNt8Kb+dwql/nEOP1ui2Q643oKFf3E
- TM1FsFjbxhcAEPXlq00vL/jyPWSqefj9p7Ny8P4SOROTkRv7qaRG52SzX9KOK2mx3t0z
- xlxg==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oTorq-0007Xg-Ks
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:24:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57654)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oTorj-0008Ff-Da
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:24:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662056674;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:  content-type:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mO2ZnIQsRmqRuzQEB68odkO86r9FJNU/V6ZdxcARjpE=;
+ b=BVHOf0WuGb59LoDFATrm4WRrX/2+J7nqgU7hAUL3L8UYiEPHBjwd9YTMmO79wu1reLYA9d
+ GiGXP1/EdiDvKj1NNBvuxze9ZbTPQlTqPTyla7QWpEwP5eqZF10MA2xN3kZIRXkdPIvV3u
+ sjet/FCJwjctp/NLq0xi8AapxOJo/18=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-588--D6I1FLqOlKyXVt5wwtq1w-1; Thu, 01 Sep 2022 14:24:32 -0400
+X-MC-Unique: -D6I1FLqOlKyXVt5wwtq1w-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ sh44-20020a1709076eac00b00741a01e2aafso6059853ejc.22
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 11:24:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=wz2zghdb0WuP0w8zos30IZXlygDKXBqFShLT7myYizM=;
- b=pVS0AkbepsKN0pAholcIZhWhv+3sT+r0RrPQjn8ixMnNtORJR+30nRtYsn1PJ/dNzL
- 4NmYxHvI/Ti9n1240hdB6j9BeUj0EH3mcK1NF3TmTGiBoSKQSX1ye/czGOBmoPp3n0DD
- 98jGSAtdIvwW2QcpmbmERZ0uAnfYFYIg9oSma+gzL/wdstmjrcDsY4+m/s//tXwRA6jF
- S7NxVJVnyaRFlpwnrJ5TYWJkFqkFtrXOSbodkrOAGucguKWoaaUap/84U+DiBkZG0feA
- b8nk8EpClCPXjpx0p9OTDmdim+CKU33+ekEOtQbYEN9GK8LNpPP0ejvj8FlME32UUOci
- lkAw==
-X-Gm-Message-State: ACgBeo2A4wMKIuskmXDgdE6HAXrLaKMkj8GgzRPgWNSYoXnDK0222Coy
- 3WVzzTWylREhlBGXcSo68MI=
-X-Google-Smtp-Source: AA6agR7S7/CAvM//iJ7VcpsJcOnRa7toLPIQT2Ohpwmpttydn+4oVC+C620z3z0D0btl3lmjRz4/PQ==
-X-Received: by 2002:a05:6870:a90f:b0:11e:949a:e3ef with SMTP id
- eq15-20020a056870a90f00b0011e949ae3efmr236022oab.106.1662055733070; 
- Thu, 01 Sep 2022 11:08:53 -0700 (PDT)
-Received: from [192.168.10.102] (200-207-147-180.dsl.telesp.net.br.
- [200.207.147.180]) by smtp.gmail.com with ESMTPSA id
- d23-20020a056830139700b00639443424f8sm10670861otq.8.2022.09.01.11.08.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Sep 2022 11:08:52 -0700 (PDT)
-Message-ID: <c8393f90-1718-a2be-213b-2dcec6af7ed9@gmail.com>
-Date: Thu, 1 Sep 2022 15:08:47 -0300
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date;
+ bh=mO2ZnIQsRmqRuzQEB68odkO86r9FJNU/V6ZdxcARjpE=;
+ b=1s4CvISb08zmXhUK2TX/syOMOA7Jl5LOnR1Ahtg/kokLPfZbOCv0tGdWXgnr1Oh8Ds
+ I9a+gZGYO+/L4spRP4plEZm07PWtdP9RIY4+d3YTYeEtjV5Od4oYYImqnhIO25DJuyZs
+ 50/qGYSab+DJneEfcTo2J/7sa8Y5bcH2x6OHld8n6pQ7WousM4wh81fTk6f+PK+HwtgH
+ jFAusaXHSw6b5JwRnQZDh2zF1VkauKpEWZbQANYTJ4telZHL79/iq1aXtUq3c1SpgVYb
+ AdyfLROJJ4vULoWwDtilo6icoFV+bngtzcA6jK+IN+tDM6SOeMW2F5+hQG3xi9XSOfMV
+ 81hg==
+X-Gm-Message-State: ACgBeo3MeUxo0WNH+I1WsJZODtX1BULXKfTvJAyrNEfi0qy9l044fMFU
+ d7bYILYwK87pXt3mPeniuEcKHj25Rg3RhskP8fXW/jdZd1v9ZBu7AVkCyiFLB7t3/aZMjUjTuLV
+ DWAZnmD/gsBR4v9o9fPYbM9M1+QiBj9yaMyiKC15Sk1SR4kMTJdL4UwAaIEE/HWnll04=
+X-Received: by 2002:a17:907:94d6:b0:741:67a6:dcde with SMTP id
+ dn22-20020a17090794d600b0074167a6dcdemr16492418ejc.529.1662056671065; 
+ Thu, 01 Sep 2022 11:24:31 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7oZLp/Rs12gQtWIAiIYjTYh4ga6vYEeMccYPD55H7ahbGikixnr7Xx0NdG+qu+99j8ehFjFA==
+X-Received: by 2002:a17:907:94d6:b0:741:67a6:dcde with SMTP id
+ dn22-20020a17090794d600b0074167a6dcdemr16492403ejc.529.1662056670639; 
+ Thu, 01 Sep 2022 11:24:30 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ y7-20020a50bb07000000b0044790836307sm1779978ede.85.2022.09.01.11.24.29
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Sep 2022 11:24:29 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/39] i386, SCSI, build system changes for 2022-09-01
+Date: Thu,  1 Sep 2022 20:23:50 +0200
+Message-Id: <20220901182429.93533-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: QEMU 7.2 release schedule
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Cc: michael.roth@amd.com, richard.henderson@linaro.org,
- peter.maydell@linaro.org
-References: <Yw59JU3ja/EU3HL6@fedora>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <Yw59JU3ja/EU3HL6@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::29;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x29.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,41 +97,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit e93ded1bf6c94ab95015b33e188bc8b0b0c32670:
 
+  Merge tag 'testing-pull-request-2022-08-30' of https://gitlab.com/thuth/qemu into staging (2022-08-31 18:19:03 -0400)
 
-On 8/30/22 18:12, Stefan Hajnoczi wrote:
-> Hi,
-> Richard Henderson has tagged QEMU 7.1 and handed over to me for the 7.2
-> release cycle. Thanks to Richard and Michael Roth their work on 7.1!
+are available in the Git repository at:
 
-Are you going to handle the pull requests for this release cycle? I saw
-that you've handled Thomas' PRs.
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-If that's the case I'll CC you in the PRs instead of Peter/Richard.
+for you to fetch changes up to a64fc269198e09d422da0e89e606f6f12b40af1f:
 
+  target/i386: AVX+AES helpers prep (2022-09-01 20:16:33 +0200)
 
-Thanks,
+----------------------------------------------------------------
+* SCSI fixes for Mac OS 9
+* Fix CPU reset for x86/KVM nested virtualization state
+* remove feature_not_found() from the configure script
+* Meson cleanups from muon
+* improved i386 TCG tests for BMI and SSE
+* SSE bugfixes
 
+----------------------------------------------------------------
+Anton Kochkov (1):
+      meson: be strict for boolean options
 
-Daniel
+John Millikin (3):
+      esp: Handle CMD_BUSRESET by resetting the SCSI bus
+      scsi: Add buf_len parameter to scsi_req_new()
+      scsi: Reject commands if the CDB length exceeds buf_len
 
-> 
-> Please check the proposed release schedule and let me know if they fall
-> on inconvenient dates:
-> - 2022-08-30: Beginning of development phase
-> - 2022-11-1: Soft feature freeze. Only bug fixes after this point. All feature changes must be already in a sub maintainer tree and all pull requests from submaintainers must have been sent to the list by this date.
-> - 2022-11-8: Hard feature freeze. Tag rc0
-> - 2022-11-15: Tag rc1
-> - 2022-11-22: Tag rc2
-> - 2022-11-29: Tag rc3
-> - 2022-12-06: Release; or tag rc4 if needed
-> - 2022-12-13: Release if we needed an rc4
-> 
-> The release planning page is now available on the wiki:
-> https://wiki.qemu.org/Planning/7.2
-> 
-> The changelog has been created so you can add items when code is merged:
-> https://wiki.qemu.org/ChangeLog/7.2
-> 
-> Stefan
+Paolo Bonzini (15):
+      configure: improve error for ucontext coroutine backend
+      meson: remove dead code
+      meson: remove dead assignments
+      KVM: dirty ring: add missing memory barrier
+      tests/tcg: x86_64: improve consistency with i386
+      tests/tcg: i386: extend BMI test
+      target/i386: fix PHSUB* instructions with dest=src
+      target/i386: DPPS rounding fix
+      target/i386: do not use MOVL to move data between SSE registers
+      target/i386: formatting fixes
+      target/i386: check SSE table flags instead of hardcoding opcodes
+      target/i386: isolate MMX code more
+      target/i386: Add size suffix to vector FP helpers
+      target/i386: do not cast gen_helper_* function pointers
+      target/i386: rewrite destructive 3DNow operations
+
+Paul Brook (18):
+      tests/tcg: i386: add SSE tests
+      target/i386: Add ZMM_OFFSET macro
+      target/i386: Rework sse_op_table1
+      target/i386: Rework sse_op_table6/7
+      target/i386: Move 3DNOW decoder
+      target/i386: Add CHECK_NO_VEX
+      target/i386: Rewrite vector shift helper
+      target/i386: Rewrite simple integer vector helpers
+      target/i386: Misc integer AVX helper prep
+      target/i386: Destructive vector helpers for AVX
+      target/i386: Floating point arithmetic helper AVX prep
+      target/i386: reimplement AVX comparison helpers
+      target/i386: Dot product AVX helper prep
+      target/i386: Destructive FP helpers for AVX
+      target/i386: Misc AVX helper prep
+      target/i386: Rewrite blendv helpers
+      target/i386: AVX pclmulqdq prep
+      target/i386: AVX+AES helpers prep
+
+Vitaly Kuznetsov (2):
+      i386: reset KVM nested state upon CPU reset
+      i386: do kvm_put_msr_feature_control() first thing when vCPU is reset
+
+ accel/kvm/kvm-all.c              |    6 +-
+ configure                        |   11 +-
+ docs/devel/build-system.rst      |    5 -
+ hw/scsi/esp.c                    |    8 +-
+ hw/scsi/lsi53c895a.c             |    2 +-
+ hw/scsi/megasas.c                |   10 +-
+ hw/scsi/mptsas.c                 |    3 +-
+ hw/scsi/scsi-bus.c               |   29 +-
+ hw/scsi/scsi-disk.c              |    7 +-
+ hw/scsi/scsi-generic.c           |    5 +-
+ hw/scsi/spapr_vscsi.c            |    3 +-
+ hw/scsi/virtio-scsi.c            |    5 +-
+ hw/scsi/vmw_pvscsi.c             |    2 +-
+ hw/usb/dev-storage.c             |    2 +-
+ hw/usb/dev-uas.c                 |    5 +-
+ include/hw/scsi/scsi.h           |   11 +-
+ meson.build                      |    2 -
+ meson_options.txt                |    4 +-
+ pc-bios/keymaps/meson.build      |    1 -
+ plugins/meson.build              |    2 +-
+ qapi/meson.build                 |   15 -
+ target/i386/kvm/kvm.c            |   54 +-
+ target/i386/ops_sse.h            | 1819 +++++++--------
+ target/i386/ops_sse_header.h     |   68 +-
+ target/i386/tcg/translate.c      |  831 ++++---
+ target/riscv/meson.build         |    2 -
+ tests/fp/meson.build             |    2 +-
+ tests/qapi-schema/meson.build    |   24 +-
+ tests/tcg/Makefile.target        |    2 +-
+ tests/tcg/i386/Makefile.target   |   12 +-
+ tests/tcg/i386/README            |    9 +
+ tests/tcg/i386/test-avx.c        |  330 +++
+ tests/tcg/i386/test-avx.py       |  351 +++
+ tests/tcg/i386/test-i386-bmi2.c  |  169 +-
+ tests/tcg/i386/x86.csv           | 4658 ++++++++++++++++++++++++++++++++++++++
+ tests/tcg/x86_64/Makefile.target |    5 +-
+ 36 files changed, 7059 insertions(+), 1415 deletions(-)
+ create mode 100644 tests/tcg/i386/test-avx.c
+ create mode 100755 tests/tcg/i386/test-avx.py
+ create mode 100644 tests/tcg/i386/x86.csv
+-- 
+2.37.2
+
 
