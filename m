@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9CC15AA118
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 22:56:52 +0200 (CEST)
-Received: from localhost ([::1]:44712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55AFC5AA143
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 22:59:48 +0200 (CEST)
+Received: from localhost ([::1]:55270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTrF5-0001ZQ-So
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 16:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36900)
+	id 1oTrHv-0004DB-0k
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 16:59:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oTrDN-00082m-Pr
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 16:55:05 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:44909)
+ id 1oTrFY-0001hp-2d
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 16:57:20 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:42858)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oTrDI-0000dE-LI
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 16:55:05 -0400
-Received: by mail-pl1-x630.google.com with SMTP id f12so18005357plb.11
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 13:55:00 -0700 (PDT)
+ id 1oTrFV-0001Ax-JC
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 16:57:19 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id q63so190663pga.9
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 13:57:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=t/Lj85Qn3bv6YBPxNRaNDXx9z/2pAEG2ZyUv9DS7vpQ=;
- b=DRITVjntauVZ/TqEIH0+aGFnMfitsHp3F3XJOOcLv2RCheN2PimPwEgWNk3Kz/4HrQ
- JoaNloAzPWIPiv9eZKN+UDWwduoJ1WmTVhkJFBFO1Ui6riYO/2wpHgJnijiproP9GOK4
- pucSEGpq5cPCG3rr0TfysjBJN2BEYG1y8/4CLxuJIA0Y04mVzBzROfTX2skyCODixuF4
- kZ38bl2C/zRSAKe+F9ezDsxL7BdEhai6XPhOX3N7nNyrBdab+3qLCAwkUkGCsSlL08WU
- 6qcv1okjujs2en7pZvfO+NnDSAU1oEV7ZFlBnnt8/c9riPwGxgu4hVoNoLl0L6aOPVIZ
- KKaA==
+ bh=jPe4oHhV1eqVjUHSB5YWN1wVdJ4Yw+lJSo9gAtbeE7U=;
+ b=MS1enk1JJQyw2F790+V9g+2a5GzOmvuCcOmuwR+RTOJTtUA/HR7en46V6SlBhg1Ck/
+ u0yWIvRy9UQlIYzCr5t0v2WgK+CxW2ZCO3DRt3/RYHe1XBHsn1c3JmcRPLBz/kY6kVXq
+ hKnGp+SYaRY+n+ku2v5sJdSX5CkFS1zc3THptFz9W+5jGO9G+5SH6IFf4GNNdk1u8CNo
+ MPfJ0kJhRXbU8mXnDZ61NeT+xIiNBQYIu8jYuAHd2fByg9PcVtcrW2TdjbthQlNnOdlZ
+ lsCZ3e4AiiRev1eSQ7X/J7+2njlT8ioC8pqg5ffWH+JV7di7RQpy1NDfCwaJCwPqPxr0
+ sUrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=t/Lj85Qn3bv6YBPxNRaNDXx9z/2pAEG2ZyUv9DS7vpQ=;
- b=IntnzelPcH517Dr4nEg8rhqKBhla77/VdXJdtEf7VN82R0eTrglh96aVl2JvfbHmkp
- /XtB7bQybuz6DZH25dvFWI4H3GoFI58lFJGeTlNVi+m1XJrFVaAofm9kalAFEghNz45h
- QG62HpSq2G5PeFiAHpKnFQsMxGj07lwEdvxseN/Zy1RK2uAef7IwDgjRASKQvPi4tmdQ
- RHxhKqe8jlFMdGZYgtUFa09aGAMb76IDnejxKQidZrctU1v1xXjFTr/J4Gu2I7u0XMU4
- uNLeUIGxv+dT9OAWOcFJLaRlGqgg2z4DdOx6qQPuwzW4gaIIZH/OZZ5xgvY7qKr33smM
- Inuw==
-X-Gm-Message-State: ACgBeo0Vm1u1ML4sj7yJ0dzTXP6rFRTsVGU2eHfXRTs6w+qvpgprwP+V
- PZwiugHNg++Zk1Ir+kd0tcg=
-X-Google-Smtp-Source: AA6agR6PONleSOMlBRHQC3jrbdbnVw/K+BWRWWDj0F81iMjax46u5YdkPGnFoE/T2RKNBSWaxwmHcA==
-X-Received: by 2002:a17:902:bc84:b0:174:505b:2d67 with SMTP id
- bb4-20020a170902bc8400b00174505b2d67mr28643067plb.33.1662065699201; 
- Thu, 01 Sep 2022 13:54:59 -0700 (PDT)
+ bh=jPe4oHhV1eqVjUHSB5YWN1wVdJ4Yw+lJSo9gAtbeE7U=;
+ b=z39Ho+R67pjjkm/VH+XaH5SBR67dkJEM/DDsXqPRCFHGANVuIioZV77OL0tCNqPHyT
+ d2NzyyBwuYSI7kbDRnd86bZZqkZU7i2Ifp5m3YXaekSX2wM6r77v80/qDL3BZ2gxCCoK
+ wBt/iWvDy6AZC3eWfaSUlZ0uAbbK6iFfdb9GKhedlYHh6RLee7paeBl/xvqefSUPdz5C
+ Y2JFiUcp5YQpeiZTOQJpuFZ+/PXACpZW3zDPV4DTkKnEY9tL8Alz+QIjHTXl7aFQfCCz
+ Lq61CquDYhD4piSceFFamzWgkunC5+Lh5QYxcpTN5Oca7i7m9J++WgRJzCuAYcYhM1tQ
+ 8GJQ==
+X-Gm-Message-State: ACgBeo1vID99ssBwhUyJl3tMWHsC6JLS4DfjcFv7jltIv2UnMlMOGwsd
+ ffkLjTLwrYQM7986t1zENys=
+X-Google-Smtp-Source: AA6agR4k0WO1TmMeJrckj/8p76OiDsdoCsAopLh2SFSJX1zx9crcIX6W2LEtIJE4hqGv6wgZD/vBJQ==
+X-Received: by 2002:a63:ee45:0:b0:42b:f80:94bb with SMTP id
+ n5-20020a63ee45000000b0042b0f8094bbmr27171456pgk.104.1662065835339; 
+ Thu, 01 Sep 2022 13:57:15 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- w6-20020a654106000000b0042b80a27ac2sm5701940pgp.75.2022.09.01.13.54.55
+ i2-20020a626d02000000b0052d9d95bb2bsm19195pfc.180.2022.09.01.13.57.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Sep 2022 13:54:58 -0700 (PDT)
-Message-ID: <5a94f74c-bb18-fa4a-4128-35afedb493f6@amsat.org>
-Date: Thu, 1 Sep 2022 22:54:53 +0200
+ Thu, 01 Sep 2022 13:57:14 -0700 (PDT)
+Message-ID: <9cc01873-b6dc-aa52-961a-b4b7893ac029@amsat.org>
+Date: Thu, 1 Sep 2022 22:57:10 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH 25/42] hw/isa/piix4: Move pci_ide_create_devs() call to
- board code
+Subject: Re: [PATCH 27/42] hw/isa/piix4: Allow board to provide PCI interrupt
+ routes
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 Cc: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
@@ -73,12 +73,12 @@ Cc: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  "Michael S. Tsirkin" <mst@redhat.com>
 References: <20220901162613.6939-1-shentey@gmail.com>
- <20220901162613.6939-26-shentey@gmail.com>
-In-Reply-To: <20220901162613.6939-26-shentey@gmail.com>
+ <20220901162613.6939-28-shentey@gmail.com>
+In-Reply-To: <20220901162613.6939-28-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -105,14 +105,76 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 1/9/22 18:25, Bernhard Beschow wrote:
-> For the VIA south bridges there was a comment to have the call in board code.
-> Move it there for PIIX4 as well for consistency.
+> PIIX3 initializes the PIRQx route control registers to the default
+> values as described in the 82371AB PCI-TO-ISA/IDE XCELERATOR (PIIX4)
+> April 1997 manual. PIIX4, however, initializes the routes according to
+> the Malta™ User’s Manual, ch 6.6, which are IRQs 10 and 11. In order to
+> allow the reset methods to be consolidated, allow board code to specify
+> the routes.
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   hw/isa/piix4.c  |  1 -
->   hw/mips/malta.c | 10 ++++++----
->   2 files changed, 6 insertions(+), 5 deletions(-)
+>   hw/isa/piix4.c  | 14 ++++++++++----
+>   hw/mips/malta.c |  4 ++++
+>   2 files changed, 14 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+> index ed9eca715f..763c98b565 100644
+> --- a/hw/isa/piix4.c
+> +++ b/hw/isa/piix4.c
+> @@ -57,6 +57,8 @@ struct PIIX4State {
+>       MemoryRegion rcr_mem;
+>       uint8_t rcr;
+>   
+> +    uint8_t pci_irq_reset_mappings[PIIX_NUM_PIRQS];
+> +
+>       bool has_acpi;
+>       bool has_usb;
+>       bool smm_enabled;
+> @@ -122,10 +124,10 @@ static void piix4_isa_reset(DeviceState *dev)
+>       pci_conf[0x4c] = 0x4d;
+>       pci_conf[0x4e] = 0x03;
+>       pci_conf[0x4f] = 0x00;
+> -    pci_conf[0x60] = 0x0a; // PCI A -> IRQ 10
+> -    pci_conf[0x61] = 0x0a; // PCI B -> IRQ 10
+> -    pci_conf[0x62] = 0x0b; // PCI C -> IRQ 11
+> -    pci_conf[0x63] = 0x0b; // PCI D -> IRQ 11
+> +    pci_conf[PIIX_PIRQCA] = d->pci_irq_reset_mappings[0];
+> +    pci_conf[PIIX_PIRQCB] = d->pci_irq_reset_mappings[1];
+> +    pci_conf[PIIX_PIRQCC] = d->pci_irq_reset_mappings[2];
+> +    pci_conf[PIIX_PIRQCD] = d->pci_irq_reset_mappings[3];
+>       pci_conf[0x69] = 0x02;
+>       pci_conf[0x70] = 0x80;
+>       pci_conf[0x76] = 0x0c;
+> @@ -299,6 +301,10 @@ static void piix4_init(Object *obj)
+>   
+>   static Property piix4_props[] = {
+>       DEFINE_PROP_UINT32("smb_io_base", PIIX4State, smb_io_base, 0),
+> +    DEFINE_PROP_UINT8("pirqa", PIIX4State, pci_irq_reset_mappings[0], 0x80),
+> +    DEFINE_PROP_UINT8("pirqb", PIIX4State, pci_irq_reset_mappings[1], 0x80),
+> +    DEFINE_PROP_UINT8("pirqc", PIIX4State, pci_irq_reset_mappings[2], 0x80),
+> +    DEFINE_PROP_UINT8("pirqd", PIIX4State, pci_irq_reset_mappings[3], 0x80),
+>       DEFINE_PROP_BOOL("has-acpi", PIIX4State, has_acpi, true),
+>       DEFINE_PROP_BOOL("has-usb", PIIX4State, has_usb, true),
+>       DEFINE_PROP_BOOL("smm-enabled", PIIX4State, smm_enabled, false),
+> diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+> index 6339b0d66c..44b6b14f3d 100644
+> --- a/hw/mips/malta.c
+> +++ b/hw/mips/malta.c
+> @@ -1403,6 +1403,10 @@ void mips_malta_init(MachineState *machine)
+>       piix4 = pci_new_multifunction(PCI_DEVFN(10, 0), true,
+>                                     TYPE_PIIX4_PCI_DEVICE);
+>       qdev_prop_set_uint32(DEVICE(piix4), "smb_io_base", 0x1100);
+> +    qdev_prop_set_uint8(DEVICE(piix4), "pirqa", 10);
+> +    qdev_prop_set_uint8(DEVICE(piix4), "pirqb", 10);
+> +    qdev_prop_set_uint8(DEVICE(piix4), "pirqc", 11);
+> +    qdev_prop_set_uint8(DEVICE(piix4), "pirqd", 11);
+>       pci_realize_and_unref(piix4, pci_bus, &error_fatal);
+>       isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix4), "isa.0"));
+>   
+
+Nice!
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
 
