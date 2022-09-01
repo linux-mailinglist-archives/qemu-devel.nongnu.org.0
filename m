@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFF1C5A928A
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 10:59:14 +0200 (CEST)
-Received: from localhost ([::1]:41146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62DC15A923F
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 10:41:44 +0200 (CEST)
+Received: from localhost ([::1]:48304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTg2b-000067-NW
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 04:59:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42662)
+	id 1oTflf-00043C-Bw
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 04:41:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oTexA-0001TV-GT
+ id 1oTexA-0001TU-Bz
  for qemu-devel@nongnu.org; Thu, 01 Sep 2022 03:49:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51390)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34107)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oTex8-0003BA-GW
+ id 1oTex7-0003B1-HF
  for qemu-devel@nongnu.org; Thu, 01 Sep 2022 03:49:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1662018569;
@@ -25,65 +25,65 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dT+Cm0N8qaLNhVPC331ez8mhNQ20GiFjLqzVTX8b194=;
- b=CCM/CFATP8/FN/wrb677NydjXa65iGcgdx3zVf39Rnsobb8BWPRYGF3aG6pmv4no4HY1Bd
- nJStvJMtyKZ6IZex+4xtpA2JFRlZeGyqBUBsK7hMHEKbJWZ7Xcl4tT77XLBtcPfJcoMPst
- mFITR7EIEIxeAg+WWtZf9ru5YX3dijA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=cvRdYXqxKilYPGCf8ByPEEOUIBIjFXJU4or0s3GS58o=;
+ b=AiLbSpBLJntM5nOQNVT7aRpeZwFTxx83s2BIObZtFomG37N+MfHx3WgoqtK+Wn98/PfQqS
+ DUH0Wq15CK1f9mGPyxtnhxfO5hNT9W0xeoCGvCHx9vNRya0M8LICjF7iWsAOBDLYzTGFtK
+ eaJ/TwbHMqSDyB6LOKyaVFsHfI0Pdvc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-513-yjn1Q9vuOoChF09bw0Snbg-1; Thu, 01 Sep 2022 03:49:26 -0400
-X-MC-Unique: yjn1Q9vuOoChF09bw0Snbg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- j36-20020a05600c1c2400b003a540d88677so9479620wms.1
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 00:49:26 -0700 (PDT)
+ us-mta-586-6udRPbS5PVeKPnWyoWAO8w-1; Thu, 01 Sep 2022 03:49:27 -0400
+X-MC-Unique: 6udRPbS5PVeKPnWyoWAO8w-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ r20-20020adfb1d4000000b002258c581ba2so2831887wra.1
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 00:49:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=dT+Cm0N8qaLNhVPC331ez8mhNQ20GiFjLqzVTX8b194=;
- b=CW9FwCOw+QuPkOsxWUX6RdnA5Dp5PuVTWbokDFA6ZZ0vGU7YSIYwp8tCHQrWphsnkq
- aZq5yKZtyTwBxg5+MzEDLevZmxcs/Klg+iUJmAhUQdjVQ8vX+U7UOcKFtESF8nesdjBE
- Ubj1cejnQVnks4YDQtRK0bRXDCdmKuUtDxfKI8/k3lzLchSmje41Vems8T/z4wqAVhVO
- HWmBH3g8GtsYN6BNzos9Nu3mjVLvfhv3lD8lqaSdH/quBoPJtgtRVSUrsIZy8x4ELnyB
- dKvdDLMUAWxF4lB5a11iezGCuWN4K6vA3LHkQL+aCIMCexAmclwKs7l1jdfZVBc/I0b/
- 0T5g==
-X-Gm-Message-State: ACgBeo17YCbFzMg6C5GnWgmfrIxoDQhMZQqGvyqH5FBgFEx9B/MgW+l4
- Eu5K2BPmq62EtOcszQVO/gSufc4pMZsQr3Ln2EN6hpkH7S14rDM4U0o/eDkHvOEFbvOpbkGJPtH
- dQbdlzV9A/LulnztRWmalTVXg8MwlIXnWblAXduagdro7b0eE5IGBRkMKNpdWvqjBkNo=
-X-Received: by 2002:a05:600c:4e52:b0:3a6:d89:4d1b with SMTP id
- e18-20020a05600c4e5200b003a60d894d1bmr4360719wmq.150.1662018564799; 
- Thu, 01 Sep 2022 00:49:24 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR65/i8+miWFhL5mdsvqODo+bGnsD9xQQL4HJViQzFPkrkXUtztTfM8/RF2M7ro8L+pblSFyWA==
-X-Received: by 2002:a05:600c:4e52:b0:3a6:d89:4d1b with SMTP id
- e18-20020a05600c4e5200b003a60d894d1bmr4360708wmq.150.1662018564536; 
- Thu, 01 Sep 2022 00:49:24 -0700 (PDT)
+ bh=cvRdYXqxKilYPGCf8ByPEEOUIBIjFXJU4or0s3GS58o=;
+ b=GN64axDb1dT3vVZ1jSqAU2faQMeZ7iOXZQm/Y6FF9PedHS6ygEUoOTmjZ0CegsRVEM
+ yb5+oJnNj617KdirFDkcgAVWq27vYgCGbvbo/yh+wfbGO9EEtVBTp1KdB2F5P4WYycDa
+ 7l3JFIhHgf1IeY9/KrAaQJDErQtasARdIxvM0Vnn5EJkLjBA3aPx18xPqPgF9rWkBeBg
+ xcTanPMXacXZrnYURL+uoh0WdCbJCeZ1VZwKMQcKFpklA6t9gRAf6fEitCHRQUgt2Bbu
+ iP/vjfS/+7iG/cRGS/tT48DQV+U8jxdeUHPm94TNMh0y7NL1rgJeM1ZWl86o0K6+ZiNL
+ eBUg==
+X-Gm-Message-State: ACgBeo3o+J8faIk6B/Lbu9XxTWuJ7SEXbTxNVKJ0It27OC2azqHHHo3o
+ N/0CbX+OjFHTmsX+ct8/Lx1G79B6PAYFK7t9OnDob8BwuTnBXQWSDWm+PCTdZF2WXU5gFmNvWxC
+ qYs3T86cRobfRD36e25HqOfkOh+Am4vX6UyKnZ0ZjI16xrVQ8+bjqQy0KwyP5/5w4Ywo=
+X-Received: by 2002:a05:600c:4e8c:b0:3a6:11e:cc08 with SMTP id
+ f12-20020a05600c4e8c00b003a6011ecc08mr4247308wmq.198.1662018566610; 
+ Thu, 01 Sep 2022 00:49:26 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7IYi4LshRzlAbT755GY6I5+VeivcH+2+8NX195yN2qNkiOytJnNLSZpzl9oQOoVIKEAvc1KA==
+X-Received: by 2002:a05:600c:4e8c:b0:3a6:11e:cc08 with SMTP id
+ f12-20020a05600c4e8c00b003a6011ecc08mr4247292wmq.198.1662018566380; 
+ Thu, 01 Sep 2022 00:49:26 -0700 (PDT)
 Received: from goa-sendmail ([93.56.160.208]) by smtp.gmail.com with ESMTPSA id
- p6-20020a5d48c6000000b002252884cc91sm13699840wrs.43.2022.09.01.00.49.23
+ j38-20020a05600c1c2600b003a5c75bd36fsm4731660wms.10.2022.09.01.00.49.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 00:49:24 -0700 (PDT)
+ Thu, 01 Sep 2022 00:49:25 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: paul@nowt.org,
 	richard.henderson@linaro.org
-Subject: [PATCH v3 18/23] i386: Dot product AVX helper prep
-Date: Thu,  1 Sep 2022 09:48:37 +0200
-Message-Id: <20220901074842.57424-19-pbonzini@redhat.com>
+Subject: [PATCH v3 19/23] i386: Destructive FP helpers for AVX
+Date: Thu,  1 Sep 2022 09:48:38 +0200
+Message-Id: <20220901074842.57424-20-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220901074842.57424-1-pbonzini@redhat.com>
 References: <20220901074842.57424-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,131 +102,108 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paul Brook <paul@nowt.org>
 
-Make the dpps and dppd helpers AVX-ready
-
-I can't see any obvious reason why dppd shouldn't work on 256 bit ymm
-registers, but both AMD and Intel agree that it's xmm only.
+Perpare the horizontal atithmetic vector helpers for AVX
+These currently use a dummy Reg typed variable to store the result then
+assign the whole register.  This will cause 128 bit operations to corrupt
+the upper half of the register, so replace it with explicit temporaries
+and element assignments.
 
 Signed-off-by: Paul Brook <paul@nowt.org>
-Message-Id: <20220424220204.2493824-17-paul@nowt.org>
+Message-Id: <20220424220204.2493824-18-paul@nowt.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/ops_sse.h | 80 ++++++++++++++++++++++++-------------------
- 1 file changed, 45 insertions(+), 35 deletions(-)
+ target/i386/ops_sse.h | 93 ++++++++++++++++++-------------------------
+ 1 file changed, 39 insertions(+), 54 deletions(-)
 
 diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
-index de874e136f..59ed30071e 100644
+index 59ed30071e..61722fe4a2 100644
 --- a/target/i386/ops_sse.h
 +++ b/target/i386/ops_sse.h
-@@ -1903,55 +1903,64 @@ SSE_HELPER_I(helper_blendps, L, 4, FBLENDP)
- SSE_HELPER_I(helper_blendpd, Q, 2, FBLENDP)
- SSE_HELPER_I(helper_pblendw, W, 8, FBLENDP)
- 
--void glue(helper_dpps, SUFFIX)(CPUX86State *env, Reg *d, Reg *s, uint32_t mask)
-+void glue(helper_dpps, SUFFIX)(CPUX86State *env, Reg *d, Reg *s,
-+                               uint32_t mask)
- {
-+    Reg *v = d;
-     float32 prod1, prod2, temp2, temp3, temp4;
-+    int i;
- 
--    /*
--     * We must evaluate (A+B)+(C+D), not ((A+B)+C)+D
--     * to correctly round the intermediate results
--     */
--    if (mask & (1 << 4)) {
--        prod1 = float32_mul(d->ZMM_S(0), s->ZMM_S(0), &env->sse_status);
--    } else {
--        prod1 = float32_zero;
--    }
--    if (mask & (1 << 5)) {
--        prod2 = float32_mul(d->ZMM_S(1), s->ZMM_S(1), &env->sse_status);
--    } else {
--        prod2 = float32_zero;
--    }
--    temp2 = float32_add(prod1, prod2, &env->sse_status);
--    if (mask & (1 << 6)) {
--        prod1 = float32_mul(d->ZMM_S(2), s->ZMM_S(2), &env->sse_status);
--    } else {
--        prod1 = float32_zero;
--    }
--    if (mask & (1 << 7)) {
--        prod2 = float32_mul(d->ZMM_S(3), s->ZMM_S(3), &env->sse_status);
--    } else {
--        prod2 = float32_zero;
--    }
--    temp3 = float32_add(prod1, prod2, &env->sse_status);
--    temp4 = float32_add(temp2, temp3, &env->sse_status);
-+    for (i = 0; i < 2 << SHIFT; i += 4) {
-+        /*
-+         * We must evaluate (A+B)+(C+D), not ((A+B)+C)+D
-+         * to correctly round the intermediate results
-+         */
-+        if (mask & (1 << 4)) {
-+            prod1 = float32_mul(v->ZMM_S(i), s->ZMM_S(i), &env->sse_status);
-+        } else {
-+            prod1 = float32_zero;
-+        }
-+        if (mask & (1 << 5)) {
-+            prod2 = float32_mul(v->ZMM_S(i+1), s->ZMM_S(i+1), &env->sse_status);
-+        } else {
-+            prod2 = float32_zero;
-+        }
-+        temp2 = float32_add(prod1, prod2, &env->sse_status);
-+        if (mask & (1 << 6)) {
-+            prod1 = float32_mul(v->ZMM_S(i+2), s->ZMM_S(i+2), &env->sse_status);
-+        } else {
-+            prod1 = float32_zero;
-+        }
-+        if (mask & (1 << 7)) {
-+            prod2 = float32_mul(v->ZMM_S(i+3), s->ZMM_S(i+3), &env->sse_status);
-+        } else {
-+            prod2 = float32_zero;
-+        }
-+        temp3 = float32_add(prod1, prod2, &env->sse_status);
-+        temp4 = float32_add(temp2, temp3, &env->sse_status);
- 
--    d->ZMM_S(0) = (mask & (1 << 0)) ? temp4 : float32_zero;
--    d->ZMM_S(1) = (mask & (1 << 1)) ? temp4 : float32_zero;
--    d->ZMM_S(2) = (mask & (1 << 2)) ? temp4 : float32_zero;
--    d->ZMM_S(3) = (mask & (1 << 3)) ? temp4 : float32_zero;
-+        d->ZMM_S(i) = (mask & (1 << 0)) ? temp4 : float32_zero;
-+        d->ZMM_S(i+1) = (mask & (1 << 1)) ? temp4 : float32_zero;
-+        d->ZMM_S(i+2) = (mask & (1 << 2)) ? temp4 : float32_zero;
-+        d->ZMM_S(i+3) = (mask & (1 << 3)) ? temp4 : float32_zero;
-+    }
+@@ -945,45 +927,49 @@ void helper_insertq_i(CPUX86State *env, ZMMReg *d, int index, int length)
+     d->ZMM_Q(0) = helper_insertq(d->ZMM_Q(0), index, length);
  }
  
--void glue(helper_dppd, SUFFIX)(CPUX86State *env, Reg *d, Reg *s, uint32_t mask)
-+#if SHIFT == 1
-+/* Oddly, there is no ymm version of dppd */
-+void glue(helper_dppd, SUFFIX)(CPUX86State *env,
-+                               Reg *d, Reg *s, uint32_t mask)
- {
-+    Reg *v = d;
-     float64 prod1, prod2, temp2;
- 
-     if (mask & (1 << 4)) {
--        prod1 = float64_mul(d->ZMM_D(0), s->ZMM_D(0), &env->sse_status);
-+        prod1 = float64_mul(v->ZMM_D(0), s->ZMM_D(0), &env->sse_status);
-     } else {
-         prod1 = float64_zero;
-     }
-     if (mask & (1 << 5)) {
--        prod2 = float64_mul(d->ZMM_D(1), s->ZMM_D(1), &env->sse_status);
-+        prod2 = float64_mul(v->ZMM_D(1), s->ZMM_D(1), &env->sse_status);
-     } else {
-         prod2 = float64_zero;
-     }
-@@ -1959,6 +1968,7 @@ void glue(helper_dppd, SUFFIX)(CPUX86State *env, Reg *d, Reg *s, uint32_t mask)
-     d->ZMM_D(0) = (mask & (1 << 0)) ? temp2 : float64_zero;
-     d->ZMM_D(1) = (mask & (1 << 1)) ? temp2 : float64_zero;
+-void glue(helper_haddps, SUFFIX)(CPUX86State *env, ZMMReg *d, ZMMReg *s)
+-{
+-    ZMMReg r;
+-
+-    r.ZMM_S(0) = float32_add(d->ZMM_S(0), d->ZMM_S(1), &env->sse_status);
+-    r.ZMM_S(1) = float32_add(d->ZMM_S(2), d->ZMM_S(3), &env->sse_status);
+-    r.ZMM_S(2) = float32_add(s->ZMM_S(0), s->ZMM_S(1), &env->sse_status);
+-    r.ZMM_S(3) = float32_add(s->ZMM_S(2), s->ZMM_S(3), &env->sse_status);
+-    MOVE(*d, r);
++#define SSE_HELPER_HPS(name, F)  \
++void glue(helper_ ## name, SUFFIX)(CPUX86State *env, Reg *d, Reg *s) \
++{                                                                 \
++    Reg *v = d;                                                   \
++    float32 r[2 << SHIFT];                                        \
++    int i, j, k;                                                  \
++    for (k = 0; k < 2 << SHIFT; k += LANE_WIDTH / 4) {            \
++        for (i = j = 0; j < 4; i++, j += 2) {                     \
++            r[i + k] = F(v->ZMM_S(j + k), v->ZMM_S(j + k + 1), &env->sse_status); \
++        }                                                         \
++        for (j = 0; j < 4; i++, j += 2) {                         \
++            r[i + k] = F(s->ZMM_S(j + k), s->ZMM_S(j + k + 1), &env->sse_status); \
++        }                                                         \
++    }                                                             \
++    for (i = 0; i < 2 << SHIFT; i++) {                            \
++        d->ZMM_S(i) = r[i];                                       \
++    }                                                             \
  }
-+#endif
  
- void glue(helper_mpsadbw, SUFFIX)(CPUX86State *env, Reg *d, Reg *s,
-                                   uint32_t offset)
+-void glue(helper_haddpd, SUFFIX)(CPUX86State *env, ZMMReg *d, ZMMReg *s)
+-{
+-    ZMMReg r;
++SSE_HELPER_HPS(haddps, float32_add)
++SSE_HELPER_HPS(hsubps, float32_sub)
+ 
+-    r.ZMM_D(0) = float64_add(d->ZMM_D(0), d->ZMM_D(1), &env->sse_status);
+-    r.ZMM_D(1) = float64_add(s->ZMM_D(0), s->ZMM_D(1), &env->sse_status);
+-    MOVE(*d, r);
++#define SSE_HELPER_HPD(name, F)  \
++void glue(helper_ ## name, SUFFIX)(CPUX86State *env, Reg *d, Reg *s) \
++{                                                                 \
++    Reg *v = d;                                                   \
++    float64 r[1 << SHIFT];                                        \
++    int i, j, k;                                                  \
++    for (k = 0; k < 1 << SHIFT; k += LANE_WIDTH / 8) {            \
++        for (i = j = 0; j < 2; i++, j += 2) {                     \
++            r[i + k] = F(v->ZMM_D(j + k), v->ZMM_D(j + k + 1), &env->sse_status); \
++        }                                                         \
++        for (j = 0; j < 2; i++, j += 2) {                         \
++            r[i + k] = F(s->ZMM_D(j + k), s->ZMM_D(j + k + 1), &env->sse_status); \
++        }                                                         \
++    }                                                             \
++    for (i = 0; i < 1 << SHIFT; i++) {                            \
++        d->ZMM_D(i) = r[i];                                       \
++    }                                                             \
+ }
+ 
+-void glue(helper_hsubps, SUFFIX)(CPUX86State *env, ZMMReg *d, ZMMReg *s)
+-{
+-    ZMMReg r;
+-
+-    r.ZMM_S(0) = float32_sub(d->ZMM_S(0), d->ZMM_S(1), &env->sse_status);
+-    r.ZMM_S(1) = float32_sub(d->ZMM_S(2), d->ZMM_S(3), &env->sse_status);
+-    r.ZMM_S(2) = float32_sub(s->ZMM_S(0), s->ZMM_S(1), &env->sse_status);
+-    r.ZMM_S(3) = float32_sub(s->ZMM_S(2), s->ZMM_S(3), &env->sse_status);
+-    MOVE(*d, r);
+-}
+-
+-void glue(helper_hsubpd, SUFFIX)(CPUX86State *env, ZMMReg *d, ZMMReg *s)
+-{
+-    ZMMReg r;
+-
+-    r.ZMM_D(0) = float64_sub(d->ZMM_D(0), d->ZMM_D(1), &env->sse_status);
+-    r.ZMM_D(1) = float64_sub(s->ZMM_D(0), s->ZMM_D(1), &env->sse_status);
+-    MOVE(*d, r);
+-}
++SSE_HELPER_HPD(haddpd, float64_add)
++SSE_HELPER_HPD(hsubpd, float64_sub)
+ 
+ void glue(helper_addsubps, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
+ {
 -- 
 2.37.1
 
