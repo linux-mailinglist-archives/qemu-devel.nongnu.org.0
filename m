@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 030C35A9AFC
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 16:56:57 +0200 (CEST)
-Received: from localhost ([::1]:60672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F8285A9B01
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 16:58:37 +0200 (CEST)
+Received: from localhost ([::1]:43078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTlcl-0006mi-Re
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 10:56:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35646)
+	id 1oTleO-0001K0-LS
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 10:58:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1oTlZq-0001LH-BN
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 10:53:54 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44843)
+ id 1oTlbE-0004Ic-JA
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 10:55:20 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:42938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1oTlZo-00028M-IO
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 10:53:54 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id c7so16049497wrp.11
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 07:53:51 -0700 (PDT)
+ id 1oTlbB-0002TZ-NH
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 10:55:19 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ d12-20020a05600c34cc00b003a83d20812fso1634660wmq.1
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 07:55:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc;
- bh=nu7sumbqAfqzuOt6q1DBECNPK61XEbxkKFUKshcSeI8=;
- b=r6E0dofJyWlq2h9wKfSnN16jIZVYzRapWfgBy1QQStBI2+fogDzjbxdyWA4m9Ikpzv
- weNQc9Y10j4cilndm0X6HnUAnYK0Hsg2qwlcNveWvT4H5QOClorbPr/1aINS+oiYv8Ut
- I5gAFKjKtnMx4h4OQA9Xu0LCXMR/5RF2dgz7PVTkHg0ko++XHu5oRIfryQ8Sf6CkITlK
- yLP/488GnNn4wdf9+aNU9n3ynzMwMp3EwHx0YSaxoz9V3sIyCavXihlT74HZVAuWGDi5
- 6EFKZhhZGOGEDHyq+vaukYBS4XbZtdPng2eqqxceZyirShJ0yYDDOHugsrF8AdXN8R5c
- 5pzw==
+ bh=5uqJA5bkdeIRNpbJqifZuVvgLe4a26sOSkLM0qolaoo=;
+ b=F6L+83M4BbJnz3IN9L54sNPL09/lnlxbOrE43DdZvTuK9rfgZMsTxnQXTAyTJ7CLY1
+ +ooPaqnxqe8oBN9q0KULeZB/7FRMVpr4XIJrqnRIX939HrbAWHXYVYUIzpaJV0br1ZdQ
+ QGTucSkK2rfja0ljjWvTurNVByfYeXZKwq/MBJ/qVK7UjKEuKfVbD86Mc0YtMuc15XrC
+ +Vve6zEOmKWLHxmMSZb5ueefl/o690vTIDP/ZUYSqKw3uCPnPCwLNw1a9JFCCN4dHmTA
+ 7eb1ZNDzTsR4ZaBMM6w0DuuB4QStwBKD3YvDcXskszZp1vBX3/1YOCdySZjqO6xgXM3P
+ Zg9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=nu7sumbqAfqzuOt6q1DBECNPK61XEbxkKFUKshcSeI8=;
- b=UuQaZp5mb3byrWok9rM9rQf2+XB+7SZcMfiR9jr/ZK1ywBNVOMELsUMpPFDjI0lah9
- RcvclfKpsdJPjpU35gZYHlBL5OoLntvzTXxJCdIEyhXrw48cUyCa9pFBMogdM5YiHLms
- jq+aMjwADpfydCWEYIh+3PhIjsbfIt9kL/dJdQzmzWAGoL3F7Hx0U1CLaJuYpWYQT7eB
- 6/N667j12SbLyhv+MTDtcVJowVI1j1+DchHbycY9CrE8vmaxPQA/eX/1wnijs7E8n/yo
- 19Oud7LnLOB9QGsZ+5QjoTmTH9WsaG/B1jGZOkdCGNSd+rx2QZX8wZ6VUwTluDdERat6
- fexw==
-X-Gm-Message-State: ACgBeo0fZHTGHFa6yQHF9juSf5/T4/ic7bpcr08FKIkMx5VZUv8KotoY
- ZbCTYuvx7MUQ1dhETZQ3i8o69A==
-X-Google-Smtp-Source: AA6agR4M1uDHMIZZ4MsSshoKUD24aiGWi/U7HWCiNOQ33Kmi/PKM5CA8Kh5hRMhDx4wMTb6NJJrkPQ==
-X-Received: by 2002:a05:6000:78b:b0:226:d10f:1c3 with SMTP id
- bu11-20020a056000078b00b00226d10f01c3mr14054806wrb.149.1662044029795; 
- Thu, 01 Sep 2022 07:53:49 -0700 (PDT)
+ bh=5uqJA5bkdeIRNpbJqifZuVvgLe4a26sOSkLM0qolaoo=;
+ b=YbYPY7SB3Dz2GFOvAd4VYC3JBtKEiG6CeMVHdtqqFLjGpLVA6RJ8iHmKII2tEdtOt2
+ eiZFmBNlIvwXRUCouyhHlhf1ULwxhlvt99lX3cyGPL+qkb7s/tixhvkJlBG9oGkF+DAY
+ Qs2OeRAcKVzxFKEZlw0RbLUDoTW768WZ4R/w44cswCaIQ4XKHQpj7+80k0BvQujBFVBx
+ mryOIUCCPqfpbRdQy10HStWBlMYDu1vijalbMr3ozn3jV23/ygFMaBohW8nJZAj7Ci/X
+ oVxujOiRw0SBuxw1J0/pCS5S8cXWhnTQL6CkKKmyNdyOiXoM358veDY0y2VOm8wra62j
+ URcA==
+X-Gm-Message-State: ACgBeo2jpo/FT8kYA7Ag9SzspmiPgwjRyr2qVLr0rW/tGLvkxvKpamf6
+ Sr72XDcLuHPXr06YDb2CXlpKTdwXspq4t6Qa
+X-Google-Smtp-Source: AA6agR6TAIs8HHccT/FRrKuzblSuRO8qJkZ6jVF5gKICknwB82HQQ/cfBItzVhBxJKAX8ovQYdoHKA==
+X-Received: by 2002:a05:600c:3790:b0:3a5:435d:b2d3 with SMTP id
+ o16-20020a05600c379000b003a5435db2d3mr5622929wmr.134.1662044116140; 
+ Thu, 01 Sep 2022 07:55:16 -0700 (PDT)
 Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
  [82.27.106.168]) by smtp.gmail.com with ESMTPSA id
- i16-20020adffc10000000b002253af82fa7sm18032231wrr.9.2022.09.01.07.53.48
+ d14-20020a05600c34ce00b003a5f54e3bbbsm5756577wmq.38.2022.09.01.07.55.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 07:53:49 -0700 (PDT)
-Date: Thu, 1 Sep 2022 15:53:46 +0100
+ Thu, 01 Sep 2022 07:55:15 -0700 (PDT)
+Date: Thu, 1 Sep 2022 15:55:13 +0100
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: Peter Maydell <peter.maydell@linaro.org>
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, robh+dt@kernel.org,
  eauger@redhat.com
-Subject: Re: [PATCH 02/10] hw/arm/boot: Fix devicetree warning about the PSCI
+Subject: Re: [PATCH 03/10] hw/arm/virt: Fix devicetree warnings about the GIC
  node
-Message-ID: <YxDHev0qezcjSvxE@myrica>
+Message-ID: <YxDH0b9xCrrHGh/5@myrica>
 References: <20220824155113.286730-1-jean-philippe@linaro.org>
- <20220824155113.286730-3-jean-philippe@linaro.org>
- <CAFEAcA_dXgmFeZnrimenE0yMnupM0pWuj5s96vk-sBDmtvZQxw@mail.gmail.com>
+ <20220824155113.286730-4-jean-philippe@linaro.org>
+ <CAFEAcA-mnwzLChUp3_DP0Wz+et9sbv5mMowZn_tf7PPSkfWuSQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFEAcA_dXgmFeZnrimenE0yMnupM0pWuj5s96vk-sBDmtvZQxw@mail.gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x42b.google.com
+In-Reply-To: <CAFEAcA-mnwzLChUp3_DP0Wz+et9sbv5mMowZn_tf7PPSkfWuSQ@mail.gmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,51 +93,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 24, 2022 at 08:33:54PM +0100, Peter Maydell wrote:
+On Wed, Aug 24, 2022 at 08:36:33PM +0100, Peter Maydell wrote:
 > On Wed, 24 Aug 2022 at 16:51, Jean-Philippe Brucker
 > <jean-philippe@linaro.org> wrote:
 > >
-> > dt-validate warns that an implementation compatible with arm,psci-1.0
-> > shouldn't have arm,psci in their compatible string.
+> > Fix three dt-validate warnings about the GIC node due to invalid names
+> > and missing property:
 > >
-> >   psci: compatible: 'oneOf' conditional failed, one must be fixed:
-> >         ['arm,psci-1.0', 'arm,psci-0.2', 'arm,psci'] is too long
-> >   From schema: linux/Documentation/devicetree/bindings/arm/psci.yaml
+> >   intc@8000000: $nodename:0: 'intc@8000000' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
+> >   intc@8000000: 'its@8080000' does not match any of the regexes: '^(msi-controller|gic-its|interrupt-controller)@[0-9a-f]+$', '^gic-its@', '^interrupt-controller@[0-9a-f]+$', 'pinctrl-[0-9]+'
 > >
-> > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> > ---
-> >  hw/arm/boot.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-> > index ada2717f76..527918227e 100644
-> > --- a/hw/arm/boot.c
-> > +++ b/hw/arm/boot.c
-> > @@ -493,7 +493,7 @@ static void fdt_add_psci_node(void *fdt)
-> >              const char comp[] = "arm,psci-0.2\0arm,psci";
-> >              qemu_fdt_setprop(fdt, "/psci", "compatible", comp, sizeof(comp));
-> >          } else {
-> > -            const char comp[] = "arm,psci-1.0\0arm,psci-0.2\0arm,psci";
-> > +            const char comp[] = "arm,psci-1.0\0arm,psci-0.2";
-> >              qemu_fdt_setprop(fdt, "/psci", "compatible", comp, sizeof(comp));
-> >          }
+> >   interrupt-controller@8000000: msi-controller@8080000: '#msi-cells' is a required property
+> >   From schema: linux/Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml
 > 
-> This doesn't look right.
-> Documentation/devicetree/bindings/arm/psci.yaml says
-> "arm,psci-1.0" means "complies to PSCI 1.0",
-> "arm,psci-0.2" means "complies to PSCI 0.2",
-> and "arm,psci" means "complies to pre-0.2 PSCI"
-> 
-> If you want to drop "arm,psci" then you should be arguing why
-> we're not compliant with pre-0.2 PSCI. Maybe we aren't and we
-> shouldn't be advertising it, but you need more rationale than
-> "dt-validate complained".
+> Why is dt-validate complaining about the node names? Surely
+> anything looking for the ITS in the DT should be looking for
+> it by the "compatible" string ?
 
-Yes I agree, and that's my mistake. Rob already relaxed the bindings
-https://lore.kernel.org/all/20220803201639.2552581-1-robh@kernel.org/
-but that's queued for v6.1 and I was validating against mainline.
-I'll drop the patch
+The device-tree specification, in 2.2.2 Generic Name Recommendation [1],
+provides the node names. Given that the guest will look at compatible
+strings, changing the name is safe.
 
 Thanks,
 Jean
+
+[1] http://devicetree-org.github.io/devicetree-specification/index.html#generic-names-recommendation 
 
