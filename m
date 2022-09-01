@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 007185A9F64
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 20:48:26 +0200 (CEST)
-Received: from localhost ([::1]:60662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52F875A9F6D
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 20:52:19 +0200 (CEST)
+Received: from localhost ([::1]:47690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTpEn-0007Wn-4l
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 14:48:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41788)
+	id 1oTpIW-0004f0-Rv
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 14:52:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oTosU-0008CF-0Q
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:25:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58031)
+ id 1oTosV-0008Eg-28
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:25:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29063)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oTosM-00006a-JH
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:25:21 -0400
+ id 1oTosO-00006l-Cy
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:25:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662056714;
+ s=mimecast20190719; t=1662056715;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MvcLLysMARUchQ4M6kaWE+2EUeOvL+cfwn/GHeZEhU8=;
- b=VZtcn4s8f/9R0ywK1y6gQYW2GzLF/hbyw77MHNMuOWE9WZhSu7B2/5tQ8KEeSYo0flseb4
- wUeBcs87rLrOyxWumskLWV81wIwhWvu4/0oyv2TL9XJ4grrSxv7TLUP2Q3XV49pMS56OpP
- jrre4SYQC2cBZe3OUhlWy7pRDfad3v0=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TRSBxJ+kyWBpg1Sk50ijsEg3buEI+st4ClMnlq4x2FI=;
+ b=YI4CxrRMrzk4Pc9JUYF6ZZ7yvaAOx23MOi67+n7H+BfhBXrfeHmEccn/gdB5yWtdWeYqsx
+ U1nwQ1gzFEf5E/ZGHrv65HrcPhnG0y9NCBrBqHZu9Ui6fkMgQM7nRH4p0lXA2i7ONe71CV
+ OvGwchlYERWNsbL1RG8XQjk51XTfnFA=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-52-KEfzrnUwP1S8wibRogjA5A-1; Thu, 01 Sep 2022 14:25:12 -0400
-X-MC-Unique: KEfzrnUwP1S8wibRogjA5A-1
-Received: by mail-ed1-f70.google.com with SMTP id
- y14-20020a056402440e00b0044301c7ccd9so12215289eda.19
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 11:25:12 -0700 (PDT)
+ us-mta-483-GtguWJsfNxKu1S0wy10spw-1; Thu, 01 Sep 2022 14:25:14 -0400
+X-MC-Unique: GtguWJsfNxKu1S0wy10spw-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ hp14-20020a1709073e0e00b00741a2093c4aso5616504ejc.20
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 11:25:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=MvcLLysMARUchQ4M6kaWE+2EUeOvL+cfwn/GHeZEhU8=;
- b=Gh4zx8yajOWPYIYWG2SY8erL1LRuEOg73FM38Ztt5QM5LULkAUvGkcYybkVAxw3N3w
- 7TQTCgN9NwI0SuWPplgmV0MF7jRBWUAvucAd4kD5jOzDSWbYn78tmGGMSCZzaPTtAHin
- Ods4iD+g9hX6xY8t/N6osLEGaiR20kUDNXhiFuyMVFLQci2b0d8mqtKp37WqqEHQV133
- 90ZVi2VHrWhkpvqE1fxj18k3rc0YIp4vDl8XscAxPy3N+QGKPPXaAMcEOUsz571YsYXM
- uBpe+eC0yCMgBDgz3SdaaZUnDtzwwssdsMhS7SGU2U8IxB1nmu4ZZ1C3z7c/lpWrKmA6
- UuyA==
-X-Gm-Message-State: ACgBeo0b7E2MvnhfqhAta0YSBra3+LCtAgbzcIQNeU8Vnaqv/2RiPnKb
- wrSLmFP4DCZ1L0IuEIAXFuT2nmPL3hxjNmN56F+S5cWxuSrfbiQ8DkiJkZBqc5dpKMMfhwQzgLR
- oms/4OEAY03INzcNxUYPftzx0U1ql4Liy65z6poUNeQpW0EAXB8jh3uEaOGwd0n1mO/Q=
-X-Received: by 2002:a17:907:7394:b0:73a:d077:9ba1 with SMTP id
- er20-20020a170907739400b0073ad0779ba1mr23679218ejc.697.1662056711303; 
- Thu, 01 Sep 2022 11:25:11 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5bVhbsVaV6jU7VtMvS85IL5XiHPCUAyXjKF/vbh9GhYMQgpHbJ7KYjbJ4V58H4n4qF9YCAQw==
-X-Received: by 2002:a17:907:7394:b0:73a:d077:9ba1 with SMTP id
- er20-20020a170907739400b0073ad0779ba1mr23679192ejc.697.1662056710948; 
- Thu, 01 Sep 2022 11:25:10 -0700 (PDT)
+ bh=TRSBxJ+kyWBpg1Sk50ijsEg3buEI+st4ClMnlq4x2FI=;
+ b=UAp1Wt2Ten6aGfCqtqYhNR78W/1VVG/CpC7oBcsFcKDNkRbr7n2XqIjl2hf1ZuLi+n
+ E2OwT/Z1IkeJN5vIE9CqEmORhoopftWMjY/dyRcSZ2B3eFX73a0C+QwAxhX83+reQtM5
+ OKduCuVQ0SCnB0+zAdNEewLpID0Jrf2YimY5HTKLOHGPacjZWW+K/zH5YYYGnA07PxTr
+ YTABoNCsW/akAzfH226BySN8GI3AFbApT9AwtzARu4ecFCxSrYQiRXw8PEeTDX47DJtx
+ f2Ao5ypPxv2VhLevNA5i2+ilebCGYuKnLEzm/ODWxn1G51Do72IjnrsfSOATK343tYai
+ hYWA==
+X-Gm-Message-State: ACgBeo2aNcCpKuJgxrnf+QSBRtJCE6V/QhYkfapqeicDioZMKhGFUtxu
+ i4Jb525ZX5Cm+hhWcrh6EUvD2/RAmoi2ajnAHyMNNdr6DDXU0kvb+6Knfp8Kjc0KAnQ3LIgG0vj
+ AdRdfj+Q7ns/If6wsvxkjy3iWY33Ab2NEIrfolTFHwNBqXDL0vAFL7M43+hhsFtJrBhQ=
+X-Received: by 2002:a05:6402:510c:b0:43e:305c:a4d1 with SMTP id
+ m12-20020a056402510c00b0043e305ca4d1mr28633226edd.35.1662056712899; 
+ Thu, 01 Sep 2022 11:25:12 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR73qo/gMjSAkfkEfTyWPmOCOylajJUrcOTgOiqWYhC0l/tMzjgFcXGXFUeCKoD+5Z2o37lxKA==
+X-Received: by 2002:a05:6402:510c:b0:43e:305c:a4d1 with SMTP id
+ m12-20020a056402510c00b0043e305ca4d1mr28633210edd.35.1662056712614; 
+ Thu, 01 Sep 2022 11:25:12 -0700 (PDT)
 Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- d13-20020a50fb0d000000b00445bda73fbesm1796895edq.33.2022.09.01.11.25.09
+ u6-20020a170906c40600b0073dd1ac2fc8sm8784119ejz.195.2022.09.01.11.25.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 11:25:10 -0700 (PDT)
+ Thu, 01 Sep 2022 11:25:12 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Paul Brook <paul@nowt.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 20/39] target/i386: Rework sse_op_table6/7
-Date: Thu,  1 Sep 2022 20:24:10 +0200
-Message-Id: <20220901182429.93533-21-pbonzini@redhat.com>
+Subject: [PULL 21/39] target/i386: Move 3DNOW decoder
+Date: Thu,  1 Sep 2022 20:24:11 +0200
+Message-Id: <20220901182429.93533-22-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220901182429.93533-1-pbonzini@redhat.com>
 References: <20220901182429.93533-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,343 +103,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paul Brook <paul@nowt.org>
 
-Add a flags field each row in sse_op_table6 and sse_op_table7.
-
-Initially this is only used as a replacement for the magic SSE41_SPECIAL
-pointer.  The other flags are mostly relevant for the AVX implementation
-but can be applied to SSE as well.
+Handle 3DNOW instructions early to avoid complicating the MMX/SSE logic.
 
 Signed-off-by: Paul Brook <paul@nowt.org>
-Message-Id: <20220424220204.2493824-6-paul@nowt.org>
+Message-Id: <20220424220204.2493824-25-paul@nowt.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/tcg/translate.c | 230 ++++++++++++++++++++----------------
- 1 file changed, 131 insertions(+), 99 deletions(-)
+ target/i386/tcg/translate.c | 30 +++++++++++++++++-------------
+ 1 file changed, 17 insertions(+), 13 deletions(-)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 7332bbcf44..b7321b7588 100644
+index b7321b7588..c76f6dba11 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -2976,7 +2976,6 @@ static const struct SSEOpHelper_table1 sse_op_table1[256] = {
- #undef SSE_SPECIAL
- 
- #define MMX_OP2(x) { gen_helper_ ## x ## _mmx, gen_helper_ ## x ## _xmm }
--#define SSE_SPECIAL_FN ((void *)1)
- 
- static const SSEFunc_0_epp sse_op_table2[3 * 8][2] = {
-     [0 + 2] = MMX_OP2(psrlw),
-@@ -3060,113 +3059,134 @@ static const SSEFunc_0_epp sse_op_table5[256] = {
-     [0xbf] = gen_helper_pavgb_mmx /* pavgusb */
- };
- 
--struct SSEOpHelper_epp {
-+struct SSEOpHelper_table6 {
-     SSEFunc_0_epp op[2];
-     uint32_t ext_mask;
-+    int flags;
- };
- 
--struct SSEOpHelper_eppi {
-+struct SSEOpHelper_table7 {
-     SSEFunc_0_eppi op[2];
-     uint32_t ext_mask;
-+    int flags;
- };
- 
--#define SSSE3_OP(x) { MMX_OP2(x), CPUID_EXT_SSSE3 }
--#define SSE41_OP(x) { { NULL, gen_helper_ ## x ## _xmm }, CPUID_EXT_SSE41 }
--#define SSE42_OP(x) { { NULL, gen_helper_ ## x ## _xmm }, CPUID_EXT_SSE42 }
--#define SSE41_SPECIAL { { NULL, SSE_SPECIAL_FN }, CPUID_EXT_SSE41 }
--#define PCLMULQDQ_OP(x) { { NULL, gen_helper_ ## x ## _xmm }, \
--        CPUID_EXT_PCLMULQDQ }
--#define AESNI_OP(x) { { NULL, gen_helper_ ## x ## _xmm }, CPUID_EXT_AES }
-+#define gen_helper_special_xmm NULL
- 
--static const struct SSEOpHelper_epp sse_op_table6[256] = {
--    [0x00] = SSSE3_OP(pshufb),
--    [0x01] = SSSE3_OP(phaddw),
--    [0x02] = SSSE3_OP(phaddd),
--    [0x03] = SSSE3_OP(phaddsw),
--    [0x04] = SSSE3_OP(pmaddubsw),
--    [0x05] = SSSE3_OP(phsubw),
--    [0x06] = SSSE3_OP(phsubd),
--    [0x07] = SSSE3_OP(phsubsw),
--    [0x08] = SSSE3_OP(psignb),
--    [0x09] = SSSE3_OP(psignw),
--    [0x0a] = SSSE3_OP(psignd),
--    [0x0b] = SSSE3_OP(pmulhrsw),
--    [0x10] = SSE41_OP(pblendvb),
--    [0x14] = SSE41_OP(blendvps),
--    [0x15] = SSE41_OP(blendvpd),
--    [0x17] = SSE41_OP(ptest),
--    [0x1c] = SSSE3_OP(pabsb),
--    [0x1d] = SSSE3_OP(pabsw),
--    [0x1e] = SSSE3_OP(pabsd),
--    [0x20] = SSE41_OP(pmovsxbw),
--    [0x21] = SSE41_OP(pmovsxbd),
--    [0x22] = SSE41_OP(pmovsxbq),
--    [0x23] = SSE41_OP(pmovsxwd),
--    [0x24] = SSE41_OP(pmovsxwq),
--    [0x25] = SSE41_OP(pmovsxdq),
--    [0x28] = SSE41_OP(pmuldq),
--    [0x29] = SSE41_OP(pcmpeqq),
--    [0x2a] = SSE41_SPECIAL, /* movntqda */
--    [0x2b] = SSE41_OP(packusdw),
--    [0x30] = SSE41_OP(pmovzxbw),
--    [0x31] = SSE41_OP(pmovzxbd),
--    [0x32] = SSE41_OP(pmovzxbq),
--    [0x33] = SSE41_OP(pmovzxwd),
--    [0x34] = SSE41_OP(pmovzxwq),
--    [0x35] = SSE41_OP(pmovzxdq),
--    [0x37] = SSE42_OP(pcmpgtq),
--    [0x38] = SSE41_OP(pminsb),
--    [0x39] = SSE41_OP(pminsd),
--    [0x3a] = SSE41_OP(pminuw),
--    [0x3b] = SSE41_OP(pminud),
--    [0x3c] = SSE41_OP(pmaxsb),
--    [0x3d] = SSE41_OP(pmaxsd),
--    [0x3e] = SSE41_OP(pmaxuw),
--    [0x3f] = SSE41_OP(pmaxud),
--    [0x40] = SSE41_OP(pmulld),
--    [0x41] = SSE41_OP(phminposuw),
--    [0xdb] = AESNI_OP(aesimc),
--    [0xdc] = AESNI_OP(aesenc),
--    [0xdd] = AESNI_OP(aesenclast),
--    [0xde] = AESNI_OP(aesdec),
--    [0xdf] = AESNI_OP(aesdeclast),
-+#define OP(name, op, flags, ext, mmx_name) \
-+    {{mmx_name, gen_helper_ ## name ## _xmm}, CPUID_EXT_ ## ext, flags}
-+#define BINARY_OP_MMX(name, ext) \
-+    OP(name, op1, SSE_OPF_MMX, ext, gen_helper_ ## name ## _mmx)
-+#define BINARY_OP(name, ext, flags) \
-+    OP(name, op1, flags, ext, NULL)
-+#define UNARY_OP_MMX(name, ext) \
-+    OP(name, op1, SSE_OPF_MMX, ext, gen_helper_ ## name ## _mmx)
-+#define UNARY_OP(name, ext, flags) \
-+    OP(name, op1, flags, ext, NULL)
-+#define BLENDV_OP(name, ext, flags) OP(name, op1, 0, ext, NULL)
-+#define CMP_OP(name, ext) OP(name, op1, SSE_OPF_CMP, ext, NULL)
-+#define SPECIAL_OP(ext) OP(special, op1, SSE_OPF_SPECIAL, ext, NULL)
-+
-+/* prefix [66] 0f 38 */
-+static const struct SSEOpHelper_table6 sse_op_table6[256] = {
-+    [0x00] = BINARY_OP_MMX(pshufb, SSSE3),
-+    [0x01] = BINARY_OP_MMX(phaddw, SSSE3),
-+    [0x02] = BINARY_OP_MMX(phaddd, SSSE3),
-+    [0x03] = BINARY_OP_MMX(phaddsw, SSSE3),
-+    [0x04] = BINARY_OP_MMX(pmaddubsw, SSSE3),
-+    [0x05] = BINARY_OP_MMX(phsubw, SSSE3),
-+    [0x06] = BINARY_OP_MMX(phsubd, SSSE3),
-+    [0x07] = BINARY_OP_MMX(phsubsw, SSSE3),
-+    [0x08] = BINARY_OP_MMX(psignb, SSSE3),
-+    [0x09] = BINARY_OP_MMX(psignw, SSSE3),
-+    [0x0a] = BINARY_OP_MMX(psignd, SSSE3),
-+    [0x0b] = BINARY_OP_MMX(pmulhrsw, SSSE3),
-+    [0x10] = BLENDV_OP(pblendvb, SSE41, SSE_OPF_MMX),
-+    [0x14] = BLENDV_OP(blendvps, SSE41, 0),
-+    [0x15] = BLENDV_OP(blendvpd, SSE41, 0),
-+    [0x17] = CMP_OP(ptest, SSE41),
-+    [0x1c] = UNARY_OP_MMX(pabsb, SSSE3),
-+    [0x1d] = UNARY_OP_MMX(pabsw, SSSE3),
-+    [0x1e] = UNARY_OP_MMX(pabsd, SSSE3),
-+    [0x20] = UNARY_OP(pmovsxbw, SSE41, SSE_OPF_MMX),
-+    [0x21] = UNARY_OP(pmovsxbd, SSE41, SSE_OPF_MMX),
-+    [0x22] = UNARY_OP(pmovsxbq, SSE41, SSE_OPF_MMX),
-+    [0x23] = UNARY_OP(pmovsxwd, SSE41, SSE_OPF_MMX),
-+    [0x24] = UNARY_OP(pmovsxwq, SSE41, SSE_OPF_MMX),
-+    [0x25] = UNARY_OP(pmovsxdq, SSE41, SSE_OPF_MMX),
-+    [0x28] = BINARY_OP(pmuldq, SSE41, SSE_OPF_MMX),
-+    [0x29] = BINARY_OP(pcmpeqq, SSE41, SSE_OPF_MMX),
-+    [0x2a] = SPECIAL_OP(SSE41), /* movntqda */
-+    [0x2b] = BINARY_OP(packusdw, SSE41, SSE_OPF_MMX),
-+    [0x30] = UNARY_OP(pmovzxbw, SSE41, SSE_OPF_MMX),
-+    [0x31] = UNARY_OP(pmovzxbd, SSE41, SSE_OPF_MMX),
-+    [0x32] = UNARY_OP(pmovzxbq, SSE41, SSE_OPF_MMX),
-+    [0x33] = UNARY_OP(pmovzxwd, SSE41, SSE_OPF_MMX),
-+    [0x34] = UNARY_OP(pmovzxwq, SSE41, SSE_OPF_MMX),
-+    [0x35] = UNARY_OP(pmovzxdq, SSE41, SSE_OPF_MMX),
-+    [0x37] = BINARY_OP(pcmpgtq, SSE41, SSE_OPF_MMX),
-+    [0x38] = BINARY_OP(pminsb, SSE41, SSE_OPF_MMX),
-+    [0x39] = BINARY_OP(pminsd, SSE41, SSE_OPF_MMX),
-+    [0x3a] = BINARY_OP(pminuw, SSE41, SSE_OPF_MMX),
-+    [0x3b] = BINARY_OP(pminud, SSE41, SSE_OPF_MMX),
-+    [0x3c] = BINARY_OP(pmaxsb, SSE41, SSE_OPF_MMX),
-+    [0x3d] = BINARY_OP(pmaxsd, SSE41, SSE_OPF_MMX),
-+    [0x3e] = BINARY_OP(pmaxuw, SSE41, SSE_OPF_MMX),
-+    [0x3f] = BINARY_OP(pmaxud, SSE41, SSE_OPF_MMX),
-+    [0x40] = BINARY_OP(pmulld, SSE41, SSE_OPF_MMX),
-+    [0x41] = UNARY_OP(phminposuw, SSE41, 0),
-+    [0xdb] = UNARY_OP(aesimc, AES, 0),
-+    [0xdc] = BINARY_OP(aesenc, AES, 0),
-+    [0xdd] = BINARY_OP(aesenclast, AES, 0),
-+    [0xde] = BINARY_OP(aesdec, AES, 0),
-+    [0xdf] = BINARY_OP(aesdeclast, AES, 0),
- };
- 
--static const struct SSEOpHelper_eppi sse_op_table7[256] = {
--    [0x08] = SSE41_OP(roundps),
--    [0x09] = SSE41_OP(roundpd),
--    [0x0a] = SSE41_OP(roundss),
--    [0x0b] = SSE41_OP(roundsd),
--    [0x0c] = SSE41_OP(blendps),
--    [0x0d] = SSE41_OP(blendpd),
--    [0x0e] = SSE41_OP(pblendw),
--    [0x0f] = SSSE3_OP(palignr),
--    [0x14] = SSE41_SPECIAL, /* pextrb */
--    [0x15] = SSE41_SPECIAL, /* pextrw */
--    [0x16] = SSE41_SPECIAL, /* pextrd/pextrq */
--    [0x17] = SSE41_SPECIAL, /* extractps */
--    [0x20] = SSE41_SPECIAL, /* pinsrb */
--    [0x21] = SSE41_SPECIAL, /* insertps */
--    [0x22] = SSE41_SPECIAL, /* pinsrd/pinsrq */
--    [0x40] = SSE41_OP(dpps),
--    [0x41] = SSE41_OP(dppd),
--    [0x42] = SSE41_OP(mpsadbw),
--    [0x44] = PCLMULQDQ_OP(pclmulqdq),
--    [0x60] = SSE42_OP(pcmpestrm),
--    [0x61] = SSE42_OP(pcmpestri),
--    [0x62] = SSE42_OP(pcmpistrm),
--    [0x63] = SSE42_OP(pcmpistri),
--    [0xdf] = AESNI_OP(aeskeygenassist),
-+/* prefix [66] 0f 3a */
-+static const struct SSEOpHelper_table7 sse_op_table7[256] = {
-+    [0x08] = UNARY_OP(roundps, SSE41, 0),
-+    [0x09] = UNARY_OP(roundpd, SSE41, 0),
-+    [0x0a] = UNARY_OP(roundss, SSE41, SSE_OPF_SCALAR),
-+    [0x0b] = UNARY_OP(roundsd, SSE41, SSE_OPF_SCALAR),
-+    [0x0c] = BINARY_OP(blendps, SSE41, 0),
-+    [0x0d] = BINARY_OP(blendpd, SSE41, 0),
-+    [0x0e] = BINARY_OP(pblendw, SSE41, SSE_OPF_MMX),
-+    [0x0f] = BINARY_OP_MMX(palignr, SSSE3),
-+    [0x14] = SPECIAL_OP(SSE41), /* pextrb */
-+    [0x15] = SPECIAL_OP(SSE41), /* pextrw */
-+    [0x16] = SPECIAL_OP(SSE41), /* pextrd/pextrq */
-+    [0x17] = SPECIAL_OP(SSE41), /* extractps */
-+    [0x20] = SPECIAL_OP(SSE41), /* pinsrb */
-+    [0x21] = SPECIAL_OP(SSE41), /* insertps */
-+    [0x22] = SPECIAL_OP(SSE41), /* pinsrd/pinsrq */
-+    [0x40] = BINARY_OP(dpps, SSE41, 0),
-+    [0x41] = BINARY_OP(dppd, SSE41, 0),
-+    [0x42] = BINARY_OP(mpsadbw, SSE41, SSE_OPF_MMX),
-+    [0x44] = BINARY_OP(pclmulqdq, PCLMULQDQ, 0),
-+    [0x60] = CMP_OP(pcmpestrm, SSE42),
-+    [0x61] = CMP_OP(pcmpestri, SSE42),
-+    [0x62] = CMP_OP(pcmpistrm, SSE42),
-+    [0x63] = CMP_OP(pcmpistri, SSE42),
-+    [0xdf] = UNARY_OP(aeskeygenassist, AES, 0),
- };
- 
-+#undef OP
-+#undef BINARY_OP_MMX
-+#undef BINARY_OP
-+#undef UNARY_OP_MMX
-+#undef UNARY_OP
-+#undef BLENDV_OP
-+#undef SPECIAL_OP
-+
- static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                     target_ulong pc_start)
- {
-     int b1, op1_offset, op2_offset, is_xmm, val;
-     int modrm, mod, rm, reg;
-     int sse_op_flags;
-+    const struct SSEOpHelper_table6 *op6;
-+    const struct SSEOpHelper_table7 *op7;
-     SSEFunc_0_epp sse_fn_epp;
--    SSEFunc_0_eppi sse_fn_eppi;
-     SSEFunc_0_ppi sse_fn_ppi;
-     SSEFunc_0_eppt sse_fn_eppt;
-     MemOp ot;
-@@ -3821,12 +3841,13 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-             mod = (modrm >> 6) & 3;
- 
-             assert(b1 < 2);
--            sse_fn_epp = sse_op_table6[b].op[b1];
--            if (!sse_fn_epp) {
-+            op6 = &sse_op_table6[b];
-+            if (op6->ext_mask == 0) {
-                 goto unknown_op;
+@@ -3216,6 +3216,11 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+             is_xmm = 1;
+         }
+     }
++    if (sse_op_flags & SSE_OPF_3DNOW) {
++        if (!(s->cpuid_ext2_features & CPUID_EXT2_3DNOW)) {
++            goto illegal_op;
++        }
++    }
+     /* simple MMX/SSE operation */
+     if (s->flags & HF_TS_MASK) {
+         gen_exception(s, EXCP07_PREX, pc_start - s->cs_base);
+@@ -4567,21 +4572,20 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+                 rm = (modrm & 7);
+                 op2_offset = offsetof(CPUX86State,fpregs[rm].mmx);
              }
--            if (!(s->cpuid_ext_features & sse_op_table6[b].ext_mask))
-+            if (!(s->cpuid_ext_features & op6->ext_mask)) {
-                 goto illegal_op;
-+            }
- 
-             if (b1) {
-                 op1_offset = ZMM_OFFSET(reg);
-@@ -3863,6 +3884,9 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                     }
-                 }
-             } else {
-+                if ((op6->flags & SSE_OPF_MMX) == 0) {
++            if (sse_op_flags & SSE_OPF_3DNOW) {
++                /* 3DNow! data insns */
++                val = x86_ldub_code(env, s);
++                SSEFunc_0_epp op_3dnow = sse_op_table5[val];
++                if (!op_3dnow) {
 +                    goto unknown_op;
 +                }
-                 op1_offset = offsetof(CPUX86State,fpregs[reg].mmx);
-                 if (mod == 3) {
-                     op2_offset = offsetof(CPUX86State,fpregs[rm].mmx);
-@@ -3872,13 +3896,13 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                     gen_ldq_env_A0(s, op2_offset);
-                 }
-             }
--            if (sse_fn_epp == SSE_SPECIAL_FN) {
--                goto unknown_op;
-+            if (!op6->op[b1]) {
-+                goto illegal_op;
-             }
- 
-             tcg_gen_addi_ptr(s->ptr0, cpu_env, op1_offset);
-             tcg_gen_addi_ptr(s->ptr1, cpu_env, op2_offset);
--            sse_fn_epp(cpu_env, s->ptr0, s->ptr1);
-+            op6->op[b1](cpu_env, s->ptr0, s->ptr1);
- 
-             if (b == 0x17) {
-                 set_cc_op(s, CC_OP_EFLAGS);
-@@ -4249,16 +4273,21 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-             mod = (modrm >> 6) & 3;
- 
-             assert(b1 < 2);
--            sse_fn_eppi = sse_op_table7[b].op[b1];
--            if (!sse_fn_eppi) {
-+            op7 = &sse_op_table7[b];
-+            if (op7->ext_mask == 0) {
-                 goto unknown_op;
-             }
--            if (!(s->cpuid_ext_features & sse_op_table7[b].ext_mask))
-+            if (!(s->cpuid_ext_features & op7->ext_mask)) {
-                 goto illegal_op;
++                tcg_gen_addi_ptr(s->ptr0, cpu_env, op1_offset);
++                tcg_gen_addi_ptr(s->ptr1, cpu_env, op2_offset);
++                op_3dnow(cpu_env, s->ptr0, s->ptr1);
++                return;
 +            }
- 
-             s->rip_offset = 1;
- 
--            if (sse_fn_eppi == SSE_SPECIAL_FN) {
-+            if (op7->flags & SSE_OPF_SPECIAL) {
-+                /* None of the "special" ops are valid on mmx registers */
-+                if (b1 == 0) {
-+                    goto illegal_op;
-+                }
-                 ot = mo_64_32(s->dflag);
-                 rm = (modrm & 7) | REX_B(s);
-                 if (mod != 3)
-@@ -4403,6 +4432,9 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                     gen_ldo_env_A0(s, op2_offset);
-                 }
-             } else {
-+                if ((op7->flags & SSE_OPF_MMX) == 0) {
-+                    goto illegal_op;
-+                }
-                 op1_offset = offsetof(CPUX86State,fpregs[reg].mmx);
-                 if (mod == 3) {
-                     op2_offset = offsetof(CPUX86State,fpregs[rm].mmx);
-@@ -4425,7 +4457,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
- 
-             tcg_gen_addi_ptr(s->ptr0, cpu_env, op1_offset);
-             tcg_gen_addi_ptr(s->ptr1, cpu_env, op2_offset);
--            sse_fn_eppi(cpu_env, s->ptr0, s->ptr1, tcg_const_i32(val));
-+            op7->op[b1](cpu_env, s->ptr0, s->ptr1, tcg_const_i32(val));
-             break;
- 
-         case 0x33a:
+         }
+         switch(b) {
+-        case 0x0f: /* 3DNow! data insns */
+-            val = x86_ldub_code(env, s);
+-            sse_fn_epp = sse_op_table5[val];
+-            if (!sse_fn_epp) {
+-                goto unknown_op;
+-            }
+-            if (!(s->cpuid_ext2_features & CPUID_EXT2_3DNOW)) {
+-                goto illegal_op;
+-            }
+-            tcg_gen_addi_ptr(s->ptr0, cpu_env, op1_offset);
+-            tcg_gen_addi_ptr(s->ptr1, cpu_env, op2_offset);
+-            sse_fn_epp(cpu_env, s->ptr0, s->ptr1);
+-            break;
+         case 0x70: /* pshufx insn */
+         case 0xc6: /* pshufx insn */
+             val = x86_ldub_code(env, s);
 -- 
 2.37.2
 
