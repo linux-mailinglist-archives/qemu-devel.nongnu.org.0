@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B319C5A934A
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 11:36:51 +0200 (CEST)
-Received: from localhost ([::1]:54586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C3335A931C
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 11:29:35 +0200 (CEST)
+Received: from localhost ([::1]:56152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTgd0-0004hv-KF
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 05:36:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48104)
+	id 1oTgVy-0008QB-Hg
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 05:29:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1oTg2M-00005c-7P
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 04:58:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59309)
+ id 1oTg2N-0000Bb-JS
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 04:58:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1oTg2K-0004uz-LR
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 04:58:57 -0400
+ id 1oTg2M-0004vA-3A
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 04:58:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662022736;
+ s=mimecast20190719; t=1662022737;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oj3WR2rGEhQN1x4OkvkAOD3VlzclnmFFLLkN7bKDLvE=;
- b=e1Q1kp7T9YMZMH8SHkWzSs/JC8YhWx0/jMHNSbMn/FMvTO0M4n7JXaaCM65UOZL47ttCSK
- 5U/exmCS7v9hIQx06I8i1p/R6FB0XmqQC7SmuBkFEs8lqktN5UbVCo9Cm+Nd5CRZs3IQMF
- zkUdg5C0r3dk4KkB1Oq8Pt48GihUX8c=
+ bh=kmi3cpiYBKH2TPXdua4mtuXkoCAO/n1J12abfOhfIc4=;
+ b=NoxG89m3bmpJkGSSepXUKEwnzjjlMBN+czqmhf/m01iFij0M2C4Cp34y1iaFXUWf6MvCRl
+ 2ULD6rKXsy2Vn2H0qh9FEZ+uDkE4L6H25ZIK6aMqQbtRtVaoTBze7bgM2UPcE3ofzVrKrj
+ z0AhmrhilRkQU8OetbXxx4Q0BZI79VE=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-67-jaWm7qgGPnaiFX9QFON5DA-1; Thu, 01 Sep 2022 04:58:54 -0400
-X-MC-Unique: jaWm7qgGPnaiFX9QFON5DA-1
+ us-mta-491--jMcNAA8Psq1nO_D54lQTA-1; Thu, 01 Sep 2022 04:58:56 -0400
+X-MC-Unique: -jMcNAA8Psq1nO_D54lQTA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27CAE101A54E;
- Thu,  1 Sep 2022 08:58:54 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F1E9C101A54E;
+ Thu,  1 Sep 2022 08:58:55 +0000 (UTC)
 Received: from tapioca.redhat.com (unknown [10.40.192.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AB0F92026D4C;
- Thu,  1 Sep 2022 08:58:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 849342026D4C;
+ Thu,  1 Sep 2022 08:58:54 +0000 (UTC)
 From: Victor Toso <victortoso@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  John Snow <jsnow@redhat.com>, Michael Roth <michael.roth@amd.com>
-Subject: [PATCH v2 06/10] qapi: fix example of DEVICE_UNPLUG_GUEST_ERROR event
-Date: Thu,  1 Sep 2022 10:58:36 +0200
-Message-Id: <20220901085840.22520-7-victortoso@redhat.com>
+Subject: [PATCH v2 07/10] qapi: fix example of MEM_UNPLUG_ERROR event
+Date: Thu,  1 Sep 2022 10:58:37 +0200
+Message-Id: <20220901085840.22520-8-victortoso@redhat.com>
 In-Reply-To: <20220901085840.22520-1-victortoso@redhat.com>
 References: <20220901085840.22520-1-victortoso@redhat.com>
 MIME-Version: 1.0
@@ -80,33 +80,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Example output is missing a ',' delimiter and it has an extra ending
-curly bracket. Fix it.
+Example output was missing ',' delimiter. Fix it.
 
 Problem was noticed when trying to load the example into python's json
 library.
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
 ---
- qapi/qdev.json | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ qapi/machine.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/qapi/qdev.json b/qapi/qdev.json
-index 26cd10106b..2708fb4e99 100644
---- a/qapi/qdev.json
-+++ b/qapi/qdev.json
-@@ -150,10 +150,9 @@
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 5f1f50d3ed..4782eea2c3 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -1416,7 +1416,7 @@
  #
  # Example:
  #
--# <- { "event": "DEVICE_UNPLUG_GUEST_ERROR"
-+# <- { "event": "DEVICE_UNPLUG_GUEST_ERROR",
- #      "data": { "device": "core1",
- #                "path": "/machine/peripheral/core1" },
--#      },
- #      "timestamp": { "seconds": 1615570772, "microseconds": 202844 } }
- #
- ##
+-# <- { "event": "MEM_UNPLUG_ERROR"
++# <- { "event": "MEM_UNPLUG_ERROR",
+ #      "data": { "device": "dimm1",
+ #                "msg": "acpi: device unplug for unsupported device"
+ #      },
 -- 
 2.37.2
 
