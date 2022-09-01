@@ -2,84 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 848F45A988A
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 15:27:16 +0200 (CEST)
-Received: from localhost ([::1]:52048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC15D5A9956
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 15:46:12 +0200 (CEST)
+Received: from localhost ([::1]:36674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTkDz-0000O7-IX
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 09:27:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41728)
+	id 1oTkWJ-0000BH-Si
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 09:46:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oTk6j-0007X1-35
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 09:19:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49598)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oTkDs-0000GY-SR; Thu, 01 Sep 2022 09:27:08 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:57790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oTk6e-0002bG-Tg
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 09:19:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662038380;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0e8f+qiPRUOK/swEWKzHLgB33P7LGG1gLUcykEWXANI=;
- b=gh3BKB4AUXGmA+36onSRb/bRG93xjjeg8HrWArBAeaSFbcGI19jgK83yhHzqiioJ0V24lU
- Eim0iwe4XuGthjW4QxcaCZbDCkjsIXd0r2vi+RX4j3//e8RBKn3FrQbpGs6Osj3kEkYfc8
- S018p9366BL+DqUikDc71YxaJe44bMk=
-Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
- [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-490-DPIGSoTDPXOU047BsujOPg-1; Thu, 01 Sep 2022 09:19:38 -0400
-X-MC-Unique: DPIGSoTDPXOU047BsujOPg-1
-Received: by mail-oa1-f72.google.com with SMTP id
- 586e51a60fabf-11eadf59e50so4943786fac.8
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 06:19:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=0e8f+qiPRUOK/swEWKzHLgB33P7LGG1gLUcykEWXANI=;
- b=NwDPsyJZNRUnBrmlQQLyQQx3jGeZOZafqg4XCQZ0VpNX0Q2DYbCIFD8/iaFH4s/xfW
- V03YWI6K5U/gk5e38hsEDXBWJDau9ieG/L1KiDAQd1cClIVqvwxKu4FOevjPfDxXNyXv
- UW0Wh0B+rH94LV54EePLsXt3O0xyNjXhuIP1YpJwzZtiSU1DrIwdbjR00SV5vnMTUtl+
- iecbtdv7cTih+uHajKWkWgRngSfYRaRVrTMazCDbQ/HpuTwtGitgO3oddkoHwOEd5kGK
- H278yVkGmWY2C82NuFdPi4M1zdIAB9xA0EG+WsB7xFSPzUcaVAbfHWnD3z/a+gyq3XL6
- HboQ==
-X-Gm-Message-State: ACgBeo0DsrPlvecmbANnX8aXWc+x8wJNEvSoA7kEdhN9rqSSgUl+8P5F
- eB2pbedevDXMK1BythalVcPdxfCMGCVAic3w1eDAyYIeJD3RCOX5JPHnbqF1ALTUzFC6bdXhj09
- MBz9eG7M62RBmCh5C80lSLzbfIzOlHYs=
-X-Received: by 2002:a05:6870:2113:b0:122:6e63:e59a with SMTP id
- f19-20020a056870211300b001226e63e59amr899409oae.53.1662038378090; 
- Thu, 01 Sep 2022 06:19:38 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4SA7B17/wOaQUWgypJGgttpYMB/d9icZmHdnUJk1rOi1+8goXWBJmF+y2aRETEyDh7A6hXgkFP0A+crVG47GA=
-X-Received: by 2002:a05:6870:2113:b0:122:6e63:e59a with SMTP id
- f19-20020a056870211300b001226e63e59amr899396oae.53.1662038377888; Thu, 01 Sep
- 2022 06:19:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oTkDp-0003ls-G2; Thu, 01 Sep 2022 09:27:07 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 04E9974637E;
+ Thu,  1 Sep 2022 15:26:59 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id C063F746324; Thu,  1 Sep 2022 15:26:58 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id BEB1974632C;
+ Thu,  1 Sep 2022 15:26:58 +0200 (CEST)
+Date: Thu, 1 Sep 2022 15:26:58 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Bernhard Beschow <shentey@gmail.com>
+cc: QEMU Developers <qemu-devel@nongnu.org>, 
+ "open list:sam460ex" <qemu-ppc@nongnu.org>, 
+ Huacai Chen <chenhuacai@kernel.org>, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: Re: [PATCH v3 06/10] hw/isa/vt82c686: Instantiate USB functions in
+ host device
+In-Reply-To: <CAG4p6K7_13QNemke_rr8+J5Fr1wqWCcd0pHqsygZRuzc6vDepw@mail.gmail.com>
+Message-ID: <dcaa58a0-353b-d1aa-f1e8-f38561da1f41@eik.bme.hu>
+References: <20220831095914.2041-1-shentey@gmail.com>
+ <20220831095914.2041-7-shentey@gmail.com>
+ <331bbd5a-aeaa-d5c0-cf8f-cde5b22d8a3@eik.bme.hu>
+ <96C4E9E5-4875-4B49-B176-673BAAEE7993@gmail.com>
+ <48b1c17d-fa2f-c2f7-b22-79eb6e8f55b@eik.bme.hu>
+ <5DE06ABD-34E9-4186-9922-B62C92A56798@gmail.com>
+ <d32d6e66-ed13-2c9-6da4-d3c63796d66@eik.bme.hu>
+ <CAG4p6K7_13QNemke_rr8+J5Fr1wqWCcd0pHqsygZRuzc6vDepw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220901111553.2901487-1-marcandre.lureau@redhat.com>
- <YxCs7A/XmaGyGsJ+@redhat.com>
-In-Reply-To: <YxCs7A/XmaGyGsJ+@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Thu, 1 Sep 2022 17:19:26 +0400
-Message-ID: <CAMxuvayahS3RmEyY2=eYQ9PrGcJfcQAwDacJjJM0ERS=biASLA@mail.gmail.com>
-Subject: Re: [PATCH] io/command: implement portable spawn
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, bin.meng@windriver.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,57 +70,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
-
-On Thu, Sep 1, 2022 at 5:00 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
-> wrote:
+On Thu, 1 Sep 2022, Bernhard Beschow wrote:
+> On Wed, Aug 31, 2022 at 6:02 PM BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>> On Wed, 31 Aug 2022, BB wrote:
+>>> Am 31. August 2022 17:03:35 MESZ schrieb BALATON Zoltan <
+>> balaton@eik.bme.hu>:
+>>>> On Wed, 31 Aug 2022, BB wrote:
+>>>>> Am 31. August 2022 15:23:37 MESZ schrieb BALATON Zoltan <
+>> balaton@eik.bme.hu>:
+>>>>>> On Wed, 31 Aug 2022, Bernhard Beschow wrote:
+>>>>>>> The USB functions can be enabled/disabled through the ISA function.
+>> Also
+>>>>>>> its interrupt routing can be influenced there.
+>>>>>>>
+>>>>>>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+>>>>>>> ---
+>>>>>>> hw/isa/vt82c686.c   | 12 ++++++++++++
+>>>>>>> hw/mips/fuloong2e.c |  3 ---
+>>>>>>> hw/ppc/pegasos2.c   |  4 ----
+>>>>>>> 3 files changed, 12 insertions(+), 7 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+>>>>>>> index 9d946cea54..66a4b9c230 100644
+>>>>>>> --- a/hw/isa/vt82c686.c
+>>>>>>> +++ b/hw/isa/vt82c686.c
+>>>>>>> @@ -23,6 +23,7 @@
+>>>>>>> #include "hw/intc/i8259.h"
+>>>>>>> #include "hw/irq.h"
+>>>>>>> #include "hw/dma/i8257.h"
+>>>>>>> +#include "hw/usb/hcd-uhci.h"
+>>>>>>> #include "hw/timer/i8254.h"
+>>>>>>> #include "hw/rtc/mc146818rtc.h"
+>>>>>>> #include "migration/vmstate.h"
+>>>>>>> @@ -546,6 +547,7 @@ struct ViaISAState {
+>>>>>>>     qemu_irq *isa_irqs;
+>>>>>>>     ViaSuperIOState via_sio;
+>>>>>>>     PCIIDEState ide;
+>>>>>>> +    UHCIState uhci[2];
+>>>>>>> };
+>>>>>>>
+>>>>>>> static const VMStateDescription vmstate_via = {
+>>>>>>> @@ -563,6 +565,8 @@ static void via_isa_init(Object *obj)
+>>>>>>>     ViaISAState *s = VIA_ISA(obj);
+>>>>>>>
+>>>>>>>     object_initialize_child(obj, "ide", &s->ide, "via-ide");
+>>>>>>> +    object_initialize_child(obj, "uhci1", &s->uhci[0],
+>> "vt82c686b-usb-uhci");
+>>>>>>> +    object_initialize_child(obj, "uhci2", &s->uhci[1],
+>> "vt82c686b-usb-uhci");
+>>>>>>
+>>>>>> Sorry for not saying this yesterday, this can also be done separately
+>> so no need for another version of this series if not needed for another
+>> reason but could we add a define for vt82c686b-usb-uhci in
+>> include/hw/isa/vt82c686.h and use that here and in
+>> hw/usb/vt82c686-uhci-pci.c ?
+>>>>>
+>>>>> Would creating a dedicated header work, too? Board code doesn't need
+>> to see the define any longer.
+>>>>
+>>>> I don't think it needs a separate header just for this so I'd put it in
+>> vt82c686.h but I don't mind either way.
+>>>
+>>> Alright, I'll take the easy route for now. Splitting in dedicated
+>> headers (also for the other devices) could be done in a separate series.
+>>
+>> I'll do this for via-ac97 when rabasing my WIP patch:
+>>
+>> https://osdn.net/projects/qmiga/scm/git/qemu/commits
+>>
+>> as I'll need to move ViaAC97State there too for embedding in ViaISAState.
+>> The other ones
+>> can stay in vt82c686.h I think.
+>>
+>> (The reason this is still WIP is that it does not work and I'm not sure
+>> why, Maybe I need to test with a Linux guest to find out more but I
+>> haven't got to that yet.)
+>>
 >
-> On Thu, Sep 01, 2022 at 03:15:53PM +0400, marcandre.lureau@redhat.com wro=
-te:
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > Using GLib spawn API is both simpler and portable.
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >  io/channel-command.c | 115 ++++++++-----------------------------------
-> >  1 file changed, 21 insertions(+), 94 deletions(-)
+> Hi Zoltan,
 >
-> > +    ioc =3D qio_channel_command_new_pid(stdinfd,
-> > +                                      stdoutfd,
-> > +#ifdef _WIN32
-> > +                                      GetProcessId(pid)
-> > +#else
-> > +                                      pid
-> > +#endif
-> > +        );
+> I've given your AC97 patches a spin on top of my WIP pc-via branch with a
+> Mandriva Linux live CD and *drumroll* `qemu-system-x86_64 -M pc -accel kvm
+> -cpu host`:
 >
-> THe pid parameter is declared as 'pid_t' but GetProcessId returns
-> DWORD - are those types guaranteed compatible.
+> https://github.com/shentok/qemu/commits/pc-via
 
-I think pid_t is mingw specific, and is defined as int64.
+Interesting, now I see where this goes beyond just clean up.
 
-(windows crt uses int, apparently)
+> The good news is that the sound controls appeared in the UI but no sound
+> seemed to be played, though that could also be due to my setup (nested
+> virtualization).
 
->
-> Also the pid passed into qio_channel_command_new_pid is used
-> by qio_channel_command_close/abort, to kill off the process,
-> but this code is stubbed out in WIN32 and this patch hasn't
-> provided an impl.
+Consodering that I get the same result with MorphOS on pegasos2 it's more 
+likely some problem with the emulation than your setup but I could not yet 
+find out what (I didn't try hard enough either). Probably I'm missing 
+something in how sound emulation in QEMU should work or how the via sound 
+function should work. The docs have detailed info in the regs but not much 
+on what actually should happen, when irq should be raised and such.
 
-ok, I'll update the patch and actually test it on win32 too ;)
+> Perhaps you find it convenient to test with Linux that way.
 
->
->
-> With regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
->
+Definitly, it's easier to find an x86 live CD with support for this chip 
+than one for pegasos2. But I may wait a while before I get back to this.
 
+Regards,
+BALATON Zoltan
 
