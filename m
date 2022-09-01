@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61F0F5A9049
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 09:29:30 +0200 (CEST)
-Received: from localhost ([::1]:36114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 012865A9077
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 09:38:08 +0200 (CEST)
+Received: from localhost ([::1]:34914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTedl-0007KJ-Gl
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 03:29:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41050)
+	id 1oTem6-0005HK-H8
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 03:38:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTe4I-0005vk-AG
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:52:52 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:35439)
+ id 1oTe4K-0005wB-6p
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:53:02 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:35584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTe4A-0003Hi-Jn
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:52:45 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- m17-20020a7bce11000000b003a5bedec07bso802567wmc.0
- for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 23:52:42 -0700 (PDT)
+ id 1oTe4G-0003Hs-UV
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:52:51 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id s7so6104079wro.2
+ for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 23:52:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=SHzx12Rsu42Ye71toTN4bWIrkmgQVEH0DPBud2OqwOk=;
- b=wbzy/ksNA0SlkUV1s8PhRlgkyUksszXHWERNT9qmG1ysVn+FPq/H5cqzO8g15LpgOt
- T7Aj/wy+TYP4W3IqIOr/0KYvUjRUWMevR3R7AYhWMmVw5I1QcGVSyhGjrw9fpEA4l8FS
- oUy9BWBK0cNfV88Qu3bRSnonAbl6fuXn2+SYuFbMFI5NaoRbZzAJnyvLmMGh+orfImXi
- N9Kn8u+sUcrbTLt/sy4n627hBKkUEpTeGsSOJse/YORzWj2xIswUZbIhvffa75VxnKE6
- I3aVp8mi+gw4OTQPDNQL9PPl10nJCOjXHp9Jzy13bXXug6nhQ4hAb3qMm/Eeyz0S0Tyl
- Auag==
+ bh=HHNtzSSJtX30aB1753TWle01U0aOKhRaC897K6yvm6M=;
+ b=T1omgBQnnViYwpXE74X5m4q8MhXmVMsv1XPYim4AMFinfRgDFQrepe2VnKQhhAxaVj
+ CiMzNIiRm8K7S/l9ySjYJsCROw0VA/7/xYhZ1Glamj/sSU3MkyUH7WDRH4XHd8Dq1Fbw
+ HD/O2jZPgDzL0al0SWq9p9oclibYTqflj8slj+awGl4N7SF44H4yHvvTJUmbEueVE32V
+ fcex/P/wIAaf8RkTcVWGYPM1RhwXBUvy/DH9BFWuCHxtovqIc6OHVkv+j8U+IxXQAo/j
+ se1s0KN8ypXaSOVVIYSW/GqBzpAyGLFaVHQ8aklEDRUyLlzieCp6COv+ZDIn63pPGz5C
+ L+Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=SHzx12Rsu42Ye71toTN4bWIrkmgQVEH0DPBud2OqwOk=;
- b=FlXSCFBeV1d5lbZXp4Pk5qOHLNYslhKzLv/HlBgzMetUhFQez2T0/LwxzjISbst5zr
- 85jPEuxDam6E1EPYO5bCgvOKTVBlefDqJ4Q7uWYL2I8aYkBgWnBSXIzI8UVTyvHmkSmG
- 5QZYfdtcx5C/YR3270TslhJp/24gfFzyksWAREFtOcjGj7KFVM3U1QTTdE3fanxO6fJj
- S1o9LfD8Zlu0rPL3rHxMsL1zIGn/vHxbJAM3OI+qED9DQ5ilQzVuHEp9YfYZiE+XYQjo
- 0orUB1mgENXURznwQo1+xUcw6QK+knnxDFQIPXmi8/8GaYFfSaUEOPO2JvIkZo4N/btP
- fkjQ==
-X-Gm-Message-State: ACgBeo2/a95zavOH9TMKY4GGsZNth6GEOaX0FjzOnC3y57JGngSkKBHx
- F60GFZJ+JT/Je83PQOd4Iqf1ekb/cdX+VNaP
-X-Google-Smtp-Source: AA6agR5dY7amNurjCy1COxfxoYjugTqfIo+aoPrNnMHCPF1yUgTV5DqTsnnQPbL8e81XJow3Bo98bw==
-X-Received: by 2002:a05:600c:25ce:b0:3a5:a3b7:bbfe with SMTP id
- 14-20020a05600c25ce00b003a5a3b7bbfemr4249120wml.115.1662015161030; 
- Wed, 31 Aug 2022 23:52:41 -0700 (PDT)
+ bh=HHNtzSSJtX30aB1753TWle01U0aOKhRaC897K6yvm6M=;
+ b=zyrUi9TbUxIVZ63gI0wFbAcQYPFM0KPr+gNVdcQOXhrLBe61vOTe4Brnol+cu18I0u
+ RTeZOWkvQBgULQgfm753fmD2PcR9pjs72aXw02PemMuq7N/URpY5ghch3dxIDCYi2t3J
+ 0E2CpuoD/nfR7JutGZ+HgAn7HGRZ0jDmVIHp3vPfL7L1lRHKo5iCy1Me7CsPN3+9CgCG
+ cMrWcoG2dnhlf6tP4euiG+DuXvB/2P2CVlKbNGQDetqZuI+sl65sgJJXDdjZG/z+XJcq
+ 7n89q5I3+1WqjsWZfeOIfaPfhd+rRxTTWRfuNnfyNXADfaZAypccOV1Pr02aIXqgoexb
+ ZgYQ==
+X-Gm-Message-State: ACgBeo2EHFrzsMLsSI4KknmMEsoglLfN01qPLb3nCPtAn5bjSqgs2AvG
+ X7PcxTyXcHWThKNTZwq6oaB9xwRMxfUSfFpR
+X-Google-Smtp-Source: AA6agR4Z7ESlKsK1/7sM5z35P542i0jLk2WqZLEsuG5EZFjJYqL5QDwgU+ZyR/6RfAmPgMANRnX9xg==
+X-Received: by 2002:a5d:64e9:0:b0:220:7dd7:63eb with SMTP id
+ g9-20020a5d64e9000000b002207dd763ebmr13503325wri.590.1662015164446; 
+ Wed, 31 Aug 2022 23:52:44 -0700 (PDT)
 Received: from stoup.. ([87.192.221.83]) by smtp.gmail.com with ESMTPSA id
- a6-20020a5d4d46000000b00226dedf1ab7sm8308153wru.76.2022.08.31.23.52.39
+ a6-20020a5d4d46000000b00226dedf1ab7sm8308153wru.76.2022.08.31.23.52.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 23:52:40 -0700 (PDT)
+ Wed, 31 Aug 2022 23:52:43 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PULL 05/20] linux-user: Clear translations on mprotect()
-Date: Thu,  1 Sep 2022 07:51:55 +0100
-Message-Id: <20220901065210.117081-10-richard.henderson@linaro.org>
+Subject: [PULL 06/20] tests/tcg/i386: Move smc_code2 to an executable section
+Date: Thu,  1 Sep 2022 07:51:56 +0100
+Message-Id: <20220901065210.117081-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220901065210.117081-1-richard.henderson@linaro.org>
 References: <20220901065210.117081-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,37 +87,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ilya Leoshkevich <iii@linux.ibm.com>
+We're about to start validating PAGE_EXEC, which means
+that we've got to put this code into a section that is
+both writable and executable.
 
-Currently it's possible to execute pages that do not have PAGE_EXEC
-if there is an existing translation block. Fix by invalidating TBs
-that touch the affected pages.
+Note that this test did not run on hardware beforehand either.
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Message-Id: <20220817150506.592862-2-iii@linux.ibm.com>
+Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Tested-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/mmap.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ tests/tcg/i386/test-i386.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index 048c4135af..6a828e8418 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -177,9 +177,11 @@ int target_mprotect(abi_ulong start, abi_ulong len, int target_prot)
-             goto error;
-         }
-     }
-+
-     page_set_flags(start, start + len, page_flags);
--    mmap_unlock();
--    return 0;
-+    tb_invalidate_phys_range(start, start + len);
-+    ret = 0;
-+
- error:
-     mmap_unlock();
-     return ret;
+diff --git a/tests/tcg/i386/test-i386.c b/tests/tcg/i386/test-i386.c
+index ac8d5a3c1f..e6b308a2c0 100644
+--- a/tests/tcg/i386/test-i386.c
++++ b/tests/tcg/i386/test-i386.c
+@@ -1998,7 +1998,7 @@ uint8_t code[] = {
+     0xc3, /* ret */
+ };
+ 
+-asm(".section \".data\"\n"
++asm(".section \".data_x\",\"awx\"\n"
+     "smc_code2:\n"
+     "movl 4(%esp), %eax\n"
+     "movl %eax, smc_patch_addr2 + 1\n"
 -- 
 2.34.1
 
