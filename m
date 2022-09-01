@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 174CF5A9296
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 10:59:59 +0200 (CEST)
-Received: from localhost ([::1]:56810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C9D05A928E
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 10:59:27 +0200 (CEST)
+Received: from localhost ([::1]:39946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTg3K-0001NE-52
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 04:59:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54090)
+	id 1oTg2o-0000Zy-Jw
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 04:59:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTfNI-0002xZ-E9
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 04:16:32 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45000)
+ id 1oTfQM-0005tu-Hb
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 04:19:42 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:55828)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTfNG-0007Vg-GZ
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 04:16:32 -0400
-Received: by mail-wr1-x433.google.com with SMTP id c7so14601096wrp.11
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 01:16:29 -0700 (PDT)
+ id 1oTfQJ-0007n9-Ou
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 04:19:42 -0400
+Received: by mail-wm1-x331.google.com with SMTP id d5so8582263wms.5
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 01:19:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=2IOMsQcEZNbtJsWIAb8pDc8MSk1LKdmIf39w5DMt74E=;
- b=nTOtPjGkWlsaEGyfmeHI9h/hlzcPi/i6daP6OXEns4OmgKrnpsHF6IFMG8Vqf9fbnK
- xliSYiSPB30FFpsmcX6He9b3LMQ3a6GOlwTZ14mU8fiEdpURowkKEBF85Ugd8ua2May5
- WxIeLombGtD9hqFx2GjEWBbBkWJRTvOEwS+DB2L2NNmIVlTlcjeLWuLnB2U8rz+3322U
- 8osSQLIZPD+WDkWQjH+7evxrpkyJInuT4fqI0rmLIOdGUi4gEwdcivy8cIp4D3g6ljWh
- 0saVM39VRdkm6Hj0SOcnvFuAwlo7F41pOLhODkzA/Wlr0rYH0z922mseqH3C/uaqesGG
- iUfw==
+ :from:to:cc; bh=/uWVi2BcPv36zgDQCRhfRz3KOxEm/bfzoflZRDhKT18=;
+ b=T8P8HSQMqvdNSEJtwpcP4LIZuuD21aJ+CftwrTJKHtOcLFgThYA5yYGGz/WY56Vl3H
+ fID8Ld7tdnzH8lARl6vEu6J9kQ6O254k4+wMEI1JlwIIYJqaxHYXrA8uDPGjrFCWm3Jk
+ vvbCr/4usijcQUHak8Cz6rgJuctJiNuClzwl8DTbahWhpCZdVOlq9MAq9cAmDKfyENNQ
+ CqWZFesXBG455dtSDu9wL2zK/BBJ0bZX8c0yDAhqZsqJH87tSNtJDtceTNBbTWWkXDwY
+ Rshduj8PyqHboGAgfVZFQ4VW5lRl0SjQgHg9vtvFWuS43DUhPGsZ4xANMYcKqJmmFART
+ BBhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=2IOMsQcEZNbtJsWIAb8pDc8MSk1LKdmIf39w5DMt74E=;
- b=urVHbWKutCwl1CVVJzXlHQIf8b9Bi1LHzDLxRwiTwwMvSh86NEYugf3aawYvuRVOLh
- Z25qKIa/GDOMHyAtFABcFbYODdB1ncU3qIJxxGy6Wtjfi2H+Ka9k+LMotRfZyz+D5O/n
- R8Qbrqf58dHDxdMyVCfTttvOUVl7i7tJr/GKXtJU2DK00P27AgxxxSHkHkawt8iH2eqD
- o6EDQ1W7cVHjWHhuswhvWRK0ywHQJcAYmCZrrhXRikh/+uX8ETvseA7FcmqDOPlI71Q+
- OiTFGwtDUz2JyM9+GJq1qdlHezkzlXT0EzbxBaeJnxEfQybFdJx1bMI02MZngx71mq2p
- jyBw==
-X-Gm-Message-State: ACgBeo3munU56y7eXQencxvejXxgfX8RWymPll1ApMvpidicjCV8N0Km
- v+M1WXo+OFYCoGV771/ChCnsplob85Rg4r4t
-X-Google-Smtp-Source: AA6agR4wHdMbJDY/teyVGGcIJIFR37gL6OJ3gksnoCksr1UGksdgU46YaENL3S7jfV4QuO0+9ahFXQ==
-X-Received: by 2002:a05:6000:1861:b0:220:68e0:ac7e with SMTP id
- d1-20020a056000186100b0022068e0ac7emr14809069wri.376.1662020188780; 
- Thu, 01 Sep 2022 01:16:28 -0700 (PDT)
+ bh=/uWVi2BcPv36zgDQCRhfRz3KOxEm/bfzoflZRDhKT18=;
+ b=LQ8kZzpBAuoEJk4IS+aEsJhQ4/zy9U4zyMhxf+EhLQUjwz4gV4I1z2kGDjmktY+HFT
+ KZd7AdWLgcxtd7ZH+61y4OOoEKTzvkXTGiKPVKg9ByTTQImy6i/25eMGJwyUBX4Ng7ap
+ gMxQAJtjbBnUWAUVz1cNscEQ4oTXhKUP5Gdic2HQSAoFy4g8b1mlT8t7Hy0Kp80fNsa6
+ 32p5PZxKMlMnPvyJcoKlikubYeVh1Rj/JMS3/rjTlAocNWx9HZEHDXHmI6Vh+5PMoXUD
+ sztDQHa2/FEcK6tsMFcvS3trwfdJTVSBjBcHSxzG/gCC72zRpWWk43ua38zLGiRfbM/x
+ wqQQ==
+X-Gm-Message-State: ACgBeo3uhd73CPqGOciW/A22TrgYA6v7ckeLJ6JJr4MnVRp3jHRLaz1q
+ n2SCC6QTTKYGOXe0L8HAbl756g==
+X-Google-Smtp-Source: AA6agR7tklkdsvJzCyZdWVJ3xYrh1n++Zaa3j0Lueohexs0Y1n5WXQp7UwrA9BI3ekZT68LhMDEU9Q==
+X-Received: by 2002:a05:600c:a05:b0:3a6:71e6:47b8 with SMTP id
+ z5-20020a05600c0a0500b003a671e647b8mr4321847wmp.29.1662020378134; 
+ Thu, 01 Sep 2022 01:19:38 -0700 (PDT)
 Received: from [192.168.45.227] ([87.192.221.83])
  by smtp.gmail.com with ESMTPSA id
- u14-20020adfdd4e000000b0021f131de6aesm14005904wrm.34.2022.09.01.01.16.26
+ p6-20020a5d48c6000000b002252884cc91sm13764327wrs.43.2022.09.01.01.19.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 01 Sep 2022 01:16:27 -0700 (PDT)
-Message-ID: <2dda03c4-3125-7164-02a3-b9b5894c0c0c@linaro.org>
-Date: Thu, 1 Sep 2022 09:16:23 +0100
+ Thu, 01 Sep 2022 01:19:37 -0700 (PDT)
+Message-ID: <2ce0e97d-edf5-a7c5-6dd7-7ba9eb5dd9f4@linaro.org>
+Date: Thu, 1 Sep 2022 09:19:33 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v3 15/23] i386: Destructive vector helpers for AVX
+Subject: Re: [PATCH v3 23/23] i386: AVX+AES helpers prep
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Cc: paul@nowt.org
 References: <20220901074842.57424-1-pbonzini@redhat.com>
- <20220901074842.57424-16-pbonzini@redhat.com>
+ <20220901074842.57424-24-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220901074842.57424-16-pbonzini@redhat.com>
+In-Reply-To: <20220901074842.57424-24-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,20 +96,19 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 9/1/22 08:48, Paolo Bonzini wrote:
 > From: Paul Brook<paul@nowt.org>
 > 
-> These helpers need to take special care to avoid overwriting source values
-> before the wole result has been calculated.  Currently they use a dummy
-> Reg typed variable to store the result then assign the whole register.
-> This will cause 128 bit operations to corrupt the upper half of the register,
-> so replace it with explicit temporaries and element assignments.
+> Make the AES vector helpers AVX ready
+> 
+> No functional changes to existing helpers
 > 
 > Signed-off-by: Paul Brook<paul@nowt.org>
-> Message-Id:<20220424220204.2493824-14-paul@nowt.org>
+> Message-Id:<20220424220204.2493824-22-paul@nowt.org>
 > Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
 > ---
->   target/i386/ops_sse.h | 556 ++++++++++++++++++++----------------------
->   1 file changed, 262 insertions(+), 294 deletions(-)
+>   target/i386/ops_sse.h | 41 ++++++++++++++++++++++-------------------
+>   1 file changed, 22 insertions(+), 19 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
