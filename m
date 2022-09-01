@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18EBA5A9DB1
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 19:05:53 +0200 (CEST)
-Received: from localhost ([::1]:35070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE59E5A9D9A
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 18:59:04 +0200 (CEST)
+Received: from localhost ([::1]:47510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTndX-00056p-Vy
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 13:05:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37946)
+	id 1oTnWx-0007Kd-AU
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 12:59:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn2P-0002Ne-Ld
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn2P-0002Nb-LI
  for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:27:30 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:38604)
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:40506)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn2J-0001YB-GI
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:27:27 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id a36so19485743edf.5
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn2J-0001Sr-VE
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:27:28 -0400
+Received: by mail-ej1-x630.google.com with SMTP id qh18so15549520ejb.7
  for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 09:27:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=I53kXzOewMUSv21s1gd8I4HE4s8WT5KVfscPhYxO19A=;
- b=CM26PMiVnWUeGD2Rp0y1nbNIrYCBJndNiOiiCFng6RFWGdcXdCh/1l0QH7WnQDwXy2
- F3dX90MA9URYhZJjFtddTQgb9rEeO7iAlrY2f/N9tpJym+bN6F6vB1jzC1RJX7l+TAZg
- donrfUA8kyYue1tkSy5qHrKt+J0dbdeK/FfLS0YWdhQ2eesI5zGBrWs7SwKFULfTUlNR
- ISRPz6KzJ9J6Y0gNyMUyuFfIzXaN12fLnSaazC5+m9jT89JB8x8z7lIlIyPuD8E4XpIg
- 5N/It3Rg0OCyu+KklkeSybLxmANzBPRqUK89ru5NhJ4mVLSI6wQPRt0fYIOvfKadJYUr
- sYTQ==
+ bh=06rOiewX8uHl0FzAKwkn91iOHt+jshwZH8a2/tFr+mg=;
+ b=WVf2q54J5wfeGyPiJQlbuxTgOEldy0DBggUb65KZedJUPWnLTsmMa2q6uiMfvXbCrL
+ k0BFo+2vnkNGA+Ql1Muk7ZJCBYMWoOwdtYvCSSA2j1rVIii4dB9RD5zF5Uj7LeUQ/1DR
+ tXlBohxnjY13p6L/AfMwvewhvBwmaA0rHyPTeL4btRbaQteTaKzeIak7jLkAmOUR5CYx
+ OUgRNpwy9QAp88VD8LFs4JHEYrTlT/I52hcp0c0jZYuahOp91df/o5Byzm9LOt5I6iHe
+ Jrr1ReeG0jIJE7uVBH26w3L9zhLJ57ZsIHaaFjO7S+IVlmUzy4ZiIR/L1Ju5SBan3PGC
+ mKiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=I53kXzOewMUSv21s1gd8I4HE4s8WT5KVfscPhYxO19A=;
- b=XMdE5AhpiNLREV5NGySvIYkuiQJxD1WHi5eW27hv8h57Bk1jiRZnB4/sySRgh4NNJa
- zLNWxVxdYgvlokK0iOE+TWDDDN0AUSOgwoGB+O54bsa9qALQsCNQ3RoeOckaXldwJpMu
- F13iOlJDyHk6eqc3/EZ9jYxaS1TfkSOjuK2J87PIPVKrfFl8COsxZ4ujrjIADu/Cj+qu
- NDkzNad0e5b0fU3iBQOL/xQ5UE+heGKT0Qai0okjMg6Sq6M0WvcaSGMZA9uM2Tu8O0WF
- 4HDE2boSX2gewfGg1gpHyc4TWI2B4Btq6l2Wre30WTBeG9Row6Hm8F+gvlyiGgCIRFTe
- O9MA==
-X-Gm-Message-State: ACgBeo0Ny7+0HvfceUKHdSTh7YwzwGYFQMqrzqQjMKhPNoLRRLfPAwRk
- JmhUjOIEtUIPaodDB7s2Y4smJbV6n78=
-X-Google-Smtp-Source: AA6agR7CjXT0awGmEjnky9BgPu2YPkPjpj7EZVi1kkfFDwrvgq5zAqzJxgzrU2bloVm2+5HC1nndIg==
-X-Received: by 2002:a50:ee0f:0:b0:447:f097:aef with SMTP id
- g15-20020a50ee0f000000b00447f0970aefmr25262582eds.20.1662049640975; 
- Thu, 01 Sep 2022 09:27:20 -0700 (PDT)
+ bh=06rOiewX8uHl0FzAKwkn91iOHt+jshwZH8a2/tFr+mg=;
+ b=HHDNlhz6JHZz4nGSkuTkXQVK1LM+ssNFhyhIHq19GfED1uKntevKjxGVAibLB2MqQo
+ JksWQuEdcq6U3XJWSBB0mlxGy3RtftuwnwCmwn46BHhXHre1UpEu77RNIzLOHWBhWsCk
+ gxXb9GStAWHcjkkT2nmyA8WUKyZYnQVXjYYN02rpLRcDyOF+fscl9ZVuFwsIc06HNga6
+ KfLWyn+vG7TIFWk5PiFBjDoucyVi6uJ1u0kYyqXjInkA3EsdUewHK7mamML0IFqJhrHZ
+ oeC6vgpGiam8P+qhMiN2willEKPW5dHAXYRBYQYiVDcz9Rmqqywl/lXGD2/e+6BLj0CH
+ AmlQ==
+X-Gm-Message-State: ACgBeo3IYEd7Uk5QcGLyupkRhiKIE88yCc0h3X42YFNtBMcevn/P828J
+ hkqVfcf2BN2Ss07ZBV00zL7hsyDlCP4=
+X-Google-Smtp-Source: AA6agR4GfA8AKpVppqNH1sdff5PvmcoiYeJRfcc0ITfBg6u1ZsBcz//A3ZADNWtv0Tzo5VR5uxzClg==
+X-Received: by 2002:a17:907:3f0c:b0:73d:60fc:6594 with SMTP id
+ hq12-20020a1709073f0c00b0073d60fc6594mr25144029ejc.669.1662049641854; 
+ Thu, 01 Sep 2022 09:27:21 -0700 (PDT)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- p6-20020aa7d306000000b00447c0dcbb99sm1587672edq.83.2022.09.01.09.27.20
+ p6-20020aa7d306000000b00447c0dcbb99sm1587672edq.83.2022.09.01.09.27.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 09:27:20 -0700 (PDT)
+ Thu, 01 Sep 2022 09:27:21 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
@@ -64,16 +64,17 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Igor Mammedov <imammedo@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 30/42] hw/isa/piix4: Reuse struct PIIXState from PIIX3
-Date: Thu,  1 Sep 2022 18:26:01 +0200
-Message-Id: <20220901162613.6939-31-shentey@gmail.com>
+Subject: [PATCH 31/42] hw/isa/piix4: Rename reset control operations to match
+ PIIX3
+Date: Thu,  1 Sep 2022 18:26:02 +0200
+Message-Id: <20220901162613.6939-32-shentey@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220901162613.6939-1-shentey@gmail.com>
 References: <20220901162613.6939-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,157 +97,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that PIIX4 also uses the "isa-pic" proxy, both implementations
-can share the same struct.
+Both implementations are the same and will be shared upon merging.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/piix4.c | 61 ++++++++++++++++----------------------------------
- 1 file changed, 19 insertions(+), 42 deletions(-)
+ hw/isa/piix4.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 128284bd0a..95e4a9f3c1 100644
+index 95e4a9f3c1..e682370887 100644
 --- a/hw/isa/piix4.c
 +++ b/hw/isa/piix4.c
-@@ -41,34 +41,10 @@
- #include "sysemu/runstate.h"
- #include "qom/object.h"
- 
--struct PIIX4State {
--    PCIDevice dev;
--
--    ISAPICState pic;
--    RTCState rtc;
--    PCIIDEState ide;
--    UHCIState uhci;
--    PIIX4PMState pm;
--
--    uint32_t smb_io_base;
--
--    /* Reset Control Register */
--    MemoryRegion rcr_mem;
--    uint8_t rcr;
--
--    uint8_t pci_irq_reset_mappings[PIIX_NUM_PIRQS];
--
--    bool has_acpi;
--    bool has_usb;
--    bool smm_enabled;
--};
--
--OBJECT_DECLARE_SIMPLE_TYPE(PIIX4State, PIIX4_PCI_DEVICE)
--
- static void piix4_set_irq(void *opaque, int irq_num, int level)
- {
-     int i, pic_irq, pic_level;
--    PIIX4State *s = opaque;
-+    PIIXState *s = opaque;
-     PCIBus *bus = pci_get_bus(&s->dev);
- 
-     /* now we change the pic irq level according to the piix irq mappings */
-@@ -113,7 +89,7 @@ static int pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
- 
- static void piix4_isa_reset(DeviceState *dev)
- {
--    PIIX4State *d = PIIX4_PCI_DEVICE(dev);
-+    PIIXState *d = PIIX_PCI_DEVICE(dev);
-     uint8_t *pci_conf = d->dev.config;
- 
-     pci_conf[0x04] = 0x07; // master, memory and I/O
-@@ -148,12 +124,13 @@ static void piix4_isa_reset(DeviceState *dev)
-     pci_conf[0xac] = 0x00;
-     pci_conf[0xae] = 0x00;
- 
-+    d->pic_levels = 0; /* not used in PIIX4 */
-     d->rcr = 0;
- }
- 
- static int piix4_ide_post_load(void *opaque, int version_id)
- {
--    PIIX4State *s = opaque;
-+    PIIXState *s = opaque;
- 
-     if (version_id == 2) {
-         s->rcr = 0;
-@@ -168,8 +145,8 @@ static const VMStateDescription vmstate_piix4 = {
-     .minimum_version_id = 2,
-     .post_load = piix4_ide_post_load,
-     .fields = (VMStateField[]) {
--        VMSTATE_PCI_DEVICE(dev, PIIX4State),
--        VMSTATE_UINT8_V(rcr, PIIX4State, 3),
-+        VMSTATE_PCI_DEVICE(dev, PIIXState),
-+        VMSTATE_UINT8_V(rcr, PIIXState, 3),
-         VMSTATE_END_OF_LIST()
+@@ -151,7 +151,7 @@ static const VMStateDescription vmstate_piix4 = {
      }
  };
-@@ -177,7 +154,7 @@ static const VMStateDescription vmstate_piix4 = {
- static void piix4_rcr_write(void *opaque, hwaddr addr, uint64_t val,
+ 
+-static void piix4_rcr_write(void *opaque, hwaddr addr, uint64_t val,
++static void rcr_write(void *opaque, hwaddr addr, uint64_t val,
                              unsigned int len)
  {
--    PIIX4State *s = opaque;
-+    PIIXState *s = opaque;
+     PIIXState *s = opaque;
+@@ -164,16 +164,16 @@ static void piix4_rcr_write(void *opaque, hwaddr addr, uint64_t val,
+     s->rcr = val & 2; /* keep System Reset type only */
+ }
  
-     if (val & 4) {
-         qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-@@ -189,7 +166,7 @@ static void piix4_rcr_write(void *opaque, hwaddr addr, uint64_t val,
- 
- static uint64_t piix4_rcr_read(void *opaque, hwaddr addr, unsigned int len)
+-static uint64_t piix4_rcr_read(void *opaque, hwaddr addr, unsigned int len)
++static uint64_t rcr_read(void *opaque, hwaddr addr, unsigned int len)
  {
--    PIIX4State *s = opaque;
-+    PIIXState *s = opaque;
+     PIIXState *s = opaque;
  
      return s->rcr;
  }
-@@ -206,7 +183,7 @@ static const MemoryRegionOps piix4_rcr_ops = {
  
- static void piix4_realize(PCIDevice *dev, Error **errp)
- {
--    PIIX4State *s = PIIX4_PCI_DEVICE(dev);
-+    PIIXState *s = PIIX_PCI_DEVICE(dev);
-     PCIBus *pci_bus = pci_get_bus(dev);
-     ISABus *isa_bus;
+-static const MemoryRegionOps piix4_rcr_ops = {
+-    .read = piix4_rcr_read,
+-    .write = piix4_rcr_write,
++static const MemoryRegionOps rcr_ops = {
++    .read = rcr_read,
++    .write = rcr_write,
+     .endianness = DEVICE_LITTLE_ENDIAN,
+     .impl = {
+         .min_access_size = 1,
+@@ -193,7 +193,7 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
+         return;
+     }
  
-@@ -276,7 +253,7 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
- 
- static void piix4_init(Object *obj)
- {
--    PIIX4State *s = PIIX4_PCI_DEVICE(obj);
-+    PIIXState *s = PIIX_PCI_DEVICE(obj);
- 
-     object_initialize_child(obj, "pic", &s->pic, TYPE_ISA_PIC);
-     object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
-@@ -284,14 +261,14 @@ static void piix4_init(Object *obj)
- }
- 
- static Property piix4_props[] = {
--    DEFINE_PROP_UINT32("smb_io_base", PIIX4State, smb_io_base, 0),
--    DEFINE_PROP_UINT8("pirqa", PIIX4State, pci_irq_reset_mappings[0], 0x80),
--    DEFINE_PROP_UINT8("pirqb", PIIX4State, pci_irq_reset_mappings[1], 0x80),
--    DEFINE_PROP_UINT8("pirqc", PIIX4State, pci_irq_reset_mappings[2], 0x80),
--    DEFINE_PROP_UINT8("pirqd", PIIX4State, pci_irq_reset_mappings[3], 0x80),
--    DEFINE_PROP_BOOL("has-acpi", PIIX4State, has_acpi, true),
--    DEFINE_PROP_BOOL("has-usb", PIIX4State, has_usb, true),
--    DEFINE_PROP_BOOL("smm-enabled", PIIX4State, smm_enabled, false),
-+    DEFINE_PROP_UINT32("smb_io_base", PIIXState, smb_io_base, 0),
-+    DEFINE_PROP_UINT8("pirqa", PIIXState, pci_irq_reset_mappings[0], 0x80),
-+    DEFINE_PROP_UINT8("pirqb", PIIXState, pci_irq_reset_mappings[1], 0x80),
-+    DEFINE_PROP_UINT8("pirqc", PIIXState, pci_irq_reset_mappings[2], 0x80),
-+    DEFINE_PROP_UINT8("pirqd", PIIXState, pci_irq_reset_mappings[3], 0x80),
-+    DEFINE_PROP_BOOL("has-acpi", PIIXState, has_acpi, true),
-+    DEFINE_PROP_BOOL("has-usb", PIIXState, has_usb, true),
-+    DEFINE_PROP_BOOL("smm-enabled", PIIXState, smm_enabled, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -319,7 +296,7 @@ static void piix4_class_init(ObjectClass *klass, void *data)
- static const TypeInfo piix4_info = {
-     .name          = TYPE_PIIX4_PCI_DEVICE,
-     .parent        = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(PIIX4State),
-+    .instance_size = sizeof(PIIXState),
-     .instance_init = piix4_init,
-     .class_init    = piix4_class_init,
-     .interfaces = (InterfaceInfo[]) {
+-    memory_region_init_io(&s->rcr_mem, OBJECT(dev), &piix4_rcr_ops, s,
++    memory_region_init_io(&s->rcr_mem, OBJECT(dev), &rcr_ops, s,
+                           "reset-control", 1);
+     memory_region_add_subregion_overlap(pci_address_space_io(dev),
+                                         PIIX_RCR_IOPORT, &s->rcr_mem, 1);
 -- 
 2.37.3
 
