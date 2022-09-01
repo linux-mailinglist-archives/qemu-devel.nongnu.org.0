@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C1425A8DB0
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 07:53:29 +0200 (CEST)
-Received: from localhost ([::1]:38590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE59E5A8DAE
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 07:53:23 +0200 (CEST)
+Received: from localhost ([::1]:57240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTd8q-0002zc-Er
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 01:53:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36218)
+	id 1oTd8k-0002mW-Dd
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 01:53:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTd4P-00073r-Eu
+ id 1oTd4Q-00073x-Jb
  for qemu-devel@nongnu.org; Thu, 01 Sep 2022 01:48:54 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:39426)
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:53974)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTd4K-0002Sn-RM
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 01:48:51 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- i188-20020a1c3bc5000000b003a7b6ae4eb2so706508wma.4
- for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 22:48:48 -0700 (PDT)
+ id 1oTd4O-0002T0-UU
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 01:48:54 -0400
+Received: by mail-wm1-x336.google.com with SMTP id h1so8419697wmd.3
+ for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 22:48:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=U/h2PuXjGmHqeTevSKtXVEUhLbvpxvYx+D8DjCnF93A=;
- b=aZ2eXVYnP0GT4VRMHKspmAvo2o7RKWyg0XCUPZHTag0jRpDd94OUohCVq7rx4ey/dp
- T/qabEpYT8fT1MpZufzRuCeKiaq9vHf5dgz6FStMbr3MTTMFcGmOlfG2mUTYz1MY7gRV
- DohQL5CIrLXc6Sa6ytJeEyKQ250B8e4gtGK2IPfxM7Y4oika2HM3PUH1zioBOedjp8sp
- ZZUkH/nd2lrzxATzgEFlQOCsXVHN2Zwe8xs7P77nKFBPlCMg9v3/DOZFzuimCDO4JHjv
- 7g/3BV4itrHhH9tyPP/np48k1GfpU1LBfyga0QXi7pAd/KdqO9jFHSaF/IgqN9Diw3sJ
- uC1g==
+ bh=pnrkcB7u5z1U6ZLIT5ewwpikaStb8NPbw7XF1+tgjNM=;
+ b=n2yKUHL4xzO1KEXGfD69/ymDMQyfWukeU0brel/elTvsM492ZK7qvu+RnPGIY0/y72
+ B/VuuFZTFXBTms2LtlWVVeYLyUxQg98Sgw4Yt78Gyc32KRI6HhXK/CO03MLQuSAT0rVD
+ x83h7i58rGEvLSuGbLf2ghyQ9nX2hYcBR20I8fBnc2E6QFs8CmcpUWxs1HssjAfDsQ0X
+ kQj+ncFN76PgXafSwGLamXzsxIdaAmzoqS29yXZwTc0v1CM+taTrSyvyHLkOM4cQlL4L
+ 65/buzc/APq1Mj6ZmND345Famtg2c0nlSNjUDHa805RZcJUembWFgur8d+JDi/PBGerf
+ /FAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=U/h2PuXjGmHqeTevSKtXVEUhLbvpxvYx+D8DjCnF93A=;
- b=s+kEie0bKspGJW6KXN0sdkEHcZm+tnsq8qG50T+ZSMYPunQlOMP8Xhd3a62FqIx7xr
- tKQz/qQeyiFiX1saPfPUwNkk077EYaAPZ36m/2W1vwVd8S/HdcVN2S9zAYIeux2Tb6JU
- stDYWlypDikMw9abipfbtHLZcv6qSMwSGIPxnV3loXi0GzGrprmam4AZeFF6jaBTCbL/
- sv12M/yV7kLw+wjLDqtXJNmXLnyxv5kJdyDwaSwfkKstFsdhMtZyz9s30JlgB/nuSU3w
- ADPEWE4ieIRso+z3iP7uLaL64+qIl6OWHu8iNLCUC8JpFTW/SKaOniq7W5yTQB8FyTSR
- /ZAg==
-X-Gm-Message-State: ACgBeo3gRbm6crJsWXCgI2aFnzcsuo82zBOvGKnV9+vbGuUqNZcHCd69
- hrWkVzS29Fhxyan3doGUYG6Gm1Zp1asNhr5KU98=
-X-Google-Smtp-Source: AA6agR6BmvZfOEg5Mca6YVRDLIdKk5+10k0HS45zDwRx/LwgHa6HA8TSV9fOg9Hs0pdTieU3ejEtfA==
-X-Received: by 2002:a05:600c:35d4:b0:3a6:18ba:1585 with SMTP id
- r20-20020a05600c35d400b003a618ba1585mr4026091wmq.48.1662011327263; 
- Wed, 31 Aug 2022 22:48:47 -0700 (PDT)
+ bh=pnrkcB7u5z1U6ZLIT5ewwpikaStb8NPbw7XF1+tgjNM=;
+ b=FLc6YAWOnHTxQxkJhX2+MhSnIsN4nQKzszcao8pksFHHe6p10X/BpiotPS5G6PZTV8
+ MIr1JsmVQYP6KgkCE7lcpamFJZOhNNbI6nGhVGiiF6LTZixONLNvZewTojYjua8TXzA+
+ ExHEyw3a74kgokOJWJryAwxt+bi6VH98T1VO9SY/5rdHhwgsegGS489cBXwBBTX0g++M
+ PXS1XZGzJg3uOQn91f/ZVlH5aihxyElcUGdYEjzxChCp012q40VifoFj/ccf/+Z3gXss
+ gt08tWEuEQHCXxhiC6hPtsyxrg4NXP3OQBQi/t1Ca7ehtGiXjWAKjPNDmF0jOwCAU6bi
+ EoxQ==
+X-Gm-Message-State: ACgBeo1J2/boDob6GziQT3I7hGDnjEAPwnsiKfatm5Lw0rawWJJfprah
+ 75F2YrfdspH2T5nCNjpz5Mn7+TIoHb/uM+nrR1Q=
+X-Google-Smtp-Source: AA6agR6uGRC9XqABAjTtN3w6olO2yzygqAEciFeRlVJribUeW0xwDWly126hDrvbJ+M+ez4FuN8Efg==
+X-Received: by 2002:a05:600c:1c1b:b0:3a5:e6ec:d12f with SMTP id
+ j27-20020a05600c1c1b00b003a5e6ecd12fmr3947993wms.2.1662011328941; 
+ Wed, 31 Aug 2022 22:48:48 -0700 (PDT)
 Received: from localhost.localdomain ([87.192.221.83])
  by smtp.gmail.com with ESMTPSA id
- q13-20020adff78d000000b0022533c4fa48sm13429938wrp.55.2022.08.31.22.48.45
+ q13-20020adff78d000000b0022533c4fa48sm13429938wrp.55.2022.08.31.22.48.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 22:48:46 -0700 (PDT)
+ Wed, 31 Aug 2022 22:48:48 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 1/4] target/avr: Support probe argument to tlb_fill
-Date: Thu,  1 Sep 2022 06:48:40 +0100
-Message-Id: <20220901054843.31646-2-richard.henderson@linaro.org>
+Cc: Michael Rolnik <mrolnik@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PULL 2/4] target/avr: Call avr_cpu_do_interrupt directly
+Date: Thu,  1 Sep 2022 06:48:41 +0100
+Message-Id: <20220901054843.31646-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220901054843.31646-1-richard.henderson@linaro.org>
 References: <20220901054843.31646-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,90 +90,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While there are no target-specific nonfaulting probes,
-generic code may grow some uses at some point.
+There is no need to go through cc->tcg_ops when
+we know what value that must have.
 
-Note that the attrs argument was incorrect -- it should have
-been MEMTXATTRS_UNSPECIFIED. Just use the simpler interface.
-
+Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/avr/helper.c | 46 ++++++++++++++++++++++++++++-----------------
- 1 file changed, 29 insertions(+), 17 deletions(-)
+ target/avr/helper.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/target/avr/helper.c b/target/avr/helper.c
-index db76452f9a..82284f8997 100644
+index 82284f8997..9614ccf3e4 100644
 --- a/target/avr/helper.c
 +++ b/target/avr/helper.c
-@@ -102,38 +102,50 @@ bool avr_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                       MMUAccessType access_type, int mmu_idx,
-                       bool probe, uintptr_t retaddr)
+@@ -29,14 +29,13 @@
+ bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
  {
--    int prot = 0;
--    MemTxAttrs attrs = {};
-+    int prot, page_size = TARGET_PAGE_SIZE;
-     uint32_t paddr;
+     bool ret = false;
+-    CPUClass *cc = CPU_GET_CLASS(cs);
+     AVRCPU *cpu = AVR_CPU(cs);
+     CPUAVRState *env = &cpu->env;
  
-     address &= TARGET_PAGE_MASK;
+     if (interrupt_request & CPU_INTERRUPT_RESET) {
+         if (cpu_interrupts_enabled(env)) {
+             cs->exception_index = EXCP_RESET;
+-            cc->tcg_ops->do_interrupt(cs);
++            avr_cpu_do_interrupt(cs);
  
-     if (mmu_idx == MMU_CODE_IDX) {
--        /* access to code in flash */
-+        /* Access to code in flash. */
-         paddr = OFFSET_CODE + address;
-         prot = PAGE_READ | PAGE_EXEC;
--        if (paddr + TARGET_PAGE_SIZE > OFFSET_DATA) {
-+        if (paddr >= OFFSET_DATA) {
-+            /*
-+             * This should not be possible via any architectural operations.
-+             * There is certainly not an exception that we can deliver.
-+             * Accept probing that might come from generic code.
-+             */
-+            if (probe) {
-+                return false;
-+            }
-             error_report("execution left flash memory");
-             abort();
-         }
--    } else if (address < NUMBER_OF_CPU_REGISTERS + NUMBER_OF_IO_REGISTERS) {
--        /*
--         * access to CPU registers, exit and rebuilt this TB to use full access
--         * incase it touches specially handled registers like SREG or SP
--         */
--        AVRCPU *cpu = AVR_CPU(cs);
--        CPUAVRState *env = &cpu->env;
--        env->fullacc = 1;
--        cpu_loop_exit_restore(cs, retaddr);
-     } else {
--        /* access to memory. nothing special */
-+        /* Access to memory. */
-         paddr = OFFSET_DATA + address;
-         prot = PAGE_READ | PAGE_WRITE;
-+        if (address < NUMBER_OF_CPU_REGISTERS + NUMBER_OF_IO_REGISTERS) {
-+            /*
-+             * Access to CPU registers, exit and rebuilt this TB to use
-+             * full access in case it touches specially handled registers
-+             * like SREG or SP.  For probing, set page_size = 1, in order
-+             * to force tlb_fill to be called for the next access.
-+             */
-+            if (probe) {
-+                page_size = 1;
-+            } else {
-+                AVRCPU *cpu = AVR_CPU(cs);
-+                CPUAVRState *env = &cpu->env;
-+                env->fullacc = 1;
-+                cpu_loop_exit_restore(cs, retaddr);
-+            }
-+        }
-     }
+             cs->interrupt_request &= ~CPU_INTERRUPT_RESET;
  
--    tlb_set_page_with_attrs(cs, address, paddr, attrs, prot,
--                            mmu_idx, TARGET_PAGE_SIZE);
--
-+    tlb_set_page(cs, address, paddr, prot, mmu_idx, page_size);
-     return true;
- }
+@@ -47,7 +46,7 @@ bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+         if (cpu_interrupts_enabled(env) && env->intsrc != 0) {
+             int index = ctz32(env->intsrc);
+             cs->exception_index = EXCP_INT(index);
+-            cc->tcg_ops->do_interrupt(cs);
++            avr_cpu_do_interrupt(cs);
  
+             env->intsrc &= env->intsrc - 1; /* clear the interrupt */
+             if (!env->intsrc) {
 -- 
 2.34.1
 
