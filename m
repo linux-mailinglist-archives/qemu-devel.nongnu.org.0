@@ -2,27 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E7D45A988C
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 15:27:39 +0200 (CEST)
-Received: from localhost ([::1]:53266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D605A5A988F
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 15:28:50 +0200 (CEST)
+Received: from localhost ([::1]:39838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTkEM-0001KA-GO
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 09:27:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59242)
+	id 1oTkFV-0003P3-V9
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 09:28:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1oTk5b-0005aJ-Ku; Thu, 01 Sep 2022 09:18:41 -0400
-Received: from [200.168.210.66] (port=23956 helo=outlook.eldorado.org.br)
+ id 1oTk6f-0007SK-64; Thu, 01 Sep 2022 09:19:41 -0400
+Received: from [200.168.210.66] (port=59496 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <victor.colombo@eldorado.org.br>)
- id 1oTk5Z-0002Uu-Hx; Thu, 01 Sep 2022 09:18:34 -0400
+ id 1oTk6d-0002b5-D7; Thu, 01 Sep 2022 09:19:40 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Thu, 1 Sep 2022 10:18:16 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id C48D18002C5;
- Thu,  1 Sep 2022 10:18:15 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 2B436800476;
+ Thu,  1 Sep 2022 10:18:16 -0300 (-03)
 From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
@@ -31,18 +31,17 @@ Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  victor.colombo@eldorado.org.br, matheus.ferst@eldorado.org.br,
  lucas.araujo@eldorado.org.br, leandro.lupori@eldorado.org.br,
  lucas.coutinho@eldorado.org.br
-Subject: [PATCH 05/19] target/ppc: Zero second doubleword for VSX madd
- instructions
-Date: Thu,  1 Sep 2022 10:17:42 -0300
-Message-Id: <20220901131756.26060-6-victor.colombo@eldorado.org.br>
+Subject: [PATCH 06/19] target/ppc: Set OV32 when OV is set
+Date: Thu,  1 Sep 2022 10:17:43 -0300
+Message-Id: <20220901131756.26060-7-victor.colombo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220901131756.26060-1-victor.colombo@eldorado.org.br>
 References: <20220901131756.26060-1-victor.colombo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 01 Sep 2022 13:18:16.0260 (UTC)
- FILETIME=[4BC2C840:01D8BE05]
+X-OriginalArrivalTime: 01 Sep 2022 13:18:16.0604 (UTC)
+ FILETIME=[4BF745C0:01D8BE05]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -67,31 +66,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In 205eb5a89e we updated most VSX instructions to zero the
-second doubleword, as is requested by PowerISA since v3.1.
-However, VSX_MADD helper was left behind unchanged, while it
-is also affected and should be fixed as well.
+According to PowerISA: "OV32 is set whenever OV is implicitly set, and
+is set to the same value that OV is defined to be set to in 32-bit
+mode".
 
-This patch applies the fix for MADD instructions.
+This patch changes helper_update_ov_legacy to set/clear ov32 when
+applicable.
 
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 ---
- target/ppc/fpu_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/ppc/int_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 7ab6beadad..da79c64eca 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -2178,7 +2178,7 @@ VSX_TSQRT(xvtsqrtsp, 4, float32, VsrW(i), -126, 23)
- void helper_##op(CPUPPCState *env, ppc_vsr_t *xt,                             \
-                  ppc_vsr_t *s1, ppc_vsr_t *s2, ppc_vsr_t *s3)                 \
- {                                                                             \
--    ppc_vsr_t t = *xt;                                                        \
-+    ppc_vsr_t t = { };                                                        \
-     int i;                                                                    \
-                                                                               \
-     helper_reset_fpstatus(env);                                               \
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index d905f07d02..696096100b 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -37,9 +37,9 @@
+ static inline void helper_update_ov_legacy(CPUPPCState *env, int ov)
+ {
+     if (unlikely(ov)) {
+-        env->so = env->ov = 1;
++        env->so = env->ov = env->ov32 = 1;
+     } else {
+-        env->ov = 0;
++        env->ov = env->ov32 = 0;
+     }
+ }
+ 
 -- 
 2.25.1
 
