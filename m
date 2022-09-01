@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A5E5A9D87
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 18:53:11 +0200 (CEST)
-Received: from localhost ([::1]:54388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E3315A9D4E
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 18:43:48 +0200 (CEST)
+Received: from localhost ([::1]:37364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTnRG-00040m-W2
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 12:53:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53526)
+	id 1oTnIA-0000es-Cd
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 12:43:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn1z-0001uu-Ac
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn20-0001v8-G6
  for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:27:07 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:37531)
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:34582)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn1x-0001VT-J2
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:27:02 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id b16so23297092edd.4
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn1x-0001Sk-SS
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:27:04 -0400
+Received: by mail-ej1-x629.google.com with SMTP id y3so35860461ejc.1
  for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 09:27:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=Lk5BY/vi+uufGxfeaoPsPFkaEoogAtEkcyasHy2Pd/s=;
- b=T/VT8ej2MA+bhgjSNhcAaLTUCsOeH4BnvgFqhXJRk+38MWqFya/yFnToyKgca8MX2T
- lIdFBGu4i4v05f8AhfZhLW/qrvcY+K116o8C+OheOcvV3yZlkk0mO2lBBzc6OKB/EU+E
- BSCGtWt1C5UDdab14C7KirnMxCTE3jb7hGMOdsso81Y5t5mUd45cvxcn8MFboHWCHEPP
- 3JR0AIVflOC21PSzpiFJSgLP4nHuVQpfn5rkZZGRqaX6K/RhV1AJFRXSR8enbCNGPTVY
- GgmfSB4fHjWsCEQLXzz3mOzXWl+HGF2JflOIE+NJHyEJsssr1um0u355yvHxsToEx6aO
- N11g==
+ bh=bCZYZWD3Kd3XMd5O2nNXe28bh4cYB+1rKUIfZeHrag8=;
+ b=npas1mwmoEMnI/XueUoXBwuDTiPv0flL71XBeo2ie6fN1Pd/4A2BXnZElvPRbS/Mvj
+ Vl+72DqRxXRM8xKqCsf6aU/pSr1X61J2ZbSbvd89z+Admta3OXRh2mYK3mFn0cdSOSdz
+ zNLw7et4MLSgdAouSdFD6u6T8gWiO+J6QcQhbjpTtigskYuNS9oBnomswCjj05Anc3G8
+ qqd380cfImpeZ8UMCQs/3NQizBSBkAhggfgqNoe9Ol90lybJp8n6xeqFzSaDp0xpkOnS
+ Mr/m+35ZP99S7y+QNRuFrFR9QhHDGqaAPpfKptdjIsRLX/L20EaikEPm54Ambn6NkRrZ
+ ht+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=Lk5BY/vi+uufGxfeaoPsPFkaEoogAtEkcyasHy2Pd/s=;
- b=qVw3o1ZsnC4nEEgWB2sLT4uywx7uhFsuBx1y365SLByrUXEJN00mgxQU3UYybBxHP5
- 6yPZoy4SkAgvK74zujA7nzH/0MJWQ8zHVKH8/ybK8GL2jRBwgf5a8xoDUW1Yvf2lCTuP
- W1szPqG1IwRfVnPcUujZfd4bXLbLyo2TryG3dYJBIZpFu27bFXoMT1ZzU8Dq7OfG9bHX
- cPrZe2EwqbyIIi97WuTF96vJTfigvncAUxkqdWXA5YOh7t3XIGJl5xPtxWYq0rPNwqwr
- XbLzhbERhLD+C3qmpeiWW/aVA/cBEvU8WMaFEc9CY8y4LrPcW+7HLuXPUqplPoKxcRUs
- A+/A==
-X-Gm-Message-State: ACgBeo0cmyPvRgBGX9KdvFRRqmCsf4zGVKBfTYVflHtlmPaHylBODZqs
- l9GjD9KTrssQ0MN6LTpiXLDHmtCah20=
-X-Google-Smtp-Source: AA6agR5VBymWPOCnwVkwqPO/hgGuMq6/MiGuvLjXFnnv751pHnCDEd2cZa7ABCkEqE0SYO/h4UU0ag==
-X-Received: by 2002:a05:6402:5cd:b0:446:5965:f4af with SMTP id
- n13-20020a05640205cd00b004465965f4afmr29444178edx.12.1662049620117; 
- Thu, 01 Sep 2022 09:27:00 -0700 (PDT)
+ bh=bCZYZWD3Kd3XMd5O2nNXe28bh4cYB+1rKUIfZeHrag8=;
+ b=L07IhXOn+HFMt3QrH3hW4OJd6qvQ9vE1Kea8CZEBlz8h1LggdbMEjFnczD8sn8C6yj
+ xlrLotY9nRJq5AWxobzO2vYz0mGldf5TR27BJcu0cr++Bp89CvB2boa29SaZBw5oVM4w
+ Nh/coJm7HQ771rsr66mukaXHKRGq/cEkgZhzxYcEqHc1bz0hfBLZxnJC+tEGh+jIE/34
+ FJT6OpkDVYYYeo3h/bdgUGR0WsbYbSH0oyOq1PzA7CZVHAuK3zWZIsBuGJJ3pouj8EeH
+ bz3WMnSc14xGcCT4I1EwdIjzw0jJqpVp1NZgV5LAcfn3NBYfYh3CZChe5kdxhlcu7hIw
+ jgPA==
+X-Gm-Message-State: ACgBeo3AQIPIwIpuf7D7vd5fLvfJOzMjvfzbnMsq58NN4h/v0qlTIUMb
+ Mt8IwTPd71rDStw6Se2ggDR54l/7g+Q=
+X-Google-Smtp-Source: AA6agR7tvMKBeEKWe7A2TJ+FHGUD+ggzRLKsqxif/mmsFY8tB5Pw8PTZ5hvSJtLoFJbCCZbSeq1toA==
+X-Received: by 2002:a17:907:2d20:b0:741:a251:1f10 with SMTP id
+ gs32-20020a1709072d2000b00741a2511f10mr11867640ejc.400.1662049621018; 
+ Thu, 01 Sep 2022 09:27:01 -0700 (PDT)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- p6-20020aa7d306000000b00447c0dcbb99sm1587672edq.83.2022.09.01.09.26.59
+ p6-20020aa7d306000000b00447c0dcbb99sm1587672edq.83.2022.09.01.09.27.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 09:26:59 -0700 (PDT)
+ Thu, 01 Sep 2022 09:27:00 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
@@ -64,16 +64,16 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Igor Mammedov <imammedo@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 13/42] hw/isa/piix3: Add size constraints to rcr_ops
-Date: Thu,  1 Sep 2022 18:25:44 +0200
-Message-Id: <20220901162613.6939-14-shentey@gmail.com>
+Subject: [PATCH 14/42] hw/isa/piix3: Modernize reset handling
+Date: Thu,  1 Sep 2022 18:25:45 +0200
+Message-Id: <20220901162613.6939-15-shentey@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220901162613.6939-1-shentey@gmail.com>
 References: <20220901162613.6939-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,31 +96,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the PIIX3 datasheet, the reset control register is one byte in size.
-Moreover, PIIX4 has it, so add it to PIIX3 as well.
+Rather than registering the reset handler via a function which
+appends the handler to a global list, prefer to implement it as
+a virtual method - PIIX4 does the same already.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/piix3.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ hw/isa/piix3.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-index b54ff1c948..c8c2dd6048 100644
+index c8c2dd6048..0350f70706 100644
 --- a/hw/isa/piix3.c
 +++ b/hw/isa/piix3.c
-@@ -290,7 +290,11 @@ static uint64_t rcr_read(void *opaque, hwaddr addr, unsigned len)
- static const MemoryRegionOps rcr_ops = {
-     .read = rcr_read,
-     .write = rcr_write,
--    .endianness = DEVICE_LITTLE_ENDIAN
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+    .impl = {
-+        .min_access_size = 1,
-+        .max_access_size = 1,
-+    },
- };
+@@ -31,7 +31,6 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/isa/isa.h"
+ #include "hw/xen/xen.h"
+-#include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+ #include "migration/vmstate.h"
+ #include "hw/acpi/acpi_aml_interface.h"
+@@ -156,9 +155,9 @@ static void piix3_write_config_xen(PCIDevice *dev,
+     piix3_write_config(dev, address, val, len);
+ }
  
- static void pci_piix3_realize(PCIDevice *dev, Error **errp)
+-static void piix3_reset(void *opaque)
++static void piix3_reset(DeviceState *dev)
+ {
+-    PIIX3State *d = opaque;
++    PIIX3State *d = PIIX3_PCI_DEVICE(dev);
+     uint8_t *pci_conf = d->dev.config;
+ 
+     pci_conf[0x04] = 0x07; /* master, memory and I/O */
+@@ -321,8 +320,6 @@ static void pci_piix3_realize(PCIDevice *dev, Error **errp)
+     memory_region_add_subregion_overlap(pci_address_space_io(dev),
+                                         PIIX_RCR_IOPORT, &d->rcr_mem, 1);
+ 
+-    qemu_register_reset(piix3_reset, d);
+-
+     i8257_dma_init(isa_bus, 0);
+ 
+     /* RTC */
+@@ -397,6 +394,7 @@ static void pci_piix3_class_init(ObjectClass *klass, void *data)
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+     AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(klass);
+ 
++    dc->reset       = piix3_reset;
+     dc->desc        = "ISA bridge";
+     dc->vmsd        = &vmstate_piix3;
+     dc->hotpluggable   = false;
 -- 
 2.37.3
 
