@@ -2,59 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2892B5AA165
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 23:16:18 +0200 (CEST)
-Received: from localhost ([::1]:48214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7D7D5AA0E5
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 22:28:51 +0200 (CEST)
+Received: from localhost ([::1]:36714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTrXs-00074o-IS
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 17:16:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49146)
+	id 1oTqny-0005uO-Bz
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 16:28:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fasano@mit.edu>) id 1oTp2h-0002bf-6b
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:35:56 -0400
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:50280
- helo=outgoing.mit.edu)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oTqlS-0003Az-Sf
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 16:26:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29138)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fasano@mit.edu>) id 1oTp2f-0002R9-Eq
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:35:54 -0400
-Received: from panda194.. ([18.4.85.108]) (authenticated bits=0)
- (User authenticated as fasano@ATHENA.MIT.EDU)
- by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 281IRv2i010380
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 1 Sep 2022 14:28:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
- t=1662056910; bh=knzxQ+knlh1GCYMrF32LK9BHiAKUl5jfg5+Wc9gLQxQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=AYWpdFWaEIvPulHw7rxuSHvrQ9RTKy57x+KI8GTkC5nEPddg5ZyxPvH+9s7ls5ISI
- coRblqutkYDVlamSRAIQ/8N1MZSXKQNg7p/yRPbqXsMgV3gcRHGbfS69/22yFd9rWf
- 0EU9Di1L9JQcNat+hIPuwwuHbxwR6EJ4Loq+K/yYVwiCD6teUt+kCFzcO5PBeiJzh5
- GVlfOzzdjn7Gzh7IFqE0jf5PBhhXHWbWP6uJWfMvsWkUL7EFC6kaT+KNQpiUlKZYBT
- qoievv0T/A/Axm3IwCie1WIACzUEZbV45BRSIzHwEDwG5Lr/iz61NzhomXhUnxg4aJ
- tTfc7ACpZj7fQ==
-From: Andrew Fasano <fasano@mit.edu>
-To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org, erdnaxe@crans.org, ma.mandourr@gmail.com,
- Andrew Fasano <fasano@mit.edu>
-Subject: [RFC 4/4] tcg/plugins: Add example pair of QPP plugins
-Date: Thu,  1 Sep 2022 14:27:34 -0400
-Message-Id: <20220901182734.2987337-5-fasano@mit.edu>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220901182734.2987337-1-fasano@mit.edu>
-References: <20220901182734.2987337-1-fasano@mit.edu>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oTqlR-0000GP-Bk
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 16:26:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662063972;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xB+C7vxvO8AjTVloMttA64QuMOwIn8+meFfdqsqz8yo=;
+ b=P71L90w4JMY09w8jkpPej93s+IZiJ0cd0zVL1CGa/RZPq36wRLQmpH+GbpYeGweMz0qNUm
+ Jk0pdolwaKRwIxlssgKZUDBAbRXbSQ3afRCPlTd6J5W+x2HrDVpEBtN6wbqYp90QRGKr5l
+ t/crrJHJ9TQNkltRNsVjYdbgdAW+wmw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-407-M2ItMx7hNPueONPg7rPkpg-1; Thu, 01 Sep 2022 16:26:08 -0400
+X-MC-Unique: M2ItMx7hNPueONPg7rPkpg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 795481C05147;
+ Thu,  1 Sep 2022 20:26:08 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.74])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F0C70C15BB3;
+ Thu,  1 Sep 2022 20:26:07 +0000 (UTC)
+Date: Thu, 1 Sep 2022 16:26:05 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, danielhb413@gmail.com,
+ peter.maydell@linaro.org, richard.henderson@linaro.org
+Subject: Re: [PULL v2 00/60] ppc queue
+Message-ID: <YxEVXeFomrDrLHOx@fedora>
+References: <20220831202818.7630-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=18.9.28.11; envelope-from=fasano@mit.edu;
- helo=outgoing.mit.edu
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="husGFZElWeFGTzmZ"
+Content-Disposition: inline
+In-Reply-To: <20220831202818.7630-1-danielhb413@gmail.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 01 Sep 2022 17:11:41 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,158 +80,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The first plugin, qpp_srv exposes two functions and one callback that other
-plugins can leverage. These functions are described in the corresponding
-header file.
 
-The second plugin, qpp_client, imports this header file, registers its
-own function to run on a qpp_srv-provided callback, and directly calls
-into the two exposed functions in qpp_srv.
+--husGFZElWeFGTzmZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Andrew Fasano <fasano@mit.edu>
----
- contrib/plugins/Makefile     |  2 ++
- contrib/plugins/qpp_client.c | 42 ++++++++++++++++++++++++++++++++++++
- contrib/plugins/qpp_client.h |  1 +
- contrib/plugins/qpp_srv.c    | 33 ++++++++++++++++++++++++++++
- contrib/plugins/qpp_srv.h    | 17 +++++++++++++++
- 5 files changed, 95 insertions(+)
- create mode 100644 contrib/plugins/qpp_client.c
- create mode 100644 contrib/plugins/qpp_client.h
- create mode 100644 contrib/plugins/qpp_srv.c
- create mode 100644 contrib/plugins/qpp_srv.h
+Applied, thanks.
 
-diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
-index b7720fea0f..b7510de89c 100644
---- a/contrib/plugins/Makefile
-+++ b/contrib/plugins/Makefile
-@@ -21,6 +21,8 @@ NAMES += lockstep
- NAMES += hwprofile
- NAMES += cache
- NAMES += drcov
-+NAMES += qpp_srv
-+NAMES += qpp_client
- 
- SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
- 
-diff --git a/contrib/plugins/qpp_client.c b/contrib/plugins/qpp_client.c
-new file mode 100644
-index 0000000000..de3335e167
---- /dev/null
-+++ b/contrib/plugins/qpp_client.c
-@@ -0,0 +1,42 @@
-+#include <stdio.h>
-+#include <qemu-plugin.h>
-+#include <plugin-qpp.h>
-+#include <glib.h>
-+#include "qpp_srv.h"
-+
-+QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
-+
-+void my_on_exit(int x, bool b)
-+{
-+  g_autoptr(GString) report = g_string_new("Client: on_exit runs with args: ");
-+  g_string_append_printf(report, "%d, %d\n", x, b);
-+  qemu_plugin_outs(report->str);
-+
-+  g_string_printf(report, "Client: calls qpp_srv's do_add(1): %d\n",
-+                          qpp_srv_do_add(1));
-+  qemu_plugin_outs(report->str);
-+
-+  g_string_printf(report, "Client: calls qpp_srv's do_sub(1): %d\n",
-+                           qpp_srv_do_sub(1));
-+  qemu_plugin_outs(report->str);
-+}
-+
-+
-+QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-+                   const qemu_info_t *info, int argc, char **argv) {
-+
-+    /*
-+     * Register our "my_on_exit" function to run on the on_exit QPP-callback
-+     * exported by qpp_srv
-+     */
-+    QPP_REG_CB("qpp_srv", on_exit, my_on_exit);
-+
-+    g_autoptr(GString) report = g_string_new(CURRENT_PLUGIN ": Call "
-+                                             "qpp_srv's do_add(0) => ");
-+    g_string_append_printf(report, "%d\n", qpp_srv_do_add(0));
-+    qemu_plugin_outs(report->str);
-+
-+    g_string_printf(report, "Client: registered on_exit callback\n");
-+    return 0;
-+}
-+
-diff --git a/contrib/plugins/qpp_client.h b/contrib/plugins/qpp_client.h
-new file mode 100644
-index 0000000000..573923f580
---- /dev/null
-+++ b/contrib/plugins/qpp_client.h
-@@ -0,0 +1 @@
-+void my_on_exit(int, bool);
-diff --git a/contrib/plugins/qpp_srv.c b/contrib/plugins/qpp_srv.c
-new file mode 100644
-index 0000000000..61a6ab38ed
---- /dev/null
-+++ b/contrib/plugins/qpp_srv.c
-@@ -0,0 +1,33 @@
-+#include <stdio.h>
-+#include <qemu-plugin.h>
-+#include <plugin-qpp.h>
-+#include <gmodule.h>
-+#include "qpp_srv.h"
-+
-+QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
-+
-+QPP_CREATE_CB(on_exit);
-+
-+static void plugin_exit(qemu_plugin_id_t id, void *p)
-+{
-+  qemu_plugin_outs(CURRENT_PLUGIN "exit triggered, running all registered"
-+                  " QPP callbacks\n");
-+  QPP_RUN_CB(on_exit, 0, true);
-+}
-+
-+QEMU_PLUGIN_EXPORT int do_add(int x)
-+{
-+  return x + 1;
-+}
-+
-+QEMU_PLUGIN_EXPORT int do_sub(int x)
-+{
-+  return x - 1;
-+}
-+
-+QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-+                   const qemu_info_t *info, int argc, char **argv) {
-+    qemu_plugin_outs("qpp_srv loaded\n");
-+    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
-+    return 0;
-+}
-diff --git a/contrib/plugins/qpp_srv.h b/contrib/plugins/qpp_srv.h
-new file mode 100644
-index 0000000000..ceb26e3d2c
---- /dev/null
-+++ b/contrib/plugins/qpp_srv.h
-@@ -0,0 +1,17 @@
-+#ifndef QPP_SRV_H
-+#define QPP_SRV_H
-+
-+/*
-+ * Prototype for the on_exit callback: callback functions should be
-+ * of type `void f(int, bool)`
-+ */
-+QPP_CB_PROTOTYPE(void, on_exit, int, bool);
-+
-+/*
-+ * Prototypes for the do_add and do_sub functions. Both return an int and
-+ * take an int as an argument.
-+ */
-+QPP_FUN_PROTOTYPE(qpp_srv, int, do_add, int);
-+QPP_FUN_PROTOTYPE(qpp_srv, int, do_sub, int);
-+
-+#endif /* QPP_SRV_H */
--- 
-2.34.1
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
+
+--husGFZElWeFGTzmZ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMRFV0ACgkQnKSrs4Gr
+c8jXuAf/eFfaV0lzZEQGPC0ojcwGzLASeA/XZlw0jtNShN3PEiQPhpXkzhGD88ge
+8ij5MytCIiJ2c74OupoJrNhiIhEvj1mtDW2ZKVgl/YUo1neEwfwV9OwEfnFb9fEe
+Yior3T2uk/yz1GF9fSQ1n9TUHpenXEvNEykAbxRt7VpwtTdrSK7WVZjX4ihhjx8Y
+nvFsUZpsmhIRYWeg8QtYXbCHqt6g6ENtSmZg7nw80LIklfVgocau/spwFfxMSQiR
+Xqh/hLJozBaBchrxiKQbSk9zO4T14FvozwkhpOZQG/dTRW1Fe3FaovTqoCoNA6Vr
+J85OB+ajfIxSju8aY0Iz7/fFuvhFbw==
+=fu5C
+-----END PGP SIGNATURE-----
+
+--husGFZElWeFGTzmZ--
 
 
