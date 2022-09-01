@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D70035A9AF7
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 16:55:56 +0200 (CEST)
-Received: from localhost ([::1]:45868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 998F15A9AE4
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 16:52:57 +0200 (CEST)
+Received: from localhost ([::1]:47790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTlbn-0004Yz-Vs
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 10:55:56 -0400
+	id 1oTlYt-0007NK-MF
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 10:52:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10]:34116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1oTlTA-0001Bt-Ck
+ id 1oTlTA-0001Bt-0H
  for qemu-devel@nongnu.org; Thu, 01 Sep 2022 10:47:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39991)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1oTlGb-0006yD-SS
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 10:34:04 -0400
+ id 1oTlGp-0006z9-56
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 10:34:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662042841;
+ s=mimecast20190719; t=1662042853;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SSJJnmIXmudaMnxuNmMvGw3Z7IavYVzasHgSDRE1bBY=;
- b=TE2SFIzLGFXu5UnemZUdnwPHP7MuMeGBTv9Q1+KioZnJuX8mcIfmHmfyQmWLfiO4IbPKLV
- BSK/9azgwh4T5MP5d36vjxdQiFjZQg/x/a7nt9aKqrlFzX4GQVWs5hXQyRGq5dBs5FhI0v
- nEwERPqApJiXs92oPMUZZld0bAR4ZDk=
+ bh=EkRsP9fWWOpk1xsECwKFbrlU5bQB+gkBZQ8RVDIqAPM=;
+ b=PttQGbZM2nkEqQxT+q1UFJyKDuwkLeYvP9dweeW0R6wMXFAmJApOhh0PCZBD93DxA+s0zH
+ +ZotxK/MuIEjQKkjb0XAM/Evj1Mfb2TCm9gOc0UMvV7ri7HG69Z46PBdRF9/H8verUOKus
+ 4cvaWP8K3lyZorHiZB+mviVPjLvM39A=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-272-eQ17MzSyNTShQU6sEfs8AA-1; Thu, 01 Sep 2022 10:32:28 -0400
-X-MC-Unique: eQ17MzSyNTShQU6sEfs8AA-1
+ us-mta-39-NKrmJcKUM_GT9H4WvtR31w-1; Thu, 01 Sep 2022 10:32:29 -0400
+X-MC-Unique: NKrmJcKUM_GT9H4WvtR31w-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D724B296A62D;
- Thu,  1 Sep 2022 14:32:27 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B2D029324A4;
+ Thu,  1 Sep 2022 14:32:29 +0000 (UTC)
 Received: from loop.redhat.com (unknown [10.35.206.127])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 936E4492C3B;
- Thu,  1 Sep 2022 14:32:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2EB22492C3B;
+ Thu,  1 Sep 2022 14:32:28 +0000 (UTC)
 From: Nir Soffer <nsoffer@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
  Hanna Reitz <hreitz@redhat.com>, Nir Soffer <nsoffer@redhat.com>
-Subject: [PATCH 1/3] qemu-img: Add checksum command
-Date: Thu,  1 Sep 2022 17:32:21 +0300
-Message-Id: <20220901143223.201295-2-nsoffer@redhat.com>
+Subject: [PATCH 2/3] iotests: Test qemu-img checksum
+Date: Thu,  1 Sep 2022 17:32:22 +0300
+Message-Id: <20220901143223.201295-3-nsoffer@redhat.com>
 In-Reply-To: <20220901143223.201295-1-nsoffer@redhat.com>
 References: <20220901143223.201295-1-nsoffer@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=nsoffer@redhat.com;
@@ -80,501 +79,257 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The checksum command compute a checksum for disk image content using the
-blkhash library[1]. The blkhash library is not packaged yet, but it is
-available via copr[2].
+Add simple tests creating an image with all kinds of extents, different
+formats, different backing chain, different protocol, and different
+image options. Since all images have the same guest visible content they
+must have the same checksum.
 
-Example run:
-
-    $ ./qemu-img checksum -p fedora-35.qcow2
-    6e5c00c995056319d52395f8d91c7f84725ae3da69ffcba4de4c7d22cff713a5  fedora-35.qcow2
-
-The block checksum is constructed by splitting the image to fixed sized
-blocks and computing a digest of every block. The image checksum is the
-digest of the all block digests.
-
-The checksum uses internally the "sha256" algorithm but it cannot be
-compared with checksums created by other tools such as `sha256sum`.
-
-The blkhash library supports sparse images, zero detection, and
-optimizes zero block hashing (they are practically free). The library
-uses multiple threads to speed up the computation.
-
-Comparing to `sha256sum`, `qemu-img checksum` is 3.5-4800[3] times
-faster, depending on the amount of data in the image:
-
-    $ ./qemu-img info /scratch/50p.raw
-    file format: raw
-    virtual size: 6 GiB (6442450944 bytes)
-    disk size: 2.91 GiB
-
-    $ hyperfine -w2 -r5 -p "sleep 1" "./qemu-img checksum /scratch/50p.raw" \
-                                     "sha256sum /scratch/50p.raw"
-    Benchmark 1: ./qemu-img checksum /scratch/50p.raw
-      Time (mean ± σ):      1.849 s ±  0.037 s    [User: 7.764 s, System: 0.962 s]
-      Range (min … max):    1.813 s …  1.908 s    5 runs
-
-    Benchmark 2: sha256sum /scratch/50p.raw
-      Time (mean ± σ):     14.585 s ±  0.072 s    [User: 13.537 s, System: 1.003 s]
-      Range (min … max):   14.501 s … 14.697 s    5 runs
-
-    Summary
-      './qemu-img checksum /scratch/50p.raw' ran
-        7.89 ± 0.16 times faster than 'sha256sum /scratch/50p.raw'
-
-The new command is available only when `blkhash` is available during
-build. To test the new command please install the `blkhash-devel`
-package:
-
-    $ dnf copr enable nsoffer/blkhash
-    $ sudo dnf install blkhash-devel
-
-[1] https://gitlab.com/nirs/blkhash
-[2] https://copr.fedorainfracloud.org/coprs/nsoffer/blkhash/
-[3] Computing checksum for 8T empty image: qemu-img checksum: 3.7s,
-    sha256sum (estimate): 17,749s
+To help debugging in case of failures, the output includes a json map of
+every test image.
 
 Signed-off-by: Nir Soffer <nsoffer@redhat.com>
 ---
- docs/tools/qemu-img.rst |  22 +++++
- meson.build             |  10 ++-
- meson_options.txt       |   2 +
- qemu-img-cmds.hx        |   8 ++
- qemu-img.c              | 191 ++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 232 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/tests/qemu-img-checksum    | 149 ++++++++++++++++++
+ .../qemu-iotests/tests/qemu-img-checksum.out  |  74 +++++++++
+ 2 files changed, 223 insertions(+)
+ create mode 100755 tests/qemu-iotests/tests/qemu-img-checksum
+ create mode 100644 tests/qemu-iotests/tests/qemu-img-checksum.out
 
-diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
-index 85a6e05b35..8be9c45cbf 100644
---- a/docs/tools/qemu-img.rst
-+++ b/docs/tools/qemu-img.rst
-@@ -347,20 +347,42 @@ Command description:
-     Check completed, image is corrupted
-   3
-     Check completed, image has leaked clusters, but is not corrupted
-   63
-     Checks are not supported by the image format
- 
-   If ``-r`` is specified, exit codes representing the image state refer to the
-   state after (the attempt at) repairing it. That is, a successful ``-r all``
-   will yield the exit code 0, independently of the image state before.
- 
-+.. option:: checksum [--object OBJECTDEF] [--image-opts] [-f FMT] [-T SRC_CACHE] [-p] FILENAME
+diff --git a/tests/qemu-iotests/tests/qemu-img-checksum b/tests/qemu-iotests/tests/qemu-img-checksum
+new file mode 100755
+index 0000000000..3a85ba33f2
+--- /dev/null
++++ b/tests/qemu-iotests/tests/qemu-img-checksum
+@@ -0,0 +1,149 @@
++#!/usr/bin/env python3
++# group: rw auto quick
++#
++# Test cases for qemu-img checksum.
++#
++# Copyright (C) 2022 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 +
-+  Print a checksum for image *FILENAME* guest visible content. Images with
-+  different format or settings wil have the same checksum.
++import re
 +
-+  The format is probed unless you specify it by ``-f``.
++import iotests
 +
-+  The checksum is computed for guest visible content. Allocated areas full of
-+  zeroes, zero clusters, and unallocated areas are read as zeros so they will
-+  have the same checksum. Images with single or multiple files or backing files
-+  will have the same checksums if the guest will see the same content when
-+  reading the image.
++from iotests import (
++    filter_testfiles,
++    qemu_img,
++    qemu_img_log,
++    qemu_io,
++    qemu_nbd_popen,
++)
 +
-+  Image metadata that is not visible to the guest such as dirty bitmaps does
-+  not affect the checksum.
 +
-+  Computing a checksum requires a read-only image. You cannot compute a
-+  checksum of an active image used by a guest, but you can compute a checksum
-+  of a guest during pull mode incremental backup using NBD URL.
++def checksum_available():
++    out = qemu_img("--help").stdout
++    return re.search(r"\bchecksum .+ filename\b", out) is not None
 +
-+  The checksum is not compatible with other tools such as *sha256sum*.
 +
- .. option:: commit [--object OBJECTDEF] [--image-opts] [-q] [-f FMT] [-t CACHE] [-b BASE] [-r RATE_LIMIT] [-d] [-p] FILENAME
- 
-   Commit the changes recorded in *FILENAME* in its base image or backing file.
-   If the backing file is smaller than the snapshot, then the backing file will be
-   resized to be the same size as the snapshot.  If the snapshot is smaller than
-   the backing file, the backing file will not be truncated.  If you want the
-   backing file to match the size of the smaller snapshot, you can safely truncate
-   it yourself once the commit operation successfully completes.
- 
-   The image *FILENAME* is emptied after the operation has succeeded. If you do
-diff --git a/meson.build b/meson.build
-index 20fddbd707..56b648d8a7 100644
---- a/meson.build
-+++ b/meson.build
-@@ -727,20 +727,24 @@ if not get_option('curl').auto() or have_block
-                     kwargs: static_kwargs)
- endif
- libudev = not_found
- if targetos == 'linux' and (have_system or have_tools)
-   libudev = dependency('libudev',
-                        method: 'pkg-config',
-                        required: get_option('libudev'),
-                        kwargs: static_kwargs)
- endif
- 
-+blkhash = dependency('blkhash', version: '>=0.4.1',
-+                     method: 'pkg-config',
-+                     required: get_option('blkhash'))
++if not checksum_available():
++    iotests.notrun("checksum command not available")
 +
- mpathlibs = [libudev]
- mpathpersist = not_found
- mpathpersist_new_api = false
- if targetos == 'linux' and have_tools and get_option('mpath').allowed()
-   mpath_test_source_new = '''
-     #include <libudev.h>
-     #include <mpath_persist.h>
-     unsigned mpath_mx_alloc_len = 1024;
-     int logsink;
-     static struct config *multipath_conf;
-@@ -1852,20 +1856,22 @@ config_host_data.set('CONFIG_CFI', get_option('cfi'))
- config_host_data.set('CONFIG_SELINUX', selinux.found())
- config_host_data.set('CONFIG_XEN_BACKEND', xen.found())
- if xen.found()
-   # protect from xen.version() having less than three components
-   xen_version = xen.version().split('.') + ['0', '0']
-   xen_ctrl_version = xen_version[0] + \
-     ('0' + xen_version[1]).substring(-2) + \
-     ('0' + xen_version[2]).substring(-2)
-   config_host_data.set('CONFIG_XEN_CTRL_INTERFACE_VERSION', xen_ctrl_version)
- endif
-+config_host_data.set('CONFIG_BLKHASH', blkhash.found())
++iotests.script_initialize(
++    supported_fmts=["raw", "qcow2"],
++    supported_cache_modes=["none", "writeback"],
++    supported_protocols=["file", "nbd"],
++    required_fmts=["raw", "qcow2"],
++)
 +
- config_host_data.set('QEMU_VERSION', '"@0@"'.format(meson.project_version()))
- config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0])
- config_host_data.set('QEMU_VERSION_MINOR', meson.project_version().split('.')[1])
- config_host_data.set('QEMU_VERSION_MICRO', meson.project_version().split('.')[2])
- 
- config_host_data.set_quoted('CONFIG_HOST_DSOSUF', host_dsosuf)
- config_host_data.set('HAVE_HOST_BLOCK_DEVICE', have_host_block_device)
- 
- have_coroutine_pool = get_option('coroutine_pool')
- if get_option('debug_stack_usage') and have_coroutine_pool
-@@ -3594,21 +3600,22 @@ subdir('qga')
- # Don't build qemu-keymap if xkbcommon is not explicitly enabled
- # when we don't build tools or system
- if xkbcommon.found()
-   # used for the update-keymaps target, so include rules even if !have_tools
-   qemu_keymap = executable('qemu-keymap', files('qemu-keymap.c', 'ui/input-keymap.c') + genh,
-                            dependencies: [qemuutil, xkbcommon], install: have_tools)
- endif
- 
- if have_tools
-   qemu_img = executable('qemu-img', [files('qemu-img.c'), hxdep],
--             dependencies: [authz, block, crypto, io, qom, qemuutil], install: true)
-+             dependencies: [authz, block, crypto, io, qom, qemuutil, blkhash],
-+             install: true)
-   qemu_io = executable('qemu-io', files('qemu-io.c'),
-              dependencies: [block, qemuutil], install: true)
-   qemu_nbd = executable('qemu-nbd', files('qemu-nbd.c'),
-                dependencies: [blockdev, qemuutil, gnutls, selinux],
-                install: true)
- 
-   subdir('storage-daemon')
-   subdir('contrib/rdmacm-mux')
-   subdir('contrib/elf2dmp')
- 
-@@ -3977,20 +3984,21 @@ summary_info += {'bzip2 support':     libbzip2}
- summary_info += {'lzfse support':     liblzfse}
- summary_info += {'zstd support':      zstd}
- summary_info += {'NUMA host support': numa}
- summary_info += {'capstone':          capstone}
- summary_info += {'libpmem support':   libpmem}
- summary_info += {'libdaxctl support': libdaxctl}
- summary_info += {'libudev':           libudev}
- # Dummy dependency, keep .found()
- summary_info += {'FUSE lseek':        fuse_lseek.found()}
- summary_info += {'selinux':           selinux}
-+summary_info += {'blkhash':           blkhash}
- summary(summary_info, bool_yn: true, section: 'Dependencies')
- 
- if not supported_cpus.contains(cpu)
-   message()
-   warning('SUPPORT FOR THIS HOST CPU WILL GO AWAY IN FUTURE RELEASES!')
-   message()
-   message('CPU host architecture ' + cpu + ' support is not currently maintained.')
-   message('The QEMU project intends to remove support for this host CPU in')
-   message('a future release if nobody volunteers to maintain it and to')
-   message('provide a build host for our continuous integration setup.')
-diff --git a/meson_options.txt b/meson_options.txt
-index e58e158396..8bf1dece12 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -304,10 +304,12 @@ option('debug_mutex', type: 'boolean', value: false,
- option('debug_stack_usage', type: 'boolean', value: false,
-        description: 'measure coroutine stack usage')
- option('qom_cast_debug', type: 'boolean', value: false,
-        description: 'cast debugging support')
- option('gprof', type: 'boolean', value: false,
-        description: 'QEMU profiling with gprof')
- option('profiler', type: 'boolean', value: false,
-        description: 'profiler support')
- option('slirp_smbd', type : 'feature', value : 'auto',
-        description: 'use smbd (at path --smbd=*) in slirp networking')
-+option('blkhash', type: 'feature', value: 'auto',
-+       description: 'blkhash support for computing image checksum')
-diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
-index 1b1dab5b17..c4fc935a37 100644
---- a/qemu-img-cmds.hx
-+++ b/qemu-img-cmds.hx
-@@ -26,20 +26,28 @@ DEF("bitmap", img_bitmap,
- SRST
- .. option:: bitmap (--merge SOURCE | --add | --remove | --clear | --enable | --disable)... [-b SOURCE_FILE [-F SOURCE_FMT]] [-g GRANULARITY] [--object OBJECTDEF] [--image-opts | -f FMT] FILENAME BITMAP
- ERST
- 
- DEF("check", img_check,
-     "check [--object objectdef] [--image-opts] [-q] [-f fmt] [--output=ofmt] [-r [leaks | all]] [-T src_cache] [-U] filename")
- SRST
- .. option:: check [--object OBJECTDEF] [--image-opts] [-q] [-f FMT] [--output=OFMT] [-r [leaks | all]] [-T SRC_CACHE] [-U] FILENAME
- ERST
- 
-+#ifdef CONFIG_BLKHASH
-+DEF("checksum", img_checksum,
-+    "checksum [--object objectdef] [--image-opts] [-f fmt] [-T src_cache] [-p] filename")
-+SRST
-+.. option:: checksum [--object OBJECTDEF] [--image-opts] [-f FMT] [-T SRC_CACHE] [-p] FILENAME
-+ERST
-+#endif /* CONFIG_BLKHASH */
++print()
++print("=== Test images ===")
++print()
 +
- DEF("commit", img_commit,
-     "commit [--object objectdef] [--image-opts] [-q] [-f fmt] [-t cache] [-b base] [-r rate_limit] [-d] [-p] filename")
- SRST
- .. option:: commit [--object OBJECTDEF] [--image-opts] [-q] [-f FMT] [-t CACHE] [-b BASE] [-r RATE_LIMIT] [-d] [-p] FILENAME
- ERST
- 
- DEF("compare", img_compare,
-     "compare [--object objectdef] [--image-opts] [-f fmt] [-F fmt] [-T src_cache] [-p] [-q] [-s] [-U] filename1 filename2")
- SRST
- .. option:: compare [--object OBJECTDEF] [--image-opts] [-f FMT] [-F FMT] [-T SRC_CACHE] [-p] [-q] [-s] [-U] FILENAME1 FILENAME2
-diff --git a/qemu-img.c b/qemu-img.c
-index 7d4b33b3da..7edcfe4bc8 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -17,20 +17,21 @@
-  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-  * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
- 
- #include "qemu/osdep.h"
- #include <getopt.h>
-+#include <blkhash.h>
- 
- #include "qemu/help-texts.h"
- #include "qemu/qemu-progress.h"
- #include "qemu-version.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-block-core.h"
- #include "qapi/qapi-visit-block-core.h"
- #include "qapi/qobject-output-visitor.h"
- #include "qapi/qmp/qjson.h"
- #include "qapi/qmp/qdict.h"
-@@ -1611,20 +1612,210 @@ out:
-     qemu_vfree(buf1);
-     qemu_vfree(buf2);
-     blk_unref(blk2);
- out2:
-     blk_unref(blk1);
- out3:
-     qemu_progress_end();
-     return ret;
- }
- 
-+#ifdef CONFIG_BLKHASH
-+/*
-+ * Compute image checksum.
-+ */
-+static int img_checksum(int argc, char **argv)
-+{
-+    const char *digest_name = "sha256";
-+    const size_t block_size = 64 * KiB;
++disk_raw = iotests.file_path('raw')
++qemu_img("create", "-f", "raw", disk_raw, "10m")
++qemu_io("-f", "raw",
++        "-c", "write -P 0x1 0 2m",      # data
++        "-c", "write -P 0x0 2m 2m",     # data with zeroes
++        "-c", "write -z 4m 2m",         # zero allocated
++        "-c", "write -z -u 6m 2m",      # zero hole
++                                        # unallocated
++        disk_raw)
++print(filter_testfiles(disk_raw))
++qemu_img_log("map", "--output", "json", disk_raw)
 +
-+    const char *format = NULL;
-+    const char *cache = BDRV_DEFAULT_CACHE;
-+    const char *filename;
-+    BlockBackend *blk;
-+    BlockDriverState *bs;
-+    uint8_t *buf = NULL;
-+    int64_t pnum;
-+    bool progress = false;
-+    int flags = 0;
-+    bool writethrough;
-+    int64_t total_size;
-+    int64_t offset = 0;
-+    int c;
-+    bool image_opts = false;
-+    struct blkhash *h = NULL;
-+    unsigned char digest[64];
-+    unsigned int digest_len;
-+    int ret = 1;
-+    int err;
++disk_qcow2 = iotests.file_path('qcow2')
++qemu_img("create", "-f", "qcow2", disk_qcow2, "10m")
++qemu_io("-f", "qcow2",
++        "-c", "write -P 0x1 0 2m",      # data
++        "-c", "write -P 0x0 2m 2m",     # data with zeroes
++        "-c", "write -z 4m 2m",         # zero allocated
++        "-c", "write -z -u 6m 2m",      # zero hole
++                                        # unallocated
++        disk_qcow2)
++print(filter_testfiles(disk_qcow2))
++qemu_img_log("map", "--output", "json", disk_qcow2)
 +
-+    for (;;) {
-+        static const struct option long_options[] = {
-+            {"help", no_argument, 0, 'h'},
-+            {"object", required_argument, 0, OPTION_OBJECT},
-+            {"image-opts", no_argument, 0, OPTION_IMAGE_OPTS},
-+            {0, 0, 0, 0}
-+        };
-+        c = getopt_long(argc, argv, ":hf:T:p",
-+                        long_options, NULL);
-+        if (c == -1) {
-+            break;
-+        }
-+        switch (c) {
-+        case ':':
-+            missing_argument(argv[optind - 1]);
-+            break;
-+        case '?':
-+            unrecognized_option(argv[optind - 1]);
-+            break;
-+        case 'h':
-+            help();
-+            break;
-+        case 'f':
-+            format = optarg;
-+            break;
-+        case 'T':
-+            cache = optarg;
-+            break;
-+        case 'p':
-+            progress = true;
-+            break;
-+        case OPTION_OBJECT:
-+            {
-+                Error *local_err = NULL;
++disk_compressed = iotests.file_path('compressed')
++qemu_img("convert", "-f", "qcow2", "-O", "qcow2", "-c",
++         disk_qcow2, disk_compressed)
++print(filter_testfiles(disk_compressed))
++qemu_img_log("map", "--output", "json", disk_compressed)
 +
-+                if (!user_creatable_add_from_str(optarg, &local_err)) {
-+                    if (local_err) {
-+                        error_report_err(local_err);
-+                        exit(2);
-+                    } else {
-+                        /* Help was printed */
-+                        exit(EXIT_SUCCESS);
-+                    }
-+                }
-+                break;
-+            }
-+        case OPTION_IMAGE_OPTS:
-+            image_opts = true;
-+            break;
-+        }
-+    }
++disk_base = iotests.file_path('base')
++qemu_img("create", "-f", "raw", disk_base, "10m")
++qemu_io("-f", "raw",
++        "-c", "write -P 0x1 0 2m",
++        "-c", "write -P 0x0 2m 2m",
++        disk_base)
++print(filter_testfiles(disk_base))
++qemu_img_log("map", "--output", "json", disk_base)
 +
-+    if (optind != argc - 1) {
-+        error_exit("Expecting image file name");
-+    }
++disk_top = iotests.file_path('top')
++qemu_img("create", "-f", "qcow2", "-b", disk_base, "-F", "raw",
++         disk_top)
++qemu_io("-f", "qcow2",
++        "-c", "write -z 4m 2m",
++        "-c", "write -z -u 6m 2m",
++        disk_top)
++print(filter_testfiles(disk_top))
++qemu_img_log("map", "--output", "json", disk_top)
 +
-+    filename = argv[optind++];
++print()
++print("=== Checksums - file ===")
++print()
 +
-+    err = bdrv_parse_cache_mode(cache, &flags, &writethrough);
-+    if (err < 0) {
-+        error_report("Invalid source cache option: %s", cache);
-+        return ret;
-+    }
++qemu_img_log("checksum", disk_raw)
++qemu_img_log("checksum", disk_qcow2)
++qemu_img_log("checksum", disk_compressed)
++qemu_img_log("checksum", disk_top)
++qemu_img_log("checksum", disk_base)
 +
-+    blk = img_open(image_opts, filename, format, flags, writethrough, false,
-+                   false);
-+    if (!blk) {
-+        return ret;
-+    }
++print()
++print("=== Checksums - nbd ===")
++print()
 +
-+    /* Initialize before using goto out. */
-+    qemu_progress_init(progress, 2.0);
++nbd_sock = iotests.file_path("nbd.sock", base_dir=iotests.sock_dir)
++nbd_uri = f"nbd+unix:///{{}}?socket={nbd_sock}"
 +
-+    bs = blk_bs(blk);
-+    buf = blk_blockalign(blk, IO_BUF_SIZE);
++with qemu_nbd_popen("-k", nbd_sock, "-f", "raw", "-x", "raw", disk_raw):
++    qemu_img_log("checksum", nbd_uri.format("raw"))
 +
-+    total_size = blk_getlength(blk);
-+    if (total_size < 0) {
-+        error_report("Can't get size of %s: %s",
-+                     filename, strerror(-total_size));
-+        goto out;
-+    }
++with qemu_nbd_popen("-k", nbd_sock, "-f", "qcow2", "-x", "qcow2", disk_qcow2):
++    qemu_img_log("checksum", nbd_uri.format("qcow2"))
 +
-+    h = blkhash_new(block_size, digest_name);
-+    if (!h) {
-+        error_report("Can't create blkhash: %s", strerror(errno));
-+        goto out;
-+    }
++with qemu_nbd_popen("-k", nbd_sock, "-f", "qcow2", "-x", "compressed", disk_compressed):
++    qemu_img_log("checksum", nbd_uri.format("compressed"))
 +
-+    qemu_progress_print(0, 100);
++with qemu_nbd_popen("-k", nbd_sock, "-f", "raw", "-x", "base", disk_base):
++    qemu_img_log("checksum", nbd_uri.format("base"))
 +
-+    while (offset < total_size) {
-+        int status;
-+        int64_t chunk;
++with qemu_nbd_popen("-k", nbd_sock, "-f", "qcow2", "-x", "top", disk_top):
++    qemu_img_log("checksum", nbd_uri.format("top"))
 +
-+        status = bdrv_block_status_above(bs, NULL, offset,
-+                                         total_size - offset, &pnum, NULL,
-+                                         NULL);
-+        if (status < 0) {
-+            error_report("Error checking status at offset %" PRId64 " for %s",
-+                         offset, filename);
-+            goto out;
-+        }
++print()
++print("=== Command line options ===")
++print()
 +
-+        assert(pnum);
-+        chunk = pnum;
++qemu_img_log("checksum", "-f", "qcow2", disk_top)
++qemu_img_log("checksum", "-T", "none", disk_top)
 +
-+        if (status & BDRV_BLOCK_ZERO) {
-+            chunk = MIN(chunk, SIZE_MAX);
-+            err = blkhash_zero(h, chunk);
-+            if (err) {
-+                error_report("Error zeroing hash at offset %" PRId64
-+                             " of %s: %s",
-+                             offset, filename, strerror(err));
-+                goto out;
-+            }
-+        } else {
-+            chunk = MIN(chunk, IO_BUF_SIZE);
-+            err = blk_pread(blk, offset, chunk, buf, 0);
-+            if (err < 0) {
-+                error_report("Error reading at offset %" PRId64 " of %s: %s",
-+                             offset, filename, strerror(-err));
-+                goto out;
-+            }
-+            err = blkhash_update(h, buf, chunk);
-+            if (err) {
-+                error_report("Error updating hash at offset %" PRId64
-+                             " of %s: %s",
-+                             offset, filename, strerror(err));
-+                goto out;
-+            }
-+        }
++out = qemu_img("checksum", "-p", disk_top).stdout
++last = out.splitlines()[-1]  # Filter progress lines.
++print(filter_testfiles(last))
 +
-+        offset += chunk;
-+        qemu_progress_print(((float) chunk / total_size) * 100, 100);
-+    }
++print()
++print("=== Incorrect usage ===")
++print()
 +
-+    err = blkhash_final(h, digest, &digest_len);
-+    if (err) {
-+        error_report("Error finalizing hash of %s: %s",
-+                     filename, strerror(err));
-+        goto out;
-+    }
++qemu_img_log("checksum", "-f", "qcow2", disk_raw, check=False)
+diff --git a/tests/qemu-iotests/tests/qemu-img-checksum.out b/tests/qemu-iotests/tests/qemu-img-checksum.out
+new file mode 100644
+index 0000000000..2cff03439f
+--- /dev/null
++++ b/tests/qemu-iotests/tests/qemu-img-checksum.out
+@@ -0,0 +1,74 @@
 +
-+    for (unsigned i = 0; i < digest_len; i++) {
-+        printf("%02x", digest[i]);
-+    }
-+    printf("  %s%s", filename, progress ? "" : "\n");
++=== Test images ===
 +
-+    ret = 0;
++TEST_DIR/PID-raw
++[{ "start": 0, "length": 4194304, "depth": 0, "present": true, "zero": false, "data": true, "offset": 0},
++{ "start": 4194304, "length": 6291456, "depth": 0, "present": true, "zero": true, "data": false, "offset": 4194304}]
 +
-+out:
-+    blkhash_free(h);
-+    qemu_vfree(buf);
-+    blk_unref(blk);
-+    qemu_progress_end();
++TEST_DIR/PID-qcow2
++[{ "start": 0, "length": 4194304, "depth": 0, "present": true, "zero": false, "data": true, "offset": 327680},
++{ "start": 4194304, "length": 4194304, "depth": 0, "present": true, "zero": true, "data": false},
++{ "start": 8388608, "length": 2097152, "depth": 0, "present": false, "zero": true, "data": false}]
 +
-+    return ret;
-+}
-+#endif /* CONFIG_BLKHASH */
++TEST_DIR/PID-compressed
++[{ "start": 0, "length": 2097152, "depth": 0, "present": true, "zero": false, "data": true},
++{ "start": 2097152, "length": 8388608, "depth": 0, "present": false, "zero": true, "data": false}]
 +
- /* Convenience wrapper around qmp_block_dirty_bitmap_merge */
- static void do_dirty_bitmap_merge(const char *dst_node, const char *dst_name,
-                                   const char *src_node, const char *src_name,
-                                   Error **errp)
- {
-     BlockDirtyBitmapOrStr *merge_src;
-     BlockDirtyBitmapOrStrList *list = NULL;
- 
-     merge_src = g_new0(BlockDirtyBitmapOrStr, 1);
-     merge_src->type = QTYPE_QDICT;
++TEST_DIR/PID-base
++[{ "start": 0, "length": 4194304, "depth": 0, "present": true, "zero": false, "data": true, "offset": 0},
++{ "start": 4194304, "length": 6291456, "depth": 0, "present": true, "zero": true, "data": false, "offset": 4194304}]
++
++TEST_DIR/PID-top
++[{ "start": 0, "length": 4194304, "depth": 1, "present": true, "zero": false, "data": true, "offset": 0},
++{ "start": 4194304, "length": 4194304, "depth": 0, "present": true, "zero": true, "data": false},
++{ "start": 8388608, "length": 2097152, "depth": 1, "present": true, "zero": true, "data": false, "offset": 8388608}]
++
++
++=== Checksums - file ===
++
++57cd8ef0cfad106d737f8fb0de3a0306a8a1a41db7bf7c0c36e2dfe75ee9bd26  TEST_DIR/PID-raw
++
++57cd8ef0cfad106d737f8fb0de3a0306a8a1a41db7bf7c0c36e2dfe75ee9bd26  TEST_DIR/PID-qcow2
++
++57cd8ef0cfad106d737f8fb0de3a0306a8a1a41db7bf7c0c36e2dfe75ee9bd26  TEST_DIR/PID-compressed
++
++57cd8ef0cfad106d737f8fb0de3a0306a8a1a41db7bf7c0c36e2dfe75ee9bd26  TEST_DIR/PID-top
++
++57cd8ef0cfad106d737f8fb0de3a0306a8a1a41db7bf7c0c36e2dfe75ee9bd26  TEST_DIR/PID-base
++
++
++=== Checksums - nbd ===
++
++Start NBD server
++57cd8ef0cfad106d737f8fb0de3a0306a8a1a41db7bf7c0c36e2dfe75ee9bd26  nbd+unix:///raw?socket=SOCK_DIR/PID-nbd.sock
++
++Kill NBD server
++Start NBD server
++57cd8ef0cfad106d737f8fb0de3a0306a8a1a41db7bf7c0c36e2dfe75ee9bd26  nbd+unix:///qcow2?socket=SOCK_DIR/PID-nbd.sock
++
++Kill NBD server
++Start NBD server
++57cd8ef0cfad106d737f8fb0de3a0306a8a1a41db7bf7c0c36e2dfe75ee9bd26  nbd+unix:///compressed?socket=SOCK_DIR/PID-nbd.sock
++
++Kill NBD server
++Start NBD server
++57cd8ef0cfad106d737f8fb0de3a0306a8a1a41db7bf7c0c36e2dfe75ee9bd26  nbd+unix:///base?socket=SOCK_DIR/PID-nbd.sock
++
++Kill NBD server
++Start NBD server
++57cd8ef0cfad106d737f8fb0de3a0306a8a1a41db7bf7c0c36e2dfe75ee9bd26  nbd+unix:///top?socket=SOCK_DIR/PID-nbd.sock
++
++Kill NBD server
++
++=== Command line options ===
++
++57cd8ef0cfad106d737f8fb0de3a0306a8a1a41db7bf7c0c36e2dfe75ee9bd26  TEST_DIR/PID-top
++
++57cd8ef0cfad106d737f8fb0de3a0306a8a1a41db7bf7c0c36e2dfe75ee9bd26  TEST_DIR/PID-top
++
++57cd8ef0cfad106d737f8fb0de3a0306a8a1a41db7bf7c0c36e2dfe75ee9bd26  TEST_DIR/PID-top
++
++=== Incorrect usage ===
++
++qemu-img: Could not open 'TEST_DIR/PID-raw': Image is not in qcow2 format
++
 -- 
 2.37.2
 
