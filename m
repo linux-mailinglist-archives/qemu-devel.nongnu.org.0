@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7BD15A8FFC
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 09:21:51 +0200 (CEST)
-Received: from localhost ([::1]:53444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61F0F5A9049
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 09:29:30 +0200 (CEST)
+Received: from localhost ([::1]:36114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTeWM-0001D7-KG
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 03:21:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50338)
+	id 1oTedl-0007KJ-Gl
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 03:29:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTe4A-0005v5-4t
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:52:47 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:45914)
+ id 1oTe4I-0005vk-AG
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:52:52 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:35439)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTe47-0003G2-Vp
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:52:41 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id w5so4831641wrn.12
- for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 23:52:39 -0700 (PDT)
+ id 1oTe4A-0003Hi-Jn
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:52:45 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ m17-20020a7bce11000000b003a5bedec07bso802567wmc.0
+ for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 23:52:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=osXM6kebf211jyJTnRVlg1LBiYlRKdmijrWPSS9x4Wo=;
- b=P5WP1BaHPbW8kc19nsfqo7KRtUVJcL4r41BBgcQYOgpS3qiQbI6Afuo1dEeet9BZ+Y
- 6UcKS618BMMsrW+X3lbfsHUrc6ySwVr192gEOVoolgrvMPUVJqXk+k2A/8ysCEcXLbwg
- F+gCZjta/NtZrQZkywPHT2Nl3HR3zW0jtZejKyZUhEoNFNDce5J1/g+h4aNbK1Qsd4ee
- dhBtJAOy13pl3uzoa7bXuTsKX7HqpLIoJ7C0pE9fi/dS12NIL/D/uhZ5Wxfh1eHix4C0
- 0tj77MKCnN/00Wasm455yREtDF0fVljkyuvYjbpF9NnR9AT1q+fB8bNPGD8he1THYkKc
- lOOw==
+ bh=SHzx12Rsu42Ye71toTN4bWIrkmgQVEH0DPBud2OqwOk=;
+ b=wbzy/ksNA0SlkUV1s8PhRlgkyUksszXHWERNT9qmG1ysVn+FPq/H5cqzO8g15LpgOt
+ T7Aj/wy+TYP4W3IqIOr/0KYvUjRUWMevR3R7AYhWMmVw5I1QcGVSyhGjrw9fpEA4l8FS
+ oUy9BWBK0cNfV88Qu3bRSnonAbl6fuXn2+SYuFbMFI5NaoRbZzAJnyvLmMGh+orfImXi
+ N9Kn8u+sUcrbTLt/sy4n627hBKkUEpTeGsSOJse/YORzWj2xIswUZbIhvffa75VxnKE6
+ I3aVp8mi+gw4OTQPDNQL9PPl10nJCOjXHp9Jzy13bXXug6nhQ4hAb3qMm/Eeyz0S0Tyl
+ Auag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=osXM6kebf211jyJTnRVlg1LBiYlRKdmijrWPSS9x4Wo=;
- b=seiq2gHqU3GD4btkWoIqnlEQUUrndjD2Z/JdIMxj+Fw8jrcq2m5/24qk1/0QLfhO0R
- lvu4ql24Y8WhOP/o0pzOkRtkY1+RdUwLOr7LcdddIOmO4HJ7v8zpexXmAqpcF3ZFnM2t
- GlqG7meu4gvY7eYOiupHxNSaGvQcBYKYpI3TVBDhSvCNtTLrzjA0irv54SIT5wNJTyhj
- GCVrxlwkdqnxNmuUYB8Vo7zo4swrX3myka5XejBPUA+QJ0zv1Dtkouuj0FU8pK9kf9kE
- nKFmrDiFAxIUGs8XbCcSDMn1y66zkVLzFhAxWtwiwivhZBDwqeIk56LVMHiCgJGiwwqQ
- 7xwA==
-X-Gm-Message-State: ACgBeo2r0ET9gWKNagq2pIHtrI8/HvLHRLqar0YE9xD+KymxwKDk/2xL
- gNcImEDMIR+JDTCLwmS2MHmcy7raQl/+GaBb
-X-Google-Smtp-Source: AA6agR6p+vw0IIZK4pcdIi0ctV5Ohps4h8+o0/k0rvEJt2SRf/ukC2BDzkfuFAOdYWQEhyBPeXHAUQ==
-X-Received: by 2002:a5d:64c9:0:b0:226:dfa0:3fa7 with SMTP id
- f9-20020a5d64c9000000b00226dfa03fa7mr8469555wri.350.1662015159205; 
- Wed, 31 Aug 2022 23:52:39 -0700 (PDT)
+ bh=SHzx12Rsu42Ye71toTN4bWIrkmgQVEH0DPBud2OqwOk=;
+ b=FlXSCFBeV1d5lbZXp4Pk5qOHLNYslhKzLv/HlBgzMetUhFQez2T0/LwxzjISbst5zr
+ 85jPEuxDam6E1EPYO5bCgvOKTVBlefDqJ4Q7uWYL2I8aYkBgWnBSXIzI8UVTyvHmkSmG
+ 5QZYfdtcx5C/YR3270TslhJp/24gfFzyksWAREFtOcjGj7KFVM3U1QTTdE3fanxO6fJj
+ S1o9LfD8Zlu0rPL3rHxMsL1zIGn/vHxbJAM3OI+qED9DQ5ilQzVuHEp9YfYZiE+XYQjo
+ 0orUB1mgENXURznwQo1+xUcw6QK+knnxDFQIPXmi8/8GaYFfSaUEOPO2JvIkZo4N/btP
+ fkjQ==
+X-Gm-Message-State: ACgBeo2/a95zavOH9TMKY4GGsZNth6GEOaX0FjzOnC3y57JGngSkKBHx
+ F60GFZJ+JT/Je83PQOd4Iqf1ekb/cdX+VNaP
+X-Google-Smtp-Source: AA6agR5dY7amNurjCy1COxfxoYjugTqfIo+aoPrNnMHCPF1yUgTV5DqTsnnQPbL8e81XJow3Bo98bw==
+X-Received: by 2002:a05:600c:25ce:b0:3a5:a3b7:bbfe with SMTP id
+ 14-20020a05600c25ce00b003a5a3b7bbfemr4249120wml.115.1662015161030; 
+ Wed, 31 Aug 2022 23:52:41 -0700 (PDT)
 Received: from stoup.. ([87.192.221.83]) by smtp.gmail.com with ESMTPSA id
- a6-20020a5d4d46000000b00226dedf1ab7sm8308153wru.76.2022.08.31.23.52.37
+ a6-20020a5d4d46000000b00226dedf1ab7sm8308153wru.76.2022.08.31.23.52.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 23:52:38 -0700 (PDT)
+ Wed, 31 Aug 2022 23:52:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Michael Rolnik <mrolnik@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 4/4] target/avr: Disable interrupts when env->skip set
-Date: Thu,  1 Sep 2022 07:51:54 +0100
-Message-Id: <20220901065210.117081-9-richard.henderson@linaro.org>
+Cc: Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PULL 05/20] linux-user: Clear translations on mprotect()
+Date: Thu,  1 Sep 2022 07:51:55 +0100
+Message-Id: <20220901065210.117081-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220901065210.117081-1-richard.henderson@linaro.org>
 References: <20220901065210.117081-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,98 +88,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This bit is not saved across interrupts, so we must
-delay delivering the interrupt until the skip has
-been processed.
+From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1118
-Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Currently it's possible to execute pages that do not have PAGE_EXEC
+if there is an existing translation block. Fix by invalidating TBs
+that touch the affected pages.
+
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Message-Id: <20220817150506.592862-2-iii@linux.ibm.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/avr/helper.c    |  9 +++++++++
- target/avr/translate.c | 26 ++++++++++++++++++++++----
- 2 files changed, 31 insertions(+), 4 deletions(-)
+ linux-user/mmap.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/target/avr/helper.c b/target/avr/helper.c
-index 34f1cbffb2..156dde4e92 100644
---- a/target/avr/helper.c
-+++ b/target/avr/helper.c
-@@ -31,6 +31,15 @@ bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-     AVRCPU *cpu = AVR_CPU(cs);
-     CPUAVRState *env = &cpu->env;
- 
-+    /*
-+     * We cannot separate a skip from the next instruction,
-+     * as the skip would not be preserved across the interrupt.
-+     * Separating the two insn normally only happens at page boundaries.
-+     */
-+    if (env->skip) {
-+        return false;
-+    }
-+
-     if (interrupt_request & CPU_INTERRUPT_RESET) {
-         if (cpu_interrupts_enabled(env)) {
-             cs->exception_index = EXCP_RESET;
-diff --git a/target/avr/translate.c b/target/avr/translate.c
-index dc9c3d6bcc..026753c963 100644
---- a/target/avr/translate.c
-+++ b/target/avr/translate.c
-@@ -2971,8 +2971,18 @@ static void avr_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-     if (skip_label) {
-         canonicalize_skip(ctx);
-         gen_set_label(skip_label);
--        if (ctx->base.is_jmp == DISAS_NORETURN) {
-+
-+        switch (ctx->base.is_jmp) {
-+        case DISAS_NORETURN:
-             ctx->base.is_jmp = DISAS_CHAIN;
-+            break;
-+        case DISAS_NEXT:
-+            if (ctx->base.tb->flags & TB_FLAGS_SKIP) {
-+                ctx->base.is_jmp = DISAS_TOO_MANY;
-+            }
-+            break;
-+        default:
-+            break;
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index 048c4135af..6a828e8418 100644
+--- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -177,9 +177,11 @@ int target_mprotect(abi_ulong start, abi_ulong len, int target_prot)
+             goto error;
          }
      }
- 
-@@ -2989,6 +2999,11 @@ static void avr_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
- {
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
-     bool nonconst_skip = canonicalize_skip(ctx);
-+    /*
-+     * Because we disable interrupts while env->skip is set,
-+     * we must return to the main loop to re-evaluate afterward.
-+     */
-+    bool force_exit = ctx->base.tb->flags & TB_FLAGS_SKIP;
- 
-     switch (ctx->base.is_jmp) {
-     case DISAS_NORETURN:
-@@ -2997,7 +3012,7 @@ static void avr_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-     case DISAS_NEXT:
-     case DISAS_TOO_MANY:
-     case DISAS_CHAIN:
--        if (!nonconst_skip) {
-+        if (!nonconst_skip && !force_exit) {
-             /* Note gen_goto_tb checks singlestep.  */
-             gen_goto_tb(ctx, 1, ctx->npc);
-             break;
-@@ -3005,8 +3020,11 @@ static void avr_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-         tcg_gen_movi_tl(cpu_pc, ctx->npc);
-         /* fall through */
-     case DISAS_LOOKUP:
--        tcg_gen_lookup_and_goto_ptr();
--        break;
-+        if (!force_exit) {
-+            tcg_gen_lookup_and_goto_ptr();
-+            break;
-+        }
-+        /* fall through */
-     case DISAS_EXIT:
-         tcg_gen_exit_tb(NULL, 0);
-         break;
++
+     page_set_flags(start, start + len, page_flags);
+-    mmap_unlock();
+-    return 0;
++    tb_invalidate_phys_range(start, start + len);
++    ret = 0;
++
+ error:
+     mmap_unlock();
+     return ret;
 -- 
 2.34.1
 
