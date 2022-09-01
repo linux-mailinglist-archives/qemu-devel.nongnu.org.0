@@ -2,83 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BED055A9182
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 10:03:41 +0200 (CEST)
-Received: from localhost ([::1]:40054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7A085A91BA
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 10:11:34 +0200 (CEST)
+Received: from localhost ([::1]:43612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTfAq-0006sZ-9p
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 04:03:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47706)
+	id 1oTfIT-0004hP-K2
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 04:11:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oTeMD-0002fv-Ub
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 03:11:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36681)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oTeMA-0006IK-F7
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 03:11:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662016276;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=xt1WclYw4Ucp6iZOsqhxpmF7ibCoEVLE6kpyI7fs900=;
- b=HbgYkbJ0KOqHvneJnWQW0f3SjyvwSnRXjo7j4XiQj7CkzFwv54MFAeE80M05ImyKrWNEYC
- WenBRyNpAjv+x+w5NuSgAEN+Q22mVKhKeqPjqJ13xjZBwD2KUL0MO2xQjQuiThL6dwQR/T
- vGoeQgQCuW2DzmA6UeuzuiH5w6lqVhM=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-665-MBdZfhEBMoC1a_8L_uiiRg-1; Thu, 01 Sep 2022 03:11:14 -0400
-X-MC-Unique: MBdZfhEBMoC1a_8L_uiiRg-1
-Received: by mail-ej1-f69.google.com with SMTP id
- sd6-20020a1709076e0600b0073315809fb5so6338049ejc.10
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 00:11:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oTeMM-0002iw-KB
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 03:11:31 -0400
+Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:37574)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oTeMK-0006J6-RO
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 03:11:30 -0400
+Received: by mail-qv1-xf36.google.com with SMTP id mn13so25419qvb.4
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 00:11:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=JhHzG/bkhXbNukPhhmQtEtOGteABbeuiUWDV7CY9PMo=;
+ b=HJMex4wcUD0Xfg/iRsLUTlG/GZuOL9McnSnRW6TM1G9pIf+LjUhZdmwN803eoRISYe
+ eqTZ1puJHovEujZEQpYfM4M84cxmkyRmVy+W65oJ5Lx+1QbEaDdE8bDHAFEX5/OhEZpJ
+ hTYrfiJXmU6+k8YHHfRg0wPAKLKRlr8LhpOZPfyvOV9AVcgk3P+7wYOVJ4oi+emzqGKd
+ 4wOT4gwvPxwhdRKdeCr/93SimFsN8WbcZsSTCralj54WwgZQ/UZv+xO7gA6Vxsu9LkNR
+ 8O0vVo0gv4LsZ5d+ZXm6jipsYwXat+Saiuzpof0jczM7/XHDBfLfVkLNm8pMzbQkRHo8
+ mjFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=xt1WclYw4Ucp6iZOsqhxpmF7ibCoEVLE6kpyI7fs900=;
- b=k3svSrOeuBUSjCDFyIvAOADvo52Hyl9bNeFlwVrLIb1OGo5ODkiQ6ll3zXHsF+tRNc
- zONRru74Hw8isgWWVprBJp4GgPPfNNqu5kFT9muZ/yi5H78ySI702E9UQwyUhg4oIqe2
- bcmVnI00n7TEJtMTSvHn4QsftCBkW+OYaQJPW3CqEdSya1PWZL6XB+CmEEdgqnY5AWAJ
- +lEdh/+3qcXjZke/JwM2Sgi6vcAjKrSjTENFHhiArNPSm9Ze53MpaTMxMqURWRobMmMY
- kMx7TzYVhDmOo/pf9zdzTtXMiwch6G3tFTwxi32EjUv3csUJfjpCeK0O/d97XuQvj4uf
- Dl9w==
-X-Gm-Message-State: ACgBeo0whm7R8HyTTe+86JiLcpt4gEYGB1+Lmch2ZLSXCAvEveLrTGC+
- sp910/cXFTKQE0wADZWC88FJKOyKtnPbNRKl9/HzYKMv5+roQB5PNinTZWmvTHJdb/vlYZzIQ5n
- aVvdDdaf1+2FWwKNG0aA5jJx37zLLMRq9rNyMhesgTNQfp9TsAg04IBJpAih/THnSxK8=
-X-Received: by 2002:a05:6402:354d:b0:448:1f80:e737 with SMTP id
- f13-20020a056402354d00b004481f80e737mr20244592edd.69.1662016273585; 
- Thu, 01 Sep 2022 00:11:13 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6K+oNmUcCwAGPqPZirh9oIPcU04ImrQDb6vnC6lKNBEL/hhrPbFr41TYw908bNmDnALPGI8g==
-X-Received: by 2002:a05:6402:354d:b0:448:1f80:e737 with SMTP id
- f13-20020a056402354d00b004481f80e737mr20244574edd.69.1662016273266; 
- Thu, 01 Sep 2022 00:11:13 -0700 (PDT)
-Received: from goa-sendmail ([93.56.160.208]) by smtp.gmail.com with ESMTPSA id
- q18-20020a17090609b200b0073ddff7e432sm8173396eje.14.2022.09.01.00.11.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 00:11:12 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org
-Subject: [PATCH] target/i386: rewrite destructive 3DNow operations
-Date: Thu,  1 Sep 2022 09:11:11 +0200
-Message-Id: <20220901071111.43589-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.37.1
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=JhHzG/bkhXbNukPhhmQtEtOGteABbeuiUWDV7CY9PMo=;
+ b=TZuF00Mi5qQgtMQz1Wt51/ZtfCfTy/p2dTnAswIchjjpNwqbYf8X0PyigEC5Lr4rUt
+ qarf3k0p4XEG1istZtugFT4LSGagfaJCyWr1pugCog4HXxmH8N8OlHswsivn9X8LcUt7
+ xbgVG9rmsfB6elv9g88nozuIhJ/A38JmPofIdTutn7J0UjutLg7MGhc/KnSwqGIQvrtH
+ QfCtNwpnWptBbyOWxuZnGvrxnXmSP8kFG+PLbU+/raopP9W0d4WSFn7EMpW1nFVoLSod
+ Wemz8xZXqm+LtAkCos7gqLp+5En55lipHv76gWY+ZOnsrzPnm3u1R9s/BHDXXsn1NTD5
+ /xHg==
+X-Gm-Message-State: ACgBeo03fOXz7RmKeeDBhjXyTzjh6IZqGf1YFK5ewVAQ2cCSc+Y2KcU6
+ 0TKgJTmQDd56KOSdYjP1xRWtNBhOW8fPZpbwcwWU+/wIbNs=
+X-Google-Smtp-Source: AA6agR4e8k5bjqsMqrtgU/vxbHPk4q85zr9NaCWKz+bJ/hLEdQ4oIDTL4pojafuI05qFJ8KkNdYhjGUnfgCrovduD1M=
+X-Received: by 2002:a0c:810f:0:b0:47b:299a:56d7 with SMTP id
+ 15-20020a0c810f000000b0047b299a56d7mr22788613qvc.12.1662016287895; Thu, 01
+ Sep 2022 00:11:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
+ <20220824094029.1634519-5-bmeng.cn@gmail.com>
+ <CAJ+F1CKj1uoa7pW1m7iRGUUcsqpDYnN2vmkfAn5xi6ogysMrQA@mail.gmail.com>
+In-Reply-To: <CAJ+F1CKj1uoa7pW1m7iRGUUcsqpDYnN2vmkfAn5xi6ogysMrQA@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 1 Sep 2022 15:11:17 +0800
+Message-ID: <CAEUhbmVX4TtkWSm=9n_6+TP59GPszASAR6j1FVpt9dg6LxapSw@mail.gmail.com>
+Subject: Re: [PATCH 04/51] semihosting/arm-compat-semi: Avoid using hardcoded
+ /tmp
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf36.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,80 +89,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove use of the MOVE macro, since it will be purged from
-MMX/SSE as well.
+On Wed, Aug 31, 2022 at 8:59 PM Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@gmail.com> wrote:
+>
+> Hi
+>
+> On Wed, Aug 24, 2022 at 1:54 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>>
+>> From: Bin Meng <bin.meng@windriver.com>
+>>
+>> Use g_get_tmp_dir() to get the directory to use for temporary files.
+>>
+>> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>> ---
+>>
+>>  semihosting/arm-compat-semi.c | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi=
+.c
+>> index e741674238..d5e66cc298 100644
+>> --- a/semihosting/arm-compat-semi.c
+>> +++ b/semihosting/arm-compat-semi.c
+>> @@ -503,7 +503,8 @@ void do_common_semihosting(CPUState *cs)
+>>          GET_ARG(0);
+>>          GET_ARG(1);
+>>          GET_ARG(2);
+>> -        len =3D asprintf(&s, "/tmp/qemu-%x%02x", getpid(), (int)arg1 & =
+0xff);
+>> +        len =3D asprintf(&s, "%s/qemu-%x%02x", g_get_tmp_dir(),
+>> +                       getpid(), (int)arg1 & 0xff);
+>
+>
+> This is most likely wrong. I am not familiar with semihosting, but I beli=
+eve we are implementing tmpnam(), it should return a POSIX filename.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/ops_sse.h | 32 ++++++++++++++++----------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+Replacing /tmp with g_get_tmp_dir() is not wrong, correct?
 
-diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
-index f603981ab8..2c0090a647 100644
---- a/target/i386/ops_sse.h
-+++ b/target/i386/ops_sse.h
-@@ -1327,11 +1327,11 @@ void helper_pf2iw(CPUX86State *env, MMXReg *d, MMXReg *s)
- 
- void helper_pfacc(CPUX86State *env, MMXReg *d, MMXReg *s)
- {
--    MMXReg r;
-+    float32 r;
- 
--    r.MMX_S(0) = float32_add(d->MMX_S(0), d->MMX_S(1), &env->mmx_status);
--    r.MMX_S(1) = float32_add(s->MMX_S(0), s->MMX_S(1), &env->mmx_status);
--    MOVE(*d, r);
-+    r = float32_add(d->MMX_S(0), d->MMX_S(1), &env->mmx_status);
-+    d->MMX_S(1) = float32_add(s->MMX_S(0), s->MMX_S(1), &env->mmx_status);
-+    d->MMX_S(0) = r;
- }
- 
- void helper_pfadd(CPUX86State *env, MMXReg *d, MMXReg *s)
-@@ -1392,20 +1392,20 @@ void helper_pfmul(CPUX86State *env, MMXReg *d, MMXReg *s)
- 
- void helper_pfnacc(CPUX86State *env, MMXReg *d, MMXReg *s)
- {
--    MMXReg r;
-+    float32 r;
- 
--    r.MMX_S(0) = float32_sub(d->MMX_S(0), d->MMX_S(1), &env->mmx_status);
--    r.MMX_S(1) = float32_sub(s->MMX_S(0), s->MMX_S(1), &env->mmx_status);
--    MOVE(*d, r);
-+    r = float32_sub(d->MMX_S(0), d->MMX_S(1), &env->mmx_status);
-+    d->MMX_S(1) = float32_sub(s->MMX_S(0), s->MMX_S(1), &env->mmx_status);
-+    d->MMX_S(0) = r;
- }
- 
- void helper_pfpnacc(CPUX86State *env, MMXReg *d, MMXReg *s)
- {
--    MMXReg r;
-+    float32 r;
- 
--    r.MMX_S(0) = float32_sub(d->MMX_S(0), d->MMX_S(1), &env->mmx_status);
--    r.MMX_S(1) = float32_add(s->MMX_S(0), s->MMX_S(1), &env->mmx_status);
--    MOVE(*d, r);
-+    r = float32_sub(d->MMX_S(0), d->MMX_S(1), &env->mmx_status);
-+    d->MMX_S(1) = float32_add(s->MMX_S(0), s->MMX_S(1), &env->mmx_status);
-+    d->MMX_S(0) = r;
- }
- 
- void helper_pfrcp(CPUX86State *env, MMXReg *d, MMXReg *s)
-@@ -1438,11 +1438,11 @@ void helper_pfsubr(CPUX86State *env, MMXReg *d, MMXReg *s)
- 
- void helper_pswapd(CPUX86State *env, MMXReg *d, MMXReg *s)
- {
--    MMXReg r;
-+    uint32_t r;
- 
--    r.MMX_L(0) = s->MMX_L(1);
--    r.MMX_L(1) = s->MMX_L(0);
--    MOVE(*d, r);
-+    r = s->MMX_L(0);
-+    d->MMX_L(0) = s->MMX_L(1);
-+    d->MMX_L(1) = r;
- }
- #endif
- 
--- 
-2.37.1
+I checked the semihosting spec, it does not mention the file name
+should be a POSIX compliant path.
+https://developer.arm.com/documentation/dui0058/d/semihosting/semihosting-s=
+wis/sys-tmpnam--0x0d-
 
+Certainly this needs a semihosting expert to take a look.
+
+>
+>>
+>>          if (len < 0) {
+>>              common_semi_set_ret(cs, -1);
+>>              break;
+>> --
+
+Regards,
+Bin
 
