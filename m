@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 012865A9077
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 09:38:08 +0200 (CEST)
-Received: from localhost ([::1]:34914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC4105A8F8C
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 09:15:50 +0200 (CEST)
+Received: from localhost ([::1]:44640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTem6-0005HK-H8
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 03:38:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41052)
+	id 1oTeQY-0006hl-0x
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 03:15:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTe4K-0005wB-6p
+ id 1oTe4O-0005wO-5S
  for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:53:02 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:35584)
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:36760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTe4G-0003Hs-UV
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:52:51 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id s7so6104079wro.2
- for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 23:52:45 -0700 (PDT)
+ id 1oTe4I-0003HE-1f
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:52:53 -0400
+Received: by mail-wr1-x432.google.com with SMTP id u17so1744245wrp.3
+ for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 23:52:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=HHNtzSSJtX30aB1753TWle01U0aOKhRaC897K6yvm6M=;
- b=T1omgBQnnViYwpXE74X5m4q8MhXmVMsv1XPYim4AMFinfRgDFQrepe2VnKQhhAxaVj
- CiMzNIiRm8K7S/l9ySjYJsCROw0VA/7/xYhZ1Glamj/sSU3MkyUH7WDRH4XHd8Dq1Fbw
- HD/O2jZPgDzL0al0SWq9p9oclibYTqflj8slj+awGl4N7SF44H4yHvvTJUmbEueVE32V
- fcex/P/wIAaf8RkTcVWGYPM1RhwXBUvy/DH9BFWuCHxtovqIc6OHVkv+j8U+IxXQAo/j
- se1s0KN8ypXaSOVVIYSW/GqBzpAyGLFaVHQ8aklEDRUyLlzieCp6COv+ZDIn63pPGz5C
- L+Og==
+ bh=OsbFR6exiIugNlN/OA1NiX9KQk6dg8u5+nqhU943Djk=;
+ b=iHHwqQQDIPgqQjEBQ0AM+ad6yviEEToq0tbdAALDR4+2KIGud02xYzu26YAtD0sV6K
+ P7OgBy6zISuKyrDS2Es0hygczDk79dTYOt0sVBLOgu97vBbyzcMwGXVVpOh6H6TurWii
+ QROQiKfUlwYBH0GX6f7erwBko7sfyOjIlF5wOVPGaFG0Nbcyz6MJpVTPq2yKOh3xZEaK
+ RzMw7bYowYw7srFuCU08VlrWQuEUNlnCGbxsbWQLHPaP5OIGC9VXbvfm29wenrUsb8w9
+ zC5b6guil4d1pNARPkVxhgDch7roQAmVMT33Yd+DxPOS4VA02vktfJZd0Ufle7R6mgOD
+ +phQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=HHNtzSSJtX30aB1753TWle01U0aOKhRaC897K6yvm6M=;
- b=zyrUi9TbUxIVZ63gI0wFbAcQYPFM0KPr+gNVdcQOXhrLBe61vOTe4Brnol+cu18I0u
- RTeZOWkvQBgULQgfm753fmD2PcR9pjs72aXw02PemMuq7N/URpY5ghch3dxIDCYi2t3J
- 0E2CpuoD/nfR7JutGZ+HgAn7HGRZ0jDmVIHp3vPfL7L1lRHKo5iCy1Me7CsPN3+9CgCG
- cMrWcoG2dnhlf6tP4euiG+DuXvB/2P2CVlKbNGQDetqZuI+sl65sgJJXDdjZG/z+XJcq
- 7n89q5I3+1WqjsWZfeOIfaPfhd+rRxTTWRfuNnfyNXADfaZAypccOV1Pr02aIXqgoexb
- ZgYQ==
-X-Gm-Message-State: ACgBeo2EHFrzsMLsSI4KknmMEsoglLfN01qPLb3nCPtAn5bjSqgs2AvG
- X7PcxTyXcHWThKNTZwq6oaB9xwRMxfUSfFpR
-X-Google-Smtp-Source: AA6agR4Z7ESlKsK1/7sM5z35P542i0jLk2WqZLEsuG5EZFjJYqL5QDwgU+ZyR/6RfAmPgMANRnX9xg==
-X-Received: by 2002:a5d:64e9:0:b0:220:7dd7:63eb with SMTP id
- g9-20020a5d64e9000000b002207dd763ebmr13503325wri.590.1662015164446; 
- Wed, 31 Aug 2022 23:52:44 -0700 (PDT)
+ bh=OsbFR6exiIugNlN/OA1NiX9KQk6dg8u5+nqhU943Djk=;
+ b=kw3cCqoHgZIM/IKC1YxV/ncd27ZCQ/M5H++C1B75NJmMJ7ewr2zdiVHjvK/FNz3S/2
+ wT8R7+epmNvTy+iXxNGOWI59fssR+RFVIPPsiGCJscsombBYgWQINfals23gw06Rqtsb
+ qPYfYWXat9QaLA272e3YxgwPLa+4bCcci4O2j1w7tdlC5wPORgd0vXvTuz2MnSaQ/nyp
+ DglJXPqZy+aM99i6B1l4w5qX9eB8/OrQ3t8I0ct1TKozAU/Wi4EszC+J99u2Aa3Jh44L
+ xlqMkicpgi4l/44UMlpfwnMYxNiBjYPAi/JQB5/CP53Xh2YiRLX+9RFIW1gKYWkK9H3W
+ CLiw==
+X-Gm-Message-State: ACgBeo270iNOZA1J4DyOC4MtF0Vz/wn71AGk4H1NbjnHWwzXZd0HKKHJ
+ IPZcBIz+Ace0E03lIR8xjTcUdJhOXamnklLZ
+X-Google-Smtp-Source: AA6agR6jviPDtlARx0B09x8DAQAC37RK3TVwyheFmDbeocoSRsX57gNCHiZ3ZYYC/eHkz4dA0TNLkg==
+X-Received: by 2002:adf:e78c:0:b0:225:f5db:969e with SMTP id
+ n12-20020adfe78c000000b00225f5db969emr14331996wrm.716.1662015167107; 
+ Wed, 31 Aug 2022 23:52:47 -0700 (PDT)
 Received: from stoup.. ([87.192.221.83]) by smtp.gmail.com with ESMTPSA id
- a6-20020a5d4d46000000b00226dedf1ab7sm8308153wru.76.2022.08.31.23.52.41
+ a6-20020a5d4d46000000b00226dedf1ab7sm8308153wru.76.2022.08.31.23.52.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 23:52:43 -0700 (PDT)
+ Wed, 31 Aug 2022 23:52:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PULL 06/20] tests/tcg/i386: Move smc_code2 to an executable section
-Date: Thu,  1 Sep 2022 07:51:56 +0100
-Message-Id: <20220901065210.117081-11-richard.henderson@linaro.org>
+Cc: Ilya Leoshkevich <iii@linux.ibm.com>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 07/20] accel/tcg: Introduce is_same_page()
+Date: Thu,  1 Sep 2022 07:51:57 +0100
+Message-Id: <20220901065210.117081-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220901065210.117081-1-richard.henderson@linaro.org>
 References: <20220901065210.117081-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,32 +88,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We're about to start validating PAGE_EXEC, which means
-that we've got to put this code into a section that is
-both writable and executable.
+From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-Note that this test did not run on hardware beforehand either.
+Introduce a function that checks whether a given address is on the same
+page as where disassembly started. Having it improves readability of
+the following patches.
 
-Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Tested-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Message-Id: <20220811095534.241224-3-iii@linux.ibm.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+[rth: Make the DisasContextBase parameter const.]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/tcg/i386/test-i386.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/exec/translator.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/tests/tcg/i386/test-i386.c b/tests/tcg/i386/test-i386.c
-index ac8d5a3c1f..e6b308a2c0 100644
---- a/tests/tcg/i386/test-i386.c
-+++ b/tests/tcg/i386/test-i386.c
-@@ -1998,7 +1998,7 @@ uint8_t code[] = {
-     0xc3, /* ret */
- };
+diff --git a/include/exec/translator.h b/include/exec/translator.h
+index 7db6845535..0d0bf3a31e 100644
+--- a/include/exec/translator.h
++++ b/include/exec/translator.h
+@@ -187,4 +187,14 @@ FOR_EACH_TRANSLATOR_LD(GEN_TRANSLATOR_LD)
  
--asm(".section \".data\"\n"
-+asm(".section \".data_x\",\"awx\"\n"
-     "smc_code2:\n"
-     "movl 4(%esp), %eax\n"
-     "movl %eax, smc_patch_addr2 + 1\n"
+ #undef GEN_TRANSLATOR_LD
+ 
++/*
++ * Return whether addr is on the same page as where disassembly started.
++ * Translators can use this to enforce the rule that only single-insn
++ * translation blocks are allowed to cross page boundaries.
++ */
++static inline bool is_same_page(const DisasContextBase *db, target_ulong addr)
++{
++    return ((addr ^ db->pc_first) & TARGET_PAGE_MASK) == 0;
++}
++
+ #endif /* EXEC__TRANSLATOR_H */
 -- 
 2.34.1
 
