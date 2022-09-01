@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 779A95A9D37
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 18:37:02 +0200 (CEST)
-Received: from localhost ([::1]:39024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715825A9D1D
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 18:31:21 +0200 (CEST)
+Received: from localhost ([::1]:40266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTnBd-0005Mk-LC
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 12:37:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35136)
+	id 1oTn67-0007QH-UI
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 12:31:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn1q-0001be-1j
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:26:54 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:33454)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn1r-0001c5-O3
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:26:56 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:41596)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn1n-0001T5-KZ
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:26:53 -0400
-Received: by mail-ej1-x630.google.com with SMTP id cu2so35918557ejb.0
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 09:26:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn1p-0001TN-PA
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:26:55 -0400
+Received: by mail-ej1-x633.google.com with SMTP id se27so28081672ejb.8
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 09:26:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=mGiH/gTsOZjirvxbc9dQFTtmFJYuQJULrmW8EcJwagc=;
- b=nP/tqX2o0YbI7R7R9Dn1okUd8wpUwDBvyE+5XgbqUbKE1h+Sc2LtqgGdB64hC9fb3r
- vfddIylw73kMufkSx8C3pnBJqrS/lkmTCFxOVQqwkVJfebdwAeBcSPxXiIaTTKQxVK1i
- orEfagOBsKWfvEsJaR+QioW8GufPUXfghfOwmdvzX1wMcAVv08k6rETD1iuC01wH154W
- 0WW5TMBin+tOvK93rSG2jBP72VMuxlQ8xnhymQ2r/f9YyepD+pXHkumYaRJBV5EANo7A
- /tlMXIPrYQOkaKAoxkQrEXICbh/KXQirQkmfIQLVi2gZ6PCWCNj5+gSBjBEk92q0gaz1
- KCmw==
+ bh=8WFpCGhPddaEE2JHOfiKT0by33talYfLnci1riHKxms=;
+ b=XCcal4foQNQY901vr9r/wEAJLIBsIuTQqHz9O2odYcaV1GRw/2lGwCLAjryLkoAvCI
+ QuqDJQUQooHhqygvGXgXyRvxhqKJbh6fBuC6tyGaildD1nPfa5UlTIhK+PBwBUZkfvxT
+ v10/lxfeKhimGf6vZ9lwZPQR4Y2SjmTI6k0DoZdpn9GW/KSNmLwEOsczAZueK29BX0lY
+ gLntskoDwXkXuaXjgKH4qPYeq3CtcO7cKUqQWsh2J8UxZ01tNzG3pkugDoED7ycaVo81
+ uY5KKu+NMQ1bJesB3rWaNfIQPdcg8u9tZZI0viJBjmDlmJv1QrKtpuMmkAmLvC8RMTf5
+ zvIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=mGiH/gTsOZjirvxbc9dQFTtmFJYuQJULrmW8EcJwagc=;
- b=h24ZGfwTbapzn6KCiKv2SDBsFqr+knQdjd4T1RnL3F0NZaPIROB4jdZxCm9QDKHUJF
- +5t7chSv0RZZI20JDhrCZ1thsXvKEflujfm3aNuPDHhRB6diWnAVBCc/4n8SNE4b8iEa
- J2+cfMdEHzQtYSqt3xWk5ZJzlsXig6dptQDHXx21q/qYx/ScwTt/rLPH+EMKLDP8f9HG
- gfZdhpyxZ0eILX0+jjcEq0a7eSiozzfE2tRd+00i1EZfVFNZilywbOKx6nwfl13mKj0X
- SbL8dVmIbxttEv+snzAbDjqoKiXU67gaDVXrscXgMaFofRR9rCKdUPKjSY+5yilxVswj
- eEVA==
-X-Gm-Message-State: ACgBeo0dOedkKl1vMKZmgGifFeX1QAwawz0w5bNQJa10GoSL4T/Om/vH
- qTUlzfvA9+9otifoSM9thcQ4h3kfoJU=
-X-Google-Smtp-Source: AA6agR6xiwswoS1BXhN4Zd8hmTJ5sN2eTd/oiKJvq0kGkom3voP6YZX9qitCaczS5O5YjxoOiWaOEw==
-X-Received: by 2002:a17:907:3f0c:b0:73d:60fc:6594 with SMTP id
- hq12-20020a1709073f0c00b0073d60fc6594mr25142432ejc.669.1662049610120; 
- Thu, 01 Sep 2022 09:26:50 -0700 (PDT)
+ bh=8WFpCGhPddaEE2JHOfiKT0by33talYfLnci1riHKxms=;
+ b=Eek7iTSgLcTLtgf+KigSskbBunLvGyFhxgHa28JpMgPmrF43CEoPOBO4PzevAf2VMT
+ 2uK83HaJQxfx4gAPTOThvDM+rcEgdxAtKlv/g5MXOAszSWefuvIQ5JCYinXvlBoMJBNK
+ VCN0neBAFHmDM2AwbPVeLNfj47SNE9GG3SzgdV2IlMVgMDF6/2S6xyD4alXcRguU+9rY
+ 4kItOV87i4UPeJBNOcVpvt/rZp/DJmiaVS+56xp5I0Zeeys7mnlHgRXUQm9mKqyIpeNb
+ UEDaL4OQWTl4MB1WMH+WnZ5LY5B1y/DORDPdCUoIRznBSpyBTCiT5985heLK3/RGSrJJ
+ cIeg==
+X-Gm-Message-State: ACgBeo2nWAy7XsPn0cetZ0+xi8UA2DVrcz+yHhf3Qs3xqwVYfoBxph0v
+ f/EpSpz+Rpb5yGtsHgKb/STIRz93+v0=
+X-Google-Smtp-Source: AA6agR7uZTEuCS+6p/4wafCjS95fz7fIVWcT3tJCwf9G5wxtBKStL+d3TA9KE/FZGLWMNmp08pzSCQ==
+X-Received: by 2002:a17:906:6a21:b0:741:430f:baca with SMTP id
+ qw33-20020a1709066a2100b00741430fbacamr18933507ejc.507.1662049611017; 
+ Thu, 01 Sep 2022 09:26:51 -0700 (PDT)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- p6-20020aa7d306000000b00447c0dcbb99sm1587672edq.83.2022.09.01.09.26.49
+ p6-20020aa7d306000000b00447c0dcbb99sm1587672edq.83.2022.09.01.09.26.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 09:26:49 -0700 (PDT)
+ Thu, 01 Sep 2022 09:26:50 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
@@ -66,16 +66,17 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Bernhard Beschow <shentey@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 03/42] hw/i386/pc: No need for rtc_state to be an out-parameter
-Date: Thu,  1 Sep 2022 18:25:34 +0200
-Message-Id: <20220901162613.6939-4-shentey@gmail.com>
+Subject: [PATCH 04/42] hw/i386/pc_piix: Allow for setting properties before
+ realizing PIIX3 south bridge
+Date: Thu,  1 Sep 2022 18:25:35 +0200
+Message-Id: <20220901162613.6939-5-shentey@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220901162613.6939-1-shentey@gmail.com>
 References: <20220901162613.6939-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x630.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,93 +99,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the RTC is created as part of the southbridges it doesn't need
-to be an out-parameter any longer.
+The next patches will need to take advantage of it.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/i386/pc.c         | 12 ++++++------
- hw/i386/pc_piix.c    |  2 +-
- hw/i386/pc_q35.c     |  2 +-
- include/hw/i386/pc.h |  2 +-
- 4 files changed, 9 insertions(+), 9 deletions(-)
+ hw/i386/pc_piix.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 05d8b0b3d1..b3a61f5ef2 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1247,7 +1247,7 @@ static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl,
- 
- void pc_basic_device_init(struct PCMachineState *pcms,
-                           ISABus *isa_bus, qemu_irq *gsi,
--                          ISADevice **rtc_state,
-+                          ISADevice *rtc_state,
-                           bool create_fdctrl,
-                           uint32_t hpet_irqs)
- {
-@@ -1302,17 +1302,17 @@ void pc_basic_device_init(struct PCMachineState *pcms,
-     }
- 
-     if (rtc_irq) {
--        qdev_connect_gpio_out(DEVICE(*rtc_state), 0, rtc_irq);
-+        qdev_connect_gpio_out(DEVICE(rtc_state), 0, rtc_irq);
-     } else {
--        uint32_t irq = object_property_get_uint(OBJECT(*rtc_state),
-+        uint32_t irq = object_property_get_uint(OBJECT(rtc_state),
-                                                 "irq",
-                                                 &error_fatal);
--        isa_connect_gpio_out(*rtc_state, 0, irq);
-+        isa_connect_gpio_out(rtc_state, 0, irq);
-     }
--    object_property_add_alias(OBJECT(pcms), "rtc-time", OBJECT(*rtc_state),
-+    object_property_add_alias(OBJECT(pcms), "rtc-time", OBJECT(rtc_state),
-                               "date");
- 
--    qemu_register_boot_set(pc_boot_set, *rtc_state);
-+    qemu_register_boot_set(pc_boot_set, rtc_state);
- 
-     if (!xen_enabled() &&
-         (x86ms->pit == ON_OFF_AUTO_AUTO || x86ms->pit == ON_OFF_AUTO_ON)) {
 diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 5f282ff8ad..bdad3b6795 100644
+index bdad3b6795..b08d946992 100644
 --- a/hw/i386/pc_piix.c
 +++ b/hw/i386/pc_piix.c
-@@ -259,7 +259,7 @@ static void pc_init1(MachineState *machine,
-     }
+@@ -218,7 +218,8 @@ static void pc_init1(MachineState *machine,
+                               pci_memory, ram_memory);
+         pcms->bus = pci_bus;
  
-     /* init basic PC hardware */
--    pc_basic_device_init(pcms, isa_bus, x86ms->gsi, &rtc_state, true,
-+    pc_basic_device_init(pcms, isa_bus, x86ms->gsi, rtc_state, true,
-                          0x4);
- 
-     pc_nic_init(pcmc, isa_bus, pci_bus);
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 2eaeab7902..ca10fa37c6 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -292,7 +292,7 @@ static void pc_q35_init(MachineState *machine)
-     }
- 
-     /* init basic PC hardware */
--    pc_basic_device_init(pcms, isa_bus, x86ms->gsi, &rtc_state, !mc->no_floppy,
-+    pc_basic_device_init(pcms, isa_bus, x86ms->gsi, rtc_state, !mc->no_floppy,
-                          0xff0104);
- 
-     /* connect pm stuff to lpc */
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index c95333514e..0cf3ccdf0d 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -169,7 +169,7 @@ uint64_t pc_pci_hole64_start(void);
- DeviceState *pc_vga_init(ISABus *isa_bus, PCIBus *pci_bus);
- void pc_basic_device_init(struct PCMachineState *pcms,
-                           ISABus *isa_bus, qemu_irq *gsi,
--                          ISADevice **rtc_state,
-+                          ISADevice *rtc_state,
-                           bool create_fdctrl,
-                           uint32_t hpet_irqs);
- void pc_cmos_init(PCMachineState *pcms,
+-        pci_dev = pci_create_simple_multifunction(pci_bus, -1, true, type);
++        pci_dev = pci_new_multifunction(-1, true, type);
++        pci_realize_and_unref(pci_dev, pci_bus, &error_fatal);
+         piix3 = PIIX3_PCI_DEVICE(pci_dev);
+         piix3->pic = x86ms->gsi;
+         piix3_devfn = piix3->dev.devfn;
 -- 
 2.37.3
 
