@@ -2,53 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43EF15A9306
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 11:21:35 +0200 (CEST)
-Received: from localhost ([::1]:40600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8FF65A9313
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 11:26:52 +0200 (CEST)
+Received: from localhost ([::1]:42154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTgOD-00025W-Qr
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 05:21:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40788)
+	id 1oTgTL-00062q-O8
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 05:26:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1oTg2D-0008KB-S0
+ id 1oTg2D-0008KO-P6
  for qemu-devel@nongnu.org; Thu, 01 Sep 2022 04:58:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23905)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49169)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1oTg29-0004tm-Oi
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 04:58:47 -0400
+ id 1oTg2B-0004ts-3D
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 04:58:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662022724;
+ s=mimecast20190719; t=1662022726;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=yyjdDA/KFko2Vh6Hikzmmlyz71RdEIzcEMokUGa0+sU=;
- b=Tn1MGQJp34sUS5vvb+eLQCSTNaLzMXpfpUOk47v9c0OsgNYhDNfSw/AUqYzYI+azH1sth2
- SRKrzndzfcIPWCoLMMLKIDGKv54EF8Jp4YAAnY1kYibqzDVmceHgPvAvXPmllYgtZ1eu98
- fb+OqSX9iyBc3qdVhQwUGoflUqpcuos=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=omyyjsZN98PgQBYyvBWa0UDHO52di4JD26Mk97i/RRI=;
+ b=fYMVFwijqJR8Vcr3zCrThPlhispigDCP2NFOyjomfDaIpkV3E66lurWpfBH2Easp5ApSmL
+ 2qbACn33xIlTl+bXdng3lgv4FQqgRTihscUHE+2fXrJ6pT5mRdAmVSDx0+Ra5399AVqpmZ
+ sIwIXOnkyFy3LsqD6zqunThP2CAtTXk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-539-OlGa4rEGMJC4P9hDMYGrQg-1; Thu, 01 Sep 2022 04:58:43 -0400
-X-MC-Unique: OlGa4rEGMJC4P9hDMYGrQg-1
+ us-mta-299--Q2d9OXEMCyE9ok5f7_KmA-1; Thu, 01 Sep 2022 04:58:45 -0400
+X-MC-Unique: -Q2d9OXEMCyE9ok5f7_KmA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 160358037AE;
- Thu,  1 Sep 2022 08:58:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E38323C025B6;
+ Thu,  1 Sep 2022 08:58:44 +0000 (UTC)
 Received: from tapioca.redhat.com (unknown [10.40.192.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B86DE2026D4C;
- Thu,  1 Sep 2022 08:58:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7619E2026D4C;
+ Thu,  1 Sep 2022 08:58:43 +0000 (UTC)
 From: Victor Toso <victortoso@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  John Snow <jsnow@redhat.com>, Michael Roth <michael.roth@amd.com>
-Subject: [PATCH v2 00/10] qapi examples fixes, simplified version
-Date: Thu,  1 Sep 2022 10:58:30 +0200
-Message-Id: <20220901085840.22520-1-victortoso@redhat.com>
+Subject: [PATCH v2 01/10] qapi: fix example of query-ballon command
+Date: Thu,  1 Sep 2022 10:58:31 +0200
+Message-Id: <20220901085840.22520-2-victortoso@redhat.com>
+In-Reply-To: <20220901085840.22520-1-victortoso@redhat.com>
+References: <20220901085840.22520-1-victortoso@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
@@ -77,48 +80,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Example output has an extra ',' delimiter. Fix it.
 
-This is the follow up from v1. I've dropped a few patches that need
-further discussion. I plan to revisit those when submiting the generator
-again at a later time.
+Problem was noticed when trying to load the example into python's json
+library.
 
-v1: https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg04525.html
+Signed-off-by: Victor Toso <victortoso@redhat.com>
+---
+ qapi/machine.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes in v2:
- * Dropped "qapi: fix example of blockdev-add command". It was wrong.
- * Dropped patches with too long examples as we might want to cut them
-   short. I've also dropped the patches that fixes examples with
-   comments on them as we might want to have a way to do that.
- * Fixed style in:
-  - qapi: fix example of NIC_RX_FILTER_CHANGED event
-  - qapi: fix example of query-dump-guest-memory-capability command
- * Dropped the generator (rfc) as I'll submit it again later, improved.
-
-Cheers,
-Victor
-
-Victor Toso (10):
-  qapi: fix example of query-ballon command
-  qapi: fix example of query-vnc command
-  qapi: fix example of query-dump-guest-memory-capability command
-  qapi: fix example of BLOCK_JOB_READY event
-  qapi: fix example of NIC_RX_FILTER_CHANGED event
-  qapi: fix example of DEVICE_UNPLUG_GUEST_ERROR event
-  qapi: fix example of MEM_UNPLUG_ERROR event
-  qapi: fix examples of blockdev-add with qcow2
-  qapi: fix example of query-hotpluggable-cpus command
-  qapi: fix examples of events missing timestamp
-
- qapi/block-core.json | 12 ++++++------
- qapi/dump.json       |  2 +-
- qapi/machine.json    |  8 ++++----
- qapi/migration.json  | 27 +++++++++++++++++++++++----
- qapi/net.json        |  1 -
- qapi/qdev.json       |  3 +--
- qapi/ui.json         |  4 ++--
- 7 files changed, 37 insertions(+), 20 deletions(-)
-
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 6afd1936b0..5f1f50d3ed 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -1074,7 +1074,7 @@
+ #
+ # -> { "execute": "query-balloon" }
+ # <- { "return": {
+-#          "actual": 1073741824,
++#          "actual": 1073741824
+ #       }
+ #    }
+ #
 -- 
 2.37.2
 
