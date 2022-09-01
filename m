@@ -2,77 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D0B75A9060
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 09:34:04 +0200 (CEST)
-Received: from localhost ([::1]:42114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF8845A914B
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 09:54:49 +0200 (CEST)
+Received: from localhost ([::1]:53334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTeiB-0002lZ-3F
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 03:34:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52472)
+	id 1oTf2G-0004Wc-DB
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 03:54:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTe4p-0006g3-Vs
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:53:24 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:38673)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTe4n-0003Ri-U6
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:53:23 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- n23-20020a7bc5d7000000b003a62f19b453so775051wmk.3
- for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 23:53:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=duBeBoFX8QNETCcok0dytuQZN74JHxnbRDKrjktEj6Y=;
- b=E3xi7DIDKw9nc4rOehbH/66Efs8TlBTl9m6PAUpicrgA7WDwcyDTXcu/V2o1x8SBjR
- 4VrQQaRv0vgJuNiTSTw+1UcFn54S/3rfghKj5s3oi1p3NrBN2tg5ZZHeb6/1alLBCy3E
- yzPvv3QQz3RcYhGo2ULgPpBt1c/Ba4my7ExdFil/Wtzpb/JIO2GslRzcXbGRcAE71vGH
- NbNucE7XLyLO1Hi2er30z683CCt5wp/xjR4UpUCCA2lwhHU2xOW/ZnaGmxmiCIOPqF7O
- Txz9apjEXneeo7v4vHhLzRJaK9IwHX8ZPLfa3hUr5RRim2suLvcAT9Iz9TOEotzRAV00
- +B+A==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1oTeRc-0007zW-KH
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 03:16:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44799)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1oTeRZ-0006qA-1w
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 03:16:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662016612;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=IQWJZI9U4jeQovT+1TLiJjyQS3AfgKiSuy5v557H5v0=;
+ b=WCgCla10gQjVtERpnCByFbb2BXN2PizhEt+LMIU3mykh+nRpx+jxUvn2cmIRodBMWzy4Rp
+ Vlf9RYrE8QpkcLAnHrclV4Dnu+aSrIJcQ9oJF94D7L+Q+ueCzGCIpS9iil25qz8HFH16vZ
+ wBjf2LGJNDLwNnb6goKIax6dsoby3/w=
+Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
+ [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-540-j4MlB2q_MmajZ7BQuOs_0A-1; Thu, 01 Sep 2022 03:16:51 -0400
+X-MC-Unique: j4MlB2q_MmajZ7BQuOs_0A-1
+Received: by mail-oa1-f71.google.com with SMTP id
+ 586e51a60fabf-11eadf59e50so4582447fac.8
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 00:16:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=duBeBoFX8QNETCcok0dytuQZN74JHxnbRDKrjktEj6Y=;
- b=gF9ZwPxFJMmOnaHYBFHHUwUItbOF41GM02Jmb45TmnF0Aq7IiVYoidUNuY527n0XJ2
- VYpwAEkZFce6lNcmkjTWIAYzPlXUqTDaFC5+dqdEFB8Y6OaIVq5OnVTZ5ULL+phOWAG2
- J3D0pwDbR1qh8gbYgL780BxybngJ49y2Mpw2VN4ZlFCFISFKSX+ChLXYvEPV2exoeHeS
- WjI8qUyhe5WPX6YgC77RRPeqdnqqCAbuDRP7a+W6A+j+5zFKgaaibIjVUkN4bE9q+rBC
- GEqcLC3ZDmDW2jXI0FsbRXI9qGkAFbzo8FUcazxcb5D/P25SL1H7vShyMG7JhcCyABfB
- 3iRw==
-X-Gm-Message-State: ACgBeo32Vd4jQ8u64WR4p6Kc16MxUmMVxMLDLDW2/VZ8la2n7mebMzcw
- DAw+14MZzhF14fxzYR+cCf96MgDNeWDEq9GD
-X-Google-Smtp-Source: AA6agR5UJ8aXvm2spR+kv//UMC+3gSO6agCneg0rRODFhwMGQGgtaIoEJ4mr4uf9EKJXwf7/Oy1YTA==
-X-Received: by 2002:a05:600c:22d2:b0:3a8:3e8c:d914 with SMTP id
- 18-20020a05600c22d200b003a83e8cd914mr4057106wmg.128.1662015200334; 
- Wed, 31 Aug 2022 23:53:20 -0700 (PDT)
-Received: from stoup.. ([87.192.221.83]) by smtp.gmail.com with ESMTPSA id
- a6-20020a5d4d46000000b00226dedf1ab7sm8308153wru.76.2022.08.31.23.53.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 23:53:19 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PULL 20/20] target/riscv: Make translator stop before the end of a
- page
-Date: Thu,  1 Sep 2022 07:52:10 +0100
-Message-Id: <20220901065210.117081-25-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220901065210.117081-1-richard.henderson@linaro.org>
-References: <20220901065210.117081-1-richard.henderson@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=IQWJZI9U4jeQovT+1TLiJjyQS3AfgKiSuy5v557H5v0=;
+ b=kKm2yIyiGo4TW4xtDAbRprP7foKtfGi0YFJUIe/ywvDrRzQPT0Abq/cgOMuzDL3NCW
+ tUSwi+RyqglUMA0TRLVyyIk/xNbps++oHH4Y9cfo7+z7xeQ75qUEGElFLJ3X/7xYW+Fi
+ Q47AHuP5Oi6/Nv9ty5eCN8IPHWUKCGxRh0rooJwtUkaR0rMt9KMHUm4DmCHdguaynBW6
+ sOI61b55WS69oRgbKn0VRyFMf3qW4DTnhH/x7/zAYYwckdXzgDuBqmcz0x0bGfnlOgQ2
+ AE0aRGPO3rCRz36eoXf0Zj5jbYz1DvG6MF/g4VHFB/9Bndts3Vjd2J+qroAkvmbZdFPs
+ Xihg==
+X-Gm-Message-State: ACgBeo0byB++jPp+zjHcofkek54999xl2TDbbDldLUh4wJuj39LiqL6w
+ RFTK3F9hd0citaBhJ3CBYcVDA5xm+uyMXfaEfjVYOFCQ84dmbgR9VlEmuf4UYCn3T2fCYGLbMbd
+ vR4ZuDea15+eykL8ihR+JLdzk+RRoQB8=
+X-Received: by 2002:a05:6808:219a:b0:344:e94a:ec43 with SMTP id
+ be26-20020a056808219a00b00344e94aec43mr2894047oib.205.1662016610500; 
+ Thu, 01 Sep 2022 00:16:50 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR56JF6/9mXyFVUv+I7QBHFUH8uhvY1jcMXUgtrWamhDs9xQYBjB8d3BVrM3qNfRAVs/QeRa4j5dTII6PldsNP4=
+X-Received: by 2002:a05:6808:219a:b0:344:e94a:ec43 with SMTP id
+ be26-20020a056808219a00b00344e94aec43mr2894043oib.205.1662016610322; Thu, 01
+ Sep 2022 00:16:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32b.google.com
+References: <20220802075200.907360-1-bmeng.cn@gmail.com>
+ <CAEUhbmW5Mcc5+ebHxVdm9N8bsMUj3gRWA0GBz8whtFacPymm2w@mail.gmail.com>
+In-Reply-To: <CAEUhbmW5Mcc5+ebHxVdm9N8bsMUj3gRWA0GBz8whtFacPymm2w@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Thu, 1 Sep 2022 11:16:38 +0400
+Message-ID: <CAMxuvazqAc03zvQ+nuDC7GCP2_k7miuop6FYN1u620K6R7RKzQ@mail.gmail.com>
+Subject: Re: [PATCH v4 0/4] Enable unix socket support on Windows
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Weil <sw@weilnetz.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,147 +94,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Right now the translator stops right *after* the end of a page, which
-breaks reporting of fault locations when the last instruction of a
-multi-insn translation block crosses a page boundary.
+Hi
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1155
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Tested-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/translate.c          | 17 +++++--
- tests/tcg/riscv64/noexec.c        | 79 +++++++++++++++++++++++++++++++
- tests/tcg/riscv64/Makefile.target |  1 +
- 3 files changed, 93 insertions(+), 4 deletions(-)
- create mode 100644 tests/tcg/riscv64/noexec.c
+On Thu, Sep 1, 2022 at 10:13 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> Hi,
+>
+> On Tue, Aug 2, 2022 at 3:52 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > Support for the unix socket has existed both in BSD and Linux for the
+> > longest time, but not on Windows. Since Windows 10 build 17063 [1],
+> > the native support for the unix socket has come to Windows. Starting
+> > this build, two Win32 processes can use the AF_UNIX address family
+> > over Winsock API to communicate with each other.
+> >
+> > [1] https://devblogs.microsoft.com/commandline/af_unix-comes-to-windows/
+> >
+> > Changes in v4:
+> > - instead of introducing CONFIG_AF_UNIX, add fallback afunix.h header
+> >   in os-win32.h, and compile the AF_UNIX stuff for all Windows hosts
+> > - drop CONFIG_AF_UNIX
+> > - introduce a new helper socket_check_afunix_support() to runtime-check
+> >   the availability of AF_UNIX socket, and skip those appropriately
+> >
+>
+> All patches in this series have been reviewed. Would you please queue
+> this? Thanks!
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index a719aa6e63..f8af6daa70 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -1154,12 +1154,21 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
-     }
-     ctx->nftemp = 0;
- 
-+    /* Only the first insn within a TB is allowed to cross a page boundary. */
-     if (ctx->base.is_jmp == DISAS_NEXT) {
--        target_ulong page_start;
--
--        page_start = ctx->base.pc_first & TARGET_PAGE_MASK;
--        if (ctx->base.pc_next - page_start >= TARGET_PAGE_SIZE) {
-+        if (!is_same_page(&ctx->base, ctx->base.pc_next)) {
-             ctx->base.is_jmp = DISAS_TOO_MANY;
-+        } else {
-+            unsigned page_ofs = ctx->base.pc_next & ~TARGET_PAGE_MASK;
-+
-+            if (page_ofs > TARGET_PAGE_SIZE - MAX_INSN_LEN) {
-+                uint16_t next_insn = cpu_lduw_code(env, ctx->base.pc_next);
-+                int len = insn_len(next_insn);
-+
-+                if (!is_same_page(&ctx->base, ctx->base.pc_next + len)) {
-+                    ctx->base.is_jmp = DISAS_TOO_MANY;
-+                }
-+            }
-         }
-     }
- }
-diff --git a/tests/tcg/riscv64/noexec.c b/tests/tcg/riscv64/noexec.c
-new file mode 100644
-index 0000000000..86f64b28db
---- /dev/null
-+++ b/tests/tcg/riscv64/noexec.c
-@@ -0,0 +1,79 @@
-+#include "../multiarch/noexec.c.inc"
-+
-+static void *arch_mcontext_pc(const mcontext_t *ctx)
-+{
-+    return (void *)ctx->__gregs[REG_PC];
-+}
-+
-+static int arch_mcontext_arg(const mcontext_t *ctx)
-+{
-+    return ctx->__gregs[REG_A0];
-+}
-+
-+static void arch_flush(void *p, int len)
-+{
-+    __builtin___clear_cache(p, p + len);
-+}
-+
-+extern char noexec_1[];
-+extern char noexec_2[];
-+extern char noexec_end[];
-+
-+asm(".option push\n"
-+    ".option norvc\n"
-+    "noexec_1:\n"
-+    "   li a0,1\n"       /* a0 is 0 on entry, set 1. */
-+    "noexec_2:\n"
-+    "   li a0,2\n"      /* a0 is 0/1; set 2. */
-+    "   ret\n"
-+    "noexec_end:\n"
-+    ".option pop");
-+
-+int main(void)
-+{
-+    struct noexec_test noexec_tests[] = {
-+        {
-+            .name = "fallthrough",
-+            .test_code = noexec_1,
-+            .test_len = noexec_end - noexec_1,
-+            .page_ofs = noexec_1 - noexec_2,
-+            .entry_ofs = noexec_1 - noexec_2,
-+            .expected_si_ofs = 0,
-+            .expected_pc_ofs = 0,
-+            .expected_arg = 1,
-+        },
-+        {
-+            .name = "jump",
-+            .test_code = noexec_1,
-+            .test_len = noexec_end - noexec_1,
-+            .page_ofs = noexec_1 - noexec_2,
-+            .entry_ofs = 0,
-+            .expected_si_ofs = 0,
-+            .expected_pc_ofs = 0,
-+            .expected_arg = 0,
-+        },
-+        {
-+            .name = "fallthrough [cross]",
-+            .test_code = noexec_1,
-+            .test_len = noexec_end - noexec_1,
-+            .page_ofs = noexec_1 - noexec_2 - 2,
-+            .entry_ofs = noexec_1 - noexec_2 - 2,
-+            .expected_si_ofs = 0,
-+            .expected_pc_ofs = -2,
-+            .expected_arg = 1,
-+        },
-+        {
-+            .name = "jump [cross]",
-+            .test_code = noexec_1,
-+            .test_len = noexec_end - noexec_1,
-+            .page_ofs = noexec_1 - noexec_2 - 2,
-+            .entry_ofs = -2,
-+            .expected_si_ofs = 0,
-+            .expected_pc_ofs = -2,
-+            .expected_arg = 0,
-+        },
-+    };
-+
-+    return test_noexec(noexec_tests,
-+                       sizeof(noexec_tests) / sizeof(noexec_tests[0]));
-+}
-diff --git a/tests/tcg/riscv64/Makefile.target b/tests/tcg/riscv64/Makefile.target
-index d41bf6d60d..b5b89dfb0e 100644
---- a/tests/tcg/riscv64/Makefile.target
-+++ b/tests/tcg/riscv64/Makefile.target
-@@ -3,3 +3,4 @@
- 
- VPATH += $(SRC_PATH)/tests/tcg/riscv64
- TESTS += test-div
-+TESTS += noexec
--- 
-2.34.1
+Yes, I was going to do it. Thanks
 
 
