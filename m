@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC2C35A9045
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 09:27:39 +0200 (CEST)
-Received: from localhost ([::1]:37454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D0B75A9060
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 09:34:04 +0200 (CEST)
+Received: from localhost ([::1]:42114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTeby-00054n-TW
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 03:27:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52470)
+	id 1oTeiB-0002lZ-3F
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 03:34:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTe4o-0006ce-93
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:53:22 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:42908)
+ id 1oTe4p-0006g3-Vs
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:53:24 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:38673)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oTe4m-0003RX-GO
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:53:21 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id m16so20984080wru.9
- for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 23:53:20 -0700 (PDT)
+ id 1oTe4n-0003Ri-U6
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:53:23 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ n23-20020a7bc5d7000000b003a62f19b453so775051wmk.3
+ for <qemu-devel@nongnu.org>; Wed, 31 Aug 2022 23:53:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=Ar6YL5FF/K2Div4uruzg03ZvW0xj9yBOSm1jZPy9tok=;
- b=NwKKSebeesF/qrC/3apRByzSl4cuI8eDtiSNMOXzrKoSv3dy0CXFHET8VdnVPYIPda
- 7ITqsu32515oRWrXp70wFwv/BrgpGXywQf9jp2KWbV4ZqF1muSdvQKWd9LVZqrppzbzw
- uRJsXI1oaKqUZ+Q/yaUtd8KF8W5nAjVjPHlno6mMEXioEBvLzkxiUsoFACF+uuM3SDGv
- gGHFK7GIybLXTNzB8Bx2QuAhujKxBlxKvgYUIH++5z6YMiOgOhWIhNPmMi6FDG8LLsz6
- XtY048ySBramFDHVza8ejowrokb376+hbKu48mFjyEZM1udyVqXGPdm7jQPQuC7BlYjw
- lbZg==
+ bh=duBeBoFX8QNETCcok0dytuQZN74JHxnbRDKrjktEj6Y=;
+ b=E3xi7DIDKw9nc4rOehbH/66Efs8TlBTl9m6PAUpicrgA7WDwcyDTXcu/V2o1x8SBjR
+ 4VrQQaRv0vgJuNiTSTw+1UcFn54S/3rfghKj5s3oi1p3NrBN2tg5ZZHeb6/1alLBCy3E
+ yzPvv3QQz3RcYhGo2ULgPpBt1c/Ba4my7ExdFil/Wtzpb/JIO2GslRzcXbGRcAE71vGH
+ NbNucE7XLyLO1Hi2er30z683CCt5wp/xjR4UpUCCA2lwhHU2xOW/ZnaGmxmiCIOPqF7O
+ Txz9apjEXneeo7v4vHhLzRJaK9IwHX8ZPLfa3hUr5RRim2suLvcAT9Iz9TOEotzRAV00
+ +B+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=Ar6YL5FF/K2Div4uruzg03ZvW0xj9yBOSm1jZPy9tok=;
- b=gWgQo634QZuragEiyeVInwCwdstldq2cVy0URJXztZPeiCAJClecR5wp07uFSGUoAj
- 6DVqgLQKFNZJ/qXqIbBcxc/XXmV+YD4KRrvUOckcG+dQBszNUKNcMp5525KjbmeMoerQ
- 6xeK9i8rZ0ehzanLPvAe57oik+fxBTx6riYpGWoe1uzoEGFFmHK4tiqQsAlOYKAk/pd1
- 2s9xVkvaB7jeqU3pLbgI6KCfxY1g7lTEjYNpKhHekuUTFhKlzNgmMJ+zef8Zzagl1vkZ
- E1TipOB4nho6voY3uRbkx44W+Wli4FQtGOWqkuCaNt4QniobXcsQPCpJOvmKYGqnkmD3
- dlng==
-X-Gm-Message-State: ACgBeo1+S5PXIiRDP1BFgSWz39tdknl86Y7yEZ6CLIz3Gw1XkDQtlF1v
- WBx/c6QNAqOnRjsfmRzw8YBoZLB1p7yn+nDs
-X-Google-Smtp-Source: AA6agR6SDSWEATLaa4YR9SCDWm3LuQQxa1qHDW14UM4Iz5QwhpkPhZNTcOmDIUC9V0r4t369Ug8CRg==
-X-Received: by 2002:a5d:59a2:0:b0:226:e6c3:a6c2 with SMTP id
- p2-20020a5d59a2000000b00226e6c3a6c2mr5665319wrr.236.1662015198913; 
- Wed, 31 Aug 2022 23:53:18 -0700 (PDT)
+ bh=duBeBoFX8QNETCcok0dytuQZN74JHxnbRDKrjktEj6Y=;
+ b=gF9ZwPxFJMmOnaHYBFHHUwUItbOF41GM02Jmb45TmnF0Aq7IiVYoidUNuY527n0XJ2
+ VYpwAEkZFce6lNcmkjTWIAYzPlXUqTDaFC5+dqdEFB8Y6OaIVq5OnVTZ5ULL+phOWAG2
+ J3D0pwDbR1qh8gbYgL780BxybngJ49y2Mpw2VN4ZlFCFISFKSX+ChLXYvEPV2exoeHeS
+ WjI8qUyhe5WPX6YgC77RRPeqdnqqCAbuDRP7a+W6A+j+5zFKgaaibIjVUkN4bE9q+rBC
+ GEqcLC3ZDmDW2jXI0FsbRXI9qGkAFbzo8FUcazxcb5D/P25SL1H7vShyMG7JhcCyABfB
+ 3iRw==
+X-Gm-Message-State: ACgBeo32Vd4jQ8u64WR4p6Kc16MxUmMVxMLDLDW2/VZ8la2n7mebMzcw
+ DAw+14MZzhF14fxzYR+cCf96MgDNeWDEq9GD
+X-Google-Smtp-Source: AA6agR5UJ8aXvm2spR+kv//UMC+3gSO6agCneg0rRODFhwMGQGgtaIoEJ4mr4uf9EKJXwf7/Oy1YTA==
+X-Received: by 2002:a05:600c:22d2:b0:3a8:3e8c:d914 with SMTP id
+ 18-20020a05600c22d200b003a83e8cd914mr4057106wmg.128.1662015200334; 
+ Wed, 31 Aug 2022 23:53:20 -0700 (PDT)
 Received: from stoup.. ([87.192.221.83]) by smtp.gmail.com with ESMTPSA id
- a6-20020a5d4d46000000b00226dedf1ab7sm8308153wru.76.2022.08.31.23.53.16
+ a6-20020a5d4d46000000b00226dedf1ab7sm8308153wru.76.2022.08.31.23.53.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 31 Aug 2022 23:53:18 -0700 (PDT)
+ Wed, 31 Aug 2022 23:53:19 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Alistair Francis <alistair.francis@wdc.com>,
  Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PULL 19/20] target/riscv: Add MAX_INSN_LEN and insn_len
-Date: Thu,  1 Sep 2022 07:52:09 +0100
-Message-Id: <20220901065210.117081-24-richard.henderson@linaro.org>
+Subject: [PULL 20/20] target/riscv: Make translator stop before the end of a
+ page
+Date: Thu,  1 Sep 2022 07:52:10 +0100
+Message-Id: <20220901065210.117081-25-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220901065210.117081-1-richard.henderson@linaro.org>
 References: <20220901065210.117081-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,44 +90,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These will be useful in properly ending the TB.
+Right now the translator stops right *after* the end of a page, which
+breaks reporting of fault locations when the last instruction of a
+multi-insn translation block crosses a page boundary.
 
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1155
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Tested-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/translate.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ target/riscv/translate.c          | 17 +++++--
+ tests/tcg/riscv64/noexec.c        | 79 +++++++++++++++++++++++++++++++
+ tests/tcg/riscv64/Makefile.target |  1 +
+ 3 files changed, 93 insertions(+), 4 deletions(-)
+ create mode 100644 tests/tcg/riscv64/noexec.c
 
 diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 38666ddc91..a719aa6e63 100644
+index a719aa6e63..f8af6daa70 100644
 --- a/target/riscv/translate.c
 +++ b/target/riscv/translate.c
-@@ -1022,6 +1022,14 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
- /* Include decoders for factored-out extensions */
- #include "decode-XVentanaCondOps.c.inc"
+@@ -1154,12 +1154,21 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+     }
+     ctx->nftemp = 0;
  
-+/* The specification allows for longer insns, but not supported by qemu. */
-+#define MAX_INSN_LEN  4
++    /* Only the first insn within a TB is allowed to cross a page boundary. */
+     if (ctx->base.is_jmp == DISAS_NEXT) {
+-        target_ulong page_start;
+-
+-        page_start = ctx->base.pc_first & TARGET_PAGE_MASK;
+-        if (ctx->base.pc_next - page_start >= TARGET_PAGE_SIZE) {
++        if (!is_same_page(&ctx->base, ctx->base.pc_next)) {
+             ctx->base.is_jmp = DISAS_TOO_MANY;
++        } else {
++            unsigned page_ofs = ctx->base.pc_next & ~TARGET_PAGE_MASK;
 +
-+static inline int insn_len(uint16_t first_word)
++            if (page_ofs > TARGET_PAGE_SIZE - MAX_INSN_LEN) {
++                uint16_t next_insn = cpu_lduw_code(env, ctx->base.pc_next);
++                int len = insn_len(next_insn);
++
++                if (!is_same_page(&ctx->base, ctx->base.pc_next + len)) {
++                    ctx->base.is_jmp = DISAS_TOO_MANY;
++                }
++            }
+         }
+     }
+ }
+diff --git a/tests/tcg/riscv64/noexec.c b/tests/tcg/riscv64/noexec.c
+new file mode 100644
+index 0000000000..86f64b28db
+--- /dev/null
++++ b/tests/tcg/riscv64/noexec.c
+@@ -0,0 +1,79 @@
++#include "../multiarch/noexec.c.inc"
++
++static void *arch_mcontext_pc(const mcontext_t *ctx)
 +{
-+    return (first_word & 3) == 3 ? 4 : 2;
++    return (void *)ctx->__gregs[REG_PC];
 +}
 +
- static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
- {
-     /*
-@@ -1037,7 +1045,7 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
-     };
++static int arch_mcontext_arg(const mcontext_t *ctx)
++{
++    return ctx->__gregs[REG_A0];
++}
++
++static void arch_flush(void *p, int len)
++{
++    __builtin___clear_cache(p, p + len);
++}
++
++extern char noexec_1[];
++extern char noexec_2[];
++extern char noexec_end[];
++
++asm(".option push\n"
++    ".option norvc\n"
++    "noexec_1:\n"
++    "   li a0,1\n"       /* a0 is 0 on entry, set 1. */
++    "noexec_2:\n"
++    "   li a0,2\n"      /* a0 is 0/1; set 2. */
++    "   ret\n"
++    "noexec_end:\n"
++    ".option pop");
++
++int main(void)
++{
++    struct noexec_test noexec_tests[] = {
++        {
++            .name = "fallthrough",
++            .test_code = noexec_1,
++            .test_len = noexec_end - noexec_1,
++            .page_ofs = noexec_1 - noexec_2,
++            .entry_ofs = noexec_1 - noexec_2,
++            .expected_si_ofs = 0,
++            .expected_pc_ofs = 0,
++            .expected_arg = 1,
++        },
++        {
++            .name = "jump",
++            .test_code = noexec_1,
++            .test_len = noexec_end - noexec_1,
++            .page_ofs = noexec_1 - noexec_2,
++            .entry_ofs = 0,
++            .expected_si_ofs = 0,
++            .expected_pc_ofs = 0,
++            .expected_arg = 0,
++        },
++        {
++            .name = "fallthrough [cross]",
++            .test_code = noexec_1,
++            .test_len = noexec_end - noexec_1,
++            .page_ofs = noexec_1 - noexec_2 - 2,
++            .entry_ofs = noexec_1 - noexec_2 - 2,
++            .expected_si_ofs = 0,
++            .expected_pc_ofs = -2,
++            .expected_arg = 1,
++        },
++        {
++            .name = "jump [cross]",
++            .test_code = noexec_1,
++            .test_len = noexec_end - noexec_1,
++            .page_ofs = noexec_1 - noexec_2 - 2,
++            .entry_ofs = -2,
++            .expected_si_ofs = 0,
++            .expected_pc_ofs = -2,
++            .expected_arg = 0,
++        },
++    };
++
++    return test_noexec(noexec_tests,
++                       sizeof(noexec_tests) / sizeof(noexec_tests[0]));
++}
+diff --git a/tests/tcg/riscv64/Makefile.target b/tests/tcg/riscv64/Makefile.target
+index d41bf6d60d..b5b89dfb0e 100644
+--- a/tests/tcg/riscv64/Makefile.target
++++ b/tests/tcg/riscv64/Makefile.target
+@@ -3,3 +3,4 @@
  
-     /* Check for compressed insn */
--    if (extract16(opcode, 0, 2) != 3) {
-+    if (insn_len(opcode) == 2) {
-         if (!has_ext(ctx, RVC)) {
-             gen_exception_illegal(ctx);
-         } else {
+ VPATH += $(SRC_PATH)/tests/tcg/riscv64
+ TESTS += test-div
++TESTS += noexec
 -- 
 2.34.1
 
