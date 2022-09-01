@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D2685A966B
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 14:12:09 +0200 (CEST)
-Received: from localhost ([::1]:48972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C35CE5A964B
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 14:05:58 +0200 (CEST)
+Received: from localhost ([::1]:47340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTj3I-0007ac-0S
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 08:12:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36090)
+	id 1oTixE-0008Fo-NH
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 08:05:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTiaN-0005gk-MZ; Thu, 01 Sep 2022 07:42:27 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:37886)
+ id 1oTiaO-0005gm-H6; Thu, 01 Sep 2022 07:42:28 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:35405)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTiaB-0000Dq-PX; Thu, 01 Sep 2022 07:42:14 -0400
-Received: by mail-ed1-x529.google.com with SMTP id b16so22178213edd.4;
- Thu, 01 Sep 2022 04:41:58 -0700 (PDT)
+ id 1oTiaB-0000Dw-QB; Thu, 01 Sep 2022 07:42:16 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id y64so10367630ede.2;
+ Thu, 01 Sep 2022 04:42:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=w3a9d8qpqyBTLSXZ8UdLBrk+4IWQvo501TyOwOx4xag=;
- b=b//ykuSo38xkH5kfYZQ4Cj9Uq2rky5Y3ht4tQ8/IfWgqBnBNysDEcQY9bji83iLv4Z
- 9Rtpw4At4I7IHMNA2shKkybPsfQD85ox5Xfo47hIhmWuyH/1+SW88RAEdZALUBx5GWAy
- fwB7Ok9rtgJY3TY6S6tg9HASqBmVMMF1Fak1P5yKNLkS7LGLPs5D4k5dSgC1azE/onCh
- IHlXmOYitKIeCpO24fYl+AejtulTluUkF9SCBlssrfaQ22LijYedyagB4yoFauem4rqY
- 2L6MF7tzwxZBOKWdgGzBUXcSN8YZ904Zaeq4gJqDN1B0GpY0PXmUyphNaRCOwKQ3QObj
- +XPg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=ccpcYMGxqn8WXNFI2X2jCqAbkQ1k7CgYSp60BbZylhE=;
+ b=iqbli/39aER7igdJYGEFqVX1qsgLdgnLDw42n246gSecn2zicCRl52uF6JEZ41GlrZ
+ GEFHJNStdj/qZd6jrpKahHwh5XQ/P+0X4Osxlc64WWjkrKhC3ct+E6EqJRanXBi5yxfS
+ QKfIB2FHDUurebodfmPsQlqdU6yBc8RHC67fu5ufRmE/0OuAvlCg4w5B7HVbf6z36D6P
+ BUJa5puRd9QtTcS8g5c8brA2dc0bUFTBUFYdhKbgDAnm0XSmHEuXSIiKiiv/+DohZwFT
+ mBB3S2e/BipoFjtGR+XdDXlBc5D39mGHMrvLTNlDO54SUWaoUiOCS+w51w1wVH0Ib7P5
+ Muzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=w3a9d8qpqyBTLSXZ8UdLBrk+4IWQvo501TyOwOx4xag=;
- b=zrizRBwP8SEbmCNU4Tev7qLiQfYY7Z4mLQfWgh0iXhMjS0Y9NH3XD6vsWlpHPKgfT0
- AcK493VByajU00svXAemk3RfdyvxTyDhth834bxs7Kfg91ezl4PYIVbqzaEbkIlO9QOA
- fvHeA3QifTJ5ZcLfPTCtoCFBtiK8cxjj2dBRpDv40+bRTpo5isHDPdZR/S0Jxv2bFavn
- MevCDAexuMg61QfpUI9b8d+fyUxEw1xUCDqL+9mcKLKKYPVsom6jyWQBK5z4FSN99IQC
- tAID+Vk3O1+hJLnvzErpxNSfr26SG++zSbOupiRDBGJJNFhvQ9XpYZ0JP6B41YWwLzcd
- bNnA==
-X-Gm-Message-State: ACgBeo2IybZ99e7dfhSrq9eNaHCXgVqTq71kS1z5K0e3ZfyuCUS4jpnT
- mo/baftWdKt3DlX/pqLmUsFMBNX3N9o=
-X-Google-Smtp-Source: AA6agR7QoaWg59pTbn65ujOxRsda0Tw6dPXceh9/dff3P8RI8f3uC/NIj39CSKxXuYHKmnrmBYVbOg==
-X-Received: by 2002:a05:6402:51ce:b0:43e:74bc:dce with SMTP id
- r14-20020a05640251ce00b0043e74bc0dcemr29107848edd.225.1662032517314; 
- Thu, 01 Sep 2022 04:41:57 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=ccpcYMGxqn8WXNFI2X2jCqAbkQ1k7CgYSp60BbZylhE=;
+ b=DIm+VOy81c4+350gu8A2ChLw0tAvy9cHLWtrJzl12KC0lukRzTjoegIPIx7ToDbAEz
+ Xj/ywOq63xKGTNXJIX2TBLIYOHPgC5ptWlVn7rfJybCKL1aomhjDTKjmVfnEhun0ivIA
+ 4gt/ZSFQJGy5FepPulB0C8wQNNz1xqX/34UwUj2wzlN5sJ7mTNtQxgfvHUIIol2SSPXq
+ bg76Qu2x1Tv2Cx0Vt/U5HZ74Si/s+ey040CabtJgjYdQ9U+TeIYrCIGWWy9Oh2Js8IpN
+ XsGLPoz7CnuROAQ1atjszMRPkaoRLpueTUIhoYrr2gZg0hVa9OID+wW0Bmnz97JXYSsa
+ bD6Q==
+X-Gm-Message-State: ACgBeo2/0c5tQJ9FHMs+6GuMAi/NEtwZ7PsISF24t8LP0aryPtgoZO8Q
+ tWI08AZfNKZnyjZsl69KKmsqiyT4zzw=
+X-Google-Smtp-Source: AA6agR7Zg6o29Rz6zPcOtZwtBweIx7ldXgBdi/Lg2HPCh0hLmQKaWYrBmXFbuIrcQFrUBsbjwSjxYg==
+X-Received: by 2002:a05:6402:27d3:b0:43e:5490:27ca with SMTP id
+ c19-20020a05640227d300b0043e549027camr29223507ede.307.1662032519040; 
+ Thu, 01 Sep 2022 04:41:59 -0700 (PDT)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- f12-20020a17090660cc00b0073ddb2eff27sm8387455ejk.167.2022.09.01.04.41.56
+ f12-20020a17090660cc00b0073ddb2eff27sm8387455ejk.167.2022.09.01.04.41.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 04:41:56 -0700 (PDT)
+ Thu, 01 Sep 2022 04:41:58 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>,
@@ -60,15 +60,16 @@ Cc: qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  BALATON Zoltan <balaton@eik.bme.hu>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v5 00/13] Instantiate VT82xx functions in host device
-Date: Thu,  1 Sep 2022 13:41:14 +0200
-Message-Id: <20220901114127.53914-1-shentey@gmail.com>
+Subject: [PATCH v5 02/13] hw/isa/vt82c686: Resolve unneeded attribute
+Date: Thu,  1 Sep 2022 13:41:16 +0200
+Message-Id: <20220901114127.53914-3-shentey@gmail.com>
 X-Mailer: git-send-email 2.37.3
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20220901114127.53914-1-shentey@gmail.com>
+References: <20220901114127.53914-1-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x529.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,86 +92,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v5:=0D
-* Add patch "Inline vt82c686b_southbridge_init() and remove it" (Zoltan)=0D
-* Use machine parameter when creating rtc-time alias (Zoltan)=0D
-=0D
-Testing done: Same as in v3.=0D
-=0D
-v4:=0D
-* Fix in comment: AC97 Modem -> MC97 Modem (Zoltan)=0D
-* Introduce TYPE_VT82C686B_USB_UHCI define (Zoltan)=0D
-* Introduce TYPE_VIA_IDE define (for consistency)=0D
-=0D
-v3:=0D
-* Replace pre increment by post increment in for loop (Zoltan)=0D
-* Move class defines close to where the class is defined (Zoltan)=0D
-=0D
-Testing done:=0D
-* `make check-avocado`=0D
-  Passes for boot_linux_console.py for mips64el_fuloong2e=0D
-* `qemu-system-ppc -machine pegasos2 -rtc base=3Dlocaltime -device ati-vga,=
-guest_hwcursor=3Dtrue,romfile=3D"" -cdrom morphos-3.17.iso -kernel morphos-=
-3.17/boot.img`=0D
-  Boots successfully and it is possible to open games and tools.=0D
-=0D
-v2:=0D
-* Keep the call to pci_ide_create_devs() in board code for consistency (Zol=
-tan)=0D
-* Create rtc-time alias in board rather than in south bridge code=0D
-* Remove stale comments about PCI functions (Zoltan)=0D
-=0D
-v1:=0D
-This series instantiates all PCI functions of the VT82xx south bridges in t=
-he south bridges themselves.=0D
-For the IDE function this is especially important since its interrupt routi=
-ng is configured in the=0D
-ISA function, hence doesn't make sense to instantiate it as a "Frankenstein=
-" device. The interrupt=0D
-routing is currently hardcoded and changing that is currently not in the sc=
-ope of this series.=0D
-=0D
-Testing done:=0D
-* `qemu-system-ppc -machine pegasos2 -rtc base=3Dlocaltime -device ati-vga,=
-guest_hwcursor=3Dtrue,romfile=3D"" -cdrom morphos-3.17.iso -kernel morphos-=
-3.17/boot.img`=0D
-  Boots successfully and it is possible to open games and tools.=0D
-=0D
-* I was unable to test the fuloong2e board even before this series since it=
- seems to be unfinished [1].=0D
-  A buildroot-baked kernel [2] booted but doesn't find its root partition, =
-though the issues could be in the buildroot receipt I created.=0D
-=0D
-[1] https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2=0D
-[2] https://github.com/shentok/buildroot/commits/fuloong2e=0D
-=0D
-Bernhard Beschow (13):=0D
-  hw/isa/vt82c686: Resolve chip-specific realize methods=0D
-  hw/isa/vt82c686: Resolve unneeded attribute=0D
-  hw/isa/vt82c686: Prefer pci_address_space() over get_system_memory()=0D
-  hw/isa/vt82c686: Reuse errp=0D
-  hw/isa/vt82c686: Introduce TYPE_VIA_IDE define=0D
-  hw/isa/vt82c686: Instantiate IDE function in host device=0D
-  hw/isa/vt82c686: Introduce TYPE_VT82C686B_USB_UHCI define=0D
-  hw/isa/vt82c686: Instantiate USB functions in host device=0D
-  hw/isa/vt82c686: Instantiate PM function in host device=0D
-  hw/isa/vt82c686: Instantiate AC97 and MC97 functions in host device=0D
-  hw/mips/fuloong2e: Inline vt82c686b_southbridge_init() and remove it=0D
-  hw/isa/vt82c686: Embed RTCState in host device=0D
-  hw/isa/vt82c686: Create rtc-time alias in boards instead=0D
-=0D
- configs/devices/mips64el-softmmu/default.mak |   1 -=0D
- hw/ide/via.c                                 |   2 +-=0D
- hw/isa/Kconfig                               |   1 +=0D
- hw/isa/vt82c686.c                            | 120 +++++++++++++++----=0D
- hw/mips/fuloong2e.c                          |  39 +++---=0D
- hw/ppc/Kconfig                               |   1 -=0D
- hw/ppc/pegasos2.c                            |  25 ++--=0D
- hw/usb/vt82c686-uhci-pci.c                   |   4 +-=0D
- include/hw/isa/vt82c686.h                    |   4 +-=0D
- 9 files changed, 126 insertions(+), 71 deletions(-)=0D
-=0D
--- =0D
-2.37.3=0D
-=0D
+Now that also the super io device is realized in the common realize method,
+the isa_bus attribute can be turned into a temporary.
+
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+---
+ hw/isa/vt82c686.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index 0217c98fe4..9d12e1cae4 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -543,7 +543,6 @@ struct ViaISAState {
+     PCIDevice dev;
+     qemu_irq cpu_intr;
+     qemu_irq *isa_irqs;
+-    ISABus *isa_bus;
+     ViaSuperIOState via_sio;
+ };
+ 
+@@ -585,17 +584,18 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+     ViaISAState *s = VIA_ISA(d);
+     DeviceState *dev = DEVICE(d);
+     qemu_irq *isa_irq;
++    ISABus *isa_bus;
+     int i;
+ 
+     qdev_init_gpio_out(dev, &s->cpu_intr, 1);
+     isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
+-    s->isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
++    isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
+                           &error_fatal);
+-    s->isa_irqs = i8259_init(s->isa_bus, *isa_irq);
+-    isa_bus_irqs(s->isa_bus, s->isa_irqs);
+-    i8254_pit_init(s->isa_bus, 0x40, 0, NULL);
+-    i8257_dma_init(s->isa_bus, 0);
+-    mc146818_rtc_init(s->isa_bus, 2000, NULL);
++    s->isa_irqs = i8259_init(isa_bus, *isa_irq);
++    isa_bus_irqs(isa_bus, s->isa_irqs);
++    i8254_pit_init(isa_bus, 0x40, 0, NULL);
++    i8257_dma_init(isa_bus, 0);
++    mc146818_rtc_init(isa_bus, 2000, NULL);
+ 
+     for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
+         if (i < PCI_COMMAND || i >= PCI_REVISION_ID) {
+@@ -604,7 +604,7 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+     }
+ 
+     /* Super I/O */
+-    if (!qdev_realize(DEVICE(&s->via_sio), BUS(s->isa_bus), errp)) {
++    if (!qdev_realize(DEVICE(&s->via_sio), BUS(isa_bus), errp)) {
+         return;
+     }
+ }
+-- 
+2.37.3
+
 
