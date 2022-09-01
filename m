@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F11795A9D4D
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 18:43:39 +0200 (CEST)
-Received: from localhost ([::1]:58910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4EAF5A9D7A
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 18:48:49 +0200 (CEST)
+Received: from localhost ([::1]:55198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTnI3-0000Lr-77
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 12:43:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53522)
+	id 1oTnN1-0006SD-EK
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 12:48:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn1x-0001nZ-6I
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:27:01 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:35563)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn1y-0001sA-Bc
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:27:02 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:39477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn1v-0001UA-1e
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:27:00 -0400
-Received: by mail-ed1-x536.google.com with SMTP id y64so11483536ede.2
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 09:26:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oTn1w-0001VH-Mu
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:27:02 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id fy31so35421750ejc.6
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 09:27:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=BMmSdP4ZZVtB54ezr9h7KI51scbR0FMH6vF9qMiRlSs=;
- b=M5xoyQq+B4UC9JlKPpaQsh3f5Ot4yjahZUg+QRu0nCCXi2fXIh0gTZk5S2+tIZIWWA
- NVtFubYDEDb0zmT6VJRFMptDvfojlSi6+gPttJ2x3W2upaDffMOiIPcEyaibTGhBs7+r
- P9jjHKCjfZ5PBIdhxPh9Yi5qkQIabev6TdJF5ookuAlyZPN++yKl6m4QoLHbqnLBiFUP
- gD7tyAP4svCKuiCgZmviDHj4JxDYsrhcvtlhB2NlL/o2cvFam2fw6V+ByuFBmknr2d/M
- taZ1O520nzK70Yxn0JWErmxCVHTRYg/NZi2q2A2EIoyYUeqgA9emRjvPSKuM+psliLtw
- 5jfg==
+ bh=31lPKLYnuDCb1yDq5SV4IaHEb8zoMnE3VsuK5jWdAf8=;
+ b=jBN/Y+NZ0iW7vQ9ssRpiDDYvWQq0MVS8FIE/GHhD5m6TB0IwhwA/xRV6NjjrPQ+gK3
+ UOq0VBhPxqjEj3iIXBqy7XOoj+wsbrFwQ2D/NONDb4Quz4FfCmxlFP1vW1e/wkj2NPPX
+ /1yuo+n7+Mb1O10ZpfAcVdK5FbVMzaDdeFjeWv1CaHRndSYhd9JVYN8NghBqrxj/Z047
+ c8Q4a/s8akWODf1FOBMZyaLNQed3HPvV6pZDSWOmmKtLes55087VaD2U5ZBjbDe4v2Z5
+ JDs9h6OXoIwm3avykkADVamjbilxBMeQ/gdAWkKYQ6bU3D+Gom+jmusbe31hidEH+L1Q
+ Sqhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=BMmSdP4ZZVtB54ezr9h7KI51scbR0FMH6vF9qMiRlSs=;
- b=nXEHmqnGnqRynpQ1VUtiUX6SVLmj1VP14VET7Q4uHqTZgrRJPbRaz0UcKiB8E03y7K
- FX/rXRGJyL4v71NQ/HJzIEg6GzpaX51+JrMggyAAeCUd9xFg7276YeqQZ1AUmrxeDKVp
- fT9wfjSwH+mVIwTgAd+kUab7JECKO6d47/IzgLxVRw+AsHhlUiZorcwAXZvNqEHLB2HZ
- N1zq61lsoX9/9yhmUPfNQJdoD5GCXJ8+vekxJkQxaONPYyS/30V6ZkkJdXPuKFP1gLKD
- de8pmC5CTg4eOvwD/zWQIDyKM3KAdO5lIskWvOM7+ByiOQfB+u4Tnq4HIe24lW165QMj
- DFkA==
-X-Gm-Message-State: ACgBeo1pf20snZdIxsGtCaZaQYuUAr9y7t0qeT1FzA6A77jKso3a2rNT
- otHC3+rBJs7WaT/RJxzz+toQgkHoylA=
-X-Google-Smtp-Source: AA6agR4/YWqmay54hSbUrfmVBIk0JW7ouWou6rOnPaiLDXLRXSqFdf5zLdks8OWPYAMGSzJdGEh9Cg==
-X-Received: by 2002:a05:6402:190d:b0:447:ed22:4d0d with SMTP id
- e13-20020a056402190d00b00447ed224d0dmr25616390edz.309.1662049618214; 
- Thu, 01 Sep 2022 09:26:58 -0700 (PDT)
+ bh=31lPKLYnuDCb1yDq5SV4IaHEb8zoMnE3VsuK5jWdAf8=;
+ b=HsecyipiAy7uZjpCjGqLXiTRKdxkBfigBrXZdhq2nQ+KlKCjMGzJZDM29y/V1mvoMj
+ GiHuxzWj3kiE1Jb7OQZoxRz5Rg8txhAnxB4NK0qENuJITz/mL2JHykIf7pthePOomL74
+ Dm+0hfXaLGcHfK9DyDwc+umZFnTAskWdnNYHJBrmGKMkZaXmqcv5Nzxyt/2PVFPkdNoE
+ sDuALg3RQLZ7pX+vbWPRjtuc0n+ieXwjZCU80HKTyNFxI3AVe972N57+XXObT6AoUpK1
+ lSOQbc1xmOFNPKF39cSZIuEoO6KTNrVDumumRo6lM6Bd8cGv0FNON6OE5OzgUegcujzD
+ R1Ww==
+X-Gm-Message-State: ACgBeo14Io31PSDlzPVFmkTWUwVTA+ZHkCjKs2Jc8rTom9ZZ66BrIcfS
+ qXXb1JVeCfn9qjEZy798WPK6FGORTmo=
+X-Google-Smtp-Source: AA6agR4+RK+LTyzJ7ndq710qxb4Ebn07lezPJdZaIf4DZ+a1xk5la59rw5w6+TQdnreKobKbOdk+Kw==
+X-Received: by 2002:a17:906:cc0e:b0:73d:d898:3900 with SMTP id
+ ml14-20020a170906cc0e00b0073dd8983900mr22466134ejb.82.1662049619229; 
+ Thu, 01 Sep 2022 09:26:59 -0700 (PDT)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- p6-20020aa7d306000000b00447c0dcbb99sm1587672edq.83.2022.09.01.09.26.57
+ p6-20020aa7d306000000b00447c0dcbb99sm1587672edq.83.2022.09.01.09.26.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 09:26:57 -0700 (PDT)
+ Thu, 01 Sep 2022 09:26:58 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
@@ -63,19 +63,17 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>, Ani Sinha <ani@anisinha.ca>,
  Igor Mammedov <imammedo@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Bernhard Beschow <shentey@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 11/42] hw/isa/piix3: Remove extra ';' outside of functions
-Date: Thu,  1 Sep 2022 18:25:42 +0200
-Message-Id: <20220901162613.6939-12-shentey@gmail.com>
+ "Michael S. Tsirkin" <mst@redhat.com>, Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH 12/42] hw/isa/piix3: Remove unused include
+Date: Thu,  1 Sep 2022 18:25:43 +0200
+Message-Id: <20220901162613.6939-13-shentey@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220901162613.6939-1-shentey@gmail.com>
 References: <20220901162613.6939-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,45 +96,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes the "extra-semi" clang-tidy check.
+Ammends commit 988fb613215993dd0ce642b89ca8182c479d39dd.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/isa/piix3.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/isa/piix3.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-index e85dec3200..0117f896d2 100644
+index 0117f896d2..b54ff1c948 100644
 --- a/hw/isa/piix3.c
 +++ b/hw/isa/piix3.c
-@@ -438,7 +438,7 @@ static void piix3_realize(PCIDevice *dev, Error **errp)
-     pci_bus_irqs(pci_bus, piix3_set_irq, pci_slot_get_pirq,
-                  piix3, PIIX_NUM_PIRQS);
-     pci_bus_set_route_irq_fn(pci_bus, piix3_route_intx_pin_to_irq);
--};
-+}
- 
- static void piix3_class_init(ObjectClass *klass, void *data)
- {
-@@ -473,7 +473,7 @@ static void piix3_xen_realize(PCIDevice *dev, Error **errp)
-      */
-     pci_bus_irqs(pci_bus, xen_piix3_set_irq, xen_pci_slot_get_pirq,
-                  piix3, XEN_PIIX_NUM_PIRQS);
--};
-+}
- 
- static void piix3_xen_class_init(ObjectClass *klass, void *data)
- {
-@@ -481,7 +481,7 @@ static void piix3_xen_class_init(ObjectClass *klass, void *data)
- 
-     k->config_write = piix3_write_config_xen;
-     k->realize = piix3_xen_realize;
--};
-+}
- 
- static const TypeInfo piix3_xen_info = {
-     .name          = TYPE_PIIX3_XEN_DEVICE,
+@@ -31,7 +31,6 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/isa/isa.h"
+ #include "hw/xen/xen.h"
+-#include "sysemu/xen.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+ #include "migration/vmstate.h"
 -- 
 2.37.3
 
