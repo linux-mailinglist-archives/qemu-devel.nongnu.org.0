@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A65895A8BED
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 05:31:08 +0200 (CEST)
-Received: from localhost ([::1]:53436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D53E5A8BF4
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 05:35:23 +0200 (CEST)
+Received: from localhost ([::1]:39514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTav5-00049m-C7
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 23:31:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55504)
+	id 1oTazC-0007Yi-5j
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 23:35:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1oTarp-0008Re-GG
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 23:27:45 -0400
-Received: from mga12.intel.com ([192.55.52.136]:17697)
+ id 1oTarr-0008Sp-Ec
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 23:27:50 -0400
+Received: from mga12.intel.com ([192.55.52.136]:17693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1oTarn-0007w7-8l
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 23:27:45 -0400
+ id 1oTaro-0007uj-KS
+ for qemu-devel@nongnu.org; Wed, 31 Aug 2022 23:27:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662002863; x=1693538863;
+ t=1662002864; x=1693538864;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=PsoLe8vgHzR+AwIMYbvv3iaU4zCz8BxOcycp5wGPxHg=;
- b=DUA0yIHcZVlrZ5DkzAYdKDfTVE/cnBFRH36UPxeX2ctqQf0prSfBqRzZ
- BtmTB4RXI3OuafGaNXW9WQC6aWLPRoCNgiK0Dzi4oA11fGb/WrkmaMewS
- arL3sZHBHS+cLqtuZWo4asBROHjM6z4Srz+tdNfPBHkYDNT8Sch84eN1G
- j9nRu5lauwHfj12OxdyUfCFYNRPuydGn2IUelnt4n2FD4jMYFxcD+XYDS
- J9FyL/vACKubEb83hw0TFgHaE/HYbC54SQUpOUfG1tnzWa0qlVB2Pgsvd
- zZfrcpVB9SZ7YUddlF0FmoiwCWZ6bfIMrh3qAltXP1yNWRrg0Cgr0L3lf g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10456"; a="275354010"
-X-IronPort-AV: E=Sophos;i="5.93,280,1654585200"; d="scan'208";a="275354010"
+ bh=HjBvEXpRDSUmainUOejjqublh4jt3/bIcS6XL2P8Pck=;
+ b=gYC0RyY/fOWxYfLtsWkrFJBN5BTQ3Kqj4nSZrYRtX3j4p0diWXHldjWn
+ L4mLwMEovhvIqcm6liJFqKzY1D0OufXQ0Ul02v+V0UoQHsFOqYR8jc1Yn
+ uWYIcTKmqdh3jbv/frmBzhubsVQxvDj5BYbLpZ74QZ2PyyIOoAyJuTQc1
+ BSWJfo/AsWe50u4A9IK16tCX5i3eyIx/zVtzPV4dZxhvtF8WuMZkWknPr
+ Ubw1+A/lBr0ruAIRoiALqfD8kHKdh04aWSTGUjs8WDWze447YFewE7WDk
+ Xy84AmFWKtAy8zfiOyoDKyLawkgNtJ5aFxERQ2lD7fWUYravf3QQ8242m g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10456"; a="275354020"
+X-IronPort-AV: E=Sophos;i="5.93,280,1654585200"; d="scan'208";a="275354020"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2022 20:27:33 -0700
+ 31 Aug 2022 20:27:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,280,1654585200"; d="scan'208";a="642142688"
+X-IronPort-AV: E=Sophos;i="5.93,280,1654585200"; d="scan'208";a="642142700"
 Received: from sqa-gate.sh.intel.com (HELO robert-clx2.tsp.org)
  ([10.239.48.212])
- by orsmga008.jf.intel.com with ESMTP; 31 Aug 2022 20:27:31 -0700
+ by orsmga008.jf.intel.com with ESMTP; 31 Aug 2022 20:27:33 -0700
 From: Robert Hoo <robert.hu@linux.intel.com>
 To: imammedo@redhat.com, mst@redhat.com, xiaoguangrong.eric@gmail.com,
  ani@anisinha.ca, dan.j.williams@intel.com, jingqi.liu@intel.com
 Cc: qemu-devel@nongnu.org, robert.hu@intel.com,
  Robert Hoo <robert.hu@linux.intel.com>
-Subject: [PATCH v3 2/5] acpi/ssdt: Fix aml_or() and aml_and() in if clause
-Date: Thu,  1 Sep 2022 11:27:18 +0800
-Message-Id: <20220901032721.1392482-3-robert.hu@linux.intel.com>
+Subject: [PATCH v3 3/5] acpi/nvdimm: define macro for NVDIMM Device _DSM
+Date: Thu,  1 Sep 2022 11:27:19 +0800
+Message-Id: <20220901032721.1392482-4-robert.hu@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220901032721.1392482-1-robert.hu@linux.intel.com>
 References: <20220901032721.1392482-1-robert.hu@linux.intel.com>
@@ -78,53 +78,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In If condition, using bitwise and/or, rather than logical and/or.
+Since it will be heavily used in next patch, define macro
+NVDIMM_DEVICE_DSM_UUID for "4309AC30-0D11-11E4-9191-0800200C9A66", which is
+NVDIMM device specific method uuid defined in NVDIMM _DSM interface spec,
+Section 3. [1]
 
-The result change in AML code:
+No functional changes in this patch.
 
-If (((Local6 == Zero) | (Arg0 != Local0)))
-==>
-If (((Local6 == Zero) || (Arg0 != Local0)))
+[1] https://pmem.io/documents/IntelOptanePMem_DSM_Interface-V2.0.pdf
 
-If (((ObjectType (Arg3) == 0x04) & (SizeOf (Arg3) == One)))
-==>
-If (((ObjectType (Arg3) == 0x04) && (SizeOf (Arg3) == One)))
-
-Fixes: 90623ebf603 ("nvdimm acpi: check UUID")
-Fixes: 4568c948066 ("nvdimm acpi: save arg3 of _DSM method")
 Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
 Reviewed-by: Jingqi Liu <jingqi.liu@intel.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/acpi/nvdimm.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ hw/acpi/nvdimm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-index 31e46df0bd..201317c611 100644
+index 201317c611..afff911c1e 100644
 --- a/hw/acpi/nvdimm.c
 +++ b/hw/acpi/nvdimm.c
-@@ -1037,7 +1037,7 @@ static void nvdimm_build_common_dsm(Aml *dev,
+@@ -922,6 +922,7 @@ void nvdimm_init_acpi_state(NVDIMMState *state, MemoryRegion *io,
+ #define NVDIMM_DSM_RFIT_STATUS  "RSTA"
  
-     uuid_invalid = aml_lnot(aml_equal(uuid, expected_uuid));
+ #define NVDIMM_QEMU_RSVD_UUID   "648B9CF2-CDA1-4312-8AD9-49C4AF32BD62"
++#define NVDIMM_DEVICE_DSM_UUID  "4309AC30-0D11-11E4-9191-0800200C9A66"
  
--    unsupport = aml_if(aml_or(unpatched, uuid_invalid, NULL));
-+    unsupport = aml_if(aml_lor(unpatched, uuid_invalid));
- 
-     /*
-      * function 0 is called to inquire what functions are supported by
-@@ -1069,10 +1069,9 @@ static void nvdimm_build_common_dsm(Aml *dev,
-      * in the DSM Spec.
-      */
-     pckg = aml_arg(3);
--    ifctx = aml_if(aml_and(aml_equal(aml_object_type(pckg),
-+    ifctx = aml_if(aml_land(aml_equal(aml_object_type(pckg),
-                    aml_int(4 /* Package */)) /* It is a Package? */,
--                   aml_equal(aml_sizeof(pckg), aml_int(1)) /* 1 element? */,
--                   NULL));
-+                   aml_equal(aml_sizeof(pckg), aml_int(1)) /* 1 element? */));
- 
-     pckg_index = aml_local(2);
-     pckg_buf = aml_local(3);
+ static void nvdimm_build_common_dsm(Aml *dev,
+                                     NVDIMMState *nvdimm_state)
+@@ -1029,8 +1030,7 @@ static void nvdimm_build_common_dsm(Aml *dev,
+                /* UUID for QEMU internal use */), expected_uuid));
+     aml_append(elsectx, ifctx);
+     elsectx2 = aml_else();
+-    aml_append(elsectx2, aml_store(
+-               aml_touuid("4309AC30-0D11-11E4-9191-0800200C9A66")
++    aml_append(elsectx2, aml_store(aml_touuid(NVDIMM_DEVICE_DSM_UUID)
+                /* UUID for NVDIMM Devices */, expected_uuid));
+     aml_append(elsectx, elsectx2);
+     aml_append(method, elsectx);
 -- 
 2.31.1
 
