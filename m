@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9418C5A9F42
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 20:42:17 +0200 (CEST)
-Received: from localhost ([::1]:34724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 836925A9EEB
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 20:29:13 +0200 (CEST)
+Received: from localhost ([::1]:51522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTp8q-0000MJ-O1
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 14:42:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55012)
+	id 1oTowC-0004qy-6F
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 14:29:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oTos6-0007h5-H4
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:25:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45750)
+ id 1oTos4-0007gI-Ke
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:24:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37196)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oTos0-0008J7-5G
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:24:58 -0400
+ id 1oTorx-0008In-I5
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:24:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662056691;
+ s=mimecast20190719; t=1662056688;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=066MnNoNDKXSjA2kxKedetVtMU/T3Tvf5Cyk2DBEL3k=;
- b=OL81Qezk6Az0EWJNdBZk++eyItQx29ILV33NbGOq4FJYzV3K/oGfHVGR/tZRMv1ry/eny5
- OLX8lCODFh+4/3mFnSCYKwQK8fKst8hKXZ1wZWGA6ISGTUa2H63tOAXFCcmjVRfhttV1nS
- 0m9sWWaAY0umzW0e1z4GwNWLuJLdSns=
+ bh=9TGqR42IIh0W5zzAjmUJalReceOPo/hBFTgDSpAMS4E=;
+ b=hk5QOJJRSrgQqKH5LMfPVp7WYKhP9pD+5LcljRsWEbgQypQnvdO2871TlPB9mEPUNxzIlw
+ ZxoZW7o+/id553zS01Skc5NmtA5onPk2YN0I/HzB8MRy8Q9RAd6NP9k23Kv3inftJrEs4j
+ xAAtH4b+MO4p8PNzJvYZKj9H6Pa9WOY=
 Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
  [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-515-Dv-bL7AQMwiiFFwzPiUctA-1; Thu, 01 Sep 2022 14:24:45 -0400
-X-MC-Unique: Dv-bL7AQMwiiFFwzPiUctA-1
+ us-mta-447-JAOceobPOLK-PV2t9kbEHQ-1; Thu, 01 Sep 2022 14:24:47 -0400
+X-MC-Unique: JAOceobPOLK-PV2t9kbEHQ-1
 Received: by mail-ej1-f70.google.com with SMTP id
- sg35-20020a170907a42300b007414343814bso6483473ejc.18
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 11:24:45 -0700 (PDT)
+ he38-20020a1709073da600b0073d98728570so7336366ejc.11
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 11:24:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=066MnNoNDKXSjA2kxKedetVtMU/T3Tvf5Cyk2DBEL3k=;
- b=GfJUEujWoQrkIt1LtXoeOY09hM9tw2dQjc1QI0G6Imflad5xOwqRBBpv3N8Yfq7gCC
- gqdFUFZqUeWcyzPPdnDzFultGnkxYUfZzbxoM3vsDrDX/JS96Q9JN5q1jYPbRi339pOV
- UB+WRn04kDX2pZ8WvMYccK63h1ChhTYXiqSJa0+ZNrmYotDBGV0st3GWi7rrTr4+5MrO
- jfsNIAfw+vh6xQGrw9XvLdlIl88tNZvMQxaiIpGm/+RJhQNxghOH7fnfvoNKm1etuaTh
- F//wx9r89WCD4qDRchuFT9cTINivhb0aYHYWK6rj1x6pCXCDaNeb/eRhfLoPHzsklz07
- f8mg==
-X-Gm-Message-State: ACgBeo3fQUgwb47SPyLaliZGAH1biGlUG5vC6heYbwfSQYdeOK6p9QVL
- ifFLSa/I4TXgyzwF0AbxGP1WbtxG9IjVrKczIeYVbbFBGymFvjlxBDpqsejxWxd72aYVmTRxkin
- PiebqWQphEi+2bu50WGyhd+9PoT0YgkoHDxmC/F5lgEj+Pr2Z+1P0hjivAiL7/N78/GU=
-X-Received: by 2002:a17:907:1c89:b0:741:4453:75be with SMTP id
- nb9-20020a1709071c8900b00741445375bemr18759073ejc.208.1662056683896; 
- Thu, 01 Sep 2022 11:24:43 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6mmD/m7MgszgMK2KSlrSa/jk+8ig/OImVcdAvm5GurpGJhpaGYXV/cS0nRK3Cth3GMgfrF9A==
-X-Received: by 2002:a17:907:1c89:b0:741:4453:75be with SMTP id
- nb9-20020a1709071c8900b00741445375bemr18759057ejc.208.1662056683643; 
- Thu, 01 Sep 2022 11:24:43 -0700 (PDT)
+ bh=9TGqR42IIh0W5zzAjmUJalReceOPo/hBFTgDSpAMS4E=;
+ b=vQziiurgP02ZxFnOV8ZovPfXNKCwyhurBo+0rEz4AymfFQxf4e9TH144+xRCtj+Ezh
+ Twsy1PPHdROVV3zH4nkP8f++vedw2dUEeW1Pw+fVlPMUeWrgBeYJkmucEmQEbS7KKzfW
+ 8wGz4LnTc/3iYNeF+1K5mHVpOOpeQfkdunsY9YwfnnQOPl7n72XUAq3D01VSUOEOkf8j
+ fbbSHoabhaXV12wbMP7z9nm4pTsmGV/n4SnV265VfcLc+LMmn8JGlbRU0XAOyHHyios/
+ 28qITTAoBnCKNbdXvVPM+Zaw8g3EJUbC1LDHIDB7b9o70vgv7/0UKXkBnCHv3llggrmB
+ iAtQ==
+X-Gm-Message-State: ACgBeo1VW3oOY2/9MimZi0MsrNvQaCT6iO/DfQ6HSN85PjOsoTN3yGD4
+ hU2G8vBNIptMtgG9DAE2Z1OVGrpJlx0Kp+57TGsbYVWgPAQvUSr/2LUvapYBsdZtQArwjSfsU4c
+ rNfuhUkmk2wUkIjG+cKj3dtRjVto7MBwMb1iwRHy9vM2XDRDTyCR94xTPiMxx67yvY+E=
+X-Received: by 2002:a05:6402:b74:b0:447:d664:83f6 with SMTP id
+ cb20-20020a0564020b7400b00447d66483f6mr26498318edb.303.1662056685669; 
+ Thu, 01 Sep 2022 11:24:45 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6Ip4PDjF1HrqUC2+pdGLvPVW1w0Q0Pxg4ZARO6wwfY282QG3W8tBvywiRz5WG2XrKW4lOnSg==
+X-Received: by 2002:a05:6402:b74:b0:447:d664:83f6 with SMTP id
+ cb20-20020a0564020b7400b00447d66483f6mr26498299edb.303.1662056685340; 
+ Thu, 01 Sep 2022 11:24:45 -0700 (PDT)
 Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- 10-20020a170906300a00b00738795e7d9bsm3939ejz.2.2022.09.01.11.24.38
+ q18-20020a17090676d200b00730860b6c43sm8822137ejn.173.2022.09.01.11.24.44
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 11:24:43 -0700 (PDT)
+ Thu, 01 Sep 2022 11:24:44 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: [PULL 05/39] i386: do kvm_put_msr_feature_control() first thing when
- vCPU is reset
-Date: Thu,  1 Sep 2022 20:23:55 +0200
-Message-Id: <20220901182429.93533-6-pbonzini@redhat.com>
+Subject: [PULL 06/39] configure: improve error for ucontext coroutine backend
+Date: Thu,  1 Sep 2022 20:23:56 +0200
+Message-Id: <20220901182429.93533-7-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220901182429.93533-1-pbonzini@redhat.com>
 References: <20220901182429.93533-1-pbonzini@redhat.com>
@@ -101,57 +100,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
+Instead of using feature_not_found(), which is not a good match because
+there is no "remedy" to fix the lack of makecontext(), just print a
+custom error.
 
-kvm_put_sregs2() fails to reset 'locked' CR4/CR0 bits upon vCPU reset when
-it is in VMX root operation. Do kvm_put_msr_feature_control() before
-kvm_put_sregs2() to (possibly) kick vCPU out of VMX root operation. It also
-seems logical to do kvm_put_msr_feature_control() before
-kvm_put_nested_state() and not after it, especially when 'real' nested
-state is set.
+This happens to remove the last use of feature_not_found(), so remove
+the definition and the documentation.
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-Message-Id: <20220818150113.479917-3-vkuznets@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/kvm/kvm.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+ configure                   | 11 +----------
+ docs/devel/build-system.rst |  5 -----
+ 2 files changed, 1 insertion(+), 15 deletions(-)
 
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 4f8dacc1d4..a1fd1f5379 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -4529,6 +4529,18 @@ int kvm_arch_put_registers(CPUState *cpu, int level)
+diff --git a/configure b/configure
+index 72ab03f11a..575dde1c1f 100755
+--- a/configure
++++ b/configure
+@@ -1468,15 +1468,6 @@ if test "$tcg" = "enabled"; then
+     git_submodules="$git_submodules tests/fp/berkeley-softfloat-3"
+ fi
  
-     assert(cpu_is_stopped(cpu) || qemu_cpu_is_self(cpu));
- 
-+    /*
-+     * Put MSR_IA32_FEATURE_CONTROL first, this ensures the VM gets out of VMX
-+     * root operation upon vCPU reset. kvm_put_msr_feature_control() should also
-+     * preceed kvm_put_nested_state() when 'real' nested state is set.
-+     */
-+    if (level >= KVM_PUT_RESET_STATE) {
-+        ret = kvm_put_msr_feature_control(x86_cpu);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+    }
-+
-     /* must be before kvm_put_nested_state so that EFER.SVME is set */
-     ret = has_sregs2 ? kvm_put_sregs2(x86_cpu) : kvm_put_sregs(x86_cpu);
-     if (ret < 0) {
-@@ -4540,11 +4552,6 @@ int kvm_arch_put_registers(CPUState *cpu, int level)
-         if (ret < 0) {
-             return ret;
-         }
+-feature_not_found() {
+-  feature=$1
+-  remedy=$2
 -
--        ret = kvm_put_msr_feature_control(x86_cpu);
--        if (ret < 0) {
--            return ret;
--        }
-     }
+-  error_exit "User requested feature $feature" \
+-      "configure was not able to find it." \
+-      "$remedy"
+-}
+-
+ # ---
+ # big/little endian test
+ cat > $TMPC << EOF
+@@ -1639,7 +1630,7 @@ else
+     ;;
+   ucontext)
+     if test "$ucontext_works" != "yes"; then
+-      feature_not_found "ucontext"
++      error_exit "'ucontext' backend requested but makecontext not available"
+     fi
+     ;;
+   sigaltstack)
+diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
+index 431caba7aa..1894721743 100644
+--- a/docs/devel/build-system.rst
++++ b/docs/devel/build-system.rst
+@@ -99,11 +99,6 @@ developers in checking for system features:
+    Write a minimal C program main() function to the temporary file
+    indicated by $TMPC
  
-     if (level == KVM_PUT_FULL_STATE) {
+-``feature_not_found $NAME $REMEDY``
+-   Print a message to stderr that the feature $NAME was not available
+-   on the system, suggesting the user try $REMEDY to address the
+-   problem.
+-
+ ``error_exit $MESSAGE $MORE...``
+    Print $MESSAGE to stderr, followed by $MORE... and then exit from the
+    configure script with non-zero status
 -- 
 2.37.2
 
