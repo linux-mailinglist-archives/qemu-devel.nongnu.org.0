@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB8CB5A961F
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 13:59:53 +0200 (CEST)
-Received: from localhost ([::1]:40492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D645A9625
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 14:01:02 +0200 (CEST)
+Received: from localhost ([::1]:39382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTirQ-0002BE-ND
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 07:59:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41880)
+	id 1oTisX-0003fT-0q
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 08:01:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTiaR-0005h3-BD; Thu, 01 Sep 2022 07:42:27 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:43972)
+ id 1oTiaQ-0005gv-D1; Thu, 01 Sep 2022 07:42:27 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:33532)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oTiaC-0000E1-4G; Thu, 01 Sep 2022 07:42:18 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id gb36so13197707ejc.10;
- Thu, 01 Sep 2022 04:42:01 -0700 (PDT)
+ id 1oTiaE-0000EB-4e; Thu, 01 Sep 2022 07:42:18 -0400
+Received: by mail-ej1-x632.google.com with SMTP id cu2so34163396ejb.0;
+ Thu, 01 Sep 2022 04:42:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=kziy975Ku9ck3Do5y4RHLxQM6WcJLVSaw/Wzvh4zx/s=;
- b=nNrcfHuvlVW9kpOMhNuh1N6e92wb+572ju3/hKbVAD18z/u7OI21ZPJ7Vy9MyBukk9
- TqMvVCqDstaw6w9C5f0kPC0Wih/X+Ij6uK2113+u9MYy3k0KqVi1Uve0bSI3abKC7gVZ
- tuY0wNxtA4ptXs7HY7YxdPKxb20LWs+UhmRaJWg0rewFh83VdoduFSz/KsoVcwbHvh/i
- pcmfdfjSYWC8etA/aH3/i5XrRTejWuTtSbwa4isCubVtokP5hfX6Vh2DaYdQqxayONq1
- GltDydv1GbaEJhKJFp/Bcp3zg9BGrUggJzHX8qXdQOS7V4aPTYU1udH1Vn50mtHi6KJH
- KNUg==
+ bh=7oW9e9CQAQ6fs7n+6iH6aAQcJgkK+/GOKyNQf68VL6Q=;
+ b=dFPUi+pN4qPKkRxbtPdmj6e7eDiqi5Aw+4bgKxJu2uZ8I2ktwmYjFsxZEWjQc5NKNS
+ +Jcin0ZJPjeUM/6/ND/H/0+KX4yGTn2ZfDVxmQJXbTh07OzSpD6jcZSFBVgxCp2pEdTo
+ ckE+aJSTgTbrOLD6rHYXCu1neseYQpjxK5fgmP7OI2IczcUy5ivJdSJBbaPPEc7HD0IW
+ ZEyETNEt6tMRzbL3feupNXDGL/k99A5eMftEvUeFYQwJ9I/EY90gS3lnDpQS8NWb2YCL
+ 8RGpjGu9uV0TTSBPkjmQLDen/gde9s1oO6vRWGPSNuGOzsrJrWhaaVTmy/H6lnnX2HUe
+ fyGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=kziy975Ku9ck3Do5y4RHLxQM6WcJLVSaw/Wzvh4zx/s=;
- b=8EFrjSl05TKd5ByouzIXpBprkDO3H0m5dXJNsKP94VKOb0WfZwoR0mW8xXk9Ca1zGp
- I1/PcYWuhEoo9HqeIoSjlexxtccvYE/TytU/cKcsYH8NQiBq/ieOxgQqn/nyyzuJxqhw
- J36IriHT4yrZ/GeziaEDrX8V4yD7i2jc4gkkuLkN/y3ZpXrUSBof8Q6eXHYSZtNKBY5y
- te69FNlX1VOq82WgPuNExZzpTWaZmqLIqbBRvPT1p550EFJwr4/8FNoQvLgni5vPyYym
- HXW5VywtBaFFyHc5TEGrwJ22xMRF6yhl6LkIfMfn5znk1iVrs8K9naGOZ37caW6FJwza
- VwaA==
-X-Gm-Message-State: ACgBeo0omthy6N7xVZa0cpgsORDXkIirQbRbxU/A9Hd7T5kH3MfCwvoe
- xL7ib2OBxcDhrwz+SRgyNX4mXYeToR0=
-X-Google-Smtp-Source: AA6agR6qFULVX3R1Xa8MHv0QE07bJGvrOoFUqPyES5GpzCnkaNvTnMXYq18m2D4n6YmY6fKb9I8jBw==
-X-Received: by 2002:a17:906:e9b:b0:730:a6a1:9fc9 with SMTP id
- p27-20020a1709060e9b00b00730a6a19fc9mr23314410ejf.601.1662032519943; 
- Thu, 01 Sep 2022 04:41:59 -0700 (PDT)
+ bh=7oW9e9CQAQ6fs7n+6iH6aAQcJgkK+/GOKyNQf68VL6Q=;
+ b=TpLDFZ20EaZVcTkeA/0r1eLS9VlTvino0iYVxjTK7iVlKKvVEMcI5ge9TV0ZAzTadp
+ B6u/EENIM44n/Eb3NVKZMtvoKNaMzxWUR3DhxB6RjyjJ8gjKetGqGvLQQ2P+7HZI18pi
+ HJfG8BvfEAZs3C2BM9nI9/Occ93cJIzonqYO1aycDtWLaCdD94n70fmP8oqSLjTkh4rQ
+ VcwQV2NBdEB8ALacvoMOzFHXpt43icnDeIOYHZ5MtzKSXb1PyLOJeWta0s68s7bK4xdf
+ UD3eGGF8+vqIDIVwx5+oG+9Cg+VRa0X0EnvMW+IhPiwI1+5UgSG7cfdTNAgnX3Wuhokf
+ 0W6w==
+X-Gm-Message-State: ACgBeo3I/Ra8XVuGZHbLj2tSCGl3IBkRGLlqRfcCu00ZWShvRSXZgaTv
+ /Qc4jjm0BJR27CsTKJYwKt+/dCee9JA=
+X-Google-Smtp-Source: AA6agR5VLCrCvH1kAKB3UcMJdoDMIZg6h+kaJ/DzeSq4kPzlPUAwbnzAmh9F0KvQ8WRQZav43atkfw==
+X-Received: by 2002:a17:906:4fd2:b0:742:133b:3522 with SMTP id
+ i18-20020a1709064fd200b00742133b3522mr9636573ejw.21.1662032521791; 
+ Thu, 01 Sep 2022 04:42:01 -0700 (PDT)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- f12-20020a17090660cc00b0073ddb2eff27sm8387455ejk.167.2022.09.01.04.41.59
+ f12-20020a17090660cc00b0073ddb2eff27sm8387455ejk.167.2022.09.01.04.42.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 04:41:59 -0700 (PDT)
+ Thu, 01 Sep 2022 04:42:01 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>,
@@ -60,17 +60,16 @@ Cc: qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  BALATON Zoltan <balaton@eik.bme.hu>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v5 03/13] hw/isa/vt82c686: Prefer pci_address_space() over
- get_system_memory()
-Date: Thu,  1 Sep 2022 13:41:17 +0200
-Message-Id: <20220901114127.53914-4-shentey@gmail.com>
+Subject: [PATCH v5 05/13] hw/isa/vt82c686: Introduce TYPE_VIA_IDE define
+Date: Thu,  1 Sep 2022 13:41:19 +0200
+Message-Id: <20220901114127.53914-6-shentey@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220901114127.53914-1-shentey@gmail.com>
 References: <20220901114127.53914-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,27 +92,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Unlike get_system_memory(), pci_address_space() respects the memory tree
-available to the parent device.
+Establishes consistency with other (VIA) devices.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/vt82c686.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/ide/via.c              | 2 +-
+ hw/mips/fuloong2e.c       | 2 +-
+ hw/ppc/pegasos2.c         | 2 +-
+ include/hw/isa/vt82c686.h | 1 +
+ 4 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 9d12e1cae4..5582c0b179 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -589,7 +589,7 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+diff --git a/hw/ide/via.c b/hw/ide/via.c
+index 82def819c4..e1a429405d 100644
+--- a/hw/ide/via.c
++++ b/hw/ide/via.c
+@@ -230,7 +230,7 @@ static void via_ide_class_init(ObjectClass *klass, void *data)
+ }
  
-     qdev_init_gpio_out(dev, &s->cpu_intr, 1);
-     isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
--    isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
-+    isa_bus = isa_bus_new(dev, pci_address_space(d), pci_address_space_io(d),
-                           &error_fatal);
-     s->isa_irqs = i8259_init(isa_bus, *isa_irq);
-     isa_bus_irqs(isa_bus, s->isa_irqs);
+ static const TypeInfo via_ide_info = {
+-    .name          = "via-ide",
++    .name          = TYPE_VIA_IDE,
+     .parent        = TYPE_PCI_IDE,
+     .class_init    = via_ide_class_init,
+ };
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index 5ee546f5f6..44225fbe33 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -205,7 +205,7 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
+                                           TYPE_VT82C686B_ISA);
+     qdev_connect_gpio_out(DEVICE(dev), 0, intc);
+ 
+-    dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 1), "via-ide");
++    dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 1), TYPE_VIA_IDE);
+     pci_ide_create_devs(dev);
+ 
+     pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
+diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+index 61f4263953..8039775f80 100644
+--- a/hw/ppc/pegasos2.c
++++ b/hw/ppc/pegasos2.c
+@@ -166,7 +166,7 @@ static void pegasos2_init(MachineState *machine)
+                           qdev_get_gpio_in_named(pm->mv, "gpp", 31));
+ 
+     /* VT8231 function 1: IDE Controller */
+-    dev = pci_create_simple(pci_bus, PCI_DEVFN(12, 1), "via-ide");
++    dev = pci_create_simple(pci_bus, PCI_DEVFN(12, 1), TYPE_VIA_IDE);
+     pci_ide_create_devs(dev);
+ 
+     /* VT8231 function 2-3: USB Ports */
+diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
+index 56ac141be3..87aca3e5bb 100644
+--- a/include/hw/isa/vt82c686.h
++++ b/include/hw/isa/vt82c686.h
+@@ -8,6 +8,7 @@
+ #define TYPE_VT8231_ISA "vt8231-isa"
+ #define TYPE_VT8231_PM "vt8231-pm"
+ #define TYPE_VIA_AC97 "via-ac97"
++#define TYPE_VIA_IDE "via-ide"
+ #define TYPE_VIA_MC97 "via-mc97"
+ 
+ void via_isa_set_irq(PCIDevice *d, int n, int level);
 -- 
 2.37.3
 
