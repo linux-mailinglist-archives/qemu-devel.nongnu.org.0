@@ -2,109 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 374B05A9C9E
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 18:10:02 +0200 (CEST)
-Received: from localhost ([::1]:53502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C3795A9CF3
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 18:20:30 +0200 (CEST)
+Received: from localhost ([::1]:41946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTmlU-0005G1-Um
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 12:10:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35098)
+	id 1oTmvc-0000EE-N7
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 12:20:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1oTmjv-0003pJ-Ie
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:08:23 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:4280)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oTmt9-0006D2-Ha
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:17:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48816)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1oTmjr-0007Bk-SO
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:08:23 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 281FbVqe000570
- for <qemu-devel@nongnu.org>; Thu, 1 Sep 2022 16:08:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=RWmy8hJd3IY/bWNDgzZsjfPk3hHiKWyeiYHL1NC4YO4=;
- b=MbVHMgjPh286SF5NLdcRfCjEk89cDBMNTAy6q8fH7DJ3yBksfHQjwCF2gxz0YXbA6S3e
- t6WlbR+oUsJz6EqGg+5ilxUXayFn5X7ZFwIeD/eesq4H2bTVNe6sPIKgQPHbj8E9+38D
- 1+uyt3zXUXDQz0XiagIdeIAIXZK6ywJ6uGnHpjn05+Dk/TagZoHEU8TnqihxQleeY8kJ
- BlGhZ3dCxHjRKO7Zye0C3pFUIY7srF59BIGZRMCW3x/np+CTXBIw+6+9hx6OJ+nsG7sc
- fRJRJQY0qcjBqr1JNV4iO+gr4ldVOHKIf/AE3wIRKVyjaKRCL63vzgtCQR6r4/7sH2EB gA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jaxvuasvh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 16:08:16 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 281G2tji030558
- for <qemu-devel@nongnu.org>; Thu, 1 Sep 2022 16:08:15 GMT
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jaxvuasuj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 01 Sep 2022 16:08:15 +0000
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 281Fp7xd028184;
- Thu, 1 Sep 2022 16:08:14 GMT
-Received: from b03cxnp07027.gho.boulder.ibm.com
- (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
- by ppma01wdc.us.ibm.com with ESMTP id 3j7aw9tbwr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 01 Sep 2022 16:08:14 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 281G8DG260948918
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 1 Sep 2022 16:08:13 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 738876A057;
- Thu,  1 Sep 2022 16:08:13 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 329986A04F;
- Thu,  1 Sep 2022 16:08:11 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu,  1 Sep 2022 16:08:10 +0000 (GMT)
-Message-ID: <a21b2a0f-9a01-6499-552c-e3153cea2858@linux.ibm.com>
-Date: Thu, 1 Sep 2022 12:08:10 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 1/2] tpm_emulator: Use latest tpm_ioctl.h from swtpm
- project
-Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-Cc: qemu-devel@nongnu.org
-References: <20220826154602.362516-1-stefanb@linux.ibm.com>
- <20220826154602.362516-2-stefanb@linux.ibm.com>
- <CAJ+F1CK+Vk4zH_pejF_N3-H=2imOsen1u0NinoE7AW1cqLYM-A@mail.gmail.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <CAJ+F1CK+Vk4zH_pejF_N3-H=2imOsen1u0NinoE7AW1cqLYM-A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: ZCzdp3bKA__zrHQqubFTfF1I_20kOrpa
-X-Proofpoint-GUID: hPCM8G0MMibUi2-EC8MsAXC11U2EckH4
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oTmt5-00009f-Mc
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 12:17:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662049070;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hedP1nanSg0nfEVRoW3l9wkxR5Nom5Xm3VIc4gzSbyI=;
+ b=GkfUAQH5dvn3GYpz2rdJJkN5NJwWATlEJaKmXpSEMaPuqZ0crdhX7C/yA/Uc8LK4kJNGMC
+ eYb0buESg2I8t3WukHUpZTdvS/bWsmVonEwdGb9031FbHnwKRtGiLaXZaGQJKHxA5iMRUx
+ usOho2lHMdsu/sXbeHOKtyzsQBgU1RQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-471-XbIq98NtP9KElR6TTclKsA-1; Thu, 01 Sep 2022 12:17:45 -0400
+X-MC-Unique: XbIq98NtP9KElR6TTclKsA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3AF30811E80;
+ Thu,  1 Sep 2022 16:17:43 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.195.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E662840CF8F2;
+ Thu,  1 Sep 2022 16:17:42 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id A29AF18003AA; Thu,  1 Sep 2022 18:17:41 +0200 (CEST)
+Date: Thu, 1 Sep 2022 18:17:41 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Sergio Lopez <slp@redhat.com>
+Subject: Re: [PATCH 0/2] expose host-phys-bits to guest
+Message-ID: <20220901161741.dadmguwv25sk4h6i@sirius.home.kraxel.org>
+References: <20220831125059.170032-1-kraxel@redhat.com>
+ <957f0cc5-6887-3861-2b80-69a8c7cdd098@intel.com>
+ <20220901135810.6dicz4grhz7ye2u7@sirius.home.kraxel.org>
+ <f7a56158-9920-e753-4d21-e1bcc3573e27@intel.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-09-01_10,2022-08-31_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- adultscore=0 mlxscore=0 mlxlogscore=999 priorityscore=1501 impostorscore=0
- spamscore=0 suspectscore=0 lowpriorityscore=0 phishscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
- definitions=main-2209010071
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f7a56158-9920-e753-4d21-e1bcc3573e27@intel.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -121,26 +86,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 8/31/22 07:36, Marc-André Lureau wrote:
-
+On Thu, Sep 01, 2022 at 10:36:19PM +0800, Xiaoyao Li wrote:
+> On 9/1/2022 9:58 PM, Gerd Hoffmann wrote:
 > 
-> On Fri, Aug 26, 2022 at 7:52 PM Stefan Berger <stefanb@linux.ibm.com 
-> <mailto:stefanb@linux.ibm.com>> wrote:
+> > > Anyway, IMO, guest including guest firmware, should always consult from
+> > > CPUID leaf 0x80000008 for physical address length.
+> > 
+> > It simply can't for the reason outlined above.  Even if we fix qemu
+> > today that doesn't solve the problem for the firmware because we want
+> > backward compatibility with older qemu versions.  Thats why I want the
+> > extra bit which essentially says "CPUID leaf 0x80000008 actually works".
 > 
->     Use the latest tpm_ioctl.h from upstream swtpm project.
-> 
->     Signed-off-by: Stefan Berger <stefanb@linux.ibm.com
->     <mailto:stefanb@linux.ibm.com>>
-> 
-> 
-> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com 
-> <mailto:marcandre.lureau@redhat.com>>
+> I don't understand how it backward compatible with older qemu version. Old
+> QEMU won't set the extra bit you introduced in this series, and all the
+> guest created with old QEMU will become untrusted on CPUID leaf 0x80000008 ?
 
+Correct, on old qemu firmware will not trust CPUID leaf 0x80000008.
+That is not worse than the situation we have today, currently the
+firmware never trusts CPUID leaf 0x80000008.
 
-Thanks. I had to rebase and modify it a bit now that the PR with the 
-_WIN32 changes is merged and will post a v2 soon. Any comments on 2/2?
+So the patches will improves the situation for new qemu only, but I
+don't see a way around that.
 
-    Stefan
+take care,
+  Gerd
+
 
