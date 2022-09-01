@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 826C05A8E7C
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 08:45:00 +0200 (CEST)
-Received: from localhost ([::1]:33422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BC345A8EC9
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 08:53:29 +0200 (CEST)
+Received: from localhost ([::1]:52428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTdwe-0003Sy-Hb
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 02:44:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60078)
+	id 1oTe4s-0006Oe-Sf
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 02:53:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oTdtY-0001Lb-Ba; Thu, 01 Sep 2022 02:41:45 -0400
-Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:43601)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oTdtV-0001mB-Iy; Thu, 01 Sep 2022 02:41:43 -0400
-Received: by mail-yb1-xb2a.google.com with SMTP id 193so7288119ybc.10;
- Wed, 31 Aug 2022 23:41:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=1xP9W3TZ6nt51E2Dw5QHwVWjoSYRyXk0jiej3TnUfhU=;
- b=JoA4DlRk+BEDgqlD9dlTQ7swsR7+QTmvS2dITa4RsBx8B2Qbi4Lwz99Algu1f9ZxP8
- KRCcBFUiX4lqu66vrf8M5jP+FEuN/fl5BkPiy85qdM5ZXT54ggxcmKVfwRX2o18og4p/
- fpAKb1I7SGGIZHBgQ6kCu051uKJmJqZBJ71He1JphMNAGqqVz0PRSRt2GbMjtpJcJwof
- tm8pv/ne9xIIXTaLLhC+hdAEapAsx0xVnBfvAeTbEn42uVPLv4VlPFdO6+pOSHs52utf
- x/yFg/UvnR2pjsFNme7XrHxierCH4r1CzUgQ3w8HUAf9LZ2ZbOvAWfHBSyzASQT5W4of
- /QEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=1xP9W3TZ6nt51E2Dw5QHwVWjoSYRyXk0jiej3TnUfhU=;
- b=BwoDUK2DIwun8MU+WNLPkjBStN0jkfKjVQJzxNcBHi18qPF0k+o8PMIGauhpZlfJUa
- goyOfMsoEt1fXfgNZG/PdsshCblzRdRNITX0vUHvbKJrR2mYo+Me3kL0l8V5cxwOmGxa
- EnKdh4xW37n/vhLKD+4UCq8VtQ55XmqP9sG5Q+arFJcyJy+sMl/x/c99jV082Rx7umnW
- Xk0NJsbpZjMb/u9SFDU998+LQlWp5ZZ537VJilkfgKmeWzTfpoJKh+V9aTOEcOXKc+tC
- h/ZgK0xsTC9ygp4pEb4hqL1YULkuNMqIWoBnuNJDbhyBGqIQFGiHTVEP+vZXbNagxTH5
- Np5g==
-X-Gm-Message-State: ACgBeo14R25BW/LaJnTtrVls2V8Psnhn9nwnkMRn0yKWXmxUTokCssC9
- NenYcawRSWr4JFD6qnRyV0mdiqX4Omy8IdrurF0=
-X-Google-Smtp-Source: AA6agR4/Ehho9wTmNO5Z5nsLI/sePbR+UOZkemXR/CjukHa9zBrS0RDWex89tQZZxtEh8/eegiHyVZJL3TYaSYtojKQ=
-X-Received: by 2002:a05:6902:10c3:b0:69a:ae8:1600 with SMTP id
- w3-20020a05690210c300b0069a0ae81600mr15708351ybu.227.1662014500048; Wed, 31
- Aug 2022 23:41:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oTdyw-0003r2-10
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:47:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30506)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oTdyt-0002Ws-6y
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 02:47:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662014834;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jrEzREL90shy6AawylVcm82jSUz9UMrvvIXZZ5UbWPo=;
+ b=OtVxG7aK56cL6GKgOVcha9Odc4IpAgxffq5d8W9JLcLDeWwZnhJnPGq1fBpUQzP3EpsUVu
+ 77YIScKvirV6OctOu+VYbXtH03/AJ2kebjx8vUfTfEZJPkMU4cQSuWCVU9X1glDmI171DO
+ TQv4eY7I9FljoCfXePIFMX1Rr06DLtE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-510-ZL_c75_AOmaQ-UWpElcr7g-1; Thu, 01 Sep 2022 02:47:09 -0400
+X-MC-Unique: ZL_c75_AOmaQ-UWpElcr7g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6E648811E80;
+ Thu,  1 Sep 2022 06:47:09 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 438692166B26;
+ Thu,  1 Sep 2022 06:47:09 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0DDD121E6900; Thu,  1 Sep 2022 08:47:08 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Dongli Zhang <dongli.zhang@oracle.com>
+Cc: Markus Armbruster <armbru@redhat.com>,  qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org,  dgilbert@redhat.com,  joe.jin@oracle.com,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 1/1] monitor/hmp: print trace as option in help for
+ log command
+References: <20220829170316.3053-1-dongli.zhang@oracle.com>
+ <87mtbmhu0o.fsf@pond.sub.org>
+ <774cddc6-d2d6-a936-0beb-249d3e5877c2@oracle.com>
+Date: Thu, 01 Sep 2022 08:47:08 +0200
+In-Reply-To: <774cddc6-d2d6-a936-0beb-249d3e5877c2@oracle.com> (Dongli Zhang's
+ message of "Wed, 31 Aug 2022 13:05:34 -0700")
+Message-ID: <87pmgf4mmr.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-4-bmeng.cn@gmail.com>
- <CAJ+F1CJAb-jz8=4hwDhpUQbbtXj_SoW44TwOmuH8MQWagbrD5Q@mail.gmail.com>
-In-Reply-To: <CAJ+F1CJAb-jz8=4hwDhpUQbbtXj_SoW44TwOmuH8MQWagbrD5Q@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 1 Sep 2022 14:41:28 +0800
-Message-ID: <CAEUhbmV5dpCiKMtrDfYR7PEZGF9dVaTd1um3PY2AkF3A1cVARQ@mail.gmail.com>
-Subject: Re: [PATCH 03/51] block: Unify the get_tmp_filename() implementation
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, 
- Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,40 +84,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Marc-Andr=C3=A9,
+Dongli Zhang <dongli.zhang@oracle.com> writes:
 
-On Wed, Aug 31, 2022 at 8:54 PM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
+> Hi Markus,
 >
-> Hi Bin
+> On 8/30/22 4:04 AM, Markus Armbruster wrote:
+>> Dongli Zhang <dongli.zhang@oracle.com> writes:
+>> 
+>>> The below is printed when printing help information in qemu-system-x86_64
+>>> command line, and when CONFIG_TRACE_LOG is enabled:
+>>>
+>>> $ qemu-system-x86_64 -d help
+>>> ... ...
+>>> trace:PATTERN   enable trace events
+>>>
+>>> Use "-d trace:help" to get a list of trace events.
+>>>
+>>> However, they are not printed in hmp "help log" command.
+>> 
+>> This leaves me guessing what exactly the patch tries to do.
 >
-> On Wed, Aug 24, 2022 at 1:42 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->>
->> From: Bin Meng <bin.meng@windriver.com>
->>
->> At present get_tmp_filename() has platform specific implementations
->> to get the directory to use for temporary files. Switch over to use
->> g_get_tmp_dir() which works on all supported platforms.
->>
+> I will clarify in the commit message.
 >
-> It "works" quite differently though. Is this patch really necessary here?
+>> 
+>>> Cc: Joe Jin <joe.jin@oracle.com>
+>>> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
+>>> ---
+>>> Changed since v1:
+>>> - change format for "none" as well.
+>>>
+>>>  monitor/hmp.c | 9 +++++++--
+>>>  1 file changed, 7 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/monitor/hmp.c b/monitor/hmp.c
+>>> index 15ca047..467fc84 100644
+>>> --- a/monitor/hmp.c
+>>> +++ b/monitor/hmp.c
+>>> @@ -285,10 +285,15 @@ void help_cmd(Monitor *mon, const char *name)
+>>>          if (!strcmp(name, "log")) {
+>>>              const QEMULogItem *item;
+>>>              monitor_printf(mon, "Log items (comma separated):\n");
+>>> -            monitor_printf(mon, "%-10s %s\n", "none", "remove all logs");
+>>> +            monitor_printf(mon, "%-15s %s\n", "none", "remove all logs");
+>>>              for (item = qemu_log_items; item->mask != 0; item++) {
+>>> -                monitor_printf(mon, "%-10s %s\n", item->name, item->help);
+>>> +                monitor_printf(mon, "%-15s %s\n", item->name, item->help);
+>>>              }
+>>> +#ifdef CONFIG_TRACE_LOG
+>>> +            monitor_printf(mon, "trace:PATTERN   enable trace events\n");
+>>> +            monitor_printf(mon, "\nUse \"info trace-events\" to get a list of "
+>>> +                                "trace events.\n\n");
+>> 
+>> Aha: it fixes help to show "log trace:PATTERN".  Was that forgotten in
+>> Paolo's commit c84ea00dc2 'log: add "-d trace:PATTERN"'?
+>
+> I will add the Fixes tag.
+>
+>> 
+>> "info trace-events", hmmm... it shows trace events and their state.
+>> "log trace:help" also lists them, less their state, and in opposite
+>> order.  Why do we need both?
 
-Without this patch the qtest cases builds on Windows do not have any
-problem. So it is optional. I put it in the same series as it has the
-same context of using hardcoded /tmp directory name.
+I guess we have both because we want an HMP command to show the state of
+trace events ("info trace-events"), and we want "-d trace" to provide
+help.
 
+The latter also lets HMP command "log trace" help, which feels less
+important to me, since "info trace-events" exists and is easier to find
+and significantly more usable than "log trace:help": it can filter its
+output, and unfiltered output is too long to be useful without something
+like grep.
+
+Could the two share more code?
+
+Hmm, there seems to be something wrong with "log trace:help": I see
+truncated output.  Moreover, output goes to stdout instead of the
+monitor.  That's wrong.  Any help you can also emit from the monitor
+should be printed with qemu_printf().
+
+> I will print "log trace:help" in the help output.
 >
-> If yes, please explain why.
+>> What about showing them in alphabetical order?
 >
-> If not, I suggest you drop optional / rfc / "nice to have" patches from t=
-he series. It will help to get it merged faster.
-
-I can drop this single patch and send another single patch if this is
-the desired practice.
-
+> The order is following how they are defined in the qemu_log_items[] array. To
+> re-order them in the array may introduce more conflicts when backporting a
+> util/log patch to QEMU old version.
 >
-> thanks
+> Please let me know if you prefer to re-order. Otherwise, I prefer to avoid that.
 
-Regards,
-Bin
+I'm talking about the output of "log trace:help", not the output of "log
+help".
+
+> Thank you very much for the suggestions!
+>
+> Dongli Zhang
+>
+>> 
+>>> +#endif
+>>>              return;
+>>>          }
+>> 
+
 
