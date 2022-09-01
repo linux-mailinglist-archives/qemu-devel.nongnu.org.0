@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D68B35A93C2
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 12:00:18 +0200 (CEST)
-Received: from localhost ([::1]:37812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B319C5A934A
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 11:36:51 +0200 (CEST)
+Received: from localhost ([::1]:54586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTgzh-0006Ul-HU
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 06:00:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48106)
+	id 1oTgd0-0004hv-KF
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 05:36:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1oTg2N-0000An-BB
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 04:58:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59665)
+ id 1oTg2M-00005c-7P
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 04:58:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59309)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1oTg2K-0004v1-MM
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 04:58:59 -0400
+ id 1oTg2K-0004uz-LR
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 04:58:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1662022736;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YANyqo6xdxA+F6kXPe4PkEPJmV3ClUHFmP63nYNfhkw=;
- b=a0dp8A6t38Q9yPHnV2P1EszTWMyqqVybiLCFFQrqDeRKGzkd0JeSfx8j44AaV9RJMkfOYR
- cFL0jJcEphjvJVm70XRsSNxxKDWq6D9RnEdorc13TisxzAXIs/3pDHqN4XE/XqDKWNwdse
- BybSEL+9Q5Tv3l9xI13/SQSTr0dBLQ8=
+ bh=oj3WR2rGEhQN1x4OkvkAOD3VlzclnmFFLLkN7bKDLvE=;
+ b=e1Q1kp7T9YMZMH8SHkWzSs/JC8YhWx0/jMHNSbMn/FMvTO0M4n7JXaaCM65UOZL47ttCSK
+ 5U/exmCS7v9hIQx06I8i1p/R6FB0XmqQC7SmuBkFEs8lqktN5UbVCo9Cm+Nd5CRZs3IQMF
+ zkUdg5C0r3dk4KkB1Oq8Pt48GihUX8c=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-339-LC9L10P2MGejZx3WK57RRQ-1; Thu, 01 Sep 2022 04:58:52 -0400
-X-MC-Unique: LC9L10P2MGejZx3WK57RRQ-1
+ us-mta-67-jaWm7qgGPnaiFX9QFON5DA-1; Thu, 01 Sep 2022 04:58:54 -0400
+X-MC-Unique: jaWm7qgGPnaiFX9QFON5DA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3FCDA101A56C;
- Thu,  1 Sep 2022 08:58:52 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27CAE101A54E;
+ Thu,  1 Sep 2022 08:58:54 +0000 (UTC)
 Received: from tapioca.redhat.com (unknown [10.40.192.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D0FB42026D4C;
- Thu,  1 Sep 2022 08:58:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AB0F92026D4C;
+ Thu,  1 Sep 2022 08:58:52 +0000 (UTC)
 From: Victor Toso <victortoso@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  John Snow <jsnow@redhat.com>, Michael Roth <michael.roth@amd.com>
-Subject: [PATCH v2 05/10] qapi: fix example of NIC_RX_FILTER_CHANGED event
-Date: Thu,  1 Sep 2022 10:58:35 +0200
-Message-Id: <20220901085840.22520-6-victortoso@redhat.com>
+Subject: [PATCH v2 06/10] qapi: fix example of DEVICE_UNPLUG_GUEST_ERROR event
+Date: Thu,  1 Sep 2022 10:58:36 +0200
+Message-Id: <20220901085840.22520-7-victortoso@redhat.com>
 In-Reply-To: <20220901085840.22520-1-victortoso@redhat.com>
 References: <20220901085840.22520-1-victortoso@redhat.com>
 MIME-Version: 1.0
@@ -80,28 +80,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Example output has an extra ending curly bracket. Fix it.
+Example output is missing a ',' delimiter and it has an extra ending
+curly bracket. Fix it.
 
 Problem was noticed when trying to load the example into python's json
 library.
 
 Signed-off-by: Victor Toso <victortoso@redhat.com>
 ---
- qapi/net.json | 1 -
- 1 file changed, 1 deletion(-)
+ qapi/qdev.json | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/qapi/net.json b/qapi/net.json
-index 75ba2cb989..dd088c09c5 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -757,7 +757,6 @@
- #      "data": { "name": "vnet0",
- #                "path": "/machine/peripheral/vnet0/virtio-backend" },
- #      "timestamp": { "seconds": 1368697518, "microseconds": 326866 } }
--#    }
+diff --git a/qapi/qdev.json b/qapi/qdev.json
+index 26cd10106b..2708fb4e99 100644
+--- a/qapi/qdev.json
++++ b/qapi/qdev.json
+@@ -150,10 +150,9 @@
+ #
+ # Example:
+ #
+-# <- { "event": "DEVICE_UNPLUG_GUEST_ERROR"
++# <- { "event": "DEVICE_UNPLUG_GUEST_ERROR",
+ #      "data": { "device": "core1",
+ #                "path": "/machine/peripheral/core1" },
+-#      },
+ #      "timestamp": { "seconds": 1615570772, "microseconds": 202844 } }
  #
  ##
- { 'event': 'NIC_RX_FILTER_CHANGED',
 -- 
 2.37.2
 
