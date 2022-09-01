@@ -2,73 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71A415A8A4C
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 03:10:24 +0200 (CEST)
-Received: from localhost ([::1]:44494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E4E85A8B3A
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 04:11:15 +0200 (CEST)
+Received: from localhost ([::1]:47700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTYit-0006tr-IS
-	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 21:10:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60972)
+	id 1oTZfl-00080H-I7
+	for lists+qemu-devel@lfdr.de; Wed, 31 Aug 2022 22:11:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
- id 1oTYhG-0005Th-DW
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 21:08:42 -0400
-Received: from mga02.intel.com ([134.134.136.20]:49829)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1oTZcL-00052e-7S; Wed, 31 Aug 2022 22:07:41 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:60837
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
- id 1oTYhD-0005a7-Cq
- for qemu-devel@nongnu.org; Wed, 31 Aug 2022 21:08:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1661994519; x=1693530519;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=aojVv+XSTqhDgF8/vlnyZQEcqWgIZIwkZ6kORwQzSgY=;
- b=nGIaxAn3qjwaBwhy/HVYnIv1MD3CVibDakA78NCEVjSk0YpLoQYj/8vu
- UGmK7pbBx1bwvMQKIVh8vv1PWjt4riC/ieLNwSDYsAl8IpZXn5qfJb1aD
- pK6HIRIyhetb24Xw6egLcf52B6NhXriajqtB/1LZWyGxuZYlkcfrV0q8X
- RWmpQq1NXEUAjvTj4twXKKG5pqQ9VtyFTOysmzC1ewxnpjm9vRX2L99sr
- 2TX4oBv5EXnn3tSUOv31GelXBa+Hfax/sRSUonsZKpXv1JMFB0zdXSedJ
- 7yZRk00XQbx/qYRcWSqMTotgWu9qnVBnh5Q7fM2ZtS9FiHD1pAwUTr4QI Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10456"; a="282564455"
-X-IronPort-AV: E=Sophos;i="5.93,279,1654585200"; d="scan'208";a="282564455"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2022 18:08:37 -0700
-X-IronPort-AV: E=Sophos;i="5.93,279,1654585200"; d="scan'208";a="673610814"
-Received: from leiwang7-mobl.ccr.corp.intel.com (HELO [10.238.4.77])
- ([10.238.4.77])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2022 18:08:35 -0700
-Message-ID: <d865b7f4-b3bc-9f24-a697-6ff830637133@intel.com>
-Date: Thu, 1 Sep 2022 09:08:33 +0800
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1oTZcH-0005IN-0F; Wed, 31 Aug 2022 22:07:40 -0400
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4MJ4Dp6k0wz4x3w; Thu,  1 Sep 2022 12:07:22 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1661998042;
+ bh=8uDD+feLaTRA04btp3PnSgp+c55t24L+5v9qZF7x9yU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=frge8dg4heU1f270dniLyforUJnwd0WC69srvHJNVD7PriDL/pGqRlH21iRtKfuzG
+ 63ryOMVmILfRf1UelJ1YXcHew4ygoxDQ6h+1El7NmKIxX3Q9stvnS35FB/NJwu2F6O
+ hIU7GcS/tyfpYJkQ1cBckr63YYW9iwKglrQ6HjnA=
+Date: Thu, 1 Sep 2022 11:57:53 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org,
+ alistair.francis@wdc.com,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-ppc@nongnu.org
+Subject: Re: [PATCH for-7.2 v2 10/20] hw/ppc: set machine->fdt in spapr machine
+Message-ID: <YxARoSLvGnLcGl3M@yekko>
+References: <20220805093948.82561-1-danielhb413@gmail.com>
+ <20220805093948.82561-11-danielhb413@gmail.com>
+ <99485a63-f799-2741-8006-f4167c985e54@ozlabs.ru>
+ <f2c2e6f9-0da4-443d-55cd-c214e710d0f7@gmail.com>
+ <YwLyhvijapVkpgjr@yekko>
+ <708e6776-5589-15ab-535a-69c5d6d5f0d0@ozlabs.ru>
+ <95685b0a-42e1-b791-f3fb-a462e2b3ae6f@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.13.0
-Subject: Re: [Qemu-devel] [RFC PATCH] Add qemu .clang-format
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <1443720628-16512-1-git-send-email-marcandre.lureau@redhat.com>
- <9cb1a173-c703-1787-90e1-4668710b323b@intel.com>
- <Yw8gpOzspxrcE8rE@redhat.com>
- <6f4292c6-5f85-f3c7-7b65-e5a59dd71dbc@intel.com>
- <Yw86WjTzwNcALfVJ@redhat.com>
-From: "Wang, Lei" <lei4.wang@intel.com>
-In-Reply-To: <Yw86WjTzwNcALfVJ@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: permerror client-ip=134.134.136.20;
- envelope-from=lei4.wang@intel.com; helo=mga02.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="/KQKxgycMnT6FydI"
+Content-Disposition: inline
+In-Reply-To: <95685b0a-42e1-b791-f3fb-a462e2b3ae6f@gmail.com>
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,93 +71,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/31/2022 6:39 PM, Daniel P. Berrangé wrote:
-> On Wed, Aug 31, 2022 at 05:18:34PM +0800, Wang, Lei wrote:
->>
->>
->> On 8/31/2022 4:49 PM, Daniel P. Berrangé wrote:
->>> On Wed, Aug 31, 2022 at 02:23:51PM +0800, Wang, Lei wrote:
->>>>
->>>> On 10/2/2015 1:30 AM, marcandre.lureau@redhat.com wrote:
->>>>> From: Marc-André Lureau <marcandre.lureau@redhat.com>
->>>>>
->>>>> clang-format is awesome to reflow your code according to qemu coding
->>>>> style in an editor (in the region you modify).
->>>>>
->>>>> (note: clang-tidy should be able to add missing braces around
->>>>> statements, but I haven't tried it, it's quite recent)
->>>>>
->>>>> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
->>>>> ---
->>>>>     .clang-format | 6 ++++++
->>>>>     1 file changed, 6 insertions(+)
->>>>>     create mode 100644 .clang-format
->>>>>
->>>>> diff --git a/.clang-format b/.clang-format
->>>>> new file mode 100644
->>>>> index 0000000..6422547
->>>>> --- /dev/null
->>>>> +++ b/.clang-format
->>>>> @@ -0,0 +1,6 @@
->>>>> +BasedOnStyle: LLVM
->>>>> +IndentWidth: 4
->>>>> +UseTab: Never
->>>>> +BreakBeforeBraces: Linux
->>>>> +AllowShortIfStatementsOnASingleLine: false
->>>>> +IndentCaseLabels: false
->>>>
->>>> Hi, any progress on this? I also found a gist on GitHub which can be a
->>>> reference: https://gist.github.com/elmarco/aa5e0b23567f46fb7f0e73cde586a0c1
->>>
->>> clang-format is a great tool and I'd highly recommend its use on
->>> any newly started projects, and even retrospectively on existing
->>> projects which are small scale. Adding it to large existing projects
->>> is problematic though.
->>>
->>> None of the QEMU code complies with it today and indeed there is
->>> quite a bit of style variance across different parts of QEMU. If
->>> we add this config file, and someone makes a 1 line change in a
->>> file, clang-format will reformat the entire file contents.
->>>
->>> The only practical way to introduce use of clang-format would be
->>> to do a bulk reformat of the entire codebase. That is something
->>> that is quite disruptive to both people with patches they're
->>> working on but not submitted yet, as well as people wanting to
->>> cherry-pick new commits back to old code branches.
->>>
->>> With regards,
->>> Daniel
->>
->> I think the benefits of introducing clang-format mainly for its ability to
->> format a code range, which means for any future contributions, we could
->> encourage a range format before the patch is generated. This can extensively
->> simplify my workflow, especially because I use the Neovim + LSP combination,
->> which supports a built-in function "lua vim.lsp.buf.range_formatting()".
-> 
-> IMHO partial format conversions are even worse than full conversions,
-> because they would make code inconsistent within the scope of a file.
 
-So you mean when we're adding new code in an old file, the coding style 
-should also be the old one? That sounds a bit unreasonable. I thought we 
-are shifting the coding style in an on-demand way, so we can finally 
-achieve to the new style mildly, if each time we're using the old coding 
-style, that could be impossible.
+--/KQKxgycMnT6FydI
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->> I have no interest in reformatting the existing code and also think using it
->> to reformat an entire file shouldn't be encouraged, but, we can leverage
->> this tool to give future contributions a better experience. It's also
->> important to note that the kernel already has a ".clang-format" file, so I
->> think we can give it a try:)
-> 
-> The mere action of introducing a .clang-format file in the root of the
-> repository will cause some contributors' editors to automatically
-> reformat files every time they are saved. IOW even if you don't want
-> intend to do reformatting, that will be a net result.
-> 
-> With regards,
-> Daniel
+On Mon, Aug 22, 2022 at 07:30:36AM -0300, Daniel Henrique Barboza wrote:
+>=20
+>=20
+> On 8/22/22 00:29, Alexey Kardashevskiy wrote:
+> >=20
+> >=20
+> > On 22/08/2022 13:05, David Gibson wrote:
+> > > On Fri, Aug 19, 2022 at 06:42:34AM -0300, Daniel Henrique Barboza wro=
+te:
+> > > >=20
+> > > >=20
+> > > > On 8/18/22 23:11, Alexey Kardashevskiy wrote:
+> > > > >=20
+> > > > >=20
+> > > > > On 05/08/2022 19:39, Daniel Henrique Barboza wrote:
+> > > > > > The pSeries machine never bothered with the common machine->fdt
+> > > > > > attribute. We do all the FDT related work using spapr->fdt_blob.
+> > > > > >=20
+> > > > > > We're going to introduce HMP commands to read and save the FDT,=
+ which
+> > > > > > will rely on setting machine->fdt properly to work across all m=
+achine
+> > > > > > archs/types.
+> > > > >=20
+> > > > >=20
+> > > > > Out of curiosity - why new HMP command, is not QOM'ing this ms::f=
+dt property enough?
+> > > >=20
+> > > > I tried to do the minimal changes needed for the commands to work. =
+ms::fdt is
+> > > > one of the few MachineState fields that hasn't been QOMified by
+> > > > machine_class_init() yet. All pre-existing code that uses ms::fdt a=
+re using the
+> > > > pointer directly. To make a QOMified use of it would require extra =
+patches
+> > > > in machine.c to QOMify the property first.
+> > > >=20
+> > > > There's also the issue with how each machine is creating the FDT. M=
+ost are using
+> > > > helpers from device_tree.c, some are creating it from scratch, othe=
+rs required
+> > > > a .dtb file, most of them are not doing a fdt_pack() and so on. To =
+really QOMify
+> > > > the use of ms::fdt we would need some machine hooks that standardiz=
+e all that.
+> > > > I believe it's worth the trouble, but it would be too much to do
+> > > > right now.
+> > >=20
+> > > Hmm.. I think this depends on what you mean by "QOM"ify exactly.=A0 If
+> > > you're meaning make the full DT representation QOM objects, that you
+> > > can look into in detail, then, yes, that's pretty complicated.
+> > >=20
+> > > I suspect what Alexey was suggesting though, was merely to make
+> > > ms::fdt accessible as a single bytestring property on the machine QOM
+> > > object.=A0 Effectively it's just "dumpdtb" but as a property get.
+> >=20
+> >=20
+> > Yes, I meant the bytestream, as DTC can easily decompile it onto a DTS.
+> >=20
+> >=20
+> > > I'm not 100% certain if QOM can safely represent arbitrary bytestrings
+> > > as QOM properties, which would need checking.
+> >=20
+> > I am not sure either but rather than adding another command to HMP, I'd=
+ explore this option first.
+>=20
+>=20
+> I'm not sure what you mean by that. The HMP version of 'dumpdtb' is more =
+flexible
+> that the current "-machine dumpdtb", an extra machine option that would c=
+ause
+> the guest to exit after writing the dtb. And 'info fdt' is a new command =
+that
+> makes it easier to inspect specific nodes/props.
+>=20
+> I don't see how making ms::fdt being retrievable by object_property_get()=
+ internally
+> (remember that ms::fdt it's not fully QOMified, so there's no introspecti=
+on of its
+> value from the QEMU monitor) would make any of these new HMP commands obs=
+olete.
 
-I think that depends on developer's configuration, as far as I know, 
-format on save is a feature which can be easily disabled on most of the 
-IDE's, such as VSCode.
+I believe what we were thinking is if the dtb (as a single bytestring) can =
+be
+retrieved with a qom-get on a suitable property on the machine, that
+might make things marginally simpler than adding a new command.  I'm
+not certain if the JSON format of the QMP responses can safely encode
+an arbitrary bytestring, though (as opoosed to a Unicode string).
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--/KQKxgycMnT6FydI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmMQEZkACgkQgypY4gEw
+YSINaQ//TnbWJaKbz3wGUAyrP6XUY1iaOigB4UU5WeY1XznQpxeXyT9xtgsIUMRx
+itvgpnbtJNOclDQFLMh+8vKGCNEcAurcwHYS3eD9uaT+snpJZ7EQ5OU2sKfr46t8
+xqbIdQQx5TlaIDPlL/oLuPIwC8Q1AaYj8G0mDSHvP9fFlr6XHXqyH2aTkP1+oywJ
+WW9yXpiYXyrwZwSkDfSOoIQKAn7AA5Kl4hfFJ9o6IsH2nUlDRKvCSbwfSRbpfBU8
+FLGuG63UcvC61GfDtpYeLhdtjINyuDvq+oDpqrIjXTQU7OkxasZ55T0uvQb3Kpbt
+Kd2h7G0vkxrUHavnR1O6SJm5s5LL0+JG6ybAUJcgB4wZ4V8+lP/K6WN0DY7kuZjP
+fv5qfRGzZL4r6OwroAavFz+61OXLNRLfuwsPUeFymhJQHsj08VlLDsmPmCTtRJsw
+7eG/f0BQkyZqYoOUcHMbf9cYQ+79qJRjGiZ1Qng2VGIG3jFIfPq2rv508Fx34aQy
+5oKcekbPmO/b2wMqCZ2WQmmHjAVmhRFmw5CERBSYhq/lY4t0xPF3y/PRymzFKMgV
+/TeF8kb3273cmnfoh9En8qxZoJ44AftcToG+e2stw0mnZFoUpotZFS2PWwKqAMqG
+3ZwgkxVjgaOj4ZZsWBzXUyhMZp5pXvSDTtwQYWN61w0rBQ+RKYY=
+=O8e1
+-----END PGP SIGNATURE-----
+
+--/KQKxgycMnT6FydI--
 
