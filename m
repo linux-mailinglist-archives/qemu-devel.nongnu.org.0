@@ -2,63 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84E885A9E47
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 19:41:16 +0200 (CEST)
-Received: from localhost ([::1]:54346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CA3F5A9EAB
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Sep 2022 20:11:11 +0200 (CEST)
+Received: from localhost ([::1]:52354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oToBi-0000zH-PS
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 13:41:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35534)
+	id 1oToeh-0004gS-Vn
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 14:11:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1oTnuM-0000Ze-IG
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 13:23:15 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:56559
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1oTnuI-0003AN-B2
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 13:23:14 -0400
-HMM_SOURCE_IP: 172.18.0.218:57590.1734067809
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-171.223.99.60 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id AE2732800E1;
- Fri,  2 Sep 2022 01:23:05 +0800 (CST)
-X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
-Received: from  ([172.18.0.218])
- by app0025 with ESMTP id a20a0101ac804cff9186c7f816ce7d6b for
- qemu-devel@nongnu.org; Fri, 02 Sep 2022 01:23:08 CST
-X-Transaction-ID: a20a0101ac804cff9186c7f816ce7d6b
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.218
-X-MEDUSA-Status: 0
-From: huangy81@chinatelecom.cn
-To: qemu-devel <qemu-devel@nongnu.org>
-Cc: Peter Xu <peterx@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- =?UTF-8?q?Hyman=20Huang=28=E9=BB=84=E5=8B=87=29?= <huangy81@chinatelecom.cn>
-Subject: [PATCH v1 8/8] tests/migration: Introduce dirty-limit into guestperf
-Date: Fri,  2 Sep 2022 01:22:36 +0800
-Message-Id: <1b363679f9f2b15df7739c565256b7e7d176f881.1662052189.git.huangy81@chinatelecom.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1662052189.git.huangy81@chinatelecom.cn>
-References: <cover.1662052189.git.huangy81@chinatelecom.cn>
-In-Reply-To: <cover.1662052189.git.huangy81@chinatelecom.cn>
-References: <cover.1662052189.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oTocc-00030Z-Cj
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:08:58 -0400
+Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29]:41845)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oTocY-0005a1-KP
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 14:08:57 -0400
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-12243fcaa67so10888223fac.8
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 11:08:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=wz2zghdb0WuP0w8zos30IZXlygDKXBqFShLT7myYizM=;
+ b=TEgjI5o9PyBuoUumAWRjMANkO56SesWA2mUSmH68O4+nysquC8YDI2Zn6QFhTkn7Xl
+ 9/mRdlmpkWt5UmtsnikBEfCtmG6jF0V9akHQuHBHMp9BYdJvoquJi3zkLLox0odm8LLs
+ +bCyC7xh21eRIzHAyj11tNWPOjVkqB3VzSrnicazpjNPqzWNjEnoynbKD0wJdE29bLT4
+ haG/nJHp96T5TKJvdGJNgO1KikeSUoOVA/Ma4oLNt8Kb+dwql/nEOP1ui2Q643oKFf3E
+ TM1FsFjbxhcAEPXlq00vL/jyPWSqefj9p7Ny8P4SOROTkRv7qaRG52SzX9KOK2mx3t0z
+ xlxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=wz2zghdb0WuP0w8zos30IZXlygDKXBqFShLT7myYizM=;
+ b=pVS0AkbepsKN0pAholcIZhWhv+3sT+r0RrPQjn8ixMnNtORJR+30nRtYsn1PJ/dNzL
+ 4NmYxHvI/Ti9n1240hdB6j9BeUj0EH3mcK1NF3TmTGiBoSKQSX1ye/czGOBmoPp3n0DD
+ 98jGSAtdIvwW2QcpmbmERZ0uAnfYFYIg9oSma+gzL/wdstmjrcDsY4+m/s//tXwRA6jF
+ S7NxVJVnyaRFlpwnrJ5TYWJkFqkFtrXOSbodkrOAGucguKWoaaUap/84U+DiBkZG0feA
+ b8nk8EpClCPXjpx0p9OTDmdim+CKU33+ekEOtQbYEN9GK8LNpPP0ejvj8FlME32UUOci
+ lkAw==
+X-Gm-Message-State: ACgBeo2A4wMKIuskmXDgdE6HAXrLaKMkj8GgzRPgWNSYoXnDK0222Coy
+ 3WVzzTWylREhlBGXcSo68MI=
+X-Google-Smtp-Source: AA6agR7S7/CAvM//iJ7VcpsJcOnRa7toLPIQT2Ohpwmpttydn+4oVC+C620z3z0D0btl3lmjRz4/PQ==
+X-Received: by 2002:a05:6870:a90f:b0:11e:949a:e3ef with SMTP id
+ eq15-20020a056870a90f00b0011e949ae3efmr236022oab.106.1662055733070; 
+ Thu, 01 Sep 2022 11:08:53 -0700 (PDT)
+Received: from [192.168.10.102] (200-207-147-180.dsl.telesp.net.br.
+ [200.207.147.180]) by smtp.gmail.com with ESMTPSA id
+ d23-20020a056830139700b00639443424f8sm10670861otq.8.2022.09.01.11.08.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 01 Sep 2022 11:08:52 -0700 (PDT)
+Message-ID: <c8393f90-1718-a2be-213b-2dcec6af7ed9@gmail.com>
+Date: Thu, 1 Sep 2022 15:08:47 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.223;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: QEMU 7.2 release schedule
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: michael.roth@amd.com, richard.henderson@linaro.org,
+ peter.maydell@linaro.org
+References: <Yw59JU3ja/EU3HL6@fedora>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <Yw59JU3ja/EU3HL6@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::29;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x29.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,228 +96,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Guestperf tool does not cover the dirty-limit migration
-currently, support this feature.
 
-To enable dirty-limit, setting x-vcpu-dirty-limit-period
-as 500ms and x-vcpu-dirty-limit as 10MB/s:
-$ ./tests/migration/guestperf.py \
-    --dirty-limit --x-vcpu-dirty-limit-period 500 \
-    --x-vcpu-dirty-limit 10 --output output.json \
+On 8/30/22 18:12, Stefan Hajnoczi wrote:
+> Hi,
+> Richard Henderson has tagged QEMU 7.1 and handed over to me for the 7.2
+> release cycle. Thanks to Richard and Michael Roth their work on 7.1!
 
-To run the entire standardized set of dirty-limit-enabled
-comparisons, with unix migration:
-$ ./tests/migration/guestperf-batch.py \
-    --dst-host localhost --transport unix \
-    --filter compr-dirty-limit* --output outputdir
+Are you going to handle the pull requests for this release cycle? I saw
+that you've handled Thomas' PRs.
 
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
----
- tests/migration/guestperf/comparison.py | 24 ++++++++++++++++++++++++
- tests/migration/guestperf/engine.py     | 26 ++++++++++++++++++++++++++
- tests/migration/guestperf/progress.py   | 17 +++++++++++++++--
- tests/migration/guestperf/scenario.py   | 11 ++++++++++-
- tests/migration/guestperf/shell.py      | 18 +++++++++++++++++-
- 5 files changed, 92 insertions(+), 4 deletions(-)
+If that's the case I'll CC you in the PRs instead of Peter/Richard.
 
-diff --git a/tests/migration/guestperf/comparison.py b/tests/migration/guestperf/comparison.py
-index c03b3f6..d082a54 100644
---- a/tests/migration/guestperf/comparison.py
-+++ b/tests/migration/guestperf/comparison.py
-@@ -135,4 +135,28 @@ def __init__(self, name, scenarios):
-         Scenario("compr-multifd-channels-64",
-                  multifd=True, multifd_channels=64),
-     ]),
-+
-+
-+    # Looking at effect of dirty-limit with
-+    # varying x_vcpu_dirty_limit_period
-+    Comparison("compr-dirty-limit-period", scenarios = [
-+        Scenario("compr-dirty-limit-period-100",
-+                 dirty_limit=True, x_vcpu_dirty_limit_period=100),
-+        Scenario("compr-dirty-limit-period-500",
-+                 dirty_limit=True, x_vcpu_dirty_limit_period=500),
-+        Scenario("compr-dirty-limit-period-1000",
-+                 dirty_limit=True, x_vcpu_dirty_limit_period=1000),
-+    ]),
-+
-+
-+    # Looking at effect of dirty-limit with
-+    # varying x_vcpu_dirty_limit
-+    Comparison("compr-dirty-limit", scenarios = [
-+        Scenario("compr-dirty-limit-10MB",
-+                 dirty_limit=True, x_vcpu_dirty_limit=10),
-+        Scenario("compr-dirty-limit-20MB",
-+                 dirty_limit=True, x_vcpu_dirty_limit=20),
-+        Scenario("compr-dirty-limit-50MB",
-+                 dirty_limit=True, x_vcpu_dirty_limit=50),
-+    ]),
- ]
-diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
-index 2b98f00..c6b9bb1 100644
---- a/tests/migration/guestperf/engine.py
-+++ b/tests/migration/guestperf/engine.py
-@@ -103,6 +103,8 @@ def _migrate_progress(self, vm):
-             info.get("expected-downtime", 0),
-             info.get("setup-time", 0),
-             info.get("cpu-throttle-percentage", 0),
-+            info.get("dirty-limit-throttle-us-per-full", 0),
-+            info.get("dirty-limit-us-ring-full", 0),
-         )
- 
-     def _migrate(self, hardware, scenario, src, dst, connect_uri):
-@@ -204,6 +206,30 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
-             resp = dst.command("migrate-set-parameters",
-                                multifd_channels=scenario._multifd_channels)
- 
-+        if scenario._dirty_limit:
-+            if not hardware._dirty_ring_size:
-+                raise Exception("dirty ring size must be configured when "
-+                                "testing dirty limit migration")
-+
-+            resp = src.command("migrate-set-capabilities",
-+                               capabilities = [
-+                                   { "capability": "dirty-limit",
-+                                     "state": True }
-+                               ])
-+            resp = src.command("migrate-set-parameters",
-+                x_vcpu_dirty_limit_period=scenario._x_vcpu_dirty_limit_period)
-+            resp = src.command("migrate-set-parameters",
-+                               x_vcpu_dirty_limit=scenario._x_vcpu_dirty_limit)
-+            resp = dst.command("migrate-set-capabilities",
-+                               capabilities = [
-+                                   { "capability": "dirty-limit",
-+                                     "state": True }
-+                               ])
-+            resp = dst.command("migrate-set-parameters",
-+                x_vcpu_dirty_limit_period=scenario._x_vcpu_dirty_limit_period)
-+            resp = dst.command("migrate-set-parameters",
-+                               x_vcpu_dirty_limit=scenario._x_vcpu_dirty_limit)
-+
-         resp = src.command("migrate", uri=connect_uri)
- 
-         post_copy = False
-diff --git a/tests/migration/guestperf/progress.py b/tests/migration/guestperf/progress.py
-index ab1ee57..dd5d86b 100644
---- a/tests/migration/guestperf/progress.py
-+++ b/tests/migration/guestperf/progress.py
-@@ -81,7 +81,9 @@ def __init__(self,
-                  downtime,
-                  downtime_expected,
-                  setup_time,
--                 throttle_pcent):
-+                 throttle_pcent,
-+                 dirty_limit_throttle_us_per_full,
-+                 dirty_limit_us_ring_full):
- 
-         self._status = status
-         self._ram = ram
-@@ -91,6 +93,11 @@ def __init__(self,
-         self._downtime_expected = downtime_expected
-         self._setup_time = setup_time
-         self._throttle_pcent = throttle_pcent
-+        self._dirty_limit_throttle_us_per_full =
-+            dirty_limit_throttle_us_per_full
-+        self._dirty_limit_us_ring_full =
-+            dirty_limit_us_ring_full
-+
- 
-     def serialize(self):
-         return {
-@@ -102,6 +109,10 @@ def serialize(self):
-             "downtime_expected": self._downtime_expected,
-             "setup_time": self._setup_time,
-             "throttle_pcent": self._throttle_pcent,
-+            "dirty_limit_throttle_time_per_full":
-+                self._dirty_limit_throttle_us_per_full,
-+            "dirty_limit_ring_full_time":
-+                self._dirty_limit_us_ring_full,
-         }
- 
-     @classmethod
-@@ -114,4 +125,6 @@ def deserialize(cls, data):
-             data["downtime"],
-             data["downtime_expected"],
-             data["setup_time"],
--            data["throttle_pcent"])
-+            data["throttle_pcent"],
-+            data["dirty_limit_throttle_time_per_full"],
-+            data["dirty_limit_ring_full_time"])
-diff --git a/tests/migration/guestperf/scenario.py b/tests/migration/guestperf/scenario.py
-index de70d9b..22aacb3 100644
---- a/tests/migration/guestperf/scenario.py
-+++ b/tests/migration/guestperf/scenario.py
-@@ -30,7 +30,9 @@ def __init__(self, name,
-                  auto_converge=False, auto_converge_step=10,
-                  compression_mt=False, compression_mt_threads=1,
-                  compression_xbzrle=False, compression_xbzrle_cache=10,
--                 multifd=False, multifd_channels=2):
-+                 multifd=False, multifd_channels=2,
-+                 dirty_limit=False, x_vcpu_dirty_limit_period=500,
-+                 x_vcpu_dirty_limit=1):
- 
-         self._name = name
- 
-@@ -60,6 +62,10 @@ def __init__(self, name,
-         self._multifd = multifd
-         self._multifd_channels = multifd_channels
- 
-+        self._dirty_limit = dirty_limit
-+        self._x_vcpu_dirty_limit_period = x_vcpu_dirty_limit_period
-+        self._x_vcpu_dirty_limit = x_vcpu_dirty_limit
-+
-     def serialize(self):
-         return {
-             "name": self._name,
-@@ -79,6 +85,9 @@ def serialize(self):
-             "compression_xbzrle_cache": self._compression_xbzrle_cache,
-             "multifd": self._multifd,
-             "multifd_channels": self._multifd_channels,
-+            "dirty_limit": self._dirty_limit,
-+            "x_vcpu_dirty_limit_period": self._x_vcpu_dirty_limit_period,
-+            "x_vcpu_dirty_limit": self._x_vcpu_dirty_limit,
-         }
- 
-     @classmethod
-diff --git a/tests/migration/guestperf/shell.py b/tests/migration/guestperf/shell.py
-index 559616f..c51e9a6 100644
---- a/tests/migration/guestperf/shell.py
-+++ b/tests/migration/guestperf/shell.py
-@@ -132,6 +132,17 @@ def __init__(self):
-         parser.add_argument("--multifd-channels", dest="multifd_channels",
-                             default=2, type=int)
- 
-+        parser.add_argument("--dirty-limit", dest="dirty_limit", default=False,
-+                            action="store_true")
-+
-+        parser.add_argument("--x-vcpu-dirty-limit-period",
-+                            dest="x_vcpu_dirty_limit_period",
-+                            default=500, type=int)
-+
-+        parser.add_argument("--x-vcpu-dirty-limit",
-+                            dest="x_vcpu_dirty_limit",
-+                            default=1, type=int)
-+
-     def get_scenario(self, args):
-         return Scenario(name="perfreport",
-                         downtime=args.downtime,
-@@ -155,7 +166,12 @@ def get_scenario(self, args):
-                         compression_xbzrle_cache=args.compression_xbzrle_cache,
- 
-                         multifd=args.multifd,
--                        multifd_channels=args.multifd_channels)
-+                        multifd_channels=args.multifd_channels,
-+
-+                        dirty_limit=args.dirty_limit,
-+                        x_vcpu_dirty_limit_period=
-+                            args.x_vcpu_dirty_limit_period,
-+                        x_vcpu_dirty_limit=args.x_vcpu_dirty_limit)
- 
-     def run(self, argv):
-         args = self._parser.parse_args(argv)
--- 
-1.8.3.1
 
+Thanks,
+
+
+Daniel
+
+> 
+> Please check the proposed release schedule and let me know if they fall
+> on inconvenient dates:
+> - 2022-08-30: Beginning of development phase
+> - 2022-11-1: Soft feature freeze. Only bug fixes after this point. All feature changes must be already in a sub maintainer tree and all pull requests from submaintainers must have been sent to the list by this date.
+> - 2022-11-8: Hard feature freeze. Tag rc0
+> - 2022-11-15: Tag rc1
+> - 2022-11-22: Tag rc2
+> - 2022-11-29: Tag rc3
+> - 2022-12-06: Release; or tag rc4 if needed
+> - 2022-12-13: Release if we needed an rc4
+> 
+> The release planning page is now available on the wiki:
+> https://wiki.qemu.org/Planning/7.2
+> 
+> The changelog has been created so you can add items when code is merged:
+> https://wiki.qemu.org/ChangeLog/7.2
+> 
+> Stefan
 
