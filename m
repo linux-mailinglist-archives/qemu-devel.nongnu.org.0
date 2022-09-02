@@ -2,79 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F0D5AB5B2
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 17:52:22 +0200 (CEST)
-Received: from localhost ([::1]:39590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C26E5AB62D
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 18:08:14 +0200 (CEST)
+Received: from localhost ([::1]:39800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU8xx-0004k9-4A
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 11:52:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49964)
+	id 1oU9DJ-0005im-3v
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 12:08:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oU8vL-0002ja-Uk
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 11:49:39 -0400
-Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:34441)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oU95K-0007nm-CV
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 11:59:58 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:45942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oU8vI-0007MP-Cq
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 11:49:39 -0400
-Received: by mail-qk1-x730.google.com with SMTP id m5so2041478qkk.1
- for <qemu-devel@nongnu.org>; Fri, 02 Sep 2022 08:49:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oU95H-0000fj-Nx
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 11:59:56 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ h13-20020a17090a648d00b001fdb9003787so2522394pjj.4
+ for <qemu-devel@nongnu.org>; Fri, 02 Sep 2022 08:59:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=amnN1P1Cu8nN3WR2Ka5JQTQwWSKWuHxD1lVoIdFTdy0=;
- b=ISLBlERL+dpocHmmLsVCk/ucW1IaNQp1WzD0llteEQjr1aPyU9XkToggJizk9PWcpl
- 1bkzim524ftwx9IPrahs6mq6z3R+VImMF5GcT8+NEk3ov8sZ9AnN0mA2v/4H1mpdZc77
- aU8AF84lXDOQyc1KKyCC3TAAsJHOj1Fvi1l3v0kp4LtlT106zQgk13YiEDij3+TU4CvH
- vLj3NKsNJdBK4djheY3HuV/3rYLKtmADgQ2njX2L67CA7XDDeoUvRPckGnC4nqmzZbtc
- ve9KfBv5+8wGzGarcOhswtjaqn5PxrIcQXm9S9EI5u53SgJycbqIC00m1xBPK93ACwB3
- 4hYQ==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc:subject:date;
+ bh=VvCI+kGxhBNK7aOhLDDVk5Z7vlnsvsKtELD1SoaeQWk=;
+ b=K6qCRy1kmRByunv9FTAO9ToqYWHX1R6QvIrSNVnVexaWgX5O6zmebn1iPi3GlFrNDL
+ ltY35KmVBE5263G70deOY2fpkB/Mo/ml/bp/S2oGlLxzKRW6JuUE3977OYYfTVGgZkED
+ mM8cUelEnwcNfm943vbkFiH9RL8y+jJ5J2iAob6aAlvtt725FsNVkieTxQgKaB/TKi/t
+ R1VIUP2u7la7o18+sYxziAfYVaILT3dICaFU5Anp9o62GBWriUdoHo3+nBEXbnZ/6IiG
+ j1tqo3bVFar0xqL0bUkuh7RjH3x7cHH6I6vvPyVnDruZqqytBz4eTYSZng+yV3S+LkQn
+ WYpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=amnN1P1Cu8nN3WR2Ka5JQTQwWSKWuHxD1lVoIdFTdy0=;
- b=vjGr30pv/1NILfljo/oTdQPt+DAQfRDx2bj9yzWlf21R0OcrKtbuIk6fYvWhhYWBhO
- oTYuaBZmCz9lXMpDSaT2t5jmpxJx4VkZ0MF8jSjF4LFyknjYcSDHMYC0wjvzRwJ9JELU
- 5Av1pRYQFg1+NqU6hRyJp5dPFIUyNM9njlhKcPRoG4LAqO87BEgSk6a4EMWXWPuN5ry6
- QbekvRAMv6c0Ts7VKnwgm2Xky4P/lG/iDa+i/Zqb2jlsAI4HVy6L8wTdyhWFgkbl66Tw
- zia1tn4uA08B2dQj/tkoPWTNsAojIWrmupDUb4a1hUbLKdFeihz1iaGRanfcDaKpdheG
- RO0A==
-X-Gm-Message-State: ACgBeo3+igL6yv/e02i9S7PV7OaacsWP/zn6dwgXDbeU/3N3kCkxWdqG
- 7MUr/DM0enlu40NOc0yDwUYi1js2jdYgFJgBYHU=
-X-Google-Smtp-Source: AA6agR59j3LS4+uU7GmAM3urAoJjQQx5qbqmVH8dIr2Jmsr+eD8ybr22addMp2zjQ/xH07SZKISPd26e8xwUaUuFK+g=
-X-Received: by 2002:a05:620a:56b:b0:6bc:58c2:657d with SMTP id
- p11-20020a05620a056b00b006bc58c2657dmr23451142qkp.94.1662133775420; Fri, 02
- Sep 2022 08:49:35 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc:subject:date;
+ bh=VvCI+kGxhBNK7aOhLDDVk5Z7vlnsvsKtELD1SoaeQWk=;
+ b=McwNacdpXraN6f6i1nebpIqTDEb1lRwgLiwR7UkCFTLKxAP+jInAk75PO6FlOl2Nl0
+ aJKk1IS1LwBLE2r75Y5XDWmWZ3VxiO33LysIzrFhMXddEzKHRtOaHVPHs3/ll5dL5tHL
+ pIgaATrgH8zyDgE4pS5TECaMd/GO1TzL1pGYo9Kw//UZan2sg0icRB3pCkbDL92Ku1kt
+ 6bPwzMoiHJoTG4zpgCpY2PUhAIhvTxUfvOJXHh1Ey4Vz6AlvxhWJblQsWtoXOZGcwx40
+ BbemX2/6H8UnZj4FdUorZ0T413pfF7OqI+qWyUKRDdn2wfvrR7B6EpRkdcIxE90O/7YK
+ nWZg==
+X-Gm-Message-State: ACgBeo3ixF+BFbKyin77nTEfNoU6uu8qBEduUnT/qM0JzzhNed42aV+x
+ y9jXC5BF5tZ0+joTMLfPx2A=
+X-Google-Smtp-Source: AA6agR7M/N7wYo/XypS629y5QMe9BVJBN6O+a/ZtuPWxUClfnfps1ey75K0hSwPSlDXdHPs7LGobew==
+X-Received: by 2002:a17:90b:1bc2:b0:1fe:1ad3:4a81 with SMTP id
+ oa2-20020a17090b1bc200b001fe1ad34a81mr5409606pjb.61.1662134394266; 
+ Fri, 02 Sep 2022 08:59:54 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ s13-20020a17090aad8d00b001fdcfe9a731sm1625438pjq.50.2022.09.02.08.59.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 02 Sep 2022 08:59:53 -0700 (PDT)
+Message-ID: <501033a0-a09a-e5fa-a1f9-b29587e2a32a@amsat.org>
+Date: Fri, 2 Sep 2022 17:59:45 +0200
 MIME-Version: 1.0
-References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-30-bmeng.cn@gmail.com>
- <CAJ+F1C+q2OO2sN2GUFxMVJcdW9PF0wJxCkBTCSX0vCMHT=8Agw@mail.gmail.com>
-In-Reply-To: <CAJ+F1C+q2OO2sN2GUFxMVJcdW9PF0wJxCkBTCSX0vCMHT=8Agw@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 2 Sep 2022 23:49:24 +0800
-Message-ID: <CAEUhbmXpX66BWp-rUqD4y6eQfjkzTherwUbt6KjyuQbgp=11AA@mail.gmail.com>
-Subject: Re: [PATCH 29/51] tests/qtest: libqtest: Install signal handler via
- signal()
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, 
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.0
+Subject: Re: [PATCH] qtest/fuzz-lsi53c895a-test: set guest RAM to 2G
+Content-Language: en-US
+To: Mauro Matteo Cascella <mcascell@redhat.com>, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, bmeng.cn@gmail.com, alxndr@bu.edu,
  Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x730.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+References: <20220902133853.834065-1-mcascell@redhat.com>
+In-Reply-To: <20220902133853.834065-1-mcascell@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,83 +94,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Wed, Aug 31, 2022 at 10:16 PM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
->
-> Hi
->
-> On Wed, Aug 24, 2022 at 2:47 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->>
->> From: Bin Meng <bin.meng@windriver.com>
->>
->> At present the codes uses sigaction() to install signal handler with
->> a flag SA_RESETHAND. Such usage can be covered by the signal() API
->> that is a simplified interface to the general sigaction() facility.
->>
->> Update to use signal() to install the signal handler, as it is
->> avaiable on Windows which we are going to support.
->>
->> Signed-off-by: Bin Meng <bin.meng@windriver.com>
->> ---
->>
->>  tests/qtest/libqtest.c | 14 +++-----------
->>  1 file changed, 3 insertions(+), 11 deletions(-)
->>
->> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
->> index 1b24a4f1f7..70d7578740 100644
->> --- a/tests/qtest/libqtest.c
->> +++ b/tests/qtest/libqtest.c
->> @@ -68,7 +68,7 @@ struct QTestState
->>  QTestState *global_qtest;
->>
->>  static GHookList abrt_hooks;
->> -static struct sigaction sigact_old;
->> +static sighandler_t sighandler_old;
->>
->>  static int qtest_query_target_endianness(QTestState *s);
->>
->> @@ -181,20 +181,12 @@ static void sigabrt_handler(int signo)
->>
->>  static void setup_sigabrt_handler(void)
->>  {
->> -    struct sigaction sigact;
->> -
->> -    /* Catch SIGABRT to clean up on g_assert() failure */
->> -    sigact =3D (struct sigaction){
->> -        .sa_handler =3D sigabrt_handler,
->> -        .sa_flags =3D SA_RESETHAND,
->> -    };
->> -    sigemptyset(&sigact.sa_mask);
->> -    sigaction(SIGABRT, &sigact, &sigact_old);
->> +    sighandler_old =3D signal(SIGABRT, sigabrt_handler);
->>  }
->>
->>  static void cleanup_sigabrt_handler(void)
->>  {
->> -    sigaction(SIGABRT, &sigact_old, NULL);
->> +    signal(SIGABRT, sighandler_old);
->>  }
->>
->>  static bool hook_list_is_empty(GHookList *hook_list)
->> --
->
->
->
-> We should keep the sigaction() version for !WIN32, it has notoriously les=
-s issues, more modern etc. signal() only on win32.
->
-> Although in this particular usage, I don't think that makes much differen=
-ce...
+On 2/9/22 15:38, Mauro Matteo Cascella wrote:
+> test_lsi_do_msgout_cancel_req does not run on machines with small size
+> memory. Reduce guest memory from 4G to 2G to alleviate the problem.
+> 
+> Reported-by: Bin Meng <bmeng.cn@gmail.com>
+> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
+> ---
+>   tests/qtest/fuzz-lsi53c895a-test.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-Yes, as I mentioned in the commit message, the codes uses sigaction()
-to install signal handler with a flag SA_RESETHAND, and such can be
-replaced by the signal() API.
-
-It is still a supported API in POSIX so we should be safe to use it to
-simplify the code paths. Unless you are strongly against this?
-
-Regards,
-Bin
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
