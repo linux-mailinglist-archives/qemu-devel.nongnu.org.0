@@ -2,70 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04AC45AAEAE
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 14:27:50 +0200 (CEST)
-Received: from localhost ([::1]:41788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 567CA5AAF50
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 14:36:37 +0200 (CEST)
+Received: from localhost ([::1]:59844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU5m0-0002sK-Pr
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 08:27:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33600)
+	id 1oU5uW-0008FL-3h
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 08:36:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oU5j5-0008VE-F4
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 08:24:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26646)
+ (Exim 4.90_1) (envelope-from <kirill.shutemov@linux.intel.com>)
+ id 1oU5oa-0004A6-CS
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 08:30:28 -0400
+Received: from mga02.intel.com ([134.134.136.20]:50739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oU5iu-00076X-CC
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 08:24:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662121475;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fagiu3S6Uxv6Yz7PML1jQ3HeI43WY5afgWElyarQ7gg=;
- b=cTVCLnN4GWzytdmmzkhZCxXz+92MWtF4/c3OZ0/xyUA6SWHNuRZSvBNrfPfu8AtRBR7f94
- KrpmDWVZ6p4E36F+UMZwnQEZs9YLg8zI5ZzzZA2CMOmWrP72ZwZ2vovyoQwzBXXeUE963f
- 6mxR176x7hF1Efgmx7NE/zn7XgwATN4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-590-LPe-5qJHNpuVRQ5g2FXfHw-1; Fri, 02 Sep 2022 08:24:32 -0400
-X-MC-Unique: LPe-5qJHNpuVRQ5g2FXfHw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C0443811E81;
- Fri,  2 Sep 2022 12:24:31 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9417B492CA2;
- Fri,  2 Sep 2022 12:24:31 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5097021E6900; Fri,  2 Sep 2022 14:24:30 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Dongli Zhang <dongli.zhang@oracle.com>
-Cc: qemu-devel@nongnu.org,  qemu-trivial@nongnu.org,  dgilbert@redhat.com,
- armbru@redhat.com,  joe.jin@oracle.com
-Subject: Re: [PATCH v3 1/1] monitor/hmp: print trace as option in help for
- log command
-References: <20220831213943.8155-1-dongli.zhang@oracle.com>
-Date: Fri, 02 Sep 2022 14:24:30 +0200
-In-Reply-To: <20220831213943.8155-1-dongli.zhang@oracle.com> (Dongli Zhang's
- message of "Wed, 31 Aug 2022 14:39:43 -0700")
-Message-ID: <87h71qrmkh.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <kirill.shutemov@linux.intel.com>)
+ id 1oU5oY-0008PQ-Ix
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 08:30:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662121826; x=1693657826;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=fDpXS+mwMN4S7KTgnVwvjs5feZwWXlXraJAIEBzDX2M=;
+ b=TQc1lOiRuo8B4URpP8uuP9G5F5+8OINUlGwCJx4HK0DHwPO0oDbkrWf6
+ 8Di4qzQQEY4TC0stpO9uU3eBQZtZfWm60YLg2JbJh0QPvigh/z646tg2w
+ 3RVJHlnCKKS+onKAf4tv8fEtLHY0zttJkUdQy/HtDZVsINbufFK1FXO5K
+ mDgs+BAfdUmVqOeTikvVNTxvk0+/6x0Up5ducMRTQdkqxWczed3186LN8
+ UY1ootLw5qa9HMVBDLVvDmiktg5GK9baCjIO/sTcSHoa2y6ujOiU3GKAS
+ HwKGGRk0nqN4/nWBjdn0uAlBG02rePcZYkMfF6UUudFc1xbGfo9U44g69 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10457"; a="282955862"
+X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="282955862"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2022 05:30:23 -0700
+X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="674338766"
+Received: from azmijews-mobl2.ger.corp.intel.com (HELO box.shutemov.name)
+ ([10.252.45.129])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2022 05:30:12 -0700
+Received: by box.shutemov.name (Postfix, from userid 1000)
+ id 5AC6D10484B; Fri,  2 Sep 2022 15:30:10 +0300 (+03)
+Date: Fri, 2 Sep 2022 15:30:10 +0300
+From: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Hugh Dickins <hughd@google.com>,
+ "Kirill A. Shutemov" <kirill@shutemov.name>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>,
+ "Gupta, Pankaj" <pankaj.gupta@amd.com>,
+ Elena Reshetova <elena.reshetova@intel.com>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <20220902123010.zfyv6apmo3v67a2i@box.shutemov.name>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
+ <20220818132421.6xmjqduempmxnnu2@box>
+ <c6ccbb96-5849-2e2f-3b49-4ea711af525d@google.com>
+ <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
+ <c194262b-b634-4baf-abf0-dc727e8f1d7@google.com>
+ <20220831142439.65q2gi4g2d2z4ofh@box.shutemov.name>
+ <20220902102757.GB1712673@chaop.bj.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220902102757.GB1712673@chaop.bj.intel.com>
+Received-SPF: none client-ip=134.134.136.20;
+ envelope-from=kirill.shutemov@linux.intel.com; helo=mga02.intel.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,72 +112,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dongli Zhang <dongli.zhang@oracle.com> writes:
+On Fri, Sep 02, 2022 at 06:27:57PM +0800, Chao Peng wrote:
+> > +	if (flags & MFD_INACCESSIBLE) {
+> > +		struct file *inaccessible_file;
+> > +
+> > +		inaccessible_file = memfd_mkinaccessible(file);
+> > +		if (IS_ERR(inaccessible_file)) {
+> > +			error = PTR_ERR(inaccessible_file);
+> > +			goto err_file;
+> > +		}
+> 
+> The new file should alse be marked as O_LARGEFILE otherwise setting the
+> initial size greater than 2^31 on the fd will be refused by ftruncate().
+> 
+> +               inaccessible_file->f_flags |= O_LARGEFILE;
+> +
 
-> The below is printed when printing help information in qemu-system-x86_64
-> command line, and when CONFIG_TRACE_LOG is enabled:
->
-> ----------------------------
-> $ qemu-system-x86_64 -d help
-> ... ...
-> trace:PATTERN   enable trace events
->
-> Use "-d trace:help" to get a list of trace events.
-> ----------------------------
->
-> However, the options of "trace:PATTERN" are only printed by
-> "qemu-system-x86_64 -d help", but missing in hmp "help log" command.
->
-> Fixes: c84ea00dc2 ("log: add "-d trace:PATTERN"")
-> Cc: Joe Jin <joe.jin@oracle.com>
-> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
-> ---
-> Changed since v1:
-> - change format for "none" as well.
-> Changed since v2:
-> - use "log trace:help" in help message.
-> - add more clarification in commit message.
-> - add 'Fixes' tag.
-> ---
->  monitor/hmp.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/monitor/hmp.c b/monitor/hmp.c
-> index 15ca04735c..a3375d0341 100644
-> --- a/monitor/hmp.c
-> +++ b/monitor/hmp.c
-> @@ -285,10 +285,15 @@ void help_cmd(Monitor *mon, const char *name)
->          if (!strcmp(name, "log")) {
->              const QEMULogItem *item;
->              monitor_printf(mon, "Log items (comma separated):\n");
-> -            monitor_printf(mon, "%-10s %s\n", "none", "remove all logs");
-> +            monitor_printf(mon, "%-15s %s\n", "none", "remove all logs");
->              for (item = qemu_log_items; item->mask != 0; item++) {
-> -                monitor_printf(mon, "%-10s %s\n", item->name, item->help);
-> +                monitor_printf(mon, "%-15s %s\n", item->name, item->help);
->              }
-> +#ifdef CONFIG_TRACE_LOG
-> +            monitor_printf(mon, "trace:PATTERN   enable trace events\n");
-> +            monitor_printf(mon, "\nUse \"log trace:help\" to get a list of "
-> +                           "trace events.\n\n");
-> +#endif
->              return;
->          }
+Good catch. Thanks.
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+I will modify memfd_mkinaccessible() to do this.
 
-Not this patch's fault:
-
-1. "-d help" terminates with exit status 1, "-d trace:help" with 0.  The
-   former is wrong.
-
-2. HMP "log trace:help" prints to stdout instead of the current monitor.
-
-3. Output of HMP "log trace:help" sometimes is truncated for me.
-
-4. Output of "log trace:help" and "info trace-events" is unwieldy.
-   Sorted output could be a bit less unwieldy.
-
-5. Could "log trace:help" and "info trace-events" share code?
-
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
 
