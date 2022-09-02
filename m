@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC92F5AA866
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 08:57:13 +0200 (CEST)
-Received: from localhost ([::1]:58602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DB4F5AA871
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 09:02:07 +0200 (CEST)
+Received: from localhost ([::1]:57492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU0c4-0002Gy-L9
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 02:57:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59952)
+	id 1oU0go-0008EI-B5
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 03:02:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oU0Ne-0007RH-89
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:42:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39152)
+ id 1oU0Nk-0007Tf-Mg
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:42:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51362)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oU0Nc-0004rl-NH
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:42:17 -0400
+ id 1oU0Nh-0004sW-A4
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:42:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662100936;
+ s=mimecast20190719; t=1662100940;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ez+pjZ5RN+UQVMXyW1wujNjESHc87Iu5UQTLDPMiMT0=;
- b=fCTBW7k1YiBbp/Jl0IXluU4+hBnACLY4ghqC4rWvAVFc6TAAzxKkmFZBI/3WEdaZWgH2r7
- PuMrhpkqjTcNxInnkIKTiihMjtrWOJXnfL1Ksou9boJfkRaoBJjrsaT09vp77hjnqMQwzf
- nlJF1danCQBgcPzkQ88jShVDTOJwgbY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=9saPVCh8T4IehUtQlv1O2OGfG92vvOC962JAEJaw0kg=;
+ b=QEcf8vl2Ln2Z6+XlUDsZFmxTvJ3bic7UBZwDO4OV/SAFojaYSc5uaWQnNHLPlhMRAmx5K8
+ TRNU3j8j3+ii9L9AsnzyDH13otW7QaBk+nQ4LRIZM5W5WSJD1RQnJKA0is3Nma34kZ9NcZ
+ 5cv4EQMpLP5kFVWx/nCNIrUsI1hhFXQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-112-Pqc0F6uIPRWTgb2olU5HZw-1; Fri, 02 Sep 2022 02:42:15 -0400
-X-MC-Unique: Pqc0F6uIPRWTgb2olU5HZw-1
+ us-mta-104-2nhEZQ5QPsiiR-Iun5PYAg-1; Fri, 02 Sep 2022 02:42:17 -0400
+X-MC-Unique: 2nhEZQ5QPsiiR-Iun5PYAg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B675B80C8F0;
- Fri,  2 Sep 2022 06:42:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 886AF2919EB3;
+ Fri,  2 Sep 2022 06:42:17 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-12-152.pek2.redhat.com
  [10.72.12.152])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9BBAA1410F3C;
- Fri,  2 Sep 2022 06:42:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E5481415137;
+ Fri,  2 Sep 2022 06:42:15 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
  Jason Wang <jasowang@redhat.com>
-Subject: [PULL 10/21] vhost: Delete useless read memory barrier
-Date: Fri,  2 Sep 2022 14:41:27 +0800
-Message-Id: <20220902064138.56468-11-jasowang@redhat.com>
+Subject: [PULL 11/21] vhost: Do not depend on !NULL VirtQueueElement on
+ vhost_svq_flush
+Date: Fri,  2 Sep 2022 14:41:28 +0800
+Message-Id: <20220902064138.56468-12-jasowang@redhat.com>
 In-Reply-To: <20220902064138.56468-1-jasowang@redhat.com>
 References: <20220902064138.56468-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -84,32 +85,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eugenio Pérez <eperezma@redhat.com>
 
-As discussed in previous series [1], this memory barrier is useless with
-the atomic read of used idx at vhost_svq_more_used. Deleting it.
-
-[1] https://lists.nongnu.org/archive/html/qemu-devel/2022-07/msg02616.html
+Since QEMU will be able to inject new elements on CVQ to restore the
+state, we need not to depend on a VirtQueueElement to know if a new
+element has been used by the device or not. Instead of check that, check
+if there are new elements only using used idx on vhost_svq_flush.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.c | 3 ---
- 1 file changed, 3 deletions(-)
+ hw/virtio/vhost-shadow-virtqueue.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index b35aeef..8df5296 100644
+index 8df5296..e8e5bbc 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.c
 +++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -509,9 +509,6 @@ size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
+@@ -499,17 +499,20 @@ static void vhost_svq_flush(VhostShadowVirtqueue *svq,
+ size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
+ {
+     int64_t start_us = g_get_monotonic_time();
++    uint32_t len;
++
+     do {
+-        uint32_t len;
+-        VirtQueueElement *elem = vhost_svq_get_buf(svq, &len);
+-        if (elem) {
+-            return len;
++        if (vhost_svq_more_used(svq)) {
++            break;
+         }
+ 
          if (unlikely(g_get_monotonic_time() - start_us > 10e6)) {
              return 0;
          }
--
--        /* Make sure we read new used_idx */
--        smp_rmb();
      } while (true);
++
++    vhost_svq_get_buf(svq, &len);
++    return len;
  }
  
+ /**
 -- 
 2.7.4
 
