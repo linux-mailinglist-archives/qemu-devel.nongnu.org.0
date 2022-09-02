@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C0A75AB182
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 15:35:58 +0200 (CEST)
-Received: from localhost ([::1]:33178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34C285AB157
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 15:23:45 +0200 (CEST)
+Received: from localhost ([::1]:56116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU6px-0003fF-ER
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 09:35:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58994)
+	id 1oU6e7-0003Qr-8p
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 09:23:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oU6VG-0006P1-Tx
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 09:14:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37782)
+ id 1oU6VK-0006Uh-4E
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 09:14:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44289)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oU6VF-0001xs-5s
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 09:14:34 -0400
+ id 1oU6VI-0001yt-F3
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 09:14:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662124472;
+ s=mimecast20190719; t=1662124475;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DKsQRbQJVekZAv9r8iJf3OczES+5LL6qa1RDJ5gL6Ys=;
- b=DJGpgXaKBoYhtOg1Qsy21XnNatkD+jlmE0lRCjnlQFbD1P841X4xIybLkYXapMzhF7To2R
- KZ2owfTmoaeNcm6+G70mQtM3CHWPfg4vkUXMlQkV9k35nk+92bG5zsD0cSo4+pNj5rojie
- Xe0L5VPZhkPddC/3a6H9T5p29bIZ8DY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=8QFjtBZt0DPnJQiiGJpxsGG8YEYGBM+M+39eZCCzJyU=;
+ b=YRNT7dDb8+RSga5WJqB3llt5ngWjpOnquZHvQ1a9HdxzPDPVVW0mAeG6jX+eqsbDdjW9FM
+ nzHg7Rwu9gbxq2CiWZ/wNc5J5hoYHhwXIOCMPPK3461PwkssR+hPBQBNdLLbO48j30lCwQ
+ uEjOkd/jvhRnXhf0Glp0aYGZlnELJrg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-135-FLQTqvp7OHq0pqW9O8Wvyg-1; Fri, 02 Sep 2022 09:14:29 -0400
-X-MC-Unique: FLQTqvp7OHq0pqW9O8Wvyg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-77-rwMFiuyBMkui6QgKSRsZWQ-1; Fri, 02 Sep 2022 09:14:33 -0400
+X-MC-Unique: rwMFiuyBMkui6QgKSRsZWQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0DFF92A2AD74;
- Fri,  2 Sep 2022 13:14:29 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 65A5485A58B;
+ Fri,  2 Sep 2022 13:14:33 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C7D151121314;
- Fri,  2 Sep 2022 13:14:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9E5462026D4C;
+ Fri,  2 Sep 2022 13:14:32 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
@@ -50,15 +50,16 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Stefan Weil <sw@weilnetz.de>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL 3/4] tests/unit: Update test-io-channel-socket.c for Windows
-Date: Fri,  2 Sep 2022 17:14:11 +0400
-Message-Id: <20220902131412.3125752-4-marcandre.lureau@redhat.com>
+Subject: [PULL 4/4] audio: exit(1) if audio backend failed to be found or
+ initialized
+Date: Fri,  2 Sep 2022 17:14:12 +0400
+Message-Id: <20220902131412.3125752-5-marcandre.lureau@redhat.com>
 In-Reply-To: <20220902131412.3125752-1-marcandre.lureau@redhat.com>
 References: <20220902131412.3125752-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -84,191 +85,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Change to dynamically include the test cases by checking AF_UNIX
-availability using a new helper socket_check_afunix_support().
-With such changes testing on a Windows host can be covered as well.
+If you specify a known backend but it isn't compiled in, or failed to
+initialize, you get a simple warning and the "none" backend as a
+fallback, and QEMU runs happily:
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220802075200.907360-5-bmeng.cn@gmail.com>
+$ qemu-system-x86_64 -audiodev id=audio,driver=dsound
+audio: Unknown audio driver `dsound'
+audio: warning: Using timer based audio emulation
+...
+
+Instead, QEMU should fail to start:
+$ qemu-system-x86_64 -audiodev id=audio,driver=dsound
+audio: Unknown audio driver `dsound'
+$
+
+Resolves:
+https://bugzilla.redhat.com/show_bug.cgi?id=1983493
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Volker Rümelin <vr_qemu@t-online.de>
+Message-Id: <20220822131021.975656-1-marcandre.lureau@redhat.com>
 ---
- tests/unit/socket-helpers.h         |  9 +++++++
- tests/unit/socket-helpers.c         | 16 +++++++++++++
- tests/unit/test-io-channel-socket.c | 37 ++++++++++++++++++-----------
- 3 files changed, 48 insertions(+), 14 deletions(-)
+ audio/audio.h |  2 +-
+ audio/audio.c | 14 +++++++++++---
+ softmmu/vl.c  |  4 +++-
+ 3 files changed, 15 insertions(+), 5 deletions(-)
 
-diff --git a/tests/unit/socket-helpers.h b/tests/unit/socket-helpers.h
-index 512a004811..ed8477ceb3 100644
---- a/tests/unit/socket-helpers.h
-+++ b/tests/unit/socket-helpers.h
-@@ -32,4 +32,13 @@
-  */
- int socket_check_protocol_support(bool *has_ipv4, bool *has_ipv6);
+diff --git a/audio/audio.h b/audio/audio.h
+index b5e17cd218..27e67079a0 100644
+--- a/audio/audio.h
++++ b/audio/audio.h
+@@ -170,7 +170,7 @@ void audio_sample_from_uint64(void *samples, int pos,
  
-+/*
-+ * @has_afunix: set to true on return if unix socket support is available
-+ *
-+ * Check whether unix domain socket support is available for use.
-+ * On success, @has_afunix will be set to indicate whether AF_UNIX protocol
-+ * is available.
-+ */
-+void socket_check_afunix_support(bool *has_afunix);
-+
- #endif
-diff --git a/tests/unit/socket-helpers.c b/tests/unit/socket-helpers.c
-index 5af4de513b..eecadf3a3c 100644
---- a/tests/unit/socket-helpers.c
-+++ b/tests/unit/socket-helpers.c
-@@ -154,3 +154,19 @@ int socket_check_protocol_support(bool *has_ipv4, bool *has_ipv6)
+ void audio_define(Audiodev *audio);
+ void audio_parse_option(const char *opt);
+-void audio_init_audiodevs(void);
++bool audio_init_audiodevs(void);
+ void audio_legacy_help(void);
  
-     return 0;
- }
-+
-+void socket_check_afunix_support(bool *has_afunix)
-+{
-+    int fd;
-+
-+    fd = socket(PF_UNIX, SOCK_STREAM, 0);
-+    closesocket(fd);
-+
-+#ifdef _WIN32
-+    *has_afunix = (fd != (int)INVALID_SOCKET);
-+#else
-+    *has_afunix = (fd >= 0);
-+#endif
-+
-+    return;
-+}
-diff --git a/tests/unit/test-io-channel-socket.c b/tests/unit/test-io-channel-socket.c
-index 6713886d02..b36a5d972a 100644
---- a/tests/unit/test-io-channel-socket.c
-+++ b/tests/unit/test-io-channel-socket.c
-@@ -179,10 +179,12 @@ static void test_io_channel(bool async,
-         test_io_channel_setup_async(listen_addr, connect_addr,
-                                     &srv, &src, &dst);
- 
-+#ifndef _WIN32
-         g_assert(!passFD ||
-                  qio_channel_has_feature(src, QIO_CHANNEL_FEATURE_FD_PASS));
-         g_assert(!passFD ||
-                  qio_channel_has_feature(dst, QIO_CHANNEL_FEATURE_FD_PASS));
-+#endif
-         g_assert(qio_channel_has_feature(src, QIO_CHANNEL_FEATURE_SHUTDOWN));
-         g_assert(qio_channel_has_feature(dst, QIO_CHANNEL_FEATURE_SHUTDOWN));
- 
-@@ -206,10 +208,12 @@ static void test_io_channel(bool async,
-         test_io_channel_setup_async(listen_addr, connect_addr,
-                                     &srv, &src, &dst);
- 
-+#ifndef _WIN32
-         g_assert(!passFD ||
-                  qio_channel_has_feature(src, QIO_CHANNEL_FEATURE_FD_PASS));
-         g_assert(!passFD ||
-                  qio_channel_has_feature(dst, QIO_CHANNEL_FEATURE_FD_PASS));
-+#endif
-         g_assert(qio_channel_has_feature(src, QIO_CHANNEL_FEATURE_SHUTDOWN));
-         g_assert(qio_channel_has_feature(dst, QIO_CHANNEL_FEATURE_SHUTDOWN));
- 
-@@ -236,10 +240,12 @@ static void test_io_channel(bool async,
-         test_io_channel_setup_sync(listen_addr, connect_addr,
-                                    &srv, &src, &dst);
- 
-+#ifndef _WIN32
-         g_assert(!passFD ||
-                  qio_channel_has_feature(src, QIO_CHANNEL_FEATURE_FD_PASS));
-         g_assert(!passFD ||
-                  qio_channel_has_feature(dst, QIO_CHANNEL_FEATURE_FD_PASS));
-+#endif
-         g_assert(qio_channel_has_feature(src, QIO_CHANNEL_FEATURE_SHUTDOWN));
-         g_assert(qio_channel_has_feature(dst, QIO_CHANNEL_FEATURE_SHUTDOWN));
- 
-@@ -263,10 +269,12 @@ static void test_io_channel(bool async,
-         test_io_channel_setup_sync(listen_addr, connect_addr,
-                                    &srv, &src, &dst);
- 
-+#ifndef _WIN32
-         g_assert(!passFD ||
-                  qio_channel_has_feature(src, QIO_CHANNEL_FEATURE_FD_PASS));
-         g_assert(!passFD ||
-                  qio_channel_has_feature(dst, QIO_CHANNEL_FEATURE_FD_PASS));
-+#endif
-         g_assert(qio_channel_has_feature(src, QIO_CHANNEL_FEATURE_SHUTDOWN));
-         g_assert(qio_channel_has_feature(dst, QIO_CHANNEL_FEATURE_SHUTDOWN));
- 
-@@ -367,7 +375,6 @@ static void test_io_channel_ipv6_async(void)
- }
- 
- 
--#ifndef _WIN32
- static void test_io_channel_unix(bool async)
- {
-     SocketAddress *listen_addr = g_new0(SocketAddress, 1);
-@@ -398,6 +405,7 @@ static void test_io_channel_unix_async(void)
-     return test_io_channel_unix(true);
- }
- 
-+#ifndef _WIN32
- static void test_io_channel_unix_fd_pass(void)
- {
-     SocketAddress *listen_addr = g_new0(SocketAddress, 1);
-@@ -491,6 +499,7 @@ static void test_io_channel_unix_fd_pass(void)
+ AudioState *audio_state_by_name(const char *name);
+diff --git a/audio/audio.c b/audio/audio.c
+index a02f3ce5c6..76b8735b44 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -1743,7 +1743,6 @@ static AudioState *audio_init(Audiodev *dev, const char *name)
+         atexit(audio_cleanup);
+         atexit_registered = true;
      }
-     g_free(fdrecv);
- }
-+#endif /* _WIN32 */
+-    QTAILQ_INSERT_TAIL(&audio_states, s, list);
  
- static void test_io_channel_unix_listen_cleanup(void)
- {
-@@ -522,9 +531,6 @@ static void test_io_channel_unix_listen_cleanup(void)
-     unlink(TEST_SOCKET);
- }
+     s->ts = timer_new_ns(QEMU_CLOCK_VIRTUAL, audio_timer, s);
  
--#endif /* _WIN32 */
--
--
- static void test_io_channel_ipv4_fd(void)
- {
-     QIOChannel *ioc;
-@@ -555,7 +561,7 @@ static void test_io_channel_ipv4_fd(void)
- 
- int main(int argc, char **argv)
- {
--    bool has_ipv4, has_ipv6;
-+    bool has_ipv4, has_ipv6, has_afunix;
- 
-     module_call_init(MODULE_INIT_QOM);
-     qemu_init_main_loop(&error_abort);
-@@ -588,16 +594,19 @@ int main(int argc, char **argv)
-                         test_io_channel_ipv6_async);
+@@ -1769,6 +1768,10 @@ static AudioState *audio_init(Audiodev *dev, const char *name)
+         } else {
+             dolog ("Unknown audio driver `%s'\n", drvname);
+         }
++        if (!done) {
++            free_audio_state(s);
++            return NULL;
++        }
+     } else {
+         for (i = 0; audio_prio_list[i]; i++) {
+             AudiodevListEntry *e = audiodev_find(&head, audio_prio_list[i]);
+@@ -1806,6 +1809,7 @@ static AudioState *audio_init(Audiodev *dev, const char *name)
+                "(Audio can continue looping even after stopping the VM)\n");
      }
  
-+    socket_check_afunix_support(&has_afunix);
-+    if (has_afunix) {
-+        g_test_add_func("/io/channel/socket/unix-sync",
-+                        test_io_channel_unix_sync);
-+        g_test_add_func("/io/channel/socket/unix-async",
-+                        test_io_channel_unix_async);
- #ifndef _WIN32
--    g_test_add_func("/io/channel/socket/unix-sync",
--                    test_io_channel_unix_sync);
--    g_test_add_func("/io/channel/socket/unix-async",
--                    test_io_channel_unix_async);
--    g_test_add_func("/io/channel/socket/unix-fd-pass",
--                    test_io_channel_unix_fd_pass);
--    g_test_add_func("/io/channel/socket/unix-listen-cleanup",
--                    test_io_channel_unix_listen_cleanup);
--#endif /* _WIN32 */
-+        g_test_add_func("/io/channel/socket/unix-fd-pass",
-+                        test_io_channel_unix_fd_pass);
-+#endif
-+        g_test_add_func("/io/channel/socket/unix-listen-cleanup",
-+                        test_io_channel_unix_listen_cleanup);
++    QTAILQ_INSERT_TAIL(&audio_states, s, list);
+     QLIST_INIT (&s->card_head);
+     vmstate_register (NULL, 0, &vmstate_audio, s);
+     return s;
+@@ -2119,13 +2123,17 @@ void audio_define(Audiodev *dev)
+     QSIMPLEQ_INSERT_TAIL(&audiodevs, e, next);
+ }
+ 
+-void audio_init_audiodevs(void)
++bool audio_init_audiodevs(void)
+ {
+     AudiodevListEntry *e;
+ 
+     QSIMPLEQ_FOREACH(e, &audiodevs, next) {
+-        audio_init(e->dev, NULL);
++        if (!audio_init(e->dev, NULL)) {
++            return false;
++        }
+     }
++
++    return true;
+ }
+ 
+ audsettings audiodev_to_audsettings(AudiodevPerDirectionOptions *pdo)
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 706bd7cff7..dea4005e47 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -1885,7 +1885,9 @@ static void qemu_create_early_backends(void)
+      * setting machine properties, so they can be referred to.
+      */
+     configure_blockdev(&bdo_queue, machine_class, snapshot);
+-    audio_init_audiodevs();
++    if (!audio_init_audiodevs()) {
++        exit(1);
 +    }
+ }
  
- end:
-     return g_test_run();
+ 
 -- 
 2.37.2
 
