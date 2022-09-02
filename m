@@ -2,101 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 567CA5AAF50
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 14:36:37 +0200 (CEST)
-Received: from localhost ([::1]:59844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FD935AB160
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 15:26:48 +0200 (CEST)
+Received: from localhost ([::1]:49636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU5uW-0008FL-3h
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 08:36:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52658)
+	id 1oU6h4-0000Cx-Rz
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 09:26:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kirill.shutemov@linux.intel.com>)
- id 1oU5oa-0004A6-CS
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 08:30:28 -0400
-Received: from mga02.intel.com ([134.134.136.20]:50739)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1oU6V6-0005yW-IQ
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 09:14:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48405)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kirill.shutemov@linux.intel.com>)
- id 1oU5oY-0008PQ-Ix
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 08:30:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662121826; x=1693657826;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=fDpXS+mwMN4S7KTgnVwvjs5feZwWXlXraJAIEBzDX2M=;
- b=TQc1lOiRuo8B4URpP8uuP9G5F5+8OINUlGwCJx4HK0DHwPO0oDbkrWf6
- 8Di4qzQQEY4TC0stpO9uU3eBQZtZfWm60YLg2JbJh0QPvigh/z646tg2w
- 3RVJHlnCKKS+onKAf4tv8fEtLHY0zttJkUdQy/HtDZVsINbufFK1FXO5K
- mDgs+BAfdUmVqOeTikvVNTxvk0+/6x0Up5ducMRTQdkqxWczed3186LN8
- UY1ootLw5qa9HMVBDLVvDmiktg5GK9baCjIO/sTcSHoa2y6ujOiU3GKAS
- HwKGGRk0nqN4/nWBjdn0uAlBG02rePcZYkMfF6UUudFc1xbGfo9U44g69 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10457"; a="282955862"
-X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="282955862"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2022 05:30:23 -0700
-X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="674338766"
-Received: from azmijews-mobl2.ger.corp.intel.com (HELO box.shutemov.name)
- ([10.252.45.129])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2022 05:30:12 -0700
-Received: by box.shutemov.name (Postfix, from userid 1000)
- id 5AC6D10484B; Fri,  2 Sep 2022 15:30:10 +0300 (+03)
-Date: Fri, 2 Sep 2022 15:30:10 +0300
-From: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: Hugh Dickins <hughd@google.com>,
- "Kirill A. Shutemov" <kirill@shutemov.name>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>,
- "Gupta, Pankaj" <pankaj.gupta@amd.com>,
- Elena Reshetova <elena.reshetova@intel.com>
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <20220902123010.zfyv6apmo3v67a2i@box.shutemov.name>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
- <20220818132421.6xmjqduempmxnnu2@box>
- <c6ccbb96-5849-2e2f-3b49-4ea711af525d@google.com>
- <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
- <c194262b-b634-4baf-abf0-dc727e8f1d7@google.com>
- <20220831142439.65q2gi4g2d2z4ofh@box.shutemov.name>
- <20220902102757.GB1712673@chaop.bj.intel.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1oU6V1-0001tf-Ns
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 09:14:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662124458;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=L3zxyTc06vgtopM8XlmJ8om0Ph+Q6fB/rA50wD7Ze5k=;
+ b=VwUbsabyXRBIRp+jQKEJVcgZ92Whog1ePiXU4K0e7YOqJnbVZKlhbHEzlIzgRe9z6KcYVI
+ Ki3Hk3754/9dCQvqVW7gdtgeQoudNAMNSQdL83/C8Dw0Egm8AM6YNMHkQAUA1gl9NfoSQC
+ PUv2PpKOEtgPx0TjozNusQXy40dlmYk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-561-aX87MSZUOwCCB7cSicyJgw-1; Fri, 02 Sep 2022 09:14:17 -0400
+X-MC-Unique: aX87MSZUOwCCB7cSicyJgw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1792F8037AE;
+ Fri,  2 Sep 2022 13:14:17 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8D9004011A37;
+ Fri,  2 Sep 2022 13:14:15 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ bin.meng@windriver.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PULL 0/4] chardev patches & a small audio fix
+Date: Fri,  2 Sep 2022 17:14:08 +0400
+Message-Id: <20220902131412.3125752-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220902102757.GB1712673@chaop.bj.intel.com>
-Received-SPF: none client-ip=134.134.136.20;
- envelope-from=kirill.shutemov@linux.intel.com; helo=mga02.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,26 +81,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 02, 2022 at 06:27:57PM +0800, Chao Peng wrote:
-> > +	if (flags & MFD_INACCESSIBLE) {
-> > +		struct file *inaccessible_file;
-> > +
-> > +		inaccessible_file = memfd_mkinaccessible(file);
-> > +		if (IS_ERR(inaccessible_file)) {
-> > +			error = PTR_ERR(inaccessible_file);
-> > +			goto err_file;
-> > +		}
-> 
-> The new file should alse be marked as O_LARGEFILE otherwise setting the
-> initial size greater than 2^31 on the fd will be refused by ftruncate().
-> 
-> +               inaccessible_file->f_flags |= O_LARGEFILE;
-> +
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Good catch. Thanks.
+The following changes since commit 93fac696d241dccb04ebb9d23da55fc1e9d8ee36:
 
-I will modify memfd_mkinaccessible() to do this.
+  Open 7.2 development tree (2022-08-30 09:40:41 -0700)
+
+are available in the Git repository at:
+
+  git@gitlab.com:marcandre.lureau/qemu.git tags/char-pull-request
+
+for you to fetch changes up to 0f957c53c84d655f2e99677d407cf2bbe1832de4:
+
+  audio: exit(1) if audio backend failed to be found or initialized (2022-09-02 15:54:47 +0400)
+
+----------------------------------------------------------------
+chardev patches & small audio fix
+
+----------------------------------------------------------------
+
+Bin Meng (3):
+  util/qemu-sockets: Enable unix socket support on Windows
+  chardev/char-socket: Update AF_UNIX for Windows
+  tests/unit: Update test-io-channel-socket.c for Windows
+
+Marc-André Lureau (1):
+  audio: exit(1) if audio backend failed to be found or initialized
+
+ meson.build                         |  3 +++
+ audio/audio.h                       |  2 +-
+ include/sysemu/os-win32.h           | 17 +++++++++++++
+ tests/unit/socket-helpers.h         |  9 +++++++
+ audio/audio.c                       | 14 ++++++++---
+ chardev/char-socket.c               |  4 ++--
+ softmmu/vl.c                        |  4 +++-
+ tests/unit/socket-helpers.c         | 16 +++++++++++++
+ tests/unit/test-io-channel-socket.c | 37 ++++++++++++++++++-----------
+ util/qemu-sockets.c                 | 25 -------------------
+ 10 files changed, 85 insertions(+), 46 deletions(-)
 
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+2.37.2
+
 
