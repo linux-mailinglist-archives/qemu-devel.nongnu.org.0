@@ -2,106 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7A8B5AA9AC
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 10:14:28 +0200 (CEST)
-Received: from localhost ([::1]:57554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37DA35AA9DD
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 10:23:43 +0200 (CEST)
+Received: from localhost ([::1]:34922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU1op-000707-M2
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 04:14:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49478)
+	id 1oU1xm-0005RC-BJ
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 04:23:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oU1Ws-0005qR-3E; Fri, 02 Sep 2022 03:55:54 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:62756)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oU1Yl-0000eE-L3
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 03:57:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43537)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oU1Wn-0002z7-M2; Fri, 02 Sep 2022 03:55:53 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2827VmqW012162;
- Fri, 2 Sep 2022 07:55:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=+IWiVjvMv3xCNsfnJjzrKOprtnCXnRUJuvZF+ft0qyU=;
- b=cUA6IkVqrYYi4Yk7F+rlAQei9plYMSrwGQv6GfO3Ot3FYcqHcY2ZeKx63RE1LHMTCs5m
- J4nQjTNe7ArKq2VKT20sRjlkw5skj5WwUvgI7QzOSyyBpLmlXV4eO2S6uVwz4C7V8uHZ
- OiHMQJ6OaIlDgS8BQarvhqRozER3FE62wpNwvGfFQLtsIRAUUbeVCd7hTiT5+tIk39UZ
- 1nR4ZRpBJPf5IvpNiypYJ/8BR7fjbaCORQq8VEOf+fpW2CekV7zwmXDGlDVgztpx+L5y
- 4lwB3YvzmlFWXuzKF0RAliwro7ZuXa/TJKT+y8nJAumcKNZ8YvA/Z6wi7YypG02k8Dy9 YA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jbbrnmuwn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Sep 2022 07:55:48 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2826UNRd025400;
- Fri, 2 Sep 2022 07:55:47 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jbbrnmuw5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Sep 2022 07:55:47 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2827pb9s027648;
- Fri, 2 Sep 2022 07:55:45 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma02fra.de.ibm.com with ESMTP id 3j7aw8wqwv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Sep 2022 07:55:45 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 2827u5F839387640
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 2 Sep 2022 07:56:05 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 69B7211C04A;
- Fri,  2 Sep 2022 07:55:42 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9A92111C04C;
- Fri,  2 Sep 2022 07:55:41 +0000 (GMT)
-Received: from li-c6ac47cc-293c-11b2-a85c-d421c8e4747b.ibm.com.com (unknown
- [9.171.69.137])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  2 Sep 2022 07:55:41 +0000 (GMT)
-From: Pierre Morel <pmorel@linux.ibm.com>
-To: qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com
-Subject: [PATCH v9 10/10] docs/s390x: document s390x cpu topology
-Date: Fri,  2 Sep 2022 09:55:31 +0200
-Message-Id: <20220902075531.188916-11-pmorel@linux.ibm.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220902075531.188916-1-pmorel@linux.ibm.com>
-References: <20220902075531.188916-1-pmorel@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oU1Yg-0003Jz-FO
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 03:57:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662105465;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=K+W0eqeoD+058EuwUl2pRQWzAsCezEJj/TW5l+FE4Ec=;
+ b=QDBmrwOrnqRia5Y7efVvn3fIzLBK+/f8fONhOGSaXNPidS3OgwQBLNS8qF7rWouXzhEddx
+ p6MinXY2O5H48Y+ZUJnuZyr9ZkKY2B+2Hes5xFVrMO/AZ4/Wjxi3hVkutKc9OlQMJRT1Jo
+ z7C25FVhgpV2oPmNamnk5X5nOKjho8I=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-317-IB8-FZBgNUujEpCk8iA-IA-1; Fri, 02 Sep 2022 03:57:43 -0400
+X-MC-Unique: IB8-FZBgNUujEpCk8iA-IA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 82CC785A585;
+ Fri,  2 Sep 2022 07:57:43 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C1FDC15BB3;
+ Fri,  2 Sep 2022 07:57:43 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id DB55C21E6900; Fri,  2 Sep 2022 09:57:41 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Wang, Lei" <lei4.wang@intel.com>
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH] qemu-config: extract same logic in *_add_opts() to
+ fill_config_groups()
+References: <20220902142028.1469716-1-lei4.wang@intel.com>
+Date: Fri, 02 Sep 2022 09:57:41 +0200
+In-Reply-To: <20220902142028.1469716-1-lei4.wang@intel.com> (Lei Wang's
+ message of "Fri, 2 Sep 2022 22:20:28 +0800")
+Message-ID: <87edwuxl6y.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: x2LUgSHHP-1QddOS7LzjJVLZZ2zVUwv7
-X-Proofpoint-ORIG-GUID: Ah9qK5dsGwHKrbKCyWIxcKLGrBtAVUsM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-09-01_12,2022-08-31_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- priorityscore=1501 lowpriorityscore=0 bulkscore=0 impostorscore=0
- mlxlogscore=999 phishscore=0 suspectscore=0 clxscore=1015 mlxscore=0
- spamscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2209020034
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,110 +81,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add some basic examples for the definition of cpu topology
-in s390x.
+Cc: Gerd & Kevin, because they were involved with the code that gets
+refactored here, and no good deed shall go unpunished.
 
-Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
----
- docs/system/s390x/cpu_topology.rst | 88 ++++++++++++++++++++++++++++++
- 1 file changed, 88 insertions(+)
- create mode 100644 docs/system/s390x/cpu_topology.rst
+"Wang, Lei" <lei4.wang@intel.com> writes:
 
-diff --git a/docs/system/s390x/cpu_topology.rst b/docs/system/s390x/cpu_topology.rst
-new file mode 100644
-index 0000000000..00977d4319
---- /dev/null
-+++ b/docs/system/s390x/cpu_topology.rst
-@@ -0,0 +1,88 @@
-+CPU Topology on s390x
-+=====================
-+
-+CPU Topology on S390x provides up to 4 levels of topology containers:
-+drawers, books, sockets and CPUs.
-+While the three higher level containers, Containers Topology List Entries,
-+(Containers TLE) define a tree hierarchy, the lowest level of topology
-+definition, the CPU Topology List Entry (CPU TLE), provides the placement
-+of the CPUs inside the last container.
-+
-+Prerequisites
-+-------------
-+
-+To use CPU Topology a Linux QEMU/KVM machine providing the CPU Topology facility
-+(STFLE bit 11) is required.
-+
-+However, since this facility has been enabled by default in an early version,
-+the capability ``KVM_CAP_S390_CPU_TOPOLOGY`` is needed to indicate to KVM
-+that QEMU support CPU Topology.
-+
-+Indicating the CPU topology to the Virtual Machine
-+--------------------------------------------------
-+
-+The CPU Topology, number of drawers, number of books per drawers, number of
-+sockets per book and number of cores per sockets is specified with the
-+``-smp`` qemu command arguments.
-+
-+Like in :
-+
-+.. code-block:: sh
-+    -smp cpus=1,drawers=3,books=4,sockets=2,cores=8,maxcpus=192
-+
-+If drawers or books are not specified, their default to 1.
-+
-+New CPUs can be plugged using the device_add hmp command like in:
-+
-+.. code-block:: sh
-+   (qemu) device_add host-s390x-cpu,core-id=9
-+
-+The core-id defines the placement of the core in the topology by
-+starting with core 0 in socket 0, book 0 and drawer 0 up to the maximum
-+core number of the last socket of the last book in the last drawer.
-+
-+In the example above:
-+
-+* the core with ID 9 will be placed in container (0,0,1), as core 9
-+  of CPU TLE 0 of socket 1 in book 0 from drawer 0.
-+* the core ID 0 is defined by the -smp cpus=1 command and will be
-+  placed as core 0 in CPU TLE 0 of container (0,0,0)
-+
-+Note that the core ID is machine wide and the CPU TLE masks provided
-+by the STSI instruction will be:
-+
-+* in socket 0: 0x80000000 (core id 0)
-+* in socket 1: 0x00400000 (core id 9)
-+
-+Indicating the CPU topology to the Guest
-+----------------------------------------
-+
-+The guest can query for topology changes using the PTF instruction.
-+In case of a topology change it can request the new topology by issuing
-+STSI instructions specifying the level of detail required, drawer with
-+STSI(15.1.4) or books STSI(15.1.3).
-+
-+The virtual machine will fill the provided buffer with the count of
-+drawers (MAG4), books per drawer (MAG3), sockets per book (MAG2) and
-+cores per socket (MAG1).
-+
-+Note that the STSI(15.1.2) is special in two ways:
-+
-+* When the firmware detect a change in the values calculated for STSI(15.1.2)
-+  it will trigger the report of the topology change for the PTF instruction.
-+
-+Migration
-+---------
-+
-+For virtio-ccw machines older than s390-virtio-ccw-7.2, CPU Topoogy is
-+by default disabled.
-+
-+CPU Topoogy is by default enabled for s390-virtio-ccw-7.2 and newer machines.
-+
-+Enabling the CPU topology on older Machine is done by setting the global
-+option ''topology-disable'' to false before enabling cpu topology with the
-+cpu feature "ctop" like in:
-+
-+.. code-block:: sh
-+   -machine s390-ccw-virtio-3.0,accel=kvm,topology-disable=false
-+   -cpu z14,ctop=on
--- 
-2.31.1
+> QEMU use qemu_add_opts() and qemu_add_drive_opts() to add config options
+> when initialization. Extract the same logic in both functions to a
+> seperate function fill_config_groups() to reduce code redundency.
+>
+> Signed-off-by: Wang, Lei <lei4.wang@intel.com>
+> ---
+>  util/qemu-config.c | 39 ++++++++++++++++++++-------------------
+>  1 file changed, 20 insertions(+), 19 deletions(-)
+>
+> diff --git a/util/qemu-config.c b/util/qemu-config.c
+> index 433488aa56..3a1c85223a 100644
+> --- a/util/qemu-config.c
+> +++ b/util/qemu-config.c
+> @@ -282,36 +282,37 @@ QemuOptsList *qemu_find_opts_err(const char *group, Error **errp)
+>      return find_list(vm_config_groups, group, errp);
+>  }
+>  
+> -void qemu_add_drive_opts(QemuOptsList *list)
+> +static int fill_config_groups(QemuOptsList *groups[], int entries,
+> +                              QemuOptsList *list)
+>  {
+> -    int entries, i;
+> +    int i;
+>  
+> -    entries = ARRAY_SIZE(drive_config_groups);
+>      entries--; /* keep list NULL terminated */
+>      for (i = 0; i < entries; i++) {
+> -        if (drive_config_groups[i] == NULL) {
+> -            drive_config_groups[i] = list;
+> -            return;
+> +        if (groups[i] == NULL) {
+> +            groups[i] = list;
+> +            return 0;
+>          }
+>      }
+> -    fprintf(stderr, "ran out of space in drive_config_groups");
+> -    abort();
+> +    return -1;
+>  }
+>  
+> -void qemu_add_opts(QemuOptsList *list)
+> +void qemu_add_drive_opts(QemuOptsList *list)
+>  {
+> -    int entries, i;
+> +    if (fill_config_groups(drive_config_groups, ARRAY_SIZE(drive_config_groups),
+> +                           list) < 0) {
+> +        fprintf(stderr, "ran out of space in drive_config_groups");
+> +        abort();
+> +    }
+> +}
+>  
+> -    entries = ARRAY_SIZE(vm_config_groups);
+> -    entries--; /* keep list NULL terminated */
+> -    for (i = 0; i < entries; i++) {
+> -        if (vm_config_groups[i] == NULL) {
+> -            vm_config_groups[i] = list;
+> -            return;
+> -        }
+> +void qemu_add_opts(QemuOptsList *list)
+> +{
+> +    if (fill_config_groups(vm_config_groups, ARRAY_SIZE(vm_config_groups),
+> +                           list) < 0) {
+> +        fprintf(stderr, "ran out of space in vm_config_groups");
+> +        abort();
+>      }
+> -    fprintf(stderr, "ran out of space in vm_config_groups");
+> -    abort();
+>  }
+>  
+>  /* Returns number of config groups on success, -errno on error */
 
 
