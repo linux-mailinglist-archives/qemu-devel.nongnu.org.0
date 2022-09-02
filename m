@@ -2,63 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B89A15AA7FF
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 08:23:03 +0200 (CEST)
-Received: from localhost ([::1]:48602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B59B5AA963
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 10:06:17 +0200 (CEST)
+Received: from localhost ([::1]:53516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU04z-0008HD-Vc
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 02:23:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56590)
+	id 1oU1gu-0000kk-94
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 04:06:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
- id 1oU02c-0006eD-SM
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:20:36 -0400
-Received: from mga05.intel.com ([192.55.52.43]:9544)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1oU1Wp-0005o1-GG; Fri, 02 Sep 2022 03:55:52 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:18306)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
- id 1oU02a-0003zh-PN
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:20:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662099632; x=1693635632;
- h=from:to:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=InsOj2BKvI3qPXhcNTJoBKX8hSTxJbXPdOyE4sehb0A=;
- b=KQLGQUg+fT0FryNiSVU6OiC74j/yE/Fwgx+gDBlkRyqRWrzN3gqNvAPA
- PwpOLKneBpfGdqur2ncbx1kVBz3LPqNIbzEHztMOg4oieBk91uARN7U4+
- Q+z+HrwzeEi7/0LQRydZC9K9E8KsiLCZ4nbgfgsDsS3Qt3/MOBHXRgFkj
- Yr6MmJeGJcGH858Uis/OScCCjrBlHAdU4phbLDw/xsZuf6lPBNF9ckD/M
- aKnyrbG8ANkD2IAFjb8vEVI3FDgKDKFOJTYbzqJkaERXgrXSoLq/QP1fD
- eyKMGfk/4H1bE7mtR4ONTyGR/0eIU114UE2whe1JZiu0TiFlLrcU1fGvH w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10457"; a="382204627"
-X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="382204627"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2022 23:20:30 -0700
-X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="674224606"
-Received: from trist.sh.intel.com ([10.239.160.37])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2022 23:20:30 -0700
-From: "Wang, Lei" <lei4.wang@intel.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qemu-config: extract same logic in *_add_opts() to
- fill_config_groups()
-Date: Fri,  2 Sep 2022 22:20:28 +0800
-Message-Id: <20220902142028.1469716-1-lei4.wang@intel.com>
-X-Mailer: git-send-email 2.37.3
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1oU1Wk-0002xs-Ki; Fri, 02 Sep 2022 03:55:51 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2827Q4PR011602;
+ Fri, 2 Sep 2022 07:55:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=yPEMz3crbtUbslnZwBMiyYIfghDJekErggppLjsR4B4=;
+ b=hExj/0dFDtN0YXyvAFcYWmEkymcV5aYC4g2QK1kVShaVuET7Sy23Ey8rbuRcCJBfL7r5
+ Qo/K0tjBIMkf6X8NgrAGTAdBEfg0CVbY3Zmos8guuLGbzWrdG4wQsNXTKCqilpImQODt
+ Hs42BbSwc7RKkAs4WiH5oPxfF/o47ElH0bQFPXsrqo8X2Ec3T1WgryQijRUG6P/0/p6g
+ Ym3owVyTEtfnB0bTqtLGKXLAP/YnZhP2XfPPXbQba/lUWnBher2uf5zazDfsM4SljKyj
+ F+/AtHbhP+0HFBYiair2OtuAlTwqwe45D2oORl6hkjZLInxx60qOcUD6dcU5k7Hf06+i jg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jbbrnmuth-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 02 Sep 2022 07:55:41 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2827kt8h027722;
+ Fri, 2 Sep 2022 07:55:40 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jbbrnmusm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 02 Sep 2022 07:55:40 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2827pxfF017369;
+ Fri, 2 Sep 2022 07:55:38 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma04fra.de.ibm.com with ESMTP id 3j7aw9drnt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 02 Sep 2022 07:55:38 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 2827tvN145220124
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 2 Sep 2022 07:55:57 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0CA5E11C04C;
+ Fri,  2 Sep 2022 07:55:35 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3443411C04A;
+ Fri,  2 Sep 2022 07:55:34 +0000 (GMT)
+Received: from li-c6ac47cc-293c-11b2-a85c-d421c8e4747b.ibm.com.com (unknown
+ [9.171.69.137])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri,  2 Sep 2022 07:55:34 +0000 (GMT)
+From: Pierre Morel <pmorel@linux.ibm.com>
+To: qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com
+Subject: [PATCH v9 02/10] s390x/cpu topology: core_id sets s390x CPU topology
+Date: Fri,  2 Sep 2022 09:55:23 +0200
+Message-Id: <20220902075531.188916-3-pmorel@linux.ibm.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20220902075531.188916-1-pmorel@linux.ibm.com>
+References: <20220902075531.188916-1-pmorel@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: permerror client-ip=192.55.52.43;
- envelope-from=lei4.wang@intel.com; helo=mga05.intel.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: J7_nZLbxsVM6RbRAUVNaDipQVoPoW57O
+X-Proofpoint-ORIG-GUID: L_m3vNDPGzygN8GDplqOmLLMYyJIDMWb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-09-01_12,2022-08-31_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 impostorscore=0
+ mlxlogscore=999 phishscore=0 suspectscore=0 clxscore=1015 mlxscore=0
+ spamscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2209020034
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_FUTURE_06_12=1.947,
- DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,77 +118,258 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU use qemu_add_opts() and qemu_add_drive_opts() to add config options
-when initialization. Extract the same logic in both functions to a
-seperate function fill_config_groups() to reduce code redundency.
+In the S390x CPU topology the core_id specifies the CPU address
+and the position of the core withing the topology.
 
-Signed-off-by: Wang, Lei <lei4.wang@intel.com>
+Let's build the topology based on the core_id.
+
+Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 ---
- util/qemu-config.c | 39 ++++++++++++++++++++-------------------
- 1 file changed, 20 insertions(+), 19 deletions(-)
+ hw/s390x/cpu-topology.c         | 135 ++++++++++++++++++++++++++++++++
+ hw/s390x/meson.build            |   1 +
+ hw/s390x/s390-virtio-ccw.c      |  10 +++
+ include/hw/s390x/cpu-topology.h |  42 ++++++++++
+ 4 files changed, 188 insertions(+)
+ create mode 100644 hw/s390x/cpu-topology.c
+ create mode 100644 include/hw/s390x/cpu-topology.h
 
-diff --git a/util/qemu-config.c b/util/qemu-config.c
-index 433488aa56..3a1c85223a 100644
---- a/util/qemu-config.c
-+++ b/util/qemu-config.c
-@@ -282,36 +282,37 @@ QemuOptsList *qemu_find_opts_err(const char *group, Error **errp)
-     return find_list(vm_config_groups, group, errp);
- }
- 
--void qemu_add_drive_opts(QemuOptsList *list)
-+static int fill_config_groups(QemuOptsList *groups[], int entries,
-+                              QemuOptsList *list)
- {
--    int entries, i;
-+    int i;
- 
--    entries = ARRAY_SIZE(drive_config_groups);
-     entries--; /* keep list NULL terminated */
-     for (i = 0; i < entries; i++) {
--        if (drive_config_groups[i] == NULL) {
--            drive_config_groups[i] = list;
--            return;
-+        if (groups[i] == NULL) {
-+            groups[i] = list;
-+            return 0;
-         }
-     }
--    fprintf(stderr, "ran out of space in drive_config_groups");
--    abort();
-+    return -1;
- }
- 
--void qemu_add_opts(QemuOptsList *list)
-+void qemu_add_drive_opts(QemuOptsList *list)
- {
--    int entries, i;
-+    if (fill_config_groups(drive_config_groups, ARRAY_SIZE(drive_config_groups),
-+                           list) < 0) {
-+        fprintf(stderr, "ran out of space in drive_config_groups");
-+        abort();
-+    }
-+}
- 
--    entries = ARRAY_SIZE(vm_config_groups);
--    entries--; /* keep list NULL terminated */
--    for (i = 0; i < entries; i++) {
--        if (vm_config_groups[i] == NULL) {
--            vm_config_groups[i] = list;
--            return;
--        }
-+void qemu_add_opts(QemuOptsList *list)
+diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+new file mode 100644
+index 0000000000..a6ca006ec5
+--- /dev/null
++++ b/hw/s390x/cpu-topology.c
+@@ -0,0 +1,135 @@
++/*
++ * CPU Topology
++ *
++ * Copyright IBM Corp. 2022
++ * Author(s): Pierre Morel <pmorel@linux.ibm.com>
++
++ * This work is licensed under the terms of the GNU GPL, version 2 or (at
++ * your option) any later version. See the COPYING file in the top-level
++ * directory.
++ */
++
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "qemu/error-report.h"
++#include "hw/sysbus.h"
++#include "hw/qdev-properties.h"
++#include "hw/boards.h"
++#include "qemu/typedefs.h"
++#include "target/s390x/cpu.h"
++#include "hw/s390x/s390-virtio-ccw.h"
++#include "hw/s390x/cpu-topology.h"
++
++S390Topology *s390_get_topology(void)
 +{
-+    if (fill_config_groups(vm_config_groups, ARRAY_SIZE(vm_config_groups),
-+                           list) < 0) {
-+        fprintf(stderr, "ran out of space in vm_config_groups");
-+        abort();
-     }
--    fprintf(stderr, "ran out of space in vm_config_groups");
--    abort();
- }
++    static S390Topology *s390Topology;
++
++    if (!s390Topology) {
++        s390Topology = S390_CPU_TOPOLOGY(
++            object_resolve_path(TYPE_S390_CPU_TOPOLOGY, NULL));
++    }
++
++    return s390Topology;
++}
++
++/*
++ * s390_topology_new_cpu:
++ * @core_id: the core ID is machine wide
++ *
++ * The topology returned by s390_get_topology(), gives us the CPU
++ * topology established by the -smp QEMU aruments.
++ * The core-id gives:
++ *  - the Container TLE (Topology List Entry) containing the CPU TLE.
++ *  - in the CPU TLE the origin, or offset of the first bit in the core mask
++ *  - the bit in the CPU TLE core mask
++ */
++void s390_topology_new_cpu(int core_id)
++{
++    S390Topology *topo = s390_get_topology();
++    int socket_id;
++    int bit, origin;
++
++    /* In the case no Topology is used nothing is to be done here */
++    if (!topo) {
++        return;
++    }
++
++    socket_id = core_id / topo->cores;
++
++    bit = core_id;
++    origin = bit / 64;
++    bit %= 64;
++    bit = 63 - bit;
++
++    /*
++     * At the core level, each CPU is represented by a bit in a 64bit
++     * unsigned long. Set on plug and clear on unplug of a CPU.
++     * The firmware assume that all CPU in a CPU TLE have the same
++     * type, polarization and are all dedicated or shared.
++     * In the case a socket contains CPU with different type, polarization
++     * or entitlement then they will be defined in different CPU containers.
++     * Currently we assume all CPU are identical IFL CPUs and that they are
++     * all dedicated CPUs.
++     * The only reason to have several S390TopologyCores inside a socket is
++     * to have more than 64 CPUs.
++     * In that case the origin field, representing the offset of the first CPU
++     * in the CPU container allows to represent up to the maximal number of
++     * CPU inside several CPU containers inside the socket container.
++     */
++    topo->socket[socket_id].active_count++;
++    topo->tle[socket_id].active_count++;
++    set_bit(bit, &topo->tle[socket_id].mask[origin]);
++}
++
++/**
++ * s390_topology_realize:
++ * @dev: the device state
++ * @errp: the error pointer (not used)
++ *
++ * During realize the machine CPU topology is initialized with the
++ * QEMU -smp parameters.
++ * The maximum count of CPU TLE in the all Topology can not be greater
++ * than the maximum CPUs.
++ */
++static void s390_topology_realize(DeviceState *dev, Error **errp)
++{
++    MachineState *ms = MACHINE(qdev_get_machine());
++    S390Topology *topo = S390_CPU_TOPOLOGY(dev);
++    int n;
++
++    topo->sockets = ms->smp.sockets;
++    topo->cores = ms->smp.cores;
++    topo->tles = ms->smp.max_cpus;
++
++    n = topo->sockets;
++    topo->socket = g_malloc0(n * sizeof(S390TopoContainer));
++    topo->tle = g_malloc0(topo->tles * sizeof(S390TopoTLE));
++}
++
++/**
++ * topology_class_init:
++ * @oc: Object class
++ * @data: (not used)
++ *
++ * A very simple object we will need for reset and migration.
++ */
++static void topology_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++
++    dc->realize = s390_topology_realize;
++    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
++}
++
++static const TypeInfo cpu_topology_info = {
++    .name          = TYPE_S390_CPU_TOPOLOGY,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(S390Topology),
++    .class_init    = topology_class_init,
++};
++
++static void topology_register(void)
++{
++    type_register_static(&cpu_topology_info);
++}
++type_init(topology_register);
+diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
+index de28a90a57..96d7d7d231 100644
+--- a/hw/s390x/meson.build
++++ b/hw/s390x/meson.build
+@@ -2,6 +2,7 @@ s390x_ss = ss.source_set()
+ s390x_ss.add(files(
+   'ap-bridge.c',
+   'ap-device.c',
++  'cpu-topology.c',
+   'ccw-device.c',
+   'css-bridge.c',
+   'css.c',
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index b5ca154e2f..15cefd104b 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -43,6 +43,7 @@
+ #include "sysemu/sysemu.h"
+ #include "hw/s390x/pv.h"
+ #include "migration/blocker.h"
++#include "hw/s390x/cpu-topology.h"
  
- /* Returns number of config groups on success, -errno on error */
+ static Error *pv_mig_blocker;
+ 
+@@ -247,6 +248,12 @@ static void ccw_init(MachineState *machine)
+     /* init memory + setup max page size. Required for the CPU model */
+     s390_memory_init(machine->ram);
+ 
++    /* Adding the topology must be done before CPU intialization*/
++    dev = qdev_new(TYPE_S390_CPU_TOPOLOGY);
++    object_property_add_child(qdev_get_machine(), TYPE_S390_CPU_TOPOLOGY,
++                              OBJECT(dev));
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
++
+     /* init CPUs (incl. CPU model) early so s390_has_feature() works */
+     s390_init_cpus(machine);
+ 
+@@ -309,6 +316,9 @@ static void s390_cpu_plug(HotplugHandler *hotplug_dev,
+     g_assert(!ms->possible_cpus->cpus[cpu->env.core_id].cpu);
+     ms->possible_cpus->cpus[cpu->env.core_id].cpu = OBJECT(dev);
+ 
++    /* Inserting the CPU in the Topology can not fail */
++    s390_topology_new_cpu(cpu->env.core_id);
++
+     if (dev->hotplugged) {
+         raise_irq_cpu_hotplug();
+     }
+diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
+new file mode 100644
+index 0000000000..6911f975f4
+--- /dev/null
++++ b/include/hw/s390x/cpu-topology.h
+@@ -0,0 +1,42 @@
++/*
++ * CPU Topology
++ *
++ * Copyright 2022 IBM Corp.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or (at
++ * your option) any later version. See the COPYING file in the top-level
++ * directory.
++ */
++#ifndef HW_S390X_CPU_TOPOLOGY_H
++#define HW_S390X_CPU_TOPOLOGY_H
++
++typedef struct S390TopoContainer {
++    int active_count;
++} S390TopoContainer;
++
++#define S390_TOPOLOGY_MAX_ORIGIN (1 + S390_MAX_CPUS / 64)
++typedef struct S390TopoTLE {
++    int active_count;
++    uint64_t mask[S390_TOPOLOGY_MAX_ORIGIN];
++} S390TopoTLE;
++
++#include "hw/qdev-core.h"
++#include "qom/object.h"
++
++struct S390Topology {
++    SysBusDevice parent_obj;
++    int sockets;
++    int cores;
++    int tles;
++    S390TopoContainer *socket;
++    S390TopoTLE *tle;
++};
++typedef struct S390Topology S390Topology;
++
++#define TYPE_S390_CPU_TOPOLOGY "s390-topology"
++OBJECT_DECLARE_SIMPLE_TYPE(S390Topology, S390_CPU_TOPOLOGY)
++
++S390Topology *s390_get_topology(void);
++void s390_topology_new_cpu(int core_id);
++
++#endif
 -- 
-2.37.1
+2.31.1
 
 
