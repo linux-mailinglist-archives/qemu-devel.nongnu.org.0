@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BCF05AADC6
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 13:36:14 +0200 (CEST)
-Received: from localhost ([::1]:40122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61EF65AADBE
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 13:33:16 +0200 (CEST)
+Received: from localhost ([::1]:58342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU4xl-0006wS-UY
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 07:36:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46046)
+	id 1oU4v7-0005Di-45
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 07:33:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oU4hh-0001HY-RM
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 07:19:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42005)
+ id 1oU4hm-0001IG-60
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 07:19:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oU4hg-0006aM-3v
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 07:19:17 -0400
+ id 1oU4hk-0006lr-LJ
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 07:19:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662117555;
+ s=mimecast20190719; t=1662117559;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=52NAMJZDToe0/qwaXgHbNBBIJFLzcLd3cbJxkM16roo=;
- b=Ty29CST7qSDu4WKA2IYthaXPxaNShXrgjfQO4laE6fwGoR2I64EeB57M6E5xPZF75jvBHg
- ng9jXCnGS8OMkdIJ16a+xCsOXjNKa+kC/X0ZPytb+HdKz8IfqLH1HZp0aJEVs0v+Jrf8Jp
- OYaUqLHKfkbFKg+ws22IJM5ViO7r2Ng=
+ bh=/PFdD2R5sOXGWoM5/LIPX/Ihv6N1EQmtuPD8yP7u8cs=;
+ b=ar7YiCVZf1uFEbC/Cl8ypQOiuyhCYHPypeex5DiaHs4Ckq6jHYumrn6Vx8lsjKDeUg0Q1T
+ wDKdUmpVBpXxbAetFa9QOmhDOSWeFE4r3R3Ni+/th3QaOiYrX+Cm8RSMr6OVKIeTT5CFO4
+ b8DeaANmKfF1y7wTGdY/wOrkZLYC4iA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-635-_StsSeSOOUWtiwXuSJxBgw-1; Fri, 02 Sep 2022 07:19:14 -0400
-X-MC-Unique: _StsSeSOOUWtiwXuSJxBgw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-370-VU-D4hs1N8q32H3fzUYmSQ-1; Fri, 02 Sep 2022 07:19:18 -0400
+X-MC-Unique: VU-D4hs1N8q32H3fzUYmSQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 842EC1818212
- for <qemu-devel@nongnu.org>; Fri,  2 Sep 2022 11:19:13 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 54C3E801755
+ for <qemu-devel@nongnu.org>; Fri,  2 Sep 2022 11:19:18 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 619361415125;
- Fri,  2 Sep 2022 11:19:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 64BED2026D4C;
+ Fri,  2 Sep 2022 11:19:17 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 2/3] io/command: implement support for win32
-Date: Fri,  2 Sep 2022 15:18:59 +0400
-Message-Id: <20220902111900.3029260-3-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 3/3] tests/unit: make test-io-channel-command work on win32
+Date: Fri,  2 Sep 2022 15:19:00 +0400
+Message-Id: <20220902111900.3029260-4-marcandre.lureau@redhat.com>
 In-Reply-To: <20220902111900.3029260-1-marcandre.lureau@redhat.com>
 References: <20220902111900.3029260-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,139 +83,102 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-This is a fairly straightforward implementation of the equivalent UNIX
-version.
-
-GLib uses _mkpipe() to setup the FDs. We take that for granted, and set
-the underlying named-pipes to nonblocking. This is done by other
-projects as well (found on github), but I am not confident this works
-reliably (msdn SetNamedPipeHandleState documentation discourage this
-usage).
-
-Alternatively, we could setup the FDs ourself, and use UNIX sockets on
-Windows, which can be used in blocking/non-blocking mode. I haven't
-tried it, as I am not sure it is necessary.
+This has been tested under msys2 & windows 11. I haven't tried to make
+it work with other environments yet, but that should be enough to
+validate the channel-command implementation anyway.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- io/channel-command.c | 58 ++++++++++++++++++++++++++++----------------
- 1 file changed, 37 insertions(+), 21 deletions(-)
+ tests/unit/test-io-channel-command.c | 31 +++++++++++++++++-----------
+ 1 file changed, 19 insertions(+), 12 deletions(-)
 
-diff --git a/io/channel-command.c b/io/channel-command.c
-index 35ba14c6a2..9bc292f3fd 100644
---- a/io/channel-command.c
-+++ b/io/channel-command.c
-@@ -26,7 +26,6 @@
- #include "qemu/sockets.h"
- #include "trace.h"
+diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
+index 99056e07c0..56dcc0be19 100644
+--- a/tests/unit/test-io-channel-command.c
++++ b/tests/unit/test-io-channel-command.c
+@@ -24,28 +24,38 @@
+ #include "qapi/error.h"
+ #include "qemu/module.h"
  
 -#ifndef WIN32
- /**
-  * qio_channel_command_new_pid:
-  * @writefd: the FD connected to the command's stdin
-@@ -60,7 +59,13 @@ qio_channel_command_new_pid(int writefd,
-     ioc->writefd = writefd;
-     ioc->pid = pid;
- 
--    trace_qio_channel_command_new_pid(ioc, writefd, readfd, pid);
-+    trace_qio_channel_command_new_pid(ioc, writefd, readfd,
++#define TEST_FIFO "tests/test-io-channel-command.fifo"
++
 +#ifdef WIN32
-+                                      GetProcessId(pid)
++#define SOCAT "/bin/socat.exe"
++#define SOCAT_SRC "PIPE:" TEST_FIFO ",wronly"
++#define SOCAT_DST "PIPE:" TEST_FIFO ",rdonly"
 +#else
-+                                      pid
++#define SOCAT "/bin/socat"
++#define SOCAT_SRC "UNIX-LISTEN:" TEST_FIFO
++#define SOCAT_DST "UNIX-CONNECT:" TEST_FIFO
 +#endif
-+        );
-     return ioc;
- }
- 
-@@ -89,18 +94,6 @@ qio_channel_command_new_spawn(const char *const argv[],
-     return qio_channel_command_new_pid(stdinfd, stdoutfd, pid);
- }
- 
--#else /* WIN32 */
--QIOChannelCommand *
--qio_channel_command_new_spawn(const char *const argv[],
--                              int flags,
--                              Error **errp)
--{
--    error_setg_errno(errp, ENOSYS,
--                     "Command spawn not supported on this platform");
--    return NULL;
--}
--#endif /* WIN32 */
--
- #ifndef WIN32
- static int qio_channel_command_abort(QIOChannelCommand *ioc,
-                                      Error **errp)
-@@ -143,6 +136,23 @@ static int qio_channel_command_abort(QIOChannelCommand *ioc,
- 
-     return 0;
- }
-+#else
-+static int qio_channel_command_abort(QIOChannelCommand *ioc,
-+                                     Error **errp)
-+{
-+    DWORD ret;
 +
-+    TerminateProcess(ioc->pid, 0);
-+    ret = WaitForSingleObject(ioc->pid, 1000);
-+    if (ret != WAIT_OBJECT_0) {
-+        error_setg(errp,
-+                   "Process %llu refused to die",
-+                   (unsigned long long)GetProcessId(ioc->pid));
-+        return -1;
-+    }
-+
-+    return 0;
-+}
- #endif /* ! WIN32 */
- 
- 
-@@ -166,9 +176,7 @@ static void qio_channel_command_finalize(Object *obj)
-     }
-     ioc->writefd = ioc->readfd = -1;
-     if (ioc->pid > 0) {
--#ifndef WIN32
-         qio_channel_command_abort(ioc, NULL);
--#endif
-         g_spawn_close_pid(ioc->pid);
-     }
- }
-@@ -233,14 +241,20 @@ static int qio_channel_command_set_blocking(QIOChannel *ioc,
-                                             bool enabled,
-                                             Error **errp)
+ static void test_io_channel_command_fifo(bool async)
  {
-+    QIOChannelCommand *cioc = QIO_CHANNEL_COMMAND(ioc);
-+
- #ifdef WIN32
--    /* command spawn is not supported on win32 */
--    g_assert_not_reached();
-+    DWORD dwMode = PIPE_READMODE_BYTE | enabled ? PIPE_WAIT : PIPE_NOWAIT;
-+
-+    if ((cioc->writefd >= 0 && !SetNamedPipeHandleState((HANDLE)_get_osfhandle(cioc->writefd), &dwMode, NULL, NULL)) ||
-+        (cioc->readfd >= 0 &&!SetNamedPipeHandleState((HANDLE)_get_osfhandle(cioc->readfd), &dwMode, NULL, NULL))) {
-+        error_setg_win32(errp, GetLastError(), "Failed to set nonblocking");
-+        return -1;
-+    }
- #else
--    QIOChannelCommand *cioc = QIO_CHANNEL_COMMAND(ioc);
+-#define TEST_FIFO "tests/test-io-channel-command.fifo"
+     QIOChannel *src, *dst;
+     QIOChannelTest *test;
+-    const char *srcfifo = "PIPE:" TEST_FIFO ",wronly";
+-    const char *dstfifo = "PIPE:" TEST_FIFO ",rdonly";
+     const char *srcargv[] = {
+-        "/bin/socat", "-", srcfifo, NULL,
++        SOCAT, "-", SOCAT_SRC, NULL,
+     };
+     const char *dstargv[] = {
+-        "/bin/socat", dstfifo, "-", NULL,
++        SOCAT, SOCAT_DST, "-", NULL,
+     };
  
--    if (!g_unix_set_fd_nonblocking(cioc->writefd, !enabled, NULL) ||
--        !g_unix_set_fd_nonblocking(cioc->readfd, !enabled, NULL)) {
-+    if ((cioc->writefd >= 0 && !g_unix_set_fd_nonblocking(cioc->writefd, !enabled, NULL)) ||
-+        (cioc->readfd >= 0 && !g_unix_set_fd_nonblocking(cioc->readfd, !enabled, NULL))) {
-         error_setg_errno(errp, errno, "Failed to set FD nonblocking");
-         return -1;
+     unlink(TEST_FIFO);
+-    if (access("/bin/socat", X_OK) < 0) {
++    if (access(SOCAT, X_OK) < 0) {
+         return; /* Pretend success if socat is not present */
      }
-@@ -281,6 +295,8 @@ static int qio_channel_command_close(QIOChannel *ioc,
-                          (unsigned long long)cioc->pid);
-         return -1;
++#ifndef WIN32
+     if (mkfifo(TEST_FIFO, 0600) < 0) {
+         abort();
      }
-+#else
-+    WaitForSingleObject(cioc->pid, INFINITE);
- #endif
++#endif
+     src = QIO_CHANNEL(qio_channel_command_new_spawn(srcargv,
+                                                     O_WRONLY,
+                                                     &error_abort));
+@@ -80,10 +90,10 @@ static void test_io_channel_command_echo(bool async)
+     QIOChannel *ioc;
+     QIOChannelTest *test;
+     const char *socatargv[] = {
+-        "/bin/socat", "-", "-", NULL,
++        SOCAT, "-", "-", NULL,
+     };
  
-     if (rv < 0) {
+-    if (access("/bin/socat", X_OK) < 0) {
++    if (access(SOCAT, X_OK) < 0) {
+         return; /* Pretend success if socat is not present */
+     }
+ 
+@@ -107,7 +117,6 @@ static void test_io_channel_command_echo_sync(void)
+ {
+     test_io_channel_command_echo(false);
+ }
+-#endif
+ 
+ int main(int argc, char **argv)
+ {
+@@ -115,7 +124,6 @@ int main(int argc, char **argv)
+ 
+     g_test_init(&argc, &argv, NULL);
+ 
+-#ifndef WIN32
+     g_test_add_func("/io/channel/command/fifo/sync",
+                     test_io_channel_command_fifo_sync);
+     g_test_add_func("/io/channel/command/fifo/async",
+@@ -124,7 +132,6 @@ int main(int argc, char **argv)
+                     test_io_channel_command_echo_sync);
+     g_test_add_func("/io/channel/command/echo/async",
+                     test_io_channel_command_echo_async);
+-#endif
+ 
+     return g_test_run();
+ }
 -- 
 2.37.2
 
