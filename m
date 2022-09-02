@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB63E5AACF0
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 12:58:35 +0200 (CEST)
-Received: from localhost ([::1]:36690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D5595AAD1C
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 13:08:50 +0200 (CEST)
+Received: from localhost ([::1]:48674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU4Ne-00078f-9Q
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 06:58:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43518)
+	id 1oU4XX-0002xm-2N
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 07:08:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oU4LA-0004vh-Qe
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 06:56:00 -0400
-Received: from mail-qv1-xf2e.google.com ([2607:f8b0:4864:20::f2e]:45670)
+ id 1oU4Ot-0007KP-P2; Fri, 02 Sep 2022 06:59:51 -0400
+Received: from mail-qv1-xf35.google.com ([2607:f8b0:4864:20::f35]:43771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oU4L8-0008SO-T5
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 06:56:00 -0400
-Received: by mail-qv1-xf2e.google.com with SMTP id jy14so1095983qvb.12
- for <qemu-devel@nongnu.org>; Fri, 02 Sep 2022 03:55:58 -0700 (PDT)
+ id 1oU4Os-0000Tk-7O; Fri, 02 Sep 2022 06:59:51 -0400
+Received: by mail-qv1-xf35.google.com with SMTP id j6so1106314qvu.10;
+ Fri, 02 Sep 2022 03:59:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=pQlVW0CeF2tD4vSeeLKvLQk2jUJgfzVKUrdy3OEjdtY=;
- b=jILKipNrhuFE3DUJVDwyQJ8L09u51rD5kBfUFC1Q0oMDBTvN3MD3tLu2JEH1Fk2Qkv
- 91lM4BWeTjhSuyP5yeT2EVf4UlixkTFPchuqEd/3/ULrpA+yvm6jCGHDmnx1G1O3tn1B
- YBw4zFyt2Yxoaqpm2ponTGczU25KuxEGXHkoRicMEzDKXo1evstQH8fq5ZkuOIvpJIfw
- gVzhm/ONzIBanjf7XIY9t7lQwXKL8QGAHPRyZ4n7L64ENjaoqMa9E2NFyTNvHnPsLDQa
- xSiLRvHXYdX2FN2a6pA4nyQV+EWAkXDjweQnvCI30E3/QgyB2dcvnWDfmUYbRsUT6pH0
- /GtA==
+ bh=fXgAxK4XMZKB1vR+qUaCoRROBPQFY5UK09ox/MVWMWc=;
+ b=BvCh+Mk0kD6aK1oV1TDBzvtDdBDMRFFgxdkDZoDy7xGK1LbIeG+J4Q8uPo5E9LWtqY
+ 05J+0fNUISIwuhqjbtG8aGgykcOSzKNM1q8qHl+1T30T9gUg06gL228ttyEMLWtpu/oW
+ VNhN1J7mewTtotaA4hHnmT17E3cd6Si+HaYezXA1PEmQu6zH+69wpHTrz0vh5sA83Ey6
+ GfdsrYMYYmopuko9MtSkrPyOj+84XjCr+2ozLmbySIhG74EscQlKkM7D0MPifbw5gHr1
+ p0sosVZDKIqOjzZWQDJuocXgE5hxBat26sbnTH42NqF/4h4+HVIMAcIEqqShmLBlYH+k
+ Czvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=pQlVW0CeF2tD4vSeeLKvLQk2jUJgfzVKUrdy3OEjdtY=;
- b=K2wWVCoMdVBDphlN7YQ6xraddjibezH2HsF4vvplkn2YYcunlyK5nWoispGgJdTIhq
- sXyRSGYxzpgXFaZcoHB8+seRaoriaSUgAdE09jbz12fIYne8n+7qGc43X3ybinlcA8IS
- omXlNa6kaV+Pp3+47q2wuXBov1iCLYH92VBONS5VBhShKUXc2NJPoeMTT9SW/8aGnTyc
- WqRSyl3i52WynV994LJKaZoEKXg41dPJAkgNUoh3479Dw+WngdwjV7Ou4E5K1EVVeSXl
- /vwRCLAzpa+5wFOIBaGNw/DENmWMod5I1b9hrPSvNfhU6t5Fs4IDJpceqgM+G0LvN4Cy
- 0+VA==
-X-Gm-Message-State: ACgBeo2g7KmHXw3pQNvNkcIfcY6txhxhX9wgKhxQRwR6aMzdElIUfITq
- Xxauh3v+KcWPdPfeQrqlJhQiIm7EjI32Q5PAtAf7jshh
-X-Google-Smtp-Source: AA6agR5OmBa9wwCisvPIKKXBy1C8bhkPaeQMBAzHkt7VG1k9T+SrTw2OIVQ8Onf9E+cE1yf6O4qdWFv9SQJRTZoFp/k=
-X-Received: by 2002:a05:6214:ca1:b0:498:f96d:4a8c with SMTP id
- s1-20020a0562140ca100b00498f96d4a8cmr25017235qvs.51.1662116157854; Fri, 02
- Sep 2022 03:55:57 -0700 (PDT)
+ bh=fXgAxK4XMZKB1vR+qUaCoRROBPQFY5UK09ox/MVWMWc=;
+ b=eLikAt0c5QRrogPCy2Vvn2jDdt1LMo4kKXjHP94IFS3hJ11PuloCvJY2avKbVyBtlC
+ vBU1/Xwq+XgPjyFKfaEyJDn/SK74kBdLbhio4D059MEAd4x97Jwpw/7WevSclY1w0Ffb
+ 7mgUPcB5N2TabABj2LZe6Y94E7FU5ySMONGduKIeGmPgNV8XAgC0xZax7DIePo3wphG7
+ 20YTsNzkZ1mQmRh8TGpHk6fDmcAfS5zv9LgG5Qlv+Y7IXsjCw8BnHHEpoeANfdCh/qx2
+ DIvWBO5PZrGnQx9Ibo4FdEQf0Grguzk+skxXO8KdPEukrpmnKMxcAUtyrsjiJqrO4C7U
+ W3VQ==
+X-Gm-Message-State: ACgBeo11Hil+FFjYSa0r9IH3DXKPBg0+jS+ozL96NWe3jpP9LsalQlP1
+ 4Ye6Axuf8VY6AJZdR6VtttYw0QnTqWaJRZiE9jiUcNOWDdY=
+X-Google-Smtp-Source: AA6agR5J2s3V8H5jtths3JRR7A5HB6SSh7V2uaftD+R+oRDXTAqnVhdsJb1HI9+L8tvSkhwJXeqar1838pjGaU23PsE=
+X-Received: by 2002:a05:6214:4115:b0:499:3520:1ee7 with SMTP id
+ kc21-20020a056214411500b0049935201ee7mr4932763qvb.122.1662116389019; Fri, 02
+ Sep 2022 03:59:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220713124357.247817-1-pbonzini@redhat.com>
- <CAEUhbmVWdAF2fO1E6YAJYQOaC_4dog7TkHdyJwqMAmEzrST8UQ@mail.gmail.com>
- <CAA8xKjW9fCtiS3Zgvh6W6sBOiCz_OJxL1G-bABez-2oMQCd=yw@mail.gmail.com>
-In-Reply-To: <CAA8xKjW9fCtiS3Zgvh6W6sBOiCz_OJxL1G-bABez-2oMQCd=yw@mail.gmail.com>
+References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
+ <20220824094029.1634519-33-bmeng.cn@gmail.com>
+ <b4085443-80a7-e660-ebd8-badc031281fc@redhat.com>
+In-Reply-To: <b4085443-80a7-e660-ebd8-badc031281fc@redhat.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 2 Sep 2022 18:55:47 +0800
-Message-ID: <CAEUhbmVHMV+NLkoweWLkx554SxXSnwvU=os_YrX0UStfiwUcqQ@mail.gmail.com>
-Subject: Re: [PATCH] scsi/lsi53c895a: really fix use-after-free in
- lsi_do_msgout (CVE-2022-0216)
-To: Mauro Matteo Cascella <mcascell@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alexander Bulekov <alxndr@bu.edu>
+Date: Fri, 2 Sep 2022 18:59:37 +0800
+Message-ID: <CAEUhbmWL38hsL_e3VorH2tcMW0mtd5uUFZkonrEtRLGxFVWaRw@mail.gmail.com>
+Subject: Re: [PATCH 32/51] tests/qtest: Fix ERROR_SHARING_VIOLATION for win32
+To: Thomas Huth <thuth@redhat.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, 
+ John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Qemu-block <qemu-block@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f35;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf35.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,94 +85,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Mauro,
-
-On Fri, Sep 2, 2022 at 6:44 PM Mauro Matteo Cascella
-<mcascell@redhat.com> wrote:
+On Thu, Aug 25, 2022 at 8:06 PM Thomas Huth <thuth@redhat.com> wrote:
 >
-> Hi Bin,
->
-> On Fri, Sep 2, 2022 at 3:56 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> On 24/08/2022 11.40, Bin Meng wrote:
+> > From: Bin Meng <bin.meng@windriver.com>
 > >
-> > Hi,
+> > On Windows, the MinGW provided mkstemp() API opens the file with
+> > exclusive access, denying other processes to read/write the file.
+> > Such behavior prevents the QEMU executable from opening the file,
+> > (e.g.: CreateFile returns ERROR_SHARING_VIOLATION).
 > >
-> > On Wed, Jul 13, 2022 at 8:45 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
-> > >
-> > > From: Mauro Matteo Cascella <mcascell@redhat.com>
-> > >
-> > > Set current_req to NULL, not current_req->req, to prevent reusing a free'd
-> > > buffer in case of repeated SCSI cancel requests.  Also apply the fix to
-> > > CLEAR QUEUE and BUS DEVICE RESET messages as well, since they also cancel
-> > > the request.
-> > >
-> > > Thanks to Alexander Bulekov for providing a reproducer.
-> > >
-> > > Fixes: CVE-2022-0216
-> > > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/972
-> > > Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-> > > Tested-by: Alexander Bulekov <alxndr@bu.edu>
-> > > Message-Id: <20220711123316.421279-1-mcascell@redhat.com>
-> > > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > > ---
-> > >         Adjust the patch from v1 to v2 since the changes crossed
-> > >         with the pull request.
-> > >
-> > >  hw/scsi/lsi53c895a.c               |  3 +-
-> > >  tests/qtest/fuzz-lsi53c895a-test.c | 71 ++++++++++++++++++++++++++++++
-> > >  2 files changed, 73 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
-> > > index 99ea42d49b..ad5f5e5f39 100644
-> > > --- a/hw/scsi/lsi53c895a.c
-> > > +++ b/hw/scsi/lsi53c895a.c
-> > > @@ -1030,7 +1030,7 @@ static void lsi_do_msgout(LSIState *s)
-> > >              trace_lsi_do_msgout_abort(current_tag);
-> > >              if (current_req && current_req->req) {
-> > >                  scsi_req_cancel(current_req->req);
-> > > -                current_req->req = NULL;
-> > > +                current_req = NULL;
-> > >              }
-> > >              lsi_disconnect(s);
-> > >              break;
-> > > @@ -1056,6 +1056,7 @@ static void lsi_do_msgout(LSIState *s)
-> > >              /* clear the current I/O process */
-> > >              if (s->current) {
-> > >                  scsi_req_cancel(s->current->req);
-> > > +                current_req = NULL;
-> > >              }
-> > >
-> > >              /* As the current implemented devices scsi_disk and scsi_generic
-> > > diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
-> > > index 2e8e67859e..6872c70d3a 100644
-> > > --- a/tests/qtest/fuzz-lsi53c895a-test.c
-> > > +++ b/tests/qtest/fuzz-lsi53c895a-test.c
-> > > @@ -8,6 +8,74 @@
-> > >  #include "qemu/osdep.h"
-> > >  #include "libqtest.h"
-> > >
-> > > +/*
-> > > + * This used to trigger a UAF in lsi_do_msgout()
-> > > + * https://gitlab.com/qemu-project/qemu/-/issues/972
-> > > + */
-> > > +static void test_lsi_do_msgout_cancel_req(void)
-> > > +{
-> > > +    QTestState *s;
-> > > +
-> > > +    s = qtest_init("-M q35 -m 4G -display none -nodefaults "
-> >
-> > This test does not run on machines with small size memory. Is 4G a
-> > must have for this test?
+> > This can be fixed by closing the file and reopening it.
 >
-> 4G comes from [1], I don't think it's a must have. Would 2G be okay?
+> Would it work to use the glib functions instead (like g_file_open_tmp() ?)
+>
 
-2G is much better. My machine has 8G memory and 4G fails sometimes.
+Yep, I've switched to using g_file_open_tmp() in patch #7 "tests:
+Avoid using hardcoded /tmp in test cases", and testing shows that it
+does not have such an issue.
 
-> For some reason ASAN does not trigger the UAF when I run the test
-> locally with less than 2G (1.7G to be precise). I didn't really
-> investigate why that is the case.
->
-> [1] https://gitlab.com/qemu-project/qemu/-/issues/972#note_1019851430.
->
+So this patch can be dropped.
 
 Regards,
 Bin
