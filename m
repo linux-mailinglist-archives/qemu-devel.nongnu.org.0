@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8248E5AA8A1
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 09:16:47 +0200 (CEST)
-Received: from localhost ([::1]:44712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A49B5AA8A0
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 09:16:43 +0200 (CEST)
+Received: from localhost ([::1]:43420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU0v0-00068r-I9
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 03:16:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53446)
+	id 1oU0uv-00062i-QV
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 03:16:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oU0Nx-0007ZP-Bd
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:42:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43860)
+ id 1oU0O0-0007Zq-Mu
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:42:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48637)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oU0Nv-0004vw-LD
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:42:37 -0400
+ id 1oU0Nx-0004wF-AZ
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:42:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662100955;
+ s=mimecast20190719; t=1662100956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=25oxyVesuZucLld4PLzEbpPV66KPt5EKpAOBu7pz71Y=;
- b=A4PCWEr8JU2nT2QML3z+ZX+yOyE6H6rlbtkQXZg0lPL8dVi3tElPylHGViqS0kGRR039vh
- ujaU5Fd1Qt8qcydtFVK0XSkOCuh6hyxs5mE3lZpPJXkIeDJ7m84RJvu7tCmF1uAHRqN8Dq
- WfigzVPety+v8OIbfIfEyrfbmKyxn+w=
+ bh=O3PvhGKdwoknSbt99qtirFcte1LSvf6Bbljcr+M3oo8=;
+ b=MSB59ktGwP+U50tqVvmz+1LJBcnV7grNABbTNMn6yINIBFw/NdegOwGGDWEBAkLIMu0t1m
+ TLTL1ERdq68HW+JUUOqxPpGuDGoFdt2cxv6S4ZuOqejhdZm7A68rrgigMVUAu0kJFln4fh
+ KC4xrK/o+6sEa2ldly1d/y59hCaJNjc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-537-WBGvePzwOQGO3y0JdQZH_w-1; Fri, 02 Sep 2022 02:42:31 -0400
-X-MC-Unique: WBGvePzwOQGO3y0JdQZH_w-1
+ us-mta-587-49HmXTqNMR6F4Vo3gEg0gg-1; Fri, 02 Sep 2022 02:42:34 -0400
+X-MC-Unique: 49HmXTqNMR6F4Vo3gEg0gg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7FEE1101A56C;
- Fri,  2 Sep 2022 06:42:31 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5232E1857F0F;
+ Fri,  2 Sep 2022 06:42:34 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-12-152.pek2.redhat.com
  [10.72.12.152])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 695601415137;
- Fri,  2 Sep 2022 06:42:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3D6CE1415137;
+ Fri,  2 Sep 2022 06:42:31 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
  Jason Wang <jasowang@redhat.com>
-Subject: [PULL 16/21] vdpa: extract vhost_vdpa_net_cvq_add from
- vhost_vdpa_net_handle_ctrl_avail
-Date: Fri,  2 Sep 2022 14:41:33 +0800
-Message-Id: <20220902064138.56468-17-jasowang@redhat.com>
+Subject: [PULL 17/21] vhost_net: add NetClientState->load() callback
+Date: Fri,  2 Sep 2022 14:41:34 +0800
+Message-Id: <20220902064138.56468-18-jasowang@redhat.com>
 In-Reply-To: <20220902064138.56468-1-jasowang@redhat.com>
 References: <20220902064138.56468-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -85,137 +84,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eugenio Pérez <eperezma@redhat.com>
 
-So we can reuse it to inject state messages.
+It allows per-net client operations right after device's successful
+start. In particular, to load the device status.
+
+Vhost-vdpa net will use it to add the CVQ buffers to restore the device
+status.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
---
-v7:
-* Remove double free error
-
-v6:
-* Do not assume in buffer sent to the device is sizeof(virtio_net_ctrl_ack)
-
-v5:
-* Do not use an artificial !NULL VirtQueueElement
-* Use only out size instead of iovec dev_buffers for these functions.
-
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/vhost-vdpa.c | 59 ++++++++++++++++++++++++++++++++++++--------------------
- 1 file changed, 38 insertions(+), 21 deletions(-)
+ hw/net/vhost_net.c | 7 +++++++
+ include/net/net.h  | 2 ++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 452d10e..3575bf6 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -331,6 +331,38 @@ static void vhost_vdpa_net_cvq_stop(NetClientState *nc)
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index 9d4b334..d28f8b9 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -281,6 +281,13 @@ static int vhost_net_start_one(struct vhost_net *net,
+             }
+         }
      }
- }
- 
-+static ssize_t vhost_vdpa_net_cvq_add(VhostVDPAState *s, size_t out_len,
-+                                      size_t in_len)
-+{
-+    /* Buffers for the device */
-+    const struct iovec out = {
-+        .iov_base = s->cvq_cmd_out_buffer,
-+        .iov_len = out_len,
-+    };
-+    const struct iovec in = {
-+        .iov_base = s->cvq_cmd_in_buffer,
-+        .iov_len = sizeof(virtio_net_ctrl_ack),
-+    };
-+    VhostShadowVirtqueue *svq = g_ptr_array_index(s->vhost_vdpa.shadow_vqs, 0);
-+    int r;
 +
-+    r = vhost_svq_add(svq, &out, 1, &in, 1, NULL);
-+    if (unlikely(r != 0)) {
-+        if (unlikely(r == -ENOSPC)) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: No space on device queue\n",
-+                          __func__);
++    if (net->nc->info->load) {
++        r = net->nc->info->load(net->nc);
++        if (r < 0) {
++            goto fail;
 +        }
-+        return r;
 +    }
-+
-+    /*
-+     * We can poll here since we've had BQL from the time we sent the
-+     * descriptor. Also, we need to take the answer before SVQ pulls by itself,
-+     * when BQL is released
-+     */
-+    return vhost_svq_poll(svq);
-+}
-+
- static NetClientInfo net_vhost_vdpa_cvq_info = {
-     .type = NET_CLIENT_DRIVER_VHOST_VDPA,
-     .size = sizeof(VhostVDPAState),
-@@ -387,23 +419,18 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostShadowVirtqueue *svq,
-                                             void *opaque)
- {
-     VhostVDPAState *s = opaque;
--    size_t in_len, dev_written;
-+    size_t in_len;
-     virtio_net_ctrl_ack status = VIRTIO_NET_ERR;
-     /* Out buffer sent to both the vdpa device and the device model */
-     struct iovec out = {
-         .iov_base = s->cvq_cmd_out_buffer,
-     };
--    /* In buffer sent to the device */
--    const struct iovec dev_in = {
--        .iov_base = s->cvq_cmd_in_buffer,
--        .iov_len = sizeof(virtio_net_ctrl_ack),
--    };
-     /* in buffer used for device model */
-     const struct iovec in = {
-         .iov_base = &status,
-         .iov_len = sizeof(status),
-     };
--    int r = -EINVAL;
-+    ssize_t dev_written = -EINVAL;
-     bool ok;
- 
-     out.iov_len = iov_to_buf(elem->out_sg, elem->out_num, 0,
-@@ -414,21 +441,11 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostShadowVirtqueue *svq,
-         goto out;
-     }
- 
--    r = vhost_svq_add(svq, &out, 1, &dev_in, 1, elem);
--    if (unlikely(r != 0)) {
--        if (unlikely(r == -ENOSPC)) {
--            qemu_log_mask(LOG_GUEST_ERROR, "%s: No space on device queue\n",
--                          __func__);
--        }
-+    dev_written = vhost_vdpa_net_cvq_add(s, out.iov_len, sizeof(status));
-+    if (unlikely(dev_written < 0)) {
-         goto out;
-     }
- 
--    /*
--     * We can poll here since we've had BQL from the time we sent the
--     * descriptor. Also, we need to take the answer before SVQ pulls by itself,
--     * when BQL is released
--     */
--    dev_written = vhost_svq_poll(svq);
-     if (unlikely(dev_written < sizeof(status))) {
-         error_report("Insufficient written data (%zu)", dev_written);
-         goto out;
-@@ -436,7 +453,7 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostShadowVirtqueue *svq,
- 
-     memcpy(&status, s->cvq_cmd_in_buffer, sizeof(status));
-     if (status != VIRTIO_NET_OK) {
--        goto out;
-+        return VIRTIO_NET_ERR;
-     }
- 
-     status = VIRTIO_NET_ERR;
-@@ -453,7 +470,7 @@ out:
-     }
-     vhost_svq_push_elem(svq, elem, MIN(in_len, sizeof(status)));
-     g_free(elem);
--    return r;
-+    return dev_written < 0 ? dev_written : 0;
- }
- 
- static const VhostShadowVirtqueueOps vhost_vdpa_net_svq_ops = {
+     return 0;
+ fail:
+     file.fd = -1;
+diff --git a/include/net/net.h b/include/net/net.h
+index 476ad45..81d0b21 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -45,6 +45,7 @@ typedef struct NICConf {
+ typedef void (NetPoll)(NetClientState *, bool enable);
+ typedef bool (NetCanReceive)(NetClientState *);
+ typedef int (NetStart)(NetClientState *);
++typedef int (NetLoad)(NetClientState *);
+ typedef void (NetStop)(NetClientState *);
+ typedef ssize_t (NetReceive)(NetClientState *, const uint8_t *, size_t);
+ typedef ssize_t (NetReceiveIOV)(NetClientState *, const struct iovec *, int);
+@@ -74,6 +75,7 @@ typedef struct NetClientInfo {
+     NetReceiveIOV *receive_iov;
+     NetCanReceive *can_receive;
+     NetStart *start;
++    NetLoad *load;
+     NetStop *stop;
+     NetCleanup *cleanup;
+     LinkStatusChanged *link_status_changed;
 -- 
 2.7.4
 
