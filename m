@@ -2,63 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9F745AACE6
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 12:54:46 +0200 (CEST)
-Received: from localhost ([::1]:53182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB63E5AACF0
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 12:58:35 +0200 (CEST)
+Received: from localhost ([::1]:36690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU4Jx-0003ev-FB
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 06:54:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39606)
+	id 1oU4Ne-00078f-9Q
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 06:58:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oU4FR-0007no-M7
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 06:50:05 -0400
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:43809)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oU4FO-0007D7-Lx
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 06:50:05 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.132])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 3F09F1239CF97;
- Fri,  2 Sep 2022 12:49:58 +0200 (CEST)
-Received: from kaod.org (37.59.142.98) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Fri, 2 Sep
- 2022 12:49:57 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002763ca83f-1867-45a2-88d7-4ca927552c3a,
- D61F9D71629D8638CC5FDB79ACAD046E2B22D36A) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 90.27.158.190
-Message-ID: <08e984cb-0d1e-b4a8-28a7-8c91132b664c@kaod.org>
-Date: Fri, 2 Sep 2022 12:49:56 +0200
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oU4LA-0004vh-Qe
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 06:56:00 -0400
+Received: from mail-qv1-xf2e.google.com ([2607:f8b0:4864:20::f2e]:45670)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oU4L8-0008SO-T5
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 06:56:00 -0400
+Received: by mail-qv1-xf2e.google.com with SMTP id jy14so1095983qvb.12
+ for <qemu-devel@nongnu.org>; Fri, 02 Sep 2022 03:55:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=pQlVW0CeF2tD4vSeeLKvLQk2jUJgfzVKUrdy3OEjdtY=;
+ b=jILKipNrhuFE3DUJVDwyQJ8L09u51rD5kBfUFC1Q0oMDBTvN3MD3tLu2JEH1Fk2Qkv
+ 91lM4BWeTjhSuyP5yeT2EVf4UlixkTFPchuqEd/3/ULrpA+yvm6jCGHDmnx1G1O3tn1B
+ YBw4zFyt2Yxoaqpm2ponTGczU25KuxEGXHkoRicMEzDKXo1evstQH8fq5ZkuOIvpJIfw
+ gVzhm/ONzIBanjf7XIY9t7lQwXKL8QGAHPRyZ4n7L64ENjaoqMa9E2NFyTNvHnPsLDQa
+ xSiLRvHXYdX2FN2a6pA4nyQV+EWAkXDjweQnvCI30E3/QgyB2dcvnWDfmUYbRsUT6pH0
+ /GtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=pQlVW0CeF2tD4vSeeLKvLQk2jUJgfzVKUrdy3OEjdtY=;
+ b=K2wWVCoMdVBDphlN7YQ6xraddjibezH2HsF4vvplkn2YYcunlyK5nWoispGgJdTIhq
+ sXyRSGYxzpgXFaZcoHB8+seRaoriaSUgAdE09jbz12fIYne8n+7qGc43X3ybinlcA8IS
+ omXlNa6kaV+Pp3+47q2wuXBov1iCLYH92VBONS5VBhShKUXc2NJPoeMTT9SW/8aGnTyc
+ WqRSyl3i52WynV994LJKaZoEKXg41dPJAkgNUoh3479Dw+WngdwjV7Ou4E5K1EVVeSXl
+ /vwRCLAzpa+5wFOIBaGNw/DENmWMod5I1b9hrPSvNfhU6t5Fs4IDJpceqgM+G0LvN4Cy
+ 0+VA==
+X-Gm-Message-State: ACgBeo2g7KmHXw3pQNvNkcIfcY6txhxhX9wgKhxQRwR6aMzdElIUfITq
+ Xxauh3v+KcWPdPfeQrqlJhQiIm7EjI32Q5PAtAf7jshh
+X-Google-Smtp-Source: AA6agR5OmBa9wwCisvPIKKXBy1C8bhkPaeQMBAzHkt7VG1k9T+SrTw2OIVQ8Onf9E+cE1yf6O4qdWFv9SQJRTZoFp/k=
+X-Received: by 2002:a05:6214:ca1:b0:498:f96d:4a8c with SMTP id
+ s1-20020a0562140ca100b00498f96d4a8cmr25017235qvs.51.1662116157854; Fri, 02
+ Sep 2022 03:55:57 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH 04/20] ppc4xx: Use Ppc4xxSdramBank in ppc4xx_sdram_banks()
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, <qemu-devel@nongnu.org>,
- <qemu-ppc@nongnu.org>
-CC: Daniel Henrique Barboza <danielhb413@gmail.com>, Peter Maydell
- <peter.maydell@linaro.org>
-References: <cover.1660926381.git.balaton@eik.bme.hu>
- <c86ed3ab2edade3d7bc481be4a3134b279eff341.1660926381.git.balaton@eik.bme.hu>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <c86ed3ab2edade3d7bc481be4a3134b279eff341.1660926381.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 62a5ac72-2800-4662-9fbc-e918a009f1d5
-X-Ovh-Tracer-Id: 16129079117622643619
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeltddgfeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdfovfetjfhoshhtpehmohehvdel
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+References: <20220713124357.247817-1-pbonzini@redhat.com>
+ <CAEUhbmVWdAF2fO1E6YAJYQOaC_4dog7TkHdyJwqMAmEzrST8UQ@mail.gmail.com>
+ <CAA8xKjW9fCtiS3Zgvh6W6sBOiCz_OJxL1G-bABez-2oMQCd=yw@mail.gmail.com>
+In-Reply-To: <CAA8xKjW9fCtiS3Zgvh6W6sBOiCz_OJxL1G-bABez-2oMQCd=yw@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 2 Sep 2022 18:55:47 +0800
+Message-ID: <CAEUhbmVHMV+NLkoweWLkx554SxXSnwvU=os_YrX0UStfiwUcqQ@mail.gmail.com>
+Subject: Re: [PATCH] scsi/lsi53c895a: really fix use-after-free in
+ lsi_do_msgout (CVE-2022-0216)
+To: Mauro Matteo Cascella <mcascell@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alexander Bulekov <alxndr@bu.edu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -76,290 +87,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/19/22 18:55, BALATON Zoltan wrote:
-> Change ppc4xx_sdram_banks() to take one Ppc4xxSdramBank array instead
-> of the separate arrays and adjust ppc4xx_sdram_init() and
-> ppc440_sdram_init() accordingly as well as machines using these.
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->   hw/ppc/ppc405.h         |  4 +---
->   hw/ppc/ppc405_uc.c      | 10 +++++-----
->   hw/ppc/ppc440.h         |  5 ++---
->   hw/ppc/ppc440_bamboo.c  | 15 ++++++---------
->   hw/ppc/ppc440_uc.c      |  9 ++++-----
->   hw/ppc/ppc4xx_devs.c    | 21 +++++++++------------
->   hw/ppc/sam460ex.c       | 15 +++++----------
->   include/hw/ppc/ppc4xx.h |  9 +++------
->   8 files changed, 35 insertions(+), 53 deletions(-)
-> 
-> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-> index 756865621b..ca0972b88b 100644
-> --- a/hw/ppc/ppc405.h
-> +++ b/hw/ppc/ppc405.h
-> @@ -167,9 +167,7 @@ struct Ppc405SoCState {
->       DeviceState parent_obj;
->   
->       /* Public */
-> -    MemoryRegion ram_banks[2];
-> -    hwaddr ram_bases[2], ram_sizes[2];
-> -
-> +    Ppc4xxSdramBank ram_banks[2];
->       MemoryRegion *dram_mr;
->       hwaddr ram_size;
->   
-> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-> index 2833d0d538..461d18c8a5 100644
-> --- a/hw/ppc/ppc405_uc.c
-> +++ b/hw/ppc/ppc405_uc.c
-> @@ -1071,14 +1071,14 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->   
->       /* SDRAM controller */
->           /* XXX 405EP has no ECC interrupt */
-> -    s->ram_bases[0] = 0;
-> -    s->ram_sizes[0] = s->ram_size;
-> -    memory_region_init_alias(&s->ram_banks[0], OBJECT(s),
-> +    s->ram_banks[0].base = 0;
-> +    s->ram_banks[0].size = s->ram_size;
-> +    memory_region_init_alias(&s->ram_banks[0].ram, OBJECT(s),
->                                "ppc405.sdram0", s->dram_mr,
-> -                             s->ram_bases[0], s->ram_sizes[0]);
-> +                             s->ram_banks[0].base, s->ram_banks[0].size);
->   
->       ppc4xx_sdram_init(env, qdev_get_gpio_in(DEVICE(&s->uic), 17), 1,
-> -                      s->ram_banks, s->ram_bases, s->ram_sizes);
-> +                      s->ram_banks);
+Hi Mauro,
 
-Compile fails later on :
+On Fri, Sep 2, 2022 at 6:44 PM Mauro Matteo Cascella
+<mcascell@redhat.com> wrote:
+>
+> Hi Bin,
+>
+> On Fri, Sep 2, 2022 at 3:56 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > Hi,
+> >
+> > On Wed, Jul 13, 2022 at 8:45 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+> > >
+> > > From: Mauro Matteo Cascella <mcascell@redhat.com>
+> > >
+> > > Set current_req to NULL, not current_req->req, to prevent reusing a free'd
+> > > buffer in case of repeated SCSI cancel requests.  Also apply the fix to
+> > > CLEAR QUEUE and BUS DEVICE RESET messages as well, since they also cancel
+> > > the request.
+> > >
+> > > Thanks to Alexander Bulekov for providing a reproducer.
+> > >
+> > > Fixes: CVE-2022-0216
+> > > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/972
+> > > Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
+> > > Tested-by: Alexander Bulekov <alxndr@bu.edu>
+> > > Message-Id: <20220711123316.421279-1-mcascell@redhat.com>
+> > > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> > > ---
+> > >         Adjust the patch from v1 to v2 since the changes crossed
+> > >         with the pull request.
+> > >
+> > >  hw/scsi/lsi53c895a.c               |  3 +-
+> > >  tests/qtest/fuzz-lsi53c895a-test.c | 71 ++++++++++++++++++++++++++++++
+> > >  2 files changed, 73 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
+> > > index 99ea42d49b..ad5f5e5f39 100644
+> > > --- a/hw/scsi/lsi53c895a.c
+> > > +++ b/hw/scsi/lsi53c895a.c
+> > > @@ -1030,7 +1030,7 @@ static void lsi_do_msgout(LSIState *s)
+> > >              trace_lsi_do_msgout_abort(current_tag);
+> > >              if (current_req && current_req->req) {
+> > >                  scsi_req_cancel(current_req->req);
+> > > -                current_req->req = NULL;
+> > > +                current_req = NULL;
+> > >              }
+> > >              lsi_disconnect(s);
+> > >              break;
+> > > @@ -1056,6 +1056,7 @@ static void lsi_do_msgout(LSIState *s)
+> > >              /* clear the current I/O process */
+> > >              if (s->current) {
+> > >                  scsi_req_cancel(s->current->req);
+> > > +                current_req = NULL;
+> > >              }
+> > >
+> > >              /* As the current implemented devices scsi_disk and scsi_generic
+> > > diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
+> > > index 2e8e67859e..6872c70d3a 100644
+> > > --- a/tests/qtest/fuzz-lsi53c895a-test.c
+> > > +++ b/tests/qtest/fuzz-lsi53c895a-test.c
+> > > @@ -8,6 +8,74 @@
+> > >  #include "qemu/osdep.h"
+> > >  #include "libqtest.h"
+> > >
+> > > +/*
+> > > + * This used to trigger a UAF in lsi_do_msgout()
+> > > + * https://gitlab.com/qemu-project/qemu/-/issues/972
+> > > + */
+> > > +static void test_lsi_do_msgout_cancel_req(void)
+> > > +{
+> > > +    QTestState *s;
+> > > +
+> > > +    s = qtest_init("-M q35 -m 4G -display none -nodefaults "
+> >
+> > This test does not run on machines with small size memory. Is 4G a
+> > must have for this test?
+>
+> 4G comes from [1], I don't think it's a must have. Would 2G be okay?
 
-../hw/ppc/ppc405_uc.c: In function ‘ppc405_soc_realize’:
-../hw/ppc/ppc405_uc.c:1083:5: error: ‘ppc4xx_sdram_init’ accessing 576 bytes in a region of size 272 [-Werror=stringop-overflow=]
-  1083 |     ppc4xx_sdram_init(env, qdev_get_gpio_in(DEVICE(&s->uic), 17), 1,
-       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  1084 |                       s->ram_banks);
-       |                       ~~~~~~~~~~~~~
-../hw/ppc/ppc405_uc.c:1083:5: note: referencing argument 4 of type ‘Ppc4xxSdramBank[0]’
+2G is much better. My machine has 8G memory and 4G fails sometimes.
 
-I am using :
+> For some reason ASAN does not trigger the UAF when I run the test
+> locally with less than 2G (1.7G to be precise). I didn't really
+> investigate why that is the case.
+>
+> [1] https://gitlab.com/qemu-project/qemu/-/issues/972#note_1019851430.
+>
 
-   gcc version 12.2.1 20220819 (Red Hat 12.2.1-1) (GCC)
-
-Thanks,
-
-C.
-
-
-
->   
->       /* External bus controller */
->       if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->ebc), &s->cpu, errp)) {
-> diff --git a/hw/ppc/ppc440.h b/hw/ppc/ppc440.h
-> index 7cef936125..5eb2f9a6b3 100644
-> --- a/hw/ppc/ppc440.h
-> +++ b/hw/ppc/ppc440.h
-> @@ -11,14 +11,13 @@
->   #ifndef PPC440_H
->   #define PPC440_H
->   
-> -#include "hw/ppc/ppc.h"
-> +#include "hw/ppc/ppc4xx.h"
->   
->   void ppc4xx_l2sram_init(CPUPPCState *env);
->   void ppc4xx_cpr_init(CPUPPCState *env);
->   void ppc4xx_sdr_init(CPUPPCState *env);
->   void ppc440_sdram_init(CPUPPCState *env, int nbanks,
-> -                       MemoryRegion *ram_memories,
-> -                       hwaddr *ram_bases, hwaddr *ram_sizes,
-> +                       Ppc4xxSdramBank ram_banks[],
->                          int do_init);
->   void ppc4xx_ahb_init(CPUPPCState *env);
->   void ppc4xx_dma_init(CPUPPCState *env, int dcr_base);
-> diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
-> index e3412c4fcd..2aac8a3fe9 100644
-> --- a/hw/ppc/ppc440_bamboo.c
-> +++ b/hw/ppc/ppc440_bamboo.c
-> @@ -168,9 +168,8 @@ static void bamboo_init(MachineState *machine)
->       unsigned int pci_irq_nrs[4] = { 28, 27, 26, 25 };
->       MemoryRegion *address_space_mem = get_system_memory();
->       MemoryRegion *isa = g_new(MemoryRegion, 1);
-> -    MemoryRegion *ram_memories = g_new(MemoryRegion, PPC440EP_SDRAM_NR_BANKS);
-> -    hwaddr ram_bases[PPC440EP_SDRAM_NR_BANKS] = {0};
-> -    hwaddr ram_sizes[PPC440EP_SDRAM_NR_BANKS] = {0};
-> +    Ppc4xxSdramBank *ram_banks = g_new0(Ppc4xxSdramBank,
-> +                                        PPC440EP_SDRAM_NR_BANKS);
->       PCIBus *pcibus;
->       PowerPCCPU *cpu;
->       CPUPPCState *env;
-> @@ -205,13 +204,11 @@ static void bamboo_init(MachineState *machine)
->                          qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_CINT));
->   
->       /* SDRAM controller */
-> -    ppc4xx_sdram_banks(machine->ram, PPC440EP_SDRAM_NR_BANKS, ram_memories,
-> -                       ram_bases, ram_sizes, ppc440ep_sdram_bank_sizes);
-> +    ppc4xx_sdram_banks(machine->ram, PPC440EP_SDRAM_NR_BANKS, ram_banks,
-> +                       ppc440ep_sdram_bank_sizes);
->       /* XXX 440EP's ECC interrupts are on UIC1, but we've only created UIC0. */
-> -    ppc4xx_sdram_init(env,
-> -                      qdev_get_gpio_in(uicdev, 14),
-> -                      PPC440EP_SDRAM_NR_BANKS, ram_memories,
-> -                      ram_bases, ram_sizes);
-> +    ppc4xx_sdram_init(env, qdev_get_gpio_in(uicdev, 14),
-> +                      PPC440EP_SDRAM_NR_BANKS, ram_banks);
->       /* Enable SDRAM memory regions, this should be done by the firmware */
->       if (ppc_dcr_write(env->dcr_env, SDRAM0_CFGADDR, 0x20) ||
->           ppc_dcr_write(env->dcr_env, SDRAM0_CFGDATA, 0x80000000)) {
-> diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
-> index 6ab0ad7985..3507c35b63 100644
-> --- a/hw/ppc/ppc440_uc.c
-> +++ b/hw/ppc/ppc440_uc.c
-> @@ -690,8 +690,7 @@ static void sdram_reset(void *opaque)
->   }
->   
->   void ppc440_sdram_init(CPUPPCState *env, int nbanks,
-> -                       MemoryRegion *ram_memories,
-> -                       hwaddr *ram_bases, hwaddr *ram_sizes,
-> +                       Ppc4xxSdramBank ram_banks[],
->                          int do_init)
->   {
->       ppc440_sdram_t *sdram;
-> @@ -700,9 +699,9 @@ void ppc440_sdram_init(CPUPPCState *env, int nbanks,
->       sdram = g_malloc0(sizeof(*sdram));
->       sdram->nbanks = nbanks;
->       for (i = 0; i < nbanks; i++) {
-> -        sdram->bank[i].ram = ram_memories[i];
-> -        sdram->bank[i].base = ram_bases[i];
-> -        sdram->bank[i].size = ram_sizes[i];
-> +        sdram->bank[i].ram = ram_banks[i].ram;
-> +        sdram->bank[i].base = ram_banks[i].base;
-> +        sdram->bank[i].size = ram_banks[i].size;
->       }
->       qemu_register_reset(&sdram_reset, sdram);
->       ppc_dcr_register(env, SDRAM0_CFGADDR,
-> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-> index 936d6f77fe..e0b5931c04 100644
-> --- a/hw/ppc/ppc4xx_devs.c
-> +++ b/hw/ppc/ppc4xx_devs.c
-> @@ -343,9 +343,7 @@ static void sdram_reset(void *opaque)
->   }
->   
->   void ppc4xx_sdram_init(CPUPPCState *env, qemu_irq irq, int nbanks,
-> -                       MemoryRegion *ram_memories,
-> -                       hwaddr *ram_bases,
-> -                       hwaddr *ram_sizes)
-> +                       Ppc4xxSdramBank ram_banks[])
->   {
->       ppc4xx_sdram_t *sdram;
->       int i;
-> @@ -354,9 +352,9 @@ void ppc4xx_sdram_init(CPUPPCState *env, qemu_irq irq, int nbanks,
->       sdram->irq = irq;
->       sdram->nbanks = nbanks;
->       for (i = 0; i < nbanks; i++) {
-> -        sdram->bank[i].ram = ram_memories[i];
-> -        sdram->bank[i].base = ram_bases[i];
-> -        sdram->bank[i].size = ram_sizes[i];
-> +        sdram->bank[i].ram = ram_banks[i].ram;
-> +        sdram->bank[i].base = ram_banks[i].base;
-> +        sdram->bank[i].size = ram_banks[i].size;
->       }
->       qemu_register_reset(&sdram_reset, sdram);
->       ppc_dcr_register(env, SDRAM0_CFGADDR,
-> @@ -376,8 +374,7 @@ void ppc4xx_sdram_init(CPUPPCState *env, qemu_irq irq, int nbanks,
->    * sizes varies by SoC.
->    */
->   void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
-> -                        MemoryRegion ram_memories[],
-> -                        hwaddr ram_bases[], hwaddr ram_sizes[],
-> +                        Ppc4xxSdramBank ram_banks[],
->                           const ram_addr_t sdram_bank_sizes[])
->   {
->       ram_addr_t size_left = memory_region_size(ram);
-> @@ -392,13 +389,13 @@ void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
->               if (bank_size <= size_left) {
->                   char name[32];
->   
-> -                ram_bases[i] = base;
-> -                ram_sizes[i] = bank_size;
-> +                ram_banks[i].base = base;
-> +                ram_banks[i].size = bank_size;
->                   base += bank_size;
->                   size_left -= bank_size;
->                   snprintf(name, sizeof(name), "ppc4xx.sdram%d", i);
-> -                memory_region_init_alias(&ram_memories[i], NULL, name, ram,
-> -                                         ram_bases[i], ram_sizes[i]);
-> +                memory_region_init_alias(&ram_banks[i].ram, NULL, name, ram,
-> +                                         ram_banks[i].base, ram_banks[i].size);
->                   break;
->               }
->           }
-> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
-> index 850bb3b817..f4c2a693fb 100644
-> --- a/hw/ppc/sam460ex.c
-> +++ b/hw/ppc/sam460ex.c
-> @@ -73,7 +73,6 @@
->   #define OPB_FREQ 115000000
->   #define EBC_FREQ 115000000
->   #define UART_FREQ 11059200
-> -#define SDRAM_NR_BANKS 4
->   
->   /* The SoC could also handle 4 GiB but firmware does not work with that. */
->   /* Maybe it overflows a signed 32 bit number somewhere? */
-> @@ -274,9 +273,7 @@ static void sam460ex_init(MachineState *machine)
->   {
->       MemoryRegion *address_space_mem = get_system_memory();
->       MemoryRegion *isa = g_new(MemoryRegion, 1);
-> -    MemoryRegion *ram_memories = g_new(MemoryRegion, SDRAM_NR_BANKS);
-> -    hwaddr ram_bases[SDRAM_NR_BANKS] = {0};
-> -    hwaddr ram_sizes[SDRAM_NR_BANKS] = {0};
-> +    Ppc4xxSdramBank *ram_banks = g_new0(Ppc4xxSdramBank, 1);
->       MemoryRegion *l2cache_ram = g_new(MemoryRegion, 1);
->       DeviceState *uic[4];
->       int i;
-> @@ -345,20 +342,18 @@ static void sam460ex_init(MachineState *machine)
->       /* SDRAM controller */
->       /* put all RAM on first bank because board has one slot
->        * and firmware only checks that */
-> -    ppc4xx_sdram_banks(machine->ram, 1, ram_memories, ram_bases, ram_sizes,
-> -                       ppc460ex_sdram_bank_sizes);
-> +    ppc4xx_sdram_banks(machine->ram, 1, ram_banks, ppc460ex_sdram_bank_sizes);
->   
->       /* FIXME: does 460EX have ECC interrupts? */
-> -    ppc440_sdram_init(env, SDRAM_NR_BANKS, ram_memories,
-> -                      ram_bases, ram_sizes, 1);
-> +    ppc440_sdram_init(env, 1, ram_banks, 1);
->   
->       /* IIC controllers and devices */
->       dev = sysbus_create_simple(TYPE_PPC4xx_I2C, 0x4ef600700,
->                                  qdev_get_gpio_in(uic[0], 2));
->       i2c = PPC4xx_I2C(dev)->bus;
->       /* SPD EEPROM on RAM module */
-> -    spd_data = spd_data_generate(ram_sizes[0] < 128 * MiB ? DDR : DDR2,
-> -                                 ram_sizes[0]);
-> +    spd_data = spd_data_generate(ram_banks->size < 128 * MiB ? DDR : DDR2,
-> +                                 ram_banks->size);
->       spd_data[20] = 4; /* SO-DIMM module */
->       smbus_eeprom_init_one(i2c, 0x50, spd_data);
->       /* RTC */
-> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
-> index a5e6c185af..0a9781bfaf 100644
-> --- a/include/hw/ppc/ppc4xx.h
-> +++ b/include/hw/ppc/ppc4xx.h
-> @@ -43,14 +43,11 @@ enum {
->   };
->   
->   void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
-> -                        MemoryRegion ram_memories[],
-> -                        hwaddr ram_bases[], hwaddr ram_sizes[],
-> +                        Ppc4xxSdramBank ram_banks[],
->                           const ram_addr_t sdram_bank_sizes[]);
->   
-> -void ppc4xx_sdram_init (CPUPPCState *env, qemu_irq irq, int nbanks,
-> -                        MemoryRegion ram_memories[],
-> -                        hwaddr *ram_bases,
-> -                        hwaddr *ram_sizes);
-> +void ppc4xx_sdram_init(CPUPPCState *env, qemu_irq irq, int nbanks,
-> +                       Ppc4xxSdramBank ram_banks[]);
->   
->   #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
->   
-
+Regards,
+Bin
 
