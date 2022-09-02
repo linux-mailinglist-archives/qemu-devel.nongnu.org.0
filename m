@@ -2,94 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5011B5AAC7F
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 12:33:27 +0200 (CEST)
-Received: from localhost ([::1]:54304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED56E5AAC5D
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 12:28:25 +0200 (CEST)
+Received: from localhost ([::1]:36170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU3zJ-00059M-Uq
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 06:33:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39294)
+	id 1oU3uS-0001V8-KD
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 06:28:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oU3qL-0007V3-QP
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 06:24:10 -0400
-Received: from mga17.intel.com ([192.55.52.151]:15626)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oU3pz-0007Mj-1w
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 06:23:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38346)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oU3qE-0005bb-TH
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 06:24:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662114242; x=1693650242;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Hmx1025FThlE9cx1UE6O8SOkWc9A3kuNYU7VIFp8RZU=;
- b=KumCkS/Wt+bNEP4EyrOMMiWnU+uewbGLcFwsxIjCS11STSL4Lt+e4IqI
- xKafJShGNjbfLB/ZSlgZNX4A11upmuSRd1tZ7Ex0TwrFLflk90tqx71Xf
- qaJXia9mo3MP+3tubUrBZ6fi9BrDqYnz8u7L97I3XkYu1jwJTSixhDLEt
- gghiUqKwhMJWYYZGZKnf6janpBcAkeffAEGRbJXgHprsr3Tb7P0yKRu+Y
- KJqe8oJ3VymCGSWqCXE8xySaqJcRSg8uzGLNq8VtZgNY+2HwlHODt1eku
- Jc48LqbsgqlnaK6oUgqOA74zXF7zVota+nLUq3i6y2glZSUU/Ya5KB2/G g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10457"; a="276353511"
-X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="276353511"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2022 03:23:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; d="scan'208";a="608943940"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by orsmga007.jf.intel.com with ESMTP; 02 Sep 2022 03:23:46 -0700
-Date: Fri, 2 Sep 2022 18:19:05 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Fuad Tabba <tabba@google.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>,
- Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <20220902101905.GA1712673@chaop.bj.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <CA+EHjTy6NF=BkCqK0vhXLdtKZMahp55JUMSfxN96-NT3YiMXYQ@mail.gmail.com>
- <20220829151756.GB1586678@chaop.bj.intel.com>
- <CA+EHjTxgKJ=9UP=DWtNsSgD2FtvBMYrUbcS=9h5j8Tmk57WqxQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oU3ps-0005ZT-Fz
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 06:23:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662114219;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=XxRD8cUnMc/rjICQkhZMejnNXvJP9mYKdj/L6cL3IdQ=;
+ b=WiecHLwE5JrAaC1lQQPfQoazlzdU2dJ5/LFsIuB6s2ppUdRKCB6esyLnuau6iUDQ1ywmJa
+ 2pFK0WxlG+A4irboyBuuuTf6Ca+kB7eIfoXVuGElW4TyX4ofUX//ks1cHwyOQEZOnR2WCd
+ hE8Xjig5merH6/fj/IP+d4UcJqEQ5zY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-631--grwWpJWN3-npkaAQBiiQQ-1; Fri, 02 Sep 2022 06:23:36 -0400
+X-MC-Unique: -grwWpJWN3-npkaAQBiiQQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 477208037B7;
+ Fri,  2 Sep 2022 10:23:35 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 964A840D282E;
+ Fri,  2 Sep 2022 10:23:34 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 461D621E6900; Fri,  2 Sep 2022 12:23:33 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: qemu-devel@nongnu.org,  qemu-block@nongnu.org,  qemu-arm@nongnu.org,
+ Alex Williamson <alex.williamson@redhat.com>,  "Michael S. Tsirkin"
+ <mst@redhat.com>,  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,  Gerd
+ Hoffmann <kraxel@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,  Eduardo Habkost
+ <eduardo@habkost.net>,  John Snow <jsnow@redhat.com>,  Dmitry Fleytman
+ <dmitry.fleytman@gmail.com>,  Jason Wang <jasowang@redhat.com>,  Stefan
+ Weil <sw@weilnetz.de>,  Keith Busch <kbusch@kernel.org>,  Klaus Jensen
+ <its@irrelevant.dk>,  Peter Maydell <peter.maydell@linaro.org>,  Andrey
+ Smirnov <andrew.smirnov@gmail.com>,  Paul Burton <paulburton@kernel.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Subject: Re: [PATCH v2] pci: Assert that capabilities never overlap
+References: <20220831013236.32937-1-akihiko.odaki@daynix.com>
+Date: Fri, 02 Sep 2022 12:23:33 +0200
+In-Reply-To: <20220831013236.32937-1-akihiko.odaki@daynix.com> (Akihiko
+ Odaki's message of "Wed, 31 Aug 2022 10:32:36 +0900")
+Message-ID: <87tu5qulay.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=gb2312
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+EHjTxgKJ=9UP=DWtNsSgD2FtvBMYrUbcS=9h5j8Tmk57WqxQ@mail.gmail.com>
-Received-SPF: none client-ip=192.55.52.151;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga17.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,44 +86,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 31, 2022 at 10:12:12AM +0100, Fuad Tabba wrote:
-> > > Moreover, something which was discussed here before [3], is the
-> > > ability to share in-place. For pKVM/arm64, the conversion between
-> > > shared and private involves only changes to the stage-2 page tables,
-> > > which are controlled by the hypervisor. Android supports this in-place
-> > > conversion already, and I think that the cost of copying for many
-> > > use-cases that would involve large amounts of data would be big. We
-> > > will measure the relative costs in due course, but in the meantime
-> > > we¡¯re nervous about adopting a new user ABI which doesn¡¯t appear to
-> > > cater for in-place conversion; having just the fd would simplify that
-> > > somewhat
-> >
-> > I understand there is difficulty to achieve that with the current
-> > private_fd + userspace_addr (they basically in two separate fds), but is
-> > it possible for pKVM to extend this? Brainstorming for example, pKVM can
-> > ignore userspace_addr and only use private_fd to cover both shared and
-> > private memory, or pKVM introduce new KVM memslot flag?
-> 
-> It's not that there's anything blocking pKVM from doing that. It's
-> that the disconnect of using a memory address for the shared memory,
-> and a file descriptor for the private memory doesn't really make sense
-> for pKVM. I see how it makes sense for TDX and the Intel-specific
-> implementation. It just seems that this is baking in an
-> implementation-specific aspect as a part of the KVM general api, and
-> the worry is that this might have some unintended consequences in the
-> future.
+Akihiko Odaki <akihiko.odaki@daynix.com> writes:
 
-It's true this API originates from supporting TDX and probably other
-similar confidential computing(CC) technologies. But if we ever get
-chance to make it more common to cover more usages like pKVM, I would
-also like to. The challenge on this point is pKVM diverges a lot from CC
-usages, putting both shared and private memory in the same fd
-complicates CC usages. If two things are different enough, I'm also
-thinking implementation-specific may not be that bad.
+> pci_add_capability appears most PCI devices. Its error handling required
+> lots of code, and led to inconsistent behaviors such as:
+> - passing error_abort
+> - passing error_fatal
+> - asserting the returned value
+> - propagating the error to the caller
+> - skipping the rest of the function
+> - just ignoring
+>
+> The code generating errors in pci_add_capability had a comment which
+> says:
+>> Verify that capabilities don't overlap.  Note: device assignment
+>> depends on this check to verify that the device is not broken.
+>> Should never trigger for emulated devices, but it's helpful for
+>> debugging these.
+>
+> Indeed vfio has some code that passes capability offsets and sizes from
+> a physical device, but it explicitly pays attention so that the
+> capabilities never overlap.
 
-Chao
+I can't see that at a glance.  Can you give me a clue?
+
+>                             Therefore, we can always assert that
+> capabilities never overlap when pci_add_capability is called, resolving
+> these inconsistencies.
+>
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+
 
