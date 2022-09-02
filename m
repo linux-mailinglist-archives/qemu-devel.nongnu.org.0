@@ -2,92 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC4C5AB164
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 15:29:21 +0200 (CEST)
-Received: from localhost ([::1]:45998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 607B05AB17D
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 15:35:32 +0200 (CEST)
+Received: from localhost ([::1]:37386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU6jY-00043a-Hy
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 09:29:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54310)
+	id 1oU6pX-0002W7-6E
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 09:35:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oU6dP-0003Yj-MK; Fri, 02 Sep 2022 09:23:01 -0400
-Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:38506)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oU6dL-0003vw-9d; Fri, 02 Sep 2022 09:22:57 -0400
-Received: by mail-lf1-x12d.google.com with SMTP id q7so3293885lfu.5;
- Fri, 02 Sep 2022 06:22:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=zc391TbnMfLCuJ5dr66T/2vdLqXYAYHTre6J+kwgXU4=;
- b=i4KplxUDVNHUHaqN51g/nR0IrUCEinT5WBxb77DhQHIxmxB7Xwn6qAOTuIOfO5WhLs
- MJbhezJyutZ95YOHACVSaWXvpM5hdbXT4nTViNAS5OdjZAvGynWclKHluq8qUM0QWKJK
- qwec4oZ2GXAmLc8LdsQRRXB6GH95FzuEa0GS3J6i8ZPjjNzI3lIlt4Dlh9DrG9NLw4Z+
- +gKbbwsTiQ1Z8cJ8oCjYzCnuA/VJTOTDlg7/G3xEXl4z4IRxR+WF/O/ve95G3Q9qtHbB
- 0TQ8kIm6l54jhwh0ZIp0X88+L6QJx0nx25nM1Ayc4GXq8vWScTOsnqjvd++V+myLHZ+N
- VAWw==
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1oU6hz-0001tv-QH
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 09:27:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46819)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1oU6hs-000527-IK
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 09:27:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662125254;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9nk7X/r8+/yl44IqlsdDdXTX8+XI8vPFl0b5H4xWAj8=;
+ b=jTWWa5vKSHGDVfS0E2F1nO9/gePv4uOdCJ7HuL2oD0UU+JTRHKHT8xkbrEsj4I/VleWqZW
+ dc+NkIKtTKik+b3OptE4XPg/Je+ANMrOTyaa9MBu9O/kfDLRuQgCB0q7w4UEXVn6S7nvdb
+ gvmJcLKwQgVZKbnTGjRwZwBUkXGq3kA=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-507-EX_MeXwWMCmiAKIU1HuyCA-1; Fri, 02 Sep 2022 09:27:33 -0400
+X-MC-Unique: EX_MeXwWMCmiAKIU1HuyCA-1
+Received: by mail-ot1-f70.google.com with SMTP id
+ o24-20020a9d6d18000000b00639239e36b0so1086270otp.13
+ for <qemu-devel@nongnu.org>; Fri, 02 Sep 2022 06:27:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=zc391TbnMfLCuJ5dr66T/2vdLqXYAYHTre6J+kwgXU4=;
- b=R6yznRldMt8sDdgZymjTy03HUvHwkY1hwXwLIstW2fqq6y75zGWaG8GJtaaN8+kZYz
- +MDxuthY4MxWi1isJD0XpVL8GSCSbjPvbNIvwEjGJ9yWw47JIfRfSG0ZxfSfH6vmeJs2
- fHyyssGpz/ad+4VXaGTuAKcGiKLKGlQU1SYH8R/ktQec/78Mw4fIw5O08MinFK4x8bBy
- mKxm5bPhkPR/Y0mZnL+5MRjqtNGA4gwpTfXAq6g8J8+xJ74SPGtF13WNkRIdSsbmmVhk
- oRQl/Bqp8f8BlCj89Jz1GlX1C3JVyYpxGLIRHvaC3VI/ftXpNFJ708DIdrg2uxd1/bj4
- eG3g==
-X-Gm-Message-State: ACgBeo2/0EvPyAj9ZNH/HCgRTBlzvsNlpaTrhkp0raGL2eqX3tpv/Yv9
- PBfTjIVpw4LRNouqFEl74IaUkJK6Eyv5xRac6kY=
-X-Google-Smtp-Source: AA6agR6z2h+HLJ3ofUk/YvuFUoSOEH1EmjUHy2fZgSawANHYYfigxSvUaU0cFEJJ4UIko84xLINPnrcYfe2AGd0zqZE=
-X-Received: by 2002:a05:6512:2306:b0:48b:2905:21a8 with SMTP id
- o6-20020a056512230600b0048b290521a8mr13521683lfu.167.1662124970491; Fri, 02
- Sep 2022 06:22:50 -0700 (PDT)
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date;
+ bh=9nk7X/r8+/yl44IqlsdDdXTX8+XI8vPFl0b5H4xWAj8=;
+ b=h3uK7BkanTOcyVr3bxCEkuj/ea3kq1Jv/J34orGy9S9jv9X/opo78gOBW1XFYntGuK
+ bgasdPp0wMNiTDx+leKZ/o/q288/L6SlTloVzH65DWYeoRNOdFXj37uLfhSyea+4+Tar
+ vH0Q5Hri2XHVlhvkbxj1v12FgzN2BhcCx4PnAuCkt/GYXSjYrp+9EMY8D1BCEd9G7ain
+ cvDk4IsBIF3dfDvFUwSAMmci6yvgJzLpN+xOdptlmcJlscckqTCpJjKE6VplSxb1Rymt
+ zGiumh9Du8R3XhwHeWhdqC00y56mKGBv7fOpqW2Q3ARjRc2KOmprfely/Um7WSpsHVln
+ fryQ==
+X-Gm-Message-State: ACgBeo0c4uXpM7nrPoG7SQdNpdxV0xX8zxsYrjjm6wqqXkBgxwH0Blr/
+ VAFxBx3wQzoydc5S47eahbGG81ze0C7NyjTJWn82JjXFV1dwPDtDEVMrkec1Bj37LoSczBhzrjT
+ LTXUh8/HQTiyabas=
+X-Received: by 2002:a05:6870:f219:b0:122:4182:94 with SMTP id
+ t25-20020a056870f21900b0012241820094mr2181449oao.264.1662125252308; 
+ Fri, 02 Sep 2022 06:27:32 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6WfylKdW6gNi1SP20wake7uLc2+iPiPheJDsGy2X2ysrPm+mDTjmWSiXba3WHLN0V6v6o4Gw==
+X-Received: by 2002:a05:6870:f219:b0:122:4182:94 with SMTP id
+ t25-20020a056870f21900b0012241820094mr2181428oao.264.1662125252033; 
+ Fri, 02 Sep 2022 06:27:32 -0700 (PDT)
+Received: from ?IPv6:2804:7f3:fb01:346:a2d4:22c5:c748:1982?
+ ([2804:7f3:fb01:346:a2d4:22c5:c748:1982])
+ by smtp.gmail.com with ESMTPSA id
+ g4-20020a544f84000000b0034378294973sm964498oiy.30.2022.09.02.06.27.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Sep 2022 06:27:31 -0700 (PDT)
+Message-ID: <815debf445a2d3003ab2a2900f182554f0c99b3e.camel@redhat.com>
+Subject: Re: [PATCH v7 10/12] multifd: Support for zero pages transmission
+From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras@redhat.com>
+To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>, Eric Blake
+ <eblake@redhat.com>, Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?=
+ <f4bug@amsat.org>,  Yanan Wang <wangyanan55@huawei.com>, Markus Armbruster
+ <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
+Date: Fri, 02 Sep 2022 10:27:25 -0300
+In-Reply-To: <20220802063907.18882-11-quintela@redhat.com>
+References: <20220802063907.18882-1-quintela@redhat.com>
+ <20220802063907.18882-11-quintela@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
 MIME-Version: 1.0
-References: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
- <20220712093528.4144184-12-marcandre.lureau@redhat.com>
- <87pmhf86ew.fsf@pond.sub.org>
- <CAJ+F1C+=TbU+dW23MM8Vyaxti73xySMkuK4+wRDjgdM32qMCAA@mail.gmail.com>
- <8735e38e6t.fsf@pond.sub.org>
- <CAJ+F1CKH5y8SWULvgXWh7PPDTXOMGusYHE6RwZDZWVJoC=m8hQ@mail.gmail.com>
- <87o7wr5ew9.fsf@pond.sub.org>
- <CAJ+F1CKbkTOX7Fh9RvkBvuW_gZqZjYSta=7nEKbzm-OefPE_GQ@mail.gmail.com>
- <CAFEAcA8E7uTSHh+BdnU2ZHiaquaQDqpYMurUwpjvVmK-Ks522w@mail.gmail.com>
- <CAJ+F1CLb=+gA=Keb3WgW3Mf84eWRikWVxV8HTjdQU8pFTVNMEg@mail.gmail.com>
- <YvTy8zYFQYAKqgoF@redhat.com> <87o7wqoqc1.fsf@pond.sub.org>
- <CAJ+F1C+DNUwtdwSgf+aAoAcJ6u_fn=txXfHG9QdGaC8o26cxkg@mail.gmail.com>
- <87o7vyt4b4.fsf@pond.sub.org>
-In-Reply-To: <87o7vyt4b4.fsf@pond.sub.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 2 Sep 2022 17:22:38 +0400
-Message-ID: <CAJ+F1CLpbpekNgaB6g+E6e2PPUtevvVJWG-9MxDzyoN=+UtnpA@mail.gmail.com>
-Subject: Re: [PATCH v2 11/15] qemu-common: move scripts/qapi
-To: Markus Armbruster <armbru@redhat.com>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org, 
- Eric Blake <eblake@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-block@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>, Xie Yongji <xieyongji@bytedance.com>, 
- Kyle Evans <kevans@freebsd.org>, John Snow <jsnow@redhat.com>, 
- Michael Roth <michael.roth@amd.com>, Warner Losh <imp@bsdimp.com>,
- Kevin Wolf <kwolf@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Laurent Vivier <laurent@vivier.eu>, 
- Fam Zheng <fam@euphon.net>, Hanna Reitz <hreitz@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000070446705e7b1a0f6"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=leobras@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,405 +106,306 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000070446705e7b1a0f6
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2022-08-02 at 08:39 +0200, Juan Quintela wrote:
+> This patch adds counters and similar.  Logic will be added on the
+> following patch.
+>=20
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>=20
+> ---
+>=20
+> Added counters for duplicated/non duplicated pages.
+> Removed reviewed by from David.
+> Add total_zero_pages
+> ---
+>  migration/multifd.h    | 17 ++++++++++++++++-
+>  migration/multifd.c    | 36 +++++++++++++++++++++++++++++-------
+>  migration/ram.c        |  2 --
+>  migration/trace-events |  8 ++++----
+>  4 files changed, 49 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/migration/multifd.h b/migration/multifd.h
+> index cd389d18d2..a1b852200d 100644
+> --- a/migration/multifd.h
+> +++ b/migration/multifd.h
+> @@ -47,7 +47,10 @@ typedef struct {
+>      /* size of the next packet that contains pages */
+>      uint32_t next_packet_size;
+>      uint64_t packet_num;
+> -    uint64_t unused[4];    /* Reserved for future use */
+> +    /* zero pages */
+> +    uint32_t zero_pages;
+> +    uint32_t unused32[1];    /* Reserved for future use */
+> +    uint64_t unused64[3];    /* Reserved for future use */
+>      char ramblock[256];
+>      uint64_t offset[];
+>  } __attribute__((packed)) MultiFDPacket_t;
+> @@ -127,6 +130,8 @@ typedef struct {
+>      uint64_t num_packets;
+>      /* non zero pages sent through this channel */
+>      uint64_t total_normal_pages;
+> +    /* zero pages sent through this channel */
+> +    uint64_t total_zero_pages;
+>      /* buffers to send */
+>      struct iovec *iov;
+>      /* number of iovs used */
+> @@ -135,6 +140,10 @@ typedef struct {
+>      ram_addr_t *normal;
+>      /* num of non zero pages */
+>      uint32_t normal_num;
+> +    /* Pages that are  zero */
+> +    ram_addr_t *zero;
+> +    /* num of zero pages */
+> +    uint32_t zero_num;
 
-Hi
+More of an organization viewpoint:=20
+I can't see total_zero_pages, zero[] and zero_num as Multifd "Parameters".=
+=20
+But OTOH there are other data like this in the struct for keeping migration
+status, so not an issue.
 
-On Fri, Sep 2, 2022 at 3:16 PM Markus Armbruster <armbru@redhat.com> wrote:
+>      /* used for compression methods */
+>      void *data;
+>  }  MultiFDSendParams;
+> @@ -184,12 +193,18 @@ typedef struct {
+>      uint8_t *host;
+>      /* non zero pages recv through this channel */
+>      uint64_t total_normal_pages;
+> +    /* zero pages recv through this channel */
+> +    uint64_t total_zero_pages;
+>      /* buffers to recv */
+>      struct iovec *iov;
+>      /* Pages that are not zero */
+>      ram_addr_t *normal;
+>      /* num of non zero pages */
+>      uint32_t normal_num;
+> +    /* Pages that are  zero */
+> +    ram_addr_t *zero;
+> +    /* num of zero pages */
+> +    uint32_t zero_num;
+>      /* used for de-compression methods */
+>      void *data;
+>  } MultiFDRecvParams;
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index 68fc9f8e88..4473d9f834 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -263,6 +263,7 @@ static void multifd_send_fill_packet(MultiFDSendParam=
+s *p)
+>      packet->normal_pages =3D cpu_to_be32(p->normal_num);
+>      packet->next_packet_size =3D cpu_to_be32(p->next_packet_size);
+>      packet->packet_num =3D cpu_to_be64(p->packet_num);
+> +    packet->zero_pages =3D cpu_to_be32(p->zero_num);
+> =20
+>      if (p->pages->block) {
+>          strncpy(packet->ramblock, p->pages->block->idstr, 256);
+> @@ -323,7 +324,15 @@ static int multifd_recv_unfill_packet(MultiFDRecvPar=
+ams *p, Error **errp)
+>      p->next_packet_size =3D be32_to_cpu(packet->next_packet_size);
+>      p->packet_num =3D be64_to_cpu(packet->packet_num);
+> =20
+> -    if (p->normal_num =3D=3D 0) {
+> +    p->zero_num =3D be32_to_cpu(packet->zero_pages);
+> +    if (p->zero_num > packet->pages_alloc - p->normal_num) {
+> +        error_setg(errp, "multifd: received packet "
+> +                   "with %u zero pages and expected maximum pages are %u=
+",
+> +                   p->zero_num, packet->pages_alloc - p->normal_num) ;
+> +        return -1;
+> +    }
+> +
+> +    if (p->normal_num =3D=3D 0 && p->zero_num =3D=3D 0) {
+>          return 0;
+>      }
+> =20
+> @@ -432,6 +441,8 @@ static int multifd_send_pages(QEMUFile *f)
+>      ram_counters.multifd_bytes +=3D p->sent_bytes;
+>      qemu_file_acct_rate_limit(f, p->sent_bytes);
+>      p->sent_bytes =3D 0;
+> +    ram_counters.normal +=3D p->normal_num;
+> +    ram_counters.duplicate +=3D p->zero_num;
+>      qemu_mutex_unlock(&p->mutex);
+>      qemu_sem_post(&p->sem);
+> =20
+> @@ -545,6 +556,8 @@ void multifd_save_cleanup(void)
+>          p->iov =3D NULL;
+>          g_free(p->normal);
+>          p->normal =3D NULL;
+> +        g_free(p->zero);
+> +        p->zero =3D NULL;
+>          multifd_send_state->ops->send_cleanup(p, &local_err);
+>          if (local_err) {
+>              migrate_set_error(migrate_get_current(), local_err);
+> @@ -666,6 +679,7 @@ static void *multifd_send_thread(void *opaque)
+>              qemu_mutex_unlock(&p->mutex);
+> =20
+>              p->normal_num =3D 0;
+> +            p->zero_num =3D 0;
+> =20
+>              if (use_zero_copy_send) {
+>                  p->iovs_num =3D 0;
+> @@ -687,8 +701,8 @@ static void *multifd_send_thread(void *opaque)
+>              }
+>              multifd_send_fill_packet(p);
+> =20
+> -            trace_multifd_send(p->id, packet_num, p->normal_num, p->flag=
+s,
+> -                               p->next_packet_size);
+> +            trace_multifd_send(p->id, packet_num, p->normal_num, p->zero=
+_num,
+> +                               p->flags, p->next_packet_size);
+> =20
+>              if (use_zero_copy_send) {
+>                  /* Send header first, without zerocopy */
+> @@ -712,6 +726,7 @@ static void *multifd_send_thread(void *opaque)
+>              qemu_mutex_lock(&p->mutex);
+>              p->num_packets++;
+>              p->total_normal_pages +=3D p->normal_num;
+> +            p->total_zero_pages +=3D p->zero_num;
 
-> Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
->
-> > Hi
-> >
-> > On Thu, Aug 11, 2022 at 5:35 PM Markus Armbruster <armbru@redhat.com>
-> wrote:
-> >
-> >> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
-> >>
-> >> > On Thu, Aug 11, 2022 at 02:50:01PM +0400, Marc-Andr=C3=A9 Lureau wro=
-te:
-> >> >> Hi
-> >> >>
-> >> >> On Thu, Aug 11, 2022 at 2:22 PM Peter Maydell <
-> peter.maydell@linaro.org
-> >> >
-> >> >> wrote:
-> >>
-> >> [...]
-> >>
-> >> >> > As Markus says, your branch ends up moving most of qobject into
-> >> >> > qemu-common/. We are never going to let that out of QEMU proper,
-> >> >> > because we are never going to allow ourselves to be tied to API
-> >> >> > compatibility with it as an external library. So anything that
-> >> >> >
-> >> >>
-> >> >> Why is that? We do it with a lot of dependencies already, with stab=
-le
-> >> APIs.
-> >> >>
-> >> >> Furthermore, we don't "have to" be tied to a specific ABI/API, we c=
-an
-> >> >> continue to link statically and compile against a specific version.
-> like
-> >> >> with libvfio-user today.
-> >> >>
-> >> >> And at this point, I am _not_ proposing to have an extra
-> "qemu-common"
-> >> >> repository. I don't think there are enough reasons to want that
-> either.
-> >> >>
-> >> >>
-> >> >>
-> >> >> > needs qobject is never going to leave the QEMU codebase. Which
-> >> >> > means that there's not much gain from shoving it into subproject/
-> >> >> > IMHO.
-> >> >>
-> >> >>
-> >> >> (just to be extra clear, it's qobject not QOM we are talking about)
-> >> >>
-> >> >> qobject is fundamental to all the QAPI related generated code. Why
-> >> should
-> >> >> that remain tight to QEMU proper?
-> >> >
-> >> > Neither qobject nor QOM have ever been designed to be public APIs.
-> >> > Though admittedly qobject is quite a bit simpler as an API, I'm
-> >> > not convinced its current design is something we want to consider
-> >> > public. As an example, just last month Markus proposed changing
-> >> > QDict's implementation
-> >> >
-> >> > https://lists.gnu.org/archive/html/qemu-devel/2022-07/msg00758.html
-> >> >
-> >> >
-> >> > If we want external projects to be able to take advantage of QAPI,
-> >> > the bare minimum we need to be public is a QAPI parser, from which
-> >> > people can then build any code generators desired.
-> >>
-> >> Basically scripts/qapi/ less the code generators.
-> >>
-> >>
-> > The generated code is used by qemu-ga & storage daemon, at least. They
-> are
-> > the first potential consumers, after qemu.
-> >
-> >
-> >> Not sure a subproject would be a good fit.
-> >>
-> >
-> > (I won't repeat the arguments of structuring a project)
-> >
-> >
-> >>
-> >> Shot from the hip: could the build process spit out something external
-> >> projects could consume?  It's how "consumables" are commonly delivered=
-.
-> >> E.g. .so + a bunch of headers.  Sometimes that gets packaged.  Sometim=
-es
-> >> it gets copied into the consuming tree ("vendored").
-> >>
-> >>
-> > Not sure I follow, but that's just the "install" step isn't it ?
-> >
-> > Sure, we could have a "qemu-devel", that ships qapi-gen, I guess. But
-> then,
-> > you would expect stability/versioning. That's not what I am proposing (=
-at
-> > least at this point), which is just about the build system and project
-> > structure, so we can build and work on subprojects independently. (for
-> ex,
-> > in my wip branch, qemu-ga meson.build is 115 lines, doesn't need QEMU
-> > configure etc)
->
-> I'm afraid I'm still wobbly on the benefits of subprojects, or even how
-> to work with them.
->
-> How exactly would we "build and work independently" on the subprojects
-> involving QAPI?  git-clone all of QEMU, but build only a subproject (and
-> its dependencies)?  Am I confused?
->
+I can see it getting declared, incremented and used. But where is it initia=
+lized
+in zero? I mean, should it not have 'p->total_normal_pages =3D 0;' somewher=
+e in
+setup?
 
-Yes, QEMU repository would hold some subprojects (like libvhost-user
-today), that you can build/develop independently with just meson / ninja.
+(I understand multifd_save_setup() allocates a multifd_send_state->params w=
+ith
+g_new0(),but other variables are zeroed there, like p->pending_job and=C2=
+=A0
+p->write_flags, so why not?)  =20
 
+>              p->pages->num =3D 0;
+>              p->pages->block =3D NULL;
+>              p->sent_bytes +=3D p->packet_len;;
+> @@ -753,7 +768,8 @@ out:
+>      qemu_mutex_unlock(&p->mutex);
+> =20
+>      rcu_unregister_thread();
+> -    trace_multifd_send_thread_end(p->id, p->num_packets, p->total_normal=
+_pages);
+> +    trace_multifd_send_thread_end(p->id, p->num_packets, p->total_normal=
+_pages,
+> +                                  p->total_zero_pages);
+> =20
+>      return NULL;
+>  }
+> @@ -938,6 +954,7 @@ int multifd_save_setup(Error **errp)
+>          p->normal =3D g_new0(ram_addr_t, page_count);
+>          p->page_size =3D qemu_target_page_size();
+>          p->page_count =3D page_count;
+> +        p->zero =3D g_new0(ram_addr_t, page_count);
+> =20
+>          if (migrate_use_zero_copy_send()) {
+>              p->write_flags =3D QIO_CHANNEL_WRITE_FLAG_ZERO_COPY;
+> @@ -1046,6 +1063,8 @@ int multifd_load_cleanup(Error **errp)
+>          p->iov =3D NULL;
+>          g_free(p->normal);
+>          p->normal =3D NULL;
+> +        g_free(p->zero);
+> +        p->zero =3D NULL;
+>          multifd_recv_state->ops->recv_cleanup(p);
+>      }
+>      qemu_sem_destroy(&multifd_recv_state->sem_sync);
+> @@ -1116,13 +1135,14 @@ static void *multifd_recv_thread(void *opaque)
+>              break;
+>          }
+> =20
+> -        trace_multifd_recv(p->id, p->packet_num, p->normal_num, p->flags=
+,
+> -                           p->next_packet_size);
+> +        trace_multifd_recv(p->id, p->packet_num, p->normal_num, p->zero_=
+num,
+> +                           p->flags, p->next_packet_size);
+>          sync_needed =3D p->flags & MULTIFD_FLAG_SYNC;
+>          /* recv methods don't know how to handle the SYNC flag */
+>          p->flags &=3D ~MULTIFD_FLAG_SYNC;
+>          p->num_packets++;
+>          p->total_normal_pages +=3D p->normal_num;
+> +        p->total_normal_pages +=3D p->zero_num;
+>          qemu_mutex_unlock(&p->mutex);
+> =20
+>          if (p->normal_num) {
+> @@ -1147,7 +1167,8 @@ static void *multifd_recv_thread(void *opaque)
+>      qemu_mutex_unlock(&p->mutex);
+> =20
+>      rcu_unregister_thread();
+> -    trace_multifd_recv_thread_end(p->id, p->num_packets, p->total_normal=
+_pages);
+> +    trace_multifd_recv_thread_end(p->id, p->num_packets, p->total_normal=
+_pages,
+> +                                  p->total_zero_pages);
+> =20
+>      return NULL;
+>  }
+> @@ -1187,6 +1208,7 @@ int multifd_load_setup(Error **errp)
+>          p->normal =3D g_new0(ram_addr_t, page_count);
+>          p->page_count =3D page_count;
+>          p->page_size =3D qemu_target_page_size();
+> +        p->zero =3D g_new0(ram_addr_t, page_count);
+>      }
+> =20
+>      for (i =3D 0; i < thread_count; i++) {
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 291ba5c0ed..2af70f517a 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -1412,8 +1412,6 @@ static int ram_save_multifd_page(RAMState *rs, RAMB=
+lock *block,
+>      if (multifd_queue_page(rs->f, block, offset) < 0) {
+>          return -1;
+>      }
+> -    ram_counters.normal++;
+> -
+>      return 1;
+>  }
+> =20
+> diff --git a/migration/trace-events b/migration/trace-events
+> index a34afe7b85..d34aec177c 100644
+> --- a/migration/trace-events
+> +++ b/migration/trace-events
+> @@ -120,21 +120,21 @@ postcopy_preempt_reset_channel(void) ""
+> =20
+>  # multifd.c
+>  multifd_new_send_channel_async(uint8_t id) "channel %u"
+> -multifd_recv(uint8_t id, uint64_t packet_num, uint32_t used, uint32_t fl=
+ags, uint32_t next_packet_size) "channel %u packet_num %" PRIu64 " pages %u=
+ flags 0x%x next packet size %u"
+> +multifd_recv(uint8_t id, uint64_t packet_num, uint32_t normal, uint32_t =
+zero, uint32_t flags, uint32_t next_packet_size) "channel %u packet_num %" =
+PRIu64 " normal pages %u zero pages %u flags 0x%x next packet size %u"
+>  multifd_recv_new_channel(uint8_t id) "channel %u"
+>  multifd_recv_sync_main(long packet_num) "packet num %ld"
+>  multifd_recv_sync_main_signal(uint8_t id) "channel %u"
+>  multifd_recv_sync_main_wait(uint8_t id) "channel %u"
+>  multifd_recv_terminate_threads(bool error) "error %d"
+> -multifd_recv_thread_end(uint8_t id, uint64_t packets, uint64_t pages) "c=
+hannel %u packets %" PRIu64 " pages %" PRIu64
+> +multifd_recv_thread_end(uint8_t id, uint64_t packets, uint64_t normal_pa=
+ges, uint64_t zero_pages) "channel %u packets %" PRIu64 " normal pages %" P=
+RIu64 " zero pages %" PRIu64
+>  multifd_recv_thread_start(uint8_t id) "%u"
+> -multifd_send(uint8_t id, uint64_t packet_num, uint32_t normal, uint32_t =
+flags, uint32_t next_packet_size) "channel %u packet_num %" PRIu64 " normal=
+ pages %u flags 0x%x next packet size %u"
+> +multifd_send(uint8_t id, uint64_t packet_num, uint32_t normalpages, uint=
+32_t zero_pages, uint32_t flags, uint32_t next_packet_size) "channel %u pac=
+ket_num %" PRIu64 " normal pages %u zero pages %u flags 0x%x next packet si=
+ze %u"
+>  multifd_send_error(uint8_t id) "channel %u"
+>  multifd_send_sync_main(long packet_num) "packet num %ld"
+>  multifd_send_sync_main_signal(uint8_t id) "channel %u"
+>  multifd_send_sync_main_wait(uint8_t id) "channel %u"
+>  multifd_send_terminate_threads(bool error) "error %d"
+> -multifd_send_thread_end(uint8_t id, uint64_t packets, uint64_t normal_pa=
+ges) "channel %u packets %" PRIu64 " normal pages %"  PRIu64
+> +multifd_send_thread_end(uint8_t id, uint64_t packets, uint64_t normal_pa=
+ges, uint64_t zero_pages) "channel %u packets %" PRIu64 " normal pages %"  =
+PRIu64 " zero pages %"  PRIu64
+>  multifd_send_thread_start(uint8_t id) "%u"
+>  multifd_tls_outgoing_handshake_start(void *ioc, void *tioc, const char *=
+hostname) "ioc=3D%p tioc=3D%p hostname=3D%s"
+>  multifd_tls_outgoing_handshake_error(void *ioc, const char *err) "ioc=3D=
+%p err=3D%s"
 
->
-> >> > We don't neccessarily need the current QAPI C code generator. There
-> >> > could be a new C generator that didn't use qobject, but instead used
-> >> > some standard GLib types like GHashTable/GList instead of QDict/QLis=
-t.
-> >>
-> >> Yes, that should be possible.
-> >>
-> >>
-> > I can't see much benefit from doing that extra work. It would create tw=
-o
-> C
-> > APIs, making future bindings efforts more difficult etc.
->
-> We need to distinguish client-side and server-side APIs / bindings.
->
-
-Indeed.. although imho, it's best when both are similar, or use similar
-types / concepts. (gdbus does a pretty good job, for ex)
-
-
->
-> The existing C generator targets internal, server-side use.  It
-> generates everything defined in the schema.
->
-> The existing introspection generator generates data for external,
-> client-side use (via QMP).  It generates just the subset visible in QMP.
->
-> The proposed Go generator also targets external, client-side use (client
-> bindings for QMP), and should also generate just the subset visible in
-> QMP.
->
-> So should a future C generator of client bindings for QMP.
->
-> And then we'd have two distinct C APIs: a server-side one to help us
-> implement QMP, and a client-side one to help use use QMP (QMP bindings).
->
-
-In the qga subproject split wip I did, I am interested in the server side,
-at this point.
-
-
->
-> Whether the two would profit from sharing QObject is not clear to me
-> at this point.
->
-
-I think it would be great to provide a QObject based C client side binding,
-if only for internal testing at this point. Whether to make this public and
-guarantee some stability is another question.
-
-But for now, my goal is only internal reorganization, not any
-public/external API / project etc.
-
-thanks
-
-
-> > QObject is very much like GValue though (the naming is better too :),
-> just
-> > like the QOM & GObject story.
-> >
-> > thanks
->
->
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---00000000000070446705e7b1a0f6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 2, 2022 at 3:16 PM Mark=
-us Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a=
->&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Mar=
-c-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@gmail.com" targe=
-t=3D"_blank">marcandre.lureau@gmail.com</a>&gt; writes:<br>
-<br>
-&gt; Hi<br>
-&gt;<br>
-&gt; On Thu, Aug 11, 2022 at 5:35 PM Markus Armbruster &lt;<a href=3D"mailt=
-o:armbru@redhat.com" target=3D"_blank">armbru@redhat.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt;&gt; Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com"=
- target=3D"_blank">berrange@redhat.com</a>&gt; writes:<br>
-&gt;&gt;<br>
-&gt;&gt; &gt; On Thu, Aug 11, 2022 at 02:50:01PM +0400, Marc-Andr=C3=A9 Lur=
-eau wrote:<br>
-&gt;&gt; &gt;&gt; Hi<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt; On Thu, Aug 11, 2022 at 2:22 PM Peter Maydell &lt;<a href=
-=3D"mailto:peter.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro=
-.org</a><br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt;&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; [...]<br>
-&gt;&gt;<br>
-&gt;&gt; &gt;&gt; &gt; As Markus says, your branch ends up moving most of q=
-object into<br>
-&gt;&gt; &gt;&gt; &gt; qemu-common/. We are never going to let that out of =
-QEMU proper,<br>
-&gt;&gt; &gt;&gt; &gt; because we are never going to allow ourselves to be =
-tied to API<br>
-&gt;&gt; &gt;&gt; &gt; compatibility with it as an external library. So any=
-thing that<br>
-&gt;&gt; &gt;&gt; &gt;<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt; Why is that? We do it with a lot of dependencies already,=
- with stable<br>
-&gt;&gt; APIs.<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt; Furthermore, we don&#39;t &quot;have to&quot; be tied to =
-a specific ABI/API, we can<br>
-&gt;&gt; &gt;&gt; continue to link statically and compile against a specifi=
-c version. like<br>
-&gt;&gt; &gt;&gt; with libvfio-user today.<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt; And at this point, I am _not_ proposing to have an extra =
-&quot;qemu-common&quot;<br>
-&gt;&gt; &gt;&gt; repository. I don&#39;t think there are enough reasons to=
- want that either.<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt; &gt; needs qobject is never going to leave the QEMU codeb=
-ase. Which<br>
-&gt;&gt; &gt;&gt; &gt; means that there&#39;s not much gain from shoving it=
- into subproject/<br>
-&gt;&gt; &gt;&gt; &gt; IMHO.<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt; (just to be extra clear, it&#39;s qobject not QOM we are =
-talking about)<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt; qobject is fundamental to all the QAPI related generated =
-code. Why<br>
-&gt;&gt; should<br>
-&gt;&gt; &gt;&gt; that remain tight to QEMU proper?<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Neither qobject nor QOM have ever been designed to be public =
-APIs.<br>
-&gt;&gt; &gt; Though admittedly qobject is quite a bit simpler as an API, I=
-&#39;m<br>
-&gt;&gt; &gt; not convinced its current design is something we want to cons=
-ider<br>
-&gt;&gt; &gt; public. As an example, just last month Markus proposed changi=
-ng<br>
-&gt;&gt; &gt; QDict&#39;s implementation<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; <a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2022=
--07/msg00758.html" rel=3D"noreferrer" target=3D"_blank">https://lists.gnu.o=
-rg/archive/html/qemu-devel/2022-07/msg00758.html</a><br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; If we want external projects to be able to take advantage of =
-QAPI,<br>
-&gt;&gt; &gt; the bare minimum we need to be public is a QAPI parser, from =
-which<br>
-&gt;&gt; &gt; people can then build any code generators desired.<br>
-&gt;&gt;<br>
-&gt;&gt; Basically scripts/qapi/ less the code generators.<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt; The generated code is used by qemu-ga &amp; storage daemon, at least. =
-They are<br>
-&gt; the first potential consumers, after qemu.<br>
-&gt;<br>
-&gt;<br>
-&gt;&gt; Not sure a subproject would be a good fit.<br>
-&gt;&gt;<br>
-&gt;<br>
-&gt; (I won&#39;t repeat the arguments of structuring a project)<br>
-&gt;<br>
-&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Shot from the hip: could the build process spit out something exte=
-rnal<br>
-&gt;&gt; projects could consume?=C2=A0 It&#39;s how &quot;consumables&quot;=
- are commonly delivered.<br>
-&gt;&gt; E.g. .so + a bunch of headers.=C2=A0 Sometimes that gets packaged.=
-=C2=A0 Sometimes<br>
-&gt;&gt; it gets copied into the consuming tree (&quot;vendored&quot;).<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt; Not sure I follow, but that&#39;s just the &quot;install&quot; step is=
-n&#39;t it ?<br>
-&gt;<br>
-&gt; Sure, we could have a &quot;qemu-devel&quot;, that ships qapi-gen, I g=
-uess. But then,<br>
-&gt; you would expect stability/versioning. That&#39;s not what I am propos=
-ing (at<br>
-&gt; least at this point), which is just about the build system and project=
-<br>
-&gt; structure, so we can build and work on subprojects independently. (for=
- ex,<br>
-&gt; in my wip branch, qemu-ga meson.build is 115 lines, doesn&#39;t need Q=
-EMU<br>
-&gt; configure etc)<br>
-<br>
-I&#39;m afraid I&#39;m still wobbly on the benefits of subprojects, or even=
- how<br>
-to work with them.<br>
-<br>
-How exactly would we &quot;build and work independently&quot; on the subpro=
-jects<br>
-involving QAPI?=C2=A0 git-clone all of QEMU, but build only a subproject (a=
-nd<br>
-its dependencies)?=C2=A0 Am I confused?<br></blockquote><div><br></div><div=
->Yes, QEMU repository would hold some subprojects (like libvhost-user today=
-), that you can build/develop independently with just meson / ninja.<br></d=
-iv><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt;&gt; &gt; We don&#39;t neccessarily need the current QAPI C code genera=
-tor. There<br>
-&gt;&gt; &gt; could be a new C generator that didn&#39;t use qobject, but i=
-nstead used<br>
-&gt;&gt; &gt; some standard GLib types like GHashTable/GList instead of QDi=
-ct/QList.<br>
-&gt;&gt;<br>
-&gt;&gt; Yes, that should be possible.<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt; I can&#39;t see much benefit from doing that extra work. It would crea=
-te two C<br>
-&gt; APIs, making future bindings efforts more difficult etc.<br>
-<br>
-We need to distinguish client-side and server-side APIs / bindings.<br></bl=
-ockquote><div><br></div><div>Indeed.. although imho, it&#39;s best when bot=
-h are similar, or use similar types / concepts. (gdbus does a pretty good j=
-ob, for ex)<br></div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">
-<br>
-The existing C generator targets internal, server-side use.=C2=A0 It<br>
-generates everything defined in the schema.<br>
-<br>
-The existing introspection generator generates data for external,<br>
-client-side use (via QMP).=C2=A0 It generates just the subset visible in QM=
-P.<br>
-<br>
-The proposed Go generator also targets external, client-side use (client<br=
->
-bindings for QMP), and should also generate just the subset visible in<br>
-QMP.<br>
-<br>
-So should a future C generator of client bindings for QMP.<br>
-<br>
-And then we&#39;d have two distinct C APIs: a server-side one to help us<br=
->
-implement QMP, and a client-side one to help use use QMP (QMP bindings).<br=
-></blockquote><div><br></div><div>In the qga subproject split wip I did, I =
-am interested in the server side, at this point.</div><div>=C2=A0 <br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Whether the two would profit from sharing QObject is not clear to me<br>
-at this point.<br></blockquote><div><br></div><div>I think it would be grea=
-t to provide a QObject based C client side binding, if only for internal te=
-sting at this point. Whether to make this public and guarantee some stabili=
-ty is another question.</div><div><br></div><div>But for now, my goal is on=
-ly internal reorganization, not any public/external API / project etc.<br><=
-/div><div>=C2=A0</div><div>thanks</div><div><br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">
-<br>
-&gt; QObject is very much like GValue though (the naming is better too :), =
-just<br>
-&gt; like the QOM &amp; GObject story.<br>
-&gt;<br>
-&gt; thanks<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---00000000000070446705e7b1a0f6--
 
