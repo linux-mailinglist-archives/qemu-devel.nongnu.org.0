@@ -2,56 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D55495AB8A6
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 20:59:46 +0200 (CEST)
-Received: from localhost ([::1]:55270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5811A5ABAB5
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Sep 2022 00:14:44 +0200 (CEST)
+Received: from localhost ([::1]:57880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oUBtJ-0006JE-CH
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 14:59:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59404)
+	id 1oUEvz-0008PT-1k
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 18:14:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oUBol-0003ns-Nd; Fri, 02 Sep 2022 14:55:03 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:42749)
+ (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
+ id 1oUEts-0006p0-7h; Fri, 02 Sep 2022 18:12:33 -0400
+Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:34242)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oUBoi-00010A-J8; Fri, 02 Sep 2022 14:55:03 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 02C2B746307;
- Fri,  2 Sep 2022 20:54:57 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 5A4D87461AE; Fri,  2 Sep 2022 20:54:56 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 583D7745702;
- Fri,  2 Sep 2022 20:54:56 +0200 (CEST)
-Date: Fri, 2 Sep 2022 20:54:56 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 04/20] ppc4xx: Use Ppc4xxSdramBank in ppc4xx_sdram_banks()
-In-Reply-To: <08e984cb-0d1e-b4a8-28a7-8c91132b664c@kaod.org>
-Message-ID: <bd4bf781-8851-7059-4ce4-642e7c976de7@eik.bme.hu>
-References: <cover.1660926381.git.balaton@eik.bme.hu>
- <c86ed3ab2edade3d7bc481be4a3134b279eff341.1660926381.git.balaton@eik.bme.hu>
- <08e984cb-0d1e-b4a8-28a7-8c91132b664c@kaod.org>
+ (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
+ id 1oUEtn-0003RU-Lh; Fri, 02 Sep 2022 18:12:30 -0400
+Received: from iva8-3a65cceff156.qloud-c.yandex.net
+ (iva8-3a65cceff156.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2d80:0:640:3a65:ccef])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 953E42E2CF5;
+ Sat,  3 Sep 2022 01:12:15 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b51c::1:28] (unknown
+ [2a02:6b8:b081:b51c::1:28])
+ by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ mfRw4t2O9M-CEOCXjxe; Sat, 03 Sep 2022 01:12:14 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Precedence: bulk
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1662156734; bh=h5zKHqMy8Kgv1S2R46ytzVllnw+5vRUQB6Gy2eChvsc=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=A7+Ol9ZTz7e2pN47g6XEg7cRTIAweam1tlkT0LJbt2G4JQqTa2pVu5Ijs2ToLNX3N
+ 8ttKjiy5rBxP9nk5nyzRz/NXmnhn9/QPXpTnRKCYNLx7CBHMLFPeHRvSqoP1fscpOm
+ fslIYwBCn6w2lT1dB7Wy1ZJKyZzWa03eJ6rI8kKk=
+Authentication-Results: iva8-3a65cceff156.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <50487a10-30a1-ab52-d4ba-2cd9c49835a0@yandex-team.ru>
+Date: Sat, 3 Sep 2022 01:12:13 +0300
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="3866299591-601221143-1662144896=:5346"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 1/8] virtio: introduce VirtIOConfigSizeParams &
+ virtio_get_config_size
+Content-Language: en-US
+To: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>,
+ "mst@redhat.com" <mst@redhat.com>, "stefanha@redhat.com"
+ <stefanha@redhat.com>, "kwolf@redhat.com" <kwolf@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "jasowang@redhat.com" <jasowang@redhat.com>
+References: <20220826143248.580939-1-d-tatianin@yandex-team.ru>
+ <20220826143248.580939-2-d-tatianin@yandex-team.ru>
+ <20220902175112.GA5363@raphael-debian-dev>
+From: Daniil Tatianin <d-tatianin@yandex-team.ru>
+In-Reply-To: <20220902175112.GA5363@raphael-debian-dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
+ envelope-from=d-tatianin@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,313 +84,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-601221143-1662144896=:5346
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
 
-On Fri, 2 Sep 2022, Cédric Le Goater wrote:
-> On 8/19/22 18:55, BALATON Zoltan wrote:
->> Change ppc4xx_sdram_banks() to take one Ppc4xxSdramBank array instead
->> of the separate arrays and adjust ppc4xx_sdram_init() and
->> ppc440_sdram_init() accordingly as well as machines using these.
->> 
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+On 9/2/22 8:52 PM, Raphael Norwitz wrote:
+> I feel like it would be easier to review if the first 4 patches were
+> squashed together, but that’s not a big deal.
+
+Yeah, I think that's fair although I initially thought that maybe that 
+was a bit too big of a change to put in one single commit. I can squash 
+the first four if that would be better.
+
+> For this one:
+> 
+> Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+> 
+> On Fri, Aug 26, 2022 at 05:32:41PM +0300, Daniil Tatianin wrote:
+>> This is the first step towards moving all device config size calculation
+>> logic into the virtio core code. In particular, this adds a struct that
+>> contains all the necessary information for common virtio code to be able
+>> to calculate the final config size for a device. This is expected to be
+>> used with the new virtio_get_config_size helper, which calculates the
+>> final length based on the provided host features.
+>>
+>> This builds on top of already existing code like VirtIOFeature and
+>> virtio_feature_get_config_size(), but adds additional fields, as well as
+>> sanity checking so that device-specifc code doesn't have to duplicate it.
+>>
+>> An example usage would be:
+>>
+>>      static const VirtIOFeature dev_features[] = {
+>>          {.flags = 1ULL << FEATURE_1_BIT,
+>>           .end = endof(struct virtio_dev_config, feature_1)},
+>>          {.flags = 1ULL << FEATURE_2_BIT,
+>>           .end = endof(struct virtio_dev_config, feature_2)},
+>>          {}
+>>      };
+>>
+>>      static const VirtIOConfigSizeParams dev_cfg_size_params = {
+>>          .min_size = DEV_BASE_CONFIG_SIZE,
+>>          .max_size = sizeof(struct virtio_dev_config),
+>>          .feature_sizes = dev_features
+>>      };
+>>
+>>      // code inside my_dev_device_realize()
+>>      size_t config_size = virtio_get_config_size(&dev_cfg_size_params,
+>>                                                  host_features);
+>>      virtio_init(vdev, VIRTIO_ID_MYDEV, config_size);
+>>
+>> Currently every device is expected to write its own boilerplate from the
+>> example above in device_realize(), however, the next step of this
+>> transition is moving VirtIOConfigSizeParams into VirtioDeviceClass,
+>> so that it can be done automatically by the virtio initialization code.
+>>
+>> Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
 >> ---
->>   hw/ppc/ppc405.h         |  4 +---
->>   hw/ppc/ppc405_uc.c      | 10 +++++-----
->>   hw/ppc/ppc440.h         |  5 ++---
->>   hw/ppc/ppc440_bamboo.c  | 15 ++++++---------
->>   hw/ppc/ppc440_uc.c      |  9 ++++-----
->>   hw/ppc/ppc4xx_devs.c    | 21 +++++++++------------
->>   hw/ppc/sam460ex.c       | 15 +++++----------
->>   include/hw/ppc/ppc4xx.h |  9 +++------
->>   8 files changed, 35 insertions(+), 53 deletions(-)
->> 
->> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
->> index 756865621b..ca0972b88b 100644
->> --- a/hw/ppc/ppc405.h
->> +++ b/hw/ppc/ppc405.h
->> @@ -167,9 +167,7 @@ struct Ppc405SoCState {
->>       DeviceState parent_obj;
->>         /* Public */
->> -    MemoryRegion ram_banks[2];
->> -    hwaddr ram_bases[2], ram_sizes[2];
->> -
->> +    Ppc4xxSdramBank ram_banks[2];
->>       MemoryRegion *dram_mr;
->>       hwaddr ram_size;
->>   diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
->> index 2833d0d538..461d18c8a5 100644
->> --- a/hw/ppc/ppc405_uc.c
->> +++ b/hw/ppc/ppc405_uc.c
->> @@ -1071,14 +1071,14 @@ static void ppc405_soc_realize(DeviceState *dev, 
->> Error **errp)
->>         /* SDRAM controller */
->>           /* XXX 405EP has no ECC interrupt */
->> -    s->ram_bases[0] = 0;
->> -    s->ram_sizes[0] = s->ram_size;
->> -    memory_region_init_alias(&s->ram_banks[0], OBJECT(s),
->> +    s->ram_banks[0].base = 0;
->> +    s->ram_banks[0].size = s->ram_size;
->> +    memory_region_init_alias(&s->ram_banks[0].ram, OBJECT(s),
->>                                "ppc405.sdram0", s->dram_mr,
->> -                             s->ram_bases[0], s->ram_sizes[0]);
->> +                             s->ram_banks[0].base, s->ram_banks[0].size);
->>         ppc4xx_sdram_init(env, qdev_get_gpio_in(DEVICE(&s->uic), 17), 1,
->> -                      s->ram_banks, s->ram_bases, s->ram_sizes);
->> +                      s->ram_banks);
->
-> Compile fails later on :
->
-> ../hw/ppc/ppc405_uc.c: In function ‘ppc405_soc_realize’:
-> ../hw/ppc/ppc405_uc.c:1083:5: error: ‘ppc4xx_sdram_init’ accessing 576 bytes 
-> in a region of size 272 [-Werror=stringop-overflow=]
-> 1083 |     ppc4xx_sdram_init(env, qdev_get_gpio_in(DEVICE(&s->uic), 17), 1,
->      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 1084 |                       s->ram_banks);
->      |                       ~~~~~~~~~~~~~
-> ../hw/ppc/ppc405_uc.c:1083:5: note: referencing argument 4 of type 
-> ‘Ppc4xxSdramBank[0]’
-
-I don't understand this error. The 576 bytes seems to be 
-sizeof(Ppc4xxSdramBank) and 272 is sizeof(MemoryRegion) but I don't see 
-what the compiler means here or how this could be avoided. Also my 
-compiler doesn't warn for this so I can't check any alternative solutions. 
-Any ideas?
-
-Also this part is removed again two patches later so the best I could do 
-is maybe try rearranging it to swap these patches but if there's a simpler 
-way I'd go for that instead.
-
-Regards,
-BALATON Zoltan
-
->
-> I am using :
->
->  gcc version 12.2.1 20220819 (Red Hat 12.2.1-1) (GCC)
->
-> Thanks,
->
-> C.
->
->
->
->>         /* External bus controller */
->>       if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->ebc), &s->cpu, errp)) {
->> diff --git a/hw/ppc/ppc440.h b/hw/ppc/ppc440.h
->> index 7cef936125..5eb2f9a6b3 100644
->> --- a/hw/ppc/ppc440.h
->> +++ b/hw/ppc/ppc440.h
->> @@ -11,14 +11,13 @@
->>   #ifndef PPC440_H
->>   #define PPC440_H
->>   -#include "hw/ppc/ppc.h"
->> +#include "hw/ppc/ppc4xx.h"
->>     void ppc4xx_l2sram_init(CPUPPCState *env);
->>   void ppc4xx_cpr_init(CPUPPCState *env);
->>   void ppc4xx_sdr_init(CPUPPCState *env);
->>   void ppc440_sdram_init(CPUPPCState *env, int nbanks,
->> -                       MemoryRegion *ram_memories,
->> -                       hwaddr *ram_bases, hwaddr *ram_sizes,
->> +                       Ppc4xxSdramBank ram_banks[],
->>                          int do_init);
->>   void ppc4xx_ahb_init(CPUPPCState *env);
->>   void ppc4xx_dma_init(CPUPPCState *env, int dcr_base);
->> diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
->> index e3412c4fcd..2aac8a3fe9 100644
->> --- a/hw/ppc/ppc440_bamboo.c
->> +++ b/hw/ppc/ppc440_bamboo.c
->> @@ -168,9 +168,8 @@ static void bamboo_init(MachineState *machine)
->>       unsigned int pci_irq_nrs[4] = { 28, 27, 26, 25 };
->>       MemoryRegion *address_space_mem = get_system_memory();
->>       MemoryRegion *isa = g_new(MemoryRegion, 1);
->> -    MemoryRegion *ram_memories = g_new(MemoryRegion, 
->> PPC440EP_SDRAM_NR_BANKS);
->> -    hwaddr ram_bases[PPC440EP_SDRAM_NR_BANKS] = {0};
->> -    hwaddr ram_sizes[PPC440EP_SDRAM_NR_BANKS] = {0};
->> +    Ppc4xxSdramBank *ram_banks = g_new0(Ppc4xxSdramBank,
->> +                                        PPC440EP_SDRAM_NR_BANKS);
->>       PCIBus *pcibus;
->>       PowerPCCPU *cpu;
->>       CPUPPCState *env;
->> @@ -205,13 +204,11 @@ static void bamboo_init(MachineState *machine)
->>                          qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_CINT));
->>         /* SDRAM controller */
->> -    ppc4xx_sdram_banks(machine->ram, PPC440EP_SDRAM_NR_BANKS, 
->> ram_memories,
->> -                       ram_bases, ram_sizes, ppc440ep_sdram_bank_sizes);
->> +    ppc4xx_sdram_banks(machine->ram, PPC440EP_SDRAM_NR_BANKS, ram_banks,
->> +                       ppc440ep_sdram_bank_sizes);
->>       /* XXX 440EP's ECC interrupts are on UIC1, but we've only created 
->> UIC0. */
->> -    ppc4xx_sdram_init(env,
->> -                      qdev_get_gpio_in(uicdev, 14),
->> -                      PPC440EP_SDRAM_NR_BANKS, ram_memories,
->> -                      ram_bases, ram_sizes);
->> +    ppc4xx_sdram_init(env, qdev_get_gpio_in(uicdev, 14),
->> +                      PPC440EP_SDRAM_NR_BANKS, ram_banks);
->>       /* Enable SDRAM memory regions, this should be done by the firmware 
->> */
->>       if (ppc_dcr_write(env->dcr_env, SDRAM0_CFGADDR, 0x20) ||
->>           ppc_dcr_write(env->dcr_env, SDRAM0_CFGDATA, 0x80000000)) {
->> diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
->> index 6ab0ad7985..3507c35b63 100644
->> --- a/hw/ppc/ppc440_uc.c
->> +++ b/hw/ppc/ppc440_uc.c
->> @@ -690,8 +690,7 @@ static void sdram_reset(void *opaque)
+>>   hw/virtio/virtio.c         | 17 +++++++++++++++++
+>>   include/hw/virtio/virtio.h |  9 +++++++++
+>>   2 files changed, 26 insertions(+)
+>>
+>> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+>> index 5d607aeaa0..8518382025 100644
+>> --- a/hw/virtio/virtio.c
+>> +++ b/hw/virtio/virtio.c
+>> @@ -3014,6 +3014,23 @@ size_t virtio_feature_get_config_size(const VirtIOFeature *feature_sizes,
+>>       return config_size;
 >>   }
->>     void ppc440_sdram_init(CPUPPCState *env, int nbanks,
->> -                       MemoryRegion *ram_memories,
->> -                       hwaddr *ram_bases, hwaddr *ram_sizes,
->> +                       Ppc4xxSdramBank ram_banks[],
->>                          int do_init)
+>>   
+>> +size_t virtio_get_config_size(const VirtIOConfigSizeParams *params,
+>> +                              uint64_t host_features)
+>> +{
+>> +    size_t config_size = params->min_size;
+>> +    const VirtIOFeature *feature_sizes = params->feature_sizes;
+>> +    size_t i;
+>> +
+>> +    for (i = 0; feature_sizes[i].flags != 0; i++) {
+>> +        if (host_features & feature_sizes[i].flags) {
+>> +            config_size = MAX(feature_sizes[i].end, config_size);
+>> +        }
+>> +    }
+>> +
+>> +    assert(config_size <= params->max_size);
+>> +    return config_size;
+>> +}
+>> +
+>>   int virtio_load(VirtIODevice *vdev, QEMUFile *f, int version_id)
 >>   {
->>       ppc440_sdram_t *sdram;
->> @@ -700,9 +699,9 @@ void ppc440_sdram_init(CPUPPCState *env, int nbanks,
->>       sdram = g_malloc0(sizeof(*sdram));
->>       sdram->nbanks = nbanks;
->>       for (i = 0; i < nbanks; i++) {
->> -        sdram->bank[i].ram = ram_memories[i];
->> -        sdram->bank[i].base = ram_bases[i];
->> -        sdram->bank[i].size = ram_sizes[i];
->> +        sdram->bank[i].ram = ram_banks[i].ram;
->> +        sdram->bank[i].base = ram_banks[i].base;
->> +        sdram->bank[i].size = ram_banks[i].size;
->>       }
->>       qemu_register_reset(&sdram_reset, sdram);
->>       ppc_dcr_register(env, SDRAM0_CFGADDR,
->> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
->> index 936d6f77fe..e0b5931c04 100644
->> --- a/hw/ppc/ppc4xx_devs.c
->> +++ b/hw/ppc/ppc4xx_devs.c
->> @@ -343,9 +343,7 @@ static void sdram_reset(void *opaque)
->>   }
->>     void ppc4xx_sdram_init(CPUPPCState *env, qemu_irq irq, int nbanks,
->> -                       MemoryRegion *ram_memories,
->> -                       hwaddr *ram_bases,
->> -                       hwaddr *ram_sizes)
->> +                       Ppc4xxSdramBank ram_banks[])
->>   {
->>       ppc4xx_sdram_t *sdram;
->>       int i;
->> @@ -354,9 +352,9 @@ void ppc4xx_sdram_init(CPUPPCState *env, qemu_irq irq, 
->> int nbanks,
->>       sdram->irq = irq;
->>       sdram->nbanks = nbanks;
->>       for (i = 0; i < nbanks; i++) {
->> -        sdram->bank[i].ram = ram_memories[i];
->> -        sdram->bank[i].base = ram_bases[i];
->> -        sdram->bank[i].size = ram_sizes[i];
->> +        sdram->bank[i].ram = ram_banks[i].ram;
->> +        sdram->bank[i].base = ram_banks[i].base;
->> +        sdram->bank[i].size = ram_banks[i].size;
->>       }
->>       qemu_register_reset(&sdram_reset, sdram);
->>       ppc_dcr_register(env, SDRAM0_CFGADDR,
->> @@ -376,8 +374,7 @@ void ppc4xx_sdram_init(CPUPPCState *env, qemu_irq irq, 
->> int nbanks,
->>    * sizes varies by SoC.
->>    */
->>   void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
->> -                        MemoryRegion ram_memories[],
->> -                        hwaddr ram_bases[], hwaddr ram_sizes[],
->> +                        Ppc4xxSdramBank ram_banks[],
->>                           const ram_addr_t sdram_bank_sizes[])
->>   {
->>       ram_addr_t size_left = memory_region_size(ram);
->> @@ -392,13 +389,13 @@ void ppc4xx_sdram_banks(MemoryRegion *ram, int 
->> nr_banks,
->>               if (bank_size <= size_left) {
->>                   char name[32];
->>   -                ram_bases[i] = base;
->> -                ram_sizes[i] = bank_size;
->> +                ram_banks[i].base = base;
->> +                ram_banks[i].size = bank_size;
->>                   base += bank_size;
->>                   size_left -= bank_size;
->>                   snprintf(name, sizeof(name), "ppc4xx.sdram%d", i);
->> -                memory_region_init_alias(&ram_memories[i], NULL, name, 
->> ram,
->> -                                         ram_bases[i], ram_sizes[i]);
->> +                memory_region_init_alias(&ram_banks[i].ram, NULL, name, 
->> ram,
->> +                                         ram_banks[i].base, 
->> ram_banks[i].size);
->>                   break;
->>               }
->>           }
->> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
->> index 850bb3b817..f4c2a693fb 100644
->> --- a/hw/ppc/sam460ex.c
->> +++ b/hw/ppc/sam460ex.c
->> @@ -73,7 +73,6 @@
->>   #define OPB_FREQ 115000000
->>   #define EBC_FREQ 115000000
->>   #define UART_FREQ 11059200
->> -#define SDRAM_NR_BANKS 4
->>     /* The SoC could also handle 4 GiB but firmware does not work with 
->> that. */
->>   /* Maybe it overflows a signed 32 bit number somewhere? */
->> @@ -274,9 +273,7 @@ static void sam460ex_init(MachineState *machine)
->>   {
->>       MemoryRegion *address_space_mem = get_system_memory();
->>       MemoryRegion *isa = g_new(MemoryRegion, 1);
->> -    MemoryRegion *ram_memories = g_new(MemoryRegion, SDRAM_NR_BANKS);
->> -    hwaddr ram_bases[SDRAM_NR_BANKS] = {0};
->> -    hwaddr ram_sizes[SDRAM_NR_BANKS] = {0};
->> +    Ppc4xxSdramBank *ram_banks = g_new0(Ppc4xxSdramBank, 1);
->>       MemoryRegion *l2cache_ram = g_new(MemoryRegion, 1);
->>       DeviceState *uic[4];
->>       int i;
->> @@ -345,20 +342,18 @@ static void sam460ex_init(MachineState *machine)
->>       /* SDRAM controller */
->>       /* put all RAM on first bank because board has one slot
->>        * and firmware only checks that */
->> -    ppc4xx_sdram_banks(machine->ram, 1, ram_memories, ram_bases, 
->> ram_sizes,
->> -                       ppc460ex_sdram_bank_sizes);
->> +    ppc4xx_sdram_banks(machine->ram, 1, ram_banks, 
->> ppc460ex_sdram_bank_sizes);
->>         /* FIXME: does 460EX have ECC interrupts? */
->> -    ppc440_sdram_init(env, SDRAM_NR_BANKS, ram_memories,
->> -                      ram_bases, ram_sizes, 1);
->> +    ppc440_sdram_init(env, 1, ram_banks, 1);
->>         /* IIC controllers and devices */
->>       dev = sysbus_create_simple(TYPE_PPC4xx_I2C, 0x4ef600700,
->>                                  qdev_get_gpio_in(uic[0], 2));
->>       i2c = PPC4xx_I2C(dev)->bus;
->>       /* SPD EEPROM on RAM module */
->> -    spd_data = spd_data_generate(ram_sizes[0] < 128 * MiB ? DDR : DDR2,
->> -                                 ram_sizes[0]);
->> +    spd_data = spd_data_generate(ram_banks->size < 128 * MiB ? DDR : DDR2,
->> +                                 ram_banks->size);
->>       spd_data[20] = 4; /* SO-DIMM module */
->>       smbus_eeprom_init_one(i2c, 0x50, spd_data);
->>       /* RTC */
->> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
->> index a5e6c185af..0a9781bfaf 100644
->> --- a/include/hw/ppc/ppc4xx.h
->> +++ b/include/hw/ppc/ppc4xx.h
->> @@ -43,14 +43,11 @@ enum {
->>   };
->>     void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
->> -                        MemoryRegion ram_memories[],
->> -                        hwaddr ram_bases[], hwaddr ram_sizes[],
->> +                        Ppc4xxSdramBank ram_banks[],
->>                           const ram_addr_t sdram_bank_sizes[]);
->>   -void ppc4xx_sdram_init (CPUPPCState *env, qemu_irq irq, int nbanks,
->> -                        MemoryRegion ram_memories[],
->> -                        hwaddr *ram_bases,
->> -                        hwaddr *ram_sizes);
->> +void ppc4xx_sdram_init(CPUPPCState *env, qemu_irq irq, int nbanks,
->> +                       Ppc4xxSdramBank ram_banks[]);
->>     #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
->> 
->
->
---3866299591-601221143-1662144896=:5346--
+>>       int i, ret;
+>> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+>> index db1c0ddf6b..1991c58d9b 100644
+>> --- a/include/hw/virtio/virtio.h
+>> +++ b/include/hw/virtio/virtio.h
+>> @@ -44,6 +44,15 @@ typedef struct VirtIOFeature {
+>>       size_t end;
+>>   } VirtIOFeature;
+>>   
+>> +typedef struct VirtIOConfigSizeParams {
+>> +    size_t min_size;
+>> +    size_t max_size;
+>> +    const VirtIOFeature *feature_sizes;
+>> +} VirtIOConfigSizeParams;
+>> +
+>> +size_t virtio_get_config_size(const VirtIOConfigSizeParams *params,
+>> +                              uint64_t host_features);
+>> +
+>>   size_t virtio_feature_get_config_size(const VirtIOFeature *features,
+>>                                         uint64_t host_features);
+>>   
+>> -- 
+>> 2.25.1
 
