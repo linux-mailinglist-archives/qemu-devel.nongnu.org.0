@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0D475AA55D
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 03:58:36 +0200 (CEST)
-Received: from localhost ([::1]:50970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1EB85AA574
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 04:07:01 +0200 (CEST)
+Received: from localhost ([::1]:60704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTvx0-0000oL-Er
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 21:58:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35224)
+	id 1oTw5E-00035N-BX
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 22:07:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oTvvB-0007q8-OP
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 21:56:37 -0400
-Received: from mail-qv1-xf2c.google.com ([2607:f8b0:4864:20::f2c]:45707)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oTvv9-000094-S2
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 21:56:37 -0400
-Received: by mail-qv1-xf2c.google.com with SMTP id jy14so433399qvb.12
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 18:56:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=7KaCpkFBpXwkZCGlsUS8Nn/FWXUxOFhLaA6P4jDQM00=;
- b=GADVDWrjJIaTpGYFsZBTz6IMsTnKdCcGlktsBcyx01TsTwU3RtcLF24oru8Obhvkz7
- SxEh45ko7YumuIGbMX9pPsyFC6vlMdaGBmQUoTmEEHziRyVflVHaHkEjWssBgX0e/fnN
- u2vZ75LRl1qvUctE1kpK4qM6b3FPRVUMUHH3+kob7xRh0+0nr/A7ZzkaWB74VHmyTWNA
- 0G4mccGFN7xvZS8TGy+iz3iDfS5HjLxTkW1zsYGRLnOpINdoOYJF4W3LHVoZx3SPbC9d
- mOnDLmYy2lvDTigTAOrba7lQHf12FqFPQTM3YRbqOSnuz/fA7HeJx2rBSQdfkBik7rTM
- f0hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=7KaCpkFBpXwkZCGlsUS8Nn/FWXUxOFhLaA6P4jDQM00=;
- b=rcbuoeo0ajn5TuvKijS3Cb1VWNhnn0LS2AZbQRIGOs2C53NgGVo3TERCog5wEGvf1d
- J5ihi3eUmjKK/LaxkSuPS12LPRzsGs5WKmiRSSnA5TgS3grTNwykczhxQ+oaEa9wB1L1
- 20OaFO02q1n19/qUThAr+KPOYCOwHZZlZ5MTq2eFskp/an3NwBy/YiCF5EhG0xmCoMUh
- WwkmJ/M2epNgHVaKdJHtCNJNb1b/vclV5iwH7fYiPV/W1P1HfNM6jM3/jCDUo/fStGh8
- 75Ml+qXLiyVdA1t0LGA4ftSR5+xLMQ7BShspwdqGUu/ZXCd1QhsDsmL/M7yIFhRZuE43
- RXhQ==
-X-Gm-Message-State: ACgBeo3qoJEQLubpeYdQfF54CfLPtysgq0n8bTxAhwT4Lg+om8jYekwX
- KqLP4ZTJQN3H1zDtF11/FC6hlHv0vIzxaOJX9YQ=
-X-Google-Smtp-Source: AA6agR7S1q4yWU0uDVtGt7N9WHUaNW/6SwNa+n4r8xdIBFd97TwFryy3TVYVwIxMV3I86WXqpaj3bkznrUPdVwiVGc0=
-X-Received: by 2002:a05:6214:ca1:b0:498:f96d:4a8c with SMTP id
- s1-20020a0562140ca100b00498f96d4a8cmr23829297qvs.51.1662083794913; Thu, 01
- Sep 2022 18:56:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
+ id 1oTw3c-0001bA-GG
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 22:05:20 -0400
+Received: from mga05.intel.com ([192.55.52.43]:36045)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
+ id 1oTw3Y-0007V1-Nn
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 22:05:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662084316; x=1693620316;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=ZZSSJ9pVjALGsfvFll4Tvqi3gXbpeDZwoovDgTgUOv0=;
+ b=K+2vFJXvUtZohK687QT0p9XQqGbKDiNVgygX7arOpfAuGLLeF0hdafFj
+ 1VgVAuRkIWWuD2SBYT+nKidwHeuNGSC7SK/zHic7fTPMz4JhnmF3hWRIq
+ T5fc8oHP4wEq7n7SQUpg8FcYORIoDGRBiw+M5lh6unIT3iarCxeARd5YC
+ c9RwcCR0qM15OriguxEp8DW0T7blyRUzcbGFy1nLZeDsk1lXeBnVyMEXi
+ gDDelqshcUQx3ejacbWF9SCGkRE8iARveJsEvrywuTBgLjMxLf7/OhENI
+ QjzF7w0x0AKODTsUwgvuQjKcl4ugZnl8Kuhd/eb2uLnyrsyVDiq8XkpXF A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10457"; a="382172130"
+X-IronPort-AV: E=Sophos;i="5.93,281,1654585200"; d="scan'208";a="382172130"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2022 19:05:12 -0700
+X-IronPort-AV: E=Sophos;i="5.93,281,1654585200"; d="scan'208";a="674149743"
+Received: from leiwang7-mobl.ccr.corp.intel.com (HELO [10.238.212.139])
+ ([10.238.212.139])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2022 19:05:04 -0700
+Message-ID: <47bb9914-db6e-b646-89e8-e9d437b7ebb8@intel.com>
+Date: Fri, 2 Sep 2022 10:05:03 +0800
 MIME-Version: 1.0
-References: <20220713124357.247817-1-pbonzini@redhat.com>
-In-Reply-To: <20220713124357.247817-1-pbonzini@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 2 Sep 2022 09:56:24 +0800
-Message-ID: <CAEUhbmVWdAF2fO1E6YAJYQOaC_4dog7TkHdyJwqMAmEzrST8UQ@mail.gmail.com>
-Subject: Re: [PATCH] scsi/lsi53c895a: really fix use-after-free in
- lsi_do_msgout (CVE-2022-0216)
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>, 
- Alexander Bulekov <alxndr@bu.edu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.13.0
+Subject: Re: [Qemu-devel] [RFC PATCH] Add qemu .clang-format
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <1443720628-16512-1-git-send-email-marcandre.lureau@redhat.com>
+ <9cb1a173-c703-1787-90e1-4668710b323b@intel.com>
+ <Yw8gpOzspxrcE8rE@redhat.com>
+ <6f4292c6-5f85-f3c7-7b65-e5a59dd71dbc@intel.com>
+ <Yw86WjTzwNcALfVJ@redhat.com>
+ <d865b7f4-b3bc-9f24-a697-6ff830637133@intel.com>
+ <YxBpgeL7yJIkXV/f@redhat.com>
+ <2304fd90-b77a-f0ba-8979-61ac37b389b2@intel.com> <87bkrznw1w.fsf@linaro.org>
+From: "Wang, Lei" <lei4.wang@intel.com>
+In-Reply-To: <87bkrznw1w.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: permerror client-ip=192.55.52.43;
+ envelope-from=lei4.wang@intel.com; helo=mga05.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,147 +88,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On 9/1/2022 7:55 PM, Alex Bennée wrote:
+> 
+> "Wang, Lei" <lei4.wang@intel.com> writes:
+> 
+>> On 9/1/2022 4:12 PM, Daniel P. Berrangé wrote:
+>>> On Thu, Sep 01, 2022 at 09:08:33AM +0800, Wang, Lei wrote:
+>>>> On 8/31/2022 6:39 PM, Daniel P. Berrangé wrote:
+>>>>> On Wed, Aug 31, 2022 at 05:18:34PM +0800, Wang, Lei wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 8/31/2022 4:49 PM, Daniel P. Berrangé wrote:
+>>>>>>> On Wed, Aug 31, 2022 at 02:23:51PM +0800, Wang, Lei wrote:
+>>>>>>>>
+>>>>>>>> On 10/2/2015 1:30 AM, marcandre.lureau@redhat.com wrote:
+>>>>>>>>> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>>>>>>>>
+>>>>>>>>> clang-format is awesome to reflow your code according to qemu coding
+>>>>>>>>> style in an editor (in the region you modify).
+>>>>>>>>>
+>>>>>>>>> (note: clang-tidy should be able to add missing braces around
+>>>>>>>>> statements, but I haven't tried it, it's quite recent)
+>>>>>>>>>
+>>>>>>>>> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>>>>>>>> ---
+>>>>>>>>>     .clang-format | 6 ++++++
+>>>>>>>>>     1 file changed, 6 insertions(+)
+>>>>>>>>>     create mode 100644 .clang-format
+>>>>>>>>>
+>>>>>>>>> diff --git a/.clang-format b/.clang-format
+>>>>>>>>> new file mode 100644
+>>>>>>>>> index 0000000..6422547
+>>>>>>>>> --- /dev/null
+>>>>>>>>> +++ b/.clang-format
+>>>>>>>>> @@ -0,0 +1,6 @@
+>>>>>>>>> +BasedOnStyle: LLVM
+>>>>>>>>> +IndentWidth: 4
+>>>>>>>>> +UseTab: Never
+>>>>>>>>> +BreakBeforeBraces: Linux
+>>>>>>>>> +AllowShortIfStatementsOnASingleLine: false
+>>>>>>>>> +IndentCaseLabels: false
+>>>>>>>>
+>>>>>>>> Hi, any progress on this? I also found a gist on GitHub which can be a
+>>>>>>>> reference: https://gist.github.com/elmarco/aa5e0b23567f46fb7f0e73cde586a0c1
+>>>>>>>
+>>>>>>> clang-format is a great tool and I'd highly recommend its use on
+>>>>>>> any newly started projects, and even retrospectively on existing
+>>>>>>> projects which are small scale. Adding it to large existing projects
+>>>>>>> is problematic though.
+>>>>>>>
+>>>>>>> None of the QEMU code complies with it today and indeed there is
+>>>>>>> quite a bit of style variance across different parts of QEMU. If
+>>>>>>> we add this config file, and someone makes a 1 line change in a
+>>>>>>> file, clang-format will reformat the entire file contents.
+>>>>>>>
+>>>>>>> The only practical way to introduce use of clang-format would be
+>>>>>>> to do a bulk reformat of the entire codebase. That is something
+>>>>>>> that is quite disruptive to both people with patches they're
+>>>>>>> working on but not submitted yet, as well as people wanting to
+>>>>>>> cherry-pick new commits back to old code branches.
+>>>>>>>
+>>>>>>> With regards,
+>>>>>>> Daniel
+>>>>>>
+>>>>>> I think the benefits of introducing clang-format mainly for its ability to
+>>>>>> format a code range, which means for any future contributions, we could
+>>>>>> encourage a range format before the patch is generated. This can extensively
+>>>>>> simplify my workflow, especially because I use the Neovim + LSP combination,
+>>>>>> which supports a built-in function "lua vim.lsp.buf.range_formatting()".
+>>>>>
+>>>>> IMHO partial format conversions are even worse than full conversions,
+>>>>> because they would make code inconsistent within the scope of a file.
+>>>>
+>>>> So you mean when we're adding new code in an old file, the coding style
+>>>> should also be the old one? That sounds a bit unreasonable. I thought we are
+>>>> shifting the coding style in an on-demand way, so we can finally achieve to
+>>>> the new style mildly, if each time we're using the old coding style, that
+>>>> could be impossible.
+>>>
+>>> From my POV as a maintainer, the best situation would be consistency across
+>>> the entire codebase. Since we likely won't get that though, then next best
+>>> is consistency across the subsystem directory, and next best is consistency
+>>> across the whole file.  Mixing code styles within a file is the worst IMHO.
+>>>
+>>>>
+>>>>>> I have no interest in reformatting the existing code and also think using it
+>>>>>> to reformat an entire file shouldn't be encouraged, but, we can leverage
+>>>>>> this tool to give future contributions a better experience. It's also
+>>>>>> important to note that the kernel already has a ".clang-format" file, so I
+>>>>>> think we can give it a try:)
+>>>>>
+>>>>> The mere action of introducing a .clang-format file in the root of the
+>>>>> repository will cause some contributors' editors to automatically
+>>>>> reformat files every time they are saved. IOW even if you don't want
+>>>>> intend to do reformatting, that will be a net result.
+>>>>
+>>>> I think that depends on developer's configuration, as far as I know, format
+>>>> on save is a feature which can be easily disabled on most of the IDE's, such
+>>>> as VSCode.
+>>>
+>>> You could disable it, but it requires each developer to know that we're
+>>> shipping a clang-format that should not in fact be used to reformat
+>>> code, which is rather counterintuitive. 
+>>>
+>>> With regards,
+>>> Daniel
+>>
+>> OK, your POV makes sense too. I think we can do a tradeoff, for an example, we
+>> can add an officially suggested ".clang-format" file in the documentation, so it
+>> won't confuse the developers who have no interest in the clang stuffs, and it
+>> will also be more convenient for the developers who don't want to check the
+>> coding style manually each time before they're submitting a patch.
+> 
+> For most editors we already have a .editorconfig but it looks like there
+> is no integration for clang-format there. We could put a file in
+> contrib/style/ for an explicit call:
+> 
+>   clang-format -style=contrib/style/clang.format
+> 
+> I suspect we should move the .dir-locals there to given Emacs users
+> should be able to use the .editorconfig and it reduces duplication.
 
-On Wed, Jul 13, 2022 at 8:45 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> From: Mauro Matteo Cascella <mcascell@redhat.com>
->
-> Set current_req to NULL, not current_req->req, to prevent reusing a free'd
-> buffer in case of repeated SCSI cancel requests.  Also apply the fix to
-> CLEAR QUEUE and BUS DEVICE RESET messages as well, since they also cancel
-> the request.
->
-> Thanks to Alexander Bulekov for providing a reproducer.
->
-> Fixes: CVE-2022-0216
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/972
-> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-> Tested-by: Alexander Bulekov <alxndr@bu.edu>
-> Message-Id: <20220711123316.421279-1-mcascell@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->         Adjust the patch from v1 to v2 since the changes crossed
->         with the pull request.
->
->  hw/scsi/lsi53c895a.c               |  3 +-
->  tests/qtest/fuzz-lsi53c895a-test.c | 71 ++++++++++++++++++++++++++++++
->  2 files changed, 73 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
-> index 99ea42d49b..ad5f5e5f39 100644
-> --- a/hw/scsi/lsi53c895a.c
-> +++ b/hw/scsi/lsi53c895a.c
-> @@ -1030,7 +1030,7 @@ static void lsi_do_msgout(LSIState *s)
->              trace_lsi_do_msgout_abort(current_tag);
->              if (current_req && current_req->req) {
->                  scsi_req_cancel(current_req->req);
-> -                current_req->req = NULL;
-> +                current_req = NULL;
->              }
->              lsi_disconnect(s);
->              break;
-> @@ -1056,6 +1056,7 @@ static void lsi_do_msgout(LSIState *s)
->              /* clear the current I/O process */
->              if (s->current) {
->                  scsi_req_cancel(s->current->req);
-> +                current_req = NULL;
->              }
->
->              /* As the current implemented devices scsi_disk and scsi_generic
-> diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
-> index 2e8e67859e..6872c70d3a 100644
-> --- a/tests/qtest/fuzz-lsi53c895a-test.c
-> +++ b/tests/qtest/fuzz-lsi53c895a-test.c
-> @@ -8,6 +8,74 @@
->  #include "qemu/osdep.h"
->  #include "libqtest.h"
->
-> +/*
-> + * This used to trigger a UAF in lsi_do_msgout()
-> + * https://gitlab.com/qemu-project/qemu/-/issues/972
-> + */
-> +static void test_lsi_do_msgout_cancel_req(void)
-> +{
-> +    QTestState *s;
-> +
-> +    s = qtest_init("-M q35 -m 4G -display none -nodefaults "
+I'm not an Emacs guy, but it looks good to me.
 
-This test does not run on machines with small size memory. Is 4G a
-must have for this test?
+> And of course mention the location of these style linters in
+> docs/devel/style.rst
 
-> +                   "-device lsi53c895a,id=scsi "
-> +                   "-device scsi-hd,drive=disk0 "
-> +                   "-drive file=null-co://,id=disk0,if=none,format=raw");
-> +
-> +    qtest_outl(s, 0xcf8, 0x80000810);
-> +    qtest_outl(s, 0xcf8, 0xc000);
-> +    qtest_outl(s, 0xcf8, 0x80000810);
-> +    qtest_outw(s, 0xcfc, 0x7);
-> +    qtest_outl(s, 0xcf8, 0x80000810);
-> +    qtest_outl(s, 0xcfc, 0xc000);
-> +    qtest_outl(s, 0xcf8, 0x80000804);
-> +    qtest_outw(s, 0xcfc, 0x05);
-> +    qtest_writeb(s, 0x69736c10, 0x08);
-> +    qtest_writeb(s, 0x69736c13, 0x58);
-> +    qtest_writeb(s, 0x69736c1a, 0x01);
-> +    qtest_writeb(s, 0x69736c1b, 0x06);
-> +    qtest_writeb(s, 0x69736c22, 0x01);
-> +    qtest_writeb(s, 0x69736c23, 0x07);
-> +    qtest_writeb(s, 0x69736c2b, 0x02);
-> +    qtest_writeb(s, 0x69736c48, 0x08);
-> +    qtest_writeb(s, 0x69736c4b, 0x58);
-> +    qtest_writeb(s, 0x69736c52, 0x04);
-> +    qtest_writeb(s, 0x69736c53, 0x06);
-> +    qtest_writeb(s, 0x69736c5b, 0x02);
-> +    qtest_outl(s, 0xc02d, 0x697300);
-> +    qtest_writeb(s, 0x5a554662, 0x01);
-> +    qtest_writeb(s, 0x5a554663, 0x07);
-> +    qtest_writeb(s, 0x5a55466a, 0x10);
-> +    qtest_writeb(s, 0x5a55466b, 0x22);
-> +    qtest_writeb(s, 0x5a55466c, 0x5a);
-> +    qtest_writeb(s, 0x5a55466d, 0x5a);
-> +    qtest_writeb(s, 0x5a55466e, 0x34);
-> +    qtest_writeb(s, 0x5a55466f, 0x5a);
-> +    qtest_writeb(s, 0x5a345a5a, 0x77);
-> +    qtest_writeb(s, 0x5a345a5b, 0x55);
-> +    qtest_writeb(s, 0x5a345a5c, 0x51);
-> +    qtest_writeb(s, 0x5a345a5d, 0x27);
-> +    qtest_writeb(s, 0x27515577, 0x41);
-> +    qtest_outl(s, 0xc02d, 0x5a5500);
-> +    qtest_writeb(s, 0x364001d0, 0x08);
-> +    qtest_writeb(s, 0x364001d3, 0x58);
-> +    qtest_writeb(s, 0x364001da, 0x01);
-> +    qtest_writeb(s, 0x364001db, 0x26);
-> +    qtest_writeb(s, 0x364001dc, 0x0d);
-> +    qtest_writeb(s, 0x364001dd, 0xae);
-> +    qtest_writeb(s, 0x364001de, 0x41);
-> +    qtest_writeb(s, 0x364001df, 0x5a);
-> +    qtest_writeb(s, 0x5a41ae0d, 0xf8);
-> +    qtest_writeb(s, 0x5a41ae0e, 0x36);
-> +    qtest_writeb(s, 0x5a41ae0f, 0xd7);
-> +    qtest_writeb(s, 0x5a41ae10, 0x36);
-> +    qtest_writeb(s, 0x36d736f8, 0x0c);
-> +    qtest_writeb(s, 0x36d736f9, 0x80);
-> +    qtest_writeb(s, 0x36d736fa, 0x0d);
-> +    qtest_outl(s, 0xc02d, 0x364000);
-> +
-> +    qtest_quit(s);
-> +}
-> +
->  /*
->   * This used to trigger the assert in lsi_do_dma()
->   * https://bugs.launchpad.net/qemu/+bug/697510
-> @@ -44,5 +112,8 @@ int main(int argc, char **argv)
->      qtest_add_func("fuzz/lsi53c895a/lsi_do_dma_empty_queue",
->                     test_lsi_do_dma_empty_queue);
->
-> +    qtest_add_func("fuzz/lsi53c895a/lsi_do_msgout_cancel_req",
-> +                   test_lsi_do_msgout_cancel_req);
-> +
->      return g_test_run();
->  }
+That's necessary indeed.
 
-Regards,
-Bin
+>>
+>> BR,
+>> Lei
+> 
+> 
 
