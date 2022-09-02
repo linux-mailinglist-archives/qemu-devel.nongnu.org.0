@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 137C85AB6B3
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 18:37:41 +0200 (CEST)
-Received: from localhost ([::1]:51654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 839CB5AB6EA
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 18:55:00 +0200 (CEST)
+Received: from localhost ([::1]:59184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU9fo-0006EZ-4S
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 12:37:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48932)
+	id 1oU9wZ-0007NH-2Y
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 12:54:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oU9cP-00021O-Vy
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 12:34:10 -0400
-Received: from mail-qv1-xf2c.google.com ([2607:f8b0:4864:20::f2c]:34799)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oU9cO-00044e-Dd
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 12:34:09 -0400
-Received: by mail-qv1-xf2c.google.com with SMTP id kh8so1825232qvb.1
- for <qemu-devel@nongnu.org>; Fri, 02 Sep 2022 09:34:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=vkA3OWp8V12gjFj2vT2WtoMdBplP2vN9JtF40Fx2JKw=;
- b=lUVf5IgpEHS9WwvdOgo1T24jEcsGWmtPyTXG1QnWZt8XjqDvRaQPlUqyK10W5rGKeo
- xJgsCsxRHKlDTt2Uyaknjzq1xDqLSwFcaIhuewHIGe/tus4hJPaV4mWl/utOmFsqehu2
- DfTuqWT5I3Dx8N50gI9kxKKhieBFDTVBQbXUAL4GLywldE9DW0jahiw7R5hTEJevIkr+
- Smp14TNnk10ymyjVgQE8UkU+UunV4j7vXgC03xOojw+b9GBiA6sDbec7RVAsIB+glE+g
- 40d7ex5P16tHrW+k+DPsMKLnx2d0ROqVP15312hHCwkzAvCMpYngRwq8U4Q5rmj/Dksf
- 77XA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=vkA3OWp8V12gjFj2vT2WtoMdBplP2vN9JtF40Fx2JKw=;
- b=Jv24Pj/IRJBcZT5N2DPXURrUpJiCr9eUpcQe8B4zImjTEn89fmmO4Yt36ZciDfCLdz
- qeozO/5g+sAg3MKMGUIdRY0+5mVk/wnWqFk8EPyeTHNVyUGrTM4Q2ZUwkouQQWET5Geb
- 7b5mttUjqSQOVum/e6X2v8wPpE0YDcNz9BBWcQieHzASO2joQqOdtO+swzXF7uYoqOSB
- acM2sQOLXQi00KX2R88ZUPLmDhrOVbjkQCZZLcSMXAVsXassuu8BbRbuCghXDUiOl+r4
- +95IsFpCZAJ9TqRqz9eQNCoIM7T5Ch+Da5xvH6W6AktQVdAHZhiUkpuHqW7ssbd8Ibaz
- GO4g==
-X-Gm-Message-State: ACgBeo16k/B45UM/n8iBQ3cOi7cPt3c8groML7DQ83ThIGr7mOWfkbvC
- JkHwh6jryusXfjL8YL38CZUgwBpLOZCSYzg48DjlZoCK
-X-Google-Smtp-Source: AA6agR5YHqJzQ8j6+Uk52bRW5UFvjGMu4ezTxV86uz0Tu3P/SKk6GFfDiP3RAKY5sgx71Lp/SVgAeR70QKgD8UrOrxM=
-X-Received: by 2002:a0c:810f:0:b0:47b:299a:56d7 with SMTP id
- 15-20020a0c810f000000b0047b299a56d7mr29363224qvc.12.1662136447260; Fri, 02
- Sep 2022 09:34:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1oU9tJ-0001yk-7T
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 12:51:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34315)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1oU9tF-0003O2-M7
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 12:51:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662137492;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=HI92pK/CZ54wqDK4XFIH21/EhQkpD15WepPZ0yCs5s8=;
+ b=cQ503A/g2lClw+ezWfrlmlX4B/u5AxUEvkOym21VcQs91DmSkeWwJR1T3uFg6u6jv67dl2
+ XOy6pOrooJVzzcu69d86iirytF98Vb6ymB3f//xz9Y2uJe0jF9VVlHpH1u4fwgsQbD3adW
+ +SSUU7GelDq9xH483qQ/EsJ5Odtr40U=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-52-OOKmBL4FMQK6XdP9jwgZ7w-1; Fri, 02 Sep 2022 12:51:31 -0400
+X-MC-Unique: OOKmBL4FMQK6XdP9jwgZ7w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ED8FC101AA4A;
+ Fri,  2 Sep 2022 16:51:30 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.192.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 59EA02026D4C;
+ Fri,  2 Sep 2022 16:51:27 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Darren Kenny <darren.kenny@oracle.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Gerd Hoffmann <kraxel@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Hannes Reinecke <hare@suse.com>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>, Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>
+Subject: [PATCH 0/8] tests: Make expliction defaults for tests
+Date: Fri,  2 Sep 2022 18:51:18 +0200
+Message-Id: <20220902165126.1482-1-quintela@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-42-bmeng.cn@gmail.com>
- <YwZ0X6cGmK/4N1yk@work-vm>
- <CAJ+F1CLJ3SFzHrp=f7amCCi6cSwp0+ANk7gdO4tgPzJh12uKxg@mail.gmail.com>
-In-Reply-To: <CAJ+F1CLJ3SFzHrp=f7amCCi6cSwp0+ANk7gdO4tgPzJh12uKxg@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sat, 3 Sep 2022 00:33:56 +0800
-Message-ID: <CAEUhbmXjGCWqk-EOc3+gmUcX_Xy3ZFvf0QXoAH3Ty-hXAzQhxw@mail.gmail.com>
-Subject: Re: [PATCH 41/51] tests/qtest: migration-test: Kill "to" after
- migration is canceled
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, 
- Bin Meng <bin.meng@windriver.com>, Juan Quintela <quintela@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf2c.google.com
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,61 +86,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 1, 2022 at 7:35 PM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
->
-> Hi
->
-> On Wed, Aug 24, 2022 at 10:56 PM Dr. David Alan Gilbert <dgilbert@redhat.=
-com> wrote:
->>
->> * Bin Meng (bmeng.cn@gmail.com) wrote:
->> > From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
->> >
->> > Make sure QEMU process "to" is killed before launching another target
->> > for migration in the test_multifd_tcp_cancel case.
->> >
->> > Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
->> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
->> > ---
->> >
->> >  tests/qtest/migration-test.c | 4 ++++
->> >  1 file changed, 4 insertions(+)
->> >
->> > diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test=
-.c
->> > index 125d48d855..18ec079abf 100644
->> > --- a/tests/qtest/migration-test.c
->> > +++ b/tests/qtest/migration-test.c
->> > @@ -2132,6 +2132,10 @@ static void test_multifd_tcp_cancel(void)
->> >      wait_for_migration_pass(from);
->> >
->> >      migrate_cancel(from);
->> > +    /* Make sure QEMU process "to" is killed */
->> > +    if (qtest_probe_child(to)) {
->> > +        qtest_kill_qemu(to);
->> > +    }
->>
->> I'm not sure that's safe - what happens if the qemu exits between the
->> probe and kill?
->
+Hi
 
-Umm, indeed there will be an issue if qemu exists between the probe and kil=
-l.
+For a long, long time I have had local hacks on my tree to be able to
+run "make tests" when I have a minimal configure guest.  This is a
+first try to upstream some of it.
 
-I will change to a busy wait in v2.
+- by default we always setup -display none (it already was the
+  default, but some places added it anyways)
 
->
-> It looks safe to me, qtest_probe_child() resets the qemu_pid if it alread=
-y exited. Otherwise, there is a process/handle waiting for waitpid/CloseHan=
-dle done in qtest_kill_qemu().
->
-> We are missing a CloseHandle() in qtest_probe_child() though, I'll send a=
- patch.
->
-> so lgtm,
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+- by default we always setup -net none.  Not clear what was the
+  default, but no tests use the default net, so it is safe change and
+  now it is explicit.
 
-Regards,
-Bin
+- by default we always setup -vga none.  This is a complete difference
+  can of worms.  Every tests that use vga already set vga correctly,
+  so this is quite obvious, right?  Now they are acpi tables.  They
+  are a mess.  And basically this means remove a device for each one
+  of them.  Why going through all the trouble?  Because while I am
+  develping, I normall compile out vga.
+
+- Fix several error strings that were set with copy paste.
+
+- replication test requires CONFIG_REPLICATION.
+- test-crypto-secret requires CONFIG_SECRET_KEYRING.
+
+Please review.  Except for the acpi changes (that I hope I have done
+right following the instructions) the rest is quite obvious.
+
+Later, Juan.
+
+Juan Quintela (8):
+  qtest: "-display none" is set in qtest_init()
+  qtest: Set "-net none" in qtest_init()
+  tests/acpi: The new default is -vga none
+  tests/qtest: Add -vga none by default
+  tests/acpi: Regenerate all needed tables
+  tests: Fix error strings
+  meson-build: Enable CONFIG_REPLICATION only when replication is set
+  meson-build: test-crypto-secret depends on CONFIG_SECRET_KEYRING
+
+ meson.build                           |   2 +-
+ tests/qtest/bios-tables-test.c        |   2 +-
+ tests/qtest/boot-serial-test.c        |   4 ++--
+ tests/qtest/dbus-display-test.c       |   2 +-
+ tests/qtest/display-vga-test.c        |  12 ++++++------
+ tests/qtest/e1000-test.c              |   2 +-
+ tests/qtest/es1370-test.c             |   2 +-
+ tests/qtest/fuzz-lsi53c895a-test.c    |   2 +-
+ tests/qtest/fuzz-megasas-test.c       |   2 +-
+ tests/qtest/fuzz-sb16-test.c          |   6 +++---
+ tests/qtest/fuzz-sdcard-test.c        |   6 +++---
+ tests/qtest/fuzz-virtio-scsi-test.c   |   2 +-
+ tests/qtest/fuzz-xlnx-dp-test.c       |   2 +-
+ tests/qtest/fuzz/generic_fuzz.c       |   3 +--
+ tests/qtest/fuzz/i440fx_fuzz.c        |   2 +-
+ tests/qtest/fuzz/qos_fuzz.c           |   2 +-
+ tests/qtest/libqtest.c                |   2 ++
+ tests/data/acpi/pc/DSDT               | Bin 5987 -> 5992 bytes
+ tests/data/acpi/pc/DSDT.acpierst      | Bin 5954 -> 5959 bytes
+ tests/data/acpi/pc/DSDT.acpihmat      | Bin 7312 -> 7317 bytes
+ tests/data/acpi/pc/DSDT.bridge        | Bin 8653 -> 8658 bytes
+ tests/data/acpi/pc/DSDT.cphp          | Bin 6451 -> 6456 bytes
+ tests/data/acpi/pc/DSDT.dimmpxm       | Bin 7641 -> 7646 bytes
+ tests/data/acpi/pc/DSDT.hpbridge      | Bin 5954 -> 5959 bytes
+ tests/data/acpi/pc/DSDT.hpbrroot      | Bin 3069 -> 3023 bytes
+ tests/data/acpi/pc/DSDT.ipmikcs       | Bin 6059 -> 6064 bytes
+ tests/data/acpi/pc/DSDT.memhp         | Bin 7346 -> 7351 bytes
+ tests/data/acpi/pc/DSDT.nohpet        | Bin 5845 -> 5850 bytes
+ tests/data/acpi/pc/DSDT.numamem       | Bin 5993 -> 5998 bytes
+ tests/data/acpi/pc/DSDT.roothp        | Bin 6195 -> 6151 bytes
+ tests/data/acpi/pc/ERST.acpierst      | Bin 912 -> 912 bytes
+ tests/data/acpi/q35/DMAR.dmar         | Bin 120 -> 112 bytes
+ tests/data/acpi/q35/DSDT              | Bin 8274 -> 8228 bytes
+ tests/data/acpi/q35/DSDT.acpierst     | Bin 8291 -> 8245 bytes
+ tests/data/acpi/q35/DSDT.acpihmat     | Bin 9599 -> 9553 bytes
+ tests/data/acpi/q35/DSDT.applesmc     | Bin 8320 -> 8274 bytes
+ tests/data/acpi/q35/DSDT.bridge       | Bin 10988 -> 10944 bytes
+ tests/data/acpi/q35/DSDT.cphp         | Bin 8738 -> 8692 bytes
+ tests/data/acpi/q35/DSDT.cxl          | Bin 9600 -> 9502 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm      | Bin 9928 -> 9882 bytes
+ tests/data/acpi/q35/DSDT.ipmibt       | Bin 8349 -> 8303 bytes
+ tests/data/acpi/q35/DSDT.ipmismbus    | Bin 8363 -> 8317 bytes
+ tests/data/acpi/q35/DSDT.ivrs         | Bin 8291 -> 8245 bytes
+ tests/data/acpi/q35/DSDT.memhp        | Bin 9633 -> 9587 bytes
+ tests/data/acpi/q35/DSDT.mmio64       | Bin 9404 -> 9358 bytes
+ tests/data/acpi/q35/DSDT.multi-bridge | Bin 8568 -> 8524 bytes
+ tests/data/acpi/q35/DSDT.nohpet       | Bin 8132 -> 8086 bytes
+ tests/data/acpi/q35/DSDT.numamem      | Bin 8280 -> 8234 bytes
+ tests/data/acpi/q35/DSDT.pvpanic-isa  | Bin 8375 -> 8329 bytes
+ tests/data/acpi/q35/DSDT.tis.tpm12    | Bin 8880 -> 8834 bytes
+ tests/data/acpi/q35/DSDT.tis.tpm2     | Bin 8906 -> 8860 bytes
+ tests/data/acpi/q35/DSDT.viot         | Bin 9383 -> 9339 bytes
+ tests/data/acpi/q35/DSDT.xapic        | Bin 35637 -> 35591 bytes
+ tests/data/acpi/q35/ERST.acpierst     | Bin 912 -> 912 bytes
+ tests/data/acpi/q35/IVRS.ivrs         | Bin 104 -> 100 bytes
+ tests/data/acpi/q35/VIOT.viot         | Bin 112 -> 112 bytes
+ tests/unit/meson.build                |   4 +++-
+ 57 files changed, 31 insertions(+), 28 deletions(-)
+
+-- 
+2.37.2
+
 
