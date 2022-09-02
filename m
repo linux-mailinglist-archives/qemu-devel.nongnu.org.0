@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F18E65AB6F7
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 18:57:15 +0200 (CEST)
-Received: from localhost ([::1]:55306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2D895AB6FD
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 18:58:10 +0200 (CEST)
+Received: from localhost ([::1]:50500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU9yl-0003TR-01
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 12:57:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50510)
+	id 1oU9zd-0005MT-E7
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 12:58:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oU9tn-0003KB-Vz
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 12:52:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33345)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oU9ue-0004yB-QE
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 12:53:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28900)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oU9tm-0003Up-JA
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 12:52:07 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oU9uc-0003cP-IM
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 12:52:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662137526;
+ s=mimecast20190719; t=1662137577;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=coWOpTJ+VOryFEWjNp7yfcF20mX/AQjoYLSJBuSKjkk=;
- b=CIXErrq4a1Ezi7bmAOLy4x91m2PJs6BwUYMl4LGDbJq8YOWY9EAXueDJJaLzNSb2CfhwmF
- cRPi0lyyixk+XdxsB+GzXmLtCDuzPJM0jlHpXiLkqZF545WKukfJGaJBDl4vGsQObBFrue
- M6wosKnAcMy/hHpWZg67yoJDAUS58oI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7FRsXiPQLrdmyMGr3Bh7kFUvHRKBZGqby8pLojjXECg=;
+ b=CZudOIYaQuRiczQhbJLCBXT7Txg3tknind+xLuYnWoMfSvB1cDgF/dXDBKtygMQBZOzgvz
+ CIA/bNIVUIIfBEa+vESpsiIdILLyv8+HVNjitRwH6W6/vQBTa73CPpcDhus42LW/a/ZD2p
+ fvixOjmgGgC5UGqPUy3cvzCfjc3R7y4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-512-Vkk9cthiPoagScIRn2aR1A-1; Fri, 02 Sep 2022 12:51:59 -0400
-X-MC-Unique: Vkk9cthiPoagScIRn2aR1A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-504-kGOD_9VhMguLAH2ARmJYgw-1; Fri, 02 Sep 2022 12:52:53 -0400
+X-MC-Unique: kGOD_9VhMguLAH2ARmJYgw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 85C8A811E83;
- Fri,  2 Sep 2022 16:51:58 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.192.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 703C02026D64;
- Fri,  2 Sep 2022 16:51:55 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Darren Kenny <darren.kenny@oracle.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- "Michael S. Tsirkin" <mst@redhat.com>, Fam Zheng <fam@euphon.net>,
- Gerd Hoffmann <kraxel@redhat.com>, Bandan Das <bsd@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Hannes Reinecke <hare@suse.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>
-Subject: [PATCH 8/8] meson-build: test-crypto-secret depends on
- CONFIG_SECRET_KEYRING
-Date: Fri,  2 Sep 2022 18:51:26 +0200
-Message-Id: <20220902165126.1482-9-quintela@redhat.com>
-In-Reply-To: <20220902165126.1482-1-quintela@redhat.com>
-References: <20220902165126.1482-1-quintela@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3A888294EDFB;
+ Fri,  2 Sep 2022 16:52:53 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.195.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EE9AD18ECC;
+ Fri,  2 Sep 2022 16:52:52 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id ABDF7180039D; Fri,  2 Sep 2022 18:52:51 +0200 (CEST)
+Date: Fri, 2 Sep 2022 18:52:51 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Xiaoyao Li <xiaoyao.li@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Isaku Yamahata <isaku.yamahata@gmail.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH v1 15/40] i386/tdx: Add property sept-ve-disable for
+ tdx-guest object
+Message-ID: <20220902165251.g2xfstp4u3sqnloz@sirius.home.kraxel.org>
+References: <20220802074750.2581308-1-xiaoyao.li@intel.com>
+ <20220802074750.2581308-16-xiaoyao.li@intel.com>
+ <20220825113636.qlqmflxcxemh2lmf@sirius.home.kraxel.org>
+ <389a2212-56b8-938b-22e5-24ae2bc73235@intel.com>
+ <20220826055711.vbw2oovti2qevzzx@sirius.home.kraxel.org>
+ <a700a0c6-7f25-dc45-4c49-f61709808f29@intel.com>
+ <YxFv6RglTOY3Pevj@google.com>
+ <20220902054621.yyffxn2vnm74r2b3@sirius.home.kraxel.org>
+ <YxIgq9flJehbEngQ@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YxIgq9flJehbEngQ@google.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -89,36 +97,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With this change "make check" works when configured with --disable-keyring.
+On Fri, Sep 02, 2022 at 03:26:35PM +0000, Sean Christopherson wrote:
+> On Fri, Sep 02, 2022, Gerd Hoffmann wrote:
+> > 
+> > Hmm, ok, but shouldn't the SEPT_VE bit *really* controlled by the guest then?
+> > 
+> > Having a hypervisor-controlled config bit to protect against a malicious
+> > hypervisor looks pointless to me ...
+> 
+> IIRC, all (most?) of the attributes are included in the attestation report, so a
+> guest/customer can refuse to provision secrets to the guest if the hypervisor is
+> misbehaving.
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- tests/unit/meson.build | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Good.  I think we sorted all issues then.
 
-diff --git a/tests/unit/meson.build b/tests/unit/meson.build
-index b497a41378..988aed27cb 100644
---- a/tests/unit/meson.build
-+++ b/tests/unit/meson.build
-@@ -78,7 +78,6 @@ if have_block
-     'test-crypto-hmac': [crypto],
-     'test-crypto-cipher': [crypto],
-     'test-crypto-akcipher': [crypto],
--    'test-crypto-secret': [crypto, keyutils],
-     'test-crypto-der': [crypto],
-     'test-authz-simple': [authz],
-     'test-authz-list': [authz],
-@@ -122,6 +121,9 @@ if have_block
-   if config_host_data.get('CONFIG_EPOLL_CREATE1')
-     tests += {'test-fdmon-epoll': [testblock]}
-   endif
-+  if config_host_data.get('CONFIG_SECRET_KEYRING')
-+    tests += {'test-crypto-secret': [crypto, keyutils]}
-+  endif
- endif
- 
- if have_system
--- 
-2.37.2
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+
+take care,
+  Gerd
 
 
