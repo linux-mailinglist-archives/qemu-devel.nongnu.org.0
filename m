@@ -2,86 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9B645AA829
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 08:41:14 +0200 (CEST)
-Received: from localhost ([::1]:44300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 789E65AA84B
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 08:48:34 +0200 (CEST)
+Received: from localhost ([::1]:55730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU0Ma-0006jL-EN
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 02:41:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54870)
+	id 1oU0Tc-0004Y8-Eo
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 02:48:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oU0Gn-0002W7-8p
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:35:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47269)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oU0NF-00072r-Sa
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:41:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oU0Gj-0008Rs-T4
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:35:11 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oU0NB-0004kA-O5
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:41:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662100506;
+ s=mimecast20190719; t=1662100907;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yWS9iyryA8xlkFxtcc+dq5p3p67BtZeQdTh6Cr1MjxQ=;
- b=cr7EM+aXhZJnZC0+dhGSq+1rrN6pBSJYgvS/tjuvLn+yY1IJS31Aqsf0GTm4dfD9KRNCyu
- rKrn1HiCMi67gcyFJu2sNpsLWarTXbWP7hsAvI3QBlQG0EgscJv5lXLeA6i0AvoM0+wrCk
- K5enJYCFJ7fH/ERNuSbD0diorzdbBE0=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-642-Ex8ES1TmM0Ko7dot1lhkvg-1; Fri, 02 Sep 2022 02:35:05 -0400
-X-MC-Unique: Ex8ES1TmM0Ko7dot1lhkvg-1
-Received: by mail-ej1-f69.google.com with SMTP id
- sb14-20020a1709076d8e00b0073d48a10e10so565823ejc.16
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 23:35:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=yWS9iyryA8xlkFxtcc+dq5p3p67BtZeQdTh6Cr1MjxQ=;
- b=jFpr3it1vPstfu8ZE2vCAdGMhB2eCvAPRSisQRdCSH/SVUmRpH0OoEKK88v6uBUMx/
- 9tD0qksn5y1QQdxCJUjHqi1fadc9SuGKaMhugHHXvnbc49/2Q95Gwn/IJXlN+XeNWkf+
- rwZu4HyO6laum6kzquryGq0DxyI+z2COpOJ8lCA4mLm534drYsiBJ/AiFKgbOshKlpg2
- YGGA9p19VSGlgH582AOg2a7g+sjbKrVZGMj2FK4iIkx7URKwupkyIjcbLlt5+wICtZSf
- R+7bWJiAjmU1Ue9RYb5xF1yYO9w6caKGF979PldjqAi1CgvZl2jrkWeyIqGma9nIns67
- kNaQ==
-X-Gm-Message-State: ACgBeo2qKFA0zGvSPvjqFryN8U9GDCiyW6fgK8XIowPk+6ZjuJD0/wy7
- KRMA0xVnFXMuk6Ne/egYrZANoojnkki5ahxLyaej20uiHogon/E913xVPYF8oVI36pLebrb1GUu
- 1v11nwl+swHK/xY0=
-X-Received: by 2002:a17:907:6091:b0:731:37fb:bd9 with SMTP id
- ht17-20020a170907609100b0073137fb0bd9mr25738481ejc.219.1662100504500; 
- Thu, 01 Sep 2022 23:35:04 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5AJH6A2uUVyWoNDSLQKHjWoU495ErlpPJhNeR17h6Wq/l0AmhjwX23XpZLKB+thgkQ1d2r1w==
-X-Received: by 2002:a17:907:6091:b0:731:37fb:bd9 with SMTP id
- ht17-20020a170907609100b0073137fb0bd9mr25738464ejc.219.1662100504224; 
- Thu, 01 Sep 2022 23:35:04 -0700 (PDT)
-Received: from redhat.com ([2.55.191.225]) by smtp.gmail.com with ESMTPSA id
- ds7-20020a0564021cc700b00445c0ab272fsm784424edb.29.2022.09.01.23.35.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 23:35:03 -0700 (PDT)
-Date: Fri, 2 Sep 2022 02:35:00 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Xiaoyao Li <xiaoyao.li@intel.com>, qemu-devel@nongnu.org,
- kvm@vger.kernel.org, Marcelo Tosatti <mtosatti@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Sergio Lopez <slp@redhat.com>
-Subject: Re: [PATCH 0/2] expose host-phys-bits to guest
-Message-ID: <20220902021628-mutt-send-email-mst@kernel.org>
-References: <20220831125059.170032-1-kraxel@redhat.com>
- <957f0cc5-6887-3861-2b80-69a8c7cdd098@intel.com>
- <20220901135810.6dicz4grhz7ye2u7@sirius.home.kraxel.org>
- <f7a56158-9920-e753-4d21-e1bcc3573e27@intel.com>
- <20220901161741.dadmguwv25sk4h6i@sirius.home.kraxel.org>
- <34be4132-53f4-8779-1ada-68aa554e0eac@intel.com>
- <20220902060720.xruqoxc2iuszkror@sirius.home.kraxel.org>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8iD/uHA6lqKkeISFO461cCTgS9iGkUQctpDdDa7E10s=;
+ b=So41zRTqeH/mstNLu3gFq0eGnSAgq0Bcl0WK73li8RGXgDQ77cX8v5O0zYxoBScypJwhYA
+ jQ6rx8pjrcelosOBTz8NoZC9XpoBi6mSiA1Bc4ya6VfD8K6g64Z/dF3+FcsMx3MfwkssRG
+ XeFmQKBASlGtQyYafyTg0LsSg+50b7k=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-50-FbZIrFynNCyhx_mtE5F-zg-1; Fri, 02 Sep 2022 02:41:44 -0400
+X-MC-Unique: FbZIrFynNCyhx_mtE5F-zg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BFF41101AA47;
+ Fri,  2 Sep 2022 06:41:43 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-12-152.pek2.redhat.com
+ [10.72.12.152])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB82A1415137;
+ Fri,  2 Sep 2022 06:41:41 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Cc: Jason Wang <jasowang@redhat.com>
+Subject: [PULL 00/21] Net patches
+Date: Fri,  2 Sep 2022 14:41:17 +0800
+Message-Id: <20220902064138.56468-1-jasowang@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220902060720.xruqoxc2iuszkror@sirius.home.kraxel.org>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -105,94 +78,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 02, 2022 at 08:07:20AM +0200, Gerd Hoffmann wrote:
-> On Fri, Sep 02, 2022 at 08:10:00AM +0800, Xiaoyao Li wrote:
-> > On 9/2/2022 12:17 AM, Gerd Hoffmann wrote:
-> > > On Thu, Sep 01, 2022 at 10:36:19PM +0800, Xiaoyao Li wrote:
-> > > > On 9/1/2022 9:58 PM, Gerd Hoffmann wrote:
-> > > > 
-> > > > > > Anyway, IMO, guest including guest firmware, should always consult from
-> > > > > > CPUID leaf 0x80000008 for physical address length.
-> > > > > 
-> > > > > It simply can't for the reason outlined above.  Even if we fix qemu
-> > > > > today that doesn't solve the problem for the firmware because we want
-> > > > > backward compatibility with older qemu versions.  Thats why I want the
-> > > > > extra bit which essentially says "CPUID leaf 0x80000008 actually works".
-> > > > 
-> > > > I don't understand how it backward compatible with older qemu version. Old
-> > > > QEMU won't set the extra bit you introduced in this series, and all the
-> > > > guest created with old QEMU will become untrusted on CPUID leaf 0x80000008 ?
-> > > 
-> > > Correct, on old qemu firmware will not trust CPUID leaf 0x80000008.
-> > > That is not worse than the situation we have today, currently the
-> > > firmware never trusts CPUID leaf 0x80000008.
-> > > 
-> > > So the patches will improves the situation for new qemu only, but I
-> > > don't see a way around that.
-> > > 
-> > 
-> > I see.
-> > 
-> > But IMHO, I don't think it's good that guest firmware workaround the issue
-> > on its own. Instead, it's better to just trust CPUID leaf 0x80000008 and
-> > fail if the given physical address length cannot be virtualized/supported.
-> > 
-> > It's just the bug of VMM to virtualize the physical address length. The
-> > correction direction is to fix the bug not the workaround to hide the bug.
-> 
-> I'm starting to repeat myself. "just trust CPUID leaf 0x80000008"
-> doesn't work because you simply can't with current qemu versions.
-> 
-> I don't like the dance with the new bit very much either, but I don't
-> see a better way without massive fallout due to compatibility problems.
-> I'm open to suggestions though.
-> 
-> take care,
->   Gerd
+The following changes since commit 7dd9d7e0bd29abf590d1ac235c0a00606ef81153:
 
+  Merge tag 'pull-ppc-20220831' of https://gitlab.com/danielhb/qemu into staging (2022-09-01 13:53:20 -0400)
 
-I feel there are three major sources of controversy here
+are available in the git repository at:
 
-0. the cover letter and subject don't do such a good job
-   explaining that what we are doing is just telling guest
-   CPUID is not broken. we are not exposing anything new
-   and not exposing host capability to guest, for example,
-   if cpuid phys address is smaller than host things also
-   work fine.
+  https://github.com/jasowang/qemu.git tags/net-pull-request
 
-1. really the naming.  We need to be more explicit that it's just a bugfix.
+for you to fetch changes up to 36a894aeb64a2e02871016da1c37d4a4ca109182:
 
-2. down the road we will want to switch the default when no PV. however,
-   some hosts might still want conservative firmware for compatibility
-   reasons, so I think we need a way to tell firmware
-   "ignore phys address width in CPUID like you did in the past".
-   let's add a flag for that?
-   and if none are set firmware should print a warning, though I
-   do not know how many people will see that. Maybe some ;)
+  net: tulip: Restrict DMA engine to memories (2022-09-02 10:22:39 +0800)
 
-along the lines of:
+----------------------------------------------------------------
 
-/*
- * Old KVM hosts often reported incorrect phys address width,
- * so firmware had to be very conservative in its use of physical
- * addresses. 
- * One of the two following flags should be set.
- * If none are set firmware is for now conservative, but that will
- * likely change in the future, hosts should not rely on that.
- */
-/* 
-/* KVM with non broken phys address width should set this flag
- * firmware will be allowed to use all phys address bits
- */
-#define KVM_BUG_PHYS_ADDRESS_WIDTH_NONBROKEN 1
-/*
- * Force firmware to be very conservative in its use of physical
- * addresses, ignoring phys address width in CPUID.
- * Helpful for migration between hosts with different capabilities.
- */
-#define KVM_BUG_PHYS_ADDRESS_WIDTH_BROKEN 2
+----------------------------------------------------------------
+Eugenio Pérez (19):
+      vdpa: Skip the maps not in the iova tree
+      vdpa: do not save failed dma maps in SVQ iova tree
+      util: accept iova_tree_remove_parameter by value
+      vdpa: Remove SVQ vring from iova_tree at shutdown
+      vdpa: Make SVQ vring unmapping return void
+      vhost: Always store new kick fd on vhost_svq_set_svq_kick_fd
+      vdpa: Use ring hwaddr at vhost_vdpa_svq_unmap_ring
+      vhost: stop transfer elem ownership in vhost_handle_guest_kick
+      vhost: use SVQ element ndescs instead of opaque data for desc validation
+      vhost: Delete useless read memory barrier
+      vhost: Do not depend on !NULL VirtQueueElement on vhost_svq_flush
+      vhost_net: Add NetClientInfo start callback
+      vhost_net: Add NetClientInfo stop callback
+      vdpa: add net_vhost_vdpa_cvq_info NetClientInfo
+      vdpa: Move command buffers map to start of net device
+      vdpa: extract vhost_vdpa_net_cvq_add from vhost_vdpa_net_handle_ctrl_avail
+      vhost_net: add NetClientState->load() callback
+      vdpa: Add virtio-net mac address via CVQ at start
+      vdpa: Delete CVQ migration blocker
 
--- 
-MST
+Zhang Chen (1):
+      net/colo.c: Fix the pointer issue reported by Coverity.
+
+Zheyu Ma (1):
+      net: tulip: Restrict DMA engine to memories
+
+ hw/i386/intel_iommu.c              |   6 +-
+ hw/net/tulip.c                     |   4 +-
+ hw/net/vhost_net.c                 |  17 +++
+ hw/virtio/vhost-iova-tree.c        |   2 +-
+ hw/virtio/vhost-iova-tree.h        |   2 +-
+ hw/virtio/vhost-shadow-virtqueue.c |  31 +++--
+ hw/virtio/vhost-vdpa.c             |  90 +++++++--------
+ include/hw/virtio/vhost-vdpa.h     |   1 -
+ include/net/net.h                  |   6 +
+ include/qemu/iova-tree.h           |   2 +-
+ net/colo.c                         |  25 ++--
+ net/colo.h                         |   1 +
+ net/trace-events                   |   2 +-
+ net/vhost-vdpa.c                   | 228 +++++++++++++++++++++++--------------
+ util/iova-tree.c                   |   4 +-
+ 15 files changed, 248 insertions(+), 173 deletions(-)
 
 
