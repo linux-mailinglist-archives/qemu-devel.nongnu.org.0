@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDFFE5AA51A
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 03:33:08 +0200 (CEST)
-Received: from localhost ([::1]:58388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13E395AA426
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 02:17:47 +0200 (CEST)
+Received: from localhost ([::1]:59046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTvYQ-0004y5-Mg
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 21:33:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46678)
+	id 1oTuNV-0003wB-Nw
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 20:17:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tkng@rivosinc.com>) id 1oTt1E-0000aV-6t
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 18:50:40 -0400
-Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134]:46818)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tkng@rivosinc.com>) id 1oTt13-0005GE-6z
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 18:50:39 -0400
-Received: by mail-lf1-x134.google.com with SMTP id z29so763122lfb.13
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 15:50:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc;
- bh=QJJgSl1k94brPxGRaZeM3Dc5vB36hKc7RiY+JrmU1CI=;
- b=ZiaMvHQ4Q1tQ64B+XZMkj9DRZPV/fQeWQIYxsIZJYKsQpxk5noZtFGsCB75LSKLrtB
- zPU52PwGmQH08New6swgKOTAdgk3uMUjE3NwW8VoO9CLcm9GeHPs1T8WQAaJ23mR7mu7
- 6zfwq7kEhcki37zkT/ju2dJkBokjSiRJxgw9foA6H6tMT7/GrLznL5D0BdonfsG+z/mw
- xWjHGj5OJO3acfHQDEBK/e9eJGIROPAEB6OL6WNKV4dDvJ7T3yP7Pv+tgW+H7SnF0w3u
- 1uqUeVHZ+pqhgM0lmviuuUTh7LHAtlfRrZVReOPzqIrEY+qklLon5B4m7zt+rNIePQET
- 33tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc;
- bh=QJJgSl1k94brPxGRaZeM3Dc5vB36hKc7RiY+JrmU1CI=;
- b=oCdF7JqqklT9A11fsmP86qAdTofqiErAkCryPFC38qS2wKW/WAqUh4gXMnOcRxHe4m
- vlhji2eNYZXTfP6d+TXzB5otE4OX8FgtKeb3ZE03VPuFpCVxZadoiKu7h5iGReHc3UNY
- eu4CfEhKjy7zFZJe/sqY+jWlqiqdA/VWmR0NaMA8HrBwP/zfJNqTsPUyCZmhp496BKGV
- NDv4CK0Ap9cX5aUymEQnT1binVDf2wApj9YlxMjN+9QfvorI0dyaEyUffPL1bxpwM696
- 5rLiGi9p29Ey4BwP3SNJwYpi61fbAvmfSjJk/YFlZmTldfPIh+20FAQKjz2FN79EgVBr
- NCFg==
-X-Gm-Message-State: ACgBeo30PnU6wBQaPE8boa/M5KgrEvM4GT+Z90HkOzURSGeQtyiCfGJ1
- ob68dWAaB7Wi+77bSc/IN5cInzSNLqRTmR//Bv8Kag==
-X-Google-Smtp-Source: AA6agR7d+Vl4/R8PPMYJ9a1a8ViGaltCi3uUXzFP9bkTghU6MTnmsr8B1na/bA/wPOvN7SPh8t08YwCgBnaaKqZZnto=
-X-Received: by 2002:a05:6512:68f:b0:492:cbb1:c4b2 with SMTP id
- t15-20020a056512068f00b00492cbb1c4b2mr12256596lfe.130.1662072627780; Thu, 01
- Sep 2022 15:50:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1oTuIA-0000xu-2O
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 20:12:15 -0400
+Received: from mga09.intel.com ([134.134.136.24]:1292)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1oTuGB-0006aN-FQ
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 20:12:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662077411; x=1693613411;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=lnu+YfjA5BVODcb7RD0uVkm1klwexqKt6aaFHvIhwl4=;
+ b=PqKU23VRGc2QcHhmmYwBg1vh4Rb4AeneQBVcQWXtKcaPhN5UsEb1JkxI
+ GeDFTrRUN0eepNKguJwvTLEjUYS9SEr4tPIH5mjR8i+VW20/oZ9THDB8g
+ JuFJtuctPMx2FoLUnrTg186P7N3Lg5zy2pWyGhJav3kUHz+ChowcHN+1A
+ lO06jE95jXKs2bDFO1/4JorJoj8k5U+PHWkB5VwRWvDJiSE5iaFMoGB2P
+ 0I0kkAszJkOOd8bGeBXfy/zGY9xm0Fj3w9IXWCW1hIHoQaaGcizQZ/uI5
+ 3iJIdjhLn0iZynYR6VP5lhYNTA+ZyEM8ta/aNXKbmjXUSbE1xYWwYmaLS g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10457"; a="296639033"
+X-IronPort-AV: E=Sophos;i="5.93,281,1654585200"; d="scan'208";a="296639033"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2022 17:10:06 -0700
+X-IronPort-AV: E=Sophos;i="5.93,281,1654585200"; d="scan'208";a="642612565"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.171.28])
+ ([10.249.171.28])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2022 17:10:03 -0700
+Message-ID: <34be4132-53f4-8779-1ada-68aa554e0eac@intel.com>
+Date: Fri, 2 Sep 2022 08:10:00 +0800
 MIME-Version: 1.0
-From: Tyler Ng <tkng@rivosinc.com>
-Date: Thu, 1 Sep 2022 15:50:17 -0700
-Message-ID: <CAB88-qOuU=4dhQQdamqsXXwZF1kWO15SS48DK3Q7sXQ7JtWmMA@mail.gmail.com>
-Subject: [PATCH 4/4] hw/timer: ibex_timer.c: Add support for writes to mtime
-To: qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Cc: Alistair.Francis@wdc.com, bin.meng@windriver.com, palmer@dabbelt.com, 
- thuth@redhat.com, pbonzini@redhat.com, lvivier@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::134;
- envelope-from=tkng@rivosinc.com; helo=mail-lf1-x134.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
-X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 01 Sep 2022 21:22:28 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.13.0
+Subject: Re: [PATCH 0/2] expose host-phys-bits to guest
+Content-Language: en-US
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Sergio Lopez <slp@redhat.com>
+References: <20220831125059.170032-1-kraxel@redhat.com>
+ <957f0cc5-6887-3861-2b80-69a8c7cdd098@intel.com>
+ <20220901135810.6dicz4grhz7ye2u7@sirius.home.kraxel.org>
+ <f7a56158-9920-e753-4d21-e1bcc3573e27@intel.com>
+ <20220901161741.dadmguwv25sk4h6i@sirius.home.kraxel.org>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20220901161741.dadmguwv25sk4h6i@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: permerror client-ip=134.134.136.24;
+ envelope-from=xiaoyao.li@intel.com; helo=mga09.intel.com
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,221 +80,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-1. Adds fields to hold the value of mtime in timer_upper0 and timer_lower0.
+On 9/2/2022 12:17 AM, Gerd Hoffmann wrote:
+> On Thu, Sep 01, 2022 at 10:36:19PM +0800, Xiaoyao Li wrote:
+>> On 9/1/2022 9:58 PM, Gerd Hoffmann wrote:
+>>
+>>>> Anyway, IMO, guest including guest firmware, should always consult from
+>>>> CPUID leaf 0x80000008 for physical address length.
+>>>
+>>> It simply can't for the reason outlined above.  Even if we fix qemu
+>>> today that doesn't solve the problem for the firmware because we want
+>>> backward compatibility with older qemu versions.  Thats why I want the
+>>> extra bit which essentially says "CPUID leaf 0x80000008 actually works".
+>>
+>> I don't understand how it backward compatible with older qemu version. Old
+>> QEMU won't set the extra bit you introduced in this series, and all the
+>> guest created with old QEMU will become untrusted on CPUID leaf 0x80000008 ?
+> 
+> Correct, on old qemu firmware will not trust CPUID leaf 0x80000008.
+> That is not worse than the situation we have today, currently the
+> firmware never trusts CPUID leaf 0x80000008.
+> 
+> So the patches will improves the situation for new qemu only, but I
+> don't see a way around that.
+> 
 
-2. Changes the read and write functions to use the mtime fields.
+I see.
 
-3. Updates the value of mtime in update_mtime() by extrapolating the
-time elapsed. This will need to change if/when the prescalar is
-implemented.
+But IMHO, I don't think it's good that guest firmware workaround the 
+issue on its own. Instead, it's better to just trust CPUID leaf 
+0x80000008 and fail if the given physical address length cannot be 
+virtualized/supported.
 
-Signed-off-by: Tyler Ng <tkng@rivosinc.com>
----
- hw/timer/ibex_timer.c         | 94 +++++++++++++++++++++++++----------
- include/hw/timer/ibex_timer.h |  5 ++
- 2 files changed, 73 insertions(+), 26 deletions(-)
+It's just the bug of VMM to virtualize the physical address length. The 
+correction direction is to fix the bug not the workaround to hide the bug.
 
-diff --git a/hw/timer/ibex_timer.c b/hw/timer/ibex_timer.c
-index 9ffd4821e8..7d0ea2db1e 100644
---- a/hw/timer/ibex_timer.c
-+++ b/hw/timer/ibex_timer.c
-@@ -52,30 +52,59 @@ REG32(UPPER0, 0x114)
- REG32(COMPARE_LOWER0, 0x118)
- REG32(COMPARE_UPPER0, 0x11C)
-
--static uint64_t cpu_riscv_read_rtc(uint32_t timebase_freq)
-+
-+/*
-+ * The goal of this function is to:
-+ * 1. Check if the timer is enabled. If not, return false,
-+ * 2. Calculate the amount of time that has passed since.
-+ * 3. Extrapolate the number of ticks that have passed, and add it to `mtime`.
-+ * 4. Return true.
-+ */
-+static bool update_mtime(IbexTimerState *s)
-+{
-+    if (!(R_CTRL & R_CTRL_ACTIVE_MASK)) {
-+        return false;
-+    }
-+    /* Get the time then extrapolate the number of ticks that have elapsed */
-+    uint64_t mtime = (s->timer_lower0) | ((uint64_t) s->timer_upper0 << 32);
-+    int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    int64_t elapsed = now - s->timer_last_update;
-+    if (elapsed < 0) {
-+        /* We jumped back in time. */
-+        mtime -= muldiv64((uint64_t)(-elapsed), s->timebase_freq,
-+                           NANOSECONDS_PER_SECOND);
-+    } else {
-+        mtime += muldiv64(elapsed, s->timebase_freq, NANOSECONDS_PER_SECOND);
-+    }
-+    s->timer_lower0 = mtime & 0xffffffff;
-+    s->timer_upper0 = (mtime >> 32) & 0xffffffff;
-+    /* update last-checkpoint timestamp */
-+    s->timer_last_update = now;
-+    return true;
-+}
-+
-+static inline uint64_t cpu_riscv_read_rtc(void *opaque)
- {
--    return muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
--                    timebase_freq, NANOSECONDS_PER_SECOND);
-+    IbexTimerState *s = opaque;
-+    return (s->timer_lower0) | ((uint64_t) s->timer_upper0 << 32);
- }
-
- static void ibex_timer_update_irqs(IbexTimerState *s)
- {
-     CPUState *cs = qemu_get_cpu(0);
-     RISCVCPU *cpu = RISCV_CPU(cs);
--    uint64_t value = s->timer_compare_lower0 |
-+    uint64_t mtimecmp = s->timer_compare_lower0 |
-                          ((uint64_t)s->timer_compare_upper0 << 32);
--    uint64_t next, diff;
--    uint64_t now = cpu_riscv_read_rtc(s->timebase_freq);
--
--    if (!(s->timer_ctrl & R_CTRL_ACTIVE_MASK)) {
--        /* Timer isn't active */
-+    if (!update_mtime(s)) {
-+        /* Timer is not enabled? */
-         return;
-     }
-+    uint64_t mtime = cpu_riscv_read_rtc(s);
-
-     /* Update the CPUs mtimecmp */
--    cpu->env.timecmp = value;
-+    cpu->env.timecmp = mtimecmp;
-
--    if (cpu->env.timecmp <= now) {
-+    if (cpu->env.timecmp <= mtime) {
-         /*
-          * If the mtimecmp was in the past raise the interrupt now.
-          */
-@@ -86,18 +115,18 @@ static void ibex_timer_update_irqs(IbexTimerState *s)
-         }
-         return;
-     }
--
-+    /* Update timers */
-+    int64_t next;
-+    uint64_t diff;
-     /* Setup a timer to trigger the interrupt in the future */
-     qemu_irq_lower(s->m_timer_irq);
-     qemu_set_irq(s->irq, false);
--
--    diff = cpu->env.timecmp - now;
--    next = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
--                                 muldiv64(diff,
--                                          NANOSECONDS_PER_SECOND,
--                                          s->timebase_freq);
--
--    if (next < qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL)) {
-+    /* Compute the difference, and set a timer for the next update. */
-+    diff = mtimecmp - mtime;
-+    const uint64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    const uint64_t towait = muldiv64(diff, NANOSECONDS_PER_SECOND,
-s->timebase_freq);
-+    next = now + towait;
-+    if (next < now) {
-         /* We overflowed the timer, just set it as large as we can */
-         timer_mod(cpu->env.timer, 0x7FFFFFFFFFFFFFFF);
-     } else {
-@@ -128,11 +157,13 @@ static void ibex_timer_reset(DeviceState *dev)
-
-     s->timer_ctrl = 0x00000000;
-     s->timer_cfg0 = 0x00010000;
-+    s->timer_lower0 = 0x00000000;
-+    s->timer_upper0 = 0x00000000;
-     s->timer_compare_lower0 = 0xFFFFFFFF;
-     s->timer_compare_upper0 = 0xFFFFFFFF;
-     s->timer_intr_enable = 0x00000000;
-     s->timer_intr_state = 0x00000000;
--
-+    s->timer_last_update = 0x00000000;
-     ibex_timer_update_irqs(s);
- }
-
-@@ -140,7 +171,6 @@ static uint64_t ibex_timer_read(void *opaque, hwaddr addr,
-                                        unsigned int size)
- {
-     IbexTimerState *s = opaque;
--    uint64_t now = cpu_riscv_read_rtc(s->timebase_freq);
-     uint64_t retvalue = 0;
-
-     switch (addr >> 2) {
-@@ -155,10 +185,12 @@ static uint64_t ibex_timer_read(void *opaque, hwaddr addr,
-         retvalue = s->timer_cfg0;
-         break;
-     case R_LOWER0:
--        retvalue = now;
-+        update_mtime(s);
-+        retvalue = cpu_riscv_read_rtc(s);
-         break;
-     case R_UPPER0:
--        retvalue = now >> 32;
-+        update_mtime(s);
-+        retvalue = cpu_riscv_read_rtc(s) >> 32;
-         break;
-     case R_COMPARE_LOWER0:
-         retvalue = s->timer_compare_lower0;
-@@ -197,16 +229,22 @@ static void ibex_timer_write(void *opaque, hwaddr addr,
-         break;
-     case R_CTRL:
-         s->timer_ctrl = val;
-+        /* We must update IRQs, because the QEMU timer gets updated here. */
-+        ibex_timer_update_irqs(s);
-         break;
-     case R_CFG0:
-         qemu_log_mask(LOG_UNIMP, "Changing prescale or step not supported");
-         s->timer_cfg0 = val;
-         break;
-     case R_LOWER0:
--        qemu_log_mask(LOG_UNIMP, "Changing timer value is not supported");
-+        s->timer_lower0 = val;
-+        s->timer_last_update = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+        ibex_timer_update_irqs(s);
-         break;
-     case R_UPPER0:
--        qemu_log_mask(LOG_UNIMP, "Changing timer value is not supported");
-+        s->timer_upper0 = val;
-+        s->timer_last_update = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+        ibex_timer_update_irqs(s);
-         break;
-     case R_COMPARE_LOWER0:
-         s->timer_compare_lower0 = val;
-@@ -263,6 +301,9 @@ static const VMStateDescription vmstate_ibex_timer = {
-         VMSTATE_UINT32(timer_compare_upper0, IbexTimerState),
-         VMSTATE_UINT32(timer_intr_enable, IbexTimerState),
-         VMSTATE_UINT32(timer_intr_state, IbexTimerState),
-+        VMSTATE_INT64(timer_last_update, IbexTimerState),
-+        VMSTATE_UINT32(timer_lower0, IbexTimerState),
-+        VMSTATE_UINT32(timer_upper0, IbexTimerState),
-         VMSTATE_END_OF_LIST()
-     }
- };
-@@ -281,6 +322,7 @@ static void ibex_timer_init(Object *obj)
-     memory_region_init_io(&s->mmio, obj, &ibex_timer_ops, s,
-                           TYPE_IBEX_TIMER, 0x400);
-     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
-+
- }
-
- static void ibex_timer_realize(DeviceState *dev, Error **errp)
-diff --git a/include/hw/timer/ibex_timer.h b/include/hw/timer/ibex_timer.h
-index 1a0a28d5fa..a6a1aa279a 100644
---- a/include/hw/timer/ibex_timer.h
-+++ b/include/hw/timer/ibex_timer.h
-@@ -39,6 +39,11 @@ struct IbexTimerState {
-
-     uint32_t timer_ctrl;
-     uint32_t timer_cfg0;
-+
-+    int64_t timer_last_update;
-+
-+    uint32_t timer_lower0;
-+    uint32_t timer_upper0;
-     uint32_t timer_compare_lower0;
-     uint32_t timer_compare_upper0;
-     uint32_t timer_intr_enable;
---
-2.30.2
 
