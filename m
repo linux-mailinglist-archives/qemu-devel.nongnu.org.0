@@ -2,85 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 647205AA43E
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 02:22:27 +0200 (CEST)
-Received: from localhost ([::1]:40926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 360E75AA4DA
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 03:06:41 +0200 (CEST)
+Received: from localhost ([::1]:43306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTuS2-0005kl-Ha
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 20:22:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57228)
+	id 1oTv8p-0001Td-RM
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 21:06:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oTuPW-0004Ft-Oi
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 20:19:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35152)
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oTv79-0008VD-AE
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 21:04:55 -0400
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:55788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oTuPO-0001Nh-7J
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 20:19:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662077980;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=NqFgr1dFdfVjgmiYS84zu/LQTJixQjYR4pwL3+o9ZwA=;
- b=cBo2QZW4zyjK0r0I4B52gbFpA+E6Qfj+XTz7MMMUFRXN+o9IjllCeUw7zhhUMPebyag3yR
- 01Ste8C3IN2GhGjuax5Rp4yI30pPcmX9r4LZrpSpNEUeFiy1KmNxBjF/46QslO45oCD5LE
- pU0USUxN3pvZPy4FXYxUvbEsmsJHTKA=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-189-oTOGpwuoNzK0eHp31j8flA-1; Thu, 01 Sep 2022 20:19:39 -0400
-X-MC-Unique: oTOGpwuoNzK0eHp31j8flA-1
-Received: by mail-ed1-f70.google.com with SMTP id
- i6-20020a05640242c600b00447c00a776aso333824edc.20
- for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 17:19:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=NqFgr1dFdfVjgmiYS84zu/LQTJixQjYR4pwL3+o9ZwA=;
- b=70MOKKcauJv+PXe+BK4atZC8YfX8XDntkTXhvlMWQRckn4Ip8kXB9ep2rQTqDct80s
- OyLMTAc+n/n9k5a/wsSEj3G1V4zphj37czt6FGs7mtHE4Lh0iDcU+M5QhSOl0Fcs+711
- RJ2LGUfN6fL7d4HrW3kcnNsS4jAFQrniusLMLD6utOoVJsZgRcBskYYDt95TamNuUAzO
- o2gsx9feZbnstJNZQExSbRI0E8Lxkz2zRkbqDg7az4NI0WYQHUycDgRz2PQhekeZfeFp
- 3ogMEqGRQlx2ycH/S00wRuiKKOCXV9v3X6uQKboiSUs5ZAKa55bPowyKCD21tYwDskUp
- 1Q7w==
-X-Gm-Message-State: ACgBeo1hXrhZiweviOF/cLEcXZP3qvEoJIn9yXQ7cQj1kCpLDNWpW8hT
- qDdJliTMVQz/8nvCa2+FbLx9bhi2xfpP79s28GJV/BkcICdOo/JumeR3wL5pEDU1DJspn4XnOEY
- BDYxPfd9FIRmEcGB/RAkre/C3COjdeGImuQwU1pSXtCoVoSXgREetqcydjfl6rnKapkE=
-X-Received: by 2002:a05:6402:2945:b0:446:1144:f1aa with SMTP id
- ed5-20020a056402294500b004461144f1aamr30095359edb.79.1662077978292; 
- Thu, 01 Sep 2022 17:19:38 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR690Hn7IoC4ybNUoTtso+xofA3asxUO3wPiNkhtmHEytu0Ozbr2FPYRgJAOR1ft2p92Pwrrsg==
-X-Received: by 2002:a05:6402:2945:b0:446:1144:f1aa with SMTP id
- ed5-20020a056402294500b004461144f1aamr30095346edb.79.1662077977990; 
- Thu, 01 Sep 2022 17:19:37 -0700 (PDT)
-Received: from goa-sendmail ([93.56.160.208]) by smtp.gmail.com with ESMTPSA id
- kx16-20020a170907775000b007413aad3acbsm348680ejc.165.2022.09.01.17.19.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Sep 2022 17:19:37 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Gavin Shan <gshan@redhat.com>,
-	Peter Xu <peterx@redhat.com>
-Subject: [PATCH] KVM: use store-release to mark dirty pages as harvested
-Date: Fri,  2 Sep 2022 02:19:36 +0200
-Message-Id: <20220902001936.108645-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.37.2
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oTv6z-0006Zm-Rs
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 21:04:48 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046056;
+ MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0VO3NvSN_1662080671; 
+Received: from 30.227.65.15(mailfrom:kangjie.xu@linux.alibaba.com
+ fp:SMTPD_---0VO3NvSN_1662080671) by smtp.aliyun-inc.com;
+ Fri, 02 Sep 2022 09:04:33 +0800
+Message-ID: <97670e2e-79fe-3a78-2f92-110d669b74f8@linux.alibaba.com>
+Date: Fri, 2 Sep 2022 09:04:31 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.0
+Subject: Re: [PATCH v3 00/15] Support VIRTIO_F_RING_RESET for virtio-net,
+ vhost-net kernel in virtio pci-modern
+From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+To: qemu-devel@nongnu.org
+References: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ eduardo@habkost.net, marcel.apfelbaum@gmail.com, f4bug@amsat.org,
+ wangyanan55@huawei.com, hengqi@linux.alibaba.com,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+In-Reply-To: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=115.124.30.130;
+ envelope-from=kangjie.xu@linux.alibaba.com;
+ helo=out30-130.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,80 +68,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following scenario can happen if QEMU sets more RESET flags while
-the KVM_RESET_DIRTY_RINGS ioctl is ongoing on another host CPU:
+Do you have any comments about this patch set?
 
-    CPU0                     CPU1               CPU2
-    ------------------------ ------------------ ------------------------
-                                                fill gfn0
-                                                store-rel flags for gfn0
-                                                fill gfn1
-                                                store-rel flags for gfn1
-    load-acq flags for gfn0
-    set RESET for gfn0
-    load-acq flags for gfn1
-    set RESET for gfn1
-    do ioctl! ----------->
-                             ioctl(RESET_RINGS)
-                                                fill gfn2
-                                                store-rel flags for gfn2
-    load-acq flags for gfn2
-    set RESET for gfn2
-                             process gfn0
-                             process gfn1
-                             process gfn2
-    do ioctl!
-    etc.
+Thanks
 
-The three load-acquire in CPU0 synchronize with the three store-release
-in CPU2, but CPU0 and CPU1 are only synchronized up to gfn1 and CPU1
-may miss gfn2's fields other than flags.
-
-The kernel must be able to cope with invalid values of the fields, and
-userspace *will* invoke the ioctl once more.  However, once the RESET flag
-is cleared on gfn2, it is lost forever, therefore in the above scenario
-CPU1 must read the correct value of gfn2's fields.
-
-Therefore RESET must be set with a store-release, that will synchronize
-with KVM's load-acquire in CPU1.
-
-Cc: Gavin Shan <gshan@redhat.com>
-Cc: Peter Xu <peterx@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- accel/kvm/kvm-all.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
-
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 136c8eaed3..7c8ce18bdd 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -728,7 +728,23 @@ static bool dirty_gfn_is_dirtied(struct kvm_dirty_gfn *gfn)
- 
- static void dirty_gfn_set_collected(struct kvm_dirty_gfn *gfn)
- {
--    gfn->flags = KVM_DIRTY_GFN_F_RESET;
-+    /*
-+     * Use a store-release so that the CPU that executes KVM_RESET_DIRTY_RINGS
-+     * sees the full content of the ring:
-+     *
-+     * CPU0                     CPU1                         CPU2
-+     * ------------------------------------------------------------------------------
-+     *                                                       fill gfn0
-+     *                                                       store-rel flags for gfn0
-+     * load-acq flags for gfn0
-+     * store-rel RESET for gfn0
-+     *                          ioctl(RESET_RINGS)
-+     *                            load-acq flags for gfn0
-+     *                            check if flags have RESET
-+     *
-+     * The synchronization goes from CPU2 to CPU0 to CPU1.
-+     */
-+    qatomic_store_release(&gfn->flags, KVM_DIRTY_GFN_F_RESET);
- }
- 
- /*
--- 
-2.37.2
-
+在 2022/8/25 16:08, Kangjie Xu 写道:
+> The virtio queue reset function has already been defined in the virtio spec 1.2.
+> The relevant virtio spec information is here:
+>
+>      https://github.com/oasis-tcs/virtio-spec/issues/124
+>      https://github.com/oasis-tcs/virtio-spec/issues/139
+>
+> This patch set is to support this function in QEMU. It consists of several parts:
+> 1. Patches 1-7 are the basic interfaces for vq reset in virtio and virtio-pci.
+> 2. Patches 8-11 support vq reset and vq restart for vhost-kernel.
+> 3. Patches 12-14 support vq reset and vq restart for virtio-net.
+> 5. Patch 15 enables the vq reset feature for vhost-kernel.
+>
+> The process of virtqueue reset can be concluded as:
+> 1. The virtqueue is disabled when VIRTIO_PCI_COMMON_Q_RESET is written.
+> 2. Then the virtqueue can be optionally restarted(re-enabled).
+>
+> Since this patch set involves multiple modules and seems a bit messy, we briefly describe the
+> calling process for different modes below.
+> virtio-net:
+> 1. VIRTIO_PCI_COMMON_Q_RESET is written [virtio-pci]
+>      -> virtio_queue_reset() [virtio]
+>          -> virtio_net_queue_reset() [virtio-net]
+>          -> __virtio_queue_reset()
+> 2. VIRTIO_PCI_COMMON_Q_ENABLE is written [virtio-pci]
+>      -> set enabled, reset status of vq.
+>
+> vhost-kernel:
+> 1. VIRTIO_PCI_COMMON_Q_RESET is written [virtio-pci]
+>      -> virtio_queue_reset() [virtio]
+>          -> virtio_net_queue_reset() [virtio-net]
+>              -> vhost_net_virtqueue_stop() [vhost-net]
+>                  -> vhost_net_set_backend() [vhost]
+>                  -> vhost_virtqueue_unmap()
+>          -> __virtio_queue_reset()
+> 2. VIRTIO_PCI_COMMON_Q_ENABLE is written [virtio-pci]
+>      -> virtio_queue_enable() [virtio]
+>          -> virtio_net_queue_enable() [virtio-net]
+>              -> vhost_net_virtqueue_restart() [vhost-net]
+>                  -> vhost_virtqueue_start() [vhost]
+>                  -> vhost_net_set_backend()
+>      -> set enabled, reset status of vq.
+>
+>
+> Test environment and method:
+>      Host: 5.19.0-rc3 (With vq reset support)
+>      Qemu: QEMU emulator version 7.0.50
+>      Guest: 5.19.0-rc3 (With vq reset support)
+>      Test Cmd: ethtool -g eth1; ethtool -G eth1 rx $1 tx $2; ethtool -g eth1;
+>
+>      The drvier can resize the virtio queue, then virtio queue reset function should
+>      be triggered.
+>
+>      The default is split mode, modify Qemu virtio-net to add PACKED feature to
+>      test packed mode.
+>
+> Guest Kernel Patch:
+>      https://lore.kernel.org/bpf/20220801063902.129329-1-xuanzhuo@linux.alibaba.com/
+>
+> Host Kernel Patch:
+>      https://github.com/middaywords/linux/commit/a845098f0df6b8bdf7e1e5db57af6ebd1c8eaf47
+>
+> Looking forward to your review and comments. Thanks.
+>
+> changelog:
+> v3:
+>    1. Remove support for vhost-user in this series and refactor the code.
+>    2. Rename 'vhost_net_virtqueue_stop' to 'vhost_net_virtqueue_reset'.
+>    3. Make PCI transport ready before device ready when queue_enabled is set to true.
+>    3. Add some comments.
+>
+> v2:
+>    1. Add support for vhost-net kernel scenario.
+>    2. Add a new vhost-user message VHOST_USER_RESET_VRING.
+>    3. Add migration compatibility for virtqueue reset.
+>
+> Kangjie Xu (10):
+>    virtio: introduce virtio_queue_enable()
+>    virtio: core: vq reset feature negotation support
+>    virtio-pci: support queue enable
+>    vhost: extract the logic of unmapping the vrings and desc
+>    vhost: expose vhost_virtqueue_start()
+>    vhost-net: vhost-kernel: introduce vhost_net_virtqueue_reset()
+>    vhost-net: vhost-kernel: introduce vhost_net_virtqueue_restart()
+>    virtio-net: introduce flush_or_purge_queued_packets()
+>    virtio-net: support queue_enable
+>    vhost: vhost-kernel: enable vq reset feature
+>
+> Xuan Zhuo (5):
+>    virtio: sync relevant definitions with linux
+>    virtio: introduce __virtio_queue_reset()
+>    virtio: introduce virtio_queue_reset()
+>    virtio-pci: support queue reset
+>    virtio-net: support queue reset
+>
+>   hw/core/machine.c                             |  1 +
+>   hw/net/vhost_net.c                            | 75 +++++++++++++++++++
+>   hw/net/virtio-net.c                           | 56 ++++++++++++--
+>   hw/virtio/vhost.c                             | 28 ++++---
+>   hw/virtio/virtio-pci.c                        | 16 ++++
+>   hw/virtio/virtio.c                            | 62 +++++++++++----
+>   include/hw/virtio/vhost.h                     |  5 ++
+>   include/hw/virtio/virtio-pci.h                |  5 ++
+>   include/hw/virtio/virtio.h                    |  8 +-
+>   include/net/vhost_net.h                       |  4 +
+>   .../standard-headers/linux/virtio_config.h    |  5 ++
+>   include/standard-headers/linux/virtio_pci.h   |  2 +
+>   12 files changed, 234 insertions(+), 33 deletions(-)
+>
 
