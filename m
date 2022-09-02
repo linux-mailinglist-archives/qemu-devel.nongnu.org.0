@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C8F5AA9AA
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 10:14:21 +0200 (CEST)
-Received: from localhost ([::1]:51190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0850B5AA96D
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 10:07:24 +0200 (CEST)
+Received: from localhost ([::1]:53026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU1oh-0006ha-U9
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 04:14:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49468)
+	id 1oU1hz-0001Hu-0K
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 04:07:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oU1Wr-0005of-80; Fri, 02 Sep 2022 03:55:53 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24734)
+ id 1oU1Wr-0005og-78; Fri, 02 Sep 2022 03:55:53 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oU1Wl-0002y9-LF; Fri, 02 Sep 2022 03:55:52 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2827bOfc006460;
- Fri, 2 Sep 2022 07:55:43 GMT
+ id 1oU1Wn-0002yJ-Bt; Fri, 02 Sep 2022 03:55:52 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2827lK6F035120;
+ Fri, 2 Sep 2022 07:55:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=iCHa7ATT3IgpWmMJa3xdqrtXSGPuwpvqKB49IRatLEg=;
- b=J0gKsdqXY/cZuhiIDso3iMcWUgjgHHP8v9CHn5Ghf59K1WBVJBXWCVZY37nu0b6B22us
- jX7jwgcjVHVSX+qd2G1uwgY0zaFv5+6f/ey+GP/NtwN5OXRGlwC51BipszldLCXW5Yaw
- /B9FSLENTJijtpIIQ3g6OiMQow3k+jGKEc39ISH69I9AirWKRmsMYTTmrVim6zrn9z8l
- 7UbZYeRk2KL1PKU7ZHK+8a7AjP859yiGzupLJygZAsLw9JorxmKjKzy0aqafEpJFOxYv
- umFiNTThv+yAMkHC0gC+HR1pZgpX+NLyBffVe9UuDahDpsEDV5nPOOVBgQDV7RxEwEPI IQ== 
+ bh=Y0lkfCIDyqvgKJzGlfYA03hOJVPU46sJjLkBsk5BaYY=;
+ b=q1FSHwXkFpH/6FVFcKk2fF/Wq7gHpGJWN+Zd1XwZYPrTb5UwCwxoeWcu0BtPd9V+sRLu
+ UiVms+m9LvxnRuDL80WMCyhAp0vKKB69ftGgaLU8z0K2juo4Yi1woS9O0BFfeEiegwBh
+ I9sUL4nFyFNpMAYcHkm/UiP+WEEMwz9+jf6Blpdp00FKBSB/uvI226k+IrjaRqFGqrrI
+ 9bX3k5LrwLB8MROLSS6XSy9me/1FEQp+rJEhTS18j2Bxq+6fYLOD94rrtlcMVQr8jJBm
+ JSszfxb59A75w4pbhCFcaWFLkdxQcIXlbV3Xi85ilt32j3Uk0EyJPUELPLuMOkfIJcpU wA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jbda38xw4-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jbdrgr9vc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 02 Sep 2022 07:55:44 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2827lfbw036536;
+ Fri, 2 Sep 2022 07:55:43 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jbdrgr9ut-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Fri, 02 Sep 2022 07:55:43 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2827eUl2018245;
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2827pSlV027630;
  Fri, 2 Sep 2022 07:55:42 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jbda38xuu-1
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma02fra.de.ibm.com with ESMTP id 3j7aw8wqws-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Sep 2022 07:55:42 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2827oAP6030323;
- Fri, 2 Sep 2022 07:55:40 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma05fra.de.ibm.com with ESMTP id 3j7aw8wr3d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Sep 2022 07:55:40 +0000
+ Fri, 02 Sep 2022 07:55:41 +0000
 Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
  [9.149.105.61])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 2827qHvj33948062
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2827tcHq28836210
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 2 Sep 2022 07:52:17 GMT
+ Fri, 2 Sep 2022 07:55:39 GMT
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D1CE111C052;
- Fri,  2 Sep 2022 07:55:36 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id D85C711C052;
+ Fri,  2 Sep 2022 07:55:38 +0000 (GMT)
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0AC4F11C04C;
- Fri,  2 Sep 2022 07:55:36 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 1351411C04C;
+ Fri,  2 Sep 2022 07:55:38 +0000 (GMT)
 Received: from li-c6ac47cc-293c-11b2-a85c-d421c8e4747b.ibm.com.com (unknown
  [9.171.69.137])
  by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  2 Sep 2022 07:55:35 +0000 (GMT)
+ Fri,  2 Sep 2022 07:55:37 +0000 (GMT)
 From: Pierre Morel <pmorel@linux.ibm.com>
 To: qemu-s390x@nongnu.org
 Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
@@ -74,28 +74,29 @@ Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
  kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
  eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
  nrb@linux.ibm.com, frankja@linux.ibm.com
-Subject: [PATCH v9 04/10] hw/core: introducing drawer and books for s390x
-Date: Fri,  2 Sep 2022 09:55:25 +0200
-Message-Id: <20220902075531.188916-5-pmorel@linux.ibm.com>
+Subject: [PATCH v9 06/10] s390x/cpu_topology: resetting the
+ Topology-Change-Report
+Date: Fri,  2 Sep 2022 09:55:27 +0200
+Message-Id: <20220902075531.188916-7-pmorel@linux.ibm.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220902075531.188916-1-pmorel@linux.ibm.com>
 References: <20220902075531.188916-1-pmorel@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: sasZKcsdoopJ5tSdAg7jBED1DDrogeLW
-X-Proofpoint-ORIG-GUID: AkDxnOLAVwe8w2JJAuqPpb7uujGYf63X
+X-Proofpoint-GUID: m4NMB07Xs1_X7YRhmMBVscERh49V0KFk
+X-Proofpoint-ORIG-GUID: hkyFdsd9vxkLRl9R0keFgE0iSIiLMzXY
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-09-01_12,2022-08-31_03,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0
- priorityscore=1501 malwarescore=0 adultscore=0 mlxlogscore=999
- clxscore=1015 phishscore=0 suspectscore=0 mlxscore=0 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ suspectscore=0 phishscore=0
+ spamscore=0 priorityscore=1501 impostorscore=0 bulkscore=0
+ lowpriorityscore=0 malwarescore=0 mlxlogscore=999 adultscore=0
+ clxscore=1015 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2207270000 definitions=main-2209020034
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -118,283 +119,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-S390x defines two topology levels above sockets: nbooks and drawers.
-
-Let's add these two levels inside the CPU topology implementation.
+During a subsystem reset the Topology-Change-Report is cleared
+by the machine.
+Let's ask KVM to clear the Modified Topology Change Report (MTCR)
+ bit of the SCA in the case of a subsystem reset.
 
 Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 ---
- hw/core/machine-smp.c | 48 ++++++++++++++++++++++++++++++++++++-------
- hw/core/machine.c     |  4 ++++
- include/hw/boards.h   |  8 ++++++++
- qapi/machine.json     | 14 +++++++++++--
- qemu-options.hx       |  6 ++++--
- softmmu/vl.c          |  6 ++++++
- 6 files changed, 75 insertions(+), 11 deletions(-)
+ hw/s390x/cpu-topology.c      | 12 ++++++++++++
+ hw/s390x/s390-virtio-ccw.c   |  1 +
+ target/s390x/cpu-sysemu.c    |  7 +++++++
+ target/s390x/cpu.h           |  1 +
+ target/s390x/kvm/kvm.c       | 23 +++++++++++++++++++++++
+ target/s390x/kvm/kvm_s390x.h |  1 +
+ 6 files changed, 45 insertions(+)
 
-diff --git a/hw/core/machine-smp.c b/hw/core/machine-smp.c
-index b39ed21e65..26150c748f 100644
---- a/hw/core/machine-smp.c
-+++ b/hw/core/machine-smp.c
-@@ -31,6 +31,14 @@ static char *cpu_hierarchy_to_string(MachineState *ms)
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
-     GString *s = g_string_new(NULL);
+diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+index bb9ae63483..6098d6ea1f 100644
+--- a/hw/s390x/cpu-topology.c
++++ b/hw/s390x/cpu-topology.c
+@@ -121,6 +121,17 @@ static void s390_topology_realize(DeviceState *dev, Error **errp)
+     qemu_mutex_init(&topo->topo_mutex);
+ }
  
-+    if (mc->smp_props.drawers_supported) {
-+        g_string_append_printf(s, " * drawers (%u)", ms->smp.drawers);
-+    }
++/**
++ * s390_topology_reset:
++ * @dev: the device
++ *
++ * Calls the sysemu topology reset
++ */
++static void s390_topology_reset(DeviceState *dev)
++{
++    s390_cpu_topology_reset();
++}
 +
-+    if (mc->smp_props.books_supported) {
-+        g_string_append_printf(s, " * books (%u)", ms->smp.books);
-+    }
-+
-     g_string_append_printf(s, "sockets (%u)", ms->smp.sockets);
+ /**
+  * topology_class_init:
+  * @oc: Object class
+@@ -134,6 +145,7 @@ static void topology_class_init(ObjectClass *oc, void *data)
  
-     if (mc->smp_props.dies_supported) {
-@@ -73,6 +81,8 @@ void machine_parse_smp_config(MachineState *ms,
- {
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
-     unsigned cpus    = config->has_cpus ? config->cpus : 0;
-+    unsigned drawers = config->has_drawers ? config->drawers : 0;
-+    unsigned books   = config->has_books ? config->books : 0;
-     unsigned sockets = config->has_sockets ? config->sockets : 0;
-     unsigned dies    = config->has_dies ? config->dies : 0;
-     unsigned clusters = config->has_clusters ? config->clusters : 0;
-@@ -85,6 +95,8 @@ void machine_parse_smp_config(MachineState *ms,
-      * explicit configuration like "cpus=0" is not allowed.
-      */
-     if ((config->has_cpus && config->cpus == 0) ||
-+        (config->has_drawers && config->drawers == 0) ||
-+        (config->has_books && config->books == 0) ||
-         (config->has_sockets && config->sockets == 0) ||
-         (config->has_dies && config->dies == 0) ||
-         (config->has_clusters && config->clusters == 0) ||
-@@ -111,6 +123,20 @@ void machine_parse_smp_config(MachineState *ms,
-     dies = dies > 0 ? dies : 1;
-     clusters = clusters > 0 ? clusters : 1;
+     dc->realize = s390_topology_realize;
+     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
++    dc->reset = s390_topology_reset;
+ }
  
-+    if (!mc->smp_props.books_supported && books > 1) {
-+        error_setg(errp, "books not supported by this machine's CPU topology");
-+        return;
-+    }
-+
-+    books = books > 0 ? books : 1;
-+
-+    if (!mc->smp_props.drawers_supported && drawers > 1) {
-+        error_setg(errp, "drawers not supported by this machine's CPU topology");
-+        return;
-+    }
-+
-+    drawers = drawers > 0 ? drawers : 1;
-+
-     /* compute missing values based on the provided ones */
-     if (cpus == 0 && maxcpus == 0) {
-         sockets = sockets > 0 ? sockets : 1;
-@@ -124,33 +150,41 @@ void machine_parse_smp_config(MachineState *ms,
-             if (sockets == 0) {
-                 cores = cores > 0 ? cores : 1;
-                 threads = threads > 0 ? threads : 1;
--                sockets = maxcpus / (dies * clusters * cores * threads);
-+                sockets = maxcpus /
-+                          (drawers * books * dies * clusters * cores * threads);
-             } else if (cores == 0) {
-                 threads = threads > 0 ? threads : 1;
--                cores = maxcpus / (sockets * dies * clusters * threads);
-+                cores = maxcpus /
-+                        (drawers * books * sockets * dies * clusters * threads);
-             }
-         } else {
-             /* prefer cores over sockets since 6.2 */
-             if (cores == 0) {
-                 sockets = sockets > 0 ? sockets : 1;
-                 threads = threads > 0 ? threads : 1;
--                cores = maxcpus / (sockets * dies * clusters * threads);
-+                cores = maxcpus /
-+                        (drawers * books * sockets * dies * clusters * threads);
-             } else if (sockets == 0) {
-                 threads = threads > 0 ? threads : 1;
--                sockets = maxcpus / (dies * clusters * cores * threads);
-+                sockets = maxcpus /
-+                         (drawers * books * dies * clusters * cores * threads);
-             }
-         }
+ static const TypeInfo cpu_topology_info = {
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index 3f28e28d47..1fa98740de 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -104,6 +104,7 @@ static const char *const reset_dev_types[] = {
+     "s390-flic",
+     "diag288",
+     TYPE_S390_PCI_HOST_BRIDGE,
++    TYPE_S390_CPU_TOPOLOGY,
+ };
  
-         /* try to calculate omitted threads at last */
-         if (threads == 0) {
--            threads = maxcpus / (sockets * dies * clusters * cores);
-+            threads = maxcpus /
-+                      (drawers * books * sockets * dies * clusters * cores);
-         }
+ static void subsystem_reset(void)
+diff --git a/target/s390x/cpu-sysemu.c b/target/s390x/cpu-sysemu.c
+index 948e4bd3e0..707c0b658c 100644
+--- a/target/s390x/cpu-sysemu.c
++++ b/target/s390x/cpu-sysemu.c
+@@ -306,3 +306,10 @@ void s390_do_cpu_set_diag318(CPUState *cs, run_on_cpu_data arg)
+         kvm_s390_set_diag318(cs, arg.host_ulong);
      }
+ }
++
++void s390_cpu_topology_reset(void)
++{
++    if (kvm_enabled()) {
++        kvm_s390_topology_set_mtcr(0);
++    }
++}
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index c61fe9b563..cff5cc0415 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -826,6 +826,7 @@ void s390_enable_css_support(S390CPU *cpu);
+ void s390_do_cpu_set_diag318(CPUState *cs, run_on_cpu_data arg);
+ int s390_assign_subch_ioeventfd(EventNotifier *notifier, uint32_t sch_id,
+                                 int vq, bool assign);
++void s390_cpu_topology_reset(void);
+ #ifndef CONFIG_USER_ONLY
+ unsigned int s390_cpu_set_state(uint8_t cpu_state, S390CPU *cpu);
+ #else
+diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+index f96630440b..9c994d27d5 100644
+--- a/target/s390x/kvm/kvm.c
++++ b/target/s390x/kvm/kvm.c
+@@ -2585,3 +2585,26 @@ int kvm_s390_get_zpci_op(void)
+ {
+     return cap_zpci_op;
+ }
++
++int kvm_s390_topology_set_mtcr(uint64_t attr)
++{
++    struct kvm_device_attr attribute = {
++        .group = KVM_S390_VM_CPU_TOPOLOGY,
++        .attr  = attr,
++    };
++    int ret;
++
++    if (!s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
++        return -EFAULT;
++    }
++    if (!kvm_vm_check_attr(kvm_state, KVM_S390_VM_CPU_TOPOLOGY, attr)) {
++        return -ENOENT;
++    }
++
++    ret = kvm_vm_ioctl(kvm_state, KVM_SET_DEVICE_ATTR, &attribute);
++    if (ret) {
++        error_report("Failed to set cpu topology attribute %lu: %s",
++                     attr, strerror(-ret));
++    }
++    return ret;
++}
+diff --git a/target/s390x/kvm/kvm_s390x.h b/target/s390x/kvm/kvm_s390x.h
+index aaae8570de..a13c8fb9a3 100644
+--- a/target/s390x/kvm/kvm_s390x.h
++++ b/target/s390x/kvm/kvm_s390x.h
+@@ -46,5 +46,6 @@ void kvm_s390_crypto_reset(void);
+ void kvm_s390_restart_interrupt(S390CPU *cpu);
+ void kvm_s390_stop_interrupt(S390CPU *cpu);
+ void kvm_s390_set_diag318(CPUState *cs, uint64_t diag318_info);
++int kvm_s390_topology_set_mtcr(uint64_t attr);
  
--    maxcpus = maxcpus > 0 ? maxcpus : sockets * dies * clusters * cores * threads;
-+    maxcpus = maxcpus > 0 ? maxcpus : drawers * books * sockets * dies *
-+                                      clusters * cores * threads;
-     cpus = cpus > 0 ? cpus : maxcpus;
- 
-     ms->smp.cpus = cpus;
-+    ms->smp.drawers = drawers;
-+    ms->smp.books = books;
-     ms->smp.sockets = sockets;
-     ms->smp.dies = dies;
-     ms->smp.clusters = clusters;
-@@ -159,7 +193,7 @@ void machine_parse_smp_config(MachineState *ms,
-     ms->smp.max_cpus = maxcpus;
- 
-     /* sanity-check of the computed topology */
--    if (sockets * dies * clusters * cores * threads != maxcpus) {
-+    if (drawers * books * sockets * dies * clusters * cores * threads != maxcpus) {
-         g_autofree char *topo_msg = cpu_hierarchy_to_string(ms);
-         error_setg(errp, "Invalid CPU topology: "
-                    "product of the hierarchy must match maxcpus: "
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index a673302cce..4c5c8d1655 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -821,6 +821,8 @@ static void machine_get_smp(Object *obj, Visitor *v, const char *name,
-     MachineState *ms = MACHINE(obj);
-     SMPConfiguration *config = &(SMPConfiguration){
-         .has_cpus = true, .cpus = ms->smp.cpus,
-+        .has_drawers = true, .drawers = ms->smp.drawers,
-+        .has_books = true, .books = ms->smp.books,
-         .has_sockets = true, .sockets = ms->smp.sockets,
-         .has_dies = true, .dies = ms->smp.dies,
-         .has_clusters = true, .clusters = ms->smp.clusters,
-@@ -1087,6 +1089,8 @@ static void machine_initfn(Object *obj)
-     /* default to mc->default_cpus */
-     ms->smp.cpus = mc->default_cpus;
-     ms->smp.max_cpus = mc->default_cpus;
-+    ms->smp.drawers = 1;
-+    ms->smp.books = 1;
-     ms->smp.sockets = 1;
-     ms->smp.dies = 1;
-     ms->smp.clusters = 1;
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 7b416c9787..69e20c1252 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -130,11 +130,15 @@ typedef struct {
-  * @prefer_sockets - whether sockets are preferred over cores in smp parsing
-  * @dies_supported - whether dies are supported by the machine
-  * @clusters_supported - whether clusters are supported by the machine
-+ * @books_supported - whether books are supported by the machine
-+ * @drawers_supported - whether drawers are supported by the machine
-  */
- typedef struct {
-     bool prefer_sockets;
-     bool dies_supported;
-     bool clusters_supported;
-+    bool books_supported;
-+    bool drawers_supported;
- } SMPCompatProps;
- 
- /**
-@@ -299,6 +303,8 @@ typedef struct DeviceMemoryState {
- /**
-  * CpuTopology:
-  * @cpus: the number of present logical processors on the machine
-+ * @drawers: the number of drawers on the machine
-+ * @books: the number of books on the machine
-  * @sockets: the number of sockets on the machine
-  * @dies: the number of dies in one socket
-  * @clusters: the number of clusters in one die
-@@ -308,6 +314,8 @@ typedef struct DeviceMemoryState {
-  */
- typedef struct CpuTopology {
-     unsigned int cpus;
-+    unsigned int drawers;
-+    unsigned int books;
-     unsigned int sockets;
-     unsigned int dies;
-     unsigned int clusters;
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 6afd1936b0..bdd92e3cb1 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -900,13 +900,15 @@
- # a CPU is being hotplugged.
- #
- # @node-id: NUMA node ID the CPU belongs to
--# @socket-id: socket number within node/board the CPU belongs to
-+# @drawer-id: drawer number within node/board the CPU belongs to
-+# @book-id: book number within drawer/node/board the CPU belongs to
-+# @socket-id: socket number within book/node/board the CPU belongs to
- # @die-id: die number within socket the CPU belongs to (since 4.1)
- # @cluster-id: cluster number within die the CPU belongs to (since 7.1)
- # @core-id: core number within cluster the CPU belongs to
- # @thread-id: thread number within core the CPU belongs to
- #
--# Note: currently there are 6 properties that could be present
-+# Note: currently there are 7 properties that could be present
- #       but management should be prepared to pass through other
- #       properties with device_add command to allow for future
- #       interface extension. This also requires the filed names to be kept in
-@@ -916,6 +918,8 @@
- ##
- { 'struct': 'CpuInstanceProperties',
-   'data': { '*node-id': 'int',
-+            '*drawer-id': 'int',
-+            '*book-id': 'int',
-             '*socket-id': 'int',
-             '*die-id': 'int',
-             '*cluster-id': 'int',
-@@ -1465,6 +1469,10 @@
- #
- # @cpus: number of virtual CPUs in the virtual machine
- #
-+# @drawers: number of drawers in the CPU topology
-+#
-+# @books: number of books in the CPU topology
-+#
- # @sockets: number of sockets in the CPU topology
- #
- # @dies: number of dies per socket in the CPU topology
-@@ -1481,6 +1489,8 @@
- ##
- { 'struct': 'SMPConfiguration', 'data': {
-      '*cpus': 'int',
-+     '*drawers': 'int',
-+     '*books': 'int',
-      '*sockets': 'int',
-      '*dies': 'int',
-      '*clusters': 'int',
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 311e75a98e..e78e51ab49 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -245,11 +245,13 @@ SRST
- ERST
- 
- DEF("smp", HAS_ARG, QEMU_OPTION_smp,
--    "-smp [[cpus=]n][,maxcpus=maxcpus][,sockets=sockets][,dies=dies][,clusters=clusters][,cores=cores][,threads=threads]\n"
-+    "-smp [[cpus=]n][,maxcpus=maxcpus][,drawers=drawers][,books=books][,sockets=sockets][,dies=dies][,clusters=clusters][,cores=cores][,threads=threads]\n"
-     "                set the number of initial CPUs to 'n' [default=1]\n"
-     "                maxcpus= maximum number of total CPUs, including\n"
-     "                offline CPUs for hotplug, etc\n"
--    "                sockets= number of sockets on the machine board\n"
-+    "                drawers= number of drawers on the machine board\n"
-+    "                books= number of books in one drawer\n"
-+    "                sockets= number of sockets in one book\n"
-     "                dies= number of dies in one socket\n"
-     "                clusters= number of clusters in one die\n"
-     "                cores= number of cores in one cluster\n"
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 706bd7cff7..80ea35fa26 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -726,6 +726,12 @@ static QemuOptsList qemu_smp_opts = {
-         {
-             .name = "cpus",
-             .type = QEMU_OPT_NUMBER,
-+        }, {
-+            .name = "drawers",
-+            .type = QEMU_OPT_NUMBER,
-+        }, {
-+            .name = "books",
-+            .type = QEMU_OPT_NUMBER,
-         }, {
-             .name = "sockets",
-             .type = QEMU_OPT_NUMBER,
+ #endif /* KVM_S390X_H */
 -- 
 2.31.1
 
