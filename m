@@ -2,159 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C6325AA67A
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 05:42:12 +0200 (CEST)
-Received: from localhost ([::1]:49376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24FF55AA694
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 05:49:30 +0200 (CEST)
+Received: from localhost ([::1]:55370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTxZL-0001Ye-3y
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 23:42:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50558)
+	id 1oTxgO-0003Sr-W5
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 23:49:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1oTxXc-0008OA-7w; Thu, 01 Sep 2022 23:40:24 -0400
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:8472)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1oTxXX-0000cj-Vg; Thu, 01 Sep 2022 23:40:21 -0400
-Received: from pps.filterd (m0127843.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2821OAFf017931;
- Thu, 1 Sep 2022 20:40:14 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version;
- s=proofpoint20171006; bh=pNxgZGibUgK6jYBysJ9nLzzGKU3TkBP+2tErJO5I4w4=;
- b=rup31nolZa/QPhIk1n36vZYdH58uiF9dIVWu7Gu9Wh5oKQWN5dBhE9mzrS5rDJQuPQzE
- HH6066irWJu8iWPNN7ZamMUhcQxYDwBLOgwZa2nXzL3vb8aXy84Qlja4ZG/yIEPIBXXs
- 5+bRvRrPHEaXAuGixBOh8KKNV/U8SFoJSt5NxQlITGrIZEqnr9QS9aBQCGTWr/RMrVdl
- JEbHCDBtfN8h/cc7wAIZgxnE+yxp1qHdtQBYpQtsVXSyaVy/iJQxPNT6tyre8F14yemj
- 6f2eJabT1OZOM1rVwm8ZLeTQKNm7yTXlDUkSoYIV6ucNHZwKqlcti6yIjPwp4PDOwz6C OA== 
-Received: from nam11-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2177.outbound.protection.outlook.com [104.47.57.177])
- by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3j7hcknkfm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 01 Sep 2022 20:40:14 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l7cH2j+RLSzGN/O390zwmVmrP72LaThkT0E6vAAKoD4Fg6e9dPc72adZ/i6PDzWTnIhkHMS74L7Z5xeZVWE6oHn1Jy92lpVa8P6jb8/Dd/33jHuSbyroqZ13aTy4JKEy6TyX1bjI9WqDy6Bc0GSm6eMzX5yaQGW7bdg5qorOTJuGP4U3lGnFENcr2zgbZf849sXA6UEdFIo5nKnOhGJPJouzHCzK+NL8daRxc+bZq3mXsl8Xt1+5yMrE8UAGLURD6XQ9JM0vmYDaX1ogECL194GzPWfae1nh04v62C7vmA2P1re0kgF0pJOZ6/G2iMrBdVgYaCmUFBMRbj/e6itybQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pNxgZGibUgK6jYBysJ9nLzzGKU3TkBP+2tErJO5I4w4=;
- b=izL/cVmIN7nIZd4oCgjluuPqALpsZK3CBll2pLZ60ToT70tHnJuO3TrbXd7SdIThdqZfA/MagfqIzPIK75arTUdy2jYeMMUrFnaEco73T+VCcyRny950m2w6Vg+S5EuDIsJy3G+GGeiDEixEG5ufUHcTCuCLQTImDFVkFyHpZ88a3YNBKeNAdRSqBFeM38keZdXSJAM9EMdHU+bI4ybNGyl3wayECeI1Pne2nadE13Yrw8cl2whEVyrpTZllGitY82Fyx63vP2fueXzqftzXWjvVCDFsO8au8bkjrNi/hCeOztHRVLLvlZKkeaaDsYCilYli9q0LHbZNKJ3jGRJvXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from BL3PR02MB7938.namprd02.prod.outlook.com (2603:10b6:208:355::20)
- by DM6PR02MB4889.namprd02.prod.outlook.com (2603:10b6:5:fb::31) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.11; Fri, 2 Sep
- 2022 03:40:12 +0000
-Received: from BL3PR02MB7938.namprd02.prod.outlook.com
- ([fe80::e8ab:ff5d:aded:71ea]) by BL3PR02MB7938.namprd02.prod.outlook.com
- ([fe80::e8ab:ff5d:aded:71ea%4]) with mapi id 15.20.5588.014; Fri, 2 Sep 2022
- 03:40:12 +0000
-From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-To: Daniil Tatianin <d-tatianin@yandex-team.ru>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-CC: "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>, "mst@redhat.com"
- <mst@redhat.com>, "stefanha@redhat.com" <stefanha@redhat.com>,
- "kwolf@redhat.com" <kwolf@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>, "jasowang@redhat.com" <jasowang@redhat.com>
-Subject: Re: [PATCH v2 0/8] vhost-user-blk: dynamically resize config space
- based on features
-Thread-Topic: [PATCH v2 0/8] vhost-user-blk: dynamically resize config space
- based on features
-Thread-Index: AQHYuVjJhrgmMqAbxUGHszMVg9tO4a3KZpaAgADOTQA=
-Date: Fri, 2 Sep 2022 03:40:12 +0000
-Message-ID: <B4686B56-0357-4477-8CDF-89DF9A0F31B7@nutanix.com>
-References: <20220826143248.580939-1-d-tatianin@yandex-team.ru>
- <292621662027678@mail.yandex-team.ru>
-In-Reply-To: <292621662027678@mail.yandex-team.ru>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/16.63.22070801
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 38956e79-16ec-4356-559c-08da8c94d74b
-x-ms-traffictypediagnostic: DM6PR02MB4889:EE_
-x-proofpoint-crosstenant: true
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: OQ9i0rEHntIv/EGPcUZr3wAtWl8mdoOEM5JOfrqiBNQBK6SO6AImuy5K46Ic9DWaDOqN8/pseioKPrVEwLOG/9nYF3gdn4agq4hOVPjHRLCo6t6CB/DJCuLQ3IP3e1IhPDaqdfBZnaRuCmZFKP8Hqczmyqckb98byVSZH9ncRI04hSFOlXOUQRYxTMxVCCYW1J642F/WBabow+Ga1Q2+YWysoNsUtyi018I2zTpw9Z6sAih2kYokD0hoIoJyJcB69f5Pml7QdhVBBFW7SQTBTEmLvgudlaRp6pyo168/xJa7gG0fkK6QqzZP/CJxvFQut/zOMUxN1bK8Nlsnnuja3Y8Vkxr0Bad/EU8NcRSsoCflyy8YJINfmxtBvzFThcPGZabkT9fxw6WoCs9tbOvBLTKxJsKYUBGLCnh2NPZzA0PoRUTpEhAQuLNUPjZAKUWclGs5s+CJsRPuIhlxqt9SMfQOUU4+37RT3PVsWusRxJC/5OAhVMIy966uSMKlh20SBnx4mwz2JbfEDOO4J+YCYHtFrAmcS9qeHjn374yPMG3e6i/gp6MvP03DDakZoBburx4HzAfa3PRWBK+Td+ughd2amJrC05m5HVeknvsihjDkhISemZ+KHeIDcFfMauHN/UH+l87L7AFvZbkjLj2OwAaTJRY13TF9PcJok73Z5lK78lQBOoKkpgMR9crZQXgnsufo0gnRNo/ODePr0WsXROqwfQTpBEPzHrTLYSZHejB4KVSRj+67qDR36y5FVSqtlu0YQ/7bnv3XLBdPmxaIasl/MngMGozVxcDuPRz4utI=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL3PR02MB7938.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(396003)(376002)(366004)(39860400002)(136003)(346002)(122000001)(38100700002)(38070700005)(316002)(64756008)(76116006)(66946007)(66556008)(66476007)(91956017)(66446008)(54906003)(110136005)(5660300002)(4326008)(8676002)(44832011)(8936002)(186003)(2906002)(478600001)(26005)(2616005)(6512007)(6486002)(6506007)(71200400001)(33656002)(36756003)(86362001)(41300700001)(558084003)(45980500001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?clk1OVIvcllKQ2hxMVl3dVVEcDAzVVRPMDJUcTlWVzNwUlVNWUhGVW9tT0Ry?=
- =?utf-8?B?ZDE3ZlJIU2V3RitJU0J6RHVzazE0R1Z2VnhwNEt5SWFwekI3WDlseEtvWlVQ?=
- =?utf-8?B?Zm5xL1dQWXlPWVZQS2RydGE0S3dCRzY5c0hwc201cHFQTVlhcm9nSkd5R1RJ?=
- =?utf-8?B?RFVXNzZ5eWx5eG84UmdoVmdVdDVHL3AzYWwyU1FSUkJNQ2poNmRFUVJFK0NL?=
- =?utf-8?B?bUQ2M3pmVjROSzZxSnlRWXQ1TWZrb1JrRjM0eHZ5QXcyNUpHNGJJeXNNSjdF?=
- =?utf-8?B?RXNDM21FK2creGlhbFJkY0hRS0hCY0h4Mzl2ZFRDcU9CYURKNUlOTngzanNq?=
- =?utf-8?B?RU9QcDBkOXJDbG1EZG1wdUxGTWpmMWRCMTZsQStIUlV3OGE1UFJLc20rTGM3?=
- =?utf-8?B?Nk8zVkZ3VGtZcDJVK3AzVUFMU0VVNFhYSVJOdDdFNlNSTSs3bkpuQUlOUHBG?=
- =?utf-8?B?ZUFqZDFvd1krVlZlUDQ1aEQydGxOd01xTGRXNmg4cDgzS1pIZG04bno1Qmtq?=
- =?utf-8?B?Z2F5ZXZQcHh0alJvQjVlMnhPcHdieDhXbGJLUkh5UTM0amM2dXZ5ZFd2UmFZ?=
- =?utf-8?B?Ry9ERWZaWW9CMHh0MHJFV3VwRmNxRkV2RHVDdTlnOXNSdW53ZUgyTWwxZVYw?=
- =?utf-8?B?cU5ndmFMWDdKb280b0NuNzY5bXBzT3UrcXlRVGFmb0VzZWQzWUJkc1gvaDE4?=
- =?utf-8?B?Wkx5WnlhYkhnQzFDMTFBaHNicWt0OTllL1JoK0FRMDlreVZuSXB3REJObDNX?=
- =?utf-8?B?SHh4aWt5ZGdzS3FkalNIcEIxdEt6T1ZMOEZJeU1Pcm9haFVka0J0dGJ3VGhy?=
- =?utf-8?B?ZnNLQjdNeTF2STQ1M3F5NjROVnpFd0ZiNHArSmp4Uno3M1BudXFCMk5nOGhh?=
- =?utf-8?B?Zm05ZFV0Q3grdytmcFFvaHdjNFVHcjZKZFNJcnMrVmRvT21yRGdjTWR3YUhZ?=
- =?utf-8?B?U1Q5REFhOG5hYmdSbndHbGRmUEpCTS91NEVrUG5TclJsdUJGaTZaeDVxVWVL?=
- =?utf-8?B?cUhHRWtjMWkxRnpRKzdyUlZBMzhkMVYzb3dCZUJZWEc1aThYK1QxeFpRUENn?=
- =?utf-8?B?YTRYZWt2SFpDalRjYmkrSW9iQnRpODQ1WDgyUDVXaXEwbC9mblM1RjdqSFgx?=
- =?utf-8?B?VFFPNXFzRjVHUEV1YXJHckZ6clRSWkUyc1JidmdLOXlROU13cXNpd1VlQ3R0?=
- =?utf-8?B?TlZmT1IwVG9XNjUySFZCQ3I0SnVYbW5pbFlXNWhwYTBOUWo0ekxpWXpIdjF1?=
- =?utf-8?B?T1J2d1R5S2RFWkVtK2xRaXFNWGpKdGx6K0o4OW5hakpUQkdHemgyVG5uWkRE?=
- =?utf-8?B?YnBpWkpUYkZ6QlpQUWx0SDVHZWwvTUE2MmpMaVJ2TW0rc0EyOTh2SGtXVnlE?=
- =?utf-8?B?TjJjSWhRVHY2bTNReTU3V0VMb0UxanJyNjBxZ3krOXpXZElUUUpPVWUrSlhK?=
- =?utf-8?B?MlBMd2t4VDdqWU8yNWRubEhKNWZyUkRNUTI0UkhzdzVDWThxZWZvWTB2RkhY?=
- =?utf-8?B?bitPTWRveE9iem52UkZBVEUxMFlydDZMckRFTC84R3luNTdQSGJPbExsRjNE?=
- =?utf-8?B?SCtHcEJWcEhvMWw0aFBGVTh3aWpESmV2dEExUU9NMWgrbXNTMWNzUThHL2Zm?=
- =?utf-8?B?dG56V3AwTmpnNzhpQXZOU0N6azNDaWxJMmhMRlNiTERvcGM5dHNEUHdrbkxv?=
- =?utf-8?B?c1RSd3NNS0F1MnJEclY5SUczV2E3SHJ3UGRrSzZYVm04L0g1K09XWVMrNURi?=
- =?utf-8?B?cUl2NTduYVRtTkdkWGkzZnF3YkY1UjVrVTNxT2hDQ3M4eUsvSCtXZXc1VFA5?=
- =?utf-8?B?dWIwQUZjVW9QOUlJaGNkSGNYL0VvaHhJeXBIK0R6c3NjcVFpV2VjellrYnhL?=
- =?utf-8?B?cnRPbE1BbEg2djlWQVNKd1FwRnE4UnRQSFBCNlZ2RFFOUzd5cVZsOFpWVFhP?=
- =?utf-8?B?NDYrTVZ6dEZPNnI4WXpkTkRRMHY2bVpGVGMwQSsxaVB1dm9ZbTBkNkxXeSt3?=
- =?utf-8?B?bytXQjhWUWFCOGtzZE9EZWlOdjdYT0JFZGdxdWRIQzZsajJkQ3BKV2poaEEy?=
- =?utf-8?B?NHdZLzQyeDZpZ0V3bFlMcVBmS2pYVnkwQjhRbnhITFV0bDlaUzgxTmlnOGhZ?=
- =?utf-8?B?ai9QR3NaMEdQRkdhQ1pyeGFZYzlJZXNrUjFpcThGNjdpNWJOUndscERjZXY0?=
- =?utf-8?Q?Gwu+xPbZXqNtlK11lM6LOBU=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <3A0407000981DA42846CEB8BE36AE11D@namprd02.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
+ id 1oTxds-00022j-Az
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 23:46:53 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:39649)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
+ id 1oTxdq-0001dI-1d
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 23:46:52 -0400
+Received: by mail-pg1-x535.google.com with SMTP id q9so872575pgq.6
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 20:46:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:to:cc:subject:date;
+ bh=uacSV7uLaGM4xOYGO2lNdMG7oAsCoYq9Rer2MC8lULs=;
+ b=QaLFodDGmBFMYVSVoycRQ+v0+6uVdBRegT/g1bITdZLHaWKIvQwJ3YjZRlcJp+LHOO
+ 5Ml2m+ypeFteTJaLvdIJiYxwVY7IxSUQ5l7M03lFBWL5VdKk2ZVVC5EynSSSV4fIJDtV
+ rPbwprKzG5NnLjyHsE1VVF0Z54lpDwYrfhkHCCjpTfJqduTSspJ2lN0iJOCghFGp5uPh
+ 0H41okt2asPIEYy7JTIHHxwscx9d0sapXLTqDPeMmoj+xKQcvu/v1UGgWMbL4gkAFXU2
+ YHHiU8XhrMpaoi+tcOPTIoACWawO3YI4I2KTZIfCoZzPsL5hT71GrVoqzJJZkkbkYlXO
+ AN6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
+ :subject:x-gm-message-state:from:to:cc:subject:date;
+ bh=uacSV7uLaGM4xOYGO2lNdMG7oAsCoYq9Rer2MC8lULs=;
+ b=4dFS7zw/FT3hXve/iyyZT1FYqoClf40b4mA4kp+afYlSFEQtF3Sch9qK18qYUNCfJ8
+ KDYSdjhom7zTWW46p8dJNGEY/WdUA4N0byZFcVWLGAnFteeuxLJC3twUKSFaJPZc9pZy
+ Gs7iZbLnpcNyvvTi4w7+TMD9PFjqQ6jAPrxctEErcIqT2Q/dvW3fK+JxeHkXLvZ7aK3r
+ f3minIoVeYmIoWuFFIxXTG3vxCZeztU6jflK91igYnfOpoa1bo2VWHRN6i0UjGVfnrZX
+ oG/Gn5crtP/95cuwH2a9c+UXzQ5ftIgWCDPJCH3t/AihOr7L1hFuA5BNbtT+4iV0FbRt
+ J1Gg==
+X-Gm-Message-State: ACgBeo3yFLSgQVjMtmQQNs6VUjLwbWQDQACvYHQLjN7p5+9T1iUI8of6
+ 4rDun+6kgqeGajQBH0gP8Hgrgg==
+X-Google-Smtp-Source: AA6agR5wYo/DoV6kaA0Oe7lQuu/AkDS+wkG0qhQXp6NPr8weN+LJhoJobsHFtCG8l4bUrh/HHRI0qw==
+X-Received: by 2002:a05:6a00:1a91:b0:52f:29e7:c32c with SMTP id
+ e17-20020a056a001a9100b0052f29e7c32cmr34982623pfv.10.1662090407825; 
+ Thu, 01 Sep 2022 20:46:47 -0700 (PDT)
+Received: from localhost ([12.3.194.138]) by smtp.gmail.com with ESMTPSA id
+ 2-20020a170902c20200b00174f43129fbsm384077pll.47.2022.09.01.20.46.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Sep 2022 20:46:47 -0700 (PDT)
+Subject: [PATCH] RISC-V: Add support for Ztso
+Date: Thu,  1 Sep 2022 20:44:12 -0700
+Message-Id: <20220902034412.8918-1-palmer@rivosinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL3PR02MB7938.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38956e79-16ec-4356-559c-08da8c94d74b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Sep 2022 03:40:12.1121 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: NVFeE90z6AquyX2twlR6V8+Rr8v4sdmYbmm+yi5pqzx6XwQCwuet8VrRjOZWKxotLuNt9todwmeb8pbKw3tEyNrqclsWi1HF2WB98uMYLe4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB4889
-X-Proofpoint-ORIG-GUID: o2agFmXt_DRq1sB6KNlg-fjmyPkrE7ok
-X-Proofpoint-GUID: o2agFmXt_DRq1sB6KNlg-fjmyPkrE7ok
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-09-01_12,2022-08-31_03,2022-06-22_01
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.155.12;
- envelope-from=raphael.norwitz@nutanix.com; helo=mx0b-002c1b01.pphosted.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Cc: Palmer Dabbelt <palmer@rivosinc.com>
+From: Palmer Dabbelt <palmer@rivosinc.com>
+To: qemu-devel@nongnu.org
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=palmer@rivosinc.com; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -170,7 +85,150 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PiBwaW5nDQoNCkFwb2xvZ2llcyBmb3IgdGhlIGxhdGUgcmV2aWV3IC0gYnVzeSB3ZWVrLiBGaXJz
-dCBwYXNzIGxvb2tzIGdvb2QgYnV0IHdpbGwgcmV2aWV3DQpjb21wcmVoZW5zaXZlbHkgdG9tb3Jy
-b3cgb3Igb3ZlciB0aGUgd2Vla2VuZC4NCg0K
+Ztso, the RISC-V extension that provides the TSO memory model, was
+recently frozen.  This provides support for Ztso on targets that are
+themselves TSO.
+
+Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+
+---
+
+My first thought was to just add the TCG barries to load/store and AMOs
+that as defined by Ztso, but after poking around a bit it seems that's
+frowned upon by check_tcg_memory_orders_compatible().  I feel like the
+indicated performance issues could probably be worked out, but this is
+about the same amount of code and doesn't suffer from those performance
+issues.  That said, it just seems wrong to couple targets to a RISC-V
+feature.
+
+This is also essentially un-tested, aside from poking around in the
+generated device tree to make sure "_ztso" shows up when enabled.  I
+don't think there's really any way to test it further, as we don't have
+any TSO-enabled workloads and we were defacto providing TSO already on
+x86 targets (which I'm assuming are what the vast majority of users are
+running).
+---
+ target/riscv/cpu.c       | 12 ++++++++++++
+ target/riscv/cpu.h       | 16 +++++++++++++++-
+ target/riscv/translate.c |  6 ++++++
+ tcg/i386/tcg-target.h    |  1 +
+ tcg/s390x/tcg-target.h   |  1 +
+ 5 files changed, 35 insertions(+), 1 deletion(-)
+
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index ac6f82ebd0..d05b8c7c4a 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -919,6 +919,15 @@ static Property riscv_cpu_extensions[] = {
+     DEFINE_PROP_BOOL("zhinx", RISCVCPU, cfg.ext_zhinx, false),
+     DEFINE_PROP_BOOL("zhinxmin", RISCVCPU, cfg.ext_zhinxmin, false),
+ 
++#ifdef TCG_TARGET_SUPPORTS_MCTCG_RVTSO
++    /*
++     * We only support Ztso on targets that themselves are already TSO, which
++     * means there's no way to provide just RVWMO on those targets.  Instead
++     * just default to telling the guest that Ztso is enabled.:
++     */
++    DEFINE_PROP_BOOL("ztso", RISCVCPU, cfg.ext_ztso, true),
++#endif
++
+     /* Vendor-specific custom extensions */
+     DEFINE_PROP_BOOL("xventanacondops", RISCVCPU, cfg.ext_XVentanaCondOps, false),
+ 
+@@ -1094,6 +1103,9 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
+         ISA_EDATA_ENTRY(zksed, ext_zksed),
+         ISA_EDATA_ENTRY(zksh, ext_zksh),
+         ISA_EDATA_ENTRY(zkt, ext_zkt),
++#ifdef TCG_TARGET_SUPPORTS_MCTCG_RVTSO
++        ISA_EDATA_ENTRY(ztso, ext_ztso),
++#endif
+         ISA_EDATA_ENTRY(zve32f, ext_zve32f),
+         ISA_EDATA_ENTRY(zve64f, ext_zve64f),
+         ISA_EDATA_ENTRY(zhinx, ext_zhinx),
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 5c7acc055a..879e11a950 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -27,8 +27,19 @@
+ #include "qom/object.h"
+ #include "qemu/int128.h"
+ #include "cpu_bits.h"
++#include "tcg-target.h"
+ 
+-#define TCG_GUEST_DEFAULT_MO 0
++/*
++ * RISC-V has two memory models: TSO is a bit weaker than Intel (MMIO and
++ * fetch), and WMO is approximately equivilant to Arm MCA.  Rather than
++ * enforcing orderings on most accesses, just default to the target memory
++ * order.
++ */
++#ifdef TCG_TARGET_SUPPORTS_MCTCG_RVTSO
++# define TCG_GUEST_DEFAULT_MO (TCG_MO_ALL & ~TCG_MO_ST_LD)
++#else
++# define TCG_GUEST_DEFAULT_MO (0)
++#endif
+ 
+ /*
+  * RISC-V-specific extra insn start words:
+@@ -433,6 +444,9 @@ struct RISCVCPUConfig {
+     bool ext_zve32f;
+     bool ext_zve64f;
+     bool ext_zmmul;
++#ifdef TCG_TARGET_SUPPORTS_MCTCG_RVTSO
++    bool ext_ztso;
++#endif
+     bool rvv_ta_all_1s;
+ 
+     uint32_t mvendorid;
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 63b04e8a94..00fd75b971 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -109,6 +109,9 @@ typedef struct DisasContext {
+     /* PointerMasking extension */
+     bool pm_mask_enabled;
+     bool pm_base_enabled;
++#ifdef TCG_TARGET_SUPPORTS_MCTCG_RVTSO
++    bool ztso;
++#endif
+     /* TCG of the current insn_start */
+     TCGOp *insn_start;
+ } DisasContext;
+@@ -1109,6 +1112,9 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     memset(ctx->ftemp, 0, sizeof(ctx->ftemp));
+     ctx->pm_mask_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_MASK_ENABLED);
+     ctx->pm_base_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_BASE_ENABLED);
++#ifdef TCG_TARGET_SUPPORTS_MCTCG_RVTSO
++    ctx->ztso = cpu->cfg.ext_ztso;
++#endif
+     ctx->zero = tcg_constant_tl(0);
+ }
+ 
+diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
+index 00fcbe297d..2a43d54fcd 100644
+--- a/tcg/i386/tcg-target.h
++++ b/tcg/i386/tcg-target.h
+@@ -236,6 +236,7 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
+ #include "tcg/tcg-mo.h"
+ 
+ #define TCG_TARGET_DEFAULT_MO (TCG_MO_ALL & ~TCG_MO_ST_LD)
++#define TCG_TARGET_SUPPORTS_MCTCG_RVTSO 1
+ 
+ #define TCG_TARGET_HAS_MEMORY_BSWAP  have_movbe
+ 
+diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
+index 23e2063667..f423c124a0 100644
+--- a/tcg/s390x/tcg-target.h
++++ b/tcg/s390x/tcg-target.h
+@@ -171,6 +171,7 @@ extern uint64_t s390_facilities[3];
+ #define TCG_TARGET_HAS_MEMORY_BSWAP   1
+ 
+ #define TCG_TARGET_DEFAULT_MO (TCG_MO_ALL & ~TCG_MO_ST_LD)
++#define TCG_TARGET_SUPPORTS_MCTCG_RVTSO 1
+ 
+ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
+                                             uintptr_t jmp_rw, uintptr_t addr)
+-- 
+2.34.1
+
 
