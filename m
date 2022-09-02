@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4475AA94B
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 09:59:17 +0200 (CEST)
-Received: from localhost ([::1]:59900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8558D5AA94F
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 09:59:40 +0200 (CEST)
+Received: from localhost ([::1]:49966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU1a7-0002kC-L9
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 03:59:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49458)
+	id 1oU1aV-0003J9-Jy
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 03:59:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oU1Wp-0005ny-8o; Fri, 02 Sep 2022 03:55:52 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38642)
+ id 1oU1Wp-0005o3-JD; Fri, 02 Sep 2022 03:55:52 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:22954)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oU1Wk-0002xv-KP; Fri, 02 Sep 2022 03:55:50 -0400
+ id 1oU1Wk-0002y7-Mz; Fri, 02 Sep 2022 03:55:51 -0400
 Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2827HbNi004207;
- Fri, 2 Sep 2022 07:55:40 GMT
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2827Hdpn004274;
+ Fri, 2 Sep 2022 07:55:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=D0LkimAGX9dbbis3+0UoZsSZqRu41ffCQYPEkKF9dnI=;
- b=H8oVD7xqCKDA2I/UYCRLMTspacTRb6EzBJYULxfUKkq3lIEyXvyM/eQz1AcGagqSlTiR
- 3QPicnqNwk8mySoKiP+NmJnITk0wGiEBmSf4bWSKYfRPm3oIspzqb1rY1IgkR7iVvagu
- fojC919Iv52FgSvflOp7eIyKbbV5aA1lLjaHqP1VdwOpvv3k4pzA+Ehc1gWZNgjXvheG
- T5GZxNKCHt+k578FUl3tENlOkOUDet1K8qNnKkRqG8rNo3IWpmJrP27sSKds+T/NiZFH
- LuJnlZpHR44BnFW7RVItMPQpz7N7AFn0jFomrK6yJospeo9r+e4JaQjGl5gPcS1zjVIZ HA== 
+ bh=a+w3G1NvJrhZSw5mQYwc8nfCl4icuOzRIjmM0sCWvoU=;
+ b=R68ZKjxJsRknBLkxnxG5LDkRIbLTJRS/VgPziYzNOmV/VBX+UNr7bSINr6COGjvRG7Rd
+ vH2nrnuEuDFuY24x2udD3C+DUmzBd4+vtUA5I/p3p3DPYdk62p5xWpDQaurcCrk3nQhF
+ FZm0Qdss5L6gnyoX1JE9EMeE3N6g+76XhDO29mB6pQ3P1kuQ34TuKwIjkzDkV2AQP8zn
+ gACBRdrUisUTScEARUyXVtnvd6ERmhbmXYuZ3HqafzbEawrwOcD/NCNdvWqKEVcWVCs2
+ nE58O5L+Zm1tZC+rIKiJeeXB1vd73hXwZ/CxOKKc2WFHnyE878w/UqGBzFIUgjBJZkDd 4w== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jbdakh56p-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jbdakh57p-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Sep 2022 07:55:40 +0000
+ Fri, 02 Sep 2022 07:55:42 +0000
 Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2827qa1l028496;
- Fri, 2 Sep 2022 07:55:39 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2827HbLA004199;
+ Fri, 2 Sep 2022 07:55:41 GMT
 Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
  [159.122.73.70])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jbdakh55s-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jbdakh56h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 02 Sep 2022 07:55:41 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2827oLmU032363;
+ Fri, 2 Sep 2022 07:55:39 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma01fra.de.ibm.com with ESMTP id 3j8hkacjxk-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Fri, 02 Sep 2022 07:55:39 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2827o80r032285;
- Fri, 2 Sep 2022 07:55:37 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma01fra.de.ibm.com with ESMTP id 3j8hkacjxj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Sep 2022 07:55:37 +0000
 Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
  [9.149.105.61])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2827tY0G35586526
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 2827qGot37486964
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 2 Sep 2022 07:55:34 GMT
+ Fri, 2 Sep 2022 07:52:16 GMT
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 21D9911C04C;
- Fri,  2 Sep 2022 07:55:34 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id EA9B411C04A;
+ Fri,  2 Sep 2022 07:55:35 +0000 (GMT)
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 46B5A11C04A;
- Fri,  2 Sep 2022 07:55:33 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 1FEFE11C050;
+ Fri,  2 Sep 2022 07:55:35 +0000 (GMT)
 Received: from li-c6ac47cc-293c-11b2-a85c-d421c8e4747b.ibm.com.com (unknown
  [9.171.69.137])
  by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  2 Sep 2022 07:55:33 +0000 (GMT)
+ Fri,  2 Sep 2022 07:55:35 +0000 (GMT)
 From: Pierre Morel <pmorel@linux.ibm.com>
 To: qemu-s390x@nongnu.org
 Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
@@ -74,17 +74,18 @@ Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
  kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
  eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
  nrb@linux.ibm.com, frankja@linux.ibm.com
-Subject: [PATCH v9 01/10] s390x/cpus: Make absence of multithreading clear
-Date: Fri,  2 Sep 2022 09:55:22 +0200
-Message-Id: <20220902075531.188916-2-pmorel@linux.ibm.com>
+Subject: [PATCH v9 03/10] s390x/cpu topology: reporting the CPU topology to
+ the guest
+Date: Fri,  2 Sep 2022 09:55:24 +0200
+Message-Id: <20220902075531.188916-4-pmorel@linux.ibm.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220902075531.188916-1-pmorel@linux.ibm.com>
 References: <20220902075531.188916-1-pmorel@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 9wjthIAysnJIpFXy9njUu6vPrRaDkF8L
-X-Proofpoint-ORIG-GUID: 97dW2dqaDrzd0LJmsRHiblBS3QS8yEH5
+X-Proofpoint-GUID: D6jV75HXCIyN8-9f02l-LEzEz2MkCd9U
+X-Proofpoint-ORIG-GUID: dSDYw8IBB753ViIu_F_tS2EG7ZlH8L57
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-09-01_12,2022-08-31_03,2022-06-22_01
@@ -118,29 +119,288 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-S390x do not support multithreading in the guest.
-Do not let admin falsely specify multithreading on QEMU
-smp commandline.
+The guest can use the STSI instruction to get a buffer filled
+with the CPU topology description.
+
+Let us implement the STSI instruction for the basis CPU topology
+level, level 2.
 
 Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 ---
- hw/s390x/s390-virtio-ccw.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/s390x/cpu-topology.c         |   4 ++
+ include/hw/s390x/cpu-topology.h |   5 ++
+ target/s390x/cpu.h              |  49 +++++++++++++++
+ target/s390x/cpu_topology.c     | 108 ++++++++++++++++++++++++++++++++
+ target/s390x/kvm/kvm.c          |   6 +-
+ target/s390x/meson.build        |   1 +
+ 6 files changed, 172 insertions(+), 1 deletion(-)
+ create mode 100644 target/s390x/cpu_topology.c
 
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 70229b102b..b5ca154e2f 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -86,6 +86,9 @@ static void s390_init_cpus(MachineState *machine)
-     MachineClass *mc = MACHINE_GET_CLASS(machine);
-     int i;
+diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+index a6ca006ec5..e2fd5c7e44 100644
+--- a/hw/s390x/cpu-topology.c
++++ b/hw/s390x/cpu-topology.c
+@@ -76,9 +76,11 @@ void s390_topology_new_cpu(int core_id)
+      * in the CPU container allows to represent up to the maximal number of
+      * CPU inside several CPU containers inside the socket container.
+      */
++    qemu_mutex_lock(&topo->topo_mutex);
+     topo->socket[socket_id].active_count++;
+     topo->tle[socket_id].active_count++;
+     set_bit(bit, &topo->tle[socket_id].mask[origin]);
++    qemu_mutex_unlock(&topo->topo_mutex);
+ }
  
-+    /* Explicitely do not support threads */
-+    assert(machine->smp.threads == 1);
+ /**
+@@ -104,6 +106,8 @@ static void s390_topology_realize(DeviceState *dev, Error **errp)
+     n = topo->sockets;
+     topo->socket = g_malloc0(n * sizeof(S390TopoContainer));
+     topo->tle = g_malloc0(topo->tles * sizeof(S390TopoTLE));
 +
-     /* initialize possible_cpus */
-     mc->possible_cpu_arch_ids(machine);
++    qemu_mutex_init(&topo->topo_mutex);
+ }
  
+ /**
+diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
+index 6911f975f4..0b7f3d10b2 100644
+--- a/include/hw/s390x/cpu-topology.h
++++ b/include/hw/s390x/cpu-topology.h
+@@ -10,6 +10,10 @@
+ #ifndef HW_S390X_CPU_TOPOLOGY_H
+ #define HW_S390X_CPU_TOPOLOGY_H
+ 
++#define S390_TOPOLOGY_CPU_TYPE    0x03
++
++#define S390_TOPOLOGY_POLARITY_H  0x00
++
+ typedef struct S390TopoContainer {
+     int active_count;
+ } S390TopoContainer;
+@@ -30,6 +34,7 @@ struct S390Topology {
+     int tles;
+     S390TopoContainer *socket;
+     S390TopoTLE *tle;
++    QemuMutex topo_mutex;
+ };
+ typedef struct S390Topology S390Topology;
+ 
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 7d6d01325b..c61fe9b563 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -565,6 +565,53 @@ typedef union SysIB {
+ } SysIB;
+ QEMU_BUILD_BUG_ON(sizeof(SysIB) != 4096);
+ 
++/* CPU type Topology List Entry */
++typedef struct SysIBTl_cpu {
++        uint8_t nl;
++        uint8_t reserved0[3];
++        uint8_t reserved1:5;
++        uint8_t dedicated:1;
++        uint8_t polarity:2;
++        uint8_t type;
++        uint16_t origin;
++        uint64_t mask;
++} SysIBTl_cpu;
++QEMU_BUILD_BUG_ON(sizeof(SysIBTl_cpu) != 16);
++
++/* Container type Topology List Entry */
++typedef struct SysIBTl_container {
++        uint8_t nl;
++        uint8_t reserved[6];
++        uint8_t id;
++} QEMU_PACKED SysIBTl_container;
++QEMU_BUILD_BUG_ON(sizeof(SysIBTl_container) != 8);
++
++/* Generic Topology List Entry */
++typedef union SysIBTl_entry {
++        uint8_t nl;
++        SysIBTl_container container;
++        SysIBTl_cpu cpu;
++} SysIBTl_entry;
++
++#define TOPOLOGY_NR_MAG  6
++#define TOPOLOGY_NR_MAG6 0
++#define TOPOLOGY_NR_MAG5 1
++#define TOPOLOGY_NR_MAG4 2
++#define TOPOLOGY_NR_MAG3 3
++#define TOPOLOGY_NR_MAG2 4
++#define TOPOLOGY_NR_MAG1 5
++/* Configuration topology */
++typedef struct SysIB_151x {
++    uint8_t  reserved0[2];
++    uint16_t length;
++    uint8_t  mag[TOPOLOGY_NR_MAG];
++    uint8_t  reserved1;
++    uint8_t  mnest;
++    uint32_t reserved2;
++    SysIBTl_entry tle[0];
++} SysIB_151x;
++QEMU_BUILD_BUG_ON(sizeof(SysIB_151x) != 16);
++
+ /* MMU defines */
+ #define ASCE_ORIGIN           (~0xfffULL) /* segment table origin             */
+ #define ASCE_SUBSPACE         0x200       /* subspace group control           */
+@@ -843,4 +890,6 @@ S390CPU *s390_cpu_addr2state(uint16_t cpu_addr);
+ 
+ #include "exec/cpu-all.h"
+ 
++void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar);
++
+ #endif
+diff --git a/target/s390x/cpu_topology.c b/target/s390x/cpu_topology.c
+new file mode 100644
+index 0000000000..56865dafc6
+--- /dev/null
++++ b/target/s390x/cpu_topology.c
+@@ -0,0 +1,108 @@
++/*
++ * QEMU S390x CPU Topology
++ *
++ * Copyright IBM Corp. 2022
++ * Author(s): Pierre Morel <pmorel@linux.ibm.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or (at
++ * your option) any later version. See the COPYING file in the top-level
++ * directory.
++ */
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "hw/s390x/pv.h"
++#include "hw/sysbus.h"
++#include "hw/s390x/cpu-topology.h"
++#include "hw/s390x/sclp.h"
++
++static char *fill_container(char *p, int level, int id)
++{
++    SysIBTl_container *tle = (SysIBTl_container *)p;
++
++    tle->nl = level;
++    tle->id = id;
++    return p + sizeof(*tle);
++}
++
++static char *fill_tle_cpu(char *p, uint64_t mask, int origin)
++{
++    SysIBTl_cpu *tle = (SysIBTl_cpu *)p;
++
++    tle->nl = 0;
++    tle->dedicated = 1;
++    tle->polarity = S390_TOPOLOGY_POLARITY_H;
++    tle->type = S390_TOPOLOGY_CPU_TYPE;
++    tle->origin = origin * 64;
++    tle->mask = be64_to_cpu(mask);
++    return p + sizeof(*tle);
++}
++
++static char *s390_top_set_level2(S390Topology *topo, char *p)
++{
++    int i, origin;
++
++    for (i = 0; i < topo->sockets; i++) {
++        if (!topo->socket[i].active_count) {
++            continue;
++        }
++        p = fill_container(p, 1, i);
++        for (origin = 0; origin < S390_TOPOLOGY_MAX_ORIGIN; origin++) {
++            uint64_t mask = 0L;
++
++            mask = be64_to_cpu(topo->tle[i].mask[origin]);
++            if (mask) {
++                p = fill_tle_cpu(p, mask, origin);
++            }
++        }
++    }
++    return p;
++}
++
++static int setup_stsi(SysIB_151x *sysib, int level)
++{
++    S390Topology *topo = s390_get_topology();
++    char *p = (char *)sysib->tle;
++
++    qemu_mutex_lock(&topo->topo_mutex);
++
++    sysib->mnest = level;
++    switch (level) {
++    case 2:
++        sysib->mag[TOPOLOGY_NR_MAG2] = topo->sockets;
++        sysib->mag[TOPOLOGY_NR_MAG1] = topo->cores;
++        p = s390_top_set_level2(topo, p);
++        break;
++    }
++
++    qemu_mutex_unlock(&topo->topo_mutex);
++
++    return p - (char *)sysib->tle;
++}
++
++#define S390_TOPOLOGY_MAX_MNEST 2
++void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar)
++{
++    SysIB_151x *sysib;
++    int len = sizeof(*sysib);
++
++    if (s390_is_pv() || sel2 < 2 || sel2 > S390_TOPOLOGY_MAX_MNEST) {
++        setcc(cpu, 3);
++        return;
++    }
++
++    sysib = g_malloc0(TARGET_PAGE_SIZE);
++
++    len += setup_stsi(sysib, sel2);
++    if (len > TARGET_PAGE_SIZE) {
++        setcc(cpu, 3);
++        goto out_free;
++    }
++
++    sysib->length = be16_to_cpu(len);
++    s390_cpu_virt_mem_write(cpu, addr, ar, sysib, len);
++    setcc(cpu, 0);
++
++out_free:
++    g_free(sysib);
++}
++
+diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+index 6a8dbadf7e..f96630440b 100644
+--- a/target/s390x/kvm/kvm.c
++++ b/target/s390x/kvm/kvm.c
+@@ -51,6 +51,7 @@
+ #include "hw/s390x/s390-virtio-ccw.h"
+ #include "hw/s390x/s390-virtio-hcall.h"
+ #include "hw/s390x/pv.h"
++#include "hw/s390x/cpu-topology.h"
+ 
+ #ifndef DEBUG_KVM
+ #define DEBUG_KVM  0
+@@ -1917,9 +1918,12 @@ static int handle_stsi(S390CPU *cpu)
+         if (run->s390_stsi.sel1 != 2 || run->s390_stsi.sel2 != 2) {
+             return 0;
+         }
+-        /* Only sysib 3.2.2 needs post-handling for now. */
+         insert_stsi_3_2_2(cpu, run->s390_stsi.addr, run->s390_stsi.ar);
+         return 0;
++    case 15:
++        insert_stsi_15_1_x(cpu, run->s390_stsi.sel2, run->s390_stsi.addr,
++                           run->s390_stsi.ar);
++        return 0;
+     default:
+         return 0;
+     }
+diff --git a/target/s390x/meson.build b/target/s390x/meson.build
+index 84c1402a6a..890ccfa789 100644
+--- a/target/s390x/meson.build
++++ b/target/s390x/meson.build
+@@ -29,6 +29,7 @@ s390x_softmmu_ss.add(files(
+   'sigp.c',
+   'cpu-sysemu.c',
+   'cpu_models_sysemu.c',
++  'cpu_topology.c',
+ ))
+ 
+ s390x_user_ss = ss.source_set()
 -- 
 2.31.1
 
