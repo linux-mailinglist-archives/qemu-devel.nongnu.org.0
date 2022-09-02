@@ -2,105 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D38095AB7C6
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 19:47:53 +0200 (CEST)
-Received: from localhost ([::1]:47630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFEF85AB7D9
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 19:59:46 +0200 (CEST)
+Received: from localhost ([::1]:34840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oUAlk-0007oL-Tp
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 13:47:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49830)
+	id 1oUAxF-0001sM-0x
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 13:59:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1oUASU-0006rG-KI; Fri, 02 Sep 2022 13:28:00 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:11698)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1oUAZZ-00069K-1O
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 13:35:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35879)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1oUASS-0005gG-TT; Fri, 02 Sep 2022 13:27:58 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 282H2DAZ025756;
- Fri, 2 Sep 2022 17:27:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=42lqiXmc8OHpJYGIcOpi1qlDB3VALI3G+v4Utk5q9G4=;
- b=NxZnY3+Zv0L3AoEEWvoQxtYjsc8DXjoDa8er4mj08FoJvUVBsERjcwe7kzzAF5QvBuLJ
- V23mtPstDXhiQCEgWnWV/KafrIIxX0Cv1DLymv4BA1YcxGDNKc+eXLogc7at1Ml1bmP7
- 8Kz0JadAEIdmPBZiW8234B6w1cxcbojeo2w0bALN3Q/zkl0stcg7gh2rjP+C5pB0X70V
- z1C5SJFhcpSQY6JHu0VFlNHkOiiqcJP6k1s3f5GXZwVDcFbzdZru3JDxK/Z+uZgrB/Y6
- t/masBQDar9mudmpl1CKe90lMspe6ETyHQhHYnl/CBfz5nUcJyLIwTO7movyDb2mbkvv Fg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jbnvarkv6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Sep 2022 17:27:54 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 282H35ij028544;
- Fri, 2 Sep 2022 17:27:54 GMT
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jbnvarkun-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Sep 2022 17:27:53 +0000
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 282HLDRv025821;
- Fri, 2 Sep 2022 17:27:52 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma01wdc.us.ibm.com with ESMTP id 3j7awa1cpu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 02 Sep 2022 17:27:52 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 282HRptE40436262
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 2 Sep 2022 17:27:51 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 543586E050;
- Fri,  2 Sep 2022 17:27:51 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0AFBF6E04E;
- Fri,  2 Sep 2022 17:27:50 +0000 (GMT)
-Received: from li-2311da4c-2e09-11b2-a85c-c003041e9174.ibm.com.com (unknown
- [9.160.86.252])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri,  2 Sep 2022 17:27:49 +0000 (GMT)
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-To: qemu-s390x@nongnu.org
-Cc: alex.williamson@redhat.com, schnelle@linux.ibm.com, cohuck@redhat.com,
- thuth@redhat.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, pasic@linux.ibm.com,
- borntraeger@linux.ibm.com, mst@redhat.com, pbonzini@redhat.com,
- qemu-devel@nongnu.org, kvm@vger.kernel.org
-Subject: [PATCH v8 8/8] s390x/s390-virtio-ccw: add zpcii-disable machine
- property
-Date: Fri,  2 Sep 2022 13:27:37 -0400
-Message-Id: <20220902172737.170349-9-mjrosato@linux.ibm.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220902172737.170349-1-mjrosato@linux.ibm.com>
-References: <20220902172737.170349-1-mjrosato@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1oUAZG-0007DD-Pg
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 13:35:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662140097;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9NXHCyX76zJrv+3jRcXyEaWoYUq6ldayJp0BuETmbr0=;
+ b=CPJn8NYs5Ra18MKvSlxaMQj62+iR+WxhFWPvvoFZTWD4dIcZzx0F2FZKDswjnNkx3gNkRu
+ 1qmPQTYVPxZBaBfQ7Ov9SAHQzBrtaMXnJG/X+RktWIEcZOPGQCFPPN9a7KQszN5z7PqyNo
+ wmeHwjCeZVfI0mVnJH6yB2zUBN9+u7w=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-610-mhrp6ZPKPdCHoYbT9mhQXA-1; Fri, 02 Sep 2022 13:34:56 -0400
+X-MC-Unique: mhrp6ZPKPdCHoYbT9mhQXA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B604738149B4;
+ Fri,  2 Sep 2022 17:34:55 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.192.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5180AC15BB3;
+ Fri,  2 Sep 2022 17:34:53 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Bandan Das <bsd@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Gerd Hoffmann <kraxel@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: [PATCH 0/8] RFC: Pass tests for x86_64 machine types compiled
+ individually
+Date: Fri,  2 Sep 2022 19:34:44 +0200
+Message-Id: <20220902173452.1904-1-quintela@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: KpNU8MXO4yR83BO7wh2c2Ml6lv7SjDKi
-X-Proofpoint-GUID: 7pVLAk-8F4zNoTtCQWzoxsBP4GIrS3VF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-09-02_04,2022-08-31_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- impostorscore=0 malwarescore=0 clxscore=1015 mlxlogscore=999 adultscore=0
- suspectscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0 bulkscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2209020080
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -118,139 +83,163 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The zpcii-disable machine property can be used to force-disable the use
-of zPCI interpretation facilities for a VM.  By default, this setting
-will be off for machine 7.2 and newer.
+Hi
 
-Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
----
- hw/s390x/s390-pci-kvm.c            |  4 +++-
- hw/s390x/s390-virtio-ccw.c         | 25 +++++++++++++++++++++++++
- include/hw/s390x/s390-virtio-ccw.h |  1 +
- qemu-options.hx                    |  8 +++++++-
- util/qemu-config.c                 |  4 ++++
- 5 files changed, 40 insertions(+), 2 deletions(-)
+This is a continuation on top of my previous series:
 
-diff --git a/hw/s390x/s390-pci-kvm.c b/hw/s390x/s390-pci-kvm.c
-index 9134fe185f..5eb7fd12e2 100644
---- a/hw/s390x/s390-pci-kvm.c
-+++ b/hw/s390x/s390-pci-kvm.c
-@@ -22,7 +22,9 @@
- 
- bool s390_pci_kvm_interp_allowed(void)
- {
--    return kvm_s390_get_zpci_op() && !s390_is_pv();
-+    return (kvm_s390_get_zpci_op() && !s390_is_pv() &&
-+            !object_property_get_bool(OBJECT(qdev_get_machine()),
-+                                      "zpcii-disable", NULL));
- }
- 
- int s390_pci_kvm_aif_enable(S390PCIBusDevice *pbdev, ZpciFib *fib, bool assist)
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 9a2467c889..f8ecb6172c 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -645,6 +645,21 @@ static inline void machine_set_dea_key_wrap(Object *obj, bool value,
-     ms->dea_key_wrap = value;
- }
- 
-+static inline bool machine_get_zpcii_disable(Object *obj, Error **errp)
-+{
-+    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
-+
-+    return ms->zpcii_disable;
-+}
-+
-+static inline void machine_set_zpcii_disable(Object *obj, bool value,
-+                                             Error **errp)
-+{
-+    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
-+
-+    ms->zpcii_disable = value;
-+}
-+
- static S390CcwMachineClass *current_mc;
- 
- /*
-@@ -740,6 +755,13 @@ static inline void s390_machine_initfn(Object *obj)
-             "Up to 8 chars in set of [A-Za-z0-9. ] (lower case chars converted"
-             " to upper case) to pass to machine loader, boot manager,"
-             " and guest kernel");
-+
-+    object_property_add_bool(obj, "zpcii-disable",
-+                             machine_get_zpcii_disable,
-+                             machine_set_zpcii_disable);
-+    object_property_set_description(obj, "zpcii-disable",
-+            "disable zPCI interpretation facilties");
-+    object_property_set_bool(obj, "zpcii-disable", false, NULL);
- }
- 
- static const TypeInfo ccw_machine_info = {
-@@ -803,8 +825,11 @@ DEFINE_CCW_MACHINE(7_2, "7.2", true);
- 
- static void ccw_machine_7_1_instance_options(MachineState *machine)
- {
-+    S390CcwMachineState *ms = S390_CCW_MACHINE(machine);
-+
-     ccw_machine_7_2_instance_options(machine);
-     s390_cpudef_featoff_greater(16, 1, S390_FEAT_PAIE);
-+    ms->zpcii_disable = true;
- }
- 
- static void ccw_machine_7_1_class_options(MachineClass *mc)
-diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
-index 3331990e02..8a0090a071 100644
---- a/include/hw/s390x/s390-virtio-ccw.h
-+++ b/include/hw/s390x/s390-virtio-ccw.h
-@@ -27,6 +27,7 @@ struct S390CcwMachineState {
-     bool aes_key_wrap;
-     bool dea_key_wrap;
-     bool pv;
-+    bool zpcii_disable;
-     uint8_t loadparm[8];
- };
- 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 31c04f7eea..7427dd1ed5 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -37,7 +37,8 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
-     "                memory-encryption=@var{} memory encryption object to use (default=none)\n"
-     "                hmat=on|off controls ACPI HMAT support (default=off)\n"
-     "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n"
--    "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n",
-+    "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n"
-+    "                zpcii-disable=on|off disables zPCI interpretation facilities (default=off)\n",
-     QEMU_ARCH_ALL)
- SRST
- ``-machine [type=]name[,prop=value[,...]]``
-@@ -157,6 +158,11 @@ SRST
-         ::
- 
-             -machine cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=128G,cxl-fmw.0.interleave-granularity=512k
-+
-+    ``zpcii-disable=on|off``
-+        Disables zPCI interpretation facilties on s390-ccw hosts.
-+        This feature can be used to disable hardware virtual assists
-+        related to zPCI devices. The default is off.
- ERST
- 
- DEF("M", HAS_ARG, QEMU_OPTION_M,
-diff --git a/util/qemu-config.c b/util/qemu-config.c
-index 433488aa56..5325f6bf80 100644
---- a/util/qemu-config.c
-+++ b/util/qemu-config.c
-@@ -236,6 +236,10 @@ static QemuOptsList machine_opts = {
-             .help = "Up to 8 chars in set of [A-Za-z0-9. ](lower case chars"
-                     " converted to upper case) to pass to machine"
-                     " loader, boot manager, and guest kernel",
-+        },{
-+            .name = "zpcii-disable",
-+            .type = QEMU_OPT_BOOL,
-+            .help = "disable zPCI interpretation facilities",
-         },
-         { /* End of list */ }
-     }
+tests: Make expliction defaults for tests
+Based-on: <20220902165126.1482-1-quintela@redhat.com>
+
+After the series is applied, the following combinations for
+x86_64-softmmu-devices.conf pass "make check"
+
+CONFIG_ISAPC=y
+CONFIG_I440FX=y
+CONFIG_Q35=y
+CONFIG_MICROVM=y
+
+CONFIG_ISAPC=n
+CONFIG_I440FX=y
+CONFIG_Q35=n
+CONFIG_MICROVM=n
+
+CONFIG_ISAPC=n
+CONFIG_I440FX=n
+CONFIG_Q35=y
+CONFIG_MICROVM=n
+
+ISAPC requires I440FX, so it can't be compiled alone.  MICROVM is a
+mess, and you can't compile it right now without having CONFIG_PC
+defined, problem is at:
+
+/scratch/qemu/full/m64/../../../../mnt/code/qemu/full/hw/i386/acpi-common.c:39:
+multiple definition of `pc_madt_cpu_entry';
+libcommon.fa.p/hw_acpi_acpi-x86-stub.c.o:/scratch/qemu/full/m64/../../../../mnt/code/qemu/full/hw/acpi/acpi-x86-stub.c:9:
+first defined here
+
+Basically the problem is that it expect CONFIG_PC to be defined.  That
+happens if any other machine is defined, but if only MICROVM is
+defined it is not.
+
+So, now that I explained what I wanted to do, what it does:
+- make oem-fields consistent, only renames of functions
+- sort bios-tables-tests by machine type, so
+- it is easy to only run the things that are compiled in.
+
+Once this is done, we make tests depend on CONFIG_Q35 or CONFIG_I440FX
+in meson.build file.
+
+There are interesting cases, and are the tests are run with the
+default machine type (pc) but that work with either of them:
+
+qtests_i386_require_default = \
+  (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : []) +		    \
+  (config_host.has_key('CONFIG_POSIX') and
+   config_all_devices.has_key('CONFIG_ACPI_ERST') ? ['erst-test'] : []) +		    \
+  (config_all_devices.has_key('CONFIG_SDHCI_PCI') ? ['fuzz-sdcard-test'] : []) +	    \
+  (config_host.has_key('CONFIG_LINUX') and
+   config_all_devices.has_key('CONFIG_ISA_IPMI_BT') ? ['ipmi-bt-test'] : []) +		    \
+  (config_all_devices.has_key('CONFIG_ISA_IPMI_KCS') ? ['ipmi-kcs-test'] : []) +	    \
+  (config_all_devices.has_key('CONFIG_PVPANIC_ISA') ? ['pvpanic-test'] : []) + 		    \
+  (config_all_devices.has_key('CONFIG_PVPANIC_PCI') ? ['pvpanic-pci-test'] : []) +	    \
+  (config_all_devices.has_key('CONFIG_RTL8139_PCI') ? ['rtl8139-test'] : []) +	 	    \
+  (config_all_devices.has_key('CONFIG_WDT_IB700') ? ['wdt_ib700-test'] : []) +              \
+  (config_host.has_key('CONFIG_POSIX') ? ['test-filter-mirror'] : []) +			    \
+  (config_all_devices.has_key('CONFIG_USB_UHCI') ? ['usb-hcd-uhci-test'] : []) +	    \
+  (config_all_devices.has_key('CONFIG_USB_XHCI_NEC') ? ['usb-hcd-xhci-test'] : []) +	    \
+  ['boot-order-test',
+   'fw_cfg-test',
+   'migration-test',
+   'numa-test',
+   'rtc-test',
+   'test-filter-redirector',
+   'test-x86-cpuid-compat',
+   'vmgenid-test'
+  ]
+
+This tests can be run with both machine types, but as we can't easily
+put -machine on them (several of them are supposed to run on other
+architectures), it is not "trivial to fix".  I have a "hack" on my
+tree that gets the 1st machine available for this kind of tests and
+changed qtest_init() to qtest_init_first() that does exactly that.
+But I am not sure that is the way to go. Another way for me to fix it
+is just to change the Q35 machine to be the default for x86_64 when
+I400FX is not compiled in, but it has other kind of troubles.  I
+started this wanting than all tests showed an explicit machine type,
+but there is nothing easier to be done for this multiarch tests.
+Notice that the problem already exist, and some tests do funny things
+to make sure that they get the "-machine pc".
+
+    if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+        machine_addition = "-machine pc";
+    }
+
+    QTestState *qtest = qtest_initf("%s -device virtio-mouse-pci,id=dev0",
+                                    machine_addition);
+
+But this is not clear in my book.
+
+So, what I am doing this again. Number of files to compile and be able
+to run "make check" with minimal configurations (for x86_64-softmmu):
+- everything under the sun: 2757 files
+- everything that you can disable with configure: 1838 files
+- same than previous but only CONFIG_Q35 and this patches: 1759 files
+- on my tree with other multiple hacks: around 1500 files compiled.
+
+My goal would be that compiling with --without-default-devices, make
+check pass, but even after my changes, we get:
+
+Summary of Failures:
+
+  2/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/migration-test         ERROR           0.16s   killed by signal 6 SIGABRT
+  3/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/bios-tables-test       ERROR           0.17s   killed by signal 6 SIGABRT
+  4/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/test-hmp               ERROR           0.19s   killed by signal 6 SIGABRT
+  1/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/qom-test               ERROR           0.33s   killed by signal 6 SIGABRT
+ 81/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/lpc-ich9-test          ERROR           0.14s   killed by signal 6 SIGABRT
+ 83/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/q35-test               ERROR           0.16s   killed by signal 6 SIGABRT
+ 85/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/tco-test               ERROR           0.16s   killed by signal 6 SIGABRT
+ 86/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/device-plug-test       ERROR           0.14s   killed by signal 6 SIGABRT
+ 88/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/drive_del-test         ERROR           0.21s   killed by signal 6 SIGABRT
+ 89/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/fdc-test               ERROR           0.21s   killed by signal 6 SIGABRT
+ 91/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/ide-test               ERROR           0.13s   killed by signal 6 SIGABRT
+ 92/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/display-vga-test       ERROR           0.14s   killed by signal 6 SIGABRT
+ 90/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/i440fx-test            ERROR           0.33s   killed by signal 6 SIGABRT
+ 93/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/erst-test              ERROR           0.15s   killed by signal 6 SIGABRT
+ 95/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/test-filter-mirror     ERROR           0.14s   killed by signal 6 SIGABRT
+ 96/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/fw_cfg-test            ERROR           0.13s   killed by signal 6 SIGABRT
+ 98/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/rtc-test               ERROR           0.15s   killed by signal 6 SIGABRT
+ 99/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/test-filter-redirector ERROR           0.14s   killed by signal 6 SIGABRT
+100/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/vmgenid-test           ERROR           0.18s   killed by signal 6 SIGABRT
+102/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/cpu-plug-test          ERROR           0.18s   killed by signal 6 SIGABRT
+ 97/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/numa-test              ERROR           0.46s   killed by signal 6 SIGABRT
+104/124 qemu:qtest+qtest-x86_64 / qtest-x86_64/test-x86-cpuid-compat  ERROR           0.38s   killed by signal 6 SIGABRT
+
+And we are not even starting to remove stuff that nobody is going to
+use in a modern guest (i.e. e1000e for instance is required).
+
+So, the question is, I am the only one that think this need to be
+improved, or should we left this as a hack on my devel tree.
+
+Please, comment.
+
+Thanks, Juan.
+
+Juan Quintela (8):
+  bios-tables-test: Make oem-fields tests be consistent
+  bios-tables-test: Sort all x86_64 tests by machine type
+  bios-tables-test: Only run test for machine types compiled in
+  tests: Only run intel-hda-tests if machine type is compiled in
+  tests: sb16 has both pc and q35 tests
+  tests: Make all tests that use q35 depend on it being compiled in
+  tests: Unfold qtest_pci
+  tests: Make all tests that depend on I440FX state that
+
+ tests/qtest/bios-tables-test.c | 155 ++++++++++++++++++---------------
+ tests/qtest/fuzz-sb16-test.c   |  10 ++-
+ tests/qtest/intel-hda-test.c   |  13 +--
+ tests/qtest/meson.build        |  97 +++++++++++----------
+ 4 files changed, 154 insertions(+), 121 deletions(-)
+
 -- 
 2.37.2
 
