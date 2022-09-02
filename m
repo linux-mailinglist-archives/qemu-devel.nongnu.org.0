@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33CE45AA884
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 09:08:00 +0200 (CEST)
-Received: from localhost ([::1]:52288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0CAF5AA88E
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 09:12:35 +0200 (CEST)
+Received: from localhost ([::1]:46518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU0mV-0005uM-Dc
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 03:07:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46234)
+	id 1oU0qx-0001zd-3t
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 03:12:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oU0No-0007VT-KG
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:42:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48289)
+ id 1oU0Nr-0007Vw-Fd
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:42:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oU0Nn-0004v4-5O
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:42:28 -0400
+ id 1oU0No-0004vH-Hx
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:42:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662100946;
+ s=mimecast20190719; t=1662100948;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pP8QYxxdqXx+AFoVsWcfM2sQG+bN+PKVF28RGrfE9W4=;
- b=Q+b84ow8kKJagGbJ0ALbLrBL6f2cU/t0JkHw1I1TzyJuMEgq7gq+jPac8rkSjtqF3VD11k
- 2/YYwFrPQtLn6DtVWyaDx1JRmrN1dP9YmjIsG07fiDe0qhiyTvmk/Fg4NrAOOA0EAKChyt
- lYJ+Gf5z/qG5ZhaFlcvhQ2sWUDin3bM=
+ bh=vAi25fYk/f1WEDY6ubA811W6S3cvHAheh4iU+p4Rcdc=;
+ b=LIPp8R6NiHD4qmXcMjcCazPfjaI58VhfjBfpFWYk588kztvzdLPZWbdzLG+Xvhf9A/DQau
+ BWAaY+/sG/XdZfoOiQ+OG1nEJM2JRkCs6/97tlcVd3dDqSZ69JOe0doXXrXHQDorh2xJAz
+ VUgEJyUdpAniHPfNhXbbSYQZFG+39JM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-447--SNA6DrnMuKQxojxabiOFw-1; Fri, 02 Sep 2022 02:42:23 -0400
-X-MC-Unique: -SNA6DrnMuKQxojxabiOFw-1
+ us-mta-515-WYX4hVC_OAClgySspIOOmw-1; Fri, 02 Sep 2022 02:42:26 -0400
+X-MC-Unique: WYX4hVC_OAClgySspIOOmw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 26CF6101A58E;
- Fri,  2 Sep 2022 06:42:23 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EB882101A56C;
+ Fri,  2 Sep 2022 06:42:25 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-12-152.pek2.redhat.com
  [10.72.12.152])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 066291415137;
- Fri,  2 Sep 2022 06:42:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D01AE1410DD5;
+ Fri,  2 Sep 2022 06:42:23 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
  Jason Wang <jasowang@redhat.com>
-Subject: [PULL 13/21] vhost_net: Add NetClientInfo stop callback
-Date: Fri,  2 Sep 2022 14:41:30 +0800
-Message-Id: <20220902064138.56468-14-jasowang@redhat.com>
+Subject: [PULL 14/21] vdpa: add net_vhost_vdpa_cvq_info NetClientInfo
+Date: Fri,  2 Sep 2022 14:41:31 +0800
+Message-Id: <20220902064138.56468-15-jasowang@redhat.com>
 In-Reply-To: <20220902064138.56468-1-jasowang@redhat.com>
 References: <20220902064138.56468-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -84,53 +84,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eugenio Pérez <eperezma@redhat.com>
 
-Used by the backend to perform actions after the device is stopped.
-
-In particular, vdpa net use it to unmap CVQ buffers to the device,
-cleaning the actions performed in prepare().
+Next patches will add a new info callback to restore NIC status through
+CVQ. Since only the CVQ vhost device is needed, create it with a new
+NetClientInfo.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/vhost_net.c | 3 +++
- include/net/net.h  | 2 ++
- 2 files changed, 5 insertions(+)
+ net/vhost-vdpa.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 2e0baeb..9d4b334 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -320,6 +320,9 @@ static void vhost_net_stop_one(struct vhost_net *net,
-         net->nc->info->poll(net->nc, true);
-     }
-     vhost_dev_stop(&net->dev, dev);
-+    if (net->nc->info->stop) {
-+        net->nc->info->stop(net->nc);
-+    }
-     vhost_dev_disable_notifiers(&net->dev, dev);
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index a49e7e6..1a597c2 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -334,6 +334,16 @@ static bool vhost_vdpa_net_cvq_map_elem(VhostVDPAState *s,
+     return true;
  }
  
-diff --git a/include/net/net.h b/include/net/net.h
-index ad9e800..476ad45 100644
---- a/include/net/net.h
-+++ b/include/net/net.h
-@@ -45,6 +45,7 @@ typedef struct NICConf {
- typedef void (NetPoll)(NetClientState *, bool enable);
- typedef bool (NetCanReceive)(NetClientState *);
- typedef int (NetStart)(NetClientState *);
-+typedef void (NetStop)(NetClientState *);
- typedef ssize_t (NetReceive)(NetClientState *, const uint8_t *, size_t);
- typedef ssize_t (NetReceiveIOV)(NetClientState *, const struct iovec *, int);
- typedef void (NetCleanup) (NetClientState *);
-@@ -73,6 +74,7 @@ typedef struct NetClientInfo {
-     NetReceiveIOV *receive_iov;
-     NetCanReceive *can_receive;
-     NetStart *start;
-+    NetStop *stop;
-     NetCleanup *cleanup;
-     LinkStatusChanged *link_status_changed;
-     QueryRxFilter *query_rx_filter;
++static NetClientInfo net_vhost_vdpa_cvq_info = {
++    .type = NET_CLIENT_DRIVER_VHOST_VDPA,
++    .size = sizeof(VhostVDPAState),
++    .receive = vhost_vdpa_receive,
++    .cleanup = vhost_vdpa_cleanup,
++    .has_vnet_hdr = vhost_vdpa_has_vnet_hdr,
++    .has_ufo = vhost_vdpa_has_ufo,
++    .check_peer_type = vhost_vdpa_check_peer_type,
++};
++
+ /**
+  * Do not forward commands not supported by SVQ. Otherwise, the device could
+  * accept it and qemu would not know how to update the device model.
+@@ -475,7 +485,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+         nc = qemu_new_net_client(&net_vhost_vdpa_info, peer, device,
+                                  name);
+     } else {
+-        nc = qemu_new_net_control_client(&net_vhost_vdpa_info, peer,
++        nc = qemu_new_net_control_client(&net_vhost_vdpa_cvq_info, peer,
+                                          device, name);
+     }
+     snprintf(nc->info_str, sizeof(nc->info_str), TYPE_VHOST_VDPA);
 -- 
 2.7.4
 
