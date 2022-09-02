@@ -2,54 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 789E65AA84B
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 08:48:34 +0200 (CEST)
-Received: from localhost ([::1]:55730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EDDA5AA84C
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 08:48:35 +0200 (CEST)
+Received: from localhost ([::1]:55732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU0Tc-0004Y8-Eo
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 02:48:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42450)
+	id 1oU0Td-0004Yf-27
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 02:48:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oU0NF-00072r-Sa
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:41:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33811)
+ id 1oU0NG-00074N-OG
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:41:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oU0NB-0004kA-O5
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:41:51 -0400
+ id 1oU0NE-0004kX-H4
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 02:41:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662100907;
+ s=mimecast20190719; t=1662100911;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=8iD/uHA6lqKkeISFO461cCTgS9iGkUQctpDdDa7E10s=;
- b=So41zRTqeH/mstNLu3gFq0eGnSAgq0Bcl0WK73li8RGXgDQ77cX8v5O0zYxoBScypJwhYA
- jQ6rx8pjrcelosOBTz8NoZC9XpoBi6mSiA1Bc4ya6VfD8K6g64Z/dF3+FcsMx3MfwkssRG
- XeFmQKBASlGtQyYafyTg0LsSg+50b7k=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Vic+0XyhfRNSP6ny+VU05BTXAsDs7H9Nq0W7LZ5xysM=;
+ b=GyRX+sxIwX7T4fOnRwyjzwq8ln6DjbU7uYFxizT7qvf1PTzQKtbA9MvSJU+rTK4ACEV1Hj
+ qClvZ+XCZtBR+9dCjf4ET9iN3JUF1O4k59oEuTNXwSIgT3BuyuKxQSj5UZLGEnAjN6bYwb
+ 0Ly7sCg0wQ9qtqP5FgCL2faHLiC9BAM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-50-FbZIrFynNCyhx_mtE5F-zg-1; Fri, 02 Sep 2022 02:41:44 -0400
-X-MC-Unique: FbZIrFynNCyhx_mtE5F-zg-1
+ us-mta-220-GmVYvuMqNKywlnMy_5KRdQ-1; Fri, 02 Sep 2022 02:41:47 -0400
+X-MC-Unique: GmVYvuMqNKywlnMy_5KRdQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BFF41101AA47;
- Fri,  2 Sep 2022 06:41:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E75E61857F10;
+ Fri,  2 Sep 2022 06:41:46 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-12-152.pek2.redhat.com
  [10.72.12.152])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EB82A1415137;
- Fri,  2 Sep 2022 06:41:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 71CD11415137;
+ Fri,  2 Sep 2022 06:41:44 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Cc: Jason Wang <jasowang@redhat.com>
-Subject: [PULL 00/21] Net patches
-Date: Fri,  2 Sep 2022 14:41:17 +0800
-Message-Id: <20220902064138.56468-1-jasowang@redhat.com>
+Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+ Lei Yang <leiyang@redhat.com>, Jason Wang <jasowang@redhat.com>
+Subject: [PULL 01/21] vdpa: Skip the maps not in the iova tree
+Date: Fri,  2 Sep 2022 14:41:18 +0800
+Message-Id: <20220902064138.56468-2-jasowang@redhat.com>
+In-Reply-To: <20220902064138.56468-1-jasowang@redhat.com>
+References: <20220902064138.56468-1-jasowang@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -78,63 +82,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 7dd9d7e0bd29abf590d1ac235c0a00606ef81153:
+From: Eugenio Pérez <eperezma@redhat.com>
 
-  Merge tag 'pull-ppc-20220831' of https://gitlab.com/danielhb/qemu into staging (2022-09-01 13:53:20 -0400)
+Next patch will skip the registering of dma maps that the vdpa device
+rejects in the iova tree. We need to consider that here or we cause a
+SIGSEGV accessing result.
 
-are available in the git repository at:
+Reported-by: Lei Yang <leiyang@redhat.com>
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+ hw/virtio/vhost-vdpa.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-  https://github.com/jasowang/qemu.git tags/net-pull-request
-
-for you to fetch changes up to 36a894aeb64a2e02871016da1c37d4a4ca109182:
-
-  net: tulip: Restrict DMA engine to memories (2022-09-02 10:22:39 +0800)
-
-----------------------------------------------------------------
-
-----------------------------------------------------------------
-Eugenio Pérez (19):
-      vdpa: Skip the maps not in the iova tree
-      vdpa: do not save failed dma maps in SVQ iova tree
-      util: accept iova_tree_remove_parameter by value
-      vdpa: Remove SVQ vring from iova_tree at shutdown
-      vdpa: Make SVQ vring unmapping return void
-      vhost: Always store new kick fd on vhost_svq_set_svq_kick_fd
-      vdpa: Use ring hwaddr at vhost_vdpa_svq_unmap_ring
-      vhost: stop transfer elem ownership in vhost_handle_guest_kick
-      vhost: use SVQ element ndescs instead of opaque data for desc validation
-      vhost: Delete useless read memory barrier
-      vhost: Do not depend on !NULL VirtQueueElement on vhost_svq_flush
-      vhost_net: Add NetClientInfo start callback
-      vhost_net: Add NetClientInfo stop callback
-      vdpa: add net_vhost_vdpa_cvq_info NetClientInfo
-      vdpa: Move command buffers map to start of net device
-      vdpa: extract vhost_vdpa_net_cvq_add from vhost_vdpa_net_handle_ctrl_avail
-      vhost_net: add NetClientState->load() callback
-      vdpa: Add virtio-net mac address via CVQ at start
-      vdpa: Delete CVQ migration blocker
-
-Zhang Chen (1):
-      net/colo.c: Fix the pointer issue reported by Coverity.
-
-Zheyu Ma (1):
-      net: tulip: Restrict DMA engine to memories
-
- hw/i386/intel_iommu.c              |   6 +-
- hw/net/tulip.c                     |   4 +-
- hw/net/vhost_net.c                 |  17 +++
- hw/virtio/vhost-iova-tree.c        |   2 +-
- hw/virtio/vhost-iova-tree.h        |   2 +-
- hw/virtio/vhost-shadow-virtqueue.c |  31 +++--
- hw/virtio/vhost-vdpa.c             |  90 +++++++--------
- include/hw/virtio/vhost-vdpa.h     |   1 -
- include/net/net.h                  |   6 +
- include/qemu/iova-tree.h           |   2 +-
- net/colo.c                         |  25 ++--
- net/colo.h                         |   1 +
- net/trace-events                   |   2 +-
- net/vhost-vdpa.c                   | 228 +++++++++++++++++++++++--------------
- util/iova-tree.c                   |   4 +-
- 15 files changed, 248 insertions(+), 173 deletions(-)
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 3ff9ce3..983d369 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -289,6 +289,10 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+         };
+ 
+         result = vhost_iova_tree_find_iova(v->iova_tree, &mem_region);
++        if (!result) {
++            /* The memory listener map wasn't mapped */
++            return;
++        }
+         iova = result->iova;
+         vhost_iova_tree_remove(v->iova_tree, result);
+     }
+-- 
+2.7.4
 
 
