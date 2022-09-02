@@ -2,78 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A876B5AAA4D
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 10:42:28 +0200 (CEST)
-Received: from localhost ([::1]:55776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30CDB5AAA40
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 10:39:16 +0200 (CEST)
+Received: from localhost ([::1]:43336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU2Fv-0004Np-P3
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 04:42:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36218)
+	id 1oU2Co-0000mG-R4
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 04:39:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oU23K-0002RB-MT
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 04:29:26 -0400
-Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:36513)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oU23G-0005L6-ME
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 04:29:25 -0400
-Received: by mail-qk1-x731.google.com with SMTP id s22so1196809qkj.3
- for <qemu-devel@nongnu.org>; Fri, 02 Sep 2022 01:29:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=YpzWdsy8JODLm/QovpwVNZ+yMcTCZrdS1aXUwXxt5Fs=;
- b=o9SAOy/T3LSpDXBBvbWMFS8bFzRWz3Moxn9yNqFGgHiHgrEJhJ4xSNl5DKR/4elRB4
- 2HJcNNpYFQnQjJjw7bPxUZ5M1RuKxHoRrZcyvBa+Kl6iHDWEPusMDJAnha/AdV4sjsZ1
- Q3PVqWl2SSPwNBs34/L/q3/UAWSfeeBvWRuVTU29v7nqQCjk03kfMQaxH0lrmV7AGF4o
- 8goAipEqkBrmfAiqEB18DnlFVJUWRE0AS7Mrl7RWfRRPck78RUnWdiOYEhSWl/ddroZj
- 9kNKtTfuNUog1oIY/lBwtDt92S9lq5eqwHmNMFVY82fVb3HOKVa10XfkByJfsYQnkU2U
- JeVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=YpzWdsy8JODLm/QovpwVNZ+yMcTCZrdS1aXUwXxt5Fs=;
- b=hu7jdHl8IPkg3YK0zDM40ChalMtmo4HWUVeJtzXtJCyz8CjN72LwwufbX+dXf7QyNT
- hu9M97lRm+3Je8TRLotdX1opFVntNB0IpwjrtT5itdfyUrmWhgDRrZSBqE2tGlv+9lt/
- OBv73/k+/VPPOpKgD0o4X2eioH3BXv6ywtBl0TigYlvnigqJCxfxQ6hsNpk0HEHIedag
- fXTysNP+tGn4RBJtYPwPLhLcjPKdTUf/VBBRLwZHmthHBWYzNeXFlvjeqqoYqbHXXTbs
- bAaoaCtx7SV8spGLCurhGlEaiA2nSvrclAznQsak7lU0ttviqxjbaszp/58P7/adinJM
- M5dQ==
-X-Gm-Message-State: ACgBeo38+49HS22x+7YieE3c1SSv0deCBBdUJYnoA9t9pR9J9ELIEL3P
- 4Ybg1aLgVSHQlXbZAZXPVtBqye/K8uqYEGyqpWdN0zol
-X-Google-Smtp-Source: AA6agR5++C1HDeKLIfxIz9ilBbnIgvh5ZnDKOBXSHJTrrSHOkcsONoU/inTJkbAbLhJkN2obxg2djqVf12GE5saN8+g=
-X-Received: by 2002:ae9:df46:0:b0:6bb:7917:5c66 with SMTP id
- t67-20020ae9df46000000b006bb79175c66mr21552572qkf.342.1662107361639; Fri, 02
- Sep 2022 01:29:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oU29J-0005tk-0X
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 04:35:39 -0400
+Received: from 5.mo552.mail-out.ovh.net ([188.165.45.220]:47851)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oU28t-0003CD-9i
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 04:35:14 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.28])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 82CA229C98;
+ Fri,  2 Sep 2022 08:35:05 +0000 (UTC)
+Received: from kaod.org (37.59.142.109) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Fri, 2 Sep
+ 2022 10:35:04 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-109S003de8ad0c8-8502-4f5d-ba4e-3bc2f28104e2,
+ D61F9D71629D8638CC5FDB79ACAD046E2B22D36A) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.27.158.190
+Message-ID: <fa58b3d3-3773-0c2a-f7a5-b2ee2e61ed22@kaod.org>
+Date: Fri, 2 Sep 2022 10:35:03 +0200
 MIME-Version: 1.0
-References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-21-bmeng.cn@gmail.com>
- <CAJ+F1C+iDMHYA6WFsCSiY5XnAWF0dBhGjE-qPSCCrdoXaQZHog@mail.gmail.com>
-In-Reply-To: <CAJ+F1C+iDMHYA6WFsCSiY5XnAWF0dBhGjE-qPSCCrdoXaQZHog@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 2 Sep 2022 16:29:10 +0800
-Message-ID: <CAEUhbmVyt7-TVc7n3FbO4Zu582723_MfNQuvpyK1oPutLiJ56A@mail.gmail.com>
-Subject: Re: [PATCH 20/51] tests/qtest: i440fx-test: Skip running
- request_{bios, pflash} for win32
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, 
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x731.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH 00/20] ppc4xx_sdram QOMify and clean ups
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>, <qemu-devel@nongnu.org>,
+ <qemu-ppc@nongnu.org>
+CC: Daniel Henrique Barboza <danielhb413@gmail.com>, Peter Maydell
+ <peter.maydell@linaro.org>
+References: <cover.1660926381.git.balaton@eik.bme.hu>
+ <1816eb34-a93a-c8cc-9abc-c38f5a4e38ce@eik.bme.hu>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <1816eb34-a93a-c8cc-9abc-c38f5a4e38ce@eik.bme.hu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.109]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: a735a4f9-ad7c-4f81-a69d-a3077f57134a
+X-Ovh-Tracer-Id: 13851102131967658915
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeltddgtdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeetueffgfevhfeijedviedukeehffelteffjeduvdelhfdugfejheevhfehhefhtdenucffohhmrghinhepghhithhlrggsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdfovfetjfhoshhtpehmohehhedv
+Received-SPF: pass client-ip=188.165.45.220; envelope-from=clg@kaod.org;
+ helo=5.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,56 +76,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 31, 2022 at 9:40 PM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
->
-> Hi
->
-> On Wed, Aug 24, 2022 at 2:15 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+On 9/1/22 23:02, BALATON Zoltan wrote:
+> On Fri, 19 Aug 2022, BALATON Zoltan wrote:
+>> Hello,
 >>
->> From: Bin Meng <bin.meng@windriver.com>
->>
->> The request_{bios,pflash} test cases call mmap() which does not
->> exist on win32. Exclude them.
->>
->
-> We can fairly easily rewrite the create_blob_file() function to be portab=
-le though, something like:
+>> This is based on gitlab.com/danielhb/qemu/tree/ppc-7.2
+> 
+> Now that the queue is flushed it should apply on master so
 
-Thanks for the suggestion!
 
-Will spin a patch in v2.
+I will take a look (most likely next week) and It should reach 7.2.
+No worries on that.
 
->
-> static char *create_blob_file(void)
-> {
->     g_autofree uint8_t *buf =3D g_malloc(BLOB_SIZE);
->     GError *error =3D NULL;
->     char *pathname;
->     int fd;
->     size_t i;
->
->     fd =3D g_file_open_tmp("blob_XXXXXX", &pathname, &error);
->     g_assert_no_error(error);
->
->     for (i =3D 0; i < BLOB_SIZE; ++i) {
->         buf[i] =3D i;
->     }
->
->     g_file_set_contents(pathname, (char *)buf, BLOB_SIZE, &error);
->     g_assert_no_error(error);
->     close(fd);
->
->     return pathname;
-> }
->
->> Signed-off-by: Bin Meng <bin.meng@windriver.com>
->> ---
->>
->>  tests/qtest/i440fx-test.c | 6 ++++++
->>  1 file changed, 6 insertions(+)
->>
+Have you anything else in plans ?
 
-Regards,
-Bin
+Thanks,
+
+C.
+
+
 
