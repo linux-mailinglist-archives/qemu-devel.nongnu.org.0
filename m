@@ -2,57 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 360E75AA4DA
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 03:06:41 +0200 (CEST)
-Received: from localhost ([::1]:43306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D475AA55D
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 03:58:36 +0200 (CEST)
+Received: from localhost ([::1]:50970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oTv8p-0001Td-RM
-	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 21:06:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51100)
+	id 1oTvx0-0000oL-Er
+	for lists+qemu-devel@lfdr.de; Thu, 01 Sep 2022 21:58:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oTv79-0008VD-AE
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 21:04:55 -0400
-Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:55788)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oTv6z-0006Zm-Rs
- for qemu-devel@nongnu.org; Thu, 01 Sep 2022 21:04:48 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046056;
- MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0VO3NvSN_1662080671; 
-Received: from 30.227.65.15(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VO3NvSN_1662080671) by smtp.aliyun-inc.com;
- Fri, 02 Sep 2022 09:04:33 +0800
-Message-ID: <97670e2e-79fe-3a78-2f92-110d669b74f8@linux.alibaba.com>
-Date: Fri, 2 Sep 2022 09:04:31 +0800
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oTvvB-0007q8-OP
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 21:56:37 -0400
+Received: from mail-qv1-xf2c.google.com ([2607:f8b0:4864:20::f2c]:45707)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oTvv9-000094-S2
+ for qemu-devel@nongnu.org; Thu, 01 Sep 2022 21:56:37 -0400
+Received: by mail-qv1-xf2c.google.com with SMTP id jy14so433399qvb.12
+ for <qemu-devel@nongnu.org>; Thu, 01 Sep 2022 18:56:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=7KaCpkFBpXwkZCGlsUS8Nn/FWXUxOFhLaA6P4jDQM00=;
+ b=GADVDWrjJIaTpGYFsZBTz6IMsTnKdCcGlktsBcyx01TsTwU3RtcLF24oru8Obhvkz7
+ SxEh45ko7YumuIGbMX9pPsyFC6vlMdaGBmQUoTmEEHziRyVflVHaHkEjWssBgX0e/fnN
+ u2vZ75LRl1qvUctE1kpK4qM6b3FPRVUMUHH3+kob7xRh0+0nr/A7ZzkaWB74VHmyTWNA
+ 0G4mccGFN7xvZS8TGy+iz3iDfS5HjLxTkW1zsYGRLnOpINdoOYJF4W3LHVoZx3SPbC9d
+ mOnDLmYy2lvDTigTAOrba7lQHf12FqFPQTM3YRbqOSnuz/fA7HeJx2rBSQdfkBik7rTM
+ f0hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=7KaCpkFBpXwkZCGlsUS8Nn/FWXUxOFhLaA6P4jDQM00=;
+ b=rcbuoeo0ajn5TuvKijS3Cb1VWNhnn0LS2AZbQRIGOs2C53NgGVo3TERCog5wEGvf1d
+ J5ihi3eUmjKK/LaxkSuPS12LPRzsGs5WKmiRSSnA5TgS3grTNwykczhxQ+oaEa9wB1L1
+ 20OaFO02q1n19/qUThAr+KPOYCOwHZZlZ5MTq2eFskp/an3NwBy/YiCF5EhG0xmCoMUh
+ WwkmJ/M2epNgHVaKdJHtCNJNb1b/vclV5iwH7fYiPV/W1P1HfNM6jM3/jCDUo/fStGh8
+ 75Ml+qXLiyVdA1t0LGA4ftSR5+xLMQ7BShspwdqGUu/ZXCd1QhsDsmL/M7yIFhRZuE43
+ RXhQ==
+X-Gm-Message-State: ACgBeo3qoJEQLubpeYdQfF54CfLPtysgq0n8bTxAhwT4Lg+om8jYekwX
+ KqLP4ZTJQN3H1zDtF11/FC6hlHv0vIzxaOJX9YQ=
+X-Google-Smtp-Source: AA6agR7S1q4yWU0uDVtGt7N9WHUaNW/6SwNa+n4r8xdIBFd97TwFryy3TVYVwIxMV3I86WXqpaj3bkznrUPdVwiVGc0=
+X-Received: by 2002:a05:6214:ca1:b0:498:f96d:4a8c with SMTP id
+ s1-20020a0562140ca100b00498f96d4a8cmr23829297qvs.51.1662083794913; Thu, 01
+ Sep 2022 18:56:34 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH v3 00/15] Support VIRTIO_F_RING_RESET for virtio-net,
- vhost-net kernel in virtio pci-modern
-From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-To: qemu-devel@nongnu.org
-References: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- eduardo@habkost.net, marcel.apfelbaum@gmail.com, f4bug@amsat.org,
- wangyanan55@huawei.com, hengqi@linux.alibaba.com,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-In-Reply-To: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.130;
- envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-130.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+References: <20220713124357.247817-1-pbonzini@redhat.com>
+In-Reply-To: <20220713124357.247817-1-pbonzini@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 2 Sep 2022 09:56:24 +0800
+Message-ID: <CAEUhbmVWdAF2fO1E6YAJYQOaC_4dog7TkHdyJwqMAmEzrST8UQ@mail.gmail.com>
+Subject: Re: [PATCH] scsi/lsi53c895a: really fix use-after-free in
+ lsi_do_msgout (CVE-2022-0216)
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>, 
+ Alexander Bulekov <alxndr@bu.edu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf2c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,117 +85,147 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do you have any comments about this patch set?
+Hi,
 
-Thanks
+On Wed, Jul 13, 2022 at 8:45 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> From: Mauro Matteo Cascella <mcascell@redhat.com>
+>
+> Set current_req to NULL, not current_req->req, to prevent reusing a free'd
+> buffer in case of repeated SCSI cancel requests.  Also apply the fix to
+> CLEAR QUEUE and BUS DEVICE RESET messages as well, since they also cancel
+> the request.
+>
+> Thanks to Alexander Bulekov for providing a reproducer.
+>
+> Fixes: CVE-2022-0216
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/972
+> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
+> Tested-by: Alexander Bulekov <alxndr@bu.edu>
+> Message-Id: <20220711123316.421279-1-mcascell@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>         Adjust the patch from v1 to v2 since the changes crossed
+>         with the pull request.
+>
+>  hw/scsi/lsi53c895a.c               |  3 +-
+>  tests/qtest/fuzz-lsi53c895a-test.c | 71 ++++++++++++++++++++++++++++++
+>  2 files changed, 73 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
+> index 99ea42d49b..ad5f5e5f39 100644
+> --- a/hw/scsi/lsi53c895a.c
+> +++ b/hw/scsi/lsi53c895a.c
+> @@ -1030,7 +1030,7 @@ static void lsi_do_msgout(LSIState *s)
+>              trace_lsi_do_msgout_abort(current_tag);
+>              if (current_req && current_req->req) {
+>                  scsi_req_cancel(current_req->req);
+> -                current_req->req = NULL;
+> +                current_req = NULL;
+>              }
+>              lsi_disconnect(s);
+>              break;
+> @@ -1056,6 +1056,7 @@ static void lsi_do_msgout(LSIState *s)
+>              /* clear the current I/O process */
+>              if (s->current) {
+>                  scsi_req_cancel(s->current->req);
+> +                current_req = NULL;
+>              }
+>
+>              /* As the current implemented devices scsi_disk and scsi_generic
+> diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
+> index 2e8e67859e..6872c70d3a 100644
+> --- a/tests/qtest/fuzz-lsi53c895a-test.c
+> +++ b/tests/qtest/fuzz-lsi53c895a-test.c
+> @@ -8,6 +8,74 @@
+>  #include "qemu/osdep.h"
+>  #include "libqtest.h"
+>
+> +/*
+> + * This used to trigger a UAF in lsi_do_msgout()
+> + * https://gitlab.com/qemu-project/qemu/-/issues/972
+> + */
+> +static void test_lsi_do_msgout_cancel_req(void)
+> +{
+> +    QTestState *s;
+> +
+> +    s = qtest_init("-M q35 -m 4G -display none -nodefaults "
 
-在 2022/8/25 16:08, Kangjie Xu 写道:
-> The virtio queue reset function has already been defined in the virtio spec 1.2.
-> The relevant virtio spec information is here:
+This test does not run on machines with small size memory. Is 4G a
+must have for this test?
+
+> +                   "-device lsi53c895a,id=scsi "
+> +                   "-device scsi-hd,drive=disk0 "
+> +                   "-drive file=null-co://,id=disk0,if=none,format=raw");
+> +
+> +    qtest_outl(s, 0xcf8, 0x80000810);
+> +    qtest_outl(s, 0xcf8, 0xc000);
+> +    qtest_outl(s, 0xcf8, 0x80000810);
+> +    qtest_outw(s, 0xcfc, 0x7);
+> +    qtest_outl(s, 0xcf8, 0x80000810);
+> +    qtest_outl(s, 0xcfc, 0xc000);
+> +    qtest_outl(s, 0xcf8, 0x80000804);
+> +    qtest_outw(s, 0xcfc, 0x05);
+> +    qtest_writeb(s, 0x69736c10, 0x08);
+> +    qtest_writeb(s, 0x69736c13, 0x58);
+> +    qtest_writeb(s, 0x69736c1a, 0x01);
+> +    qtest_writeb(s, 0x69736c1b, 0x06);
+> +    qtest_writeb(s, 0x69736c22, 0x01);
+> +    qtest_writeb(s, 0x69736c23, 0x07);
+> +    qtest_writeb(s, 0x69736c2b, 0x02);
+> +    qtest_writeb(s, 0x69736c48, 0x08);
+> +    qtest_writeb(s, 0x69736c4b, 0x58);
+> +    qtest_writeb(s, 0x69736c52, 0x04);
+> +    qtest_writeb(s, 0x69736c53, 0x06);
+> +    qtest_writeb(s, 0x69736c5b, 0x02);
+> +    qtest_outl(s, 0xc02d, 0x697300);
+> +    qtest_writeb(s, 0x5a554662, 0x01);
+> +    qtest_writeb(s, 0x5a554663, 0x07);
+> +    qtest_writeb(s, 0x5a55466a, 0x10);
+> +    qtest_writeb(s, 0x5a55466b, 0x22);
+> +    qtest_writeb(s, 0x5a55466c, 0x5a);
+> +    qtest_writeb(s, 0x5a55466d, 0x5a);
+> +    qtest_writeb(s, 0x5a55466e, 0x34);
+> +    qtest_writeb(s, 0x5a55466f, 0x5a);
+> +    qtest_writeb(s, 0x5a345a5a, 0x77);
+> +    qtest_writeb(s, 0x5a345a5b, 0x55);
+> +    qtest_writeb(s, 0x5a345a5c, 0x51);
+> +    qtest_writeb(s, 0x5a345a5d, 0x27);
+> +    qtest_writeb(s, 0x27515577, 0x41);
+> +    qtest_outl(s, 0xc02d, 0x5a5500);
+> +    qtest_writeb(s, 0x364001d0, 0x08);
+> +    qtest_writeb(s, 0x364001d3, 0x58);
+> +    qtest_writeb(s, 0x364001da, 0x01);
+> +    qtest_writeb(s, 0x364001db, 0x26);
+> +    qtest_writeb(s, 0x364001dc, 0x0d);
+> +    qtest_writeb(s, 0x364001dd, 0xae);
+> +    qtest_writeb(s, 0x364001de, 0x41);
+> +    qtest_writeb(s, 0x364001df, 0x5a);
+> +    qtest_writeb(s, 0x5a41ae0d, 0xf8);
+> +    qtest_writeb(s, 0x5a41ae0e, 0x36);
+> +    qtest_writeb(s, 0x5a41ae0f, 0xd7);
+> +    qtest_writeb(s, 0x5a41ae10, 0x36);
+> +    qtest_writeb(s, 0x36d736f8, 0x0c);
+> +    qtest_writeb(s, 0x36d736f9, 0x80);
+> +    qtest_writeb(s, 0x36d736fa, 0x0d);
+> +    qtest_outl(s, 0xc02d, 0x364000);
+> +
+> +    qtest_quit(s);
+> +}
+> +
+>  /*
+>   * This used to trigger the assert in lsi_do_dma()
+>   * https://bugs.launchpad.net/qemu/+bug/697510
+> @@ -44,5 +112,8 @@ int main(int argc, char **argv)
+>      qtest_add_func("fuzz/lsi53c895a/lsi_do_dma_empty_queue",
+>                     test_lsi_do_dma_empty_queue);
 >
->      https://github.com/oasis-tcs/virtio-spec/issues/124
->      https://github.com/oasis-tcs/virtio-spec/issues/139
->
-> This patch set is to support this function in QEMU. It consists of several parts:
-> 1. Patches 1-7 are the basic interfaces for vq reset in virtio and virtio-pci.
-> 2. Patches 8-11 support vq reset and vq restart for vhost-kernel.
-> 3. Patches 12-14 support vq reset and vq restart for virtio-net.
-> 5. Patch 15 enables the vq reset feature for vhost-kernel.
->
-> The process of virtqueue reset can be concluded as:
-> 1. The virtqueue is disabled when VIRTIO_PCI_COMMON_Q_RESET is written.
-> 2. Then the virtqueue can be optionally restarted(re-enabled).
->
-> Since this patch set involves multiple modules and seems a bit messy, we briefly describe the
-> calling process for different modes below.
-> virtio-net:
-> 1. VIRTIO_PCI_COMMON_Q_RESET is written [virtio-pci]
->      -> virtio_queue_reset() [virtio]
->          -> virtio_net_queue_reset() [virtio-net]
->          -> __virtio_queue_reset()
-> 2. VIRTIO_PCI_COMMON_Q_ENABLE is written [virtio-pci]
->      -> set enabled, reset status of vq.
->
-> vhost-kernel:
-> 1. VIRTIO_PCI_COMMON_Q_RESET is written [virtio-pci]
->      -> virtio_queue_reset() [virtio]
->          -> virtio_net_queue_reset() [virtio-net]
->              -> vhost_net_virtqueue_stop() [vhost-net]
->                  -> vhost_net_set_backend() [vhost]
->                  -> vhost_virtqueue_unmap()
->          -> __virtio_queue_reset()
-> 2. VIRTIO_PCI_COMMON_Q_ENABLE is written [virtio-pci]
->      -> virtio_queue_enable() [virtio]
->          -> virtio_net_queue_enable() [virtio-net]
->              -> vhost_net_virtqueue_restart() [vhost-net]
->                  -> vhost_virtqueue_start() [vhost]
->                  -> vhost_net_set_backend()
->      -> set enabled, reset status of vq.
->
->
-> Test environment and method:
->      Host: 5.19.0-rc3 (With vq reset support)
->      Qemu: QEMU emulator version 7.0.50
->      Guest: 5.19.0-rc3 (With vq reset support)
->      Test Cmd: ethtool -g eth1; ethtool -G eth1 rx $1 tx $2; ethtool -g eth1;
->
->      The drvier can resize the virtio queue, then virtio queue reset function should
->      be triggered.
->
->      The default is split mode, modify Qemu virtio-net to add PACKED feature to
->      test packed mode.
->
-> Guest Kernel Patch:
->      https://lore.kernel.org/bpf/20220801063902.129329-1-xuanzhuo@linux.alibaba.com/
->
-> Host Kernel Patch:
->      https://github.com/middaywords/linux/commit/a845098f0df6b8bdf7e1e5db57af6ebd1c8eaf47
->
-> Looking forward to your review and comments. Thanks.
->
-> changelog:
-> v3:
->    1. Remove support for vhost-user in this series and refactor the code.
->    2. Rename 'vhost_net_virtqueue_stop' to 'vhost_net_virtqueue_reset'.
->    3. Make PCI transport ready before device ready when queue_enabled is set to true.
->    3. Add some comments.
->
-> v2:
->    1. Add support for vhost-net kernel scenario.
->    2. Add a new vhost-user message VHOST_USER_RESET_VRING.
->    3. Add migration compatibility for virtqueue reset.
->
-> Kangjie Xu (10):
->    virtio: introduce virtio_queue_enable()
->    virtio: core: vq reset feature negotation support
->    virtio-pci: support queue enable
->    vhost: extract the logic of unmapping the vrings and desc
->    vhost: expose vhost_virtqueue_start()
->    vhost-net: vhost-kernel: introduce vhost_net_virtqueue_reset()
->    vhost-net: vhost-kernel: introduce vhost_net_virtqueue_restart()
->    virtio-net: introduce flush_or_purge_queued_packets()
->    virtio-net: support queue_enable
->    vhost: vhost-kernel: enable vq reset feature
->
-> Xuan Zhuo (5):
->    virtio: sync relevant definitions with linux
->    virtio: introduce __virtio_queue_reset()
->    virtio: introduce virtio_queue_reset()
->    virtio-pci: support queue reset
->    virtio-net: support queue reset
->
->   hw/core/machine.c                             |  1 +
->   hw/net/vhost_net.c                            | 75 +++++++++++++++++++
->   hw/net/virtio-net.c                           | 56 ++++++++++++--
->   hw/virtio/vhost.c                             | 28 ++++---
->   hw/virtio/virtio-pci.c                        | 16 ++++
->   hw/virtio/virtio.c                            | 62 +++++++++++----
->   include/hw/virtio/vhost.h                     |  5 ++
->   include/hw/virtio/virtio-pci.h                |  5 ++
->   include/hw/virtio/virtio.h                    |  8 +-
->   include/net/vhost_net.h                       |  4 +
->   .../standard-headers/linux/virtio_config.h    |  5 ++
->   include/standard-headers/linux/virtio_pci.h   |  2 +
->   12 files changed, 234 insertions(+), 33 deletions(-)
->
+> +    qtest_add_func("fuzz/lsi53c895a/lsi_do_msgout_cancel_req",
+> +                   test_lsi_do_msgout_cancel_req);
+> +
+>      return g_test_run();
+>  }
+
+Regards,
+Bin
 
