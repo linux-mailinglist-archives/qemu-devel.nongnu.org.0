@@ -2,65 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CFE75AAA56
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 10:43:21 +0200 (CEST)
-Received: from localhost ([::1]:36702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197B35AAA9B
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 10:50:15 +0200 (CEST)
+Received: from localhost ([::1]:53656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU2Gl-0005Zi-Tx
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 04:43:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52502)
+	id 1oU2NR-0007RX-Qi
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 04:50:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oU2Ev-0002OS-RU
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 04:41:25 -0400
-Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156]:55333)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oU2Hu-0005ma-MT
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 04:44:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26424)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oU2Et-0004eS-Sm
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 04:41:25 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.83])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 81A8223B0E;
- Fri,  2 Sep 2022 08:41:20 +0000 (UTC)
-Received: from kaod.org (37.59.142.104) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Fri, 2 Sep
- 2022 10:41:19 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R0058ed4035b-1c64-4773-b300-8ef8935c4a0f,
- D61F9D71629D8638CC5FDB79ACAD046E2B22D36A) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 90.27.158.190
-Message-ID: <55c860d4-f294-f032-91b7-299223e03d35@kaod.org>
-Date: Fri, 2 Sep 2022 10:41:14 +0200
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oU2Hr-00056s-IT
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 04:44:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662108266;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jNOpLflP/Pm8NxANPGyXgCPBwfLtNpzAYQv+Of4HoFw=;
+ b=NEldhBVPm3JEES+NxwcwEAJcyn9I9njGXWFQlHuvkBcZgJjP8ZYy2BZ8e5atysqQ1SRLRb
+ WXeKSPbv/Cqe51Fj+jwX4R3qtgqN/69ontbrbMYC0v7En2yHKS4S6QtAXMl628gMAHp3fI
+ 8KNjG3PbJimhQgYPyeFcGumCkAuv8RE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-611-NFwmjWPkOs25c1W8bDAVKA-1; Fri, 02 Sep 2022 04:44:22 -0400
+X-MC-Unique: NFwmjWPkOs25c1W8bDAVKA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EC6803C0ED64;
+ Fri,  2 Sep 2022 08:44:21 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.195.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A3FCB2166B26;
+ Fri,  2 Sep 2022 08:44:21 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 0B73218003AA; Fri,  2 Sep 2022 10:44:20 +0200 (CEST)
+Date: Fri, 2 Sep 2022 10:44:20 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Xiaoyao Li <xiaoyao.li@intel.com>, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org, Marcelo Tosatti <mtosatti@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Sergio Lopez <slp@redhat.com>
+Subject: Re: [PATCH 0/2] expose host-phys-bits to guest
+Message-ID: <20220902084420.noroojfcy5hnngya@sirius.home.kraxel.org>
+References: <20220831125059.170032-1-kraxel@redhat.com>
+ <957f0cc5-6887-3861-2b80-69a8c7cdd098@intel.com>
+ <20220901135810.6dicz4grhz7ye2u7@sirius.home.kraxel.org>
+ <f7a56158-9920-e753-4d21-e1bcc3573e27@intel.com>
+ <20220901161741.dadmguwv25sk4h6i@sirius.home.kraxel.org>
+ <34be4132-53f4-8779-1ada-68aa554e0eac@intel.com>
+ <20220902060720.xruqoxc2iuszkror@sirius.home.kraxel.org>
+ <20220902021628-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH 00/20] ppc4xx_sdram QOMify and clean ups
-Content-Language: en-US
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-To: BALATON Zoltan <balaton@eik.bme.hu>, <qemu-devel@nongnu.org>,
- <qemu-ppc@nongnu.org>
-CC: Daniel Henrique Barboza <danielhb413@gmail.com>, Peter Maydell
- <peter.maydell@linaro.org>
-References: <cover.1660926381.git.balaton@eik.bme.hu>
- <1816eb34-a93a-c8cc-9abc-c38f5a4e38ce@eik.bme.hu>
- <fa58b3d3-3773-0c2a-f7a5-b2ee2e61ed22@kaod.org>
-In-Reply-To: <fa58b3d3-3773-0c2a-f7a5-b2ee2e61ed22@kaod.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: b180caac-5fd9-4a53-a614-de96bbf43941
-X-Ovh-Tracer-Id: 13956655247257209763
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeltddgtdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffhvfevfhgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehieevfedvtdeitedtleelveduveetteegffevieevvdffgeegteevieegleeigeenucffohhmrghinhepghhithhlrggsrdgtohhmpdhgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpoffvtefjohhsthepmhhoheegke
-Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
- helo=3.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220902021628-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,29 +90,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/2/22 10:35, Cédric Le Goater wrote:
-> On 9/1/22 23:02, BALATON Zoltan wrote:
->> On Fri, 19 Aug 2022, BALATON Zoltan wrote:
->>> Hello,
->>>
->>> This is based on gitlab.com/danielhb/qemu/tree/ppc-7.2
->>
->> Now that the queue is flushed it should apply on master so
+  Hi,
+ 
+> I feel there are three major sources of controversy here
 > 
+> 0. the cover letter and subject don't do such a good job
+>    explaining that what we are doing is just telling guest
+>    CPUID is not broken. we are not exposing anything new
+>    and not exposing host capability to guest, for example,
+>    if cpuid phys address is smaller than host things also
+>    work fine.
 > 
-> I will take a look (most likely next week) and It should reach 7.2.
-> No worries on that.
+> 1. really the naming.  We need to be more explicit that it's just a bugfix.
 
-First comment, you should use :
+Yep, I'll go improve that for v2.
 
-   https://github.com/legoater/qemu-ppc-boot
+> 2. down the road we will want to switch the default when no PV. however,
+>    some hosts might still want conservative firmware for compatibility
+>    reasons, so I think we need a way to tell firmware
+>    "ignore phys address width in CPUID like you did in the past".
+>    let's add a flag for that?
+>    and if none are set firmware should print a warning, though I
+>    do not know how many people will see that. Maybe some ;)
 
-and check that this command still runs :
+> /*
+>  * Force firmware to be very conservative in its use of physical
+>  * addresses, ignoring phys address width in CPUID.
+>  * Helpful for migration between hosts with different capabilities.
+>  */
+> #define KVM_BUG_PHYS_ADDRESS_WIDTH_BROKEN 2
 
-   ./ppc-boot.sh -q --prefix=/path/to/qemu/  bamboo ref405ep
+I don't see a need for that.  Live migration compatibility can be
+handled just fine today using
+	'host-phys-bits=on,host-phys-bits-limit=<xx>'
 
-Thanks,
+Which is simliar to 'phys-bits=<xx>'.
 
-C.
+The important difference is that phys-bits allows pretty much anything
+whereas host-phys-bits-limit applies sanity checks against the host
+supported phys bits and throws error on invalid values.
+
+take care,
+  Gerd
 
 
