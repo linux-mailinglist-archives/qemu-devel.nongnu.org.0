@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E3D75AB36A
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 16:27:14 +0200 (CEST)
-Received: from localhost ([::1]:58098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 572065AB43E
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 16:52:04 +0200 (CEST)
+Received: from localhost ([::1]:58982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU7dY-0003Ux-QR
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 10:27:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57716)
+	id 1oU81b-0003QS-1x
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 10:52:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oU7bF-00018M-CW
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 10:24:49 -0400
-Received: from mail-qv1-xf2e.google.com ([2607:f8b0:4864:20::f2e]:33531)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oU7bD-0002VH-Mr
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 10:24:49 -0400
-Received: by mail-qv1-xf2e.google.com with SMTP id d1so1557880qvs.0
- for <qemu-devel@nongnu.org>; Fri, 02 Sep 2022 07:24:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=N2VN/CyXq/i2AlG3cmb+/8xDog4z1L8syaCGZF4w1h0=;
- b=b08oecFGBAUwgNQ7pChRxhkn17Gn+8HAPozyMpx8VMQ0Fe7Yj+WqnU5394kzjxVODh
- iXJ8IfxHbNxGQU4VpTzqO4eLsmS60wik/ZbGS5lsr5fhN7WfLqScgqfZWTgPlFxSdrE1
- hCtg2Cil0FXvyLDd6FP4hvCItyyGveNc3KVmXULPyCrxri/N1wD8cfHuG8jN2C1NiODD
- vh/Lu7vYpqpycx4j1oRQQsM+yo2qAcjRr/XDjNm99z1XphV9OkcDqsLi28fw1DHGSSDh
- +VHFDrqsIK8hmn5ZsyZVznFN49QudSpbOGmhkc9h2j/QodG3gB1EwV5lDoQQ0YaXOKk/
- DRhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=N2VN/CyXq/i2AlG3cmb+/8xDog4z1L8syaCGZF4w1h0=;
- b=mMLYLBD7jf8pMrZTlKqXGaeQ51zA5viojHriWfyTZDRB6EROD4Tp/afw7XQErCmUJV
- EOeHl6Gj4EoaHhH5kdeSFwbZToAJ5ANroYB9gihzZbxZJ9M6ipX/EEFocXW5Ejqdgd85
- NS4VjROyU8dqJY69m2Xi01u4eLwbi4ghEW9SIwDJdJn812ypkkArydeuQbK7c8+4uHZx
- Ii2AIRA/7jyrbEC3vdy0fVMrUzIpxv9Y7TqCby4iizdWGVn9+NDLQ8YyYzYEQHEEz1ft
- XEmzbUNVCV5QpcYlAVTUwc7Go7eTG9fxKRN+xsf2c1d/TEE4TTi9My87rEinXkHF9fjO
- rk/A==
-X-Gm-Message-State: ACgBeo25eojNWjJJvipxorhJdIt2MZK5JUfYW/j93jOa110lAfi/abdi
- ufdKnFTEbVTsLgbiXm+JkjwP82lNtq/3Ek+inrM=
-X-Google-Smtp-Source: AA6agR6sDh5eralCMDbO08/HL9UVrOfNp2+3VLFnm3eRT/0XaMYPk5MvIpnwb34Ipqu2XjLYGs2iiViSxS1PXoZr6T4=
-X-Received: by 2002:a0c:810f:0:b0:47b:299a:56d7 with SMTP id
- 15-20020a0c810f000000b0047b299a56d7mr28825018qvc.12.1662128685721; Fri, 02
- Sep 2022 07:24:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
+ id 1oU7zf-0001vM-Pg
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 10:50:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44420)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
+ id 1oU7zb-0003L1-L0
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 10:50:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662130198;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tdyLf/OEb3TbGXpjQ8JjpLcr8udT500aZsBehLPvQPI=;
+ b=KH7ku3SzAbbZ7g2TLF2YrWInw8SHRDgdh/A77pPZOqu/aN+1eUPzHbdc6xMqqYnPu6Qn/w
+ 1tZ8lhfm7IKWjXRHqUZrNeQzHKom6L+vAGjAJL1L0TlIhmN0y4ThhywfHzw/lTrS8WpuZT
+ OY5WyhSaznhMdRtuTklGjYR5KsBFqkU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-427-b4QqOm4GPaaMgzrTbcJfSg-1; Fri, 02 Sep 2022 10:49:56 -0400
+X-MC-Unique: b4QqOm4GPaaMgzrTbcJfSg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 264251C04B6E
+ for <qemu-devel@nongnu.org>; Fri,  2 Sep 2022 14:49:56 +0000 (UTC)
+Received: from localhost (unknown [10.40.193.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B684418ECC;
+ Fri,  2 Sep 2022 14:49:55 +0000 (UTC)
+Date: Fri, 2 Sep 2022 16:49:54 +0200
+From: Victor Toso <victortoso@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ John Snow <jsnow@redhat.com>, Andrea Bolognani <abologna@redhat.com>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>
+Subject: Re: [RFC PATCH v2 2/8] qapi: golang: Generate qapi's alternate types
+ in Go
+Message-ID: <20220902144954.64t2tcowesnfuw6o@tapioca>
+References: <20220617121932.249381-1-victortoso@redhat.com>
+ <20220617121932.249381-3-victortoso@redhat.com>
 MIME-Version: 1.0
-References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-28-bmeng.cn@gmail.com>
- <dbb7f0fd-22e6-a5e0-88ce-5810290170ce@redhat.com>
- <CAEUhbmVmyT7ETTJdJH=UzZyf5_PaA8QMfsc=0rjJKK+8RHeztw@mail.gmail.com>
- <91c5a3b9-555e-51d4-1daa-9a4692ea437a@redhat.com>
- <CAJ+F1CJNt1d2uymwy-ONdAbqWd+MGMvw46B3VOTPPhd8FrVJMw@mail.gmail.com>
-In-Reply-To: <CAJ+F1CJNt1d2uymwy-ONdAbqWd+MGMvw46B3VOTPPhd8FrVJMw@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 2 Sep 2022 22:24:33 +0800
-Message-ID: <CAEUhbmW0GeOyac4VPyZNByYbExeJcLED5s+MUP59tNqa9yc36g@mail.gmail.com>
-Subject: Re: [PATCH 27/51] tests/qtest: Use send/recv for socket communication
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Cc: Thomas Huth <thuth@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, 
- Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf2e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="57ksn6h2255le6h5"
+Content-Disposition: inline
+In-Reply-To: <20220617121932.249381-3-victortoso@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,92 +83,185 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 31, 2022 at 10:06 PM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
->
-> Hi
->
-> On Fri, Aug 26, 2022 at 10:27 PM Thomas Huth <thuth@redhat.com> wrote:
->>
->> On 26/08/2022 16.59, Bin Meng wrote:
->> > On Thu, Aug 25, 2022 at 9:04 PM Thomas Huth <thuth@redhat.com> wrote:
->> >>
->> >> On 24/08/2022 11.40, Bin Meng wrote:
->> >>> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
->> >>>
->> >>> Socket communication in the libqtest and libqmp codes uses read()
->> >>> and write() which work on any file descriptor on *nix, and sockets
->> >>> in *nix are an example of a file descriptor.
->> >>>
->> >>> However sockets on Windows do not use *nix-style file descriptors,
->> >>> so read() and write() cannot be used on sockets on Windows.
->> >>> Switch over to use send() and recv() instead which work on both
->> >>> Windows and *nix.
->> >>>
->> >>> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
->> >>> Signed-off-by: Bin Meng <bin.meng@windriver.com>
->> >>> ---
->> >>>
->> >>>    tests/qtest/libqmp.c   | 4 ++--
->> >>>    tests/qtest/libqtest.c | 4 ++--
->> >>>    2 files changed, 4 insertions(+), 4 deletions(-)
->> >>>
->> >>> diff --git a/tests/qtest/libqmp.c b/tests/qtest/libqmp.c
->> >>> index ade26c15f0..995a39c1f8 100644
->> >>> --- a/tests/qtest/libqmp.c
->> >>> +++ b/tests/qtest/libqmp.c
->> >>> @@ -36,7 +36,7 @@ typedef struct {
->> >>>
->> >>>    static void socket_send(int fd, const char *buf, size_t size)
->> >>>    {
->> >>> -    size_t res =3D qemu_write_full(fd, buf, size);
->> >>> +    ssize_t res =3D send(fd, buf, size, 0);
->> >>
->> >> This way we're losing the extra logic from qemu_write_full() here (i.=
-e. the
->> >> looping and EINTR handling) ... not sure whether that's really OK? Ma=
-ybe you
->> >> have to introduce a qemu_send_full() first?
->> >>
->> >
->> > I am not sure if qemu_send_full() is really needed because there is an
->> > assert() right after the send() call.
->>
->> That's just a sanity check ... I think this function still has to take c=
-are
->> of EINTR - it originally looked like this:
->>
->>   https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Dc3e5704af19ac6
->>
->> ... and you can also see the while loop there.
->>
->
-> Agree, that would be the correct thing to do.
->
-> Fwiw, the SOCKET vs fd situation is giving me some nervous feelings, some=
-times.
->
-> For ex, as I checked recently, it seems close(fd) correctly closes the un=
-derlying SOCKET - as if closesocket() was called on it.. but this is not re=
-ally documented.
 
-Really? If you use gdb to step over close(socket) on Windows, you will
-see a Windows debug message is thrown to gdb saying that:
+--57ksn6h2255le6h5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-"warning: Invalid parameter passed to C runtime function."
+Hi,
 
-MSDN only says closesocket() should be used on socket. This is why in
-the QEMU codes we map closesocket to close on POSIX, and always use
-closesocket.
-
+On Fri, Jun 17, 2022 at 02:19:26PM +0200, Victor Toso wrote:
+> This patch handles QAPI alternate types and generates data structures
+> in Go that handles it.
 >
-> And it's easy to mix fd vs SOCKET in QEMU code paths (we cast/map SOCKET =
-to "int fd" in general), and reach a close() on a SOCKET. That wouldn't be =
-valid, and would likely create leaks or other issues.
->
-> Maybe we should introduce a type for safety / documentation purposes...
->
+> At this moment, there are 5 alternates in qemu/qapi, they are:
+>  * BlockDirtyBitmapMergeSource
+>  * Qcow2OverlapChecks
+>  * BlockdevRef
+>  * BlockdevRefOrNull
+>  * StrOrNull
 
-Regards,
-Bin
+So, things got a little bit complicated due the fact that
+BlockdevRefOrNull and StrOrNull can take JSON NULL value and
+that's completely different than an omitted field.
+
+The last reply from Markus in another patch series make this
+clear with a good deal of examples too.
+
+    https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg00113.html
+
+I'll put the struggle that I'm having just in case someone have
+suggestions.  Let's get an example:
+
+In qemu/qapi/block-core.json:
+
+    { 'struct': 'BlockdevOptionsQcow2',
+      'base': 'BlockdevOptionsGenericCOWFormat',
+      'data': { '*lazy-refcounts': 'bool',
+                '*pass-discard-request': 'bool',
+                '*pass-discard-snapshot': 'bool',
+                '*pass-discard-other': 'bool',
+                '*overlap-check': 'Qcow2OverlapChecks',
+                '*cache-size': 'int',
+                '*l2-cache-size': 'int',
+                '*l2-cache-entry-size': 'int',
+                '*refcount-cache-size': 'int',
+                '*cache-clean-interval': 'int',
+                '*encrypt': 'BlockdevQcow2Encryption',
+                '*data-file': 'BlockdevRef' } }
+
+Generates in qapi-go/pkg/qapi/structs.go:
+
+    type BlockdevOptionsQcow2 struct {
+        // Base fields
+        Backing *BlockdevRefOrNull `json:"backing,omitempty"`
+
+        LazyRefcounts       *bool                    `json:"lazy-refcounts,=
+omitempty"`
+        PassDiscardRequest  *bool                    `json:"pass-discard-re=
+quest,omitempty"`
+        PassDiscardSnapshot *bool                    `json:"pass-discard-sn=
+apshot,omitempty"`
+        PassDiscardOther    *bool                    `json:"pass-discard-ot=
+her,omitempty"`
+        OverlapCheck        *Qcow2OverlapChecks      `json:"overlap-check,o=
+mitempty"`
+        CacheSize           *int64                   `json:"cache-size,omit=
+empty"`
+        L2CacheSize         *int64                   `json:"l2-cache-size,o=
+mitempty"`
+        L2CacheEntrySize    *int64                   `json:"l2-cache-entry-=
+size,omitempty"`
+        RefcountCacheSize   *int64                   `json:"refcount-cache-=
+size,omitempty"`
+        CacheCleanInterval  *int64                   `json:"cache-clean-int=
+erval,omitempty"`
+        Encrypt             *BlockdevQcow2Encryption `json:"encrypt,omitemp=
+ty"`
+        DataFile            *BlockdevRef             `json:"data-file,omite=
+mpty"`
+    }
+
+One thing that we assumed for all types is that an optional type
+can be simply ignored. For that to work with Golang's
+encoding/json, we make do by making every optional field a
+pointer to the type it represents, plus we add the "omitempty"
+tag. This way, if the user did not set it, it is simply ignored.
+If we didn't receive anything, all should be good.
+
+The problem happens when we receive a JSON Null value, which is
+one possible value type for the BlockdevRefOrNull above. A
+message like { "backing" : null } does not trigger UnmarshalJSON
+for BlockdevRefOrNull and this is silently ignored.
+
+In Go's encoding/json, in order to { "backing" : null } trigger
+UnmarshalJSON, we need to remove omitempty and also the pointer
+=66rom Backing. Now, on the marshalling side, we will always have
+'backing' being set and in order to omit it from the output
+(which we might want indeed) we need to rework the byte array,
+which is something we were trying to avoid :)
+
+I've looked up and there has been proposals to address this kind
+of issue, including an omitnil tag [0] that could be used here to
+workaround it but that's unlikely to move forward [1].
+
+The first thing to do is to define when to omit *StrOrNull and
+*BlockdevRefOrNull and when to set it to null. The solution I
+thought would make sense is to have a Null boolean field that
+user would need to set, so:
+
+
+    type BlockdevRefOrNull struct {
+        Definition *BlockdevOptions
+        Reference  *string
+        Null        bool
+    }
+
+    func (s BlockdevRefOrNull) MarshalJSON() ([]byte, error) {
+        if s.Definition !=3D nil {
+            return json.Marshal(s.Definition)
+        } else if s.Reference !=3D nil {
+            return json.Marshal(s.Reference)
+        } else if s.Null {
+            return []byte("null"), nil
+        }
+        // If only QAPI spec accepted "backing": {} as the same
+        // as ommited.
+        return []byte("qapi-go-remove-this-object"), nil
+    }
+
+    func (s *BlockdevRefOrNull) UnmarshalJSON(data []byte) error {
+        // Check for json-null first
+        if string(data) =3D=3D "null" {
+            s.Null =3D true
+            return nil
+        }
+        // Check for BlockdevOptions
+        ...
+    }
+
+Setting BlockdevRefOrNull to null and to StrOrNull could have
+different meanings which is explained in the documentation
+itself. That's why I think Null as a boolean is fine, the user
+sets for a specific context when it knows what it is doing...
+
+Not having a pointer for optional fields of this two types breaks
+the coherence we had that all optional members are pointers in
+Go. This hurts a bit but this two are truly special as they can
+have the magic null value.
+
+Now, I'm thinking on a reasonable way to remove the object that
+wraps "qapi-go-remove-this-object" as well, likely using the
+json's decoder [2]...
+
+[0] https://github.com/golang/go/issues/22480
+[1] https://github.com/golang/go/issues/34701#issuecomment-544710311
+[2] https://pkg.go.dev/encoding/json#Decoder.Token
+
+Cheers,
+Victor
+
+--57ksn6h2255le6h5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmMSGBIACgkQl9kSPeN6
+SE/Gew/+PTofe4RLlWlEQErbBKifyP2FKFDwMwvArFUlmoMGxF5iWH/qnJUGEYqZ
+5bJAau/cWFQSL/6DZDaR0rtmjyePB0OXbqZqDJ/wlZhan8UHFMHHQELASobgoNfW
+mOiPXW/tTr8rMWmYt9uSxlSgmRpngL0s+RRzjEEhF5T8Qh6LO09iyHtS0/Q5Ic9Y
+X5RX2FGF0XxLTVdFPG4SwhhOLRYKtbkmVz0b7xcfjcRHJ9gC2mLkBdykTbmoeBU8
+aLHMbRa2oo4bAv+bI4bNr0/KW7pe+Hpt4hKAj1TKYf92hmaKLwzZlPR3xTqTOP9E
+5m4bUnmvgS/iQLA2/wUAfjDB6ZxkGuVInII5b1YZxEqxjTe06BEkMTFZlnD8+Wlb
+Y9YZpmbY1Pc2vRJ1RvBY365InysVy+K9iJ85zylKKgHdkSzyfCfr98O39sNWLjvH
+TtSD++vjrRQWCWihVf1O3sVdGgmmZOZonuBXtMzD3cV2c2nx/JzKp7mCSQijEyow
+Mx8Z1meJQBtc+LJGkxRMnqRiTs897mmpzLWGiRP3x6YDUHZK8xQ8E1IrMS3dAXzU
+jKx0VkaqBvFTejWYwVLzMEMBNIHu+KF5h366SAv0HIraZwTL8aYtMOG4XYNpAhz7
++hoE22+gJdWYPgGy4JAvJQXsbX+Illdf9nroumSYGZdUMyiRQPs=
+=/n5k
+-----END PGP SIGNATURE-----
+
+--57ksn6h2255le6h5--
+
 
