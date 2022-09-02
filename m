@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37DA35AA9DD
-	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 10:23:43 +0200 (CEST)
-Received: from localhost ([::1]:34922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F18CF5AA9EE
+	for <lists+qemu-devel@lfdr.de>; Fri,  2 Sep 2022 10:27:38 +0200 (CEST)
+Received: from localhost ([::1]:40350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oU1xm-0005RC-BJ
-	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 04:23:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54944)
+	id 1oU21Z-0000Me-Qx
+	for lists+qemu-devel@lfdr.de; Fri, 02 Sep 2022 04:27:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oU1Yl-0000eE-L3
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 03:57:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43537)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oU1dM-0006jt-Kj
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 04:02:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42019)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oU1Yg-0003Jz-FO
- for qemu-devel@nongnu.org; Fri, 02 Sep 2022 03:57:48 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oU1dF-00041U-KR
+ for qemu-devel@nongnu.org; Fri, 02 Sep 2022 04:02:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662105465;
+ s=mimecast20190719; t=1662105747;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K+W0eqeoD+058EuwUl2pRQWzAsCezEJj/TW5l+FE4Ec=;
- b=QDBmrwOrnqRia5Y7efVvn3fIzLBK+/f8fONhOGSaXNPidS3OgwQBLNS8qF7rWouXzhEddx
- p6MinXY2O5H48Y+ZUJnuZyr9ZkKY2B+2Hes5xFVrMO/AZ4/Wjxi3hVkutKc9OlQMJRT1Jo
- z7C25FVhgpV2oPmNamnk5X5nOKjho8I=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FrUfUy4wveb/dnwj/g02i8W6eyFevkrVIWX2lQWnmIQ=;
+ b=E0lUoIrEN0yOOMDbSZp107TBnNb7xKvoo0gphv2qgrAC+66jPeGszgtO6NS/UvFP5h9UEq
+ iC7CCfrCkyBQKD5XnexJRryKob/fjx3f0H1NKhSWAFm7rdWFrGJz5z/bLqRjZuPmgh/1rp
+ ymBfuY9DR9sS0DMsGfosm3I1CuIzNBo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-317-IB8-FZBgNUujEpCk8iA-IA-1; Fri, 02 Sep 2022 03:57:43 -0400
-X-MC-Unique: IB8-FZBgNUujEpCk8iA-IA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-671-kG6CcbGcPNqD6FaDXB4VRQ-1; Fri, 02 Sep 2022 04:02:18 -0400
+X-MC-Unique: kG6CcbGcPNqD6FaDXB4VRQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 82CC785A585;
- Fri,  2 Sep 2022 07:57:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B14F63C0ED6B;
+ Fri,  2 Sep 2022 08:02:16 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C1FDC15BB3;
- Fri,  2 Sep 2022 07:57:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 82B361121314;
+ Fri,  2 Sep 2022 08:02:15 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DB55C21E6900; Fri,  2 Sep 2022 09:57:41 +0200 (CEST)
+ id 860AD21E6900; Fri,  2 Sep 2022 10:02:13 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: "Wang, Lei" <lei4.wang@intel.com>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH] qemu-config: extract same logic in *_add_opts() to
- fill_config_groups()
-References: <20220902142028.1469716-1-lei4.wang@intel.com>
-Date: Fri, 02 Sep 2022 09:57:41 +0200
-In-Reply-To: <20220902142028.1469716-1-lei4.wang@intel.com> (Lei Wang's
- message of "Fri, 2 Sep 2022 22:20:28 +0800")
-Message-ID: <87edwuxl6y.fsf@pond.sub.org>
+To: huangy81@chinatelecom.cn
+Cc: qemu-devel <qemu-devel@nongnu.org>,  Peter Xu <peterx@redhat.com>,  Juan
+ Quintela <quintela@redhat.com>,  "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>,  Eric Blake <eblake@redhat.com>,  Thomas Huth
+ <thuth@redhat.com>,  Laurent Vivier <lvivier@redhat.com>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  "Daniel P. Berrange" <berrange@redhat.com>
+Subject: Re: [PATCH v1 1/8] qapi/migration: Introduce
+ x-vcpu-dirty-limit-period parameter
+References: <cover.1662052189.git.huangy81@chinatelecom.cn>
+ <cover.1662052189.git.huangy81@chinatelecom.cn>
+ <19babf1ee708a8673eee4cae300bddd250a80147.1662052189.git.huangy81@chinatelecom.cn>
+Date: Fri, 02 Sep 2022 10:02:13 +0200
+In-Reply-To: <19babf1ee708a8673eee4cae300bddd250a80147.1662052189.git.huangy81@chinatelecom.cn>
+ (huangy's message of "Fri, 2 Sep 2022 01:22:29 +0800")
+Message-ID: <87a67ixkze.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -81,80 +88,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Gerd & Kevin, because they were involved with the code that gets
-refactored here, and no good deed shall go unpunished.
+huangy81@chinatelecom.cn writes:
 
-"Wang, Lei" <lei4.wang@intel.com> writes:
+> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
+>
+> Introduce "x-vcpu-dirty-limit-period" migration experimental
+> parameter, which is used to make dirtyrate calculation period
+> configurable.
+>
+> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
 
-> QEMU use qemu_add_opts() and qemu_add_drive_opts() to add config options
-> when initialization. Extract the same logic in both functions to a
-> seperate function fill_config_groups() to reduce code redundency.
->
-> Signed-off-by: Wang, Lei <lei4.wang@intel.com>
-> ---
->  util/qemu-config.c | 39 ++++++++++++++++++++-------------------
->  1 file changed, 20 insertions(+), 19 deletions(-)
->
-> diff --git a/util/qemu-config.c b/util/qemu-config.c
-> index 433488aa56..3a1c85223a 100644
-> --- a/util/qemu-config.c
-> +++ b/util/qemu-config.c
-> @@ -282,36 +282,37 @@ QemuOptsList *qemu_find_opts_err(const char *group, Error **errp)
->      return find_list(vm_config_groups, group, errp);
->  }
->  
-> -void qemu_add_drive_opts(QemuOptsList *list)
-> +static int fill_config_groups(QemuOptsList *groups[], int entries,
-> +                              QemuOptsList *list)
->  {
-> -    int entries, i;
-> +    int i;
->  
-> -    entries = ARRAY_SIZE(drive_config_groups);
->      entries--; /* keep list NULL terminated */
->      for (i = 0; i < entries; i++) {
-> -        if (drive_config_groups[i] == NULL) {
-> -            drive_config_groups[i] = list;
-> -            return;
-> +        if (groups[i] == NULL) {
-> +            groups[i] = list;
-> +            return 0;
->          }
->      }
-> -    fprintf(stderr, "ran out of space in drive_config_groups");
-> -    abort();
-> +    return -1;
->  }
->  
-> -void qemu_add_opts(QemuOptsList *list)
-> +void qemu_add_drive_opts(QemuOptsList *list)
->  {
-> -    int entries, i;
-> +    if (fill_config_groups(drive_config_groups, ARRAY_SIZE(drive_config_groups),
-> +                           list) < 0) {
-> +        fprintf(stderr, "ran out of space in drive_config_groups");
-> +        abort();
-> +    }
-> +}
->  
-> -    entries = ARRAY_SIZE(vm_config_groups);
-> -    entries--; /* keep list NULL terminated */
-> -    for (i = 0; i < entries; i++) {
-> -        if (vm_config_groups[i] == NULL) {
-> -            vm_config_groups[i] = list;
-> -            return;
-> -        }
-> +void qemu_add_opts(QemuOptsList *list)
-> +{
-> +    if (fill_config_groups(vm_config_groups, ARRAY_SIZE(vm_config_groups),
-> +                           list) < 0) {
-> +        fprintf(stderr, "ran out of space in vm_config_groups");
-> +        abort();
->      }
-> -    fprintf(stderr, "ran out of space in vm_config_groups");
-> -    abort();
->  }
->  
->  /* Returns number of config groups on success, -errno on error */
+[...]
+
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 81185d4..332c087 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -776,8 +776,12 @@
+>  #                        block device name if there is one, and to their=
+ node name
+>  #                        otherwise. (Since 5.2)
+>  #
+> +# @x-vcpu-dirty-limit-period: Periodic time (ms) of dirty limit during l=
+ive migration.
+> +#                             Defaults to 500ms. (Since 7.1)
+> +#
+>  # Features:
+> -# @unstable: Member @x-checkpoint-delay is experimental.
+> +# @unstable: Member @x-checkpoint-delay and @x-vcpu-dirty-limit-period
+
+Members
+
+> +#            are experimental.
+>  #
+>  # Since: 2.4
+>  ##
+> @@ -795,8 +799,9 @@
+>             'multifd-channels',
+>             'xbzrle-cache-size', 'max-postcopy-bandwidth',
+>             'max-cpu-throttle', 'multifd-compression',
+> -           'multifd-zlib-level' ,'multifd-zstd-level',
+> -           'block-bitmap-mapping' ] }
+> +           'multifd-zlib-level', 'multifd-zstd-level',
+> +           'block-bitmap-mapping',
+> +           { 'name': 'x-vcpu-dirty-limit-period', 'features': ['unstable=
+'] } ] }
+>=20=20
+>  ##
+>  # @MigrateSetParameters:
+> @@ -941,8 +946,12 @@
+>  #                        block device name if there is one, and to their=
+ node name
+>  #                        otherwise. (Since 5.2)
+>  #
+> +# @x-vcpu-dirty-limit-period: Periodic time (ms) of dirty limit during l=
+ive migration.
+> +#                             Defaults to 500ms. (Since 7.1)
+> +#
+>  # Features:
+> -# @unstable: Member @x-checkpoint-delay is experimental.
+> +# @unstable: Member @x-checkpoint-delay and @x-vcpu-dirty-limit-period
+
+Members
+
+> +#            are experimental.
+>  #
+>  # Since: 2.4
+>  ##
+> @@ -976,7 +985,9 @@
+>              '*multifd-compression': 'MultiFDCompression',
+>              '*multifd-zlib-level': 'uint8',
+>              '*multifd-zstd-level': 'uint8',
+> -            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
+> +            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ],
+> +            '*x-vcpu-dirty-limit-period': { 'type': 'uint64',
+> +                                            'features': [ 'unstable' ] }=
+ } }
+>=20=20
+>  ##
+>  # @migrate-set-parameters:
+> @@ -1141,8 +1152,12 @@
+>  #                        block device name if there is one, and to their=
+ node name
+>  #                        otherwise. (Since 5.2)
+>  #
+> +# @x-vcpu-dirty-limit-period: Periodic time (ms) of dirty limit during l=
+ive migration.
+> +#                             Defaults to 500ms. (Since 7.1)
+> +#
+>  # Features:
+> -# @unstable: Member @x-checkpoint-delay is experimental.
+> +# @unstable: Member @x-checkpoint-delay and @x-vcpu-dirty-limit-period
+
+Members
+
+> +#            are experimental.
+>  #
+>  # Since: 2.4
+>  ##
+> @@ -1174,7 +1189,9 @@
+>              '*multifd-compression': 'MultiFDCompression',
+>              '*multifd-zlib-level': 'uint8',
+>              '*multifd-zstd-level': 'uint8',
+> -            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ] } }
+> +            '*block-bitmap-mapping': [ 'BitmapMigrationNodeAlias' ],
+> +            '*x-vcpu-dirty-limit-period': { 'type': 'uint64',
+> +                                            'features': [ 'unstable' ] }=
+ } }
+>=20=20
+>  ##
+>  # @query-migrate-parameters:
 
 
