@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB0A5AC136
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Sep 2022 21:45:34 +0200 (CEST)
-Received: from localhost ([::1]:48252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60FF05AC135
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Sep 2022 21:44:03 +0200 (CEST)
+Received: from localhost ([::1]:36082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oUZ5B-0007IV-Ob
-	for lists+qemu-devel@lfdr.de; Sat, 03 Sep 2022 15:45:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47076)
+	id 1oUZ3i-0005Zf-Fe
+	for lists+qemu-devel@lfdr.de; Sat, 03 Sep 2022 15:44:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oUYv4-0007Fn-AN; Sat, 03 Sep 2022 15:35:11 -0400
-Received: from mail-oa1-x2d.google.com ([2001:4860:4864:20::2d]:34762)
+ id 1oUYvA-0007GR-8x; Sat, 03 Sep 2022 15:35:12 -0400
+Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30]:40690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oUYv1-0005QP-GE; Sat, 03 Sep 2022 15:35:04 -0400
-Received: by mail-oa1-x2d.google.com with SMTP id
- 586e51a60fabf-11ee4649dfcso12951324fac.1; 
- Sat, 03 Sep 2022 12:35:02 -0700 (PDT)
+ id 1oUYv5-0005cN-Ih; Sat, 03 Sep 2022 15:35:09 -0400
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-11f0fa892aeso12882826fac.7; 
+ Sat, 03 Sep 2022 12:35:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=MKKyio2KeN9Vgbf9Aj2APvfD3VWLkoUGAYr+gnarUpY=;
- b=JsuhKXTFHQL31vadDMO2WR26WmVUbT6dN2G9epHpDaYbJrlCAtTpAahZKm8cb3sbYU
- oksFL7NP5mWI4Lk67R2wQ0Z5fUCXpo0ePs1jM/SoHx7mT/W9Ndu5rkD/10+zJhFfpTT+
- T3lhXWpnJY4/5Jd0vkzQUYJdI3CLWZpO1wp1cCfjcQimMKQo+bTgYfAFFbgU+9ahfefF
- JvsGw4HT5bRsTosNMuNel4tFu02IGXCBPCGTvvwFE5A+8RsS5Yh17vDuu59CcsutM9Lt
- iUTJLpobz7RHs7brFK6OlAiyB2aK86j8R4oIebskMHTBpJ5dq5gvmHXfpSYOuOh9bIyG
- F0Wg==
+ bh=+yBKZUFA1uSsvFGRHUokL0uEYsI4texFhLK7k9Zdnjk=;
+ b=Zvd9MM09iuiZDSGranT13IiYAklNb2gw42+NewRgrlwlSY/bsteEw2sVFNu1R86frc
+ +mBdjjMJIrEmkIf5ZqOdtdIxBJXllr6m/I8Z1jgfhV1m3HF3FhDr1c93O2U0vEKv/jQc
+ WIlP903cLavt/foY1dTLurkTpypl1qenNfN71iHnYmn7ojAxV0eVUNS0cyTsASf/AtWo
+ rk55kLSU038y0rfu0lpzwbfoA26DSp/EBIWbGsGA78EzfH3pWoYdgyKC/2JzAbomdGVM
+ aeWTxkNf7lQ8xMkg4QvbTRUpKBcEmMzVHcdMHcUCXYD2I6rthn7qRjcLtwZo1to0K9P8
+ SiRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=MKKyio2KeN9Vgbf9Aj2APvfD3VWLkoUGAYr+gnarUpY=;
- b=6r5sA+09DUDoy97M5RDs1j7wEGqubH5d0GBs56ZGeLP+O3y0XV1AGdA710l3RgkEz8
- +wRMEng7sH2yGlAIhrBM+poXkoKm/nPI0TvfN0B+GBWsLmAVpW5rYTsj7qVyXpsqzKhU
- oD31nXPMHbWxnK0n0dIElE9NPwS3X3zRY1WKs4poQ06N37BqT8p3/Rg3Qxu7/j53WNOD
- hyBjp0C1eXl42nJDaguugMlj1QeZEamnxFwyc7GM0L0xxaR7EQsD1pvYDoEScaTcDCnv
- lhzjCvEU9Rnq9Tp+NMY+N4bLXAO9y1JSBQFsPShHQcPbxNV142GooJAVCI2otijbd2DL
- AS1A==
-X-Gm-Message-State: ACgBeo24UKxVTv5KNyKt2g8Av8H29+exvTneuXWUYCzd0Rb+P5Yg1qHX
- Pc8zexMANFVq8dqlOcpNwZ+WGgGU4wh4Kw==
-X-Google-Smtp-Source: AA6agR7GHtvKJLCP137jdTaC7avCGejyexlTb7Ia8eNjp0b/Vf+qQsW5Eh0HucFxNtq3IXAQfPqOkQ==
-X-Received: by 2002:a05:6871:1d6:b0:10e:6a7f:cc3b with SMTP id
- q22-20020a05687101d600b0010e6a7fcc3bmr5140318oad.210.1662233701371; 
- Sat, 03 Sep 2022 12:35:01 -0700 (PDT)
+ bh=+yBKZUFA1uSsvFGRHUokL0uEYsI4texFhLK7k9Zdnjk=;
+ b=nwoa0QhlO/oYyxOapSohX529qBaoaY25xdIE58Oi88yZyDuK8Ku11GYwh2lvDgN6ju
+ wVGzx16QFRYnSOlpQb/eqtypR2SyhnRlZEPbjE/u0z+bgCXOwtW1MUT/lE28nLCjdCGJ
+ xLarLdwXAXTm2Hrd2wvW/HxaWvRsK/lQENbJ/G34oZd5rN6boDrpmeTciM6wNoBScU1l
+ WA8qzivfFeG1vL9OnITLFb7F2lF6xkShgj/ykxN3Rz1py/2cSV7yH0qJYzwoW1YMcJhB
+ k1oSSRC9OMmZ5QJ3yuRP6z46WRkWAPu+A/3KGxrMUordC531jJbEcU2+Ugt2VGSSZlR6
+ lNqw==
+X-Gm-Message-State: ACgBeo0p7BjCKSCOi4Tuv038QRjyu1qA59QGbs5BV104r1gYuJvAfpnf
+ 4Nb80yvqpum7GrLHluY6DoTObs6bv0XEJA==
+X-Google-Smtp-Source: AA6agR4drTekjxloZjyQEA5wPU3R9KAI+EiDbO9ZBEd6psaIXC9DGXrHET4umfLMD/srwuZH29F5VQ==
+X-Received: by 2002:a05:6870:240d:b0:11e:ff35:5ce8 with SMTP id
+ n13-20020a056870240d00b0011eff355ce8mr5035198oap.232.1662233704161; 
+ Sat, 03 Sep 2022 12:35:04 -0700 (PDT)
 Received: from balboa.COMFAST (200-207-147-180.dsl.telesp.net.br.
  [200.207.147.180]) by smtp.gmail.com with ESMTPSA id
- m2-20020a4aab82000000b00425806a20f5sm1843906oon.3.2022.09.03.12.34.58
+ m2-20020a4aab82000000b00425806a20f5sm1843906oon.3.2022.09.03.12.35.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Sep 2022 12:35:00 -0700 (PDT)
+ Sat, 03 Sep 2022 12:35:03 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au,
- alistair.francis@wdc.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>
-Subject: [PATCH v5 12/14] hw/riscv: set machine->fdt in spike_board_init()
-Date: Sat,  3 Sep 2022 16:34:18 -0300
-Message-Id: <20220903193420.115986-13-danielhb413@gmail.com>
+ alistair.francis@wdc.com, Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: [PATCH v5 13/14] hw/xtensa: set machine->fdt in xtfpga_init()
+Date: Sat,  3 Sep 2022 16:34:19 -0300
+Message-Id: <20220903193420.115986-14-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220903193420.115986-1-danielhb413@gmail.com>
 References: <20220903193420.115986-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2d;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2d.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::30;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x30.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,45 +90,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will enable support for the 'dumpdtb' QMP/HMP command for the spike
-machine.
+This will enable support for the 'dumpdtb' QMP/HMP command for all
+xtensa machines that uses a FDT.
 
-Cc: Palmer Dabbelt <palmer@dabbelt.com>
-Cc: Alistair Francis <alistair.francis@wdc.com>
-Cc: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/riscv/spike.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ hw/xtensa/meson.build | 2 +-
+ hw/xtensa/xtfpga.c    | 9 ++++++++-
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index e41b6aa9f0..1fa41164b3 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -40,6 +40,8 @@
- #include "sysemu/device_tree.h"
- #include "sysemu/sysemu.h"
+diff --git a/hw/xtensa/meson.build b/hw/xtensa/meson.build
+index 1d5835df4b..ebba51cc74 100644
+--- a/hw/xtensa/meson.build
++++ b/hw/xtensa/meson.build
+@@ -6,6 +6,6 @@ xtensa_ss.add(files(
+ ))
+ xtensa_ss.add(when: 'CONFIG_XTENSA_SIM', if_true: files('sim.c'))
+ xtensa_ss.add(when: 'CONFIG_XTENSA_VIRT', if_true: files('virt.c'))
+-xtensa_ss.add(when: 'CONFIG_XTENSA_XTFPGA', if_true: files('xtfpga.c'))
++xtensa_ss.add(when: 'CONFIG_XTENSA_XTFPGA', if_true: [files('xtfpga.c'), fdt])
+ 
+ hw_arch += {'xtensa': xtensa_ss}
+diff --git a/hw/xtensa/xtfpga.c b/hw/xtensa/xtfpga.c
+index 2a5556a35f..138453628a 100644
+--- a/hw/xtensa/xtfpga.c
++++ b/hw/xtensa/xtfpga.c
+@@ -50,6 +50,8 @@
+ #include "hw/xtensa/mx_pic.h"
+ #include "migration/vmstate.h"
  
 +#include <libfdt.h>
 +
- static const MemMapEntry spike_memmap[] = {
-     [SPIKE_MROM] =     {     0x1000,     0xf000 },
-     [SPIKE_HTIF] =     {  0x1000000,     0x1000 },
-@@ -304,6 +306,13 @@ static void spike_board_init(MachineState *machine)
-     /* Compute the fdt load address in dram */
-     fdt_load_addr = riscv_load_fdt(memmap[SPIKE_DRAM].base,
-                                    machine->ram_size, s->fdt);
+ typedef struct XtfpgaFlashDesc {
+     hwaddr base;
+     size_t size;
+@@ -377,7 +379,12 @@ static void xtfpga_init(const XtfpgaBoardDesc *board, MachineState *machine)
+             cur_tagptr = put_tag(cur_tagptr, BP_TAG_FDT,
+                                  sizeof(dtb_addr), &dtb_addr);
+             cur_lowmem = QEMU_ALIGN_UP(cur_lowmem + fdt_size, 4 * KiB);
+-            g_free(fdt);
 +
-+    /*
-+     * Update the machine->fdt pointer to enable support for
-+     * the 'dumpdtb' QMP/HMP command.
-+     */
-+    machine->fdt = s->fdt;
-+
-     /* load the reset vector */
-     riscv_setup_rom_reset_vec(machine, &s->soc[0], memmap[SPIKE_DRAM].base,
-                               memmap[SPIKE_MROM].base,
++            /*
++             * Update the machine->fdt pointer to enable support for
++             * the 'dumpdtb' QMP/HMP command.
++             */
++            machine->fdt = fdt;
+         }
+ #else
+         if (dtb_filename) {
 -- 
 2.37.2
 
