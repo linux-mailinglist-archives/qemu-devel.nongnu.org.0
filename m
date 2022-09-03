@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C99C5AC129
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Sep 2022 21:37:57 +0200 (CEST)
-Received: from localhost ([::1]:50082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B0435AC13A
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Sep 2022 21:47:57 +0200 (CEST)
+Received: from localhost ([::1]:37082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oUYxo-0004Et-MZ
-	for lists+qemu-devel@lfdr.de; Sat, 03 Sep 2022 15:37:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37006)
+	id 1oUZ7T-0000OG-S1
+	for lists+qemu-devel@lfdr.de; Sat, 03 Sep 2022 15:47:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oUYuc-0006Wm-Pm; Sat, 03 Sep 2022 15:34:38 -0400
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:42958)
+ id 1oUYug-0006gY-61; Sat, 03 Sep 2022 15:34:42 -0400
+Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29]:42898)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oUYub-0005MA-6V; Sat, 03 Sep 2022 15:34:38 -0400
-Received: by mail-ot1-x32f.google.com with SMTP id
- h9-20020a9d5549000000b0063727299bb4so3691516oti.9; 
- Sat, 03 Sep 2022 12:34:36 -0700 (PDT)
+ id 1oUYue-0005Ml-IZ; Sat, 03 Sep 2022 15:34:41 -0400
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-11f34610d4aso12839578fac.9; 
+ Sat, 03 Sep 2022 12:34:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=YOFZ9NdiFBAa9F2Aq+WCsRHWWt7d567/X2aplHJ6aKE=;
- b=Kna+RIN6/TSYfqv0Gx1ltRKmcNvF+byiFVONNyLyLkdCUPfSaxVFd6PqXeTPY2Ylv9
- 8Ih7bC7cbXj7Z+Hcn5PhMbkIH8JDuoVl5gtgA9ooZEtHu9wOTD4hIw+3WgATlguWXWbT
- fugLNHObj9v7/EY15Dpem7u5d7SdxUxEb5KLJeIYHgKGtc5X2xgAuySzUCrIzMDA0NHw
- Z9qJVAxAn1/0CN5W5PquLU21jZnPXOUyAe2rQyIxs+z7rubjdaY0Y+s0vYvwPbz7O4/Y
- xOeqvdf278vaRzytwPC6Ic5xceCJ9ORqtCP/Xb1tr2NtECxaQ5Uujiagest9s8pAnLgM
- z9DQ==
+ bh=mGG3U2Luf4I4urQShsm1RjBsPx5YCf60/nn93DboxwM=;
+ b=G4ydH1+eRpwK7ql9aIgeXgqPjrY1ltzEZ/kiodyFFI/J6XDc+oL8E6AhcL/Vas1Xgf
+ ZV2Q7JHhaBG3MxRnRDfFOpTsgJER3Zodc6CJFLy/vbbVL+UF2SGU4QHYNdJOIlL6a5Ep
+ ZXaWtYUzW0uvYVEm/R1fXPLBxx7aHGxCfcOdj7ziJACAwunRm6dO60//FMPf61JIl6FP
+ SuBq6rh0e4sT+ByJt4x8OB6LBRevkwNNklxEt7UtRf4sq9vqQ2NKtVFX9WlCWMD8w7Ss
+ fkRNLdkQG3Yeu+gSHZ5z6MvHYnUBWLUfwDaCNRe0ceZJbTdV0G7fiiKUixcxJ7qBeThL
+ m5ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=YOFZ9NdiFBAa9F2Aq+WCsRHWWt7d567/X2aplHJ6aKE=;
- b=o1VPJkA5WcR6Q90I0t8VdmY6k0Kgo8kcznNW3XgtHdJ5ZDm7Us9kYC7kf0cAj5fWbx
- +ahoIW+omWrdIsxxdidkPKowd4NBoizbJ1qKIz4qVjzDzk61nlxnXhU/OB4IgcE2w7h9
- 4ASNBqkmx4kYTQxoPCBk0EQJCaVT8v/Vbq+T/0TIv6HcjF1W0AZzxnJR0BZ2zZ1yvCB5
- /JBFy03qD/+HDPeB7aUakyuVG2oQzPidjnWlSTmvieXo1LvSFoqimQEdMFziccYu64cx
- ekFgY330N5luA+AXKD+utqreT1FETG2NBdrza6uuVO9bI306VZZHrPr8AbpCG2WteYd7
- 282g==
-X-Gm-Message-State: ACgBeo2hKypUx+5hIgdN8qQ79eJRglz1V6C2Bwi6xOd3k2MjTrAOY2NZ
- b4BQLK1sUZvpIUq4RZ36/DifhHVPspyQXA==
-X-Google-Smtp-Source: AA6agR6OkvU1+DQY5EgezvmuQrNmZilCT6PO5CWQBCa/CWd3vvumdVJSAGYDD/D8YA5QTTbGYFlk3Q==
-X-Received: by 2002:a05:6830:1496:b0:639:648a:55f4 with SMTP id
- s22-20020a056830149600b00639648a55f4mr16424672otq.370.1662233675684; 
- Sat, 03 Sep 2022 12:34:35 -0700 (PDT)
+ bh=mGG3U2Luf4I4urQShsm1RjBsPx5YCf60/nn93DboxwM=;
+ b=NxrjGRellhcM6rYzTAjvWNplvZPPzKEyuj7bmXLPWCAFtiXicz5iffC1XZRgbif8zL
+ H7tLLlxqSP32fsO/VwV22xFW1aZRN0OvrUzHys1yxU6IWiR/FrJBWmntqUw+DTNJ6Dbf
+ Uwltrk1LoGWhdewWkxViGJG6NcQHbVJs7ACnRFoEkEoJmLA1NWuNiEicz04D/yMYnrNR
+ UeA3+a7BNs3sJJnxZt2u6gN4yyCksyJAEFguMRkXGK/waPmcYufeIOhFW+Wnja8Af6gp
+ hs3Mvn/ve5xvzgbrt+rJI1COFQdmkAwcNxF86bIUdJAR1QvfS3AUVq5H8iTNBp71q5PL
+ rJOg==
+X-Gm-Message-State: ACgBeo38ogsTXmNExmfz+qQyjzEDEneS7ua4iy7naeTjWj+E1zmqBzMi
+ wfNHlrUEbcGFZx1NYMlz1kmF2c8p8KfPKg==
+X-Google-Smtp-Source: AA6agR6HOJTlRbS0q6iXIjFGmVKp4Kov43XOg5L07v1OhZdAKG+COyJPvOdkBRxaoM6/uvOvdRjqYA==
+X-Received: by 2002:a05:6808:654:b0:345:c243:4a1 with SMTP id
+ z20-20020a056808065400b00345c24304a1mr4417959oih.220.1662233678628; 
+ Sat, 03 Sep 2022 12:34:38 -0700 (PDT)
 Received: from balboa.COMFAST (200-207-147-180.dsl.telesp.net.br.
  [200.207.147.180]) by smtp.gmail.com with ESMTPSA id
- m2-20020a4aab82000000b00425806a20f5sm1843906oon.3.2022.09.03.12.34.32
+ m2-20020a4aab82000000b00425806a20f5sm1843906oon.3.2022.09.03.12.34.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Sep 2022 12:34:35 -0700 (PDT)
+ Sat, 03 Sep 2022 12:34:38 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au,
- alistair.francis@wdc.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>
-Subject: [PATCH v5 03/14] hw/nios2: set machine->fdt in nios2_load_dtb()
-Date: Sat,  3 Sep 2022 16:34:09 -0300
-Message-Id: <20220903193420.115986-4-danielhb413@gmail.com>
+ alistair.francis@wdc.com, Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: [PATCH v5 04/14] hw/ppc: set machine->fdt in
+ ppce500_load_device_tree()
+Date: Sat,  3 Sep 2022 16:34:10 -0300
+Message-Id: <20220903193420.115986-5-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220903193420.115986-1-danielhb413@gmail.com>
 References: <20220903193420.115986-1-danielhb413@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32f.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::29;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x29.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,61 +92,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will enable support for 'dumpdtb' QMP/HMP command for all nios2
-machines that uses nios2_load_dtb().
+This will enable support for 'dumpdtb' QMP/HMP command for the e500
+machine.
 
-Cc: Chris Wulff <crwulff@gmail.com>
-Cc: Marek Vasut <marex@denx.de>
+Cc: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/nios2/boot.c      | 8 +++++++-
- hw/nios2/meson.build | 2 +-
- 2 files changed, 8 insertions(+), 2 deletions(-)
+ hw/ppc/e500.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/hw/nios2/boot.c b/hw/nios2/boot.c
-index 21cbffff47..b30a7b1efb 100644
---- a/hw/nios2/boot.c
-+++ b/hw/nios2/boot.c
-@@ -43,6 +43,8 @@
- 
- #include "boot.h"
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index 32495d0123..ea5f947824 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -47,6 +47,8 @@
+ #include "hw/i2c/i2c.h"
+ #include "hw/irq.h"
  
 +#include <libfdt.h>
 +
- #define NIOS2_MAGIC    0x534f494e
- 
- static struct nios2_boot_info {
-@@ -81,6 +83,7 @@ static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
- static int nios2_load_dtb(struct nios2_boot_info bi, const uint32_t ramsize,
-                           const char *kernel_cmdline, const char *dtb_filename)
- {
-+    MachineState *machine = MACHINE(qdev_get_machine());
-     int fdt_size;
-     void *fdt = NULL;
-     int r;
-@@ -113,7 +116,10 @@ static int nios2_load_dtb(struct nios2_boot_info bi, const uint32_t ramsize,
+ #define EPAPR_MAGIC                (0x45504150)
+ #define DTC_LOAD_PAD               0x1800000
+ #define DTC_PAD_MASK               0xFFFFF
+@@ -600,7 +602,16 @@ done:
+         cpu_physical_memory_write(addr, fdt, fdt_size);
      }
- 
-     cpu_physical_memory_write(bi.fdt, fdt, fdt_size);
+     ret = fdt_size;
 -    g_free(fdt);
 +
-+    /* Set machine->fdt for 'dumpdtb' QMP/HMP command */
++    /*
++     * Update the machine->fdt pointer to enable support for the
++     * 'dumpdtb' QMP/HMP command.
++     *
++     * The FDT is re-created during reset, so free machine->fdt
++     * to avoid leaking the old FDT.
++     */
++    g_free(machine->fdt);
 +    machine->fdt = fdt;
-+
-     return fdt_size;
- }
  
-diff --git a/hw/nios2/meson.build b/hw/nios2/meson.build
-index 6c58e8082b..22277bd6c5 100644
---- a/hw/nios2/meson.build
-+++ b/hw/nios2/meson.build
-@@ -1,5 +1,5 @@
- nios2_ss = ss.source_set()
--nios2_ss.add(files('boot.c'))
-+nios2_ss.add(files('boot.c'), fdt)
- nios2_ss.add(when: 'CONFIG_NIOS2_10M50', if_true: files('10m50_devboard.c'))
- nios2_ss.add(when: 'CONFIG_NIOS2_GENERIC_NOMMU', if_true: files('generic_nommu.c'))
- 
+ out:
+     g_free(pci_map);
 -- 
 2.37.2
 
