@@ -2,21 +2,21 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DF085ABFCD
-	for <lists+qemu-devel@lfdr.de>; Sat,  3 Sep 2022 18:26:14 +0200 (CEST)
-Received: from localhost ([::1]:51608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 707DA5ABFCF
+	for <lists+qemu-devel@lfdr.de>; Sat,  3 Sep 2022 18:28:12 +0200 (CEST)
+Received: from localhost ([::1]:38454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oUVyG-0006Wi-J8
-	for lists+qemu-devel@lfdr.de; Sat, 03 Sep 2022 12:26:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56452)
+	id 1oUW0B-0008VT-KY
+	for lists+qemu-devel@lfdr.de; Sat, 03 Sep 2022 12:28:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <hpoussin@reactos.org>)
- id 1oUVvQ-0003WY-P3; Sat, 03 Sep 2022 12:23:16 -0400
-Received: from iserv.reactos.org ([2a01:4f8:1c17:5ae1::1]:39072)
+ id 1oUVvR-0003Wy-Q3; Sat, 03 Sep 2022 12:23:17 -0400
+Received: from iserv.reactos.org ([2a01:4f8:1c17:5ae1::1]:39098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <hpoussin@reactos.org>)
- id 1oUVvO-00064j-Lk; Sat, 03 Sep 2022 12:23:16 -0400
+ id 1oUVvP-00064s-B3; Sat, 03 Sep 2022 12:23:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=reactos.org
  ; s=25047;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -24,21 +24,21 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=reactos.org
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=WHv6pmGMYmsvVdtQ+Ffp1n10JkheWRlDlCVMBRmmniA=; b=PMXXDmBlD6TEOTIoQxM8r6ja9J
- 9GHxv93VB2whbQQX/g0FzugEvmPw9TSITb80Zj+433oYHLqtd8VuQQptqsZbJXsWmr0ScEMpBhwgM
- AKqp47QiUKyTOprn7ntiBZU4OpVrBIUpkp/TYylaXI8/o58aMhcBuAZZ/OKxYJHSWOZQ=;
+ bh=5ekwVuKp50o20gsLt71Ijg0gPISOwRXBVNkmFAMKTaQ=; b=GkYlKka2bS8qSNd+aY504hEnGy
+ 9DRQc2V2i45vowDsy091wXITNk/LdNWWiikoO/eRZYaiGAE6wwuX20TbztxyS2Z1k7bg7eBMmbwRA
+ AwFQFDbWMnbaEQ2WFKicpB9Kn6T8e3+kcaAVLj6Gcq596+nBDA/ufk20fweh3QNIXv+M=;
 Received: by iserv.reactos.org with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <hpoussin@reactos.org>)
- id 1oUVvK-0002VU-7U; Sat, 03 Sep 2022 16:23:10 +0000
+ id 1oUVvK-0002VU-Q0; Sat, 03 Sep 2022 16:23:10 +0000
 From: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>
 To: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org,
  =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>
-Subject: [PATCH 1/2] vvfat: allow some writes to bootsector
-Date: Sat,  3 Sep 2022 18:23:01 +0200
-Message-Id: <20220903162302.3176003-2-hpoussin@reactos.org>
+Subject: [PATCH 2/2] vvfat: allow spaces in file names
+Date: Sat,  3 Sep 2022 18:23:02 +0200
+Message-Id: <20220903162302.3176003-3-hpoussin@reactos.org>
 X-Mailer: git-send-email 2.36.2
 In-Reply-To: <20220903162302.3176003-1-hpoussin@reactos.org>
 References: <20220903162302.3176003-1-hpoussin@reactos.org>
@@ -68,50 +68,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'reserved1' field in bootsector is used to mark volume dirty, or need to verify.
-Allow writes to bootsector which only changes the 'reserved1' field.
+In R/W mode, files with spaces were never created on host side.
 
-This fixes I/O errors on Windows guests.
-
-Resolves: https://bugs.launchpad.net/qemu/+bug/1889421
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1176
+Fixes: c79e243ed67683d6d06692bd7040f7394da178b0
 Signed-off-by: Hervé Poussineau <hpoussin@reactos.org>
 ---
- block/vvfat.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ block/vvfat.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/block/vvfat.c b/block/vvfat.c
-index d6dd919683d..35057a51c67 100644
+index 35057a51c67..9d877028573 100644
 --- a/block/vvfat.c
 +++ b/block/vvfat.c
-@@ -2993,11 +2993,27 @@ DLOG(checkpoint());
- 
-     vvfat_close_current_file(s);
- 
-+    if (sector_num == s->offset_to_bootsector && nb_sectors == 1) {
-+        /*
-+         * Write on bootsector. Allow only changing the reserved1 field,
-+         * used to mark volume dirtiness
-+         */
-+        const unsigned char *initial = s->first_sectors
-+                                       + s->offset_to_bootsector * 0x200;
-+        for (i = 0; i < 0x200; i++) {
-+            if (i != offsetof(bootsector_t, u.fat16.reserved1) &&
-+                initial[i] != buf[i]) {
-+                fprintf(stderr, "Tried to write to protected bootsector\n");
-+                return -1;
-+            }
-+        }
-+        return 0;
-+    }
-+
-     /*
-      * Some sanity checks:
-      * - do not allow writing to the boot sector
-      */
--
-     if (sector_num < s->offset_to_fat)
-         return -1;
- 
+@@ -499,7 +499,7 @@ static bool valid_filename(const unsigned char *name)
+               (c >= 'A' && c <= 'Z') ||
+               (c >= 'a' && c <= 'z') ||
+               c > 127 ||
+-              strchr("$%'-_@~`!(){}^#&.+,;=[]", c) != NULL))
++              strchr(" $%'-_@~`!(){}^#&.+,;=[]", c) != NULL))
+         {
+             return false;
+         }
 -- 
 2.36.2
 
