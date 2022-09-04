@@ -2,85 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 699765AC312
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 09:09:25 +0200 (CEST)
-Received: from localhost ([::1]:41956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C06E15AC33C
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 09:30:47 +0200 (CEST)
+Received: from localhost ([::1]:45578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oUjkx-0005md-Te
-	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 03:09:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39470)
+	id 1oUk5e-0004t2-Qy
+	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 03:30:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1oUjio-0004Ah-5w
- for qemu-devel@nongnu.org; Sun, 04 Sep 2022 03:07:10 -0400
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:45053)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1oUk1I-0007iW-Rt
+ for qemu-devel@nongnu.org; Sun, 04 Sep 2022 03:26:17 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:41546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1oUjim-0000YK-C3
- for qemu-devel@nongnu.org; Sun, 04 Sep 2022 03:07:09 -0400
-Received: by mail-io1-xd36.google.com with SMTP id d68so4791837iof.11
- for <qemu-devel@nongnu.org>; Sun, 04 Sep 2022 00:07:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=nsoOUpeuKR8xibgN81BhG1OqCu8Z/QahqIosnLSxSj0=;
- b=ZF6FBEf1aQ2RH7DLplWpaEfk4Z6BfqWtHXtlInLh9e/P9km9QAxrqLFcn7KHi1zlQ6
- 8ApA1L6gmjOEeU0c6/ZyKMMzCQeZU/Rz5IEU6rHzUXlHZ0XRgj2ADq3fsNII10BV8dJY
- uD7X2O9rmwad6dHjgQmDHEjZtQk7pc5+u58pfIPUEYNIryedcROKv3IySwHmjN6qMhDr
- 9/jOIpH1VVCccaQWXX6IuotHF35qEUbu838xYlVlWRDoxyGJz3ZvRaxoimo2I3tW9iZU
- 4EvEilRvs5f0trc40tSbCoq6UIkzIiyrYjSP9+8FIUTtJb/BIplX/GvtcIVCbyThE86B
- g9Cw==
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1oUk1F-000303-Me
+ for qemu-devel@nongnu.org; Sun, 04 Sep 2022 03:26:16 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ az24-20020a05600c601800b003a842e4983cso4066915wmb.0
+ for <qemu-devel@nongnu.org>; Sun, 04 Sep 2022 00:26:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=YZ+8OE6OqyKCsYpTCKgvLyTHvwK6nGORs1oXgs9w+ZY=;
+ b=H91pUz+KwHs03kKUg2fAcrTFXhtGv/Nt9vo7wlbbRmCz6z3q9AHhisAePuAOr4ybIf
+ UbIWd42jJ5kOsipPUtkHJ8m66lj+tmUEM80Jnq7vccHuNO5yZs7rvIpn8gEpvC7P2vT3
+ jgLSfgk95FVyvhIhlUy7lqEQkF6dIAAZTr0MzuEZ8g03zz2JNOd3fzhotMaNmAPd6ZKv
+ 1NvoqY1aT96i06nYWUTq12awoUYXdJgZOtWXyRs2KFgTDdIi/qnC4fg2//4BXzKz/1Jj
+ m4jxINNEydrf4z9WcQcJlPibdy9n5WUtMrkTUZ9ODF58ZBbwoCVbnxgIQLnu6bRMPEMU
+ MR4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=nsoOUpeuKR8xibgN81BhG1OqCu8Z/QahqIosnLSxSj0=;
- b=iKdYD9Wj0YE8Q9MhSjnUgeOGikMNmEZnZWmt52ni1R25+t+3HriCui2GHQFIgAID5O
- Le2n5gxlXrMlNv9iinRZi1jSapjVeEiUnFL/rNE0htAMm4PrBijRsMkjUyXzPQgiwiN/
- 9dWwMAyasNDkz2Nrn8wgVejt4IvNLo1ijx7wcnTb9k87/1XdEfWp8lTh8Dg9v2LAaL3A
- CrSNjsR30Xn94Mm5iL9ObRR4XSzs6XNSR/8hlm9ZDsjAQCmsB/c1CVWr/xSA/D4KAYhc
- jslbYCeUDK3aJXoc7/8BHtoEUyJ2o7YTR4CHwVcZeFWW3hFQOts6tJpqH1Is9DewNyc9
- LCmw==
-X-Gm-Message-State: ACgBeo1bctmMkSAcvnbtl22hvCbgMs6iJvYhAWuTNN4gfMVxf3SRYuNC
- lMRt9iQ7NshoJAPRlYje6Kc3kv1qXTgLGoLGlbIR8w==
-X-Google-Smtp-Source: AA6agR75V0ji+OrM6qBfF2dJLWkoEwc6a20otexFpzqZwNtvwOGT0Ti9yV3cWwTlVFQsIJj8fdWwuYig4LbbAw/MhKQ=
-X-Received: by 2002:a6b:105:0:b0:688:2b66:1ed6 with SMTP id
- 5-20020a6b0105000000b006882b661ed6mr21057192iob.165.1662275226221; Sun, 04
- Sep 2022 00:07:06 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=YZ+8OE6OqyKCsYpTCKgvLyTHvwK6nGORs1oXgs9w+ZY=;
+ b=ueNXwkoD4uMvTnpECU85TViRHYjC3iQwfbFdggOvrnNZOgD+LfBdYUbAwt8BctSiWh
+ gVRGQfyKdmmVHaizqwFW+KBhjjXSQAVqU7XUD/6jt6v2vFi7cJVkcWy8stGA3+PerooP
+ Reh/W8phzW0/jwU6vJ7YVMpBZoIV6D6DnvRPXjapvhFhNvQf/LdirOcjAv4FuAcZlawI
+ 3BcXzI0YXvJR3pqxcmT96J3A3odddU2ct87g24D+r0yNGHyA4G3Tawo6O/FXRctQwXZs
+ RgObwSDyqKbGYwC5ULxfmLAVqMWu7W/VHzlV+pm/duFgClnWBNAbqx1drdz213dzgOYz
+ bTFA==
+X-Gm-Message-State: ACgBeo3CtY4cywwEwMJvEW41k2OsjC8+jmwsJKJkvyPxnpK0kTcONen/
+ NTtdsPgx11Du3yIWdubUd9p185sfyH0=
+X-Google-Smtp-Source: AA6agR7zmfA2SzuJI+Rc1nTWKAkTQ4hK4qduGWpLCyYXsQWQhyttMtMIhQnyVKJxd4S3xffYkelATw==
+X-Received: by 2002:a05:600c:2909:b0:3a6:2ef5:772e with SMTP id
+ i9-20020a05600c290900b003a62ef5772emr7415892wmd.16.1662276370928; 
+ Sun, 04 Sep 2022 00:26:10 -0700 (PDT)
+Received: from localhost ([88.83.123.243]) by smtp.gmail.com with ESMTPSA id
+ bu3-20020a056000078300b0022863395912sm1833017wrb.53.2022.09.04.00.26.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 04 Sep 2022 00:26:10 -0700 (PDT)
+From: Stafford Horne <shorne@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: openrisc@lists.librecores.org,
+	Stafford Horne <shorne@gmail.com>
+Subject: [PULL 00/11] OpenRISC updates for 7.2.0
+Date: Sun,  4 Sep 2022 08:25:56 +0100
+Message-Id: <20220904072607.44275-1-shorne@gmail.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-References: <20220831013236.32937-1-akihiko.odaki@daynix.com>
- <87tu5qulay.fsf@pond.sub.org>
-In-Reply-To: <87tu5qulay.fsf@pond.sub.org>
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-Date: Sun, 4 Sep 2022 16:06:55 +0900
-Message-ID: <CAE=JJXdg=Miisek8WeqQ12NqL8obzmuyzD0mbv1SfiJTyVBLuw@mail.gmail.com>
-Subject: Re: [PATCH v2] pci: Assert that capabilities never overlap
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org, 
- Alex Williamson <alex.williamson@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>, 
- Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang <jasowang@redhat.com>, 
- Stefan Weil <sw@weilnetz.de>, Keith Busch <kbusch@kernel.org>,
- Klaus Jensen <its@irrelevant.dk>, 
- Peter Maydell <peter.maydell@linaro.org>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, 
- Paul Burton <paulburton@kernel.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2607:f8b0:4864:20::d36;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-io1-xd36.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=shorne@gmail.com; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,43 +85,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 2, 2022 at 7:23 PM Markus Armbruster <armbru@redhat.com> wrote:
->
-> Akihiko Odaki <akihiko.odaki@daynix.com> writes:
->
-> > pci_add_capability appears most PCI devices. Its error handling required
-> > lots of code, and led to inconsistent behaviors such as:
-> > - passing error_abort
-> > - passing error_fatal
-> > - asserting the returned value
-> > - propagating the error to the caller
-> > - skipping the rest of the function
-> > - just ignoring
-> >
-> > The code generating errors in pci_add_capability had a comment which
-> > says:
-> >> Verify that capabilities don't overlap.  Note: device assignment
-> >> depends on this check to verify that the device is not broken.
-> >> Should never trigger for emulated devices, but it's helpful for
-> >> debugging these.
-> >
-> > Indeed vfio has some code that passes capability offsets and sizes from
-> > a physical device, but it explicitly pays attention so that the
-> > capabilities never overlap.
->
-> I can't see that at a glance.  Can you give me a clue?
->
-> >                             Therefore, we can always assert that
-> > capabilities never overlap when pci_add_capability is called, resolving
-> > these inconsistencies.
-> >
-> > Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
->
+The following changes since commit 61fd710b8da8aedcea9b4f197283dc38638e4b60:
 
-Looking at vfio_add_std_cap(), and vfio_add_ext_cap() it seems that
-they are clipping the size of capabilities so that they do not
-overlap, if I read it correctly.
+  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2022-09-02 13:24:28 -0400)
 
-Regards,
-Akihiko Odaki
+are available in the Git repository at:
+
+  git@github.com:stffrdhrn/qemu.git tags/pull-or1k-20220904
+
+for you to fetch changes up to b14df228d7c4fe6e86e7f8a4998e9ccf4967b678:
+
+  docs/system: openrisc: Add OpenRISC documentation (2022-09-04 07:02:57 +0100)
+
+----------------------------------------------------------------
+OpenRISC updates for 7.2.0
+
+Updates to add the OpenRISC virt plaform to QEMU. Highlights
+include:
+
+- New virt plaform with, virtio and pci bus support
+- OpenRISC support for MTTCG
+- Goldfish RTC device endianness is configurable now
+
+----------------------------------------------------------------
+Jason A. Donenfeld (1):
+      hw/openrisc: virt: pass random seed to fdt
+
+Stafford Horne (10):
+      hw/openrisc: Split re-usable boot time apis out to boot.c
+      target/openrisc: Fix memory reading in debugger
+      goldfish_rtc: Add big-endian property
+      hw/openrisc: Add the OpenRISC virtual machine
+      hw/openrisc: Add PCI bus support to virt
+      hw/openrisc: Initialize timer time at startup
+      target/openrisc: Add interrupted CPU to log
+      target/openrisc: Enable MTTCG
+      target/openrisc: Interrupt handling fixes
+      docs/system: openrisc: Add OpenRISC documentation
+
+ configs/devices/or1k-softmmu/default.mak |   1 +
+ configs/targets/or1k-softmmu.mak         |   1 +
+ docs/system/openrisc/cpu-features.rst    |  15 +
+ docs/system/openrisc/emulation.rst       |  17 +
+ docs/system/openrisc/or1k-sim.rst        |  43 +++
+ docs/system/openrisc/virt.rst            |  50 +++
+ docs/system/target-openrisc.rst          |  71 ++++
+ docs/system/targets.rst                  |   1 +
+ hw/m68k/virt.c                           |   1 +
+ hw/openrisc/Kconfig                      |  12 +
+ hw/openrisc/boot.c                       | 116 +++++++
+ hw/openrisc/cputimer.c                   |  22 +-
+ hw/openrisc/meson.build                  |   2 +
+ hw/openrisc/openrisc_sim.c               | 106 +-----
+ hw/openrisc/virt.c                       | 571 +++++++++++++++++++++++++++++++
+ hw/rtc/goldfish_rtc.c                    |  37 +-
+ include/hw/openrisc/boot.h               |  34 ++
+ include/hw/rtc/goldfish_rtc.h            |   2 +
+ target/openrisc/cpu.c                    |   1 -
+ target/openrisc/cpu.h                    |   2 +
+ target/openrisc/interrupt.c              |   4 +-
+ target/openrisc/mmu.c                    |   8 +-
+ target/openrisc/sys_helper.c             |  14 +-
+ 23 files changed, 1017 insertions(+), 114 deletions(-)
+ create mode 100644 docs/system/openrisc/cpu-features.rst
+ create mode 100644 docs/system/openrisc/emulation.rst
+ create mode 100644 docs/system/openrisc/or1k-sim.rst
+ create mode 100644 docs/system/openrisc/virt.rst
+ create mode 100644 docs/system/target-openrisc.rst
+ create mode 100644 hw/openrisc/boot.c
+ create mode 100644 hw/openrisc/virt.c
+ create mode 100644 include/hw/openrisc/boot.h
+
+Jason A. Donenfeld (1):
+  hw/openrisc: virt: pass random seed to fdt
+
+Stafford Horne (10):
+  hw/openrisc: Split re-usable boot time apis out to boot.c
+  target/openrisc: Fix memory reading in debugger
+  goldfish_rtc: Add big-endian property
+  hw/openrisc: Add the OpenRISC virtual machine
+  hw/openrisc: Add PCI bus support to virt
+  hw/openrisc: Initialize timer time at startup
+  target/openrisc: Add interrupted CPU to log
+  target/openrisc: Enable MTTCG
+  target/openrisc: Interrupt handling fixes
+  docs/system: openrisc: Add OpenRISC documentation
+
+ configs/devices/or1k-softmmu/default.mak |   1 +
+ configs/targets/or1k-softmmu.mak         |   1 +
+ docs/system/openrisc/cpu-features.rst    |  15 +
+ docs/system/openrisc/emulation.rst       |  17 +
+ docs/system/openrisc/or1k-sim.rst        |  43 ++
+ docs/system/openrisc/virt.rst            |  50 ++
+ docs/system/target-openrisc.rst          |  71 +++
+ docs/system/targets.rst                  |   1 +
+ hw/m68k/virt.c                           |   1 +
+ hw/openrisc/Kconfig                      |  12 +
+ hw/openrisc/boot.c                       | 116 +++++
+ hw/openrisc/cputimer.c                   |  22 +-
+ hw/openrisc/meson.build                  |   2 +
+ hw/openrisc/openrisc_sim.c               | 106 +----
+ hw/openrisc/virt.c                       | 571 +++++++++++++++++++++++
+ hw/rtc/goldfish_rtc.c                    |  37 +-
+ include/hw/openrisc/boot.h               |  34 ++
+ include/hw/rtc/goldfish_rtc.h            |   2 +
+ target/openrisc/cpu.c                    |   1 -
+ target/openrisc/cpu.h                    |   2 +
+ target/openrisc/interrupt.c              |   4 +-
+ target/openrisc/mmu.c                    |   8 +-
+ target/openrisc/sys_helper.c             |  14 +-
+ 23 files changed, 1017 insertions(+), 114 deletions(-)
+ create mode 100644 docs/system/openrisc/cpu-features.rst
+ create mode 100644 docs/system/openrisc/emulation.rst
+ create mode 100644 docs/system/openrisc/or1k-sim.rst
+ create mode 100644 docs/system/openrisc/virt.rst
+ create mode 100644 docs/system/target-openrisc.rst
+ create mode 100644 hw/openrisc/boot.c
+ create mode 100644 hw/openrisc/virt.c
+ create mode 100644 include/hw/openrisc/boot.h
+
+-- 
+2.37.2
+
 
