@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 772935AC346
+	by mail.lfdr.de (Postfix) with ESMTPS id 752655AC345
 	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 09:42:47 +0200 (CEST)
-Received: from localhost ([::1]:47532 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:47530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oUkHG-00084V-0G
+	id 1oUkHG-00083p-Bo
 	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 03:42:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52072)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1oUk1P-0007uU-93
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1oUk1P-0007ve-KZ
  for qemu-devel@nongnu.org; Sun, 04 Sep 2022 03:26:23 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:46745)
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:50990)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1oUk1N-000314-MI
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1oUk1O-00031K-1g
  for qemu-devel@nongnu.org; Sun, 04 Sep 2022 03:26:23 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- k6-20020a05600c1c8600b003a54ecc62f6so4035532wms.5
- for <qemu-devel@nongnu.org>; Sun, 04 Sep 2022 00:26:20 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id j26so3746584wms.0
+ for <qemu-devel@nongnu.org>; Sun, 04 Sep 2022 00:26:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=JzE3BnwXRopw8l+GYkEmSmqp7UW2cE9nuMRHARwLvoE=;
- b=l5wOQriXCYObMfQ50ZyW2BPzkUa1iomPA4cRZLrkeyqwLYVGT5GSNHo9IbFWF7Usa/
- 7DpWtnUhKf85f+lsYg/tLX0i9D2UZuLMbIJo+HoDGZDxgNhq+j5ATYm9UcHTJWrYKSTM
- 2c4ncwlCQ+xKQVqHrERYsF2QUZAyFckFxWFCVqYhtWlwUAUSDGDjVfZijPG0hcXJnAqW
- 7APXOwp5FOgXIagsdF3/SvMrqYCagj10DiaXQpke+fX5niMibmB/aiYAPBmLV33dgWrK
- plGyOtp+nJOgIY01l8G8mtAXpU53tn/qsvbgULOmc/nF5dIXfyHsIvbdVVLVX2QKdBqZ
- w+5w==
+ bh=GIDTjvgN2dQLUduv7RxatH83G3BsgCWMQ2FcB7REqfs=;
+ b=htw0ZOd24uJ5W5NFVRyCZo0Nl92Hi7Pr7kqraSBtofGxF1jrvpoxfMIrjqR7+QIeoT
+ DD/6QI4uO7MYOPrpLwF1MTGoN4eK8I5OZ95uGJ+wZ3aI7ywNkE7P170eY2P/PdPOL6VT
+ NpF3jMGSky1T92UUkLyCqddBo/VVl9sNH/i4M3gPyja8wUBqHfksrd9eKeSzhTuCpsVo
+ cttZ8eaAp+exnIqZMjPSv3o+jLuCg+OlPNiYJT2Z4iMLgMS+ndvO0UiLFy5jwtlse5/1
+ S/jcY8sGimPmK4habS52zXHRStOohFB/OCSym7AfSbFwENN109wcf1SpCFCrI89zeICH
+ q1fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=JzE3BnwXRopw8l+GYkEmSmqp7UW2cE9nuMRHARwLvoE=;
- b=AF1pZh1Ixwc2Nv3+nz7zF+kol/9rpelXI0PhWIm7NTSZZTLzhHhExHOCoA9AZY4rT9
- pR5TsRgJ37CZM4xBuoutIkKMlZIkXVysW0s+mwUXmnf/yYORRPB+S+u2gomXaEVT1S/g
- KhrTyCeDgZKOzeGcacVIefwuA7SVw67zctcPunmggKqVZDQ+/FeHIbDnQfxhrfi5E5h0
- HfMvXvmAR15p3NJ0GPC3oEt3xJHBKYZV6dmUq8BTuavmR7mo7SIpIopsh0iFr0d5rSiF
- YRfL/DuyMmZnmBCDYeWkmonWF4QHaONhVZRJHW0PwoFga1aXRmqnSymp38inVLbEeSiV
- Amkg==
-X-Gm-Message-State: ACgBeo16eEI/IvKfoorsi3N83cs5bzi92rBP1+NM+YxLkMDw0TsocuhK
- 4mtco+107Cdy7gVHoJQUNYvtFJMWEZE=
-X-Google-Smtp-Source: AA6agR7MOIEITAors4wvQjJ2Wr5SvZ4HMNRvAS0uUoJq83zvOAxiChumpWFURrNpjhRyProCkmc4Ow==
-X-Received: by 2002:a7b:ce91:0:b0:3a7:b67c:888f with SMTP id
- q17-20020a7bce91000000b003a7b67c888fmr7722962wmj.187.1662276379052; 
- Sun, 04 Sep 2022 00:26:19 -0700 (PDT)
+ bh=GIDTjvgN2dQLUduv7RxatH83G3BsgCWMQ2FcB7REqfs=;
+ b=fYOzuJVAvh5IIV+uMm2ueCvuO6o3qzHiszfj9mi3ahcZvduT4YaWsg3AU2U/036ObJ
+ JRWlgO1rsH+WbVGPN+shwQzcfo3JJuHzf8WCyPwK5RTCNJQS+PXcgMq3Unv0PZfJEcOO
+ PfOiKmcHk3vxH7Pp2M1uJQLMeqFDnYAGguiZbgJpLyDmgUz7ADltm/oIF7X1y6q2v2OZ
+ K8Deszw3RVQyaGLlsLpRhK0Fe4jt0ZGtUyVqsozlDsUGmwM1NwYV2HwgrRpothRXmq1+
+ H7W/0tp1yzP0z8bBcVSzi5n5LMCn2kVWD4aM/6A7l6SgqmhWatY+HkKsJxDFjNKXY8au
+ 2NTQ==
+X-Gm-Message-State: ACgBeo3or6Qf5dtfD6ErskcFGaywaXqGW8ALY09zOlFZWRBsw97vGJeY
+ 4FDM5SYIiMYIpgNYb7MW8Y6kDb/6wrc=
+X-Google-Smtp-Source: AA6agR4Oa3xeyJEHOCD3c8Lq//cSYVzt02gN8ohKXDfVu0/d9ZBPa13FJaFQ8NL26HS17npkIfTR2w==
+X-Received: by 2002:a7b:c016:0:b0:3a5:fff2:62f4 with SMTP id
+ c22-20020a7bc016000000b003a5fff262f4mr7882891wmb.104.1662276380333; 
+ Sun, 04 Sep 2022 00:26:20 -0700 (PDT)
 Received: from localhost ([88.83.123.243]) by smtp.gmail.com with ESMTPSA id
- u21-20020a7bc055000000b003a3442f1229sm12924571wmc.29.2022.09.04.00.26.18
+ d16-20020adfe850000000b0022526db2363sm5695580wrn.30.2022.09.04.00.26.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Sep 2022 00:26:18 -0700 (PDT)
+ Sun, 04 Sep 2022 00:26:19 -0700 (PDT)
 From: Stafford Horne <shorne@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: openrisc@lists.librecores.org, Stafford Horne <shorne@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 07/11] target/openrisc: Add interrupted CPU to log
-Date: Sun,  4 Sep 2022 08:26:03 +0100
-Message-Id: <20220904072607.44275-8-shorne@gmail.com>
+Subject: [PULL 08/11] target/openrisc: Enable MTTCG
+Date: Sun,  4 Sep 2022 08:26:04 +0100
+Message-Id: <20220904072607.44275-9-shorne@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220904072607.44275-1-shorne@gmail.com>
 References: <20220904072607.44275-1-shorne@gmail.com>
@@ -88,30 +87,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we are tracing it's helpful to know which CPU's are getting
-interrupted, add that detail to the log line.
+This patch enables multithread TCG for OpenRISC.  Since the or1k shared
+syncrhonized timer can be updated from each vCPU via helpers we use a
+mutex to synchronize updates.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Stafford Horne <shorne@gmail.com>
 ---
- target/openrisc/interrupt.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ configs/targets/or1k-softmmu.mak | 1 +
+ target/openrisc/cpu.h            | 2 ++
+ target/openrisc/sys_helper.c     | 7 ++++++-
+ 3 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/target/openrisc/interrupt.c b/target/openrisc/interrupt.c
-index e5724f5371..c31c6f12c4 100644
---- a/target/openrisc/interrupt.c
-+++ b/target/openrisc/interrupt.c
-@@ -83,7 +83,9 @@ void openrisc_cpu_do_interrupt(CPUState *cs)
-             [EXCP_TRAP]     = "TRAP",
-         };
+diff --git a/configs/targets/or1k-softmmu.mak b/configs/targets/or1k-softmmu.mak
+index 263e970870..432f855a30 100644
+--- a/configs/targets/or1k-softmmu.mak
++++ b/configs/targets/or1k-softmmu.mak
+@@ -1,3 +1,4 @@
+ TARGET_ARCH=openrisc
++TARGET_SUPPORTS_MTTCG=y
+ TARGET_BIG_ENDIAN=y
+ TARGET_NEED_FDT=y
+diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
+index b9584f10d4..1d5efa5ca2 100644
+--- a/target/openrisc/cpu.h
++++ b/target/openrisc/cpu.h
+@@ -25,6 +25,8 @@
+ #include "hw/core/cpu.h"
+ #include "qom/object.h"
  
--        qemu_log_mask(CPU_LOG_INT, "INT: %s\n", int_name[exception]);
-+        qemu_log_mask(CPU_LOG_INT, "CPU: %d INT: %s\n",
-+                      cs->cpu_index,
-+                      int_name[exception]);
++#define TCG_GUEST_DEFAULT_MO (0)
++
+ #define TYPE_OPENRISC_CPU "or1k-cpu"
  
-         hwaddr vect_pc = exception << 8;
-         if (env->cpucfgr & CPUCFGR_EVBARP) {
+ OBJECT_DECLARE_CPU_TYPE(OpenRISCCPU, OpenRISCCPUClass, OPENRISC_CPU)
+diff --git a/target/openrisc/sys_helper.c b/target/openrisc/sys_helper.c
+index 48674231e7..da88ad9e77 100644
+--- a/target/openrisc/sys_helper.c
++++ b/target/openrisc/sys_helper.c
+@@ -145,6 +145,7 @@ void HELPER(mtspr)(CPUOpenRISCState *env, target_ulong spr, target_ulong rb)
+         break;
+     case TO_SPR(10, 0): /* TTMR */
+         {
++            qemu_mutex_lock_iothread();
+             if ((env->ttmr & TTMR_M) ^ (rb & TTMR_M)) {
+                 switch (rb & TTMR_M) {
+                 case TIMER_NONE:
+@@ -168,14 +169,16 @@ void HELPER(mtspr)(CPUOpenRISCState *env, target_ulong spr, target_ulong rb)
+                 env->ttmr = rb & ~TTMR_IP;
+                 cs->interrupt_request &= ~CPU_INTERRUPT_TIMER;
+             }
+-
+             cpu_openrisc_timer_update(cpu);
++            qemu_mutex_unlock_iothread();
+         }
+         break;
+ 
+     case TO_SPR(10, 1): /* TTCR */
++        qemu_mutex_lock_iothread();
+         cpu_openrisc_count_set(cpu, rb);
+         cpu_openrisc_timer_update(cpu);
++        qemu_mutex_unlock_iothread();
+         break;
+ #endif
+ 
+@@ -303,7 +306,9 @@ target_ulong HELPER(mfspr)(CPUOpenRISCState *env, target_ulong rd,
+         return env->ttmr;
+ 
+     case TO_SPR(10, 1): /* TTCR */
++        qemu_mutex_lock_iothread();
+         cpu_openrisc_count_update(cpu);
++        qemu_mutex_unlock_iothread();
+         return cpu_openrisc_count_get(cpu);
+ #endif
+ 
 -- 
 2.37.2
 
