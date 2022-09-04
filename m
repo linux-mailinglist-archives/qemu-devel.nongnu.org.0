@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DE415AC81E
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 01:34:48 +0200 (CEST)
-Received: from localhost ([::1]:44160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9EE15AC821
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 01:38:31 +0200 (CEST)
+Received: from localhost ([::1]:35294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oUz8U-0006Xj-4N
-	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 19:34:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43318)
+	id 1oUzCA-0003wo-Q2
+	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 19:38:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1oUz7F-0005Af-B2
- for qemu-devel@nongnu.org; Sun, 04 Sep 2022 19:33:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58570)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1oUz7B-0004Wb-3t
- for qemu-devel@nongnu.org; Sun, 04 Sep 2022 19:33:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662334399;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bTlHDcUvDaDSfWpK9BrCKbKG0kBvm3/P43YaSw3c1kY=;
- b=AREbl6hEP0YDRAKf/8MPPEK3Aqvq9U7DJEo+DlknbG1+EsdYlotgV0IBn0Mref3N9xN9u7
- 8lkwLnczWXUxj/wQ32kZeUYwfT1rD6+xdez1NBbQhXPBxXpFNHuV4MzoGUnFQdNARPhmJo
- TjKoCMNGgkK6ckARRh8E9MErStyLWkc=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-496-QzDaaUW-O-ucYY3rE3yo_A-1; Sun, 04 Sep 2022 19:33:17 -0400
-X-MC-Unique: QzDaaUW-O-ucYY3rE3yo_A-1
-Received: by mail-il1-f199.google.com with SMTP id
- j11-20020a056e02218b00b002f17a1f9637so766107ila.3
- for <qemu-devel@nongnu.org>; Sun, 04 Sep 2022 16:33:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oUz8s-0006fV-9u; Sun, 04 Sep 2022 19:35:06 -0400
+Received: from mail-oa1-x33.google.com ([2001:4860:4864:20::33]:41602)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oUz8q-0004qZ-G4; Sun, 04 Sep 2022 19:35:06 -0400
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-12243fcaa67so18007217fac.8; 
+ Sun, 04 Sep 2022 16:35:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=xWsYArDmHaPtKVtfPWMfJXrEbIaaa1l+vx94H/e4hqI=;
+ b=enumopI/7E+ZM2oX4h9vY25zXSY+CKVF09kP7HfKJwAv9LRk7jTejfAZKHRJLQlPQf
+ CpOD4MBDf2oH2X0PUBZWOfa7/jkSD/oE7GUvwSWtX9n+oG6tkdZQYiW7NyacZzpGtrhv
+ 9aw7KgVw+vqOVdZezUSEEbyYvokz9yv1basefi2rfY8ii1X6mnn3j/PFfABEybkq1ry1
+ 7BjbrogHMMbzF6LryH8xsHfiyyaxtDfWMWZhWCnIhsGIKHLv8sixXeT44B1qRnjD2x6A
+ rj3AlUlDQdMtVxbTYnpbAdW+5vc+Ize3/1VbBbD5Hm6odjW3ptYyiEXeuQenGUzLmLZi
+ TCjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=bTlHDcUvDaDSfWpK9BrCKbKG0kBvm3/P43YaSw3c1kY=;
- b=KFH6MctBiB0iZi5pN08nvK494nzij5BmnHHlpQnwblfnCEhs+Tr68f1VGYbIsPJKCW
- M7I7XZvNgPjrzi6Yh5KeVHQaPg96vGTDy+MGZObFi15acXCtqNxLAIMMOIVCVGOBYiS2
- IFHpG4KUwjbBiVBb5Zi/lDNB3/78wqAMf0EG8vok4itl7gul0DWd4pBD63FW8gK/UM20
- OncMuuoy1d4GXsHfn0Y6gUvHwULr2+jTMU8Vi26wrx7b2ju6x7Oza7WgsoL+fzL9la30
- F2LEFqbHZDiVP7yiJcZ+PxXrodicYoXT3wFZ4IIvsqybRV8JbLNGNwfpT5M7I8xNCGvQ
- dzZg==
-X-Gm-Message-State: ACgBeo0mhleV+rKtz0XzFoDl5enHFW1orFkxkxYDnKotmVw7tEO61CJo
- XInzLNJEYrMxrIE3YRhnZ0RNyZDrXBiB+qQX1qtmN6jTGqXg/e3j14d+2iKh485Z6AkuqiioCBN
- uT/zg2ZtKp3MXRwePDUhf0c/sm3bpFpg=
-X-Received: by 2002:a05:6638:d45:b0:343:2ae6:e39a with SMTP id
- d5-20020a0566380d4500b003432ae6e39amr25053060jak.139.1662334396624; 
- Sun, 04 Sep 2022 16:33:16 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5WHWrauGWdUUwfycZFH1jtdQuoICfeTtlz3VYA6Ne+465YGLNlTMJvnNRdtw7nyFSnPX53u8r+THLue0Gi+co=
-X-Received: by 2002:a05:6638:d45:b0:343:2ae6:e39a with SMTP id
- d5-20020a0566380d4500b003432ae6e39amr25053039jak.139.1662334396000; Sun, 04
- Sep 2022 16:33:16 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=xWsYArDmHaPtKVtfPWMfJXrEbIaaa1l+vx94H/e4hqI=;
+ b=gcy5AXrRT1sHmMHjRp3jgLCex8HROrRWmMtfpxlx3apU7jOg5c4Mc0qECsIIe5yT0T
+ c9Si4ozOs+C4hmQDxEcl0FagRjz8x9q9KYpJVkRO+xu2eHJVOX6mbSgMTCkdYyEJv2/D
+ +3KuvfeIGAPfGorenvBlAhOGNGc16Gj2imUzUSmJZP0PpdvmNwmao8oNaAd7gZVtzBxZ
+ uXsTqmG4pUWXfHD2FVS3GfxP33U8/EAhfOB+mp6E3fEQ7dt6tQp+ZAKEKrN2U4OLNS2w
+ YvD630dQBkNHWUAoYwrssyZnuzeFjzKfBhSq0LYZ4CX+M+NZ5RwqAP/Vv/4SymrJvO2v
+ Ej+Q==
+X-Gm-Message-State: ACgBeo0fzLSzahRHle+Il3HjXLrd/vz73Fx2Hsj9iVuqAmk2bwfd0i/5
+ 2rCNooMKQxK8D8SZabAExYkaJJNzQylfow==
+X-Google-Smtp-Source: AA6agR6w5JXgvhJ13YubwLQPBWRpT+fMs+7evbDlOdgEMfYa1WM/FI53P7uxpts4fblpz6PFXB9DWQ==
+X-Received: by 2002:a05:6870:d0c9:b0:11e:8d58:33be with SMTP id
+ k9-20020a056870d0c900b0011e8d5833bemr8005845oaa.294.1662334502062; 
+ Sun, 04 Sep 2022 16:35:02 -0700 (PDT)
+Received: from balboa.ibmuc.com (200-207-147-180.dsl.telesp.net.br.
+ [200.207.147.180]) by smtp.gmail.com with ESMTPSA id
+ o7-20020a4a9587000000b0044b4acd27c5sm2549793ooi.17.2022.09.04.16.35.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 04 Sep 2022 16:35:01 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, clg@kaod.org,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: [PATCH v6 00/14] QMP/HMP: introduce 'dumpdtb'
+Date: Sun,  4 Sep 2022 20:34:42 -0300
+Message-Id: <20220904233456.209027-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-References: <20220826160927.322797-1-afaria@redhat.com>
- <YwppmYUOLTqQ7K25@xz-m1.local>
-In-Reply-To: <YwppmYUOLTqQ7K25@xz-m1.local>
-From: Alberto Campinho Faria <afaria@redhat.com>
-Date: Mon, 5 Sep 2022 00:32:40 +0100
-Message-ID: <CAELaAXyRSpqVj+KmvfG6ghCwf6WfxE+ym7F7O-rKZpsVKyQbUA@mail.gmail.com>
-Subject: Re: [PATCH] softmmu/physmem: Fix address of FlatView access in
- address_space_(read|write)_cached_slow()
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:4860:4864:20::33;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x33.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,21 +88,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+Hi,
 
-On Sat, Aug 27, 2022 at 7:59 PM Peter Xu <peterx@redhat.com> wrote:
-> Any bug encountered?  It'll be great to add more information into the
-> commit message if there is.  We could also mention the issue was observed
-> by code review or so.
+This new version contains changes suggested by Zoltan in the v5 review.
 
-I came across this when performing unaligned 8-byte writes on
-x86_64-softmmu. The write was aligned to 4 bytes but not 8, so the
-first 4 bytes were written just fine by
-address_space_translate_cached(), but flatview_write_continue() failed
-to write the following 4 bytes as it was translating the wrong
-address. I'll mention this in the commit description.
+Changes from v5:
+- shortened the 'machine->fdt' comment in all relevant patches
+- patch 6:
+  - changed sam460ex_load_device_tree() to receive a MachineState
+    pointer
+- v5 link: https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg00476.html
 
-Thanks,
-Alberto
+Daniel Henrique Barboza (14):
+  hw/arm: do not free machine->fdt in arm_load_dtb()
+  hw/microblaze: set machine->fdt in microblaze_load_dtb()
+  hw/nios2: set machine->fdt in nios2_load_dtb()
+  hw/ppc: set machine->fdt in ppce500_load_device_tree()
+  hw/ppc: set machine->fdt in bamboo_load_device_tree()
+  hw/ppc: set machine->fdt in sam460ex_load_device_tree()
+  hw/ppc: set machine->fdt in xilinx_load_device_tree()
+  hw/ppc: set machine->fdt in pegasos2_machine_reset()
+  hw/ppc: set machine->fdt in pnv_reset()
+  hw/ppc: set machine->fdt in spapr machine
+  hw/riscv: set machine->fdt in sifive_u_machine_init()
+  hw/riscv: set machine->fdt in spike_board_init()
+  hw/xtensa: set machine->fdt in xtfpga_init()
+  qmp/hmp, device_tree.c: introduce dumpdtb
+
+ hmp-commands.hx              | 15 +++++++++++++++
+ hw/arm/boot.c                |  3 ++-
+ hw/microblaze/boot.c         |  8 +++++++-
+ hw/microblaze/meson.build    |  2 +-
+ hw/nios2/boot.c              |  8 +++++++-
+ hw/nios2/meson.build         |  2 +-
+ hw/ppc/e500.c                | 13 ++++++++++++-
+ hw/ppc/pegasos2.c            |  4 ++++
+ hw/ppc/pnv.c                 |  8 +++++++-
+ hw/ppc/ppc440_bamboo.c       | 11 ++++++++++-
+ hw/ppc/sam460ex.c            | 21 +++++++++++----------
+ hw/ppc/spapr.c               |  3 +++
+ hw/ppc/spapr_hcall.c         |  8 ++++++++
+ hw/ppc/virtex_ml507.c        |  8 +++++++-
+ hw/riscv/sifive_u.c          |  3 +++
+ hw/riscv/spike.c             |  6 ++++++
+ hw/xtensa/meson.build        |  2 +-
+ hw/xtensa/xtfpga.c           |  6 +++++-
+ include/sysemu/device_tree.h |  1 +
+ monitor/misc.c               |  1 +
+ qapi/machine.json            | 18 ++++++++++++++++++
+ softmmu/device_tree.c        | 31 +++++++++++++++++++++++++++++++
+ 22 files changed, 161 insertions(+), 21 deletions(-)
+
+-- 
+2.37.2
 
 
