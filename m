@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFCE35AC1D8
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 02:25:14 +0200 (CEST)
-Received: from localhost ([::1]:37028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 864445AC1E1
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 02:41:46 +0200 (CEST)
+Received: from localhost ([::1]:53664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oUdRp-0008Ok-UI
-	for lists+qemu-devel@lfdr.de; Sat, 03 Sep 2022 20:25:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44326)
+	id 1oUdhp-0004FV-6I
+	for lists+qemu-devel@lfdr.de; Sat, 03 Sep 2022 20:41:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oUdQ4-0005Cx-MD
- for qemu-devel@nongnu.org; Sat, 03 Sep 2022 20:23:24 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:43576)
+ id 1oUdg0-0002an-6q
+ for qemu-devel@nongnu.org; Sat, 03 Sep 2022 20:39:52 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:36750)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oUdQ2-0004pr-H9
- for qemu-devel@nongnu.org; Sat, 03 Sep 2022 20:23:24 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id t7so1840312wrm.10
- for <qemu-devel@nongnu.org>; Sat, 03 Sep 2022 17:23:22 -0700 (PDT)
+ id 1oUdfx-0007LX-47
+ for qemu-devel@nongnu.org; Sat, 03 Sep 2022 20:39:51 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ v7-20020a1cac07000000b003a6062a4f81so5774213wme.1
+ for <qemu-devel@nongnu.org>; Sat, 03 Sep 2022 17:39:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=gk2Ija1gWhhe3TrBGaxA21/0RuEaoEB/ncK0Mv2tFOk=;
- b=ezS0kQfJ2o8XJvX8MaP7I7Wz18CzeTfebzYYpiEI6pU29LGIoRqBsNwF5dFTKbOsPo
- EzJASw1U+JetrOVbajtWZUJvXYtEDfhPvj1RKl60i/vV5ONGEspp5Hh4b3nooZtstM6r
- 3EllTM/6zfgDFWgtJ65F46nTXetA/4XiuN8ZihorTL/lTDD14cjYysAUUYT+2fVWw3yZ
- qYVGPzUAcqx6/9fEv5616zL7s0lqvMSZAOAFUB2g00NbyeYt0EZpMDG4vpm9vHhN+hdJ
- qBxJcr6mCtwY7OWBfH01sHncmkkdcD2tbS5QB64fZOcKKiv1WEBYI+jWB4LlFx2W4vSD
- c5Gg==
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=o1Vg7TQJ95Up5jUWVK8I8+58+ZGPUAc9qHDWCLLto2M=;
+ b=hjIHagjOBWaKe4Gzo/WTQc/LvdMecV4IaxjFToB8zAX2xYtydbwrdkWYEgLaPczR8i
+ IbYPXpVXfhC0bkaNSnV9RS2J/3ykuenqmYvhE2a6wyFeUKLZQJE+jkZ9ZD0YlCXM3K8D
+ akeBE0LGITfG6KdKl6yJfCpnHP2anbwtAekHMv2IG2jG0J4C2q5XkxXT+fpc7Drq/KAB
+ ntbcmItDTeqr7BHCNq7F4Y3+6g5KK56qGUwAD3duyZgxOQvfDyL9i0hyyPFiXL9wIonr
+ eIeqtnEVhatowcmwBSa5Eth8L7U8r29BsBJpW9dIkeJqJY9wSThlj7u+Im0OSdtrDfaA
+ KoBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=gk2Ija1gWhhe3TrBGaxA21/0RuEaoEB/ncK0Mv2tFOk=;
- b=n5dwHdx123ZOYoqJnTcMoOsGZJ6VfsLQB6vbpi21lptJcLIPCOlvGfaeTqQjozh2X/
- jYGZmAAXb/7OrFcgn0RKeGDs+AlWTSIYsjpSzb06pYrUsnLpDJASDqyd0BGlNGzQWIA2
- ju97YjHs95D9h5N/bAiSOPS7Xrze1M+ZKJKTfnpBZwBcNlAxUPdluubEJG3hNdhC/9VD
- QBJRZV25AXuN6rJrfz7Ar3cN63Knar6ehqXLPSaxYuMirMnHPgpiTSnkWCPnRGIUHBRr
- rlzW+Mg5l+fWV8T4UXOQ7W9JMk7SFBBCPdv6BTrrdmRVqXnfbAJUxE/HwRv4yMZmZDWi
- sYhQ==
-X-Gm-Message-State: ACgBeo2pNO7sqh29kbIa3SznlyrfysIsvZWFayLSQz833CqxI4+bxVMb
- F/z3UcK9Kp1hlCiDIZ1Makp2kOf8ynJQ6WliwKI=
-X-Google-Smtp-Source: AA6agR63w6vHw1TGU8hAGwsU6CDNLbFDxiZn3HjpdWFeSnoqiboB59KUFL6tku89fQmvE5qqJNjK7w==
-X-Received: by 2002:a5d:59a6:0:b0:226:fdaf:3ece with SMTP id
- p6-20020a5d59a6000000b00226fdaf3ecemr6470435wrr.444.1662251000754; 
- Sat, 03 Sep 2022 17:23:20 -0700 (PDT)
-Received: from stoup.. ([78.19.130.69]) by smtp.gmail.com with ESMTPSA id
- f16-20020adff590000000b0022865038308sm424771wro.93.2022.09.03.17.23.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Sep 2022 17:23:20 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PULL v2 16/20] accel/tcg: Add fast path for translator_ld*
-Date: Sun,  4 Sep 2022 01:23:17 +0100
-Message-Id: <20220904002317.60158-2-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220904002317.60158-1-richard.henderson@linaro.org>
-References: <20220904002317.60158-1-richard.henderson@linaro.org>
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=o1Vg7TQJ95Up5jUWVK8I8+58+ZGPUAc9qHDWCLLto2M=;
+ b=enSlVP3LFTIfDOsP8IQ315z5fZrXskuDFnWFyIsCaYvcxypadwjVOg8LK8XAClqZyj
+ 1dG+VcpI8rsYPK3dFBJcGae9KjKICEp12O7jNklMe1ADRW3Z/K9BzlfmJ4uyIaoIps8C
+ vQbE57Rm6XqmRjtbdkHjPARbsLEe1UQOzDqG4YF+8QMa8dOAOMn/aO+WZOyAO30Wo6Nr
+ Cou1ABMmalvXB2N0FV+EYC3NM3bA3xpXnLsj6fRZLSp8IbVqswxAA/V2TF1sOT7cwFRe
+ HdRUT19ys7Zucd+da012FNeGdsLOCMDN0xJf6HdgwHOr45enlmKx7FyaV00llCSz9nad
+ bTYw==
+X-Gm-Message-State: ACgBeo20Nm6N/ykU592fCU7BrjExSpv+Au8B//GYEKi2jeTnfbcv4vlV
+ 1ypaElda+DD5Rn1Fo4L4bk8Gbg==
+X-Google-Smtp-Source: AA6agR4cKXchTqHpgNdBsoMH+PKHb3EfhWPpWNcc5R5Fek1pBWy3PXNrh6f4qizGbPekDrZe6UMG+w==
+X-Received: by 2002:a05:600c:3ac6:b0:3a5:c03f:510d with SMTP id
+ d6-20020a05600c3ac600b003a5c03f510dmr7012199wms.120.1662251986895; 
+ Sat, 03 Sep 2022 17:39:46 -0700 (PDT)
+Received: from [192.168.10.136] ([78.19.130.69])
+ by smtp.gmail.com with ESMTPSA id
+ o5-20020a05600c510500b003a31fd05e0fsm25817408wms.2.2022.09.03.17.39.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 03 Sep 2022 17:39:46 -0700 (PDT)
+Message-ID: <65465b46-5423-9c94-7ae9-f2379bcb829c@linaro.org>
+Date: Sun, 4 Sep 2022 01:39:43 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42d.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] Hexagon (target/hexagon) implement mutability mask for
+ GPRs
+Content-Language: en-US
+To: Brian Cain <bcain@quicinc.com>, qemu-devel@nongnu.org, tsimpson@quicinc.com
+References: <20220901212931.27310-1-bcain@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220901212931.27310-1-bcain@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,333 +94,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cache the translation from guest to host address, so we may
-use direct loads when we hit on the primary translation page.
+On 9/1/22 22:29, Brian Cain wrote:
+> +void gen_masked_reg_write(TCGv cur_val, TCGv in_val, TCGv out_val,
+> +    target_ulong reg_mask) {
+> +    TCGv set_bits = tcg_temp_new();
+> +    TCGv cleared_bits = tcg_temp_new();
+> +
+> +    /*
+> +     * set_bits = in_val & reg_mask
+> +     * cleared_bits = (~in_val) & reg_mask
+> +     */
+> +    tcg_gen_andi_tl(set_bits, in_val, reg_mask);
+> +    tcg_gen_not_tl(cleared_bits, in_val);
+> +    tcg_gen_andi_tl(cleared_bits, cleared_bits, reg_mask);
+> +
+> +    /*
+> +     * result = (reg_cur | set_bits) & (~cleared_bits)
+> +     */
+> +    tcg_gen_not_tl(cleared_bits, cleared_bits);
+> +    tcg_gen_or_tl(set_bits, set_bits, cur_val);
+> +    tcg_gen_and_tl(out_val, set_bits, cleared_bits);
 
-Look up the second translation page only once, during translation.
-This obviates another lookup of the second page within tb_gen_code
-after translation.
+This is overly complicated.  It should be
 
-Fixes a bug in that plugin_insn_append should be passed the bytes
-in the original memory order, not bswapped by pieces.
+     out = (in & mask) | (cur & ~mask)
 
-Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Tested-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/exec/translator.h |  63 +++++++++++--------
- accel/tcg/translate-all.c |  23 +++----
- accel/tcg/translator.c    | 126 +++++++++++++++++++++++++++++---------
- 3 files changed, 141 insertions(+), 71 deletions(-)
+which is only 3 operations instead of 6:
 
-diff --git a/include/exec/translator.h b/include/exec/translator.h
-index 69db0f5c21..3b77f5f4aa 100644
---- a/include/exec/translator.h
-+++ b/include/exec/translator.h
-@@ -81,24 +81,14 @@ typedef enum DisasJumpType {
-  * Architecture-agnostic disassembly context.
-  */
- typedef struct DisasContextBase {
--    const TranslationBlock *tb;
-+    TranslationBlock *tb;
-     target_ulong pc_first;
-     target_ulong pc_next;
-     DisasJumpType is_jmp;
-     int num_insns;
-     int max_insns;
-     bool singlestep_enabled;
--#ifdef CONFIG_USER_ONLY
--    /*
--     * Guest address of the last byte of the last protected page.
--     *
--     * Pages containing the translated instructions are made non-writable in
--     * order to achieve consistency in case another thread is modifying the
--     * code while translate_insn() fetches the instruction bytes piecemeal.
--     * Such writer threads are blocked on mmap_lock() in page_unprotect().
--     */
--    target_ulong page_protect_end;
--#endif
-+    void *host_addr[2];
- } DisasContextBase;
- 
- /**
-@@ -183,24 +173,43 @@ bool translator_use_goto_tb(DisasContextBase *db, target_ulong dest);
-  * the relevant information at translation time.
-  */
- 
--#define GEN_TRANSLATOR_LD(fullname, type, load_fn, swap_fn)             \
--    type fullname ## _swap(CPUArchState *env, DisasContextBase *dcbase, \
--                           abi_ptr pc, bool do_swap);                   \
--    static inline type fullname(CPUArchState *env,                      \
--                                DisasContextBase *dcbase, abi_ptr pc)   \
--    {                                                                   \
--        return fullname ## _swap(env, dcbase, pc, false);               \
-+uint8_t translator_ldub(CPUArchState *env, DisasContextBase *db, abi_ptr pc);
-+uint16_t translator_lduw(CPUArchState *env, DisasContextBase *db, abi_ptr pc);
-+uint32_t translator_ldl(CPUArchState *env, DisasContextBase *db, abi_ptr pc);
-+uint64_t translator_ldq(CPUArchState *env, DisasContextBase *db, abi_ptr pc);
-+
-+static inline uint16_t
-+translator_lduw_swap(CPUArchState *env, DisasContextBase *db,
-+                     abi_ptr pc, bool do_swap)
-+{
-+    uint16_t ret = translator_lduw(env, db, pc);
-+    if (do_swap) {
-+        ret = bswap16(ret);
-     }
-+    return ret;
-+}
- 
--#define FOR_EACH_TRANSLATOR_LD(F)                                       \
--    F(translator_ldub, uint8_t, cpu_ldub_code, /* no swap */)           \
--    F(translator_lduw, uint16_t, cpu_lduw_code, bswap16)                \
--    F(translator_ldl, uint32_t, cpu_ldl_code, bswap32)                  \
--    F(translator_ldq, uint64_t, cpu_ldq_code, bswap64)
-+static inline uint32_t
-+translator_ldl_swap(CPUArchState *env, DisasContextBase *db,
-+                    abi_ptr pc, bool do_swap)
-+{
-+    uint32_t ret = translator_ldl(env, db, pc);
-+    if (do_swap) {
-+        ret = bswap32(ret);
-+    }
-+    return ret;
-+}
- 
--FOR_EACH_TRANSLATOR_LD(GEN_TRANSLATOR_LD)
--
--#undef GEN_TRANSLATOR_LD
-+static inline uint64_t
-+translator_ldq_swap(CPUArchState *env, DisasContextBase *db,
-+                    abi_ptr pc, bool do_swap)
-+{
-+    uint64_t ret = translator_ldq(env, db, pc);
-+    if (do_swap) {
-+        ret = bswap64(ret);
-+    }
-+    return ret;
-+}
- 
- /*
-  * Return whether addr is on the same page as where disassembly started.
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 587886aa4e..f5e8592d4a 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1385,8 +1385,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
- {
-     CPUArchState *env = cpu->env_ptr;
-     TranslationBlock *tb, *existing_tb;
--    tb_page_addr_t phys_pc, phys_page2;
--    target_ulong virt_page2;
-+    tb_page_addr_t phys_pc;
-     tcg_insn_unit *gen_code_buf;
-     int gen_code_size, search_size, max_insns;
- #ifdef CONFIG_PROFILER
-@@ -1429,6 +1428,8 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-     tb->flags = flags;
-     tb->cflags = cflags;
-     tb->trace_vcpu_dstate = *cpu->trace_dstate;
-+    tb->page_addr[0] = phys_pc;
-+    tb->page_addr[1] = -1;
-     tcg_ctx->tb_cflags = cflags;
-  tb_overflow:
- 
-@@ -1622,13 +1623,11 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-     }
- 
-     /*
--     * If the TB is not associated with a physical RAM page then
--     * it must be a temporary one-insn TB, and we have nothing to do
--     * except fill in the page_addr[] fields. Return early before
--     * attempting to link to other TBs or add to the lookup table.
-+     * If the TB is not associated with a physical RAM page then it must be
-+     * a temporary one-insn TB, and we have nothing left to do. Return early
-+     * before attempting to link to other TBs or add to the lookup table.
-      */
--    if (phys_pc == -1) {
--        tb->page_addr[0] = tb->page_addr[1] = -1;
-+    if (tb->page_addr[0] == -1) {
-         return tb;
-     }
- 
-@@ -1639,17 +1638,11 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-      */
-     tcg_tb_insert(tb);
- 
--    /* check next page if needed */
--    virt_page2 = (pc + tb->size - 1) & TARGET_PAGE_MASK;
--    phys_page2 = -1;
--    if ((pc & TARGET_PAGE_MASK) != virt_page2) {
--        phys_page2 = get_page_addr_code(env, virt_page2);
--    }
-     /*
-      * No explicit memory barrier is required -- tb_link_page() makes the
-      * TB visible in a consistent state.
-      */
--    existing_tb = tb_link_page(tb, phys_pc, phys_page2);
-+    existing_tb = tb_link_page(tb, tb->page_addr[0], tb->page_addr[1]);
-     /* if the TB already exists, discard what we just translated */
-     if (unlikely(existing_tb != tb)) {
-         uintptr_t orig_aligned = (uintptr_t)gen_code_buf;
-diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-index 3eef30d93a..ca8a5f2d83 100644
---- a/accel/tcg/translator.c
-+++ b/accel/tcg/translator.c
-@@ -42,15 +42,6 @@ bool translator_use_goto_tb(DisasContextBase *db, target_ulong dest)
-     return ((db->pc_first ^ dest) & TARGET_PAGE_MASK) == 0;
- }
- 
--static inline void translator_page_protect(DisasContextBase *dcbase,
--                                           target_ulong pc)
--{
--#ifdef CONFIG_USER_ONLY
--    dcbase->page_protect_end = pc | ~TARGET_PAGE_MASK;
--    page_protect(pc);
--#endif
--}
--
- void translator_loop(CPUState *cpu, TranslationBlock *tb, int max_insns,
-                      target_ulong pc, void *host_pc,
-                      const TranslatorOps *ops, DisasContextBase *db)
-@@ -66,7 +57,12 @@ void translator_loop(CPUState *cpu, TranslationBlock *tb, int max_insns,
-     db->num_insns = 0;
-     db->max_insns = max_insns;
-     db->singlestep_enabled = cflags & CF_SINGLE_STEP;
--    translator_page_protect(db, db->pc_next);
-+    db->host_addr[0] = host_pc;
-+    db->host_addr[1] = NULL;
-+
-+#ifdef CONFIG_USER_ONLY
-+    page_protect(pc);
-+#endif
- 
-     ops->init_disas_context(db, cpu);
-     tcg_debug_assert(db->is_jmp == DISAS_NEXT);  /* no early exit */
-@@ -151,31 +147,103 @@ void translator_loop(CPUState *cpu, TranslationBlock *tb, int max_insns,
- #endif
- }
- 
--static inline void translator_maybe_page_protect(DisasContextBase *dcbase,
--                                                 target_ulong pc, size_t len)
-+static void *translator_access(CPUArchState *env, DisasContextBase *db,
-+                               target_ulong pc, size_t len)
- {
--#ifdef CONFIG_USER_ONLY
--    target_ulong end = pc + len - 1;
-+    void *host;
-+    target_ulong base, end;
-+    TranslationBlock *tb;
- 
--    if (end > dcbase->page_protect_end) {
--        translator_page_protect(dcbase, end);
-+    tb = db->tb;
-+
-+    /* Use slow path if first page is MMIO. */
-+    if (unlikely(tb->page_addr[0] == -1)) {
-+        return NULL;
-     }
-+
-+    end = pc + len - 1;
-+    if (likely(is_same_page(db, end))) {
-+        host = db->host_addr[0];
-+        base = db->pc_first;
-+    } else {
-+        host = db->host_addr[1];
-+        base = TARGET_PAGE_ALIGN(db->pc_first);
-+        if (host == NULL) {
-+            tb->page_addr[1] =
-+                get_page_addr_code_hostp(env, base, &db->host_addr[1]);
-+#ifdef CONFIG_USER_ONLY
-+            page_protect(end);
- #endif
-+            /* We cannot handle MMIO as second page. */
-+            assert(tb->page_addr[1] != -1);
-+            host = db->host_addr[1];
-+        }
-+
-+        /* Use slow path when crossing pages. */
-+        if (is_same_page(db, pc)) {
-+            return NULL;
-+        }
-+    }
-+
-+    tcg_debug_assert(pc >= base);
-+    return host + (pc - base);
- }
- 
--#define GEN_TRANSLATOR_LD(fullname, type, load_fn, swap_fn)             \
--    type fullname ## _swap(CPUArchState *env, DisasContextBase *dcbase, \
--                           abi_ptr pc, bool do_swap)                    \
--    {                                                                   \
--        translator_maybe_page_protect(dcbase, pc, sizeof(type));        \
--        type ret = load_fn(env, pc);                                    \
--        if (do_swap) {                                                  \
--            ret = swap_fn(ret);                                         \
--        }                                                               \
--        plugin_insn_append(pc, &ret, sizeof(ret));                      \
--        return ret;                                                     \
-+uint8_t translator_ldub(CPUArchState *env, DisasContextBase *db, abi_ptr pc)
-+{
-+    uint8_t ret;
-+    void *p = translator_access(env, db, pc, sizeof(ret));
-+
-+    if (p) {
-+        plugin_insn_append(pc, p, sizeof(ret));
-+        return ldub_p(p);
-     }
-+    ret = cpu_ldub_code(env, pc);
-+    plugin_insn_append(pc, &ret, sizeof(ret));
-+    return ret;
-+}
- 
--FOR_EACH_TRANSLATOR_LD(GEN_TRANSLATOR_LD)
-+uint16_t translator_lduw(CPUArchState *env, DisasContextBase *db, abi_ptr pc)
-+{
-+    uint16_t ret, plug;
-+    void *p = translator_access(env, db, pc, sizeof(ret));
- 
--#undef GEN_TRANSLATOR_LD
-+    if (p) {
-+        plugin_insn_append(pc, p, sizeof(ret));
-+        return lduw_p(p);
-+    }
-+    ret = cpu_lduw_code(env, pc);
-+    plug = tswap16(ret);
-+    plugin_insn_append(pc, &plug, sizeof(ret));
-+    return ret;
-+}
-+
-+uint32_t translator_ldl(CPUArchState *env, DisasContextBase *db, abi_ptr pc)
-+{
-+    uint32_t ret, plug;
-+    void *p = translator_access(env, db, pc, sizeof(ret));
-+
-+    if (p) {
-+        plugin_insn_append(pc, p, sizeof(ret));
-+        return ldl_p(p);
-+    }
-+    ret = cpu_ldl_code(env, pc);
-+    plug = tswap32(ret);
-+    plugin_insn_append(pc, &plug, sizeof(ret));
-+    return ret;
-+}
-+
-+uint64_t translator_ldq(CPUArchState *env, DisasContextBase *db, abi_ptr pc)
-+{
-+    uint64_t ret, plug;
-+    void *p = translator_access(env, db, pc, sizeof(ret));
-+
-+    if (p) {
-+        plugin_insn_append(pc, p, sizeof(ret));
-+        return ldq_p(p);
-+    }
-+    ret = cpu_ldq_code(env, pc);
-+    plug = tswap64(ret);
-+    plugin_insn_append(pc, &plug, sizeof(ret));
-+    return ret;
-+}
--- 
-2.34.1
+     tcg_gen_andi_tl(t1, in_val, reg_mask);
+     tcg_gen_andi_tl(t2, cur_val, ~reg_mask);
+     tcg_gen_or_tl(out_val, t1, t2);
 
+
+I'm surprised about new files for this simple operation.  Surely a subroutine within 
+genptr.c would be sufficient.
+
+
+> +static const hexagon_mut_entry gpr_mut_masks[HEX_REG_LAST_VALUE] = {
+> +    [HEX_REG_PC] = {true, 0x00000000},
+> +    [HEX_REG_GP] = {true, 0xffffffc0},
+> +    [HEX_REG_USR] = {true, 0x3ecfff3f},
+> +    [HEX_REG_UTIMERLO] = {true, 0x00000000},
+> +    [HEX_REG_UTIMERHI] = {true, 0x00000000},
+> +};
+...
+>   static inline void gen_log_reg_write(int rnum, TCGv val)
+>   {
+> -    tcg_gen_mov_tl(hex_new_value[rnum], val);
+> +    const hexagon_mut_entry entry = gpr_mut_masks[rnum];
+> +    if (entry.present) {
+> +        gen_masked_reg_write(hex_gpr[rnum], val, hex_new_value[rnum],
+> +            entry.mask);
+> +    } else {
+> +        tcg_gen_mov_tl(hex_new_value[rnum], val);
+> +    }
+
+You could avoid the structure and .present flag by initializing all other entries to 
+UINT32_MAX.  E.g.
+
+static const target_ulong gpr_mut_masks[HEX_REG_LAST_VALUE] = {
+     [0 ... HEX_REG_LAST_VALUE - 1] = UINT32_MAX,
+     [HEX_REG_PC] = 0
+     ...
+};
+
+It might be clearer, and easier to initialize, if you invert the sense of the mask: only 
+set bits that are immutable, so that you get
+
+static const target_ulong gpr_immutable_masks[HEX_REG_LAST_VALUE] = {
+     [HEX_REG_PC] = UINT32_MAX,
+     [HEX_REG_GP] = 0x3f,
+     ...
+};
+
+
+r~
 
