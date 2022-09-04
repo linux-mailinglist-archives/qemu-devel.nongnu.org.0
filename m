@@ -2,56 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97A385AC5D3
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 20:08:10 +0200 (CEST)
-Received: from localhost ([::1]:43376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A4EB5AC661
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 22:39:45 +0200 (CEST)
+Received: from localhost ([::1]:44222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oUu2T-0002KJ-6u
-	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 14:08:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35736)
+	id 1oUwPA-0004vj-1F
+	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 16:39:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1oUu1R-0000uF-FM
- for qemu-devel@nongnu.org; Sun, 04 Sep 2022 14:07:05 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:50849)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oUwNn-0003Nz-3l
+ for qemu-devel@nongnu.org; Sun, 04 Sep 2022 16:38:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1oUu1P-0001Ur-0V
- for qemu-devel@nongnu.org; Sun, 04 Sep 2022 14:07:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=akPOUdP49DtuWB+KyOvhEQj4lrQ0czNWKAgXxEi0EaM=; b=bnCyWCZqs/IwkKGcIlvltYuLc8
- nMxJo3QEblgZKZXDL0iAmLWU+ANnUipDIa6unYkEBg248CCv+yHBizDJqO6/k0Ihz2X7sHc/ZIeoV
- NzpyluY2TZmDYWHUTEL7RTDL13CujID/kYJXzumMtiYUepap5Fqn5OrRPQhTnsDnzDs1JhQvQCvVO
- nLaiQ/VPvfcYfz6J9cz3sVCprZvcwnyu6RJCe/vyk3UDYoDbmwyPyy1qyEIOHz0Gw3EdOKbf8j9hK
- riWZ4KHNDJOoMo+PCJ+lfQ3nd0P25vlJsN/e7xLAb84gcscEiCUyNBGSJCoJs1Am18dupfdfhIKDC
- MMZwo3RR66Z4BXNQMFNbPgZbbIvhTsnXVuFMbFsCWVuhxJvZTmQzhoyiFf1e+xLMEsyvOiHXdqU31
- uE4gHVOOyxuKnKaCdM+on0PMQRFk2l/kTCOeR6ehHIeJ9iSwSv+KUtDG+K8NpfhETyLZe5w8SlCTf
- 9GgbnUrpfTlLCvBqNYn4O94eiRkww1pGBVhrJEv2jgb/hZqxzhVxVoq1tgfSFj+dAP+lTIFo5HqoY
- 3hRbw43uf79/LOo3xwXyIeD2bzwkm1DE+RJemrymaFyKJYeGTtrFp04m9mnjyLZWrsHQ88OpQp5PM
- NoTnN7DQGjeEkZGhUSbmCGhwa/BurQU93xFhvy9Ms=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>, Linus Heckemann <git@sphalerite.org>
-Subject: Re: [PATCH] 9pfs: use GHashMap for fid table
-Date: Sun, 04 Sep 2022 20:06:57 +0200
-Message-ID: <2843062.aF7IraYCKC@silver>
-In-Reply-To: <20220903150327.2780127-1-git@sphalerite.org>
-References: <20220903150327.2780127-1-git@sphalerite.org>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oUwNi-0004ny-Ol
+ for qemu-devel@nongnu.org; Sun, 04 Sep 2022 16:38:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662323886;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qZEMRRzOCR1TTFHYlRiqnE2jgjqBJRmYnAjYlrl73fU=;
+ b=Hc/tiuY1y+2dJ/anR92/N2C2TK+ikmGrqC//GX57eGl83sL4uDW7Q9WlpzJmqeMVsJiPNi
+ fg7biOeiSsghgDsWH6xyIgQl1ZVyr35RxMcZ3qnHmjv2DQBbGDUA2hLoPA8nTW3OG05dIz
+ zCJzin+tTJbnNWKRngiRcZuN4Jt6MiE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-407-PrNbZozFMkCwNht-lRfnAw-1; Sun, 04 Sep 2022 16:38:04 -0400
+X-MC-Unique: PrNbZozFMkCwNht-lRfnAw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ j19-20020a05600c1c1300b003ab73e4c45dso4074924wms.0
+ for <qemu-devel@nongnu.org>; Sun, 04 Sep 2022 13:38:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=qZEMRRzOCR1TTFHYlRiqnE2jgjqBJRmYnAjYlrl73fU=;
+ b=EA+tiKH6SXiamaK1QbuKlwC2FtIgreIZ6rTpd1x7g5mmhVPWLCp2J5OiGHjB3u8/sM
+ Q+jCGx3/9s9/PiSI4nc3GzaT/X+92jybTifE/5cwm5kV4S5thYYMyWTZWKqLsOkTVGn0
+ ctb+F3/7G0qovm1dzABNtZvrRcQ/rjFhstwTZzBgyPpUnnvt5G3+d0XjeMd9eUfuhWVj
+ Rw+TvW0P/gatVxISSwZ5yk51ll57R3Pc9umPqUrW+ZmWqzQGt91WX/ud3J7IwqhbxX14
+ sD4g2Ik5bsWan+1ACM7K/wOyoHHNyE6GfLWYZyV8BZCi2od8K+0tF4+8QsByemsWCLfd
+ EjpA==
+X-Gm-Message-State: ACgBeo2+yF6U/WdIjUd5MR3fCVAZ3MnSbEbw35sDEM1ymsMD0smoK6QD
+ tsWfb087agFZ+Vitzp9uS2IAZK1r9ZAqoeQdR0gFQvPtJl3XS4VnDcRFr62EWqMSkOOm+XpNlmW
+ 1auge9jn+zSUySYQ=
+X-Received: by 2002:a5d:4246:0:b0:228:a8b6:ccf5 with SMTP id
+ s6-20020a5d4246000000b00228a8b6ccf5mr150046wrr.7.1662323883658; 
+ Sun, 04 Sep 2022 13:38:03 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4oMzU+f7JCGIDCD1lsWOkDlMvnqcipAxZafpBoyxzgHX2YwZPkIx9gSd29MxHsffedZdjtdA==
+X-Received: by 2002:a5d:4246:0:b0:228:a8b6:ccf5 with SMTP id
+ s6-20020a5d4246000000b00228a8b6ccf5mr150040wrr.7.1662323883385; 
+ Sun, 04 Sep 2022 13:38:03 -0700 (PDT)
+Received: from redhat.com ([2.52.135.118]) by smtp.gmail.com with ESMTPSA id
+ m23-20020a05600c3b1700b003a5e7435190sm17060561wms.32.2022.09.04.13.38.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 04 Sep 2022 13:38:02 -0700 (PDT)
+Date: Sun, 4 Sep 2022 16:37:59 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Xiaoyao Li <xiaoyao.li@intel.com>, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org, Marcelo Tosatti <mtosatti@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Sergio Lopez <slp@redhat.com>
+Subject: Re: [PATCH 0/2] expose host-phys-bits to guest
+Message-ID: <20220904163609-mutt-send-email-mst@kernel.org>
+References: <20220831125059.170032-1-kraxel@redhat.com>
+ <957f0cc5-6887-3861-2b80-69a8c7cdd098@intel.com>
+ <20220901135810.6dicz4grhz7ye2u7@sirius.home.kraxel.org>
+ <f7a56158-9920-e753-4d21-e1bcc3573e27@intel.com>
+ <20220901161741.dadmguwv25sk4h6i@sirius.home.kraxel.org>
+ <34be4132-53f4-8779-1ada-68aa554e0eac@intel.com>
+ <20220902060720.xruqoxc2iuszkror@sirius.home.kraxel.org>
+ <20220902021628-mutt-send-email-mst@kernel.org>
+ <20220902084420.noroojfcy5hnngya@sirius.home.kraxel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220902084420.noroojfcy5hnngya@sirius.home.kraxel.org>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,313 +107,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Samstag, 3. September 2022 17:03:27 CEST Linus Heckemann wrote:
-> The previous implementation would iterate over the fid table for
-> lookup operations, resulting in an operation with O(n) complexity on
-> the number of open files and poor cache locality -- for nearly every
-> open, stat, read, write, etc operation.
+On Fri, Sep 02, 2022 at 10:44:20AM +0200, Gerd Hoffmann wrote:
+>   Hi,
+>  
+> > I feel there are three major sources of controversy here
+> > 
+> > 0. the cover letter and subject don't do such a good job
+> >    explaining that what we are doing is just telling guest
+> >    CPUID is not broken. we are not exposing anything new
+> >    and not exposing host capability to guest, for example,
+> >    if cpuid phys address is smaller than host things also
+> >    work fine.
+> > 
+> > 1. really the naming.  We need to be more explicit that it's just a bugfix.
+> 
+> Yep, I'll go improve that for v2.
+> 
+> > 2. down the road we will want to switch the default when no PV. however,
+> >    some hosts might still want conservative firmware for compatibility
+> >    reasons, so I think we need a way to tell firmware
+> >    "ignore phys address width in CPUID like you did in the past".
+> >    let's add a flag for that?
+> >    and if none are set firmware should print a warning, though I
+> >    do not know how many people will see that. Maybe some ;)
+> 
+> > /*
+> >  * Force firmware to be very conservative in its use of physical
+> >  * addresses, ignoring phys address width in CPUID.
+> >  * Helpful for migration between hosts with different capabilities.
+> >  */
+> > #define KVM_BUG_PHYS_ADDRESS_WIDTH_BROKEN 2
+> 
+> I don't see a need for that.  Live migration compatibility can be
+> handled just fine today using
+> 	'host-phys-bits=on,host-phys-bits-limit=<xx>'
+> 
+> Which is simliar to 'phys-bits=<xx>'.
 
-Oh yes, I had this on my TODO list for a long time. Thanks for the effort 
-Linus!
+yes but what if user did not configure anything?
 
-> This change uses a hashtable for this instead, significantly improving
-> the performance of the 9p filesystem. The runtime of NixOS's simple
-> installer test, which copies ~122k files totalling ~1.8GiB from 9p,
-> decreased by a factor of about 10.
+the point of the above is so we can eventually, in X years, change the guests
+to trust CPUID by default.
 
-Wow, even more than I expected. Nice!
-
-I have a feeling that this will also fix the massive slow downs that were seen 
-after running for a long time. Because I think that slow down was because a 
-large amount of fids were accumulated over time, where this O(n) issue hurts 
-more noticably.
-
-Some remarks below ...
-
-> Signed-off-by: Linus Heckemann <git@sphalerite.org>
-> ---
->  hw/9pfs/9p.c | 130 +++++++++++++++++++++++++++------------------------
->  hw/9pfs/9p.h |   2 +-
->  2 files changed, 69 insertions(+), 63 deletions(-)
+> The important difference is that phys-bits allows pretty much anything
+> whereas host-phys-bits-limit applies sanity checks against the host
+> supported phys bits and throws error on invalid values.
 > 
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index aebadeaa03..ff466afe39 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -282,33 +282,31 @@ static V9fsFidState *coroutine_fn get_fid(V9fsPDU
-> *pdu, int32_t fid) V9fsFidState *f;
->      V9fsState *s = pdu->s;
-> 
-> -    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
-> -        BUG_ON(f->clunked);
-> -        if (f->fid == fid) {
-> -            /*
-> -             * Update the fid ref upfront so that
-> -             * we don't get reclaimed when we yield
-> -             * in open later.
-> -             */
-> -            f->ref++;
-> -            /*
-> -             * check whether we need to reopen the
-> -             * file. We might have closed the fd
-> -             * while trying to free up some file
-> -             * descriptors.
-> -             */
-> -            err = v9fs_reopen_fid(pdu, f);
-> -            if (err < 0) {
-> -                f->ref--;
-> -                return NULL;
-> -            }
-> -            /*
-> -             * Mark the fid as referenced so that the LRU
-> -             * reclaim won't close the file descriptor
-> -             */
-> -            f->flags |= FID_REFERENCED;
-> -            return f;
-> +    f = g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
-> +    if (f) {
-> +        /*
-> +         * Update the fid ref upfront so that
-> +         * we don't get reclaimed when we yield
-> +         * in open later.
-> +         */
-> +        f->ref++;
-> +        /*
-> +         * check whether we need to reopen the
-> +         * file. We might have closed the fd
-> +         * while trying to free up some file
-> +         * descriptors.
-> +         */
-> +        err = v9fs_reopen_fid(pdu, f);
-> +        if (err < 0) {
-> +            f->ref--;
-> +            return NULL;
->          }
-> +        /*
-> +         * Mark the fid as referenced so that the LRU
-> +         * reclaim won't close the file descriptor
-> +         */
-> +        f->flags |= FID_REFERENCED;
-> +        return f;
->      }
->      return NULL;
->  }
-> @@ -317,12 +315,9 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t
-> fid) {
->      V9fsFidState *f;
-> 
-> -    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
-> +    if (g_hash_table_contains(s->fids, GINT_TO_POINTER(fid))) {
->          /* If fid is already there return NULL */
-> -        BUG_ON(f->clunked);
-> -        if (f->fid == fid) {
-> -            return NULL;
-> -        }
-> +        return NULL;
-
-Probably retaining BUG_ON(f->clunked) here?
-
->      }
->      f = g_new0(V9fsFidState, 1);
->      f->fid = fid;
-> @@ -333,7 +328,7 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t
-> fid) * reclaim won't close the file descriptor
->       */
->      f->flags |= FID_REFERENCED;
-> -    QSIMPLEQ_INSERT_TAIL(&s->fid_list, f, next);
-> +    g_hash_table_insert(s->fids, GINT_TO_POINTER(fid), f);
-> 
->      v9fs_readdir_init(s->proto_version, &f->fs.dir);
->      v9fs_readdir_init(s->proto_version, &f->fs_reclaim.dir);
-> @@ -424,12 +419,11 @@ static V9fsFidState *clunk_fid(V9fsState *s, int32_t
-> fid) {
->      V9fsFidState *fidp;
-> 
-> -    QSIMPLEQ_FOREACH(fidp, &s->fid_list, next) {
-> -        if (fidp->fid == fid) {
-> -            QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
-> -            fidp->clunked = true;
-> -            return fidp;
-> -        }
-> +    fidp = g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
-> +    if (fidp) {
-> +        g_hash_table_remove(s->fids, GINT_TO_POINTER(fid));
-> +        fidp->clunked = true;
-> +        return fidp;
-
-We can't get rid of the double lookup here, can we? Surprisingly I don't find 
-a lookup function on the iterator based API.
-
->      }
->      return NULL;
->  }
-> @@ -439,10 +433,15 @@ void coroutine_fn v9fs_reclaim_fd(V9fsPDU *pdu)
->      int reclaim_count = 0;
->      V9fsState *s = pdu->s;
->      V9fsFidState *f;
-> +
-> +    GHashTableIter iter;
-> +    gpointer fid;
-> +    g_hash_table_iter_init(&iter, s->fids);
-> +
->      QSLIST_HEAD(, V9fsFidState) reclaim_list =
->          QSLIST_HEAD_INITIALIZER(reclaim_list);
-> 
-> -    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
-> +    while (g_hash_table_iter_next(&iter, &fid, (void **) &f)) {
->          /*
->           * Unlink fids cannot be reclaimed. Check
->           * for them and skip them. Also skip fids
-> @@ -518,12 +517,12 @@ static int coroutine_fn
-> v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path) {
->      int err;
->      V9fsState *s = pdu->s;
-> -    V9fsFidState *fidp, *fidp_next;
-> +    V9fsFidState *fidp;
-> +    gpointer fid;
-> +
-> +    GHashTableIter iter;
-> +    g_hash_table_iter_init(&iter, s->fids);
-> 
-> -    fidp = QSIMPLEQ_FIRST(&s->fid_list);
-> -    if (!fidp) {
-> -        return 0;
-> -    }
-> 
->      /*
->       * v9fs_reopen_fid() can yield : a reference on the fid must be held
-> @@ -534,7 +533,13 @@ static int coroutine_fn
-> v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path) * iteration after we
-> could get a reference on the next fid. Start with * the first one.
->       */
-> -    for (fidp->ref++; fidp; fidp = fidp_next) {
-> +    while (g_hash_table_iter_next(&iter, &fid, (void **) &fidp)) {
-
-Too bad that there's apparently no macro based g_hash_table_foreach(), that 
-would have made the code a bit cleaner and shorter than using an iterator 
-while loop, but OK.
-
-Best regards,
-Christian Schoenebeck
-
-> +        /*
-> +         * Ensure the fid survives a potential clunk request during
-> +         * put_fid() below and v9fs_reopen_fid() in the next iteration.
-> +         */
-> +        fidp->ref++;
-> +
->          if (fidp->path.size == path->size &&
->              !memcmp(fidp->path.data, path->data, path->size)) {
->              /* Mark the fid non reclaimable. */
-> @@ -548,16 +553,6 @@ static int coroutine_fn
-> v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path) }
->          }
-> 
-> -        fidp_next = QSIMPLEQ_NEXT(fidp, next);
-> -
-> -        if (fidp_next) {
-> -            /*
-> -             * Ensure the next fid survives a potential clunk request
-> during -             * put_fid() below and v9fs_reopen_fid() in the next
-> iteration. -             */
-> -            fidp_next->ref++;
-> -        }
-> -
->          /* We're done with this fid */
->          put_fid(pdu, fidp);
->      }
-> @@ -570,18 +565,20 @@ static void coroutine_fn virtfs_reset(V9fsPDU *pdu)
->      V9fsState *s = pdu->s;
->      V9fsFidState *fidp;
-> 
-> +    gpointer fid;
-> +    GHashTableIter iter;
-> +    g_hash_table_iter_init(&iter, s->fids);
-> +
->      /* Free all fids */
-> -    while (!QSIMPLEQ_EMPTY(&s->fid_list)) {
-> -        /* Get fid */
-> -        fidp = QSIMPLEQ_FIRST(&s->fid_list);
-> +    while (g_hash_table_iter_next(&iter, &fid, (void **) &fidp)) {
->          fidp->ref++;
-> 
->          /* Clunk fid */
-> -        QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
->          fidp->clunked = true;
-> 
->          put_fid(pdu, fidp);
->      }
-> +    g_hash_table_remove_all(s->fids);
->  }
-> 
->  #define P9_QID_TYPE_DIR         0x80
-> @@ -3206,6 +3203,9 @@ static int coroutine_fn v9fs_complete_rename(V9fsPDU
-> *pdu, V9fsFidState *fidp, V9fsState *s = pdu->s;
->      V9fsFidState *dirfidp = NULL;
-> 
-> +    GHashTableIter iter;
-> +    gpointer fid;
-> +
->      v9fs_path_init(&new_path);
->      if (newdirfid != -1) {
->          dirfidp = get_fid(pdu, newdirfid);
-> @@ -3238,11 +3238,13 @@ static int coroutine_fn v9fs_complete_rename(V9fsPDU
-> *pdu, V9fsFidState *fidp, if (err < 0) {
->          goto out;
->      }
-> +
->      /*
->       * Fixup fid's pointing to the old name to
->       * start pointing to the new name
->       */
-> -    QSIMPLEQ_FOREACH(tfidp, &s->fid_list, next) {
-> +    g_hash_table_iter_init(&iter, s->fids);
-> +    while (g_hash_table_iter_next(&iter, &fid, (void **) &tfidp)) {
->          if (v9fs_path_is_ancestor(&fidp->path, &tfidp->path)) {
->              /* replace the name */
->              v9fs_fix_path(&tfidp->path, &new_path,
-> strlen(fidp->path.data)); @@ -3321,6 +3323,9 @@ static int coroutine_fn
-> v9fs_fix_fid_paths(V9fsPDU *pdu, V9fsPath *olddir, V9fsState *s = pdu->s;
->      int err;
-> 
-> +    GHashTableIter iter;
-> +    gpointer fid;
-> +
->      v9fs_path_init(&oldpath);
->      v9fs_path_init(&newpath);
->      err = v9fs_co_name_to_path(pdu, olddir, old_name->data, &oldpath);
-> @@ -3336,7 +3341,8 @@ static int coroutine_fn v9fs_fix_fid_paths(V9fsPDU
-> *pdu, V9fsPath *olddir, * Fixup fid's pointing to the old name to
->       * start pointing to the new name
->       */
-> -    QSIMPLEQ_FOREACH(tfidp, &s->fid_list, next) {
-> +    g_hash_table_iter_init(&iter, s->fids);
-> +    while (g_hash_table_iter_next(&iter, &fid, (void **) &tfidp)) {
->          if (v9fs_path_is_ancestor(&oldpath, &tfidp->path)) {
->              /* replace the name */
->              v9fs_fix_path(&tfidp->path, &newpath, strlen(oldpath.data));
-> @@ -4226,7 +4232,7 @@ int v9fs_device_realize_common(V9fsState *s, const
-> V9fsTransport *t, s->ctx.fmode = fse->fmode;
->      s->ctx.dmode = fse->dmode;
-> 
-> -    QSIMPLEQ_INIT(&s->fid_list);
-> +    s->fids = g_hash_table_new(NULL, NULL);
->      qemu_co_rwlock_init(&s->rename_lock);
-> 
->      if (s->ops->init(&s->ctx, errp) < 0) {
-> diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-> index 994f952600..10fd2076c2 100644
-> --- a/hw/9pfs/9p.h
-> +++ b/hw/9pfs/9p.h
-> @@ -339,7 +339,7 @@ typedef struct {
->  struct V9fsState {
->      QLIST_HEAD(, V9fsPDU) free_list;
->      QLIST_HEAD(, V9fsPDU) active_list;
-> -    QSIMPLEQ_HEAD(, V9fsFidState) fid_list;
-> +    GHashTable *fids;
->      FileOperations *ops;
->      FsContext ctx;
->      char *tag;
-
+> take care,
+>   Gerd
 
 
