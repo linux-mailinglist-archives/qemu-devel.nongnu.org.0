@@ -2,54 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14BAC5AC432
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 14:04:32 +0200 (CEST)
-Received: from localhost ([::1]:52608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60AA65AC49D
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 16:02:23 +0200 (CEST)
+Received: from localhost ([::1]:38298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oUoMX-000237-SW
-	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 08:04:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34040)
+	id 1oUqCW-0008RD-N1
+	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 10:02:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oUoHn-0007MY-Pj; Sun, 04 Sep 2022 07:59:35 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:51650)
+ (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
+ id 1oUqA4-0006ZE-FM
+ for qemu-devel@nongnu.org; Sun, 04 Sep 2022 09:59:44 -0400
+Received: from [60.177.97.220] (port=41226 helo=liuqiang-OptiPlex-7060)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oUoHk-0007bU-KR; Sun, 04 Sep 2022 07:59:34 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id BE504746399;
- Sun,  4 Sep 2022 13:59:27 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 506E3746397; Sun,  4 Sep 2022 13:59:27 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 4EB6C746396;
- Sun,  4 Sep 2022 13:59:27 +0200 (CEST)
-Date: Sun, 4 Sep 2022 13:59:27 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 10/20] ppc440_sdram: Implement enable bit in the DDR2
- SDRAM controller
-In-Reply-To: <13f53514-2e71-0832-2284-4fcd68385a26@amsat.org>
-Message-ID: <5783c5b6-3ed2-6d4-be85-8be91f50971@eik.bme.hu>
-References: <cover.1660926381.git.balaton@eik.bme.hu>
- <b37dac18c136a1b3dfc40b443a55480dd1ad8e90.1660926381.git.balaton@eik.bme.hu>
- <13f53514-2e71-0832-2284-4fcd68385a26@amsat.org>
+ (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
+ id 1oUqA2-00017f-J7
+ for qemu-devel@nongnu.org; Sun, 04 Sep 2022 09:59:44 -0400
+Received: from localhost (liuqiang-OptiPlex-7060 [local])
+ by liuqiang-OptiPlex-7060 (OpenSMTPD) with ESMTPA id 6b7501c0;
+ Sun, 4 Sep 2022 12:59:34 +0000 (UTC)
+From: Qiang Liu <cyruscyliu@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH] hcd-xhci: drop operation with secondary stream arrays enabled
+Date: Sun,  4 Sep 2022 20:59:26 +0800
+Message-Id: <20220904125926.2141607-1-cyruscyliu@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-104384963-1662292767=:66610"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
-X-Spam_action: no action
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 60.177.97.220 (failed)
+Received-SPF: softfail client-ip=60.177.97.220;
+ envelope-from=cyruscyliu@gmail.com; helo=liuqiang-OptiPlex-7060
+X-Spam_score_int: 65
+X-Spam_score: 6.5
+X-Spam_bar: ++++++
+X-Spam_report: (6.5 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
+ FORGED_GMAIL_RCVD=1, FREEMAIL_FROM=0.001, FSL_HELO_NON_FQDN_1=0.001,
+ HELO_NO_DOMAIN=0.001, NML_ADSP_CUSTOM_MED=0.9, RCVD_IN_PBL=3.335,
+ RCVD_IN_SORBS_DUL=0.001, RDNS_NONE=0.793, SPF_SOFTFAIL=0.665,
+ SPOOFED_FREEMAIL=1.701, SPOOFED_FREEMAIL_NO_RDNS=0.017, SPOOF_GMAIL_MID=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
+X-Spam_action: reject
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,76 +59,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+The abort() in xhci_find_stream() can be triggered via enabling the secondary
+stream arrays by setting linear stream array (LSA) bit (in endpoint context) to
+0. We may show warnings and drop this operation.
 
---3866299591-104384963-1662292767=:66610
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Fixes: 024426acc0a2 ("usb-xhci: usb3 streams")
+Reported-by: Qiang Liu <cyruscyliu@gmail.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1192
+Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
+---
+ hw/usb/hcd-xhci.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-On Sun, 4 Sep 2022, Philippe Mathieu-Daudé via wrote:
-> On 19/8/22 18:55, BALATON Zoltan wrote:
->> To allow removing the do_init hack we need to improve the DDR2 SDRAM
->> controller model to handle the enable/disable bit that it ignored so
->> far.
->> 
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> ---
->>   hw/ppc/ppc440_uc.c | 34 ++++++++++++++++++++++++++++++++--
->>   1 file changed, 32 insertions(+), 2 deletions(-)
->> 
->> diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
->> index c33f91e134..7c1513ff69 100644
->> --- a/hw/ppc/ppc440_uc.c
->> +++ b/hw/ppc/ppc440_uc.c
->> @@ -23,6 +23,7 @@
->>   #include "sysemu/reset.h"
->>   #include "ppc440.h"
->>   #include "qom/object.h"
->> +#include "trace.h"
->>     /*****************************************************************************/
->>   /* L2 Cache as SRAM */
->> @@ -484,6 +485,7 @@ void ppc4xx_sdr_init(CPUPPCState *env)
->>   /* SDRAM controller */
->>   typedef struct ppc440_sdram_t {
->>       uint32_t addr;
->> +    uint32_t mcopt2;
->>       int nbanks;
->>       Ppc4xxSdramBank bank[4];
->>   } ppc440_sdram_t;
->> @@ -581,12 +583,15 @@ static void sdram_set_bcr(ppc440_sdram_t *sdram, int 
->> i,
->>   {
->>       if (sdram->bank[i].bcr & 1) {
->>           /* First unmap RAM if enabled */
->> +        trace_ppc4xx_sdram_unmap(sdram_base(sdram->bank[i].bcr),
->> +                                 sdram_size(sdram->bank[i].bcr));
->
-> You extracted sdram_bank_unmap() for "reuse", so better
-> add the trace event there.
+diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
+index 3c48b58dde..654f7ec24a 100644
+--- a/hw/usb/hcd-xhci.c
++++ b/hw/usb/hcd-xhci.c
+@@ -992,7 +992,9 @@ static XHCIStreamContext *xhci_find_stream(XHCIEPContext *epctx,
+         }
+         sctx = epctx->pstreams + streamid;
+     } else {
+-        FIXME("secondary streams not implemented yet");
++        fprintf(stderr, "xhci: FIXME: secondary streams not implemented yet");
++        *cc_error = CC_INVALID_STREAM_TYPE_ERROR;
++        return NULL;
+     }
+ 
+     if (sctx->sct == -1) {
+-- 
+2.25.1
 
-These will end up there in patch 19 after consolidating ppc4xx DDR and 
-ppc440 DDR2 models.
-
-Thanks for your time reviewing it
-
-Regards,
-BALATON Zoltan
-
->>           sdram_bank_unmap(&sdram->bank[i]);
->>       }
->>       sdram->bank[i].bcr = bcr & 0xffe0ffc1;
->>       sdram->bank[i].base = sdram_base(bcr);
->>       sdram->bank[i].size = sdram_size(bcr);
->>       if (enabled && (bcr & 1)) {
->> +        trace_ppc4xx_sdram_map(sdram_base(bcr), sdram_size(bcr));
->
-> Ditto.
->
->>           sdram_bank_map(&sdram->bank[i]);
->>       }
->>   }
->
->
---3866299591-104384963-1662292767=:66610--
 
