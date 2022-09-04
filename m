@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F4D5AC49F
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 16:03:47 +0200 (CEST)
-Received: from localhost ([::1]:41878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 555EF5AC4A3
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 16:09:33 +0200 (CEST)
+Received: from localhost ([::1]:39980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oUqDz-000181-1W
-	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 10:03:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56072)
+	id 1oUqJX-00040P-Lw
+	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 10:09:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oUqBu-0007fJ-2K
- for qemu-devel@nongnu.org; Sun, 04 Sep 2022 10:01:39 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:42571)
+ id 1oUqHt-00020G-T9
+ for qemu-devel@nongnu.org; Sun, 04 Sep 2022 10:07:49 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:34704)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oUqBr-0001V9-3M
- for qemu-devel@nongnu.org; Sun, 04 Sep 2022 10:01:36 -0400
-Received: by mail-wr1-x432.google.com with SMTP id bp20so7687929wrb.9
- for <qemu-devel@nongnu.org>; Sun, 04 Sep 2022 07:01:34 -0700 (PDT)
+ id 1oUqHp-0002Ni-8H
+ for qemu-devel@nongnu.org; Sun, 04 Sep 2022 10:07:49 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id e13so8203689wrm.1
+ for <qemu-devel@nongnu.org>; Sun, 04 Sep 2022 07:07:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=dntN8Ne0CKdm6geqgeKgAtRetxO/BKYvdvPtGe1yRPw=;
- b=K6qFPuGdQLRfr4fVjrU+ynV/3SXWWzEQkHYOzWkgfXcrGjyfy8o4kFkxiydtT184AW
- GO86FVo/dZVPRgBDu67+gz5ie2z14NS08mFBoHY6LuKmdsom1umDM6CzVjJhUrp5t2Py
- qCByLsoQsLVUT1BdfYOzJjqi5mpLW+54pMD6aPCVh+KV+OWFOy3hRAnjxcuYOJqJvObY
- OUesXm0Myajycl38KvU+SDGNwmfdkgxKGG52Kt0BYGmAOCa19VRisqLKkPBGyqmf0Yzn
- ux+/unGFHblEt+QWv5Eiwqu+f3JgAsAkYbuyMtER1DHNkUsbV0yqKS+JjO8CktXf2qZI
- dWgQ==
+ bh=JWKkGG/fYNoiDDFxToejzbeMD3CZW/aQf/9st40lew0=;
+ b=hNx3mGsg3nTuyh/j2W+PTCbMYbXUyaGX4kTvdVJBs+gUxbOJHdPBm+skrqFkiV9s1X
+ rUerfc3wN/UfXN3bf7ket2p4UnIhHhrFDOnzEz8NtSHOLzBCwI5rxXLwAD+/h4/kaaDZ
+ Gt784E1klyYoabTDZcVoyaXrW3kIESH6jtjEguob1/Li4ZQflpKDfv2AvN5qahvb1/dA
+ ihIfcVkpBgJFWqauM2S8pHbwVipBJiLJZjpf1wMU3odjjjg/nk7DRZa2FCjRlh6FkaOZ
+ UohPZpew001FH5crr+5SAGAxIXgBeBJFPyJSQHBwC7AH2oddtkKpBeqn7CD/H8HpbOCv
+ vJqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=dntN8Ne0CKdm6geqgeKgAtRetxO/BKYvdvPtGe1yRPw=;
- b=qLI5v/7nGKmlOeORgVk6UePwpPXbzbj/w6ZBQn6l4RaDCuKw1NbE/SyxEulN+TGLdi
- KApn43f8xiDudZ58WVEhJ31G6caI46b0xMjJOaD96hIpXNEbXW21/kCFRuLD9x+9r5yh
- Rm1dHTwWX784f7J85RMUZzCRV/RPOv8J/A5n1B5anXN+14091qsCmUuqvnC3itdIpHOi
- XkXaNKIf7zBqPWsPvycdQ0xnIm80KA2gmVacE+g3oVGWyHVPiPNRrIdh5dfdoXl0QqtD
- txUxP0ODcZ5nbKBQxHtzCupISMM79wg8Gq2klBeSfv4Xhdzl+5SbnsnbZ7qZAzEDXOnz
- iYyQ==
-X-Gm-Message-State: ACgBeo0fD84zTSzNUolG8n1CWVEcLxebGlWdLu/kZSp8Xeq/RsNFgvPn
- 8zDs/kdPuoP+7Meq0WKkNVc=
-X-Google-Smtp-Source: AA6agR6RgIIHnl9LuEHG88bun9eeVjA8gK1yOXinrUzrD8f+hup7tWh0RW4ApRb31YjxC6fQB03i7Q==
-X-Received: by 2002:adf:d1ea:0:b0:226:f421:79b5 with SMTP id
- g10-20020adfd1ea000000b00226f42179b5mr9897165wrd.173.1662300093609; 
- Sun, 04 Sep 2022 07:01:33 -0700 (PDT)
+ bh=JWKkGG/fYNoiDDFxToejzbeMD3CZW/aQf/9st40lew0=;
+ b=O5i1tlECmSEub3fndS/JGUrjQjqmmki3n/teUhzDzKHfoR81f5CgYHYUkmCvL994vD
+ vMD3bptSWDF90Q+NFVTsx2Gl7QpZloCk4WYqnKIjKVtjSUbNq5H38lzEPlZlU2MhdoqM
+ hrJSmBu65GNEsou4FvpGh/AMdZOBtHpfbyHp36wOJQGjZen2RQqFxnkdehq8MfW8OpuW
+ YjWquPn5r8nB5mvmvV5taPcSvzvTCE2g9tD+v8dlk9J0dBa7RIAZTgRQvldY3khm7ICm
+ iLFvBaNzE2Gy1w4ld5R0b/LHiACqdxqk9A+YgAOB+O8WA///KCHQbuqNfeSU+yo1pqlt
+ qM9w==
+X-Gm-Message-State: ACgBeo0XshH11yRb2e3lj5gyS3cv+4mYuSXusRXHNscapvjmriw5BX4Z
+ 0InwSwGPOgpbJItCXFtjDhg=
+X-Google-Smtp-Source: AA6agR6MCw+1em2WaQ50VF0Cl/C3uCV+UCnE0+S8hWNjtJsLowehqHqvHcbrkhLUP2sEcZ2NBBJDzw==
+X-Received: by 2002:adf:f791:0:b0:225:8741:87aa with SMTP id
+ q17-20020adff791000000b00225874187aamr23193824wrp.73.1662300463701; 
+ Sun, 04 Sep 2022 07:07:43 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- m9-20020a05600c4f4900b003a84375d0d1sm15817297wmq.44.2022.09.04.07.01.31
+ h4-20020a5d4304000000b002238ea5750csm7567082wrq.72.2022.09.04.07.07.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 04 Sep 2022 07:01:33 -0700 (PDT)
-Message-ID: <ef04e507-777d-beeb-39fa-0b79b7f89e8d@amsat.org>
-Date: Sun, 4 Sep 2022 16:01:30 +0200
+ Sun, 04 Sep 2022 07:07:43 -0700 (PDT)
+Message-ID: <7bb4abf1-dc0f-d364-7e3c-c63fa4da6046@amsat.org>
+Date: Sun, 4 Sep 2022 16:07:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH 4/8] tests: Only run intel-hda-tests if machine type is
- compiled in
+Subject: Re: [PATCH 22/51] tests/qtest: qmp-test: Skip running test_qmp_oob
+ for win32
 Content-Language: en-US
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-Cc: Bandan Das <bsd@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
- Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Gerd Hoffmann <kraxel@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-References: <20220902173452.1904-1-quintela@redhat.com>
- <20220902173452.1904-5-quintela@redhat.com>
-In-Reply-To: <20220902173452.1904-5-quintela@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
+ <20220824094029.1634519-23-bmeng.cn@gmail.com> <87y1v7nqe9.fsf@pond.sub.org>
+ <CAEUhbmVryzMRNJiOzev6cjHCN2FBNHEYqCwhcwh0P0HuymHX8A@mail.gmail.com>
+ <87ler7m6mg.fsf@pond.sub.org>
+In-Reply-To: <87ler7m6mg.fsf@pond.sub.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
@@ -102,45 +101,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 2/9/22 19:34, Juan Quintela wrote:
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> ---
->   tests/qtest/intel-hda-test.c | 13 ++++++++-----
->   1 file changed, 8 insertions(+), 5 deletions(-)
+On 29/8/22 17:06, Markus Armbruster wrote:
+> Bin Meng <bmeng.cn@gmail.com> writes:
 > 
-> diff --git a/tests/qtest/intel-hda-test.c b/tests/qtest/intel-hda-test.c
-> index a58c98e4d1..d4a8db6fd6 100644
-> --- a/tests/qtest/intel-hda-test.c
-> +++ b/tests/qtest/intel-hda-test.c
-> @@ -18,7 +18,7 @@
->   /* Tests only initialization so far. TODO: Replace with functional tests */
->   static void ich6_test(void)
->   {
-> -    qtest_start("-device intel-hda,id=" HDA_ID CODEC_DEVICES);
-> +    qtest_start("-machine pc -device intel-hda,id=" HDA_ID CODEC_DEVICES);
->       qtest_end();
->   }
->   
-> @@ -65,9 +65,12 @@ static void test_issue542_ich6(void)
->   int main(int argc, char **argv)
->   {
->       g_test_init(&argc, &argv, NULL);
-> -    qtest_add_func("/intel-hda/ich6", ich6_test);
-> -    qtest_add_func("/intel-hda/ich9", ich9_test);
-> -    qtest_add_func("/intel-hda/fuzz/issue542", test_issue542_ich6);
-> -
-> +    if (qtest_has_machine("pc")) {
-> +        qtest_add_func("/intel-hda/ich6", ich6_test);
-> +    }
-> +    if (qtest_has_machine("q35")) {
-> +        qtest_add_func("/intel-hda/ich9", ich9_test);
-> +        qtest_add_func("/intel-hda/fuzz/issue542", test_issue542_ich6);
-> +    }
->       return g_test_run();
->   }
+>> Hi Markus,
+>>
+>> On Mon, Aug 29, 2022 at 9:14 PM Markus Armbruster <armbru@redhat.com> wrote:
+>>>
+>>> Bin Meng <bmeng.cn@gmail.com> writes:
+>>>
+>>>> From: Bin Meng <bin.meng@windriver.com>
+>>>>
+>>>> The test_qmp_oob test case calls mkfifo() which does not exist on
+>>>> win32. Exclude it.
+>>>>
+>>>> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>>>> ---
+>>>>
+>>>>   tests/qtest/qmp-test.c | 6 ++++++
+>>>>   1 file changed, 6 insertions(+)
+>>>>
+>>>> diff --git a/tests/qtest/qmp-test.c b/tests/qtest/qmp-test.c
+>>>> index b950dbafaf..4a165447f8 100644
+>>>> --- a/tests/qtest/qmp-test.c
+>>>> +++ b/tests/qtest/qmp-test.c
+>>>> @@ -159,6 +159,8 @@ static void test_qmp_protocol(void)
+>>>>       qtest_quit(qts);
+>>>>   }
+>>>>
+>>>> +#ifndef _WIN32
+>>>> +
+>>>>   /* Out-of-band tests */
+>>>>
+>>>>   char *tmpdir;
+>>>> @@ -279,6 +281,8 @@ static void test_qmp_oob(void)
+>>>>       qtest_quit(qts);
+>>>>   }
+>>>>
+>>>> +#endif /* _WIN32 */
+>>>> +
+>>>>   /* Preconfig tests */
+>>>>
+>>>>   static void test_qmp_preconfig(void)
+>>>> @@ -338,7 +342,9 @@ int main(int argc, char *argv[])
+>>>>       g_test_init(&argc, &argv, NULL);
+>>>>
+>>>>       qtest_add_func("qmp/protocol", test_qmp_protocol);
+>>>> +#ifndef _WIN32
+>>>>       qtest_add_func("qmp/oob", test_qmp_oob);
+>>>> +#endif
+>>>>       qtest_add_func("qmp/preconfig", test_qmp_preconfig);
+>>>>       qtest_add_func("qmp/missing-any-arg", test_qmp_missing_any_arg);
+>>>
+>>> I'd appreciate a comment explaining why we have to disable this test on
+>>> Windows.
+>>
+>> The reason is explained in the commit message.
+> 
+> Yes, and putting it there is a good idea.  But I'd appreciate if you
+> *also* put it in the code, so future readers of the code don't have to
+> dig through git history.
 
-Generically, we should really test for available devices, not particular 
-machines... As new machines using tested devices could be added.
+This could be self-explicit using instead:
 
-Could qtest_has_device(TYPE_INTEL_HDA_GENERIC) work here?
+   #if HAVE_POSIX_MKFIFO
 
