@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5569D5AC2FE
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 08:29:31 +0200 (CEST)
-Received: from localhost ([::1]:46288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07F555AC310
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 08:49:37 +0200 (CEST)
+Received: from localhost ([::1]:51500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oUj8L-0003Td-TZ
-	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 02:29:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48604)
+	id 1oUjRn-00076C-7L
+	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 02:49:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oUj3d-0001vS-78
- for qemu-devel@nongnu.org; Sun, 04 Sep 2022 02:24:40 -0400
-Received: from mail-qk1-x733.google.com ([2607:f8b0:4864:20::733]:38622)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oUjMN-0004qd-SY
+ for qemu-devel@nongnu.org; Sun, 04 Sep 2022 02:44:00 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:43735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oUj3b-0003FM-2B
- for qemu-devel@nongnu.org; Sun, 04 Sep 2022 02:24:36 -0400
-Received: by mail-qk1-x733.google.com with SMTP id g21so4582359qka.5
- for <qemu-devel@nongnu.org>; Sat, 03 Sep 2022 23:24:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=36qiLKl3+4XzCtmhlgiOODuEnB04b55UH5QqIlvc5Nk=;
- b=iQQ2qo9iOX6JpueX3Ls1L9xG4DkQMuUaP5EceQoQ7DBmy58QQAYpS190AbTXpkS8fK
- zZ39fHwlqg6AoFJHtLbdMxqV2BFdEN6/rEx+8M4wsQY2CT9spgvPmaD/pDQsxSi2sbCT
- low+BFaq6I167+CozTQBu2JUAmwPJMHK5bfkjQlA3mSkKYkd4LmBGodXdS4jXMxQRNUK
- x6lyUKRA6Z+UK9SWPF8xwgj6ZYX40LI3F3gKtv+aBVMXhRmqoX1szKiUZeFH44lsyu7M
- f8v4Bzf+eiL68p539P2pfOoaUCFX84RzRtFY3XKukTVycQI+a0dIZQxtmODG814hYh1k
- DPgg==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oUjMI-0005gz-5k
+ for qemu-devel@nongnu.org; Sun, 04 Sep 2022 02:43:56 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id v4so5521262pgi.10
+ for <qemu-devel@nongnu.org>; Sat, 03 Sep 2022 23:43:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+ :date:from:to:cc:subject:date;
+ bh=zybMCC3l40UZGO1mOy70w6Wi2EVSdUDfh9Wys1a2Xgo=;
+ b=S4xNsZbLCWKC0Bz9zW634MWfwVXe4kodlKKeNFRvpxmpDxJs8PX0ANsU0z7Li/lIOB
+ 5M3t1BGxJVGH00vHby/KYGg9W/EfRfJjscFxz3it7vpm2NT6pzQESoHjUpzlcsq40nFR
+ qSNMsMdKFf5HpyxBbRnOsMSBOJ5mPEB5fEfPIsKKCdHgQ+et8bW/csL+tjVEZWIn14/H
+ UPG9casdJAv1b9D3CA5FEHo7kQZwEbgLOshZGUpwDlt5LC4A91Q4RYSDVBActcDCDy5d
+ CjgaqtJNaZjQTOex9IdLtL1ne5vb6bC0sB6vHiXEvcFIHZ80QmF160khkvAmfqyWS9MG
+ 6dMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=36qiLKl3+4XzCtmhlgiOODuEnB04b55UH5QqIlvc5Nk=;
- b=jCx0DU0zYbulNwIH9dq41uVLR/Vbv9pGYEW3W5AsmG2CNGFn6pt0dqOladGWtKxBXI
- PKjsHgYpmBW84+piao6fgWperApr+Vug6/lFcGtLsWE+Jp+spsRi2FQ1TlOJCZj7s+ky
- V4GvrfA+CFzLQTKnKQ/HPOK2IYka3BQpWCTCw1FL0DIcEHSqGmaWUz2QN558D0LCWkzp
- OrpPIPSC93gTMYWPlxkdPl2FC/5FF6GlR+qFmBwzHrSSKQVBrvDn0bZhdiyYitV8cx2g
- y7l8MyJhu24DUsLwksS8kolAVS2vUXxR1Svpsry1Q5uXOXooVISsoS3U7HDIp0FwJOqJ
- WeoQ==
-X-Gm-Message-State: ACgBeo0/vMrA7D8aDOxyH0esISmC7xw0dBg/ecm+HTAbAJX43y933kUi
- QYGzRLiD/dojEWeozf9wS8fdLBZtI1mPWPq1Z8U=
-X-Google-Smtp-Source: AA6agR48WkYcAnpRo3C325jD4mShDT/jvBMsd9PgxSPD4dJarVKvs67xhG0VFSMzVz4MVYeC+hoiVI+YXXkvfkDFyAs=
-X-Received: by 2002:a37:9d6:0:b0:6c7:3c3d:291d with SMTP id
- 205-20020a3709d6000000b006c73c3d291dmr523927qkj.132.1662272673907; Sat, 03
- Sep 2022 23:24:33 -0700 (PDT)
+ h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date;
+ bh=zybMCC3l40UZGO1mOy70w6Wi2EVSdUDfh9Wys1a2Xgo=;
+ b=291dkDjJbP9y5uUnxwHEeyLyidPIeJCaYJDH7dZAu0SH6AydQX2jDCsf0/16nmNDRn
+ Ynr4CeJZ7GD20WhT4VLd/alIl/KqTHpyFAycakKNr8cY+nGioa1eJmDSGJmwpPwzo23W
+ Bo/Wyxv2IjJhoTI4DV1JwUXDzaxiy3wqcEy2oNhU6+HGWBTNa2IVyB2QonR0TztW6Miw
+ r2HdRwfBJxhcVJ6o8J5WYwzjy5ZYH0up33YFm35fDki1U/mocNP655rTPHc94stWlDJT
+ eOxNiHH7VYKRQ8DSSAbz4P2VWMrOyOnivp//uZ1I3aGB21I5OhIKo8PWKT9h2h255Q4Q
+ MIaw==
+X-Gm-Message-State: ACgBeo0FCyUkTod5NMLNsw4fTqzSk7IK4I0b8yj/cuaUwWfOlIWWhNGK
+ HIrMkDqwtinetjsi8BLLiz/l1g==
+X-Google-Smtp-Source: AA6agR5sKsFFtJH89QCQpdV0fITypd36y8Ikd89sx5GBWh8AiNm96c73PIzGaQXrp3q5jGs9YZ2K3Q==
+X-Received: by 2002:a63:5243:0:b0:42f:6447:27d9 with SMTP id
+ s3-20020a635243000000b0042f644727d9mr21098289pgl.356.1662273831780; 
+ Sat, 03 Sep 2022 23:43:51 -0700 (PDT)
+Received: from ani-ubuntu ([115.96.132.96])
+ by smtp.googlemail.com with ESMTPSA id
+ pj12-20020a17090b4f4c00b001df264610c4sm24052073pjb.0.2022.09.03.23.43.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 03 Sep 2022 23:43:51 -0700 (PDT)
+Date: Sun, 4 Sep 2022 12:13:43 +0530 (IST)
+From: Ani Sinha <ani@anisinha.ca>
+To: Juan Quintela <quintela@redhat.com>
+cc: qemu-devel@nongnu.org, Bandan Das <bsd@redhat.com>, 
+ Darren Kenny <darren.kenny@oracle.com>, Alexander Bulekov <alxndr@bu.edu>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Igor Mammedov <imammedo@redhat.com>, Thomas Huth <thuth@redhat.com>, 
+ Gerd Hoffmann <kraxel@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH 1/8] bios-tables-test: Make oem-fields tests be consistent
+In-Reply-To: <20220902173452.1904-2-quintela@redhat.com>
+Message-ID: <518d2cb3-7c79-c79b-c5a4-c3273978bde8@anisinha.ca>
+References: <20220902173452.1904-1-quintela@redhat.com>
+ <20220902173452.1904-2-quintela@redhat.com>
 MIME-Version: 1.0
-References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-50-bmeng.cn@gmail.com>
- <CAJ+F1C+-4U1huf=Jv_uJP-XXnXu88Gj9HHvrGS0dTFyKGv=qBg@mail.gmail.com>
-In-Reply-To: <CAJ+F1C+-4U1huf=Jv_uJP-XXnXu88Gj9HHvrGS0dTFyKGv=qBg@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 4 Sep 2022 14:24:22 +0800
-Message-ID: <CAEUhbmV_UU1TpRXfyz5U9kRj5r1ihm-HrXhzw_D-L96_Skxy+g@mail.gmail.com>
-Subject: Re: [PATCH 49/51] io/channel-watch: Fix socket watch on Windows
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x733.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: none client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=ani@anisinha.ca; helo=mail-pg1-x52a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,140 +91,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 1, 2022 at 8:58 PM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
->
-> Hi
->
-> On Wed, Aug 24, 2022 at 2:49 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->>
->> From: Bin Meng <bin.meng@windriver.com>
->>
->> Random failure was observed when running qtests on Windows due to
->> "Broken pipe" detected by qmp_fd_receive(). What happened is that
->> the qtest executable sends testing data over a socket to the QEMU
->> under test but no response is received. The errno of the recv()
->> call from the qtest executable indicates ETIMEOUT, due to the qmp
->> chardev's tcp_chr_read() is never called to receive testing data
->> hence no response is sent to the other side.
->>
->> tcp_chr_read() is registered as the callback of the socket watch
->> GSource. The reason of the callback not being called by glib, is
->> that the source check fails to indicate the source is ready. There
->> are two socket watch sources created to monitor the same socket
->> event object from the char-socket backend in update_ioc_handlers().
->>
->> During the source check phase, qio_channel_socket_source_check()
->> calls WSAEnumNetworkEvents() to discovers occurrences of network
->> events for the indicated socket, clear internal network event records,
->> and reset the event object. Testing shows that if we don't reset the
->> event object by not passing the event handle to WSAEnumNetworkEvents()
->> the symptom goes away and qtest runs very stably.
->>
->> It looks we don't need to call WSAEnumNetworkEvents() at all, as we
->> don't parse the result of WSANETWORKEVENTS returned from this API.
->> We use select() to poll the socket status. Fix this instability by
->> dropping the WSAEnumNetworkEvents() call.
->>
->> Signed-off-by: Bin Meng <bin.meng@windriver.com>
->
->
-> What clears the event then?
->
 
-It seems we don't need to clear the event as everything still works as expe=
-cted.
 
->>
->> ---
->> During the testing, I removed the following codes in update_ioc_handlers=
-():
->>
->>     remove_hup_source(s);
->>     s->hup_source =3D qio_channel_create_watch(s->ioc, G_IO_HUP);
->>     g_source_set_callback(s->hup_source, (GSourceFunc)tcp_chr_hup,
->>                           chr, NULL);
->>     g_source_attach(s->hup_source, chr->gcontext);
->>
->> and such change also makes the symptom go away.
->>
->> And if I moved the above codes to the beginning, before the call to
->> io_add_watch_poll(), the symptom also goes away.
->>
->> It seems two sources watching on the same socket event object is
->> the key that leads to the instability. The order of adding a source
->> watch seems to also play a role but I can't explain why.
->> Hopefully a Windows and glib expert could explain this behavior.
->>
+On Fri, 2 Sep 2022, Juan Quintela wrote:
+
+> Every other test function is named:
 >
-> Feel free to leave that comment in the commit message.
-
-Sure, will add the above message into the commit in v2.
-
+> 	test_acpi_<machine>_<test>()
 >
-> This is strange, as both sources should have different events, clearing o=
-ne shouldn't affect the other.
-
-Both sources have the same event, as one QIO channel only has one
-socket, and one socket can only be bound to one event.
-
+> Just make this test the same.  Once there, rename "acpi/oem-fields" to
+> "acpi/piix4/oem-fields" so it is consistent with everything else.
 >
-> I guess it's WSAEnumNetworkEvents clearing of the internal network event =
-records that is problematic.
->
-> Can you check if you replace the call with ResetEvent() everything works?
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
 
-No, ResetEvent() does not work, and is not recommended by MSDN [1]
-too, which says:
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
 
-The proper way to reset the state of an event object used with the
-WSAEventSelect function is to pass the handle of the event object to
-the WSAEnumNetworkEvents function in the hEventObject parameter. This
-will reset the event object and adjust the status of active FD events
-on the socket in an atomic fashion.
-
-[1] https://docs.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2=
--wsaeventselect
-
+> ---
+>  tests/qtest/bios-tables-test.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
+>
+> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> index a0853744ae..1e808b0864 100644
+> --- a/tests/qtest/bios-tables-test.c
+> +++ b/tests/qtest/bios-tables-test.c
+> @@ -1671,7 +1671,7 @@ static void test_oem_fields(test_data *data)
+>      }
+>  }
+>
+> -static void test_acpi_oem_fields_pc(void)
+> +static void test_acpi_piix4_oem_fields(void)
+>  {
+>      test_data data;
+>      char *args;
+> @@ -1691,7 +1691,7 @@ static void test_acpi_oem_fields_pc(void)
+>      g_free(args);
+>  }
+>
+> -static void test_acpi_oem_fields_q35(void)
+> +static void test_acpi_q35_oem_fields(void)
+>  {
+>      test_data data;
+>      char *args;
+> @@ -1711,7 +1711,7 @@ static void test_acpi_oem_fields_q35(void)
+>      g_free(args);
+>  }
+>
+> -static void test_acpi_oem_fields_microvm(void)
+> +static void test_acpi_microvm_oem_fields(void)
+>  {
+>      test_data data;
+>      char *args;
+> @@ -1728,7 +1728,7 @@ static void test_acpi_oem_fields_microvm(void)
+>      g_free(args);
+>  }
+>
+> -static void test_acpi_oem_fields_virt(void)
+> +static void test_acpi_virt_oem_fields(void)
+>  {
+>      test_data data = {
+>          .machine = "virt",
+> @@ -1766,13 +1766,13 @@ int main(int argc, char *argv[])
+>          if (ret) {
+>              return ret;
+>          }
+> -        qtest_add_func("acpi/q35/oem-fields", test_acpi_oem_fields_q35);
+> +        qtest_add_func("acpi/q35/oem-fields", test_acpi_q35_oem_fields);
+>          if (tpm_model_is_available("-machine q35", "tpm-tis")) {
+>              qtest_add_func("acpi/q35/tpm2-tis", test_acpi_q35_tcg_tpm2_tis);
+>              qtest_add_func("acpi/q35/tpm12-tis", test_acpi_q35_tcg_tpm12_tis);
+>          }
+>          qtest_add_func("acpi/piix4", test_acpi_piix4_tcg);
+> -        qtest_add_func("acpi/oem-fields", test_acpi_oem_fields_pc);
+> +        qtest_add_func("acpi/piix4/oem-fields", test_acpi_piix4_oem_fields);
+>          qtest_add_func("acpi/piix4/bridge", test_acpi_piix4_tcg_bridge);
+>          qtest_add_func("acpi/piix4/pci-hotplug/no_root_hotplug",
+>                         test_acpi_piix4_no_root_hotplug);
+> @@ -1819,7 +1819,7 @@ int main(int argc, char *argv[])
+>          qtest_add_func("acpi/microvm/usb", test_acpi_microvm_usb_tcg);
+>          qtest_add_func("acpi/microvm/rtc", test_acpi_microvm_rtc_tcg);
+>          qtest_add_func("acpi/microvm/ioapic2", test_acpi_microvm_ioapic2_tcg);
+> -        qtest_add_func("acpi/microvm/oem-fields", test_acpi_oem_fields_microvm);
+> +        qtest_add_func("acpi/microvm/oem-fields", test_acpi_microvm_oem_fields);
+>          if (has_tcg) {
+>              qtest_add_func("acpi/q35/ivrs", test_acpi_q35_tcg_ivrs);
+>              if (strcmp(arch, "x86_64") == 0) {
+> @@ -1844,7 +1844,7 @@ int main(int argc, char *argv[])
+>              qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+>              qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
+>              qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
+> -            qtest_add_func("acpi/virt/oem-fields", test_acpi_oem_fields_virt);
+> +            qtest_add_func("acpi/virt/oem-fields", test_acpi_virt_oem_fields);
+>              qtest_add_func("acpi/virt/viot", test_acpi_virt_viot);
+>          }
+>      }
+> --
+> 2.37.2
 >
 >
->>
->>  io/channel-watch.c | 4 ----
->>  1 file changed, 4 deletions(-)
->>
->> diff --git a/io/channel-watch.c b/io/channel-watch.c
->> index 89f3c8a88a..e34d86e810 100644
->> --- a/io/channel-watch.c
->> +++ b/io/channel-watch.c
->> @@ -115,17 +115,13 @@ static gboolean
->>  qio_channel_socket_source_check(GSource *source)
->>  {
->>      static struct timeval tv0;
->> -
->>      QIOChannelSocketSource *ssource =3D (QIOChannelSocketSource *)sourc=
-e;
->> -    WSANETWORKEVENTS ev;
->>      fd_set rfds, wfds, xfds;
->>
->>      if (!ssource->condition) {
->>          return 0;
->>      }
->>
->> -    WSAEnumNetworkEvents(ssource->socket, ssource->ioc->event, &ev);
->> -
->>      FD_ZERO(&rfds);
->>      FD_ZERO(&wfds);
->>      FD_ZERO(&xfds);
->
->
-> Unrelated, after this chunk, there is
->         FD_SET((SOCKET)ssource->socket, &rfds);
->
-> it seems we can drop the cast. Feel free to send another patch.
->
-
-Yeah, this cast is unnecessary. Will spin a new patch in v2. Thanks!
-
-Regards,
-Bin
 
