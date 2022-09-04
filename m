@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F555AC310
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 08:49:37 +0200 (CEST)
-Received: from localhost ([::1]:51500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 699765AC312
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 09:09:25 +0200 (CEST)
+Received: from localhost ([::1]:41956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oUjRn-00076C-7L
-	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 02:49:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41366)
+	id 1oUjkx-0005md-Te
+	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 03:09:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oUjMN-0004qd-SY
- for qemu-devel@nongnu.org; Sun, 04 Sep 2022 02:44:00 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:43735)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1oUjio-0004Ah-5w
+ for qemu-devel@nongnu.org; Sun, 04 Sep 2022 03:07:10 -0400
+Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:45053)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oUjMI-0005gz-5k
- for qemu-devel@nongnu.org; Sun, 04 Sep 2022 02:43:56 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id v4so5521262pgi.10
- for <qemu-devel@nongnu.org>; Sat, 03 Sep 2022 23:43:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1oUjim-0000YK-C3
+ for qemu-devel@nongnu.org; Sun, 04 Sep 2022 03:07:09 -0400
+Received: by mail-io1-xd36.google.com with SMTP id d68so4791837iof.11
+ for <qemu-devel@nongnu.org>; Sun, 04 Sep 2022 00:07:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
- :date:from:to:cc:subject:date;
- bh=zybMCC3l40UZGO1mOy70w6Wi2EVSdUDfh9Wys1a2Xgo=;
- b=S4xNsZbLCWKC0Bz9zW634MWfwVXe4kodlKKeNFRvpxmpDxJs8PX0ANsU0z7Li/lIOB
- 5M3t1BGxJVGH00vHby/KYGg9W/EfRfJjscFxz3it7vpm2NT6pzQESoHjUpzlcsq40nFR
- qSNMsMdKFf5HpyxBbRnOsMSBOJ5mPEB5fEfPIsKKCdHgQ+et8bW/csL+tjVEZWIn14/H
- UPG9casdJAv1b9D3CA5FEHo7kQZwEbgLOshZGUpwDlt5LC4A91Q4RYSDVBActcDCDy5d
- CjgaqtJNaZjQTOex9IdLtL1ne5vb6bC0sB6vHiXEvcFIHZ80QmF160khkvAmfqyWS9MG
- 6dMA==
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=nsoOUpeuKR8xibgN81BhG1OqCu8Z/QahqIosnLSxSj0=;
+ b=ZF6FBEf1aQ2RH7DLplWpaEfk4Z6BfqWtHXtlInLh9e/P9km9QAxrqLFcn7KHi1zlQ6
+ 8ApA1L6gmjOEeU0c6/ZyKMMzCQeZU/Rz5IEU6rHzUXlHZ0XRgj2ADq3fsNII10BV8dJY
+ uD7X2O9rmwad6dHjgQmDHEjZtQk7pc5+u58pfIPUEYNIryedcROKv3IySwHmjN6qMhDr
+ 9/jOIpH1VVCccaQWXX6IuotHF35qEUbu838xYlVlWRDoxyGJz3ZvRaxoimo2I3tW9iZU
+ 4EvEilRvs5f0trc40tSbCoq6UIkzIiyrYjSP9+8FIUTtJb/BIplX/GvtcIVCbyThE86B
+ g9Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date;
- bh=zybMCC3l40UZGO1mOy70w6Wi2EVSdUDfh9Wys1a2Xgo=;
- b=291dkDjJbP9y5uUnxwHEeyLyidPIeJCaYJDH7dZAu0SH6AydQX2jDCsf0/16nmNDRn
- Ynr4CeJZ7GD20WhT4VLd/alIl/KqTHpyFAycakKNr8cY+nGioa1eJmDSGJmwpPwzo23W
- Bo/Wyxv2IjJhoTI4DV1JwUXDzaxiy3wqcEy2oNhU6+HGWBTNa2IVyB2QonR0TztW6Miw
- r2HdRwfBJxhcVJ6o8J5WYwzjy5ZYH0up33YFm35fDki1U/mocNP655rTPHc94stWlDJT
- eOxNiHH7VYKRQ8DSSAbz4P2VWMrOyOnivp//uZ1I3aGB21I5OhIKo8PWKT9h2h255Q4Q
- MIaw==
-X-Gm-Message-State: ACgBeo0FCyUkTod5NMLNsw4fTqzSk7IK4I0b8yj/cuaUwWfOlIWWhNGK
- HIrMkDqwtinetjsi8BLLiz/l1g==
-X-Google-Smtp-Source: AA6agR5sKsFFtJH89QCQpdV0fITypd36y8Ikd89sx5GBWh8AiNm96c73PIzGaQXrp3q5jGs9YZ2K3Q==
-X-Received: by 2002:a63:5243:0:b0:42f:6447:27d9 with SMTP id
- s3-20020a635243000000b0042f644727d9mr21098289pgl.356.1662273831780; 
- Sat, 03 Sep 2022 23:43:51 -0700 (PDT)
-Received: from ani-ubuntu ([115.96.132.96])
- by smtp.googlemail.com with ESMTPSA id
- pj12-20020a17090b4f4c00b001df264610c4sm24052073pjb.0.2022.09.03.23.43.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Sep 2022 23:43:51 -0700 (PDT)
-Date: Sun, 4 Sep 2022 12:13:43 +0530 (IST)
-From: Ani Sinha <ani@anisinha.ca>
-To: Juan Quintela <quintela@redhat.com>
-cc: qemu-devel@nongnu.org, Bandan Das <bsd@redhat.com>, 
- Darren Kenny <darren.kenny@oracle.com>, Alexander Bulekov <alxndr@bu.edu>, 
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
- Igor Mammedov <imammedo@redhat.com>, Thomas Huth <thuth@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH 1/8] bios-tables-test: Make oem-fields tests be consistent
-In-Reply-To: <20220902173452.1904-2-quintela@redhat.com>
-Message-ID: <518d2cb3-7c79-c79b-c5a4-c3273978bde8@anisinha.ca>
-References: <20220902173452.1904-1-quintela@redhat.com>
- <20220902173452.1904-2-quintela@redhat.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=nsoOUpeuKR8xibgN81BhG1OqCu8Z/QahqIosnLSxSj0=;
+ b=iKdYD9Wj0YE8Q9MhSjnUgeOGikMNmEZnZWmt52ni1R25+t+3HriCui2GHQFIgAID5O
+ Le2n5gxlXrMlNv9iinRZi1jSapjVeEiUnFL/rNE0htAMm4PrBijRsMkjUyXzPQgiwiN/
+ 9dWwMAyasNDkz2Nrn8wgVejt4IvNLo1ijx7wcnTb9k87/1XdEfWp8lTh8Dg9v2LAaL3A
+ CrSNjsR30Xn94Mm5iL9ObRR4XSzs6XNSR/8hlm9ZDsjAQCmsB/c1CVWr/xSA/D4KAYhc
+ jslbYCeUDK3aJXoc7/8BHtoEUyJ2o7YTR4CHwVcZeFWW3hFQOts6tJpqH1Is9DewNyc9
+ LCmw==
+X-Gm-Message-State: ACgBeo1bctmMkSAcvnbtl22hvCbgMs6iJvYhAWuTNN4gfMVxf3SRYuNC
+ lMRt9iQ7NshoJAPRlYje6Kc3kv1qXTgLGoLGlbIR8w==
+X-Google-Smtp-Source: AA6agR75V0ji+OrM6qBfF2dJLWkoEwc6a20otexFpzqZwNtvwOGT0Ti9yV3cWwTlVFQsIJj8fdWwuYig4LbbAw/MhKQ=
+X-Received: by 2002:a6b:105:0:b0:688:2b66:1ed6 with SMTP id
+ 5-20020a6b0105000000b006882b661ed6mr21057192iob.165.1662275226221; Sun, 04
+ Sep 2022 00:07:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::52a;
- envelope-from=ani@anisinha.ca; helo=mail-pg1-x52a.google.com
+References: <20220831013236.32937-1-akihiko.odaki@daynix.com>
+ <87tu5qulay.fsf@pond.sub.org>
+In-Reply-To: <87tu5qulay.fsf@pond.sub.org>
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+Date: Sun, 4 Sep 2022 16:06:55 +0900
+Message-ID: <CAE=JJXdg=Miisek8WeqQ12NqL8obzmuyzD0mbv1SfiJTyVBLuw@mail.gmail.com>
+Subject: Re: [PATCH v2] pci: Assert that capabilities never overlap
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org, 
+ Alex Williamson <alex.williamson@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>, 
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang <jasowang@redhat.com>, 
+ Stefan Weil <sw@weilnetz.de>, Keith Busch <kbusch@kernel.org>,
+ Klaus Jensen <its@irrelevant.dk>, 
+ Peter Maydell <peter.maydell@linaro.org>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, 
+ Paul Burton <paulburton@kernel.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-io1-xd36.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,101 +96,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Sep 2, 2022 at 7:23 PM Markus Armbruster <armbru@redhat.com> wrote:
+>
+> Akihiko Odaki <akihiko.odaki@daynix.com> writes:
+>
+> > pci_add_capability appears most PCI devices. Its error handling required
+> > lots of code, and led to inconsistent behaviors such as:
+> > - passing error_abort
+> > - passing error_fatal
+> > - asserting the returned value
+> > - propagating the error to the caller
+> > - skipping the rest of the function
+> > - just ignoring
+> >
+> > The code generating errors in pci_add_capability had a comment which
+> > says:
+> >> Verify that capabilities don't overlap.  Note: device assignment
+> >> depends on this check to verify that the device is not broken.
+> >> Should never trigger for emulated devices, but it's helpful for
+> >> debugging these.
+> >
+> > Indeed vfio has some code that passes capability offsets and sizes from
+> > a physical device, but it explicitly pays attention so that the
+> > capabilities never overlap.
+>
+> I can't see that at a glance.  Can you give me a clue?
+>
+> >                             Therefore, we can always assert that
+> > capabilities never overlap when pci_add_capability is called, resolving
+> > these inconsistencies.
+> >
+> > Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+>
 
+Looking at vfio_add_std_cap(), and vfio_add_ext_cap() it seems that
+they are clipping the size of capabilities so that they do not
+overlap, if I read it correctly.
 
-On Fri, 2 Sep 2022, Juan Quintela wrote:
-
-> Every other test function is named:
->
-> 	test_acpi_<machine>_<test>()
->
-> Just make this test the same.  Once there, rename "acpi/oem-fields" to
-> "acpi/piix4/oem-fields" so it is consistent with everything else.
->
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-
-Reviewed-by: Ani Sinha <ani@anisinha.ca>
-
-> ---
->  tests/qtest/bios-tables-test.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
->
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index a0853744ae..1e808b0864 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -1671,7 +1671,7 @@ static void test_oem_fields(test_data *data)
->      }
->  }
->
-> -static void test_acpi_oem_fields_pc(void)
-> +static void test_acpi_piix4_oem_fields(void)
->  {
->      test_data data;
->      char *args;
-> @@ -1691,7 +1691,7 @@ static void test_acpi_oem_fields_pc(void)
->      g_free(args);
->  }
->
-> -static void test_acpi_oem_fields_q35(void)
-> +static void test_acpi_q35_oem_fields(void)
->  {
->      test_data data;
->      char *args;
-> @@ -1711,7 +1711,7 @@ static void test_acpi_oem_fields_q35(void)
->      g_free(args);
->  }
->
-> -static void test_acpi_oem_fields_microvm(void)
-> +static void test_acpi_microvm_oem_fields(void)
->  {
->      test_data data;
->      char *args;
-> @@ -1728,7 +1728,7 @@ static void test_acpi_oem_fields_microvm(void)
->      g_free(args);
->  }
->
-> -static void test_acpi_oem_fields_virt(void)
-> +static void test_acpi_virt_oem_fields(void)
->  {
->      test_data data = {
->          .machine = "virt",
-> @@ -1766,13 +1766,13 @@ int main(int argc, char *argv[])
->          if (ret) {
->              return ret;
->          }
-> -        qtest_add_func("acpi/q35/oem-fields", test_acpi_oem_fields_q35);
-> +        qtest_add_func("acpi/q35/oem-fields", test_acpi_q35_oem_fields);
->          if (tpm_model_is_available("-machine q35", "tpm-tis")) {
->              qtest_add_func("acpi/q35/tpm2-tis", test_acpi_q35_tcg_tpm2_tis);
->              qtest_add_func("acpi/q35/tpm12-tis", test_acpi_q35_tcg_tpm12_tis);
->          }
->          qtest_add_func("acpi/piix4", test_acpi_piix4_tcg);
-> -        qtest_add_func("acpi/oem-fields", test_acpi_oem_fields_pc);
-> +        qtest_add_func("acpi/piix4/oem-fields", test_acpi_piix4_oem_fields);
->          qtest_add_func("acpi/piix4/bridge", test_acpi_piix4_tcg_bridge);
->          qtest_add_func("acpi/piix4/pci-hotplug/no_root_hotplug",
->                         test_acpi_piix4_no_root_hotplug);
-> @@ -1819,7 +1819,7 @@ int main(int argc, char *argv[])
->          qtest_add_func("acpi/microvm/usb", test_acpi_microvm_usb_tcg);
->          qtest_add_func("acpi/microvm/rtc", test_acpi_microvm_rtc_tcg);
->          qtest_add_func("acpi/microvm/ioapic2", test_acpi_microvm_ioapic2_tcg);
-> -        qtest_add_func("acpi/microvm/oem-fields", test_acpi_oem_fields_microvm);
-> +        qtest_add_func("acpi/microvm/oem-fields", test_acpi_microvm_oem_fields);
->          if (has_tcg) {
->              qtest_add_func("acpi/q35/ivrs", test_acpi_q35_tcg_ivrs);
->              if (strcmp(arch, "x86_64") == 0) {
-> @@ -1844,7 +1844,7 @@ int main(int argc, char *argv[])
->              qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
->              qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
->              qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
-> -            qtest_add_func("acpi/virt/oem-fields", test_acpi_oem_fields_virt);
-> +            qtest_add_func("acpi/virt/oem-fields", test_acpi_virt_oem_fields);
->              qtest_add_func("acpi/virt/viot", test_acpi_virt_viot);
->          }
->      }
-> --
-> 2.37.2
->
->
+Regards,
+Akihiko Odaki
 
