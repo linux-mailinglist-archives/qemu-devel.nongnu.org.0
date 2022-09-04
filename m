@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87C0B5AC42B
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 13:51:55 +0200 (CEST)
-Received: from localhost ([::1]:44752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE645AC42F
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 13:56:50 +0200 (CEST)
+Received: from localhost ([::1]:38402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oUoAM-0007f5-5k
-	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 07:51:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39212)
+	id 1oUoF7-0004t2-EE
+	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 07:56:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oUo3Z-0003wo-5E; Sun, 04 Sep 2022 07:44:53 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:46842)
+ id 1oUoCN-0002dZ-6g; Sun, 04 Sep 2022 07:53:59 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:43760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oUo3U-00055j-DH; Sun, 04 Sep 2022 07:44:52 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- k6-20020a05600c1c8600b003a54ecc62f6so4220704wms.5; 
- Sun, 04 Sep 2022 04:44:47 -0700 (PDT)
+ id 1oUoCL-0006pm-EJ; Sun, 04 Sep 2022 07:53:58 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ ay39-20020a05600c1e2700b003a5503a80cfso4244826wmb.2; 
+ Sun, 04 Sep 2022 04:53:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=dqeHMibEuYe+9/CwRlNNfSnucAwEIMW2rkV4WDjQZxw=;
- b=V8K6YswDAF4Wfglh9593lXT+8O51ZtvdC8HXoHK7hipoc/kArEhiv30rVrX/0HBSgS
- 53YhxONM8VkohhCn8ppV0adMN4xORJ5p4fE1G5FSdZzynHYAlJNotkg077LVxMZ+T49F
- my867WlgMp+G1tVmrvc5Jdc7ffD5ryWpMXjYgrMico9BLbrIFuzxksgic+4y1OGytrig
- 8ZPJvXxBq76KJjCGjbWhwGG7De5oO5v7LvZmva9qyX3maVL/+tsivJg4oXk4ohn+7kMn
- HRPSoV0qUlBLFK2Rn8kzmzS+uD6+aYS945uXsbSAVdOxeCrFaIgitKpxj2hmPlTWbEAv
- D0wA==
+ bh=R+alh+x16l0S0zPd98FsN2y+wCrAexJuoaih2aS2tMY=;
+ b=Yg4Rkgq9qokx3uH675MYQjcwD9298TIrMC5R3cvELkr87EBGqgDxAlo26HvPR1iO+M
+ dzAylhRZmWimYodTt8jyRFEcDV0fyV0jvz6u05VtnFWfsTirud4iAdU61TH23j5zCBiN
+ LKHQAo4FJU1+OeaDTgMk8lB8xy93C1lM2eRNry5DA2oA2w8rsTa+Refh94KOGRl1+0M2
+ 2o6/Kfdee8SnxTEICvVmYS77Mbf1MEpjB1K4yCNS3kgAv33uADF1/eZfVG7f5LHdwHGi
+ ZLHnPkEK4buNKjXNMLgvngxv6p0m6xSbTgZ03PbYZr6xVSb6fun7FbsBAwhocWzr+Xj0
+ nfkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=dqeHMibEuYe+9/CwRlNNfSnucAwEIMW2rkV4WDjQZxw=;
- b=NNfKjtyJh5OsQh6/Zl3JH324pf9g7Mh4o43wqDCK+qpe8TiQFFcWkawL78Nz2pXdF5
- Bk5ZHjVkixefvUVcPLsjEJqMZsQGu9eLitYmIv+zZwL5rj2WGk37iJILm9SigHJr3qdf
- h9zjDzN8CB4ngiXMsJYsxjIhL5z+tOqFLAu2B9rypb4zgtga7daQTqv2YTDYHUFryBse
- BoZXDh0MHtnuHT+4O9uwT/J8dHKXDC/Z4JGIQkLPDdZ1FdBhT5gtz3T+uihZMiZI09rT
- 8/yAe7EN4I44GGagRkr/he6uUzPbEvg9Yp578z4eTxCOuwf0EOUdEvdOzBEwy74hRBLC
- U86Q==
-X-Gm-Message-State: ACgBeo2b5p8wO5GGMTNgtOjuGshMOlwDR0/JXthHwESZ5X/SWbYHBKrW
- xb49c5Bixi85kFBsJxqvkNo=
-X-Google-Smtp-Source: AA6agR6qHAqlXAe3bcwMe1GkV61+BbCNL0Y2S+uFNvBxnoLKQHPFdzOWPBkw9bc9be3k+431jqIwgA==
-X-Received: by 2002:a05:600c:354a:b0:3a5:bd8f:c2a5 with SMTP id
- i10-20020a05600c354a00b003a5bd8fc2a5mr7730142wmq.142.1662291886049; 
- Sun, 04 Sep 2022 04:44:46 -0700 (PDT)
+ bh=R+alh+x16l0S0zPd98FsN2y+wCrAexJuoaih2aS2tMY=;
+ b=M9ZgWaZ5L6P21r7f1SrKHyZG2YH0/idYkJnxvSqv0Dc30q/2yR8vN/niq/aghQLpS9
+ Nt7pTV4s0H6FvPSDVeXlYJmIXqDhqs81sHfa357bTB1LGH9hEPwjCyJLYsiejn+A/8sJ
+ nScAnOAJqij4R/t3U8qfgP7puZAVc3MpUcfFEc7QDvEaRm4teSnjQ92SBlHKQ5/v8kCD
+ kIHqJB5pQGCR/nMv7zbdN9unZPLVe5cTwPYKZpaQG4KVxztSRHIWfbjK7qs68uTWEI+i
+ MbKVGldd/Yz+5f1tRfclB24eCs5r/4cGEEeoTNmi4HFwfu+83j68lITvNQ4mxTHipV2u
+ 0EYQ==
+X-Gm-Message-State: ACgBeo1ylqcZepudMhMi+FF5A2RguC7lN0tCDDgyliadFdxBV2wrkRMV
+ QC3J7liMyh69jVNRsbAPhaE=
+X-Google-Smtp-Source: AA6agR7ZgbiGTY412zKqY+AQ/d7gB+qJ79mzdJDPzXB1UK7NXDU8c/O0ZhZdoQAFWdZ8MuRQnK52Hg==
+X-Received: by 2002:a05:600c:19ce:b0:3a5:ffb3:d546 with SMTP id
+ u14-20020a05600c19ce00b003a5ffb3d546mr8202797wmq.6.1662292435133; 
+ Sun, 04 Sep 2022 04:53:55 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- g26-20020a7bc4da000000b003a54f49c1c8sm7585019wmk.12.2022.09.04.04.44.44
+ p4-20020a5d48c4000000b00225239d9265sm5923251wrs.74.2022.09.04.04.53.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 04 Sep 2022 04:44:45 -0700 (PDT)
-Message-ID: <67f2e9de-d052-3122-4800-8b5189777464@amsat.org>
-Date: Sun, 4 Sep 2022 13:44:43 +0200
+ Sun, 04 Sep 2022 04:53:54 -0700 (PDT)
+Message-ID: <13f53514-2e71-0832-2284-4fcd68385a26@amsat.org>
+Date: Sun, 4 Sep 2022 13:53:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH 02/20] ppc4xx: Introduce Ppc4xxSdramBank struct
+Subject: Re: [PATCH 10/20] ppc440_sdram: Implement enable bit in the DDR2
+ SDRAM controller
 Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
 Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>
 References: <cover.1660926381.git.balaton@eik.bme.hu>
- <ba17808e34e7515addaf3e9e897c714b6069350f.1660926381.git.balaton@eik.bme.hu>
-In-Reply-To: <ba17808e34e7515addaf3e9e897c714b6069350f.1660926381.git.balaton@eik.bme.hu>
+ <b37dac18c136a1b3dfc40b443a55480dd1ad8e90.1660926381.git.balaton@eik.bme.hu>
+In-Reply-To: <b37dac18c136a1b3dfc40b443a55480dd1ad8e90.1660926381.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
@@ -98,17 +99,56 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 19/8/22 18:55, BALATON Zoltan wrote:
-> Instead of storing sdram bank parameters in unrelated arrays put them
-> in a struct so it's clear they belong to the same bank and simplify
-> the state struct using this bank type.
+> To allow removing the do_init hack we need to improve the DDR2 SDRAM
+> controller model to handle the enable/disable bit that it ignored so
+> far.
 > 
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->   hw/ppc/ppc440_uc.c      | 49 +++++++++++++++++-----------------
->   hw/ppc/ppc4xx_devs.c    | 59 ++++++++++++++++++++---------------------
->   include/hw/ppc/ppc4xx.h |  8 ++++++
->   3 files changed, 61 insertions(+), 55 deletions(-)
+>   hw/ppc/ppc440_uc.c | 34 ++++++++++++++++++++++++++++++++--
+>   1 file changed, 32 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
+> index c33f91e134..7c1513ff69 100644
+> --- a/hw/ppc/ppc440_uc.c
+> +++ b/hw/ppc/ppc440_uc.c
+> @@ -23,6 +23,7 @@
+>   #include "sysemu/reset.h"
+>   #include "ppc440.h"
+>   #include "qom/object.h"
+> +#include "trace.h"
+>   
+>   /*****************************************************************************/
+>   /* L2 Cache as SRAM */
+> @@ -484,6 +485,7 @@ void ppc4xx_sdr_init(CPUPPCState *env)
+>   /* SDRAM controller */
+>   typedef struct ppc440_sdram_t {
+>       uint32_t addr;
+> +    uint32_t mcopt2;
+>       int nbanks;
+>       Ppc4xxSdramBank bank[4];
+>   } ppc440_sdram_t;
+> @@ -581,12 +583,15 @@ static void sdram_set_bcr(ppc440_sdram_t *sdram, int i,
+>   {
+>       if (sdram->bank[i].bcr & 1) {
+>           /* First unmap RAM if enabled */
+> +        trace_ppc4xx_sdram_unmap(sdram_base(sdram->bank[i].bcr),
+> +                                 sdram_size(sdram->bank[i].bcr));
 
-Good idea!
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+You extracted sdram_bank_unmap() for "reuse", so better
+add the trace event there.
+
+>           sdram_bank_unmap(&sdram->bank[i]);
+>       }
+>       sdram->bank[i].bcr = bcr & 0xffe0ffc1;
+>       sdram->bank[i].base = sdram_base(bcr);
+>       sdram->bank[i].size = sdram_size(bcr);
+>       if (enabled && (bcr & 1)) {
+> +        trace_ppc4xx_sdram_map(sdram_base(bcr), sdram_size(bcr));
+
+Ditto.
+
+>           sdram_bank_map(&sdram->bank[i]);
+>       }
+>   }
 
