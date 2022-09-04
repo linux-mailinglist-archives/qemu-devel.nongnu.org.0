@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0DC05AC33D
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 09:33:00 +0200 (CEST)
-Received: from localhost ([::1]:49988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A49D15AC349
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 09:45:30 +0200 (CEST)
+Received: from localhost ([::1]:60690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oUk7o-0007K7-0o
-	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 03:33:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52078)
+	id 1oUkJs-0003EM-E1
+	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 03:45:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1oUk1R-00083n-Jn
- for qemu-devel@nongnu.org; Sun, 04 Sep 2022 03:26:25 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:33543)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1oUk1T-0008BZ-Ug
+ for qemu-devel@nongnu.org; Sun, 04 Sep 2022 03:26:28 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:41794)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1oUk1Q-00031Y-0a
- for qemu-devel@nongnu.org; Sun, 04 Sep 2022 03:26:25 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id k9so7528876wri.0
- for <qemu-devel@nongnu.org>; Sun, 04 Sep 2022 00:26:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1oUk1R-00031p-Hb
+ for qemu-devel@nongnu.org; Sun, 04 Sep 2022 03:26:27 -0400
+Received: by mail-wr1-x430.google.com with SMTP id t14so200512wrx.8
+ for <qemu-devel@nongnu.org>; Sun, 04 Sep 2022 00:26:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=OPQrnSVeL4J+2x1UvAxj0DL+BYtY7LPxxx3tMOdidn4=;
- b=FERCrkw+LGR8shAFQlEfaeK4bw8ifWV3EQzprlJq5v2mc9tTRs8rM5M12IApCbU7DJ
- el+iHdRbIQ4gzcYC57GW6sLtx6NAWF9CkP+8xG3N3UyHS02fJdSwyLfwKP0vywJJEM+M
- 3d5oslaiW1FoXLnFN7Mu/xMX7owBoWVEntUvZkriz7Sf5EdBHeVWdoWyzxsc24JAEiO5
- 7eYCAIvXH60m69EtgJY4IgHfbfRPAWBXv1Ax+thC4vRv875ZdqtGs2giFqUuqKg8pRsB
- JcLlvCs5yv+7uOq0VgtjG8JsXol7Rpy3g+QYmIsMf9Jz2PgpWAamjEoOWS3UxhLjXoh6
- CO8w==
+ bh=yo8BLXkIhvlRYA2tzKsR9l2OkcjmyffGdEMrU1eo4vI=;
+ b=EZet259mbtt7K+D7MgD7jnq3Cfu8cT0glqzrt75Hrlcy3TJSLgeZAffR6fjq249L7O
+ dokyW1qazyEfpa9IeQ55KkI83zJgbS9xd9Ey6+IDrLVcMs/QxSiHsO3Wsa2QWYz0TQ8J
+ bwoXrwyNVfxzNNGKfS2RGbgGBexEw+ya5ZdWsk2FZdzzPKim2Mf1F6ru6TLeDEi9qCcm
+ cbwKoW4SskSaFFWE8DI4eFkOGtMyu7jqDDqjQ9bJgV+i/xCOD6kQUyIKQYvqUFuoAHLE
+ Cg24k0fiFs+Rlp6txUM49qR3TCdPo65Uoy6leiJuHOJYnsOs5yAeK3al+tlxmkaxfd0n
+ eGmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=OPQrnSVeL4J+2x1UvAxj0DL+BYtY7LPxxx3tMOdidn4=;
- b=XfbNlzRIrcJ1fAmmf3uT3UeEuTefaPR6g6eKT1rTZtrRSML8RA1ms38OPD6llalxme
- scmfT5EXzppb+FpGstuK0Jx9NYxeeRne4yjo8ETnC0Ul5MY8XLCAx5C45vOJBqshVL10
- exgiWo07UeJukyDA5O64xTYkFSrFCZDkmRkj14s2hcZLtRu+t2xg+gaZA6DZBfU06/OD
- YbRsDMR41EbmdM1WbfSVfn0AtJrEx218s4VtFnnH6b2jAgbCyGStIyYRHqBFQVy5wbgR
- 5wNQkIF+L3TsfQ9AAalJ53SkiqUIte7y9gnmEZzkSUp9/JvUsRC9qPu4cQahCRJaPyV8
- oZAg==
-X-Gm-Message-State: ACgBeo1dtcz5ScFQp/2JNU4oMi+b8+WoCMl56fVPR/asrVkP52KU19yJ
- MGHFEZ7yWmlxrtDUBM0kIcbiiN9X8fE=
-X-Google-Smtp-Source: AA6agR6GXxwmH381Y7cjsnT1zkZT6NnO473dPStP4UVoAzFmGrMm38UFEMFDgdzM6e7TuB9jCoCsxA==
-X-Received: by 2002:a5d:4b08:0:b0:228:7268:58c6 with SMTP id
- v8-20020a5d4b08000000b00228726858c6mr436956wrq.525.1662276382478; 
- Sun, 04 Sep 2022 00:26:22 -0700 (PDT)
+ bh=yo8BLXkIhvlRYA2tzKsR9l2OkcjmyffGdEMrU1eo4vI=;
+ b=6XJ92J9KRTl6+Mqh6DNrOZt59k/UHY4tFdNRV27ccBmZqlW7Jq8Dr3e7F2M7Xhunt8
+ qk4m9am/4O8UW8+FHFHIT9pKX5bOWjrEqwZlU9YsZFZO5T39uB3rN0Xls4naUl9f697i
+ W8uU4H8uiu0V+4AbI5LFbqEiqGQI26PeHny0cf+wM+32rIbM51LJqAnf5dYBI6CtXlT/
+ 2TZ0oI7ZnKjSYVB6RmcHIYv4VE1bViO3jG5zSRzfX+WyiEFGVolR3eIfS+d/JCYRiJ6p
+ UP/kVySR7J1d4CY9y/WBdJ0tXEg5nre9hABwt6HUzXaFriMLGP0vf0g/tZQq6ahwrsyT
+ O+/g==
+X-Gm-Message-State: ACgBeo15PxLEDUALMQzGDQKU8F70acTRQJivFg1FtSMf6AJ3SzAszcts
+ tFEi1AfVxT3UJXAqMVszGz/6+SrD5nw=
+X-Google-Smtp-Source: AA6agR4MaEP3dhqppXdvS4sqckgbTjZB0cJYh1ywgUKVQa9rRWwXaKuakwKXRci8z5IgraILOlyTdA==
+X-Received: by 2002:a5d:59a6:0:b0:226:fdaf:3ece with SMTP id
+ p6-20020a5d59a6000000b00226fdaf3ecemr7009330wrr.444.1662276383754; 
+ Sun, 04 Sep 2022 00:26:23 -0700 (PDT)
 Received: from localhost ([88.83.123.243]) by smtp.gmail.com with ESMTPSA id
- c13-20020adfed8d000000b00226d217c3e6sm5446100wro.64.2022.09.04.00.26.21
+ l7-20020a05600c1d0700b003a62052053csm17777955wms.18.2022.09.04.00.26.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Sep 2022 00:26:22 -0700 (PDT)
+ Sun, 04 Sep 2022 00:26:23 -0700 (PDT)
 From: Stafford Horne <shorne@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: openrisc@lists.librecores.org, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stafford Horne <shorne@gmail.com>
-Subject: [PULL 10/11] hw/openrisc: virt: pass random seed to fdt
-Date: Sun,  4 Sep 2022 08:26:06 +0100
-Message-Id: <20220904072607.44275-11-shorne@gmail.com>
+Cc: openrisc@lists.librecores.org, Stafford Horne <shorne@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 11/11] docs/system: openrisc: Add OpenRISC documentation
+Date: Sun,  4 Sep 2022 08:26:07 +0100
+Message-Id: <20220904072607.44275-12-shorne@gmail.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220904072607.44275-1-shorne@gmail.com>
 References: <20220904072607.44275-1-shorne@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=shorne@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=shorne@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,51 +88,260 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-
-If the FDT contains /chosen/rng-seed, then the Linux RNG will use it to
-initialize early. Set this using the usual guest random number
-generation function. This is confirmed to successfully initialize the
-RNG on Linux 5.19-rc2.
-
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Stafford Horne <shorne@gmail.com>
 ---
- hw/openrisc/virt.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ docs/system/openrisc/cpu-features.rst | 15 ++++++
+ docs/system/openrisc/emulation.rst    | 17 +++++++
+ docs/system/openrisc/or1k-sim.rst     | 43 ++++++++++++++++
+ docs/system/openrisc/virt.rst         | 50 +++++++++++++++++++
+ docs/system/target-openrisc.rst       | 71 +++++++++++++++++++++++++++
+ docs/system/targets.rst               |  1 +
+ 6 files changed, 197 insertions(+)
+ create mode 100644 docs/system/openrisc/cpu-features.rst
+ create mode 100644 docs/system/openrisc/emulation.rst
+ create mode 100644 docs/system/openrisc/or1k-sim.rst
+ create mode 100644 docs/system/openrisc/virt.rst
+ create mode 100644 docs/system/target-openrisc.rst
 
-diff --git a/hw/openrisc/virt.c b/hw/openrisc/virt.c
-index 9a78234a28..f8a68a6a6b 100644
---- a/hw/openrisc/virt.c
-+++ b/hw/openrisc/virt.c
-@@ -8,6 +8,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/error-report.h"
-+#include "qemu/guest-random.h"
- #include "qapi/error.h"
- #include "cpu.h"
- #include "exec/address-spaces.h"
-@@ -130,6 +131,7 @@ static void openrisc_create_fdt(OR1KVirtState *state,
-     void *fdt;
-     int cpu;
-     char *nodename;
-+    uint8_t rng_seed[32];
- 
-     fdt = state->fdt = create_device_tree(&state->fdt_size);
-     if (!fdt) {
-@@ -186,6 +188,10 @@ static void openrisc_create_fdt(OR1KVirtState *state,
-         qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
-     }
- 
-+    /* Pass seed to RNG. */
-+    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
-+    qemu_fdt_setprop(fdt, "/chosen", "rng-seed", rng_seed, sizeof(rng_seed));
+diff --git a/docs/system/openrisc/cpu-features.rst b/docs/system/openrisc/cpu-features.rst
+new file mode 100644
+index 0000000000..aeb65e22ff
+--- /dev/null
++++ b/docs/system/openrisc/cpu-features.rst
+@@ -0,0 +1,15 @@
++CPU Features
++============
 +
-     /* Create aliases node for use by devices. */
-     qemu_fdt_add_subnode(fdt, "/aliases");
- }
++The QEMU emulation of the OpenRISC architecture provides following built in
++features.
++
++- Shadow GPRs
++- MMU TLB with 128 entries, 1 way
++- Power Management (PM)
++- Programmable Interrupt Controller (PIC)
++- Tick Timer
++
++These features are on by default and the presence can be confirmed by checking
++the contents of the Unit Presence Register (``UPR``) and CPU Configuration
++Register (``CPUCFGR``).
+diff --git a/docs/system/openrisc/emulation.rst b/docs/system/openrisc/emulation.rst
+new file mode 100644
+index 0000000000..0af898ab20
+--- /dev/null
++++ b/docs/system/openrisc/emulation.rst
+@@ -0,0 +1,17 @@
++OpenRISC 1000 CPU architecture support
++======================================
++
++QEMU's TCG emulation includes support for the OpenRISC or1200 implementation of
++the OpenRISC 1000 cpu architecture.
++
++The or1200 cpu also has support for the following instruction subsets:
++
++- ORBIS32 (OpenRISC Basic Instruction Set)
++- ORFPX32 (OpenRISC Floating-Point eXtension)
++
++In addition to the instruction subsets the QEMU TCG emulation also has support
++for most Class II (optional) instructions.
++
++For information on all OpenRISC instructions please refer to the latest
++architecture manual available on the OpenRISC website in the
++`OpenRISC Architecture <https://openrisc.io/architecture>`_ section.
+diff --git a/docs/system/openrisc/or1k-sim.rst b/docs/system/openrisc/or1k-sim.rst
+new file mode 100644
+index 0000000000..ef10439737
+--- /dev/null
++++ b/docs/system/openrisc/or1k-sim.rst
+@@ -0,0 +1,43 @@
++Or1ksim board
++=============
++
++The QEMU Or1ksim machine emulates the standard OpenRISC board simulator which is
++also the standard SoC configuration.
++
++Supported devices
++-----------------
++
++ * 16550A UART
++ * ETHOC Ethernet controller
++ * SMP (OpenRISC multicore using ompic)
++
++Boot options
++------------
++
++The Or1ksim machine can be started using the ``-kernel`` and ``-initrd`` options
++to load a Linux kernel and optional disk image.
++
++.. code-block:: bash
++
++  $ qemu-system-or1k -cpu or1220 -M or1k-sim -nographic \
++        -kernel vmlinux \
++        -initrd initramfs.cpio.gz \
++        -m 128
++
++Linux guest kernel configuration
++""""""""""""""""""""""""""""""""
++
++The 'or1ksim_defconfig' for Linux openrisc kernels includes the right
++drivers for the or1ksim machine.  If you would like to run an SMP system
++choose the 'simple_smp_defconfig' config.
++
++Hardware configuration information
++""""""""""""""""""""""""""""""""""
++
++The ``or1k-sim`` board automatically generates a device tree blob ("dtb")
++which it passes to the guest. This provides information about the
++addresses, interrupt lines and other configuration of the various devices
++in the system.
++
++The location of the DTB will be passed in register ``r3`` to the guest operating
++system.
+diff --git a/docs/system/openrisc/virt.rst b/docs/system/openrisc/virt.rst
+new file mode 100644
+index 0000000000..2fe61ac942
+--- /dev/null
++++ b/docs/system/openrisc/virt.rst
+@@ -0,0 +1,50 @@
++'virt' generic virtual platform
++===============================
++
++The ``virt`` board is a platform which does not correspond to any
++real hardware; it is designed for use in virtual machines.
++It is the recommended board type if you simply want to run
++a guest such as Linux and do not care about reproducing the
++idiosyncrasies and limitations of a particular bit of real-world
++hardware.
++
++Supported devices
++-----------------
++
++ * PCI/PCIe devices
++ * 8 virtio-mmio transport devices
++ * 16550A UART
++ * Goldfish RTC
++ * SiFive Test device for poweroff and reboot
++ * SMP (OpenRISC multicore using ompic)
++
++Boot options
++------------
++
++The virt machine can be started using the ``-kernel`` and ``-initrd`` options
++to load a Linux kernel and optional disk image. For example:
++
++.. code-block:: bash
++
++  $ qemu-system-or1k -cpu or1220 -M or1k-sim -nographic \
++        -device virtio-net-device,netdev=user -netdev user,id=user,net=10.9.0.1/24,host=10.9.0.100 \
++        -device virtio-blk-device,drive=d0 -drive file=virt.qcow2,id=d0,if=none,format=qcow2 \
++        -kernel vmlinux \
++        -initrd initramfs.cpio.gz \
++        -m 128
++
++Linux guest kernel configuration
++""""""""""""""""""""""""""""""""
++
++The 'virt_defconfig' for Linux openrisc kernels includes the right drivers for
++the ``virt`` machine.
++
++Hardware configuration information
++""""""""""""""""""""""""""""""""""
++
++The ``virt`` board automatically generates a device tree blob ("dtb") which it
++passes to the guest. This provides information about the addresses, interrupt
++lines and other configuration of the various devices in the system.
++
++The location of the DTB will be passed in register ``r3`` to the guest operating
++system.
+diff --git a/docs/system/target-openrisc.rst b/docs/system/target-openrisc.rst
+new file mode 100644
+index 0000000000..22cb2217a6
+--- /dev/null
++++ b/docs/system/target-openrisc.rst
+@@ -0,0 +1,71 @@
++.. _OpenRISC-System-emulator:
++
++OpenRISC System emulator
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++QEMU can emulate 32-bit OpenRISC CPUs using the ``qemu-system-or1k`` executable.
++
++OpenRISC CPUs are generally built into "system-on-chip" (SoC) designs that run
++on FPGAs.  These SoCs are based on the same core architecture as the or1ksim
++(the original OpenRISC instruction level simulator) which QEMU supports. For
++this reason QEMU does not need to support many different boards to support the
++OpenRISC hardware ecosystem.
++
++The OpenRISC CPU supported by QEMU is the ``or1200``, it supports an MMU and can
++run linux.
++
++Choosing a board model
++======================
++
++For QEMU's OpenRISC system emulation, you must specify which board model you
++want to use with the ``-M`` or ``--machine`` option; the default machine is
++``or1k-sim``.
++
++If you intend to boot Linux, it is possible to have a single kernel image that
++will boot on any of the QEMU machines. To do this one would compile all required
++drivers into the kernel. This is possible because QEMU will create a device tree
++structure that describes the QEMU machine and pass a pointer to the structure to
++the kernel.  The kernel can then use this to configure itself for the machine.
++
++However, typically users will have specific firmware images for a specific machine.
++
++If you already have a system image or a kernel that works on hardware and you
++want to boot with QEMU, check whether QEMU lists that machine in its ``-machine
++help`` output. If it is listed, then you can probably use that board model. If
++it is not listed, then unfortunately your image will almost certainly not boot
++on QEMU. (You might be able to extract the filesystem and use that with a
++different kernel which boots on a system that QEMU does emulate.)
++
++If you don't care about reproducing the idiosyncrasies of a particular
++bit of hardware, such as small amount of RAM, no PCI or other hard disk, etc.,
++and just want to run Linux, the best option is to use the ``virt`` board. This
++is a platform which doesn't correspond to any real hardware and is designed for
++use in virtual machines. You'll need to compile Linux with a suitable
++configuration for running on the ``virt`` board. ``virt`` supports PCI, virtio
++and large amounts of RAM.
++
++Board-specific documentation
++============================
++
++..
++   This table of contents should be kept sorted alphabetically
++   by the title text of each file, which isn't the same ordering
++   as an alphabetical sort by filename.
++
++.. toctree::
++   :maxdepth: 1
++
++   openrisc/or1k-sim
++   openrisc/virt
++
++Emulated CPU architecture support
++=================================
++
++.. toctree::
++   openrisc/emulation
++
++OpenRISC CPU features
++=====================
++
++.. toctree::
++   openrisc/cpu-features
+diff --git a/docs/system/targets.rst b/docs/system/targets.rst
+index 9dcd95dd84..224fadae71 100644
+--- a/docs/system/targets.rst
++++ b/docs/system/targets.rst
+@@ -21,6 +21,7 @@ Contents:
+    target-m68k
+    target-mips
+    target-ppc
++   target-openrisc
+    target-riscv
+    target-rx
+    target-s390x
 -- 
 2.37.2
 
