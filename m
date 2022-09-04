@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C650D5AC492
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 15:52:05 +0200 (CEST)
-Received: from localhost ([::1]:46272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0CE45AC495
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 15:55:17 +0200 (CEST)
+Received: from localhost ([::1]:57642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oUq2Z-0001jM-CF
-	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 09:51:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60632)
+	id 1oUq5i-0004Xb-OB
+	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 09:55:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oUpwt-0004pu-0B; Sun, 04 Sep 2022 09:46:07 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:44701)
+ id 1oUq4W-00038d-Qm
+ for qemu-devel@nongnu.org; Sun, 04 Sep 2022 09:54:00 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41591)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oUpwo-00081o-5u; Sun, 04 Sep 2022 09:46:06 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id c11so3902672wrp.11;
- Sun, 04 Sep 2022 06:46:01 -0700 (PDT)
+ id 1oUq4V-0000Sm-5q
+ for qemu-devel@nongnu.org; Sun, 04 Sep 2022 09:54:00 -0400
+Received: by mail-wr1-x433.google.com with SMTP id t14so871298wrx.8
+ for <qemu-devel@nongnu.org>; Sun, 04 Sep 2022 06:53:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=hN/KJj69FWROpNQY/y4aKIdAqxOWWCQYvowgpYYmBvo=;
- b=ondc5bJrQ4Fo99EWTQJ98AlkvL+jxmysXl/XrKqiZdEjxBPgT7Jt7CFueWH9GFqzMQ
- TcDij1ppAcf60bFxOT9u6DXgYCgPLx7pNm7Q+M7IFsJzY3YzvAe3ov3GVnFC6WYtflZX
- J+G0DcvNZRBKBM0vgz462OPrGDbr+8MVu8Q3qlkl8bHqpIbQfQJqeQZaQ0MikOclZzay
- bILU9TIfml4+Tqtlk1yQcZVaH/9crM+l7Uq1srNm1OtllFHhRccWP5EKFdnIhEKNhhC4
- hLtkQqLtOsiedwXdmGEiJYMonXNkP7tpHFiHgZFI77qff7fOZBUEXq590saMvUA0Vl9y
- WGfA==
+ bh=JM0N6nC4w3f5JMTXXcDvbsZuHB2NPGGjAA7lnG28rEI=;
+ b=Ss1sjyouSHKG6L3qhBjywB532XLziEwT6rUE6iEImHebaRg8x1pGm0f7KT6JnlMsEw
+ SEFwq016uq/XXrbH1NhHm8TaFHVB8BIhP0E7dS6y2ucFOtzpGIisrrRDBFH9CVu7Vvuy
+ R9MHaI06wDJzevAp9tIGAL1G+6rOdC5mtPYZjpn23z1I2Hx3vqhFb/zTvFMaVtdFRbGm
+ hoak+rZbAce36cFPKkuX+D76oSttPCLdSif3Ran3JW7DnqkKvNdxxKSkqfpIhOgcth5q
+ KVdts0Y8hib7fferZmIdli9OVx6UQ1AxSVWizrdM+ATuSOFcD/16+8YwU65m8jUI3pa4
+ nkQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=hN/KJj69FWROpNQY/y4aKIdAqxOWWCQYvowgpYYmBvo=;
- b=dM7jt8AnbwaBlEho/05uExkgD9Hz1KAStNgmVovC7ab9Yzzd38wCvYD3CW/d1LFPNT
- MUQt3vHsnMe5YeZJghe5K318ZBDdiY7o5nVAM6MhECkwVrRHUd5bEWtdhAQXi2LpJdEA
- TNkk0+Yy4OM3EijTW74cgjQzitt837lAFBEHkGfQl0wv3jKJxLfKMJ8CWLPYeKgicSJj
- KT3PqB5mvEW+l0ctx/KFMOr1/B1FIYkae+mXQWA/05xtDRapPXyFqJV5AwhGni9ieV13
- riqX32+xRwbqWj8SyVzcmidy860kBTdT6chGAcyXQ1B6jAGbZX6BBIRyvATjdkTUAqcT
- diWA==
-X-Gm-Message-State: ACgBeo3JsXdQVk7n+H3ZJNa+Dr0OQzWT/JDZvSgH59sBGqYTNeOsyVEb
- 9ZbSh1z5N9Igv9HfH7lQiZvpwTEa1/k=
-X-Google-Smtp-Source: AA6agR7kSZperH7ybcHSBVku8gWb/oM0y+Ob0VxqT4Yx4nUDSXydoqxA2aohHOFTTbnhWjPiSSC51g==
-X-Received: by 2002:a05:6000:616:b0:226:d80b:76ab with SMTP id
- bn22-20020a056000061600b00226d80b76abmr19317837wrb.547.1662299160446; 
- Sun, 04 Sep 2022 06:46:00 -0700 (PDT)
+ bh=JM0N6nC4w3f5JMTXXcDvbsZuHB2NPGGjAA7lnG28rEI=;
+ b=XgKWs5WK/EBSDgCEXUdstdJULiUC8gjEOYbn6EHFTEYnmo+LukgRwIgr1jCYYQE629
+ UGzgzO5tvKrH4M+cEeutSfLmt7alq1wjbuQl1Mk1BMYkkGlL9TfNf0KX74UXpEMyBmEh
+ kvQoCj5yIcSAU47vTCYxG0mA01MC5QCi/XeLkDGouA7dQ2KJVmt4To+HZfig7U1D9dTN
+ YNVz37NCX1y/xGx/h/uBn1k+FOmiYfYkS4P34ycInjAD3Q/EL7sr/LNMMEs2FzGCnRzE
+ mGN4jZEfKsr717bUnu20v4HXHxL+pw9L18R4erfyRf7IPrb1sgHgsRXE5+LI8AT+zxKZ
+ kwtQ==
+X-Gm-Message-State: ACgBeo2DB2GzvJE0cQPOT5VBEkuT2vqactyHvtnqEb1zI4gmTUHQ3b8P
+ gzpau+fiJA05o6c19/Lz4b0=
+X-Google-Smtp-Source: AA6agR6pOPwXs+b0SnbyecZCnl8sp2JLu6bAm1stkBfZrh5u9SUNh0D7qZZYivYzwhH8UfB9sEnf0Q==
+X-Received: by 2002:a05:6000:78b:b0:226:d10f:1c3 with SMTP id
+ bu11-20020a056000078b00b00226d10f01c3mr21027812wrb.149.1662299634819; 
+ Sun, 04 Sep 2022 06:53:54 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- l17-20020a05600c1d1100b003a5fa79007fsm8480816wms.7.2022.09.04.06.45.59
+ bd7-20020a05600c1f0700b003a331c6bffdsm8039402wmb.47.2022.09.04.06.53.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 04 Sep 2022 06:45:59 -0700 (PDT)
-Message-ID: <1fcb4065-c490-2ab6-8951-4b39be243e75@amsat.org>
-Date: Sun, 4 Sep 2022 15:45:58 +0200
+ Sun, 04 Sep 2022 06:53:54 -0700 (PDT)
+Message-ID: <83b900e5-b888-006d-de29-c0cc7533579b@amsat.org>
+Date: Sun, 4 Sep 2022 15:53:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH 2/2] vvfat: allow spaces in file names
+Subject: Re: [PATCH 1/8] bios-tables-test: Make oem-fields tests be consistent
 Content-Language: en-US
-To: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org
-References: <20220903162302.3176003-1-hpoussin@reactos.org>
- <20220903162302.3176003-3-hpoussin@reactos.org>
-In-Reply-To: <20220903162302.3176003-3-hpoussin@reactos.org>
+To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+Cc: Bandan Das <bsd@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Gerd Hoffmann <kraxel@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+References: <20220902173452.1904-1-quintela@redhat.com>
+ <20220902173452.1904-2-quintela@redhat.com>
+In-Reply-To: <20220902173452.1904-2-quintela@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
@@ -96,30 +101,18 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 3/9/22 18:23, Hervé Poussineau wrote:
-> In R/W mode, files with spaces were never created on host side.
+On 2/9/22 19:34, Juan Quintela wrote:
+> Every other test function is named:
 > 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1176
-> Fixes: c79e243ed67683d6d06692bd7040f7394da178b0
-> Signed-off-by: Hervé Poussineau <hpoussin@reactos.org>
+> 	test_acpi_<machine>_<test>()
+> 
+> Just make this test the same.  Once there, rename "acpi/oem-fields" to
+> "acpi/piix4/oem-fields" so it is consistent with everything else.
+> 
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
 > ---
->   block/vvfat.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/block/vvfat.c b/block/vvfat.c
-> index 35057a51c67..9d877028573 100644
-> --- a/block/vvfat.c
-> +++ b/block/vvfat.c
-> @@ -499,7 +499,7 @@ static bool valid_filename(const unsigned char *name)
->                 (c >= 'A' && c <= 'Z') ||
->                 (c >= 'a' && c <= 'z') ||
->                 c > 127 ||
-> -              strchr("$%'-_@~`!(){}^#&.+,;=[]", c) != NULL))
-> +              strchr(" $%'-_@~`!(){}^#&.+,;=[]", c) != NULL))
->           {
->               return false;
->           }
+>   tests/qtest/bios-tables-test.c | 16 ++++++++--------
+>   1 file changed, 8 insertions(+), 8 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
 
