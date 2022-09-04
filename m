@@ -2,79 +2,154 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40EE75AC1E8
-	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 02:51:44 +0200 (CEST)
-Received: from localhost ([::1]:56782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 650845AC1E9
+	for <lists+qemu-devel@lfdr.de>; Sun,  4 Sep 2022 02:52:06 +0200 (CEST)
+Received: from localhost ([::1]:40738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oUdrS-0000SC-Tq
-	for lists+qemu-devel@lfdr.de; Sat, 03 Sep 2022 20:51:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58270)
+	id 1oUdrp-0000vF-HH
+	for lists+qemu-devel@lfdr.de; Sat, 03 Sep 2022 20:52:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oUdnt-0005rV-8I
- for qemu-devel@nongnu.org; Sat, 03 Sep 2022 20:48:01 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42723)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oUdnr-0000KV-Gt
- for qemu-devel@nongnu.org; Sat, 03 Sep 2022 20:48:00 -0400
-Received: by mail-wr1-x435.google.com with SMTP id bp20so6433095wrb.9
- for <qemu-devel@nongnu.org>; Sat, 03 Sep 2022 17:47:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=gYkMN/MnlbJ+Xjxx57cfPyFl/rxATMfkGauySCOG1e0=;
- b=phhrKtZr98Pic2Itu3RgoHdZTODiZIoh7qXm0UEYhoJKM/gtXZuGTC2+YCKoxIggQZ
- oB5DWcSrdCDCvEoWnszo6L1ZkOgWFeqHw4X1mJMOHziSXqAeEWrr30SQbHM1nrhWnKqo
- 81g3A6BJuLxLY/4RG4GfDQLB9yqkrXcJwYfSvVfoEw/Cmw4JwyWifm86UKm/VVr+wcVh
- cZ6BUxRfZHxGPA74OJjxPACStIosJInyjTFCGcrGaLP5P4X0PT0+5No3+m24rrQ+g9IW
- G9MK0dOO+4tBb5w+2kilHcaVta1SMn4pjISSa6BTKzm65vIdBxWdKm082t4OtxbR2ivI
- 7fyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=gYkMN/MnlbJ+Xjxx57cfPyFl/rxATMfkGauySCOG1e0=;
- b=WWiBMRUeKAsfkhI36OuWdRHJkR8zq0Th/+bHNx6MSugX/lRuZyuRrAtpQpjqLtG5RS
- gQcJm3UISsgROVzJBWg2fZFC8/TmwWseSc/09k45ZhC5YKTTwBWX2qzbTT3lr+XEtvQH
- ISHew/whMzzWtfFn2ByJCHDc3v6gDRid24fF9b0EguaizBstBOqTMMOIvutC86/Ljhmc
- sbesdmhOxo+pC/dT7M6/TlRon1r7e7lAaJqvc1WFT82ELUWax98ItPt9CiPZ6PwLyD6Z
- +xbwRqh3NvCyWrxPVVJvgAc38h65UdcW2JWe8odnJwJncl4zgfdtOFY4Pcnl4IBuHC11
- CWcw==
-X-Gm-Message-State: ACgBeo1TIq1n7PjDoiO2D0bDZN/h9yf/mgj6fgzP96qkAKbD5Hi3XTBA
- Irstg3x/+q/QMSq++UPDAXJk2w==
-X-Google-Smtp-Source: AA6agR4S8Lr5S6TpuxHJo34yaZQ2ZGoOdMakLb7ZAk0D4YUHEVi27yLgDGugo31AEyz/9h0raZbDgg==
-X-Received: by 2002:a05:6000:696:b0:226:f89d:55b2 with SMTP id
- bo22-20020a056000069600b00226f89d55b2mr7712706wrb.133.1662252477184; 
- Sat, 03 Sep 2022 17:47:57 -0700 (PDT)
-Received: from [192.168.10.136] ([78.19.130.69])
- by smtp.gmail.com with ESMTPSA id
- i11-20020a5d522b000000b00226d473ebd6sm4840238wra.86.2022.09.03.17.47.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 03 Sep 2022 17:47:56 -0700 (PDT)
-Message-ID: <fc947302-23b4-7fd2-99d1-67793ee45070@linaro.org>
-Date: Sun, 4 Sep 2022 01:47:54 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] RISC-V: Add support for Ztso
+ (Exim 4.90_1) (envelope-from <bcain@quicinc.com>) id 1oUdoG-00068G-I9
+ for qemu-devel@nongnu.org; Sat, 03 Sep 2022 20:48:31 -0400
+Received: from mx0b-0031df01.pphosted.com ([205.220.180.131]:17434)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <bcain@quicinc.com>) id 1oUdoE-0000Ms-Kw
+ for qemu-devel@nongnu.org; Sat, 03 Sep 2022 20:48:23 -0400
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2840fVpE023647;
+ Sun, 4 Sep 2022 00:48:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : subject
+ : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=qcppdkim1;
+ bh=EyQeGvfGjIP9X8Si6ThkWmImWUo0bPucRZjW9vcBwuI=;
+ b=HlruF7t/6ZByN9fSUHsYYgTzkKlM0OVTU/71EiCSynWW7ospDh4ckWLLgHc7TiHyvRps
+ l/jdMQOY5c9REyWECLGovD2W887wZSX99vf6yVJE2+vWI6jKdH2tlXBdMxHEM6CVcCc8
+ iHopZK4hwvAhVofc3Wx15Srsbdh/UIzOuLrLyGD6go94khJxh7vmjJf2J9QEhh8AdMFD
+ pgVHOMuve5dIZgUCIl6Ot3fjWHW+VZLNCSRPmY3I0prvlDAWFqQkinhM5RpJR+43zURw
+ bsyyVcydaMM8fhg4CvCaKtMdtXk+U3HX24/PceQM16GM3qs2h0bYtMF7MpAHsimH/Gru kg== 
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jby101krg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 04 Sep 2022 00:48:19 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nuxGFkfcMTx0nSFyw3z3jiKREGPis79srbOXmn67MUA94QhuApPoHAXLRDlg0sAcWDVxwt/eNqOkWUhUGT0Tb/m4x225+ZW+/db0iJG7pSvF7tpD3UmxpVvKKCCsQMm9jTvR8y/jv6YYqE7RTOiqJSYz0FPPf4otn+0TbYwoUh5IWLizSAiMSdvRHwmarGY690LjCX+wf3vGKSz/SywktSlYPJlhD84iQ4/nCFE5QlcTNkNG9Q78XoFrpNu3ir3RZsGNtuWmNvOyYsXXWt7Dgec1xjREi1aRYk+QF2799EelO5iydcz+56SQeDU3aSSqQEeT2AxfgCudQeK4MDR00w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EyQeGvfGjIP9X8Si6ThkWmImWUo0bPucRZjW9vcBwuI=;
+ b=go7LFEIDsIfoshVZjjHvZol4+1AYXHOZajn+RgSjcGeHiI6rEoOvT9btmBtGIrx6A6NmogibY4fcJfsME0lAtFvNVJCZhA42CILs0N+qKmuqqp8dGDpj1aZ900COe9qGn6FpLaLgUinuPpvY8xqep4AqZy4PrB7sT+sHmK2ipzdmLHCdbi6TZejyJx+1Hi9p4ArDIYHqEz8YzAVA0A2Ofu1cgO1ybc+f29lAvmWmB5WmqFISmpu7lKIcteKKJnVfVftIplwJRxMuktJFknPNYjD5SD0ErXruvoyUpg1BATOE9TYsRkpZHAKI8AUTEKC0brBA4mdQV2a/oOjBv2Ht6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+Received: from SN6PR02MB4205.namprd02.prod.outlook.com (2603:10b6:805:35::17)
+ by DM6PR02MB5017.namprd02.prod.outlook.com (2603:10b6:5:4d::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.19; Sun, 4 Sep
+ 2022 00:48:17 +0000
+Received: from SN6PR02MB4205.namprd02.prod.outlook.com
+ ([fe80::41a6:c2ff:ba0d:16ac]) by SN6PR02MB4205.namprd02.prod.outlook.com
+ ([fe80::41a6:c2ff:ba0d:16ac%7]) with mapi id 15.20.5588.010; Sun, 4 Sep 2022
+ 00:48:16 +0000
+From: Brian Cain <bcain@quicinc.com>
+To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, Taylor Simpson <tsimpson@quicinc.com>
+Subject: RE: [PATCH] Hexagon (target/hexagon) implement mutability mask for
+ GPRs
+Thread-Topic: [PATCH] Hexagon (target/hexagon) implement mutability mask for
+ GPRs
+Thread-Index: AQHYvkn4kxqb0pUjNEyS6HtoMkyeQ63OcRKAgAAB/PA=
+Date: Sun, 4 Sep 2022 00:48:16 +0000
+Message-ID: <SN6PR02MB420524B7A4013B299C6A07BFB87C9@SN6PR02MB4205.namprd02.prod.outlook.com>
+References: <20220901212931.27310-1-bcain@quicinc.com>
+ <65465b46-5423-9c94-7ae9-f2379bcb829c@linaro.org>
+In-Reply-To: <65465b46-5423-9c94-7ae9-f2379bcb829c@linaro.org>
+Accept-Language: en-US
 Content-Language: en-US
-To: Palmer Dabbelt <palmer@rivosinc.com>, qemu-devel@nongnu.org
-References: <20220902034412.8918-1-palmer@rivosinc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220902034412.8918-1-palmer@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x435.google.com
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c9b9e636-7764-4a49-f48b-08da8e0f27c6
+x-ms-traffictypediagnostic: DM6PR02MB5017:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8uahPMScYnj0PnNTRgjZWFv7SNPYIYPJsgL6TFDx9PQSNJGDjJWXdrVAoo1fPnqFeJaCq8vS8brg9QjulD1+2B8rpntjk1aHLO0jrurRLBvpfCYfVoG0OjHqz4O8IqoFRyp4WQIg6OHjDi7gYlcdAOpA+X9nwKqJ7L4ypQhzWDmO8RMGCqzYwb5SgAUpRr0dRWTqxTPFpyAI13mLeQd5xLrn483x5rB79gXxbVuyCrHnpyWlcyKdm/TI7NPT/q2SLW0LQowm76RVYmx8cpoPGTgSIZ0IEjs+HgzQcgwPlFHEGqpaHROMldrGfiPgd92TWLgWsEHQraJeCINf8r28fZdfVsD4bx9MVyq9cJ6CyzBG1f5RtlHLjpGGz+ydodkwa65A8zqOGnB7w+st1CahupS8XXwP0fPFH2JpIWL0jMl8CSAvp7PAasu3BOsqRyUvpTuW19SK82P3dw+WozLVC3QiLNjPHo4xuaW2Bl4w/hevSk44CYCUqjyIiyWMQseBdiIVnCVoGNBhi6hkpqrecawdsrXKHsZAqy+8Bo2gM1XizxjMhEhapOELMPl81qu+8gb4qyegL8oVPEztxX0U5rgMnprIBeG40fW5lfuqemaPfmIYOlhv5NfLfP8KEplsPIyM3vsDd7udZ4kuk3hW9ypiwelXaDrlvFZme0UmnJ9Iohf/Ygp32/DtFL98qrA5Kn8lFhKvXNyEtBOHhEwy1DhJYqNbBExrfYmEgpd9X1Lbl3ufMJS82zw3asFH3vn5yuh7VTZwMNX6ISJ718xPZA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR02MB4205.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(376002)(136003)(366004)(39860400002)(346002)(396003)(66476007)(66446008)(8676002)(110136005)(6636002)(316002)(64756008)(55016003)(8936002)(66946007)(5660300002)(2906002)(52536014)(66556008)(38100700002)(76116006)(6506007)(558084003)(38070700005)(26005)(122000001)(33656002)(86362001)(7696005)(9686003)(478600001)(71200400001)(41300700001)(83380400001)(186003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MWNabXpaQVlLQW8vdDFJWFdvNndiakx0K2gvQWVXTklpTWlnR3VYeU1iaGlV?=
+ =?utf-8?B?VVNmTmp6Skl5Z0dtZFladjRaUnpLenlldXZEQ3FHQ3ZMZTFvYTFqa2xMNWpr?=
+ =?utf-8?B?c29lcmczendhS3BzVlA3SDZBR0psSkdKdFZkRDgzaDhuRDVRRVd0UW1VYkJX?=
+ =?utf-8?B?ZmU1ZkhXMWN2OElXS0lFOTY2RWQ5RjMvRmFSQTRHNTZHQjZiYXpLRmtMWGJK?=
+ =?utf-8?B?UWlWemZUbGl0SjJMMHBoaStxRzBuVUxGbHQ0WmJEeEtBNFMyVVFnVFZaT3JZ?=
+ =?utf-8?B?NHFSVGtlRStGWXNsVEI1aFJIUGYzNzhwNHVDbG9DWmNGaFpjdTZtTlJ4b0xG?=
+ =?utf-8?B?aFNDZEJuVDgzLzB0dXAzd2NqNHRJSm8zSW9hdDRaejFvaDA0QXl4a1VleUxz?=
+ =?utf-8?B?WXd4NGhhN2RjL2ZIRWQxVVkwclNIRHhSZkNrZGZIbDVhNFRhWWxZcGcrTnpo?=
+ =?utf-8?B?VkN4aERDelFoeHhlQ2E3cnpvT043dUF4WG1DQlBTQVpzU2dnNUhpY1kvTitj?=
+ =?utf-8?B?TUJjT2ZkTlVmOFIyK3N3RVBidWhzZGVlKzRrUW1aMjFqL1p4UVc4NzlKSTBS?=
+ =?utf-8?B?c2pZUlE3QmVzRDRkdU5vTzJHcnFiakluQ1hQdWd2TlNBb0MyWTFaQURGS01v?=
+ =?utf-8?B?RmN0NUkyL3FUL0RhbTJzRTl6bC9lcURYTFRNcjlidndTWGtUb01kd2toa2Jw?=
+ =?utf-8?B?ai9EUUo3ZFVXODgwS0p1UXNWZnc2NHRXWkdaWGEyWU9SZ1lYZGswZmFQRTFX?=
+ =?utf-8?B?QUlBYTgybUszeGhvM2NwQlVqN3FYOE5BNmJZczF0QjVxSnFLd29SY090cDNz?=
+ =?utf-8?B?QTJBTVc4VDAwb2pvM21ZQTA4R3Z0Zk5rcDBKbHJNRTFpaW9UQ3ZxV2hxUHU5?=
+ =?utf-8?B?aWtyL3ZkZ2Q0ZG9IUWNhV1k4QXhZUFpBeWpHU3d1bW1udEhqcFRaZEkzZGhu?=
+ =?utf-8?B?RGpSUG0veWNDSTJ4S2FKU0k1MVArMzVNeDA5a2lrWCtVMFMyaDV0L0crVWNF?=
+ =?utf-8?B?a3FxWkh3SU9iTDEwckt2NCtSeGpJSzBwRnQ2QjZzWXpkZjlPS0ZIZVdodU1N?=
+ =?utf-8?B?RXhxZ2MrRDBhZ0dKRGhWMlJQZ3Q3a2V6NHlWZ0E3RzlPNHBpdm05TmptV0VW?=
+ =?utf-8?B?TGJEUi9LbGd6OUZFejIvN3VzTktCK0NGbGVFNVJ6eWN2VzVHMDJiVzQwMHZF?=
+ =?utf-8?B?Vnd1ZmxqOWlKZ3ZnUVZTRjBqMkU0SWYyU0FhSmhGalhHcnhZR1FPZW8xQVRk?=
+ =?utf-8?B?dDlPWkV0NWNQQklaYXNGZzUzODJ4ZnlHNU9QRE1iRDdvS0tNSHZWMCtWL3c4?=
+ =?utf-8?B?dlVEZFdkbVZIWldMVW52MG1oR0NEeW44TDRhYWF2NXp3V3J1enREaUM1YXBn?=
+ =?utf-8?B?eFFMcm5NTUdpR2ErZzdUUFRiRGtGU242TnhsNUFOT0lWQTVuR3hHMEYwcE5i?=
+ =?utf-8?B?MEkwY2g1Vk05QzNhMzgzdWxTYXBjSkRuQUlRWFN6MEkyVyt3SktoSlVKTE9J?=
+ =?utf-8?B?WTNMUjY3alVNZiswOXppTlFjV2Q0QzBHbEhubHVla0VDU1VDKzdBeXJMWnla?=
+ =?utf-8?B?cjF1bUgzL3gyY01QNUM3UWFIY1hSSnp5blRib2FsZy9tMFVtOXAwN1ZrMmll?=
+ =?utf-8?B?TU1IVHcxWWRra3B6Mnk4Y0VVNUttUGNWWGhWZG5SM1V1K1I3WGpzRXUrajVa?=
+ =?utf-8?B?ZkZRdlhpclpCOVNpb2ZuQlZNUmh0TUFNYU9UWUxkVVN1MVpKZkJyZnlZNnhC?=
+ =?utf-8?B?anFmVE1nRHU3M3RtN0Y1VWVHMW16aXFRSERaQTQ3MVBBNkFhZE9EcEg4SXoy?=
+ =?utf-8?B?WnNCMVFDTnR5ak1rYWlLSHNUdFBBeS80eEdxeS9ZTzV2ZWY2SFhOQ1hrcGw5?=
+ =?utf-8?B?eUlQZTh0cXpmUWpVN2pTMDNnWmpmYkdCSXFGQ3VzMnh5R1dvT3AvRFQ2Tm1C?=
+ =?utf-8?B?VTR1eDF1WHhaekdxbldXTFBTSk5BZ0IxVm4wbVgrWWp6WWcvM0UxUkJ6bnM5?=
+ =?utf-8?B?My9mYTFsNXNUb2FnT2ErcGdlZ2cySS90LzlUYkVIcmNTckU4bW5lZFVNd00z?=
+ =?utf-8?B?aHNOT2xLd2hQdldyTnd4RmIxN0ZMaFJhV0VTaHBlTnErK21vd0ZLbEYrVVR2?=
+ =?utf-8?Q?s0ZFef/P8uRId0raCnVIqh56V?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: quicinc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4205.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c9b9e636-7764-4a49-f48b-08da8e0f27c6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Sep 2022 00:48:16.9194 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 6ZutV7RT4rWOy0Due0eWYq4z50n7e7Xq2YLdQuvwkAfY/S8dlC+2QNiAdZ6IifdlWoktDxEGBkSeS7GBVgO9Mg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB5017
+X-Proofpoint-ORIG-GUID: zbFeA2ZU7pNzEUfCQRFNzCBdYnZPGKY4
+X-Proofpoint-GUID: zbFeA2ZU7pNzEUfCQRFNzCBdYnZPGKY4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-09-03_12,2022-08-31_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 mlxscore=0
+ adultscore=0 suspectscore=0 spamscore=0 phishscore=0 lowpriorityscore=0
+ clxscore=1015 impostorscore=0 priorityscore=1501 mlxlogscore=557
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2209040002
+Received-SPF: pass client-ip=205.220.180.131; envelope-from=bcain@quicinc.com;
+ helo=mx0b-0031df01.pphosted.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,49 +167,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/2/22 04:44, Palmer Dabbelt wrote:
-> -#define TCG_GUEST_DEFAULT_MO 0
-> +/*
-> + * RISC-V has two memory models: TSO is a bit weaker than Intel (MMIO and
-> + * fetch), and WMO is approximately equivilant to Arm MCA.  Rather than
-> + * enforcing orderings on most accesses, just default to the target memory
-> + * order.
-> + */
-> +#ifdef TCG_TARGET_SUPPORTS_MCTCG_RVTSO
-> +# define TCG_GUEST_DEFAULT_MO (TCG_MO_ALL & ~TCG_MO_ST_LD)
-> +#else
-> +# define TCG_GUEST_DEFAULT_MO (0)
-> +#endif
-
-TCG_GUEST_DEFAULT_MO should be allowed to be variable.  Since I've not tried that, it may 
-not work, but making sure that it does would be the first thing to do.
-
-> --- a/tcg/i386/tcg-target.h
-> +++ b/tcg/i386/tcg-target.h
-> @@ -236,6 +236,7 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
->  #include "tcg/tcg-mo.h"
->  
->  #define TCG_TARGET_DEFAULT_MO (TCG_MO_ALL & ~TCG_MO_ST_LD)
-> +#define TCG_TARGET_SUPPORTS_MCTCG_RVTSO 1
-
-Um, no.  There's no need for this hackery...
-
-> +#ifdef TCG_TARGET_SUPPORTS_MCTCG_RVTSO
-> +    /*
-> +     * We only support Ztso on targets that themselves are already TSO, which
-> +     * means there's no way to provide just RVWMO on those targets.  Instead
-> +     * just default to telling the guest that Ztso is enabled.:
-> +     */
-> +    DEFINE_PROP_BOOL("ztso", RISCVCPU, cfg.ext_ztso, true),
-> +#endif
-
-... you can just as well define the property at runtime, with a runtime check on 
-TCG_TARGET_DEFAULT_MO.
-
-Though, honestly, I've had patches to add the required barriers sitting around for the 
-last few releases, to better support things like x86 on aarch64.  I should just finish 
-that up.
-
-
-r~
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIEhlbmRlcnNvbiA8
+cmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZz4NCi4uLg0KPiBJdCBtaWdodCBiZSBjbGVhcmVy
+LCBhbmQgZWFzaWVyIHRvIGluaXRpYWxpemUsIGlmIHlvdSBpbnZlcnQgdGhlIHNlbnNlIG9mIHRo
+ZSBtYXNrOg0KDQpPayAtLSB0aGFua3MgZm9yIHRoZSBzdWdnZXN0aW9ucyEgIEknbGwgZ2l2ZSAn
+ZW0gYWxsIGEgdHJ5Lg0KDQotQnJpYW4NCg==
 
