@@ -2,93 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10DAC5ACDA3
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 10:33:40 +0200 (CEST)
-Received: from localhost ([::1]:52240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5A165ACDED
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 10:44:02 +0200 (CEST)
+Received: from localhost ([::1]:42992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oV7Y3-0002aL-0l
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 04:33:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58430)
+	id 1oV7i5-0005yZ-2S
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 04:44:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oV7VZ-00017z-QX
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 04:31:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40443)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oV7fB-0004Sp-Mo
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 04:41:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52294)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oV7VI-00059A-JG
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 04:31:03 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oV7f8-0006k8-SU
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 04:41:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662366647;
+ s=mimecast20190719; t=1662367257;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Vs8IZthtudCo+dGn4jIxYGBFuyqKn/I3IibxLtUED1U=;
- b=KW9X70uX1/26NUFccdSIJPw3/b6TRnN+C8zpjzzyhXa30+kBVSYR/w4KyK7Rkx8+mDFMsC
- DQnkB4t3mxtWKf/qJqYgFGnlP5x9LHFn09gAed12AMWJsJ91EJqClY8JDlaou8M4zZBqan
- Q9c5Y1dzunncmajOFkzL2kyHiGtDsQI=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-374-cLmxcuVGOeKWkVTtTZ3U9A-1; Mon, 05 Sep 2022 04:30:46 -0400
-X-MC-Unique: cLmxcuVGOeKWkVTtTZ3U9A-1
-Received: by mail-pl1-f200.google.com with SMTP id
- a8-20020a170902ecc800b00176ad01ab44so1421713plh.12
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 01:30:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=Vs8IZthtudCo+dGn4jIxYGBFuyqKn/I3IibxLtUED1U=;
- b=QTgEumTz7oVdvEkMqQSX+iAMMDsQ7DTCgcaGnlemu9dGyRHO29U/VWQEssohx1iAJC
- lQh7uM/CLH4C/gWeZQTqLXIhBmhGQodMvBpJ0vam6kWxE4kJuiLRMi00XQ6qENmxuQmz
- KaxsOu/FXiOqtuUKVD8b7xFYdRgNIhCVJtRSfIcUPAYtK768eM4o0q31UMUklIr4ftHT
- 2lR+UQONs0n6DtvxzVVHvF+wbCH0yeo/lue7XN3SombMaAgSZnK1Zef+I2CYDpr/+BGS
- zTcIXQeJAf+q2F2PKeOCMPoQb2UzULwDdY1ARJDP1hNTccM8hToE7Zuof2ockK8hoE3l
- FzxA==
-X-Gm-Message-State: ACgBeo15r5Jw781k8rSB7wkgPi8TRMvVH1zkNmLlZc7d7CXwStR/8F7f
- 2p9mHCk7aM+McWHfXEn8uI13IEMtWUxpjVrSQXUtzkNOKCLzUAJc9a8YQPoR7mgjqu0jwRm/vi5
- rt/g/j0FUF+FxMFU=
-X-Received: by 2002:a63:1862:0:b0:42a:1653:863b with SMTP id
- 34-20020a631862000000b0042a1653863bmr41743188pgy.574.1662366645289; 
- Mon, 05 Sep 2022 01:30:45 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6dLnsgam1qgzqPN+LUR/Rx0EmnTl3AOQD6/Atq0ac70x95wTBil/pM4y1uTwIV39Ap5v0a5Q==
-X-Received: by 2002:a63:1862:0:b0:42a:1653:863b with SMTP id
- 34-20020a631862000000b0042a1653863bmr41743160pgy.574.1662366644982; 
- Mon, 05 Sep 2022 01:30:44 -0700 (PDT)
-Received: from [10.72.13.239] ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id
- q4-20020a17090311c400b00172b87d9770sm6845114plh.81.2022.09.05.01.30.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Sep 2022 01:30:44 -0700 (PDT)
-Message-ID: <8e7c93bc-2430-f0fb-d425-5e43fde23c14@redhat.com>
-Date: Mon, 5 Sep 2022 16:30:38 +0800
+ bh=XrY/c3rU6OfmqJoXTTYImb5fYgBggttP5+lOwWqok6M=;
+ b=bb7CNcYmThm7QiiwQeh5S5lbhP2zuU9Es4Bgik4QAx/NUKDL2T0ABn91CJa+ntRXcucEID
+ bPDq00yeyqakWCmmoPo8zAyWTkTdLTwtqy/R/iiCweMrvnT81ryCygPK+HNIvL8nNv2FIZ
+ flQgubt9z1uiLAjVNxS0vf4Z73qxBAs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-563-SC0mAiunNmGWs1TdHV6QUg-1; Mon, 05 Sep 2022 04:40:54 -0400
+X-MC-Unique: SC0mAiunNmGWs1TdHV6QUg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2788285828F;
+ Mon,  5 Sep 2022 08:40:54 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.195.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 301B81415138;
+ Mon,  5 Sep 2022 08:40:53 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id E3F8818007A4; Mon,  5 Sep 2022 10:40:51 +0200 (CEST)
+Date: Mon, 5 Sep 2022 10:40:51 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ard Biesheuvel <ardb@kernel.org>
+Subject: Re: [PATCH] x86: only modify setup_data if the boot protocol
+ indicates safety
+Message-ID: <20220905084051.cbwjktoumwhfy5tr@sirius.home.kraxel.org>
+References: <20220904165058.1140503-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH v3 13/15] virtio-net: support queue reset
-Content-Language: en-US
-To: Kangjie Xu <kangjie.xu@linux.alibaba.com>, qemu-devel@nongnu.org
-Cc: mst@redhat.com, eduardo@habkost.net, marcel.apfelbaum@gmail.com,
- f4bug@amsat.org, wangyanan55@huawei.com, hengqi@linux.alibaba.com,
- xuanzhuo@linux.alibaba.com
-References: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
- <8577963f4b72f30c5dd1adfe661b08e57d26c453.1661414345.git.kangjie.xu@linux.alibaba.com>
-From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <8577963f4b72f30c5dd1adfe661b08e57d26c453.1661414345.git.kangjie.xu@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220904165058.1140503-1-Jason@zx2c4.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.978, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,75 +85,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sun, Sep 04, 2022 at 06:50:58PM +0200, Jason A. Donenfeld wrote:
+> This reverts 3824e25db1 ("x86: disable rng seeding via setup_data"), and
+> then makes the use of setup_data safe. It does so by checking the boot
+> protocol version. If it's sufficient, then it means EFI boots won't
+> crash. While we're at it, gate this on SEV too.
 
-在 2022/8/25 16:08, Kangjie Xu 写道:
-> From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
->
-> virtio-net and vhost-kernel implement queue reset.
-> Queued packets in the corresponding queue pair are flushed
-> or purged.
->
-> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-> ---
->   hw/net/virtio-net.c | 18 ++++++++++++++++++
->   1 file changed, 18 insertions(+)
->
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index 27b59c0ad6..d774a3e652 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -540,6 +540,23 @@ static RxFilterInfo *virtio_net_query_rxfilter(NetClientState *nc)
->       return info;
->   }
->   
-> +static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
-> +{
-> +    VirtIONet *n = VIRTIO_NET(vdev);
-> +    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
-> +
-> +    if (!nc->peer) {
-> +        return;
+> @@ -463,6 +462,7 @@ static void pc_i440fx_7_0_machine_options(MachineClass *m)
+
+> +    pcmc->legacy_no_rng_seed = true;
+
+This needs go into the pc_i440fx_7_1_machine_options function, otherwise
+legacy_no_rng_seed gets flipped from false to true for 7.1 machine types
+which breaks compatibility.
+
+> @@ -398,6 +397,7 @@ static void pc_q35_7_0_machine_options(MachineClass *m)
+
+> +    pcmc->legacy_no_rng_seed = true;
+
+Same here.
+
+> --- a/hw/i386/x86.c
+> +++ b/hw/i386/x86.c
+> @@ -1088,8 +1088,15 @@ void x86_load_linux(X86MachineState *x86ms,
+>          qemu_guest_getrandom_nofail(setup_data->data, RNG_SEED_LENGTH);
+>      }
+>  
+> -    /* Offset 0x250 is a pointer to the first setup_data link. */
+> -    stq_p(header + 0x250, first_setup_data);
+> +    /*
+> +     * Only modify the header if doing so won't crash EFI boot, which is the
+> +     * case only for newer boot protocols, and don't do so either if SEV is
+> +     * enabled.
+> +     */
+> +    if (protocol >= 0x210 && !sev_enabled()) {
+> +        /* Offset 0x250 is a pointer to the first setup_data link. */
+> +        stq_p(header + 0x250, first_setup_data);
 > +    }
-> +
-> +    if (get_vhost_net(nc->peer) &&
-> +        nc->peer->info->type == NET_CLIENT_DRIVER_TAP) {
-> +        vhost_net_virtqueue_reset(vdev, nc, queue_index);
-> +    }
-> +
-> +    flush_or_purge_queued_packets(nc);
 
+This should better go into a separate patch.
 
-But the codes doesn't prevent the usersapce datapath from being used? 
-(e.g vhost=off)
-
-E.g vhost_net_start_one() had:
-
-     if (net->nc->info->poll) {
-         net->nc->info->poll(net->nc, false);
-     }
-
-And I will wonder if it's better to consider to:
-
-1) factor out the per virtqueue start/stop from vhost_net_start/stop_one()
-
-2) simply use the helper factored out via step 1)
-
-Thanks
-
-
-> +}
-> +
->   static void virtio_net_reset(VirtIODevice *vdev)
->   {
->       VirtIONet *n = VIRTIO_NET(vdev);
-> @@ -3784,6 +3801,7 @@ static void virtio_net_class_init(ObjectClass *klass, void *data)
->       vdc->set_features = virtio_net_set_features;
->       vdc->bad_features = virtio_net_bad_features;
->       vdc->reset = virtio_net_reset;
-> +    vdc->queue_reset = virtio_net_queue_reset;
->       vdc->set_status = virtio_net_set_status;
->       vdc->guest_notifier_mask = virtio_net_guest_notifier_mask;
->       vdc->guest_notifier_pending = virtio_net_guest_notifier_pending;
+take care,
+  Gerd
 
 
