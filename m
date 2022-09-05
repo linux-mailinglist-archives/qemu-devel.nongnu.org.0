@@ -2,84 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA55B5AD2A2
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 14:38:41 +0200 (CEST)
-Received: from localhost ([::1]:56198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBAE85AD359
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 14:59:50 +0200 (CEST)
+Received: from localhost ([::1]:59064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVBN9-0004lw-Ab
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 08:38:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42514)
+	id 1oVBhd-0004ow-Uc
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 08:59:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVArv-0007sF-Dy
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 08:06:24 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34363)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVAro-0007hd-QD
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 08:06:22 -0400
-Received: by mail-wr1-x429.google.com with SMTP id e13so11104441wrm.1
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 05:06:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=D24FtzLesAGjGq5RiA2aRFqDcFtYWmWKctQeUviWwIw=;
- b=WG0wNb7Egb0LFlQqUp2Js8L46i22IePece8+ndVY6PTpMw6WUKSYOM1FQHdGyN7iIR
- 1ke3jX1L3q2jj+0S0N3QBpbX4i05FmKDI/CtlwsfiSz5ketRjHnb9Ez16wCinGJ1iVvo
- 5aisg/8N8icxoTaK5gEv1Zlfdk3QSIlTCoaUPCwHTDvCXfzV18SZv6iyQox1uUSL/0VN
- JrpILVEj9qsGKDaTb0FKbi8aU0Or/Ct7c04Ud5yl8uJDirmjhs+MHoqtP40i6y9CFAQe
- IB/5Lf48Ulb31GjtNpeB/tzqG6fYtRpKEhniCKj5m3A0cgk+4aKQ+WtcDz4zS1Gufnqt
- bpDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=D24FtzLesAGjGq5RiA2aRFqDcFtYWmWKctQeUviWwIw=;
- b=KrqPLkFIaAgKPCgBoLy94vEbK/NhMS9FTRBbPr6Dm+JfXzPKpRYXKOzxMzbA64ztmt
- mqU/PCNchMEx31TLNJYL7VfmWvgd6GSubuakgUNOl5iFEvddmj3D85jX3Fc5GDdpk99v
- B/LqtLnfPtKEV7SD6Q1gN4J3EJJb+pL2rANyii9NVrIlmCpMhFEuPxYRa3VJ8XPlv/KE
- tevnJXpLV0iTe6GqNnPiIyMHIRi2/7r/dHwPAOhxF6KxAaIEdc35Vh4pRIFg9K2EbEN8
- M8YvyWZl6LrS1e8KyYJwp+US0mtlnCsH2Mq/1uof7v2KkdL2PHR/a2dFkQKIwW92F71y
- g2OA==
-X-Gm-Message-State: ACgBeo0KELiISYqvCS2Km2rBAcfoujSDWxoesbpvyBY9vPm0OC0BokKK
- +qpVyFPtDGzMMj0qn4qbiWnZ1Q==
-X-Google-Smtp-Source: AA6agR6VspV3VbSBPKI9WPt1iH/2qAN+sWkigugI5TDaxtWEaItM+6Il4KQUnTDTrlxhMaq5ZjYzPQ==
-X-Received: by 2002:a5d:47a9:0:b0:226:e849:4373 with SMTP id
- 9-20020a5d47a9000000b00226e8494373mr15780909wrb.57.1662379574447; 
- Mon, 05 Sep 2022 05:06:14 -0700 (PDT)
-Received: from ?IPV6:2a02:8084:a5c0:5a80:f2bf:c5c3:8866:995c?
- ([2a02:8084:a5c0:5a80:f2bf:c5c3:8866:995c])
- by smtp.gmail.com with ESMTPSA id
- u18-20020a05600c19d200b003a5a5069107sm17327806wmq.24.2022.09.05.05.06.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Sep 2022 05:06:13 -0700 (PDT)
-Message-ID: <5d922305-a559-bfdc-7038-ec1560ae0e00@linaro.org>
-Date: Mon, 5 Sep 2022 13:06:11 +0100
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oVB4J-000597-OA
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 08:19:12 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:56434)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oVB4H-0002Dz-HH
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 08:19:11 -0400
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-192-2oCdOIYjPW6EfeIxmT90WQ-1; Mon, 05 Sep 2022 08:18:52 -0400
+X-MC-Unique: 2oCdOIYjPW6EfeIxmT90WQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D3CF3811E80;
+ Mon,  5 Sep 2022 12:18:51 +0000 (UTC)
+Received: from bahia (unknown [10.39.193.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE105C15BB3;
+ Mon,  5 Sep 2022 12:18:50 +0000 (UTC)
+Date: Mon, 5 Sep 2022 14:18:49 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Linus Heckemann <git@sphalerite.org>
+Cc: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>, Christian
+ Schoenebeck <qemu_oss@crudebyte.com>, "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?="
+ <berrange@redhat.com>, qemu-devel@nongnu.org, Qemu-block
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH] 9pfs: use GHashMap for fid table
+Message-ID: <20220905141849.0548001a@bahia>
+In-Reply-To: <ygao7vu5hmp.fsf@localhost>
+References: <20220903150327.2780127-1-git@sphalerite.org>
+ <df5c1e4b-9581-61e6-b0be-eb43d9620edf@amsat.org>
+ <2843062.aF7IraYCKC@silver> <YxWhA8M4Ul8z2KUj@redhat.com>
+ <ygao7vu5hmp.fsf@localhost>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] accel: print an error message and exit if plugin not
- loaded
-Content-Language: en-US
-To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <20220905101332.1986-1-cfontana@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220905101332.1986-1-cfontana@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, NICE_REPLY_A=-1.716, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,46 +72,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/5/22 11:13, Claudio Fontana wrote:
-> If module_load_one, module_load_file fail for any reason
-> (permissions, plugin not installed, ...), we need to provide some notification
-> to the user to understand that this is happening; otherwise the errors
-> reported on initialization will make no sense to the user.
-> 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> ---
->   accel/accel-softmmu.c | 10 ++++++++--
->   1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
-> index 67276e4f52..807708ee86 100644
-> --- a/accel/accel-softmmu.c
-> +++ b/accel/accel-softmmu.c
-> @@ -66,15 +66,21 @@ void accel_init_ops_interfaces(AccelClass *ac)
->   {
->       const char *ac_name;
->       char *ops_name;
-> +    ObjectClass *oc;
->       AccelOpsClass *ops;
->   
->       ac_name = object_class_get_name(OBJECT_CLASS(ac));
->       g_assert(ac_name != NULL);
->   
->       ops_name = g_strdup_printf("%s" ACCEL_OPS_SUFFIX, ac_name);
-> -    ops = ACCEL_OPS_CLASS(module_object_class_by_name(ops_name));
-> +    oc = module_object_class_by_name(ops_name);
-> +    if (!oc) {
-> +        error_report("fatal: could not find module object of type \"%s\", "
-> +                     "plugin might not be loaded correctly", ops_name);
-> +        exit(EXIT_FAILURE);
-> +    }
+Hi Linus,
 
-The change is correct, in that we certainly cannot continue without the accelerator loaded.
+Thanks for this promising change !
 
-But I'm very disappointed that the module interface does not use Error, so you have no 
-choice but to use an extremely vague message here.  I would much prefer to plumb down an 
-error parameter so that here one could simply pass &error_fatal.
+On Mon, 05 Sep 2022 10:51:10 +0200
+Linus Heckemann <git@sphalerite.org> wrote:
 
+> Hi all, thanks for your reviews.
+>=20
+> > @@ -4226,7 +4232,7 @@ int v9fs_device_realize_common(V9fsState *s, cons=
+t V9fsTransport *t,
+> >      s->ctx.fmode =3D fse->fmode;
+> >      s->ctx.dmode =3D fse->dmode;
+> >=20
+> > -    QSIMPLEQ_INIT(&s->fid_list);
+> > +    s->fids =3D g_hash_table_new(NULL, NULL);
+> >      qemu_co_rwlock_init(&s->rename_lock);
+> >=20
+> >      if (s->ops->init(&s->ctx, errp) < 0) {
+>=20
+> I noticed that the hash table may be leaked as is. I'll address this in
+> the next submission.
+>=20
 
-r~
+Pay attention that this rollback should be added to
+v9fs_device_unrealize_common() which is assumed to be
+idempotent and is already called on the error path of
+v9fs_device_realize_common().
+
+>=20
+> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+> > [Style nitpicking]
+>=20
+> Applied these changes and will include them in the next version of the pa=
+tch.
+>=20
+> Christian Schoenebeck <qemu_oss@crudebyte.com> writes:
+> > > @@ -317,12 +315,9 @@ static V9fsFidState *alloc_fid(V9fsState *s, int=
+32_t
+> > > fid) {
+> > >      V9fsFidState *f;
+> > >=20
+> > > -    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
+> > > +    if (g_hash_table_contains(s->fids, GINT_TO_POINTER(fid))) {
+> > >          /* If fid is already there return NULL */
+> > > -        BUG_ON(f->clunked);
+> > > -        if (f->fid =3D=3D fid) {
+> > > -            return NULL;
+> > > -        }
+> > > +        return NULL;
+> >
+> > Probably retaining BUG_ON(f->clunked) here?
+>=20
+> I decided not to since this was a sanity check that was happening for
+> _each_ fid, but only up to the one we were looking for. This seemed
+> inconsistent and awkward to me, so I dropped it completely (and the
+> invariant that no clunked fids remain in the table still seems to hold
+> -- it's fairly trivial to check, in that the clunked flag is only set
+> in two places, both of which also remove the map entry). My preference
+> would be to leave it out, but I'd also be fine with restoring it for
+> just the one we're looking for, or maybe moving the check to when we're
+> iterating over the whole table, e.g. in v9fs_reclaim_fd. Thoughts?
+>=20
+
+Well... finding at least one clunked fid state in this table is
+definitely a bug so I'll keep the BUG_ON() anyway.
+
+> > > @@ -424,12 +419,11 @@ static V9fsFidState *clunk_fid(V9fsState *s, in=
+t32_t
+> > > fid) {
+> > >      V9fsFidState *fidp;
+> > >=20
+> > > -    QSIMPLEQ_FOREACH(fidp, &s->fid_list, next) {
+> > > -        if (fidp->fid =3D=3D fid) {
+> > > -            QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
+> > > -            fidp->clunked =3D true;
+> > > -            return fidp;
+> > > -        }
+> > > +    fidp =3D g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
+> > > +    if (fidp) {
+> > > +        g_hash_table_remove(s->fids, GINT_TO_POINTER(fid));
+> > > +        fidp->clunked =3D true;
+> > > +        return fidp;
+> >
+> > We can't get rid of the double lookup here, can we? Surprisingly I don'=
+t find=20
+> > a lookup function on the iterator based API.
+>=20
+> It seems you're not the only one who had that idea:
+> https://gitlab.gnome.org/GNOME/glib/-/issues/613
+>=20
+> In this case, I think an extended remove function which returns the
+> values that were present would be even nicer. But neither exists at this
+> time (and that issue is pretty old), I guess we're stuck with this for
+> now.
+
+g_hash_table_steal_extended() [1] actually allows to do just that. Since the
+hash table is allocated with g_hash_table_new() and doesn't care for destroy
+functions, the code change would be something like:
+
+@@ -424,12 +419,10 @@ static V9fsFidState *clunk_fid(V9fsState *s, int32_t =
+fid)
+ {
+     V9fsFidState *fidp;
+=20
+-    QSIMPLEQ_FOREACH(fidp, &s->fid_list, next) {
+-        if (fidp->fid =3D=3D fid) {
+-            QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
+-            fidp->clunked =3D true;
+-            return fidp;
+-        }
++    if (g_hash_table_steal_extended(s->fids, GINT_TO_POINTER(fid), NULL,
++                                    (gpointer *)&fidp)) {
++        fidp->clunked =3D true;
++        return fidp;
+     }
+     return NULL;
+ }
+
+[1] https://developer-old.gnome.org/glib/stable/glib-Hash-Tables.html#g-has=
+h-table-steal-extended
+
+Cheers,
+
+--
+Greg
+
+>=20
+>=20
+> Daniel P. Berrang=C3=A9 writes:
+> > In $SUBJECT it is called GHashTable, not GHashMap
+>=20
+> Indeed, good catch. Will fix in the next version.
+>=20
+> Linus
+
 
