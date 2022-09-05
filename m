@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B445ADA7C
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 23:03:49 +0200 (CEST)
-Received: from localhost ([::1]:33476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A715ADAA6
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 23:08:19 +0200 (CEST)
+Received: from localhost ([::1]:39514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVJG0-0001VR-0O
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 17:03:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45032)
+	id 1oVJKM-0004Hf-6H
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 17:08:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oVJCV-0008K9-Gx
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 17:00:11 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:33434)
+ id 1oVJHO-0001mi-Vu
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 17:05:16 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:46021)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oVJCS-0001Gg-Uf
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 17:00:10 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id y29so9526502pfq.0
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 14:00:08 -0700 (PDT)
+ id 1oVJHM-00020E-2M
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 17:05:14 -0400
+Received: by mail-pl1-x631.google.com with SMTP id u22so9365006plq.12
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 14:05:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=cDu70A7ZyPQCN5LWidnCs1/VbZsH6akbgWNi2qMl1N4=;
- b=NmAk1cmd2vpwsT+SckG6f1Javconnaih3tKTAk5tKSOR0zVyD4Oo2SeNm5mF+xA63t
- Ql6QMBHurtLVqetf4D5SiALklovhUfLQszampqHHVKkep0bJE5IRckeyUnZ8dbQcCn/2
- hOaJCsCy5CMzuPk6XD/jHUKr/ILFRzxzDcvTGf4l2FBCQMyaYl9trjNzGdQySxbP1xnb
- zOGAK6ipcCwj8aqrM463KS6mdoLNg0qI7K5XFftUpf8YS4Y7zJdnctH00nJwdMxmEYk3
- Qs0wy5LRUSqz4x7MEdT3Xn8RUaN+R2yxtMACBxEOTeylhmgosgI503klOEeLbvLEBL/l
- r8tg==
+ bh=7HwI3u9jVukFdjOfvNxmSjtPX6n9gnwiWP/6QFc3giQ=;
+ b=SHpFDECNgmu1LxTOvpgLbKbBDM+PIvhLpgdpGezeKWAfr3dOtlL1ofwIzhfZ+HFu8p
+ ukE4YtoeCoPqjbS42MH/mUUa8/lPCDYiK+KmLvrBk3yEhS6KADKOfv3zUuQLwI8nP8W3
+ alBwpB5o3VuXg32Doj6+HkK0U6RHy2EZygL0yCpRK18z81PnqM+UizKeHvj/795lQ3YY
+ WOsMaXLUquGJdMQXgDLYcrQBT0TaPfMolp1/m0DsIemgmhzPyQmEsMJZGDJphxJCClF2
+ oX9Nq6xXczQquaTGHSq9zzn9Jqsn1XmTlPPsgO8ziiENmVLa0Ct9+RmWsjtAhJ0YeKgm
+ 6CvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=cDu70A7ZyPQCN5LWidnCs1/VbZsH6akbgWNi2qMl1N4=;
- b=QWEdL8eXkgHwgwwAfSPYTVK8JWBFCEjyCj8kbrgD0n/fRXrBV0qJdTwAJl3O8KfK7U
- qx2NiwKBWQUoDCqFuQXb3MRGsQ/jegYCxhbpXEhFSnehKSnKkKZF1wzDSAu78Pd0YT4P
- JOuyvZq6oOdBQvBKtCSiXbuh9GF1EMpwDdM/t6fPzF2uIo4yhV+HelDG6TeFK4ekU4e3
- /e1yQrlwXLEx/+7/WjFGDz/FRwN+hBuxqW9PLyXKmMpv5C8b+1UpjjojXN5MG2/W/p8F
- E2veQ6TINCX8dPHprsCOA96zWC1RZWkBX8KzNbm3PAkUdJ6Ms5UGJhI8R2nyAmVbioDZ
- LDCg==
-X-Gm-Message-State: ACgBeo1MAjqsQWSkWDcfMeCRvZS6q8C6J5LIw1d+ouDxCbf2jkIqcahV
- u4cGAAQ5E3qqO7hlh+Ws5mY=
-X-Google-Smtp-Source: AA6agR5FEfFQk7WZPLjltF6vNddn62EbUIpyyQQAejQ3rY6Crkhy2xKlDD+jaBL8QBEH3lCgh2SW1w==
-X-Received: by 2002:a63:4f65:0:b0:42c:6044:83c1 with SMTP id
- p37-20020a634f65000000b0042c604483c1mr29982618pgl.560.1662411607375; 
- Mon, 05 Sep 2022 14:00:07 -0700 (PDT)
+ bh=7HwI3u9jVukFdjOfvNxmSjtPX6n9gnwiWP/6QFc3giQ=;
+ b=EBrCkpR+gwpref7H1lDfQRqBlO9yXEtimoNise3fcUpBGg3qvayklvrT5whnohLS55
+ G6h0IRU18ocCSBV+t2+0DNepblZOqe0OyEAyr/PNHW8wMMAg9h2c8HSqdfsSwQ1rmoDU
+ rBBZis5aIFbJqa25NxofrMzhza37G//EA+pNchZOm2SBcHjmkAx+X9yXSbStrourry+2
+ QbWWEezLki7dxr8vVdgFHaNAdHsNjTABMIadQBfyHqImrj+PpIj9rFcEB4SOmI4JRqMS
+ itoYW3TapS8uqWOmEhEi3X2emcmrz3wRPPbSIPA4OZvuUwhfiCqPTp2M22qshskvhA//
+ fq+Q==
+X-Gm-Message-State: ACgBeo15q/+7orl+uRnBsLSphATU5G/v/jFROUlM3Upimwss6jHfZDHC
+ NzspjexRBPWbUFuCcKyQL2A=
+X-Google-Smtp-Source: AA6agR7+xP8Wo8c3MZOx8GlHd6Tr7ar0cR70wI45N2X5OzEPffD18on0ih13GEfI9eWEu/nXH9oOZQ==
+X-Received: by 2002:a17:90b:4ac3:b0:1fd:ded0:ea80 with SMTP id
+ mh3-20020a17090b4ac300b001fdded0ea80mr20960190pjb.142.1662411910737; 
+ Mon, 05 Sep 2022 14:05:10 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- ot17-20020a17090b3b5100b001fb3522d53asm10968952pjb.34.2022.09.05.14.00.05
+ p12-20020a170902bd0c00b001745919b197sm7927960pls.243.2022.09.05.14.05.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Sep 2022 14:00:06 -0700 (PDT)
-Message-ID: <42456c1e-160c-df46-2aac-836568f94b94@amsat.org>
-Date: Mon, 5 Sep 2022 23:00:02 +0200
+ Mon, 05 Sep 2022 14:05:10 -0700 (PDT)
+Message-ID: <f6e2f054-6ddc-0c1d-1d0a-7a8433465007@amsat.org>
+Date: Mon, 5 Sep 2022 23:05:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH] linux-user: fix bug about missing signum convert of
- sigqueue
+Subject: Re: [PATCH] build: Regenerate meson-buildoptions.sh
 Content-Language: en-US
-To: fanwj@mail.ustc.edu.cn, qemu-devel@nongnu.org
-Cc: laurent@vivier.eu, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <7819f62a.51d7c.182f21781c5.Coremail.fanwj@mail.ustc.edu.cn>
-In-Reply-To: <7819f62a.51d7c.182f21781c5.Coremail.fanwj@mail.ustc.edu.cn>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: xieyongji@bytedance.com, pbonzini@redhat.com, stefanha@redhat.com
+References: <20220905204114.208969-1-richard.henderson@linaro.org>
+In-Reply-To: <20220905204114.208969-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -96,58 +95,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 31/8/22 06:10, fanwj@mail.ustc.edu.cn wrote:
->  From 4ebe8a67ed7c4b1220957b2b67a62ba60e0e80ec Mon Sep 17 00:00:00 2001
-> From: fanwenjie <fanwj@mail.ustc.edu.cn>
-> Date: Wed, 31 Aug 2022 11:55:25 +0800
-> Subject: [PATCH] linux-user: fix bug about missing signum convert of 
-> sigqueue
+On 5/9/22 22:41, Richard Henderson wrote:
+> Regeneration was missed by the previous update.
 > 
-> Signed-off-by: fanwenjie <fanwj@mail.ustc.edu.cn>
+> Fixes: 2a2359b84407 ("vduse-blk: Implement vduse-blk export")
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   linux-user/syscall.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   scripts/meson-buildoptions.sh | 13 +++++++------
+>   1 file changed, 7 insertions(+), 6 deletions(-)
 > 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index f409121202..3e5ab4f0b2 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -9690,7 +9690,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, 
-> int num, abi_long arg1,
->               }
->               target_to_host_siginfo(&uinfo, p);
->               unlock_user(p, arg3, 0);
-> -            ret = get_errno(sys_rt_sigqueueinfo(arg1, arg2, &uinfo));
-> +            ret = get_errno(sys_rt_sigqueueinfo(arg1, 
-> target_to_host_signal(arg2), &uinfo));
+> diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+> index 359b04e0e6..300ba8b212 100644
+> --- a/scripts/meson-buildoptions.sh
+> +++ b/scripts/meson-buildoptions.sh
+> @@ -42,12 +42,13 @@ meson_options_help() {
+>     printf "%s\n" '  --enable-trace-backends=CHOICES'
+>     printf "%s\n" '                           Set available tracing backends [log] (choices:'
+>     printf "%s\n" '                           dtrace/ftrace/log/nop/simple/syslog/ust)'
+> -  printf "%s\n" '  --firmwarepath=VALUES    search PATH for firmware files [share/qemu-firmware]'
+> +  printf "%s\n" '  --firmwarepath=VALUES    search PATH for firmware files [share/qemu-'
+> +  printf "%s\n" '                           firmware]'
 
-Fixes: 66fb9763af ("basic signal handling")
+This path split is not very handy to copy/paste.
 
-Date:   Sun Mar 23 01:06:05 2003 +0000
+>     printf "%s\n" '  --iasl=VALUE             Path to ACPI disassembler'
+>     printf "%s\n" '  --includedir=VALUE       Header file directory [include]'
+>     printf "%s\n" '  --interp-prefix=VALUE    where to find shared libraries etc., use %M for'
+>     printf "%s\n" '                           cpu name [/usr/gnemul/qemu-%M]'
+> -  printf "%s\n" '  --libdir=VALUE           Library directory [lib64]'
+> +  printf "%s\n" '  --libdir=VALUE           Library directory [lib/x86_64-linux-gnu]'
 
-!@#% ALMOST 20 YEARS %#!@#$
+This patch seems distro-specific (previous to this patch).
 
-Cc'ing Alex for an entry in the oldest bug fixed table.
-
->       case TARGET_NR_rt_tgsigqueueinfo:
-> @@ -9703,7 +9703,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, 
-> int num, abi_long arg1,
->               }
->               target_to_host_siginfo(&uinfo, p);
->               unlock_user(p, arg4, 0);
-> -            ret = get_errno(sys_rt_tgsigqueueinfo(arg1, arg2, arg3, 
-> &uinfo));
-> +            ret = get_errno(sys_rt_tgsigqueueinfo(arg1, arg2, 
-> target_to_host_signal(arg3), &uinfo));
-
-Fixes: cf8b8bfc50 ("linux-user: add support for rt_tgsigqueueinfo() 
-system call")
-
->           }
->           return ret;
->   #ifdef TARGET_NR_sigreturn
-> -- 
-> 
-
+Anyhow:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
