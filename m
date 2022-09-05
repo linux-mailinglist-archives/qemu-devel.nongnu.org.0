@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B395AD9E5
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 21:51:18 +0200 (CEST)
-Received: from localhost ([::1]:48606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B421B5ADA25
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 22:26:29 +0200 (CEST)
+Received: from localhost ([::1]:49952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVI7o-00049S-NW
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 15:51:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59936)
+	id 1oVIfs-00049Q-6X
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 16:26:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVI4m-0000FM-DB
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 15:48:08 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:48048)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oVIcc-00073Q-3P
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 16:23:06 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:45630)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVI4k-0007si-TK
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 15:48:08 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E71041FAB1
- for <qemu-devel@nongnu.org>; Mon,  5 Sep 2022 19:48:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1662407284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=yqUdovfxJ6rT4CeuRaukoPdfrZ+66hWVsChM6nXAR1o=;
- b=NTHbYp+9QYfYUHFO6TcAj9WGFns1LRVTCmnBvr4gbNuVfXGXnXziFq9ycRBPd4q6o7pAWg
- t2C/RkDTAxoB9nfV0d6/4f/zejAKon76suklhTdpCjw7lmXIPaOpgahcoAZScik3iRGa15
- x5wFheqJpjZC5CbEiQ0GU4+cYYvoRvs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1662407284;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=yqUdovfxJ6rT4CeuRaukoPdfrZ+66hWVsChM6nXAR1o=;
- b=ROug1KKiWngveRSeVS36/GVhoRk2VE6+LmGWxYhPQ5X1TFXBy4uZJk3hCg5JYEfBan0ZWZ
- lwhe67cQnCyHA9AA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D332013A66
- for <qemu-devel@nongnu.org>; Mon,  5 Sep 2022 19:48:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id AROvMXRSFmOOQQAAMHmgww
- (envelope-from <cfontana@suse.de>)
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 19:48:04 +0000
-Message-ID: <53b94520-f02b-aef5-b372-0460531b566f@suse.de>
-Date: Mon, 5 Sep 2022 21:48:04 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oVIcZ-0004Wo-6O
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 16:23:04 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id w5so12599752wrn.12
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 13:23:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=eoRH/oMXskc9uVLihLPCU4BVLnfjM0NMaLk7vE7BhNg=;
+ b=YkT42yzU2Vj7MBwlqZA4h9gw8jT3ixkJzpKqtTkINdo6Zk65E07X5VOc96fDqP8AbN
+ pZdTmuNhyYyIFIRrzbxP0ZP0YuiQextAVduj0YCPdn9PSGKJPogqFJwdrwKh0U8oGqdn
+ himJGWLEvJOUBW9Y0QJk0yhhGkJAXrXjQciEk6Go9RTZh9UZOAMDeVN+nWyuZ/aQQVzN
+ yFT+kISPuS4xIqdgAUS5Tv37jb1FKhPPG3127dFkQ49xctGQazQkDRJN+Z6PCuoYfvx2
+ YD6ho2VEhHOjS8gwZwhtuee3KdCFQ1x4+Y2d0pIRaYnZEKelE0W3yuYV/PAgWy5h0ew3
+ L2Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=eoRH/oMXskc9uVLihLPCU4BVLnfjM0NMaLk7vE7BhNg=;
+ b=6rcmVpbVL56yqjLqvg0g4CmJvxpD/DeZoTqiKySLG2DXnJ7zAn3BQ4x9zyOdxLo224
+ NlalAGdFn0+HtpwSiSdZp9+ndG+hTY8y4e5er31fK2YqAlgFnQ/81VvS6Jl4wnH/1f4a
+ JZjIvrAlKZjEdN0/YI7VyjExREP121Ec+kxh9H8zPUMpQL6m7UPfvYZt0gF0o4xxvqs3
+ hxYmKxXgB24z2VPeOMz9Zzt1oIPNR1DEZZELwkoXA/ZCrhV7NwJJ1JoPxDaP3F52sMJP
+ wfF2ck/QZJO6LCeXVqQsTQ390CVh1XTOSJhwctxbcfH2AIgo8TRknX5rB1JC/3uYByWi
+ sdFA==
+X-Gm-Message-State: ACgBeo1anlKlilekR3aFuNduuk9G+4atKviIacO0PEYgOANCQ6p98e78
+ qRm+/4ydbqbYGhQKgHkLJad26u8QKPX9PQyR
+X-Google-Smtp-Source: AA6agR6gMt0welprHSfBi9ya9yT97FSsdtVDtm70DWC01P5LHapj2QnPc9kndlrHuOgiZ0JoBRS2/Q==
+X-Received: by 2002:a5d:5232:0:b0:228:6bb8:e985 with SMTP id
+ i18-20020a5d5232000000b002286bb8e985mr4565346wra.10.1662409381357; 
+ Mon, 05 Sep 2022 13:23:01 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2a02:8084:a5c0:5a80:d0ad:82b5:d7a4:c0a9])
+ by smtp.gmail.com with ESMTPSA id
+ m14-20020a5d56ce000000b00226d238be98sm9472404wrw.82.2022.09.05.13.23.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Sep 2022 13:23:00 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: f4bug@amsat.org,
+	qemu-arm@nongnu.org,
+	pbonzini@redhat.com
+Subject: [PATCH v3 0/6] tcg: Introduce CPUTLBEntryFull
+Date: Mon,  5 Sep 2022 21:22:53 +0100
+Message-Id: <20220905202259.189852-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Content-Language: en-US
-To: qemu-devel <qemu-devel@nongnu.org>
-From: Claudio Fontana <cfontana@suse.de>
-Subject: sphinx-build is really slow, any way to improve that?
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,13 +89,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+This is split out of two patch sets that I have in flight
+that allow atomic updates of guest page tables.
 
-when I build qemu, there is a lot of time spent at the end of the build where one cpu goes 100% on sphinx-build.
+v3 fixes some trivial conflicts with the current tcg-next PR:
+https://patchew.org/QEMU/20220904002317.60158-1-richard.henderson@linaro.org/
 
-Is there some way to parallelize that? It seems it is the current bottleneck for rebuilds for me..
 
-Thanks,
+r~
 
-Claudio
+
+Richard Henderson (6):
+  accel/tcg: Rename CPUIOTLBEntry to CPUTLBEntryFull
+  accel/tcg: Drop addr member from SavedIOTLB
+  accel/tcg: Suppress auto-invalidate in probe_access_internal
+  accel/tcg: Introduce probe_access_full
+  accel/tcg: Introduce tlb_set_page_full
+  include/exec: Introduce TARGET_PAGE_ENTRY_EXTRA
+
+ include/exec/cpu-defs.h       |  45 +++++--
+ include/exec/exec-all.h       |  33 +++++
+ include/hw/core/cpu.h         |   1 -
+ accel/tcg/cputlb.c            | 218 ++++++++++++++++++++--------------
+ target/arm/mte_helper.c       |  14 +--
+ target/arm/sve_helper.c       |   4 +-
+ target/arm/translate-a64.c    |   2 +-
+ target/s390x/tcg/mem_helper.c |   4 -
+ 8 files changed, 207 insertions(+), 114 deletions(-)
+
+-- 
+2.34.1
+
 
