@@ -2,84 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A41F5AD12E
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 13:08:05 +0200 (CEST)
-Received: from localhost ([::1]:46696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7DD15AD0E5
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 12:59:53 +0200 (CEST)
+Received: from localhost ([::1]:55618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oV9xU-0001EM-9k
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 07:08:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52296)
+	id 1oV9pX-0002s7-Q8
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 06:59:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oV9JT-0004OQ-I3
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 06:26:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36636)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oV9Jd-0004P1-0m; Mon, 05 Sep 2022 06:26:53 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:45307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oV9JP-0006NA-0S
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 06:26:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662373597;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=dNgKFC+0LeVv80K7QBVzhgcaEfabY+PLvf1MTEKFduI=;
- b=UAwgmaCYpYt8wHOSjcVlTQsyQ/y/UH6GAzxrYeG4CWXpVH8Snp8Jv1It4cEoLSZOUXQYm6
- HHHFhpoXktU5sBbXKVFrSbupErwhJ2RTFnU8b6chNPbfyEreqbi8LmuSQDPfHMAjt9IcRK
- zOKJatfjamludb+bJviGZ6SCQY+rXI4=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-659-bj6ZeALGOaegFWVt40bmfA-1; Mon, 05 Sep 2022 06:26:35 -0400
-X-MC-Unique: bj6ZeALGOaegFWVt40bmfA-1
-Received: by mail-ej1-f70.google.com with SMTP id
- ga33-20020a1709070c2100b0074084f48b12so2142473ejc.7
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 03:26:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date;
- bh=dNgKFC+0LeVv80K7QBVzhgcaEfabY+PLvf1MTEKFduI=;
- b=3hdN5B1IkkOcgtXL/j44VgYx2i81piFsAvIp/NmRdQd55npeYqnnjaRsozBwN3oiuN
- oRNzktsTjSM3cp2hKBlck6Flu253oISSCg+WtvNQ9Y8NSezvEFxguyOuv4dq2R6pXtTv
- ZxNAHIYzlRPCqIebCxurlqAWCbwDaNwpnoFWrvYBk1fFAcV3EuV7My2y0Wh2Zbx8rGlZ
- BcTTFwNZdLa2vssFUejgXjsX/mmzsGTyw+5Te54C2nLXlSbY5seeTrNphTp1A5w5cOJ4
- 2wpuf60aXaaPVrESSDbmP4HCX4P+iRx76CDWH39ZI72JjwRSxahnt3sKeuL3bXk2PYv9
- E8Ow==
-X-Gm-Message-State: ACgBeo0c62ve1ruFjVQhfTzqYHpqEBouY3g2S5mnowJFfUwtv8r0a+df
- ghmTxcH5W95Z8B4asaY14QW4lX2xDMEA+T764iNUn9xUiVdAF4/BtItXAfRa5sYK299Vkw/u6rH
- 7H9zRfbb19NsE3x13mxT178uzlym7vZ+0/Ob/ojcWkFAvhTTRr5CN/1WLsScG9/Z7P/w=
-X-Received: by 2002:a17:906:5a42:b0:73d:b160:af0d with SMTP id
- my2-20020a1709065a4200b0073db160af0dmr35362877ejc.164.1662373594638; 
- Mon, 05 Sep 2022 03:26:34 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7r6KFfIfM6I398na+KrPHfRexL9/Jabs1orSg9jPCOsz2rZjqDr9svfHg0hQXtjnx0Htv8vQ==
-X-Received: by 2002:a17:906:5a42:b0:73d:b160:af0d with SMTP id
- my2-20020a1709065a4200b0073db160af0dmr35362853ejc.164.1662373594314; 
- Mon, 05 Sep 2022 03:26:34 -0700 (PDT)
-Received: from goa-sendmail ([93.56.160.208]) by smtp.gmail.com with ESMTPSA id
- ay2-20020a056402202200b0044841a78c70sm6148675edb.93.2022.09.05.03.26.33
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Sep 2022 03:26:33 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] coverity: put NUBus under m68k component
-Date: Mon,  5 Sep 2022 12:26:33 +0200
-Message-Id: <20220905102633.20940-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.37.2
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oV9JU-0006Ob-JH; Mon, 05 Sep 2022 06:26:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=jXFomgTxJPzBLi5apH8KcEVE2UndDdFHxpF+itFrmeg=; b=jXuTKEQ+eYy0NDKrJkbmbpUAKf
+ 15sDPXFKhQNHa7sTXWMa1kr/vqVD61Pz/ZUWW7ZVnoFSIykF77hHDg/W13VM0trnrmKeN6FoLryLS
+ L6F64WAiEOHf4jN//s+0aRoJKagAuMfxHFygcyIZQUOIe7kmCk+ewPY2V5D+tvIzAjBsijp0onlr8
+ tjCOK+scpbMptxE7IhVEKyNm5vvSBLMeDVtLioUGISu9HoLF/oitAsKGs6rQbT08kbof90x4uMZ2A
+ m+g6pPBiRml7qcj7lrSpOtsIQ4iIulAIBJdGJhc0vlL1KJ4oDTg1iw2BBtx1h4cVopz56DTuDCQld
+ uxpLLmcKPv/JFjgflBQaCblcpHICTQH4yD5TfiG35HvumPDoC/9qA2gXvSV31FDIOYaBVm3yVuogQ
+ b+0S+Gxuv4JNGTgNb8xAVUzGADjKJcnJ6ts2B16hU1VsXBv5TUeaBkUi/SdvS1pMqYVMYonlnG27/
+ EC0ZYHBpeepeZi860Jr0NiOpODQZp0EKhCcKZ2w3kZLyeRrL8CAqwggZPTxjRBqqUfXNkMz50BkxX
+ smBdz5WrDOIUB0HLt4eQq044UvB8EdJ3w5MLElbeQ3VULf1YyKRzLq257C1KPxx9q3xkSwPUlSxDZ
+ WjnASiwneEhWw+NV2yyn5Z4c17Q+P+Xz1l5SIxFEE=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
+ Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Linus Heckemann <git@sphalerite.org>, qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>, Qemu-block <qemu-block@nongnu.org>
+Subject: Re: [PATCH] 9pfs: use GHashMap for fid table
+Date: Mon, 05 Sep 2022 12:26:37 +0200
+Message-ID: <12888102.ax2P7Sasnn@silver>
+In-Reply-To: <ygao7vu5hmp.fsf@localhost>
+References: <20220903150327.2780127-1-git@sphalerite.org>
+ <YxWhA8M4Ul8z2KUj@redhat.com> <ygao7vu5hmp.fsf@localhost>
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,27 +68,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is only used by the Q800 emulation, so put it under that architecture.
+On Montag, 5. September 2022 10:51:10 CEST Linus Heckemann wrote:
+> Hi all, thanks for your reviews.
+>=20
+> > @@ -4226,7 +4232,7 @@ int v9fs_device_realize_common(V9fsState *s, const
+> > V9fsTransport *t,>=20
+> >      s->ctx.fmode =3D fse->fmode;
+> >      s->ctx.dmode =3D fse->dmode;
+> >=20
+> > -    QSIMPLEQ_INIT(&s->fid_list);
+> > +    s->fids =3D g_hash_table_new(NULL, NULL);
+> >=20
+> >      qemu_co_rwlock_init(&s->rename_lock);
+> >     =20
+> >      if (s->ops->init(&s->ctx, errp) < 0) {
+>=20
+> I noticed that the hash table may be leaked as is. I'll address this in
+> the next submission.
+>=20
+> Philippe Mathieu-Daud=E9 <f4bug@amsat.org> writes:
+> > [Style nitpicking]
+>=20
+> Applied these changes and will include them in the next version of the
+> patch.
+> Christian Schoenebeck <qemu_oss@crudebyte.com> writes:
+> > > @@ -317,12 +315,9 @@ static V9fsFidState *alloc_fid(V9fsState *s,
+> > > int32_t
+> > > fid) {
+> > >=20
+> > >      V9fsFidState *f;
+> > >=20
+> > > -    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
+> > > +    if (g_hash_table_contains(s->fids, GINT_TO_POINTER(fid))) {
+> > >=20
+> > >          /* If fid is already there return NULL */
+> > >=20
+> > > -        BUG_ON(f->clunked);
+> > > -        if (f->fid =3D=3D fid) {
+> > > -            return NULL;
+> > > -        }
+> > > +        return NULL;
+> >=20
+> > Probably retaining BUG_ON(f->clunked) here?
+>=20
+> I decided not to since this was a sanity check that was happening for
+> _each_ fid, but only up to the one we were looking for. This seemed
+> inconsistent and awkward to me, so I dropped it completely (and the
+> invariant that no clunked fids remain in the table still seems to hold
+> -- it's fairly trivial to check, in that the clunked flag is only set
+> in two places, both of which also remove the map entry). My preference
+> would be to leave it out, but I'd also be fine with restoring it for
+> just the one we're looking for, or maybe moving the check to when we're
+> iterating over the whole table, e.g. in v9fs_reclaim_fd. Thoughts?
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- scripts/coverity-scan/COMPONENTS.md | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Yeah, I think you are right, it would feel odd. Just drop BUG_ON() for now.
 
-diff --git a/scripts/coverity-scan/COMPONENTS.md b/scripts/coverity-scan/COMPONENTS.md
-index fc1608932e..0e6ab4936e 100644
---- a/scripts/coverity-scan/COMPONENTS.md
-+++ b/scripts/coverity-scan/COMPONENTS.md
-@@ -22,7 +22,7 @@ i386
-   ~ (/qemu)?((/include)?/hw/i386/.*|/target/i386/.*|/hw/intc/[^/]*apic[^/]*\.c)
- 
- m68k
--  ~ (/qemu)?((/include)?/hw/m68k/.*|/target/m68k/.*|(/include)?/hw(/.*)?/mcf.*)
-+  ~ (/qemu)?((/include)?/hw/m68k/.*|/target/m68k/.*|(/include)?/hw(/.*)?/mcf.*|(/include)?/hw/nubus/.*)
- 
- microblaze
-   ~ (/qemu)?((/include)?/hw/microblaze/.*|/target/microblaze/.*)
--- 
-2.37.2
+> > > @@ -424,12 +419,11 @@ static V9fsFidState *clunk_fid(V9fsState *s,
+> > > int32_t
+> > > fid) {
+> > >=20
+> > >      V9fsFidState *fidp;
+> > >=20
+> > > -    QSIMPLEQ_FOREACH(fidp, &s->fid_list, next) {
+> > > -        if (fidp->fid =3D=3D fid) {
+> > > -            QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
+> > > -            fidp->clunked =3D true;
+> > > -            return fidp;
+> > > -        }
+> > > +    fidp =3D g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
+> > > +    if (fidp) {
+> > > +        g_hash_table_remove(s->fids, GINT_TO_POINTER(fid));
+> > > +        fidp->clunked =3D true;
+> > > +        return fidp;
+> >=20
+> > We can't get rid of the double lookup here, can we? Surprisingly I don't
+> > find a lookup function on the iterator based API.
+>=20
+> It seems you're not the only one who had that idea:
+> https://gitlab.gnome.org/GNOME/glib/-/issues/613
+>=20
+> In this case, I think an extended remove function which returns the
+> values that were present would be even nicer. But neither exists at this
+> time (and that issue is pretty old), I guess we're stuck with this for
+> now.
+
+Well, all we would need was such a proposed=20
+g_hash_table_lookup_iter(table,key,iter) function. I just had a quick look =
+at=20
+ghash.c and it looks like that would actually be straightforward to add as =
+the=20
+iterator structure takes the same direct array index as the already existin=
+g=20
+g_hash_table_lookup() function. But anyway, that's the current situation, s=
+o=20
+be it.
+
+> Daniel P. Berrang=E9 writes:
+> > In $SUBJECT it is called GHashTable, not GHashMap
+>=20
+> Indeed, good catch. Will fix in the next version.
+>=20
+> Linus
+
 
 
