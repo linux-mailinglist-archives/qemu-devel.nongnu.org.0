@@ -2,57 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 452915AD955
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 21:00:05 +0200 (CEST)
-Received: from localhost ([::1]:40460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B395AD9E5
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 21:51:18 +0200 (CEST)
+Received: from localhost ([::1]:48606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVHKF-00026E-SK
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 15:00:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46626)
+	id 1oVI7o-00049S-NW
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 15:51:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1oVHId-0000Y7-5u; Mon, 05 Sep 2022 14:58:23 -0400
-Received: from [200.168.210.66] (port=23729 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <victor.colombo@eldorado.org.br>)
- id 1oVHIb-0007at-20; Mon, 05 Sep 2022 14:58:22 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 5 Sep 2022 15:58:16 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 1ED7B8001D1;
- Mon,  5 Sep 2022 15:58:16 -0300 (-03)
-Message-ID: <320a6db3-75cf-0ed3-eb7d-6c956c9a253b@eldorado.org.br>
-Date: Mon, 5 Sep 2022 15:58:15 -0300
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVI4m-0000FM-DB
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 15:48:08 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:48048)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVI4k-0007si-TK
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 15:48:08 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E71041FAB1
+ for <qemu-devel@nongnu.org>; Mon,  5 Sep 2022 19:48:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1662407284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=yqUdovfxJ6rT4CeuRaukoPdfrZ+66hWVsChM6nXAR1o=;
+ b=NTHbYp+9QYfYUHFO6TcAj9WGFns1LRVTCmnBvr4gbNuVfXGXnXziFq9ycRBPd4q6o7pAWg
+ t2C/RkDTAxoB9nfV0d6/4f/zejAKon76suklhTdpCjw7lmXIPaOpgahcoAZScik3iRGa15
+ x5wFheqJpjZC5CbEiQ0GU4+cYYvoRvs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1662407284;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=yqUdovfxJ6rT4CeuRaukoPdfrZ+66hWVsChM6nXAR1o=;
+ b=ROug1KKiWngveRSeVS36/GVhoRk2VE6+LmGWxYhPQ5X1TFXBy4uZJk3hCg5JYEfBan0ZWZ
+ lwhe67cQnCyHA9AA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D332013A66
+ for <qemu-devel@nongnu.org>; Mon,  5 Sep 2022 19:48:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id AROvMXRSFmOOQQAAMHmgww
+ (envelope-from <cfontana@suse.de>)
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 19:48:04 +0000
+Message-ID: <53b94520-f02b-aef5-b372-0460531b566f@suse.de>
+Date: Mon, 5 Sep 2022 21:48:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 18/19] target/ppc: Clear fpstatus flags on VSX_CMP
+ Thunderbird/91.4.0
 Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
- richard.henderson@linaro.org, matheus.ferst@eldorado.org.br,
- lucas.araujo@eldorado.org.br, leandro.lupori@eldorado.org.br,
- lucas.coutinho@eldorado.org.br
-References: <20220901131756.26060-1-victor.colombo@eldorado.org.br>
- <20220901131756.26060-19-victor.colombo@eldorado.org.br>
- <2e2cdbcc-bebd-bf58-57e3-39ef7e28a2ae@gmail.com>
-From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
-In-Reply-To: <2e2cdbcc-bebd-bf58-57e3-39ef7e28a2ae@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-OriginalArrivalTime: 05 Sep 2022 18:58:16.0591 (UTC)
- FILETIME=[74F541F0:01D8C159]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.716,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+To: qemu-devel <qemu-devel@nongnu.org>
+From: Claudio Fontana <cfontana@suse.de>
+Subject: sphinx-build is really slow, any way to improve that?
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,30 +84,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gMDUvMDkvMjAyMiAxNTo0MSwgRGFuaWVsIEhlbnJpcXVlIEJhcmJvemEgd3JvdGU6DQo+
-IE9uIDkvMS8yMiAxMDoxNywgVsOtY3RvciBDb2xvbWJvIHdyb3RlOg0KPj4gU2lnbmVkLW9m
-Zi1ieTogVsOtY3RvciBDb2xvbWJvIDx2aWN0b3IuY29sb21ib0BlbGRvcmFkby5vcmcuYnI+
-DQo+PiAtLS0NCj4gDQo+IFdoYXQgSSBtZW50aW9uZWQgaW4gcGF0Y2ggMTAgYWxzbyBhcHBs
-aWVzIHRvIGFsbCBwYXRjaGVzIGZyb20gMTEgdG8gMTgNCj4gaXQgc2VlbXMuIEFsbCBjaGFu
-Z2VzIG1hZGUgaW4gcGF0Y2hlcyAwOS0xOCBhcmUgYmFzZWQgb24gdGhlIGV4cGxhbmF0aW9u
-DQo+IGdhdmUgaW4gcGF0Y2ggMDguDQo+IA0KPiBUaGUgcHJvYmxlbSB3aXRoIHRoaXMgaXMg
-dGhhdCBpdCdsbCBiZSBhbm5veWluZyBpZi93aGVuIHNvbWV0aGluZyBnb2VzDQo+IHdyb25n
-LiBMZXQncyBzYXkgdGhhdCB0aGUgY2hhbmdlIG1hZGUgaW4gcGF0Y2ggMTUgY2F1c2VkIGEg
-c2lkZS1lZmZlY3QuDQo+IEJpc2VjdCB3aWxsIHBvaW50IGl0IHRvIHBhdGNoIDE1LCB3aGlj
-aCBkb2Vzbid0IGhhdmUgYW4gZXhwbGFuYXRpb24gb2YNCj4gd2h5IHlvdSBtYWRlIHRoZSBj
-aGFuZ2UsIGFuZCB0aGVuIG9uZSB3aWxsIG5lZWQgdG8gdHJhY2UgaXQgYmFjayB0byB0aGUN
-Cj4gbWFpbGluZyBsaXN0IHRvIHVuZGVyc3RhbmQgaXQuIEl0J3Mgbm90IGEgZ2l2ZW4gdGhh
-dCBvbmUgd2lsbCBsb29rIGF0DQo+IGFsbCB0aGUgcmVjZW50IGNoYW5nZXMgYW5kIHVuZGVy
-c3RhbmQgdGhhdCB0aGUgbG9naWMgdXNlZCBpbiBwYXRjaCAwOA0KPiBhcmUgYWxzbyBiZWlu
-ZyB1c2VkIGluIHRoZSBzdWJzZXF1ZW50IHBhdGNoZXMuDQo+IA0KPiBJIGRvbid0IG1pbmQg
-aWYgeW91IGp1c3QgY29weS9wYXN0ZSB0aGUgY29tbWl0IG1lc3NhZ2UgZnJvbSBwYXRjaCAw
-OCBhbmQNCj4ganVzdCBjaGFuZ2UgdGhlIGluc3RydWN0aW9uIG5hbWUgYmVpbmcgZml4ZWQu
-IFdoYXQncyBpbXBvcnRhbnQgaXMgdG8NCj4gcHJvdmlkZSBzb21lIGNvbnRleHQgZm9yIGVh
-Y2ggaW5kaXZpZHVhbCBjaGFuZ2UuDQo+IA0KPiANCj4gVGhhbmtzLA0KPiANCj4gDQo+IERh
-bmllbA0KPiANCg0KSGVsbG8gRGFuaWVsLiBUaGFuayB5b3UgdmVyeSBtdWNoIGZvciB0aGUg
-cmV2aWV3cy4NCg0KSSdsbCB0YWtlIHlvdXIgcmVjb21tZW5kYXRpb24gYW5kIG1ha2UgdGhl
-IG5lY2Vzc2FyeSBjaGFuZ2VzLg0KDQpCZXN0IHJlZ2FyZHMsDQoNCi0tIA0KVsOtY3RvciBD
-b3JhIENvbG9tYm8NCkluc3RpdHV0byBkZSBQZXNxdWlzYXMgRUxET1JBRE8NCkF2aXNvIExl
-Z2FsIC0gRGlzY2xhaW1lciA8aHR0cHM6Ly93d3cuZWxkb3JhZG8ub3JnLmJyL2Rpc2NsYWlt
-ZXIuaHRtbD4NCg==
+Hi all,
+
+when I build qemu, there is a lot of time spent at the end of the build where one cpu goes 100% on sphinx-build.
+
+Is there some way to parallelize that? It seems it is the current bottleneck for rebuilds for me..
+
+Thanks,
+
+Claudio
 
