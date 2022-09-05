@@ -2,58 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CACD15AD0B2
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 12:55:06 +0200 (CEST)
-Received: from localhost ([::1]:46028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A41F5AD12E
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 13:08:05 +0200 (CEST)
+Received: from localhost ([::1]:46696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oV9kv-0005Gu-P1
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 06:55:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52990)
+	id 1oV9xU-0001EM-9k
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 07:08:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oV9Ip-0004Io-TO
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 06:26:04 -0400
-Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44]:56641)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oV9JT-0004OQ-I3
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 06:26:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oV9Ij-0006JS-IM
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 06:25:59 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R271e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046051;
- MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0VOQTQk9_1662373550; 
-Received: from 30.227.174.138(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VOQTQk9_1662373550) by smtp.aliyun-inc.com;
- Mon, 05 Sep 2022 18:25:51 +0800
-Message-ID: <e7abf1e6-b7e7-bc45-d795-9e8fe3aa8567@linux.alibaba.com>
-Date: Mon, 5 Sep 2022 18:25:50 +0800
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oV9JP-0006NA-0S
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 06:26:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662373597;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dNgKFC+0LeVv80K7QBVzhgcaEfabY+PLvf1MTEKFduI=;
+ b=UAwgmaCYpYt8wHOSjcVlTQsyQ/y/UH6GAzxrYeG4CWXpVH8Snp8Jv1It4cEoLSZOUXQYm6
+ HHHFhpoXktU5sBbXKVFrSbupErwhJ2RTFnU8b6chNPbfyEreqbi8LmuSQDPfHMAjt9IcRK
+ zOKJatfjamludb+bJviGZ6SCQY+rXI4=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-659-bj6ZeALGOaegFWVt40bmfA-1; Mon, 05 Sep 2022 06:26:35 -0400
+X-MC-Unique: bj6ZeALGOaegFWVt40bmfA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ ga33-20020a1709070c2100b0074084f48b12so2142473ejc.7
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 03:26:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date;
+ bh=dNgKFC+0LeVv80K7QBVzhgcaEfabY+PLvf1MTEKFduI=;
+ b=3hdN5B1IkkOcgtXL/j44VgYx2i81piFsAvIp/NmRdQd55npeYqnnjaRsozBwN3oiuN
+ oRNzktsTjSM3cp2hKBlck6Flu253oISSCg+WtvNQ9Y8NSezvEFxguyOuv4dq2R6pXtTv
+ ZxNAHIYzlRPCqIebCxurlqAWCbwDaNwpnoFWrvYBk1fFAcV3EuV7My2y0Wh2Zbx8rGlZ
+ BcTTFwNZdLa2vssFUejgXjsX/mmzsGTyw+5Te54C2nLXlSbY5seeTrNphTp1A5w5cOJ4
+ 2wpuf60aXaaPVrESSDbmP4HCX4P+iRx76CDWH39ZI72JjwRSxahnt3sKeuL3bXk2PYv9
+ E8Ow==
+X-Gm-Message-State: ACgBeo0c62ve1ruFjVQhfTzqYHpqEBouY3g2S5mnowJFfUwtv8r0a+df
+ ghmTxcH5W95Z8B4asaY14QW4lX2xDMEA+T764iNUn9xUiVdAF4/BtItXAfRa5sYK299Vkw/u6rH
+ 7H9zRfbb19NsE3x13mxT178uzlym7vZ+0/Ob/ojcWkFAvhTTRr5CN/1WLsScG9/Z7P/w=
+X-Received: by 2002:a17:906:5a42:b0:73d:b160:af0d with SMTP id
+ my2-20020a1709065a4200b0073db160af0dmr35362877ejc.164.1662373594638; 
+ Mon, 05 Sep 2022 03:26:34 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7r6KFfIfM6I398na+KrPHfRexL9/Jabs1orSg9jPCOsz2rZjqDr9svfHg0hQXtjnx0Htv8vQ==
+X-Received: by 2002:a17:906:5a42:b0:73d:b160:af0d with SMTP id
+ my2-20020a1709065a4200b0073db160af0dmr35362853ejc.164.1662373594314; 
+ Mon, 05 Sep 2022 03:26:34 -0700 (PDT)
+Received: from goa-sendmail ([93.56.160.208]) by smtp.gmail.com with ESMTPSA id
+ ay2-20020a056402202200b0044841a78c70sm6148675edb.93.2022.09.05.03.26.33
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Sep 2022 03:26:33 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] coverity: put NUBus under m68k component
+Date: Mon,  5 Sep 2022 12:26:33 +0200
+Message-Id: <20220905102633.20940-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH v3 13/15] virtio-net: support queue reset
-To: Jason Wang <jasowang@redhat.com>
-References: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
- <8577963f4b72f30c5dd1adfe661b08e57d26c453.1661414345.git.kangjie.xu@linux.alibaba.com>
- <8e7c93bc-2430-f0fb-d425-5e43fde23c14@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- eduardo@habkost.net, marcel.apfelbaum@gmail.com, f4bug@amsat.org,
- wangyanan55@huawei.com, hengqi@linux.alibaba.com,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-In-Reply-To: <8e7c93bc-2430-f0fb-d425-5e43fde23c14@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.44;
- envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-44.freemail.mail.aliyun.com
-X-Spam_score_int: -108
-X-Spam_score: -10.9
-X-Spam_bar: ----------
-X-Spam_report: (-10.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-0.978, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,83 +95,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+It is only used by the Q800 emulation, so put it under that architecture.
 
-在 2022/9/5 16:30, Jason Wang 写道:
->
-> 在 2022/8/25 16:08, Kangjie Xu 写道:
->> From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
->>
->> virtio-net and vhost-kernel implement queue reset.
->> Queued packets in the corresponding queue pair are flushed
->> or purged.
->>
->> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
->> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
->> ---
->>   hw/net/virtio-net.c | 18 ++++++++++++++++++
->>   1 file changed, 18 insertions(+)
->>
->> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
->> index 27b59c0ad6..d774a3e652 100644
->> --- a/hw/net/virtio-net.c
->> +++ b/hw/net/virtio-net.c
->> @@ -540,6 +540,23 @@ static RxFilterInfo 
->> *virtio_net_query_rxfilter(NetClientState *nc)
->>       return info;
->>   }
->>   +static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t 
->> queue_index)
->> +{
->> +    VirtIONet *n = VIRTIO_NET(vdev);
->> +    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
->> +
->> +    if (!nc->peer) {
->> +        return;
->> +    }
->> +
->> +    if (get_vhost_net(nc->peer) &&
->> +        nc->peer->info->type == NET_CLIENT_DRIVER_TAP) {
->> +        vhost_net_virtqueue_reset(vdev, nc, queue_index);
->> +    }
->> +
->> +    flush_or_purge_queued_packets(nc);
->
->
-> But the codes doesn't prevent the usersapce datapath from being used? 
-> (e.g vhost=off)
->
-> E.g vhost_net_start_one() had:
->
->     if (net->nc->info->poll) {
->         net->nc->info->poll(net->nc, false);
->     }
->
-> And I will wonder if it's better to consider to:
->
-> 1) factor out the per virtqueue start/stop from 
-> vhost_net_start/stop_one()
->
-> 2) simply use the helper factored out via step 1)
->
-> Thanks
->
-Will update it based on your suggestions.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ scripts/coverity-scan/COMPONENTS.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks
+diff --git a/scripts/coverity-scan/COMPONENTS.md b/scripts/coverity-scan/COMPONENTS.md
+index fc1608932e..0e6ab4936e 100644
+--- a/scripts/coverity-scan/COMPONENTS.md
++++ b/scripts/coverity-scan/COMPONENTS.md
+@@ -22,7 +22,7 @@ i386
+   ~ (/qemu)?((/include)?/hw/i386/.*|/target/i386/.*|/hw/intc/[^/]*apic[^/]*\.c)
+ 
+ m68k
+-  ~ (/qemu)?((/include)?/hw/m68k/.*|/target/m68k/.*|(/include)?/hw(/.*)?/mcf.*)
++  ~ (/qemu)?((/include)?/hw/m68k/.*|/target/m68k/.*|(/include)?/hw(/.*)?/mcf.*|(/include)?/hw/nubus/.*)
+ 
+ microblaze
+   ~ (/qemu)?((/include)?/hw/microblaze/.*|/target/microblaze/.*)
+-- 
+2.37.2
 
->
->> +}
->> +
->>   static void virtio_net_reset(VirtIODevice *vdev)
->>   {
->>       VirtIONet *n = VIRTIO_NET(vdev);
->> @@ -3784,6 +3801,7 @@ static void virtio_net_class_init(ObjectClass 
->> *klass, void *data)
->>       vdc->set_features = virtio_net_set_features;
->>       vdc->bad_features = virtio_net_bad_features;
->>       vdc->reset = virtio_net_reset;
->> +    vdc->queue_reset = virtio_net_queue_reset;
->>       vdc->set_status = virtio_net_set_status;
->>       vdc->guest_notifier_mask = virtio_net_guest_notifier_mask;
->>       vdc->guest_notifier_pending = virtio_net_guest_notifier_pending;
 
