@@ -2,83 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1553F5AD6D1
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 17:47:19 +0200 (CEST)
-Received: from localhost ([::1]:50728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C2125AD6D4
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 17:48:46 +0200 (CEST)
+Received: from localhost ([::1]:38748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVEJh-0005MW-Tn
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 11:47:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35310)
+	id 1oVEL7-0006J7-GI
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 11:48:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVEG1-0001tu-Nq
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 11:43:30 -0400
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d]:47932)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVEFz-00037z-Vo
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 11:43:29 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 97BA31FAA3;
- Mon,  5 Sep 2022 15:43:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1662392605; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ajOSOeqvoa2hxWG+R0/cwTSfaChkhHdiuDvV11MoSyw=;
- b=rjqCQE7jsa+Em7HfCYPRYIHK328XhmLIWFyzpd+CuueEkwLYwPmhl2VBztOdnWt+x6p1sQ
- DhfCAGCxfb752ZW7tsn77zxlT6aayF+6uz665pRon+9cYyScGYMn0nxkJIGtBQtSbJbpu1
- Jxxgdptade3VIPsBCjXb1FVEP3krGbo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1662392605;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ajOSOeqvoa2hxWG+R0/cwTSfaChkhHdiuDvV11MoSyw=;
- b=42KjaChj3SKhsjUGkHv8kgL3YWT7XRjY/3dQcrdjVPXoRhtCnQhGIg2Uug7n5Urs9rgkWu
- UQblmO6iV6Q5+ECQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3E6F1139C7;
- Mon,  5 Sep 2022 15:43:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id zfEYDR0ZFmPfYAAAMHmgww
- (envelope-from <cfontana@suse.de>); Mon, 05 Sep 2022 15:43:25 +0000
-Message-ID: <879a973a-c5b0-2a23-bb24-92bf5500f63f@suse.de>
-Date: Mon, 5 Sep 2022 17:43:24 +0200
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oVEH7-00037Z-Nd
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 11:44:37 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:18198)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oVEH5-0003CZ-RT
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 11:44:37 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 285FXTBG024056;
+ Mon, 5 Sep 2022 15:44:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=kN/QZzytFH6OX8tbdAT1jGl0TpuoR6qgaTgPAY8zxx0=;
+ b=rRoLzaowzPr2mmv3Dan66XxfJygvru5EoDcl8Kv6UcLo1JdHiRVy0XiAQGc2dy9GkmhJ
+ UIU3NhpTk5FZYK1QALVii0TYKI9+vnuAKUBGGqa7mgr8OQrvaK6lNCEGspKmI429Gwan
+ 9SVhSGUHnmyEpi9pVjmQN9sgK7iN3M/cTBMQNTE1UFXKs7ePtX6TmNDqo7sbRxwN3Bot
+ ULkrf0LeKM9Z1bpiwxECpB42OUQoXGLCwN6ck16OTnX8ZBwF5xFPFGmk5YvF8AkMf63j
+ 7eY3HIYwT6qV1O8ZR4KyFpOFU6KIWYDuYacKEWmegtaHVfOPtO0X3bJJUDifNT/WTMJF TQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jdkuu0d5b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 05 Sep 2022 15:44:32 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 285Fb2Ld003576;
+ Mon, 5 Sep 2022 15:44:31 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jdkuu0d3u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 05 Sep 2022 15:44:31 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 285FcMeY012830;
+ Mon, 5 Sep 2022 15:44:30 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 3jbxj8tn3j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 05 Sep 2022 15:44:29 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 285FipYm39780812
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 5 Sep 2022 15:44:51 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D5F394C046;
+ Mon,  5 Sep 2022 15:44:27 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8A15C4C040;
+ Mon,  5 Sep 2022 15:44:27 +0000 (GMT)
+Received: from [9.171.53.58] (unknown [9.171.53.58])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon,  5 Sep 2022 15:44:27 +0000 (GMT)
+Message-ID: <555d2f1db45b25988f2daa2e0da5d7b0346eb2c2.camel@linux.ibm.com>
+Subject: Re: [PATCH] tests/tcg/x86_64: add cross-modifying code test
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, qemu-devel@nongnu.org
+Date: Mon, 05 Sep 2022 17:44:27 +0200
+In-Reply-To: <87sfl8lt0e.fsf@linaro.org>
+References: <20220902174637.1174258-1-iii@linux.ibm.com>
+ <87sfl8lt0e.fsf@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ID4hMNdXfoxrIvZGJu5Kta8_rEx2mYOo
+X-Proofpoint-ORIG-GUID: hAFpQqrYXA6_l1sQWyZCbH1C6Rm2zUa7
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] accel: print an error message and exit if plugin not
- loaded
-Content-Language: en-US
-From: Claudio Fontana <cfontana@suse.de>
-To: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>, dinechin@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <20220905101332.1986-1-cfontana@suse.de>
- <5d922305-a559-bfdc-7038-ec1560ae0e00@linaro.org>
- <9bb31e44-e43d-b51a-712a-87e46279a0b5@suse.de>
-In-Reply-To: <9bb31e44-e43d-b51a-712a-87e46279a0b5@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d;
- envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-05_12,2022-09-05_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ phishscore=0 adultscore=0 mlxscore=0 mlxlogscore=999 impostorscore=0
+ suspectscore=0 bulkscore=0 clxscore=1011 spamscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2209050075
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,97 +117,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/5/22 16:36, Claudio Fontana wrote:
-> On 9/5/22 14:06, Richard Henderson wrote:
->> On 9/5/22 11:13, Claudio Fontana wrote:
->>> If module_load_one, module_load_file fail for any reason
->>> (permissions, plugin not installed, ...), we need to provide some notification
->>> to the user to understand that this is happening; otherwise the errors
->>> reported on initialization will make no sense to the user.
->>>
->>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>> ---
->>>   accel/accel-softmmu.c | 10 ++++++++--
->>>   1 file changed, 8 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
->>> index 67276e4f52..807708ee86 100644
->>> --- a/accel/accel-softmmu.c
->>> +++ b/accel/accel-softmmu.c
->>> @@ -66,15 +66,21 @@ void accel_init_ops_interfaces(AccelClass *ac)
->>>   {
->>>       const char *ac_name;
->>>       char *ops_name;
->>> +    ObjectClass *oc;
->>>       AccelOpsClass *ops;
->>>   
->>>       ac_name = object_class_get_name(OBJECT_CLASS(ac));
->>>       g_assert(ac_name != NULL);
->>>   
->>>       ops_name = g_strdup_printf("%s" ACCEL_OPS_SUFFIX, ac_name);
->>> -    ops = ACCEL_OPS_CLASS(module_object_class_by_name(ops_name));
->>> +    oc = module_object_class_by_name(ops_name);
->>> +    if (!oc) {
->>> +        error_report("fatal: could not find module object of type \"%s\", "
->>> +                     "plugin might not be loaded correctly", ops_name);
->>> +        exit(EXIT_FAILURE);
->>> +    }
->>
->> The change is correct, in that we certainly cannot continue without the accelerator loaded.
->>
->> But I'm very disappointed that the module interface does not use Error, so you have no 
->> choice but to use an extremely vague message here.  I would much prefer to plumb down an 
->> error parameter so that here one could simply pass &error_fatal.
->>
->>
->> r~
->>
+On Sat, 2022-09-03 at 10:13 +0100, Alex Bennée wrote:
 > 
-> I agree. I see it as also connected to:
+> Ilya Leoshkevich <iii@linux.ibm.com> writes:
 > 
-> https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg00578.html
+> > commit f025692c992c ("accel/tcg: Clear PAGE_WRITE before
+> > translation")
+> > fixed cross-modifying code handling, but did not add a test. The
+> > changed code was further improved recently [1], and I was not sure
+> > whether these modifications were safe (spoiler: they were fine).
+> > 
+> > Add a test to make sure there are no regressions.
+> > 
+> > [1]
+> > https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg00034.html
+> > 
+> > Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> > ---
+> >  tests/tcg/x86_64/Makefile.target        |  6 +-
+> >  tests/tcg/x86_64/cross-modifying-code.c | 80
+> > +++++++++++++++++++++++++
+> >  2 files changed, 85 insertions(+), 1 deletion(-)
+> >  create mode 100644 tests/tcg/x86_64/cross-modifying-code.c
+> > 
+> > diff --git a/tests/tcg/x86_64/Makefile.target
+> > b/tests/tcg/x86_64/Makefile.target
+> > index b71a6bcd5e..58e7bfd681 100644
+> > --- a/tests/tcg/x86_64/Makefile.target
+> > +++ b/tests/tcg/x86_64/Makefile.target
+> > @@ -10,6 +10,7 @@ include
+> > $(SRC_PATH)/tests/tcg/i386/Makefile.target
+> >  
+> >  ifeq ($(filter %-linux-user, $(TARGET)),$(TARGET))
+> >  X86_64_TESTS += vsyscall
+> > +X86_64_TESTS += cross-modifying-code
+> >  TESTS=$(MULTIARCH_TESTS) $(X86_64_TESTS) test-x86_64
+> >  else
+> >  TESTS=$(MULTIARCH_TESTS)
+> > @@ -20,5 +21,8 @@ test-x86_64: LDFLAGS+=-lm -lc
+> >  test-x86_64: test-i386.c test-i386.h test-i386-shift.h test-i386-
+> > muldiv.h
+> >         $(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
+> >  
+> > -vsyscall: $(SRC_PATH)/tests/tcg/x86_64/vsyscall.c
+> > +%: $(SRC_PATH)/tests/tcg/x86_64/%.c
+> >         $(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
 > 
-> module_load_file actually has the pertinent information of what it going wrong at the time it goes wrong, so I presume we should collect the Error there,
-> and find a way not to lose the return value along the way..
+> You shouldn't need to redefine the default rule when you can tweak
+> the flags
+
+Without this rule, I get:
+
+make[1]: *** No rule to make target 'vsyscall', needed by 'all'.  Stop.
+
+I think this is because the default rule has %.c as a dependency, and
+we run from a different directory here.
+
+> > +
+> > +smc: CFLAGS+=-pthread
+> > +smc: LDFLAGS+=-pthread
 > 
-> Claudio
+> I think this must be from an old iteration because:
 > 
+> make[1]: Entering directory
+> '/home/alex/lsrc/qemu.git/builds/all/tests/tcg/x86_64-linux-user'
+> cc -Wall -Werror -O0 -g -fno-strict-aliasing
+> /home/alex/lsrc/qemu.git/tests/tcg/x86_64/cross-modifying-code.c -o
+> cross-modifying-code -static
+> /usr/bin/ld: /tmp/ccK05RAk.o: in function `main':
+> /home/alex/lsrc/qemu.git/tests/tcg/x86_64/cross-modifying-code.c:64:
+> undefined reference to `pthread_create'
+> /usr/bin/ld: /home/alex/lsrc/qemu.git/tests/tcg/x86_64/cross-
+> modifying-code.c:73: undefined reference to `pthread_join'
+> collect2: error: ld returned 1 exit status
+> make[1]: ***
+> [/home/alex/lsrc/qemu.git/tests/tcg/x86_64/Makefile.target:25: cross-
+> modifying-code] Error 1
+> make[1]: Leaving directory
+> '/home/alex/lsrc/qemu.git/builds/all/tests/tcg/x86_64-linux-user'
+> make: *** [/home/alex/lsrc/qemu.git/tests/Makefile.include:52: build-
+> tcg-tests-x86_64-linux-user] Error 2
 
-Currently module_load_qom_one() is called among other things inside qom/object.c::object_initialize() as well.
+Sorry about that, I should have tested a clean build.
+I will send a v2.
 
-Curiously enough, module_load_one(), which is in turn called by it, takes an argument "bool mayfail", which is always false,
-never passed as true in the whole codebase:
-
-bool module_load_one(const char *prefix, const char *lib_name, bool mayfail);
-
-/* mayfail is always false */
-
-module_load_one calls in turn module_load_file, which also takes a bool mayfail argument:
-
-static int module_load_file(const char *fname, bool mayfail, bool export_symbols);
-
-You might think 'mayfail' can be called by other code as true in some cases, but no, it's always false.
-I wonder why this "mayfail" argument exists and is propagated at all, when it cannot be anything else than false.
-I tried to remove the "mayfail" parameter completely and things seem just fine.
-
-In any case, the only thing that "mayfail" seems to control, is in module_load_file, and is a single printf:
-
-    g_module = g_module_open(fname, flags);
-    if (!g_module) {
-        if (!mayfail) {
-            fprintf(stderr, "Failed to open module: %s\n",
-                    g_module_error());
-        }
-        ret = -EINVAL;
-        goto out;
-    }
-
-
-Weird.. Is someone building proprietary modules on top of QEMU? Is this what this is currently trying to address?
-But then, the result is just a printf...
-
-Thanks,
-
-C
-
+Best regards,
+Ilya
 
