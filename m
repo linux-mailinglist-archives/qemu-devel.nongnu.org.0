@@ -2,81 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF0E5AC99A
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 06:35:06 +0200 (CEST)
-Received: from localhost ([::1]:59278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6125B5AC9AF
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 06:58:04 +0200 (CEST)
+Received: from localhost ([::1]:44142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oV3p6-0005EH-1d
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 00:35:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47008)
+	id 1oV4BO-00035s-Ns
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 00:58:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1oV3kA-0003Oq-PN
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 00:29:55 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:45648)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1oV3k6-0004NL-PD
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 00:29:53 -0400
-Received: by mail-pf1-x430.google.com with SMTP id z187so7498921pfb.12
- for <qemu-devel@nongnu.org>; Sun, 04 Sep 2022 21:29:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=JEqOjE7qgfPHaAK0g036/FP/i4rSlui0iDxhlSDYI4Y=;
- b=H4C2A2NE8s7LXsa2Ku/O9E8Z3Cs/qk7bs7cif2qNhRm9JXRvtZ/rzY1dRbHTJTWLCL
- c5PKoyyCWYnHdo4IdEnUXYRrscju+vK2Whm6noZ/m1Fl93W8bLEjIS8h3m25AGsvL3wp
- BsTjDzb715RpJvv8LkQwYF03vhvs3xWp9LPRxKkbzRrfoM22AdbyW53t3Rj8FPGOjsFU
- ZVhfSNM8czywd7W8TJfdrWkiOjy9AwCuh3fcTelVgfluQbg8G3mtnkKys+6sLOk73k2x
- 0emXGa5UhNGrWlf0AXA82xnfnE8C4OILEyxHzPvF8MIk4gXQL08/o1bipFlttqIdgDHS
- H3Jw==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oV49k-0001dy-Kp
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 00:56:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22711)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oV49g-00081p-I9
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 00:56:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662353775;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JwbUng3+e9mcdLC+VQxzGiUH4rjqXmhfURDhpEpRvBM=;
+ b=AXD1KEgGidA/Wr8VnBA602kQB8MBx47jgUexRG+csmU7K/mAk1sQzG1KYf/oJBsAueDDil
+ 5bfjQH3JcpfYvIYn+GHO0XfL5XhBgClSjbkMZpWCnRY4oGKhUQtunJ/dyAffvTaOdy6Ian
+ gWpQ3FzmVP/2SX/U1QDmvFBqlDgmKvI=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-297-IYtifYcCNRC0gbpkbW8HBw-1; Mon, 05 Sep 2022 00:56:13 -0400
+X-MC-Unique: IYtifYcCNRC0gbpkbW8HBw-1
+Received: by mail-pf1-f198.google.com with SMTP id
+ i74-20020a62874d000000b005381588912bso3686420pfe.0
+ for <qemu-devel@nongnu.org>; Sun, 04 Sep 2022 21:56:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=JEqOjE7qgfPHaAK0g036/FP/i4rSlui0iDxhlSDYI4Y=;
- b=NKIS+9E3xceaCLFa1hfPsnxorB7ziqRDETzpc5DJoJvKqa85tN4lQpzOyIic5Ko1l6
- b1dRRnoCRzwg0lyGjWV+QxVaNY5pGDog3c4XnKXBSc+Z3GeVbuJdlHTdwWTj76zcMwzg
- p4XclGG6SwiS+NuKc+f0i0xNuk37E5AJTfGQRsntZYSosWRGiVyE/MXPVzkZjY0C8nZz
- K80v6wY94DST1glQX7oUKAyY5OkDyrE8GlaxoM4+a7Dm+MBJg7mccJWivmPyDBZgPwGc
- LI2828catuDGbc4eVpMda75UtHe9YgoOhfkJybvhEvyP51kYxoIzanzQ2/TuykVaQM2w
- jHjw==
-X-Gm-Message-State: ACgBeo34eTDcf/T8OXb26MWGlXOctZk486AmbocgNy6PmTfkl0EGB9ps
- yyFHBObL5RfB7tJ8+GJwB9sbWU+ncqw+Kw==
-X-Google-Smtp-Source: AA6agR5xIFvtRd0tnQjOPqbtKxZQWtaokSfzznmhMDUnRwy3NiEHtibWLUvbcIcVi7pxNbX9apEHbw==
-X-Received: by 2002:a05:6a00:1501:b0:52e:67e9:56d7 with SMTP id
- q1-20020a056a00150100b0052e67e956d7mr48288348pfu.48.1662352187904; 
- Sun, 04 Sep 2022 21:29:47 -0700 (PDT)
-Received: from localhost.localdomain ([49.206.11.92])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=JwbUng3+e9mcdLC+VQxzGiUH4rjqXmhfURDhpEpRvBM=;
+ b=d4VbLzcIejPgog2fWQ2G3/CP/ER/u8iUkPLR4/vRVkjU0ExI6bNJE70I+bWv3pJoTB
+ +hdjSS21RmQmJ9arMpZQbu7K5DDVZbooO/FWH1MNsb2jOlSQUuV6eshOJ2L6arAdM2wQ
+ /u5f0YDkBa8Wr9nfQfWs4g7kIeyMpNFvDFFbCs0m2+xnOb075BDrqI85t90JMsOyNZH6
+ lvGCIdRnxSv5kimdmuv4GbRtmjcnC8JdcqqbalZDjLl8OFr6hsz0DJeU2UogHg3qqk2R
+ WWAwjdWem0EWkeiit+kTyf9+0CmAcPJiuzbKy9WLS0OlpQXM/C9Q06WBvA/ydFdp56f4
+ 6f5A==
+X-Gm-Message-State: ACgBeo2fcNGvxwkeLeN/wAOXsxlBG3Yxi2yjzBQhoWRkee0b7E8JpRzh
+ HU9m9GtabXpteq/8d8KhaKL33/hnLkMjLTb/BrtZ2T8HlaJ8usCzbLVLsIE6352ZFrfYQSjP9JR
+ fMFXXivY1CFGuK3M=
+X-Received: by 2002:a63:914c:0:b0:42b:a8fa:eb47 with SMTP id
+ l73-20020a63914c000000b0042ba8faeb47mr33664517pge.267.1662353772497; 
+ Sun, 04 Sep 2022 21:56:12 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5/hk7zD/bnTRbSzqLiuVhtCPEK4VWHk6abRZNJVBcGDuon2faKqhiCcH9K9WB8F/htKiUJhA==
+X-Received: by 2002:a63:914c:0:b0:42b:a8fa:eb47 with SMTP id
+ l73-20020a63914c000000b0042ba8faeb47mr33664501pge.267.1662353772179; 
+ Sun, 04 Sep 2022 21:56:12 -0700 (PDT)
+Received: from [10.72.12.129] ([43.228.180.230])
  by smtp.gmail.com with ESMTPSA id
- a20-20020aa795b4000000b0053812f35a41sm6526113pfk.194.2022.09.04.21.29.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Sep 2022 21:29:47 -0700 (PDT)
-From: Sunil V L <sunilvl@ventanamicro.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Anup Patel <apatel@ventanamicro.com>,
- Atish Kumar Patra <atishp@rivosinc.com>,
- Sunil V L <sunilvl@ventanamicro.com>
-Subject: [PATCH] hw/riscv: virt: Enable booting S-mode firmware from pflash
-Date: Mon,  5 Sep 2022 09:59:40 +0530
-Message-Id: <20220905042940.146913-1-sunilvl@ventanamicro.com>
-X-Mailer: git-send-email 2.25.1
+ n12-20020a170902e54c00b0017500f9b01fsm6301502plf.103.2022.09.04.21.56.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 04 Sep 2022 21:56:11 -0700 (PDT)
+Message-ID: <9fbe469d-bbe9-a21e-c98b-4fd59583c3d8@redhat.com>
+Date: Mon, 5 Sep 2022 12:56:02 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.0
+Subject: Re: [PATCH v3 01/15] virtio: sync relevant definitions with linux
+Content-Language: en-US
+To: Kangjie Xu <kangjie.xu@linux.alibaba.com>, qemu-devel@nongnu.org
+Cc: mst@redhat.com, eduardo@habkost.net, marcel.apfelbaum@gmail.com,
+ f4bug@amsat.org, wangyanan55@huawei.com, hengqi@linux.alibaba.com,
+ xuanzhuo@linux.alibaba.com
+References: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
+ <18193bfe3168e3b4f7115daefed725e8014fbb94.1661414345.git.kangjie.xu@linux.alibaba.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <18193bfe3168e3b4f7115daefed725e8014fbb94.1661414345.git.kangjie.xu@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=sunilvl@ventanamicro.com; helo=mail-pf1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.978, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,44 +105,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To boot S-mode firmware payload like EDK2 from persistent
-flash storage, qemu needs to pass the flash address as the
-next_addr in fw_dynamic_info to the opensbi.
 
-Update the kernel_entry with the flash address when no kernel
-is specified via QEMU command line  so that opensbi
-can jump to the flash address. This assumes flash drive unit 1 is
-used to keep dynamic payload similar to other architectures.
+在 2022/8/25 16:08, Kangjie Xu 写道:
+> From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+>
+> This is updated using scripts/update-linux-headers.sh.
+>
+> Added VIRTIO_F_RING_RESET, VIRTIO_PCI_COMMON_Q_RESET. It came from here:
+> https://github.com/oasis-tcs/virtio-spec/issues/124
+> https://github.com/oasis-tcs/virtio-spec/issues/139
+>
+> Add VIRTIO_PCI_COMMON_Q_NDATA, which comes from here:
+> https://github.com/oasis-tcs/virtio-spec/issues/89
+>
+> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 
-Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
----
- hw/riscv/virt.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index ff8c0df5cd..1ee855fded 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -1284,6 +1284,18 @@ static void virt_machine_done(Notifier *notifier, void *data)
-         start_addr = virt_memmap[VIRT_FLASH].base;
-     }
- 
-+    if (drive_get(IF_PFLASH, 0, 1)) {
-+        /*
-+         * Assume second pflash unit (unit=1) to hold the S-mode firmware
-+         * like EDK2. Set kernel_entry to flash address if kernel argument
-+         * is not set and pflash unit 1 is configured.
-+         */
-+        if (!kernel_entry) {
-+            kernel_entry = virt_memmap[VIRT_FLASH].base +
-+                             virt_memmap[VIRT_FLASH].size / 2;
-+        }
-+    }
-+
-     /*
-      * Init fw_cfg.  Must be done before riscv_load_fdt, otherwise the device
-      * tree cannot be altered and we get FDT_ERR_NOSPACE.
--- 
-2.25.1
+Acked-by: Jason Wang <jasowang@redhat.com>
+
+
+> ---
+>   include/standard-headers/linux/virtio_config.h | 5 +++++
+>   include/standard-headers/linux/virtio_pci.h    | 2 ++
+>   2 files changed, 7 insertions(+)
+>
+> diff --git a/include/standard-headers/linux/virtio_config.h b/include/standard-headers/linux/virtio_config.h
+> index 7acd8d4abc..47a7eef5e4 100644
+> --- a/include/standard-headers/linux/virtio_config.h
+> +++ b/include/standard-headers/linux/virtio_config.h
+> @@ -96,4 +96,9 @@
+>    * Does the device support Single Root I/O Virtualization?
+>    */
+>   #define VIRTIO_F_SR_IOV			37
+> +
+> +/*
+> + * This feature indicates that the driver can reset a queue individually.
+> + */
+> +#define VIRTIO_F_RING_RESET		40
+>   #endif /* _LINUX_VIRTIO_CONFIG_H */
+> diff --git a/include/standard-headers/linux/virtio_pci.h b/include/standard-headers/linux/virtio_pci.h
+> index db7a8e2fcb..be912cfc95 100644
+> --- a/include/standard-headers/linux/virtio_pci.h
+> +++ b/include/standard-headers/linux/virtio_pci.h
+> @@ -202,6 +202,8 @@ struct virtio_pci_cfg_cap {
+>   #define VIRTIO_PCI_COMMON_Q_AVAILHI	44
+>   #define VIRTIO_PCI_COMMON_Q_USEDLO	48
+>   #define VIRTIO_PCI_COMMON_Q_USEDHI	52
+> +#define VIRTIO_PCI_COMMON_Q_NDATA	56
+> +#define VIRTIO_PCI_COMMON_Q_RESET	58
+>   
+>   #endif /* VIRTIO_PCI_NO_MODERN */
+>   
 
 
