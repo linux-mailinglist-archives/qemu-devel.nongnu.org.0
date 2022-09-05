@@ -2,82 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA745ACD0D
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 09:50:42 +0200 (CEST)
-Received: from localhost ([::1]:35728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 550365ACD58
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 10:04:40 +0200 (CEST)
+Received: from localhost ([::1]:47772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oV6sO-0006gz-4J
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 03:50:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43438)
+	id 1oV75y-0004L7-1h
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 04:04:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oV6nV-0003yK-0L
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 03:45:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57350)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oV718-0001NS-0D
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 03:59:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oV6nR-0006l7-Gm
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 03:45:31 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oV713-0000D0-DW
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 03:59:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662363928;
+ s=mimecast20190719; t=1662364772;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mRRxMKyBLKZERuQJJeS6RTCFR0LgfkcbBKQBsBS3Vqw=;
- b=K4/lamakSJ8yIBz8inIrCzRFvXNW1nOFIS453xJR/YXnQs9MpoSymChNkVLEnsnKNsUtyM
- 1ez+cHeBkfl1DbiMoQMjpZeVmMobfs267GijqLqo0nOP9TZBY24X9sj1FdSPfgstxeanFc
- Yngkycabozwm0DWOuHgCxf5iuhuiyIo=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QmB8GAaO935jx1JWCqdqmPBPpffrXimVgHt5J5BrNno=;
+ b=YOwErf+kB7xI5lgyGIBAipqWrdO3IMCB8CGvef+LjqihWnk1axBHu2hUhrANRUaVMz5R93
+ JFbpP0qldrTeUot19MQAZYRcVbk1xc7yUcsOED4kxJCMVQ+MVdrae7VgyrJejc/YnDWex+
+ 5Q9NVD6LVGF3F/rOqux3nbxBRavJUlE=
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-283-7IesR9RtMiq4Nrh8cUvARg-1; Mon, 05 Sep 2022 03:45:26 -0400
-X-MC-Unique: 7IesR9RtMiq4Nrh8cUvARg-1
-Received: by mail-lf1-f71.google.com with SMTP id
- g19-20020a056512119300b00492d83ae1d5so1691467lfr.0
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 00:45:26 -0700 (PDT)
+ us-mta-84-9K4ahhJLPqq-96GfNWQUuA-1; Mon, 05 Sep 2022 03:59:31 -0400
+X-MC-Unique: 9K4ahhJLPqq-96GfNWQUuA-1
+Received: by mail-pg1-f198.google.com with SMTP id
+ h13-20020a63530d000000b0043087bbf72dso4118424pgb.17
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 00:59:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=mRRxMKyBLKZERuQJJeS6RTCFR0LgfkcbBKQBsBS3Vqw=;
- b=dXRuz1oG9wWp8JBGpAmgrlFZoI+ujGypNxp2K83vhiAqE30JeskJcVibRQRWjntHNg
- wlPzcCVHN3rlaje5M2w8q7r2Ttl56umT/MG2VEk2qtiwUD7V8vL1k7QRVCI4reWVizQu
- KGEet6umM3g91Q7ctzUynPW1sSYzp/Awnq7mQzfKJt46vDapjp1bUHsHf3CNIudq8c/Q
- /6sGAnjthCqnkjHXun18HDiuyjZmA8HaFEy58pMaS1tfznr0d4sTD6ggtPDvDI9df0rI
- enl6UCkAkWwQitY+5bAddl/JF3bzRms4yQqjyPxJ4B2rtdU29FzBm0N/VAe9igzg5sbG
- nnNg==
-X-Gm-Message-State: ACgBeo3ANL8oKdQFYYSDdwJjqYCNfXsE+Mg/SmDhc0ErcUFgqAV908pb
- 5opKljXA/WSq1y04giBbmTA0f8z1Tq0WZ1ivGiA0bKsbe2BCSSOmU3wDWrpvqEeC2iJn2t0KOrU
- 1D6uDKenmUeZnSStrDiR0EG2Ce5eYK2o=
-X-Received: by 2002:a05:6512:2302:b0:492:ce48:1bab with SMTP id
- o2-20020a056512230200b00492ce481babmr14561655lfu.266.1662363925403; 
- Mon, 05 Sep 2022 00:45:25 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7Y51FZr3HRQ89jhLouQRNC38sMzWVPu7eZEtK+45uFzko874iyvbkrIBIC75zQbUZzLdPf31NbGZhXUJcslzw=
-X-Received: by 2002:a05:6512:2302:b0:492:ce48:1bab with SMTP id
- o2-20020a056512230200b00492ce481babmr14561649lfu.266.1662363925105; Mon, 05
- Sep 2022 00:45:25 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=QmB8GAaO935jx1JWCqdqmPBPpffrXimVgHt5J5BrNno=;
+ b=01MxNpA0Rf4fSO50t/b3++kab2cJregZgoQCDty8CycHU4K6QE9+FBd5FOTHWrrNv5
+ zQHsg72QHj79VP+Lhef5YDNmF6j77QT9FFwz0wYTiSAytm4llD4DXzMtqaRYPC6j0K4/
+ i1OVtyNG8U9T4PpihfTAwx7eGCWIXNwNeXgQ46jnukFKfwSrsJk9girCWWJPUJn2zlJS
+ wFz3MDfHNRtI25jLBRXzf61z28QOdJB3Nd9SDAD2diGegjyK5OyRImfEHxD8N2m+eYx4
+ XGCcM0XOJ6WCmWjFv7nS7jFbvSb5+dESCtf1V+BNgCxRZCnIpXn/WlqKy0qLxD4vqmfK
+ bvcQ==
+X-Gm-Message-State: ACgBeo3CDzj2p2sDWxh3ZlEFPHD8/vNAO1dJp08hCHEJJMdoFORBWO3J
+ 7SUITHpNjFcGJiZWJplazTWAMeCjdqNNAuiOwQVq2Sc59nXsBnLWqgPCcV0zaiurhL48MCr/X3a
+ aEGwb7jhKFEKbckI=
+X-Received: by 2002:a63:4e44:0:b0:42b:1fff:72d1 with SMTP id
+ o4-20020a634e44000000b0042b1fff72d1mr41668933pgl.432.1662364769977; 
+ Mon, 05 Sep 2022 00:59:29 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4IxvAG9nXn9ubCcwtnG7azJJfAREEw3DGVLTNvm2270wp8bkZ1Seb3rD2GkTCkyldSci+MPQ==
+X-Received: by 2002:a63:4e44:0:b0:42b:1fff:72d1 with SMTP id
+ o4-20020a634e44000000b0042b1fff72d1mr41668913pgl.432.1662364769673; 
+ Mon, 05 Sep 2022 00:59:29 -0700 (PDT)
+Received: from [10.72.13.239] ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id
+ 205-20020a6217d6000000b0053818255880sm6929959pfx.193.2022.09.05.00.59.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Sep 2022 00:59:29 -0700 (PDT)
+Message-ID: <4069b154-7d72-6e31-8904-94538f1874b3@redhat.com>
+Date: Mon, 5 Sep 2022 15:59:23 +0800
 MIME-Version: 1.0
-References: <20220905000021.157613-1-afaria@redhat.com>
-In-Reply-To: <20220905000021.157613-1-afaria@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Mon, 5 Sep 2022 09:45:14 +0200
-Message-ID: <CABgObfahkrhwwn6+D7uUbqKYPXmA3mQGXHwe6f-TiA+iQoFyAQ@mail.gmail.com>
-Subject: Re: [PATCH v2] softmmu/physmem: Fix address of FlatView access in
- address_space_(read|write)_cached_slow()
-To: Alberto Faria <afaria@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- David Hildenbrand <david@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000003e658b05e7e94388"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.0
+Subject: Re: [PATCH v3 06/15] virtio-pci: support queue reset
+Content-Language: en-US
+To: Kangjie Xu <kangjie.xu@linux.alibaba.com>, qemu-devel@nongnu.org
+Cc: mst@redhat.com, eduardo@habkost.net, marcel.apfelbaum@gmail.com,
+ f4bug@amsat.org, wangyanan55@huawei.com, hengqi@linux.alibaba.com,
+ xuanzhuo@linux.alibaba.com
+References: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
+ <0851d6ea5c84b71d0c661d91da973e4abf9155c1.1661414345.git.kangjie.xu@linux.alibaba.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <0851d6ea5c84b71d0c661d91da973e4abf9155c1.1661414345.git.kangjie.xu@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.978, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,208 +105,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003e658b05e7e94388
-Content-Type: text/plain; charset="UTF-8"
 
-Thanks, I will queue it.
-
-Paolo
-
-Il lun 5 set 2022, 02:00 Alberto Faria <afaria@redhat.com> ha scritto:
-
-> flatview_(read|write)_continue() must be called with an address in the
-> FlatView's address space, but `addr` is relative to the
-> MemoryRegionCache.
+在 2022/8/25 16:08, Kangjie Xu 写道:
+> From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 >
-> Convert `addr` from the MemoryRegionCache's address space to the
-> FlatView's before passing it to flatview_(read|write)_continue().
+> PCI devices support vq reset.
 >
-> This problem was uncovered while attempting to perform unaligned writes,
-> which caused flatview_write_continue() to reach the call to
-> flatview_translate(), which then translated the erroneous address and
-> caused the subsequent write to fail.
+> Based on this function, the driver can adjust the size of the ring, and
+> quickly recycle the buffer in the ring.
 >
-> Fixes: 48564041a7 ("exec: reintroduce MemoryRegion caching")
-> Co-Developed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Signed-off-by: Alberto Faria <afaria@redhat.com>
+> The migration of the virtio devices will not happen during a reset
+> operation. This is becuase the global iothread lock is held. Migration
+> thread also needs the lock. As a result, when migration of virtio
+> devices starts, the 'reset' status of VirtIOPCIQueue will always be 0.
+> Thus, we do not need to add it in vmstate_virtio_pci_modern_queue_state.
+>
+> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+
+
+Acked-by: Jason Wang <jasowang@redhat.com>
+
+
 > ---
->  softmmu/physmem.c | 18 ++++++++++++++----
->  1 file changed, 14 insertions(+), 4 deletions(-)
+>   hw/virtio/virtio-pci.c         | 15 +++++++++++++++
+>   include/hw/virtio/virtio-pci.h |  5 +++++
+>   2 files changed, 20 insertions(+)
 >
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 50231bab30..bdde4eb927 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -3420,6 +3420,14 @@ static inline MemoryRegion
-> *address_space_translate_cached(
->      return section.mr;
->  }
->
-> +/* Converts `addr` from the address space of `cache` to that of
-> `cache->fv`. */
-> +static inline hwaddr addr_in_cache_to_in_flat_view(MemoryRegionCache
-> *cache,
-> +                                                   hwaddr addr)
-> +{
-> +    hwaddr addr_in_mrs = addr + cache->xlat -
-> cache->mrs.offset_within_region;
-> +    return addr_in_mrs + cache->mrs.offset_within_address_space;
-> +}
+> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> index a50c5a57d7..79b9e641dd 100644
+> --- a/hw/virtio/virtio-pci.c
+> +++ b/hw/virtio/virtio-pci.c
+> @@ -1251,6 +1251,9 @@ static uint64_t virtio_pci_common_read(void *opaque, hwaddr addr,
+>       case VIRTIO_PCI_COMMON_Q_USEDHI:
+>           val = proxy->vqs[vdev->queue_sel].used[1];
+>           break;
+> +    case VIRTIO_PCI_COMMON_Q_RESET:
+> +        val = proxy->vqs[vdev->queue_sel].reset;
+> +        break;
+>       default:
+>           val = 0;
+>       }
+> @@ -1338,6 +1341,7 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
+>                          ((uint64_t)proxy->vqs[vdev->queue_sel].used[1]) << 32 |
+>                          proxy->vqs[vdev->queue_sel].used[0]);
+>               proxy->vqs[vdev->queue_sel].enabled = 1;
+> +            proxy->vqs[vdev->queue_sel].reset = 0;
+>           } else {
+>               virtio_error(vdev, "wrong value for queue_enable %"PRIx64, val);
+>           }
+> @@ -1360,6 +1364,16 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
+>       case VIRTIO_PCI_COMMON_Q_USEDHI:
+>           proxy->vqs[vdev->queue_sel].used[1] = val;
+>           break;
+> +    case VIRTIO_PCI_COMMON_Q_RESET:
+> +        if (val == 1) {
+> +            proxy->vqs[vdev->queue_sel].reset = 1;
 > +
->  /* Called from RCU critical section. address_space_read_cached uses this
->   * out of line function when the target is an MMIO or IOMMU region.
->   */
-> @@ -3434,8 +3442,9 @@ address_space_read_cached_slow(MemoryRegionCache
-> *cache, hwaddr addr,
->      mr = address_space_translate_cached(cache, addr, &addr1, &l, false,
->                                          MEMTXATTRS_UNSPECIFIED);
->      return flatview_read_continue(cache->fv,
-> -                                  addr, MEMTXATTRS_UNSPECIFIED, buf, len,
-> -                                  addr1, l, mr);
-> +                                  addr_in_cache_to_in_flat_view(cache,
-> addr),
-> +                                  MEMTXATTRS_UNSPECIFIED, buf, len,
-> addr1, l,
-> +                                  mr);
->  }
->
->  /* Called from RCU critical section. address_space_write_cached uses this
-> @@ -3452,8 +3461,9 @@ address_space_write_cached_slow(MemoryRegionCache
-> *cache, hwaddr addr,
->      mr = address_space_translate_cached(cache, addr, &addr1, &l, true,
->                                          MEMTXATTRS_UNSPECIFIED);
->      return flatview_write_continue(cache->fv,
-> -                                   addr, MEMTXATTRS_UNSPECIFIED, buf, len,
-> -                                   addr1, l, mr);
-> +                                   addr_in_cache_to_in_flat_view(cache,
-> addr),
-> +                                   MEMTXATTRS_UNSPECIFIED, buf, len,
-> addr1, l,
-> +                                   mr);
->  }
->
->  #define ARG1_DECL                MemoryRegionCache *cache
-> --
-> 2.37.2
->
->
-
---0000000000003e658b05e7e94388
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Thanks, I will queue it.<div dir=3D"auto"><br></div><div =
-dir=3D"auto">Paolo</div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">Il lun 5 set 2022, 02:00 Alberto Faria &lt;<a href=
-=3D"mailto:afaria@redhat.com">afaria@redhat.com</a>&gt; ha scritto:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex">flatview_(read|write)_continue() must be c=
-alled with an address in the<br>
-FlatView&#39;s address space, but `addr` is relative to the<br>
-MemoryRegionCache.<br>
-<br>
-Convert `addr` from the MemoryRegionCache&#39;s address space to the<br>
-FlatView&#39;s before passing it to flatview_(read|write)_continue().<br>
-<br>
-This problem was uncovered while attempting to perform unaligned writes,<br=
->
-which caused flatview_write_continue() to reach the call to<br>
-flatview_translate(), which then translated the erroneous address and<br>
-caused the subsequent write to fail.<br>
-<br>
-Fixes: 48564041a7 (&quot;exec: reintroduce MemoryRegion caching&quot;)<br>
-Co-Developed-by: Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com"=
- target=3D"_blank" rel=3D"noreferrer">stefanha@redhat.com</a>&gt;<br>
-Signed-off-by: Alberto Faria &lt;<a href=3D"mailto:afaria@redhat.com" targe=
-t=3D"_blank" rel=3D"noreferrer">afaria@redhat.com</a>&gt;<br>
----<br>
-=C2=A0softmmu/physmem.c | 18 ++++++++++++++----<br>
-=C2=A01 file changed, 14 insertions(+), 4 deletions(-)<br>
-<br>
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c<br>
-index 50231bab30..bdde4eb927 100644<br>
---- a/softmmu/physmem.c<br>
-+++ b/softmmu/physmem.c<br>
-@@ -3420,6 +3420,14 @@ static inline MemoryRegion *address_space_translate_=
-cached(<br>
-=C2=A0 =C2=A0 =C2=A0return <a href=3D"http://section.mr" rel=3D"noreferrer =
-noreferrer" target=3D"_blank">section.mr</a>;<br>
-=C2=A0}<br>
-<br>
-+/* Converts `addr` from the address space of `cache` to that of `cache-&gt=
-;fv`. */<br>
-+static inline hwaddr addr_in_cache_to_in_flat_view(MemoryRegionCache *cach=
-e,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0hwaddr addr)<br>
-+{<br>
-+=C2=A0 =C2=A0 hwaddr addr_in_mrs =3D addr + cache-&gt;xlat - cache-&gt;mrs=
-.offset_within_region;<br>
-+=C2=A0 =C2=A0 return addr_in_mrs + cache-&gt;mrs.offset_within_address_spa=
-ce;<br>
-+}<br>
-+<br>
-=C2=A0/* Called from RCU critical section. address_space_read_cached uses t=
-his<br>
-=C2=A0 * out of line function when the target is an MMIO or IOMMU region.<b=
-r>
-=C2=A0 */<br>
-@@ -3434,8 +3442,9 @@ address_space_read_cached_slow(MemoryRegionCache *cac=
-he, hwaddr addr,<br>
-=C2=A0 =C2=A0 =C2=A0mr =3D address_space_translate_cached(cache, addr, &amp=
-;addr1, &amp;l, false,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ME=
-MTXATTRS_UNSPECIFIED);<br>
-=C2=A0 =C2=A0 =C2=A0return flatview_read_continue(cache-&gt;fv,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 addr, MEMTXATTRS_UNSPECIFIED,=
- buf, len,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 addr1, l, mr);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 addr_in_cache_to_in_flat_view=
-(cache, addr),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 MEMTXATTRS_UNSPECIFIED, buf, =
-len, addr1, l,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mr);<br>
-=C2=A0}<br>
-<br>
-=C2=A0/* Called from RCU critical section. address_space_write_cached uses =
-this<br>
-@@ -3452,8 +3461,9 @@ address_space_write_cached_slow(MemoryRegionCache *ca=
-che, hwaddr addr,<br>
-=C2=A0 =C2=A0 =C2=A0mr =3D address_space_translate_cached(cache, addr, &amp=
-;addr1, &amp;l, true,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ME=
-MTXATTRS_UNSPECIFIED);<br>
-=C2=A0 =C2=A0 =C2=A0return flatview_write_continue(cache-&gt;fv,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0addr, MEMTXATTRS_UNSPEC=
-IFIED, buf, len,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0addr1, l, mr);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0addr_in_cache_to_in_fla=
-t_view(cache, addr),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MEMTXATTRS_UNSPECIFIED,=
- buf, len, addr1, l,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mr);<br>
-=C2=A0}<br>
-<br>
-=C2=A0#define ARG1_DECL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 MemoryRegionCache *cache<br>
--- <br>
-2.37.2<br>
-<br>
-</blockquote></div>
-
---0000000000003e658b05e7e94388--
+> +            virtio_queue_reset(vdev, vdev->queue_sel);
+> +
+> +            proxy->vqs[vdev->queue_sel].reset = 0;
+> +            proxy->vqs[vdev->queue_sel].enabled = 0;
+> +        }
+> +        break;
+>       default:
+>           break;
+>       }
+> @@ -1954,6 +1968,7 @@ static void virtio_pci_reset(DeviceState *qdev)
+>   
+>       for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
+>           proxy->vqs[i].enabled = 0;
+> +        proxy->vqs[i].reset = 0;
+>           proxy->vqs[i].num = 0;
+>           proxy->vqs[i].desc[0] = proxy->vqs[i].desc[1] = 0;
+>           proxy->vqs[i].avail[0] = proxy->vqs[i].avail[1] = 0;
+> diff --git a/include/hw/virtio/virtio-pci.h b/include/hw/virtio/virtio-pci.h
+> index 2446dcd9ae..938799e8f6 100644
+> --- a/include/hw/virtio/virtio-pci.h
+> +++ b/include/hw/virtio/virtio-pci.h
+> @@ -117,6 +117,11 @@ typedef struct VirtIOPCIRegion {
+>   typedef struct VirtIOPCIQueue {
+>     uint16_t num;
+>     bool enabled;
+> +  /*
+> +   * No need to migrate the reset status, because it is always 0
+> +   * when the migration starts.
+> +   */
+> +  bool reset;
+>     uint32_t desc[2];
+>     uint32_t avail[2];
+>     uint32_t used[2];
 
 
