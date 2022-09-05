@@ -2,69 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B7695AD0AC
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 12:54:30 +0200 (CEST)
-Received: from localhost ([::1]:33998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3B035AD0E1
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 12:58:29 +0200 (CEST)
+Received: from localhost ([::1]:35586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oV9kL-0003p4-JE
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 06:54:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36522)
+	id 1oV9oC-00015R-J9
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 06:58:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oV96u-00066A-K6
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 06:13:44 -0400
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d]:52768)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oV96s-0004KE-SF
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 06:13:44 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id DA0B05D520;
- Mon,  5 Sep 2022 10:13:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1662372819; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=r/cfW6vgytWrTxSi6+sDaeWt5A6r9iTW8kf35ywd6Pk=;
- b=PLJGszmYbH7DL474TTwFdHqdnhB76gzgCc7u5fnL1hGzQE4uUFUMeBcL3tsbhifDyfiehO
- N3OUSqKQ3BHLqsG9Y77q0IsoSKbUjRFyUEnsnZpxqKbMyYHM2lWz4uXF9WMDNX4VWJt8uY
- o0INAkWrMFKDNcfiPnzlaiZJQ0VS9DY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1662372819;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=r/cfW6vgytWrTxSi6+sDaeWt5A6r9iTW8kf35ywd6Pk=;
- b=wTamrQpM9isauGjGSI3z2eWmK6v9/kuRoMbo0Ea/rv5iKmfpD7XiUYWopoJzQTCp8AMsbZ
- lZ6e80EMt3BpiYBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9DE7713A66;
- Mon,  5 Sep 2022 10:13:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 8PZDJNPLFWOlPwAAMHmgww
- (envelope-from <cfontana@suse.de>); Mon, 05 Sep 2022 10:13:39 +0000
-From: Claudio Fontana <cfontana@suse.de>
-To: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-Cc: Claudio Fontana <cfontana@suse.de>,
-	qemu-devel@nongnu.org
-Subject: [PATCH] accel: print an error message and exit if plugin not loaded
-Date: Mon,  5 Sep 2022 12:13:32 +0200
-Message-Id: <20220905101332.1986-1-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oV99D-0007wp-5x
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 06:16:08 -0400
+Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:34954)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oV993-0004iN-TI
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 06:16:00 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
+ MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0VOR5xt1_1662372941; 
+Received: from 30.227.174.138(mailfrom:kangjie.xu@linux.alibaba.com
+ fp:SMTPD_---0VOR5xt1_1662372941) by smtp.aliyun-inc.com;
+ Mon, 05 Sep 2022 18:15:42 +0800
+Message-ID: <4b733015-fed4-f22a-a693-c83cd74938aa@linux.alibaba.com>
+Date: Mon, 5 Sep 2022 18:15:41 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.0
+Subject: Re: [PATCH v3 10/15] vhost-net: vhost-kernel: introduce
+ vhost_net_virtqueue_reset()
+To: Jason Wang <jasowang@redhat.com>
+References: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
+ <b6286db2a6ce2389f44cc44da06c9fd2b8eaaec8.1661414345.git.kangjie.xu@linux.alibaba.com>
+ <e6ce97bd-a121-04c5-8984-95906f34a15c@redhat.com>
+From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ eduardo@habkost.net, marcel.apfelbaum@gmail.com, f4bug@amsat.org,
+ wangyanan55@huawei.com, hengqi@linux.alibaba.com,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+In-Reply-To: <e6ce97bd-a121-04c5-8984-95906f34a15c@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d;
- envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=115.124.30.56;
+ envelope-from=kangjie.xu@linux.alibaba.com;
+ helo=out30-56.freemail.mail.aliyun.com
+X-Spam_score_int: -108
+X-Spam_score: -10.9
+X-Spam_bar: ----------
+X-Spam_report: (-10.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.978, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,45 +71,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If module_load_one, module_load_file fail for any reason
-(permissions, plugin not installed, ...), we need to provide some notification
-to the user to understand that this is happening; otherwise the errors
-reported on initialization will make no sense to the user.
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- accel/accel-softmmu.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+在 2022/9/5 16:03, Jason Wang 写道:
+>
+> 在 2022/8/25 16:08, Kangjie Xu 写道:
+>> Introduce vhost_virtqueue_reset(), which can reset the specific
+>> virtqueue in the device. Then it will unmap vrings and the desc
+>> of the virtqueue.
+>>
+>> Here we do not reuse the vhost_net_stop_one() or vhost_dev_stop(),
+>> because they work at queue pair level. We do not use
+>> vhost_virtqueue_stop() because it may stop the device in the
+>> backend.
+>
+>
+> So I think this is not true at least for vhost-net kernel baceknd.
+>
+>
+But vhost-user(OVS-DPDK) will stop the device.
 
-diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
-index 67276e4f52..807708ee86 100644
---- a/accel/accel-softmmu.c
-+++ b/accel/accel-softmmu.c
-@@ -66,15 +66,21 @@ void accel_init_ops_interfaces(AccelClass *ac)
- {
-     const char *ac_name;
-     char *ops_name;
-+    ObjectClass *oc;
-     AccelOpsClass *ops;
- 
-     ac_name = object_class_get_name(OBJECT_CLASS(ac));
-     g_assert(ac_name != NULL);
- 
-     ops_name = g_strdup_printf("%s" ACCEL_OPS_SUFFIX, ac_name);
--    ops = ACCEL_OPS_CLASS(module_object_class_by_name(ops_name));
-+    oc = module_object_class_by_name(ops_name);
-+    if (!oc) {
-+        error_report("fatal: could not find module object of type \"%s\", "
-+                     "plugin might not be loaded correctly", ops_name);
-+        exit(EXIT_FAILURE);
-+    }
-     g_free(ops_name);
--
-+    ops = ACCEL_OPS_CLASS(oc);
-     /*
-      * all accelerators need to define ops, providing at least a mandatory
-      * non-NULL create_vcpu_thread operation.
--- 
-2.26.2
+When DPDK vhost received VHOST_USER_GET_VRING_BASE message, it will call 
+vhost_destroy_device_notify() to destroy the device.
 
+It seems like it is a inconsistency error in DPDK. Maybe I should submit 
+a patch to DPDK. We can stop the device only when all the virtqueues in 
+one device are destroyed.
+
+>>
+>> This patch only considers the case of vhost-kernel, when
+>> NetClientDriver is NET_CLIENT_DRIVER_TAP.
+>>
+>> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+>> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+>> ---
+>>   hw/net/vhost_net.c      | 22 ++++++++++++++++++++++
+>>   include/net/vhost_net.h |  2 ++
+>>   2 files changed, 24 insertions(+)
+>>
+>> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+>> index ccac5b7a64..be51be98b3 100644
+>> --- a/hw/net/vhost_net.c
+>> +++ b/hw/net/vhost_net.c
+>> @@ -514,3 +514,25 @@ int vhost_net_set_mtu(struct vhost_net *net, 
+>> uint16_t mtu)
+>>         return vhost_ops->vhost_net_set_mtu(&net->dev, mtu);
+>>   }
+>> +
+>> +void vhost_net_virtqueue_reset(VirtIODevice *vdev, NetClientState *nc,
+>> +                               int vq_index)
+>> +{
+>> +    VHostNetState *net = get_vhost_net(nc->peer);
+>> +    const VhostOps *vhost_ops = net->dev.vhost_ops;
+>> +    struct vhost_vring_file file = { .fd = -1 };
+>> +    int idx;
+>> +
+>> +    /* should only be called after backend is connected */
+>> +    assert(vhost_ops);
+>> +
+>> +    idx = vhost_ops->vhost_get_vq_index(&net->dev, vq_index);
+>> +
+>> +    if (net->nc->info->type == NET_CLIENT_DRIVER_TAP) {
+>> +        file.index = idx;
+>> +        int r = vhost_net_set_backend(&net->dev, &file);
+>> +        assert(r >= 0);
+>> +    }
+>
+>
+> Do we need to reset e.g last_avail_idx here?
+>
+> Thanks
+>
+I did not reset it because we will re-configure them when we restart 
+virtqueue.
+
+Thanks
+
+>
+>> +
+>> +    vhost_virtqueue_unmap(&net->dev, vdev, net->dev.vqs + idx, idx);
+>> +}
+>> diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
+>> index 387e913e4e..85d85a4957 100644
+>> --- a/include/net/vhost_net.h
+>> +++ b/include/net/vhost_net.h
+>> @@ -48,4 +48,6 @@ uint64_t vhost_net_get_acked_features(VHostNetState 
+>> *net);
+>>     int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu);
+>>   +void vhost_net_virtqueue_reset(VirtIODevice *vdev, NetClientState 
+>> *nc,
+>> +                               int vq_index);
+>>   #endif
 
