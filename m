@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57E9A5AD240
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 14:19:53 +0200 (CEST)
-Received: from localhost ([::1]:43848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 056575AD20D
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 14:04:35 +0200 (CEST)
+Received: from localhost ([::1]:33840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVB4x-0005Ro-UZ
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 08:19:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33964)
+	id 1oVAq9-0005US-Vc
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 08:04:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVATf-0005hi-AA
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:41:20 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:54926)
+ id 1oVAVv-000887-IT
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:43:40 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:36502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVATc-0002vQ-Qy
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:41:18 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id s23so5109653wmj.4
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 04:41:16 -0700 (PDT)
+ id 1oVAVt-0003PF-GG
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:43:38 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ v7-20020a1cac07000000b003a6062a4f81so7640389wme.1
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 04:43:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=TBSP23KOjzk5ndDEf77hQvPy985sIv1Ji6v9MI+P0A0=;
- b=rqoesnEF0OVyxNug2EEZWsN7dEJJk4OV+03D6JofDuDhoWHYrp+X5OCiTc+K49ZqCQ
- HrWgC7mT0ZP4pmyl0e2OAeRhN6+PPte+SpTtEJoPwVDW0wKYI58l0o2qdDll7Kg2eARS
- 8XUtADvlHC8KaADy07fYMj0OWmt3FgI9tUOvbdDY0NPP6nKsRfqGTbWU683TwPCrt3/z
- 8GMptutcqRbo64vY90EBCEI/UziHSlnaSmBlKFH7Lc9P6JQgoUNs1A8WITi4H8dXIHZ0
- xEZgTTSOp9XjxmmIRTJsHbie8tQNMxvfqb3p8PBgsBNqUMPXZKpKREZfUBRf/3MV7VvN
- TrQw==
+ bh=aAd82yseCjuEpwTDjcKkoWtPeyHa4Bx0pV8Upb13f2k=;
+ b=WKsK32OwOc7KrJf0HgOiWvXJ1hsfDZDvCjQcm/t7hX+py6wMKdXuuHH7M172Y+6hrN
+ HqatYJIObRz/6wAXBPq6weo8daalxvlVtZA2OLsjZskv1fIJMwsFL/TDTTApxftqVmd0
+ Os9YCJbt1OvbUTU03+ymdppHHgG70nBaHTGv0ItgjcJjKLRO25XEPooxMmLFPgAwNx67
+ a1FHdPGm452bzodlZrcZlQkgbecgzB6ex6yZUkjlbHPZ0EAXvM7W9kU/MYoAXfxyhzTv
+ IqmV8Im6XW+FSg7Nc4Q7Ejo2fIqavamifgwyJVBY/eqRe8mQSXtUP56CGwXYGHKzNdSs
+ YbfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=TBSP23KOjzk5ndDEf77hQvPy985sIv1Ji6v9MI+P0A0=;
- b=iMaVTapUkmUCotVizRXjQcaVvx16ZapyTtDxe4vwwAin8vXx4EU6BLJNYnjSXEoSwO
- bnpTZ6+9XPkr5yttJMyNiMyDz+wcthaF4EmdWuCuyNlhs63EHM2p2SAzUC/uDKCiDI0c
- 0liT8LrbiodXUQACqZSeHjXYWkQsJObawEDRZ3vCzIhfVEBh9L6fsUsXQ5VPhMPZB+cw
- 3oIHBuaJlNkoq/KensdZNOzzeXKqHuJWzhgHH80OVJHTbEpXerK+Ohzf66ly99irYpAD
- SOkY3d4om4abC9BYT+q0XlyN3xD7kTQ3FDJkO/ZhHX0l85VWyDZOhhc4rZ1zdaUv6oCC
- KnqQ==
-X-Gm-Message-State: ACgBeo1MXcNafturgxKrWXzwi7ZnUnz8xb1ZtfOI6WM2uho66J2naN7t
- 8PNwOSiCo0oX6DpqbC+t/P37nw==
-X-Google-Smtp-Source: AA6agR4pMFSR3K0coRzUpbjh88cP9XJycM3gaTbyWnE4ntR26T6DHw7Qi7i6ZhCMWe2S+L+d/XZ7KQ==
-X-Received: by 2002:a05:600c:3541:b0:3a6:28e4:c458 with SMTP id
- i1-20020a05600c354100b003a628e4c458mr10610526wmq.188.1662378075080; 
- Mon, 05 Sep 2022 04:41:15 -0700 (PDT)
+ bh=aAd82yseCjuEpwTDjcKkoWtPeyHa4Bx0pV8Upb13f2k=;
+ b=lmYmTHgqg5gV+xJdTdt9cbHHrtGfcAwgVxwDaWt+H5/9XbDZ7XuS9LxxIyi6yw197y
+ mdy426pVusv7qcNtPREeRvmw8mgt/xiQKMiVEKTmT20ymrWle0raVa5E9Qf5aCDv6nr4
+ 3TaQ3emNTu4fxsTlkqXjhVZZ2V3AAp2UyNXfstmFC0gUSpDQBq5+2ykhPA8gMgNfaGl3
+ AzGLHSsbKW2XssUpImHUug2cZZPqy6NLXFgM5GoMdmqKUarAKOaHNCp/1bu8dCWvdmyS
+ 2V1MyACeo5HP1C0qUnyw2VCQ2TVkZlFJuMLtkiyzrhm4xJ2JTg9Qsf/WRC6Ocwo+ois4
+ JOIg==
+X-Gm-Message-State: ACgBeo22mg15i+4NEoggJufrKb85B/FI9gWiXaoixVlC28k+fB+Gj0X6
+ BoAB847goaxf+8TprvudYXcPXQ==
+X-Google-Smtp-Source: AA6agR4E7QLyV5acjucH0hDzuKL8jdtRtgSeHTG3Yw66C2hF6xHRftShokqGN7xOMXx7Yh6z9InnPw==
+X-Received: by 2002:a05:600c:4f4f:b0:3a5:a530:4fd7 with SMTP id
+ m15-20020a05600c4f4f00b003a5a5304fd7mr10716020wmq.36.1662378215836; 
+ Mon, 05 Sep 2022 04:43:35 -0700 (PDT)
 Received: from ?IPV6:2a02:8084:a5c0:5a80:f2bf:c5c3:8866:995c?
  ([2a02:8084:a5c0:5a80:f2bf:c5c3:8866:995c])
  by smtp.gmail.com with ESMTPSA id
- w17-20020a5d6811000000b0021efc75914esm2338709wru.79.2022.09.05.04.41.13
+ w1-20020a05600018c100b00224f7c1328dsm8618983wrq.67.2022.09.05.04.43.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Sep 2022 04:41:14 -0700 (PDT)
-Message-ID: <a9d71c3f-a9c1-ab77-5b39-6a66fc5c1ee1@linaro.org>
-Date: Mon, 5 Sep 2022 12:41:12 +0100
+ Mon, 05 Sep 2022 04:43:34 -0700 (PDT)
+Message-ID: <de6dd7b9-0ea4-240f-8d29-5305b3ff29aa@linaro.org>
+Date: Mon, 5 Sep 2022 12:43:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 13/20] disas/nanomips: Prevent memory leaking
+Subject: Re: [PATCH v2 14/20] disas/nanomips: Remove function overloading
 Content-Language: en-US
 To: Milica Lazarevic <milica.lazarevic@syrmia.com>, thuth@redhat.com
 Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
@@ -69,13 +70,13 @@ Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
  peter.maydell@linaro.org, djordje.todorovic@syrmia.com, mips32r2@gmail.com,
  dragan.mladjenovic@syrmia.com
 References: <20220905095522.66941-1-milica.lazarevic@syrmia.com>
- <20220905095522.66941-14-milica.lazarevic@syrmia.com>
+ <20220905095522.66941-15-milica.lazarevic@syrmia.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220905095522.66941-14-milica.lazarevic@syrmia.com>
+In-Reply-To: <20220905095522.66941-15-milica.lazarevic@syrmia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -99,65 +100,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/5/22 10:55, Milica Lazarevic wrote:
-> g_autofree attribute is added for every dynamically allocated string to
-> prevent memory leaking.
-> 
-> The implementation of the several functions that work with dynamically
-> allocated strings is slightly changed so we can add those attributes.
-> 
-> Almost every disassembly_function returns the result of the img_format()
-> function, which returns a dynamically allocated string. To be able to
-> free that string for every disassembly_function, a strdup() call is
-> added for a return value of some disassembly functions like TLBGINV,
-> TLBGINVF, TLBGP, etc.
-> 
-> Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
-> ---
->   disas/nanomips.cpp | 714 +++++++++++++++++++++++----------------------
->   1 file changed, 361 insertions(+), 353 deletions(-)
-> 
-> diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
-> index cfea95130d..473c202649 100644
-> --- a/disas/nanomips.cpp
-> +++ b/disas/nanomips.cpp
-> @@ -523,7 +523,8 @@ static char *save_restore_list(uint64 rt, uint64 count, uint64 gp)
->       for (uint64 counter = 0; counter != count; counter++) {
->           bool use_gp = gp && (counter == count - 1);
->           uint64 this_rt = use_gp ? 28 : ((rt & 0x10) | (rt + counter)) & 0x1f;
-> -        strcat(str, img_format(",%s", GPR(this_rt)));
-> +        g_autofree char *dis_str = img_format(",%s", GPR(this_rt));
-> +        strcat(str, dis_str);
->       }
-
-Will be unnecessary with the g_strjoinv change I suggested.
-
-
-> @@ -657,7 +658,8 @@ static int Disassemble(const uint16 *data, char *dis,
->                                   return -6;
->                               }
->                               type = table[i].type;
-> -                            strcpy(dis, dis_fn(op_code, m_pc));
-> +                            g_autofree char *dis_str = dis_fn(op_code, m_pc);
-> +                            strcpy(dis, dis_str);
->                               return table[i].instructions_size;
-
-Will be unnecessary with the "*dis = value" return I suggested.
-
-> @@ -1727,8 +1729,8 @@ static char *ACLR(uint64 instruction, img_address m_pc)
->       uint64 rs_value = extract_rs_20_19_18_17_16(instruction);
->       int64 s_value = extract_s__se8_15_7_6_5_4_3_2_1_0(instruction);
+> -static uint64 copy(uint64 d)
+> +static uint64 copy_ui(uint64 d)
+>   {
+>       return d;
+>   }
 >   
-> -    char *bit = IMMEDIATE(copy(bit_value));
-> -    char *s = IMMEDIATE(copy(s_value));
-> +    g_autofree char *bit = IMMEDIATE(copy(bit_value));
-> +    g_autofree char *s = IMMEDIATE(copy(s_value));
->       const char *rs = GPR(copy(rs_value));
 >   
->       return img_format("ACLR %s, %s(%s)", bit, s, rs);
+> -static int64 copy(int64 d)
+> +static int64 copy_i(int64 d)
+>   {
+>       return d;
+>   }
 
-All of these should be switched to directly use printf format on the integer values, now 
-that's supported by img_format.  That should be done as a separate patch, immediately 
-before this one.
+These functions can surely just be removed.
+
+
+> -static char *IMMEDIATE(uint64 value)
+> +static char *IMMEDIATE_UI(uint64 value)
+>  {
+>      return img_format("0x%" PRIx64, value);
+>  }
+>  
+>  
+> -static char *IMMEDIATE(int64 value)
+> +static char *IMMEDIATE_I(int64 value)
+>  {
+>      return img_format("%" PRId64, value);
+>  }
+
+And these would be removed by the previous conversion to direct use of printf values by 
+the individual instructions.
 
 
 r~
