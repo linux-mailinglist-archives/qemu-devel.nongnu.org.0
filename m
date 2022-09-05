@@ -2,100 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 518D85AD6E4
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 17:51:45 +0200 (CEST)
-Received: from localhost ([::1]:40914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD8E85AD6EA
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 17:54:27 +0200 (CEST)
+Received: from localhost ([::1]:37602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVEO0-0001FW-Es
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 11:51:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59870)
+	id 1oVEQX-0004bG-Nb
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 11:54:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oVEMI-0008BO-BO
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 11:49:58 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:14658)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oVEOr-0001qE-9i
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 11:52:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21225)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oVEMG-0003yb-55
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 11:49:57 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 285FmF9a020448;
- Mon, 5 Sep 2022 15:49:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=eLN52ewhCRoeGT/iRfkvTU2sBWQ26qFuAD7fd7sjkGQ=;
- b=Gzc8ajNCl5tRvfQiYDLReGNxfgvOD7fjujsheA+yRgZ9whtjg27OFKsOvulk2xnUy6eu
- pnxdr6f7ryUOVpnc/ldhbCeo/RddCanLMMGVITcKf2vNfS+55q98beFI3O8vjlq9Uuxp
- 5anMibq51ewV1wNWkXbf0FPHwaRLSLXzVZU1IzbwPDkyS1L1SY2D/9BgHJeOOLGJYmB9
- IKDCp7/zPVnJdOuHuKWMIPksYjvtiT0XL/4N1S2MCN0ZiTCo0HxTVF+bCiIi830i5xWN
- Wo28QtH5S8P9DQ1G6nfx+ZcMcQ1yIe0+s/VkTvoUYRQLlrUS3ss7Q7VhjlkoVWeQ8E/d BA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jdm2xg18x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 05 Sep 2022 15:49:51 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 285Fnp1v029919;
- Mon, 5 Sep 2022 15:49:51 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jdm2xg188-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 05 Sep 2022 15:49:51 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 285FeDN9021725;
- Mon, 5 Sep 2022 15:49:48 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma03fra.de.ibm.com with ESMTP id 3jbxj8sy65-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 05 Sep 2022 15:49:48 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 285Fnjk832768428
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 5 Sep 2022 15:49:46 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D249611C050;
- Mon,  5 Sep 2022 15:49:45 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 83FAA11C04C;
- Mon,  5 Sep 2022 15:49:45 +0000 (GMT)
-Received: from heavy.lan (unknown [9.171.53.58])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  5 Sep 2022 15:49:45 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Cc: qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v2] tests/tcg/x86_64: add cross-modifying code test
-Date: Mon,  5 Sep 2022 17:49:44 +0200
-Message-Id: <20220905154944.1284289-1-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.37.2
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: AMJeZIUwsuet9w7bSzHFt6gMOb7KDgz-
-X-Proofpoint-GUID: acAGTe5neXPUP7aSYSK3iMH8CRto7H7Q
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oVEOn-0004TO-D2
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 11:52:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662393151;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z8QZr3NghiPG07L60HaPFgSPf6vMhZ5W+3bbAj+6Shs=;
+ b=KCDlaZlf41i4J7Z52Kk7j6Er5fo3V2vV5w5vhG+iMPyplX0a4p9eCHzYovClpyPhzywUuO
+ GT8BT02xRcnNOXQsuTY0bf086DDcJyQ09zoZzyC0U3KimK+dQVA48GNSDFIDYTFEn3SBAF
+ UZQeZAmUIMAZxfmG6TrnQiNkP9qfizY=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-82-XoWtHCxgNpKw0QwIVEmO6w-1; Mon, 05 Sep 2022 11:52:30 -0400
+X-MC-Unique: XoWtHCxgNpKw0QwIVEmO6w-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ t13-20020a056402524d00b0043db1fbefdeso5974399edd.2
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 08:52:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=Z8QZr3NghiPG07L60HaPFgSPf6vMhZ5W+3bbAj+6Shs=;
+ b=DXdjyW3PfauAH7fzyiSi2Ti9YG7/SKmSsJwzXouBskPt7/DrOaO9mwtL3qgFoVc8km
+ yezA/2wZUXwaZs4YQ92LZ48ej2udnGJzzP79rVeOLjfKXn19UBKzzmEK78Gzf8/VXnCl
+ IoAt09xKt56Ld7KJDdTcPl67ExQHWTRo+G29jZXKrBgiRG338T++2dB/sUaLPro5IkQH
+ gw5Xl9pe++dnYpsYXGFp+hAwMVmZE9gBbyqFSkmOxRv9UafyuokOoaEywGrtlwuc/bnX
+ D9wgTcbbaTdbGdTeQCOalJcreMjKJ8bAT4+bzPFaJBOVntSKiRTnXu4sHTprms/vrYC9
+ 23Gw==
+X-Gm-Message-State: ACgBeo1pJKjbmjRCHZl3uYe372XG/f495VO6TPZI6lQeMixD/TVG1KpK
+ 1SSWBfhrNNS7X1nHn57KmGVx31lw/BC9yMNbthYCwCPGu+qR3XpNe/rqnjZXjuBfif+zzKL1MD/
+ 1Wl9ht00rfAaTJjI=
+X-Received: by 2002:a05:6402:2423:b0:446:3b6b:e3ee with SMTP id
+ t35-20020a056402242300b004463b6be3eemr44396655eda.412.1662393147723; 
+ Mon, 05 Sep 2022 08:52:27 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR44CFtrlIRz1O0R5LyzNpKR/11d7YUX/iBJeiQ/aR08YCx2VFevH+lUh2ksxQgvJNHF9aMpwQ==
+X-Received: by 2002:a05:6402:2423:b0:446:3b6b:e3ee with SMTP id
+ t35-20020a056402242300b004463b6be3eemr44396636eda.412.1662393147494; 
+ Mon, 05 Sep 2022 08:52:27 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ u9-20020a1709061da900b0073d83f80b05sm5219660ejh.94.2022.09.05.08.52.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Sep 2022 08:52:26 -0700 (PDT)
+Date: Mon, 5 Sep 2022 17:52:25 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, qemu-devel@nongnu.org, kkostiuk@redhat.com,
+ yvugenfi@redhat.com, yiwei@redhat.com, ybendito@redhat.com,
+ jusual@redhat.com
+Subject: Re: [RFC PATCH] hw/acpi: do not let OSPM set pcie native hotplug
+ when acpi hotplug is enabled
+Message-ID: <20220905175225.74881174@redhat.com>
+In-Reply-To: <20220905072531.8059-1-ani@anisinha.ca>
+References: <20220905072531.8059-1-ani@anisinha.ca>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-05_12,2022-09-05_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- suspectscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=999
- adultscore=0 priorityscore=1501 mlxscore=0 spamscore=0 phishscore=0
- bulkscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2209050075
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,136 +106,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-commit f025692c992c ("accel/tcg: Clear PAGE_WRITE before translation")
-fixed cross-modifying code handling, but did not add a test. The
-changed code was further improved recently [1], and I was not sure
-whether these modifications were safe (spoiler: they were fine).
+On Mon,  5 Sep 2022 12:55:31 +0530
+Ani Sinha <ani@anisinha.ca> wrote:
 
-Add a test to make sure there are no regressions.
+> Possible fix for https://bugzilla.redhat.com/show_bug.cgi?id=2089545
+> 
+> Change in AML:
+> 
+> @@ -47,33 +47,39 @@
+>      Scope (_SB)
+>      {
+>          Device (PCI0)
+>          {
+>              Name (_HID, EisaId ("PNP0A08") /* PCI Express Bus */)  // _HID: Hardware ID
+>              Name (_CID, EisaId ("PNP0A03") /* PCI Bus */)  // _CID: Compatible ID
+>              Name (_ADR, Zero)  // _ADR: Address
+>              Name (_UID, Zero)  // _UID: Unique ID
+>              Method (_OSC, 4, NotSerialized)  // _OSC: Operating System Capabilities
+>              {
+>                  CreateDWordField (Arg3, Zero, CDW1)
+>                  If ((Arg0 == ToUUID ("33db4d5b-1ff7-401c-9657-7441c03dd766") /* PCI Host Bridge Device */))
+>                  {
+>                      CreateDWordField (Arg3, 0x04, CDW2)
+>                      CreateDWordField (Arg3, 0x08, CDW3)
+>                      Local0 = CDW3 /* \_SB_.PCI0._OSC.CDW3 */
+> -                    Local0 &= 0x1E
+> +                    Local0 &= 0x1F
+> +                    Local1 = (CDW3 & One)
+> +                    If ((One == Local1))
+> +                    {
+> +                        CDW1 |= 0x12
+> +                    }
+> +
+>                      If ((Arg1 != One))
+>                      {
+>                          CDW1 |= 0x08
+>                      }
+> 
+>                      If ((CDW3 != Local0))
+>                      {
+>                          CDW1 |= 0x10
+>                      }
+> 
+>                      CDW3 = Local0
+>                  }
+>                  Else
+>                  {
+>                      CDW1 |= 0x04
+>                  }
+> **
+> 
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> ---
+>  hw/i386/acpi-build.c | 23 ++++++++++++++++++++---
+>  1 file changed, 20 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 0355bd3dda..3dc9379f27 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -1348,10 +1348,12 @@ static Aml *build_q35_osc_method(bool enable_native_pcie_hotplug)
+>  {
+>      Aml *if_ctx;
+>      Aml *if_ctx2;
+> +    Aml *if_ctx3;
+>      Aml *else_ctx;
+>      Aml *method;
+>      Aml *a_cwd1 = aml_name("CDW1");
+>      Aml *a_ctrl = aml_local(0);
+> +    Aml *a_pcie_nhp_ctl = aml_local(1);
+>  
+>      method = aml_method("_OSC", 4, AML_NOTSERIALIZED);
+>      aml_append(method, aml_create_dword_field(aml_arg(3), aml_int(0), "CDW1"));
+> @@ -1366,11 +1368,26 @@ static Aml *build_q35_osc_method(bool enable_native_pcie_hotplug)
+>      /*
+>       * Always allow native PME, AER (no dependencies)
+>       * Allow SHPC (PCI bridges can have SHPC controller)
+> -     * Disable PCIe Native Hot-plug if ACPI PCI Hot-plug is enabled.
+>       */
+> -    aml_append(if_ctx, aml_and(a_ctrl,
+> -        aml_int(0x1E | (enable_native_pcie_hotplug ? 0x1 : 0x0)), a_ctrl));
+> +    aml_append(if_ctx, aml_and(a_ctrl, aml_int(0x1F), a_ctrl));
 
-[1] https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg00034.html
+that makes us not actually mask any capabilities since you forgot to mask
+bit 1 later under if_ctx3 context.
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
+So OSPM will see a permanent failure (_OSC failure bit in CWD1)
+and will have no idea that PCI Hotplug is not supported since we return CWD3
+with this bit still set whoever much it tries to negotiate.
 
-v1: https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg00455.html
-v1 -> v2: Fix tweaking the flags (Alex).
-          Keep the custom build rule for now.
+So if it boots at all, guest will probably not use any requested features
+since _OSC failed to confirm any without error.
 
- tests/tcg/x86_64/Makefile.target        |  6 +-
- tests/tcg/x86_64/cross-modifying-code.c | 80 +++++++++++++++++++++++++
- 2 files changed, 85 insertions(+), 1 deletion(-)
- create mode 100644 tests/tcg/x86_64/cross-modifying-code.c
+And even if we clear hotplug bit it still doesn't help.
 
-diff --git a/tests/tcg/x86_64/Makefile.target b/tests/tcg/x86_64/Makefile.target
-index 6177fd845a..3d9bc3377b 100644
---- a/tests/tcg/x86_64/Makefile.target
-+++ b/tests/tcg/x86_64/Makefile.target
-@@ -10,6 +10,7 @@ include $(SRC_PATH)/tests/tcg/i386/Makefile.target
- 
- ifeq ($(filter %-linux-user, $(TARGET)),$(TARGET))
- X86_64_TESTS += vsyscall
-+X86_64_TESTS += cross-modifying-code
- TESTS=$(MULTIARCH_TESTS) $(X86_64_TESTS) test-x86_64
- else
- TESTS=$(MULTIARCH_TESTS)
-@@ -23,5 +24,8 @@ test-x86_64: LDFLAGS+=-lm -lc
- test-x86_64: test-i386.c test-i386.h test-i386-shift.h test-i386-muldiv.h
- 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
- 
--vsyscall: $(SRC_PATH)/tests/tcg/x86_64/vsyscall.c
-+%: $(SRC_PATH)/tests/tcg/x86_64/%.c
- 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
-+
-+cross-modifying-code: CFLAGS+=-pthread
-+cross-modifying-code: LDFLAGS+=-pthread
-diff --git a/tests/tcg/x86_64/cross-modifying-code.c b/tests/tcg/x86_64/cross-modifying-code.c
-new file mode 100644
-index 0000000000..2704df6061
---- /dev/null
-+++ b/tests/tcg/x86_64/cross-modifying-code.c
-@@ -0,0 +1,80 @@
-+/*
-+ * Test patching code, running in one thread, from another thread.
-+ *
-+ * Intel SDM calls this "cross-modifying code" and recommends a special
-+ * sequence, which requires both threads to cooperate.
-+ *
-+ * Linux kernel uses a different sequence that does not require cooperation and
-+ * involves patching the first byte with int3.
-+ *
-+ * Finally, there is user-mode software out there that simply uses atomics, and
-+ * that seems to be good enough in practice. Test that QEMU has no problems
-+ * with this as well.
-+ */
-+
-+#include <assert.h>
-+#include <pthread.h>
-+#include <stdbool.h>
-+#include <stdlib.h>
-+
-+void add1_or_nop(long *x);
-+asm(".pushsection .rwx,\"awx\",@progbits\n"
-+    ".globl add1_or_nop\n"
-+    /* addq $0x1,(%rdi) */
-+    "add1_or_nop: .byte 0x48, 0x83, 0x07, 0x01\n"
-+    "ret\n"
-+    ".popsection\n");
-+
-+#define THREAD_WAIT 0
-+#define THREAD_PATCH 1
-+#define THREAD_STOP 2
-+
-+static void *thread_func(void *arg)
-+{
-+    int val = 0x0026748d; /* nop */
-+
-+    while (true) {
-+        switch (__atomic_load_n((int *)arg, __ATOMIC_SEQ_CST)) {
-+        case THREAD_WAIT:
-+            break;
-+        case THREAD_PATCH:
-+            val = __atomic_exchange_n((int *)&add1_or_nop, val,
-+                                      __ATOMIC_SEQ_CST);
-+            break;
-+        case THREAD_STOP:
-+            return NULL;
-+        default:
-+            assert(false);
-+            __builtin_unreachable();
-+        }
-+    }
-+}
-+
-+#define INITIAL 42
-+#define COUNT 1000000
-+
-+int main(void)
-+{
-+    int command = THREAD_WAIT;
-+    pthread_t thread;
-+    long x = 0;
-+    int err;
-+    int i;
-+
-+    err = pthread_create(&thread, NULL, &thread_func, &command);
-+    assert(err == 0);
-+
-+    __atomic_store_n(&command, THREAD_PATCH, __ATOMIC_SEQ_CST);
-+    for (i = 0; i < COUNT; i++) {
-+        add1_or_nop(&x);
-+    }
-+    __atomic_store_n(&command, THREAD_STOP, __ATOMIC_SEQ_CST);
-+
-+    err = pthread_join(thread, NULL);
-+    assert(err == 0);
-+
-+    assert(x >= INITIAL);
-+    assert(x <= INITIAL + COUNT);
-+
-+    return EXIT_SUCCESS;
-+}
--- 
-2.37.2
+some more testing shows that ATS cap doesn't depended hard on native hotplug
+(i.e. run QEMU with native hotplug enabled but disable hotplug on root-port in question)
+To me it still looks like a bug in Windows' acpi hotplug impl
+(or perhaps it's no more properly maintained, so it doesn't account for new features).
+
+> +    /*
+> +     * if ACPI PCI Hot-plug is enabled, do not let OSPM set OSC PCIE
+> +     * Native hotplug ctrl bit.
+> +     */
+> +    if (!enable_native_pcie_hotplug) {
+> +        /* check if the ACPI native hotplug bit is set by the OS in DWORD3 */
+> +        aml_append(if_ctx, aml_and(aml_name("CDW3"),
+> +                                   aml_int(0x01), a_pcie_nhp_ctl));
+> +        if_ctx3 = aml_if(aml_equal(aml_int(1), a_pcie_nhp_ctl));
+> +        /*
+> +         * ACPI spec 5.1, section 6.2.11
+> +         * bit 1 in first DWORD - _OSC failure
+> +         * bit 4 in first DWORD - capabilities masked
+> +         */
+> +        aml_append(if_ctx3, aml_or(a_cwd1, aml_int(0x12), a_cwd1));
+> +        aml_append(if_ctx, if_ctx3);
+> +    }
+>      if_ctx2 = aml_if(aml_lnot(aml_equal(aml_arg(1), aml_int(1))));
+>      /* Unknown revision */
+>      aml_append(if_ctx2, aml_or(a_cwd1, aml_int(0x08), a_cwd1));
 
 
