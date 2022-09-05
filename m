@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F3A5AD4EA
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 16:36:26 +0200 (CEST)
-Received: from localhost ([::1]:57758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56F1E5AD508
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 16:38:10 +0200 (CEST)
+Received: from localhost ([::1]:46692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVDD6-0005k9-5G
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 10:36:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44336)
+	id 1oVDEn-0007Ns-EB
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 10:38:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oVD9o-0002VJ-AU
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 10:33:00 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:41845)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVDDR-00061e-SR
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 10:36:45 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:39396)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oVD9j-0000is-Jo
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 10:33:00 -0400
-Received: by mail-pl1-x629.google.com with SMTP id p18so8678231plr.8
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 07:32:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date;
- bh=Rs+w1/3QxvZ6m2H1grHkx4Z/qyda28NzQks6VS5zzJE=;
- b=TIdZ9Kd5AW3ZqNnnyGXIBsUqr3Jh5EUYCNheRHcCT1ko9fhH1XvRez6kqJ1LKFc1cf
- YQbxjWyvKkqTH3kyE50zpWSQs6slo+MFR6YmA4macAzXGo08bSjWnjVyP4Gux5MXOahO
- 8diitq8RDnfi060X7/qyy2O1Ld6SBCXNos2S5nMALwMse2EbgpGpDTItqBYQZMvX59qL
- 0jo6pUdf6FCUxqAaVpvzOWEOfVhnu0ysHl1CaO9inXNCdiKYmt9rgm3wCMWl7f+puoKH
- WoRbIWSvBX3sz8C6T8tx260vHD6xQ9rZjejwxk2sEiNehacI33ylNaJhZu4zTqqo6log
- Jq5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=Rs+w1/3QxvZ6m2H1grHkx4Z/qyda28NzQks6VS5zzJE=;
- b=HXISnbJ6Gq7xAgIAFyUJsWjh+twOsX0GtWF607H7tQjN2iVJM+E/dtstVx4tYEKGKW
- rMYIpZKX2YSsgAsYkzF2QFroCOzRW8hkd6nkx0yXtXWhorrQRUGvlblYn6jrcy86h0Ax
- LWBooNqtOBWUbJFd6Z5LA4gPi7HjP6eEzUuLn/OpDqCTKdcWbivkWHopuJzBtCi2ahbd
- 5ADa4LRq30A0AwQouWdP9LJOGyrTGYv2FIi+Wr1snFs4wiqI6KCtVYaLhO+Jk3vlRd7y
- 1Uw4GbArvQforw4E7R/QaNZ48EEn3o+92h2+nfXIQv6JE8HvNtFN5rhfMmwBjxqLxx+i
- 4bHQ==
-X-Gm-Message-State: ACgBeo2L0uZyk+6AebpaOlxspb4kRaXu82BIJCp4GJqIMH6F3JLpwb+A
- wtOHDyVeO/mZRTq1NyepNb0=
-X-Google-Smtp-Source: AA6agR6e5eNlPULmDNhFFWTeFHCekGJIa5sSTFb2iJe16bKBM6hCozXqEx6BvzNBJXvFU3s9dFb8wA==
-X-Received: by 2002:a17:90a:ac01:b0:1fb:8956:7942 with SMTP id
- o1-20020a17090aac0100b001fb89567942mr19734579pjq.107.1662388374071; 
- Mon, 05 Sep 2022 07:32:54 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- b6-20020a170903228600b00174a4bcefc7sm7671343plh.217.2022.09.05.07.32.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Sep 2022 07:32:53 -0700 (PDT)
-Message-ID: <5e515526-dee2-0d4a-d21f-563404ac5ef1@amsat.org>
-Date: Mon, 5 Sep 2022 16:32:49 +0200
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVDDM-0001Pd-Oc
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 10:36:45 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id DB81A1F9ED;
+ Mon,  5 Sep 2022 14:36:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1662388598; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=66rNJyEIGcx0BrYEamOWOPu8sj9CcIC2tM9qdEzFjno=;
+ b=H4WMKQKUKBG4K5NAuEyNWQrXYKn5uoR1zY9IvLWJibr6SyA8f4sE1RUIePLzXs94UXdqfw
+ mtaeHPAZCFyhhoG9OJjpB5OfRsI/iTWiFaEwL0axBMnIPSv3jU+LxXp9VcJEtzx9MRktKc
+ rFhITj/ZT4Uk4+6xqvo5Vyr/P36ffKI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1662388598;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=66rNJyEIGcx0BrYEamOWOPu8sj9CcIC2tM9qdEzFjno=;
+ b=Za0rBzHHdwFEJiP1n8K27pqIhbx6XKcwvzrMw3UtSieKFrOAcPa3FEoXBCcPyb3t1bu2ru
+ VH0p0l1yaRE198CQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 95D8113A66;
+ Mon,  5 Sep 2022 14:36:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4ZIzI3UJFmOTQQAAMHmgww
+ (envelope-from <cfontana@suse.de>); Mon, 05 Sep 2022 14:36:37 +0000
+Message-ID: <9bb31e44-e43d-b51a-712a-87e46279a0b5@suse.de>
+Date: Mon, 5 Sep 2022 16:36:37 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH] smbios: sanitize type from external type before checking
- have_fields_bitmap
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] accel: print an error message and exit if plugin not
+ loaded
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20220905103606.27978-1-pbonzini@redhat.com>
-In-Reply-To: <20220905103606.27978-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
+ <marcandre.lureau@redhat.com>, dinechin@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>
+References: <20220905101332.1986-1-cfontana@suse.de>
+ <5d922305-a559-bfdc-7038-ec1560ae0e00@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <5d922305-a559-bfdc-7038-ec1560ae0e00@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.716,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -60
+X-Spam_score: -6.1
+X-Spam_bar: ------
+X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,43 +94,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 5/9/22 12:36, Paolo Bonzini wrote:
-> test_bit uses header->type as an offset; if the file incorrectly specifies a
-> type greater than 127, smbios_entry_add will read garbage.
+On 9/5/22 14:06, Richard Henderson wrote:
+> On 9/5/22 11:13, Claudio Fontana wrote:
+>> If module_load_one, module_load_file fail for any reason
+>> (permissions, plugin not installed, ...), we need to provide some notification
+>> to the user to understand that this is happening; otherwise the errors
+>> reported on initialization will make no sense to the user.
+>>
+>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>> ---
+>>   accel/accel-softmmu.c | 10 ++++++++--
+>>   1 file changed, 8 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
+>> index 67276e4f52..807708ee86 100644
+>> --- a/accel/accel-softmmu.c
+>> +++ b/accel/accel-softmmu.c
+>> @@ -66,15 +66,21 @@ void accel_init_ops_interfaces(AccelClass *ac)
+>>   {
+>>       const char *ac_name;
+>>       char *ops_name;
+>> +    ObjectClass *oc;
+>>       AccelOpsClass *ops;
+>>   
+>>       ac_name = object_class_get_name(OBJECT_CLASS(ac));
+>>       g_assert(ac_name != NULL);
+>>   
+>>       ops_name = g_strdup_printf("%s" ACCEL_OPS_SUFFIX, ac_name);
+>> -    ops = ACCEL_OPS_CLASS(module_object_class_by_name(ops_name));
+>> +    oc = module_object_class_by_name(ops_name);
+>> +    if (!oc) {
+>> +        error_report("fatal: could not find module object of type \"%s\", "
+>> +                     "plugin might not be loaded correctly", ops_name);
+>> +        exit(EXIT_FAILURE);
+>> +    }
 > 
-> To fix this, just pass the smbios data through, assuming the user knows what
-> to do.  Reported by Coverity as CID 1487255.
+> The change is correct, in that we certainly cannot continue without the accelerator loaded.
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   hw/smbios/smbios.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+> But I'm very disappointed that the module interface does not use Error, so you have no 
+> choice but to use an extremely vague message here.  I would much prefer to plumb down an 
+> error parameter so that here one could simply pass &error_fatal.
 > 
-> diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-> index 60349ee402..485fa15202 100644
-> --- a/hw/smbios/smbios.c
-> +++ b/hw/smbios/smbios.c
-> @@ -1205,7 +1205,8 @@ void smbios_entry_add(QemuOpts *opts, Error **errp)
->               return;
->           }
->   
-> -        if (test_bit(header->type, have_fields_bitmap)) {
-> +        if (header->type <= SMBIOS_MAX_TYPE &&
-> +            test_bit(header->type, have_fields_bitmap)) {
->               error_setg(errp,
->                          "can't load type %d struct, fields already specified!",
->                          header->type);
+> 
+> r~
+> 
 
-Completing the diff:
+I agree. I see it as also connected to:
 
-             return;
-         }
-         set_bit(header->type, have_binfile_bitmap);
+https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg00578.html
 
-Same problem  here ^^^
+module_load_file actually has the pertinent information of what it going wrong at the time it goes wrong, so I presume we should collect the Error there,
+and find a way not to lose the return value along the way..
 
-It seems safer to check header->type range before load_image_size().
+Claudio
+
+
+
+
+
+
+
+
+
 
