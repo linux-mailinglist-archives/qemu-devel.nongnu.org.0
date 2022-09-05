@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D4085AD342
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 14:53:40 +0200 (CEST)
-Received: from localhost ([::1]:53064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A9035AD39F
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 15:19:39 +0200 (CEST)
+Received: from localhost ([::1]:57512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVBbf-00046Y-AH
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 08:53:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37824)
+	id 1oVC0n-0001V5-PJ
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 09:19:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oVBI0-0008Rb-Pr
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 08:33:20 -0400
-Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b]:43691)
+ id 1oVBL6-0002E2-0g
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 08:36:33 -0400
+Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230]:33495)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oVBHz-000523-1s
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 08:33:20 -0400
-Received: by mail-lf1-x12b.google.com with SMTP id v26so12908019lfd.10
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 05:33:18 -0700 (PDT)
+ id 1oVBL1-0005je-N8
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 08:36:31 -0400
+Received: by mail-lj1-x230.google.com with SMTP id r27so8691218ljn.0
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 05:36:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=jUzKCX5LrqcNKxgQ6Q2pcrSzgqi5mo9lLUUYQbgt86M=;
- b=E2G9gtd1TP21qlS7NRarXWpaL8kbbCclV3+mpqMu38NOhIbFhpANgvyufdjyFC39cm
- sUhpTnGNbMbwmCyFrCo+aHs2nPrmakAVM0hRbPswYFPQsOSF+PxfM8BM8ETPANT4IjP6
- 8pXNOGPknn2h3iz3ZrQaVxkK00qLUhPsQCCP2WwITODei7YYWx/gsxrwDZph+CXGGkAz
- c5UQD1zT487lUzH/rGfJSsGd049SDPLNfyk08UzAt6Z/Edx8FXj1kld6lD9qRjtcEw8J
- rjz471pcBC7otSjnf+FsI0SztAq5BH+NuAo8X2YXsVtmOz0gtVnTfi3J7uSkAIam7Cy7
- Vh8g==
+ bh=TMUZcosU/2C8P8iV2Zwuy1CI34CUP02+GYoarMO7nA0=;
+ b=WDSgPPjTSNffCZhwKjoWK77cwf0rKW1vsrwqrvsB75Nm/dvkkAufXn5CgoK43IOFYO
+ ZfQgPZD5cYEqpX+W2xnLhyAbUknokoIVQh3ElgChNKMps1CPMSclaeZ8/um142M1YsUL
+ /bITbH6bNHPcJ8uIoulHOa/Rzc84iTRBUkcZtccGPAjY0obPjy3gt9k2f+Zesh/+7Tlt
+ 1UbIh4sYXgb7Fhz9w8NdRQMKRPlHVOyFTmk4CQ02Vev9I12bzXauxUa5jw3uAn4X/ALf
+ UT+6cR6Gir+IfkFhdIzWFWcMuOsgLEYzXSIqLD61cznoRUL80x0oCmRmeWc2F7UK7XlS
+ QUGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=jUzKCX5LrqcNKxgQ6Q2pcrSzgqi5mo9lLUUYQbgt86M=;
- b=EY0wlj8lR1vmlzs3M4AGXV8i/Uwar5E+ACVHbEv/wodcyLAgurCpAFs+vSrlqPSYAK
- r+4D9xHircmRFULzpgLPofekqHWvuPfFaQxdJNFkfUepiybBDm1w+a+BOw2rOZlHspDf
- e/zHxkQ4lgHPFSyk91cc+UjVzc10w1Zc/OJnerrSkAlt7lU2bj2h9GKRaD2RyKpieEAZ
- XYmsxTY7ZSmx+Lu0ypwrMyvCOCM2goNj9TF8LHSuvGG5MdzaKGY05MW//BbfgLbOh5qe
- pJnpaq7541Bg1+2ngRFG4f619V8oAATdUi88Tz+tsd/KXcX3g++aeuzYoffNYW1tYK9Z
- 3J/w==
-X-Gm-Message-State: ACgBeo2XzL6yViB5t1rfo0PI0xU0oIJ9cJVTYy6mVxXYnsVSXSjnBwPN
- 7ZwtcfEFwOGch3OovFM4dVLO96oEOmhLrbUGcLo=
-X-Google-Smtp-Source: AA6agR70ZKV0rWoljYjDJUBg+87XD2fJn+cMXsWVTrl8MbjJLKP8K+qWE3CVMnP8OV/pCB3C6H/q0ffqwYzyQOtGycg=
-X-Received: by 2002:a05:6512:2306:b0:48b:2905:21a8 with SMTP id
- o6-20020a056512230600b0048b290521a8mr17938887lfu.167.1662381196143; Mon, 05
- Sep 2022 05:33:16 -0700 (PDT)
+ bh=TMUZcosU/2C8P8iV2Zwuy1CI34CUP02+GYoarMO7nA0=;
+ b=r/sgIE3lpY2UnBjMVOGI5NMUmDV7PD9JfTGmRUPvix3imBxXePXVM301EzFVE1WyTS
+ imPTfy+hOIys+Cg0m/0shX/5kv4YptgnUtYoewm17ZXWn1sI4hsVsZcuBmbTwp0939hx
+ x6FGOx7eaLHBIP2gNcbBzZpnyoEGGoFb+r/Z4LXlULE7YOkfLLlgC4Yqp98h/x3SwHRL
+ yBi8TZWZEiMuTxY3QF73reykH4MafKaioDgh8yWlnKbRtnhIDXHo15SH9vfG5vMLOJCB
+ EfFSIfOX+mTYXqOibCy81MK+Ljv4q2eUi4iIiithRKLKx5o9EW2r3IYjaaJklHSSM4aX
+ WymA==
+X-Gm-Message-State: ACgBeo1u85lPMPEJ18rG9QZUfJL8rQalrc0AePbxrAwIWPCZ//wysEsP
+ SbjxY7/iZQNtbHp/803asbyuhoYbRgMxHw6HRgk=
+X-Google-Smtp-Source: AA6agR7GcRfX7Q2J4nJEonBm3z7LVnJfdPEhNBiMSKrJUnELVJ1e7RAxZ5WzAZmObTDtDepIVnIRqa89a09BGHYg/JY=
+X-Received: by 2002:a2e:a789:0:b0:267:917b:401b with SMTP id
+ c9-20020a2ea789000000b00267917b401bmr8734892ljf.452.1662381385914; Mon, 05
+ Sep 2022 05:36:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1661240709.git.tugy@chinatelecom.cn>
- <CAJ+F1CL7G+RGGH1Qt6TwX0fHRjNxtyfg27HyuZJnGh49KdXaGg@mail.gmail.com>
- <02813d8a-6fce-8623-a188-ead54682b55e@chinatelecom.cn>
-In-Reply-To: <02813d8a-6fce-8623-a188-ead54682b55e@chinatelecom.cn>
+References: <20220905110151.32225-1-pbonzini@redhat.com>
+ <CAJ+F1CKdHhZA8Lc_j85B4EzqHNoCvsejLZUP36GWzH=_1uAiEQ@mail.gmail.com>
+ <CABgObfZcke7Byj06i2rp-QXa98GOiBVteo1_Om11K1cnjt2cNw@mail.gmail.com>
+In-Reply-To: <CABgObfZcke7Byj06i2rp-QXa98GOiBVteo1_Om11K1cnjt2cNw@mail.gmail.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 5 Sep 2022 16:33:04 +0400
-Message-ID: <CAJ+F1CJi4mkAHEGBm2WYK+mw37byzof0p+omCcuZy9sdh4N4xQ@mail.gmail.com>
-Subject: Re: [PATCH v1 0/2] introduce qemu_socketpiar()
-To: Guoyi Tu <tugy@chinatelecom.cn>
-Cc: peter.maydell@linaro.org, f4bug@amsat.org, qemu_oss@crudebyte.com, 
- richard.henderson@linaro.org, berrange@redhat.com, mst@redhat.com, 
- kraxel@redhat.com, qemu-devel@nongnu.org, Bin Meng <bmeng.cn@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000ad720a05e7ed48bf"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12b;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12b.google.com
+Date: Mon, 5 Sep 2022 16:36:14 +0400
+Message-ID: <CAJ+F1CLCgmYhLq4tdK7dmfE_Ngoh=zTvgBpS0vfHV0UgVPj6bQ@mail.gmail.com>
+Subject: Re: [PATCH] tests: test-qga: close socket on failure to connect
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000fd1f2b05e7ed534d"
+Received-SPF: pass client-ip=2a00:1450:4864:20::230;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x230.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,141 +84,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ad720a05e7ed48bf
+--000000000000fd1f2b05e7ed534d
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-On Mon, Sep 5, 2022 at 4:28 PM Guoyi Tu <tugy@chinatelecom.cn> wrote:
 
+On Mon, Sep 5, 2022 at 4:29 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+
+> There is no portable way to handle EINTR on close() as far as I know. You
+> can't really do anything but cross your fingers.
 >
 >
-> On 9/5/22 19:19, Marc-Andr=C3=A9 Lureau wrote:
-> > Hi
-> >
-> > On Tue, Aug 23, 2022 at 12:00 PM <tugy@chinatelecom.cn
-> > <mailto:tugy@chinatelecom.cn>> wrote:
-> >
-> >     From: Guoyi Tu <tugy@chinatelecom.cn <mailto:tugy@chinatelecom.cn>>
-> >
-> >     Introduce qemu_socketpair() to create socket pair fd, and
-> >     set the close-on-exec flag at default as with the other type
-> >     of socket does.
-> >
-> >     besides, the live update feature is developing, so it's necessary
-> >     to do that.
-> >
-> >     Guoyi Tu (2):
-> >        oslib-posix: Introduce qemu_socketpair()
-> >        vhost-user: Call qemu_socketpair() instead of socketpair()
-> >
-> >
-> > Looks like a good idea to me. We will eventually extend the support for
-> > win32 (as discussed in "[PATCH 19/51] tests/qtest: Build
-> > test-filter-{mirror, redirector} cases for posix only").
-> >
-> > There are other places where you can replace existing socketpair() call=
-s
-> > in the code base. Why not do it?
-> >
-> yeah, Thanks for reminding me, Maybe i can replace all the existing
-> socketpair() calls in a separate patch if this patch can be merged to
-> upstream.
+Right, it actually ignores EINTR at this point. See:
+https://gitlab.gnome.org/GNOME/glib/-/commit/f398bec5bcc0d924e2401c76a6b941=
+33e9490835
+
+Paolo
 >
-
-It needs to be reviewed though, all may not want to set CLOEXEC, but most
-should. Else, we should probably consider switching to GSpawn which does
-dup or unset CLOEXEC for explicitely passed fds.
-
-
-> --
-> Guoyi
+> Il lun 5 set 2022, 13:36 Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.c=
+om>
+> ha scritto:
 >
-> > Current patches lgtm
-> > Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com
-> > <mailto:marcandre.lureau@redhat.com>>
-> >
-> > --
-> > Marc-Andr=C3=A9 Lureau
+>> Hi
+>>
+>> On Mon, Sep 5, 2022 at 3:27 PM Paolo Bonzini <pbonzini@redhat.com> wrote=
+:
+>>
+>>> Reported by Coverity as CID 1432543.
+>>>
+>>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>>> ---
+>>>  tests/unit/test-qga.c | 1 +
+>>>  1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
+>>> index a05a4628ed..d27ff94d13 100644
+>>> --- a/tests/unit/test-qga.c
+>>> +++ b/tests/unit/test-qga.c
+>>> @@ -32,6 +32,7 @@ static int connect_qga(char *path)
+>>>              g_usleep(G_USEC_PER_SEC);
+>>>          }
+>>>          if (i++ =3D=3D 10) {
+>>> +            close(s);
+>>>
+>>
+>> We may want to be a bit safer and use g_close(), which handles EINTR too=
+.
+>> Anyway
+>>
+>> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>>
+>>
+>>>              return -1;
+>>>          }
+>>>      } while (ret =3D=3D -1);
+>>> --
+>>> 2.37.2
+>>>
+>>>
+>>>
+>>
+>> --
+>> Marc-Andr=C3=A9 Lureau
+>>
 >
-
 
 --=20
 Marc-Andr=C3=A9 Lureau
 
---000000000000ad720a05e7ed48bf
+--000000000000fd1f2b05e7ed534d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 5, 2022 at 4:28 PM Guoy=
-i Tu &lt;<a href=3D"mailto:tugy@chinatelecom.cn">tugy@chinatelecom.cn</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+<div dir=3D"ltr">Hi<div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 5, 2022 at 4:29 PM Paol=
+o Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a=
+>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><di=
+v dir=3D"auto">There is no portable way to handle EINTR on close() as far a=
+s I know. You can&#39;t really do anything but cross your fingers.<div dir=
+=3D"auto"><br></div></div></blockquote><div><br></div><div>Right, it actual=
+ly ignores EINTR at this point. See:<br></div><div><a href=3D"https://gitla=
+b.gnome.org/GNOME/glib/-/commit/f398bec5bcc0d924e2401c76a6b94133e9490835">h=
+ttps://gitlab.gnome.org/GNOME/glib/-/commit/f398bec5bcc0d924e2401c76a6b9413=
+3e9490835</a></div><div> <br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex"><div dir=3D"auto"><div dir=3D"auto"></div><div dir=3D"auto">Paol=
+o=C2=A0</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
+"gmail_attr">Il lun 5 set 2022, 13:36 Marc-Andr=C3=A9 Lureau &lt;<a href=3D=
+"mailto:marcandre.lureau@gmail.com" rel=3D"noreferrer" target=3D"_blank">ma=
+rcandre.lureau@gmail.com</a>&gt; ha scritto:<br></div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div>=
+<br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon=
+, Sep 5, 2022 at 3:27 PM Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redha=
+t.com" rel=3D"noreferrer noreferrer" target=3D"_blank">pbonzini@redhat.com<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">R=
+eported by Coverity as CID 1432543.<br>
 <br>
-On 9/5/22 19:19, Marc-Andr=C3=A9 Lureau wrote:<br>
-&gt; Hi<br>
-&gt; <br>
-&gt; On Tue, Aug 23, 2022 at 12:00 PM &lt;<a href=3D"mailto:tugy@chinatelec=
-om.cn" target=3D"_blank">tugy@chinatelecom.cn</a> <br>
-&gt; &lt;mailto:<a href=3D"mailto:tugy@chinatelecom.cn" target=3D"_blank">t=
-ugy@chinatelecom.cn</a>&gt;&gt; wrote:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0From: Guoyi Tu &lt;<a href=3D"mailto:tugy@chinatele=
-com.cn" target=3D"_blank">tugy@chinatelecom.cn</a> &lt;mailto:<a href=3D"ma=
-ilto:tugy@chinatelecom.cn" target=3D"_blank">tugy@chinatelecom.cn</a>&gt;&g=
-t;<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Introduce qemu_socketpair() to create socket pair f=
-d, and<br>
-&gt;=C2=A0 =C2=A0 =C2=A0set the close-on-exec flag at default as with the o=
-ther type<br>
-&gt;=C2=A0 =C2=A0 =C2=A0of socket does.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0besides, the live update feature is developing, so =
-it&#39;s necessary<br>
-&gt;=C2=A0 =C2=A0 =C2=A0to do that.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Guoyi Tu (2):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 oslib-posix: Introduce qemu_socketpair()<br=
+Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" rel=
+=3D"noreferrer noreferrer" target=3D"_blank">pbonzini@redhat.com</a>&gt;<br=
 >
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 vhost-user: Call qemu_socketpair() instead =
-of socketpair()<br>
-&gt; <br>
-&gt; <br>
-&gt; Looks like a good idea to me. We will eventually extend the support fo=
-r <br>
-&gt; win32 (as discussed in &quot;[PATCH 19/51] tests/qtest: Build <br>
-&gt; test-filter-{mirror, redirector} cases for posix only&quot;).<br>
-&gt; <br>
-&gt; There are other places where you can replace existing socketpair() cal=
-ls <br>
-&gt; in the code base. Why not do it?<br>
-&gt; <br>
-yeah, Thanks for reminding me, Maybe i can replace all the existing <br>
-socketpair() calls in a separate patch if this patch can be merged to <br>
-upstream.<br></blockquote><br></div><div class=3D"gmail_quote">It needs to =
-be reviewed though, all may not want to set CLOEXEC, but most should. Else,=
- we should probably consider switching to GSpawn which does dup or unset CL=
-OEXEC for explicitely passed fds.<br></div><div class=3D"gmail_quote"><br><=
-/div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">
+---<br>
+=C2=A0tests/unit/test-qga.c | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
 <br>
---<br>
-Guoyi<br>
+diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c<br>
+index a05a4628ed..d27ff94d13 100644<br>
+--- a/tests/unit/test-qga.c<br>
++++ b/tests/unit/test-qga.c<br>
+@@ -32,6 +32,7 @@ static int connect_qga(char *path)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_usleep(G_USEC_PER_SEC);<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (i++ =3D=3D 10) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 close(s);<br></blockquote><div><=
+br></div><div>We may want to be a bit safer and use g_close(), which handle=
+s EINTR too. Anyway<br></div><div><br></div><div>Reviewed-by: Marc-Andr=C3=
+=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br><=
+/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0} while (ret =3D=3D -1);<br>
+-- <br>
+2.37.2<br>
 <br>
-&gt; Current patches lgtm<br>
-&gt; Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lu=
-reau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a> <br>
-&gt; &lt;mailto:<a href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_b=
-lank">marcandre.lureau@redhat.com</a>&gt;&gt;<br>
-&gt; <br>
-&gt; -- <br>
-&gt; Marc-Andr=C3=A9 Lureau<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=
+=C3=A9 Lureau<br></div></div>
+</blockquote></div>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
 mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---000000000000ad720a05e7ed48bf--
+--000000000000fd1f2b05e7ed534d--
 
