@@ -2,81 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E27F5AD630
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 17:21:43 +0200 (CEST)
-Received: from localhost ([::1]:55186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2D3E5AD651
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 17:25:46 +0200 (CEST)
+Received: from localhost ([::1]:49912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVDuw-0004fn-NV
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 11:21:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36766)
+	id 1oVDyr-0006aw-CJ
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 11:25:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oVDt4-0003Id-8u
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 11:19:46 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:39693)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oVDt2-000894-Hi
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 11:19:45 -0400
-Received: by mail-ej1-x634.google.com with SMTP id fy31so17734043ejc.6
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 08:19:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=oZRQhnDWq+lOCaaouPOsbXMpa6fkXD94VF/enfM6/nY=;
- b=HbXH4ZKoA9iVUlxUWVIzmCXk3dICU7uKEDTAhTmmICguLpfTV+ERhLgwTy3D8FSTLt
- zAWIeHCTNN/jW924rCzIivIiRzULnsjnj5N4SQJKdQ+fVjdN4K6bZJObRHpnCTjhZc6I
- 9UAvP99Tu4XXuGHKOwNkoz6VYDiBsdLqHzjTNzHP9FnjSUP9H03/v92us7N3ktL0KOqN
- ishR1XlUYxob4AzxwsoaZs5tPIEalqJuxGzTGCe+wFHoIxKWO4B5ypb0NPGGp3n/LYLm
- QQGsoQwfwwD16spEPTEEGgmm94Qk/53H6ci0a1Zm66jOdubU7hLdMdCmv8O1PQ0uChoZ
- Cuvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=oZRQhnDWq+lOCaaouPOsbXMpa6fkXD94VF/enfM6/nY=;
- b=XXcvUvmf0ccx2dXRw73hK1WYcdzovtIAEjEJeUkyivKtBgVvvUWJPmQwT5Q12ey+w3
- adJtNCFxy06Hn8o292MBvrSl1oyUiYNailWzt+MTQ2Yefz7LlqjoYrcDwOk6HT+phGRa
- Z02XILJvoVpX7kA14eWz44LGEbLcVgBXAu0GQ6TYuE1xwLMMZxNi41UUvTod1EP4oLMW
- DmAy4j0Oe1lP7XRVMLkP+Kqyn0OM7qcKpsIYQDLGX4TGPFAQUghOiZmMuTZpXy3fM9Kj
- ijEPmOia67EpnjWmrwwYMOUK2HrjNQHmHxnx3kaOjr2ZQv8vVlyC0pjuhRejDfHH/cNe
- VUNw==
-X-Gm-Message-State: ACgBeo3ycmtTmIRszHQlEotDDTT1CcX7ySY7UIM8fbSODljtornhKMZW
- 03wnG8gFapSWYOo+guepJhRf6Ymbo3PT5Q==
-X-Google-Smtp-Source: AA6agR7A3nCIi6bPASi9nTcGAtvG5GXZxq+fcV/RA5hCj9XcaBrpuA8q4qMFFeBH9wgWRlfgQgujKg==
-X-Received: by 2002:a17:906:9756:b0:741:5fa3:884e with SMTP id
- o22-20020a170906975600b007415fa3884emr28011296ejy.515.1662391181948; 
- Mon, 05 Sep 2022 08:19:41 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- bd13-20020a056402206d00b0044e66ee9b62sm3084032edb.42.2022.09.05.08.19.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Sep 2022 08:19:41 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0360F1FFB7;
- Mon,  5 Sep 2022 16:19:41 +0100 (BST)
-References: <20220905111038.33324-1-pbonzini@redhat.com>
-User-agent: mu4e 1.9.0; emacs 28.1.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: armbru@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH] tests: unit: add NULL-pointer check
-Date: Mon, 05 Sep 2022 16:19:36 +0100
-In-reply-to: <20220905111038.33324-1-pbonzini@redhat.com>
-Message-ID: <87zgfdkfw3.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1oVDxL-00055I-Pv; Mon, 05 Sep 2022 11:24:11 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:24874
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1oVDxJ-0000LF-K4; Mon, 05 Sep 2022 11:24:11 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 285Exp2m029973;
+ Mon, 5 Sep 2022 15:24:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=qnUZUR73v+obgyUvQfmr1eCGUuwdF9t7k3JSgjVgUJA=;
+ b=TtsjWnnfh66tOBjSPfkQy0k7U0Z9V3DeRsk4iydPReF5VEvKfgZpy0aeFeILE+tVpnMu
+ /9m/UQgmMaI6zK795yiplxTTM+bcwZDx4NL+GC+VQv1tD0I+5ha1KaBDMBl8fMqLp39V
+ U3+YBsxldjsQ7/A8tqpu3NYT6t0OnRm1sgFBCvTGEn0mbJvGefJxM5MW2diq3qtsam8H
+ kBAk2pG4bbjkbuS1MzeKth7mtkOLUpCWZFuRAMbyVyGkmM6u7FeOdzY6Y3fFKVLIOxYq
+ kDS+XO6XUbundPEVierBx1F3D+gF/xHew2FzwlPkR9ZMZLsCoXgoV0x09DRTq7tAQ1B4 kA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3jdkc8gnn3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 05 Sep 2022 15:24:06 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 285FNNTT004767;
+ Mon, 5 Sep 2022 15:24:06 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3jdkc8gnm5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 05 Sep 2022 15:24:06 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 285FNOKj016658;
+ Mon, 5 Sep 2022 15:24:04 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma06fra.de.ibm.com with ESMTP id 3jbx6hsxb9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 05 Sep 2022 15:24:04 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 285FO1CH26673496
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 5 Sep 2022 15:24:01 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E77484C046;
+ Mon,  5 Sep 2022 15:24:00 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 36BC64C044;
+ Mon,  5 Sep 2022 15:24:00 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.44.172])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon,  5 Sep 2022 15:24:00 +0000 (GMT)
+Message-ID: <6d779ae286bd24a76e6cc4b2cc4dcaafdf9acf75.camel@linux.ibm.com>
+Subject: Re: [PATCH v9 01/10] s390x/cpus: Make absence of multithreading clear
+From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, Nico Boehr <nrb@linux.ibm.com>,
+ qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ frankja@linux.ibm.com
+Date: Mon, 05 Sep 2022 17:23:59 +0200
+In-Reply-To: <c394823e-edd5-a722-486f-438e5fba2c9d@linux.ibm.com>
+References: <20220902075531.188916-1-pmorel@linux.ibm.com>
+ <20220902075531.188916-2-pmorel@linux.ibm.com>
+ <166237756810.5995.16085197397341513582@t14-nrb>
+ <c394823e-edd5-a722-486f-438e5fba2c9d@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: vBHXs-Ej_Hu-q9cxIVDhS7C_LBT_4-Vf
+X-Proofpoint-GUID: FPx6Jz7d1Nu1H68ucsV7qRojRCo2v4X0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-05_09,2022-09-05_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0
+ lowpriorityscore=0 mlxlogscore=999 suspectscore=0 phishscore=0
+ adultscore=0 clxscore=1015 bulkscore=0 priorityscore=1501 mlxscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2209050072
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=scgl@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,21 +124,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 2022-09-05 at 17:10 +0200, Pierre Morel wrote:
+> 
+> On 9/5/22 13:32, Nico Boehr wrote:
+> > Quoting Pierre Morel (2022-09-02 09:55:22)
+> > > S390x do not support multithreading in the guest.
+> > > Do not let admin falsely specify multithreading on QEMU
+> > > smp commandline.
+> > > 
+> > > Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> > > ---
+> > >   hw/s390x/s390-virtio-ccw.c | 3 +++
+> > >   1 file changed, 3 insertions(+)
+> > > 
+> > > diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> > > index 70229b102b..b5ca154e2f 100644
+> > > --- a/hw/s390x/s390-virtio-ccw.c
+> > > +++ b/hw/s390x/s390-virtio-ccw.c
+> > > @@ -86,6 +86,9 @@ static void s390_init_cpus(MachineState *machine)
+> > >       MachineClass *mc = MACHINE_GET_CLASS(machine);
+> > >       int i;
+> > >   
+> > > +    /* Explicitely do not support threads */
+> >            ^
+> >            Explicitly
+> > 
+> > > +    assert(machine->smp.threads == 1);
+> > 
+> > It might be nicer to give a better error message to the user.
+> > What do you think about something like (broken whitespace ahead):
+> > 
+> >      if (machine->smp.threads != 1) {if (machine->smp.threads != 1) {
+> >          error_setg(&error_fatal, "More than one thread specified, but multithreading unsupported");
+> >          return;
+> >      }
+> > 
+> 
+> 
+> OK, I think I wanted to do this and I changed my mind, obviously, I do 
+> not recall why.
+> I will do almost the same but after a look at error.h I will use 
+> error_report()/exit() instead of error_setg()/return as in:
+> 
+> 
+> +    /* Explicitly do not support threads */
+> +    if (machine->smp.threads != 1) {
+> +        error_report("More than one thread specified, but 
+> multithreading unsupported");
+> +        exit(1);
+> +    }
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+I agree that an assert is not a good solution, and I'm not sure
+aborting is a good idea either.
+I'm assuming that currently if you specify threads > 0 qemu will run
+with the number of CPUs multiplied by threads (compared to threads=1).
+If that is true, then a new qemu version will break existing
+invocations.
 
-> In CID 1432593, Coverity complains that the result of qdict_crumple()
-> might leak if it is not a dictionary.  This is not a practical concern
-> since the test would fail immediately with a NULL pointer dereference
-> in qdict_size().
->
-> However, it is not nice to depend on qdict_size() crashing, so add an
-> explicit assertion that that the crumpled object was indeed a dictionary.
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+An alternative would be to print a warning and do:
+cores *= threads
+threads = 1
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+The questions would be what the best place to do that is.
+I guess we'd need a new compat variable if that's done in machine-smp.c
+> 
+> 
+> Thanks,
+> 
+> Regards,
+> Pierre
+> 
 
---=20
-Alex Benn=C3=A9e
 
