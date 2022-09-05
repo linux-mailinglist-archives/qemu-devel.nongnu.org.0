@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19465AD292
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 14:29:40 +0200 (CEST)
-Received: from localhost ([::1]:46706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34BC15AD234
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 14:14:47 +0200 (CEST)
+Received: from localhost ([::1]:58074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVBEQ-00054q-OD
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 08:29:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45244)
+	id 1oVB02-0001lJ-2j
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 08:14:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVAaC-0003Ii-LA
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:48:09 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:37839)
+ id 1oVAcv-0006tb-49
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:51:02 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:40926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVAaA-0004Rr-T6
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:48:04 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- c131-20020a1c3589000000b003a84b160addso6949002wma.2
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 04:48:01 -0700 (PDT)
+ id 1oVAct-000597-Eg
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:50:52 -0400
+Received: by mail-wr1-x429.google.com with SMTP id b16so11018094wru.7
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 04:50:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=Y68Ja2HGaQ8MwYHbvAa9f2cdDciyv5fgml9RKnp1NH4=;
- b=hUcZCQYqenXQ6cJbBBfopGeYx58fX4p+DhLqKt4+3onUOG4m7y03WOu3BbDz6Gzz/x
- y5QJnDEtalzoU6S3HEwwgDmP9yM8u+/lcF2T6mvxsUDiNFjIsKMev3iJ9zbT9Xb8PzH5
- iKa5wb+VHtNGoliRr23LGLiiKD7nxWsxaT5tLEACxbxRY6UV4Wmz6vxCX/NYOEfB8CVS
- PYi26lN9jaauvS69NvPeZAqm2doicl7AAbX6D0iDhu0pXDl+TmMHA6pYwhqrZFxUb/np
- Apns9OmjDNiQGNaRQ75mWWD8sMWmQJG9TiZ/TnozxvQB04ofNlzBiVeXHIsfUyC0JbAY
- HXIA==
+ bh=h+xTjivzR5jTYlbCB214i4ZGfICXfMaO9AjK/CIHFAE=;
+ b=ngZoKBI5gVJAPpRMJGIX6h+i4OaETwQD9nilxZ6CJmeBAZ0xVId1RQ7SQm1jDrh2sw
+ Whyu4WLKoFdQhLBQPfFHN7jA61XJaeeF3UaLijK8tiW4KhuEIL7jJUN7hIuEigcsEKc6
+ FGtzRGgKe0uENnDUqJ+ITKWvJ3qEI+1RGHukeLeO5PYLNAuDSRzypMyTdga1FdqF9zfe
+ iMsBGy4f2AFeNhbFfDvJMAyOqXISqPhddWGpGc74ZsDgp1fwbCHfsOgYNombR/Wyb7DH
+ yG1smuPVmbZsIwZDhYDSVzICfhgIW0jOfvlQrQ/8V+RFGKahEyaivkVc8pStOK+TFCZ2
+ n5EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=Y68Ja2HGaQ8MwYHbvAa9f2cdDciyv5fgml9RKnp1NH4=;
- b=xA8CuXhBqUlJR8W/9b9yenJkuZzq0yFlWP6gYlr0ZWwHogWkEppxHogd8F/ZOQ1v3Q
- LNvKFH+9ORa1tz7AW9F/xOLqDQvQ3TObarEFsprEy9ZafhnHtdRcIGizCADtN77ZBp99
- 77pptJHYksNV3MRddViJ/toaWv3PqdxuHP+rZU8MdHZX9vkF3uw7QaiUf0n64iVwmbpM
- 7FICGFuCphSJL1kjuaOGLRNWAsAbbmNGNFgbCCXyUzZHfABdmp9zoWuCqGemCYJ8VWFn
- Fm2Mw+fv019dw0zncU+DIj2EqSMnFyEgYDEqLHxGsiZXBzXVkZRfOlXaWgMzK0mPITxb
- x3rw==
-X-Gm-Message-State: ACgBeo2h19TDQ1CtnO95UbS2B/jR3xwuJ+0STYfvLiVmrZzqHg5ufeXf
- v3CyxBv4o0Pfr7RxqXSj4/GNow==
-X-Google-Smtp-Source: AA6agR4NzDSIErgkLjmf0OdDb/l3SLS12VMlAhaQA8OGlFU8Y6mADemsL/xKYfEMGEmeJnGlXLGvHQ==
-X-Received: by 2002:a05:600c:5114:b0:3a5:cb1f:6bf3 with SMTP id
- o20-20020a05600c511400b003a5cb1f6bf3mr10667755wms.65.1662378480540; 
- Mon, 05 Sep 2022 04:48:00 -0700 (PDT)
+ bh=h+xTjivzR5jTYlbCB214i4ZGfICXfMaO9AjK/CIHFAE=;
+ b=zXOiy5tTPIzXeALWjSF7Y7+KxeP9NYJqtrBPWjrv0YBtncL1YRju5Qw/iQlrqfeMMU
+ zBv86mmeM0LIR85NlE65xtd6gj+khZLqF5IwQBReleufXGGcRfb2w/8hcO3ErXHZZF06
+ El4IWKS2PIDi4m/NSGd//aUN1INfCA4/6tbqk8kD9MH5y94V5PTgKhUCnfxbtPOVRSt0
+ jr5bu8HmjwqQWw1EVoV4lg5+8PoPbE+IWR2+eJt/79JPyrmBvJppGlzHSZg+jZ7P1BLg
+ 2kke6GttDLzUyrnLDbYWy2rgxQzWVlui6Hc/9cYEwmaAlgtpl71RM3xLOarbGwyguc6y
+ GzBQ==
+X-Gm-Message-State: ACgBeo2h7b8bbqnVWF0v8O5bQnEvPbZx4Pmw4X12gRK8e3SUjG3YELIH
+ T8udLiFTne0bRRQyg9wST31a9w==
+X-Google-Smtp-Source: AA6agR5njCu9WzZ8YSl20C30VyjkjUyzxfhHIgrslA5uzDdIH5JkfO1anlIvbS3bXUxRyjHjez7OBQ==
+X-Received: by 2002:adf:fbca:0:b0:225:2ac9:e306 with SMTP id
+ d10-20020adffbca000000b002252ac9e306mr24898860wrs.259.1662378649736; 
+ Mon, 05 Sep 2022 04:50:49 -0700 (PDT)
 Received: from ?IPV6:2a02:8084:a5c0:5a80:f2bf:c5c3:8866:995c?
  ([2a02:8084:a5c0:5a80:f2bf:c5c3:8866:995c])
  by smtp.gmail.com with ESMTPSA id
- a18-20020adffb92000000b002237fd66585sm8314826wrr.92.2022.09.05.04.47.58
+ e5-20020adfe7c5000000b0022862e037e3sm5287806wrn.38.2022.09.05.04.50.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Sep 2022 04:47:59 -0700 (PDT)
-Message-ID: <f839c3b0-b252-f345-d48b-3d57aee44ea5@linaro.org>
-Date: Mon, 5 Sep 2022 12:47:57 +0100
+ Mon, 05 Sep 2022 04:50:49 -0700 (PDT)
+Message-ID: <dde78910-1580-d5b1-4ea7-d44e430b6afe@linaro.org>
+Date: Mon, 5 Sep 2022 12:50:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 17/20] disas/nanomips: Replace Cpp enums for C enums
+Subject: Re: [PATCH v2 16/20] disas/nanomips: Replace exception handling
 Content-Language: en-US
 To: Milica Lazarevic <milica.lazarevic@syrmia.com>, thuth@redhat.com
 Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
@@ -70,13 +69,13 @@ Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
  peter.maydell@linaro.org, djordje.todorovic@syrmia.com, mips32r2@gmail.com,
  dragan.mladjenovic@syrmia.com
 References: <20220905095522.66941-1-milica.lazarevic@syrmia.com>
- <20220905095522.66941-18-milica.lazarevic@syrmia.com>
+ <20220905095522.66941-17-milica.lazarevic@syrmia.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220905095522.66941-18-milica.lazarevic@syrmia.com>
+In-Reply-To: <20220905095522.66941-17-milica.lazarevic@syrmia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -100,15 +99,64 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/5/22 10:55, Milica Lazarevic wrote:
-> Change enums to typedef enums to keep naming clear.
+> Since there's no support for exception handling in C, the try-catch
+> blocks have been deleted, and throw clauses are replaced. When a runtime
+> error happens, we're printing out the error message. Disassembling of
+> the current instruction interrupts. This behavior is achieved by adding
+> sigsetjmp() to discard further disassembling after the error message
+> prints and by adding the siglongjmp() function to imitate throwing an
+> error. The goal was to maintain the same output as it was.
 > 
-> Signed-off-by: Milica Lazarevic<milica.lazarevic@syrmia.com>
-> Reviewed-by: Thomas Huth<thuth@redhat.com>
+> Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
 > ---
->   disas/nanomips.cpp | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
+>   disas/nanomips.cpp | 126 ++++++++++++++++++++++-----------------------
+>   1 file changed, 61 insertions(+), 65 deletions(-)
+> 
+> diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
+> index 5142f307fc..a8295ebfa8 100644
+> --- a/disas/nanomips.cpp
+> +++ b/disas/nanomips.cpp
+> @@ -31,7 +31,6 @@
+>   #include "disas/dis-asm.h"
+>   
+>   #include <string.h>
+> -#include <stdexcept>
+>   #include <stdio.h>
+>   #include <stdarg.h>
+>   
+> @@ -134,10 +133,12 @@ static uint64 renumber_registers(uint64 index, uint64 *register_list,
+>           return register_list[index];
+>       }
+>   
+> -    throw std::runtime_error(img_format(
+> -                   "Invalid register mapping index %" PRIu64
+> -                   ", size of list = %zu",
+> -                   index, register_list_size));
+> +    g_autofree char *err = img_format(
+> +                      "Invalid register mapping index %" PRIu64
+> +                      ", size of list = %zu",
+> +                      index, register_list_size);
+> +    info->fprintf_func(info->stream, "%s", err);
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+There's no point passing the output of sprintf into fprintf like this.
+Just fprintf in the first place.
+
+
+> +                        disassembly_function dis_fn = table[i].disassembly;
+> +                        if (dis_fn == 0) {
+> +                            strcpy(dis,
+> +                            "disassembler failure - bad table entry");
+> +                            return -6;
+> +                        }
+> +                        type = table[i].type;
+> +                        g_autofree char *dis_str = dis_fn(op_code, info);
+> +                        strcpy(dis, dis_str);
+> +                        return table[i].instructions_size;
+> +                    } else {
+> +                        strcpy(dis, "reserved instruction");
+> +                        return -2;
+
+Ought these errors use the same error path?
 
 
 r~
