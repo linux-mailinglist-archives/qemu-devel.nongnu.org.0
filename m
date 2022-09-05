@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F18E95AD133
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 13:11:04 +0200 (CEST)
-Received: from localhost ([::1]:56708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C0435AD18B
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 13:27:57 +0200 (CEST)
+Received: from localhost ([::1]:49576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVA0N-0005ia-R3
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 07:11:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59594)
+	id 1oVAGi-0005BR-ED
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 07:27:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oV9mr-00088b-Dn
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 06:57:05 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:46854)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oV9pn-0003e2-85
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:00:07 -0400
+Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132]:45932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oV9mo-0002mi-U5
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 06:57:04 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- k6-20020a05600c1c8600b003a54ecc62f6so5450391wms.5
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 03:57:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=3tLmf34l8Hg8axvZKTFs4l+kCzDucyIEOvqXsYxzMG8=;
- b=nHc/gJl/Ve/I+AM3dcW9dFYnqm2CEtVv/PThKQNHRCV/ZO1ui0KOa6P/M+rorESVL0
- iEOCgTdW4AktEtjUAQtXqqiIq5vupqZiA1nAD6loay4zWVpSK4d2LpGHaRRZxGKNqSSn
- 5GJfHoBvQZDRxyBZcIVHKDGa36BZ0xiyTMmgytDjkxf+bbqM6alpZHtrQCIpdX0NQNPT
- 083yRwJwFES+8hs5SOXxouMKWHfLhKV/k41PND2f6YuSobK2W4yeM3J6qNA5WC7mojBr
- GjTdt54qd0aScbK9HWDXB9U4MszgkLYGCUKtbSso/1aIWX8sies2pbEoHKRWjsbkxZBd
- 53gw==
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oV9pl-000383-AN
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:00:06 -0400
+Received: by mail-lf1-x132.google.com with SMTP id w8so12549328lft.12
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 04:00:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=FHY7qalRbI7c6iXRSj9wwZQwpoe+3zb6QUbsBUqO690=;
+ b=axUywU27thfG+n/9bsdMg/rHY+LeoZQ1XcMcE8VNOSAdw7+repAjae7XD7BLRkffjP
+ 25ic78z37i8TX6MGudjYHYVeabE6nhWvUfA5P47/HbvapfZp+1qe7ijqyUc2qQpnVwDt
+ FD7MtRRLw8rCzp29twxk89tJ1f6m0RhAYqLIafNN7csZu+yBjNetEwKhfGvGeChDla3B
+ WBh8qVun8+U9xHxILTC1aiLj/9qLIlq3cWyCyjT5JImbcStBvum0lOe2nPWQ/Pk51tXf
+ HDg4OhysO3v+OfMGiPE6jBLBU/SmKcReTVcBfaaOiZK4agqCSgry+yr0qoL0qysYvOJ2
+ WCgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=3tLmf34l8Hg8axvZKTFs4l+kCzDucyIEOvqXsYxzMG8=;
- b=0yH3Gop2IxrbyWjGLJeWOYHnYTETlclmt887zloBUkxXrcZHHmGMn5pNjpUdyyv95j
- s/a3MpOJfbkUiIYW597lCqcAg4xDKrsqHZ2fd7Kq0dalvj2edriha6pIYIH9LofAyw7b
- P4a6kD0quIk3mFvY6sFCkinBrZPiK5+q8Cl5Vc9OVEV5co6chfPcU/LqXjcCHafTNN+/
- EtsfOoZdfXZ3Dux4+UFbgjgkwQ7a1U5UEk8TCGubUIfgzEwAQ6VsGuWzJIStxGtuXEIK
- AnPwkXQCThxpNNi1rU1YMtK3qY6ByWbOIAsM7xL3EHhva49PjAefExQ+fwBtbSsM9faa
- bZow==
-X-Gm-Message-State: ACgBeo3kmZhCCOup2QJzBRBeKJ9UXOOPZx2jl7N1ChHd9cdKDSMww9CK
- B828KDcGoXDHp3A+bLZfZhL0YA==
-X-Google-Smtp-Source: AA6agR6pVueFESCSUlp6XYwvhz0aGOEuEHKmfXfAPLqD1zTH6X6K0Xtg4jtLb2t5dRZiolEDkd2RKA==
-X-Received: by 2002:a05:600c:ad4:b0:3a5:50b2:f991 with SMTP id
- c20-20020a05600c0ad400b003a550b2f991mr9941425wmr.146.1662375421061; 
- Mon, 05 Sep 2022 03:57:01 -0700 (PDT)
-Received: from ?IPV6:2a02:8084:a5c0:5a80:f2bf:c5c3:8866:995c?
- ([2a02:8084:a5c0:5a80:f2bf:c5c3:8866:995c])
- by smtp.gmail.com with ESMTPSA id
- bd17-20020a05600c1f1100b003a540fef440sm17753536wmb.1.2022.09.05.03.57.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Sep 2022 03:57:00 -0700 (PDT)
-Message-ID: <1554c88e-f4a7-b1ef-636e-31f77146b9f3@linaro.org>
-Date: Mon, 5 Sep 2022 11:56:58 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=FHY7qalRbI7c6iXRSj9wwZQwpoe+3zb6QUbsBUqO690=;
+ b=4FpiJjL9jTpsFTWlQQuFeNFsTIHe4HFdICAao23ttlvb6H3kvltpZuR8k2uh0w+C9X
+ aWD0edTMpGnIaHxDQMxXTDkGYgiD7ghM2tfvx7sDNUUJwTNAudHyl8pwTzZbL8gLyZJp
+ WnF1iXzcbCLSpp5W/aW1I3lvmfCJ/PCchOAAuhR09RMfk6F4FtjH2y2ml3oVvlqJ6XEc
+ HZXAyXkGsk57Db7YpyJel8/HbKt9rac+d+K7rkzDxCYAwofddRhi1F9w2nmS1Xbw2hDJ
+ RjJyBkWEyGK17f6H43t/jGlgGDEdD3E4e+aXZY0cyGN7EnpTi9qRjlCdvJmMIe7F3+Mg
+ DkBg==
+X-Gm-Message-State: ACgBeo3OLsBZhX7o1N5VN6WqI89KNE8iM/CzjKFf1/8q2xwKsZfi07yG
+ iotKFmxok9CtaoXDNdzXCfM2Dci+O4K3ycF3kOs=
+X-Google-Smtp-Source: AA6agR7ZyU/OoNtxDzK7fi/KWiSkqkkIqKQQYwsC6U8XtqUvvxU9IOvWh28tjy8cSLKyYdr+xnlsjF3H6maqVysNZVA=
+X-Received: by 2002:a05:6512:3c9d:b0:494:a03a:13bf with SMTP id
+ h29-20020a0565123c9d00b00494a03a13bfmr6407513lfv.329.1662375603455; Mon, 05
+ Sep 2022 04:00:03 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] kvm: fix memory leak on failure to read stats descriptors
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20220905100621.18289-1-pbonzini@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
 In-Reply-To: <20220905100621.18289-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 5 Sep 2022 14:59:51 +0400
+Message-ID: <CAJ+F1CJwkGGQRhpWLK7XTX+kvm4DNY80jpqM+kvA0XjSVgi39g@mail.gmail.com>
+Subject: Re: [PATCH] kvm: fix memory leak on failure to read stats descriptors
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="00000000000053cc2405e7ebfb5e"
+Received-SPF: pass client-ip=2a00:1450:4864:20::132;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x132.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,46 +82,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/5/22 11:06, Paolo Bonzini wrote:
+--00000000000053cc2405e7ebfb5e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Sep 5, 2022 at 2:32 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+
 > Reported by Coverity as CID 1490142.
-> 
+>
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+
 > ---
->   accel/kvm/kvm-all.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
+>  accel/kvm/kvm-all.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
 > diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
 > index 7c8ce18bdd..208b0c74e3 100644
 > --- a/accel/kvm/kvm-all.c
 > +++ b/accel/kvm/kvm-all.c
-> @@ -3962,6 +3962,7 @@ static StatsDescriptors *find_stats_descriptors(StatsTarget target, int stats_fd
->                      size_desc * kvm_stats_header->num_desc, ret);
->           g_free(descriptors);
->           g_free(kvm_stats_desc);
+> @@ -3962,6 +3962,7 @@ static StatsDescriptors
+> *find_stats_descriptors(StatsTarget target, int stats_fd
+>                     size_desc * kvm_stats_header->num_desc, ret);
+>          g_free(descriptors);
+>          g_free(kvm_stats_desc);
 > +        g_free(kvm_stats_header);
->           return NULL;
->       }
+>          return NULL;
+>      }
+>      descriptors->kvm_stats_header =3D kvm_stats_header;
+> --
+> 2.37.2
+>
+>
+>
 
-kvm_stats_header should also be freed just above, in the other read failure if block.
+--=20
+Marc-Andr=C3=A9 Lureau
 
-Alternately, can StatsDescriptors be reorg'ed as
+--00000000000053cc2405e7ebfb5e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-   typedef struct StatsDescriptors {
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 5, 2022 at 2:32 PM Paolo =
+Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Repor=
+ted by Coverity as CID 1490142.<br>
+<br>
+Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" tar=
+get=3D"_blank">pbonzini@redhat.com</a>&gt;<br></blockquote><div><br></div><=
+div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lur=
+eau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div>=C2=A0<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0accel/kvm/kvm-all.c | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c<br>
+index 7c8ce18bdd..208b0c74e3 100644<br>
+--- a/accel/kvm/kvm-all.c<br>
++++ b/accel/kvm/kvm-all.c<br>
+@@ -3962,6 +3962,7 @@ static StatsDescriptors *find_stats_descriptors(Stats=
+Target target, int stats_fd<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size_=
+desc * kvm_stats_header-&gt;num_desc, ret);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_free(descriptors);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_free(kvm_stats_desc);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(kvm_stats_header);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return NULL;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0descriptors-&gt;kvm_stats_header =3D kvm_stats_header;<=
+br>
+-- <br>
+2.37.2<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
-       const char *ident; /* cache key, currently the StatsTarget */
-
-       struct kvm_stats_desc *kvm_stats_desc;
-
--     struct kvm_stats_header *kvm_stats_header;
-+     struct kvm_stats_header kvm_stats_header;
-       QTAILQ_ENTRY(StatsDescriptors) next;
-
-   } StatsDescriptors;
-
-
-since it appears that kvm_stats_header has the same lifetime as the descriptor, and is not 
-variable sized, like kvm_stats_desc.
-
-
-r~
+--00000000000053cc2405e7ebfb5e--
 
