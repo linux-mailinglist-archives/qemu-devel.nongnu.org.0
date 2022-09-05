@@ -2,84 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E312F5AD143
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 13:16:23 +0200 (CEST)
-Received: from localhost ([::1]:52628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09DB95AD178
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 13:24:51 +0200 (CEST)
+Received: from localhost ([::1]:55278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVA5W-0003Kq-Kd
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 07:16:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33136)
+	id 1oVADc-0001PS-AF
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 07:24:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oV9q1-0003yP-9i
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:00:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38113)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oV9py-0003GQ-AN
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:00:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662375617;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=h4sOfPYdJOgX/UoVLZiCeuB7rB3LlGkb4x+fHLyYXsA=;
- b=IpZA544NJHsgEisbl4r021dPqVD8Zt3VKXB40FnBdNotIFwnHPXHxEWfYPPW31UGQuyfw8
- PCTCe81Jxnx7Dk7RpKMipJsiObvr3Sm7TDI2jJ4ROxB7NDVUAABd5PMj7PzFp4TZf6sCQ5
- PZOcaMyvFdqI52XNDkW8vorLKWk/ra8=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-455-rPPjtDeZPnqXCC4WdsCxFQ-1; Mon, 05 Sep 2022 07:00:16 -0400
-X-MC-Unique: rPPjtDeZPnqXCC4WdsCxFQ-1
-Received: by mail-ej1-f69.google.com with SMTP id
- sb14-20020a1709076d8e00b0073d48a10e10so2193730ejc.16
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 04:00:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oV9qT-0004Mr-Mm
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:00:50 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39883)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oV9qO-0003I4-Fp
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:00:49 -0400
+Received: by mail-wr1-x430.google.com with SMTP id az27so10843630wrb.6
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 04:00:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=0jXlotk9Fvxr7DrrV7T4jhQgTY4Zr71WORY6L/VYvAw=;
+ b=h4ysvyZL+aFj0KxOxeiXUXFmGU39fcIbM8yMdv69I5WTX+VRwpYTB8g5JNodRITjgY
+ YAOqMzRXVsB02DH2RnTrdLyCoRo+hi8onSNRRp9/EsPn7QOqA9kqlg3MYBul9B0hEOpt
+ 0BpL2w09igWM+49fQNcL/q9ZYblfymzclFxJG01+kTbTQbHP8wrEp8bYhelcAgA8PYVD
+ 6G7jDVQLpMP6x3RjgoWQbmsFRVHIrzlSiX26xwzuUgCa0TWVp6Jt1o9VT4SlEuJdMtb7
+ ctSn5vtSoEXL9GwhrBegtCT5aoaLLwy7DkTR5TUwvrU2SHcm/QFXmkUf078JdU99Jn2I
+ q7FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=h4sOfPYdJOgX/UoVLZiCeuB7rB3LlGkb4x+fHLyYXsA=;
- b=vrkK2JW5X8Xni4F1YZcV+/5kIuh/ToeZzGLao9xfpUEK7lfaXk3vtCZOM5R40VPsSs
- qS0qaC7SvCwr3J0nwWTATPeIS5XQsFk8jQYNOEJ8RXKZTnLNtRL9Tcg6lRAyY92+D5cp
- zyPQlQsbKF/+2QC0tw1Fb7f30q09iDRdxvGHrQXQUct50AZ+m4tspYzGbzuhhXuNIv4f
- +bE7v1JM4/qGLHRLf8/ClXTGZPCwNdZGQR+3jT09Z3vpAoVAEqG8NNGJW/jAWfocfrze
- COxYK27UYh10OT4WagBbdUBumHFgf0Y3n1/+WaZkllhXwnuZJmc+zPw79QPtTR6VxfFW
- nzOA==
-X-Gm-Message-State: ACgBeo3zKf14H0BQYhi/W4sm0vj4NcTtY8Pda6MQeEjF7n2LAx6RpFJd
- RU4cbSHOnIfz5U4le6tEiepm4mpplMjTlFnndykDRPrUt6E6f0C3A44p22CMBuIk5KWNUcvtfH+
- pWN6lmScLJg+85kGSQRU1OnVsVikD9bKjAOIQld1Zd2wwQ1vb8JsWl0l7tJ5VlMr+rz4=
-X-Received: by 2002:a05:6402:378f:b0:43a:d3f5:79f2 with SMTP id
- et15-20020a056402378f00b0043ad3f579f2mr43334861edb.338.1662375614842; 
- Mon, 05 Sep 2022 04:00:14 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR46BGJq5k8KCFThgjly8a9fO7O3ht4LX4c6WEqLSn05S57sS9Fu8esNdZ+K2DWWPS2Zh/65oQ==
-X-Received: by 2002:a05:6402:378f:b0:43a:d3f5:79f2 with SMTP id
- et15-20020a056402378f00b0043ad3f579f2mr43334840edb.338.1662375614505; 
- Mon, 05 Sep 2022 04:00:14 -0700 (PDT)
-Received: from goa-sendmail ([93.56.160.208]) by smtp.gmail.com with ESMTPSA id
- i23-20020aa7c9d7000000b0044e7d69091asm2059841edt.85.2022.09.05.04.00.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Sep 2022 04:00:14 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: armbru@redhat.com
-Subject: [PATCH] tests: unit: simplify test-visitor-serialization list tests
-Date: Mon,  5 Sep 2022 13:00:13 +0200
-Message-Id: <20220905110013.31308-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.37.2
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=0jXlotk9Fvxr7DrrV7T4jhQgTY4Zr71WORY6L/VYvAw=;
+ b=qxqgPjWabq5T48GIu0txYqWPPc79/TWtmpzQig9p0kG18tT/kKBJDKZaBtTuDBDEL3
+ pos6Pj4REF9d3zuojk+6VLbmTzVu/zUlY/A67MkSN55OpOLwpBgiXXViqL3QCTuWpmry
+ zHx616VioLC+OFS+QEgxqU7Y+EiS6dhj3Ly8uWstNHwr1zFmAShaFhHUBAxOIJRqtp+l
+ z9ByPVO67KlEW3Ls6BJv5zQxkBrvQ2vHSz3acE/xfPikh88HYfhu9mipbJRW/9K8LZPI
+ 7B3slSWLIl/DdoyFn9fH7DfX1/YNHPkz/Lvg5jjHBmeTD2G8cwNpvj5kqsnTvvljLomv
+ GOIg==
+X-Gm-Message-State: ACgBeo28FUF1EcJ0EfoXhN/vJGPQ6OF8wIC2AvjQjPjBsJb0lFD0/5Bv
+ RAXnCu/sFmugPMv5oVtQ6VZuPQ==
+X-Google-Smtp-Source: AA6agR7KdTi2rI8fOw0pbZzO/4mWHKs9kQDAyskBKwUzXftpCsRz/TeMUL+v3zko9OfHoay+J0aH1A==
+X-Received: by 2002:adf:ef49:0:b0:225:8602:9a4d with SMTP id
+ c9-20020adfef49000000b0022586029a4dmr23267513wrp.221.1662375641118; 
+ Mon, 05 Sep 2022 04:00:41 -0700 (PDT)
+Received: from ?IPV6:2a02:8084:a5c0:5a80:f2bf:c5c3:8866:995c?
+ ([2a02:8084:a5c0:5a80:f2bf:c5c3:8866:995c])
+ by smtp.gmail.com with ESMTPSA id
+ r15-20020a056000014f00b00228c2462a78sm1131788wrx.24.2022.09.05.04.00.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Sep 2022 04:00:40 -0700 (PDT)
+Message-ID: <4f7c0953-9fa3-08f9-05c4-fe66ca0c90de@linaro.org>
+Date: Mon, 5 Sep 2022 12:00:38 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 01/20] disas/nanomips: Remove namespace img
+Content-Language: en-US
+To: Milica Lazarevic <milica.lazarevic@syrmia.com>, thuth@redhat.com
+Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
+ pbonzini@redhat.com, vince.delvecchio@mediatek.com,
+ peter.maydell@linaro.org, djordje.todorovic@syrmia.com, mips32r2@gmail.com,
+ dragan.mladjenovic@syrmia.com
+References: <20220905095522.66941-1-milica.lazarevic@syrmia.com>
+ <20220905095522.66941-2-milica.lazarevic@syrmia.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220905095522.66941-2-milica.lazarevic@syrmia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,254 +98,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-test-visitor-serialization list tests is using an "if" to pick either the first
-element of the list or the next one.  This was done presumably to mimic the
-code that creates the list, which has to fill in either the head pointer
-or the next pointer of the last element.  However, the code in the insert
-phase is a pretty standard singly-linked list insertion, while the one
-in the visit phase looks weird and even looks at the first item twice:
-this is confusing because the test puts in 32 items and finishes with
-an assertion that i == 33.
+On 9/5/22 10:55, Milica Lazarevic wrote:
+> Since there's no namespace feature in C, namespace img has been replaced
+> with adding the prefix "img" to the namespace members.
+> 
+> Prefix "img" has been added to the function names of functions that used
+> to be wrapped in namespace img. Those are img::format() functions.
+> I.e. replaced img::format with the img_format.
+> 
+> Typedef address that used to belong to namespace img now is called
+> img_address.
+> 
+> Signed-off-by: Milica Lazarevic<milica.lazarevic@syrmia.com>
+> Reviewed-by: Thomas Huth<thuth@redhat.com>
+> ---
+>   disas/nanomips.cpp | 1433 ++++++++++++++++++++++----------------------
+>   disas/nanomips.h   |   10 +-
+>   2 files changed, 712 insertions(+), 731 deletions(-)
 
-So, move the "else" step in a separate switch statement, and change
-the do...while loop to a while, because cur_head has already been
-initialized beforehand.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- tests/unit/test-visitor-serialization.c | 157 +++++++++++-------------
- 1 file changed, 69 insertions(+), 88 deletions(-)
-
-diff --git a/tests/unit/test-visitor-serialization.c b/tests/unit/test-visitor-serialization.c
-index 907263d030..667e8fed82 100644
---- a/tests/unit/test-visitor-serialization.c
-+++ b/tests/unit/test-visitor-serialization.c
-@@ -427,131 +427,117 @@ static void test_primitive_lists(gconstpointer opaque)
-     ops->deserialize((void **)&pl_copy_ptr, serialize_data,
-                      visit_primitive_list, &error_abort);
- 
--    i = 0;
-+
-+    switch (pl_copy.type) {
-+    case PTYPE_STRING:
-+        cur_head = pl_copy.value.strings;
-+        break;
-+    case PTYPE_INTEGER:
-+        cur_head = pl_copy.value.integers;
-+        break;
-+    case PTYPE_S8:
-+        cur_head = pl_copy.value.s8_integers;
-+        break;
-+    case PTYPE_S16:
-+        cur_head = pl_copy.value.s16_integers;
-+        break;
-+    case PTYPE_S32:
-+        cur_head = pl_copy.value.s32_integers;
-+        break;
-+    case PTYPE_S64:
-+        cur_head = pl_copy.value.s64_integers;
-+        break;
-+    case PTYPE_U8:
-+        cur_head = pl_copy.value.u8_integers;
-+        break;
-+    case PTYPE_U16:
-+        cur_head = pl_copy.value.u16_integers;
-+        break;
-+    case PTYPE_U32:
-+        cur_head = pl_copy.value.u32_integers;
-+        break;
-+    case PTYPE_U64:
-+        cur_head = pl_copy.value.u64_integers;
-+        break;
-+    case PTYPE_NUMBER:
-+        cur_head = pl_copy.value.numbers;
-+        break;
-+    case PTYPE_BOOLEAN:
-+        cur_head = pl_copy.value.booleans;
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
- 
-     /* compare our deserialized list of primitives to the original */
--    do {
-+    i = 0;
-+    while (cur_head) {
-         switch (pl_copy.type) {
-         case PTYPE_STRING: {
--            strList *ptr;
--            if (cur_head) {
--                ptr = cur_head;
--                cur_head = ptr->next;
--            } else {
--                cur_head = ptr = pl_copy.value.strings;
--            }
-+            strList *ptr = cur_head;
-+            cur_head = ptr->next;
-             g_assert_cmpstr(pt->value.string, ==, ptr->value);
-             break;
-         }
-         case PTYPE_INTEGER: {
--            intList *ptr;
--            if (cur_head) {
--                ptr = cur_head;
--                cur_head = ptr->next;
--            } else {
--                cur_head = ptr = pl_copy.value.integers;
--            }
-+            intList *ptr = cur_head;
-+            cur_head = ptr->next;
-             g_assert_cmpint(pt->value.integer, ==, ptr->value);
-             break;
-         }
-         case PTYPE_S8: {
--            int8List *ptr;
--            if (cur_head) {
--                ptr = cur_head;
--                cur_head = ptr->next;
--            } else {
--                cur_head = ptr = pl_copy.value.s8_integers;
--            }
-+            int8List *ptr = cur_head;
-+            cur_head = ptr->next;
-             g_assert_cmpint(pt->value.s8, ==, ptr->value);
-             break;
-         }
-         case PTYPE_S16: {
--            int16List *ptr;
--            if (cur_head) {
--                ptr = cur_head;
--                cur_head = ptr->next;
--            } else {
--                cur_head = ptr = pl_copy.value.s16_integers;
--            }
-+            int16List *ptr = cur_head;
-+            cur_head = ptr->next;
-             g_assert_cmpint(pt->value.s16, ==, ptr->value);
-             break;
-         }
-         case PTYPE_S32: {
--            int32List *ptr;
--            if (cur_head) {
--                ptr = cur_head;
--                cur_head = ptr->next;
--            } else {
--                cur_head = ptr = pl_copy.value.s32_integers;
--            }
-+            int32List *ptr = cur_head;
-+            cur_head = ptr->next;
-             g_assert_cmpint(pt->value.s32, ==, ptr->value);
-             break;
-         }
-         case PTYPE_S64: {
--            int64List *ptr;
--            if (cur_head) {
--                ptr = cur_head;
--                cur_head = ptr->next;
--            } else {
--                cur_head = ptr = pl_copy.value.s64_integers;
--            }
-+            int64List *ptr = cur_head;
-+            cur_head = ptr->next;
-             g_assert_cmpint(pt->value.s64, ==, ptr->value);
-             break;
-         }
-         case PTYPE_U8: {
--            uint8List *ptr;
--            if (cur_head) {
--                ptr = cur_head;
--                cur_head = ptr->next;
--            } else {
--                cur_head = ptr = pl_copy.value.u8_integers;
--            }
-+            uint8List *ptr = cur_head;
-+            cur_head = ptr->next;
-             g_assert_cmpint(pt->value.u8, ==, ptr->value);
-             break;
-         }
-         case PTYPE_U16: {
--            uint16List *ptr;
--            if (cur_head) {
--                ptr = cur_head;
--                cur_head = ptr->next;
--            } else {
--                cur_head = ptr = pl_copy.value.u16_integers;
--            }
-+            uint16List *ptr = cur_head;
-+            cur_head = ptr->next;
-             g_assert_cmpint(pt->value.u16, ==, ptr->value);
-             break;
-         }
-         case PTYPE_U32: {
--            uint32List *ptr;
--            if (cur_head) {
--                ptr = cur_head;
--                cur_head = ptr->next;
--            } else {
--                cur_head = ptr = pl_copy.value.u32_integers;
--            }
-+            uint32List *ptr = cur_head;
-+            cur_head = ptr->next;
-             g_assert_cmpint(pt->value.u32, ==, ptr->value);
-             break;
-         }
-         case PTYPE_U64: {
--            uint64List *ptr;
--            if (cur_head) {
--                ptr = cur_head;
--                cur_head = ptr->next;
--            } else {
--                cur_head = ptr = pl_copy.value.u64_integers;
--            }
-+            uint64List *ptr = cur_head;
-+            cur_head = ptr->next;
-             g_assert_cmpint(pt->value.u64, ==, ptr->value);
-             break;
-         }
-         case PTYPE_NUMBER: {
--            numberList *ptr;
-             GString *double_expected = g_string_new("");
-             GString *double_actual = g_string_new("");
--            if (cur_head) {
--                ptr = cur_head;
--                cur_head = ptr->next;
--            } else {
--                cur_head = ptr = pl_copy.value.numbers;
--            }
-+            numberList *ptr = cur_head;
-+            cur_head = ptr->next;
-             /* we serialize with %f for our reference visitors, so rather than
-              * fuzzy floating math to test "equality", just compare the
-              * formatted values
-@@ -564,13 +550,8 @@ static void test_primitive_lists(gconstpointer opaque)
-             break;
-         }
-         case PTYPE_BOOLEAN: {
--            boolList *ptr;
--            if (cur_head) {
--                ptr = cur_head;
--                cur_head = ptr->next;
--            } else {
--                cur_head = ptr = pl_copy.value.booleans;
--            }
-+            boolList *ptr = cur_head;
-+            cur_head = ptr->next;
-             g_assert_cmpint(!!pt->value.boolean, ==, !!ptr->value);
-             break;
-         }
-@@ -578,9 +559,9 @@ static void test_primitive_lists(gconstpointer opaque)
-             g_assert_not_reached();
-         }
-         i++;
--    } while (cur_head);
-+    }
- 
--    g_assert_cmpint(i, ==, 33);
-+    g_assert_cmpint(i, ==, 32);
- 
-     ops->cleanup(serialize_data);
-     dealloc_helper(&pl, visit_primitive_list, &error_abort);
--- 
-2.37.2
-
+r~
 
