@@ -2,85 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD375AD066
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 12:43:13 +0200 (CEST)
-Received: from localhost ([::1]:34972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87A8B5AD080
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 12:48:05 +0200 (CEST)
+Received: from localhost ([::1]:36806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oV9ZO-0002iW-Nk
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 06:43:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59482)
+	id 1oV9e8-0007xH-9R
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 06:48:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oV9BG-0000e4-Vl
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 06:18:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27401)
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oV9Em-0001hh-Eu
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 06:21:53 -0400
+Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43]:59985)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oV9BE-00050s-7g
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 06:18:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662373087;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+/XZpaWOatQvZlf69VdQZSO4CQFd856M9KwjqSmktZ0=;
- b=BMrhzvNCudDp+Lrke0Ybh00tM3FEuENdJqmpC5XcZNm4I3LMItTC8D6n5K0Dn7zP0e7Wao
- 8mfEYcPZFBhWMQBVF4ttjxNOUdCGdBrrgFeOC8ZowoyHgiJcBgrWdOq3YmcPu/j6FZzYuZ
- x4hXIA5dpzzs/mJd6naxmTARY9H/ZKg=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-495-Ay9y8efwPJOXtOQTG_8mkQ-1; Mon, 05 Sep 2022 06:18:00 -0400
-X-MC-Unique: Ay9y8efwPJOXtOQTG_8mkQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- w17-20020a056402269100b0043da2189b71so5483288edd.6
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 03:18:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=+/XZpaWOatQvZlf69VdQZSO4CQFd856M9KwjqSmktZ0=;
- b=VNL+bOgJRu9iMMqnly3Viw4bw6Fl3JqiywO2cjE+xEDsmVXT6G5ZjKBZFMx5kkKLo+
- hOyWK3xaUjUPjoEdBVZbYdZwoidSTtLR4Ci4G/vGG/tcPlZzLWzU07wSJucrlwM/RY/4
- 7ljBhbjiI+G1WFazG0rC9vxDk0VOzJdoFvWnb3rwQU65RgSwsE2lAak2Dh24gd7ZwvcB
- UFHcHkuNEOVeJ/KpBFLxCKCIhfBDzgUSf/8+5N9/PSW76kxfdFnMHFL/iydl0XwXPrdn
- sA/semyKeGUBSJ/xjwE4+emlj4K/LuEDHyBWuiKVzP5JvDDY5+m+aV7gKP2erzkSGElU
- wHaQ==
-X-Gm-Message-State: ACgBeo32o51dvub6lPN+r/GM+l15aCMTtmUt5alOEoQUS8K2kqeI92vW
- luNL7KvjJ0zY7jBZ5oyX1vhMXGPsr5XijjIb7tcy/BOC8dMo8Pen4+aKK1YB69IhYwFZiGGqdOr
- qsXRH2ARTT2Cp3KlXPjt6iCmQdODbvzP8GXvmdkDFw4tmAO4BFX3TTGnlwkSu+MDMcKI=
-X-Received: by 2002:a17:906:ef8c:b0:73d:db28:dc32 with SMTP id
- ze12-20020a170906ef8c00b0073ddb28dc32mr33280208ejb.224.1662373079364; 
- Mon, 05 Sep 2022 03:17:59 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR57mWLJv3beC2dLnAUla5ului5IjGab7WMsDKaxi1ZYCa3ohhjs6K6+rOV4D5vjiBgTZOcS9Q==
-X-Received: by 2002:a17:906:ef8c:b0:73d:db28:dc32 with SMTP id
- ze12-20020a170906ef8c00b0073ddb28dc32mr33280188ejb.224.1662373078940; 
- Mon, 05 Sep 2022 03:17:58 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:2f4b:62da:3159:e077])
- by smtp.gmail.com with ESMTPSA id
- d21-20020a170906305500b0073d6ab5bcaasm4822930ejd.212.2022.09.05.03.17.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Sep 2022 03:17:58 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org
-Subject: [PATCH] spapr_pci: fix leak in spapr_phb_vfio_get_loc_code
-Date: Mon,  5 Sep 2022 12:17:57 +0200
-Message-Id: <20220905101757.19885-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.37.2
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oV9Ef-0005aW-9y
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 06:21:47 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R121e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
+ MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0VOQTOcl_1662373298; 
+Received: from 30.227.174.138(mailfrom:kangjie.xu@linux.alibaba.com
+ fp:SMTPD_---0VOQTOcl_1662373298) by smtp.aliyun-inc.com;
+ Mon, 05 Sep 2022 18:21:39 +0800
+Message-ID: <10afbebd-20b5-8408-5c85-91a1038bb9bd@linux.alibaba.com>
+Date: Mon, 5 Sep 2022 18:21:38 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.0
+Subject: Re: [PATCH v3 11/15] vhost-net: vhost-kernel: introduce
+ vhost_net_virtqueue_restart()
+To: Jason Wang <jasowang@redhat.com>
+References: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
+ <6c20c0a02ed0e08565bf3692cef476ba52332720.1661414345.git.kangjie.xu@linux.alibaba.com>
+ <db9c8bcd-01f0-d9de-18f6-63f03a00e830@redhat.com>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ eduardo@habkost.net, marcel.apfelbaum@gmail.com, f4bug@amsat.org,
+ wangyanan55@huawei.com, hengqi@linux.alibaba.com,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+In-Reply-To: <db9c8bcd-01f0-d9de-18f6-63f03a00e830@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=115.124.30.43;
+ envelope-from=kangjie.xu@linux.alibaba.com;
+ helo=out30-43.freemail.mail.aliyun.com
+X-Spam_score_int: -108
+X-Spam_score: -10.9
+X-Spam_bar: ----------
+X-Spam_report: (-10.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.978, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,29 +71,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Overwriting "path" in the second call to g_strdup_printf() causes a memory leak,
-even if the variable itself is g_autofree.
 
-Reported by Coverity as CID 1460454.
+在 2022/9/5 16:24, Jason Wang 写道:
+>
+> 在 2022/8/25 16:08, Kangjie Xu 写道:
+>> Introduce vhost_net_virtqueue_restart(), which can restart the
+>> specific virtqueue when the vhost net started running before.
+>> If it fails to restart the virtqueue, the device will be stopped.
+>>
+>> Here we do not reuse vhost_net_start_one() or vhost_dev_start()
+>> because they work at queue pair level. The mem table and features
+>> do not change, so we can call the vhost_virtqueue_start() to
+>> restart a specific queue.
+>>
+>> This patch only considers the case of vhost-kernel, when
+>> NetClientDriver is NET_CLIENT_DRIVER_TAP.
+>>
+>> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+>> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+>> ---
+>>   hw/net/vhost_net.c      | 52 +++++++++++++++++++++++++++++++++++++++++
+>>   include/net/vhost_net.h |  2 ++
+>>   2 files changed, 54 insertions(+)
+>>
+>> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+>> index be51be98b3..0716f6cd96 100644
+>> --- a/hw/net/vhost_net.c
+>> +++ b/hw/net/vhost_net.c
+>> @@ -536,3 +536,55 @@ void vhost_net_virtqueue_reset(VirtIODevice 
+>> *vdev, NetClientState *nc,
+>>         vhost_virtqueue_unmap(&net->dev, vdev, net->dev.vqs + idx, idx);
+>>   }
+>> +
+>> +int vhost_net_virtqueue_restart(VirtIODevice *vdev, NetClientState *nc,
+>> +                                int vq_index)
+>> +{
+>> +    VHostNetState *net = get_vhost_net(nc->peer);
+>> +    const VhostOps *vhost_ops = net->dev.vhost_ops;
+>> +    struct vhost_vring_file file = { };
+>> +    int idx, r;
+>> +
+>> +    if (!net->dev.started) {
+>> +        return 0;
+>> +    }
+>
+>
+> Should we return error in this case?
+>
+> Thanks
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/ppc/spapr_pci.c | 1 +
- 1 file changed, 1 insertion(+)
+Yes, I think so. Will fix.
 
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 67e9d468aa..57c8a4f085 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -800,6 +800,7 @@ static char *spapr_phb_vfio_get_loc_code(SpaprPhbState *sphb,  PCIDevice *pdev)
-     }
- 
-     /* Construct and read from host device tree the loc-code */
-+    g_free(path);
-     path = g_strdup_printf("/proc/device-tree%s/ibm,loc-code", devspec);
-     if (!g_file_get_contents(path, &buf, NULL, NULL)) {
-         return NULL;
--- 
-2.37.2
+Thanks.
 
+>
+>> +
+>> +    /* should only be called after backend is connected */
+>> +    assert(vhost_ops);
+>> +
+>> +    idx = vhost_ops->vhost_get_vq_index(&net->dev, vq_index);
+>> +
+>> +    r = vhost_virtqueue_start(&net->dev,
+>> +                              vdev,
+>> +                              net->dev.vqs + idx,
+>> +                              net->dev.vq_index + idx);
+>> +    if (r < 0) {
+>> +        goto err_start;
+>> +    }
+>> +
+>> +    if (net->nc->info->type == NET_CLIENT_DRIVER_TAP) {
+>> +        file.index = idx;
+>> +        file.fd = net->backend;
+>> +        r = vhost_net_set_backend(&net->dev, &file);
+>> +        if (r < 0) {
+>> +            r = -errno;
+>> +            goto err_start;
+>> +        }
+>> +    }
+>> +
+>> +    return 0;
+>> +
+>> +err_start:
+>> +    error_report("Error when restarting the queue.");
+>> +
+>> +    if (net->nc->info->type == NET_CLIENT_DRIVER_TAP) {
+>> +        file.fd = -1;
+>> +        file.index = idx;
+>> +        int r = vhost_net_set_backend(&net->dev, &file);
+>> +        assert(r >= 0);
+>> +    }
+>> +
+>> +    vhost_dev_stop(&net->dev, vdev);
+>> +
+>> +    return r;
+>> +}
+>> diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
+>> index 85d85a4957..40b9a40074 100644
+>> --- a/include/net/vhost_net.h
+>> +++ b/include/net/vhost_net.h
+>> @@ -50,4 +50,6 @@ int vhost_net_set_mtu(struct vhost_net *net, 
+>> uint16_t mtu);
+>>     void vhost_net_virtqueue_reset(VirtIODevice *vdev, NetClientState 
+>> *nc,
+>>                                  int vq_index);
+>> +int vhost_net_virtqueue_restart(VirtIODevice *vdev, NetClientState *nc,
+>> +                                int vq_index);
+>>   #endif
 
