@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D845AD1A3
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 13:37:16 +0200 (CEST)
-Received: from localhost ([::1]:50984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C3FA5AD1BF
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 13:46:01 +0200 (CEST)
+Received: from localhost ([::1]:34574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVAPj-0003BH-PL
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 07:37:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45684)
+	id 1oVAYC-0001CI-76
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 07:46:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oV9uE-0007R2-AP
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:04:47 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:54797)
+ id 1oV9vF-0007nz-Rg
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:05:45 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:56081)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oV9uC-00044L-GN
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:04:41 -0400
-Received: by mail-wm1-x336.google.com with SMTP id s23so5060315wmj.4
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 04:04:40 -0700 (PDT)
+ id 1oV9vE-0004Po-4C
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:05:45 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id d5so5055371wms.5
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 04:05:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=6PJ9eKmSUDicnJp17GKPJriJ/RVfSIKjZnnORhyxgCI=;
- b=ZUjhto+WjSvGgknlN8Ow7yn96A9oU8BQJyvIVaK5Cpdb0cxx3v5ONG4d4Y27Z54mwN
- iFo/zN6ffZ/1kyjXpOQxzMqNIm25y7KG8MuQuaMy0kAyUC8Qz/re3JNdbBSI2pua+hze
- 4CW5DfundSIPUkAKcYAaMD6aHSthP/1vBR0f6U7hGX4ilmVRBYeS+1PT6EbpICbvR5j6
- Gnm/S2ceQiPF4sbd1/+W6scfk5y18rvxDuQImMiTXAD4n0s7hXyhNq9DGRfDzqs0gM8M
- Gg579vFV9IjaiwJqw+Cub01upF6WlL6LT787rR5BW8JDu58vSsAyyyuOTxNXoiAlCT05
- tgmw==
+ bh=CykEQMBV9bsbemN+z3bfKrNdaOj/I6om3BydJgHIh0E=;
+ b=m/DHbl8oDn0Vszeh+FYOPXmmWCRi9LK7f3qxLDjODyDPNTr71tobaDiG6ZFnP9/Tq2
+ 7PIMezDC8bc9rhzjIoRt7E9yUaiuxmSm4Nf1bfJxNamK6VNZWLW4ZCjwHrPPuxmSEJFL
+ rix/ge3uiPLk52sXt0eSeTG8vDarZL3GIvV+oArrAmyNoi807InF8N5Ry2Nlw2OYyPPh
+ 6AEUZf4ka2dkDR9zfw50dcGtxamJDYJ+zX2N6g5GQGBoGhJp56YYt/xM52k2fwWWcc/X
+ T6NRu5R1zJlbqyHgTnioXeDf17qDu2+5C3xucIhLpxuHnYqef8MJ73dl/6zOxE8V3BtY
+ pmSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=6PJ9eKmSUDicnJp17GKPJriJ/RVfSIKjZnnORhyxgCI=;
- b=6oNptpzy+4aiIOczZlK4pr6LS9ZlPvjQ6/HGqmNUvr/TIGULfRO/0OGJBMJkCVH4/U
- 9NMhQZx5ZbLFOBI5tgG85vLqvom2q99hC91xV1O2izi2sBUS6/M3D/qNHxadKj70dvXl
- G4nTC7skmYvChsl59WK4wDBwWG5Nu90ce/HgJ/YsqkOTfziauRthB+vu9ikp0DQHlyb/
- whnHWQydzFreBNYelqkdHM6LcwF993Do4ZKnNeODh/itCQhDy3oO3fNRAGO5Vk8q2s1a
- At+XQFJCZCm3oq2GMptj+gW363PknMLlcDjZoFxAqqzVxqnFQ3ltcBT+p0W8BzDk8NJw
- nFiw==
-X-Gm-Message-State: ACgBeo0HnHt9zoM0SaID5AK9o5c3wOvtf01qsCSBEzUHdarNNjqcnVAG
- 3kdv74tUCk/PNMeTNwYbhQ5fJA==
-X-Google-Smtp-Source: AA6agR6YJKQGwqRlm2K6zpYeR6Eo37bMHbAbE/CgfJx/pYXbe88Cz3w/rxBnA7pZWW+5ig7SpE/Wrg==
-X-Received: by 2002:a05:600c:1906:b0:3a5:fe9c:4dcf with SMTP id
- j6-20020a05600c190600b003a5fe9c4dcfmr10569672wmq.118.1662375878888; 
- Mon, 05 Sep 2022 04:04:38 -0700 (PDT)
+ bh=CykEQMBV9bsbemN+z3bfKrNdaOj/I6om3BydJgHIh0E=;
+ b=tPYQymeTvUeDHgF0Ayx0zI8bxCcL4seW4xTvqT+IjFBHD+5zwkwbvSFNkPYu30Ozl+
+ HO95BKpveS/fDC2gd99sBX/fQG8lwJ5VCdPipr8MnXgmgxhpiRLoQ9T7y9NLcScN4AAu
+ r8V80SNAT9FuLcuqAfV/Qyw5Uyh8xHAs1050WG47SQqnfPq9x1T2UmE7dx1QuoxVF0rU
+ 7K2xIuHBQn5ou7Y14JFB+B8CzNjHDzowyQ4tIIBOdbTTjrE5yVFKGgwiV07qTu1nDB8r
+ 5LUTFVvoUyUL0U5SrU2qFtKowTASds14OVCNDjh8NlcynClYUxEJObrjM+YsBKsV04qr
+ BMDA==
+X-Gm-Message-State: ACgBeo3F+UKS0qRxoopnlpuj411BpzICWvzTbOC27FXxCuGhugwYy/ub
+ idnIM4uwU3I7307iISOn8DpEfw==
+X-Google-Smtp-Source: AA6agR4EtMkN8r6TyeiCbVOkNafIgIBdd591CfL30zOSXSXJG8D6nvP0QSkgoiZxHeBT79qh4Ry8ng==
+X-Received: by 2002:a05:600c:19d3:b0:3a8:3b06:655a with SMTP id
+ u19-20020a05600c19d300b003a83b06655amr10276247wmq.182.1662375942791; 
+ Mon, 05 Sep 2022 04:05:42 -0700 (PDT)
 Received: from ?IPV6:2a02:8084:a5c0:5a80:f2bf:c5c3:8866:995c?
  ([2a02:8084:a5c0:5a80:f2bf:c5c3:8866:995c])
  by smtp.gmail.com with ESMTPSA id
- l12-20020a5d560c000000b0021ef34124ebsm8688298wrv.11.2022.09.05.04.04.37
+ az3-20020a05600c600300b003a6a3595edasm10691607wmb.27.2022.09.05.04.05.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Sep 2022 04:04:38 -0700 (PDT)
-Message-ID: <31be828d-4237-909f-3ae1-a2fa18817ed6@linaro.org>
-Date: Mon, 5 Sep 2022 12:04:36 +0100
+ Mon, 05 Sep 2022 04:05:41 -0700 (PDT)
+Message-ID: <97ef3c95-0d40-a658-832a-0339fd1480cf@linaro.org>
+Date: Mon, 5 Sep 2022 12:05:39 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 03/20] disas/nanomips: Delete NMD class fields
+Subject: Re: [PATCH v2 04/20] disas/nanomips: Remove helper methods from class
 Content-Language: en-US
 To: Milica Lazarevic <milica.lazarevic@syrmia.com>, thuth@redhat.com
 Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
@@ -69,13 +69,13 @@ Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
  peter.maydell@linaro.org, djordje.todorovic@syrmia.com, mips32r2@gmail.com,
  dragan.mladjenovic@syrmia.com
 References: <20220905095522.66941-1-milica.lazarevic@syrmia.com>
- <20220905095522.66941-4-milica.lazarevic@syrmia.com>
+ <20220905095522.66941-5-milica.lazarevic@syrmia.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220905095522.66941-4-milica.lazarevic@syrmia.com>
+In-Reply-To: <20220905095522.66941-5-milica.lazarevic@syrmia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -99,28 +99,29 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/5/22 10:55, Milica Lazarevic wrote:
-> Two class fields have been deleted.
+> Helper methods from NMD class like NMD::renumber_registers,
+> NMD::decode_gpr_gpr4... etc. are removed from the class. They're now
+> declared global static functions.
 > 
-> Since the m_requested_instruction_categories field always has the same
-> value, which is ALL_ATTRIBUTES, the only use of that field has been
-> replaced with the concrete ALL_ATTRIBUTES value.
-
-Since these ALL_ATTRIBUTES tests are always true, you could just remove them.
-
-
-> The second class field m_pc is added as a parameter where needed.
-> Therefore, prototypes of the following functions have been changed:
-> - public NMD::Disassemble method
-> - private NMD::Disassemble method
-> - NMD::ADDRESS method
-> - all of the disassembly_function methods
+> Following helper methods have been deleted because they're not used by
+> the nanomips disassembler:
+> - NMD::encode_msbd_from_pos_and_size,
+> - NMD::encode_s_from_s_hi,
+> - NMD::neg_copy
 > 
-> Accordingly, the disassembly_function typedef has been changed.
+> Global functions used by those methods:
+> - nanomips_dis
+> - sign_extend
+> - extract_bits
+> have also been defined as static global functions.
+> 
+> Signed-off-by: Milica Lazarevic<milica.lazarevic@syrmia.com>
+> ---
+>   disas/nanomips.cpp | 328 +++++++++++++++++++++------------------------
+>   disas/nanomips.h   | 144 --------------------
+>   2 files changed, 154 insertions(+), 318 deletions(-)
 
-Fine.
-
-These two changes should be done separately.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
