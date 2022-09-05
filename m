@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 973C75AD3EC
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 15:31:17 +0200 (CEST)
-Received: from localhost ([::1]:42970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1716F5AD40E
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 15:38:00 +0200 (CEST)
+Received: from localhost ([::1]:54584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVCC4-00009s-4a
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 09:31:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34872)
+	id 1oVCIY-0007By-Pr
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 09:37:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oVC8u-00032X-K5
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 09:28:00 -0400
-Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:37803)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oVCEk-0002gB-9V
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 09:34:02 -0400
+Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f]:39891)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oVC8p-00079N-Ld
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 09:28:00 -0400
-Received: by mail-yb1-xb33.google.com with SMTP id t184so12809786yba.4
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 06:27:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=9gxGO5AyCs37Pqg7jDxszM9ZjHpYnRVWTQSJQokRGRo=;
- b=kejg5Mr3JXwzrDioOy3+yRS+3PZjFUedOhQyTrBg7bZmE1MH/r51UhUcjKm+e95l05
- 2of648v5c8zLrODM4/onrxvKtVVxn7yVZ9bSKeIgcrJhz7jxHDPPBkeVUvs1FIj370XD
- q5D4SEKnJS6+IkrY0T2f9+StaeRymFy95g0eO3o5ofnPziDUNuluk8BAptqSf4uhI7YG
- jNmJevmar2+QFN/0xx9iC+Egi62ZdVHrN0EFOCNXcbdbc7FSFGlSnil2VXkn9K9CjCpb
- vYJ3+oWXc/6Ymyu2xaDNzO5q0JPq89zYi6/etBhIbS5vHapRf36MsI6Qi779N/omChEr
- lNlg==
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oVCEh-0008Ga-Qj
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 09:34:01 -0400
+Received: by mail-lj1-x22f.google.com with SMTP id bn9so9277083ljb.6
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 06:33:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=iuwmLRG5SrgsWV3VDtmlCHMZcPleR/Ie8qIDQBP0RoY=;
+ b=YQZNKqluYdiFs1wbtdeOuigDpCnuzr5FQ0Cm3EBEnR/ZNLpXjfUH9JijdGHUldo9q0
+ POHuDDvhrywlrppeSc3g5wstx4qfDeS8uUtIp/AYAGb3NzuIXwL1FnxyVlKqxWUcXmLo
+ NJnI0oknaBPP7qLnvJQP1XvFxOo1YFTo2iZEFyqMwmw8shJIqZLYgrZ4fESQkD951yL6
+ 38C2XuHP75Q+LZdo0d1Q4SVw/BOAJl7WMz6V3mO4p2t36R4NJYSBuwNT6oOL7SJdXckn
+ PbLBUD1P16HV/ZnbAevPkGSBfMlkkZGumZ5THW6M2f4R+CXCD9ZiV8Xc61OnalpJR3kC
+ J6Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=9gxGO5AyCs37Pqg7jDxszM9ZjHpYnRVWTQSJQokRGRo=;
- b=Df4YSnFMkmb4jChv+MnYL56Ou6WjjORNSZRNT1LQq3ajYrQq921ByNDYQImHQluP3n
- gn/nhyQVQekwbkVfuyJUNLAy4c8uGqd0EAgQh+iY/0KlOCzAAxIxpujeE3BY5QklbIX3
- dhX8nk2D1gOdehslYZdRt/r/TfgQxvdGCUuU0R1I8cjU9EkmqV/f0FLkH1b2itZir2Ej
- KvcQzwLAkluWSWTdC0HeRrznxhfGCdV88tiJdyFmOIJnv97ABbfvhY6CzOKczc59OTXx
- EXt1QhqQYBPdXF7wZhiZZ58PR41M20eRYIWNybCwl2jmRiqHla6NiQWNpu54mIGds39A
- nE9w==
-X-Gm-Message-State: ACgBeo2xeFuXo+aM2W27Av1dhYS3tb2PKeadGJOjn9f7f7auIrJk/O8p
- dckKskhwD/8atq2QLMbObuAOS6LAUw6nRW7cAVsQug==
-X-Google-Smtp-Source: AA6agR5+r+8KWyFJQkqBbycz7AM6HeXlTYfaly1EdKVr4nU9HohTsouODIKpS8xQeOvVI1n5KP9PnAxDCStzHtQ9MY0=
-X-Received: by 2002:a05:6902:1245:b0:699:fc86:d9f5 with SMTP id
- t5-20020a056902124500b00699fc86d9f5mr31052713ybu.288.1662384473178; Mon, 05
- Sep 2022 06:27:53 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=iuwmLRG5SrgsWV3VDtmlCHMZcPleR/Ie8qIDQBP0RoY=;
+ b=wJtUmNsXRFGmOGFWI2QUcUmTmyd0QIpD+iTJS8J2t2JZ0fO2RqQZCC/GS/naof273H
+ OAtLRKD/15wgt9o5G5dBdsGv2WZ7P2PIP22ypnXz3hCnKHOlW02nHbKdDUHGZnRJEUBu
+ ILqdZFStbUZxf63/hTqwvvqV6ITewAlefVxfbGmF3epJCMmH6R1sbusW/z8R6lkkLGTZ
+ 8duIpsUyvh1VRedc93nAExwoqNdplDiIdrrvyXlY+J2VpsaQFGQPsl1BjSWU2M+M6gV6
+ bFZn+wClT/dAVmPoSZqi+ZI+RIofWJFxgXJfEF6H9Lji9aek+zxRuvLd9R5wMsiKpILe
+ oRLQ==
+X-Gm-Message-State: ACgBeo2ANtxAyGIL5PhM/kulMXUm3Q1jggCNDcuKVnDGPYKNmBncGH0V
+ qWmcohRR/8U0zjOnFmqh5M96mTC0WR+tN3sU/rk=
+X-Google-Smtp-Source: AA6agR51rgfeYhReK0i4RmZRn7eSF/73fI13s/x3muSOfm/b7ImJnKXpt4WMt8OsOT+demixdZ9Z/8pWwjDfkKaGKN4=
+X-Received: by 2002:a05:651c:a04:b0:25e:753b:db42 with SMTP id
+ k4-20020a05651c0a0400b0025e753bdb42mr14641301ljq.529.1662384837707; Mon, 05
+ Sep 2022 06:33:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220905125741.95516-1-marcandre.lureau@redhat.com>
  <20220905125741.95516-2-marcandre.lureau@redhat.com>
-In-Reply-To: <20220905125741.95516-2-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 5 Sep 2022 14:27:41 +0100
-Message-ID: <CAFEAcA_PrFOTtY7OaoLpGJgdbvFHMt2jhaGKENaBHc2oaLCXDA@mail.gmail.com>
+ <CAFEAcA_PrFOTtY7OaoLpGJgdbvFHMt2jhaGKENaBHc2oaLCXDA@mail.gmail.com>
+In-Reply-To: <CAFEAcA_PrFOTtY7OaoLpGJgdbvFHMt2jhaGKENaBHc2oaLCXDA@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 5 Sep 2022 17:33:46 +0400
+Message-ID: <CAJ+F1C+9UsvoEx_y6s7=DrEhBjVoUnHcp8AO0v-nPfM2_v8MhA@mail.gmail.com>
 Subject: Re: [PATCH v2 1/2] dump: simplify a bit kdump get_next_page()
-To: marcandre.lureau@redhat.com
+To: Peter Maydell <peter.maydell@linaro.org>
 Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  qiaonuohan@cn.fujitsu.com, Stefan Berger <stefanb@linux.vnet.ibm.com>,
  David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
+Content-Type: multipart/alternative; boundary="000000000000bb4ace05e7ee21df"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,31 +86,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 5 Sept 2022 at 13:57, <marcandre.lureau@redhat.com> wrote:
->
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> This should be functionally equivalent, but slightly easier to read,
-> with simplified paths and checks at the end of the function.
->
-> The following patch is a major rewrite to get rid of the assert().
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  dump/dump.c | 21 ++++++++-------------
->  roms/SLOF   |  2 +-
->  2 files changed, 9 insertions(+), 14 deletions(-)
+--000000000000bb4ace05e7ee21df
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> diff --git a/roms/SLOF b/roms/SLOF
-> index 6b6c16b4b4..5b4c5acdcd 160000
-> --- a/roms/SLOF
-> +++ b/roms/SLOF
-> @@ -1 +1 @@
-> -Subproject commit 6b6c16b4b40763507cf1f518096f3c3883c5cf2d
-> +Subproject commit 5b4c5acdcd552a4e1796aeca6bb700f6cbb0282d
+Hi
 
-This shouldn't be in here, right? (I'm guessing a rebase
-accident -- git submodules have terrible ergonomics.)
+On Mon, Sep 5, 2022 at 5:28 PM Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
--- PMM
+> On Mon, 5 Sept 2022 at 13:57, <marcandre.lureau@redhat.com> wrote:
+> >
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > This should be functionally equivalent, but slightly easier to read,
+> > with simplified paths and checks at the end of the function.
+> >
+> > The following patch is a major rewrite to get rid of the assert().
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  dump/dump.c | 21 ++++++++-------------
+> >  roms/SLOF   |  2 +-
+> >  2 files changed, 9 insertions(+), 14 deletions(-)
+>
+> > diff --git a/roms/SLOF b/roms/SLOF
+> > index 6b6c16b4b4..5b4c5acdcd 160000
+> > --- a/roms/SLOF
+> > +++ b/roms/SLOF
+> > @@ -1 +1 @@
+> > -Subproject commit 6b6c16b4b40763507cf1f518096f3c3883c5cf2d
+> > +Subproject commit 5b4c5acdcd552a4e1796aeca6bb700f6cbb0282d
+>
+> This shouldn't be in here, right? (I'm guessing a rebase
+> accident -- git submodules have terrible ergonomics.)
+>
+
+indeed, my bad will fix in v3 (or eventually in PR?)
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000bb4ace05e7ee21df
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 5, 2022 at 5:28 PM Pete=
+r Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lin=
+aro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex"><div>On Mon, 5 Sept 2022 at 13:57, &lt;<a href=3D"mailto:marcandre.l=
+ureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt; wro=
+te:<br>
+&gt;<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt;<br>
+&gt; This should be functionally equivalent, but slightly easier to read,<b=
+r>
+&gt; with simplified paths and checks at the end of the function.<br>
+&gt;<br>
+&gt; The following patch is a major rewrite to get rid of the assert().<br>
+&gt;<br>
+&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
+lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
+>
+&gt; ---<br>
+&gt;=C2=A0 dump/dump.c | 21 ++++++++-------------<br>
+&gt;=C2=A0 roms/SLOF=C2=A0 =C2=A0|=C2=A0 2 +-<br>
+&gt;=C2=A0 2 files changed, 9 insertions(+), 14 deletions(-)<br>
+<br>
+&gt; diff --git a/roms/SLOF b/roms/SLOF<br>
+&gt; index 6b6c16b4b4..5b4c5acdcd 160000<br>
+&gt; --- a/roms/SLOF<br>
+&gt; +++ b/roms/SLOF<br>
+&gt; @@ -1 +1 @@<br>
+&gt; -Subproject commit 6b6c16b4b40763507cf1f518096f3c3883c5cf2d<br>
+&gt; +Subproject commit 5b4c5acdcd552a4e1796aeca6bb700f6cbb0282d<br>
+<br>
+This shouldn&#39;t be in here, right? (I&#39;m guessing a rebase<br></div>
+accident -- git submodules have terrible ergonomics.)<br></blockquote><div>=
+<br></div><div>indeed, my bad will fix in v3 (or eventually in PR?)<br></di=
+v><div>=C2=A0<br></div></div>-- <br><div dir=3D"ltr" class=3D"gmail_signatu=
+re">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000bb4ace05e7ee21df--
 
