@@ -2,87 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B07E5AD6D6
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 17:49:48 +0200 (CEST)
-Received: from localhost ([::1]:33942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 518D85AD6E4
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 17:51:45 +0200 (CEST)
+Received: from localhost ([::1]:40914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVEM7-00085S-HX
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 11:49:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57198)
+	id 1oVEO0-0001FW-Es
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 11:51:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVEKe-00064o-Ve
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 11:48:20 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:50942)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVEKd-0003rH-6s
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 11:48:16 -0400
-Received: by mail-wm1-x331.google.com with SMTP id j26so5488482wms.0
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 08:48:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=G+Encb835y7NEoCUZIVOMFOEiz+b6nALgrqyT0dm/ps=;
- b=qUbJ+qVPHiGqy6Ajn50YsfdTvOa7LPHShPeQjSP5FqAuiHpRQGivwoLmxpKb2cZBNg
- b1lfrhBWNfL5rUuMvC6Fta5+ws2A9kMi0JH+ogkiAPzsmXCjNCFe3kgLQklYFq3pRFcK
- AkCAow6IyWHr3FpFraPOWqxS+fndo7+JSTyHJ5fhp8JJazR2Tsh/FULLSljI+lbw9e1W
- AR17qFVCmmu8v80OV7ASyh0RoAcctQm4y1d1s9Nr/BhriPjRvRZspdu/N2BnB7TB0Tvf
- HMpaPeBF6HYdJnGa7lYOfW6lyYIEMMZgwf6qLR+C3UkrjYQN7yUzTcNjOyZw5f8bueTH
- hB0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=G+Encb835y7NEoCUZIVOMFOEiz+b6nALgrqyT0dm/ps=;
- b=AOvPzkEHBNNUXxbA4g8E2ZVS0+h+N72Yy+Xu8xQ0FWUj6idLqwxY02RcNgsIWJpBUf
- eeluvEETqFJtOSyzBLcfKmx568W9yFgIxrfUGIoqw5TQfBPNOilea8Ota/3/vQJdTHZE
- BFdsIDnhaB5Hfve7UdvW5RjibtSXcA0Ka9O3cAyNLythoRBZ8HqlizxpAGQi2OlHlh3w
- eJ3koB7lac/h/q/uyl3rm/mpSL14RcQZJ6siNYgzeSI3yJ0QIQjRDbVd/t5HIZv2t6CG
- gPgh1eqijFgDpxhECGRGrtoJ0Ge4QZA1Xo9zosJ3ICvXzavdA6y2olokeVSMc+2finc/
- 23Qg==
-X-Gm-Message-State: ACgBeo1Rsg2pZKr2q5m27kSAliOgGeGp/BMRPyg7Ch8rDGIGC6VAlBuO
- jASokToptup/Yo7u5wjEbvY55Q==
-X-Google-Smtp-Source: AA6agR7nRGcOwS4QCtmspkh1i7W9/gVTZ8HSxbRKSFsqvtppsjcEabdIqv8bHKnZTBHy6HScJNPZxQ==
-X-Received: by 2002:a1c:3b04:0:b0:3a5:487c:6240 with SMTP id
- i4-20020a1c3b04000000b003a5487c6240mr11109791wma.152.1662392892434; 
- Mon, 05 Sep 2022 08:48:12 -0700 (PDT)
-Received: from ?IPV6:2a02:8084:a5c0:5a80:d0ad:82b5:d7a4:c0a9?
- ([2a02:8084:a5c0:5a80:d0ad:82b5:d7a4:c0a9])
- by smtp.gmail.com with ESMTPSA id
- co4-20020a0560000a0400b0021eed2414c9sm9589829wrb.40.2022.09.05.08.48.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Sep 2022 08:48:11 -0700 (PDT)
-Message-ID: <b0200ea9-2849-0fa6-5535-f44b0b5580bb@linaro.org>
-Date: Mon, 5 Sep 2022 16:48:08 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/3] target/ppc: Move fsqrt to decodetree
-Content-Language: en-US
-To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, matheus.ferst@eldorado.org.br, lucas.araujo@eldorado.org.br,
- leandro.lupori@eldorado.org.br, lucas.coutinho@eldorado.org.br
-References: <20220905123746.54659-1-victor.colombo@eldorado.org.br>
- <20220905123746.54659-2-victor.colombo@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220905123746.54659-2-victor.colombo@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oVEMI-0008BO-BO
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 11:49:58 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:14658)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oVEMG-0003yb-55
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 11:49:57 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 285FmF9a020448;
+ Mon, 5 Sep 2022 15:49:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=eLN52ewhCRoeGT/iRfkvTU2sBWQ26qFuAD7fd7sjkGQ=;
+ b=Gzc8ajNCl5tRvfQiYDLReGNxfgvOD7fjujsheA+yRgZ9whtjg27OFKsOvulk2xnUy6eu
+ pnxdr6f7ryUOVpnc/ldhbCeo/RddCanLMMGVITcKf2vNfS+55q98beFI3O8vjlq9Uuxp
+ 5anMibq51ewV1wNWkXbf0FPHwaRLSLXzVZU1IzbwPDkyS1L1SY2D/9BgHJeOOLGJYmB9
+ IKDCp7/zPVnJdOuHuKWMIPksYjvtiT0XL/4N1S2MCN0ZiTCo0HxTVF+bCiIi830i5xWN
+ Wo28QtH5S8P9DQ1G6nfx+ZcMcQ1yIe0+s/VkTvoUYRQLlrUS3ss7Q7VhjlkoVWeQ8E/d BA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jdm2xg18x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 05 Sep 2022 15:49:51 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 285Fnp1v029919;
+ Mon, 5 Sep 2022 15:49:51 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jdm2xg188-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 05 Sep 2022 15:49:51 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 285FeDN9021725;
+ Mon, 5 Sep 2022 15:49:48 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03fra.de.ibm.com with ESMTP id 3jbxj8sy65-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 05 Sep 2022 15:49:48 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 285Fnjk832768428
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 5 Sep 2022 15:49:46 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D249611C050;
+ Mon,  5 Sep 2022 15:49:45 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 83FAA11C04C;
+ Mon,  5 Sep 2022 15:49:45 +0000 (GMT)
+Received: from heavy.lan (unknown [9.171.53.58])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon,  5 Sep 2022 15:49:45 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+Cc: qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH v2] tests/tcg/x86_64: add cross-modifying code test
+Date: Mon,  5 Sep 2022 17:49:44 +0200
+Message-Id: <20220905154944.1284289-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.37.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: AMJeZIUwsuet9w7bSzHFt6gMOb7KDgz-
+X-Proofpoint-GUID: acAGTe5neXPUP7aSYSK3iMH8CRto7H7Q
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-05_12,2022-09-05_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ suspectscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=999
+ adultscore=0 priorityscore=1501 mlxscore=0 spamscore=0 phishscore=0
+ bulkscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2209050075
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,15 +112,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/5/22 13:37, Víctor Colombo wrote:
-> Signed-off-by: Víctor Colombo<victor.colombo@eldorado.org.br>
-> ---
->   target/ppc/insn32.decode           |  7 +++++++
->   target/ppc/translate/fp-impl.c.inc | 29 +++++++++++++++++------------
->   target/ppc/translate/fp-ops.c.inc  |  1 -
->   3 files changed, 24 insertions(+), 13 deletions(-)
+commit f025692c992c ("accel/tcg: Clear PAGE_WRITE before translation")
+fixed cross-modifying code handling, but did not add a test. The
+changed code was further improved recently [1], and I was not sure
+whether these modifications were safe (spoiler: they were fine).
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Add a test to make sure there are no regressions.
 
-r~
+[1] https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg00034.html
+
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+---
+
+v1: https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg00455.html
+v1 -> v2: Fix tweaking the flags (Alex).
+          Keep the custom build rule for now.
+
+ tests/tcg/x86_64/Makefile.target        |  6 +-
+ tests/tcg/x86_64/cross-modifying-code.c | 80 +++++++++++++++++++++++++
+ 2 files changed, 85 insertions(+), 1 deletion(-)
+ create mode 100644 tests/tcg/x86_64/cross-modifying-code.c
+
+diff --git a/tests/tcg/x86_64/Makefile.target b/tests/tcg/x86_64/Makefile.target
+index 6177fd845a..3d9bc3377b 100644
+--- a/tests/tcg/x86_64/Makefile.target
++++ b/tests/tcg/x86_64/Makefile.target
+@@ -10,6 +10,7 @@ include $(SRC_PATH)/tests/tcg/i386/Makefile.target
+ 
+ ifeq ($(filter %-linux-user, $(TARGET)),$(TARGET))
+ X86_64_TESTS += vsyscall
++X86_64_TESTS += cross-modifying-code
+ TESTS=$(MULTIARCH_TESTS) $(X86_64_TESTS) test-x86_64
+ else
+ TESTS=$(MULTIARCH_TESTS)
+@@ -23,5 +24,8 @@ test-x86_64: LDFLAGS+=-lm -lc
+ test-x86_64: test-i386.c test-i386.h test-i386-shift.h test-i386-muldiv.h
+ 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
+ 
+-vsyscall: $(SRC_PATH)/tests/tcg/x86_64/vsyscall.c
++%: $(SRC_PATH)/tests/tcg/x86_64/%.c
+ 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
++
++cross-modifying-code: CFLAGS+=-pthread
++cross-modifying-code: LDFLAGS+=-pthread
+diff --git a/tests/tcg/x86_64/cross-modifying-code.c b/tests/tcg/x86_64/cross-modifying-code.c
+new file mode 100644
+index 0000000000..2704df6061
+--- /dev/null
++++ b/tests/tcg/x86_64/cross-modifying-code.c
+@@ -0,0 +1,80 @@
++/*
++ * Test patching code, running in one thread, from another thread.
++ *
++ * Intel SDM calls this "cross-modifying code" and recommends a special
++ * sequence, which requires both threads to cooperate.
++ *
++ * Linux kernel uses a different sequence that does not require cooperation and
++ * involves patching the first byte with int3.
++ *
++ * Finally, there is user-mode software out there that simply uses atomics, and
++ * that seems to be good enough in practice. Test that QEMU has no problems
++ * with this as well.
++ */
++
++#include <assert.h>
++#include <pthread.h>
++#include <stdbool.h>
++#include <stdlib.h>
++
++void add1_or_nop(long *x);
++asm(".pushsection .rwx,\"awx\",@progbits\n"
++    ".globl add1_or_nop\n"
++    /* addq $0x1,(%rdi) */
++    "add1_or_nop: .byte 0x48, 0x83, 0x07, 0x01\n"
++    "ret\n"
++    ".popsection\n");
++
++#define THREAD_WAIT 0
++#define THREAD_PATCH 1
++#define THREAD_STOP 2
++
++static void *thread_func(void *arg)
++{
++    int val = 0x0026748d; /* nop */
++
++    while (true) {
++        switch (__atomic_load_n((int *)arg, __ATOMIC_SEQ_CST)) {
++        case THREAD_WAIT:
++            break;
++        case THREAD_PATCH:
++            val = __atomic_exchange_n((int *)&add1_or_nop, val,
++                                      __ATOMIC_SEQ_CST);
++            break;
++        case THREAD_STOP:
++            return NULL;
++        default:
++            assert(false);
++            __builtin_unreachable();
++        }
++    }
++}
++
++#define INITIAL 42
++#define COUNT 1000000
++
++int main(void)
++{
++    int command = THREAD_WAIT;
++    pthread_t thread;
++    long x = 0;
++    int err;
++    int i;
++
++    err = pthread_create(&thread, NULL, &thread_func, &command);
++    assert(err == 0);
++
++    __atomic_store_n(&command, THREAD_PATCH, __ATOMIC_SEQ_CST);
++    for (i = 0; i < COUNT; i++) {
++        add1_or_nop(&x);
++    }
++    __atomic_store_n(&command, THREAD_STOP, __ATOMIC_SEQ_CST);
++
++    err = pthread_join(thread, NULL);
++    assert(err == 0);
++
++    assert(x >= INITIAL);
++    assert(x <= INITIAL + COUNT);
++
++    return EXIT_SUCCESS;
++}
+-- 
+2.37.2
+
 
