@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE0C5AD1F4
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 13:58:34 +0200 (CEST)
-Received: from localhost ([::1]:32916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F4AB5AD1D9
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 13:53:21 +0200 (CEST)
+Received: from localhost ([::1]:56890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVAkH-0006r3-Oi
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 07:58:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59314)
+	id 1oVAfH-0007Ws-H8
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 07:53:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVA3f-0001dv-SH
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:14:27 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:36523)
+ id 1oVA3u-000291-IN
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:14:42 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVA3e-0006ei-5n
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:14:27 -0400
-Received: by mail-wr1-x429.google.com with SMTP id f15so6137971wrw.3
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 04:14:25 -0700 (PDT)
+ id 1oVA3s-0006gS-Sk
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:14:42 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id e20so10866014wri.13
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 04:14:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=txJUxiHEEPq3DSIaQJ68ZtHH8oHa5ANK7U1PI9oIK/M=;
- b=a7SjyS4t7SBC0KTefjBp3AvaQpc/43HucrHCQ3M5Zm8Epdsxr1sIh/Q5BAzSBrWjeh
- JLrF7BWFy3rgfTGqyC62z8OgsaBD+EecGMA6ApmgXa8yeZeWSSjcIVmVv2tfSgG0xkjQ
- JNltF21rfQ/mxJzg9gWN5cHczpfTql3cAjf1Lw8B1Oef9I/Mku8FwAbOwW0FCs0Sxffc
- 2fk8/rrbbQMw4yE3y/rRA2YehhTtYtGprA60wqGDqY/LJrrk+R/sfdIwXzooDImvkQdW
- OaBVoE/vQYz0mb577UEADJPxc1UgJe4w/j27YSAO2ffd65tBfE9tXp/DF0NbTqYQF10a
- 9VHQ==
+ bh=+JFDWS2LoTpIQlr1ts8PxnDTVFvmMXGBt5wNO6yKTKQ=;
+ b=uJasF1XdnMIjkkPF8/7KaEgmpoRzmLRT5zvlHCle/YKnj1qS5ea7B/cfCx99wG7fa3
+ ivBs3fyp6kgMdIbupB54gv4G3fzveJ2pWgO9qLORfs65j3ZTRAx0KMJ52naGJJ4DjUo1
+ 1leUYcGkn93SrFMmvr8WRU65rmdNhJ5o8Sutxh1/2TaLgJINc/hAN0y9Roj+HzpkQhec
+ HCYUea3HLKXKOXpFocWF2cGMWk5hJnr2+uBD5x3vP90/5deJijcbUqGgg47ouFIW3et+
+ 87D5/xxO//ADRxnjrzQBsJuivN6n+Ysj2n6uxqW/IMzPRny8LqLJvLn5+onpWjF9XHJL
+ 1rKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=txJUxiHEEPq3DSIaQJ68ZtHH8oHa5ANK7U1PI9oIK/M=;
- b=gogn4Grt3W1q75MrYO/exqbjE4PAGhSYz5Yo0x+qMupEIUsVbxgxTmP1sEvPkGTRFW
- E4YFFKaO9JTMTH4RdUrHlOXF1n0CBvby3lelP+tPqj1L4CRFqqMwAi5Fgkto2EYuEwLj
- 2LeIN0XxAdmiSZnWOpKfP7qnNqy01VgxebvQMqsrSQqwkjrTJnjek3C+WDJ+ZxW4v2Wu
- IrQea9o+neefH9N473DHqavTzXjfg0UDdhRpPAjJkB1JPKShVCPzhc8NiHT5NLpaymrA
- 7UB0x4R9Z0lSYluHuKN3XHhqP2Dm2PcbGLg5or4pMExepVTz9FvupkAIKO84ZE0BS4ue
- KBsg==
-X-Gm-Message-State: ACgBeo0XSek82MLuPZ9bryW3okA86ZJwOV2MhEpp4pNOEMoZfgTawaLZ
- tnl5He+jegZiKwSo5/2kIyGIVg==
-X-Google-Smtp-Source: AA6agR7IEfelZPqpBpcry3/PaDzgYU4v0g8+WGDuc0VeQMW2N0uiiDh8aJevzHwlCstmBK+aHZ/KDg==
-X-Received: by 2002:adf:edc9:0:b0:228:60de:1d4b with SMTP id
- v9-20020adfedc9000000b0022860de1d4bmr5444948wro.306.1662376464615; 
- Mon, 05 Sep 2022 04:14:24 -0700 (PDT)
+ bh=+JFDWS2LoTpIQlr1ts8PxnDTVFvmMXGBt5wNO6yKTKQ=;
+ b=pwYoL1hvyFLDE07dnYkdijG+Lk4BN/0sf0FiTCr30x0uRuJBK4dzJ4kWgETyrQ7Cd/
+ fzcnM5z7JWRnCIOMLljfjFEa0WabA99WvlZbGfL/AZmzXux9+qAxWoHBgqqTLLSTOCAN
+ PqYP5EPrbu84j8wRefghfutqznYPCkisx2NUpkf/8poeleAJZxCi3MlfrcHWquvUhGHN
+ Ov13plD4j2RvV6IHbEpsBVlu4YYtTjLig5rTSJa6K0SAXaf+0Rjj3MLgg1rwVtm6KASa
+ HQK0B/lp0sY/7Gi6GXD3zSot+IhF9gwY0zbOElWNibayy6hUeE/YsgGt7+sQKL2l+/4p
+ 2JzA==
+X-Gm-Message-State: ACgBeo0v0jmyMQc6VxLRBD28jyOJjD0Yd7gLEIp1On0USRMykSYroOzw
+ fL7cEv8z2zr7NJZ3xwHWfobTkg==
+X-Google-Smtp-Source: AA6agR5u1O9Pb1t57U4buXOlAoaMsvUlhLmxkqRpuw+b3VQAd/XlAYAvAdbhqejYATL7kl7kSpu9Zg==
+X-Received: by 2002:adf:bc13:0:b0:228:6d28:d2cb with SMTP id
+ s19-20020adfbc13000000b002286d28d2cbmr3238767wrg.375.1662376479247; 
+ Mon, 05 Sep 2022 04:14:39 -0700 (PDT)
 Received: from ?IPV6:2a02:8084:a5c0:5a80:f2bf:c5c3:8866:995c?
  ([2a02:8084:a5c0:5a80:f2bf:c5c3:8866:995c])
  by smtp.gmail.com with ESMTPSA id
- bi12-20020a05600c3d8c00b003a60bc8ae8fsm10146070wmb.21.2022.09.05.04.14.20
+ r1-20020a5d4e41000000b00228bf773b1fsm1233129wrt.7.2022.09.05.04.14.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Sep 2022 04:14:21 -0700 (PDT)
-Message-ID: <9681f28c-5941-3139-8cb3-7855c0e40819@linaro.org>
-Date: Mon, 5 Sep 2022 12:14:18 +0100
+ Mon, 05 Sep 2022 04:14:38 -0700 (PDT)
+Message-ID: <5333f61a-308c-f81f-5927-880d23f2d124@linaro.org>
+Date: Mon, 5 Sep 2022 12:14:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 09/20] disas/nanomips: Move typedefs etc to nanomips.cpp
+Subject: Re: [PATCH v2 10/20] disas/nanomips: Delete nanomips.h
 Content-Language: en-US
 To: Milica Lazarevic <milica.lazarevic@syrmia.com>, thuth@redhat.com
 Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
@@ -70,13 +70,13 @@ Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
  dragan.mladjenovic@syrmia.com, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <f4bug@amsat.org>
 References: <20220905095522.66941-1-milica.lazarevic@syrmia.com>
- <20220905095522.66941-10-milica.lazarevic@syrmia.com>
+ <20220905095522.66941-11-milica.lazarevic@syrmia.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220905095522.66941-10-milica.lazarevic@syrmia.com>
+In-Reply-To: <20220905095522.66941-11-milica.lazarevic@syrmia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -100,20 +100,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/5/22 10:55, Milica Lazarevic wrote:
-> The following is moved from the nanomips.h to nanomips.cpp file:
-> - #include line
-> - typedefs
-> - enums
-> - definition of the Pool struct.
-> Header file nanomips.h will be deleted to be consistent with the rest of
-> the disas/ code.
+> Header file nanomips.h has been deleted for the nanomips disassembler to
+> stay consistent with the rest of the disassemblers which don't include
+> extra header files.
 > 
 > Signed-off-by: Milica Lazarevic<milica.lazarevic@syrmia.com>
 > Reviewed-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   disas/nanomips.cpp | 53 +++++++++++++++++++++++++++++++++++++++++++++-
->   disas/nanomips.h   | 53 ----------------------------------------------
->   2 files changed, 52 insertions(+), 54 deletions(-)
+>   disas/nanomips.h | 26 --------------------------
+>   1 file changed, 26 deletions(-)
+>   delete mode 100644 disas/nanomips.h
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
