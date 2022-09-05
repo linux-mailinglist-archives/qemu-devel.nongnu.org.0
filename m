@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C3FA5AD1BF
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 13:46:01 +0200 (CEST)
-Received: from localhost ([::1]:34574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 691E55AD1A4
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 13:37:17 +0200 (CEST)
+Received: from localhost ([::1]:36026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVAYC-0001CI-76
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 07:46:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54334)
+	id 1oVAPf-0002z9-00
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 07:37:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oV9vF-0007nz-Rg
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:05:45 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:56081)
+ id 1oV9vy-0008CI-Ai
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:06:31 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:38457)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oV9vE-0004Po-4C
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:05:45 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id d5so5055371wms.5
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 04:05:43 -0700 (PDT)
+ id 1oV9vw-0004Ua-6g
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:06:30 -0400
+Received: by mail-wr1-x429.google.com with SMTP id b5so10871902wrr.5
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 04:06:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=CykEQMBV9bsbemN+z3bfKrNdaOj/I6om3BydJgHIh0E=;
- b=m/DHbl8oDn0Vszeh+FYOPXmmWCRi9LK7f3qxLDjODyDPNTr71tobaDiG6ZFnP9/Tq2
- 7PIMezDC8bc9rhzjIoRt7E9yUaiuxmSm4Nf1bfJxNamK6VNZWLW4ZCjwHrPPuxmSEJFL
- rix/ge3uiPLk52sXt0eSeTG8vDarZL3GIvV+oArrAmyNoi807InF8N5Ry2Nlw2OYyPPh
- 6AEUZf4ka2dkDR9zfw50dcGtxamJDYJ+zX2N6g5GQGBoGhJp56YYt/xM52k2fwWWcc/X
- T6NRu5R1zJlbqyHgTnioXeDf17qDu2+5C3xucIhLpxuHnYqef8MJ73dl/6zOxE8V3BtY
- pmSQ==
+ bh=KHGjXT6veYmkUwnU+dXdWjg6FlMkGyJVhwy/Eo9nmdM=;
+ b=LqBvCNBJDxZ0SA57rVWuDJMfYAfTrVoxcpb4k4GKLtTdOolj2es1az4Vxr5gSlRwkh
+ X6XCIOKQTp2rffHwiFGdWpCM/BzmmqtyHe+oAby6oW1l7NmoXOA8XTFefgRI+90kJNbN
+ DH9OAaY4YW5oneqMFF0OoS/jFn8DTKcb9+Q9afuPaoorKIBJ3E67vE+EiIGSqXND6Tiu
+ qI/KmIWPbvKVvnI6WO9z6n3WSNV14H48cX52VopY79JAk1KYyPpwrCCAtuXLO2E/5xmq
+ Q2rGMkuJ0fj1banprgaEulBvwqCFhqe826GuHP4H4Brna7BLGv0a+uhxDFnfuRGdhofZ
+ Nn2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=CykEQMBV9bsbemN+z3bfKrNdaOj/I6om3BydJgHIh0E=;
- b=tPYQymeTvUeDHgF0Ayx0zI8bxCcL4seW4xTvqT+IjFBHD+5zwkwbvSFNkPYu30Ozl+
- HO95BKpveS/fDC2gd99sBX/fQG8lwJ5VCdPipr8MnXgmgxhpiRLoQ9T7y9NLcScN4AAu
- r8V80SNAT9FuLcuqAfV/Qyw5Uyh8xHAs1050WG47SQqnfPq9x1T2UmE7dx1QuoxVF0rU
- 7K2xIuHBQn5ou7Y14JFB+B8CzNjHDzowyQ4tIIBOdbTTjrE5yVFKGgwiV07qTu1nDB8r
- 5LUTFVvoUyUL0U5SrU2qFtKowTASds14OVCNDjh8NlcynClYUxEJObrjM+YsBKsV04qr
- BMDA==
-X-Gm-Message-State: ACgBeo3F+UKS0qRxoopnlpuj411BpzICWvzTbOC27FXxCuGhugwYy/ub
- idnIM4uwU3I7307iISOn8DpEfw==
-X-Google-Smtp-Source: AA6agR4EtMkN8r6TyeiCbVOkNafIgIBdd591CfL30zOSXSXJG8D6nvP0QSkgoiZxHeBT79qh4Ry8ng==
-X-Received: by 2002:a05:600c:19d3:b0:3a8:3b06:655a with SMTP id
- u19-20020a05600c19d300b003a83b06655amr10276247wmq.182.1662375942791; 
- Mon, 05 Sep 2022 04:05:42 -0700 (PDT)
+ bh=KHGjXT6veYmkUwnU+dXdWjg6FlMkGyJVhwy/Eo9nmdM=;
+ b=3L0QPtS5njBF9Q4BR4Gldptak18/rVh/uwogNqtmeJS4T1N4+9cq1N4MMux2d5sPAa
+ IiIbGpSEkAglPxUkbu/LDPuEc7jFbpVcVVxf7PxpeWcZeVY4/9kqhJ1X4tU/AgzM+XwY
+ wmfV9KNsunTxPiskvRZZ00gN4IhEdFOJQWKRrF9bFQrpmkSELvpBbEAIVnezWqOXPKUi
+ G6YD9a66lLBHf0qelZJxpK/IY3VgieuJ0OFv/AGIJt0ZadH2Gzla+aSZ98QuKqm/0EPD
+ Ve1mmy3bdPzCWkSK0+lN1hzQkJyEQWvvlR5AoSwRw87nFyG9lYfpAEYrJM62J7GPX0Go
+ //vA==
+X-Gm-Message-State: ACgBeo3qUnSeMQdfTF2gQVRmOckSb8Nvxm2tE0Qt/Iwtw1ZFEQCKdGuf
+ NPX2GoIgX15WLpOc9e1NJMv5VQ==
+X-Google-Smtp-Source: AA6agR5b4D/8oxJ/ZXJ8gGA41tLNa4eWBOK0zh6DHAl+F38yKeYvrsJLhWNOjcSbv27TFAce77gSpQ==
+X-Received: by 2002:a5d:67ca:0:b0:228:7ad5:768f with SMTP id
+ n10-20020a5d67ca000000b002287ad5768fmr2865416wrw.163.1662375985770; 
+ Mon, 05 Sep 2022 04:06:25 -0700 (PDT)
 Received: from ?IPV6:2a02:8084:a5c0:5a80:f2bf:c5c3:8866:995c?
  ([2a02:8084:a5c0:5a80:f2bf:c5c3:8866:995c])
  by smtp.gmail.com with ESMTPSA id
- az3-20020a05600c600300b003a6a3595edasm10691607wmb.27.2022.09.05.04.05.40
+ z15-20020a5d654f000000b002211fc70174sm10132144wrv.99.2022.09.05.04.06.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Sep 2022 04:05:41 -0700 (PDT)
-Message-ID: <97ef3c95-0d40-a658-832a-0339fd1480cf@linaro.org>
-Date: Mon, 5 Sep 2022 12:05:39 +0100
+ Mon, 05 Sep 2022 04:06:25 -0700 (PDT)
+Message-ID: <7cb1616f-0e93-e7ad-5661-f6b237646a04@linaro.org>
+Date: Mon, 5 Sep 2022 12:06:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 04/20] disas/nanomips: Remove helper methods from class
+Subject: Re: [PATCH v2 05/20] disas/nanomips: Remove __cond methods from class
 Content-Language: en-US
 To: Milica Lazarevic <milica.lazarevic@syrmia.com>, thuth@redhat.com
 Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
  pbonzini@redhat.com, vince.delvecchio@mediatek.com,
  peter.maydell@linaro.org, djordje.todorovic@syrmia.com, mips32r2@gmail.com,
- dragan.mladjenovic@syrmia.com
+ dragan.mladjenovic@syrmia.com, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>
 References: <20220905095522.66941-1-milica.lazarevic@syrmia.com>
- <20220905095522.66941-5-milica.lazarevic@syrmia.com>
+ <20220905095522.66941-6-milica.lazarevic@syrmia.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220905095522.66941-5-milica.lazarevic@syrmia.com>
+In-Reply-To: <20220905095522.66941-6-milica.lazarevic@syrmia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32f.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -99,27 +100,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/5/22 10:55, Milica Lazarevic wrote:
-> Helper methods from NMD class like NMD::renumber_registers,
-> NMD::decode_gpr_gpr4... etc. are removed from the class. They're now
-> declared global static functions.
+> NMD class methods with the conditional_function type like
+> NMD::ADDIU_32__cond, NMD::ADDIU_RS5__cond, etc. are removed from the NMD
+> class. They're now declared global static functions. Therefore, typedef
+> of the function pointer, conditional_function is defined outside of the
+> class.
 > 
-> Following helper methods have been deleted because they're not used by
-> the nanomips disassembler:
-> - NMD::encode_msbd_from_pos_and_size,
-> - NMD::encode_s_from_s_hi,
-> - NMD::neg_copy
-> 
-> Global functions used by those methods:
-> - nanomips_dis
-> - sign_extend
-> - extract_bits
-> have also been defined as static global functions.
+> Now that conditional_function type functions are not part of the NMD
+> class we can't access them using the this pointer. Thus, the use of
+> the this pointer has been deleted.
 > 
 > Signed-off-by: Milica Lazarevic<milica.lazarevic@syrmia.com>
+> Reviewed-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   disas/nanomips.cpp | 328 +++++++++++++++++++++------------------------
->   disas/nanomips.h   | 144 --------------------
->   2 files changed, 154 insertions(+), 318 deletions(-)
+>   disas/nanomips.cpp | 42 +++++++++++++++++++++---------------------
+>   disas/nanomips.h   | 14 ++------------
+>   2 files changed, 23 insertions(+), 33 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
