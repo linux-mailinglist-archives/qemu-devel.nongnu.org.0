@@ -2,109 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D647D5AD8E8
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 20:14:38 +0200 (CEST)
-Received: from localhost ([::1]:58372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04CF55AD8F5
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 20:17:31 +0200 (CEST)
+Received: from localhost ([::1]:46584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVGcG-0004X3-Gr
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 14:14:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53176)
+	id 1oVGf3-0007MI-R8
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 14:17:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oVGZl-0002fg-It; Mon, 05 Sep 2022 14:12:01 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:3560)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oVGZj-0000Tn-9G; Mon, 05 Sep 2022 14:12:01 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 285Hs8ld031962;
- Mon, 5 Sep 2022 18:11:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=5Sn5DLRkJI/ejM3FYUqA6pKiiZDixmjvdk9MJhVvPjk=;
- b=OQvWRrKLyqS7vuk++ha2oP73S9p13wOdwlsDXhfzmNVvNmqszmhhcBl//yy8zFWnhs/8
- L9mYSMScebTEjplHBX+aR4yOArkZm0KsYuNuIHZm+Kj6+wI/sCB8ukdhHlF8l4BhKS/C
- tou1rhF9buV5TFGm5+cymp3QK6jB1cdyrbSSomFrwAEwhvcLhgcpK7eOeo3rETbkgkP+
- ddv4hMjBHAP7HCKdpVNsDbF2psgfL50L6lP5jsVXzutanrbcC+HmFQfwmyykufJdNrpw
- 6xvTliMCpd7i7wlTivzUE7UeJIyXRonATcoljBQwrd8gBE7omoy1uE6HPSI1lm0H7g6B Dg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jdnwy0gkb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 05 Sep 2022 18:11:55 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 285HxNdT018024;
- Mon, 5 Sep 2022 18:11:54 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jdnwy0gj4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 05 Sep 2022 18:11:54 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 285I6OQJ025279;
- Mon, 5 Sep 2022 18:11:52 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma05fra.de.ibm.com with ESMTP id 3jbxj8t1st-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 05 Sep 2022 18:11:52 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 285ICCpW37355960
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 5 Sep 2022 18:12:12 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9386211C04C;
- Mon,  5 Sep 2022 18:11:48 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D12D011C04A;
- Mon,  5 Sep 2022 18:11:47 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.44.172])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  5 Sep 2022 18:11:47 +0000 (GMT)
-Message-ID: <bac31c028a713c32130b397189552f17b43a9485.camel@linux.ibm.com>
-Subject: Re: [PATCH v9 02/10] s390x/cpu topology: core_id sets s390x CPU
- topology
-From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com
-Date: Mon, 05 Sep 2022 20:11:47 +0200
-In-Reply-To: <20220902075531.188916-3-pmorel@linux.ibm.com>
-References: <20220902075531.188916-1-pmorel@linux.ibm.com>
- <20220902075531.188916-3-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oVGcL-0004jH-R0
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 14:14:41 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44968)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oVGcH-0000gL-Ov
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 14:14:41 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id c11so8069392wrp.11
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 11:14:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=Ppwiu0C7rj5YMdHlmuoF0vx1Z+E1HyK/dvxKmCDMBYE=;
+ b=MLhvU1C9hK7eqhovUL6qc4vuGDPixTKuPw4IEm9suQ992CS4yfDB8f4zjBOEyiVkwQ
+ zgktxxtrnVFGXKJ1hUNHtvCF2rDdi1+jjA2RiWRsA1kPME0lUzc0AvMavkGHIuJqSfd2
+ f0wTyifA5Rs4OK1t3+jKGYeZrfxsm1geBik4QiiGyLqnqT7G8SiKZ6Zvg4XNxa1whyrZ
+ UBVsNUOTitiSp583k2trtqNSpCzdNxndiEjAACyJe4kBpbImUC6mEZxkU8xlpu9SYkWq
+ iCwGxwHJTfIPAC4lKYXsMuGcz5YPLy+D5fJ9JU2fj8AmoQlVRfyj0qm58JVnSCAIOp5K
+ CN4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=Ppwiu0C7rj5YMdHlmuoF0vx1Z+E1HyK/dvxKmCDMBYE=;
+ b=sbarjbS7VVy4l3OkruTU//9IBau2Pc48RjCE5p72ZcBJN/f/Wv7bH708i3Hh/EAt7d
+ jOJJqNhgZtSSEp23HKf6jhBakLdPAiTgQYJ8dUFNuJzleizwipOO5MZmMnw8SxuZ5rFC
+ 3G0HD694sFe080pqcnG1ERxZO15OYZifgRHr6RmJznR10er8cVOtGIqIk1I7XFBu+vGq
+ 775KQ1Yo51rXqO72Le1qrSULcXy1qtmJnCK9l7PnFGI4e4qPuD8Z8Z1/1B0frKMZhhsj
+ UI7Yfo5Pkcn+7QZwdU774wzf/MxeSx9NCmpC/a6nCyMpEK978hZ68cKXwHWluLbRRlOp
+ hkGg==
+X-Gm-Message-State: ACgBeo2ebCuGzNWrJ6QhXVICevfGN5N+I1HRDxenuoujctmuOlaCoknt
+ ve1b4xPGRAx/ALV46qL3PFZmTw==
+X-Google-Smtp-Source: AA6agR5XpRFg5PnA3HvXijRy66IczTZB6Jzo8yk8Ez0l8MEvGmCGWm3dfNyQEzEuCAlAz+bgLax/EQ==
+X-Received: by 2002:a5d:6c6f:0:b0:226:f30d:95ba with SMTP id
+ r15-20020a5d6c6f000000b00226f30d95bamr13449150wrz.170.1662401675954; 
+ Mon, 05 Sep 2022 11:14:35 -0700 (PDT)
+Received: from ?IPV6:2a02:8084:a5c0:5a80:d0ad:82b5:d7a4:c0a9?
+ ([2a02:8084:a5c0:5a80:d0ad:82b5:d7a4:c0a9])
+ by smtp.gmail.com with ESMTPSA id
+ z16-20020a5d4c90000000b002254880c049sm9565682wrs.31.2022.09.05.11.14.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Sep 2022 11:14:35 -0700 (PDT)
+Message-ID: <ccf44208-d67c-f14d-dac3-f7a910309877@linaro.org>
+Date: Mon, 5 Sep 2022 19:14:32 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: qMScA2TnKkuDy6OsHohpjipYX7in9fzM
-X-Proofpoint-ORIG-GUID: YQvcNrW1hq7r9HOBMSE2GMaMsL4Ajq6p
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-05_13,2022-09-05_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 malwarescore=0 spamscore=0 phishscore=0 suspectscore=0
- mlxlogscore=999 clxscore=1015 adultscore=0 bulkscore=0 priorityscore=1501
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2209050088
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=scgl@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PING PATCH v2] linux-user: Passthrough MADV_DONTNEED for certain
+ file mappings
+Content-Language: en-US
+To: Ilya Leoshkevich <iii@linux.ibm.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>
+References: <20220725125043.43048-1-iii@linux.ibm.com>
+ <af00707e90837bfbdf7febae1d3327307948dcd7.camel@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <af00707e90837bfbdf7febae1d3327307948dcd7.camel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -121,121 +97,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2022-09-02 at 09:55 +0200, Pierre Morel wrote:
-> In the S390x CPU topology the core_id specifies the CPU address
-> and the position of the core withing the topology.
+On 9/1/22 09:45, Ilya Leoshkevich wrote:
+>> +/*
+>> + * For linux-user, indicates that the page is mapped with the same
+>> semantics
+>> + * in both guest and host.
+>> + */
+>> +#define PAGE_PASSTHROUGH 0x0800
+
+I would expect a change to PAGE_STICKY in accel/tcg/translate-all.c, so that this bit is 
+preserved across mprotect.  Yes?
+
+>> @@ -845,7 +861,7 @@ static bool
+>> can_passthrough_madv_dontneed(abi_ulong start, abi_ulong end)
+>>       }
+>>   
+>>       for (addr = start; addr < end; addr += TARGET_PAGE_SIZE) {
+>> -        if (!(page_get_flags(addr) & PAGE_ANON)) {
+>> +        if (!(page_get_flags(addr) & (PAGE_ANON |
+>> PAGE_PASSTHROUGH))) {
+
+Do you want both PAGE_ANON and PAGE_PASSTHROUGH?
+If not, is PAGE_PASSTHOUGH is sufficient by itself, why check PAGE_ANON?
+
+> I would like to ping this patch and two others that I used for
+> debugging it:
 > 
-> Let's build the topology based on the core_id.
-> 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->  hw/s390x/cpu-topology.c         | 135 ++++++++++++++++++++++++++++++++
->  hw/s390x/meson.build            |   1 +
->  hw/s390x/s390-virtio-ccw.c      |  10 +++
->  include/hw/s390x/cpu-topology.h |  42 ++++++++++
->  4 files changed, 188 insertions(+)
->  create mode 100644 hw/s390x/cpu-topology.c
->  create mode 100644 include/hw/s390x/cpu-topology.h
-> 
-> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-> 
-[...]
+> [PATCH] linux-user: Fix stracing in-memory mmap arguments
+> https://patchew.org/QEMU/20220630165901.2459135-1-iii@linux.ibm.com/
 
-> +/**
-> + * s390_topology_realize:
-> + * @dev: the device state
-> + * @errp: the error pointer (not used)
-> + *
-> + * During realize the machine CPU topology is initialized with the
-> + * QEMU -smp parameters.
-> + * The maximum count of CPU TLE in the all Topology can not be greater
-> + * than the maximum CPUs.
-> + */
-> +static void s390_topology_realize(DeviceState *dev, Error **errp)
-> +{
-> +    MachineState *ms = MACHINE(qdev_get_machine());
-> +    S390Topology *topo = S390_CPU_TOPOLOGY(dev);
-> +    int n;
-> +
-> +    topo->sockets = ms->smp.sockets;
-> +    topo->cores = ms->smp.cores;
-> +    topo->tles = ms->smp.max_cpus;
-> +
-> +    n = topo->sockets;
-> +    topo->socket = g_malloc0(n * sizeof(S390TopoContainer));
-> +    topo->tle = g_malloc0(topo->tles * sizeof(S390TopoTLE));
+Queued to linux-user-next.
 
-Seems like a good use case for g_new0.
+> [PATCH] linux-user: Implement stracing madvise()
+> https://patchew.org/QEMU/20220725134440.172892-1-iii@linux.ibm.com/
 
-[...]
-> 
-> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
-> new file mode 100644
-> index 0000000000..6911f975f4
-> --- /dev/null
-> +++ b/include/hw/s390x/cpu-topology.h
-> @@ -0,0 +1,42 @@
-> +/*
-> + * CPU Topology
-> + *
-> + * Copyright 2022 IBM Corp.
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
-> + * your option) any later version. See the COPYING file in the top-level
-> + * directory.
-> + */
-> +#ifndef HW_S390X_CPU_TOPOLOGY_H
-> +#define HW_S390X_CPU_TOPOLOGY_H
+There are many more MADV_* than just the 5 you list.
 
-Is there a reason this is before the includes?
-> +
-> +typedef struct S390TopoContainer {
-> +    int active_count;
-> +} S390TopoContainer;
-> +
-> +#define S390_TOPOLOGY_MAX_ORIGIN (1 + S390_MAX_CPUS / 64)
 
-This is correct because cpu_id == core_id for s390, right?
-So the cpu limit also applies to the core id.
-You could do ((S390_MAX_CPUS + 63) / 64) instead.
-But if you chose this for simplicity's sake, I'm fine with it.
-
-> +typedef struct S390TopoTLE {
-> +    int active_count;
-
-Do you use (read) this field somewhere?
-Is this in anticipation of there being multiple TLE arrays, for
-different polarizations, etc? If so I would defer this for later.
-
-> +    uint64_t mask[S390_TOPOLOGY_MAX_ORIGIN];
-> +} S390TopoTLE;
-> +
-> +#include "hw/qdev-core.h"
-> +#include "qom/object.h"
-> +
-> +struct S390Topology {
-> +    SysBusDevice parent_obj;
-> +    int sockets;
-> +    int cores;
-
-These are just cached values from machine_state.smp, right?
-Not sure if I like the redundancy, it doesn't aid in comprehension.
-
-> +    int tles;
-> +    S390TopoContainer *socket;
-> +    S390TopoTLE *tle;
-> +};
-> +typedef struct S390Topology S390Topology;
-
-The DECLARE macro takes care of this typedef.
-
-> +
-> +#define TYPE_S390_CPU_TOPOLOGY "s390-topology"
-> +OBJECT_DECLARE_SIMPLE_TYPE(S390Topology, S390_CPU_TOPOLOGY)
-> +
-> +S390Topology *s390_get_topology(void);
-> +void s390_topology_new_cpu(int core_id);
-> +
-> +#endif
-
+r~
 
