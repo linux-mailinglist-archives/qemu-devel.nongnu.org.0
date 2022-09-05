@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E4445AD40A
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 15:36:04 +0200 (CEST)
-Received: from localhost ([::1]:40278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 818755AD377
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 15:11:26 +0200 (CEST)
+Received: from localhost ([::1]:49184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVCGh-00045v-1P
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 09:36:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47530)
+	id 1oVBsp-0008VU-6H
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 09:11:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oVBfp-0002Y5-Dq
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 08:57:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39825)
+ id 1oVBfs-0002mU-SZ
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 08:58:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54359)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oVBfi-0001m7-Eg
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 08:57:54 -0400
+ id 1oVBfo-0001mS-2j
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 08:58:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662382668;
+ s=mimecast20190719; t=1662382674;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=cy1PxnuMvxjQ/SxIrM9nRH1ZwgAoGScfuqrYBw7zXos=;
- b=ZqBBpbNOswT2+3SasNZ6U00SlgJXHAN0qhdHQnDy7H/676ohjPJsFRbhrufd5msqBh/Vug
- 8GcQr9nntukXvo1OYqOQmZGMcARl7DbKduBRihmHiiXsqtKuOCcuh5lY5Qh3m0pMPmbTYm
- P0Uud9xm0SuHwCLgCHqg/CjKR/B5Gtw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ib5OUHJ7s7dSVL7IHHZjpGVNNwEflqbPGN5wYRKu1cA=;
+ b=G7xOemjjyCcK78Bv9o5mUywNjhaICA1y7OtA+2KpVdT76OWjO9Bs4QLJMaFQM6tmgj+POC
+ F9hqbKWXQTWGMPwkCDbLfJrkcIfN8kJjxhVfBlZQTkMwLLPaj9/ahGxql9lmO6ftotQwZG
+ w5Gzl5h0WnpruB5EyM+becZ5j853f/E=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-621-7bjVAsJzPvux5Im-EaVHoQ-1; Mon, 05 Sep 2022 08:57:45 -0400
-X-MC-Unique: 7bjVAsJzPvux5Im-EaVHoQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-627-KRvHihI-MGqJlSxERHFcow-1; Mon, 05 Sep 2022 08:57:50 -0400
+X-MC-Unique: KRvHihI-MGqJlSxERHFcow-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4F774801755;
- Mon,  5 Sep 2022 12:57:45 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E567E3C216C0;
+ Mon,  5 Sep 2022 12:57:49 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5442340D296C;
- Mon,  5 Sep 2022 12:57:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BB6FA1415102;
+ Mon,  5 Sep 2022 12:57:48 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, qiaonuohan@cn.fujitsu.com,
@@ -49,13 +50,15 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qiaonuohan@cn.fujitsu.com,
  Stefan Berger <stefanb@linux.vnet.ibm.com>,
  David Hildenbrand <david@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 0/2] Fix dumping in kdump format with non-aligned memory
-Date: Mon,  5 Sep 2022 16:57:39 +0400
-Message-Id: <20220905125741.95516-1-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 1/2] dump: simplify a bit kdump get_next_page()
+Date: Mon,  5 Sep 2022 16:57:40 +0400
+Message-Id: <20220905125741.95516-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20220905125741.95516-1-marcandre.lureau@redhat.com>
+References: <20220905125741.95516-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -83,28 +86,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Hi,
+This should be functionally equivalent, but slightly easier to read,
+with simplified paths and checks at the end of the function.
 
-dump.c:get_next_page expects GuestPhysBlock to be page-aligned, and crashes over
-memory regions such as "tpm-crb-cmd". Teach it to handle non-aligned regions
-too, by using a caller pre-allocated filled up page as necessary.
+The following patch is a major rewrite to get rid of the assert().
 
-Fixes:
-https://bugzilla.redhat.com/show_bug.cgi?id=2120480
-
-v2:
- - drop some unnecessary changes in the first patch
- - use pre-allocated caller memory, instead of allocating in get_next_page()
- - fix some comment
-
-Marc-André Lureau (2):
-  dump: simplify a bit kdump get_next_page()
-  dump: fix kdump to work over non-aligned blocks
-
- dump/dump.c | 88 +++++++++++++++++++++++++++++++++++------------------
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ dump/dump.c | 21 ++++++++-------------
  roms/SLOF   |  2 +-
- 2 files changed, 59 insertions(+), 31 deletions(-)
+ 2 files changed, 9 insertions(+), 14 deletions(-)
 
+diff --git a/dump/dump.c b/dump/dump.c
+index 4d9658ffa2..f465830371 100644
+--- a/dump/dump.c
++++ b/dump/dump.c
+@@ -1110,17 +1110,11 @@ static bool get_next_page(GuestPhysBlock **blockptr, uint64_t *pfnptr,
+     if (!block) {
+         block = QTAILQ_FIRST(&s->guest_phys_blocks.head);
+         *blockptr = block;
+-        assert((block->target_start & ~target_page_mask) == 0);
+-        assert((block->target_end & ~target_page_mask) == 0);
+-        *pfnptr = dump_paddr_to_pfn(s, block->target_start);
+-        if (bufptr) {
+-            *bufptr = block->host_addr;
+-        }
+-        return true;
++        addr = block->target_start;
++    } else {
++        addr = dump_pfn_to_paddr(s, *pfnptr + 1);
+     }
+-
+-    *pfnptr = *pfnptr + 1;
+-    addr = dump_pfn_to_paddr(s, *pfnptr);
++    assert(block != NULL);
+ 
+     if ((addr >= block->target_start) &&
+         (addr + s->dump_info.page_size <= block->target_end)) {
+@@ -1132,12 +1126,13 @@ static bool get_next_page(GuestPhysBlock **blockptr, uint64_t *pfnptr,
+         if (!block) {
+             return false;
+         }
+-        assert((block->target_start & ~target_page_mask) == 0);
+-        assert((block->target_end & ~target_page_mask) == 0);
+-        *pfnptr = dump_paddr_to_pfn(s, block->target_start);
++        addr = block->target_start;
+         buf = block->host_addr;
+     }
+ 
++    assert((block->target_start & ~target_page_mask) == 0);
++    assert((block->target_end & ~target_page_mask) == 0);
++    *pfnptr = dump_paddr_to_pfn(s, addr);
+     if (bufptr) {
+         *bufptr = buf;
+     }
+diff --git a/roms/SLOF b/roms/SLOF
+index 6b6c16b4b4..5b4c5acdcd 160000
+--- a/roms/SLOF
++++ b/roms/SLOF
+@@ -1 +1 @@
+-Subproject commit 6b6c16b4b40763507cf1f518096f3c3883c5cf2d
++Subproject commit 5b4c5acdcd552a4e1796aeca6bb700f6cbb0282d
 -- 
 2.37.2
 
