@@ -2,55 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0A8A5AD349
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 14:58:13 +0200 (CEST)
-Received: from localhost ([::1]:51992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18BFE5AD3D2
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 15:26:10 +0200 (CEST)
+Received: from localhost ([::1]:39724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVBg4-0002m4-UV
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 08:58:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59810)
+	id 1oVC74-00088Z-Ua
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 09:26:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1oVBMt-0004gM-NV; Mon, 05 Sep 2022 08:38:23 -0400
-Received: from [200.168.210.66] (port=8387 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <victor.colombo@eldorado.org.br>)
- id 1oVBMs-0005xB-1Z; Mon, 05 Sep 2022 08:38:23 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 5 Sep 2022 09:38:04 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 2120A8001D1;
- Mon,  5 Sep 2022 09:38:04 -0300 (-03)
-From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, richard.henderson@linaro.org,
- victor.colombo@eldorado.org.br, matheus.ferst@eldorado.org.br,
- lucas.araujo@eldorado.org.br, leandro.lupori@eldorado.org.br,
- lucas.coutinho@eldorado.org.br
-Subject: [PATCH 3/3] target/ppc: Merge fsqrt and fsqrts helpers
-Date: Mon,  5 Sep 2022 09:37:46 -0300
-Message-Id: <20220905123746.54659-4-victor.colombo@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220905123746.54659-1-victor.colombo@eldorado.org.br>
-References: <20220905123746.54659-1-victor.colombo@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oVBNj-0005b6-QI; Mon, 05 Sep 2022 08:39:17 -0400
+Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:36727)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oVBNh-00067X-Sy; Mon, 05 Sep 2022 08:39:15 -0400
+Received: by mail-ot1-x333.google.com with SMTP id
+ 6-20020a9d0106000000b0063963134d04so6082642otu.3; 
+ Mon, 05 Sep 2022 05:39:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=3IzEDAFIXEEsyRpUhJwNWq7B++X6NxyLCPDvvPFTzWI=;
+ b=kYusV5RKJ4ocIbXKzNm1D7lFg5oyBBwI7odV+kQ12tpV6YvW+r/PpfHt5y/0LyfujO
+ CZpp15imvbQddf/fQvprn+Rmf6KGtO30VsNlQT3hTb3I5LDGE+r3oHo9DrXAH+yfgIP0
+ PLDdrqJHDGElFLBH5qHhDd+PPDn2LMu8B0evSWOXqh02OVroPWyj57XchMonX/imo3kD
+ S5MARRgvuP24KThLZobeuh3aAvtQH26cSsMimHWMeXhtbeb4S3oV/wp1BMyn4QtrMqMj
+ UBfcMlUXHoU9F7zplZtJ25kqhiu5lLzxqoKSFc7d/teFS1OzPQ/Z3QpSOKxK1Yam//UM
+ 9AMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=3IzEDAFIXEEsyRpUhJwNWq7B++X6NxyLCPDvvPFTzWI=;
+ b=P75wtDK892ycPcxR2AbWYZpqPyWciOOz386bZAGvOtxEccsOZ7rIHzpHS2ti/s7RzC
+ UoVkV759bVSxS/z5rLbczl1xXqPj5skK+aiuJKhZ0K3T8F+lBXs12KNXxS6GPxmfOhLd
+ PR1ycvnOSYgV6CD0DjHra4qGcBa4+DKi5k0ipfhupE0+wORn/Y2u9UnP75QiOZDIW6C7
+ Zu4r3M4L7tm1cgIE65AFirwFOCMHHODzcR9Dnd6tFts/oSQ5MIQN8VdM84fDalzBwt3Y
+ VYmP5Q7sAKzXSKzP2LVBUvUmjMgRzvIMt0k9thaQo5SuPMvyebz2dXjbuWFwmvgtuUI+
+ i5cg==
+X-Gm-Message-State: ACgBeo1pWlUcoy/uDyAjxom2jgq/ex04G48sU1mbmel3aXkAhz7+jvCy
+ r1Ko7ur81eggWQaN8wQiRNY=
+X-Google-Smtp-Source: AA6agR6h0xYLQKJOwzxG7zq01syc7h7j6it+Ju71J1gCMFqB35Ls8BuFG7kKaQaRFcqA1N+34drAVQ==
+X-Received: by 2002:a05:6830:4112:b0:637:45ba:72d6 with SMTP id
+ w18-20020a056830411200b0063745ba72d6mr18376019ott.309.1662381552274; 
+ Mon, 05 Sep 2022 05:39:12 -0700 (PDT)
+Received: from [192.168.10.102] (200-207-147-180.dsl.telesp.net.br.
+ [200.207.147.180]) by smtp.gmail.com with ESMTPSA id
+ d4-20020a9d72c4000000b0063b34c35575sm4618803otk.42.2022.09.05.05.39.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Sep 2022 05:39:11 -0700 (PDT)
+Message-ID: <6f3c5db0-8d1a-941e-1024-f06ec69030d5@gmail.com>
+Date: Mon, 5 Sep 2022 09:39:08 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v6 06/14] hw/ppc: set machine->fdt in
+ sam460ex_load_device_tree()
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org
+References: <20220904233456.209027-1-danielhb413@gmail.com>
+ <20220904233456.209027-7-danielhb413@gmail.com>
+ <fbf6b3f-4fa3-928a-8ef9-83af7e2e835@eik.bme.hu>
+Content-Language: en-US
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <fbf6b3f-4fa3-928a-8ef9-83af7e2e835@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 05 Sep 2022 12:38:04.0581 (UTC)
- FILETIME=[57F0C550:01D8C124]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x333.google.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.716,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,97 +96,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These two helpers are almost identical, differing only by the softfloat
-operation it calls. Merge them into one using a macro.
-Also, take this opportunity to capitalize the helper name as we moved
-the instruction to decodetree in a previous patch.
 
-Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
----
- target/ppc/fpu_helper.c            | 35 +++++++++++-------------------
- target/ppc/helper.h                |  4 ++--
- target/ppc/translate/fp-impl.c.inc |  4 ++--
- 3 files changed, 17 insertions(+), 26 deletions(-)
 
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 0f045b70f8..32995179b5 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -830,30 +830,21 @@ static void float_invalid_op_sqrt(CPUPPCState *env, int flags,
-     }
- }
- 
--/* fsqrt - fsqrt. */
--float64 helper_fsqrt(CPUPPCState *env, float64 arg)
--{
--    float64 ret = float64_sqrt(arg, &env->fp_status);
--    int flags = get_float_exception_flags(&env->fp_status);
--
--    if (unlikely(flags & float_flag_invalid)) {
--        float_invalid_op_sqrt(env, flags, 1, GETPC());
--    }
--
--    return ret;
-+#define FPU_FSQRT(name, op)                                                   \
-+float64 helper_##name(CPUPPCState *env, float64 arg)                          \
-+{                                                                             \
-+    float64 ret = op(arg, &env->fp_status);                                   \
-+    int flags = get_float_exception_flags(&env->fp_status);                   \
-+                                                                              \
-+    if (unlikely(flags & float_flag_invalid)) {                               \
-+        float_invalid_op_sqrt(env, flags, 1, GETPC());                        \
-+    }                                                                         \
-+                                                                              \
-+    return ret;                                                               \
- }
- 
--/* fsqrts - fsqrts. */
--float64 helper_fsqrts(CPUPPCState *env, float64 arg)
--{
--    float64 ret = float64r32_sqrt(arg, &env->fp_status);
--    int flags = get_float_exception_flags(&env->fp_status);
--
--    if (unlikely(flags & float_flag_invalid)) {
--        float_invalid_op_sqrt(env, flags, 1, GETPC());
--    }
--    return ret;
--}
-+FPU_FSQRT(FSQRT, float64_sqrt)
-+FPU_FSQRT(FSQRTS, float64r32_sqrt)
- 
- /* fre - fre. */
- float64 helper_fre(CPUPPCState *env, float64 arg)
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 159b352f6e..68610896b8 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -116,8 +116,8 @@ DEF_HELPER_4(fmadds, i64, env, i64, i64, i64)
- DEF_HELPER_4(fmsubs, i64, env, i64, i64, i64)
- DEF_HELPER_4(fnmadds, i64, env, i64, i64, i64)
- DEF_HELPER_4(fnmsubs, i64, env, i64, i64, i64)
--DEF_HELPER_2(fsqrt, f64, env, f64)
--DEF_HELPER_2(fsqrts, f64, env, f64)
-+DEF_HELPER_2(FSQRT, f64, env, f64)
-+DEF_HELPER_2(FSQRTS, f64, env, f64)
- DEF_HELPER_2(fre, i64, env, i64)
- DEF_HELPER_2(fres, i64, env, i64)
- DEF_HELPER_2(frsqrte, i64, env, i64)
-diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
-index 7a90c0e350..8d5cf0f982 100644
---- a/target/ppc/translate/fp-impl.c.inc
-+++ b/target/ppc/translate/fp-impl.c.inc
-@@ -280,8 +280,8 @@ static bool do_helper_fsqrt(DisasContext *ctx, arg_A_tb *a,
-     return true;
- }
- 
--TRANS(FSQRT, do_helper_fsqrt, gen_helper_fsqrt);
--TRANS(FSQRTS, do_helper_fsqrt, gen_helper_fsqrts);
-+TRANS(FSQRT, do_helper_fsqrt, gen_helper_FSQRT);
-+TRANS(FSQRTS, do_helper_fsqrt, gen_helper_FSQRTS);
- 
- /***                     Floating-Point multiply-and-add                   ***/
- /* fmadd - fmadds */
--- 
-2.25.1
+On 9/5/22 04:15, BALATON Zoltan wrote:
+> On Sun, 4 Sep 2022, Daniel Henrique Barboza wrote:
+>> This will enable support for 'dumpdtb' QMP/HMP command for the sam460ex
+>> machine.
+>>
+>> Setting machine->fdt requires a MachineState pointer to be used inside
+>> sam460ex_load_device_tree(). Let's change the function to receive this
+>> pointer from the caller. 'ramsize' and 'kernel_cmdline' can be retrieved
+>> directly from the 'machine' pointer.
+>>
+>> Cc: BALATON Zoltan <balaton@eik.bme.hu>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> 
+> Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+> 
+> but could you please do the same at least for bamboo and virtex too to keep these consistent? (and to simplify them a little.)
 
+
+I'll wait for more reviews in the other patches then I'll repost with these
+changes in bamboo and virtex.
+
+
+Thanks,
+
+Daniel
+
+
+> 
+> Regards,
+> BALATON Zoltan
+> 
+>> ---
+>> hw/ppc/sam460ex.c | 21 +++++++++++----------
+>> 1 file changed, 11 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+>> index 850bb3b817..5d09d3c6ab 100644
+>> --- a/hw/ppc/sam460ex.c
+>> +++ b/hw/ppc/sam460ex.c
+>> @@ -131,13 +131,12 @@ static int sam460ex_load_uboot(void)
+>>     return 0;
+>> }
+>>
+>> -static int sam460ex_load_device_tree(hwaddr addr,
+>> -                                     uint32_t ramsize,
+>> +static int sam460ex_load_device_tree(MachineState *machine,
+>> +                                     hwaddr addr,
+>>                                      hwaddr initrd_base,
+>> -                                     hwaddr initrd_size,
+>> -                                     const char *kernel_cmdline)
+>> +                                     hwaddr initrd_size)
+>> {
+>> -    uint32_t mem_reg_property[] = { 0, 0, cpu_to_be32(ramsize) };
+>> +    uint32_t mem_reg_property[] = { 0, 0, cpu_to_be32(machine->ram_size) };
+>>     char *filename;
+>>     int fdt_size;
+>>     void *fdt;
+>> @@ -171,7 +170,8 @@ static int sam460ex_load_device_tree(hwaddr addr,
+>>     qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-end",
+>>                           (initrd_base + initrd_size));
+>>
+>> -    qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", kernel_cmdline);
+>> +    qemu_fdt_setprop_string(fdt, "/chosen", "bootargs",
+>> +                            machine->kernel_cmdline);
+>>
+>>     /* Copy data from the host device tree into the guest. Since the guest can
+>>      * directly access the timebase without host involvement, we must expose
+>> @@ -208,7 +208,9 @@ static int sam460ex_load_device_tree(hwaddr addr,
+>>                               EBC_FREQ);
+>>
+>>     rom_add_blob_fixed(BINARY_DEVICE_TREE_FILE, fdt, fdt_size, addr);
+>> -    g_free(fdt);
+>> +
+>> +    /* Set machine->fdt for 'dumpdtb' QMP/HMP command */
+>> +    machine->fdt = fdt;
+>>
+>>     return fdt_size;
+>> }
+>> @@ -496,9 +498,8 @@ static void sam460ex_init(MachineState *machine)
+>>     if (machine->kernel_filename) {
+>>         int dt_size;
+>>
+>> -        dt_size = sam460ex_load_device_tree(FDT_ADDR, machine->ram_size,
+>> -                                    RAMDISK_ADDR, initrd_size,
+>> -                                    machine->kernel_cmdline);
+>> +        dt_size = sam460ex_load_device_tree(machine, FDT_ADDR,
+>> +                                            RAMDISK_ADDR, initrd_size);
+>>
+>>         boot_info->dt_base = FDT_ADDR;
+>>         boot_info->dt_size = dt_size;
+>>
 
