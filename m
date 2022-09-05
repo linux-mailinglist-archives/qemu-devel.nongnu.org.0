@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1A935AD36F
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 15:08:11 +0200 (CEST)
-Received: from localhost ([::1]:35022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E06945AD37A
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 15:11:49 +0200 (CEST)
+Received: from localhost ([::1]:49970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVBpi-0002zs-Kg
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 09:08:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44394)
+	id 1oVBtE-0000pY-Tk
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 09:11:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oVBcl-0006dL-A8
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 08:54:47 -0400
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:41980)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oVBfC-0001hQ-Fn
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 08:57:19 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:37515)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oVBcY-0000to-Ah
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 08:54:46 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id 130so12649361ybw.8
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 05:54:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=3ga/595fE8x15FKGYZ7HmtryMyJtS5OjiEez8PAcw5o=;
- b=yEjtWY76ZPizVlu1XL9OFB9Z4DMiYg5/yOchsjlERe5ZfAlyAzzdXi3lJqQlawZ5oo
- /Wj8iZf8sbf/dz5Y7lxMCXhpfGJFdURCL0bHH/OBjo7I1SFcnNT+H45aqumtTsew88PM
- 6b/nt2PCIeUNXU0tThd8S9+8gU3jAhmp9cX/wHnkwto4iBdzJwCPct1DzFkJyECn/fO4
- /bvcp90NPm5zqo19ruh1+GnsAuKvqvxV+pcSe2Ug+g5qI5jvA7fINrXOQXVoUFBt9Sde
- ZWmglNl1wnEgQMJi+M/by3KXcwximp5TGQXc4QKs/EzDGj53EOYbRqOXX/K48VuH6q37
- 9Rww==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oVBf6-0001hp-HU
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 08:57:18 -0400
+Received: by mail-pl1-x634.google.com with SMTP id m2so8478592pls.4
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 05:57:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:message-id:in-reply-to:subject:cc:to:date
+ :from:from:to:cc:subject:date;
+ bh=PTAlOOwAiIw5qV8xMhPN89Kv9ioYy1PQtd/BHvLLT4A=;
+ b=pK3gVux3QiW9RHV0ruTsgFK6bs8fyjnMzGbdOmeUpO2UmWEHCzzr+lIwWpWgjIGhdK
+ 2G2ED5x/N7Zex3VvMCQKhUX/kiavJ1/q1nJrP/VHNCxRgMGyz8wpRHHHKd2KZklwZbWU
+ aXkc4df9HHYDtlnqpy9dSm43VSNdAdmQDTG/tJazA5OlQdv5Dq31pVZI5QdUyDKYBZsy
+ M9thpw/iNgEIeL/XmIUxMb8W/OMPsWNYWrvIaWhynYgwxBCcdG0sUbJAZc6+b6j5ZiZm
+ E2jS7UL3UkMZw616CzlOfkNxmy0zXwPFMLzaF70Q2fpKJ2rOTOP2GtlwNYth8uWJEXsQ
+ SE3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=3ga/595fE8x15FKGYZ7HmtryMyJtS5OjiEez8PAcw5o=;
- b=R8A+hOM7WYfTKymadI7jhUeXN6pmwgufLbxCn0+4aNtGt36SoC8gZLPN91LsCDRwZ1
- vk305h1p8vuCiCIFNHzAbhI5iDkBlVxAaVmps0xgDZTyriqy0NTIgit7lOTc8V8LoLna
- 3O/ox3WBitOE/qJPZ5u7aq69twdHvWIXTEawwOwGzvB86fsAMw4yOmQo/TM9yubu95JW
- 42r5Rp6BNYpXLaNr//RVxF8Odrk6VXmIhWdZcubYrF5jufJXAhTTktlLCket4mWc4cgj
- VZj+9TZRWjSxaiRqZt+PzIsgoCTLT+hG9KXinevLpBSAg1kMk/pU5+VmSp4pglWGsRLp
- WluQ==
-X-Gm-Message-State: ACgBeo0FJSWxBnkEmeK9/JwF0rqZNEejzG9bDelNE8eBd6O9zGK6rWNo
- Zz2SmZjHSb+3NGokLDThzgrahM/GFoXHb9xw1SD00g==
-X-Google-Smtp-Source: AA6agR6XPyMJAVOSRTXm/v35RcrqywKbkh7mEzM8mPIH5zGHMVpUXhzWSb+mJRmhJd7/3DA30xv1w/KjJ8T9gNzqgWg=
-X-Received: by 2002:a25:c07:0:b0:6a9:3eb:ef4e with SMTP id
- 7-20020a250c07000000b006a903ebef4emr4960648ybm.85.1662382472072; 
- Mon, 05 Sep 2022 05:54:32 -0700 (PDT)
+ h=mime-version:references:message-id:in-reply-to:subject:cc:to:date
+ :from:x-gm-message-state:from:to:cc:subject:date;
+ bh=PTAlOOwAiIw5qV8xMhPN89Kv9ioYy1PQtd/BHvLLT4A=;
+ b=79/MpIRWed7Ek2mYDA4QRbFGMvjkik5KcxsrgyKFruoLnWSfBDsL/yDybD0yoOzHfz
+ QFh70tZNzQsBTkmz1JoPmEbBG07utyDLpofa5TLjcLA/MIr9eRVDnDsZmWJVtg7picLP
+ EwN/yx15J0p/iehvfi7djArsNhIS+MaY7GVwSkZUjqE0xW959yo5Nj3MJ2cdByiB+Jzj
+ OKmY4dBzfuseYydSxy3eveM1guX5PK0Y9EZUkLTtteWCUJzY9U74aXktaiOqLNW0pF6Y
+ NT6t3DXyfUf3f/F5AZXP7LliBWZckS8nqzOD1R1wibrxPcGOl1xtTC/oxE4LZO3YveFE
+ gHTQ==
+X-Gm-Message-State: ACgBeo1enjgFL8wAiyE85RorLyStLdMHGcrEe8OgscegXnjrAcC8hBtk
+ ME4QtgMzdK3HtiyzR3VX5fa8sA==
+X-Google-Smtp-Source: AA6agR5Ii2oqHa8OIGx2oXuviawnRvUA1O98gpNXCuQN9Lx8mowIdRgbUet/49TceKOfJZrfuw3uww==
+X-Received: by 2002:a17:90b:4a10:b0:1fb:2e77:a33 with SMTP id
+ kk16-20020a17090b4a1000b001fb2e770a33mr19419397pjb.67.1662382630972; 
+ Mon, 05 Sep 2022 05:57:10 -0700 (PDT)
+Received: from anisinha-lenovo ([115.96.134.171])
+ by smtp.googlemail.com with ESMTPSA id
+ w128-20020a626286000000b0053dc56afd3csm1961599pfb.219.2022.09.05.05.57.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Sep 2022 05:57:09 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Mon, 5 Sep 2022 18:27:02 +0530 (IST)
+To: "Michael S. Tsirkin" <mst@redhat.com>
+cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Eduardo Habkost <eduardo@habkost.net>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-devel@nongnu.org, 
+ kkostiuk@redhat.com, yvugenfi@redhat.com, yiwei@redhat.com, 
+ ybendito@redhat.com, jusual@redhat.com
+Subject: Re: [RFC PATCH] hw/acpi: do not let OSPM set pcie native hotplug
+ when acpi hotplug is enabled
+In-Reply-To: <20220905064415-mutt-send-email-mst@kernel.org>
+Message-ID: <d6958860-8155-ca83-955-cc36107831ea@anisinha.ca>
+References: <20220905072531.8059-1-ani@anisinha.ca>
+ <20220905064415-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-References: <20220905102633.20940-1-pbonzini@redhat.com>
-In-Reply-To: <20220905102633.20940-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 5 Sep 2022 13:54:20 +0100
-Message-ID: <CAFEAcA_UK6ZxkFXh2_P_qBdYptYFNqMPaGV_AMF1orcip4zzKQ@mail.gmail.com>
-Subject: Re: [PATCH] coverity: put NUBus under m68k component
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: none client-ip=2607:f8b0:4864:20::634;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x634.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,38 +94,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 5 Sept 2022 at 12:07, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> It is only used by the Q800 emulation, so put it under that architecture.
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  scripts/coverity-scan/COMPONENTS.md | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/coverity-scan/COMPONENTS.md b/scripts/coverity-scan/COMPONENTS.md
-> index fc1608932e..0e6ab4936e 100644
-> --- a/scripts/coverity-scan/COMPONENTS.md
-> +++ b/scripts/coverity-scan/COMPONENTS.md
-> @@ -22,7 +22,7 @@ i386
->    ~ (/qemu)?((/include)?/hw/i386/.*|/target/i386/.*|/hw/intc/[^/]*apic[^/]*\.c)
->
->  m68k
-> -  ~ (/qemu)?((/include)?/hw/m68k/.*|/target/m68k/.*|(/include)?/hw(/.*)?/mcf.*)
-> +  ~ (/qemu)?((/include)?/hw/m68k/.*|/target/m68k/.*|(/include)?/hw(/.*)?/mcf.*|(/include)?/hw/nubus/.*)
->
->  microblaze
->    ~ (/qemu)?((/include)?/hw/microblaze/.*|/target/microblaze/.*)
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-On the subject of coverity components:
- * we should drop the 'capstone' component now we've removed that submodule
- * https://scan.coverity.com/projects/qemu?tab=overview says the 'hvf'
-   component has 0 lines in it, which suggests we got that regex wrong
-   somehow, or there's an ordering issue and some higher-up component
-   has already claimed all the files
+On Mon, 5 Sep 2022, Michael S. Tsirkin wrote:
 
-thanks
--- PMM
+> On Mon, Sep 05, 2022 at 12:55:31PM +0530, Ani Sinha wrote:
+> > Possible fix for https://bugzilla.redhat.com/show_bug.cgi?id=2089545
+> >
+> > Change in AML:
+> >
+> > @@ -47,33 +47,39 @@
+> >      Scope (_SB)
+> >      {
+> >          Device (PCI0)
+> >          {
+> >              Name (_HID, EisaId ("PNP0A08") /* PCI Express Bus */)  // _HID: Hardware ID
+> >              Name (_CID, EisaId ("PNP0A03") /* PCI Bus */)  // _CID: Compatible ID
+> >              Name (_ADR, Zero)  // _ADR: Address
+> >              Name (_UID, Zero)  // _UID: Unique ID
+> >              Method (_OSC, 4, NotSerialized)  // _OSC: Operating System Capabilities
+> >              {
+> >                  CreateDWordField (Arg3, Zero, CDW1)
+> >                  If ((Arg0 == ToUUID ("33db4d5b-1ff7-401c-9657-7441c03dd766") /* PCI Host Bridge Device */))
+> >                  {
+> >                      CreateDWordField (Arg3, 0x04, CDW2)
+> >                      CreateDWordField (Arg3, 0x08, CDW3)
+> >                      Local0 = CDW3 /* \_SB_.PCI0._OSC.CDW3 */
+> > -                    Local0 &= 0x1E
+> > +                    Local0 &= 0x1F
+> > +                    Local1 = (CDW3 & One)
+> > +                    If ((One == Local1))
+> > +                    {
+> > +                        CDW1 |= 0x12
+> > +                    }
+> > +
+> >                      If ((Arg1 != One))
+> >                      {
+> >                          CDW1 |= 0x08
+> >                      }
+> >
+> >                      If ((CDW3 != Local0))
+> >                      {
+> >                          CDW1 |= 0x10
+> >                      }
+> >
+> >                      CDW3 = Local0
+> >                  }
+> >                  Else
+> >                  {
+> >                      CDW1 |= 0x04
+> >                  }
+> > **
+> >
+> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > ---
+> >  hw/i386/acpi-build.c | 23 ++++++++++++++++++++---
+> >  1 file changed, 20 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > index 0355bd3dda..3dc9379f27 100644
+> > --- a/hw/i386/acpi-build.c
+> > +++ b/hw/i386/acpi-build.c
+> > @@ -1348,10 +1348,12 @@ static Aml *build_q35_osc_method(bool enable_native_pcie_hotplug)
+> >  {
+> >      Aml *if_ctx;
+> >      Aml *if_ctx2;
+> > +    Aml *if_ctx3;
+> >      Aml *else_ctx;
+> >      Aml *method;
+> >      Aml *a_cwd1 = aml_name("CDW1");
+> >      Aml *a_ctrl = aml_local(0);
+> > +    Aml *a_pcie_nhp_ctl = aml_local(1);
+> >
+> >      method = aml_method("_OSC", 4, AML_NOTSERIALIZED);
+> >      aml_append(method, aml_create_dword_field(aml_arg(3), aml_int(0), "CDW1"));
+> > @@ -1366,11 +1368,26 @@ static Aml *build_q35_osc_method(bool enable_native_pcie_hotplug)
+> >      /*
+> >       * Always allow native PME, AER (no dependencies)
+> >       * Allow SHPC (PCI bridges can have SHPC controller)
+> > -     * Disable PCIe Native Hot-plug if ACPI PCI Hot-plug is enabled.
+> >       */
+> > -    aml_append(if_ctx, aml_and(a_ctrl,
+> > -        aml_int(0x1E | (enable_native_pcie_hotplug ? 0x1 : 0x0)), a_ctrl));
+> > +    aml_append(if_ctx, aml_and(a_ctrl, aml_int(0x1F), a_ctrl));
+> >
+> > +    /*
+> > +     * if ACPI PCI Hot-plug is enabled, do not let OSPM set OSC PCIE
+> > +     * Native hotplug ctrl bit.
+> > +     */
+> > +    if (!enable_native_pcie_hotplug) {
+> > +        /* check if the ACPI native hotplug bit is set by the OS in DWORD3 */
+> > +        aml_append(if_ctx, aml_and(aml_name("CDW3"),
+> > +                                   aml_int(0x01), a_pcie_nhp_ctl));
+> > +        if_ctx3 = aml_if(aml_equal(aml_int(1), a_pcie_nhp_ctl));
+> > +        /*
+> > +         * ACPI spec 5.1, section 6.2.11
+> > +         * bit 1 in first DWORD - _OSC failure
+> > +         * bit 4 in first DWORD - capabilities masked
+> > +         */
+> > +        aml_append(if_ctx3, aml_or(a_cwd1, aml_int(0x12), a_cwd1));
+>
+>
+> 0x12 ->
+>
+>  ( 0x1 << 4 ) /* _OSC failure */ | ( 0x1 << 1) /* capabilities masked */
+>
+>
+> > +        aml_append(if_ctx, if_ctx3);
+> > +    }
+> >      if_ctx2 = aml_if(aml_lnot(aml_equal(aml_arg(1), aml_int(1))));
+> >      /* Unknown revision */
+> >      aml_append(if_ctx2, aml_or(a_cwd1, aml_int(0x08), a_cwd1));
+>
+> Hmm wait a sec
+>
+>
+>     if_ctx2 = aml_if(aml_lnot(aml_equal(aml_name("CDW3"), a_ctrl)));
+>     /* Capabilities bits were masked */
+>     aml_append(if_ctx2, aml_or(a_cwd1, aml_int(0x10), a_cwd1));
+>     aml_append(if_ctx, if_ctx2);
+>
+>
+> this one seems subtly different ...
+
+I guess what this code is trying to say is that if the requested
+capabilities by the driver is not the same as the one we are returning, we
+are masking some of the capabilities. This seems to be a superset of my
+change above and does not break it. Unless I am reading this wrong ...
 
