@@ -2,110 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F0D35AD6D0
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 17:47:00 +0200 (CEST)
-Received: from localhost ([::1]:59526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1553F5AD6D1
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 17:47:19 +0200 (CEST)
+Received: from localhost ([::1]:50728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVEJO-0004r6-NY
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 11:46:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38336)
+	id 1oVEJh-0005MW-Tn
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 11:47:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oVEFi-0001bG-SZ; Mon, 05 Sep 2022 11:43:11 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:62868)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oVEFg-00036x-IO; Mon, 05 Sep 2022 11:43:10 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 285EntfM009612;
- Mon, 5 Sep 2022 15:43:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=z7NdskQLXfqN3Sh/ccSTcSVSC5wwLtUT1rBKo15VAoo=;
- b=e9QALkkx733eLnD2XlSQWRUwfePLXNhY6Z99MlA+9kOZmDrQLIt8WActZvEXlIjom/FS
- jfrNQTB5LbflKgXU372flsFXJtLvIkVZSWmruYUu8iSejZRyIPUDbLK1eYGklA06mRwz
- wcdC/5/SNCUUFktl6vI98+WYJK0bC0yghxzjtsiR7oYmyqEqOpuJyP/txcew523F++VZ
- GGyGpnhwMzXlTs5FpaCEP35p7+/LmWbX8hMPv4sD/M/bYZ77XDaOEaVlIhXb7aUe0dbp
- VXuEO6WawBFC3Ah9XoEM39uBM4eCNq17w8a8zWGZDTQifeLvg2/3u7jVoyX58LJDxhgU ig== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jdk7ksm35-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 05 Sep 2022 15:43:04 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 285FPhGV029509;
- Mon, 5 Sep 2022 15:43:03 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jdk7ksm1q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 05 Sep 2022 15:43:03 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 285FdNJK013321;
- Mon, 5 Sep 2022 15:43:01 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma03ams.nl.ibm.com with ESMTP id 3jbxj8tn25-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 05 Sep 2022 15:43:00 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 285Fgvvq38338916
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 5 Sep 2022 15:42:57 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AF70952050;
- Mon,  5 Sep 2022 15:42:57 +0000 (GMT)
-Received: from [9.171.61.194] (unknown [9.171.61.194])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 5DC225204F;
- Mon,  5 Sep 2022 15:42:55 +0000 (GMT)
-Message-ID: <e15aaa1d-9123-61dd-6531-4cdbe84053ec@linux.ibm.com>
-Date: Mon, 5 Sep 2022 17:42:54 +0200
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVEG1-0001tu-Nq
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 11:43:30 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d]:47932)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVEFz-00037z-Vo
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 11:43:29 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 97BA31FAA3;
+ Mon,  5 Sep 2022 15:43:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1662392605; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ajOSOeqvoa2hxWG+R0/cwTSfaChkhHdiuDvV11MoSyw=;
+ b=rjqCQE7jsa+Em7HfCYPRYIHK328XhmLIWFyzpd+CuueEkwLYwPmhl2VBztOdnWt+x6p1sQ
+ DhfCAGCxfb752ZW7tsn77zxlT6aayF+6uz665pRon+9cYyScGYMn0nxkJIGtBQtSbJbpu1
+ Jxxgdptade3VIPsBCjXb1FVEP3krGbo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1662392605;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ajOSOeqvoa2hxWG+R0/cwTSfaChkhHdiuDvV11MoSyw=;
+ b=42KjaChj3SKhsjUGkHv8kgL3YWT7XRjY/3dQcrdjVPXoRhtCnQhGIg2Uug7n5Urs9rgkWu
+ UQblmO6iV6Q5+ECQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3E6F1139C7;
+ Mon,  5 Sep 2022 15:43:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id zfEYDR0ZFmPfYAAAMHmgww
+ (envelope-from <cfontana@suse.de>); Mon, 05 Sep 2022 15:43:25 +0000
+Message-ID: <879a973a-c5b0-2a23-bb24-92bf5500f63f@suse.de>
+Date: Mon, 5 Sep 2022 17:43:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v9 01/10] s390x/cpus: Make absence of multithreading clear
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] accel: print an error message and exit if plugin not
+ loaded
 Content-Language: en-US
-To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
- Nico Boehr <nrb@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- frankja@linux.ibm.com
-References: <20220902075531.188916-1-pmorel@linux.ibm.com>
- <20220902075531.188916-2-pmorel@linux.ibm.com>
- <166237756810.5995.16085197397341513582@t14-nrb>
- <c394823e-edd5-a722-486f-438e5fba2c9d@linux.ibm.com>
- <6d779ae286bd24a76e6cc4b2cc4dcaafdf9acf75.camel@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <6d779ae286bd24a76e6cc4b2cc4dcaafdf9acf75.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Claudio Fontana <cfontana@suse.de>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
+ <marcandre.lureau@redhat.com>, dinechin@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>
+References: <20220905101332.1986-1-cfontana@suse.de>
+ <5d922305-a559-bfdc-7038-ec1560ae0e00@linaro.org>
+ <9bb31e44-e43d-b51a-712a-87e46279a0b5@suse.de>
+In-Reply-To: <9bb31e44-e43d-b51a-712a-87e46279a0b5@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: LzhIQBJiguEPuFDl9XgcJg7G_fRL-Baq
-X-Proofpoint-ORIG-GUID: _C-lRDwT1ygLhXIoDdWLrE-i3ZafzoMj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-05_12,2022-09-05_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 phishscore=0
- mlxlogscore=999 spamscore=0 impostorscore=0 lowpriorityscore=0 mlxscore=0
- priorityscore=1501 clxscore=1015 bulkscore=0 suspectscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
- definitions=main-2209050075
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
+Received-SPF: pass client-ip=2001:67c:2178:6::1d;
+ envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,86 +96,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 9/5/22 17:23, Janis Schoetterl-Glausch wrote:
-> On Mon, 2022-09-05 at 17:10 +0200, Pierre Morel wrote:
->>
->> On 9/5/22 13:32, Nico Boehr wrote:
->>> Quoting Pierre Morel (2022-09-02 09:55:22)
->>>> S390x do not support multithreading in the guest.
->>>> Do not let admin falsely specify multithreading on QEMU
->>>> smp commandline.
->>>>
->>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->>>> ---
->>>>    hw/s390x/s390-virtio-ccw.c | 3 +++
->>>>    1 file changed, 3 insertions(+)
->>>>
->>>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
->>>> index 70229b102b..b5ca154e2f 100644
->>>> --- a/hw/s390x/s390-virtio-ccw.c
->>>> +++ b/hw/s390x/s390-virtio-ccw.c
->>>> @@ -86,6 +86,9 @@ static void s390_init_cpus(MachineState *machine)
->>>>        MachineClass *mc = MACHINE_GET_CLASS(machine);
->>>>        int i;
->>>>    
->>>> +    /* Explicitely do not support threads */
->>>             ^
->>>             Explicitly
+On 9/5/22 16:36, Claudio Fontana wrote:
+> On 9/5/22 14:06, Richard Henderson wrote:
+>> On 9/5/22 11:13, Claudio Fontana wrote:
+>>> If module_load_one, module_load_file fail for any reason
+>>> (permissions, plugin not installed, ...), we need to provide some notification
+>>> to the user to understand that this is happening; otherwise the errors
+>>> reported on initialization will make no sense to the user.
 >>>
->>>> +    assert(machine->smp.threads == 1);
+>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>> ---
+>>>   accel/accel-softmmu.c | 10 ++++++++--
+>>>   1 file changed, 8 insertions(+), 2 deletions(-)
 >>>
->>> It might be nicer to give a better error message to the user.
->>> What do you think about something like (broken whitespace ahead):
->>>
->>>       if (machine->smp.threads != 1) {if (machine->smp.threads != 1) {
->>>           error_setg(&error_fatal, "More than one thread specified, but multithreading unsupported");
->>>           return;
->>>       }
->>>
+>>> diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
+>>> index 67276e4f52..807708ee86 100644
+>>> --- a/accel/accel-softmmu.c
+>>> +++ b/accel/accel-softmmu.c
+>>> @@ -66,15 +66,21 @@ void accel_init_ops_interfaces(AccelClass *ac)
+>>>   {
+>>>       const char *ac_name;
+>>>       char *ops_name;
+>>> +    ObjectClass *oc;
+>>>       AccelOpsClass *ops;
+>>>   
+>>>       ac_name = object_class_get_name(OBJECT_CLASS(ac));
+>>>       g_assert(ac_name != NULL);
+>>>   
+>>>       ops_name = g_strdup_printf("%s" ACCEL_OPS_SUFFIX, ac_name);
+>>> -    ops = ACCEL_OPS_CLASS(module_object_class_by_name(ops_name));
+>>> +    oc = module_object_class_by_name(ops_name);
+>>> +    if (!oc) {
+>>> +        error_report("fatal: could not find module object of type \"%s\", "
+>>> +                     "plugin might not be loaded correctly", ops_name);
+>>> +        exit(EXIT_FAILURE);
+>>> +    }
+>>
+>> The change is correct, in that we certainly cannot continue without the accelerator loaded.
+>>
+>> But I'm very disappointed that the module interface does not use Error, so you have no 
+>> choice but to use an extremely vague message here.  I would much prefer to plumb down an 
+>> error parameter so that here one could simply pass &error_fatal.
 >>
 >>
->> OK, I think I wanted to do this and I changed my mind, obviously, I do
->> not recall why.
->> I will do almost the same but after a look at error.h I will use
->> error_report()/exit() instead of error_setg()/return as in:
->>
->>
->> +    /* Explicitly do not support threads */
->> +    if (machine->smp.threads != 1) {
->> +        error_report("More than one thread specified, but
->> multithreading unsupported");
->> +        exit(1);
->> +    }
-> 
-> I agree that an assert is not a good solution, and I'm not sure
-> aborting is a good idea either.
-> I'm assuming that currently if you specify threads > 0 qemu will run
-> with the number of CPUs multiplied by threads (compared to threads=1).
-> If that is true, then a new qemu version will break existing
-> invocations.
-> 
-> An alternative would be to print a warning and do:
-> cores *= threads
-> threads = 1
-> 
-> The questions would be what the best place to do that is.
-> I guess we'd need a new compat variable if that's done in machine-smp.c
-
-Right, I think we can use the new "topology_disable" machine property.
-
-
->>
->>
->> Thanks,
->>
->> Regards,
->> Pierre
+>> r~
 >>
 > 
+> I agree. I see it as also connected to:
+> 
+> https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg00578.html
+> 
+> module_load_file actually has the pertinent information of what it going wrong at the time it goes wrong, so I presume we should collect the Error there,
+> and find a way not to lose the return value along the way..
+> 
+> Claudio
+> 
 
--- 
-Pierre Morel
-IBM Lab Boeblingen
+Currently module_load_qom_one() is called among other things inside qom/object.c::object_initialize() as well.
+
+Curiously enough, module_load_one(), which is in turn called by it, takes an argument "bool mayfail", which is always false,
+never passed as true in the whole codebase:
+
+bool module_load_one(const char *prefix, const char *lib_name, bool mayfail);
+
+/* mayfail is always false */
+
+module_load_one calls in turn module_load_file, which also takes a bool mayfail argument:
+
+static int module_load_file(const char *fname, bool mayfail, bool export_symbols);
+
+You might think 'mayfail' can be called by other code as true in some cases, but no, it's always false.
+I wonder why this "mayfail" argument exists and is propagated at all, when it cannot be anything else than false.
+I tried to remove the "mayfail" parameter completely and things seem just fine.
+
+In any case, the only thing that "mayfail" seems to control, is in module_load_file, and is a single printf:
+
+    g_module = g_module_open(fname, flags);
+    if (!g_module) {
+        if (!mayfail) {
+            fprintf(stderr, "Failed to open module: %s\n",
+                    g_module_error());
+        }
+        ret = -EINVAL;
+        goto out;
+    }
+
+
+Weird.. Is someone building proprietary modules on top of QEMU? Is this what this is currently trying to address?
+But then, the result is just a printf...
+
+Thanks,
+
+C
+
 
