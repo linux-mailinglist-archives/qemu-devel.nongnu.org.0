@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76FFE5ACA89
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 08:26:21 +0200 (CEST)
-Received: from localhost ([::1]:45412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCFA75ACB11
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 08:36:12 +0200 (CEST)
+Received: from localhost ([::1]:41610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oV5Yq-0004Mv-K8
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 02:26:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48164)
+	id 1oV5iN-0006Yi-FE
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 02:36:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oV5VX-0002w9-Ib
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 02:22:55 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:46757)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oV5cR-0004hZ-L5
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 02:30:03 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:33584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oV5VV-0002tP-A6
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 02:22:55 -0400
-Received: by mail-pl1-x634.google.com with SMTP id jm11so7537139plb.13
- for <qemu-devel@nongnu.org>; Sun, 04 Sep 2022 23:22:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oV5cQ-0003hN-5L
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 02:30:03 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ t6-20020a17090a950600b0020063f8f964so1303090pjo.0
+ for <qemu-devel@nongnu.org>; Sun, 04 Sep 2022 23:30:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
  :date:from:to:cc:subject:date;
- bh=MuD40hdKA6Ni71c4TNZKu3GJdvuQ/GVSYx6A8RQWM8o=;
- b=jVfGK1+lKf19oA5Rq1fpj+bXcsYkEXP3FhWyiSVkeevsC7EgRfICVyRV5E6bxBzHyA
- q57XF/MIj96WgeCvW9Xbq5WNhvZIsVT0PYDpVOc1WkK/TzwfMFCNJ0g1+vAV0v39HG90
- YxjvecixSN5KtEpI5RuDNHn8EQVDlXGjYHzdlFY5GKgHjE7EeiT0nFLg+QBCouF8yZwq
- mfhL9ExXPbI7+QTS2pufYG/uQQGm6em+YY0IWM7m2f2YyMrXe5ZiUx7t8pll5K4oOnpA
- sDKw6tmOiILiEq0Ww7u0idXCxrZY3906rFhQzS2yONhi9zwDc1tgEsq51OP0cDOz2YGN
- 8tYQ==
+ bh=KeaA0v+wTsqfTwQarrjYTFSx/5xvTPmVbc1a9qjXnv4=;
+ b=QELuYIhR7m1ka3n9ldk4DUZUZG1hupwpb/Ioc4sRjuZt7gwxQRWxpcCekZ7OG1ybyX
+ rEruMiOKXW/53FVtGRqObpoUsCWbdnPe1psERCgL/55uek+oX5qvO/L873WvLxEvSYlW
+ kwLSmhaAhjUbCZBlhBLgYhOBuv/gLtfHD4bV7tmfiZ3p4E698Pyphm4HvPWFCkKpJY0i
+ Hd3P4MaU9JUoki0Me2OjtAPQohL1Dk/DzBmVYa6IcCDqOk2/STnyRLz1Air+1BQ9nuUe
+ N093V0COoQbgysV3awJCiWG6ge3CONyhlCPuDxo+JMSSKFLx1WiFXNY3epA+5kXOINTD
+ aS3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
  :date:x-gm-message-state:from:to:cc:subject:date;
- bh=MuD40hdKA6Ni71c4TNZKu3GJdvuQ/GVSYx6A8RQWM8o=;
- b=JyE8N2XuINqx2zuwKJLzZLcAFR+vvB18ZqSHSl859Wg+doy4CirIaqjD6PDn/SjTVX
- Wc8nQQM1zC21TKDBE1Nzlpny7Wqa4GbEt+8wHWcetP5blmrPA1VUNTALAsONwBG369Ut
- Tszz/XzouyG1xq0buDGcbOjPl3VrT/dZpt0okMAbzVatM/beQe8Q/NZFX2Av+CbOPPP0
- 4+ycixRz4kK64zlIJT14d3i4kzW+GOzf+Tj2kowfn7VIuo3CFQObkS7L6fAZ3I2jahzA
- pJTwADrwceVigK4zVaiR8Q7UrRvre/3tUaq+6uuj7Wz59FkYCIFT83clXavYJdliTht/
- oesQ==
-X-Gm-Message-State: ACgBeo2gswftrn6baY2LCeRsF9ATa2wyCHfcbAk88rFMftmd0Ax4Ue4O
- qpgsnARIfmf1Z+DPkQkKVPYaaA==
-X-Google-Smtp-Source: AA6agR7t0ksWN3iTndoTYekf+URjUSnPmB2aeC7ymtHCu/BL5eKL6feggTxvb2m2ECSWN5a1JMqK2A==
-X-Received: by 2002:a17:902:d4c7:b0:174:8eae:b265 with SMTP id
- o7-20020a170902d4c700b001748eaeb265mr38997633plg.9.1662358970171; 
- Sun, 04 Sep 2022 23:22:50 -0700 (PDT)
+ bh=KeaA0v+wTsqfTwQarrjYTFSx/5xvTPmVbc1a9qjXnv4=;
+ b=Yj7Tep5lIe/+eEWt0SSkSHvrgYJ5sK9BPgicy+50UY63fAMBhHCCMFD4yht7++Lnnv
+ POebonJUdYKI7frXXU0guQz11M905Nzs5s/8qt26lUngfIBtsHyVJIybtQrhz++jmq6N
+ 5W3ZfN9b6L65V/eWz1pzJsO2iPfMYmeiI/+myPoLNb7hIpyvbfR1vx6g/1gdQnVHKZfk
+ Yw/h8ZKWH+Q9u9jdtkDMHk9fRoa3gVpLj4boroiLj9R6MWhGjq5SwAVZ0d3v2aMuGF7h
+ tM4YjsUMASAhMRBUm7maA09IMqZ80ljiuFB6pWNTpmUZSKE631xYcfiqElQe21/OyaHV
+ yOtw==
+X-Gm-Message-State: ACgBeo3FXmKvEgBJ+YhevU42QIMv4BE7yqfhrBAPBY02Y0AzLdhmIhn3
+ Nq2PxCR6aN83TEMo5CemZBmEDQ==
+X-Google-Smtp-Source: AA6agR4X7jNiFsBcEpPuz8LKkANyshc7g1GgW5svPMauqBbo81dAs2/YwV0l+l8EqnICrMNzILS1Ow==
+X-Received: by 2002:a17:90a:ba01:b0:200:8769:1c34 with SMTP id
+ s1-20020a17090aba0100b0020087691c34mr209144pjr.0.1662359400490; 
+ Sun, 04 Sep 2022 23:30:00 -0700 (PDT)
 Received: from [172.16.185.128] ([115.96.134.171])
  by smtp.googlemail.com with ESMTPSA id
- a5-20020a621a05000000b0053679effc03sm6953984pfa.149.2022.09.04.23.22.45
+ f30-20020aa79d9e000000b0053bbaab3511sm2601170pfq.172.2022.09.04.23.29.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Sep 2022 23:22:49 -0700 (PDT)
-Date: Mon, 5 Sep 2022 11:52:18 +0530 (IST)
+ Sun, 04 Sep 2022 23:30:00 -0700 (PDT)
+Date: Mon, 5 Sep 2022 11:59:28 +0530 (IST)
 From: Ani Sinha <ani@anisinha.ca>
 To: Juan Quintela <quintela@redhat.com>
 cc: qemu-devel@nongnu.org, Bandan Das <bsd@redhat.com>, 
@@ -61,16 +62,16 @@ cc: qemu-devel@nongnu.org, Bandan Das <bsd@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>, Thomas Huth <thuth@redhat.com>, 
  Gerd Hoffmann <kraxel@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>, 
  "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH 2/8] bios-tables-test: Sort all x86_64 tests by machine
- type
-In-Reply-To: <20220902173452.1904-3-quintela@redhat.com>
-Message-ID: <1df0acc4-4b63-8846-8c33-59a66c31bf88@anisinha.ca>
+Subject: Re: [PATCH 4/8] tests: Only run intel-hda-tests if machine type is
+ compiled in
+In-Reply-To: <20220902173452.1904-5-quintela@redhat.com>
+Message-ID: <26d23a43-c2e6-7e-498f-54d6c3ad7c2f@anisinha.ca>
 References: <20220902173452.1904-1-quintela@redhat.com>
- <20220902173452.1904-3-quintela@redhat.com>
+ <20220902173452.1904-5-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::634;
- envelope-from=ani@anisinha.ca; helo=mail-pl1-x634.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -96,130 +97,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, 2 Sep 2022, Juan Quintela wrote:
 
-> No code change here, just move test around.
->
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-
 Reviewed-by: Ani Sinha <ani@anisinha.ca>
 
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+
 > ---
->  tests/qtest/bios-tables-test.c | 60 +++++++++++++++++++---------------
->  1 file changed, 33 insertions(+), 27 deletions(-)
+>  tests/qtest/intel-hda-test.c | 13 ++++++++-----
+>  1 file changed, 8 insertions(+), 5 deletions(-)
 >
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index 1e808b0864..757db2bc40 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -1766,11 +1766,6 @@ int main(int argc, char *argv[])
->          if (ret) {
->              return ret;
->          }
-> -        qtest_add_func("acpi/q35/oem-fields", test_acpi_q35_oem_fields);
-> -        if (tpm_model_is_available("-machine q35", "tpm-tis")) {
-> -            qtest_add_func("acpi/q35/tpm2-tis", test_acpi_q35_tcg_tpm2_tis);
-> -            qtest_add_func("acpi/q35/tpm12-tis", test_acpi_q35_tcg_tpm12_tis);
-> -        }
->          qtest_add_func("acpi/piix4", test_acpi_piix4_tcg);
->          qtest_add_func("acpi/piix4/oem-fields", test_acpi_piix4_oem_fields);
->          qtest_add_func("acpi/piix4/bridge", test_acpi_piix4_tcg_bridge);
-> @@ -1780,48 +1775,68 @@ int main(int argc, char *argv[])
->                         test_acpi_piix4_no_bridge_hotplug);
->          qtest_add_func("acpi/piix4/pci-hotplug/off",
->                         test_acpi_piix4_no_acpi_pci_hotplug);
-> -        qtest_add_func("acpi/q35", test_acpi_q35_tcg);
-> -        qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
-> -        qtest_add_func("acpi/q35/multif-bridge", test_acpi_q35_multif_bridge);
-> -        qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
->          qtest_add_func("acpi/piix4/ipmi", test_acpi_piix4_tcg_ipmi);
-> -        qtest_add_func("acpi/q35/ipmi", test_acpi_q35_tcg_ipmi);
-> -        qtest_add_func("acpi/q35/smbus/ipmi", test_acpi_q35_tcg_smbus_ipmi);
->          qtest_add_func("acpi/piix4/cpuhp", test_acpi_piix4_tcg_cphp);
-> -        qtest_add_func("acpi/q35/cpuhp", test_acpi_q35_tcg_cphp);
->          qtest_add_func("acpi/piix4/memhp", test_acpi_piix4_tcg_memhp);
-> -        qtest_add_func("acpi/q35/memhp", test_acpi_q35_tcg_memhp);
->          qtest_add_func("acpi/piix4/numamem", test_acpi_piix4_tcg_numamem);
-> -        qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
->          qtest_add_func("acpi/piix4/nosmm", test_acpi_piix4_tcg_nosmm);
->          qtest_add_func("acpi/piix4/smm-compat",
->                         test_acpi_piix4_tcg_smm_compat);
->          qtest_add_func("acpi/piix4/smm-compat-nosmm",
->                         test_acpi_piix4_tcg_smm_compat_nosmm);
->          qtest_add_func("acpi/piix4/nohpet", test_acpi_piix4_tcg_nohpet);
-> +        qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
-> +        qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
-> +#ifdef CONFIG_POSIX
-> +        qtest_add_func("acpi/piix4/acpierst", test_acpi_piix4_acpi_erst);
-> +#endif
-> +
-> +        qtest_add_func("acpi/q35", test_acpi_q35_tcg);
-> +        qtest_add_func("acpi/q35/oem-fields", test_acpi_q35_oem_fields);
-> +        if (tpm_model_is_available("-machine q35", "tpm-tis")) {
-> +            qtest_add_func("acpi/q35/tpm2-tis", test_acpi_q35_tcg_tpm2_tis);
-> +            qtest_add_func("acpi/q35/tpm12-tis", test_acpi_q35_tcg_tpm12_tis);
-> +        }
-> +        qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
-> +        qtest_add_func("acpi/q35/multif-bridge", test_acpi_q35_multif_bridge);
-> +        qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
-> +        qtest_add_func("acpi/q35/ipmi", test_acpi_q35_tcg_ipmi);
-> +        qtest_add_func("acpi/q35/smbus/ipmi", test_acpi_q35_tcg_smbus_ipmi);
-> +        qtest_add_func("acpi/q35/cpuhp", test_acpi_q35_tcg_cphp);
-> +        qtest_add_func("acpi/q35/memhp", test_acpi_q35_tcg_memhp);
-> +        qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
->          qtest_add_func("acpi/q35/nosmm", test_acpi_q35_tcg_nosmm);
->          qtest_add_func("acpi/q35/smm-compat",
->                         test_acpi_q35_tcg_smm_compat);
->          qtest_add_func("acpi/q35/smm-compat-nosmm",
->                         test_acpi_q35_tcg_smm_compat_nosmm);
->          qtest_add_func("acpi/q35/nohpet", test_acpi_q35_tcg_nohpet);
-> -        qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
->          qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
-> -        qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
->          qtest_add_func("acpi/q35/acpihmat", test_acpi_q35_tcg_acpi_hmat);
->  #ifdef CONFIG_POSIX
-> -        qtest_add_func("acpi/piix4/acpierst", test_acpi_piix4_acpi_erst);
->          qtest_add_func("acpi/q35/acpierst", test_acpi_q35_acpi_erst);
->  #endif
->          qtest_add_func("acpi/q35/applesmc", test_acpi_q35_applesmc);
->          qtest_add_func("acpi/q35/pvpanic-isa", test_acpi_q35_pvpanic_isa);
-> +        if (has_tcg) {
-> +            qtest_add_func("acpi/q35/ivrs", test_acpi_q35_tcg_ivrs);
-> +        }
-> +        if (has_kvm) {
-> +            qtest_add_func("acpi/q35/kvm/xapic", test_acpi_q35_kvm_xapic);
-> +            qtest_add_func("acpi/q35/kvm/dmar", test_acpi_q35_kvm_dmar);
-> +        }
-> +        qtest_add_func("acpi/q35/viot", test_acpi_q35_viot);
-> +#ifdef CONFIG_POSIX
-> +        qtest_add_func("acpi/q35/cxl", test_acpi_q35_cxl);
-> +#endif
-> +        qtest_add_func("acpi/q35/slic", test_acpi_q35_slic);
-> +
->          qtest_add_func("acpi/microvm", test_acpi_microvm_tcg);
->          qtest_add_func("acpi/microvm/usb", test_acpi_microvm_usb_tcg);
->          qtest_add_func("acpi/microvm/rtc", test_acpi_microvm_rtc_tcg);
->          qtest_add_func("acpi/microvm/ioapic2", test_acpi_microvm_ioapic2_tcg);
->          qtest_add_func("acpi/microvm/oem-fields", test_acpi_microvm_oem_fields);
->          if (has_tcg) {
-> -            qtest_add_func("acpi/q35/ivrs", test_acpi_q35_tcg_ivrs);
->              if (strcmp(arch, "x86_64") == 0) {
->                  qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
->  #ifdef CONFIG_POSIX
-> @@ -1829,15 +1844,6 @@ int main(int argc, char *argv[])
->  #endif
->              }
->          }
-> -        if (has_kvm) {
-> -            qtest_add_func("acpi/q35/kvm/xapic", test_acpi_q35_kvm_xapic);
-> -            qtest_add_func("acpi/q35/kvm/dmar", test_acpi_q35_kvm_dmar);
-> -        }
-> -        qtest_add_func("acpi/q35/viot", test_acpi_q35_viot);
-> -#ifdef CONFIG_POSIX
-> -        qtest_add_func("acpi/q35/cxl", test_acpi_q35_cxl);
-> -#endif
-> -        qtest_add_func("acpi/q35/slic", test_acpi_q35_slic);
->      } else if (strcmp(arch, "aarch64") == 0) {
->          if (has_tcg) {
->              qtest_add_func("acpi/virt", test_acpi_virt_tcg);
+> diff --git a/tests/qtest/intel-hda-test.c b/tests/qtest/intel-hda-test.c
+> index a58c98e4d1..d4a8db6fd6 100644
+> --- a/tests/qtest/intel-hda-test.c
+> +++ b/tests/qtest/intel-hda-test.c
+> @@ -18,7 +18,7 @@
+>  /* Tests only initialization so far. TODO: Replace with functional tests */
+>  static void ich6_test(void)
+>  {
+> -    qtest_start("-device intel-hda,id=" HDA_ID CODEC_DEVICES);
+> +    qtest_start("-machine pc -device intel-hda,id=" HDA_ID CODEC_DEVICES);
+>      qtest_end();
+>  }
+>
+> @@ -65,9 +65,12 @@ static void test_issue542_ich6(void)
+>  int main(int argc, char **argv)
+>  {
+>      g_test_init(&argc, &argv, NULL);
+> -    qtest_add_func("/intel-hda/ich6", ich6_test);
+> -    qtest_add_func("/intel-hda/ich9", ich9_test);
+> -    qtest_add_func("/intel-hda/fuzz/issue542", test_issue542_ich6);
+> -
+> +    if (qtest_has_machine("pc")) {
+> +        qtest_add_func("/intel-hda/ich6", ich6_test);
+> +    }
+> +    if (qtest_has_machine("q35")) {
+> +        qtest_add_func("/intel-hda/ich9", ich9_test);
+> +        qtest_add_func("/intel-hda/fuzz/issue542", test_issue542_ich6);
+> +    }
+>      return g_test_run();
+>  }
 > --
 > 2.37.2
 >
