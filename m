@@ -2,76 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED305AC885
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 03:29:21 +0200 (CEST)
-Received: from localhost ([::1]:44606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0DA45AC921
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 05:32:21 +0200 (CEST)
+Received: from localhost ([::1]:47098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oV0vP-0001l0-Mi
-	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 21:29:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35048)
+	id 1oV2qS-0008Sn-L4
+	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 23:32:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <guang.zeng@intel.com>)
- id 1oV0tg-0000NE-1u
- for qemu-devel@nongnu.org; Sun, 04 Sep 2022 21:27:32 -0400
-Received: from mga14.intel.com ([192.55.52.115]:62436)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <guang.zeng@intel.com>)
- id 1oV0td-0003ft-Hp
- for qemu-devel@nongnu.org; Sun, 04 Sep 2022 21:27:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662341249; x=1693877249;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=PArFqMpsc31CVfxEJKJglsosV2yx3vAzp7IDKqJSsnE=;
- b=EvVQjB/HeYm1Syq1rM5EAGPmxacj9Xo9pG1IDUiXsKqNMVcm6q4yH2DS
- z0buYwh3bo72YR30uR4sPU3VvgwUu2FNp8nLRh+EDoaMEoHMGsybOZbGR
- 4yjiEhYyE4hm/0Wuzjb6RHnX1cMd2JgvuWpB8jrMf/7PffS18xwnYf/7D
- EYM7FfGfAtHWJ2pvBGXMf7bxGU0cblhS8sCrr+7ULh/X/FqepVjXBUZzv
- EbkQFL/DVS5lz9OEnsejlDXNx7M3kyRMC64Yp7muH39B9uF7EdkhFfW9N
- LB3NzkIWGxseaxINnjOUWh2EZdmyvRnIm5FUIkVMhSug/WGtsSXR2Uo9B g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10460"; a="296288518"
-X-IronPort-AV: E=Sophos;i="5.93,290,1654585200"; d="scan'208";a="296288518"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Sep 2022 18:27:22 -0700
-X-IronPort-AV: E=Sophos;i="5.93,290,1654585200"; d="scan'208";a="675077315"
-Received: from zengguan-mobl1.ccr.corp.intel.com (HELO [10.238.0.184])
- ([10.238.0.184])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Sep 2022 18:27:20 -0700
-Message-ID: <2c9d8124-c8f5-5f21-74c5-307e16544143@intel.com>
-Date: Mon, 5 Sep 2022 09:27:09 +0800
+ (Exim 4.90_1) (envelope-from <john@john-millikin.com>)
+ id 1oV2ot-00071X-Eh
+ for qemu-devel@nongnu.org; Sun, 04 Sep 2022 23:30:43 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:42822)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <john@john-millikin.com>)
+ id 1oV2or-0003wQ-Lk
+ for qemu-devel@nongnu.org; Sun, 04 Sep 2022 23:30:43 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id v5so7293150plo.9
+ for <qemu-devel@nongnu.org>; Sun, 04 Sep 2022 20:30:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=john-millikin.com; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=90S2L9sOrMgczPQalGeRrpTxTl3BOJmicLXxvX904Ho=;
+ b=R6ylnJWoUrzaVI8fVwmReeJFH1ZCh9G9SYcr1Ar/q1JbU/BZLLYbIt6GsCKWNLYFPc
+ WO1b+inpJmP6EO1bHjx7xagcei/K+SQ/afRgnSOiBZAPXnpU3/o2F5UoA1lI9pV5YLaW
+ tWnyRqOvmuEQvZ2cRklFJzQGPsH9t741i5wkPd0K0CTlu6O2ky9hOT5YuoJoY7a/PfuH
+ ftydau4Zy2gZd8FPTKTkFX7rZKoHvWmEUOLiTIbR7xdTvC+g58T7ffSvC1oJoUe/Rmgi
+ P5p9VJ8wrbS58obp1ufLpB3609mO20S3VB9664EYIucp9ADD8qIjCQH5iOhOgfJbu5Kc
+ +t9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=90S2L9sOrMgczPQalGeRrpTxTl3BOJmicLXxvX904Ho=;
+ b=UG6PVYXBcz3EWfk6trbrFbmly6fwQWSwTGAs3bIYc0I3QM8a+fzkvVrdeYXHdjEJKy
+ Am2VbozhT4t8HjReNa9RhJ5PGtKZB+k5AlEztgyKOnXhpB5A4o5e7RlWQO3793YH67YX
+ xiOL+uqZLJqhijd59bTmd2kfwj8wuunHNLoHMMS3NzOrmBJYT2FHbAwMzTJ3xTPJiW3r
+ 43nt2uE+eXF0nFTYSpGpQcoqU1sa94kHO9xoKzwJR+SR2H4uoNlS4bsVSF7MF637Buhs
+ lHxA6yVMb/hEemKu9E6zj5gfDHfFbFKKaah4apy1gQhptQbLZVST7jicz7H32tCQ4wWW
+ 8Vzw==
+X-Gm-Message-State: ACgBeo0t2SHsoBMM1Xn2fLjRgcHp4n9RMuKH0SxQ+uZZOTffe4IXP6MQ
+ eQt39J3o2ZTkPzmNey4fylW/vw==
+X-Google-Smtp-Source: AA6agR7SeQ7Bq5KXwkzYulSZZixPvKgPTNZlu3vugaSocBkJ/Fdzhcl8z3iItPq6xyh01V1EfRcsfg==
+X-Received: by 2002:a17:90b:350b:b0:1fd:fe88:7cdf with SMTP id
+ ls11-20020a17090b350b00b001fdfe887cdfmr17683959pjb.236.1662348638504; 
+ Sun, 04 Sep 2022 20:30:38 -0700 (PDT)
+Received: from john-millikin.com ([2405:6580:98c0:1200:ad49:8eb2:5f01:76d3])
+ by smtp.gmail.com with ESMTPSA id
+ l4-20020a622504000000b00537eacc8fa6sm6387346pfl.40.2022.09.04.20.30.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 04 Sep 2022 20:30:38 -0700 (PDT)
+Date: Mon, 5 Sep 2022 12:30:34 +0900
+From: John Millikin <john@john-millikin.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Fam Zheng <fam@euphon.net>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v2] scsi-disk: support setting CD-ROM block size via
+ device options
+Message-ID: <YxVtWkzEJP7WotRe@john-millikin.com>
+References: <20220804122950.1577012-1-john@john-millikin.com>
+ <CABgObfbKXjXUhNffdcKNTKxHcVcJS2W_nAh=nQeMvb-FPQ7rQw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v3] target/i386: Set maximum APIC ID to KVM prior to vCPU
- creation
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>,
- "Christopherson,, Sean" <seanjc@google.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Marcelo Tosatti <mtosatti@redhat.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "Gao, Chao" <chao.gao@intel.com>
-References: <20220825025246.26618-1-guang.zeng@intel.com>
-From: Zeng Guang <guang.zeng@intel.com>
-In-Reply-To: <20220825025246.26618-1-guang.zeng@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: permerror client-ip=192.55.52.115;
- envelope-from=guang.zeng@intel.com; helo=mga14.intel.com
-X-Spam_score_int: -80
-X-Spam_score: -8.1
-X-Spam_bar: --------
-X-Spam_report: (-8.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.978, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABgObfbKXjXUhNffdcKNTKxHcVcJS2W_nAh=nQeMvb-FPQ7rQw@mail.gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=john@john-millikin.com; helo=mail-pl1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,76 +92,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kindly PING!
+I notice this patch wasn't included in the [PULL] series last week, and
+it isn't present in the `master` branch.
 
-On 8/25/2022 10:52 AM, Zeng Guang wrote:
-> Specify maximum possible APIC ID assigned for current VM session to KVM
-> prior to the creation of vCPUs. By this setting, KVM can set up VM-scoped
-> data structure indexed by the APIC ID, e.g. Posted-Interrupt Descriptor
-> pointer table to support Intel IPI virtualization, with the most optimal
-> memory footprint.
->
-> It can be achieved by calling KVM_ENABLE_CAP for KVM_CAP_MAX_VCPU_ID
-> capability once KVM has enabled it. Ignoring the return error if KVM
-> doesn't support this capability yet.
->
-> Signed-off-by: Zeng Guang <guang.zeng@intel.com>
-> ---
->   hw/i386/x86.c              | 4 ++++
->   target/i386/kvm/kvm-stub.c | 5 +++++
->   target/i386/kvm/kvm.c      | 5 +++++
->   target/i386/kvm/kvm_i386.h | 1 +
->   4 files changed, 15 insertions(+)
->
-> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> index 050eedc0c8..4831193c86 100644
-> --- a/hw/i386/x86.c
-> +++ b/hw/i386/x86.c
-> @@ -139,6 +139,10 @@ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
->           exit(EXIT_FAILURE);
->       }
->   
-> +    if (kvm_enabled()) {
-> +        kvm_set_max_apic_id(x86ms->apic_id_limit);
-> +    }
-> +
->       possible_cpus = mc->possible_cpu_arch_ids(ms);
->       for (i = 0; i < ms->smp.cpus; i++) {
->           x86_cpu_new(x86ms, possible_cpus->cpus[i].arch_id, &error_fatal);
-> diff --git a/target/i386/kvm/kvm-stub.c b/target/i386/kvm/kvm-stub.c
-> index f6e7e4466e..e052f1c7b0 100644
-> --- a/target/i386/kvm/kvm-stub.c
-> +++ b/target/i386/kvm/kvm-stub.c
-> @@ -44,3 +44,8 @@ bool kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
->   {
->       abort();
->   }
-> +
-> +void kvm_set_max_apic_id(uint32_t max_apic_id)
-> +{
-> +    return;
-> +}
-> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> index f148a6d52f..af4ef1e8f0 100644
-> --- a/target/i386/kvm/kvm.c
-> +++ b/target/i386/kvm/kvm.c
-> @@ -5428,3 +5428,8 @@ void kvm_request_xsave_components(X86CPU *cpu, uint64_t mask)
->           mask &= ~BIT_ULL(bit);
->       }
->   }
-> +
-> +void kvm_set_max_apic_id(uint32_t max_apic_id)
-> +{
-> +    kvm_vm_enable_cap(kvm_state, KVM_CAP_MAX_VCPU_ID, 0, max_apic_id);
-> +}
-> diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
-> index 4124912c20..c133b32a58 100644
-> --- a/target/i386/kvm/kvm_i386.h
-> +++ b/target/i386/kvm/kvm_i386.h
-> @@ -54,4 +54,5 @@ uint64_t kvm_swizzle_msi_ext_dest_id(uint64_t address);
->   bool kvm_enable_sgx_provisioning(KVMState *s);
->   void kvm_request_xsave_components(X86CPU *cpu, uint64_t mask);
->   
-> +void kvm_set_max_apic_id(uint32_t max_apic_id);
->   #endif
+Is there anything else I should be doing to get it merged in? Sorry if
+this isn't a good question, I'm not used to QEMU's email-based change
+management workflow.
+
+On Sat, Aug 20, 2022 at 09:42:25AM +0200, Paolo Bonzini wrote:
+> No, I had not seen it indeed. Queued now, thanks.
+> 
+> Paolo
+> 
+> Il gio 4 ago 2022, 14:39 John Millikin <john@john-millikin.com> ha scritto:
+> 
+> > SunOS expects CD-ROM devices to have a block size of 512, and will
+> > fail to mount or install using QEMU's default block size of 2048.
+> >
+> > When initializing the SCSI device, allow the `physical_block_size'
+> > block device option to override the default block size.
+> >
+> > Signed-off-by: John Millikin <john@john-millikin.com>
+> > ---
+> >  hw/scsi/scsi-disk.c | 7 ++++++-
+> >  1 file changed, 6 insertions(+), 1 deletion(-)
+> >
+> > This is the same diff as sent to qemu-devel@ about a week ago. That
+> > first email seems to have been eaten by a grue, but replying to it
+> > worked, so maybe the grue is gone now.
+> >
+> > See https://gitlab.com/qemu-project/qemu/-/issues/1127 for some
+> > related discussion about SunOS CD-ROM compatibility.
+> >
+> > diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+> > index f5cdb9ad4b..acdf8dc05c 100644
+> > --- a/hw/scsi/scsi-disk.c
+> > +++ b/hw/scsi/scsi-disk.c
+> > @@ -2533,6 +2533,7 @@ static void scsi_cd_realize(SCSIDevice *dev, Error
+> > **errp)
+> >      SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, dev);
+> >      AioContext *ctx;
+> >      int ret;
+> > +    uint32_t blocksize = 2048;
+> >
+> >      if (!dev->conf.blk) {
+> >          /* Anonymous BlockBackend for an empty drive. As we put it into
+> > @@ -2542,9 +2543,13 @@ static void scsi_cd_realize(SCSIDevice *dev, Error
+> > **errp)
+> >          assert(ret == 0);
+> >      }
+> >
+> > +    if (dev->conf.physical_block_size != 0) {
+> > +        blocksize = dev->conf.physical_block_size;
+> > +    }
+> > +
+> >      ctx = blk_get_aio_context(dev->conf.blk);
+> >      aio_context_acquire(ctx);
+> > -    s->qdev.blocksize = 2048;
+> > +    s->qdev.blocksize = blocksize;
+> >      s->qdev.type = TYPE_ROM;
+> >      s->features |= 1 << SCSI_DISK_F_REMOVABLE;
+> >      if (!s->product) {
+> > --
+> > 2.25.1
+> >
+> >
 
