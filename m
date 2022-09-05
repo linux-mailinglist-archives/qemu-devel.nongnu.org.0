@@ -2,86 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76D1B5AD903
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 20:27:16 +0200 (CEST)
-Received: from localhost ([::1]:41176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 508DD5AD902
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 20:27:14 +0200 (CEST)
+Received: from localhost ([::1]:41174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVGoV-0007Nk-IM
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 14:27:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47438)
+	id 1oVGoS-0007Ji-Mw
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 14:27:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oVGir-0000yI-OQ; Mon, 05 Sep 2022 14:21:25 -0400
-Received: from mail-oa1-x2f.google.com ([2001:4860:4864:20::2f]:44853)
+ (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
+ id 1oVGkg-00027m-SR
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 14:23:18 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:42500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oVGin-0001rf-7a; Mon, 05 Sep 2022 14:21:25 -0400
-Received: by mail-oa1-x2f.google.com with SMTP id
- 586e51a60fabf-11eab59db71so22968108fac.11; 
- Mon, 05 Sep 2022 11:21:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=DlF5rX4Thk8WInUhhGWH0Ghj+1W0aH+WuSEMJ66Fz0E=;
- b=jvUCNJClC7o4csNsn9FD9u3I1h6I15ahUsAhtnzCHYq75v/Xm5fX4xWO5wnbdk4ef+
- yLUARaOuAMOszFcV668TlA0aMP5fDUQ4831NFrHgZYqjq/g2wmscgm5Jlg/ZSS1eQQU3
- aTmOtSnQXiyUmMCMUm7ZS9Aht3lZ9G4MSMn+Wt9TlDnzwCFvyDqLvJvVJ2z59N+N79Y1
- 5SF11XvQGDPa1MleTJKBtf0ywWFLllG0YtqsWH4k3OJVPQuGRMFZ6g1vbC0tI2CDVfZn
- k0LdwdsOQNf4V76kSpx9mp8yc3efgHGHpYxJOCsBBpPgSfgnWMuNlAlikczDUa13R+OL
- A73Q==
+ (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
+ id 1oVGkX-000264-F8
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 14:23:18 -0400
+Received: by mail-pl1-x631.google.com with SMTP id v5so9127903plo.9
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 11:23:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=SeHNAeBlear1oln8Wk6+tsh0AHrkZiXRlUMMSCjo9+k=;
+ b=QiSyAcRU1n2tLNWgh0eeirpvBKeYP3SavHb4/ZRhPPtruxZp0C918hibYCn1DfiKRM
+ N+rqSnesGUIK5CLvfvQhKCHJy0ECwPpzMHoqWAyjOIAE6GSAAL7vD/RSZGqnZtNQgH01
+ zN7pnfbJUI691iy6K1qNAPs+MP4lcQ5WCBmqjy9YIMgscwFLoLaQBoFE6ljpJ4tC2jEM
+ nPmcbAL3Z94776YvrogY6vbtF/YNu1pTVtIpFdULJgUPwEzTW5fPzfUPClChgia3BQM0
+ E9keHXxXnR8NeDV/YHk91BFx3FjEVX4Ea+/+ulcbWcBuu1GR8EL6Zl1KDzGzlaiuba42
+ DGUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=DlF5rX4Thk8WInUhhGWH0Ghj+1W0aH+WuSEMJ66Fz0E=;
- b=TzJXHevt5q/sI1YMHy/mKXEfPFf2k/3tVwLG/w1JCU6rNKtCsrY5kyuHrfp/MviniR
- BJ98IQMwghJzifzWnXWJ01qz8tlzNGCsgu9OtQuDguwnwmg4/xHPpw7KLu4j1tcmTPtL
- msgddhLJ8gLbXFxA15yIII1msI2NOOer4eZ85a/GRybBaX5uWGZSXNKkf5F6816SJiVD
- XXK03MFyvdcxYGJpw7zkZwLFjIChqMXLycBOJq1wW/RKX/F33Vw0oDtQuf2Uli6PPskd
- 7biXi5ReCdZuriX3uqiLbWsRkPLAp0q2lK8KZpiRqd9buZCsCR/svmhpxB8QxJUnFXZg
- hZRw==
-X-Gm-Message-State: ACgBeo2b0ZXuyHdaLNsObU93SOlxlOsrFqCs3fTXK9HhfDqQHP5F4eVa
- /q8BlUFMa2kAlbu9IP7ZJuI=
-X-Google-Smtp-Source: AA6agR5VPV4rcMlg8fxsCM9gF49gaLFhHQNXAH+05jGtqYGtxAVfDmZxUgB+92fp/83sWK62QcDaZA==
-X-Received: by 2002:a05:6808:1395:b0:345:29c9:eec9 with SMTP id
- c21-20020a056808139500b0034529c9eec9mr8656292oiw.10.1662402079674; 
- Mon, 05 Sep 2022 11:21:19 -0700 (PDT)
-Received: from [192.168.10.102] (200-207-147-180.dsl.telesp.net.br.
- [200.207.147.180]) by smtp.gmail.com with ESMTPSA id
- g12-20020a056870c14c00b0012644cc4feasm3231647oad.55.2022.09.05.11.21.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Sep 2022 11:21:19 -0700 (PDT)
-Message-ID: <85d51bff-9943-06e6-6cac-473ebf5bea4f@gmail.com>
-Date: Mon, 5 Sep 2022 15:21:14 -0300
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=SeHNAeBlear1oln8Wk6+tsh0AHrkZiXRlUMMSCjo9+k=;
+ b=slZ6emtjl3sOFHXd4dDclPYt44ydacPqk/mlNduV2stO35dWXlzylUpuugOU9QByzt
+ 1XKllDSl3+MgYz6mHjZuIw88sMb1gmY1J/x9faQIQAvChSNJh9AUhqnEEBIn/1LOgonH
+ NP0gaI0vD7TmiIls/JU477Gf/SIzTK5FMHSp+yokOwZfyH4L5+Z0LeakT+LUwEr8EOz2
+ EvoWCCphq9XxKJpk8Ac+4Gd0Pki1b8kMDZHhYmxEGcYfLEZmwIIOMdqVmBE6CWqU2EA6
+ SciQxG4oPbRRhY2rhOe5dtm6gsGlsiZ69u1orgVzqtO5c5+fX9Da32Afo+Z0ShvflkJl
+ qCqQ==
+X-Gm-Message-State: ACgBeo1mxWiPEdT8VoFdeyGh1x6/BukPFRuao0JlJg+BN01IU77lF1qA
+ Uj6U0I2QrEqfc+dUZMDooCKd7w==
+X-Google-Smtp-Source: AA6agR4LTWXZ23y2Y0rsAXQYrcgwiDPMz2/F+8xt6W+WbLBXkhlghjLX+MTITLZIXVcs4jgKoyIsLg==
+X-Received: by 2002:a17:903:244d:b0:175:3ead:4586 with SMTP id
+ l13-20020a170903244d00b001753ead4586mr28513867pls.28.1662402187979; 
+ Mon, 05 Sep 2022 11:23:07 -0700 (PDT)
+Received: from localhost.localdomain ([49.206.11.92])
+ by smtp.gmail.com with ESMTPSA id
+ z7-20020aa79587000000b005321340753fsm8046724pfj.103.2022.09.05.11.23.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Sep 2022 11:23:07 -0700 (PDT)
+From: Sunil V L <sunilvl@ventanamicro.com>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>, Song Gao <gaosong@loongson.cn>,
+ Gerd Hoffmann <kraxel@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Andrew Jones <ajones@ventanamicro.com>,
+ Anup Patel <apatel@ventanamicro.com>,
+ Atish Kumar Patra <atishp@rivosinc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Sunil V L <sunilvl@ventanamicro.com>
+Subject: [PATCH V2 0/3] hw/riscv: virt: Enable booting S-mode firmware from
+ pflash
+Date: Mon,  5 Sep 2022 23:52:35 +0530
+Message-Id: <20220905182238.374545-1-sunilvl@ventanamicro.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH 04/19] target/ppc: Set result to QNaN for DENBCD when
- VXCVI occurs
-Content-Language: en-US
-To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
- richard.henderson@linaro.org, matheus.ferst@eldorado.org.br,
- lucas.araujo@eldorado.org.br, leandro.lupori@eldorado.org.br,
- lucas.coutinho@eldorado.org.br
-References: <20220901131756.26060-1-victor.colombo@eldorado.org.br>
- <20220901131756.26060-5-victor.colombo@eldorado.org.br>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220901131756.26060-5-victor.colombo@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2f;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2f.google.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=sunilvl@ventanamicro.com; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.716,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,79 +98,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This series adds the support to boot S-mode FW like EDK2 from the flash. The
+S-mode firmware should be kept in pflash unit 1.
+
+When -kernel (and -initrd) option is also provided along with the flash,
+the kernel (and initrd) will be loaded into fw_cfg table and opensbi will
+branch to the flash address which will be the entry point of the S-mode
+firmware. The S-mode FW then loads and launches the kernel.
+
+When only -pflash option is provided in the command line, the kernel
+will be located and loaded in the usual way by the S-mode firmware.
+
+These patches are available in below branch.
+https://github.com/vlsunil/qemu/tree/pflash_v2
+
+The first two patches in this series are refactor patches.
+
+These changes are tested with a WIP EDK2 port for virt machine. Below
+are the instructions to build and test this feature.
+
+1) Get EDK2 sources from below branches.
+https://github.com/vlsunil/edk2/tree/virt_refactor_smode_v1
+https://github.com/vlsunil/edk2-platforms/tree/virt_refactor_smode_v1
+
+2) Build EDK2 for RISC-V
+	export WORKSPACE=`pwd`
+        export GCC5_RISCV64_PREFIX=riscv64-linux-gnu-
+        export PACKAGES_PATH=$WORKSPACE/edk2:$WORKSPACE/edk2-platforms
+        export EDK_TOOLS_PATH=$WORKSPACE/edk2/BaseTools
+        source edk2/edksetup.sh
+        make -C edk2/BaseTools clean
+        make -C edk2/BaseTools
+        make -C edk2/BaseTools/Source/C
+        source edk2/edksetup.sh BaseTools
+        build -a RISCV64  -p Platform/Qemu/RiscVVirt/RiscVVirt.dsc -t GCC5
+
+3)Make the EDK2 image size to match with what qemu flash expects
+truncate -s 32M Build/RiscVVirt/DEBUG_GCC5/FV/RISCV_VIRT.fd
+
+4) Run
+a) Boot to EFI shell (no -kernel / -initrd option)
+qemu-system-riscv64  -nographic   -drive file=Build/RiscVVirt/DEBUG_GCC5/FV/RISCV_VIRT.fd,if=pflash,format=raw,unit=1  -machine virt -M 2G
+
+b) With -kernel, -initrd and -pflash
+qemu-system-riscv64  -nographic   -drive file=Build/RiscVVirt/DEBUG_GCC5/FV/RISCV_VIRT.fd,if=pflash,format=raw,unit=1  -machine virt -M 2G -kernel arch/riscv/boot/Image.gz -initrd rootfs.cpio 
 
 
-On 9/1/22 10:17, Víctor Colombo wrote:
-> According to the ISA, for instruction DENBCD:
-> "If an invalid BCD digit or sign code is detected in the source
-> operand, an invalid-operation exception (VXCVI) occurs."
-> 
-> In the Invalid Operation Exception section, there is the situation:
-> "When Invalid Operation Exception is disabled (VE=0) and Invalid
-> Operation occurs (...) If the operation is an (...) or format the
-> target FPR is set to a Quiet NaN". This was not being done in
-> QEMU.
-> 
-> This patch sets the result to QNaN when the instruction DENBCD causes
-> an Invalid Operation Exception.
-> 
-> Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
-> ---
+Changes since V1:
+	1) Modified code to support the use case when both -kernel and -pflash are configured.
+	2) Refactor patches added to help (1) above.
+	3) Cover letter added with test instructions.
 
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Sunil V L (3):
+  hw/arm,loongarch: Move load_image_to_fw_cfg() to common location
+  hw/riscv: virt: Move create_fw_cfg() prior to loading kernel
+  hw/riscv: virt: Enable booting S-mode firmware from pflash
 
->   target/ppc/dfp_helper.c | 26 ++++++++++++++++++++++++--
->   1 file changed, 24 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
-> index be7aa5357a..cc024316d5 100644
-> --- a/target/ppc/dfp_helper.c
-> +++ b/target/ppc/dfp_helper.c
-> @@ -1147,6 +1147,26 @@ static inline uint8_t dfp_get_bcd_digit_128(ppc_vsr_t *t, unsigned n)
->       return t->VsrD((n & 0x10) ? 0 : 1) >> ((n << 2) & 63) & 15;
->   }
->   
-> +static inline void dfp_invalid_op_vxcvi_64(struct PPC_DFP *dfp)
-> +{
-> +    /* TODO: fpscr is incorrectly not being saved to env */
-> +    dfp_set_FPSCR_flag(dfp, FP_VX | FP_VXCVI, FPSCR_VE);
-> +    if ((dfp->env->fpscr & FP_VE) == 0) {
-> +        dfp->vt.VsrD(1) = 0x7c00000000000000; /* QNaN */
-> +    }
-> +}
-> +
-> +
-> +static inline void dfp_invalid_op_vxcvi_128(struct PPC_DFP *dfp)
-> +{
-> +    /* TODO: fpscr is incorrectly not being saved to env */
-> +    dfp_set_FPSCR_flag(dfp, FP_VX | FP_VXCVI, FPSCR_VE);
-> +    if ((dfp->env->fpscr & FP_VE) == 0) {
-> +        dfp->vt.VsrD(0) = 0x7c00000000000000; /* QNaN */
-> +        dfp->vt.VsrD(1) = 0x0;
-> +    }
-> +}
-> +
->   #define DFP_HELPER_ENBCD(op, size)                                           \
->   void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b,             \
->                    uint32_t s)                                                 \
-> @@ -1173,7 +1193,8 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b,             \
->               sgn = 0;                                                         \
->               break;                                                           \
->           default:                                                             \
-> -            dfp_set_FPSCR_flag(&dfp, FP_VX | FP_VXCVI, FPSCR_VE);            \
-> +            dfp_invalid_op_vxcvi_##size(&dfp);                               \
-> +            set_dfp##size(t, &dfp.vt);                                       \
->               return;                                                          \
->           }                                                                    \
->           }                                                                    \
-> @@ -1183,7 +1204,8 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b,             \
->           digits[(size) / 4 - n] = dfp_get_bcd_digit_##size(&dfp.vb,           \
->                                                             offset++);         \
->           if (digits[(size) / 4 - n] > 10) {                                   \
-> -            dfp_set_FPSCR_flag(&dfp, FP_VX | FP_VXCVI, FPSCR_VE);            \
-> +            dfp_invalid_op_vxcvi_##size(&dfp);                               \
-> +            set_dfp##size(t, &dfp.vt);                                       \
->               return;                                                          \
->           } else {                                                             \
->               nonzero |= (digits[(size) / 4 - n] > 0);                         \
+ hw/arm/boot.c             | 49 ---------------------------------------
+ hw/loongarch/virt.c       | 33 --------------------------
+ hw/nvram/fw_cfg.c         | 49 +++++++++++++++++++++++++++++++++++++++
+ hw/riscv/boot.c           | 28 ++++++++++++++++++++++
+ hw/riscv/virt.c           | 31 ++++++++++++++++++-------
+ include/hw/nvram/fw_cfg.h |  3 +++
+ include/hw/riscv/boot.h   |  1 +
+ 7 files changed, 104 insertions(+), 90 deletions(-)
+
+-- 
+2.25.1
+
 
