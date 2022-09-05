@@ -2,77 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAD105AD713
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 18:06:47 +0200 (CEST)
-Received: from localhost ([::1]:44032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02FCF5AD730
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 18:13:50 +0200 (CEST)
+Received: from localhost ([::1]:39954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVEcY-0007ER-Dx
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 12:06:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34346)
+	id 1oVEjM-0001sl-KT
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 12:13:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVETU-0007cD-R5
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 11:57:24 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:35729)
+ id 1oVEdE-0000Ki-7B
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 12:07:29 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:37392)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVETO-0005B6-I1
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 11:57:24 -0400
-Received: by mail-wr1-x433.google.com with SMTP id bz13so8500701wrb.2
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 08:57:14 -0700 (PDT)
+ id 1oVEdC-0006n2-77
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 12:07:27 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ c131-20020a1c3589000000b003a84b160addso7345020wma.2
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 09:07:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=IBRortsc9wjwGduq+IAMnMolTgnsoW6yNu3N3Iyt5cE=;
- b=URw4YtyY+DcA2wjH1pJV3E/iT4qxr/hzi2te6t5VAiLt66q8GWOdurOEQcj+QyVRv7
- tp4NphiNm7chvuuM0fX5oA99J03UFSdhziGrVoruzjJrYE7k3gDjOwTl8At7WHyxV4KD
- 3Y6fV3KHBGl07bPHJsXCMx3mo5t+emhJVt6s6Pd8o1Waw5h0c03JtKZbXfbDrSKR6wxg
- WBLW/q/8JH/7KOD7QLrJc5CsZJQH/XHed1N3Da773BXl6PdNGhRMyLOb6ct33CzkSQ91
- 3H3YQ2Ljb7pkkcezVgPuvUkCktoto2NeVPDgRAMJtEt1KAcQ0oSs8mJVulGK0xFlPM7g
- 8Zfw==
+ bh=ZBe//bqOmLHU0d6eI7b73avSTUjq9xArYaltVOtR2sc=;
+ b=xNCRkzdq8D8+ivCMZ8Ds2zEPrPuZ/G5FJjP98ZB6+u1wrEPM04wTC9sdH5AYtLht6a
+ u5XcwQfK/mJFQWD2OqPiodksWrB1gzmCyr5/q9t+ztqVMpD5BPndaWEd/qtu3UQLR3dd
+ V1k9a6cExq+ZyFkGlkv86J1GkL8YUxnWe0ZHPcukm80doYTrDmAMZ4aKp4ALIQriXeEz
+ uJcLTF+hvSorHRZ20xJ+GPK1VrGbvUfNDCu0v0hBwOMOmDWsxCykRD7WfeAsbFWaq3aR
+ qKB7pgUSWo5OnXQHl0u6itHj5dZ3hllqAICXQhkqtFGyKZzegF5vCiCHn2cAmrmGieQ6
+ Dejg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=IBRortsc9wjwGduq+IAMnMolTgnsoW6yNu3N3Iyt5cE=;
- b=IUkrWtvJ+GAtlvw/JbtpFEOgdaaini5H7RUW2kEQQZA1yqrIXhXLZyQULDuFCq/boy
- D/19wmWJ30nRSayOCMXK+zRdIeImZY9QDwHyFGFKVD5jXNmFFLHsZcJVmr04WguTASkv
- LzzgZ7weYZmMvNMr+81Rp8uzlfPK/NqvF97HXC0ybfG+z9OV3NrJ+cMBfJ0asjSfBQi7
- aKDPnsxco/d+3ZJi0AlhVuTCPbtNQxtWBgsH2mHe6vYC/lzoBKtiyLsTuJn6we63kwM+
- 0R3z644E7X1+aDfQt/e0oLkBGXfGckW6lDy06WrB/Q8PPzNrog2XaDY5IS3+Tv83jAig
- H2xQ==
-X-Gm-Message-State: ACgBeo3bnAoFQCLvY04lh3X3FrdhCyKBFYz2JCgmRS3Ue/+CfCZEiq/j
- 0lW3WmEbqenB4D58FuAoHaYZCg==
-X-Google-Smtp-Source: AA6agR7nDTueydDAv4weA1xarZZ3O95mYzZaPkXBpv9LevTfrhqzEMUm3KKbZXxCKo2C66yRGWBI9g==
-X-Received: by 2002:a05:6000:1cf:b0:228:6349:5935 with SMTP id
- t15-20020a05600001cf00b0022863495935mr5235610wrx.652.1662393433713; 
- Mon, 05 Sep 2022 08:57:13 -0700 (PDT)
+ bh=ZBe//bqOmLHU0d6eI7b73avSTUjq9xArYaltVOtR2sc=;
+ b=h8Go2bQhNieAAOKCJ2Pm1YaVRNi9Flm0DOY6lFY2CUOHvJA5EHr39Y01/EuaCyrsWf
+ cyAQbg3Z7jDKFl5XZWCzMAzrzkID5dJZyu2VaX4JbV8wOkNekW++rBtIhaZwCqM1Fpdh
+ vG5IIcsAbfPfIbjQJwwe4bL0qbL0eTtt5pC3rlu6JFzFR1M5Mz96Mmqp79MayrDlV2xT
+ EELUWMekl3esud0+uGJWlOOs8+nF9AxSK2NXEdN+QjN5eJnqe+QT2A4unEvR8o5VVcOd
+ D037hFOAr4kC4y4F8BR599ngzcArHM9L9ewi0nUZdW8pYZvtdQpqhOWDiXUVPplyfbTh
+ znUw==
+X-Gm-Message-State: ACgBeo3rfUmuVMlUWP+y+q6wV48fHpbS6Y12XhXaESNeAtU07vJThXmu
+ cogF+yyYJtb9AGsmjGsqa9zynA==
+X-Google-Smtp-Source: AA6agR6c8FAMna4URtCidQgHF/pUohVoSkxhy2V00MCfV7qq9rZzhlkaQuRFX5X48FOqqkoQaFMoRw==
+X-Received: by 2002:a1c:f20d:0:b0:3a8:4176:139b with SMTP id
+ s13-20020a1cf20d000000b003a84176139bmr10799773wmc.177.1662394044538; 
+ Mon, 05 Sep 2022 09:07:24 -0700 (PDT)
 Received: from ?IPV6:2a02:8084:a5c0:5a80:d0ad:82b5:d7a4:c0a9?
  ([2a02:8084:a5c0:5a80:d0ad:82b5:d7a4:c0a9])
  by smtp.gmail.com with ESMTPSA id
- l17-20020a05600c1d1100b003a5fa79007fsm12032088wms.7.2022.09.05.08.57.12
+ bs30-20020a056000071e00b002287513f169sm4218482wrb.55.2022.09.05.09.07.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Sep 2022 08:57:12 -0700 (PDT)
-Message-ID: <abb2e6e8-08bc-9251-f4bd-19bd0d91b974@linaro.org>
-Date: Mon, 5 Sep 2022 16:57:09 +0100
+ Mon, 05 Sep 2022 09:07:23 -0700 (PDT)
+Message-ID: <4975855c-a4bd-ec9c-2a2c-755cd7cea0a6@linaro.org>
+Date: Mon, 5 Sep 2022 17:07:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2] kvm: fix memory leak on failure to read stats
- descriptors
+Subject: Re: [PATCH] accel: print an error message and exit if plugin not
+ loaded
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com
-References: <20220905123910.46703-1-pbonzini@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
+ <marcandre.lureau@redhat.com>, dinechin@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>
+References: <20220905101332.1986-1-cfontana@suse.de>
+ <5d922305-a559-bfdc-7038-ec1560ae0e00@linaro.org>
+ <9bb31e44-e43d-b51a-712a-87e46279a0b5@suse.de>
+ <879a973a-c5b0-2a23-bb24-92bf5500f63f@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220905123910.46703-1-pbonzini@redhat.com>
+In-Reply-To: <879a973a-c5b0-2a23-bb24-92bf5500f63f@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -95,20 +103,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/5/22 13:39, Paolo Bonzini wrote:
-> Reported by Coverity as CID 1490142.  Since the size is constant and the
-> lifetime is the same as the StatsDescriptors struct, embed the struct
-> directly instead of using a separate allocation.
+On 9/5/22 16:43, Claudio Fontana wrote:
+> You might think 'mayfail' can be called by other code as true in some cases, but no, it's always false.
+> I wonder why this "mayfail" argument exists and is propagated at all, when it cannot be anything else than false.
+> I tried to remove the "mayfail" parameter completely and things seem just fine.
 > 
-> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
-> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
-> ---
->   accel/kvm/kvm-all.c | 9 ++++-----
->   1 file changed, 4 insertions(+), 5 deletions(-)
+> In any case, the only thing that "mayfail" seems to control, is in module_load_file, and is a single printf:
+> 
+>      g_module = g_module_open(fname, flags);
+>      if (!g_module) {
+>          if (!mayfail) {
+>              fprintf(stderr, "Failed to open module: %s\n",
+>                      g_module_error());
+>          }
+>          ret = -EINVAL;
+>          goto out;
+>      }
+> 
+> 
+> Weird.. Is someone building proprietary modules on top of QEMU? Is this what this is currently trying to address?
+> But then, the result is just a printf...
 
-Thanks,
+I thought it was for things like vga_interface_available, which probes for the vga 
+modules, but then gracefully handles an error.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+There's definitely something wrong with the plumbing here.
 
 
 r~
