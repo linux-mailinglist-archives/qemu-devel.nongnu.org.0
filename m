@@ -2,88 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BDBF5AD3D4
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 15:27:06 +0200 (CEST)
-Received: from localhost ([::1]:58864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 973C75AD3EC
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 15:31:17 +0200 (CEST)
+Received: from localhost ([::1]:42970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVC81-0001LD-4W
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 09:27:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53218)
+	id 1oVCC4-00009s-4a
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 09:31:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oVBzK-0000P6-F8; Mon, 05 Sep 2022 09:18:06 -0400
-Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36]:46747)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oVC8u-00032X-K5
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 09:28:00 -0400
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:37803)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oVBzB-0005a3-M7; Mon, 05 Sep 2022 09:18:04 -0400
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-127a3a39131so539078fac.13; 
- Mon, 05 Sep 2022 06:17:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=t83j+U/1eMk0gktE26i27s5AYMjt+l6rvM96lRQV0JM=;
- b=LMRshvVhIEEruHXQtifjX8t5qJQxFaX+zS7k4gKJIDKAmc1nKOXnteU63DS2fRcbjQ
- L47eWgxMq7IHpbtDcbEklgVMbc975/EHDsA05AauywGh8bSs5acWWY4pMxIGtJe+J46C
- EfVfedY0W8ONZP2/5UF49ArkUpEJuxITV9tWCti6Bau9N33IIfdLYYSU3mJmtAXSDXqj
- Loi4mYJ8rijEmasPtlPKaiGj+gBx/mp0uftqd6Tg//7lobJiewB2g+dJFznhM1+CJmht
- 9JsbzgTiDweW3tugCfK2itTtMoYHrR5wKeNVh0b7Kdp1/rKJUn9Lci+/xMk99lSxvHlA
- g2dw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oVC8p-00079N-Ld
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 09:28:00 -0400
+Received: by mail-yb1-xb33.google.com with SMTP id t184so12809786yba.4
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 06:27:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=9gxGO5AyCs37Pqg7jDxszM9ZjHpYnRVWTQSJQokRGRo=;
+ b=kejg5Mr3JXwzrDioOy3+yRS+3PZjFUedOhQyTrBg7bZmE1MH/r51UhUcjKm+e95l05
+ 2of648v5c8zLrODM4/onrxvKtVVxn7yVZ9bSKeIgcrJhz7jxHDPPBkeVUvs1FIj370XD
+ q5D4SEKnJS6+IkrY0T2f9+StaeRymFy95g0eO3o5ofnPziDUNuluk8BAptqSf4uhI7YG
+ jNmJevmar2+QFN/0xx9iC+Egi62ZdVHrN0EFOCNXcbdbc7FSFGlSnil2VXkn9K9CjCpb
+ vYJ3+oWXc/6Ymyu2xaDNzO5q0JPq89zYi6/etBhIbS5vHapRf36MsI6Qi779N/omChEr
+ lNlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=t83j+U/1eMk0gktE26i27s5AYMjt+l6rvM96lRQV0JM=;
- b=J9FnJFHtdA5rirDKghALU9HR40U/Tusitd03odIz5ktVWWZzALM4HZuNO4djtMDKO8
- FSdOkErUf0c942fVAQsdLValEuN+90hDQbtd/LcNXm16V5EClx+7PX7gHutTpaWZVBSI
- gVyCExxd9j39Z8WVs99LQ8UDasPAn9pnEdGwSaeUNxCxSUtkMcmGih8foUQptqakPeHa
- H8Z3SB5FQpGmFBJP7qg4ljX5YLbgIOBFy329K/7jo4Mn3w1tCINVFDfURXldedimuzEd
- veLHnp0DY3lgw6hnn05cbpA03cfF8ar3Jqco6zT+rX7/RF2GTROc9VleOJlCpeJMe1p4
- WPbg==
-X-Gm-Message-State: ACgBeo0k2p+bC8KzPtqtmgl/4jrvLvwHQsKfBX7nu1NaE3impuWrq5P8
- HpwZ6h7n/qgTg4yj/01dNxM=
-X-Google-Smtp-Source: AA6agR5bFYfCAIT6fcDaJ8goBaD2twP3nQrLkEuboRr6i/XPe4o+en2tbpBHhn7/qmOF7MX6aaNVuQ==
-X-Received: by 2002:a05:6870:a992:b0:11e:6d35:62d8 with SMTP id
- ep18-20020a056870a99200b0011e6d3562d8mr9142097oab.225.1662383875688; 
- Mon, 05 Sep 2022 06:17:55 -0700 (PDT)
-Received: from [192.168.10.102] (200-207-147-180.dsl.telesp.net.br.
- [200.207.147.180]) by smtp.gmail.com with ESMTPSA id
- em39-20020a0568705ba700b0010e20d0b2e3sm4855787oab.44.2022.09.05.06.17.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Sep 2022 06:17:55 -0700 (PDT)
-Message-ID: <d8020d82-4002-8b27-b887-9c4d14dda7d0@gmail.com>
-Date: Mon, 5 Sep 2022 10:17:50 -0300
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=9gxGO5AyCs37Pqg7jDxszM9ZjHpYnRVWTQSJQokRGRo=;
+ b=Df4YSnFMkmb4jChv+MnYL56Ou6WjjORNSZRNT1LQq3ajYrQq921ByNDYQImHQluP3n
+ gn/nhyQVQekwbkVfuyJUNLAy4c8uGqd0EAgQh+iY/0KlOCzAAxIxpujeE3BY5QklbIX3
+ dhX8nk2D1gOdehslYZdRt/r/TfgQxvdGCUuU0R1I8cjU9EkmqV/f0FLkH1b2itZir2Ej
+ KvcQzwLAkluWSWTdC0HeRrznxhfGCdV88tiJdyFmOIJnv97ABbfvhY6CzOKczc59OTXx
+ EXt1QhqQYBPdXF7wZhiZZ58PR41M20eRYIWNybCwl2jmRiqHla6NiQWNpu54mIGds39A
+ nE9w==
+X-Gm-Message-State: ACgBeo2xeFuXo+aM2W27Av1dhYS3tb2PKeadGJOjn9f7f7auIrJk/O8p
+ dckKskhwD/8atq2QLMbObuAOS6LAUw6nRW7cAVsQug==
+X-Google-Smtp-Source: AA6agR5+r+8KWyFJQkqBbycz7AM6HeXlTYfaly1EdKVr4nU9HohTsouODIKpS8xQeOvVI1n5KP9PnAxDCStzHtQ9MY0=
+X-Received: by 2002:a05:6902:1245:b0:699:fc86:d9f5 with SMTP id
+ t5-20020a056902124500b00699fc86d9f5mr31052713ybu.288.1662384473178; Mon, 05
+ Sep 2022 06:27:53 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH 01/19] target/ppc: Remove extra space from s128 field in
- ppc_vsr_t
-Content-Language: en-US
-To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
- richard.henderson@linaro.org, matheus.ferst@eldorado.org.br,
- lucas.araujo@eldorado.org.br, leandro.lupori@eldorado.org.br,
- lucas.coutinho@eldorado.org.br, qemu-trivial@nongnu.org
-References: <20220901131756.26060-1-victor.colombo@eldorado.org.br>
- <20220901131756.26060-2-victor.colombo@eldorado.org.br>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220901131756.26060-2-victor.colombo@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::36;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x36.google.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20220905125741.95516-1-marcandre.lureau@redhat.com>
+ <20220905125741.95516-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20220905125741.95516-2-marcandre.lureau@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 5 Sep 2022 14:27:41 +0100
+Message-ID: <CAFEAcA_PrFOTtY7OaoLpGJgdbvFHMt2jhaGKENaBHc2oaLCXDA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dump: simplify a bit kdump get_next_page()
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ qiaonuohan@cn.fujitsu.com, Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ David Hildenbrand <david@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.716,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,41 +87,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 9/1/22 10:17, Víctor Colombo wrote:
-> Very trivial rogue space removal. There are two spaces between Int128
-> and s128 in ppc_vsr_t struct, where it should be only one.
-> 
-> Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+On Mon, 5 Sept 2022 at 13:57, <marcandre.lureau@redhat.com> wrote:
+>
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> This should be functionally equivalent, but slightly easier to read,
+> with simplified paths and checks at the end of the function.
+>
+> The following patch is a major rewrite to get rid of the assert().
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > ---
+>  dump/dump.c | 21 ++++++++-------------
+>  roms/SLOF   |  2 +-
+>  2 files changed, 9 insertions(+), 14 deletions(-)
 
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> diff --git a/roms/SLOF b/roms/SLOF
+> index 6b6c16b4b4..5b4c5acdcd 160000
+> --- a/roms/SLOF
+> +++ b/roms/SLOF
+> @@ -1 +1 @@
+> -Subproject commit 6b6c16b4b40763507cf1f518096f3c3883c5cf2d
+> +Subproject commit 5b4c5acdcd552a4e1796aeca6bb700f6cbb0282d
 
+This shouldn't be in here, right? (I'm guessing a rebase
+accident -- git submodules have terrible ergonomics.)
 
-Ccing qemu-trivial since this can be picked up by them as well.
-
-
-Thanks,
-
-Daniel
-
-
-
->   target/ppc/cpu.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index a4c893cfad..985ff86f55 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -246,7 +246,7 @@ typedef union _ppc_vsr_t {
->   #ifdef CONFIG_INT128
->       __uint128_t u128;
->   #endif
-> -    Int128  s128;
-> +    Int128 s128;
->   } ppc_vsr_t;
->   
->   typedef ppc_vsr_t ppc_avr_t;
+-- PMM
 
