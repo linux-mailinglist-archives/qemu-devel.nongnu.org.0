@@ -2,74 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5A165ACDED
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 10:44:02 +0200 (CEST)
-Received: from localhost ([::1]:42992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 951DD5ACE2C
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 10:55:07 +0200 (CEST)
+Received: from localhost ([::1]:54470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oV7i5-0005yZ-2S
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 04:44:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50300)
+	id 1oV7so-0002JU-6E
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 04:55:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oV7fB-0004Sp-Mo
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 04:41:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52294)
+ (Exim 4.90_1) (envelope-from <git@sphalerite.org>)
+ id 1oV7pB-0008IZ-Sy; Mon, 05 Sep 2022 04:51:29 -0400
+Received: from sosiego.soundray.org ([2a01:4f8:c2c:a9a0::1]:49734)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oV7f8-0006k8-SU
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 04:41:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662367257;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XrY/c3rU6OfmqJoXTTYImb5fYgBggttP5+lOwWqok6M=;
- b=bb7CNcYmThm7QiiwQeh5S5lbhP2zuU9Es4Bgik4QAx/NUKDL2T0ABn91CJa+ntRXcucEID
- bPDq00yeyqakWCmmoPo8zAyWTkTdLTwtqy/R/iiCweMrvnT81ryCygPK+HNIvL8nNv2FIZ
- flQgubt9z1uiLAjVNxS0vf4Z73qxBAs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-563-SC0mAiunNmGWs1TdHV6QUg-1; Mon, 05 Sep 2022 04:40:54 -0400
-X-MC-Unique: SC0mAiunNmGWs1TdHV6QUg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2788285828F;
- Mon,  5 Sep 2022 08:40:54 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.195.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 301B81415138;
- Mon,  5 Sep 2022 08:40:53 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E3F8818007A4; Mon,  5 Sep 2022 10:40:51 +0200 (CEST)
-Date: Mon, 5 Sep 2022 10:40:51 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ard Biesheuvel <ardb@kernel.org>
-Subject: Re: [PATCH] x86: only modify setup_data if the boot protocol
- indicates safety
-Message-ID: <20220905084051.cbwjktoumwhfy5tr@sirius.home.kraxel.org>
-References: <20220904165058.1140503-1-Jason@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <git@sphalerite.org>)
+ id 1oV7p9-00087b-2n; Mon, 05 Sep 2022 04:51:21 -0400
+From: Linus Heckemann <git@sphalerite.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sphalerite.org;
+ s=sosiego; t=1662367873;
+ bh=/kyngnqCDp/8IzHNee3Ct9C3kPMhB7/ZOSxJz0bs7hI=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date;
+ b=bI0KuZA/dnDSSRjfMEo/KZullXJVw/+4cZfEWDz5tImj1pQj2AyTvr4hdh9Lw531c
+ MJKQZtUA4NiySg6pTCVoPbnzuKkOKnpibc+XrIQt1RvtP/Gb+6bXxUEdOe7RaZ2oBA
+ oakQRhp1ICLBf80J6UodnX3xh/V/SWnt+/SBYnvA=
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, Christian
+ Schoenebeck <qemu_oss@crudebyte.com>, Daniel P. =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>, Linus
+ Heckemann <git@sphalerite.org>, qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>,  Qemu-block <qemu-block@nongnu.org>
+Subject: Re: [PATCH] 9pfs: use GHashMap for fid table
+In-Reply-To: <df5c1e4b-9581-61e6-b0be-eb43d9620edf@amsat.org>
+ <2843062.aF7IraYCKC@silver> <YxWhA8M4Ul8z2KUj@redhat.com>
+References: <20220903150327.2780127-1-git@sphalerite.org>
+ <df5c1e4b-9581-61e6-b0be-eb43d9620edf@amsat.org>
+ <2843062.aF7IraYCKC@silver> <YxWhA8M4Ul8z2KUj@redhat.com>
+Date: Mon, 05 Sep 2022 10:51:10 +0200
+Message-ID: <ygao7vu5hmp.fsf@localhost>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220904165058.1140503-1-Jason@zx2c4.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a01:4f8:c2c:a9a0::1;
+ envelope-from=git@sphalerite.org; helo=sosiego.soundray.org
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,47 +64,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Sep 04, 2022 at 06:50:58PM +0200, Jason A. Donenfeld wrote:
-> This reverts 3824e25db1 ("x86: disable rng seeding via setup_data"), and
-> then makes the use of setup_data safe. It does so by checking the boot
-> protocol version. If it's sufficient, then it means EFI boots won't
-> crash. While we're at it, gate this on SEV too.
+Hi all, thanks for your reviews.
 
-> @@ -463,6 +462,7 @@ static void pc_i440fx_7_0_machine_options(MachineClass *m)
+> @@ -4226,7 +4232,7 @@ int v9fs_device_realize_common(V9fsState *s, const =
+V9fsTransport *t,
+>      s->ctx.fmode =3D fse->fmode;
+>      s->ctx.dmode =3D fse->dmode;
+>=20
+> -    QSIMPLEQ_INIT(&s->fid_list);
+> +    s->fids =3D g_hash_table_new(NULL, NULL);
+>      qemu_co_rwlock_init(&s->rename_lock);
+>=20
+>      if (s->ops->init(&s->ctx, errp) < 0) {
 
-> +    pcmc->legacy_no_rng_seed = true;
+I noticed that the hash table may be leaked as is. I'll address this in
+the next submission.
 
-This needs go into the pc_i440fx_7_1_machine_options function, otherwise
-legacy_no_rng_seed gets flipped from false to true for 7.1 machine types
-which breaks compatibility.
 
-> @@ -398,6 +397,7 @@ static void pc_q35_7_0_machine_options(MachineClass *m)
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+> [Style nitpicking]
 
-> +    pcmc->legacy_no_rng_seed = true;
+Applied these changes and will include them in the next version of the patc=
+h.
 
-Same here.
+Christian Schoenebeck <qemu_oss@crudebyte.com> writes:
+> > @@ -317,12 +315,9 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32=
+_t
+> > fid) {
+> >      V9fsFidState *f;
+> >=20
+> > -    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
+> > +    if (g_hash_table_contains(s->fids, GINT_TO_POINTER(fid))) {
+> >          /* If fid is already there return NULL */
+> > -        BUG_ON(f->clunked);
+> > -        if (f->fid =3D=3D fid) {
+> > -            return NULL;
+> > -        }
+> > +        return NULL;
+>
+> Probably retaining BUG_ON(f->clunked) here?
 
-> --- a/hw/i386/x86.c
-> +++ b/hw/i386/x86.c
-> @@ -1088,8 +1088,15 @@ void x86_load_linux(X86MachineState *x86ms,
->          qemu_guest_getrandom_nofail(setup_data->data, RNG_SEED_LENGTH);
->      }
->  
-> -    /* Offset 0x250 is a pointer to the first setup_data link. */
-> -    stq_p(header + 0x250, first_setup_data);
-> +    /*
-> +     * Only modify the header if doing so won't crash EFI boot, which is the
-> +     * case only for newer boot protocols, and don't do so either if SEV is
-> +     * enabled.
-> +     */
-> +    if (protocol >= 0x210 && !sev_enabled()) {
-> +        /* Offset 0x250 is a pointer to the first setup_data link. */
-> +        stq_p(header + 0x250, first_setup_data);
-> +    }
+I decided not to since this was a sanity check that was happening for
+_each_ fid, but only up to the one we were looking for. This seemed
+inconsistent and awkward to me, so I dropped it completely (and the
+invariant that no clunked fids remain in the table still seems to hold
+-- it's fairly trivial to check, in that the clunked flag is only set
+in two places, both of which also remove the map entry). My preference
+would be to leave it out, but I'd also be fine with restoring it for
+just the one we're looking for, or maybe moving the check to when we're
+iterating over the whole table, e.g. in v9fs_reclaim_fd. Thoughts?
 
-This should better go into a separate patch.
+> > @@ -424,12 +419,11 @@ static V9fsFidState *clunk_fid(V9fsState *s, int3=
+2_t
+> > fid) {
+> >      V9fsFidState *fidp;
+> >=20
+> > -    QSIMPLEQ_FOREACH(fidp, &s->fid_list, next) {
+> > -        if (fidp->fid =3D=3D fid) {
+> > -            QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
+> > -            fidp->clunked =3D true;
+> > -            return fidp;
+> > -        }
+> > +    fidp =3D g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
+> > +    if (fidp) {
+> > +        g_hash_table_remove(s->fids, GINT_TO_POINTER(fid));
+> > +        fidp->clunked =3D true;
+> > +        return fidp;
+>
+> We can't get rid of the double lookup here, can we? Surprisingly I don't =
+find=20
+> a lookup function on the iterator based API.
 
-take care,
-  Gerd
+It seems you're not the only one who had that idea:
+https://gitlab.gnome.org/GNOME/glib/-/issues/613
 
+In this case, I think an extended remove function which returns the
+values that were present would be even nicer. But neither exists at this
+time (and that issue is pretty old), I guess we're stuck with this for
+now.
+
+
+Daniel P. Berrang=C3=A9 writes:
+> In $SUBJECT it is called GHashTable, not GHashMap
+
+Indeed, good catch. Will fix in the next version.
+
+Linus
 
