@@ -2,83 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E651D5AD1DE
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 13:55:12 +0200 (CEST)
-Received: from localhost ([::1]:60650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 913DD5AD174
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 13:23:30 +0200 (CEST)
+Received: from localhost ([::1]:60334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVAh5-0000zO-SJ
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 07:55:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40406)
+	id 1oVACO-00080M-1d
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 07:23:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oVA0B-0005Mm-0x
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:10:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27465)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oVA06-00065w-Vf
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:10:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662376245;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=uvn0kmiceqd2oyNCXiSyFlEG1+Z3hg5qC/XijQrII0Y=;
- b=GRp1H8cMuXEvx2UaNxLtx5HGUG7ytbudzG/HEDx8vnTt9EwpzNHAvVUuCUpKepFlXNfYty
- 8BsJ2kcrf+Xod6wW1b3xC9Se+f48m5NC+xHixNQ8LUI/b8qOkeZ7U1xwT1IflN/Hs9f8pl
- eO8/yEwBPtYSF7LVUH2vDmvai3uSuiU=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-502-sgmlVqoiNhSUSVd2aopnsw-1; Mon, 05 Sep 2022 07:10:42 -0400
-X-MC-Unique: sgmlVqoiNhSUSVd2aopnsw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- r11-20020a05640251cb00b004484ec7e3a4so5629131edd.8
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 04:10:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oVA0d-0006ZJ-Sc
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:11:19 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:43638)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oVA0b-0006E5-VO
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 07:11:19 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id t7so5849653wrm.10
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 04:11:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=o04yECKpe+9hsICpfc1rS+sCAcGyL2RwPzG5QJZ6XnM=;
+ b=bso8wuht6WZPrI9hUkEJALbmoc1aFhiP+W+zs4y/jrCjg9eRiB/zfttp79w+OfcGJa
+ cLuw6SOtUa+p2x9Der3q3k9txctYRNVGVrKaXarHXF7O7Z+A9BTmtAfTtCuBrPz4Uu4W
+ cd4+DikrV1Sunbc6h6eqLZZq26Wu4F2RFut9t2pom4TlE1OZDd9xq2U3lAW81O1mKRQc
+ pX9tAhOQ8dBkrOhX51QZOquXPyTFfGNlMiPu4di2IXQ0XW2FbQQZd2LcGfVcI4UnAJqw
+ SqKF/XF/fpPZp786+Y2W3m+t8XN8C3nYF+d82gMnG6WrcM80F8vQd1et4yEQRdneDwmh
+ RliA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=uvn0kmiceqd2oyNCXiSyFlEG1+Z3hg5qC/XijQrII0Y=;
- b=zFysmDrDBbzjnmHJGaJ3adaUxMwfCiXQSbEDwVjSlnqXvsOlMghlNY6G/LYO2InnWd
- Jq5kXKTGtpvRx/2rFiiBOanu9NnlTykEWfe4x87pjNWqxffgI2D1CySh9kNaVxeEHNCI
- UC8ExfKBak5NnO0244ruJ6B7DyoFLLBtH76RVjsLG44yYBDnsJGRsaASxx/HUgcWwxTM
- TLJSJhijf1QMb5f695dFnmoDGNbDy8SmbeapdqwHFu0pO3j80YTxl/lroF/lTehHoyJY
- uJ0zdZIgqiqlurOhr+Qkciune80mcinFjxbauK3h+z3M6lsHXwi1799z9/0bWT1iqOZR
- oaBg==
-X-Gm-Message-State: ACgBeo23PAiCcm+q7TQnjsL0/E4xAFz54tRFTxby3cEivn2QppV6lRcP
- XIPNfV4CsBPqcVuNWAQm6SJhtokBHOfol2DM5K05XCMUnVBbErFJ9uttNmvGeViW56R+pTCubE0
- ZoOKEluRpTYfJBiU3sCAMiqS0kMoD9Cx3DBXIiwsag+cJGB4XJaqu6a6W3/RCqu7uRi0=
-X-Received: by 2002:a17:907:272a:b0:741:8105:49e2 with SMTP id
- d10-20020a170907272a00b00741810549e2mr25580560ejl.171.1662376240677; 
- Mon, 05 Sep 2022 04:10:40 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6nhLFTVzosOvnDxomhboUgPm9lirvcgFcQ/OXolY5WfaoxWT6h3S016WnTcLfgXWxs7daiYw==
-X-Received: by 2002:a17:907:272a:b0:741:8105:49e2 with SMTP id
- d10-20020a170907272a00b00741810549e2mr25580550ejl.171.1662376240432; 
- Mon, 05 Sep 2022 04:10:40 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:2f4b:62da:3159:e077])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=o04yECKpe+9hsICpfc1rS+sCAcGyL2RwPzG5QJZ6XnM=;
+ b=ZhZFdBQKJwtuCq2LcZB9LVe+3ZjRq2ChSkWt3qzUW7a0pKKIu4GPxe0HeAaez1k0uA
+ dtkZfHqOxj+03eYrVQp7/hH7qfKoeKLgyUQkGlgFsizZM7XtyAnSMY2rHJyC2w7pB1WO
+ efbpJpugHM8Z3SEeF1FaoX+fjrQoGDhz/EzV6NvFpZ0f/BWKIbePyu76aOCfJMoqYZ9j
+ i/cb8KTRJYgae8SMBgcj2Dtwx6OThN2ZEn4a0QmB7YlNsysFXIiyqmbiOlL2E6PP/NBd
+ IxnyyfgSzcCVG8Qs9SxOxv2sv+ggIs7QGaZC3+Ee0MjBC5Nc/KfzRBrjfI03cvrxVdw3
+ wFsw==
+X-Gm-Message-State: ACgBeo0R19nEZDwAC7KVw7tHVZSbWU4k4PN1vMjkFK0HrQXZZdB+QYpO
+ YFxZtbGrJ4WBEvf2Wnj7PYYUlA==
+X-Google-Smtp-Source: AA6agR48GSUU4W1kpOSzJ19TzJRByQ7Z+MwccoufcILC4umIXByKr8oCxMiaowKVQlAHF0zg4mPVFw==
+X-Received: by 2002:a5d:62cb:0:b0:228:6a13:24d9 with SMTP id
+ o11-20020a5d62cb000000b002286a1324d9mr3522287wrv.497.1662376276325; 
+ Mon, 05 Sep 2022 04:11:16 -0700 (PDT)
+Received: from ?IPV6:2a02:8084:a5c0:5a80:f2bf:c5c3:8866:995c?
+ ([2a02:8084:a5c0:5a80:f2bf:c5c3:8866:995c])
  by smtp.gmail.com with ESMTPSA id
- g8-20020a50ee08000000b00447c646ad1asm6271233eds.57.2022.09.05.04.10.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Sep 2022 04:10:39 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: armbru@redhat.com
-Subject: [PATCH] tests: unit: add NULL-pointer check
-Date: Mon,  5 Sep 2022 13:10:38 +0200
-Message-Id: <20220905111038.33324-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.37.2
+ h13-20020a05600016cd00b0022762b0e2a2sm8738306wrf.6.2022.09.05.04.11.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Sep 2022 04:11:15 -0700 (PDT)
+Message-ID: <faac9ab3-c066-4e38-faaf-bdb89727e707@linaro.org>
+Date: Mon, 5 Sep 2022 12:11:13 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 07/20] disas/nanomips: Remove Pool tables from the class
+Content-Language: en-US
+To: Milica Lazarevic <milica.lazarevic@syrmia.com>, thuth@redhat.com
+Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
+ pbonzini@redhat.com, vince.delvecchio@mediatek.com,
+ peter.maydell@linaro.org, djordje.todorovic@syrmia.com, mips32r2@gmail.com,
+ dragan.mladjenovic@syrmia.com, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>
+References: <20220905095522.66941-1-milica.lazarevic@syrmia.com>
+ <20220905095522.66941-8-milica.lazarevic@syrmia.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220905095522.66941-8-milica.lazarevic@syrmia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,33 +99,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In CID 1432593, Coverity complains that the result of qdict_crumple()
-might leak if it is not a dictionary.  This is not a practical concern
-since the test would fail immediately with a NULL pointer dereference
-in qdict_size().
+On 9/5/22 10:55, Milica Lazarevic wrote:
+> Pool tables are no longer declared as static fields of the NMD
+> class but as global static variables.
+> 
+> The NMD::Disassemble method is using the MAJOR Pool table variable, so
+> its implementation is moved to the end of the nanomips.cpp file,
+> right after the initialization of the MAJOR Pool table.
+> 
+> Signed-off-by: Milica Lazarevic<milica.lazarevic@syrmia.com>
+> Reviewed-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> ---
+>   disas/nanomips.cpp | 363 ++++++++++++++++++++++-----------------------
+>   disas/nanomips.h   | 200 ++-----------------------
+>   2 files changed, 193 insertions(+), 370 deletions(-)
 
-However, it is not nice to depend on qdict_size() crashing, so add an
-explicit assertion that that the crumpled object was indeed a dictionary.
+It would be nice if all of these were const.  That might require a separate patch in order 
+to add const to users, or it might not.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- tests/unit/check-block-qdict.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Either way, this patch is fine,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/tests/unit/check-block-qdict.c b/tests/unit/check-block-qdict.c
-index 5a25825093..751c58e737 100644
---- a/tests/unit/check-block-qdict.c
-+++ b/tests/unit/check-block-qdict.c
-@@ -504,7 +504,7 @@ static void qdict_crumple_test_empty(void)
-     src = qdict_new();
- 
-     dst = qobject_to(QDict, qdict_crumple(src, &error_abort));
--
-+    g_assert(dst);
-     g_assert_cmpint(qdict_size(dst), ==, 0);
- 
-     qobject_unref(src);
--- 
-2.37.2
 
+r~
 
