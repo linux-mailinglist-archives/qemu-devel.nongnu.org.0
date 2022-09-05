@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0DA45AC921
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 05:32:21 +0200 (CEST)
-Received: from localhost ([::1]:47098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FF0E5AC99A
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 06:35:06 +0200 (CEST)
+Received: from localhost ([::1]:59278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oV2qS-0008Sn-L4
-	for lists+qemu-devel@lfdr.de; Sun, 04 Sep 2022 23:32:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48070)
+	id 1oV3p6-0005EH-1d
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 00:35:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <john@john-millikin.com>)
- id 1oV2ot-00071X-Eh
- for qemu-devel@nongnu.org; Sun, 04 Sep 2022 23:30:43 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:42822)
+ (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
+ id 1oV3kA-0003Oq-PN
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 00:29:55 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:45648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <john@john-millikin.com>)
- id 1oV2or-0003wQ-Lk
- for qemu-devel@nongnu.org; Sun, 04 Sep 2022 23:30:43 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id v5so7293150plo.9
- for <qemu-devel@nongnu.org>; Sun, 04 Sep 2022 20:30:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
+ id 1oV3k6-0004NL-PD
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 00:29:53 -0400
+Received: by mail-pf1-x430.google.com with SMTP id z187so7498921pfb.12
+ for <qemu-devel@nongnu.org>; Sun, 04 Sep 2022 21:29:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=john-millikin.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=90S2L9sOrMgczPQalGeRrpTxTl3BOJmicLXxvX904Ho=;
- b=R6ylnJWoUrzaVI8fVwmReeJFH1ZCh9G9SYcr1Ar/q1JbU/BZLLYbIt6GsCKWNLYFPc
- WO1b+inpJmP6EO1bHjx7xagcei/K+SQ/afRgnSOiBZAPXnpU3/o2F5UoA1lI9pV5YLaW
- tWnyRqOvmuEQvZ2cRklFJzQGPsH9t741i5wkPd0K0CTlu6O2ky9hOT5YuoJoY7a/PfuH
- ftydau4Zy2gZd8FPTKTkFX7rZKoHvWmEUOLiTIbR7xdTvC+g58T7ffSvC1oJoUe/Rmgi
- P5p9VJ8wrbS58obp1ufLpB3609mO20S3VB9664EYIucp9ADD8qIjCQH5iOhOgfJbu5Kc
- +t9g==
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=JEqOjE7qgfPHaAK0g036/FP/i4rSlui0iDxhlSDYI4Y=;
+ b=H4C2A2NE8s7LXsa2Ku/O9E8Z3Cs/qk7bs7cif2qNhRm9JXRvtZ/rzY1dRbHTJTWLCL
+ c5PKoyyCWYnHdo4IdEnUXYRrscju+vK2Whm6noZ/m1Fl93W8bLEjIS8h3m25AGsvL3wp
+ BsTjDzb715RpJvv8LkQwYF03vhvs3xWp9LPRxKkbzRrfoM22AdbyW53t3Rj8FPGOjsFU
+ ZVhfSNM8czywd7W8TJfdrWkiOjy9AwCuh3fcTelVgfluQbg8G3mtnkKys+6sLOk73k2x
+ 0emXGa5UhNGrWlf0AXA82xnfnE8C4OILEyxHzPvF8MIk4gXQL08/o1bipFlttqIdgDHS
+ H3Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=90S2L9sOrMgczPQalGeRrpTxTl3BOJmicLXxvX904Ho=;
- b=UG6PVYXBcz3EWfk6trbrFbmly6fwQWSwTGAs3bIYc0I3QM8a+fzkvVrdeYXHdjEJKy
- Am2VbozhT4t8HjReNa9RhJ5PGtKZB+k5AlEztgyKOnXhpB5A4o5e7RlWQO3793YH67YX
- xiOL+uqZLJqhijd59bTmd2kfwj8wuunHNLoHMMS3NzOrmBJYT2FHbAwMzTJ3xTPJiW3r
- 43nt2uE+eXF0nFTYSpGpQcoqU1sa94kHO9xoKzwJR+SR2H4uoNlS4bsVSF7MF637Buhs
- lHxA6yVMb/hEemKu9E6zj5gfDHfFbFKKaah4apy1gQhptQbLZVST7jicz7H32tCQ4wWW
- 8Vzw==
-X-Gm-Message-State: ACgBeo0t2SHsoBMM1Xn2fLjRgcHp4n9RMuKH0SxQ+uZZOTffe4IXP6MQ
- eQt39J3o2ZTkPzmNey4fylW/vw==
-X-Google-Smtp-Source: AA6agR7SeQ7Bq5KXwkzYulSZZixPvKgPTNZlu3vugaSocBkJ/Fdzhcl8z3iItPq6xyh01V1EfRcsfg==
-X-Received: by 2002:a17:90b:350b:b0:1fd:fe88:7cdf with SMTP id
- ls11-20020a17090b350b00b001fdfe887cdfmr17683959pjb.236.1662348638504; 
- Sun, 04 Sep 2022 20:30:38 -0700 (PDT)
-Received: from john-millikin.com ([2405:6580:98c0:1200:ad49:8eb2:5f01:76d3])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=JEqOjE7qgfPHaAK0g036/FP/i4rSlui0iDxhlSDYI4Y=;
+ b=NKIS+9E3xceaCLFa1hfPsnxorB7ziqRDETzpc5DJoJvKqa85tN4lQpzOyIic5Ko1l6
+ b1dRRnoCRzwg0lyGjWV+QxVaNY5pGDog3c4XnKXBSc+Z3GeVbuJdlHTdwWTj76zcMwzg
+ p4XclGG6SwiS+NuKc+f0i0xNuk37E5AJTfGQRsntZYSosWRGiVyE/MXPVzkZjY0C8nZz
+ K80v6wY94DST1glQX7oUKAyY5OkDyrE8GlaxoM4+a7Dm+MBJg7mccJWivmPyDBZgPwGc
+ LI2828catuDGbc4eVpMda75UtHe9YgoOhfkJybvhEvyP51kYxoIzanzQ2/TuykVaQM2w
+ jHjw==
+X-Gm-Message-State: ACgBeo34eTDcf/T8OXb26MWGlXOctZk486AmbocgNy6PmTfkl0EGB9ps
+ yyFHBObL5RfB7tJ8+GJwB9sbWU+ncqw+Kw==
+X-Google-Smtp-Source: AA6agR5xIFvtRd0tnQjOPqbtKxZQWtaokSfzznmhMDUnRwy3NiEHtibWLUvbcIcVi7pxNbX9apEHbw==
+X-Received: by 2002:a05:6a00:1501:b0:52e:67e9:56d7 with SMTP id
+ q1-20020a056a00150100b0052e67e956d7mr48288348pfu.48.1662352187904; 
+ Sun, 04 Sep 2022 21:29:47 -0700 (PDT)
+Received: from localhost.localdomain ([49.206.11.92])
  by smtp.gmail.com with ESMTPSA id
- l4-20020a622504000000b00537eacc8fa6sm6387346pfl.40.2022.09.04.20.30.36
+ a20-20020aa795b4000000b0053812f35a41sm6526113pfk.194.2022.09.04.21.29.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 04 Sep 2022 20:30:38 -0700 (PDT)
-Date: Mon, 5 Sep 2022 12:30:34 +0900
-From: John Millikin <john@john-millikin.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Fam Zheng <fam@euphon.net>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH v2] scsi-disk: support setting CD-ROM block size via
- device options
-Message-ID: <YxVtWkzEJP7WotRe@john-millikin.com>
-References: <20220804122950.1577012-1-john@john-millikin.com>
- <CABgObfbKXjXUhNffdcKNTKxHcVcJS2W_nAh=nQeMvb-FPQ7rQw@mail.gmail.com>
+ Sun, 04 Sep 2022 21:29:47 -0700 (PDT)
+From: Sunil V L <sunilvl@ventanamicro.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Anup Patel <apatel@ventanamicro.com>,
+ Atish Kumar Patra <atishp@rivosinc.com>,
+ Sunil V L <sunilvl@ventanamicro.com>
+Subject: [PATCH] hw/riscv: virt: Enable booting S-mode firmware from pflash
+Date: Mon,  5 Sep 2022 09:59:40 +0530
+Message-Id: <20220905042940.146913-1-sunilvl@ventanamicro.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABgObfbKXjXUhNffdcKNTKxHcVcJS2W_nAh=nQeMvb-FPQ7rQw@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=john@john-millikin.com; helo=mail-pl1-x62d.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=sunilvl@ventanamicro.com; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,69 +92,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I notice this patch wasn't included in the [PULL] series last week, and
-it isn't present in the `master` branch.
+To boot S-mode firmware payload like EDK2 from persistent
+flash storage, qemu needs to pass the flash address as the
+next_addr in fw_dynamic_info to the opensbi.
 
-Is there anything else I should be doing to get it merged in? Sorry if
-this isn't a good question, I'm not used to QEMU's email-based change
-management workflow.
+Update the kernel_entry with the flash address when no kernel
+is specified via QEMU command line  so that opensbi
+can jump to the flash address. This assumes flash drive unit 1 is
+used to keep dynamic payload similar to other architectures.
 
-On Sat, Aug 20, 2022 at 09:42:25AM +0200, Paolo Bonzini wrote:
-> No, I had not seen it indeed. Queued now, thanks.
-> 
-> Paolo
-> 
-> Il gio 4 ago 2022, 14:39 John Millikin <john@john-millikin.com> ha scritto:
-> 
-> > SunOS expects CD-ROM devices to have a block size of 512, and will
-> > fail to mount or install using QEMU's default block size of 2048.
-> >
-> > When initializing the SCSI device, allow the `physical_block_size'
-> > block device option to override the default block size.
-> >
-> > Signed-off-by: John Millikin <john@john-millikin.com>
-> > ---
-> >  hw/scsi/scsi-disk.c | 7 ++++++-
-> >  1 file changed, 6 insertions(+), 1 deletion(-)
-> >
-> > This is the same diff as sent to qemu-devel@ about a week ago. That
-> > first email seems to have been eaten by a grue, but replying to it
-> > worked, so maybe the grue is gone now.
-> >
-> > See https://gitlab.com/qemu-project/qemu/-/issues/1127 for some
-> > related discussion about SunOS CD-ROM compatibility.
-> >
-> > diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-> > index f5cdb9ad4b..acdf8dc05c 100644
-> > --- a/hw/scsi/scsi-disk.c
-> > +++ b/hw/scsi/scsi-disk.c
-> > @@ -2533,6 +2533,7 @@ static void scsi_cd_realize(SCSIDevice *dev, Error
-> > **errp)
-> >      SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, dev);
-> >      AioContext *ctx;
-> >      int ret;
-> > +    uint32_t blocksize = 2048;
-> >
-> >      if (!dev->conf.blk) {
-> >          /* Anonymous BlockBackend for an empty drive. As we put it into
-> > @@ -2542,9 +2543,13 @@ static void scsi_cd_realize(SCSIDevice *dev, Error
-> > **errp)
-> >          assert(ret == 0);
-> >      }
-> >
-> > +    if (dev->conf.physical_block_size != 0) {
-> > +        blocksize = dev->conf.physical_block_size;
-> > +    }
-> > +
-> >      ctx = blk_get_aio_context(dev->conf.blk);
-> >      aio_context_acquire(ctx);
-> > -    s->qdev.blocksize = 2048;
-> > +    s->qdev.blocksize = blocksize;
-> >      s->qdev.type = TYPE_ROM;
-> >      s->features |= 1 << SCSI_DISK_F_REMOVABLE;
-> >      if (!s->product) {
-> > --
-> > 2.25.1
-> >
-> >
+Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+---
+ hw/riscv/virt.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index ff8c0df5cd..1ee855fded 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -1284,6 +1284,18 @@ static void virt_machine_done(Notifier *notifier, void *data)
+         start_addr = virt_memmap[VIRT_FLASH].base;
+     }
+ 
++    if (drive_get(IF_PFLASH, 0, 1)) {
++        /*
++         * Assume second pflash unit (unit=1) to hold the S-mode firmware
++         * like EDK2. Set kernel_entry to flash address if kernel argument
++         * is not set and pflash unit 1 is configured.
++         */
++        if (!kernel_entry) {
++            kernel_entry = virt_memmap[VIRT_FLASH].base +
++                             virt_memmap[VIRT_FLASH].size / 2;
++        }
++    }
++
+     /*
+      * Init fw_cfg.  Must be done before riscv_load_fdt, otherwise the device
+      * tree cannot be altered and we get FDT_ERR_NOSPACE.
+-- 
+2.25.1
+
 
