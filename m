@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07DC35ACED9
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 11:30:41 +0200 (CEST)
-Received: from localhost ([::1]:56080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197F05ACEEE
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 11:36:18 +0200 (CEST)
+Received: from localhost ([::1]:47388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oV8R6-0006ZP-N9
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 05:30:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41676)
+	id 1oV8We-0000kG-HR
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 05:36:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oV8NR-0004Bf-6a
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 05:26:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36599)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oV8T4-0007Ie-Oz
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 05:32:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33223)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oV8NO-00059H-Nh
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 05:26:44 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oV8T2-000634-9I
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 05:32:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662370001;
+ s=mimecast20190719; t=1662370350;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Xvur3lKd5oPLjfDV8Minhh75IzAjvI+RUndNoKgiZxM=;
- b=dwCpyDKhc3bUaz2+qdOeQ7W3iAs2sKo2QkeSEMBmlQf97Ycuz9EIkq8JO4uK+Fq0iuxQlb
- bHhFSZ4BOUdZ4QMW1gxeOJlwT2/2Qds7R39hPR6thm8EpubJ0L/yeim0/PxZWHHfMvhx9j
- +DBmdn0aB14dcWs/MzsTLulw+zYHVpA=
+ bh=kItp6AnTLmTOU4t5DPDukHr+Or1RMvw49ntHoLdQjt4=;
+ b=RM8PPFaw8b7DsPEJ/Xj40DqRTd3OgI6mMOj1ga6cUGtgQwh+RhWZGEt67GrszQNl5bHPVd
+ iXA6N+b4hQ1gE8Q1AlUUYhXO1LjoZxyGhFchbIOrpIurWuoQF3waxhHlfBM4i2ErAaf+xz
+ pAK83Kap7/ZIQYcQZd5z4MgSlX1td2E=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-145-nOcA3qAbOw2HTotfhPaApQ-1; Mon, 05 Sep 2022 05:26:37 -0400
-X-MC-Unique: nOcA3qAbOw2HTotfhPaApQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-532-Knz2GRxaOb24-MfhE9lvqQ-1; Mon, 05 Sep 2022 05:32:27 -0400
+X-MC-Unique: Knz2GRxaOb24-MfhE9lvqQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C7A913C0CD45;
- Mon,  5 Sep 2022 09:26:36 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 235441C006A2;
+ Mon,  5 Sep 2022 09:32:27 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 404A04010E3C;
- Mon,  5 Sep 2022 09:26:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E2E6940149B6;
+ Mon,  5 Sep 2022 09:32:26 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BA54D21E6900; Mon,  5 Sep 2022 11:26:34 +0200 (CEST)
+ id C861B21E6900; Mon,  5 Sep 2022 11:32:25 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: qemu-devel@nongnu.org,  qemu-block@nongnu.org,  qemu-arm@nongnu.org,
- Alex Williamson <alex.williamson@redhat.com>,  "Michael S. Tsirkin"
- <mst@redhat.com>,  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,  Gerd
- Hoffmann <kraxel@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,  Eduardo Habkost
- <eduardo@habkost.net>,  John Snow <jsnow@redhat.com>,  Dmitry Fleytman
- <dmitry.fleytman@gmail.com>,  Jason Wang <jasowang@redhat.com>,  Stefan
- Weil <sw@weilnetz.de>,  Keith Busch <kbusch@kernel.org>,  Klaus Jensen
- <its@irrelevant.dk>,  Peter Maydell <peter.maydell@linaro.org>,  Andrey
- Smirnov <andrew.smirnov@gmail.com>,  Paul Burton <paulburton@kernel.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Subject: Re: [PATCH v2] pci: Assert that capabilities never overlap
-References: <20220831013236.32937-1-akihiko.odaki@daynix.com>
- <87tu5qulay.fsf@pond.sub.org>
- <CAE=JJXdg=Miisek8WeqQ12NqL8obzmuyzD0mbv1SfiJTyVBLuw@mail.gmail.com>
-Date: Mon, 05 Sep 2022 11:26:34 +0200
-In-Reply-To: <CAE=JJXdg=Miisek8WeqQ12NqL8obzmuyzD0mbv1SfiJTyVBLuw@mail.gmail.com>
- (Akihiko Odaki's message of "Sun, 4 Sep 2022 16:06:55 +0900")
-Message-ID: <875yi2mat1.fsf@pond.sub.org>
+To: Hyman Huang <huangy81@chinatelecom.cn>
+Cc: qemu-devel <qemu-devel@nongnu.org>,  Peter Xu <peterx@redhat.com>,  Juan
+ Quintela <quintela@redhat.com>,  "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>,  Eric Blake <eblake@redhat.com>,  Thomas Huth
+ <thuth@redhat.com>,  Laurent Vivier <lvivier@redhat.com>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  "Daniel P. Berrange" <berrange@redhat.com>
+Subject: Re: [PATCH v1 3/8] migration: Introduce dirty-limit capability
+References: <cover.1662052189.git.huangy81@chinatelecom.cn>
+ <cover.1662052189.git.huangy81@chinatelecom.cn>
+ <fb2a51fcf30d927a2512b397cd2dc6f34c3936c4.1662052189.git.huangy81@chinatelecom.cn>
+ <87y1v2w65q.fsf@pond.sub.org>
+ <ba9baa48-a82b-16cc-a902-2dd63194420a@chinatelecom.cn>
+Date: Mon, 05 Sep 2022 11:32:25 +0200
+In-Reply-To: <ba9baa48-a82b-16cc-a902-2dd63194420a@chinatelecom.cn> (Hyman
+ Huang's message of "Fri, 2 Sep 2022 22:15:53 +0800")
+Message-ID: <87y1uykvyu.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,57 +89,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Akihiko Odaki <akihiko.odaki@daynix.com> writes:
+Hyman Huang <huangy81@chinatelecom.cn> writes:
 
-> On Fri, Sep 2, 2022 at 7:23 PM Markus Armbruster <armbru@redhat.com> wrote:
->>
->> Akihiko Odaki <akihiko.odaki@daynix.com> writes:
->>
->> > pci_add_capability appears most PCI devices. Its error handling required
->> > lots of code, and led to inconsistent behaviors such as:
->> > - passing error_abort
->> > - passing error_fatal
->> > - asserting the returned value
->> > - propagating the error to the caller
->> > - skipping the rest of the function
->> > - just ignoring
->> >
->> > The code generating errors in pci_add_capability had a comment which
->> > says:
->> >> Verify that capabilities don't overlap.  Note: device assignment
->> >> depends on this check to verify that the device is not broken.
->> >> Should never trigger for emulated devices, but it's helpful for
->> >> debugging these.
->> >
->> > Indeed vfio has some code that passes capability offsets and sizes from
->> > a physical device, but it explicitly pays attention so that the
->> > capabilities never overlap.
->>
->> I can't see that at a glance.  Can you give me a clue?
->>
->> >                             Therefore, we can always assert that
->> > capabilities never overlap when pci_add_capability is called, resolving
->> > these inconsistencies.
->> >
->> > Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
->>
+> =E5=9C=A8 2022/9/2 16:07, Markus Armbruster =E5=86=99=E9=81=93:
+>> huangy81@chinatelecom.cn writes:
+>>=20
+>>> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
+>>>
+>>> Introduce migration dirty-limit capability, which can
+>>> be turned on before live migration and limit dirty
+>>> page rate durty live migration.
+>>>
+>>> Introduce migrate_dirty_limit function to help check
+>>> if dirty-limit capability enabled during live migration.
+>>>
+>>> Meanwhile, refactor vcpu_dirty_rate_stat_collect
+>>> so that period can be configured instead of hardcoded.
+>>>
+>>> dirty-limit capability is kind of like auto-converge
+>>> but using dirty limit instead of traditional cpu-throttle
+>>> to throttle guest down. To enable this feature, turn on
+>>> the dirty-limit capability before live migration using
+>>> migratioin-set-capabilities, and set the parameters
+>>=20
+>> migrate-set-capabilities
+>>=20
+>>> "x-vcpu-dirty-limit-period", "vcpu-dirty-limit" suitably
+>>=20
+>> "x-vcpu-dirty-limit"
+>>=20
+>>> to speed up convergence.
+>>>
+>>> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.c=
+n>
+>>=20
+>> Hmm.  You make dirty-limiting as a whole a stable interface (evidence:
+>> capability "dirty-limit" is stable), but keep its two parameters
+>> unstable.  Rationale behind that?
+>>=20
+> Thanks Markus's comments. :)
 >
-> Looking at vfio_add_std_cap(), and vfio_add_ext_cap() it seems that
-> they are clipping the size of capabilities so that they do not
-> overlap, if I read it correctly.
+> x-vcpu-dirty-limit-period is an experimental parameter indeed, as to x-vc=
+pu-dirty-limit, i think it's resonable to be a stable parameter.
+> These 2 parameters are introduced first time and none of them suffer heav=
+ily tests, so i also made vcpu-dirty-limit experimental last version.
+>
+> For dirty-limit interface, it improves the vCPU computational performance=
+ during migration indeed(see the test results in cover=20
+> letter), so it sounds ok to be an stable interface.
+>
+> The 'x-vcpu-dirty-limit-period' parameter can be dropped, IMHO, after bei=
+ng proved insignificant for migration in the future, and meanwhile,=20
+> x-vcpu-dirty-limit be made stable.
+>
+> Since I don't have much experience to introducing fresh new interface,
+> any suggestions are welcome.
 
-If we want to deal gracefully with buggy physical devices, we need to
-treat pdev->config[] as untrusted input.
+Is the new interface fit for purpose without use of any experimental
+parameter?
 
-As far as I can tell:
-
-* vfio_add_capabilities() replicates the physical device's capabilities
-  (starting at pdev->config[PCI_CAPABILITY_LIST]) in the virtual device.
-
-* vfio_add_std_cap() is a helper to add the tail starting at
-  pdev->config[pos].
-
-Could the physical device's capabilities overlap?  If yes, what would
-happen before and after your series?
+If the answer is something like "command dirty-limit improves things
+even without use of experimental parameters, but using them may well
+improve things more (but we need more testing to know for sure)", then
+your current use of 'unstable' may make sense.
 
 
