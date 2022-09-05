@@ -2,88 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F4C25AD921
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 20:38:43 +0200 (CEST)
-Received: from localhost ([::1]:42734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DEB95AD91E
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 20:37:44 +0200 (CEST)
+Received: from localhost ([::1]:56564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVGzV-0002Zo-8I
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 14:38:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42426)
+	id 1oVGyd-0001Ls-5a
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 14:37:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1oVGkp-0002L5-H5
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 14:23:27 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:44907)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oVGlG-0002lR-M6; Mon, 05 Sep 2022 14:23:54 -0400
+Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b]:39514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1oVGkj-00028o-OQ
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 14:23:27 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id q15so9195017pfn.11
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 11:23:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=/Hfi1dqn7aBKUskyIzQv2SXHLLV50tRsQ66eiL+Qum8=;
- b=CSv3wy3KLWo6GFb8e25uWFTqD4WhCvkZ09VWoN8sF0xFwdeujLhmtmCfLr86cNUEGC
- tM3UpWzHrqlIFcbRxMWHcITdva6jwDEePvf/iHkQ9GTCWMH+Xq6mpyPRZWyZkUN5mAir
- tfjATx7V/YY1EKNrmOZAlOdLNNrd9Vzt07wFge7dlSwInsILbvFQvwQaAbEAOqLMManB
- AkxjDy6eeU3ofFZ4ahsMd6uxTdU8RPvwcUVEz9itHbVjCeXDC1TT2tLu78SrqnwP3qjj
- vpe9N/BwLCU7uC/U0xody4f9sP+Sr6eaQivGdJ/L0iRYvlYniggj4r0pHwOcEeUxu8Z2
- PMYw==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oVGlC-0002BH-1j; Mon, 05 Sep 2022 14:23:54 -0400
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-11e9a7135easo23054305fac.6; 
+ Mon, 05 Sep 2022 11:23:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=tnHqQQRHAeB1fksOFWU7XJ6rFOlT2jp3jfsZICUWhi8=;
+ b=eRKMH03ZbZJ88di986unI1eqoGEvlI3Ws8i115CYWX6jZXJTFKuyMKn3NJKXETz5C+
+ f9JQxgD7DcprgKR/pm3C7fJhTbT2mXIZXaVwxs2r5yrdUOkzBSQ1wZTSKBlMPKVlaZvt
+ OAxlvDjl9G9A7LKZc4v390qETCQOaXuCE5mib9UsJSAjhNVLTyrHd+4Gmh0gvm2G+hUz
+ I7W5uOkna5x0mflqqONmd5GCW4y5eb3SFMvSX8GfgGMwXOIR1wNaQXrRVtTTAGxXKogv
+ u6SyiXZ45fFjcuZIZuqlvLRyiBCEQeg5+FzvVn4p44gyWPuUA9dRwzw72HNiqh5VyFPL
+ O5MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=/Hfi1dqn7aBKUskyIzQv2SXHLLV50tRsQ66eiL+Qum8=;
- b=vl3l4b6h9UPKiqJw99fSx5GMg3jUnnCsRI3WH6yJktJl8pPOu8M/0qSJT1/8aLYVti
- 6sSzhyvjLJFLir9JVY3a/yXFGop2cl2OUaTVQ64xgOcYQd53hNWkHqaVUIelSLuzngK+
- 4c5+rzAaxxMX6TRN7dT8ZzAqpY6AIMz7KPpfWT6QBblFwo9WuIxwLQZEZsRDNf9EgrLe
- Ks39He/AhkixeHfntc6g68TgoDW4bL5HtmQffE1gxFYT2QFLeaG7mDitdRFhoRr7b5xs
- bqmufNqQlHsy82i7OXrqIWxi1G83SuJsvl8kPWUqM5ELUZ+clWa4iLVbRHI+OtufRdWy
- lAmQ==
-X-Gm-Message-State: ACgBeo2n6oA3vbS4CsMZ/jvBaHDnMZxNKQ5vv/Femb2oVPV4DCdTxt44
- lQ7K/W+rvT4vb4xcmxOBE41kVA==
-X-Google-Smtp-Source: AA6agR5gORXLJDzfgTDmlFMjDN7/ErZWko3JmvBNALZ6I2RqwkPdPj/f3C/IOOmwX0q7DKfxpgYHdA==
-X-Received: by 2002:a63:4b62:0:b0:421:8c8b:163c with SMTP id
- k34-20020a634b62000000b004218c8b163cmr41032332pgl.182.1662402200491; 
- Mon, 05 Sep 2022 11:23:20 -0700 (PDT)
-Received: from localhost.localdomain ([49.206.11.92])
- by smtp.gmail.com with ESMTPSA id
- z7-20020aa79587000000b005321340753fsm8046724pfj.103.2022.09.05.11.23.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Sep 2022 11:23:20 -0700 (PDT)
-From: Sunil V L <sunilvl@ventanamicro.com>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>, Song Gao <gaosong@loongson.cn>,
- Gerd Hoffmann <kraxel@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Andrew Jones <ajones@ventanamicro.com>,
- Anup Patel <apatel@ventanamicro.com>,
- Atish Kumar Patra <atishp@rivosinc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Sunil V L <sunilvl@ventanamicro.com>
-Subject: [PATCH V2 3/3] hw/riscv: virt: Enable booting S-mode firmware from
- pflash
-Date: Mon,  5 Sep 2022 23:52:38 +0530
-Message-Id: <20220905182238.374545-4-sunilvl@ventanamicro.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220905182238.374545-1-sunilvl@ventanamicro.com>
-References: <20220905182238.374545-1-sunilvl@ventanamicro.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=tnHqQQRHAeB1fksOFWU7XJ6rFOlT2jp3jfsZICUWhi8=;
+ b=3Y8wEav26+of+MlLeSqh/VeBakSq+4UyEU525gY/BowK9DDathlrGzQZOBNW+Nw/s7
+ wJcQfGKOMXLXnOBIu74GAKEVA3sZoKLjWtAFpxXnpPbSMOu7+OB56gtEFwN0UG0uIOnz
+ kwJQi0EM0IBM/Plvv52XcxTv/HNPr2klZVLTczulJwtQqdXXVtw+34IB+MKKsv5UMmVk
+ eObVJFgdIA7j0surpoevNYNIty3mYHp0eLQGFrkE1lbRuqBHEcWd321xpNnyYTTwz/Y7
+ dZCSHPsfM80jzAsx1weRuvTohV3uoyEiEHA3iXAeqOrdi4N9xzeQzBCaVIKvX34kfMLm
+ Eunw==
+X-Gm-Message-State: ACgBeo0yRixjC/6aEkqwWwai/SioqruZn6IqMXb8DiqhpTdNn+HffS14
+ drwxW784iSKAjVS3JINp0uVfwOC5zRquFQ==
+X-Google-Smtp-Source: AA6agR4FAYQK4c0s8/cQc8S07xViZ+IZ9UGXaugQDD7CnOW5CE/cHDZt455tRiQZ7Dr3S6crkscrbA==
+X-Received: by 2002:a05:6870:5713:b0:11c:e8a2:bc8e with SMTP id
+ k19-20020a056870571300b0011ce8a2bc8emr9416538oap.191.1662402228576; 
+ Mon, 05 Sep 2022 11:23:48 -0700 (PDT)
+Received: from [192.168.10.102] (200-207-147-180.dsl.telesp.net.br.
+ [200.207.147.180]) by smtp.gmail.com with ESMTPSA id
+ bq8-20020a05680823c800b00334c2e81dfbsm4379398oib.0.2022.09.05.11.23.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Sep 2022 11:23:47 -0700 (PDT)
+Message-ID: <0e0791b1-25a6-44c7-375a-baf7c3e80d8b@gmail.com>
+Date: Mon, 5 Sep 2022 15:23:43 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH 05/19] target/ppc: Zero second doubleword for VSX madd
+ instructions
+Content-Language: en-US
+To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
+ richard.henderson@linaro.org, matheus.ferst@eldorado.org.br,
+ lucas.araujo@eldorado.org.br, leandro.lupori@eldorado.org.br,
+ lucas.coutinho@eldorado.org.br
+References: <20220901131756.26060-1-victor.colombo@eldorado.org.br>
+ <20220901131756.26060-6-victor.colombo@eldorado.org.br>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220901131756.26060-6-victor.colombo@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=sunilvl@ventanamicro.com; helo=mail-pf1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2001:4860:4864:20::2b;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2b.google.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.716,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -101,104 +99,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To boot S-mode firmware payload like EDK2 from persistent
-flash storage, qemu needs to pass the flash address as the
-next_addr in fw_dynamic_info to the opensbi.
 
-When both -kernel and -pflash options are provided in command line,
-the kernel (and initrd if -initrd) will be copied to fw_cfg table.
-The S-mode FW will load the kernel/initrd from fw_cfg table.
 
-If only pflash is given but not -kernel, then it is the job of
-of the S-mode firmware to locate and load the kernel.
+On 9/1/22 10:17, Víctor Colombo wrote:
+> In 205eb5a89e we updated most VSX instructions to zero the
+> second doubleword, as is requested by PowerISA since v3.1.
+> However, VSX_MADD helper was left behind unchanged, while it
+> is also affected and should be fixed as well.
+> 
+> This patch applies the fix for MADD instructions.
+> 
+> Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+> ---
 
-In either case, update the kernel_entry with the flash address
-so that the opensbi can jump to the entry point of the S-mode
-firmware.
+In this case it's good to add a Fixes tag:
 
-Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
----
- hw/riscv/boot.c         | 28 ++++++++++++++++++++++++++++
- hw/riscv/virt.c         | 17 ++++++++++++++++-
- include/hw/riscv/boot.h |  1 +
- 3 files changed, 45 insertions(+), 1 deletion(-)
 
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 1ae7596873..39436b8d56 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -338,3 +338,31 @@ void riscv_setup_direct_kernel(hwaddr kernel_addr, hwaddr fdt_addr)
-         riscv_cpu->env.fdt_addr = fdt_addr;
-     }
- }
-+
-+void riscv_setup_firmware_boot(MachineState *machine)
-+{
-+    if (machine->kernel_filename) {
-+        FWCfgState *fw_cfg;
-+        fw_cfg = fw_cfg_find();
-+
-+        assert(fw_cfg);
-+        /*
-+         * Expose the kernel, the command line, and the initrd in fw_cfg.
-+         * We don't process them here at all, it's all left to the
-+         * firmware.
-+         */
-+        load_image_to_fw_cfg(fw_cfg,
-+                             FW_CFG_KERNEL_SIZE, FW_CFG_KERNEL_DATA,
-+                             machine->kernel_filename,
-+                             true);
-+        load_image_to_fw_cfg(fw_cfg,
-+                             FW_CFG_INITRD_SIZE, FW_CFG_INITRD_DATA,
-+                             machine->initrd_filename, false);
-+        if (machine->kernel_cmdline) {
-+            fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_SIZE,
-+                           strlen(machine->kernel_cmdline) + 1);
-+            fw_cfg_add_string(fw_cfg, FW_CFG_CMDLINE_DATA,
-+                              machine->kernel_cmdline);
-+        }
-+    }
-+}
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index b6bbf03f61..b985df9b16 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -1258,7 +1258,22 @@ static void virt_machine_done(Notifier *notifier, void *data)
-     s->fw_cfg = create_fw_cfg(machine);
-     rom_set_fw(s->fw_cfg);
- 
--    if (machine->kernel_filename) {
-+    if (drive_get(IF_PFLASH, 0, 1)) {
-+        /*
-+         * S-mode FW like EDk2 will be kept in second plash (unit 1). When
-+         * both -kernel and -pflash options are provided in command line,
-+         * the kernel, initrd will be copied to fw_cfg table and opensbi
-+         * will jump to flash address which is the entry point of S-mode FW.
-+         * It is the job of the S-mode FW to load the kernel/initrd and launch.
-+         *
-+         * If only pflash is given but not -kernel, then it is the job of
-+         * of the S-mode firmware to locate and load the kernel.
-+         * In either case, the next_addr for opensbi will be the flash address.
-+         */
-+        riscv_setup_firmware_boot(machine);
-+        kernel_entry = virt_memmap[VIRT_FLASH].base +
-+                         virt_memmap[VIRT_FLASH].size / 2;
-+    } else if (machine->kernel_filename) {
-         kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc[0],
-                                                          firmware_end_addr);
- 
-diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-index a36f7618f5..93e5f8760d 100644
---- a/include/hw/riscv/boot.h
-+++ b/include/hw/riscv/boot.h
-@@ -57,5 +57,6 @@ void riscv_rom_copy_firmware_info(MachineState *machine, hwaddr rom_base,
-                                   uint32_t reset_vec_size,
-                                   uint64_t kernel_entry);
- void riscv_setup_direct_kernel(hwaddr kernel_addr, hwaddr fdt_addr);
-+void riscv_setup_firmware_boot(MachineState *machine);
- 
- #endif /* RISCV_BOOT_H */
--- 
-2.25.1
+Fixes: 205eb5a89e ("target/ppc: Change VSX instructions behavior to fill with zeros")
 
+
+
+>   target/ppc/fpu_helper.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+> 
+> diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+> index 7ab6beadad..da79c64eca 100644
+> --- a/target/ppc/fpu_helper.c
+> +++ b/target/ppc/fpu_helper.c
+> @@ -2178,7 +2178,7 @@ VSX_TSQRT(xvtsqrtsp, 4, float32, VsrW(i), -126, 23)
+>   void helper_##op(CPUPPCState *env, ppc_vsr_t *xt,                             \
+>                    ppc_vsr_t *s1, ppc_vsr_t *s2, ppc_vsr_t *s3)                 \
+>   {                                                                             \
+> -    ppc_vsr_t t = *xt;                                                        \
+> +    ppc_vsr_t t = { };                                                        \
+>       int i;                                                                    \
+>                                                                                 \
+>       helper_reset_fpstatus(env);                                               \
 
