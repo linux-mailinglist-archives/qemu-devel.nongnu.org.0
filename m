@@ -2,77 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E90325ADA5C
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 22:43:13 +0200 (CEST)
-Received: from localhost ([::1]:40370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92CAE5ADA60
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 22:45:26 +0200 (CEST)
+Received: from localhost ([::1]:53836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVIw4-0007d4-IA
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 16:43:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34540)
+	id 1oVIyD-0001FE-Fl
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 16:45:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVIuG-00060f-TP
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 16:41:21 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42887)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVIuF-0007Ij-7b
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 16:41:20 -0400
-Received: by mail-wr1-x433.google.com with SMTP id bp20so12196351wrb.9
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 13:41:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=1gXEqNp97BJqTtNSKLnfDY+sn5nP3z0fCG4nvT0whvw=;
- b=xstHJyrmgryigyAlhIeUxfp+IrwmnPKakbtgJefRx2u0D6v5KrmxoHGkmAPuCj93nj
- 6bc82kEG1rbaM7EPzUjBeuMtRETzuKGiyBYaPcQmMXshGOIJ/p9+U3Zy94w/n5oEzL3C
- NXAfK0NDXXiGIuF9sy6YKEiOM5a/9P8QijEWECSCDtPWdJm/J1+KwZS48/muw9RP3Y3D
- GBfeW8pbjVsdIFqmmwxfP3BGreVLY5eO0ND+JzNKjjEWGchsB30I8+qgfibMYqygW2Xb
- kxkSqFdrH2OV8sMoYhoRycLd/DGlz2NNtEI8HvY9r2+zLFUlCs8m6YFcUmyT7/+i99Rt
- 6I3A==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oVIwo-00087j-EM
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 16:43:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32035)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oVIwk-0007Xh-EZ
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 16:43:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662410633;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=7fpYBjqvol9brkWwCpmEHRs0UL23HHBLAFtYFzWhwIU=;
+ b=baraXIX8pOy5fPsIBWn/K9sJn8TaFOEn6g/nfMD8xxhXLBzYMG9hCuETcwZNNvfCoUC9cy
+ mcZHx4fUCyeB3AGsTHPFcB6VzdNfTZl5MY09JLDmyZsx/4k7USwugHcXNGaiX6r1SvbKwG
+ KEgfHzUgxghu2CIqpaooS9wSk++Z+jg=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-423-a3dDsnqMNTysM2vwPrZMhA-1; Mon, 05 Sep 2022 16:43:52 -0400
+X-MC-Unique: a3dDsnqMNTysM2vwPrZMhA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ t13-20020a056402524d00b0043db1fbefdeso6283041edd.2
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 13:43:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=1gXEqNp97BJqTtNSKLnfDY+sn5nP3z0fCG4nvT0whvw=;
- b=ZDUzMaAlGeYftBRxQIoMMT4PUscEp6rOU7wWnvktt5nPTPwmquLy8Zs6rjrJaqCnmt
- zrWFf59duK6u2yfF7LtddeyJtBNZ+nnmo/xYAvuOnysOB3wqPd+t/oAZgyhcpI6xzbkg
- QPq8Nhf9WdfcBxKtQHfHCNfE+t8g43dZlaKmRpq68WQeFG5ce6ZeQvyJpipFcQzER78d
- 6JmFpK1LeyEpgkN58Z/CvHKESnUDsHgtmT5L0ABPPzLSO8qjNzuxmoOhbPNKQr2nPJZI
- MohTbkW2pcku8UD0je66ItSrdlakFuyl/9+gpa3J2AXDIg84LQ6B2G7gyiI8CWyD59qe
- 8sNA==
-X-Gm-Message-State: ACgBeo0q0ZOHopkcRv3w4oyesj5Vdnjl+pIeS5nSzpB4JfzG5A9v1Ejo
- CkKMoEO82usIyDUICb7rdsTlCsElqe9Bc1Nc
-X-Google-Smtp-Source: AA6agR4OPRe6wyyFRwlCht5p8FZQE1nwQgyfOIrCMtLMAPlYWFoMr+ezueuZQTQ23IRYqz2MmAQOgA==
-X-Received: by 2002:a5d:64ab:0:b0:226:d997:ad5c with SMTP id
- m11-20020a5d64ab000000b00226d997ad5cmr21754584wrp.602.1662410477261; 
- Mon, 05 Sep 2022 13:41:17 -0700 (PDT)
-Received: from localhost.localdomain
- ([2a02:8084:a5c0:5a80:d0ad:82b5:d7a4:c0a9])
- by smtp.gmail.com with ESMTPSA id
- o5-20020a05600c510500b003a31fd05e0fsm36667023wms.2.2022.09.05.13.41.15
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date;
+ bh=7fpYBjqvol9brkWwCpmEHRs0UL23HHBLAFtYFzWhwIU=;
+ b=XmQmqy+qWW8aBAXwXakKIKL3X+3VuAo9l1N3VJbYdvo7RhzitCLHRgflOq5XOJfCXe
+ bdm9dMw9J8IYuBktwHUHg6/hf8FzXAbSiIHY5dC6g7ntuuBeVYH4fc5DOzGg3wxWZHo/
+ b/+d3oc1BBynoqU/xofjBVVvR6JoGD1rwjouZLwQdLg7W0Vl81XZuS3lbUqDiot3yWOF
+ fETxdQl0ZJsqP1Jn4kNbw/gAXf23inteKiKORHFxKAM7CF4ykmUCzaWRRPQMftaU+Lz9
+ C4nHLgzw66PIFFV1OYgpzSPQIL3tkWBd7TYZhWQEgj6XU1BIfcKLDyCBKsANdGnwu/Gr
+ KZ4A==
+X-Gm-Message-State: ACgBeo0dal0qE3abRot+3wnd7OCBCTdmllK3+x7kvT3m9hiH8j3mymTz
+ valaeD/Ogvc7RhErI1OLgVQkwyp6D00O8TdRICr+hsS6pMvSEaI2Nz3H+WrbF0PqAF9BrnZAAhm
+ iVS7EZawtrRMLzh96+ASQJraneeJInYpwjnLBOVSg35JdtYXO8UUaVsXdiSo1hQX05rA=
+X-Received: by 2002:a17:906:5a42:b0:73d:b160:af0d with SMTP id
+ my2-20020a1709065a4200b0073db160af0dmr37071877ejc.164.1662410630729; 
+ Mon, 05 Sep 2022 13:43:50 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6BjztZAg2+9/5DGmpSiyc+ZRnKnHkVUnSBljrbwQLW2/TEpVZqzD9mbNRRGkTpB1imrggWtg==
+X-Received: by 2002:a17:906:5a42:b0:73d:b160:af0d with SMTP id
+ my2-20020a1709065a4200b0073db160af0dmr37071865ejc.164.1662410630381; 
+ Mon, 05 Sep 2022 13:43:50 -0700 (PDT)
+Received: from goa-sendmail ([93.56.160.208]) by smtp.gmail.com with ESMTPSA id
+ qt14-20020a170906ecee00b00728f6d4d0d7sm5534560ejb.67.2022.09.05.13.43.49
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Sep 2022 13:41:16 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ Mon, 05 Sep 2022 13:43:49 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: xieyongji@bytedance.com,
-	pbonzini@redhat.com,
-	stefanha@redhat.com
-Subject: [PATCH] build: Regenerate meson-buildoptions.sh
-Date: Mon,  5 Sep 2022 21:41:14 +0100
-Message-Id: <20220905204114.208969-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+Subject: [PATCH v2] smbios: sanitize type from external type before checking
+ have_fields_bitmap
+Date: Mon,  5 Sep 2022 22:43:49 +0200
+Message-Id: <20220905204349.102405-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,71 +96,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Regeneration was missed by the previous update.
+test_bit uses header->type as an offset; if the file incorrectly specifies a
+type greater than 127, smbios_entry_add will read and write garbage.
 
-Fixes: 2a2359b84407 ("vduse-blk: Implement vduse-blk export")
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+To fix this, just pass the smbios data through, assuming the user knows what
+to do.  Reported by Coverity as CID 1487255.
+
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/meson-buildoptions.sh | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ hw/smbios/smbios.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index 359b04e0e6..300ba8b212 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -42,12 +42,13 @@ meson_options_help() {
-   printf "%s\n" '  --enable-trace-backends=CHOICES'
-   printf "%s\n" '                           Set available tracing backends [log] (choices:'
-   printf "%s\n" '                           dtrace/ftrace/log/nop/simple/syslog/ust)'
--  printf "%s\n" '  --firmwarepath=VALUES    search PATH for firmware files [share/qemu-firmware]'
-+  printf "%s\n" '  --firmwarepath=VALUES    search PATH for firmware files [share/qemu-'
-+  printf "%s\n" '                           firmware]'
-   printf "%s\n" '  --iasl=VALUE             Path to ACPI disassembler'
-   printf "%s\n" '  --includedir=VALUE       Header file directory [include]'
-   printf "%s\n" '  --interp-prefix=VALUE    where to find shared libraries etc., use %M for'
-   printf "%s\n" '                           cpu name [/usr/gnemul/qemu-%M]'
--  printf "%s\n" '  --libdir=VALUE           Library directory [lib64]'
-+  printf "%s\n" '  --libdir=VALUE           Library directory [lib/x86_64-linux-gnu]'
-   printf "%s\n" '  --libexecdir=VALUE       Library executable directory [libexec]'
-   printf "%s\n" '  --localedir=VALUE        Locale data directory [share/locale]'
-   printf "%s\n" '  --localstatedir=VALUE    Localstate data directory [/var/local]'
-@@ -154,6 +155,8 @@ meson_options_help() {
-   printf "%s\n" '  usb-redir       libusbredir support'
-   printf "%s\n" '  vde             vde network backend support'
-   printf "%s\n" '  vdi             vdi image format support'
-+  printf "%s\n" '  vduse-blk-export'
-+  printf "%s\n" '                  VDUSE block export support'
-   printf "%s\n" '  vfio-user-server'
-   printf "%s\n" '                  vfio-user server support'
-   printf "%s\n" '  vhost-crypto    vhost-user crypto backend support'
-@@ -162,8 +165,6 @@ meson_options_help() {
-   printf "%s\n" '  vhost-user      vhost-user backend support'
-   printf "%s\n" '  vhost-user-blk-server'
-   printf "%s\n" '                  build vhost-user-blk server'
--  printf "%s\n" '  vduse-blk-export'
--  printf "%s\n" '                  VDUSE block export support'
-   printf "%s\n" '  vhost-vdpa      vhost-vdpa kernel backend support'
-   printf "%s\n" '  virglrenderer   virgl rendering support'
-   printf "%s\n" '  virtfs          virtio-9p support'
-@@ -422,6 +423,8 @@ _meson_option_parse() {
-     --disable-vde) printf "%s" -Dvde=disabled ;;
-     --enable-vdi) printf "%s" -Dvdi=enabled ;;
-     --disable-vdi) printf "%s" -Dvdi=disabled ;;
-+    --enable-vduse-blk-export) printf "%s" -Dvduse_blk_export=enabled ;;
-+    --disable-vduse-blk-export) printf "%s" -Dvduse_blk_export=disabled ;;
-     --enable-vfio-user-server) printf "%s" -Dvfio_user_server=enabled ;;
-     --disable-vfio-user-server) printf "%s" -Dvfio_user_server=disabled ;;
-     --enable-vhost-crypto) printf "%s" -Dvhost_crypto=enabled ;;
-@@ -434,8 +437,6 @@ _meson_option_parse() {
-     --disable-vhost-user) printf "%s" -Dvhost_user=disabled ;;
-     --enable-vhost-user-blk-server) printf "%s" -Dvhost_user_blk_server=enabled ;;
-     --disable-vhost-user-blk-server) printf "%s" -Dvhost_user_blk_server=disabled ;;
--    --enable-vduse-blk-export) printf "%s" -Dvduse_blk_export=enabled ;;
--    --disable-vduse-blk-export) printf "%s" -Dvduse_blk_export=disabled ;;
-     --enable-vhost-vdpa) printf "%s" -Dvhost_vdpa=enabled ;;
-     --disable-vhost-vdpa) printf "%s" -Dvhost_vdpa=disabled ;;
-     --enable-virglrenderer) printf "%s" -Dvirglrenderer=enabled ;;
+diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+index 60349ee402..4c9f664830 100644
+--- a/hw/smbios/smbios.c
++++ b/hw/smbios/smbios.c
+@@ -1205,13 +1205,15 @@ void smbios_entry_add(QemuOpts *opts, Error **errp)
+             return;
+         }
+ 
+-        if (test_bit(header->type, have_fields_bitmap)) {
+-            error_setg(errp,
+-                       "can't load type %d struct, fields already specified!",
+-                       header->type);
+-            return;
++        if (header->type <= SMBIOS_MAX_TYPE) {
++            if (test_bit(header->type, have_fields_bitmap)) {
++                error_setg(errp,
++                           "can't load type %d struct, fields already specified!",
++                           header->type);
++                return;
++            }
++            set_bit(header->type, have_binfile_bitmap);
+         }
+-        set_bit(header->type, have_binfile_bitmap);
+ 
+         if (header->type == 4) {
+             smbios_type4_count++;
 -- 
-2.34.1
+2.37.2
 
 
