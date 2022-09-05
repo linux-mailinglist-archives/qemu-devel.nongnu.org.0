@@ -2,95 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 283E25ACD77
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 10:12:38 +0200 (CEST)
-Received: from localhost ([::1]:57862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD1C5ACD8A
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 10:17:57 +0200 (CEST)
+Received: from localhost ([::1]:55720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oV7Dg-0007An-AX
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 04:12:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44170)
+	id 1oV7Ip-0002PQ-F8
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 04:17:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oV75W-00046k-WD
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 04:04:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33854)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oV75U-0000zn-6D
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 04:04:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662365047;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tDUacGUZQoiv1lpQXN/6+sIJHpKv1TlOqACd4LuKOMo=;
- b=dBDI5jmepc/qzgGE5vIYJNbvDBRjuKW5OpvaX6ZAPRBnLWlNLTsFhErMVxfPYTZjTZJQVD
- o8qC7XxT4EHqNNegOVK/EhnH2xpW5+ciNxMXp5ygK8QZ/85yJQkIG7SLdK4QyW9RdDpFBu
- G2pJAOzS9hTi4KKhuUndBEVZdN44C1o=
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-586-68s17GxJO12ko9i1PPHH0g-1; Mon, 05 Sep 2022 04:04:06 -0400
-X-MC-Unique: 68s17GxJO12ko9i1PPHH0g-1
-Received: by mail-pg1-f200.google.com with SMTP id
- q128-20020a632a86000000b0042fadb61e4aso4082184pgq.3
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 01:04:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1oV78j-0005HG-3y
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 04:07:36 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41700)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1oV78g-0001c6-An
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 04:07:27 -0400
+Received: by mail-wr1-x433.google.com with SMTP id t14so2929678wrx.8
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 01:07:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=mRqKkNje44YjNWjFFz7pRsbcWPxHg7oWMzFcs8sXuAg=;
+ b=ZcjFUwi7VqjAz5rmZyF/Ls7lZY/EXzikQ/TYlc1qBEkVv4aZtmdCjr/hMtTFk94hPe
+ klywVCGQbA0Q4uR+212b0WSxDDwjLvZjomq9O9arn90XL/WUVt5bpW2pJI5YaOz1az6C
+ ONjfVBVny1lKB0aQ69NBahizGym/TvRUgr61ewvkLN310LHNgplf2WgNqnrdrxlMZf+Y
+ xdJ+ev/lWNIyH+q0O2Pjkh6KMeDn48TU5dNbhaanKducReWxK3lX2WZI11shP4cUxeer
+ 41c3DFimnEQfZdf6HLL5uLgDtDNN6swlG+FP9LHUJXln62SaNSOty3tpdjPywFZ316yl
+ x+mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=tDUacGUZQoiv1lpQXN/6+sIJHpKv1TlOqACd4LuKOMo=;
- b=lvB+0AyCs0H6gez9PxZcGi3HbQbcLVmQ4f/lc2t2QpWaEDHUaAtaiuhp8t9KTSOxYQ
- WQ96dcy1mtuDVvVbaGpjSaQfFQjEwScYzw8MxU3WzuCy38sTVYge40YqA/oXd4ajEvLA
- gnj5xQ/x2t2WzWQJaTs/UNmafV+NQ1eYRV6X312RlHSqVV9nARYCaXH062K4ncg1fn+J
- GAllz/jieSO5RtZgb7s+zy0/1GGeY0UFLuWBSHb25hKyc1ncOejnL+bTV40U6wRiCf0G
- fqxzi6etSHk7Gtt4BW0PnxICiA7IWuGrDD4caCs15FyXN6v/D/pQDLY1KF6+ZPauui0g
- kj0w==
-X-Gm-Message-State: ACgBeo1h0ur8rSDRLjfsuPhROOAL71kCwa9PWTjSFtG62NU296EC2BhI
- a1433W+Cd5l/LinOjZeOXAoAY3zyt2wiNib+VvmStDKxSjle26pfHCsk+bSKXvEPihE2rIpXdzs
- BarhFD9JtHOzNMfc=
-X-Received: by 2002:a63:eb0e:0:b0:429:aefa:9fa9 with SMTP id
- t14-20020a63eb0e000000b00429aefa9fa9mr39586653pgh.122.1662365045206; 
- Mon, 05 Sep 2022 01:04:05 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7fJPsy5fyMZD+g90g/+AGMA7pvtGJszJyMRQG5SsLAbnqcO8QtNu4VGWMhl4gxTxUvbDVBLg==
-X-Received: by 2002:a63:eb0e:0:b0:429:aefa:9fa9 with SMTP id
- t14-20020a63eb0e000000b00429aefa9fa9mr39586640pgh.122.1662365044948; 
- Mon, 05 Sep 2022 01:04:04 -0700 (PDT)
-Received: from [10.72.13.239] ([209.132.188.80])
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=mRqKkNje44YjNWjFFz7pRsbcWPxHg7oWMzFcs8sXuAg=;
+ b=sRV4N8DyIfZ7na4Lrvg3PEE+4gf5BwR8yFaCmMjbSj44/U5y1/23TqQnxhee8Pi0mz
+ nXE3sv2JHOEtx3bML3vqlTopvOrmkbcR2hq//6TD0ysEyR8XJBFE9IFrdasPsUnax3sg
+ eRWTduXpUrkthDfHHP3mDCNshpRskHv4ioWVjal9bpVG0kbh3e56rOKacS0f2RBJWQ8b
+ q+DMLaSCLtC+IHLJGMQ7UOu/Wfw0gFg1F5Mj4sB6dfDql9Vh3O8Cl1zIXKbNheECfwsZ
+ plaqyrAa9l3YIDZC3B1OTIeGg0//HPYbllqt6Xflgqujh/QmMVH3mWbb0Dsvv5tsiV+s
+ QAsA==
+X-Gm-Message-State: ACgBeo1w2jINjH6U0afA5UvCZcIu387b9IuxIr+qyXHOsffry4WSYEru
+ 6y+CgpuiysczhM36oD00PSVVtg==
+X-Google-Smtp-Source: AA6agR4JxCIZBmZnJxck0n5vAUYqPw4ngquFw4ulFfq6RFugMcWT90zlUC6uyj/vQ6+jucl/eYA/Xw==
+X-Received: by 2002:a5d:4fcb:0:b0:225:6361:bafe with SMTP id
+ h11-20020a5d4fcb000000b002256361bafemr22531823wrw.585.1662365244270; 
+ Mon, 05 Sep 2022 01:07:24 -0700 (PDT)
+Received: from localhost (cst2-173-61.cust.vodafone.cz. [31.30.173.61])
  by smtp.gmail.com with ESMTPSA id
- pg16-20020a17090b1e1000b001f559e00473sm9915413pjb.43.2022.09.05.01.04.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Sep 2022 01:04:04 -0700 (PDT)
-Message-ID: <e6ce97bd-a121-04c5-8984-95906f34a15c@redhat.com>
-Date: Mon, 5 Sep 2022 16:03:58 +0800
+ n189-20020a1ca4c6000000b003a5c244fc13sm16984924wme.2.2022.09.05.01.07.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Sep 2022 01:07:23 -0700 (PDT)
+Date: Mon, 5 Sep 2022 10:07:22 +0200
+From: Andrew Jones <ajones@ventanamicro.com>
+To: Sunil V L <sunilvl@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Anup Patel <apatel@ventanamicro.com>,
+ Atish Kumar Patra <atishp@rivosinc.com>
+Subject: Re: [PATCH] hw/riscv: virt: Enable booting S-mode firmware from pflash
+Message-ID: <20220905080648.7wyzlk6fhwlxytze@kamzik>
+References: <20220905042940.146913-1-sunilvl@ventanamicro.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH v3 10/15] vhost-net: vhost-kernel: introduce
- vhost_net_virtqueue_reset()
-Content-Language: en-US
-To: Kangjie Xu <kangjie.xu@linux.alibaba.com>, qemu-devel@nongnu.org
-Cc: mst@redhat.com, eduardo@habkost.net, marcel.apfelbaum@gmail.com,
- f4bug@amsat.org, wangyanan55@huawei.com, hengqi@linux.alibaba.com,
- xuanzhuo@linux.alibaba.com
-References: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
- <b6286db2a6ce2389f44cc44da06c9fd2b8eaaec8.1661414345.git.kangjie.xu@linux.alibaba.com>
-From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <b6286db2a6ce2389f44cc44da06c9fd2b8eaaec8.1661414345.git.kangjie.xu@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.978, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220905042940.146913-1-sunilvl@ventanamicro.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=ajones@ventanamicro.com; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,79 +93,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2022/8/25 16:08, Kangjie Xu 写道:
-> Introduce vhost_virtqueue_reset(), which can reset the specific
-> virtqueue in the device. Then it will unmap vrings and the desc
-> of the virtqueue.
->
-> Here we do not reuse the vhost_net_stop_one() or vhost_dev_stop(),
-> because they work at queue pair level. We do not use
-> vhost_virtqueue_stop() because it may stop the device in the
-> backend.
-
-
-So I think this is not true at least for vhost-net kernel baceknd.
-
-
->
-> This patch only considers the case of vhost-kernel, when
-> NetClientDriver is NET_CLIENT_DRIVER_TAP.
->
-> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+On Mon, Sep 05, 2022 at 09:59:40AM +0530, Sunil V L wrote:
+> To boot S-mode firmware payload like EDK2 from persistent
+> flash storage, qemu needs to pass the flash address as the
+> next_addr in fw_dynamic_info to the opensbi.
+> 
+> Update the kernel_entry with the flash address when no kernel
+> is specified via QEMU command line  so that opensbi
+> can jump to the flash address. This assumes flash drive unit 1 is
+> used to keep dynamic payload similar to other architectures.
+> 
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 > ---
->   hw/net/vhost_net.c      | 22 ++++++++++++++++++++++
->   include/net/vhost_net.h |  2 ++
->   2 files changed, 24 insertions(+)
->
-> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> index ccac5b7a64..be51be98b3 100644
-> --- a/hw/net/vhost_net.c
-> +++ b/hw/net/vhost_net.c
-> @@ -514,3 +514,25 @@ int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu)
->   
->       return vhost_ops->vhost_net_set_mtu(&net->dev, mtu);
->   }
-> +
-> +void vhost_net_virtqueue_reset(VirtIODevice *vdev, NetClientState *nc,
-> +                               int vq_index)
-> +{
-> +    VHostNetState *net = get_vhost_net(nc->peer);
-> +    const VhostOps *vhost_ops = net->dev.vhost_ops;
-> +    struct vhost_vring_file file = { .fd = -1 };
-> +    int idx;
-> +
-> +    /* should only be called after backend is connected */
-> +    assert(vhost_ops);
-> +
-> +    idx = vhost_ops->vhost_get_vq_index(&net->dev, vq_index);
-> +
-> +    if (net->nc->info->type == NET_CLIENT_DRIVER_TAP) {
-> +        file.index = idx;
-> +        int r = vhost_net_set_backend(&net->dev, &file);
-> +        assert(r >= 0);
+>  hw/riscv/virt.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index ff8c0df5cd..1ee855fded 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -1284,6 +1284,18 @@ static void virt_machine_done(Notifier *notifier, void *data)
+>          start_addr = virt_memmap[VIRT_FLASH].base;
+>      }
+>  
+> +    if (drive_get(IF_PFLASH, 0, 1)) {
+> +        /*
+> +         * Assume second pflash unit (unit=1) to hold the S-mode firmware
+> +         * like EDK2. Set kernel_entry to flash address if kernel argument
+> +         * is not set and pflash unit 1 is configured.
+> +         */
+> +        if (!kernel_entry) {
+> +            kernel_entry = virt_memmap[VIRT_FLASH].base +
+> +                             virt_memmap[VIRT_FLASH].size / 2;
+> +        }
 > +    }
-
-
-Do we need to reset e.g last_avail_idx here?
-
-Thanks
-
-
 > +
-> +    vhost_virtqueue_unmap(&net->dev, vdev, net->dev.vqs + idx, idx);
-> +}
-> diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
-> index 387e913e4e..85d85a4957 100644
-> --- a/include/net/vhost_net.h
-> +++ b/include/net/vhost_net.h
-> @@ -48,4 +48,6 @@ uint64_t vhost_net_get_acked_features(VHostNetState *net);
->   
->   int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu);
->   
-> +void vhost_net_virtqueue_reset(VirtIODevice *vdev, NetClientState *nc,
-> +                               int vq_index);
->   #endif
+>      /*
+>       * Init fw_cfg.  Must be done before riscv_load_fdt, otherwise the device
+>       * tree cannot be altered and we get FDT_ERR_NOSPACE.
+> -- 
+> 2.25.1
+> 
+>
 
+Hi Sunil,
+
+We should ensure we can use both edk2 and the '-kernel' option. For
+example, guest installation will typically do direct kernel boot,
+and when it's desired / necessary to boot that kernel with ACPI, then
+we'll also need edk2.
+
+Thanks,
+drew
 
