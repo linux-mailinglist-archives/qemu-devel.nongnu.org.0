@@ -2,68 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 949785ACC0B
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 09:13:42 +0200 (CEST)
-Received: from localhost ([::1]:51170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C10645ACC10
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 09:22:09 +0200 (CEST)
+Received: from localhost ([::1]:41956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oV6Ie-0001bf-SV
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 03:13:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39512)
+	id 1oV6Ql-0005QC-AF
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 03:22:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oV6GK-00005a-SE
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 03:11:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55149)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oV6KJ-0001mB-Tl; Mon, 05 Sep 2022 03:15:25 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:61112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oV6GH-0001YB-7J
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 03:11:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662361868;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Hr2PglZKk+1ycqmTxRb2WbTMI0bPK0DAr3Y70ZfXYLk=;
- b=MYFnxgK1wuvE34k3Tw+VU0Mbb5MBTEs8rHBiq1yrLnGtK+ayxc3ocbbl4x9aBTXql3Idn5
- i+2B2HzANPWBxe1jphCs8YNNyWe/1nInQFgC5JYxElPuloD3g9OJdTpwFJUN+VvHWSA4zw
- Eo/Dw3Oe5yFnnbNKUvCvQNxQN09RYgA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-426-EWXX47OoN1qorn4v_-2diQ-1; Mon, 05 Sep 2022 03:11:04 -0400
-X-MC-Unique: EWXX47OoN1qorn4v_-2diQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C12F85A589;
- Mon,  5 Sep 2022 07:11:04 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1967D40CF8EF;
- Mon,  5 Sep 2022 07:11:02 +0000 (UTC)
-Date: Mon, 5 Sep 2022 08:10:59 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Linus Heckemann <git@sphalerite.org>
-Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH] 9pfs: use GHashMap for fid table
-Message-ID: <YxWhA8M4Ul8z2KUj@redhat.com>
-References: <20220903150327.2780127-1-git@sphalerite.org>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oV6KG-0002Cw-3G; Mon, 05 Sep 2022 03:15:23 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id E13EE74632B;
+ Mon,  5 Sep 2022 09:15:14 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 3FF047461AE; Mon,  5 Sep 2022 09:15:14 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 3D0DC745702;
+ Mon,  5 Sep 2022 09:15:14 +0200 (CEST)
+Date: Mon, 5 Sep 2022 09:15:14 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org
+Subject: Re: [PATCH v6 06/14] hw/ppc: set machine->fdt in
+ sam460ex_load_device_tree()
+In-Reply-To: <20220904233456.209027-7-danielhb413@gmail.com>
+Message-ID: <fbf6b3f-4fa3-928a-8ef9-83af7e2e835@eik.bme.hu>
+References: <20220904233456.209027-1-danielhb413@gmail.com>
+ <20220904233456.209027-7-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220903150327.2780127-1-git@sphalerite.org>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,35 +58,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In $SUBJECT it is called GHashTable, not GHashMap
+On Sun, 4 Sep 2022, Daniel Henrique Barboza wrote:
+> This will enable support for 'dumpdtb' QMP/HMP command for the sam460ex
+> machine.
+>
+> Setting machine->fdt requires a MachineState pointer to be used inside
+> sam460ex_load_device_tree(). Let's change the function to receive this
+> pointer from the caller. 'ramsize' and 'kernel_cmdline' can be retrieved
+> directly from the 'machine' pointer.
+>
+> Cc: BALATON Zoltan <balaton@eik.bme.hu>
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-On Sat, Sep 03, 2022 at 05:03:27PM +0200, Linus Heckemann wrote:
-> The previous implementation would iterate over the fid table for
-> lookup operations, resulting in an operation with O(n) complexity on
-> the number of open files and poor cache locality -- for nearly every
-> open, stat, read, write, etc operation.
-> 
-> This change uses a hashtable for this instead, significantly improving
-> the performance of the 9p filesystem. The runtime of NixOS's simple
-> installer test, which copies ~122k files totalling ~1.8GiB from 9p,
-> decreased by a factor of about 10.
-> 
-> Signed-off-by: Linus Heckemann <git@sphalerite.org>
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+
+but could you please do the same at least for bamboo and virtex too to 
+keep these consistent? (and to simplify them a little.)
+
+Regards,
+BALATON Zoltan
+
 > ---
->  hw/9pfs/9p.c | 130 +++++++++++++++++++++++++++------------------------
->  hw/9pfs/9p.h |   2 +-
->  2 files changed, 69 insertions(+), 63 deletions(-)
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> hw/ppc/sam460ex.c | 21 +++++++++++----------
+> 1 file changed, 11 insertions(+), 10 deletions(-)
+>
+> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+> index 850bb3b817..5d09d3c6ab 100644
+> --- a/hw/ppc/sam460ex.c
+> +++ b/hw/ppc/sam460ex.c
+> @@ -131,13 +131,12 @@ static int sam460ex_load_uboot(void)
+>     return 0;
+> }
+>
+> -static int sam460ex_load_device_tree(hwaddr addr,
+> -                                     uint32_t ramsize,
+> +static int sam460ex_load_device_tree(MachineState *machine,
+> +                                     hwaddr addr,
+>                                      hwaddr initrd_base,
+> -                                     hwaddr initrd_size,
+> -                                     const char *kernel_cmdline)
+> +                                     hwaddr initrd_size)
+> {
+> -    uint32_t mem_reg_property[] = { 0, 0, cpu_to_be32(ramsize) };
+> +    uint32_t mem_reg_property[] = { 0, 0, cpu_to_be32(machine->ram_size) };
+>     char *filename;
+>     int fdt_size;
+>     void *fdt;
+> @@ -171,7 +170,8 @@ static int sam460ex_load_device_tree(hwaddr addr,
+>     qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-end",
+>                           (initrd_base + initrd_size));
+>
+> -    qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", kernel_cmdline);
+> +    qemu_fdt_setprop_string(fdt, "/chosen", "bootargs",
+> +                            machine->kernel_cmdline);
+>
+>     /* Copy data from the host device tree into the guest. Since the guest can
+>      * directly access the timebase without host involvement, we must expose
+> @@ -208,7 +208,9 @@ static int sam460ex_load_device_tree(hwaddr addr,
+>                               EBC_FREQ);
+>
+>     rom_add_blob_fixed(BINARY_DEVICE_TREE_FILE, fdt, fdt_size, addr);
+> -    g_free(fdt);
+> +
+> +    /* Set machine->fdt for 'dumpdtb' QMP/HMP command */
+> +    machine->fdt = fdt;
+>
+>     return fdt_size;
+> }
+> @@ -496,9 +498,8 @@ static void sam460ex_init(MachineState *machine)
+>     if (machine->kernel_filename) {
+>         int dt_size;
+>
+> -        dt_size = sam460ex_load_device_tree(FDT_ADDR, machine->ram_size,
+> -                                    RAMDISK_ADDR, initrd_size,
+> -                                    machine->kernel_cmdline);
+> +        dt_size = sam460ex_load_device_tree(machine, FDT_ADDR,
+> +                                            RAMDISK_ADDR, initrd_size);
+>
+>         boot_info->dt_base = FDT_ADDR;
+>         boot_info->dt_size = dt_size;
+>
 
