@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA4EF5ADA26
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 22:26:29 +0200 (CEST)
-Received: from localhost ([::1]:49954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02D415ADA2E
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 22:30:45 +0200 (CEST)
+Received: from localhost ([::1]:50264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVIfs-0004BV-Nq
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 16:26:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37828)
+	id 1oVIk0-0002Ie-1f
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 16:30:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVIch-00079h-Nw
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 16:23:11 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33627)
+ id 1oVIcj-0007CJ-7L
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 16:23:13 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:43771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVIcc-0004Xc-NK
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 16:23:11 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id k9so12668124wri.0
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 13:23:06 -0700 (PDT)
+ id 1oVIce-0004Xv-Gi
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 16:23:12 -0400
+Received: by mail-wr1-x433.google.com with SMTP id t7so7593242wrm.10
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 13:23:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=ID+SnhpEZx/BDqyhmU8JXjs9pMlZndn9aHrSLTIAUAA=;
- b=Oa78ED8JInHiSEiQGo4S4fRljhXgCC2CEjhG9gAkzV8h8fDk7VBjzhbIsW9nq/8aTv
- F3bURBIb/xjLv5i8e/K8TSmBzoNZnDD7IE9kf7ChzxGN7wL6wm4EDXZEAZvHvjzDgmPs
- VbaDrYA0rPF2VEhir0jMYN1Lv/udwnhXB1K3WFzDNrdKtLSgO2Vyex6DuSMwOiaBkayN
- bKfJDdYx+3L8l242XHvyU0OEjKMRuJr06a1fALqnXcoHHa45TejuR7qvwa08uL/J5NZF
- zadMS4Vn7aeTImXERz4Rfo/IU238f6U1gBTomrFZgERj8qSuFWq4DwAH0ofw877qwCSR
- AQmQ==
+ bh=PThaj1MyA7vLZavcHQlAz4oEip5HVhIhx/+PfVUDTNU=;
+ b=TxW/p4XNvcAC57+1wggGYg38zrzkAdUnommWyvwSE90CGp6wE2VDmUxjkHgt/Np8Ac
+ 6pAcEmBpy/oy1M5PNq9P31uJOcHHE0i8ikNVSbS0dH3xHdNmqf0DQWGCV/0FQynxpcBe
+ qVpbyN1hZAEEDt/ZeqLkWmszbv1Vh2Ju0f8sWL2wOAA2C/p+a5Ap1O5YmE2U7mMw3rbP
+ T2qGLxbUSOLDy2oCHpMZyx2gBqvP/WbXBiQIIAvDJcviLq2r9vepKNxVmNBE33JUaMFy
+ EJawZS1hQF5T3AG6jgnERzTEcGMgQql28h2rtER/gftxObJ5KO2xfVrEFGtR0zmU7TtD
+ 6AxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=ID+SnhpEZx/BDqyhmU8JXjs9pMlZndn9aHrSLTIAUAA=;
- b=dPa/t7w2tm02JO+jV5wgmzpPKi8pmWbFg/gMt04ioK9BkybwEafLOQJRLEhUbL4ba9
- 2ruJHcRV0Ot6r5NS5ftI9QWZE1VruYTZeHL16+yOzUqVdv+4TzTARoNc05gM6i5omufd
- T/HaB31eZegKwuIPW2+pjyGnSSTgXI52ujFEkTA1nXpPFhe5fkjKfHPo1VJ3Mj4zRBLt
- UcEiYjRBo+RuGp6LV0PEd8BXvY999+n/avx+xxKZmjMuDArtEOw1VlG1AdB86th3nD63
- QCdx2bh1nekTIcTaqLt13bW0aQILYcdAU9wZUMng7bMK1ZzPF5QWPcAAC72aMJ8D4+vr
- cOOg==
-X-Gm-Message-State: ACgBeo2WhwXB8JsZpDSHqWN1S+yDX8Q8cy6SZp49pfBxX2xujaaNxSrK
- k+PwUgpQLLnNxHU3EvcK1pSAYs4kIzpI0FD4
-X-Google-Smtp-Source: AA6agR6+XZRUjEt67cZ+GfKPjh7sPBZzMtyNp42XXQSDvwUBa2TSRnaG+MBJUkPRbX6f/cJUy27z/g==
-X-Received: by 2002:a5d:6248:0:b0:222:cd3b:94c8 with SMTP id
- m8-20020a5d6248000000b00222cd3b94c8mr25862129wrv.97.1662409385452; 
- Mon, 05 Sep 2022 13:23:05 -0700 (PDT)
+ bh=PThaj1MyA7vLZavcHQlAz4oEip5HVhIhx/+PfVUDTNU=;
+ b=ExuaUmCwCtmkz9QSkRzalzeXmFIdwuS5W8hTUCQ4RgJnJABMt4GIsCCainiJhe0V38
+ wQkGBcBr46l6c5CUs9tA4vIbD55TwUq8IkwEGsBboOnC27Tfe4Bo0DyR7FHtYYUYMLFQ
+ c4rw9APqZpzcqSb4HstBBEfc1J6ZNn9sNa42fvUOXJNEPHQoKNyyWC92D62D5LMkgjHF
+ YpruiJvheM9/OmSNJ+ekKbz3y7Z0pyiqN8sXSgaZbNfbjUwBhzSYC1M29w8VxqA+XvGG
+ tOevpfMKsc90Ibhz+0RwK7y36Ofxm0Y+8ncOZlRcfnBHnXuLKzJyYvJSU6ksLHktoRvN
+ HTdg==
+X-Gm-Message-State: ACgBeo3TF53KPB3hOHcyH2ULN6mhNs1jr1W0bQjl4ubnqUgCsQek+f7m
+ A67AiG8t3kh30veVBUDvUKXAH6GHNKS6yAOj
+X-Google-Smtp-Source: AA6agR7lB6Ne8H2JN6w6ghci9F0f+lzPYL803bVmf+jNNG7Jt2ROIUzFBR8SHgF6rvXLwLhAHF+wNg==
+X-Received: by 2002:adf:d1c9:0:b0:225:f98:d602 with SMTP id
+ b9-20020adfd1c9000000b002250f98d602mr25837061wrd.419.1662409386945; 
+ Mon, 05 Sep 2022 13:23:06 -0700 (PDT)
 Received: from localhost.localdomain
  ([2a02:8084:a5c0:5a80:d0ad:82b5:d7a4:c0a9])
  by smtp.gmail.com with ESMTPSA id
- m14-20020a5d56ce000000b00226d238be98sm9472404wrw.82.2022.09.05.13.23.04
+ m14-20020a5d56ce000000b00226d238be98sm9472404wrw.82.2022.09.05.13.23.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Sep 2022 13:23:04 -0700 (PDT)
+ Mon, 05 Sep 2022 13:23:06 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: f4bug@amsat.org, qemu-arm@nongnu.org, pbonzini@redhat.com,
- David Hildenbrand <david@redhat.com>
-Subject: [PATCH v3 3/6] accel/tcg: Suppress auto-invalidate in
- probe_access_internal
-Date: Mon,  5 Sep 2022 21:22:56 +0100
-Message-Id: <20220905202259.189852-4-richard.henderson@linaro.org>
+Cc: f4bug@amsat.org,
+	qemu-arm@nongnu.org,
+	pbonzini@redhat.com
+Subject: [PATCH v3 4/6] accel/tcg: Introduce probe_access_full
+Date: Mon,  5 Sep 2022 21:22:57 +0100
+Message-Id: <20220905202259.189852-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220905202259.189852-1-richard.henderson@linaro.org>
 References: <20220905202259.189852-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,68 +92,169 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When PAGE_WRITE_INV is set when calling tlb_set_page,
-we immediately set TLB_INVALID_MASK in order to force
-tlb_fill to be called on the next lookup.  Here in
-probe_access_internal, we have just called tlb_fill
-and eliminated true misses, thus the lookup must be valid.
+Add an interface to return the CPUTLBEntryFull struct
+that goes with the lookup.  The result is not intended
+to be valid across multiple lookups, so the user must
+use the results immediately.
 
-This allows us to remove a warning comment from s390x.
-There doesn't seem to be a reason to change the code though.
-
-Cc: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c            | 10 +++++++++-
- target/s390x/tcg/mem_helper.c |  4 ----
- 2 files changed, 9 insertions(+), 5 deletions(-)
+ include/exec/exec-all.h | 11 ++++++++++
+ accel/tcg/cputlb.c      | 47 +++++++++++++++++++++++++----------------
+ 2 files changed, 40 insertions(+), 18 deletions(-)
 
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index bcad607c4e..758cf6bcc7 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -434,6 +434,17 @@ int probe_access_flags(CPUArchState *env, target_ulong addr,
+                        MMUAccessType access_type, int mmu_idx,
+                        bool nonfault, void **phost, uintptr_t retaddr);
+ 
++#ifndef CONFIG_USER_ONLY
++/**
++ * probe_access_full:
++ * Like probe_access_flags, except also return into @pfull.
++ */
++int probe_access_full(CPUArchState *env, target_ulong addr,
++                      MMUAccessType access_type, int mmu_idx,
++                      bool nonfault, void **phost,
++                      CPUTLBEntryFull **pfull, uintptr_t retaddr);
++#endif
++
+ #define CODE_GEN_ALIGN           16 /* must be >= of the size of a icache line */
+ 
+ /* Estimated block size for TB allocation.  */
 diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 03395e725d..91f2b53142 100644
+index 91f2b53142..62159549f6 100644
 --- a/accel/tcg/cputlb.c
 +++ b/accel/tcg/cputlb.c
-@@ -1535,6 +1535,7 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
-     }
-     tlb_addr = tlb_read_ofs(entry, elt_ofs);
- 
-+    flags = TLB_FLAGS_MASK;
-     page_addr = addr & TARGET_PAGE_MASK;
-     if (!tlb_hit_page(tlb_addr, page_addr)) {
-         if (!victim_tlb_hit(env, mmu_idx, index, elt_ofs, page_addr)) {
-@@ -1550,10 +1551,17 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+@@ -1512,7 +1512,8 @@ static void notdirty_write(CPUState *cpu, vaddr mem_vaddr, unsigned size,
+ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+                                  int fault_size, MMUAccessType access_type,
+                                  int mmu_idx, bool nonfault,
+-                                 void **phost, uintptr_t retaddr)
++                                 void **phost, CPUTLBEntryFull **pfull,
++                                 uintptr_t retaddr)
+ {
+     uintptr_t index = tlb_index(env, mmu_idx, addr);
+     CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
+@@ -1546,10 +1547,12 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+                                        mmu_idx, nonfault, retaddr)) {
+                 /* Non-faulting page table read failed.  */
+                 *phost = NULL;
++                *pfull = NULL;
+                 return TLB_INVALID_MASK;
+             }
  
              /* TLB resize via tlb_fill may have moved the entry.  */
++            index = tlb_index(env, mmu_idx, addr);
              entry = tlb_entry(env, mmu_idx, addr);
-+
-+            /*
-+             * With PAGE_WRITE_INV, we set TLB_INVALID_MASK immediately,
-+             * to force the next access through tlb_fill.  We've just
-+             * called tlb_fill, so we know that this entry *is* valid.
-+             */
-+            flags &= ~TLB_INVALID_MASK;
-         }
-         tlb_addr = tlb_read_ofs(entry, elt_ofs);
-     }
--    flags = tlb_addr & TLB_FLAGS_MASK;
-+    flags &= tlb_addr;
  
+             /*
+@@ -1563,6 +1566,8 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+     }
+     flags &= tlb_addr;
+ 
++    *pfull = &env_tlb(env)->d[mmu_idx].fulltlb[index];
++
      /* Fold all "mmio-like" bits into TLB_MMIO.  This is not RAM.  */
      if (unlikely(flags & ~(TLB_WATCHPOINT | TLB_NOTDIRTY))) {
-diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
-index fc52aa128b..3758b9e688 100644
---- a/target/s390x/tcg/mem_helper.c
-+++ b/target/s390x/tcg/mem_helper.c
-@@ -148,10 +148,6 @@ static int s390_probe_access(CPUArchState *env, target_ulong addr, int size,
- #else
+         *phost = NULL;
+@@ -1574,37 +1579,44 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+     return flags;
+ }
+ 
+-int probe_access_flags(CPUArchState *env, target_ulong addr,
+-                       MMUAccessType access_type, int mmu_idx,
+-                       bool nonfault, void **phost, uintptr_t retaddr)
++int probe_access_full(CPUArchState *env, target_ulong addr,
++                      MMUAccessType access_type, int mmu_idx,
++                      bool nonfault, void **phost, CPUTLBEntryFull **pfull,
++                      uintptr_t retaddr)
+ {
+-    int flags;
+-
+-    flags = probe_access_internal(env, addr, 0, access_type, mmu_idx,
+-                                  nonfault, phost, retaddr);
++    int flags = probe_access_internal(env, addr, 0, access_type, mmu_idx,
++                                      nonfault, phost, pfull, retaddr);
+ 
+     /* Handle clean RAM pages.  */
+     if (unlikely(flags & TLB_NOTDIRTY)) {
+-        uintptr_t index = tlb_index(env, mmu_idx, addr);
+-        CPUTLBEntryFull *full = &env_tlb(env)->d[mmu_idx].fulltlb[index];
+-
+-        notdirty_write(env_cpu(env), addr, 1, full, retaddr);
++        notdirty_write(env_cpu(env), addr, 1, *pfull, retaddr);
+         flags &= ~TLB_NOTDIRTY;
+     }
+ 
+     return flags;
+ }
+ 
++int probe_access_flags(CPUArchState *env, target_ulong addr,
++                       MMUAccessType access_type, int mmu_idx,
++                       bool nonfault, void **phost, uintptr_t retaddr)
++{
++    CPUTLBEntryFull *full;
++
++    return probe_access_full(env, addr, access_type, mmu_idx,
++                             nonfault, phost, &full, retaddr);
++}
++
+ void *probe_access(CPUArchState *env, target_ulong addr, int size,
+                    MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+ {
++    CPUTLBEntryFull *full;
+     void *host;
      int flags;
  
--    /*
--     * For !CONFIG_USER_ONLY, we cannot rely on TLB_INVALID_MASK or haddr==NULL
--     * to detect if there was an exception during tlb_fill().
--     */
-     env->tlb_fill_exc = 0;
-     flags = probe_access_flags(env, addr, access_type, mmu_idx, nonfault, phost,
-                                ra);
+     g_assert(-(addr | TARGET_PAGE_MASK) >= size);
+ 
+     flags = probe_access_internal(env, addr, size, access_type, mmu_idx,
+-                                  false, &host, retaddr);
++                                  false, &host, &full, retaddr);
+ 
+     /* Per the interface, size == 0 merely faults the access. */
+     if (size == 0) {
+@@ -1612,9 +1624,6 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
+     }
+ 
+     if (unlikely(flags & (TLB_NOTDIRTY | TLB_WATCHPOINT))) {
+-        uintptr_t index = tlb_index(env, mmu_idx, addr);
+-        CPUTLBEntryFull *full = &env_tlb(env)->d[mmu_idx].fulltlb[index];
+-
+         /* Handle watchpoints.  */
+         if (flags & TLB_WATCHPOINT) {
+             int wp_access = (access_type == MMU_DATA_STORE
+@@ -1635,11 +1644,12 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
+ void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
+                         MMUAccessType access_type, int mmu_idx)
+ {
++    CPUTLBEntryFull *full;
+     void *host;
+     int flags;
+ 
+     flags = probe_access_internal(env, addr, 0, access_type,
+-                                  mmu_idx, true, &host, 0);
++                                  mmu_idx, true, &host, &full, 0);
+ 
+     /* No combination of flags are expected by the caller. */
+     return flags ? NULL : host;
+@@ -1658,10 +1668,11 @@ void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
+ tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
+                                         void **hostp)
+ {
++    CPUTLBEntryFull *full;
+     void *p;
+ 
+     (void)probe_access_internal(env, addr, 1, MMU_INST_FETCH,
+-                                cpu_mmu_index(env, true), false, &p, 0);
++                                cpu_mmu_index(env, true), false, &p, &full, 0);
+     if (p == NULL) {
+         return -1;
+     }
 -- 
 2.34.1
 
