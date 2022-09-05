@@ -2,79 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EE2E5ACD7B
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 10:15:38 +0200 (CEST)
-Received: from localhost ([::1]:59584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC9D5ACD9F
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 10:28:14 +0200 (CEST)
+Received: from localhost ([::1]:38318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oV7GZ-00017F-Sk
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 04:15:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56918)
+	id 1oV7Si-00073R-4B
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 04:28:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chigot@adacore.com>)
- id 1oV7BR-0006FF-Pq
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 04:10:18 -0400
-Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:45961)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chigot@adacore.com>)
- id 1oV7BO-00024Y-UH
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 04:10:17 -0400
-Received: by mail-qt1-x833.google.com with SMTP id j17so5641002qtp.12
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 01:10:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=adacore.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=5F4VtOG6WgPG3st9s+2LykcLg+w0LLYIT9r/gXyTDh8=;
- b=XQHvmyZzz1RdHUzMGCVHZhhFmi4R60l6be09DtZCH9unPPAM8v30RzXl7hG5wEcJvR
- 8HianYj+ri5tSprdk2+mW3leI4bW3BDmlX8I00lGJp021vGPyrvZGP3yO0EDQYd+1AuF
- Nabsgv0z7GVgz1YjtvK7DJYZXMyODlnx1jv5gUW6rVgbPZw5yT5OdGcQ6Fz9tx9/9HZM
- hNsUK7I4mizcuMus/MZnWjGd7iu4VZ2oHdjYhtKYHgqzaQqqCRq8y8ww3hGYtp2Ux0vL
- 6CiJ6g7DxO2MsCx2ueyZQFvjKIDd3qHSgNyGiFdHoLFW7We5wLYC+hOcClQfjC15GiiV
- q5Fg==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oV7PR-0004yH-Hn
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 04:24:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25461)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oV7PN-00046G-Uh
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 04:24:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662366280;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KHurEbVzOQ7tg/2WcSS5BQzWsOYQNjRsuTGRU9lTk8Y=;
+ b=K6RiNBWwAKGZlEGgIZheIRiMSPXC1HUboinHKiE7Oz1mgE0UG6+MsJFU3i03GNXuxIoFIK
+ wB+Nj3G2s8njPHxaCvknicazoR+hXPMg72MDmNiRf3ZcbneGDB7o4GNMAtq03YJsGMFyv2
+ a3v+bW4NjIK4LGXfso0jYC5x7o8CtYM=
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-106-EouZbZqYMji88YHzUF93WQ-1; Mon, 05 Sep 2022 04:24:37 -0400
+X-MC-Unique: EouZbZqYMji88YHzUF93WQ-1
+Received: by mail-pg1-f198.google.com with SMTP id
+ k16-20020a635a50000000b0042986056df6so4107979pgm.2
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 01:24:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=5F4VtOG6WgPG3st9s+2LykcLg+w0LLYIT9r/gXyTDh8=;
- b=ZS7NToBntusAaBWhHH0up1VlM4sBgayVjuiHaMMPk5SfNvMflealgqZtX5ONHOnfPq
- +X/ODr6Z/ViBr4gVxsoDC3iUSjME6gH02WcReTIovgkK6FsEn716Z2VuxSvcMHgoJia8
- c2I50OtW0fv6Ml2SNYdTkPXHYFz2g6Fxwi3q2qe4te1jKglDCPX5SR+0EPmQ/hk/7gA5
- q5TL7z45b2les+v9YtDyYi1XrB1/6GWGfoy87kPa1YvU3PbW6NoPO8S5zgWcGvkhrTx9
- kayiAApUZKpSBzqFnax4YqtEsaO3HJVblVtvmrnoh7AXAFCoDMilL+CR1NdHsifkruTR
- /QHQ==
-X-Gm-Message-State: ACgBeo0ESVOEkWAisNWVJY4phSLJndGHOACP2DmuPtmQ9VjnuhdG9GM8
- kvsm2wdv3xvuLe2HiP18tCphV4l7y8j0wWRIK9RSf5LPqwrcLw==
-X-Google-Smtp-Source: AA6agR7vgut8WeWuRK8ROf6u/yBDsNDAjJHPObaWWEFhCz1JWk9440KECMEL/TF6BKUrkUvTcM9vQJYQh56uDRfF/Wo=
-X-Received: by 2002:a05:622a:15d4:b0:344:6a92:d8dc with SMTP id
- d20-20020a05622a15d400b003446a92d8dcmr37726466qty.114.1662365413597; Mon, 05
- Sep 2022 01:10:13 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=KHurEbVzOQ7tg/2WcSS5BQzWsOYQNjRsuTGRU9lTk8Y=;
+ b=I939lfMWTNI15GCHVDdd7m/LprHmt/Bzx96skoTeoYnKRUV8x7FLoYL1lLxmR0NNhb
+ BAlQtTv9vLK0LrxVRFnPc5O1N2hAKO3DB4ggOne6q/r8ABjSzYQfLbX1n67ml85hVJxd
+ oKC73DQoSesn688UcOVu/+1vodtUF140eBTJ6UMm72bNCb5Ie+cEfxsjQ+k8YKAlxLdK
+ l1GK8r0bAboexmwRgot74RB9z1epMJb6zZboTjkFqkKUG5bCw0zsVMLpAisETQJktyRx
+ Z2YYz0uteEUTtPBpYETTc4SRw3lMqHdProBzdkY57zslZSt+zyh2whIp4UElATuR3yJM
+ PQYg==
+X-Gm-Message-State: ACgBeo1FAt53QwlqvEauw12+JyQs5R3AAalNSDdIQFpI1ATH21KYt1mc
+ jTihHrqq5HzmM5M8l6lPu+iIzvMcTR6gSNA4zkxW3vdDvAqYKUWZeQKCKH3c5gODBQ3IdhyvnAk
+ k5A9cFjON5a3nznE=
+X-Received: by 2002:a17:902:f641:b0:172:9642:1bf1 with SMTP id
+ m1-20020a170902f64100b0017296421bf1mr48537379plg.36.1662366276925; 
+ Mon, 05 Sep 2022 01:24:36 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6g/FW8P3knNELp6um9lm3KSW4+kl3f2ZpOj+rGpY+B44ntVNy6jG38FfPJHIZZYOj2p2sxdg==
+X-Received: by 2002:a17:902:f641:b0:172:9642:1bf1 with SMTP id
+ m1-20020a170902f64100b0017296421bf1mr48537358plg.36.1662366276680; 
+ Mon, 05 Sep 2022 01:24:36 -0700 (PDT)
+Received: from [10.72.13.239] ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id
+ u5-20020a170902e80500b00173164792aasm1364730plg.127.2022.09.05.01.24.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Sep 2022 01:24:35 -0700 (PDT)
+Message-ID: <db9c8bcd-01f0-d9de-18f6-63f03a00e830@redhat.com>
+Date: Mon, 5 Sep 2022 16:24:31 +0800
 MIME-Version: 1.0
-References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-50-bmeng.cn@gmail.com>
- <CAJ+F1C+-4U1huf=Jv_uJP-XXnXu88Gj9HHvrGS0dTFyKGv=qBg@mail.gmail.com>
- <CAEUhbmV_UU1TpRXfyz5U9kRj5r1ihm-HrXhzw_D-L96_Skxy+g@mail.gmail.com>
- <CAJ+F1CJo-0isj2LKdabMHu854e7kukwjp=CCejgk_TzLRwtA3w@mail.gmail.com>
- <CAEUhbmXjHCEOy+U3zABsvCU20rDj5pogNVTUCUEevdrqhcjuoA@mail.gmail.com>
-In-Reply-To: <CAEUhbmXjHCEOy+U3zABsvCU20rDj5pogNVTUCUEevdrqhcjuoA@mail.gmail.com>
-From: =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
-Date: Mon, 5 Sep 2022 10:10:02 +0200
-Message-ID: <CAJ307EiOGrHqfdzSfb6L3MPKtAWLPCQT8ZVY7M+R5mT6d9wVvQ@mail.gmail.com>
-Subject: Re: [PATCH 49/51] io/channel-watch: Fix socket watch on Windows
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: multipart/mixed; boundary="000000000000f72d0c05e7e99b8b"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
- envelope-from=chigot@adacore.com; helo=mail-qt1-x833.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.0
+Subject: Re: [PATCH v3 11/15] vhost-net: vhost-kernel: introduce
+ vhost_net_virtqueue_restart()
+Content-Language: en-US
+To: Kangjie Xu <kangjie.xu@linux.alibaba.com>, qemu-devel@nongnu.org
+Cc: mst@redhat.com, eduardo@habkost.net, marcel.apfelbaum@gmail.com,
+ f4bug@amsat.org, wangyanan55@huawei.com, hengqi@linux.alibaba.com,
+ xuanzhuo@linux.alibaba.com
+References: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
+ <6c20c0a02ed0e08565bf3692cef476ba52332720.1661414345.git.kangjie.xu@linux.alibaba.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <6c20c0a02ed0e08565bf3692cef476ba52332720.1661414345.git.kangjie.xu@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.978, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,209 +106,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f72d0c05e7e99b8b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi all,
-
-I did reach the same issue while trying to connect a gdb to qemu on
-Windows hosts. Some inputs send by gdb aren't getting correctly pulled,
-they will be retrieved only once g_poll times out.
-
-As you explained earlier, the issue, AFAICT, is that WSAEnumNetworkEvents
-will reset the internal events before select can detect them.
-Sadly, I didn't find any way to adjust the current code using select to
-avoid that. As select and any cleaner (ever WSAEnumNetworkEvents or
-WSEResetEvent) cannot be called in an atomic way, it seems that events
-can always be received between the reset and the select. At least, all
-my attempts failed.
-
-The only solution I've found is to move completely to the Windows API
-and stop calling select. This, however, needs some tricks. In Particular, w=
-e
-need to "remove" the support of GSources having only G_IO_HUP.
-This is already kind of done as we currently don't detect them in
-qio_channel_socket_source_check anyway.
-This is mandatory because of the two GSources created on the same socket.
-IIRC, the first one (I'll call it the master GSource) is created during
-the initialization of the channel-socket by update_ioc_handlers and will
-have only G_IO_HUP to catch up.
-The second one is created during the "prepare" phase of the first one,
-in io_watch_poll_prepare. This one will have all the events we want
-to pull (G_IO_IN here).
-As they are referring to the same socket, the Windows API cannot know
-on which GSources we want to catch which events. The solution is then
-to avoid WSAEnumNetworkEvents for the master GSource which only has
-G_IO_HUP (or for any GSource having only that).
-As I said above, the current code doesn't do anything with it anyway.
-So, IMO, it's safe to do so.
-
-I'll send you my patch attached. I was planning to send it in the following
-weeks anyway. I was just waiting to be sure everything looks fine on our
-CI. Feel free to test and modify it if needed.
-
-PS: I don't know if it will correctly extend if I simply attach it to
-my mail. If not, tell me I'll simply copy-paste it, even if it might
-mess up the space/tab stuff.
-
-> >> >>
-> >> >> ---
-> >> >> During the testing, I removed the following codes in update_ioc_han=
-dlers():
-> >> >>
-> >> >>     remove_hup_source(s);
-> >> >>     s->hup_source =3D qio_channel_create_watch(s->ioc, G_IO_HUP);
-> >> >>     g_source_set_callback(s->hup_source, (GSourceFunc)tcp_chr_hup,
-> >> >>                           chr, NULL);
-> >> >>     g_source_attach(s->hup_source, chr->gcontext);
-> >> >>
-> >> >> and such change also makes the symptom go away.
-> >> >>
-> >> >> And if I moved the above codes to the beginning, before the call to
-> >> >> io_add_watch_poll(), the symptom also goes away.
-> >> >>
-> >> >> It seems two sources watching on the same socket event object is
-> >> >> the key that leads to the instability. The order of adding a source
-> >> >> watch seems to also play a role but I can't explain why.
-> >> >> Hopefully a Windows and glib expert could explain this behavior.
-> >> >>
-> >> >
-> >> > Feel free to leave that comment in the commit message.
-> >>
-> >> Sure, will add the above message into the commit in v2.
-> >>
-> >> >
-> >> > This is strange, as both sources should have different events, clear=
-ing one shouldn't affect the other.
-> >>
-> >> Both sources have the same event, as one QIO channel only has one
-> >> socket, and one socket can only be bound to one event.
-> >
-> >
-> >  "one socket can only be bound to one event", is that a WSAEventSelect =
-limitation?
-> >
+在 2022/8/25 16:08, Kangjie Xu 写道:
+> Introduce vhost_net_virtqueue_restart(), which can restart the
+> specific virtqueue when the vhost net started running before.
+> If it fails to restart the virtqueue, the device will be stopped.
 >
-> Yes, please see the MSDN:
+> Here we do not reuse vhost_net_start_one() or vhost_dev_start()
+> because they work at queue pair level. The mem table and features
+> do not change, so we can call the vhost_virtqueue_start() to
+> restart a specific queue.
 >
-> It is not possible to specify different event objects for different
-> network events. The following code will not work; the second call will
-> cancel the effects of the first, and only the FD_WRITE network event
-> will be associated with hEventObject2:
+> This patch only considers the case of vhost-kernel, when
+> NetClientDriver is NET_CLIENT_DRIVER_TAP.
 >
-> rc =3D WSAEventSelect(s, hEventObject1, FD_READ);
-> rc =3D WSAEventSelect(s, hEventObject2, FD_WRITE); //bad
+> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> ---
+>   hw/net/vhost_net.c      | 52 +++++++++++++++++++++++++++++++++++++++++
+>   include/net/vhost_net.h |  2 ++
+>   2 files changed, 54 insertions(+)
+>
+> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> index be51be98b3..0716f6cd96 100644
+> --- a/hw/net/vhost_net.c
+> +++ b/hw/net/vhost_net.c
+> @@ -536,3 +536,55 @@ void vhost_net_virtqueue_reset(VirtIODevice *vdev, NetClientState *nc,
+>   
+>       vhost_virtqueue_unmap(&net->dev, vdev, net->dev.vqs + idx, idx);
+>   }
+> +
+> +int vhost_net_virtqueue_restart(VirtIODevice *vdev, NetClientState *nc,
+> +                                int vq_index)
+> +{
+> +    VHostNetState *net = get_vhost_net(nc->peer);
+> +    const VhostOps *vhost_ops = net->dev.vhost_ops;
+> +    struct vhost_vring_file file = { };
+> +    int idx, r;
+> +
+> +    if (!net->dev.started) {
+> +        return 0;
+> +    }
 
-Yes, the Windows API is handled at socket levels. That's why having
-two GSources on the same sockets is problematic.
-Note that maybe there is a mix to be done between your patch with
-the update_ioc_handlers part to be removed and my patch which improves
-the polling of channel-watch.
 
-Thanks,
-Cl=C3=A9ment
+Should we return error in this case?
 
---000000000000f72d0c05e7e99b8b
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0001-io-switch-completely-to-Windows-API-for-socket-watch.patch"
-Content-Disposition: attachment; 
-	filename="0001-io-switch-completely-to-Windows-API-for-socket-watch.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_l7oh7h2n0>
-X-Attachment-Id: f_l7oh7h2n0
+Thanks
 
-RnJvbSAxOTQ4ZmMyNzNjNGY0Yjc4ZjkwYzhjYThmYmMyMjY0N2UzMGY0MzFjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiA9P1VURi04P3E/Q2w9QzM9QTltZW50PTIwQ2hpZ290Pz0gPGNo
-aWdvdEBhZGFjb3JlLmNvbT4KRGF0ZTogV2VkLCAyNCBBdWcgMjAyMiAxNTo0MjozMyArMDIwMApT
-dWJqZWN0OiBbUEFUQ0hdIGlvOiBzd2l0Y2ggY29tcGxldGVseSB0byBXaW5kb3dzIEFQSSBmb3Ig
-c29ja2V0IHdhdGNoIG9uCiB3aW4zMgoKVGhlIGN1cnJlbnQgaW1wbGVtZW50YXRpb24gaXMgdXNp
-bmcgYSBtaXhlZCBvZiBzZWxlY3QgYW5kIHRoZSBXaW5kb3dzCkFQSSAoV1NBU2VsZWN0RXZlbnQs
-IGV0YykuCkFzIHNlbGVjdCBkb2Vzbid0IGNsZWFyIHRoZSBXaW5kb3dzIGV2ZW50cywgV1NBRU51
-bU5ldHdvcmtFdmVudHMgbXVzdCBiZQpjYWxsZWQgYmVmb3JlIHNlbGVjdCB0byBkbyBpdC4KSG93
-ZXZlciwgYXMgdGhpcyBvcGVyYXRpb24gaXNuJ3QgbWFkZSBhdG9taWNhbGx5LCBzb21lIGV2ZW50
-cyBtaWdodCBiZQpyZXNldCBiZWZvcmUgYmVpbmcgcmV0cmlldmVkIGJ5IHNlbGVjdC4gUmVzdWx0
-aW5nIGluIHRoZW0gYmVpbmcgc2tpcHBlZApieSB0aGUgcG9sbGluZy4KCkluIG9yZGVyIHRvIGF2
-b2lkIHRoaXMgaXNzdWUsIHRoaXMgcGF0Y2ggaW1wcm92ZXMgc29ja2V0IHdhdGNoIHRvIGJlCmJh
-c2VkIHNvbGVseSBvbiBXaW5kb3dzIEFQSS4KCk5vdGUgdGhhdCBiZWNhdXNlIHNldmVyYWwgR1Nv
-dXJjZXMgbWlnaHQgYmUgY3JlYXRlZCBmb3IgdGhlIHNhbWUgSEFORExFLAp0aGlzIGltcGxlbWVu
-dGF0aW9uIGhhcyBubyB3YXkgdG8ga25vdyBvbiB3aGljaCBHU291cmNlcyBhbiBldmVudCBtdXN0
-IGJlCnJldHVybmVkLiBIb3dldmVyLCBpdCBzZWVtcyB0aGF0IG9ubHkgdHdvIEdTb3VyY2VzIGFy
-ZSBjcmVhdGVkLCBhIG1hc3RlcgpvbmUgd2l0aCBqdXN0ICJHX0lPX0hVUCIgYW5kIHRoZSBjaGls
-ZCBvbmUgd2hpY2ggYWltcyB0byByZXRyaWV2ZSBhbGwKdGhlIGV2ZW50cyAoaWUgd2l0aCAiR19J
-T19JTiIsICJHX0lPX09VVCIsIGV0YykuIFNvLCB0byBhdm9pZCB0aGUgbWFzdGVyCkdTb3VyY2Ug
-cmVjZWl2aW5nIGV2ZW50cyBtZWFudCBmb3IgdGhlIGNoaWxkLCB3ZSBhcmVuJ3QgY2FsbGluZwpX
-U0FFbnVtTmV0d29ya0V2ZW50cyBmb3IgaXQgKG9yIGZvciBhbnkgR1NvdXJjZSBoYXZpbmcgb25s
-eSBHX0lPX0hVUCBhcwpjb25kaXRpb24pLiBBcyBHX0lPX0hVUCB3YXMgbmV2ZXIgcmV0dXJuZWQg
-YnkgdGhlIHByZXZpb3VzLCBJIHN1cHBvc2VkCnRoYXQgaXQgc2hvdWxkIGJlIHNhZmUgdG8gZG8g
-c28uCgpUTjogVjgxMi0wMjAKQ2hhbmdlLUlkOiBJMDM3ZmJlOTNlMDY0MTg5NGIwMDk2YzM5YWNl
-NWQwZDY4ZGI4ZTJlMwotLS0KIGlvL2NoYW5uZWwtc29ja2V0LmMgfCAgMiArLQogaW8vY2hhbm5l
-bC13YXRjaC5jICB8IDU3ICsrKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLQogMiBmaWxlcyBjaGFuZ2VkLCAzMCBpbnNlcnRpb25zKCspLCAyOSBkZWxldGlvbnMoLSkK
-CmRpZmYgLS1naXQgYS9pby9jaGFubmVsLXNvY2tldC5jIGIvaW8vY2hhbm5lbC1zb2NrZXQuYwpp
-bmRleCBiNzZkY2E5Y2MxLi43NTUwMGU1NjQ3IDEwMDY0NAotLS0gYS9pby9jaGFubmVsLXNvY2tl
-dC5jCisrKyBiL2lvL2NoYW5uZWwtc29ja2V0LmMKQEAgLTY5LDcgKzY5LDcgQEAgcWlvX2NoYW5u
-ZWxfc29ja2V0X25ldyh2b2lkKQogICAgIHFpb19jaGFubmVsX3NldF9mZWF0dXJlKGlvYywgUUlP
-X0NIQU5ORUxfRkVBVFVSRV9TSFVURE9XTik7CiAKICNpZmRlZiBXSU4zMgotICAgIGlvYy0+ZXZl
-bnQgPSBDcmVhdGVFdmVudChOVUxMLCBGQUxTRSwgRkFMU0UsIE5VTEwpOworICAgIGlvYy0+ZXZl
-bnQgPSBXU0FDcmVhdGVFdmVudCgpOwogI2VuZGlmCiAKICAgICB0cmFjZV9xaW9fY2hhbm5lbF9z
-b2NrZXRfbmV3KHNpb2MpOwpkaWZmIC0tZ2l0IGEvaW8vY2hhbm5lbC13YXRjaC5jIGIvaW8vY2hh
-bm5lbC13YXRjaC5jCmluZGV4IDAyODliMzY0N2MuLjljOWFjYTQxZjUgMTAwNjQ0Ci0tLSBhL2lv
-L2NoYW5uZWwtd2F0Y2guYworKysgYi9pby9jaGFubmVsLXdhdGNoLmMKQEAgLTExNCw0NiArMTE0
-LDM5IEBAIHFpb19jaGFubmVsX3NvY2tldF9zb3VyY2VfcHJlcGFyZShHU291cmNlICpzb3VyY2Ug
-R19HTlVDX1VOVVNFRCwKIHN0YXRpYyBnYm9vbGVhbgogcWlvX2NoYW5uZWxfc29ja2V0X3NvdXJj
-ZV9jaGVjayhHU291cmNlICpzb3VyY2UpCiB7Ci0gICAgc3RhdGljIHN0cnVjdCB0aW1ldmFsIHR2
-MDsKLQogICAgIFFJT0NoYW5uZWxTb2NrZXRTb3VyY2UgKnNzb3VyY2UgPSAoUUlPQ2hhbm5lbFNv
-Y2tldFNvdXJjZSAqKXNvdXJjZTsKICAgICBXU0FORVRXT1JLRVZFTlRTIGV2OwotICAgIGZkX3Nl
-dCByZmRzLCB3ZmRzLCB4ZmRzOwogCiAgICAgaWYgKCFzc291cmNlLT5jb25kaXRpb24pIHsKICAg
-ICAgICAgcmV0dXJuIDA7CiAgICAgfQogCi0gICAgV1NBRW51bU5ldHdvcmtFdmVudHMoc3NvdXJj
-ZS0+c29ja2V0LCBzc291cmNlLT5pb2MtPmV2ZW50LCAmZXYpOwotCi0gICAgRkRfWkVSTygmcmZk
-cyk7Ci0gICAgRkRfWkVSTygmd2Zkcyk7Ci0gICAgRkRfWkVSTygmeGZkcyk7Ci0gICAgaWYgKHNz
-b3VyY2UtPmNvbmRpdGlvbiAmIEdfSU9fSU4pIHsKLSAgICAgICAgRkRfU0VUKChTT0NLRVQpc3Nv
-dXJjZS0+c29ja2V0LCAmcmZkcyk7Ci0gICAgfQotICAgIGlmIChzc291cmNlLT5jb25kaXRpb24g
-JiBHX0lPX09VVCkgewotICAgICAgICBGRF9TRVQoKFNPQ0tFVClzc291cmNlLT5zb2NrZXQsICZ3
-ZmRzKTsKLSAgICB9Ci0gICAgaWYgKHNzb3VyY2UtPmNvbmRpdGlvbiAmIEdfSU9fUFJJKSB7Ci0g
-ICAgICAgIEZEX1NFVCgoU09DS0VUKXNzb3VyY2UtPnNvY2tldCwgJnhmZHMpOworICAgIC8qIEZv
-ciBub3csIHdlIGRvbid0IHN1cHBvcnQgR19JT19IVVAgY2hlY2tzLgorICAgICAgIFdlIHdhbnQg
-dG8gYXZvaWQgY2FsbGluZyBXU0FFbnVtTmV0d29ya0V2ZW50cyBmb3IgYW55IEdTb3VyY2UKKyAg
-ICAgICBoYXZpbmcganVzdCBHX0lPX0hVUC4gSXQgbWlnaHQgaGlkZSBldmVudHMgYWltZWQgdG8g
-YmUgcmV0cmlldmVkIGJ5CisgICAgICAgb3RoZXIgR1NvdXJjZXMgd2FpdGluZyBpbnB1dHMgb3Ig
-b3V0cHV0cyAoaWUgd2l0aCBHX0lPX0lOIG9yIEdfSU9fT1VUKS4KKyAgICAgICBUaGUgcmVhc29u
-IGlzIHRoYXQgdGhlIFdpbmRvd3MgQVBJIGlzIGJhc2VkIG9uIEhBTkRMRSBidXQgd2Ugb2Z0ZW4K
-KyAgICAgICBjcmVhdGUgc2V2ZXJhbCBHU291cmNlcyBmb3IgdGhlIHNhbWUgSEFORExFLiBUaHVz
-LCBpbnB1dCBldmVudHMgbWlnaHQKKyAgICAgICBiZSBwaWNrZWQgYW5kIGNsZWFyZWQgYnkgdGhl
-IEdfSU9fSFVQIEdTb3VyY2UuICAqLworICAgIGlmIChzc291cmNlLT5jb25kaXRpb24gPT0gR19J
-T19IVVApIHsKKyAgICAgICAgcmV0dXJuIDA7CiAgICAgfQotICAgIHNzb3VyY2UtPnJldmVudHMg
-PSAwOwotICAgIGlmIChzZWxlY3QoMCwgJnJmZHMsICZ3ZmRzLCAmeGZkcywgJnR2MCkgPT0gMCkg
-eworCisgICAgaWYgKFdTQUVudW1OZXR3b3JrRXZlbnRzKHNzb3VyY2UtPnNvY2tldCwgc3NvdXJj
-ZS0+aW9jLT5ldmVudCwgJmV2KSkgewogICAgICAgICByZXR1cm4gMDsKICAgICB9CiAKLSAgICBp
-ZiAoRkRfSVNTRVQoc3NvdXJjZS0+c29ja2V0LCAmcmZkcykpIHsKKyAgICBzc291cmNlLT5yZXZl
-bnRzID0gMDsKKworICAgIGlmIChldi5sTmV0d29ya0V2ZW50cyAmIChGRF9SRUFEIHwgRkRfQUND
-RVBUIHwgRkRfT09CKSkgewogICAgICAgICBzc291cmNlLT5yZXZlbnRzIHw9IEdfSU9fSU47CiAg
-ICAgfQotICAgIGlmIChGRF9JU1NFVChzc291cmNlLT5zb2NrZXQsICZ3ZmRzKSkgeworCisgICAg
-aWYgKGV2LmxOZXR3b3JrRXZlbnRzICYgKEZEX1dSSVRFIHwgRkRfQ09OTkVDVCkpIHsKICAgICAg
-ICAgc3NvdXJjZS0+cmV2ZW50cyB8PSBHX0lPX09VVDsKICAgICB9Ci0gICAgaWYgKEZEX0lTU0VU
-KHNzb3VyY2UtPnNvY2tldCwgJnhmZHMpKSB7Ci0gICAgICAgIHNzb3VyY2UtPnJldmVudHMgfD0g
-R19JT19QUkk7Ci0gICAgfQogCi0gICAgcmV0dXJuIHNzb3VyY2UtPnJldmVudHM7CisgICAgcmV0
-dXJuIHNzb3VyY2UtPnJldmVudHMgJiBzc291cmNlLT5jb25kaXRpb247CiB9CiAKIApAQCAtMTc0
-LDYgKzE2Nyw3IEBAIHFpb19jaGFubmVsX3NvY2tldF9zb3VyY2VfZmluYWxpemUoR1NvdXJjZSAq
-c291cmNlKQogewogICAgIFFJT0NoYW5uZWxTb2NrZXRTb3VyY2UgKnNzb3VyY2UgPSAoUUlPQ2hh
-bm5lbFNvY2tldFNvdXJjZSAqKXNvdXJjZTsKIAorCiAgICAgb2JqZWN0X3VucmVmKE9CSkVDVChz
-c291cmNlLT5pb2MpKTsKIH0KIApAQCAtMjg2LDkgKzI4MCwxNiBAQCBHU291cmNlICpxaW9fY2hh
-bm5lbF9jcmVhdGVfc29ja2V0X3dhdGNoKFFJT0NoYW5uZWwgKmlvYywKICAgICBRSU9DaGFubmVs
-U29ja2V0U291cmNlICpzc291cmNlOwogCiAjaWZkZWYgV0lOMzIKLSAgICBXU0FFdmVudFNlbGVj
-dChzb2NrZXQsIGlvYy0+ZXZlbnQsCi0gICAgICAgICAgICAgICAgICAgRkRfUkVBRCB8IEZEX0FD
-Q0VQVCB8IEZEX0NMT1NFIHwKLSAgICAgICAgICAgICAgICAgICBGRF9DT05ORUNUIHwgRkRfV1JJ
-VEUgfCBGRF9PT0IpOworICAgIGludCBldiA9IDA7CisKKyAgICBpZiAoY29uZGl0aW9uICYgR19J
-T19JTikgeworICAgICAgICBldiB8PSAoRkRfUkVBRCB8IEZEX0FDQ0VQVCB8IEZEX09PQik7Cisg
-ICAgfQorICAgIGlmIChjb25kaXRpb24gJiBHX0lPX09VVCkgeworICAgICAgICBldiB8PSAoRkRf
-V1JJVEUgfCBGRF9DT05ORUNUKTsKKyAgICB9CisKKyAgICBXU0FFdmVudFNlbGVjdChzb2NrZXQs
-IGlvYy0+ZXZlbnQsIGV2KTsKICNlbmRpZgogCiAgICAgc291cmNlID0gZ19zb3VyY2VfbmV3KCZx
-aW9fY2hhbm5lbF9zb2NrZXRfc291cmNlX2Z1bmNzLApAQCAtMzAzLDcgKzMwNCw3IEBAIEdTb3Vy
-Y2UgKnFpb19jaGFubmVsX2NyZWF0ZV9zb2NrZXRfd2F0Y2goUUlPQ2hhbm5lbCAqaW9jLAogICAg
-IHNzb3VyY2UtPnJldmVudHMgPSAwOwogCiAgICAgc3NvdXJjZS0+ZmQuZmQgPSAoZ2ludHB0cilp
-b2MtPmV2ZW50OwotICAgIHNzb3VyY2UtPmZkLmV2ZW50cyA9IEdfSU9fSU47CisgICAgc3NvdXJj
-ZS0+ZmQuZXZlbnRzID0gY29uZGl0aW9uOwogCiAgICAgZ19zb3VyY2VfYWRkX3BvbGwoc291cmNl
-LCAmc3NvdXJjZS0+ZmQpOwogCi0tIAoyLjI1LjEKCg==
---000000000000f72d0c05e7e99b8b--
+
+> +
+> +    /* should only be called after backend is connected */
+> +    assert(vhost_ops);
+> +
+> +    idx = vhost_ops->vhost_get_vq_index(&net->dev, vq_index);
+> +
+> +    r = vhost_virtqueue_start(&net->dev,
+> +                              vdev,
+> +                              net->dev.vqs + idx,
+> +                              net->dev.vq_index + idx);
+> +    if (r < 0) {
+> +        goto err_start;
+> +    }
+> +
+> +    if (net->nc->info->type == NET_CLIENT_DRIVER_TAP) {
+> +        file.index = idx;
+> +        file.fd = net->backend;
+> +        r = vhost_net_set_backend(&net->dev, &file);
+> +        if (r < 0) {
+> +            r = -errno;
+> +            goto err_start;
+> +        }
+> +    }
+> +
+> +    return 0;
+> +
+> +err_start:
+> +    error_report("Error when restarting the queue.");
+> +
+> +    if (net->nc->info->type == NET_CLIENT_DRIVER_TAP) {
+> +        file.fd = -1;
+> +        file.index = idx;
+> +        int r = vhost_net_set_backend(&net->dev, &file);
+> +        assert(r >= 0);
+> +    }
+> +
+> +    vhost_dev_stop(&net->dev, vdev);
+> +
+> +    return r;
+> +}
+> diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
+> index 85d85a4957..40b9a40074 100644
+> --- a/include/net/vhost_net.h
+> +++ b/include/net/vhost_net.h
+> @@ -50,4 +50,6 @@ int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu);
+>   
+>   void vhost_net_virtqueue_reset(VirtIODevice *vdev, NetClientState *nc,
+>                                  int vq_index);
+> +int vhost_net_virtqueue_restart(VirtIODevice *vdev, NetClientState *nc,
+> +                                int vq_index);
+>   #endif
+
 
