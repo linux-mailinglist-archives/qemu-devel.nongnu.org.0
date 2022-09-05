@@ -2,59 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3125B5AD799
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 18:34:09 +0200 (CEST)
-Received: from localhost ([::1]:45826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C3555AD7B9
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 18:41:59 +0200 (CEST)
+Received: from localhost ([::1]:46834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVF31-0004le-Sh
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 12:34:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44646)
+	id 1oVFAb-0000bs-Af
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 12:41:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1oVF0N-0002a3-DK; Mon, 05 Sep 2022 12:31:24 -0400
-Received: from [200.168.210.66] (port=1241 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <victor.colombo@eldorado.org.br>)
- id 1oVF0L-00024K-2P; Mon, 05 Sep 2022 12:31:23 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 5 Sep 2022 13:31:16 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id DFB1A8001D1;
- Mon,  5 Sep 2022 13:31:15 -0300 (-03)
-Message-ID: <20affe6c-fc70-78fe-ae3c-da5b66518320@eldorado.org.br>
-Date: Mon, 5 Sep 2022 13:31:14 -0300
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oVF8W-0007J4-Ku
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 12:39:48 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:34781)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oVF8V-0003DP-0g
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 12:39:48 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id z21so1974372edi.1
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 09:39:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=fiYa+bP97eG+wQcfayoeQ3geZEccRlmA5MPJU77GJHc=;
+ b=KL+cTUKUQJq+5pHZJjwme8WfNGdZxQjZc/PTa3YVSnMgSDojm1Vwx1s+E2prQnciKe
+ Xs0cTI3Ahi60EHz+0vf45jvQf4mJnagvjSYJtK3BkDUuGB0i0aKGn41Norlgw7Ih62gg
+ jZuz7uWfrPg/ddWnn9PI49daf87kU/S+xGUEUUCmNUvCD5SIQsfcbcBwMGJzZgFniXyh
+ Lvt1RoCX8iY7XScRtI2Qmp2WwJ9PE+LCSpenyhlISAJpL/tbaeV1NShVEyLhPR0gP015
+ PPzI3E5pqVftOnfT2oK+BbxAHJ+u4QiAJy2f2dU1Ys7tI7ucfA4keVfvWfi07h3lEAGO
+ rkoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=fiYa+bP97eG+wQcfayoeQ3geZEccRlmA5MPJU77GJHc=;
+ b=l3amsaW39WxvRwkBY5vH/SKeFPhcQt0M1JYk6KPiZ/G87xqeZm3LKMREdaCCt4SRs7
+ NqS7Wj3Qdi2TNFfytaxZGqjp5euEllXSQ069JDHIISmherRshT/kLTtfWCp/gFTQpcyl
+ 339odcwa7ZvyIBBvLZvbn9jVRDG280hOKq9779jkQWC7E9W0ESLvp62q6gE6v3Gcp7LS
+ PmgJvV5edtfoVRATe4b7mi0ppbxFks0Os6egGgfm7OOG9WbunJJzpMb5o+lU1cJKysi5
+ BeLyiLuCJuBgUmLWNE216wwtp1kUW7Jsl84saRlauzm6zW3IC3jVE9PMThHi7IfVcbbv
+ xGPg==
+X-Gm-Message-State: ACgBeo3m6EXwmaa5CToUD3xHNcWBS3QIKNDK4ca+rKUxqu8Gz50rQkvI
+ funDWLlk0nAxFbNQqWVAyUcARA==
+X-Google-Smtp-Source: AA6agR59rCygW4HAG6XoIuTzV29mJHqV+8VyJcLIAcUqxTv8GeNA5cfV0yt8VqjVblntsnwntU7Xvw==
+X-Received: by 2002:a50:baea:0:b0:448:182d:9bc2 with SMTP id
+ x97-20020a50baea000000b00448182d9bc2mr37419693ede.341.1662395985193; 
+ Mon, 05 Sep 2022 09:39:45 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ u9-20020a1709061da900b007477ee86946sm5192076ejh.87.2022.09.05.09.39.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Sep 2022 09:39:44 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 325C91FFB7;
+ Mon,  5 Sep 2022 17:39:44 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [RFC PATCH] docs/system: clean up code escape for riscv virt platform
+Date: Mon,  5 Sep 2022 17:39:39 +0100
+Message-Id: <20220905163939.1599368-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 3/3] target/ppc: Merge fsqrt and fsqrts helpers
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, matheus.ferst@eldorado.org.br, lucas.araujo@eldorado.org.br,
- leandro.lupori@eldorado.org.br, lucas.coutinho@eldorado.org.br
-References: <20220905123746.54659-1-victor.colombo@eldorado.org.br>
- <20220905123746.54659-4-victor.colombo@eldorado.org.br>
- <f2fac00a-cacb-25b3-f6ae-9f35a82ab440@linaro.org>
- <e3153a0e-4451-3b21-7821-6877d78868e8@eldorado.org.br>
- <6dbd2eb5-efd6-073a-a106-4afbb8abcfc2@linaro.org>
-From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
-In-Reply-To: <6dbd2eb5-efd6-073a-a106-4afbb8abcfc2@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-OriginalArrivalTime: 05 Sep 2022 16:31:16.0399 (UTC)
- FILETIME=[EBB6C3F0:01D8C144]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.716,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,33 +91,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gMDUvMDkvMjAyMiAxMzoyMSwgUmljaGFyZCBIZW5kZXJzb24gd3JvdGU6DQo+IE9uIDkv
-NS8yMiAxNzoxOSwgVsOtY3RvciBDb2xvbWJvIHdyb3RlOg0KPj4+IEV4aXN0aW5nIGJ1Zywg
-YnV0IHRoaXMgaXMgbWlzc2luZyB0byBjbGVhciBmcCBzdGF0dXMgdG8gc3RhcnQuDQo+Pj4N
-Cj4+PiBSZXZpZXdlZC1ieTogUmljaGFyZCBIZW5kZXJzb24gPHJpY2hhcmQuaGVuZGVyc29u
-QGxpbmFyby5vcmc+DQo+Pj4NCj4+PiByfg0KPj4+DQo+Pg0KPj4gSGVsbG8gUmljaGFyZCwg
-dGhhbmtzIGZvciB5b3VyIHJldmlldyENCj4+IGdlbl9yZXNldF9mcHN0YXR1cygpIGlzIGNh
-bGxlZCBieSB0aGUgaW5saW5lIGltcGxlbWVudGF0aW9uIGluDQo+PiBkb19oZWxwZXJfZnNx
-cnQoKSBiZWZvcmUgY2FsbGluZyB0aGUgaGVscGVyIChwYXRjaCAxKS4NCj4gDQo+IE9vcHMs
-IG9rLg0KPiANCj4gDQo+PiBJdCdzIHByb2JhYmx5IGJldHRlciB0byBtb3ZlIHRoZSBjYWxs
-IHRvIGluc2lkZSB0aGUgaGVscGVyLg0KPiANCj4gSSBkaWQgd3JpdGUgYWJvdXQgYSBzY2hl
-bWUgYnkgd2hpY2ggYWxsIG9mIHRoZXNlIGNhbGxzIHNob3VsZCBnbyBhd2F5LiAgDQo+IEkg
-Z3Vlc3MgaXQgaGFzDQo+IGJlZW4gYSB3aGlsZS4uLg0KPiANCj4gDQo+IHJ+DQoNCkkgaGF2
-ZSBhIG1lc3NhZ2UgYm9va21hcmtlZCBoZXJlIChbMV0pLCBidXQgSSBkb24ndCBrbm93IGlm
-IHRoZXJlIGlzIGENCnByZXZpb3VzIG9uZSB3aXRoIGEgbW9yZSBpbiBkZXB0aCBzY2hlbWUu
-DQpBbnl3YXksIEkgd2FzIGFsc28gYW5hbHl6aW5nIHJlY2VudGx5IHRoZSBpZGVhIG9mIHJl
-bW92aW5nIGFsbCB0aGVzZQ0KcmVzZXRfZnBzdGF0dXMoKSBjYWxscyBmcm9tIGluc3RydWN0
-aW9ucyBoZWxwZXJzLiBJIHRoaW5rIHRoaXMgd291bGQNCnJlcXVpcmUgdG8gYWN0dWFsbHkg
-Y2FsbCBpdCBmcm9tIHRoZSBlbmQgb2YgdGhlIChwcmV2aW91cykgaW5zdHJ1Y3Rpb25zIA0K
-aW5zdGVhZCBvZiB0aGUgYmVnaW5uaW5nPyBMaWtlIGFkZGluZyB0aGUgY2FsbCB0bw0KZG9f
-ZmxvYXRfY2hlY2tfc3RhdHVzKCkgYW5kIGZsb2F0X2ludmFsaWRfb3BfKigpIGFzIGEgZm9j
-YWwgcG9pbnQgdG8NCidoaWRlJyB0aGUgY2FsbHMgdG8gcmVzZXRfZnBzdGF0dXMoKS4gSG93
-ZXZlciB0aGVyZSBhcmUgYWxzbyBpbnNucw0KaGVscGVycyB0aGF0IGRvbid0IGNhbGwgdGhl
-c2UgYXV4aWxpYXJ5IGZ1bmN0aW9ucywgd2hpY2ggSSB0aGluayB3b3VsZA0KY2F1c2UgdGhl
-IHJlZmFjdG9yIHRvIG5vdCBiZSB3b3J0aHkgb3ZlcmFsbC4NCkRpZCB5b3UgaGF2ZSBhbm90
-aGVyIGlkZWEgdGhhdCBjb3VsZCBiZSBzaW1wbGVyPw0KDQpbMV0gaHR0cHM6Ly9saXN0cy5n
-bnUub3JnL2FyY2hpdmUvaHRtbC9xZW11LWRldmVsLzIwMjAtMDUvbXNnMDAwNjQuaHRtbA0K
-DQoNCi0tIA0KVsOtY3RvciBDb3JhIENvbG9tYm8NCkluc3RpdHV0byBkZSBQZXNxdWlzYXMg
-RUxET1JBRE8NCkF2aXNvIExlZ2FsIC0gRGlzY2xhaW1lciA8aHR0cHM6Ly93d3cuZWxkb3Jh
-ZG8ub3JnLmJyL2Rpc2NsYWltZXIuaHRtbD4NCg==
+The example code is rendered slightly mangled due to missing code
+block. Properly escape the code block and add shell prompt and qemu to
+fit in with the other examples on the page.
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ docs/system/riscv/virt.rst | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/docs/system/riscv/virt.rst b/docs/system/riscv/virt.rst
+index f8ecec95f3..4b16e41d7f 100644
+--- a/docs/system/riscv/virt.rst
++++ b/docs/system/riscv/virt.rst
+@@ -168,14 +168,19 @@ Enabling TPM
+ 
+ A TPM device can be connected to the virt board by following the steps below.
+ 
+-First launch the TPM emulator
++First launch the TPM emulator:
+ 
+-    swtpm socket --tpm2 -t -d --tpmstate dir=/tmp/tpm \
++.. code-block:: bash
++
++  $ swtpm socket --tpm2 -t -d --tpmstate dir=/tmp/tpm \
+         --ctrl type=unixio,path=swtpm-sock
+ 
+-Then launch QEMU with:
++Then launch QEMU with some additional arguments to link a TPM device to the backend:
++
++.. code-block:: bash
+ 
+-    ...
++  $ qemu-system-riscv64 \
++    ... other args .... \
+     -chardev socket,id=chrtpm,path=swtpm-sock \
+     -tpmdev emulator,id=tpm0,chardev=chrtpm \
+     -device tpm-tis-device,tpmdev=tpm0
+-- 
+2.34.1
+
 
