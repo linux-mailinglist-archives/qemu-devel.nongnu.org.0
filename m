@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D54EB5AD76F
-	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 18:27:47 +0200 (CEST)
-Received: from localhost ([::1]:55392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3125B5AD799
+	for <lists+qemu-devel@lfdr.de>; Mon,  5 Sep 2022 18:34:09 +0200 (CEST)
+Received: from localhost ([::1]:45826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVEwt-0002Da-2N
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 12:27:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38984)
+	id 1oVF31-0004le-Sh
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 12:34:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oVEv8-0000l9-UW
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 12:25:58 -0400
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:56259)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oVEuy-0001I6-MH
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 12:25:52 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R131e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045192;
- MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0VOVTnk._1662395140; 
-Received: from 30.13.176.16(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VOVTnk._1662395140) by smtp.aliyun-inc.com;
- Tue, 06 Sep 2022 00:25:41 +0800
-Message-ID: <7d0b6e52-c6c7-bd6d-3669-659a2573e133@linux.alibaba.com>
-Date: Tue, 6 Sep 2022 00:25:39 +0800
+ (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1oVF0N-0002a3-DK; Mon, 05 Sep 2022 12:31:24 -0400
+Received: from [200.168.210.66] (port=1241 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1oVF0L-00024K-2P; Mon, 05 Sep 2022 12:31:23 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Mon, 5 Sep 2022 13:31:16 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id DFB1A8001D1;
+ Mon,  5 Sep 2022 13:31:15 -0300 (-03)
+Message-ID: <20affe6c-fc70-78fe-ae3c-da5b66518320@eldorado.org.br>
+Date: Mon, 5 Sep 2022 13:31:14 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-Subject: Re: [PATCH v3 13/15] virtio-net: support queue reset
-To: Jason Wang <jasowang@redhat.com>
-References: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
- <8577963f4b72f30c5dd1adfe661b08e57d26c453.1661414345.git.kangjie.xu@linux.alibaba.com>
- <8e7c93bc-2430-f0fb-d425-5e43fde23c14@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- eduardo@habkost.net, marcel.apfelbaum@gmail.com, f4bug@amsat.org,
- wangyanan55@huawei.com, hengqi@linux.alibaba.com,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-In-Reply-To: <8e7c93bc-2430-f0fb-d425-5e43fde23c14@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 3/3] target/ppc: Merge fsqrt and fsqrts helpers
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, matheus.ferst@eldorado.org.br, lucas.araujo@eldorado.org.br,
+ leandro.lupori@eldorado.org.br, lucas.coutinho@eldorado.org.br
+References: <20220905123746.54659-1-victor.colombo@eldorado.org.br>
+ <20220905123746.54659-4-victor.colombo@eldorado.org.br>
+ <f2fac00a-cacb-25b3-f6ae-9f35a82ab440@linaro.org>
+ <e3153a0e-4451-3b21-7821-6877d78868e8@eldorado.org.br>
+ <6dbd2eb5-efd6-073a-a106-4afbb8abcfc2@linaro.org>
+From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
+In-Reply-To: <6dbd2eb5-efd6-073a-a106-4afbb8abcfc2@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.132;
- envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-132.freemail.mail.aliyun.com
-X-Spam_score_int: -115
-X-Spam_score: -11.6
-X-Spam_bar: -----------
-X-Spam_report: (-11.6 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-1.716, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: base64
+X-OriginalArrivalTime: 05 Sep 2022 16:31:16.0399 (UTC)
+ FILETIME=[EBB6C3F0:01D8C144]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.716,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,118 +70,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2022/9/5 16:30, Jason Wang 写道:
->
-> 在 2022/8/25 16:08, Kangjie Xu 写道:
->> From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
->>
->> virtio-net and vhost-kernel implement queue reset.
->> Queued packets in the corresponding queue pair are flushed
->> or purged.
->>
->> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
->> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
->> ---
->>   hw/net/virtio-net.c | 18 ++++++++++++++++++
->>   1 file changed, 18 insertions(+)
->>
->> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
->> index 27b59c0ad6..d774a3e652 100644
->> --- a/hw/net/virtio-net.c
->> +++ b/hw/net/virtio-net.c
->> @@ -540,6 +540,23 @@ static RxFilterInfo 
->> *virtio_net_query_rxfilter(NetClientState *nc)
->>       return info;
->>   }
->>   +static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t 
->> queue_index)
->> +{
->> +    VirtIONet *n = VIRTIO_NET(vdev);
->> +    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
->> +
->> +    if (!nc->peer) {
->> +        return;
->> +    }
->> +
->> +    if (get_vhost_net(nc->peer) &&
->> +        nc->peer->info->type == NET_CLIENT_DRIVER_TAP) {
->> +        vhost_net_virtqueue_reset(vdev, nc, queue_index);
->> +    }
->> +
->> +    flush_or_purge_queued_packets(nc);
->
->
-> But the codes doesn't prevent the usersapce datapath from being used? 
-> (e.g vhost=off)
->
-> E.g vhost_net_start_one() had:
->
->     if (net->nc->info->poll) {
->         net->nc->info->poll(net->nc, false);
->     }
-I review this part in vhost_net_start/stop_one().
-
-I didn't take the usersapce datapath into consideration. If we don't 
-prevent it, the userspace datapath may access it and causes some 
-problems. From this point, we should disable it.
-
-But if we add net->nc->info->poll in vq reset, it can only operate at 
-queue-pair level, which obeys "per-virtqueue".
-
-What's your opinion on this point? I think it's ok to add it in vq reset.
-
->
-> And I will wonder if it's better to consider to:
->
-> 1) factor out the per virtqueue start/stop from 
-> vhost_net_start/stop_one()
->
-> 2) simply use the helper factored out via step 1)
->
-> Thanks
->
-I have a different idea about it, vhost_virtqueue_start/stop()(in 
-hw/virtio/vhost.c) are already good abstractions of per virtqueue 
-start/stop.
-
-These two functions are used in vhost_dev_start. It's just because 
-vhost-net needs some configuration, so we add net->nc->info->poll and 
-set_backend for it. But for other devices using vhost_dev_start, 
-set_backend and net->nc->info->poll may be not necessary.
-
-I think your apporach to abstract per virtqueue start/stop from 
-vhost_net_start/stop_one() will break the generality of 
-vhost_dev_start(), which is a common interface for different devices.
-
-To conclude my opinions
-
-1. I think we need to add net->nc->info->poll in our 
-vhost_net_virtqueue_reset() and vhost_net_virtqueue_restart()
-
-2. We still need vhost_net_virtqueue_reset() and 
-vhost_net_virtqueue_restart().
-
-     a. vhost_net_virtqueue_reset() is a wrapper for vhost_virtqueue_stop().
-
-     b. vhost_net_virtqueue_restart() is a wrapper for 
-vhost_virtqueue_start().
-
-Thanks
-
->
->> +}
->> +
->>   static void virtio_net_reset(VirtIODevice *vdev)
->>   {
->>       VirtIONet *n = VIRTIO_NET(vdev);
->> @@ -3784,6 +3801,7 @@ static void virtio_net_class_init(ObjectClass 
->> *klass, void *data)
->>       vdc->set_features = virtio_net_set_features;
->>       vdc->bad_features = virtio_net_bad_features;
->>       vdc->reset = virtio_net_reset;
->> +    vdc->queue_reset = virtio_net_queue_reset;
->>       vdc->set_status = virtio_net_set_status;
->>       vdc->guest_notifier_mask = virtio_net_guest_notifier_mask;
->>       vdc->guest_notifier_pending = virtio_net_guest_notifier_pending;
+T24gMDUvMDkvMjAyMiAxMzoyMSwgUmljaGFyZCBIZW5kZXJzb24gd3JvdGU6DQo+IE9uIDkv
+NS8yMiAxNzoxOSwgVsOtY3RvciBDb2xvbWJvIHdyb3RlOg0KPj4+IEV4aXN0aW5nIGJ1Zywg
+YnV0IHRoaXMgaXMgbWlzc2luZyB0byBjbGVhciBmcCBzdGF0dXMgdG8gc3RhcnQuDQo+Pj4N
+Cj4+PiBSZXZpZXdlZC1ieTogUmljaGFyZCBIZW5kZXJzb24gPHJpY2hhcmQuaGVuZGVyc29u
+QGxpbmFyby5vcmc+DQo+Pj4NCj4+PiByfg0KPj4+DQo+Pg0KPj4gSGVsbG8gUmljaGFyZCwg
+dGhhbmtzIGZvciB5b3VyIHJldmlldyENCj4+IGdlbl9yZXNldF9mcHN0YXR1cygpIGlzIGNh
+bGxlZCBieSB0aGUgaW5saW5lIGltcGxlbWVudGF0aW9uIGluDQo+PiBkb19oZWxwZXJfZnNx
+cnQoKSBiZWZvcmUgY2FsbGluZyB0aGUgaGVscGVyIChwYXRjaCAxKS4NCj4gDQo+IE9vcHMs
+IG9rLg0KPiANCj4gDQo+PiBJdCdzIHByb2JhYmx5IGJldHRlciB0byBtb3ZlIHRoZSBjYWxs
+IHRvIGluc2lkZSB0aGUgaGVscGVyLg0KPiANCj4gSSBkaWQgd3JpdGUgYWJvdXQgYSBzY2hl
+bWUgYnkgd2hpY2ggYWxsIG9mIHRoZXNlIGNhbGxzIHNob3VsZCBnbyBhd2F5LiAgDQo+IEkg
+Z3Vlc3MgaXQgaGFzDQo+IGJlZW4gYSB3aGlsZS4uLg0KPiANCj4gDQo+IHJ+DQoNCkkgaGF2
+ZSBhIG1lc3NhZ2UgYm9va21hcmtlZCBoZXJlIChbMV0pLCBidXQgSSBkb24ndCBrbm93IGlm
+IHRoZXJlIGlzIGENCnByZXZpb3VzIG9uZSB3aXRoIGEgbW9yZSBpbiBkZXB0aCBzY2hlbWUu
+DQpBbnl3YXksIEkgd2FzIGFsc28gYW5hbHl6aW5nIHJlY2VudGx5IHRoZSBpZGVhIG9mIHJl
+bW92aW5nIGFsbCB0aGVzZQ0KcmVzZXRfZnBzdGF0dXMoKSBjYWxscyBmcm9tIGluc3RydWN0
+aW9ucyBoZWxwZXJzLiBJIHRoaW5rIHRoaXMgd291bGQNCnJlcXVpcmUgdG8gYWN0dWFsbHkg
+Y2FsbCBpdCBmcm9tIHRoZSBlbmQgb2YgdGhlIChwcmV2aW91cykgaW5zdHJ1Y3Rpb25zIA0K
+aW5zdGVhZCBvZiB0aGUgYmVnaW5uaW5nPyBMaWtlIGFkZGluZyB0aGUgY2FsbCB0bw0KZG9f
+ZmxvYXRfY2hlY2tfc3RhdHVzKCkgYW5kIGZsb2F0X2ludmFsaWRfb3BfKigpIGFzIGEgZm9j
+YWwgcG9pbnQgdG8NCidoaWRlJyB0aGUgY2FsbHMgdG8gcmVzZXRfZnBzdGF0dXMoKS4gSG93
+ZXZlciB0aGVyZSBhcmUgYWxzbyBpbnNucw0KaGVscGVycyB0aGF0IGRvbid0IGNhbGwgdGhl
+c2UgYXV4aWxpYXJ5IGZ1bmN0aW9ucywgd2hpY2ggSSB0aGluayB3b3VsZA0KY2F1c2UgdGhl
+IHJlZmFjdG9yIHRvIG5vdCBiZSB3b3J0aHkgb3ZlcmFsbC4NCkRpZCB5b3UgaGF2ZSBhbm90
+aGVyIGlkZWEgdGhhdCBjb3VsZCBiZSBzaW1wbGVyPw0KDQpbMV0gaHR0cHM6Ly9saXN0cy5n
+bnUub3JnL2FyY2hpdmUvaHRtbC9xZW11LWRldmVsLzIwMjAtMDUvbXNnMDAwNjQuaHRtbA0K
+DQoNCi0tIA0KVsOtY3RvciBDb3JhIENvbG9tYm8NCkluc3RpdHV0byBkZSBQZXNxdWlzYXMg
+RUxET1JBRE8NCkF2aXNvIExlZ2FsIC0gRGlzY2xhaW1lciA8aHR0cHM6Ly93d3cuZWxkb3Jh
+ZG8ub3JnLmJyL2Rpc2NsYWltZXIuaHRtbD4NCg==
 
