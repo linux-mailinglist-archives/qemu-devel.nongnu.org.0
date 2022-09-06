@@ -2,68 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46FCC5AE270
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 10:26:54 +0200 (CEST)
-Received: from localhost ([::1]:50144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBA8C5AE28D
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 10:30:06 +0200 (CEST)
+Received: from localhost ([::1]:59752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVTv2-0003Ze-R0
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 04:26:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41630)
+	id 1oVTyA-0006sG-0W
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 04:30:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oVTm7-0007Wz-Fo
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 04:17:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60487)
+ (Exim 4.90_1) (envelope-from <nrb@linux.ibm.com>)
+ id 1oVTmD-0007ZM-Kb; Tue, 06 Sep 2022 04:17:46 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:22268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oVTm0-0002AG-IY
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 04:17:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662452252;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oqLHtBKy/V3giRuWxnYHs821O4uHxlNtGLZqUN1lQhg=;
- b=b6yFSeV0s/y90Ofc01yqJHQ/bIrHbutFuYBNHz6vAwSO/Dy8JO2UBWR57l1rsL6M6iANks
- PSu8Kjy2WeuugxyGz1XR5VV71B8w9trFs42J7ZMCXDeQ3rC5gJ3PtOC7HMEwSnr0pX8Fwn
- TO9nGmkvJjsgqcVJo0qBQWLSkJGj2tg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-515-esxTGp38M-qu7YO8PM0Ujw-1; Tue, 06 Sep 2022 04:17:28 -0400
-X-MC-Unique: esxTGp38M-qu7YO8PM0Ujw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B9FA299E745;
- Tue,  6 Sep 2022 08:17:28 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5632C1121314;
- Tue,  6 Sep 2022 08:17:28 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1C54D21E6900; Tue,  6 Sep 2022 10:17:27 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Claudio Fontana <cfontana@suse.de>,  qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: sphinx-build is really slow, any way to improve that?
-References: <53b94520-f02b-aef5-b372-0460531b566f@suse.de>
- <CAFEAcA_ed-ny6eodA=9fK6Y5WpUaRO0jPfbKHYCB6uLikiyiHQ@mail.gmail.com>
-Date: Tue, 06 Sep 2022 10:17:27 +0200
-In-Reply-To: <CAFEAcA_ed-ny6eodA=9fK6Y5WpUaRO0jPfbKHYCB6uLikiyiHQ@mail.gmail.com>
- (Peter Maydell's message of "Mon, 5 Sep 2022 22:21:55 +0100")
-Message-ID: <87h71k533c.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <nrb@linux.ibm.com>)
+ id 1oVTmB-0002BS-3X; Tue, 06 Sep 2022 04:17:45 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2867oim5016985;
+ Tue, 6 Sep 2022 08:17:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=content-type :
+ mime-version : content-transfer-encoding : in-reply-to : references : cc :
+ from : subject : to : message-id : date; s=pp1;
+ bh=fp9OOmG/9g1zZazjh+DBY2mTkvbgTxVNcbCt45GosbE=;
+ b=UxNySvs4i8muhlfiJwWThyMJK8YNAhMKlTa0K1s5Z0VUbPN32quS4RcsdntG07sIGDbs
+ 6nthWrG+m0H4cU1w1xQycUycB+macUBKvnxIUtzfEzemy6dW9t3yXhnvuoM0jHszP0a8
+ NHVYLT0EATERSPdTmnd1LlShbp14EuFHMeXnSDYL49O8CTv9bTEvy7StIrwCwyerAN2N
+ jlZG7DLZoMZsTFBL3ktjyV7pO1m7fLWlyilH7xA5m+fz9gs+9oq+zzC+upPx2QoKCsMB
+ 2x89TCbcD/P305MmE9bj1xM4Vpr4uqQpwh4sS3mPM7Kf/6qP8LDr8Orb+nW41526lIRP Tw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3je26391gc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Sep 2022 08:17:40 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2867pLil021694;
+ Tue, 6 Sep 2022 08:17:39 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3je26391ew-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Sep 2022 08:17:39 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28686Reo007340;
+ Tue, 6 Sep 2022 08:17:37 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma01fra.de.ibm.com with ESMTP id 3jbxj8thcn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Sep 2022 08:17:36 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 2868E52q42074542
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 6 Sep 2022 08:14:05 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B2E764C040;
+ Tue,  6 Sep 2022 08:17:33 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 89B3B4C044;
+ Tue,  6 Sep 2022 08:17:33 +0000 (GMT)
+Received: from t14-nrb (unknown [9.171.15.101])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  6 Sep 2022 08:17:33 +0000 (GMT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220902075531.188916-4-pmorel@linux.ibm.com>
+References: <20220902075531.188916-1-pmorel@linux.ibm.com>
+ <20220902075531.188916-4-pmorel@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ frankja@linux.ibm.com
+From: Nico Boehr <nrb@linux.ibm.com>
+Subject: Re: [PATCH v9 03/10] s390x/cpu topology: reporting the CPU topology
+ to the guest
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Message-ID: <166245225333.5995.17109067416462484247@t14-nrb>
+User-Agent: alot/0.8.1
+Date: Tue, 06 Sep 2022 10:17:33 +0200
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: pyauRzQdMDn5utUGf5ASDiIQkyhlKK4_
+X-Proofpoint-ORIG-GUID: RC5Qufek0YMiQaf02On3fTcpQQsKBniP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-06_03,2022-09-05_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 spamscore=0
+ malwarescore=0 adultscore=0 mlxlogscore=999 phishscore=0 suspectscore=0
+ mlxscore=0 lowpriorityscore=0 impostorscore=0 priorityscore=1501
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2209060038
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=nrb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,32 +120,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Quoting Pierre Morel (2022-09-02 09:55:24)
+> The guest can use the STSI instruction to get a buffer filled
+> with the CPU topology description.
+>=20
+> Let us implement the STSI instruction for the basis CPU topology
+> level, level 2.
 
-> On Mon, 5 Sept 2022 at 20:51, Claudio Fontana <cfontana@suse.de> wrote:
->> when I build qemu, there is a lot of time spent at the end of the build where one cpu goes 100% on sphinx-build.
->>
->> Is there some way to parallelize that? It seems it is the current bottleneck for rebuilds for me..
->
-> It's a big fat python program, so I suspect not, but
-> maybe I'm wrong.
->
-> You can always configure --disable-docs if you don't care
-> about the docs and want to make builds faster.
+I like this. It is so much simpler. Thanks.
 
-I care about the docs, but the impact on turnaround time is so bad I
-stopped building the docs in the build trees I use for development, and
-instead keep a separate tree that has docs enabled.  Tends to delay
-diagnosis of doc markup errors, but that's the lesser evil for me.
+[...]
+> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> index a6ca006ec5..e2fd5c7e44 100644
+> --- a/hw/s390x/cpu-topology.c
+> +++ b/hw/s390x/cpu-topology.c
+> @@ -76,9 +76,11 @@ void s390_topology_new_cpu(int core_id)
+>       * in the CPU container allows to represent up to the maximal number=
+ of
+>       * CPU inside several CPU containers inside the socket container.
+>       */
+> +    qemu_mutex_lock(&topo->topo_mutex);
 
-We used to have a similar problem with generated C: touch the QAPI
-schema, rebuild everything and its dog.  That was because everything and
-its dog depended on the generated QAPI header.  C projects 101: putting
-everything in a single header slows down rebuilds.
+You access topo->cores above. Do you need the mutex for that? I guess not s=
+ince
+it can't change at runtime (right?), so maybe it is worth documenting what =
+the
+topo_mutex actually protects or you just take the mutex at the start of the
+function.
 
-We solved this by splitting up the generated header, and updating
-generated headers only when they actually change.
+[...]
+> diff --git a/target/s390x/cpu_topology.c b/target/s390x/cpu_topology.c
+> new file mode 100644
+> index 0000000000..56865dafc6
+> --- /dev/null
+> +++ b/target/s390x/cpu_topology.c
+[...]
+> +static char *fill_tle_cpu(char *p, uint64_t mask, int origin)
+> +{
+> +    SysIBTl_cpu *tle =3D (SysIBTl_cpu *)p;
+> +
+> +    tle->nl =3D 0;
+> +    tle->dedicated =3D 1;
+> +    tle->polarity =3D S390_TOPOLOGY_POLARITY_H;
+> +    tle->type =3D S390_TOPOLOGY_CPU_TYPE;
+> +    tle->origin =3D origin * 64;
 
-I have no idea whether Sphinx could do a similarly incremental rebuild.
+origin would also need a byte order conversion.
 
+> +    tle->mask =3D be64_to_cpu(mask);
+
+cpu_to_be64()
+
+[...]
+> +static char *s390_top_set_level2(S390Topology *topo, char *p)
+> +{
+> +    int i, origin;
+> +
+> +    for (i =3D 0; i < topo->sockets; i++) {
+> +        if (!topo->socket[i].active_count) {
+> +            continue;
+> +        }
+> +        p =3D fill_container(p, 1, i);
+> +        for (origin =3D 0; origin < S390_TOPOLOGY_MAX_ORIGIN; origin++) {
+> +            uint64_t mask =3D 0L;
+> +
+> +            mask =3D be64_to_cpu(topo->tle[i].mask[origin]);
+
+Don't you already do the endianness conversion in fill_tle_cpu()?
+
+[...]
+> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar)
+> +{
+> +    SysIB_151x *sysib;
+> +    int len =3D sizeof(*sysib);
+> +
+> +    if (s390_is_pv() || sel2 < 2 || sel2 > S390_TOPOLOGY_MAX_MNEST) {
+> +        setcc(cpu, 3);
+> +        return;
+> +    }
+> +
+> +    sysib =3D g_malloc0(TARGET_PAGE_SIZE);
+> +
+> +    len +=3D setup_stsi(sysib, sel2);
+> +    if (len > TARGET_PAGE_SIZE) {
+> +        setcc(cpu, 3);
+> +        goto out_free;
+> +    }
+
+Maybe I don't get it, but isn't it kind of late for this check? You would
+already have written beyond the end of the buffer at this point in time...
+
+> +
+> +    sysib->length =3D be16_to_cpu(len);
+
+cpu_to_be16()
 
