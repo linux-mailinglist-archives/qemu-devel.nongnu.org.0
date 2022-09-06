@@ -2,85 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48FA45AE171
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 09:44:40 +0200 (CEST)
-Received: from localhost ([::1]:52062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 835295AE16C
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 09:44:05 +0200 (CEST)
+Received: from localhost ([::1]:45738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVTGB-00082H-CR
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 03:44:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47672)
+	id 1oVTFc-0007Pt-L9
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 03:44:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVT7a-0007MA-8v
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 03:35:46 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:43734)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVT7Y-0003YE-CM
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 03:35:45 -0400
-Received: by mail-wr1-x436.google.com with SMTP id t7so9049063wrm.10
- for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 00:35:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=ikx7nJZviP34EixDJTT5ZOTQd0XCieU1V/8Sda0JO7U=;
- b=E09jAa8JZj9Z5Xbq9QlKcRFnMsb20v4oONwYsRlnpLsguvnW3RW3S3lPXzcknGOp6f
- EKzuzHBvgwfLLKBbyvvO/npeWEBKwc/jhX5s+HhcqUXg7lQbDbjPkv4LzbQJVjPhe2NJ
- vaWHWMnPVmXI/ucAYjL5UwYPHmxfRunbG+pJb25CiFtAkqsl3/5PxGr+cd95vigfu2dn
- 6JGTp6v+WwvV52pU549Lxmpl19dimhYhN+weA6cKjALoEwhBTmtSCSpnVSlrhkBpCJfZ
- gb2Kta/s2eN1OD+mRT5oJrwbPUK6nB6B0+YnlEUlZEJvBphPw3Z08eUGdAQv64mriC+T
- ANBQ==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oVTBl-0003Az-NA
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 03:40:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37646)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oVTBg-000492-Jc
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 03:40:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662449999;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vFZHyRys45niAr3aT5+wkU1LgJ6aC3CCaRPi/xfSu/4=;
+ b=NBoi++ziwUsC4sqYzZ4U1MDNfsnzNN5AG6Ebt7HbYxshEQiPxidJFCwXEzvck7wLyINxsd
+ rSb2WH7f798nE96JUpbpOIgj3q4REVU08ZJyGprenU2d0+7K+ewa48C3CSkW4tP0orIwBx
+ QisQybfEKQ4zazzE92JDHMwTmhQE1/A=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-150-NW5uirgGPES95UYhRqTuUg-1; Tue, 06 Sep 2022 03:39:55 -0400
+X-MC-Unique: NW5uirgGPES95UYhRqTuUg-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ sd6-20020a1709076e0600b0073315809fb5so3105481ejc.10
+ for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 00:39:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=ikx7nJZviP34EixDJTT5ZOTQd0XCieU1V/8Sda0JO7U=;
- b=ozXp5qysU1lYyaMaaGDu81LShTjsayHiwbt995QmIJ78PUoyQ2csNV8DFDLI2LobZU
- ZeVRWUAIcgOefGuCEVe11mplnOzQg/h6LphsO2kfYfdr4uLO6cdcLdqzFoxmv0X3Frw0
- n+tx9GlszE1/bQoXJwxor6m5GbgjnjWeN8bN4pbaRlXinSZd+DEiSv2KpZlYW9OEzzu8
- 6G37CIHPjPzDrbenumxs/tbaAHBzjQNZ4zBSh1MI21gNiy3Nw4/U4kg5B+yyu93zoChx
- KRBDgQ6VGdxducu62lxNjJjI5F2o9K7wf8X/IZAzL7InFzCQ8U6Y2U35UMbqwrJrQeG4
- bp4g==
-X-Gm-Message-State: ACgBeo0rIh72gIWbGRiozgLkz3Mba1w/QFF+O9Y9XMKhiiP2Cj5we8HN
- EIec4F0JDY2yMrm/QpQF1Q+19A==
-X-Google-Smtp-Source: AA6agR6nedwCLtDA7NYTSHXgw/doBhuCxsgLfyStdEdzdcTYuIk2Nz8oUQOpGUJagessxtRafESrRQ==
-X-Received: by 2002:a5d:630f:0:b0:225:617c:8076 with SMTP id
- i15-20020a5d630f000000b00225617c8076mr26951259wru.692.1662449742687; 
- Tue, 06 Sep 2022 00:35:42 -0700 (PDT)
-Received: from ?IPV6:2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1?
- ([2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1])
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=vFZHyRys45niAr3aT5+wkU1LgJ6aC3CCaRPi/xfSu/4=;
+ b=SqN9Fc8DiD8I/U2UcwMSbk4hy2xPAVUhVLNwkB1uNhR6BYRjfck1QnW0l3g9l6GvLr
+ m2M+mHs72Ydgz7JF86++BzvjklYf1eJcoQEaFpKUwepKquvU3xWQwPEXW29FANXd3yNG
+ 5A504/1YX1wYk05Z/6eUHr6pFBqZN7CDr2fcaSEoeFs6mSFTsCJQi6F5BczAUEaCxKl2
+ 8QsiFb1tIwN1OjaPkTpRXz6R2WCv7PJiu5XRR5IChDzYyvLpbfRbKP0KhY/2JcGac1AH
+ bXC8mmEva91uigjSNCGTYmi6mPE2WOqIogZThnASd8gDfLKitB5wgmlKKNq37/sUns7b
+ RIJQ==
+X-Gm-Message-State: ACgBeo01FMPhVNK+mdPMhkfP0hj/VLQEYPkZxY6uKgtRIMnzGljunGgk
+ Hyk+49cGgcb9eD4eMgR5gazWbJIgcc+Q62lhMVndRYbvmOVwNrhJ/13dh1JXyPxyazHB53RvvPA
+ YaGFnoljRkGYu6x0=
+X-Received: by 2002:a17:906:770d:b0:73c:a08f:593c with SMTP id
+ q13-20020a170906770d00b0073ca08f593cmr40408279ejm.182.1662449994425; 
+ Tue, 06 Sep 2022 00:39:54 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6KQd9Ju8eLYuqBS+5hpI51nwUPPsbfwWGVHbQkya8vCcZRKwQw0n4zOtTCzC3RKFYPZcTQ4A==
+X-Received: by 2002:a17:906:770d:b0:73c:a08f:593c with SMTP id
+ q13-20020a170906770d00b0073ca08f593cmr40408264ejm.182.1662449994251; 
+ Tue, 06 Sep 2022 00:39:54 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- n5-20020a05600c304500b003a5de95b105sm18856969wmh.41.2022.09.06.00.35.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Sep 2022 00:35:42 -0700 (PDT)
-Message-ID: <7d31b5bc-65a1-db1a-b7ac-b462e802e5cb@linaro.org>
-Date: Tue, 6 Sep 2022 08:35:39 +0100
+ ch29-20020a0564021bdd00b0044657ecfbb5sm7886526edb.13.2022.09.06.00.39.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Sep 2022 00:39:53 -0700 (PDT)
+Date: Tue, 6 Sep 2022 09:39:52 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, qemu-devel@nongnu.org, kkostiuk@redhat.com,
+ yvugenfi@redhat.com, yiwei@redhat.com, ybendito@redhat.com,
+ jusual@redhat.com
+Subject: Re: [RFC PATCH] hw/acpi: do not let OSPM set pcie native hotplug
+ when acpi hotplug is enabled
+Message-ID: <20220906093952.736ca756@redhat.com>
+In-Reply-To: <971e9a8-f9a1-4280-3fc5-4b695d42698b@anisinha.ca>
+References: <20220905072531.8059-1-ani@anisinha.ca>
+ <20220905175225.74881174@redhat.com>
+ <9e83cb29-98f6-02d-7f60-aed42a316930@anisinha.ca>
+ <971e9a8-f9a1-4280-3fc5-4b695d42698b@anisinha.ca>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 0/5] linux-user: Passthrough MADV_DONTNEED for certain
- file mappings
-Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Taylor Simpson <tsimpson@quicinc.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org
-References: <20220906000839.1672934-1-iii@linux.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220906000839.1672934-1-iii@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,23 +109,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/6/22 01:08, Ilya Leoshkevich wrote:
-> Hi,
+On Mon, 5 Sep 2022 22:25:25 +0530 (IST)
+Ani Sinha <ani@anisinha.ca> wrote:
+
+> On Mon, 5 Sep 2022, Ani Sinha wrote:
 > 
-> This series is made of patches from [1]. I've added a test and noticed
-> that madvise(MADV_DONTNEED) was broken on alpha, fixing which required
-> adding per-arch MADV_* definitions. This in turn affected the strace
-> patch, so it made sense to make a series out of the results.
+> >
+> >  
 > 
-> Patch 1 adds MADV_* constants for all architectures.
-> Patch 2 fixes the alpha bug.
-> Patch 3 adds madvise() support to strace.
-> Patch 4 adds MADV_DONTNEED support for file mappings.
-> Patch 5 adds a test.
+> > > >
+> > > > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > > > index 0355bd3dda..3dc9379f27 100644
+> > > > --- a/hw/i386/acpi-build.c
+> > > > +++ b/hw/i386/acpi-build.c
+> > > > @@ -1348,10 +1348,12 @@ static Aml *build_q35_osc_method(bool enable_native_pcie_hotplug)
+> > > >  {
+> > > >      Aml *if_ctx;
+> > > >      Aml *if_ctx2;
+> > > > +    Aml *if_ctx3;
+> > > >      Aml *else_ctx;
+> > > >      Aml *method;
+> > > >      Aml *a_cwd1 = aml_name("CDW1");
+> > > >      Aml *a_ctrl = aml_local(0);
+> > > > +    Aml *a_pcie_nhp_ctl = aml_local(1);
+> > > >
+> > > >      method = aml_method("_OSC", 4, AML_NOTSERIALIZED);
+> > > >      aml_append(method, aml_create_dword_field(aml_arg(3), aml_int(0), "CDW1"));
+> > > > @@ -1366,11 +1368,26 @@ static Aml *build_q35_osc_method(bool enable_native_pcie_hotplug)
+> > > >      /*
+> > > >       * Always allow native PME, AER (no dependencies)
+> > > >       * Allow SHPC (PCI bridges can have SHPC controller)
+> > > > -     * Disable PCIe Native Hot-plug if ACPI PCI Hot-plug is enabled.
+> > > >       */
+> > > > -    aml_append(if_ctx, aml_and(a_ctrl,
+> > > > -        aml_int(0x1E | (enable_native_pcie_hotplug ? 0x1 : 0x0)), a_ctrl));
+> > > > +    aml_append(if_ctx, aml_and(a_ctrl, aml_int(0x1F), a_ctrl));  
+> > >
+> > > that makes us not actually mask any capabilities since you forgot to mask
+> > > bit 1 later under if_ctx3 context.
+> > >
+> > > So OSPM will see a permanent failure (_OSC failure bit in CWD1)
+> > > and will have no idea that PCI Hotplug is not supported since we return CWD3
+> > > with this bit still set whoever much it tries to negotiate.  
+> >
+> > The failure is only returned when the OS requests/probes native hotplug
+> > capability in CWD1.  
+> 
+> I meant CWD3.
+For OSPM to know which features are denied by platform, the later must mask
+them in returned bitmask, how otherwise you would see above behavior.
+(or alternatively OSPM might ignore _OSC results and resort to workarounds/probing
+as result enabling native hotplug in which case you would see ATS
+detected).
 
-Thanks for that, series
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+To verify which hotplug is used, you can just trace acpi_pci_* in QEMU and observe
+if it's used for unplug or not.
 
-
-r~
 
