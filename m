@@ -2,92 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCA585ADC37
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 02:13:22 +0200 (CEST)
-Received: from localhost ([::1]:39384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18C555ADC3A
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 02:14:27 +0200 (CEST)
+Received: from localhost ([::1]:39346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVMDR-0000BL-Tb
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 20:13:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42078)
+	id 1oVMEU-00029d-7b
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 20:14:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oVM9P-0003qF-B4
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 20:09:11 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:31346)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oVM9Q-0003sW-Jp
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 20:09:12 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:64124)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oVM9B-0002HD-60
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 20:09:08 -0400
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oVM9M-0002Hl-4k
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 20:09:12 -0400
 Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 285NqwcI026813;
- Tue, 6 Sep 2022 00:08:55 GMT
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 285Nqd3g025412;
+ Tue, 6 Sep 2022 00:09:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=f+NjNWnUkwsuzU4eJD/wtK4cLCNeciA0GFbsOrawchc=;
- b=HEqstNKz/nQwHqfp1ph5eVp8Z5JHIruvvCUXMrGmXnX3l9QBsJLO5nx2teHl0igSZ2gJ
- TkXhxlLSF94wjhzL/ShlPF7/7Ch0njKt+LNq+jOPKkZ3uLGqTn3vtnYhzWgPX8SelT+s
- cFa6kxnwxZ0/3FDwtqSxctKDgjnihIaDqK/NpsCE4JL0thIxmZNVVjUvY8MLMM/i/5A/
- DWARGgjLPdAm+dG2l7fqRykNhDDaWXNTMURNzpZfjTp0R/R/nYSIqlfBlNFSPJZkwQSC
- 19CQtaqKORUzcliqIErh3mttlEUvER7wjJLXfA1Xfvy5ctaXpgQy/IYxO/WQoUo0aVXz Ag== 
+ bh=Qw294nry3VonO7lIiHmYMewAg6tBtFHgQRGebHXyqyQ=;
+ b=sVLhztYuHLHsFr1s31FMbZYqYMoyXHjoC2r694M6pBUA3YSvWHhrj8iugWZu7LBwDzO8
+ jkXjMZSzp1D8MLLkmb9Ajs9gDT1PWjMEmWIW7FiSgGiXondkxu49QTwkwP1nm2U/NYmO
+ R7BDDTYE+Jaq9auQQ6oTF+8kd+Xr8YMQcWW7seE0z0WXxQh757Xt5KeBn80T0nlXAB0G
+ /OgRXWejXd3+7w3cZ0pu1PleIu/pC/0+ra4/8N3IpL1BRMKrzFLr6WHbxQGP2L5Ho8dg
+ IYAKTiSetRAHm4ur2WYKqUkCLd4cvkQ5ytJvhzhfstLBy3lFFC64v45KIZxjIGlzC2Dy cA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jdu60rf1r-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jdu60rf8g-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Sep 2022 00:08:55 +0000
+ Tue, 06 Sep 2022 00:09:05 +0000
 Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 285NspT9003250;
- Tue, 6 Sep 2022 00:08:54 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jdu60rf0e-1
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 285NspTB003250;
+ Tue, 6 Sep 2022 00:09:04 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jdu60rf6p-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Sep 2022 00:08:54 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 286067DQ024914;
- Tue, 6 Sep 2022 00:08:52 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma04ams.nl.ibm.com with ESMTP id 3jbxj8u00r-1
+ Tue, 06 Sep 2022 00:09:04 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 286065Gi010327;
+ Tue, 6 Sep 2022 00:09:02 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma03ams.nl.ibm.com with ESMTP id 3jbxj8u0xm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Sep 2022 00:08:52 +0000
+ Tue, 06 Sep 2022 00:09:01 +0000
 Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
  [9.149.105.61])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 28605MxU24379686
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 28608vGs41156988
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 6 Sep 2022 00:05:22 GMT
+ Tue, 6 Sep 2022 00:08:57 GMT
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C780711C050;
- Tue,  6 Sep 2022 00:08:49 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id C159011C04C;
+ Tue,  6 Sep 2022 00:08:57 +0000 (GMT)
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 68A2311C04C;
- Tue,  6 Sep 2022 00:08:49 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 594F511C04A;
+ Tue,  6 Sep 2022 00:08:57 +0000 (GMT)
 Received: from heavy.lan (unknown [9.171.53.58])
  by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue,  6 Sep 2022 00:08:49 +0000 (GMT)
+ Tue,  6 Sep 2022 00:08:57 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
  Taylor Simpson <tsimpson@quicinc.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Cc: qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v3 1/5] linux-user: Provide MADV_* definitions
-Date: Tue,  6 Sep 2022 02:08:35 +0200
-Message-Id: <20220906000839.1672934-2-iii@linux.ibm.com>
+Subject: [PATCH v3 2/5] linux-user: Fix madvise(MADV_DONTNEED) on alpha
+Date: Tue,  6 Sep 2022 02:08:36 +0200
+Message-Id: <20220906000839.1672934-3-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220906000839.1672934-1-iii@linux.ibm.com>
 References: <20220906000839.1672934-1-iii@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: zAimjCC2z69aplzyO0OPb6fokVu2P3iT
-X-Proofpoint-ORIG-GUID: eQoJz3lbrgCJ3RW5REE_ra3J0SD15sG2
+X-Proofpoint-GUID: wvgIJgx3ooWKtsn57QT5AGBlNlaqYn8B
+X-Proofpoint-ORIG-GUID: voPcuxCJmVSh8SDjDvd6Xy3ruQKQtWKH
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
  definitions=2022-09-05_16,2022-09-05_03,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  lowpriorityscore=0
- mlxlogscore=741 suspectscore=0 bulkscore=0 priorityscore=1501 spamscore=0
+ mlxlogscore=990 suspectscore=0 bulkscore=0 priorityscore=1501 spamscore=0
  malwarescore=0 clxscore=1015 phishscore=0 adultscore=0 impostorscore=0
  mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2207270000 definitions=main-2209050118
@@ -115,324 +115,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Provide MADV_* definitions using target_mman.h header, similar to what
-kernel does. Most architectures use the same values, with the exception
-of alpha and hppa.
+MADV_DONTNEED has a different value on alpha, compared to all the other
+architectures. Fix by using TARGET_MADV_DONTNEED instead of
+MADV_DONTNEED.
 
+Fixes: 892a4f6a750a ("linux-user: Add partial support for MADV_DONTNEED")
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- linux-user/aarch64/target_mman.h     |  1 +
- linux-user/alpha/target_mman.h       |  8 +++
- linux-user/arm/target_mman.h         |  1 +
- linux-user/cris/target_mman.h        |  1 +
- linux-user/generic/target_mman.h     | 92 ++++++++++++++++++++++++++++
- linux-user/hexagon/target_mman.h     |  1 +
- linux-user/hppa/target_mman.h        | 15 +++++
- linux-user/i386/target_mman.h        |  1 +
- linux-user/loongarch64/target_mman.h |  1 +
- linux-user/m68k/target_mman.h        |  1 +
- linux-user/microblaze/target_mman.h  |  1 +
- linux-user/mips/target_mman.h        |  1 +
- linux-user/mips64/target_mman.h      |  1 +
- linux-user/nios2/target_mman.h       |  1 +
- linux-user/openrisc/target_mman.h    |  1 +
- linux-user/ppc/target_mman.h         |  1 +
- linux-user/riscv/target_mman.h       |  1 +
- linux-user/s390x/target_mman.h       |  1 +
- linux-user/sh4/target_mman.h         |  1 +
- linux-user/sparc/target_mman.h       |  1 +
- linux-user/x86_64/target_mman.h      |  1 +
- linux-user/xtensa/target_mman.h      |  1 +
- 22 files changed, 134 insertions(+)
- create mode 100644 linux-user/aarch64/target_mman.h
- create mode 100644 linux-user/alpha/target_mman.h
- create mode 100644 linux-user/arm/target_mman.h
- create mode 100644 linux-user/cris/target_mman.h
- create mode 100644 linux-user/generic/target_mman.h
- create mode 100644 linux-user/hexagon/target_mman.h
- create mode 100644 linux-user/hppa/target_mman.h
- create mode 100644 linux-user/i386/target_mman.h
- create mode 100644 linux-user/loongarch64/target_mman.h
- create mode 100644 linux-user/m68k/target_mman.h
- create mode 100644 linux-user/microblaze/target_mman.h
- create mode 100644 linux-user/mips/target_mman.h
- create mode 100644 linux-user/mips64/target_mman.h
- create mode 100644 linux-user/nios2/target_mman.h
- create mode 100644 linux-user/openrisc/target_mman.h
- create mode 100644 linux-user/ppc/target_mman.h
- create mode 100644 linux-user/riscv/target_mman.h
- create mode 100644 linux-user/s390x/target_mman.h
- create mode 100644 linux-user/sh4/target_mman.h
- create mode 100644 linux-user/sparc/target_mman.h
- create mode 100644 linux-user/x86_64/target_mman.h
- create mode 100644 linux-user/xtensa/target_mman.h
+ linux-user/mmap.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/aarch64/target_mman.h b/linux-user/aarch64/target_mman.h
-new file mode 100644
-index 0000000000..e7ba6070fe
---- /dev/null
-+++ b/linux-user/aarch64/target_mman.h
-@@ -0,0 +1 @@
-+#include "../generic/target_mman.h"
-diff --git a/linux-user/alpha/target_mman.h b/linux-user/alpha/target_mman.h
-new file mode 100644
-index 0000000000..cd6e3d70a6
---- /dev/null
-+++ b/linux-user/alpha/target_mman.h
-@@ -0,0 +1,8 @@
-+#ifndef ALPHA_TARGET_MMAN_H
-+#define ALPHA_TARGET_MMAN_H
-+
-+#define TARGET_MADV_DONTNEED 6
-+
-+#include "../generic/target_mman.h"
-+
-+#endif
-diff --git a/linux-user/arm/target_mman.h b/linux-user/arm/target_mman.h
-new file mode 100644
-index 0000000000..e7ba6070fe
---- /dev/null
-+++ b/linux-user/arm/target_mman.h
-@@ -0,0 +1 @@
-+#include "../generic/target_mman.h"
-diff --git a/linux-user/cris/target_mman.h b/linux-user/cris/target_mman.h
-new file mode 100644
-index 0000000000..e7ba6070fe
---- /dev/null
-+++ b/linux-user/cris/target_mman.h
-@@ -0,0 +1 @@
-+#include "../generic/target_mman.h"
-diff --git a/linux-user/generic/target_mman.h b/linux-user/generic/target_mman.h
-new file mode 100644
-index 0000000000..1436a3c543
---- /dev/null
-+++ b/linux-user/generic/target_mman.h
-@@ -0,0 +1,92 @@
-+#ifndef LINUX_USER_TARGET_MMAN_H
-+#define LINUX_USER_TARGET_MMAN_H
-+
-+#ifndef TARGET_MADV_NORMAL
-+#define TARGET_MADV_NORMAL 0
-+#endif
-+
-+#ifndef TARGET_MADV_RANDOM
-+#define TARGET_MADV_RANDOM 1
-+#endif
-+
-+#ifndef TARGET_MADV_SEQUENTIAL
-+#define TARGET_MADV_SEQUENTIAL 2
-+#endif
-+
-+#ifndef TARGET_MADV_WILLNEED
-+#define TARGET_MADV_WILLNEED 3
-+#endif
-+
-+#ifndef TARGET_MADV_DONTNEED
-+#define TARGET_MADV_DONTNEED 4
-+#endif
-+
-+#ifndef TARGET_MADV_FREE
-+#define TARGET_MADV_FREE 8
-+#endif
-+
-+#ifndef TARGET_MADV_REMOVE
-+#define TARGET_MADV_REMOVE 9
-+#endif
-+
-+#ifndef TARGET_MADV_DONTFORK
-+#define TARGET_MADV_DONTFORK 10
-+#endif
-+
-+#ifndef TARGET_MADV_DOFORK
-+#define TARGET_MADV_DOFORK 11
-+#endif
-+
-+#ifndef TARGET_MADV_MERGEABLE
-+#define TARGET_MADV_MERGEABLE 12
-+#endif
-+
-+#ifndef TARGET_MADV_UNMERGEABLE
-+#define TARGET_MADV_UNMERGEABLE 13
-+#endif
-+
-+#ifndef TARGET_MADV_HUGEPAGE
-+#define TARGET_MADV_HUGEPAGE 14
-+#endif
-+
-+#ifndef TARGET_MADV_NOHUGEPAGE
-+#define TARGET_MADV_NOHUGEPAGE 15
-+#endif
-+
-+#ifndef TARGET_MADV_DONTDUMP
-+#define TARGET_MADV_DONTDUMP 16
-+#endif
-+
-+#ifndef TARGET_MADV_DODUMP
-+#define TARGET_MADV_DODUMP 17
-+#endif
-+
-+#ifndef TARGET_MADV_WIPEONFORK
-+#define TARGET_MADV_WIPEONFORK 18
-+#endif
-+
-+#ifndef TARGET_MADV_KEEPONFORK
-+#define TARGET_MADV_KEEPONFORK 19
-+#endif
-+
-+#ifndef TARGET_MADV_COLD
-+#define TARGET_MADV_COLD 20
-+#endif
-+
-+#ifndef TARGET_MADV_PAGEOUT
-+#define TARGET_MADV_PAGEOUT 21
-+#endif
-+
-+#ifndef TARGET_MADV_POPULATE_READ
-+#define TARGET_MADV_POPULATE_READ 22
-+#endif
-+
-+#ifndef TARGET_MADV_POPULATE_WRITE
-+#define TARGET_MADV_POPULATE_WRITE 23
-+#endif
-+
-+#ifndef TARGET_MADV_DONTNEED_LOCKED
-+#define TARGET_MADV_DONTNEED_LOCKED 24
-+#endif
-+
-+#endif
-diff --git a/linux-user/hexagon/target_mman.h b/linux-user/hexagon/target_mman.h
-new file mode 100644
-index 0000000000..e7ba6070fe
---- /dev/null
-+++ b/linux-user/hexagon/target_mman.h
-@@ -0,0 +1 @@
-+#include "../generic/target_mman.h"
-diff --git a/linux-user/hppa/target_mman.h b/linux-user/hppa/target_mman.h
-new file mode 100644
-index 0000000000..66dd9f7941
---- /dev/null
-+++ b/linux-user/hppa/target_mman.h
-@@ -0,0 +1,15 @@
-+#ifndef HPPA_TARGET_MMAN_H
-+#define HPPA_TARGET_MMAN_H
-+
-+#define TARGET_MADV_MERGEABLE 65
-+#define TARGET_MADV_UNMERGEABLE 66
-+#define TARGET_MADV_HUGEPAGE 67
-+#define TARGET_MADV_NOHUGEPAGE 68
-+#define TARGET_MADV_DONTDUMP 69
-+#define TARGET_MADV_DODUMP 70
-+#define TARGET_MADV_WIPEONFORK 71
-+#define TARGET_MADV_KEEPONFORK 72
-+
-+#include "../generic/target_mman.h"
-+
-+#endif
-diff --git a/linux-user/i386/target_mman.h b/linux-user/i386/target_mman.h
-new file mode 100644
-index 0000000000..e7ba6070fe
---- /dev/null
-+++ b/linux-user/i386/target_mman.h
-@@ -0,0 +1 @@
-+#include "../generic/target_mman.h"
-diff --git a/linux-user/loongarch64/target_mman.h b/linux-user/loongarch64/target_mman.h
-new file mode 100644
-index 0000000000..e7ba6070fe
---- /dev/null
-+++ b/linux-user/loongarch64/target_mman.h
-@@ -0,0 +1 @@
-+#include "../generic/target_mman.h"
-diff --git a/linux-user/m68k/target_mman.h b/linux-user/m68k/target_mman.h
-new file mode 100644
-index 0000000000..e7ba6070fe
---- /dev/null
-+++ b/linux-user/m68k/target_mman.h
-@@ -0,0 +1 @@
-+#include "../generic/target_mman.h"
-diff --git a/linux-user/microblaze/target_mman.h b/linux-user/microblaze/target_mman.h
-new file mode 100644
-index 0000000000..e7ba6070fe
---- /dev/null
-+++ b/linux-user/microblaze/target_mman.h
-@@ -0,0 +1 @@
-+#include "../generic/target_mman.h"
-diff --git a/linux-user/mips/target_mman.h b/linux-user/mips/target_mman.h
-new file mode 100644
-index 0000000000..e7ba6070fe
---- /dev/null
-+++ b/linux-user/mips/target_mman.h
-@@ -0,0 +1 @@
-+#include "../generic/target_mman.h"
-diff --git a/linux-user/mips64/target_mman.h b/linux-user/mips64/target_mman.h
-new file mode 100644
-index 0000000000..e7ba6070fe
---- /dev/null
-+++ b/linux-user/mips64/target_mman.h
-@@ -0,0 +1 @@
-+#include "../generic/target_mman.h"
-diff --git a/linux-user/nios2/target_mman.h b/linux-user/nios2/target_mman.h
-new file mode 100644
-index 0000000000..e7ba6070fe
---- /dev/null
-+++ b/linux-user/nios2/target_mman.h
-@@ -0,0 +1 @@
-+#include "../generic/target_mman.h"
-diff --git a/linux-user/openrisc/target_mman.h b/linux-user/openrisc/target_mman.h
-new file mode 100644
-index 0000000000..e7ba6070fe
---- /dev/null
-+++ b/linux-user/openrisc/target_mman.h
-@@ -0,0 +1 @@
-+#include "../generic/target_mman.h"
-diff --git a/linux-user/ppc/target_mman.h b/linux-user/ppc/target_mman.h
-new file mode 100644
-index 0000000000..e7ba6070fe
---- /dev/null
-+++ b/linux-user/ppc/target_mman.h
-@@ -0,0 +1 @@
-+#include "../generic/target_mman.h"
-diff --git a/linux-user/riscv/target_mman.h b/linux-user/riscv/target_mman.h
-new file mode 100644
-index 0000000000..e7ba6070fe
---- /dev/null
-+++ b/linux-user/riscv/target_mman.h
-@@ -0,0 +1 @@
-+#include "../generic/target_mman.h"
-diff --git a/linux-user/s390x/target_mman.h b/linux-user/s390x/target_mman.h
-new file mode 100644
-index 0000000000..e7ba6070fe
---- /dev/null
-+++ b/linux-user/s390x/target_mman.h
-@@ -0,0 +1 @@
-+#include "../generic/target_mman.h"
-diff --git a/linux-user/sh4/target_mman.h b/linux-user/sh4/target_mman.h
-new file mode 100644
-index 0000000000..e7ba6070fe
---- /dev/null
-+++ b/linux-user/sh4/target_mman.h
-@@ -0,0 +1 @@
-+#include "../generic/target_mman.h"
-diff --git a/linux-user/sparc/target_mman.h b/linux-user/sparc/target_mman.h
-new file mode 100644
-index 0000000000..e7ba6070fe
---- /dev/null
-+++ b/linux-user/sparc/target_mman.h
-@@ -0,0 +1 @@
-+#include "../generic/target_mman.h"
-diff --git a/linux-user/x86_64/target_mman.h b/linux-user/x86_64/target_mman.h
-new file mode 100644
-index 0000000000..e7ba6070fe
---- /dev/null
-+++ b/linux-user/x86_64/target_mman.h
-@@ -0,0 +1 @@
-+#include "../generic/target_mman.h"
-diff --git a/linux-user/xtensa/target_mman.h b/linux-user/xtensa/target_mman.h
-new file mode 100644
-index 0000000000..e7ba6070fe
---- /dev/null
-+++ b/linux-user/xtensa/target_mman.h
-@@ -0,0 +1 @@
-+#include "../generic/target_mman.h"
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index 048c4135af..a5f1ab129c 100644
+--- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -22,6 +22,7 @@
+ #include "qemu.h"
+ #include "user-internals.h"
+ #include "user-mmap.h"
++#include "target_mman.h"
+ 
+ static pthread_mutex_t mmap_mutex = PTHREAD_MUTEX_INITIALIZER;
+ static __thread int mmap_lock_count;
+@@ -891,7 +892,7 @@ abi_long target_madvise(abi_ulong start, abi_ulong len_in, int advice)
+      * anonymous mappings. In this case passthrough is safe, so do it.
+      */
+     mmap_lock();
+-    if (advice == MADV_DONTNEED &&
++    if (advice == TARGET_MADV_DONTNEED &&
+         can_passthrough_madv_dontneed(start, end)) {
+         ret = get_errno(madvise(g2h_untagged(start), len, MADV_DONTNEED));
+         if (ret == 0) {
 -- 
 2.37.2
 
