@@ -2,68 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B7FD5ADBEE
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 01:44:18 +0200 (CEST)
-Received: from localhost ([::1]:48806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64EED5ADC36
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 02:12:58 +0200 (CEST)
+Received: from localhost ([::1]:53528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVLlI-00080x-Qp
-	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 19:44:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58712)
+	id 1oVMD3-00086b-0g
+	for lists+qemu-devel@lfdr.de; Mon, 05 Sep 2022 20:12:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oVLiV-000623-Be
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 19:41:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59224)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oVM98-0003dK-0J
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 20:08:54 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oVLiR-0006nw-ND
- for qemu-devel@nongnu.org; Mon, 05 Sep 2022 19:41:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662421278;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DFfKWgywJFbioeLAhuiHEair9Ne9S1P0+6xTQAPQaR8=;
- b=D0gfe0IG1En6zwznYcY99hHIZRSl9zZ+3F+jiV9RBeReKO0CcbFRm/GFfO/cT477DwEcbz
- fBUG4evbMyvPfKUs8TeJ4kctEuvCXb8yCpTBEwjP+22pYrFCI9GMBruW7e/JucYzlcFZ1L
- pJQ9rBYKOkq2tb6misIqJvNEpD3ztfA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-397-yQk96nNAMoegP9S3tesI_A-1; Mon, 05 Sep 2022 19:41:17 -0400
-X-MC-Unique: yQk96nNAMoegP9S3tesI_A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A307138041C0;
- Mon,  5 Sep 2022 23:41:16 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 226FB1415137;
- Mon,  5 Sep 2022 23:41:15 +0000 (UTC)
-Date: Mon, 5 Sep 2022 19:40:42 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Stafford Horne <shorne@gmail.com>
-Cc: qemu-devel@nongnu.org, openrisc@lists.librecores.org,
- Stafford Horne <shorne@gmail.com>
-Subject: Re: [PULL 00/11] OpenRISC updates for 7.2.0
-Message-ID: <YxaI+n/mn3yw5prq@fedora>
-References: <20220904072607.44275-1-shorne@gmail.com>
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oVM95-0002GX-RC
+ for qemu-devel@nongnu.org; Mon, 05 Sep 2022 20:08:53 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 285NqbHE025209;
+ Tue, 6 Sep 2022 00:08:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=lFYgP4Rz4anqudd9LDrnKAnhQPDYRWLus70ZTNoBkOY=;
+ b=an+RtKRWqvDXEc2dFofnX5ByEQ2cgblZHfRCBI/76Zd9egsP9axmJJfo4TaGfS5T9STY
+ tIhK+79HznXvgH+EIL0o+4hi4wKuclqHUbGlhQPRV6HnBWL2DHHVB/mTUsfw3KrDg7dw
+ 3NSwKZwN7jGnP3ef6HkleBre/8yna8fvc5EQWZGFYPioFN9ieayA+4pzLJmY1u93ABTW
+ fP9d6FB4oExq1P8IV0UHtbGOmDi+n7ecmigIW5AxYowoUKjbv8Wk+10G032E1D/tbyYg
+ hFyhOqJsjHcu2dRcRV9Nz9PMCIO06xydAouuqjLaa8joM/0UxN+uFLhApkl2q9BxMYKm hg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jdu60rewm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Sep 2022 00:08:48 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 285Ntli7007417;
+ Tue, 6 Sep 2022 00:08:48 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jdu60revc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Sep 2022 00:08:48 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28606kcs016759;
+ Tue, 6 Sep 2022 00:08:45 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma06ams.nl.ibm.com with ESMTP id 3jbx6hk134-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Sep 2022 00:08:45 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 28608hMC41156976
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 6 Sep 2022 00:08:43 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7C97611C04A;
+ Tue,  6 Sep 2022 00:08:43 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1C76A11C04C;
+ Tue,  6 Sep 2022 00:08:43 +0000 (GMT)
+Received: from heavy.lan (unknown [9.171.53.58])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  6 Sep 2022 00:08:43 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Taylor Simpson <tsimpson@quicinc.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH v3 0/5] linux-user: Passthrough MADV_DONTNEED for certain file
+ mappings
+Date: Tue,  6 Sep 2022 02:08:34 +0200
+Message-Id: <20220906000839.1672934-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.37.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: kpdid4Cdi7SZjD7vwQjHB14RXxG-oFpF
+X-Proofpoint-ORIG-GUID: DgZ3UnChf_sX2MSF9mFUb0RyABrAisjL
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WLtjUio9Vs+QpEBQ"
-Content-Disposition: inline
-In-Reply-To: <20220904072607.44275-1-shorne@gmail.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-05_16,2022-09-05_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ mlxlogscore=999 suspectscore=0 bulkscore=0 priorityscore=1501 spamscore=0
+ malwarescore=0 clxscore=1011 phishscore=0 adultscore=0 impostorscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2209050118
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,30 +114,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
---WLtjUio9Vs+QpEBQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This series is made of patches from [1]. I've added a test and noticed
+that madvise(MADV_DONTNEED) was broken on alpha, fixing which required
+adding per-arch MADV_* definitions. This in turn affected the strace
+patch, so it made sense to make a series out of the results.
 
-Applied, thanks.
+Patch 1 adds MADV_* constants for all architectures.
+Patch 2 fixes the alpha bug.
+Patch 3 adds madvise() support to strace.
+Patch 4 adds MADV_DONTNEED support for file mappings.
+Patch 5 adds a test.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
+Best regards,
+Ilya
 
---WLtjUio9Vs+QpEBQ
-Content-Type: application/pgp-signature; name="signature.asc"
+[1] https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg00710.html
 
------BEGIN PGP SIGNATURE-----
+Ilya Leoshkevich (5):
+  linux-user: Provide MADV_* definitions
+  linux-user: Fix madvise(MADV_DONTNEED) on alpha
+  linux-user: Implement stracing madvise()
+  linux-user: Passthrough MADV_DONTNEED for certain file mappings
+  tests/tcg/linux-test: Add linux-madvise test
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMWiPoACgkQnKSrs4Gr
-c8ig6Af/RIfNBXrarBvWj6BRP+y3U9YMpzlme9olxdRmsf2XkmWCxTqSfw3QzWIk
-bwaREHU9fdLTKEuDyi5sFnDNrfWVU5TRacYnxUJUmr964YPvRUwR4j6HBf6Nh4yu
-kWNBOmSlLgaTE7T0T6IjkBSC871Ym20lvqXHxQuigzYZd85qZ7kdC+SWBb3fDbn9
-uFd0sdudr+WKi/2LNZT0JE+ge2lF59SqR2HogHo1NbMxHGAJlip+eYYRmgEt7Pnj
-6k6b9E5FCVakaxdhoyI5fWcfAU5Rr1k3LL0co9HS15Jjrc5PBAbegB/DOb6l3zVl
-yB2zguFftcYjsj2CsuIz/bVuS2NmvQ==
-=WV2Q
------END PGP SIGNATURE-----
+ accel/tcg/translate-all.c                 |  2 +-
+ include/exec/cpu-all.h                    |  6 ++
+ linux-user/aarch64/target_mman.h          |  1 +
+ linux-user/alpha/target_mman.h            |  8 ++
+ linux-user/arm/target_mman.h              |  1 +
+ linux-user/cris/target_mman.h             |  1 +
+ linux-user/generic/target_mman.h          | 92 +++++++++++++++++++++++
+ linux-user/hexagon/target_mman.h          |  1 +
+ linux-user/hppa/target_mman.h             | 15 ++++
+ linux-user/i386/target_mman.h             |  1 +
+ linux-user/loongarch64/target_mman.h      |  1 +
+ linux-user/m68k/target_mman.h             |  1 +
+ linux-user/microblaze/target_mman.h       |  1 +
+ linux-user/mips/target_mman.h             |  1 +
+ linux-user/mips64/target_mman.h           |  1 +
+ linux-user/mmap.c                         | 30 ++++++--
+ linux-user/nios2/target_mman.h            |  1 +
+ linux-user/openrisc/target_mman.h         |  1 +
+ linux-user/ppc/target_mman.h              |  1 +
+ linux-user/riscv/target_mman.h            |  1 +
+ linux-user/s390x/target_mman.h            |  1 +
+ linux-user/sh4/target_mman.h              |  1 +
+ linux-user/sparc/target_mman.h            |  1 +
+ linux-user/strace.c                       | 41 ++++++++++
+ linux-user/strace.list                    |  2 +-
+ linux-user/x86_64/target_mman.h           |  1 +
+ linux-user/xtensa/target_mman.h           |  1 +
+ tests/tcg/multiarch/linux/linux-madvise.c | 70 +++++++++++++++++
+ 28 files changed, 277 insertions(+), 8 deletions(-)
+ create mode 100644 linux-user/aarch64/target_mman.h
+ create mode 100644 linux-user/alpha/target_mman.h
+ create mode 100644 linux-user/arm/target_mman.h
+ create mode 100644 linux-user/cris/target_mman.h
+ create mode 100644 linux-user/generic/target_mman.h
+ create mode 100644 linux-user/hexagon/target_mman.h
+ create mode 100644 linux-user/hppa/target_mman.h
+ create mode 100644 linux-user/i386/target_mman.h
+ create mode 100644 linux-user/loongarch64/target_mman.h
+ create mode 100644 linux-user/m68k/target_mman.h
+ create mode 100644 linux-user/microblaze/target_mman.h
+ create mode 100644 linux-user/mips/target_mman.h
+ create mode 100644 linux-user/mips64/target_mman.h
+ create mode 100644 linux-user/nios2/target_mman.h
+ create mode 100644 linux-user/openrisc/target_mman.h
+ create mode 100644 linux-user/ppc/target_mman.h
+ create mode 100644 linux-user/riscv/target_mman.h
+ create mode 100644 linux-user/s390x/target_mman.h
+ create mode 100644 linux-user/sh4/target_mman.h
+ create mode 100644 linux-user/sparc/target_mman.h
+ create mode 100644 linux-user/x86_64/target_mman.h
+ create mode 100644 linux-user/xtensa/target_mman.h
+ create mode 100644 tests/tcg/multiarch/linux/linux-madvise.c
 
---WLtjUio9Vs+QpEBQ--
+-- 
+2.37.2
 
 
