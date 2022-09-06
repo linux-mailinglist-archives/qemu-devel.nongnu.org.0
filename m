@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 203DF5AE107
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 09:26:51 +0200 (CEST)
-Received: from localhost ([::1]:52382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB0A65AE0EE
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 09:23:49 +0200 (CEST)
+Received: from localhost ([::1]:49728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVSyw-0002YA-7P
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 03:26:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60896)
+	id 1oVSvw-00084B-QB
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 03:23:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1oVSst-0004Ub-1w
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 03:20:35 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:40474)
+ id 1oVSt3-0004dU-5r
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 03:20:46 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:35735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1oVSsn-0001D2-Qh
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 03:20:34 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id qh18so21119136ejb.7
- for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 00:20:29 -0700 (PDT)
+ id 1oVSt1-0000uP-2L
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 03:20:44 -0400
+Received: by mail-ed1-x531.google.com with SMTP id 29so8850921edv.2
+ for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 00:20:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=4/xCAW5qhxfsWscShFUZM+n3IhErKzK8ctVT2wYzpPo=;
- b=Y9O0JFchG56VAmiyoyreYkBOwI1dgwZFKLQWQ0YQ8E10ZCPVbQ4RBjtvtjfUkxFV+E
- Ryaz146Vr8Mc4Y/HQqXLx1GBpFaOjF5osmJuv0DLiz443zNdmY2jJdfYXsshGMeBooIe
- GhD1UZaELQhA8MOVDXQnb46hQcyxGXVQrorevf3qAXm/OmUd3xxUOHkPquDB9+PFpIWV
- xP+IEsYzpKKRZM1I5SPPcUrn4AznO7pGC5q1KJI/wQ0nol+5yzyQuZFJVFA+Zou1P7Oj
- EiigQAsHeRfEei/D8aK/2zS9t9vz4CMwMJfj4cgk/2j8kAr2waqCo9IJM/6AS2vITo0S
- OkSg==
+ bh=2Jpfz+WIB/we4TX6mXR/DxZWXuNK5/543RdUPIpixbs=;
+ b=hFiM7uC3hO+t7hVUOF+IjdMhxZ4D4EPrM6folZtHmGRYzNbdWr5S6qEulK5jFkJpVs
+ LXYMPFyDQt+S0oshkc6E941IInHjn27zQ7upOXxbVIJ4J94g669yO1c0QBhd4GX9khLQ
+ 4cxpgu4EGm+ZHUTr6+Smgvv3NqaRWOVqQrs+bjLb3/ULVK0mz8XvX0hJHmXI/gCD3VJr
+ SKT8KZ+R9JQpNTnRMkmCufY8aLgQOtCZ9dv51oYNzvUjpe705K0eNGW8e+XfYxdEU0p3
+ mPQR9DHGCeEpp8AaIVxTzlDdU8lu8G2leES2lXQV3Eu2cOi+kJnYoIf7O93295yYU9Wx
+ UTjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=4/xCAW5qhxfsWscShFUZM+n3IhErKzK8ctVT2wYzpPo=;
- b=LHcOTES5+QbvuwmY+tvnpTzXk5FOK9qQGJrxPFQXdKa/5Tn+R6eR8HoLkNMQZArqM8
- GuzXW58SBS9m64yS+Q41w5UtdsTqh/+TvKYnEg8nhmP+wJ54jXA7loSqMQYp2DJQkglF
- ouW0E3hryRtYzaaCXd/OQmtrUD91kyM6Qo9kbfOZvndoIyjOaq8etHLQ4W+BnRtYnNjd
- 2aOtWzdt9GVy+Ig9o6hiXd7QWxweM6cby0SwI0WuCFr9oTL+UYweBgIibUKpTenzfRxi
- iwbvI+gqqHBucrwT4jXHnIf4tbl1+PUFe9TLnRgwT5mrqKB3UX0fPdDojF/XiqZcdx6T
- mfXg==
-X-Gm-Message-State: ACgBeo0DofyzF3PI6XVps9WFEJ2xq4Eml2i0vREHk/y3uAgCWuNAllqS
- 4cfnHRYvUV3Oknf3YXT7+v2xrg==
-X-Google-Smtp-Source: AA6agR5h0KCfY64GRU1YdS4ZUEvfyoxaIqApFK3B6GomleU1pDIEiyjmdTdb7ejHojNK5XD395ZjHw==
-X-Received: by 2002:a17:906:5a5a:b0:741:559f:f539 with SMTP id
- my26-20020a1709065a5a00b00741559ff539mr31133000ejc.3.1662448828342; 
- Tue, 06 Sep 2022 00:20:28 -0700 (PDT)
+ bh=2Jpfz+WIB/we4TX6mXR/DxZWXuNK5/543RdUPIpixbs=;
+ b=azD0eT5RpX39yDq1JWrs1MyYxI6xDEPTg+MRFFRDzQy13g3lydBhICoK2GB3PgotG5
+ hSWN67kx9fkXkdnufdfezDRRz8z6rJmMRZ80GmREDqqXbM0+Xkbp+MdguOiqPMLMFns/
+ PZ2+wfx1+RK2B6uTr6NvJI4XFe5gJ4GwclxTeo+EMtqpUOUUuEJgsRF38Drx8jhQKKXB
+ cKEXwrUSVP26HI22rDYAJpS/AGG9fxPeWhZHA8olVcyVSVDjM/OZDZDGRmhZVPBbPt0u
+ NeEEQC8cCe+e5BBPwjx0SVQSbUjd+dSZTBhZtbUPbiO2+bEESF9M+XILk3VvfNl0CsDd
+ FAhQ==
+X-Gm-Message-State: ACgBeo0/LdwWOlAmjhOhJdWfnVh6srZQVGotmuek7KZrtDSFHgw67EQc
+ TPele/lAicAiOHI8OVGo8VB41A==
+X-Google-Smtp-Source: AA6agR4Ooeell1Rr4HyL/3AjrD2P1LSIG5SXpFEcPbDXYKQkreVTBGC/ioTnWWQYuCYjCArtAbSKqQ==
+X-Received: by 2002:a05:6402:b6c:b0:44e:2faf:1ba4 with SMTP id
+ cb12-20020a0564020b6c00b0044e2faf1ba4mr9720993edb.191.1662448842370; 
+ Tue, 06 Sep 2022 00:20:42 -0700 (PDT)
 Received: from localhost (cst2-173-61.cust.vodafone.cz. [31.30.173.61])
  by smtp.gmail.com with ESMTPSA id
- v14-20020a056402348e00b004464c3de6dasm7891373edc.65.2022.09.06.00.20.27
+ dc4-20020a170906c7c400b0073bf84be798sm6110735ejb.142.2022.09.06.00.20.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 00:20:27 -0700 (PDT)
-Date: Tue, 6 Sep 2022 09:20:27 +0200
+ Tue, 06 Sep 2022 00:20:41 -0700 (PDT)
+Date: Tue, 6 Sep 2022 09:20:40 +0200
 From: Andrew Jones <ajones@ventanamicro.com>
 To: Sunil V L <sunilvl@ventanamicro.com>
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
@@ -66,17 +66,17 @@ Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
  Bin Meng <bin.meng@windriver.com>, Anup Patel <apatel@ventanamicro.com>,
  Atish Kumar Patra <atishp@rivosinc.com>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH V3 1/3] hw/arm,loongarch: Move load_image_to_fw_cfg() to
- common location
-Message-ID: <20220906072027.fbffz6ztdukwvsvs@kamzik>
+Subject: Re: [PATCH V3 2/3] hw/riscv: virt: Move create_fw_cfg() prior to
+ loading kernel
+Message-ID: <20220906072040.rycwn7qxnhoc7sro@kamzik>
 References: <20220906042451.379611-1-sunilvl@ventanamicro.com>
- <20220906042451.379611-2-sunilvl@ventanamicro.com>
+ <20220906042451.379611-3-sunilvl@ventanamicro.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220906042451.379611-2-sunilvl@ventanamicro.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=ajones@ventanamicro.com; helo=mail-ej1-x62b.google.com
+In-Reply-To: <20220906042451.379611-3-sunilvl@ventanamicro.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=ajones@ventanamicro.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,18 +99,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 06, 2022 at 09:54:49AM +0530, Sunil V L wrote:
-> load_image_to_fw_cfg() is duplicated by both arm and loongarch. The same
-> function will be required by riscv too. So, it's time to refactor and
-> move this function to a common path.
+On Tue, Sep 06, 2022 at 09:54:50AM +0530, Sunil V L wrote:
+> To enable both -kernel and -pflash options, the fw_cfg needs to be
+> created prior to loading the kernel.
 > 
 > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 > ---
->  hw/arm/boot.c             | 49 ---------------------------------------
->  hw/loongarch/virt.c       | 33 --------------------------
->  hw/nvram/fw_cfg.c         | 32 +++++++++++++++++++++++++
->  include/hw/nvram/fw_cfg.h | 21 +++++++++++++++++
->  4 files changed, 53 insertions(+), 82 deletions(-)
+>  hw/riscv/virt.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index ff8c0df5cd..b6bbf03f61 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -1251,6 +1251,13 @@ static void virt_machine_done(Notifier *notifier, void *data)
+>                                      RISCV64_BIOS_BIN, start_addr, NULL);
+>      }
+>  
+> +    /*
+> +     * Init fw_cfg.  Must be done before riscv_load_fdt, otherwise the device
+> +     * tree cannot be altered and we get FDT_ERR_NOSPACE.
+> +     */
+> +    s->fw_cfg = create_fw_cfg(machine);
+> +    rom_set_fw(s->fw_cfg);
+> +
+>      if (machine->kernel_filename) {
+>          kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc[0],
+>                                                           firmware_end_addr);
+> @@ -1284,13 +1291,6 @@ static void virt_machine_done(Notifier *notifier, void *data)
+>          start_addr = virt_memmap[VIRT_FLASH].base;
+>      }
+>  
+> -    /*
+> -     * Init fw_cfg.  Must be done before riscv_load_fdt, otherwise the device
+> -     * tree cannot be altered and we get FDT_ERR_NOSPACE.
+> -     */
+> -    s->fw_cfg = create_fw_cfg(machine);
+> -    rom_set_fw(s->fw_cfg);
+> -
+>      /* Compute the fdt load address in dram */
+>      fdt_load_addr = riscv_load_fdt(memmap[VIRT_DRAM].base,
+>                                     machine->ram_size, machine->fdt);
+> -- 
+> 2.25.1
 >
 
 Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
