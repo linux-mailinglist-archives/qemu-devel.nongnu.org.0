@@ -2,83 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4281C5AE2B0
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 10:33:39 +0200 (CEST)
-Received: from localhost ([::1]:34362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 602F05AE33E
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 10:43:29 +0200 (CEST)
+Received: from localhost ([::1]:33306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVU1U-0000Jz-Fn
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 04:33:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47264)
+	id 1oVUB6-0008Lo-FT
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 04:43:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVToV-0008WP-1y
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 04:20:07 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:48292)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVToS-0002Vf-E1
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 04:20:05 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C1FBE33952;
- Tue,  6 Sep 2022 08:20:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1662452401; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=48PtQlWaZEYYbB1/E/Fui2byeHXd0l4ij44lYbPiN34=;
- b=fSKNnUk6e/GjhR80kGffcbB7K3eyla1zIzVW+Ps5V7yWQ9YBWzU9gcNhFNRMMdVm1bdutr
- TsdeFxqRPYKebS0619sUZP90PE3S6y9//surFCfhbV+vB4bofIZI3oofsiJUJp0hgUAwbI
- gkAY4TYTnr9+/VPir7rLYKV71u2UJMs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1662452401;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=48PtQlWaZEYYbB1/E/Fui2byeHXd0l4ij44lYbPiN34=;
- b=c3SWGvKjRMWfaKLQETbVtdR3AAkA9aPsjFPS0PeJFVRKALYkLFmm99/A+syGf2n2wha2Sn
- 2OddzoV6TLu/5IDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6BE5313A7A;
- Tue,  6 Sep 2022 08:20:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id b1IWGLECF2PMTAAAMHmgww
- (envelope-from <cfontana@suse.de>); Tue, 06 Sep 2022 08:20:01 +0000
-Message-ID: <477f6527-4e0b-83c5-13a5-d0ea1f67806e@suse.de>
-Date: Tue, 6 Sep 2022 10:20:00 +0200
+ (Exim 4.90_1) (envelope-from <nrb@linux.ibm.com>)
+ id 1oVTwJ-0005DC-6E; Tue, 06 Sep 2022 04:28:12 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:16140)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nrb@linux.ibm.com>)
+ id 1oVTw3-0003iV-LC; Tue, 06 Sep 2022 04:28:10 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2868CmY6020304;
+ Tue, 6 Sep 2022 08:27:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=content-type :
+ mime-version : content-transfer-encoding : in-reply-to : references : cc :
+ from : subject : to : message-id : date; s=pp1;
+ bh=X14S1t8iOyLE3wWBeBqZLQ9sLfznSv1wQi96oOHVnIw=;
+ b=NGIu0MhK5UTdnlLbfacecHmXOTzn45PfJ/Hlr+67rsX6bCfV6s+kdcgySlgkPFGNrJqK
+ +BXRQBd6HO827y1hPiYzWzV5TYSU4qnEFH75IoU2uW3bO9K0rXx7PVWpMJzXyZLqrlDx
+ WEbueYdDss9lVxVYDcUTuw5I+0zklS+XpTmBOwVgnNIGcbPHx6K7KjscKNboJCitglh/
+ xEWs+4/fMA5MGGkmWYmhpjJCzS7fyeptw4HEw+bKGsiD2o02P+l68lqrEU8pIoIiosrh
+ AESMsjXOUWvPGbgMxivOJSn9Gco1Qyw2fzT4C4fZ+v7yUP6RU5haASV1/VK6VlJni7Cm 9A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3je2gc0gmt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Sep 2022 08:27:52 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2868D2mr020981;
+ Tue, 6 Sep 2022 08:27:52 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3je2gc0gkd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Sep 2022 08:27:52 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2868Lxbk007595;
+ Tue, 6 Sep 2022 08:27:49 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma02fra.de.ibm.com with ESMTP id 3jbxj8thx6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Sep 2022 08:27:49 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2868RjLs39256392
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 6 Sep 2022 08:27:45 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9CE6C11C04C;
+ Tue,  6 Sep 2022 08:27:45 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7E68D11C04A;
+ Tue,  6 Sep 2022 08:27:45 +0000 (GMT)
+Received: from t14-nrb (unknown [9.171.15.101])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  6 Sep 2022 08:27:45 +0000 (GMT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [RFC] module: removed unused function argument "mayfail"
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20220905155532.1824-1-cfontana@suse.de>
- <f7a9293e-1158-d5ae-a6f5-31c4a4ef6fed@amsat.org>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <f7a9293e-1158-d5ae-a6f5-31c4a4ef6fed@amsat.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -60
-X-Spam_score: -6.1
-X-Spam_bar: ------
-X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220902075531.188916-7-pmorel@linux.ibm.com>
+References: <20220902075531.188916-1-pmorel@linux.ibm.com>
+ <20220902075531.188916-7-pmorel@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ frankja@linux.ibm.com
+From: Nico Boehr <nrb@linux.ibm.com>
+Subject: Re: [PATCH v9 06/10] s390x/cpu_topology: resetting the
+ Topology-Change-Report
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Message-ID: <166245286528.5995.1915366030580373557@t14-nrb>
+User-Agent: alot/0.8.1
+Date: Tue, 06 Sep 2022 10:27:45 +0200
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ekYQNY6kL4HH4emiPseFOAds7pVzGOnb
+X-Proofpoint-ORIG-GUID: wksvxoRE0R37mCA3YQWUAyEAOF5hNGEq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-06_03,2022-09-05_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 bulkscore=0
+ priorityscore=1501 suspectscore=0 malwarescore=0 spamscore=0 clxscore=1015
+ mlxscore=0 mlxlogscore=872 impostorscore=0 lowpriorityscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
+ definitions=main-2209060038
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=nrb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,29 +119,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/5/22 22:55, Philippe Mathieu-Daudé wrote:
-> On 5/9/22 17:55, Claudio Fontana wrote:
->> mayfail is always passed as false for every invocation throughout the program.
->> It controls whether to printf or not to printf an error on
->> g_module_open failure.
->>
->> Remove this unused argument.
->>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> ---
->>   include/qemu/module.h |  8 ++++----
->>   softmmu/qtest.c       |  2 +-
->>   util/module.c         | 20 +++++++++-----------
->>   3 files changed, 14 insertions(+), 16 deletions(-)
-> 
-> Why RFC?
+Quoting Pierre Morel (2022-09-02 09:55:27)
+> During a subsystem reset the Topology-Change-Report is cleared
+> by the machine.
+> Let's ask KVM to clear the Modified Topology Change Report (MTCR)
+>  bit of the SCA in the case of a subsystem reset.
+>=20
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 
-Maybe there was some obscure way the parameter was intended to be used by someone, somewhere :-)
-
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-Ciao,
-
-C
+Reviewed-by: Nico Boehr <nrb@linux.ibm.com>
 
