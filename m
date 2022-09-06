@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFF775AE5BE
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 12:47:40 +0200 (CEST)
-Received: from localhost ([::1]:36130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 778C45AE62F
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 13:06:56 +0200 (CEST)
+Received: from localhost ([::1]:47824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVW7D-0008WJ-0I
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 06:47:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47156)
+	id 1oVWPv-00023f-BH
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 07:06:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVVWX-00008u-G7
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 06:09:42 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42543)
+ id 1oVVWY-00008x-Gi
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 06:09:43 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:46049)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVVWU-0003Yc-D9
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 06:09:41 -0400
-Received: by mail-wr1-x433.google.com with SMTP id bp20so14178862wrb.9
- for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 03:09:38 -0700 (PDT)
+ id 1oVVWW-0003Yn-LQ
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 06:09:42 -0400
+Received: by mail-wr1-x436.google.com with SMTP id bj14so1389104wrb.12
+ for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 03:09:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=RhzKSK5t9n+kSLhXSJS3gAkwrU8yfE69BjVDNOiZ1lI=;
- b=LMhHqvzfCgPx3ULqCjwCDd7iW0K3BHyQjTcj8CNi+wwwQSMScB3zeSGHeuxgLZoyzj
- xk1YHO/Sdj0uwYH8Hf7fI6RuNyyIpFwsGVVEcloGxDLVucGYDvInu3n/hBYLuvnNIIh4
- M9fj27ua1Zfbe58hSoiwA1yXTGgKZGD49ke+6NokLQ2CkHBOfPPxn40ZeBuVTFBU9uOi
- vqCIg6+oictIKVaPaPO1O0EsvV95E1jykvcTyp3U/mPLgzStyVPqirKcFkWpHtpOPQfl
- DujqIeOrIngw1JfvXCHIIPH7q5SXs3MgM4L0OMeTy7C1/zmLXSQMAUUEgzJZte+dXIuL
- kydQ==
+ bh=Od9/5sVYEyw5aM2oCw6JowpUd9okmRwg1CwHbwIH7Qk=;
+ b=a4UOPUzQJcU/Da6iPG6nFaPUAmb/77wDda0oM699OgNCV25EBnZ61+L1pbBcz6dXaV
+ xEdGfxRbg4hBRVrnPFVbfiWqOjiPCWrdSoXKXOnErpjAmMfYE8UKA2t5IL6B3FSv5QE1
+ Fuo6yNpM23aPyTKIDVJtWSYn13fsG7u6skn3rZT0aI+2GWIJ0kQVJTfG4gy+6X695CnC
+ jn6bMC68ANf1x0x39AVwRX4T4UHdt7V9HhNvEzqPS4leSBgUJUEwrt/rQzYBm1A8Qs7M
+ ku5fFqg3Mo4ppqV4y3M+SLQhgpe0/uj2e1WVs8YCo800JKPZsPKT2QmbPDjOzQEMupKl
+ cpXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=RhzKSK5t9n+kSLhXSJS3gAkwrU8yfE69BjVDNOiZ1lI=;
- b=48l53Gd6mzjt0zoCMV1b4BUD9GWK6bQTQFVFYsaknjAHamtyQezB4RHM5f/Dm8gcya
- 64ODvq+jgc+9OICakb7zk/nYtA/sjcayFGBfLZ1Btw9ljp/KiV3L6D7OPGLHdczCiAxY
- csimjDkzTlIs0WUfGaQueCYjokRf2IHciKtLqKJW7WhFurIz8Sa4upyNTimYni+2Zv9z
- TAx3nuCHuByAstDUhAZhOo4z8rPi8HgdmxbldkmZ4maAHFFIkgwCPsESxcS+5Zo1VIYG
- zY4AQvW5FQYm95idcG17/xKCQDDvojty8W/tXJQFwdryxsuhhr5B0d6jisv1pP0TLiL0
- mAaQ==
-X-Gm-Message-State: ACgBeo2swbBxF4RRnANxFItyqzTIFRMl1wUDTsXF5tITNUXbsrS4fOfe
- 2FhlMB9507f+xTk1rxtjSKKm/UW1fNjxvhNm
-X-Google-Smtp-Source: AA6agR5G1FFmYHrvM38XGX4aUoWGcaXh49HGfpzu2Tb5A6OoDabGqQ2eswgaYKd83yn1hf4GYPghpg==
-X-Received: by 2002:adf:fb0e:0:b0:21a:34a2:5ca9 with SMTP id
- c14-20020adffb0e000000b0021a34a25ca9mr27446872wrr.472.1662458977099; 
- Tue, 06 Sep 2022 03:09:37 -0700 (PDT)
+ bh=Od9/5sVYEyw5aM2oCw6JowpUd9okmRwg1CwHbwIH7Qk=;
+ b=d2/rzHf6MzPkADkD265VJHd85dfs1siEMjFIvxm+Xc4zAIAucOCgJwqqrAwjPoIYTk
+ b+KCIJkQYvBRJ7S105X8Ieu3+ny0IbnyBBUGcFzosZMGqdsJVXsqolTMQBAu3AOjRIl2
+ nXwxz+Xbwt5luX3HVIwaDBDl7oNkihggC+IgEOXPxE/sQH7Dqm/k8pSl/Txzigl5ooj8
+ xauie6GtQUGOR4qtCU46hwwfPmva/1GuQ+jiRRJpNg2j83xqHXizxVNNa9Srja79VXec
+ Ksss4S7saUxtEJ7N8j60J4GwPINPM4M7UFXlSoR/Wpd79NgIsNBtt1Ym9sJgipJKk1ul
+ lGXw==
+X-Gm-Message-State: ACgBeo2ryZSlkJWqEu4bVmJZV0IPeqoEdoTu+h5+nsKGEQ021+dnixiE
+ IzYUKM6XFWyQQStjkK3qBAfhaQPDqse7EVf+
+X-Google-Smtp-Source: AA6agR6LmFXQQDmqpmbIgzBK4a5u0wfwDjhK6sndupQGOd2OKsCR/1RSq1gKobeupHsWCJPPDBFz3Q==
+X-Received: by 2002:adf:fbc7:0:b0:220:6004:18ca with SMTP id
+ d7-20020adffbc7000000b00220600418camr25956955wrs.632.1662458978120; 
+ Tue, 06 Sep 2022 03:09:38 -0700 (PDT)
 Received: from localhost.localdomain
  ([2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1])
  by smtp.gmail.com with ESMTPSA id
- f25-20020a1c6a19000000b003a840690609sm23125014wmc.36.2022.09.06.03.09.36
+ f25-20020a1c6a19000000b003a840690609sm23125014wmc.36.2022.09.06.03.09.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 03:09:36 -0700 (PDT)
+ Tue, 06 Sep 2022 03:09:37 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com
-Subject: [PATCH v2 03/23] target/i386: Remove cur_eip argument to gen_exception
-Date: Tue,  6 Sep 2022 11:09:12 +0100
-Message-Id: <20220906100932.343523-4-richard.henderson@linaro.org>
+Subject: [PATCH v2 04/23] target/i386: Remove cur_eip,
+ next_eip arguments to gen_interrupt
+Date: Tue,  6 Sep 2022 11:09:13 +0100
+Message-Id: <20220906100932.343523-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220906100932.343523-1-richard.henderson@linaro.org>
 References: <20220906100932.343523-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,130 +91,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All callers pass s->base.pc_next - s->cs_base, which we can just
-as well compute within the function.  Note the special case of
-EXCP_VSYSCALL in which s->cs_base didn't have the subtraction,
-but cs_base is always zero in 64-bit mode, when vsyscall is used.
+All callers pass s->base.pc_next and s->pc, which we can just
+as well compute within the function.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ target/i386/tcg/translate.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 46300ffd91..58e74c3162 100644
+index 58e74c3162..0210382f77 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -1332,10 +1332,10 @@ static void gen_helper_fp_arith_STN_ST0(int op, int opreg)
-     }
- }
+@@ -2602,13 +2602,12 @@ static void gen_unknown_opcode(CPUX86State *env, DisasContext *s)
  
--static void gen_exception(DisasContext *s, int trapno, target_ulong cur_eip)
-+static void gen_exception(DisasContext *s, int trapno)
+ /* an interrupt is different from an exception because of the
+    privilege checks */
+-static void gen_interrupt(DisasContext *s, int intno,
+-                          target_ulong cur_eip, target_ulong next_eip)
++static void gen_interrupt(DisasContext *s, int intno)
  {
      gen_update_cc_op(s);
 -    gen_jmp_im(s, cur_eip);
+-    gen_helper_raise_interrupt(cpu_env, tcg_const_i32(intno),
+-                               tcg_const_i32(next_eip - cur_eip));
 +    gen_jmp_im(s, s->base.pc_next - s->cs_base);
-     gen_helper_raise_exception(cpu_env, tcg_const_i32(trapno));
++    gen_helper_raise_interrupt(cpu_env, tcg_constant_i32(intno),
++                               tcg_constant_i32(s->pc - s->base.pc_next));
      s->base.is_jmp = DISAS_NORETURN;
  }
-@@ -1344,13 +1344,13 @@ static void gen_exception(DisasContext *s, int trapno, target_ulong cur_eip)
-    the instruction is known, but it isn't allowed in the current cpu mode.  */
- static void gen_illegal_opcode(DisasContext *s)
- {
--    gen_exception(s, EXCP06_ILLOP, s->base.pc_next - s->cs_base);
-+    gen_exception(s, EXCP06_ILLOP);
- }
  
- /* Generate #GP for the current instruction. */
- static void gen_exception_gpf(DisasContext *s)
- {
--    gen_exception(s, EXCP0D_GPF, s->base.pc_next - s->cs_base);
-+    gen_exception(s, EXCP0D_GPF);
- }
- 
- /* Check for cpl == 0; if not, raise #GP and return false. */
-@@ -3240,7 +3240,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
-     }
-     /* simple MMX/SSE operation */
-     if (s->flags & HF_TS_MASK) {
--        gen_exception(s, EXCP07_PREX, s->base.pc_next - s->cs_base);
-+        gen_exception(s, EXCP07_PREX);
-         return;
-     }
-     if (s->flags & HF_EM_MASK) {
-@@ -6042,7 +6042,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-             if (s->flags & (HF_EM_MASK | HF_TS_MASK)) {
-                 /* if CR0.EM or CR0.TS are set, generate an FPU exception */
-                 /* XXX: what to do if illegal op ? */
--                gen_exception(s, EXCP07_PREX, s->base.pc_next - s->cs_base);
-+                gen_exception(s, EXCP07_PREX);
-                 break;
-             }
-             modrm = x86_ldub_code(env, s);
-@@ -7267,7 +7267,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-             goto illegal_op;
-         val = x86_ldub_code(env, s);
-         if (val == 0) {
--            gen_exception(s, EXCP00_DIVZ, s->base.pc_next - s->cs_base);
-+            gen_exception(s, EXCP00_DIVZ);
-         } else {
-             gen_helper_aam(cpu_env, tcg_const_i32(val));
-             set_cc_op(s, CC_OP_LOGICB);
-@@ -7301,7 +7301,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-     case 0x9b: /* fwait */
-         if ((s->flags & (HF_MP_MASK | HF_TS_MASK)) ==
-             (HF_MP_MASK | HF_TS_MASK)) {
--            gen_exception(s, EXCP07_PREX, s->base.pc_next - s->cs_base);
-+            gen_exception(s, EXCP07_PREX);
-         } else {
-             gen_helper_fwait(cpu_env);
+@@ -7307,12 +7306,12 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
          }
-@@ -8358,7 +8358,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-                 goto illegal_op;
-             }
-             if ((s->flags & HF_EM_MASK) || (s->flags & HF_TS_MASK)) {
--                gen_exception(s, EXCP07_PREX, s->base.pc_next - s->cs_base);
-+                gen_exception(s, EXCP07_PREX);
-                 break;
-             }
-             gen_lea_modrm(env, s, modrm);
-@@ -8371,7 +8371,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-                 goto illegal_op;
-             }
-             if ((s->flags & HF_EM_MASK) || (s->flags & HF_TS_MASK)) {
--                gen_exception(s, EXCP07_PREX, s->base.pc_next - s->cs_base);
-+                gen_exception(s, EXCP07_PREX);
-                 break;
-             }
-             gen_lea_modrm(env, s, modrm);
-@@ -8383,7 +8383,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-                 goto illegal_op;
-             }
-             if (s->flags & HF_TS_MASK) {
--                gen_exception(s, EXCP07_PREX, s->base.pc_next - s->cs_base);
-+                gen_exception(s, EXCP07_PREX);
-                 break;
-             }
-             gen_lea_modrm(env, s, modrm);
-@@ -8396,7 +8396,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-                 goto illegal_op;
-             }
-             if (s->flags & HF_TS_MASK) {
--                gen_exception(s, EXCP07_PREX, s->base.pc_next - s->cs_base);
-+                gen_exception(s, EXCP07_PREX);
-                 break;
-             }
-             gen_helper_update_mxcsr(cpu_env);
-@@ -8787,7 +8787,7 @@ static void i386_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
-      * Detect entry into the vsyscall page and invoke the syscall.
-      */
-     if ((dc->base.pc_next & TARGET_PAGE_MASK) == TARGET_VSYSCALL_PAGE) {
--        gen_exception(dc, EXCP_VSYSCALL, dc->base.pc_next);
-+        gen_exception(dc, EXCP_VSYSCALL);
-         dc->base.pc_next = dc->pc + 1;
-         return;
-     }
+         break;
+     case 0xcc: /* int3 */
+-        gen_interrupt(s, EXCP03_INT3, s->base.pc_next - s->cs_base, s->pc - s->cs_base);
++        gen_interrupt(s, EXCP03_INT3);
+         break;
+     case 0xcd: /* int N */
+         val = x86_ldub_code(env, s);
+         if (check_vm86_iopl(s)) {
+-            gen_interrupt(s, val, s->base.pc_next - s->cs_base, s->pc - s->cs_base);
++            gen_interrupt(s, val);
+         }
+         break;
+     case 0xce: /* into */
 -- 
 2.34.1
 
