@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 901AC5AE985
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 15:29:01 +0200 (CEST)
-Received: from localhost ([::1]:39566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42D0D5AE8A7
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 14:46:29 +0200 (CEST)
+Received: from localhost ([::1]:59292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVYdQ-0004pT-C3
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 09:29:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59332)
+	id 1oVXyG-0007gY-9v
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 08:46:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
- id 1oVXbd-0005et-5q
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 08:23:08 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:45931)
+ id 1oVXbh-0005gE-QH
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 08:23:11 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:33658)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
- id 1oVXbW-0003sJ-Ve
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 08:23:01 -0400
-Received: by mail-ej1-x631.google.com with SMTP id lx1so22768767ejb.12
- for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 05:22:57 -0700 (PDT)
+ id 1oVXbW-0003st-Vt
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 08:23:05 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id w2so14976062edc.0
+ for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 05:22:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=BkvWtveihlbHGzWrmOD3R7Q8EqBt46lT5/dQA1FAtlQ=;
- b=itrGn3CHAnOwnM0CrvxqPlJeWTHLwXPDrIfPgTXOImeSEFUH+BVVLAFktd8RtMIPpP
- Uawty9rJLz1YS5DaxBjka9aBpqtM47YW2w37aDuBQERr4+EOastPMj57V5oXjAOVgK9G
- mdE3gx9XPW1rzGXW9rnjP0LjZOt4Q8VnKQ344SXFBWgMKlwcSfBPDj2fTGzY3XWRa67V
- qn05eG18I4aPnMD2qBRhZOe+Ta/KQZt7WjmrWXwAC5kOnJrPnBGlPfySzQVtCc/1xXCU
- TeDRg6LNA0Fb+H7HB4LBDgPFExejcHw2aQMXwQng8Qq6pA3maG0qMRgcAcAeBPfC48eA
- ukNA==
+ bh=Le20JxDRtr5XtbLRfBRfEaLtfPuVmzxK2ChfnUtZSkQ=;
+ b=PIc34vxWqWl7lveqj3YcQCT0GoH9aAwfJt/EtjHxVgp885tfxV4D1CkGz5XGii0r1x
+ d2ZnwP0PXu9NzbwuTfjBSHLBayNNJPgf5alFLRBlUUUGuhaZmCTBuMW4wh/0GjkSXQOv
+ lGK4QvF4D6YyDHYu/2d2CsBdM33AvrWIEd+f0AnfxgaJbyti7OAPE8tKCH/V4WZ5f5Vx
+ s2riPSzojfGuXqVDi0IqqBHMY85Z3inLx4S4Xrw2QzDMeie0aYGd2RFBuQzroDsm1C2G
+ TdC4U1SYsiMnhi7qar3zJ2tT7TDAUjVax4yAjLDkqurONRymLn42YWZu340adrLSph7g
+ 3ILA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=BkvWtveihlbHGzWrmOD3R7Q8EqBt46lT5/dQA1FAtlQ=;
- b=Jry7CC0NTe5iW0iG4nPvIskdGKEJbFEqOin2hguiyP6snxev5x3vMF4UJUz/DXjoki
- A77Q9Dj4W3xvYBgYyoEJiba0StAc0cbiJ7SUAcwEpP01/hr09bVsdXB854Ej8dUf8smj
- sID0Uv0cpJQCW5ZwCRqVeVUJEl9C4dDHn+cCPCvR1X340gCmrW8gULeATxefSQzrW2Tl
- heyGkpLK3wWpgTMXBllBMUo9kKLewVSfgCP/mti32wqN0rn2tpyKVfpEFDQroK6pCGHi
- xuQcYQ1PXDawPq+DXrwEQ8oUTaS0XApnj0ghHPtw6JNQ22Z1qKXKxA5gkWAy86tv680V
- Pw+Q==
-X-Gm-Message-State: ACgBeo3VQrJy0+p1tY71I3X87Ac7yF3tPEkmyjC0lVAgYgS5P43CK3tA
- CwBw2bZ624OjmxuhUVWAcAUuOA==
-X-Google-Smtp-Source: AA6agR4aSNfrI5CsoMZsK3LfAJd8nnfTfw8NV/RzXMbrY6coaX4wK25UayHNUC/cHa0T+6HZTs6RRQ==
-X-Received: by 2002:a17:906:eecb:b0:73c:5bcb:8eb3 with SMTP id
- wu11-20020a170906eecb00b0073c5bcb8eb3mr39295434ejb.284.1662466976299; 
- Tue, 06 Sep 2022 05:22:56 -0700 (PDT)
+ bh=Le20JxDRtr5XtbLRfBRfEaLtfPuVmzxK2ChfnUtZSkQ=;
+ b=PDFaQ3eoMMxmRUe2D60oqSILoptLMj1B2/ywGzI0SOgt6HsytNPZi5Lz5qP1lqi8+I
+ DYtisTCby1ZVF92XmypIGfbgA26/X/lwSjRUgNEf7B/+dI6Y5MuyWIq5OMw1hm/R6RP2
+ xjk1pjFFnuHgk8+XHOpk9PiaQP1cewliGbrMGMyZ/R6epaVxz8ReDb5YkwaMs3UvjNsW
+ T0jdxpszc6N+OQVQUNXOax3O7A6mFJCbaQAtHvr1/BdcGtR46L9WA0vK4LxuLUfWsMcB
+ fRm3DpLiEP1MPYQHA5gnppS7WQnKezt9eystvAQhcS6rVHaISTAQvkynowuRXBVATXWZ
+ SBTQ==
+X-Gm-Message-State: ACgBeo2zZ3oaRoL8/cAZhl/X5VXIBPTuzOzdIjRsV/LmsKdnjIe2aoN2
+ Isl31dN61Hsi2RGwWMefnl0mcw==
+X-Google-Smtp-Source: AA6agR5sefmC3Ac4uUfEmzw3Uz7C8GY6aELHniAgnW0VxGOABA/rkzUg3Lp845eTNQSCztbU4c9YdA==
+X-Received: by 2002:aa7:cc05:0:b0:447:8654:7fa9 with SMTP id
+ q5-20020aa7cc05000000b0044786547fa9mr46752376edt.298.1662466977647; 
+ Tue, 06 Sep 2022 05:22:57 -0700 (PDT)
 Received: from beast.fritz.box (62-178-148-172.cable.dynamic.surfer.at.
  [62.178.148.172]) by smtp.gmail.com with ESMTPSA id
- d21-20020a170906305500b0073d6ab5bcaasm6479034ejd.212.2022.09.06.05.22.55
+ d21-20020a170906305500b0073d6ab5bcaasm6479034ejd.212.2022.09.06.05.22.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 05:22:55 -0700 (PDT)
+ Tue, 06 Sep 2022 05:22:57 -0700 (PDT)
 From: Christoph Muellner <christoph.muellner@vrull.eu>
 To: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
  Alistair Francis <alistair.francis@wdc.com>,
@@ -68,17 +68,17 @@ To: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
  Yunhai Shang <yunhai@linux.alibaba.com>,
  Zhiwei Liu <zhiwei_liu@linux.alibaba.com>
 Cc: =?UTF-8?q?Christoph=20M=C3=BCllner?= <christoph.muellner@vrull.eu>
-Subject: [PATCH 06/11] RISC-V: Adding T-Head multiply-accumulate instructions
-Date: Tue,  6 Sep 2022 14:22:38 +0200
-Message-Id: <20220906122243.1243354-7-christoph.muellner@vrull.eu>
+Subject: [PATCH 07/11] RISC-V: Adding T-Head XMAE support
+Date: Tue,  6 Sep 2022 14:22:39 +0200
+Message-Id: <20220906122243.1243354-8-christoph.muellner@vrull.eu>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220906122243.1243354-1-christoph.muellner@vrull.eu>
 References: <20220906122243.1243354-1-christoph.muellner@vrull.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=christoph.muellner@vrull.eu; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=christoph.muellner@vrull.eu; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,195 +103,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Christoph Müllner <christoph.muellner@vrull.eu>
 
-This patch adds support for the T-Head MAC instructions.
-The patch uses the T-Head specific decoder and translation.
+This patch adds support for the T-Head specific extended memory
+attributes. Similar like Svpbmt, this support does not have much effect
+as most behaviour is not modelled in QEMU.
+
+We also don't set any EDATA information, because XMAE discovery is done
+using the vendor ID in the Linux kernel.
 
 Signed-off-by: Christoph Müllner <christoph.muellner@vrull.eu>
 ---
- target/riscv/cpu.c                         |  1 +
- target/riscv/cpu.h                         |  1 +
- target/riscv/insn_trans/trans_xthead.c.inc | 67 ++++++++++++++++++++++
- target/riscv/meson.build                   |  1 +
- target/riscv/translate.c                   |  3 +
- target/riscv/xtheadmac.decode              | 30 ++++++++++
- 6 files changed, 103 insertions(+)
- create mode 100644 target/riscv/xtheadmac.decode
+ target/riscv/cpu.c        | 1 +
+ target/riscv/cpu.h        | 1 +
+ target/riscv/cpu_helper.c | 6 ++++--
+ 3 files changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index b7d6dbd28e..e2d74fa701 100644
+index e2d74fa701..990a1f57af 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -925,6 +925,7 @@ static Property riscv_cpu_extensions[] = {
-     DEFINE_PROP_BOOL("xtheadbs", RISCVCPU, cfg.ext_xtheadbs, false),
-     DEFINE_PROP_BOOL("xtheadcmo", RISCVCPU, cfg.ext_xtheadcmo, false),
+@@ -927,6 +927,7 @@ static Property riscv_cpu_extensions[] = {
      DEFINE_PROP_BOOL("xtheadcondmov", RISCVCPU, cfg.ext_xtheadcondmov, false),
-+    DEFINE_PROP_BOOL("xtheadmac", RISCVCPU, cfg.ext_xtheadmac, false),
+     DEFINE_PROP_BOOL("xtheadmac", RISCVCPU, cfg.ext_xtheadmac, false),
      DEFINE_PROP_BOOL("xtheadsync", RISCVCPU, cfg.ext_xtheadsync, false),
++    DEFINE_PROP_BOOL("xtheadxmae", RISCVCPU, cfg.ext_xtheadxmae, false),
      DEFINE_PROP_BOOL("xventanacondops", RISCVCPU, cfg.ext_XVentanaCondOps, false),
  
+     /* These are experimental so mark with 'x-' */
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 0b58b38335..d0dc4ab031 100644
+index d0dc4ab031..1982d9293f 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -445,6 +445,7 @@ struct RISCVCPUConfig {
-     bool ext_xtheadbs;
-     bool ext_xtheadcmo;
+@@ -447,6 +447,7 @@ struct RISCVCPUConfig {
      bool ext_xtheadcondmov;
-+    bool ext_xtheadmac;
+     bool ext_xtheadmac;
      bool ext_xtheadsync;
++    bool ext_xtheadxmae;
      bool ext_XVentanaCondOps;
  
-diff --git a/target/riscv/insn_trans/trans_xthead.c.inc b/target/riscv/insn_trans/trans_xthead.c.inc
-index da3a538400..fc8307b113 100644
---- a/target/riscv/insn_trans/trans_xthead.c.inc
-+++ b/target/riscv/insn_trans/trans_xthead.c.inc
-@@ -217,3 +217,70 @@ static bool trans_th_mvnez(DisasContext *ctx, arg_th_mveqz *a)
- {
-     return gen_th_condmove(ctx, a, TCG_COND_NE);
- }
-+
-+static bool gen_th_mac(DisasContext *ctx, arg_r *a,
-+                       void (*accumulate_func)(TCGv, TCGv, TCGv),
-+                       void (*extend_operand_func)(TCGv, TCGv))
-+{
-+    TCGv dest = dest_gpr(ctx, a->rd);
-+    TCGv src0 = get_gpr(ctx, a->rd, EXT_NONE);
-+    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
-+    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
-+    TCGv tmp = tcg_temp_new();
-+
-+    if (extend_operand_func) {
-+        TCGv tmp2 = tcg_temp_new();
-+        extend_operand_func(tmp, src1);
-+        extend_operand_func(tmp2, src2);
-+        tcg_gen_mul_tl(tmp, tmp, tmp2);
-+        tcg_temp_free(tmp2);
-+    } else {
-+        tcg_gen_mul_tl(tmp, src1, src2);
-+    }
-+
-+    accumulate_func(dest, src0, tmp);
-+    gen_set_gpr(ctx, a->rd, dest);
-+    tcg_temp_free(tmp);
-+
-+    return true;
-+}
-+
-+/* th.mula: "rd = rd + rs1 * rs2" */
-+static bool trans_th_mula(DisasContext *ctx, arg_th_mula *a)
-+{
-+    return gen_th_mac(ctx, a, tcg_gen_add_tl, NULL);
-+}
-+
-+/* th.mulah: "rd = sext.w(rd + sext.w(rs1[15:0]) * sext.w(rs2[15:0]))" */
-+static bool trans_th_mulah(DisasContext *ctx, arg_th_mulah *a)
-+{
-+    ctx->ol = MXL_RV32;
-+    return gen_th_mac(ctx, a, tcg_gen_add_tl, tcg_gen_ext16s_tl);
-+}
-+
-+/* th.mulaw: "rd = sext.w(rd + rs1 * rs2)" */
-+static bool trans_th_mulaw(DisasContext *ctx, arg_th_mulaw *a)
-+{
-+    ctx->ol = MXL_RV32;
-+    return gen_th_mac(ctx, a, tcg_gen_add_tl, NULL);
-+}
-+
-+/* th.muls: "rd = rd - rs1 * rs2" */
-+static bool trans_th_muls(DisasContext *ctx, arg_th_muls *a)
-+{
-+    return gen_th_mac(ctx, a, tcg_gen_sub_tl, NULL);
-+}
-+
-+/* th.mulsh: "rd = sext.w(rd - sext.w(rs1[15:0]) * sext.w(rs2[15:0]))" */
-+static bool trans_th_mulsh(DisasContext *ctx, arg_th_mulsh *a)
-+{
-+    ctx->ol = MXL_RV32;
-+    return gen_th_mac(ctx, a, tcg_gen_sub_tl, tcg_gen_ext16s_tl);
-+}
-+
-+/* th.mulsw: "rd = sext.w(rd - rs1 * rs2)" */
-+static bool trans_th_mulsw(DisasContext *ctx, arg_th_mulsw *a)
-+{
-+    ctx->ol = MXL_RV32;
-+    return gen_th_mac(ctx, a, tcg_gen_sub_tl, NULL);
-+}
-diff --git a/target/riscv/meson.build b/target/riscv/meson.build
-index 496ae37f26..55c019e55b 100644
---- a/target/riscv/meson.build
-+++ b/target/riscv/meson.build
-@@ -7,6 +7,7 @@ gen = [
-   decodetree.process('xtheadbs.decode', extra_args: '--static-decode=decode_xtheadbs'),
-   decodetree.process('xtheadcmo.decode', extra_args: '--static-decode=decode_xtheadcmo'),
-   decodetree.process('xtheadcondmov.decode', extra_args: '--static-decode=decode_xtheadcondmov'),
-+  decodetree.process('xtheadmac.decode', extra_args: '--static-decode=decode_xtheadmac'),
-   decodetree.process('xtheadsync.decode', extra_args: '--static-decode=decode_xtheadsync'),
-   decodetree.process('XVentanaCondOps.decode', extra_args: '--static-decode=decode_XVentanaCodeOps'),
- ]
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 986243df99..56cc89ce4a 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -137,6 +137,7 @@ MATERIALISE_EXT_PREDICATE(xtheadbb)
- MATERIALISE_EXT_PREDICATE(xtheadbs)
- MATERIALISE_EXT_PREDICATE(xtheadcmo)
- MATERIALISE_EXT_PREDICATE(xtheadcondmov);
-+MATERIALISE_EXT_PREDICATE(xtheadmac);
- MATERIALISE_EXT_PREDICATE(xtheadsync)
- MATERIALISE_EXT_PREDICATE(XVentanaCondOps)
+     uint8_t pmu_num;
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 59b3680b1b..d7941e64e1 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -927,7 +927,8 @@ restart:
  
-@@ -729,6 +730,7 @@ static int ex_rvc_shifti(DisasContext *ctx, int imm)
- #include "decode-xtheadbs.c.inc"
- #include "decode-xtheadcmo.c.inc"
- #include "decode-xtheadcondmov.c.inc"
-+#include "decode-xtheadmac.c.inc"
- #include "decode-xtheadsync.c.inc"
- #include "decode-XVentanaCondOps.c.inc"
- 
-@@ -1055,6 +1057,7 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
-         { has_xtheadbs_p, decode_xtheadbs },
-         { has_xtheadcmo_p, decode_xtheadcmo },
-         { has_xtheadcondmov_p, decode_xtheadcondmov },
-+        { has_xtheadmac_p, decode_xtheadmac },
-         { has_xtheadsync_p, decode_xtheadsync },
-         { has_XVentanaCondOps_p,  decode_XVentanaCodeOps },
-     };
-diff --git a/target/riscv/xtheadmac.decode b/target/riscv/xtheadmac.decode
-new file mode 100644
-index 0000000000..dda1f82334
---- /dev/null
-+++ b/target/riscv/xtheadmac.decode
-@@ -0,0 +1,30 @@
-+#
-+# RISC-V instruction decode for the XTheadMac extension
-+#
-+# Copyright (c) 2022 Christoph Muellner, christoph.muellner@vrull.eu
-+#
-+# SPDX-License-Identifier: LGPL-2.1-or-later
-+#
-+# The XTheadMac extension provides multiply-accumulate instructions.
-+#
-+# It is documented in
-+# https://github.com/T-head-Semi/thead-extension-spec/releases/download/2.0.0/xthead-2022-09-05-2.0.0.pdf
-+
-+# Fields
-+%rs2       20:5
-+%rs1       15:5
-+%rd        7:5
-+
-+# Argument sets
-+&r         rd rs1 rs2		!extern
-+
-+# Formats:
-+@r          ..... .. ..... ..... ... ..... ....... &r %rs2 %rs1 %rd
-+
-+# T-Head conditional move instructions
-+th_mula     00100 00 ..... ..... 001 ..... 0001011 @r
-+th_mulah    00101 00 ..... ..... 001 ..... 0001011 @r
-+th_mulaw    00100 10 ..... ..... 001 ..... 0001011 @r
-+th_muls     00100 01 ..... ..... 001 ..... 0001011 @r
-+th_mulsh    00101 01 ..... ..... 001 ..... 0001011 @r
-+th_mulsw    00100 11 ..... ..... 001 ..... 0001011 @r
+         if (riscv_cpu_sxl(env) == MXL_RV32) {
+             ppn = pte >> PTE_PPN_SHIFT;
+-        } else if (cpu->cfg.ext_svpbmt || cpu->cfg.ext_svnapot) {
++        } else if (cpu->cfg.ext_svpbmt || cpu->cfg.ext_svnapot ||
++                   cpu->cfg.ext_xtheadxmae) {
+             ppn = (pte & (target_ulong)PTE_PPN_MASK) >> PTE_PPN_SHIFT;
+         } else {
+             ppn = pte >> PTE_PPN_SHIFT;
+@@ -939,7 +940,8 @@ restart:
+         if (!(pte & PTE_V)) {
+             /* Invalid PTE */
+             return TRANSLATE_FAIL;
+-        } else if (!cpu->cfg.ext_svpbmt && (pte & PTE_PBMT)) {
++        } else if (!cpu->cfg.ext_svpbmt && (pte & PTE_PBMT) &&
++                   !cpu->cfg.ext_xtheadxmae) {
+             return TRANSLATE_FAIL;
+         } else if (!(pte & (PTE_R | PTE_W | PTE_X))) {
+             /* Inner PTE, continue walking */
 -- 
 2.37.2
 
