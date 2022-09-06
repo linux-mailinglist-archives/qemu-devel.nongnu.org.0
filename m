@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 806AF5AE527
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 12:19:47 +0200 (CEST)
-Received: from localhost ([::1]:59194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 386705AE526
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 12:18:54 +0200 (CEST)
+Received: from localhost ([::1]:47726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVVgI-0005Cy-Hr
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 06:19:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59174)
+	id 1oVVfR-0004N1-4K
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 06:18:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVUth-0005HJ-Qn
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:29:34 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:42541)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVUtf-0005IU-14
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:29:33 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id bp20so14022380wrb.9
- for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 02:29:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=K/8EvKQblto942ll8ilVP0JWHV7pPWp1H8Q1zJDTThc=;
- b=wvKYgmlh1cnjvVxpM9nD9lEdHCJH3wdBOoHMLOpJolHjejL6oFlPX6G1Tav9nkD1Sb
- InfCy4QWeEHXv3VDeJcP7cv982BklhnJQ4IqIIJV0DzTRJaGwqo0N1Y7+I5ha/ApzUgm
- 6WzQyyXOyhyldYWnDHFUjd2B53PMKeXk9pNqmUIYLTZ8ruOsu6K4wSGjROUVL2ZRI1x8
- wL+Z6l6L/xcaxxqPfYBpNMFbXTPtdHgUP7FJM8WhlyIgGfQ9WQwSklDICq6zH7R4uPKd
- DZCOYoMhAnZD9XeIcb6X481aDdT8H+qUf1V98w91qbmbgN9WWryWjNfSZPCaBCuPmc6A
- Qm1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=K/8EvKQblto942ll8ilVP0JWHV7pPWp1H8Q1zJDTThc=;
- b=gAVFOe0c/GK48MrCmyS6BPlKDF19qtZ5Rzba84MYAmyNkT5P8pAhYPjtNP6lhQgjNn
- 0gLGGhsBSebBEwiURgEGbGeVb0g2BGmxE79fKR0JbkmyDd6bCEBNb87/2GzFr1c30LOx
- uY8hv9xKItZK7e1P7M+toGDD4JFgfOuWXkfbsAdSytsfJrecjxA/i7Ka/i9Ju1vu7L7p
- oHIWl7dAs6f+qtI1936LXHbX7ql0J2k1B1Zu60Qe/ctB1/+HfR8bBquNcLIsz11fLFRL
- ASy1waxgtxWxmqcf0uVFRPWnXf5YfQGF5944LjIqcEhjTAhcw1EiehoV0wqBAhERKwYa
- q+xw==
-X-Gm-Message-State: ACgBeo2gUH48lqTpz31p2iCcYNeGfx6sNyVl9piyY/JATpT71VgriswM
- x8XehC2uNJY2ID5CgnMxb3VET1QiVLI/l1pp
-X-Google-Smtp-Source: AA6agR4ywFdc2yvt5aioDTwJVbmTOL0QQ4elZjiE1ZsQe8KUi9gMvbhqDlQoDULShfqdFwYnrncx0A==
-X-Received: by 2002:a05:6000:1849:b0:228:c848:2593 with SMTP id
- c9-20020a056000184900b00228c8482593mr3320309wri.557.1662456568199; 
- Tue, 06 Sep 2022 02:29:28 -0700 (PDT)
-Received: from ?IPV6:2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1?
- ([2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1])
- by smtp.gmail.com with ESMTPSA id
- m64-20020a1c2643000000b003a5ee64cc98sm20156577wmm.33.2022.09.06.02.29.27
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Sep 2022 02:29:27 -0700 (PDT)
-Message-ID: <a5b2bf27-3194-a93e-ebe1-713d93249083@linaro.org>
-Date: Tue, 6 Sep 2022 10:29:24 +0100
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1oVUuK-0005kL-OU
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:30:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33160)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1oVUuG-0005Yd-GB
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:30:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662456607;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bDwRtBmdRIlco6nQzhPnQOZp+rIoluS1D/vlJMcUPcA=;
+ b=P6CK8mAMCAfwoBP1O0Nb7LBg0L294zrCVofmaU9PZG5trWTIghwwbbH2C2hzV1y1dJmwek
+ UaZgnYYXDu85fi398U6RaSEHlWAypffhtsouscX5D5dfEMaqIGM9te7t4+09QB5pO2sdQs
+ AErLnSKTfwQpLTI1BDlWZXFsWeQbRAY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-57-g_uErOuIPw2F0_vdKoV8QA-1; Tue, 06 Sep 2022 05:30:06 -0400
+X-MC-Unique: g_uErOuIPw2F0_vdKoV8QA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 51C20801755
+ for <qemu-devel@nongnu.org>; Tue,  6 Sep 2022 09:30:06 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0101D492C3B;
+ Tue,  6 Sep 2022 09:30:05 +0000 (UTC)
+Date: Tue, 6 Sep 2022 10:30:05 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH 01/11] crypto: sanity check that LUKS header strings are
+ NUL-terminated
+Message-ID: <20220906093005.GN7484@redhat.com>
+References: <20220906084147.1423045-1-berrange@redhat.com>
+ <20220906084147.1423045-2-berrange@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v4 0/7] tcg: pc-relative translation blocks
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20220906091126.298041-1-richard.henderson@linaro.org>
- <d0b82889-952f-f3f2-788a-fc21bd1e5c14@linaro.org>
-In-Reply-To: <d0b82889-952f-f3f2-788a-fc21bd1e5c14@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <20220906084147.1423045-2-berrange@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=rjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,35 +81,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/6/22 10:28, Richard Henderson wrote:
-> On 9/6/22 10:11, Richard Henderson wrote:
->> The goal here is to reduce the amount of code generation when the
->> guest kernel enables address space randomization.Â  This requires
->> extensive changes to each target, so opt-in with TARGET_TB_PCREL.
->>
->> This is split out of v3, which also contained target/arm changes,
->> as I now have patches for x86 and s390x as well.
->>
->>
->> r~
->>
->>
->> Based-on: 20220905202259.189852-1-richard.henderson@linaro.org
->> ("[PATCH v3 0/6] tcg: Introduce CPUTLBEntryFull")
->>
->> v2: 
->> https://lore.kernel.org/qemu-devel/20220816203400.161187-1-richard.henderson@linaro.org/
->> v3: 
->> https://lore.kernel.org/qemu-devel/20220822232338.1727934-1-richard.henderson@linaro.org/
->>
->> branch: https://gitlab.com/rth7680/qemu/-/tree/tcg-pcrel
+On Tue, Sep 06, 2022 at 09:41:37AM +0100, Daniel P. Berrangé wrote:
+> The LUKS spec requires that header strings are NUL-terminated, and our
+> code relies on that. Protect against maliciously crafted headers by
+> adding validation.
 > 
-> Arg.Â  Accidentally dropped a patch from v3:
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  crypto/block-luks.c | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
+> diff --git a/crypto/block-luks.c b/crypto/block-luks.c
+> index f62be6836b..27d1b34c1d 100644
+> --- a/crypto/block-luks.c
+> +++ b/crypto/block-luks.c
+> @@ -554,6 +554,24 @@ qcrypto_block_luks_check_header(const QCryptoBlockLUKS *luks, Error **errp)
+>          return -1;
+>      }
+>  
+> +    if (!memchr(luks->header.cipher_name, '\0',
+> +                sizeof(luks->header.cipher_name))) {
+> +        error_setg(errp, "LUKS header cipher name is not NUL terminated");
+> +        return -1;
+> +    }
+> +
+> +    if (!memchr(luks->header.cipher_mode, '\0',
+> +                sizeof(luks->header.cipher_mode))) {
+> +        error_setg(errp, "LUKS header cipher mode is not NUL terminated");
+> +        return -1;
+> +    }
+> +
+> +    if (!memchr(luks->header.hash_spec, '\0',
+> +                sizeof(luks->header.hash_spec))) {
+> +        error_setg(errp, "LUKS header hash spec is not NUL terminated");
+> +        return -1;
+> +    }
+> +
+>      /* Check all keyslots for corruption  */
+>      for (i = 0 ; i < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS ; i++) {
 
-... and managed to hit ctrl-enter while pasting ...
+I think this was the error I originally wrote to you about, and I
+think it's the most important fix because non-terminated strings seem
+(possibly) exploitable.
 
-https://lore.kernel.org/qemu-devel/20220822232338.1727934-2-richard.henderson@linaro.org/
+FWIW nbdkit does this which is slightly different:
 
+  char cipher_name[33], cipher_mode[33], hash_spec[33];
 
-r~
+  /* Copy the header fields locally and ensure they are \0 terminated. */
+  memcpy (cipher_name, h->phdr.cipher_name, 32);
+  cipher_name[32] = 0;
+  memcpy (cipher_mode, h->phdr.cipher_mode, 32);
+  cipher_mode[32] = 0;
+  memcpy (hash_spec, h->phdr.hash_spec, 32);
+  hash_spec[32] = 0;
+
+Anyway the change above looks good so:
+
+Reviewed-by: Richard W.M. Jones <rjones@redhat.com>
+
+Rich.
+
+-- 
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+Fedora Windows cross-compiler. Compile Windows programs, test, and
+build Windows installers. Over 100 libraries supported.
+http://fedoraproject.org/wiki/MinGW
+
 
