@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 156995AE516
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 12:13:02 +0200 (CEST)
-Received: from localhost ([::1]:57948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 806AF5AE527
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 12:19:47 +0200 (CEST)
+Received: from localhost ([::1]:59194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVVZk-0006We-Ro
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 06:13:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35612)
+	id 1oVVgI-0005Cy-Hr
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 06:19:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVUso-0004i1-2D
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:28:42 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44024)
+ id 1oVUth-0005HJ-Qn
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:29:34 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:42541)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVUsm-0005Ct-1j
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:28:37 -0400
-Received: by mail-wr1-x432.google.com with SMTP id t7so9469476wrm.10
- for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 02:28:35 -0700 (PDT)
+ id 1oVUtf-0005IU-14
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:29:33 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id bp20so14022380wrb.9
+ for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 02:29:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:references:to:from
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=pnc1iP2jbkqTG9Jsv6J9XcD+MbzorUa2MTo8C00nhsI=;
- b=uZXQg4gkXq8OhY7oehBHpSHqq7j3o47nWmPm4hMXF0oeQn2rVolTDbg7Fr8JSCKx5x
- eTx4i4sUcZEwqHobEJpvhF7BVXsFY+G5eId9i2pFX6PdDv5j/35D2zhqvg18WMQ5J/jD
- 5+Q50R9h6NjAcm++jenkS012mdXouvg1TCsJ8ktanzaKsLOsUZ45jzezOfBmxg015khx
- qE9x2PwXdsoS7B/qEZjfA2qNzb6vSGO3FxRfM+ptb81IKH8LkOl9d5uyXnaby3R+yAik
- tdzsAZMwtj0grMOjXO6j784ad2cbZoCSCa2TJPntoOVqmt+GCfDRSRla1MUTFoHANkXx
- JSYw==
+ bh=K/8EvKQblto942ll8ilVP0JWHV7pPWp1H8Q1zJDTThc=;
+ b=wvKYgmlh1cnjvVxpM9nD9lEdHCJH3wdBOoHMLOpJolHjejL6oFlPX6G1Tav9nkD1Sb
+ InfCy4QWeEHXv3VDeJcP7cv982BklhnJQ4IqIIJV0DzTRJaGwqo0N1Y7+I5ha/ApzUgm
+ 6WzQyyXOyhyldYWnDHFUjd2B53PMKeXk9pNqmUIYLTZ8ruOsu6K4wSGjROUVL2ZRI1x8
+ wL+Z6l6L/xcaxxqPfYBpNMFbXTPtdHgUP7FJM8WhlyIgGfQ9WQwSklDICq6zH7R4uPKd
+ DZCOYoMhAnZD9XeIcb6X481aDdT8H+qUf1V98w91qbmbgN9WWryWjNfSZPCaBCuPmc6A
+ Qm1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:references:to:from
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=pnc1iP2jbkqTG9Jsv6J9XcD+MbzorUa2MTo8C00nhsI=;
- b=BoBnGY5KMh+qqeqfOicDcn7qQomtyWaUnxbwEtntTPDhCAnWaCfPpfFlQeRWDGxvb2
- ed+78OOhmpNfvMFjf0WUiGyZ8iFbLn0d8PR2jtO+mBuBnYK6mjcoPE11W55S+kCW/S5B
- HtJWbGE6oRbmltlrvWdbrsLCyyKW+AVvpDSSorUX6kIJVRk0TsfFTHniNgQ6XmpA0peg
- 0tVbJQybY+00qbr1yrSlxoRw4oa+RNiXQNzqF64TPTwwDfZlNR613q/Cw2Rv96MLdWbk
- 7kUoqm2j3l2lNCX1ct7DYCpxkcRGp8Q9ZLbSx5D33wKb8691/I94HIlu5idburC9f0JR
- lZag==
-X-Gm-Message-State: ACgBeo1mnDrS5SDBn1zMNa6lcqMf7vAwT1s0T0+clSV0r8//2vg+l+w7
- o1gW9l0YqtOgMYgbmNwi3HF4z76eQPbqZl/p
-X-Google-Smtp-Source: AA6agR4yFXw1LfDTWhU/md5r3WEju2BJLDhhZ3Bv275bxarUsIpWkOQ0bghvH8Z0h6QRopwoB6brtw==
-X-Received: by 2002:a5d:598c:0:b0:228:4628:f7a8 with SMTP id
- n12-20020a5d598c000000b002284628f7a8mr10941600wri.258.1662456514276; 
- Tue, 06 Sep 2022 02:28:34 -0700 (PDT)
+ bh=K/8EvKQblto942ll8ilVP0JWHV7pPWp1H8Q1zJDTThc=;
+ b=gAVFOe0c/GK48MrCmyS6BPlKDF19qtZ5Rzba84MYAmyNkT5P8pAhYPjtNP6lhQgjNn
+ 0gLGGhsBSebBEwiURgEGbGeVb0g2BGmxE79fKR0JbkmyDd6bCEBNb87/2GzFr1c30LOx
+ uY8hv9xKItZK7e1P7M+toGDD4JFgfOuWXkfbsAdSytsfJrecjxA/i7Ka/i9Ju1vu7L7p
+ oHIWl7dAs6f+qtI1936LXHbX7ql0J2k1B1Zu60Qe/ctB1/+HfR8bBquNcLIsz11fLFRL
+ ASy1waxgtxWxmqcf0uVFRPWnXf5YfQGF5944LjIqcEhjTAhcw1EiehoV0wqBAhERKwYa
+ q+xw==
+X-Gm-Message-State: ACgBeo2gUH48lqTpz31p2iCcYNeGfx6sNyVl9piyY/JATpT71VgriswM
+ x8XehC2uNJY2ID5CgnMxb3VET1QiVLI/l1pp
+X-Google-Smtp-Source: AA6agR4ywFdc2yvt5aioDTwJVbmTOL0QQ4elZjiE1ZsQe8KUi9gMvbhqDlQoDULShfqdFwYnrncx0A==
+X-Received: by 2002:a05:6000:1849:b0:228:c848:2593 with SMTP id
+ c9-20020a056000184900b00228c8482593mr3320309wri.557.1662456568199; 
+ Tue, 06 Sep 2022 02:29:28 -0700 (PDT)
 Received: from ?IPV6:2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1?
  ([2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1])
  by smtp.gmail.com with ESMTPSA id
- c11-20020a5d528b000000b0021e42e7c7dbsm11189566wrv.83.2022.09.06.02.28.33
+ m64-20020a1c2643000000b003a5ee64cc98sm20156577wmm.33.2022.09.06.02.29.27
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Sep 2022 02:28:33 -0700 (PDT)
-Message-ID: <d0b82889-952f-f3f2-788a-fc21bd1e5c14@linaro.org>
-Date: Tue, 6 Sep 2022 10:28:31 +0100
+ Tue, 06 Sep 2022 02:29:27 -0700 (PDT)
+Message-ID: <a5b2bf27-3194-a93e-ebe1-713d93249083@linaro.org>
+Date: Tue, 6 Sep 2022 10:29:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
@@ -67,11 +67,12 @@ Content-Language: en-US
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 References: <20220906091126.298041-1-richard.henderson@linaro.org>
-In-Reply-To: <20220906091126.298041-1-richard.henderson@linaro.org>
+ <d0b82889-952f-f3f2-788a-fc21bd1e5c14@linaro.org>
+In-Reply-To: <d0b82889-952f-f3f2-788a-fc21bd1e5c14@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x432.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -94,66 +95,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/6/22 10:11, Richard Henderson wrote:
-> The goal here is to reduce the amount of code generation when the
-> guest kernel enables address space randomization.  This requires
-> extensive changes to each target, so opt-in with TARGET_TB_PCREL.
+On 9/6/22 10:28, Richard Henderson wrote:
+> On 9/6/22 10:11, Richard Henderson wrote:
+>> The goal here is to reduce the amount of code generation when the
+>> guest kernel enables address space randomization.  This requires
+>> extensive changes to each target, so opt-in with TARGET_TB_PCREL.
+>>
+>> This is split out of v3, which also contained target/arm changes,
+>> as I now have patches for x86 and s390x as well.
+>>
+>>
+>> r~
+>>
+>>
+>> Based-on: 20220905202259.189852-1-richard.henderson@linaro.org
+>> ("[PATCH v3 0/6] tcg: Introduce CPUTLBEntryFull")
+>>
+>> v2: 
+>> https://lore.kernel.org/qemu-devel/20220816203400.161187-1-richard.henderson@linaro.org/
+>> v3: 
+>> https://lore.kernel.org/qemu-devel/20220822232338.1727934-1-richard.henderson@linaro.org/
+>>
+>> branch: https://gitlab.com/rth7680/qemu/-/tree/tcg-pcrel
 > 
-> This is split out of v3, which also contained target/arm changes,
-> as I now have patches for x86 and s390x as well.
-> 
-> 
-> r~
-> 
-> 
-> Based-on: 20220905202259.189852-1-richard.henderson@linaro.org
-> ("[PATCH v3 0/6] tcg: Introduce CPUTLBEntryFull")
-> 
-> v2: https://lore.kernel.org/qemu-devel/20220816203400.161187-1-richard.henderson@linaro.org/
-> v3: https://lore.kernel.org/qemu-devel/20220822232338.1727934-1-richard.henderson@linaro.org/
-> 
-> branch: https://gitlab.com/rth7680/qemu/-/tree/tcg-pcrel
+> Arg.  Accidentally dropped a patch from v3:
 
-Arg.  Accidentally dropped a patch from v3:
+... and managed to hit ctrl-enter while pasting ...
+
+https://lore.kernel.org/qemu-devel/20220822232338.1727934-2-richard.henderson@linaro.org/
 
 
-> 
-> 
-> Richard Henderson (7):
->    accel/tcg: Use bool for page_find_alloc
->    accel/tcg: Use DisasContextBase in plugin_gen_tb_start
->    accel/tcg: Do not align tb->page_addr[0]
->    include/hw/core: Create struct CPUJumpCache
->    accel/tcg: Introduce tb_pc and tb_pc_log
->    accel/tcg: Introduce TARGET_TB_PCREL
->    accel/tcg: Split log_cpu_exec into inline and slow path
-> 
->   include/exec/cpu-defs.h                 |   3 +
->   include/exec/exec-all.h                 |  51 ++++++++++-
->   include/exec/plugin-gen.h               |   7 +-
->   include/hw/core/cpu.h                   |   9 +-
->   accel/tcg/cpu-exec.c                    | 108 ++++++++++++++++--------
->   accel/tcg/cputlb.c                      |   5 +-
->   accel/tcg/plugin-gen.c                  |  22 ++---
->   accel/tcg/translate-all.c               |  90 ++++++++++++--------
->   accel/tcg/translator.c                  |   2 +-
->   target/arm/cpu.c                        |   4 +-
->   target/avr/cpu.c                        |   2 +-
->   target/hexagon/cpu.c                    |   2 +-
->   target/hppa/cpu.c                       |   4 +-
->   target/i386/tcg/tcg-cpu.c               |   2 +-
->   target/loongarch/cpu.c                  |   2 +-
->   target/microblaze/cpu.c                 |   2 +-
->   target/mips/tcg/exception.c             |   2 +-
->   target/mips/tcg/sysemu/special_helper.c |   2 +-
->   target/openrisc/cpu.c                   |   2 +-
->   target/riscv/cpu.c                      |   4 +-
->   target/rx/cpu.c                         |   2 +-
->   target/sh4/cpu.c                        |   4 +-
->   target/sparc/cpu.c                      |   2 +-
->   target/tricore/cpu.c                    |   2 +-
->   tcg/tcg.c                               |   6 +-
->   25 files changed, 226 insertions(+), 115 deletions(-)
-> 
-
+r~
 
