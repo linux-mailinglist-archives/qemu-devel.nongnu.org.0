@@ -2,75 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C5E25ADFC8
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 08:31:19 +0200 (CEST)
-Received: from localhost ([::1]:44738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 676235AE02B
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 08:49:14 +0200 (CEST)
+Received: from localhost ([::1]:45634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVS7B-00024f-Q4
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 02:31:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43604)
+	id 1oVSOW-0005X3-2v
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 02:49:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oVS2q-0000L9-9u
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 02:26:48 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:46636)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oVSKQ-0003vL-Vg
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 02:44:59 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:51830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oVS2o-0000JH-3Y
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 02:26:48 -0400
-Received: by mail-ej1-x636.google.com with SMTP id bj12so20837854ejb.13
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 23:26:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=0GH1glT8+345EvRXvtUfNMLYacavQLIiFG8xrTOZf3I=;
- b=K7PVncEflyll7NNvQcmrFuVoUKr9E7a1voiQm4qt1K1YVwkkTR05iFBgYttRvbCpHV
- 1kJOcBnd197Vh08Idfifxss/sLBQSyEp+RWljT9arrEjLuq/2xBghVwkEkydW29+cKyQ
- yCbivXmPsZ7ghwvd1eqOZiO3dyXYK69W5GelFUlqwK1g7nbbck0kVODtcC0szA1qKbxk
- N2SNg1cvHfv7iskdFbupWJpcxfMpVaiAHrSrR9LWzjXm6wY4VLdq9VoDasx1Kzu2wrZO
- BqVCSicpBEk+JGUl1yjZzsVrkUdzNbZ0/EhpKoOvXNBE17viY8z3Gf3ZZWN+wh3f7PfQ
- 8NGQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oVSKO-0003WO-UA
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 02:44:58 -0400
+Received: by mail-wm1-x335.google.com with SMTP id ay12so6337545wmb.1
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 23:44:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=dZek6j7pUoP6v9KmCwg/ZlBVD6dTY6Rbt2XUJl6wvBQ=;
+ b=So+g8h0y76E0laWrklWXlETjudPUK+deLT8lx/prepHTgCcDnx77XWnzcWs/O0RH41
+ JaU0vYgkQ2YuU5SplycXyiTIOxFuJSyHjAvVzD+oNJwHoQO5m3/TpQD+Q4RYI7l/s/IJ
+ x9G5pxm6K046jPaQ9lrM+9AzI41pQTfO86bSimSd/Cr96FBHKRQl9jxOfac2jbmN9dkM
+ KbH5szyRnXEPb9g18PoTyDkHcN5J1cXWDNnLs6UP/Mdgce+44clCwS2t5v3mGgt+D2iV
+ JaCWNoENRmqzZP3vtW+wLKz97pwtk/MdUiI4o4sgWKJ7ACdxIZUPQql5b+tsFW6Oda7B
+ Ce2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=0GH1glT8+345EvRXvtUfNMLYacavQLIiFG8xrTOZf3I=;
- b=yr9N69D8Mvp+oTpt5snua6+3TVpGkgbzq+462szAQfuDcndkATge/bfR0QRKm0M4Sd
- dnPLr+1atsAgNlpE3MgO6StdEnxg4yecOkk33+9qkaO0yXdz6Jdqo2FjI+QgLAa77EaZ
- XYfqA55MpdBd4UbLjnUVeWeSC1JdFIwfCPG3TJ8kw5FdtP2Eotig2ZX6LqK3vwXrjtuP
- hu4yhh0Xmt/PTxS5yrYwW3NZIenBICBogWDDJ7wp9RdsKz1dWRLb/ITD0y4bxo1HWihf
- UrTx9jKVuEtKYwtnAIgk20CxG3vNDBemciVEeb3yxI7Y7/OKzT+uVPyvrQVLmCcVljsu
- QF+w==
-X-Gm-Message-State: ACgBeo2TecB8Aqk0m9+qd48N1tOvqLTxjVa+HTKvboJRr/mZ7SrBzWkv
- 7I/uz25ybflbJpsnnYnPpTpC81Xg+ZOztIHODcxpbw==
-X-Google-Smtp-Source: AA6agR7UijoWGRCoKTSzk7SAX2pc+DlgithpXah3oIIpLmsHsh8TO1WXRaCY3CExysu8exeOD/6RMCqfGVjwqDrWCSM=
-X-Received: by 2002:a17:907:2cf1:b0:73d:d962:86d8 with SMTP id
- hz17-20020a1709072cf100b0073dd96286d8mr37777132ejc.121.1662445604389; Mon, 05
- Sep 2022 23:26:44 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=dZek6j7pUoP6v9KmCwg/ZlBVD6dTY6Rbt2XUJl6wvBQ=;
+ b=6IQWve8HxCmtVf7quX1wEU2X3ZQQkD93hLWWGxV9zFMPbdt2E2VKm/uFFg+oRtDv+s
+ jQDXdWbkixdEcjCmF9MJ+5wdNdh5v+vvC/bAsPMiW3THizASg9Vd122VM+LU71B2fgTJ
+ lhQmErFMwsbVhNPHFrqce44W+Vj0t5xk8WPPpkhEXq1XQLVN/A3cY5pugpOCAsyR+5BL
+ J5jB/l48FGyCzFsIhZlvHc79tA07Mm67fyrv6Fyo34eX6wa02Gw1tFhqrOkret/KYlrQ
+ KnlOz9KCPIw4BuadXZiCzRP9Moq9uyxQ7M27OUxvL0PDEkd9acpw2Q/r359RTs5rKYFZ
+ OOjg==
+X-Gm-Message-State: ACgBeo2jy41RysU+aA4Q8JsUwdxV1ZRTn7+XdXF2C1n71mN3PDl3BAtn
+ iA0u9Az3lByjaU6/K3z5Zqbpkw==
+X-Google-Smtp-Source: AA6agR4OUTLrdgYTaGd8UBrWBqlqzQMVKmkHxsD40fbM+X0k044oJA+l18Au1P87dN0f9qsnWJ21WA==
+X-Received: by 2002:a05:600c:3487:b0:3a6:280b:bed1 with SMTP id
+ a7-20020a05600c348700b003a6280bbed1mr12399739wmq.111.1662446695213; 
+ Mon, 05 Sep 2022 23:44:55 -0700 (PDT)
+Received: from ?IPV6:2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1?
+ ([2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1])
+ by smtp.gmail.com with ESMTPSA id
+ q1-20020a05600c2e4100b003a2cf1ba9e2sm12566385wmf.6.2022.09.05.23.44.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Sep 2022 23:44:54 -0700 (PDT)
+Message-ID: <fc37598c-1a93-9a88-9492-2ba891e48709@linaro.org>
+Date: Tue, 6 Sep 2022 07:44:52 +0100
 MIME-Version: 1.0
-References: <20220710170014.1673480-1-ani@anisinha.ca>
- <20220711044032-mutt-send-email-mst@kernel.org>
- <CAFEAcA_KUh_Hmozw2KthwNoM2L9rnA18ttrk9GHHnJZ-X_M4yQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA_KUh_Hmozw2KthwNoM2L9rnA18ttrk9GHHnJZ-X_M4yQ@mail.gmail.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 6 Sep 2022 11:56:33 +0530
-Message-ID: <CAARzgwxUvkQSaoguyRYA5VSsvRzAYOYpbpzyDE+D1RvOyqEcug@mail.gmail.com>
-Subject: Re: [PATCH v2 00/11] Introduce new acpi/smbios python tests using
- biosbits
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- thuth@redhat.com, 
- berrange@redhat.com, jsnow@redhat.com, pbonzini@redhat.com, 
- imammedo@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::636;
- envelope-from=ani@anisinha.ca; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PULL v2 00/20] tcg patch queue
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: qemu-devel@nongnu.org
+References: <20220904002317.60158-1-richard.henderson@linaro.org>
+ <CAJSP0QVBxkF1tQBetg8vtntppn=CduvDFHSGWapjAtq=XObsGA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAJSP0QVBxkF1tQBetg8vtntppn=CduvDFHSGWapjAtq=XObsGA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,44 +95,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 14, 2022 at 6:54 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Mon, 11 Jul 2022 at 10:34, Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Sun, Jul 10, 2022 at 10:30:03PM +0530, Ani Sinha wrote:
-> > > Changelog:
-> > > v2:
-> > >  - a new class of python based tests introduced that is separate from avocado
-> > >    tests or qtests. Can be run by using "make check-pytest".
-> > >  - acpi biosbits tests are the first tests to use pytest environment.
-> > >  - bios bits tests now download the bits binary archives from a remote
-> > >    repository if they are not found locally. The test skips if download
-> > >    fails.
-> > >  - A new environment variable is introduced that can be passed by the tester
-> > >    to specify the location of the bits archives locally. test skips if the
-> > >    bits binaries are not found in that location.
-> > >  - if pip install of python module fails for whatever reaoson, the test skips.
-> > >  - misc code fixes including spell check of the README doc. README has been
-> > >    updated as well.
-> > >  - addition of SPDX license headers to bits test files.
-> > >  - update MAINTAINERS to reflect the new pytest test class.
-> > >
-> > > For biosbits repo:
-> > >  - added Dockerfile and build script. Made bios bits build on gcc 11.
-> > >    https://github.com/ani-sinha/bits/blob/bits-qemu-logging/Dockerfile
-> > >    https://github.com/ani-sinha/bits/blob/bits-qemu-logging/build-artifacts.sh
-> > >    The build script generates the zip archive and tarball used by the test.
-> >
-> > So far so good, I think it's ok for a start. It's probably a good idea
-> > to host the source on qemu.org. Peter - any objection to this?
->
-> Dan was looking at v1 from the point of view of how we handle the
-> guest binary blobs for these tests -- I'd rather defer to him rather
-> than taking the time to get up to speed on the issue myself.
+On 9/5/22 22:58, Stefan Hajnoczi wrote:
+> The tsan (clang) build is broken:
+> https://gitlab.com/qemu-project/qemu/-/jobs/2982480773
+> 
+> clang-10 -m64 -mcx16 -Ilibqemu-x86_64-linux-user.fa.p -I. -I..
+> -Itarget/i386 -I../target/i386 -I../common-user/host/x86_64
+> -I../linux-user/include/host/x86_64 -I../linux-user/include
+> -Ilinux-user -I../linux-user -Ilinux-user/x86_64
+> -I../linux-user/x86_64 -Iqapi -Itrace -Iui -Iui/shader
+> -I/usr/include/capstone -I/usr/include/glib-2.0
+> -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -fcolor-diagnostics -Wall
+> -Winvalid-pch -Werror -std=gnu11 -O2 -g -isystem
+> /builds/qemu-project/qemu/linux-headers -isystem linux-headers -iquote
+> . -iquote /builds/qemu-project/qemu -iquote
+> /builds/qemu-project/qemu/include -iquote
+> /builds/qemu-project/qemu/tcg/i386 -pthread -fsanitize=thread
+> -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
+> -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings
+> -Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv
+> -Wold-style-definition -Wtype-limits -Wformat-security -Wformat-y2k
+> -Winit-self -Wignored-qualifiers -Wempty-body -Wnested-externs
+> -Wendif-labels -Wexpansion-to-defined -Wno-initializer-overrides
+> -Wno-missing-include-dirs -Wno-shift-negative-value
+> -Wno-string-plus-int -Wno-typedef-redefinition
+> -Wno-tautological-type-limit-compare -fstack-protector-strong -fPIE
+> -isystem../linux-headers -isystemlinux-headers -DNEED_CPU_H
+> '-DCONFIG_TARGET="x86_64-linux-user-config-target.h"'
+> '-DCONFIG_DEVICES="x86_64-linux-user-config-devices.h"' -MD -MQ
+> libqemu-x86_64-linux-user.fa.p/linux-user_elfload.c.o -MF
+> libqemu-x86_64-linux-user.fa.p/linux-user_elfload.c.o.d -o
+> libqemu-x86_64-linux-user.fa.p/linux-user_elfload.c.o -c
+> ../linux-user/elfload.c
+> ../linux-user/elfload.c:198:18: error: integer overflow in
+> preprocessor expression [-Werror]
+> #if ULONG_MAX >= TARGET_VSYSCALL_PAGE
+> ^~~~~~~~~~~~~~~~~~~~
+> ../target/i386/cpu.h:2386:47: note: expanded from macro 'TARGET_VSYSCALL_PAGE'
+> # define TARGET_VSYSCALL_PAGE (UINT64_C(-10) << 20)
+> ~~~~~~~~~~~~~ ^ ~~
 
-Ok let's resurrect this discussion again. What are we going to do with
-bios bits? Put it in git.qemu.org then?
-I have put a lot of time and effort into this work and I believe this
-will add another valuable tool to test acpi stuff, so I am not going
-away :-)
+Arg!  This is a compiler bug.
+
+
+r~
 
