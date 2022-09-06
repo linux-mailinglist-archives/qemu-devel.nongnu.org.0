@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C825AE99C
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 15:31:33 +0200 (CEST)
-Received: from localhost ([::1]:40206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B5925AE92B
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 15:13:10 +0200 (CEST)
+Received: from localhost ([::1]:51758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVYfs-00087x-Fm
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 09:31:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34802)
+	id 1oVYO5-00016F-4D
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 09:13:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVXTX-0007jX-RJ
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 08:14:43 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:44232)
+ (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
+ id 1oVXbP-0005ZA-NE
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 08:22:55 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:34760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVXTW-0001c2-71
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 08:14:43 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 9468833858;
- Tue,  6 Sep 2022 12:14:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1662466480; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t3grlbFwwmEmfM1QXsCLxKVQpMntnZi45WFVZtm1yzQ=;
- b=ptivwlFR/Prj6or0j2SnE/i6janqI/0uTAvT8aL/MOVbwMsPEThP6q+QOtcyMf4kFMMYwv
- D4KMxfx2i79ReJTClW1l1XRZ086RKNCi7AD7KtFO2rPxtGlbw58AllOip3sVcZh5dKSThX
- iNCQLYZrHrQyggRM2oFyGC06pVSKq1o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1662466480;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t3grlbFwwmEmfM1QXsCLxKVQpMntnZi45WFVZtm1yzQ=;
- b=RIKL3Hirm2IvPb5EA7JdGx7Zef22462iY1v6NZzTaF6cv06GMLkPXe71Uj7AuK4G9Lqu5i
- nprOt0LXTYK3AhDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4093F13A7A;
- Tue,  6 Sep 2022 12:14:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id KGG+DbA5F2N/PAAAMHmgww
- (envelope-from <cfontana@suse.de>); Tue, 06 Sep 2022 12:14:40 +0000
-Message-ID: <90ec64fb-24fa-aee9-da77-32fc56d3e51e@suse.de>
-Date: Tue, 6 Sep 2022 14:14:39 +0200
+ (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
+ id 1oVXbM-0003pK-Pa
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 08:22:51 -0400
+Received: by mail-ed1-x533.google.com with SMTP id z21so4853050edi.1
+ for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 05:22:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=2TryqUfeHN19NU4kptcV+D0cDp71nEExrubk/3qJPSQ=;
+ b=qkwN24lnMYKztZvQq+UxHwMh3m5uBvj7yKQQOnmifXTkO6xJmEQCUskrqrotrLmTgQ
+ vBcs6kODqRWBFErWLMzYFrvHRljK0du0fXjgu/zy/oeLObzX2in+0CVoCtuPbBI1oREI
+ WGVHWTghtoU3Vc+2DF5mhgMpr67edlJTCqJ+Ry8b8fImZasNDXhBZ6jxrD0LwV/gFEKk
+ CNgthqad+95PkMbXwB/UGhRwsg+HdjxiYgNnTGG/JtO0udin9JaDBAVnJpzPYiSSYtsg
+ ZhYwnJvo1hmqA2wILZPQpbjw5uZxIiO4xQKZeXqijs9ZQG4iLRzLr0Yb9IgcTdQ1O5iu
+ JoEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=2TryqUfeHN19NU4kptcV+D0cDp71nEExrubk/3qJPSQ=;
+ b=4Ee/4gvyXwBFhZH+8qOe9P9uf9+yJP5Lu/V7y95guSC9VPUUQgwcsSWB/87a6HMTa7
+ SnLlQyIVUu8lHIFUZuWDaxnPtbNhn8wdUhMMqd6QjUa2eGSdQxK0xAutgbsR+YBO+/cr
+ 9sba87K8fLoU1tBPbF0/XbSh5SHEE949xXSKNuRXFjRFkxQDy1oWnZ46If2vc2Tk80wq
+ YMTkou6PuRJ1dh21nqINlczBez+LGWhV5kalLNd3aPuJzOQb9QcAY70pZY2s5a3XPxsg
+ 4O+H0NYd7cNNyIB1fIosPd97GXUlXrvmMw6RYxt8+wZIfmY4MbaoaaEfrUbA4sM+HfhX
+ 4jFw==
+X-Gm-Message-State: ACgBeo2q1n5OSGxQ2LO6CaLjOwm9ci4l0OlJqkLe7BtwuA3M/7c4P86R
+ fX83yvsbxDZnSgprK0n6a3eNlw==
+X-Google-Smtp-Source: AA6agR44iK0Qs47lsnhO9odu52mG86jbRRAVjCeZVYCtUOzg3+80ypElqbNL4/CPUBvbYBAnxEulBw==
+X-Received: by 2002:aa7:d3d6:0:b0:44e:98b9:3d7b with SMTP id
+ o22-20020aa7d3d6000000b0044e98b93d7bmr6847208edr.259.1662466966463; 
+ Tue, 06 Sep 2022 05:22:46 -0700 (PDT)
+Received: from beast.fritz.box (62-178-148-172.cable.dynamic.surfer.at.
+ [62.178.148.172]) by smtp.gmail.com with ESMTPSA id
+ d21-20020a170906305500b0073d6ab5bcaasm6479034ejd.212.2022.09.06.05.22.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Sep 2022 05:22:46 -0700 (PDT)
+From: Christoph Muellner <christoph.muellner@vrull.eu>
+To: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Philipp Tomsich <philipp.tomsich@vrull.eu>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko.stuebner@vrull.eu>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Nelson Chu <nelson@rivosinc.com>, Kito Cheng <kito.cheng@sifive.com>,
+ Cooper Qu <cooper.qu@linux.alibaba.com>,
+ Lifang Xia <lifang_xia@linux.alibaba.com>,
+ Yunhai Shang <yunhai@linux.alibaba.com>,
+ Zhiwei Liu <zhiwei_liu@linux.alibaba.com>
+Cc: =?UTF-8?q?Christoph=20M=C3=BCllner?= <christoph.muellner@vrull.eu>
+Subject: [PATCH 00/11] Add support for the T-Head vendor extensions
+Date: Tue,  6 Sep 2022 14:22:32 +0200
+Message-Id: <20220906122243.1243354-1-christoph.muellner@vrull.eu>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] accel: print an error message and exit if plugin not
- loaded
-Content-Language: en-US
-From: Claudio Fontana <cfontana@suse.de>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- dinechin@redhat.com
-References: <20220905101332.1986-1-cfontana@suse.de>
- <5d922305-a559-bfdc-7038-ec1560ae0e00@linaro.org>
- <9bb31e44-e43d-b51a-712a-87e46279a0b5@suse.de>
- <879a973a-c5b0-2a23-bb24-92bf5500f63f@suse.de>
- <20220906095325.5rhnqjyvckjebnmp@sirius.home.kraxel.org>
- <aef3408d-6b48-424b-e539-6230ee38b90e@suse.de>
-In-Reply-To: <aef3408d-6b48-424b-e539-6230ee38b90e@suse.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -61
-X-Spam_score: -6.2
-X-Spam_bar: ------
-X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.752,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=christoph.muellner@vrull.eu; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,72 +98,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/6/22 13:59, Claudio Fontana wrote:
-> On 9/6/22 11:53, Gerd Hoffmann wrote:
->>> In any case, the only thing that "mayfail" seems to control, is in module_load_file, and is a single printf:
->>>
->>>     g_module = g_module_open(fname, flags);
->>>     if (!g_module) {
->>>         if (!mayfail) {
->>>             fprintf(stderr, "Failed to open module: %s\n",
->>>                     g_module_error());
->>>         }
->>>         ret = -EINVAL;
->>>         goto out;
->>>     }
->>>
->>>
->>> Weird.. Is someone building proprietary modules on top of QEMU?
->>
->> Nope.
->>
->> But modules have dependencies to stuff like pci bus, usb bus, vga which
->> might not be satisfied by some system emulators, and trying to load
->> those modules will fail then because of unresolved symbols.  If you drop
->> that 'make check' will log a pile of errors ...
->>
->> Dropping mayfail and return an 'Error' instead makes sense, then it is
->> up to the caller to report or not report the failure.  When calling down
->> from module_load_qom_all() you might want ignore errors for the reasons
->> outlined above, in most other caes it probably makes sense to report
->> them.
->>
->> take care,
->>   Gerd
->>
->>
-> 
-> Ah I noticed only now... I just sent a series, the module_load_qom_all() then is maybe something to discuss further.
-> 
-> Thanks,
-> 
-> Claudio
-> 
+From: Christoph Müllner <christoph.muellner@vrull.eu>
 
-I noticed however that module_load_qom_all() does _not_ pass true for mayfail.
+This series introduces support for the T-Head vendor extensions,
+which are implemented e.g. in the XuanTie C906 and XuanTie C910
+processors:
+* XTheadBa
+* XTheadBb
+* XTheadBs
+* XTheadCmo
+* XTheadCondMov
+* XTheadFMemIdx
+* XTheadMac
+* XTheadMemIdx
+* XTheadMemPair
+* XTheadSync
 
-You changed this behavior in:
+The xthead* extensions are documented here:
+https://github.com/T-head-Semi/thead-extension-spec/releases/download/2.0.0/xthead-2022-09-05-2.0.0.pdf
 
-commit 9f4a0f0978cde9d8e27453b3f2d3679b53623c47
-Author: Gerd Hoffmann <kraxel@redhat.com>
-Date:   Thu Jun 24 12:38:17 2021 +0200
+The "th." instruction prefix prevents future conflicts with standard
+extensions and has been documentented in a PR for the RISC-V toolchain
+conventions:
+  https://github.com/riscv-non-isa/riscv-toolchain-conventions/pull/19
 
-    modules: use modinfo for qom load
-    
-    Use module database to figure which module implements a given QOM type.
-    Drop hard-coded object list.
-    
-    Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-    Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-    Reviewed-by: Jose R. Ziviani <jziviani@suse.de>
-    Message-Id: <20210624103836.2382472-16-kraxel@redhat.com>
-    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+The goal of this patchset is to provide access to these instruction
+so that compilers/users can optimize SW accordingly.
 
+Note, that the T-Head vendor extensions do not contain all
+vendor-specific functionality of the T-Head SoCs (e.g. no vendor-specific
+CSRs are included). Instead the extensions cover coherent functionality,
+that is exposed to S and U mode.
 
-and from the patch I understand that this made the mayfail argument completely unnecessary, is that correct?
+To enable the extensions above, the following two methods are possible:
+* add the extension to the arch string (e.g.
+* QEMU_CPU="any,xtheadcmo=true,xtheadsync=true")
+* implicitly select the extensions via CPU selection (e.g.
+* QEMU_CPU="thead-c910")
 
-Thanks,
+This patchset attempts to minimize code changes in
+generic/infrastructure code.
+This patchset allows to boot the Xuantie Linux kernel.
 
-Claudio
+Christoph Müllner (11):
+  riscv: Add privilege level to DisasContext
+  RISC-V: Adding T-Head CMO instructions
+  RISC-V: Adding T-Head SYNC instructions
+  RISC-V: Adding T-Head Bitmanip instructions
+  RISC-V: Adding T-Head CondMov instructions
+  RISC-V: Adding T-Head multiply-accumulate instructions
+  RISC-V: Adding T-Head XMAE support
+  RISC-V: Adding T-Head MemPair extension
+  RISC-V: Adding T-Head MemIdx extension
+  RISC-V: Adding T-Head FMemIdx extension
+  RISC-V: Add initial support for T-Head C906 and C910 CPUs
+
+ target/riscv/cpu.c                         |  43 +
+ target/riscv/cpu.h                         |  14 +
+ target/riscv/cpu_helper.c                  |   6 +-
+ target/riscv/cpu_vendorid.h                |   6 +
+ target/riscv/insn_trans/trans_xthead.c.inc | 874 +++++++++++++++++++++
+ target/riscv/meson.build                   |  10 +
+ target/riscv/translate.c                   |  42 +-
+ target/riscv/xtheadba.decode               |  46 ++
+ target/riscv/xtheadbb.decode               |  62 ++
+ target/riscv/xtheadbs.decode               |  32 +
+ target/riscv/xtheadcmo.decode              |  43 +
+ target/riscv/xtheadcondmov.decode          |  33 +
+ target/riscv/xtheadfmemidx.decode          |  34 +
+ target/riscv/xtheadmac.decode              |  30 +
+ target/riscv/xtheadmemidx.decode           |  73 ++
+ target/riscv/xtheadmempair.decode          |  29 +
+ target/riscv/xtheadsync.decode             |  25 +
+ 17 files changed, 1397 insertions(+), 5 deletions(-)
+ create mode 100644 target/riscv/cpu_vendorid.h
+ create mode 100644 target/riscv/insn_trans/trans_xthead.c.inc
+ create mode 100644 target/riscv/xtheadba.decode
+ create mode 100644 target/riscv/xtheadbb.decode
+ create mode 100644 target/riscv/xtheadbs.decode
+ create mode 100644 target/riscv/xtheadcmo.decode
+ create mode 100644 target/riscv/xtheadcondmov.decode
+ create mode 100644 target/riscv/xtheadfmemidx.decode
+ create mode 100644 target/riscv/xtheadmac.decode
+ create mode 100644 target/riscv/xtheadmemidx.decode
+ create mode 100644 target/riscv/xtheadmempair.decode
+ create mode 100644 target/riscv/xtheadsync.decode
+
+-- 
+2.37.2
 
 
