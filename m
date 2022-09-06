@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A8A5AF0A5
+	by mail.lfdr.de (Postfix) with ESMTPS id 310D65AF0A4
 	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 18:39:35 +0200 (CEST)
-Received: from localhost ([::1]:41356 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:41354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVbbq-0000Sn-3h
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 12:39:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60708)
+	id 1oVbbp-0000Rq-NZ
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 12:39:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oVbYx-0004Do-8n
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 12:36:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37086)
+ id 1oVbZ1-0004EV-PP
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 12:36:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53158)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oVbYt-000199-Kr
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 12:36:33 -0400
+ id 1oVbYy-00019V-Sv
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 12:36:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662482190;
+ s=mimecast20190719; t=1662482194;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ACmtXk/+h0NMvhXp5WfOkf+W4yuQ9yZBLskDiRx0c1c=;
- b=jC7xy49vmJg/VgW0KrIYGCnDL1WtR6qJBN08D74iXYmDa1RJEQZxVtkNDh9B6FgAz9T97R
- fx3tWgoPc6I4I/uOCkhnNEnoaozXG4FUuy0MfIQ/aKIqEolw+ppxIdTV9DLat35FxeZpe9
- rcbOCVtZZ1ODKP7Ke/IyiR0xjvT3/fg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OYCLbgtLx1pJHD2pvYNbWroV/3ZdXeXWRb+InzQMaQM=;
+ b=B8WK67UwXF2EqfX4pQfAlD3fQQ6LJkbYFps652vrYJUXSboWKQdRI+Gkw0Chh05LTr0u/N
+ 8XtZ7uNimOcURElhGGBnMR5GAxKxWm2UGKG/OfKwNKsRteTspE0lllrP9YYEwTyYRdhEHx
+ vuYp8PIcnmFAccQuZtS/Xcvr98UcQf8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-651-BpP-1Gl7P4aYXKAT7C2Y2g-1; Tue, 06 Sep 2022 12:36:27 -0400
-X-MC-Unique: BpP-1Gl7P4aYXKAT7C2Y2g-1
+ us-mta-655-lH7Q5Q5RNO6iq7Ml3AoOsw-1; Tue, 06 Sep 2022 12:36:30 -0400
+X-MC-Unique: lH7Q5Q5RNO6iq7Ml3AoOsw-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8A21A80A0AE;
- Tue,  6 Sep 2022 16:36:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B2AA43802BBC;
+ Tue,  6 Sep 2022 16:36:29 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.195.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9DF1C492C3B;
- Tue,  6 Sep 2022 16:36:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE203492C3B;
+ Tue,  6 Sep 2022 16:36:26 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -55,12 +56,14 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>,
  Jason Wang <jasowang@redhat.com>
-Subject: [PATCH 0/3] Vhost-vdpa Shadow Virtqueue VLAN support
-Date: Tue,  6 Sep 2022 18:36:18 +0200
-Message-Id: <20220906163621.1144675-1-eperezma@redhat.com>
+Subject: [PATCH 1/3] virtio-net: do not reset vlan filtering at set_features
+Date: Tue,  6 Sep 2022 18:36:19 +0200
+Message-Id: <20220906163621.1144675-2-eperezma@redhat.com>
+In-Reply-To: <20220906163621.1144675-1-eperezma@redhat.com>
+References: <20220906163621.1144675-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -86,29 +89,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series enables shadowed CVQ to intercept VLAN commands through=0D
-shadowed CVQ, update the virtio NIC device model so qemu send it in a=0D
-migration, and the restore of that VLAN state in the destination.=0D
-=0D
-It's based on the multiqueue series [1], but it's easy to reorder in=0D
-case vlan feature is accepted earlier than mq.=0D
-=0D
-Comments are welcome.=0D
-=0D
-[1] https://lists.nongnu.org/archive/html/qemu-devel/2022-09/msg01006.html=
-=0D
-=0D
-Eugenio P=C3=A9rez (3):=0D
-  virtio-net: do not reset vlan filtering at set_features=0D
-  vdpa: load vlan configuration at NIC startup=0D
-  vdpa: Support VLAN on nic control shadow virtqueue=0D
-=0D
- hw/net/virtio-net.c |  4 +---=0D
- net/vhost-vdpa.c    | 57 +++++++++++++++++++++++++++++++++++++++++++--=0D
- 2 files changed, 56 insertions(+), 5 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+This function is called after virtio_load, so all vlan configuration is
+lost in migration case.
+
+Just allow all the vlan-tagged packets if vlan is not configured, and
+trust device reset to clear all filtered vlans.
+
+Fixes: 0b1eaa8803 ("virtio-net: Do not filter VLANs without F_CTRL_VLAN")
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ hw/net/virtio-net.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 63a8332cd0..c1bea3fd42 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -920,9 +920,7 @@ static void virtio_net_set_features(VirtIODevice *vdev, uint64_t features)
+         vhost_net_ack_features(get_vhost_net(nc->peer), features);
+     }
+ 
+-    if (virtio_has_feature(features, VIRTIO_NET_F_CTRL_VLAN)) {
+-        memset(n->vlans, 0, MAX_VLAN >> 3);
+-    } else {
++    if (!virtio_has_feature(features, VIRTIO_NET_F_CTRL_VLAN)) {
+         memset(n->vlans, 0xff, MAX_VLAN >> 3);
+     }
+ 
+-- 
+2.31.1
 
 
