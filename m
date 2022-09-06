@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2279D5AE13E
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 09:37:19 +0200 (CEST)
-Received: from localhost ([::1]:43814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64A195AE15A
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 09:40:43 +0200 (CEST)
+Received: from localhost ([::1]:47966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVT93-0000Hh-Qq
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 03:37:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43354)
+	id 1oVTCM-0003ZB-Ec
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 03:40:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
- id 1oVT3Y-0003IW-Mk; Tue, 06 Sep 2022 03:31:36 -0400
-Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:49702)
+ id 1oVT3Y-0003Iq-MM; Tue, 06 Sep 2022 03:31:36 -0400
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:49704)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
- id 1oVT3S-0002xT-AE; Tue, 06 Sep 2022 03:31:34 -0400
+ id 1oVT3U-0002xU-6u; Tue, 06 Sep 2022 03:31:35 -0400
 Received: from vla1-81430ab5870b.qloud-c.yandex.net
  (vla1-81430ab5870b.qloud-c.yandex.net
  [IPv6:2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 0A14C2E1227;
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id E4A5C2E0B44;
  Tue,  6 Sep 2022 10:31:19 +0300 (MSK)
 Received: from d-tatianin-nix.yandex.net (unknown
  [2a02:6b8:0:419:d8d0:8d85:2aad:ab5b])
  by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- WefwVQnsrp-VIXi5FIV; Tue, 06 Sep 2022 10:31:18 +0300
+ WefwVQnsrp-VJXiuDjk; Tue, 06 Sep 2022 10:31:19 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 Precedence: bulk
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1662449478; bh=kV6D4xcVx1KDmrv9tcmp6vQ/S6NIeJj51U/GwK/y4nk=;
+ t=1662449479; bh=CSW1A7UJsUY4+uHeXma7o5wMMCuBXH41Ny7gH8yaeGs=;
  h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=kUJcBa1DigWNzGxP+w8CRU2KWt/Fbi3SySLzRMrrvo+LJEYVxQEqWd3h0VwdZWxft
- 7dia27hCGgwWhWE8cnQc4e7sZlmUI6EYY8t3jVIoy5ToMO17FQWWLHtDReVzf2f4/m
- +ESYIeew69R6yGpt7BzSuTYsi9MvkeDWrLw/dShk=
+ b=uB0iiSMGmjpA2xEzve//WUrUGhmK+w6/ewUSvRR9Sh7V8ZLNcrh47pSOoOxiKr/8v
+ SBgCRk1s/v72Q7+wD0crQwC7YFbNjnTiPfOnNILr5URBK2992N+iDoYu6pnb4/SNg/
+ 3ErAdDZqsvTQTOO2sc5GdpXggKdOQXBqh/4ok47s=
 Authentication-Results: vla1-81430ab5870b.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 From: Daniil Tatianin <d-tatianin@yandex-team.ru>
@@ -44,10 +44,10 @@ To: qemu-devel@nongnu.org
 Cc: yc-core@yandex-team.ru, mst@redhat.com, stefanha@redhat.com,
  raphael.norwitz@nutanix.com, kwolf@redhat.com, qemu-block@nongnu.org,
  jasowang@redhat.com, d-tatianin@yandex-team.ru
-Subject: [PATCH v3 2/5] virtio-blk: move config size params to
- virtio-blk-common
-Date: Tue,  6 Sep 2022 10:31:08 +0300
-Message-Id: <20220906073111.353245-3-d-tatianin@yandex-team.ru>
+Subject: [PATCH v3 3/5] vhost-user-blk: make it possible to disable
+ write-zeroes/discard
+Date: Tue,  6 Sep 2022 10:31:09 +0300
+Message-Id: <20220906073111.353245-4-d-tatianin@yandex-team.ru>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220906073111.353245-1-d-tatianin@yandex-team.ru>
 References: <20220906073111.353245-1-d-tatianin@yandex-team.ru>
@@ -76,165 +76,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This way we can reuse it for other virtio-blk devices, e.g
-vhost-user-blk, which currently does not control its config space size
-dynamically.
+It is useful to have the ability to disable these features for
+compatibility with older VMs that don't have these implemented.
 
 Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
 Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 ---
- MAINTAINERS                           |  2 ++
- hw/block/meson.build                  |  2 +-
- hw/block/virtio-blk-common.c          | 39 +++++++++++++++++++++++++++
- hw/block/virtio-blk.c                 | 24 ++---------------
- include/hw/virtio/virtio-blk-common.h | 20 ++++++++++++++
- 5 files changed, 64 insertions(+), 23 deletions(-)
- create mode 100644 hw/block/virtio-blk-common.c
- create mode 100644 include/hw/virtio/virtio-blk-common.h
+ hw/block/vhost-user-blk.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5ce4227ff6..2858577c5b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2030,8 +2030,10 @@ virtio-blk
- M: Stefan Hajnoczi <stefanha@redhat.com>
- L: qemu-block@nongnu.org
- S: Supported
-+F: hw/block/virtio-blk-common.c
- F: hw/block/virtio-blk.c
- F: hw/block/dataplane/*
-+F: include/hw/virtio/virtio-blk-common.h
- F: tests/qtest/virtio-blk-test.c
- T: git https://github.com/stefanha/qemu.git block
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index 9117222456..4c9727e08c 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -259,8 +259,6 @@ static uint64_t vhost_user_blk_get_features(VirtIODevice *vdev,
+     virtio_add_feature(&features, VIRTIO_BLK_F_BLK_SIZE);
+     virtio_add_feature(&features, VIRTIO_BLK_F_FLUSH);
+     virtio_add_feature(&features, VIRTIO_BLK_F_RO);
+-    virtio_add_feature(&features, VIRTIO_BLK_F_DISCARD);
+-    virtio_add_feature(&features, VIRTIO_BLK_F_WRITE_ZEROES);
  
-diff --git a/hw/block/meson.build b/hw/block/meson.build
-index 2389326112..8ee1f1f850 100644
---- a/hw/block/meson.build
-+++ b/hw/block/meson.build
-@@ -16,7 +16,7 @@ softmmu_ss.add(when: 'CONFIG_SWIM', if_true: files('swim.c'))
- softmmu_ss.add(when: 'CONFIG_XEN', if_true: files('xen-block.c'))
- softmmu_ss.add(when: 'CONFIG_TC58128', if_true: files('tc58128.c'))
+     if (s->config_wce) {
+         virtio_add_feature(&features, VIRTIO_BLK_F_CONFIG_WCE);
+@@ -592,6 +590,10 @@ static Property vhost_user_blk_properties[] = {
+                        VHOST_USER_BLK_AUTO_NUM_QUEUES),
+     DEFINE_PROP_UINT32("queue-size", VHostUserBlk, queue_size, 128),
+     DEFINE_PROP_BIT("config-wce", VHostUserBlk, config_wce, 0, true),
++    DEFINE_PROP_BIT64("discard", VHostUserBlk, parent_obj.host_features,
++                      VIRTIO_BLK_F_DISCARD, true),
++    DEFINE_PROP_BIT64("write-zeroes", VHostUserBlk, parent_obj.host_features,
++                      VIRTIO_BLK_F_WRITE_ZEROES, true),
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
--specific_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-blk.c'))
-+specific_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-blk.c', 'virtio-blk-common.c'))
- specific_ss.add(when: 'CONFIG_VHOST_USER_BLK', if_true: files('vhost-user-blk.c'))
- 
- subdir('dataplane')
-diff --git a/hw/block/virtio-blk-common.c b/hw/block/virtio-blk-common.c
-new file mode 100644
-index 0000000000..ac52d7c176
---- /dev/null
-+++ b/hw/block/virtio-blk-common.c
-@@ -0,0 +1,39 @@
-+/*
-+ * Virtio Block Device common helpers
-+ *
-+ * Copyright IBM, Corp. 2007
-+ *
-+ * Authors:
-+ *  Anthony Liguori   <aliguori@us.ibm.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2.  See
-+ * the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "standard-headers/linux/virtio_blk.h"
-+#include "hw/virtio/virtio.h"
-+#include "hw/virtio/virtio-blk-common.h"
-+
-+/* Config size before the discard support (hide associated config fields) */
-+#define VIRTIO_BLK_CFG_SIZE offsetof(struct virtio_blk_config, \
-+                                     max_discard_sectors)
-+
-+/*
-+ * Starting from the discard feature, we can use this array to properly
-+ * set the config size depending on the features enabled.
-+ */
-+static const VirtIOFeature feature_sizes[] = {
-+    {.flags = 1ULL << VIRTIO_BLK_F_DISCARD,
-+     .end = endof(struct virtio_blk_config, discard_sector_alignment)},
-+    {.flags = 1ULL << VIRTIO_BLK_F_WRITE_ZEROES,
-+     .end = endof(struct virtio_blk_config, write_zeroes_may_unmap)},
-+    {}
-+};
-+
-+const VirtIOConfigSizeParams virtio_blk_cfg_size_params = {
-+    .min_size = VIRTIO_BLK_CFG_SIZE,
-+    .max_size = sizeof(struct virtio_blk_config),
-+    .feature_sizes = feature_sizes
-+};
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index 10c47c2934..8131ec2dbc 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -32,29 +32,9 @@
- #include "hw/virtio/virtio-bus.h"
- #include "migration/qemu-file-types.h"
- #include "hw/virtio/virtio-access.h"
-+#include "hw/virtio/virtio-blk-common.h"
- #include "qemu/coroutine.h"
- 
--/* Config size before the discard support (hide associated config fields) */
--#define VIRTIO_BLK_CFG_SIZE offsetof(struct virtio_blk_config, \
--                                     max_discard_sectors)
--/*
-- * Starting from the discard feature, we can use this array to properly
-- * set the config size depending on the features enabled.
-- */
--static const VirtIOFeature feature_sizes[] = {
--    {.flags = 1ULL << VIRTIO_BLK_F_DISCARD,
--     .end = endof(struct virtio_blk_config, discard_sector_alignment)},
--    {.flags = 1ULL << VIRTIO_BLK_F_WRITE_ZEROES,
--     .end = endof(struct virtio_blk_config, write_zeroes_may_unmap)},
--    {}
--};
--
--static const VirtIOConfigSizeParams cfg_size_params = {
--    .min_size = VIRTIO_BLK_CFG_SIZE,
--    .max_size = sizeof(struct virtio_blk_config),
--    .feature_sizes = feature_sizes
--};
--
- static void virtio_blk_init_request(VirtIOBlock *s, VirtQueue *vq,
-                                     VirtIOBlockReq *req)
- {
-@@ -1202,7 +1182,7 @@ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    s->config_size = virtio_get_config_size(&cfg_size_params,
-+    s->config_size = virtio_get_config_size(&virtio_blk_cfg_size_params,
-                                             s->host_features);
-     virtio_init(vdev, VIRTIO_ID_BLOCK, s->config_size);
- 
-diff --git a/include/hw/virtio/virtio-blk-common.h b/include/hw/virtio/virtio-blk-common.h
-new file mode 100644
-index 0000000000..31daada3e3
---- /dev/null
-+++ b/include/hw/virtio/virtio-blk-common.h
-@@ -0,0 +1,20 @@
-+/*
-+ * Virtio Block Device common helpers
-+ *
-+ * Copyright IBM, Corp. 2007
-+ *
-+ * Authors:
-+ *  Anthony Liguori   <aliguori@us.ibm.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2.  See
-+ * the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef VIRTIO_BLK_COMMON_H
-+#define VIRTIO_BLK_COMMON_H
-+
-+#include "hw/virtio/virtio.h"
-+
-+extern const VirtIOConfigSizeParams virtio_blk_cfg_size_params;
-+
-+#endif
 -- 
 2.25.1
 
