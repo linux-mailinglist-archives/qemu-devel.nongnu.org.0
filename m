@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 282D85AF489
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 21:41:11 +0200 (CEST)
-Received: from localhost ([::1]:39692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E65C5AF4DB
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 21:54:48 +0200 (CEST)
+Received: from localhost ([::1]:45122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVeRZ-000378-Py
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 15:41:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46294)
+	id 1oVeeh-0007iE-QO
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 15:54:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oVePi-0001Fh-V8
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 15:39:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43799)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oVePf-0006Qg-3M
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 15:39:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662493146;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=lzoKw+sU1WBb2iFfdE/eMY0D5KyCHHMi61+m/kl8Qj0=;
- b=BYUv1iKr6CNk+jOLVERkj8l2FUv7rVnfssGi7qetQy35MxumENw016+Bcw+7S/KFVWwyCF
- ARJPIGD7O8+IywE0+Vj6VM4GmHB8p1/kvCIzl6j6i5dwk2e9pitscMLeeBABQapKv7SyO0
- PYwHVrVk4S6kkm7GUAuppkaM7RVU5Zo=
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
- [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-16-XBwCY9w7PTS7TJqV32hM2w-1; Tue, 06 Sep 2022 15:39:05 -0400
-X-MC-Unique: XBwCY9w7PTS7TJqV32hM2w-1
-Received: by mail-vk1-f200.google.com with SMTP id
- w187-20020a1fadc4000000b0037ceefea1c7so2253400vke.7
- for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 12:39:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oVecx-00064W-P7; Tue, 06 Sep 2022 15:52:55 -0400
+Received: from mail-oa1-x35.google.com ([2001:4860:4864:20::35]:40911)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oVecw-0000SR-01; Tue, 06 Sep 2022 15:52:55 -0400
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-1278a61bd57so12310070fac.7; 
+ Tue, 06 Sep 2022 12:52:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=N5wuiv0P9HbXSVszGS4Ytxq2rLkc7Am8sIQ0eHY6+Tc=;
+ b=VLpWS13J6SyAJ83m83PEQjjSSBiU6g7xDWvK7VJPyfzNi5b3NfUVXsPxVkTKPEP76S
+ TBfVoMZJg3bS/VZ74jT6nZYCsntWbQvC8LzS4IABwQWjJCcSGh/yhfVqyQQdccDLP5BD
+ 8K3+NOibP2iibpgX/lOqkn1MW38VDSfthlJkUXOFjBigMldL4sSd8Lk+1PR4QZD5RXCr
+ 8LdFoQAu5c5WXOYASzyNkzCUAwMqXaGp6bqeNJ2jB5WZMJC8eCwZDU23R3yRqH+QEQMQ
+ VJ6rGSv9+YkruRlUBmRo0lyWJEkCFyQTKMNAF5421I2YYAf9rt/+jbwm4Edhb1wFjXp3
+ /gOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date;
- bh=lzoKw+sU1WBb2iFfdE/eMY0D5KyCHHMi61+m/kl8Qj0=;
- b=gFfaIwJowmJqKhVFgeEi3R4LiR6/Pgoez+4A3fmm16b3mAUsyS35HaF5lJFhQU/Q+g
- Z6lKWJCN52EUWNMwTpgWu1UCLqoj9F+05Q8KKgrRqZuiyyVTPTNW9h/PrhITy8cAa08l
- BzuzbARcSk5sz42uRjzaoa2U+qieZyOec+hJe8k0MfAIdUw00BRna5CDLXBv3a9TJSfa
- gT5kLrKQDxlNJGnUy2H83oO7gUhlhZCB/y5/MS5e+wA3ekOqutSow0jv2jL/TxQdXTX5
- DgRlWAIH0bfBf5oDeAbSgUCJt8dcr4c+fAXmnyzvIUdR8kgRqKi6EiNyTkgzfFxo2hZC
- 80Jw==
-X-Gm-Message-State: ACgBeo2a80JHf8taxDTTJ0ZUpQy+UwFgoLL+J8CoKfeOIYhVOzkgT1V0
- z+60EbZFDFcN8R9UCb2KICihSlLh8e6oGUAOzl61spEEO8nDGv4oRz/QqdE2KveP2FEQKjwoNXW
- ycq5pigxILP8VmLvHQFKrRwxB64qMoBY=
-X-Received: by 2002:a05:6102:34d:b0:392:b2c4:e5c2 with SMTP id
- e13-20020a056102034d00b00392b2c4e5c2mr37716vsa.61.1662493145000; 
- Tue, 06 Sep 2022 12:39:05 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5hCHxX1kERsKTIIGhJ9Ql2QPLWJLcaqTP0l50e+fVSlPrp/a9ZipaFQcVluFeyR/79XWvTQZmIc9wYsXTfgqs=
-X-Received: by 2002:a05:6102:34d:b0:392:b2c4:e5c2 with SMTP id
- e13-20020a056102034d00b00392b2c4e5c2mr37709vsa.61.1662493144800; Tue, 06 Sep
- 2022 12:39:04 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=N5wuiv0P9HbXSVszGS4Ytxq2rLkc7Am8sIQ0eHY6+Tc=;
+ b=dDRWvvmSopvNYaeCzFIl5cLQJp58t26GrAv3W9A5mJUJupN/sE+kM7vbHpwihXpDcH
+ 0xb+ppDdw8BVf7p1cmR/jCv1ymUAysTUpHuSp8sjA0aD3t376kYW+h7CCnFd2EsDpBDi
+ b2nL5zelFAr14t2IlGud6v/WXNQ0TQ3qKOTglsAz9dqoYhXslcwdvVIlXJDG3hVaHmQC
+ ZoBgX+l5XCFWAmFa9LcYgz0XUFXFTltqnE3Nwu+5YaERnUJ+xUtstELBxamDmc+77edU
+ s7OMCB6eXg4KLIuVCcu5CbVQ6mmGD1PPCS3bxRzoEQNicgS4IDfwbPq2EGZPBcCQ4myT
+ OGIA==
+X-Gm-Message-State: ACgBeo2rvCYJ/t6653nWyRrgQ5AUgyhy1bSObjYUTnWetCiE3o01+0d6
+ k9e/zbii46/b6I8Ahdu3ri8=
+X-Google-Smtp-Source: AA6agR6QxpJqxIBjLICuQcjbhynn064cXeML/agbk7SPcxD233WoqzVZBycOvQx/C+5d36kLCjjHCg==
+X-Received: by 2002:a05:6870:2112:b0:127:76f4:83c4 with SMTP id
+ f18-20020a056870211200b0012776f483c4mr5053942oae.171.1662493972060; 
+ Tue, 06 Sep 2022 12:52:52 -0700 (PDT)
+Received: from [192.168.10.102] (200-207-147-180.dsl.telesp.net.br.
+ [200.207.147.180]) by smtp.gmail.com with ESMTPSA id
+ q6-20020a0568080ec600b00342ece494ffsm5743373oiv.46.2022.09.06.12.52.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Sep 2022 12:52:51 -0700 (PDT)
+Message-ID: <e8609bda-865f-42c8-9234-75b082ca9df0@gmail.com>
+Date: Tue, 6 Sep 2022 16:52:48 -0300
 MIME-Version: 1.0
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 6 Sep 2022 15:38:54 -0400
-Message-ID: <CAFn=p-ZkKLQtYAwzkQb7srFf_fF8ij+g5wkZiRofx4U+kSZ7Rw@mail.gmail.com>
-Subject: Maximum QMP reply size
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH 0/8] Patch series to set up a ppc64le CI
+Content-Language: en-US
+To: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20220727163632.59806-1-lucas.araujo@eldorado.org.br>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220727163632.59806-1-lucas.araujo@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::35;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x35.google.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.752,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,27 +93,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, I suspect I have asked this before, but I didn't write it down in
-a comment, so I forget my justification...
+Lucas,
 
-In the QMP lib, we need to set a buffering limit for how big a QMP
-message can be -- In practice, I found that the largest possible
-response was the QAPI schema reply, and I set the code to this:
+If you're still interested, patches 1-4 are worth re-sending in separate.
+You'll need to address Daniel's comments on patch 1. The other 3 patches
+LGTM.
 
-    # Maximum allowable size of read buffer
-    _limit = (64 * 1024)
+Patches 5-8 can wait. We're not certain about Unicamp's Minicloud
+availability in the future, so there's no point in setting up our CI
+based on Minicloud's specifics.
 
-However, I didn't document if this was a reasonable limit or just a
-"worksforme" one. I assume that there's no hard limit for the protocol
-or the implementation thereof in QEMU. Is there any kind of value here
-that would be more sensible than another?
 
-I'm worried that if replies get bigger in the future (possibly in some
-degenerate case I am presently unaware of) that the library default
-will become nonsensical.
+Thanks,
 
-Any pointers/tips?
+Daniel
 
---js
-
+On 7/27/22 13:36, Lucas Mateus Castro(alqotel) wrote:
+> This patch series aim to make easier to set up a compilation and CI
+> environment in PPC64 and PPC64LE machines.
+> 
+> The first 2 patches is a fix not related to ppc64.
+> Patch 3 and 4 also affect some other architectures.
+> Patches 5 to 7 are adding Power specific additions.
+> 
+> Patch 8 is a RFC for a current way to run the docker tests in PPC64LE.
+> 
+> Lucas Mateus Castro(alqotel) (8):
+>    tests/docker: Fix alpine dockerfile
+>    scripts/ci/setup: ninja missing from build-environment
+>    scripts/ci/setup: Fix libxen requirements
+>    scripts/ci/setup: spice-server only on x86 aarch64
+>    scripts/ci/setup: Add ppc64le to vars.yml template
+>    scripts/ci/setup: Add Fedora to build-environment.yml
+>    scripts/ci/setup: Added debian to build-environment.yml
+>    tests/docker: Selective line reading by python script
+> 
+>   scripts/ci/setup/build-environment.yml | 54 +++++++++++++++++++++-----
+>   scripts/ci/setup/vars.yml.template     |  1 +
+>   tests/docker/docker.py                 | 15 +++++--
+>   tests/docker/dockerfiles/alpine.docker |  3 ++
+>   4 files changed, 61 insertions(+), 12 deletions(-)
+> 
 
