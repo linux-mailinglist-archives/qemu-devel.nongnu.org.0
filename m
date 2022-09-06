@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 711325AE506
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 12:10:42 +0200 (CEST)
-Received: from localhost ([::1]:39186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 798215AE517
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 12:13:32 +0200 (CEST)
+Received: from localhost ([::1]:38614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVVXT-0000o9-Jo
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 06:10:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51104)
+	id 1oVVaE-0007Bd-Rf
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 06:13:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVUcS-0007WR-8p
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:11:47 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36738)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVUcQ-0002fY-2s
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:11:43 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id b17so1088409wrq.3
- for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 02:11:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date;
- bh=SRY4FrKihbAdLBlGm0zlu+Vf4IcbXDY8j/QZi/7lz70=;
- b=djKDvi0Q/VlAIx+Ie8ym7XGIi+yRkXCP4TAaBn7aSQQEloD2E7viUk22y8w6h6JCyc
- Zd7HQcRFe0qBV2Ry/AQVopRy023CHuB6BPbIoK2VhDsIBCYfyuYeQ63bHi3w86FsKCfU
- RG/IvVClEEfS6VBrvbPYpTgzpCuwwYMBXAfuklqstEsj4+PkEJlreWayjmRZX2X5fu+m
- xBlbTrvrSNTTvub1fe4gY4kKuANvtHQiysqqWb8qX6Kgz21g6PDLMLTOqhQYPSqH2hP3
- z+we8Nc/eEwjYWzFTCZFkPYSRAW1cMA9CW6nb0YPcBxbhudhhFgBebm2uX/5jDo+Qd9M
- wuSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=SRY4FrKihbAdLBlGm0zlu+Vf4IcbXDY8j/QZi/7lz70=;
- b=DJpDEBF8mTq3/2wtpKtyVOvalbm3aZjdDPu+TJqAIkvu8tTp4g/RCO43DmaSks8z7c
- gIVjn7+vUt2QCgor6XYJD9mHPNvlTYFB7mvMz9tHBUAPXs7kjdr57t5gc94d7IW4QmXU
- kYJSTvXzJnhU4TsVKvQ9Ks+1tp6yGT2UQsflsP/ExxlxlyQvGIK3V7d7OWhBG5nJoCM9
- 3A7E9UkY2M5r+X3pGCBVD8MKHhFGjzM+N8lH1J1eRzd2SBKTJHfaM5SxqpY5Cwe9U5YO
- cQ3SSAKs3uyQuE4wjqTiPYHWKN3GqZe4FFheyvkZfsCSCEQl/NISnJjidYWAF9j1WsUr
- fpAw==
-X-Gm-Message-State: ACgBeo25CiwKdcwuu4hTdvhd7qXiG7kFYF0AGLZQO2fz3sNWLu1JHmrU
- LpEyUeOzuOYLB7GhQi22o+pDWf1cdQp1fe0O
-X-Google-Smtp-Source: AA6agR4sdvFnWjvTgwp8ROd3MV2G7H0qbsHnVy5TqFwRwVyWNHtvUvnJJmGUYyJ5tO8Yc0cI5fviRg==
-X-Received: by 2002:a5d:6d0e:0:b0:21e:fc95:3dfc with SMTP id
- e14-20020a5d6d0e000000b0021efc953dfcmr26957470wrq.112.1662455500899; 
- Tue, 06 Sep 2022 02:11:40 -0700 (PDT)
-Received: from localhost.localdomain
- ([2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1])
- by smtp.gmail.com with ESMTPSA id
- m64-20020a1c2643000000b003a5ee64cc98sm20094193wmm.33.2022.09.06.02.11.39
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 02:11:39 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 7/7] accel/tcg: Split log_cpu_exec into inline and slow path
-Date: Tue,  6 Sep 2022 10:11:26 +0100
-Message-Id: <20220906091126.298041-8-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220906091126.298041-1-richard.henderson@linaro.org>
-References: <20220906091126.298041-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1oVUjt-00068a-1P
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:19:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43596)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1oVUjp-0003l2-RP
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:19:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662455960;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WTRx7tfA540r/FUQkddIp6d+BYP5GkpLpF1JDCco29o=;
+ b=BWZX66vnqrKvq+7vZHymC7pR/23+eYpQfJXBqhGe7i8q7aQQntvtx35zt1NIXE1pyBePa9
+ OISeim8s0I/yvuA8jkyGZEtbx3y5RS/nMrJNAeZf21tU0ry08g4x/d+C4zTZ/g4zwh6Kc4
+ YqOSpc2lbvw8FhgsaiJtKf5garUHvDE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-612-6V63_9WGPCys1LI4uKqLWA-1; Tue, 06 Sep 2022 05:19:19 -0400
+X-MC-Unique: 6V63_9WGPCys1LI4uKqLWA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 63DB83C0D848
+ for <qemu-devel@nongnu.org>; Tue,  6 Sep 2022 09:19:19 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 24750C15BB3;
+ Tue,  6 Sep 2022 09:19:19 +0000 (UTC)
+Date: Tue, 6 Sep 2022 10:19:18 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH 04/11] crypto: validate that LUKS payload doesn't overlap
+ with header
+Message-ID: <20220906091918.GL7484@redhat.com>
+References: <20220906084147.1423045-1-berrange@redhat.com>
+ <20220906084147.1423045-5-berrange@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42f.google.com
+In-Reply-To: <20220906084147.1423045-5-berrange@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=rjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,64 +81,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- accel/tcg/cpu-exec.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+On Tue, Sep 06, 2022 at 09:41:40AM +0100, Daniel P. Berrangé wrote:
+> We already validate that LUKS keyslots don't overlap with the
+> header, or with each other. This closes the remain hole in
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 7fe42269ea..ac8eec7f54 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -292,12 +292,11 @@ static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
-     return tb;
- }
- 
--static inline void log_cpu_exec(target_ulong pc, CPUState *cpu,
--                                const TranslationBlock *tb)
-+static void log_cpu_exec1(CPUState *cpu, const TranslationBlock *tb)
- {
--    if (unlikely(qemu_loglevel_mask(CPU_LOG_TB_CPU | CPU_LOG_EXEC))
--        && qemu_log_in_addr_range(pc)) {
-+    target_ulong pc = tb_pc_log(tb);
- 
-+    if (qemu_log_in_addr_range(pc)) {
-         qemu_log_mask(CPU_LOG_EXEC,
-                       "Trace %d: %p [" TARGET_FMT_lx
-                       "/" TARGET_FMT_lx "/%08x/%08x] %s\n",
-@@ -324,6 +323,13 @@ static inline void log_cpu_exec(target_ulong pc, CPUState *cpu,
-     }
- }
- 
-+static inline void log_cpu_exec(CPUState *cpu, const TranslationBlock *tb)
-+{
-+    if (unlikely(qemu_loglevel_mask(CPU_LOG_TB_CPU | CPU_LOG_EXEC))) {
-+        log_cpu_exec1(cpu, tb);
-+    }
-+}
-+
- static bool check_for_breakpoints(CPUState *cpu, target_ulong pc,
-                                   uint32_t *cflags)
- {
-@@ -421,7 +427,7 @@ const void *HELPER(lookup_tb_ptr)(CPUArchState *env)
-         return tcg_code_gen_epilogue;
-     }
- 
--    log_cpu_exec(pc, cpu, tb);
-+    log_cpu_exec(cpu, tb);
- 
-     return tb->tc.ptr;
- }
-@@ -444,7 +450,7 @@ cpu_tb_exec(CPUState *cpu, TranslationBlock *itb, int *tb_exit)
-     TranslationBlock *last_tb;
-     const void *tb_ptr = itb->tc.ptr;
- 
--    log_cpu_exec(tb_pc_log(itb), cpu, itb);
-+    log_cpu_exec(cpu, itb);
- 
-     qemu_thread_jit_execute();
-     ret = tcg_qemu_tb_exec(env, tb_ptr);
+remain -> remaining
+
+> validation of LUKS file regions.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  crypto/block-luks.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/crypto/block-luks.c b/crypto/block-luks.c
+> index 6ef9a89ffa..f22bc63e54 100644
+> --- a/crypto/block-luks.c
+> +++ b/crypto/block-luks.c
+> @@ -572,6 +572,13 @@ qcrypto_block_luks_check_header(const QCryptoBlockLUKS *luks, Error **errp)
+>          return -1;
+>      }
+>  
+> +    if (luks->header.payload_offset_sector <
+> +        DIV_ROUND_UP(QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET,
+> +                     QCRYPTO_BLOCK_LUKS_SECTOR_SIZE)) {
+> +        error_setg(errp, "LUKS payload is overlapping with the header");
+> +        return -1;
+> +    }
+> +
+>      /* Check all keyslots for corruption  */
+>      for (i = 0 ; i < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS ; i++) {
+>  
+> -- 
+> 2.37.2
+
 -- 
-2.34.1
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+Fedora Windows cross-compiler. Compile Windows programs, test, and
+build Windows installers. Over 100 libraries supported.
+http://fedoraproject.org/wiki/MinGW
 
 
