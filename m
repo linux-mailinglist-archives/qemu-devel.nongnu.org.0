@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 676235AE02B
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 08:49:14 +0200 (CEST)
-Received: from localhost ([::1]:45634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0435AE087
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 09:06:55 +0200 (CEST)
+Received: from localhost ([::1]:59374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVSOW-0005X3-2v
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 02:49:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58490)
+	id 1oVSfd-0000Xe-J8
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 03:06:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVSKQ-0003vL-Vg
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 02:44:59 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:51830)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oVSZu-0006eh-5i
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 03:00:58 -0400
+Received: from mail-qv1-xf31.google.com ([2607:f8b0:4864:20::f31]:42832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVSKO-0003WO-UA
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 02:44:58 -0400
-Received: by mail-wm1-x335.google.com with SMTP id ay12so6337545wmb.1
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 23:44:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=dZek6j7pUoP6v9KmCwg/ZlBVD6dTY6Rbt2XUJl6wvBQ=;
- b=So+g8h0y76E0laWrklWXlETjudPUK+deLT8lx/prepHTgCcDnx77XWnzcWs/O0RH41
- JaU0vYgkQ2YuU5SplycXyiTIOxFuJSyHjAvVzD+oNJwHoQO5m3/TpQD+Q4RYI7l/s/IJ
- x9G5pxm6K046jPaQ9lrM+9AzI41pQTfO86bSimSd/Cr96FBHKRQl9jxOfac2jbmN9dkM
- KbH5szyRnXEPb9g18PoTyDkHcN5J1cXWDNnLs6UP/Mdgce+44clCwS2t5v3mGgt+D2iV
- JaCWNoENRmqzZP3vtW+wLKz97pwtk/MdUiI4o4sgWKJ7ACdxIZUPQql5b+tsFW6Oda7B
- Ce2w==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oVSZr-00063X-Ts
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 03:00:57 -0400
+Received: by mail-qv1-xf31.google.com with SMTP id q8so7674665qvr.9
+ for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 00:00:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=lKfDxOdzaX5nfOlTMIFJULNQR1iwcIOkDpBjbBnlC1U=;
+ b=GkWsd/dWkRZzWAD/lUfTuTtW6JX0UxVRVufzBlEKPeF1Hpyb+QJMWVL0JkRFyP+uoj
+ SbKfFzsVq0wN9BZOGi3OwFKYBiJhFlQrP6sckBWZDsx42bOlIf/5ohhsj+BxQeod6D2D
+ 5+lDJ40r+FQNEe4Aa2e9SxnB59r+XHTTL7GWQ+Zcm1h5iBQh6ecjt4dkc5WX6U7Rkqj7
+ Vn9em7PYVKJ/W6SSRy2vub5sUx2gaC6sao5PT4EjOhZxGHNqofe27vpZ3teAGUknmUx/
+ /thvM1I46PGoQFma7ztFWSamoceG5VKIsGzHVNNorakustUuiPYs4/3d/f02Bvpgp4lR
+ IsfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=dZek6j7pUoP6v9KmCwg/ZlBVD6dTY6Rbt2XUJl6wvBQ=;
- b=6IQWve8HxCmtVf7quX1wEU2X3ZQQkD93hLWWGxV9zFMPbdt2E2VKm/uFFg+oRtDv+s
- jQDXdWbkixdEcjCmF9MJ+5wdNdh5v+vvC/bAsPMiW3THizASg9Vd122VM+LU71B2fgTJ
- lhQmErFMwsbVhNPHFrqce44W+Vj0t5xk8WPPpkhEXq1XQLVN/A3cY5pugpOCAsyR+5BL
- J5jB/l48FGyCzFsIhZlvHc79tA07Mm67fyrv6Fyo34eX6wa02Gw1tFhqrOkret/KYlrQ
- KnlOz9KCPIw4BuadXZiCzRP9Moq9uyxQ7M27OUxvL0PDEkd9acpw2Q/r359RTs5rKYFZ
- OOjg==
-X-Gm-Message-State: ACgBeo2jy41RysU+aA4Q8JsUwdxV1ZRTn7+XdXF2C1n71mN3PDl3BAtn
- iA0u9Az3lByjaU6/K3z5Zqbpkw==
-X-Google-Smtp-Source: AA6agR4OUTLrdgYTaGd8UBrWBqlqzQMVKmkHxsD40fbM+X0k044oJA+l18Au1P87dN0f9qsnWJ21WA==
-X-Received: by 2002:a05:600c:3487:b0:3a6:280b:bed1 with SMTP id
- a7-20020a05600c348700b003a6280bbed1mr12399739wmq.111.1662446695213; 
- Mon, 05 Sep 2022 23:44:55 -0700 (PDT)
-Received: from ?IPV6:2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1?
- ([2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1])
- by smtp.gmail.com with ESMTPSA id
- q1-20020a05600c2e4100b003a2cf1ba9e2sm12566385wmf.6.2022.09.05.23.44.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 05 Sep 2022 23:44:54 -0700 (PDT)
-Message-ID: <fc37598c-1a93-9a88-9492-2ba891e48709@linaro.org>
-Date: Tue, 6 Sep 2022 07:44:52 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=lKfDxOdzaX5nfOlTMIFJULNQR1iwcIOkDpBjbBnlC1U=;
+ b=1FoFOA8euYjeYgzk1Wc+XH6DwCrUYepFUMJeKe187BFAsDKpzGAxZ4dBw0kSNhRXvS
+ 31X/rls3P4H/m1E5dYYsb8sjymt+8r7sF7XFVukuFa1G5ADE/gNdYeMLnzUxQsdhIq+W
+ j0L3NDu5VKSsMBbO3pNi37337Zm2xymQhdRI84yCzq8KNeItlqmXsaH1/2hvDqCoCKze
+ 7KZ2w+AWz1SYLdejORXR3yxs47c8DZUumW82Toxv/etBsoDI9SRyKfax1X6SOwJsh3ON
+ RP3grfoDkmbFBFv/65QbmeymFcZaI009PbQPPweQ4WDE4xsq8gDwIP7kB60/LEdEEyXs
+ Sy9A==
+X-Gm-Message-State: ACgBeo01uoLxTs3oppXlEgjPxGeIHFA5E8DlKBWtq50wkVZmC2aNEm2d
+ 37dVZw0/3JnZVqHvikULCv/5rnf1FvdO/eLivuU=
+X-Google-Smtp-Source: AA6agR4HlppTuKT6LuTxbNzFru6VVpiD2aPljqPn7GnO7akGtRAxLb7lE0Pa1Srt8X1s+qr2AGrPq5T8l6wzF6Tpn3Y=
+X-Received: by 2002:a0c:e511:0:b0:4aa:73d9:f4c3 with SMTP id
+ l17-20020a0ce511000000b004aa73d9f4c3mr3626370qvm.51.1662447654375; Tue, 06
+ Sep 2022 00:00:54 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PULL v2 00/20] tcg patch queue
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: qemu-devel@nongnu.org
-References: <20220904002317.60158-1-richard.henderson@linaro.org>
- <CAJSP0QVBxkF1tQBetg8vtntppn=CduvDFHSGWapjAtq=XObsGA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAJSP0QVBxkF1tQBetg8vtntppn=CduvDFHSGWapjAtq=XObsGA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
+References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
+ <20220824094029.1634519-50-bmeng.cn@gmail.com>
+ <CAJ+F1C+-4U1huf=Jv_uJP-XXnXu88Gj9HHvrGS0dTFyKGv=qBg@mail.gmail.com>
+ <CAEUhbmV_UU1TpRXfyz5U9kRj5r1ihm-HrXhzw_D-L96_Skxy+g@mail.gmail.com>
+ <CAJ+F1CJo-0isj2LKdabMHu854e7kukwjp=CCejgk_TzLRwtA3w@mail.gmail.com>
+ <CAEUhbmXjHCEOy+U3zABsvCU20rDj5pogNVTUCUEevdrqhcjuoA@mail.gmail.com>
+ <CAJ307EiOGrHqfdzSfb6L3MPKtAWLPCQT8ZVY7M+R5mT6d9wVvQ@mail.gmail.com>
+In-Reply-To: <CAJ307EiOGrHqfdzSfb6L3MPKtAWLPCQT8ZVY7M+R5mT6d9wVvQ@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 6 Sep 2022 15:00:43 +0800
+Message-ID: <CAEUhbmW0v_5Ro3mY6Ztt=MmZJf=ueApmNGpT=+1RTPLrWd4=Rg@mail.gmail.com>
+Subject: Re: [PATCH 49/51] io/channel-watch: Fix socket watch on Windows
+To: =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f31;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf31.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,48 +94,162 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/5/22 22:58, Stefan Hajnoczi wrote:
-> The tsan (clang) build is broken:
-> https://gitlab.com/qemu-project/qemu/-/jobs/2982480773
-> 
-> clang-10 -m64 -mcx16 -Ilibqemu-x86_64-linux-user.fa.p -I. -I..
-> -Itarget/i386 -I../target/i386 -I../common-user/host/x86_64
-> -I../linux-user/include/host/x86_64 -I../linux-user/include
-> -Ilinux-user -I../linux-user -Ilinux-user/x86_64
-> -I../linux-user/x86_64 -Iqapi -Itrace -Iui -Iui/shader
-> -I/usr/include/capstone -I/usr/include/glib-2.0
-> -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -fcolor-diagnostics -Wall
-> -Winvalid-pch -Werror -std=gnu11 -O2 -g -isystem
-> /builds/qemu-project/qemu/linux-headers -isystem linux-headers -iquote
-> . -iquote /builds/qemu-project/qemu -iquote
-> /builds/qemu-project/qemu/include -iquote
-> /builds/qemu-project/qemu/tcg/i386 -pthread -fsanitize=thread
-> -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
-> -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings
-> -Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv
-> -Wold-style-definition -Wtype-limits -Wformat-security -Wformat-y2k
-> -Winit-self -Wignored-qualifiers -Wempty-body -Wnested-externs
-> -Wendif-labels -Wexpansion-to-defined -Wno-initializer-overrides
-> -Wno-missing-include-dirs -Wno-shift-negative-value
-> -Wno-string-plus-int -Wno-typedef-redefinition
-> -Wno-tautological-type-limit-compare -fstack-protector-strong -fPIE
-> -isystem../linux-headers -isystemlinux-headers -DNEED_CPU_H
-> '-DCONFIG_TARGET="x86_64-linux-user-config-target.h"'
-> '-DCONFIG_DEVICES="x86_64-linux-user-config-devices.h"' -MD -MQ
-> libqemu-x86_64-linux-user.fa.p/linux-user_elfload.c.o -MF
-> libqemu-x86_64-linux-user.fa.p/linux-user_elfload.c.o.d -o
-> libqemu-x86_64-linux-user.fa.p/linux-user_elfload.c.o -c
-> ../linux-user/elfload.c
-> ../linux-user/elfload.c:198:18: error: integer overflow in
-> preprocessor expression [-Werror]
-> #if ULONG_MAX >= TARGET_VSYSCALL_PAGE
-> ^~~~~~~~~~~~~~~~~~~~
-> ../target/i386/cpu.h:2386:47: note: expanded from macro 'TARGET_VSYSCALL_PAGE'
-> # define TARGET_VSYSCALL_PAGE (UINT64_C(-10) << 20)
-> ~~~~~~~~~~~~~ ^ ~~
+Hi Cl=C3=A9ment,
 
-Arg!  This is a compiler bug.
+On Mon, Sep 5, 2022 at 4:10 PM Cl=C3=A9ment Chigot <chigot@adacore.com> wro=
+te:
+>
+> Hi all,
+>
+> I did reach the same issue while trying to connect a gdb to qemu on
+> Windows hosts. Some inputs send by gdb aren't getting correctly pulled,
+> they will be retrieved only once g_poll times out.
+>
+> As you explained earlier, the issue, AFAICT, is that WSAEnumNetworkEvents
+> will reset the internal events before select can detect them.
 
+No, I don't think WSAEnumNetworkEvents and select cannot be used together.
 
-r~
+MSDN says:
+https://docs.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-sel=
+ect
+
+"The select function has no effect on the persistence of socket events
+registered with WSAAsyncSelect or WSAEventSelect."
+
+That sounds to me like current usage in QEMU codes does not have a problem.
+
+> Sadly, I didn't find any way to adjust the current code using select to
+> avoid that. As select and any cleaner (ever WSAEnumNetworkEvents or
+> WSEResetEvent) cannot be called in an atomic way, it seems that events
+> can always be received between the reset and the select. At least, all
+> my attempts failed.
+
+According to MSDN:
+https://docs.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-wsa=
+eventselect
+
+"Having successfully recorded the occurrence of the network event (by
+setting the corresponding bit in the internal network event record)
+and signaled the associated event object, no further actions are taken
+for that network event until the application makes the function call
+that implicitly reenables the setting of that network event and
+signaling of the associated event object."
+
+So events will be kept unsignaled after they are signaled, until the
+reenable routine is called. For example, recv() for the FD_READ event.
+
+>
+> The only solution I've found is to move completely to the Windows API
+> and stop calling select. This, however, needs some tricks. In Particular,=
+ we
+> need to "remove" the support of GSources having only G_IO_HUP.
+> This is already kind of done as we currently don't detect them in
+> qio_channel_socket_source_check anyway.
+> This is mandatory because of the two GSources created on the same socket.
+> IIRC, the first one (I'll call it the master GSource) is created during
+> the initialization of the channel-socket by update_ioc_handlers and will
+> have only G_IO_HUP to catch up.
+> The second one is created during the "prepare" phase of the first one,
+> in io_watch_poll_prepare. This one will have all the events we want
+> to pull (G_IO_IN here).
+> As they are referring to the same socket, the Windows API cannot know
+> on which GSources we want to catch which events. The solution is then
+
+I think Windows knows which events to catch. As WSAEventSelect() in
+channel-watch.c::qio_channel_create_socket_watch() tells Windows which
+event it should monitor.
+
+Both the "master" and "child" GSources are watching on the same socket
+with G_IO_IN condition (see qio_channel_create_socket_watch), and GLib
+is smart enough to merge these two resources into one in the event
+handle array which is passed to WaitForMultipleObjectsEx() in
+g_poll().
+
+I checked your patch, what you did seems to be something one would
+naturally write, but what is currently in the QEMU sources seems to be
+written intentionally.
+
++Paolo Bonzini , you are the one who implemented the socket watch on
+Windows. Could you please help analyze this issue?
+
+> to avoid WSAEnumNetworkEvents for the master GSource which only has
+> G_IO_HUP (or for any GSource having only that).
+> As I said above, the current code doesn't do anything with it anyway.
+> So, IMO, it's safe to do so.
+>
+> I'll send you my patch attached. I was planning to send it in the followi=
+ng
+> weeks anyway. I was just waiting to be sure everything looks fine on our
+> CI. Feel free to test and modify it if needed.
+
+I tested your patch. Unfortunately there is still one test case
+(migration-test.exe) throwing up the "Broken pipe" message.
+
+Can you test my patch instead to see if your gdb issue can be fixed?
+
+>
+> PS: I don't know if it will correctly extend if I simply attach it to
+> my mail. If not, tell me I'll simply copy-paste it, even if it might
+> mess up the space/tab stuff.
+>
+> > >> >>
+> > >> >> ---
+> > >> >> During the testing, I removed the following codes in update_ioc_h=
+andlers():
+> > >> >>
+> > >> >>     remove_hup_source(s);
+> > >> >>     s->hup_source =3D qio_channel_create_watch(s->ioc, G_IO_HUP);
+> > >> >>     g_source_set_callback(s->hup_source, (GSourceFunc)tcp_chr_hup=
+,
+> > >> >>                           chr, NULL);
+> > >> >>     g_source_attach(s->hup_source, chr->gcontext);
+> > >> >>
+> > >> >> and such change also makes the symptom go away.
+> > >> >>
+> > >> >> And if I moved the above codes to the beginning, before the call =
+to
+> > >> >> io_add_watch_poll(), the symptom also goes away.
+> > >> >>
+> > >> >> It seems two sources watching on the same socket event object is
+> > >> >> the key that leads to the instability. The order of adding a sour=
+ce
+> > >> >> watch seems to also play a role but I can't explain why.
+> > >> >> Hopefully a Windows and glib expert could explain this behavior.
+> > >> >>
+> > >> >
+> > >> > Feel free to leave that comment in the commit message.
+> > >>
+> > >> Sure, will add the above message into the commit in v2.
+> > >>
+> > >> >
+> > >> > This is strange, as both sources should have different events, cle=
+aring one shouldn't affect the other.
+> > >>
+> > >> Both sources have the same event, as one QIO channel only has one
+> > >> socket, and one socket can only be bound to one event.
+> > >
+> > >
+> > >  "one socket can only be bound to one event", is that a WSAEventSelec=
+t limitation?
+> > >
+> >
+> > Yes, please see the MSDN:
+> >
+> > It is not possible to specify different event objects for different
+> > network events. The following code will not work; the second call will
+> > cancel the effects of the first, and only the FD_WRITE network event
+> > will be associated with hEventObject2:
+> >
+> > rc =3D WSAEventSelect(s, hEventObject1, FD_READ);
+> > rc =3D WSAEventSelect(s, hEventObject2, FD_WRITE); //bad
+>
+> Yes, the Windows API is handled at socket levels. That's why having
+> two GSources on the same sockets is problematic.
+> Note that maybe there is a mix to be done between your patch with
+> the update_ioc_handlers part to be removed and my patch which improves
+> the polling of channel-watch.
+
+Regards,
+Bin
 
