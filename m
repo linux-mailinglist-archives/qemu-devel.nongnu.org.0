@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EEB45AEB56
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 16:08:35 +0200 (CEST)
-Received: from localhost ([::1]:36886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B75EC5AEB59
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 16:11:44 +0200 (CEST)
+Received: from localhost ([::1]:37936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVZFi-0005Hf-F1
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 10:08:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51256)
+	id 1oVZIl-0002XB-Fb
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 10:11:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oVYH6-0000OR-21
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 09:05:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21978)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oVYLv-000615-Gn
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 09:10:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oVYH2-0004Xd-CX
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 09:05:54 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oVYLr-0005XM-Vf
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 09:10:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662469550;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=eeWRfrWqLiKW4cDDpqtgHtLxP/N92/Sbn04SrKsEYhg=;
- b=NTYoDnZokRATfVDWWAc7ALSoFoLduCszmERLJvB59UKPjmb1m5C1Dm8nIr2K7Mypj/oKRn
- 5UhNB0jMSkf+NFfm+uXmmv3JpqcrBGEi7PvPIQp+/nIkvwRKEj+x8PxKqLFNq8wj2/I0RE
- QYUlmJDRnUYUCperDlWmMp/3pCYeak8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-144-BfObpKJiOpavU5V_4QVpzw-1; Tue, 06 Sep 2022 09:05:49 -0400
-X-MC-Unique: BfObpKJiOpavU5V_4QVpzw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EC3AB101E9B2;
- Tue,  6 Sep 2022 13:05:48 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 208AD2026D4C;
- Tue,  6 Sep 2022 13:05:46 +0000 (UTC)
-Date: Tue, 6 Sep 2022 14:05:44 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Cc: John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Michael Tsirkin <mst@redhat.com>
-Subject: Re: [PATCH v2 07/11] acpi/tests/bits: add python test that exercizes
- QEMU bios tables using biosbits
-Message-ID: <YxdFqBaqoV+twdMe@redhat.com>
-References: <20220710170014.1673480-1-ani@anisinha.ca>
- <20220710170014.1673480-8-ani@anisinha.ca>
- <CAFn=p-Yy9WsAf3=3ZvkUEDbE_SKj-ARent_vzJw-PWcPnVQOXA@mail.gmail.com>
- <alpine.DEB.2.22.394.2207121222280.1824593@anisinha-lenovo>
+ s=mimecast20190719; t=1662469850;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nn/pB/Kx4NJKG2WNArD2IxEEBMVbG2Av3kbi1dd7voQ=;
+ b=NwuVJr/KcLteZDhKfFcWBVc2b+nE26dtfyLSGeRwSaFbp69UiUS+B4yV317+XNI6fZuqA7
+ RW4/IclRcYfT4MKm02mZ4f0pntpnb5DcWM5vYQIxjEzEv4ryaYyaRDDwjjtamQ9JnTxhAU
+ 1Wal6WDpK/Z9k/c7bFhBIGDanrKzlcc=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-596-kmpguGvfN8adZkxrvZ8Z6Q-1; Tue, 06 Sep 2022 09:10:49 -0400
+X-MC-Unique: kmpguGvfN8adZkxrvZ8Z6Q-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ sd6-20020a1709076e0600b0073315809fb5so3588144ejc.10
+ for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 06:10:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=nn/pB/Kx4NJKG2WNArD2IxEEBMVbG2Av3kbi1dd7voQ=;
+ b=nrYlxAv6BvxGEw1zyra3NXvGEHJhmEU5lMlRgYmayAC7ysdoNUYoArxDwDE0Qo14Qx
+ HwxUNP52GhRNlcvMS0dxeiRRtecGWRdbbbemh7tAt95EABnCUvnXkUcv1/C+FthFgvbx
+ O/YWcX3Hr7jeUehrUVqFWlFAy9bTlhmcppBvNsx/ON4kGou04EMWw+QWEPe9lt+Mev03
+ gzy4wnsOdf0DXAp2BPtUdsN8FbqdRS2On3KVspF8+vONtWOh4TWuVRf50aWugvX6JIME
+ nqGDvNveKhjxuxnAd+dtk2S4Cu1nlO59urt+wIXvs0ctLdB0qpXMQIaRoaw110s9skle
+ TLrg==
+X-Gm-Message-State: ACgBeo1PTYJ4VP8CPyQ2BhxtrCL5aZ0SXrWMBIOwry3tauJjz9+lDWxq
+ IgvxVb0SJtojhkRerniIdL6rPWZyZHgWGzAGlDsH9lbIPhREZ8ANIDptyir5w/zVPmDV+D0+ufT
+ bnYDgBoYoRM7brrg=
+X-Received: by 2002:a05:6402:f26:b0:448:3165:c706 with SMTP id
+ i38-20020a0564020f2600b004483165c706mr38541291eda.143.1662469841181; 
+ Tue, 06 Sep 2022 06:10:41 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6ZE3mMXhKAqOG4JjdGK/GylfKrvfmTSNoEKll9FuSS/7TmUiMAu8Wo2OXQxkxuHPfdBsVGWw==
+X-Received: by 2002:a05:6402:f26:b0:448:3165:c706 with SMTP id
+ i38-20020a0564020f2600b004483165c706mr38540978eda.143.1662469836373; 
+ Tue, 06 Sep 2022 06:10:36 -0700 (PDT)
+Received: from redhat.com ([2.52.135.118]) by smtp.gmail.com with ESMTPSA id
+ d16-20020a170906305000b0073dde7c1767sm6700067ejd.175.2022.09.06.06.10.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Sep 2022 06:10:35 -0700 (PDT)
+Date: Tue, 6 Sep 2022 09:10:32 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org, ani@anisinha.ca
+Subject: Re: [PATCH 00/17] acpi:pc/q35: minor PCI refactoring/cleanups
+Message-ID: <20220906091023-mutt-send-email-mst@kernel.org>
+References: <20220701133515.137890-1-imammedo@redhat.com>
+ <20220906134108.6e8a0fb3@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2207121222280.1824593@anisinha-lenovo>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <20220906134108.6e8a0fb3@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -83,61 +92,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 12, 2022 at 12:45:59PM +0530, Ani Sinha wrote:
+On Tue, Sep 06, 2022 at 01:41:08PM +0200, Igor Mammedov wrote:
+> On Fri,  1 Jul 2022 09:34:58 -0400
+> Igor Mammedov <imammedo@redhat.com> wrote:
 > 
+> > Flushing out ACPI PCI cleanups that preceed conversion of
+> > DSDT PCI slots ennumeration to AcpiDevAmlIf interface.
+> > It's is mostly collection of patches thraet removes code
+> > duplication, we've accumulated around PCI relaterd AML
+> > in DSDT.
 > 
-> On Mon, 11 Jul 2022, John Snow wrote:
+> ping,
+> it still applies cleanly to master.
 > 
-> > On Sun, Jul 10, 2022 at 1:01 PM Ani Sinha <ani@anisinha.ca> wrote:
-> > >
-> > > This change adds python based test environment that can be used to run pytest
-> > > from within a virtual environment. A bash script sets up a virtual environment
-> > > and then runs the python based tests from within that environment.
-> > > All dependent python packages are installed in the virtual environment using
-> > > pip python module. QEMU python test modules are also available in the environment
-> > > for spawning the QEMU based VMs.
-> > >
-> > > It also introduces QEMU acpi/smbios biosbits python test script which is run
-> > > from within the python virtual environment. When the bios bits tests are run,
-> > > bios bits binaries are downloaded from an external repo/location.
-> > > Currently, the test points to an external private github repo where the bits
-> > > archives are checked in.
-> > >
-> >
-> > Oh, I see -- requirements are handled here in this patch.
-> >
-> > Is this test designed to run the host/build system? I'm a little
-> > confused about the environment here.
-> 
-> yes it is supposed to run on the build system where "make check" is
-> executed.
-> 
-> >
-> > Is this test going to be run "by default" or will users have to opt
-> > into running it using a special invocation?
-> 
-> run by default through "make check" or "make check-pytest" or "make
-> check-pytest-x86_64".
+> Michael can you pick it up?
 
-I don't think that a default 'make check' should be downloading
-disk images, especially when they're stored in the local build
-dir by default and so lost when the build dir is cleaned.
+yes, thanks for the ping!
 
-The downloading of disk images is one of the reasons why avocado
-is not set to run by default with 'make check', and I think this
-should be the same. This again takes me to back to believing that
-we should simply be using Avocado here instead of creating something
-that has to solve the same problems.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> > 
+> > git:
+> >    https://gitlab.com/imammedo/qemu.git x86_pci_cleanups
+> > 
+> > Igor Mammedov (17):
+> >   tests: acpi: whitelist pc/q35 DSDT due to HPET AML move
+> >   acpi: x86: deduplicate HPET AML building
+> >   tests: acpi: update expected blobs after HPET move
+> >   tests: acpi: whitelist pc/q35 DSDT due to HPET AML move
+> >   acpi: x86: refactor PDSM method to reduce nesting
+> >   x86: acpi: _DSM: use Package to pass parameters
+> >   tests: acpi: update expected blobs
+> >   tests: acpi: whitelist pc/q35 DSDT before switching _DSM to use ASUN
+> >   x86: acpi: cleanup PCI device _DSM duplication
+> >   tests: acpi: update expected blobs
+> >   tests: acpi: whitelist pc/q35 DSDT before moving _ADR field
+> >   x86: pci: acpi: reorder Device's _ADR and _SUN fields
+> >   tests: acpi: update expected blobs
+> >   tests: acpi: whitelist pc/q35 DSDT before moving _ADR field
+> >   x86: pci: acpi:  reorder Device's _DSM method
+> >   tests: acpi: update expected blobs
+> >   x86: pci: acpi: deduplate PCI slots creation
+> > 
+> >  hw/i386/acpi-build.c                  | 302 ++++++++++++++------------
+> >  tests/data/acpi/pc/DSDT               | Bin 5987 -> 6422 bytes
+> >  tests/data/acpi/pc/DSDT.acpierst      | Bin 5954 -> 6382 bytes
+> >  tests/data/acpi/pc/DSDT.acpihmat      | Bin 7312 -> 7747 bytes
+> >  tests/data/acpi/pc/DSDT.bridge        | Bin 8653 -> 9496 bytes
+> >  tests/data/acpi/pc/DSDT.cphp          | Bin 6451 -> 6886 bytes
+> >  tests/data/acpi/pc/DSDT.dimmpxm       | Bin 7641 -> 8076 bytes
+> >  tests/data/acpi/pc/DSDT.hpbridge      | Bin 5954 -> 6382 bytes
+> >  tests/data/acpi/pc/DSDT.hpbrroot      | Bin 3069 -> 3069 bytes
+> >  tests/data/acpi/pc/DSDT.ipmikcs       | Bin 6059 -> 6494 bytes
+> >  tests/data/acpi/pc/DSDT.memhp         | Bin 7346 -> 7781 bytes
+> >  tests/data/acpi/pc/DSDT.nohpet        | Bin 5845 -> 6280 bytes
+> >  tests/data/acpi/pc/DSDT.numamem       | Bin 5993 -> 6428 bytes
+> >  tests/data/acpi/pc/DSDT.roothp        | Bin 6195 -> 6656 bytes
+> >  tests/data/acpi/q35/DSDT              | Bin 8274 -> 8320 bytes
+> >  tests/data/acpi/q35/DSDT.acpierst     | Bin 8291 -> 8337 bytes
+> >  tests/data/acpi/q35/DSDT.acpihmat     | Bin 9599 -> 9645 bytes
+> >  tests/data/acpi/q35/DSDT.applesmc     | Bin 8320 -> 8366 bytes
+> >  tests/data/acpi/q35/DSDT.bridge       | Bin 10988 -> 11449 bytes
+> >  tests/data/acpi/q35/DSDT.cphp         | Bin 8738 -> 8784 bytes
+> >  tests/data/acpi/q35/DSDT.cxl          | Bin 9600 -> 9646 bytes
+> >  tests/data/acpi/q35/DSDT.dimmpxm      | Bin 9928 -> 9974 bytes
+> >  tests/data/acpi/q35/DSDT.ipmibt       | Bin 8349 -> 8395 bytes
+> >  tests/data/acpi/q35/DSDT.ipmismbus    | Bin 8363 -> 8409 bytes
+> >  tests/data/acpi/q35/DSDT.ivrs         | Bin 8291 -> 8337 bytes
+> >  tests/data/acpi/q35/DSDT.memhp        | Bin 9633 -> 9679 bytes
+> >  tests/data/acpi/q35/DSDT.mmio64       | Bin 9404 -> 9450 bytes
+> >  tests/data/acpi/q35/DSDT.multi-bridge | Bin 8568 -> 8640 bytes
+> >  tests/data/acpi/q35/DSDT.nohpet       | Bin 8132 -> 8178 bytes
+> >  tests/data/acpi/q35/DSDT.numamem      | Bin 8280 -> 8326 bytes
+> >  tests/data/acpi/q35/DSDT.pvpanic-isa  | Bin 8375 -> 8421 bytes
+> >  tests/data/acpi/q35/DSDT.tis.tpm12    | Bin 8880 -> 8926 bytes
+> >  tests/data/acpi/q35/DSDT.tis.tpm2     | Bin 8906 -> 8952 bytes
+> >  tests/data/acpi/q35/DSDT.viot         | Bin 9383 -> 9429 bytes
+> >  tests/data/acpi/q35/DSDT.xapic        | Bin 35637 -> 35683 bytes
+> >  35 files changed, 161 insertions(+), 141 deletions(-)
+> > 
 
 
