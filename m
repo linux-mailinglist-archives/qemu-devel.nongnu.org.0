@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 152815AE686
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 13:24:21 +0200 (CEST)
-Received: from localhost ([::1]:57542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C0D5AE613
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 12:58:44 +0200 (CEST)
+Received: from localhost ([::1]:54768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVWgl-0004GD-Pu
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 07:24:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52444)
+	id 1oVWHu-0003wu-6t
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 06:58:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVVWg-0000Cz-Bp
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 06:09:51 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40927)
+ id 1oVVWe-0000Bo-I1
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 06:09:49 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:35648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVVWb-0003a9-3y
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 06:09:50 -0400
-Received: by mail-wr1-x430.google.com with SMTP id b16so14658163wru.7
- for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 03:09:44 -0700 (PDT)
+ id 1oVVWc-0003aN-PY
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 06:09:48 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id bz13so11245625wrb.2
+ for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 03:09:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=or6wOuOr4muIKcJzZ8tCVjZ2Nate1g/5N3DAWPR5ll4=;
- b=pTN8eQqFJl1qzoPoz2I8CerRmqDH/9FwJ4Ews/tYq9T3bVb0FBf481g/XFyESQB19B
- 1eeTljMQ+i+pGmyspMKEidy51A7L0UWNsQPFZ6/SWDPWD2rdZpVHEPCKlMoXL3bg6TlE
- 5K4gxNLv7rABnOumEzsSs3jH8WbYOB4zfNf8nzoY2++F4Ww8Oiix68ClynJCIwOnPsb7
- NSF3dJVPdHReRYHptNj4ohViLi8bvqeJ88Bz7O1CMm6KU/WKebrrlVksVLtZWtuyJaHg
- DKPnUMpelU5ChfL3Fm3W1W+apUSg/HjVP7V6RUVjuadsF/M2ESayIgo/+wYFNHLDLZFT
- OR/g==
+ bh=uhX1Xco1uYXotp7Ii6JdWoo4PEBreN+vBGI94DPHWfc=;
+ b=yT5Wpoam/bhQMYx3tzAF/F0Av+TnbXQBpJ54fJ7KeK8EdLkpwwmRvBNayWUk6uJdbf
+ iizfIzZhVmkzA0oR6XJnAlhlIm5kNn88V1MY3NW0ZiYBI4I3fZr3eHJQfNKsXMLHEblf
+ /WnW4yEdry+eWlSGbUT32KnAgc+YgXRzSIkgG8y3T4UtkRijlJDIn2yT5OxTTVYi3ZC+
+ +U6Fi/S5YtKNoqOsSxr1dRG0kU1sObmCAPgLWIldectQyZinFDKjpE75zjPDXLE6EThO
+ 8CnWZFXfLlL89/twsB/gfeCQlBz1pCB/rGRNYLVoW3QgDvHeKsMTme95weK6P1Roa5ex
+ NGoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=or6wOuOr4muIKcJzZ8tCVjZ2Nate1g/5N3DAWPR5ll4=;
- b=ebrZdQnP2S+LF+1ScT3tUUBcNzaJj4gHNDJTG9kY1TFy6LiGWDAIysm7Q1KJ8TCWmV
- e0t+FkiyIPlpHXl5rtB9Ks8qVe491RvLLCJXly/GrOaTA5KuJBInu5H4N+K1DG8knvu5
- ypYAeLvsedL51tgIlzm0U11KLutNdKAurVepDH4grZw0ep+1hxbq7Ms/3AtHtR+V9iGI
- D89mvcX59J14oDV4FTkq+VHfjmAFXgMAL02xm3FH4mvc8LxMc4NbhH99El9KYQEnkC36
- bjRSjH33nwhvB6q32kG5CSbYpDjWW3odtcuX2kB1rl8J3krZGvUoQPDfZxowjt3xoRhv
- HFOA==
-X-Gm-Message-State: ACgBeo2Q5A703QyosrMaxj0P1XhFlIWv1NTsWTdZh/6J/+zY2J1cI4s4
- QnfJ5ey9sL1hfFiT7w42cD0fRRUG2tgiDQon
-X-Google-Smtp-Source: AA6agR4vg+UpPe7ocrNWGh8MEwJDu8KoRGaPp9zw9mGJ4L3yr6PQxrfrDtDQmG5Iiirm+U8oVR+xbw==
-X-Received: by 2002:a05:6000:1849:b0:228:c87d:2578 with SMTP id
- c9-20020a056000184900b00228c87d2578mr3437136wri.274.1662458983654; 
- Tue, 06 Sep 2022 03:09:43 -0700 (PDT)
+ bh=uhX1Xco1uYXotp7Ii6JdWoo4PEBreN+vBGI94DPHWfc=;
+ b=lPINH14dxEaogQFaMTJ0BNq5L2UAmMnRtWvbUwY6w2CrXTw8HevImbVAhELZiFEi0T
+ lJVki1wZ/jskAgHw1LmfUMtltq11sE0ZrH8WZKgWXYVmi5bUe1CwHqryg9oz0rqdZdb6
+ 2rymX/4D1ElKr0qbwWg9oxQRg+t6fkpB2MjMkDx2PE4xBPFobylDCIWyVDl92Ot+m9Tc
+ n2JXiwUzhOOw2dDM2K/TEENvE4J85mPpa4t7w5IFPhVoPYbuaWIjsbu/53FqXEZ0Hamr
+ M69herIvb2sDpi/M4AbkrVL6vkLDM82iCtBNqf7K6duIRqRS+kx5VjbQqgG2jq586RhO
+ asHQ==
+X-Gm-Message-State: ACgBeo3WUJSShzZOKd1iyTUyP5Dbj/7yaBPLo7pzcKF6hrOFDGaUaqeE
+ n0G/FxzSEEoJTjYGvmjwll+Js3pr11qVf/+k
+X-Google-Smtp-Source: AA6agR6MwZdJSI9emx/lA7wwkafk5IXpDNSM+GJYnd3tQRwz+82OmGTg87iJUqIM3Yv4D9wEQgmBlw==
+X-Received: by 2002:a5d:59a6:0:b0:228:ac72:3c27 with SMTP id
+ p6-20020a5d59a6000000b00228ac723c27mr4337499wrr.73.1662458984672; 
+ Tue, 06 Sep 2022 03:09:44 -0700 (PDT)
 Received: from localhost.localdomain
  ([2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1])
  by smtp.gmail.com with ESMTPSA id
- f25-20020a1c6a19000000b003a840690609sm23125014wmc.36.2022.09.06.03.09.42
+ f25-20020a1c6a19000000b003a840690609sm23125014wmc.36.2022.09.06.03.09.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 03:09:43 -0700 (PDT)
+ Tue, 06 Sep 2022 03:09:44 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com
-Subject: [PATCH v2 10/23] target/i386: USe DISAS_EOB_ONLY
-Date: Tue,  6 Sep 2022 11:09:19 +0100
-Message-Id: <20220906100932.343523-11-richard.henderson@linaro.org>
+Subject: [PATCH v2 11/23] target/i386: Create cur_insn_len, cur_insn_len_i32
+Date: Tue,  6 Sep 2022 11:09:20 +0100
+Message-Id: <20220906100932.343523-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220906100932.343523-1-richard.henderson@linaro.org>
 References: <20220906100932.343523-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,71 +90,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace lone calls to gen_eob() with the new enumerator.
+Create common routines for computing the length of the insn.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ target/i386/tcg/translate.c | 31 +++++++++++++++++++------------
+ 1 file changed, 19 insertions(+), 12 deletions(-)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index a7e5bcdec7..5b77414a0a 100644
+index 5b77414a0a..393a1c1075 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -6800,7 +6800,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-             /* add stack offset */
-             gen_stack_update(s, val + (2 << dflag));
+@@ -530,6 +530,16 @@ static void gen_update_eip_next(DisasContext *s)
+     gen_jmp_im(s, s->pc - s->cs_base);
+ }
+ 
++static int cur_insn_len(DisasContext *s)
++{
++    return s->pc - s->base.pc_next;
++}
++
++static TCGv_i32 cur_insn_len_i32(DisasContext *s)
++{
++    return tcg_constant_i32(cur_insn_len(s));
++}
++
+ /* Compute SEG:REG into A0.  SEG is selected from the override segment
+    (OVR_SEG) and the default segment (DEF_SEG).  OVR_SEG may be -1 to
+    indicate no override.  */
+@@ -712,9 +722,6 @@ static bool gen_check_io(DisasContext *s, MemOp ot, TCGv_i32 port,
+         gen_helper_check_io(cpu_env, port, tcg_constant_i32(1 << ot));
+     }
+     if (GUEST(s)) {
+-        target_ulong cur_eip = s->base.pc_next - s->cs_base;
+-        target_ulong next_eip = s->pc - s->cs_base;
+-
+         gen_update_cc_op(s);
+         gen_update_eip_cur(s);
+         if (s->prefix & (PREFIX_REPZ | PREFIX_REPNZ)) {
+@@ -723,7 +730,7 @@ static bool gen_check_io(DisasContext *s, MemOp ot, TCGv_i32 port,
+         svm_flags |= 1 << (SVM_IOIO_SIZE_SHIFT + ot);
+         gen_helper_svm_check_io(cpu_env, port,
+                                 tcg_constant_i32(svm_flags),
+-                                tcg_constant_i32(next_eip - cur_eip));
++                                cur_insn_len_i32(s));
+     }
+     return true;
+ #endif
+@@ -2028,7 +2035,7 @@ static uint64_t advance_pc(CPUX86State *env, DisasContext *s, int num_bytes)
+     }
+ 
+     s->pc += num_bytes;
+-    if (unlikely(s->pc - s->base.pc_next > X86_MAX_INSN_LENGTH)) {
++    if (unlikely(cur_insn_len(s) > X86_MAX_INSN_LENGTH)) {
+         /* If the instruction's 16th byte is on a different page than the 1st, a
+          * page fault on the second page wins over the general protection fault
+          * caused by the instruction being too long.
+@@ -2622,7 +2629,7 @@ static void gen_interrupt(DisasContext *s, int intno)
+     gen_update_cc_op(s);
+     gen_update_eip_cur(s);
+     gen_helper_raise_interrupt(cpu_env, tcg_constant_i32(intno),
+-                               tcg_constant_i32(s->pc - s->base.pc_next));
++                               cur_insn_len_i32(s));
+     s->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+@@ -7279,7 +7286,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+         if (prefixes & PREFIX_REPZ) {
+             gen_update_cc_op(s);
+             gen_update_eip_cur(s);
+-            gen_helper_pause(cpu_env, tcg_const_i32(s->pc - s->base.pc_next));
++            gen_helper_pause(cpu_env, cur_insn_len_i32(s));
+             s->base.is_jmp = DISAS_NORETURN;
          }
--        gen_eob(s);
-+        s->base.is_jmp = DISAS_EOB_ONLY;
          break;
-     case 0xcb: /* lret */
-         val = 0;
-@@ -6818,7 +6818,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-                                       tcg_const_i32(s->pc - s->cs_base));
-         }
-         set_cc_op(s, CC_OP_EFLAGS);
--        gen_eob(s);
-+        s->base.is_jmp = DISAS_EOB_ONLY;
+@@ -7305,7 +7312,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+             goto illegal_op;
+         gen_update_cc_op(s);
+         gen_update_eip_cur(s);
+-        gen_helper_into(cpu_env, tcg_const_i32(s->pc - s->base.pc_next));
++        gen_helper_into(cpu_env, cur_insn_len_i32(s));
          break;
-     case 0xe8: /* call im */
-         {
-@@ -7404,7 +7404,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-             gen_set_label(l1);
-             gen_jmp_im(s, tval);
-             gen_set_label(l2);
--            gen_eob(s);
-+            s->base.is_jmp = DISAS_EOB_ONLY;
-         }
-         break;
-     case 0x130: /* wrmsr */
-@@ -7445,7 +7445,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-             gen_exception_gpf(s);
-         } else {
-             gen_helper_sysenter(cpu_env);
--            gen_eob(s);
-+            s->base.is_jmp = DISAS_EOB_ONLY;
+ #ifdef WANT_ICEBP
+     case 0xf1: /* icebp (undocumented, exits to external debugger) */
+@@ -7464,7 +7471,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+         /* XXX: is it usable in real mode ? */
+         gen_update_cc_op(s);
+         gen_update_eip_cur(s);
+-        gen_helper_syscall(cpu_env, tcg_const_i32(s->pc - s->base.pc_next));
++        gen_helper_syscall(cpu_env, cur_insn_len_i32(s));
+         /* TF handling for the syscall insn is different. The TF bit is  checked
+            after the syscall insn completes. This allows #DB to not be
+            generated after one has entered CPL0 if TF is set in FMASK.  */
+@@ -7496,7 +7503,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+         if (check_cpl0(s)) {
+             gen_update_cc_op(s);
+             gen_update_eip_cur(s);
+-            gen_helper_hlt(cpu_env, tcg_const_i32(s->pc - s->base.pc_next));
++            gen_helper_hlt(cpu_env, cur_insn_len_i32(s));
+             s->base.is_jmp = DISAS_NORETURN;
          }
          break;
-     case 0x135: /* sysexit */
-@@ -7456,7 +7456,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-             gen_exception_gpf(s);
-         } else {
-             gen_helper_sysexit(cpu_env, tcg_const_i32(dflag - 1));
--            gen_eob(s);
-+            s->base.is_jmp = DISAS_EOB_ONLY;
-         }
-         break;
- #ifdef TARGET_X86_64
-@@ -8539,7 +8539,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-         gen_update_eip_next(s);
-         gen_helper_rsm(cpu_env);
- #endif /* CONFIG_USER_ONLY */
--        gen_eob(s);
-+        s->base.is_jmp = DISAS_EOB_ONLY;
-         break;
-     case 0x1b8: /* SSE4.2 popcnt */
-         if ((prefixes & (PREFIX_REPZ | PREFIX_LOCK | PREFIX_REPNZ)) !=
+@@ -7605,7 +7612,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+             }
+             gen_update_cc_op(s);
+             gen_update_eip_cur(s);
+-            gen_helper_mwait(cpu_env, tcg_const_i32(s->pc - s->base.pc_next));
++            gen_helper_mwait(cpu_env, cur_insn_len_i32(s));
+             s->base.is_jmp = DISAS_NORETURN;
+             break;
+ 
+@@ -7681,7 +7688,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+             gen_update_cc_op(s);
+             gen_update_eip_cur(s);
+             gen_helper_vmrun(cpu_env, tcg_const_i32(s->aflag - 1),
+-                             tcg_const_i32(s->pc - s->base.pc_next));
++                             cur_insn_len_i32(s));
+             tcg_gen_exit_tb(NULL, 0);
+             s->base.is_jmp = DISAS_NORETURN;
+             break;
 -- 
 2.34.1
 
