@@ -2,110 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A98705AF5AF
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 22:19:55 +0200 (CEST)
-Received: from localhost ([::1]:60374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EBD45AF5BE
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 22:21:33 +0200 (CEST)
+Received: from localhost ([::1]:47540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVf34-0002YH-BC
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 16:19:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55154)
+	id 1oVf4d-0003uD-1z
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 16:21:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1oVez7-0000Pr-HN
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 16:15:56 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:27072)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1oVez5-0004RZ-Aq
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 16:15:49 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 286In0pm001873;
- Tue, 6 Sep 2022 20:11:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=IQ08GFoM2eqEE553rmWHGerD4jyrUThe9Fnu1dux4JU=;
- b=elLzitOmrdtGOwGXdjV44DMpUKDX7qcXwZnOucQrrunE/ZE5HIEM9aXX1L8fUW5gdJvl
- 619GTCG2g13t19NdB7maTr3EZx9z4zxjHIzGUEeNjPjf10KtUBiaHBQ5iX8YF9LFXmF+
- V0g6SmBXXBzb3Mry2fSZLd3o1iAwWeMP38G6FzwlcLLM5ocRj+WFywRn7QtgzUayxQZM
- mTIP9SBzjlQQmFRtAdB5VYmhyYMZxGXORzDyLdttZwPEBUADik3qx03dC4tH5XqLpgAB
- aT/RJ3gyPZHCkzY0GOGViRcgMg3qn1DiMaKBdnt3O2/JLyEQ45XL3gl3DYJJHcg5nCab kw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jebtha7dx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Sep 2022 20:11:42 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 286Jkjjc025835;
- Tue, 6 Sep 2022 20:11:42 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jebtha7dj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Sep 2022 20:11:42 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 286K5bU2028333;
- Tue, 6 Sep 2022 20:11:40 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma04wdc.us.ibm.com with ESMTP id 3jbxj9nmam-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Sep 2022 20:11:40 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 286KBdi633686028
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 6 Sep 2022 20:11:39 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 708C47805C;
- Tue,  6 Sep 2022 20:21:24 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 05E0E7805F;
- Tue,  6 Sep 2022 20:21:23 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue,  6 Sep 2022 20:21:23 +0000 (GMT)
-Message-ID: <9b1510ce-bac0-e3f7-8efa-db5ce0452ccb@linux.ibm.com>
-Date: Tue, 6 Sep 2022 16:11:38 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v2 2/2] dump: fix kdump to work over non-aligned blocks
-Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qiaonuohan@cn.fujitsu.com,
- Peter Maydell <peter.maydell@linaro.org>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>,
- David Hildenbrand <david@redhat.com>
-References: <20220905125741.95516-1-marcandre.lureau@redhat.com>
- <20220905125741.95516-3-marcandre.lureau@redhat.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <20220905125741.95516-3-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: JOEVUaAFZrS8fkXG-DpAjaus83vIXMV9
-X-Proofpoint-GUID: NxgIbfpi1b39wXLck1dB7bWFbBFQh2Rw
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <anders.roxell@linaro.org>)
+ id 1oVf1j-0001v4-N9
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 16:18:31 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:36835)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anders.roxell@linaro.org>)
+ id 1oVf1e-0004o8-40
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 16:18:30 -0400
+Received: by mail-pf1-x429.google.com with SMTP id y136so7559993pfb.3
+ for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 13:18:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=/YxiTg2Y6r3+thsfbPvWqS+5O+fxjOgLKEFsE1+gNSI=;
+ b=uL+fQgVEDu4MRlQ0u8cbG281G+tvyc/X8iPKz7EGN421EBcTZbTf5dWXejAfWZEAYN
+ 1U3F6Sbj/RIp/P7LKzxfX+WV+aieO23eg1alUEeENM2xoOgCX+FsUuq84eBow49MWeFr
+ ccA95NTnBRQ06/Kle+y8LReNsC610ZQvGVOj1MjH2Vt3c7zzMT9D81uj5sHL0PE1COwI
+ 1x+RS5p6UefNDdJuHl+3sirXM2guRLHTAYuyRtxPXhfZFd4s9pmLBtTgtl1RdhUttmPp
+ 8nkKxCu++QsPZQEi5vUrIiY2cjrk2v8kHpRbVgg8/WXc8d09eBrqAP50cKdwCuMbInsA
+ 9hqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=/YxiTg2Y6r3+thsfbPvWqS+5O+fxjOgLKEFsE1+gNSI=;
+ b=QXDubrY6Pfj1wQ2o0w4QMWpO4e+ySC1JORhvi7CYFPnyjAcpk7ADjt5jEjy5zN3dac
+ /eEOJsxu36nv/4XHuJO4kjSRBxLPpDPxQd6VCnj9YUYURvV7kHw0BXLbwZ1pksfWLoPu
+ DnPHJzKChdnV560Fk0zOQzkoQrD/CCQBPMv/ojfFDH0T1V/szrXUivlf/JDAm7OPBIBl
+ V0TuR3e7oSU62fsWpVmVycxNMo6W0YauTV+Y1tt1FS0QzFCWV2mDJqUR0V54YhTOwIlq
+ Nq3g6d6pPq+xNwSerHKfhM1ng0C4BWe5eC0794I8GBFZXiGLZkbWpAog+YuacPNjm2DH
+ qj3g==
+X-Gm-Message-State: ACgBeo2xYpYyUap0SpTj86/Y54F/TJur1nYimbrgTX+UjscgGhnTLIG+
+ 5omQ2l4B1Prar3DtH6o7IjOLfHuEDoGw2fw+69JM6g==
+X-Google-Smtp-Source: AA6agR6fMAF7Zguaa+BET1ao/WK9IgTzwkxBBX/Jo8KhPB9FsxFqblriqgvezh5xaBHHYmhVAKh5Zbuh5jUi9FnyRF8=
+X-Received: by 2002:a63:e516:0:b0:434:9462:69cd with SMTP id
+ r22-20020a63e516000000b00434946269cdmr268765pgh.503.1662495503821; Tue, 06
+ Sep 2022 13:18:23 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-06_09,2022-09-06_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- priorityscore=1501 lowpriorityscore=0 suspectscore=0 spamscore=0
- mlxscore=0 phishscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0
- impostorscore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2207270000 definitions=main-2209060093
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.752,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220906172257.2776521-1-alex.bennee@linaro.org>
+In-Reply-To: <20220906172257.2776521-1-alex.bennee@linaro.org>
+From: Anders Roxell <anders.roxell@linaro.org>
+Date: Tue, 6 Sep 2022 22:18:12 +0200
+Message-ID: <CADYN=9LQe1793vWY8agasHSLazFVkMkLPOLOApxDBdXpYtOGfw@mail.gmail.com>
+Subject: Re: [RFC PATCH] target/arm: update the cortex-a15 MIDR to latest rev
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, Arnd Bergmann <arnd@linaro.org>, 
+ Peter Maydell <peter.maydell@linaro.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=anders.roxell@linaro.org; helo=mail-pf1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,47 +86,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 6 Sept 2022 at 19:23, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+> QEMU doesn't model micro-architectural details which includes most
+> chip errata. The ARM_ERRATA_798181 work around in the Linux
+> kernel (see erratum_a15_798181_init) currently detects QEMU's
+> cortex-a15 as broken and triggers additional expensive TLB flushes as
+> a result.
+>
+> Change the MIDR to report what the latest silicon would (r4p0) as well
+> as setting the IMPDEF revidr bit to indicate these flushes are not
+> needed. This cuts about 5s from my Debian kernel boot with the latest
+> 6.0rc1 kernel (29s->24s).
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Arnd Bergmann <arnd@linaro.org>
+> Cc: Anders Roxell <anders.roxell@linaro.org>
 
+Tested-by: Anders Roxell <anders.roxell@linaro.org>
 
-On 9/5/22 08:57, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> Rewrite get_next_page() to work over non-aligned blocks. When it
-> encounters non aligned addresses, it will try to fill a page provided by
-> the caller.
-> 
-> This solves a kdump crash with "tpm-crb-cmd" RAM memory region,
-> qemu-kvm: ../dump/dump.c:1162: _Bool get_next_page(GuestPhysBlock **,
-> uint64_t *, uint8_t **, DumpState *): Assertion `(block->target_start &
-> ~target_page_mask) == 0' failed.
-> 
-> because:
-> guest_phys_block_add_section: target_start=00000000fed40080 target_end=00000000fed41000: added (count: 4)
-> 
-> Fixes:
-> https://bugzilla.redhat.com/show_bug.cgi?id=2120480
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->   dump/dump.c | 79 +++++++++++++++++++++++++++++++++++++----------------
->   1 file changed, 56 insertions(+), 23 deletions(-)
-> 
-> diff --git a/dump/dump.c b/dump/dump.c
-> index f465830371..500357bafe 100644
-> --- a/dump/dump.c
-> +++ b/dump/dump.c
-> @@ -1094,50 +1094,81 @@ static uint64_t dump_pfn_to_paddr(DumpState *s, uint64_t pfn)
->   }
-> 
->   /*
-> - * exam every page and return the page frame number and the address of the page.
-> - * bufptr can be NULL. note: the blocks here is supposed to reflect guest-phys
-> - * blocks, so block->target_start and block->target_end should be interal
-> - * multiples of the target page size.
-> + * Return the page frame number and the page content in *bufptr. bufptr can be
-> + * NULL. If not NULL, *bufptr must contains a target page size of pre-allocated
-
-contains->contain
-
-Otherwise I don't have much to say about it...
+>  target/arm/cpu_tcg.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+> index 3099b38e32..59d5278868 100644
+> --- a/target/arm/cpu_tcg.c
+> +++ b/target/arm/cpu_tcg.c
+> @@ -588,7 +588,9 @@ static void cortex_a15_initfn(Object *obj)
+>      set_feature(&cpu->env, ARM_FEATURE_EL3);
+>      set_feature(&cpu->env, ARM_FEATURE_PMU);
+>      cpu->kvm_target =3D QEMU_KVM_ARM_TARGET_CORTEX_A15;
+> -    cpu->midr =3D 0x412fc0f1;
+> +    /* r4p0 cpu, not requiring expensive tlb flush errata */
+> +    cpu->midr =3D 0x414fc0f0;
+> +    cpu->revidr =3D 0x200;
+>      cpu->reset_fpsid =3D 0x410430f0;
+>      cpu->isar.mvfr0 =3D 0x10110222;
+>      cpu->isar.mvfr1 =3D 0x11111111;
+> --
+> 2.34.1
+>
 
