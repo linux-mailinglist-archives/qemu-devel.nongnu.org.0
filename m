@@ -2,79 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C5425AE206
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 10:11:04 +0200 (CEST)
-Received: from localhost ([::1]:33026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 952355AE24B
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 10:19:03 +0200 (CEST)
+Received: from localhost ([::1]:43560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVTfh-0003cw-4e
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 04:11:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40070)
+	id 1oVTnR-000852-RR
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 04:19:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oVTY9-0001GY-9S
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 04:03:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59929)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oVTY5-0007uH-1n
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 04:03:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662451385;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pV/edXmhyIj2uUhAVhPjqGaY913SGbpfbYqzYmmsiCw=;
- b=S7040NhTl9H5m3oXMPbKC9hBOJckFdxkZcReyW3AkgW0Z4mna1dAPTwP+Aecg9Kf4UKikM
- pB4OGM4X86MRlqJHwpM/aZKroUePVRS6JIyXvEg7SrnwXBKrEpPfJTNRD9V91T/DQiVCW2
- pguO+8T0IQwQAMqFLWonCIjX5LRWk5Q=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-438-LRZHJaSdNqKWsPEwVLjwdg-1; Tue, 06 Sep 2022 04:03:02 -0400
-X-MC-Unique: LRZHJaSdNqKWsPEwVLjwdg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D9E9A1C01B37;
- Tue,  6 Sep 2022 08:03:01 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 85AF32166B26;
- Tue,  6 Sep 2022 08:03:01 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E90F421E6900; Tue,  6 Sep 2022 10:02:59 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Hyman Huang <huangy81@chinatelecom.cn>
-Cc: Markus Armbruster <armbru@redhat.com>,  qemu-devel
- <qemu-devel@nongnu.org>,  Peter Xu <peterx@redhat.com>,  Juan Quintela
- <quintela@redhat.com>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>,  Thomas Huth <thuth@redhat.com>,  Laurent
- Vivier <lvivier@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>
-Subject: Re: [PATCH v1 3/8] migration: Introduce dirty-limit capability
-References: <cover.1662052189.git.huangy81@chinatelecom.cn>
- <cover.1662052189.git.huangy81@chinatelecom.cn>
- <fb2a51fcf30d927a2512b397cd2dc6f34c3936c4.1662052189.git.huangy81@chinatelecom.cn>
- <87y1v2w65q.fsf@pond.sub.org>
- <ba9baa48-a82b-16cc-a902-2dd63194420a@chinatelecom.cn>
- <87y1uykvyu.fsf@pond.sub.org>
- <4797d938-4638-b12b-c75b-47d291efb6d6@chinatelecom.cn>
-Date: Tue, 06 Sep 2022 10:02:59 +0200
-In-Reply-To: <4797d938-4638-b12b-c75b-47d291efb6d6@chinatelecom.cn> (Hyman
- Huang's message of "Mon, 5 Sep 2022 21:13:23 +0800")
-Message-ID: <87pmg93p70.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oVTjc-0005yF-VM
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 04:15:06 -0400
+Received: from mail-qv1-xf2d.google.com ([2607:f8b0:4864:20::f2d]:34812)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oVTja-0001Vc-NQ
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 04:15:04 -0400
+Received: by mail-qv1-xf2d.google.com with SMTP id ml1so1549721qvb.1
+ for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 01:15:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=8Gt95rW2+YRZNVh25oYe3lccPp04wznuttCqY165158=;
+ b=Dyp23o4/0kOXMBM3L6UMSx0+OE526ZOIDQ8NAfk/yxkRceqN08KnMSTXRpkaDhv94Z
+ /sB27GK0/Jl0+agKHCAEB86PR8QjHNxAaGkgMVV/AwTUcSKEluzbJAlvNAEbB4+dd/sb
+ qytS4wZn5swbVxYlBNk36X0GDMuqlKbJDaMw+kA5L1iWCxlYFh9f4NYpHe2UdZM3YTh2
+ EK9qNatQcTKOZK8Jxchv+df9V1cAErjhlzIBF7JHC3Rd/oq1nzp+RnGOUy1oVSidC78t
+ sqoz0D9vN/etwhGYmFy4XA8ReQ9yR06iJXGsK++EIs4aFaYSsi82sDWaZczRDyWGB25q
+ gagQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=8Gt95rW2+YRZNVh25oYe3lccPp04wznuttCqY165158=;
+ b=4wZof5rFcPNzPgoC+UY5mickKtrzvqeB092N8kYlTdY7Zvtn7kKHRxiOAjwNJV+GxK
+ odjRsTjDh8XJNMKqtOt1SuAt/Y9fd7hhfmeL2ztT2xeC+BMahMzNneOpockhNzI+kNo3
+ jSNEO9R3B2/304w6SvJE4OsbM8xYaZjPmmO5u4NT9EMWve62AG+fw75XODictDkF15Wi
+ RjQBXluhQpxhtHq2l7u7u2KpVYk5VDMK80FcUZSNkGre5XmNGObkrQcbdlMN9Xcj9w2d
+ hHn/UCmMmp8IybObLQDgcJ02Xw0OVcXjhDRMs2svWeVDa9n5NupyZs1gc/SZoMGrw3X0
+ ybbQ==
+X-Gm-Message-State: ACgBeo0rQg3crTsNk2oVbr0u3IWCps7VHnorXc11wH3y95jOtTZj4OMD
+ AQrIFlRTGYyct1ySBI99OKCtJgrEhGTruLspecI=
+X-Google-Smtp-Source: AA6agR6OhIF31fLNsagyJJLDtLijcOJKSS52rJOjkfglrYqDMFBWEav0rcCegLpeiuwCMe80cdU01fyV1PqZb1Ep7aU=
+X-Received: by 2002:a05:6214:4115:b0:499:3520:1ee7 with SMTP id
+ kc21-20020a056214411500b0049935201ee7mr19856609qvb.122.1662452101706; Tue, 06
+ Sep 2022 01:15:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
+ <20220824094029.1634519-50-bmeng.cn@gmail.com>
+ <CAJ+F1C+-4U1huf=Jv_uJP-XXnXu88Gj9HHvrGS0dTFyKGv=qBg@mail.gmail.com>
+ <CAEUhbmV_UU1TpRXfyz5U9kRj5r1ihm-HrXhzw_D-L96_Skxy+g@mail.gmail.com>
+ <CAJ+F1CJo-0isj2LKdabMHu854e7kukwjp=CCejgk_TzLRwtA3w@mail.gmail.com>
+ <CAEUhbmXjHCEOy+U3zABsvCU20rDj5pogNVTUCUEevdrqhcjuoA@mail.gmail.com>
+ <CAJ307EiOGrHqfdzSfb6L3MPKtAWLPCQT8ZVY7M+R5mT6d9wVvQ@mail.gmail.com>
+ <CAEUhbmW0v_5Ro3mY6Ztt=MmZJf=ueApmNGpT=+1RTPLrWd4=Rg@mail.gmail.com>
+ <CAJ307EhBSg4ENykkbqsT=5oBjc34JR+d3bJAVSTaxRM-uG4LGg@mail.gmail.com>
+In-Reply-To: <CAJ307EhBSg4ENykkbqsT=5oBjc34JR+d3bJAVSTaxRM-uG4LGg@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 6 Sep 2022 16:14:50 +0800
+Message-ID: <CAEUhbmUAF0W_SCtYOuAZ+xc7Y4So3J4QB29Us0AV44eVF8KtLg@mail.gmail.com>
+Subject: Re: [PATCH 49/51] io/channel-watch: Fix socket watch on Windows
+To: =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf2d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,99 +96,201 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hyman Huang <huangy81@chinatelecom.cn> writes:
+Hi Cl=C3=A9ment,
 
-> =E5=9C=A8 2022/9/5 17:32, Markus Armbruster =E5=86=99=E9=81=93:
->> Hyman Huang <huangy81@chinatelecom.cn> writes:
->>=20
->>> =E5=9C=A8 2022/9/2 16:07, Markus Armbruster =E5=86=99=E9=81=93:
->>>> huangy81@chinatelecom.cn writes:
->>>>
->>>>> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
->>>>>
->>>>> Introduce migration dirty-limit capability, which can
->>>>> be turned on before live migration and limit dirty
->>>>> page rate durty live migration.
->>>>>
->>>>> Introduce migrate_dirty_limit function to help check
->>>>> if dirty-limit capability enabled during live migration.
->>>>>
->>>>> Meanwhile, refactor vcpu_dirty_rate_stat_collect
->>>>> so that period can be configured instead of hardcoded.
->>>>>
->>>>> dirty-limit capability is kind of like auto-converge
->>>>> but using dirty limit instead of traditional cpu-throttle
->>>>> to throttle guest down. To enable this feature, turn on
->>>>> the dirty-limit capability before live migration using
->>>>> migratioin-set-capabilities, and set the parameters
->>>>
->>>> migrate-set-capabilities
->>>>
->>>>> "x-vcpu-dirty-limit-period", "vcpu-dirty-limit" suitably
->>>>
->>>> "x-vcpu-dirty-limit"
->>>>
->>>>> to speed up convergence.
->>>>>
->>>>> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom=
-.cn>
->>>>
->>>> Hmm.  You make dirty-limiting as a whole a stable interface (evidence:
->>>> capability "dirty-limit" is stable), but keep its two parameters
->>>> unstable.  Rationale behind that?
->>>>
->>> Thanks Markus's comments. :)
->>>
->>> x-vcpu-dirty-limit-period is an experimental parameter indeed, as to x-=
-vcpu-dirty-limit, i think it's resonable to be a stable parameter.
->>> These 2 parameters are introduced first time and none of them suffer he=
-avily tests, so i also made vcpu-dirty-limit experimental last version.
->>>
->>> For dirty-limit interface, it improves the vCPU computational performan=
-ce during migration indeed(see the test results in cover
->>> letter), so it sounds ok to be an stable interface.
->>>
->>> The 'x-vcpu-dirty-limit-period' parameter can be dropped, IMHO, after b=
-eing proved insignificant for migration in the future, and meanwhile,
->>> x-vcpu-dirty-limit be made stable.
->>>
->>> Since I don't have much experience to introducing fresh new interface,
->>> any suggestions are welcome.
->> Is the new interface fit for purpose without use of any experimental
->> parameter?
->>  > If the answer is something like "command dirty-limit improves things
->> even without use of experimental parameters, but using them may well
->> improve things more (but we need more testing to know for sure)", then
->> your current use of 'unstable' may make sense.
->>=20
-> Yes, with the default value of parameter=EF=BC=8Cthe new interface works =
-ok and improve performance.
+On Tue, Sep 6, 2022 at 3:41 PM Cl=C3=A9ment Chigot <chigot@adacore.com> wro=
+te:
 >
-> For x-vcpu-dirty-limit, we provide it because user may not want virtual C=
-PU throttle heavily, x-vcpu-dirty-limit is kind of like=20
-> cpu-throttle-percentage, which is used to setup the threshold when making=
- guest down.
+> Hi Bin,
 >
-> For x-vcpu-dirty-limit-period, it is just as you said: "command dirty-lim=
-it improves things even without use of experimental parameters,=20
-> but using them may wellimprove things more (but we need more testing to k=
-now for sure)"
+> > On Mon, Sep 5, 2022 at 4:10 PM Cl=C3=A9ment Chigot <chigot@adacore.com>=
+ wrote:
+> > >
+> > > Hi all,
+> > >
+> > > I did reach the same issue while trying to connect a gdb to qemu on
+> > > Windows hosts. Some inputs send by gdb aren't getting correctly pulle=
+d,
+> > > they will be retrieved only once g_poll times out.
+> > >
+> > > As you explained earlier, the issue, AFAICT, is that WSAEnumNetworkEv=
+ents
+> > > will reset the internal events before select can detect them.
+> >
+> > No, I don't think WSAEnumNetworkEvents and select cannot be used togeth=
+er.
+> >
+> > MSDN says:
+> > https://docs.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2=
+-select
+> >
+> > "The select function has no effect on the persistence of socket events
+> > registered with WSAAsyncSelect or WSAEventSelect."
+> >
+> > That sounds to me like current usage in QEMU codes does not have a prob=
+lem.
 >
-> So, should i make x-vcpu-dirty-limit non-experimental next version?
+> Yes, but WSAEnumNetworkEvents has effects. Thus, it might reset the
+> events before
+> select detects them no ?
 
-I think this depends on what exactly you want to signal to users.
+Even if the event *handle* is reset, select can still detect the
+network event has happened. I think the above MSDN statement is trying
+to explain this.
 
-Your current patch has command dirty-limit stable and the parameters
-unstable.  This signals "go ahead and use dirty-limit, don't worry about
-the parameters; even if they become stable later, using just dirty-limit
-will remain okay."
+> Moreover, I'm not sure what they mean by "persistence of WSAEventSelect".
+> Does that mean that select doesn't change the events wanted to be
+> notified as set
+> by WSAEventSelect or that select isn't resetting the events once
+> retrieved, as you
+> imply ?
 
-If you keep the command unstable as well, you signal the entire
-interface isn't quite baked, yet.  That's a much weaker proposition.
-So weak in fact that you cannot go wrong :)
+My understanding is that select just determines the socket status
+neither from the event handle associated with the socket, nor does it
+change anything on the event handle.
 
-In short, it boils down to whether you want to encourage use of a part
-of the evolving interface *now*.  Make that part stable.  Requires
-confidence in that part, obviously.
+> Moreover, the current code is creating the event object with
+> CreateEvent(NULL, FALSE, FALSE, NULL). The first FALSE implies that we wa=
+nt
+> an auto-reset. The MSDN doc says:
+>
+> "Boolean that specifies whether a manual-reset or auto-reset event
+> object is created.
+> If TRUE, then you must use the ResetEvent function to manually reset
+> the state to
+> nonsignaled. If FALSE, the system automatically resets the state to nonsi=
+gnaled
+> after a single waiting thread has been released."
 
+Yes, I think this is a bug however when I changed to CreateEvent(NULL,
+TRUE, FALSE, NULL) or WSACreateEvent() there are still "Broken pipe"
+errors ...
+
+> However, I'm not sure if I understand correctly what "after a single
+> waiting thread
+> has been released." signified. Is the reset occuring after recv() or
+> after select or
+> WSAEnumNetworkEvents calls ? AFAIR, I've tried to move to manual-reset wi=
+th
+> the current qemu but it doesn't change anything.
+
+The same here :(
+
+>
+> > > Sadly, I didn't find any way to adjust the current code using select =
+to
+> > > avoid that. As select and any cleaner (ever WSAEnumNetworkEvents or
+> > > WSEResetEvent) cannot be called in an atomic way, it seems that event=
+s
+> > > can always be received between the reset and the select. At least, al=
+l
+> > > my attempts failed.
+> >
+> > According to MSDN:
+> > https://docs.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2=
+-wsaeventselect
+> >
+> > "Having successfully recorded the occurrence of the network event (by
+> > setting the corresponding bit in the internal network event record)
+> > and signaled the associated event object, no further actions are taken
+> > for that network event until the application makes the function call
+> > that implicitly reenables the setting of that network event and
+> > signaling of the associated event object."
+> >
+> > So events will be kept unsignaled after they are signaled, until the
+> > reenable routine is called. For example, recv() for the FD_READ event.
+>
+> In my understanding, WSAEnumNetworkEvents states the opposite:
+> https://docs.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-w=
+saenumnetworkevents
+>
+> "The Windows Sockets provider guarantees that the operations of copying
+> the network event record, clearing it and resetting any associated event
+> object are atomic, such that the next occurrence of a nominated network
+> event will cause the event object to become set."
+
+My interpretation of this does not conflict with the WSAEventSelect().
+I think they are just two things.
+
+>
+> > > The only solution I've found is to move completely to the Windows API
+> > > and stop calling select. This, however, needs some tricks. In Particu=
+lar, we
+> > > need to "remove" the support of GSources having only G_IO_HUP.
+> > > This is already kind of done as we currently don't detect them in
+> > > qio_channel_socket_source_check anyway.
+> > > This is mandatory because of the two GSources created on the same soc=
+ket.
+> > > IIRC, the first one (I'll call it the master GSource) is created duri=
+ng
+> > > the initialization of the channel-socket by update_ioc_handlers and w=
+ill
+> > > have only G_IO_HUP to catch up.
+> > > The second one is created during the "prepare" phase of the first one=
+,
+> > > in io_watch_poll_prepare. This one will have all the events we want
+> > > to pull (G_IO_IN here).
+> > > As they are referring to the same socket, the Windows API cannot know
+> > > on which GSources we want to catch which events. The solution is then
+> >
+> > I think Windows knows which events to catch. As WSAEventSelect() in
+> > channel-watch.c::qio_channel_create_socket_watch() tells Windows which
+> > event it should monitor.
+> >
+> > Both the "master" and "child" GSources are watching on the same socket
+> > with G_IO_IN condition (see qio_channel_create_socket_watch), and GLib
+> > is smart enough to merge these two resources into one in the event
+> > handle array which is passed to WaitForMultipleObjectsEx() in
+> > g_poll().
+>
+> I've forgotten to mention it. But the current code only fails with newer =
+glib
+> versions. I wasn't able to test all of them but it's working with 2.54 an=
+d
+> starts failing with versions after 2.60.
+> The qemu master isn't supporting 2.54 anymore. Thus I've tested that with
+> our internal qemu-6 which runs with 2.54. When upgrading glib, it starts
+> behaving like our issue.
+> Sadly, I wasn't able to test with glib-2.56/2.58 nor to find anything rel=
+evant
+> in glib code which would explain our issue. (But I wasn't aware of the
+> two GSources at that time so maybe it's worth investigating again).
+>
+
+Ah, good to know glib version matters.
+
+> > I checked your patch, what you did seems to be something one would
+> > naturally write, but what is currently in the QEMU sources seems to be
+> > written intentionally.
+> >
+> > +Paolo Bonzini , you are the one who implemented the socket watch on
+> > Windows. Could you please help analyze this issue?
+> >
+> > > to avoid WSAEnumNetworkEvents for the master GSource which only has
+> > > G_IO_HUP (or for any GSource having only that).
+> > > As I said above, the current code doesn't do anything with it anyway.
+> > > So, IMO, it's safe to do so.
+> > >
+> > > I'll send you my patch attached. I was planning to send it in the fol=
+lowing
+> > > weeks anyway. I was just waiting to be sure everything looks fine on =
+our
+> > > CI. Feel free to test and modify it if needed.
+> >
+> > I tested your patch. Unfortunately there is still one test case
+> > (migration-test.exe) throwing up the "Broken pipe" message.
+>
+> I must say I didn't fully test it against qemu testsuite yet. Maybe there=
+ are
+> some refinements to be done. "Broken pipe" might be linked to the missing
+> G_IO_HUP support.
+>
+> > Can you test my patch instead to see if your gdb issue can be fixed?
+>
+> Yeah sure. I'll try to do it this afternoon.
+
+Thanks!
+
+Regards,
+Bin
 
