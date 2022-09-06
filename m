@@ -2,90 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B4705AE49C
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 11:45:27 +0200 (CEST)
-Received: from localhost ([::1]:53220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 261F55AE4D4
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 11:55:03 +0200 (CEST)
+Received: from localhost ([::1]:58704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVV94-0005lc-Cj
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 05:45:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36962)
+	id 1oVVIL-0000GJ-Us
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 05:55:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1oVUTk-0001fk-8g
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:02:44 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:40506)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1oVUTh-00019V-9q
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:02:42 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id b144so5919823pfb.7
- for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 02:02:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=44Ji80GkoTkFbVPP3ShMaLLeSijFd9DLu55qjbCvEaU=;
- b=eBuS+S/n3Q2BFnV/b7eny2lU4mH5BjJQWdCtc9uw2Ak1oG40G4RdRYFo9z+yJTSjiU
- 52u21Zx/vEjb//OMtUwRGQxG8TSHEhSoK22SmV4J4hdQ+JIuJVLN0/AzZW/h1cylRVLL
- FpJbsDUWoiar0o3TAkwP0RACDxkWGisifY3YE0eeaBgOz9V3Jl7MYm2Dp3v7uUIvNcP4
- KtJY+DdykYB9IUFJa3DwgEiVm/WLGsbuDnMNMfkYd4XjuFcGjqEC8iDkN0kg7o7evnpZ
- EvmAl6nCoDX2eB2PwQKD+KcB9TB488z83yhP8vGQgeBiSQcd09P/lym2mtpdXdpNZdur
- T2gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=44Ji80GkoTkFbVPP3ShMaLLeSijFd9DLu55qjbCvEaU=;
- b=syFU1MgYP05/0/TlSbkxCCmUaBdrtXP6CGnVQHtKuCNGxtyAT31Fz3krIap3ZbH4ue
- hpYHGeezcCiawKlNFrNIhGp6spFlD2gxPUJ6KJeyyMRa2dW5er2rcIhkJCkX4hajrv8G
- t89p1OVAeXFOgpfD95037oTBKg+2Naly0oYJZ1QsY77Ucz0YNl47pTqWu80GAJcBw6RO
- +N28xub4Qx+sQWmAGaiVrE5dWzbs1C3Y6gVBMjB/7aeznXzvvQIkufFL48gGp3t0V/Qr
- On7fTMrEt8mf3AzpYxxDuS2OLQHI16Yko8f4rcYjIv6JlMH0LixFDMmRCVlsRF9erG0g
- tFtA==
-X-Gm-Message-State: ACgBeo0tCJUwX2+s0AWM8Vi+aowXPgrnTqZt4lKQUeB9oj+trIQ5+ipZ
- 5i7fjnDHl2zoxW0jdIybK+0X9w==
-X-Google-Smtp-Source: AA6agR7M5kIsyGtTrQwS6OVmepc7PqAngaHwT6AVrYL2QqO59okhQ6Z1MqG+MxZoXDfOeWjIVBrCig==
-X-Received: by 2002:aa7:8e4b:0:b0:535:da7c:c2d with SMTP id
- d11-20020aa78e4b000000b00535da7c0c2dmr53932531pfr.86.1662454959039; 
- Tue, 06 Sep 2022 02:02:39 -0700 (PDT)
-Received: from localhost.localdomain ([49.206.11.92])
- by smtp.gmail.com with ESMTPSA id
- t2-20020a17090a2f8200b001fabcd994c1sm11987315pjd.9.2022.09.06.02.02.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 02:02:38 -0700 (PDT)
-From: Sunil V L <sunilvl@ventanamicro.com>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>, Song Gao <gaosong@loongson.cn>,
- Gerd Hoffmann <kraxel@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Andrew Jones <ajones@ventanamicro.com>,
- Anup Patel <apatel@ventanamicro.com>,
- Atish Kumar Patra <atishp@rivosinc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Sunil V L <sunilvl@ventanamicro.com>
-Subject: [PATCH V4 3/3] hw/riscv: virt: Enable booting S-mode firmware from
- pflash
-Date: Tue,  6 Sep 2022 14:32:19 +0530
-Message-Id: <20220906090219.412517-4-sunilvl@ventanamicro.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220906090219.412517-1-sunilvl@ventanamicro.com>
-References: <20220906090219.412517-1-sunilvl@ventanamicro.com>
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1oVUZy-0005m4-8q
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:09:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46071)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1oVUZv-00029c-SE
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:09:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662455345;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YEjZ/T0ghzKpuF0oXKubkqWEaEbFCF+OPb5bII70OZQ=;
+ b=EZ6ZZ9aDTb3oLFGRrp2Dl1QGib6DtoG7Y8162Th3NPzqTAo67tL/NRrR8xIinaom9wUU3y
+ Cvfum1lxAZWdrkkHIe29R2wC0l8YrknwpJgEMAm2Vi/w67eqMUAElHDsoTZk7Wbmin2GXU
+ tFiaYCLIH+lq4A76BsUzQ0yigl7BnyY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-597-jPAdOmcROnGp-5JCbE20yg-1; Tue, 06 Sep 2022 05:09:04 -0400
+X-MC-Unique: jPAdOmcROnGp-5JCbE20yg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B38673C01DF8
+ for <qemu-devel@nongnu.org>; Tue,  6 Sep 2022 09:09:03 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7600EC15BB3;
+ Tue,  6 Sep 2022 09:09:03 +0000 (UTC)
+Date: Tue, 6 Sep 2022 10:09:02 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH 02/11] crypto: enforce that LUKS stripes is always a
+ fixed value
+Message-ID: <20220906090902.GK7484@redhat.com>
+References: <20220906084147.1423045-1-berrange@redhat.com>
+ <20220906084147.1423045-3-berrange@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=sunilvl@ventanamicro.com; helo=mail-pf1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20220906084147.1423045-3-berrange@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=rjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,107 +81,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To boot S-mode firmware payload like EDK2 from persistent
-flash storage, qemu needs to pass the flash address as the
-next_addr in fw_dynamic_info to the opensbi.
+On Tue, Sep 06, 2022 at 09:41:38AM +0100, Daniel P. Berrangé wrote:
+> Although the LUKS stripes are encoded in the keyslot header and so
+> potentially configurable, in pratice the cryptsetup impl mandates
+> this has the fixed value 4000. To avoid incompatibility apply the
+> same enforcement in QEMU too. This also caps the memory usage for
+> key material when QEMU tries to open a LUKS volume.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  crypto/block-luks.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/crypto/block-luks.c b/crypto/block-luks.c
+> index 27d1b34c1d..81744e2a8e 100644
+> --- a/crypto/block-luks.c
+> +++ b/crypto/block-luks.c
+> @@ -582,8 +582,9 @@ qcrypto_block_luks_check_header(const QCryptoBlockLUKS *luks, Error **errp)
+>                                                     header_sectors,
+>                                                     slot1->stripes);
+>  
+> -        if (slot1->stripes == 0) {
+> -            error_setg(errp, "Keyslot %zu is corrupted (stripes == 0)", i);
+> +        if (slot1->stripes != QCRYPTO_BLOCK_LUKS_STRIPES) {
+> +            error_setg(errp, "Keyslot %zu is corrupted (stripes %d != %d)",
+> +                       i, slot1->stripes, QCRYPTO_BLOCK_LUKS_STRIPES);
+>              return -1;
+>          }
 
-When both -kernel and -pflash options are provided in command line,
-the kernel (and initrd if -initrd) will be copied to fw_cfg table.
-The S-mode FW will load the kernel/initrd from fw_cfg table.
+In nbdkit I decided to just check that this number < 10000, but I
+agree that the only important implementation (the kernel) always fixes
+this at 4000 (cryptsetup.git/lib/keymanage.c), so:
 
-If only pflash is given but not -kernel, then it is the job of
-of the S-mode firmware to locate and load the kernel.
+Reviewed-by: Richard W.M. Jones <rjones@redhat.com>
 
-In either case, update the kernel_entry with the flash address
-so that the opensbi can jump to the entry point of the S-mode
-firmware.
+Rich.
 
-Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
----
- hw/riscv/boot.c         | 29 +++++++++++++++++++++++++++++
- hw/riscv/virt.c         | 18 +++++++++++++++++-
- include/hw/riscv/boot.h |  1 +
- 3 files changed, 47 insertions(+), 1 deletion(-)
-
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 1ae7596873..fa8ad27da2 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -338,3 +338,32 @@ void riscv_setup_direct_kernel(hwaddr kernel_addr, hwaddr fdt_addr)
-         riscv_cpu->env.fdt_addr = fdt_addr;
-     }
- }
-+
-+void riscv_setup_firmware_boot(MachineState *machine)
-+{
-+    if (machine->kernel_filename) {
-+        FWCfgState *fw_cfg;
-+        fw_cfg = fw_cfg_find();
-+
-+        assert(fw_cfg);
-+        /*
-+         * Expose the kernel, the command line, and the initrd in fw_cfg.
-+         * We don't process them here at all, it's all left to the
-+         * firmware.
-+         */
-+        load_image_to_fw_cfg(fw_cfg,
-+                             FW_CFG_KERNEL_SIZE, FW_CFG_KERNEL_DATA,
-+                             machine->kernel_filename,
-+                             true);
-+        load_image_to_fw_cfg(fw_cfg,
-+                             FW_CFG_INITRD_SIZE, FW_CFG_INITRD_DATA,
-+                             machine->initrd_filename, false);
-+
-+        if (machine->kernel_cmdline) {
-+            fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_SIZE,
-+                           strlen(machine->kernel_cmdline) + 1);
-+            fw_cfg_add_string(fw_cfg, FW_CFG_CMDLINE_DATA,
-+                              machine->kernel_cmdline);
-+        }
-+    }
-+}
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index b6bbf03f61..40515a793d 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -1258,7 +1258,23 @@ static void virt_machine_done(Notifier *notifier, void *data)
-     s->fw_cfg = create_fw_cfg(machine);
-     rom_set_fw(s->fw_cfg);
- 
--    if (machine->kernel_filename) {
-+    if (drive_get(IF_PFLASH, 0, 1)) {
-+        /*
-+         * S-mode FW like EDK2 will be kept in second plash (unit 1).
-+         * When both kernel, initrd and pflash options are provided in the
-+         * command line, the kernel and initrd will be copied to the fw_cfg
-+         * table and opensbi will jump to the flash address which is the
-+         * entry point of S-mode FW. It is the job of the S-mode FW to load
-+         * the kernel and initrd using fw_cfg table.
-+         *
-+         * If only pflash is given but not -kernel, then it is the job of
-+         * of the S-mode firmware to locate and load the kernel.
-+         * In either case, the next_addr for opensbi will be the flash address.
-+         */
-+        riscv_setup_firmware_boot(machine);
-+        kernel_entry = virt_memmap[VIRT_FLASH].base +
-+                       virt_memmap[VIRT_FLASH].size / 2;
-+    } else if (machine->kernel_filename) {
-         kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc[0],
-                                                          firmware_end_addr);
- 
-diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-index a36f7618f5..93e5f8760d 100644
---- a/include/hw/riscv/boot.h
-+++ b/include/hw/riscv/boot.h
-@@ -57,5 +57,6 @@ void riscv_rom_copy_firmware_info(MachineState *machine, hwaddr rom_base,
-                                   uint32_t reset_vec_size,
-                                   uint64_t kernel_entry);
- void riscv_setup_direct_kernel(hwaddr kernel_addr, hwaddr fdt_addr);
-+void riscv_setup_firmware_boot(MachineState *machine);
- 
- #endif /* RISCV_BOOT_H */
 -- 
-2.25.1
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+virt-builder quickly builds VMs from scratch
+http://libguestfs.org/virt-builder.1.html
 
 
