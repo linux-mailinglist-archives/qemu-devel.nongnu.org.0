@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC695AE97C
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 15:28:33 +0200 (CEST)
-Received: from localhost ([::1]:34250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63C825AE99C
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 15:31:33 +0200 (CEST)
+Received: from localhost ([::1]:40206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVYcy-0003b4-EF
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 09:28:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49686)
+	id 1oVYfs-00087x-Fm
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 09:31:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chigot@adacore.com>)
- id 1oVXLv-0006zT-2C
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 08:06:51 -0400
-Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132]:43767)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVXTX-0007jX-RJ
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 08:14:43 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:44232)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chigot@adacore.com>)
- id 1oVXLs-00007c-Rz
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 08:06:50 -0400
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-333a4a5d495so93727887b3.10
- for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 05:06:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=adacore.com; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=oDy07ukWH3+8pmf08wxku6Ld0IIESnMMKjKAXHCz3i8=;
- b=c0KqXU6AacBKqOqM8wv8xPCkwTeM/aNPCHh7FEDL1d776I9j3cRmc1Xo5Y/5R4zQ3g
- G5HiwaJNVh18O1GVN3CyqRLz8zrf9rPhkeeVSJuPsQslJYz/Cj6bGE26ObXzX6V2Lxpx
- +lEraE1hgAHBjTP3Fxqel7RdA172BAM8V8cKpPqxTD9eq3r4uDI5YQsSvsyucCOOJPvB
- ghG3Z5EmZnawLVryFvQQfv6w1tTVRZ5nDp/cJoooil3mUqcakY8jiLV9Gr9MDx3/YUZs
- 7BEd32CUHnDip4Ydfh4eau7UAGcBjc006riE2M7fkVaHA0nljYYUo1GKa8cWAPAUp9S8
- pVAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=oDy07ukWH3+8pmf08wxku6Ld0IIESnMMKjKAXHCz3i8=;
- b=bHYy+QilvNGRGEEa2FZTplKSiZ0o5+med1854xy+rxil8h5l1L5+z8VmGXJ8f3dcl/
- Y7bwgYuOncWB3KricmrWzlAoiLM3KFciG+1cU95Yf1rtN4m7IAvxLGQPX+nHQJLj/3Ah
- v9mRbWcjsq8kQOZtXPUA0Yd35bWtXogYT3puHCRCbdLX7uivqhB6fLW2g21JndRvyzIZ
- eSAGqKo+332hvUvIqsiXDHDea8gTNwk1xW1Wqq9o/aE9eLKXdATqpTgl/2XDfF/Ein2n
- 5cDFw7n7Qjeglya/e9/qLSeErm6g+q1EX6tzhYg3LwUHrzxRuybKH22/ve1NjRyuL6JU
- nRww==
-X-Gm-Message-State: ACgBeo1Gj3DxnWSm/sxIIKjvar92VONct9fBHDmQDp5WrfdXEXSMIQif
- kVtzb+9U0AVtCNsiqaWK+FakpVZGt8UP3jloCrzYkQ==
-X-Google-Smtp-Source: AA6agR41eA984ixYr7XolWqaq9MZJErydQ4EsM4HS9ulzkPp8OlQQneug9ZmQajM2BHuTTu6fAcKACWtfQocJ5/aJgU=
-X-Received: by 2002:a81:6ed4:0:b0:345:2c35:a203 with SMTP id
- j203-20020a816ed4000000b003452c35a203mr8859045ywc.262.1662466007459; Tue, 06
- Sep 2022 05:06:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVXTW-0001c2-71
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 08:14:43 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9468833858;
+ Tue,  6 Sep 2022 12:14:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1662466480; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=t3grlbFwwmEmfM1QXsCLxKVQpMntnZi45WFVZtm1yzQ=;
+ b=ptivwlFR/Prj6or0j2SnE/i6janqI/0uTAvT8aL/MOVbwMsPEThP6q+QOtcyMf4kFMMYwv
+ D4KMxfx2i79ReJTClW1l1XRZ086RKNCi7AD7KtFO2rPxtGlbw58AllOip3sVcZh5dKSThX
+ iNCQLYZrHrQyggRM2oFyGC06pVSKq1o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1662466480;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=t3grlbFwwmEmfM1QXsCLxKVQpMntnZi45WFVZtm1yzQ=;
+ b=RIKL3Hirm2IvPb5EA7JdGx7Zef22462iY1v6NZzTaF6cv06GMLkPXe71Uj7AuK4G9Lqu5i
+ nprOt0LXTYK3AhDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4093F13A7A;
+ Tue,  6 Sep 2022 12:14:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id KGG+DbA5F2N/PAAAMHmgww
+ (envelope-from <cfontana@suse.de>); Tue, 06 Sep 2022 12:14:40 +0000
+Message-ID: <90ec64fb-24fa-aee9-da77-32fc56d3e51e@suse.de>
+Date: Tue, 6 Sep 2022 14:14:39 +0200
 MIME-Version: 1.0
-References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-50-bmeng.cn@gmail.com>
- <CAJ+F1C+-4U1huf=Jv_uJP-XXnXu88Gj9HHvrGS0dTFyKGv=qBg@mail.gmail.com>
- <CAEUhbmV_UU1TpRXfyz5U9kRj5r1ihm-HrXhzw_D-L96_Skxy+g@mail.gmail.com>
- <CAJ+F1CJo-0isj2LKdabMHu854e7kukwjp=CCejgk_TzLRwtA3w@mail.gmail.com>
- <CAEUhbmXjHCEOy+U3zABsvCU20rDj5pogNVTUCUEevdrqhcjuoA@mail.gmail.com>
- <CAJ307EiOGrHqfdzSfb6L3MPKtAWLPCQT8ZVY7M+R5mT6d9wVvQ@mail.gmail.com>
- <CAEUhbmW0v_5Ro3mY6Ztt=MmZJf=ueApmNGpT=+1RTPLrWd4=Rg@mail.gmail.com>
- <CAJ307EhBSg4ENykkbqsT=5oBjc34JR+d3bJAVSTaxRM-uG4LGg@mail.gmail.com>
- <CAEUhbmUAF0W_SCtYOuAZ+xc7Y4So3J4QB29Us0AV44eVF8KtLg@mail.gmail.com>
-In-Reply-To: <CAEUhbmUAF0W_SCtYOuAZ+xc7Y4So3J4QB29Us0AV44eVF8KtLg@mail.gmail.com>
-From: =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
-Date: Tue, 6 Sep 2022 14:06:36 +0200
-Message-ID: <CAJ307EjyXxbGLK-PhBjf18p3AApYM-jGqA2L9q3xLS9wX16h_w@mail.gmail.com>
-Subject: Re: [PATCH 49/51] io/channel-watch: Fix socket watch on Windows
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
- envelope-from=chigot@adacore.com; helo=mail-yw1-x1132.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] accel: print an error message and exit if plugin not
+ loaded
+Content-Language: en-US
+From: Claudio Fontana <cfontana@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ dinechin@redhat.com
+References: <20220905101332.1986-1-cfontana@suse.de>
+ <5d922305-a559-bfdc-7038-ec1560ae0e00@linaro.org>
+ <9bb31e44-e43d-b51a-712a-87e46279a0b5@suse.de>
+ <879a973a-c5b0-2a23-bb24-92bf5500f63f@suse.de>
+ <20220906095325.5rhnqjyvckjebnmp@sirius.home.kraxel.org>
+ <aef3408d-6b48-424b-e539-6230ee38b90e@suse.de>
+In-Reply-To: <aef3408d-6b48-424b-e539-6230ee38b90e@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -61
+X-Spam_score: -6.2
+X-Spam_bar: ------
+X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.752,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,65 +99,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> > > I checked your patch, what you did seems to be something one would
-> > > naturally write, but what is currently in the QEMU sources seems to b=
-e
-> > > written intentionally.
-> > >
-> > > +Paolo Bonzini , you are the one who implemented the socket watch on
-> > > Windows. Could you please help analyze this issue?
-> > >
-> > > > to avoid WSAEnumNetworkEvents for the master GSource which only has
-> > > > G_IO_HUP (or for any GSource having only that).
-> > > > As I said above, the current code doesn't do anything with it anywa=
-y.
-> > > > So, IMO, it's safe to do so.
-> > > >
-> > > > I'll send you my patch attached. I was planning to send it in the f=
-ollowing
-> > > > weeks anyway. I was just waiting to be sure everything looks fine o=
-n our
-> > > > CI. Feel free to test and modify it if needed.
-> > >
-> > > I tested your patch. Unfortunately there is still one test case
-> > > (migration-test.exe) throwing up the "Broken pipe" message.
-> >
-> > I must say I didn't fully test it against qemu testsuite yet. Maybe the=
-re are
-> > some refinements to be done. "Broken pipe" might be linked to the missi=
-ng
-> > G_IO_HUP support.
-> >
-> > > Can you test my patch instead to see if your gdb issue can be fixed?
-> >
-> > Yeah sure. I'll try to do it this afternoon.
+On 9/6/22 13:59, Claudio Fontana wrote:
+> On 9/6/22 11:53, Gerd Hoffmann wrote:
+>>> In any case, the only thing that "mayfail" seems to control, is in module_load_file, and is a single printf:
+>>>
+>>>     g_module = g_module_open(fname, flags);
+>>>     if (!g_module) {
+>>>         if (!mayfail) {
+>>>             fprintf(stderr, "Failed to open module: %s\n",
+>>>                     g_module_error());
+>>>         }
+>>>         ret = -EINVAL;
+>>>         goto out;
+>>>     }
+>>>
+>>>
+>>> Weird.. Is someone building proprietary modules on top of QEMU?
+>>
+>> Nope.
+>>
+>> But modules have dependencies to stuff like pci bus, usb bus, vga which
+>> might not be satisfied by some system emulators, and trying to load
+>> those modules will fail then because of unresolved symbols.  If you drop
+>> that 'make check' will log a pile of errors ...
+>>
+>> Dropping mayfail and return an 'Error' instead makes sense, then it is
+>> up to the caller to report or not report the failure.  When calling down
+>> from module_load_qom_all() you might want ignore errors for the reasons
+>> outlined above, in most other caes it probably makes sense to report
+>> them.
+>>
+>> take care,
+>>   Gerd
+>>
+>>
+> 
+> Ah I noticed only now... I just sent a series, the module_load_qom_all() then is maybe something to discuss further.
+> 
+> Thanks,
+> 
+> Claudio
+> 
 
-I can't explain how mad at me I am... I'm pretty sure your patch was the fi=
-rst
-thing I've tried when I encountered this issue. But it wasn't working
-or IIRC the
-issue went away but that was because the polling was actually disabled (loo=
-ping
-indefinitely)...I'm suspecting that I already had changed the CreateEvent f=
-or
-WSACreateEvent which forces you to handle the reset.
-Finally, I end up struggling reworking the whole check function...
-But yeah, your patch does work fine on my gdb issues too.
+I noticed however that module_load_qom_all() does _not_ pass true for mayfail.
 
-And I guess the events are reset when recv() is being called because of the
-auto-reset feature set up by CreateEvent().
-IIUC, what Marc-Andr=C3=A9 means by busy loop is the polling being looping
-indefinitely as I encountered. I can ensure that this patch doesn't do that=
-.
-It can be easily checked by setting the env variable G_MAIN_POLL_DEBUG.
-It'll show what g_poll is doing and it's normally always available on
-Windows.
+You changed this behavior in:
 
-Anyway, we'll wait for Paolo to see if he remembers why he had to call
-WSAEnumNetworkEvents. Otherwize, let's go for your patch. Mine might
-be a good start to improve the whole polling on Windows but if it doesn't
-work in your case, it then needs some refinements.
+commit 9f4a0f0978cde9d8e27453b3f2d3679b53623c47
+Author: Gerd Hoffmann <kraxel@redhat.com>
+Date:   Thu Jun 24 12:38:17 2021 +0200
+
+    modules: use modinfo for qom load
+    
+    Use module database to figure which module implements a given QOM type.
+    Drop hard-coded object list.
+    
+    Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+    Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+    Reviewed-by: Jose R. Ziviani <jziviani@suse.de>
+    Message-Id: <20210624103836.2382472-16-kraxel@redhat.com>
+    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+
+and from the patch I understand that this made the mayfail argument completely unnecessary, is that correct?
 
 Thanks,
-Cl=C3=A9ment
+
+Claudio
+
 
