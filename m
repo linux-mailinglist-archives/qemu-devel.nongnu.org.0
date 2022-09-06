@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 918EA5AE65E
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 13:21:02 +0200 (CEST)
-Received: from localhost ([::1]:41004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3C1E5AE6DF
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 13:49:18 +0200 (CEST)
+Received: from localhost ([::1]:41784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVWdZ-0003ML-Ha
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 07:21:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46480)
+	id 1oVX4v-0007AD-VP
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 07:49:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVVeq-0003Ol-OE
+ id 1oVVeq-0003Ok-OP
  for qemu-devel@nongnu.org; Tue, 06 Sep 2022 06:18:17 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:40523)
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:54852)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVVeh-0005Cx-An
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 06:18:12 -0400
-Received: by mail-wr1-x431.google.com with SMTP id b16so14692126wru.7
- for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 03:18:06 -0700 (PDT)
+ id 1oVVej-0005GY-7A
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 06:18:13 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id s23so6612870wmj.4
+ for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 03:18:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=B458Afawec85XoXWpbjPbqxmo9p/Fje9hPN8wU9nu7E=;
- b=UiUweQOKTQn4C1NsSWHUPc8QeObtZn8xaOOAwLTmW57B6Lr9PjpntCA++aqW2n4CdX
- MSkp2AqS6vZohKOF9Hm0Rw3JqscYLLWdYlRu4ZaSNGf02uKKp+PNNNPtFWUZvCUfcR/y
- guwOPQNdLyQuRCySXzhMC7B0KNCM+iLZQ90BsHnZ+vxkjxWWXPXLNn1OEmFxArkNZuIj
- TG5wA/6/zxaCYIqC36/E0sm2u2K7oTm4Br/0snkdxLbgS2MPvXoFvKACiAdWj2fXgPmO
- HoV3EHUxR5Kgsp/93L2sPzzHnmsSTMMj+yvB2djc8xujSOd+Z0XnFa9kkWvX+FIE7i5d
- J5RA==
+ bh=OGKK8ii462fh2FYHuqVoO8HNQ7SQYpLXPO2c0Erkaco=;
+ b=nzgLiAURtWBJa6M/P/5R8CKZZT8hkCxWxG6BBTzCvbAO9EnqKeqtlt+jDdNycFfN0E
+ g+OWKC8OHcmkF+ZLkfEkwWa4Pl8XNnGecRchsdN82zrh883CSQ804R2KJUv1rGK4Mvcl
+ NIuKu2SKEx3MP0O3BC0aQHxhzT1WtfiYrlDq0EOkz3X/F8mw+A2D4vgx9NuwoQMVBNkj
+ JJmlNRj0ETkWVjWm9fq5ygD6lKf4ex1s/Felg2Zb7z7HwUMA/cGboLkfBhHyVmFVQypz
+ ZkBO14KJ4CuXeeN2brHhlJXQhmp0kdmMx84N+q5sUpBAXc019n7l2XemjHtFZYZE0rBg
+ zrEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=B458Afawec85XoXWpbjPbqxmo9p/Fje9hPN8wU9nu7E=;
- b=MtYPEdin9OdxPDTNeBNiTnZsJQR5Dab6amsi0x480FLUI2mJyZ85PT1sR4EJwFraPI
- VSPJqausG9VDMZEjeBW1q4ovWCdon7Lil4/IIaaKd5ry+fJ5lA3a2AVtgZcPWu++PkWt
- dV13al/cJIJwhaWnyXmPb2yU8Al/TaTN1YMdAVxd88Yt4iUnJbjYN/z1z5Tv4INfu71K
- nJbxgSUBbBNj+Zj/fHn/gsFuirn9vQDrRnRuwMhLcpGA1B9DO3b8aBSMOV1lkerlzwB3
- AwcgsAmhSkJSQhkuWehK/AXDV5p0N7Hv3+GXBwjPxwtx5HsxP0nKstkHWhMHI8kBmi6L
- 3BMg==
-X-Gm-Message-State: ACgBeo2rv3gthhE9SrkARuoUaus8D0sJdKxklzkl+dyzsHRKdhGXGjWA
- 6yHrBf1p6vHBuO+BBml4gojD8EJh0PP01IzS
-X-Google-Smtp-Source: AA6agR4cnZugKPbHtUFS5SajSjOLLRbmgEgP6UfZpdhm5lSgkJMTK36GlL0QnK48hZlriqlHEG90Cg==
-X-Received: by 2002:a5d:6911:0:b0:226:f5d9:d545 with SMTP id
- t17-20020a5d6911000000b00226f5d9d545mr13909028wru.469.1662459486557; 
- Tue, 06 Sep 2022 03:18:06 -0700 (PDT)
+ bh=OGKK8ii462fh2FYHuqVoO8HNQ7SQYpLXPO2c0Erkaco=;
+ b=WeRHkhOZTNhnfoNmd7BlcOWx4+DJ6ig0Uqe9gcvkAGwVsL7h/9niSAzqR9UBuU7cSc
+ uov3QyxdcRfFSNawprfyhA805WOqQajKBkWnRJsM1gRuOV0OSJgrTAGHxQDlYJU9KKjq
+ lYpYarU+YaYHSUbHjWOwe03MN31mXHTC5FmkMROdxB7ItcdI/WQkFuCe+zxSHJNwPvk0
+ oZt5TEc1jsKHmkeO3OIlN1NLKuBUpWqWe6qbtGvj68CL73dmCJUZwtEftRLaB4Afn0cL
+ BYWwTHR33Bz/DaruFLjj8MII2VktfrS3+zntFKxxThrAAhNgTboOJVGO7Y3UW2AZCKxW
+ 22WA==
+X-Gm-Message-State: ACgBeo0d/sSfOgcVsFPgoQnfoiyJmUf5uLN74MiNhhdQBDVCiBB/h39t
+ 57zN9z+/i5CxLuX94cQussCiVlq4FUt3Nujj
+X-Google-Smtp-Source: AA6agR6qh9focY4Acrscwv0xHueeEK1EFoMcOAeLm0Vz7+PHvuNBi9rrLlErihqISJ4ngoE3p2fAtA==
+X-Received: by 2002:a05:600c:25cd:b0:3a6:811f:3a0a with SMTP id
+ 13-20020a05600c25cd00b003a6811f3a0amr13311461wml.53.1662459487747; 
+ Tue, 06 Sep 2022 03:18:07 -0700 (PDT)
 Received: from localhost.localdomain
  ([2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1])
  by smtp.gmail.com with ESMTPSA id
- y16-20020a05600c365000b003a62bc1735asm14094361wmq.9.2022.09.06.03.18.05
+ y16-20020a05600c365000b003a62bc1735asm14094361wmq.9.2022.09.06.03.18.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 03:18:06 -0700 (PDT)
+ Tue, 06 Sep 2022 03:18:07 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-s390x@nongnu.org
-Subject: [PATCH v1 17/26] target/s390x: Introduce help_goto_indirect
-Date: Tue,  6 Sep 2022 11:17:38 +0100
-Message-Id: <20220906101747.344559-18-richard.henderson@linaro.org>
+Subject: [PATCH v1 18/26] target/s390x: Split per_branch
+Date: Tue,  6 Sep 2022 11:17:39 +0100
+Message-Id: <20220906101747.344559-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220906101747.344559-1-richard.henderson@linaro.org>
 References: <20220906101747.344559-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,64 +90,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a small helper to handle unconditional indirect jumps.
+Split into per_branch_dest and per_branch_disp, which can be
+used for direct and indirect.  In preperation for TARGET_TB_PCREL,
+call per_branch_* before indirect branches.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/tcg/translate.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ target/s390x/tcg/translate.c | 32 ++++++++++++++++++--------------
+ 1 file changed, 18 insertions(+), 14 deletions(-)
 
 diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index fc6b04e23e..712f6d5795 100644
+index 712f6d5795..bd2ee1c96e 100644
 --- a/target/s390x/tcg/translate.c
 +++ b/target/s390x/tcg/translate.c
-@@ -1189,6 +1189,13 @@ static DisasJumpType help_goto_direct(DisasContext *s, int64_t disp)
-     }
+@@ -350,21 +350,25 @@ static inline bool per_enabled(DisasContext *s)
+ #endif
  }
  
-+static DisasJumpType help_goto_indirect(DisasContext *s, TCGv_i64 dest)
-+{
-+    tcg_gen_mov_i64(psw_addr, dest);
-+    per_branch(s, false);
-+    return DISAS_PC_UPDATED;
+-static void per_branch(DisasContext *s, bool to_next)
++static void per_branch_dest(DisasContext *s, TCGv_i64 dest)
+ {
+ #ifndef CONFIG_USER_ONLY
+     gen_psw_addr_disp(s, gbea, 0);
++    if (s->base.tb->flags & FLAG_MASK_PER) {
++        gen_helper_per_branch(cpu_env, gbea, dest);
++    }
++#endif
 +}
-+
- static DisasJumpType help_branch(DisasContext *s, DisasCompare *c,
-                                  bool is_imm, int imm, TCGv_i64 cdest)
- {
-@@ -1219,9 +1226,7 @@ static DisasJumpType help_branch(DisasContext *s, DisasCompare *c,
-             goto egress;
-         }
-         if (c->cond == TCG_COND_ALWAYS) {
--            tcg_gen_mov_i64(psw_addr, cdest);
--            per_branch(s, false);
--            ret = DISAS_PC_UPDATED;
-+            ret = help_goto_indirect(s, cdest);
-             goto egress;
-         }
+ 
+-    if (per_enabled(s)) {
+-        if (to_next) {
+-            TCGv_i64 next_pc = tcg_temp_new_i64();
+-
+-            gen_psw_addr_disp(s, next_pc, s->ilen);
+-            gen_helper_per_branch(cpu_env, gbea, next_pc);
+-            tcg_temp_free_i64(next_pc);
+-        } else {
+-            gen_helper_per_branch(cpu_env, gbea, psw_addr);
+-        }
++static void per_branch_disp(DisasContext *s, int64_t disp)
++{
++#ifndef CONFIG_USER_ONLY
++    gen_psw_addr_disp(s, gbea, 0);
++    if (s->base.tb->flags & FLAG_MASK_PER) {
++        TCGv_i64 dest = tcg_temp_new_i64();
++        gen_psw_addr_disp(s, dest, disp);
++        gen_helper_per_branch(cpu_env, gbea, dest);
++        tcg_temp_free_i64(dest);
      }
-@@ -1545,9 +1550,7 @@ static DisasJumpType op_bas(DisasContext *s, DisasOps *o)
+ #endif
+ }
+@@ -1172,7 +1176,7 @@ struct DisasInsn {
+ static DisasJumpType help_goto_direct(DisasContext *s, int64_t disp)
  {
-     pc_to_link_info(o->out, s);
-     if (o->in2) {
--        tcg_gen_mov_i64(psw_addr, o->in2);
--        per_branch(s, false);
--        return DISAS_PC_UPDATED;
-+        return help_goto_indirect(s, o->in2);
-     } else {
+     if (disp == s->ilen) {
+-        per_branch(s, true);
++        per_branch_disp(s, disp);
          return DISAS_NEXT;
      }
-@@ -1580,9 +1583,7 @@ static DisasJumpType op_bal(DisasContext *s, DisasOps *o)
- {
-     save_link_info(s, o);
-     if (o->in2) {
--        tcg_gen_mov_i64(psw_addr, o->in2);
--        per_branch(s, false);
--        return DISAS_PC_UPDATED;
-+        return help_goto_indirect(s, o->in2);
+     if (use_goto_tb(s, s->base.pc_next + disp)) {
+@@ -1184,7 +1188,7 @@ static DisasJumpType help_goto_direct(DisasContext *s, int64_t disp)
+         return DISAS_NORETURN;
      } else {
-         return DISAS_NEXT;
+         update_psw_addr_disp(s, disp);
+-        per_branch(s, false);
++        per_branch_dest(s, psw_addr);
+         return DISAS_PC_UPDATED;
      }
+ }
+@@ -1192,7 +1196,7 @@ static DisasJumpType help_goto_direct(DisasContext *s, int64_t disp)
+ static DisasJumpType help_goto_indirect(DisasContext *s, TCGv_i64 dest)
+ {
+     tcg_gen_mov_i64(psw_addr, dest);
+-    per_branch(s, false);
++    per_branch_dest(s, psw_addr);
+     return DISAS_PC_UPDATED;
+ }
+ 
 -- 
 2.34.1
 
