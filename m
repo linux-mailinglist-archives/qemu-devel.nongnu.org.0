@@ -2,70 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E90285AE134
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 09:36:57 +0200 (CEST)
-Received: from localhost ([::1]:53100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48FA45AE171
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 09:44:40 +0200 (CEST)
+Received: from localhost ([::1]:52062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVT8i-00005R-J0
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 03:36:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39100)
+	id 1oVTGB-00082H-CR
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 03:44:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
- id 1oVT3Y-0003It-ML; Tue, 06 Sep 2022 03:31:36 -0400
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:47716)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
- id 1oVT3U-0002xm-7J; Tue, 06 Sep 2022 03:31:35 -0400
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
- (vla1-81430ab5870b.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id C99B62E2DF4;
- Tue,  6 Sep 2022 10:31:21 +0300 (MSK)
-Received: from d-tatianin-nix.yandex.net (unknown
- [2a02:6b8:0:419:d8d0:8d85:2aad:ab5b])
- by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- WefwVQnsrp-VKXinvwg; Tue, 06 Sep 2022 10:31:20 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Precedence: bulk
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1662449480; bh=0D0HHr/ucF+3QHpLGClIrwqsInvbQHeZacJYLryFmA4=;
- h=Cc:Message-Id:References:Date:In-Reply-To:Subject:To:From;
- b=Mc6DO25biJ419BEw1oyo05Ys2kuRgcQgX3jo58XJn1HuB/WoZn5/eSVvjLxCspLyS
- 0GT81tlbCYlM435uYnXo7JmuSheyGP8soVFZaAnIXK13q3RExznVix+3uDtMtFPrxf
- wrPPJ5d7ZwGFpxiGIaWK0b0vlhwVVgPKpFJ8w838=
-Authentication-Results: vla1-81430ab5870b.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Daniil Tatianin <d-tatianin@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Cc: yc-core@yandex-team.ru, mst@redhat.com, stefanha@redhat.com,
- raphael.norwitz@nutanix.com, kwolf@redhat.com, qemu-block@nongnu.org,
- jasowang@redhat.com, d-tatianin@yandex-team.ru
-Subject: [PATCH v3 5/5] vhost-user-blk: dynamically resize config space based
- on features
-Date: Tue,  6 Sep 2022 10:31:11 +0300
-Message-Id: <20220906073111.353245-6-d-tatianin@yandex-team.ru>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220906073111.353245-1-d-tatianin@yandex-team.ru>
-References: <20220906073111.353245-1-d-tatianin@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oVT7a-0007MA-8v
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 03:35:46 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:43734)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oVT7Y-0003YE-CM
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 03:35:45 -0400
+Received: by mail-wr1-x436.google.com with SMTP id t7so9049063wrm.10
+ for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 00:35:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=ikx7nJZviP34EixDJTT5ZOTQd0XCieU1V/8Sda0JO7U=;
+ b=E09jAa8JZj9Z5Xbq9QlKcRFnMsb20v4oONwYsRlnpLsguvnW3RW3S3lPXzcknGOp6f
+ EKzuzHBvgwfLLKBbyvvO/npeWEBKwc/jhX5s+HhcqUXg7lQbDbjPkv4LzbQJVjPhe2NJ
+ vaWHWMnPVmXI/ucAYjL5UwYPHmxfRunbG+pJb25CiFtAkqsl3/5PxGr+cd95vigfu2dn
+ 6JGTp6v+WwvV52pU549Lxmpl19dimhYhN+weA6cKjALoEwhBTmtSCSpnVSlrhkBpCJfZ
+ gb2Kta/s2eN1OD+mRT5oJrwbPUK6nB6B0+YnlEUlZEJvBphPw3Z08eUGdAQv64mriC+T
+ ANBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=ikx7nJZviP34EixDJTT5ZOTQd0XCieU1V/8Sda0JO7U=;
+ b=ozXp5qysU1lYyaMaaGDu81LShTjsayHiwbt995QmIJ78PUoyQ2csNV8DFDLI2LobZU
+ ZeVRWUAIcgOefGuCEVe11mplnOzQg/h6LphsO2kfYfdr4uLO6cdcLdqzFoxmv0X3Frw0
+ n+tx9GlszE1/bQoXJwxor6m5GbgjnjWeN8bN4pbaRlXinSZd+DEiSv2KpZlYW9OEzzu8
+ 6G37CIHPjPzDrbenumxs/tbaAHBzjQNZ4zBSh1MI21gNiy3Nw4/U4kg5B+yyu93zoChx
+ KRBDgQ6VGdxducu62lxNjJjI5F2o9K7wf8X/IZAzL7InFzCQ8U6Y2U35UMbqwrJrQeG4
+ bp4g==
+X-Gm-Message-State: ACgBeo0rIh72gIWbGRiozgLkz3Mba1w/QFF+O9Y9XMKhiiP2Cj5we8HN
+ EIec4F0JDY2yMrm/QpQF1Q+19A==
+X-Google-Smtp-Source: AA6agR6nedwCLtDA7NYTSHXgw/doBhuCxsgLfyStdEdzdcTYuIk2Nz8oUQOpGUJagessxtRafESrRQ==
+X-Received: by 2002:a5d:630f:0:b0:225:617c:8076 with SMTP id
+ i15-20020a5d630f000000b00225617c8076mr26951259wru.692.1662449742687; 
+ Tue, 06 Sep 2022 00:35:42 -0700 (PDT)
+Received: from ?IPV6:2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1?
+ ([2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1])
+ by smtp.gmail.com with ESMTPSA id
+ n5-20020a05600c304500b003a5de95b105sm18856969wmh.41.2022.09.06.00.35.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Sep 2022 00:35:42 -0700 (PDT)
+Message-ID: <7d31b5bc-65a1-db1a-b7ac-b462e802e5cb@linaro.org>
+Date: Tue, 6 Sep 2022 08:35:39 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.45.199.163;
- envelope-from=d-tatianin@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 0/5] linux-user: Passthrough MADV_DONTNEED for certain
+ file mappings
+Content-Language: en-US
+To: Ilya Leoshkevich <iii@linux.ibm.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Taylor Simpson <tsimpson@quicinc.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org
+References: <20220906000839.1672934-1-iii@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220906000839.1672934-1-iii@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,137 +98,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make vhost-user-blk backwards compatible when migrating from older VMs
-running with modern features turned off, the same way it was done for
-virtio-blk in 20764be0421c ("virtio-blk: set config size depending on the features enabled")
+On 9/6/22 01:08, Ilya Leoshkevich wrote:
+> Hi,
+> 
+> This series is made of patches from [1]. I've added a test and noticed
+> that madvise(MADV_DONTNEED) was broken on alpha, fixing which required
+> adding per-arch MADV_* definitions. This in turn affected the strace
+> patch, so it made sense to make a series out of the results.
+> 
+> Patch 1 adds MADV_* constants for all architectures.
+> Patch 2 fixes the alpha bug.
+> Patch 3 adds madvise() support to strace.
+> Patch 4 adds MADV_DONTNEED support for file mappings.
+> Patch 5 adds a test.
 
-It's currently impossible to migrate from an older VM with
-vhost-user-blk (with disable-legacy=off) because of errors like this:
+Thanks for that, series
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x10 read: 41 device: 1 cmask: ff wmask: 80 w1cmask:0
-qemu-system-x86_64: Failed to load PCIDevice:config
-qemu-system-x86_64: Failed to load virtio-blk:virtio
-qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:05.0:00.0:02.0/virtio-blk'
-qemu-system-x86_64: load of migration failed: Invalid argument
 
-This is caused by the newer (destination) VM requiring a bigger BAR0
-alignment because it has to cover a bigger configuration space, which
-isn't actually needed since those additional config fields are not
-active (write-zeroes/discard).
-
-Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
-Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
----
- MAINTAINERS               |  2 ++
- hw/block/meson.build      |  2 +-
- hw/block/vhost-user-blk.c | 17 ++++++++++-------
- 3 files changed, 13 insertions(+), 8 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2858577c5b..a7d3914735 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2273,11 +2273,13 @@ S: Maintained
- F: contrib/vhost-user-blk/
- F: contrib/vhost-user-scsi/
- F: hw/block/vhost-user-blk.c
-+F: hw/block/virtio-blk-common.c
- F: hw/scsi/vhost-user-scsi.c
- F: hw/virtio/vhost-user-blk-pci.c
- F: hw/virtio/vhost-user-scsi-pci.c
- F: include/hw/virtio/vhost-user-blk.h
- F: include/hw/virtio/vhost-user-scsi.h
-+F: include/hw/virtio/virtio-blk-common.h
- 
- vhost-user-gpu
- M: Marc-André Lureau <marcandre.lureau@redhat.com>
-diff --git a/hw/block/meson.build b/hw/block/meson.build
-index 8ee1f1f850..1908abd45c 100644
---- a/hw/block/meson.build
-+++ b/hw/block/meson.build
-@@ -17,6 +17,6 @@ softmmu_ss.add(when: 'CONFIG_XEN', if_true: files('xen-block.c'))
- softmmu_ss.add(when: 'CONFIG_TC58128', if_true: files('tc58128.c'))
- 
- specific_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-blk.c', 'virtio-blk-common.c'))
--specific_ss.add(when: 'CONFIG_VHOST_USER_BLK', if_true: files('vhost-user-blk.c'))
-+specific_ss.add(when: 'CONFIG_VHOST_USER_BLK', if_true: files('vhost-user-blk.c', 'virtio-blk-common.c'))
- 
- subdir('dataplane')
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 0d916edefa..8dd063eb96 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -23,6 +23,7 @@
- #include "hw/qdev-core.h"
- #include "hw/qdev-properties.h"
- #include "hw/qdev-properties-system.h"
-+#include "hw/virtio/virtio-blk-common.h"
- #include "hw/virtio/vhost.h"
- #include "hw/virtio/vhost-user-blk.h"
- #include "hw/virtio/virtio.h"
-@@ -63,7 +64,7 @@ static void vhost_user_blk_update_config(VirtIODevice *vdev, uint8_t *config)
-     /* Our num_queues overrides the device backend */
-     virtio_stw_p(vdev, &s->blkcfg.num_queues, s->num_queues);
- 
--    memcpy(config, &s->blkcfg, sizeof(struct virtio_blk_config));
-+    memcpy(config, &s->blkcfg, vdev->config_len);
- }
- 
- static void vhost_user_blk_set_config(VirtIODevice *vdev, const uint8_t *config)
-@@ -92,12 +93,12 @@ static int vhost_user_blk_handle_config_change(struct vhost_dev *dev)
- {
-     int ret;
-     struct virtio_blk_config blkcfg;
-+    VirtIODevice *vdev = dev->vdev;
-     VHostUserBlk *s = VHOST_USER_BLK(dev->vdev);
-     Error *local_err = NULL;
- 
-     ret = vhost_dev_get_config(dev, (uint8_t *)&blkcfg,
--                               sizeof(struct virtio_blk_config),
--                               &local_err);
-+                               vdev->config_len, &local_err);
-     if (ret < 0) {
-         error_report_err(local_err);
-         return ret;
-@@ -106,7 +107,7 @@ static int vhost_user_blk_handle_config_change(struct vhost_dev *dev)
-     /* valid for resize only */
-     if (blkcfg.capacity != s->blkcfg.capacity) {
-         s->blkcfg.capacity = blkcfg.capacity;
--        memcpy(dev->vdev->config, &s->blkcfg, sizeof(struct virtio_blk_config));
-+        memcpy(dev->vdev->config, &s->blkcfg, vdev->config_len);
-         virtio_notify_config(dev->vdev);
-     }
- 
-@@ -442,7 +443,7 @@ static int vhost_user_blk_realize_connect(VHostUserBlk *s, Error **errp)
-     assert(s->connected);
- 
-     ret = vhost_dev_get_config(&s->dev, (uint8_t *)&s->blkcfg,
--                               sizeof(struct virtio_blk_config), errp);
-+                               s->parent_obj.config_len, errp);
-     if (ret < 0) {
-         qemu_chr_fe_disconnect(&s->chardev);
-         vhost_dev_cleanup(&s->dev);
-@@ -457,6 +458,7 @@ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
-     ERRP_GUARD();
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VHostUserBlk *s = VHOST_USER_BLK(vdev);
-+    size_t config_size;
-     int retries;
-     int i, ret;
- 
-@@ -487,8 +489,9 @@ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    virtio_init(vdev, VIRTIO_ID_BLOCK,
--                sizeof(struct virtio_blk_config));
-+    config_size = virtio_get_config_size(&virtio_blk_cfg_size_params,
-+                                         vdev->host_features);
-+    virtio_init(vdev, VIRTIO_ID_BLOCK, config_size);
- 
-     s->virtqs = g_new(VirtQueue *, s->num_queues);
-     for (i = 0; i < s->num_queues; i++) {
--- 
-2.25.1
-
+r~
 
