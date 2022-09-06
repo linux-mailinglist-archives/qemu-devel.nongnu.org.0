@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FCD45AE60F
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 12:58:14 +0200 (CEST)
-Received: from localhost ([::1]:43080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 972755AE650
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 13:14:38 +0200 (CEST)
+Received: from localhost ([::1]:46482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVWHV-0002rv-6e
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 06:58:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57662)
+	id 1oVWXN-00066Q-Li
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 07:14:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVVWm-0000Gt-Ir
+ id 1oVVWo-0000Ha-53
  for qemu-devel@nongnu.org; Tue, 06 Sep 2022 06:09:58 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42543)
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:34790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVVWk-0003Yc-UX
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 06:09:56 -0400
-Received: by mail-wr1-x433.google.com with SMTP id bp20so14180015wrb.9
- for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 03:09:54 -0700 (PDT)
+ id 1oVVWm-0003cm-MD
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 06:09:57 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id e13so14677300wrm.1
+ for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 03:09:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=sStumSItgDeXZaFuVPIAQyYganzdZgHWxSiIZOoEM0E=;
- b=Fwy0ioLKe6rJKVIj1oG3x2siEffFxo9xVtQJxk6s6wW++Xcq/HD+O0HM2pVam04/Po
- kNYva3iAhePF0ksvC62ysvy/5FmDGw/VcSlHfZbMMAAYI1aZ9mZjGPq0zklaWtflY85I
- HnLr8JsZqcCByb/lqEVNqNDqgBkUAhMXLtYvhY/59zioTbeQZrjyB6ZD7d9qIspQoBJi
- DrtnQjXpPpMHkLaMzOA27P/W9Rc98pHbb5P8fhfk5FYlPtCaaCHybnY3POlI0CHaDahk
- Hrk90xkSIjGcr8rTCvPLl3/2C9m8Y9Zy/gCckRsiZF0SS3pDGwp5BmzIHQoTScwj3CoR
- x3Uw==
+ bh=nVh1xXH3Saj+Yr5nLG8CgQIGecm00fAvyeGV47OTtj0=;
+ b=XApaAhxuqVjsnpCPMH+8emtRkj2tbJ0e0g6cYkA/g0gdVs8zgJwJ7NoUDMv+HAg32G
+ Yap7geWSr4OEBPcdloIIcembAY8qRS3e4lyXnThzQF5iF54cjDjR6DwWaQ7vwW09F9jl
+ qFbDQx1mDKa4wjzTVtyo0haRqMp9a3QJ0jBG+ZAQ2xfBKtmuaWomDylvftTtoBu4GiwQ
+ GS8cWAIMyT4vFmaQInZW3v8WEQUDwFGvl0yywHTQo22nonIZgNQ6VLnCZupvV3mRr4F8
+ 2ULApcAiaqDw10g69U6L8RgSTE8jBtU+P1DfkfAtmvi0nKbAs83AkSpx9qd1PU9IfL+M
+ WikA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=sStumSItgDeXZaFuVPIAQyYganzdZgHWxSiIZOoEM0E=;
- b=yiHPfJJlvX91tU4WUpx5ii2bc3BK5p6w1+cUOjxZubrUODZR0qmlmr+QFBZ9Ib+MXa
- wYCzhvNIot/5b+XXW2qR+WFjcnYpeuuk5Sh/K3/U9ipKg0Zv5K3AbLPPeVadMfoEQpKi
- sp2BJzBY1G8SwL06kCPbp6YIxY6SuuXt5XN8AY5iWzubqOgejOmUmOW70VdX0oeJJaqk
- GnIPnAcvYddBdRtmdF2np2cL87Vbf7Sh9147aPTuGp5upXm2lFD9eVzNi4sfvnJueLMZ
- AknlKXFbk/nNMQLjpcCYvM1zjU02A1lk2cJ4N0Wk6AyFZHv8XDd4EC5fXOzrZyD9z0TN
- zAxA==
-X-Gm-Message-State: ACgBeo08yiCbPvL//C4zlaQyzx4opO7PM5cECSs85B4a4M61E+qiYw6P
- ldWMVj3akrHUWrgv5DgBBsv2GVDn2l31GUUI
-X-Google-Smtp-Source: AA6agR5jDmuTZQi1nI04a8aXVqs39ZSL8O7XQt93XW3x2O9qs+EP5PZidtspS4fwkQ8w7Tmkfw2J2w==
-X-Received: by 2002:a5d:59a6:0:b0:228:ac72:3c27 with SMTP id
- p6-20020a5d59a6000000b00228ac723c27mr4337975wrr.73.1662458994244; 
- Tue, 06 Sep 2022 03:09:54 -0700 (PDT)
+ bh=nVh1xXH3Saj+Yr5nLG8CgQIGecm00fAvyeGV47OTtj0=;
+ b=VwSKFVEro2eAjrFCjA8HS8rG/vee2h+pz51drQCSeg3Zmdw2skkUhD0YQ4UDqeS132
+ 7t1W9qhAkKTJdEijoNHyMa7uDkVjXcFagn0j3rzyThE3/qU4e1TvxZGjkwAPYXZrQNBU
+ +2uBY6JDx1bAbPMBZvasTAqpLW4NNDq15cFEPsaxKSX94JuKw3b6rkVjx00Vh6e7fee1
+ BWMIDXnjdGC4JFbv1nU9INd9KZxwgJ0QZITAnwZmMKGeu5WHZGCgvl+N5Ibt+ekwVfS4
+ t+ylcp6DCah/mZec1uKQO03gS4CG63YMS3XlhERHXU9jS8T6hC8cGQEigGX5yRuEdfbp
+ NXsQ==
+X-Gm-Message-State: ACgBeo1d2jazeQ2MXnSwBFtk1U4Typ6UUKzhnQbkuD46vl3miUWQuci2
+ qs7UjRAq+iSKQn+k2draTEhxESbPC6Canh+f
+X-Google-Smtp-Source: AA6agR5NenMiRI4QHECe28Qz3vZME0FNNwRskEMNQKLtEUEIAm7BLAVNWkMZSkVaYVay9y+KlhrBwg==
+X-Received: by 2002:adf:db85:0:b0:225:2d24:9455 with SMTP id
+ u5-20020adfdb85000000b002252d249455mr27850689wri.711.1662458995164; 
+ Tue, 06 Sep 2022 03:09:55 -0700 (PDT)
 Received: from localhost.localdomain
  ([2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1])
  by smtp.gmail.com with ESMTPSA id
- f25-20020a1c6a19000000b003a840690609sm23125014wmc.36.2022.09.06.03.09.53
+ f25-20020a1c6a19000000b003a840690609sm23125014wmc.36.2022.09.06.03.09.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 03:09:53 -0700 (PDT)
+ Tue, 06 Sep 2022 03:09:54 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com
-Subject: [PATCH v2 21/23] target/i386: Use gen_jmp_rel for DISAS_TOO_MANY
-Date: Tue,  6 Sep 2022 11:09:30 +0100
-Message-Id: <20220906100932.343523-22-richard.henderson@linaro.org>
+Subject: [PATCH v2 22/23] target/i386: Create gen_eip_cur
+Date: Tue,  6 Sep 2022 11:09:31 +0100
+Message-Id: <20220906100932.343523-23-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220906100932.343523-1-richard.henderson@linaro.org>
 References: <20220906100932.343523-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,28 +90,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With gen_jmp_rel, we may chain between two translation blocks
-which may only be separated because of TB size limits.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 3 +++
- 1 file changed, 3 insertions(+)
+ target/i386/tcg/translate.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 7a9e533c6e..97a5f7e432 100644
+index 97a5f7e432..39bcb7263b 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -8740,6 +8740,9 @@ static void i386_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-     case DISAS_NORETURN:
-         break;
-     case DISAS_TOO_MANY:
-+        gen_update_cc_op(dc);
-+        gen_jmp_rel(dc, MO_32, 0, 0);
-+        break;
-     case DISAS_EOB_NEXT:
-         gen_update_cc_op(dc);
-         gen_update_eip_cur(dc);
+@@ -516,6 +516,11 @@ static inline void gen_op_st_rm_T0_A0(DisasContext *s, int idx, int d)
+     }
+ }
+ 
++static TCGv gen_eip_cur(DisasContext *s)
++{
++    return tcg_constant_tl(s->base.pc_next - s->cs_base);
++}
++
+ static void gen_jmp_im(DisasContext *s, target_ulong pc)
+ {
+     gen_op_jmp_v(tcg_constant_tl(pc));
+@@ -6574,7 +6579,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+                                offsetof(CPUX86State, segs[R_CS].selector));
+                 tcg_gen_st16_i32(s->tmp2_i32, cpu_env,
+                                  offsetof(CPUX86State, fpcs));
+-                tcg_gen_st_tl(tcg_constant_tl(s->base.pc_next - s->cs_base),
++                tcg_gen_st_tl(gen_eip_cur(s),
+                               cpu_env, offsetof(CPUX86State, fpip));
+             }
+         }
 -- 
 2.34.1
 
