@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 503E85AE6D1
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 13:45:40 +0200 (CEST)
-Received: from localhost ([::1]:47570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8534D5AE654
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 13:16:36 +0200 (CEST)
+Received: from localhost ([::1]:35616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVX1O-00046U-Vw
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 07:45:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37522)
+	id 1oVWZH-0007wB-HA
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 07:16:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVVeW-0003Cj-6e
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 06:17:56 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:36533)
+ id 1oVVeZ-0003K8-2n
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 06:17:59 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:44833)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVVeT-0005BP-Lk
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 06:17:55 -0400
-Received: by mail-wr1-x430.google.com with SMTP id b17so1348963wrq.3
- for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 03:17:53 -0700 (PDT)
+ id 1oVVeV-00059u-CC
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 06:17:57 -0400
+Received: by mail-wr1-x435.google.com with SMTP id c11so10463469wrp.11
+ for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 03:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=ANAO+fxWijWMMNf02gQ41mdu8Z3ZVUxIoag7ddJorMU=;
- b=iS0oIfDz+mXmOqviZXqu+lrma9F/QviizLVxSts0DmVAxSxerA3BJ0YFaD2VwnML6G
- aQsT0RRfJLfC7WFryHO2PiC1gtKNVdvfW4c7PSSyDTrJAClEVwAaB7KmAz4OOOu5ATP5
- TJj9F8ZWp9NvmajtKsT/Cs8LpcxvLFHTJObpyyxNPCjDE6WgYvt9UoilyFEJa0u1OH8R
- bO/lbMkp4I7cMU7sTGQkeWiMSYf5cCNgZn70XhcLQEetRMbYEIP4pgKKAp+NVyGjGlgA
- VAORuAFc6X4lciMY28qiCiwZ68TrTtYq/EVe4n9ffHG+dMpWrvV0GS4n9hv5whPw10yG
- U+mQ==
+ bh=TLniamy6RaDceg5E0CUD7LIlTHkR5S1SB06UOtygodc=;
+ b=jSRkCwwTz/kAq8ihDZPm0RfD6rf+2RWhrRX97CuCeJVuaKVEx2pwqg0yKvscc1D1ar
+ IRVZBkLEv3paFcjbYaizmLgTaj5mjN+h1ssri+kemFya5BBzkHe1/nXqktlLSS3NnNfR
+ YwaB63QJ2RuxKu/Da1p7YcDGRUpZk6MJHx5EeqUYaWrDY/ywprTO69YUNHDqRmjZUNzr
+ fe6YzYAwbrkyM2A48OBkTJJQkOEE1Brb68mWAyuOC+1rVZjQYi9CE/NXO6s5wryt8X1J
+ rPJOMuH5sac914rBBHEtVfzHj612Gl1/4iw1d+LZaS40LLx+3jGgOwqXn36jpfQKi/XX
+ pVIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=ANAO+fxWijWMMNf02gQ41mdu8Z3ZVUxIoag7ddJorMU=;
- b=A9QsvdUc7Rq8YnAppgOnvb8q2CS4X7CaNj2qQoLMQTuPD1hjAZp+rVRXooGfwwkcaa
- XSjj04BpF5KrXE5qWa22SDbmqxTUcSIjrkWjSEw/7l5vfJdWE3miK/uxoJdSRZyJs7yu
- 1heI2MGLHEO0pWkMv+7tFSPUMKwnALIsJwML9k1v/c6e+0sOdTyUl4cAj0psJ7LWm1sV
- E1sbPlDr/ZqYykVw3HtryFm7EbZVfaw0ZDK9PcM7cvx7bGNNsXB8+Mz4kzymlTDuKpS2
- L3HOPX9qrYvTA4pQZ4tfzqHB3WlrnLfV/TDrj0orXWWpB3n89FYalMySqLngOA3Ciy/L
- sDsg==
-X-Gm-Message-State: ACgBeo3SDYe2WjNQxD9MiTgW8rMPxJOcsSAjEM6jvET+Wtu4fxVheAC9
- AuL641ZQFZtBMwBFKLaoZG0wf2aFCWwpAQAX
-X-Google-Smtp-Source: AA6agR51MZTwArHN701Ilk3X8jt3Q2MOsmWC0A+Cpan5JxQsWZszBpSgbkcOY2shGoJLwQwHHBYqiQ==
-X-Received: by 2002:a5d:4c51:0:b0:226:d2fb:85d7 with SMTP id
- n17-20020a5d4c51000000b00226d2fb85d7mr26114392wrt.210.1662459472306; 
- Tue, 06 Sep 2022 03:17:52 -0700 (PDT)
+ bh=TLniamy6RaDceg5E0CUD7LIlTHkR5S1SB06UOtygodc=;
+ b=6MRCaGO9M+Kgf7tUFkBywixyqShI4x+WZZMdB6t/KEwbb6jgr+MBq/t3FIOJSHWyBg
+ KjE0l2nq6F8yH/aoxeUT15CzawmBC//CfsWuu/63cn/LOvhtA/9S3xJKproMs1QzjvGA
+ xs7alPskW75flsrLOYCAkcPnGGF59lR0uV3T6ljQHTbuQeeXbwGA675OaC1jukNywmHj
+ r5wD8r3DixZzn77V+FAiMdgwKYlipVfxSwK2jeIPJZvYIzL/DFjUzMb/Bq+ltO+iIk8X
+ K+N5bMShDjAh6dxBpYRWw+gErQgKNzNoQ5TvaajsSmsIY+cliIGCaGHrU5WTSyzTIgXh
+ F18g==
+X-Gm-Message-State: ACgBeo02EaTMKpgWX45gyTB1i8u5Lv0/u6OG+FyhZW/GBl8jXLdcGGB3
+ cxIm6ncIt7u2eMdIZwQJVujDZpSGDp2aPpC5
+X-Google-Smtp-Source: AA6agR44XB4dpp9Z6AWhVZyIi6dR/Sm5O8QkuUi7Y7fDYsXJLEvYrzXMmvcrLh/FBTEWSeXot6CoHQ==
+X-Received: by 2002:a5d:595c:0:b0:225:7264:9e74 with SMTP id
+ e28-20020a5d595c000000b0022572649e74mr27634412wri.670.1662459474554; 
+ Tue, 06 Sep 2022 03:17:54 -0700 (PDT)
 Received: from localhost.localdomain
  ([2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1])
  by smtp.gmail.com with ESMTPSA id
- y16-20020a05600c365000b003a62bc1735asm14094361wmq.9.2022.09.06.03.17.51
+ y16-20020a05600c365000b003a62bc1735asm14094361wmq.9.2022.09.06.03.17.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 03:17:51 -0700 (PDT)
+ Tue, 06 Sep 2022 03:17:54 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-s390x@nongnu.org
-Subject: [PATCH v1 04/26] target/s390x: Use tcg_constant_* in
- translate_vx.c.inc
-Date: Tue,  6 Sep 2022 11:17:25 +0100
-Message-Id: <20220906101747.344559-5-richard.henderson@linaro.org>
+Subject: [PATCH v1 06/26] target/s390x: Introduce gen_psw_addr_disp
+Date: Tue,  6 Sep 2022 11:17:27 +0100
+Message-Id: <20220906101747.344559-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220906101747.344559-1-richard.henderson@linaro.org>
 References: <20220906101747.344559-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,192 +90,202 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In most cases, this is a simple local allocate and free
-replaced by tcg_constant_*.  In three cases, a variable
-temp was initialized with a constant value -- reorg to
-localize the constant.
+In preparation for TARGET_TB_PCREL, reduce reliance on absolute values.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/tcg/translate_vx.c.inc | 45 +++++++++++++----------------
- 1 file changed, 20 insertions(+), 25 deletions(-)
+ target/s390x/tcg/translate.c | 69 ++++++++++++++++++++++++------------
+ 1 file changed, 46 insertions(+), 23 deletions(-)
 
-diff --git a/target/s390x/tcg/translate_vx.c.inc b/target/s390x/tcg/translate_vx.c.inc
-index 3526ba3e3b..cdb192454f 100644
---- a/target/s390x/tcg/translate_vx.c.inc
-+++ b/target/s390x/tcg/translate_vx.c.inc
-@@ -319,12 +319,10 @@ static void gen_gvec128_4_i64(gen_gvec128_4_i64_fn fn, uint8_t d, uint8_t a,
- static void gen_addi2_i64(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 al, TCGv_i64 ah,
-                           uint64_t b)
- {
--    TCGv_i64 bl = tcg_const_i64(b);
--    TCGv_i64 bh = tcg_const_i64(0);
-+    TCGv_i64 bl = tcg_constant_i64(b);
-+    TCGv_i64 bh = tcg_constant_i64(0);
+diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+index b6e4005670..47a9d87416 100644
+--- a/target/s390x/tcg/translate.c
++++ b/target/s390x/tcg/translate.c
+@@ -169,6 +169,11 @@ static uint64_t inline_branch_hit[CC_OP_MAX];
+ static uint64_t inline_branch_miss[CC_OP_MAX];
+ #endif
  
-     tcg_gen_add2_i64(dl, dh, al, ah, bl, bh);
--    tcg_temp_free_i64(bl);
--    tcg_temp_free_i64(bh);
++static void gen_psw_addr_disp(DisasContext *s, TCGv_i64 dest, int64_t disp)
++{
++    tcg_gen_movi_i64(dest, s->base.pc_next + disp);
++}
++
+ static void pc_to_link_info(TCGv_i64 out, DisasContext *s, uint64_t pc)
+ {
+     if (s->base.tb->flags & FLAG_MASK_32) {
+@@ -334,18 +339,24 @@ static void return_low128(TCGv_i64 dest)
+ 
+ static void update_psw_addr(DisasContext *s)
+ {
+-    /* psw.addr */
+-    tcg_gen_movi_i64(psw_addr, s->base.pc_next);
++    gen_psw_addr_disp(s, psw_addr, 0);
  }
  
- static DisasJumpType op_vbperm(DisasContext *s, DisasOps *o)
-@@ -609,9 +607,8 @@ static DisasJumpType op_vlei(DisasContext *s, DisasOps *o)
+ static void per_branch(DisasContext *s, bool to_next)
+ {
+ #ifndef CONFIG_USER_ONLY
+-    tcg_gen_movi_i64(gbea, s->base.pc_next);
++    gen_psw_addr_disp(s, gbea, 0);
+ 
+     if (s->base.tb->flags & FLAG_MASK_PER) {
+-        TCGv_i64 next_pc = to_next ? tcg_constant_i64(s->pc_tmp) : psw_addr;
+-        gen_helper_per_branch(cpu_env, gbea, next_pc);
++        if (to_next) {
++            TCGv_i64 next_pc = tcg_temp_new_i64();
++
++            gen_psw_addr_disp(s, next_pc, s->ilen);
++            gen_helper_per_branch(cpu_env, gbea, next_pc);
++            tcg_temp_free_i64(next_pc);
++        } else {
++            gen_helper_per_branch(cpu_env, gbea, psw_addr);
++        }
+     }
+ #endif
+ }
+@@ -358,20 +369,23 @@ static void per_branch_cond(DisasContext *s, TCGCond cond,
+         TCGLabel *lab = gen_new_label();
+         tcg_gen_brcond_i64(tcg_invert_cond(cond), arg1, arg2, lab);
+ 
+-        tcg_gen_movi_i64(gbea, s->base.pc_next);
++        gen_psw_addr_disp(s, gbea, 0);
+         gen_helper_per_branch(cpu_env, gbea, psw_addr);
+ 
+         gen_set_label(lab);
+     } else {
+-        TCGv_i64 pc = tcg_constant_i64(s->base.pc_next);
++        TCGv_i64 pc = tcg_temp_new_i64();
++
++        gen_psw_addr_disp(s, pc, 0);
+         tcg_gen_movcond_i64(cond, gbea, arg1, arg2, gbea, pc);
++        tcg_temp_free_i64(pc);
+     }
+ #endif
+ }
+ 
+ static void per_breaking_event(DisasContext *s)
+ {
+-    tcg_gen_movi_i64(gbea, s->base.pc_next);
++    gen_psw_addr_disp(s, gbea, 0);
+ }
+ 
+ static void update_cc_op(DisasContext *s)
+@@ -1147,21 +1161,19 @@ struct DisasInsn {
+ 
+ static DisasJumpType help_goto_direct(DisasContext *s, int64_t disp)
+ {
+-    uint64_t dest = s->base.pc_next + disp;
+-
+-    if (dest == s->pc_tmp) {
++    if (disp == s->ilen) {
+         per_branch(s, true);
+         return DISAS_NEXT;
+     }
+-    if (use_goto_tb(s, dest)) {
++    if (use_goto_tb(s, s->base.pc_next + disp)) {
+         update_cc_op(s);
+         per_breaking_event(s);
+         tcg_gen_goto_tb(0);
+-        tcg_gen_movi_i64(psw_addr, dest);
++        gen_psw_addr_disp(s, psw_addr, disp);
+         tcg_gen_exit_tb(s->base.tb, 0);
          return DISAS_NORETURN;
+     } else {
+-        tcg_gen_movi_i64(psw_addr, dest);
++        gen_psw_addr_disp(s, psw_addr, disp);
+         per_branch(s, false);
+         return DISAS_PC_UPDATED;
+     }
+@@ -1219,14 +1231,14 @@ static DisasJumpType help_branch(DisasContext *s, DisasCompare *c,
+ 
+             /* Branch not taken.  */
+             tcg_gen_goto_tb(0);
+-            tcg_gen_movi_i64(psw_addr, s->pc_tmp);
++            gen_psw_addr_disp(s, psw_addr, s->ilen);
+             tcg_gen_exit_tb(s->base.tb, 0);
+ 
+             /* Branch taken.  */
+             gen_set_label(lab);
+             per_breaking_event(s);
+             tcg_gen_goto_tb(1);
+-            tcg_gen_movi_i64(psw_addr, dest);
++            gen_psw_addr_disp(s, psw_addr, disp);
+             tcg_gen_exit_tb(s->base.tb, 1);
+ 
+             ret = DISAS_NORETURN;
+@@ -1249,12 +1261,12 @@ static DisasJumpType help_branch(DisasContext *s, DisasCompare *c,
+             /* Branch not taken.  */
+             update_cc_op(s);
+             tcg_gen_goto_tb(0);
+-            tcg_gen_movi_i64(psw_addr, s->pc_tmp);
++            gen_psw_addr_disp(s, psw_addr, s->ilen);
+             tcg_gen_exit_tb(s->base.tb, 0);
+ 
+             gen_set_label(lab);
+             if (is_imm) {
+-                tcg_gen_movi_i64(psw_addr, dest);
++                gen_psw_addr_disp(s, psw_addr, disp);
+             }
+             per_breaking_event(s);
+             ret = DISAS_PC_UPDATED;
+@@ -1264,9 +1276,12 @@ static DisasJumpType help_branch(DisasContext *s, DisasCompare *c,
+            Most commonly we're single-stepping or some other condition that
+            disables all use of goto_tb.  Just update the PC and exit.  */
+ 
+-        TCGv_i64 next = tcg_constant_i64(s->pc_tmp);
++        TCGv_i64 next = tcg_temp_new_i64();
++
++        gen_psw_addr_disp(s, next, s->ilen);
+         if (is_imm) {
+-            cdest = tcg_constant_i64(dest);
++            cdest = tcg_temp_new_i64();
++            gen_psw_addr_disp(s, cdest, disp);
+         }
+ 
+         if (c->is_64) {
+@@ -1285,6 +1300,10 @@ static DisasJumpType help_branch(DisasContext *s, DisasCompare *c,
+             tcg_temp_free_i64(t1);
+         }
+ 
++        tcg_temp_free_i64(next);
++        if (is_imm) {
++            tcg_temp_free_i64(cdest);
++        }
+         ret = DISAS_PC_UPDATED;
      }
  
--    tmp = tcg_const_i64((int16_t)get_field(s, i2));
-+    tmp = tcg_constant_i64((int16_t)get_field(s, i2));
-     write_vec_element_i64(tmp, get_field(s, v1), enr, es);
--    tcg_temp_free_i64(tmp);
-     return DISAS_NEXT;
- }
+@@ -5827,7 +5846,8 @@ static void in2_a2(DisasContext *s, DisasOps *o)
  
-@@ -1107,11 +1104,13 @@ static DisasJumpType op_vseg(DisasContext *s, DisasOps *o)
- 
- static DisasJumpType op_vst(DisasContext *s, DisasOps *o)
+ static void in2_ri2(DisasContext *s, DisasOps *o)
  {
--    TCGv_i64 tmp = tcg_const_i64(16);
-+    TCGv_i64 tmp;
+-    o->in2 = tcg_const_i64(s->base.pc_next + (int64_t)get_field(s, i2) * 2);
++    o->in2 = tcg_temp_new_i64();
++    gen_psw_addr_disp(s, o->in2, (int64_t)get_field(s, i2) * 2);
+ }
+ #define SPEC_in2_ri2 0
  
-     /* Probe write access before actually modifying memory */
--    gen_helper_probe_write_access(cpu_env, o->addr1, tmp);
-+    gen_helper_probe_write_access(cpu_env, o->addr1,
-+                                  tcg_constant_i64(16));
+@@ -6306,8 +6326,11 @@ static DisasJumpType translate_one(CPUS390XState *env, DisasContext *s)
  
-+    tmp = tcg_temp_new_i64();
-     read_vec_element_i64(tmp,  get_field(s, v1), 0, ES_64);
-     tcg_gen_qemu_st_i64(tmp, o->addr1, get_mem_index(s), MO_TEUQ);
-     gen_addi_and_wrap_i64(s, o->addr1, o->addr1, 8);
-@@ -1270,9 +1269,10 @@ static DisasJumpType op_vstm(DisasContext *s, DisasOps *o)
+ #ifndef CONFIG_USER_ONLY
+     if (s->base.tb->flags & FLAG_MASK_PER) {
+-        TCGv_i64 addr = tcg_constant_i64(s->base.pc_next);
++        TCGv_i64 addr = tcg_temp_new_i64();
++
++        gen_psw_addr_disp(s, addr, 0);
+         gen_helper_per_ifetch(cpu_env, addr);
++        tcg_temp_free_i64(addr);
      }
+ #endif
  
-     /* Probe write access before actually modifying memory */
--    tmp = tcg_const_i64((v3 - v1 + 1) * 16);
--    gen_helper_probe_write_access(cpu_env, o->addr1, tmp);
-+    gen_helper_probe_write_access(cpu_env, o->addr1,
-+                                  tcg_constant_i64((v3 - v1 + 1) * 16));
+@@ -6428,7 +6451,7 @@ static DisasJumpType translate_one(CPUS390XState *env, DisasContext *s)
+     if (s->base.tb->flags & FLAG_MASK_PER) {
+         /* An exception might be triggered, save PSW if not already done.  */
+         if (ret == DISAS_NEXT || ret == DISAS_TOO_MANY) {
+-            tcg_gen_movi_i64(psw_addr, s->pc_tmp);
++            gen_psw_addr_disp(s, psw_addr, s->ilen);
+         }
  
-+    tmp = tcg_temp_new_i64();
-     for (;; v1++) {
-         read_vec_element_i64(tmp, v1, 0, ES_64);
-         tcg_gen_qemu_st_i64(tmp, o->addr1, get_mem_index(s), MO_TEUQ);
-@@ -1359,7 +1359,7 @@ static DisasJumpType op_va(DisasContext *s, DisasOps *o)
- static void gen_acc(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b, uint8_t es)
- {
-     const uint8_t msb_bit_nr = NUM_VEC_ELEMENT_BITS(es) - 1;
--    TCGv_i64 msb_mask = tcg_const_i64(dup_const(es, 1ull << msb_bit_nr));
-+    TCGv_i64 msb_mask = tcg_constant_i64(dup_const(es, 1ull << msb_bit_nr));
-     TCGv_i64 t1 = tcg_temp_new_i64();
-     TCGv_i64 t2 = tcg_temp_new_i64();
-     TCGv_i64 t3 = tcg_temp_new_i64();
-@@ -1416,7 +1416,7 @@ static void gen_acc2_i64(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 al,
- {
-     TCGv_i64 th = tcg_temp_new_i64();
-     TCGv_i64 tl = tcg_temp_new_i64();
--    TCGv_i64 zero = tcg_const_i64(0);
-+    TCGv_i64 zero = tcg_constant_i64(0);
- 
-     tcg_gen_add2_i64(tl, th, al, zero, bl, zero);
-     tcg_gen_add2_i64(tl, th, th, zero, ah, zero);
-@@ -1425,7 +1425,6 @@ static void gen_acc2_i64(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 al,
- 
-     tcg_temp_free_i64(th);
-     tcg_temp_free_i64(tl);
--    tcg_temp_free_i64(zero);
- }
- 
- static DisasJumpType op_vacc(DisasContext *s, DisasOps *o)
-@@ -1455,15 +1454,14 @@ static void gen_ac2_i64(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 al, TCGv_i64 ah,
-                         TCGv_i64 bl, TCGv_i64 bh, TCGv_i64 cl, TCGv_i64 ch)
- {
-     TCGv_i64 tl = tcg_temp_new_i64();
--    TCGv_i64 th = tcg_const_i64(0);
-+    TCGv_i64 zero = tcg_constant_i64(0);
- 
-     /* extract the carry only */
-     tcg_gen_extract_i64(tl, cl, 0, 1);
-     tcg_gen_add2_i64(dl, dh, al, ah, bl, bh);
--    tcg_gen_add2_i64(dl, dh, dl, dh, tl, th);
-+    tcg_gen_add2_i64(dl, dh, dl, dh, tl, zero);
- 
-     tcg_temp_free_i64(tl);
--    tcg_temp_free_i64(th);
- }
- 
- static DisasJumpType op_vac(DisasContext *s, DisasOps *o)
-@@ -1484,7 +1482,7 @@ static void gen_accc2_i64(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 al, TCGv_i64 ah,
- {
-     TCGv_i64 tl = tcg_temp_new_i64();
-     TCGv_i64 th = tcg_temp_new_i64();
--    TCGv_i64 zero = tcg_const_i64(0);
-+    TCGv_i64 zero = tcg_constant_i64(0);
- 
-     tcg_gen_andi_i64(tl, cl, 1);
-     tcg_gen_add2_i64(tl, th, tl, zero, al, zero);
-@@ -1495,7 +1493,6 @@ static void gen_accc2_i64(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 al, TCGv_i64 ah,
- 
-     tcg_temp_free_i64(tl);
-     tcg_temp_free_i64(th);
--    tcg_temp_free_i64(zero);
- }
- 
- static DisasJumpType op_vaccc(DisasContext *s, DisasOps *o)
-@@ -1597,14 +1594,13 @@ static void gen_avgl_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b)
- static void gen_avgl_i64(TCGv_i64 dl, TCGv_i64 al, TCGv_i64 bl)
- {
-     TCGv_i64 dh = tcg_temp_new_i64();
--    TCGv_i64 zero = tcg_const_i64(0);
-+    TCGv_i64 zero = tcg_constant_i64(0);
- 
-     tcg_gen_add2_i64(dl, dh, al, zero, bl, zero);
-     gen_addi2_i64(dl, dh, dl, dh, 1);
-     tcg_gen_extract2_i64(dl, dl, dh, 1);
- 
-     tcg_temp_free_i64(dh);
--    tcg_temp_free_i64(zero);
- }
- 
- static DisasJumpType op_vavgl(DisasContext *s, DisasOps *o)
-@@ -2440,7 +2436,7 @@ static void gen_scbi2_i64(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 al,
- {
-     TCGv_i64 th = tcg_temp_new_i64();
-     TCGv_i64 tl = tcg_temp_new_i64();
--    TCGv_i64 zero = tcg_const_i64(0);
-+    TCGv_i64 zero = tcg_constant_i64(0);
- 
-     tcg_gen_sub2_i64(tl, th, al, zero, bl, zero);
-     tcg_gen_andi_i64(th, th, 1);
-@@ -2452,7 +2448,6 @@ static void gen_scbi2_i64(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 al,
- 
-     tcg_temp_free_i64(th);
-     tcg_temp_free_i64(tl);
--    tcg_temp_free_i64(zero);
- }
- 
- static DisasJumpType op_vscbi(DisasContext *s, DisasOps *o)
-@@ -2572,11 +2567,12 @@ static DisasJumpType op_vsumq(DisasContext *s, DisasOps *o)
-         return DISAS_NORETURN;
-     }
- 
--    sumh = tcg_const_i64(0);
-+    sumh = tcg_temp_new_i64();
-     suml = tcg_temp_new_i64();
--    zero = tcg_const_i64(0);
-+    zero = tcg_constant_i64(0);
-     tmpl = tcg_temp_new_i64();
- 
-+    tcg_gen_mov_i64(sumh, zero);
-     read_vec_element_i64(suml, get_field(s, v3), max_idx, es);
-     for (idx = 0; idx <= max_idx; idx++) {
-         read_vec_element_i64(tmpl, get_field(s, v2), idx, es);
-@@ -2587,7 +2583,6 @@ static DisasJumpType op_vsumq(DisasContext *s, DisasOps *o)
- 
-     tcg_temp_free_i64(sumh);
-     tcg_temp_free_i64(suml);
--    tcg_temp_free_i64(zero);
-     tcg_temp_free_i64(tmpl);
-     return DISAS_NEXT;
- }
+         /* Call the helper to check for a possible PER exception.  */
 -- 
 2.34.1
 
