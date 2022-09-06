@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBEB25ADEDE
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 07:27:00 +0200 (CEST)
-Received: from localhost ([::1]:56584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A1F5ADEF8
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 07:42:51 +0200 (CEST)
+Received: from localhost ([::1]:59526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVR6x-0005lH-JQ
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 01:26:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59950)
+	id 1oVRMD-00005v-5t
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 01:42:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oVR5H-0004MV-9w
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 01:25:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45652)
+ id 1oVRGv-0006ef-Nx
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 01:37:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59914)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oVR5E-0007vH-3X
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 01:25:13 -0400
+ id 1oVRGs-00018p-Du
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 01:37:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662441910;
+ s=mimecast20190719; t=1662442633;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6prPvHPHNr8UmKQ2IlPDC8FumGk7UjG2nsYNAplsHGw=;
- b=X14IZDmrseYp1Lvnj1KNMc621FLE8QMFpCXXdbjCTOXswwZKDLOxLrzD8ckfhXue/ki10m
- GjqvtwiMlyltsiMLCIMMzE8RA7EGUXC7+c2mJT9SSufumt3IsT3ye20sw0GtcJhv+JgR4d
- m/iC/ala3VE5DwaHENfwDjR2fzvDGyo=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QQJdeYVsEo9LTGGC/Rb1F52ZxP3aybky0+jiWdvMklI=;
+ b=Nx7pRdiqqznqK4OlDzzwPKfCr20Gjup+9fzoglmzo+9DFVgvGPW4rz183OjeQ9aKv5QxEl
+ U+02VsIk89X778SgQMAXtlNAKpnzsQ642ZAK8jnp0LQIf92c8bgIN01cPDmxaXqTP22/jk
+ 2HMzJexdJiyIunF3oXILBze88GHftDk=
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-488-NCi17Y44PDiEpm3FsggQkA-1; Tue, 06 Sep 2022 01:25:01 -0400
-X-MC-Unique: NCi17Y44PDiEpm3FsggQkA-1
-Received: by mail-vk1-f198.google.com with SMTP id
- w187-20020a1fadc4000000b0037ceefea1c7so1678669vke.7
- for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 22:25:01 -0700 (PDT)
+ us-mta-160-EsKB_3UlNE6tKA2XTQsp6w-1; Tue, 06 Sep 2022 01:37:12 -0400
+X-MC-Unique: EsKB_3UlNE6tKA2XTQsp6w-1
+Received: by mail-vk1-f200.google.com with SMTP id
+ q129-20020a1fa787000000b00377b033e1abso1688392vke.0
+ for <qemu-devel@nongnu.org>; Mon, 05 Sep 2022 22:37:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date;
- bh=6prPvHPHNr8UmKQ2IlPDC8FumGk7UjG2nsYNAplsHGw=;
- b=O4DrrpbjZeYZR/H38X/9oLgTwU8kMPSP6RNqp6j5v9DKlkJ8iJf5tN4NrWXn7L/RUX
- CcJkC+1YHYNBj6RFGEYdGkqI8nZc2TuQqM2RHL6LyrusOOp9A67EC+ILt6rJLdMSuYTT
- bHAw6XPVX0ZIq12/4+FcN8zPyh101t+Rmn5AfDVQYYCRCl0WAxwO8Io2XECX9wy5ncoE
- e9K1NiqhtOMEsLWhc+EQAAOuS78MFbK3Hz+mgfm7hCmvSv7YCI7guN4gNFHtekKUu1h8
- yWiPxq6vlQfUa7r/SEOZTobcAEv9Q5liGIsexGMFkpAYV3PZeG/IuW7LTYp1gSi2fdsB
- jqYw==
-X-Gm-Message-State: ACgBeo2lQYxY4qCQ3CB4+p8z/B0d3QaufxweBXwK8lKoj7gyzDD0lWTP
- PR3OxmOG/vxu3u7vlbab6ZJp+qdGd+td2vx+SiL6T2JOzDhWHZ5R3BjVo536kMkarz+etW1FxUK
- sDiBnXqsABPryJOCAHh1MUEhZBMMZAfg=
-X-Received: by 2002:ab0:1473:0:b0:396:d89d:3a87 with SMTP id
- c48-20020ab01473000000b00396d89d3a87mr15388725uae.73.1662441901226; 
- Mon, 05 Sep 2022 22:25:01 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR74v/NDZ6SS+JSH/do3dT+JBOJqmOsLbDDZqIE8vBlZL9KcXHrR1WzHgS2iDUUOe3hVd3dhnXc90d26AVe30ss=
-X-Received: by 2002:ab0:1473:0:b0:396:d89d:3a87 with SMTP id
- c48-20020ab01473000000b00396d89d3a87mr15388723uae.73.1662441900978; Mon, 05
- Sep 2022 22:25:00 -0700 (PDT)
+ bh=QQJdeYVsEo9LTGGC/Rb1F52ZxP3aybky0+jiWdvMklI=;
+ b=jLZZScM7MPDVBr92lZB72zJvB1x1wSb4oM4DVlm95eE6vJSAXPrFCQY85sgQGfZp3x
+ kFye6Q0cfkYpEIa4lRfRx5lxNsd+l+Vu/DX8JhD8ZDBx88/jPRw1rqO7bMttkXJx9WLV
+ T3e4tDrtJ0OxDqHHyk5MpQkBERwkllnZUhMSd3qARooZ4sX1T4jnWxYjj9zzrXRqYSFd
+ 6gQ83KrGoP6+Rg06sDOCRphO0N2XgEdODbzPob+G5O5GuZGSk6oiiAgeQM0uZ8U0HVha
+ tnSCGZkxR/fwsxfQEI1SoY9yTjr2V6n1S3Urili7l+gy/XpNBylVftaYSFOw9MNJ/LK0
+ snrQ==
+X-Gm-Message-State: ACgBeo2jlrW/+Gln3ETon58nKCKRnKiMdUTKN92y/0/+psYBS5QAZHoF
+ 0BEA2pBDv+8uOcwIZrnDsiiwMu95qF7k6a+sRloj48nbv8mK1WiySH/yTA55cMHF+8wrsISnuNH
+ fwVYsEPLxI0FPQKqueJiqW96f/LTHP+Y=
+X-Received: by 2002:ab0:2c11:0:b0:38c:f6d4:6435 with SMTP id
+ l17-20020ab02c11000000b0038cf6d46435mr15644659uar.66.1662442632025; 
+ Mon, 05 Sep 2022 22:37:12 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6bX6/c5yzVVbAi6mylt2udE04Strp33V3nmlOfigkmnMMrx3RNa00trO84wSIapsD547ZXtno30GiT6YrrxTk=
+X-Received: by 2002:ab0:2c11:0:b0:38c:f6d4:6435 with SMTP id
+ l17-20020ab02c11000000b0038cf6d46435mr15644656uar.66.1662442631788; Mon, 05
+ Sep 2022 22:37:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1661414345.git.kangjie.xu@linux.alibaba.com>
- <b6286db2a6ce2389f44cc44da06c9fd2b8eaaec8.1661414345.git.kangjie.xu@linux.alibaba.com>
- <e6ce97bd-a121-04c5-8984-95906f34a15c@redhat.com>
- <4b733015-fed4-f22a-a693-c83cd74938aa@linux.alibaba.com>
-In-Reply-To: <4b733015-fed4-f22a-a693-c83cd74938aa@linux.alibaba.com>
+ <8577963f4b72f30c5dd1adfe661b08e57d26c453.1661414345.git.kangjie.xu@linux.alibaba.com>
+ <8e7c93bc-2430-f0fb-d425-5e43fde23c14@redhat.com>
+ <7d0b6e52-c6c7-bd6d-3669-659a2573e133@linux.alibaba.com>
+In-Reply-To: <7d0b6e52-c6c7-bd6d-3669-659a2573e133@linux.alibaba.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 6 Sep 2022 13:24:50 +0800
-Message-ID: <CACGkMEs=08FJ+DmXgFPMQwSPHeLs1HHV_BhcNjS937FQ+Cy+xg@mail.gmail.com>
-Subject: Re: [PATCH v3 10/15] vhost-net: vhost-kernel: introduce
- vhost_net_virtqueue_reset()
+Date: Tue, 6 Sep 2022 13:37:01 +0800
+Message-ID: <CACGkMEu7ORcFUBmE3KKA9L_Ry5kDkF7APfmi8g5jyFhvv0m8CA@mail.gmail.com>
+Subject: Re: [PATCH v3 13/15] virtio-net: support queue reset
 To: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>, 
  Eduardo Habkost <eduardo@habkost.net>,
@@ -103,95 +102,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 5, 2022 at 6:15 PM Kangjie Xu <kangjie.xu@linux.alibaba.com> wr=
-ote:
+On Tue, Sep 6, 2022 at 12:25 AM Kangjie Xu <kangjie.xu@linux.alibaba.com> w=
+rote:
 >
 >
-> =E5=9C=A8 2022/9/5 16:03, Jason Wang =E5=86=99=E9=81=93:
+> =E5=9C=A8 2022/9/5 16:30, Jason Wang =E5=86=99=E9=81=93:
 > >
 > > =E5=9C=A8 2022/8/25 16:08, Kangjie Xu =E5=86=99=E9=81=93:
-> >> Introduce vhost_virtqueue_reset(), which can reset the specific
-> >> virtqueue in the device. Then it will unmap vrings and the desc
-> >> of the virtqueue.
+> >> From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 > >>
-> >> Here we do not reuse the vhost_net_stop_one() or vhost_dev_stop(),
-> >> because they work at queue pair level. We do not use
-> >> vhost_virtqueue_stop() because it may stop the device in the
-> >> backend.
-> >
-> >
-> > So I think this is not true at least for vhost-net kernel baceknd.
-> >
-> >
-> But vhost-user(OVS-DPDK) will stop the device.
-
-Yes, what I meant is that, considering this series only deal with
-vhost-net. We can leave any "fix" or "workaround" until e.g the
-vhost-user support is posted?
-
->
-> When DPDK vhost received VHOST_USER_GET_VRING_BASE message, it will call
-> vhost_destroy_device_notify() to destroy the device.
-
-Right, actually this trick is used even in some hardware.
-
->
-> It seems like it is a inconsistency error in DPDK. Maybe I should submit
-> a patch to DPDK. We can stop the device only when all the virtqueues in
-> one device are destroyed.
-
-That would be fine.
-
->
+> >> virtio-net and vhost-kernel implement queue reset.
+> >> Queued packets in the corresponding queue pair are flushed
+> >> or purged.
 > >>
-> >> This patch only considers the case of vhost-kernel, when
-> >> NetClientDriver is NET_CLIENT_DRIVER_TAP.
-> >>
-> >> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 > >> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> >> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 > >> ---
-> >>   hw/net/vhost_net.c      | 22 ++++++++++++++++++++++
-> >>   include/net/vhost_net.h |  2 ++
-> >>   2 files changed, 24 insertions(+)
+> >>   hw/net/virtio-net.c | 18 ++++++++++++++++++
+> >>   1 file changed, 18 insertions(+)
 > >>
-> >> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> >> index ccac5b7a64..be51be98b3 100644
-> >> --- a/hw/net/vhost_net.c
-> >> +++ b/hw/net/vhost_net.c
-> >> @@ -514,3 +514,25 @@ int vhost_net_set_mtu(struct vhost_net *net,
-> >> uint16_t mtu)
-> >>         return vhost_ops->vhost_net_set_mtu(&net->dev, mtu);
+> >> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> >> index 27b59c0ad6..d774a3e652 100644
+> >> --- a/hw/net/virtio-net.c
+> >> +++ b/hw/net/virtio-net.c
+> >> @@ -540,6 +540,23 @@ static RxFilterInfo
+> >> *virtio_net_query_rxfilter(NetClientState *nc)
+> >>       return info;
 > >>   }
-> >> +
-> >> +void vhost_net_virtqueue_reset(VirtIODevice *vdev, NetClientState *nc=
-,
-> >> +                               int vq_index)
+> >>   +static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t
+> >> queue_index)
 > >> +{
-> >> +    VHostNetState *net =3D get_vhost_net(nc->peer);
-> >> +    const VhostOps *vhost_ops =3D net->dev.vhost_ops;
-> >> +    struct vhost_vring_file file =3D { .fd =3D -1 };
-> >> +    int idx;
+> >> +    VirtIONet *n =3D VIRTIO_NET(vdev);
+> >> +    NetClientState *nc =3D qemu_get_subqueue(n->nic, vq2q(queue_index=
+));
 > >> +
-> >> +    /* should only be called after backend is connected */
-> >> +    assert(vhost_ops);
-> >> +
-> >> +    idx =3D vhost_ops->vhost_get_vq_index(&net->dev, vq_index);
-> >> +
-> >> +    if (net->nc->info->type =3D=3D NET_CLIENT_DRIVER_TAP) {
-> >> +        file.index =3D idx;
-> >> +        int r =3D vhost_net_set_backend(&net->dev, &file);
-> >> +        assert(r >=3D 0);
+> >> +    if (!nc->peer) {
+> >> +        return;
 > >> +    }
+> >> +
+> >> +    if (get_vhost_net(nc->peer) &&
+> >> +        nc->peer->info->type =3D=3D NET_CLIENT_DRIVER_TAP) {
+> >> +        vhost_net_virtqueue_reset(vdev, nc, queue_index);
+> >> +    }
+> >> +
+> >> +    flush_or_purge_queued_packets(nc);
 > >
 > >
-> > Do we need to reset e.g last_avail_idx here?
+> > But the codes doesn't prevent the usersapce datapath from being used?
+> > (e.g vhost=3Doff)
+> >
+> > E.g vhost_net_start_one() had:
+> >
+> >     if (net->nc->info->poll) {
+> >         net->nc->info->poll(net->nc, false);
+> >     }
+> I review this part in vhost_net_start/stop_one().
+>
+> I didn't take the usersapce datapath into consideration.
+
+Because it's used for vhost-net. So I think maybe we should first
+implement the rest in the userspace datapath first then try to
+implement them in the vhost?
+
+> If we don't
+> prevent it, the userspace datapath may access it and causes some
+> problems. From this point, we should disable it.
+>
+> But if we add net->nc->info->poll in vq reset, it can only operate at
+> queue-pair level, which obeys "per-virtqueue".
+>
+> What's your opinion on this point? I think it's ok to add it in vq reset.
+
+See above, I'd suggest to implement the vq reset in qemu usersapce
+datapath first. Then we can do vhost part on top.
+
+>
+> >
+> > And I will wonder if it's better to consider to:
+> >
+> > 1) factor out the per virtqueue start/stop from
+> > vhost_net_start/stop_one()
+> >
+> > 2) simply use the helper factored out via step 1)
 > >
 > > Thanks
 > >
-> I did not reset it because we will re-configure them when we restart
-> virtqueue.
+> I have a different idea about it, vhost_virtqueue_start/stop()(in
+> hw/virtio/vhost.c) are already good abstractions of per virtqueue
+> start/stop.
+>
+> These two functions are used in vhost_dev_start. It's just because
+> vhost-net needs some configuration, so we add net->nc->info->poll and
+> set_backend for it. But for other devices using vhost_dev_start,
+> set_backend and net->nc->info->poll may be not necessary.
+>
+> I think your apporach to abstract per virtqueue start/stop from
+> vhost_net_start/stop_one() will break the generality of
+> vhost_dev_start(), which is a common interface for different devices.
+>
+> To conclude my opinions
+>
+> 1. I think we need to add net->nc->info->poll in our
+> vhost_net_virtqueue_reset() and vhost_net_virtqueue_restart()
+>
+> 2. We still need vhost_net_virtqueue_reset() and
+> vhost_net_virtqueue_restart().
+>
+>      a. vhost_net_virtqueue_reset() is a wrapper for vhost_virtqueue_stop=
+().
+>
+>      b. vhost_net_virtqueue_restart() is a wrapper for
+> vhost_virtqueue_start().
 
-Is last_avail_idx reset to 0 in this case?
+Sounds good, let's do and see.
 
 Thanks
 
@@ -199,20 +222,21 @@ Thanks
 > Thanks
 >
 > >
-> >> +
-> >> +    vhost_virtqueue_unmap(&net->dev, vdev, net->dev.vqs + idx, idx);
 > >> +}
-> >> diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
-> >> index 387e913e4e..85d85a4957 100644
-> >> --- a/include/net/vhost_net.h
-> >> +++ b/include/net/vhost_net.h
-> >> @@ -48,4 +48,6 @@ uint64_t vhost_net_get_acked_features(VHostNetState
-> >> *net);
-> >>     int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu);
-> >>   +void vhost_net_virtqueue_reset(VirtIODevice *vdev, NetClientState
-> >> *nc,
-> >> +                               int vq_index);
-> >>   #endif
+> >> +
+> >>   static void virtio_net_reset(VirtIODevice *vdev)
+> >>   {
+> >>       VirtIONet *n =3D VIRTIO_NET(vdev);
+> >> @@ -3784,6 +3801,7 @@ static void virtio_net_class_init(ObjectClass
+> >> *klass, void *data)
+> >>       vdc->set_features =3D virtio_net_set_features;
+> >>       vdc->bad_features =3D virtio_net_bad_features;
+> >>       vdc->reset =3D virtio_net_reset;
+> >> +    vdc->queue_reset =3D virtio_net_queue_reset;
+> >>       vdc->set_status =3D virtio_net_set_status;
+> >>       vdc->guest_notifier_mask =3D virtio_net_guest_notifier_mask;
+> >>       vdc->guest_notifier_pending =3D virtio_net_guest_notifier_pendin=
+g;
 >
 
 
