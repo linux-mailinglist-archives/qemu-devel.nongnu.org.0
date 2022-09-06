@@ -2,68 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 952AC5AEB55
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 16:08:16 +0200 (CEST)
-Received: from localhost ([::1]:60754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20EF45AEB5C
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 16:14:57 +0200 (CEST)
+Received: from localhost ([::1]:45982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVZFN-0004he-Pb
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 10:08:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48218)
+	id 1oVZLr-0000qI-V2
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 10:14:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oVXiv-0005kM-Mx
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 08:30:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50068)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oVXir-0005gg-P9
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 08:30:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662467429;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PooZu5e1duDQsY4lYWWXtrcECC2CpQzsQQ6pzpjaIWo=;
- b=OX+8LdS1QpJ/5H6yVhx2DaRJBiM58zVBSj7wM2UPgve6CefFzRsF3HoeFWHoLuC5rpL4Uc
- XAGDsrpGc0pA2MlRakjPybI/5T3lZId4MfAacOQDRySMzTJGjsQAh91C4NBh1HlAQDa8Rh
- WlQ0Kdv3PyDhAgfZx00KKBm5B6fvUBE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-636-_ZR1frDxPxeqCQphTO_mjg-1; Tue, 06 Sep 2022 08:30:28 -0400
-X-MC-Unique: _ZR1frDxPxeqCQphTO_mjg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 382AD299E754;
- Tue,  6 Sep 2022 12:30:27 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.96])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A9F8B492C3B;
- Tue,  6 Sep 2022 12:30:26 +0000 (UTC)
-Date: Tue, 6 Sep 2022 08:30:24 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, stefanha@gmail.com
-Subject: Re: [PULL v3 00/20] tcg patch queue
-Message-ID: <Yxc9YDilU22br7PI@fedora>
-References: <20220906083815.252478-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1oVY8F-0001Z1-H9; Tue, 06 Sep 2022 08:56:47 -0400
+Received: from [200.168.210.66] (port=14617 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1oVY8D-0002Pq-QX; Tue, 06 Sep 2022 08:56:47 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Tue, 6 Sep 2022 09:55:36 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id B9E318002BE;
+ Tue,  6 Sep 2022 09:55:35 -0300 (-03)
+From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, richard.henderson@linaro.org,
+ victor.colombo@eldorado.org.br, matheus.ferst@eldorado.org.br,
+ lucas.araujo@eldorado.org.br, leandro.lupori@eldorado.org.br,
+ lucas.coutinho@eldorado.org.br
+Subject: [PATCH v2 1/8] target/ppc: Remove extra space from s128 field in
+ ppc_vsr_t
+Date: Tue,  6 Sep 2022 09:55:16 -0300
+Message-Id: <20220906125523.38765-2-victor.colombo@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220906125523.38765-1-victor.colombo@eldorado.org.br>
+References: <20220906125523.38765-1-victor.colombo@eldorado.org.br>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="6m5WD8E40woDFR9R"
-Content-Disposition: inline
-In-Reply-To: <20220906083815.252478-1-richard.henderson@linaro.org>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 06 Sep 2022 12:55:36.0210 (UTC)
+ FILETIME=[F52C5F20:01D8C1EF]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,30 +67,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Very trivial rogue space removal. There are two spaces between Int128
+and s128 in ppc_vsr_t struct, where it should be only one.
 
---6m5WD8E40woDFR9R
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ target/ppc/cpu.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
-
---6m5WD8E40woDFR9R
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMXPWAACgkQnKSrs4Gr
-c8jp1wf/SghcR97SMFcdyt1ZbzzfdNQ+1OHfTyE7if6tMzFTlDdVk+AgIK104AME
-KAhh+yoSib9bfovIaHOA8ZNBvA3vpLXzNpZBr1HUbS7HTt5BUY/VoVzaC/MpY+Vn
-uHuzs2Q1rc98gA0gY70QEqjpWDhGePQzirESb7bde9AphmR1/oVS1R9ngjmtxdkk
-V8J0yl/7YTeMtu6TMxICO3HIAeIyU6xIm7QQP/8IxrkY3U1TXyIWhQTArfr9IRFC
-JGg9gR4EK4R87+UPOieYgfrRB3cE3qypYDC37CPiV4so3X0bvHiuX1E8MCMAtQwU
-/dwH8NEZs4mszszTZYgFZyeDBXCF5g==
-=KSq/
------END PGP SIGNATURE-----
-
---6m5WD8E40woDFR9R--
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index a4c893cfad..985ff86f55 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -246,7 +246,7 @@ typedef union _ppc_vsr_t {
+ #ifdef CONFIG_INT128
+     __uint128_t u128;
+ #endif
+-    Int128  s128;
++    Int128 s128;
+ } ppc_vsr_t;
+ 
+ typedef ppc_vsr_t ppc_avr_t;
+-- 
+2.25.1
 
 
