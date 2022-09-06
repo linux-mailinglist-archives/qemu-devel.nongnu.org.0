@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2EBA5AEA61
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 15:47:06 +0200 (CEST)
-Received: from localhost ([::1]:32998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09F6D5AEA6E
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 15:53:05 +0200 (CEST)
+Received: from localhost ([::1]:33960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVYuw-0002qF-2c
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 09:47:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54776)
+	id 1oVZ0h-0001mJ-KH
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 09:53:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oVYJf-0003Rv-OP
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 09:08:35 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:38625)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oVYJZ-00054q-4i
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 09:08:31 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id y127so11334877pfy.5
- for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 06:08:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date;
- bh=hi0q8aZatT5O5z1kyQDOVcz+dVxcsAacUiTyCoX/gPY=;
- b=eYwamA/xi63Bjw0t+e+Cb/NStdQht8cl20fbTcuoS7H9EoIiTqUvDZOsgiAJJ1vG91
- hqEzodctxwBdBWQ9oj57aOUcI3P1J84++0PYmpv5QtmkE0I7WLMSsFhNm7VHI8anRy53
- KD7MgGzuSdxS6x19TzREixuWY1Xz8Ffa79dwyq6fUmiMCucDs6JAtJSuMOqLtKNAOCoS
- BRPsiY+C7CIkVW9nXmOR91KcGAddTgi4Pqi0SNgGa65N0Dd7ZCj782Vb5p6EulF8KSW+
- EdB6gxH9BoxDPVBD5Y1hs9SZF8iXMm6gBIktgSfehcsmn9Ld/EwSx0bTpDwbQIZXcv4b
- 9F/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=hi0q8aZatT5O5z1kyQDOVcz+dVxcsAacUiTyCoX/gPY=;
- b=a6cxqLy0dxDzwsI1HUZh0zcxssJTLIzLC+Sr14zj3nFl7jUtmQsmFKr/6KxRjQj+kW
- v7jtSx0AxfjwuuIGu+IIcuJyKsfkyEug/Istqy9MLcwdPb9enAPUkqTSVW0jQ3qvCRxS
- U/JcnrZ4ipyVDJh1CCNRZq+B3HCsR+p7YxAr/aQBKlT+SyLiZXS7XnALet7Q0SYpRqxK
- kLxltQRQG3vl+ene7oW/5UNW1vEiI7HTuwzA1feo2N0y6hbwBrhpZV8Gpyx6xcq5df6+
- EDKaEqrNHyz1AQcyR1tx0cH6gpIbcCPMFKqPNsw3I5TEC3RQDOC/r1zG9/SKI/dk8UcY
- y1fA==
-X-Gm-Message-State: ACgBeo3Y3o+ZuFYWsTzOBSOdBcyGtTIk6TBxM14SRUv8RWMYirObdvqL
- PHi3ZkD9XWQDCdc715m8ANY=
-X-Google-Smtp-Source: AA6agR5kARxrPBxpV787i3ds150eKUzMez1Mi2wouJcFOlYOfByXRv9YCvZegoN/BjNgJTyWEsrjBw==
-X-Received: by 2002:a05:6a00:2308:b0:52f:8ae9:9465 with SMTP id
- h8-20020a056a00230800b0052f8ae99465mr54419057pfh.77.1662469705663; 
- Tue, 06 Sep 2022 06:08:25 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- u3-20020a170902e80300b0016c57657977sm9771294plg.41.2022.09.06.06.08.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Sep 2022 06:08:24 -0700 (PDT)
-Message-ID: <42ca321e-287d-bca6-c253-59ea7d2d336f@amsat.org>
-Date: Tue, 6 Sep 2022 15:08:21 +0200
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oVYQl-0005Xn-Ak
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 09:15:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45897)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oVYQd-0006Re-Qh
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 09:15:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662470146;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=77fsmGXJOl9WNdYSpbu4/+F1ErosigPe0qOw5s+JBm8=;
+ b=PIMvwt3jDCZ2iI4HmiVlUn+gkf2t9rtH0qmGWIQ6x6KL4vDN279ASLL2Iu5KK7zPbHhVmC
+ hlCx/nbiGn7uK4fKKo7W3CDPPTU33yJ3RmquQWrR18xjuEpkTR/5ZtCoBMuJk8CMKK4pL5
+ 6OELpdr1vto3UFkQ3gctc+YsRBl5DOg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-523-ho43CRNaMJ2ULlYPrBKGog-1; Tue, 06 Sep 2022 09:15:45 -0400
+X-MC-Unique: ho43CRNaMJ2ULlYPrBKGog-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3A2F4811E9B;
+ Tue,  6 Sep 2022 13:15:45 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BF089492CA2;
+ Tue,  6 Sep 2022 13:15:43 +0000 (UTC)
+Date: Tue, 6 Sep 2022 14:15:41 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ qemu-devel@nongnu.org, thuth@redhat.com, jsnow@redhat.com,
+ pbonzini@redhat.com, imammedo@redhat.com
+Subject: Re: [PATCH v2 00/11] Introduce new acpi/smbios python tests using
+ biosbits
+Message-ID: <YxdH/c9jx+3oVs9m@redhat.com>
+References: <20220710170014.1673480-1-ani@anisinha.ca>
+ <20220711044032-mutt-send-email-mst@kernel.org>
+ <CAFEAcA_KUh_Hmozw2KthwNoM2L9rnA18ttrk9GHHnJZ-X_M4yQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH v4 4/7] include/hw/core: Create struct CPUJumpCache
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220906091126.298041-1-richard.henderson@linaro.org>
- <20220906091126.298041-5-richard.henderson@linaro.org>
-In-Reply-To: <20220906091126.298041-5-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.752,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA_KUh_Hmozw2KthwNoM2L9rnA18ttrk9GHHnJZ-X_M4yQ@mail.gmail.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,21 +81,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 6/9/22 11:11, Richard Henderson wrote:
-> Wrap the bare TranslationBlock pointer into a structure.
+On Thu, Jul 14, 2022 at 02:24:18PM +0100, Peter Maydell wrote:
+> On Mon, 11 Jul 2022 at 10:34, Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > On Sun, Jul 10, 2022 at 10:30:03PM +0530, Ani Sinha wrote:
+> > > Changelog:
+> > > v2:
+> > >  - a new class of python based tests introduced that is separate from avocado
+> > >    tests or qtests. Can be run by using "make check-pytest".
+> > >  - acpi biosbits tests are the first tests to use pytest environment.
+> > >  - bios bits tests now download the bits binary archives from a remote
+> > >    repository if they are not found locally. The test skips if download
+> > >    fails.
+> > >  - A new environment variable is introduced that can be passed by the tester
+> > >    to specify the location of the bits archives locally. test skips if the
+> > >    bits binaries are not found in that location.
+> > >  - if pip install of python module fails for whatever reaoson, the test skips.
+> > >  - misc code fixes including spell check of the README doc. README has been
+> > >    updated as well.
+> > >  - addition of SPDX license headers to bits test files.
+> > >  - update MAINTAINERS to reflect the new pytest test class.
+> > >
+> > > For biosbits repo:
+> > >  - added Dockerfile and build script. Made bios bits build on gcc 11.
+> > >    https://github.com/ani-sinha/bits/blob/bits-qemu-logging/Dockerfile
+> > >    https://github.com/ani-sinha/bits/blob/bits-qemu-logging/build-artifacts.sh
+> > >    The build script generates the zip archive and tarball used by the test.
+> >
+> > So far so good, I think it's ok for a start. It's probably a good idea
+> > to host the source on qemu.org. Peter - any objection to this?
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   include/hw/core/cpu.h     | 8 ++++++--
->   accel/tcg/cpu-exec.c      | 9 ++++++---
->   accel/tcg/cputlb.c        | 2 +-
->   accel/tcg/translate-all.c | 4 ++--
->   4 files changed, 15 insertions(+), 8 deletions(-)
+> Dan was looking at v1 from the point of view of how we handle the
+> guest binary blobs for these tests -- I'd rather defer to him rather
+> than taking the time to get up to speed on the issue myself.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Storing the *source* git repo for biosbits on gitlab.com/qemu-project
+is sensible, as that's what we've done for other 3rd party bits that
+we bundle/depend on git repo access for.
+
+The above git repo, however, has extra branches that also store the
+binary builds, and I'm not convinced that is a good idea.
+
+I feel like the source git repo should have a .gitlab-ci.yml file
+that builds the binary and publishes it as an CI artifact. This
+lets us keep the binary outside of GIT, have a CI job that periodically
+refreshes the binary (eg so when the Ubuntu version that Dockerfile
+uses goes EOL we can use something else). The test can access the CI
+artifact directly.
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
