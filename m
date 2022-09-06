@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63E2D5AE8CE
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 14:52:56 +0200 (CEST)
-Received: from localhost ([::1]:60848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4DD05AE92C
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 15:13:33 +0200 (CEST)
+Received: from localhost ([::1]:37418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVY4V-00050G-DK
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 08:52:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54708)
+	id 1oVYOI-0001qV-Ss
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 09:13:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oVWpv-0005hc-Bv
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 07:33:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45846)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oVWpq-0002Za-1M
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 07:33:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662464017;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oGzmIO4dgchnWJlA99IamP+Vc7/FdKeJ8jGfHl24q/A=;
- b=NeNLzwwBfGQaWbnPpnG5JfR2dHrs3Vzalfx0gYo/nBZEB6smdDZsz8enzw0m1NOrS5cjHU
- zZDhAgbN5AX3Q45Z3GXyawSPIfH+VO+aj47l/QRuFqI/a/zyXQP15b/gOv49DRrqefQU9F
- 5zarUznCKuuxXeguWe/qyDmef3uHfY4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-622-y-XaiNTXPRK8GlMjpCtG_A-1; Tue, 06 Sep 2022 07:33:34 -0400
-X-MC-Unique: y-XaiNTXPRK8GlMjpCtG_A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E62C806007;
- Tue,  6 Sep 2022 11:33:33 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CC5964C816;
- Tue,  6 Sep 2022 11:33:31 +0000 (UTC)
-Date: Tue, 6 Sep 2022 12:33:29 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- "Jason A. Donenfeld" <Jason@zx2c4.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v2 1/2] x86: only modify setup_data if the boot protocol
- indicates safety
-Message-ID: <YxcwCQ0vymro0vbu@redhat.com>
-References: <20220906103657.282785-1-Jason@zx2c4.com>
- <20220906063954-mutt-send-email-mst@kernel.org>
- <CAHmME9oyf5MmZ4gXkbm+dA3t1NBYB6XdPrk8N1OyKLi5Lke0Rg@mail.gmail.com>
- <20220906064500-mutt-send-email-mst@kernel.org>
- <CAMj1kXH3T48W=k42mrCbY15yc4KYvAfUaRaJJRrsfKbuOfE53A@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oVWuM-0000tu-UV; Tue, 06 Sep 2022 07:38:29 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:44845)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oVWuK-0003Rf-AA; Tue, 06 Sep 2022 07:38:22 -0400
+Received: by mail-pg1-x529.google.com with SMTP id c24so10358095pgg.11;
+ Tue, 06 Sep 2022 04:38:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=j6nQrA/+TNrrrVQl4cbrDYXY4CdHW6pYceHYJydCKiQ=;
+ b=RSZsRS0eR32Y598HBE/WEA+RwM+dABqrhR/VcjAqNBS9m0hQvtLPaUyEawHxPxNld3
+ AobaDBF51e78xEx29P8HhjVXg+9qLGg5lr7h8JpWdJxr1fKEycvm1XgeBIYffkPuBGXa
+ 69QHGOlj69vByo3ZwdDq4bmfnHw6LKl+kZwATjboSR68H76/7h6yNAhVc9KXu/Z9Zk4T
+ JEGZb6IE+QCHSJVDw9qmYkO1lZnCRtTKMT4r12BtzackPHz2S3P+jStfsa9NBFpqFD1O
+ UkxY6uL0Jc9AWRfnRmecZquS2pBl/ftmPoPGp+mCdtM4V0/iYVpLgxCk0nWaCiI63akk
+ oBkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=j6nQrA/+TNrrrVQl4cbrDYXY4CdHW6pYceHYJydCKiQ=;
+ b=k6QU9udryCH3qK3iMzpYXWhVZVgeiJ1xumGamOnu21KnEi+Ja+rGw86GL1SXkyg10X
+ nlm/WRjpsPdiDbL2pka0Ye8/qi7AZMblIiR0LErg+c5HOjNM088+lSxCVbbp/beGU/NQ
+ T7QHmiYiRZ5J7eBpj1pApodPkl4v3DrCVEt4mEoKUogJ7vN+yKFXQP1Q8Ap+WPoA9paz
+ 3Gja6D1P+djRO75rPwZjMgOm4LOpStJ+xohKMQRstzLlQk96bwcYDk50hUl+Qd72v7nF
+ CNweaJDSm7m41onyDV79spaLbAdRFg1SluAxBvrruQw04s6pVCXwqZmW/kYs++IuuxiB
+ vM+w==
+X-Gm-Message-State: ACgBeo1sdvN4ryR3/80jMuh7T2Ifc21ttHD640XUkrGktlmbLUfg4uzu
+ qUONK70gLayh4ffu8mclL+y8cGH6D03K5wasHV6XrwVcwA8PSA==
+X-Google-Smtp-Source: AA6agR5R7JBX+G9vsX99AHDe+ENcKLLfbw8qGoGYfIgviRkbBU7ksGZ2kcysY2yRk1Wa/a2jLhnjzR8vAYtiCOeHAXo=
+X-Received: by 2002:a63:ed15:0:b0:430:48ac:3771 with SMTP id
+ d21-20020a63ed15000000b0043048ac3771mr24156207pgi.423.1662464297242; Tue, 06
+ Sep 2022 04:38:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMj1kXH3T48W=k42mrCbY15yc4KYvAfUaRaJJRrsfKbuOfE53A@mail.gmail.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+References: <20220905163939.1599368-1-alex.bennee@linaro.org>
+In-Reply-To: <20220905163939.1599368-1-alex.bennee@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 6 Sep 2022 13:37:50 +0200
+Message-ID: <CAKmqyKPtuT+BT7S=G3v05=s00p4OE8X+tNaccNsN7sn3yJwbcw@mail.gmail.com>
+Subject: Re: [RFC PATCH] docs/system: clean up code escape for riscv virt
+ platform
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x529.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,68 +82,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 06, 2022 at 01:14:50PM +0200, Ard Biesheuvel wrote:
-> (cc Laszlo)
-> 
-> On Tue, 6 Sept 2022 at 12:45, Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Tue, Sep 06, 2022 at 12:43:55PM +0200, Jason A. Donenfeld wrote:
-> > > On Tue, Sep 6, 2022 at 12:40 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > >
-> > > > On Tue, Sep 06, 2022 at 12:36:56PM +0200, Jason A. Donenfeld wrote:
-> > > > > It's only safe to modify the setup_data pointer on newer kernels where
-> > > > > the EFI stub loader will ignore it. So condition setting that offset on
-> > > > > the newer boot protocol version. While we're at it, gate this on SEV too.
-> > > > > This depends on the kernel commit linked below going upstream.
-> > > > >
-> > > > > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > > > > Cc: Laurent Vivier <laurent@vivier.eu>
-> > > > > Cc: Michael S. Tsirkin <mst@redhat.com>
-> > > > > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > > > > Cc: Peter Maydell <peter.maydell@linaro.org>
-> > > > > Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> > > > > Cc: Richard Henderson <richard.henderson@linaro.org>
-> > > > > Cc: Ard Biesheuvel <ardb@kernel.org>
-> > > > > Link: https://lore.kernel.org/linux-efi/20220904165321.1140894-1-Jason@zx2c4.com/
-> > > > > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> > > >
-> > > > BTW what does it have to do with SEV?
-> > > > Is this because SEV is not going to trust the data to be random anyway?
-> > >
-> > > Daniel (now CC'd) pointed out in one of the previous threads that this
-> > > breaks SEV, because the image hash changes.
-> > >
-> > > Jason
-> >
-> > Oh I see. I'd add a comment maybe and definitely mention this
-> > in the commit log.
-> >
-> 
-> This does raise the question (as I mentioned before) how things like
-> secure boot and measured boot are affected when combined with direct
-> kernel boot: AIUI, libvirt uses direct kernel boot at guest
-> installation time, and modifying setup_data will corrupt the image
-> signature.
+On Mon, Sep 5, 2022 at 6:39 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+>
+> The example code is rendered slightly mangled due to missing code
+> block. Properly escape the code block and add shell prompt and qemu to
+> fit in with the other examples on the page.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-IIUC, qemu already modifies setup_data when using direct kernel boot.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-It put in logic to skip this if SEV is enabled, to avoid interfering
-with SEV hashes over the kernel, but there's nothing doing this more
-generally for non-SEV cases using UEFI. So potentially use of SecureBoot
-may already be impacted when using direct kernel boot. I haven't formally
-tested this myself though. I just saw that earlier versions of this
-RNG patch broke SEV hashes and later versions addressed that problem
-for SEV when the code was re-arranged.
+Alistair
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> ---
+>  docs/system/riscv/virt.rst | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
+>
+> diff --git a/docs/system/riscv/virt.rst b/docs/system/riscv/virt.rst
+> index f8ecec95f3..4b16e41d7f 100644
+> --- a/docs/system/riscv/virt.rst
+> +++ b/docs/system/riscv/virt.rst
+> @@ -168,14 +168,19 @@ Enabling TPM
+>
+>  A TPM device can be connected to the virt board by following the steps b=
+elow.
+>
+> -First launch the TPM emulator
+> +First launch the TPM emulator:
+>
+> -    swtpm socket --tpm2 -t -d --tpmstate dir=3D/tmp/tpm \
+> +.. code-block:: bash
+> +
+> +  $ swtpm socket --tpm2 -t -d --tpmstate dir=3D/tmp/tpm \
+>          --ctrl type=3Dunixio,path=3Dswtpm-sock
+>
+> -Then launch QEMU with:
+> +Then launch QEMU with some additional arguments to link a TPM device to =
+the backend:
+> +
+> +.. code-block:: bash
+>
+> -    ...
+> +  $ qemu-system-riscv64 \
+> +    ... other args .... \
+>      -chardev socket,id=3Dchrtpm,path=3Dswtpm-sock \
+>      -tpmdev emulator,id=3Dtpm0,chardev=3Dchrtpm \
+>      -device tpm-tis-device,tpmdev=3Dtpm0
+> --
+> 2.34.1
+>
+>
 
