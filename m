@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68E575AED89
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 16:47:37 +0200 (CEST)
-Received: from localhost ([::1]:57746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C8BA5AEB6D
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 16:23:53 +0200 (CEST)
+Received: from localhost ([::1]:56180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVZrU-0005sY-A5
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 10:47:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34952)
+	id 1oVZUW-0002yh-1M
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 10:23:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oVYMA-00066f-7R
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 09:11:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54513)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oVYM2-0005Z6-Of
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 09:11:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662469862;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=0Wy+okMJ878727zCjGwE/todZjMXlepLFItCijOmKUs=;
- b=fBXMEcWaS0S5r7annY9+/QQcmbo9tdv15v4CJ1/hX7uQkd9bv8oIyTU1BeAXvO3DXR0KGR
- 1veZLLMb1WEsBMffv10QwnxuA3r+7zzbHNvxopLwZpU2kFH6zAtggKugWyzWNVGjZbLGN/
- 2MR5rNODJlL0A1tixUVK+s/1ISVFumQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-594-Le1RyhcvNA2325TWqmngbQ-1; Tue, 06 Sep 2022 09:11:01 -0400
-X-MC-Unique: Le1RyhcvNA2325TWqmngbQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B1FB4299E753;
- Tue,  6 Sep 2022 13:11:00 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 48B822166B26;
- Tue,  6 Sep 2022 13:10:59 +0000 (UTC)
-Date: Tue, 6 Sep 2022 14:10:56 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Cc: John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Michael Tsirkin <mst@redhat.com>
-Subject: Re: [PATCH v2 10/11] pytest: add pytest to the meson build system
-Message-ID: <YxdG4LISpDFvBr0k@redhat.com>
-References: <20220710170014.1673480-1-ani@anisinha.ca>
- <20220710170014.1673480-11-ani@anisinha.ca>
- <CAFn=p-b_uVDib7qFcy=6fsMCGrcY8hQ89ZsQAfQMuHO26WM1dg@mail.gmail.com>
- <alpine.DEB.2.22.394.2207121220420.1824593@anisinha-lenovo>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oVYcj-0003jc-5n
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 09:28:20 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:37444)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oVYcg-0008J5-ND
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 09:28:16 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id b16so15173699edd.4
+ for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 06:28:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=ZEESWRQBJGRz8zkPxL+H2JcpRMbqLYLwP/7cDiPw07E=;
+ b=MIPWc4wuJwS2k6GSwUunUVKY09okYQOOSTQqmAtMXwkefeTaEwbcMud9Sq/wIg6YiG
+ CHxV4fzp3hh5FCeWrujSljHY2M9VpVwRXlftX3DeZ07mPETxdJdMVUzDdaNeRt7tB3Wd
+ UQyT2gzl4gnDRFDdlDXzl9ZqoaVR8XHocaWXHjlhgObL51j31QsbrdiQoBcWXICuylL1
+ U23S1w0ouHJAej5etl0vDjmf00NjJ1823Mb9rv0RPkHXFwMl5TXO/QsyTG1jPvhpxf3D
+ Biv7QocF/vU2Wzu/T7cxMY5poLz2PWU5ElcUscfc6T7cTvjCKu/jri8VhsdGoFjHpf4p
+ D7ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=ZEESWRQBJGRz8zkPxL+H2JcpRMbqLYLwP/7cDiPw07E=;
+ b=lH5SoJchlZBNFvmbynvCalaJpHG5pc5cTWqBBIvSRWSkc2+wDDntt7si3qpSwDupbH
+ fIsX4rhI9RwCLOPe7a+n/hGNyy2MFeE7MukBSqWq+6Yb8u4seaIPUyb2CIn7K/Mhjnym
+ lp16AYcyHy+0uz0y8QBUO0kCFKaHQvsUWJRU9ocmk66Lo/zJYxn5x8WIyuG/aMLWXRpZ
+ fK75C+2Fg7KdvsxKqHuL2rsWmMcr2ikiCDva06enpNVfZT/FLk8air4dThLwgHGv6YVU
+ AAtK4zJfGmX0w0ML05Ve0/tEDpu6fkwp1+DodWgIw6yyl6F7ZjW7ZNGAMjFgQuLHaxls
+ B/xg==
+X-Gm-Message-State: ACgBeo0qVvFdwz56uOvKwocs9Q7byjJmwGlDIG969akJ7am3rx/IVKz1
+ dHm2lljzaZ4JPLyLmN3GAbxItNJZYMECovhpdh+OLA==
+X-Google-Smtp-Source: AA6agR7G+U32VJxL90ooXebYJsrhaKQwbBnh2gYLD8wlOgBnaKLfznEKQl3ui/YtjRR75fA4QVl8zCKJvcPDgZ+49yw=
+X-Received: by 2002:a05:6402:4517:b0:443:7fe1:2d60 with SMTP id
+ ez23-20020a056402451700b004437fe12d60mr47850073edb.133.1662470892837; Tue, 06
+ Sep 2022 06:28:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2207121220420.1824593@anisinha-lenovo>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220710170014.1673480-1-ani@anisinha.ca>
+ <20220711044032-mutt-send-email-mst@kernel.org>
+ <CAFEAcA_KUh_Hmozw2KthwNoM2L9rnA18ttrk9GHHnJZ-X_M4yQ@mail.gmail.com>
+ <YxdH/c9jx+3oVs9m@redhat.com>
+In-Reply-To: <YxdH/c9jx+3oVs9m@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Tue, 6 Sep 2022 18:58:02 +0530
+Message-ID: <CAARzgwz7XzNHik3zxJUNXOuO8HN59zhd8nZgMMt+OL22AiVXjw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/11] Introduce new acpi/smbios python tests using
+ biosbits
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, imammedo@redhat.com, 
+ jsnow@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org, 
+ thuth@redhat.com
+Content-Type: multipart/alternative; boundary="000000000000047eec05e8022bc3"
+Received-SPF: none client-ip=2a00:1450:4864:20::52a;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,54 +85,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 12, 2022 at 12:22:10PM +0530, Ani Sinha wrote:
-> 
-> 
-> On Mon, 11 Jul 2022, John Snow wrote:
-> 
-> > On Sun, Jul 10, 2022 at 1:01 PM Ani Sinha <ani@anisinha.ca> wrote:
+--000000000000047eec05e8022bc3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Sep 6, 2022 at 18:45 Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
+wrote:
+
+> On Thu, Jul 14, 2022 at 02:24:18PM +0100, Peter Maydell wrote:
+> > On Mon, 11 Jul 2022 at 10:34, Michael S. Tsirkin <mst@redhat.com> wrote=
+:
 > > >
-> > > Integrate the pytest framework with the meson build system. This will make meson
-> > > run all the pytests under the pytest directory.
+> > > On Sun, Jul 10, 2022 at 10:30:03PM +0530, Ani Sinha wrote:
+> > > > Changelog:
+> > > > v2:
+> > > >  - a new class of python based tests introduced that is separate
+> from avocado
+> > > >    tests or qtests. Can be run by using "make check-pytest".
+> > > >  - acpi biosbits tests are the first tests to use pytest environmen=
+t.
+> > > >  - bios bits tests now download the bits binary archives from a
+> remote
+> > > >    repository if they are not found locally. The test skips if
+> download
+> > > >    fails.
+> > > >  - A new environment variable is introduced that can be passed by
+> the tester
+> > > >    to specify the location of the bits archives locally. test skips
+> if the
+> > > >    bits binaries are not found in that location.
+> > > >  - if pip install of python module fails for whatever reaoson, the
+> test skips.
+> > > >  - misc code fixes including spell check of the README doc. README
+> has been
+> > > >    updated as well.
+> > > >  - addition of SPDX license headers to bits test files.
+> > > >  - update MAINTAINERS to reflect the new pytest test class.
+> > > >
+> > > > For biosbits repo:
+> > > >  - added Dockerfile and build script. Made bios bits build on gcc 1=
+1.
+> > > >
+> https://github.com/ani-sinha/bits/blob/bits-qemu-logging/Dockerfile
+> > > >
+> https://github.com/ani-sinha/bits/blob/bits-qemu-logging/build-artifacts.=
+sh
+> > > >    The build script generates the zip archive and tarball used by
+> the test.
 > > >
-> > > Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> > > ---
-> > >  tests/Makefile.include   |  4 +++-
-> > >  tests/meson.build        |  1 +
-> > >  tests/pytest/meson.build | 49 ++++++++++++++++++++++++++++++++++++++++
-> > >  3 files changed, 53 insertions(+), 1 deletion(-)
-> > >  create mode 100644 tests/pytest/meson.build
-> > >
-> > > diff --git a/tests/Makefile.include b/tests/Makefile.include
-> > > index 3accb83b13..40755a6bd1 100644
-> > > --- a/tests/Makefile.include
-> > > +++ b/tests/Makefile.include
-> > > @@ -3,12 +3,14 @@
-> > >  .PHONY: check-help
-> > >  check-help:
-> > >         @echo "Regression testing targets:"
-> > > -       @echo " $(MAKE) check                  Run block, qapi-schema, unit, softfloat, qtest and decodetree tests"
-> > > +       @echo " $(MAKE) check                  Run block, qapi-schema, unit, softfloat, qtest, pytest and decodetree tests"
+> > > So far so good, I think it's ok for a start. It's probably a good ide=
+a
+> > > to host the source on qemu.org. Peter - any objection to this?
 > >
-> > Does this mean that "make check" *requires* an internet connection?
-> 
-> No. My test will be skipped if it is unable to download the artifacts it
-> requires due to lack of Internet connectivity.
+> > Dan was looking at v1 from the point of view of how we handle the
+> > guest binary blobs for these tests -- I'd rather defer to him rather
+> > than taking the time to get up to speed on the issue myself.
+>
+> Storing the *source* git repo for biosbits on gitlab.com/qemu-project
+> is sensible, as that's what we've done for other 3rd party bits that
+> we bundle/depend on git repo access for.
 
-That's not the only concern, there are also people who have metered
-internet connections, or whose connections are slow and thus have
-long download times. Any test that downloads should be opt-in only.
+
+Great. Can you or Peter please create a git repo cloned from the official
+bios bits repo please? You don=E2=80=99t have to clone mine. Please provide=
+ me with
+push access so that I can push fixes that I have made in order to build it.
+
+>
+>
+> The above git repo, however, has extra branches that also store the
+> binary builds, and I'm not convinced that is a good idea.
+>
+> I feel like the source git repo should have a .gitlab-ci.yml file
+> that builds the binary and publishes it as an CI artifact. This
+> lets us keep the binary outside of GIT, have a CI job that periodically
+> refreshes the binary (eg so when the Ubuntu version that Dockerfile
+> uses goes EOL we can use something else). The test can access the CI
+> artifact directly.
 
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+I can look into this incrementally. There is already a dockerfile for the
+build. I can look into pushing the yaml file as well.
 
+As for the binaries yes we need to decide where to keep thrm. But one step
+at a time .
+
+As for your other complaints like making the test opt-in, I=E2=80=99ll look=
+ into
+addressing them in v3.
+
+--000000000000047eec05e8022bc3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Tue, Sep 6, 2022 at 18:45 Daniel P. Berrang=C3=A9 &lt;<a=
+ href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex">On Thu, Jul 14, 2022 at 02:24:18PM +01=
+00, Peter Maydell wrote:<br>
+&gt; On Mon, 11 Jul 2022 at 10:34, Michael S. Tsirkin &lt;<a href=3D"mailto=
+:mst@redhat.com" target=3D"_blank">mst@redhat.com</a>&gt; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; On Sun, Jul 10, 2022 at 10:30:03PM +0530, Ani Sinha wrote:<br>
+&gt; &gt; &gt; Changelog:<br>
+&gt; &gt; &gt; v2:<br>
+&gt; &gt; &gt;=C2=A0 - a new class of python based tests introduced that is=
+ separate from avocado<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 tests or qtests. Can be run by using &quot;make=
+ check-pytest&quot;.<br>
+&gt; &gt; &gt;=C2=A0 - acpi biosbits tests are the first tests to use pytes=
+t environment.<br>
+&gt; &gt; &gt;=C2=A0 - bios bits tests now download the bits binary archive=
+s from a remote<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 repository if they are not found locally. The t=
+est skips if download<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 fails.<br>
+&gt; &gt; &gt;=C2=A0 - A new environment variable is introduced that can be=
+ passed by the tester<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 to specify the location of the bits archives lo=
+cally. test skips if the<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 bits binaries are not found in that location.<b=
+r>
+&gt; &gt; &gt;=C2=A0 - if pip install of python module fails for whatever r=
+eaoson, the test skips.<br>
+&gt; &gt; &gt;=C2=A0 - misc code fixes including spell check of the README =
+doc. README has been<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 updated as well.<br>
+&gt; &gt; &gt;=C2=A0 - addition of SPDX license headers to bits test files.=
+<br>
+&gt; &gt; &gt;=C2=A0 - update MAINTAINERS to reflect the new pytest test cl=
+ass.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; For biosbits repo:<br>
+&gt; &gt; &gt;=C2=A0 - added Dockerfile and build script. Made bios bits bu=
+ild on gcc 11.<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 <a href=3D"https://github.com/ani-sinha/bits/bl=
+ob/bits-qemu-logging/Dockerfile" rel=3D"noreferrer" target=3D"_blank">https=
+://github.com/ani-sinha/bits/blob/bits-qemu-logging/Dockerfile</a><br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 <a href=3D"https://github.com/ani-sinha/bits/bl=
+ob/bits-qemu-logging/build-artifacts.sh" rel=3D"noreferrer" target=3D"_blan=
+k">https://github.com/ani-sinha/bits/blob/bits-qemu-logging/build-artifacts=
+.sh</a><br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 The build script generates the zip archive and =
+tarball used by the test.<br>
+&gt; &gt;<br>
+&gt; &gt; So far so good, I think it&#39;s ok for a start. It&#39;s probabl=
+y a good idea<br>
+&gt; &gt; to host the source on <a href=3D"http://qemu.org" rel=3D"noreferr=
+er" target=3D"_blank">qemu.org</a>. Peter - any objection to this?<br>
+&gt; <br>
+&gt; Dan was looking at v1 from the point of view of how we handle the<br>
+&gt; guest binary blobs for these tests -- I&#39;d rather defer to him rath=
+er<br>
+&gt; than taking the time to get up to speed on the issue myself.<br>
+<br>
+Storing the *source* git repo for biosbits on <a href=3D"http://gitlab.com/=
+qemu-project" rel=3D"noreferrer" target=3D"_blank">gitlab.com/qemu-project<=
+/a><br>
+is sensible, as that&#39;s what we&#39;ve done for other 3rd party bits tha=
+t<br>
+we bundle/depend on git repo access for.</blockquote><div dir=3D"auto"><br>=
+</div><div dir=3D"auto">Great. Can you or Peter please create a git repo cl=
+oned from the official bios bits repo please? You don=E2=80=99t have to clo=
+ne mine. Please provide me with push access so that I can push fixes that I=
+ have made in order to build it.</div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=3D=
+"auto"><br>
+<br>
+The above git repo, however, has extra branches that also store the<br>
+binary builds, and I&#39;m not convinced that is a good idea.<br>
+<br>
+I feel like the source git repo should have a .gitlab-ci.yml file<br>
+that builds the binary and publishes it as an CI artifact. This<br>
+lets us keep the binary outside of GIT, have a CI job that periodically<br>
+refreshes the binary (eg so when the Ubuntu version that Dockerfile<br>
+uses goes EOL we can use something else). The test can access the CI<br>
+artifact directly.</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto=
+">I can look into this incrementally. There is already a dockerfile for the=
+ build. I can look into pushing the yaml file as well.</div><div dir=3D"aut=
+o"><br></div><div dir=3D"auto">As for the binaries yes we need to decide wh=
+ere to keep thrm. But one step at a time .</div><div dir=3D"auto"><br></div=
+><div dir=3D"auto">As for your other complaints like making the test opt-in=
+, I=E2=80=99ll look into addressing them in v3.=C2=A0</div><div dir=3D"auto=
+"><br></div></div></div>
+
+--000000000000047eec05e8022bc3--
 
