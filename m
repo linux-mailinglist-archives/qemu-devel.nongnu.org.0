@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FB4C5AE4C5
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 11:51:21 +0200 (CEST)
-Received: from localhost ([::1]:56712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 258645AE4D9
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 11:56:09 +0200 (CEST)
+Received: from localhost ([::1]:60360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVVEm-0003yU-6Z
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 05:51:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33838)
+	id 1oVVJP-0001GA-TD
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 05:56:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVUcH-0007U1-9s
+ id 1oVUcJ-0007U4-8C
  for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:11:36 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:36471)
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:36733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVUcF-0002eO-B0
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:11:32 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- v7-20020a1cac07000000b003a6062a4f81so9162883wme.1
- for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 02:11:30 -0700 (PDT)
+ id 1oVUcG-0002eX-Ii
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:11:34 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id b17so1087732wrq.3
+ for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 02:11:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date;
- bh=1Q+AAxSY6vLDBEmZV0jZhoFnJR53nnlesokQMLG1TEQ=;
- b=YimaFsDfTkohtShceturtaMk/Pr8JYjjlm/XnIwc/BhQrAt9H+AaAAekaJYVMmPj1m
- IVDP53SZTqufSCq22I8XVWv9TtLGWuMOri0A6dGf3+yWbpupAfHs/c+zT7SxklzjAjf8
- CrWNHIVfm/WpX/lIcbl8RFZEB+Fd6RBbodIdsxs2rvS0FrbLnbgtWfJIgEZP0/IR1EqA
- 5029OPHy8MzfWr7kb5By0ewbJqvSTzXOQf8dzW6N1KBOLrQLxAnltOSBYVcqiTcp29pS
- Xxupnx05zjR5AMrstBCjzRouaetZsnLkJjjaixmhXBQr1fu6bv0FBVSPlaAFpPttNlHY
- 2ZjA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date;
+ bh=otYbIH7+XnOzyNNWUPs7TNiTtGs08RctjQezdZ+bWqM=;
+ b=dWM4r7trPT4IwxjICsj5NkvVOKcPxWAjHBdSTS9rudEFqzihHN+O/T9ETra+c7Qko+
+ lzVUypFevacmG6yutlP+7RgSaoV27wt/k5JOCMfMKOHAuWf53GGqDcq88/NRgQcwhiR0
+ MSbF+l1jzrNCLv2n+dg5z/pSoHUyDE2EWVt1B+2YMs2fVYQKTSMbK7e6ZER9N/zQKvDw
+ Bab7nfGP1PP1Kte6KcwGnpXiAMVc0gGWIdk75NJpNKZaNwWnXIdfaQMp2nGnZ79UuN7W
+ OIo+IhY246lSQCmIwytzWJd0mwmC2f2nzQuHuVOIU/JONbLMqMbluho7aXyvCEfrrlPj
+ AYoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date;
- bh=1Q+AAxSY6vLDBEmZV0jZhoFnJR53nnlesokQMLG1TEQ=;
- b=kjd33HBPigAWTECuByOoLdGvtu2HZJ8RrdXQGmzlItwks6eimCz3+K7bSZOjrZlQ9j
- otTLgk1mAyhxxW+y6eT7j0nZNErHKYXbUue/nWnl7dJcRfWos3kzqoMfjFMjuGwXCBZR
- FTyVEG0jMzoxT+F6WdTxDiKD+QYJ7YDjP1CaeN5kLxOlT3ruTkBX/9m9+mOo3RdQfMbo
- cXghsbKmm9R6YAsADiCrWR7b9iLxq734EsgD3Ccu700jcOswcYfkVxI9ZKGeczBaRclO
- 26SxiNBDV7rsJkxnv+Tkdl+M2FGIWy0PWSLqyFWOil7DHF6aMRtofz8BgrFCjFO4dk6T
- 6SbQ==
-X-Gm-Message-State: ACgBeo3B7hPt4fTD7D8IBsA3O/wlgfAA6tWv8bgIT4uvBii5A07hgT2F
- wxmHnmhPSf/vZHOiASJC1Djl//zKR2q0pUGi
-X-Google-Smtp-Source: AA6agR7JlZd1ELbc4n+hP+s3S6a02uQdmgCs3NFQjU4iFzPaLyA0zRDYcr4F2xJfFKwXXQ1t7lZPhA==
-X-Received: by 2002:a05:600c:34d3:b0:3a5:fea5:1be8 with SMTP id
- d19-20020a05600c34d300b003a5fea51be8mr12871006wmq.106.1662455489518; 
- Tue, 06 Sep 2022 02:11:29 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=otYbIH7+XnOzyNNWUPs7TNiTtGs08RctjQezdZ+bWqM=;
+ b=MZxvapHtgahD9nXgmKmoI8S8uRkACIkmRA5313Dw9dFw+O3uN//oVSqP/cvQOm5aTX
+ mSK8yDneKnsJhs7vRrNBlUCMI7U0CHLabMjiSui890IUoTnCmhtJ8HXH5osisSDSRkSX
+ cqmog6uJbmQ3Se8E5ABscQpC2AGTUOz8UaRKOuCNj3LJ4y22jy7vRquIwDvWUx+xcAVI
+ GVAZOaoJfM6VE0tMswz3nTS2EVCnQpbe1uhb/zY9cL58x79gf+dd6aBpsUsqYT9L5yIV
+ wJbOp3Py/5oPn6kJijJEjw5OT+B5xyFDjpiU/Ux20HIvTdKyVXHu+Q4dVsbUC/bsgI/p
+ KXgw==
+X-Gm-Message-State: ACgBeo0Jo3WOvKU/q7BSmmtAQ/oYNba9NkflX1TS9IHMfGfblRY6DOCe
+ AxY6uzf6XG+z4Yp4A/Z9YDb3tgJO1QJQVNAI
+X-Google-Smtp-Source: AA6agR6KBzRf2pIkq49Nk50QIRF/an80PbRNCIncuLlJz5ShiVp/QN6kvOYzI8YpwcxsoJ8EFtI6Ag==
+X-Received: by 2002:a5d:5847:0:b0:227:595f:de89 with SMTP id
+ i7-20020a5d5847000000b00227595fde89mr10829578wrf.236.1662455490855; 
+ Tue, 06 Sep 2022 02:11:30 -0700 (PDT)
 Received: from localhost.localdomain
  ([2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1])
  by smtp.gmail.com with ESMTPSA id
- m64-20020a1c2643000000b003a5ee64cc98sm20094193wmm.33.2022.09.06.02.11.28
+ m64-20020a1c2643000000b003a5ee64cc98sm20094193wmm.33.2022.09.06.02.11.29
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 02:11:28 -0700 (PDT)
+ Tue, 06 Sep 2022 02:11:30 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/7] tcg: pc-relative translation blocks
-Date: Tue,  6 Sep 2022 10:11:19 +0100
-Message-Id: <20220906091126.298041-1-richard.henderson@linaro.org>
+Subject: [PATCH v4 1/7] accel/tcg: Use bool for page_find_alloc
+Date: Tue,  6 Sep 2022 10:11:20 +0100
+Message-Id: <20220906091126.298041-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220906091126.298041-1-richard.henderson@linaro.org>
+References: <20220906091126.298041-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,62 +90,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The goal here is to reduce the amount of code generation when the
-guest kernel enables address space randomization.  This requires
-extensive changes to each target, so opt-in with TARGET_TB_PCREL.
+Bool is more appropriate type for the alloc parameter.
 
-This is split out of v3, which also contained target/arm changes,
-as I now have patches for x86 and s390x as well.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ accel/tcg/translate-all.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-
-r~
-
-
-Based-on: 20220905202259.189852-1-richard.henderson@linaro.org
-("[PATCH v3 0/6] tcg: Introduce CPUTLBEntryFull")
-
-v2: https://lore.kernel.org/qemu-devel/20220816203400.161187-1-richard.henderson@linaro.org/
-v3: https://lore.kernel.org/qemu-devel/20220822232338.1727934-1-richard.henderson@linaro.org/
-
-branch: https://gitlab.com/rth7680/qemu/-/tree/tcg-pcrel
-
-
-Richard Henderson (7):
-  accel/tcg: Use bool for page_find_alloc
-  accel/tcg: Use DisasContextBase in plugin_gen_tb_start
-  accel/tcg: Do not align tb->page_addr[0]
-  include/hw/core: Create struct CPUJumpCache
-  accel/tcg: Introduce tb_pc and tb_pc_log
-  accel/tcg: Introduce TARGET_TB_PCREL
-  accel/tcg: Split log_cpu_exec into inline and slow path
-
- include/exec/cpu-defs.h                 |   3 +
- include/exec/exec-all.h                 |  51 ++++++++++-
- include/exec/plugin-gen.h               |   7 +-
- include/hw/core/cpu.h                   |   9 +-
- accel/tcg/cpu-exec.c                    | 108 ++++++++++++++++--------
- accel/tcg/cputlb.c                      |   5 +-
- accel/tcg/plugin-gen.c                  |  22 ++---
- accel/tcg/translate-all.c               |  90 ++++++++++++--------
- accel/tcg/translator.c                  |   2 +-
- target/arm/cpu.c                        |   4 +-
- target/avr/cpu.c                        |   2 +-
- target/hexagon/cpu.c                    |   2 +-
- target/hppa/cpu.c                       |   4 +-
- target/i386/tcg/tcg-cpu.c               |   2 +-
- target/loongarch/cpu.c                  |   2 +-
- target/microblaze/cpu.c                 |   2 +-
- target/mips/tcg/exception.c             |   2 +-
- target/mips/tcg/sysemu/special_helper.c |   2 +-
- target/openrisc/cpu.c                   |   2 +-
- target/riscv/cpu.c                      |   4 +-
- target/rx/cpu.c                         |   2 +-
- target/sh4/cpu.c                        |   4 +-
- target/sparc/cpu.c                      |   2 +-
- target/tricore/cpu.c                    |   2 +-
- tcg/tcg.c                               |   6 +-
- 25 files changed, 226 insertions(+), 115 deletions(-)
-
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index f5e8592d4a..d2946f8e59 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -472,7 +472,7 @@ void page_init(void)
+ #endif
+ }
+ 
+-static PageDesc *page_find_alloc(tb_page_addr_t index, int alloc)
++static PageDesc *page_find_alloc(tb_page_addr_t index, bool alloc)
+ {
+     PageDesc *pd;
+     void **lp;
+@@ -540,11 +540,11 @@ static PageDesc *page_find_alloc(tb_page_addr_t index, int alloc)
+ 
+ static inline PageDesc *page_find(tb_page_addr_t index)
+ {
+-    return page_find_alloc(index, 0);
++    return page_find_alloc(index, false);
+ }
+ 
+ static void page_lock_pair(PageDesc **ret_p1, tb_page_addr_t phys1,
+-                           PageDesc **ret_p2, tb_page_addr_t phys2, int alloc);
++                           PageDesc **ret_p2, tb_page_addr_t phys2, bool alloc);
+ 
+ /* In user-mode page locks aren't used; mmap_lock is enough */
+ #ifdef CONFIG_USER_ONLY
+@@ -658,7 +658,7 @@ static inline void page_unlock(PageDesc *pd)
+ /* lock the page(s) of a TB in the correct acquisition order */
+ static inline void page_lock_tb(const TranslationBlock *tb)
+ {
+-    page_lock_pair(NULL, tb->page_addr[0], NULL, tb->page_addr[1], 0);
++    page_lock_pair(NULL, tb->page_addr[0], NULL, tb->page_addr[1], false);
+ }
+ 
+ static inline void page_unlock_tb(const TranslationBlock *tb)
+@@ -847,7 +847,7 @@ void page_collection_unlock(struct page_collection *set)
+ #endif /* !CONFIG_USER_ONLY */
+ 
+ static void page_lock_pair(PageDesc **ret_p1, tb_page_addr_t phys1,
+-                           PageDesc **ret_p2, tb_page_addr_t phys2, int alloc)
++                           PageDesc **ret_p2, tb_page_addr_t phys2, bool alloc)
+ {
+     PageDesc *p1, *p2;
+     tb_page_addr_t page1;
+@@ -1341,7 +1341,7 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
+      * Note that inserting into the hash table first isn't an option, since
+      * we can only insert TBs that are fully initialized.
+      */
+-    page_lock_pair(&p, phys_pc, &p2, phys_page2, 1);
++    page_lock_pair(&p, phys_pc, &p2, phys_page2, true);
+     tb_page_add(p, tb, 0, phys_pc & TARGET_PAGE_MASK);
+     if (p2) {
+         tb_page_add(p2, tb, 1, phys_page2);
+@@ -2289,7 +2289,7 @@ void page_set_flags(target_ulong start, target_ulong end, int flags)
+     for (addr = start, len = end - start;
+          len != 0;
+          len -= TARGET_PAGE_SIZE, addr += TARGET_PAGE_SIZE) {
+-        PageDesc *p = page_find_alloc(addr >> TARGET_PAGE_BITS, 1);
++        PageDesc *p = page_find_alloc(addr >> TARGET_PAGE_BITS, true);
+ 
+         /* If the write protection bit is set, then we invalidate
+            the code inside.  */
 -- 
 2.34.1
 
