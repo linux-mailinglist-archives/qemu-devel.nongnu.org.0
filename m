@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A69145AEE94
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 17:22:08 +0200 (CEST)
-Received: from localhost ([::1]:51902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D558D5AEE89
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 17:21:24 +0200 (CEST)
+Received: from localhost ([::1]:53396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVaOt-0005YR-NZ
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 11:22:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36824)
+	id 1oVaOC-0004TF-1D
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 11:21:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oVaB0-0004yS-Ht
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 11:07:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41321)
+ id 1oVaB2-00054l-JA
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 11:07:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36844)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oVaAy-0002Ij-TT
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 11:07:46 -0400
+ id 1oVaB1-0002J7-0d
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 11:07:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662476863;
+ s=mimecast20190719; t=1662476866;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=98v2Byg4txCUkMYx+EdCgVj34yNLWuRwxgR2JKC9H/I=;
- b=X/8Q83p/ZJPhWYr8lU8CRi+6bsJzaC+t2KeaBXqMyjbecHGzrUx1ziToHWBKf0+7EWJXAy
- UqbWEBBedRgBci8W+DZcBruHdgbvGbUWEbPOHoOYGTCxofB9lSzpVnSfnurE2vjz78B9CV
- yq97aPA4JKxSqAOUtwozcMuC6JhmNQg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0EiC9qsa92qPMgZCmBJglnW5RyionM1aBUgNqKB3yf0=;
+ b=ZRbDiNUSJO35Hyw4z0qdrPzJal56wmGcJQxMDL8wVLdHZGUxqTxUEFlxS2dpa7pbVW+dx8
+ cSVd56wQoGdEYXPaam5iH7QR2uF7jL8E6oOodz/r9kIHfcMlc558mrOMuiE7f0cQD5Q8va
+ tblcLD3jyWv6O67AUzLncswGcg1Hf7k=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-519-ZZFcPEb5MEKa8fgeOwj4gA-1; Tue, 06 Sep 2022 11:07:41 -0400
-X-MC-Unique: ZZFcPEb5MEKa8fgeOwj4gA-1
+ us-mta-571-nZA8FE5sNjGeoKqZMqzY_A-1; Tue, 06 Sep 2022 11:07:44 -0400
+X-MC-Unique: nZA8FE5sNjGeoKqZMqzY_A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EA4C4101A56C;
- Tue,  6 Sep 2022 15:07:40 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A54F3C025C8;
+ Tue,  6 Sep 2022 15:07:44 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.195.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 017D140D296C;
- Tue,  6 Sep 2022 15:07:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3BD4E40D296D;
+ Tue,  6 Sep 2022 15:07:41 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Stefan Hajnoczi <stefanha@redhat.com>,
@@ -55,10 +55,9 @@ Cc: Stefan Hajnoczi <stefanha@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  "Gonglei (Arei)" <arei.gonglei@huawei.com>,
  Cornelia Huck <cohuck@redhat.com>, Gautam Dawar <gdawar@xilinx.com>
-Subject: [PATCH v4 5/6] virtio-net: Update virtio-net curr_queue_pairs in vdpa
- backends
-Date: Tue,  6 Sep 2022 17:07:18 +0200
-Message-Id: <20220906150719.1134955-6-eperezma@redhat.com>
+Subject: [PATCH v4 6/6] vdpa: Allow MQ feature in SVQ
+Date: Tue,  6 Sep 2022 17:07:19 +0200
+Message-Id: <20220906150719.1134955-7-eperezma@redhat.com>
 In-Reply-To: <20220906150719.1134955-1-eperezma@redhat.com>
 References: <20220906150719.1134955-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -89,45 +88,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It was returned as error before. Instead of it, simply update the
-corresponding field so qemu can send it in the migration data.
+Finally enable SVQ with MQ feature.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Acked-by: Si-Wei Liu <si-wei.liu@oracle.com>
 ---
- hw/net/virtio-net.c | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+ net/vhost-vdpa.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index dd0d056fde..63a8332cd0 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -1412,19 +1412,14 @@ static int virtio_net_handle_mq(VirtIONet *n, uint8_t cmd,
-         return VIRTIO_NET_ERR;
-     }
- 
--    /* Avoid changing the number of queue_pairs for vdpa device in
--     * userspace handler. A future fix is needed to handle the mq
--     * change in userspace handler with vhost-vdpa. Let's disable
--     * the mq handling from userspace for now and only allow get
--     * done through the kernel. Ripples may be seen when falling
--     * back to userspace, but without doing it qemu process would
--     * crash on a recursive entry to virtio_net_set_status().
--     */
-+    n->curr_queue_pairs = queue_pairs;
-     if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
--        return VIRTIO_NET_ERR;
-+        /*
-+         * Avoid updating the backend for a vdpa device: We're only interested
-+         * in updating the device model queues.
-+         */
-+        return VIRTIO_NET_OK;
-     }
--
--    n->curr_queue_pairs = queue_pairs;
-     /* stop the backend before changing the number of queue_pairs to avoid handling a
-      * disabled queue */
-     virtio_net_set_status(vdev, vdev->status);
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index c6cbe2fb5c..4bc3fd01a8 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -94,6 +94,7 @@ static const uint64_t vdpa_svq_device_features =
+     BIT_ULL(VIRTIO_NET_F_MRG_RXBUF) |
+     BIT_ULL(VIRTIO_NET_F_STATUS) |
+     BIT_ULL(VIRTIO_NET_F_CTRL_VQ) |
++    BIT_ULL(VIRTIO_NET_F_MQ) |
+     BIT_ULL(VIRTIO_F_ANY_LAYOUT) |
+     BIT_ULL(VIRTIO_NET_F_CTRL_MAC_ADDR) |
+     BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
 -- 
 2.31.1
 
