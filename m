@@ -2,108 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA8C5AE28D
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 10:30:06 +0200 (CEST)
-Received: from localhost ([::1]:59752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F0F5AE279
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 10:27:50 +0200 (CEST)
+Received: from localhost ([::1]:38752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVTyA-0006sG-0W
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 04:30:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41642)
+	id 1oVTvx-0004PP-7r
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 04:27:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nrb@linux.ibm.com>)
- id 1oVTmD-0007ZM-Kb; Tue, 06 Sep 2022 04:17:46 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:22268)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oVToT-0008T9-6m
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 04:20:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56899)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nrb@linux.ibm.com>)
- id 1oVTmB-0002BS-3X; Tue, 06 Sep 2022 04:17:45 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2867oim5016985;
- Tue, 6 Sep 2022 08:17:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=content-type :
- mime-version : content-transfer-encoding : in-reply-to : references : cc :
- from : subject : to : message-id : date; s=pp1;
- bh=fp9OOmG/9g1zZazjh+DBY2mTkvbgTxVNcbCt45GosbE=;
- b=UxNySvs4i8muhlfiJwWThyMJK8YNAhMKlTa0K1s5Z0VUbPN32quS4RcsdntG07sIGDbs
- 6nthWrG+m0H4cU1w1xQycUycB+macUBKvnxIUtzfEzemy6dW9t3yXhnvuoM0jHszP0a8
- NHVYLT0EATERSPdTmnd1LlShbp14EuFHMeXnSDYL49O8CTv9bTEvy7StIrwCwyerAN2N
- jlZG7DLZoMZsTFBL3ktjyV7pO1m7fLWlyilH7xA5m+fz9gs+9oq+zzC+upPx2QoKCsMB
- 2x89TCbcD/P305MmE9bj1xM4Vpr4uqQpwh4sS3mPM7Kf/6qP8LDr8Orb+nW41526lIRP Tw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3je26391gc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Sep 2022 08:17:40 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2867pLil021694;
- Tue, 6 Sep 2022 08:17:39 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3je26391ew-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Sep 2022 08:17:39 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28686Reo007340;
- Tue, 6 Sep 2022 08:17:37 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma01fra.de.ibm.com with ESMTP id 3jbxj8thcn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 06 Sep 2022 08:17:36 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 2868E52q42074542
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 6 Sep 2022 08:14:05 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B2E764C040;
- Tue,  6 Sep 2022 08:17:33 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 89B3B4C044;
- Tue,  6 Sep 2022 08:17:33 +0000 (GMT)
-Received: from t14-nrb (unknown [9.171.15.101])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue,  6 Sep 2022 08:17:33 +0000 (GMT)
-Content-Type: text/plain; charset="utf-8"
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oVToP-0002O7-4L
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 04:20:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662452400;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CHH+w10/6aKNeXA6qm3GkaomtHQ+n9zapcvyEm+bIio=;
+ b=AK7fuVGlnedD3IeGb/kmtUC9qBDOBGaxlzDcUc18sJ12T4/tL8QOzv14UMokW8GptgvnDS
+ fc4U0p/iuV9+dB35iY0ZivBOtaxu4n/sIr+9CrNI+uY5gNxvu7tiIZahfWkN18bPjnA6/u
+ s+2x58q2plBVvWQG/rKbLeoRzQ5Floo=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-356-clhDxJ6pM36rAzcBVw3ABw-1; Tue, 06 Sep 2022 04:19:57 -0400
+X-MC-Unique: clhDxJ6pM36rAzcBVw3ABw-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ xh12-20020a170906da8c00b007413144e87fso3164842ejb.14
+ for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 01:19:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=CHH+w10/6aKNeXA6qm3GkaomtHQ+n9zapcvyEm+bIio=;
+ b=X7d1GLlem4KuHV57eX3mPmiwe5wMcNYG1L0jUkARvpz+t7mdBk3O3rBghIGCxxIh43
+ l2eDRMsUksbx30dryJZlBfMDcYOGKQRuuprMcicKFeajEaTTorw3ciEjqtwzxk2/XhaM
+ vx+ige2WUc6gwnomBbLyQ1BihojrIZCWt4NadtnVhmsMpK2OW5AbcQKYpOtgOEcpYWHN
+ Mv/bdadYXU6ebkZVXhSWq+ZlTeecWx2quyQ/PkywYY0xVFnlO9OL3PZoxmPLBr1oCXE9
+ u3/c6dOmtN5AkynMXPR4er9lg8IWvY7744QHorbFgIG6bwDQh6OwKkBShjKQRkRF1mlh
+ dyzw==
+X-Gm-Message-State: ACgBeo2Xl94cSWf7oldLNeMUrrZJc9RwucvL6ss848QjMFweqMgoAiSi
+ 2l1shmEtGMO0sY89+fgfkH1qEUjuUD3UppxU9un5kZPuwhDzb8JOpRIZLewTA03PN/BO/SHbL5Y
+ tgmm5vtqndDLw3tI=
+X-Received: by 2002:a05:6402:35cf:b0:448:84a9:12cf with SMTP id
+ z15-20020a05640235cf00b0044884a912cfmr33165002edc.51.1662452395919; 
+ Tue, 06 Sep 2022 01:19:55 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR56yct+zVj/EiQSkaQS8386GuVHSvNHSqb5r+O5ss9tDm7PMkmGgpV6zhpJwjoxLkoV3uuiNg==
+X-Received: by 2002:a05:6402:35cf:b0:448:84a9:12cf with SMTP id
+ z15-20020a05640235cf00b0044884a912cfmr33164979edc.51.1662452395668; 
+ Tue, 06 Sep 2022 01:19:55 -0700 (PDT)
+Received: from redhat.com ([2.52.135.118]) by smtp.gmail.com with ESMTPSA id
+ q13-20020aa7d44d000000b0044eb5b922bdsm1928210edr.24.2022.09.06.01.19.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Sep 2022 01:19:54 -0700 (PDT)
+Date: Tue, 6 Sep 2022 04:19:50 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ thuth@redhat.com, berrange@redhat.com, jsnow@redhat.com,
+ pbonzini@redhat.com, imammedo@redhat.com
+Subject: Re: [PATCH v2 00/11] Introduce new acpi/smbios python tests using
+ biosbits
+Message-ID: <20220906041904-mutt-send-email-mst@kernel.org>
+References: <20220710170014.1673480-1-ani@anisinha.ca>
+ <20220711044032-mutt-send-email-mst@kernel.org>
+ <CAFEAcA_KUh_Hmozw2KthwNoM2L9rnA18ttrk9GHHnJZ-X_M4yQ@mail.gmail.com>
+ <CAARzgwxUvkQSaoguyRYA5VSsvRzAYOYpbpzyDE+D1RvOyqEcug@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220902075531.188916-4-pmorel@linux.ibm.com>
-References: <20220902075531.188916-1-pmorel@linux.ibm.com>
- <20220902075531.188916-4-pmorel@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- frankja@linux.ibm.com
-From: Nico Boehr <nrb@linux.ibm.com>
-Subject: Re: [PATCH v9 03/10] s390x/cpu topology: reporting the CPU topology
- to the guest
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Message-ID: <166245225333.5995.17109067416462484247@t14-nrb>
-User-Agent: alot/0.8.1
-Date: Tue, 06 Sep 2022 10:17:33 +0200
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: pyauRzQdMDn5utUGf5ASDiIQkyhlKK4_
-X-Proofpoint-ORIG-GUID: RC5Qufek0YMiQaf02On3fTcpQQsKBniP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-06_03,2022-09-05_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0
- malwarescore=0 adultscore=0 mlxlogscore=999 phishscore=0 suspectscore=0
- mlxscore=0 lowpriorityscore=0 impostorscore=0 priorityscore=1501
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2209060038
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=nrb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAARzgwxUvkQSaoguyRYA5VSsvRzAYOYpbpzyDE+D1RvOyqEcug@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -120,98 +100,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Quoting Pierre Morel (2022-09-02 09:55:24)
-> The guest can use the STSI instruction to get a buffer filled
-> with the CPU topology description.
->=20
-> Let us implement the STSI instruction for the basis CPU topology
-> level, level 2.
+On Tue, Sep 06, 2022 at 11:56:33AM +0530, Ani Sinha wrote:
+> On Thu, Jul 14, 2022 at 6:54 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+> >
+> > On Mon, 11 Jul 2022 at 10:34, Michael S. Tsirkin <mst@redhat.com> wrote:
+> > >
+> > > On Sun, Jul 10, 2022 at 10:30:03PM +0530, Ani Sinha wrote:
+> > > > Changelog:
+> > > > v2:
+> > > >  - a new class of python based tests introduced that is separate from avocado
+> > > >    tests or qtests. Can be run by using "make check-pytest".
+> > > >  - acpi biosbits tests are the first tests to use pytest environment.
+> > > >  - bios bits tests now download the bits binary archives from a remote
+> > > >    repository if they are not found locally. The test skips if download
+> > > >    fails.
+> > > >  - A new environment variable is introduced that can be passed by the tester
+> > > >    to specify the location of the bits archives locally. test skips if the
+> > > >    bits binaries are not found in that location.
+> > > >  - if pip install of python module fails for whatever reaoson, the test skips.
+> > > >  - misc code fixes including spell check of the README doc. README has been
+> > > >    updated as well.
+> > > >  - addition of SPDX license headers to bits test files.
+> > > >  - update MAINTAINERS to reflect the new pytest test class.
+> > > >
+> > > > For biosbits repo:
+> > > >  - added Dockerfile and build script. Made bios bits build on gcc 11.
+> > > >    https://github.com/ani-sinha/bits/blob/bits-qemu-logging/Dockerfile
+> > > >    https://github.com/ani-sinha/bits/blob/bits-qemu-logging/build-artifacts.sh
+> > > >    The build script generates the zip archive and tarball used by the test.
+> > >
+> > > So far so good, I think it's ok for a start. It's probably a good idea
+> > > to host the source on qemu.org. Peter - any objection to this?
+> >
+> > Dan was looking at v1 from the point of view of how we handle the
+> > guest binary blobs for these tests -- I'd rather defer to him rather
+> > than taking the time to get up to speed on the issue myself.
+> 
+> Ok let's resurrect this discussion again. What are we going to do with
+> bios bits? Put it in git.qemu.org then?
+> I have put a lot of time and effort into this work and I believe this
+> will add another valuable tool to test acpi stuff, so I am not going
+> away :-)
 
-I like this. It is so much simpler. Thanks.
+This makes sense to me. Peter, ok? Could you create a repo for Ani if
+yes?
 
-[...]
-> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-> index a6ca006ec5..e2fd5c7e44 100644
-> --- a/hw/s390x/cpu-topology.c
-> +++ b/hw/s390x/cpu-topology.c
-> @@ -76,9 +76,11 @@ void s390_topology_new_cpu(int core_id)
->       * in the CPU container allows to represent up to the maximal number=
- of
->       * CPU inside several CPU containers inside the socket container.
->       */
-> +    qemu_mutex_lock(&topo->topo_mutex);
+-- 
+MST
 
-You access topo->cores above. Do you need the mutex for that? I guess not s=
-ince
-it can't change at runtime (right?), so maybe it is worth documenting what =
-the
-topo_mutex actually protects or you just take the mutex at the start of the
-function.
-
-[...]
-> diff --git a/target/s390x/cpu_topology.c b/target/s390x/cpu_topology.c
-> new file mode 100644
-> index 0000000000..56865dafc6
-> --- /dev/null
-> +++ b/target/s390x/cpu_topology.c
-[...]
-> +static char *fill_tle_cpu(char *p, uint64_t mask, int origin)
-> +{
-> +    SysIBTl_cpu *tle =3D (SysIBTl_cpu *)p;
-> +
-> +    tle->nl =3D 0;
-> +    tle->dedicated =3D 1;
-> +    tle->polarity =3D S390_TOPOLOGY_POLARITY_H;
-> +    tle->type =3D S390_TOPOLOGY_CPU_TYPE;
-> +    tle->origin =3D origin * 64;
-
-origin would also need a byte order conversion.
-
-> +    tle->mask =3D be64_to_cpu(mask);
-
-cpu_to_be64()
-
-[...]
-> +static char *s390_top_set_level2(S390Topology *topo, char *p)
-> +{
-> +    int i, origin;
-> +
-> +    for (i =3D 0; i < topo->sockets; i++) {
-> +        if (!topo->socket[i].active_count) {
-> +            continue;
-> +        }
-> +        p =3D fill_container(p, 1, i);
-> +        for (origin =3D 0; origin < S390_TOPOLOGY_MAX_ORIGIN; origin++) {
-> +            uint64_t mask =3D 0L;
-> +
-> +            mask =3D be64_to_cpu(topo->tle[i].mask[origin]);
-
-Don't you already do the endianness conversion in fill_tle_cpu()?
-
-[...]
-> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar)
-> +{
-> +    SysIB_151x *sysib;
-> +    int len =3D sizeof(*sysib);
-> +
-> +    if (s390_is_pv() || sel2 < 2 || sel2 > S390_TOPOLOGY_MAX_MNEST) {
-> +        setcc(cpu, 3);
-> +        return;
-> +    }
-> +
-> +    sysib =3D g_malloc0(TARGET_PAGE_SIZE);
-> +
-> +    len +=3D setup_stsi(sysib, sel2);
-> +    if (len > TARGET_PAGE_SIZE) {
-> +        setcc(cpu, 3);
-> +        goto out_free;
-> +    }
-
-Maybe I don't get it, but isn't it kind of late for this check? You would
-already have written beyond the end of the buffer at this point in time...
-
-> +
-> +    sysib->length =3D be16_to_cpu(len);
-
-cpu_to_be16()
 
