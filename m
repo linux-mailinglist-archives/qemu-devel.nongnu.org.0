@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0699D5AE6F9
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 13:55:04 +0200 (CEST)
-Received: from localhost ([::1]:47212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FCD45AE60F
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 12:58:14 +0200 (CEST)
+Received: from localhost ([::1]:43080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVXAQ-0005Mk-1I
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 07:54:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57660)
+	id 1oVWHV-0002rv-6e
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 06:58:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVVWm-0000Gs-IU
+ id 1oVVWm-0000Gt-Ir
  for qemu-devel@nongnu.org; Tue, 06 Sep 2022 06:09:58 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:36433)
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oVVWk-0003cG-Pb
+ id 1oVVWk-0003Yc-UX
  for qemu-devel@nongnu.org; Tue, 06 Sep 2022 06:09:56 -0400
-Received: by mail-wr1-x432.google.com with SMTP id b17so1317079wrq.3
+Received: by mail-wr1-x433.google.com with SMTP id bp20so14180015wrb.9
  for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 03:09:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=e4npXQ7DLvxtByjVYox+uTI8xWGyZxkDNG6TBVozSlU=;
- b=Z83udYujk4ZpZ+iWoJ6YIeTqUwY6+MIaEucDlXHjNa+AcYet5NaVyJtRqpspgmnZGV
- kkAOHg8Yq8NDyI47j9x1iiI8mv4MFd2Hq+kSctbpkLifCvq+5dJxlNV8O2wbrFqBloBc
- t9/QxApXtO4T/mwnXdoJFsv5KNy/wZPD7urfBtnq6Vl3ujXXhlg+tsyseycv16tKStWO
- 82cSAar6fiDEmn75XTjHE7gZlssfLg6WFBE8+Tlx36UQC51AttFLaRiZNKfg5DSbY5+z
- BsHNbbMHN8uH2oxAh49toOQ4681XdkW2NjT2C29S9a5w2uPReqOhkyZzih88quj5Cemw
- rGeA==
+ bh=sStumSItgDeXZaFuVPIAQyYganzdZgHWxSiIZOoEM0E=;
+ b=Fwy0ioLKe6rJKVIj1oG3x2siEffFxo9xVtQJxk6s6wW++Xcq/HD+O0HM2pVam04/Po
+ kNYva3iAhePF0ksvC62ysvy/5FmDGw/VcSlHfZbMMAAYI1aZ9mZjGPq0zklaWtflY85I
+ HnLr8JsZqcCByb/lqEVNqNDqgBkUAhMXLtYvhY/59zioTbeQZrjyB6ZD7d9qIspQoBJi
+ DrtnQjXpPpMHkLaMzOA27P/W9Rc98pHbb5P8fhfk5FYlPtCaaCHybnY3POlI0CHaDahk
+ Hrk90xkSIjGcr8rTCvPLl3/2C9m8Y9Zy/gCckRsiZF0SS3pDGwp5BmzIHQoTScwj3CoR
+ x3Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=e4npXQ7DLvxtByjVYox+uTI8xWGyZxkDNG6TBVozSlU=;
- b=sAkDh/otVnb8d/QlUChdyOdOxvpYUM+A7KpAOOZ/xwdXtoTgnH07X1ufOYMfADGi/S
- QC0YoJeo+ZkEMfvCRcajArEIclf4j2znGIaJbsn1zbvCcB98m6zaTe5JtuwsxPQyXbDT
- 91E1gQQmqfNyJvy1/7R70hDjPRf1VGBiyWNqFrv2Ai8TIxvFIA02fF988EyySsawy0mU
- CEhEaNGCI+ode91vy822jGTeFuRfFjBtgvzcIYeoVR+cJ1nfBQ93GIxzR4thhXw3QdUy
- GRjv1mF84yYGbpIxCw+iJUgiBnUnNmx+9PfJhC2agVSlgrdBk6zjeiwDAIQxI/f/iv59
- 161w==
-X-Gm-Message-State: ACgBeo2BYFrywtEiyPhG07mdXcapU3JoFWb/Fo8AYGWXSkPVupwBRoHP
- vxJHujr6YHV2TM4QdagNwdazaVbCtLi52g4I
-X-Google-Smtp-Source: AA6agR6sgMAg989vTVuc30cGul4WOrCZDWD55JppIJA5ZvOWbCXNF6+TiGPnGraFYLmi49xEVSz5Xg==
-X-Received: by 2002:a5d:6d07:0:b0:220:68a1:9ecb with SMTP id
- e7-20020a5d6d07000000b0022068a19ecbmr28045621wrq.116.1662458993305; 
- Tue, 06 Sep 2022 03:09:53 -0700 (PDT)
+ bh=sStumSItgDeXZaFuVPIAQyYganzdZgHWxSiIZOoEM0E=;
+ b=yiHPfJJlvX91tU4WUpx5ii2bc3BK5p6w1+cUOjxZubrUODZR0qmlmr+QFBZ9Ib+MXa
+ wYCzhvNIot/5b+XXW2qR+WFjcnYpeuuk5Sh/K3/U9ipKg0Zv5K3AbLPPeVadMfoEQpKi
+ sp2BJzBY1G8SwL06kCPbp6YIxY6SuuXt5XN8AY5iWzubqOgejOmUmOW70VdX0oeJJaqk
+ GnIPnAcvYddBdRtmdF2np2cL87Vbf7Sh9147aPTuGp5upXm2lFD9eVzNi4sfvnJueLMZ
+ AknlKXFbk/nNMQLjpcCYvM1zjU02A1lk2cJ4N0Wk6AyFZHv8XDd4EC5fXOzrZyD9z0TN
+ zAxA==
+X-Gm-Message-State: ACgBeo08yiCbPvL//C4zlaQyzx4opO7PM5cECSs85B4a4M61E+qiYw6P
+ ldWMVj3akrHUWrgv5DgBBsv2GVDn2l31GUUI
+X-Google-Smtp-Source: AA6agR5jDmuTZQi1nI04a8aXVqs39ZSL8O7XQt93XW3x2O9qs+EP5PZidtspS4fwkQ8w7Tmkfw2J2w==
+X-Received: by 2002:a5d:59a6:0:b0:228:ac72:3c27 with SMTP id
+ p6-20020a5d59a6000000b00228ac723c27mr4337975wrr.73.1662458994244; 
+ Tue, 06 Sep 2022 03:09:54 -0700 (PDT)
 Received: from localhost.localdomain
  ([2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1])
  by smtp.gmail.com with ESMTPSA id
- f25-20020a1c6a19000000b003a840690609sm23125014wmc.36.2022.09.06.03.09.52
+ f25-20020a1c6a19000000b003a840690609sm23125014wmc.36.2022.09.06.03.09.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 03:09:52 -0700 (PDT)
+ Tue, 06 Sep 2022 03:09:53 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com
-Subject: [PATCH v2 20/23] target/i386: Use gen_jmp_rel for gen_repz*
-Date: Tue,  6 Sep 2022 11:09:29 +0100
-Message-Id: <20220906100932.343523-21-richard.henderson@linaro.org>
+Subject: [PATCH v2 21/23] target/i386: Use gen_jmp_rel for DISAS_TOO_MANY
+Date: Tue,  6 Sep 2022 11:09:30 +0100
+Message-Id: <20220906100932.343523-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220906100932.343523-1-richard.henderson@linaro.org>
 References: <20220906100932.343523-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,55 +90,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Subtract cur_insn_len to restart the current insn.
+With gen_jmp_rel, we may chain between two translation blocks
+which may only be separated because of TB size limits.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ target/i386/tcg/translate.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index e27f36e4e9..7a9e533c6e 100644
+index 7a9e533c6e..97a5f7e432 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -224,7 +224,6 @@ STUB_HELPER(wrmsr, TCGv_env env)
- 
- static void gen_eob(DisasContext *s);
- static void gen_jr(DisasContext *s);
--static void gen_jmp(DisasContext *s, target_ulong eip);
- static void gen_jmp_tb(DisasContext *s, target_ulong eip, int tb_num);
- static void gen_jmp_rel(DisasContext *s, MemOp ot, int diff, int tb_num);
- static void gen_op(DisasContext *s1, int op, MemOp ot, int d);
-@@ -1277,7 +1276,7 @@ static void gen_repz(DisasContext *s, MemOp ot,
-     if (s->repz_opt) {
-         gen_op_jz_ecx(s, s->aflag, l2);
-     }
--    gen_jmp(s, s->base.pc_next - s->cs_base);
-+    gen_jmp_rel(s, MO_32, -cur_insn_len(s), 0);
- }
- 
- #define GEN_REPZ(op) \
-@@ -1297,7 +1296,7 @@ static void gen_repz2(DisasContext *s, MemOp ot, int nz,
-     if (s->repz_opt) {
-         gen_op_jz_ecx(s, s->aflag, l2);
-     }
--    gen_jmp(s, s->base.pc_next - s->cs_base);
-+    gen_jmp_rel(s, MO_32, -cur_insn_len(s), 0);
- }
- 
- #define GEN_REPZ2(op) \
-@@ -2751,11 +2750,6 @@ static void gen_jmp_rel(DisasContext *s, MemOp ot, int diff, int tb_num)
-     gen_jmp_tb(s, dest, tb_num);
- }
- 
--static void gen_jmp(DisasContext *s, target_ulong eip)
--{
--    gen_jmp_tb(s, eip, 0);
--}
--
- static inline void gen_ldq_env_A0(DisasContext *s, int offset)
- {
-     tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, s->mem_index, MO_LEUQ);
+@@ -8740,6 +8740,9 @@ static void i386_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+     case DISAS_NORETURN:
+         break;
+     case DISAS_TOO_MANY:
++        gen_update_cc_op(dc);
++        gen_jmp_rel(dc, MO_32, 0, 0);
++        break;
+     case DISAS_EOB_NEXT:
+         gen_update_cc_op(dc);
+         gen_update_eip_cur(dc);
 -- 
 2.34.1
 
