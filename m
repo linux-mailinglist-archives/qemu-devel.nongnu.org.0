@@ -2,93 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B25E5AF658
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 22:50:40 +0200 (CEST)
-Received: from localhost ([::1]:49770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B90AA5AF659
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 22:50:46 +0200 (CEST)
+Received: from localhost ([::1]:37424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVfWp-00080z-8B
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 16:50:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60686)
+	id 1oVfWv-0008FE-SI
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 16:50:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arnd@arndb.de>)
- id 1oVfRp-0004iU-Ry; Tue, 06 Sep 2022 16:45:31 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:51087)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oVfSt-0005JN-PJ
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 16:46:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60265)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arnd@arndb.de>)
- id 1oVfRm-0000pn-TJ; Tue, 06 Sep 2022 16:45:28 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id B089A58055A;
- Tue,  6 Sep 2022 16:45:22 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
- by compute3.internal (MEProxy); Tue, 06 Sep 2022 16:45:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1662497122; x=
- 1662500722; bh=u8PqlsTGRRNhe8EU7QHSPpRYK1LxejqlRIXFdMaPpxs=; b=f
- aa6qsM7J5koeNq9oc8EmcPK54+LY93/nnBx5RNLy1CRQ3PLMEDLR6m0mqikAJA3O
- O3/kQpcWFK7gC+WcpNUsRmW2cRIxk7tLbxLA52GdAGr6LvalZvyLwdG+RR+3fUJH
- xq9rh/mXU5GffnSRSGd0TWDgH5EZjI05g6ZQPiTPHNDf6gqowpWiVLujFbstYlK/
- c0zEI3SgPF899LCdeHWxBaW1Y04L71Jdz2+UmSmwDrEP11m5cttm/FtdNi/i3ff4
- 4ZYop/y/kKUhvZ1Q532HbyIvbuqY+zyoURPa9gzCtntaYYDyDuWFVp/ksuvZrQzj
- u3wvOEa3sSsh0fBPpgEDQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1662497122; x=
- 1662500722; bh=u8PqlsTGRRNhe8EU7QHSPpRYK1LxejqlRIXFdMaPpxs=; b=D
- aDtKzE17UfrF6dgZcEoeJ+Hhjc8nyUK6xyLt5vIkjTat5c9oxYpRIrdSCByk9VC5
- w6AKWlz1+8ap8lL6FGRl59ocTzFT9vE/Y+dGQjbNaU0xQFqclVxi00dNw0A7mVvG
- QSIznq0p1/VPlr/SDabVrenzvXcas3zkLzjKoDmtke/zX4A5a2qz9Q1k4tOKVzqW
- xDhqL7secVigiYANPu+OTLcSKuoMAZuNKA0myn7fa/v+cCXsIriw4U/VjvUN4WQV
- 3aOiEuRc+wSWBUqnhm73I/xyn5aIADADKLAFsxitmDfvrkf0m03G6T2n8S1QOxzj
- qkuN2oTwJC3F13pIUHxPg==
-X-ME-Sender: <xms:YrEXY4rZNnBloMcp9N_XbqGwDIrH63ayoW-whR--72zJdmynyRLn5Q>
- <xme:YrEXY-q3-o1icWTQnHDqDlpfwGX9OfSporvpbi5j-IhRz5ByJLLPW5KPQ70nr4_5M
- DuJlqBf8xRFquebadA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdelkedgudehgecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedf
- tehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrf
- grthhtvghrnhepgeefjeehvdelvdffieejieejiedvvdfhleeivdelveehjeelteegudek
- tdfgjeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- eprghrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:YrEXY9PiFCTZkvv17d_3lLv1reIMkggUKcoCicpakgFb1jXRt_dVXA>
- <xmx:YrEXY_6RFXqDgD0b6BCLxkMjDIFdxlFtZvlytXkH6GgfonQGh24u6g>
- <xmx:YrEXY34hxXLeWPUX0jsJgBl_N_44iRhyEkCZ942IkewdOq95APa33w>
- <xmx:YrEXY5nf_0PUvtG4AJMoaY6I37y_UH1x3DXsWrXOryoov0nkiLL1EA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 632A1B60083; Tue,  6 Sep 2022 16:45:22 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-927-gf4c98c8499-fm-20220826.002-gf4c98c84
-Mime-Version: 1.0
-Message-Id: <49a0474b-96b6-4366-a6a2-f59ad0b5a0bf@www.fastmail.com>
-In-Reply-To: <20220906172257.2776521-1-alex.bennee@linaro.org>
-References: <20220906172257.2776521-1-alex.bennee@linaro.org>
-Date: Tue, 06 Sep 2022 22:45:02 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: =?UTF-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: "Arnd Bergmann" <arnd@linaro.org>,
- "Anders Roxell" <anders.roxell@linaro.org>,
- "Peter Maydell" <peter.maydell@linaro.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
-Subject: Re: [RFC PATCH] target/arm: update the cortex-a15 MIDR to latest rev
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=66.111.4.229; envelope-from=arnd@arndb.de;
- helo=new3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oVfSm-0000zJ-M9
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 16:46:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662497186;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Cp1YDboguSmDCKb1tgmEN87xqbwvRY/3vhrYiiA5ITc=;
+ b=ZuXnjR/ca/fz44fgGbeV+APA04koxXlw6wAb+QKTE/QqeyC2pAJ5P/JRl1vWjQ9TYiZOLM
+ p9kpQX0wfU8ckVVdnovkK0vlsUHJrviGkhRg35YsyDAybftGHcM4iidCFlhbYKz3gTH2Qh
+ Kb9wQlmE2UE6QrxusWkol4JlIn642sE=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-606-A30hmo57PUSHlyLAoYGl_A-1; Tue, 06 Sep 2022 16:46:25 -0400
+X-MC-Unique: A30hmo57PUSHlyLAoYGl_A-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ y16-20020a0cec10000000b004a5df9e16c6so4527140qvo.1
+ for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 13:46:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=Cp1YDboguSmDCKb1tgmEN87xqbwvRY/3vhrYiiA5ITc=;
+ b=q2IB5TiCkKgW9vfpPTR7DIjKBA2Eq9vaxiUb6ugoDDqYejFSKNNM9aJ/2RCMK4JcRY
+ ATwPW7qlejcZ9vo5IFXodggOViFAOIi6yLrvHLU6w1DwIBBr60qXaU2MeLYjDTxXp8af
+ cpAPlWZZcIOD+MUfvUMUY8fvi5qY5KIIhhaed83hwPSotI39KGQ8j/dJGUVv7UtOkg0o
+ x6cn6yXfgR+TR22bLQs7u5ehWkUcF2kw5Qg3CYX54d6ZpgBK5tbQ9S5kWsbmdOrF0Hvn
+ oCi+0YhojlBKfvRSpKshjwaBwha/KRn6NnZ81fOKljwWIvMgFre3/F+AyNKCwZrfokUn
+ Kj1g==
+X-Gm-Message-State: ACgBeo24bDzfXAqd01CuHCJ5TYodLBpxiAb+qrHi8P6FIsCpP1QcQfpV
+ BkSQ8HcGcvSnfetP9Oj149fbw+cYfjNsRQlVFdKj/L20bTG5VXzVvRZyOoUlu37sGX3hPPS+F3d
+ 57Qe3LlLL+TQBswY=
+X-Received: by 2002:a05:620a:a98:b0:6bb:b6d7:da35 with SMTP id
+ v24-20020a05620a0a9800b006bbb6d7da35mr346454qkg.769.1662497184631; 
+ Tue, 06 Sep 2022 13:46:24 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6kbYTffLzyN6409iO1DKJgu4XSFIS6Vu2xeoniK48JnR9tIosQWM7e3OtdUtInX0dkO2u9Pg==
+X-Received: by 2002:a05:620a:a98:b0:6bb:b6d7:da35 with SMTP id
+ v24-20020a05620a0a9800b006bbb6d7da35mr346433qkg.769.1662497184370; 
+ Tue, 06 Sep 2022 13:46:24 -0700 (PDT)
+Received: from xz-m1.local
+ (bras-base-aurron9127w-grc-35-70-27-3-10.dsl.bell.ca. [70.27.3.10])
+ by smtp.gmail.com with ESMTPSA id
+ g19-20020ac84813000000b003051ea4e7f6sm10133105qtq.48.2022.09.06.13.46.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Sep 2022 13:46:23 -0700 (PDT)
+Date: Tue, 6 Sep 2022 16:46:20 -0400
+From: Peter Xu <peterx@redhat.com>
+To: huangy81@chinatelecom.cn
+Cc: qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>
+Subject: Re: [PATCH v1 0/8] migration: introduce dirtylimit capability
+Message-ID: <YxexnENbRsHlcMgt@xz-m1.local>
+References: <cover.1662052189.git.huangy81@chinatelecom.cn>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1662052189.git.huangy81@chinatelecom.cn>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,34 +104,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 6, 2022, at 7:22 PM, Alex Benn=C3=A9e wrote:
->
-> index 3099b38e32..59d5278868 100644
-> --- a/target/arm/cpu_tcg.c
-> +++ b/target/arm/cpu_tcg.c
-> @@ -588,7 +588,9 @@ static void cortex_a15_initfn(Object *obj)
->      set_feature(&cpu->env, ARM_FEATURE_EL3);
->      set_feature(&cpu->env, ARM_FEATURE_PMU);
->      cpu->kvm_target =3D QEMU_KVM_ARM_TARGET_CORTEX_A15;
-> -    cpu->midr =3D 0x412fc0f1;
-> +    /* r4p0 cpu, not requiring expensive tlb flush errata */
-> +    cpu->midr =3D 0x414fc0f0;
-> +    cpu->revidr =3D 0x200;
->      cpu->reset_fpsid =3D 0x410430f0;
->      cpu->isar.mvfr0 =3D 0x10110222;
->      cpu->isar.mvfr1 =3D 0x11111111;
+On Fri, Sep 02, 2022 at 01:22:28AM +0800, huangy81@chinatelecom.cn wrote:
+> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+> 
+> v1:
+> - make parameter vcpu-dirty-limit experimental 
+> - switch dirty limit off when cancel migrate
+> - add cancel logic in migration test 
+> 
+> Please review, thanks,
+> 
+> Yong 
+> 
+> Abstract
+> ========
+> 
+> This series added a new migration capability called "dirtylimit".  It can
+> be enabled when dirty ring is enabled, and it'll improve the vCPU performance
+> during the process of migration. It is based on the previous patchset:
+> https://lore.kernel.org/qemu-devel/cover.1656177590.git.huangy81@chinatelecom.cn/
+> 
+> As mentioned in patchset "support dirty restraint on vCPU", dirtylimit way of
+> migration can make the read-process not be penalized. This series wires up the
+> vcpu dirty limit and wrappers as dirtylimit capability of migration. I introduce
+> two parameters vcpu-dirtylimit-period and vcpu-dirtylimit to implement the setup 
+> of dirtylimit during live migration.
+> 
+> To validate the implementation, i tested a 32 vCPU vm live migration with such 
+> model:
+> Only dirty vcpu0, vcpu1 with heavy memory workoad and leave the rest vcpus
+> untouched, running unixbench on the vpcu8-vcpu15 by setup the cpu affinity as
+> the following command:
+> taskset -c 8-15 ./Run -i 2 -c 8 {unixbench test item}
+> 
+> The following are results:
+> 
+> host cpu: Intel(R) Xeon(R) Platinum 8378A
+> host interface speed: 1000Mb/s
+>   |---------------------+--------+------------+---------------|
+>   | UnixBench test item | Normal | Dirtylimit | Auto-converge |
+>   |---------------------+--------+------------+---------------|
+>   | dhry2reg            | 32800  | 32786      | 25292         |
+>   | whetstone-double    | 10326  | 10315      | 9847          |
+>   | pipe                | 15442  | 15271      | 14506         |
+>   | context1            | 7260   | 6235       | 4514          |
+>   | spawn               | 3663   | 3317       | 3249          |
+>   | syscall             | 4669   | 4667       | 3841          |
+>   |---------------------+--------+------------+---------------|
+> From the data above we can draw a conclusion that vcpus that do not dirty memory
+> in vm are almost unaffected during the dirtylimit migration, but the auto converge
+> way does. 
+> 
+> I also tested the total time of dirtylimit migration with variable dirty memory
+> size in vm.
+> 
+> senario 1:
+> host cpu: Intel(R) Xeon(R) Platinum 8378A
+> host interface speed: 1000Mb/s
+>   |-----------------------+----------------+-------------------|
+>   | dirty memory size(MB) | Dirtylimit(ms) | Auto-converge(ms) |
+>   |-----------------------+----------------+-------------------|
+>   | 60                    | 2014           | 2131              |
+>   | 70                    | 5381           | 12590             |
+>   | 90                    | 6037           | 33545             |
+>   | 110                   | 7660           | [*]               |
+>   |-----------------------+----------------+-------------------|
+>   [*]: This case means migration is not convergent. 
+> 
+> senario 2:
+> host cpu: Intel(R) Xeon(R) CPU E5-2650
+> host interface speed: 10000Mb/s
+>   |-----------------------+----------------+-------------------|
+>   | dirty memory size(MB) | Dirtylimit(ms) | Auto-converge(ms) |
+>   |-----------------------+----------------+-------------------|
+>   | 1600                  | 15842          | 27548             |
+>   | 2000                  | 19026          | 38447             |
+>   | 2400                  | 19897          | 46381             |
+>   | 2800                  | 22338          | 57149             |
+>   |-----------------------+----------------+-------------------|
+> Above data shows that dirtylimit way of migration can also reduce the total
+> time of migration and it achieves convergence more easily in some case.
+> 
+> In addition to implement dirtylimit capability itself, this series
+> add 3 tests for migration, aiming at playing around for developer simply: 
+>  1. qtest for dirty limit migration
+>  2. support dirty ring way of migration for guestperf tool
+>  3. support dirty limit migration for guestperf tool
 
-This will work correctly with Linux, but after I checked the
-Cortex-A15 MPCore r2/r3/r4 Software Developers Errata Notice again,
-I think that setting revidr here is not fully correct:
+Yong,
 
-With an r3p3 CPU, bit 9 of revidr (0x200) indicates that no
-workaround is necessary, but with r4p0 and higher, this bit
-is marked as reserved and both the Documentation and the
-Linux source code assume the hardware works correctly.
+I should have asked even earlier - just curious whether you have started
+using this in production systems?  It's definitely not required for any
+patchset to be merged, but it'll be very useful (and supportive)
+information to have if there's proper testing beds applied already.
 
-So I think this should either be 0x413fc0f3/0x200
-or 0x414fc0f0/0.
+Thanks,
 
-     Arnd
+-- 
+Peter Xu
+
 
