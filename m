@@ -2,88 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95F085AEA65
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 15:49:40 +0200 (CEST)
-Received: from localhost ([::1]:41690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7E85AE9FC
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 15:39:18 +0200 (CEST)
+Received: from localhost ([::1]:50922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVYxK-0005Ir-Lb
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 09:49:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49842)
+	id 1oVYnN-0000bg-6v
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 09:39:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1oVXkV-0006ur-8D
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 08:32:15 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:35749)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVXko-0007Xj-MP
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 08:32:34 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:58722)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1oVXkS-00066J-Fx
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 08:32:14 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- m10-20020a17090a730a00b001fa986fd8eeso14832073pjk.0
- for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 05:32:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=mOaRI71FQfWA04xw1hixx4MODTWCMqP/3VREdkQGoTQ=;
- b=obTj/T8nL2vtJfjjzCT6VXoOERiCp+1ugivm4/FUM4PhsjKVXRe38OSQBV4jERCsBp
- ugGLkBxK943bn9kGeNzx3oTQIjewFzShMkdiDYel004C5o33G0Wk5ljqrPcmpxC/TjWi
- 4c1znbedjNRguLE3cq1e8rCD/KMM/CV2bH5Vn44p1FjB5vMcM8w3XUbDO/u4DGCNdyBq
- LdUEv5ladW0YDSch3pSNsyxgUOkFa15BUwL6W/CYoDRKtjbpBNYEReavZbajRqAZvYvT
- 97OtcOMpZsRxLOOtRTszyQK1D2bK2nQ2hh/sQZnp5Zq5boIlUXC5JREl7qJC2QDRgASE
- vgXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=mOaRI71FQfWA04xw1hixx4MODTWCMqP/3VREdkQGoTQ=;
- b=OrEnQsdyr/K0vZK7Kvf92GJraZ/G9Nq3AN8zcUZ3iy8ngunE2ekoIFPf3xe3vDf3HZ
- C7MsYeYd6tPX/6DvQ21KpHrZkKoh/QGo+hT5EwZI98plXhnaN1ZXE0piQJ8vk13V7Y/1
- t79Fv2H9ml9aJTOFNW42KookL3Rko24731GG85gwr1+ZhG1ZKmOZoUCW6KmQE7wy56G0
- 4oQWXWEAGFrH9neIlMC+TIUi70jAh45Pxm0H+WrrQyPSMl24QFwCOodjywLCWFSl0N2W
- qvDXBeyZ8O8+/GhLVELenivL++eJrOFNvwAN/NWA7GLf3JJgsumLlos9737Frl3yoNMM
- I8Yw==
-X-Gm-Message-State: ACgBeo15LUub/3YnvNOeuSHpPBXP0zrpDGoQAOK/CjQLnypriyuNWvaU
- JiJhhU3xYiXpBwqHloQEKbPQFw==
-X-Google-Smtp-Source: AA6agR5iC55Y4ksQL9+J3hn+jTD16yAHYcEX9R2AzZRwsjgaF75756oraVYS/j/hfJpE9lnY6upuZA==
-X-Received: by 2002:a17:90a:9409:b0:200:52d9:660d with SMTP id
- r9-20020a17090a940900b0020052d9660dmr11901049pjo.62.1662467531040; 
- Tue, 06 Sep 2022 05:32:11 -0700 (PDT)
-Received: from sunil-laptop ([49.206.11.92]) by smtp.gmail.com with ESMTPSA id
- v13-20020a17090a00cd00b001fa80cde150sm12368806pjd.20.2022.09.06.05.32.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Sep 2022 05:32:10 -0700 (PDT)
-Date: Tue, 6 Sep 2022 18:02:00 +0530
-From: Sunil V L <sunilvl@ventanamicro.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- Song Gao <gaosong@loongson.cn>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Andrew Jones <ajones@ventanamicro.com>,
- Anup Patel <apatel@ventanamicro.com>,
- Atish Kumar Patra <atishp@rivosinc.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH V4 0/3] hw/riscv: virt: Enable booting S-mode firmware
- from pflash
-Message-ID: <20220906123200.GA237800@sunil-laptop>
-References: <20220906090219.412517-1-sunilvl@ventanamicro.com>
- <20220906104128.zlwzvbbswlzyplkc@sirius.home.kraxel.org>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVXkl-00068h-J9
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 08:32:34 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id AAE091F9AC;
+ Tue,  6 Sep 2022 12:32:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1662467549; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hFyzOXl9N4DHVdpxClRYpW/MBbucNYhOf5AoFYAihPk=;
+ b=NNVjtxOY0GLR6bUcGnrz0kRod5rgqPBeypuJHkLzXRhci8zm7NxhbtKJPRpxk9S71GdC6d
+ AYNWtvVYgpuRlMPIedv1Cn2ghScZHwAyvyVEtI73L7uDTA/d8AFNewDkbIxiOIfwNRw3OK
+ L0Pw6Nrl7Dqjxfn/MqE5UA/7aCnZ0MQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1662467549;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hFyzOXl9N4DHVdpxClRYpW/MBbucNYhOf5AoFYAihPk=;
+ b=DQ8bYbmcBDqDnzB5aYVOvpbDhUNNkov2TsVV6duZ6I/jxyLvsOIk1VoeC3mjvtwF9sj8yE
+ Uy2bVGgaKo6zw6Cw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 63E2513A7A;
+ Tue,  6 Sep 2022 12:32:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id KlULF909F2NURQAAMHmgww
+ (envelope-from <cfontana@suse.de>); Tue, 06 Sep 2022 12:32:29 +0000
+Message-ID: <6608303b-0e08-8045-3872-257450e1adb5@suse.de>
+Date: Tue, 6 Sep 2022 14:32:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220906104128.zlwzvbbswlzyplkc@sirius.home.kraxel.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=sunilvl@ventanamicro.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 2/3] module: add Error arguments to module_load_one and
+ module_load_qom_one
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20220906115501.28581-1-cfontana@suse.de>
+ <20220906115501.28581-3-cfontana@suse.de>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <20220906115501.28581-3-cfontana@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -61
+X-Spam_score: -6.2
+X-Spam_bar: ------
+X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.752,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,39 +95,589 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Gerd,
-
-On Tue, Sep 06, 2022 at 12:41:28PM +0200, Gerd Hoffmann wrote:
->   Hi,
+On 9/6/22 13:55, Claudio Fontana wrote:
+> improve error handling during module load, by changing:
 > 
-> > 3)Make the EDK2 image size to match with what qemu flash expects
-> > truncate -s 32M Build/RiscVVirt/DEBUG_GCC5/FV/RISCV_VIRT.fd
+> bool module_load_one(const char *prefix, const char *lib_name);
+> void module_load_qom_one(const char *type);
 > 
-> Hmm, we have that kind of padding on arm too (64M for code and 64M for
-> vars) and only a fraction of the space is actually used, which isn't
-> exactly ideal.  So not sure it is a good plan to repeat that on riscv.
-
-Yeah.. but it looks like limitation from qemu flash emulation. Do you mean
-this limitation exists for arm in general on real flash also?
-
+> to:
 > 
-> Also: Do you have support for persistent efi variables?  If that is the
-> case then it makes sense to have separate pflash devices for code and
-> variable store.  First because you can map the code part read-only then,
-> and second because decoupling code + vars to separate files allows easy
-> firmware code updates without loosing the variable store.
-
-Yes, we have persistent variables in my WIP branch. We can easily make it
-to create variables as separate file in EDK2. But we will need to
-enhance qemu virt machine to create more than 2 flash since the first
-one is currently reserved for machine mode firmware. This is a
-good input to enhance it in future.
-
-Thanks!
-Sunil
-
+> bool module_load_one(const char *prefix, const char *name, Error **errp);
+> bool module_load_qom_one(const char *type, Error **errp);
 > 
-> take care,
->   Gerd
+> module_load_qom_one has been introduced in:
 > 
+> commit 28457744c345 ("module: qom module support"), which built on top of
+> module_load_one, but discarded the bool return value. Restore it.
+> 
+> Adapt all callers to emit errors, or ignore them, or fail hard,
+> as appropriate in each context.
+> 
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> ---
+>  audio/audio.c         |   6 +-
+>  block.c               |  12 +++-
+>  block/dmg.c           |  10 ++-
+>  hw/core/qdev.c        |  10 ++-
+>  include/qemu/module.h |  10 +--
+>  qom/object.c          |  15 +++-
+>  softmmu/qtest.c       |   6 +-
+>  ui/console.c          |  19 +++++-
+>  util/module.c         | 155 ++++++++++++++++++++++++++++++------------
+>  9 files changed, 182 insertions(+), 61 deletions(-)
+> 
+> diff --git a/audio/audio.c b/audio/audio.c
+> index 76b8735b44..4f4bb10cce 100644
+> --- a/audio/audio.c
+> +++ b/audio/audio.c
+> @@ -72,6 +72,7 @@ void audio_driver_register(audio_driver *drv)
+>  audio_driver *audio_driver_lookup(const char *name)
+>  {
+>      struct audio_driver *d;
+> +    Error *local_err = NULL;
+>  
+>      QLIST_FOREACH(d, &audio_drivers, next) {
+>          if (strcmp(name, d->name) == 0) {
+> @@ -79,7 +80,10 @@ audio_driver *audio_driver_lookup(const char *name)
+>          }
+>      }
+>  
+> -    audio_module_load_one(name);
+> +    if (!audio_module_load_one(name, &local_err) && local_err) {
+> +        error_report_err(local_err);
+> +    }
+> +
+>      QLIST_FOREACH(d, &audio_drivers, next) {
+>          if (strcmp(name, d->name) == 0) {
+>              return d;
+> diff --git a/block.c b/block.c
+> index bc85f46eed..85c3742d7a 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -464,7 +464,11 @@ BlockDriver *bdrv_find_format(const char *format_name)
+>      /* The driver isn't registered, maybe we need to load a module */
+>      for (i = 0; i < (int)ARRAY_SIZE(block_driver_modules); ++i) {
+>          if (!strcmp(block_driver_modules[i].format_name, format_name)) {
+> -            block_module_load_one(block_driver_modules[i].library_name);
+> +            Error *local_err = NULL;
+> +            if (!block_module_load_one(block_driver_modules[i].library_name,
+> +                                       &local_err) && local_err) {
+> +                error_report_err(local_err);
+> +            }
+>              break;
+>          }
+>      }
+> @@ -976,7 +980,11 @@ BlockDriver *bdrv_find_protocol(const char *filename,
+>      for (i = 0; i < (int)ARRAY_SIZE(block_driver_modules); ++i) {
+>          if (block_driver_modules[i].protocol_name &&
+>              !strcmp(block_driver_modules[i].protocol_name, protocol)) {
+> -            block_module_load_one(block_driver_modules[i].library_name);
+> +            Error *local_err = NULL;
+> +            if (!block_module_load_one(block_driver_modules[i].library_name,
+> +                                       &local_err) && local_err) {
+> +                error_report_err(local_err);
+> +            }
+>              break;
+>          }
+>      }
+> diff --git a/block/dmg.c b/block/dmg.c
+> index 98db18d82a..349b05d20b 100644
+> --- a/block/dmg.c
+> +++ b/block/dmg.c
+> @@ -434,6 +434,7 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
+>      uint64_t plist_xml_offset, plist_xml_length;
+>      int64_t offset;
+>      int ret;
+> +    Error *local_err = NULL;
+>  
+>      ret = bdrv_apply_auto_read_only(bs, NULL, errp);
+>      if (ret < 0) {
+> @@ -446,8 +447,13 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
+>          return -EINVAL;
+>      }
+>  
+> -    block_module_load_one("dmg-bz2");
+> -    block_module_load_one("dmg-lzfse");
+> +    if (!block_module_load_one("dmg-bz2", &local_err) && local_err) {
+> +        error_report_err(local_err);
+> +    }
+> +    local_err = NULL;
+> +    if (!block_module_load_one("dmg-lzfse", &local_err) && local_err) {
+> +        error_report_err(local_err);
+> +    }
+>  
+>      s->n_chunks = 0;
+>      s->offsets = s->lengths = s->sectors = s->sectorcounts = NULL;
+> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+> index 0806d8fcaa..5902c59c94 100644
+> --- a/hw/core/qdev.c
+> +++ b/hw/core/qdev.c
+> @@ -148,7 +148,15 @@ bool qdev_set_parent_bus(DeviceState *dev, BusState *bus, Error **errp)
+>  DeviceState *qdev_new(const char *name)
+>  {
+>      if (!object_class_by_name(name)) {
+> -        module_load_qom_one(name);
+> +        Error *local_err = NULL;
+> +        if (!module_load_qom_one(name, &local_err)) {
+> +            if (local_err) {
+> +                error_report_err(local_err);
+> +            } else {
+> +                error_report("could not find a module for type '%s'", name);
+> +            }
+> +            abort();
+
+Are we ok abort() ing here for qdev?
+
+In my understanding of this, qdev_new is expected to always succeed,
+while we have qdev_try_new for allowing continuing the program even on failure.
+
+Can someone confirm this?
+
+> +        }
+>      }
+>      return DEVICE(object_new(name));
+>  }
+> diff --git a/include/qemu/module.h b/include/qemu/module.h
+> index 8c012bbe03..7893922aba 100644
+> --- a/include/qemu/module.h
+> +++ b/include/qemu/module.h
+> @@ -61,16 +61,16 @@ typedef enum {
+>  #define fuzz_target_init(function) module_init(function, \
+>                                                 MODULE_INIT_FUZZ_TARGET)
+>  #define migration_init(function) module_init(function, MODULE_INIT_MIGRATION)
+> -#define block_module_load_one(lib) module_load_one("block-", lib)
+> -#define ui_module_load_one(lib) module_load_one("ui-", lib)
+> -#define audio_module_load_one(lib) module_load_one("audio-", lib)
+> +#define block_module_load_one(lib, errp) module_load_one("block-", lib, errp)
+> +#define ui_module_load_one(lib, errp) module_load_one("ui-", lib, errp)
+> +#define audio_module_load_one(lib, errp) module_load_one("audio-", lib, errp)
+>  
+>  void register_module_init(void (*fn)(void), module_init_type type);
+>  void register_dso_module_init(void (*fn)(void), module_init_type type);
+>  
+>  void module_call_init(module_init_type type);
+> -bool module_load_one(const char *prefix, const char *lib_name);
+> -void module_load_qom_one(const char *type);
+> +bool module_load_one(const char *prefix, const char *name, Error **errp);
+> +bool module_load_qom_one(const char *type, Error **errp);
+>  void module_load_qom_all(void);
+>  void module_allow_arch(const char *arch);
+>  
+> diff --git a/qom/object.c b/qom/object.c
+> index d34608558e..6a74e6a478 100644
+> --- a/qom/object.c
+> +++ b/qom/object.c
+> @@ -526,8 +526,14 @@ void object_initialize(void *data, size_t size, const char *typename)
+>  
+>  #ifdef CONFIG_MODULES
+>      if (!type) {
+> -        module_load_qom_one(typename);
+> -        type = type_get_by_name(typename);
+> +        Error *local_err = NULL;
+> +        if (!module_load_qom_one(typename, &local_err)) {
+> +            if (local_err) {
+> +                error_report_err(local_err);
+> +            }
+> +        } else {
+> +            type = type_get_by_name(typename);
+> +        }
+>      }
+>  #endif
+>      if (!type) {
+> @@ -1033,7 +1039,10 @@ ObjectClass *module_object_class_by_name(const char *typename)
+>      oc = object_class_by_name(typename);
+>  #ifdef CONFIG_MODULES
+>      if (!oc) {
+> -        module_load_qom_one(typename);
+> +        Error *local_err = NULL;
+> +        if (!module_load_qom_one(typename, &local_err) && local_err) {
+> +            error_report_err(local_err);
+> +        }
+>          oc = object_class_by_name(typename);
+>      }
+>  #endif
+> diff --git a/softmmu/qtest.c b/softmmu/qtest.c
+> index 76eb7bac56..bb83c7aae9 100644
+> --- a/softmmu/qtest.c
+> +++ b/softmmu/qtest.c
+> @@ -753,12 +753,16 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+>          qtest_sendf(chr, "OK %"PRIi64"\n",
+>                      (int64_t)qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
+>      } else if (strcmp(words[0], "module_load") == 0) {
+> +        Error *local_err = NULL;
+>          g_assert(words[1] && words[2]);
+>  
+>          qtest_send_prefix(chr);
+> -        if (module_load_one(words[1], words[2])) {
+> +        if (module_load_one(words[1], words[2], &local_err)) {
+>              qtest_sendf(chr, "OK\n");
+>          } else {
+> +            if (local_err) {
+> +                error_report_err(local_err);
+> +            }
+>              qtest_sendf(chr, "FAIL\n");
+>          }
+>      } else if (qtest_enabled() && strcmp(words[0], "clock_set") == 0) {
+> diff --git a/ui/console.c b/ui/console.c
+> index 765892f84f..9c5f6d5c30 100644
+> --- a/ui/console.c
+> +++ b/ui/console.c
+> @@ -2632,7 +2632,11 @@ bool qemu_display_find_default(DisplayOptions *opts)
+>  
+>      for (i = 0; i < (int)ARRAY_SIZE(prio); i++) {
+>          if (dpys[prio[i]] == NULL) {
+> -            ui_module_load_one(DisplayType_str(prio[i]));
+> +            Error *local_err = NULL;
+> +            if (!ui_module_load_one(DisplayType_str(prio[i]), &local_err)
+> +                && local_err) {
+> +                error_report_err(local_err);
+> +            }
+>          }
+>          if (dpys[prio[i]] == NULL) {
+>              continue;
+> @@ -2650,7 +2654,11 @@ void qemu_display_early_init(DisplayOptions *opts)
+>          return;
+>      }
+>      if (dpys[opts->type] == NULL) {
+> -        ui_module_load_one(DisplayType_str(opts->type));
+> +        Error *local_err = NULL;
+> +        if (!ui_module_load_one(DisplayType_str(opts->type), &local_err)
+> +            && local_err) {
+> +            error_report_err(local_err);
+> +        }
+>      }
+>      if (dpys[opts->type] == NULL) {
+>          error_report("Display '%s' is not available.",
+> @@ -2680,7 +2688,12 @@ void qemu_display_help(void)
+>      printf("none\n");
+>      for (idx = DISPLAY_TYPE_NONE; idx < DISPLAY_TYPE__MAX; idx++) {
+>          if (!dpys[idx]) {
+> -            ui_module_load_one(DisplayType_str(idx));
+> +            Error *local_err = NULL;
+> +            if (!ui_module_load_one(DisplayType_str(idx), &local_err)
+> +                && local_err) {
+> +                /* don't clutter the help text, no error report emitted */
+> +                error_free(local_err);
+> +            }
+>          }
+>          if (dpys[idx]) {
+>              printf("%s\n",  DisplayType_str(dpys[idx]->type));
+> diff --git a/util/module.c b/util/module.c
+> index 8563edd626..7b838ee4a1 100644
+> --- a/util/module.c
+> +++ b/util/module.c
+> @@ -21,6 +21,7 @@
+>  #include "qemu/module.h"
+>  #include "qemu/cutils.h"
+>  #include "qemu/config-file.h"
+> +#include "qapi/error.h"
+>  #ifdef CONFIG_MODULE_UPGRADES
+>  #include "qemu-version.h"
+>  #endif
+> @@ -144,7 +145,22 @@ static bool module_check_arch(const QemuModinfo *modinfo)
+>      return true;
+>  }
+>  
+> -static int module_load_file(const char *fname, bool export_symbols)
+> +/*
+> + * module_load_file: attempt to load a dso file
+> + *
+> + * fname:          full pathname of the file to load
+> + * export_symbols: if true, add the symbols to the global name space
+> + * errp:           error to set.
+> + *
+> + * Return value:   0 on success (found and loaded), < 0 on failure.
+> + *                 A return value of -ENOENT or -ENOTDIR means 'not found'.
+
+Here I accepted both ENOENT and ENOTDIR, because the idea was,
+if the pathname provided as argument contains directories that are actually not directories,
+it means that we can't find any module with the provided path.
+
+We want to distinguish "found but an error occurred during load" from "not found" in my understanding:
+
+"found and loaded" -> return value 0 (no error set in errp obviously).
+"not found" -> return value -ENOENT or -ENOTDIR, no error set in errp.
+"found and error during load" -> return value -errno or a generic -EINVAL, with error set in errp.
+
+> + *                 -EINVAL is used as the generic error condition.
+> + *
+> + * Error:          If fname is found, but could not be loaded, errp is set
+> + *                 with the error encountered during load.
+> + */
+> +static int module_load_file(const char *fname, bool export_symbols,
+> +                            Error **errp)
+>  {
+>      GModule *g_module;
+>      void (*sym)(void);
+> @@ -152,16 +168,19 @@ static int module_load_file(const char *fname, bool export_symbols)
+>      int len = strlen(fname);
+>      int suf_len = strlen(dsosuf);
+>      ModuleEntry *e, *next;
+> -    int ret, flags;
+> +    int flags;
+>  
+>      if (len <= suf_len || strcmp(&fname[len - suf_len], dsosuf)) {
+> -        /* wrong suffix */
+> -        ret = -EINVAL;
+> -        goto out;
+> +        error_setg(errp, "wrong filename, missing suffix %s", dsosuf);
+> +        return -EINVAL;
+>      }
+> -    if (access(fname, F_OK)) {
+> -        ret = -ENOENT;
+> -        goto out;
+> +    if (access(fname, F_OK) != 0) {
+> +        int ret = errno;
+> +        if (ret != ENOENT && ret != ENOTDIR) {
+> +            error_setg_errno(errp, ret, "error trying to access %s", fname);
+> +        }
+> +        /* most likely is EACCES here */
+> +        return -ret;
+>      }
+>  
+>      assert(QTAILQ_EMPTY(&dso_init_list));
+> @@ -172,41 +191,52 @@ static int module_load_file(const char *fname, bool export_symbols)
+>      }
+>      g_module = g_module_open(fname, flags);
+>      if (!g_module) {
+> -        fprintf(stderr, "Failed to open module: %s\n",
+> -                g_module_error());
+> -        ret = -EINVAL;
+> -        goto out;
+> +        error_setg(errp, "failed to open module: %s", g_module_error());
+> +        return -EINVAL;
+>      }
+>      if (!g_module_symbol(g_module, DSO_STAMP_FUN_STR, (gpointer *)&sym)) {
+> -        fprintf(stderr, "Failed to initialize module: %s\n",
+> -                fname);
+> -        /* Print some info if this is a QEMU module (but from different build),
+> -         * this will make debugging user problems easier. */
+> +        error_setg(errp, "failed to initialize module: %s", fname);
+> +        /*
+> +         * Print some info if this is a QEMU module (but from different build),
+> +         * this will make debugging user problems easier.
+> +         */
+>          if (g_module_symbol(g_module, "qemu_module_dummy", (gpointer *)&sym)) {
+> -            fprintf(stderr,
+> -                    "Note: only modules from the same build can be loaded.\n");
+> +            error_append_hint(errp,
+> +                              "Only modules from the same build can be loaded");
+>          }
+>          g_module_close(g_module);
+> -        ret = -EINVAL;
+> -    } else {
+> -        QTAILQ_FOREACH(e, &dso_init_list, node) {
+> -            e->init();
+> -            register_module_init(e->init, e->type);
+> -        }
+> -        ret = 0;
+> +        return -EINVAL;
+>      }
+>  
+> +    QTAILQ_FOREACH(e, &dso_init_list, node) {
+> +        e->init();
+> +        register_module_init(e->init, e->type);
+> +    }
+>      trace_module_load_module(fname);
+>      QTAILQ_FOREACH_SAFE(e, &dso_init_list, node, next) {
+>          QTAILQ_REMOVE(&dso_init_list, e, node);
+>          g_free(e);
+>      }
+> -out:
+> -    return ret;
+> +    return 0;
+>  }
+> -#endif
+> +#endif /* CONFIG_MODULES */
+>  
+> -bool module_load_one(const char *prefix, const char *lib_name)
+> +/*
+> + * module_load_one: attempt to load a module from a set of directories
+> + *
+> + * directories searched are:
+> + * - getenv("QEMU_MODULE_DIR")
+> + * - get_relocated_path(CONFIG_QEMU_MODDIR);
+> + * - /var/run/qemu/${version_dir}
+
+I found it quite complex to understand what exactly this version_dir is from the code below...
+> + *
+> + * prefix:         a subsystem prefix, or the empty string ("audio-", "")
+> + * name:           name of the module
+> + * errp:           error to set.
+> + *
+> + * Return value:   true on success (found and loaded), false on failure.
+> + *                 If module is found, but could not be loaded, errp will be set
+> + */
+> +bool module_load_one(const char *prefix, const char *name, Error **errp)
+>  {
+>      bool success = false;
+>  
+> @@ -226,7 +256,7 @@ bool module_load_one(const char *prefix, const char *lib_name)
+>      const char **sl;
+>  
+>      if (!g_module_supported()) {
+> -        fprintf(stderr, "Module is not supported by system.\n");
+> +        error_setg(errp, "%s", "this platform does not support GLib modules");
+>          return false;
+>      }
+>  
+> @@ -234,7 +264,7 @@ bool module_load_one(const char *prefix, const char *lib_name)
+>          loaded_modules = g_hash_table_new(g_str_hash, g_str_equal);
+>      }
+>  
+> -    module_name = g_strdup_printf("%s%s", prefix, lib_name);
+> +    module_name = g_strdup_printf("%s%s", prefix, name);
+>  
+>      if (g_hash_table_contains(loaded_modules, module_name)) {
+>          g_free(module_name);
+> @@ -246,6 +276,8 @@ bool module_load_one(const char *prefix, const char *lib_name)
+>          if (modinfo->arch) {
+>              if (strcmp(modinfo->name, module_name) == 0) {
+>                  if (!module_check_arch(modinfo)) {
+> +                    error_setg(errp, "module arch does not match: "
+> +                        "expected '%s', got '%s'", module_arch, modinfo->arch);
+>                      return false;
+>                  }
+>              }
+> @@ -254,7 +286,9 @@ bool module_load_one(const char *prefix, const char *lib_name)
+>              if (strcmp(modinfo->name, module_name) == 0) {
+>                  /* we depend on other module(s) */
+>                  for (sl = modinfo->deps; *sl != NULL; sl++) {
+> -                    module_load_one("", *sl);
+> +                    if (!(module_load_one("", *sl, errp))) {
+> +                        return false;
+> +                    }
+>                  }
+>              } else {
+>                  for (sl = modinfo->deps; *sl != NULL; sl++) {
+> @@ -285,14 +319,20 @@ bool module_load_one(const char *prefix, const char *lib_name)
+>      for (i = 0; i < n_dirs; i++) {
+>          fname = g_strdup_printf("%s/%s%s",
+>                  dirs[i], module_name, CONFIG_HOST_DSOSUF);
+> -        ret = module_load_file(fname, export_symbols);
+> +        ret = module_load_file(fname, export_symbols, errp);
+>          g_free(fname);
+>          fname = NULL;
+> -        /* Try loading until loaded a module file */
+> -        if (!ret) {
+> -            success = true;
+> -            break;
+> +        /*
+> +         * Try to find the file in all directories until we either fail badly,
+> +         * load the file successfully, or exhaust all directories in the list.
+> +         */
+> +        if (ret == -ENOENT || ret == -ENOTDIR) {
+> +            continue;
+>          }
+> +        if (ret == 0) {
+> +            success = true;
+> +        }
+> +        break;
+>      }
+>  
+>      if (!success) {
+> @@ -312,13 +352,25 @@ bool module_load_one(const char *prefix, const char *lib_name)
+>  
+>  static bool module_loaded_qom_all;
+>  
+> -void module_load_qom_one(const char *type)
+> +/*
+> + * module_load_qom_one: attempt to load a module to provide a QOM type
+> + *
+> + * type:           the type to be provided
+> + * errp:           error to set.
+> + *
+> + * Return value:   true on success (found and loaded), false on failure.
+> + *                 If a module is simply not found for the type,
+> + *                 errp will not be set.
+> + */
+> +bool module_load_qom_one(const char *type, Error **errp)
+>  {
+> +    bool found = false;
+>      const QemuModinfo *modinfo;
+>      const char **sl;
+>  
+>      if (!type) {
+> -        return;
+> +        error_setg(errp, "%s", "type is NULL");
+> +        return false;
+>      }
+>  
+>      trace_module_lookup_object_type(type);
+> @@ -331,15 +383,26 @@ void module_load_qom_one(const char *type)
+>          }
+>          for (sl = modinfo->objs; *sl != NULL; sl++) {
+>              if (strcmp(type, *sl) == 0) {
+> -                module_load_one("", modinfo->name);
+> +                if (found) {
+> +                    error_setg(errp, "multiple modules providing '%s'", type);
+> +                    found = false;
+> +                    break;
+
+I added this one, as it does not otherwise make sense to continue the loop.
+Either we loop through all modules in order to find duplicates, or we bail out as soon as we find one;
+
+in this patch I chose to keep the existing idea to loop through all modules, but then added the check to report an error if multiple mods try to handle the same type.
+
+> +                }
+> +                found = module_load_one("", modinfo->name, errp);
+> +                if (!found) {
+> +                    /* errp optionally set in module_load_one */
+> +                    break;
+> +                }
+>              }
+>          }
+>      }
+> +    return found;
+>  }
+>  
+>  void module_load_qom_all(void)
+>  {
+>      const QemuModinfo *modinfo;
+> +    Error *local_err = NULL;
+>  
+>      if (module_loaded_qom_all) {
+>          return;
+> @@ -352,7 +415,9 @@ void module_load_qom_all(void)
+>          if (!module_check_arch(modinfo)) {
+>              continue;
+>          }
+> -        module_load_one("", modinfo->name);
+> +        if (!module_load_one("", modinfo->name, &local_err) && local_err) {
+> +            error_report_err(local_err);
+> +        }
+>      }
+>      module_loaded_qom_all = true;
+>  }
+> @@ -368,7 +433,11 @@ void qemu_load_module_for_opts(const char *group)
+>          }
+>          for (sl = modinfo->opts; *sl != NULL; sl++) {
+>              if (strcmp(group, *sl) == 0) {
+> -                module_load_one("", modinfo->name);
+> +                Error *local_err = NULL;
+> +                if (!module_load_one("", modinfo->name, &local_err)
+> +                    && local_err) {
+> +                    error_report_err(local_err);
+> +                }
+>              }
+>          }
+>      }
+
+For this module_load_qom_all() maybe Gerd has a bit more context on was should be the error reporting here?
+
+Thanks,
+
+Claudio
+
+> @@ -378,7 +447,7 @@ void qemu_load_module_for_opts(const char *group)
+>  
+>  void module_allow_arch(const char *arch) {}
+>  void qemu_load_module_for_opts(const char *group) {}
+> -void module_load_qom_one(const char *type) {}
+> +bool module_load_qom_one(const char *type, Error **errp) { return true; }
+>  void module_load_qom_all(void) {}
+>  
+>  #endif
+
 
