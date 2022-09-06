@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 798215AE517
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 12:13:32 +0200 (CEST)
-Received: from localhost ([::1]:38614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 156995AE516
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Sep 2022 12:13:02 +0200 (CEST)
+Received: from localhost ([::1]:57948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVVaE-0007Bd-Rf
-	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 06:13:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50030)
+	id 1oVVZk-0006We-Ro
+	for lists+qemu-devel@lfdr.de; Tue, 06 Sep 2022 06:13:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1oVUjt-00068a-1P
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:19:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43596)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1oVUjp-0003l2-RP
- for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:19:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662455960;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WTRx7tfA540r/FUQkddIp6d+BYP5GkpLpF1JDCco29o=;
- b=BWZX66vnqrKvq+7vZHymC7pR/23+eYpQfJXBqhGe7i8q7aQQntvtx35zt1NIXE1pyBePa9
- OISeim8s0I/yvuA8jkyGZEtbx3y5RS/nMrJNAeZf21tU0ry08g4x/d+C4zTZ/g4zwh6Kc4
- YqOSpc2lbvw8FhgsaiJtKf5garUHvDE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-612-6V63_9WGPCys1LI4uKqLWA-1; Tue, 06 Sep 2022 05:19:19 -0400
-X-MC-Unique: 6V63_9WGPCys1LI4uKqLWA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 63DB83C0D848
- for <qemu-devel@nongnu.org>; Tue,  6 Sep 2022 09:19:19 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.165])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 24750C15BB3;
- Tue,  6 Sep 2022 09:19:19 +0000 (UTC)
-Date: Tue, 6 Sep 2022 10:19:18 +0100
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH 04/11] crypto: validate that LUKS payload doesn't overlap
- with header
-Message-ID: <20220906091918.GL7484@redhat.com>
-References: <20220906084147.1423045-1-berrange@redhat.com>
- <20220906084147.1423045-5-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oVUso-0004i1-2D
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:28:42 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44024)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oVUsm-0005Ct-1j
+ for qemu-devel@nongnu.org; Tue, 06 Sep 2022 05:28:37 -0400
+Received: by mail-wr1-x432.google.com with SMTP id t7so9469476wrm.10
+ for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 02:28:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:references:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=pnc1iP2jbkqTG9Jsv6J9XcD+MbzorUa2MTo8C00nhsI=;
+ b=uZXQg4gkXq8OhY7oehBHpSHqq7j3o47nWmPm4hMXF0oeQn2rVolTDbg7Fr8JSCKx5x
+ eTx4i4sUcZEwqHobEJpvhF7BVXsFY+G5eId9i2pFX6PdDv5j/35D2zhqvg18WMQ5J/jD
+ 5+Q50R9h6NjAcm++jenkS012mdXouvg1TCsJ8ktanzaKsLOsUZ45jzezOfBmxg015khx
+ qE9x2PwXdsoS7B/qEZjfA2qNzb6vSGO3FxRfM+ptb81IKH8LkOl9d5uyXnaby3R+yAik
+ tdzsAZMwtj0grMOjXO6j784ad2cbZoCSCa2TJPntoOVqmt+GCfDRSRla1MUTFoHANkXx
+ JSYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=pnc1iP2jbkqTG9Jsv6J9XcD+MbzorUa2MTo8C00nhsI=;
+ b=BoBnGY5KMh+qqeqfOicDcn7qQomtyWaUnxbwEtntTPDhCAnWaCfPpfFlQeRWDGxvb2
+ ed+78OOhmpNfvMFjf0WUiGyZ8iFbLn0d8PR2jtO+mBuBnYK6mjcoPE11W55S+kCW/S5B
+ HtJWbGE6oRbmltlrvWdbrsLCyyKW+AVvpDSSorUX6kIJVRk0TsfFTHniNgQ6XmpA0peg
+ 0tVbJQybY+00qbr1yrSlxoRw4oa+RNiXQNzqF64TPTwwDfZlNR613q/Cw2Rv96MLdWbk
+ 7kUoqm2j3l2lNCX1ct7DYCpxkcRGp8Q9ZLbSx5D33wKb8691/I94HIlu5idburC9f0JR
+ lZag==
+X-Gm-Message-State: ACgBeo1mnDrS5SDBn1zMNa6lcqMf7vAwT1s0T0+clSV0r8//2vg+l+w7
+ o1gW9l0YqtOgMYgbmNwi3HF4z76eQPbqZl/p
+X-Google-Smtp-Source: AA6agR4yFXw1LfDTWhU/md5r3WEju2BJLDhhZ3Bv275bxarUsIpWkOQ0bghvH8Z0h6QRopwoB6brtw==
+X-Received: by 2002:a5d:598c:0:b0:228:4628:f7a8 with SMTP id
+ n12-20020a5d598c000000b002284628f7a8mr10941600wri.258.1662456514276; 
+ Tue, 06 Sep 2022 02:28:34 -0700 (PDT)
+Received: from ?IPV6:2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1?
+ ([2a02:8084:a5c0:5a80:ba98:3a71:8524:e0b1])
+ by smtp.gmail.com with ESMTPSA id
+ c11-20020a5d528b000000b0021e42e7c7dbsm11189566wrv.83.2022.09.06.02.28.33
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Sep 2022 02:28:33 -0700 (PDT)
+Message-ID: <d0b82889-952f-f3f2-788a-fc21bd1e5c14@linaro.org>
+Date: Tue, 6 Sep 2022 10:28:31 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220906084147.1423045-5-berrange@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=rjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v4 0/7] tcg: pc-relative translation blocks
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+References: <20220906091126.298041-1-richard.henderson@linaro.org>
+In-Reply-To: <20220906091126.298041-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -81,45 +94,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 06, 2022 at 09:41:40AM +0100, Daniel P. Berrangé wrote:
-> We already validate that LUKS keyslots don't overlap with the
-> header, or with each other. This closes the remain hole in
-
-remain -> remaining
-
-> validation of LUKS file regions.
+On 9/6/22 10:11, Richard Henderson wrote:
+> The goal here is to reduce the amount of code generation when the
+> guest kernel enables address space randomization.  This requires
+> extensive changes to each target, so opt-in with TARGET_TB_PCREL.
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  crypto/block-luks.c | 7 +++++++
->  1 file changed, 7 insertions(+)
+> This is split out of v3, which also contained target/arm changes,
+> as I now have patches for x86 and s390x as well.
 > 
-> diff --git a/crypto/block-luks.c b/crypto/block-luks.c
-> index 6ef9a89ffa..f22bc63e54 100644
-> --- a/crypto/block-luks.c
-> +++ b/crypto/block-luks.c
-> @@ -572,6 +572,13 @@ qcrypto_block_luks_check_header(const QCryptoBlockLUKS *luks, Error **errp)
->          return -1;
->      }
->  
-> +    if (luks->header.payload_offset_sector <
-> +        DIV_ROUND_UP(QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET,
-> +                     QCRYPTO_BLOCK_LUKS_SECTOR_SIZE)) {
-> +        error_setg(errp, "LUKS payload is overlapping with the header");
-> +        return -1;
-> +    }
-> +
->      /* Check all keyslots for corruption  */
->      for (i = 0 ; i < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS ; i++) {
->  
-> -- 
-> 2.37.2
+> 
+> r~
+> 
+> 
+> Based-on: 20220905202259.189852-1-richard.henderson@linaro.org
+> ("[PATCH v3 0/6] tcg: Introduce CPUTLBEntryFull")
+> 
+> v2: https://lore.kernel.org/qemu-devel/20220816203400.161187-1-richard.henderson@linaro.org/
+> v3: https://lore.kernel.org/qemu-devel/20220822232338.1727934-1-richard.henderson@linaro.org/
+> 
+> branch: https://gitlab.com/rth7680/qemu/-/tree/tcg-pcrel
 
--- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-Fedora Windows cross-compiler. Compile Windows programs, test, and
-build Windows installers. Over 100 libraries supported.
-http://fedoraproject.org/wiki/MinGW
+Arg.  Accidentally dropped a patch from v3:
+
+
+> 
+> 
+> Richard Henderson (7):
+>    accel/tcg: Use bool for page_find_alloc
+>    accel/tcg: Use DisasContextBase in plugin_gen_tb_start
+>    accel/tcg: Do not align tb->page_addr[0]
+>    include/hw/core: Create struct CPUJumpCache
+>    accel/tcg: Introduce tb_pc and tb_pc_log
+>    accel/tcg: Introduce TARGET_TB_PCREL
+>    accel/tcg: Split log_cpu_exec into inline and slow path
+> 
+>   include/exec/cpu-defs.h                 |   3 +
+>   include/exec/exec-all.h                 |  51 ++++++++++-
+>   include/exec/plugin-gen.h               |   7 +-
+>   include/hw/core/cpu.h                   |   9 +-
+>   accel/tcg/cpu-exec.c                    | 108 ++++++++++++++++--------
+>   accel/tcg/cputlb.c                      |   5 +-
+>   accel/tcg/plugin-gen.c                  |  22 ++---
+>   accel/tcg/translate-all.c               |  90 ++++++++++++--------
+>   accel/tcg/translator.c                  |   2 +-
+>   target/arm/cpu.c                        |   4 +-
+>   target/avr/cpu.c                        |   2 +-
+>   target/hexagon/cpu.c                    |   2 +-
+>   target/hppa/cpu.c                       |   4 +-
+>   target/i386/tcg/tcg-cpu.c               |   2 +-
+>   target/loongarch/cpu.c                  |   2 +-
+>   target/microblaze/cpu.c                 |   2 +-
+>   target/mips/tcg/exception.c             |   2 +-
+>   target/mips/tcg/sysemu/special_helper.c |   2 +-
+>   target/openrisc/cpu.c                   |   2 +-
+>   target/riscv/cpu.c                      |   4 +-
+>   target/rx/cpu.c                         |   2 +-
+>   target/sh4/cpu.c                        |   4 +-
+>   target/sparc/cpu.c                      |   2 +-
+>   target/tricore/cpu.c                    |   2 +-
+>   tcg/tcg.c                               |   6 +-
+>   25 files changed, 226 insertions(+), 115 deletions(-)
+> 
 
 
