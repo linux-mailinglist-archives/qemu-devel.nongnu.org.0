@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2630D5B064D
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 16:20:47 +0200 (CEST)
-Received: from localhost ([::1]:39840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48B925B065B
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 16:22:34 +0200 (CEST)
+Received: from localhost ([::1]:46774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVvv3-0004Po-Mn
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 10:20:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42352)
+	id 1oVvwn-0006nd-DN
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 10:22:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oVvtI-0002On-KA
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 10:18:56 -0400
-Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:45952)
+ id 1oVvuE-0003wQ-9B
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 10:19:54 -0400
+Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f]:39547)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oVvtG-0005pZ-VI
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 10:18:56 -0400
-Received: by mail-yb1-xb2a.google.com with SMTP id d189so19130363ybh.12
- for <qemu-devel@nongnu.org>; Wed, 07 Sep 2022 07:18:54 -0700 (PDT)
+ id 1oVvuC-0005tV-Ny
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 10:19:54 -0400
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-3487d84e477so6823437b3.6
+ for <qemu-devel@nongnu.org>; Wed, 07 Sep 2022 07:19:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=jOxs/Aq/kzUvzbbeTr/4AYemdL4TQeE4YRBDbl+PN3c=;
- b=en3asxkvttD83ou8Pf6e8FHabtmN5goxbOuzMuplOCuZ6KKAIRMsieey0N9P796pNq
- e1xVvtBcTpSCowNG/liae4bXLim4FUA5ho+/zfZHSplFOlfKVCccMtgAWlP1+LwfROSe
- nBc/FL31ULOI2RMQTmKQ/Zb//BBqiq/rdfYrXI8Ry8mRSQ5v9vTKS/KyDc5mZ9VRx+5I
- 3ay2bYHHZW32BDRznf8IJql0mpYNuyX+Hyvozw+s/FMvl2cuugqvZ08e4M0yVva82lcC
- D07U2U0sICWR7Jj/XNytIGxYtzyLORDMR1vH7xO5qCDAmY8vDc9Yvodi9JyF17p7rAqH
- rnbQ==
+ bh=xzQQge1p9sGh6RMu1G1JOY9ItCc6O0H120k6pKHMmEk=;
+ b=Bih6yKcvqhH4zWrwdr6CGGO42qojshsT47RQnhXv7ybu5CD6vL27DQnoZCdIiZcqnD
+ 0MNFx49OnNcHRuNt0yer8KsEpHqlebpbukHR8/U0Knhm5IkCoZC+cpXtWgtCriZjynid
+ t5Bruq5/CLUqLGLQKdHNGqoXOR5/u+8UPkJ82rmSO8YnBjZPRRwCZiKEUE1IWXZHpGhw
+ 3GuaMXYCxJXztaV0qrqOzBvSR3aM+i2HSRfZe2zbCTl0yZUnpl7Hk5ecvH5V+LsTxI6l
+ HjAU7bKenJs8zPJhJgMQUWxJQCh6oc6moTNqrwTOfD2LY0IITD2J+XO/28stoTLZrTY6
+ X8EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=jOxs/Aq/kzUvzbbeTr/4AYemdL4TQeE4YRBDbl+PN3c=;
- b=KH6KhUNTzoOQ0jQrLY+KbxmvgzVKe7y3mwjSNya9syNFB7UGGy+xdNfAY0rkIG7cjF
- wv9D1eMQpDJpKSVtBefX/Ynope2HvMMVFQC5PjHBuqBYr4d2f7mHZYJarVG0MLTnhEr8
- T0j3T/Y8UM2IKHEP1Jl4IvYDkMGQtPinp8KH+ZoC1QNPhmlboM1dJV9z6zh/TmlGrBKj
- Y3aLzgaNA7Wg7eZACrVzx4uP6ID6PDuTuP8oM+ZwUxytDBMkuFOvbobv0GrgPOu5P97W
- /xni9wCiqQ0efqeiGAsiSKyQ1V3WFNQ2E6z8Tz52iXyzX0QkN56B+DQt1oCK2aq0VeA8
- HbzA==
-X-Gm-Message-State: ACgBeo0kG8ry77DUEoTMrXh9CPWt5juIK8L2kX89gNs3JFG0yOVLnFd1
- m7AGeTmahgZqF3JDKvrcNmiPAgm9xgl6ZPHWeaQ=
-X-Google-Smtp-Source: AA6agR7GPKXrD3Dakr5r8TxFlEsw/fRGYcuEubVxq7u41R1RYe7tArAoPUDAN9Z2GW/vGw2pfb4u55uex+x5R7qbv6A=
-X-Received: by 2002:a25:6c83:0:b0:6a6:8470:dc00 with SMTP id
- h125-20020a256c83000000b006a68470dc00mr3119714ybc.118.1662560333384; Wed, 07
- Sep 2022 07:18:53 -0700 (PDT)
+ bh=xzQQge1p9sGh6RMu1G1JOY9ItCc6O0H120k6pKHMmEk=;
+ b=UF/bL73GgKrFbacSRRePEHzpxSfHOSmr1V6FGrN95Wpt+6Y0GvxMEIl6wem0JqL0c8
+ S+mzloXBKGDurvth8CTH/zekLb4bAtg65HrnyRaOBDrDjDrf9J5p6hA/eDkJo6llIHVY
+ taHCDIZvUWvoVXyQYGGEsca7BvU0KX8PnSHtz4SRiY8Abbo2YAnpQvdZn8rD+nqTKV0v
+ yISqGCJ4XUJAOGoMUPmnPQZAgKNUthjRavhGSA38ANyBzL6c1PKrZxM84s5yGkrMexhH
+ k8D2OihGOTcCAwJhtHXc1kN+m0EFp1t+3tru4jHjVleqfkS+ClLvOzu0XSNqiqYZav2w
+ 48+A==
+X-Gm-Message-State: ACgBeo13/MIyJGN2bD4dHCLyZwezdsLXq3l6R0HNPtDxRa2jyfxSnblq
+ awutT6EIpvt5b0pSMitX4ENSxl1XPWvV6LgX5JU=
+X-Google-Smtp-Source: AA6agR6es1m2QTKoQhG3HmhDk7/mGxawhEgjnpT++W2R7RDp8RxAnyCjkeWxHPwQeUEm0Uw6m26keN7xYXBr3V6AeCc=
+X-Received: by 2002:a0d:cc83:0:b0:345:14a5:a2b0 with SMTP id
+ o125-20020a0dcc83000000b0034514a5a2b0mr3532402ywd.206.1662560388878; Wed, 07
+ Sep 2022 07:19:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220907080353.111926-1-alistair.francis@wdc.com>
-In-Reply-To: <20220907080353.111926-1-alistair.francis@wdc.com>
+References: <20220904072607.44275-1-shorne@gmail.com>
+In-Reply-To: <20220904072607.44275-1-shorne@gmail.com>
 From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Wed, 7 Sep 2022 10:18:41 -0400
-Message-ID: <CAJSP0QVyG73LZ50UJyPFanOKJ3tq27k6LJvvwQ30mJcuAzjDaQ@mail.gmail.com>
-Subject: Re: [PULL 00/44] riscv-to-apply queue
-To: Alistair Francis <alistair.francis@wdc.com>
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, alistair23@gmail.com
+Date: Wed, 7 Sep 2022 10:19:37 -0400
+Message-ID: <CAJSP0QVnMFjodM26-ehXi0Yd9eiBHJXJwBudJqyQg8a3j6rJCA@mail.gmail.com>
+Subject: Re: [PULL 00/11] OpenRISC updates for 7.2.0
+To: Stafford Horne <shorne@gmail.com>
+Cc: qemu-devel@nongnu.org, openrisc@lists.librecores.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x112f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,23 +83,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 7 Sept 2022 at 04:32, Alistair Francis via
-<qemu-devel@nongnu.org> wrote:
+On Sun, 4 Sept 2022 at 03:27, Stafford Horne <shorne@gmail.com> wrote:
 >
-> The following changes since commit 946e9bccf12f2bcc3ca471b820738fb22d14fc80:
+> The following changes since commit 61fd710b8da8aedcea9b4f197283dc38638e4b60:
 >
->   Merge tag 'samuel-thibault' of https://people.debian.org/~sthibault/qemu into staging (2022-09-06 08:31:24 -0400)
+>   Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2022-09-02 13:24:28 -0400)
 >
 > are available in the Git repository at:
 >
->   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20220907
+>   git@github.com:stffrdhrn/qemu.git tags/pull-or1k-20220904
 
-Hi Alistair,
+Hi Stafford,
 Please update .git/config to separate the push URL from the fetch URL:
 
 [remote "github"]
-        url = https://github.com/alistair23/qemu.git
-        pushUrl = git@gitlab.com:alistair23/qemu.git
+        url = https://github.com/stffrdhrn/qemu.git
+        pushUrl = git@gitlab.com:stffrdhrn/qemu.git
 
 That way future pull requests will include an https URL that allows
 fetches without ssh or a GitHub account. Thanks!
