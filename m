@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C93B05AFF45
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 10:37:34 +0200 (CEST)
-Received: from localhost ([::1]:34662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4A4B5AFF06
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 10:31:33 +0200 (CEST)
+Received: from localhost ([::1]:51806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVqYu-0008Tj-UO
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 04:37:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50994)
+	id 1oVqT6-0002ZW-SU
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 04:31:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=242877ce7=alistair.francis@wdc.com>)
- id 1oVq2r-0003c5-Ih
+ id 1oVq2r-0003c8-JE
  for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:04:31 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:1869)
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:1896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=242877ce7=alistair.francis@wdc.com>)
- id 1oVq2n-0004Nn-4Q
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:04:24 -0400
+ id 1oVq2n-0004Ol-4H
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:04:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1662537860; x=1694073860;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=eyV8L1v2CxgPavbXe85JeoWwoqmZPHcuYsPnMprMtsw=;
- b=Mu5SfQNb1RT1QSVFdIjZhJaYAyIHgC+eYKJf8giDS4maOXJZTsE2bs7r
- aN+liarTxajYvNWm4v08w0PnTMi5XCZDdk0RF1M+shr6r+yWrAAxbc4Jb
- TcsuTol7j7qLPkXJxo+vskaW0nuh7BX1MZrFg/nk+09pAnJmyKOVvYkO0
- MwWbyb3jTih+kuOxoDdCKEyRUSttRTVGW3VmuJlvk29Ik/+AqIqhfCIPg
- RVRPxVMQKxBpbs2POVxidyUy0EmY25KCGk4IvKMjREaw0Oo30PMNQgP9Z
- 2kPy8/CtJWrQzV7WgJ24EALoNdCmDutOA0Qv1sJbRP8UAfVHyh+bitjIb w==;
-X-IronPort-AV: E=Sophos;i="5.93,296,1654531200"; d="scan'208";a="210714904"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=SZhLzi2DKawC+W3L2PsXmh1mzyaM0RCIyih21gcFIFg=;
+ b=d//oL7pyhNQgc1U6102l46ZTrNSH6DthY52Lan7OP1kZX4JJuRWU8jpH
+ EfWLxYBR10ff4jN+QhDPb0NY1e/ehQIsLfA/HOHHFu4+LC3UvrHltnvOn
+ NdpSHD86+uqDbZLAOxcFSdvx9Gx95V605zfPNaQEm7m/sO/qJf9/rGqYT
+ pNYU/1W77lj4BlxIzA83fLnIUe769j3D2whwCM99Hd61IM9Fk6l6qBr/b
+ UMLrafH4Wl1UsgZJSzY4qMPlkHIM6Nvbyuo7TMVbx/nFmfDXGME30Xl+Y
+ +NRqJ1QvUBxhnHNVoWTNscg3o5C7/W+5LMmHO4vZggOtPg0w8ogFUO8kE w==;
+X-IronPort-AV: E=Sophos;i="5.93,296,1654531200"; d="scan'208";a="210714932"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 07 Sep 2022 16:04:03 +0800
-IronPort-SDR: TJliVQE5flL/EAd0nGuJ5tde961WKZ4Q1/cbSUtNlspnCTyQMCQj+xXam7Ur8UmevydPSBYCxe
- vEvIhKYNeeXpUKesWn1ghzs3q+kmwdUnhvGSpUS5L60aaDq10qK+pLubdZEtnrQYp2hTnNyZfb
- jWERGGk7nTMxhbDxgo795HhgEBtl7wE1hWQNgslLrq1SmC2ynRZhIB3B8XkFNgIaqZvHg57UMS
- gs2ocJZszvoUXvokcqOvX5h1Rf5nbxmZQUQkVj6+0d/aza3Swr7eeL4AMjczuTb4skRKzO3HAS
- qP5w7xR1uaFf07zIXqIMG43z
+ by ob1.hgst.iphmx.com with ESMTP; 07 Sep 2022 16:04:13 +0800
+IronPort-SDR: FAFNRej00ofqieU6wqJzOmWeLOU1+4yKJ6rID8bUH0GvQGxGsec/bc3RLF/N+XLZ9IY+oNQHuV
+ sV8rTkP9d1ZkqLijCa+6U+q9uxUP75m8bV0mZw1Ht071ixwaZvxxzTnjK9NppWf0cGZyb0XxGd
+ Wq5rdHZdvAHHN6w/hyOxD//BAXbZ4Q8UR8EdxldFYGcWo3UxD/DgePAF9+tsnfgUtwdTWZ9hbO
+ 2H8ER9uzZxiEXNDm1b18tiNOOib0XJs2sFqa1+LAkiOX98KThvqMaGe+ePP1q8Xbszyq4YWYXw
+ NFUNG3O53dExr24xZawAZsve
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 07 Sep 2022 00:19:01 -0700
-IronPort-SDR: M8SafYAQbK9Au5zvoTbHVGhDrFyA5g9fEOJjgjZCAllX9q64gxg0WQtU45uqvsrjMNeMgmIcWN
- QVPogwCj2SUamfyOUra2NT/DL1P9nB+S7fpiFoIfqje9Ka9TBBr6nhuXt7YxjwP9Z2nV4T35cF
- VYk+GEULGzooLhqXK26aS97khzQ8njrJ36y78Tbo4zc3oyhVMULcg3DkZxLqRthV6nBKofU/Tq
- S8K4NMaiKWaceKnYu2ZuDwrhbonvM45mzPNnkBaITLJcKjbpuOvvMypjCvlX8QqW1tiVEjdNph
- D8E=
+ 07 Sep 2022 00:19:10 -0700
+IronPort-SDR: tgN8zehmXlkAkQEK4P4UgRj1tdQDXE2S245yo20UJG6d6PXj8b596sDztEeGRF7F29UMxvwEv1
+ FSfR28wmY2lkJfN2EySDxHO5gLcjUmb/wRVGN7LGWOx4bqEd3wxN5Yjc+OLpQPADm0y0w8ihl9
+ 0LVztTQDp3moQ5hUXvuTmqrMy80MU299bfJXm25NrSB0uj8pqO+5C0ru/ngcVKZzxmlvjEm114
+ r9EDsWpnzWSd2GnipTquemaB2JXgN5Hu7BA76Awdf4ASB/PcBk5Cq0tYYQ86XvQE2QYGZ2rgOZ
+ Ymw=
 WDCIronportException: Internal
 Received: from unknown (HELO toolbox.wdc.com) ([10.225.167.94])
- by uls-op-cesaip01.wdc.com with ESMTP; 07 Sep 2022 01:04:03 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 07 Sep 2022 01:04:12 -0700
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Cc: alistair23@gmail.com,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 00/44] riscv-to-apply queue
-Date: Wed,  7 Sep 2022 10:03:09 +0200
-Message-Id: <20220907080353.111926-1-alistair.francis@wdc.com>
+Cc: alistair23@gmail.com, Anup Patel <apatel@ventanamicro.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ dramforever <dramforever@live.com>
+Subject: [PULL 01/44] target/riscv: Update [m|h]tinst CSR in
+ riscv_cpu_do_interrupt()
+Date: Wed,  7 Sep 2022 10:03:10 +0200
+Message-Id: <20220907080353.111926-2-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20220907080353.111926-1-alistair.francis@wdc.com>
+References: <20220907080353.111926-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=242877ce7=alistair.francis@wdc.com;
@@ -91,152 +94,483 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Alistair Francis <alistair.francis@wdc.com>
 From:  Alistair Francis via <qemu-devel@nongnu.org>
 
-The following changes since commit 946e9bccf12f2bcc3ca471b820738fb22d14fc80:
+From: Anup Patel <apatel@ventanamicro.com>
 
-  Merge tag 'samuel-thibault' of https://people.debian.org/~sthibault/qemu into staging (2022-09-06 08:31:24 -0400)
+We should write transformed instruction encoding of the trapped
+instruction in [m|h]tinst CSR at time of taking trap as defined
+by the RISC-V privileged specification v1.12.
 
-are available in the Git repository at:
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+Acked-by: dramforever <dramforever@live.com>
+Message-Id: <20220630061150.905174-2-apatel@ventanamicro.com>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/cpu.h        |   5 +
+ target/riscv/instmap.h    |  45 +++++++
+ target/riscv/cpu_helper.c | 252 +++++++++++++++++++++++++++++++++++++-
+ 3 files changed, 296 insertions(+), 6 deletions(-)
 
-  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20220907
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 5c7acc055a..ffb1a18873 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -285,6 +285,11 @@ struct CPUArchState {
+     /* Signals whether the current exception occurred with two-stage address
+        translation active. */
+     bool two_stage_lookup;
++    /*
++     * Signals whether the current exception occurred while doing two-stage
++     * address translation for the VS-stage page table walk.
++     */
++    bool two_stage_indirect_lookup;
+ 
+     target_ulong scounteren;
+     target_ulong mcounteren;
+diff --git a/target/riscv/instmap.h b/target/riscv/instmap.h
+index 40b6d2b64d..f877530576 100644
+--- a/target/riscv/instmap.h
++++ b/target/riscv/instmap.h
+@@ -184,6 +184,8 @@ enum {
+     OPC_RISC_CSRRWI      = OPC_RISC_SYSTEM | (0x5 << 12),
+     OPC_RISC_CSRRSI      = OPC_RISC_SYSTEM | (0x6 << 12),
+     OPC_RISC_CSRRCI      = OPC_RISC_SYSTEM | (0x7 << 12),
++
++    OPC_RISC_HLVHSV      = OPC_RISC_SYSTEM | (0x4 << 12),
+ };
+ 
+ #define MASK_OP_FP_LOAD(op)   (MASK_OP_MAJOR(op) | (op & (0x7 << 12)))
+@@ -310,12 +312,20 @@ enum {
+                            | (extract32(inst, 12, 8) << 12) \
+                            | (sextract64(inst, 31, 1) << 20))
+ 
++#define GET_FUNCT3(inst) extract32(inst, 12, 3)
++#define GET_FUNCT7(inst) extract32(inst, 25, 7)
+ #define GET_RM(inst)   extract32(inst, 12, 3)
+ #define GET_RS3(inst)  extract32(inst, 27, 5)
+ #define GET_RS1(inst)  extract32(inst, 15, 5)
+ #define GET_RS2(inst)  extract32(inst, 20, 5)
+ #define GET_RD(inst)   extract32(inst, 7, 5)
+ #define GET_IMM(inst)  sextract64(inst, 20, 12)
++#define SET_RS1(inst, val)  deposit32(inst, 15, 5, val)
++#define SET_RS2(inst, val)  deposit32(inst, 20, 5, val)
++#define SET_RD(inst, val)   deposit32(inst, 7, 5, val)
++#define SET_I_IMM(inst, val)  deposit32(inst, 20, 12, val)
++#define SET_S_IMM(inst, val)  \
++    deposit32(deposit32(inst, 7, 5, val), 25, 7, (val) >> 5)
+ 
+ /* RVC decoding macros */
+ #define GET_C_IMM(inst)             (extract32(inst, 2, 5) \
+@@ -346,6 +356,8 @@ enum {
+                                     | (extract32(inst, 5, 1) << 6))
+ #define GET_C_LD_IMM(inst)          ((extract16(inst, 10, 3) << 3) \
+                                     | (extract16(inst, 5, 2) << 6))
++#define GET_C_SW_IMM(inst)          GET_C_LW_IMM(inst)
++#define GET_C_SD_IMM(inst)          GET_C_LD_IMM(inst)
+ #define GET_C_J_IMM(inst)           ((extract32(inst, 3, 3) << 1) \
+                                     | (extract32(inst, 11, 1) << 4) \
+                                     | (extract32(inst, 2, 1) << 5) \
+@@ -366,4 +378,37 @@ enum {
+ #define GET_C_RS1S(inst)            (8 + extract16(inst, 7, 3))
+ #define GET_C_RS2S(inst)            (8 + extract16(inst, 2, 3))
+ 
++#define GET_C_FUNC(inst)           extract32(inst, 13, 3)
++#define GET_C_OP(inst)             extract32(inst, 0, 2)
++
++enum {
++    /* RVC Quadrants */
++    OPC_RISC_C_OP_QUAD0 = 0x0,
++    OPC_RISC_C_OP_QUAD1 = 0x1,
++    OPC_RISC_C_OP_QUAD2 = 0x2
++};
++
++enum {
++    /* RVC Quadrant 0 */
++    OPC_RISC_C_FUNC_ADDI4SPN = 0x0,
++    OPC_RISC_C_FUNC_FLD_LQ = 0x1,
++    OPC_RISC_C_FUNC_LW = 0x2,
++    OPC_RISC_C_FUNC_FLW_LD = 0x3,
++    OPC_RISC_C_FUNC_FSD_SQ = 0x5,
++    OPC_RISC_C_FUNC_SW = 0x6,
++    OPC_RISC_C_FUNC_FSW_SD = 0x7
++};
++
++enum {
++    /* RVC Quadrant 2 */
++    OPC_RISC_C_FUNC_SLLI_SLLI64 = 0x0,
++    OPC_RISC_C_FUNC_FLDSP_LQSP = 0x1,
++    OPC_RISC_C_FUNC_LWSP = 0x2,
++    OPC_RISC_C_FUNC_FLWSP_LDSP = 0x3,
++    OPC_RISC_C_FUNC_JR_MV_EBREAK_JALR_ADD = 0x4,
++    OPC_RISC_C_FUNC_FSDSP_SQSP = 0x5,
++    OPC_RISC_C_FUNC_SWSP = 0x6,
++    OPC_RISC_C_FUNC_FSWSP_SDSP = 0x7
++};
++
+ #endif
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 59b3680b1b..87daf7220f 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -22,6 +22,7 @@
+ #include "qemu/main-loop.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
++#include "instmap.h"
+ #include "tcg/tcg-op.h"
+ #include "trace.h"
+ #include "semihosting/common-semi.h"
+@@ -1053,7 +1054,8 @@ restart:
+ 
+ static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
+                                 MMUAccessType access_type, bool pmp_violation,
+-                                bool first_stage, bool two_stage)
++                                bool first_stage, bool two_stage,
++                                bool two_stage_indirect)
+ {
+     CPUState *cs = env_cpu(env);
+     int page_fault_exceptions, vm;
+@@ -1103,6 +1105,7 @@ static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
+     }
+     env->badaddr = address;
+     env->two_stage_lookup = two_stage;
++    env->two_stage_indirect_lookup = two_stage_indirect;
+ }
+ 
+ hwaddr riscv_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+@@ -1148,6 +1151,7 @@ void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+     env->badaddr = addr;
+     env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
+                             riscv_cpu_two_stage_lookup(mmu_idx);
++    env->two_stage_indirect_lookup = false;
+     cpu_loop_exit_restore(cs, retaddr);
+ }
+ 
+@@ -1173,6 +1177,7 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+     env->badaddr = addr;
+     env->two_stage_lookup = riscv_cpu_virt_enabled(env) ||
+                             riscv_cpu_two_stage_lookup(mmu_idx);
++    env->two_stage_indirect_lookup = false;
+     cpu_loop_exit_restore(cs, retaddr);
+ }
+ 
+@@ -1188,6 +1193,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     bool pmp_violation = false;
+     bool first_stage_error = true;
+     bool two_stage_lookup = false;
++    bool two_stage_indirect_error = false;
+     int ret = TRANSLATE_FAIL;
+     int mode = mmu_idx;
+     /* default TLB page size */
+@@ -1225,6 +1231,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+          */
+         if (ret == TRANSLATE_G_STAGE_FAIL) {
+             first_stage_error = false;
++            two_stage_indirect_error = true;
+             access_type = MMU_DATA_LOAD;
+         }
+ 
+@@ -1308,12 +1315,218 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+         raise_mmu_exception(env, address, access_type, pmp_violation,
+                             first_stage_error,
+                             riscv_cpu_virt_enabled(env) ||
+-                                riscv_cpu_two_stage_lookup(mmu_idx));
++                                riscv_cpu_two_stage_lookup(mmu_idx),
++                            two_stage_indirect_error);
+         cpu_loop_exit_restore(cs, retaddr);
+     }
+ 
+     return true;
+ }
++
++static target_ulong riscv_transformed_insn(CPURISCVState *env,
++                                           target_ulong insn,
++                                           target_ulong taddr)
++{
++    target_ulong xinsn = 0;
++    target_ulong access_rs1 = 0, access_imm = 0, access_size = 0;
++
++    /*
++     * Only Quadrant 0 and Quadrant 2 of RVC instruction space need to
++     * be uncompressed. The Quadrant 1 of RVC instruction space need
++     * not be transformed because these instructions won't generate
++     * any load/store trap.
++     */
++
++    if ((insn & 0x3) != 0x3) {
++        /* Transform 16bit instruction into 32bit instruction */
++        switch (GET_C_OP(insn)) {
++        case OPC_RISC_C_OP_QUAD0: /* Quadrant 0 */
++            switch (GET_C_FUNC(insn)) {
++            case OPC_RISC_C_FUNC_FLD_LQ:
++                if (riscv_cpu_xlen(env) != 128) { /* C.FLD (RV32/64) */
++                    xinsn = OPC_RISC_FLD;
++                    xinsn = SET_RD(xinsn, GET_C_RS2S(insn));
++                    access_rs1 = GET_C_RS1S(insn);
++                    access_imm = GET_C_LD_IMM(insn);
++                    access_size = 8;
++                }
++                break;
++            case OPC_RISC_C_FUNC_LW: /* C.LW */
++                xinsn = OPC_RISC_LW;
++                xinsn = SET_RD(xinsn, GET_C_RS2S(insn));
++                access_rs1 = GET_C_RS1S(insn);
++                access_imm = GET_C_LW_IMM(insn);
++                access_size = 4;
++                break;
++            case OPC_RISC_C_FUNC_FLW_LD:
++                if (riscv_cpu_xlen(env) == 32) { /* C.FLW (RV32) */
++                    xinsn = OPC_RISC_FLW;
++                    xinsn = SET_RD(xinsn, GET_C_RS2S(insn));
++                    access_rs1 = GET_C_RS1S(insn);
++                    access_imm = GET_C_LW_IMM(insn);
++                    access_size = 4;
++                } else { /* C.LD (RV64/RV128) */
++                    xinsn = OPC_RISC_LD;
++                    xinsn = SET_RD(xinsn, GET_C_RS2S(insn));
++                    access_rs1 = GET_C_RS1S(insn);
++                    access_imm = GET_C_LD_IMM(insn);
++                    access_size = 8;
++                }
++                break;
++            case OPC_RISC_C_FUNC_FSD_SQ:
++                if (riscv_cpu_xlen(env) != 128) { /* C.FSD (RV32/64) */
++                    xinsn = OPC_RISC_FSD;
++                    xinsn = SET_RS2(xinsn, GET_C_RS2S(insn));
++                    access_rs1 = GET_C_RS1S(insn);
++                    access_imm = GET_C_SD_IMM(insn);
++                    access_size = 8;
++                }
++                break;
++            case OPC_RISC_C_FUNC_SW: /* C.SW */
++                xinsn = OPC_RISC_SW;
++                xinsn = SET_RS2(xinsn, GET_C_RS2S(insn));
++                access_rs1 = GET_C_RS1S(insn);
++                access_imm = GET_C_SW_IMM(insn);
++                access_size = 4;
++                break;
++            case OPC_RISC_C_FUNC_FSW_SD:
++                if (riscv_cpu_xlen(env) == 32) { /* C.FSW (RV32) */
++                    xinsn = OPC_RISC_FSW;
++                    xinsn = SET_RS2(xinsn, GET_C_RS2S(insn));
++                    access_rs1 = GET_C_RS1S(insn);
++                    access_imm = GET_C_SW_IMM(insn);
++                    access_size = 4;
++                } else { /* C.SD (RV64/RV128) */
++                    xinsn = OPC_RISC_SD;
++                    xinsn = SET_RS2(xinsn, GET_C_RS2S(insn));
++                    access_rs1 = GET_C_RS1S(insn);
++                    access_imm = GET_C_SD_IMM(insn);
++                    access_size = 8;
++                }
++                break;
++            default:
++                break;
++            }
++            break;
++        case OPC_RISC_C_OP_QUAD2: /* Quadrant 2 */
++            switch (GET_C_FUNC(insn)) {
++            case OPC_RISC_C_FUNC_FLDSP_LQSP:
++                if (riscv_cpu_xlen(env) != 128) { /* C.FLDSP (RV32/64) */
++                    xinsn = OPC_RISC_FLD;
++                    xinsn = SET_RD(xinsn, GET_C_RD(insn));
++                    access_rs1 = 2;
++                    access_imm = GET_C_LDSP_IMM(insn);
++                    access_size = 8;
++                }
++                break;
++            case OPC_RISC_C_FUNC_LWSP: /* C.LWSP */
++                xinsn = OPC_RISC_LW;
++                xinsn = SET_RD(xinsn, GET_C_RD(insn));
++                access_rs1 = 2;
++                access_imm = GET_C_LWSP_IMM(insn);
++                access_size = 4;
++                break;
++            case OPC_RISC_C_FUNC_FLWSP_LDSP:
++                if (riscv_cpu_xlen(env) == 32) { /* C.FLWSP (RV32) */
++                    xinsn = OPC_RISC_FLW;
++                    xinsn = SET_RD(xinsn, GET_C_RD(insn));
++                    access_rs1 = 2;
++                    access_imm = GET_C_LWSP_IMM(insn);
++                    access_size = 4;
++                } else { /* C.LDSP (RV64/RV128) */
++                    xinsn = OPC_RISC_LD;
++                    xinsn = SET_RD(xinsn, GET_C_RD(insn));
++                    access_rs1 = 2;
++                    access_imm = GET_C_LDSP_IMM(insn);
++                    access_size = 8;
++                }
++                break;
++            case OPC_RISC_C_FUNC_FSDSP_SQSP:
++                if (riscv_cpu_xlen(env) != 128) { /* C.FSDSP (RV32/64) */
++                    xinsn = OPC_RISC_FSD;
++                    xinsn = SET_RS2(xinsn, GET_C_RS2(insn));
++                    access_rs1 = 2;
++                    access_imm = GET_C_SDSP_IMM(insn);
++                    access_size = 8;
++                }
++                break;
++            case OPC_RISC_C_FUNC_SWSP: /* C.SWSP */
++                xinsn = OPC_RISC_SW;
++                xinsn = SET_RS2(xinsn, GET_C_RS2(insn));
++                access_rs1 = 2;
++                access_imm = GET_C_SWSP_IMM(insn);
++                access_size = 4;
++                break;
++            case 7:
++                if (riscv_cpu_xlen(env) == 32) { /* C.FSWSP (RV32) */
++                    xinsn = OPC_RISC_FSW;
++                    xinsn = SET_RS2(xinsn, GET_C_RS2(insn));
++                    access_rs1 = 2;
++                    access_imm = GET_C_SWSP_IMM(insn);
++                    access_size = 4;
++                } else { /* C.SDSP (RV64/RV128) */
++                    xinsn = OPC_RISC_SD;
++                    xinsn = SET_RS2(xinsn, GET_C_RS2(insn));
++                    access_rs1 = 2;
++                    access_imm = GET_C_SDSP_IMM(insn);
++                    access_size = 8;
++                }
++                break;
++            default:
++                break;
++            }
++            break;
++        default:
++            break;
++        }
++
++        /*
++         * Clear Bit1 of transformed instruction to indicate that
++         * original insruction was a 16bit instruction
++         */
++        xinsn &= ~((target_ulong)0x2);
++    } else {
++        /* Transform 32bit (or wider) instructions */
++        switch (MASK_OP_MAJOR(insn)) {
++        case OPC_RISC_ATOMIC:
++            xinsn = insn;
++            access_rs1 = GET_RS1(insn);
++            access_size = 1 << GET_FUNCT3(insn);
++            break;
++        case OPC_RISC_LOAD:
++        case OPC_RISC_FP_LOAD:
++            xinsn = SET_I_IMM(insn, 0);
++            access_rs1 = GET_RS1(insn);
++            access_imm = GET_IMM(insn);
++            access_size = 1 << GET_FUNCT3(insn);
++            break;
++        case OPC_RISC_STORE:
++        case OPC_RISC_FP_STORE:
++            xinsn = SET_S_IMM(insn, 0);
++            access_rs1 = GET_RS1(insn);
++            access_imm = GET_STORE_IMM(insn);
++            access_size = 1 << GET_FUNCT3(insn);
++            break;
++        case OPC_RISC_SYSTEM:
++            if (MASK_OP_SYSTEM(insn) == OPC_RISC_HLVHSV) {
++                xinsn = insn;
++                access_rs1 = GET_RS1(insn);
++                access_size = 1 << ((GET_FUNCT7(insn) >> 1) & 0x3);
++                access_size = 1 << access_size;
++            }
++            break;
++        default:
++            break;
++        }
++    }
++
++    if (access_size) {
++        xinsn = SET_RS1(xinsn, (taddr - (env->gpr[access_rs1] + access_imm)) &
++                               (access_size - 1));
++    }
++
++    return xinsn;
++}
+ #endif /* !CONFIG_USER_ONLY */
+ 
+ /*
+@@ -1338,6 +1551,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+     target_ulong cause = cs->exception_index & RISCV_EXCP_INT_MASK;
+     uint64_t deleg = async ? env->mideleg : env->medeleg;
+     target_ulong tval = 0;
++    target_ulong tinst = 0;
+     target_ulong htval = 0;
+     target_ulong mtval2 = 0;
+ 
+@@ -1353,20 +1567,43 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+     if (!async) {
+         /* set tval to badaddr for traps with address information */
+         switch (cause) {
+-        case RISCV_EXCP_INST_GUEST_PAGE_FAULT:
+         case RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT:
+         case RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT:
+-        case RISCV_EXCP_INST_ADDR_MIS:
+-        case RISCV_EXCP_INST_ACCESS_FAULT:
+         case RISCV_EXCP_LOAD_ADDR_MIS:
+         case RISCV_EXCP_STORE_AMO_ADDR_MIS:
+         case RISCV_EXCP_LOAD_ACCESS_FAULT:
+         case RISCV_EXCP_STORE_AMO_ACCESS_FAULT:
+-        case RISCV_EXCP_INST_PAGE_FAULT:
+         case RISCV_EXCP_LOAD_PAGE_FAULT:
+         case RISCV_EXCP_STORE_PAGE_FAULT:
+             write_gva = env->two_stage_lookup;
+             tval = env->badaddr;
++            if (env->two_stage_indirect_lookup) {
++                /*
++                 * special pseudoinstruction for G-stage fault taken while
++                 * doing VS-stage page table walk.
++                 */
++                tinst = (riscv_cpu_xlen(env) == 32) ? 0x00002000 : 0x00003000;
++            } else {
++                /*
++                 * The "Addr. Offset" field in transformed instruction is
++                 * non-zero only for misaligned access.
++                 */
++                tinst = riscv_transformed_insn(env, env->bins, tval);
++            }
++            break;
++        case RISCV_EXCP_INST_GUEST_PAGE_FAULT:
++        case RISCV_EXCP_INST_ADDR_MIS:
++        case RISCV_EXCP_INST_ACCESS_FAULT:
++        case RISCV_EXCP_INST_PAGE_FAULT:
++            write_gva = env->two_stage_lookup;
++            tval = env->badaddr;
++            if (env->two_stage_indirect_lookup) {
++                /*
++                 * special pseudoinstruction for G-stage fault taken while
++                 * doing VS-stage page table walk.
++                 */
++                tinst = (riscv_cpu_xlen(env) == 32) ? 0x00002000 : 0x00003000;
++            }
+             break;
+         case RISCV_EXCP_ILLEGAL_INST:
+         case RISCV_EXCP_VIRT_INSTRUCTION_FAULT:
+@@ -1446,6 +1683,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+         env->sepc = env->pc;
+         env->stval = tval;
+         env->htval = htval;
++        env->htinst = tinst;
+         env->pc = (env->stvec >> 2 << 2) +
+             ((async && (env->stvec & 3) == 1) ? cause * 4 : 0);
+         riscv_cpu_set_mode(env, PRV_S);
+@@ -1476,6 +1714,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+         env->mepc = env->pc;
+         env->mtval = tval;
+         env->mtval2 = mtval2;
++        env->mtinst = tinst;
+         env->pc = (env->mtvec >> 2 << 2) +
+             ((async && (env->mtvec & 3) == 1) ? cause * 4 : 0);
+         riscv_cpu_set_mode(env, PRV_M);
+@@ -1488,6 +1727,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+      */
+ 
+     env->two_stage_lookup = false;
++    env->two_stage_indirect_lookup = false;
+ #endif
+     cs->exception_index = RISCV_EXCP_NONE; /* mark handled to qemu */
+ }
+-- 
+2.37.2
 
-for you to fetch changes up to f0551560b5c01b1dcbed1ac46ca0bd1155330f5f:
-
-  target/riscv: Update the privilege field for sscofpmf CSRs (2022-09-07 09:19:15 +0200)
-
-----------------------------------------------------------------
-First RISC-V PR for QEMU 7.2
-
-* Update [m|h]tinst CSR in interrupt handling
-* Force disable extensions if priv spec version does not match
-* fix shifts shamt value for rv128c
-* move zmmul out of the experimental
-* virt: pass random seed to fdt
-* Add checks for supported extension combinations
-* Upgrade OpenSBI to v1.1
-* Fix typo and restore Pointer Masking functionality for RISC-V
-* Add mask agnostic behaviour (rvv_ma_all_1s) for vector extension
-* Add Zihintpause support
-* opentitan: bump opentitan version
-* microchip_pfsoc: fix kernel panics due to missing peripherals
-* Remove additional priv version check for mcountinhibit
-* virt machine device tree improvements
-* Add xicondops in ISA entry
-* Use official extension names for AIA CSRs
-
-----------------------------------------------------------------
-Alexey Baturo (1):
-      target/riscv: Fix typo and restore Pointer Masking functionality for RISC-V
-
-Anup Patel (3):
-      target/riscv: Update [m|h]tinst CSR in riscv_cpu_do_interrupt()
-      target/riscv: Force disable extensions if priv spec version does not match
-      target/riscv: Use official extension names for AIA CSRs
-
-Atish Patra (9):
-      target/riscv: Remove additional priv version check for mcountinhibit
-      hw/intc: Move mtimer/mtimecmp to aclint
-      target/riscv: Add stimecmp support
-      target/riscv: Add vstimecmp support
-      target/riscv: Add sscofpmf extension support
-      target/riscv: Simplify counter predicate function
-      target/riscv: Add few cache related PMU events
-      hw/riscv: virt: Add PMU DT node to the device tree
-      target/riscv: Update the privilege field for sscofpmf CSRs
-
-Bin Meng (2):
-      roms/opensbi: Upgrade from v1.0 to v1.1
-      docs: List kvm as a supported accelerator on RISC-V
-
-Conor Dooley (5):
-      hw/riscv: microchip_pfsoc: fix kernel panics due to missing peripherals
-      hw/riscv: virt: fix uart node name
-      hw/riscv: virt: fix the plic's address cells
-      hw/riscv: virt: fix syscon subnode paths
-      hw/core: fix platform bus node name
-
-Daniel Henrique Barboza (1):
-      hw/riscv: remove 'fdt' param from riscv_setup_rom_reset_vec()
-
-Dao Lu (1):
-      target/riscv: Add Zihintpause support
-
-Frédéric Pétrot (1):
-      target/riscv: fix shifts shamt value for rv128c
-
-Jason A. Donenfeld (1):
-      hw/riscv: virt: pass random seed to fdt
-
-Rahul Pathak (1):
-      target/riscv: Add xicondops in ISA entry
-
-Weiwei Li (8):
-      target/riscv: move zmmul out of the experimental properties
-      target/riscv: Add check for supported privilege mode combinations
-      target/riscv: H extension depends on I extension
-      target/riscv: Fix checkpatch warning may triggered in csr_ops table
-      target/riscv: Add check for csrs existed with U extension
-      target/riscv: Fix checks in hmode/hmode32
-      target/riscv: Simplify the check in hmode to reuse the check in riscv_csrrw_check
-      target/riscv: Fix priority of csr related check in riscv_csrrw_check
-
-Wilfred Mallawa (1):
-      hw/riscv: opentitan: bump opentitan version
-
-Yueh-Ting (eop) Chen (9):
-      target/riscv: rvv: Add mask agnostic for vv instructions
-      target/riscv: rvv: Add mask agnostic for vector load / store instructions
-      target/riscv: rvv: Add mask agnostic for vx instructions
-      target/riscv: rvv: Add mask agnostic for vector integer shift instructions
-      target/riscv: rvv: Add mask agnostic for vector integer comparison instructions
-      target/riscv: rvv: Add mask agnostic for vector fix-point arithmetic instructions
-      target/riscv: rvv: Add mask agnostic for vector floating-point instructions
-      target/riscv: rvv: Add mask agnostic for vector mask instructions
-      target/riscv: rvv: Add mask agnostic for vector permutation instructions
-
-eopXD (1):
-      target/riscv: rvv: Add option 'rvv_ma_all_1s' to enable optional mask agnostic behavior
-
- docs/about/build-platforms.rst                 |    2 +-
- include/hw/intc/riscv_aclint.h                 |    2 +
- include/hw/riscv/boot.h                        |    2 +-
- include/hw/riscv/microchip_pfsoc.h             |   14 +-
- include/hw/riscv/opentitan.h                   |   11 +-
- include/hw/riscv/virt.h                        |    1 +
- include/hw/timer/ibex_timer.h                  |    2 +
- target/riscv/cpu.h                             |   48 +-
- target/riscv/cpu_bits.h                        |   63 ++
- target/riscv/instmap.h                         |   45 +
- target/riscv/internals.h                       |    5 +-
- target/riscv/pmu.h                             |    8 +
- target/riscv/time_helper.h                     |   30 +
- target/riscv/insn16.decode                     |    7 +-
- target/riscv/insn32.decode                     |    7 +-
- disas/riscv.c                                  |   27 +-
- hw/core/sysbus-fdt.c                           |    2 +-
- hw/intc/riscv_aclint.c                         |   48 +-
- hw/intc/riscv_imsic.c                          |    4 +-
- hw/riscv/boot.c                                |    4 +-
- hw/riscv/microchip_pfsoc.c                     |   69 +-
- hw/riscv/opentitan.c                           |   12 +-
- hw/riscv/shakti_c.c                            |    3 +-
- hw/riscv/spike.c                               |    2 +-
- hw/riscv/virt.c                                |   45 +-
- hw/timer/ibex_timer.c                          |   18 +-
- target/riscv/cpu.c                             |  204 +++--
- target/riscv/cpu_helper.c                      |  293 ++++++-
- target/riscv/csr.c                             | 1038 +++++++++++++++---------
- target/riscv/machine.c                         |    8 +-
- target/riscv/pmu.c                             |  425 +++++++++-
- target/riscv/time_helper.c                     |  114 +++
- target/riscv/translate.c                       |   24 +-
- target/riscv/vector_helper.c                   |  152 +++-
- target/riscv/insn_trans/trans_rvi.c.inc        |   16 +
- target/riscv/insn_trans/trans_rvv.c.inc        |   28 +
- pc-bios/opensbi-riscv32-generic-fw_dynamic.bin |  Bin 108504 -> 117704 bytes
- pc-bios/opensbi-riscv64-generic-fw_dynamic.bin |  Bin 105296 -> 115344 bytes
- roms/opensbi                                   |    2 +-
- target/riscv/meson.build                       |    3 +-
- 40 files changed, 2229 insertions(+), 559 deletions(-)
- create mode 100644 target/riscv/time_helper.h
- create mode 100644 target/riscv/time_helper.c
 
