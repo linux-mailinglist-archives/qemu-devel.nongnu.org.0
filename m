@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48B925B065B
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 16:22:34 +0200 (CEST)
-Received: from localhost ([::1]:46774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A6E15B067C
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 16:26:08 +0200 (CEST)
+Received: from localhost ([::1]:42814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVvwn-0006nd-DN
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 10:22:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37006)
+	id 1oVw0F-0001t9-8t
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 10:26:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oVvuE-0003wQ-9B
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 10:19:54 -0400
-Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f]:39547)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVvyL-0000Jr-Cl
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 10:24:09 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d]:42780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oVvuC-0005tV-Ny
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 10:19:54 -0400
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-3487d84e477so6823437b3.6
- for <qemu-devel@nongnu.org>; Wed, 07 Sep 2022 07:19:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=xzQQge1p9sGh6RMu1G1JOY9ItCc6O0H120k6pKHMmEk=;
- b=Bih6yKcvqhH4zWrwdr6CGGO42qojshsT47RQnhXv7ybu5CD6vL27DQnoZCdIiZcqnD
- 0MNFx49OnNcHRuNt0yer8KsEpHqlebpbukHR8/U0Knhm5IkCoZC+cpXtWgtCriZjynid
- t5Bruq5/CLUqLGLQKdHNGqoXOR5/u+8UPkJ82rmSO8YnBjZPRRwCZiKEUE1IWXZHpGhw
- 3GuaMXYCxJXztaV0qrqOzBvSR3aM+i2HSRfZe2zbCTl0yZUnpl7Hk5ecvH5V+LsTxI6l
- HjAU7bKenJs8zPJhJgMQUWxJQCh6oc6moTNqrwTOfD2LY0IITD2J+XO/28stoTLZrTY6
- X8EQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=xzQQge1p9sGh6RMu1G1JOY9ItCc6O0H120k6pKHMmEk=;
- b=UF/bL73GgKrFbacSRRePEHzpxSfHOSmr1V6FGrN95Wpt+6Y0GvxMEIl6wem0JqL0c8
- S+mzloXBKGDurvth8CTH/zekLb4bAtg65HrnyRaOBDrDjDrf9J5p6hA/eDkJo6llIHVY
- taHCDIZvUWvoVXyQYGGEsca7BvU0KX8PnSHtz4SRiY8Abbo2YAnpQvdZn8rD+nqTKV0v
- yISqGCJ4XUJAOGoMUPmnPQZAgKNUthjRavhGSA38ANyBzL6c1PKrZxM84s5yGkrMexhH
- k8D2OihGOTcCAwJhtHXc1kN+m0EFp1t+3tru4jHjVleqfkS+ClLvOzu0XSNqiqYZav2w
- 48+A==
-X-Gm-Message-State: ACgBeo13/MIyJGN2bD4dHCLyZwezdsLXq3l6R0HNPtDxRa2jyfxSnblq
- awutT6EIpvt5b0pSMitX4ENSxl1XPWvV6LgX5JU=
-X-Google-Smtp-Source: AA6agR6es1m2QTKoQhG3HmhDk7/mGxawhEgjnpT++W2R7RDp8RxAnyCjkeWxHPwQeUEm0Uw6m26keN7xYXBr3V6AeCc=
-X-Received: by 2002:a0d:cc83:0:b0:345:14a5:a2b0 with SMTP id
- o125-20020a0dcc83000000b0034514a5a2b0mr3532402ywd.206.1662560388878; Wed, 07
- Sep 2022 07:19:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVvyH-0006fI-QR
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 10:24:08 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 04A3C2044C;
+ Wed,  7 Sep 2022 14:24:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1662560642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=3zw7RgIHmRzWyGd6EO5zcTBCIt/jlSWGcXOaonLVl08=;
+ b=VSmLf5/1SACpyeY6RYFUYZy2qo0MnOkDyRhaVhfsdRfaGkrX5o/fzckDT9czWHLQy5Ma+R
+ Roi0drIxifOlcSXU/u0sP3waCVb0dzSOZtOEjwARA5K/7YhD17NrBohqxpnndGA1PFw+aQ
+ 60c1l6Fq/DVkjUbRqLooIm86sw5erFA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1662560642;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=3zw7RgIHmRzWyGd6EO5zcTBCIt/jlSWGcXOaonLVl08=;
+ b=L6yGvTIX7e5x0G0b6eGKA0n5zotxx0ub23aESUzSgkeo6Ifksp9afkr8CHct/boDbENZXO
+ tMPhJkWuJscPhKBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A09A513A66;
+ Wed,  7 Sep 2022 14:24:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id BIzuJIGpGGMMQgAAMHmgww
+ (envelope-from <cfontana@suse.de>); Wed, 07 Sep 2022 14:24:01 +0000
+From: Claudio Fontana <cfontana@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH] audio: add help option (?) for -audiodev
+Date: Wed,  7 Sep 2022 16:23:59 +0200
+Message-Id: <20220907142359.31827-1-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20220904072607.44275-1-shorne@gmail.com>
-In-Reply-To: <20220904072607.44275-1-shorne@gmail.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Wed, 7 Sep 2022 10:19:37 -0400
-Message-ID: <CAJSP0QVnMFjodM26-ehXi0Yd9eiBHJXJwBudJqyQg8a3j6rJCA@mail.gmail.com>
-Subject: Re: [PULL 00/11] OpenRISC updates for 7.2.0
-To: Stafford Horne <shorne@gmail.com>
-Cc: qemu-devel@nongnu.org, openrisc@lists.librecores.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x112f.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1d;
+ envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,25 +82,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 4 Sept 2022 at 03:27, Stafford Horne <shorne@gmail.com> wrote:
->
-> The following changes since commit 61fd710b8da8aedcea9b4f197283dc38638e4b60:
->
->   Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2022-09-02 13:24:28 -0400)
->
-> are available in the Git repository at:
->
->   git@github.com:stffrdhrn/qemu.git tags/pull-or1k-20220904
+add a simple help option for -audiodev, so users can do
 
-Hi Stafford,
-Please update .git/config to separate the push URL from the fetch URL:
+qemu -audiodev ?
 
-[remote "github"]
-        url = https://github.com/stffrdhrn/qemu.git
-        pushUrl = git@gitlab.com:stffrdhrn/qemu.git
+to get the list of drivers available.
 
-That way future pull requests will include an https URL that allows
-fetches without ssh or a GitHub account. Thanks!
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+---
+ audio/audio.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-Stefan
+diff --git a/audio/audio.c b/audio/audio.c
+index 4f4bb10cce..bd8c18c3cd 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -32,6 +32,7 @@
+ #include "qapi/qapi-visit-audio.h"
+ #include "qemu/cutils.h"
+ #include "qemu/module.h"
++#include "qemu/help_option.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/replay.h"
+ #include "sysemu/runstate.h"
+@@ -2105,10 +2106,29 @@ static void audio_validate_opts(Audiodev *dev, Error **errp)
+     }
+ }
+ 
++static void audio_help(void)
++{
++    int i;
++
++    printf("Available audiodev types:\n");
++    printf("none\n");
++
++    for (i = 0; audio_prio_list[i]; i++) {
++        audio_driver *driver = audio_driver_lookup(audio_prio_list[i]);
++        if (driver) {
++            printf("%s\n", driver->name);
++        }
++    }
++}
++
+ void audio_parse_option(const char *opt)
+ {
+     Audiodev *dev = NULL;
+ 
++    if (is_help_option(opt)) {
++        audio_help();
++        exit(0);
++    }
+     Visitor *v = qobject_input_visitor_new_str(opt, "driver", &error_fatal);
+     visit_type_Audiodev(v, NULL, &dev, &error_fatal);
+     visit_free(v);
+-- 
+2.26.2
+
 
