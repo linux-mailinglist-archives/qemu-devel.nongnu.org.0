@@ -2,53 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85E015B0740
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 16:42:46 +0200 (CEST)
-Received: from localhost ([::1]:53218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 257805B0798
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 16:54:21 +0200 (CEST)
+Received: from localhost ([::1]:42632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVwGL-0005uj-Lr
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 10:42:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40770)
+	id 1oVwRX-0001Kc-Q5
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 10:54:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oVwEs-0003b8-6B; Wed, 07 Sep 2022 10:41:14 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:62077)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oVwEq-00019U-Bd; Wed, 07 Sep 2022 10:41:13 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id E0D2274632C;
- Wed,  7 Sep 2022 16:41:10 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B92CF7461AE; Wed,  7 Sep 2022 16:41:09 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id B73EB745702;
- Wed,  7 Sep 2022 16:41:09 +0200 (CEST)
-Date: Wed, 7 Sep 2022 16:41:09 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 14/20] ppc440_sdram: Move RAM size check to
- ppc440_sdram_init
-In-Reply-To: <96307308-4188-1840-b3cf-68e95fcb8054@kaod.org>
-Message-ID: <d2913d17-866c-8d2d-5f9c-7b9727b758bb@eik.bme.hu>
-References: <cover.1660926381.git.balaton@eik.bme.hu>
- <01f562a28cc9959cdc71b3d1e48b4f50b595df53.1660926381.git.balaton@eik.bme.hu>
- <96307308-4188-1840-b3cf-68e95fcb8054@kaod.org>
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1oVwPt-0007Y3-5Z
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 10:52:37 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:53590
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1oVwPq-0002jR-76
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 10:52:36 -0400
+HMM_SOURCE_IP: 172.18.0.188:53774.274498724
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-171.223.96.92 (unknown [172.18.0.188])
+ by chinatelecom.cn (HERMES) with SMTP id D700828009F;
+ Wed,  7 Sep 2022 22:52:05 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.188])
+ by app0023 with ESMTP id b2d7ed4ff67345ae8e8549b9e0a3274a for
+ peterx@redhat.com; Wed, 07 Sep 2022 22:52:18 CST
+X-Transaction-ID: b2d7ed4ff67345ae8e8549b9e0a3274a
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.188
+X-MEDUSA-Status: 0
+Message-ID: <300bcc2c-d589-d21e-6d4c-4f6a91afdb8c@chinatelecom.cn>
+Date: Wed, 7 Sep 2022 22:52:02 +0800
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-561304113-1662561669=:35947"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v1 0/8] migration: introduce dirtylimit capability
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Daniel P. Berrange"
+ <berrange@redhat.com>
+References: <cover.1662052189.git.huangy81@chinatelecom.cn>
+ <YxexnENbRsHlcMgt@xz-m1.local>
+From: Hyman <huangy81@chinatelecom.cn>
+In-Reply-To: <YxexnENbRsHlcMgt@xz-m1.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.219;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -60
+X-Spam_score: -6.1
+X-Spam_bar: ------
+X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-4.199,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,176 +74,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-561304113-1662561669=:35947
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
 
-On Wed, 7 Sep 2022, Cédric Le Goater wrote:
-> On 8/19/22 18:55, BALATON Zoltan wrote:
->> Move the check for valid memory sizes from board to sdram contrller
->
-> controller
->
->> init. Board now only checks for additinal restrictions imposed by
->
-> additional
-
-Thanks for finding these spelling mistakes, looks like I was in a hurry...
-
->> firmware then sdram init checks for valid sizes for SoC.
->> 
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> ---
->>   hw/ppc/ppc440.h    |  4 ++--
->>   hw/ppc/ppc440_uc.c | 15 +++++++--------
->>   hw/ppc/sam460ex.c  | 32 +++++++++++++++++---------------
->>   3 files changed, 26 insertions(+), 25 deletions(-)
->> 
->> diff --git a/hw/ppc/ppc440.h b/hw/ppc/ppc440.h
->> index 7bd5cca1ab..29f6f14ed7 100644
->> --- a/hw/ppc/ppc440.h
->> +++ b/hw/ppc/ppc440.h
->> @@ -11,13 +11,13 @@
->>   #ifndef PPC440_H
->>   #define PPC440_H
->>   -#include "hw/ppc/ppc4xx.h"
->> +#include "hw/ppc/ppc.h"
->>     void ppc4xx_l2sram_init(CPUPPCState *env);
->>   void ppc4xx_cpr_init(CPUPPCState *env);
->>   void ppc4xx_sdr_init(CPUPPCState *env);
->>   void ppc440_sdram_init(CPUPPCState *env, int nbanks,
->> -                       Ppc4xxSdramBank ram_banks[]);
->> +                       MemoryRegion *ram);
->>   void ppc4xx_ahb_init(CPUPPCState *env);
->>   void ppc4xx_dma_init(CPUPPCState *env, int dcr_base);
->>   void ppc460ex_pcie_init(CPUPPCState *env);
->> diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
->> index b39c6dbbd2..e77d56225d 100644
->> --- a/hw/ppc/ppc440_uc.c
->> +++ b/hw/ppc/ppc440_uc.c
->> @@ -486,7 +486,7 @@ void ppc4xx_sdr_init(CPUPPCState *env)
->>   typedef struct ppc440_sdram_t {
->>       uint32_t addr;
->>       uint32_t mcopt2;
->> -    int nbanks;
->> +    int nbanks; /* Banks to use from the 4, e.g. when board has less slots 
->> */
->>       Ppc4xxSdramBank bank[4];
->>   } ppc440_sdram_t;
->>   @@ -728,18 +728,17 @@ static void sdram_ddr2_reset(void *opaque)
->>   }
->>     void ppc440_sdram_init(CPUPPCState *env, int nbanks,
->> -                       Ppc4xxSdramBank ram_banks[])
->> +                       MemoryRegion *ram)
->>   {
->>       ppc440_sdram_t *s;
->> -    int i;
->> +    const ram_addr_t valid_bank_sizes[] = {
->> +        4 * GiB, 2 * GiB, 1 * GiB, 512 * MiB, 256 * MiB, 128 * MiB, 64 * 
->> MiB,
->> +        32 * MiB, 16 * MiB, 8 * MiB, 0
->> +    };
->>         s = g_malloc0(sizeof(*s));
->>       s->nbanks = nbanks;
->> -    for (i = 0; i < nbanks; i++) {
->> -        s->bank[i].ram = ram_banks[i].ram;
->> -        s->bank[i].base = ram_banks[i].base;
->> -        s->bank[i].size = ram_banks[i].size;
->> -    }
->> +    ppc4xx_sdram_banks(ram, s->nbanks, s->bank, valid_bank_sizes);
->>       qemu_register_reset(&sdram_ddr2_reset, s);
->>       ppc_dcr_register(env, SDRAM0_CFGADDR,
->>                        s, &sdram_ddr2_dcr_read, &sdram_ddr2_dcr_write);
->> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
->> index dac329d482..9b850808a3 100644
->> --- a/hw/ppc/sam460ex.c
->> +++ b/hw/ppc/sam460ex.c
->> @@ -74,13 +74,6 @@
->>   #define EBC_FREQ 115000000
->>   #define UART_FREQ 11059200
->>   -/* The SoC could also handle 4 GiB but firmware does not work with that. 
->> */
->> -/* Maybe it overflows a signed 32 bit number somewhere? */
->> -static const ram_addr_t ppc460ex_sdram_bank_sizes[] = {
->> -    2 * GiB, 1 * GiB, 512 * MiB, 256 * MiB, 128 * MiB, 64 * MiB,
->> -    32 * MiB, 0
->> -};
->> -
->>   struct boot_info {
->>       uint32_t dt_base;
->>       uint32_t dt_size;
->> @@ -273,7 +266,6 @@ static void sam460ex_init(MachineState *machine)
->>   {
->>       MemoryRegion *address_space_mem = get_system_memory();
->>       MemoryRegion *isa = g_new(MemoryRegion, 1);
->> -    Ppc4xxSdramBank *ram_banks = g_new0(Ppc4xxSdramBank, 1);
->>       MemoryRegion *l2cache_ram = g_new(MemoryRegion, 1);
->>       DeviceState *uic[4];
->>       int i;
->> @@ -340,12 +332,22 @@ static void sam460ex_init(MachineState *machine)
->>       }
->>         /* SDRAM controller */
->> -    /* put all RAM on first bank because board has one slot
->> -     * and firmware only checks that */
->> -    ppc4xx_sdram_banks(machine->ram, 1, ram_banks, 
->> ppc460ex_sdram_bank_sizes);
->> -
->> +    /* The SoC could also handle 4 GiB but firmware does not work with 
->> that. */
->> +    if (machine->ram_size > 2 * GiB) {
->> +        error_report("Memory over 2 GiB is not supported");
->> +        exit(1);
->> +    }
->> +    /* Firmware needs at least 64 MiB */
->> +    if (machine->ram_size < 64 * MiB) {
->> +        error_report("Memory below 64 MiB is not supported");
->> +        exit(1);
->> +    }
->
->
-> These checks on the RAM size should be done by the SDRAM model.
->
-> May be it is addressed later in the patchset ?
-
-No, these are really board specific as the commenst say, they are imposed 
-by board firmware (as firmware fails with other valid RAM sizes for the 
-SoC) that's why these are here and the SoC size limits are checked in the 
-SDRAM controller model.
-
-Regards,
-BALATON Zoltan
-
-> C.
->
->
->
->> +    /*
->> +     * Put all RAM on first bank because board has one slot
->> +     * and firmware only checks that
->> +     */
->> +    ppc440_sdram_init(env, 1, machine->ram);
->>       /* FIXME: does 460EX have ECC interrupts? */
->> -    ppc440_sdram_init(env, 1, ram_banks);
->>       /* Enable SDRAM memory regions as we may boot without firmware */
->>       if (ppc_dcr_write(env->dcr_env, SDRAM0_CFGADDR, 0x21) ||
->>           ppc_dcr_write(env->dcr_env, SDRAM0_CFGDATA, 0x08000000)) {
->> @@ -358,8 +360,8 @@ static void sam460ex_init(MachineState *machine)
->>                                  qdev_get_gpio_in(uic[0], 2));
->>       i2c = PPC4xx_I2C(dev)->bus;
->>       /* SPD EEPROM on RAM module */
->> -    spd_data = spd_data_generate(ram_banks->size < 128 * MiB ? DDR : DDR2,
->> -                                 ram_banks->size);
->> +    spd_data = spd_data_generate(machine->ram_size < 128 * MiB ? DDR : 
->> DDR2,
->> +                                 machine->ram_size);
->>       spd_data[20] = 4; /* SO-DIMM module */
->>       smbus_eeprom_init_one(i2c, 0x50, spd_data);
->>       /* RTC */
->
->
->
---3866299591-561304113-1662561669=:35947--
+在 2022/9/7 4:46, Peter Xu 写道:
+> On Fri, Sep 02, 2022 at 01:22:28AM +0800, huangy81@chinatelecom.cn wrote:
+>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>
+>> v1:
+>> - make parameter vcpu-dirty-limit experimental
+>> - switch dirty limit off when cancel migrate
+>> - add cancel logic in migration test
+>>
+>> Please review, thanks,
+>>
+>> Yong
+>>
+>> Abstract
+>> ========
+>>
+>> This series added a new migration capability called "dirtylimit".  It can
+>> be enabled when dirty ring is enabled, and it'll improve the vCPU performance
+>> during the process of migration. It is based on the previous patchset:
+>> https://lore.kernel.org/qemu-devel/cover.1656177590.git.huangy81@chinatelecom.cn/
+>>
+>> As mentioned in patchset "support dirty restraint on vCPU", dirtylimit way of
+>> migration can make the read-process not be penalized. This series wires up the
+>> vcpu dirty limit and wrappers as dirtylimit capability of migration. I introduce
+>> two parameters vcpu-dirtylimit-period and vcpu-dirtylimit to implement the setup
+>> of dirtylimit during live migration.
+>>
+>> To validate the implementation, i tested a 32 vCPU vm live migration with such
+>> model:
+>> Only dirty vcpu0, vcpu1 with heavy memory workoad and leave the rest vcpus
+>> untouched, running unixbench on the vpcu8-vcpu15 by setup the cpu affinity as
+>> the following command:
+>> taskset -c 8-15 ./Run -i 2 -c 8 {unixbench test item}
+>>
+>> The following are results:
+>>
+>> host cpu: Intel(R) Xeon(R) Platinum 8378A
+>> host interface speed: 1000Mb/s
+>>    |---------------------+--------+------------+---------------|
+>>    | UnixBench test item | Normal | Dirtylimit | Auto-converge |
+>>    |---------------------+--------+------------+---------------|
+>>    | dhry2reg            | 32800  | 32786      | 25292         |
+>>    | whetstone-double    | 10326  | 10315      | 9847          |
+>>    | pipe                | 15442  | 15271      | 14506         |
+>>    | context1            | 7260   | 6235       | 4514          |
+>>    | spawn               | 3663   | 3317       | 3249          |
+>>    | syscall             | 4669   | 4667       | 3841          |
+>>    |---------------------+--------+------------+---------------|
+>>  From the data above we can draw a conclusion that vcpus that do not dirty memory
+>> in vm are almost unaffected during the dirtylimit migration, but the auto converge
+>> way does.
+>>
+>> I also tested the total time of dirtylimit migration with variable dirty memory
+>> size in vm.
+>>
+>> senario 1:
+>> host cpu: Intel(R) Xeon(R) Platinum 8378A
+>> host interface speed: 1000Mb/s
+>>    |-----------------------+----------------+-------------------|
+>>    | dirty memory size(MB) | Dirtylimit(ms) | Auto-converge(ms) |
+>>    |-----------------------+----------------+-------------------|
+>>    | 60                    | 2014           | 2131              |
+>>    | 70                    | 5381           | 12590             |
+>>    | 90                    | 6037           | 33545             |
+>>    | 110                   | 7660           | [*]               |
+>>    |-----------------------+----------------+-------------------|
+>>    [*]: This case means migration is not convergent.
+>>
+>> senario 2:
+>> host cpu: Intel(R) Xeon(R) CPU E5-2650
+>> host interface speed: 10000Mb/s
+>>    |-----------------------+----------------+-------------------|
+>>    | dirty memory size(MB) | Dirtylimit(ms) | Auto-converge(ms) |
+>>    |-----------------------+----------------+-------------------|
+>>    | 1600                  | 15842          | 27548             |
+>>    | 2000                  | 19026          | 38447             |
+>>    | 2400                  | 19897          | 46381             |
+>>    | 2800                  | 22338          | 57149             |
+>>    |-----------------------+----------------+-------------------|
+>> Above data shows that dirtylimit way of migration can also reduce the total
+>> time of migration and it achieves convergence more easily in some case.
+>>
+>> In addition to implement dirtylimit capability itself, this series
+>> add 3 tests for migration, aiming at playing around for developer simply:
+>>   1. qtest for dirty limit migration
+>>   2. support dirty ring way of migration for guestperf tool
+>>   3. support dirty limit migration for guestperf tool
+> 
+> Yong,
+> 
+> I should have asked even earlier - just curious whether you have started
+> using this in production systems?  It's definitely not required for any
+> patchset to be merged, but it'll be very useful (and supportive)
+> information to have if there's proper testing beds applied already.
+> 
+Actually no when i posted the cover letter above, the qemu version in 
+our production is much lower than upstream, and the patchset is 
+different from here, i built test mode and did the test on my own in the 
+first time. But this feature is in the process of test conducted by 
+another professional test team, so once report is ready, i'll post it. :)
+> Thanks,
+> 
 
