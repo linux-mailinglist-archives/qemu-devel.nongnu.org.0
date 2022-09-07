@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7491E5AFEDF
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 10:21:22 +0200 (CEST)
-Received: from localhost ([::1]:46078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B58275AFEB1
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 10:14:03 +0200 (CEST)
+Received: from localhost ([::1]:37306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVqJF-0007I1-9y
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 04:21:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59874)
+	id 1oVqCA-0001M8-Cm
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 04:14:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=242877ce7=alistair.francis@wdc.com>)
- id 1oVq2t-0003cE-4o
+ id 1oVq2t-0003cF-VA
  for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:04:31 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:1869)
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:1902)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=242877ce7=alistair.francis@wdc.com>)
- id 1oVq2r-0004Nn-8u
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:04:26 -0400
+ id 1oVq2r-0004Ot-BN
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:04:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1662537864; x=1694073864;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ykb9+4I6LlgERVXc54UQtT5SYRq6VmazzFG6SSk9xT0=;
- b=SxhxL2uNc+jd14Iveou8ZNBJZ2cYjHdO7LDnXpeJVT20T+rJ+rHqJcfx
- n9Fg3NESHBT7ZIemYTdvbQpdPy7Tpcbv89We3WZYbwJp8xsROQY+es25h
- fVDDKW9IXukPeXHJvJGkqAytjE0xo+QuLDYM1etCFfll8X9UCyx7oxiom
- xf/Udt+A0sHL6/o+bJmufvdMRMcIOpJRaLWOu+xBybtUwAuPHn/q/dSNE
- XMpVyQDdekbOl+qZGOLxJp61HoSamIpaz52354ixhvLdlrR8p2r80OYWw
- 2GIXxki6hJ2l1apRyeEaakzLJCtbcaTXKi1IQPLwEqO52TxHNs13Cd+U5 Q==;
-X-IronPort-AV: E=Sophos;i="5.93,296,1654531200"; d="scan'208";a="210714940"
+ bh=XMhq0K/hPx/aE8Wg/qzKvmF3DMKQRurvT9lKFjW1GcY=;
+ b=VlyNNBvMe1odPMPi7FPaKusUJHNx7VXUyXxjArmrWvHNhGXvlW9sU26q
+ RDsyWG9HxG6ez1B7MYkrCHe+OpOIRoppG1rUv+l2Gaq10YYyabLWgVpw7
+ yAYtZmhjhaLWgk+a+SHZmq8LVdTnC+2dMu4NLHAauzJVE1z1NlvT5OKN+
+ N6fiK1mLHb3uajA+J2BjsW3k54CMLR8v2IWfZZcNVAKzmTak34nZd1SQ+
+ 9ak61YOGyZbVQyUu9gybfhLYpLw7ljywy8nua4QE+qZOsGSst25cA9xMS
+ 7Fs8yjlkvc6pXGqtrtwgP3scqZYZFfmPqsCu7T8XqpkFo/Leyi3iIAML2 w==;
+X-IronPort-AV: E=Sophos;i="5.93,296,1654531200"; d="scan'208";a="210714944"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 07 Sep 2022 16:04:17 +0800
-IronPort-SDR: rcg83WKInhBhiD5rpPn5dXjGUMpKgti9MvxtrHIbtFtqPcfjvkDexq6lSCGYLXlxIGS+u6VGwZ
- Fvhf7K5Mc1v4RGUTFhzGSPNFkSF9H/blR1KnS1UvF+IaQ9OzXeUJK0U/LaS/4lBOt04pzjT51p
- 2x2Y0vBHAEZRjwjqPBLViySemGTGOpP83AfA0SIqqxj8IhlIbqjF3LPm4burEe/9bZ+GjVAWV1
- /uoaTHadcO1i4sLnXmYCMRwxKFK1DaE2FC2AR9Gv2RlZEaAjS2bfdhveH77Cj8Zgf0Niv39Wfp
- 9wN9DkG/ZrSdzcKdIHhP8AVU
+ by ob1.hgst.iphmx.com with ESMTP; 07 Sep 2022 16:04:19 +0800
+IronPort-SDR: U8eKnUJlUswp5Kv7C636LUtMluSi2iMBD9IXtsCxgIxiI+61YBQF4TECmsgrU5e35nCSYR7i0Q
+ bafUhuZ9rdYHgToypJppcELzF3+xsXHzz08SBcvduA56cT35RaPMnB/36meIGQ7dITsRwmVcBA
+ kknci0C8TH9eCzGoxI5VLf7mnXq2goucMa0qPdfQBxUyVZJ/r9pX4M7ShyA3PJ6iETgPlPdtPV
+ WuZhTtgnny8h5n5sqxlKHSRzKVJynneYFdJlGMU8hOJihesRPd5Xprhk4LHa3awozV5u+Wifso
+ EnWlAnADm3YW+MBd77sy95wL
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 07 Sep 2022 00:19:14 -0700
-IronPort-SDR: hbIEeeV2in9qPneBzwLo6VvrYqBH4WhFnaCQXn5YImsvje2rXlLmaA/YUUCGE92zxIqLGcZFV3
- uk7nR7diVxgoI+yC+Pr4yYIF+eibtyMR3RtFl0oFuRaICulTAdEuwtlb53FJBifn8uJwAxQMec
- nfFOXZK7tSbLqXglNCR7XUIW2Bz6v9wfGGmRFyy8dHdKYMflYHRZTNZqJ/yboY6vhNq1MpbMye
- HaS5+1IKgMeGCVU4OIVN8fMfszocEC5H50DTWA4NYq0x69m4eSsoYOFweC4mVbsymSWSqsxW+D
- bfk=
+ 07 Sep 2022 00:19:16 -0700
+IronPort-SDR: xNqrHLzWuZreawVaRTRjn/1QKRyndbHT6eOuYa+mK6VWLpfrBHJ7TXCJUkCo7q+HWEiUdJlrdH
+ psS0ZQQ8ZVCVjQ8wa86PG+hNZ6DhzSFpUF5wActQ5hKG5Osvkt6nSJAe35nUEEQigjkKxMimnY
+ UoeRWqg0xrmD5YHvH5VU7Nrlu/61FB8O4dgXgdrF6FULolZIikzFO7beqI+KwKob2azHf6UWh9
+ Pm64V9CKsoYcTgar3NwS++d+TnAwJFx2nLLbwNxnfn8+gXdfBG+arpkKbe3Oa9IlrfR8KgdY+R
+ o9g=
 WDCIronportException: Internal
 Received: from unknown (HELO toolbox.wdc.com) ([10.225.167.94])
- by uls-op-cesaip01.wdc.com with ESMTP; 07 Sep 2022 01:04:16 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 07 Sep 2022 01:04:18 -0700
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Cc: alistair23@gmail.com, =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
- <frederic.petrot@univ-grenoble-alpes.fr>, 
- Weiwei Li <liweiwei@iscas.ac.cn>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: alistair23@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Junqiang Wang <wangjunqiang@iscas.ac.cn>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 03/44] target/riscv: fix shifts shamt value for rv128c
-Date: Wed,  7 Sep 2022 10:03:12 +0200
-Message-Id: <20220907080353.111926-4-alistair.francis@wdc.com>
+Subject: [PULL 04/44] target/riscv: move zmmul out of the experimental
+ properties
+Date: Wed,  7 Sep 2022 10:03:13 +0200
+Message-Id: <20220907080353.111926-5-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220907080353.111926-1-alistair.francis@wdc.com>
 References: <20220907080353.111926-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=242877ce7=alistair.francis@wdc.com;
@@ -96,151 +94,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Alistair Francis <alistair.francis@wdc.com>
 From:  Alistair Francis via <qemu-devel@nongnu.org>
 
-From: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
 
-For rv128c shifts, a shamt of 0 is a shamt of 64, while for rv32c/rv64c
-it stays 0 and is a hint instruction that does not change processor state.
-For rv128c right shifts, the 6-bit shamt is in addition sign extended to
-7 bits.
+- Zmmul is ratified and is now version 1.0
 
-Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220710110451.245567-1-frederic.petrot@univ-grenoble-alpes.fr>
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20220710101546.3907-1-liweiwei@iscas.ac.cn>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn16.decode |  7 ++++---
- disas/riscv.c              | 27 +++++++++++++++++++++------
- target/riscv/translate.c   | 20 ++++++++++++++++++--
- 3 files changed, 43 insertions(+), 11 deletions(-)
+ target/riscv/cpu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/insn16.decode b/target/riscv/insn16.decode
-index 02c8f61b48..ccfe59f294 100644
---- a/target/riscv/insn16.decode
-+++ b/target/riscv/insn16.decode
-@@ -31,7 +31,8 @@
- %imm_cb        12:s1 5:2 2:1 10:2 3:2 !function=ex_shift_1
- %imm_cj        12:s1 8:1 9:2 6:1 7:1 2:1 11:1 3:3 !function=ex_shift_1
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index cab74faaca..a3e4e2477f 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -1009,12 +1009,13 @@ static Property riscv_cpu_extensions[] = {
+     DEFINE_PROP_BOOL("zhinx", RISCVCPU, cfg.ext_zhinx, false),
+     DEFINE_PROP_BOOL("zhinxmin", RISCVCPU, cfg.ext_zhinxmin, false),
  
--%shimm_6bit   12:1 2:5               !function=ex_rvc_shifti
-+%shlimm_6bit  12:1 2:5               !function=ex_rvc_shiftli
-+%shrimm_6bit  12:1 2:5               !function=ex_rvc_shiftri
- %uimm_6bit_lq 2:4 12:1 6:1           !function=ex_shift_4
- %uimm_6bit_ld 2:3 12:1 5:2           !function=ex_shift_3
- %uimm_6bit_lw 2:2 12:1 4:3           !function=ex_shift_2
-@@ -82,9 +83,9 @@
- @c_addi16sp     ... .  ..... ..... .. &i imm=%imm_addi16sp rs1=2 rd=2
- 
- @c_shift        ... . .. ... ..... .. \
--                &shift rd=%rs1_3 rs1=%rs1_3 shamt=%shimm_6bit
-+                &shift rd=%rs1_3 rs1=%rs1_3 shamt=%shrimm_6bit
- @c_shift2       ... . .. ... ..... .. \
--                &shift rd=%rd rs1=%rd shamt=%shimm_6bit
-+                &shift rd=%rd rs1=%rd shamt=%shlimm_6bit
- 
- @c_andi         ... . .. ... ..... .. &i imm=%imm_ci rs1=%rs1_3 rd=%rs1_3
- 
-diff --git a/disas/riscv.c b/disas/riscv.c
-index 7af6afc8fa..489c2ae5e8 100644
---- a/disas/riscv.c
-+++ b/disas/riscv.c
-@@ -2402,10 +2402,25 @@ static int32_t operand_sbimm12(rv_inst inst)
-         ((inst << 56) >> 63) << 11;
- }
- 
--static uint32_t operand_cimmsh6(rv_inst inst)
-+static uint32_t operand_cimmshl6(rv_inst inst, rv_isa isa)
- {
--    return ((inst << 51) >> 63) << 5 |
-+    int imm = ((inst << 51) >> 63) << 5 |
-         (inst << 57) >> 59;
-+    if (isa == rv128) {
-+        imm = imm ? imm : 64;
-+    }
-+    return imm;
-+}
++    DEFINE_PROP_BOOL("zmmul", RISCVCPU, cfg.ext_zmmul, false),
 +
-+static uint32_t operand_cimmshr6(rv_inst inst, rv_isa isa)
-+{
-+    int imm = ((inst << 51) >> 63) << 5 |
-+        (inst << 57) >> 59;
-+    if (isa == rv128) {
-+        imm = imm | (imm & 32) << 1;
-+        imm = imm ? imm : 64;
-+    }
-+    return imm;
- }
+     /* Vendor-specific custom extensions */
+     DEFINE_PROP_BOOL("xventanacondops", RISCVCPU, cfg.ext_XVentanaCondOps, false),
  
- static int32_t operand_cimmi(rv_inst inst)
-@@ -2529,7 +2544,7 @@ static uint32_t operand_rnum(rv_inst inst)
- 
- /* decode operands */
- 
--static void decode_inst_operands(rv_decode *dec)
-+static void decode_inst_operands(rv_decode *dec, rv_isa isa)
- {
-     rv_inst inst = dec->inst;
-     dec->codec = opcode_data[dec->op].codec;
-@@ -2652,7 +2667,7 @@ static void decode_inst_operands(rv_decode *dec)
-     case rv_codec_cb_sh6:
-         dec->rd = dec->rs1 = operand_crs1rdq(inst) + 8;
-         dec->rs2 = rv_ireg_zero;
--        dec->imm = operand_cimmsh6(inst);
-+        dec->imm = operand_cimmshr6(inst, isa);
-         break;
-     case rv_codec_ci:
-         dec->rd = dec->rs1 = operand_crs1rd(inst);
-@@ -2667,7 +2682,7 @@ static void decode_inst_operands(rv_decode *dec)
-     case rv_codec_ci_sh6:
-         dec->rd = dec->rs1 = operand_crs1rd(inst);
-         dec->rs2 = rv_ireg_zero;
--        dec->imm = operand_cimmsh6(inst);
-+        dec->imm = operand_cimmshl6(inst, isa);
-         break;
-     case rv_codec_ci_16sp:
-         dec->rd = rv_ireg_sp;
-@@ -3193,7 +3208,7 @@ disasm_inst(char *buf, size_t buflen, rv_isa isa, uint64_t pc, rv_inst inst)
-     dec.pc = pc;
-     dec.inst = inst;
-     decode_inst_opcode(&dec, isa);
--    decode_inst_operands(&dec);
-+    decode_inst_operands(&dec, isa);
-     decode_inst_decompress(&dec, isa);
-     decode_inst_lift_pseudo(&dec);
-     format_inst(buf, buflen, 16, &dec);
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index f8af6daa70..6eeb728462 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -705,10 +705,26 @@ static int ex_rvc_register(DisasContext *ctx, int reg)
-     return 8 + reg;
- }
- 
--static int ex_rvc_shifti(DisasContext *ctx, int imm)
-+static int ex_rvc_shiftli(DisasContext *ctx, int imm)
- {
-     /* For RV128 a shamt of 0 means a shift by 64. */
--    return imm ? imm : 64;
-+    if (get_ol(ctx) == MXL_RV128) {
-+        imm = imm ? imm : 64;
-+    }
-+    return imm;
-+}
-+
-+static int ex_rvc_shiftri(DisasContext *ctx, int imm)
-+{
-+    /*
-+     * For RV128 a shamt of 0 means a shift by 64, furthermore, for right
-+     * shifts, the shamt is sign-extended.
-+     */
-+    if (get_ol(ctx) == MXL_RV128) {
-+        imm = imm | (imm & 32) << 1;
-+        imm = imm ? imm : 64;
-+    }
-+    return imm;
- }
- 
- /* Include the auto-generated decoder for 32 bit insn */
+     /* These are experimental so mark with 'x-' */
+     DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+-    DEFINE_PROP_BOOL("x-zmmul", RISCVCPU, cfg.ext_zmmul, false),
+     /* ePMP 0.9.3 */
+     DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
+     DEFINE_PROP_BOOL("x-aia", RISCVCPU, cfg.aia, false),
 -- 
 2.37.2
 
