@@ -2,65 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77FAE5AFD0B
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 09:04:48 +0200 (CEST)
-Received: from localhost ([::1]:53022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42805AFE83
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 10:05:46 +0200 (CEST)
+Received: from localhost ([::1]:34986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVp79-0002EY-5L
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 03:04:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34028)
+	id 1oVq42-0003x6-SB
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 04:05:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
- id 1oVp2x-0000LK-QL
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 03:00:27 -0400
-Received: from mga14.intel.com ([192.55.52.115]:36347)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oVpyi-00021P-Tx
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:00:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33919)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
- id 1oVp2v-00032M-Ja
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 03:00:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662534025; x=1694070025;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=f8KXX9KmoLUXQaBkJ6y2/TNV3cBZVK2hD5py6tGkxLQ=;
- b=ibFcJ975zZpPq28Z9Ynu6PdzmDJazlngHzJcysPPNEpBufZ2Fr/ueZMf
- cpp5OY08WkA1Ja3gu7YpzSoBcfoiR9WYnAOS6qwZsITwXL1QZu1fVZBD+
- BxB89Q2BjqXImVcG6VH8ZYKKh7aVADSmzu9wANNiBYp63Fcbea99zrzt8
- /kWgbRb+cFrcBO4wjXDpchQZh0owR73NpalqUsHEMwmB92ofSKI4wtAGy
- ELGCD6odsUUPu79bEF7uUQfEzf8IHrCZSCV/Ylmuxj3qKRih0OfUOD0Ac
- S6oKQj/EDADFPxdO76rH24ZdT5Jlsmbqs+hP2AvRww2nxsdcvjQe8Xl1e A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="296797730"
-X-IronPort-AV: E=Sophos;i="5.93,296,1654585200"; d="scan'208";a="296797730"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Sep 2022 00:00:15 -0700
-X-IronPort-AV: E=Sophos;i="5.93,296,1654585200"; d="scan'208";a="676049948"
-Received: from trist.sh.intel.com ([10.239.160.37])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Sep 2022 00:00:14 -0700
-From: "Wang, Lei" <lei4.wang@intel.com>
-To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org,
-	f4bug@amsat.org,
-	lei4.wang@intel.com
-Subject: [PATCH] .gitignore: add .cache/ to .gitignore
-Date: Wed,  7 Sep 2022 23:00:10 +0800
-Message-Id: <20220907150010.2047037-1-lei4.wang@intel.com>
-X-Mailer: git-send-email 2.37.3
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oVpyf-0003Yh-Ke
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:00:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662537604;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BbggOggjIbbshLARdxThsbeQ3LuPCEzhQ877zu0sj4s=;
+ b=cvyduiZE59E03yjr3eoyHIIKssxnyEKcI2t9AiUjZArbqyDxK+FlX8s10LYPP4CakQnzlX
+ IBPBKL2NOTbwHE+4p62nY9sxMFjqVo+4Pb6zZv/eRArZBlDvatYC9lb7KfI07s1w7hFQh9
+ H2SiuXbPBcx3vrCqvzi9w2dG67c1usE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-520-UZU4ZL5oPneKxmDNhXdIjw-1; Wed, 07 Sep 2022 04:00:00 -0400
+X-MC-Unique: UZU4ZL5oPneKxmDNhXdIjw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EFD5C8037AE;
+ Wed,  7 Sep 2022 07:59:59 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.195.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9BEB44010D2A;
+ Wed,  7 Sep 2022 07:59:59 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 01DB1180039B; Wed,  7 Sep 2022 09:59:57 +0200 (CEST)
+Date: Wed, 7 Sep 2022 09:59:57 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ard Biesheuvel <ardb@kernel.org>
+Subject: Re: [PATCH v3 2/2] x86: re-enable rng seeding via setup_data
+Message-ID: <20220907075957.posbrkdwzm23q7ts@sirius.home.kraxel.org>
+References: <YxcmRhwrtGBsMGev@zx2c4.com>
+ <20220906112720.292836-1-Jason@zx2c4.com>
+ <20220906112720.292836-2-Jason@zx2c4.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: permerror client-ip=192.55.52.115;
- envelope-from=lei4.wang@intel.com; helo=mga14.intel.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_FUTURE_06_12=1.947,
- DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <20220906112720.292836-2-Jason@zx2c4.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,27 +88,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-$PROJECT/.cache/clangd/index is the intended location for project index
-data when using clangd as the language server. Ignore this directory to
-keep the git status clean.
+On Tue, Sep 06, 2022 at 01:27:20PM +0200, Jason A. Donenfeld wrote:
+> This reverts 3824e25db1 ("x86: disable rng seeding via setup_data"), but
+> for 7.2 rather than 7.1, now that modifying setup_data is safe to do.
+> 
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Laurent Vivier <laurent@vivier.eu>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Ard Biesheuvel <ardb@kernel.org>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 
-Signed-off-by: Wang, Lei <lei4.wang@intel.com>
----
- .gitignore | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/.gitignore b/.gitignore
-index 9726a778b3..8aab671265 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -1,5 +1,6 @@
- /GNUmakefile
- /build/
-+/.cache/
- *.pyc
- .sdk
- .stgit-*
--- 
-2.37.3
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 
 
