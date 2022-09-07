@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B58A5AFF6C
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 10:43:32 +0200 (CEST)
-Received: from localhost ([::1]:37134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 713435AFF96
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 10:51:14 +0200 (CEST)
+Received: from localhost ([::1]:52852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVqeg-0007PE-Uc
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 04:43:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52688)
+	id 1oVqm4-0005Hv-5i
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 04:51:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=242877ce7=alistair.francis@wdc.com>)
- id 1oVq4E-0004S7-Ql
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:05:50 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:1923)
+ id 1oVq4M-0004hp-0x
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:05:58 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:2013)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=242877ce7=alistair.francis@wdc.com>)
- id 1oVq47-0004Ud-75
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:05:50 -0400
+ id 1oVq4A-0004pz-EM
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:05:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1662537941; x=1694073941;
+ t=1662537945; x=1694073945;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=oHhfJ9U4lJgcvrJoDC/l3noJeeejGDI52ne8RIJadi4=;
- b=Gk/DKfWeJk1n7JmhC+khsxnWZAggzMkhzpzsdNp7hx5XHzBQcqOCefoD
- bZRNdgQ/wIpg8LhBgiTxXAvGdukb4gvMZ9DU24ITGsxweyEsYG/Km/4q+
- pJzJkjHAizMfIxV+BEnUHMvMEHH9KorAg3gJaT8xWV/7uj3M77Edn/DAl
- LJr963REVMnPCk9NhrNn8su6309e+u9pwqNprfWkgvD99qkk8g54SRUqF
- Wkj0Yq8mKZ5S7U/vpDJCGzt5RHXQpgKrJXcz9AsBrMLrxJUSaKUKsRzS0
- xKIEuBVI2YYGmfm/Ui0twWom4zEy1kdIAaPa7ioUzYyppgSIfBLLmOK8W g==;
-X-IronPort-AV: E=Sophos;i="5.93,296,1654531200"; d="scan'208";a="210715036"
+ bh=7i/Fom/Rt4NO0isFvHvnTtwn77ljQhGo5wO8orUet5g=;
+ b=lu4jGEGPReGDYXI07OpcjYrT43G9bAUhzt8YGFNgwF6hTHs9ZILL4M2Z
+ 8C1X/jbo8zW41v+xezcrDDU8QrIGrXGF96KPnEfzwhsvbiNUm9dMcRGEI
+ +BlwJ9GqcRmlS3yvk7ehGPGrvRYoaZFCSmbv1W1zEj1wk/CTbpQoBROqn
+ njKaMzE8V/yN06GTmADO+zhc+045eUr0b98/ReNP4AQdWSv8Xzuked6no
+ uFpoKzH0QfCtbeyqKL9euusx1GGUvL0etkYkN0iejQVnba47V2+IJ8iJi
+ 08nItU06kjD/jf5lzz7i1hC7r+e47ZAPI+CXC0cTYhVxq16Yp+e2tCST7 A==;
+X-IronPort-AV: E=Sophos;i="5.93,296,1654531200"; d="scan'208";a="210715040"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 07 Sep 2022 16:04:54 +0800
-IronPort-SDR: V8e7ed/5iO9ha4dDdjB3q15jI6qrVtS4UvXu+QZl+IrmseDwt7zRww4IoUv+x3aq++WQS1OGYc
- B9NsQ3QN+8HR89O8fsE9nX2pHSWsrgNqTDRXyUhQnZgA/fstp64wl+JwBTaLdCrEmpvVPCHhFt
- Mul61+YXMRJ7CyrAQoIvyW4XhJ4XEMh4+ycUWuODO91uYbIFnFZnkSGd7dZARai+AesFJj1+75
- Ijzopm/ItYbYChgukQM3mnqLwh7rh5ibJZYpJRQQ2eaSRDhVVN2J5IhlSmAlYOimziyQPgD9S3
- BQ/0LNUbb0SwnHYFpYnzWlYv
+ by ob1.hgst.iphmx.com with ESMTP; 07 Sep 2022 16:04:56 +0800
+IronPort-SDR: n9cWxAfvklBPUOMkf75jLx5vemYTvVSCNSs6MEveiNhW060BW3xFpk426/uwC1TOWrLoANy0zv
+ ZywjoI3zvOfiFjj3FWKkqfCSbsIcGW+Clt1/rtEA4i7TeDmGih4VSKbgHFJylyKA+1tGEDkg+u
+ lB7r674+6/T99W9cv3jExxc8/ZEZID23m8iqrg1I4HydFLYbuSkPDCaEN+j5lGoMZyI4pbx3/Q
+ TWIFh1HI9FtAB7BBaRCm8jIioNdnVAYR7PMlKkjgMKbzAB0vg8XSIKiI1yV26wDSTfFRppKr+C
+ 2QjTcjs0bK8IsUPSaAwJ5uBU
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 07 Sep 2022 00:19:52 -0700
-IronPort-SDR: ld8FR29VoLGgAr/wbaawebMO6AVgI6l4uhwMBwAcgggELqdp7rImcHyroWEQzKlWsdavOTcK6d
- 0u2qd5wmLSFz5TJJ1YA/OUReukHahCqXzL4IZZ5h6vCzxqUShCMIWPorOtDSsYFdm0rBiQ2JmP
- QqnoVzKeRD8IElgO6sk7NbdzbUqtzfwE+r4a7PlfZKqdHVjEmVYIOSZ6ldeTlTmthf1fchiOqm
- nBGdm9HPPsrbCdQn62fdJ7aK+/d6IbHopQJuAQtpq4Ti+zDePB7AXcdfEBSlakjfOANRhd4i0G
- rwU=
+ 07 Sep 2022 00:19:54 -0700
+IronPort-SDR: +UBNVcWuxgvYkOOQZrXBB0G5922p6wKU62VQxZfFhpdrsCeII8MJnv5tjbI4AutE4/GTk+MCtU
+ 92MkJXRe5xOlwgE1r1MjfhhGJnEwUP45rKRMFB5ogBtpMAK/AmDmf8TnCAXR+ACJfHvBFogy+8
+ nynAgayBEpVc05WJd/xERNAXZdCxk59DQMp9p1H1yMUecgyPXaHsRkhHfHc46wt6FAJQauroE3
+ 0aAZTZedPFMiIuqCeci6DWlHhVs5p6K6Hi5mOHKYD/4B4GkMjhaPec1cBsTnqOkuTXvqyJymHX
+ 9OE=
 WDCIronportException: Internal
 Received: from unknown (HELO toolbox.wdc.com) ([10.225.167.94])
- by uls-op-cesaip01.wdc.com with ESMTP; 07 Sep 2022 01:04:54 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 07 Sep 2022 01:04:56 -0700
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: alistair23@gmail.com, "Yueh-Ting (eop) Chen" <eop.chen@sifive.com>,
  Frank Chang <frank.chang@sifive.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 22/44] target/riscv: rvv: Add mask agnostic for vector mask
- instructions
-Date: Wed,  7 Sep 2022 10:03:31 +0200
-Message-Id: <20220907080353.111926-23-alistair.francis@wdc.com>
+Subject: [PULL 23/44] target/riscv: rvv: Add mask agnostic for vector
+ permutation instructions
+Date: Wed,  7 Sep 2022 10:03:32 +0200
+Message-Id: <20220907080353.111926-24-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220907080353.111926-1-alistair.francis@wdc.com>
 References: <20220907080353.111926-1-alistair.francis@wdc.com>
@@ -100,41 +100,87 @@ Signed-off-by: eop Chen <eop.chen@sifive.com>
 Reviewed-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <165570784143.17634.35095816584573691-8@git.sr.ht>
+Message-Id: <165570784143.17634.35095816584573691-9@git.sr.ht>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/vector_helper.c            | 11 +++++++++++
- target/riscv/insn_trans/trans_rvv.c.inc |  3 +++
- 2 files changed, 14 insertions(+)
+ target/riscv/vector_helper.c            | 26 +++++++++++++++++++++++--
+ target/riscv/insn_trans/trans_rvv.c.inc |  1 +
+ 2 files changed, 25 insertions(+), 2 deletions(-)
 
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 315742c6b8..52518648bb 100644
+index 52518648bb..d224861c2c 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -4879,11 +4879,16 @@ static void vmsetm(void *vd, void *v0, void *vs2, CPURISCVState *env,
-     uint32_t vl = env->vl;
-     uint32_t total_elems = env_archcpu(env)->cfg.vlen;
-     uint32_t vta_all_1s = vext_vta_all_1s(desc);
-+    uint32_t vma = vext_vma(desc);
-     int i;
-     bool first_mask_bit = false;
- 
-     for (i = env->vstart; i < vl; i++) {
-         if (!vm && !vext_elem_mask(v0, i)) {
-+            /* set masked-off elements to 1s */
-+            if (vma) {
-+                vext_set_elem_mask(vd, i, 1);
-+            }
-             continue;
-         }
-         /* write a zero to all following active elements */
-@@ -4944,11 +4949,14 @@ void HELPER(NAME)(void *vd, void *v0, void *vs2, CPURISCVState *env,      \
+@@ -5018,11 +5018,14 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
      uint32_t esz = sizeof(ETYPE);                                         \
      uint32_t total_elems = vext_get_total_elems(env, desc, esz);          \
      uint32_t vta = vext_vta(desc);                                        \
 +    uint32_t vma = vext_vma(desc);                                        \
-     uint32_t sum = 0;                                                     \
-     int i;                                                                \
+     target_ulong offset = s1, i_min, i;                                   \
+                                                                           \
+     i_min = MAX(env->vstart, offset);                                     \
+     for (i = i_min; i < vl; i++) {                                        \
+         if (!vm && !vext_elem_mask(v0, i)) {                              \
++            /* set masked-off elements to 1s */                           \
++            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);           \
+             continue;                                                     \
+         }                                                                 \
+         *((ETYPE *)vd + H(i)) = *((ETYPE *)vs2 + H(i - offset));          \
+@@ -5047,13 +5050,17 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
+     uint32_t esz = sizeof(ETYPE);                                         \
+     uint32_t total_elems = vext_get_total_elems(env, desc, esz);          \
+     uint32_t vta = vext_vta(desc);                                        \
++    uint32_t vma = vext_vma(desc);                                        \
+     target_ulong i_max, i;                                                \
+                                                                           \
+     i_max = MAX(MIN(s1 < vlmax ? vlmax - s1 : 0, vl), env->vstart);       \
+     for (i = env->vstart; i < i_max; ++i) {                               \
+-        if (vm || vext_elem_mask(v0, i)) {                                \
+-            *((ETYPE *)vd + H(i)) = *((ETYPE *)vs2 + H(i + s1));          \
++        if (!vm && !vext_elem_mask(v0, i)) {                              \
++            /* set masked-off elements to 1s */                           \
++            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);           \
++            continue;                                                     \
+         }                                                                 \
++        *((ETYPE *)vd + H(i)) = *((ETYPE *)vs2 + H(i + s1));              \
+     }                                                                     \
+                                                                           \
+     for (i = i_max; i < vl; ++i) {                                        \
+@@ -5083,10 +5090,13 @@ static void vslide1up_##BITWIDTH(void *vd, void *v0, target_ulong s1,       \
+     uint32_t esz = sizeof(ETYPE);                                           \
+     uint32_t total_elems = vext_get_total_elems(env, desc, esz);            \
+     uint32_t vta = vext_vta(desc);                                          \
++    uint32_t vma = vext_vma(desc);                                          \
+     uint32_t i;                                                             \
+                                                                             \
+     for (i = env->vstart; i < vl; i++) {                                    \
+         if (!vm && !vext_elem_mask(v0, i)) {                                \
++            /* set masked-off elements to 1s */                             \
++            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);             \
+             continue;                                                       \
+         }                                                                   \
+         if (i == 0) {                                                       \
+@@ -5128,10 +5138,13 @@ static void vslide1down_##BITWIDTH(void *vd, void *v0, target_ulong s1,       \
+     uint32_t esz = sizeof(ETYPE);                                             \
+     uint32_t total_elems = vext_get_total_elems(env, desc, esz);              \
+     uint32_t vta = vext_vta(desc);                                            \
++    uint32_t vma = vext_vma(desc);                                            \
+     uint32_t i;                                                               \
+                                                                               \
+     for (i = env->vstart; i < vl; i++) {                                      \
+         if (!vm && !vext_elem_mask(v0, i)) {                                  \
++            /* set masked-off elements to 1s */                               \
++            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);               \
+             continue;                                                         \
+         }                                                                     \
+         if (i == vl - 1) {                                                    \
+@@ -5199,11 +5212,14 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,               \
+     uint32_t esz = sizeof(TS2);                                           \
+     uint32_t total_elems = vext_get_total_elems(env, desc, esz);          \
+     uint32_t vta = vext_vta(desc);                                        \
++    uint32_t vma = vext_vma(desc);                                        \
+     uint64_t index;                                                       \
+     uint32_t i;                                                           \
                                                                            \
      for (i = env->vstart; i < vl; i++) {                                  \
          if (!vm && !vext_elem_mask(v0, i)) {                              \
@@ -142,13 +188,14 @@ index 315742c6b8..52518648bb 100644
 +            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);           \
              continue;                                                     \
          }                                                                 \
-         *((ETYPE *)vd + H(i)) = sum;                                      \
-@@ -4975,10 +4983,13 @@ void HELPER(NAME)(void *vd, void *v0, CPURISCVState *env, uint32_t desc)  \
+         index = *((TS1 *)vs1 + HS1(i));                                   \
+@@ -5239,11 +5255,14 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
      uint32_t esz = sizeof(ETYPE);                                         \
      uint32_t total_elems = vext_get_total_elems(env, desc, esz);          \
      uint32_t vta = vext_vta(desc);                                        \
 +    uint32_t vma = vext_vma(desc);                                        \
-     int i;                                                                \
+     uint64_t index = s1;                                                  \
+     uint32_t i;                                                           \
                                                                            \
      for (i = env->vstart; i < vl; i++) {                                  \
          if (!vm && !vext_elem_mask(v0, i)) {                              \
@@ -156,35 +203,33 @@ index 315742c6b8..52518648bb 100644
 +            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);           \
              continue;                                                     \
          }                                                                 \
-         *((ETYPE *)vd + H(i)) = i;                                        \
+         if (index >= vlmax) {                                             \
+@@ -5318,10 +5337,13 @@ void HELPER(NAME)(void *vd, void *v0, void *vs2,                 \
+     uint32_t esz = sizeof(ETYPE);                                \
+     uint32_t total_elems = vext_get_total_elems(env, desc, esz); \
+     uint32_t vta = vext_vta(desc);                               \
++    uint32_t vma = vext_vma(desc);                               \
+     uint32_t i;                                                  \
+                                                                  \
+     for (i = env->vstart; i < vl; i++) {                         \
+         if (!vm && !vext_elem_mask(v0, i)) {                     \
++            /* set masked-off elements to 1s */                  \
++            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);  \
+             continue;                                            \
+         }                                                        \
+         *((ETYPE *)vd + HD(i)) = *((DTYPE *)vs2 + HS1(i));       \
 diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 8ce3d28603..c1bd29329e 100644
+index c1bd29329e..e58208f363 100644
 --- a/target/riscv/insn_trans/trans_rvv.c.inc
 +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -3275,6 +3275,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-         data =                                                     \
-             FIELD_DP32(data, VDATA, VTA_ALL_1S, s->cfg_vta_all_1s);\
-+        data = FIELD_DP32(data, VDATA, VMA, s->vma);               \
-         tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd),                     \
-                            vreg_ofs(s, 0), vreg_ofs(s, a->rs2),    \
-                            cpu_env, s->cfg_ptr->vlen / 8,          \
-@@ -3313,6 +3314,7 @@ static bool trans_viota_m(DisasContext *s, arg_viota_m *a)
-         data = FIELD_DP32(data, VDATA, VM, a->vm);
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-         data = FIELD_DP32(data, VDATA, VTA, s->vta);
-+        data = FIELD_DP32(data, VDATA, VMA, s->vma);
-         static gen_helper_gvec_3_ptr * const fns[4] = {
-             gen_helper_viota_m_b, gen_helper_viota_m_h,
-             gen_helper_viota_m_w, gen_helper_viota_m_d,
-@@ -3343,6 +3345,7 @@ static bool trans_vid_v(DisasContext *s, arg_vid_v *a)
-         data = FIELD_DP32(data, VDATA, VM, a->vm);
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-         data = FIELD_DP32(data, VDATA, VTA, s->vta);
-+        data = FIELD_DP32(data, VDATA, VMA, s->vma);
-         static gen_helper_gvec_2_ptr * const fns[4] = {
-             gen_helper_vid_v_b, gen_helper_vid_v_h,
-             gen_helper_vid_v_w, gen_helper_vid_v_d,
+@@ -3891,6 +3891,7 @@ static bool int_ext_op(DisasContext *s, arg_rmr *a, uint8_t seq)
+     data = FIELD_DP32(data, VDATA, VM, a->vm);
+     data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+     data = FIELD_DP32(data, VDATA, VTA, s->vta);
++    data = FIELD_DP32(data, VDATA, VMA, s->vma);
+ 
+     tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
+                        vreg_ofs(s, a->rs2), cpu_env,
 -- 
 2.37.2
 
