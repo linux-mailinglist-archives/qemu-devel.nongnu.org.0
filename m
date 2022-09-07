@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 806AA5B0B9F
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 19:40:59 +0200 (CEST)
-Received: from localhost ([::1]:39470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12C355B0BC6
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 19:48:10 +0200 (CEST)
+Received: from localhost ([::1]:58896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVz2n-00011S-VF
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 13:40:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32898)
+	id 1oVz9k-0004rs-Gz
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 13:48:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVyt5-0005ax-Hu
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 13:30:57 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:46200)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oVz2X-00012S-45
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 13:40:41 -0400
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:40620)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oVysz-0003VN-Hc
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 13:30:50 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 3BD7133F97;
- Wed,  7 Sep 2022 17:30:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1662571846; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=QxEWORtaIzD6mLatiuockkKIYpoDS1BvuIc57ArbeQE=;
- b=BIUwFJu3Vr0kkesZL2dpB9EgQgXb1DEnF5KG6hi4z+uwd36kOh7Ddhrdd2Fl11/QTSfNwU
- uTMOm7SoNeiHxavSkWYePwXbbg7wa32IwRjb54kQjdfb9z2J/Y87fwB53u1x+NDwJuHG26
- myWHqHuNS/jrergCttC0y4JaphvaX8Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1662571846;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=QxEWORtaIzD6mLatiuockkKIYpoDS1BvuIc57ArbeQE=;
- b=szbA7A/qnlKhDmvrY+GKz/rKDvBY8+oFgJBoNVSDiQAD4+fuxQZryKaP90ORKNvPlo9eDj
- FsTH2MliN779W3DA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DA66E13A66;
- Wed,  7 Sep 2022 17:30:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 0IGBM0XVGGNbCgAAMHmgww
- (envelope-from <cfontana@suse.de>); Wed, 07 Sep 2022 17:30:45 +0000
-From: Claudio Fontana <cfontana@suse.de>
-To: Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2] audio: add help option for -audio and -audiodev
-Date: Wed,  7 Sep 2022 19:30:44 +0200
-Message-Id: <20220907173044.12669-1-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oVz2U-0005GF-Rb
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 13:40:40 -0400
+Received: by mail-yb1-xb33.google.com with SMTP id f131so7092205ybf.7
+ for <qemu-devel@nongnu.org>; Wed, 07 Sep 2022 10:40:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=Z6x46Rdi735PyBiwidhmpn60bv/pd/TJLauRCpO8Q4Q=;
+ b=Fsw67hbGFWiTAW2kj9TLrirayzg8sGYx2D2T28ssGJNM3zKRvfre09DSU0V9MbNZ8Y
+ +Yy1YSionw47WWfQWGV0O6gn14ifoDRIMhGJQ/9yNhGkJ+haGw/fKKd4lNgnsx3+csnF
+ oI7BLrCu9IZ7V1UWtnYc7JWyillScFT22kwLjzGvsgRtg7cPno3GYdAgZxZPHdvPyy/D
+ W5+I5kl09Z3AORtJI4scmyDXSFJHzJPGsS7tExoiJcEu0Z8OW0iuda/bylulhszefa4F
+ IBrBzfK+0Y3S6kJ52gJOEMiziWDfcSCTBBDyd6yrMC1AR48fq8muMvoadMHXkhuNOkLI
+ JLIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=Z6x46Rdi735PyBiwidhmpn60bv/pd/TJLauRCpO8Q4Q=;
+ b=N0rO5mP1fL/Ir/Jr9LLtOQd2M56/u2M1UlSVQVEv6xjT1XWcAs44nRVEKoABnArvHr
+ 6ZPz0Zef2K5nnHR1j3FEIiXPympaski/Uve1/hTB60YWdIGIvi+oopfkT55+KI1Wo531
+ pazjIkeutMaUtA+8maIuw6OJ7UFdzPWx25LvAFaatuZZKLdzC/KrtVywSV9TD3UtsP5d
+ +MzluOpu/zgJhWnEDcOD/dp9g4FI/JL5Jy3MTYgPsFVl6fg0Jw9wPjiKFQk16ahiT3lt
+ 7pJ6cgn+9P/KaXphqc4Uhbgs2kREl1zbRI+n5PW45FlJYTabUukrYsYUUdq4geU6/3I3
+ 441Q==
+X-Gm-Message-State: ACgBeo1KAhnU5KiWoAVh7fZ8pk88+Gro9bt8MxmaqjR3M/B/0QaZbbyH
+ nEv9v0dCK1ZI1kf/ZS0pap3VZRmqcArUOtQ7dHOSxg==
+X-Google-Smtp-Source: AA6agR4xwr2uwgwZ9qQOdbWb3mje7d/UieDLJYk5CzV0KihllxiUhp6wC9Z1TMWV+Dq6PoUEtEyUBEyf14deir6RDK4=
+X-Received: by 2002:a05:6902:1612:b0:6a8:e6b3:36e1 with SMTP id
+ bw18-20020a056902161200b006a8e6b336e1mr3900993ybb.39.1662572437167; Wed, 07
+ Sep 2022 10:40:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <CAO=notwARj6d+UygiU4-JBKMJtyOhHmcNFp7C5jwqJReFT-kew@mail.gmail.com>
+In-Reply-To: <CAO=notwARj6d+UygiU4-JBKMJtyOhHmcNFp7C5jwqJReFT-kew@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 7 Sep 2022 18:40:26 +0100
+Message-ID: <CAFEAcA9brqMEZfyB-c2OjYFWuQPSS28u9_8vFte=zGwePh_Srw@mail.gmail.com>
+Subject: Re: Seeing qtest assertion failure with 7.1
+To: Patrick Venture <venture@google.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Peter Foley <pefoley@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,131 +84,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-add a simple help option for -audio and -audiodev
-to show the list of available drivers, and document them.
+On Wed, 7 Sept 2022 at 16:39, Patrick Venture <venture@google.com> wrote:
+>
+> # Start of nvme tests
+> # Start of pci-device tests
+> # Start of pci-device-tests tests
+> # starting QEMU: exec ./qemu-system-aarch64 -qtest unix:/tmp/qtest-1431.s=
+ock -qtest-log /dev/null -chardev socket,path=3D/tmp/qtest-1431.qmp,id=3Dch=
+ar0 -mon chardev=3Dchar0,mode=3Dcontrol -display none -M virt, -cpu max -dr=
+ive id=3Ddrv0,if=3Dnone,file=3Dnull-co://,file.read-zeroes=3Don,format=3Dra=
+w -object memory-backend-ram,id=3Dpmr0,share=3Don,size=3D8 -device nvme,add=
+r=3D04.0,drive=3Ddrv0,serial=3Dfoo -accel qtest
+>
+> # ERROR:../../src/qemu/tests/qtest/libqtest.c:338:qtest_init_without_qmp_=
+handshake: assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
+> stderr:
+> double free or corruption (out)
+> socket_accept failed: Resource temporarily unavailable
+> **
+> ERROR:../../src/qemu/tests/qtest/libqtest.c:338:qtest_init_without_qmp_ha=
+ndshake: assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
+> ../../src/qemu/tests/qtest/libqtest.c:165: kill_qemu() detected QEMU deat=
+h from signal 6 (Aborted) (core dumped)
+>
+> I'm not seeing this reliably, and we haven't done a lot of digging yet, s=
+uch as enabling sanitizers, so I'll reply back to this thread with details =
+as I have them.
+>
+> Has anyone seen this before or something like it?
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- audio/audio.c   | 20 ++++++++++++++++++++
- audio/audio.h   |  1 +
- qemu-options.hx | 10 ++++++----
- softmmu/vl.c    |  9 +++++++--
- 4 files changed, 34 insertions(+), 6 deletions(-)
+Have a look in the source at what exactly the assertion
+failure in libqtest.c is checking for -- IIRC it's a pretty
+basic "did we open a socket fd" one. I think sometimes I
+used to see something like this if there's an old stale socket
+lying around in the test directory and the randomly generated
+socket filename happens to clash with it.
 
-v1 -> v2: also extend the help to -audio.
+Everything after that is probably follow-on errors from the
+tests not being terribly clean about error handling.
 
- -audio help
- -audio driver=help
- -audiodev help
+Are you running 'make check' with a -j option for parallel?
+(This is supposed to work, and it's the standard way I run
+'make check', so if it's flaky we need to fix it, but it
+would be interesting to know if the issue repros at -j1.)
 
-will all show the same results.
-
-diff --git a/audio/audio.c b/audio/audio.c
-index 4f4bb10cce..ffb09ec825 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -32,6 +32,7 @@
- #include "qapi/qapi-visit-audio.h"
- #include "qemu/cutils.h"
- #include "qemu/module.h"
-+#include "qemu/help_option.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/replay.h"
- #include "sysemu/runstate.h"
-@@ -2105,10 +2106,29 @@ static void audio_validate_opts(Audiodev *dev, Error **errp)
-     }
- }
- 
-+void audio_help(void)
-+{
-+    int i;
-+
-+    printf("Available audio drivers:\n");
-+    printf("none\n");
-+
-+    for (i = 0; audio_prio_list[i]; i++) {
-+        audio_driver *driver = audio_driver_lookup(audio_prio_list[i]);
-+        if (driver) {
-+            printf("%s\n", driver->name);
-+        }
-+    }
-+}
-+
- void audio_parse_option(const char *opt)
- {
-     Audiodev *dev = NULL;
- 
-+    if (is_help_option(opt)) {
-+        audio_help();
-+        exit(EXIT_SUCCESS);
-+    }
-     Visitor *v = qobject_input_visitor_new_str(opt, "driver", &error_fatal);
-     visit_type_Audiodev(v, NULL, &dev, &error_fatal);
-     visit_free(v);
-diff --git a/audio/audio.h b/audio/audio.h
-index 27e67079a0..01bdc567fb 100644
---- a/audio/audio.h
-+++ b/audio/audio.h
-@@ -171,6 +171,7 @@ void audio_sample_from_uint64(void *samples, int pos,
- void audio_define(Audiodev *audio);
- void audio_parse_option(const char *opt);
- bool audio_init_audiodevs(void);
-+void audio_help(void);
- void audio_legacy_help(void);
- 
- AudioState *audio_state_by_name(const char *name);
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 31c04f7eea..04cd4dacfc 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -704,10 +704,11 @@ SRST
- ``-audio [driver=]driver,model=value[,prop[=value][,...]]``
-     This option is a shortcut for configuring both the guest audio
-     hardware and the host audio backend in one go.
--    The host backend options are the same as with the corresponding
--    ``-audiodev`` options below. The guest hardware model can be set with
--    ``model=modelname``. Use ``model=help`` to list the available device
--    types.
-+    The driver option is the same as with the corresponding ``-audiodev`` option below.
-+    The guest hardware model can be set with ``model=modelname``.
-+
-+    Use ``driver=help`` to list the available drivers,
-+    and ``model=help`` to list the available device types.
- 
-     The following two example do exactly the same, to show how ``-audio``
-     can be used to shorten the command line length:
-@@ -721,6 +722,7 @@ ERST
- DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
-     "-audiodev [driver=]driver,id=id[,prop[=value][,...]]\n"
-     "                specifies the audio backend to use\n"
-+    "                Use ``-audiodev help`` to list the available drivers\n"
-     "                id= identifier of the backend\n"
-     "                timer-period= timer period in microseconds\n"
-     "                in|out.mixing-engine= use mixing engine to mix streams inside QEMU\n"
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index dea4005e47..2f8eecf5c1 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2842,11 +2842,16 @@ void qemu_init(int argc, char **argv, char **envp)
-                 audio_parse_option(optarg);
-                 break;
-             case QEMU_OPTION_audio: {
--                QDict *dict = keyval_parse(optarg, "driver", NULL, &error_fatal);
-+                bool help;
-                 char *model;
-                 Audiodev *dev = NULL;
-                 Visitor *v;
--
-+                QDict *dict = keyval_parse(optarg, "driver", &help, &error_fatal);
-+                if (help || (qdict_haskey(dict, "driver") &&
-+                             is_help_option(qdict_get_str(dict, "driver")))) {
-+                    audio_help();
-+                    exit(EXIT_SUCCESS);
-+                }
-                 if (!qdict_haskey(dict, "id")) {
-                     qdict_put_str(dict, "id", "audiodev0");
-                 }
--- 
-2.26.2
-
+-- PMM
 
