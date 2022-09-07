@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B05F05AFEE8
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 10:24:21 +0200 (CEST)
-Received: from localhost ([::1]:38680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C36B5AFEF9
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 10:29:13 +0200 (CEST)
+Received: from localhost ([::1]:43148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVqM8-0001X2-Qu
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 04:24:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57994)
+	id 1oVqQq-0007LQ-JM
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 04:29:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=242877ce7=alistair.francis@wdc.com>)
- id 1oVq4T-0004pm-5j
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:06:06 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:1896)
+ id 1oVq4a-0004rb-DW
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:06:19 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:1923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=242877ce7=alistair.francis@wdc.com>)
- id 1oVq4E-0004Ol-0p
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:06:04 -0400
+ id 1oVq4Q-0004Ud-5T
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:06:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1662537948; x=1694073948;
+ t=1662537960; x=1694073960;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=7wBtZ9uUHaZW1mUfKsu18J8PFMSCFIZ4vxJKCQ83vDw=;
- b=BvCyv9UJwHZnBOW/65+Ujod+t7sPbftwFJerTTWTdVQWvkbornDu/BYY
- QK935WHKcDpNbwdbKsq8cCXND2fYDZ1QUAZLWP0B8XGQq0atd0O6f4ngC
- g1Cwpl9Zn//D7Ja9Zt/apBtbd+zbK/niV70hL0mY6scAb2oy7Cplnnxjf
- pen5fL8W2gDyLqimvmQAdlgzQgd6AQSXbvzc8HaOJXQLDsdTpvdWkmgqC
- AxagsPr/ivgB4Jq0+dESRs3RJlg+17bDPTI9+8PdxpvvxBEZpuID8+iJ3
- 3rK3aZ23ufC7ye7cuwpfhYSS8qsjSgjv/HoQ2cJ9tNdcgz/p/Dheg0kGU A==;
-X-IronPort-AV: E=Sophos;i="5.93,296,1654531200"; d="scan'208";a="210715047"
+ bh=FFI6Ye3j6adQyfsmXJv6bQPJhFJ6DEKM3aG8BFBc+JA=;
+ b=CJepteOQ5FnRBy3h8CzJ4HgbQmiU1n6bb+7W4g7FOQh80CfdKoxLQWVy
+ gKAlYn55MREzJuAlXoXiOoDNSOveEpcvDopTtrLcOeYTXgR2ELEQzd7gc
+ Sk+ViuqfX2t9iBwS77XiaI4lqchc2QvTWu6xcEX5CcCwqF/FAgaj0RwNx
+ DZV2RGJyQ/duviag7baU10dkynQxSrhdKAkqW6QyeibJsiT+KQD95stpT
+ 9N5SedIJgtuktm2f9awHPUYV8VpZHowyeEewivGGWY8RgLC5iNCsBftLx
+ Hh2ywpDS/a5ECgMruBmG1gS98iOier8eyanUWFX+gDbJGJ5dk35h4SHoy g==;
+X-IronPort-AV: E=Sophos;i="5.93,296,1654531200"; d="scan'208";a="210715056"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 07 Sep 2022 16:04:59 +0800
-IronPort-SDR: YxB7udpOZhqgeZI7omVF381lUIX9kRGjMLeOkO6pUdlXEzA6Qu9c7uJT/BMssvrFn9jHlxvGOt
- MwMmo3mzW7mBlgYrDD7NKdtYeyeFSCoLm2au+z7TN3PT3h+evd06E67SIMnZFtcrEvGXGaJMix
- 7Q2awIKF40XmCfaDEwCcfJTXszQes/VXBr6OO+aiuZqOA2tGW38oehFV2Fv8AnukpptpEVUsV+
- 1pSkP6mJfeT37CarzolOXAgppHsMz3aB/9GRrD5ffzAEaKUD8A/x55j6XRL9kmQqjdyHBWK4V9
- FWaLqUDZ2+/ZeNmVAxN5/sWn
+ by ob1.hgst.iphmx.com with ESMTP; 07 Sep 2022 16:05:02 +0800
+IronPort-SDR: vo1LYHL4MVchlERAkKLhLDvA/3s5rZ5kYW3va+IMOdX2uDuhk12WDdzNB+6hRzYshiUERIQTn2
+ EjgYdUpSr2ZfTDyHcmQHSITx6e1GEFC2+Fawi5Rq+hiilKC1pBDsF+YOF0bDOUxNeaoTV03gnP
+ jG+wExdXSt+c1nEKbKAGHWwgBQWwIIPowyfx6nz9/CJ7DFKQIuTw9eiFumoJOK9ObJaXQ/jkVk
+ QjLQWzLz62j1LTl7rM0DhB7a1GAmxPuu2ylD+DnMINPmH9GDuiuF2RVcEZjCrNNSfkthKALZuB
+ gCQBoWjJ1ZeV3pyg4yYLg829
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 07 Sep 2022 00:19:58 -0700
-IronPort-SDR: MW2con3hpelCrrZHOJdYmUVVqzptt1ltAU1u7gTAMmcG47/PD3Ka0mutJEwRvM/XG5RkrUs7X1
- YUo+RRxQ9yclgDCoYxjdxd2tG8dlySsH/ue+/QhNwuJZjOu9cruDYCLo/HoC1YABs5dtL1+GG4
- RASeA8qHkw3U8NKx55WFbRTDCiY/4/fxsXZsu/dWYpIr5CP+9d4q4h12fex/tMawxch4zOsGQ5
- 6NBrGJd9Re76R7rd5ydpeTZ2UFMwG/o/M1KFM6mUdDMF3Qi/q7F+NfMSv8CWRli1B/beh4MHUY
- l0c=
+ 07 Sep 2022 00:20:00 -0700
+IronPort-SDR: W8becf0jq7Ck47C5BGmR2oM1uSegldneGcXxxEKG682UVRc6Ku1wYJD+U99dJsUdEDoTCY95t5
+ nZxEpS8q8RzwnJDPupQTOSDFSZZWwWY9qdf1T29M4+o71joPZ0jYpK+d58RXMtdHptgN5+Zghp
+ aqk+t9mnDndeR1jfbid+HI9DunrAHg/BiOSCDimHqVmcjZiyzvo5rgHDx1LzxsVeTFKSgYsLBj
+ 4C6BZPNtCHia2tbe5L3Z2xHi1u290gQhWOCH1Y4q6YQ+ZnAf71oI5P+dE3fkbjErz+lTjfItfA
+ EOE=
 WDCIronportException: Internal
 Received: from unknown (HELO toolbox.wdc.com) ([10.225.167.94])
- by uls-op-cesaip01.wdc.com with ESMTP; 07 Sep 2022 01:05:00 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 07 Sep 2022 01:05:01 -0700
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Cc: alistair23@gmail.com, Dao Lu <daolu@rivosinc.com>,
- Heiko Stuebner <heiko@sntech.de>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 25/44] target/riscv: Add Zihintpause support
-Date: Wed,  7 Sep 2022 10:03:34 +0200
-Message-Id: <20220907080353.111926-26-alistair.francis@wdc.com>
+Cc: alistair23@gmail.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Vijai Kumar K <vijai@behindbytes.com>,
+ Bin Meng <bmeng.cn@gmail.com>
+Subject: [PULL 26/44] hw/riscv: remove 'fdt' param from
+ riscv_setup_rom_reset_vec()
+Date: Wed,  7 Sep 2022 10:03:35 +0200
+Message-Id: <20220907080353.111926-27-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220907080353.111926-1-alistair.francis@wdc.com>
 References: <20220907080353.111926-1-alistair.francis@wdc.com>
@@ -93,100 +96,118 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Alistair Francis <alistair.francis@wdc.com>
 From:  Alistair Francis via <qemu-devel@nongnu.org>
 
-From: Dao Lu <daolu@rivosinc.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-Added support for RISC-V PAUSE instruction from Zihintpause extension,
-enabled by default.
+The 'fdt' param is not being used in riscv_setup_rom_reset_vec().
+Simplify the API by removing it. While we're at it, remove the redundant
+'return' statement at the end of function.
 
-Tested-by: Heiko Stuebner <heiko@sntech.de>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>
+Cc: Bin Meng <bin.meng@windriver.com>
+Cc: Vijai Kumar K <vijai@behindbytes.com>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Dao Lu <daolu@rivosinc.com>
-Message-Id: <20220725034728.2620750-2-daolu@rivosinc.com>
+Message-Id: <20220728181926.2123771-1-danielhb413@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h                      |  1 +
- target/riscv/insn32.decode              |  7 ++++++-
- target/riscv/cpu.c                      |  2 ++
- target/riscv/insn_trans/trans_rvi.c.inc | 16 ++++++++++++++++
- 4 files changed, 25 insertions(+), 1 deletion(-)
+ include/hw/riscv/boot.h    | 2 +-
+ hw/riscv/boot.c            | 4 +---
+ hw/riscv/microchip_pfsoc.c | 2 +-
+ hw/riscv/shakti_c.c        | 3 +--
+ hw/riscv/spike.c           | 2 +-
+ hw/riscv/virt.c            | 2 +-
+ 6 files changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 561d7fa92c..4be4b82a83 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -426,6 +426,7 @@ struct RISCVCPUConfig {
-     bool ext_zkt;
-     bool ext_ifencei;
-     bool ext_icsr;
-+    bool ext_zihintpause;
-     bool ext_svinval;
-     bool ext_svnapot;
-     bool ext_svpbmt;
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 4033565393..595fdcdad8 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -149,7 +149,12 @@ srl      0000000 .....    ..... 101 ..... 0110011 @r
- sra      0100000 .....    ..... 101 ..... 0110011 @r
- or       0000000 .....    ..... 110 ..... 0110011 @r
- and      0000000 .....    ..... 111 ..... 0110011 @r
--fence    ---- pred:4 succ:4 ----- 000 ----- 0001111
-+
-+{
-+  pause  0000 0001   0000   00000 000 00000 0001111
-+  fence  ---- pred:4 succ:4 ----- 000 ----- 0001111
-+}
-+
- fence_i  ---- ----   ----   ----- 001 ----- 0001111
- csrrw    ............     ..... 001 ..... 1110011 @csr
- csrrs    ............     ..... 010 ..... 1110011 @csr
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 966e5f2dd7..d4635c7df4 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -73,6 +73,7 @@ static const struct isa_ext_data isa_edata_arr[] = {
-     ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_12_0, ext_v),
-     ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
-     ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifencei),
-+    ISA_EXT_DATA_ENTRY(zihintpause, true, PRIV_VERSION_1_10_0, ext_zihintpause),
-     ISA_EXT_DATA_ENTRY(zfh, true, PRIV_VERSION_1_12_0, ext_zfh),
-     ISA_EXT_DATA_ENTRY(zfhmin, true, PRIV_VERSION_1_12_0, ext_zfhmin),
-     ISA_EXT_DATA_ENTRY(zfinx, true, PRIV_VERSION_1_12_0, ext_zfinx),
-@@ -987,6 +988,7 @@ static Property riscv_cpu_extensions[] = {
-     DEFINE_PROP_UINT8("pmu-num", RISCVCPU, cfg.pmu_num, 16),
-     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-+    DEFINE_PROP_BOOL("Zihintpause", RISCVCPU, cfg.ext_zihintpause, true),
-     DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
-     DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
-     DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
-diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-index ca8e3d1ea1..c49dbec0eb 100644
---- a/target/riscv/insn_trans/trans_rvi.c.inc
-+++ b/target/riscv/insn_trans/trans_rvi.c.inc
-@@ -792,6 +792,22 @@ static bool trans_srad(DisasContext *ctx, arg_srad *a)
-     return gen_shift(ctx, a, EXT_SIGN, tcg_gen_sar_tl, NULL);
+diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+index d2db29721a..a36f7618f5 100644
+--- a/include/hw/riscv/boot.h
++++ b/include/hw/riscv/boot.h
+@@ -51,7 +51,7 @@ void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts
+                                hwaddr saddr,
+                                hwaddr rom_base, hwaddr rom_size,
+                                uint64_t kernel_entry,
+-                               uint64_t fdt_load_addr, void *fdt);
++                               uint64_t fdt_load_addr);
+ void riscv_rom_copy_firmware_info(MachineState *machine, hwaddr rom_base,
+                                   hwaddr rom_size,
+                                   uint32_t reset_vec_size,
+diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+index 06b4fc5ac3..1ae7596873 100644
+--- a/hw/riscv/boot.c
++++ b/hw/riscv/boot.c
+@@ -286,7 +286,7 @@ void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts
+                                hwaddr start_addr,
+                                hwaddr rom_base, hwaddr rom_size,
+                                uint64_t kernel_entry,
+-                               uint64_t fdt_load_addr, void *fdt)
++                               uint64_t fdt_load_addr)
+ {
+     int i;
+     uint32_t start_addr_hi32 = 0x00000000;
+@@ -326,8 +326,6 @@ void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts
+                           rom_base, &address_space_memory);
+     riscv_rom_copy_firmware_info(machine, rom_base, rom_size, sizeof(reset_vec),
+                                  kernel_entry);
+-
+-    return;
  }
  
-+static bool trans_pause(DisasContext *ctx, arg_pause *a)
-+{
-+    if (!ctx->cfg_ptr->ext_zihintpause) {
-+        return false;
-+    }
-+
-+    /*
-+     * PAUSE is a no-op in QEMU,
-+     * end the TB and return to main loop
-+     */
-+    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-+    tcg_gen_exit_tb(NULL, 0);
-+    ctx->base.is_jmp = DISAS_NORETURN;
-+
-+    return true;
-+}
+ void riscv_setup_direct_kernel(hwaddr kernel_addr, hwaddr fdt_addr)
+diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+index 10a5d0e501..7313153606 100644
+--- a/hw/riscv/microchip_pfsoc.c
++++ b/hw/riscv/microchip_pfsoc.c
+@@ -583,7 +583,7 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
+         riscv_setup_rom_reset_vec(machine, &s->soc.u_cpus, firmware_load_addr,
+                                   memmap[MICROCHIP_PFSOC_ENVM_DATA].base,
+                                   memmap[MICROCHIP_PFSOC_ENVM_DATA].size,
+-                                  kernel_entry, fdt_load_addr, machine->fdt);
++                                  kernel_entry, fdt_load_addr);
+     }
+ }
  
- static bool trans_fence(DisasContext *ctx, arg_fence *a)
- {
+diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
+index 90e2cf609f..e43cc9445c 100644
+--- a/hw/riscv/shakti_c.c
++++ b/hw/riscv/shakti_c.c
+@@ -66,8 +66,7 @@ static void shakti_c_machine_state_init(MachineState *mstate)
+     riscv_setup_rom_reset_vec(mstate, &sms->soc.cpus,
+                               shakti_c_memmap[SHAKTI_C_RAM].base,
+                               shakti_c_memmap[SHAKTI_C_ROM].base,
+-                              shakti_c_memmap[SHAKTI_C_ROM].size, 0, 0,
+-                              NULL);
++                              shakti_c_memmap[SHAKTI_C_ROM].size, 0, 0);
+     if (mstate->firmware) {
+         riscv_load_firmware(mstate->firmware,
+                             shakti_c_memmap[SHAKTI_C_RAM].base,
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index e41b6aa9f0..5ba34543c8 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -308,7 +308,7 @@ static void spike_board_init(MachineState *machine)
+     riscv_setup_rom_reset_vec(machine, &s->soc[0], memmap[SPIKE_DRAM].base,
+                               memmap[SPIKE_MROM].base,
+                               memmap[SPIKE_MROM].size, kernel_entry,
+-                              fdt_load_addr, s->fdt);
++                              fdt_load_addr);
+ 
+     /* initialize HTIF using symbols found in load_kernel */
+     htif_mm_init(system_memory, mask_rom,
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index f2ce5663a4..c1e8e0fcaf 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -1305,7 +1305,7 @@ static void virt_machine_done(Notifier *notifier, void *data)
+     riscv_setup_rom_reset_vec(machine, &s->soc[0], start_addr,
+                               virt_memmap[VIRT_MROM].base,
+                               virt_memmap[VIRT_MROM].size, kernel_entry,
+-                              fdt_load_addr, machine->fdt);
++                              fdt_load_addr);
+ 
+     /*
+      * Only direct boot kernel is currently supported for KVM VM,
 -- 
 2.37.2
 
