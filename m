@@ -2,104 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67E385B00E5
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 11:51:40 +0200 (CEST)
-Received: from localhost ([::1]:48658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4DA25B00B1
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 11:39:54 +0200 (CEST)
+Received: from localhost ([::1]:47062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVrid-0003oI-Jr
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 05:51:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36634)
+	id 1oVrXF-0003An-Tn
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 05:39:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1oVqvL-0006YR-DY; Wed, 07 Sep 2022 05:00:47 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:16662)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oVr9u-0001GR-Ah
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 05:15:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1oVqvI-0004Yu-IR; Wed, 07 Sep 2022 05:00:43 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2878imGO020665;
- Wed, 7 Sep 2022 09:00:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=xHAo9EiwdCI0aG3HRVuX6EWJBdZd62P22NIE8925ReM=;
- b=VJjDwO3jbFgz4BZLb63UoAhMVj1pBSJyUTehv02DHsEa1K578+LfB+ak6FLyHxAsGdLu
- zm50YA3o5LVqxD0E8cFzXotpKooQnyzyaqkAZIP2ThFirCdQX3+HWi4SBNANxfvlk/ZH
- 1La6pZly8+zcY/AhLdQNK3/jnXZiHDxCrxJbBbkIVsVIV9a9d3kmsiqSTnQDTwyPxfST
- Q6Sa0e89+Dka6s/UeAVIvTFOu4/n51Yo9kMIbjYNAaRRe5u0/8kDPp8CQtyWvkrptJ1q
- Ajl2kDJcq9gzr8nalNlDr4hj6wmDyDlBRuk+25X+AS1dHUgFRj2GjczTSsmZDQlr5Wzd hA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jer2d0cmb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Sep 2022 09:00:27 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2878u4Yb031143;
- Wed, 7 Sep 2022 09:00:27 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jer2d0ck2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Sep 2022 09:00:27 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2878o4aZ021120;
- Wed, 7 Sep 2022 09:00:24 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma06ams.nl.ibm.com with ESMTP id 3jbx6hmwqu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Sep 2022 09:00:24 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 2878uqtk43385098
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 7 Sep 2022 08:56:52 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7F97511C052;
- Wed,  7 Sep 2022 09:00:22 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C7DE711C04C;
- Wed,  7 Sep 2022 09:00:21 +0000 (GMT)
-Received: from [9.171.75.33] (unknown [9.171.75.33])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed,  7 Sep 2022 09:00:21 +0000 (GMT)
-Message-ID: <e0a57a98-5de3-11aa-c8e5-9103ce933711@linux.ibm.com>
-Date: Wed, 7 Sep 2022 11:00:20 +0200
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oVr9r-0007HN-7I
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 05:15:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662542142;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yIsPSyw3xQlJtHMYcwr7lY+1aOhBIXeLZviJXJ70edQ=;
+ b=CxYS2nc6nx1M750Rtm1Ag5FjZuGItRf882ri6FQEWrx2HYTI/z8dCogC7XA3WGjs8tUzjn
+ 0zKvMss/8k8mVJG3qdectadHD+duya/c/0wDoI5+qrdQ//oYCDvTG/Yljnf5o9BrRpdEZB
+ VQFuKscd/ukwnlY3IotSDe46PvEZ4+s=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-669-GYi5okZSPkSjO2DfsWBoIQ-1; Wed, 07 Sep 2022 05:15:41 -0400
+X-MC-Unique: GYi5okZSPkSjO2DfsWBoIQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ r11-20020a05640251cb00b004484ec7e3a4so9265242edd.8
+ for <qemu-devel@nongnu.org>; Wed, 07 Sep 2022 02:15:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=yIsPSyw3xQlJtHMYcwr7lY+1aOhBIXeLZviJXJ70edQ=;
+ b=31ZnArbgXD6EGSw/K/37/kF9s3l2Vh/du/SwbsRL16J3YdprfzXxJUWDBxIlX3EPLQ
+ Ezlh3q0PO4yrzgNu2OKsc7isTARNEWkWow08PQDvHp5/QkHhVL9KgBmgt8LwZ/m9AcSr
+ R7sfDX5pttzs/Flaj5z9j5DKpI4WJFLoWYvs1iN/9ROUvFdLfLj3CfWhNvn2fLvNAmP/
+ qVC2tG01D2Ke8p7lYUCUAq7qTpcxlbDqggK5PHVdigJYO06UXB5kanoVpVgUiwHNHnbj
+ bC0btylj9KxUkCXoI/wTeQMUI7wiUuahyOM77tWEyqTq638/XZwu8M6xj7M166aZbpvT
+ VyPg==
+X-Gm-Message-State: ACgBeo0dTaJhWHED3iMGdb92YmDTcNqTP2YbPdAq66gUvSplDZA+t9c7
+ lIimFdu0+WOmyyd6Gr7iUP6O8KwddbsOWS7FKDKgRXhGgpsMj4Nabuz9yhPdtl5zW6nHdGzDV8Y
+ i8ojksfIcDgKRDcY=
+X-Received: by 2002:a17:907:60c7:b0:731:148b:c515 with SMTP id
+ hv7-20020a17090760c700b00731148bc515mr1734626ejc.724.1662542139912; 
+ Wed, 07 Sep 2022 02:15:39 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5piCAgP6X6h1RONb5xFmjS7eEFdyHaM1xEbDvBt6H6dgUy59fUI+JB5b1UO59CqxLULvm8gg==
+X-Received: by 2002:a17:907:60c7:b0:731:148b:c515 with SMTP id
+ hv7-20020a17090760c700b00731148bc515mr1734604ejc.724.1662542139602; 
+ Wed, 07 Sep 2022 02:15:39 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ u24-20020a056402111800b0044ebe6f364csm3834492edv.45.2022.09.07.02.15.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Sep 2022 02:15:39 -0700 (PDT)
+Date: Wed, 7 Sep 2022 11:15:38 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Robert Hoo <robert.hu@linux.intel.com>
+Cc: mst@redhat.com, xiaoguangrong.eric@gmail.com, ani@anisinha.ca,
+ dan.j.williams@intel.com, jingqi.liu@intel.com, qemu-devel@nongnu.org,
+ robert.hu@intel.com
+Subject: Re: [PATCH v3 3/5] acpi/nvdimm: define macro for NVDIMM Device _DSM
+Message-ID: <20220907111538.31fdd382@redhat.com>
+In-Reply-To: <20220901032721.1392482-4-robert.hu@linux.intel.com>
+References: <20220901032721.1392482-1-robert.hu@linux.intel.com>
+ <20220901032721.1392482-4-robert.hu@linux.intel.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v6 09/14] hw/ppc: set machine->fdt in pnv_reset()
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org
-References: <20220904233456.209027-1-danielhb413@gmail.com>
- <20220904233456.209027-10-danielhb413@gmail.com>
-Content-Language: en-US
-From: Frederic Barrat <fbarrat@linux.ibm.com>
-In-Reply-To: <20220904233456.209027-10-danielhb413@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: JAGxi2k9zuz5pkULzgOGM3c3R5XPlj7d
-X-Proofpoint-GUID: xeJcD9BBw5tPOixxgbLRLA8Icz4fepmW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-07_04,2022-09-06_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- clxscore=1015 spamscore=0 malwarescore=0 suspectscore=0 adultscore=0
- lowpriorityscore=0 impostorscore=0 mlxlogscore=931 bulkscore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2209070035
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=fbarrat@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.752,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,44 +103,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu,  1 Sep 2022 11:27:19 +0800
+Robert Hoo <robert.hu@linux.intel.com> wrote:
 
-
-On 05/09/2022 01:34, Daniel Henrique Barboza wrote:
-> This will enable support for the 'dumpdtb' QMP/HMP command for
-> all powernv machines.
+> Since it will be heavily used in next patch, define macro
+> NVDIMM_DEVICE_DSM_UUID for "4309AC30-0D11-11E4-9191-0800200C9A66", which is
+> NVDIMM device specific method uuid defined in NVDIMM _DSM interface spec,
+> Section 3. [1]
 > 
-> Cc: Cédric Le Goater <clg@kaod.org>
-> Cc: Frederic Barrat <fbarrat@linux.ibm.com>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> No functional changes in this patch.
+> 
+> [1] https://pmem.io/documents/IntelOptanePMem_DSM_Interface-V2.0.pdf
+> 
+> Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
+> Reviewed-by: Jingqi Liu <jingqi.liu@intel.com>
+
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
 > ---
-
-
-LGTM
-Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
-
-   Fred
-
-
->   hw/ppc/pnv.c | 8 +++++++-
->   1 file changed, 7 insertions(+), 1 deletion(-)
+>  hw/acpi/nvdimm.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 354aa289d1..6a20c4811f 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -678,7 +678,13 @@ static void pnv_reset(MachineState *machine)
->       qemu_fdt_dumpdtb(fdt, fdt_totalsize(fdt));
->       cpu_physical_memory_write(PNV_FDT_ADDR, fdt, fdt_totalsize(fdt));
->   
-> -    g_free(fdt);
-> +    /*
-> +     * Set machine->fdt for 'dumpdtb' QMP/HMP command. Free
-> +     * the existing machine->fdt to avoid leaking it during
-> +     * a reset.
-> +     */
-> +    g_free(machine->fdt);
-> +    machine->fdt = fdt;
->   }
->   
->   static ISABus *pnv_chip_power8_isa_create(PnvChip *chip, Error **errp)
+> diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
+> index 201317c611..afff911c1e 100644
+> --- a/hw/acpi/nvdimm.c
+> +++ b/hw/acpi/nvdimm.c
+> @@ -922,6 +922,7 @@ void nvdimm_init_acpi_state(NVDIMMState *state, MemoryRegion *io,
+>  #define NVDIMM_DSM_RFIT_STATUS  "RSTA"
+>  
+>  #define NVDIMM_QEMU_RSVD_UUID   "648B9CF2-CDA1-4312-8AD9-49C4AF32BD62"
+> +#define NVDIMM_DEVICE_DSM_UUID  "4309AC30-0D11-11E4-9191-0800200C9A66"
+>  
+>  static void nvdimm_build_common_dsm(Aml *dev,
+>                                      NVDIMMState *nvdimm_state)
+> @@ -1029,8 +1030,7 @@ static void nvdimm_build_common_dsm(Aml *dev,
+>                 /* UUID for QEMU internal use */), expected_uuid));
+>      aml_append(elsectx, ifctx);
+>      elsectx2 = aml_else();
+> -    aml_append(elsectx2, aml_store(
+> -               aml_touuid("4309AC30-0D11-11E4-9191-0800200C9A66")
+> +    aml_append(elsectx2, aml_store(aml_touuid(NVDIMM_DEVICE_DSM_UUID)
+>                 /* UUID for NVDIMM Devices */, expected_uuid));
+>      aml_append(elsectx, elsectx2);
+>      aml_append(method, elsectx);
+
 
