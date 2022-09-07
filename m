@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 792085AFF0A
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 10:32:45 +0200 (CEST)
-Received: from localhost ([::1]:44786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 615A25AFECA
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 10:16:41 +0200 (CEST)
+Received: from localhost ([::1]:47388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVqUG-0003v3-EJ
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 04:32:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42192)
+	id 1oVqEh-0003rq-8j
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 04:16:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=242877ce7=alistair.francis@wdc.com>)
- id 1oVq3k-0004BX-Jh
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:05:31 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:1920)
+ id 1oVq3w-0004DI-3l
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:05:32 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:1923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=242877ce7=alistair.francis@wdc.com>)
- id 1oVq3i-0004UV-4d
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:05:20 -0400
+ id 1oVq3p-0004Ud-L3
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:05:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1662537916; x=1694073916;
+ t=1662537923; x=1694073923;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=gqLqNTqWmpjhGf8FIw5YBY+jtMiOA3WF1uyBragFHJI=;
- b=bBUJ1sUgw3HlTvs1Ia2dq6MpBi5heZHpPMNNzdWCYkQ2fhtUNLJ5aU96
- EtGhNRbSRx80nOLAAZ5+CP+mCkLOuhyjCEs6FiB4AwBkiPQ99ghUZ2Ral
- yGNWcQWC+UkQmixjl9WHbsmez90kgWN1mslZBbvpi6byuAWCXW8tL+1Wu
- 6gV7PPKL/QvBhAeO2srXI6nmR8gNpTvvzEpk0TfAUl9J+fy0OiGIzI4ut
- TfLTiXgrhhUa0njszDwVcw38dsU5u3Plwz0XrCWVV8hdciZzslqkMrLqb
- A/+fu8DA1ge49ny2m2m2pxwUqHKodwosYLn6CCXUY0lPd2jDVWzCfriBV Q==;
-X-IronPort-AV: E=Sophos;i="5.93,296,1654531200"; d="scan'208";a="210715013"
+ bh=T0bUY2VfY75lHSxDuVSpv9CQx8+7wQSl9Ck7YiWTKmo=;
+ b=lk8hcM9PNy8ZqFB49zRrqt3giwOER/0IZzSo4zAVP+ABK1HAjOzx5dG1
+ u5yuHoc3SVboHRFPeiKORmx95tnX3aiBwkprwrfvqz2CH3Wljzft25qSb
+ Q5G6lP0ZUzuprrIlMX5WC++OuCjVtyz3QiSqXJ76zIno5yjOoCH0A9/TD
+ LFWPcXOEU2hi9Y3vA0Yi+x5vVNrtZJxF3afdCwvEO1aZEL9IlIz9eJxNy
+ 3GyD9MxBm9nxe1c3lJmo/gkKVwBoZpVwMIYX5L4C0wSoE2bUEF9c0hUsX
+ px4mPWJ8M5kDm3ER8jjn+s2xUSRLeSPw2OrxfS/MlJ5NhJnx+kkePTwWD A==;
+X-IronPort-AV: E=Sophos;i="5.93,296,1654531200"; d="scan'208";a="210715017"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 07 Sep 2022 16:04:46 +0800
-IronPort-SDR: hl/aYKSi7sIehLDIEj8ue6kBXjA7DXC74Ku3vsVSwM+5+RW4LpVqfXu1WIuQmZrPSHyUffGbH3
- 5xTnFdJr7ORPHM5YNxcZ1wq8UmeeZYsreqkY0mIxTeuQNldWs+YFuMMMypG5/Fc+3+s7CA/BFf
- u5UkL8Qr1YJTFMeMyY8cpBLDZNYiXlWGwZtnqdNCttBmiKWqaglnxV4Zws9zZMR94e1NKN6vsu
- r5jFFJgpiFZdR7nxdJJbmTTAw/bZXddPD2SEsA70LhyvYxN2OTh1R6F+K9QeZkLViSEQNhrenJ
- NFnhxlmlarDGPgdWLla9xOtn
+ by ob1.hgst.iphmx.com with ESMTP; 07 Sep 2022 16:04:48 +0800
+IronPort-SDR: NmYTd3FBhDKImtUVndLBydKsQ7oCnhoBoAIGmg2JxqlmsD5zqoSVLQJQnWNrdkuUuaYh6bpAt7
+ AvVwQDyQtg8kNOMnPTJIsk7p37S4Vv8I/TQVK18NNl260EriBv4EazU2dkGONEL0qlxTyulemr
+ xiuDChsVFEsKI9fNKYMdN5tjW/qonerwFhknbcPxKBnZpebF8dxtgVjXe+udJZ4l5dQxBrSkLI
+ EuOGvlMmFvzstuG/WaM5FlMq19ocvXFJayR/8uQ1mKBf3/rbLvIhYttaGZkOgXLfGxtTDJEwX2
+ ghwoTJvhPL+8pgS2HxRP9QOP
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 07 Sep 2022 00:19:44 -0700
-IronPort-SDR: om7joaCu+8QOQifT+2eyzoYJg+yK5A/TIITARC10YNH3+dAj7xWuWg9kgsa1HCeqSC7+wAhuXq
- BlGmnuocMFc+5b+LtOhCejXESRQqTDae/PnoQy0FByJcBa0ScdSA+7m0d0FMHZc1LItBYwwL3u
- Bfhs92n+hLVIcz19TNt+Lt/DMvILcky+5guMZoxSbImQYoXvgQqFvQ7YvfWGHTbRyEouL00dUS
- IaaS/8pFBpNxXubuTmWVjb0M+FVMjcdyia4cwKMWhKJ7ti9hAZaR04+cviztkcl/LwTJbciIOY
- 1sI=
+ 07 Sep 2022 00:19:46 -0700
+IronPort-SDR: krmLTOtZpB8411S1gR1R7GygXt448vo3JlQP4FxK8wghsnqT0QaGXnvEckLLLAiuHrkXwYHI0G
+ AgQkEHMQG4+bLsoaWF9kvrukE1dV91jewyOGKF6lPHBTMJo8M+Yx//3T7E13zgjIkTwOV5LCQG
+ xe/TvtPqdSiXTLQd/bhduQ4lq+xAsy56aAK1gEzJD2qldrjOFLdPS9aoexeHKYKZWwGM31Ms/a
+ KmI3T28x7KAeC1TjCXDpFm3+CjZqINlSXkrvpJgabv1kkvst9Vl3XybGYd0RHRaoAMAvUNQeHw
+ 2ac=
 WDCIronportException: Internal
 Received: from unknown (HELO toolbox.wdc.com) ([10.225.167.94])
- by uls-op-cesaip01.wdc.com with ESMTP; 07 Sep 2022 01:04:45 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 07 Sep 2022 01:04:47 -0700
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: alistair23@gmail.com, "Yueh-Ting (eop) Chen" <eop.chen@sifive.com>,
  Frank Chang <frank.chang@sifive.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 18/44] target/riscv: rvv: Add mask agnostic for vector integer
- shift instructions
-Date: Wed,  7 Sep 2022 10:03:27 +0200
-Message-Id: <20220907080353.111926-19-alistair.francis@wdc.com>
+Subject: [PULL 19/44] target/riscv: rvv: Add mask agnostic for vector integer
+ comparison instructions
+Date: Wed,  7 Sep 2022 10:03:28 +0200
+Message-Id: <20220907080353.111926-20-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220907080353.111926-1-alistair.francis@wdc.com>
 References: <20220907080353.111926-1-alistair.francis@wdc.com>
@@ -100,54 +100,60 @@ Signed-off-by: eop Chen <eop.chen@sifive.com>
 Reviewed-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <165570784143.17634.35095816584573691-4@git.sr.ht>
+Message-Id: <165570784143.17634.35095816584573691-5@git.sr.ht>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/vector_helper.c            | 7 +++++++
- target/riscv/insn_trans/trans_rvv.c.inc | 1 +
- 2 files changed, 8 insertions(+)
+ target/riscv/vector_helper.c            | 10 ++++++++++
+ target/riscv/insn_trans/trans_rvv.c.inc |  1 +
+ 2 files changed, 11 insertions(+)
 
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 6be3c4e739..d1daa764b7 100644
+index d1daa764b7..07ce671879 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -1298,10 +1298,13 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,                          \
-     uint32_t esz = sizeof(TS1);                                           \
-     uint32_t total_elems = vext_get_total_elems(env, desc, esz);          \
-     uint32_t vta = vext_vta(desc);                                        \
-+    uint32_t vma = vext_vma(desc);                                        \
-     uint32_t i;                                                           \
-                                                                           \
-     for (i = env->vstart; i < vl; i++) {                                  \
-         if (!vm && !vext_elem_mask(v0, i)) {                              \
-+            /* set masked-off elements to 1s */                           \
-+            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);           \
-             continue;                                                     \
-         }                                                                 \
-         TS1 s1 = *((TS1 *)vs1 + HS1(i));                                  \
-@@ -1339,10 +1342,14 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1,      \
-     uint32_t total_elems =                                  \
-         vext_get_total_elems(env, desc, esz);               \
-     uint32_t vta = vext_vta(desc);                          \
-+    uint32_t vma = vext_vma(desc);                          \
-     uint32_t i;                                             \
-                                                             \
-     for (i = env->vstart; i < vl; i++) {                    \
-         if (!vm && !vext_elem_mask(v0, i)) {                \
-+            /* set masked-off elements to 1s */             \
-+            vext_set_elems_1s(vd, vma, i * esz,             \
-+                              (i + 1) * esz);               \
-             continue;                                       \
-         }                                                   \
-         TS2 s2 = *((TS2 *)vs2 + HS2(i));                    \
+@@ -1404,12 +1404,17 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
+     uint32_t vl = env->vl;                                    \
+     uint32_t total_elems = env_archcpu(env)->cfg.vlen;        \
+     uint32_t vta_all_1s = vext_vta_all_1s(desc);              \
++    uint32_t vma = vext_vma(desc);                            \
+     uint32_t i;                                               \
+                                                               \
+     for (i = env->vstart; i < vl; i++) {                      \
+         ETYPE s1 = *((ETYPE *)vs1 + H(i));                    \
+         ETYPE s2 = *((ETYPE *)vs2 + H(i));                    \
+         if (!vm && !vext_elem_mask(v0, i)) {                  \
++            /* set masked-off elements to 1s */               \
++            if (vma) {                                        \
++                vext_set_elem_mask(vd, i, 1);                 \
++            }                                                 \
+             continue;                                         \
+         }                                                     \
+         vext_set_elem_mask(vd, i, DO_OP(s2, s1));             \
+@@ -1462,11 +1467,16 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,   \
+     uint32_t vl = env->vl;                                          \
+     uint32_t total_elems = env_archcpu(env)->cfg.vlen;              \
+     uint32_t vta_all_1s = vext_vta_all_1s(desc);                    \
++    uint32_t vma = vext_vma(desc);                                  \
+     uint32_t i;                                                     \
+                                                                     \
+     for (i = env->vstart; i < vl; i++) {                            \
+         ETYPE s2 = *((ETYPE *)vs2 + H(i));                          \
+         if (!vm && !vext_elem_mask(v0, i)) {                        \
++            /* set masked-off elements to 1s */                     \
++            if (vma) {                                              \
++                vext_set_elem_mask(vd, i, 1);                       \
++            }                                                       \
+             continue;                                               \
+         }                                                           \
+         vext_set_elem_mask(vd, i,                                   \
 diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 07d86551a9..83b85bb851 100644
+index 83b85bb851..e6aa5295a1 100644
 --- a/target/riscv/insn_trans/trans_rvv.c.inc
 +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -1901,6 +1901,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
-         data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
+@@ -1718,6 +1718,7 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
          data = FIELD_DP32(data, VDATA, VTA, s->vta);               \
+         data =                                                     \
+             FIELD_DP32(data, VDATA, VTA_ALL_1S, s->cfg_vta_all_1s);\
 +        data = FIELD_DP32(data, VDATA, VMA, s->vma);               \
          tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
                             vreg_ofs(s, a->rs1),                    \
