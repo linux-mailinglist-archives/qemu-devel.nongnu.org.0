@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB4835AFD35
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 09:13:29 +0200 (CEST)
-Received: from localhost ([::1]:45792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D89F05AFD48
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 09:20:59 +0200 (CEST)
+Received: from localhost ([::1]:54024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVpFV-0004wo-Om
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 03:13:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35548)
+	id 1oVpMo-0000Np-0O
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 03:20:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oVpCw-0002t0-Gy
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 03:10:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44709)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oVpIT-0006OT-CQ
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 03:16:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52737)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oVpCt-00050P-7z
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 03:10:44 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oVpIQ-0005gf-UF
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 03:16:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662534642;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ye84sSO4TJJGNbJlw+HOZp0V+DuC21ZtM5EaaO1Apb0=;
- b=H3lQTbA30b3QcfhAeNp0ovyZ6l46ooeZXnHs9wPar7iucFfKoaBV4LVUkda76alLzlCCne
- YxKxh2NKsKbdkmfRY/IAZXP4S7rQPsokgGMuP2GBXFgyhB6icoGu0RCmrOF8Iruizuk27d
- siHzfXJZ15l5DTirQ8ht/NuA/LyITVM=
+ s=mimecast20190719; t=1662534986;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=bxdW8LQz+JXIC4LCiL7Yy2Jvu3hIGfTrfloVE9w4bHg=;
+ b=W1z+1iyQmlEkAz6lyyYKbjsBYKdb3sq/zVs/Y/D/dV+v916cdv4QpokhZYZvbUA7rpSlSe
+ ONwR+vRo2RcG279N8UqRomRf69fyumT+ldp9fWncaXn25O10GT8W1RCFVNsGWsOqM7zWef
+ bkyjfV31efO1lZJxcHqse/PShSNNVVU=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-554-x_8PSx0POoqBkZY72XfdGA-1; Wed, 07 Sep 2022 03:10:40 -0400
-X-MC-Unique: x_8PSx0POoqBkZY72XfdGA-1
+ us-mta-558-JYUOQ0bwPGuBpXaAyatVmg-1; Wed, 07 Sep 2022 03:16:24 -0400
+X-MC-Unique: JYUOQ0bwPGuBpXaAyatVmg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6EC202999B4E;
- Wed,  7 Sep 2022 07:10:39 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.195.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9DA7F1121314;
- Wed,  7 Sep 2022 07:10:38 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2FA23180039B; Wed,  7 Sep 2022 09:10:37 +0200 (CEST)
-Date: Wed, 7 Sep 2022 09:10:37 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Sunil V L <sunilvl@ventanamicro.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- Song Gao <gaosong@loongson.cn>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Andrew Jones <ajones@ventanamicro.com>,
- Anup Patel <apatel@ventanamicro.com>,
- Atish Kumar Patra <atishp@rivosinc.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Pawel Polawski <ppolawsk@redhat.com>
-Subject: Re: [PATCH V4 0/3] hw/riscv: virt: Enable booting S-mode firmware
- from pflash
-Message-ID: <20220907071037.tnnewqhi5v2xmiln@sirius.home.kraxel.org>
-References: <20220906090219.412517-1-sunilvl@ventanamicro.com>
- <20220906104128.zlwzvbbswlzyplkc@sirius.home.kraxel.org>
- <20220906123200.GA237800@sunil-laptop>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 80A921C13947
+ for <qemu-devel@nongnu.org>; Wed,  7 Sep 2022 07:16:24 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B98DA1121314;
+ Wed,  7 Sep 2022 07:16:23 +0000 (UTC)
+Date: Wed, 7 Sep 2022 08:16:21 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
+Subject: Re: Maximum QMP reply size
+Message-ID: <YxhFRcMSAzj7FQG8@redhat.com>
+References: <CAFn=p-ZkKLQtYAwzkQb7srFf_fF8ij+g5wkZiRofx4U+kSZ7Rw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220906123200.GA237800@sunil-laptop>
+In-Reply-To: <CAFn=p-ZkKLQtYAwzkQb7srFf_fF8ij+g5wkZiRofx4U+kSZ7Rw@mail.gmail.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -87,54 +77,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 06, 2022 at 06:02:00PM +0530, Sunil V L wrote:
-> Hi Gerd,
+On Tue, Sep 06, 2022 at 03:38:54PM -0400, John Snow wrote:
+> Hi, I suspect I have asked this before, but I didn't write it down in
+> a comment, so I forget my justification...
 > 
-> On Tue, Sep 06, 2022 at 12:41:28PM +0200, Gerd Hoffmann wrote:
-> >   Hi,
-> > 
-> > > 3)Make the EDK2 image size to match with what qemu flash expects
-> > > truncate -s 32M Build/RiscVVirt/DEBUG_GCC5/FV/RISCV_VIRT.fd
-> > 
-> > Hmm, we have that kind of padding on arm too (64M for code and 64M for
-> > vars) and only a fraction of the space is actually used, which isn't
-> > exactly ideal.  So not sure it is a good plan to repeat that on riscv.
+> In the QMP lib, we need to set a buffering limit for how big a QMP
+> message can be -- In practice, I found that the largest possible
+> response was the QAPI schema reply, and I set the code to this:
 > 
-> Yeah.. but it looks like limitation from qemu flash emulation. Do you mean
-> this limitation exists for arm in general on real flash also?
+>     # Maximum allowable size of read buffer
+>     _limit = (64 * 1024)
+> 
+> However, I didn't document if this was a reasonable limit or just a
+> "worksforme" one. I assume that there's no hard limit for the protocol
+> or the implementation thereof in QEMU. Is there any kind of value here
+> that would be more sensible than another?
+> 
+> I'm worried that if replies get bigger in the future (possibly in some
+> degenerate case I am presently unaware of) that the library default
+> will become nonsensical.
+> 
+> Any pointers/tips?
 
-Well, at least on x86 flash devices can have odd sizes.  I don't think
-the qemu pflash emulation dictates anything here.
+Beware of some of the blockdev commands, IIRC some of those could have
+huge replies, scaling based on the depth of the backing chains. While
+small in "normal" cases, people can do crazy things with 100's of
+backing chains.
 
-I think the underlying problem we actually have in qemu is that the
-flash size indirectly dictates the memory layout.  We pack the flash
-devices next to each other, on x86 downwards from 4G, on arm upwards
-from zero, not sure what risc-v is dong here.
 
-edk2 arm code expects the variable store being mapped at 64m.  So
-QEMU_EFI.fd (which is actually 2M in size) gets padded to 64m, which
-has the desired effect that the next flash device (the varstore) is
-mapped at 64m.  But also has the side effect that we map 62m of zeros
-into the guest address space ...
-
-The vars file is padded to 64m for consistency with the code.  Not
-padding the vars file should have no bad side effects I think, except
-for live migration where the flash size change might cause
-compatibility problems.
-
-Not padding the code file needs some alternative way to specify the
-memory layout, to make sure the vars flash continues to be mapped at
-64m even when the code flash is smaller.  Cc'ed Pawel who investigates
-that right now.
-
-One possible option is to just hard-code the flash memory layout per
-machine type or per architecture.  Another option would be to add
-some way to configure that on the command line.
-
-take care,
-  Gerd
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
