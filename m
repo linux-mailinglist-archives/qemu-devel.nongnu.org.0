@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C878B5B00B7
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 11:40:47 +0200 (CEST)
-Received: from localhost ([::1]:40544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8EAD5B00CB
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 11:44:30 +0200 (CEST)
+Received: from localhost ([::1]:47942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVrY6-0003iL-LN
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 05:40:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50070)
+	id 1oVrbh-0007RI-HO
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 05:44:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=242877ce7=alistair.francis@wdc.com>)
- id 1oVq5O-0004z7-I9
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:07:08 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:1923)
+ id 1oVq5Y-0004zL-7M
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:07:15 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:1896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=242877ce7=alistair.francis@wdc.com>)
- id 1oVq5M-0004Ud-Io
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:07:02 -0400
+ id 1oVq5U-0004Ol-RP
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:07:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1662538019; x=1694074019;
+ t=1662538027; x=1694074027;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=JnRxunGKLshGg1L+hFkUPFmAoSRlnzyRAcJaqIUKHSA=;
- b=oh54PtQYMrpB0tD3w2ilMVaRFPI/fnJXwrSSp0JBuNQgAEfRz0RI1b3A
- smvXp32Ndd39kXvvJ8DBBmyPkR8LnF9x8eRScAQWNBjHMfh+g5CMfgKcT
- oGwGUSy3QaFmcSnfXVMBe4bts0/VJtTyt+FISF4uF9CH8gEt62S1QWFt2
- SnKdpA078nh+E4gTczJCS/UdHN7QZf2I6+bxSVVKeLErNFQwj7K7eKdLa
- N3sT8Mqxi0nedkE0uZ4JqHp/eynxH/FWn/1QTufRpnmhXb7Ry4TqfR84K
- 7c/SMzDzM08eayEKqL3dLqBUja1n4LRdM2AFZ7+5U8ndvlgIzm3hOU0vb g==;
-X-IronPort-AV: E=Sophos;i="5.93,296,1654531200"; d="scan'208";a="210715145"
+ bh=OPFRw6A/EleGzXgaO/+fOoLtnz9lD+T/Mmyz1InOcLY=;
+ b=kwP9FM4DjfQn7zMX1c7LZ4CD6KSF5E2FHCjNqXr8lmLLYauL0epIZAvg
+ C0twrjC0OHuQ0PrSsPy9WA5OolHtbjXoI3n0C/PyBkoHSg+2TrV6YxbUR
+ YbAWGD2DuH1Q8AFPH2s1WQ7VZlL3hj+xuB8fIvhCfQZFri8CM6wcJZPw6
+ EZT8TX5aCPCMHHLG6OU3+C25Peoq3uIDD6yb/YhbldhejMT/l8Qz+CBwn
+ UDyM96AdvobtTmw1kzwSCOf8GyZiYFtgyYDI979WvH1PeH17aeapLZn9o
+ 8fsM3b+jy21+x4hipZns7DVdfAgKzLvUcMGvChPFDrHMOxtbepaYRDtVo Q==;
+X-IronPort-AV: E=Sophos;i="5.93,296,1654531200"; d="scan'208";a="210715155"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 07 Sep 2022 16:05:35 +0800
-IronPort-SDR: SX88xfWog0XiLLDCBVmEUW3hL5vmGQlditdPNOe7dDqP4k/A18Wb0fJiVG+OKcwoPSRQQ2F7yu
- v+a9mf1qzk0HcLJ93qx9yDpr3YVTDtoxHpx2V4l56mcqkwiT08nDmmL0AXDeSQiuNyGWDsfrEn
- ySzkqOxCUkRbpDEM/Jy/eOQ4Ff/jVLZIKfcEvYCtcpXABWvNCFIOKBoqrxyXHpKryX5faa80r2
- 99+1OJ8tnqV8QW8M5Ol/COYcoEXUGXomlTWo72PMuiX0+2HiRY0vIqok2tRONO5iggfuEwQLXn
- 6bag/VbpMVhCYXQMwWAngWp7
+ by ob1.hgst.iphmx.com with ESMTP; 07 Sep 2022 16:05:37 +0800
+IronPort-SDR: pwlF14hjK5cIat958wj7B/pDuGX8K5BkCGRsYfimaB8Qi+mkQeL32pZVMBpvRlcH3w+Eh5z0ET
+ vANxQXOcyNCoDRhMamgf1p2vKtkaHkDZatDUW+gjuzn3RxsyZQoOz7Qopijtedho5Gw+leOPNT
+ UJGBNFMnvHdlJ5rTEA0had3EFvJ6HosWRCB00cCbw8emqX3EL4ndKANJWjpY3ppW0gy22CV6HC
+ AeNkkmvqCa+oMXbbLJsuHGjTJpXBm6LXX9FYfi1CnA4N9aqRkeqUusklUlZwKnJqw0BB66fukT
+ WEiaPmHXSyDUkJvmAuMLX0nu
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 07 Sep 2022 00:20:33 -0700
-IronPort-SDR: LKI3jblVdrkVA/PzLISQ+BebCBbrMYQejYCcowEREHVJT7iWscYcLmk59iOYMYMC50UzIqszVC
- 0UoLu0VwQm1QSqr8ljWH5VtX7OM2VOPPEOJoVbXcu1o0nIc6sthA7vWMCwP0a3GaOFeLT2fEJe
- 6jbViuUSExT0OdWjtn1TMH6E4ydPF1Rr+wKNVJe+v7RcwtOmoCvQSkkPeyw938eMYC6s9P4To+
- sxugEMXvPT7JMyiV/VTpp0l8A/1LkN1cIat3GZVJqAPWxz6OJnp+kce+VeGyHYE7Pp07AK8T8f
- P08=
+ 07 Sep 2022 00:20:35 -0700
+IronPort-SDR: Y0CgPmFu+NybHgbqPZdHWPkqEIa4bHXfbiJ8B/YJrFbHnTUD1Yhdce/y2p8lc26elzGWaLZbNc
+ UaT6n+yunooUen9efj7ptASDhOVz3lxCoOUPI5o5Qi2NlB6q5Ds7tL8TdRyGb0ZDtU0hvfxPs7
+ V+DuN10qmON6E7CHTneREJvAzOjeri/E4aLoOg5HlGQNSIXX0PVILtPfGPj1Mq1u+ltkxy+KSu
+ 02RypVka+JecEpZQhzrID//k8KZzqHGjOQZaf0R+qqMLEFKtJzQw/WkOk0YjWGESW55pwoNjY/
+ c9E=
 WDCIronportException: Internal
 Received: from unknown (HELO toolbox.wdc.com) ([10.225.167.94])
- by uls-op-cesaip01.wdc.com with ESMTP; 07 Sep 2022 01:05:35 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 07 Sep 2022 01:05:37 -0700
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: alistair23@gmail.com, Atish Patra <atishp@rivosinc.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Atish Patra <atish.patra@wdc.com>
-Subject: [PULL 43/44] hw/riscv: virt: Add PMU DT node to the device tree
-Date: Wed,  7 Sep 2022 10:03:52 +0200
-Message-Id: <20220907080353.111926-44-alistair.francis@wdc.com>
+ Weiwei Li <liweiwei@iscas.ac.cn>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 44/44] target/riscv: Update the privilege field for sscofpmf
+ CSRs
+Date: Wed,  7 Sep 2022 10:03:53 +0200
+Message-Id: <20220907080353.111926-45-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220907080353.111926-1-alistair.francis@wdc.com>
 References: <20220907080353.111926-1-alistair.francis@wdc.com>
@@ -95,148 +96,154 @@ From:  Alistair Francis via <qemu-devel@nongnu.org>
 
 From: Atish Patra <atishp@rivosinc.com>
 
-Qemu virt machine can support few cache events and cycle/instret counters.
-It also supports counter overflow for these events.
+The sscofpmf extension was ratified as a part of priv spec v1.12.
+Mark the csr_ops accordingly.
 
-Add a DT node so that OpenSBI/Linux kernel is aware of the virt machine
-capabilities. There are some dummy nodes added for testing as well.
-
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Atish Patra <atish.patra@wdc.com>
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Atish Patra <atishp@rivosinc.com>
-Message-Id: <20220824221701.41932-5-atishp@rivosinc.com>
+Message-Id: <20220824221701.41932-6-atishp@rivosinc.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/pmu.h |  1 +
- hw/riscv/virt.c    | 16 +++++++++++++
- target/riscv/pmu.c | 57 ++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 74 insertions(+)
+ target/riscv/csr.c | 90 ++++++++++++++++++++++++++++++----------------
+ 1 file changed, 60 insertions(+), 30 deletions(-)
 
-diff --git a/target/riscv/pmu.h b/target/riscv/pmu.h
-index 036653627f..3004ce37b6 100644
---- a/target/riscv/pmu.h
-+++ b/target/riscv/pmu.h
-@@ -31,5 +31,6 @@ int riscv_pmu_init(RISCVCPU *cpu, int num_counters);
- int riscv_pmu_update_event_map(CPURISCVState *env, uint64_t value,
-                                uint32_t ctr_idx);
- int riscv_pmu_incr_ctr(RISCVCPU *cpu, enum riscv_pmu_event_idx event_idx);
-+void riscv_pmu_generate_fdt_node(void *fdt, int num_counters, char *pmu_name);
- int riscv_pmu_setup_timer(CPURISCVState *env, uint64_t value,
-                           uint32_t ctr_idx);
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index ff8c0df5cd..befa9d2c26 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -30,6 +30,7 @@
- #include "hw/char/serial.h"
- #include "target/riscv/cpu.h"
- #include "hw/core/sysbus-fdt.h"
-+#include "target/riscv/pmu.h"
- #include "hw/riscv/riscv_hart.h"
- #include "hw/riscv/virt.h"
- #include "hw/riscv/boot.h"
-@@ -708,6 +709,20 @@ static void create_fdt_socket_aplic(RISCVVirtState *s,
-     aplic_phandles[socket] = aplic_s_phandle;
- }
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 2151e280a8..b96db1b62b 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -4067,63 +4067,92 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+                              write_mhpmevent                           },
  
-+static void create_fdt_pmu(RISCVVirtState *s)
-+{
-+    char *pmu_name;
-+    MachineState *mc = MACHINE(s);
-+    RISCVCPU hart = s->soc[0].harts[0];
-+
-+    pmu_name = g_strdup_printf("/soc/pmu");
-+    qemu_fdt_add_subnode(mc->fdt, pmu_name);
-+    qemu_fdt_setprop_string(mc->fdt, pmu_name, "compatible", "riscv,pmu");
-+    riscv_pmu_generate_fdt_node(mc->fdt, hart.cfg.pmu_num, pmu_name);
-+
-+    g_free(pmu_name);
-+}
-+
- static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
-                                bool is_32_bit, uint32_t *phandle,
-                                uint32_t *irq_mmio_phandle,
-@@ -1036,6 +1051,7 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
+     [CSR_MHPMEVENT3H]    = { "mhpmevent3h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT4H]    = { "mhpmevent4h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT5H]    = { "mhpmevent5h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT6H]    = { "mhpmevent6h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT7H]    = { "mhpmevent7h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT8H]    = { "mhpmevent8h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT9H]    = { "mhpmevent9h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT10H]   = { "mhpmevent10h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT11H]   = { "mhpmevent11h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT12H]   = { "mhpmevent12h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT13H]   = { "mhpmevent13h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT14H]   = { "mhpmevent14h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT15H]   = { "mhpmevent15h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT16H]   = { "mhpmevent16h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT17H]   = { "mhpmevent17h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT18H]   = { "mhpmevent18h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT19H]   = { "mhpmevent19h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT20H]   = { "mhpmevent20h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT21H]   = { "mhpmevent21h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT22H]   = { "mhpmevent22h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT23H]   = { "mhpmevent23h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT24H]   = { "mhpmevent24h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT25H]   = { "mhpmevent25h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT26H]   = { "mhpmevent26h",    sscofpmf,  read_mhpmeventh,
+-                              write_mhpmeventh                          },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT27H]   = { "mhpmevent27h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT28H]   = { "mhpmevent28h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT29H]   = { "mhpmevent29h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT30H]   = { "mhpmevent30h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
+     [CSR_MHPMEVENT31H]   = { "mhpmevent31h",    sscofpmf,  read_mhpmeventh,
+-                             write_mhpmeventh                           },
++                             write_mhpmeventh,
++                             .min_priv_ver = PRIV_VERSION_1_12_0        },
  
-     create_fdt_flash(s, memmap);
-     create_fdt_fw_cfg(s, memmap);
-+    create_fdt_pmu(s);
+     [CSR_HPMCOUNTER3H]   = { "hpmcounter3h",   ctr32,  read_hpmcounterh },
+     [CSR_HPMCOUNTER4H]   = { "hpmcounter4h",   ctr32,  read_hpmcounterh },
+@@ -4213,7 +4242,8 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+                              write_mhpmcounterh                         },
+     [CSR_MHPMCOUNTER31H] = { "mhpmcounter31h", mctr32,  read_hpmcounterh,
+                              write_mhpmcounterh                         },
+-    [CSR_SCOUNTOVF]      = { "scountovf", sscofpmf,  read_scountovf },
++    [CSR_SCOUNTOVF]      = { "scountovf", sscofpmf,  read_scountovf,
++                             .min_priv_ver = PRIV_VERSION_1_12_0 },
  
- update_bootargs:
-     if (cmdline && *cmdline) {
-diff --git a/target/riscv/pmu.c b/target/riscv/pmu.c
-index a5f504e53c..b8e56d2b7b 100644
---- a/target/riscv/pmu.c
-+++ b/target/riscv/pmu.c
-@@ -20,11 +20,68 @@
- #include "cpu.h"
- #include "pmu.h"
- #include "sysemu/cpu-timers.h"
-+#include "sysemu/device_tree.h"
- 
- #define RISCV_TIMEBASE_FREQ 1000000000 /* 1Ghz */
- #define MAKE_32BIT_MASK(shift, length) \
-         (((uint32_t)(~0UL) >> (32 - (length))) << (shift))
- 
-+/*
-+ * To keep it simple, any event can be mapped to any programmable counters in
-+ * QEMU. The generic cycle & instruction count events can also be monitored
-+ * using programmable counters. In that case, mcycle & minstret must continue
-+ * to provide the correct value as well. Heterogeneous PMU per hart is not
-+ * supported yet. Thus, number of counters are same across all harts.
-+ */
-+void riscv_pmu_generate_fdt_node(void *fdt, int num_ctrs, char *pmu_name)
-+{
-+    uint32_t fdt_event_ctr_map[20] = {};
-+    uint32_t cmask;
-+
-+    /* All the programmable counters can map to any event */
-+    cmask = MAKE_32BIT_MASK(3, num_ctrs);
-+
-+   /*
-+    * The event encoding is specified in the SBI specification
-+    * Event idx is a 20bits wide number encoded as follows:
-+    * event_idx[19:16] = type
-+    * event_idx[15:0] = code
-+    * The code field in cache events are encoded as follows:
-+    * event_idx.code[15:3] = cache_id
-+    * event_idx.code[2:1] = op_id
-+    * event_idx.code[0:0] = result_id
-+    */
-+
-+   /* SBI_PMU_HW_CPU_CYCLES: 0x01 : type(0x00) */
-+   fdt_event_ctr_map[0] = cpu_to_be32(0x00000001);
-+   fdt_event_ctr_map[1] = cpu_to_be32(0x00000001);
-+   fdt_event_ctr_map[2] = cpu_to_be32(cmask | 1 << 0);
-+
-+   /* SBI_PMU_HW_INSTRUCTIONS: 0x02 : type(0x00) */
-+   fdt_event_ctr_map[3] = cpu_to_be32(0x00000002);
-+   fdt_event_ctr_map[4] = cpu_to_be32(0x00000002);
-+   fdt_event_ctr_map[5] = cpu_to_be32(cmask | 1 << 2);
-+
-+   /* SBI_PMU_HW_CACHE_DTLB : 0x03 READ : 0x00 MISS : 0x00 type(0x01) */
-+   fdt_event_ctr_map[6] = cpu_to_be32(0x00010019);
-+   fdt_event_ctr_map[7] = cpu_to_be32(0x00010019);
-+   fdt_event_ctr_map[8] = cpu_to_be32(cmask);
-+
-+   /* SBI_PMU_HW_CACHE_DTLB : 0x03 WRITE : 0x01 MISS : 0x00 type(0x01) */
-+   fdt_event_ctr_map[9] = cpu_to_be32(0x0001001B);
-+   fdt_event_ctr_map[10] = cpu_to_be32(0x0001001B);
-+   fdt_event_ctr_map[11] = cpu_to_be32(cmask);
-+
-+   /* SBI_PMU_HW_CACHE_ITLB : 0x04 READ : 0x00 MISS : 0x00 type(0x01) */
-+   fdt_event_ctr_map[12] = cpu_to_be32(0x00010021);
-+   fdt_event_ctr_map[13] = cpu_to_be32(0x00010021);
-+   fdt_event_ctr_map[14] = cpu_to_be32(cmask);
-+
-+   /* This a OpenSBI specific DT property documented in OpenSBI docs */
-+   qemu_fdt_setprop(fdt, pmu_name, "riscv,event-to-mhpmcounters",
-+                    fdt_event_ctr_map, sizeof(fdt_event_ctr_map));
-+}
-+
- static bool riscv_pmu_counter_valid(RISCVCPU *cpu, uint32_t ctr_idx)
- {
-     if (ctr_idx < 3 || ctr_idx >= RV_MAX_MHPMCOUNTERS ||
+ #endif /* !CONFIG_USER_ONLY */
+ };
 -- 
 2.37.2
 
