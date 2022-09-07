@@ -2,84 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 103E45B00A1
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 11:37:51 +0200 (CEST)
-Received: from localhost ([::1]:33806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B9B5B0026
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 11:16:06 +0200 (CEST)
+Received: from localhost ([::1]:49250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVrVF-0000RN-2O
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 05:37:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42898)
+	id 1oVrAD-0001ci-V6
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 05:16:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oVqnO-0006Up-2y
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:52:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38011)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oVqun-0006Pi-Vi
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 05:00:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40981)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oVqnK-0003Sk-DS
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:52:28 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oVqug-0004L8-LZ
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 05:00:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662540744;
+ s=mimecast20190719; t=1662541201;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RrdgRzO+9vuuDVrxe9Vg3KClkEjhrgjJV8KIscv2ido=;
- b=L5Dcj8QeLwnUODmf2LLdEumiKQBRd6KYn/7+GjjcaYRJZ3Hn4uC4ZAIGePfQMV9oMuBt5V
- g0mZ7ix9DKweIQEGLwSTnaIfCAqOc1iyFjeQd5PH5XGh7umMwIcuy+09Zp3Bn9zRhhzpVt
- WyM261YuU5IWwmnlof6XhQiMKh3T860=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-635-TnqWtb9MN-alHL5gxXaHZQ-1; Wed, 07 Sep 2022 04:52:23 -0400
-X-MC-Unique: TnqWtb9MN-alHL5gxXaHZQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- r11-20020a05640251cb00b004484ec7e3a4so9230768edd.8
- for <qemu-devel@nongnu.org>; Wed, 07 Sep 2022 01:52:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date;
- bh=RrdgRzO+9vuuDVrxe9Vg3KClkEjhrgjJV8KIscv2ido=;
- b=GXJ/Phn4BkLGtlAfx3tycTvCL7xge6sd07VX2raZLqckxB8DNdW9vB0/BWRlSAnOWA
- Caexm+y2RlRPiyLPlMdKO0qu0wJ1rvT9aIM1oFXeBboAzQeZrRRGneoE1c2qK5Pk8SeN
- MRtxfOtHt/YstZsKZOkbxvQdisE76IG478wMwIr8KqiTzDvo3SThmDMqn1pNbqfj4U5j
- X7pkDnt1QeFCqN0yDld0gBM9ClXTqKuT8e1TolGG/udLGOOn259cw/aDudWKHFUyISa2
- XjP2bhnwr3L3q7rtPPiYTG97939T7kkjsJmuPFmXp6421rifz4bpuTxmZVdX3hrKd912
- Hvng==
-X-Gm-Message-State: ACgBeo18BmhinxECLYBI+QMt/MwAhNQ9NuHHUAXsvFSSSqQpI6p0pVi7
- cI+cgGY61v+VmYdFJ9DAWJtjIlQ5ifz28yhWv0Zes7td4fuSxW/pzkFI0EfZrl3GLwmHRV8znuy
- naJbRfG6a9ZfgKGg=
-X-Received: by 2002:a05:6402:190d:b0:447:ed22:4d0d with SMTP id
- e13-20020a056402190d00b00447ed224d0dmr2253205edz.309.1662540742646; 
- Wed, 07 Sep 2022 01:52:22 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5XseyNVmvYC0eqM4LbC+USbJVsVi/4g6L2qI+PA/BJeuNTQf5ZmbQ+Ejk5pPNoB96bQqvR0A==
-X-Received: by 2002:a05:6402:190d:b0:447:ed22:4d0d with SMTP id
- e13-20020a056402190d00b00447ed224d0dmr2253180edz.309.1662540742305; 
- Wed, 07 Sep 2022 01:52:22 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- bf18-20020a0564021a5200b0044e9a3690e0sm5077099edb.9.2022.09.07.01.52.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Sep 2022 01:52:21 -0700 (PDT)
-Date: Wed, 7 Sep 2022 10:52:20 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-Cc: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
- <peter.maydell@linaro.org>, <lersek@redhat.com>, <linuxarm@huawei.com>,
- <chenxiang66@hisilicon.com>, kraxel@redhat.com
-Subject: Re: [PATCH] fw_cfg: Don't set callback_opaque NULL in
- fw_cfg_modify_bytes_read()
-Message-ID: <20220907105220.3f54efb3@redhat.com>
-In-Reply-To: <20220825161842.841-1-shameerali.kolothum.thodi@huawei.com>
-References: <20220825161842.841-1-shameerali.kolothum.thodi@huawei.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ bh=ogj31i8gWK7f9Zz/ZHZgMdJjp+V5M0eda1f3riENlG0=;
+ b=bPDUooEmU05QMX3YrGZWOdPitDVuz6eWWk8n6PIkgUAQ+J3H+nQtSXl3TWAiDaj23hbRpe
+ /73r9N3Uyy6+xF/Me/Hh8wi7TmoWNBZ+QRU05d68Z486pU63LueR+jkQJ0KypyI+TQ0Yjm
+ aqcOaPW1E9W5dQo75YUby2Tndpp4Yms=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-358-DoX5M4eGMC6yBTAK6IBsdQ-1; Wed, 07 Sep 2022 04:59:57 -0400
+X-MC-Unique: DoX5M4eGMC6yBTAK6IBsdQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 79AD33806706;
+ Wed,  7 Sep 2022 08:59:57 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A278492C3B;
+ Wed,  7 Sep 2022 08:59:57 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6DBF521E6900; Wed,  7 Sep 2022 10:59:54 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Claudio Fontana
+ <cfontana@suse.de>,  qemu-devel <qemu-devel@nongnu.org>
+Subject: Re: sphinx-build is really slow, any way to improve that?
+References: <53b94520-f02b-aef5-b372-0460531b566f@suse.de>
+ <CAFEAcA_ed-ny6eodA=9fK6Y5WpUaRO0jPfbKHYCB6uLikiyiHQ@mail.gmail.com>
+ <Yxb86Fz8XVW3uW1p@redhat.com>
+ <CAFEAcA8DZZe2XKntbrg2mOrmWmepPAVvgBKTvO9vMAE2tVq2hg@mail.gmail.com>
+Date: Wed, 07 Sep 2022 10:59:54 +0200
+In-Reply-To: <CAFEAcA8DZZe2XKntbrg2mOrmWmepPAVvgBKTvO9vMAE2tVq2hg@mail.gmail.com>
+ (Peter Maydell's message of "Tue, 6 Sep 2022 14:41:13 +0100")
+Message-ID: <87leqvzhit.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -103,80 +85,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 25 Aug 2022 17:18:42 +0100
-Shameer Kolothum <shameerali.kolothum.thodi@huawei.com> wrote:
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-> Hi
->=20
-> On arm/virt platform, Chen Xiang reported a Guest crash while
-> attempting the below steps,
->=20
-> 1. Launch the Guest with nvdimm=3Don
-> 2. Hot-add a NVDIMM dev
-> 3. Reboot
-> 4. Guest boots fine.
-> 5. Reboot again.
-> 6. Guest boot fails.
->=20
-> QEMU_EFI reports the below error:
-> ProcessCmdAddPointer: invalid pointer value in "etc/acpi/tables"
-> OnRootBridgesConnected: InstallAcpiTables: Protocol Error
->=20
-> Debugging shows that on first reboot(after hot-adding NVDIMM),
-> Qemu updates the etc/table-loader len,
->=20
-> qemu_ram_resize()
-> =C2=A0 fw_cfg_modify_file()
-> =C2=A0 =C2=A0 =C2=A0fw_cfg_modify_bytes_read()
->=20
-> And in fw_cfg_modify_bytes_read() we set the "callback_opaque" for
-> the "key" entry to NULL. Because=C2=A0of this, on the second reboot,
-> virt_acpi_build_update() is called with a NULL "build_state" and
-> returns without updating the ACPI tables. This seems to be=20
-> upsetting the firmware.
->=20
-> To fix this, don't change the callback_opaque in fw_cfg_modify_bytes_read=
-().
+> On Tue, 6 Sept 2022 at 08:55, Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>>
+>> On Mon, Sep 05, 2022 at 10:21:55PM +0100, Peter Maydell wrote:
+>> > On Mon, 5 Sept 2022 at 20:51, Claudio Fontana <cfontana@suse.de> wrote:
+>> > > when I build qemu, there is a lot of time spent at the end of the bu=
+ild where one cpu goes 100% on sphinx-build.
+>> > >
+>> > > Is there some way to parallelize that? It seems it is the current bo=
+ttleneck for rebuilds for me..
+>> >
+>> > It's a big fat python program, so I suspect not, but
+>> > maybe I'm wrong.
+>>
+>> It annoys me too and I've had a look at what it is doing in the past and
+>> failed to find an obvious way to improve it. I fear this could be an
+>> inherant limitation of the way we use sphinx to build the docs as a
+>> complete manual, as compared to say treating each docs source file as
+>> a distinct standalone web page.
+>
+> IIRC sphinx really really wants to process the whole document tree
+> in one go. You can see this in the way that for example the
+> HTML build process creates HTML files for the top-level rst
+> files that are supposed to be only for the manpage -- it will
+> suck in and process everything, not just the files reachable
+> via whatever top level file you point it at.
 
-Fixes: bdbb5b1706d165 ("fw_cfg: add fw_cfg_machine_reset function")
-Acked-by: Igor Mammedov <imammedo@redhat.com>
+How do other projects deal with the resulting slowness?
 
-CCing Gerd to have a second set of eyes on it
-
-> Reported-by: chenxiang <chenxiang66@hisilicon.com>
-> Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-> ---
-> I am still not very convinced this is the root cause of the issue.
-> Though it looks like setting callback_opaque to NULL while updating
-> the file size is wrong, what puzzles me is that on the second reboot
-> we don't have any ACPI table size changes and ideally firmware should
-> see the updated tables from the first reboot itself.
->=20
-> Please take a look and let me know.
->=20
-> Thanks,
-> Shameer
->=20
-> ---
->  hw/nvram/fw_cfg.c | 1 -
->  1 file changed, 1 deletion(-)
->=20
-> diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-> index d605f3f45a..dfe8404c01 100644
-> --- a/hw/nvram/fw_cfg.c
-> +++ b/hw/nvram/fw_cfg.c
-> @@ -728,7 +728,6 @@ static void *fw_cfg_modify_bytes_read(FWCfgState *s, =
-uint16_t key,
->      ptr =3D s->entries[arch][key].data;
->      s->entries[arch][key].data =3D data;
->      s->entries[arch][key].len =3D len;
-> -    s->entries[arch][key].callback_opaque =3D NULL;
-
->      s->entries[arch][key].allow_write =3D false;
-
-As Christian have mentioned, this also looks bogus.
-perhaps another patch to fix that as well.
-
->      return ptr;
+Could we avoid rerunning sphinx-build when documentation hasn't changed?
 
 
