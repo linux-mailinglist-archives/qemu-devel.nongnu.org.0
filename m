@@ -2,87 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74B145AFB8E
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 07:11:04 +0200 (CEST)
-Received: from localhost ([::1]:45678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A97145AFBEB
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 07:47:25 +0200 (CEST)
+Received: from localhost ([::1]:51348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVnL5-00075s-4g
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 01:11:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35236)
+	id 1oVnuG-0005VK-BN
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 01:47:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oVnIT-0005Y5-7K
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 01:08:21 -0400
-Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:41535)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oVnIK-0003j2-0u
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 01:08:15 -0400
-Received: by mail-qt1-x834.google.com with SMTP id c20so9618913qtw.8
- for <qemu-devel@nongnu.org>; Tue, 06 Sep 2022 22:08:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=QxjIAWRSYecllHG6KdUCIuwMsKBWJkvoK7jBRBeF+sY=;
- b=TiLAhs0bbl52L+ncC4OSEybsH77byw7v/V7pUwBMKpWZTHsXSKXVQI6XBMJifBsadM
- zrt4+3JTmZX1i4SqSwM65DqNVsiHM2sQaInh3HuGkj4G1fvSQl5D2t2Sd2CeEX9N4Eun
- Ll0gi6bNkExPFEzeZpTwS6S8Ew1CJjWYMpC44RTeWUoUu+p8yPCOc4s4An9jEBI3lwUp
- jmvER9Uq7FkaYF1DT7ooSWLQKrKnNDZDQ5OC/uTv7HeA3Oc4XYgWw4LR0D42lHClhl/k
- XdX1/7wbTsfMR+JoZcs+YvlFFPdfD7INGNgeONIL9uxvrEeQFmj7nOZiGhZnJX+n57H0
- MTWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=QxjIAWRSYecllHG6KdUCIuwMsKBWJkvoK7jBRBeF+sY=;
- b=FBjXbCfC6ssBezwSd9UsZ2ClNaIsQt8u3X+krPsXMlPAed+iIg4NVyKgH0zKimfiaG
- 4/PBw81PSTqaO+sywIpErx47NrWC32Gwiu1tB1039TXOHQ2uG8mf7ewde7CdYQy6lbsr
- j6ZWa08i2JFqx3i6uahWnrT/km7xooKJqJ8TKckOqfSCRczHEW8o3RClKOxSYI1cKlZl
- 52l516nzOI6CR828LG2dDC/kpqbzkhZ9WdGjGtSb0oUTVKziRPkI79g4zQ/N11I3V0Yi
- JxyH7Bev4P9NITgBwcwRYlSmV6hJI69+ymUiZrWS26I4r2+W7QovZcQdEXO1IP8+ER/y
- W+7Q==
-X-Gm-Message-State: ACgBeo1eoj4Sv4cJOhk43RMlH95gO8LVtoG5MtnZabctGr/OC5q6YdMH
- 7E29tiCXOaR7xO+fhJVsBNX65mzUi2r0NlPWD8Y=
-X-Google-Smtp-Source: AA6agR62ud1YTwcp9jScLd+6TUlwqfqvMKZnXBGzYpDKIky9O38uMgqA5a/EEvkeQ0OtgntdlMnFJBRH6IFl9+GOgN4=
-X-Received: by 2002:ac8:5f4a:0:b0:344:5dd9:27d8 with SMTP id
- y10-20020ac85f4a000000b003445dd927d8mr1711510qta.543.1662527290026; Tue, 06
- Sep 2022 22:08:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1oVnq8-0003kx-Cz
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 01:43:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27124)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1oVnq4-0000jG-S4
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 01:43:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662529378;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aZKFY12xEs8YQsBDwsJqwTuA78FIgzDoxMZokMfMEok=;
+ b=GlIrUM/PbELPn8zxxPK++tyTYlfKNuzr/YaJj6FeJ9RbQYuz6MIbsJihHiWY3vqmMMB8oV
+ em8zqamr74tS48zxKxLUBWKThVfok0cCx1EPukEA54PjUEUA79egkCjzOEP71uiQwkYVgJ
+ 5QHfehDzJAB6cL6fvHuLLLyPLk5rGKk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-194-RpcjtLHhOOyHy8O6bFDehw-1; Wed, 07 Sep 2022 01:42:56 -0400
+X-MC-Unique: RpcjtLHhOOyHy8O6bFDehw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9999D101A58E
+ for <qemu-devel@nongnu.org>; Wed,  7 Sep 2022 05:42:56 +0000 (UTC)
+Received: from [10.64.54.128] (vpn2-54-128.bne.redhat.com [10.64.54.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A0E104010E4D;
+ Wed,  7 Sep 2022 05:42:54 +0000 (UTC)
+Subject: Re: [PATCH] KVM: use store-release to mark dirty pages as harvested
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Xu <peterx@redhat.com>
+References: <20220902001936.108645-1-pbonzini@redhat.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <dd8eec63-e4a0-0b1d-1978-58bc33da8257@redhat.com>
+Date: Wed, 7 Sep 2022 15:42:51 +1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
- <20220824094029.1634519-50-bmeng.cn@gmail.com>
- <CAJ+F1C+-4U1huf=Jv_uJP-XXnXu88Gj9HHvrGS0dTFyKGv=qBg@mail.gmail.com>
- <CAEUhbmV_UU1TpRXfyz5U9kRj5r1ihm-HrXhzw_D-L96_Skxy+g@mail.gmail.com>
- <CAJ+F1CJo-0isj2LKdabMHu854e7kukwjp=CCejgk_TzLRwtA3w@mail.gmail.com>
- <CAEUhbmXjHCEOy+U3zABsvCU20rDj5pogNVTUCUEevdrqhcjuoA@mail.gmail.com>
- <CAJ307EiOGrHqfdzSfb6L3MPKtAWLPCQT8ZVY7M+R5mT6d9wVvQ@mail.gmail.com>
- <CAEUhbmW0v_5Ro3mY6Ztt=MmZJf=ueApmNGpT=+1RTPLrWd4=Rg@mail.gmail.com>
- <CAJ307EhBSg4ENykkbqsT=5oBjc34JR+d3bJAVSTaxRM-uG4LGg@mail.gmail.com>
- <CAEUhbmUAF0W_SCtYOuAZ+xc7Y4So3J4QB29Us0AV44eVF8KtLg@mail.gmail.com>
- <CAJ307EjyXxbGLK-PhBjf18p3AApYM-jGqA2L9q3xLS9wX16h_w@mail.gmail.com>
-In-Reply-To: <CAJ307EjyXxbGLK-PhBjf18p3AApYM-jGqA2L9q3xLS9wX16h_w@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 7 Sep 2022 13:07:59 +0800
-Message-ID: <CAEUhbmWStgz4oUEgrtAVU_YFdKSPFJrK-4kd+DP4jqLS51+X+A@mail.gmail.com>
-Subject: Re: [PATCH 49/51] io/channel-watch: Fix socket watch on Windows
-To: =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x834.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <20220902001936.108645-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.752, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,118 +78,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Cl=C3=A9ment,
+On 9/2/22 10:19 AM, Paolo Bonzini wrote:
+> The following scenario can happen if QEMU sets more RESET flags while
+> the KVM_RESET_DIRTY_RINGS ioctl is ongoing on another host CPU:
+> 
+>      CPU0                     CPU1               CPU2
+>      ------------------------ ------------------ ------------------------
+>                                                  fill gfn0
+>                                                  store-rel flags for gfn0
+>                                                  fill gfn1
+>                                                  store-rel flags for gfn1
+>      load-acq flags for gfn0
+>      set RESET for gfn0
+>      load-acq flags for gfn1
+>      set RESET for gfn1
+>      do ioctl! ----------->
+>                               ioctl(RESET_RINGS)
+>                                                  fill gfn2
+>                                                  store-rel flags for gfn2
+>      load-acq flags for gfn2
+>      set RESET for gfn2
+>                               process gfn0
+>                               process gfn1
+>                               process gfn2
+>      do ioctl!
+>      etc.
+> 
+> The three load-acquire in CPU0 synchronize with the three store-release
+> in CPU2, but CPU0 and CPU1 are only synchronized up to gfn1 and CPU1
+> may miss gfn2's fields other than flags.
+> 
+> The kernel must be able to cope with invalid values of the fields, and
+> userspace *will* invoke the ioctl once more.  However, once the RESET flag
+> is cleared on gfn2, it is lost forever, therefore in the above scenario
+> CPU1 must read the correct value of gfn2's fields.
+> 
+> Therefore RESET must be set with a store-release, that will synchronize
+> with KVM's load-acquire in CPU1.
+> 
+> Cc: Gavin Shan <gshan@redhat.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   accel/kvm/kvm-all.c | 18 +++++++++++++++++-
+>   1 file changed, 17 insertions(+), 1 deletion(-)
+> 
 
-On Tue, Sep 6, 2022 at 8:06 PM Cl=C3=A9ment Chigot <chigot@adacore.com> wro=
-te:
->
-> > > > I checked your patch, what you did seems to be something one would
-> > > > naturally write, but what is currently in the QEMU sources seems to=
- be
-> > > > written intentionally.
-> > > >
-> > > > +Paolo Bonzini , you are the one who implemented the socket watch o=
-n
-> > > > Windows. Could you please help analyze this issue?
-> > > >
-> > > > > to avoid WSAEnumNetworkEvents for the master GSource which only h=
-as
-> > > > > G_IO_HUP (or for any GSource having only that).
-> > > > > As I said above, the current code doesn't do anything with it any=
-way.
-> > > > > So, IMO, it's safe to do so.
-> > > > >
-> > > > > I'll send you my patch attached. I was planning to send it in the=
- following
-> > > > > weeks anyway. I was just waiting to be sure everything looks fine=
- on our
-> > > > > CI. Feel free to test and modify it if needed.
-> > > >
-> > > > I tested your patch. Unfortunately there is still one test case
-> > > > (migration-test.exe) throwing up the "Broken pipe" message.
-> > >
-> > > I must say I didn't fully test it against qemu testsuite yet. Maybe t=
-here are
-> > > some refinements to be done. "Broken pipe" might be linked to the mis=
-sing
-> > > G_IO_HUP support.
-> > >
-> > > > Can you test my patch instead to see if your gdb issue can be fixed=
-?
-> > >
-> > > Yeah sure. I'll try to do it this afternoon.
->
-> I can't explain how mad at me I am... I'm pretty sure your patch was the =
-first
-> thing I've tried when I encountered this issue. But it wasn't working
-> or IIRC the
-> issue went away but that was because the polling was actually disabled (l=
-ooping
-> indefinitely)...I'm suspecting that I already had changed the CreateEvent=
- for
-> WSACreateEvent which forces you to handle the reset.
-> Finally, I end up struggling reworking the whole check function...
-> But yeah, your patch does work fine on my gdb issues too.
+Reviewed-by: Gavin Shan <gshan@redhat.com>
 
-Good to know this patch works for you too.
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index 136c8eaed3..7c8ce18bdd 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -728,7 +728,23 @@ static bool dirty_gfn_is_dirtied(struct kvm_dirty_gfn *gfn)
+>   
+>   static void dirty_gfn_set_collected(struct kvm_dirty_gfn *gfn)
+>   {
+> -    gfn->flags = KVM_DIRTY_GFN_F_RESET;
+> +    /*
+> +     * Use a store-release so that the CPU that executes KVM_RESET_DIRTY_RINGS
+> +     * sees the full content of the ring:
+> +     *
+> +     * CPU0                     CPU1                         CPU2
+> +     * ------------------------------------------------------------------------------
+> +     *                                                       fill gfn0
+> +     *                                                       store-rel flags for gfn0
+> +     * load-acq flags for gfn0
+> +     * store-rel RESET for gfn0
+> +     *                          ioctl(RESET_RINGS)
+> +     *                            load-acq flags for gfn0
+> +     *                            check if flags have RESET
+> +     *
+> +     * The synchronization goes from CPU2 to CPU0 to CPU1.
+> +     */
+> +    qatomic_store_release(&gfn->flags, KVM_DIRTY_GFN_F_RESET);
+>   }
+>   
+>   /*
+> 
 
-> And I guess the events are reset when recv() is being called because of t=
-he
-> auto-reset feature set up by CreateEvent().
-> IIUC, what Marc-Andr=C3=A9 means by busy loop is the polling being loopin=
-g
-> indefinitely as I encountered. I can ensure that this patch doesn't do th=
-at.
-> It can be easily checked by setting the env variable G_MAIN_POLL_DEBUG.
-> It'll show what g_poll is doing and it's normally always available on
-> Windows.
->
-> Anyway, we'll wait for Paolo to see if he remembers why he had to call
-> WSAEnumNetworkEvents. Otherwize, let's go for your patch. Mine might
-> be a good start to improve the whole polling on Windows but if it doesn't
-> work in your case, it then needs some refinements.
->
-
-Yeah, this issue bugged me quite a lot. If we want to reset the event
-in qio_channel_socket_source_check(), we will have to do the following
-to make sure qtests are happy.
-
-diff --git a/io/channel-watch.c b/io/channel-watch.c
-index 43d38494f7..f1e1650b81 100644
---- a/io/channel-watch.c
-+++ b/io/channel-watch.c
-@@ -124,8 +124,6 @@ qio_channel_socket_source_check(GSource *source)
-return 0;
-}
-- WSAEnumNetworkEvents(ssource->socket, ssource->ioc->event, &ev);
--
-FD_ZERO(&rfds);
-FD_ZERO(&wfds);
-FD_ZERO(&xfds);
-@@ -153,6 +151,10 @@ qio_channel_socket_source_check(GSource *source)
-ssource->revents |=3D G_IO_PRI;
-}
-+ if (ssource->revents) {
-+ WSAEnumNetworkEvents(ssource->socket, ssource->ioc->event, &ev);
-+ }
-+
-return ssource->revents;
-}
-
-Removing "if (ssource->revents)" won't work.
-
-It seems to me that resetting the event twice (one time with the
-master Gsource, and the other time with the child GSource) causes some
-bizarre behavior. But MSDN [1] says
-
-    "Resetting an event that is already reset has no effect."
-
-[1] https://docs.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi=
--resetevent
-
-Regards,
-Bin
 
