@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12C355B0BC6
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 19:48:10 +0200 (CEST)
-Received: from localhost ([::1]:58896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F0405B0BCA
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 19:50:45 +0200 (CEST)
+Received: from localhost ([::1]:43596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVz9k-0004rs-Gz
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 13:48:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45394)
+	id 1oVzCG-0006MT-AN
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 13:50:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oVz2X-00012S-45
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 13:40:41 -0400
-Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:40620)
+ (Exim 4.90_1) (envelope-from <jaykhandkar2002@gmail.com>)
+ id 1oVz85-00040b-Rn
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 13:46:25 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:35397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oVz2U-0005GF-Rb
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 13:40:40 -0400
-Received: by mail-yb1-xb33.google.com with SMTP id f131so7092205ybf.7
- for <qemu-devel@nongnu.org>; Wed, 07 Sep 2022 10:40:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=Z6x46Rdi735PyBiwidhmpn60bv/pd/TJLauRCpO8Q4Q=;
- b=Fsw67hbGFWiTAW2kj9TLrirayzg8sGYx2D2T28ssGJNM3zKRvfre09DSU0V9MbNZ8Y
- +Yy1YSionw47WWfQWGV0O6gn14ifoDRIMhGJQ/9yNhGkJ+haGw/fKKd4lNgnsx3+csnF
- oI7BLrCu9IZ7V1UWtnYc7JWyillScFT22kwLjzGvsgRtg7cPno3GYdAgZxZPHdvPyy/D
- W5+I5kl09Z3AORtJI4scmyDXSFJHzJPGsS7tExoiJcEu0Z8OW0iuda/bylulhszefa4F
- IBrBzfK+0Y3S6kJ52gJOEMiziWDfcSCTBBDyd6yrMC1AR48fq8muMvoadMHXkhuNOkLI
- JLIg==
+ (Exim 4.90_1) (envelope-from <jaykhandkar2002@gmail.com>)
+ id 1oVz84-00068B-A6
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 13:46:25 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ m10-20020a17090a730a00b001fa986fd8eeso19130984pjk.0
+ for <qemu-devel@nongnu.org>; Wed, 07 Sep 2022 10:46:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=0RM4Sw/2uM7wKherlxRVeU2M3Po+2G0gvJfcqA9F1DM=;
+ b=IzEPtPwNrIpvh9B10WYHpFDqCSbXzbPBhj9/cOObox3nKCjYJNsePmitV7bIz0+lxh
+ VrEPfjW7R7CsBxjjlmc4+5H++nn9cXs39klBa/lfqeO5k5moMuTdlZblfGmwso5oYYs/
+ VlkgJQ8CBjMu0Oq7u/uRr1PBTtoIchnwJSfWf349XDZY3sEMAQl2o0KLzpCvql8O8au5
+ DUKJfrpYwhchGQYUa8sBvmmpmbNaqv+DvtDSX+4AEZH//114QGCmUywr5uolitpBo/W9
+ eYNVRKziJlrc9PnBcoibok4qROVN3Q35OoRAMK2anYP5lqagOTGQEphkX9vTmJ1VfWkQ
+ seGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=Z6x46Rdi735PyBiwidhmpn60bv/pd/TJLauRCpO8Q4Q=;
- b=N0rO5mP1fL/Ir/Jr9LLtOQd2M56/u2M1UlSVQVEv6xjT1XWcAs44nRVEKoABnArvHr
- 6ZPz0Zef2K5nnHR1j3FEIiXPympaski/Uve1/hTB60YWdIGIvi+oopfkT55+KI1Wo531
- pazjIkeutMaUtA+8maIuw6OJ7UFdzPWx25LvAFaatuZZKLdzC/KrtVywSV9TD3UtsP5d
- +MzluOpu/zgJhWnEDcOD/dp9g4FI/JL5Jy3MTYgPsFVl6fg0Jw9wPjiKFQk16ahiT3lt
- 7pJ6cgn+9P/KaXphqc4Uhbgs2kREl1zbRI+n5PW45FlJYTabUukrYsYUUdq4geU6/3I3
- 441Q==
-X-Gm-Message-State: ACgBeo1KAhnU5KiWoAVh7fZ8pk88+Gro9bt8MxmaqjR3M/B/0QaZbbyH
- nEv9v0dCK1ZI1kf/ZS0pap3VZRmqcArUOtQ7dHOSxg==
-X-Google-Smtp-Source: AA6agR4xwr2uwgwZ9qQOdbWb3mje7d/UieDLJYk5CzV0KihllxiUhp6wC9Z1TMWV+Dq6PoUEtEyUBEyf14deir6RDK4=
-X-Received: by 2002:a05:6902:1612:b0:6a8:e6b3:36e1 with SMTP id
- bw18-20020a056902161200b006a8e6b336e1mr3900993ybb.39.1662572437167; Wed, 07
- Sep 2022 10:40:37 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=0RM4Sw/2uM7wKherlxRVeU2M3Po+2G0gvJfcqA9F1DM=;
+ b=GpKaSEBpmR2T18XSScPC/2F3YU2kx2fBbB3hAVAa2D0G0MR5LwKxgtQ3/FROrPuhsY
+ JRSoYyfTAfAP3e/yQvqN4goJdQivQgrzMGmg0k1invFuMFMxy8vAzl/aXIzMGzdWXOWP
+ uAoRgJTGSXTG1WWRXmF6N2g2Wqqb9kn0CJHgL8hD4NVxu5r0LEc0C4wnsQPqFKpFDMP3
+ KzbSzhM9VWE+qsP4aXvPQDTDyEGtQA5IbXKT3BZ13Tbs9J2h1fZJPlTUUGZ5WZqRPhyG
+ HKwN89HMYNdn/kwXieU+dk9mi2RzlVXpHIlP3eFs3NRmuDchAz2iH0nCnhWTRAJfNE4c
+ KTvQ==
+X-Gm-Message-State: ACgBeo0DetSMV6fvbA7zCOj1ewvOk5aweg/XqvMbXkjoChPELVxZGl3H
+ irCazLcUfYvKFbk+VrwuCPU=
+X-Google-Smtp-Source: AA6agR7EQotSWwO+9JupFM91lhLGPTCt+2s8FyQ085NHZ/FpSLjk0DmXsYaw4ANKQeMkkzdRK5wq+g==
+X-Received: by 2002:a17:902:ba8f:b0:175:42c1:61ce with SMTP id
+ k15-20020a170902ba8f00b0017542c161cemr5250137pls.130.1662572782319; 
+ Wed, 07 Sep 2022 10:46:22 -0700 (PDT)
+Received: from thinkpad ([103.144.92.149]) by smtp.gmail.com with ESMTPSA id
+ t6-20020a17090340c600b0016cf3f124e1sm1937067pld.234.2022.09.07.10.46.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Sep 2022 10:46:21 -0700 (PDT)
+From: Jay Khandkar <jaykhandkar2002@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, mst@redhat.com,
+ Jay Khandkar <jaykhandkar2002@gmail.com>
+Subject: [PATCH V2] hw/intc: Handle software disabling of APIC correctly
+Date: Wed,  7 Sep 2022 23:14:11 +0530
+Message-Id: <20220907174410.25180-1-jaykhandkar2002@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <CAO=notwARj6d+UygiU4-JBKMJtyOhHmcNFp7C5jwqJReFT-kew@mail.gmail.com>
-In-Reply-To: <CAO=notwARj6d+UygiU4-JBKMJtyOhHmcNFp7C5jwqJReFT-kew@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 7 Sep 2022 18:40:26 +0100
-Message-ID: <CAFEAcA9brqMEZfyB-c2OjYFWuQPSS28u9_8vFte=zGwePh_Srw@mail.gmail.com>
-Subject: Re: Seeing qtest assertion failure with 7.1
-To: Patrick Venture <venture@google.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Peter Foley <pefoley@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=jaykhandkar2002@gmail.com; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,49 +88,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 7 Sept 2022 at 16:39, Patrick Venture <venture@google.com> wrote:
->
-> # Start of nvme tests
-> # Start of pci-device tests
-> # Start of pci-device-tests tests
-> # starting QEMU: exec ./qemu-system-aarch64 -qtest unix:/tmp/qtest-1431.s=
-ock -qtest-log /dev/null -chardev socket,path=3D/tmp/qtest-1431.qmp,id=3Dch=
-ar0 -mon chardev=3Dchar0,mode=3Dcontrol -display none -M virt, -cpu max -dr=
-ive id=3Ddrv0,if=3Dnone,file=3Dnull-co://,file.read-zeroes=3Don,format=3Dra=
-w -object memory-backend-ram,id=3Dpmr0,share=3Don,size=3D8 -device nvme,add=
-r=3D04.0,drive=3Ddrv0,serial=3Dfoo -accel qtest
->
-> # ERROR:../../src/qemu/tests/qtest/libqtest.c:338:qtest_init_without_qmp_=
-handshake: assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
-> stderr:
-> double free or corruption (out)
-> socket_accept failed: Resource temporarily unavailable
-> **
-> ERROR:../../src/qemu/tests/qtest/libqtest.c:338:qtest_init_without_qmp_ha=
-ndshake: assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
-> ../../src/qemu/tests/qtest/libqtest.c:165: kill_qemu() detected QEMU deat=
-h from signal 6 (Aborted) (core dumped)
->
-> I'm not seeing this reliably, and we haven't done a lot of digging yet, s=
-uch as enabling sanitizers, so I'll reply back to this thread with details =
-as I have them.
->
-> Has anyone seen this before or something like it?
+When the local APIC is in a software disabled state, all local interrupt
+sources must be masked and all attempts to unmask them should be
+ignored. Currently, we don't do either. Fix this by handling it
+correctly in apic_mem_write().
 
-Have a look in the source at what exactly the assertion
-failure in libqtest.c is checking for -- IIRC it's a pretty
-basic "did we open a socket fd" one. I think sometimes I
-used to see something like this if there's an old stale socket
-lying around in the test directory and the randomly generated
-socket filename happens to clash with it.
+Signed-off-by: Jay Khandkar <jaykhandkar2002@gmail.com>
+---
+ hw/intc/apic.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Everything after that is probably follow-on errors from the
-tests not being terribly clean about error handling.
+diff --git a/hw/intc/apic.c b/hw/intc/apic.c
+index 3df11c34d6..be26b5c913 100644
+--- a/hw/intc/apic.c
++++ b/hw/intc/apic.c
+@@ -793,6 +793,11 @@ static void apic_mem_write(void *opaque, hwaddr addr, uint64_t val,
+         break;
+     case 0x0f:
+         s->spurious_vec = val & 0x1ff;
++        if (!(val & APIC_SPURIO_ENABLED)) {
++            for (int i = 0; i < APIC_LVT_NB; i++) {
++                s->lvt[i] |= APIC_LVT_MASKED;
++            }
++        }
+         apic_update_irq(s);
+         break;
+     case 0x10 ... 0x17:
+@@ -812,6 +817,9 @@ static void apic_mem_write(void *opaque, hwaddr addr, uint64_t val,
+     case 0x32 ... 0x37:
+         {
+             int n = index - 0x32;
++            if (!(s->spurious_vec & APIC_SPURIO_ENABLED)) {
++                val |= APIC_LVT_MASKED;
++            }
+             s->lvt[n] = val;
+             if (n == APIC_LVT_TIMER) {
+                 apic_timer_update(s, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
+-- 
+2.37.3
 
-Are you running 'make check' with a -j option for parallel?
-(This is supposed to work, and it's the standard way I run
-'make check', so if it's flaky we need to fix it, but it
-would be interesting to know if the issue repros at -j1.)
-
--- PMM
 
