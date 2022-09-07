@@ -2,83 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D49D65B0EFE
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 23:13:34 +0200 (CEST)
-Received: from localhost ([::1]:36438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 198625B0FD6
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 00:32:05 +0200 (CEST)
+Received: from localhost ([::1]:60564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oW2MX-00067U-Eu
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 17:13:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33232)
+	id 1oW3aV-0004MC-Cg
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 18:32:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oW2L1-0004kL-HQ
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 17:11:59 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:40920)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oW2Kz-00040C-Un
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 17:11:59 -0400
-Received: by mail-wr1-x436.google.com with SMTP id e16so3262095wrx.7
- for <qemu-devel@nongnu.org>; Wed, 07 Sep 2022 14:11:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=dozdF4efgjNNqGN8j+SEuB2HLyk2Mw3dgEUCe5TN01U=;
- b=vZl6w68OvnBvz6hY5TqxqlnYDvAippqWyt2NDwWsDB+bcStyz2tlNgPYNUC1WegPYV
- oHNF8ZKrZNSGfODUeogWE1pac1SuvctWegOux0xQnMK15++rK6OTIzPtPsdcEkygu7sl
- JEJCoDQY7G0LhmguZWeyy6yHmQLw5UJ+ux5HHve92FhU60/J7TUpB5DPdRBdsn0NZ5ZC
- fS4Tqe62ud7hFUHO42ANIN049evh0TB9JjAeVlRROyCszL04sy0Xs2M3SBO1Mxdc3hac
- vAJVa+KfTlnU56BRAIOzzTNBqAQPWwrncLh0Ko7pmG8yXD/sKSXcVgBFcarwav3Vo9V5
- wAVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=dozdF4efgjNNqGN8j+SEuB2HLyk2Mw3dgEUCe5TN01U=;
- b=W5eNmJt4YFLPjiWOKFIvlECu1pcp46h/vTUN55PPt9BJFQ60SkQW7oaWHqKaQkYLgH
- iWAItPm10Y4AkclI3oxZw4LS9eIB/dREulX6MxqMujL3jn3/dPYy/G/ojVlJIk0LderM
- A94w5PGgOmwXI9/b9V6IcJlDzjo0shdOeA4JCgPok9xaSkOiw3H9jhsboxJPlu0rjXIC
- rqVf82NY7o0pbAL72SqtfMA5dssgaedbYriKpBf+IgTsDqjT2mwFftXZrO/XX7ADHLM4
- Iu64cmCIKPIHP4brMoxnVXI/Cb5eFfonjqCOUYY51wVNVymUVBxTIaMG8aNGUcQSxXTF
- LaLQ==
-X-Gm-Message-State: ACgBeo2h7Bt0pqn5FpXCC4K3XOL9x+vpcRYBZ/+KeF4xRrKnZVGSYqqG
- QO4PqrNttcwLiScjsOIgQzf/ag==
-X-Google-Smtp-Source: AA6agR6oIt02vxuf1Il3BJzjBK1X31DyjdeIcDt12QltQGU16SYb7P+RGqEpexl6MlxzZppBYQYy/Q==
-X-Received: by 2002:adf:ea4a:0:b0:228:635a:d491 with SMTP id
- j10-20020adfea4a000000b00228635ad491mr3309222wrn.137.1662585115728; 
- Wed, 07 Sep 2022 14:11:55 -0700 (PDT)
-Received: from [192.168.1.87] ([109.78.20.57])
- by smtp.gmail.com with ESMTPSA id
- w14-20020adfd4ce000000b00228de351fc0sm6652360wrk.38.2022.09.07.14.11.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Sep 2022 14:11:54 -0700 (PDT)
-Message-ID: <abbe795a-997f-3f2f-2372-7679950777dd@linaro.org>
-Date: Wed, 7 Sep 2022 22:11:45 +0100
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1oW3X6-0001cm-OZ
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 18:28:32 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42328)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1oW3X4-00068P-Sk
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 18:28:32 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 287MCAJ7031577
+ for <qemu-devel@nongnu.org>; Wed, 7 Sep 2022 22:28:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=7MWhhaQNO69jq0gPgYUr7DP2VPU4RF+2UxBWEk8snNQ=;
+ b=aOF23n/wcWL6MQcFjQSPYEG8xttlmqhF768YGfCX3vpYkppBl6peGSYTVnXnAZ2TdnnD
+ vqaX1MZyRDm66HvnMM9Eij76YNgLkPM+WU2ak6WYiLQqUw+/UuAM4YeYrSJvl7KadA8S
+ I7wiuhq48QiD1atQs/hVl+/I3+jYJYFJyZ+XvvyLtcHlouGqGMGyzhdr/F7qzh7pbIqs
+ hkqvcWuMjvyJejmQciNXDkCI0cxUbLJ5n4rgDd130UFZowq7UJiIOM5GRDTBu/gKpFuK
+ eDP6loDZDs6EGXUIY6PgTRun6AkbmZpAUotVXoKo1bKPRqYEbcKYxpWWxxnHG4hbsF29 EA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jf3vqrcbg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 07 Sep 2022 22:28:27 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 287MSQbA008048
+ for <qemu-devel@nongnu.org>; Wed, 7 Sep 2022 22:28:26 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jf3vqrcb5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 07 Sep 2022 22:28:26 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 287MLTSa023394;
+ Wed, 7 Sep 2022 22:28:25 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma01dal.us.ibm.com with ESMTP id 3jbxja3keb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 07 Sep 2022 22:28:25 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 287MSOa33080798
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 7 Sep 2022 22:28:24 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8E028AC05B;
+ Wed,  7 Sep 2022 22:28:24 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 778FCAC059;
+ Wed,  7 Sep 2022 22:28:24 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+ Wed,  7 Sep 2022 22:28:24 +0000 (GMT)
+From: Stefan Berger <stefanb@linux.ibm.com>
+To: qemu-devel@nongnu.org, marcandre.lureau@redhat.com
+Cc: Stefan Berger <stefanb@linux.ibm.com>
+Subject: [PATCH 0/2] tpm_emulator: Signal swtpm to again lock storage
+Date: Wed,  7 Sep 2022 18:28:19 -0400
+Message-Id: <20220907222821.1285082-1-stefanb@linux.ibm.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] Hexagon (target/hexagon) implement mutability mask for
- GPRs
-Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>, Brian Cain <bcain@quicinc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20220901212931.27310-1-bcain@quicinc.com>
- <SN4PR0201MB88086141CEDBE5911BD2324BDE7E9@SN4PR0201MB8808.namprd02.prod.outlook.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <SN4PR0201MB88086141CEDBE5911BD2324BDE7E9@SN4PR0201MB8808.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -62
-X-Spam_score: -6.3
-X-Spam_bar: ------
-X-Spam_report: (-6.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.199,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 8YbkyjjRxcmJsGfgwxlrGdGNf7Y6sSXV
+X-Proofpoint-ORIG-GUID: agHeGcodGjFuvmYJkn5IC-FuCOjrptzP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-07_10,2022-09-07_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0
+ impostorscore=0 mlxlogscore=999 suspectscore=0 spamscore=0 mlxscore=0
+ adultscore=0 priorityscore=1501 phishscore=0 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2209070081
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,22 +110,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/6/22 23:26, Taylor Simpson wrote:
->> diff --git a/target/hexagon/genptr.c b/target/hexagon/genptr.c index
->> 8a334ba07b..21385f556e 100644
->> --- a/target/hexagon/genptr.c
->> +++ b/target/hexagon/genptr.c
->>   static inline void gen_log_reg_write(int rnum, TCGv val)  {
->> -    tcg_gen_mov_tl(hex_new_value[rnum], val);
->> +    const hexagon_mut_entry entry = gpr_mut_masks[rnum];
->> +    if (entry.present) {
->> +        gen_masked_reg_write(hex_gpr[rnum], val, hex_new_value[rnum],
-> 
-> You can't write to hex_gpr here.  You have to wait to make sure the packet will commit.  Put this result back into val and do the mov to hex_new_value unconditionally.
+Swtpm has been extended to release the lock on the storage where its state
+is written to upon migration of the last one of its state blobs. Signal
+swtpm to again lock the storage upon migration fallback. An explicit signal
+helps swtpm to lock the storage earlier because otherwise it would have
+to wait for the next TPM command from the VM.
 
-The feedback, then, is that the operands are confusingly ordered -- the output is to 
-hex_new_value.  Brian, tcg functions generally list outputs first.
+Releasing the lock on the storage is necessary for setups where the storage
+holding the TPM state is shared between hosts.
 
+Regards,
+   Stefan
 
-r~
+Stefan Berger (2):
+  tpm_emulator: Use latest tpm_ioctl.h from swtpm project
+  tpm_emulator: Have swtpm relock storage upon migration fall-back
+
+ backends/tpm/tpm_emulator.c | 60 ++++++++++++++++++++++-
+ backends/tpm/tpm_ioctl.h    | 96 +++++++++++++++++++++++++++++--------
+ backends/tpm/trace-events   |  2 +
+ 3 files changed, 137 insertions(+), 21 deletions(-)
+
+-- 
+2.37.2
+
 
