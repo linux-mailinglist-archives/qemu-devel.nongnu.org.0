@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF8CA5AFF15
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 10:35:48 +0200 (CEST)
-Received: from localhost ([::1]:57548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61CF35AFFDA
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 11:06:06 +0200 (CEST)
+Received: from localhost ([::1]:42090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVqXE-0006Xp-1q
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 04:35:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45084)
+	id 1oVr0X-0000h3-9u
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 05:06:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=242877ce7=alistair.francis@wdc.com>)
- id 1oVq4p-0004tL-Sd
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:06:31 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:1920)
+ id 1oVq4s-0004tj-Eg
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:06:33 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:1896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=242877ce7=alistair.francis@wdc.com>)
- id 1oVq4o-0004UV-0I
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:06:27 -0400
+ id 1oVq4q-0004Ol-1I
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:06:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1662537985; x=1694073985;
+ t=1662537987; x=1694073987;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=W2OXsaXRwFwaKoi0Zy/FqKkPnlxS7Iy2LGZA5zBtT3A=;
- b=FrfNryj29wogvLMX5CkuQdmGDSXTIBnvdENIMWbwX2iD2CzmfQoSZBj0
- pD1GQt0xn/LXj2Qo9Yg0Y9jZFhU0CEMj13UnXbje02gNq4WL1FRuYjXn7
- /iLgEmHkReep4HExF5dG2DWZM3ZvsHEyl4BBIvPpSL0q43Zebe6KW5qrR
- NE7BzjlmE346ieG16ts6O6ILL0X2zSXCMTx64zVSpPG1bswtlVePL9fLZ
- PXDmrgMDtdSdNgAkWijqQHw881976Gm84S6QAQYFPSwbXopZRc5PuciU/
- 4c/HCqGUVGraGTkIq4zDcwgM1dOlv+6NjG28BjkNuMJcyt8JIb3jJ1a4/ g==;
-X-IronPort-AV: E=Sophos;i="5.93,296,1654531200"; d="scan'208";a="210715100"
+ bh=Kvj0kBiwedWOTcCYKAPwBI4+j920wEbwGu194I7ybvU=;
+ b=dqKrjkJEivzkg0fd9sk9GbVUERPyG+JjanuQvltOr+k22s3y9MJNH5m/
+ xe5viIMwUQq2UbyvkLB7EaxRFntQZlN3ZBVi2N7YbJnzPQP2dZfyR/1Tl
+ nHxqN5t7FXStihIvO3UFuRjfQVSwggqh7uVRYoDkEqv4yCXZ5HOmHLQqC
+ N9AJnwBqP+wVCBzrpLg/DTF0ljM9GbDOF2hGkWAjD3wFUESMBe6P8gh5t
+ r9qmrn4q5VsidfCXqL2XajcwbUO9tdu4QgXas2MsSmEdBMzoPWj6bVKz7
+ IEsYE4rENxcFD9YDrv+Kc01uxJ3AmQji8Sbw4JtcvZ0tViZLsCa0kORC8 A==;
+X-IronPort-AV: E=Sophos;i="5.93,296,1654531200"; d="scan'208";a="210715104"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 07 Sep 2022 16:05:12 +0800
-IronPort-SDR: p6q0mB+LqEWsAJVIXm+tLyYckORYo7k6iWE0uYD+F7oDDQAKyvDXIStEiovZfzwGaQOoYWm2xv
- JMzBbxpo1Iah1/cNyPtwvuTx1z5Uio++nXyFA0cJnAzhHcUPtcDcvjo7aMuCgrWKbBqTCixmH6
- VxYVNbcdxqJNdfSHO359xb9/E0NAchRqeXBZGj9Kvi7d0GxaX+TMPO/UbBnTzUt33UW8HW/Kk0
- 6NWDezOcCDhwnXz7w1rZaiNsS6gMknGKKe6OKm/IXWGz2dnSzWeQgdLbk4R2Myn/Gmg96NOjyw
- P6tkzOXDLiGpc/7dle7ZBnMa
+ by ob1.hgst.iphmx.com with ESMTP; 07 Sep 2022 16:05:14 +0800
+IronPort-SDR: WsU1qtCfA303H0vnJ6NNbPGmsPaamoKyfFCuMMOpdQ6uUihFu5KswgeH/EYHS2Pqm1/H5W+Ow0
+ CCh/h6++RrAFxZS6fe3nRI2kl63ddmM2tNeSXMiWDgBudjlAIX1/eiSPfzzCCGltC4RiOQ+8t4
+ TGeeEW1oh8B0dWioETVGZp3c+1JcfNuaObpyf2LT59l/evxnvcPKCvflCOvebvlFZIrg8cK1Q5
+ 2nv4G5DgYgol1UwAt5WK50/B1XrKj08+TXSEHKOZ0fAcxHoINRlccIMUxw34dD7RKetndlXClG
+ gZz40bam47eIdT/Zs/8sqvkS
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 07 Sep 2022 00:20:11 -0700
-IronPort-SDR: ZfFDRtysyXaSNG9d1zye7GXYODlWOWOgqjZdF3bXkvlWnikEmqSmf7ns0UWRFeuRZxTUahUgIy
- E8WKeUkrFd6pRK0ok6FEh2VA1ywPpfQvodNhEx0EfV50w5TULG6mjK2kJiQasA/e9/tG8cUafV
- Jr48nkwHvyNsAHeSzg+WyR9u13E2xHtCkdCKKSsKmxxM12wa/GnvJed3rot+jCEJ8q5x56YoC7
- HSvEr0eFdfXNx2xehfHNCtysbwGtYclyz25B1yHX9olLcDYqbVixeTwPMazFPOP/8lMB5fTQiW
- mD0=
+ 07 Sep 2022 00:20:13 -0700
+IronPort-SDR: XoB2DkVEZikcWnfz/yW0IVxUdyDVwO0cEPPUHqbOEyHinf+JZpE+OnApl2jMQCTABRQocfxn7y
+ lc6OlcyNyT7+dAfQMSgFW5Mgk38NM/s0l0gdOTtRfntyA99a3ZA8BsGoYwoRm0OG0egOwWEqKe
+ qiDqR46vxX6SsWyR4eKp5PTzw3KYqdB+vt8yH/CLIXuxR5O4ofb3HFuU9UBVnWMoOkZ/6ZOnX2
+ ebYj9K4cPENo3ccrP7UvdxQSN9zzmHd/trM9Of/LIkrIQYMUlPMyV/Sba+2QODCcmYad9/QoUN
+ MD4=
 WDCIronportException: Internal
 Received: from unknown (HELO toolbox.wdc.com) ([10.225.167.94])
- by uls-op-cesaip01.wdc.com with ESMTP; 07 Sep 2022 01:05:13 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 07 Sep 2022 01:05:15 -0700
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: alistair23@gmail.com, Conor Dooley <conor.dooley@microchip.com>,
  Rob Herring <robh@kernel.org>, Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 32/44] hw/riscv: virt: fix the plic's address cells
-Date: Wed,  7 Sep 2022 10:03:41 +0200
-Message-Id: <20220907080353.111926-33-alistair.francis@wdc.com>
+Subject: [PULL 33/44] hw/riscv: virt: fix syscon subnode paths
+Date: Wed,  7 Sep 2022 10:03:42 +0200
+Message-Id: <20220907080353.111926-34-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220907080353.111926-1-alistair.francis@wdc.com>
 References: <20220907080353.111926-1-alistair.francis@wdc.com>
@@ -94,51 +94,53 @@ From:  Alistair Francis via <qemu-devel@nongnu.org>
 
 From: Conor Dooley <conor.dooley@microchip.com>
 
-When optional AIA PLIC support was added the to the virt machine, the
-address cells property was removed leading the issues with dt-validate
-on a dump from the virt machine:
-/stuff/qemu/qemu.dtb: plic@c000000: '#address-cells' is a required property
-        From schema: /stuff/linux/Documentation/devicetree/bindings/interrupt-controller/sifive,plic-1.0.0.yaml
-Add back the property to suppress the warning.
+The reset and poweroff features of the syscon were originally added to
+top level, which is a valid path for a syscon subnode. Subsequently a
+reorganisation was carried out while implementing NUMA in which the
+subnodes were moved into the /soc node. As /soc is a "simple-bus", this
+path is invalid, and so dt-validate produces the following warnings:
+
+/stuff/qemu/qemu.dtb: soc: poweroff: {'value': [[21845]], 'offset': [[0]], 'regmap': [[4]], 'compatible': ['syscon-poweroff']} should not be valid under {'type': 'object'}
+        From schema: /home/conor/.local/lib/python3.9/site-packages/dtschema/schemas/simple-bus.yaml
+/stuff/qemu/qemu.dtb: soc: reboot: {'value': [[30583]], 'offset': [[0]], 'regmap': [[4]], 'compatible': ['syscon-reboot']} should not be valid under {'type': 'object'}
+        From schema: /home/conor/.local/lib/python3.9/site-packages/dtschema/schemas/simple-bus.yaml
+
+Move the syscon subnodes back to the top level and silence the warnings.
 
 Reported-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-Message-id: 20220810184612.157317-3-mail@conchuod.ie
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20220810184612.157317-4-mail@conchuod.ie
 Link: https://lore.kernel.org/linux-riscv/20220803170552.GA2250266-robh@kernel.org/
-Fixes: e6faee6585 ("hw/riscv: virt: Add optional AIA APLIC support to virt machine")
+Fixes: 18df0b4695 ("hw/riscv: virt: Allow creating multiple NUMA sockets")
 Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/virt.h | 1 +
- hw/riscv/virt.c         | 2 ++
- 2 files changed, 3 insertions(+)
+ hw/riscv/virt.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-index 984e55c77f..be4ab8fe7f 100644
---- a/include/hw/riscv/virt.h
-+++ b/include/hw/riscv/virt.h
-@@ -111,6 +111,7 @@ enum {
- 
- #define FDT_PCI_ADDR_CELLS    3
- #define FDT_PCI_INT_CELLS     1
-+#define FDT_PLIC_ADDR_CELLS   0
- #define FDT_PLIC_INT_CELLS    1
- #define FDT_APLIC_INT_CELLS   2
- #define FDT_IMSIC_INT_CELLS   0
 diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 9d36133b74..f19758e1df 100644
+index f19758e1df..686341a0e2 100644
 --- a/hw/riscv/virt.c
 +++ b/hw/riscv/virt.c
-@@ -466,6 +466,8 @@ static void create_fdt_socket_plic(RISCVVirtState *s,
-     qemu_fdt_add_subnode(mc->fdt, plic_name);
-     qemu_fdt_setprop_cell(mc->fdt, plic_name,
-         "#interrupt-cells", FDT_PLIC_INT_CELLS);
-+    qemu_fdt_setprop_cell(mc->fdt, plic_name,
-+        "#address-cells", FDT_PLIC_ADDR_CELLS);
-     qemu_fdt_setprop_string_array(mc->fdt, plic_name, "compatible",
-                                   (char **)&plic_compat,
-                                   ARRAY_SIZE(plic_compat));
+@@ -897,7 +897,7 @@ static void create_fdt_reset(RISCVVirtState *s, const MemMapEntry *memmap,
+     test_phandle = qemu_fdt_get_phandle(mc->fdt, name);
+     g_free(name);
+ 
+-    name = g_strdup_printf("/soc/reboot");
++    name = g_strdup_printf("/reboot");
+     qemu_fdt_add_subnode(mc->fdt, name);
+     qemu_fdt_setprop_string(mc->fdt, name, "compatible", "syscon-reboot");
+     qemu_fdt_setprop_cell(mc->fdt, name, "regmap", test_phandle);
+@@ -905,7 +905,7 @@ static void create_fdt_reset(RISCVVirtState *s, const MemMapEntry *memmap,
+     qemu_fdt_setprop_cell(mc->fdt, name, "value", FINISHER_RESET);
+     g_free(name);
+ 
+-    name = g_strdup_printf("/soc/poweroff");
++    name = g_strdup_printf("/poweroff");
+     qemu_fdt_add_subnode(mc->fdt, name);
+     qemu_fdt_setprop_string(mc->fdt, name, "compatible", "syscon-poweroff");
+     qemu_fdt_setprop_cell(mc->fdt, name, "regmap", test_phandle);
 -- 
 2.37.2
 
