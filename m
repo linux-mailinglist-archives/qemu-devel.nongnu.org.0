@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870445B0716
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 16:36:34 +0200 (CEST)
-Received: from localhost ([::1]:39986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4084F5B071E
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 16:39:23 +0200 (CEST)
+Received: from localhost ([::1]:52182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVwAL-0008MY-FP
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 10:36:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36776)
+	id 1oVwD4-0001rW-Ei
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 10:39:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oVw8T-0006Dk-0j; Wed, 07 Sep 2022 10:34:37 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:32316)
+ id 1oVwBH-0008VB-FQ; Wed, 07 Sep 2022 10:37:33 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:11073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oVw8N-0008W8-86; Wed, 07 Sep 2022 10:34:36 -0400
+ id 1oVwBE-0000Yn-Og; Wed, 07 Sep 2022 10:37:30 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id EB3E874632B;
- Wed,  7 Sep 2022 16:34:26 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 4D6C174633D;
+ Wed,  7 Sep 2022 16:37:26 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 7C9E17461AE; Wed,  7 Sep 2022 16:34:26 +0200 (CEST)
+ id D2BE974632B; Wed,  7 Sep 2022 16:37:25 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 7AE86745702;
- Wed,  7 Sep 2022 16:34:26 +0200 (CEST)
-Date: Wed, 7 Sep 2022 16:34:26 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id D14FF746335;
+ Wed,  7 Sep 2022 16:37:25 +0200 (CEST)
+Date: Wed, 7 Sep 2022 16:37:25 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
 cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
  Daniel Henrique Barboza <danielhb413@gmail.com>, 
  Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 09/20] ppc440_sdram: Split off map/unmap of sdram banks
- for later reuse
-In-Reply-To: <2fd70fa7-3620-2206-0d9a-2287e94e4a90@kaod.org>
-Message-ID: <7be73bd-601a-46a5-4c71-f5689f30b1c4@eik.bme.hu>
+Subject: Re: [PATCH 10/20] ppc440_sdram: Implement enable bit in the DDR2
+ SDRAM controller
+In-Reply-To: <89b5bf70-87ee-f9b0-f731-a3abbce0c893@kaod.org>
+Message-ID: <eee76724-42a0-3cb3-1b4b-26d8ab401e50@eik.bme.hu>
 References: <cover.1660926381.git.balaton@eik.bme.hu>
- <fdce3e916e0020fbc084ba270d3c6d93e5f9a28f.1660926381.git.balaton@eik.bme.hu>
- <2fd70fa7-3620-2206-0d9a-2287e94e4a90@kaod.org>
+ <b37dac18c136a1b3dfc40b443a55480dd1ad8e90.1660926381.git.balaton@eik.bme.hu>
+ <89b5bf70-87ee-f9b0-f731-a3abbce0c893@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/mixed;
- boundary="3866299591-914918268-1662561266=:35947"
+ boundary="3866299591-313994485-1662561445=:35947"
 X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,52 +68,124 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-914918268-1662561266=:35947
+--3866299591-313994485-1662561445=:35947
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8BIT
 
 On Wed, 7 Sep 2022, Cédric Le Goater wrote:
 > On 8/19/22 18:55, BALATON Zoltan wrote:
+>> To allow removing the do_init hack we need to improve the DDR2 SDRAM
+>> controller model to handle the enable/disable bit that it ignored so
+>> far.
+>> 
 >> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 >> ---
->>   hw/ppc/ppc440_uc.c | 31 +++++++++++++++++++------------
->>   1 file changed, 19 insertions(+), 12 deletions(-)
+>>   hw/ppc/ppc440_uc.c | 34 ++++++++++++++++++++++++++++++++--
+>>   1 file changed, 32 insertions(+), 2 deletions(-)
 >> 
 >> diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
->> index 3507c35b63..c33f91e134 100644
+>> index c33f91e134..7c1513ff69 100644
 >> --- a/hw/ppc/ppc440_uc.c
 >> +++ b/hw/ppc/ppc440_uc.c
->> @@ -561,26 +561,33 @@ static uint64_t sdram_size(uint32_t bcr)
->>       return size;
+>> @@ -23,6 +23,7 @@
+>>   #include "sysemu/reset.h"
+>>   #include "ppc440.h"
+>>   #include "qom/object.h"
+>> +#include "trace.h"
+>>     /*****************************************************************************/
+>>   /* L2 Cache as SRAM */
+>> @@ -484,6 +485,7 @@ void ppc4xx_sdr_init(CPUPPCState *env)
+>>   /* SDRAM controller */
+>>   typedef struct ppc440_sdram_t {
+>>       uint32_t addr;
+>> +    uint32_t mcopt2;
+>>       int nbanks;
+>>       Ppc4xxSdramBank bank[4];
+>>   } ppc440_sdram_t;
+>> @@ -581,12 +583,15 @@ static void sdram_set_bcr(ppc440_sdram_t *sdram, int 
+>> i,
+>>   {
+>>       if (sdram->bank[i].bcr & 1) {
+>>           /* First unmap RAM if enabled */
+>> +        trace_ppc4xx_sdram_unmap(sdram_base(sdram->bank[i].bcr),
+>> +                                 sdram_size(sdram->bank[i].bcr));
+>>           sdram_bank_unmap(&sdram->bank[i]);
+>>       }
+>>       sdram->bank[i].bcr = bcr & 0xffe0ffc1;
+>>       sdram->bank[i].base = sdram_base(bcr);
+>>       sdram->bank[i].size = sdram_size(bcr);
+>>       if (enabled && (bcr & 1)) {
+>> +        trace_ppc4xx_sdram_map(sdram_base(bcr), sdram_size(bcr));
+>>           sdram_bank_map(&sdram->bank[i]);
+>>       }
 >>   }
->>   +static void sdram_bank_map(Ppc4xxSdramBank *bank)
+>> @@ -596,7 +601,7 @@ static void sdram_map_bcr(ppc440_sdram_t *sdram)
+>>       int i;
+>>         for (i = 0; i < sdram->nbanks; i++) {
+>> -        if (sdram->bank[i].size != 0) {
+>> +        if (sdram->bank[i].size) {
+>>               sdram_set_bcr(sdram, i, sdram_bcr(sdram->bank[i].base,
+>>                                                 sdram->bank[i].size), 1);
+>>           } else {
+>> @@ -605,6 +610,17 @@ static void sdram_map_bcr(ppc440_sdram_t *sdram)
+>>       }
+>>   }
+>>   +static void sdram_unmap_bcr(ppc440_sdram_t *sdram)
 >> +{
->> +    memory_region_init(&bank->container, NULL, "sdram-container", 
->> bank->size);
->
-> I don't think we need to init the ->container memory region each time.
-> This could be done once and for all in the realize handler.
->
->> +    memory_region_add_subregion(&bank->container, 0, &bank->ram);
->> +    memory_region_add_subregion(get_system_memory(), bank->base,
->> +                                &bank->container);
+>> +    int i;
+>> +
+>> +    for (i = 0; i < sdram->nbanks; i++) {
+>> +        if (sdram->bank[i].size) {
+>> +            sdram_set_bcr(sdram, i, sdram->bank[i].bcr & ~1, 0);
+>> +        }
+>> +    }
 >> +}
 >> +
->> +static void sdram_bank_unmap(Ppc4xxSdramBank *bank)
->> +{
->> +    memory_region_del_subregion(get_system_memory(), &bank->container);
->> +    memory_region_del_subregion(&bank->container, &bank->ram);
->> +    object_unparent(OBJECT(&bank->container));
+>>   static uint32_t dcr_read_sdram(void *opaque, int dcrn)
+>>   {
+>>       ppc440_sdram_t *sdram = opaque;
+>> @@ -636,7 +652,7 @@ static uint32_t dcr_read_sdram(void *opaque, int dcrn)
+>>               ret = 0x80000000;
+>>               break;
+>>           case 0x21: /* SDRAM_MCOPT2 */
+>> -            ret = 0x08000000;
+>> +            ret = sdram->mcopt2;
+>>               break;
+>>           case 0x40: /* SDRAM_MB0CF */
+>>               ret = 0x00008001;
+>> @@ -680,6 +696,19 @@ static void dcr_write_sdram(void *opaque, int dcrn, 
+>> uint32_t val)
+>>           switch (sdram->addr) {
+>>           case 0x00: /* B0CR */
+>>               break;
+>> +        case 0x21: /* SDRAM_MCOPT2 */
+>> +            if (!(sdram->mcopt2 & 0x08000000) && (val & 0x08000000)) {
+>> +                trace_ppc4xx_sdram_enable("enable");
+>> +                /* validate all RAM mappings */
+>> +                sdram_map_bcr(sdram);
+>> +                sdram->mcopt2 |= 0x08000000;
+>> +            } else if ((sdram->mcopt2 & 0x08000000) && !(val & 
+>> 0x08000000)) {
+>> +                trace_ppc4xx_sdram_enable("disable");
+>> +                /* invalidate all RAM mappings */
+>> +                sdram_unmap_bcr(sdram);
+>> +                sdram->mcopt2 &= ~0x08000000;
+>> +            }
+>> +            break;
+>>           default:
+>>               break;
+>>           }
+>> @@ -694,6 +723,7 @@ static void sdram_reset(void *opaque)
+>>       ppc440_sdram_t *sdram = opaque;
+>>         sdram->addr = 0;
+>> +    sdram->mcopt2 = 0x08000000;
 >
-> object_unparent could be dropped if the memory_region_init was called in
-> realize.
->
-> Also, memory_region_set_enabled() might be a better alternative.
+> Introducing a define for the 0x08000000 value would make the code easier
+> to read.
 
-I think these could be considered as a follow up later, I don't want to 
-change it now to avoid breaking it more as I've already managed to break 
-ref405ep as you found (this will be fixed in v2) so I'd not try to change 
-this in this series.
+How about BIT(27) instead of a new define just for this one? Adding e 
+define would probably lead to a long name which results in split lines and 
+less redable code in the end.
 
 Regards,
 BALATON Zoltan
@@ -122,39 +194,10 @@ BALATON Zoltan
 >
 > C.
 >
->
->> +}
->> +
->>   static void sdram_set_bcr(ppc440_sdram_t *sdram, int i,
->>                             uint32_t bcr, int enabled)
->>   {
->>       if (sdram->bank[i].bcr & 1) {
->>           /* First unmap RAM if enabled */
->> -        memory_region_del_subregion(get_system_memory(),
->> -                                    &sdram->bank[i].container);
->> -        memory_region_del_subregion(&sdram->bank[i].container,
->> -                                    &sdram->bank[i].ram);
->> -        object_unparent(OBJECT(&sdram->bank[i].container));
->> +        sdram_bank_unmap(&sdram->bank[i]);
->>       }
->>       sdram->bank[i].bcr = bcr & 0xffe0ffc1;
->> +    sdram->bank[i].base = sdram_base(bcr);
->> +    sdram->bank[i].size = sdram_size(bcr);
->>       if (enabled && (bcr & 1)) {
->> -        memory_region_init(&sdram->bank[i].container, NULL, 
->> "sdram-container",
->> -                           sdram_size(bcr));
->> -        memory_region_add_subregion(&sdram->bank[i].container, 0,
->> -                                    &sdram->bank[i].ram);
->> -        memory_region_add_subregion(get_system_memory(),
->> -                                    sdram_base(bcr),
->> -                                    &sdram->bank[i].container);
->> +        sdram_bank_map(&sdram->bank[i]);
->>       }
 >>   }
->> 
+>>     void ppc440_sdram_init(CPUPPCState *env, int nbanks,
 >
 >
 >
---3866299591-914918268-1662561266=:35947--
+--3866299591-313994485-1662561445=:35947--
 
