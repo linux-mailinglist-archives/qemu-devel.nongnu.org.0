@@ -2,70 +2,134 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 814015B08B7
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 17:39:47 +0200 (CEST)
-Received: from localhost ([::1]:55860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3DDC5B08C5
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 17:41:43 +0200 (CEST)
+Received: from localhost ([::1]:60138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVx9W-0006sr-0t
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 11:39:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37454)
+	id 1oVxBO-000118-TD
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 11:41:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1oVx6x-0004L9-OX
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 11:37:09 -0400
-Received: from mail-qv1-xf30.google.com ([2607:f8b0:4864:20::f30]:38778)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1oVx6v-0001ov-3c
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 11:37:06 -0400
-Received: by mail-qv1-xf30.google.com with SMTP id i15so2302783qvp.5
- for <qemu-devel@nongnu.org>; Wed, 07 Sep 2022 08:37:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date; bh=+7cGvg4K0XvZZ8RhfQjW0cIqMiUI4b7X7zacj0/r/oc=;
- b=HpAhmXfzqhH+2deWH+5Lqz5mlSGivw/QJ3chBSbVq6VYwC4v8D3hYIqwVsXMfyMfk/
- ZYA8K4ebA/t6JIKRCVPChsVtYCdd3wFe4A8VSolw3mzpH3hXYbY3uhptok7CQPG2NlTy
- E+apcKjWK4/MLK1CJQ41cOeEmiEAS1w9CD4NrdKUqxnS4/Er/PBLgMPbZe4i5J6vqKYG
- EP7jnJPssvMxJFALZXYla6PExXNId13okQhl0B/PcY5NOCPGlMT8ZLf5A+FPrtmBb/4h
- EESlSETwWc7MkB7b3fldzMWCHBXhjkE1JqMlFLAurTluCyhKuHETIXfVcGBgjYIcf+iw
- LsMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date;
- bh=+7cGvg4K0XvZZ8RhfQjW0cIqMiUI4b7X7zacj0/r/oc=;
- b=Syiu91GRimHONOX6o+qxk/vT249a5R5PISN0rIKYKdYvoMT5CXZRrg3LjLqk2tHIT2
- 0q3lLbiDQOcgyKvfoQH4wRp0KrFcDnn4K1uDeYRJYvLeEoRIY2tUGpd36F2lz1pVszyb
- b5Rtn8HuYwXdCPYo2Wur0vCM1AembvLXgaepqbqZQgKQTHVe0jTdpbvVuxExrQz8W1zz
- 0iuVBIRR+Gg4I3oOJ4gpnNrLnxgMOR1xjAVSUwOXpYlNYE2HoXzlJTU+DsP5oXJxwrOO
- yngv6nQgOdfTszGIvk0jpUOkOJW+ju3+HPaa3yUtS29cauUnFehmi4OfYzxfTjtGWbbH
- GLbQ==
-X-Gm-Message-State: ACgBeo25fJDoZ5wzAc4gdtsxaqwNSkpftX5ig2W4XJz2EtC8ucezivws
- Lc7YZIALBDF3ZcG5q/dNoMHA/vqicfI7cXLf2f8N/IDST/Fizw==
-X-Google-Smtp-Source: AA6agR5eGOmOyw+6y6DaIwizhuQlBdBnIZHAVOARUH0Z3mNdHb2J5mHgoXimUHqFaOagcq6LVYbdUL1f6JmeEmbB1vU=
-X-Received: by 2002:a05:6214:5181:b0:473:1a26:99f6 with SMTP id
- kl1-20020a056214518100b004731a2699f6mr3602050qvb.47.1662565023383; Wed, 07
- Sep 2022 08:37:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
+ id 1oVx91-0006OH-7B; Wed, 07 Sep 2022 11:39:15 -0400
+Received: from mail-am6eur05on2099.outbound.protection.outlook.com
+ ([40.107.22.99]:49057 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
+ id 1oVx8x-00020A-Cv; Wed, 07 Sep 2022 11:39:13 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bHrjP4pPpKT+CWCeauSAp+GjnmOjcKMA4cgvQUpXxiEQKia+Bsi8tnkumcgU2X73vXxCeGN+Nq9eCGJ06x3c1E1ENJxxa6ArBnfXSzsg3+NveMo5cpTcv0GGY24byz7TgJ1OamPGJuKn0+5NFhpXqyhUzF37ydP1rMNGShJyEl1TS/69zMy7Ho9tjdWSvx6y7gpGJ8CahyDcCaFaXvzS/UlhalJg5YWXgI8nls04Iqnfd4jcb7bb0sLqF46C5rwVWBsNAEB+9Lsz4U6w3eiRX0hyiQ43q2hJJ6r3oFVknOPxLwizF5RI5niHtTWReUSxOd1PKlA34StWleosIUAMyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hqUjcCwLGZM+LDYvDv6nuGa0hMbZBvXkOxnCra6K1zE=;
+ b=E/r96FfrT4DPuzQcdE/3VgLNSoIgRJA1mvH8s/LDu9XCf1fmwCTKZ5G2qbV76KtHAFCHLqG1Bjkm0xML03j35iHkUntDHY2qY9tml3SI0FCZV3C1ztyXL35wkxP0Gn1mzV6TVyktXOPvy6FlI2W2UTKWFB/rcyv7UtFOp6CTqAsVLothRIhNK3ekbrpbsBe7j69wRQqcjO5ZMJ5Vx5xcTwVkJQxb4oipq9ru8KJBTj18djTuSSxpafCxxT25gL/1qHmrRrrGYr4kwPvAHNVzgz/JIUtBDGyNVH5Mmsw5RO6Up2nuWQL6XSeEZP9xaaOkvZ4jzfr2lRKh4FJjn1yLMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hqUjcCwLGZM+LDYvDv6nuGa0hMbZBvXkOxnCra6K1zE=;
+ b=qNKTRrtMx3NC6o7jZXK/D8+RXNCcZesTgyng6vVKYjdVd2ji36fWP6QJFk9ZFe/Sv1edumLoWaJ/sZhnTxLRDdtFVegWQcsxFrR3mA8inCr0DZltFRO6JSA3+Nin/9V97FuahmnKw9NENWVSDMlBcwbqt0Ehc+qjua7OwkVwnbIFPi0hMq4jImBvydDhqsnQ+JZ+LxSdp5A40eQwK/VQWiVshBm/HjNwgA8fkIFq6pTUxV5C6GEMiaOmjS8plZNFLycolUmtDW17pacVJqxvFa+GQi/CtrLSmftqJXhDfs3wxo4XcodQbiWhRY99Hwfrk4t6GwjZm51ZJx+rAoJp/w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from PAXPR08MB6956.eurprd08.prod.outlook.com (2603:10a6:102:1db::9)
+ by DU0PR08MB9511.eurprd08.prod.outlook.com (2603:10a6:10:44d::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.12; Wed, 7 Sep
+ 2022 15:39:05 +0000
+Received: from PAXPR08MB6956.eurprd08.prod.outlook.com
+ ([fe80::5593:9fae:255d:ee6]) by PAXPR08MB6956.eurprd08.prod.outlook.com
+ ([fe80::5593:9fae:255d:ee6%4]) with mapi id 15.20.5588.016; Wed, 7 Sep 2022
+ 15:39:05 +0000
+Message-ID: <6f382196-ad37-4d3f-7096-4ae51858c5ac@virtuozzo.com>
+Date: Wed, 7 Sep 2022 17:39:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 4/6] parallels: Use highest_offset() helper in leak check
+Content-Language: en-US
+To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, stefanha@redhat.com, vsementsov@yandex-team.ru,
+ kwolf@redhat.com, hreitz@redhat.com
+References: <20220902085300.508078-1-alexander.ivanov@virtuozzo.com>
+ <20220902085300.508078-5-alexander.ivanov@virtuozzo.com>
+From: "Denis V. Lunev" <den@virtuozzo.com>
+In-Reply-To: <20220902085300.508078-5-alexander.ivanov@virtuozzo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1PR08CA0114.eurprd08.prod.outlook.com
+ (2603:10a6:800:d4::16) To PAXPR08MB6956.eurprd08.prod.outlook.com
+ (2603:10a6:102:1db::9)
 MIME-Version: 1.0
-From: Patrick Venture <venture@google.com>
-Date: Wed, 7 Sep 2022 08:36:52 -0700
-Message-ID: <CAO=notwARj6d+UygiU4-JBKMJtyOhHmcNFp7C5jwqJReFT-kew@mail.gmail.com>
-Subject: Seeing qtest assertion failure with 7.1
-To: QEMU Developers <qemu-devel@nongnu.org>
-Cc: Peter Foley <pefoley@google.com>
-Content-Type: multipart/alternative; boundary="000000000000a2fe8c05e8181577"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f30;
- envelope-from=venture@google.com; helo=mail-qv1-xf30.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6fed9a2c-7fa1-428a-b106-08da90e718cb
+X-MS-TrafficTypeDiagnostic: DU0PR08MB9511:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3mzM2QkbDkdetDa0HoC66ujrsHEF6T3IrPUSiCaQiNYt093JlxrVOkUH9Lz8ThbQ2Ro/B2zRAJYystMExfMcT/MebPruZyrxvbYyRf9lSlooPg69tK12lXLXGO4PdoYP3wAW9A59FOZS4aDTGB7zWJg2q7AbZD7dysU5ArQZGiE6xtPGwxYQNJ0E4Z29+q9wk/4glG21gBJHHg5dAMJmyNV1x8PWyHV4sAeJjHXhzWpU0jRadUVj+NNU4NoQ7O8l9O28evruBXVwxTPOAjOKsSiLAMBbvHOQcQVIdftBZt2jDjjG7hVoMHhZq/vFJ6uAUoA0X0q8bJS7SOBw3QR7HauRRtWbk/6ZF3Gf3/HwzG4vFQ+qShfwXu+Urv3DvPexLeZwOqV5R9e+epMZz/OOgJqOqW+28cYF2NG281Rk4Dz1dKB04Kl8hSCON6PUgtkg+N3SqDhYkxIJi60udW4DaM2El2D1+s1+i1ZEAH69Jr+UTSeTuVbNL2xD19LAF5vqKSxIuu36beTc6RIM4t1eGmjdPw46XEzLlYTUtT+bgx3cW/LsCT66E9JRpHim/P1ingIVMwVP9pvnlc53Cayf0uRVHJUavkMRpQQWW7nfjAhMwfYTcUfhlrCBjc1x7nzuwb2IfVzO7NM4IRuZ+o+BgOjEbT/LGp6mOkGFAyoSb6/jBN2hZgx2hba9E4YCHtXSfhPKlSGU9nBh68c0F/ckL1F6WXb29Fon4v2S3xbhL4da5HEv+3h80d7Fu8illrcltXndjJTOksVUFnDBMhL2vyLWflvwIECm3S/UhHxGplix+eciUKy2y0Ey3sq+/dXcRrF85PpRMHFlyIyqrd4plQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PAXPR08MB6956.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(366004)(396003)(376002)(136003)(39850400004)(346002)(38350700002)(31686004)(26005)(38100700002)(6512007)(36756003)(2906002)(316002)(83380400001)(478600001)(8936002)(66946007)(4326008)(41300700001)(53546011)(8676002)(86362001)(52116002)(66476007)(31696002)(6486002)(6506007)(186003)(5660300002)(66556008)(2616005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cVhRUVBydWh2NXNYUVVzVitxZDV5aG9qbnNsbEFKUVIzakFXNGFRN1duNG1W?=
+ =?utf-8?B?cFpFcGdMVW5QeWRXVFlpU0dERkVXK1ZZY2JiQzhJT3lKY0w2UlYvN0FoakJU?=
+ =?utf-8?B?RHlFRzJ0dXk3cUtrNUtoT1hRU3NRbi9GNUZPOHlGcVZFVnFZbzZwTk1pNkZI?=
+ =?utf-8?B?R0hNQzB0Q0xqNVJ3SEpuc0xZY0lWRGNyUElwMnE1UlA0Ly9zZ3B0YUhIQ25u?=
+ =?utf-8?B?R2F4NEJHOXYrZGxCTDRWY1J0bWxhbWR5cjlDeEtYMUU0aFBCdTJOM01NV1NH?=
+ =?utf-8?B?cGZ3bXFSVGFscUI3VkVYdzdDekVwSXY4UHNBODV1YStlUWhJbW85a2h1YWZQ?=
+ =?utf-8?B?eENBMXJpMkNKQVhJK093NEVBdFZoRUhhOHViSjVyTWwvMS83empjNGpNUDJT?=
+ =?utf-8?B?STN0MlVuNW0vMlQ4VzZFSEsyVlRiV05qTFhRU2RkSHVybHBnNGRST3F6Tm1W?=
+ =?utf-8?B?bHJFRm5DcTBrK0RJRnMvd3hIYWVyR1Z0SzNGN2tvUjJrMG4xdGcyQ2NKamRs?=
+ =?utf-8?B?eldSekFEZHl4Z2tlMlRuZk9kK1N0eW0rSHYwd1c4TC9SdzVXVEJibTd2OWww?=
+ =?utf-8?B?b2w4UVBYQmlLL1YrR2JpdDRhVFlUR3h6NTNXMzFHRkZGZFU1eDBCakp3VndD?=
+ =?utf-8?B?c3pla0xNYStMN0JDNTlMcnRqSTloWDI5aFRWdU8rcFRzdUFQVnlPWXBmMVhx?=
+ =?utf-8?B?UlI0RXJJbVMwVEc2SlB2SFN5dG1nWCtkOXNURC93dVE2Q0UvSE9abVMycUtT?=
+ =?utf-8?B?YVN4RGJ2OWh6VHRxTTYwRlNTUStzMTRrNjNjWkVPenZBRnd5MnQreC9SNmpH?=
+ =?utf-8?B?YnpHbnlsV3NxdmMxczJlUzNUTnhrL3FzYzJOR3VPLzBjUzQ2NDg2c1lZcktZ?=
+ =?utf-8?B?SHRmV1h0b252djVjYzk0VnFPSk03WWs4RVZtR0hOYmdMV0tHN1lrKzQ1VW0v?=
+ =?utf-8?B?R20wSXlHQjJHN1FpZHVSWmlHQWxMTmxVT3lVUHNlQWJUb3NCN0dXUS9vREUv?=
+ =?utf-8?B?UjdNUmc4YVFEZ3JNcGFUMisyNzBXT1BhSUZzM0lDZUxWbzVhZDF1ZE1YQ3JE?=
+ =?utf-8?B?Z3hDWElFYkZvU3JtZmlzMlhYNFZFeDlOUXh4UnlKN2FOUzdSazRaZ2ZJNTFz?=
+ =?utf-8?B?MEk4OWVNZFBOZ0NHbHVXSHdVNCs1NWZRblJZSlBYSlcrcC8wUWtjbjk1c21q?=
+ =?utf-8?B?QkRVRTY1UG5MYit5V2s1ZkNzWkJXZDloYUlpL0RqekZ1UWlDaWRreEdUdk56?=
+ =?utf-8?B?YnBoQmRyV1N2OVdJMG1DVGw0SU5iakRmU3NRcjgzK0Rncy9HZ202ZlFwS2xa?=
+ =?utf-8?B?YVJjbENCZEdoQlIvUWE4aVpKclRjVnQyaEdjUVZjMkJFUGNyV3FDdENFdTFz?=
+ =?utf-8?B?djBwNHlUSzFzTEt3WFdDQjJxOXdSZGp0enhpeVlGdS8yNVBsd05yMFJYTkZr?=
+ =?utf-8?B?VlNHbGtQVU05cnY3UUlpcEUxN1R4ajBaTlJWS0FsbEpQVmI4bUJ0N2YreU9C?=
+ =?utf-8?B?Z3lmTExVc3FySThQZ1JNRXE3Z1V2WE5kSWU1YTFCcmtZN2haYWZmeGhObmk3?=
+ =?utf-8?B?Vjh3RXUxYlEwb3VsaFFOMmYxbzN3NVpKeUwvZUo3b25Od0trTE5ZRkVaa1k0?=
+ =?utf-8?B?VHM4cS9vQW5oYVRIUHFQcVhoNGpQeGc5WEJNUm1PWHN3TG1xaGhKbFlCNGhU?=
+ =?utf-8?B?bk9lL0V6WG0zdUlyY3JnUkxxQzV1UGV6MW9nekVLdjViR2J4NG4reXVlSmY4?=
+ =?utf-8?B?YnVjV3RhVlVCWDQ5VmtFQlFBUVIrWWthRWRRU21qanMxNDBVVU1LbWFPM2c4?=
+ =?utf-8?B?UExIN0Flc0NtaEVGZG8wald2T3hQdkppcE1jYWsvS3V5dXVZc2xpWEpwU1N3?=
+ =?utf-8?B?MlRtcy9rK1lWeEsveEdydy9lRkhpSnNuQWY5SExiWVgyVzNjYlNaRWhFYlhv?=
+ =?utf-8?B?N0N3YUFneG9rTzZucUJoellaanRBZzFlVm9zVlFrL0VLU2tXZ3lCNXFPNk9U?=
+ =?utf-8?B?bG8zbFJsOVdERFlOcVI5bVVPeUdzd1ZiZ25lT3ZISGRBeEJjS0s1aEorclJm?=
+ =?utf-8?B?dkhVNTYrYnRvL3dMNTMzWUdDMGFPaXFBWitoQ1Ryd1lDWml5RzlwdVJJQjV6?=
+ =?utf-8?Q?0o40xe7m35Q2UYg9jiNiZuO7f?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6fed9a2c-7fa1-428a-b106-08da90e718cb
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6956.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2022 15:39:05.6068 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: baXn0VuWVirMPVg/aOjNH586HvBYlaPkqiITNjh6YW8fhEIJ5w0gUu/4coEv5Jhn6MW/yjwVK7dFEcHGvECPcQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9511
+Received-SPF: pass client-ip=40.107.22.99; envelope-from=den@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -62
+X-Spam_score: -6.3
+X-Spam_bar: ------
+X-Spam_report: (-6.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.199,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,63 +145,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a2fe8c05e8181577
-Content-Type: text/plain; charset="UTF-8"
+On 9/2/22 10:52, Alexander Ivanov wrote:
+> Deduplicate code by using highest_offset() helper.
+>
+> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+> ---
+>   block/parallels.c | 11 ++---------
+>   1 file changed, 2 insertions(+), 9 deletions(-)
+>
+> diff --git a/block/parallels.c b/block/parallels.c
+> index 339ce45634..688aa081e2 100644
+> --- a/block/parallels.c
+> +++ b/block/parallels.c
+> @@ -535,16 +535,9 @@ static int parallels_check_leak(BlockDriverState *bs,
+>                                   BdrvCheckMode fix)
+>   {
+>       BDRVParallelsState *s = bs->opaque;
+> -    int64_t off, high_off, count, cut_out;
+> -    uint32_t i;
+> +    int64_t high_off, count, cut_out;
+>   
+> -    high_off = 0;
+> -    for (i = 0; i < s->bat_size; i++) {
+> -        off = bat2sect(s, i) << BDRV_SECTOR_BITS;
+> -        if (off > high_off) {
+> -            high_off = off;
+> -        }
+> -    }
+> +    high_off = highest_offset(s);
+>   
+>       cut_out = parallels_handle_leak(bs, res, high_off, fix & BDRV_FIX_LEAKS);
+>       if (cut_out < 0) {
+Here I kinda disagree. This change and the introduction of the
+helper should be done exactly in the same patch as in the other
+case it is not possible to say whether this replacement is
+correct or not.
 
-# Start of nvme tests
-# Start of pci-device tests
-# Start of pci-device-tests tests
-# starting QEMU: exec ./qemu-system-aarch64 -qtest
-unix:/tmp/qtest-1431.sock -qtest-log /dev/null -chardev
-socket,path=/tmp/qtest-1431.qmp,id=char0 -mon chardev=char0,mode=control
--display none -M virt, -cpu max -drive
-id=drv0,if=none,file=null-co://,file.read-zeroes=on,format=raw -object
-memory-backend-ram,id=pmr0,share=on,size=8 -device
-nvme,addr=04.0,drive=drv0,serial=foo -accel qtest
-
-#
-ERROR:../../src/qemu/tests/qtest/libqtest.c:338:qtest_init_without_qmp_handshake:
-assertion failed: (s->fd >= 0 && s->qmp_fd >= 0)
-stderr:
-double free or corruption (out)
-socket_accept failed: Resource temporarily unavailable
-**
-ERROR:../../src/qemu/tests/qtest/libqtest.c:338:qtest_init_without_qmp_handshake:
-assertion failed: (s->fd >= 0 && s->qmp_fd >= 0)
-../../src/qemu/tests/qtest/libqtest.c:165: kill_qemu() detected QEMU death
-from signal 6 (Aborted) (core dumped)
-
-I'm not seeing this reliably, and we haven't done a lot of digging yet,
-such as enabling sanitizers, so I'll reply back to this thread with details
-as I have them.
-
-Has anyone seen this before or something like it?
-
-Patrick
-
---000000000000a2fe8c05e8181577
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"># Start of nvme tests<br># Start of pci-device tests<br># =
-Start of pci-device-tests tests<br># starting QEMU: exec ./qemu-system-aarc=
-h64 -qtest unix:/tmp/qtest-1431.sock -qtest-log /dev/null -chardev socket,p=
-ath=3D/tmp/qtest-1431.qmp,id=3Dchar0 -mon chardev=3Dchar0,mode=3Dcontrol -d=
-isplay none -M virt, -cpu max -drive id=3Ddrv0,if=3Dnone,file=3Dnull-co://,=
-file.read-zeroes=3Don,format=3Draw -object memory-backend-ram,id=3Dpmr0,sha=
-re=3Don,size=3D8 -device nvme,addr=3D04.0,drive=3Ddrv0,serial=3Dfoo -accel =
-qtest<br><br># ERROR:../../src/qemu/tests/qtest/libqtest.c:338:qtest_init_w=
-ithout_qmp_handshake: assertion failed: (s-&gt;fd &gt;=3D 0 &amp;&amp; s-&g=
-t;qmp_fd &gt;=3D 0)<br>stderr:<br>double free or corruption (out)<br>socket=
-_accept failed: Resource temporarily unavailable<br>**<br>ERROR:../../src/q=
-emu/tests/qtest/libqtest.c:338:qtest_init_without_qmp_handshake: assertion =
-failed: (s-&gt;fd &gt;=3D 0 &amp;&amp; s-&gt;qmp_fd &gt;=3D 0)<br>../../src=
-/qemu/tests/qtest/libqtest.c:165: kill_qemu() detected QEMU death from sign=
-al 6 (Aborted) (core dumped)<div><br></div><div>I&#39;m not seeing this rel=
-iably, and we haven&#39;t done a lot of digging yet, such as enabling sanit=
-izers, so I&#39;ll reply back to this thread with details as I have them.</=
-div><div><br></div><div>Has anyone seen this before or something like it?</=
-div><div><br></div><div>Patrick</div></div>
-
---000000000000a2fe8c05e8181577--
+Den
 
