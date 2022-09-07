@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EEE95AFFB9
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 10:57:29 +0200 (CEST)
-Received: from localhost ([::1]:38232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 124E55B0021
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 11:13:59 +0200 (CEST)
+Received: from localhost ([::1]:51044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVqsB-0002sn-Hh
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 04:57:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39680)
+	id 1oVr89-0007oh-Lr
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 05:13:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=242877ce7=alistair.francis@wdc.com>)
- id 1oVq4Y-0004rY-73
+ id 1oVq4d-0004su-N0
  for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:06:21 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:2013)
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:1920)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=242877ce7=alistair.francis@wdc.com>)
- id 1oVq4W-0004pz-9u
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:06:09 -0400
+ id 1oVq4b-0004UV-JB
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 04:06:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1662537966; x=1694073966;
+ t=1662537972; x=1694073972;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=4V6AGPzCPtYryffNb1OjDG9Bc89M+g1MRZvBD2yCnMo=;
- b=msWaMGwhSNmhwqY2QiZ/lzgvGAhoYjy0opeY2yqpsf+wgD6o9SvtEo1X
- wpmEf+Mirbr2cCsQUDVKQjm1DGwkugxFCEHfh8f4XJZhsJJlPcGQ7hJUF
- 3rjfr2LWUJPEcjY0x0PDdcBMmf09miPkBmkuOcn/r6N6A9GXjEMIinI6v
- ZdVzWxDF9q5tvzAML77XGKb3n+s+bq6RfDzmSz8V+hwGB5IVETQnxbmUH
- Ab4ckI4V3N69l/vVDiXOW7rN/ex9Pl4UzLchoLMsS9KSEXy2EdZCVVyJP
- IQeNaNo1AABDRbQS+es3ktV4g+n9HFPu5v6UKJsJjcWUGuHlDFE6bZuxF A==;
-X-IronPort-AV: E=Sophos;i="5.93,296,1654531200"; d="scan'208";a="210715065"
+ bh=nwidhC7SMTO28XVStpjSpPXKy2/kUm/ODlnipL/Eq8E=;
+ b=MRPqvDe4vMHRI/jESp5umcMqnh7SCk2BqOWWWdVwXN9suqOI9CtACa0B
+ wSHctsy0B3vyY3ZQLIHWFvHEKlLXjAKCQzqQWspcIA/jb3j888gf3dCge
+ aQ8oZCRndQbS6NM7fmd3QmS1yMisr5JoIG5J8Dtz2DiwIJDGHo1lD4kQE
+ eMx87Qx147SpC9sMYpRYGiMSA/8PGccIgCPZMpVMyMluEdPNTMySwCTcc
+ cvhXrTbRylrCdJNK5AucXjmCeBmz6gmYp1/FhHvkCJ40aM8tO6zt2UFvl
+ TCJ1ChCviHOLURe7p4kECJgWHSqcJNnuwBqnMHbzEfwmvzfFW9NjQfSDc w==;
+X-IronPort-AV: E=Sophos;i="5.93,296,1654531200"; d="scan'208";a="210715068"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 07 Sep 2022 16:05:04 +0800
-IronPort-SDR: ciWxvzErmDSOgU/hWR1xJZM9hG1UazyxYlc6Niyap+W1pMTVCnyzos/ufbRBOCggRLSP+SY/oi
- sUCW7IbF4cFR2zdEyOQd4tedranH9DLbxVIagBWvTVBoytRoF2tKrmRneSQPk1Hw1Kdlk77bSs
- N6ko9RdRQFoFgEo0MAZf2ZMhXaPaVz9epTLoqyfzWV0ZtI8Fp5H+3NHtRxImH7igIXhFfVkGhN
- XiW71sYHfcZL9CQb5OG/I881JPGpxZsPQlS36DZxPK1VMZUHx9O7Llpvbzla5nTHsVP8bNVURG
- KdByHMoVsPv/J60HNighSr5J
+ by ob1.hgst.iphmx.com with ESMTP; 07 Sep 2022 16:05:06 +0800
+IronPort-SDR: IZ31FHc41Qb7Lz+gJ3Mn7yRS70TpEYTm8tqtANe69r4YtJJd4+9dPc+wkHxcIGxd73VV4XqJVF
+ zYfBDa0dCesmyFz6JTrObb9W7d2/vb7AyA4LbbYM6OyhCRF+1BrcyCR8Arq2IFqHqfFbmtTad0
+ gs6kzpb2d2S7AZOr3CY4d40LgUXl9TW+FRpvZaQ2GVzH0OmIiRZ16bL7wyBajIll0I7wZeEI01
+ WStwIXMDr5ygi0EGku+FG27HWe2/7cjGkJ4rnKr1ZfYrUDZToV444UA6X5pj+0RToRFFhRB5Rh
+ LTUm4GbfyRr1l31JiVcwMAmV
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 07 Sep 2022 00:20:02 -0700
-IronPort-SDR: aUQ2ZWsu5kCWfUzP9c8U2ox5yDx6T9Wl2psJjiMcIyrnVk7ZNdV61QOJsJZN/aHeWgraYwVPPX
- 1OdWKj14aLbSux33uASABw2YqKREcHrZF/sJV9tpJ91Ch+yQPkkOgRr1AzsYCH+jgcXj4m1HkM
- 11l/GiygrthRrnLpvXk5yu/EjQKu/uWGNg69m9FCY6pJ8xONsNRR/exMacgDNa+ZMKJjyBOnmE
- YEQ6UbSK5r3tJiS1fju8Lo7dRUDcZNcJmdiCfxoSFjMsgP25MME19lvvf+fZbdulHDb7gP/Nhn
- APA=
+ 07 Sep 2022 00:20:04 -0700
+IronPort-SDR: rmJ+5RY6hevajAzEy4CzUEk5L588rwPgV7t4K1eAWNhZnzJW3GtprFNRv/sb4PtopbJive1UfX
+ qMf70SCCciBxfIMP13VjDjq73XfTgRt0F5I/7azRn+n4FdXprK8unf3wuNe6j+CTwB3Tn0yrUO
+ 1V09duRwKQw+j9YITWlw4VUcqy1IAavyR2k45L8bcT5KyNW4VnrCxnPlDyKcSXpKug/pEpauTC
+ 9XDgOdja2mblD8/Xbp+dm8sJ+zxczQ0lQyDl0UcX/jUtVSnUj0fJb7xYa0+jk3IMUKuY2AqK6S
+ zwU=
 WDCIronportException: Internal
 Received: from unknown (HELO toolbox.wdc.com) ([10.225.167.94])
- by uls-op-cesaip01.wdc.com with ESMTP; 07 Sep 2022 01:05:04 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 07 Sep 2022 01:05:06 -0700
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Cc: alistair23@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>,
- Junqiang Wang <wangjunqiang@iscas.ac.cn>,
+Cc: alistair23@gmail.com, Wilfred Mallawa <wilfred.mallawa@wdc.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 27/44] target/riscv: Fix priority of csr related check in
- riscv_csrrw_check
-Date: Wed,  7 Sep 2022 10:03:36 +0200
-Message-Id: <20220907080353.111926-28-alistair.francis@wdc.com>
+Subject: [PULL 28/44] hw/riscv: opentitan: bump opentitan version
+Date: Wed,  7 Sep 2022 10:03:37 +0200
+Message-Id: <20220907080353.111926-29-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220907080353.111926-1-alistair.francis@wdc.com>
 References: <20220907080353.111926-1-alistair.francis@wdc.com>
@@ -94,90 +92,104 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Alistair Francis <alistair.francis@wdc.com>
 From:  Alistair Francis via <qemu-devel@nongnu.org>
 
-From: Weiwei Li <liweiwei@iscas.ac.cn>
+From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-Normally, riscv_csrrw_check is called when executing Zicsr instructions.
-And we can only do access control for existed CSRs. So the priority of
-CSR related check, from highest to lowest, should be as follows:
-1) check whether Zicsr is supported: raise RISCV_EXCP_ILLEGAL_INST if not
-2) check whether csr is existed: raise RISCV_EXCP_ILLEGAL_INST if not
-3) do access control: raise RISCV_EXCP_ILLEGAL_INST or RISCV_EXCP_VIRT_
-INSTRUCTION_FAULT if not allowed
+The following patch updates opentitan to match the new configuration,
+as per, lowRISC/opentitan@217a0168ba118503c166a9587819e3811eeb0c0c
 
-The predicates contain parts of function of both 2) and 3), So they need
-to be placed in the middle of riscv_csrrw_check
+Note: with this patch we now skip the usage of the opentitan
+`boot_rom`. The Opentitan boot rom contains hw verification
+for devies which we are currently not supporting in qemu. As of now,
+the `boot_rom` has no major significance, however, would be good to
+support in the future.
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+Tested by running utests from the latest tock [1]
+(that supports this version of OT).
+
+[1] https://github.com/tock/tock/pull/3056
+
+Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20220803123652.3700-1-liweiwei@iscas.ac.cn>
+Message-Id: <20220812005229.358850-1-wilfred.mallawa@opensource.wdc.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/csr.c | 44 +++++++++++++++++++++++++-------------------
- 1 file changed, 25 insertions(+), 19 deletions(-)
+ include/hw/riscv/opentitan.h | 11 ++++++-----
+ hw/riscv/opentitan.c         | 12 ++++++++----
+ 2 files changed, 14 insertions(+), 9 deletions(-)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 0fb042b2fd..d81f466c80 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -3270,6 +3270,30 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
-     /* check privileges and return RISCV_EXCP_ILLEGAL_INST if check fails */
-     int read_only = get_field(csrno, 0xC00) == 3;
-     int csr_min_priv = csr_ops[csrno].min_priv_ver;
-+
-+    /* ensure the CSR extension is enabled. */
-+    if (!cpu->cfg.ext_icsr) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-+
-+    if (env->priv_ver < csr_min_priv) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-+
-+    /* check predicate */
-+    if (!csr_ops[csrno].predicate) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-+
-+    if (write_mask && read_only) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-+
-+    RISCVException ret = csr_ops[csrno].predicate(env, csrno);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
- #if !defined(CONFIG_USER_ONLY)
-     int csr_priv, effective_priv = env->priv;
+diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
+index 68892cd8e5..26d960f288 100644
+--- a/include/hw/riscv/opentitan.h
++++ b/include/hw/riscv/opentitan.h
+@@ -74,6 +74,7 @@ enum {
+     IBEX_DEV_TIMER,
+     IBEX_DEV_SENSOR_CTRL,
+     IBEX_DEV_OTP_CTRL,
++    IBEX_DEV_LC_CTRL,
+     IBEX_DEV_PWRMGR,
+     IBEX_DEV_RSTMGR,
+     IBEX_DEV_CLKMGR,
+@@ -105,11 +106,11 @@ enum {
+     IBEX_UART0_RX_BREAK_ERR_IRQ   = 6,
+     IBEX_UART0_RX_TIMEOUT_IRQ     = 7,
+     IBEX_UART0_RX_PARITY_ERR_IRQ  = 8,
+-    IBEX_TIMER_TIMEREXPIRED0_0    = 126,
+-    IBEX_SPI_HOST0_ERR_IRQ        = 150,
+-    IBEX_SPI_HOST0_SPI_EVENT_IRQ  = 151,
+-    IBEX_SPI_HOST1_ERR_IRQ        = 152,
+-    IBEX_SPI_HOST1_SPI_EVENT_IRQ  = 153,
++    IBEX_TIMER_TIMEREXPIRED0_0    = 127,
++    IBEX_SPI_HOST0_ERR_IRQ        = 151,
++    IBEX_SPI_HOST0_SPI_EVENT_IRQ  = 152,
++    IBEX_SPI_HOST1_ERR_IRQ        = 153,
++    IBEX_SPI_HOST1_SPI_EVENT_IRQ  = 154,
+ };
  
-@@ -3290,25 +3314,7 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
  #endif
--    if (write_mask && read_only) {
--        return RISCV_EXCP_ILLEGAL_INST;
--    }
--
--    /* ensure the CSR extension is enabled. */
--    if (!cpu->cfg.ext_icsr) {
--        return RISCV_EXCP_ILLEGAL_INST;
--    }
--
--    /* check predicate */
--    if (!csr_ops[csrno].predicate) {
--        return RISCV_EXCP_ILLEGAL_INST;
--    }
--
--    if (env->priv_ver < csr_min_priv) {
--        return RISCV_EXCP_ILLEGAL_INST;
--    }
--
--    return csr_ops[csrno].predicate(env, csrno);
-+    return RISCV_EXCP_NONE;
- }
+diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+index 4495a2c039..af13dbe3b1 100644
+--- a/hw/riscv/opentitan.c
++++ b/hw/riscv/opentitan.c
+@@ -29,9 +29,9 @@
+ #include "sysemu/sysemu.h"
  
- static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
+ static const MemMapEntry ibex_memmap[] = {
+-    [IBEX_DEV_ROM] =            {  0x00008000, 16 * KiB },
+-    [IBEX_DEV_RAM] =            {  0x10000000,  0x10000 },
+-    [IBEX_DEV_FLASH] =          {  0x20000000,  0x80000 },
++    [IBEX_DEV_ROM] =            {  0x00008000,   0x8000 },
++    [IBEX_DEV_RAM] =            {  0x10000000,  0x20000 },
++    [IBEX_DEV_FLASH] =          {  0x20000000,  0x100000 },
+     [IBEX_DEV_UART] =           {  0x40000000,  0x1000  },
+     [IBEX_DEV_GPIO] =           {  0x40040000,  0x1000  },
+     [IBEX_DEV_SPI_DEVICE] =     {  0x40050000,  0x1000  },
+@@ -40,6 +40,7 @@ static const MemMapEntry ibex_memmap[] = {
+     [IBEX_DEV_TIMER] =          {  0x40100000,  0x1000  },
+     [IBEX_DEV_SENSOR_CTRL] =    {  0x40110000,  0x1000  },
+     [IBEX_DEV_OTP_CTRL] =       {  0x40130000,  0x4000  },
++    [IBEX_DEV_LC_CTRL] =        {  0x40140000,  0x1000  },
+     [IBEX_DEV_USBDEV] =         {  0x40150000,  0x1000  },
+     [IBEX_DEV_SPI_HOST0] =      {  0x40300000,  0x1000  },
+     [IBEX_DEV_SPI_HOST1] =      {  0x40310000,  0x1000  },
+@@ -141,7 +142,8 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+                             &error_abort);
+     object_property_set_int(OBJECT(&s->cpus), "num-harts", ms->smp.cpus,
+                             &error_abort);
+-    object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x8080, &error_abort);
++    object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x20000490,
++                            &error_abort);
+     sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_fatal);
+ 
+     /* Boot ROM */
+@@ -253,6 +255,8 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+         memmap[IBEX_DEV_SENSOR_CTRL].base, memmap[IBEX_DEV_SENSOR_CTRL].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.otp_ctrl",
+         memmap[IBEX_DEV_OTP_CTRL].base, memmap[IBEX_DEV_OTP_CTRL].size);
++    create_unimplemented_device("riscv.lowrisc.ibex.lc_ctrl",
++        memmap[IBEX_DEV_LC_CTRL].base, memmap[IBEX_DEV_LC_CTRL].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.pwrmgr",
+         memmap[IBEX_DEV_PWRMGR].base, memmap[IBEX_DEV_PWRMGR].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.rstmgr",
 -- 
 2.37.2
 
