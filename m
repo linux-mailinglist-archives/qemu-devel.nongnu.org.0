@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 365475B0536
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 15:35:47 +0200 (CEST)
-Received: from localhost ([::1]:34178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA7FC5B054F
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 15:37:59 +0200 (CEST)
+Received: from localhost ([::1]:43208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVvDV-00068s-Ka
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 09:35:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59116)
+	id 1oVvFe-0000oK-Ry
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 09:37:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oVv8N-0001ic-BG
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 09:30:36 -0400
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:56295)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1oVvCD-0004dB-1V; Wed, 07 Sep 2022 09:34:25 -0400
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:37839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oVv8K-00061G-5Z
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 09:30:27 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.102])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id BA64E125D7101;
- Wed,  7 Sep 2022 15:30:20 +0200 (CEST)
-Received: from kaod.org (37.59.142.110) by DAG4EX2.mxp5.local (172.16.2.32)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1oVvCB-0006UW-8N; Wed, 07 Sep 2022 09:34:24 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.51])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 04507125D792E;
+ Wed,  7 Sep 2022 15:34:20 +0200 (CEST)
+Received: from kaod.org (37.59.142.102) by DAG4EX2.mxp5.local (172.16.2.32)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Wed, 7 Sep
- 2022 15:30:20 +0200
+ 2022 15:34:18 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-110S0041f807ed8-d828-4655-8f25-70aba616371f,
+ (GARM-102R0045056ab73-c943-49e7-aa9e-f9e1c8ffe8c8,
  2B0902173EB74D822BE58268A8E021C7C40D5376) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.66.77.115
-Message-ID: <19465d5c-6411-37cf-444b-98b643682c7e@kaod.org>
-Date: Wed, 7 Sep 2022 15:30:18 +0200
+Message-ID: <2fd70fa7-3620-2206-0d9a-2287e94e4a90@kaod.org>
+Date: Wed, 7 Sep 2022 15:34:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: [PATCH 08/20] ppc4xx_sdram: Drop extra zeros for readability
+Subject: Re: [PATCH 09/20] ppc440_sdram: Split off map/unmap of sdram banks
+ for later reuse
 Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, <qemu-devel@nongnu.org>,
  <qemu-ppc@nongnu.org>
 CC: Daniel Henrique Barboza <danielhb413@gmail.com>, Peter Maydell
  <peter.maydell@linaro.org>
 References: <cover.1660926381.git.balaton@eik.bme.hu>
- <f6d9eec237e5cc84a314d8eb67294212f93076ef.1660926381.git.balaton@eik.bme.hu>
+ <fdce3e916e0020fbc084ba270d3c6d93e5f9a28f.1660926381.git.balaton@eik.bme.hu>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <f6d9eec237e5cc84a314d8eb67294212f93076ef.1660926381.git.balaton@eik.bme.hu>
+In-Reply-To: <fdce3e916e0020fbc084ba270d3c6d93e5f9a28f.1660926381.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.110]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX2.mxp5.local
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX2.mxp5.local
  (172.16.2.32)
-X-Ovh-Tracer-GUID: 25e6699e-3299-4fca-8ddb-7dad2106bba5
-X-Ovh-Tracer-Id: 11307412767042079651
+X-Ovh-Tracer-GUID: 47200e0a-a5df-4c7c-8f73-c83c6c297b28
+X-Ovh-Tracer-Id: 11374685287859653539
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfedttddgieehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddutdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpoffvtefjohhsthepmhhohedvle
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
-X-Spam_score_int: -60
-X-Spam_score: -6.1
-X-Spam_bar: ------
-X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-4.199,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfedttddgieeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpoffvtefjohhsthepmhhohedvle
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-4.199,
+ RCVD_IN_BL_SPAMCOP_NET=1.347, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,127 +78,74 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/19/22 18:55, BALATON Zoltan wrote:
-> Constants that are written zero padded for no good reason are hard to
-> read, it's easier to see what is meant if it's just 0 or 1 instead.
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+>   hw/ppc/ppc440_uc.c | 31 +++++++++++++++++++------------
+>   1 file changed, 19 insertions(+), 12 deletions(-)
+> 
+> diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
+> index 3507c35b63..c33f91e134 100644
+> --- a/hw/ppc/ppc440_uc.c
+> +++ b/hw/ppc/ppc440_uc.c
+> @@ -561,26 +561,33 @@ static uint64_t sdram_size(uint32_t bcr)
+>       return size;
+>   }
+>   
+> +static void sdram_bank_map(Ppc4xxSdramBank *bank)
+> +{
+> +    memory_region_init(&bank->container, NULL, "sdram-container", bank->size);
 
-I would keep the 0x prefix though.
+I don't think we need to init the ->container memory region each time.
+This could be done once and for all in the realize handler.
+
+> +    memory_region_add_subregion(&bank->container, 0, &bank->ram);
+> +    memory_region_add_subregion(get_system_memory(), bank->base,
+> +                                &bank->container);
+> +}
+> +
+> +static void sdram_bank_unmap(Ppc4xxSdramBank *bank)
+> +{
+> +    memory_region_del_subregion(get_system_memory(), &bank->container);
+> +    memory_region_del_subregion(&bank->container, &bank->ram);
+> +    object_unparent(OBJECT(&bank->container));
+
+object_unparent could be dropped if the memory_region_init was called in
+realize.
+
+Also, memory_region_set_enabled() might be a better alternative.
 
 Thanks,
 
 C.
 
 
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->   hw/ppc/ppc4xx_devs.c | 40 ++++++++++++++++++++--------------------
->   1 file changed, 20 insertions(+), 20 deletions(-)
-> 
-> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-> index 375834a52b..bfe7b2d3a6 100644
-> --- a/hw/ppc/ppc4xx_devs.c
-> +++ b/hw/ppc/ppc4xx_devs.c
-> @@ -49,31 +49,31 @@ static uint32_t sdram_ddr_bcr(hwaddr ram_base, hwaddr ram_size)
->   
->       switch (ram_size) {
->       case 4 * MiB:
-> -        bcr = 0x00000000;
-> +        bcr = 0;
->           break;
->       case 8 * MiB:
-> -        bcr = 0x00020000;
-> +        bcr = 0x20000;
->           break;
->       case 16 * MiB:
-> -        bcr = 0x00040000;
-> +        bcr = 0x40000;
->           break;
->       case 32 * MiB:
-> -        bcr = 0x00060000;
-> +        bcr = 0x60000;
->           break;
->       case 64 * MiB:
-> -        bcr = 0x00080000;
-> +        bcr = 0x80000;
->           break;
->       case 128 * MiB:
-> -        bcr = 0x000A0000;
-> +        bcr = 0xA0000;
->           break;
->       case 256 * MiB:
-> -        bcr = 0x000C0000;
-> +        bcr = 0xC0000;
->           break;
->       default:
->           qemu_log_mask(LOG_GUEST_ERROR,
->                         "%s: invalid RAM size 0x%" HWADDR_PRIx "\n", __func__,
->                         ram_size);
-> -        return 0x00000000;
-> +        return 0;
->       }
->       bcr |= ram_base & 0xFF800000;
->       bcr |= 1;
-> @@ -104,7 +104,7 @@ static target_ulong sdram_size(uint32_t bcr)
->   static void sdram_set_bcr(Ppc4xxSdramDdrState *sdram, int i,
+> +}
+> +
+>   static void sdram_set_bcr(ppc440_sdram_t *sdram, int i,
 >                             uint32_t bcr, int enabled)
 >   {
-> -    if (sdram->bank[i].bcr & 0x00000001) {
-> +    if (sdram->bank[i].bcr & 1) {
->           /* Unmap RAM */
->           trace_ppc4xx_sdram_unmap(sdram_base(sdram->bank[i].bcr),
->                                    sdram_size(sdram->bank[i].bcr));
-> @@ -115,7 +115,7 @@ static void sdram_set_bcr(Ppc4xxSdramDdrState *sdram, int i,
->           object_unparent(OBJECT(&sdram->bank[i].container));
+>       if (sdram->bank[i].bcr & 1) {
+>           /* First unmap RAM if enabled */
+> -        memory_region_del_subregion(get_system_memory(),
+> -                                    &sdram->bank[i].container);
+> -        memory_region_del_subregion(&sdram->bank[i].container,
+> -                                    &sdram->bank[i].ram);
+> -        object_unparent(OBJECT(&sdram->bank[i].container));
+> +        sdram_bank_unmap(&sdram->bank[i]);
 >       }
->       sdram->bank[i].bcr = bcr & 0xFFDEE001;
-> -    if (enabled && (bcr & 0x00000001)) {
-> +    if (enabled && (bcr & 1)) {
->           trace_ppc4xx_sdram_map(sdram_base(bcr), sdram_size(bcr));
->           memory_region_init(&sdram->bank[i].container, NULL, "sdram-container",
->                              sdram_size(bcr));
-> @@ -136,7 +136,7 @@ static void sdram_map_bcr(Ppc4xxSdramDdrState *sdram)
->               sdram_set_bcr(sdram, i, sdram_ddr_bcr(sdram->bank[i].base,
->                                                     sdram->bank[i].size), 1);
->           } else {
-> -            sdram_set_bcr(sdram, i, 0x00000000, 0);
-> +            sdram_set_bcr(sdram, i, 0, 0);
->           }
+>       sdram->bank[i].bcr = bcr & 0xffe0ffc1;
+> +    sdram->bank[i].base = sdram_base(bcr);
+> +    sdram->bank[i].size = sdram_size(bcr);
+>       if (enabled && (bcr & 1)) {
+> -        memory_region_init(&sdram->bank[i].container, NULL, "sdram-container",
+> -                           sdram_size(bcr));
+> -        memory_region_add_subregion(&sdram->bank[i].container, 0,
+> -                                    &sdram->bank[i].ram);
+> -        memory_region_add_subregion(get_system_memory(),
+> -                                    sdram_base(bcr),
+> -                                    &sdram->bank[i].container);
+> +        sdram_bank_map(&sdram->bank[i]);
 >       }
->   }
-> @@ -213,7 +213,7 @@ static uint32_t sdram_ddr_dcr_read(void *opaque, int dcrn)
->           break;
->       default:
->           /* Avoid gcc warning */
-> -        ret = 0x00000000;
-> +        ret = 0;
->           break;
->       }
->   
-> @@ -306,18 +306,18 @@ static void ppc4xx_sdram_ddr_reset(DeviceState *dev)
->   {
->       Ppc4xxSdramDdrState *sdram = PPC4xx_SDRAM_DDR(dev);
->   
-> -    sdram->addr = 0x00000000;
-> -    sdram->bear = 0x00000000;
-> -    sdram->besr0 = 0x00000000; /* No error */
-> -    sdram->besr1 = 0x00000000; /* No error */
-> -    sdram->cfg = 0x00000000;
-> -    sdram->ecccfg = 0x00000000; /* No ECC */
-> -    sdram->eccesr = 0x00000000; /* No error */
-> +    sdram->addr = 0;
-> +    sdram->bear = 0;
-> +    sdram->besr0 = 0; /* No error */
-> +    sdram->besr1 = 0; /* No error */
-> +    sdram->cfg = 0;
-> +    sdram->ecccfg = 0; /* No ECC */
-> +    sdram->eccesr = 0; /* No error */
->       sdram->pmit = 0x07C00000;
->       sdram->rtr = 0x05F00000;
->       sdram->tr = 0x00854009;
->       /* We pre-initialize RAM banks */
-> -    sdram->status = 0x00000000;
-> +    sdram->status = 0;
->       sdram->cfg = 0x00800000;
 >   }
 >   
 
