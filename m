@@ -2,66 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA7FC5B054F
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 15:37:59 +0200 (CEST)
-Received: from localhost ([::1]:43208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF08E5B0578
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 15:39:52 +0200 (CEST)
+Received: from localhost ([::1]:58164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVvFe-0000oK-Ry
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 09:37:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58340)
+	id 1oVvHS-0003vL-O3
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 09:39:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1oVvCD-0004dB-1V; Wed, 07 Sep 2022 09:34:25 -0400
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:37839)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oVvEM-0006uN-Oe
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 09:36:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20383)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1oVvCB-0006UW-8N; Wed, 07 Sep 2022 09:34:24 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.51])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 04507125D792E;
- Wed,  7 Sep 2022 15:34:20 +0200 (CEST)
-Received: from kaod.org (37.59.142.102) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Wed, 7 Sep
- 2022 15:34:18 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R0045056ab73-c943-49e7-aa9e-f9e1c8ffe8c8,
- 2B0902173EB74D822BE58268A8E021C7C40D5376) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.66.77.115
-Message-ID: <2fd70fa7-3620-2206-0d9a-2287e94e4a90@kaod.org>
-Date: Wed, 7 Sep 2022 15:34:12 +0200
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oVvEJ-0006tq-1e
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 09:36:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662557789;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=21uJa0QucTUiCyk17LMZU+HEGYfEAeUfNwlaUjAwXlU=;
+ b=dUqSl96azadbKX6uLKilPN2zYN7wsXCBJV40mhJxf7hZuq+vCjM9PAnOq+0Lg31XowrHDG
+ EK/WkHrflJyXJKKaBrATd4l1W0hnlvAYdSnEK41+3BD2fJge1gAxYcfWseBr+ezlp5Bq7o
+ 5gbDA2D8QZpgubrXyTdDDYI5YHvoxXY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-237-Blz-R3NzOSKEY2Pt2PTreQ-1; Wed, 07 Sep 2022 09:36:28 -0400
+X-MC-Unique: Blz-R3NzOSKEY2Pt2PTreQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ b17-20020adfc751000000b00228732b437aso2931744wrh.5
+ for <qemu-devel@nongnu.org>; Wed, 07 Sep 2022 06:36:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=21uJa0QucTUiCyk17LMZU+HEGYfEAeUfNwlaUjAwXlU=;
+ b=pg8weDrMIUKAjYFHM6ecDu4OjVS2lBHmAtvCckMrGwDSbX8aq/MAPLQPKGIE5BP7e9
+ B0VeEUG90U4NOWDYKImaiyj1i2505wlrXM6ZSorez0QNayMtLHxplZOz0rtdWKnqa0JH
+ +6JGgkOoQExbx66GSdL2JqxF7UXFzbxhj6jzc+1788rjTGuYdp8ECrwLjWohFqiIJrVE
+ 08EDbStZWfDD+ZWIiJO00wtWIfW02ZUeTl7W6Q985uA3Pv5CQW45HfDWy6eEqWZFxZJy
+ 3b+RMRO4n1xXQ6ait3Wvas24ilfCgM3NAu4KXLJiBV6lzFOn4R4qJnRjQ28RV1bsow2R
+ Qi4Q==
+X-Gm-Message-State: ACgBeo2wRvapgkjfEV9Gs1E0tCK2eBPL0boMMcMmSHRkAxi+bcO8AxOc
+ MK1GWPiZ3u+4OSqs6PvENQr27Jvd+KGAlCLTMrKcSpxYhkYT8JwHqPbjs7huXv2IYhR7UiTE9tl
+ KlhztuMnTyrMUkac=
+X-Received: by 2002:a5d:59c1:0:b0:229:8fb3:f0f0 with SMTP id
+ v1-20020a5d59c1000000b002298fb3f0f0mr1332569wry.154.1662557787019; 
+ Wed, 07 Sep 2022 06:36:27 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7zCx3E0FwUBkE79kOly/SIoV+o9GzRLOcQYxUCKYLts+vinMuvCvCpEnQRzWhJGYR5psfXDQ==
+X-Received: by 2002:a5d:59c1:0:b0:229:8fb3:f0f0 with SMTP id
+ v1-20020a5d59c1000000b002298fb3f0f0mr1332556wry.154.1662557786804; 
+ Wed, 07 Sep 2022 06:36:26 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ q185-20020a1c43c2000000b003a5f783abb8sm25234820wma.30.2022.09.07.06.36.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Sep 2022 06:36:26 -0700 (PDT)
+Date: Wed, 7 Sep 2022 14:36:24 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: zhenwei pi <pizhenwei@bytedance.com>
+Cc: armbru@redhat.com, qemu-devel@nongnu.org, darren.kenny@oracle.com
+Subject: Re: PING: Re: [PATCH v4 1/1] monitor: Support specified vCPU registers
+Message-ID: <YxieWNO6via9nv3C@work-vm>
+References: <20220802073720.1236988-1-pizhenwei@bytedance.com>
+ <20220802073720.1236988-2-pizhenwei@bytedance.com>
+ <Yvo1UdBtKxyaFas8@work-vm>
+ <d9d4b049-df33-b720-f40e-98cc39d77281@bytedance.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 09/20] ppc440_sdram: Split off map/unmap of sdram banks
- for later reuse
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, <qemu-devel@nongnu.org>,
- <qemu-ppc@nongnu.org>
-CC: Daniel Henrique Barboza <danielhb413@gmail.com>, Peter Maydell
- <peter.maydell@linaro.org>
-References: <cover.1660926381.git.balaton@eik.bme.hu>
- <fdce3e916e0020fbc084ba270d3c6d93e5f9a28f.1660926381.git.balaton@eik.bme.hu>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <fdce3e916e0020fbc084ba270d3c6d93e5f9a28f.1660926381.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 47200e0a-a5df-4c7c-8f73-c83c6c297b28
-X-Ovh-Tracer-Id: 11374685287859653539
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfedttddgieeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpoffvtefjohhsthepmhhohedvle
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-4.199,
- RCVD_IN_BL_SPAMCOP_NET=1.347, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d9d4b049-df33-b720-f40e-98cc39d77281@bytedance.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,76 +102,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/19/22 18:55, BALATON Zoltan wrote:
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->   hw/ppc/ppc440_uc.c | 31 +++++++++++++++++++------------
->   1 file changed, 19 insertions(+), 12 deletions(-)
+* zhenwei pi (pizhenwei@bytedance.com) wrote:
+> PING!
+
+It's OK, I've got it lined up for a pull I'll do in a few days time.
+
+Dave
+
+> On 8/15/22 20:00, Dr. David Alan Gilbert wrote:
+> > * zhenwei pi (pizhenwei@bytedance.com) wrote:
+> > > Originally we have to get all the vCPU registers and parse the
+> > > specified one. To improve the performance of this usage, allow user
+> > > specified vCPU id to query registers.
+> > > 
+> > > Run a VM with 16 vCPU, use bcc tool to track the latency of
+> > > 'hmp_info_registers':
+> > > 'info registers -a' uses about 3ms;
+> > > 'info registers 12' uses about 150us.
+> > > 
+> > > Cc: Darren Kenny <darren.kenny@oracle.com>
+> > > Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> > > Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+> > 
+> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > 
+> > > ---
+> > >   hmp-commands-info.hx |  8 +++++---
+> > >   monitor/misc.c       | 10 ++++++++--
+> > >   2 files changed, 13 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+> > > index 188d9ece3b..e012035541 100644
+> > > --- a/hmp-commands-info.hx
+> > > +++ b/hmp-commands-info.hx
+> > > @@ -100,9 +100,11 @@ ERST
+> > >       {
+> > >           .name       = "registers",
+> > > -        .args_type  = "cpustate_all:-a",
+> > > -        .params     = "[-a]",
+> > > -        .help       = "show the cpu registers (-a: all - show register info for all cpus)",
+> > > +        .args_type  = "cpustate_all:-a,vcpu:i?",
+> > > +        .params     = "[-a|vcpu]",
+> > > +        .help       = "show the cpu registers (-a: show register info for all cpus;"
+> > > +                      " vcpu: specific vCPU to query; show the current CPU's registers if"
+> > > +                      " no argument is specified)",
+> > >           .cmd        = hmp_info_registers,
+> > >       },
+> > > diff --git a/monitor/misc.c b/monitor/misc.c
+> > > index 3d2312ba8d..6436a8786b 100644
+> > > --- a/monitor/misc.c
+> > > +++ b/monitor/misc.c
+> > > @@ -307,6 +307,7 @@ int monitor_get_cpu_index(Monitor *mon)
+> > >   static void hmp_info_registers(Monitor *mon, const QDict *qdict)
+> > >   {
+> > >       bool all_cpus = qdict_get_try_bool(qdict, "cpustate_all", false);
+> > > +    int vcpu = qdict_get_try_int(qdict, "vcpu", -1);
+> > >       CPUState *cs;
+> > >       if (all_cpus) {
+> > > @@ -315,13 +316,18 @@ static void hmp_info_registers(Monitor *mon, const QDict *qdict)
+> > >               cpu_dump_state(cs, NULL, CPU_DUMP_FPU);
+> > >           }
+> > >       } else {
+> > > -        cs = mon_get_cpu(mon);
+> > > +        cs = vcpu >= 0 ? qemu_get_cpu(vcpu) : mon_get_cpu(mon);
+> > >           if (!cs) {
+> > > -            monitor_printf(mon, "No CPU available\n");
+> > > +            if (vcpu >= 0) {
+> > > +                monitor_printf(mon, "CPU#%d not available\n", vcpu);
+> > > +            } else {
+> > > +                monitor_printf(mon, "No CPU available\n");
+> > > +            }
+> > >               return;
+> > >           }
+> > > +        monitor_printf(mon, "\nCPU#%d\n", cs->cpu_index);
+> > >           cpu_dump_state(cs, NULL, CPU_DUMP_FPU);
+> > >       }
+> > >   }
+> > > -- 
+> > > 2.20.1
+> > > 
 > 
-> diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
-> index 3507c35b63..c33f91e134 100644
-> --- a/hw/ppc/ppc440_uc.c
-> +++ b/hw/ppc/ppc440_uc.c
-> @@ -561,26 +561,33 @@ static uint64_t sdram_size(uint32_t bcr)
->       return size;
->   }
->   
-> +static void sdram_bank_map(Ppc4xxSdramBank *bank)
-> +{
-> +    memory_region_init(&bank->container, NULL, "sdram-container", bank->size);
-
-I don't think we need to init the ->container memory region each time.
-This could be done once and for all in the realize handler.
-
-> +    memory_region_add_subregion(&bank->container, 0, &bank->ram);
-> +    memory_region_add_subregion(get_system_memory(), bank->base,
-> +                                &bank->container);
-> +}
-> +
-> +static void sdram_bank_unmap(Ppc4xxSdramBank *bank)
-> +{
-> +    memory_region_del_subregion(get_system_memory(), &bank->container);
-> +    memory_region_del_subregion(&bank->container, &bank->ram);
-> +    object_unparent(OBJECT(&bank->container));
-
-object_unparent could be dropped if the memory_region_init was called in
-realize.
-
-Also, memory_region_set_enabled() might be a better alternative.
-
-Thanks,
-
-C.
-
-
-> +}
-> +
->   static void sdram_set_bcr(ppc440_sdram_t *sdram, int i,
->                             uint32_t bcr, int enabled)
->   {
->       if (sdram->bank[i].bcr & 1) {
->           /* First unmap RAM if enabled */
-> -        memory_region_del_subregion(get_system_memory(),
-> -                                    &sdram->bank[i].container);
-> -        memory_region_del_subregion(&sdram->bank[i].container,
-> -                                    &sdram->bank[i].ram);
-> -        object_unparent(OBJECT(&sdram->bank[i].container));
-> +        sdram_bank_unmap(&sdram->bank[i]);
->       }
->       sdram->bank[i].bcr = bcr & 0xffe0ffc1;
-> +    sdram->bank[i].base = sdram_base(bcr);
-> +    sdram->bank[i].size = sdram_size(bcr);
->       if (enabled && (bcr & 1)) {
-> -        memory_region_init(&sdram->bank[i].container, NULL, "sdram-container",
-> -                           sdram_size(bcr));
-> -        memory_region_add_subregion(&sdram->bank[i].container, 0,
-> -                                    &sdram->bank[i].ram);
-> -        memory_region_add_subregion(get_system_memory(),
-> -                                    sdram_base(bcr),
-> -                                    &sdram->bank[i].container);
-> +        sdram_bank_map(&sdram->bank[i]);
->       }
->   }
->   
+> -- 
+> zhenwei pi
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
