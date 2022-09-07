@@ -2,117 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE9A5B0A0C
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 18:27:40 +0200 (CEST)
-Received: from localhost ([::1]:38650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01FF65B0A0D
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 18:27:42 +0200 (CEST)
+Received: from localhost ([::1]:38652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVxtr-0004xo-TW
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 12:27:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60224)
+	id 1oVxtt-0004zx-30
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 12:27:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
- id 1oVxlQ-0008UE-WD
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 12:18:57 -0400
-Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:34725)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
- id 1oVxlH-0008N4-QL
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 12:18:50 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 865F22B05B86;
- Wed,  7 Sep 2022 12:18:35 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Wed, 07 Sep 2022 12:18:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1662567515; x=1662574715; bh=5D
- ZtFrVdqR12nN7HSUlbgO9Phu3Lj4gHCeI3MI0eXEs=; b=gKjMSLcGKU47Bpx6uQ
- gZ+Ahn/J6pmAu6Fk54tOUPmkt4ySG4YQ4tNtCsXNooyXqDQdnB0p/CITTV1m34mq
- s+LAYPRNp7umaA0DS2tD6Bl9cL2UPuUH1NnFqt+Hujshubfu6tpdqxXryN7Jif7b
- wFcbM6hQx1KAluzks24vm6vt401JXycrXk/U1TxhftI2k9a3Qr1m/7eQrpEGaUoY
- dMxR1PpNXaxHCUiB+IzNfCTcZdKp74OQaJyZNKu9NNG2Kd9Cty0VZ7c37OqmpmGx
- 91qSQwwUWpUuKrGDcjIKulD3bI5YIyxjctZu6ma29GlM+OIwXDzKYX0fO8UNhgKu
- Ok5g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1662567515; x=1662574715; bh=5DZtFrVdqR12nN7HSUlbgO9Phu3L
- j4gHCeI3MI0eXEs=; b=OZJQAUW2is2zfDT/Ce2aXyZmrMSXobT3OZMp5q6fVpQ/
- iVRiwH1zHSZcVtLQ2DkHlpUlqbEffGM1fAmWod1B2oWsgEDoe///wEj9f9lghrAo
- QmF2m0YsiHOKiN8AKnZz/6f5uUQMq/9NAYeyhYKiSfFb9Dz+qoavKwdvW7oRiyhC
- EATCi/71d3py5lcq99u7ST/c6PkyOa3KHXiwFRYH2JEiXVa1izqMZLW3QFlYIdsy
- XqD1Q0zUyBwkxx7SuUl6U3WVue4FTTdJB8uWCgJhcTDbXLhEkyIR5uYLz6VpaFwh
- 96XgrgE3i0bQPirExWJbzFosbfLoZt7t6DTe9rF30A==
-X-ME-Sender: <xms:V8QYYw_o5DzFzVn-nsNBEVd-FS_D_oEsE0Ni1kSDm-EDmUqf7t5RYw>
- <xme:V8QYY4tkvs0qarp3milgqkj-QnUfLwCvr9jPsDhMl_JVoMp1Uawemvudn2tTZjoFP
- RKollyj_THPCycU494>
-X-ME-Received: <xmr:V8QYY2AJ6tnceeMtt6ze-9Y21GxOCHjfGO0Uaic1_Z0sgkplNSGu4E0Lv93m0HLV2ntwuQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedttddgleelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
- ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
- grmhgvqeenucggtffrrghtthgvrhhnpeelgffhfeetlefhveffleevfffgtefffeelfedu
- udfhjeduteeggfeiheefteehjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuve
- hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirhhilhhl
- sehshhhuthgvmhhovhdrnhgrmhgv
-X-ME-Proxy: <xmx:V8QYYweqdTZRL4Hql-Il9ILHjXYOl5I2TLxUmx4tUf2irEd7UWrODA>
- <xmx:V8QYY1Nzk_PUNIp2LKA55MR0G9GVC8m4bLDpu3YSj4OFMB6ygSASzg>
- <xmx:V8QYY6lIz_r5CyIgsFG97LMd1GcuCvwSFmdupTCv8XNGm0jAThrJpw>
- <xmx:W8QYYyKr-0dAl_rNZ4o-w_sGm3XfXyNXiJWuDL3a0JOCCopTLRQCg_cdsds>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Sep 2022 12:18:31 -0400 (EDT)
-Received: by box.shutemov.name (Postfix, from userid 1000)
- id CAD3C103799; Wed,  7 Sep 2022 19:18:27 +0300 (+03)
-Date: Wed, 7 Sep 2022 19:18:27 +0300
-From: "Kirill A. Shutemov" <kirill@shutemov.name>
-To: David Hildenbrand <david@redhat.com>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org,	Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,	Jim Mattson <jmattson@google.com>,
- Joerg Roedel <joro@8bytes.org>,	Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,	Shuah Khan <shuah@kernel.org>,
- Mike Rapoport <rppt@kernel.org>,	Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,	luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com,	ak@linux.intel.com,
- aarcange@redhat.com, ddutile@redhat.com,	dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,	Michael Roth <michael.roth@amd.com>,
- mhocko@suse.com,	Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 05/14] mm/memfd: Introduce MFD_INACCESSIBLE flag
-Message-ID: <20220907161827.klbscalq5lk66rco@box.shutemov.name>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-6-chao.p.peng@linux.intel.com>
- <203c752f-9439-b5ae-056c-27b2631dcb81@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <203c752f-9439-b5ae-056c-27b2631dcb81@redhat.com>
-Received-SPF: pass client-ip=64.147.123.27; envelope-from=kirill@shutemov.name;
- helo=wnew2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from
+ <3CMUYYwcKChUGz8EFCz19916z.x97Bz7F-yzGz689818F.9C1@flex--venture.bounces.google.com>)
+ id 1oVxnx-0001b6-BI
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 12:21:39 -0400
+Received: from mail-yw1-x1149.google.com ([2607:f8b0:4864:20::1149]:42692)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3CMUYYwcKChUGz8EFCz19916z.x97Bz7F-yzGz689818F.9C1@flex--venture.bounces.google.com>)
+ id 1oVxnv-0000Ow-IJ
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 12:21:32 -0400
+Received: by mail-yw1-x1149.google.com with SMTP id
+ 00721157ae682-34546b03773so66226877b3.9
+ for <qemu-devel@nongnu.org>; Wed, 07 Sep 2022 09:21:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+ :date; bh=N528nELHISgJRpCN1kRQdQCiWiAUeOtlnYxRwqOB9wc=;
+ b=EJwhGVN7RUCrkX8lGqlLaxvcXvngq4PBU4zvpz/QtBFoc9PE4/Vp1zAwOux6p10Ood
+ zxve1QNmOMnctjykbe1bc6EF8RfPNjpeWKnMba8tGymt0E7MLykvwBjDWDzlAXC96o/g
+ maFJ3V7KF71LureeAX2HYww/l3zlwGOIifotQfrmoP0RplTlWWxYxc+da8kP8v68z5RX
+ GrgLs6OqdhIQvSK6F8wN+UkbcM6bkLcasMTlJGWFVv0qRZxnT+DkQ4+nbN22yTrlyFBZ
+ M99LYwl1IfcT5jkiinZFK/H6qgkt32g/dTTrwj6ocUAWXhUomVZN+zff2+/krEOW4M0b
+ Jp2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+ :from:to:cc:subject:date;
+ bh=N528nELHISgJRpCN1kRQdQCiWiAUeOtlnYxRwqOB9wc=;
+ b=FOAY0Gwy207w6dlvJOZ+1bT3tmRx+4lqkLkRGPCTaTXjcawiaGrlw9HlfnqtQdMyH+
+ i8d/j5R4VqT7Anp13mfnVXI/csGdYbrmResJVGhMjRsDzoZgCbclQrK/7BiqOQPjsT/7
+ wSj/4gNtkqgMvsCqqBptGixJUQWOL7n+mfx847l1ly+4M3y6IyH9OUzLLvNrYMzODlrK
+ GB5rnAP9Gc7Mw3Cxxt8IgdFuKplkPOv5Rct3/16A8tXOBJhr3TYMeRNKo/db4YO5OLiO
+ lplZW7k3+ZLhpxq2ePcIOnbAvFfo7rCIr2gNxy2Ke4moQeY8khksiB9GhJaLiQOlWaqu
+ XEtw==
+X-Gm-Message-State: ACgBeo0PS6V6PezyJcqcp+FPojMOc9il/kv+YDp9xluOFz1+JkqBeNTT
+ HIapha8S3/dAMs7f0+Ji+ovSvBE8wRWF
+X-Google-Smtp-Source: AA6agR4wActyXrSneEtP4SVQqju/WX1KzNPzt5wwN44voHXwoRqvb1y0jmVW1GgksuMR4Fw33BL0i/zGYZ9N
+X-Received: from venture.svl.corp.google.com
+ ([2620:15c:2a3:201:7358:4912:f10:4c09])
+ (user=venture job=sendgmr) by 2002:a25:3c07:0:b0:69c:8b7d:ac3a with SMTP id
+ j7-20020a253c07000000b0069c8b7dac3amr3293495yba.26.1662567688841; Wed, 07 Sep
+ 2022 09:21:28 -0700 (PDT)
+Date: Wed,  7 Sep 2022 09:21:25 -0700
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
+Message-ID: <20220907162125.3950701-1-venture@google.com>
+Subject: [PATCH] crypto/block-luks: always set splitkeylen to 0
+From: Patrick Venture <venture@google.com>
+To: berrange@redhat.com
+Cc: qemu-devel@nongnu.org, Patrick Venture <venture@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1149;
+ envelope-from=3CMUYYwcKChUGz8EFCz19916z.x97Bz7F-yzGz689818F.9C1@flex--venture.bounces.google.com;
+ helo=mail-yw1-x1149.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -128,43 +87,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 05, 2022 at 03:28:50PM +0200, David Hildenbrand wrote:
-> On 06.07.22 10:20, Chao Peng wrote:
-> > Introduce a new memfd_create() flag indicating the content of the
-> > created memfd is inaccessible from userspace through ordinary MMU
-> > access (e.g., read/write/mmap). However, the file content can be
-> > accessed via a different mechanism (e.g. KVM MMU) indirectly.
-> > 
-> > It provides semantics required for KVM guest private memory support
-> > that a file descriptor with this flag set is going to be used as the
-> > source of guest memory in confidential computing environments such
-> > as Intel TDX/AMD SEV but may not be accessible from host userspace.
-> > 
-> > The flag can not coexist with MFD_ALLOW_SEALING, future sealing is
-> > also impossible for a memfd created with this flag.
-> 
-> It's kind of weird to have it that way. Why should the user have to
-> care? It's the notifier requirement to have that, no?
-> 
-> Why can't we handle that when register a notifier? If anything is
-> already mapped, fail registering the notifier if the notifier has these
-> demands. If registering succeeds, block it internally.
-> 
-> Or what am I missing? We might not need the memfile set flag semantics
-> eventually and would not have to expose such a flag to user space.
+This was caught by a sanitized build, that was perhaps oversensitive.
 
-Well, with the new shim-based[1] implementation the approach without uAPI
-does not work.
+Signed-off-by: Patrick Venture <venture@google.com>
+---
+ crypto/block-luks.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-We now have two struct file, one is a normal accessible memfd and the
-other one is wrapper around that hides the memfd from userspace and
-filters allowed operations. If we first create an accessible memfd that
-userspace see it would be hard to hide it as by the time userspace may
-have multiple fds in different processes that point to the same struct
-file.
-
-[1] https://lore.kernel.org/all/20220831142439.65q2gi4g2d2z4ofh@box.shutemov.name
-
+diff --git a/crypto/block-luks.c b/crypto/block-luks.c
+index f62be6836b..8633fb7e9f 100644
+--- a/crypto/block-luks.c
++++ b/crypto/block-luks.c
+@@ -729,7 +729,7 @@ qcrypto_block_luks_store_key(QCryptoBlock *block,
+     QCryptoBlockLUKS *luks = block->opaque;
+     QCryptoBlockLUKSKeySlot *slot;
+     g_autofree uint8_t *splitkey = NULL;
+-    size_t splitkeylen;
++    size_t splitkeylen = 0;
+     g_autofree uint8_t *slotkey = NULL;
+     g_autoptr(QCryptoCipher) cipher = NULL;
+     g_autoptr(QCryptoIVGen) ivgen = NULL;
+@@ -901,7 +901,7 @@ qcrypto_block_luks_load_key(QCryptoBlock *block,
+     QCryptoBlockLUKS *luks = block->opaque;
+     const QCryptoBlockLUKSKeySlot *slot;
+     g_autofree uint8_t *splitkey = NULL;
+-    size_t splitkeylen;
++    size_t splitkeylen = 0;
+     g_autofree uint8_t *possiblekey = NULL;
+     int rv;
+     g_autoptr(QCryptoCipher) cipher = NULL;
+@@ -1147,7 +1147,7 @@ qcrypto_block_luks_erase_key(QCryptoBlock *block,
+     QCryptoBlockLUKS *luks = block->opaque;
+     QCryptoBlockLUKSKeySlot *slot;
+     g_autofree uint8_t *garbagesplitkey = NULL;
+-    size_t splitkeylen;
++    size_t splitkeylen = 0;
+     size_t i;
+     Error *local_err = NULL;
+     int ret;
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+2.37.2.789.g6183377224-goog
+
 
