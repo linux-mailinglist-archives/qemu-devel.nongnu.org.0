@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BC365B05D0
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 15:56:22 +0200 (CEST)
-Received: from localhost ([::1]:37266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2630D5B064D
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Sep 2022 16:20:47 +0200 (CEST)
+Received: from localhost ([::1]:39840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oVvXR-0004YE-B4
-	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 09:56:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45788)
+	id 1oVvv3-0004Po-Mn
+	for lists+qemu-devel@lfdr.de; Wed, 07 Sep 2022 10:20:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oVvUt-0000jm-GP
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 09:53:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38093)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oVvUp-0001du-7g
- for qemu-devel@nongnu.org; Wed, 07 Sep 2022 09:53:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662558817;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=q8UuP7BuzhzvIZhQovh8nl33Ggwq6BP75DgIN9+YbkI=;
- b=bjodZ3rpGtnxDvvfWbdPZcYBkuY81iZIw1W8+sIFAX9+LnWZi4xCG9usIjxLaBcjh7qYnV
- wnU390NzyDr+etU/6UAg+Iu65BjenCTXLqa0swIfUxKZt64AnpJoLb74+XsgILOfextWI6
- x6FFnDxErYkuToe67UGQ1dNRQJ2XGDA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-465-Nc4-9vgCN8yIz_VCz1FLow-1; Wed, 07 Sep 2022 09:53:34 -0400
-X-MC-Unique: Nc4-9vgCN8yIz_VCz1FLow-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 96BDE29DD984;
- Wed,  7 Sep 2022 13:53:33 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.192])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0D58E2026D4C;
- Wed,  7 Sep 2022 13:53:32 +0000 (UTC)
-Date: Wed, 7 Sep 2022 09:53:30 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oVvtI-0002On-KA
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 10:18:56 -0400
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:45952)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oVvtG-0005pZ-VI
+ for qemu-devel@nongnu.org; Wed, 07 Sep 2022 10:18:56 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id d189so19130363ybh.12
+ for <qemu-devel@nongnu.org>; Wed, 07 Sep 2022 07:18:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=jOxs/Aq/kzUvzbbeTr/4AYemdL4TQeE4YRBDbl+PN3c=;
+ b=en3asxkvttD83ou8Pf6e8FHabtmN5goxbOuzMuplOCuZ6KKAIRMsieey0N9P796pNq
+ e1xVvtBcTpSCowNG/liae4bXLim4FUA5ho+/zfZHSplFOlfKVCccMtgAWlP1+LwfROSe
+ nBc/FL31ULOI2RMQTmKQ/Zb//BBqiq/rdfYrXI8Ry8mRSQ5v9vTKS/KyDc5mZ9VRx+5I
+ 3ay2bYHHZW32BDRznf8IJql0mpYNuyX+Hyvozw+s/FMvl2cuugqvZ08e4M0yVva82lcC
+ D07U2U0sICWR7Jj/XNytIGxYtzyLORDMR1vH7xO5qCDAmY8vDc9Yvodi9JyF17p7rAqH
+ rnbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=jOxs/Aq/kzUvzbbeTr/4AYemdL4TQeE4YRBDbl+PN3c=;
+ b=KH6KhUNTzoOQ0jQrLY+KbxmvgzVKe7y3mwjSNya9syNFB7UGGy+xdNfAY0rkIG7cjF
+ wv9D1eMQpDJpKSVtBefX/Ynope2HvMMVFQC5PjHBuqBYr4d2f7mHZYJarVG0MLTnhEr8
+ T0j3T/Y8UM2IKHEP1Jl4IvYDkMGQtPinp8KH+ZoC1QNPhmlboM1dJV9z6zh/TmlGrBKj
+ Y3aLzgaNA7Wg7eZACrVzx4uP6ID6PDuTuP8oM+ZwUxytDBMkuFOvbobv0GrgPOu5P97W
+ /xni9wCiqQ0efqeiGAsiSKyQ1V3WFNQ2E6z8Tz52iXyzX0QkN56B+DQt1oCK2aq0VeA8
+ HbzA==
+X-Gm-Message-State: ACgBeo0kG8ry77DUEoTMrXh9CPWt5juIK8L2kX89gNs3JFG0yOVLnFd1
+ m7AGeTmahgZqF3JDKvrcNmiPAgm9xgl6ZPHWeaQ=
+X-Google-Smtp-Source: AA6agR7GPKXrD3Dakr5r8TxFlEsw/fRGYcuEubVxq7u41R1RYe7tArAoPUDAN9Z2GW/vGw2pfb4u55uex+x5R7qbv6A=
+X-Received: by 2002:a25:6c83:0:b0:6a6:8470:dc00 with SMTP id
+ h125-20020a256c83000000b006a68470dc00mr3119714ybc.118.1662560333384; Wed, 07
+ Sep 2022 07:18:53 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220907080353.111926-1-alistair.francis@wdc.com>
+In-Reply-To: <20220907080353.111926-1-alistair.francis@wdc.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Wed, 7 Sep 2022 10:18:41 -0400
+Message-ID: <CAJSP0QVyG73LZ50UJyPFanOKJ3tq27k6LJvvwQ30mJcuAzjDaQ@mail.gmail.com>
+Subject: Re: [PULL 00/44] riscv-to-apply queue
 To: Alistair Francis <alistair.francis@wdc.com>
 Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, alistair23@gmail.com
-Subject: Re: [PULL 00/44] riscv-to-apply queue
-Message-ID: <YxiiWiCTc6rQlCdE@fedora>
-References: <20220907080353.111926-1-alistair.francis@wdc.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+AnFiTyJ2Rv36uW4"
-Content-Disposition: inline
-In-Reply-To: <20220907080353.111926-1-alistair.francis@wdc.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,30 +82,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 7 Sept 2022 at 04:32, Alistair Francis via
+<qemu-devel@nongnu.org> wrote:
+>
+> The following changes since commit 946e9bccf12f2bcc3ca471b820738fb22d14fc80:
+>
+>   Merge tag 'samuel-thibault' of https://people.debian.org/~sthibault/qemu into staging (2022-09-06 08:31:24 -0400)
+>
+> are available in the Git repository at:
+>
+>   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20220907
 
---+AnFiTyJ2Rv36uW4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Hi Alistair,
+Please update .git/config to separate the push URL from the fetch URL:
 
-Applied, thanks.
+[remote "github"]
+        url = https://github.com/alistair23/qemu.git
+        pushUrl = git@gitlab.com:alistair23/qemu.git
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
+That way future pull requests will include an https URL that allows
+fetches without ssh or a GitHub account. Thanks!
 
---+AnFiTyJ2Rv36uW4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMYoloACgkQnKSrs4Gr
-c8gxYQf/Qz0IEr68y6JYtou6/CD0QVxASRywd0n39hc6XodzHMWKh3s0633fNwVR
-1jPalsdPk/MmyVE/y+Jszlc7N3/mU0L4B/+Hi/xoMrWEh5ZUrIqvqRi4hMiOnYhe
-rZLSLIu46Efmc7WNcaRbYd8ZmiOohMiEX3F5a8vphX6iDUyNIinGJnPPizUyroQ2
-9wCO5ax05MK5Hq7wMhBLUboCVbnMIAJddYErMjypvZU1Z0ERzFKPRmGpbDZ91mji
-AgC6TbptnWNafitC/FG7g9N8+xDObdNGFzUruEQXJ4fd8Y6CeQ8P/ZvLxvRGnwh4
-sOXFvkR4ve0R0kwNAe0x1Lj2jFWhfg==
-=22VX
------END PGP SIGNATURE-----
-
---+AnFiTyJ2Rv36uW4--
-
+Stefan
 
