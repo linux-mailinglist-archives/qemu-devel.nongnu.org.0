@@ -2,52 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48DC15B25F3
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 20:37:14 +0200 (CEST)
-Received: from localhost ([::1]:43982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B40C55B25F4
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 20:37:15 +0200 (CEST)
+Received: from localhost ([::1]:50212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWMOm-0003FM-PY
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 14:37:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54008)
+	id 1oWMOo-0003LK-KC
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 14:37:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oWMI7-0006Zn-SW
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 14:30:30 -0400
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c]:57712)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oWMI6-0006ZV-Mb
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 14:30:18 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d]:59718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oWMI5-0003UN-AE
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 14:30:19 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oWMI4-0003UO-SY
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 14:30:18 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 402F9225A5;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 8D7FA1F8C4;
  Thu,  8 Sep 2022 18:30:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1662661814; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=GXI+PEH2Ul1Hz01vWclul5W9rEEXT8F52Psxr2ZExGw=;
- b=CoaJUtmo+R3a1/OjMlahwTZoipc+Nrmt1j5lBTjVMkIo/R1MJxsgqrOPIcXcrJNsR8FzQD
- wlm7n4xGfyTtT2OQQAMGEGimgIqyofpO3ycUGvIH8e8WMVLImqe92Bmz/1U0fU/RiyhVvg
- e1Pgw2Fbeg2JjyJFn4XHMz6AsA+tU0o=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4L5t01RoSvLFc7n/IRLFdqy9eyH/xhBEeEPfT71PCJI=;
+ b=qIOMMzBeVRFvf6br+RRhtoQwkP5om1Oe/ZWNjf0TWXYc5TTXX9PeDgfzpYoQQ1kYVXtBQt
+ OjAQ/rDhNwZyS4Ec6pavSYL7R9ognwt4Q+n0jmlCzyE5W0ls/TQjrFpeXMwRNopiw7DXhR
+ YiyjpO4IjiFhk5ESyBwTjF9VndLSB8M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1662661814;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=GXI+PEH2Ul1Hz01vWclul5W9rEEXT8F52Psxr2ZExGw=;
- b=wDgNqif+sWcTcVZo/xiD4VicTho28/9aaQpMqYP0dqKFVQcDMkafHO2tGIGN+iMTVGst2C
- 7bHrFRy0MHrqmEDQ==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4L5t01RoSvLFc7n/IRLFdqy9eyH/xhBEeEPfT71PCJI=;
+ b=sMhfUGVxgb6Ly8NwJ3vV4RGlf7GI8USqeT70qaKmp6I8NBQ0I/zXglNlz3tCZxxtazfkPK
+ FZKwi4kZ4u8ANRCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EA23B13A6D;
- Thu,  8 Sep 2022 18:30:13 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 45B2413A72;
+ Thu,  8 Sep 2022 18:30:14 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id nhThN7U0GmM4NwAAMHmgww
- (envelope-from <cfontana@suse.de>); Thu, 08 Sep 2022 18:30:13 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id iEDXD7Y0GmM4NwAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 08 Sep 2022 18:30:14 +0000
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -58,15 +60,17 @@ Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Claudio Fontana <cfontana@suse.de>
-Subject: [PATCH v4 0/3] improve error handling for module load
-Date: Thu,  8 Sep 2022 20:30:09 +0200
-Message-Id: <20220908183012.17667-1-cfontana@suse.de>
+Subject: [PATCH v4 1/3] module: removed unused function argument "mayfail"
+Date: Thu,  8 Sep 2022 20:30:10 +0200
+Message-Id: <20220908183012.17667-2-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20220908183012.17667-1-cfontana@suse.de>
+References: <20220908183012.17667-1-cfontana@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c;
- envelope-from=cfontana@suse.de; helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=2001:67c:2178:6::1d;
+ envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,70 +92,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CHANGELOG:
+mayfail is always passed as false for every invocation throughout the program.
+It controls whether to printf or not to printf an error on
+g_module_open failure.
 
-v3 -> v4: (Richard)
+Remove this unused argument.
 
-* module_object_class_by_name: return NULL immediately on load error.
-* audio_driver_lookup: same.
-* bdrv_find_format: same.
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ include/qemu/module.h |  8 ++++----
+ softmmu/qtest.c       |  2 +-
+ util/module.c         | 20 +++++++++-----------
+ 3 files changed, 14 insertions(+), 16 deletions(-)
 
-* dmg_open: handle optional compression submodules better: f.e.,
-  if "dmg-bz2" is not present, continue but offer a warning.
-  If "dmg-bz2" load fails with error, error out and return.
-
-* module_load_dso: add newline to error_append_hint.
-
-v2 -> v3:
-
-* take the file existence check outside of module_load_file,
-  rename module_load_file to module_load_dso, will be called only on
-  an existing file. This will simplify the return value. (Richard)
-
-* move exported function documentation into header files (Richard)
-
-v1 -> v2:
-
-* do not treat the display help text any differently and do report
-  module load _errors_. If the module does not exist (ENOENT, ENOTDIR),
-  no error will be produced.
-
-DESCRIPTION:
-
-while investigating a permission issue in accel, where accel-tcg-x86_64.so
-was not accessible, I noticed that no errors were produced regarding the
-module load failure.
-
-This series attempts to improve module_load_one and module_load_qom_one
-to handle the error cases better and produce some errors.
-
-Patch 1 is already reviewed and is about removing an unused existing
-argument "mayfail" from the call stack.
-
-Patch 2 is the real meat, and that one I would say is RFC.
-Will follow up with comments on the specific questions I have.
-
-Patch 3 finally adds a simple check in accel/, aborting if a module
-is not found, but relying on the existing error report from
-module_load_qom_one.
-
-Claudio Fontana (3):
-  module: removed unused function argument "mayfail"
-  module: add Error arguments to module_load_one and module_load_qom_one
-  accel: abort if we fail to load the accelerator plugin
-
- accel/accel-softmmu.c |   8 ++-
- audio/audio.c         |   9 ++-
- block.c               |  15 ++++-
- block/dmg.c           |  18 +++++-
- hw/core/qdev.c        |  10 ++-
- include/qemu/module.h |  38 +++++++++--
- qom/object.c          |  18 +++++-
- softmmu/qtest.c       |   6 +-
- ui/console.c          |  18 +++++-
- util/module.c         | 142 ++++++++++++++++++++++++------------------
- 10 files changed, 201 insertions(+), 81 deletions(-)
-
+diff --git a/include/qemu/module.h b/include/qemu/module.h
+index bd73607104..8c012bbe03 100644
+--- a/include/qemu/module.h
++++ b/include/qemu/module.h
+@@ -61,15 +61,15 @@ typedef enum {
+ #define fuzz_target_init(function) module_init(function, \
+                                                MODULE_INIT_FUZZ_TARGET)
+ #define migration_init(function) module_init(function, MODULE_INIT_MIGRATION)
+-#define block_module_load_one(lib) module_load_one("block-", lib, false)
+-#define ui_module_load_one(lib) module_load_one("ui-", lib, false)
+-#define audio_module_load_one(lib) module_load_one("audio-", lib, false)
++#define block_module_load_one(lib) module_load_one("block-", lib)
++#define ui_module_load_one(lib) module_load_one("ui-", lib)
++#define audio_module_load_one(lib) module_load_one("audio-", lib)
+ 
+ void register_module_init(void (*fn)(void), module_init_type type);
+ void register_dso_module_init(void (*fn)(void), module_init_type type);
+ 
+ void module_call_init(module_init_type type);
+-bool module_load_one(const char *prefix, const char *lib_name, bool mayfail);
++bool module_load_one(const char *prefix, const char *lib_name);
+ void module_load_qom_one(const char *type);
+ void module_load_qom_all(void);
+ void module_allow_arch(const char *arch);
+diff --git a/softmmu/qtest.c b/softmmu/qtest.c
+index f8acef2628..76eb7bac56 100644
+--- a/softmmu/qtest.c
++++ b/softmmu/qtest.c
+@@ -756,7 +756,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+         g_assert(words[1] && words[2]);
+ 
+         qtest_send_prefix(chr);
+-        if (module_load_one(words[1], words[2], false)) {
++        if (module_load_one(words[1], words[2])) {
+             qtest_sendf(chr, "OK\n");
+         } else {
+             qtest_sendf(chr, "FAIL\n");
+diff --git a/util/module.c b/util/module.c
+index 8ddb0e18f5..8563edd626 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -144,7 +144,7 @@ static bool module_check_arch(const QemuModinfo *modinfo)
+     return true;
+ }
+ 
+-static int module_load_file(const char *fname, bool mayfail, bool export_symbols)
++static int module_load_file(const char *fname, bool export_symbols)
+ {
+     GModule *g_module;
+     void (*sym)(void);
+@@ -172,10 +172,8 @@ static int module_load_file(const char *fname, bool mayfail, bool export_symbols
+     }
+     g_module = g_module_open(fname, flags);
+     if (!g_module) {
+-        if (!mayfail) {
+-            fprintf(stderr, "Failed to open module: %s\n",
+-                    g_module_error());
+-        }
++        fprintf(stderr, "Failed to open module: %s\n",
++                g_module_error());
+         ret = -EINVAL;
+         goto out;
+     }
+@@ -208,7 +206,7 @@ out:
+ }
+ #endif
+ 
+-bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
++bool module_load_one(const char *prefix, const char *lib_name)
+ {
+     bool success = false;
+ 
+@@ -256,7 +254,7 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+             if (strcmp(modinfo->name, module_name) == 0) {
+                 /* we depend on other module(s) */
+                 for (sl = modinfo->deps; *sl != NULL; sl++) {
+-                    module_load_one("", *sl, false);
++                    module_load_one("", *sl);
+                 }
+             } else {
+                 for (sl = modinfo->deps; *sl != NULL; sl++) {
+@@ -287,7 +285,7 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+     for (i = 0; i < n_dirs; i++) {
+         fname = g_strdup_printf("%s/%s%s",
+                 dirs[i], module_name, CONFIG_HOST_DSOSUF);
+-        ret = module_load_file(fname, mayfail, export_symbols);
++        ret = module_load_file(fname, export_symbols);
+         g_free(fname);
+         fname = NULL;
+         /* Try loading until loaded a module file */
+@@ -333,7 +331,7 @@ void module_load_qom_one(const char *type)
+         }
+         for (sl = modinfo->objs; *sl != NULL; sl++) {
+             if (strcmp(type, *sl) == 0) {
+-                module_load_one("", modinfo->name, false);
++                module_load_one("", modinfo->name);
+             }
+         }
+     }
+@@ -354,7 +352,7 @@ void module_load_qom_all(void)
+         if (!module_check_arch(modinfo)) {
+             continue;
+         }
+-        module_load_one("", modinfo->name, false);
++        module_load_one("", modinfo->name);
+     }
+     module_loaded_qom_all = true;
+ }
+@@ -370,7 +368,7 @@ void qemu_load_module_for_opts(const char *group)
+         }
+         for (sl = modinfo->opts; *sl != NULL; sl++) {
+             if (strcmp(group, *sl) == 0) {
+-                module_load_one("", modinfo->name, false);
++                module_load_one("", modinfo->name);
+             }
+         }
+     }
 -- 
 2.26.2
 
