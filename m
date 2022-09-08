@@ -2,63 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D89575B1CDC
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 14:24:54 +0200 (CEST)
-Received: from localhost ([::1]:43972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DAB35B1CFA
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 14:30:07 +0200 (CEST)
+Received: from localhost ([::1]:39500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWGaT-0002kN-QQ
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 08:24:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58702)
+	id 1oWGfV-0008Et-V6
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 08:30:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oWGUl-0005Ze-2J
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:19:01 -0400
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:44939)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oWGUh-0006Y1-7h
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:18:58 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.53])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 46EC51264C4AF;
- Thu,  8 Sep 2022 14:18:43 +0200 (CEST)
-Received: from kaod.org (37.59.142.99) by DAG8EX2.mxp5.local (172.16.2.72)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Thu, 8 Sep
- 2022 14:18:42 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G00363a97001-90ee-4936-8dff-2d1b246a9d01,
- B02C07B1D5AE2B4A5F5E9DA07B2DFCF1042A4A0C) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Thu, 8 Sep 2022 14:18:41 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Linus Heckemann <git@sphalerite.org>
-CC: <qemu-devel@nongnu.org>, Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Qemu-block <qemu-block@nongnu.org>, Philippe =?UTF-8?B?TWF0aGlldS1EYXVk?=
- =?UTF-8?B?w6k=?= <f4bug@amsat.org>, "Daniel P . =?UTF-8?B?QmVycmFuZ8Op?="
- <berrange@redhat.com>
-Subject: Re: [PATCH v3] 9pfs: use GHashTable for fid table
-Message-ID: <20220908141841.6a451d85@bahia>
-In-Reply-To: <20220908112353.289267-1-git@sphalerite.org>
-References: <20220908112353.289267-1-git@sphalerite.org>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oWGWT-0006JH-Jx; Thu, 08 Sep 2022 08:20:54 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:37709)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oWGWR-0006wf-32; Thu, 08 Sep 2022 08:20:45 -0400
+Received: by mail-pl1-x635.google.com with SMTP id s14so8067122plr.4;
+ Thu, 08 Sep 2022 05:20:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=gGwciXe+KgbtQeG+qcrmvTsL0sPPNjqDqu0dnkffVqE=;
+ b=qvNFEuyEWtGXE4hYf4ENU4GOxdwBPXhh86rU2FyMlP2YU+xFWAZuHPkV5F/eIiA28b
+ hYFTEY/74Uzw6+6Nf7I9jFWNCFB3EGEicdMuTfEWv7IPQ9szn7z9sDiISiBDzWhyGnih
+ k+kr04PId0yNLCw1CePACkpDUF+ZhQwtQKme3Og+MikEQnzRt1Tc+bK3Guu+OZgfaciD
+ dHxLVyEu2/kMlBivYF9VHi3ocijdd3XqPWNh4R8p5jYlam57WJQBH/o9hrTj6eK37TR0
+ 5AD3Rw6fXMQlTMmLkNrS6PNtwD/FJ77sDjkc0vC6lNNR2bg3SsIoqeza38q0BKT4wjiO
+ hzqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=gGwciXe+KgbtQeG+qcrmvTsL0sPPNjqDqu0dnkffVqE=;
+ b=laeURqbW1OO1xD4Dse2RWnCkg72IqPASGYWTQSy37hIa9LHzq2AH0QyOVCHezfM819
+ BjC91xZJsoGu76ADKQiz7JsaOA6SvMztA32wZMcJSqsLd0fOqtNzHR+HgtBHUuQ4NRGV
+ 56SdzIEpZMqi1HAK29MfXhDOKq3QuRxn+EsOCRrTIDg2c0pX4cUA7Fi5tQfXzYGgqxgS
+ +rx3+X0CAp+C5JLpJDz0E8NP4vibwxSQ8QfVwau0AUXu/r7p02Qi10pIn7xd3Kayn71o
+ 3T+ZHGExY/l2aFl5PeJN7Go9VRevnDYH2VAdPdCxfy8/1GRoAVvGx9kkSXQu9W2JA982
+ xKjw==
+X-Gm-Message-State: ACgBeo3lL7A3/Ghd+s8zPvJLp1OrtaW4xQ//BQjTgujXXREhstW7o45W
+ Ty7AjPBdG4L9UKbmOj6HbcmgtaZD0cMqNEIgx1s=
+X-Google-Smtp-Source: AA6agR46LCgr5H2ZvNKBy5A9ya2LmP6F1l+0izkjv5Xcw8Zaqret4Zd4tmainc0dj/8rh0vf8ELJe7Uv20XtVt3Sj8g=
+X-Received: by 2002:a17:90a:474b:b0:1fd:62c3:62ef with SMTP id
+ y11-20020a17090a474b00b001fd62c362efmr4004456pjg.8.1662639641198; Thu, 08 Sep
+ 2022 05:20:41 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAB88-qOuU=4dhQQdamqsXXwZF1kWO15SS48DK3Q7sXQ7JtWmMA@mail.gmail.com>
+In-Reply-To: <CAB88-qOuU=4dhQQdamqsXXwZF1kWO15SS48DK3Q7sXQ7JtWmMA@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 8 Sep 2022 14:20:14 +0200
+Message-ID: <CAKmqyKOSGGENYYq4XTUNQq51A2Eroubm1YWERyzrWE3HfFADyg@mail.gmail.com>
+Subject: Re: [PATCH 4/4] hw/timer: ibex_timer.c: Add support for writes to
+ mtime
+To: Tyler Ng <tkng@rivosinc.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG8EX2.mxp5.local
- (172.16.2.72)
-X-Ovh-Tracer-GUID: be34fc12-e487-4e87-9848-d60b70acb178
-X-Ovh-Tracer-Id: 15970608704750262566
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfedtvddghedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepueeuieejtdelleeutdfhteejffeiteffueevffeffeetvdeifeeujefgudegteeunecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehvdel
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=groug@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=alistair23@gmail.com; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,394 +87,229 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu,  8 Sep 2022 13:23:53 +0200
-Linus Heckemann <git@sphalerite.org> wrote:
+On Fri, Sep 2, 2022 at 3:28 AM Tyler Ng <tkng@rivosinc.com> wrote:
+>
+> 1. Adds fields to hold the value of mtime in timer_upper0 and timer_lower0.
+>
+> 2. Changes the read and write functions to use the mtime fields.
+>
+> 3. Updates the value of mtime in update_mtime() by extrapolating the
+> time elapsed. This will need to change if/when the prescalar is
+> implemented.
+>
+> Signed-off-by: Tyler Ng <tkng@rivosinc.com>
 
-> The previous implementation would iterate over the fid table for
-> lookup operations, resulting in an operation with O(n) complexity on
-> the number of open files and poor cache locality -- for every open,
-> stat, read, write, etc operation.
->=20
-> This change uses a hashtable for this instead, significantly improving
-> the performance of the 9p filesystem. The runtime of NixOS's simple
-> installer test, which copies ~122k files totalling ~1.8GiB from 9p,
-> decreased by a factor of about 10.
->=20
-> Signed-off-by: Linus Heckemann <git@sphalerite.org>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
->=20
-> Greg Kurz writes:
-> > The comment above should be adapted to the new situation : no need
->=20
-> I've removed it completely, since the logic is simple enough that only
-> the shortened comment below remains necessary.
->=20
-> > With the new logic, this should just be:
->=20
-> now is :)
->=20
-> > g_hash_table_steal_extended() [1] actually allows to do just that.
->=20
-> g_hash_table_steal_extended unfortunately isn't available since it was
-> introduced in glib 2.58 and we're maintaining compatibility to 2.56.
->=20
-
-Ha... this could be addressed through conditional compilation, e.g.:
-
-static V9fsFidState *clunk_fid(V9fsState *s, int32_t fid)
-{
-    V9fsFidState *fidp;
-
-#if GLIB_CHECK_VERSION(2,56,0)
-    if (!g_hash_table_steal_extended(s->fids, GINT_TO_POINTER(fid),
-                                     NULL, (gpointer *) &fidp)) {
-        return NULL;
-    }
-#else
-    fidp =3D g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
-    if (fidp) {
-        g_hash_table_remove(s->fids, GINT_TO_POINTER(fid));
-    } else {
-        return NULL;
-    }
-#endif
-
-    fidp->clunked =3D true;
-    return fidp;
-}
-
-or simply leave a TODO comment so that we don't forget.
-
-
-> > You could just call g_hash_table_iter_remove(&iter) here
->=20
-> Applied this suggestion, thanks!
->=20
->=20
-> > Well... finding at least one clunked fid state in this table is
-> > definitely a bug so I'll keep the BUG_ON() anyway.
->=20
-> Christian Schoenebeck writes:
-> > Yeah, I think you are right, it would feel odd. Just drop BUG_ON() for
-> > now.
->=20
-> I still prefer dropping it, but if we were to keep it I think it should
-> be in v9fs_reclaim_fd where we iterate and can thus check the whole
-> table.
->=20
-
-IMO the relevant aspect isn't really about checking the whole table, but
-rather not to get a clunked fid out of this table and pass it over.
-
->=20
-> Greg Kurz and Philippe Mathieu-Daud=C3=A9 write:
-> > [patch versioning]
->=20
-> Whoops. I used -v2 on git send-email, which just ignored the option,
-> rather than git format-patch, by accident. This one _should_ now be v3!
->=20
->=20
-
-v3 it is and LGTM ! No big deal with the BUG_ON(), given the improvement.
-
-My R-b stands. Thanks Linus !
-
->  hw/9pfs/9p.c | 140 +++++++++++++++++++++++++--------------------------
->  hw/9pfs/9p.h |   2 +-
->  2 files changed, 70 insertions(+), 72 deletions(-)
->=20
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index aebadeaa03..98a475e560 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -282,33 +282,31 @@ static V9fsFidState *coroutine_fn get_fid(V9fsPDU *=
-pdu, int32_t fid)
->      V9fsFidState *f;
->      V9fsState *s =3D pdu->s;
-> =20
-> -    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
-> -        BUG_ON(f->clunked);
-> -        if (f->fid =3D=3D fid) {
-> -            /*
-> -             * Update the fid ref upfront so that
-> -             * we don't get reclaimed when we yield
-> -             * in open later.
-> -             */
-> -            f->ref++;
-> -            /*
-> -             * check whether we need to reopen the
-> -             * file. We might have closed the fd
-> -             * while trying to free up some file
-> -             * descriptors.
-> -             */
-> -            err =3D v9fs_reopen_fid(pdu, f);
-> -            if (err < 0) {
-> -                f->ref--;
-> -                return NULL;
-> -            }
-> -            /*
-> -             * Mark the fid as referenced so that the LRU
-> -             * reclaim won't close the file descriptor
-> -             */
-> -            f->flags |=3D FID_REFERENCED;
-> -            return f;
-> +    f =3D g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
-> +    if (f) {
-> +        /*
-> +         * Update the fid ref upfront so that
-> +         * we don't get reclaimed when we yield
-> +         * in open later.
-> +         */
-> +        f->ref++;
-> +        /*
-> +         * check whether we need to reopen the
-> +         * file. We might have closed the fd
-> +         * while trying to free up some file
-> +         * descriptors.
-> +         */
-> +        err =3D v9fs_reopen_fid(pdu, f);
-> +        if (err < 0) {
-> +            f->ref--;
-> +            return NULL;
->          }
-> +        /*
-> +         * Mark the fid as referenced so that the LRU
-> +         * reclaim won't close the file descriptor
-> +         */
-> +        f->flags |=3D FID_REFERENCED;
-> +        return f;
->      }
->      return NULL;
->  }
-> @@ -317,12 +315,9 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t=
- fid)
->  {
->      V9fsFidState *f;
-> =20
-> -    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
-> +    if (g_hash_table_contains(s->fids, GINT_TO_POINTER(fid))) {
->          /* If fid is already there return NULL */
-> -        BUG_ON(f->clunked);
-> -        if (f->fid =3D=3D fid) {
-> -            return NULL;
-> -        }
-> +        return NULL;
->      }
->      f =3D g_new0(V9fsFidState, 1);
->      f->fid =3D fid;
-> @@ -333,7 +328,7 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t =
-fid)
->       * reclaim won't close the file descriptor
->       */
->      f->flags |=3D FID_REFERENCED;
-> -    QSIMPLEQ_INSERT_TAIL(&s->fid_list, f, next);
-> +    g_hash_table_insert(s->fids, GINT_TO_POINTER(fid), f);
-> =20
->      v9fs_readdir_init(s->proto_version, &f->fs.dir);
->      v9fs_readdir_init(s->proto_version, &f->fs_reclaim.dir);
-> @@ -424,12 +419,11 @@ static V9fsFidState *clunk_fid(V9fsState *s, int32_=
-t fid)
->  {
->      V9fsFidState *fidp;
-> =20
-> -    QSIMPLEQ_FOREACH(fidp, &s->fid_list, next) {
-> -        if (fidp->fid =3D=3D fid) {
-> -            QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
-> -            fidp->clunked =3D true;
-> -            return fidp;
-> -        }
-> +    fidp =3D g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
-> +    if (fidp) {
-> +        g_hash_table_remove(s->fids, GINT_TO_POINTER(fid));
-> +        fidp->clunked =3D true;
-> +        return fidp;
->      }
->      return NULL;
->  }
-> @@ -439,10 +433,15 @@ void coroutine_fn v9fs_reclaim_fd(V9fsPDU *pdu)
->      int reclaim_count =3D 0;
->      V9fsState *s =3D pdu->s;
->      V9fsFidState *f;
-> +    GHashTableIter iter;
-> +    gpointer fid;
+>  hw/timer/ibex_timer.c         | 94 +++++++++++++++++++++++++----------
+>  include/hw/timer/ibex_timer.h |  5 ++
+>  2 files changed, 73 insertions(+), 26 deletions(-)
+>
+> diff --git a/hw/timer/ibex_timer.c b/hw/timer/ibex_timer.c
+> index 9ffd4821e8..7d0ea2db1e 100644
+> --- a/hw/timer/ibex_timer.c
+> +++ b/hw/timer/ibex_timer.c
+> @@ -52,30 +52,59 @@ REG32(UPPER0, 0x114)
+>  REG32(COMPARE_LOWER0, 0x118)
+>  REG32(COMPARE_UPPER0, 0x11C)
+>
+> -static uint64_t cpu_riscv_read_rtc(uint32_t timebase_freq)
 > +
-> +    g_hash_table_iter_init(&iter, s->fids);
-> +
->      QSLIST_HEAD(, V9fsFidState) reclaim_list =3D
->          QSLIST_HEAD_INITIALIZER(reclaim_list);
-> =20
-> -    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
-> +    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &f)) {
->          /*
->           * Unlink fids cannot be reclaimed. Check
->           * for them and skip them. Also skip fids
-> @@ -518,23 +517,19 @@ static int coroutine_fn v9fs_mark_fids_unreclaim(V9=
-fsPDU *pdu, V9fsPath *path)
->  {
->      int err;
->      V9fsState *s =3D pdu->s;
-> -    V9fsFidState *fidp, *fidp_next;
-> +    V9fsFidState *fidp;
-> +    gpointer fid;
-> +    GHashTableIter iter;
-> =20
-> -    fidp =3D QSIMPLEQ_FIRST(&s->fid_list);
-> -    if (!fidp) {
-> -        return 0;
-> -    }
-> +    g_hash_table_iter_init(&iter, s->fids);
-> +
-> +    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &fidp)) {
-> +        /*
-> +         * Ensure the fid survives a potential clunk request during
-> +         * v9fs_reopen_fid.
-> +         */
-> +        fidp->ref++;
-> =20
-> -    /*
-> -     * v9fs_reopen_fid() can yield : a reference on the fid must be held
-> -     * to ensure its pointer remains valid and we can safely pass it to
-> -     * QSIMPLEQ_NEXT(). The corresponding put_fid() can also yield so
-> -     * we must keep a reference on the next fid as well. So the logic he=
-re
-> -     * is to get a reference on a fid and only put it back during the ne=
-xt
-> -     * iteration after we could get a reference on the next fid. Start w=
-ith
-> -     * the first one.
-> -     */
-> -    for (fidp->ref++; fidp; fidp =3D fidp_next) {
->          if (fidp->path.size =3D=3D path->size &&
->              !memcmp(fidp->path.data, path->data, path->size)) {
->              /* Mark the fid non reclaimable. */
-> @@ -548,16 +543,6 @@ static int coroutine_fn v9fs_mark_fids_unreclaim(V9f=
-sPDU *pdu, V9fsPath *path)
->              }
->          }
-> =20
-> -        fidp_next =3D QSIMPLEQ_NEXT(fidp, next);
-> -
-> -        if (fidp_next) {
-> -            /*
-> -             * Ensure the next fid survives a potential clunk request du=
-ring
-> -             * put_fid() below and v9fs_reopen_fid() in the next iterati=
-on.
-> -             */
-> -            fidp_next->ref++;
-> -        }
-> -
->          /* We're done with this fid */
->          put_fid(pdu, fidp);
->      }
-> @@ -569,18 +554,20 @@ static void coroutine_fn virtfs_reset(V9fsPDU *pdu)
->  {
->      V9fsState *s =3D pdu->s;
->      V9fsFidState *fidp;
-> +    gpointer fid;
-> +    GHashTableIter iter;
-> +
-> +    g_hash_table_iter_init(&iter, s->fids);
-> =20
->      /* Free all fids */
-> -    while (!QSIMPLEQ_EMPTY(&s->fid_list)) {
-> -        /* Get fid */
-> -        fidp =3D QSIMPLEQ_FIRST(&s->fid_list);
-> +    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &fidp)) {
->          fidp->ref++;
-> =20
->          /* Clunk fid */
-> -        QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
->          fidp->clunked =3D true;
-> =20
->          put_fid(pdu, fidp);
-> +        g_hash_table_iter_remove(&iter);
->      }
->  }
-> =20
-> @@ -3205,6 +3192,8 @@ static int coroutine_fn v9fs_complete_rename(V9fsPD=
-U *pdu, V9fsFidState *fidp,
->      V9fsFidState *tfidp;
->      V9fsState *s =3D pdu->s;
->      V9fsFidState *dirfidp =3D NULL;
-> +    GHashTableIter iter;
-> +    gpointer fid;
-> =20
->      v9fs_path_init(&new_path);
->      if (newdirfid !=3D -1) {
-> @@ -3238,11 +3227,13 @@ static int coroutine_fn v9fs_complete_rename(V9fs=
-PDU *pdu, V9fsFidState *fidp,
->      if (err < 0) {
->          goto out;
->      }
-> +
->      /*
->       * Fixup fid's pointing to the old name to
->       * start pointing to the new name
->       */
-> -    QSIMPLEQ_FOREACH(tfidp, &s->fid_list, next) {
-> +    g_hash_table_iter_init(&iter, s->fids);
-> +    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &tfidp)) {
->          if (v9fs_path_is_ancestor(&fidp->path, &tfidp->path)) {
->              /* replace the name */
->              v9fs_fix_path(&tfidp->path, &new_path, strlen(fidp->path.dat=
-a));
-> @@ -3320,6 +3311,8 @@ static int coroutine_fn v9fs_fix_fid_paths(V9fsPDU =
-*pdu, V9fsPath *olddir,
->      V9fsPath oldpath, newpath;
->      V9fsState *s =3D pdu->s;
->      int err;
-> +    GHashTableIter iter;
-> +    gpointer fid;
-> =20
->      v9fs_path_init(&oldpath);
->      v9fs_path_init(&newpath);
-> @@ -3336,7 +3329,8 @@ static int coroutine_fn v9fs_fix_fid_paths(V9fsPDU =
-*pdu, V9fsPath *olddir,
->       * Fixup fid's pointing to the old name to
->       * start pointing to the new name
->       */
-> -    QSIMPLEQ_FOREACH(tfidp, &s->fid_list, next) {
-> +    g_hash_table_iter_init(&iter, s->fids);
-> +    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &tfidp)) {
->          if (v9fs_path_is_ancestor(&oldpath, &tfidp->path)) {
->              /* replace the name */
->              v9fs_fix_path(&tfidp->path, &newpath, strlen(oldpath.data));
-> @@ -4226,7 +4220,7 @@ int v9fs_device_realize_common(V9fsState *s, const =
-V9fsTransport *t,
->      s->ctx.fmode =3D fse->fmode;
->      s->ctx.dmode =3D fse->dmode;
-> =20
-> -    QSIMPLEQ_INIT(&s->fid_list);
-> +    s->fids =3D g_hash_table_new(NULL, NULL);
->      qemu_co_rwlock_init(&s->rename_lock);
-> =20
->      if (s->ops->init(&s->ctx, errp) < 0) {
-> @@ -4286,6 +4280,10 @@ void v9fs_device_unrealize_common(V9fsState *s)
->      if (s->ctx.fst) {
->          fsdev_throttle_cleanup(s->ctx.fst);
->      }
-> +    if (s->fids) {
-> +        g_hash_table_destroy(s->fids);
-> +        s->fids =3D NULL;
+> +/*
+> + * The goal of this function is to:
+> + * 1. Check if the timer is enabled. If not, return false,
+> + * 2. Calculate the amount of time that has passed since.
+> + * 3. Extrapolate the number of ticks that have passed, and add it to `mtime`.
+> + * 4. Return true.
+> + */
+> +static bool update_mtime(IbexTimerState *s)
+> +{
+> +    if (!(R_CTRL & R_CTRL_ACTIVE_MASK)) {
+> +        return false;
 > +    }
->      g_free(s->tag);
->      qp_table_destroy(&s->qpd_table);
->      qp_table_destroy(&s->qpp_table);
-> diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-> index 994f952600..10fd2076c2 100644
-> --- a/hw/9pfs/9p.h
-> +++ b/hw/9pfs/9p.h
-> @@ -339,7 +339,7 @@ typedef struct {
->  struct V9fsState {
->      QLIST_HEAD(, V9fsPDU) free_list;
->      QLIST_HEAD(, V9fsPDU) active_list;
-> -    QSIMPLEQ_HEAD(, V9fsFidState) fid_list;
-> +    GHashTable *fids;
->      FileOperations *ops;
->      FsContext ctx;
->      char *tag;
-
+> +    /* Get the time then extrapolate the number of ticks that have elapsed */
+> +    uint64_t mtime = (s->timer_lower0) | ((uint64_t) s->timer_upper0 << 32);
+> +    int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> +    int64_t elapsed = now - s->timer_last_update;
+> +    if (elapsed < 0) {
+> +        /* We jumped back in time. */
+> +        mtime -= muldiv64((uint64_t)(-elapsed), s->timebase_freq,
+> +                           NANOSECONDS_PER_SECOND);
+> +    } else {
+> +        mtime += muldiv64(elapsed, s->timebase_freq, NANOSECONDS_PER_SECOND);
+> +    }
+> +    s->timer_lower0 = mtime & 0xffffffff;
+> +    s->timer_upper0 = (mtime >> 32) & 0xffffffff;
+> +    /* update last-checkpoint timestamp */
+> +    s->timer_last_update = now;
+> +    return true;
+> +}
+> +
+> +static inline uint64_t cpu_riscv_read_rtc(void *opaque)
+>  {
+> -    return muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
+> -                    timebase_freq, NANOSECONDS_PER_SECOND);
+> +    IbexTimerState *s = opaque;
+> +    return (s->timer_lower0) | ((uint64_t) s->timer_upper0 << 32);
+>  }
+>
+>  static void ibex_timer_update_irqs(IbexTimerState *s)
+>  {
+>      CPUState *cs = qemu_get_cpu(0);
+>      RISCVCPU *cpu = RISCV_CPU(cs);
+> -    uint64_t value = s->timer_compare_lower0 |
+> +    uint64_t mtimecmp = s->timer_compare_lower0 |
+>                           ((uint64_t)s->timer_compare_upper0 << 32);
+> -    uint64_t next, diff;
+> -    uint64_t now = cpu_riscv_read_rtc(s->timebase_freq);
+> -
+> -    if (!(s->timer_ctrl & R_CTRL_ACTIVE_MASK)) {
+> -        /* Timer isn't active */
+> +    if (!update_mtime(s)) {
+> +        /* Timer is not enabled? */
+>          return;
+>      }
+> +    uint64_t mtime = cpu_riscv_read_rtc(s);
+>
+>      /* Update the CPUs mtimecmp */
+> -    cpu->env.timecmp = value;
+> +    cpu->env.timecmp = mtimecmp;
+>
+> -    if (cpu->env.timecmp <= now) {
+> +    if (cpu->env.timecmp <= mtime) {
+>          /*
+>           * If the mtimecmp was in the past raise the interrupt now.
+>           */
+> @@ -86,18 +115,18 @@ static void ibex_timer_update_irqs(IbexTimerState *s)
+>          }
+>          return;
+>      }
+> -
+> +    /* Update timers */
+> +    int64_t next;
+> +    uint64_t diff;
+>      /* Setup a timer to trigger the interrupt in the future */
+>      qemu_irq_lower(s->m_timer_irq);
+>      qemu_set_irq(s->irq, false);
+> -
+> -    diff = cpu->env.timecmp - now;
+> -    next = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
+> -                                 muldiv64(diff,
+> -                                          NANOSECONDS_PER_SECOND,
+> -                                          s->timebase_freq);
+> -
+> -    if (next < qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL)) {
+> +    /* Compute the difference, and set a timer for the next update. */
+> +    diff = mtimecmp - mtime;
+> +    const uint64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> +    const uint64_t towait = muldiv64(diff, NANOSECONDS_PER_SECOND,
+> s->timebase_freq);
+> +    next = now + towait;
+> +    if (next < now) {
+>          /* We overflowed the timer, just set it as large as we can */
+>          timer_mod(cpu->env.timer, 0x7FFFFFFFFFFFFFFF);
+>      } else {
+> @@ -128,11 +157,13 @@ static void ibex_timer_reset(DeviceState *dev)
+>
+>      s->timer_ctrl = 0x00000000;
+>      s->timer_cfg0 = 0x00010000;
+> +    s->timer_lower0 = 0x00000000;
+> +    s->timer_upper0 = 0x00000000;
+>      s->timer_compare_lower0 = 0xFFFFFFFF;
+>      s->timer_compare_upper0 = 0xFFFFFFFF;
+>      s->timer_intr_enable = 0x00000000;
+>      s->timer_intr_state = 0x00000000;
+> -
+> +    s->timer_last_update = 0x00000000;
+>      ibex_timer_update_irqs(s);
+>  }
+>
+> @@ -140,7 +171,6 @@ static uint64_t ibex_timer_read(void *opaque, hwaddr addr,
+>                                         unsigned int size)
+>  {
+>      IbexTimerState *s = opaque;
+> -    uint64_t now = cpu_riscv_read_rtc(s->timebase_freq);
+>      uint64_t retvalue = 0;
+>
+>      switch (addr >> 2) {
+> @@ -155,10 +185,12 @@ static uint64_t ibex_timer_read(void *opaque, hwaddr addr,
+>          retvalue = s->timer_cfg0;
+>          break;
+>      case R_LOWER0:
+> -        retvalue = now;
+> +        update_mtime(s);
+> +        retvalue = cpu_riscv_read_rtc(s);
+>          break;
+>      case R_UPPER0:
+> -        retvalue = now >> 32;
+> +        update_mtime(s);
+> +        retvalue = cpu_riscv_read_rtc(s) >> 32;
+>          break;
+>      case R_COMPARE_LOWER0:
+>          retvalue = s->timer_compare_lower0;
+> @@ -197,16 +229,22 @@ static void ibex_timer_write(void *opaque, hwaddr addr,
+>          break;
+>      case R_CTRL:
+>          s->timer_ctrl = val;
+> +        /* We must update IRQs, because the QEMU timer gets updated here. */
+> +        ibex_timer_update_irqs(s);
+>          break;
+>      case R_CFG0:
+>          qemu_log_mask(LOG_UNIMP, "Changing prescale or step not supported");
+>          s->timer_cfg0 = val;
+>          break;
+>      case R_LOWER0:
+> -        qemu_log_mask(LOG_UNIMP, "Changing timer value is not supported");
+> +        s->timer_lower0 = val;
+> +        s->timer_last_update = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> +        ibex_timer_update_irqs(s);
+>          break;
+>      case R_UPPER0:
+> -        qemu_log_mask(LOG_UNIMP, "Changing timer value is not supported");
+> +        s->timer_upper0 = val;
+> +        s->timer_last_update = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> +        ibex_timer_update_irqs(s);
+>          break;
+>      case R_COMPARE_LOWER0:
+>          s->timer_compare_lower0 = val;
+> @@ -263,6 +301,9 @@ static const VMStateDescription vmstate_ibex_timer = {
+>          VMSTATE_UINT32(timer_compare_upper0, IbexTimerState),
+>          VMSTATE_UINT32(timer_intr_enable, IbexTimerState),
+>          VMSTATE_UINT32(timer_intr_state, IbexTimerState),
+> +        VMSTATE_INT64(timer_last_update, IbexTimerState),
+> +        VMSTATE_UINT32(timer_lower0, IbexTimerState),
+> +        VMSTATE_UINT32(timer_upper0, IbexTimerState),
+>          VMSTATE_END_OF_LIST()
+>      }
+>  };
+> @@ -281,6 +322,7 @@ static void ibex_timer_init(Object *obj)
+>      memory_region_init_io(&s->mmio, obj, &ibex_timer_ops, s,
+>                            TYPE_IBEX_TIMER, 0x400);
+>      sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
+> +
+>  }
+>
+>  static void ibex_timer_realize(DeviceState *dev, Error **errp)
+> diff --git a/include/hw/timer/ibex_timer.h b/include/hw/timer/ibex_timer.h
+> index 1a0a28d5fa..a6a1aa279a 100644
+> --- a/include/hw/timer/ibex_timer.h
+> +++ b/include/hw/timer/ibex_timer.h
+> @@ -39,6 +39,11 @@ struct IbexTimerState {
+>
+>      uint32_t timer_ctrl;
+>      uint32_t timer_cfg0;
+> +
+> +    int64_t timer_last_update;
+> +
+> +    uint32_t timer_lower0;
+> +    uint32_t timer_upper0;
+>      uint32_t timer_compare_lower0;
+>      uint32_t timer_compare_upper0;
+>      uint32_t timer_intr_enable;
+> --
+> 2.30.2
+>
 
