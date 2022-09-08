@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB4145B13FC
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 07:22:35 +0200 (CEST)
-Received: from localhost ([::1]:46528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6801C5B1414
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 07:34:57 +0200 (CEST)
+Received: from localhost ([::1]:43896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oW9zm-0004Hw-Fc
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 01:22:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55896)
+	id 1oWABj-00083J-SZ
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 01:34:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oW9xj-0002Zb-ND
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 01:20:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39409)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oWA6P-000537-TE
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 01:29:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oW9xf-0007Ac-Oc
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 01:20:25 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oWA5r-0008A4-9o
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 01:29:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662614422;
+ s=mimecast20190719; t=1662614930;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jxnF5LvMwEEczvwoamLTQ3Od5bsMcPlfoOC/aIt6e9g=;
- b=PhVj8KSDLXysnLqTe8qM4WELxGYhh6wzww+aT0SeA7FvlKC+pcRiol+Qdi7n+H54+M64aV
- 0VFbB9Z2Yqjs9s9Z1+sDnhjyFroftd97X/AatE+jUgT9TdyroX74HnTENKs6fVU4GCqC7O
- T2SQ7mfbYLtjmsRWXkJFhzkoGwx5NlM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3PK91NmpNqtFuTE7/v2nvYkQOd2hbkWhDMCLzG39j3Y=;
+ b=FsOAFwRNZHOOJ1GSnB86ErkGpQudOuoVVKbkOxlk7sdBwENZS5xD3d9ptV9UEuYQsJRqHE
+ 949VT/+FyJGHohGSltdcd3lukeaNB5DdoaARFW/XSFaLlifr7yLyCJ1Z4qaBE9Cz/SiCBi
+ WUqx6sRUgwSoHCGdxdaAaEnEkom2ZIw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-593-h8wkUsJXOjCQOKEDguEh5Q-1; Thu, 08 Sep 2022 01:20:19 -0400
-X-MC-Unique: h8wkUsJXOjCQOKEDguEh5Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-440-AFA7UDdaNfSru7II_xgyXQ-1; Thu, 08 Sep 2022 01:28:46 -0400
+X-MC-Unique: AFA7UDdaNfSru7II_xgyXQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E51C29AA3BA;
- Thu,  8 Sep 2022 05:20:18 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 870B5811E80;
+ Thu,  8 Sep 2022 05:28:45 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2451640C141D;
- Thu,  8 Sep 2022 05:20:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F8EA4C816;
+ Thu,  8 Sep 2022 05:28:44 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A362E21E6900; Thu,  8 Sep 2022 07:20:16 +0200 (CEST)
+ id EE82221E6900; Thu,  8 Sep 2022 07:28:42 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Claudio Fontana <cfontana@suse.de>,  Gerd Hoffmann <kraxel@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,  Christian
- Schoenebeck
- <qemu_oss@crudebyte.com>,  Akihiko Odaki <akihiko.odaki@gmail.com>,
- qemu-devel@nongnu.org,  Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH] audio: add help option (?) for -audiodev
-References: <20220907142359.31827-1-cfontana@suse.de>
- <87fsh3usub.fsf@pond.sub.org> <Yxi3MOT/s8nn45zp@redhat.com>
-Date: Thu, 08 Sep 2022 07:20:16 +0200
-In-Reply-To: <Yxi3MOT/s8nn45zp@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Wed, 7 Sep 2022 16:22:24 +0100")
-Message-ID: <87y1uusar3.fsf@pond.sub.org>
+To: "Denis V. Lunev" <den@virtuozzo.com>
+Cc: qemu-block@nongnu.org,  qemu-devel@nongnu.org,  Peter Krempa
+ <pkrempa@redhat.com>,  John Snow <jsnow@redhat.com>,  Kevin Wolf
+ <kwolf@redhat.com>,  Hanna Reitz <hreitz@redhat.com>,  Vladimir
+ Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Subject: Re: [PATCH v5 0/2] block: add missed block_acct_setup with new
+ block device init procedure
+References: <20220824095044.166009-1-den@openvz.org>
+ <3812f98f-9afc-9e0f-9839-916b083cfc77@virtuozzo.com>
+Date: Thu, 08 Sep 2022 07:28:42 +0200
+In-Reply-To: <3812f98f-9afc-9e0f-9839-916b083cfc77@virtuozzo.com> (Denis
+ V. Lunev's message of "Wed, 7 Sep 2022 19:25:57 +0200")
+Message-ID: <871qsmigdx.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,73 +84,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+"Denis V. Lunev" <den@virtuozzo.com> writes:
 
-> On Wed, Sep 07, 2022 at 05:06:36PM +0200, Markus Armbruster wrote:
->> Claudio Fontana <cfontana@suse.de> writes:
->>=20
->> > add a simple help option for -audiodev, so users can do
->> >
->> > qemu -audiodev ?
->>=20
->> The preferred form is actually '-audiodev help'.  The other one is
->> deprecated.  Recommend to stay away from it even in commit messages.
->
-> We introduced 'help' many many years ago, but don't thing we
-> ever formally deprecated '?'.
+> On 8/24/22 11:50, Denis V. Lunev wrote:
+>> Commit 5f76a7aac156ca75680dad5df4a385fd0b58f6b1 is looking harmless from
+>> the first glance, but it has changed things a lot. 'libvirt' uses it to
+>> detect that it should follow new initialization way and this changes
+>> things considerably. With this procedure followed, blockdev_init() is
+>> not called anymore and thus block_acct_setup() helper is not called.
+>>
+>> This means in particular that defaults for block accounting statistics
+>> are changed and account_invalid/account_failed are actually initialized
+>> as false instead of true originally.
+>>
+>> This commit changes things to match original world. There are the following
+>> constraints:
+>> * new default value in block_acct_init() is set to true
+>> * block_acct_setup() inside blockdev_init() is called before
+>>    blkconf_apply_backend_options()
+>> * thus newly created option in block device properties has precedence if
+>>    specified
+>>
+>> Changes from v4:
+>> * removed hunk to QAPI which was used to test old initialization path
+>> * added R-b: Vladimir
+>>
+>> Changes from v3:
+>> * fixed accidentally wrong submission. Contains changes which should be
+>>    sent as v3
+>>
+>> Changes from v2:
+>> * called bool_from_onoffauto(account_..., true) in the first patch to
+>>    preserve original semantics before patch 2
+>>
+>> Changes from v1:
+>> * set account_invalid/account_failed to true by default
+>> * pass OnOffAuto to block_acct_init() to handle double initialization (patch 1)
+>> * changed properties on BLK device to OnOffAuto
+>>
+>> Signed-off-by: Denis V. Lunev <den@openvz.org>
+>> CC: Peter Krempa <pkrempa@redhat.com>
+>> CC: Markus Armbruster <armbru@redhat.com>
+>> CC: John Snow <jsnow@redhat.com>
+>> CC: Kevin Wolf <kwolf@redhat.com>
+>> CC: Hanna Reitz <hreitz@redhat.com>
+>> CC: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>>
+>>
+> ping
 
-is_help_option()'s function comment says "'?' is deprecated".  Goes back
-to
-
-commit c8057f951d64de93bfd01569c0a725baa9f94372
-Author: Peter Maydell <peter.maydell@linaro.org>
-Date:   Thu Aug 2 13:45:54 2012 +0100
-
-    Support 'help' as a synonym for '?' in command line options
-=20=20=20=20
-    For command line options which permit '?' meaning 'please list the
-    permitted values', add support for 'help' as a synonym, by abstracting
-    the check out into a helper function.
-=20=20=20=20
-    This change means that in some cases where we were being lazy in
-    our string parsing, "?junk" will now be rejected as an invalid option
-    rather than being (undocumentedly) treated the same way as "?".
-=20=20=20=20
-    Update the documentation to use 'help' rather than '?', since '?'
-    is a shell metacharacter and thus prone to fail confusingly if there
-    is a single character filename in the current working directory and
-    the '?' has not been escaped. It's therefore better to steer users
-    towards 'help', though '?' is retained for backwards compatibility.
-=20=20=20=20
-    We do not, however, update the output of the system emulator's -help
-    (or any documentation autogenerated from the qemu-options.hx which
-    is the source of the -help text) because libvirt parses our -help
-    output and will break. At a later date when QEMU provides a better
-    interface so libvirt can avoid having to do this, we can update the
-    -help text too.
-=20=20=20=20
-    Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-    Signed-off-by: Anthony Liguori <aliguori@us.ibm.com>
-
-The more formal deprecation process we use today didn't exist in 2012.
-Looks like we simply de-documented '?'.
-
-Note that output of -help has been updated since.
-
->                                Should we do so and aim to
-> remove it, or are we happy to keep '?' forever, despite it
-> tripping up shell filename expansion with single char filenames.
-
-I'm not sure a belated formal notice of deprecation would be useful.
-
-Emitting a warning might be.  Would have to be done at roughly 20 call
-sites, I guess.
-
-I'm cool with removing a feature that has been undocumented for a
-decade.  However, experience tells us that every feature on the chopping
-block will find a champion, and I believe this one is still around
-simply because it's not worth a fight.
-
-[...]
+Can't find this series anymore.  Care to resend?
 
 
