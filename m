@@ -2,51 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A10665B1A02
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 12:31:50 +0200 (CEST)
-Received: from localhost ([::1]:57974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38D055B19F2
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 12:29:05 +0200 (CEST)
+Received: from localhost ([::1]:44168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWEp3-0001iN-SP
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 06:31:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60862)
+	id 1oWEmO-0005e0-Cw
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 06:29:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oWEfh-0001z7-2E; Thu, 08 Sep 2022 06:22:09 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:41857)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oWEfb-0001i4-Qd; Thu, 08 Sep 2022 06:22:07 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 744AC74633F;
- Thu,  8 Sep 2022 12:22:00 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 321EA7461AE; Thu,  8 Sep 2022 12:22:00 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 30845745702;
- Thu,  8 Sep 2022 12:22:00 +0200 (CEST)
-Date: Thu, 8 Sep 2022 12:22:00 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Bernhard Beschow <shentey@gmail.com>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>, 
- Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org, 
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v5 00/13] Instantiate VT82xx functions in host device
-In-Reply-To: <6B91888F-40E0-4E92-B49D-BA0A7E784183@gmail.com>
-Message-ID: <128199e8-cd65-79d4-2ad-83224b9dfdc5@eik.bme.hu>
-References: <20220901114127.53914-1-shentey@gmail.com>
- <6B91888F-40E0-4E92-B49D-BA0A7E784183@gmail.com>
+ (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
+ id 1oWEj9-0008Sg-GS
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 06:25:44 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:40449)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
+ id 1oWEj6-0002Qn-LD
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 06:25:43 -0400
+Received: by mail-pg1-x536.google.com with SMTP id r17so3854097pgr.7
+ for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 03:25:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=Sbg1DxqdC5ouknAXHnYuqv1U0ABwaFQ0dmKuJ5LjuAY=;
+ b=Knix+SyIxVOQ3dO0znMOAd5fl4jkGAu+I04zwwNMctcWUklZbIvfG98jz2Y0PMvRS/
+ n7jYAX2g8wLiZlMP1jZvkdIvtTBSoGkVJeKWyQvBsJPlb699Yhot7cR8U7CESx6sstXk
+ ToibvcMYghvamjzPhZ2O5hE7PUQ+8C12JqLSmTDx5ZwDebFZloVs+cmuoJEcuiDQaPgz
+ 7wasQOwCd7Dx+uXJ5D6l8JeV4jmCuEIQ5ujE65l1kaG1o6Qqxp3n/NThvukh/VMx8fnf
+ b88yExytGRovRl4Ny1iMPJFc29QDERrbeQpOijRCiSThcc5Hku2xwEijQBMiSh4sZ6v0
+ TOcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=Sbg1DxqdC5ouknAXHnYuqv1U0ABwaFQ0dmKuJ5LjuAY=;
+ b=3QwSG7sX7oRU6noemyDLKQfy+z5afHmYtkQt0967VTZwyeEgQiLSFkjfatMNStpwDc
+ eYLEdUV+NtRnv6juWjlgo6n9qzVtCqc9y0+T+tmo/vpzOCrmCEjZNbDMVTqTsor1pkR3
+ rZ0/OPtGY2RbEVea1UbVYmd/lepURaAiY3krrX2i/vcX4Okj/GSuKVs/H25T2xVkEV2h
+ A7Ywbk0KbWGW8A9fRUd6O+h1VMN1aJhRZCWM8k02w76Lnp/d3yX44mJwH4jatiYRGSXy
+ +A9Z0F0IFtDDir+oj3Ts2CTDLCTve7K2v8FdSQ/cfdngRusNQ7GkTJ8A1VhU2XPjBIR2
+ vvuw==
+X-Gm-Message-State: ACgBeo1JyqVT/pKdWipLpKXtQ2qpSJMGEv05Bo813rI1nREwisTH6JHj
+ ixgxJQWC8YJdPWgB5C1eelnr/w==
+X-Google-Smtp-Source: AA6agR7k0WB9tjjAIIEUD6B3MUag0n2zJ3y96uETlhnoSNNcU5kcJ+zAXgt4uxQc8WoF+C9BMWMRGg==
+X-Received: by 2002:a63:2fc7:0:b0:42c:3683:7e50 with SMTP id
+ v190-20020a632fc7000000b0042c36837e50mr7457403pgv.534.1662632736087; 
+ Thu, 08 Sep 2022 03:25:36 -0700 (PDT)
+Received: from sunil-laptop ([49.206.11.92]) by smtp.gmail.com with ESMTPSA id
+ b1-20020a170902d50100b00177fb862a87sm245683plg.20.2022.09.08.03.25.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Sep 2022 03:25:35 -0700 (PDT)
+Date: Thu, 8 Sep 2022 15:55:27 +0530
+From: Sunil V L <sunilvl@ventanamicro.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ Song Gao <gaosong@loongson.cn>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Andrew Jones <ajones@ventanamicro.com>,
+ Anup Patel <apatel@ventanamicro.com>,
+ Atish Kumar Patra <atishp@rivosinc.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+ Pawel Polawski <ppolawsk@redhat.com>
+Subject: Re: [PATCH V4 0/3] hw/riscv: virt: Enable booting S-mode firmware
+ from pflashy
+Message-ID: <20220908102527.GB88864@sunil-laptop>
+References: <20220906090219.412517-1-sunilvl@ventanamicro.com>
+ <20220906104128.zlwzvbbswlzyplkc@sirius.home.kraxel.org>
+ <20220906123200.GA237800@sunil-laptop>
+ <20220907071037.tnnewqhi5v2xmiln@sirius.home.kraxel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220907071037.tnnewqhi5v2xmiln@sirius.home.kraxel.org>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=sunilvl@ventanamicro.com; helo=mail-pg1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,172 +102,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 8 Sep 2022, Bernhard Beschow wrote:
-> Am 1. September 2022 11:41:14 UTC schrieb Bernhard Beschow <shentey@gmail.com>:
->> v5:
->>
->> * Add patch "Inline vt82c686b_southbridge_init() and remove it" (Zoltan)
->>
->> * Use machine parameter when creating rtc-time alias (Zoltan)
->>
->>
->>
->> Testing done: Same as in v3.
->>
->>
->>
->> v4:
->>
->> * Fix in comment: AC97 Modem -> MC97 Modem (Zoltan)
->>
->> * Introduce TYPE_VT82C686B_USB_UHCI define (Zoltan)
->>
->> * Introduce TYPE_VIA_IDE define (for consistency)
->>
->>
->>
->> v3:
->>
->> * Replace pre increment by post increment in for loop (Zoltan)
->>
->> * Move class defines close to where the class is defined (Zoltan)
->>
->>
->>
->> Testing done:
->>
->> * `make check-avocado`
->>
->>  Passes for boot_linux_console.py for mips64el_fuloong2e
->>
->> * `qemu-system-ppc -machine pegasos2 -rtc base=localtime -device ati-vga,guest_hwcursor=true,romfile="" -cdrom morphos-3.17.iso -kernel morphos-3.17/boot.img`
->>
->>  Boots successfully and it is possible to open games and tools.
->>
->>
->>
->> v2:
->>
->> * Keep the call to pci_ide_create_devs() in board code for consistency (Zoltan)
->>
->> * Create rtc-time alias in board rather than in south bridge code
->>
->> * Remove stale comments about PCI functions (Zoltan)
->>
->>
->>
->> v1:
->>
->> This series instantiates all PCI functions of the VT82xx south bridges in the south bridges themselves.
->>
->> For the IDE function this is especially important since its interrupt routing is configured in the
->>
->> ISA function, hence doesn't make sense to instantiate it as a "Frankenstein" device. The interrupt
->>
->> routing is currently hardcoded and changing that is currently not in the scope of this series.
->>
->>
->>
->> Testing done:
->>
->> * `qemu-system-ppc -machine pegasos2 -rtc base=localtime -device ati-vga,guest_hwcursor=true,romfile="" -cdrom morphos-3.17.iso -kernel morphos-3.17/boot.img`
->>
->>  Boots successfully and it is possible to open games and tools.
->>
->>
->>
->> * I was unable to test the fuloong2e board even before this series since it seems to be unfinished [1].
->>
->>  A buildroot-baked kernel [2] booted but doesn't find its root partition, though the issues could be in the buildroot receipt I created.
->>
->>
->>
->> [1] https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
->>
->> [2] https://github.com/shentok/buildroot/commits/fuloong2e
->>
->
-> Ping
->
-> Zoltan, would you mind giving your Reviewed-by for 'hw/mips/fuloong2e: 
-> Inline vt82c686b_southbridge_init() and remove it' explicitly? Perhaps I 
-> was too eager to omit it since I didn't want to put words in your mouth.
+On Wed, Sep 07, 2022 at 09:10:37AM +0200, Gerd Hoffmann wrote:
+> On Tue, Sep 06, 2022 at 06:02:00PM +0530, Sunil V L wrote:
+> > Hi Gerd,
+> > 
+> > On Tue, Sep 06, 2022 at 12:41:28PM +0200, Gerd Hoffmann wrote:
+> > >   Hi,
+> > > 
+> > > > 3)Make the EDK2 image size to match with what qemu flash expects
+> > > > truncate -s 32M Build/RiscVVirt/DEBUG_GCC5/FV/RISCV_VIRT.fd
+> > > 
+> > > Hmm, we have that kind of padding on arm too (64M for code and 64M for
+> > > vars) and only a fraction of the space is actually used, which isn't
+> > > exactly ideal.  So not sure it is a good plan to repeat that on riscv.
+> > 
+> > Yeah.. but it looks like limitation from qemu flash emulation. Do you mean
+> > this limitation exists for arm in general on real flash also?
+> 
+> Well, at least on x86 flash devices can have odd sizes.  I don't think
+> the qemu pflash emulation dictates anything here.
+> 
+> I think the underlying problem we actually have in qemu is that the
+> flash size indirectly dictates the memory layout.  We pack the flash
+> devices next to each other, on x86 downwards from 4G, on arm upwards
+> from zero, not sure what risc-v is dong here.
+> 
+> edk2 arm code expects the variable store being mapped at 64m.  So
+> QEMU_EFI.fd (which is actually 2M in size) gets padded to 64m, which
+> has the desired effect that the next flash device (the varstore) is
+> mapped at 64m.  But also has the side effect that we map 62m of zeros
+> into the guest address space ...
+> 
+> The vars file is padded to 64m for consistency with the code.  Not
+> padding the vars file should have no bad side effects I think, except
+> for live migration where the flash size change might cause
+> compatibility problems.
+> 
+> Not padding the code file needs some alternative way to specify the
+> memory layout, to make sure the vars flash continues to be mapped at
+> 64m even when the code flash is smaller.  Cc'ed Pawel who investigates
+> that right now.
+> 
+> One possible option is to just hard-code the flash memory layout per
+> machine type or per architecture.  Another option would be to add
+> some way to configure that on the command line.
 
-You said in your follow up message that all except this patch has my R-b 
-which is correct. This one already has Suggested-by from me so I agree 
-with it with or without an explicit Reviewed-by.
+Thanks Gerd. One question: Is it possible to have separate code + vars
+even when there is TF-A? My understanding is, TF-A will take one drive
+and will be hidden from the non-secure word. So, there is only one flash
+left for edk2. Is that correct?
 
-> What else is missing? Who would do the pull request?
+In RISC-V, I think we have the this situation always since M-mode is
+mandatory. The first flash is always reserved for secure fw. So, we will
+have to increase the number of flash supported to 3 to support edk2 use
+case.
 
-It was Philippe before who merged these maybe needs his attention or give 
-some Ack to go via smoe other tree? My mails don't seem to reach him 
-though due to bouncing as spam so not sure he sees this.
+I have a fix RISC-V which resolves truncate issue leveraging logic from
+x86. It also creates 2 flash drives within non-secure space.
+EDK2 also needs to be modified to work with smaller code flash. But
+because the patch takes care of the actual size, it allows to have
+bigger code and smaller var images.
+Same thing can be adopted to arm also since both seem to follow the same
+logic. But I think that will be a separate patch than this series. I
+will run that as a separate RFC patch. Is that fine?
 
-Regards,
-BALATON Zoltan
-
-> Thanks,
-> Bernhard
->>
->>
->> Bernhard Beschow (13):
->>
->>  hw/isa/vt82c686: Resolve chip-specific realize methods
->>
->>  hw/isa/vt82c686: Resolve unneeded attribute
->>
->>  hw/isa/vt82c686: Prefer pci_address_space() over get_system_memory()
->>
->>  hw/isa/vt82c686: Reuse errp
->>
->>  hw/isa/vt82c686: Introduce TYPE_VIA_IDE define
->>
->>  hw/isa/vt82c686: Instantiate IDE function in host device
->>
->>  hw/isa/vt82c686: Introduce TYPE_VT82C686B_USB_UHCI define
->>
->>  hw/isa/vt82c686: Instantiate USB functions in host device
->>
->>  hw/isa/vt82c686: Instantiate PM function in host device
->>
->>  hw/isa/vt82c686: Instantiate AC97 and MC97 functions in host device
->>
->>  hw/mips/fuloong2e: Inline vt82c686b_southbridge_init() and remove it
->>
->>  hw/isa/vt82c686: Embed RTCState in host device
->>
->>  hw/isa/vt82c686: Create rtc-time alias in boards instead
->>
->>
->>
->> configs/devices/mips64el-softmmu/default.mak |   1 -
->>
->> hw/ide/via.c                                 |   2 +-
->>
->> hw/isa/Kconfig                               |   1 +
->>
->> hw/isa/vt82c686.c                            | 120 +++++++++++++++----
->>
->> hw/mips/fuloong2e.c                          |  39 +++---
->>
->> hw/ppc/Kconfig                               |   1 -
->>
->> hw/ppc/pegasos2.c                            |  25 ++--
->>
->> hw/usb/vt82c686-uhci-pci.c                   |   4 +-
->>
->> include/hw/isa/vt82c686.h                    |   4 +-
->>
->> 9 files changed, 126 insertions(+), 71 deletions(-)
->>
->>
->>
->> -- >
->> 2.37.3
->>
->>
->>
->
->
->
+Thanks!
+Sunil
+> 
+> take care,
+>   Gerd
+> 
 
