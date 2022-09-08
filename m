@@ -2,70 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D32015B1E01
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 15:08:18 +0200 (CEST)
-Received: from localhost ([::1]:50378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5380F5B1DC4
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 14:58:24 +0200 (CEST)
+Received: from localhost ([::1]:58446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWHGT-0007DZ-Ex
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 09:08:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60712)
+	id 1oWH6t-00074C-2g
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 08:58:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liuhaiwei9699@126.com>)
- id 1oWGlA-0004BK-Ml
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:36:06 -0400
-Received: from m15113.mail.126.com ([220.181.15.113]:6507)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liuhaiwei9699@126.com>) id 1oWGl4-00016Y-Mk
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:35:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=E9rgI
- 7sw8eIi/uU0satMAovQ4EYJV/3fw0YimVC6b7g=; b=CSBw4xxNh0PJcxn79fWJj
- wKO+dOqbk5EArD1ul/cAXsNNDi8DzTazYbLiFJP9qbcI2bxQS//pIJLrvBLwb1eA
- xz271wSw4XQ+gQ575QsqtW9ySyxwZZbGK4FZ6UqC7ye2KnTMWTAkkhE5w7MjXblD
- qFEgz5MR9ZnBXGWVzHvrpM=
-Received: from localhost.localdomain (unknown [58.56.96.29])
- by smtp3 (Coremail) with SMTP id DcmowAB3pMCY4RljnnDNBA--.1718S2;
- Thu, 08 Sep 2022 20:35:38 +0800 (CST)
-From: liuhaiwei <liuhaiwei9699@126.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Cc: stefanha@redhat.com, fam@euphon.net, eblake@redhat.com,
- vsementsov@yandex-team.ru, jsnow@redhat.com, quintela@redhat.com,
- dgilbert@redhat.com, liuhaiwei <liuhaiwei@inpsur.com>,
- liuhaiwei <liuhaiwei9699@126.com>
-Subject: [PATCH] =?UTF-8?q?migrate=20block=20dirty=20bitmap:=20Fix=20the?=
- =?UTF-8?q?=20block=20dirty=20bitmap=20can't=20to=20migration=5Fcompletion?=
- =?UTF-8?q?=20when=20pending=20size=20=20larger=20than=20threshold=20size?=
- =?UTF-8?q?=20=20:=201=E3=80=81dirty=20bitmap=20size=20big=20enough=20(suc?=
- =?UTF-8?q?h=20as=208MB)=20when=20block=20size=201T=202=E3=80=81we=20set?=
- =?UTF-8?q?=20the=20migrate=20speed=20or=20the=20bandwith=20is=20small=20e?=
- =?UTF-8?q?nough(such=20as=204MB/s)?=
-Date: Thu,  8 Sep 2022 08:35:25 -0400
-Message-Id: <20220908123525.197397-1-liuhaiwei9699@126.com>
-X-Mailer: git-send-email 2.27.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oWGrl-0005NK-AZ
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:42:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33446)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oWGrZ-0002Rp-Jg
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:42:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662640951;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iS7l4aGeRLiRI2IDW+HQoJt/jDK4fRXomXRYfq/+2/o=;
+ b=dKWmoy95GjRJLb7aklkSmpJUp6+0Cg0TfjnwWE2fZaLHkp2gtJ5SJ04J53dsDa0FWuf21T
+ vYEjg1YQP9wGB9guXzlVRiOKQxL7LBJrhGvrhvqfET5wfUhShxwqy94qkf8W5X8UL4hRlz
+ SAS4BDjv30Glj3eV1sRl8X6nLHtpTSc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-136-KyKfJ_PONWiQCz3CEorO6w-1; Thu, 08 Sep 2022 08:42:28 -0400
+X-MC-Unique: KyKfJ_PONWiQCz3CEorO6w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E16FA296A608;
+ Thu,  8 Sep 2022 12:42:27 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.74])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 286F9400E88E;
+ Thu,  8 Sep 2022 12:42:25 +0000 (UTC)
+Date: Thu, 8 Sep 2022 13:42:23 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: Laszlo Ersek <lersek@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ "Jason A. Donenfeld" <Jason@zx2c4.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v2 1/2] x86: only modify setup_data if the boot protocol
+ indicates safety
+Message-ID: <YxnjLyiSRoi2G/4Y@redhat.com>
+References: <20220906103657.282785-1-Jason@zx2c4.com>
+ <20220906063954-mutt-send-email-mst@kernel.org>
+ <CAHmME9oyf5MmZ4gXkbm+dA3t1NBYB6XdPrk8N1OyKLi5Lke0Rg@mail.gmail.com>
+ <20220906064500-mutt-send-email-mst@kernel.org>
+ <CAMj1kXH3T48W=k42mrCbY15yc4KYvAfUaRaJJRrsfKbuOfE53A@mail.gmail.com>
+ <YxcwCQ0vymro0vbu@redhat.com>
+ <d45be9dc-b6e7-293a-7033-f2ca84fa387d@redhat.com>
+ <CAMj1kXG=5BW7Qb2pyBvYmNDKksOhoxc-4Cngd-4j_O7mAkbwMQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: DcmowAB3pMCY4RljnnDNBA--.1718S2
-X-Coremail-Antispam: 1Uf129KBjvdXoW7Gryxtr13XFWxtF48XryDGFg_yoWfurb_Kw
- 4kGa1xJry7AwnxCF98Xr15Jrn8A34kC3WxW3yIq34UXa48AasrWw4v9rZaqrZ7JFZrCFy3
- G34rXryvyFs3GjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUnCPfDUUUUU==
-X-Originating-IP: [58.56.96.29]
-X-CM-SenderInfo: xolxxt5lzhxmqwzzqiyswou0bp/xtbBGgN21l-HZzbQaAAAsI
-Received-SPF: pass client-ip=220.181.15.113;
- envelope-from=liuhaiwei9699@126.com; helo=m15113.mail.126.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <CAMj1kXG=5BW7Qb2pyBvYmNDKksOhoxc-4Cngd-4j_O7mAkbwMQ@mail.gmail.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 08 Sep 2022 08:59:46 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,36 +93,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: liuhaiwei <liuhaiwei@inpsur.com>
+On Thu, Sep 08, 2022 at 02:28:29PM +0200, Ard Biesheuvel wrote:
+> On Thu, 8 Sept 2022 at 13:30, Laszlo Ersek <lersek@redhat.com> wrote:
+> >
+> > On 09/06/22 13:33, Daniel P. Berrangé wrote:
+> > > On Tue, Sep 06, 2022 at 01:14:50PM +0200, Ard Biesheuvel wrote:
+> > >> (cc Laszlo)
+> > >>
+> > >> On Tue, 6 Sept 2022 at 12:45, Michael S. Tsirkin <mst@redhat.com> wrote:
+> > >>>
+> > >>> On Tue, Sep 06, 2022 at 12:43:55PM +0200, Jason A. Donenfeld wrote:
+> > >>>> On Tue, Sep 6, 2022 at 12:40 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > >>>>>
+> > >>>>> On Tue, Sep 06, 2022 at 12:36:56PM +0200, Jason A. Donenfeld wrote:
+> > >>>>>> It's only safe to modify the setup_data pointer on newer kernels where
+> > >>>>>> the EFI stub loader will ignore it. So condition setting that offset on
+> > >>>>>> the newer boot protocol version. While we're at it, gate this on SEV too.
+> > >>>>>> This depends on the kernel commit linked below going upstream.
+> > >>>>>>
+> > >>>>>> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> > >>>>>> Cc: Laurent Vivier <laurent@vivier.eu>
+> > >>>>>> Cc: Michael S. Tsirkin <mst@redhat.com>
+> > >>>>>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > >>>>>> Cc: Peter Maydell <peter.maydell@linaro.org>
+> > >>>>>> Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> > >>>>>> Cc: Richard Henderson <richard.henderson@linaro.org>
+> > >>>>>> Cc: Ard Biesheuvel <ardb@kernel.org>
+> > >>>>>> Link: https://lore.kernel.org/linux-efi/20220904165321.1140894-1-Jason@zx2c4.com/
+> > >>>>>> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> > >>>>>
+> > >>>>> BTW what does it have to do with SEV?
+> > >>>>> Is this because SEV is not going to trust the data to be random anyway?
+> > >>>>
+> > >>>> Daniel (now CC'd) pointed out in one of the previous threads that this
+> > >>>> breaks SEV, because the image hash changes.
+> > >>>>
+> > >>>> Jason
+> > >>>
+> > >>> Oh I see. I'd add a comment maybe and definitely mention this
+> > >>> in the commit log.
+> > >>>
+> > >>
+> > >> This does raise the question (as I mentioned before) how things like
+> > >> secure boot and measured boot are affected when combined with direct
+> > >> kernel boot: AIUI, libvirt uses direct kernel boot at guest
+> > >> installation time, and modifying setup_data will corrupt the image
+> > >> signature.
+> > >
+> > > IIUC, qemu already modifies setup_data when using direct kernel boot.
+> > >
+> > > It put in logic to skip this if SEV is enabled, to avoid interfering
+> > > with SEV hashes over the kernel, but there's nothing doing this more
+> > > generally for non-SEV cases using UEFI. So potentially use of SecureBoot
+> > > may already be impacted when using direct kernel boot.
+> >
+> > Yes,
+> >
+> > https://github.com/tianocore/edk2/commit/82808b422617
+> >
+> 
+> Ah yes, thanks for jogging my memory.
+> 
+> So virt-install --network already ignores secure boot failures on
+> direct kernel boot, so this is not going to make it any worse.
 
-so we set the fake pending size when pending size > threshold size
+And in a cloud world this isn't too much of a problem to start
+with. The cloud disks images will be built offline in trusted
+infrastructure, so lack of SecureBoot isn't a show stopper. When
+later deployed to the public cloud, SecureBoot (and/or Confidential
+Boot) will be fully operational, where it matters most.
 
-Signed-off-by: liuhaiwei <liuhaiwei@inpsur.com>
-Signed-off-by: liuhaiwei <liuhaiwei9699@126.com>
----
- migration/block-dirty-bitmap.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-index 9aba7d9c22..6086d8d1c3 100644
---- a/migration/block-dirty-bitmap.c
-+++ b/migration/block-dirty-bitmap.c
-@@ -782,7 +782,10 @@ static void dirty_bitmap_save_pending(QEMUFile *f, void *opaque,
-     }
- 
-     qemu_mutex_unlock_iothread();
--
-+    /*we set the fake pending size  when the dirty bitmap size more than max_size(bandwith of speed) */
-+    if(pending > max_size && max_size == 0){
-+        pending = max_size - 1;
-+    }
-     trace_dirty_bitmap_save_pending(pending, max_size);
- 
-     *res_postcopy_only += pending;
+With regards,
+Daniel
 -- 
-2.27.0
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
