@@ -2,109 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0280C5B2555
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 20:08:17 +0200 (CEST)
-Received: from localhost ([::1]:43688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48DC15B25F3
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 20:37:14 +0200 (CEST)
+Received: from localhost ([::1]:43982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWLwl-0001qe-MC
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 14:08:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51862)
+	id 1oWMOm-0003FM-PY
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 14:37:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oWLtT-0007bn-Nj; Thu, 08 Sep 2022 14:04:52 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49906)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oWLtQ-0007qw-VQ; Thu, 08 Sep 2022 14:04:50 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 288HrKkK013203;
- Thu, 8 Sep 2022 18:04:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=Mle2F5fFpz4YrINvvy96vp5NlrPJhOZ9uc36Yt+o4kg=;
- b=mX93uU/PKkENeG9VZd7XqFczqjnJxJwvGSFsERDwcORm9GV8Bg/AftE0/CzTw9TfuSUF
- toIr5JCtIBqfHuWe74tfRYiPOaTeCp+pf048XxlIkgPcVI31AiUOtNu+sUBeLGSOsZRq
- DdXYT0g7YcXsfqrjnr0sWeCekQgAatoWnHfySQr21k9yl1KRFvR9y1BDzhSSyZEOXmaG
- RQR5XZ+mzY4Y35p3Y+j+E2INC1kvwCHcJKX+GRKlV1Es+CScSnAg8ynuD9hi8dtVUJe/
- xc3h5EXlg1Gq2Cfv0k1lb63Z6/lSHq2GiLi41nMbPWIquIVDCXVun8fehgfk9AqS31Oz Kg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jfn6bgb4d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 08 Sep 2022 18:04:44 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 288HrgaG014330;
- Thu, 8 Sep 2022 18:04:44 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jfn6bgb2r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 08 Sep 2022 18:04:44 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 288HoBWI020086;
- Thu, 8 Sep 2022 18:04:41 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma04ams.nl.ibm.com with ESMTP id 3jbxj8xwyc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 08 Sep 2022 18:04:41 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 288I4cwm35389938
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 8 Sep 2022 18:04:38 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8107EA4040;
- Thu,  8 Sep 2022 18:04:38 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C24AEA404D;
- Thu,  8 Sep 2022 18:04:37 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.10.204])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu,  8 Sep 2022 18:04:37 +0000 (GMT)
-Message-ID: <5f127a8be58d0842c6d94d682538af55f4eef64f.camel@linux.ibm.com>
-Subject: Re: [PATCH v9 07/10] s390x/cpu_topology: CPU topology migration
-From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com
-Date: Thu, 08 Sep 2022 20:04:37 +0200
-In-Reply-To: <20220902075531.188916-8-pmorel@linux.ibm.com>
-References: <20220902075531.188916-1-pmorel@linux.ibm.com>
- <20220902075531.188916-8-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oWMI7-0006Zn-SW
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 14:30:30 -0400
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c]:57712)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oWMI5-0003UN-AE
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 14:30:19 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 402F9225A5;
+ Thu,  8 Sep 2022 18:30:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1662661814; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=GXI+PEH2Ul1Hz01vWclul5W9rEEXT8F52Psxr2ZExGw=;
+ b=CoaJUtmo+R3a1/OjMlahwTZoipc+Nrmt1j5lBTjVMkIo/R1MJxsgqrOPIcXcrJNsR8FzQD
+ wlm7n4xGfyTtT2OQQAMGEGimgIqyofpO3ycUGvIH8e8WMVLImqe92Bmz/1U0fU/RiyhVvg
+ e1Pgw2Fbeg2JjyJFn4XHMz6AsA+tU0o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1662661814;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=GXI+PEH2Ul1Hz01vWclul5W9rEEXT8F52Psxr2ZExGw=;
+ b=wDgNqif+sWcTcVZo/xiD4VicTho28/9aaQpMqYP0dqKFVQcDMkafHO2tGIGN+iMTVGst2C
+ 7bHrFRy0MHrqmEDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EA23B13A6D;
+ Thu,  8 Sep 2022 18:30:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id nhThN7U0GmM4NwAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 08 Sep 2022 18:30:13 +0000
+From: Claudio Fontana <cfontana@suse.de>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Claudio Fontana <cfontana@suse.de>
+Subject: [PATCH v4 0/3] improve error handling for module load
+Date: Thu,  8 Sep 2022 20:30:09 +0200
+Message-Id: <20220908183012.17667-1-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: NaKyoln0i0GCHYEP_NVnfCQMQL3GXX1w
-X-Proofpoint-GUID: nHpM-SVDUKX-hUxF1B0Z7eUdJCormOwb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-08_10,2022-09-08_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0
- mlxlogscore=999 spamscore=0 impostorscore=0 phishscore=0
- lowpriorityscore=0 adultscore=0 bulkscore=0 suspectscore=0
- priorityscore=1501 clxscore=1015 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2207270000 definitions=main-2209080064
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=scgl@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1c;
+ envelope-from=cfontana@suse.de; helo=smtp-out1.suse.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,130 +88,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2022-09-02 at 09:55 +0200, Pierre Morel wrote:
-> The migration can only take place if both source and destination
-> of the migration both use or both do not use the CPU topology
-> facility.
-> 
-> We indicate a change in topology during migration postload for the
-> case the topology changed between source and destination.
+CHANGELOG:
 
-You always set the report bit after migration, right?
-In the last series you actually migrated the bit.
-Why the change? With the code you have actually migrating the bit isn't
-hard.
-> 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->  hw/s390x/cpu-topology.c         | 79 +++++++++++++++++++++++++++++++++
->  include/hw/s390x/cpu-topology.h |  1 +
->  target/s390x/cpu-sysemu.c       |  8 ++++
->  target/s390x/cpu.h              |  1 +
->  4 files changed, 89 insertions(+)
-> 
-> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-> index 6098d6ea1f..b6bf839e40 100644
-> --- a/hw/s390x/cpu-topology.c
-> +++ b/hw/s390x/cpu-topology.c
-> @@ -19,6 +19,7 @@
->  #include "target/s390x/cpu.h"
->  #include "hw/s390x/s390-virtio-ccw.h"
->  #include "hw/s390x/cpu-topology.h"
-> +#include "migration/vmstate.h"
->  
->  S390Topology *s390_get_topology(void)
->  {
-> @@ -132,6 +133,83 @@ static void s390_topology_reset(DeviceState *dev)
->      s390_cpu_topology_reset();
->  }
->  
-> +/**
-> + * cpu_topology_postload
-> + * @opaque: a pointer to the S390Topology
-> + * @version_id: version identifier
-> + *
-> + * We check that the topology is used or is not used
-> + * on both side identically.
-> + *
-> + * If the topology is in use we set the Modified Topology Change Report
-> + * on the destination host.
-> + */
-> +static int cpu_topology_postload(void *opaque, int version_id)
-> +{
-> +    S390Topology *topo = opaque;
-> +    int ret;
-> +
-> +    if (topo->topology_needed != s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
+v3 -> v4: (Richard)
 
-Does this function even run if topology_needed is false?
-In that case there is no data saved, so no reason to load it either.
-If so you can only check that both the source and the destination have
-the feature enabled. You would need to always send the topology VMSD in
-order to check that the feature is disabled.
+* module_object_class_by_name: return NULL immediately on load error.
+* audio_driver_lookup: same.
+* bdrv_find_format: same.
 
-Does qemu allow you to attempt to migrate to a host with another cpu
-model?
-If it disallowes that you wouldn't need to do any checks, right?
+* dmg_open: handle optional compression submodules better: f.e.,
+  if "dmg-bz2" is not present, continue but offer a warning.
+  If "dmg-bz2" load fails with error, error out and return.
 
-> +        if (topo->topology_needed) {
-> +            error_report("Topology facility is needed in destination");
-> +        } else {
-> +            error_report("Topology facility can not be used in destination");
-> +        }
-> +        return -EINVAL;
-> +    }
-> +
-> +    /* We do not support CPU Topology, all is good */
-> +    if (!s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
-> +        return 0;
-> +    }
-> +
-> +    /* We support CPU Topology, set the MTCR */
-> +    ret = s390_cpu_topology_mtcr_set();
-> +    if (ret) {
-> +        error_report("Failed to set MTCR: %s", strerror(-ret));
-> +    }
-> +    return ret;
-> +}
-> +
-> +/**
-> + * cpu_topology_presave:
-> + * @opaque: The pointer to the S390Topology
-> + *
-> + * Save the usage of the CPU Topology in the VM State.
-> + */
-> +static int cpu_topology_presave(void *opaque)
-> +{
-> +    S390Topology *topo = opaque;
-> +
-> +    topo->topology_needed = s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY);
-> +    return 0;
-> +}
-> +
-> +/**
-> + * cpu_topology_needed:
-> + * @opaque: The pointer to the S390Topology
-> + *
-> + * If we use the CPU Topology on the source it will be needed on the destination.
-> + */
-> +static bool cpu_topology_needed(void *opaque)
-> +{
-> +    return s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY);
-> +}
-> +
-> +
-> +const VMStateDescription vmstate_cpu_topology = {
-> +    .name = "cpu_topology",
-> +    .version_id = 1,
-> +    .post_load = cpu_topology_postload,
-> +    .pre_save = cpu_topology_presave,
-> +    .minimum_version_id = 1,
-> +    .needed = cpu_topology_needed,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_BOOL(topology_needed, S390Topology),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
-[...]
+* module_load_dso: add newline to error_append_hint.
+
+v2 -> v3:
+
+* take the file existence check outside of module_load_file,
+  rename module_load_file to module_load_dso, will be called only on
+  an existing file. This will simplify the return value. (Richard)
+
+* move exported function documentation into header files (Richard)
+
+v1 -> v2:
+
+* do not treat the display help text any differently and do report
+  module load _errors_. If the module does not exist (ENOENT, ENOTDIR),
+  no error will be produced.
+
+DESCRIPTION:
+
+while investigating a permission issue in accel, where accel-tcg-x86_64.so
+was not accessible, I noticed that no errors were produced regarding the
+module load failure.
+
+This series attempts to improve module_load_one and module_load_qom_one
+to handle the error cases better and produce some errors.
+
+Patch 1 is already reviewed and is about removing an unused existing
+argument "mayfail" from the call stack.
+
+Patch 2 is the real meat, and that one I would say is RFC.
+Will follow up with comments on the specific questions I have.
+
+Patch 3 finally adds a simple check in accel/, aborting if a module
+is not found, but relying on the existing error report from
+module_load_qom_one.
+
+Claudio Fontana (3):
+  module: removed unused function argument "mayfail"
+  module: add Error arguments to module_load_one and module_load_qom_one
+  accel: abort if we fail to load the accelerator plugin
+
+ accel/accel-softmmu.c |   8 ++-
+ audio/audio.c         |   9 ++-
+ block.c               |  15 ++++-
+ block/dmg.c           |  18 +++++-
+ hw/core/qdev.c        |  10 ++-
+ include/qemu/module.h |  38 +++++++++--
+ qom/object.c          |  18 +++++-
+ softmmu/qtest.c       |   6 +-
+ ui/console.c          |  18 +++++-
+ util/module.c         | 142 ++++++++++++++++++++++++------------------
+ 10 files changed, 201 insertions(+), 81 deletions(-)
+
+-- 
+2.26.2
+
 
