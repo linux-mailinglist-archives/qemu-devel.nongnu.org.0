@@ -2,71 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B895B2327
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 18:09:47 +0200 (CEST)
-Received: from localhost ([::1]:33738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEDAE5B2329
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 18:11:00 +0200 (CEST)
+Received: from localhost ([::1]:57468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWK64-0007ig-RL
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 12:09:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52228)
+	id 1oWK7H-00011c-4R
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 12:10:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oWJxO-0000Lu-4h
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 12:00:48 -0400
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:43526)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oWK0N-0001Zt-4D
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 12:03:55 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:35431)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oWJxM-0004E6-82
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 12:00:45 -0400
-Received: by mail-yb1-xb36.google.com with SMTP id k80so15798571ybk.10
- for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 09:00:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oWK0L-0004dm-A0
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 12:03:50 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id bz13so23478882wrb.2
+ for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 09:03:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=cmBbnFd8dT/Ts9SGssdmYHMAZwXCbToQwGCzkrDLB7M=;
- b=g8LdONg2XPyHs9u2DnsAROfHbDP/hGr8EY14/HKMPFXTW0jKGPXUAZAwa1278bOExU
- WgYDxTqwAlX4EKyzYQe+N2z0nnDiMqxpzsEFsriOsSBzLCX8HSLs+PCI/jK2r9pKxe/5
- 4tBO7VGAfSKDY11irr8bnWC31aCbpMvVEFJ1PApR0w/E+2p/ibSmFO24jDY+HOJDKaql
- CPGOlc549/zLHSQhD/YWyz51sVQlfPxup+Yizixrhzcd6Dq0XeY8JXUjfi6xk6fw7g5e
- vxmuysyoRmmUtpOXQq7KEyh2Id3x7dY6PG1L4Y5+7CqHUmAiyjwi7HvGXvQLxunB/33B
- ml0A==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=VXKfDu/BE4mmWeGPAsPysDcMmFTv6ek3zdL74yLxyiE=;
+ b=zGgbMdzC9HJRIIUHMwrSBxcFa06vthlW64v95h6yKqCYq+Tizdu2GmrgbhQkWMT0rJ
+ aZCwQMAjaW4pCCaYgXV6a7xnRvvXVrK2UdJnvl78/8dl7WPjlefskibI2TZTMvm2C7i+
+ W/K33JlZ1sKnFfNZPZoL4+y/UmvjQ+3bToC90fvz0LtydRVOXGDDfmx4TBgEHiOluEfR
+ YHA6w4UaPaf7HBFXdd8CYkPqfPQJpTLBwaj6+SB5hly2tR7EnUsLVFH5BouhyaL8gA1z
+ OgG8Xn5rcRblt73E51+jUxocvIEWViW1lb4sXz0KUP6LitWpjwjGSXJza99ZryH/KbtL
+ g9sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=cmBbnFd8dT/Ts9SGssdmYHMAZwXCbToQwGCzkrDLB7M=;
- b=M7MKQKXRFuDkfz7FVQlpgobVJrk0v74xIkk/41pXJuebg0Ga4HiBrXHsMhclOrJrtK
- tWz6aetx4OD5XZn4DbVzRq7XWUqtiwW0RIKFQxO4GKcXj7LDCjq11xEd6OwGJldZxCDw
- FUK2ngP/UGlozL7Qbo1vvZklCz4vN47pRhu1jWtKXygGT98SQPSLsRbhFqJS4pbCSy/W
- gpuxDegzGjra5bpo8/+pvK53wn8uwWhYgXR2CMFIAhJ3Ce/Gw0FIP/0OhSAijaMQ2mO5
- CIaYuEe1RLkaGxm7U6kZBaSyY3CHgF2kpEriE5vzhhMIJkAddoToY6M+weG9JGvs1+7j
- wGtg==
-X-Gm-Message-State: ACgBeo3NerRSuOLGc4W4XZ7uqWSvWhhU37l/hHQWpP6opjw8cTwr8Mo3
- FJv86r0r0AM3AZPwdofHzSIO+LaVZbSl1eLZ9TA0Z6c8sxtH2Q==
-X-Google-Smtp-Source: AA6agR4+pUForCm4lpvqdVKGbSs/VGpQmslxKQJwxnQxDuJ/YBdxF5IbvJLVQZPcf891Wq6dtJHLFaUqRVF8Ou6sK3c=
-X-Received: by 2002:a25:23d4:0:b0:6a9:3cce:f811 with SMTP id
- j203-20020a2523d4000000b006a93ccef811mr8580337ybj.193.1662652838556; Thu, 08
- Sep 2022 09:00:38 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=VXKfDu/BE4mmWeGPAsPysDcMmFTv6ek3zdL74yLxyiE=;
+ b=AK+TuovU8tgMZxYd38Y6V2/i714V+uyW8F1zcxncGOQ/LCx8fBXMG9NLro+kgZiZ6n
+ q4a9frM8NqEp1lnT4Bm+4Wzqh05FzpP9DAYM0bTKIaAfIYKNyhdjbXMn1kw0A7pcbVYQ
+ lcp6e6iCP8dpWggN+d2y4n1kIE/EFnQepQkdrVWufIs48jBV/QirDFB79pTHwBvAHLnO
+ lTxXwF92LREjlSi6ej3YnuImOMCPltqbGDfWRV9y40o25shnz+tfelPfvvM7jhyDAzsi
+ zAygxo21QS59vaGttdRi2hqNGe/HbC/Mcnte71dOjo7+JOXq2+kk89SeyO0N8l0xf+Ya
+ WbPA==
+X-Gm-Message-State: ACgBeo0qx5OovSFUz/r8XEtwl6gG9wOahFWCOY5oEUswJ54OOiZSkXYS
+ ZTuRViIpetLgc2MvIz4t7LsyMw==
+X-Google-Smtp-Source: AA6agR4h+S7SEVLnoiF27M6SQHhE8YO0uh69IuBiv9IlZZt2Mb4WNt+tfmQiOANieUK5xnIslnsjdQ==
+X-Received: by 2002:a05:6000:1849:b0:228:c87d:2578 with SMTP id
+ c9-20020a056000184900b00228c87d2578mr5614025wri.274.1662653026739; 
+ Thu, 08 Sep 2022 09:03:46 -0700 (PDT)
+Received: from [192.168.1.87] ([109.78.97.14])
+ by smtp.gmail.com with ESMTPSA id
+ o18-20020a05600c511200b003a2f2bb72d5sm4347167wms.45.2022.09.08.09.03.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Sep 2022 09:03:45 -0700 (PDT)
+Message-ID: <062faaa8-064c-f68a-e316-aaacb80efa5a@linaro.org>
+Date: Thu, 8 Sep 2022 17:03:41 +0100
 MIME-Version: 1.0
-References: <CAO=notwARj6d+UygiU4-JBKMJtyOhHmcNFp7C5jwqJReFT-kew@mail.gmail.com>
- <CAFEAcA9brqMEZfyB-c2OjYFWuQPSS28u9_8vFte=zGwePh_Srw@mail.gmail.com>
- <CAO=notxqhKoUS8Mahp=HLGO1XKt07Z7qH3SEe3-Tfo9skk9rBQ@mail.gmail.com>
-In-Reply-To: <CAO=notxqhKoUS8Mahp=HLGO1XKt07Z7qH3SEe3-Tfo9skk9rBQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 8 Sep 2022 17:00:26 +0100
-Message-ID: <CAFEAcA9mGBjYFNGEVyiUeCMw38zrMCfTyEgpuHO+n3aR-6JjxQ@mail.gmail.com>
-Subject: Re: Seeing qtest assertion failure with 7.1
-To: Patrick Venture <venture@google.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Peter Foley <pefoley@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb36.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 2/3] module: add Error arguments to module_load_one and
+ module_load_qom_one
+Content-Language: en-US
+To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20220908145308.30282-1-cfontana@suse.de>
+ <20220908145308.30282-3-cfontana@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220908145308.30282-3-cfontana@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.142,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,24 +101,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 8 Sept 2022 at 16:54, Patrick Venture <venture@google.com> wrote:
-> On Wed, Sep 7, 2022 at 10:40 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->> Have a look in the source at what exactly the assertion
->> failure in libqtest.c is checking for -- IIRC it's a pretty
->> basic "did we open a socket fd" one. I think sometimes I
->> used to see something like this if there's an old stale socket
->> lying around in the test directory and the randomly generated
->> socket filename happens to clash with it.
+On 9/8/22 15:53, Claudio Fontana wrote:
+> @@ -446,8 +447,13 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
+>           return -EINVAL;
+>       }
+>   
+> -    block_module_load_one("dmg-bz2");
+> -    block_module_load_one("dmg-lzfse");
+> +    if (!block_module_load_one("dmg-bz2", &local_err) && local_err) {
+> +        error_report_err(local_err);
+> +    }
+> +    local_err = NULL;
+> +    if (!block_module_load_one("dmg-lzfse", &local_err) && local_err) {
+> +        error_report_err(local_err);
+> +    }
+>   
+>       s->n_chunks = 0;
+>       s->offsets = s->lengths = s->sectors = s->sectorcounts = NULL;
 
-> Thanks for the debugging tip! I can't reproduce it at this point. I
-> saw it 2-3 times, and now not at all.  So more than likely it's
-> exactly what you're describing.
+I wonder if these shouldn't fail hard if the modules don't exist?
+Or at least pass back the error.
 
-Mmm. We do clean up the socket after ourselves in the test
-harness, but I think what can happen is that if a test case
-crashes then the cleanup doesn't happen. Then there's a stale
-file left in the build tree, and then you only hit it if you
-get unlucky with PID allocation on a future run...
+Kevin?
 
--- PMM
+> @@ -1033,7 +1039,10 @@ ObjectClass *module_object_class_by_name(const char *typename)
+>       oc = object_class_by_name(typename);
+>   #ifdef CONFIG_MODULES
+>       if (!oc) {
+> -        module_load_qom_one(typename);
+> +        Error *local_err = NULL;
+> +        if (!module_load_qom_one(typename, &local_err) && local_err) {
+> +            error_report_err(local_err);
+> +        }
+
+You can return NULL from this path, we know it failed.
+
+> @@ -172,46 +170,38 @@ static int module_load_file(const char *fname, bool export_symbols)
+>       }
+>       g_module = g_module_open(fname, flags);
+>       if (!g_module) {
+> -        fprintf(stderr, "Failed to open module: %s\n",
+> -                g_module_error());
+> -        ret = -EINVAL;
+> -        goto out;
+> +        error_setg(errp, "failed to open module: %s", g_module_error());
+> +        return false;
+>       }
+>       if (!g_module_symbol(g_module, DSO_STAMP_FUN_STR, (gpointer *)&sym)) {
+> -        fprintf(stderr, "Failed to initialize module: %s\n",
+> -                fname);
+> -        /* Print some info if this is a QEMU module (but from different build),
+> -         * this will make debugging user problems easier. */
+> +        error_setg(errp, "failed to initialize module: %s", fname);
+> +        /*
+> +         * Print some info if this is a QEMU module (but from different build),
+> +         * this will make debugging user problems easier.
+> +         */
+>           if (g_module_symbol(g_module, "qemu_module_dummy", (gpointer *)&sym)) {
+> -            fprintf(stderr,
+> -                    "Note: only modules from the same build can be loaded.\n");
+> +            error_append_hint(errp,
+> +                              "Only modules from the same build can be loaded");
+
+With error_append_hint, you add the newline.
+
+The rest of the util/module.c reorg looks good.
+
+
+r~
 
