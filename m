@@ -2,77 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5380F5B1DC4
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 14:58:24 +0200 (CEST)
-Received: from localhost ([::1]:58446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9304E5B1EAD
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 15:24:04 +0200 (CEST)
+Received: from localhost ([::1]:36310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWH6t-00074C-2g
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 08:58:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50634)
+	id 1oWHVj-0006wr-Pd
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 09:24:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oWGrl-0005NK-AZ
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:42:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33446)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oWH4Z-0004IA-0q
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:55:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24083)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oWGrZ-0002Rp-Jg
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:42:43 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oWH4V-0005M8-4t
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:55:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662640951;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1662641754;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=iS7l4aGeRLiRI2IDW+HQoJt/jDK4fRXomXRYfq/+2/o=;
- b=dKWmoy95GjRJLb7aklkSmpJUp6+0Cg0TfjnwWE2fZaLHkp2gtJ5SJ04J53dsDa0FWuf21T
- vYEjg1YQP9wGB9guXzlVRiOKQxL7LBJrhGvrhvqfET5wfUhShxwqy94qkf8W5X8UL4hRlz
- SAS4BDjv30Glj3eV1sRl8X6nLHtpTSc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-136-KyKfJ_PONWiQCz3CEorO6w-1; Thu, 08 Sep 2022 08:42:28 -0400
-X-MC-Unique: KyKfJ_PONWiQCz3CEorO6w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E16FA296A608;
- Thu,  8 Sep 2022 12:42:27 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.74])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 286F9400E88E;
- Thu,  8 Sep 2022 12:42:25 +0000 (UTC)
-Date: Thu, 8 Sep 2022 13:42:23 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: Laszlo Ersek <lersek@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- "Jason A. Donenfeld" <Jason@zx2c4.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v2 1/2] x86: only modify setup_data if the boot protocol
- indicates safety
-Message-ID: <YxnjLyiSRoi2G/4Y@redhat.com>
-References: <20220906103657.282785-1-Jason@zx2c4.com>
- <20220906063954-mutt-send-email-mst@kernel.org>
- <CAHmME9oyf5MmZ4gXkbm+dA3t1NBYB6XdPrk8N1OyKLi5Lke0Rg@mail.gmail.com>
- <20220906064500-mutt-send-email-mst@kernel.org>
- <CAMj1kXH3T48W=k42mrCbY15yc4KYvAfUaRaJJRrsfKbuOfE53A@mail.gmail.com>
- <YxcwCQ0vymro0vbu@redhat.com>
- <d45be9dc-b6e7-293a-7033-f2ca84fa387d@redhat.com>
- <CAMj1kXG=5BW7Qb2pyBvYmNDKksOhoxc-4Cngd-4j_O7mAkbwMQ@mail.gmail.com>
+ bh=g8BIGlv65Ywv49qpW6cme2tGnttrStxQsRYHKWACoqU=;
+ b=ZU8O+5VARswTB8E89LwVtaEcVxBHYh2VgqM8fwioBnT9ku0aBcRp+k/g8tbWCc2TbLdTXV
+ CXOqwah8z0PL40bU7admCvm4tCoX00qLvGT2ZdEtUFFccdI+IaiL4AhZyQRCKFI/pTsVvx
+ s3lj8JDaSBnkXU2oA8ljiOju9urHhQA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-629-nINGTqGYNzu6Gq5bOkLhGA-1; Thu, 08 Sep 2022 08:55:53 -0400
+X-MC-Unique: nINGTqGYNzu6Gq5bOkLhGA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ d30-20020adfa41e000000b00228c0e80c49so3829495wra.21
+ for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 05:55:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=g8BIGlv65Ywv49qpW6cme2tGnttrStxQsRYHKWACoqU=;
+ b=K3f/ep87Q7a2z+qZgYsj8sVOPAAZCYOO2Jvjk/+z0dhTWKIDUxnio6djeJS4OTAvsC
+ GRB+CxtH33CGAUNf2c0yoEOzWWScUEkDoO4Imds+mzR7ooKZ3VJDK8ptKA5ZAbi9bWrx
+ m/5Q2HDdQI1D8ykG4tiym/xc+Gij5MHja359AHscbTau0OQvOw+XkXqHFP9S5lPMZhpL
+ iVdpwjNMMSMDPYaNHXiG0hj3xVm0yQBWHhADEWN7w+WraOPeKkh5yYEvKnAl6au9wNpV
+ ZVlA8fP19c4ooVvcH2orJwceeKCV2SSqsiHsl+c/8NVDfkTNjlTg1bjcU4zHw7nElx37
+ RB1A==
+X-Gm-Message-State: ACgBeo0LxJsgtdtSxgC0Ub0qbY79b8EWqOMSwQYabwEp5RUnSK5oUD2y
+ QxAxOa2nppl4jHEPmWTqYNoV9xfD78L3c1C9os9xyhS1YI6bastMWxEapsHqm8l+0BZJd/GUdjt
+ f5zazRHUuraU3wHQ=
+X-Received: by 2002:a5d:55c1:0:b0:228:6b57:c60b with SMTP id
+ i1-20020a5d55c1000000b002286b57c60bmr4914826wrw.68.1662641751986; 
+ Thu, 08 Sep 2022 05:55:51 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7KAZX7ywVdSOfOWVXDBNuP9h5akQ7CFzhn6GNKwkL4gdkRwvmufiVvXTN8h7Y8fYZKMeuJiQ==
+X-Received: by 2002:a5d:55c1:0:b0:228:6b57:c60b with SMTP id
+ i1-20020a5d55c1000000b002286b57c60bmr4914810wrw.68.1662641751733; 
+ Thu, 08 Sep 2022 05:55:51 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ m10-20020a056000008a00b00228db6b9406sm12001287wrx.45.2022.09.08.05.55.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Sep 2022 05:55:51 -0700 (PDT)
+Date: Thu, 8 Sep 2022 13:55:49 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: liuhaiwei9699 <liuhaiwei9699@126.com>, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, eduardo@habkost.net, eblake@redhat.com,
+ liuhaiwei <liuhaiwei@inspur.com>
+Subject: Re: [PATCH] Use QMP command object-add instead of object_add for
+ memory hotplugin
+Message-ID: <YxnmVZma5mPQwbyM@work-vm>
+References: <20220908095247.2582144-1-liuhaiwei9699@126.com>
+ <877d2edrf6.fsf@pond.sub.org>
+ <6185f50d.391f.1831cf22678.Coremail.liuhaiwei9699@126.com>
+ <87r10m59jj.fsf@pond.sub.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMj1kXG=5BW7Qb2pyBvYmNDKksOhoxc-4Cngd-4j_O7mAkbwMQ@mail.gmail.com>
+In-Reply-To: <87r10m59jj.fsf@pond.sub.org>
 User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -93,85 +102,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 08, 2022 at 02:28:29PM +0200, Ard Biesheuvel wrote:
-> On Thu, 8 Sept 2022 at 13:30, Laszlo Ersek <lersek@redhat.com> wrote:
-> >
-> > On 09/06/22 13:33, Daniel P. Berrangé wrote:
-> > > On Tue, Sep 06, 2022 at 01:14:50PM +0200, Ard Biesheuvel wrote:
-> > >> (cc Laszlo)
-> > >>
-> > >> On Tue, 6 Sept 2022 at 12:45, Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >>>
-> > >>> On Tue, Sep 06, 2022 at 12:43:55PM +0200, Jason A. Donenfeld wrote:
-> > >>>> On Tue, Sep 6, 2022 at 12:40 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >>>>>
-> > >>>>> On Tue, Sep 06, 2022 at 12:36:56PM +0200, Jason A. Donenfeld wrote:
-> > >>>>>> It's only safe to modify the setup_data pointer on newer kernels where
-> > >>>>>> the EFI stub loader will ignore it. So condition setting that offset on
-> > >>>>>> the newer boot protocol version. While we're at it, gate this on SEV too.
-> > >>>>>> This depends on the kernel commit linked below going upstream.
-> > >>>>>>
-> > >>>>>> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > >>>>>> Cc: Laurent Vivier <laurent@vivier.eu>
-> > >>>>>> Cc: Michael S. Tsirkin <mst@redhat.com>
-> > >>>>>> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > >>>>>> Cc: Peter Maydell <peter.maydell@linaro.org>
-> > >>>>>> Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> > >>>>>> Cc: Richard Henderson <richard.henderson@linaro.org>
-> > >>>>>> Cc: Ard Biesheuvel <ardb@kernel.org>
-> > >>>>>> Link: https://lore.kernel.org/linux-efi/20220904165321.1140894-1-Jason@zx2c4.com/
-> > >>>>>> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> > >>>>>
-> > >>>>> BTW what does it have to do with SEV?
-> > >>>>> Is this because SEV is not going to trust the data to be random anyway?
-> > >>>>
-> > >>>> Daniel (now CC'd) pointed out in one of the previous threads that this
-> > >>>> breaks SEV, because the image hash changes.
-> > >>>>
-> > >>>> Jason
-> > >>>
-> > >>> Oh I see. I'd add a comment maybe and definitely mention this
-> > >>> in the commit log.
-> > >>>
-> > >>
-> > >> This does raise the question (as I mentioned before) how things like
-> > >> secure boot and measured boot are affected when combined with direct
-> > >> kernel boot: AIUI, libvirt uses direct kernel boot at guest
-> > >> installation time, and modifying setup_data will corrupt the image
-> > >> signature.
-> > >
-> > > IIUC, qemu already modifies setup_data when using direct kernel boot.
-> > >
-> > > It put in logic to skip this if SEV is enabled, to avoid interfering
-> > > with SEV hashes over the kernel, but there's nothing doing this more
-> > > generally for non-SEV cases using UEFI. So potentially use of SecureBoot
-> > > may already be impacted when using direct kernel boot.
-> >
-> > Yes,
-> >
-> > https://github.com/tianocore/edk2/commit/82808b422617
-> >
+* Markus Armbruster (armbru@redhat.com) wrote:
+> liuhaiwei9699  <liuhaiwei9699@126.com> writes:
 > 
-> Ah yes, thanks for jogging my memory.
+> > why the hmp using the object_add , qmp using the object-add command?
+> > can't we use the same command ?
 > 
-> So virt-install --network already ignores secure boot failures on
-> direct kernel boot, so this is not going to make it any worse.
+> Command names differ between HMP and QMP for historical reasons.
+> 
+> QMP is a stable interface, and changing names there is no go.
+> 
+> HMP is not a stable interface, but changing names would still
+> inconvenience users.  We don't do that without really compelling
+> reasons.
+> 
+> I think HMP could fold '_' and '-' together in command names, so that
+> both object_add and object-add work.  Best to check with the HMP
+> maintainer before you start coding.
 
-And in a cloud world this isn't too much of a problem to start
-with. The cloud disks images will be built offline in trusted
-infrastructure, so lack of SecureBoot isn't a show stopper. When
-later deployed to the public cloud, SecureBoot (and/or Confidential
-Boot) will be fully operational, where it matters most.
+Yes, I'd be up for having folding on _/- - I never remember which I need
+in any case.
 
-With regards,
-Daniel
+Dave
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
