@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91BD65B1B3C
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 13:20:03 +0200 (CEST)
-Received: from localhost ([::1]:53606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8345B1B49
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 13:23:05 +0200 (CEST)
+Received: from localhost ([::1]:51120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWFZi-0004hH-8x
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 07:20:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38944)
+	id 1oWFcf-00077t-0m
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 07:23:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oWFVE-0001LX-IF
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 07:15:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21047)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oWFZr-00051h-HA
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 07:20:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30189)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oWFVA-00032B-QC
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 07:15:23 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oWFZp-0003li-AE
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 07:20:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662635717;
+ s=mimecast20190719; t=1662636008;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TZMz+R5TIEtFBDk3fFlNXMSTZlh3kNLQjPT98YibGCo=;
- b=CY/vYKgjzcn0QwYsn2JbVhibUNgKcb8DgtaNd9o2+AIFpWeRh2OyONT3Wr/FFbR8ZhECVP
- SVHsSwOW92XEdvrYyjcZ9e1A9cEkxAzLWWswqPjEzIaDvvSutFuMdhQIW+4QV68dDTzKnN
- 38RSrtYlPUp6aBLBvKu5AFxFoVPVtR4=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-363-NfE5RLh8MKyhd0Gk0KJwEw-1; Thu, 08 Sep 2022 07:15:16 -0400
-X-MC-Unique: NfE5RLh8MKyhd0Gk0KJwEw-1
-Received: by mail-qk1-f200.google.com with SMTP id
- bj2-20020a05620a190200b006bba055ab6eso14290698qkb.12
- for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 04:15:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date;
- bh=TZMz+R5TIEtFBDk3fFlNXMSTZlh3kNLQjPT98YibGCo=;
- b=Vce7O8i1SBGGfyYoXCNclVt0BTIBWwtMimd3CEJyiAg9xPVE/7j6Uul5SdWRxawnaK
- FfgM9rdLxCKpL9oP5C0P7d23FqDrM5Oxvjj6uNsg2RVx66lHbCZt9/w325h0OHgUDeCl
- a8J7fVgJbNP7nq75mE3aguxwRvh5aGHDGccloV+rBUzAAWl4D/y9rsv9XIUlod8HkaRv
- U5aQkaQuZXLA6rwszimwpDA2a33ReyV2TD5GGcwWe0yGt0wBMvZvpz85qu4GRGgmWF6z
- HBvrf+l2077KXpxcCmdrqeX+pheakicsKkS5icEvSDZ9KdS5U+mgXmE3QnH8nQ5roii3
- lwAw==
-X-Gm-Message-State: ACgBeo2KQu5Pj8pRy2Oady3b91IfDezQ/cAKDHnOPJcSFsYs5fDp0Lmw
- vc9l1DiekfcS1J9BVjJQ44kiWnIsqKv2Mw4h2ZXAO/q1bKhvnWwuBA2IYy17+hoOrs+uYnrnKvW
- WqPZHgDbHEPa3lAQ=
-X-Received: by 2002:a05:620a:1404:b0:6ba:c2c2:5eca with SMTP id
- d4-20020a05620a140400b006bac2c25ecamr5955430qkj.220.1662635716410; 
- Thu, 08 Sep 2022 04:15:16 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7kDIMLoIjg1yRd1NuTNDjt5SihoeSyUglNe5WljrUV3ovIiOPiQlLh5WaZtZg4d4JEcfR+2w==
-X-Received: by 2002:a05:620a:1404:b0:6ba:c2c2:5eca with SMTP id
- d4-20020a05620a140400b006bac2c25ecamr5955415qkj.220.1662635716194; 
- Thu, 08 Sep 2022 04:15:16 -0700 (PDT)
-Received: from redhat.com ([45.144.113.243]) by smtp.gmail.com with ESMTPSA id
- x11-20020ac87ecb000000b0031ee918e9f9sm14528579qtj.39.2022.09.08.04.15.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Sep 2022 04:15:15 -0700 (PDT)
-Date: Thu, 8 Sep 2022 07:15:10 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
-Cc: Arwed Meyer <arwed.meyer@gmx.de>, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 4/4] serial: Allow unaligned i/o access
-Message-ID: <20220908071424-mutt-send-email-mst@kernel.org>
-References: <20220906194755.98090-1-arwed.meyer@gmx.de>
- <20220906194755.98090-5-arwed.meyer@gmx.de>
- <CAJ+F1CLX8gTZ_MsDB+nK7Gp4mBe5UDnaEmKYvfsyjNzKzcQw8g@mail.gmail.com>
+ bh=f3yVar5BHwfemzbv7AvxJbI8BMmPIogQtx9G7he5bBA=;
+ b=XwJhJ7ICmEq3bbKAnCUJVh6aE1S6JeV3K/DEfV6hM0eIaDQUPdxThFhYsFVR3lphuZVPul
+ oIzjXlA7iE9cHBbVxacHF0lpwrkL+BntDU80+n3QhAgdCrUhv0xNuFaQqJlrcp3oPk2xmM
+ CmcB/4RaGOBtTEEwmp/b9s76UYdKVUg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-505-UdpsHN3xO0e9xQYvqYwS6w-1; Thu, 08 Sep 2022 07:20:03 -0400
+X-MC-Unique: UdpsHN3xO0e9xQYvqYwS6w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5BF80185A794;
+ Thu,  8 Sep 2022 11:20:02 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.194.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B67A3C15BB3;
+ Thu,  8 Sep 2022 11:20:00 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 51F1318009BE; Thu,  8 Sep 2022 13:19:59 +0200 (CEST)
+Date: Thu, 8 Sep 2022 13:19:59 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Sunil V L <sunilvl@ventanamicro.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ Song Gao <gaosong@loongson.cn>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Andrew Jones <ajones@ventanamicro.com>,
+ Anup Patel <apatel@ventanamicro.com>,
+ Atish Kumar Patra <atishp@rivosinc.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+ Pawel Polawski <ppolawsk@redhat.com>
+Subject: Re: [PATCH V4 0/3] hw/riscv: virt: Enable booting S-mode firmware
+ from pflashy
+Message-ID: <20220908111959.e3lssz2xbqsnr57p@sirius.home.kraxel.org>
+References: <20220906090219.412517-1-sunilvl@ventanamicro.com>
+ <20220906104128.zlwzvbbswlzyplkc@sirius.home.kraxel.org>
+ <20220906123200.GA237800@sunil-laptop>
+ <20220907071037.tnnewqhi5v2xmiln@sirius.home.kraxel.org>
+ <20220908102527.GB88864@sunil-laptop>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJ+F1CLX8gTZ_MsDB+nK7Gp4mBe5UDnaEmKYvfsyjNzKzcQw8g@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+In-Reply-To: <20220908102527.GB88864@sunil-laptop>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -100,53 +93,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 08, 2022 at 02:11:28PM +0400, Marc-André Lureau wrote:
-> Hi
-> 
-> On Wed, Sep 7, 2022 at 2:03 AM Arwed Meyer <arwed.meyer@gmx.de> wrote:
-> 
->     Unaligned i/o access on serial UART works on real PCs.
->     This is used for example by FreeDOS CTMouse driver. Without this it
->     can't reset and detect serial mice.
-> 
->     Resolves: https://gitlab.com/qemu-project/qemu/-/issues/77
->     Signed-off-by: Arwed Meyer <arwed.meyer@gmx.de>
->     ---
->      hw/char/serial.c | 3 +++
->      1 file changed, 3 insertions(+)
-> 
->     diff --git a/hw/char/serial.c b/hw/char/serial.c
->     index 7061aacbce..41b5e61977 100644
->     --- a/hw/char/serial.c
->     +++ b/hw/char/serial.c
->     @@ -961,6 +961,9 @@ void serial_set_frequency(SerialState *s, uint32_t
->     frequency)
->      const MemoryRegionOps serial_io_ops = {
->          .read = serial_ioport_read,
->          .write = serial_ioport_write,
->     +    .valid = {
->     +        .unaligned = 1,
->     +    },
-> 
-> 
-> I don't get how this can help if both min_access_size & max_access_size are 1.
->  
-> 
->          .impl = {
->              .min_access_size = 1,
->              .max_access_size = 1,
->     --
->     2.34.1
+  Hi,
 
+> Thanks Gerd. One question: Is it possible to have separate code + vars
+> even when there is TF-A? My understanding is, TF-A will take one drive
+> and will be hidden from the non-secure word. So, there is only one flash
+> left for edk2. Is that correct?
 
-Because that's .impl. If access is invalid we don't get as far
-as breaking it up to chunks.
+Yes.
 
-> 
-> 
-> 
-> 
-> --
-> Marc-André Lureau
+> In RISC-V, I think we have the this situation always since M-mode is
+> mandatory. The first flash is always reserved for secure fw. So, we will
+> have to increase the number of flash supported to 3 to support edk2 use
+> case.
+
+Well.  Adding one more flash is certainly the easiest approach.  Another
+possible option would be to have the secure world store the efi variables.
+That might be needed anyway for secure boot support.
+
+> I have a fix RISC-V which resolves truncate issue leveraging logic from
+> x86. It also creates 2 flash drives within non-secure space.
+> EDK2 also needs to be modified to work with smaller code flash. But
+> because the patch takes care of the actual size, it allows to have
+> bigger code and smaller var images.
+
+The size of the code flash and thereby the address of the varstore is
+known at compile time too, so yes, that approach should work fine.
+
+Note that changing the flash size can lead to compatibility problems
+(for example when live migrating), so I'd suggest to be generous with
+code/vars sizes.  On x64 the upstream default flash size is 2M and when
+all compile-time options are enabled things don't fit any more.
+
+So, assuming size figures are roughly the same for risc-v, I'd suggest
+to go for 4M or 8M code flash and 1M vars flash.
+
+> Same thing can be adopted to arm also since both seem to follow the same
+> logic.
+
+Yes.  The tricky part here is dealing with backward compatibility and
+the transition from padded to non-padded images.  I suspect at the end
+of the day keeping the vars flash mapping fixed at 64M (and have a hole
+between code and vars) will be easier.
+
+> But I think that will be a separate patch than this series. I
+> will run that as a separate RFC patch. Is that fine?
+
+No objections.
+
+take care,
+  Gerd
 
 
