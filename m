@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 168895B16C4
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 10:21:10 +0200 (CEST)
-Received: from localhost ([::1]:51798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABE3C5B16E9
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 10:26:08 +0200 (CEST)
+Received: from localhost ([::1]:47060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWCmb-0006kT-6f
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 04:21:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45552)
+	id 1oWCrP-00045T-8l
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 04:26:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oWCgQ-0002Iy-Pq
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 04:14:46 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:35970)
+ (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
+ id 1oWCp4-0001MX-Jt
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 04:23:43 -0400
+Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:37767)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oWCgO-0007CP-Vm
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 04:14:46 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 715F6209DD;
- Thu,  8 Sep 2022 08:14:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1662624883; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=c615+fQCUqR4y6SwKuEO/6enSBHYXNAqv2S8rVOrY+Q=;
- b=AcK/MWASRbt2evONZlv1F3wM3+CBbvxatiFLd1A8r0WEULZ6Zw8f5pu1bc2Z5GaHPwlE3f
- iMcA7eo1h1EVt+NVrJW6gz+XiFxKAvbw/PGuz432mDoKaDurAVsmamTwZng9xSifzMq3iD
- N3s7RrmvbJdJARFgsdoTp4tJc72mvEs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1662624883;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=c615+fQCUqR4y6SwKuEO/6enSBHYXNAqv2S8rVOrY+Q=;
- b=WBNxsMiGdkF9qZTXsjzv4rnhcD9128ED5sht34VBupzgMyqH9rGDNqCS9/FLLdvcC/mBh7
- FD4DtBFp4ZqgqUDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 068561322C;
- Thu,  8 Sep 2022 08:14:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id OMUmO3KkGWNxJQAAMHmgww
- (envelope-from <cfontana@suse.de>); Thu, 08 Sep 2022 08:14:42 +0000
-From: Claudio Fontana <cfontana@suse.de>
-To: Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-Cc: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v3] audio: add help option for -audio and -audiodev
-Date: Thu,  8 Sep 2022 10:14:41 +0200
-Message-Id: <20220908081441.7111-1-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
+ id 1oWCp2-0000CM-KI
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 04:23:42 -0400
+Received: by mail-qt1-x82a.google.com with SMTP id l5so12298804qtv.4
+ for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 01:23:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=ehIwG4j3oYHIzz+fz6uRjAklhgZMvH58r/GiAT7C+s0=;
+ b=P/sBjwA7azj1IWcTS7iI+WjYEHjefZyAfbYBoi5qT5rPkHE3SR5wJLAWG21DEf/Abc
+ SK0mT5OUdUTvPt4obOt6x4WSXDcOwbUPq43phJ+V382kO4HzeAPTIp9toRGC60nyAS+U
+ 90d5LDVYy47w7k597SkN7R3mS+fjg0YvOp9V7n19n0JOZW5uscbBR8BuJNxuysY9lelw
+ 7TmITJSlRUkZDq2YQ0yVKQsa2Sx7T8wHC18WYSQ3ZCJLinDYH22TMYqU3XaXRHYSSIA8
+ 6TEIzmNdouoaMzhHzJP2dSt6rU3dBOTyF7MonNl1Qtq7k9UT3uTGqfcch0Jm0ziwPhR0
+ 1y8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=ehIwG4j3oYHIzz+fz6uRjAklhgZMvH58r/GiAT7C+s0=;
+ b=TuOmX6q99OcqAXx/HqMMfn7GK23uM6stGT+JhWgVqGHmR4FtimK8ywYjLwcwtqDusX
+ t6CsTxLw0xcOo7pksLET41vplkjARkTyZZVRoMJn7WwyJ2CsYw7FZvDzCR75QpolCfd8
+ OadNJIxEEgC3XYQmEFhFdEa4yx++p3ByrugucqQqU7At9FyMXuGDxv229FW0zy+hIPIn
+ pCI5ZJ8huaMW/Nn58f/yttkeuz8eDcDN5opfMHDcrUcJkH+oL3R2Lo+Q1moFygz9OIQD
+ PGZnJn514MHq5/f/gLX0CWN8F2pFx+DiHvslSMB/AqmUBMGmZDQeZ3sZF1YYlrPcZJEG
+ PwaA==
+X-Gm-Message-State: ACgBeo0SaQvvc53nX6r2SpLFyEDPJXLh9EYR0GfA0j6xY7Iadw5IMB1y
+ 9yKDYFTmGycLStC36mR28R0BwMgTYrVNI3VoUC2sSg==
+X-Google-Smtp-Source: AA6agR73kClQYPXjaiARNkd/nsIkbBh6EKjjzYM5aAShm1xFSd54gYcZHOURSfPettsE5P+tYgepnUPC9/gd2h2y94w=
+X-Received: by 2002:ac8:570d:0:b0:343:63be:e072 with SMTP id
+ 13-20020ac8570d000000b0034363bee072mr6815895qtw.267.1662625418765; Thu, 08
+ Sep 2022 01:23:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220906122243.1243354-1-christoph.muellner@vrull.eu>
+ <20220906122243.1243354-12-christoph.muellner@vrull.eu>
+ <9eba2b9e-ebe0-bf2d-2dc7-75ae81b0592e@linaro.org>
+In-Reply-To: <9eba2b9e-ebe0-bf2d-2dc7-75ae81b0592e@linaro.org>
+From: =?UTF-8?Q?Christoph_M=C3=BCllner?= <christoph.muellner@vrull.eu>
+Date: Thu, 8 Sep 2022 10:23:27 +0200
+Message-ID: <CAEg0e7jEh+ix32xGs+BdpCZOCT9YAFC_Lb5Ti-FQcFJiDtHmnQ@mail.gmail.com>
+Subject: Re: [PATCH 11/11] RISC-V: Add initial support for T-Head C906 and
+ C910 CPUs
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, 
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Philipp Tomsich <philipp.tomsich@vrull.eu>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko.stuebner@vrull.eu>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Nelson Chu <nelson@rivosinc.com>, 
+ Kito Cheng <kito.cheng@sifive.com>, Cooper Qu <cooper.qu@linux.alibaba.com>, 
+ Lifang Xia <lifang_xia@linux.alibaba.com>,
+ Yunhai Shang <yunhai@linux.alibaba.com>, 
+ Zhiwei Liu <zhiwei_liu@linux.alibaba.com>
+Content-Type: multipart/alternative; boundary="0000000000007b04fc05e8262537"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
+ envelope-from=christoph.muellner@vrull.eu; helo=mail-qt1-x82a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,134 +93,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-add a simple help option for -audio and -audiodev
-to show the list of available drivers, and document them.
+--0000000000007b04fc05e8262537
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- audio/audio.c   | 19 +++++++++++++++++++
- audio/audio.h   |  1 +
- qemu-options.hx | 10 ++++++----
- softmmu/vl.c    |  9 +++++++--
- 4 files changed, 33 insertions(+), 6 deletions(-)
+On Thu, Sep 8, 2022 at 9:46 AM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-v2 -> v3: use AudiodevDriver_str and AUDIODEV_DRIVER__MAX
-  to loop over drivers instead of audio_prio_list (Volker).
+> On 9/6/22 13:22, Christoph Muellner wrote:
+> > +    DEFINE_CPU(TYPE_RISCV_CPU_THEAD_C906,
+>  rv64_thead_c906_cpu_init),
+> > +    DEFINE_CPU(TYPE_RISCV_CPU_THEAD_C910,
+>  rv64_thead_c906_cpu_init),
+>
+> Why model both if they're identical?
+>
 
-v1 -> v2: also extend the help to -audio.
+I figured that users might expect that (existence of "thead-c906" and
+"thead-c910").
+And using "thead-c9xx" feels like it would be regretted in the future.
 
- -audio help
- -audio driver=help
- -audiodev help
-
-will all show the same results.
+Should I drop "thead-c910"?
 
 
-diff --git a/audio/audio.c b/audio/audio.c
-index 4f4bb10cce..6647ed5b1e 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -32,6 +32,7 @@
- #include "qapi/qapi-visit-audio.h"
- #include "qemu/cutils.h"
- #include "qemu/module.h"
-+#include "qemu/help_option.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/replay.h"
- #include "sysemu/runstate.h"
-@@ -2105,10 +2106,28 @@ static void audio_validate_opts(Audiodev *dev, Error **errp)
-     }
- }
- 
-+void audio_help(void)
-+{
-+    int i;
-+
-+    printf("Available audio drivers:\n");
-+
-+    for (i = 0; i < AUDIODEV_DRIVER__MAX; i++) {
-+        audio_driver *driver = audio_driver_lookup(AudiodevDriver_str(i));
-+        if (driver) {
-+            printf("%s\n", driver->name);
-+        }
-+    }
-+}
-+
- void audio_parse_option(const char *opt)
- {
-     Audiodev *dev = NULL;
- 
-+    if (is_help_option(opt)) {
-+        audio_help();
-+        exit(EXIT_SUCCESS);
-+    }
-     Visitor *v = qobject_input_visitor_new_str(opt, "driver", &error_fatal);
-     visit_type_Audiodev(v, NULL, &dev, &error_fatal);
-     visit_free(v);
-diff --git a/audio/audio.h b/audio/audio.h
-index 27e67079a0..01bdc567fb 100644
---- a/audio/audio.h
-+++ b/audio/audio.h
-@@ -171,6 +171,7 @@ void audio_sample_from_uint64(void *samples, int pos,
- void audio_define(Audiodev *audio);
- void audio_parse_option(const char *opt);
- bool audio_init_audiodevs(void);
-+void audio_help(void);
- void audio_legacy_help(void);
- 
- AudioState *audio_state_by_name(const char *name);
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 31c04f7eea..04cd4dacfc 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -704,10 +704,11 @@ SRST
- ``-audio [driver=]driver,model=value[,prop[=value][,...]]``
-     This option is a shortcut for configuring both the guest audio
-     hardware and the host audio backend in one go.
--    The host backend options are the same as with the corresponding
--    ``-audiodev`` options below. The guest hardware model can be set with
--    ``model=modelname``. Use ``model=help`` to list the available device
--    types.
-+    The driver option is the same as with the corresponding ``-audiodev`` option below.
-+    The guest hardware model can be set with ``model=modelname``.
-+
-+    Use ``driver=help`` to list the available drivers,
-+    and ``model=help`` to list the available device types.
- 
-     The following two example do exactly the same, to show how ``-audio``
-     can be used to shorten the command line length:
-@@ -721,6 +722,7 @@ ERST
- DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
-     "-audiodev [driver=]driver,id=id[,prop[=value][,...]]\n"
-     "                specifies the audio backend to use\n"
-+    "                Use ``-audiodev help`` to list the available drivers\n"
-     "                id= identifier of the backend\n"
-     "                timer-period= timer period in microseconds\n"
-     "                in|out.mixing-engine= use mixing engine to mix streams inside QEMU\n"
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index dea4005e47..2f8eecf5c1 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2842,11 +2842,16 @@ void qemu_init(int argc, char **argv, char **envp)
-                 audio_parse_option(optarg);
-                 break;
-             case QEMU_OPTION_audio: {
--                QDict *dict = keyval_parse(optarg, "driver", NULL, &error_fatal);
-+                bool help;
-                 char *model;
-                 Audiodev *dev = NULL;
-                 Visitor *v;
--
-+                QDict *dict = keyval_parse(optarg, "driver", &help, &error_fatal);
-+                if (help || (qdict_haskey(dict, "driver") &&
-+                             is_help_option(qdict_get_str(dict, "driver")))) {
-+                    audio_help();
-+                    exit(EXIT_SUCCESS);
-+                }
-                 if (!qdict_haskey(dict, "id")) {
-                     qdict_put_str(dict, "id", "audiodev0");
-                 }
--- 
-2.26.2
 
+>
+>
+> r~
+>
+
+--0000000000007b04fc05e8262537
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 8, 2022 at 9:46 AM Richar=
+d Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hen=
+derson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">On 9/6/22 13:22, Christoph Muellner wrote:<br>
+&gt; +=C2=A0 =C2=A0 DEFINE_CPU(TYPE_RISCV_CPU_THEAD_C906,=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0rv64_thead_c906_cpu_init),<br>
+&gt; +=C2=A0 =C2=A0 DEFINE_CPU(TYPE_RISCV_CPU_THEAD_C910,=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0rv64_thead_c906_cpu_init),<br>
+<br>
+Why model both if they&#39;re identical?<br></blockquote><div><br></div><di=
+v>I figured that users might expect that (existence of &quot;thead-c906&quo=
+t; and &quot;thead-c910&quot;).</div><div>And using &quot;thead-c9xx&quot; =
+feels like it would be regretted in the future.</div><div><br></div><div>Sh=
+ould I drop &quot;thead-c910&quot;?</div><div><br></div><div>=C2=A0<br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+<br>
+r~<br>
+</blockquote></div></div>
+
+--0000000000007b04fc05e8262537--
 
