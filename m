@@ -2,68 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E7F95B1BC8
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 13:44:40 +0200 (CEST)
-Received: from localhost ([::1]:33176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACD4A5B1BC3
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 13:43:12 +0200 (CEST)
+Received: from localhost ([::1]:46238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWFxX-00064S-6b
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 07:44:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53834)
+	id 1oWFw7-0004Kk-K7
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 07:43:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oWFmR-0003It-Nl
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 07:33:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24027)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oWFmP-0005hU-NT
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 07:33:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662636788;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OIiwygN40zy2gep7Xp9tnK94hjh7dUvgCnE0JBbUBw4=;
- b=goOpCmJwgzVaer9JV9twq8TRa3SkfTh0ijJ3n3btCtQYFT5gQpsII40Oi8DKpBk66SwvdQ
- ltc5FJdkPqza8xbW5f9hpqs5m05p3kKUSVoTIDQnjBUl1yLrnZeE7YUcEgaPmB3hNCV9t1
- ftETHlSAIjh3MewX2bE6Kx8xwQnqnJM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-551-uRbOyHQsOeiOOK8iUoJJlw-1; Thu, 08 Sep 2022 07:33:07 -0400
-X-MC-Unique: uRbOyHQsOeiOOK8iUoJJlw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C70C18A01B0
- for <qemu-devel@nongnu.org>; Thu,  8 Sep 2022 11:33:07 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D4D472166B26;
- Thu,  8 Sep 2022 11:33:06 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 84DDD21E6900; Thu,  8 Sep 2022 13:33:05 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org,  stefanha@redhat.com,  victortoso@redhat.com
-Subject: Re: [PULL 00/10] QAPI patches patches for 2022-09-07
-References: <20220907150327.538464-1-armbru@redhat.com>
- <YxnK7jFo+g2Ahvf4@redhat.com>
-Date: Thu, 08 Sep 2022 13:33:05 +0200
-In-Reply-To: <YxnK7jFo+g2Ahvf4@redhat.com> (Kevin Wolf's message of "Thu, 8
- Sep 2022 12:58:54 +0200")
-Message-ID: <87illydrta.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oWFqv-0007xd-1J
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 07:37:49 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:52021)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oWFqq-0006PH-0O
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 07:37:48 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id ay12so10668409wmb.1
+ for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 04:37:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=9pbnlDTMAFQQ3HWzVEN/9wbX1MFeWcv/zBSJhz1JjLo=;
+ b=Xx23UKYxeF8CJxMJIoeARL6WkLNgy6Q32aCnh8jBxYAQaiwuGuKejZkE8nOQqp3EaM
+ goRA1FN9QTpCldDVw46Ti0xFwFyB35oFbfgzUX+yd23lPOntvJ3NeR2pry9bNxcFI+Cu
+ wIhw2UwMhvrbUN/XBwlA4aiethB51oY7usVUzbE7i49rUNozPv8kDaLAa8vMsWbFvUsR
+ /N5uuzhXlu3EGnN//hq7pbGr02BNs9vbHJ6dJ5YV3bUHGenLCOXAx1A4PXdKrfrZ/RH4
+ u/6JXZtxScBq9fQ0VrzUVyJDdKACKw9sEBySUoa3CTnxn7Q3TcVxeFrCLtbeJ/3P/8KE
+ nKJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=9pbnlDTMAFQQ3HWzVEN/9wbX1MFeWcv/zBSJhz1JjLo=;
+ b=RG1fTF5rUWBiBh3f1E8mOSRTl5GquXrHz9T9ZzBLXoPNkXJs6GtiHuToaO9LP8GYFE
+ DpoB8SkwcfGFEq/3GKGHSTC3oVlx+JIkiFUDgfOnGGr6VIrakwRF5F0ib0HJcaKyO9pJ
+ bjjfLEoRz9gdrijhYU2jMoMsLNCzbGDv3s81gGcOWqCvIUouSfUMAzFa3R/yFDHarjly
+ GYSL/7T8SirfIYLDLdk7JZ3EEWa0PilmDMALIPGoMiOMVHIUYu8ApiHKNbfCPOONrJrX
+ GXtxWMqviAMc+hGwb58dI9i1Bib4DGJ4y3p21jcMKPXzu5BOessE82Tdpa9xjNGb7VZ7
+ Pi2Q==
+X-Gm-Message-State: ACgBeo29pkiWMBvlv3ggVgm8UCcIKLihcXRor+xupa11CEi5plBxih9+
+ LSkDDm9XyGfOIqI+XzjsuwhNyg==
+X-Google-Smtp-Source: AA6agR5tCK7VIigX9ahQNa98tawdqvZLvqNfeGZij5OvuU1YtGpLUGHht+pSgMuTDW3/4ZztBNdE7A==
+X-Received: by 2002:a05:600c:89a:b0:3a5:4ea9:d5ee with SMTP id
+ l26-20020a05600c089a00b003a54ea9d5eemr1959908wmp.8.1662637061240; 
+ Thu, 08 Sep 2022 04:37:41 -0700 (PDT)
+Received: from [192.168.1.87] ([109.78.97.14])
+ by smtp.gmail.com with ESMTPSA id
+ l4-20020a05600c1d0400b003a601a1c2f7sm2682850wms.19.2022.09.08.04.37.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Sep 2022 04:37:40 -0700 (PDT)
+Message-ID: <72157830-56b8-ee02-6ef1-99b56106c4e5@linaro.org>
+Date: Thu, 8 Sep 2022 12:37:37 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 2/2] configure: Add -Wno-gnu-variable-sized-type-not-at-end
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: Chenyi Qiang <chenyi.qiang@intel.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?B?TWljaGFsIFByw612b3puw61r?=
+ <mprivozn@redhat.com>, qemu-devel@nongnu.org
+References: <20220908080749.32211-1-chenyi.qiang@intel.com>
+ <20220908080749.32211-3-chenyi.qiang@intel.com>
+ <CAFEAcA9J1mPL2Uj2yRhcpUq-Bg=G1o8V8q8n=7frAvMeT6_GRg@mail.gmail.com>
+ <YxmxVuYq2vqFgvqK@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <YxmxVuYq2vqFgvqK@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.142,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,44 +100,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+On 9/8/22 10:09, Daniel P. Berrangé wrote:
+> 'kvm_msrs info' is variable in size, so offset of 'entries[1]' is
+> undefined by C99. I presume the GNU defined semantics are that the
+> variable length 'entries[]' field in 'info' is zero-sized, in order
+> to give predictable offset for 'entries[1]' in the local msr_data.
 
-> Am 07.09.2022 um 17:03 hat Markus Armbruster geschrieben:
->> The following changes since commit 946e9bccf12f2bcc3ca471b820738fb22d14fc80:
->> 
->>   Merge tag 'samuel-thibault' of https://people.debian.org/~sthibault/qemu into staging (2022-09-06 08:31:24 -0400)
->> 
->> are available in the Git repository at:
->> 
->>   git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2022-09-07
->> 
->> for you to fetch changes up to 6e7a37ffc230d06852f1a8893097331d39df77c9:
->> 
->>   qapi: fix examples of events missing timestamp (2022-09-07 15:10:13 +0200)
->> 
->> ----------------------------------------------------------------
->> QAPI patches patches for 2022-09-07
->> 
->> ----------------------------------------------------------------
->> Victor Toso (10):
->>       qapi: fix example of query-ballon command
->>       qapi: fix example of query-vnc command
->>       qapi: fix example of query-dump-guest-memory-capability command
->>       qapi: fix example of BLOCK_JOB_READY event
->>       qapi: fix example of NIC_RX_FILTER_CHANGED event
->>       qapi: fix example of DEVICE_UNPLUG_GUEST_ERROR event
->>       qapi: fix example of MEM_UNPLUG_ERROR event
->>       qapi: fix examples of blockdev-add with qcow2
->
-> NACK, this patch is wrong.
->
-> 'file' is a required member (defined in BlockdevOptionsGenericFormat),
-> removing it makes the example invalid. 'data-file' is only an additional
-> optional member to be used for external data files (i.e. when the guest
-> data is kept separate from the metadata in the .qcow2 file).
+Correct.  I invented this gcc extension for the benefit of glibc, which wanted to append N 
+entries to that header, in static storage no less.
 
-I'll respin with #8 dropped.  Thank you!
+I still find it odd that clang warns about a gnu extension when gnu extensions are 
+requested via -std=gnu*.
 
-[...]
 
+r~
 
