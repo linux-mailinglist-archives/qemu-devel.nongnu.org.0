@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F00D5B2753
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 22:00:44 +0200 (CEST)
-Received: from localhost ([::1]:51908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB7535B2766
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 22:04:01 +0200 (CEST)
+Received: from localhost ([::1]:39448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWNha-0000MG-03
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 16:00:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49610)
+	id 1oWNkm-00031c-M5
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 16:04:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oWNev-0005M7-KY; Thu, 08 Sep 2022 15:57:57 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:55537)
+ id 1oWNcs-0002kd-Tv; Thu, 08 Sep 2022 15:55:50 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:44811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oWNet-00019X-Cf; Thu, 08 Sep 2022 15:57:56 -0400
+ id 1oWNcp-0000wG-HK; Thu, 08 Sep 2022 15:55:49 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D284D74633E;
- Thu,  8 Sep 2022 21:57:51 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 3469674632B;
+ Thu,  8 Sep 2022 21:55:42 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 999DA74632B; Thu,  8 Sep 2022 21:57:51 +0200 (CEST)
+ id ED84D7461AE; Thu,  8 Sep 2022 21:55:41 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 97F79746335;
- Thu,  8 Sep 2022 21:57:51 +0200 (CEST)
-Date: Thu, 8 Sep 2022 21:57:51 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id EB909745702;
+ Thu,  8 Sep 2022 21:55:41 +0200 (CEST)
+Date: Thu, 8 Sep 2022 21:55:41 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org, 
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
-Subject: Re: [PATCH v7 07/14] hw/ppc: set machine->fdt in
- xilinx_load_device_tree()
-In-Reply-To: <20220908194040.518400-8-danielhb413@gmail.com>
-Message-ID: <e6c5e7cd-b545-8bbe-51d9-b74a704d5fc9@eik.bme.hu>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org
+Subject: Re: [PATCH v7 05/14] hw/ppc: set machine->fdt in
+ bamboo_load_device_tree()
+In-Reply-To: <20220908194040.518400-6-danielhb413@gmail.com>
+Message-ID: <be8c4e-f9f8-9695-1559-6017f5df91a3@eik.bme.hu>
 References: <20220908194040.518400-1-danielhb413@gmail.com>
- <20220908194040.518400-8-danielhb413@gmail.com>
+ <20220908194040.518400-6-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
+Content-Type: multipart/mixed;
+ boundary="3866299591-1111005198-1662666941=:65589"
+X-Spam-Probability: 9%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
@@ -61,89 +61,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--3866299591-1111005198-1662666941=:65589
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+
 On Thu, 8 Sep 2022, Daniel Henrique Barboza wrote:
-> This will enable support for 'dumpdtb' QMP/HMP command for the
-> virtex_ml507 machine.
+> This will enable support for 'dumpdtb' QMP/HMP command for the bamboo
+> machine.
 >
 > Setting machine->fdt requires a MachineState pointer to be used inside
-> xilinx_load_device_tree(). Let's change the function to receive this
-> pointer from the caller. kernel_cmdline' can be retrieved directly from
-> the 'machine' pointer. 'ramsize' wasn't being used so can be removed.
+> bamboo_load_device_tree(). Let's change the function to receive this
+> pointer from the caller. 'ramsize' and 'kernel_cmdline' can be retrieved
+> directly from the 'machine' pointer.
 >
-> Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+> Cc: Cédric Le Goater <clg@kaod.org>
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
 Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
 
 > ---
-> hw/ppc/virtex_ml507.c | 25 ++++++++++++++-----------
+> hw/ppc/ppc440_bamboo.c | 25 ++++++++++++++-----------
 > 1 file changed, 14 insertions(+), 11 deletions(-)
 >
-> diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
-> index 493ea0c19f..13cace229b 100644
-> --- a/hw/ppc/virtex_ml507.c
-> +++ b/hw/ppc/virtex_ml507.c
-> @@ -45,6 +45,8 @@
+> diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
+> index ea945a1c99..9cc58fccf9 100644
+> --- a/hw/ppc/ppc440_bamboo.c
+> +++ b/hw/ppc/ppc440_bamboo.c
+> @@ -34,6 +34,8 @@
 > #include "hw/qdev-properties.h"
-> #include "ppc405.h"
+> #include "qapi/error.h"
 >
 > +#include <libfdt.h>
 > +
-> #define EPAPR_MAGIC    (0x45504150)
-> #define FLASH_SIZE     (16 * MiB)
+> #define BINARY_DEVICE_TREE_FILE "bamboo.dtb"
 >
-> @@ -144,11 +146,10 @@ static void main_cpu_reset(void *opaque)
-> }
+> /* from u-boot */
+> @@ -56,14 +58,13 @@ static const ram_addr_t ppc440ep_sdram_bank_sizes[] = {
 >
-> #define BINARY_DEVICE_TREE_FILE "virtex-ml507.dtb"
-> -static int xilinx_load_device_tree(hwaddr addr,
-> -                                      uint32_t ramsize,
-> -                                      hwaddr initrd_base,
-> -                                      hwaddr initrd_size,
-> -                                      const char *kernel_cmdline)
-> +static int xilinx_load_device_tree(MachineState *machine,
+> static hwaddr entry;
+>
+> -static int bamboo_load_device_tree(hwaddr addr,
+> -                                     uint32_t ramsize,
+> -                                     hwaddr initrd_base,
+> -                                     hwaddr initrd_size,
+> -                                     const char *kernel_cmdline)
+> +static int bamboo_load_device_tree(MachineState *machine,
 > +                                   hwaddr addr,
 > +                                   hwaddr initrd_base,
 > +                                   hwaddr initrd_size)
 > {
->     char *path;
+>     int ret = -1;
+> -    uint32_t mem_reg_property[] = { 0, 0, cpu_to_be32(ramsize) };
+> +    uint32_t mem_reg_property[] = { 0, 0, cpu_to_be32(machine->ram_size) };
+>     char *filename;
 >     int fdt_size;
-> @@ -190,18 +191,21 @@ static int xilinx_load_device_tree(hwaddr addr,
->         error_report("couldn't set /chosen/linux,initrd-end");
+>     void *fdt;
+> @@ -98,7 +99,7 @@ static int bamboo_load_device_tree(hwaddr addr,
+>         fprintf(stderr, "couldn't set /chosen/linux,initrd-end\n");
 >     }
->
-> -    r = qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", kernel_cmdline);
-> +    r = qemu_fdt_setprop_string(fdt, "/chosen", "bootargs",
-> +                                machine->kernel_cmdline);
->     if (r < 0)
+>     ret = qemu_fdt_setprop_string(fdt, "/chosen", "bootargs",
+> -                                  kernel_cmdline);
+> +                                  machine->kernel_cmdline);
+>     if (ret < 0) {
 >         fprintf(stderr, "couldn't set /chosen/bootargs\n");
->     cpu_physical_memory_write(addr, fdt, fdt_size);
+>     }
+> @@ -119,7 +120,10 @@ static int bamboo_load_device_tree(hwaddr addr,
+>                           tb_freq);
+>
+>     rom_add_blob_fixed(BINARY_DEVICE_TREE_FILE, fdt, fdt_size, addr);
 > -    g_free(fdt);
 > +
-> +    /* Set machine->fdt for 'dumpdtb' QMP/HMP command */
+> +    /* Set ms->fdt for 'dumpdtb' QMP/HMP command */
 > +    machine->fdt = fdt;
 > +
->     return fdt_size;
+>     return 0;
 > }
 >
-> static void virtex_init(MachineState *machine)
+> @@ -163,7 +167,6 @@ static void main_cpu_reset(void *opaque)
+> static void bamboo_init(MachineState *machine)
 > {
 >     const char *kernel_filename = machine->kernel_filename;
 > -    const char *kernel_cmdline = machine->kernel_cmdline;
->     hwaddr initrd_base = 0;
->     int initrd_size = 0;
+>     const char *initrd_filename = machine->initrd_filename;
+>     unsigned int pci_irq_nrs[4] = { 28, 27, 26, 25 };
 >     MemoryRegion *address_space_mem = get_system_memory();
-> @@ -294,9 +298,8 @@ static void virtex_init(MachineState *machine)
->         boot_info.fdt = high + (8192 * 2);
->         boot_info.fdt &= ~8191;
+> @@ -289,8 +292,8 @@ static void bamboo_init(MachineState *machine)
 >
-> -        xilinx_load_device_tree(boot_info.fdt, machine->ram_size,
-> -                                initrd_base, initrd_size,
-> -                                kernel_cmdline);
-> +        xilinx_load_device_tree(machine, boot_info.fdt,
-> +                                initrd_base, initrd_size);
->     }
->     env->load_info = &boot_info;
-> }
+>     /* If we're loading a kernel directly, we must load the device tree too. */
+>     if (kernel_filename) {
+> -        if (bamboo_load_device_tree(FDT_ADDR, machine->ram_size, RAMDISK_ADDR,
+> -                                    initrd_size, kernel_cmdline) < 0) {
+> +        if (bamboo_load_device_tree(machine, FDT_ADDR,
+> +                                    RAMDISK_ADDR, initrd_size) < 0) {
+>             error_report("couldn't load device tree");
+>             exit(1);
+>         }
 >
+--3866299591-1111005198-1662666941=:65589--
 
