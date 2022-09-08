@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C5835B1690
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 10:12:46 +0200 (CEST)
-Received: from localhost ([::1]:52818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63BA55B165E
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 10:08:30 +0200 (CEST)
+Received: from localhost ([::1]:39806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWCeT-0008ML-CC
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 04:12:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52224)
+	id 1oWCaL-0005VS-2s
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 04:08:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oWCVW-00023t-Qc
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 04:03:30 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:39842)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oWCVR-0005Pb-Tm
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 04:03:30 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1F22E1FB42;
- Thu,  8 Sep 2022 08:03:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1662624203; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=veZivsd6tfPyofReVAzam8/3hDUO0aZXvLic2/14vxA=;
- b=Gh3e0EMpI7kVmt0WZMwKgZ6PmE7WyrYt8nBg3QPOQqAsMFtY80Mrn6tBb7lBIxB2YV5FbZ
- OG5Woj17xk+M1F99I04Dw+8UKWzr01hXdvmqos74aPEveVNTb1fKnmMoJ2JoE7MUzWUbSR
- nAO6Upjwe0VcN2tMDnZLALb+2rbnq5E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1662624203;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=veZivsd6tfPyofReVAzam8/3hDUO0aZXvLic2/14vxA=;
- b=i8jX9tYR3wg7P9EBsgl1ckcjB7EcZcyjzvsLc7jAxscCYL7IuEXP/uO6rXQK0ZmPI8zWUW
- jei9cnRAk51f3RAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AFAEA13A6D;
- Thu,  8 Sep 2022 08:03:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id bCPNKMqhGWPxIAAAMHmgww
- (envelope-from <cfontana@suse.de>); Thu, 08 Sep 2022 08:03:22 +0000
-Message-ID: <7e8e893b-7445-8fe5-fd6f-ba48e0688adf@suse.de>
-Date: Thu, 8 Sep 2022 10:03:22 +0200
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1oWCTd-000136-MW
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 04:01:33 -0400
+Received: from mga01.intel.com ([192.55.52.88]:31664)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1oWCTb-0005Ap-9D
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 04:01:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1662624091; x=1694160091;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=NHAikLzJjUoAYFy+vcxMfykzIjhsDzHiCIaM23r5SNI=;
+ b=KpZcznFEztyZ0ATtD24UhMmvkPrOibEsPLtix0lZizFAGUkW8FIHd4AS
+ wlGPwU24yk8LjGjqKycrClCokpHEk81Us9lSl2K5qrPhu7kYsKVrQ/JVi
+ 7WFYbLBz2llrndFXH8pP5Ojpl8QrkSyZ4EbVNHP68NoNuHOm1OUFv+Nh4
+ YnkDSjeRmKjXp26uoWWVUEHRydcbxmjrsTDVX8TNpLpMXM1vjLEvrAfB/
+ n9+nyMr1dzGsZq9/YcumYFn7vF+Pd7qrQzcBQZ8kSzgMmWMuQzqWS7CEj
+ 3exZs5ZVZSp1Su2hoMLW2wAFwyQ8kZSnDwdzfCcNf3F7AkcFlVbZg3cEW g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10463"; a="323295050"
+X-IronPort-AV: E=Sophos;i="5.93,299,1654585200"; d="scan'208";a="323295050"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Sep 2022 01:01:21 -0700
+X-IronPort-AV: E=Sophos;i="5.93,299,1654585200"; d="scan'208";a="565846698"
+Received: from chenyi-pc.sh.intel.com ([10.239.159.73])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Sep 2022 01:01:19 -0700
+From: Chenyi Qiang <chenyi.qiang@intel.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Michal=20Pr=C3=ADvozn=C3=ADk?= <mprivozn@redhat.com>
+Cc: Chenyi Qiang <chenyi.qiang@intel.com>,
+	qemu-devel@nongnu.org
+Subject: [PATCH 0/2] Update linux headers to v6.0-rc4 and fix the clang build
+ error
+Date: Thu,  8 Sep 2022 16:07:47 +0800
+Message-Id: <20220908080749.32211-1-chenyi.qiang@intel.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v2] audio: add help option for -audio and -audiodev
-Content-Language: en-US
-To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- BALATON Zoltan <balaton@eik.bme.hu>
-References: <20220907173044.12669-1-cfontana@suse.de>
- <930ed191-5354-b0d0-2998-0e771a97973f@t-online.de>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <930ed191-5354-b0d0-2998-0e771a97973f@t-online.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -85
-X-Spam_score: -8.6
-X-Spam_bar: --------
-X-Spam_report: (-8.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.199,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: permerror client-ip=192.55.52.88;
+ envelope-from=chenyi.qiang@intel.com; helo=mga01.intel.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,80 +80,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/8/22 07:55, Volker Rümelin wrote:
-> Am 07.09.22 um 19:30 schrieb Claudio Fontana:
-> 
->> add a simple help option for -audio and -audiodev
->> to show the list of available drivers, and document them.
->>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> ---
->>   audio/audio.c   | 20 ++++++++++++++++++++
->>   audio/audio.h   |  1 +
->>   qemu-options.hx | 10 ++++++----
->>   softmmu/vl.c    |  9 +++++++--
->>   4 files changed, 34 insertions(+), 6 deletions(-)
->>
->> v1 -> v2: also extend the help to -audio.
->>
->>   -audio help
->>   -audio driver=help
->>   -audiodev help
->>
->> will all show the same results.
->>
->> diff --git a/audio/audio.c b/audio/audio.c
->> index 4f4bb10cce..ffb09ec825 100644
->> --- a/audio/audio.c
->> +++ b/audio/audio.c
->> @@ -32,6 +32,7 @@
->>   #include "qapi/qapi-visit-audio.h"
->>   #include "qemu/cutils.h"
->>   #include "qemu/module.h"
->> +#include "qemu/help_option.h"
->>   #include "sysemu/sysemu.h"
->>   #include "sysemu/replay.h"
->>   #include "sysemu/runstate.h"
->> @@ -2105,10 +2106,29 @@ static void audio_validate_opts(Audiodev *dev, Error **errp)
->>       }
->>   }
->>   
->> +void audio_help(void)
->> +{
->> +    int i;
->> +
->> +    printf("Available audio drivers:\n");
->> +    printf("none\n");
->> +
->> +    for (i = 0; audio_prio_list[i]; i++) {
->> +        audio_driver *driver = audio_driver_lookup(audio_prio_list[i]);
-> 
-> Hi Claudio,
-> 
-> there is no guarantee that the audio_prio_list contains all audio 
-> backend drivers. I would use this
-> 
-> +    for (i = 0; i < AUDIODEV_DRIVER__MAX; i++) {
-> +        const char *name = AudiodevDriver_str(i);
-> +        audio_driver *driver = audio_driver_lookup(name);
-> 
-> to enumerate all audio backend drivers.
+After updating linux headers to v6.0-rc, clang build on x86 target would
+generate warnings related to -Wgnu-variable-sized-type-not-at-end.
 
-Thanks Volker, will update accordingly.
+Simply turn off this warning in this patch set. If not suitable to turn it
+off, any comments or suggestions are welcome.
 
-Claudio
+Chenyi Qiang (2):
+  Update linux headers to v6.0-rc4
+  configure: Add -Wno-gnu-variable-sized-type-not-at-end
 
-> 
-> With best regards,
-> Volker
-> 
->> +        if (driver) {
->> +            printf("%s\n", driver->name);
->> +        }
->> +    }
->> +}
->> +
->>
-> 
+ configure                                     |   1 +
+ include/standard-headers/asm-x86/bootparam.h  |   7 +-
+ include/standard-headers/drm/drm_fourcc.h     |  73 +++++++-
+ include/standard-headers/linux/ethtool.h      |  29 +--
+ include/standard-headers/linux/input.h        |  12 +-
+ include/standard-headers/linux/pci_regs.h     |  30 ++-
+ include/standard-headers/linux/vhost_types.h  |  17 +-
+ include/standard-headers/linux/virtio_9p.h    |   2 +-
+ .../standard-headers/linux/virtio_config.h    |   7 +-
+ include/standard-headers/linux/virtio_ids.h   |  14 +-
+ include/standard-headers/linux/virtio_net.h   |  34 +++-
+ include/standard-headers/linux/virtio_pci.h   |   2 +
+ include/standard-headers/linux/virtio_ring.h  |  16 +-
+ linux-headers/asm-arm64/kvm.h                 |  33 +++-
+ linux-headers/asm-generic/unistd.h            |   4 +-
+ linux-headers/asm-riscv/kvm.h                 |  22 +++
+ linux-headers/asm-riscv/unistd.h              |   3 +-
+ linux-headers/asm-s390/kvm.h                  |   1 +
+ linux-headers/asm-x86/kvm.h                   |  33 ++--
+ linux-headers/asm-x86/mman.h                  |  14 --
+ linux-headers/linux/kvm.h                     | 172 +++++++++++++++++-
+ linux-headers/linux/userfaultfd.h             |  10 +-
+ linux-headers/linux/vduse.h                   |  47 +++++
+ linux-headers/linux/vfio.h                    |   4 +-
+ linux-headers/linux/vfio_zdev.h               |   7 +
+ linux-headers/linux/vhost.h                   |  35 +++-
+ 26 files changed, 539 insertions(+), 90 deletions(-)
+
+-- 
+2.17.1
 
 
