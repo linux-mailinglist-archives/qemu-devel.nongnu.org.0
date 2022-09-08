@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1700C5B173B
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 10:37:15 +0200 (CEST)
-Received: from localhost ([::1]:36158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4C15B175D
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 10:42:44 +0200 (CEST)
+Received: from localhost ([::1]:50516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWD29-0002Mv-Kr
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 04:37:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54430)
+	id 1oWD7S-0006A5-L4
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 04:42:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oWD09-0000Oq-SE; Thu, 08 Sep 2022 04:35:11 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:34492)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oWD4Z-0003Qv-F9
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 04:39:47 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:41973)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oWD06-000246-Ej; Thu, 08 Sep 2022 04:35:09 -0400
-Received: by mail-ed1-x536.google.com with SMTP id z21so13183781edi.1;
- Thu, 08 Sep 2022 01:35:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oWD4T-0002fO-Hs
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 04:39:39 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id gh9so14477399ejc.8
+ for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 01:39:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date;
- bh=mP236qehDKg5tuQqgpGr9qvg2EX7rM7yHBXfsuw1mIk=;
- b=BwWpCsNYAlCBDIURrcHSGW1JsP/iGZhDaZ/5F/KvCsbohkChD59tUZmxSyeTQ4Wtu4
- 8oZrm2R4L6G0tc96+LY41EtOg4WIlyraT6E3LqqjgZsFvFMarsGT/i9URU8Sz41Y1YpM
- pcv6MgLE9ehTclpJIqwBLEyaLqThB7DYQNpGEypIXNlHrrthGIeMl0cdnDk5Mxghb+co
- HYK26U/Tv1/qP3a1F2qie4bq0LtiaZ6Ko+Ae96ump/eq3QpQ7eLpTpYUeE4F1HiCu9Qf
- KbCs4eETU0iJ1EzhM5K2kFJG4W1ZliR8y2F+9ZD+G3D3umaYSTuCF7ojIQPexTIEmxWL
- n30A==
+ bh=hvzVg00AkRjD1cZFa8khD9gG5W0LGVWRMPEIyN6JszQ=;
+ b=jDS66l5eYgCrr/T9CHICYAqyzkZsXIT0ANYReYdbCjZI4xP1YfZeoORhZ7uYuoo8WA
+ ac1cSCbaSXRHkA2scWz0L1cNn90W6UosMXkFB3kUB6dvIaWlRIu5k2L7lT/Rd3PuH8t8
+ cgHKIG447et8RwfGITuRhYwf2/SDoXQphgqKaykAxl6bEeE89UHSvf6MqxDpJcX4aSvg
+ cPsisNxUCMheRE6UVM90zfVa/v3FBc4zfdpUXTG8tlC0jUbRrGo4QqWr8n+JVs20dbYd
+ C56riQB93Uqh0T/8SZJOu5irAhESw3FvX/XvVdF0gaBA93r+Qxrc0cwlHRDso3XQO89H
+ Kz/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date;
- bh=mP236qehDKg5tuQqgpGr9qvg2EX7rM7yHBXfsuw1mIk=;
- b=m/T0DK8eJ6U308L0Uyu5HmmZtdzJ1WvkOPE6ijfSnyfvI79vR7PPUvvG0GEW0pgmK7
- YEUWIfp5sawwxmwHuNWgdf/aPzqNATfMWQhhmIpM3le+sOUiYnCEkOs0W28rsCF7zK7j
- Q8jLyhqZX6+PA5dLXdzyz1K+d/1oFQBdGmyisLw4L35ldfxAhYhNAjicpxczBeGjHIpR
- ON0WfZXB7RdhrGA3B9x5+hNS3hKqimT7Coy0d4lJ8dAdoEFyOvsJ0yStdvpCVYs2Itlb
- c7pbPSL8cQoIW0k631qn0HOwymuekY0/b9iMh8xkkdY1+KVw21x89zKldr80H/9IrwCr
- 2MhA==
-X-Gm-Message-State: ACgBeo3U1MsOo/DGG6tK7YuaUXcJz7KOwDB7z/I+N+JqUV8/Cp9Lmgjl
- yjB9qpfBCDlBWfD5TfQsqSZZwD8pX+w=
-X-Google-Smtp-Source: AA6agR5NuJHOBF6EC9P6VZjFR+1YB3hiRDJN+b777978b8Q+4fuCwvMqQ6g9jmy2Ysz0qf13f2VEwg==
-X-Received: by 2002:a05:6402:4411:b0:437:b723:72 with SMTP id
- y17-20020a056402441100b00437b7230072mr6382980eda.38.1662626103498; 
- Thu, 08 Sep 2022 01:35:03 -0700 (PDT)
+ bh=hvzVg00AkRjD1cZFa8khD9gG5W0LGVWRMPEIyN6JszQ=;
+ b=lmrPT4pOHYV0lDsBsWz8Wzd3LYIv40rkf8T1PLnBCVYxgPyYzeJm+332U0/kKs+n1D
+ bjaykLG31PL6fEk83DnNo7YT1ennYRD6N76aNvbyWwjQEF95qIexsLY8FzhlxbnB7rki
+ sgpR4Jk4Sx9hCHIQ3CycBEQB74IKP5QLoo2nXVgkAQfcIqWEgazKY4j8iBKJXD7d5FbW
+ N4v9t/Flz8qPmej3VSnWNnz830ru4kfFjzUsnw3NqXGDggEKa9Z8M5xEZlGb2FtNyaRQ
+ RQ6gUPmiOeDJ3zYTd07Z0mWPaMSyOSJYWneJlHyZUiCLG5MdWxe1JZigMyEiVwm1HHAp
+ F8Fw==
+X-Gm-Message-State: ACgBeo0DldvbGWPeKfDjeO/ZNTJ+OuLK/N6yAwyJVdFVI7/bEwDO5By4
+ KIrN4NACv3wR1duVugyvVq/tzUl7qaY=
+X-Google-Smtp-Source: AA6agR4+qdVEA7mB9FiC3rM6ksFeJpBv6DInvAQH1kfZMxt+j1VUq8fmGaNtIMDh20erpijEU928Rg==
+X-Received: by 2002:a17:907:c0d:b0:730:a85d:8300 with SMTP id
+ ga13-20020a1709070c0d00b00730a85d8300mr5283956ejc.558.1662626374945; 
+ Thu, 08 Sep 2022 01:39:34 -0700 (PDT)
 Received: from [127.0.0.1] (dynamic-089-014-172-011.89.14.pool.telefonica.de.
  [89.14.172.11]) by smtp.gmail.com with ESMTPSA id
- g9-20020a170906520900b0073ddd36ba8csm941038ejm.145.2022.09.08.01.35.02
+ kj5-20020a170907764500b0074ae59d85a4sm963112ejc.20.2022.09.08.01.39.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Sep 2022 01:35:03 -0700 (PDT)
-Date: Thu, 08 Sep 2022 08:34:55 +0000
+ Thu, 08 Sep 2022 01:39:34 -0700 (PDT)
+Date: Thu, 08 Sep 2022 08:39:27 +0000
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
-CC: qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>,
- Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH v5 00/13] Instantiate VT82xx functions in host device
-In-Reply-To: <20220901114127.53914-1-shentey@gmail.com>
-References: <20220901114127.53914-1-shentey@gmail.com>
-Message-ID: <6B91888F-40E0-4E92-B49D-BA0A7E784183@gmail.com>
+CC: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH 00/42] Consolidate PIIX south bridges
+In-Reply-To: <20220901162613.6939-1-shentey@gmail.com>
+References: <20220901162613.6939-1-shentey@gmail.com>
+Message-ID: <44084D9F-0465-414D-B545-882DED9BF097@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,165 +96,260 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 1=2E September 2022 11:41:14 UTC schrieb Bernhard Beschow <shentey@gmail=
+Am 1=2E September 2022 16:25:31 UTC schrieb Bernhard Beschow <shentey@gmail=
 =2Ecom>:
->v5:
+>This series consolidates the implementations of the PIIX3 and PIIX4 south=
+
 >
->* Add patch "Inline vt82c686b_southbridge_init() and remove it" (Zoltan)
-=
+>bridges and is an extended version of [1]=2E The motivation is to share a=
+s much
 >
->* Use machine parameter when creating rtc-time alias (Zoltan)
+>code as possible and to bring both device models to feature parity such t=
+hat
 >
+>perhaps PIIX4 can become a drop-in-replacement for PIIX3 in the pc machin=
+e=2E This
 >
+>could resolve the "Frankenstein" PIIX4-PM problem in PIIX3 discussed on t=
+his
 >
->Testing done: Same as in v3=2E
->
->
->
->v4:
->
->* Fix in comment: AC97 Modem -> MC97 Modem (Zoltan)
->
->* Introduce TYPE_VT82C686B_USB_UHCI define (Zoltan)
->
->* Introduce TYPE_VIA_IDE define (for consistency)
+>list before=2E
 >
 >
 >
->v3:
+>The series is structured as follows: First, PIIX3 is changed to instantia=
+te
 >
->* Replace pre increment by post increment in for loop (Zoltan)
+>internal devices itself, like PIIX4 does already=2E Second, PIIX3 gets pr=
+epared
 >
->* Move class defines close to where the class is defined (Zoltan)
+>for the merge with PIIX4 which includes some fixes, cleanups, and renamin=
+gs=2E
 >
+>Third, the same is done for PIIX4=2E In step four the implementations are=
+ merged=2E
 >
+>Since some consolidations could be done easier with merged implementation=
+s, the
 >
->Testing done:
->
->* `make check-avocado`
->
->  Passes for boot_linux_console=2Epy for mips64el_fuloong2e
->
->* `qemu-system-ppc -machine pegasos2 -rtc base=3Dlocaltime -device ati-vg=
-a,guest_hwcursor=3Dtrue,romfile=3D"" -cdrom morphos-3=2E17=2Eiso -kernel mo=
-rphos-3=2E17/boot=2Eimg`
->
->  Boots successfully and it is possible to open games and tools=2E
+>consolidation continues in step five which concludes the series=2E
 >
 >
 >
->v2:
+>One particular challenge in this series was that the PIC of PIIX3 used to=
+ be
 >
->* Keep the call to pci_ide_create_devs() in board code for consistency (Z=
-oltan)
+>instantiated outside of the south bridge while some sub functions require=
+ a PIC
 >
->* Create rtc-time alias in board rather than in south bridge code
+>with populated qemu_irqs=2E This has been solved by introducing a proxy P=
+IC which
 >
->* Remove stale comments about PCI functions (Zoltan)
+>furthermore allows PIIX3 to be agnostic towards the virtualization techno=
+logy
 >
+>used (KVM, TCG, Xen)=2E Due to consolidation PIIX4 gained the PIC as well=
+,
 >
->
->v1:
->
->This series instantiates all PCI functions of the VT82xx south bridges in=
- the south bridges themselves=2E
->
->For the IDE function this is especially important since its interrupt rou=
-ting is configured in the
->
->ISA function, hence doesn't make sense to instantiate it as a "Frankenste=
-in" device=2E The interrupt
->
->routing is currently hardcoded and changing that is currently not in the =
-scope of this series=2E
->
->
->
->Testing done:
->
->* `qemu-system-ppc -machine pegasos2 -rtc base=3Dlocaltime -device ati-vg=
-a,guest_hwcursor=3Dtrue,romfile=3D"" -cdrom morphos-3=2E17=2Eiso -kernel mo=
-rphos-3=2E17/boot=2Eimg`
->
->  Boots successfully and it is possible to open games and tools=2E
->
->
->
->* I was unable to test the fuloong2e board even before this series since =
-it seems to be unfinished [1]=2E
->
->  A buildroot-baked kernel [2] booted but doesn't find its root partition=
-, though the issues could be in the buildroot receipt I created=2E
->
->
->
->[1] https://osdn=2Enet/projects/qmiga/wiki/SubprojectPegasos2
->
->[2] https://github=2Ecom/shentok/buildroot/commits/fuloong2e
+>possibly allowing the Malta board to gain KVM capabilities in the future=
+=2E
 >
 
 Ping
 
-Zoltan, would you mind giving your Reviewed-by for 'hw/mips/fuloong2e: Inl=
-ine vt82c686b_southbridge_init() and remove it' explicitly? Perhaps I was t=
-oo eager to omit it since I didn't want to put words in your mouth=2E
-
-What else is missing? Who would do the pull request?
-
-Thanks,
-Bernhard
->
->
->Bernhard Beschow (13):
->
->  hw/isa/vt82c686: Resolve chip-specific realize methods
->
->  hw/isa/vt82c686: Resolve unneeded attribute
->
->  hw/isa/vt82c686: Prefer pci_address_space() over get_system_memory()
->
->  hw/isa/vt82c686: Reuse errp
->
->  hw/isa/vt82c686: Introduce TYPE_VIA_IDE define
->
->  hw/isa/vt82c686: Instantiate IDE function in host device
->
->  hw/isa/vt82c686: Introduce TYPE_VT82C686B_USB_UHCI define
->
->  hw/isa/vt82c686: Instantiate USB functions in host device
->
->  hw/isa/vt82c686: Instantiate PM function in host device
->
->  hw/isa/vt82c686: Instantiate AC97 and MC97 functions in host device
->
->  hw/mips/fuloong2e: Inline vt82c686b_southbridge_init() and remove it
->
->  hw/isa/vt82c686: Embed RTCState in host device
->
->  hw/isa/vt82c686: Create rtc-time alias in boards instead
->
->
->
-> configs/devices/mips64el-softmmu/default=2Emak |   1 -
->
-> hw/ide/via=2Ec                                 |   2 +-
->
-> hw/isa/Kconfig                               |   1 +
->
-> hw/isa/vt82c686=2Ec                            | 120 +++++++++++++++----=
+Never mind the comment about Malta=2E I think it supports KVM just fine=2E
 
 >
-> hw/mips/fuloong2e=2Ec                          |  39 +++---
 >
-> hw/ppc/Kconfig                               |   1 -
+>Another challenge was dealing with optional devices where Peter already g=
+ave
 >
-> hw/ppc/pegasos2=2Ec                            |  25 ++--
+>advice in [1] which this series implements=2E
 >
-> hw/usb/vt82c686-uhci-pci=2Ec                   |   4 +-
 >
-> include/hw/isa/vt82c686=2Eh                    |   4 +-
 >
-> 9 files changed, 126 insertions(+), 71 deletions(-)
+>An unsolved problem still is PCI interrupt handling=2E The first function=
+
+>
+>passed to pci_bus_irqs() is device-specific while the second one seems
+>
+>board-specific=2E This causes both PIIX device models to be coupled to a
+=
+>
+>particular board=2E Any advice how to resolve this would be highly apprea=
+ciated=2E
+>
+>
+>
+>Last but not least there might be some opportunity to consolidate VM stat=
+e
+>
+>handling, probably by reusing the one from PIIX3=2E Since I'm not very fa=
+miliar
+>
+>with the requirements I didn't touch it so far=2E
+>
+>
+>
+>Testing done:
+>
+>* make check
+>
+>* Boot live CD:
+>
+>  * `qemu-system-x86_64 -M pc -m 2G -accel kvm -cpu host -cdrom
+>
+>manjaro-kde-21=2E3=2E2-220704-linux515=2Eiso`
+>
+>  * `qemu-system-x86_64 -M q35 -m 2G -accel kvm -cpu host -cdrom
+>
+>manjaro-kde-21=2E3=2E2-220704-linux515=2Eiso`
+>
+>
+>
+>[1] https://lists=2Enongnu=2Eorg/archive/html/qemu-devel/2022-07/msg02348=
+=2Ehtml
+>
+>
+>
+>Bernhard Beschow (42):
+>
+>  hw/i386/pc: Create DMA controllers in south bridges
+>
+>  hw/i386/pc: Create RTC controllers in south bridges
+>
+>  hw/i386/pc: No need for rtc_state to be an out-parameter
+>
+>  hw/i386/pc_piix: Allow for setting properties before realizing PIIX3
+>
+>    south bridge
+>
+>  hw/isa/piix3: Create USB controller in host device
+>
+>  hw/isa/piix3: Create power management controller in host device
+>
+>  hw/intc/i8259: Introduce i8259 proxy "isa-pic"
+>
+>  hw/isa/piix3: Create ISA PIC in host device
+>
+>  hw/isa/piix3: Create IDE controller in host device
+>
+>  hw/isa/piix3: Wire up ACPI interrupt internally
+>
+>  hw/isa/piix3: Remove extra ';' outside of functions
+>
+>  hw/isa/piix3: Remove unused include
+>
+>  hw/isa/piix3: Add size constraints to rcr_ops
+>
+>  hw/isa/piix3: Modernize reset handling
+>
+>  hw/isa/piix3: Prefer pci_address_space() over get_system_memory()
+>
+>  hw/isa/piix3: Allow board to provide PCI interrupt routes
+>
+>  hw/isa/piix3: Resolve redundant PIIX_NUM_PIC_IRQS
+>
+>  hw/isa/piix3: Rename pci_piix3_props for sharing with PIIX4
+>
+>  hw/isa/piix3: Rename piix3_reset() for sharing with PIIX4
+>
+>  hw/isa/piix3: Prefix pci_slot_get_pirq() with "piix3_"
+>
+>  hw/isa/piix3: Rename typedef PIIX3State to PIIXState
+>
+>  hw/mips/malta: Reuse dev variable
+>
+>  meson: Fix dependencies of piix4 southbridge
+>
+>  hw/isa/piix4: Add missing initialization
+>
+>  hw/isa/piix4: Move pci_ide_create_devs() call to board code
+>
+>  hw/isa/piix4: Make PIIX4's ACPI and USB functions optional
+>
+>  hw/isa/piix4: Allow board to provide PCI interrupt routes
+>
+>  hw/isa/piix4: Remove unused code
+>
+>  hw/isa/piix4: Use ISA PIC device
+>
+>  hw/isa/piix4: Reuse struct PIIXState from PIIX3
+>
+>  hw/isa/piix4: Rename reset control operations to match PIIX3
+>
+>  hw/isa/piix4: Rename wrongly named method
+>
+>  hw/isa/piix4: Prefix pci_slot_get_pirq() with "piix4_"
+>
+>  hw/isa/piix3: Merge hw/isa/piix4=2Ec
+>
+>  hw/isa/piix: Harmonize names of reset control memory regions
+>
+>  hw/isa/piix: Reuse PIIX3 base class' realize method in PIIX4
+>
+>  hw/isa/piix: Rename functions to be shared for interrupt triggering
+>
+>  hw/isa/piix: Consolidate IRQ triggering
+>
+>  hw/isa/piix: Unexport PIIXState
+>
+>  hw/isa/piix: Share PIIX3 base class with PIIX4
+>
+>  hw/isa/piix: Drop the "3" from the PIIX base class
+>
+>  hw/i386/acpi-build: Resolve PIIX ISA bridge rather than ACPI
+>
+>    controller
+>
+>
+>
+> MAINTAINERS                             |   6 +-
+>
+> configs/devices/mips-softmmu/common=2Emak |   3 +-
+>
+> hw/i386/Kconfig                         |   3 +-
+>
+> hw/i386/acpi-build=2Ec                    |   4 +-
+>
+> hw/i386/pc=2Ec                            |  19 +-
+>
+> hw/i386/pc_piix=2Ec                       |  72 +--
+>
+> hw/i386/pc_q35=2Ec                        |   3 +-
+>
+> hw/intc/i8259=2Ec                         |  27 +
+>
+> hw/isa/Kconfig                          |  14 +-
+>
+> hw/isa/lpc_ich9=2Ec                       |  11 +
+>
+> hw/isa/meson=2Ebuild                      |   3 +-
+>
+> hw/isa/piix=2Ec                           | 669 ++++++++++++++++++++++++=
+
+>
+> hw/isa/piix3=2Ec                          | 431 ---------------
+>
+> hw/isa/piix4=2Ec                          | 325 ------------
+>
+> hw/mips/malta=2Ec                         |  34 +-
+>
+> include/hw/i386/ich9=2Eh                  |   2 +
+>
+> include/hw/i386/pc=2Eh                    |   2 +-
+>
+> include/hw/intc/i8259=2Eh                 |  14 +
+>
+> include/hw/southbridge/piix=2Eh           |  41 +-
+>
+> 19 files changed, 823 insertions(+), 860 deletions(-)
+>
+> create mode 100644 hw/isa/piix=2Ec
+>
+> delete mode 100644 hw/isa/piix3=2Ec
+>
+> delete mode 100644 hw/isa/piix4=2Ec
 >
 >
 >
