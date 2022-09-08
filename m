@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B20A45B1DB6
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 14:54:54 +0200 (CEST)
-Received: from localhost ([::1]:48344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FFDE5B1D68
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 14:42:23 +0200 (CEST)
+Received: from localhost ([::1]:50662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWH3V-0002rI-Lv
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 08:54:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56780)
+	id 1oWGrM-0004Wn-9X
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 08:42:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oWGfB-0007tn-9g
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:29:45 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:43624)
+ id 1oWGgm-0000YH-1J; Thu, 08 Sep 2022 08:31:34 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:56085)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oWGf7-0008Mr-MR
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:29:44 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id v4so16564615pgi.10
- for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 05:29:38 -0700 (PDT)
+ id 1oWGgj-0000Kb-B8; Thu, 08 Sep 2022 08:31:23 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id fs14so12823092pjb.5;
+ Thu, 08 Sep 2022 05:31:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=3YpcoToWbDfneIpdQGWXPPEXICX5Tif2TvOqA7ze8A4=;
- b=KakzMV39zv6xtY2ORoSukUbNTG1HUw7zUNoKEdgbmUY8o26qH15W5X9+XiX5UEWWhE
- kUYSM9c9nzb6mqf0Br6meudrThuxifVIhonivQN2whQxn4lTsirWqxkiZKXaSwsF7FRr
- FFOaID1D3cGuNCKHEq0+aalerJBb/rLkLBKJhBng4CltQop2YGmDljdhr9mlVHhsDJYt
- 2QBV5Fwo9enqMP4Ho8nglD5MKCA61t3NlnyJ16dG98xQ4kAHSKOfXaaU+gOi4P4qbuBc
- ZrdmYJAlexpF16AO129REpIvHVkOqk1vXQpV/vceqkCmQS/YOR0moA0hYJFQQmSxwCup
- VGyQ==
+ bh=yEQm1a1GDUKF0EOYrw8XdUIuuEQzQPVcdB3MT/vDkVw=;
+ b=jy/vtKytKfIf5N6wuyAuzOeYKsHutFvGXAdm1bn04t6NWrD0tOTKz/9H3PaFISyFKp
+ dRGJp2Vza9j91ZdOEFv/tosfVE2dRxB5WmEHULga6GjgA4iLpBetsp+Kg2VNkiDtanP+
+ WmvAeZG3tygSBYjdhDsFGhwguYk0TDcPTrhqu8loWm2vS+ta095n5B0OeA4fVrp79hM0
+ J/pfoCA1MUjkp3lQ8JnhGMw8KqfbCFgzHl/yO7hnJgZM8Umt6zjcEMz2g9btHjC8F0tM
+ lmAFtNIVlhU/k7jdwEnDOmi+zEbOyEMeygYqkV3g+VHzuhwJkSJo5+omvKwU7+4UHjq9
+ LyWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=3YpcoToWbDfneIpdQGWXPPEXICX5Tif2TvOqA7ze8A4=;
- b=LJImuYR9xTh+WGzebheWsyVHwTX6FT4bYhEOr3T0xuG5FBw8K+9ZIvkkWM7dnCZKeF
- 6BSQDp5IpYWg6LKxnHaSHSv4dsskfPC8H+wXS9eBqSeKY++N1lEZR531QD4I8/VsTm8M
- ZqZ03/eabGrVHG2iUyd+oo/rtOEp/69N26Lk+uqFLe5oHSpstp3JeJeBfAwsPMs3pHZg
- 8ij+Vmh4eB6EXae759CkjtkMzpy1MYWGKSpMmTeEuQD2e/TmdVCeaCOqAl2N1mhvUxoO
- zIwjC6hTsDxiRni94vuwEugnvqtN+a6zkFUM3rbXKMpsN9jK4me+Vof5sVW7a/kYjjgK
- mucw==
-X-Gm-Message-State: ACgBeo2otwbYuojC5kRUQFmQ/znFzd8dwpIojSsEV5cxPOXDip/Y+Pcq
- 9N+scxI102c8xlRA05lrEIy2gBuiC1KMz5m4Bnk=
-X-Google-Smtp-Source: AA6agR447GV6pO9tyOsyGm8sBt4Y00l/q57mZQcFCPSp1kSrJh8xEm1XHPGIBNeFzYm/PF+/0366nRAOQZyJ1EXDN+E=
-X-Received: by 2002:a05:6a00:1a93:b0:536:5dca:a685 with SMTP id
- e19-20020a056a001a9300b005365dcaa685mr9217024pfv.13.1662640177104; Thu, 08
- Sep 2022 05:29:37 -0700 (PDT)
+ bh=yEQm1a1GDUKF0EOYrw8XdUIuuEQzQPVcdB3MT/vDkVw=;
+ b=JHdJf7a7wf0dgSWKEh8KHD8ZLmVHSfuk4FrEildfpncP54cEHDYhAR0Qsd53f+1kiE
+ CmnbduH4aG9UXkevPnYUKUjhb/6mpxqVqiHfncuhsHcm4EUQ78u9xZJ32FwpwqhVIGPQ
+ 8jbGb5xJpXmWI0xf/jW4Y9Li5VV3YGH3pLHc9GvqKC5EirrDEtAvn999rxM2XzLJ3Ysh
+ Ko+WwJ/N/UJuhYDmJoE/VAwElrVM37oyHS462gkHY+hI6uSAFFLLSIam+7wTR2r47lmc
+ LMkmlSFi+g/1h7wiNxzX8U0VLF7ibQ48vlhy/YgsPPIj8N+dDbqz6WPPl7ljqptd933P
+ Gb0g==
+X-Gm-Message-State: ACgBeo3r4v3/+dV1i0guiwithmjfaWFpY9U9tG+RzjACd1S4+nBMxvlE
+ 0Uc+c93VGqp3DrjDbJO5OOmGeNMdcrZAKuk2A4M=
+X-Google-Smtp-Source: AA6agR6LEs1lclmtt88FTUg7+dup38ifE/TklKycpM4LWWlCr3Cz8/eKab5N4jz88rH9TA9kX8jgxXgX89wxFOLmlvM=
+X-Received: by 2002:a17:902:f64f:b0:172:a790:320a with SMTP id
+ m15-20020a170902f64f00b00172a790320amr8827471plg.149.1662640278514; Thu, 08
+ Sep 2022 05:31:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1661934573.git.aburgess@redhat.com>
- <6069395f90e6fc24dac92197be815fedf42f5974.1661934573.git.aburgess@redhat.com>
-In-Reply-To: <6069395f90e6fc24dac92197be815fedf42f5974.1661934573.git.aburgess@redhat.com>
+References: <20220824145255.400040-1-rpathak@ventanamicro.com>
+In-Reply-To: <20220824145255.400040-1-rpathak@ventanamicro.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 8 Sep 2022 14:29:10 +0200
-Message-ID: <CAKmqyKNNdH3AWkB9f5AAfTLhH2qV0TGVGVv7zYbFWNdnG4rc-A@mail.gmail.com>
-Subject: Re: [PATCH 2/2] target/riscv: remove fixed numbering from GDB xml
- feature files
-To: Andrew Burgess <aburgess@redhat.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Date: Thu, 8 Sep 2022 14:30:52 +0200
+Message-ID: <CAKmqyKPzMAugK+Q0y9CkZQwnt6h8UYXjtMU7xUBKpt119w-tNA@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Remove sideleg and sedeleg
+To: Rahul Pathak <rpathak@ventanamicro.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Rahul Pathak <rpathakmailbox@gmail.com>, 
+ Andrew Jones <ajones@ventanamicro.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=alistair23@gmail.com; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=alistair23@gmail.com; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -85,123 +84,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 31, 2022 at 10:45 AM Andrew Burgess <aburgess@redhat.com> wrote:
+On Wed, Aug 24, 2022 at 4:54 PM Rahul Pathak <rpathak@ventanamicro.com> wrote:
 >
-> The fixed register numbering in the various GDB feature files for
-> RISC-V only exists because these files were originally copied from the
-> GDB source tree.
+> sideleg and sedeleg csrs are not part of riscv isa spec
+> anymore, these csrs were part of N extension which
+> is removed from the riscv isa specification.
 >
-> However, the fixed numbering only exists in the GDB source tree so
-> that GDB, when it connects to a target that doesn't provide a target
-> description, will use a specific numbering scheme.
+> These commits removed all traces of these csrs from
+> riscv spec (https://github.com/riscv/riscv-isa-manual) -
 >
-> That numbering scheme is designed to be compatible with the first
-> versions of QEMU (for RISC-V), that didn't send a target description,
-> and relied on a fixed numbering scheme.
+> commit f8d27f805b65 ("Remove or downgrade more references to N extension (#674)")
+> commit b6cade07034d ("Remove N extension chapter for now")
 >
-> Because of the way that QEMU manages its target descriptions,
-> recording the number of registers in each feature, and just relying on
-> GDB's numbering starting from 0, then I propose that we remove all the
-> fixed numbering from the RISC-V feature xml files, and just rely on
-> the standard numbering scheme.  Plenty of other targets manage their
-> xml files this way, e.g. ARM, AArch64, Loongarch, m68k, rx, and s390.
->
-> Signed-off-by: Andrew Burgess <aburgess@redhat.com>
+> Signed-off-by: Rahul Pathak <rpathak@ventanamicro.com>
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Thanks!
+
+Applied to riscv-to-apply.next
 
 Alistair
 
 > ---
->  gdb-xml/riscv-32bit-cpu.xml | 6 +-----
->  gdb-xml/riscv-32bit-fpu.xml | 6 +-----
->  gdb-xml/riscv-64bit-cpu.xml | 6 +-----
->  gdb-xml/riscv-64bit-fpu.xml | 6 +-----
->  4 files changed, 4 insertions(+), 20 deletions(-)
+>  disas/riscv.c           | 2 --
+>  target/riscv/cpu_bits.h | 2 --
+>  2 files changed, 4 deletions(-)
 >
-> diff --git a/gdb-xml/riscv-32bit-cpu.xml b/gdb-xml/riscv-32bit-cpu.xml
-> index 0d07aaec85..466f2c0648 100644
-> --- a/gdb-xml/riscv-32bit-cpu.xml
-> +++ b/gdb-xml/riscv-32bit-cpu.xml
-> @@ -5,13 +5,9 @@
->       are permitted in any medium without royalty provided the copyright
->       notice and this notice are preserved.  -->
+> diff --git a/disas/riscv.c b/disas/riscv.c
+> index 7af6afc8fa..a709d66167 100644
+> --- a/disas/riscv.c
+> +++ b/disas/riscv.c
+> @@ -1304,8 +1304,6 @@ static const char *csr_name(int csrno)
+>      case 0x0043: return "utval";
+>      case 0x0044: return "uip";
+>      case 0x0100: return "sstatus";
+> -    case 0x0102: return "sedeleg";
+> -    case 0x0103: return "sideleg";
+>      case 0x0104: return "sie";
+>      case 0x0105: return "stvec";
+>      case 0x0106: return "scounteren";
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index 6be5a9e9f0..7251121218 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -190,8 +190,6 @@
 >
-> -<!-- Register numbers are hard-coded in order to maintain backward
-> -     compatibility with older versions of tools that didn't use xml
-> -     register descriptions.  -->
-> -
->  <!DOCTYPE feature SYSTEM "gdb-target.dtd">
->  <feature name="org.gnu.gdb.riscv.cpu">
-> -  <reg name="zero" bitsize="32" type="int" regnum="0"/>
-> +  <reg name="zero" bitsize="32" type="int"/>
->    <reg name="ra" bitsize="32" type="code_ptr"/>
->    <reg name="sp" bitsize="32" type="data_ptr"/>
->    <reg name="gp" bitsize="32" type="data_ptr"/>
-> diff --git a/gdb-xml/riscv-32bit-fpu.xml b/gdb-xml/riscv-32bit-fpu.xml
-> index 84a44ba8df..24aa087031 100644
-> --- a/gdb-xml/riscv-32bit-fpu.xml
-> +++ b/gdb-xml/riscv-32bit-fpu.xml
-> @@ -5,13 +5,9 @@
->       are permitted in any medium without royalty provided the copyright
->       notice and this notice are preserved.  -->
->
-> -<!-- Register numbers are hard-coded in order to maintain backward
-> -     compatibility with older versions of tools that didn't use xml
-> -     register descriptions.  -->
-> -
->  <!DOCTYPE feature SYSTEM "gdb-target.dtd">
->  <feature name="org.gnu.gdb.riscv.fpu">
-> -  <reg name="ft0" bitsize="32" type="ieee_single" regnum="33"/>
-> +  <reg name="ft0" bitsize="32" type="ieee_single"/>
->    <reg name="ft1" bitsize="32" type="ieee_single"/>
->    <reg name="ft2" bitsize="32" type="ieee_single"/>
->    <reg name="ft3" bitsize="32" type="ieee_single"/>
-> diff --git a/gdb-xml/riscv-64bit-cpu.xml b/gdb-xml/riscv-64bit-cpu.xml
-> index b8aa424ae4..c4d83de09b 100644
-> --- a/gdb-xml/riscv-64bit-cpu.xml
-> +++ b/gdb-xml/riscv-64bit-cpu.xml
-> @@ -5,13 +5,9 @@
->       are permitted in any medium without royalty provided the copyright
->       notice and this notice are preserved.  -->
->
-> -<!-- Register numbers are hard-coded in order to maintain backward
-> -     compatibility with older versions of tools that didn't use xml
-> -     register descriptions.  -->
-> -
->  <!DOCTYPE feature SYSTEM "gdb-target.dtd">
->  <feature name="org.gnu.gdb.riscv.cpu">
-> -  <reg name="zero" bitsize="64" type="int" regnum="0"/>
-> +  <reg name="zero" bitsize="64" type="int"/>
->    <reg name="ra" bitsize="64" type="code_ptr"/>
->    <reg name="sp" bitsize="64" type="data_ptr"/>
->    <reg name="gp" bitsize="64" type="data_ptr"/>
-> diff --git a/gdb-xml/riscv-64bit-fpu.xml b/gdb-xml/riscv-64bit-fpu.xml
-> index 9856a9d1d3..d0f17f9984 100644
-> --- a/gdb-xml/riscv-64bit-fpu.xml
-> +++ b/gdb-xml/riscv-64bit-fpu.xml
-> @@ -5,10 +5,6 @@
->       are permitted in any medium without royalty provided the copyright
->       notice and this notice are preserved.  -->
->
-> -<!-- Register numbers are hard-coded in order to maintain backward
-> -     compatibility with older versions of tools that didn't use xml
-> -     register descriptions.  -->
-> -
->  <!DOCTYPE feature SYSTEM "gdb-target.dtd">
->  <feature name="org.gnu.gdb.riscv.fpu">
->
-> @@ -17,7 +13,7 @@
->      <field name="double" type="ieee_double"/>
->    </union>
->
-> -  <reg name="ft0" bitsize="64" type="riscv_double" regnum="33"/>
-> +  <reg name="ft0" bitsize="64" type="riscv_double"/>
->    <reg name="ft1" bitsize="64" type="riscv_double"/>
->    <reg name="ft2" bitsize="64" type="riscv_double"/>
->    <reg name="ft3" bitsize="64" type="riscv_double"/>
+>  /* Supervisor Trap Setup */
+>  #define CSR_SSTATUS         0x100
+> -#define CSR_SEDELEG         0x102
+> -#define CSR_SIDELEG         0x103
+>  #define CSR_SIE             0x104
+>  #define CSR_STVEC           0x105
+>  #define CSR_SCOUNTEREN      0x106
 > --
-> 2.25.4
+> 2.34.1
 >
 >
 
