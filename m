@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54EE45B15FE
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 09:50:23 +0200 (CEST)
-Received: from localhost ([::1]:58058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D30E15B1605
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 09:54:27 +0200 (CEST)
+Received: from localhost ([::1]:47698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWCIo-0004Fq-3A
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 03:50:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36248)
+	id 1oWCMk-0006Hq-VN
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 03:54:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oWCF5-0001dQ-Pr
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 03:46:31 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:46010)
+ id 1oWCKv-0004gL-RW
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 03:52:33 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:44890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oWCF4-0003Q7-8T
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 03:46:31 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- bd26-20020a05600c1f1a00b003a5e82a6474so1118081wmb.4
- for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 00:46:29 -0700 (PDT)
+ id 1oWCKu-00044V-AH
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 03:52:33 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ n17-20020a05600c501100b003a84bf9b68bso1129602wmr.3
+ for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 00:52:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=DhLqb6+PC2DsBAOxuSMWxkJpnOzD4mDj8ZSprdoU6k4=;
- b=EWWsDNK908ohYPw9AdIkIK5Zjcl7SOE0aNGKZBUuPKZoMFFUA7gEeEmRsW4UWWo4sd
- FO1x2Twqq3dYH6p50uu87rYusuZWSduyUqGMe+GnD9SYctlU8D5ENNZ8xb0uHrvA1boP
- PA77MiFEoN26Nap9Rlknloe+bjxgA+1FA0Owg4kQrjuXGItg1aEN1kD1Q8Z7hVCO3lp4
- Bhsxk46Cgkly8pP9YzU3P8GOMTqDQiHYzXK7MTp5wMQgJm0OwlzWOVC7HDKHColQrCL4
- lAdTCdd0NCk6X6z0EbRlY4ZPtWaFSIDVdAuSnozSUYFdlLEnNMNO4O1HvfGVsB5RIvFh
- DFzA==
+ bh=MtxCyoeHedE9uu5Tp8r7ZSZ+BCCQNPBytvAyaRg6NaA=;
+ b=JnL6bOGCZFfAWLs7kD3FYqhO3Guinb0aYWN1dQes/GIKsD7G0Bo/GQlDt9zxSqpot7
+ lMSLkgwiOxlxPxo0LlnYTFHRfyIgcGLlDR3d1orZZ5PlupA5fzRmLyYP8LzsdV4bq/ph
+ dk0uDcK1vtvwiRpqDIB/7DSXeWEMt2OCIQv2+hPDQhXvO4IHRzGgBZUIKPC2oJ/WT+tc
+ fIVxot0p1WAHB3xpslVA/RT1lr9BYFMp/nQjyF4dm/7BEqJ9Bc+z8fkz7CKt9x6XgfqZ
+ IjrEGJfPjbCdC+880BTmQWxMxSFTHGe96f6OFwkxmUGnA6sYB0S7p442ksSvUP4lfqaa
+ sB5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=DhLqb6+PC2DsBAOxuSMWxkJpnOzD4mDj8ZSprdoU6k4=;
- b=vhvJPr8myTNwKcLWN01W3Xa0P9CAlsUngfx3lV+Ak6BeUb8HEspXwRTaJ4YjBZrQZ+
- lkHLTpDRGfpGYP0dJN4YHp45SkHW4lzx15eqPEyosquC/kmOLHGmsBM0FhWn4idhTUbe
- +Th3Q1lHUf1aXmQGYPcSId5fijpZoe7CgLFEKCmd+5ElMRkKVhsWAGYFM6UDfnyauKQ4
- fZpH+bMKwUGxRUQKTPVdYUrqPM5qI2+2FUA5epZWFxzMGJO2svRrtIjZcbZbKIl4VBku
- Qnh4YU/6J3LnJhb4raI/KJCrEPhblEPU8UP+swOqEiymTAncm5kUeMonaJ8r202vrZb+
- SaRQ==
-X-Gm-Message-State: ACgBeo3aHfQZIZz/Qx7hgiKIz1oe6V9eMGaqF6bGzH0YZwCcDhaOpNQ+
- 94dCmCvX22vDOKIg2UkIrkjscA==
-X-Google-Smtp-Source: AA6agR5KVd7tj4Z8HSqYyAAcE3Uvm68CWuwERbUEahjlm82AvFg2gAtl8ulahTg0tiY/eXatH1eWOQ==
-X-Received: by 2002:a05:600c:4f43:b0:3a6:2335:f5de with SMTP id
- m3-20020a05600c4f4300b003a62335f5demr1315436wmq.109.1662623188519; 
- Thu, 08 Sep 2022 00:46:28 -0700 (PDT)
+ bh=MtxCyoeHedE9uu5Tp8r7ZSZ+BCCQNPBytvAyaRg6NaA=;
+ b=bL+aFaubGo2656eeq8r/u0ywlx5Iee6/FeR3b+MCNuw+A6MCkKkg4APiLFTt9l084u
+ AznWT2WRFs5RWDcs0Ro7GRAtNwa4n9z0zBHfHEtAl9zTA0Y5TdINXJeDhg6puoScZRYx
+ 062I35hpBwnQ4R1Vzso4d3rJLeLIi/32/MsOfZS4wWI60nCoXnqDBLYSJagbWwr7J8PQ
+ 7ZvihpoYEgJVfSlPWoz9rlt1YqgA9dNsGcGJMVTgURgxy5tggWecytm7STXsGlQ1+Muq
+ /mHCr+kdGGHtqjERaO1BMW3Wbo8NhmIR9sFfxTvraPJXnEAwVflgQVC9t+MD2adKDf5p
+ /uKA==
+X-Gm-Message-State: ACgBeo3AafyjmgvplIrXyxv6Jk0JN3iE+/idrKSXZWqqWok/r3z0KD7i
+ OEePKt5gACyivFCQhpSK+/Po/w==
+X-Google-Smtp-Source: AA6agR6OeJiCQPQ1rJpwI/668EAuwuPZ/rp9dc+P4M2XiMhTrwT7VppdSeXK6Lu6Q1HI956B1iVNkQ==
+X-Received: by 2002:a05:600c:3c96:b0:3a6:59b1:5eb5 with SMTP id
+ bg22-20020a05600c3c9600b003a659b15eb5mr1322627wmb.187.1662623550472; 
+ Thu, 08 Sep 2022 00:52:30 -0700 (PDT)
 Received: from [192.168.1.87] ([109.78.97.14])
  by smtp.gmail.com with ESMTPSA id
- c11-20020a5d528b000000b0021e42e7c7dbsm18798489wrv.83.2022.09.08.00.46.27
+ a4-20020a05600c068400b003a5ad7f6de2sm1698090wmn.15.2022.09.08.00.52.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Sep 2022 00:46:28 -0700 (PDT)
-Message-ID: <9eba2b9e-ebe0-bf2d-2dc7-75ae81b0592e@linaro.org>
-Date: Thu, 8 Sep 2022 08:46:25 +0100
+ Thu, 08 Sep 2022 00:52:29 -0700 (PDT)
+Message-ID: <3d93ddb2-2101-b89b-3ba5-fc1d78febbb9@linaro.org>
+Date: Thu, 8 Sep 2022 08:52:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 11/11] RISC-V: Add initial support for T-Head C906 and
- C910 CPUs
+Subject: Re: [PATCH 3/3] target/ppc: Merge fsqrt and fsqrts helpers
 Content-Language: en-US
-To: Christoph Muellner <christoph.muellner@vrull.eu>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Philipp Tomsich
- <philipp.tomsich@vrull.eu>, =?UTF-8?Q?Heiko_St=c3=bcbner?=
- <heiko.stuebner@vrull.eu>, Palmer Dabbelt <palmer@dabbelt.com>,
- Nelson Chu <nelson@rivosinc.com>, Kito Cheng <kito.cheng@sifive.com>,
- Cooper Qu <cooper.qu@linux.alibaba.com>,
- Lifang Xia <lifang_xia@linux.alibaba.com>,
- Yunhai Shang <yunhai@linux.alibaba.com>,
- Zhiwei Liu <zhiwei_liu@linux.alibaba.com>
-References: <20220906122243.1243354-1-christoph.muellner@vrull.eu>
- <20220906122243.1243354-12-christoph.muellner@vrull.eu>
+To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, matheus.ferst@eldorado.org.br, lucas.araujo@eldorado.org.br,
+ leandro.lupori@eldorado.org.br, lucas.coutinho@eldorado.org.br
+References: <20220905123746.54659-1-victor.colombo@eldorado.org.br>
+ <20220905123746.54659-4-victor.colombo@eldorado.org.br>
+ <f2fac00a-cacb-25b3-f6ae-9f35a82ab440@linaro.org>
+ <e3153a0e-4451-3b21-7821-6877d78868e8@eldorado.org.br>
+ <6dbd2eb5-efd6-073a-a106-4afbb8abcfc2@linaro.org>
+ <20affe6c-fc70-78fe-ae3c-da5b66518320@eldorado.org.br>
+ <6af72233-3e87-c35d-b581-3777d5992d9a@linaro.org>
+ <f2234ecf-fac5-9a18-f6d5-d3170967cb9a@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220906122243.1243354-12-christoph.muellner@vrull.eu>
+In-Reply-To: <f2234ecf-fac5-9a18-f6d5-d3170967cb9a@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -62
 X-Spam_score: -6.3
 X-Spam_bar: ------
@@ -104,11 +104,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/6/22 13:22, Christoph Muellner wrote:
-> +    DEFINE_CPU(TYPE_RISCV_CPU_THEAD_C906,       rv64_thead_c906_cpu_init),
-> +    DEFINE_CPU(TYPE_RISCV_CPU_THEAD_C910,       rv64_thead_c906_cpu_init),
+On 9/6/22 15:22, Víctor Colombo wrote:
+> On 05/09/2022 14:20, Richard Henderson wrote:
+>> Well, there would of course be no separate call, but 
+> 
+> I didn't understand what you meant here with 'no separate call'...
 
-Why model both if they're identical?
+We generate a separate call from tcg to helper_reset_fpstatus sometimes.
+
+> Right, makes sense. And what about when an invalid operation occurs,
+> with the corresponding exception enabled bit set?
+> float_invalid_op_* would stop the execution and do_float_check_status
+> would not be called, right? So it would require to call
+> set_float_exception_flags there too, correct?
+
+Correct.
 
 
 r~
