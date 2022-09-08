@@ -2,86 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BCF15B1CDA
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 14:24:18 +0200 (CEST)
-Received: from localhost ([::1]:43360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D89575B1CDC
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 14:24:54 +0200 (CEST)
+Received: from localhost ([::1]:43972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWGZs-0001pA-Pz
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 08:24:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60100)
+	id 1oWGaT-0002kN-QQ
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 08:24:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oWGQA-00013J-CW
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:14:14 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:35712)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oWGQ7-0005Kh-I1
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:14:13 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- m17-20020a7bce11000000b003a5bedec07bso1565122wmc.0
- for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 05:14:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=+JvgUo+Hqe/ZbKSNni+t+XJlO0htHrZm+6bjlI8rlL8=;
- b=i/YoUhO/d2DBRvRGJv9qhH9+UVFrXg2qUlnhU7oB8X/6tCeTW+mfzQcxUhbMpEIt+9
- IwqvQSYFqskwnf4U17sPONuiE22ZnlJfLj6lqcb5YZTsXMUq5JNM4TZN1vN9X7+ybwVI
- 9mC7Hcdu0ec5KsPPC5YQp23t651whBdlVaCOCczak2CIGPeJqVhm05ZZLFYznOT1u8Z9
- gOVzxE7DELN1JwTckBoqpsLaqTUkTipSyZewqQ/fByS7re16vBrTcK6daJSZ9fhhreRH
- NMT0s35TMuNUxqjYqSEylPYNbgogCn0NIMz2PbEL8Ictd5xaMiaT9y0UKc8peH7VAQ9n
- W/Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=+JvgUo+Hqe/ZbKSNni+t+XJlO0htHrZm+6bjlI8rlL8=;
- b=a2r48IxaNMMZhvlyVaagQkNRETE32BhogM5G82AVAIYXRk6AhPmJGZKOjRhzovK+4X
- etfu41A+56JTNqnm4h6STyWI2n8kwAxSO6KPVpwCaKYkzPt9uULlAnVgrZwPr+E9gXZm
- AvnzMRxIksE8zkXQWTqcWAL1mmc9NvUfSswv6Hh/7oHOkgv4BvQ1w3pU/p+Y6p1c4+S7
- 2+gZQR2+o55vABnNy/yOS3Bj0bfV1mZ2xUaJ3j5J5r/Vm+MxQsElWKKnIFDxaM5LTq6e
- P/F2KH4syiW8JoxHBkpBa6d6bTe/FBsZmc1cqWLRkvs5K6j+++fsMrxlX+HbF0OOn6ir
- P76A==
-X-Gm-Message-State: ACgBeo2Mf4zhpqLvmtkTQHfuqT3l9GdC+Dom+wTUXdmyvne11aHby6eD
- BQUAd+bEanXulq3Cnvjq/3nRjw==
-X-Google-Smtp-Source: AA6agR4dvByOOTCTlzF5NS69lyfyTStaHbP+f50E/zhsDCk8Yr1QGdnRqSlPl2Q9aZQ+DQLFuYBXDw==
-X-Received: by 2002:a05:600c:b47:b0:3a5:a431:ce36 with SMTP id
- k7-20020a05600c0b4700b003a5a431ce36mr2128589wmr.89.1662639249048; 
- Thu, 08 Sep 2022 05:14:09 -0700 (PDT)
-Received: from [192.168.1.87] ([109.78.97.14])
- by smtp.gmail.com with ESMTPSA id
- r11-20020a05600c35cb00b003b31fc77407sm2342381wmq.30.2022.09.08.05.14.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Sep 2022 05:14:08 -0700 (PDT)
-Message-ID: <6f8145a0-b479-5624-3158-18fee240b24c@linaro.org>
-Date: Thu, 8 Sep 2022 13:14:06 +0100
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oWGUl-0005Ze-2J
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:19:01 -0400
+Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:44939)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oWGUh-0006Y1-7h
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:18:58 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.53])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 46EC51264C4AF;
+ Thu,  8 Sep 2022 14:18:43 +0200 (CEST)
+Received: from kaod.org (37.59.142.99) by DAG8EX2.mxp5.local (172.16.2.72)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Thu, 8 Sep
+ 2022 14:18:42 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G00363a97001-90ee-4936-8dff-2d1b246a9d01,
+ B02C07B1D5AE2B4A5F5E9DA07B2DFCF1042A4A0C) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Thu, 8 Sep 2022 14:18:41 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Linus Heckemann <git@sphalerite.org>
+CC: <qemu-devel@nongnu.org>, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Qemu-block <qemu-block@nongnu.org>, Philippe =?UTF-8?B?TWF0aGlldS1EYXVk?=
+ =?UTF-8?B?w6k=?= <f4bug@amsat.org>, "Daniel P . =?UTF-8?B?QmVycmFuZ8Op?="
+ <berrange@redhat.com>
+Subject: Re: [PATCH v3] 9pfs: use GHashTable for fid table
+Message-ID: <20220908141841.6a451d85@bahia>
+In-Reply-To: <20220908112353.289267-1-git@sphalerite.org>
+References: <20220908112353.289267-1-git@sphalerite.org>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 02/23] target/i386: Return bool from disas_insn
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com
-References: <20220906100932.343523-1-richard.henderson@linaro.org>
- <20220906100932.343523-3-richard.henderson@linaro.org>
- <b0adb12e-56d7-76ca-0eed-ec4938ffcb58@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <b0adb12e-56d7-76ca-0eed-ec4938ffcb58@amsat.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.142,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG8EX2.mxp5.local
+ (172.16.2.72)
+X-Ovh-Tracer-GUID: be34fc12-e487-4e87-9848-d60b70acb178
+X-Ovh-Tracer-Id: 15970608704750262566
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfedtvddghedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepueeuieejtdelleeutdfhteejffeiteffueevffeffeetvdeifeeujefgudegteeunecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehvdel
+Received-SPF: pass client-ip=217.182.185.173; envelope-from=groug@kaod.org;
+ helo=smtpout4.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,37 +74,394 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/6/22 15:42, Philippe Mathieu-Daudé wrote:
-> On 6/9/22 12:09, Richard Henderson wrote:
->> Instead of returning the new pc, which is present in
->> DisasContext, return true if an insn was translated.
->> This is false when we detect a page crossing and must
->> undo the insn under translation.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   target/i386/tcg/translate.c | 42 +++++++++++++++++++------------------
->>   1 file changed, 22 insertions(+), 20 deletions(-)
->>
->> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
->> index 1e24bb2985..46300ffd91 100644
->> --- a/target/i386/tcg/translate.c
->> +++ b/target/i386/tcg/translate.c
->> @@ -4665,7 +4665,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
->>   /* convert one instruction. s->base.is_jmp is set if the translation must
->>      be stopped. Return the next pc value */
->> -static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
->> +static bool disas_insn(DisasContext *s, CPUState *cpu)
->>   {
->>       CPUX86State *env = cpu->env_ptr;
->>       int b, prefixes;
->> @@ -4695,12 +4695,13 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
->>           return s->pc;
-> 
-> Shouldn't we return 'true' here?
+On Thu,  8 Sep 2022 13:23:53 +0200
+Linus Heckemann <git@sphalerite.org> wrote:
 
-Whoops, yes.
+> The previous implementation would iterate over the fid table for
+> lookup operations, resulting in an operation with O(n) complexity on
+> the number of open files and poor cache locality -- for every open,
+> stat, read, write, etc operation.
+>=20
+> This change uses a hashtable for this instead, significantly improving
+> the performance of the 9p filesystem. The runtime of NixOS's simple
+> installer test, which copies ~122k files totalling ~1.8GiB from 9p,
+> decreased by a factor of about 10.
+>=20
+> Signed-off-by: Linus Heckemann <git@sphalerite.org>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+> ---
+>=20
+> Greg Kurz writes:
+> > The comment above should be adapted to the new situation : no need
+>=20
+> I've removed it completely, since the logic is simple enough that only
+> the shortened comment below remains necessary.
+>=20
+> > With the new logic, this should just be:
+>=20
+> now is :)
+>=20
+> > g_hash_table_steal_extended() [1] actually allows to do just that.
+>=20
+> g_hash_table_steal_extended unfortunately isn't available since it was
+> introduced in glib 2.58 and we're maintaining compatibility to 2.56.
+>=20
+
+Ha... this could be addressed through conditional compilation, e.g.:
+
+static V9fsFidState *clunk_fid(V9fsState *s, int32_t fid)
+{
+    V9fsFidState *fidp;
+
+#if GLIB_CHECK_VERSION(2,56,0)
+    if (!g_hash_table_steal_extended(s->fids, GINT_TO_POINTER(fid),
+                                     NULL, (gpointer *) &fidp)) {
+        return NULL;
+    }
+#else
+    fidp =3D g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
+    if (fidp) {
+        g_hash_table_remove(s->fids, GINT_TO_POINTER(fid));
+    } else {
+        return NULL;
+    }
+#endif
+
+    fidp->clunked =3D true;
+    return fidp;
+}
+
+or simply leave a TODO comment so that we don't forget.
 
 
-r~
+> > You could just call g_hash_table_iter_remove(&iter) here
+>=20
+> Applied this suggestion, thanks!
+>=20
+>=20
+> > Well... finding at least one clunked fid state in this table is
+> > definitely a bug so I'll keep the BUG_ON() anyway.
+>=20
+> Christian Schoenebeck writes:
+> > Yeah, I think you are right, it would feel odd. Just drop BUG_ON() for
+> > now.
+>=20
+> I still prefer dropping it, but if we were to keep it I think it should
+> be in v9fs_reclaim_fd where we iterate and can thus check the whole
+> table.
+>=20
+
+IMO the relevant aspect isn't really about checking the whole table, but
+rather not to get a clunked fid out of this table and pass it over.
+
+>=20
+> Greg Kurz and Philippe Mathieu-Daud=C3=A9 write:
+> > [patch versioning]
+>=20
+> Whoops. I used -v2 on git send-email, which just ignored the option,
+> rather than git format-patch, by accident. This one _should_ now be v3!
+>=20
+>=20
+
+v3 it is and LGTM ! No big deal with the BUG_ON(), given the improvement.
+
+My R-b stands. Thanks Linus !
+
+>  hw/9pfs/9p.c | 140 +++++++++++++++++++++++++--------------------------
+>  hw/9pfs/9p.h |   2 +-
+>  2 files changed, 70 insertions(+), 72 deletions(-)
+>=20
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index aebadeaa03..98a475e560 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -282,33 +282,31 @@ static V9fsFidState *coroutine_fn get_fid(V9fsPDU *=
+pdu, int32_t fid)
+>      V9fsFidState *f;
+>      V9fsState *s =3D pdu->s;
+> =20
+> -    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
+> -        BUG_ON(f->clunked);
+> -        if (f->fid =3D=3D fid) {
+> -            /*
+> -             * Update the fid ref upfront so that
+> -             * we don't get reclaimed when we yield
+> -             * in open later.
+> -             */
+> -            f->ref++;
+> -            /*
+> -             * check whether we need to reopen the
+> -             * file. We might have closed the fd
+> -             * while trying to free up some file
+> -             * descriptors.
+> -             */
+> -            err =3D v9fs_reopen_fid(pdu, f);
+> -            if (err < 0) {
+> -                f->ref--;
+> -                return NULL;
+> -            }
+> -            /*
+> -             * Mark the fid as referenced so that the LRU
+> -             * reclaim won't close the file descriptor
+> -             */
+> -            f->flags |=3D FID_REFERENCED;
+> -            return f;
+> +    f =3D g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
+> +    if (f) {
+> +        /*
+> +         * Update the fid ref upfront so that
+> +         * we don't get reclaimed when we yield
+> +         * in open later.
+> +         */
+> +        f->ref++;
+> +        /*
+> +         * check whether we need to reopen the
+> +         * file. We might have closed the fd
+> +         * while trying to free up some file
+> +         * descriptors.
+> +         */
+> +        err =3D v9fs_reopen_fid(pdu, f);
+> +        if (err < 0) {
+> +            f->ref--;
+> +            return NULL;
+>          }
+> +        /*
+> +         * Mark the fid as referenced so that the LRU
+> +         * reclaim won't close the file descriptor
+> +         */
+> +        f->flags |=3D FID_REFERENCED;
+> +        return f;
+>      }
+>      return NULL;
+>  }
+> @@ -317,12 +315,9 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t=
+ fid)
+>  {
+>      V9fsFidState *f;
+> =20
+> -    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
+> +    if (g_hash_table_contains(s->fids, GINT_TO_POINTER(fid))) {
+>          /* If fid is already there return NULL */
+> -        BUG_ON(f->clunked);
+> -        if (f->fid =3D=3D fid) {
+> -            return NULL;
+> -        }
+> +        return NULL;
+>      }
+>      f =3D g_new0(V9fsFidState, 1);
+>      f->fid =3D fid;
+> @@ -333,7 +328,7 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t =
+fid)
+>       * reclaim won't close the file descriptor
+>       */
+>      f->flags |=3D FID_REFERENCED;
+> -    QSIMPLEQ_INSERT_TAIL(&s->fid_list, f, next);
+> +    g_hash_table_insert(s->fids, GINT_TO_POINTER(fid), f);
+> =20
+>      v9fs_readdir_init(s->proto_version, &f->fs.dir);
+>      v9fs_readdir_init(s->proto_version, &f->fs_reclaim.dir);
+> @@ -424,12 +419,11 @@ static V9fsFidState *clunk_fid(V9fsState *s, int32_=
+t fid)
+>  {
+>      V9fsFidState *fidp;
+> =20
+> -    QSIMPLEQ_FOREACH(fidp, &s->fid_list, next) {
+> -        if (fidp->fid =3D=3D fid) {
+> -            QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
+> -            fidp->clunked =3D true;
+> -            return fidp;
+> -        }
+> +    fidp =3D g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
+> +    if (fidp) {
+> +        g_hash_table_remove(s->fids, GINT_TO_POINTER(fid));
+> +        fidp->clunked =3D true;
+> +        return fidp;
+>      }
+>      return NULL;
+>  }
+> @@ -439,10 +433,15 @@ void coroutine_fn v9fs_reclaim_fd(V9fsPDU *pdu)
+>      int reclaim_count =3D 0;
+>      V9fsState *s =3D pdu->s;
+>      V9fsFidState *f;
+> +    GHashTableIter iter;
+> +    gpointer fid;
+> +
+> +    g_hash_table_iter_init(&iter, s->fids);
+> +
+>      QSLIST_HEAD(, V9fsFidState) reclaim_list =3D
+>          QSLIST_HEAD_INITIALIZER(reclaim_list);
+> =20
+> -    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
+> +    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &f)) {
+>          /*
+>           * Unlink fids cannot be reclaimed. Check
+>           * for them and skip them. Also skip fids
+> @@ -518,23 +517,19 @@ static int coroutine_fn v9fs_mark_fids_unreclaim(V9=
+fsPDU *pdu, V9fsPath *path)
+>  {
+>      int err;
+>      V9fsState *s =3D pdu->s;
+> -    V9fsFidState *fidp, *fidp_next;
+> +    V9fsFidState *fidp;
+> +    gpointer fid;
+> +    GHashTableIter iter;
+> =20
+> -    fidp =3D QSIMPLEQ_FIRST(&s->fid_list);
+> -    if (!fidp) {
+> -        return 0;
+> -    }
+> +    g_hash_table_iter_init(&iter, s->fids);
+> +
+> +    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &fidp)) {
+> +        /*
+> +         * Ensure the fid survives a potential clunk request during
+> +         * v9fs_reopen_fid.
+> +         */
+> +        fidp->ref++;
+> =20
+> -    /*
+> -     * v9fs_reopen_fid() can yield : a reference on the fid must be held
+> -     * to ensure its pointer remains valid and we can safely pass it to
+> -     * QSIMPLEQ_NEXT(). The corresponding put_fid() can also yield so
+> -     * we must keep a reference on the next fid as well. So the logic he=
+re
+> -     * is to get a reference on a fid and only put it back during the ne=
+xt
+> -     * iteration after we could get a reference on the next fid. Start w=
+ith
+> -     * the first one.
+> -     */
+> -    for (fidp->ref++; fidp; fidp =3D fidp_next) {
+>          if (fidp->path.size =3D=3D path->size &&
+>              !memcmp(fidp->path.data, path->data, path->size)) {
+>              /* Mark the fid non reclaimable. */
+> @@ -548,16 +543,6 @@ static int coroutine_fn v9fs_mark_fids_unreclaim(V9f=
+sPDU *pdu, V9fsPath *path)
+>              }
+>          }
+> =20
+> -        fidp_next =3D QSIMPLEQ_NEXT(fidp, next);
+> -
+> -        if (fidp_next) {
+> -            /*
+> -             * Ensure the next fid survives a potential clunk request du=
+ring
+> -             * put_fid() below and v9fs_reopen_fid() in the next iterati=
+on.
+> -             */
+> -            fidp_next->ref++;
+> -        }
+> -
+>          /* We're done with this fid */
+>          put_fid(pdu, fidp);
+>      }
+> @@ -569,18 +554,20 @@ static void coroutine_fn virtfs_reset(V9fsPDU *pdu)
+>  {
+>      V9fsState *s =3D pdu->s;
+>      V9fsFidState *fidp;
+> +    gpointer fid;
+> +    GHashTableIter iter;
+> +
+> +    g_hash_table_iter_init(&iter, s->fids);
+> =20
+>      /* Free all fids */
+> -    while (!QSIMPLEQ_EMPTY(&s->fid_list)) {
+> -        /* Get fid */
+> -        fidp =3D QSIMPLEQ_FIRST(&s->fid_list);
+> +    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &fidp)) {
+>          fidp->ref++;
+> =20
+>          /* Clunk fid */
+> -        QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
+>          fidp->clunked =3D true;
+> =20
+>          put_fid(pdu, fidp);
+> +        g_hash_table_iter_remove(&iter);
+>      }
+>  }
+> =20
+> @@ -3205,6 +3192,8 @@ static int coroutine_fn v9fs_complete_rename(V9fsPD=
+U *pdu, V9fsFidState *fidp,
+>      V9fsFidState *tfidp;
+>      V9fsState *s =3D pdu->s;
+>      V9fsFidState *dirfidp =3D NULL;
+> +    GHashTableIter iter;
+> +    gpointer fid;
+> =20
+>      v9fs_path_init(&new_path);
+>      if (newdirfid !=3D -1) {
+> @@ -3238,11 +3227,13 @@ static int coroutine_fn v9fs_complete_rename(V9fs=
+PDU *pdu, V9fsFidState *fidp,
+>      if (err < 0) {
+>          goto out;
+>      }
+> +
+>      /*
+>       * Fixup fid's pointing to the old name to
+>       * start pointing to the new name
+>       */
+> -    QSIMPLEQ_FOREACH(tfidp, &s->fid_list, next) {
+> +    g_hash_table_iter_init(&iter, s->fids);
+> +    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &tfidp)) {
+>          if (v9fs_path_is_ancestor(&fidp->path, &tfidp->path)) {
+>              /* replace the name */
+>              v9fs_fix_path(&tfidp->path, &new_path, strlen(fidp->path.dat=
+a));
+> @@ -3320,6 +3311,8 @@ static int coroutine_fn v9fs_fix_fid_paths(V9fsPDU =
+*pdu, V9fsPath *olddir,
+>      V9fsPath oldpath, newpath;
+>      V9fsState *s =3D pdu->s;
+>      int err;
+> +    GHashTableIter iter;
+> +    gpointer fid;
+> =20
+>      v9fs_path_init(&oldpath);
+>      v9fs_path_init(&newpath);
+> @@ -3336,7 +3329,8 @@ static int coroutine_fn v9fs_fix_fid_paths(V9fsPDU =
+*pdu, V9fsPath *olddir,
+>       * Fixup fid's pointing to the old name to
+>       * start pointing to the new name
+>       */
+> -    QSIMPLEQ_FOREACH(tfidp, &s->fid_list, next) {
+> +    g_hash_table_iter_init(&iter, s->fids);
+> +    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &tfidp)) {
+>          if (v9fs_path_is_ancestor(&oldpath, &tfidp->path)) {
+>              /* replace the name */
+>              v9fs_fix_path(&tfidp->path, &newpath, strlen(oldpath.data));
+> @@ -4226,7 +4220,7 @@ int v9fs_device_realize_common(V9fsState *s, const =
+V9fsTransport *t,
+>      s->ctx.fmode =3D fse->fmode;
+>      s->ctx.dmode =3D fse->dmode;
+> =20
+> -    QSIMPLEQ_INIT(&s->fid_list);
+> +    s->fids =3D g_hash_table_new(NULL, NULL);
+>      qemu_co_rwlock_init(&s->rename_lock);
+> =20
+>      if (s->ops->init(&s->ctx, errp) < 0) {
+> @@ -4286,6 +4280,10 @@ void v9fs_device_unrealize_common(V9fsState *s)
+>      if (s->ctx.fst) {
+>          fsdev_throttle_cleanup(s->ctx.fst);
+>      }
+> +    if (s->fids) {
+> +        g_hash_table_destroy(s->fids);
+> +        s->fids =3D NULL;
+> +    }
+>      g_free(s->tag);
+>      qp_table_destroy(&s->qpd_table);
+>      qp_table_destroy(&s->qpp_table);
+> diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+> index 994f952600..10fd2076c2 100644
+> --- a/hw/9pfs/9p.h
+> +++ b/hw/9pfs/9p.h
+> @@ -339,7 +339,7 @@ typedef struct {
+>  struct V9fsState {
+>      QLIST_HEAD(, V9fsPDU) free_list;
+>      QLIST_HEAD(, V9fsPDU) active_list;
+> -    QSIMPLEQ_HEAD(, V9fsFidState) fid_list;
+> +    GHashTable *fids;
+>      FileOperations *ops;
+>      FsContext ctx;
+>      char *tag;
+
 
