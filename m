@@ -2,88 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EA675B19F0
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 12:28:53 +0200 (CEST)
-Received: from localhost ([::1]:51392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A10665B1A02
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 12:31:50 +0200 (CEST)
+Received: from localhost ([::1]:57974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWEmC-0004vB-29
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 06:28:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39596)
+	id 1oWEp3-0001iN-SP
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 06:31:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oWEfH-00015Q-AO; Thu, 08 Sep 2022 06:21:44 -0400
-Received: from mail-oa1-x33.google.com ([2001:4860:4864:20::33]:41758)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oWEfE-0001hI-KJ; Thu, 08 Sep 2022 06:21:43 -0400
-Received: by mail-oa1-x33.google.com with SMTP id
- 586e51a60fabf-12803ac8113so9804912fac.8; 
- Thu, 08 Sep 2022 03:21:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=q4FIiQWAugHwfC4IV98JiRjyWowjlmW3PU2Bhult6ZA=;
- b=ErsXVCR41/mPYx3tuBrVJguSS546Ic+rlLxaFgd+jitG8rXgMxOpDwqks08TEGBflh
- zHH9uFe/VLPPKyFmDZF2Uv1TAKv2mpjdC/iJOdSRmJhOgMe5KMQxvWQqHlDRS/iFw/HX
- 7V0BHjcecAyUgUu1M+aPNyU68Eyvz60CkmBqAACbAacgWevHe8t5nJiwXMRjaatKNcc6
- WVYpMuUo+AggTeWbTH5TcUPZBQ/+oYA4DrO6dzQBYELMDgkCKRLTn0WjmFxMTIgIYmGB
- kjuHt443kr4O7OCZ432VCRb36QokDUbLImMihe5zy+yT6vvFUUmPLo7idMzc5j9cD1jp
- gfbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=q4FIiQWAugHwfC4IV98JiRjyWowjlmW3PU2Bhult6ZA=;
- b=cu/T7dqS97YVsdXzPkDM4nZ4yc9J7YQSXsQEXRKBikrlT8eYkibJfnxMUgNvbwO072
- gt/5NBO/EPik6eFPl2PY8c8dNmUPTfMvSiXFBGtTIm2Db8ulNBP2qqYiWm8ZFJFZzp2Q
- CJx9WBTYPzSwEAu7WxTUMeN9AYNV76Zz16wjvkAnIZUTOc+FO1keAKE0DnccebYy3KeK
- HVJHhOhivmjZ4fjXTigPTGeKCpuycRoj5ysNuBOQip6quoWWUMd8wBqSmS/rr5caAYbT
- 69ZNBVgVVvyC/p7UmsspV4OckmZaQm1l/EzyVmqJR6LwtbfLcG4ffhHy/hHNUo2BQKog
- 77Fg==
-X-Gm-Message-State: ACgBeo2cc0fho1Qzf+gLxqDys3rRukMVwDxu1cOvELfo/7gJjKogV/Ro
- B2B4Ba02Q3lvG2Knn25iaGw=
-X-Google-Smtp-Source: AA6agR5lPWkph9WRb8uG8NgPCSgb9mDOTo7S4OuxJPjeR6ecjyE2M3h0e78rBP2tXeOiurtOqUp6QQ==
-X-Received: by 2002:a05:6808:120a:b0:345:c5b4:49c7 with SMTP id
- a10-20020a056808120a00b00345c5b449c7mr1136428oil.172.1662632498724; 
- Thu, 08 Sep 2022 03:21:38 -0700 (PDT)
-Received: from [192.168.10.102] (200-207-147-180.dsl.telesp.net.br.
- [200.207.147.180]) by smtp.gmail.com with ESMTPSA id
- t1-20020a4adbc1000000b004728e64dc0fsm58610oou.38.2022.09.08.03.21.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Sep 2022 03:21:38 -0700 (PDT)
-Message-ID: <132db87e-2748-bb5c-b10c-4d0aedfe20aa@gmail.com>
-Date: Thu, 8 Sep 2022 07:21:34 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v5 13/13] hw/isa/vt82c686: Create rtc-time alias in boards
- instead
-Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>,
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oWEfh-0001z7-2E; Thu, 08 Sep 2022 06:22:09 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:41857)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oWEfb-0001i4-Qd; Thu, 08 Sep 2022 06:22:07 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 744AC74633F;
+ Thu,  8 Sep 2022 12:22:00 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 321EA7461AE; Thu,  8 Sep 2022 12:22:00 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 30845745702;
+ Thu,  8 Sep 2022 12:22:00 +0200 (CEST)
+Date: Thu, 8 Sep 2022 12:22:00 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Bernhard Beschow <shentey@gmail.com>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>, 
  Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- BALATON Zoltan <balaton@eik.bme.hu>
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v5 00/13] Instantiate VT82xx functions in host device
+In-Reply-To: <6B91888F-40E0-4E92-B49D-BA0A7E784183@gmail.com>
+Message-ID: <128199e8-cd65-79d4-2ad-83224b9dfdc5@eik.bme.hu>
 References: <20220901114127.53914-1-shentey@gmail.com>
- <20220901114127.53914-14-shentey@gmail.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220901114127.53914-14-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::33;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x33.google.com
-X-Spam_score_int: -60
-X-Spam_score: -6.1
-X-Spam_bar: ------
-X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-4.199,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ <6B91888F-40E0-4E92-B49D-BA0A7E784183@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,65 +62,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 8 Sep 2022, Bernhard Beschow wrote:
+> Am 1. September 2022 11:41:14 UTC schrieb Bernhard Beschow <shentey@gmail.com>:
+>> v5:
+>>
+>> * Add patch "Inline vt82c686b_southbridge_init() and remove it" (Zoltan)
+>>
+>> * Use machine parameter when creating rtc-time alias (Zoltan)
+>>
+>>
+>>
+>> Testing done: Same as in v3.
+>>
+>>
+>>
+>> v4:
+>>
+>> * Fix in comment: AC97 Modem -> MC97 Modem (Zoltan)
+>>
+>> * Introduce TYPE_VT82C686B_USB_UHCI define (Zoltan)
+>>
+>> * Introduce TYPE_VIA_IDE define (for consistency)
+>>
+>>
+>>
+>> v3:
+>>
+>> * Replace pre increment by post increment in for loop (Zoltan)
+>>
+>> * Move class defines close to where the class is defined (Zoltan)
+>>
+>>
+>>
+>> Testing done:
+>>
+>> * `make check-avocado`
+>>
+>>  Passes for boot_linux_console.py for mips64el_fuloong2e
+>>
+>> * `qemu-system-ppc -machine pegasos2 -rtc base=localtime -device ati-vga,guest_hwcursor=true,romfile="" -cdrom morphos-3.17.iso -kernel morphos-3.17/boot.img`
+>>
+>>  Boots successfully and it is possible to open games and tools.
+>>
+>>
+>>
+>> v2:
+>>
+>> * Keep the call to pci_ide_create_devs() in board code for consistency (Zoltan)
+>>
+>> * Create rtc-time alias in board rather than in south bridge code
+>>
+>> * Remove stale comments about PCI functions (Zoltan)
+>>
+>>
+>>
+>> v1:
+>>
+>> This series instantiates all PCI functions of the VT82xx south bridges in the south bridges themselves.
+>>
+>> For the IDE function this is especially important since its interrupt routing is configured in the
+>>
+>> ISA function, hence doesn't make sense to instantiate it as a "Frankenstein" device. The interrupt
+>>
+>> routing is currently hardcoded and changing that is currently not in the scope of this series.
+>>
+>>
+>>
+>> Testing done:
+>>
+>> * `qemu-system-ppc -machine pegasos2 -rtc base=localtime -device ati-vga,guest_hwcursor=true,romfile="" -cdrom morphos-3.17.iso -kernel morphos-3.17/boot.img`
+>>
+>>  Boots successfully and it is possible to open games and tools.
+>>
+>>
+>>
+>> * I was unable to test the fuloong2e board even before this series since it seems to be unfinished [1].
+>>
+>>  A buildroot-baked kernel [2] booted but doesn't find its root partition, though the issues could be in the buildroot receipt I created.
+>>
+>>
+>>
+>> [1] https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
+>>
+>> [2] https://github.com/shentok/buildroot/commits/fuloong2e
+>>
+>
+> Ping
+>
+> Zoltan, would you mind giving your Reviewed-by for 'hw/mips/fuloong2e: 
+> Inline vt82c686b_southbridge_init() and remove it' explicitly? Perhaps I 
+> was too eager to omit it since I didn't want to put words in your mouth.
 
+You said in your follow up message that all except this patch has my R-b 
+which is correct. This one already has Suggested-by from me so I agree 
+with it with or without an explicit Reviewed-by.
 
-On 9/1/22 08:41, Bernhard Beschow wrote:
-> According to good QOM practice, an object should only deal with objects
-> of its own sub tree. Having devices create an alias on the machine
-> object doesn't respect this good practice. To resolve this, create the
-> alias in the machine's code.
-> 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
+> What else is missing? Who would do the pull request?
 
-Acked-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+It was Philippe before who merged these maybe needs his attention or give 
+some Ack to go via smoe other tree? My mails don't seem to reach him 
+though due to bouncing as spam so not sure he sees this.
 
->   hw/isa/vt82c686.c   | 2 --
->   hw/mips/fuloong2e.c | 4 ++++
->   hw/ppc/pegasos2.c   | 4 ++++
->   3 files changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-> index 48cd4d0036..3f9bd0c04d 100644
-> --- a/hw/isa/vt82c686.c
-> +++ b/hw/isa/vt82c686.c
-> @@ -632,8 +632,6 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
->       if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
->           return;
->       }
-> -    object_property_add_alias(qdev_get_machine(), "rtc-time", OBJECT(&s->rtc),
-> -                              "date");
->       isa_connect_gpio_out(ISA_DEVICE(&s->rtc), 0, s->rtc.isairq);
->   
->       for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
-> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-> index 3c46215616..b478483706 100644
-> --- a/hw/mips/fuloong2e.c
-> +++ b/hw/mips/fuloong2e.c
-> @@ -295,6 +295,10 @@ static void mips_fuloong2e_init(MachineState *machine)
->       pci_dev = pci_create_simple_multifunction(pci_bus,
->                                                 PCI_DEVFN(FULOONG2E_VIA_SLOT, 0),
->                                                 true, TYPE_VT82C686B_ISA);
-> +    object_property_add_alias(OBJECT(machine), "rtc-time",
-> +                              object_resolve_path_component(OBJECT(pci_dev),
-> +                                                            "rtc"),
-> +                              "date");
->       qdev_connect_gpio_out(DEVICE(pci_dev), 0, env->irq[5]);
->   
->       dev = DEVICE(object_resolve_path_component(OBJECT(pci_dev), "ide"));
-> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-> index 09fdb7557f..49b753c7cc 100644
-> --- a/hw/ppc/pegasos2.c
-> +++ b/hw/ppc/pegasos2.c
-> @@ -161,6 +161,10 @@ static void pegasos2_init(MachineState *machine)
->       /* VIA VT8231 South Bridge (multifunction PCI device) */
->       via = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0), true,
->                                             TYPE_VT8231_ISA);
-> +    object_property_add_alias(OBJECT(machine), "rtc-time",
-> +                              object_resolve_path_component(OBJECT(via),
-> +                                                            "rtc"),
-> +                              "date");
->       qdev_connect_gpio_out(DEVICE(via), 0,
->                             qdev_get_gpio_in_named(pm->mv, "gpp", 31));
->   
+Regards,
+BALATON Zoltan
+
+> Thanks,
+> Bernhard
+>>
+>>
+>> Bernhard Beschow (13):
+>>
+>>  hw/isa/vt82c686: Resolve chip-specific realize methods
+>>
+>>  hw/isa/vt82c686: Resolve unneeded attribute
+>>
+>>  hw/isa/vt82c686: Prefer pci_address_space() over get_system_memory()
+>>
+>>  hw/isa/vt82c686: Reuse errp
+>>
+>>  hw/isa/vt82c686: Introduce TYPE_VIA_IDE define
+>>
+>>  hw/isa/vt82c686: Instantiate IDE function in host device
+>>
+>>  hw/isa/vt82c686: Introduce TYPE_VT82C686B_USB_UHCI define
+>>
+>>  hw/isa/vt82c686: Instantiate USB functions in host device
+>>
+>>  hw/isa/vt82c686: Instantiate PM function in host device
+>>
+>>  hw/isa/vt82c686: Instantiate AC97 and MC97 functions in host device
+>>
+>>  hw/mips/fuloong2e: Inline vt82c686b_southbridge_init() and remove it
+>>
+>>  hw/isa/vt82c686: Embed RTCState in host device
+>>
+>>  hw/isa/vt82c686: Create rtc-time alias in boards instead
+>>
+>>
+>>
+>> configs/devices/mips64el-softmmu/default.mak |   1 -
+>>
+>> hw/ide/via.c                                 |   2 +-
+>>
+>> hw/isa/Kconfig                               |   1 +
+>>
+>> hw/isa/vt82c686.c                            | 120 +++++++++++++++----
+>>
+>> hw/mips/fuloong2e.c                          |  39 +++---
+>>
+>> hw/ppc/Kconfig                               |   1 -
+>>
+>> hw/ppc/pegasos2.c                            |  25 ++--
+>>
+>> hw/usb/vt82c686-uhci-pci.c                   |   4 +-
+>>
+>> include/hw/isa/vt82c686.h                    |   4 +-
+>>
+>> 9 files changed, 126 insertions(+), 71 deletions(-)
+>>
+>>
+>>
+>> -- >
+>> 2.37.3
+>>
+>>
+>>
+>
+>
+>
 
