@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DAB35B1CFA
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 14:30:07 +0200 (CEST)
-Received: from localhost ([::1]:39500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DF2E5B1D40
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 14:37:47 +0200 (CEST)
+Received: from localhost ([::1]:39836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWGfV-0008Et-V6
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 08:30:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34666)
+	id 1oWGmt-0006G3-Ew
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 08:37:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oWGWT-0006JH-Jx; Thu, 08 Sep 2022 08:20:54 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:37709)
+ id 1oWGbb-0004Is-A9
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:26:04 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:36624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oWGWR-0006wf-32; Thu, 08 Sep 2022 08:20:45 -0400
-Received: by mail-pl1-x635.google.com with SMTP id s14so8067122plr.4;
- Thu, 08 Sep 2022 05:20:42 -0700 (PDT)
+ id 1oWGbZ-0007or-B1
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:26:03 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id s206so16599128pgs.3
+ for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 05:26:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=gGwciXe+KgbtQeG+qcrmvTsL0sPPNjqDqu0dnkffVqE=;
- b=qvNFEuyEWtGXE4hYf4ENU4GOxdwBPXhh86rU2FyMlP2YU+xFWAZuHPkV5F/eIiA28b
- hYFTEY/74Uzw6+6Nf7I9jFWNCFB3EGEicdMuTfEWv7IPQ9szn7z9sDiISiBDzWhyGnih
- k+kr04PId0yNLCw1CePACkpDUF+ZhQwtQKme3Og+MikEQnzRt1Tc+bK3Guu+OZgfaciD
- dHxLVyEu2/kMlBivYF9VHi3ocijdd3XqPWNh4R8p5jYlam57WJQBH/o9hrTj6eK37TR0
- 5AD3Rw6fXMQlTMmLkNrS6PNtwD/FJ77sDjkc0vC6lNNR2bg3SsIoqeza38q0BKT4wjiO
- hzqg==
+ bh=IcmIFuSXCNopV1Bh0Tj1kquO92Rp65/f5fmURKvO/aE=;
+ b=jnkDRg43fGxbsHDwY/0QgSODN1RRyYB1TnY1mBMStiXHv1ePTSUmer086keK4cHXAX
+ GbITVr0GFm95lorLBkwUTIGOaU9hxYhsf01nFWDXFWdVMLo1EerBZTm4j7X3Wg5vSwiY
+ XLoq1GtORJenKGM4UsAACDx/gudmHRtxasASKxHZNO/sSpZUzNvY9wbUUUUAxSzkY7FJ
+ Y0w/QYmJOG/dOIKEvQUPpEfboCUZXBRxk64E8gxf2Fea6XzUGBdUcw/5tnG83J3oeJ6e
+ eITicBHFuBhRzQ8Ue2uorO/ia9MLYUtzOj/W2T8/5v5oHRIwztsHy/i7iG4ZPI4Jhcv+
+ +EcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=gGwciXe+KgbtQeG+qcrmvTsL0sPPNjqDqu0dnkffVqE=;
- b=laeURqbW1OO1xD4Dse2RWnCkg72IqPASGYWTQSy37hIa9LHzq2AH0QyOVCHezfM819
- BjC91xZJsoGu76ADKQiz7JsaOA6SvMztA32wZMcJSqsLd0fOqtNzHR+HgtBHUuQ4NRGV
- 56SdzIEpZMqi1HAK29MfXhDOKq3QuRxn+EsOCRrTIDg2c0pX4cUA7Fi5tQfXzYGgqxgS
- +rx3+X0CAp+C5JLpJDz0E8NP4vibwxSQ8QfVwau0AUXu/r7p02Qi10pIn7xd3Kayn71o
- 3T+ZHGExY/l2aFl5PeJN7Go9VRevnDYH2VAdPdCxfy8/1GRoAVvGx9kkSXQu9W2JA982
- xKjw==
-X-Gm-Message-State: ACgBeo3lL7A3/Ghd+s8zPvJLp1OrtaW4xQ//BQjTgujXXREhstW7o45W
- Ty7AjPBdG4L9UKbmOj6HbcmgtaZD0cMqNEIgx1s=
-X-Google-Smtp-Source: AA6agR46LCgr5H2ZvNKBy5A9ya2LmP6F1l+0izkjv5Xcw8Zaqret4Zd4tmainc0dj/8rh0vf8ELJe7Uv20XtVt3Sj8g=
-X-Received: by 2002:a17:90a:474b:b0:1fd:62c3:62ef with SMTP id
- y11-20020a17090a474b00b001fd62c362efmr4004456pjg.8.1662639641198; Thu, 08 Sep
- 2022 05:20:41 -0700 (PDT)
+ bh=IcmIFuSXCNopV1Bh0Tj1kquO92Rp65/f5fmURKvO/aE=;
+ b=afqgR09LQyukiBB7PPupe42Rf19Zo+2FgIHlfSyvCv0vI9E94V5F1C7W0o9nL0Lp4w
+ n91t2uaXSnJVMyI8Ud6t7d51CgaB8wehCgKNBAIMSkmBS3Fk4bOkgmBofHljboOTpDkA
+ CdrNP/uiJrKnoKs1ROHYEKsDGP+Z8Eivzbcn8WuhORXjzVTY/lQU52MlbpdMMXJFdsR5
+ CMcy8oou1gzfvhfw8l8E8IzAduIwiuKK240H+elx9MWcLg76suV3vq/2AKWpbFeM2njy
+ cQeJlTzshJk6RN9Wu+CMF4CN8rQzzr3eXKiZoC5tpbIBj4LAJO8i3Avcv0+sRWyzbTzL
+ Zqkg==
+X-Gm-Message-State: ACgBeo06CoHSFo86K5pmv7XA8AgXpy1ITsxMBUeRZycLtfso6tY/dmDL
+ hlCg8wKLsyxYm4Xth1qbfG1eU7OyxH/TqgrnmTc=
+X-Google-Smtp-Source: AA6agR5aP5DD/c3D1GTRm56diFjlXru5V8kSt04fQ/Q5isaRNeIagzQDiKbvloAQQQ6gh30GCF0JMMPQs81OtHV2Gf8=
+X-Received: by 2002:a63:5b15:0:b0:42b:bb74:a2da with SMTP id
+ p21-20020a635b15000000b0042bbb74a2damr7663305pgb.406.1662639959411; Thu, 08
+ Sep 2022 05:25:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAB88-qOuU=4dhQQdamqsXXwZF1kWO15SS48DK3Q7sXQ7JtWmMA@mail.gmail.com>
-In-Reply-To: <CAB88-qOuU=4dhQQdamqsXXwZF1kWO15SS48DK3Q7sXQ7JtWmMA@mail.gmail.com>
+References: <cover.1661934573.git.aburgess@redhat.com>
+ <0fbf2a5b12e3210ff3867d5cf7022b3f3462c9c8.1661934573.git.aburgess@redhat.com>
+In-Reply-To: <0fbf2a5b12e3210ff3867d5cf7022b3f3462c9c8.1661934573.git.aburgess@redhat.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 8 Sep 2022 14:20:14 +0200
-Message-ID: <CAKmqyKOSGGENYYq4XTUNQq51A2Eroubm1YWERyzrWE3HfFADyg@mail.gmail.com>
-Subject: Re: [PATCH 4/4] hw/timer: ibex_timer.c: Add support for writes to
- mtime
-To: Tyler Ng <tkng@rivosinc.com>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>
+Date: Thu, 8 Sep 2022 14:25:32 +0200
+Message-ID: <CAKmqyKP5EZDvks7C0HkeBaPRddEX6S5TwWUJfBQcAP-v1m7fUg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] target/riscv: remove fflags, frm,
+ and fcsr from riscv-*-fpu.xml
+To: Andrew Burgess <aburgess@redhat.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=alistair23@gmail.com; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -87,229 +85,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 2, 2022 at 3:28 AM Tyler Ng <tkng@rivosinc.com> wrote:
+On Wed, Aug 31, 2022 at 10:43 AM Andrew Burgess <aburgess@redhat.com> wrote:
 >
-> 1. Adds fields to hold the value of mtime in timer_upper0 and timer_lower0.
+> While testing some changes to GDB's handling for the RISC-V registers
+> fcsr, fflags, and frm, I spotted that QEMU includes these registers
+> twice in the target description it sends to GDB, once in the fpu
+> feature, and once in the csr feature.
 >
-> 2. Changes the read and write functions to use the mtime fields.
+> Right now things basically work OK, QEMU maps these registers onto two
+> different register numbers, e.g. fcsr maps to both 68 and 73, and GDB
+> can use either of these to access the register.
 >
-> 3. Updates the value of mtime in update_mtime() by extrapolating the
-> time elapsed. This will need to change if/when the prescalar is
-> implemented.
+> However, GDB's target descriptions don't really work this way, each
+> register should appear just once in a target description, mapping the
+> register name onto the number GDB should use when accessing the
+> register on the target.  Duplicate register names actually result in
+> duplicate registers on the GDB side, however, as the registers have
+> the same name, the user can only access one of these registers.
 >
-> Signed-off-by: Tyler Ng <tkng@rivosinc.com>
+> Currently GDB has a hack in place, specifically for RISC-V, to spot
+> the duplicate copies of these three registers, and hide them from the
+> user, ensuring the user only ever sees a single copy of each.
+>
+> In this commit I propose fixing this issue on the QEMU side, and in
+> the process, simplify the fpu register handling a little.
+>
+> I think we should, remove fflags, frm, and fcsr from the two (32-bit
+> and 64-bit) fpu feature xml files.  These files will only contain the
+> 32 core floating point register f0 to f31.  The fflags, frm, and fcsr
+> registers will continue to be advertised in the csr feature as they
+> currently are.
+>
+> With that change made, I will simplify riscv_gdb_get_fpu and
+> riscv_gdb_set_fpu, removing the extra handling for the 3 status
+> registers.
+>
+> Signed-off-by: Andrew Burgess <aburgess@redhat.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  hw/timer/ibex_timer.c         | 94 +++++++++++++++++++++++++----------
->  include/hw/timer/ibex_timer.h |  5 ++
->  2 files changed, 73 insertions(+), 26 deletions(-)
+>  gdb-xml/riscv-32bit-fpu.xml |  4 ----
+>  gdb-xml/riscv-64bit-fpu.xml |  4 ----
+>  target/riscv/gdbstub.c      | 32 ++------------------------------
+>  3 files changed, 2 insertions(+), 38 deletions(-)
 >
-> diff --git a/hw/timer/ibex_timer.c b/hw/timer/ibex_timer.c
-> index 9ffd4821e8..7d0ea2db1e 100644
-> --- a/hw/timer/ibex_timer.c
-> +++ b/hw/timer/ibex_timer.c
-> @@ -52,30 +52,59 @@ REG32(UPPER0, 0x114)
->  REG32(COMPARE_LOWER0, 0x118)
->  REG32(COMPARE_UPPER0, 0x11C)
->
-> -static uint64_t cpu_riscv_read_rtc(uint32_t timebase_freq)
-> +
-> +/*
-> + * The goal of this function is to:
-> + * 1. Check if the timer is enabled. If not, return false,
-> + * 2. Calculate the amount of time that has passed since.
-> + * 3. Extrapolate the number of ticks that have passed, and add it to `mtime`.
-> + * 4. Return true.
-> + */
-> +static bool update_mtime(IbexTimerState *s)
-> +{
-> +    if (!(R_CTRL & R_CTRL_ACTIVE_MASK)) {
-> +        return false;
-> +    }
-> +    /* Get the time then extrapolate the number of ticks that have elapsed */
-> +    uint64_t mtime = (s->timer_lower0) | ((uint64_t) s->timer_upper0 << 32);
-> +    int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-> +    int64_t elapsed = now - s->timer_last_update;
-> +    if (elapsed < 0) {
-> +        /* We jumped back in time. */
-> +        mtime -= muldiv64((uint64_t)(-elapsed), s->timebase_freq,
-> +                           NANOSECONDS_PER_SECOND);
-> +    } else {
-> +        mtime += muldiv64(elapsed, s->timebase_freq, NANOSECONDS_PER_SECOND);
-> +    }
-> +    s->timer_lower0 = mtime & 0xffffffff;
-> +    s->timer_upper0 = (mtime >> 32) & 0xffffffff;
-> +    /* update last-checkpoint timestamp */
-> +    s->timer_last_update = now;
-> +    return true;
-> +}
-> +
-> +static inline uint64_t cpu_riscv_read_rtc(void *opaque)
->  {
-> -    return muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
-> -                    timebase_freq, NANOSECONDS_PER_SECOND);
-> +    IbexTimerState *s = opaque;
-> +    return (s->timer_lower0) | ((uint64_t) s->timer_upper0 << 32);
->  }
->
->  static void ibex_timer_update_irqs(IbexTimerState *s)
->  {
->      CPUState *cs = qemu_get_cpu(0);
->      RISCVCPU *cpu = RISCV_CPU(cs);
-> -    uint64_t value = s->timer_compare_lower0 |
-> +    uint64_t mtimecmp = s->timer_compare_lower0 |
->                           ((uint64_t)s->timer_compare_upper0 << 32);
-> -    uint64_t next, diff;
-> -    uint64_t now = cpu_riscv_read_rtc(s->timebase_freq);
+> diff --git a/gdb-xml/riscv-32bit-fpu.xml b/gdb-xml/riscv-32bit-fpu.xml
+> index 1eaae9119e..84a44ba8df 100644
+> --- a/gdb-xml/riscv-32bit-fpu.xml
+> +++ b/gdb-xml/riscv-32bit-fpu.xml
+> @@ -43,8 +43,4 @@
+>    <reg name="ft9" bitsize="32" type="ieee_single"/>
+>    <reg name="ft10" bitsize="32" type="ieee_single"/>
+>    <reg name="ft11" bitsize="32" type="ieee_single"/>
 > -
-> -    if (!(s->timer_ctrl & R_CTRL_ACTIVE_MASK)) {
-> -        /* Timer isn't active */
-> +    if (!update_mtime(s)) {
-> +        /* Timer is not enabled? */
->          return;
->      }
-> +    uint64_t mtime = cpu_riscv_read_rtc(s);
->
->      /* Update the CPUs mtimecmp */
-> -    cpu->env.timecmp = value;
-> +    cpu->env.timecmp = mtimecmp;
->
-> -    if (cpu->env.timecmp <= now) {
-> +    if (cpu->env.timecmp <= mtime) {
->          /*
->           * If the mtimecmp was in the past raise the interrupt now.
->           */
-> @@ -86,18 +115,18 @@ static void ibex_timer_update_irqs(IbexTimerState *s)
+> -  <reg name="fflags" bitsize="32" type="int" regnum="66"/>
+> -  <reg name="frm" bitsize="32" type="int" regnum="67"/>
+> -  <reg name="fcsr" bitsize="32" type="int" regnum="68"/>
+>  </feature>
+> diff --git a/gdb-xml/riscv-64bit-fpu.xml b/gdb-xml/riscv-64bit-fpu.xml
+> index 794854cc01..9856a9d1d3 100644
+> --- a/gdb-xml/riscv-64bit-fpu.xml
+> +++ b/gdb-xml/riscv-64bit-fpu.xml
+> @@ -49,8 +49,4 @@
+>    <reg name="ft9" bitsize="64" type="riscv_double"/>
+>    <reg name="ft10" bitsize="64" type="riscv_double"/>
+>    <reg name="ft11" bitsize="64" type="riscv_double"/>
+> -
+> -  <reg name="fflags" bitsize="32" type="int" regnum="66"/>
+> -  <reg name="frm" bitsize="32" type="int" regnum="67"/>
+> -  <reg name="fcsr" bitsize="32" type="int" regnum="68"/>
+>  </feature>
+> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+> index 9ed049c29e..9974b7aac6 100644
+> --- a/target/riscv/gdbstub.c
+> +++ b/target/riscv/gdbstub.c
+> @@ -114,20 +114,6 @@ static int riscv_gdb_get_fpu(CPURISCVState *env, GByteArray *buf, int n)
+>          if (env->misa_ext & RVF) {
+>              return gdb_get_reg32(buf, env->fpr[n]);
 >          }
->          return;
+> -    /* there is hole between ft11 and fflags in fpu.xml */
+> -    } else if (n < 36 && n > 32) {
+> -        target_ulong val = 0;
+> -        int result;
+> -        /*
+> -         * CSR_FFLAGS is at index 1 in csr_register, and gdb says it is FP
+> -         * register 33, so we recalculate the map index.
+> -         * This also works for CSR_FRM and CSR_FCSR.
+> -         */
+> -        result = riscv_csrrw_debug(env, n - 32, &val,
+> -                                   0, 0);
+> -        if (result == RISCV_EXCP_NONE) {
+> -            return gdb_get_regl(buf, val);
+> -        }
 >      }
-> -
-> +    /* Update timers */
-> +    int64_t next;
-> +    uint64_t diff;
->      /* Setup a timer to trigger the interrupt in the future */
->      qemu_irq_lower(s->m_timer_irq);
->      qemu_set_irq(s->irq, false);
-> -
-> -    diff = cpu->env.timecmp - now;
-> -    next = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
-> -                                 muldiv64(diff,
-> -                                          NANOSECONDS_PER_SECOND,
-> -                                          s->timebase_freq);
-> -
-> -    if (next < qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL)) {
-> +    /* Compute the difference, and set a timer for the next update. */
-> +    diff = mtimecmp - mtime;
-> +    const uint64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-> +    const uint64_t towait = muldiv64(diff, NANOSECONDS_PER_SECOND,
-> s->timebase_freq);
-> +    next = now + towait;
-> +    if (next < now) {
->          /* We overflowed the timer, just set it as large as we can */
->          timer_mod(cpu->env.timer, 0x7FFFFFFFFFFFFFFF);
->      } else {
-> @@ -128,11 +157,13 @@ static void ibex_timer_reset(DeviceState *dev)
->
->      s->timer_ctrl = 0x00000000;
->      s->timer_cfg0 = 0x00010000;
-> +    s->timer_lower0 = 0x00000000;
-> +    s->timer_upper0 = 0x00000000;
->      s->timer_compare_lower0 = 0xFFFFFFFF;
->      s->timer_compare_upper0 = 0xFFFFFFFF;
->      s->timer_intr_enable = 0x00000000;
->      s->timer_intr_state = 0x00000000;
-> -
-> +    s->timer_last_update = 0x00000000;
->      ibex_timer_update_irqs(s);
+>      return 0;
 >  }
->
-> @@ -140,7 +171,6 @@ static uint64_t ibex_timer_read(void *opaque, hwaddr addr,
->                                         unsigned int size)
->  {
->      IbexTimerState *s = opaque;
-> -    uint64_t now = cpu_riscv_read_rtc(s->timebase_freq);
->      uint64_t retvalue = 0;
->
->      switch (addr >> 2) {
-> @@ -155,10 +185,12 @@ static uint64_t ibex_timer_read(void *opaque, hwaddr addr,
->          retvalue = s->timer_cfg0;
->          break;
->      case R_LOWER0:
-> -        retvalue = now;
-> +        update_mtime(s);
-> +        retvalue = cpu_riscv_read_rtc(s);
->          break;
->      case R_UPPER0:
-> -        retvalue = now >> 32;
-> +        update_mtime(s);
-> +        retvalue = cpu_riscv_read_rtc(s) >> 32;
->          break;
->      case R_COMPARE_LOWER0:
->          retvalue = s->timer_compare_lower0;
-> @@ -197,16 +229,22 @@ static void ibex_timer_write(void *opaque, hwaddr addr,
->          break;
->      case R_CTRL:
->          s->timer_ctrl = val;
-> +        /* We must update IRQs, because the QEMU timer gets updated here. */
-> +        ibex_timer_update_irqs(s);
->          break;
->      case R_CFG0:
->          qemu_log_mask(LOG_UNIMP, "Changing prescale or step not supported");
->          s->timer_cfg0 = val;
->          break;
->      case R_LOWER0:
-> -        qemu_log_mask(LOG_UNIMP, "Changing timer value is not supported");
-> +        s->timer_lower0 = val;
-> +        s->timer_last_update = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-> +        ibex_timer_update_irqs(s);
->          break;
->      case R_UPPER0:
-> -        qemu_log_mask(LOG_UNIMP, "Changing timer value is not supported");
-> +        s->timer_upper0 = val;
-> +        s->timer_last_update = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-> +        ibex_timer_update_irqs(s);
->          break;
->      case R_COMPARE_LOWER0:
->          s->timer_compare_lower0 = val;
-> @@ -263,6 +301,9 @@ static const VMStateDescription vmstate_ibex_timer = {
->          VMSTATE_UINT32(timer_compare_upper0, IbexTimerState),
->          VMSTATE_UINT32(timer_intr_enable, IbexTimerState),
->          VMSTATE_UINT32(timer_intr_state, IbexTimerState),
-> +        VMSTATE_INT64(timer_last_update, IbexTimerState),
-> +        VMSTATE_UINT32(timer_lower0, IbexTimerState),
-> +        VMSTATE_UINT32(timer_upper0, IbexTimerState),
->          VMSTATE_END_OF_LIST()
+> @@ -137,20 +123,6 @@ static int riscv_gdb_set_fpu(CPURISCVState *env, uint8_t *mem_buf, int n)
+>      if (n < 32) {
+>          env->fpr[n] = ldq_p(mem_buf); /* always 64-bit */
+>          return sizeof(uint64_t);
+> -    /* there is hole between ft11 and fflags in fpu.xml */
+> -    } else if (n < 36 && n > 32) {
+> -        target_ulong val = ldtul_p(mem_buf);
+> -        int result;
+> -        /*
+> -         * CSR_FFLAGS is at index 1 in csr_register, and gdb says it is FP
+> -         * register 33, so we recalculate the map index.
+> -         * This also works for CSR_FRM and CSR_FCSR.
+> -         */
+> -        result = riscv_csrrw_debug(env, n - 32, NULL,
+> -                                   val, -1);
+> -        if (result == RISCV_EXCP_NONE) {
+> -            return sizeof(target_ulong);
+> -        }
 >      }
->  };
-> @@ -281,6 +322,7 @@ static void ibex_timer_init(Object *obj)
->      memory_region_init_io(&s->mmio, obj, &ibex_timer_ops, s,
->                            TYPE_IBEX_TIMER, 0x400);
->      sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
-> +
+>      return 0;
 >  }
->
->  static void ibex_timer_realize(DeviceState *dev, Error **errp)
-> diff --git a/include/hw/timer/ibex_timer.h b/include/hw/timer/ibex_timer.h
-> index 1a0a28d5fa..a6a1aa279a 100644
-> --- a/include/hw/timer/ibex_timer.h
-> +++ b/include/hw/timer/ibex_timer.h
-> @@ -39,6 +39,11 @@ struct IbexTimerState {
->
->      uint32_t timer_ctrl;
->      uint32_t timer_cfg0;
-> +
-> +    int64_t timer_last_update;
-> +
-> +    uint32_t timer_lower0;
-> +    uint32_t timer_upper0;
->      uint32_t timer_compare_lower0;
->      uint32_t timer_compare_upper0;
->      uint32_t timer_intr_enable;
+> @@ -404,10 +376,10 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
+>      CPURISCVState *env = &cpu->env;
+>      if (env->misa_ext & RVD) {
+>          gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fpu,
+> -                                 36, "riscv-64bit-fpu.xml", 0);
+> +                                 32, "riscv-64bit-fpu.xml", 0);
+>      } else if (env->misa_ext & RVF) {
+>          gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fpu,
+> -                                 36, "riscv-32bit-fpu.xml", 0);
+> +                                 32, "riscv-32bit-fpu.xml", 0);
+>      }
+>      if (env->misa_ext & RVV) {
+>          gdb_register_coprocessor(cs, riscv_gdb_get_vector, riscv_gdb_set_vector,
 > --
-> 2.30.2
+> 2.25.4
+>
 >
 
