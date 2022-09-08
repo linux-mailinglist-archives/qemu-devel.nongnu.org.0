@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF78A5B1C2D
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 14:06:39 +0200 (CEST)
-Received: from localhost ([::1]:60148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BCF15B1CDA
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 14:24:18 +0200 (CEST)
+Received: from localhost ([::1]:43360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWGIo-0008HS-I4
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 08:06:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54688)
+	id 1oWGZs-0001pA-Pz
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 08:24:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oWGBx-0004oC-Ng
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 07:59:34 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:42993)
+ id 1oWGQA-00013J-CW
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:14:14 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:35712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oWGBv-000225-1S
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 07:59:33 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id o25so1063792wrf.9
- for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 04:59:30 -0700 (PDT)
+ id 1oWGQ7-0005Kh-I1
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:14:13 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ m17-20020a7bce11000000b003a5bedec07bso1565122wmc.0
+ for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 05:14:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=Q4sLTEu/0ca8zDCXn0C919xAK1y9Jdxcu6L7R3XfDo8=;
- b=kJUKqUDavxUD6VDqkXbvPwR23DslIsjgr1rCdr8Vq2CEqUkR4gwRI3dhnLcN/bNz+o
- p4oSlkhRps2VHwGBDoFUi0TcU5mWRR2wENKyJTYYK+JbrZMhKTt6bb0PVyCXB/nwm9QB
- mQeTyzx4AekZBFDlecEH1OfX+JOpvlx9K1HmNUxHwy0tB4wcsSNf1YHNhnVZT+rnK02B
- rRD5LXxdvBBvEIBXB0H3ctbvMVe+h+Sl+xIy69CTWvAelOR8pvd95QqYg73UW/zGJOlX
- dtmDioN48WlWDO+23NxlYoT0wSGSSXCAKpkh75OnKNw/abPSRCW+pPBtiopGBz+dZvRB
- JvTw==
+ bh=+JvgUo+Hqe/ZbKSNni+t+XJlO0htHrZm+6bjlI8rlL8=;
+ b=i/YoUhO/d2DBRvRGJv9qhH9+UVFrXg2qUlnhU7oB8X/6tCeTW+mfzQcxUhbMpEIt+9
+ IwqvQSYFqskwnf4U17sPONuiE22ZnlJfLj6lqcb5YZTsXMUq5JNM4TZN1vN9X7+ybwVI
+ 9mC7Hcdu0ec5KsPPC5YQp23t651whBdlVaCOCczak2CIGPeJqVhm05ZZLFYznOT1u8Z9
+ gOVzxE7DELN1JwTckBoqpsLaqTUkTipSyZewqQ/fByS7re16vBrTcK6daJSZ9fhhreRH
+ NMT0s35TMuNUxqjYqSEylPYNbgogCn0NIMz2PbEL8Ictd5xaMiaT9y0UKc8peH7VAQ9n
+ W/Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=Q4sLTEu/0ca8zDCXn0C919xAK1y9Jdxcu6L7R3XfDo8=;
- b=Q3duD4k/UppyJJLPtwOWcX0uVYrSGQwU0GDnk6Wmv8jaO5cGJewS2vlSwDTWQjIbHZ
- hwk3SMBo9zuDXvu60Ne1ajZfBK9zEGKxJXB1dKt5LmsJbeEAmUSDszV1uiVTp65tNEM8
- j5qhSPSqIloGOK2xLBQRPAO9nM9dbkm3C7FS/76RSQirUVLoNdmDeZZjyP8HtURxRCdV
- 97Q3Qu8HhtOQwOBLhb+YMgzDu+F7a2FrkwRVps+RLZYCDhKcmAKM6/QjCmR0c34UJuWk
- /xkZuDkD3T74n63amz85TnDZekvzJ8Fnk6vmxVEkkf9buMxRkgtB32bWTYP+b4lqK5qj
- 2bjg==
-X-Gm-Message-State: ACgBeo3UMSgcW/v1WTzMOgxg5F6DNKw+0oSZ4pMRpTPv9JLydWrM1Ga4
- lTR5GVJmXx/Udeaf/sJx8gdd1w==
-X-Google-Smtp-Source: AA6agR4No1wfJL33ve49PiBmLC7kUKKeno0XeT+ybcmZr/ks00RDqLvWTVu66ShM09FRxvu89NHcYA==
-X-Received: by 2002:a5d:64ed:0:b0:225:11d4:76d1 with SMTP id
- g13-20020a5d64ed000000b0022511d476d1mr4820987wri.579.1662638369339; 
- Thu, 08 Sep 2022 04:59:29 -0700 (PDT)
+ bh=+JvgUo+Hqe/ZbKSNni+t+XJlO0htHrZm+6bjlI8rlL8=;
+ b=a2r48IxaNMMZhvlyVaagQkNRETE32BhogM5G82AVAIYXRk6AhPmJGZKOjRhzovK+4X
+ etfu41A+56JTNqnm4h6STyWI2n8kwAxSO6KPVpwCaKYkzPt9uULlAnVgrZwPr+E9gXZm
+ AvnzMRxIksE8zkXQWTqcWAL1mmc9NvUfSswv6Hh/7oHOkgv4BvQ1w3pU/p+Y6p1c4+S7
+ 2+gZQR2+o55vABnNy/yOS3Bj0bfV1mZ2xUaJ3j5J5r/Vm+MxQsElWKKnIFDxaM5LTq6e
+ P/F2KH4syiW8JoxHBkpBa6d6bTe/FBsZmc1cqWLRkvs5K6j+++fsMrxlX+HbF0OOn6ir
+ P76A==
+X-Gm-Message-State: ACgBeo2Mf4zhpqLvmtkTQHfuqT3l9GdC+Dom+wTUXdmyvne11aHby6eD
+ BQUAd+bEanXulq3Cnvjq/3nRjw==
+X-Google-Smtp-Source: AA6agR4dvByOOTCTlzF5NS69lyfyTStaHbP+f50E/zhsDCk8Yr1QGdnRqSlPl2Q9aZQ+DQLFuYBXDw==
+X-Received: by 2002:a05:600c:b47:b0:3a5:a431:ce36 with SMTP id
+ k7-20020a05600c0b4700b003a5a431ce36mr2128589wmr.89.1662639249048; 
+ Thu, 08 Sep 2022 05:14:09 -0700 (PDT)
 Received: from [192.168.1.87] ([109.78.97.14])
  by smtp.gmail.com with ESMTPSA id
- m123-20020a1ca381000000b003a83fda1dc5sm2555864wme.44.2022.09.08.04.59.26
+ r11-20020a05600c35cb00b003b31fc77407sm2342381wmq.30.2022.09.08.05.14.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Sep 2022 04:59:28 -0700 (PDT)
-Message-ID: <f96fc511-de91-5fd6-644f-6a4f9575850b@linaro.org>
-Date: Thu, 8 Sep 2022 12:59:19 +0100
+ Thu, 08 Sep 2022 05:14:08 -0700 (PDT)
+Message-ID: <6f8145a0-b479-5624-3158-18fee240b24c@linaro.org>
+Date: Thu, 8 Sep 2022 13:14:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v4 2/9] target/arm: Change gen_goto_tb to work on
- displacements
+Subject: Re: [PATCH v2 02/23] target/i386: Return bool from disas_insn
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org
-References: <20220906100528.343244-1-richard.henderson@linaro.org>
- <20220906100528.343244-3-richard.henderson@linaro.org>
- <f8c471d1-7f4c-e491-d7fa-1df73aedc20b@amsat.org>
+Cc: pbonzini@redhat.com
+References: <20220906100932.343523-1-richard.henderson@linaro.org>
+ <20220906100932.343523-3-richard.henderson@linaro.org>
+ <b0adb12e-56d7-76ca-0eed-ec4938ffcb58@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <f8c471d1-7f4c-e491-d7fa-1df73aedc20b@amsat.org>
+In-Reply-To: <b0adb12e-56d7-76ca-0eed-ec4938ffcb58@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -52
 X-Spam_score: -5.3
 X-Spam_bar: -----
 X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.142,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,16 +97,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/6/22 13:52, Philippe Mathieu-Daudé wrote:
->> @@ -1399,9 +1401,9 @@ static void disas_comp_b_imm(DisasContext *s, uint32_t insn)
->>       tcg_gen_brcondi_i64(op ? TCG_COND_NE : TCG_COND_EQ,
->>                           tcg_cmp, 0, label_match);
->> -    gen_goto_tb(s, 0, s->base.pc_next);
->> +    gen_goto_tb(s, 0, 4);
+On 9/6/22 15:42, Philippe Mathieu-Daudé wrote:
+> On 6/9/22 12:09, Richard Henderson wrote:
+>> Instead of returning the new pc, which is present in
+>> DisasContext, return true if an insn was translated.
+>> This is false when we detect a page crossing and must
+>> undo the insn under translation.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   target/i386/tcg/translate.c | 42 +++++++++++++++++++------------------
+>>   1 file changed, 22 insertions(+), 20 deletions(-)
+>>
+>> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+>> index 1e24bb2985..46300ffd91 100644
+>> --- a/target/i386/tcg/translate.c
+>> +++ b/target/i386/tcg/translate.c
+>> @@ -4665,7 +4665,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
+>>   /* convert one instruction. s->base.is_jmp is set if the translation must
+>>      be stopped. Return the next pc value */
+>> -static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+>> +static bool disas_insn(DisasContext *s, CPUState *cpu)
+>>   {
+>>       CPUX86State *env = cpu->env_ptr;
+>>       int b, prefixes;
+>> @@ -4695,12 +4695,13 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+>>           return s->pc;
 > 
-> Why not use curr_insn_len() here?
+> Shouldn't we return 'true' here?
 
-I guess I could, but it's always 4 for aarch64.
+Whoops, yes.
 
 
 r~
