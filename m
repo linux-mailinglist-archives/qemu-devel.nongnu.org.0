@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AD325B1825
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 11:12:14 +0200 (CEST)
-Received: from localhost ([::1]:48424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6583B5B1871
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 11:21:54 +0200 (CEST)
+Received: from localhost ([::1]:53218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWDa1-0002rS-OR
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 05:12:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39476)
+	id 1oWDjM-0000lV-V6
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 05:21:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oWDXp-0000L3-0Z
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 05:09:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51260)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oWDXl-0007g3-G6
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 05:09:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662628192;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=329hHSBfRIiAIbf/nfGNHlmtuUIxMqhm0R8yZRGevmI=;
- b=OtO1QCkDO+d0RZTiq+K5/WJKzTiH1i9fptSHo5Vx88RdzPuYC36DuEHiYfNad3Gpp4J7OK
- yKoXNAS+HQJ7rJbp97GC2QYeQRYU2qZ11arWoo868Ug434vxinvYGM+aU/FIkUSjFdmBVZ
- 3h9zTO0+GCAOVDyQixY+BpD8B+CdKpA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-49-D2UY6kRYMHqb4ZLz404NMw-1; Thu, 08 Sep 2022 05:09:49 -0400
-X-MC-Unique: D2UY6kRYMHqb4ZLz404NMw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 09C1C1C004E6;
- Thu,  8 Sep 2022 09:09:49 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.74])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C875AC15BBA;
- Thu,  8 Sep 2022 09:09:47 +0000 (UTC)
-Date: Thu, 8 Sep 2022 10:09:42 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Chenyi Qiang <chenyi.qiang@intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Michal =?utf-8?B?UHLDrXZvem7DrWs=?= <mprivozn@redhat.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 2/2] configure: Add -Wno-gnu-variable-sized-type-not-at-end
-Message-ID: <YxmxVuYq2vqFgvqK@redhat.com>
-References: <20220908080749.32211-1-chenyi.qiang@intel.com>
- <20220908080749.32211-3-chenyi.qiang@intel.com>
- <CAFEAcA9J1mPL2Uj2yRhcpUq-Bg=G1o8V8q8n=7frAvMeT6_GRg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oWDg1-00055c-W1; Thu, 08 Sep 2022 05:18:35 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:41833)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oWDfz-0000ZA-By; Thu, 08 Sep 2022 05:18:25 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id 202so16123786pgc.8;
+ Thu, 08 Sep 2022 02:18:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=1WnIjNwI9zoKvVs4j+13H9KpRiLH13O2IcEA77P6lDM=;
+ b=AKThRNAfAvBJo1N8uVU8w4a0P7qYfJWo+j/z8wB/KQFsddaVm+Bm05kj0xi7kSsydo
+ MkQxiw+9w2SzNbXO096qZ9vcaGntP1IvEk1qAfHwBjg86cbDBTYdMcqe8pH8Rz4lEs0j
+ w8rfoRkzYYjoSJon69Mc+Rhow/3vlditfVXb3XSzuBAv3psYUSdyv2pcD0G+pRS2cIH7
+ ah7tBPmGGz+3e7QUE0MnFdtHalij7/QCr/MD2gRwFiEovdxjjImgDrJsreHIFx04XBS/
+ ORzFGz0WBQ4RZ3cEubjLNCMYv3DYHplXQuTfE8RTWcdTDODbcc2fnaDnUFbuhrsLOZdw
+ 968w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=1WnIjNwI9zoKvVs4j+13H9KpRiLH13O2IcEA77P6lDM=;
+ b=zlQUacZLYsYkYkU9J15VvjoqZVW7kaYKSrKz9a0VlibVULvjJRW8riYGm6+0M4TWHN
+ QzBv0mWZN9kB5GOrOIkWFBu74wQNcqGIg9yhtR1XHtQpfv36MC0LPEHKUjZ4bLmQZd/H
+ dpyY63oqameWKz8e41E+j/ffYVTrhrxjZEcKImAo/oOAn66fGZ8QgCcCHzOkyq9Cw1nK
+ 0Qs8/5cRN+2gLuU8SmSvKcXiz6r7QV3QZ37k5DXxXU2XNgn0V+v8A5dhs/8QfvzofSBM
+ o8rPq7i5OnxXKdwcJ7O3wCqSH5p5Iez/R9kccw1aeA3YATPuNx9bSlX2zmTRlm5xF4s/
+ KgSQ==
+X-Gm-Message-State: ACgBeo2EhTfnN2eOs+F8O3qTBD8IfAoTuC9I0qzOsqFzGTFQuZVh13OD
+ HgonmjuxYdeqNewzr2UtORy2wjI9/z4Ink+RLo4=
+X-Google-Smtp-Source: AA6agR6CVpFcjMyjZMpJrwhWVfTWnpDm8nUFXR/zjRqH8aOECTJ/m2B/V8JfNOete6lkWwRkztbSi3dbJ8F+qQtP+Co=
+X-Received: by 2002:a05:6a00:2402:b0:52c:81cf:8df8 with SMTP id
+ z2-20020a056a00240200b0052c81cf8df8mr8263358pfh.60.1662628699699; Thu, 08 Sep
+ 2022 02:18:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA9J1mPL2Uj2yRhcpUq-Bg=G1o8V8q8n=7frAvMeT6_GRg@mail.gmail.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220906090219.412517-1-sunilvl@ventanamicro.com>
+ <20220906090219.412517-2-sunilvl@ventanamicro.com>
+In-Reply-To: <20220906090219.412517-2-sunilvl@ventanamicro.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 8 Sep 2022 11:17:52 +0200
+Message-ID: <CAKmqyKOZSaE9CYGmYSKOEnkQkGDUkchut+i2mQjcZLSVx-qWag@mail.gmail.com>
+Subject: Re: [PATCH V4 1/3] hw/arm, loongarch: Move load_image_to_fw_cfg() to
+ common location
+To: Sunil V L <sunilvl@ventanamicro.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ Peter Maydell <peter.maydell@linaro.org>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>, 
+ Song Gao <gaosong@loongson.cn>, Gerd Hoffmann <kraxel@redhat.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Andrew Jones <ajones@ventanamicro.com>, 
+ Anup Patel <apatel@ventanamicro.com>, Atish Kumar Patra <atishp@rivosinc.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x52c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,79 +90,215 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 08, 2022 at 09:53:44AM +0100, Peter Maydell wrote:
-> On Thu, 8 Sept 2022 at 09:08, Chenyi Qiang <chenyi.qiang@intel.com> wrote:
-> >
-> > After updating linux headers to v6.0-rc, clang build on x86 target would
-> > generate warnings like:
-> >
-> > target/i386/kvm/kvm.c:470:25: error: field 'info' with variable sized
-> > type 'struct kvm_msrs' not at the end of a struct or class is a GNU
-> > extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
-> >         struct kvm_msrs info;
-> >                         ^
-> > target/i386/kvm/kvm.c:1701:27: error: field 'cpuid' with variable sized
-> > type 'struct kvm_cpuid2' not at the end of a struct or class is a GNU
-> > extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
-> >         struct kvm_cpuid2 cpuid;
-> >                           ^
-> > target/i386/kvm/kvm.c:2868:25: error: field 'info' with variable sized
-> > type 'struct kvm_msrs' not at the end of a struct or class is a GNU
-> > extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
-> >         struct kvm_msrs info;
-> >                         ^
-> >
-> > Considering that it is OK to use GNU extension in QEMU (e.g. g_auto stuff),
-> > it is acceptable to turn off this warning, which is only relevant to people
-> > striving for fully portable C code.
-> 
-> Can we get the kernel folks to fix their headers not to
-> use GCC extensions like this ? It's not a big deal for us
-> I guess, but in general it doesn't seem great that the
-> kernel headers rely on userspace to silence warnings...
+On Tue, Sep 6, 2022 at 11:38 AM Sunil V L <sunilvl@ventanamicro.com> wrote:
+>
+> load_image_to_fw_cfg() is duplicated by both arm and loongarch. The same
+> function will be required by riscv too. So, it's time to refactor and
+> move this function to a common path.
+>
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 
-The kernel headers are fine actually - it is C99 compliant to have
-a unsized array field in structs. eg 
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-The problem is in the QEMU code which is taking the kernel declared
-struct, and then embedding it inside another struct. e.g. the
-kernel exposes:
+Alistair
 
-  struct kvm_msrs {
-        __u32 nmsrs; /* number of msrs in entries */
-        __u32 pad;
-
-        struct kvm_msr_entry entries[];
-  };
-
-
-which we then use as:
-
-  uint64_t kvm_arch_get_supported_msr_feature(KVMState *s, uint32_t index)
-  {
-    struct {
-        struct kvm_msrs info;
-        struct kvm_msr_entry entries[1];
-    } msr_data = {};
-
-'kvm_msrs info' is variable in size, so offset of 'entries[1]' is
-undefined by C99. I presume the GNU defined semantics are that the
-variable length 'entries[]' field in 'info' is zero-sized, in order
-to give predictable offset for 'entries[1]' in the local msr_data.
-
-IOW, our locally defined struct is just there to force a stack
-allocation large enough for 1 kvm_msr_entry. A clever trick, but
-requires that we turn off the CLang portability warning
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> ---
+>  hw/arm/boot.c             | 49 ---------------------------------------
+>  hw/loongarch/virt.c       | 33 --------------------------
+>  hw/nvram/fw_cfg.c         | 32 +++++++++++++++++++++++++
+>  include/hw/nvram/fw_cfg.h | 21 +++++++++++++++++
+>  4 files changed, 53 insertions(+), 82 deletions(-)
+>
+> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+> index ada2717f76..704f368d9c 100644
+> --- a/hw/arm/boot.c
+> +++ b/hw/arm/boot.c
+> @@ -818,55 +818,6 @@ static void do_cpu_reset(void *opaque)
+>      }
+>  }
+>
+> -/**
+> - * load_image_to_fw_cfg() - Load an image file into an fw_cfg entry identified
+> - *                          by key.
+> - * @fw_cfg:         The firmware config instance to store the data in.
+> - * @size_key:       The firmware config key to store the size of the loaded
+> - *                  data under, with fw_cfg_add_i32().
+> - * @data_key:       The firmware config key to store the loaded data under,
+> - *                  with fw_cfg_add_bytes().
+> - * @image_name:     The name of the image file to load. If it is NULL, the
+> - *                  function returns without doing anything.
+> - * @try_decompress: Whether the image should be decompressed (gunzipped) before
+> - *                  adding it to fw_cfg. If decompression fails, the image is
+> - *                  loaded as-is.
+> - *
+> - * In case of failure, the function prints an error message to stderr and the
+> - * process exits with status 1.
+> - */
+> -static void load_image_to_fw_cfg(FWCfgState *fw_cfg, uint16_t size_key,
+> -                                 uint16_t data_key, const char *image_name,
+> -                                 bool try_decompress)
+> -{
+> -    size_t size = -1;
+> -    uint8_t *data;
+> -
+> -    if (image_name == NULL) {
+> -        return;
+> -    }
+> -
+> -    if (try_decompress) {
+> -        size = load_image_gzipped_buffer(image_name,
+> -                                         LOAD_IMAGE_MAX_GUNZIP_BYTES, &data);
+> -    }
+> -
+> -    if (size == (size_t)-1) {
+> -        gchar *contents;
+> -        gsize length;
+> -
+> -        if (!g_file_get_contents(image_name, &contents, &length, NULL)) {
+> -            error_report("failed to load \"%s\"", image_name);
+> -            exit(1);
+> -        }
+> -        size = length;
+> -        data = (uint8_t *)contents;
+> -    }
+> -
+> -    fw_cfg_add_i32(fw_cfg, size_key, size);
+> -    fw_cfg_add_bytes(fw_cfg, data_key, data, size);
+> -}
+> -
+>  static int do_arm_linux_init(Object *obj, void *opaque)
+>  {
+>      if (object_dynamic_cast(obj, TYPE_ARM_LINUX_BOOT_IF)) {
+> diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
+> index 5cc0b05538..eee2c193c0 100644
+> --- a/hw/loongarch/virt.c
+> +++ b/hw/loongarch/virt.c
+> @@ -542,39 +542,6 @@ static void reset_load_elf(void *opaque)
+>      }
+>  }
+>
+> -/* Load an image file into an fw_cfg entry identified by key. */
+> -static void load_image_to_fw_cfg(FWCfgState *fw_cfg, uint16_t size_key,
+> -                                 uint16_t data_key, const char *image_name,
+> -                                 bool try_decompress)
+> -{
+> -    size_t size = -1;
+> -    uint8_t *data;
+> -
+> -    if (image_name == NULL) {
+> -        return;
+> -    }
+> -
+> -    if (try_decompress) {
+> -        size = load_image_gzipped_buffer(image_name,
+> -                                         LOAD_IMAGE_MAX_GUNZIP_BYTES, &data);
+> -    }
+> -
+> -    if (size == (size_t)-1) {
+> -        gchar *contents;
+> -        gsize length;
+> -
+> -        if (!g_file_get_contents(image_name, &contents, &length, NULL)) {
+> -            error_report("failed to load \"%s\"", image_name);
+> -            exit(1);
+> -        }
+> -        size = length;
+> -        data = (uint8_t *)contents;
+> -    }
+> -
+> -    fw_cfg_add_i32(fw_cfg, size_key, size);
+> -    fw_cfg_add_bytes(fw_cfg, data_key, data, size);
+> -}
+> -
+>  static void fw_cfg_add_kernel_info(FWCfgState *fw_cfg)
+>  {
+>      /*
+> diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+> index d605f3f45a..371a45dfe2 100644
+> --- a/hw/nvram/fw_cfg.c
+> +++ b/hw/nvram/fw_cfg.c
+> @@ -41,6 +41,7 @@
+>  #include "qapi/error.h"
+>  #include "hw/acpi/aml-build.h"
+>  #include "hw/pci/pci_bus.h"
+> +#include "hw/loader.h"
+>
+>  #define FW_CFG_FILE_SLOTS_DFLT 0x20
+>
+> @@ -1221,6 +1222,37 @@ FWCfgState *fw_cfg_find(void)
+>      return FW_CFG(object_resolve_path_type("", TYPE_FW_CFG, NULL));
+>  }
+>
+> +void load_image_to_fw_cfg(FWCfgState *fw_cfg, uint16_t size_key,
+> +                          uint16_t data_key, const char *image_name,
+> +                          bool try_decompress)
+> +{
+> +    size_t size = -1;
+> +    uint8_t *data;
+> +
+> +    if (image_name == NULL) {
+> +        return;
+> +    }
+> +
+> +    if (try_decompress) {
+> +        size = load_image_gzipped_buffer(image_name,
+> +                                         LOAD_IMAGE_MAX_GUNZIP_BYTES, &data);
+> +    }
+> +
+> +    if (size == (size_t)-1) {
+> +        gchar *contents;
+> +        gsize length;
+> +
+> +        if (!g_file_get_contents(image_name, &contents, &length, NULL)) {
+> +            error_report("failed to load \"%s\"", image_name);
+> +            exit(1);
+> +        }
+> +        size = length;
+> +        data = (uint8_t *)contents;
+> +    }
+> +
+> +    fw_cfg_add_i32(fw_cfg, size_key, size);
+> +    fw_cfg_add_bytes(fw_cfg, data_key, data, size);
+> +}
+>
+>  static void fw_cfg_class_init(ObjectClass *klass, void *data)
+>  {
+> diff --git a/include/hw/nvram/fw_cfg.h b/include/hw/nvram/fw_cfg.h
+> index 0e7a8bc7af..c1f81a5f13 100644
+> --- a/include/hw/nvram/fw_cfg.h
+> +++ b/include/hw/nvram/fw_cfg.h
+> @@ -342,4 +342,25 @@ bool fw_cfg_dma_enabled(void *opaque);
+>   */
+>  const char *fw_cfg_arch_key_name(uint16_t key);
+>
+> +/**
+> + * load_image_to_fw_cfg() - Load an image file into an fw_cfg entry identified
+> + *                          by key.
+> + * @fw_cfg:         The firmware config instance to store the data in.
+> + * @size_key:       The firmware config key to store the size of the loaded
+> + *                  data under, with fw_cfg_add_i32().
+> + * @data_key:       The firmware config key to store the loaded data under,
+> + *                  with fw_cfg_add_bytes().
+> + * @image_name:     The name of the image file to load. If it is NULL, the
+> + *                  function returns without doing anything.
+> + * @try_decompress: Whether the image should be decompressed (gunzipped) before
+> + *                  adding it to fw_cfg. If decompression fails, the image is
+> + *                  loaded as-is.
+> + *
+> + * In case of failure, the function prints an error message to stderr and the
+> + * process exits with status 1.
+> + */
+> +void load_image_to_fw_cfg(FWCfgState *fw_cfg, uint16_t size_key,
+> +                          uint16_t data_key, const char *image_name,
+> +                          bool try_decompress);
+> +
+>  #endif
+> --
+> 2.25.1
+>
+>
 
