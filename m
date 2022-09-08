@@ -2,49 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15D1D5B1B58
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 13:26:16 +0200 (CEST)
-Received: from localhost ([::1]:56130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC985B1B9B
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 13:35:58 +0200 (CEST)
+Received: from localhost ([::1]:54900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWFfj-0000bx-8q
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 07:26:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55734)
+	id 1oWFp7-0005Uu-Ps
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 07:35:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linus@sphalerite.org>)
- id 1oWFdg-0007SQ-VF; Thu, 08 Sep 2022 07:24:08 -0400
-Received: from sosiego.soundray.org ([2a01:4f8:c2c:a9a0::1]:38032)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linus@sphalerite.org>)
- id 1oWFdc-0004La-7O; Thu, 08 Sep 2022 07:24:08 -0400
-From: Linus Heckemann <git@sphalerite.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sphalerite.org;
- s=sosiego; t=1662636236;
- bh=yOF7obn7bO8+DOYaGQXpTxRC0oFiXOne6VYAceKYfZ8=;
- h=From:To:Cc:Subject:Date;
- b=0IE/S8kt/pOUmxljO8rNBY8G2iq+i6pf3EZnH+WQhcJdhBMbJTPlaqkafIAfVRfEg
- aCVYX/sm8qg2+V1JOku538VITApHpez7hYW0NlSe2VnYTvu0OwKhtbbTvIb5gAYnRb
- Rn3ZiyDHKaH63bEWrvHJImZnN49kQ9b+9BN964HQ=
-To: qemu-devel@nongnu.org
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Qemu-block <qemu-block@nongnu.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Greg Kurz <groug@kaod.org>, Linus Heckemann <git@sphalerite.org>
-Subject: [PATCH v3] 9pfs: use GHashTable for fid table
-Date: Thu,  8 Sep 2022 13:23:53 +0200
-Message-Id: <20220908112353.289267-1-git@sphalerite.org>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oWFk6-0001F1-Nd; Thu, 08 Sep 2022 07:30:46 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:33511)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oWFk4-0005Ld-E6; Thu, 08 Sep 2022 07:30:46 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id iw17so10888591plb.0;
+ Thu, 08 Sep 2022 04:30:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=IqTmV3dutAy9NmUCA8X6ecCNNtxMYiCs500nXA5sEtM=;
+ b=LEI8DXfyGbacorsjxI/Cbr6jLVPIMpXYEmb21rrwLgH99PW8oOr4SwZJMq9CajYHc0
+ QeDas0Q68mmPUNo8b6Y7gyleIj7jbnDXFwZzmJgIkm8w23hFcTszMi1RWMu+mnugwQYL
+ 36FfdOv5rHGizaoX2IZEbVV/wzkSmld4GlgyqxDNdmrKX8ZPDM1ZniBsec+fVzPFZ18W
+ vuaSJJOZCayGAle2viMopsvN9qmvsWKYDAsKQK1phJEotD2zT6X5qlA+3JwWL82ziJTf
+ BxXaSmIB781Inl2DbP4rMA6F3/WIykFJAdvInrvGJw5ny6dNu4TGehFnJPR3cjXmKSr/
+ uWvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=IqTmV3dutAy9NmUCA8X6ecCNNtxMYiCs500nXA5sEtM=;
+ b=IGHZ7GOiGr5SkuvTX09FERLfhI4lLcd9rxxUhL+Qc7tAD90WsewJcVjIA/4OsJoo4G
+ FoJl+mkF8oOSc5Fb8hKQzOOwvLxGqM+rM6MMy5J/EH1T0CciuIs4xEwTiAKARo9XG3z1
+ I3Kbas2E4nNbFAuQG1ayUUdsKStNnPdJ9O8PqDH82lt2Vr8cckY8rdqku0g+4O3uTnf8
+ s6bFgMTCRRpwJmXoPhTR8f0fy1TgT224tHt7V0SYlilFuwjpikwSrnMHlQzFeIuMrqH9
+ rBh1hmGIEqqxWm8l5HsI8CEBmMq9lNfm5YSNtWxBNeK9EoBRoE2oTLjI7kbuZ0+0Fkx8
+ uzWA==
+X-Gm-Message-State: ACgBeo2u+H4e3dMF+vmLlrzBNc74klB93NSlk/uy5eHwehT8L6umeWDX
+ tP3XbtO4SHosLktMLENHhii0IyCiw6Mya9cf7rI=
+X-Google-Smtp-Source: AA6agR6tTWMdjSXlpMjLrLhBijMjKYBd7AvzvfaLR2r6VYrSYmWjyjQGvBzHdHWQj8w8O6ilSpkajhPe+Awuxwb9Jjg=
+X-Received: by 2002:a17:90b:314b:b0:1fd:e5ba:3cab with SMTP id
+ ip11-20020a17090b314b00b001fde5ba3cabmr3820625pjb.96.1662636642546; Thu, 08
+ Sep 2022 04:30:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a01:4f8:c2c:a9a0::1;
- envelope-from=linus@sphalerite.org; helo=sosiego.soundray.org
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220823061201.132342-1-wilfred.mallawa@opensource.wdc.com>
+ <20220823061201.132342-3-wilfred.mallawa@opensource.wdc.com>
+In-Reply-To: <20220823061201.132342-3-wilfred.mallawa@opensource.wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 8 Sep 2022 13:30:15 +0200
+Message-ID: <CAKmqyKNXKXNk=V_W38nDzcovEw6-iwdE073s2X93B1OENh=_oQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/4] hw/ssi: ibex_spi: fixup coverity issue
+To: Wilfred Mallawa <wilfred.mallawa@opensource.wdc.com>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>, 
+ Andrew Jones <ajones@ventanamicro.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=alistair23@gmail.com; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,339 +86,281 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The previous implementation would iterate over the fid table for
-lookup operations, resulting in an operation with O(n) complexity on
-the number of open files and poor cache locality -- for every open,
-stat, read, write, etc operation.
+On Tue, Aug 23, 2022 at 8:13 AM Wilfred Mallawa
+<wilfred.mallawa@opensource.wdc.com> wrote:
+>
+> From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+>
+> This patch addresses the coverity issues specified in [1],
+> as suggested, `FIELD_DP32()`/`FIELD_EX32()` macros have been
+> implemented to clean up the code.
+>
+> [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg887713.html
+>
+> Fixes: Coverity CID 1488107
+>
+> Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> ---
+>  hw/ssi/ibex_spi_host.c | 132 +++++++++++++++++++++--------------------
+>  1 file changed, 68 insertions(+), 64 deletions(-)
+>
+> diff --git a/hw/ssi/ibex_spi_host.c b/hw/ssi/ibex_spi_host.c
+> index 601041d719..d52b193a1a 100644
+> --- a/hw/ssi/ibex_spi_host.c
+> +++ b/hw/ssi/ibex_spi_host.c
+> @@ -108,18 +108,22 @@ static inline uint8_t div4_round_up(uint8_t dividend)
+>
+>  static void ibex_spi_rxfifo_reset(IbexSPIHostState *s)
+>  {
+> +    uint32_t data = s->regs[IBEX_SPI_HOST_STATUS];
+>      /* Empty the RX FIFO and assert RXEMPTY */
+>      fifo8_reset(&s->rx_fifo);
+> -    s->regs[IBEX_SPI_HOST_STATUS] &= ~R_STATUS_RXFULL_MASK;
+> -    s->regs[IBEX_SPI_HOST_STATUS] |= R_STATUS_RXEMPTY_MASK;
+> +    data = FIELD_DP32(data, STATUS, RXFULL, 0);
+> +    data = FIELD_DP32(data, STATUS, RXEMPTY, 1);
+> +    s->regs[IBEX_SPI_HOST_STATUS] = data;
+>  }
+>
+>  static void ibex_spi_txfifo_reset(IbexSPIHostState *s)
+>  {
+> +    uint32_t data = s->regs[IBEX_SPI_HOST_STATUS];
+>      /* Empty the TX FIFO and assert TXEMPTY */
+>      fifo8_reset(&s->tx_fifo);
+> -    s->regs[IBEX_SPI_HOST_STATUS] &= ~R_STATUS_TXFULL_MASK;
+> -    s->regs[IBEX_SPI_HOST_STATUS] |= R_STATUS_TXEMPTY_MASK;
+> +    data = FIELD_DP32(data, STATUS, TXFULL, 0);
+> +    data = FIELD_DP32(data, STATUS, TXEMPTY, 1);
+> +    s->regs[IBEX_SPI_HOST_STATUS] = data;
+>  }
+>
+>  static void ibex_spi_host_reset(DeviceState *dev)
+> @@ -162,37 +166,38 @@ static void ibex_spi_host_reset(DeviceState *dev)
+>   */
+>  static void ibex_spi_host_irq(IbexSPIHostState *s)
+>  {
+> -    bool error_en = s->regs[IBEX_SPI_HOST_INTR_ENABLE]
+> -                    & R_INTR_ENABLE_ERROR_MASK;
+> -    bool event_en = s->regs[IBEX_SPI_HOST_INTR_ENABLE]
+> -                    & R_INTR_ENABLE_SPI_EVENT_MASK;
+> -    bool err_pending = s->regs[IBEX_SPI_HOST_INTR_STATE]
+> -                        & R_INTR_STATE_ERROR_MASK;
+> -    bool status_pending = s->regs[IBEX_SPI_HOST_INTR_STATE]
+> -                        & R_INTR_STATE_SPI_EVENT_MASK;
+> +    uint32_t intr_test_reg = s->regs[IBEX_SPI_HOST_INTR_TEST];
+> +    uint32_t intr_en_reg = s->regs[IBEX_SPI_HOST_INTR_ENABLE];
+> +    uint32_t intr_state_reg = s->regs[IBEX_SPI_HOST_INTR_STATE];
+> +
+> +    uint32_t err_en_reg = s->regs[IBEX_SPI_HOST_ERROR_ENABLE];
+> +    uint32_t event_en_reg = s->regs[IBEX_SPI_HOST_EVENT_ENABLE];
+> +    uint32_t err_status_reg = s->regs[IBEX_SPI_HOST_ERROR_STATUS];
+> +    uint32_t status_reg = s->regs[IBEX_SPI_HOST_STATUS];
+> +
+> +
+> +    bool error_en = FIELD_EX32(intr_en_reg, INTR_ENABLE, ERROR);
+> +    bool event_en = FIELD_EX32(intr_en_reg, INTR_ENABLE, SPI_EVENT);
+> +    bool err_pending = FIELD_EX32(intr_state_reg, INTR_STATE, ERROR);
+> +    bool status_pending = FIELD_EX32(intr_state_reg, INTR_STATE, SPI_EVENT);
+> +
+>      int err_irq = 0, event_irq = 0;
+>
+>      /* Error IRQ enabled and Error IRQ Cleared */
+>      if (error_en && !err_pending) {
+>          /* Event enabled, Interrupt Test Error */
+> -        if (s->regs[IBEX_SPI_HOST_INTR_TEST] & R_INTR_TEST_ERROR_MASK) {
+> +        if (FIELD_EX32(intr_test_reg, INTR_TEST,  ERROR)) {
+>              err_irq = 1;
+> -        } else if ((s->regs[IBEX_SPI_HOST_ERROR_ENABLE]
+> -                    &  R_ERROR_ENABLE_CMDBUSY_MASK) &&
+> -                    s->regs[IBEX_SPI_HOST_ERROR_STATUS]
+> -                    & R_ERROR_STATUS_CMDBUSY_MASK) {
+> +        } else if (FIELD_EX32(err_en_reg, ERROR_ENABLE,  CMDBUSY) &&
+> +                   FIELD_EX32(err_status_reg, ERROR_STATUS,  CMDBUSY)) {
+>              /* Wrote to COMMAND when not READY */
+>              err_irq = 1;
+> -        } else if ((s->regs[IBEX_SPI_HOST_ERROR_ENABLE]
+> -                    &  R_ERROR_ENABLE_CMDINVAL_MASK) &&
+> -                    s->regs[IBEX_SPI_HOST_ERROR_STATUS]
+> -                    & R_ERROR_STATUS_CMDINVAL_MASK) {
+> +        } else if (FIELD_EX32(err_en_reg, ERROR_ENABLE,  CMDINVAL)  &&
+> +                   FIELD_EX32(err_status_reg, ERROR_STATUS,  CMDINVAL)) {
+>              /* Invalid command segment */
+>              err_irq = 1;
+> -        } else if ((s->regs[IBEX_SPI_HOST_ERROR_ENABLE]
+> -                    & R_ERROR_ENABLE_CSIDINVAL_MASK) &&
+> -                    s->regs[IBEX_SPI_HOST_ERROR_STATUS]
+> -                    & R_ERROR_STATUS_CSIDINVAL_MASK) {
+> +        } else if (FIELD_EX32(err_en_reg, ERROR_ENABLE,  CSIDINVAL) &&
+> +                   FIELD_EX32(err_status_reg, ERROR_STATUS,  CSIDINVAL)) {
+>              /* Invalid value for CSID */
+>              err_irq = 1;
+>          }
+> @@ -204,22 +209,19 @@ static void ibex_spi_host_irq(IbexSPIHostState *s)
+>
+>      /* Event IRQ Enabled and Event IRQ Cleared */
+>      if (event_en && !status_pending) {
+> -        if (s->regs[IBEX_SPI_HOST_INTR_TEST] & R_INTR_TEST_SPI_EVENT_MASK) {
+> +        if (FIELD_EX32(intr_test_reg, INTR_STATE,  SPI_EVENT)) {
+>              /* Event enabled, Interrupt Test Event */
+>              event_irq = 1;
+> -        } else if ((s->regs[IBEX_SPI_HOST_EVENT_ENABLE]
+> -                    & R_EVENT_ENABLE_READY_MASK) &&
+> -                    (s->regs[IBEX_SPI_HOST_STATUS] & R_STATUS_READY_MASK)) {
+> +        } else if (FIELD_EX32(event_en_reg, EVENT_ENABLE,  READY) &&
+> +                   FIELD_EX32(status_reg, STATUS, READY)) {
+>              /* SPI Host ready for next command */
+>              event_irq = 1;
+> -        } else if ((s->regs[IBEX_SPI_HOST_EVENT_ENABLE]
+> -                    & R_EVENT_ENABLE_TXEMPTY_MASK) &&
+> -                    (s->regs[IBEX_SPI_HOST_STATUS] & R_STATUS_TXEMPTY_MASK)) {
+> +        } else if (FIELD_EX32(event_en_reg, EVENT_ENABLE,  TXEMPTY) &&
+> +                   FIELD_EX32(status_reg, STATUS,  TXEMPTY)) {
+>              /* SPI TXEMPTY, TXFIFO drained */
+>              event_irq = 1;
+> -        } else if ((s->regs[IBEX_SPI_HOST_EVENT_ENABLE]
+> -                    & R_EVENT_ENABLE_RXFULL_MASK) &&
+> -                    (s->regs[IBEX_SPI_HOST_STATUS] & R_STATUS_RXFULL_MASK)) {
+> +        } else if (FIELD_EX32(event_en_reg, EVENT_ENABLE,  RXFULL) &&
+> +                   FIELD_EX32(status_reg, STATUS,  RXFULL)) {
+>              /* SPI RXFULL, RXFIFO  full */
+>              event_irq = 1;
+>          }
+> @@ -232,10 +234,11 @@ static void ibex_spi_host_irq(IbexSPIHostState *s)
+>
+>  static void ibex_spi_host_transfer(IbexSPIHostState *s)
+>  {
+> -    uint32_t rx, tx;
+> +    uint32_t rx, tx, data;
+>      /* Get num of one byte transfers */
+> -    uint8_t segment_len = ((s->regs[IBEX_SPI_HOST_COMMAND] & R_COMMAND_LEN_MASK)
+> -                          >> R_COMMAND_LEN_SHIFT);
+> +    uint8_t segment_len = FIELD_EX32(s->regs[IBEX_SPI_HOST_COMMAND],
+> +                                     COMMAND,  LEN);
+> +
+>      while (segment_len > 0) {
+>          if (fifo8_is_empty(&s->tx_fifo)) {
+>              /* Assert Stall */
+> @@ -262,22 +265,21 @@ static void ibex_spi_host_transfer(IbexSPIHostState *s)
+>          --segment_len;
+>      }
+>
+> +    data = s->regs[IBEX_SPI_HOST_STATUS];
+>      /* Assert Ready */
+> -    s->regs[IBEX_SPI_HOST_STATUS] |= R_STATUS_READY_MASK;
+> +    data = FIELD_DP32(data, STATUS, READY, 1);
+>      /* Set RXQD */
+> -    s->regs[IBEX_SPI_HOST_STATUS] &= ~R_STATUS_RXQD_MASK;
+> -    s->regs[IBEX_SPI_HOST_STATUS] |= (R_STATUS_RXQD_MASK
+> -                                    & div4_round_up(segment_len));
+> +    data = FIELD_DP32(data, STATUS, RXQD, div4_round_up(segment_len));
+>      /* Set TXQD */
+> -    s->regs[IBEX_SPI_HOST_STATUS] &= ~R_STATUS_TXQD_MASK;
+> -    s->regs[IBEX_SPI_HOST_STATUS] |= (fifo8_num_used(&s->tx_fifo) / 4)
+> -                                    & R_STATUS_TXQD_MASK;
+> +    data = FIELD_DP32(data, STATUS, TXQD, fifo8_num_used(&s->tx_fifo) / 4);
+>      /* Clear TXFULL */
+> -    s->regs[IBEX_SPI_HOST_STATUS] &= ~R_STATUS_TXFULL_MASK;
+> -    /* Assert TXEMPTY and drop remaining bytes that exceed segment_len */
+> -    ibex_spi_txfifo_reset(s);
+> +    data = FIELD_DP32(data, STATUS, TXFULL, 0);
+>      /* Reset RXEMPTY */
+> -    s->regs[IBEX_SPI_HOST_STATUS] &= ~R_STATUS_RXEMPTY_MASK;
+> +    data = FIELD_DP32(data, STATUS, RXEMPTY, 0);
+> +    /* Update register status */
+> +    s->regs[IBEX_SPI_HOST_STATUS] = data;
+> +    /* Drop remaining bytes that exceed segment_len */
+> +    ibex_spi_txfifo_reset(s);
+>
+>      ibex_spi_host_irq(s);
+>  }
+> @@ -340,7 +342,7 @@ static void ibex_spi_host_write(void *opaque, hwaddr addr,
+>  {
+>      IbexSPIHostState *s = opaque;
+>      uint32_t val32 = val64;
+> -    uint32_t shift_mask = 0xff;
+> +    uint32_t shift_mask = 0xff, data = 0, status = 0;
 
-This change uses a hashtable for this instead, significantly improving
-the performance of the 9p filesystem. The runtime of NixOS's simple
-installer test, which copies ~122k files totalling ~1.8GiB from 9p,
-decreased by a factor of about 10.
+data is unused.
 
-Signed-off-by: Linus Heckemann <git@sphalerite.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Greg Kurz <groug@kaod.org>
----
+It's a good idea to run a full build without --disable-werror to
+ensure there are no warnings
 
-Greg Kurz writes:
-> The comment above should be adapted to the new situation : no need
+Alistair
 
-I've removed it completely, since the logic is simple enough that only
-the shortened comment below remains necessary.
-
-> With the new logic, this should just be:
-
-now is :)
-
-> g_hash_table_steal_extended() [1] actually allows to do just that.
-
-g_hash_table_steal_extended unfortunately isn't available since it was
-introduced in glib 2.58 and we're maintaining compatibility to 2.56.
-
-> You could just call g_hash_table_iter_remove(&iter) here
-
-Applied this suggestion, thanks!
-
-
-> Well... finding at least one clunked fid state in this table is
-> definitely a bug so I'll keep the BUG_ON() anyway.
-
-Christian Schoenebeck writes:
-> Yeah, I think you are right, it would feel odd. Just drop BUG_ON() for
-> now.
-
-I still prefer dropping it, but if we were to keep it I think it should
-be in v9fs_reclaim_fd where we iterate and can thus check the whole
-table.
-
-
-Greg Kurz and Philippe Mathieu-Daudé write:
-> [patch versioning]
-
-Whoops. I used -v2 on git send-email, which just ignored the option,
-rather than git format-patch, by accident. This one _should_ now be v3!
-
-
- hw/9pfs/9p.c | 140 +++++++++++++++++++++++++--------------------------
- hw/9pfs/9p.h |   2 +-
- 2 files changed, 70 insertions(+), 72 deletions(-)
-
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index aebadeaa03..98a475e560 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -282,33 +282,31 @@ static V9fsFidState *coroutine_fn get_fid(V9fsPDU *pdu, int32_t fid)
-     V9fsFidState *f;
-     V9fsState *s = pdu->s;
- 
--    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
--        BUG_ON(f->clunked);
--        if (f->fid == fid) {
--            /*
--             * Update the fid ref upfront so that
--             * we don't get reclaimed when we yield
--             * in open later.
--             */
--            f->ref++;
--            /*
--             * check whether we need to reopen the
--             * file. We might have closed the fd
--             * while trying to free up some file
--             * descriptors.
--             */
--            err = v9fs_reopen_fid(pdu, f);
--            if (err < 0) {
--                f->ref--;
--                return NULL;
--            }
--            /*
--             * Mark the fid as referenced so that the LRU
--             * reclaim won't close the file descriptor
--             */
--            f->flags |= FID_REFERENCED;
--            return f;
-+    f = g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
-+    if (f) {
-+        /*
-+         * Update the fid ref upfront so that
-+         * we don't get reclaimed when we yield
-+         * in open later.
-+         */
-+        f->ref++;
-+        /*
-+         * check whether we need to reopen the
-+         * file. We might have closed the fd
-+         * while trying to free up some file
-+         * descriptors.
-+         */
-+        err = v9fs_reopen_fid(pdu, f);
-+        if (err < 0) {
-+            f->ref--;
-+            return NULL;
-         }
-+        /*
-+         * Mark the fid as referenced so that the LRU
-+         * reclaim won't close the file descriptor
-+         */
-+        f->flags |= FID_REFERENCED;
-+        return f;
-     }
-     return NULL;
- }
-@@ -317,12 +315,9 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t fid)
- {
-     V9fsFidState *f;
- 
--    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
-+    if (g_hash_table_contains(s->fids, GINT_TO_POINTER(fid))) {
-         /* If fid is already there return NULL */
--        BUG_ON(f->clunked);
--        if (f->fid == fid) {
--            return NULL;
--        }
-+        return NULL;
-     }
-     f = g_new0(V9fsFidState, 1);
-     f->fid = fid;
-@@ -333,7 +328,7 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t fid)
-      * reclaim won't close the file descriptor
-      */
-     f->flags |= FID_REFERENCED;
--    QSIMPLEQ_INSERT_TAIL(&s->fid_list, f, next);
-+    g_hash_table_insert(s->fids, GINT_TO_POINTER(fid), f);
- 
-     v9fs_readdir_init(s->proto_version, &f->fs.dir);
-     v9fs_readdir_init(s->proto_version, &f->fs_reclaim.dir);
-@@ -424,12 +419,11 @@ static V9fsFidState *clunk_fid(V9fsState *s, int32_t fid)
- {
-     V9fsFidState *fidp;
- 
--    QSIMPLEQ_FOREACH(fidp, &s->fid_list, next) {
--        if (fidp->fid == fid) {
--            QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
--            fidp->clunked = true;
--            return fidp;
--        }
-+    fidp = g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
-+    if (fidp) {
-+        g_hash_table_remove(s->fids, GINT_TO_POINTER(fid));
-+        fidp->clunked = true;
-+        return fidp;
-     }
-     return NULL;
- }
-@@ -439,10 +433,15 @@ void coroutine_fn v9fs_reclaim_fd(V9fsPDU *pdu)
-     int reclaim_count = 0;
-     V9fsState *s = pdu->s;
-     V9fsFidState *f;
-+    GHashTableIter iter;
-+    gpointer fid;
-+
-+    g_hash_table_iter_init(&iter, s->fids);
-+
-     QSLIST_HEAD(, V9fsFidState) reclaim_list =
-         QSLIST_HEAD_INITIALIZER(reclaim_list);
- 
--    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
-+    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &f)) {
-         /*
-          * Unlink fids cannot be reclaimed. Check
-          * for them and skip them. Also skip fids
-@@ -518,23 +517,19 @@ static int coroutine_fn v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path)
- {
-     int err;
-     V9fsState *s = pdu->s;
--    V9fsFidState *fidp, *fidp_next;
-+    V9fsFidState *fidp;
-+    gpointer fid;
-+    GHashTableIter iter;
- 
--    fidp = QSIMPLEQ_FIRST(&s->fid_list);
--    if (!fidp) {
--        return 0;
--    }
-+    g_hash_table_iter_init(&iter, s->fids);
-+
-+    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &fidp)) {
-+        /*
-+         * Ensure the fid survives a potential clunk request during
-+         * v9fs_reopen_fid.
-+         */
-+        fidp->ref++;
- 
--    /*
--     * v9fs_reopen_fid() can yield : a reference on the fid must be held
--     * to ensure its pointer remains valid and we can safely pass it to
--     * QSIMPLEQ_NEXT(). The corresponding put_fid() can also yield so
--     * we must keep a reference on the next fid as well. So the logic here
--     * is to get a reference on a fid and only put it back during the next
--     * iteration after we could get a reference on the next fid. Start with
--     * the first one.
--     */
--    for (fidp->ref++; fidp; fidp = fidp_next) {
-         if (fidp->path.size == path->size &&
-             !memcmp(fidp->path.data, path->data, path->size)) {
-             /* Mark the fid non reclaimable. */
-@@ -548,16 +543,6 @@ static int coroutine_fn v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path)
-             }
-         }
- 
--        fidp_next = QSIMPLEQ_NEXT(fidp, next);
--
--        if (fidp_next) {
--            /*
--             * Ensure the next fid survives a potential clunk request during
--             * put_fid() below and v9fs_reopen_fid() in the next iteration.
--             */
--            fidp_next->ref++;
--        }
--
-         /* We're done with this fid */
-         put_fid(pdu, fidp);
-     }
-@@ -569,18 +554,20 @@ static void coroutine_fn virtfs_reset(V9fsPDU *pdu)
- {
-     V9fsState *s = pdu->s;
-     V9fsFidState *fidp;
-+    gpointer fid;
-+    GHashTableIter iter;
-+
-+    g_hash_table_iter_init(&iter, s->fids);
- 
-     /* Free all fids */
--    while (!QSIMPLEQ_EMPTY(&s->fid_list)) {
--        /* Get fid */
--        fidp = QSIMPLEQ_FIRST(&s->fid_list);
-+    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &fidp)) {
-         fidp->ref++;
- 
-         /* Clunk fid */
--        QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
-         fidp->clunked = true;
- 
-         put_fid(pdu, fidp);
-+        g_hash_table_iter_remove(&iter);
-     }
- }
- 
-@@ -3205,6 +3192,8 @@ static int coroutine_fn v9fs_complete_rename(V9fsPDU *pdu, V9fsFidState *fidp,
-     V9fsFidState *tfidp;
-     V9fsState *s = pdu->s;
-     V9fsFidState *dirfidp = NULL;
-+    GHashTableIter iter;
-+    gpointer fid;
- 
-     v9fs_path_init(&new_path);
-     if (newdirfid != -1) {
-@@ -3238,11 +3227,13 @@ static int coroutine_fn v9fs_complete_rename(V9fsPDU *pdu, V9fsFidState *fidp,
-     if (err < 0) {
-         goto out;
-     }
-+
-     /*
-      * Fixup fid's pointing to the old name to
-      * start pointing to the new name
-      */
--    QSIMPLEQ_FOREACH(tfidp, &s->fid_list, next) {
-+    g_hash_table_iter_init(&iter, s->fids);
-+    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &tfidp)) {
-         if (v9fs_path_is_ancestor(&fidp->path, &tfidp->path)) {
-             /* replace the name */
-             v9fs_fix_path(&tfidp->path, &new_path, strlen(fidp->path.data));
-@@ -3320,6 +3311,8 @@ static int coroutine_fn v9fs_fix_fid_paths(V9fsPDU *pdu, V9fsPath *olddir,
-     V9fsPath oldpath, newpath;
-     V9fsState *s = pdu->s;
-     int err;
-+    GHashTableIter iter;
-+    gpointer fid;
- 
-     v9fs_path_init(&oldpath);
-     v9fs_path_init(&newpath);
-@@ -3336,7 +3329,8 @@ static int coroutine_fn v9fs_fix_fid_paths(V9fsPDU *pdu, V9fsPath *olddir,
-      * Fixup fid's pointing to the old name to
-      * start pointing to the new name
-      */
--    QSIMPLEQ_FOREACH(tfidp, &s->fid_list, next) {
-+    g_hash_table_iter_init(&iter, s->fids);
-+    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &tfidp)) {
-         if (v9fs_path_is_ancestor(&oldpath, &tfidp->path)) {
-             /* replace the name */
-             v9fs_fix_path(&tfidp->path, &newpath, strlen(oldpath.data));
-@@ -4226,7 +4220,7 @@ int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
-     s->ctx.fmode = fse->fmode;
-     s->ctx.dmode = fse->dmode;
- 
--    QSIMPLEQ_INIT(&s->fid_list);
-+    s->fids = g_hash_table_new(NULL, NULL);
-     qemu_co_rwlock_init(&s->rename_lock);
- 
-     if (s->ops->init(&s->ctx, errp) < 0) {
-@@ -4286,6 +4280,10 @@ void v9fs_device_unrealize_common(V9fsState *s)
-     if (s->ctx.fst) {
-         fsdev_throttle_cleanup(s->ctx.fst);
-     }
-+    if (s->fids) {
-+        g_hash_table_destroy(s->fids);
-+        s->fids = NULL;
-+    }
-     g_free(s->tag);
-     qp_table_destroy(&s->qpd_table);
-     qp_table_destroy(&s->qpp_table);
-diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-index 994f952600..10fd2076c2 100644
---- a/hw/9pfs/9p.h
-+++ b/hw/9pfs/9p.h
-@@ -339,7 +339,7 @@ typedef struct {
- struct V9fsState {
-     QLIST_HEAD(, V9fsPDU) free_list;
-     QLIST_HEAD(, V9fsPDU) active_list;
--    QSIMPLEQ_HEAD(, V9fsFidState) fid_list;
-+    GHashTable *fids;
-     FileOperations *ops;
-     FsContext ctx;
-     char *tag;
--- 
-2.36.0
-
+>      uint8_t txqd_len;
+>
+>      trace_ibex_spi_host_write(addr, size, val64);
+> @@ -397,22 +399,24 @@ static void ibex_spi_host_write(void *opaque, hwaddr addr,
+>          s->regs[addr] = val32;
+>
+>          /* STALL, IP not enabled */
+> -        if (!(s->regs[IBEX_SPI_HOST_CONTROL] & R_CONTROL_SPIEN_MASK)) {
+> +        if (!(FIELD_EX32(s->regs[IBEX_SPI_HOST_CONTROL],
+> +                         CONTROL, SPIEN))) {
+>              return;
+>          }
+>
+>          /* SPI not ready, IRQ Error */
+> -        if (!(s->regs[IBEX_SPI_HOST_STATUS] & R_STATUS_READY_MASK)) {
+> +        if (!(FIELD_EX32(s->regs[IBEX_SPI_HOST_STATUS],
+> +                         STATUS, READY))) {
+>              s->regs[IBEX_SPI_HOST_ERROR_STATUS] |= R_ERROR_STATUS_CMDBUSY_MASK;
+>              ibex_spi_host_irq(s);
+>              return;
+>          }
+> +
+>          /* Assert Not Ready */
+>          s->regs[IBEX_SPI_HOST_STATUS] &= ~R_STATUS_READY_MASK;
+>
+> -        if (((val32 & R_COMMAND_DIRECTION_MASK) >> R_COMMAND_DIRECTION_SHIFT)
+> -            != BIDIRECTIONAL_TRANSFER) {
+> -                qemu_log_mask(LOG_UNIMP,
+> +        if (FIELD_EX32(val32, COMMAND, DIRECTION) != BIDIRECTIONAL_TRANSFER) {
+> +            qemu_log_mask(LOG_UNIMP,
+>                            "%s: Rx Only/Tx Only are not supported\n", __func__);
+>          }
+>
+> @@ -452,8 +456,8 @@ static void ibex_spi_host_write(void *opaque, hwaddr addr,
+>                  return;
+>              }
+>              /* Byte ordering is set by the IP */
+> -            if ((s->regs[IBEX_SPI_HOST_STATUS] &
+> -                R_STATUS_BYTEORDER_MASK) == 0) {
+> +            status = s->regs[IBEX_SPI_HOST_STATUS];
+> +            if (FIELD_EX32(status, STATUS, BYTEORDER) == 0) {
+>                  /* LE: LSB transmitted first (default for ibex processor) */
+>                  shift_mask = 0xff << (i * 8);
+>              } else {
+> @@ -464,18 +468,18 @@ static void ibex_spi_host_write(void *opaque, hwaddr addr,
+>
+>              fifo8_push(&s->tx_fifo, (val32 & shift_mask) >> (i * 8));
+>          }
+> -
+> +        status = s->regs[IBEX_SPI_HOST_STATUS];
+>          /* Reset TXEMPTY */
+> -        s->regs[IBEX_SPI_HOST_STATUS] &= ~R_STATUS_TXEMPTY_MASK;
+> +        status = FIELD_DP32(status, STATUS, TXEMPTY, 0);
+>          /* Update TXQD */
+> -        txqd_len = (s->regs[IBEX_SPI_HOST_STATUS] &
+> -                    R_STATUS_TXQD_MASK) >> R_STATUS_TXQD_SHIFT;
+> +        txqd_len = FIELD_EX32(status, STATUS, TXQD);
+>          /* Partial bytes (size < 4) are padded, in words. */
+>          txqd_len += 1;
+> -        s->regs[IBEX_SPI_HOST_STATUS] &= ~R_STATUS_TXQD_MASK;
+> -        s->regs[IBEX_SPI_HOST_STATUS] |= txqd_len;
+> +        status = FIELD_DP32(status, STATUS, TXQD, txqd_len);
+>          /* Assert Ready */
+> -        s->regs[IBEX_SPI_HOST_STATUS] |= R_STATUS_READY_MASK;
+> +        status = FIELD_DP32(status, STATUS, READY, 1);
+> +        /* Update register status */
+> +        s->regs[IBEX_SPI_HOST_STATUS] = status;
+>          break;
+>      case IBEX_SPI_HOST_ERROR_ENABLE:
+>          s->regs[addr] = val32;
+> --
+> 2.37.2
+>
+>
 
