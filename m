@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A08735B1F69
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 15:41:12 +0200 (CEST)
-Received: from localhost ([::1]:48302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37BF15B1F65
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 15:38:44 +0200 (CEST)
+Received: from localhost ([::1]:43730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWHmJ-0005bh-Pt
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 09:41:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55078)
+	id 1oWHjv-00086s-CR
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 09:38:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oWHaA-0004YU-H9; Thu, 08 Sep 2022 09:28:38 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:35597)
+ id 1oWHaC-0004g5-UA
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 09:28:40 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:41663)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oWHa9-0002bj-1x; Thu, 08 Sep 2022 09:28:38 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- m10-20020a17090a730a00b001fa986fd8eeso2407305pjk.0; 
- Thu, 08 Sep 2022 06:28:36 -0700 (PDT)
+ id 1oWHaB-0002c5-C3
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 09:28:40 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ q15-20020a17090a304f00b002002ac83485so2487783pjl.0
+ for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 06:28:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=k0XM4f4qiZ91vGULk+sJ9slfW6MBFVrfDwbiSLgdr6k=;
- b=M0MKlhgwHWSu9yiJOOaxQHIigmTEwuje7AZBpdjzNrgfFEhHoBU3V5uwnuOtmpXGqf
- GUjrTHLLqF3oERtnfSpIMTANQvGx011cM9usYMHYRnqEuOTuGmmW52YoQYL0A0gQOW4r
- an0bLX7PvVjulLd97Ku6yUvo4ToSuoAL0klqQ+KzHMsZkMSZ3nN+46eb2XLlfl9YPffv
- nR5Z9UTeqdcLaDrhh/7oQhUxOewO9YowItl8JRF85ZMx5+40u05aGd7uK6MNWwzXP8t+
- 72ghDGymq/4EAvOsIZtbCX3JfBKdLWqKCWwfvzk7z8LDlxHlEaPIGPQNz7C6Ow+gMqOf
- anLA==
+ bh=5nS5bCvlfLFqWAAq8Ohfwhhh8km0jfFl9ekoab+BdY8=;
+ b=isRo87B2KXr/v6FQl4ziq4y7JWThXM+0/PQ0yo8i01IuSW9dJp+GYSOeHL2Rx+3oJe
+ FLKbgq3o+TiAXm4bXMQhe6ucaWpPQRXhcI6eP8C12FGqsOBhpoDUl/2q9BEWsDAG/TNZ
+ kem+1LPlh5mQqfwYrESGYur/hOC+VX9wTwcPgEdoAEs4veDIw6UW6CqphnmI2U6U8L85
+ EC3GQgVUfckhaOg0wvcWX2AssOIIyj1N5C8AC6mwiDrQE28G92RSu58YdCMyMKPB+boP
+ DzJ3fYXABs+9OlgA+UN0Vk58nqhRrEYkGmVGmO/McdIC+QwbTGOnKEEtbGX+1LWQq/8b
+ m8cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=k0XM4f4qiZ91vGULk+sJ9slfW6MBFVrfDwbiSLgdr6k=;
- b=UQaeJ471SX2WfIe1w4vrI1Y5hVpuKEY3v7qmlVRgUExZSYm/IMUGwXJsWFwxglIVZC
- PtEaXc4t5OeUyD39atYGzaavEb34OZvRwLHAkr8AB0XMlCGWgF9UOo6t7dSkwdDW3zrG
- Cy1g2UMv8ayIP9HLKujNjAb5jJ0Ln8bm5EUHSJchmihfSbkK+Ll1z+1qnMqd+jE3WOwV
- 5ms1rwe16xzxDJYT5SeEUvkhlJvoR1dlZjZ1Gs/hIlMjvqaGNSDfYKZGKoOPCQYYiyDY
- 9RasRikiUr8yudHS2i6wqi8BoTZU5g4S+AdJHQ4u4apY1YtfaYD9/K55urnGveRMuw0i
- wkDA==
-X-Gm-Message-State: ACgBeo17JopC/SWmV2z9K+w1/eM0kNyoD1DHDd1QN35hDuHzf3bjg0JH
- LEuLxWPHIq4YB0G77Z4v0uqM5J1Xz8U=
-X-Google-Smtp-Source: AA6agR5R/WzgW6XjOuLLgIQLZKOlHGctn/skSiCeoLWouyuXyQrTe0wRYxGRyaDvyTgE/G/Dx+VlIg==
-X-Received: by 2002:a17:902:9887:b0:172:7090:6485 with SMTP id
- s7-20020a170902988700b0017270906485mr9264432plp.63.1662643715302; 
- Thu, 08 Sep 2022 06:28:35 -0700 (PDT)
+ bh=5nS5bCvlfLFqWAAq8Ohfwhhh8km0jfFl9ekoab+BdY8=;
+ b=zvLAJtLMdK72NgUZFwxADmEGV0wDkz68mR906Mll1xrKBlEPt6bnFuVFJB5tHbIAxO
+ B4l+8hQNZzjhUG3o4xUsvA4zLgXC73iMShLlW64f5YOEwls3jIbRq+VSxSTresNHDVWw
+ s6o/dCUBggfFxGSleKLwoMb0k97g3jhl3tUfjQRVQwyrswqrSNc5zcJWhiAdX2irUKnc
+ Y5koiTff0WSmJdoiQ2yFIlAeuXng66e8HLP6gVJJI1x9Y+GH0hq9wiUy38bA3tbNRVSt
+ SkkhpUZ7HPz2gsRRPKSAbkRn8Ase2nK4GaCcyYecGHqMvp4pQHl4cU10iGVUeyNA1Zpx
+ lIwA==
+X-Gm-Message-State: ACgBeo1H2pkv5nE6Npq9HjBIEFFdbozV6A1YmdrhxmC+OTx3S+nHIGsZ
+ DNX30dAxIHL41JNFuJb3Yn8OuUzub6o=
+X-Google-Smtp-Source: AA6agR6vppiVkr5DE6WVM5Dmr7N6vvlshns1QYtwD1Mefiu4VRzTeU9WmW976FeFALd483pku9IspA==
+X-Received: by 2002:a17:903:41cc:b0:176:d89d:63e3 with SMTP id
+ u12-20020a17090341cc00b00176d89d63e3mr8859445ple.31.1662643717880; 
+ Thu, 08 Sep 2022 06:28:37 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- r8-20020a170902be0800b001755ac7dd0asm1731693pls.290.2022.09.08.06.28.33
+ r8-20020a170902be0800b001755ac7dd0asm1731693pls.290.2022.09.08.06.28.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Sep 2022 06:28:34 -0700 (PDT)
+ Thu, 08 Sep 2022 06:28:37 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Peter Lieven <pl@kamp.de>,
- qemu-block@nongnu.org
-Subject: [PATCH 5/7] block/nfs: Fix 32-bit Windows build
-Date: Thu,  8 Sep 2022 21:28:15 +0800
-Message-Id: <20220908132817.1831008-6-bmeng.cn@gmail.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+Subject: [PATCH 6/7] .gitlab-ci.d/windows.yml: Unify the prerequisite packages
+Date: Thu,  8 Sep 2022 21:28:16 +0800
+Message-Id: <20220908132817.1831008-7-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220908132817.1831008-1-bmeng.cn@gmail.com>
 References: <20220908132817.1831008-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,51 +97,59 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-libnfs.h declares nfs_fstat() as the following for win32:
+At present the prerequisite packages for 64-bit and 32-bit builds
+are slightly different. Let's use the same packages for both.
 
-  int nfs_fstat(struct nfs_context *nfs, struct nfsfh *nfsfh,
-                struct __stat64 *st);
-
-The 'st' parameter should be of type 'struct __stat64'. The
-codes happen to build successfully for 64-bit Windows, but it
-does not build for 32-bit Windows.
-
-Fixes: 6542aa9c75bc ("block: add native support for NFS")
-Fixes: 18a8056e0bc7 ("block/nfs: cache allocated filesize for read-only files")
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- block/nfs.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ .gitlab-ci.d/windows.yml | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/block/nfs.c b/block/nfs.c
-index 444c40b458..d5d67937dd 100644
---- a/block/nfs.c
-+++ b/block/nfs.c
-@@ -418,7 +418,11 @@ static int64_t nfs_client_open(NFSClient *client, BlockdevOptionsNfs *opts,
-                                int flags, int open_flags, Error **errp)
- {
-     int64_t ret = -EINVAL;
-+#ifdef _WIN32
-+    struct __stat64 st;
-+#else
-     struct stat st;
-+#endif
-     char *file = NULL, *strp = NULL;
- 
-     qemu_mutex_init(&client->mutex);
-@@ -781,7 +785,11 @@ static int nfs_reopen_prepare(BDRVReopenState *state,
-                               BlockReopenQueue *queue, Error **errp)
- {
-     NFSClient *client = state->bs->opaque;
-+#ifdef _WIN32
-+    struct __stat64 st;
-+#else
-     struct stat st;
-+#endif
-     int ret = 0;
- 
-     if (state->flags & BDRV_O_RDWR && bdrv_is_read_only(state->bs)) {
+diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+index 86a4339c48..fffb202658 100644
+--- a/.gitlab-ci.d/windows.yml
++++ b/.gitlab-ci.d/windows.yml
+@@ -40,11 +40,15 @@ msys2-64bit:
+       mingw-w64-x86_64-gcc
+       mingw-w64-x86_64-glib2
+       mingw-w64-x86_64-gnutls
++      mingw-w64-x86_64-gtk3
++      mingw-w64-x86_64-libgcrypt
++      mingw-w64-x86_64-libjpeg-turbo
+       mingw-w64-x86_64-libnfs
+       mingw-w64-x86_64-libpng
+       mingw-w64-x86_64-libssh
+       mingw-w64-x86_64-libtasn1
+       mingw-w64-x86_64-libusb
++      mingw-w64-x86_64-lzo2
+       mingw-w64-x86_64-nettle
+       mingw-w64-x86_64-ninja
+       mingw-w64-x86_64-pixman
+@@ -77,16 +81,22 @@ msys2-32bit:
+       mingw-w64-i686-gtk3
+       mingw-w64-i686-libgcrypt
+       mingw-w64-i686-libjpeg-turbo
++      mingw-w64-i686-libnfs
++      mingw-w64-i686-libpng
+       mingw-w64-i686-libssh
+       mingw-w64-i686-libtasn1
+       mingw-w64-i686-libusb
+       mingw-w64-i686-lzo2
++      mingw-w64-i686-nettle
+       mingw-w64-i686-ninja
+       mingw-w64-i686-pixman
+       mingw-w64-i686-pkgconf
+       mingw-w64-i686-python
++      mingw-w64-i686-SDL2
++      mingw-w64-i686-SDL2_image
+       mingw-w64-i686-snappy
+-      mingw-w64-i686-usbredir "
++      mingw-w64-i686-usbredir
++      mingw-w64-i686-zstd "
+   - $env:CHERE_INVOKING = 'yes'  # Preserve the current working directory
+   - $env:MSYSTEM = 'MINGW32'     # Start a 32-bit MinG environment
+   - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
 -- 
 2.34.1
 
