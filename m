@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A95DC5B1EA3
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 15:22:05 +0200 (CEST)
-Received: from localhost ([::1]:46942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 224015B1F35
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 15:32:14 +0200 (CEST)
+Received: from localhost ([::1]:55962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWHTn-0004XQ-OV
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 09:22:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53582)
+	id 1oWHdc-0001oz-T8
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 09:32:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oWHH3-0007wk-Bh
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 09:08:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24600)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oWHGx-0007VP-NU
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 09:08:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662642525;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=WZt/9UcazvTSK2LPeKnnNG+7PZ/qsgvimBFmXGuTC/g=;
- b=aOljHL9Djkx0COu5wvHWJn30n2311fJ0+yJUkYzONDSm7NlnYCfmxdFT5vvNhZtFXei1jv
- AAKpMJ6aQEp0pQjp7xvBKJUu78rjOnh86eLuzHPoj2AaJv00HplnPo9zqZ4BbS2NI8OZgV
- 3TJo/Kty0EkQAhRcKmro5uDbOM+Z7vI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-630-O9eaw_eTO8qBU9Dp2upERA-1; Thu, 08 Sep 2022 09:08:44 -0400
-X-MC-Unique: O9eaw_eTO8qBU9Dp2upERA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 43CF13801F61;
- Thu,  8 Sep 2022 13:08:44 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 200342166B26;
- Thu,  8 Sep 2022 13:08:44 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D6C5C21E6900; Thu,  8 Sep 2022 15:08:42 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oWHa1-0004SW-6o; Thu, 08 Sep 2022 09:28:30 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:54890)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oWHZz-0002aC-NW; Thu, 08 Sep 2022 09:28:28 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id o4so17778595pjp.4;
+ Thu, 08 Sep 2022 06:28:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=YXlktPsWk3inBfe9ammWRoCM+NL+p/EqWYsk+luM1kw=;
+ b=nSpwhfum+77A76GOYymDiVAEzP0xY/7AHFDbMqPbUi4JUCJTzBF/iKAWD9a3hjJa2K
+ KrLOOhTfzZNC+2wcO0TaPVz7PT0rH4IPFTkVs9tMRhaGsH/ee1bseY/be0lVcfh6ec7l
+ lSwECCmbEuiFtX+cHYZDh9eygao3tiR99dUEG9lHlwR6cTKkpkoWcjkzKmeqLOCE56Ti
+ MkiLRBxOXf5q4y523bo1Mq6M7/X4J0ZD/cs5CT/4SDkPXtbuswvIaeJbUNapBsKoxYF5
+ EdXJ7K24NgNBIkScjPrTQZqbDoYZby6/wBCbOoxa7zkjCv6rnGaqghS2YWWCtz4aKA+j
+ HotQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=YXlktPsWk3inBfe9ammWRoCM+NL+p/EqWYsk+luM1kw=;
+ b=gXSSWU8ohl/Aum8wNo4b50UnQuLuPHXhBKN9zAMyppM4ke7CSLofuBCH1TvYgN5OV2
+ n9ay2BMmoLVuqMLgt0nl8wLZee9DVVY9lj0AavSuEYpYgiMoeu1hlPfuG3OLKYYn7zvI
+ R54Yn+RJYVDde19BbAD7rQRYnJ7hvArlrsqzyHVfYRVn7kUNG/HWJx7xu9TodhMU/+V2
+ Q1Xmsjjq0dELIGlT5I8syCLp/crjLNURmTOSJ7ejWXiDSiO8vAInsJPcUk6hL4ziP9r4
+ aE198QsQl202BGokbNEpghajKdhSAxUn8uWpY8khU76uPb6ToyM6RQAAAiOy2Nf/aiee
+ AGJg==
+X-Gm-Message-State: ACgBeo1ZGLz6XvSlVRLRcMA5ceVpK4tKy5dj0jHmKM/XnuMWi06gbtjD
+ 7HsD7oMMj2zalAs7JmYphEJEQlf/yKA=
+X-Google-Smtp-Source: AA6agR5Dg4+NrDpu7q+kpCpIhDmVFHaDizR/OdyqyeM+Uxmo9krjV9aiy9ED5zIAjbmwWTpfx8umdQ==
+X-Received: by 2002:a17:902:a502:b0:172:5f2a:9e35 with SMTP id
+ s2-20020a170902a50200b001725f2a9e35mr8757221plq.79.1662643703821; 
+ Thu, 08 Sep 2022 06:28:23 -0700 (PDT)
+Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id
+ r8-20020a170902be0800b001755ac7dd0asm1731693pls.290.2022.09.08.06.28.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Sep 2022 06:28:23 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com,
-	hreitz@redhat.com,
-	qemu-block@nongnu.org
-Subject: [PATCH] qemu-img: Wean documentation and help output off '?' for help
-Date: Thu,  8 Sep 2022 15:08:42 +0200
-Message-Id: <20220908130842.641410-1-armbru@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Peter Lieven <pl@kamp.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-block@nongnu.org
+Subject: [PATCH 0/7] nsis: gitlab-ci: Improve QEMU Windows installer packaging
+Date: Thu,  8 Sep 2022 21:28:10 +0800
+Message-Id: <20220908132817.1831008-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,45 +90,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'?' for help is deprecated since commit c8057f951d "Support 'help' as
-a synonym for '?' in command line options", v1.2.0.  We neglected to
-update output of qemu-img --help and the manual.  Do that now.
+At present packaging the required DLLs of QEMU executables is a
+manual process, and error prone.
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- docs/tools/qemu-img.rst | 2 +-
- qemu-img.c              | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+Improve scripts/nsis.py by adding a logic to automatically package
+required DLLs of QEMU executables.
 
-diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
-index 85a6e05b35..15aeddc6d8 100644
---- a/docs/tools/qemu-img.rst
-+++ b/docs/tools/qemu-img.rst
-@@ -57,7 +57,7 @@ cases. See below for a description of the supported disk formats.
- *OUTPUT_FMT* is the destination format.
- 
- *OPTIONS* is a comma separated list of format specific options in a
--name=value format. Use ``-o ?`` for an overview of the options supported
-+name=value format. Use ``-o help`` for an overview of the options supported
- by the used format or see the format descriptions below for details.
- 
- *SNAPSHOT_PARAM* is param used for internal snapshot, format is
-diff --git a/qemu-img.c b/qemu-img.c
-index 7d4b33b3da..cab9776f42 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -164,8 +164,8 @@ void help(void)
-            "  'output_filename' is the destination disk image filename\n"
-            "  'output_fmt' is the destination format\n"
-            "  'options' is a comma separated list of format specific options in a\n"
--           "    name=value format. Use -o ? for an overview of the options supported by the\n"
--           "    used format\n"
-+           "    name=value format. Use -o help for an overview of the options supported by\n"
-+           "    the used format\n"
-            "  'snapshot_param' is param used for internal snapshot, format\n"
-            "    is 'snapshot.id=[ID],snapshot.name=[NAME]', or\n"
-            "    '[ID_OR_NAME]'\n"
+'make installer' is tested in the cross-build on Linux in CI, but
+not in the Windows native build. Update CI to test the installer
+generation on Windows too.
+
+During testing a 32-bit build issue was exposed in block/nfs.c and
+the fix is included in this series.
+
+
+Bin Meng (7):
+  scripts/nsis.py: Drop the unnecessary path separator
+  scripts/nsis.py: Fix destination directory name when invoked on
+    Windows
+  scripts/nsis.py: Automatically package required DLLs of QEMU
+    executables
+  .gitlab-ci.d/windows.yml: Drop the sed processing in the 64-bit build
+  block/nfs: Fix 32-bit Windows build
+  .gitlab-ci.d/windows.yml: Unify the prerequisite packages
+  .gitlab-ci.d/windows.yml: Test 'make installer' in the CI
+
+ meson.build              |  1 +
+ block/nfs.c              |  8 ++++++
+ .gitlab-ci.d/windows.yml | 40 ++++++++++++++++++++-------
+ scripts/nsis.py          | 60 +++++++++++++++++++++++++++++++++-------
+ 4 files changed, 89 insertions(+), 20 deletions(-)
+
 -- 
-2.37.2
+2.34.1
 
 
