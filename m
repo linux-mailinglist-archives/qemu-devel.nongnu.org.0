@@ -2,138 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BCB55B28BE
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 23:51:33 +0200 (CEST)
-Received: from localhost ([::1]:60656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3995F5B2907
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 00:07:51 +0200 (CEST)
+Received: from localhost ([::1]:44120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWPQq-0008WI-1L
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 17:51:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48722)
+	id 1oWPgb-0007Wk-Qs
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 18:07:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Milica.Lazarevic@Syrmia.com>)
- id 1oWPML-0003kR-Kd
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 17:47:14 -0400
-Received: from mail-eopbgr60100.outbound.protection.outlook.com
- ([40.107.6.100]:23213 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Milica.Lazarevic@Syrmia.com>)
- id 1oWPMI-0003Lg-7P
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 17:46:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OA3QTXBtT5OfxJ1ek4ketMQ+ZQRneW+yMo88AdE27t8VxRopt33/0cFsU4ZpYTg5U3nhX2C2Kdt8cTYcaMW1eYiLL7G+Rtv/JApUStYB828i0fedwGWBRlKPS2iF9XI2gUiwoQ2uGl5dsXeI3yzmfPuo+IAq+9wcXGlAWvW5Ap32qE/iASdZ04RdDIxyaRkt0ZQQzn0LLSm0apiNwNoc1pioVkb/787AD2jIaBCGYLEH9tZUD/VCP3oSEEIEyiLuqANI84T0D4lLU944+BACK/VihJbcwyYeydjPi8ellr70wdXtFYSoSl5byOkmY9yKZglmobNh6CUCuHz3UhHwyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sgQp5AJR5dGeuEGR456iiFpuLh4crUj3N2qyojLNUwI=;
- b=mTIzJ1Rp7Ldy7Md/tfjaGuUNzxZsTr3hdXOsiz31Noc1hcXGxe1MM9rncYpgqZMibI+DC14Cjdtr5FDbZ49pTWpbw8v3hEov9WLKyUwPOwpIfbEjklT8uP503yTeqEMary+R6O12L5pxyNxfI1V3Gjh0HBFojKOi8VA5ftM1ippXJSbYS8RkpOIsJB2I6J9tWv4yLYUjBgu9cETYTXa0g42ktJrdA/VS0ZvXvs/oi/eZpnBqoMr+IuxwG1f6sTgP51fGzRYRXE2U/JbBvBUQ/W5efacFpJ9PHQPnbuTSwX5ItmUjNstwJkxi4xIbwSa/+lZHu8VcSPrTW4WfGVB/zw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
- dkim=pass header.d=syrmia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sgQp5AJR5dGeuEGR456iiFpuLh4crUj3N2qyojLNUwI=;
- b=zkkJM5GKmY6ihtWCzOIFVX9Mj13ld6oxaSOFKGShV00UpGJvxEOQWbi3klLzz7G3MAfYvPgA2pp++4pam+XaTERqCTu786qK8UKZ1St4h7+LpilDiuPaFYY7lBj3CYDK93zEUbPZQ0Tp7IZv2NAkc7jyPPI19xj0l6gh9YxOU0Q=
-Received: from VE1PR03MB6045.eurprd03.prod.outlook.com (2603:10a6:803:112::20)
- by AM9PR03MB6995.eurprd03.prod.outlook.com (2603:10a6:20b:2df::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.19; Thu, 8 Sep
- 2022 21:46:45 +0000
-Received: from VE1PR03MB6045.eurprd03.prod.outlook.com
- ([fe80::6dde:d3f:2ed9:e27c]) by VE1PR03MB6045.eurprd03.prod.outlook.com
- ([fe80::6dde:d3f:2ed9:e27c%6]) with mapi id 15.20.5612.014; Thu, 8 Sep 2022
- 21:46:45 +0000
-From: Milica Lazarevic <Milica.Lazarevic@Syrmia.com>
-To: Richard Henderson <richard.henderson@linaro.org>, "thuth@redhat.com"
- <thuth@redhat.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "cfontana@suse.de"
- <cfontana@suse.de>, "berrange@redhat.com" <berrange@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "vince.delvecchio@mediatek.com"
- <vince.delvecchio@mediatek.com>, "peter.maydell@linaro.org"
- <peter.maydell@linaro.org>, Djordje Todorovic <Djordje.Todorovic@syrmia.com>, 
- "mips32r2@gmail.com" <mips32r2@gmail.com>, Dragan Mladjenovic
- <Dragan.Mladjenovic@syrmia.com>
-Subject: Re: [PATCH v2 12/20] disas/nanomips: Replace std::string type
-Thread-Topic: [PATCH v2 12/20] disas/nanomips: Replace std::string type
-Thread-Index: AQHYwQ5Jg57WUnLFukW9kO7hVRF1CK3QtEAAgAU2tCmAACLRAIAACKjw
-Date: Thu, 8 Sep 2022 21:46:45 +0000
-Message-ID: <VE1PR03MB6045BDD0D14A9F78EDF5AF73F8409@VE1PR03MB6045.eurprd03.prod.outlook.com>
-References: <20220905095522.66941-1-milica.lazarevic@syrmia.com>
- <20220905095522.66941-13-milica.lazarevic@syrmia.com>
- <dc7ac467-b881-b353-a63a-ff5a744df5da@linaro.org>
- <VE1PR03MB6045ED62A423FBD5D3A617C1F8409@VE1PR03MB6045.eurprd03.prod.outlook.com>
- <275b5287-9c81-13da-f57a-0069d19158d9@linaro.org>
-In-Reply-To: <275b5287-9c81-13da-f57a-0069d19158d9@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=Syrmia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: VE1PR03MB6045:EE_|AM9PR03MB6995:EE_
-x-ms-office365-filtering-correlation-id: 6eef2e03-dd4f-42c6-a599-08da91e39fdc
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8BZXerPxECOCvEDVpSOIrJkCoCoDyGi0aBTVKoIYm2F+7Oj5Ut5k+f5D2atWGdz2kB5EbgMVfNBEHJeppoTsLcFEexByrsJYlBQhrel8XgX0BHs+q9JnsXkJpyvBIH+4HULPkLedhgSoqxKWs62uyuYp1CHdDFkdLq3JDpAxRxsDRvYieb/hV76eskodqQQ22nudMGovt9j0L6Dc2Ss4n0sLx/knNUHnqpU4AvjUaZ8xdfFa87oQhsGpcE6UJZFmWYNpBLvr4c7rfV70eL+sX25L+tSqATxL2nMZtQt8n+vsSXqG3ZaMzYVcHSPwdc5RfxPx+k7qcBXLrOQjPiHMhkrSzwE7j4TZz+BArx2J/AMxFCQUHCXNE7RiN5kq6ZctZUpPjH+X7u8m1QorBZi1Xiks6R8/elLVUdlQcsNv/VcQFXZJUViFePaqJOUTyBCDqtEj+0q57eaxV5tZCL7gnSljRv8J8zHY9I7y5gSo4ZEohlZqT7+2n/x9B1os1DhsL6xjivb3VUWq5SCtY2BH0w8f6MUQoGa6MJFxMjZuGcKZdMibgyjQpqrNGwTn9f+tmrxooRzK3VRsWqL4qsrONvD8DR3tUeuqbddsToD50X9nPL9v7/T7qu2GMSv50bPfwCUzOGwT4JxcaY6fL6DHKyflfnmO3Avgh/P0kR3uEo/GJV+N+MkoHeUXpWlwPiV6w31nXSRGkGw41AjAr66+jDC/3wQADk8yA6XzAfLOJi22QTFRmWOYFKTNh9WX3x8aH3WaYpBr9PI+DqWQAo6twg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VE1PR03MB6045.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(376002)(396003)(136003)(366004)(39840400004)(346002)(26005)(53546011)(9686003)(71200400001)(478600001)(7696005)(6506007)(107886003)(41300700001)(83380400001)(186003)(2906002)(52536014)(5660300002)(8936002)(55016003)(110136005)(54906003)(316002)(4326008)(8676002)(76116006)(66556008)(64756008)(66946007)(66446008)(86362001)(66476007)(19627405001)(38100700002)(33656002)(122000001)(38070700005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?rRz3+gX8E0qRvVJPp1lIacW6ev/UuMSUz/A7/TgvPqAQKeqyPaulXPylTFJu?=
- =?us-ascii?Q?TZahdT4FA18xtC5DqMcIfiOjiqOf1fw+x3l06+4Z8yag1ZXd6EVqY4bDOL6i?=
- =?us-ascii?Q?4dEOHBBJyWZbhhr884zj1OUa7dDfB1SqLdwX5ni+EiUIAOE/+YzjBbxSmwhz?=
- =?us-ascii?Q?pjYk6sS1jjtBlyfwe4tp+E/LyyAIdHx5Io0hAfU/Q7bwN0Yefo5vx8qukN5w?=
- =?us-ascii?Q?ImbK84mD4TCmNn/TP8u7kGYz3WsHRaNhQhMYdW+AN2Fmgfy+gfpGtv3V/J/d?=
- =?us-ascii?Q?Hw596c9aMXybsp0F8ySXE68AfSlT4Ap//3WONE8wh3OBwlnuIQNd6dzwX1Aq?=
- =?us-ascii?Q?r7SmOx0sd7lxgTv0RKBaO93qxSkmcAwi0yhDfLRNauzSzWUUI6S38K5yChrM?=
- =?us-ascii?Q?z7SWRX5cGfeLnMahePVGprLDc64bIU+dl3ZvOfgMqvs+piWVyEVCv1aSLzwK?=
- =?us-ascii?Q?EVvxjpNLvLYUcJvJ+frL943M8G12UovPJ92T0bxqUq8fnKMTG7sYOiCVEGBN?=
- =?us-ascii?Q?1zJgwVJ3Q0M8KqcOKkatsMweb7CB/TGj20GHWLvPCnLiwSEhpbplcdA58pek?=
- =?us-ascii?Q?unxQXXJyCICXvL9+kNJF1FZq2BqBoYdJmUO/f2vNd2DURFGSGDf0GKJ1/hBY?=
- =?us-ascii?Q?ZZDicbPlRc5UgDpHcagKVBD19K+WM/quVPH5zVBXaVzZtMGi5cMqMk36LIka?=
- =?us-ascii?Q?uYYoz/j0qtve7vFwznXzoPOGJYmRhKtHytRNjl2Hqs5GKYXf0l8gwyRluRHW?=
- =?us-ascii?Q?ms+HLZBovV9v3Zx055SxOe4BlvEFs98xOauurXMqoo+K5cET6hyEdVxhlHro?=
- =?us-ascii?Q?a97CBWREqJj9COiOjVVLAcdM0yCWd2RI3O+IzcTEoQ4Y4PDpXUmqyL9u3Y5v?=
- =?us-ascii?Q?8DLhlhJDRaNwBh4wFPjjHxFPvcVhR8O9hYTwzsKvjZlVEsv1qVmCX5J/layy?=
- =?us-ascii?Q?UiSYkhcSyuO8LCEJpKAgN48bTQ2KDr0JhpEZHhCB3W4A5F/ss9Lh6cc4EAxZ?=
- =?us-ascii?Q?MAUYzzE+3HRn7SMB10GkK9iXKk3QXORRkawANCpn9gZJYjal3j3z9uc9qyZ/?=
- =?us-ascii?Q?oSxg8Q0JUMOyM+Kvij+OwZUGZmW61q5iK4Tf18ENInsbYD53Y4oAamEVMxte?=
- =?us-ascii?Q?9j2oMBOiBxRoDDHL2lEGgXXkSt4FtzsH6uppBcSnOlKjoaxWT6XaY3L9aY92?=
- =?us-ascii?Q?5hDvC/X+m4H3zLViYrVTGR3ymUKTwrnBC0paDCr/+0syHgX7N980wuGfj+/n?=
- =?us-ascii?Q?nAuMLLY9rhn81HKjFOkemCe9qhV7JlRiuBXEqJpvRiKofAEZytx1HaTNNw+T?=
- =?us-ascii?Q?+glV/9VJQhYUxbmLLEAZo5Ck5aB/831OpwFX2TGelkFv+G7jPjFketSTj9e5?=
- =?us-ascii?Q?/gzaNs/1EYqVR2Ty8Pgg/qRhfe0B+KY8X8TamaBuXhjVA3qAohLmEdGC+xZT?=
- =?us-ascii?Q?NZA+sfID2D9MgD8ni+WDhUKCH1YhIrLaNjdWhSCmvdJVFrBmMauZyO2V6A2a?=
- =?us-ascii?Q?qNhe5DtIFLrXRU4efgNK0PQgrW7a83xPwYdxZwUzldVUz8EkZEfIw4wIOJBf?=
- =?us-ascii?Q?CN8IAxy51AajBet/EdhNBA04BLtDbOx+JzIwsJJZ?=
-Content-Type: multipart/alternative;
- boundary="_000_VE1PR03MB6045BDD0D14A9F78EDF5AF73F8409VE1PR03MB6045eurp_"
+ (Exim 4.90_1) (envelope-from <tkng@rivosinc.com>) id 1oWPd4-000349-JM
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 18:04:10 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:56250)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tkng@rivosinc.com>) id 1oWPcx-0007R0-Lh
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 18:04:10 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id fs14so14306819pjb.5
+ for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 15:04:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=RiDjorlBZXj88OHL26h1cnax0wkuX8HRfS4guu5yz/U=;
+ b=BDux6SN7G9rjn+uBD/5l9kGdN6LzrfrVw5q6wJSytJ6+kQVt2YZ+1NSPTsVCmWD3qU
+ ROMPv+E/UuMmht4elavS4+70AlM9kHfdL35YHr8kG6x/CUE3laDywwo22UHL1ji/+Hua
+ JXxuOwGlcubY9A3xtD54aS6kvk2rKowQO5VM6YF/7j5dsewnUjuH+lbSKHa6NFycnaV6
+ 0XsiYSXSpE1dELw0RrdgRQpRVoMPE50kWuxjT3AaKa3Xr+hebFrl4MLTNmzFf/mPgdQN
+ UKOEUPNAY7oV90HzxX5fIjI2u7tRR7qgI9T4YsSQzxIe5ndk+EZDMQlzrXG+RhVoRGKk
+ HiUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=RiDjorlBZXj88OHL26h1cnax0wkuX8HRfS4guu5yz/U=;
+ b=ZTIg2QNmGStKTAW3f9iD8zeLFn95Pnm679X6ILvzpZRCsdRTKoaO0lWCcFJvLsZXC6
+ HORy/hC3yveDeFAHD2n3fhvty1aY5n6JE7aneLF9jPYrWlEcOw4Al8Rk1W2g9W7yZAsb
+ GfcxkTLeI434rThTDlUA3H+4lohgiIui08gDPFAWxr4796bsXBDZlbJ8iaiIN+jFMwBI
+ TJ30dmoRwPUUoUhPkrSWmjy681biRfIa8Hmv+ZH4VStJ9oU3QMxf9GqC3w/AespIR0JZ
+ shV9h082iodRRf/4WkKAJnq/RyD4C2tM7DSa3kDTUpXnFrKdGz4EzPPoyeMJEb+tjWOJ
+ tlvw==
+X-Gm-Message-State: ACgBeo3WkSOro5PqnuAPpetQGk2xpx9h45MGfZtjfKsEarEv2Z9Ku/Wr
+ nV5ESep+XtudEmSjjd5H/8drozd9BOQetJHjf/QJfw==
+X-Google-Smtp-Source: AA6agR5UC7wBst0kOdc7n/lW1gyzrbJzGh4q2NKgGL6syAAlaMAaNCk4D60EG1Ai1Cbb0NNQYMs5bcJdp6uR/0QNCM8=
+X-Received: by 2002:a17:90a:5783:b0:200:4aa8:a18d with SMTP id
+ g3-20020a17090a578300b002004aa8a18dmr6410615pji.38.1662674641265; Thu, 08 Sep
+ 2022 15:04:01 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB6045.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6eef2e03-dd4f-42c6-a599-08da91e39fdc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Sep 2022 21:46:45.1675 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: u0Ij8XzkZGmvRJBv/2oqoDs/qBnAaGrlHp9CTDDBqr65qbcbGRexa0fowXAyijWGDlM/nlfDP9jMveczkhNolAgBoFGieyse81NGI7in+Lc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR03MB6995
-Received-SPF: pass client-ip=40.107.6.100;
- envelope-from=Milica.Lazarevic@Syrmia.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <CAB88-qPy=NdFLCYuT=Z+Eu+siN_OoRe3VVp7sD_=m_u46HPWOA@mail.gmail.com>
+ <CAKmqyKMDDNey2UHrpvP=_J1a+5GYpsrjm2ucuQXaVqkxD7x=nQ@mail.gmail.com>
+In-Reply-To: <CAKmqyKMDDNey2UHrpvP=_J1a+5GYpsrjm2ucuQXaVqkxD7x=nQ@mail.gmail.com>
+From: Tyler Ng <tkng@rivosinc.com>
+Date: Thu, 8 Sep 2022 15:03:50 -0700
+Message-ID: <CAB88-qOybbuBEzbkM+r6ZcXNTJ03Kgop+UR7WnJ=m_XNrukFOA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] hw/watchdog: wdt_ibex_aon.c: Implement the watchdog
+ for the OpenTitan
+To: Alistair Francis <alistair23@gmail.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000005ec0ef05e8319be6"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=tkng@rivosinc.com; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -149,250 +88,2382 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_VE1PR03MB6045BDD0D14A9F78EDF5AF73F8409VE1PR03MB6045eurp_
-Content-Type: text/plain; charset="us-ascii"
+--0000000000005ec0ef05e8319be6
+Content-Type: text/plain; charset="UTF-8"
+
+On Thu, Sep 8, 2022 at 4:52 AM Alistair Francis <alistair23@gmail.com>
+wrote:
+
+> On Fri, Sep 2, 2022 at 3:29 AM Tyler Ng <tkng@rivosinc.com> wrote:
+> >
+> > This commit adds most of an implementation of the OpenTitan Always-On
+> > Timer. The documentation for this timer is found here:
+> >
+> > https://docs.opentitan.org/hw/ip/aon_timer/doc/
+> >
+> > The implementation includes most of the watchdog features; it does not
+> > implement the wakeup timer.
+> >
+> > An important note: the OpenTitan board uses the sifive_plic. The plic
+> > will not be able to claim the bark interrupt (158) because the sifive
+> > plic sets priority[158], but checks priority[157] for the priority, so
+> > it thinks that the interrupt's priority is 0 (effectively disabled).
+> >
+> > Changed Files:
+> > hw/riscv/Kconfig: Add configuration for the watchdog.
+> > hw/riscv/opentitan.c: Connect AON Timer to the OpenTitan board.
+> >
+> > hw/watchdog/Kconfig: Configuration for the watchdog.
+> > hw/watchdog/meson.build: Compile the watchdog.
+> > hw/watchdog/wdt_ibex_aon.c: The watchdog itself.
+> >
+> > include/hw/riscv/opentitan.h: Add watchdog bark/wakeup IRQs and timer.
+> > include/hw/watchdog/wdt_ibex_aon.h: Add watchdog.
+> >
+> > tests/qtest/ibex-aon-timer-test.c: Ibex Timer test.
+> > tests/qtest/meson.build: Build the timer test.
+> >
+> > Signed-off-by: Tyler Ng <tkng@rivosinc.com>
+> > ---
+> >  hw/riscv/Kconfig                   |   4 +
+> >  hw/riscv/opentitan.c               |  22 +-
+> >  hw/watchdog/Kconfig                |   3 +
+> >  hw/watchdog/meson.build            |   1 +
+> >  hw/watchdog/wdt_ibex_aon.c         | 432 +++++++++++++++++++++++++++++
+> >  include/hw/riscv/opentitan.h       |   9 +-
+> >  include/hw/watchdog/wdt_ibex_aon.h |  67 +++++
+> >  tests/qtest/ibex-aon-timer-test.c  | 189 +++++++++++++
+> >  tests/qtest/meson.build            |   3 +
+> >  9 files changed, 725 insertions(+), 5 deletions(-)
+> >  create mode 100644 hw/watchdog/wdt_ibex_aon.c
+> >  create mode 100644 include/hw/watchdog/wdt_ibex_aon.h
+> >  create mode 100644 tests/qtest/ibex-aon-timer-test.c
+> >
+> > diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+> > index 79ff61c464..72094010be 100644
+> > --- a/hw/riscv/Kconfig
+> > +++ b/hw/riscv/Kconfig
+> > @@ -4,6 +4,9 @@ config RISCV_NUMA
+> >  config IBEX
+> >      bool
+> >
+> > +config IBEX_AON
+> > +    bool
+> > +
+> >  config MICROCHIP_PFSOC
+> >      bool
+> >      select CADENCE_SDHCI
+> > @@ -20,6 +23,7 @@ config MICROCHIP_PFSOC
+> >  config OPENTITAN
+> >      bool
+> >      select IBEX
+> > +    select IBEX_AON
+> >      select UNIMP
+> >
+> >  config SHAKTI_C
+> > diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+> > index 4495a2c039..10834b831f 100644
+> > --- a/hw/riscv/opentitan.c
+> > +++ b/hw/riscv/opentitan.c
+> > @@ -1,4 +1,5 @@
+> >  /*
+> > +    ptimer_
+> >   * QEMU RISC-V Board Compatible with OpenTitan FPGA platform
+> >   *
+> >   * Copyright (c) 2020 Western Digital
+> > @@ -47,7 +48,7 @@ static const MemMapEntry ibex_memmap[] = {
+> >      [IBEX_DEV_RSTMGR] =         {  0x40410000,  0x1000  },
+> >      [IBEX_DEV_CLKMGR] =         {  0x40420000,  0x1000  },
+> >      [IBEX_DEV_PINMUX] =         {  0x40460000,  0x1000  },
+> > -    [IBEX_DEV_PADCTRL] =        {  0x40470000,  0x1000  },
+>
+> What about the pad controller?
+>
+
+Can you point me to what memory map is being used in QEMU right now? I was
+using the top_earlgrey memory map, which has the aon timer base address at
+0x4047_0000.
+
+
+>
+> > +    [IBEX_DEV_AON_TIMER] =      {  0x40470000,  0x1000  },
+> >      [IBEX_DEV_FLASH_CTRL] =     {  0x41000000,  0x1000  },
+> >      [IBEX_DEV_AES] =            {  0x41100000,  0x1000  },
+> >      [IBEX_DEV_HMAC] =           {  0x41110000,  0x1000  },
+> > @@ -121,6 +122,8 @@ static void lowrisc_ibex_soc_init(Object *obj)
+> >
+> >      object_initialize_child(obj, "timer", &s->timer, TYPE_IBEX_TIMER);
+> >
+> > +    object_initialize_child(obj, "aon_timer", &s->aon_timer,
+> > TYPE_IBEX_AON_TIMER);
+> > +
+> >      for (int i = 0; i < OPENTITAN_NUM_SPI_HOSTS; i++) {
+> >          object_initialize_child(obj, "spi_host[*]", &s->spi_host[i],
+> >                                  TYPE_IBEX_SPI_HOST);
+> > @@ -205,6 +208,7 @@ static void lowrisc_ibex_soc_realize(DeviceState
+> > *dev_soc, Error **errp)
+> >                         3, qdev_get_gpio_in(DEVICE(&s->plic),
+> >                         IBEX_UART0_RX_OVERFLOW_IRQ));
+> >
+> > +    /* RV Timer */
+> >      if (!sysbus_realize(SYS_BUS_DEVICE(&s->timer), errp)) {
+> >          return;
+> >      }
+> > @@ -215,6 +219,20 @@ static void lowrisc_ibex_soc_realize(DeviceState
+> > *dev_soc, Error **errp)
+> >      qdev_connect_gpio_out(DEVICE(&s->timer), 0,
+> >                            qdev_get_gpio_in(DEVICE(qemu_get_cpu(0)),
+> >                                             IRQ_M_TIMER));
+> > +
+> > +    /* AON Timer */
+> > +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->aon_timer), errp)) {
+> > +        return;
+> > +    }
+> > +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->aon_timer), 0,
+> > memmap[IBEX_DEV_AON_TIMER].base);
+> > +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->aon_timer),
+> > +                       0, qdev_get_gpio_in(DEVICE(&s->plic),
+> > +                       IBEX_AONTIMER_WDOG_BARK));
+> > +    /*
+> > +     * Note: There should be a line to pwrmgr but it's not implemented.
+> > +     * TODO: Needs a line connected in, "counter-run" (stop the
+> watchdog if
+> > +     * debugging)
+> > +     */
+> >
+> >      /* SPI-Hosts */
+> >      for (int i = 0; i < OPENTITAN_NUM_SPI_HOSTS; ++i) {
+> > @@ -261,8 +279,6 @@ static void lowrisc_ibex_soc_realize(DeviceState
+> > *dev_soc, Error **errp)
+> >          memmap[IBEX_DEV_CLKMGR].base, memmap[IBEX_DEV_CLKMGR].size);
+> >      create_unimplemented_device("riscv.lowrisc.ibex.pinmux",
+> >          memmap[IBEX_DEV_PINMUX].base, memmap[IBEX_DEV_PINMUX].size);
+> > -    create_unimplemented_device("riscv.lowrisc.ibex.padctrl",
+> > -        memmap[IBEX_DEV_PADCTRL].base, memmap[IBEX_DEV_PADCTRL].size);
+> >      create_unimplemented_device("riscv.lowrisc.ibex.usbdev",
+> >          memmap[IBEX_DEV_USBDEV].base, memmap[IBEX_DEV_USBDEV].size);
+> >      create_unimplemented_device("riscv.lowrisc.ibex.flash_ctrl",
+> > diff --git a/hw/watchdog/Kconfig b/hw/watchdog/Kconfig
+> > index 66e1d029e3..dde6c01a8c 100644
+> > --- a/hw/watchdog/Kconfig
+> > +++ b/hw/watchdog/Kconfig
+> > @@ -20,3 +20,6 @@ config WDT_IMX2
+> >
+> >  config WDT_SBSA
+> >      bool
+> > +
+> > +config WDT_IBEX_AON
+> > +    bool
+> > diff --git a/hw/watchdog/meson.build b/hw/watchdog/meson.build
+> > index 8974b5cf4c..21e2ede28f 100644
+> > --- a/hw/watchdog/meson.build
+> > +++ b/hw/watchdog/meson.build
+> > @@ -7,3 +7,4 @@ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true:
+> > files('wdt_aspeed.c'))
+> >  softmmu_ss.add(when: 'CONFIG_WDT_IMX2', if_true: files('wdt_imx2.c'))
+> >  softmmu_ss.add(when: 'CONFIG_WDT_SBSA', if_true: files('sbsa_gwdt.c'))
+> >  specific_ss.add(when: 'CONFIG_PSERIES', if_true:
+> files('spapr_watchdog.c'))
+> > +softmmu_ss.add(when: 'CONFIG_IBEX_AON', if_true:
+> files('wdt_ibex_aon.c'))
+> > diff --git a/hw/watchdog/wdt_ibex_aon.c b/hw/watchdog/wdt_ibex_aon.c
+> > new file mode 100644
+> > index 0000000000..871ead15dc
+> > --- /dev/null
+> > +++ b/hw/watchdog/wdt_ibex_aon.c
+> > @@ -0,0 +1,432 @@
+> > +/*
+> > + * QEMU lowRISC OpenTitan Always-On Timer device
+> > + *
+> > + * Copyright (c) 2022 Rivos Inc.
+> > + *
+> > + * For details check the documentation here:
+> > + *   https://docs.opentitan.org/hw/ip/aon_timer/doc/
+> > + *
+> > + * Permission is hereby granted, free of charge, to any person
+> obtaining a copy
+> > + * of this software and associated documentation files (the
+> > "Software"), to deal
+> > + * in the Software without restriction, including without limitation
+> the rights
+> > + * to use, copy, modify, merge, publish, distribute, sublicense, and/or
+> sell
+> > + * copies of the Software, and to permit persons to whom the Software is
+> > + * furnished to do so, subject to the following conditions:
+> > + *
+> > + * The above copyright notice and this permission notice shall be
+> included in
+> > + * all copies or substantial portions of the Software.
+> > + *
+> > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+> EXPRESS OR
+> > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+> MERCHANTABILITY,
+> > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+> SHALL
+> > + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> OTHER
+> > + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> > ARISING FROM,
+> > + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+> DEALINGS IN
+> > + * THE SOFTWARE.
+> > + */
+> > +#include "qemu/osdep.h"
+> > +#include "qemu/timer.h"
+> > +#include "qemu/log.h"
+> > +#include "sysemu/reset.h"
+> > +#include "sysemu/watchdog.h"
+> > +#include "hw/register.h"
+> > +#include "hw/irq.h"
+> > +#include "migration/vmstate.h"
+> > +
+> > +#include "hw/watchdog/wdt_ibex_aon.h"
+> > +
+> > +REG32(ALERT_TEST,      0x00)
+> > +REG32(WKUP_CTRL,       0x04)
+> > +REG32(WKUP_THOLD,      0x08)
+> > +REG32(WKUP_COUNT,      0x0c)
+> > +REG32(WDOG_REGWEN,     0x10)
+> > +REG32(WDOG_CTRL,       0x14)
+> > +    FIELD(WDOG_CTRL, EN, 0, 1)
+> > +    FIELD(WDOG_CTRL, PIS, 1, 1) /* Pause in sleep */
+> > +REG32(WDOG_BARK_THOLD, 0x18)
+> > +REG32(WDOG_BITE_THOLD, 0x1c)
+> > +REG32(WDOG_COUNT,      0x20)
+> > +REG32(INTR_STATE,      0x24)
+> > +    FIELD(INTR_STATE, WKUP, 0, 1)
+> > +    FIELD(INTR_STATE, WDOG, 1, 1)
+> > +REG32(INTR_TEST,       0x28)
+> > +REG32(WKUP_CAUSE,      0x2c)
+> > +
+> > +/* QOM Stuff */
+> > +static void ibex_aon_class_init(ObjectClass *oc, void *data);
+> > +static void ibex_aon_init(Object *obj);
+> > +static void ibex_aon_register_types(void);
+> > +
+> > +/* DeviceClass Inherits */
+> > +static void ibex_aon_realize(DeviceState *dev, Error **errp);
+> > +static void ibex_aon_unrealize(DeviceState *dev);
+> > +
+> > +/* Resettable Interface Inherits */
+> > +static void ibex_aon_enter_reset(Object *obj, ResetType type);
+> > +static void ibex_aon_hold_reset(Object *obj);
+> > +
+> > +/* AON Timer Stuff */
+> > +static void ibex_aon_update_bark_timer(IbexAONTimerState *s);
+> > +static void ibex_aon_update_bite_timer(IbexAONTimerState *s);
+> > +static void ibex_aon_barker_expired(void *s);
+> > +static void ibex_aon_biter_expired(void *s);
+> > +static bool ibex_aon_update_count(IbexAONTimerState *s);
+> > +static uint64_t ibex_aon_read(void *opaque, hwaddr addr, unsigned int
+> size);
+> > +static void ibex_aon_write(void *opaque, hwaddr addr, uint64_t value,
+> > +                           unsigned int size);
+>
+> Generally in QEMU we put the TypeInfo and friends at the bottom of the
+> file, so we don't need to declare functions like this.
+>
+> In future can you do that as well? It just keeps everything similar
+>
+> Will do, no problem.
+
+
+> > +
+> > +static const TypeInfo ibex_aon_info = {
+> > +    .class_init = ibex_aon_class_init,
+> > +    .parent = TYPE_SYS_BUS_DEVICE,
+> > +    .name = TYPE_IBEX_AON_TIMER,
+> > +    .instance_size = sizeof(IbexAONTimerState),
+> > +    .instance_init = ibex_aon_init,
+> > +};
+> > +
+> > +static WatchdogTimerModel model = {
+> > +    .wdt_name = TYPE_IBEX_AON_TIMER,
+> > +    .wdt_description = "OpenTitan always-on timer"
+> > +};
+> > +
+> > +static const VMStateDescription vmstate_ibex_aon = {
+> > +    .name = "vmstate_ibex_aon",
+> > +    .version_id = 0,
+> > +    .minimum_version_id = 0,
+> > +    .fields = (VMStateField[]) {
+> > +        VMSTATE_UINT32_ARRAY(regs, IbexAONTimerState,
+> IBEX_AONTIMER_REGCOUNT),
+> > +        VMSTATE_TIMER_PTR(barker, IbexAONTimerState),
+> > +        VMSTATE_TIMER_PTR(biter, IbexAONTimerState),
+> > +        VMSTATE_UINT64(wdog_last, IbexAONTimerState),
+> > +        VMSTATE_END_OF_LIST()
+> > +    }
+> > +};
+> > +
+> > +static const struct MemoryRegionOps ibex_aon_ops = {
+> > +    .read = ibex_aon_read,
+> > +    .write = ibex_aon_write,
+> > +    .endianness = DEVICE_NATIVE_ENDIAN
+> > +};
+> > +
+> > +static void ibex_aon_init(Object *obj)
+> > +{
+> > +    IbexAONTimerState *s = IBEX_AON_TIMER(obj);
+> > +    SysBusDevice *dev = SYS_BUS_DEVICE(obj);
+> > +    sysbus_init_mmio(dev, &s->iomem);
+> > +    sysbus_init_irq(dev, &s->bark_irq);
+> > +    memory_region_init_io(&s->iomem, obj, &ibex_aon_ops, s,
+> > +                          TYPE_IBEX_AON_TIMER, 4 *
+> IBEX_AONTIMER_REGCOUNT);
+> > +}
+> > +
+> > +static void ibex_aon_realize(DeviceState *dev, Error **errp)
+> > +{
+> > +    IbexAONTimerState *s = IBEX_AON_TIMER(dev);
+> > +    s->barker = timer_new_ns(QEMU_CLOCK_VIRTUAL,
+> ibex_aon_barker_expired, dev);
+> > +    s->biter = timer_new_ns(QEMU_CLOCK_VIRTUAL, ibex_aon_biter_expired,
+> dev);
+> > +}
+> > +
+> > +static void ibex_aon_unrealize(DeviceState *dev)
+> > +{
+> > +    IbexAONTimerState *s = IBEX_AON_TIMER(dev);
+> > +
+> > +    timer_free(s->barker);
+> > +    timer_free(s->biter);
+> > +}
+> > +
+> > +
+> > +static void ibex_aon_class_init(ObjectClass *oc, void *data)
+> > +{
+> > +    DeviceClass *dc = DEVICE_CLASS(oc);
+> > +    ResettableClass *rc = RESETTABLE_CLASS(oc);
+> > +    dc->realize = ibex_aon_realize;
+> > +    dc->unrealize = ibex_aon_unrealize;
+> > +    dc->hotpluggable = false;
+> > +    set_bit(DEVICE_CATEGORY_WATCHDOG, dc->categories);
+> > +    dc->vmsd = &vmstate_ibex_aon;
+> > +    dc->desc = "opentitan always-on timer ip block";
+> > +    //Resettable class inits
+> > +    rc->phases.enter = ibex_aon_enter_reset;
+> > +    rc->phases.hold = ibex_aon_hold_reset;
+> > +}
+> > +
+> > +static void ibex_aon_enter_reset(Object *obj, ResetType type)
+> > +{
+> > +    IbexAONTimerState *s = IBEX_AON_TIMER(obj);
+> > +    s->regs[R_ALERT_TEST]      = 0x0;
+> > +    s->regs[R_WKUP_CTRL]       = 0x0;
+> > +    s->regs[R_WKUP_THOLD]      = 0x0;
+> > +    s->regs[R_WKUP_COUNT]      = 0x0;
+> > +    s->regs[R_WDOG_REGWEN]     = 0x1;
+> > +    s->regs[R_WDOG_CTRL]       = 0x0;
+> > +    s->regs[R_WDOG_BARK_THOLD] = 0x0;
+> > +    s->regs[R_WDOG_BITE_THOLD] = 0x0;
+> > +    s->regs[R_WDOG_COUNT]      = 0x0;
+> > +    s->regs[R_INTR_STATE]      = 0x0;
+> > +    s->regs[R_INTR_TEST]       = 0x0;
+> > +    s->regs[R_WKUP_CAUSE]      = 0x0;
+> > +
+> > +    uint64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> > +    s->wdog_last = now;
+> > +
+> > +    timer_del(s->barker);
+> > +    timer_del(s->biter);
+> > +}
+> > +
+> > +static void ibex_aon_hold_reset(Object *obj)
+> > +{
+> > +    IbexAONTimerState *s = IBEX_AON_TIMER(obj);
+> > +    qemu_irq_lower(s->bark_irq);
+> > +
+>
+> Extra new line
+>
+> > +}
+> > +
+> > +static uint64_t ibex_aon_read(void *opaque, hwaddr addr, unsigned int
+> size)
+> > +{
+> > +    IbexAONTimerState *s = IBEX_AON_TIMER(opaque);
+> > +
+> > +    uint64_t retval = 0;
+> > +    switch (addr) {
+> > +        case A_ALERT_TEST:
+> > +            qemu_log_mask(LOG_GUEST_ERROR,
+>
+> There is an unimplemented mask you can use instead
+>
+> Also, you have the register you may as well return it
+>
+> +                          "%s: Alert test not implemented", __func__);
+> > +            break;
+> > +        case A_WKUP_CTRL:
+> > +            qemu_log_mask(LOG_GUEST_ERROR,
+> > +                          "%s: AON wkup not implemented", __func__);
+> > +            break;
+> > +        case A_WKUP_THOLD:
+> > +            qemu_log_mask(LOG_GUEST_ERROR,
+> > +                          "%s: AON wkup not implemented", __func__);
+> > +            break;
+> > +        case A_WKUP_COUNT:
+> > +            qemu_log_mask(LOG_GUEST_ERROR,
+> > +                          "%s: AON wkup not implemented", __func__);
+> > +            break;
+> > +        case A_WDOG_REGWEN:
+> > +            retval = s->regs[R_WDOG_REGWEN];
+> > +            break;
+> > +        case A_WDOG_CTRL:
+> > +            retval = s->regs[R_WDOG_CTRL];
+> > +            break;
+> > +        case A_WDOG_BARK_THOLD:
+> > +            retval = s->regs[R_WDOG_BARK_THOLD];
+> > +            break;
+> > +        case A_WDOG_BITE_THOLD:
+> > +            retval = s->regs[R_WDOG_BITE_THOLD];
+> > +            break;
+> > +        case A_WDOG_COUNT:
+> > +            /* Lazily update the wdog count. */
+> > +            ibex_aon_update_count(s);
+> > +            retval = s->regs[R_WDOG_COUNT];
+> > +            break;
+> > +        case A_INTR_STATE:
+> > +            retval = s->regs[R_INTR_STATE];
+> > +            break;
+> > +        case A_INTR_TEST:
+> > +            qemu_log_mask(LOG_GUEST_ERROR,
+> > +                          "%s: Intr test not implemented", __func__);
+> > +            break;
+> > +        case A_WKUP_CAUSE:
+> > +            qemu_log_mask(LOG_GUEST_ERROR,
+> > +                          "%s: Wkup cause not implemented", __func__);
+> > +            break;
+> > +    }
+> > +    return retval;
+> > +}
+> > +
+> > +static void ibex_aon_write(void *opaque,
+> > +                           hwaddr addr, uint64_t value,
+> > +                           unsigned int size)
+> > +{
+> > +    IbexAONTimerState *s = IBEX_AON_TIMER(opaque);
+>
+> New line
+>
+> > +    /* When writing, need to consider if the configuration is locked */
+> > +    switch (addr) {
+> > +        case A_ALERT_TEST:
+> > +            qemu_log_mask(LOG_GUEST_ERROR,
+> > +                          "%s: Alert test not implemented", __func__);
+> > +            break;
+> > +        case A_WKUP_CTRL:
+> > +            qemu_log_mask(LOG_GUEST_ERROR,
+> > +                          "%s: AON wkup not implemented", __func__);
+> > +            break;
+> > +        case A_WKUP_THOLD:
+> > +            qemu_log_mask(LOG_GUEST_ERROR,
+> > +                          "%s: AON wkup not implemented", __func__);
+> > +            break;
+> > +        case A_WKUP_COUNT:
+> > +            qemu_log_mask(LOG_GUEST_ERROR,
+> > +                          "%s: AON wkup not implemented", __func__);
+> > +            break;
+> > +        case A_WDOG_REGWEN:
+> > +            if (s->regs[R_WDOG_REGWEN] == IBEX_AONTIMER_WDOG_UNLOCKED) {
+> > +                s->regs[R_WDOG_REGWEN] = value &
+> > IBEX_AONTIMER_WDOG_REGWEN_MASK;
+> > +            } else {
+> > +                qemu_log_mask(LOG_GUEST_ERROR,
+> > +                              "%s: AON Timer configuration locked\n",
+> > __func__);
+>
+> You don't need __func__ here, I'm pretty sure it's added for you
+>
+
+When I try to build without __func__ the compiler complains
+
+>
+> > +            }
+> > +            break;
+> > +        case A_WDOG_CTRL:
+> > +            if (s->regs[R_WDOG_REGWEN] == IBEX_AONTIMER_WDOG_UNLOCKED) {
+> > +                s->regs[R_WDOG_CTRL] = value &
+> IBEX_AONTIMER_WDOG_CTRL_MASK;
+> > +                ibex_aon_update_bark_timer(s);
+> > +                ibex_aon_update_bite_timer(s);
+> > +            } else {
+> > +                qemu_log_mask(LOG_GUEST_ERROR,
+> > +                              "%s: AON Timer configuration locked\n",
+> > __func__);
+>
+> Some weird line wrapping here as well
+>
+> > +            }
+> > +            break;
+> > +        case A_WDOG_BARK_THOLD:
+> > +            if (s->regs[R_WDOG_REGWEN] == IBEX_AONTIMER_WDOG_UNLOCKED) {
+> > +                s->regs[R_WDOG_BARK_THOLD] = value;
+> > +                ibex_aon_update_bark_timer(s);
+> > +            } else {
+> > +                qemu_log_mask(LOG_GUEST_ERROR,
+> > +                              "%s: AON Timer configuration locked\n",
+> > __func__);
+> > +            }
+> > +            break;
+> > +        case A_WDOG_BITE_THOLD:
+> > +            if (s->regs[R_WDOG_REGWEN] == IBEX_AONTIMER_WDOG_UNLOCKED) {
+> > +                s->regs[R_WDOG_BITE_THOLD] = value;
+> > +                ibex_aon_update_bite_timer(s);
+> > +            } else {
+> > +                qemu_log_mask(LOG_GUEST_ERROR,
+> > +                              "%s: AON Timer configuration locked\n",
+> > __func__);
+> > +            }
+> > +            break;
+> > +        case A_WDOG_COUNT:
+> > +            s->regs[R_WDOG_COUNT] = value;
+> > +            s->wdog_last = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> > +            ibex_aon_update_bark_timer(s);
+> > +            ibex_aon_update_bite_timer(s);
+> > +            break;
+> > +        case A_INTR_STATE:
+> > +            /* Service the IRQs by writing 1 to the appropriate field */
+> > +            if ((value & R_INTR_STATE_WDOG_MASK)) {
+> > +                qemu_irq_lower(s->bark_irq);
+> > +                ibex_aon_update_count(s);
+> > +                int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> > +                /*
+> > +                 * We need to make sure that COUNT < *_THOLD. If it
+> isn't, an
+> > +                 * interrupt is generated the next clock cycle
+> > +                 */
+> > +                if (s->regs[R_WDOG_COUNT] >=
+> s->regs[R_WDOG_BARK_THOLD]) {
+> > +                    if (now + IBEX_AONTIMER_PERIOD_NS < now) {
+> > +                        timer_mod_ns(s->barker, INT64_MAX);
+> > +                    } else {
+> > +                        timer_mod_ns(s->barker, now +
+> IBEX_AONTIMER_PERIOD_NS);
+> > +                    }
+> > +                }
+> > +            }
+> > +            break;
+> > +        case A_INTR_TEST:
+> > +            qemu_log_mask(LOG_GUEST_ERROR,
+> > +                          "%s: Intr test not implemented", __func__);
+> > +            break;
+> > +        case A_WKUP_CAUSE:
+> > +            qemu_log_mask(LOG_GUEST_ERROR,
+> > +                          "%s: Wkup cause not implemented", __func__);
+> > +            break;
+> > +        default:
+> > +            qemu_log_mask(LOG_GUEST_ERROR,
+> > +                          "%s: Write to unknown address %#lx\n",
+> > __func__, addr);
+> > +            break;
+> > +    }
+> > +}
+> > +
+> > +
+> > +/*
+> > + * Update the bark timer to reflect a new value of WDOG_COUNT or
+> > + * WDOG_BARK_THOLD.
+> > + */
+> > +static void ibex_aon_update_bark_timer(IbexAONTimerState *s)
+> > +{
+> > +    if (!ibex_aon_update_count(s)) {
+> > +        return;
+> > +    }
+> > +    /* Calculate the register count remaining */
+> > +    uint64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> > +    int64_t cur_count = (int64_t) s->regs[R_WDOG_COUNT];
+> > +    int64_t rem_bark = s->regs[R_WDOG_BARK_THOLD] - cur_count;
+> > +    /* Extrapolate realtime from count based on clock period */
+> > +    const int64_t delta_ns_bark = rem_bark * IBEX_AONTIMER_PERIOD_NS;
+> > +    /* Timer updates */
+> > +    timer_mod_ns(s->barker, now + delta_ns_bark);
+> > +}
+> > +
+> > +/*
+> > + * Update the bite timer to reflect a new value of WDOG_COUNT or
+> > + * WDOG_BITE_THOLD.
+> > + */
+> > +static void ibex_aon_update_bite_timer(IbexAONTimerState *s)
+> > +{
+> > +    if (!ibex_aon_update_count(s)) {
+> > +        return;
+> > +    }
+> > +    /* Calculate the register count remaining */
+> > +    uint64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> > +    int64_t cur_count = (int64_t) s->regs[R_WDOG_COUNT];
+> > +    int64_t rem_bite = s->regs[R_WDOG_BITE_THOLD] - cur_count;
+> > +    /* Extrapolate realtime from count based on clock period */
+> > +    const int64_t delta_ns_bite = rem_bite * IBEX_AONTIMER_PERIOD_NS;
+> > +    //Timer updates
+> > +    timer_mod_ns(s->biter, now + delta_ns_bite);
+> > +}
+> > +
+> > +/*
+> > + * This function updates the count in the register. It depends on the
+> last time
+> > + * a read had occurred and extrapolates the count via the clock freq
+> and the
+> > + * time elapsed.
+> > + */
+> > +static bool ibex_aon_update_count(IbexAONTimerState *s)
+> > +{
+> > +    /* If the timer is disabled, do not update count */
+> > +    if (!(s->regs[R_WDOG_CTRL] & R_WDOG_CTRL_EN_MASK)) {
+> > +        return false;
+> > +    }
+> > +    /* Lazily update wdog count. The count is truncated to fit. */
+> > +    const int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> > +    /* If for some reason we went back in time, elapsed cycles is
+> negative. */
+> > +    int64_t elapsed = now - (int64_t)s->wdog_last;
+> > +    /* Get the count. */
+> > +    const int64_t count = (elapsed / IBEX_AONTIMER_PERIOD_NS) +
+> > +                           (int64_t)s->regs[R_WDOG_COUNT];
+> > +    /* Saturate the counter. */
+> > +    if (count < 0) {
+> > +        s->regs[R_WDOG_COUNT] = 0;
+> > +    } else if (count <= UINT32_MAX) {
+> > +        s->regs[R_WDOG_COUNT] = (uint64_t) count;
+> > +    } else {
+> > +        s->regs[R_WDOG_COUNT] = UINT32_MAX;
+> > +    }
+> > +    /* Update the last-used timestamps */
+> > +    s->wdog_last = now;
+> > +    return true;
+> > +}
+> > +
+> > +/* Called when the bark timer expires */
+> > +static void ibex_aon_barker_expired(void *opaque)
+> > +{
+> > +    IbexAONTimerState *s = IBEX_AON_TIMER(opaque);
+> > +    if (ibex_aon_update_count(s) &&
+> > +        s->regs[R_WDOG_COUNT] >= s->regs[R_WDOG_BARK_THOLD]) {
+> > +        s->regs[R_INTR_STATE] |= (1 << 1);
+> > +        qemu_irq_raise(s->bark_irq);
+> > +    }
+> > +}
+> > +
+> > +/* Called when the bite timer expires */
+> > +static void ibex_aon_biter_expired(void *opaque)
+> > +{
+> > +    IbexAONTimerState *s = IBEX_AON_TIMER(opaque);
+> > +    if (ibex_aon_update_count(s) &&
+> > +        s->regs[R_WDOG_COUNT] >= s->regs[R_WDOG_BITE_THOLD]) {
+> > +        resettable_reset(opaque, RESET_TYPE_COLD);
+> > +        watchdog_perform_action();
+> > +    }
+> > +}
+> > +
+> > +static void ibex_aon_register_types(void)
+> > +{
+> > +    watchdog_add_model(&model);
+> > +    type_register_static(&ibex_aon_info);
+> > +}
+> > +
+> > +type_init(ibex_aon_register_types)
+> > \ No newline at end of file
+>
+> Missing newline here
+>
+> > diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
+> > index 68892cd8e5..0bda31f817 100644
+> > --- a/include/hw/riscv/opentitan.h
+> > +++ b/include/hw/riscv/opentitan.h
+> > @@ -24,6 +24,7 @@
+> >  #include "hw/char/ibex_uart.h"
+> >  #include "hw/timer/ibex_timer.h"
+> >  #include "hw/ssi/ibex_spi_host.h"
+> > +#include "hw/watchdog/wdt_ibex_aon.h"
+> >  #include "qom/object.h"
+> >
+> >  #define TYPE_RISCV_IBEX_SOC "riscv.lowrisc.ibex.soc"
+> > @@ -46,6 +47,8 @@ struct LowRISCIbexSoCState {
+> >      IbexTimerState timer;
+> >      IbexSPIHostState spi_host[OPENTITAN_NUM_SPI_HOSTS];
+> >
+> > +    IbexAONTimerState aon_timer;
+> > +
+> >      MemoryRegion flash_mem;
+> >      MemoryRegion rom;
+> >      MemoryRegion flash_alias;
+> > @@ -78,7 +81,7 @@ enum {
+> >      IBEX_DEV_RSTMGR,
+> >      IBEX_DEV_CLKMGR,
+> >      IBEX_DEV_PINMUX,
+> > -    IBEX_DEV_PADCTRL,
+> > +    IBEX_DEV_AON_TIMER,
+> >      IBEX_DEV_USBDEV,
+> >      IBEX_DEV_FLASH_CTRL,
+> >      IBEX_DEV_PLIC,
+> > @@ -95,7 +98,7 @@ enum {
+> >      IBEX_DEV_OTBN,
+> >      IBEX_DEV_PERI,
+> >  };
+> > -
+> > +//See hw/top_earlgrey/sw/autogen/top_earlgrey.h
+> >  enum {
+> >      IBEX_UART0_TX_WATERMARK_IRQ   = 1,
+> >      IBEX_UART0_RX_WATERMARK_IRQ   = 2,
+> > @@ -110,6 +113,8 @@ enum {
+> >      IBEX_SPI_HOST0_SPI_EVENT_IRQ  = 151,
+> >      IBEX_SPI_HOST1_ERR_IRQ        = 152,
+> >      IBEX_SPI_HOST1_SPI_EVENT_IRQ  = 153,
+> > +    IBEX_AONTIMER_WKUP_EXPIRED = 157,
+> > +    IBEX_AONTIMER_WDOG_BARK = 158,
+> >  };
+> >
+> >  #endif
+> > diff --git a/include/hw/watchdog/wdt_ibex_aon.h
+> > b/include/hw/watchdog/wdt_ibex_aon.h
+> > new file mode 100644
+> > index 0000000000..2d7a3188d8
+> > --- /dev/null
+> > +++ b/include/hw/watchdog/wdt_ibex_aon.h
+> > @@ -0,0 +1,67 @@
+> > +/*
+> > + * QEMU lowRISC OpenTitan Always-On Timer device
+> > + *
+> > + * Copyright (c) 2022 Rivos Inc.
+> > + *
+> > + * For details check the documentation here:
+> > + *   https://docs.opentitan.org/hw/ip/aon_timer/doc/
+> > + *
+> > + * Permission is hereby granted, free of charge, to any person
+> obtaining a copy
+> > + * of this software and associated documentation files (the
+> > "Software"), to deal
+> > + * in the Software without restriction, including without limitation
+> the rights
+> > + * to use, copy, modify, merge, publish, distribute, sublicense, and/or
+> sell
+> > + * copies of the Software, and to permit persons to whom the Software is
+> > + * furnished to do so, subject to the following conditions:
+> > + *
+> > + * The above copyright notice and this permission notice shall be
+> included in
+> > + * all copies or substantial portions of the Software.
+> > + *
+> > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+> EXPRESS OR
+> > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+> MERCHANTABILITY,
+> > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+> SHALL
+> > + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> OTHER
+> > + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> > ARISING FROM,
+> > + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+> DEALINGS IN
+> > + * THE SOFTWARE.
+> > + */
+> > +#ifndef WDT_IBEX_AON_H
+> > +#define WDT_IBEX_AON_H
+> > +
+> > +#include "hw/sysbus.h"
+> > +#include "qemu/timer.h"
+> > +#include "qom/object.h"
+> > +
+> > +#define TYPE_IBEX_AON_TIMER "ibex-aon-timer"
+> > +OBJECT_DECLARE_SIMPLE_TYPE(IbexAONTimerState, IBEX_AON_TIMER)
+> > +
+> > +#define IBEX_AONTIMER_REGCOUNT 12
+> > +#define IBEX_AONTIMER_FREQ 200000 /* 200 KHz */
+> > +#define IBEX_AONTIMER_PERIOD_NS 5000
+> > +
+> > +#define IBEX_AONTIMER_WDOG_LOCKED 0
+> > +#define IBEX_AONTIMER_WDOG_UNLOCKED 1
+> > +
+> > +#define IBEX_AONTIMER_WDOG_REGWEN_MASK 0x1
+> > +#define IBEX_AONTIMER_WDOG_CTRL_MASK 0x3
+> > +#define IBEX_AONTIMER_INTR_STATE_MASK 0x3
+> > +
+> > +struct IbexAONTimerState {
+> > +    /*< private >*/
+> > +    SysBusDevice parent_obj;
+> > +
+> > +    MemoryRegion iomem;
+> > +
+> > +    QEMUTimer *barker;
+> > +    QEMUTimer *biter;
+> > +
+> > +    qemu_irq bark_irq;
+> > +
+> > +    /* Registers */
+> > +    uint32_t regs[IBEX_AONTIMER_REGCOUNT];
+> > +    /* Last-used Timestamps */
+> > +    uint64_t wdog_last;
+> > +    /*< public >*/
+> > +};
+> > +
+> > +
+> > +#endif /* WDT_IBEX_AON_H */
+> > \ No newline at end of file
+> > diff --git a/tests/qtest/ibex-aon-timer-test.c
+> > b/tests/qtest/ibex-aon-timer-test.c
+> > new file mode 100644
+> > index 0000000000..ffd668b206
+> > --- /dev/null
+> > +++ b/tests/qtest/ibex-aon-timer-test.c
+> > @@ -0,0 +1,189 @@
+> > +/*
+> > + * Testing the OpenTitan AON Timer
+> > + *
+> > + * Copyright (c) 2022 Rivos Inc.
+> > + *
+> > + * Permission is hereby granted, free of charge, to any person
+> obtaining a copy
+> > + * of this software and associated documentation files (the
+> > "Software"), to deal
+> > + * in the Software without restriction, including without limitation
+> the rights
+> > + * to use, copy, modify, merge, publish, distribute, sublicense, and/or
+> sell
+> > + * copies of the Software, and to permit persons to whom the Software is
+> > + * furnished to do so, subject to the following conditions:
+> > + *
+> > + * The above copyright notice and this permission notice shall be
+> included in
+> > + * all copies or substantial portions of the Software.
+> > + *
+> > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+> EXPRESS OR
+> > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+> MERCHANTABILITY,
+> > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+> SHALL
+> > + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> OTHER
+> > + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> > ARISING FROM,
+> > + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+> DEALINGS IN
+> > + * THE SOFTWARE.
+> > + */
+> > +
+> > +#include "qemu/osdep.h"
+> > +#include "libqtest.h"
+> > +#include "qapi/qmp/qdict.h"
+> > +
+> > +#define AON_BASE_ADDR (0x40470000ul)
+> > +#define AON_ADDR(addr) (AON_BASE_ADDR + addr)
+> > +#define AON_WKUP_IRQ 157
+> > +#define AON_BARK_IRQ 158
+> > +#define AON_FREQ 200000 /* 200 KHz */
+> > +#define AON_PERIOD_NS 5000
+> > +#define NANOS_PER_SECOND 1000000000LL
+>
+> Newline
+>
+> > +/* Test that reads work, and that the regs get reset to the correct
+> value */
+> > +static void test_reads(void)
+> > +{
+> > +    QTestState *test = qtest_init("-M opentitan");
+> > +    g_assert(qtest_readl(test, AON_ADDR(0x00)) == 0);
+> > +    g_assert(qtest_readl(test, AON_ADDR(0x04)) == 0);
+> > +    g_assert(qtest_readl(test, AON_ADDR(0x08)) == 0);
+> > +    g_assert(qtest_readl(test, AON_ADDR(0x0c)) == 0);
+> > +    g_assert(qtest_readl(test, AON_ADDR(0x10)) == 1);
+> > +    g_assert(qtest_readl(test, AON_ADDR(0x14)) == 0);
+> > +    g_assert(qtest_readl(test, AON_ADDR(0x18)) == 0);
+> > +    g_assert(qtest_readl(test, AON_ADDR(0x1c)) == 0);
+> > +    g_assert(qtest_readl(test, AON_ADDR(0x20)) == 0);
+> > +    g_assert(qtest_readl(test, AON_ADDR(0x24)) == 0);
+> > +    g_assert(qtest_readl(test, AON_ADDR(0x28)) == 0);
+> > +    g_assert(qtest_readl(test, AON_ADDR(0x2c)) == 0);
+> > +
+> > +    qtest_quit(test);
+> > +}
+> > +
+> > +static void test_writes(void)
+> > +{
+> > +    /* Test that writes worked, while the config is unlocked */
+> > +    QTestState *test = qtest_init("-M opentitan");
+> > +
+> > +
+> > +    qtest_writel(test, AON_ADDR(0x18), (1 << 19)); /* WDOG_BARK_THOLD */
+> > +    g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x18)),
+> > +                     ==, (1 << 19));
+> > +
+> > +    qtest_writel(test, AON_ADDR(0x1c), (1 << 20)); /* WDOG_BITE_THOLD */
+> > +    g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x1c)),
+> > +                     ==, (1 << 20));
+> > +
+> > +    qtest_writel(test, AON_ADDR(0x14), 0x1); /* WDOG_CTRL enable */
+> > +    g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x14)),
+> > +                     ==, 0x1);
+> > +
+> > +    qtest_writel(test, AON_ADDR(0x10), 0x0); /* WDOG_REGWEN enable */
+> > +    g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x10)), ==, 0x0);
+> > +
+> > +    /*
+> > +     * Test configuration lock
+> > +     * These should not successfully write.
+> > +     */
+> > +    qtest_writel(test, AON_ADDR(0x14), 0);
+> > +    qtest_writel(test, AON_ADDR(0x18), 0);
+> > +    qtest_writel(test, AON_ADDR(0x1c), 0);
+> > +
+> > +    g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x14)),
+> > +                     ==, 0x1);
+> > +    g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x18)),
+> > +                     ==, (1 << 19));
+> > +    g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x1c)),
+> > +                     ==, (1 << 20));
+> > +
+> > +    /* This should not work, as it's a rw0c reg. */
+> > +    qtest_writel(test, AON_ADDR(0x10), 1);
+> > +    g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x10)),
+> > +                     ==, 0x0);
+> > +
+> > +    qtest_quit(test);
+> > +}
+> > +
+> > +
+> > +/* Test whether the watchdog timer works during normal operation */
+> > +static void test_operation(void)
+> > +{
+> > +    QTestState *test = qtest_init("-M opentitan");
+> > +
+> > +    /* Set up interrupts */
+> > +    qtest_irq_intercept_in(test, "/machine/soc/plic");
+> > +
+> > +    /* Setup timer */
+> > +    qtest_writel(test, AON_ADDR(0x18), (1 << 19)); /* WDOG_BARK_THOLD */
+> > +    qtest_writel(test, AON_ADDR(0x1c), (1 << 20)); /* WDOG_BITE_THOLD */
+> > +
+> > +    /* Run simulation, without enabling timer: */
+> > +    qtest_clock_step(test, NANOS_PER_SECOND * 30);
+> > +    g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x20)),
+> > +                     ==, 0); /* checks if WDOG_COUNT gets updated */
+> > +    g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x24)),
+> > +                     ==, 0); /* checks if INTR_STATE is clear */
+> > +    g_assert(!qtest_get_irq(test, AON_BARK_IRQ));
+> > +
+> > +    /* Enable the timer, and test if the count is updated correctly */
+> > +    qtest_writel(test, AON_ADDR(0x14), 0x1); /* set WDOG_CTRL = 1 */
+> > +    qtest_clock_step(test, NANOS_PER_SECOND);
+> > +    g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x20)),
+> > +                     ==, AON_FREQ);
+> > +    g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x24)),
+> > +                     ==, 0);
+> > +    g_assert(!qtest_get_irq(test, AON_BARK_IRQ));
+> > +
+> > +    /* Disable the timer, and test if the count freezes */
+> > +    qtest_writel(test, AON_ADDR(0x14), 0x0); /* set WDOG_CTRL = 0 */
+> > +    qtest_clock_step(test, NANOS_PER_SECOND);
+> > +    g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x20)),
+> > +                     ==, AON_FREQ);
+> > +    g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x24)),
+> > +                     ==, 0);
+> > +    g_assert(!qtest_get_irq(test, AON_BARK_IRQ));
+> > +
+> > +    /* Enable the timer, and run to bark */
+> > +    qtest_writel(test, AON_ADDR(0x14), 0x1); /* set WDOG_CTRL = 1 */
+> > +    qtest_clock_step(test, NANOS_PER_SECOND * 1.62145);
+> > +    g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x20)),
+> > +                     >=, (1 << 19));
+> > +    g_assert(qtest_get_irq(test, AON_BARK_IRQ));
+> > +    g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x24)),
+> > +                     ==, (1 << 1));
+> > +
+> > +    /* Disable IRQ by writing to INTR_STATE. Should bark next cycle */
+> > +    qtest_writel(test, AON_ADDR(0x24), (1 << 1));
+> > +    g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x24)),
+> > +                     ==, (1 << 1));
+> > +    g_assert(!qtest_get_irq(test, AON_BARK_IRQ));
+> > +    qtest_clock_step(test, AON_PERIOD_NS);
+> > +    g_assert(qtest_get_irq(test, AON_BARK_IRQ));
+> > +
+> > +    /*
+> > +     * Disable IRQ again, this time by setting WDOG_COUNT = 0 (pet) and
+> > +     * writing to INTR_STATE.
+> > +     */
+> > +    qtest_writel(test, AON_ADDR(0x20), 0);
+> > +    qtest_writel(test, AON_ADDR(0x24), (1 << 1));
+> > +    g_assert(!qtest_get_irq(test, AON_BARK_IRQ));
+> > +
+> > +    /* Ensure no bite occurs, after resetting the timer. */
+> > +    qtest_clock_step(test, NANOS_PER_SECOND * 2.621436);
+> > +    QDict *resp = qtest_qmp(test, "{'execute':'query-status'}");
+> > +    g_assert(qdict_haskey(resp, "return"));
+> > +    qobject_unref(resp);
+> > +
+> > +    /* Allow test to run to bite. */
+> > +    qtest_clock_step(test, NANOS_PER_SECOND * 5.24289);
+> > +    QDict *event = qtest_qmp_eventwait_ref(test, "WATCHDOG");
+> > +    QDict *data = qdict_get_qdict(event, "data");
+> > +    g_assert_cmpstr(qdict_get_str(data, "action"), ==, "reset");
+> > +    qobject_unref(event);
+> > +    qobject_unref(data);
+> > +    qtest_quit(test);
+> > +}
+>
+> Cool! Thanks for writing qtests.
+>
+> Out of curiosity did you test this from a guest as well?
+>
+
+I used an app on ZephyrOS to run tests similar to these qtests for basic
+functionality.
+
+
+> Alistair
+>
+> > +
+> > +
+> > +
+> > +int main(int argc, char **argv)
+> > +{
+> > +    g_test_init(&argc, &argv, NULL);
+> > +    qtest_add_func("/ibex-aon-timer/reads", test_reads);
+> > +    qtest_add_func("/ibex-aon-timer/writes", test_writes);
+> > +    qtest_add_func("/ibex-aon-timer/op", test_operation);
+> > +    return g_test_run();
+> > +}
+> > diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> > index be4b30dea2..2941d6be4e 100644
+> > --- a/tests/qtest/meson.build
+> > +++ b/tests/qtest/meson.build
+> > @@ -233,6 +233,9 @@ qtests_s390x = \
+> >     'cpu-plug-test',
+> >     'migration-test']
+> >
+> > +qtests_riscv32 = \
+> > +  ['ibex-aon-timer-test']
+> > +
+> >  qos_test_ss = ss.source_set()
+> >  qos_test_ss.add(
+> >    'ac97-test.c',
+> > --
+> > 2.30.2
+> >
+>
+
+Thanks for the review. I'll make sure to address the formatting issues.
+
+-Tyler
+
+--0000000000005ec0ef05e8319be6
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Thanks, it's more clear to me now! I'll modify it in the next by the sugges=
-tions.
-________________________________
-From: Richard Henderson <richard.henderson@linaro.org>
-Sent: Thursday, September 8, 2022 11:14 PM
-To: Milica Lazarevic <Milica.Lazarevic@Syrmia.com>; thuth@redhat.com <thuth=
-@redhat.com>
-Cc: qemu-devel@nongnu.org <qemu-devel@nongnu.org>; cfontana@suse.de <cfonta=
-na@suse.de>; berrange@redhat.com <berrange@redhat.com>; pbonzini@redhat.com=
- <pbonzini@redhat.com>; vince.delvecchio@mediatek.com <vince.delvecchio@med=
-iatek.com>; peter.maydell@linaro.org <peter.maydell@linaro.org>; Djordje To=
-dorovic <Djordje.Todorovic@syrmia.com>; mips32r2@gmail.com <mips32r2@gmail.=
-com>; Dragan Mladjenovic <Dragan.Mladjenovic@syrmia.com>
-Subject: Re: [PATCH v2 12/20] disas/nanomips: Replace std::string type
-
-On 9/8/22 20:16, Milica Lazarevic wrote:
->     This would be better written as
->
->           char *reg_list[33];
->
->           assert(count <=3D 32);
->           for (c =3D 0; c < count; c++) {
->               bool use_gp =3D ...
->               uint64 this_rt =3D ...
->               /* glib usage below requires casting away const */
->               reg_list[c] =3D (char *)GPR(this_rt);
->           }
->           reg_list[count] =3D NULL;
->
->           return g_strjoinv(",", reg_list);
->
->
-> In the implementation you suggested, there's one comma missing in the out=
-put.
-> For example, instead of having:
->    > 0x802021ce: 1e12 SAVE 0x10,ra,s0
-> We're having this:
->    < 0x802021ce: 1e12 SAVE 0x10ra,s0
-
-Oh, right, because SAVE of zero registers is legal, and even useful as an a=
-djustment to
-the stack pointer.
-
-> So, I'm assuming that there needs to exist one more concatenation between=
- the comma and
-> the result of the g_strjoinv function?
-> Maybe something like
->      return g_strconcat((char *)",", (char *)g_strjoinv(",", reg_list), N=
-ULL);
-
-Well, written like that you'd leak the result of g_strjoinv.
-
-A better solution is to first element of reg_list be "", so that it's still=
- just a single
-memory allocation.
-
->     I think this interface should be
->
->           char **dis,
->
->     so that...
->
->     > @@ -746,25 +647,26 @@ static int Disassemble(const uint16 *data, st=
-d::string & dis,
->     >                                    * an ASE attribute and the reque=
-sted version
->     >                                    * not having that attribute
->     >                                    */
->     > -                                dis =3D "ASE attribute mismatch";
->     > +                                strcpy(dis, "ASE attribute mismatc=
-h");
->
->     these become
->
->           *dis =3D g_strdup("string");
->
->     and the usage in nanomips_dis does not assume a fixed sized buffer.
->
->
->     r~
->
->
-> I'm not sure why the fixed size buffer would be a problem here since the =
-buffer size has
-> already been limited by the caller.
-> I.e. in the print_insn_nanomips function, the buf variable is defined as:
-> char buf[200];
-
-There would be no such declaration with the above change.
-
-
-r~
-
---_000_VE1PR03MB6045BDD0D14A9F78EDF5AF73F8409VE1PR03MB6045eurp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
-Thanks, it's more clear to me now! I'll modify it in the next by the sugges=
-tions.</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Richard Henderson &lt=
-;richard.henderson@linaro.org&gt;<br>
-<b>Sent:</b> Thursday, September 8, 2022 11:14 PM<br>
-<b>To:</b> Milica Lazarevic &lt;Milica.Lazarevic@Syrmia.com&gt;; thuth@redh=
-at.com &lt;thuth@redhat.com&gt;<br>
-<b>Cc:</b> qemu-devel@nongnu.org &lt;qemu-devel@nongnu.org&gt;; cfontana@su=
-se.de &lt;cfontana@suse.de&gt;; berrange@redhat.com &lt;berrange@redhat.com=
-&gt;; pbonzini@redhat.com &lt;pbonzini@redhat.com&gt;; vince.delvecchio@med=
-iatek.com &lt;vince.delvecchio@mediatek.com&gt;; peter.maydell@linaro.org
- &lt;peter.maydell@linaro.org&gt;; Djordje Todorovic &lt;Djordje.Todorovic@=
-syrmia.com&gt;; mips32r2@gmail.com &lt;mips32r2@gmail.com&gt;; Dragan Mladj=
-enovic &lt;Dragan.Mladjenovic@syrmia.com&gt;<br>
-<b>Subject:</b> Re: [PATCH v2 12/20] disas/nanomips: Replace std::string ty=
-pe</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">On 9/8/22 20:16, Milica Lazarevic wrote:<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp; This would be better written as<br>
-&gt; <br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; char *reg_list[=
-33];<br>
-&gt; <br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; assert(count &l=
-t;=3D 32);<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; for (c =3D 0; c=
- &lt; count; c++) {<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp; bool use_gp =3D ...<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp; uint64 this_rt =3D ...<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp; /* glib usage below requires casting away const */<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp; reg_list[c] =3D (char *)GPR(this_rt);<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; reg_list[count]=
- =3D NULL;<br>
-&gt; <br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; return g_strjoi=
-nv(&quot;,&quot;, reg_list);<br>
-&gt; <br>
-&gt; <br>
-&gt; In the implementation you suggested, there's one comma missing in the =
-output.<br>
-&gt; For example, instead of having:<br>
-&gt;&nbsp; &nbsp; &gt; 0x802021ce: 1e12 SAVE 0x10,ra,s0<br>
-&gt; We're having this:<br>
-&gt;&nbsp; &nbsp; &lt; 0x802021ce: 1e12 SAVE 0x10ra,s0<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 8, 2022 at 4:52 AM Alista=
+ir Francis &lt;<a href=3D"mailto:alistair23@gmail.com" target=3D"_blank">al=
+istair23@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">On Fri, Sep 2, 2022 at 3:29 AM Tyler Ng &lt;<a href=3D"ma=
+ilto:tkng@rivosinc.com" target=3D"_blank">tkng@rivosinc.com</a>&gt; wrote:<=
+br>
+&gt;<br>
+&gt; This commit adds most of an implementation of the OpenTitan Always-On<=
+br>
+&gt; Timer. The documentation for this timer is found here:<br>
+&gt;<br>
+&gt; <a href=3D"https://docs.opentitan.org/hw/ip/aon_timer/doc/" rel=3D"nor=
+eferrer" target=3D"_blank">https://docs.opentitan.org/hw/ip/aon_timer/doc/<=
+/a><br>
+&gt;<br>
+&gt; The implementation includes most of the watchdog features; it does not=
 <br>
-Oh, right, because SAVE of zero registers is legal, and even useful as an a=
-djustment to
+&gt; implement the wakeup timer.<br>
+&gt;<br>
+&gt; An important note: the OpenTitan board uses the sifive_plic. The plic<=
+br>
+&gt; will not be able to claim the bark interrupt (158) because the sifive<=
+br>
+&gt; plic sets priority[158], but checks priority[157] for the priority, so=
 <br>
-the stack pointer.<br>
+&gt; it thinks that the interrupt&#39;s priority is 0 (effectively disabled=
+).<br>
+&gt;<br>
+&gt; Changed Files:<br>
+&gt; hw/riscv/Kconfig: Add configuration for the watchdog.<br>
+&gt; hw/riscv/opentitan.c: Connect AON Timer to the OpenTitan board.<br>
+&gt;<br>
+&gt; hw/watchdog/Kconfig: Configuration for the watchdog.<br>
+&gt; hw/watchdog/meson.build: Compile the watchdog.<br>
+&gt; hw/watchdog/wdt_ibex_aon.c: The watchdog itself.<br>
+&gt;<br>
+&gt; include/hw/riscv/opentitan.h: Add watchdog bark/wakeup IRQs and timer.=
 <br>
-&gt; So, I'm assuming that there needs to exist one more concatenation betw=
-een the comma and
+&gt; include/hw/watchdog/wdt_ibex_aon.h: Add watchdog.<br>
+&gt;<br>
+&gt; tests/qtest/ibex-aon-timer-test.c: Ibex Timer test.<br>
+&gt; tests/qtest/meson.build: Build the timer test.<br>
+&gt;<br>
+&gt; Signed-off-by: Tyler Ng &lt;<a href=3D"mailto:tkng@rivosinc.com" targe=
+t=3D"_blank">tkng@rivosinc.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 hw/riscv/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A04 +<br>
+&gt;=C2=A0 hw/riscv/opentitan.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 22 +-<br>
+&gt;=C2=A0 hw/watchdog/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 =C2=A03 +<br>
+&gt;=C2=A0 hw/watchdog/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ |=C2=A0 =C2=A01 +<br>
+&gt;=C2=A0 hw/watchdog/wdt_ibex_aon.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 43=
+2 +++++++++++++++++++++++++++++<br>
+&gt;=C2=A0 include/hw/riscv/opentitan.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =
+=C2=A09 +-<br>
+&gt;=C2=A0 include/hw/watchdog/wdt_ibex_aon.h |=C2=A0 67 +++++<br>
+&gt;=C2=A0 tests/qtest/ibex-aon-timer-test.c=C2=A0 | 189 +++++++++++++<br>
+&gt;=C2=A0 tests/qtest/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ |=C2=A0 =C2=A03 +<br>
+&gt;=C2=A0 9 files changed, 725 insertions(+), 5 deletions(-)<br>
+&gt;=C2=A0 create mode 100644 hw/watchdog/wdt_ibex_aon.c<br>
+&gt;=C2=A0 create mode 100644 include/hw/watchdog/wdt_ibex_aon.h<br>
+&gt;=C2=A0 create mode 100644 tests/qtest/ibex-aon-timer-test.c<br>
+&gt;<br>
+&gt; diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig<br>
+&gt; index 79ff61c464..72094010be 100644<br>
+&gt; --- a/hw/riscv/Kconfig<br>
+&gt; +++ b/hw/riscv/Kconfig<br>
+&gt; @@ -4,6 +4,9 @@ config RISCV_NUMA<br>
+&gt;=C2=A0 config IBEX<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bool<br>
+&gt;<br>
+&gt; +config IBEX_AON<br>
+&gt; +=C2=A0 =C2=A0 bool<br>
+&gt; +<br>
+&gt;=C2=A0 config MICROCHIP_PFSOC<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bool<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 select CADENCE_SDHCI<br>
+&gt; @@ -20,6 +23,7 @@ config MICROCHIP_PFSOC<br>
+&gt;=C2=A0 config OPENTITAN<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bool<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 select IBEX<br>
+&gt; +=C2=A0 =C2=A0 select IBEX_AON<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 select UNIMP<br>
+&gt;<br>
+&gt;=C2=A0 config SHAKTI_C<br>
+&gt; diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c<br>
+&gt; index 4495a2c039..10834b831f 100644<br>
+&gt; --- a/hw/riscv/opentitan.c<br>
+&gt; +++ b/hw/riscv/opentitan.c<br>
+&gt; @@ -1,4 +1,5 @@<br>
+&gt;=C2=A0 /*<br>
+&gt; +=C2=A0 =C2=A0 ptimer_<br>
+&gt;=C2=A0 =C2=A0* QEMU RISC-V Board Compatible with OpenTitan FPGA platfor=
+m<br>
+&gt;=C2=A0 =C2=A0*<br>
+&gt;=C2=A0 =C2=A0* Copyright (c) 2020 Western Digital<br>
+&gt; @@ -47,7 +48,7 @@ static const MemMapEntry ibex_memmap[] =3D {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 [IBEX_DEV_RSTMGR] =3D=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0{=C2=A0 0x40410000,=C2=A0 0x1000=C2=A0 },<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 [IBEX_DEV_CLKMGR] =3D=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0{=C2=A0 0x40420000,=C2=A0 0x1000=C2=A0 },<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 [IBEX_DEV_PINMUX] =3D=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0{=C2=A0 0x40460000,=C2=A0 0x1000=C2=A0 },<br>
+&gt; -=C2=A0 =C2=A0 [IBEX_DEV_PADCTRL] =3D=C2=A0 =C2=A0 =C2=A0 =C2=A0 {=C2=
+=A0 0x40470000,=C2=A0 0x1000=C2=A0 },<br>
 <br>
-&gt; the result of the g_strjoinv function?<br>
-&gt; Maybe something like<br>
-&gt;&nbsp; &nbsp; &nbsp; return g_strconcat((char *)&quot;,&quot;, (char *)=
-g_strjoinv(&quot;,&quot;, reg_list), NULL);<br>
+What about the pad controller?<br></blockquote><div><br></div><div>Can you =
+point me to what memory map is being used in QEMU right now? I was using th=
+e top_earlgrey memory map, which has the aon timer base address at 0x4047_0=
+000.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">
 <br>
-Well, written like that you'd leak the result of g_strjoinv.<br>
+&gt; +=C2=A0 =C2=A0 [IBEX_DEV_AON_TIMER] =3D=C2=A0 =C2=A0 =C2=A0 {=C2=A0 0x=
+40470000,=C2=A0 0x1000=C2=A0 },<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 [IBEX_DEV_FLASH_CTRL] =3D=C2=A0 =C2=A0 =C2=A0{=C2=
+=A0 0x41000000,=C2=A0 0x1000=C2=A0 },<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 [IBEX_DEV_AES] =3D=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 {=C2=A0 0x41100000,=C2=A0 0x1000=C2=A0 },<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 [IBEX_DEV_HMAC] =3D=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0{=C2=A0 0x41110000,=C2=A0 0x1000=C2=A0 },<br>
+&gt; @@ -121,6 +122,8 @@ static void lowrisc_ibex_soc_init(Object *obj)<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 object_initialize_child(obj, &quot;timer&quot;, &a=
+mp;s-&gt;timer, TYPE_IBEX_TIMER);<br>
+&gt;<br>
+&gt; +=C2=A0 =C2=A0 object_initialize_child(obj, &quot;aon_timer&quot;, &am=
+p;s-&gt;aon_timer,<br>
+&gt; TYPE_IBEX_AON_TIMER);<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 for (int i =3D 0; i &lt; OPENTITAN_NUM_SPI_HOSTS; =
+i++) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 object_initialize_child(obj, &quot;s=
+pi_host[*]&quot;, &amp;s-&gt;spi_host[i],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 TYPE_IBEX_SPI_HOST);<br>
+&gt; @@ -205,6 +208,7 @@ static void lowrisc_ibex_soc_realize(DeviceState<b=
+r>
+&gt; *dev_soc, Error **errp)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A03, qdev_get_gpio_in(DEVICE(&amp;s-&gt;plic),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0IBEX_UART0_RX_OVERFLOW_IRQ));<br>
+&gt;<br>
+&gt; +=C2=A0 =C2=A0 /* RV Timer */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if (!sysbus_realize(SYS_BUS_DEVICE(&amp;s-&gt;time=
+r), errp)) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; @@ -215,6 +219,20 @@ static void lowrisc_ibex_soc_realize(DeviceState<=
+br>
+&gt; *dev_soc, Error **errp)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 qdev_connect_gpio_out(DEVICE(&amp;s-&gt;timer), 0,=
 <br>
-A better solution is to first element of reg_list be &quot;&quot;, so that =
-it's still just a single
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_get_gpio_in(DEVICE(qemu_get_cpu(0)),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0IRQ_M_TIMER));<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* AON Timer */<br>
+&gt; +=C2=A0 =C2=A0 if (!sysbus_realize(SYS_BUS_DEVICE(&amp;s-&gt;aon_timer=
+), errp)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 sysbus_mmio_map(SYS_BUS_DEVICE(&amp;s-&gt;aon_timer), 0=
+,<br>
+&gt; memmap[IBEX_DEV_AON_TIMER].base);<br>
+&gt; +=C2=A0 =C2=A0 sysbus_connect_irq(SYS_BUS_DEVICE(&amp;s-&gt;aon_timer)=
+,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A00, qdev_get_gpio_in(DEVICE(&amp;s-&gt;plic),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0IBEX_AONTIMER_WDOG_BARK));<br>
+&gt; +=C2=A0 =C2=A0 /*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* Note: There should be a line to pwrmgr but it&#=
+39;s not implemented.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* TODO: Needs a line connected in, &quot;counter-=
+run&quot; (stop the watchdog if<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* debugging)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 /* SPI-Hosts */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 for (int i =3D 0; i &lt; OPENTITAN_NUM_SPI_HOSTS; =
+++i) {<br>
+&gt; @@ -261,8 +279,6 @@ static void lowrisc_ibex_soc_realize(DeviceState<b=
+r>
+&gt; *dev_soc, Error **errp)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 memmap[IBEX_DEV_CLKMGR].base, memmap=
+[IBEX_DEV_CLKMGR].size);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 create_unimplemented_device(&quot;riscv.lowrisc.ib=
+ex.pinmux&quot;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 memmap[IBEX_DEV_PINMUX].base, memmap=
+[IBEX_DEV_PINMUX].size);<br>
+&gt; -=C2=A0 =C2=A0 create_unimplemented_device(&quot;riscv.lowrisc.ibex.pa=
+dctrl&quot;,<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 memmap[IBEX_DEV_PADCTRL].base, memmap[IBE=
+X_DEV_PADCTRL].size);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 create_unimplemented_device(&quot;riscv.lowrisc.ib=
+ex.usbdev&quot;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 memmap[IBEX_DEV_USBDEV].base, memmap=
+[IBEX_DEV_USBDEV].size);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 create_unimplemented_device(&quot;riscv.lowrisc.ib=
+ex.flash_ctrl&quot;,<br>
+&gt; diff --git a/hw/watchdog/Kconfig b/hw/watchdog/Kconfig<br>
+&gt; index 66e1d029e3..dde6c01a8c 100644<br>
+&gt; --- a/hw/watchdog/Kconfig<br>
+&gt; +++ b/hw/watchdog/Kconfig<br>
+&gt; @@ -20,3 +20,6 @@ config WDT_IMX2<br>
+&gt;<br>
+&gt;=C2=A0 config WDT_SBSA<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bool<br>
+&gt; +<br>
+&gt; +config WDT_IBEX_AON<br>
+&gt; +=C2=A0 =C2=A0 bool<br>
+&gt; diff --git a/hw/watchdog/meson.build b/hw/watchdog/meson.build<br>
+&gt; index 8974b5cf4c..21e2ede28f 100644<br>
+&gt; --- a/hw/watchdog/meson.build<br>
+&gt; +++ b/hw/watchdog/meson.build<br>
+&gt; @@ -7,3 +7,4 @@ softmmu_ss.add(when: &#39;CONFIG_ASPEED_SOC&#39;, if_t=
+rue:<br>
+&gt; files(&#39;wdt_aspeed.c&#39;))<br>
+&gt;=C2=A0 softmmu_ss.add(when: &#39;CONFIG_WDT_IMX2&#39;, if_true: files(&=
+#39;wdt_imx2.c&#39;))<br>
+&gt;=C2=A0 softmmu_ss.add(when: &#39;CONFIG_WDT_SBSA&#39;, if_true: files(&=
+#39;sbsa_gwdt.c&#39;))<br>
+&gt;=C2=A0 specific_ss.add(when: &#39;CONFIG_PSERIES&#39;, if_true: files(&=
+#39;spapr_watchdog.c&#39;))<br>
+&gt; +softmmu_ss.add(when: &#39;CONFIG_IBEX_AON&#39;, if_true: files(&#39;w=
+dt_ibex_aon.c&#39;))<br>
+&gt; diff --git a/hw/watchdog/wdt_ibex_aon.c b/hw/watchdog/wdt_ibex_aon.c<b=
+r>
+&gt; new file mode 100644<br>
+&gt; index 0000000000..871ead15dc<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/hw/watchdog/wdt_ibex_aon.c<br>
+&gt; @@ -0,0 +1,432 @@<br>
+&gt; +/*<br>
+&gt; + * QEMU lowRISC OpenTitan Always-On Timer device<br>
+&gt; + *<br>
+&gt; + * Copyright (c) 2022 Rivos Inc.<br>
+&gt; + *<br>
+&gt; + * For details check the documentation here:<br>
+&gt; + *=C2=A0 =C2=A0<a href=3D"https://docs.opentitan.org/hw/ip/aon_timer/=
+doc/" rel=3D"noreferrer" target=3D"_blank">https://docs.opentitan.org/hw/ip=
+/aon_timer/doc/</a><br>
+&gt; + *<br>
+&gt; + * Permission is hereby granted, free of charge, to any person obtain=
+ing a copy<br>
+&gt; + * of this software and associated documentation files (the<br>
+&gt; &quot;Software&quot;), to deal<br>
+&gt; + * in the Software without restriction, including without limitation =
+the rights<br>
+&gt; + * to use, copy, modify, merge, publish, distribute, sublicense, and/=
+or sell<br>
+&gt; + * copies of the Software, and to permit persons to whom the Software=
+ is<br>
+&gt; + * furnished to do so, subject to the following conditions:<br>
+&gt; + *<br>
+&gt; + * The above copyright notice and this permission notice shall be inc=
+luded in<br>
+&gt; + * all copies or substantial portions of the Software.<br>
+&gt; + *<br>
+&gt; + * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF AN=
+Y KIND, EXPRESS OR<br>
+&gt; + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTAB=
+ILITY,<br>
+&gt; + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT =
+SHALL<br>
+&gt; + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES =
+OR OTHER<br>
+&gt; + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,<br=
+>
+&gt; ARISING FROM,<br>
+&gt; + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEAL=
+INGS IN<br>
+&gt; + * THE SOFTWARE.<br>
+&gt; + */<br>
+&gt; +#include &quot;qemu/osdep.h&quot;<br>
+&gt; +#include &quot;qemu/timer.h&quot;<br>
+&gt; +#include &quot;qemu/log.h&quot;<br>
+&gt; +#include &quot;sysemu/reset.h&quot;<br>
+&gt; +#include &quot;sysemu/watchdog.h&quot;<br>
+&gt; +#include &quot;hw/register.h&quot;<br>
+&gt; +#include &quot;hw/irq.h&quot;<br>
+&gt; +#include &quot;migration/vmstate.h&quot;<br>
+&gt; +<br>
+&gt; +#include &quot;hw/watchdog/wdt_ibex_aon.h&quot;<br>
+&gt; +<br>
+&gt; +REG32(ALERT_TEST,=C2=A0 =C2=A0 =C2=A0 0x00)<br>
+&gt; +REG32(WKUP_CTRL,=C2=A0 =C2=A0 =C2=A0 =C2=A00x04)<br>
+&gt; +REG32(WKUP_THOLD,=C2=A0 =C2=A0 =C2=A0 0x08)<br>
+&gt; +REG32(WKUP_COUNT,=C2=A0 =C2=A0 =C2=A0 0x0c)<br>
+&gt; +REG32(WDOG_REGWEN,=C2=A0 =C2=A0 =C2=A00x10)<br>
+&gt; +REG32(WDOG_CTRL,=C2=A0 =C2=A0 =C2=A0 =C2=A00x14)<br>
+&gt; +=C2=A0 =C2=A0 FIELD(WDOG_CTRL, EN, 0, 1)<br>
+&gt; +=C2=A0 =C2=A0 FIELD(WDOG_CTRL, PIS, 1, 1) /* Pause in sleep */<br>
+&gt; +REG32(WDOG_BARK_THOLD, 0x18)<br>
+&gt; +REG32(WDOG_BITE_THOLD, 0x1c)<br>
+&gt; +REG32(WDOG_COUNT,=C2=A0 =C2=A0 =C2=A0 0x20)<br>
+&gt; +REG32(INTR_STATE,=C2=A0 =C2=A0 =C2=A0 0x24)<br>
+&gt; +=C2=A0 =C2=A0 FIELD(INTR_STATE, WKUP, 0, 1)<br>
+&gt; +=C2=A0 =C2=A0 FIELD(INTR_STATE, WDOG, 1, 1)<br>
+&gt; +REG32(INTR_TEST,=C2=A0 =C2=A0 =C2=A0 =C2=A00x28)<br>
+&gt; +REG32(WKUP_CAUSE,=C2=A0 =C2=A0 =C2=A0 0x2c)<br>
+&gt; +<br>
+&gt; +/* QOM Stuff */<br>
+&gt; +static void ibex_aon_class_init(ObjectClass *oc, void *data);<br>
+&gt; +static void ibex_aon_init(Object *obj);<br>
+&gt; +static void ibex_aon_register_types(void);<br>
+&gt; +<br>
+&gt; +/* DeviceClass Inherits */<br>
+&gt; +static void ibex_aon_realize(DeviceState *dev, Error **errp);<br>
+&gt; +static void ibex_aon_unrealize(DeviceState *dev);<br>
+&gt; +<br>
+&gt; +/* Resettable Interface Inherits */<br>
+&gt; +static void ibex_aon_enter_reset(Object *obj, ResetType type);<br>
+&gt; +static void ibex_aon_hold_reset(Object *obj);<br>
+&gt; +<br>
+&gt; +/* AON Timer Stuff */<br>
+&gt; +static void ibex_aon_update_bark_timer(IbexAONTimerState *s);<br>
+&gt; +static void ibex_aon_update_bite_timer(IbexAONTimerState *s);<br>
+&gt; +static void ibex_aon_barker_expired(void *s);<br>
+&gt; +static void ibex_aon_biter_expired(void *s);<br>
+&gt; +static bool ibex_aon_update_count(IbexAONTimerState *s);<br>
+&gt; +static uint64_t ibex_aon_read(void *opaque, hwaddr addr, unsigned int=
+ size);<br>
+&gt; +static void ibex_aon_write(void *opaque, hwaddr addr, uint64_t value,=
 <br>
-memory allocation.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int size);<br>
 <br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp; I think this interface should be<br>
-&gt; <br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; char **dis,<br>
-&gt; <br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp; so that...<br>
-&gt; <br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp; &gt; @@ -746,25 +647,26 @@ static int Disassem=
-ble(const uint16 *data, std::string &amp; dis,<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp; * an ASE attribute and the requested version<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp; * not having that attribute<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp; */<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp; &gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dis=
- =3D &quot;ASE attribute mismatch&quot;;<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp; &gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; str=
-cpy(dis, &quot;ASE attribute mismatch&quot;);<br>
-&gt; <br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp; these become<br>
-&gt; <br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; *dis =3D g_strd=
-up(&quot;string&quot;);<br>
-&gt; <br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp; and the usage in nanomips_dis does not assume =
-a fixed sized buffer.<br>
-&gt; <br>
-&gt; <br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp; r~<br>
-&gt; <br>
-&gt; <br>
-&gt; I'm not sure why the fixed size buffer would be a problem here since t=
-he buffer size has
+Generally in QEMU we put the TypeInfo and friends at the bottom of the<br>
+file, so we don&#39;t need to declare functions like this.<br>
 <br>
-&gt; already been limited by the caller.<br>
-&gt; I.e. in the print_insn_nanomips function, the buf variable is defined =
-as:<br>
-&gt; char buf[200];<br>
+In future can you do that as well? It just keeps everything similar<br>
+<br></blockquote><div>Will do, no problem.<br></div><div>=C2=A0</div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">
+&gt; +<br>
+&gt; +static const TypeInfo ibex_aon_info =3D {<br>
+&gt; +=C2=A0 =C2=A0 .class_init =3D ibex_aon_class_init,<br>
+&gt; +=C2=A0 =C2=A0 .parent =3D TYPE_SYS_BUS_DEVICE,<br>
+&gt; +=C2=A0 =C2=A0 .name =3D TYPE_IBEX_AON_TIMER,<br>
+&gt; +=C2=A0 =C2=A0 .instance_size =3D sizeof(IbexAONTimerState),<br>
+&gt; +=C2=A0 =C2=A0 .instance_init =3D ibex_aon_init,<br>
+&gt; +};<br>
+&gt; +<br>
+&gt; +static WatchdogTimerModel model =3D {<br>
+&gt; +=C2=A0 =C2=A0 .wdt_name =3D TYPE_IBEX_AON_TIMER,<br>
+&gt; +=C2=A0 =C2=A0 .wdt_description =3D &quot;OpenTitan always-on timer&qu=
+ot;<br>
+&gt; +};<br>
+&gt; +<br>
+&gt; +static const VMStateDescription vmstate_ibex_aon =3D {<br>
+&gt; +=C2=A0 =C2=A0 .name =3D &quot;vmstate_ibex_aon&quot;,<br>
+&gt; +=C2=A0 =C2=A0 .version_id =3D 0,<br>
+&gt; +=C2=A0 =C2=A0 .minimum_version_id =3D 0,<br>
+&gt; +=C2=A0 =C2=A0 .fields =3D (VMStateField[]) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT32_ARRAY(regs, IbexAONTimerSt=
+ate, IBEX_AONTIMER_REGCOUNT),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_TIMER_PTR(barker, IbexAONTimerSta=
+te),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_TIMER_PTR(biter, IbexAONTimerStat=
+e),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT64(wdog_last, IbexAONTimerSta=
+te),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_END_OF_LIST()<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +};<br>
+&gt; +<br>
+&gt; +static const struct MemoryRegionOps ibex_aon_ops =3D {<br>
+&gt; +=C2=A0 =C2=A0 .read =3D ibex_aon_read,<br>
+&gt; +=C2=A0 =C2=A0 .write =3D ibex_aon_write,<br>
+&gt; +=C2=A0 =C2=A0 .endianness =3D DEVICE_NATIVE_ENDIAN<br>
+&gt; +};<br>
+&gt; +<br>
+&gt; +static void ibex_aon_init(Object *obj)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 IbexAONTimerState *s =3D IBEX_AON_TIMER(obj);<br>
+&gt; +=C2=A0 =C2=A0 SysBusDevice *dev =3D SYS_BUS_DEVICE(obj);<br>
+&gt; +=C2=A0 =C2=A0 sysbus_init_mmio(dev, &amp;s-&gt;iomem);<br>
+&gt; +=C2=A0 =C2=A0 sysbus_init_irq(dev, &amp;s-&gt;bark_irq);<br>
+&gt; +=C2=A0 =C2=A0 memory_region_init_io(&amp;s-&gt;iomem, obj, &amp;ibex_=
+aon_ops, s,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 TYPE_IBEX_AON_TIMER, 4 * IBEX_AONTIMER_REGCOUNT);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static void ibex_aon_realize(DeviceState *dev, Error **errp)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 IbexAONTimerState *s =3D IBEX_AON_TIMER(dev);<br>
+&gt; +=C2=A0 =C2=A0 s-&gt;barker =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, ibex_=
+aon_barker_expired, dev);<br>
+&gt; +=C2=A0 =C2=A0 s-&gt;biter =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, ibex_a=
+on_biter_expired, dev);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static void ibex_aon_unrealize(DeviceState *dev)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 IbexAONTimerState *s =3D IBEX_AON_TIMER(dev);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 timer_free(s-&gt;barker);<br>
+&gt; +=C2=A0 =C2=A0 timer_free(s-&gt;biter);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +<br>
+&gt; +static void ibex_aon_class_init(ObjectClass *oc, void *data)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 DeviceClass *dc =3D DEVICE_CLASS(oc);<br>
+&gt; +=C2=A0 =C2=A0 ResettableClass *rc =3D RESETTABLE_CLASS(oc);<br>
+&gt; +=C2=A0 =C2=A0 dc-&gt;realize =3D ibex_aon_realize;<br>
+&gt; +=C2=A0 =C2=A0 dc-&gt;unrealize =3D ibex_aon_unrealize;<br>
+&gt; +=C2=A0 =C2=A0 dc-&gt;hotpluggable =3D false;<br>
+&gt; +=C2=A0 =C2=A0 set_bit(DEVICE_CATEGORY_WATCHDOG, dc-&gt;categories);<b=
+r>
+&gt; +=C2=A0 =C2=A0 dc-&gt;vmsd =3D &amp;vmstate_ibex_aon;<br>
+&gt; +=C2=A0 =C2=A0 dc-&gt;desc =3D &quot;opentitan always-on timer ip bloc=
+k&quot;;<br>
+&gt; +=C2=A0 =C2=A0 //Resettable class inits<br>
+&gt; +=C2=A0 =C2=A0 rc-&gt;phases.enter =3D ibex_aon_enter_reset;<br>
+&gt; +=C2=A0 =C2=A0 rc-&gt;phases.hold =3D ibex_aon_hold_reset;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static void ibex_aon_enter_reset(Object *obj, ResetType type)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 IbexAONTimerState *s =3D IBEX_AON_TIMER(obj);<br>
+&gt; +=C2=A0 =C2=A0 s-&gt;regs[R_ALERT_TEST]=C2=A0 =C2=A0 =C2=A0 =3D 0x0;<b=
+r>
+&gt; +=C2=A0 =C2=A0 s-&gt;regs[R_WKUP_CTRL]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0=
+x0;<br>
+&gt; +=C2=A0 =C2=A0 s-&gt;regs[R_WKUP_THOLD]=C2=A0 =C2=A0 =C2=A0 =3D 0x0;<b=
+r>
+&gt; +=C2=A0 =C2=A0 s-&gt;regs[R_WKUP_COUNT]=C2=A0 =C2=A0 =C2=A0 =3D 0x0;<b=
+r>
+&gt; +=C2=A0 =C2=A0 s-&gt;regs[R_WDOG_REGWEN]=C2=A0 =C2=A0 =C2=A0=3D 0x1;<b=
+r>
+&gt; +=C2=A0 =C2=A0 s-&gt;regs[R_WDOG_CTRL]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0=
+x0;<br>
+&gt; +=C2=A0 =C2=A0 s-&gt;regs[R_WDOG_BARK_THOLD] =3D 0x0;<br>
+&gt; +=C2=A0 =C2=A0 s-&gt;regs[R_WDOG_BITE_THOLD] =3D 0x0;<br>
+&gt; +=C2=A0 =C2=A0 s-&gt;regs[R_WDOG_COUNT]=C2=A0 =C2=A0 =C2=A0 =3D 0x0;<b=
+r>
+&gt; +=C2=A0 =C2=A0 s-&gt;regs[R_INTR_STATE]=C2=A0 =C2=A0 =C2=A0 =3D 0x0;<b=
+r>
+&gt; +=C2=A0 =C2=A0 s-&gt;regs[R_INTR_TEST]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0=
+x0;<br>
+&gt; +=C2=A0 =C2=A0 s-&gt;regs[R_WKUP_CAUSE]=C2=A0 =C2=A0 =C2=A0 =3D 0x0;<b=
+r>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 uint64_t now =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);=
 <br>
-There would be no such declaration with the above change.<br>
+&gt; +=C2=A0 =C2=A0 s-&gt;wdog_last =3D now;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 timer_del(s-&gt;barker);<br>
+&gt; +=C2=A0 =C2=A0 timer_del(s-&gt;biter);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static void ibex_aon_hold_reset(Object *obj)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 IbexAONTimerState *s =3D IBEX_AON_TIMER(obj);<br>
+&gt; +=C2=A0 =C2=A0 qemu_irq_lower(s-&gt;bark_irq);<br>
+&gt; +<br>
 <br>
+Extra new line<br>
 <br>
-r~<br>
-</div>
-</span></font></div>
-</body>
-</html>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static uint64_t ibex_aon_read(void *opaque, hwaddr addr, unsigned int=
+ size)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 IbexAONTimerState *s =3D IBEX_AON_TIMER(opaque);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 uint64_t retval =3D 0;<br>
+&gt; +=C2=A0 =C2=A0 switch (addr) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_ALERT_TEST:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERR=
+OR,<br>
+<br>
+There is an unimplemented mask you can use instead<br>
+<br>
+Also, you have the register you may as well return it<br></blockquote><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 &quot;%s: Alert test not implemented&quot;, __func__)=
+;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_WKUP_CTRL:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERR=
+OR,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 &quot;%s: AON wkup not implemented&quot;, __func__);<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_WKUP_THOLD:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERR=
+OR,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 &quot;%s: AON wkup not implemented&quot;, __func__);<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_WKUP_COUNT:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERR=
+OR,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 &quot;%s: AON wkup not implemented&quot;, __func__);<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_WDOG_REGWEN:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 retval =3D s-&gt;regs[R_WDO=
+G_REGWEN];<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_WDOG_CTRL:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 retval =3D s-&gt;regs[R_WDO=
+G_CTRL];<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_WDOG_BARK_THOLD:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 retval =3D s-&gt;regs[R_WDO=
+G_BARK_THOLD];<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_WDOG_BITE_THOLD:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 retval =3D s-&gt;regs[R_WDO=
+G_BITE_THOLD];<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_WDOG_COUNT:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Lazily update the wdog c=
+ount. */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ibex_aon_update_count(s);<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 retval =3D s-&gt;regs[R_WDO=
+G_COUNT];<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_INTR_STATE:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 retval =3D s-&gt;regs[R_INT=
+R_STATE];<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_INTR_TEST:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERR=
+OR,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 &quot;%s: Intr test not implemented&quot;, __func__);=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_WKUP_CAUSE:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERR=
+OR,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 &quot;%s: Wkup cause not implemented&quot;, __func__)=
+;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 return retval;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static void ibex_aon_write(void *opaque,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0hwaddr addr, uint64_t value,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int size)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 IbexAONTimerState *s =3D IBEX_AON_TIMER(opaque);<br>
+<br>
+New line<br>
+<br>
+&gt; +=C2=A0 =C2=A0 /* When writing, need to consider if the configuration =
+is locked */<br>
+&gt; +=C2=A0 =C2=A0 switch (addr) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_ALERT_TEST:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERR=
+OR,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 &quot;%s: Alert test not implemented&quot;, __func__)=
+;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_WKUP_CTRL:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERR=
+OR,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 &quot;%s: AON wkup not implemented&quot;, __func__);<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_WKUP_THOLD:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERR=
+OR,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 &quot;%s: AON wkup not implemented&quot;, __func__);<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_WKUP_COUNT:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERR=
+OR,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 &quot;%s: AON wkup not implemented&quot;, __func__);<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_WDOG_REGWEN:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (s-&gt;regs[R_WDOG_REGWE=
+N] =3D=3D IBEX_AONTIMER_WDOG_UNLOCKED) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;regs[R_=
+WDOG_REGWEN] =3D value &amp;<br>
+&gt; IBEX_AONTIMER_WDOG_REGWEN_MASK;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask=
+(LOG_GUEST_ERROR,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;%s: AON Timer configuration locke=
+d\n&quot;,<br>
+&gt; __func__);<br>
+<br>
+You don&#39;t need __func__ here, I&#39;m pretty sure it&#39;s added for yo=
+u<br></blockquote><div><br></div><div>When I try to build without __func__ =
+the compiler complains<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_WDOG_CTRL:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (s-&gt;regs[R_WDOG_REGWE=
+N] =3D=3D IBEX_AONTIMER_WDOG_UNLOCKED) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;regs[R_=
+WDOG_CTRL] =3D value &amp; IBEX_AONTIMER_WDOG_CTRL_MASK;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ibex_aon_upda=
+te_bark_timer(s);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ibex_aon_upda=
+te_bite_timer(s);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask=
+(LOG_GUEST_ERROR,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;%s: AON Timer configuration locke=
+d\n&quot;,<br>
+&gt; __func__);<br>
+<br>
+Some weird line wrapping here as well<br>
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_WDOG_BARK_THOLD:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (s-&gt;regs[R_WDOG_REGWE=
+N] =3D=3D IBEX_AONTIMER_WDOG_UNLOCKED) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;regs[R_=
+WDOG_BARK_THOLD] =3D value;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ibex_aon_upda=
+te_bark_timer(s);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask=
+(LOG_GUEST_ERROR,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;%s: AON Timer configuration locke=
+d\n&quot;,<br>
+&gt; __func__);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_WDOG_BITE_THOLD:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (s-&gt;regs[R_WDOG_REGWE=
+N] =3D=3D IBEX_AONTIMER_WDOG_UNLOCKED) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;regs[R_=
+WDOG_BITE_THOLD] =3D value;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ibex_aon_upda=
+te_bite_timer(s);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask=
+(LOG_GUEST_ERROR,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;%s: AON Timer configuration locke=
+d\n&quot;,<br>
+&gt; __func__);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_WDOG_COUNT:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;regs[R_WDOG_COUNT] =
+=3D value;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;wdog_last =3D qemu_cl=
+ock_get_ns(QEMU_CLOCK_VIRTUAL);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ibex_aon_update_bark_timer(=
+s);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ibex_aon_update_bite_timer(=
+s);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_INTR_STATE:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Service the IRQs by writ=
+ing 1 to the appropriate field */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((value &amp; R_INTR_STA=
+TE_WDOG_MASK)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_irq_lowe=
+r(s-&gt;bark_irq);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ibex_aon_upda=
+te_count(s);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int64_t now =
+=3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* We ne=
+ed to make sure that COUNT &lt; *_THOLD. If it isn&#39;t, an<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* inter=
+rupt is generated the next clock cycle<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (s-&gt;reg=
+s[R_WDOG_COUNT] &gt;=3D s-&gt;regs[R_WDOG_BARK_THOLD]) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ if (now + IBEX_AONTIMER_PERIOD_NS &lt; now) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 timer_mod_ns(s-&gt;barker, INT64_MAX);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ } else {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 timer_mod_ns(s-&gt;barker, now + IBEX_AONTIMER_PERIOD_NS);<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ }<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_INTR_TEST:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERR=
+OR,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 &quot;%s: Intr test not implemented&quot;, __func__);=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 case A_WKUP_CAUSE:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERR=
+OR,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 &quot;%s: Wkup cause not implemented&quot;, __func__)=
+;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERR=
+OR,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 &quot;%s: Write to unknown address %#lx\n&quot;,<br>
+&gt; __func__, addr);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +<br>
+&gt; +/*<br>
+&gt; + * Update the bark timer to reflect a new value of WDOG_COUNT or<br>
+&gt; + * WDOG_BARK_THOLD.<br>
+&gt; + */<br>
+&gt; +static void ibex_aon_update_bark_timer(IbexAONTimerState *s)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 if (!ibex_aon_update_count(s)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 /* Calculate the register count remaining */<br>
+&gt; +=C2=A0 =C2=A0 uint64_t now =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);=
+<br>
+&gt; +=C2=A0 =C2=A0 int64_t cur_count =3D (int64_t) s-&gt;regs[R_WDOG_COUNT=
+];<br>
+&gt; +=C2=A0 =C2=A0 int64_t rem_bark =3D s-&gt;regs[R_WDOG_BARK_THOLD] - cu=
+r_count;<br>
+&gt; +=C2=A0 =C2=A0 /* Extrapolate realtime from count based on clock perio=
+d */<br>
+&gt; +=C2=A0 =C2=A0 const int64_t delta_ns_bark =3D rem_bark * IBEX_AONTIME=
+R_PERIOD_NS;<br>
+&gt; +=C2=A0 =C2=A0 /* Timer updates */<br>
+&gt; +=C2=A0 =C2=A0 timer_mod_ns(s-&gt;barker, now + delta_ns_bark);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +/*<br>
+&gt; + * Update the bite timer to reflect a new value of WDOG_COUNT or<br>
+&gt; + * WDOG_BITE_THOLD.<br>
+&gt; + */<br>
+&gt; +static void ibex_aon_update_bite_timer(IbexAONTimerState *s)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 if (!ibex_aon_update_count(s)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 /* Calculate the register count remaining */<br>
+&gt; +=C2=A0 =C2=A0 uint64_t now =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);=
+<br>
+&gt; +=C2=A0 =C2=A0 int64_t cur_count =3D (int64_t) s-&gt;regs[R_WDOG_COUNT=
+];<br>
+&gt; +=C2=A0 =C2=A0 int64_t rem_bite =3D s-&gt;regs[R_WDOG_BITE_THOLD] - cu=
+r_count;<br>
+&gt; +=C2=A0 =C2=A0 /* Extrapolate realtime from count based on clock perio=
+d */<br>
+&gt; +=C2=A0 =C2=A0 const int64_t delta_ns_bite =3D rem_bite * IBEX_AONTIME=
+R_PERIOD_NS;<br>
+&gt; +=C2=A0 =C2=A0 //Timer updates<br>
+&gt; +=C2=A0 =C2=A0 timer_mod_ns(s-&gt;biter, now + delta_ns_bite);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +/*<br>
+&gt; + * This function updates the count in the register. It depends on the=
+ last time<br>
+&gt; + * a read had occurred and extrapolates the count via the clock freq =
+and the<br>
+&gt; + * time elapsed.<br>
+&gt; + */<br>
+&gt; +static bool ibex_aon_update_count(IbexAONTimerState *s)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 /* If the timer is disabled, do not update count */<br>
+&gt; +=C2=A0 =C2=A0 if (!(s-&gt;regs[R_WDOG_CTRL] &amp; R_WDOG_CTRL_EN_MASK=
+)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 /* Lazily update wdog count. The count is truncated to =
+fit. */<br>
+&gt; +=C2=A0 =C2=A0 const int64_t now =3D qemu_clock_get_ns(QEMU_CLOCK_VIRT=
+UAL);<br>
+&gt; +=C2=A0 =C2=A0 /* If for some reason we went back in time, elapsed cyc=
+les is negative. */<br>
+&gt; +=C2=A0 =C2=A0 int64_t elapsed =3D now - (int64_t)s-&gt;wdog_last;<br>
+&gt; +=C2=A0 =C2=A0 /* Get the count. */<br>
+&gt; +=C2=A0 =C2=A0 const int64_t count =3D (elapsed / IBEX_AONTIMER_PERIOD=
+_NS) +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0(int64_t)s-&gt;regs[R_WDOG_COUNT];<br>
+&gt; +=C2=A0 =C2=A0 /* Saturate the counter. */<br>
+&gt; +=C2=A0 =C2=A0 if (count &lt; 0) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;regs[R_WDOG_COUNT] =3D 0;<br>
+&gt; +=C2=A0 =C2=A0 } else if (count &lt;=3D UINT32_MAX) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;regs[R_WDOG_COUNT] =3D (uint64_t) c=
+ount;<br>
+&gt; +=C2=A0 =C2=A0 } else {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;regs[R_WDOG_COUNT] =3D UINT32_MAX;<=
+br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 /* Update the last-used timestamps */<br>
+&gt; +=C2=A0 =C2=A0 s-&gt;wdog_last =3D now;<br>
+&gt; +=C2=A0 =C2=A0 return true;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +/* Called when the bark timer expires */<br>
+&gt; +static void ibex_aon_barker_expired(void *opaque)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 IbexAONTimerState *s =3D IBEX_AON_TIMER(opaque);<br>
+&gt; +=C2=A0 =C2=A0 if (ibex_aon_update_count(s) &amp;&amp;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;regs[R_WDOG_COUNT] &gt;=3D s-&gt;re=
+gs[R_WDOG_BARK_THOLD]) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;regs[R_INTR_STATE] |=3D (1 &lt;&lt;=
+ 1);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_irq_raise(s-&gt;bark_irq);<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +/* Called when the bite timer expires */<br>
+&gt; +static void ibex_aon_biter_expired(void *opaque)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 IbexAONTimerState *s =3D IBEX_AON_TIMER(opaque);<br>
+&gt; +=C2=A0 =C2=A0 if (ibex_aon_update_count(s) &amp;&amp;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;regs[R_WDOG_COUNT] &gt;=3D s-&gt;re=
+gs[R_WDOG_BITE_THOLD]) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 resettable_reset(opaque, RESET_TYPE_COLD)=
+;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 watchdog_perform_action();<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static void ibex_aon_register_types(void)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 watchdog_add_model(&amp;model);<br>
+&gt; +=C2=A0 =C2=A0 type_register_static(&amp;ibex_aon_info);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +type_init(ibex_aon_register_types)<br>
+&gt; \ No newline at end of file<br>
+<br>
+Missing newline here<br>
+<br>
+&gt; diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan=
+.h<br>
+&gt; index 68892cd8e5..0bda31f817 100644<br>
+&gt; --- a/include/hw/riscv/opentitan.h<br>
+&gt; +++ b/include/hw/riscv/opentitan.h<br>
+&gt; @@ -24,6 +24,7 @@<br>
+&gt;=C2=A0 #include &quot;hw/char/ibex_uart.h&quot;<br>
+&gt;=C2=A0 #include &quot;hw/timer/ibex_timer.h&quot;<br>
+&gt;=C2=A0 #include &quot;hw/ssi/ibex_spi_host.h&quot;<br>
+&gt; +#include &quot;hw/watchdog/wdt_ibex_aon.h&quot;<br>
+&gt;=C2=A0 #include &quot;qom/object.h&quot;<br>
+&gt;<br>
+&gt;=C2=A0 #define TYPE_RISCV_IBEX_SOC &quot;riscv.lowrisc.ibex.soc&quot;<b=
+r>
+&gt; @@ -46,6 +47,8 @@ struct LowRISCIbexSoCState {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 IbexTimerState timer;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 IbexSPIHostState spi_host[OPENTITAN_NUM_SPI_HOSTS]=
+;<br>
+&gt;<br>
+&gt; +=C2=A0 =C2=A0 IbexAONTimerState aon_timer;<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 MemoryRegion flash_mem;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 MemoryRegion rom;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 MemoryRegion flash_alias;<br>
+&gt; @@ -78,7 +81,7 @@ enum {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 IBEX_DEV_RSTMGR,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 IBEX_DEV_CLKMGR,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 IBEX_DEV_PINMUX,<br>
+&gt; -=C2=A0 =C2=A0 IBEX_DEV_PADCTRL,<br>
+&gt; +=C2=A0 =C2=A0 IBEX_DEV_AON_TIMER,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 IBEX_DEV_USBDEV,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 IBEX_DEV_FLASH_CTRL,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 IBEX_DEV_PLIC,<br>
+&gt; @@ -95,7 +98,7 @@ enum {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 IBEX_DEV_OTBN,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 IBEX_DEV_PERI,<br>
+&gt;=C2=A0 };<br>
+&gt; -<br>
+&gt; +//See hw/top_earlgrey/sw/autogen/top_earlgrey.h<br>
+&gt;=C2=A0 enum {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 IBEX_UART0_TX_WATERMARK_IRQ=C2=A0 =C2=A0=3D 1,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 IBEX_UART0_RX_WATERMARK_IRQ=C2=A0 =C2=A0=3D 2,<br>
+&gt; @@ -110,6 +113,8 @@ enum {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 IBEX_SPI_HOST0_SPI_EVENT_IRQ=C2=A0 =3D 151,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 IBEX_SPI_HOST1_ERR_IRQ=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=3D 152,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 IBEX_SPI_HOST1_SPI_EVENT_IRQ=C2=A0 =3D 153,<br>
+&gt; +=C2=A0 =C2=A0 IBEX_AONTIMER_WKUP_EXPIRED =3D 157,<br>
+&gt; +=C2=A0 =C2=A0 IBEX_AONTIMER_WDOG_BARK =3D 158,<br>
+&gt;=C2=A0 };<br>
+&gt;<br>
+&gt;=C2=A0 #endif<br>
+&gt; diff --git a/include/hw/watchdog/wdt_ibex_aon.h<br>
+&gt; b/include/hw/watchdog/wdt_ibex_aon.h<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000000..2d7a3188d8<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/include/hw/watchdog/wdt_ibex_aon.h<br>
+&gt; @@ -0,0 +1,67 @@<br>
+&gt; +/*<br>
+&gt; + * QEMU lowRISC OpenTitan Always-On Timer device<br>
+&gt; + *<br>
+&gt; + * Copyright (c) 2022 Rivos Inc.<br>
+&gt; + *<br>
+&gt; + * For details check the documentation here:<br>
+&gt; + *=C2=A0 =C2=A0<a href=3D"https://docs.opentitan.org/hw/ip/aon_timer/=
+doc/" rel=3D"noreferrer" target=3D"_blank">https://docs.opentitan.org/hw/ip=
+/aon_timer/doc/</a><br>
+&gt; + *<br>
+&gt; + * Permission is hereby granted, free of charge, to any person obtain=
+ing a copy<br>
+&gt; + * of this software and associated documentation files (the<br>
+&gt; &quot;Software&quot;), to deal<br>
+&gt; + * in the Software without restriction, including without limitation =
+the rights<br>
+&gt; + * to use, copy, modify, merge, publish, distribute, sublicense, and/=
+or sell<br>
+&gt; + * copies of the Software, and to permit persons to whom the Software=
+ is<br>
+&gt; + * furnished to do so, subject to the following conditions:<br>
+&gt; + *<br>
+&gt; + * The above copyright notice and this permission notice shall be inc=
+luded in<br>
+&gt; + * all copies or substantial portions of the Software.<br>
+&gt; + *<br>
+&gt; + * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF AN=
+Y KIND, EXPRESS OR<br>
+&gt; + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTAB=
+ILITY,<br>
+&gt; + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT =
+SHALL<br>
+&gt; + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES =
+OR OTHER<br>
+&gt; + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,<br=
+>
+&gt; ARISING FROM,<br>
+&gt; + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEAL=
+INGS IN<br>
+&gt; + * THE SOFTWARE.<br>
+&gt; + */<br>
+&gt; +#ifndef WDT_IBEX_AON_H<br>
+&gt; +#define WDT_IBEX_AON_H<br>
+&gt; +<br>
+&gt; +#include &quot;hw/sysbus.h&quot;<br>
+&gt; +#include &quot;qemu/timer.h&quot;<br>
+&gt; +#include &quot;qom/object.h&quot;<br>
+&gt; +<br>
+&gt; +#define TYPE_IBEX_AON_TIMER &quot;ibex-aon-timer&quot;<br>
+&gt; +OBJECT_DECLARE_SIMPLE_TYPE(IbexAONTimerState, IBEX_AON_TIMER)<br>
+&gt; +<br>
+&gt; +#define IBEX_AONTIMER_REGCOUNT 12<br>
+&gt; +#define IBEX_AONTIMER_FREQ 200000 /* 200 KHz */<br>
+&gt; +#define IBEX_AONTIMER_PERIOD_NS 5000<br>
+&gt; +<br>
+&gt; +#define IBEX_AONTIMER_WDOG_LOCKED 0<br>
+&gt; +#define IBEX_AONTIMER_WDOG_UNLOCKED 1<br>
+&gt; +<br>
+&gt; +#define IBEX_AONTIMER_WDOG_REGWEN_MASK 0x1<br>
+&gt; +#define IBEX_AONTIMER_WDOG_CTRL_MASK 0x3<br>
+&gt; +#define IBEX_AONTIMER_INTR_STATE_MASK 0x3<br>
+&gt; +<br>
+&gt; +struct IbexAONTimerState {<br>
+&gt; +=C2=A0 =C2=A0 /*&lt; private &gt;*/<br>
+&gt; +=C2=A0 =C2=A0 SysBusDevice parent_obj;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 MemoryRegion iomem;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 QEMUTimer *barker;<br>
+&gt; +=C2=A0 =C2=A0 QEMUTimer *biter;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 qemu_irq bark_irq;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* Registers */<br>
+&gt; +=C2=A0 =C2=A0 uint32_t regs[IBEX_AONTIMER_REGCOUNT];<br>
+&gt; +=C2=A0 =C2=A0 /* Last-used Timestamps */<br>
+&gt; +=C2=A0 =C2=A0 uint64_t wdog_last;<br>
+&gt; +=C2=A0 =C2=A0 /*&lt; public &gt;*/<br>
+&gt; +};<br>
+&gt; +<br>
+&gt; +<br>
+&gt; +#endif /* WDT_IBEX_AON_H */<br>
+&gt; \ No newline at end of file<br>
+&gt; diff --git a/tests/qtest/ibex-aon-timer-test.c<br>
+&gt; b/tests/qtest/ibex-aon-timer-test.c<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000000..ffd668b206<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/tests/qtest/ibex-aon-timer-test.c<br>
+&gt; @@ -0,0 +1,189 @@<br>
+&gt; +/*<br>
+&gt; + * Testing the OpenTitan AON Timer<br>
+&gt; + *<br>
+&gt; + * Copyright (c) 2022 Rivos Inc.<br>
+&gt; + *<br>
+&gt; + * Permission is hereby granted, free of charge, to any person obtain=
+ing a copy<br>
+&gt; + * of this software and associated documentation files (the<br>
+&gt; &quot;Software&quot;), to deal<br>
+&gt; + * in the Software without restriction, including without limitation =
+the rights<br>
+&gt; + * to use, copy, modify, merge, publish, distribute, sublicense, and/=
+or sell<br>
+&gt; + * copies of the Software, and to permit persons to whom the Software=
+ is<br>
+&gt; + * furnished to do so, subject to the following conditions:<br>
+&gt; + *<br>
+&gt; + * The above copyright notice and this permission notice shall be inc=
+luded in<br>
+&gt; + * all copies or substantial portions of the Software.<br>
+&gt; + *<br>
+&gt; + * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF AN=
+Y KIND, EXPRESS OR<br>
+&gt; + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTAB=
+ILITY,<br>
+&gt; + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT =
+SHALL<br>
+&gt; + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES =
+OR OTHER<br>
+&gt; + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,<br=
+>
+&gt; ARISING FROM,<br>
+&gt; + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEAL=
+INGS IN<br>
+&gt; + * THE SOFTWARE.<br>
+&gt; + */<br>
+&gt; +<br>
+&gt; +#include &quot;qemu/osdep.h&quot;<br>
+&gt; +#include &quot;libqtest.h&quot;<br>
+&gt; +#include &quot;qapi/qmp/qdict.h&quot;<br>
+&gt; +<br>
+&gt; +#define AON_BASE_ADDR (0x40470000ul)<br>
+&gt; +#define AON_ADDR(addr) (AON_BASE_ADDR + addr)<br>
+&gt; +#define AON_WKUP_IRQ 157<br>
+&gt; +#define AON_BARK_IRQ 158<br>
+&gt; +#define AON_FREQ 200000 /* 200 KHz */<br>
+&gt; +#define AON_PERIOD_NS 5000<br>
+&gt; +#define NANOS_PER_SECOND 1000000000LL<br>
+<br>
+Newline<br>
+<br>
+&gt; +/* Test that reads work, and that the regs get reset to the correct v=
+alue */<br>
+&gt; +static void test_reads(void)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 QTestState *test =3D qtest_init(&quot;-M opentitan&quot=
+;);<br>
+&gt; +=C2=A0 =C2=A0 g_assert(qtest_readl(test, AON_ADDR(0x00)) =3D=3D 0);<b=
+r>
+&gt; +=C2=A0 =C2=A0 g_assert(qtest_readl(test, AON_ADDR(0x04)) =3D=3D 0);<b=
+r>
+&gt; +=C2=A0 =C2=A0 g_assert(qtest_readl(test, AON_ADDR(0x08)) =3D=3D 0);<b=
+r>
+&gt; +=C2=A0 =C2=A0 g_assert(qtest_readl(test, AON_ADDR(0x0c)) =3D=3D 0);<b=
+r>
+&gt; +=C2=A0 =C2=A0 g_assert(qtest_readl(test, AON_ADDR(0x10)) =3D=3D 1);<b=
+r>
+&gt; +=C2=A0 =C2=A0 g_assert(qtest_readl(test, AON_ADDR(0x14)) =3D=3D 0);<b=
+r>
+&gt; +=C2=A0 =C2=A0 g_assert(qtest_readl(test, AON_ADDR(0x18)) =3D=3D 0);<b=
+r>
+&gt; +=C2=A0 =C2=A0 g_assert(qtest_readl(test, AON_ADDR(0x1c)) =3D=3D 0);<b=
+r>
+&gt; +=C2=A0 =C2=A0 g_assert(qtest_readl(test, AON_ADDR(0x20)) =3D=3D 0);<b=
+r>
+&gt; +=C2=A0 =C2=A0 g_assert(qtest_readl(test, AON_ADDR(0x24)) =3D=3D 0);<b=
+r>
+&gt; +=C2=A0 =C2=A0 g_assert(qtest_readl(test, AON_ADDR(0x28)) =3D=3D 0);<b=
+r>
+&gt; +=C2=A0 =C2=A0 g_assert(qtest_readl(test, AON_ADDR(0x2c)) =3D=3D 0);<b=
+r>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 qtest_quit(test);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static void test_writes(void)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 /* Test that writes worked, while the config is unlocke=
+d */<br>
+&gt; +=C2=A0 =C2=A0 QTestState *test =3D qtest_init(&quot;-M opentitan&quot=
+;);<br>
+&gt; +<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 qtest_writel(test, AON_ADDR(0x18), (1 &lt;&lt; 19)); /*=
+ WDOG_BARK_THOLD */<br>
+&gt; +=C2=A0 =C2=A0 g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x18)),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0=3D=3D, (1 &lt;&lt; 19));<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 qtest_writel(test, AON_ADDR(0x1c), (1 &lt;&lt; 20)); /*=
+ WDOG_BITE_THOLD */<br>
+&gt; +=C2=A0 =C2=A0 g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x1c)),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0=3D=3D, (1 &lt;&lt; 20));<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 qtest_writel(test, AON_ADDR(0x14), 0x1); /* WDOG_CTRL e=
+nable */<br>
+&gt; +=C2=A0 =C2=A0 g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x14)),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0=3D=3D, 0x1);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 qtest_writel(test, AON_ADDR(0x10), 0x0); /* WDOG_REGWEN=
+ enable */<br>
+&gt; +=C2=A0 =C2=A0 g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x10)), =3D=
+=3D, 0x0);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* Test configuration lock<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* These should not successfully write.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
+&gt; +=C2=A0 =C2=A0 qtest_writel(test, AON_ADDR(0x14), 0);<br>
+&gt; +=C2=A0 =C2=A0 qtest_writel(test, AON_ADDR(0x18), 0);<br>
+&gt; +=C2=A0 =C2=A0 qtest_writel(test, AON_ADDR(0x1c), 0);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x14)),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0=3D=3D, 0x1);<br>
+&gt; +=C2=A0 =C2=A0 g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x18)),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0=3D=3D, (1 &lt;&lt; 19));<br>
+&gt; +=C2=A0 =C2=A0 g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x1c)),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0=3D=3D, (1 &lt;&lt; 20));<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* This should not work, as it&#39;s a rw0c reg. */<br>
+&gt; +=C2=A0 =C2=A0 qtest_writel(test, AON_ADDR(0x10), 1);<br>
+&gt; +=C2=A0 =C2=A0 g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x10)),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0=3D=3D, 0x0);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 qtest_quit(test);<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +<br>
+&gt; +/* Test whether the watchdog timer works during normal operation */<b=
+r>
+&gt; +static void test_operation(void)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 QTestState *test =3D qtest_init(&quot;-M opentitan&quot=
+;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* Set up interrupts */<br>
+&gt; +=C2=A0 =C2=A0 qtest_irq_intercept_in(test, &quot;/machine/soc/plic&qu=
+ot;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* Setup timer */<br>
+&gt; +=C2=A0 =C2=A0 qtest_writel(test, AON_ADDR(0x18), (1 &lt;&lt; 19)); /*=
+ WDOG_BARK_THOLD */<br>
+&gt; +=C2=A0 =C2=A0 qtest_writel(test, AON_ADDR(0x1c), (1 &lt;&lt; 20)); /*=
+ WDOG_BITE_THOLD */<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* Run simulation, without enabling timer: */<br>
+&gt; +=C2=A0 =C2=A0 qtest_clock_step(test, NANOS_PER_SECOND * 30);<br>
+&gt; +=C2=A0 =C2=A0 g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x20)),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0=3D=3D, 0); /* checks if WDOG_COUNT gets updated */<br>
+&gt; +=C2=A0 =C2=A0 g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x24)),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0=3D=3D, 0); /* checks if INTR_STATE is clear */<br>
+&gt; +=C2=A0 =C2=A0 g_assert(!qtest_get_irq(test, AON_BARK_IRQ));<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* Enable the timer, and test if the count is updated c=
+orrectly */<br>
+&gt; +=C2=A0 =C2=A0 qtest_writel(test, AON_ADDR(0x14), 0x1); /* set WDOG_CT=
+RL =3D 1 */<br>
+&gt; +=C2=A0 =C2=A0 qtest_clock_step(test, NANOS_PER_SECOND);<br>
+&gt; +=C2=A0 =C2=A0 g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x20)),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0=3D=3D, AON_FREQ);<br>
+&gt; +=C2=A0 =C2=A0 g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x24)),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0=3D=3D, 0);<br>
+&gt; +=C2=A0 =C2=A0 g_assert(!qtest_get_irq(test, AON_BARK_IRQ));<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* Disable the timer, and test if the count freezes */<=
+br>
+&gt; +=C2=A0 =C2=A0 qtest_writel(test, AON_ADDR(0x14), 0x0); /* set WDOG_CT=
+RL =3D 0 */<br>
+&gt; +=C2=A0 =C2=A0 qtest_clock_step(test, NANOS_PER_SECOND);<br>
+&gt; +=C2=A0 =C2=A0 g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x20)),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0=3D=3D, AON_FREQ);<br>
+&gt; +=C2=A0 =C2=A0 g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x24)),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0=3D=3D, 0);<br>
+&gt; +=C2=A0 =C2=A0 g_assert(!qtest_get_irq(test, AON_BARK_IRQ));<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* Enable the timer, and run to bark */<br>
+&gt; +=C2=A0 =C2=A0 qtest_writel(test, AON_ADDR(0x14), 0x1); /* set WDOG_CT=
+RL =3D 1 */<br>
+&gt; +=C2=A0 =C2=A0 qtest_clock_step(test, NANOS_PER_SECOND * 1.62145);<br>
+&gt; +=C2=A0 =C2=A0 g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x20)),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0&gt;=3D, (1 &lt;&lt; 19));<br>
+&gt; +=C2=A0 =C2=A0 g_assert(qtest_get_irq(test, AON_BARK_IRQ));<br>
+&gt; +=C2=A0 =C2=A0 g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x24)),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0=3D=3D, (1 &lt;&lt; 1));<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* Disable IRQ by writing to INTR_STATE. Should bark ne=
+xt cycle */<br>
+&gt; +=C2=A0 =C2=A0 qtest_writel(test, AON_ADDR(0x24), (1 &lt;&lt; 1));<br>
+&gt; +=C2=A0 =C2=A0 g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x24)),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0=3D=3D, (1 &lt;&lt; 1));<br>
+&gt; +=C2=A0 =C2=A0 g_assert(!qtest_get_irq(test, AON_BARK_IRQ));<br>
+&gt; +=C2=A0 =C2=A0 qtest_clock_step(test, AON_PERIOD_NS);<br>
+&gt; +=C2=A0 =C2=A0 g_assert(qtest_get_irq(test, AON_BARK_IRQ));<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* Disable IRQ again, this time by setting WDOG_CO=
+UNT =3D 0 (pet) and<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* writing to INTR_STATE.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
+&gt; +=C2=A0 =C2=A0 qtest_writel(test, AON_ADDR(0x20), 0);<br>
+&gt; +=C2=A0 =C2=A0 qtest_writel(test, AON_ADDR(0x24), (1 &lt;&lt; 1));<br>
+&gt; +=C2=A0 =C2=A0 g_assert(!qtest_get_irq(test, AON_BARK_IRQ));<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* Ensure no bite occurs, after resetting the timer. */=
+<br>
+&gt; +=C2=A0 =C2=A0 qtest_clock_step(test, NANOS_PER_SECOND * 2.621436);<br=
+>
+&gt; +=C2=A0 =C2=A0 QDict *resp =3D qtest_qmp(test, &quot;{&#39;execute&#39=
+;:&#39;query-status&#39;}&quot;);<br>
+&gt; +=C2=A0 =C2=A0 g_assert(qdict_haskey(resp, &quot;return&quot;));<br>
+&gt; +=C2=A0 =C2=A0 qobject_unref(resp);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* Allow test to run to bite. */<br>
+&gt; +=C2=A0 =C2=A0 qtest_clock_step(test, NANOS_PER_SECOND * 5.24289);<br>
+&gt; +=C2=A0 =C2=A0 QDict *event =3D qtest_qmp_eventwait_ref(test, &quot;WA=
+TCHDOG&quot;);<br>
+&gt; +=C2=A0 =C2=A0 QDict *data =3D qdict_get_qdict(event, &quot;data&quot;=
+);<br>
+&gt; +=C2=A0 =C2=A0 g_assert_cmpstr(qdict_get_str(data, &quot;action&quot;)=
+, =3D=3D, &quot;reset&quot;);<br>
+&gt; +=C2=A0 =C2=A0 qobject_unref(event);<br>
+&gt; +=C2=A0 =C2=A0 qobject_unref(data);<br>
+&gt; +=C2=A0 =C2=A0 qtest_quit(test);<br>
+&gt; +}<br>
+<br>
+Cool! Thanks for writing qtests.<br>
+<br>
+Out of curiosity did you test this from a guest as well?<br></blockquote><d=
+iv><br></div><div>I used an app on ZephyrOS to run tests similar to these q=
+tests for basic functionality.<br></div><div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+Alistair<br>
+<br>
+&gt; +<br>
+&gt; +<br>
+&gt; +<br>
+&gt; +int main(int argc, char **argv)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 g_test_init(&amp;argc, &amp;argv, NULL);<br>
+&gt; +=C2=A0 =C2=A0 qtest_add_func(&quot;/ibex-aon-timer/reads&quot;, test_=
+reads);<br>
+&gt; +=C2=A0 =C2=A0 qtest_add_func(&quot;/ibex-aon-timer/writes&quot;, test=
+_writes);<br>
+&gt; +=C2=A0 =C2=A0 qtest_add_func(&quot;/ibex-aon-timer/op&quot;, test_ope=
+ration);<br>
+&gt; +=C2=A0 =C2=A0 return g_test_run();<br>
+&gt; +}<br>
+&gt; diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build<br>
+&gt; index be4b30dea2..2941d6be4e 100644<br>
+&gt; --- a/tests/qtest/meson.build<br>
+&gt; +++ b/tests/qtest/meson.build<br>
+&gt; @@ -233,6 +233,9 @@ qtests_s390x =3D \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&#39;cpu-plug-test&#39;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&#39;migration-test&#39;]<br>
+&gt;<br>
+&gt; +qtests_riscv32 =3D \<br>
+&gt; +=C2=A0 [&#39;ibex-aon-timer-test&#39;]<br>
+&gt; +<br>
+&gt;=C2=A0 qos_test_ss =3D ss.source_set()<br>
+&gt;=C2=A0 qos_test_ss.add(<br>
+&gt;=C2=A0 =C2=A0 &#39;ac97-test.c&#39;,<br>
+&gt; --<br>
+&gt; 2.30.2<br>
+&gt;<br></blockquote><div><br></div><div>Thanks for the review. I&#39;ll ma=
+ke sure to address the formatting issues.<br></div><div><br></div><div>-Tyl=
+er <br></div></div></div>
 
---_000_VE1PR03MB6045BDD0D14A9F78EDF5AF73F8409VE1PR03MB6045eurp_--
+--0000000000005ec0ef05e8319be6--
 
