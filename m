@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96D605B196D
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 11:56:48 +0200 (CEST)
-Received: from localhost ([::1]:53760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9A45B1977
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 11:58:55 +0200 (CEST)
+Received: from localhost ([::1]:33786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWEH9-0002sy-Hd
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 05:56:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49214)
+	id 1oWEJC-0006Hi-Ui
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 05:58:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1oWE7I-0005Ef-Tp
+ id 1oWE7H-0005EA-QO
  for qemu-devel@nongnu.org; Thu, 08 Sep 2022 05:46:37 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:43710 helo=loongson.cn)
+Received: from mail.loongson.cn ([114.242.206.163]:43702 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1oWE7D-0004yv-JG
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1oWE7D-0004yy-J4
  for qemu-devel@nongnu.org; Thu, 08 Sep 2022 05:46:35 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxYOLwuRljGFYUAA--.17873S4; 
+ AQAAf8CxYOLwuRljGFYUAA--.17873S5; 
  Thu, 08 Sep 2022 17:46:24 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
  imammedo@redhat.com
-Subject: [PATCH v1 2/9] hw/loongarch: Support fw_cfg dma function
-Date: Thu,  8 Sep 2022 17:46:16 +0800
-Message-Id: <20220908094623.73051-3-yangxiaojuan@loongson.cn>
+Subject: [PATCH v1 3/9] hw/loongarch: Add interrupt information to FDT table
+Date: Thu,  8 Sep 2022 17:46:17 +0800
+Message-Id: <20220908094623.73051-4-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220908094623.73051-1-yangxiaojuan@loongson.cn>
 References: <20220908094623.73051-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxYOLwuRljGFYUAA--.17873S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7KryUuw17WrW7uFWxtryxKrg_yoW8CrW8pF
- y7ZFykJr48JrsxtrZaq345W3WxXrs7KrW29a12yw40ka47Xw1UZr1Iy39IyFyUX34kJFyF
- vFZ5K3y5X3W0qaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf8CxYOLwuRljGFYUAA--.17873S5
+X-Coremail-Antispam: 1UD129KBjvJXoW7uFy3Ar47uF47KFykArW8JFb_yoW8urWUpF
+ W7Aa90grWxXrn7WFZav345uwsxAr1fAFW2qw1Igr4Sya4DXw17WrWxC34fAF1UW348Xa4Y
+ vF4FqFyxW3WIgF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
@@ -62,51 +62,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Support fw_cfg dma function for LoongArch virt machine.
+Add interrupt information to FDT table, such as interrupt
+controller info, compatiable info, etc.
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 ---
- hw/loongarch/Kconfig  | 1 +
- hw/loongarch/fw_cfg.c | 3 ++-
- hw/loongarch/virt.c   | 2 +-
- 3 files changed, 4 insertions(+), 2 deletions(-)
+ hw/loongarch/virt.c | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
-index 73c52b093e..1deea83626 100644
---- a/hw/loongarch/Kconfig
-+++ b/hw/loongarch/Kconfig
-@@ -16,3 +16,4 @@ config LOONGARCH_VIRT
-     select SMBIOS
-     select ACPI_PCI
-     select ACPI_HW_REDUCED
-+    select FW_CFG_DMA
-diff --git a/hw/loongarch/fw_cfg.c b/hw/loongarch/fw_cfg.c
-index f6503d5607..f15a17416c 100644
---- a/hw/loongarch/fw_cfg.c
-+++ b/hw/loongarch/fw_cfg.c
-@@ -23,7 +23,8 @@ FWCfgState *loongarch_fw_cfg_init(ram_addr_t ram_size, MachineState *ms)
-     int max_cpus = ms->smp.max_cpus;
-     int smp_cpus = ms->smp.cpus;
- 
--    fw_cfg = fw_cfg_init_mem_wide(VIRT_FWCFG_BASE + 8, VIRT_FWCFG_BASE, 8, 0, NULL);
-+    fw_cfg = fw_cfg_init_mem_wide(VIRT_FWCFG_BASE + 8, VIRT_FWCFG_BASE, 8,
-+                                  VIRT_FWCFG_BASE + 16, &address_space_memory);
-     fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)max_cpus);
-     fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
-     fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)smp_cpus);
 diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
-index b56820ecda..4f833a2044 100644
+index 4f833a2044..561b05d404 100644
 --- a/hw/loongarch/virt.c
 +++ b/hw/loongarch/virt.c
-@@ -118,7 +118,7 @@ static void fdt_add_fw_cfg_node(const LoongArchMachineState *lams)
-     qemu_fdt_setprop_string(ms->fdt, nodename,
-                             "compatible", "qemu,fw-cfg-mmio");
-     qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
--                                 2, base, 2, 0x8);
-+                                 2, base, 2, 0x18);
-     qemu_fdt_setprop(ms->fdt, nodename, "dma-coherent", NULL, 0);
-     g_free(nodename);
+@@ -158,6 +158,34 @@ static void fdt_add_pcie_node(const LoongArchMachineState *lams)
+     qemu_fdt_dumpdtb(ms->fdt, lams->fdt_size);
  }
+ 
++static void fdt_add_irqchip_node(LoongArchMachineState *lams)
++{
++    MachineState *ms = MACHINE(lams);
++    char *nodename;
++    uint32_t irqchip_phandle;
++
++    irqchip_phandle = qemu_fdt_alloc_phandle(ms->fdt);
++    qemu_fdt_setprop_cell(ms->fdt, "/", "interrupt-parent", irqchip_phandle);
++
++    nodename = g_strdup_printf("/intc@%" PRIx64,
++                              VIRT_IOAPIC_REG_BASE);
++    qemu_fdt_add_subnode(ms->fdt, nodename);
++    qemu_fdt_setprop_cell(ms->fdt, nodename, "#interrupt-cells", 3);
++    qemu_fdt_setprop(ms->fdt, nodename, "interrupt-controller", NULL, 0);
++    qemu_fdt_setprop_cell(ms->fdt, nodename, "#address-cells", 0x2);
++    qemu_fdt_setprop_cell(ms->fdt, nodename, "#size-cells", 0x2);
++    qemu_fdt_setprop(ms->fdt, nodename, "ranges", NULL, 0);
++
++    qemu_fdt_setprop_string(ms->fdt, nodename, "compatible",
++                            "loongarch,ls7a");
++
++    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
++                                 2, VIRT_IOAPIC_REG_BASE,
++                                 2, PCH_PIC_ROUTE_ENTRY_OFFSET);
++
++    qemu_fdt_setprop_cell(ms->fdt, nodename, "phandle", irqchip_phandle);
++    g_free(nodename);
++}
+ 
+ #define PM_BASE 0x10080000
+ #define PM_SIZE 0x100
+@@ -697,6 +725,7 @@ static void loongarch_init(MachineState *machine)
+     }
+     /* Initialize the IO interrupt subsystem */
+     loongarch_irq_init(lams);
++    fdt_add_irqchip_node(lams);
+     lams->machine_done.notify = virt_machine_done;
+     qemu_add_machine_init_done_notifier(&lams->machine_done);
+     fdt_add_pcie_node(lams);
 -- 
 2.31.1
 
