@@ -2,88 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEAB45B208B
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 16:27:42 +0200 (CEST)
-Received: from localhost ([::1]:34778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E5F5B20B7
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 16:37:54 +0200 (CEST)
+Received: from localhost ([::1]:53924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWIVJ-0002r5-HJ
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 10:27:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51134)
+	id 1oWIf8-0008C2-4R
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 10:37:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oWINI-0003Mn-Gf
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 10:19:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40002)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oWINE-0003on-V6
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 10:19:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662646758;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=sj0j1/EwNaNiYCgqtvcaX7YkQpfFYYuh+QHYDbdvJLU=;
- b=ZVlfn9U1W15c4s4Dxhx4nvpHM1Xhl0XLAmjGRLTXkIdRlAX7l9RM7+bzChWBWgE8Ns7aCG
- FwG8CZ7ksT3ZyXDJTzEIknwXENZ5E8SA0zFJzpU4AK3QLDKXpqUYmKvaFzSlKx1bPEfOsY
- KPi66C8fAU9jktznFQgiQd69lVqI6vE=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-575-7Uvqyl7xNqi2Rkffa9f5fg-1; Thu, 08 Sep 2022 10:19:17 -0400
-X-MC-Unique: 7Uvqyl7xNqi2Rkffa9f5fg-1
-Received: by mail-qt1-f199.google.com with SMTP id
- cf25-20020a05622a401900b0035a6ef450e9so1066470qtb.9
- for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 07:19:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=sj0j1/EwNaNiYCgqtvcaX7YkQpfFYYuh+QHYDbdvJLU=;
- b=JC/1uO8NNx7/T1yvh+ay2clwMLvz6lFLuP/Tzdk5iMjlUzUySPpLj4VNjSdzVISQwh
- psELgEHj4tCWwzpfcxeSBczCZSI6//cjZ9CO7aIpHcgqQSAouxbGfmtCuqvXKiBmCTw2
- Y8TNmh4jdF2/MeybI5zmVA0t5o8t90+71AUWtNObypPNo3CS50BFKaxJhP1r0mePP0BT
- 9rQQVkEXi5SIBr27q8uMIIf7MVSIzDV/ktRPjTu3YIxehId4eEriUwy1ZW9+HHtPguJL
- Ck79DLkXO+uUaQTKXijxpL1Iy+50mQBEOaJNvDvI5OeVgk9oOZrecJfB5a0T4Z6sdvb8
- xpJQ==
-X-Gm-Message-State: ACgBeo0I54eYTRqZWZWYa4eElCoOGmkZBqb0pdhDO3fTG/iEcgextgLN
- WyEfNUtPeNvhoif4148MKTlqsdmUFY3I3WkG2yvbqENwfcQdyDTU/WDaLmp81R0fGV3m3nZ3Mdw
- m2mLcztj3fGIQchg=
-X-Received: by 2002:a05:620a:4089:b0:6bb:97e6:d5b1 with SMTP id
- f9-20020a05620a408900b006bb97e6d5b1mr6787900qko.117.1662646757231; 
- Thu, 08 Sep 2022 07:19:17 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4/9g+keRZgPRRoaXAzaKw6MuLgieKzN5XyVN5i3GFgAb8TSSvEMf/fkzIKS7MSqD7qCifnhg==
-X-Received: by 2002:a05:620a:4089:b0:6bb:97e6:d5b1 with SMTP id
- f9-20020a05620a408900b006bb97e6d5b1mr6787872qko.117.1662646756967; 
- Thu, 08 Sep 2022 07:19:16 -0700 (PDT)
-Received: from redhat.com ([45.144.113.243]) by smtp.gmail.com with ESMTPSA id
- j7-20020a05620a410700b006bc68cfcdf7sm17723380qko.13.2022.09.08.07.19.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Sep 2022 07:19:16 -0700 (PDT)
-Date: Thu, 8 Sep 2022 10:19:11 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Sergio Lopez <slp@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
-Subject: Re: [PATCH v2 2/2] [RfC] expose host-phys-bits to guest
-Message-ID: <20220908101757-mutt-send-email-mst@kernel.org>
-References: <20220908113109.470792-1-kraxel@redhat.com>
- <20220908113109.470792-3-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1oWId1-00069w-Px
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 10:35:42 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.226]:55899
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1oWIcy-0007HA-6t
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 10:35:39 -0400
+HMM_SOURCE_IP: 172.18.0.218:37440.345654206
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-171.223.96.92 (unknown [172.18.0.218])
+ by chinatelecom.cn (HERMES) with SMTP id 5A8CE28008F;
+ Thu,  8 Sep 2022 22:35:11 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.218])
+ by app0025 with ESMTP id dd439ef2ec1941c392f78d29129f8e68 for
+ peterx@redhat.com; Thu, 08 Sep 2022 22:35:16 CST
+X-Transaction-ID: dd439ef2ec1941c392f78d29129f8e68
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.218
+X-MEDUSA-Status: 0
+Message-ID: <7022f34e-76d5-7287-74eb-846ae62e0f42@chinatelecom.cn>
+Date: Thu, 8 Sep 2022 22:35:11 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220908113109.470792-3-kraxel@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v1 4/8] migration: Implement dirty-limit convergence algo
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Daniel P. Berrange"
+ <berrange@redhat.com>
+References: <cover.1662052189.git.huangy81@chinatelecom.cn>
+ <4b42dedc0d1ed336ef39c604f3aa1611745a3917.1662052189.git.huangy81@chinatelecom.cn>
+ <Yxevn7rSCKaPHQfd@xz-m1.local>
+From: Hyman <huangy81@chinatelecom.cn>
+In-Reply-To: <Yxevn7rSCKaPHQfd@xz-m1.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.226;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.142,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,125 +75,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 08, 2022 at 01:31:09PM +0200, Gerd Hoffmann wrote:
-> Move "host-phys-bits" property from cpu->host_phys_bits to
-> cpu->env.features[FEAT_KVM_HINTS] (KVM_HINTS_PHYS_ADDRESS_SIZE_DATA_VALID bit).
+
+
+在 2022/9/7 4:37, Peter Xu 写道:
+> On Fri, Sep 02, 2022 at 01:22:32AM +0800, huangy81@chinatelecom.cn wrote:
+>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>
+>> Implement dirty-limit convergence algo for live migration,
+>> which is kind of like auto-converge algo but using dirty-limit
+>> instead of cpu throttle to make migration convergent.
+>>
+>> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>> ---
+>>   migration/migration.c  |  1 +
+>>   migration/ram.c        | 53 +++++++++++++++++++++++++++++++++++++-------------
+>>   migration/trace-events |  1 +
+>>   3 files changed, 42 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/migration/migration.c b/migration/migration.c
+>> index d117bb4..64696de 100644
+>> --- a/migration/migration.c
+>> +++ b/migration/migration.c
+>> @@ -239,6 +239,7 @@ void migration_cancel(const Error *error)
+>>       if (error) {
+>>           migrate_set_error(current_migration, error);
+>>       }
+>> +    qmp_cancel_vcpu_dirty_limit(false, -1, NULL);
+>>       migrate_fd_cancel(current_migration);
+>>   }
+>>   
+>> diff --git a/migration/ram.c b/migration/ram.c
+>> index dc1de9d..cc19c5e 100644
+>> --- a/migration/ram.c
+>> +++ b/migration/ram.c
+>> @@ -45,6 +45,7 @@
+>>   #include "qapi/error.h"
+>>   #include "qapi/qapi-types-migration.h"
+>>   #include "qapi/qapi-events-migration.h"
+>> +#include "qapi/qapi-commands-migration.h"
+>>   #include "qapi/qmp/qerror.h"
+>>   #include "trace.h"
+>>   #include "exec/ram_addr.h"
+>> @@ -57,6 +58,8 @@
+>>   #include "qemu/iov.h"
+>>   #include "multifd.h"
+>>   #include "sysemu/runstate.h"
+>> +#include "sysemu/dirtylimit.h"
+>> +#include "sysemu/kvm.h"
+>>   
+>>   #include "hw/boards.h" /* for machine_dump_guest_core() */
+>>   
+>> @@ -1139,6 +1142,21 @@ static void migration_update_rates(RAMState *rs, int64_t end_time)
+>>       }
+>>   }
+>>   
+>> +/*
+>> + * Enable dirty-limit to throttle down the guest
+>> + */
+>> +static void migration_dirty_limit_guest(void)
+>> +{
+>> +    if (!dirtylimit_in_service()) {
+>> +        MigrationState *s = migrate_get_current();
+>> +        int64_t quota_dirtyrate = s->parameters.x_vcpu_dirty_limit;
+>> +
+>> +        /* Set quota dirtyrate if dirty limit not in service */
+>> +        qmp_set_vcpu_dirty_limit(false, -1, quota_dirtyrate, NULL);
+>> +        trace_migration_dirty_limit_guest(quota_dirtyrate);
+>> +    }
+>> +}
+>> +
+>>   static void migration_trigger_throttle(RAMState *rs)
+>>   {
+>>       MigrationState *s = migrate_get_current();
+>> @@ -1148,22 +1166,31 @@ static void migration_trigger_throttle(RAMState *rs)
+>>       uint64_t bytes_dirty_period = rs->num_dirty_pages_period * TARGET_PAGE_SIZE;
+>>       uint64_t bytes_dirty_threshold = bytes_xfer_period * threshold / 100;
+>>   
+>> -    /* During block migration the auto-converge logic incorrectly detects
+>> -     * that ram migration makes no progress. Avoid this by disabling the
+>> -     * throttling logic during the bulk phase of block migration. */
+>> -    if (migrate_auto_converge() && !blk_mig_bulk_active()) {
+>> -        /* The following detection logic can be refined later. For now:
+>> -           Check to see if the ratio between dirtied bytes and the approx.
+>> -           amount of bytes that just got transferred since the last time
+>> -           we were in this routine reaches the threshold. If that happens
+>> -           twice, start or increase throttling. */
+>> -
+>> -        if ((bytes_dirty_period > bytes_dirty_threshold) &&
+>> -            (++rs->dirty_rate_high_cnt >= 2)) {
+>> +    /*
+>> +     * The following detection logic can be refined later. For now:
+>> +     * Check to see if the ratio between dirtied bytes and the approx.
+>> +     * amount of bytes that just got transferred since the last time
+>> +     * we were in this routine reaches the threshold. If that happens
+>> +     * twice, start or increase throttling.
+>> +     */
+>> +
+>> +    if ((bytes_dirty_period > bytes_dirty_threshold) &&
+>> +        (++rs->dirty_rate_high_cnt >= 2)) {
+>> +        rs->dirty_rate_high_cnt = 0;
+>> +        /*
+>> +         * During block migration the auto-converge logic incorrectly detects
+>> +         * that ram migration makes no progress. Avoid this by disabling the
+>> +         * throttling logic during the bulk phase of block migration
+>> +         */
+>> +
+>> +        if (migrate_auto_converge() && !blk_mig_bulk_active()) {
+>>               trace_migration_throttle();
+>> -            rs->dirty_rate_high_cnt = 0;
+>>               mig_throttle_guest_down(bytes_dirty_period,
+>>                                       bytes_dirty_threshold);
+>> +        } else if (migrate_dirty_limit() &&
+>> +                   kvm_dirty_ring_enabled() &&
+>> +                   migration_is_active(s)) {
+>> +            migration_dirty_limit_guest();
 > 
-> This has the effect that the guest can see whenever host-phys-bits
-> is turned on or not and act accordingly.
+> We'll call this multiple time, but only the 1st call will make sense, right?
+Yes.
 > 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  target/i386/cpu.h      | 3 ---
->  hw/i386/microvm.c      | 7 ++++++-
->  target/i386/cpu.c      | 3 +--
->  target/i386/host-cpu.c | 5 ++++-
->  target/i386/kvm/kvm.c  | 1 +
->  5 files changed, 12 insertions(+), 7 deletions(-)
+> Can we call it once somewhere?  E.g. at the start of migration?It make sense indeed, if dirtylimit run once migration start, the 
+behavior of dirtylimit migration would be kind of different from 
+auto-converge, i mean, dirtylimit will make guest write vCPU slow no 
+matter if dirty_rate_high_cnt exceed 2 times. For those vms that dirty 
+memory lightly, they can get convergent without throttle, but in the new 
+way ,if we set the dirtylimit to a very low value, they may suffer 
+restriction. Can we accept that ?
 > 
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index 82004b65b944..b9c6d3d9cac6 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -1898,9 +1898,6 @@ struct ArchCPU {
->      /* if true fill the top bits of the MTRR_PHYSMASKn variable range */
->      bool fill_mtrr_mask;
->  
-> -    /* if true override the phys_bits value with a value read from the host */
-> -    bool host_phys_bits;
-> -
->      /* if set, limit maximum value for phys_bits when host_phys_bits is true */
->      uint8_t host_phys_bits_limit;
->  
-> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-> index 52cafa003d8a..316bbc8ef946 100644
-> --- a/hw/i386/microvm.c
-> +++ b/hw/i386/microvm.c
-> @@ -54,6 +54,8 @@
->  #include "kvm/kvm_i386.h"
->  #include "hw/xen/start_info.h"
->  
-> +#include "standard-headers/asm-x86/kvm_para.h"
-> +
->  #define MICROVM_QBOOT_FILENAME "qboot.rom"
->  #define MICROVM_BIOS_FILENAME  "bios-microvm.bin"
->  
-> @@ -424,7 +426,10 @@ static void microvm_device_pre_plug_cb(HotplugHandler *hotplug_dev,
->  {
->      X86CPU *cpu = X86_CPU(dev);
->  
-> -    cpu->host_phys_bits = true; /* need reliable phys-bits */
-> +    /* need reliable phys-bits */
-> +    cpu->env.features[FEAT_KVM_HINTS] |=
-> +        (1 << KVM_HINTS_PHYS_ADDRESS_SIZE_DATA_VALID);
-> +
-
-Do we need compat machinery for this?
-
->      x86_cpu_pre_plug(hotplug_dev, dev, errp);
->  }
->  
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 1db1278a599b..d60f4498a3c3 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -778,7 +778,7 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
->      [FEAT_KVM_HINTS] = {
->          .type = CPUID_FEATURE_WORD,
->          .feat_names = {
-> -            "kvm-hint-dedicated", NULL, NULL, NULL,
-> +            "kvm-hint-dedicated", "host-phys-bits", NULL, NULL,
->              NULL, NULL, NULL, NULL,
->              NULL, NULL, NULL, NULL,
->              NULL, NULL, NULL, NULL,
-> @@ -7016,7 +7016,6 @@ static Property x86_cpu_properties[] = {
->      DEFINE_PROP_BOOL("x-force-features", X86CPU, force_features, false),
->      DEFINE_PROP_BOOL("kvm", X86CPU, expose_kvm, true),
->      DEFINE_PROP_UINT32("phys-bits", X86CPU, phys_bits, 0),
-> -    DEFINE_PROP_BOOL("host-phys-bits", X86CPU, host_phys_bits, false),
->      DEFINE_PROP_UINT8("host-phys-bits-limit", X86CPU, host_phys_bits_limit, 0),
->      DEFINE_PROP_BOOL("fill-mtrr-mask", X86CPU, fill_mtrr_mask, true),
->      DEFINE_PROP_UINT32("level-func7", X86CPU, env.cpuid_level_func7,
-> diff --git a/target/i386/host-cpu.c b/target/i386/host-cpu.c
-> index 10f8aba86e53..a1d6b3ac962e 100644
-> --- a/target/i386/host-cpu.c
-> +++ b/target/i386/host-cpu.c
-> @@ -13,6 +13,8 @@
->  #include "qapi/error.h"
->  #include "sysemu/sysemu.h"
->  
-> +#include "standard-headers/asm-x86/kvm_para.h"
-> +
->  /* Note: Only safe for use on x86(-64) hosts */
->  static uint32_t host_cpu_phys_bits(void)
->  {
-> @@ -68,7 +70,8 @@ static uint32_t host_cpu_adjust_phys_bits(X86CPU *cpu)
->          warned = true;
->      }
->  
-> -    if (cpu->host_phys_bits) {
-> +    if (cpu->env.features[FEAT_KVM_HINTS] &
-> +        (1 << KVM_HINTS_PHYS_ADDRESS_SIZE_DATA_VALID)) {
->          /* The user asked for us to use the host physical bits */
->          phys_bits = host_phys_bits;
->          if (cpu->host_phys_bits_limit &&
-
-I think we still want to key this one off host_phys_bits
-so it works for e.g. hyperv emulation too.
-
-> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> index a1fd1f53791d..3335c57b21b2 100644
-> --- a/target/i386/kvm/kvm.c
-> +++ b/target/i386/kvm/kvm.c
-> @@ -459,6 +459,7 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
->          }
->      } else if (function == KVM_CPUID_FEATURES && reg == R_EDX) {
->          ret |= 1U << KVM_HINTS_REALTIME;
-> +        ret |= 1U << KVM_HINTS_PHYS_ADDRESS_SIZE_DATA_VALID;
->      }
->  
->      return ret;
-> -- 
-> 2.37.3
-
+> Thanks,
+> 
 
