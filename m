@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ABAD5B1F64
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 15:38:44 +0200 (CEST)
-Received: from localhost ([::1]:43728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A08735B1F69
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 15:41:12 +0200 (CEST)
+Received: from localhost ([::1]:48302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWHjs-00086O-Cg
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 09:38:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55076)
+	id 1oWHmJ-0005bh-Pt
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 09:41:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oWHa8-0004Xp-62
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 09:28:37 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:34342)
+ id 1oWHaA-0004YU-H9; Thu, 08 Sep 2022 09:28:38 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:35597)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oWHa6-0002bZ-Os
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 09:28:35 -0400
-Received: by mail-pf1-x436.google.com with SMTP id e68so4880017pfe.1
- for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 06:28:34 -0700 (PDT)
+ id 1oWHa9-0002bj-1x; Thu, 08 Sep 2022 09:28:38 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ m10-20020a17090a730a00b001fa986fd8eeso2407305pjk.0; 
+ Thu, 08 Sep 2022 06:28:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=ufiJI7bNe+lQgV+yCFrf9iuYn0PLp3Pbem/SenhzEaI=;
- b=lUC4X/yvHoCbgZgzsoQIXpoLTrg/7AGNyT3G6VLnKLmEO4YJ5yUDsZwVu6OjBofMdN
- N126RVBBKQ2v3b2NvT1wVG/pRgnPdQPwkRRTaK6QMs1KinqUa0ymfM61xDo/ICVWcarj
- Udw8/dEoAomL0zMXtxf7rcUDNKJ4MnI0jagOXDmUlsqXaXRrIR+zzM4jWWsMNWkLR0GG
- sQyyYcPZpp7dDzJoQ32ssLV+n7/z9TqKLwbLYdjS/KIklyWMjYoaqP0o9Qr2zcuZBpWw
- 1PKmv6SgwAu5hAtgJ4oa2DwjPAMHhI/DAL5Hv7kQGp3ZtW6dIOCWeGiyEzLxkbGG7+lc
- I70Q==
+ bh=k0XM4f4qiZ91vGULk+sJ9slfW6MBFVrfDwbiSLgdr6k=;
+ b=M0MKlhgwHWSu9yiJOOaxQHIigmTEwuje7AZBpdjzNrgfFEhHoBU3V5uwnuOtmpXGqf
+ GUjrTHLLqF3oERtnfSpIMTANQvGx011cM9usYMHYRnqEuOTuGmmW52YoQYL0A0gQOW4r
+ an0bLX7PvVjulLd97Ku6yUvo4ToSuoAL0klqQ+KzHMsZkMSZ3nN+46eb2XLlfl9YPffv
+ nR5Z9UTeqdcLaDrhh/7oQhUxOewO9YowItl8JRF85ZMx5+40u05aGd7uK6MNWwzXP8t+
+ 72ghDGymq/4EAvOsIZtbCX3JfBKdLWqKCWwfvzk7z8LDlxHlEaPIGPQNz7C6Ow+gMqOf
+ anLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=ufiJI7bNe+lQgV+yCFrf9iuYn0PLp3Pbem/SenhzEaI=;
- b=JfBIc1kVHPFJwhYorFiiFus64uDxjeetHe8zFT5HMY8/oopFZU5lIdsR2LOYZDSOJx
- ipReIZum7EEvQiVFUTsponrMFG2JAkvRS+G0eDCm2XXXshhH9+KYyWo5WnjMxsaaEXIZ
- 5OQ7O3Ynu5x0iTA6nj0uOLlxOQn/237Ir3FgZTPgNLnflJpbVMiOrkOBHKbWv2t1REmR
- fNfbA0jFVU/+Bgs17ragwG1sTYCVs8jz8PN0AA0HiWT5fk7aEflH+bld+LebHynQj90i
- lsIwGagbdiDD30s3I2e8zGLn2RFwsnJc74iiglyPVFzUDTg6HSbgmrT4E+m5HHH3nc4H
- iIPw==
-X-Gm-Message-State: ACgBeo3yDol9QpzZpHeFnS6N+WGBWkYY8GTFJoFjFJIBhIIploK6nRML
- uo/kzs+AaQBw/ixBKp1Q+5mNeJVeW3U=
-X-Google-Smtp-Source: AA6agR5D1uCKJmL08JxA5tgtAB/9dP0Dqbv9FE7s7QsHnk/d1Bortfr9POXn+vyzDD07HnLGpWkzZQ==
-X-Received: by 2002:aa7:87d6:0:b0:53e:79bb:feb2 with SMTP id
- i22-20020aa787d6000000b0053e79bbfeb2mr7722973pfo.13.1662643712928; 
- Thu, 08 Sep 2022 06:28:32 -0700 (PDT)
+ bh=k0XM4f4qiZ91vGULk+sJ9slfW6MBFVrfDwbiSLgdr6k=;
+ b=UQaeJ471SX2WfIe1w4vrI1Y5hVpuKEY3v7qmlVRgUExZSYm/IMUGwXJsWFwxglIVZC
+ PtEaXc4t5OeUyD39atYGzaavEb34OZvRwLHAkr8AB0XMlCGWgF9UOo6t7dSkwdDW3zrG
+ Cy1g2UMv8ayIP9HLKujNjAb5jJ0Ln8bm5EUHSJchmihfSbkK+Ll1z+1qnMqd+jE3WOwV
+ 5ms1rwe16xzxDJYT5SeEUvkhlJvoR1dlZjZ1Gs/hIlMjvqaGNSDfYKZGKoOPCQYYiyDY
+ 9RasRikiUr8yudHS2i6wqi8BoTZU5g4S+AdJHQ4u4apY1YtfaYD9/K55urnGveRMuw0i
+ wkDA==
+X-Gm-Message-State: ACgBeo17JopC/SWmV2z9K+w1/eM0kNyoD1DHDd1QN35hDuHzf3bjg0JH
+ LEuLxWPHIq4YB0G77Z4v0uqM5J1Xz8U=
+X-Google-Smtp-Source: AA6agR5R/WzgW6XjOuLLgIQLZKOlHGctn/skSiCeoLWouyuXyQrTe0wRYxGRyaDvyTgE/G/Dx+VlIg==
+X-Received: by 2002:a17:902:9887:b0:172:7090:6485 with SMTP id
+ s7-20020a170902988700b0017270906485mr9264432plp.63.1662643715302; 
+ Thu, 08 Sep 2022 06:28:35 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- r8-20020a170902be0800b001755ac7dd0asm1731693pls.290.2022.09.08.06.28.30
+ r8-20020a170902be0800b001755ac7dd0asm1731693pls.290.2022.09.08.06.28.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Sep 2022 06:28:32 -0700 (PDT)
+ Thu, 08 Sep 2022 06:28:34 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [PATCH 4/7] .gitlab-ci.d/windows.yml: Drop the sed processing in the
- 64-bit build
-Date: Thu,  8 Sep 2022 21:28:14 +0800
-Message-Id: <20220908132817.1831008-5-bmeng.cn@gmail.com>
+Cc: Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Peter Lieven <pl@kamp.de>,
+ qemu-block@nongnu.org
+Subject: [PATCH 5/7] block/nfs: Fix 32-bit Windows build
+Date: Thu,  8 Sep 2022 21:28:15 +0800
+Message-Id: <20220908132817.1831008-6-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220908132817.1831008-1-bmeng.cn@gmail.com>
 References: <20220908132817.1831008-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,27 +92,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-The sed processing of build/config-host.mak seems to be no longer
-needed, and there is no such in the 32-bit build too. Drop it.
+libnfs.h declares nfs_fstat() as the following for win32:
 
+  int nfs_fstat(struct nfs_context *nfs, struct nfsfh *nfsfh,
+                struct __stat64 *st);
+
+The 'st' parameter should be of type 'struct __stat64'. The
+codes happen to build successfully for 64-bit Windows, but it
+does not build for 32-bit Windows.
+
+Fixes: 6542aa9c75bc ("block: add native support for NFS")
+Fixes: 18a8056e0bc7 ("block/nfs: cache allocated filesize for read-only files")
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- .gitlab-ci.d/windows.yml | 1 -
- 1 file changed, 1 deletion(-)
+ block/nfs.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-index da6013904a..86a4339c48 100644
---- a/.gitlab-ci.d/windows.yml
-+++ b/.gitlab-ci.d/windows.yml
-@@ -60,7 +60,6 @@ msys2-64bit:
-   - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
-   - .\msys64\usr\bin\bash -lc './configure --target-list=x86_64-softmmu
-       --enable-capstone --without-default-devices'
--  - .\msys64\usr\bin\bash -lc "sed -i '/^ROMS=/d' build/config-host.mak"
-   - .\msys64\usr\bin\bash -lc 'make'
-   - .\msys64\usr\bin\bash -lc 'make check'
+diff --git a/block/nfs.c b/block/nfs.c
+index 444c40b458..d5d67937dd 100644
+--- a/block/nfs.c
++++ b/block/nfs.c
+@@ -418,7 +418,11 @@ static int64_t nfs_client_open(NFSClient *client, BlockdevOptionsNfs *opts,
+                                int flags, int open_flags, Error **errp)
+ {
+     int64_t ret = -EINVAL;
++#ifdef _WIN32
++    struct __stat64 st;
++#else
+     struct stat st;
++#endif
+     char *file = NULL, *strp = NULL;
  
+     qemu_mutex_init(&client->mutex);
+@@ -781,7 +785,11 @@ static int nfs_reopen_prepare(BDRVReopenState *state,
+                               BlockReopenQueue *queue, Error **errp)
+ {
+     NFSClient *client = state->bs->opaque;
++#ifdef _WIN32
++    struct __stat64 st;
++#else
+     struct stat st;
++#endif
+     int ret = 0;
+ 
+     if (state->flags & BDRV_O_RDWR && bdrv_is_read_only(state->bs)) {
 -- 
 2.34.1
 
