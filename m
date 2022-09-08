@@ -2,106 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F08645B1616
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 09:58:48 +0200 (CEST)
-Received: from localhost ([::1]:54734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C5835B1690
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 10:12:46 +0200 (CEST)
+Received: from localhost ([::1]:52818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWCQx-0000c8-LP
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 03:58:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51772)
+	id 1oWCeT-0008ML-CC
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 04:12:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oWCPj-0007Ja-1F; Thu, 08 Sep 2022 03:57:31 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:47908)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oWCPg-0004gD-OX; Thu, 08 Sep 2022 03:57:30 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2887ffwf013607;
- Thu, 8 Sep 2022 07:57:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=J8L9gHcDkd6LQwaIkxKgGJ38M076wkjUmMd1fLdU0Mw=;
- b=TvxaGQ+kw8rsbgHy1efRon9dYDOQlJFQiG1HdTcb2rpnqLSoNtfvBxgmKg/Zgb+f+KyP
- xDOPVsj5XFbsNN0wftTi2/lYZNzwW2SKauABy1lGusopMgmgqO4LyMOXGaSbztnAOWZb
- wSEtSfrkFIhy22FUoRFP7voBrZJQKH0i9gkK9/+cgk9zcBZYL1XEgBZu/DLZSsbEVqTe
- 9oWPavJykcOor6OKqXATnTPkmJzbQk3zL3+z/j8/EfPl1KzKTMOPaQyjHTqA6QcrS8gK
- +ZM41IHhqsmpDlUYrKvmTJz5k0RevJAR6LldhlX4aMbL61VRkr38n+hnEaax9xwgzCFx ZQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jfc7s8ect-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 08 Sep 2022 07:57:25 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2887fj3v013882;
- Thu, 8 Sep 2022 07:57:25 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jfc7s8ebt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 08 Sep 2022 07:57:25 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2887oBtA016285;
- Thu, 8 Sep 2022 07:57:22 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma04ams.nl.ibm.com with ESMTP id 3jbxj8x7wx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 08 Sep 2022 07:57:22 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2887vJa915860136
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 8 Sep 2022 07:57:19 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5C6EB5204F;
- Thu,  8 Sep 2022 07:57:19 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.30.57])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 97CCB5204E;
- Thu,  8 Sep 2022 07:57:18 +0000 (GMT)
-Message-ID: <2ced62d89af99358d3d6d8d89e2faf8b115e8509.camel@linux.ibm.com>
-Subject: Re: [PATCH v9 06/10] s390x/cpu_topology: resetting the
- Topology-Change-Report
-From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com
-Date: Thu, 08 Sep 2022 09:57:18 +0200
-In-Reply-To: <20220902075531.188916-7-pmorel@linux.ibm.com>
-References: <20220902075531.188916-1-pmorel@linux.ibm.com>
- <20220902075531.188916-7-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oWCVW-00023t-Qc
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 04:03:30 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:39842)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oWCVR-0005Pb-Tm
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 04:03:30 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1F22E1FB42;
+ Thu,  8 Sep 2022 08:03:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1662624203; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=veZivsd6tfPyofReVAzam8/3hDUO0aZXvLic2/14vxA=;
+ b=Gh3e0EMpI7kVmt0WZMwKgZ6PmE7WyrYt8nBg3QPOQqAsMFtY80Mrn6tBb7lBIxB2YV5FbZ
+ OG5Woj17xk+M1F99I04Dw+8UKWzr01hXdvmqos74aPEveVNTb1fKnmMoJ2JoE7MUzWUbSR
+ nAO6Upjwe0VcN2tMDnZLALb+2rbnq5E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1662624203;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=veZivsd6tfPyofReVAzam8/3hDUO0aZXvLic2/14vxA=;
+ b=i8jX9tYR3wg7P9EBsgl1ckcjB7EcZcyjzvsLc7jAxscCYL7IuEXP/uO6rXQK0ZmPI8zWUW
+ jei9cnRAk51f3RAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AFAEA13A6D;
+ Thu,  8 Sep 2022 08:03:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id bCPNKMqhGWPxIAAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 08 Sep 2022 08:03:22 +0000
+Message-ID: <7e8e893b-7445-8fe5-fd6f-ba48e0688adf@suse.de>
+Date: Thu, 8 Sep 2022 10:03:22 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: TAfwWp2o5Q5sBZJDs8avJ1fIsTUH5Sit
-X-Proofpoint-ORIG-GUID: OPhZ3uOnEu05BJ2VHZkx3T9pCe2aoiJv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-08_04,2022-09-07_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- clxscore=1015 malwarescore=0 adultscore=0 mlxlogscore=999 phishscore=0
- bulkscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0 spamscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2209080026
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=scgl@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2] audio: add help option for -audio and -audiodev
+Content-Language: en-US
+To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
+ Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>
+References: <20220907173044.12669-1-cfontana@suse.de>
+ <930ed191-5354-b0d0-2998-0e771a97973f@t-online.de>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <930ed191-5354-b0d0-2998-0e771a97973f@t-online.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -85
+X-Spam_score: -8.6
+X-Spam_bar: --------
+X-Spam_report: (-8.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.199,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,70 +94,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2022-09-02 at 09:55 +0200, Pierre Morel wrote:
-> During a subsystem reset the Topology-Change-Report is cleared
-> by the machine.
-> Let's ask KVM to clear the Modified Topology Change Report (MTCR)
->  bit of the SCA in the case of a subsystem reset.
+On 9/8/22 07:55, Volker Rümelin wrote:
+> Am 07.09.22 um 19:30 schrieb Claudio Fontana:
 > 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->  hw/s390x/cpu-topology.c      | 12 ++++++++++++
->  hw/s390x/s390-virtio-ccw.c   |  1 +
->  target/s390x/cpu-sysemu.c    |  7 +++++++
->  target/s390x/cpu.h           |  1 +
->  target/s390x/kvm/kvm.c       | 23 +++++++++++++++++++++++
->  target/s390x/kvm/kvm_s390x.h |  1 +
->  6 files changed, 45 insertions(+)
-
-[...]
-
-> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
-> index f96630440b..9c994d27d5 100644
-> --- a/target/s390x/kvm/kvm.c
-> +++ b/target/s390x/kvm/kvm.c
-> @@ -2585,3 +2585,26 @@ int kvm_s390_get_zpci_op(void)
->  {
->      return cap_zpci_op;
->  }
-> +
-> +int kvm_s390_topology_set_mtcr(uint64_t attr)
-> +{
-> +    struct kvm_device_attr attribute = {
-> +        .group = KVM_S390_VM_CPU_TOPOLOGY,
-> +        .attr  = attr,
-> +    };
-> +    int ret;
-> +
-> +    if (!s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
-> +        return -EFAULT;
-
-Why EFAULT?
-The return value is just ignored when resetting, isn't it?
-I wonder if it would be better not to.
-Is it necessary because you're detecting the feature after you've
-already created the S390Topology instance?
-And you're doing that because that's just the order in which QEMU does
-things? So the machine class is inited before the cpu model?
-I wonder if there is a nice way to create the S390Topology only if the
-feature is selected.
-
-Anyway:
-Reviewed-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-
-> +    }
-> +    if (!kvm_vm_check_attr(kvm_state, KVM_S390_VM_CPU_TOPOLOGY, attr)) {
-> +        return -ENOENT;
-> +    }
-> +
-> +    ret = kvm_vm_ioctl(kvm_state, KVM_SET_DEVICE_ATTR, &attribute);
-> +    if (ret) {
-> +        error_report("Failed to set cpu topology attribute %lu: %s",
-> +                     attr, strerror(-ret));
-> +    }
-> +    return ret;
-> +}
+>> add a simple help option for -audio and -audiodev
+>> to show the list of available drivers, and document them.
+>>
+>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>> ---
+>>   audio/audio.c   | 20 ++++++++++++++++++++
+>>   audio/audio.h   |  1 +
+>>   qemu-options.hx | 10 ++++++----
+>>   softmmu/vl.c    |  9 +++++++--
+>>   4 files changed, 34 insertions(+), 6 deletions(-)
+>>
+>> v1 -> v2: also extend the help to -audio.
+>>
+>>   -audio help
+>>   -audio driver=help
+>>   -audiodev help
+>>
+>> will all show the same results.
+>>
+>> diff --git a/audio/audio.c b/audio/audio.c
+>> index 4f4bb10cce..ffb09ec825 100644
+>> --- a/audio/audio.c
+>> +++ b/audio/audio.c
+>> @@ -32,6 +32,7 @@
+>>   #include "qapi/qapi-visit-audio.h"
+>>   #include "qemu/cutils.h"
+>>   #include "qemu/module.h"
+>> +#include "qemu/help_option.h"
+>>   #include "sysemu/sysemu.h"
+>>   #include "sysemu/replay.h"
+>>   #include "sysemu/runstate.h"
+>> @@ -2105,10 +2106,29 @@ static void audio_validate_opts(Audiodev *dev, Error **errp)
+>>       }
+>>   }
+>>   
+>> +void audio_help(void)
+>> +{
+>> +    int i;
+>> +
+>> +    printf("Available audio drivers:\n");
+>> +    printf("none\n");
+>> +
+>> +    for (i = 0; audio_prio_list[i]; i++) {
+>> +        audio_driver *driver = audio_driver_lookup(audio_prio_list[i]);
 > 
-[...]
+> Hi Claudio,
+> 
+> there is no guarantee that the audio_prio_list contains all audio 
+> backend drivers. I would use this
+> 
+> +    for (i = 0; i < AUDIODEV_DRIVER__MAX; i++) {
+> +        const char *name = AudiodevDriver_str(i);
+> +        audio_driver *driver = audio_driver_lookup(name);
+> 
+> to enumerate all audio backend drivers.
+
+Thanks Volker, will update accordingly.
+
+Claudio
+
+> 
+> With best regards,
+> Volker
+> 
+>> +        if (driver) {
+>> +            printf("%s\n", driver->name);
+>> +        }
+>> +    }
+>> +}
+>> +
+>>
+> 
 
 
