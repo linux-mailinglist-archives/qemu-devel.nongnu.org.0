@@ -2,136 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E61705B2529
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 19:51:45 +0200 (CEST)
-Received: from localhost ([::1]:55506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0280C5B2555
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 20:08:17 +0200 (CEST)
+Received: from localhost ([::1]:43688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWLgm-0000nt-P7
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 13:51:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49042)
+	id 1oWLwl-0001qe-MC
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 14:08:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
- id 1oWLaV-0004TU-2O; Thu, 08 Sep 2022 13:45:20 -0400
-Received: from mail-eopbgr150092.outbound.protection.outlook.com
- ([40.107.15.92]:53542 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1oWLtT-0007bn-Nj; Thu, 08 Sep 2022 14:04:52 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
- id 1oWLaQ-0004jc-JX; Thu, 08 Sep 2022 13:45:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lIVkYyF9Jpej3I/XrkSxEurjFo/XwXtRZVu43gTK75Zj88U+va4KfoK/wS9CTNbdU5fTOxdhSTqDRf+DpECEKcVoLY1HNmmAN6RsWU2F9GB3YnXmCS1LBinIV8WK3dIMCnnSajny6TAhb/2/9vi07YfZkEQotEH18WUMt1or8y41MBsxwXCYfB7zc9tlvWeCdSz+Qdd1v6icPw7qLtMJywvd8o5emVYYBusBsJZGGiK7x/cTddATsfaprPNCmsaN3v9QD0ALL0QfLeycOOOV6dJrBr4sm9e6maYtKoPtYoovi2GZiaSOTYKk6OWbrRFuxAYjO2GL8P0z92zVl9xVYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W0Z7LxvSvCfZKbuQgzx5Ar+NydGW7CRBpJomiFBUR6E=;
- b=hafwVaGzcKQHPZPsiyL3QtXKPqM7LvW8mbPNTq2y1FLLHx90hIYSBCBFy6EPmqge+wC1RycknsHhGNd7w6HxkLtTR6fintQomT6AmjUxw4hY56FEzHGxfbktocenHO/Clwt5xt6qLNfYPJO8EXZLoPxmgLp/n96ZvG4XUkQwrl9LinJm778hybtOkCULLjnQrhQL1czz0Zvc4xL7wWfYHhJ7wkAy8ycogLEfmKwwrV4Mc0vU8CqR5utFiGcBQ2FVADSpJPSG3jETVzSUwkRXSNPl2ZZeBcpCBDJ+37xvjo8XbkBJVRRvBwN94KZShpNNRM1Ry/o9oTnwxgrGMSWQkw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W0Z7LxvSvCfZKbuQgzx5Ar+NydGW7CRBpJomiFBUR6E=;
- b=hpzazaC2fYnln7nrWbzDU/sts0qix/9mjFPjFHhvMbSBAJV4bESUkrec2Ivnd7SN+loljPxtopIatPA2B2vxtG3smqIBhtXrBbeCPvYwy4t3sRynwWfoThW3Jrni2+pydX3EcNZNl0y9l6bcY3gU+8W6Hd/Ir+4UB4w31JKO4XTaAq/wtv9yZAhJ7KcIRU/Fs7nuqlTizvDiM+V3JvPfhn9aLFGhHDyKH36RLbeSCQrWLvJuCIdWMwphlzCtvJbV7qZb62Z5hQMCWVT7otS7RuHUshVxu7ljAtQLnoXq8A5kIBE3RGAp1fIaLgAQqzsKROFnQl9B+9EVvcJAJ/lcvQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from PAXPR08MB6956.eurprd08.prod.outlook.com (2603:10a6:102:1db::9)
- by VE1PR08MB5694.eurprd08.prod.outlook.com (2603:10a6:800:1a3::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.14; Thu, 8 Sep
- 2022 17:45:05 +0000
-Received: from PAXPR08MB6956.eurprd08.prod.outlook.com
- ([fe80::8824:508c:fb16:ef6e]) by PAXPR08MB6956.eurprd08.prod.outlook.com
- ([fe80::8824:508c:fb16:ef6e%5]) with mapi id 15.20.5612.016; Thu, 8 Sep 2022
- 17:45:05 +0000
-Message-ID: <0f882207-89ae-559a-e8f0-a57ab0276c9b@virtuozzo.com>
-Date: Thu, 8 Sep 2022 19:45:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 3/6] parallels: Add checking and repairing duplicate
- offsets in BAT
-Content-Language: en-US
-From: "Denis V. Lunev" <den@virtuozzo.com>
-To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, stefanha@redhat.com, vsementsov@yandex-team.ru,
- kwolf@redhat.com, hreitz@redhat.com
-References: <20220902085300.508078-1-alexander.ivanov@virtuozzo.com>
- <20220902085300.508078-4-alexander.ivanov@virtuozzo.com>
- <5d046d0c-a618-a7ad-3657-ba46fcee50aa@virtuozzo.com>
-In-Reply-To: <5d046d0c-a618-a7ad-3657-ba46fcee50aa@virtuozzo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: VI1PR04CA0134.eurprd04.prod.outlook.com
- (2603:10a6:803:f0::32) To PAXPR08MB6956.eurprd08.prod.outlook.com
- (2603:10a6:102:1db::9)
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1oWLtQ-0007qw-VQ; Thu, 08 Sep 2022 14:04:50 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 288HrKkK013203;
+ Thu, 8 Sep 2022 18:04:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=Mle2F5fFpz4YrINvvy96vp5NlrPJhOZ9uc36Yt+o4kg=;
+ b=mX93uU/PKkENeG9VZd7XqFczqjnJxJwvGSFsERDwcORm9GV8Bg/AftE0/CzTw9TfuSUF
+ toIr5JCtIBqfHuWe74tfRYiPOaTeCp+pf048XxlIkgPcVI31AiUOtNu+sUBeLGSOsZRq
+ DdXYT0g7YcXsfqrjnr0sWeCekQgAatoWnHfySQr21k9yl1KRFvR9y1BDzhSSyZEOXmaG
+ RQR5XZ+mzY4Y35p3Y+j+E2INC1kvwCHcJKX+GRKlV1Es+CScSnAg8ynuD9hi8dtVUJe/
+ xc3h5EXlg1Gq2Cfv0k1lb63Z6/lSHq2GiLi41nMbPWIquIVDCXVun8fehgfk9AqS31Oz Kg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jfn6bgb4d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 08 Sep 2022 18:04:44 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 288HrgaG014330;
+ Thu, 8 Sep 2022 18:04:44 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jfn6bgb2r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 08 Sep 2022 18:04:44 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 288HoBWI020086;
+ Thu, 8 Sep 2022 18:04:41 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 3jbxj8xwyc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 08 Sep 2022 18:04:41 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 288I4cwm35389938
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 8 Sep 2022 18:04:38 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8107EA4040;
+ Thu,  8 Sep 2022 18:04:38 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C24AEA404D;
+ Thu,  8 Sep 2022 18:04:37 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.10.204])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu,  8 Sep 2022 18:04:37 +0000 (GMT)
+Message-ID: <5f127a8be58d0842c6d94d682538af55f4eef64f.camel@linux.ibm.com>
+Subject: Re: [PATCH v9 07/10] s390x/cpu_topology: CPU topology migration
+From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com
+Date: Thu, 08 Sep 2022 20:04:37 +0200
+In-Reply-To: <20220902075531.188916-8-pmorel@linux.ibm.com>
+References: <20220902075531.188916-1-pmorel@linux.ibm.com>
+ <20220902075531.188916-8-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR08MB6956:EE_|VE1PR08MB5694:EE_
-X-MS-Office365-Filtering-Correlation-Id: f14fe0d6-eaba-4109-82db-08da91c1dcff
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vjCO+lYFHYDC2aXg5DyxXgN9fiVe39lkdkcFv91Jq7DXeanA2YUtIk2Wc5c8QK+eQes9kL+Un2lB0HxYmC3VFGv7kOJF8iMn0zRyaHEFQuxWAZ8chHmL8im5pbA1ncC+3n34yapf885MzNjt2K+Fy7eUAVmOLN2mYnTpUrFojmj10ehkUB5hrO8pEDYD4SS5wkCPldOFYE5rv3WjVBy7jkwsM5u6hLr1EGhl1V4EzBqgYlJQY1Rx8/NHMh6FwR8yKOSLOJgsED7mawVpXQC69IKQnLzG7E8VcRZJGaUW5qI7dSZMe9/Ag3PDwdfCOvIUhW/T5Z32jC5rQt2HLT/STVZ0yp/rOBr4hZ748sLfc6q/Xy/BS/wzrPQjRCFuoPv74IkNicbEtcp5Z3Qy9l4wKWdfXXnYgn4LPTIr+bQGEKFK2UPCjC7SbTL7BcSzaf7utscj0SJJCNjAXr8+L/7Xb6oqs2msaGPqHe8IsI5d03azyGiF0uQOv1bu5zL1+E8Ezk3bbn3lhashvIWFWJb/YTeITkyRFHIdKAIyeDeUuewloDdq2lTlqPlOutQDjX8gaIytCFIGJqLcd9hAAvqH+BvOM/ewkimiQDfGaNA7z+0YHtJphLpQdGTYuLoRQe674BDHIhM9VpOY4JDqJu8nY9mNXFz/Jq+gyJaJXKujZogOXouIxBnZCaPPTsqNUipy2QUel+RxIZ2aWQej7GgVj3VOQ+8LJLDtYdba8DCMKDHeSlFVqolhkhEwqtA1Vw7yQrOVIho7+foHIq6PImYN6DSZBz1LayQdI1xU3ZhVil+k8Z7Skn7x/L6FaQ6eWz9jiP+Kxy0aVV6TJChAZhne5w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PAXPR08MB6956.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(376002)(346002)(136003)(366004)(396003)(39840400004)(186003)(6512007)(2616005)(478600001)(41300700001)(86362001)(26005)(6486002)(31696002)(53546011)(52116002)(6506007)(38350700002)(38100700002)(83380400001)(2906002)(31686004)(36756003)(8936002)(316002)(8676002)(4326008)(66946007)(66556008)(66476007)(5660300002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Wm9wakRxWG9rUk5aMzBtV2pmUzZ1MmsvQ3dBbEpRWUFxSEYxZG1mN0ZDS0Nr?=
- =?utf-8?B?ckhJWVBuUS9zY0FDUzdkMGhCYnFSckVrMlZzSE5xelNaelRKWGh5NUM0UFk3?=
- =?utf-8?B?YStPVXNaK0h3QlJEeUZvR2tjYU5mb3pIUzNqczVmWE5zTUR1UlM1dTBZRjEx?=
- =?utf-8?B?eXNseU5LSnNBSWM5TGRCN1YwMkNhcWxkeUJvamU2eGl1OXRJYXUxcXllOWRF?=
- =?utf-8?B?dHVzZzBUSWVFOUN0QlNqenFqaXZmYkFOd1dCRVovdjlMMVQ3cWJuK2J1RDZ2?=
- =?utf-8?B?VFB6S0l6RVc2dW8yc1ZFSE5lNFdJQUNIRXFyU0UweXVxdXdYWjlSbnl6aVBJ?=
- =?utf-8?B?SmpYUkdNbXFrMSs1TUpYMkJqZlViMFlsQXNiZWdKSUh0U1R1blphRnBESDZu?=
- =?utf-8?B?SzcyN1lsOFN5NitYdy9UZHJJRUJDZ2U0NHJRR3c0d0V3azByV1JjUWJ5eTRn?=
- =?utf-8?B?TVlCa2dPZUl3d0xDMlUvbWkxZ0dIcExuVUR3WTJJbnVSRkcrWC9yeEoxMWJt?=
- =?utf-8?B?SitGTzBIYmIzQjBVVXltQ09GdWpiMXQrSVA5ZENkNnlWWGFBd3JyL2QzZVZr?=
- =?utf-8?B?cUpZdkxQNkluMy83N2ZCRzZXQ09KVnZPUGNpZ1NpY1JBbmwrdlNqeURIS1JE?=
- =?utf-8?B?U3JDVmh5ZzNvdEVWM1d4QTVqSUNOUlltZ01Qd3BLQ3hKMVBTQStDdHpuaGdx?=
- =?utf-8?B?a1JQQTdNYnZuZlRNRUpMNk9KbTBzbFFZdlNiTUFKTmlPOVZYblN4WW1ZMVNh?=
- =?utf-8?B?eDdsd0U1MEQzZnlMRUFYQTRIZWtHK2QwTUgwd3hlZHBrVWF3RDZJN09kUHhG?=
- =?utf-8?B?SCsxUlFzOG1LTThMeXNERzJOTXhuTFVUUVNoN0x0eVFvVmtVMkpRTHFtMjZh?=
- =?utf-8?B?M1hNNFl1ell5NHJCcEc3TnZ0b0FNSnRWKy9RQ2xJNC9GTW80b0F3K1VGNXZ1?=
- =?utf-8?B?dU9IT1VIUDkrTkZxZ0NzM3c2cDc5ZE1PZStodzdNVkpkQS9NZWh2ODZ5MmlU?=
- =?utf-8?B?aE00NUtCVG1lMmlPWElZT1g4Wk00akRnMTBYbm9xVEFtU0ZUZmVzK3RzcEJH?=
- =?utf-8?B?SVBvSmhJRk40S1FMUVcrVHY0R3ZtRGUvOVllM05GMWxmVElBYjBEYnA5YWdB?=
- =?utf-8?B?b3pweW5qU2JvUThYNmE5Y1doeWMya3FkT0xRWE9teUp0di91R1N6bTF3Z1Fk?=
- =?utf-8?B?dXVVVk9KYUFyOXVONnRwN3B0eTNiWHR0SERYS2o5VEIzOWtyM0tDWHRqMC91?=
- =?utf-8?B?azZGOWZhMmdHYkNFaGFxYUk4R0RSVGo0SUwyVmpLYk5SalVMdzNFY1BaK1U1?=
- =?utf-8?B?RDgwZkg5SVBsWE5tVm40Z3hUUXR1bjRGeTVXZlZkUHF6NGtheUlwV01aREY1?=
- =?utf-8?B?TE5LbVpVYzNHdWNtMk5MYk5HbmowRjJkWWEwZ05scHlDMktxUVpINXRWNkhr?=
- =?utf-8?B?L3B2SVJxNkNIb1ZLNlpVR3cxSlB0UnhQUnNrVVlHMERuZHVZZ3ltYTQraWRu?=
- =?utf-8?B?azFBZFFyc0ZRNStYVjJnRlp2QXE0RW0rQlZhdzdBSWp5TmR0M0crSkZpZlJN?=
- =?utf-8?B?Mko1bVUvOVR5alpkUlArSlpvZFVlNkhaeVhmcmVnZE1kYXBSTzNPY1BZK0tI?=
- =?utf-8?B?N1hiWDczVDc0cU8rc2pPaWxkYWtpMFBiajA5RGJxZWFXcnVCNWNiMUd0M2NX?=
- =?utf-8?B?N3F4UkN3WGYzUFh0NFpBbXNISlVKMXY5V3FFTm1aWG15Tkc2cEVEbHQ1eWtS?=
- =?utf-8?B?dGZBekZPRTJoNVl4Sm5PR0t4VnBDckxXMWtCUmhyam5OSUVFbGtQZFN2SGl0?=
- =?utf-8?B?VEthZjY5R2kvUnk3WDRhYnhMMW5YV3d4Sm1tYWlCaE9ybGk4N3p5ekhINVlt?=
- =?utf-8?B?SDdrQlhObWZRQmQrR1J6ckZmMkZnd25tcWFmRDhRUFEyWDZuYmFzLy9HRkQy?=
- =?utf-8?B?MUxLMmlhcWZuUFE5WXFlMUNic0xPckpqcjdiSFJjeElqcWRNL3FxcDk3Qytj?=
- =?utf-8?B?VXRqRHA2S0YwME1zRWJYMXhweVd2Q2FHQUtlTVFXSHhTQXV2M1ptbmE0Q2Y3?=
- =?utf-8?B?RjRpdE9qSWR2T2tuaysxRE1SQjBrcHd0cDNabHdyZW1kMXdtTytNY2lVZFZT?=
- =?utf-8?Q?D3Xi8y+NPNIhqCd77VHPFmYgy?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f14fe0d6-eaba-4109-82db-08da91c1dcff
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6956.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2022 17:45:05.0501 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Rb/nlI0d4k0m90+LJn8U4czLbho3QS2qL8xXLuYB6Xfof80AU9Pzk8wQgYHH3c3UQz+nhVmAQQWCdkFr0xlCAQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5694
-Received-SPF: pass client-ip=40.107.15.92; envelope-from=den@virtuozzo.com;
- helo=EUR01-DB5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.142,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: NaKyoln0i0GCHYEP_NVnfCQMQL3GXX1w
+X-Proofpoint-GUID: nHpM-SVDUKX-hUxF1B0Z7eUdJCormOwb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-08_10,2022-09-08_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0
+ mlxlogscore=999 spamscore=0 impostorscore=0 phishscore=0
+ lowpriorityscore=0 adultscore=0 bulkscore=0 suspectscore=0
+ priorityscore=1501 clxscore=1015 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2207270000 definitions=main-2209080064
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=scgl@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -147,190 +120,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/8/22 19:15, Denis V. Lunev wrote:
-> On 9/2/22 10:52, Alexander Ivanov wrote:
->> Cluster offsets must be unique among all BAT entries.
->> Find duplicate offsets in the BAT.
->>
->> If a duplicated offset is found fix it by copying the content
->> of the relevant cluster to a new allocated cluster and
->> set the new cluster offset to the duplicated entry.
->>
->> Add host_cluster_index() helper to deduplicate the code.
->> Add highest_offset() helper. It will be used for code deduplication
->> in the next patch.
->>
->> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
->> ---
->>   block/parallels.c | 136 ++++++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 136 insertions(+)
->>
->> diff --git a/block/parallels.c b/block/parallels.c
->> index dbcaf5d310..339ce45634 100644
->> --- a/block/parallels.c
->> +++ b/block/parallels.c
->> @@ -136,6 +136,26 @@ static int cluster_remainder(BDRVParallelsState 
->> *s, int64_t sector_num,
->>       return MIN(nb_sectors, ret);
->>   }
->>   +static uint32_t host_cluster_index(BDRVParallelsState *s, int64_t 
->> off)
->> +{
->> +    off -= s->header->data_off << BDRV_SECTOR_BITS;
->> +    return off / s->cluster_size;
->> +}
->> +
->> +static int64_t highest_offset(BDRVParallelsState *s)
->> +{
->> +    int64_t off, high_off = 0;
->> +    int i;
->> +
->> +    for (i = 0; i < s->bat_size; i++) {
->> +        off = bat2sect(s, i) << BDRV_SECTOR_BITS;
->> +        if (off > high_off) {
->> +            high_off = off;
->> +        }
->> +    }
->> +    return high_off;
->> +}
->> +
->>   static int64_t block_status(BDRVParallelsState *s, int64_t sector_num,
->>                               int nb_sectors, int *pnum)
->>   {
->> @@ -547,6 +567,114 @@ static int 
->> parallels_check_leak(BlockDriverState *bs,
->>       return 0;
->>   }
->>   +static int parallels_check_duplicate(BlockDriverState *bs,
->> +                                     BdrvCheckResult *res,
->> +                                     BdrvCheckMode fix)
->> +{
->> +    BDRVParallelsState *s = bs->opaque;
->> +    QEMUIOVector qiov;
->> +    int64_t off, high_off, sector;
->> +    unsigned long *bitmap;
->> +    uint32_t i, bitmap_size, cluster_index;
->> +    int n, ret = 0;
->> +    uint64_t *buf = NULL;
->> +    bool new_allocations = false;
->> +
->> +    high_off = highest_offset(s);
->> +    if (high_off == 0) {
->> +        return 0;
->> +    }
->> +
->> +    /*
->> +     * Create a bitmap of used clusters.
->> +     * If a bit is set, there is a BAT entry pointing to this cluster.
->> +     * Loop through the BAT entrues, check bits relevant to an entry 
->> offset.
->> +     * If bit is set, this entry is duplicated. Otherwise set the bit.
->> +     */
->> +    bitmap_size = host_cluster_index(s, high_off) + 1;
->> +    bitmap = bitmap_new(bitmap_size);
->> +
->> +    buf = g_malloc(s->cluster_size);
->> +    qemu_iovec_init(&qiov, 0);
->> +    qemu_iovec_add(&qiov, buf, s->cluster_size);
->> +
->> +    for (i = 0; i < s->bat_size; i++) {
->> +        off = bat2sect(s, i) << BDRV_SECTOR_BITS;
->> +        if (off == 0) {
->> +            continue;
->> +        }
->> +
->> +        cluster_index = host_cluster_index(s, off);
->> +        if (test_bit(cluster_index, bitmap)) {
->> +            /* this cluster duplicates another one */
->> +            fprintf(stderr,
->> +                    "%s duplicate offset in BAT entry %u\n",
->> +                    fix & BDRV_FIX_ERRORS ? "Repairing" : "ERROR", i);
->> +
->> +            res->corruptions++;
->> +
->> +            if (fix & BDRV_FIX_ERRORS) {
->> +                /*
->> +                 * Reset the entry and allocate a new cluster
->> +                 * for the relevant guest offset. In this way we let
->> +                 * the lower layer to place the new cluster properly.
->> +                 * Copy the original cluster to the allocated one.
->> +                 */
->> +                parallels_set_bat_entry(s, i, 0);
->> +
->> +                ret = bdrv_pread(bs->file, off, s->cluster_size, 
->> buf, 0);
->> +                if (ret < 0) {
->> +                    res->check_errors++;
->> +                    goto out;
->> +                }
->> +
->> +                sector = (i * s->cluster_size) >> BDRV_SECTOR_BITS;
->> +                off = allocate_clusters(bs, sector, s->tracks, &n);
->> +                if (off < 0) {
->> +                    res->check_errors++;
->> +                    ret = off;
->> +                    goto out;
->> +                }
->> +                off <<= BDRV_SECTOR_BITS;
->> +                if (off > high_off) {
->> +                    high_off = off;
->> +                }
->> +
->> +                ret = bdrv_co_pwritev(bs->file, off, 
->> s->cluster_size, &qiov, 0);
->> +                if (ret < 0) {
->> +                    res->check_errors++;
->> +                    goto out;
->> +                }
->> +
->> +                new_allocations = true;
->> +                res->corruptions_fixed++;
->> +            }
->> +
->> +        } else {
->> +            bitmap_set(bitmap, cluster_index, 1);
->> +        }
->> +    }
->> +
->> +    if (new_allocations) {
->> +        /*
->> +         * When new clusters are allocated, file size increases
->> +         * by 128 Mb blocks. We need to truncate the file to the
->> +         * right size.
->> +         */
->> +        ret = parallels_handle_leak(bs, res, high_off, true);
->> +        if (ret < 0) {
->> +            res->check_errors++;
->> +            goto out;
->> +        }
->> +    }
-> OK. I have re-read the code with test case handy and now
-> understand the situation completely.
->
-> The problem is that img_check() routine calls bdrv_check()
-> actually TWICE without image reopening and thus we
-> comes to some trouble on the second check as we have
-> had preallocated some space inside the image. This
-> is root of the problem.
->
-> Though this kind of the fix seems like overkill, I still do not
-> like the resulted code. It at least do not scale with the checks
-> which we will add further.
->
-> I think that we could do that in two ways:
-> * temporary set prealloc_mode to none at start of parallels_co_check
->   and return it back at the end
-> * parallels_leak_check should just set data_end and do nothing
->    more + we should have truncate at the end of the
->    parallels_co_check() if we have had performed ANY fix
+On Fri, 2022-09-02 at 09:55 +0200, Pierre Morel wrote:
+> The migration can only take place if both source and destination
+> of the migration both use or both do not use the CPU topology
+> facility.
+> 
+> We indicate a change in topology during migration postload for the
+> case the topology changed between source and destination.
 
-better way found. We should check not file length in handle_leak!
-We should compare highest_off with the data_end and that is
-146% correct.
+You always set the report bit after migration, right?
+In the last series you actually migrated the bit.
+Why the change? With the code you have actually migrating the bit isn't
+hard.
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>  hw/s390x/cpu-topology.c         | 79 +++++++++++++++++++++++++++++++++
+>  include/hw/s390x/cpu-topology.h |  1 +
+>  target/s390x/cpu-sysemu.c       |  8 ++++
+>  target/s390x/cpu.h              |  1 +
+>  4 files changed, 89 insertions(+)
+> 
+> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> index 6098d6ea1f..b6bf839e40 100644
+> --- a/hw/s390x/cpu-topology.c
+> +++ b/hw/s390x/cpu-topology.c
+> @@ -19,6 +19,7 @@
+>  #include "target/s390x/cpu.h"
+>  #include "hw/s390x/s390-virtio-ccw.h"
+>  #include "hw/s390x/cpu-topology.h"
+> +#include "migration/vmstate.h"
+>  
+>  S390Topology *s390_get_topology(void)
+>  {
+> @@ -132,6 +133,83 @@ static void s390_topology_reset(DeviceState *dev)
+>      s390_cpu_topology_reset();
+>  }
+>  
+> +/**
+> + * cpu_topology_postload
+> + * @opaque: a pointer to the S390Topology
+> + * @version_id: version identifier
+> + *
+> + * We check that the topology is used or is not used
+> + * on both side identically.
+> + *
+> + * If the topology is in use we set the Modified Topology Change Report
+> + * on the destination host.
+> + */
+> +static int cpu_topology_postload(void *opaque, int version_id)
+> +{
+> +    S390Topology *topo = opaque;
+> +    int ret;
+> +
+> +    if (topo->topology_needed != s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
 
-File length COULD be more than highest possible data cluster
-offset, but data_end should point to the correct location.
-That is it!
+Does this function even run if topology_needed is false?
+In that case there is no data saved, so no reason to load it either.
+If so you can only check that both the source and the destination have
+the feature enabled. You would need to always send the topology VMSD in
+order to check that the feature is disabled.
 
-Den
+Does qemu allow you to attempt to migrate to a host with another cpu
+model?
+If it disallowes that you wouldn't need to do any checks, right?
+
+> +        if (topo->topology_needed) {
+> +            error_report("Topology facility is needed in destination");
+> +        } else {
+> +            error_report("Topology facility can not be used in destination");
+> +        }
+> +        return -EINVAL;
+> +    }
+> +
+> +    /* We do not support CPU Topology, all is good */
+> +    if (!s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
+> +        return 0;
+> +    }
+> +
+> +    /* We support CPU Topology, set the MTCR */
+> +    ret = s390_cpu_topology_mtcr_set();
+> +    if (ret) {
+> +        error_report("Failed to set MTCR: %s", strerror(-ret));
+> +    }
+> +    return ret;
+> +}
+> +
+> +/**
+> + * cpu_topology_presave:
+> + * @opaque: The pointer to the S390Topology
+> + *
+> + * Save the usage of the CPU Topology in the VM State.
+> + */
+> +static int cpu_topology_presave(void *opaque)
+> +{
+> +    S390Topology *topo = opaque;
+> +
+> +    topo->topology_needed = s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY);
+> +    return 0;
+> +}
+> +
+> +/**
+> + * cpu_topology_needed:
+> + * @opaque: The pointer to the S390Topology
+> + *
+> + * If we use the CPU Topology on the source it will be needed on the destination.
+> + */
+> +static bool cpu_topology_needed(void *opaque)
+> +{
+> +    return s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY);
+> +}
+> +
+> +
+> +const VMStateDescription vmstate_cpu_topology = {
+> +    .name = "cpu_topology",
+> +    .version_id = 1,
+> +    .post_load = cpu_topology_postload,
+> +    .pre_save = cpu_topology_presave,
+> +    .minimum_version_id = 1,
+> +    .needed = cpu_topology_needed,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_BOOL(topology_needed, S390Topology),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+[...]
 
