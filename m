@@ -2,76 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F8E5B2909
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 00:08:50 +0200 (CEST)
-Received: from localhost ([::1]:39844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 596D05B2908
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 00:08:27 +0200 (CEST)
+Received: from localhost ([::1]:39926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWPhZ-0008SF-2l
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 18:08:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45712)
+	id 1oWPhC-00084c-Bd
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 18:08:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tkng@rivosinc.com>) id 1oWPdj-0003zy-1e
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 18:04:51 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:43716)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tkng@rivosinc.com>) id 1oWPdg-0007V9-VS
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 18:04:50 -0400
-Received: by mail-pl1-x635.google.com with SMTP id l10so22537plb.10
- for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 15:04:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=hi9b2Mtn8C6RY2bFpaQjGztpzZ3p5ZJmjRZbCHwYCZo=;
- b=U4HXoMZIt+5qYWEWlD+HFhqe6RVYhwJl6NQrxQkqBjEAs13GblCCny0Yk9AMQOb0lX
- kLbzB97yYTzjgO84azzbupJlVmoARrv6gHzZDorG6DGZluE6GB665k7+9TD4uakP+eRK
- Yqbpv4Nud4CJR3jqXyMy+CSuEQ9V2VDeUN1J+LRmdYHy2jEGf4KrkM+UkwV2ftAngHBD
- bAsChH3BZEb/PWLV7oqsDZ5UQgkIM1m9rUe4QnpmY44xFPohCxmx6SsXHcf3WZBbdY3l
- TGzsIDMKNtV0U4CS3rUgNAVs59QLb0ALfNM61vYhT36N/3B7GKf+Oje4Xy07ZqJj/MkM
- wK/w==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oWPem-0004ov-5S
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 18:05:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54693)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oWPei-0007w2-7D
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 18:05:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662674751;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=l+yRXEdNd2Ww/FWI+pd/QtmNoCy/niV5V33yVr1UrPA=;
+ b=Unofm42GWrldt33kFXvcN1nwtRGHL7aUPVCkHZCqqEaS6i5UtRKHIPtPM6AVMgpraxxYUC
+ JKNAik8PKeLTh88ZPXBDCeWTr7GYlx3yAwfjKXyV9cBA60CaQbEoMM4+fkJp3FMbJxknSO
+ zOSEUflFt4PPVfU1ZHahyxOWrcy9BNo=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-558-u4Klv-9EP3uyU1XaFR8vNQ-1; Thu, 08 Sep 2022 18:05:49 -0400
+X-MC-Unique: u4Klv-9EP3uyU1XaFR8vNQ-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ x10-20020a2ea98a000000b00261b06603cfso5994728ljq.17
+ for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 15:05:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=hi9b2Mtn8C6RY2bFpaQjGztpzZ3p5ZJmjRZbCHwYCZo=;
- b=MOKlzptyXKPYOzoC0HPwbSnz+5L4lND2k+sOStxwK1r2NBtl4qKO2DMfVxckXOGe4n
- U6VTLQBJ1TNFNCZKHRQw4Vy44VDX7FYMCFHdBHx3uTWI8cqhc//odlywj9E/8+805R9a
- VYzn1f0OzERBv/S2b4noECCopEIkvij/03YXOJ0nXNJZe25ESl+jmkS32/+g1D7HGraP
- +MxqjlGb6rPvbv4p1MNG6E0gthUZVLPlGg2Ye8pPvweNladYhNWxjjM8LmzOsT1IunJs
- okljGG6DKy6as/DGX2mWWEqr5CuVLc+++HGsg/XvWyelN1lM8G+42B5zf/HiJIseNoyW
- 6O+A==
-X-Gm-Message-State: ACgBeo2u1racF8dWxK19mTOkRlC09We0GHYZGFhquOXfwWn8iMeelp8Y
- RxjVz8lWL54UyTI+k9wKEOv8z8EwQhAIraIkzE6trQ==
-X-Google-Smtp-Source: AA6agR4Z8qY/1PG11hFc05XEAjfdpOdmJfieuNOvMNxj4Eh0epoPpK4ninvdwge7rD9xZXBabh2Cs2rhqK+6D8ITn58=
-X-Received: by 2002:a17:902:7d86:b0:176:a6eb:1758 with SMTP id
- a6-20020a1709027d8600b00176a6eb1758mr11213429plm.90.1662674687444; Thu, 08
- Sep 2022 15:04:47 -0700 (PDT)
+ bh=l+yRXEdNd2Ww/FWI+pd/QtmNoCy/niV5V33yVr1UrPA=;
+ b=AMB5uFov/Als3e/DuWzK3hxr0ZMKoyFHEH8Qd0FDR4P3Gc/CNQ9lpgH1Yq7Kg+PW+k
+ YGsfUN1GtXON0gatoEf46E4DxSVtMaIpZXN4eX0DEBxCS9f6yDKeXwb0wFnNZAvsaxUx
+ HH7bYv+Io0xr6IpBIzDYn6AXwn7WSneEr+zflXev/hoxcMlQkak4TlmqXhAIlsSJX+b7
+ 9pnaRWWabmQ1kBwWR/9XljaWfPAmnwTBjopKxGnSiSHzwRCc8qB/yznPHBScdAEg/X9j
+ v4aADEZ0+94ajCddYrwmW+AOUzs4dmcPUBXP7UrGd/3S00GlpYAQ31ZaCTo6+kGBQtQT
+ Z/MQ==
+X-Gm-Message-State: ACgBeo1REc5Q6rphh9xy23QR7HnQtZZmM488+3Kn7wPVeSOG4EVzR1h9
+ yfvoeIAX6DucOAST5szp0MwqPuC4SX6MZUNKgm+/lbRZIlFqmjSdaNUHS3BBLENO8fYofObiVKc
+ WiA9x9zAYDwDASGIzg7lHZpZdK/jUJo4=
+X-Received: by 2002:a2e:740f:0:b0:26b:da32:1b9c with SMTP id
+ p15-20020a2e740f000000b0026bda321b9cmr1370522ljc.262.1662674748052; 
+ Thu, 08 Sep 2022 15:05:48 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7phqC30I64kUrrkaxDeynH2r0RsgBZR5TOuVC1G+cd89a1dMy5MZAYssTMh+igQ6RzZ6VXMexyg5w93/aky8g=
+X-Received: by 2002:a2e:740f:0:b0:26b:da32:1b9c with SMTP id
+ p15-20020a2e740f000000b0026bda321b9cmr1370511ljc.262.1662674747721; Thu, 08
+ Sep 2022 15:05:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAB88-qPZr7G8Lp0Q=851JSFyb5v7ub5Hi4DaD6mVQKZxFt5UOw@mail.gmail.com>
- <CAKmqyKOCeBU5yZkW7d90vFDvL_n+M1KKSGexDZ59DN1LiY9mww@mail.gmail.com>
-In-Reply-To: <CAKmqyKOCeBU5yZkW7d90vFDvL_n+M1KKSGexDZ59DN1LiY9mww@mail.gmail.com>
-From: Tyler Ng <tkng@rivosinc.com>
-Date: Thu, 8 Sep 2022 15:04:36 -0700
-Message-ID: <CAB88-qOMHk1_Mh1YOYREaTXixEf8uGYb+o8bYAvgfQhQEfQ9aQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] hw/timer: ibex_timer.c: Update register addresses
-To: Alistair Francis <alistair23@gmail.com>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000001f647705e8319e63"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=tkng@rivosinc.com; helo=mail-pl1-x635.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+References: <20220908093936.19280-1-pbonzini@redhat.com>
+ <67f82e6b-683d-564f-aa9f-a9aaaafd0382@suse.de>
+In-Reply-To: <67f82e6b-683d-564f-aa9f-a9aaaafd0382@suse.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Fri, 9 Sep 2022 00:05:36 +0200
+Message-ID: <CABgObfaQuw20OB2whQMg1kp0Pau370zs3NyUP4SMN1GkFUvLpA@mail.gmail.com>
+Subject: Re: [PATCH v3] audio: add help option for -audio and -audiodev
+To: Claudio Fontana <cfontana@suse.de>
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, 
+ =?UTF-8?Q?Volker_R=C3=BCmelin?= <vr_qemu@t-online.de>, 
+ qemu-devel <qemu-devel@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ BALATON Zoltan <balaton@eik.bme.hu>
+Content-Type: multipart/alternative; boundary="000000000000b7350805e831a1bd"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,177 +100,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000001f647705e8319e63
+--000000000000b7350805e831a1bd
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Sep 8, 2022 at 4:56 AM Alistair Francis <alistair23@gmail.com>
-wrote:
+No, there's nothing yet.
 
-> On Fri, Sep 2, 2022 at 3:24 AM Tyler Ng <tkng@rivosinc.com> wrote:
-> >
-> > Updates the register addresses to match the OpenTitan spec.
-> >
-> > These changes were made in this commit:
-> >
-> https://github.com/lowRISC/opentitan/commit/a25e162b8f91bd0ca32258c83d1d480f93327204
->
-> Thanks for the patch
->
-> We try to keep all OpenTitan devices in sync with each other. QEMU
-> currently supports OT commit 217a0168ba118503c166a9587819e3811eeb0c0c
->
-> We don't want to update a single device without updating all of them.
-> If you want you are welcome to update all devices to a newer commit
->
-> Also, the commits QEMU supports are generally driven by Tock, as
-> that's the software running on QEMU OT. Have a look here for the board
-> https://github.com/tock/tock/tree/master/boards/opentitan or here for
-> the latest update (which QEMU already supports)
-> https://github.com/tock/tock/pull/3056
->
-> Alistair
->
-> Alright, thanks for the info. I'll look into it; the AON spec could have
-changed since that commit as I was using the latest version.
+Paolo
 
--Tyler
+Il gio 8 set 2022, 15:47 Claudio Fontana <cfontana@suse.de> ha scritto:
 
-
+> On 9/8/22 11:39, Paolo Bonzini wrote:
+> > Queued, thanks.
 > >
-> > Signed-off-by: Tyler Ng <tkng@rivosinc.com>
-> > ---
-> >  hw/timer/ibex_timer.c | 20 ++++++++++----------
-> >  1 file changed, 10 insertions(+), 10 deletions(-)
+> > Paolo
 > >
-> > diff --git a/hw/timer/ibex_timer.c b/hw/timer/ibex_timer.c
-> > index 8c2ca364da..9ffd4821e8 100644
-> > --- a/hw/timer/ibex_timer.c
-> > +++ b/hw/timer/ibex_timer.c
-> > @@ -38,19 +38,19 @@ REG32(ALERT_TEST, 0x00)
-> >      FIELD(ALERT_TEST, FATAL_FAULT, 0, 1)
-> >  REG32(CTRL, 0x04)
-> >      FIELD(CTRL, ACTIVE, 0, 1)
-> > -REG32(CFG0, 0x100)
-> > -    FIELD(CFG0, PRESCALE, 0, 12)
-> > -    FIELD(CFG0, STEP, 16, 8)
-> > -REG32(LOWER0, 0x104)
-> > -REG32(UPPER0, 0x108)
-> > -REG32(COMPARE_LOWER0, 0x10C)
-> > -REG32(COMPARE_UPPER0, 0x110)
-> > -REG32(INTR_ENABLE, 0x114)
-> > +REG32(INTR_ENABLE, 0x100)
-> >      FIELD(INTR_ENABLE, IE_0, 0, 1)
-> > -REG32(INTR_STATE, 0x118)
-> > +REG32(INTR_STATE, 0x104)
-> >      FIELD(INTR_STATE, IS_0, 0, 1)
-> > -REG32(INTR_TEST, 0x11C)
-> > +REG32(INTR_TEST, 0x108)
-> >      FIELD(INTR_TEST, T_0, 0, 1)
-> > +REG32(CFG0, 0x10C)
-> > +    FIELD(CFG0, PRESCALE, 0, 12)
-> > +    FIELD(CFG0, STEP, 16, 8)
-> > +REG32(LOWER0, 0x110)
-> > +REG32(UPPER0, 0x114)
-> > +REG32(COMPARE_LOWER0, 0x118)
-> > +REG32(COMPARE_UPPER0, 0x11C)
 > >
-> >  static uint64_t cpu_riscv_read_rtc(uint32_t timebase_freq)
-> >  {
-> > --
-> > 2.30.2
-> >
+>
+> Thanks. When it comes to programmatic checks about what QEMU supports in
+> terms of audio,
+>
+> is there something that can be done with QMP?
+>
+> I checked the QMP manual at:
+>
+>
+> https://qemu.readthedocs.io/en/latest/interop/qemu-qmp-ref.html#qapidoc-2948
+>
+> but in the "Audio" section there is a bunch of Objects and enums defined,
+> but no command to query them...
+>
+> Thanks,
+>
+> Claudio
+>
 >
 
---0000000000001f647705e8319e63
+--000000000000b7350805e831a1bd
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 8, 2022 at 4:56 AM Alista=
-ir Francis &lt;<a href=3D"mailto:alistair23@gmail.com" target=3D"_blank">al=
-istair23@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">On Fri, Sep 2, 2022 at 3:24 AM Tyler Ng &lt;<a href=3D"ma=
-ilto:tkng@rivosinc.com" target=3D"_blank">tkng@rivosinc.com</a>&gt; wrote:<=
-br>
-&gt;<br>
-&gt; Updates the register addresses to match the OpenTitan spec.<br>
-&gt;<br>
-&gt; These changes were made in this commit:<br>
-&gt; <a href=3D"https://github.com/lowRISC/opentitan/commit/a25e162b8f91bd0=
-ca32258c83d1d480f93327204" rel=3D"noreferrer" target=3D"_blank">https://git=
-hub.com/lowRISC/opentitan/commit/a25e162b8f91bd0ca32258c83d1d480f93327204</=
-a><br>
+<div dir=3D"auto">No, there&#39;s nothing yet.<div dir=3D"auto"><br></div><=
+div dir=3D"auto">Paolo</div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">Il gio 8 set 2022, 15:47 Claudio Fontana &lt;=
+<a href=3D"mailto:cfontana@suse.de">cfontana@suse.de</a>&gt; ha scritto:<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
+left:1px #ccc solid;padding-left:1ex">On 9/8/22 11:39, Paolo Bonzini wrote:=
 <br>
-Thanks for the patch<br>
+&gt; Queued, thanks.<br>
+&gt; <br>
+&gt; Paolo<br>
+&gt; <br>
+&gt; <br>
 <br>
-We try to keep all OpenTitan devices in sync with each other. QEMU<br>
-currently supports OT commit 217a0168ba118503c166a9587819e3811eeb0c0c<br>
+Thanks. When it comes to programmatic checks about what QEMU supports in te=
+rms of audio,<br>
 <br>
-We don&#39;t want to update a single device without updating all of them.<b=
-r>
-If you want you are welcome to update all devices to a newer commit<br>
+is there something that can be done with QMP?<br>
 <br>
-Also, the commits QEMU supports are generally driven by Tock, as<br>
-that&#39;s the software running on QEMU OT. Have a look here for the board<=
-br>
-<a href=3D"https://github.com/tock/tock/tree/master/boards/opentitan" rel=
-=3D"noreferrer" target=3D"_blank">https://github.com/tock/tock/tree/master/=
-boards/opentitan</a> or here for<br>
-the latest update (which QEMU already supports)<br>
-<a href=3D"https://github.com/tock/tock/pull/3056" rel=3D"noreferrer" targe=
-t=3D"_blank">https://github.com/tock/tock/pull/3056</a><br>
+I checked the QMP manual at:<br>
 <br>
-Alistair<br>
-<br></blockquote><div>Alright, thanks for the info. I&#39;ll look into it; =
-the AON spec could have changed since that commit as I was using the latest=
- version.<br></div><div><br></div><div>-Tyler<br></div><div>=C2=A0</div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">
-&gt;<br>
-&gt; Signed-off-by: Tyler Ng &lt;<a href=3D"mailto:tkng@rivosinc.com" targe=
-t=3D"_blank">tkng@rivosinc.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 hw/timer/ibex_timer.c | 20 ++++++++++----------<br>
-&gt;=C2=A0 1 file changed, 10 insertions(+), 10 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/hw/timer/ibex_timer.c b/hw/timer/ibex_timer.c<br>
-&gt; index 8c2ca364da..9ffd4821e8 100644<br>
-&gt; --- a/hw/timer/ibex_timer.c<br>
-&gt; +++ b/hw/timer/ibex_timer.c<br>
-&gt; @@ -38,19 +38,19 @@ REG32(ALERT_TEST, 0x00)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 FIELD(ALERT_TEST, FATAL_FAULT, 0, 1)<br>
-&gt;=C2=A0 REG32(CTRL, 0x04)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 FIELD(CTRL, ACTIVE, 0, 1)<br>
-&gt; -REG32(CFG0, 0x100)<br>
-&gt; -=C2=A0 =C2=A0 FIELD(CFG0, PRESCALE, 0, 12)<br>
-&gt; -=C2=A0 =C2=A0 FIELD(CFG0, STEP, 16, 8)<br>
-&gt; -REG32(LOWER0, 0x104)<br>
-&gt; -REG32(UPPER0, 0x108)<br>
-&gt; -REG32(COMPARE_LOWER0, 0x10C)<br>
-&gt; -REG32(COMPARE_UPPER0, 0x110)<br>
-&gt; -REG32(INTR_ENABLE, 0x114)<br>
-&gt; +REG32(INTR_ENABLE, 0x100)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 FIELD(INTR_ENABLE, IE_0, 0, 1)<br>
-&gt; -REG32(INTR_STATE, 0x118)<br>
-&gt; +REG32(INTR_STATE, 0x104)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 FIELD(INTR_STATE, IS_0, 0, 1)<br>
-&gt; -REG32(INTR_TEST, 0x11C)<br>
-&gt; +REG32(INTR_TEST, 0x108)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 FIELD(INTR_TEST, T_0, 0, 1)<br>
-&gt; +REG32(CFG0, 0x10C)<br>
-&gt; +=C2=A0 =C2=A0 FIELD(CFG0, PRESCALE, 0, 12)<br>
-&gt; +=C2=A0 =C2=A0 FIELD(CFG0, STEP, 16, 8)<br>
-&gt; +REG32(LOWER0, 0x110)<br>
-&gt; +REG32(UPPER0, 0x114)<br>
-&gt; +REG32(COMPARE_LOWER0, 0x118)<br>
-&gt; +REG32(COMPARE_UPPER0, 0x11C)<br>
-&gt;<br>
-&gt;=C2=A0 static uint64_t cpu_riscv_read_rtc(uint32_t timebase_freq)<br>
-&gt;=C2=A0 {<br>
-&gt; --<br>
-&gt; 2.30.2<br>
-&gt;<br></blockquote></div></div>
+<a href=3D"https://qemu.readthedocs.io/en/latest/interop/qemu-qmp-ref.html#=
+qapidoc-2948" rel=3D"noreferrer noreferrer" target=3D"_blank">https://qemu.=
+readthedocs.io/en/latest/interop/qemu-qmp-ref.html#qapidoc-2948</a><br>
+<br>
+but in the &quot;Audio&quot; section there is a bunch of Objects and enums =
+defined, but no command to query them...<br>
+<br>
+Thanks,<br>
+<br>
+Claudio<br>
+<br>
+</blockquote></div>
 
---0000000000001f647705e8319e63--
+--000000000000b7350805e831a1bd--
+
 
