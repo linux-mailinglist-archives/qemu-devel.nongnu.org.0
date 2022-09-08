@@ -2,50 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD7205B196C
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 11:56:42 +0200 (CEST)
-Received: from localhost ([::1]:59160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5FBC5B19B8
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 12:14:21 +0200 (CEST)
+Received: from localhost ([::1]:53094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWEH3-0002eN-SS
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 05:56:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58286)
+	id 1oWEY7-00060a-K0
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 06:14:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1oWE7H-0005EE-JR
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 05:46:37 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:43740 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1oWE7D-0004zD-J3
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 05:46:34 -0400
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxYOLwuRljGFYUAA--.17873S11; 
- Thu, 08 Sep 2022 17:46:25 +0800 (CST)
-From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
- imammedo@redhat.com
-Subject: [PATCH v1 9/9] hw/loongarch: Improve acpi dsdt table
-Date: Thu,  8 Sep 2022 17:46:23 +0800
-Message-Id: <20220908094623.73051-10-yangxiaojuan@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220908094623.73051-1-yangxiaojuan@loongson.cn>
-References: <20220908094623.73051-1-yangxiaojuan@loongson.cn>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oWEVc-0003dy-0D; Thu, 08 Sep 2022 06:11:44 -0400
+Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b]:33457)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oWEVa-0000KI-7r; Thu, 08 Sep 2022 06:11:43 -0400
+Received: by mail-lj1-x22b.google.com with SMTP id v6so5889180ljj.0;
+ Thu, 08 Sep 2022 03:11:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=Tbk2nheDNdld4sI5Sfpnftfd9qG4PMAdy89bCuQjkhE=;
+ b=JP/dxedPXWF+4oAcnxhEx//b8aBp7JN6rBbvdX+CTgtzEyBdunwliOoA9+kPRBFQT9
+ rY6CvsbpE8SbinVm/L9PJywvDs2DeFVnWWDuYYXKESzqRe5ssajS9yQMAFI2esjTd03b
+ KG7bG9TOjMdcwkxNs0VtYNt5adWQmZNJRl6gpB2vwsBYf01Je9MCUAyFUNlzZoWtWJL9
+ 4xppNnD/74ZrE10cfOtSPHMohdfqstWh4VVqvWSLCzJV+W0mT2X3AHf1PDGPpfeasuwC
+ nzDInAVOY455jQ5J7uWLL96ePVrP2WY13G22s6wD/H7FOHasmDgKJsnraajKot51H95U
+ /u/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=Tbk2nheDNdld4sI5Sfpnftfd9qG4PMAdy89bCuQjkhE=;
+ b=GYCzVmrtotvFE+G0EuwxTBWUIKPh/Kt+VOXLASvQygL8ogeHK9I05ly+isSc9sp+Tu
+ A2TLE3RlwrmcXKjg5B3HZCw3S6fssSDiubhU5SQ8U8PjmotGCgijzJJP/oHvBG1vaN5d
+ aFWc0M0ciC57fMZxem4OaGQmj9HaBeqTkSHU0abugQaMX0mX/dfQDY3jHZnm43kX5Ar5
+ /pE4Fbb3ZBoUrWYS5lT1VAoCJjjpnGvz4u+GsFIzkMQDoryalRQ1jO2AWitNVf/x+H2C
+ X3gIaEcN5IuVogH/5EUVE1+fPGALUJzVUnbEVE0Y6KR4MQPQCg76j5eCz86eEBWpd0+1
+ NUKQ==
+X-Gm-Message-State: ACgBeo16dc6PFGfn5jIJC51DvE73YzAA83SU/nuHd/3Q1tf62vNkeIZl
+ 7y331+dUksfiEtUyd9BKz284WSCn0BvK8MTdyuo=
+X-Google-Smtp-Source: AA6agR4INZBqWmUUyde2PtazBTF8k7B86ujJhUBVS0Lp34yW24SjwIeBa47K094FJ+4/UcmM+UM1r2/3gbKLk5uL768=
+X-Received: by 2002:a2e:a789:0:b0:267:917b:401b with SMTP id
+ c9-20020a2ea789000000b00267917b401bmr2377373ljf.452.1662631900163; Thu, 08
+ Sep 2022 03:11:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxYOLwuRljGFYUAA--.17873S11
-X-Coremail-Antispam: 1UD129KBjvJXoW3ArW3tF4UuFW3Gr4rZFy7Jrb_yoW3AFWxp3
- ya9FWYvr15GrnFq3yfA3W5WF1UArn7G34qqasxArs2kFZFkr10qry8C393WF1Yy3s3tFWU
- XrZY934UCw4kJr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+References: <20220906194755.98090-1-arwed.meyer@gmx.de>
+ <20220906194755.98090-5-arwed.meyer@gmx.de>
+In-Reply-To: <20220906194755.98090-5-arwed.meyer@gmx.de>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 8 Sep 2022 14:11:28 +0400
+Message-ID: <CAJ+F1CLX8gTZ_MsDB+nK7Gp4mBe5UDnaEmKYvfsyjNzKzcQw8g@mail.gmail.com>
+Subject: Re: [PATCH 4/4] serial: Allow unaligned i/o access
+To: Arwed Meyer <arwed.meyer@gmx.de>
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000cd33b805e827a777"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22b;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,239 +82,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cleanup the previous pci information in acpi dsdt table.
-And using the common acpi_dsdt_add_gpex function to build
-the gpex and pci information.
+--000000000000cd33b805e827a777
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
----
- hw/loongarch/acpi-build.c   | 159 +++++-------------------------------
- hw/loongarch/virt.c         |   1 +
- include/hw/loongarch/virt.h |   1 +
- 3 files changed, 21 insertions(+), 140 deletions(-)
+Hi
 
-diff --git a/hw/loongarch/acpi-build.c b/hw/loongarch/acpi-build.c
-index 92ee62c11a..378a6d9d38 100644
---- a/hw/loongarch/acpi-build.c
-+++ b/hw/loongarch/acpi-build.c
-@@ -30,6 +30,7 @@
- #include "qom/qom-qobject.h"
- 
- #include "hw/acpi/generic_event_device.h"
-+#include "hw/pci-host/gpex.h"
- 
- #define ACPI_BUILD_ALIGN_SIZE             0x1000
- #define ACPI_BUILD_TABLE_SIZE             0x20000
-@@ -206,108 +207,6 @@ struct AcpiBuildState {
-     MemoryRegion *linker_mr;
- } AcpiBuildState;
- 
--static void build_gpex_pci0_int(Aml *table)
--{
--    Aml *sb_scope = aml_scope("_SB");
--    Aml *pci0_scope = aml_scope("PCI0");
--    Aml *prt_pkg = aml_varpackage(128);
--    int slot, pin;
--
--    for (slot = 0; slot < PCI_SLOT_MAX; slot++) {
--        for (pin = 0; pin < PCI_NUM_PINS; pin++) {
--            Aml *pkg = aml_package(4);
--            aml_append(pkg, aml_int((slot << 16) | 0xFFFF));
--            aml_append(pkg, aml_int(pin));
--            aml_append(pkg, aml_int(0));
--            aml_append(pkg, aml_int(80 + (slot + pin) % 4));
--            aml_append(prt_pkg, pkg);
--        }
--    }
--    aml_append(pci0_scope, aml_name_decl("_PRT", prt_pkg));
--    aml_append(sb_scope, pci0_scope);
--    aml_append(table, sb_scope);
--}
--
--static void build_dbg_aml(Aml *table)
--{
--    Aml *field;
--    Aml *method;
--    Aml *while_ctx;
--    Aml *scope = aml_scope("\\");
--    Aml *buf = aml_local(0);
--    Aml *len = aml_local(1);
--    Aml *idx = aml_local(2);
--
--    aml_append(scope,
--       aml_operation_region("DBG", AML_SYSTEM_IO, aml_int(0x0402), 0x01));
--    field = aml_field("DBG", AML_BYTE_ACC, AML_NOLOCK, AML_PRESERVE);
--    aml_append(field, aml_named_field("DBGB", 8));
--    aml_append(scope, field);
--
--    method = aml_method("DBUG", 1, AML_NOTSERIALIZED);
--
--    aml_append(method, aml_to_hexstring(aml_arg(0), buf));
--    aml_append(method, aml_to_buffer(buf, buf));
--    aml_append(method, aml_subtract(aml_sizeof(buf), aml_int(1), len));
--    aml_append(method, aml_store(aml_int(0), idx));
--
--    while_ctx = aml_while(aml_lless(idx, len));
--    aml_append(while_ctx,
--        aml_store(aml_derefof(aml_index(buf, idx)), aml_name("DBGB")));
--    aml_append(while_ctx, aml_increment(idx));
--    aml_append(method, while_ctx);
--    aml_append(method, aml_store(aml_int(0x0A), aml_name("DBGB")));
--    aml_append(scope, method);
--    aml_append(table, scope);
--}
--
--static Aml *build_osc_method(void)
--{
--    Aml *if_ctx;
--    Aml *if_ctx2;
--    Aml *else_ctx;
--    Aml *method;
--    Aml *a_cwd1 = aml_name("CDW1");
--    Aml *a_ctrl = aml_local(0);
--
--    method = aml_method("_OSC", 4, AML_NOTSERIALIZED);
--    aml_append(method, aml_create_dword_field(aml_arg(3), aml_int(0), "CDW1"));
--
--    if_ctx = aml_if(aml_equal(
--        aml_arg(0), aml_touuid("33DB4D5B-1FF7-401C-9657-7441C03DD766")));
--    aml_append(if_ctx, aml_create_dword_field(aml_arg(3), aml_int(4), "CDW2"));
--    aml_append(if_ctx, aml_create_dword_field(aml_arg(3), aml_int(8), "CDW3"));
--    aml_append(if_ctx, aml_store(aml_name("CDW3"), a_ctrl));
--
--    /*
--     * Always allow native PME, AER (no dependencies)
--     * Allow SHPC (PCI bridges can have SHPC controller)
--     */
--    aml_append(if_ctx, aml_and(a_ctrl, aml_int(0x1F), a_ctrl));
--
--    if_ctx2 = aml_if(aml_lnot(aml_equal(aml_arg(1), aml_int(1))));
--    /* Unknown revision */
--    aml_append(if_ctx2, aml_or(a_cwd1, aml_int(0x08), a_cwd1));
--    aml_append(if_ctx, if_ctx2);
--
--    if_ctx2 = aml_if(aml_lnot(aml_equal(aml_name("CDW3"), a_ctrl)));
--    /* Capabilities bits were masked */
--    aml_append(if_ctx2, aml_or(a_cwd1, aml_int(0x10), a_cwd1));
--    aml_append(if_ctx, if_ctx2);
--
--    /* Update DWORD3 in the buffer */
--    aml_append(if_ctx, aml_store(a_ctrl, aml_name("CDW3")));
--    aml_append(method, if_ctx);
--
--    else_ctx = aml_else();
--    /* Unrecognized UUID */
--    aml_append(else_ctx, aml_or(a_cwd1, aml_int(4), a_cwd1));
--    aml_append(method, else_ctx);
--
--    aml_append(method, aml_return(aml_arg(3)));
--    return method;
--}
--
- static void build_uart_device_aml(Aml *table)
- {
-     Aml *dev;
-@@ -360,57 +259,37 @@ build_la_ged_aml(Aml *dsdt, MachineState *machine)
-     }
- }
- 
-+static void build_pci_device_aml(Aml *scope, LoongArchMachineState *lams)
-+{
-+    struct GPEXConfig cfg = {
-+        .mmio64.base = VIRT_PCI_MEM_BASE,
-+        .mmio64.size = VIRT_PCI_MEM_SIZE,
-+        .pio.base    = VIRT_PCI_IO_BASE,
-+        .pio.size    = VIRT_PCI_IO_SIZE,
-+        .ecam.base   = VIRT_PCI_CFG_BASE,
-+        .ecam.size   = VIRT_PCI_CFG_SIZE,
-+        .irq         = PCH_PIC_IRQ_OFFSET + VIRT_DEVICE_IRQS,
-+        .bus         = lams->pci_bus,
-+    };
-+
-+    acpi_dsdt_add_gpex(scope, &cfg);
-+}
-+
- /* build DSDT */
- static void
- build_dsdt(GArray *table_data, BIOSLinker *linker, MachineState *machine)
- {
--    Aml *dsdt, *sb_scope, *scope, *dev, *crs, *pkg;
--    int root_bus_limit = 0x7F;
-+    Aml *dsdt, *scope, *pkg;
-     LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
-     AcpiTable table = { .sig = "DSDT", .rev = 1, .oem_id = lams->oem_id,
-                         .oem_table_id = lams->oem_table_id };
- 
-     acpi_table_begin(&table, table_data);
--
-     dsdt = init_aml_allocator();
--
--    build_dbg_aml(dsdt);
--
--    sb_scope = aml_scope("_SB");
--    dev = aml_device("PCI0");
--    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
--    aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
--    aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
--    aml_append(dev, aml_name_decl("_BBN", aml_int(0)));
--    aml_append(dev, aml_name_decl("_UID", aml_int(1)));
--    aml_append(dev, build_osc_method());
--    aml_append(sb_scope, dev);
--    aml_append(dsdt, sb_scope);
--
--    build_gpex_pci0_int(dsdt);
-     build_uart_device_aml(dsdt);
-+    build_pci_device_aml(dsdt, lams);
-     build_la_ged_aml(dsdt, machine);
- 
--    scope = aml_scope("\\_SB.PCI0");
--    /* Build PCI0._CRS */
--    crs = aml_resource_template();
--    aml_append(crs,
--        aml_word_bus_number(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
--                            0x0000, 0x0, root_bus_limit,
--                            0x0000, root_bus_limit + 1));
--    aml_append(crs,
--        aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED,
--                    AML_POS_DECODE, AML_ENTIRE_RANGE,
--                    0x0000, 0x0000, 0xFFFF, 0x18000000, 0x10000));
--    aml_append(crs,
--        aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
--                         AML_CACHEABLE, AML_READ_WRITE,
--                         0, VIRT_PCI_MEM_BASE,
--                         VIRT_PCI_MEM_BASE + VIRT_PCI_MEM_SIZE - 1,
--                         0, VIRT_PCI_MEM_BASE));
--    aml_append(scope, aml_name_decl("_CRS", crs));
--    aml_append(dsdt, scope);
--
-     /* System State Package */
-     scope = aml_scope("\\");
-     pkg = aml_package(4);
-diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
-index a81db29384..e90f9fccf3 100644
---- a/hw/loongarch/virt.c
-+++ b/hw/loongarch/virt.c
-@@ -388,6 +388,7 @@ static void loongarch_devices_init(DeviceState *pch_pic, LoongArchMachineState *
-     d = SYS_BUS_DEVICE(gpex_dev);
-     sysbus_realize_and_unref(d, &error_fatal);
-     pci_bus = PCI_HOST_BRIDGE(gpex_dev)->bus;
-+    lams->pci_bus = pci_bus;
- 
-     /* Map only part size_ecam bytes of ECAM space */
-     ecam_alias = g_new0(MemoryRegion, 1);
-diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
-index 64c90b80d2..09f1c88ee5 100644
---- a/include/hw/loongarch/virt.h
-+++ b/include/hw/loongarch/virt.h
-@@ -50,6 +50,7 @@ struct LoongArchMachineState {
-     DeviceState  *acpi_ged;
-     int          fdt_size;
-     DeviceState *platform_bus_dev;
-+    PCIBus       *pci_bus;
- };
- 
- #define TYPE_LOONGARCH_MACHINE  MACHINE_TYPE_NAME("virt")
--- 
-2.31.1
+On Wed, Sep 7, 2022 at 2:03 AM Arwed Meyer <arwed.meyer@gmx.de> wrote:
 
+> Unaligned i/o access on serial UART works on real PCs.
+> This is used for example by FreeDOS CTMouse driver. Without this it
+> can't reset and detect serial mice.
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/77
+> Signed-off-by: Arwed Meyer <arwed.meyer@gmx.de>
+> ---
+>  hw/char/serial.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/hw/char/serial.c b/hw/char/serial.c
+> index 7061aacbce..41b5e61977 100644
+> --- a/hw/char/serial.c
+> +++ b/hw/char/serial.c
+> @@ -961,6 +961,9 @@ void serial_set_frequency(SerialState *s, uint32_t
+> frequency)
+>  const MemoryRegionOps serial_io_ops =3D {
+>      .read =3D serial_ioport_read,
+>      .write =3D serial_ioport_write,
+> +    .valid =3D {
+> +        .unaligned =3D 1,
+> +    },
+>
+
+I don't get how this can help if both min_access_size & max_access_size are
+1.
+
+
+>      .impl =3D {
+>          .min_access_size =3D 1,
+>          .max_access_size =3D 1,
+> --
+> 2.34.1
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000cd33b805e827a777
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 7, 2022 at 2:03 AM Arwe=
+d Meyer &lt;<a href=3D"mailto:arwed.meyer@gmx.de">arwed.meyer@gmx.de</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Unalign=
+ed i/o access on serial UART works on real PCs.<br>
+This is used for example by FreeDOS CTMouse driver. Without this it<br>
+can&#39;t reset and detect serial mice.<br>
+<br>
+Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/77" rel=
+=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/is=
+sues/77</a><br>
+Signed-off-by: Arwed Meyer &lt;<a href=3D"mailto:arwed.meyer@gmx.de" target=
+=3D"_blank">arwed.meyer@gmx.de</a>&gt;<br>
+---<br>
+=C2=A0hw/char/serial.c | 3 +++<br>
+=C2=A01 file changed, 3 insertions(+)<br>
+<br>
+diff --git a/hw/char/serial.c b/hw/char/serial.c<br>
+index 7061aacbce..41b5e61977 100644<br>
+--- a/hw/char/serial.c<br>
++++ b/hw/char/serial.c<br>
+@@ -961,6 +961,9 @@ void serial_set_frequency(SerialState *s, uint32_t freq=
+uency)<br>
+=C2=A0const MemoryRegionOps serial_io_ops =3D {<br>
+=C2=A0 =C2=A0 =C2=A0.read =3D serial_ioport_read,<br>
+=C2=A0 =C2=A0 =C2=A0.write =3D serial_ioport_write,<br>
++=C2=A0 =C2=A0 .valid =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .unaligned =3D 1,<br>
++=C2=A0 =C2=A0 },<br></blockquote><div><br></div><div>I don&#39;t get how t=
+his can help if both min_access_size &amp; max_access_size are 1.<br></div>=
+<div>=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0.impl =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.min_access_size =3D 1,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.max_access_size =3D 1,<br>
+--<br>
+2.34.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000cd33b805e827a777--
 
