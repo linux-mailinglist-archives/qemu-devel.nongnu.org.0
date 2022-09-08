@@ -2,94 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2E0E5B2844
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 23:16:56 +0200 (CEST)
-Received: from localhost ([::1]:38470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 287085B2869
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 23:21:13 +0200 (CEST)
+Received: from localhost ([::1]:33406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWOtL-0000Fx-Pw
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 17:16:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41364)
+	id 1oWOxT-0003cO-Qh
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 17:21:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oWOqs-0006bf-VO
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 17:14:22 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:43617)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oWOqr-0005Nl-9Q
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 17:14:22 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id t7so23315999wrm.10
- for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 14:14:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=pQB/WNHEt2WAAIqNZ5SlTaLI6qBoLxKU2CI7ivdELJk=;
- b=X0Pnkxebil9aggdufYAInTwkaCakd/nNe+mgWQeGn6b7ToKk+BSMZ3sX+lYV5XlWB6
- c9UibKu73yGnu2wnBKpcWHoozU1bd92gpM7IDmCYoyUWxCDm5m0J3dQh7PN0sx5V1B9E
- BmpIocD0wDSeFIerwMC9yxHOD7WoAEemJ4QmGW2etoCCiaIEyK6zEjqF4n/fQBmcDyb6
- +zzSjHnd+/M5V7X3nUa8jW1IovvV+9oJ0VAaPO4dxLSUvJrJYBuOOyv5DuSH8prCeHqW
- aOXIgvnvIw6aUaLSDlJRpiCbvSRuQN9NPtOsKZJU7iRfeS5ShA+2APzrgce4Ia/snJ0d
- Z9zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=pQB/WNHEt2WAAIqNZ5SlTaLI6qBoLxKU2CI7ivdELJk=;
- b=NPXpU7uYB9QXUfy4gPKP3Jdea3kCCEqG+WWUTYNo4KUCstIxjKBiGKuurZnJ8tFsxH
- wgKt3I99EhqlLWLmGzU44S8ikapqQJk7ZQhtNy7QwOvD8nJ5sqXa8fyzHhiuQ5wRDYdw
- yfSWvAAb1bWl5wq+r8wQMWO9pe8stIxLZ+kANS/IpBVQUuzacE0jWkoqbXXYf3uwKjw5
- X+PErVKRqZEpAy0iGzEQtrq9Wwot4O5LfQlHlN3eTZ/nYER8aQxHswnUx6BVsRpuISO6
- ngFBA7wlHcd2mw87H2VGu2KgIUnI/oVT+miCWr87bcQ5XBHRoPTWwwLSg5BqdN1Z/ozK
- AOUw==
-X-Gm-Message-State: ACgBeo0TXR+vKS8MoacrTYffceoo09G+01jgy/C2iaHrS+pXlR4mS/s1
- mLrv9eyBOVSlF29A8v2O1Y4pjA==
-X-Google-Smtp-Source: AA6agR47P+LiFXtRSzyflJvbWe3vA9yWQ+E3TsXGp/hGq2r/DnKRjrTHOBCDeZtTjzTH0myQAnvVOA==
-X-Received: by 2002:adf:eb52:0:b0:223:9164:b5b4 with SMTP id
- u18-20020adfeb52000000b002239164b5b4mr6280596wrn.518.1662671659143; 
- Thu, 08 Sep 2022 14:14:19 -0700 (PDT)
-Received: from [192.168.1.87] ([109.78.97.14])
- by smtp.gmail.com with ESMTPSA id
- l15-20020a05600c1d0f00b003a317ee3036sm48464wms.2.2022.09.08.14.14.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Sep 2022 14:14:17 -0700 (PDT)
-Message-ID: <275b5287-9c81-13da-f57a-0069d19158d9@linaro.org>
-Date: Thu, 8 Sep 2022 22:14:12 +0100
+ (Exim 4.90_1) (envelope-from <leandro.lupori@eldorado.org.br>)
+ id 1oWOvC-0000Sg-G1; Thu, 08 Sep 2022 17:18:50 -0400
+Received: from [200.168.210.66] (port=45938 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <leandro.lupori@eldorado.org.br>)
+ id 1oWOvA-00067b-7V; Thu, 08 Sep 2022 17:18:50 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Thu, 8 Sep 2022 18:18:42 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 4C2FF800278;
+ Thu,  8 Sep 2022 18:18:42 -0300 (-03)
+From: Leandro Lupori <leandro.lupori@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Cc: npiggin@gmail.com, richard.henderson@linaro.org,
+ Leandro Lupori <leandro.lupori@eldorado.org.br>
+Subject: [PATCH] tcg/ppc: Optimize 26-bit jumps
+Date: Thu,  8 Sep 2022 18:18:29 -0300
+Message-Id: <20220908211829.181447-1-leandro.lupori@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 12/20] disas/nanomips: Replace std::string type
-Content-Language: en-US
-To: Milica Lazarevic <Milica.Lazarevic@Syrmia.com>,
- "thuth@redhat.com" <thuth@redhat.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "cfontana@suse.de" <cfontana@suse.de>,
- "berrange@redhat.com" <berrange@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "vince.delvecchio@mediatek.com" <vince.delvecchio@mediatek.com>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- Djordje Todorovic <Djordje.Todorovic@syrmia.com>,
- "mips32r2@gmail.com" <mips32r2@gmail.com>,
- Dragan Mladjenovic <Dragan.Mladjenovic@syrmia.com>
-References: <20220905095522.66941-1-milica.lazarevic@syrmia.com>
- <20220905095522.66941-13-milica.lazarevic@syrmia.com>
- <dc7ac467-b881-b353-a63a-ff5a744df5da@linaro.org>
- <VE1PR03MB6045ED62A423FBD5D3A617C1F8409@VE1PR03MB6045.eurprd03.prod.outlook.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <VE1PR03MB6045ED62A423FBD5D3A617C1F8409@VE1PR03MB6045.eurprd03.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.142,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 08 Sep 2022 21:18:42.0669 (UTC)
+ FILETIME=[9287F9D0:01D8C3C8]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=leandro.lupori@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,72 +60,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/8/22 20:16, Milica Lazarevic wrote:
->     This would be better written as
-> 
->           char *reg_list[33];
-> 
->           assert(count <= 32);
->           for (c = 0; c < count; c++) {
->               bool use_gp = ...
->               uint64 this_rt = ...
->               /* glib usage below requires casting away const */
->               reg_list[c] = (char *)GPR(this_rt);
->           }
->           reg_list[count] = NULL;
-> 
->           return g_strjoinv(",", reg_list);
-> 
-> 
-> In the implementation you suggested, there's one comma missing in the output.
-> For example, instead of having:
->    > 0x802021ce: 1e12 SAVE 0x10,ra,s0
-> We're having this:
->    < 0x802021ce: 1e12 SAVE 0x10ra,s0
+PowerPC64 processors handle direct branches better than indirect
+ones, resulting in less stalled cycles and branch misses.
 
-Oh, right, because SAVE of zero registers is legal, and even useful as an adjustment to 
-the stack pointer.
+However, PPC's tb_target_set_jmp_target() was only using direct
+branches for 16-bit jumps, while PowerPC64's unconditional branch
+instructions are able to handle displacements of up to 26 bits.
+To take advantage of this, now jumps whose displacements fit in
+between 17 and 26 bits are also converted to direct branches.
 
-> So, I'm assuming that there needs to exist one more concatenation between the comma and 
-> the result of the g_strjoinv function?
-> Maybe something like
->      return g_strconcat((char *)",", (char *)g_strjoinv(",", reg_list), NULL);
+Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+---
+ tcg/ppc/tcg-target.c.inc | 86 ++++++++++++++++++++++++++++++++++------
+ 1 file changed, 73 insertions(+), 13 deletions(-)
 
-Well, written like that you'd leak the result of g_strjoinv.
+diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+index 1cbd047ab3..a776685a3b 100644
+--- a/tcg/ppc/tcg-target.c.inc
++++ b/tcg/ppc/tcg-target.c.inc
+@@ -1847,14 +1847,69 @@ static void tcg_out_mb(TCGContext *s, TCGArg a0)
+     tcg_out32(s, insn);
+ }
+ 
++static inline void ppc_replace_insn(uintptr_t rx, uintptr_t rw,
++    uint32_t offs, tcg_insn_unit i)
++{
++    rx += offs;
++    rw += offs;
++
++    qatomic_set((uint32_t *)rw, i);
++    smp_wmb();      /* Make sure this instruction is modified before others */
++    flush_idcache_range(rx, rw, 4);
++}
++
++static inline void ppc64_replace_insn_pair(uintptr_t rx, uintptr_t rw,
++    uint32_t offs, tcg_insn_unit i1, tcg_insn_unit i2)
++{
++    uint64_t pair;
++
++    rx += offs;
++    rw += offs;
++
++#if HOST_BIG_ENDIAN
++    pair = (uint64_t)i1 << 32 | i2;
++#else
++    pair = (uint64_t)i2 << 32 | i1;
++#endif
++
++    /*
++     * This function is only called on ppc64. Avoid the _Static_assert
++     * within qatomic_set that would fail to build a ppc32 host.
++     */
++    qatomic_set__nocheck((uint64_t *)rw, pair);
++    smp_wmb();  /* Make sure these instructions are modified before others */
++    flush_idcache_range(rx, rw, 8);
++}
++
+ void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
+                               uintptr_t jmp_rw, uintptr_t addr)
+ {
+     if (TCG_TARGET_REG_BITS == 64) {
+-        tcg_insn_unit i1, i2;
++        tcg_insn_unit i1, i2, i3;
+         intptr_t tb_diff = addr - tc_ptr;
+         intptr_t br_diff = addr - (jmp_rx + 4);
+-        uint64_t pair;
++
++        /*
++         * Here we need to change (up to) 3 instructions in an atomic way.
++         * As it's not possible to change all 3 at the same time, we perform
++         * the changes in multiple steps, in a way that results in valid code
++         * in each step.
++         *
++         * We handle 3 jump sizes: 16, 26 and 32 bits.
++         *
++         * The first step is to restore the last instruction, if needed,
++         * that is only changed by 26-bit jumps, that would become an
++         * equivalent 32-bit jump.
++         */
++        i3 = MTSPR | RS(TCG_REG_TB) | CTR;
++        if ((uint32_t)jmp_rw != i3) {
++            ppc_replace_insn(jmp_rx, jmp_rw, 8, i3);
++        }
++
++        /*
++         * Next, for the 16-bit and 32-bit cases, we just need to replace the
++         * first 2 instructions and we're done.
++         */
+ 
+         /* This does not exercise the range of the branch, but we do
+            still need to be able to load the new value of TCG_REG_TB.
+@@ -1862,28 +1917,33 @@ void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
+         if (tb_diff == (int16_t)tb_diff) {
+             i1 = ADDI | TAI(TCG_REG_TB, TCG_REG_TB, tb_diff);
+             i2 = B | (br_diff & 0x3fffffc);
++            ppc64_replace_insn_pair(jmp_rx, jmp_rw, 0, i1, i2);
++
+         } else {
+             intptr_t lo = (int16_t)tb_diff;
+             intptr_t hi = (int32_t)(tb_diff - lo);
+             assert(tb_diff == hi + lo);
+             i1 = ADDIS | TAI(TCG_REG_TB, TCG_REG_TB, hi >> 16);
+             i2 = ADDI | TAI(TCG_REG_TB, TCG_REG_TB, lo);
++            ppc64_replace_insn_pair(jmp_rx, jmp_rw, 0, i1, i2);
++
++            /*
++             * For the 26-bit case, the final step is to replace the
++             * last instruction with a direct branch. Note that in this case
++             * the branch is performed 1 instruction after the 16-bit case,
++             * so br_diff needs to be adjusted properly.
++             */
++            br_diff -= 4;
++            if (br_diff >= -0x2000000 && br_diff <= 0x1fffffc) {
++                i3 = B | (br_diff & 0x3fffffc);
++                ppc_replace_insn(jmp_rx, jmp_rw, 8, i3);
++            }
+         }
+-#if HOST_BIG_ENDIAN
+-        pair = (uint64_t)i1 << 32 | i2;
+-#else
+-        pair = (uint64_t)i2 << 32 | i1;
+-#endif
+ 
+-        /* As per the enclosing if, this is ppc64.  Avoid the _Static_assert
+-           within qatomic_set that would fail to build a ppc32 host.  */
+-        qatomic_set__nocheck((uint64_t *)jmp_rw, pair);
+-        flush_idcache_range(jmp_rx, jmp_rw, 8);
+     } else {
+         intptr_t diff = addr - jmp_rx;
+         tcg_debug_assert(in_range_b(diff));
+-        qatomic_set((uint32_t *)jmp_rw, B | (diff & 0x3fffffc));
+-        flush_idcache_range(jmp_rx, jmp_rw, 4);
++        ppc_replace_insn(jmp_rx, jmp_rw, 0, B | (diff & 0x3fffffc));
+     }
+ }
+ 
+-- 
+2.25.1
 
-A better solution is to first element of reg_list be "", so that it's still just a single 
-memory allocation.
-
->     I think this interface should be
-> 
->           char **dis,
-> 
->     so that...
-> 
->     > @@ -746,25 +647,26 @@ static int Disassemble(const uint16 *data, std::string & dis,
->     >                                    * an ASE attribute and the requested version
->     >                                    * not having that attribute
->     >                                    */
->     > -                                dis = "ASE attribute mismatch";
->     > +                                strcpy(dis, "ASE attribute mismatch");
-> 
->     these become
-> 
->           *dis = g_strdup("string");
-> 
->     and the usage in nanomips_dis does not assume a fixed sized buffer.
-> 
-> 
->     r~
-> 
-> 
-> I'm not sure why the fixed size buffer would be a problem here since the buffer size has 
-> already been limited by the caller.
-> I.e. in the print_insn_nanomips function, the buf variable is defined as:
-> char buf[200];
-
-There would be no such declaration with the above change.
-
-
-r~
 
