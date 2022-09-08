@@ -2,80 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43E8A5B215A
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 16:56:09 +0200 (CEST)
-Received: from localhost ([::1]:54822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83E825B2187
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 17:06:25 +0200 (CEST)
+Received: from localhost ([::1]:55312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWIwp-0005n6-Og
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 10:56:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49556)
+	id 1oWJ6m-0001Sf-LA
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 11:06:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oWIu8-0001L7-BF
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 10:53:20 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:36278)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oWIu6-0001fA-Ps
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 10:53:20 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 993F31FB60;
- Thu,  8 Sep 2022 14:53:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1662648796; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=L0z7cG8mEp3J7jlzA5MPc2dVAb1rlpv7/bhZb7xlXpk=;
- b=oaoLIe7i9CSO9KBYsknOy770rPX6AomcT1RGoO09KsxJykUNJ5aNmM0IarPNIPpwBQqYKO
- BZ7mXPz8YI57yh+mZdrtIIrJOkZoeWdtpJgwv7rJxmBffIFeMpQGk3LXRvakUvF36oiGD8
- yK78Ze1vw9YXKO/mU7KzB818hdzC5c0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1662648796;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=L0z7cG8mEp3J7jlzA5MPc2dVAb1rlpv7/bhZb7xlXpk=;
- b=/Uk+UtBgD4u0N7GYbgF3WBtSvhLLLBqW1nlP1F6+BZ6mWtA2R+/ZbD22reLC3wFrcO+lLO
- QUxYLJnuikHFQYCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4DD921322C;
- Thu,  8 Sep 2022 14:53:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 0OmYEdwBGmNnYgAAMHmgww
- (envelope-from <cfontana@suse.de>); Thu, 08 Sep 2022 14:53:16 +0000
-From: Claudio Fontana <cfontana@suse.de>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Claudio Fontana <cfontana@suse.de>
-Subject: [PATCH v3 3/3] accel: abort if we fail to load the accelerator plugin
-Date: Thu,  8 Sep 2022 16:53:08 +0200
-Message-Id: <20220908145308.30282-4-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20220908145308.30282-1-cfontana@suse.de>
-References: <20220908145308.30282-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1oWJ05-0003cG-A2
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 10:59:29 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:49338
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1oWJ03-0002WP-8z
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 10:59:29 -0400
+HMM_SOURCE_IP: 172.18.0.218:33982.873127330
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-171.223.96.92 (unknown [172.18.0.218])
+ by chinatelecom.cn (HERMES) with SMTP id 33D4E28008C;
+ Thu,  8 Sep 2022 22:59:14 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.218])
+ by app0025 with ESMTP id 31cac22b33644402bb9939c4fdde1a07 for
+ peterx@redhat.com; Thu, 08 Sep 2022 22:59:20 CST
+X-Transaction-ID: 31cac22b33644402bb9939c4fdde1a07
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.218
+X-MEDUSA-Status: 0
+Message-ID: <6ba692e6-9eeb-4c5c-9b9e-d60d47fbf61a@chinatelecom.cn>
+Date: Thu, 8 Sep 2022 22:59:13 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v1 4/8] migration: Implement dirty-limit convergence algo
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Daniel P. Berrange"
+ <berrange@redhat.com>
+References: <cover.1662052189.git.huangy81@chinatelecom.cn>
+ <4b42dedc0d1ed336ef39c604f3aa1611745a3917.1662052189.git.huangy81@chinatelecom.cn>
+ <Yxevn7rSCKaPHQfd@xz-m1.local>
+ <7022f34e-76d5-7287-74eb-846ae62e0f42@chinatelecom.cn>
+ <YxoAkwLnnTtltEI/@xz-m1.local>
+From: Hyman Huang <huangy81@chinatelecom.cn>
+In-Reply-To: <YxoAkwLnnTtltEI/@xz-m1.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=42.123.76.219;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.142,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,44 +77,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-if QEMU is configured with modules enabled, it is possible that the
-load of an accelerator module will fail.
-Abort in this case, relying on module_object_class_by_name to report
-the specific load error if any.
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- accel/accel-softmmu.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
-index 67276e4f52..9fa4849f2c 100644
---- a/accel/accel-softmmu.c
-+++ b/accel/accel-softmmu.c
-@@ -66,6 +66,7 @@ void accel_init_ops_interfaces(AccelClass *ac)
- {
-     const char *ac_name;
-     char *ops_name;
-+    ObjectClass *oc;
-     AccelOpsClass *ops;
- 
-     ac_name = object_class_get_name(OBJECT_CLASS(ac));
-@@ -73,8 +74,13 @@ void accel_init_ops_interfaces(AccelClass *ac)
- 
-     ops_name = g_strdup_printf("%s" ACCEL_OPS_SUFFIX, ac_name);
-     ops = ACCEL_OPS_CLASS(module_object_class_by_name(ops_name));
-+    oc = module_object_class_by_name(ops_name);
-+    if (!oc) {
-+        error_report("fatal: could not load module for type '%s'", ops_name);
-+        abort();
-+    }
-     g_free(ops_name);
--
-+    ops = ACCEL_OPS_CLASS(oc);
-     /*
-      * all accelerators need to define ops, providing at least a mandatory
-      * non-NULL create_vcpu_thread operation.
+在 2022/9/8 22:47, Peter Xu 写道:
+> Yong,
+> 
+> Your recent two posts all got wrongly cut-off by your mail server for some
+> reason..
+> 
+Hm， i noticed that, i'll check it. Thanks for reminding. :)
+
 -- 
-2.26.2
+Best regard
 
+Hyman Huang(黄勇)
 
