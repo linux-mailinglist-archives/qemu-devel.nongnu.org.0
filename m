@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46E655B1A34
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 12:40:46 +0200 (CEST)
-Received: from localhost ([::1]:33014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B855B1A61
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 12:44:54 +0200 (CEST)
+Received: from localhost ([::1]:47914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWExg-0002aq-A4
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 06:40:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41756)
+	id 1oWF1h-0001Yy-Je
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 06:44:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <davydov-max@yandex-team.ru>)
- id 1oWEuX-0006ll-Ot
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 06:37:29 -0400
-Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:47738)
+ id 1oWEuZ-0006pR-PB
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 06:37:31 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:48052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <davydov-max@yandex-team.ru>)
- id 1oWEuT-0004Tt-Fx
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 06:37:27 -0400
+ id 1oWEuY-0004Up-8V
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 06:37:31 -0400
 Received: from myt6-81d8ab6a9f9d.qloud-c.yandex.net
  (myt6-81d8ab6a9f9d.qloud-c.yandex.net
  [IPv6:2a02:6b8:c12:520a:0:640:81d8:ab6a])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 6CF432E0F43;
- Thu,  8 Sep 2022 13:37:14 +0300 (MSK)
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 43DCE2E11B6;
+ Thu,  8 Sep 2022 13:37:15 +0300 (MSK)
 Received: from davydov-max-nux.yandex.net (unknown
  [2a02:6b8:0:107:fa75:a4ff:fe7d:8480])
  by myt6-81d8ab6a9f9d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- U3HXU6koyH-bDPSVbY5; Thu, 08 Sep 2022 13:37:13 +0300
+ U3HXU6koyH-bEPS7FAL; Thu, 08 Sep 2022 13:37:14 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 Precedence: bulk
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1662633433; bh=f2okGAqQCW1qC7TQT9B7Qg4x+QTTw5I4m3oCeOSXkd4=;
+ t=1662633434; bh=GdMsJtIzt+0VbBtNUJqQ2vN8hKG8VHlgw1oSRZEMmLM=;
  h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=RGy/qMdkKDPETH2AxyDc4v9v7ciFUBkI9P4ERj4dW7/u7aeIaBxjX40yajwE7K5YW
- WTLJnhpEZXOX7AhiwLlnstLZOxJwvnCkA10CXYkhijoMQWwETFKSBXi4l77KIXRkOQ
- U1AIRAvujqyxs/6l+Eyh1jM47PLmkexIxabnV9Ig=
+ b=K/7ZtlSiYsKOFkRilcYgkbH3J3GanrYU06BpKbN17Q8wDDEJr1q0fTby+TADEK/OI
+ 2JXNRyHw+JHsFhN10zJZmsuATuaGGXTz8YkkbYTlE5cEhryiE/5vY4DpzyJBfN+C5+
+ wnZ1HRpZcQrvsPZxsiUNihAbGi6pDfITgSwiA/S0=
 Authentication-Results: myt6-81d8ab6a9f9d.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 From: Maksim Davydov <davydov-max@yandex-team.ru>
@@ -49,9 +49,9 @@ Cc: davydov-max@yandex-team.ru, yc-core@yandex-team.ru, pbonzini@redhat.com,
  bsd@redhat.com, stefanha@redhat.com, thuth@redhat.com,
  darren.kenny@oracle.com, Qiuhao.Li@outlook.com, lvivier@redhat.com,
  jsnow@redhat.com, crosa@redhat.com, bleal@redhat.com
-Subject: [PATCH 2/4] qmp: add dump machine type compatible properties
-Date: Thu,  8 Sep 2022 13:36:48 +0300
-Message-Id: <20220908103650.9518-3-davydov-max@yandex-team.ru>
+Subject: [PATCH 3/4] python/qmp: increase read buffer size
+Date: Thu,  8 Sep 2022 13:36:49 +0300
+Message-Id: <20220908103650.9518-4-davydov-max@yandex-team.ru>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220908103650.9518-1-davydov-max@yandex-team.ru>
 References: <20220908103650.9518-1-davydov-max@yandex-team.ru>
@@ -80,162 +80,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To control that creating new machine type doesn't affect the previous
-types (their compat_props) and to check complex compat_props inheritance
-we need qmp command to print machine type compatible properties.
-This patch adds the ability to get list of all the compat_props of the
-corresponding supported machines for their comparison via new optional
-argument of "query-machines" command.
+After modification of "query-machines" command the buffer size should be
+more than 452kB to contain output with compat-props.
 
 Signed-off-by: Maksim Davydov <davydov-max@yandex-team.ru>
 ---
- hw/core/machine-qmp-cmds.c  | 22 ++++++++++++++-
- qapi/machine.json           | 54 +++++++++++++++++++++++++++++++++++--
- tests/qtest/fuzz/qos_fuzz.c |  2 +-
- 3 files changed, 74 insertions(+), 4 deletions(-)
+ python/qemu/qmp/qmp_client.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-index 4f4ab30f8c..a6fc387439 100644
---- a/hw/core/machine-qmp-cmds.c
-+++ b/hw/core/machine-qmp-cmds.c
-@@ -74,7 +74,8 @@ CpuInfoFastList *qmp_query_cpus_fast(Error **errp)
-     return head;
- }
+diff --git a/python/qemu/qmp/qmp_client.py b/python/qemu/qmp/qmp_client.py
+index 5dcda04a75..659fe4d98c 100644
+--- a/python/qemu/qmp/qmp_client.py
++++ b/python/qemu/qmp/qmp_client.py
+@@ -197,8 +197,8 @@ async def run(self, address='/tmp/qemu.socket'):
+     #: Logger object used for debugging messages.
+     logger = logging.getLogger(__name__)
  
--MachineInfoList *qmp_query_machines(Error **errp)
-+MachineInfoList *qmp_query_machines(bool has_compat_props, bool compat_props,
-+                                    Error **errp)
- {
-     GSList *el, *machines = object_class_get_list(TYPE_MACHINE, false);
-     MachineInfoList *mach_list = NULL;
-@@ -107,6 +108,25 @@ MachineInfoList *qmp_query_machines(Error **errp)
-             info->default_ram_id = g_strdup(mc->default_ram_id);
-             info->has_default_ram_id = true;
-         }
-+        if (compat_props && mc->compat_props) {
-+            int i;
-+            info->compat_props = NULL;
-+            CompatPropertyList **tail = &(info->compat_props);
-+            info->has_compat_props = true;
-+
-+            for (i = 0; i < mc->compat_props->len; i++) {
-+                GlobalProperty *mt_prop = g_ptr_array_index(mc->compat_props,
-+                                                            i);
-+                CompatProperty *prop;
-+
-+                prop = g_malloc0(sizeof(*prop));
-+                prop->driver = g_strdup(mt_prop->driver);
-+                prop->property = g_strdup(mt_prop->property);
-+                prop->value = g_strdup(mt_prop->value);
-+
-+                QAPI_LIST_APPEND(tail, prop);
-+            }
-+        }
+-    # Read buffer limit; large enough to accept query-qmp-schema
+-    _limit = (256 * 1024)
++    # Read buffer limit; large enough to accept query-machines
++    _limit = (512 * 1024)
  
-         QAPI_LIST_PREPEND(mach_list, info);
-     }
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 6afd1936b0..b5477224a8 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -127,6 +127,25 @@
- ##
- { 'command': 'query-cpus-fast', 'returns': [ 'CpuInfoFast' ] }
- 
-+##
-+# @CompatProperty:
-+#
-+# Machine type compatible property. It's based on GlobalProperty and created
-+# for machine type compat properties (see scripts)
-+#
-+# @driver: name of the driver that has GlobalProperty
-+#
-+# @property: global property name
-+#
-+# @value: global property value
-+#
-+# Since: 7.2
-+##
-+{ 'struct': 'CompatProperty',
-+  'data': { 'driver': 'str',
-+            'property': 'str',
-+            'value': 'str' } }
-+
- ##
- # @MachineInfo:
- #
-@@ -155,6 +174,9 @@
- #
- # @default-ram-id: the default ID of initial RAM memory backend (since 5.2)
- #
-+# @compat-props: List of compatible properties that defines machine type
-+#                (since 7.2)
-+#
- # Since: 1.2
- ##
- { 'struct': 'MachineInfo',
-@@ -162,18 +184,46 @@
-             '*is-default': 'bool', 'cpu-max': 'int',
-             'hotpluggable-cpus': 'bool',  'numa-mem-supported': 'bool',
-             'deprecated': 'bool', '*default-cpu-type': 'str',
--            '*default-ram-id': 'str' } }
-+            '*default-ram-id': 'str', '*compat-props': ['CompatProperty'] } }
- 
- ##
- # @query-machines:
- #
- # Return a list of supported machines
- #
-+# @compat-props: if true return will contain information about machine type
-+#                compatible properties (since 7.2)
-+#
- # Returns: a list of MachineInfo
- #
- # Since: 1.2
-+#
-+# Example:
-+#
-+# -> { "execute": "query-machines", "arguments": { "compat-props": true } }
-+# <- { "return": [
-+#          {
-+#              "hotpluggable-cpus": true,
-+#              "name": "pc-q35-6.2",
-+#              "compat-props": [
-+#                  {
-+#                      "driver": "virtio-mem",
-+#                      "property": "unplugged-inaccessible",
-+#                      "value": "off"
-+#                   }
-+#               ],
-+#               "numa-mem-supported": false,
-+#               "default-cpu-type": "qemu64-x86_64-cpu",
-+#               "cpu-max": 288,
-+#               "deprecated": false,
-+#               "default-ram-id": "pc.ram"
-+#           },
-+#           ...
-+#    }
- ##
--{ 'command': 'query-machines', 'returns': ['MachineInfo'] }
-+{ 'command': 'query-machines',
-+  'data': { '*compat-props': 'bool' },
-+  'returns': ['MachineInfo'] }
- 
- ##
- # @CurrentMachineParams:
-diff --git a/tests/qtest/fuzz/qos_fuzz.c b/tests/qtest/fuzz/qos_fuzz.c
-index c856d3d500..f0c9ed4c4b 100644
---- a/tests/qtest/fuzz/qos_fuzz.c
-+++ b/tests/qtest/fuzz/qos_fuzz.c
-@@ -46,7 +46,7 @@ static void qos_set_machines_devices_available(void)
-     MachineInfoList *mach_info;
-     ObjectTypeInfoList *type_info;
- 
--    mach_info = qmp_query_machines(&error_abort);
-+    mach_info = qmp_query_machines(false, false, &error_abort);
-     machines_apply_to_node(mach_info);
-     qapi_free_MachineInfoList(mach_info);
- 
+     # Type alias for pending execute() result items
+     _PendingT = Union[Message, ExecInterruptedError]
 -- 
 2.25.1
 
