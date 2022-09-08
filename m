@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8627D5B1F59
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 15:37:34 +0200 (CEST)
-Received: from localhost ([::1]:44752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32B4D5B1F36
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 15:32:14 +0200 (CEST)
+Received: from localhost ([::1]:55960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWHin-0007Pv-LP
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 09:37:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41328)
+	id 1oWHdb-0001kD-O0
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 09:32:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oWHa1-0004SV-2Q
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 09:28:30 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:40524)
+ id 1oWHa3-0004TM-Rb
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 09:28:32 -0400
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:40526)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oWHZz-0002aQ-Ki
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 09:28:28 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id b21so4948695plz.7
- for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 06:28:27 -0700 (PDT)
+ id 1oWHa2-0002aX-69
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 09:28:31 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id b21so4948797plz.7
+ for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 06:28:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=4V2kh8bh8Emc/PHebNZxEp7jm1fTt064prqxwjUL4ng=;
- b=OLTES4X+L/nI7e+wPkiJVjElwgPiQKWLLJ5b7IhSG418zKqpxeV2EQ9AiDuEXzvhu1
- CeRl8VMdc4EzPr9eDeYd3w23SPUzWR29vcPsyma9C8q9HuFbNaOI2krMkOmXvVC4MCtY
- /AZzPGwT39UFaAOWsGQDx55BxPu+aSUeDOx1LMxGJKoKpbzy/ERBDzD45P+ZJatiG7AE
- /0Gh1Pq0E/w7HsOkkmOLkICZI3L3Ugaz1YQMuZuDcYY8+YjS8qb+nydiJNBIpNrM1Km5
- rWThqL8/2F3Kh9sHoeJrNhqFe4xI+OquwM6KAyzK6TiuVqvrhcp7qmaQczLFBqccWXTD
- Duxw==
+ bh=zkVLGjem6wSZCZmhICiJtuczZUPqP8zkVJzeqrMRh7k=;
+ b=NELC95h8i/tRnhGiNTjjRNRTfL2jkxAPvhLLxO02FO0ur3cLdAGs8f4O8UzSc9MG8z
+ JYMDQlhuG9/NQP2hlW9UK0lUOj9BQ/Otb7a7cjqo/b6PZWCAHLSq24ipLqCm+DFt9mgt
+ gJWC1/RQdT1Xh+R5Nsv8T5eMg5uSId6hirp3RsL+DcEz1eOCzfGvqlfftnixoCdD2HVl
+ mOMoEF71Yl5RxBpzantMJRSFP2dkTRmAvzXSBEfQMyBi794Lhp5FoISc6Mvj4KCYRPeh
+ oShWJBJ/w2is/K5M3Pr7MxQbB6zKfBxXVW1Cxvq83l5wL6l+P5T3LZ2yPMa9aD19qQ89
+ jXdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=4V2kh8bh8Emc/PHebNZxEp7jm1fTt064prqxwjUL4ng=;
- b=Ty+vwCZF0UPy+12o7hwAhVBx1Keby8Wy9LBl6ZOmOLlRohq8JYo69JRDjRJ1FZa930
- sw9IkZsFPhcL4cQK5UFy89MVn18Va/QuZZvvq3zIXFra/B2DHxBKViwuN9LORjmpw/NW
- IzBmlP+bncRxNJN34RLbvhjgN0K2h3DbxPjv3CyX4IXh1vsejl72//ot0IyHlHHuWfaO
- j3UFFY83OxV+lQN/jtgiqZelT0tG4MHbF3wm7Ja8hapUThREkk4V744704rH+a/UhDVE
- LJOXlhOXzhPq9RD9gFgzNzIOadM/rr0phEtuK/jd1y49zyUnbSwywJdPOzIbYY4553YU
- oXIw==
-X-Gm-Message-State: ACgBeo0xpIGZ6anyG1RvnAfTsEPenAF0y6kZpVFt/fD6TyUMqXU3meR/
- CHVOsiNf2kpIR+Dt90rblsPcRb3jpec=
-X-Google-Smtp-Source: AA6agR6uN/sImln8/cR+55cEDVU8A0qyVNKsC48oX4Fp/XJUoI19trhPq66ZJXqHWolux15l/jwffA==
-X-Received: by 2002:a17:90a:1b6e:b0:1f5:1902:af92 with SMTP id
- q101-20020a17090a1b6e00b001f51902af92mr4357269pjq.238.1662643705774; 
- Thu, 08 Sep 2022 06:28:25 -0700 (PDT)
+ bh=zkVLGjem6wSZCZmhICiJtuczZUPqP8zkVJzeqrMRh7k=;
+ b=nwQGvZWxDTT+ChsmyCNzGAJplHa/cpYngbU57izpZ6cY5oWqzdeF8ktMwv0+ncG34j
+ Qz5UT8EK+cBK2+9HrNebV8+Ety7fABcYnA/8ObZOWhu6wC8d+N07D85F0W18iPAjoNFS
+ n0xeKZFrmnSdgAOzw7BVQcSbWvN73kV5JUYSzdFH9wI/sv5laaUxllP05cwdJY1Pppit
+ uZPFew4P3K9vKxDqEQrHkKgKeen+fe2t7MJaFcKqY7AsvzXQ5KnAPepeADTYVmdN/w2o
+ iC3FFgi4a1eCzo/QNIp3eZ/zrdMZSwADaqgm8A1wsC5xGLRTauqQWUGOqTOLO94HAC+s
+ USHA==
+X-Gm-Message-State: ACgBeo0N9f689F2+d4yWfyzj1eJwwbEEil7yO5EeE+pY68buysJE6KdU
+ EfzlMeAsCtN0ixPP1QlH1YtGVmkbXeo=
+X-Google-Smtp-Source: AA6agR4L1z3mTifhI0QgbLaqu2dbwkEIMPePvorNqctY/Vpenz168BSTW91tQQbTzGEMnO4Y+j2btg==
+X-Received: by 2002:a17:902:dac2:b0:172:5f2a:f30 with SMTP id
+ q2-20020a170902dac200b001725f2a0f30mr8798142plx.167.1662643708027; 
+ Thu, 08 Sep 2022 06:28:28 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- r8-20020a170902be0800b001755ac7dd0asm1731693pls.290.2022.09.08.06.28.24
+ r8-20020a170902be0800b001755ac7dd0asm1731693pls.290.2022.09.08.06.28.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Sep 2022 06:28:25 -0700 (PDT)
+ Thu, 08 Sep 2022 06:28:27 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Bin Meng <bin.meng@windriver.com>, Cleber Rosa <crosa@redhat.com>,
  John Snow <jsnow@redhat.com>
-Subject: [PATCH 1/7] scripts/nsis.py: Drop the unnecessary path separator
-Date: Thu,  8 Sep 2022 21:28:11 +0800
-Message-Id: <20220908132817.1831008-2-bmeng.cn@gmail.com>
+Subject: [PATCH 2/7] scripts/nsis.py: Fix destination directory name when
+ invoked on Windows
+Date: Thu,  8 Sep 2022 21:28:12 +0800
+Message-Id: <20220908132817.1831008-3-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220908132817.1831008-1-bmeng.cn@gmail.com>
 References: <20220908132817.1831008-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,28 +93,71 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-There is no need to append a path separator to the destination
-directory that is passed to "make install".
+"make installer" on Windows fails with the following message:
 
+  Traceback (most recent call last):
+    File "G:\msys64\home\foo\git\qemu\scripts\nsis.py", line 89, in <module>
+      main()
+    File "G:\msys64\home\foo\git\qemu\scripts\nsis.py", line 34, in main
+      with open(
+  OSError: [Errno 22] Invalid argument:
+  'R:/Temp/tmpw83xhjquG:/msys64/qemu/system-emulations.nsh'
+  ninja: build stopped: subcommand failed.
+
+Use os.path.splitdrive() to form a canonical path without the drive
+letter on Windows. This works with cross-build on Linux too.
+
+Fixes: 8adfeba953e0 ("meson: add NSIS building")
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- scripts/nsis.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/nsis.py | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/scripts/nsis.py b/scripts/nsis.py
-index 462d6cac3b..bbb41d9386 100644
+index bbb41d9386..baa6ef9594 100644
 --- a/scripts/nsis.py
 +++ b/scripts/nsis.py
-@@ -30,7 +30,7 @@ def main():
+@@ -28,16 +28,18 @@ def main():
+     parser.add_argument("nsisargs", nargs="*")
+     args = parser.parse_args()
  
++    # canonicalize the Windows native prefix path
++    prefix = os.path.splitdrive(args.prefix)[1]
      destdir = tempfile.mkdtemp()
      try:
--        subprocess.run(["make", "install", "DESTDIR=" + destdir + os.path.sep])
-+        subprocess.run(["make", "install", "DESTDIR=" + destdir])
+         subprocess.run(["make", "install", "DESTDIR=" + destdir])
          with open(
-             os.path.join(destdir + args.prefix, "system-emulations.nsh"), "w"
+-            os.path.join(destdir + args.prefix, "system-emulations.nsh"), "w"
++            os.path.join(destdir + prefix, "system-emulations.nsh"), "w"
          ) as nsh, open(
+-            os.path.join(destdir + args.prefix, "system-mui-text.nsh"), "w"
++            os.path.join(destdir + prefix, "system-mui-text.nsh"), "w"
+         ) as muinsh:
+             for exe in sorted(glob.glob(
+-                os.path.join(destdir + args.prefix, "qemu-system-*.exe")
++                os.path.join(destdir + prefix, "qemu-system-*.exe")
+             )):
+                 exe = os.path.basename(exe)
+                 arch = exe[12:-4]
+@@ -61,7 +63,7 @@ def main():
+                 !insertmacro MUI_DESCRIPTION_TEXT ${{Section_{0}}} "{1}"
+                 """.format(arch, desc))
+ 
+-        for exe in glob.glob(os.path.join(destdir + args.prefix, "*.exe")):
++        for exe in glob.glob(os.path.join(destdir + prefix, "*.exe")):
+             signcode(exe)
+ 
+         makensis = [
+@@ -69,7 +71,7 @@ def main():
+             "-V2",
+             "-NOCD",
+             "-DSRCDIR=" + args.srcdir,
+-            "-DBINDIR=" + destdir + args.prefix,
++            "-DBINDIR=" + destdir + prefix,
+         ]
+         dlldir = "w32"
+         if args.cpu == "x86_64":
 -- 
 2.34.1
 
