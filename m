@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF2E5B1D40
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 14:37:47 +0200 (CEST)
-Received: from localhost ([::1]:39836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 440F25B1D86
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Sep 2022 14:45:32 +0200 (CEST)
+Received: from localhost ([::1]:55400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWGmt-0006G3-Ew
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 08:37:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44916)
+	id 1oWGuR-0000IJ-B2
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 08:45:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oWGbb-0004Is-A9
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:26:04 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:36624)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oWGbZ-0007or-B1
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:26:03 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id s206so16599128pgs.3
- for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 05:26:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=IcmIFuSXCNopV1Bh0Tj1kquO92Rp65/f5fmURKvO/aE=;
- b=jnkDRg43fGxbsHDwY/0QgSODN1RRyYB1TnY1mBMStiXHv1ePTSUmer086keK4cHXAX
- GbITVr0GFm95lorLBkwUTIGOaU9hxYhsf01nFWDXFWdVMLo1EerBZTm4j7X3Wg5vSwiY
- XLoq1GtORJenKGM4UsAACDx/gudmHRtxasASKxHZNO/sSpZUzNvY9wbUUUUAxSzkY7FJ
- Y0w/QYmJOG/dOIKEvQUPpEfboCUZXBRxk64E8gxf2Fea6XzUGBdUcw/5tnG83J3oeJ6e
- eITicBHFuBhRzQ8Ue2uorO/ia9MLYUtzOj/W2T8/5v5oHRIwztsHy/i7iG4ZPI4Jhcv+
- +EcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=IcmIFuSXCNopV1Bh0Tj1kquO92Rp65/f5fmURKvO/aE=;
- b=afqgR09LQyukiBB7PPupe42Rf19Zo+2FgIHlfSyvCv0vI9E94V5F1C7W0o9nL0Lp4w
- n91t2uaXSnJVMyI8Ud6t7d51CgaB8wehCgKNBAIMSkmBS3Fk4bOkgmBofHljboOTpDkA
- CdrNP/uiJrKnoKs1ROHYEKsDGP+Z8Eivzbcn8WuhORXjzVTY/lQU52MlbpdMMXJFdsR5
- CMcy8oou1gzfvhfw8l8E8IzAduIwiuKK240H+elx9MWcLg76suV3vq/2AKWpbFeM2njy
- cQeJlTzshJk6RN9Wu+CMF4CN8rQzzr3eXKiZoC5tpbIBj4LAJO8i3Avcv0+sRWyzbTzL
- Zqkg==
-X-Gm-Message-State: ACgBeo06CoHSFo86K5pmv7XA8AgXpy1ITsxMBUeRZycLtfso6tY/dmDL
- hlCg8wKLsyxYm4Xth1qbfG1eU7OyxH/TqgrnmTc=
-X-Google-Smtp-Source: AA6agR5aP5DD/c3D1GTRm56diFjlXru5V8kSt04fQ/Q5isaRNeIagzQDiKbvloAQQQ6gh30GCF0JMMPQs81OtHV2Gf8=
-X-Received: by 2002:a63:5b15:0:b0:42b:bb74:a2da with SMTP id
- p21-20020a635b15000000b0042bbb74a2damr7663305pgb.406.1662639959411; Thu, 08
- Sep 2022 05:25:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1oWGeG-0006iU-Vz
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:28:49 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:39950)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1oWGeE-0008He-R1
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 08:28:48 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 720B161CC6
+ for <qemu-devel@nongnu.org>; Thu,  8 Sep 2022 12:28:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D67FCC433D6
+ for <qemu-devel@nongnu.org>; Thu,  8 Sep 2022 12:28:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1662640122;
+ bh=U28ekyehFF4zl09McZF4xA6oqQCRhqFfvM23PnY6GIE=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Bd1eJndz3DHToHei2Pu55JkaM3s0NlY49/BVUWgxU1Zm2S7Oq1PB7I7kriP4B+JYl
+ 2rgcf4jeZfApnarPsD9NLfpVgflMT1kFbhC9HwcPG6LIXn73niKs0Ym1hc7MFJCE//
+ /6j6aBTl01C280B9Q8wYsAdzgj+1rySSo7sEYCUI3lV9zZOvVV73T8+F9L8A+UfMUE
+ m6obO55TW0oXgCw+4JjyPbUNyShkkaLJPNU2GMwbNewuVdMmqQzti4c7ojy4RDls0l
+ 7PNLIWJHb3+Yw3QuqyGnKruc2T5IWjvwfQpfayTrfl84eWdoGwxWvTnohPrvOBqTV6
+ 43Gd+8W+S4jRw==
+Received: by mail-lj1-f169.google.com with SMTP id s15so19701425ljp.5
+ for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 05:28:42 -0700 (PDT)
+X-Gm-Message-State: ACgBeo1aGlximdbSRnBy0FfNm4LHT258PSr58WJeVGD7GRURpRH3p/7y
+ EJ7A2KhduK7xXy3j+/TOp//muza8BiXzsLXkeAw=
+X-Google-Smtp-Source: AA6agR5nzMEpETN8xr2ZkVusmf+vJheatX/PAvGFAee1SdP3wy/BscMpbIXi0JEKSNdrvXwXhM2+YIPZRry0bKaZdx0=
+X-Received: by 2002:a2e:7314:0:b0:26a:ca18:60eb with SMTP id
+ o20-20020a2e7314000000b0026aca1860ebmr2233209ljc.69.1662640120900; Thu, 08
+ Sep 2022 05:28:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1661934573.git.aburgess@redhat.com>
- <0fbf2a5b12e3210ff3867d5cf7022b3f3462c9c8.1661934573.git.aburgess@redhat.com>
-In-Reply-To: <0fbf2a5b12e3210ff3867d5cf7022b3f3462c9c8.1661934573.git.aburgess@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 8 Sep 2022 14:25:32 +0200
-Message-ID: <CAKmqyKP5EZDvks7C0HkeBaPRddEX6S5TwWUJfBQcAP-v1m7fUg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] target/riscv: remove fflags, frm,
- and fcsr from riscv-*-fpu.xml
-To: Andrew Burgess <aburgess@redhat.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+References: <20220906103657.282785-1-Jason@zx2c4.com>
+ <20220906063954-mutt-send-email-mst@kernel.org>
+ <CAHmME9oyf5MmZ4gXkbm+dA3t1NBYB6XdPrk8N1OyKLi5Lke0Rg@mail.gmail.com>
+ <20220906064500-mutt-send-email-mst@kernel.org>
+ <CAMj1kXH3T48W=k42mrCbY15yc4KYvAfUaRaJJRrsfKbuOfE53A@mail.gmail.com>
+ <YxcwCQ0vymro0vbu@redhat.com>
+ <d45be9dc-b6e7-293a-7033-f2ca84fa387d@redhat.com>
+In-Reply-To: <d45be9dc-b6e7-293a-7033-f2ca84fa387d@redhat.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Thu, 8 Sep 2022 14:28:29 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXG=5BW7Qb2pyBvYmNDKksOhoxc-4Cngd-4j_O7mAkbwMQ@mail.gmail.com>
+Message-ID: <CAMj1kXG=5BW7Qb2pyBvYmNDKksOhoxc-4Cngd-4j_O7mAkbwMQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] x86: only modify setup_data if the boot protocol
+ indicates safety
+To: Laszlo Ersek <lersek@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, 
+ Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=alistair23@gmail.com; helo=mail-pg1-x52e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=ardb@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,140 +92,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 31, 2022 at 10:43 AM Andrew Burgess <aburgess@redhat.com> wrote:
+On Thu, 8 Sept 2022 at 13:30, Laszlo Ersek <lersek@redhat.com> wrote:
 >
-> While testing some changes to GDB's handling for the RISC-V registers
-> fcsr, fflags, and frm, I spotted that QEMU includes these registers
-> twice in the target description it sends to GDB, once in the fpu
-> feature, and once in the csr feature.
+> On 09/06/22 13:33, Daniel P. Berrang=C3=A9 wrote:
+> > On Tue, Sep 06, 2022 at 01:14:50PM +0200, Ard Biesheuvel wrote:
+> >> (cc Laszlo)
+> >>
+> >> On Tue, 6 Sept 2022 at 12:45, Michael S. Tsirkin <mst@redhat.com> wrot=
+e:
+> >>>
+> >>> On Tue, Sep 06, 2022 at 12:43:55PM +0200, Jason A. Donenfeld wrote:
+> >>>> On Tue, Sep 6, 2022 at 12:40 PM Michael S. Tsirkin <mst@redhat.com> =
+wrote:
+> >>>>>
+> >>>>> On Tue, Sep 06, 2022 at 12:36:56PM +0200, Jason A. Donenfeld wrote:
+> >>>>>> It's only safe to modify the setup_data pointer on newer kernels w=
+here
+> >>>>>> the EFI stub loader will ignore it. So condition setting that offs=
+et on
+> >>>>>> the newer boot protocol version. While we're at it, gate this on S=
+EV too.
+> >>>>>> This depends on the kernel commit linked below going upstream.
+> >>>>>>
+> >>>>>> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> >>>>>> Cc: Laurent Vivier <laurent@vivier.eu>
+> >>>>>> Cc: Michael S. Tsirkin <mst@redhat.com>
+> >>>>>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> >>>>>> Cc: Peter Maydell <peter.maydell@linaro.org>
+> >>>>>> Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> >>>>>> Cc: Richard Henderson <richard.henderson@linaro.org>
+> >>>>>> Cc: Ard Biesheuvel <ardb@kernel.org>
+> >>>>>> Link: https://lore.kernel.org/linux-efi/20220904165321.1140894-1-J=
+ason@zx2c4.com/
+> >>>>>> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> >>>>>
+> >>>>> BTW what does it have to do with SEV?
+> >>>>> Is this because SEV is not going to trust the data to be random any=
+way?
+> >>>>
+> >>>> Daniel (now CC'd) pointed out in one of the previous threads that th=
+is
+> >>>> breaks SEV, because the image hash changes.
+> >>>>
+> >>>> Jason
+> >>>
+> >>> Oh I see. I'd add a comment maybe and definitely mention this
+> >>> in the commit log.
+> >>>
+> >>
+> >> This does raise the question (as I mentioned before) how things like
+> >> secure boot and measured boot are affected when combined with direct
+> >> kernel boot: AIUI, libvirt uses direct kernel boot at guest
+> >> installation time, and modifying setup_data will corrupt the image
+> >> signature.
+> >
+> > IIUC, qemu already modifies setup_data when using direct kernel boot.
+> >
+> > It put in logic to skip this if SEV is enabled, to avoid interfering
+> > with SEV hashes over the kernel, but there's nothing doing this more
+> > generally for non-SEV cases using UEFI. So potentially use of SecureBoo=
+t
+> > may already be impacted when using direct kernel boot.
 >
-> Right now things basically work OK, QEMU maps these registers onto two
-> different register numbers, e.g. fcsr maps to both 68 and 73, and GDB
-> can use either of these to access the register.
+> Yes,
 >
-> However, GDB's target descriptions don't really work this way, each
-> register should appear just once in a target description, mapping the
-> register name onto the number GDB should use when accessing the
-> register on the target.  Duplicate register names actually result in
-> duplicate registers on the GDB side, however, as the registers have
-> the same name, the user can only access one of these registers.
+> https://github.com/tianocore/edk2/commit/82808b422617
 >
-> Currently GDB has a hack in place, specifically for RISC-V, to spot
-> the duplicate copies of these three registers, and hide them from the
-> user, ensuring the user only ever sees a single copy of each.
->
-> In this commit I propose fixing this issue on the QEMU side, and in
-> the process, simplify the fpu register handling a little.
->
-> I think we should, remove fflags, frm, and fcsr from the two (32-bit
-> and 64-bit) fpu feature xml files.  These files will only contain the
-> 32 core floating point register f0 to f31.  The fflags, frm, and fcsr
-> registers will continue to be advertised in the csr feature as they
-> currently are.
->
-> With that change made, I will simplify riscv_gdb_get_fpu and
-> riscv_gdb_set_fpu, removing the extra handling for the 3 status
-> registers.
->
-> Signed-off-by: Andrew Burgess <aburgess@redhat.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Ah yes, thanks for jogging my memory.
 
-Alistair
-
-> ---
->  gdb-xml/riscv-32bit-fpu.xml |  4 ----
->  gdb-xml/riscv-64bit-fpu.xml |  4 ----
->  target/riscv/gdbstub.c      | 32 ++------------------------------
->  3 files changed, 2 insertions(+), 38 deletions(-)
->
-> diff --git a/gdb-xml/riscv-32bit-fpu.xml b/gdb-xml/riscv-32bit-fpu.xml
-> index 1eaae9119e..84a44ba8df 100644
-> --- a/gdb-xml/riscv-32bit-fpu.xml
-> +++ b/gdb-xml/riscv-32bit-fpu.xml
-> @@ -43,8 +43,4 @@
->    <reg name="ft9" bitsize="32" type="ieee_single"/>
->    <reg name="ft10" bitsize="32" type="ieee_single"/>
->    <reg name="ft11" bitsize="32" type="ieee_single"/>
-> -
-> -  <reg name="fflags" bitsize="32" type="int" regnum="66"/>
-> -  <reg name="frm" bitsize="32" type="int" regnum="67"/>
-> -  <reg name="fcsr" bitsize="32" type="int" regnum="68"/>
->  </feature>
-> diff --git a/gdb-xml/riscv-64bit-fpu.xml b/gdb-xml/riscv-64bit-fpu.xml
-> index 794854cc01..9856a9d1d3 100644
-> --- a/gdb-xml/riscv-64bit-fpu.xml
-> +++ b/gdb-xml/riscv-64bit-fpu.xml
-> @@ -49,8 +49,4 @@
->    <reg name="ft9" bitsize="64" type="riscv_double"/>
->    <reg name="ft10" bitsize="64" type="riscv_double"/>
->    <reg name="ft11" bitsize="64" type="riscv_double"/>
-> -
-> -  <reg name="fflags" bitsize="32" type="int" regnum="66"/>
-> -  <reg name="frm" bitsize="32" type="int" regnum="67"/>
-> -  <reg name="fcsr" bitsize="32" type="int" regnum="68"/>
->  </feature>
-> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-> index 9ed049c29e..9974b7aac6 100644
-> --- a/target/riscv/gdbstub.c
-> +++ b/target/riscv/gdbstub.c
-> @@ -114,20 +114,6 @@ static int riscv_gdb_get_fpu(CPURISCVState *env, GByteArray *buf, int n)
->          if (env->misa_ext & RVF) {
->              return gdb_get_reg32(buf, env->fpr[n]);
->          }
-> -    /* there is hole between ft11 and fflags in fpu.xml */
-> -    } else if (n < 36 && n > 32) {
-> -        target_ulong val = 0;
-> -        int result;
-> -        /*
-> -         * CSR_FFLAGS is at index 1 in csr_register, and gdb says it is FP
-> -         * register 33, so we recalculate the map index.
-> -         * This also works for CSR_FRM and CSR_FCSR.
-> -         */
-> -        result = riscv_csrrw_debug(env, n - 32, &val,
-> -                                   0, 0);
-> -        if (result == RISCV_EXCP_NONE) {
-> -            return gdb_get_regl(buf, val);
-> -        }
->      }
->      return 0;
->  }
-> @@ -137,20 +123,6 @@ static int riscv_gdb_set_fpu(CPURISCVState *env, uint8_t *mem_buf, int n)
->      if (n < 32) {
->          env->fpr[n] = ldq_p(mem_buf); /* always 64-bit */
->          return sizeof(uint64_t);
-> -    /* there is hole between ft11 and fflags in fpu.xml */
-> -    } else if (n < 36 && n > 32) {
-> -        target_ulong val = ldtul_p(mem_buf);
-> -        int result;
-> -        /*
-> -         * CSR_FFLAGS is at index 1 in csr_register, and gdb says it is FP
-> -         * register 33, so we recalculate the map index.
-> -         * This also works for CSR_FRM and CSR_FCSR.
-> -         */
-> -        result = riscv_csrrw_debug(env, n - 32, NULL,
-> -                                   val, -1);
-> -        if (result == RISCV_EXCP_NONE) {
-> -            return sizeof(target_ulong);
-> -        }
->      }
->      return 0;
->  }
-> @@ -404,10 +376,10 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
->      CPURISCVState *env = &cpu->env;
->      if (env->misa_ext & RVD) {
->          gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fpu,
-> -                                 36, "riscv-64bit-fpu.xml", 0);
-> +                                 32, "riscv-64bit-fpu.xml", 0);
->      } else if (env->misa_ext & RVF) {
->          gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fpu,
-> -                                 36, "riscv-32bit-fpu.xml", 0);
-> +                                 32, "riscv-32bit-fpu.xml", 0);
->      }
->      if (env->misa_ext & RVV) {
->          gdb_register_coprocessor(cs, riscv_gdb_get_vector, riscv_gdb_set_vector,
-> --
-> 2.25.4
->
->
+So virt-install --network already ignores secure boot failures on
+direct kernel boot, so this is not going to make it any worse.
 
