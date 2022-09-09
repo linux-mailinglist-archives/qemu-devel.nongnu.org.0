@@ -2,109 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C50925B3D7E
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 18:53:26 +0200 (CEST)
-Received: from localhost ([::1]:42636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 784E15B3DE3
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 19:25:26 +0200 (CEST)
+Received: from localhost ([::1]:37896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWhFt-0000km-AV
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 12:53:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45654)
+	id 1oWhkq-0006at-Rw
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 13:25:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oWhDa-0006CZ-HT; Fri, 09 Sep 2022 12:51:02 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:19376)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oWhDV-00013a-2j; Fri, 09 Sep 2022 12:51:02 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 289GCAKo031349;
- Fri, 9 Sep 2022 16:50:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=EkO1msDF8ztyhJLP3X7JSKrUX+hGt8vpaQh1n2V0HFE=;
- b=EMlrUBt37HHaoNGLQJ7+CuSXP0sCziNz2nypC5Y2ygN+ujmhc7XQ9+gT4nBG1TIzSQLZ
- B4SlB3XP2DQEXQPboeH4nSjnmVsw8vy4FDweVsyAQo3FYoGMt16DQDQXgxopBUBQBWWC
- GwGoMSRi1kiha1ErBqjidw/soWy+ogzqwuZCThFq/0RGLVYQTUfErH/ChKOaYFmQn61T
- vTfeprr23wEy8r5x3Zs2M77HDGFGpAf0iI4cxh4EEK4OqsnrtDoFQ32xoS/zvK8+AIVM
- dxCrRgDXVwUTbvDX9+xhnxAmoMrzmExwa3FntBBteqUUJY5M9JSqbyegvANf9K7uuM+u BA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jg8sx15fb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 09 Sep 2022 16:50:50 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 289GDhVR006955;
- Fri, 9 Sep 2022 16:50:50 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jg8sx15ea-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 09 Sep 2022 16:50:49 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 289GolUb003001;
- Fri, 9 Sep 2022 16:50:47 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma06fra.de.ibm.com with ESMTP id 3jbx6hx4va-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 09 Sep 2022 16:50:47 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 289Gl8CG30081424
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 9 Sep 2022 16:47:08 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C25CEA405B;
- Fri,  9 Sep 2022 16:50:43 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 14570A4054;
- Fri,  9 Sep 2022 16:50:43 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.11.120])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  9 Sep 2022 16:50:43 +0000 (GMT)
-Message-ID: <b7a70243ccf9ec74525b10452bcbd2f6b9f5f050.camel@linux.ibm.com>
-Subject: Re: [PATCH v9 08/10] target/s390x: interception of PTF instruction
-From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com
-Date: Fri, 09 Sep 2022 18:50:42 +0200
-In-Reply-To: <20220902075531.188916-9-pmorel@linux.ibm.com>
-References: <20220902075531.188916-1-pmorel@linux.ibm.com>
- <20220902075531.188916-9-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+ (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
+ id 1oWhhO-0003dM-BK
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 13:21:50 -0400
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:46960)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
+ id 1oWhhM-00062M-EG
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 13:21:50 -0400
+Received: by mail-qk1-x72e.google.com with SMTP id d17so902839qko.13
+ for <qemu-devel@nongnu.org>; Fri, 09 Sep 2022 10:21:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=34omRCiYyhRhRUaTudx65fKE1tmfUu5/Vq2eUS745Kg=;
+ b=m4AC2sNQO+WyCASvjVaNcU98GuHJRPvzdWr4Ilhz8i2kV++YfahRb/+HkHkkAmvQlN
+ rNja26VHQ3vzB6xqLnkOfv+cPa55ViDMj+CmQXBEdRXqLEH+h6qNtbLsPMZVgdR5WTVQ
+ AETRHTkGP6SpjkifS32EBdPCFdADm84ntA96ly+a5StGGA97egeWy0p4xHgN/+75xdUi
+ el9okFwYkHxOgZYlWufo2vRKKfz3Oq4MUWbT14gOeODS+/MqCvU7NQ2xCn8tKL2Ux6XU
+ tnhoUpon7y+WrEdSilPzc0UTsOuTawYAwUaqS1UvSsLXqCNsG10D4wpgSncspPJ0mA+A
+ +58Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=34omRCiYyhRhRUaTudx65fKE1tmfUu5/Vq2eUS745Kg=;
+ b=WwpCfgQ/eNETQVL0OHnGmi9ihpIHDeaGTEOEmPYlI9fvcp2Jj6w9Zgnu56Zfp6Oh0S
+ xtZ3ODoo7Qu+TjF2ufuzdJ7o83VcLIXiAv5JZaL4HWpTrhKUJ9HP5CFCMs81KHgKuUDO
+ 88/t6LeAHoQbHwYf8/hEwwCABi2Oj4goWgcYPqxltAZXS3uKwI7+6+MPH8eKUckRBb4r
+ 9/QuP6taWL9GCm1J+jbYPqv3WkQyzVmUS+di1Ww2P6IKPm0YoO3yLKnH4khlJy0qV+gu
+ aks/DeT/W/3N1Hns50DRty4C0oh+whbZgcylnlYFKxDg+0GdUX6g0rxznrIOsnzsSEko
+ 83pA==
+X-Gm-Message-State: ACgBeo3PIKagDZPhHalxpsNf3GbNFv2XFy7MyoWU7GcEu2b1JWitJGqx
+ 0yT7dVQVdMfuyT/imIRF5lua0vuY8Unpc62EMRijgw==
+X-Google-Smtp-Source: AA6agR5ZtbGq4iWK6cImSPQVDxauoWJyaD7gcTVbq/bpAecFte6kXG82Luvm5I242JrNZjLNMF6btH3K092Op5rh8HQ=
+X-Received: by 2002:a05:620a:e0a:b0:6bc:15e9:14fe with SMTP id
+ y10-20020a05620a0e0a00b006bc15e914femr10833298qkm.86.1662744106037; Fri, 09
+ Sep 2022 10:21:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: imb7SlEZvMFbh2qLZvkTWOsfKIDJoGli
-X-Proofpoint-ORIG-GUID: 4neh8vHYtHaANETWQ4iEWjbdvJ2Ppz82
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-09_08,2022-09-09_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=999
- lowpriorityscore=0 suspectscore=0 bulkscore=0 impostorscore=0 mlxscore=0
- clxscore=1015 priorityscore=1501 malwarescore=0 adultscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
- definitions=main-2209090057
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=scgl@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20220906122243.1243354-1-christoph.muellner@vrull.eu>
+ <20220906122243.1243354-4-christoph.muellner@vrull.eu>
+ <f6c98fb6-38f7-5747-0db6-aec2c77edd9a@linaro.org>
+In-Reply-To: <f6c98fb6-38f7-5747-0db6-aec2c77edd9a@linaro.org>
+From: =?UTF-8?Q?Christoph_M=C3=BCllner?= <christoph.muellner@vrull.eu>
+Date: Fri, 9 Sep 2022 19:21:34 +0200
+Message-ID: <CAEg0e7g08WA+05s=DX0R0Eu=UgLjrxjQi9GqZTpyiKeu0N_k8w@mail.gmail.com>
+Subject: Re: [PATCH 03/11] RISC-V: Adding T-Head SYNC instructions
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, 
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Philipp Tomsich <philipp.tomsich@vrull.eu>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko.stuebner@vrull.eu>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Nelson Chu <nelson@rivosinc.com>, 
+ Kito Cheng <kito.cheng@sifive.com>, Cooper Qu <cooper.qu@linux.alibaba.com>, 
+ Lifang Xia <lifang_xia@linux.alibaba.com>,
+ Yunhai Shang <yunhai@linux.alibaba.com>, 
+ Zhiwei Liu <zhiwei_liu@linux.alibaba.com>
+Content-Type: multipart/alternative; boundary="000000000000cb074305e841c7da"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
+ envelope-from=christoph.muellner@vrull.eu; helo=mail-qk1-x72e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,116 +92,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2022-09-02 at 09:55 +0200, Pierre Morel wrote:
-> When the host supports the CPU topology facility, the PTF
-> instruction with function code 2 is interpreted by the SIE,
-> provided that the userland hypervizor activates the interpretation
-> by using the KVM_CAP_S390_CPU_TOPOLOGY KVM extension.
-> 
-> The PTF instructions with function code 0 and 1 are intercepted
-> and must be emulated by the userland hypervizor.
-> 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+--000000000000cb074305e841c7da
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+On Thu, Sep 8, 2022 at 9:30 AM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-See note below.
-> ---
->  hw/s390x/cpu-topology.c            | 52 ++++++++++++++++++++++++++++++
->  include/hw/s390x/s390-virtio-ccw.h |  6 ++++
->  target/s390x/kvm/kvm.c             | 13 ++++++++
->  3 files changed, 71 insertions(+)
-> 
-> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-> index b6bf839e40..7dcaa28ca3 100644
-> --- a/hw/s390x/cpu-topology.c
-> +++ b/hw/s390x/cpu-topology.c
-> @@ -20,6 +20,58 @@
->  #include "hw/s390x/s390-virtio-ccw.h"
->  #include "hw/s390x/cpu-topology.h"
->  #include "migration/vmstate.h"
-> +#include "target/s390x/cpu.h"
-> +#include "hw/s390x/s390-virtio-ccw.h"
-> +
-> +/*
-> + * s390_handle_ptf:
-> + *
-> + * @register 1: contains the function code
-> + *
-> + * Function codes 0 and 1 handle the CPU polarization.
-> + * We assume an horizontal topology, the only one supported currently
-> + * by Linux, consequently we answer to function code 0, requesting
-> + * horizontal polarization that it is already the current polarization
-> + * and reject vertical polarization request without further explanation.
-> + *
-> + * Function code 2 is handling topology changes and is interpreted
-> + * by the SIE.
-> + */
-> +void s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra)
-> +{
-> +    CPUS390XState *env = &cpu->env;
-> +    uint64_t reg = env->regs[r1];
-> +    uint8_t fc = reg & S390_TOPO_FC_MASK;
-> +
-> +    if (!s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
-> +        s390_program_interrupt(env, PGM_OPERATION, ra);
-> +        return;
+> On 9/6/22 13:22, Christoph Muellner wrote:
+> > +NOP_PRIVCHECK(th_sfence_vmas, REQUIRE_PRIV_MHS)
+> > +NOP_PRIVCHECK(th_sync, REQUIRE_PRIV_MHSU)
+> > +NOP_PRIVCHECK(th_sync_i, REQUIRE_PRIV_MHSU)
+> > +NOP_PRIVCHECK(th_sync_is, REQUIRE_PRIV_MHSU)
+> > +NOP_PRIVCHECK(th_sync_s, REQUIRE_PRIV_MHSU)
+>
+> These should not be nops: th_sfence_vmas requires a tlb flush;
+> th.sync{,.i} needs to end
+> the current translation block; th.sync.{s,is} needs multiprocessor sync,
+> which involves a
+> call to async_safe_run_on_cpu.
+>
 
-I'm either expecting this function to return -1 here...
-> +    }
-> +
-> +    if (env->psw.mask & PSW_MASK_PSTATE) {
-> +        s390_program_interrupt(env, PGM_PRIVILEGED, ra);
-> +        return;
-> +    }
-> +
-> +    if (reg & ~S390_TOPO_FC_MASK) {
-> +        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-> +        return;
-> +    }
-> +
-> +    switch (fc) {
-> +    case 0:    /* Horizontal polarization is already set */
-> +        env->regs[r1] |= S390_PTF_REASON_DONE;
-> +        setcc(cpu, 2);
-> +        break;
-> +    case 1:    /* Vertical polarization is not supported */
-> +        env->regs[r1] |= S390_PTF_REASON_NONE;
-> +        setcc(cpu, 2);
-> +        break;
-> +    default:
-> +        /* Note that fc == 2 is interpreted by the SIE */
-> +        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-> +    }
-> +}
+Understood.
+For a new revision, I'll do the following:
+* th_sfence_vmas: async_safe_run_on_cpu() with run_on_cpu_func which
+flushes TLB on all CPUs (similar like trans_sfence_vma())
+* th_sync/th_sync_i: end the TB (similar like trans_fence_i())
+* th_sync_s/th_sync_is: async_safe_run_on_cpu() with run_on_cpu_func which
+ends the TB (similar like trans_fence_i())
 
-[...]
->  
-> +static int kvm_handle_ptf(S390CPU *cpu, struct kvm_run *run)
-> +{
-> +    uint8_t r1 = (run->s390_sieic.ipb >> 20) & 0x0f;
-> +
-> +    s390_handle_ptf(cpu, r1, RA_IGNORED);
+Thanks!
 
-... and this being returned here...
-> +
-> +    return 0;
 
-... or this function being void.
-> +}
-> +
->  static int handle_b9(S390CPU *cpu, struct kvm_run *run, uint8_t ipa1)
->  {
->      int r = 0;
-> @@ -1480,6 +1490,9 @@ static int handle_b9(S390CPU *cpu, struct kvm_run *run, uint8_t ipa1)
->      case PRIV_B9_RPCIT:
->          r = kvm_rpcit_service_call(cpu, run);
->          break;
-> +    case PRIV_B9_PTF:
-> +        r = kvm_handle_ptf(cpu, run);
-> +        break;
->      case PRIV_B9_EQBS:
->          /* just inject exception */
->          r = -1;
+>
+>
+> r~
+>
 
+--000000000000cb074305e841c7da
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 8, 2022 at 9:30 AM Richar=
+d Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hen=
+derson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">On 9/6/22 13:22, Christoph Muellner wrote:<br>
+&gt; +NOP_PRIVCHECK(th_sfence_vmas, REQUIRE_PRIV_MHS)<br>
+&gt; +NOP_PRIVCHECK(th_sync, REQUIRE_PRIV_MHSU)<br>
+&gt; +NOP_PRIVCHECK(th_sync_i, REQUIRE_PRIV_MHSU)<br>
+&gt; +NOP_PRIVCHECK(th_sync_is, REQUIRE_PRIV_MHSU)<br>
+&gt; +NOP_PRIVCHECK(th_sync_s, REQUIRE_PRIV_MHSU)<br>
+<br>
+These should not be nops: th_sfence_vmas requires a tlb flush; th.sync{,.i}=
+ needs to end <br>
+the current translation block; th.sync.{s,is} needs multiprocessor sync, wh=
+ich involves a <br>
+call to async_safe_run_on_cpu.<br></blockquote><div><br></div><div>Understo=
+od.</div><div>For a new revision, I&#39;ll do the following:</div><div>* th=
+_sfence_vmas:=C2=A0async_safe_run_on_cpu() with run_on_cpu_func which flush=
+es TLB on all CPUs (similar like trans_sfence_vma())=C2=A0</div><div>* th_s=
+ync/th_sync_i: end the TB (similar like trans_fence_i())</div><div>* th_syn=
+c_s/th_sync_is: async_safe_run_on_cpu() with run_on_cpu_func which ends the=
+ TB (similar like trans_fence_i())</div><div><br></div><div>Thanks!<br></di=
+v><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+<br>
+r~<br>
+</blockquote></div></div>
+
+--000000000000cb074305e841c7da--
 
