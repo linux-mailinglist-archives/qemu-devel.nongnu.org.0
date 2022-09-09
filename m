@@ -2,72 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85CF45B360B
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 13:09:22 +0200 (CEST)
-Received: from localhost ([::1]:44582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC5C65B360F
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 13:10:08 +0200 (CEST)
+Received: from localhost ([::1]:33920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWbsu-0004NY-0Y
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 07:09:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46008)
+	id 1oWbtd-00056y-Dj
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 07:10:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oWblX-0007wo-St
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 07:01:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28714)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oWbm7-0008EP-Qf
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 07:02:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oWblW-0004y3-1b
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 07:01:43 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oWbm2-000556-4k
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 07:02:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662721301;
+ s=mimecast20190719; t=1662721330;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QZ7cp/F9ZhuoBQSl9KZ5nLiwALh3iP/kh0uBnlYquJs=;
- b=LTTDCzCq28iOae2oeTGk0TYVLUynOJ3+W1FxJQCJ34WwXxlhvqB1f/Hb+MtecOhI3zdeqE
- RJKLOGz/6tD6EQuUbUD/nqP6ndhlwYpgVgsPshFbnpMnERlWpDoHGTy3aZR8NYo9qV7Fz+
- 01Y2iDZVKkM6ih4U3JqTpmhmP2cYPRE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-649-YxD6is4vPkuhfgtaIIw0EQ-1; Fri, 09 Sep 2022 07:01:37 -0400
-X-MC-Unique: YxD6is4vPkuhfgtaIIw0EQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 86AE61C068D3;
- Fri,  9 Sep 2022 11:01:36 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 804962166B26;
- Fri,  9 Sep 2022 11:01:28 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [RFC PATCH 1/1] kvm/kvm-all.c: implement
- KVM_SET_USER_MEMORY_REGION_LIST ioctl
-Date: Fri,  9 Sep 2022 07:00:34 -0400
-Message-Id: <20220909110034.740282-2-eesposit@redhat.com>
-In-Reply-To: <20220909110034.740282-1-eesposit@redhat.com>
-References: <20220909110034.740282-1-eesposit@redhat.com>
+ bh=552oMY7StYxcNv74FqiwwC+bER9EAS86HhvPvxTkRvE=;
+ b=Znr4EI9zy9h83Qs30eeAJpt/ZhugP5rKvctult060GB8WSeuFMjVtTNhuE/oEojdJ5N4gg
+ L2R9rOIcVkphZ0kmEHYmxZsVh0bePXV2XnFDgtBayUwpT26mcGjTdauher+w9oDZYM3YTH
+ ZXq52HLSYlhKO6/RhcrV5HdR4rIqCdI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-170-3xEWoAdpMGa-4_U2a3d9QQ-1; Fri, 09 Sep 2022 07:02:08 -0400
+X-MC-Unique: 3xEWoAdpMGa-4_U2a3d9QQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ j19-20020a05600c1c1300b003ab73e4c45dso2623079wms.0
+ for <qemu-devel@nongnu.org>; Fri, 09 Sep 2022 04:02:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date;
+ bh=552oMY7StYxcNv74FqiwwC+bER9EAS86HhvPvxTkRvE=;
+ b=GttCbrg4PtpwG3ML+JVZNA3Z3chj2dUdKJ296fxBLs9cbEbLrnQRolg96uVaA2jq9T
+ 7+bKWjmpgw6Iro3Um/TVg2FLrvZJ04I3iTlnRy9FrKjbzApmzw2lvSmf/euGBdm9wq9E
+ yGihdEJNTVUu5o6Ajnop4bDnM+EjE2j2BM2zWNvhE9UoHrMabU6eklwIApGjh+baGGKD
+ DkFZVpJ9DAERPe4t9Dr87cbleQYouTFUttG5ftvKHsBiJdTaiVjGNZGb0l+vszass3cm
+ iMJc60aU5J7Jm4fb0XazXcuebtIqAYEtjfZyuWtE6Y8TdCmIE8UrFIdJukuCGWpk4aQt
+ 1VGA==
+X-Gm-Message-State: ACgBeo1Gy0njdTVHMjxZsTONRWaQMuWWNVVXEzeTESsFLldLsNTq3IV8
+ FhnR/OWAxrjNnyNxl0U1ivNaZcwaPHIIegORNfQbDMIgm9KcbaAcrPCo/UdBnSCz1HPKIIx0Uwp
+ +Tk+UNGKHGJcAnek=
+X-Received: by 2002:adf:edc9:0:b0:228:60de:1d4b with SMTP id
+ v9-20020adfedc9000000b0022860de1d4bmr7840948wro.306.1662721327697; 
+ Fri, 09 Sep 2022 04:02:07 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6XrE6BUCNUNrNXlO+Yq7s10DLek+7dAPopvXjQd5tznH4HCs4Zzv6Wb4RjFhFEk1Hz/MJ9mg==
+X-Received: by 2002:adf:edc9:0:b0:228:60de:1d4b with SMTP id
+ v9-20020adfedc9000000b0022860de1d4bmr7840932wro.306.1662721327450; 
+ Fri, 09 Sep 2022 04:02:07 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c704:6300:1fe0:42e1:62c5:91b6?
+ (p200300cbc70463001fe042e162c591b6.dip0.t-ipconnect.de.
+ [2003:cb:c704:6300:1fe0:42e1:62c5:91b6])
+ by smtp.gmail.com with ESMTPSA id
+ z5-20020a05600c0a0500b003a540fef440sm449486wmp.1.2022.09.09.04.02.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Sep 2022 04:02:06 -0700 (PDT)
+Message-ID: <36a9dc69-d045-7ca4-a0a8-995c63951a9f@redhat.com>
+Date: Fri, 9 Sep 2022 13:02:06 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [RFC PATCH 2/2] kvm/kvm-all.c: listener should delay kvm_vm_ioctl
+ to the commit phase
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Peter Xu <peterx@redhat.com>
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org
+References: <20220816101250.1715523-1-eesposit@redhat.com>
+ <20220816101250.1715523-3-eesposit@redhat.com> <Yv6baJoNikyuZ38R@xz-m1.local>
+ <CAJ6HWG6maoPjbP8T5qo=iXCbNeHu4dq3wHLKtRLahYKuJmMY-g@mail.gmail.com>
+ <YwOOcC72KKABKgU+@xz-m1.local>
+ <d4601180-4c95-a952-2b40-d40fa8e55005@redhat.com>
+ <YwqFfyZ1fMA9knnK@xz-m1.local>
+ <d02d6a6e-637e-48f9-9acc-811344712cd3@redhat.com>
+ <66ed2e5b-b6a8-d9f7-3fe4-43c974dc0ecd@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <66ed2e5b-b6a8-d9f7-3fe4-43c974dc0ecd@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -59
+X-Spam_score: -6.0
+X-Spam_bar: ------
+X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-3.142, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,64 +116,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of sending memslot updates in each callback, kvm listener
-already takes care of sending them in the commit phase, as multiple
-ioctls.
+On 09.09.22 10:02, Emanuele Giuseppe Esposito wrote:
+> 
+>>> One thing I forgot to ask: iirc we used to have a workaround to kick all
+>>> vcpus out, update memory slots, then continue all vcpus.  Would that work
+>>> for us too for the problem you're working on?
+>>
+>> As reference, here is one such approach for region resizes only:
+>>
+>> https://lore.kernel.org/qemu-devel/20200312161217.3590-1-david@redhat.com/
+>>
+>> which notes:
+>>
+>> "Instead of inhibiting during the region_resize(), we could inhibit for
+>> the hole memory transaction (from begin() to commit()). This could be
+>> nice, because also splitting of memory regions would be atomic (I
+>> remember there was a BUG report regarding that), however, I am not sure
+>> if that might impact any RT users."
+>>
+>>
+> I read:
+> 
+> "Using pause_all_vcpus()/resume_all_vcpus() is not possible, as it will
+> temporarily drop the BQL - something most callers can't handle (esp.
+> when called from vcpu context e.g., in virtio code)."
 
-Using the new KVM_SET_USER_MEMORY_REGION_LIST, we just need a single
-call containing all memory regions to update.
+... that's why the patch takes a different approach? :)
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- accel/kvm/kvm-all.c | 25 ++++++++++---------------
- 1 file changed, 10 insertions(+), 15 deletions(-)
-
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 9780f3d2da..6a7f7b4567 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -1547,30 +1547,25 @@ static void kvm_commit(MemoryListener *listener)
-     KVMMemoryListener *kml = container_of(listener, KVMMemoryListener,
-                                           listener);
-     KVMState *s = kvm_state;
--    int i;
-+    int i, ret;
- 
-     for (i = 0; i < kml->mem_array.list->nent; i++) {
-         struct kvm_userspace_memory_region_entry *mem;
--        int ret;
- 
-         mem = &kml->mem_array.list->entries[i];
- 
--        /*
--         * Note that mem is struct kvm_userspace_memory_region_entry, while the
--         * kernel expects a kvm_userspace_memory_region, so it will currently
--         * ignore mem->invalidate_slot and mem->padding.
--         */
--        ret = kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, mem);
--
-         trace_kvm_set_user_memory(mem->slot, mem->flags, mem->guest_phys_addr,
-                                   mem->memory_size, mem->userspace_addr, 0);
-+    }
- 
--        if (ret < 0) {
--            error_report("%s: KVM_SET_USER_MEMORY_REGION failed, slot=%d,"
--                         " start=0x%" PRIx64 ": %s",
--                         __func__, mem->slot,
--                         (uint64_t)mem->memory_size, strerror(errno));
--        }
-+    ret = kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION_LIST, kml->mem_array.list);
-+
-+    if (ret < 0) {
-+        error_report("%s: KVM_SET_USER_MEMORY_REGION_LIST failed, size=0x%"
-+                     PRIx64 " flags=0x%" PRIx64 ": %s",
-+                     __func__, (uint64_t)kml->mem_array.list->nent,
-+                     (uint64_t)kml->mem_array.list->flags,
-+                     strerror(errno));
-     }
- 
-     kml->mem_array.list->nent = 0;
 -- 
-2.31.1
+Thanks,
+
+David / dhildenb
 
 
