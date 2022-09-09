@@ -2,53 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DEC15B36EA
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 14:07:49 +0200 (CEST)
-Received: from localhost ([::1]:60246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D8C15B381C
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 14:48:27 +0200 (CEST)
+Received: from localhost ([::1]:49526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWcnT-0002bG-W6
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 08:07:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34026)
+	id 1oWdQn-0000Ac-7I
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 08:48:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1oWcha-00083Q-So; Fri, 09 Sep 2022 08:01:49 -0400
-Received: from [200.168.210.66] (port=21634 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1oWchW-000083-LQ; Fri, 09 Sep 2022 08:01:40 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 9 Sep 2022 09:01:27 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 8C1BF8001F1;
- Fri,  9 Sep 2022 09:01:27 -0300 (-03)
-Message-ID: <97dee0c0-e835-b797-588a-e8ed87f0c603@eldorado.org.br>
-Date: Fri, 9 Sep 2022 09:01:27 -0300
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oWdMP-0005p8-Ty; Fri, 09 Sep 2022 08:43:53 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:36460)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oWdMN-0000TF-53; Fri, 09 Sep 2022 08:43:52 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id e18so2336853edj.3;
+ Fri, 09 Sep 2022 05:43:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=Msyh/fQszRzPuE0ABukkfHCybQuD1CU52QIzjaePNlQ=;
+ b=cJASt8NR1zZe/+VdN/EboFWueXAAZPVuBLrifOfrTkpKTWoOHXkEEUauLgBUZYaLmT
+ HrhI7YWODXN6yTTtFzA1k8JQ3IPB/m4On13LbrJb7fj3Mdn51yik6rA55ald55qKDvcF
+ Ok85ovk9WPFsc5Xbt1D75m4VJY8+Pz2kdNgDSE3dhMTiPIigDXqj+NFh6hSlGe1fQhce
+ j3ywAB0uzDX2EkxYxDw2XbUflwmRETCIBXPHzK4Ks0MgI1UQDNxLSgrU+1Xrmdr7XMxg
+ 8GSXarXitifUf4ypGg0/BD8EkFrPj/9gQtZ7dhUEfK6z8i++hQjHIBGMj8tefbuGHk5C
+ +RMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=Msyh/fQszRzPuE0ABukkfHCybQuD1CU52QIzjaePNlQ=;
+ b=6hNkAsL2KzQ0Iyb/bzzD1jVbPyrbPl8vtZn7NOivt5uF0Is8vyKm5xy+IpilDeTDDy
+ TrXldjmk3a9KXq2Ii0Oy5ZkgLAKbNd40c8XNT8iq7omuk/sj8P1byYezM4+kf1iZQHVN
+ 7hZqGlYzIE6vqgjiDoO1Umpr4zqFjocga7CYfxEn2BQUq9D89rpJJVuWUW9MHgRDVeDo
+ w1wnW4CTJkRgrqdqOfE3QTGqo+D6jN7nRzJ2j9jicDu7T3DZJcWlITXkfkEdEa7FTczH
+ Hy678KEv7Cb+DtdN069lFXXE9tS4hTHLk1HZsIugMT8oEP+wDa8DkimFCRJv9pVA9aKO
+ OjXQ==
+X-Gm-Message-State: ACgBeo1TSbYQfEgq+drP/9Jf2fIn58aFqSdvYZ5i6xiFqtfoX8OeTEqc
+ /mACZ0BQXNopJHTedUOEySo=
+X-Google-Smtp-Source: AA6agR5UC1gTrV9/SRXN/Kd3JfMdHWXaVA1INUX5IHChHLr3NMoAp38aA+oRwoQk6fWCeijbT9m9yg==
+X-Received: by 2002:a05:6402:40d1:b0:44f:e974:f981 with SMTP id
+ z17-20020a05640240d100b0044fe974f981mr7420704edb.222.1662727429310; 
+ Fri, 09 Sep 2022 05:43:49 -0700 (PDT)
+Received: from [127.0.0.1] (dynamic-077-183-180-255.77.183.pool.telefonica.de.
+ [77.183.180.255]) by smtp.gmail.com with ESMTPSA id
+ f3-20020a50ee83000000b0043cc66d7accsm310829edr.36.2022.09.09.05.43.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Sep 2022 05:43:48 -0700 (PDT)
+Date: Fri, 09 Sep 2022 12:43:44 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+CC: qemu-ppc@nongnu.org, Huacai Chen <chenhuacai@kernel.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>, Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_10/10=5D_hw/isa/vt82c686=3A_?=
+ =?US-ASCII?Q?Create_rtc-time_alias_in_boards_instead?=
+In-Reply-To: <113d22be-283c-ebe5-8db3-e622447c7bf5@amsat.org>
+References: <20220830190048.67448-1-shentey@gmail.com>
+ <20220830190048.67448-11-shentey@gmail.com>
+ <113d22be-283c-ebe5-8db3-e622447c7bf5@amsat.org>
+Message-ID: <FD51AC07-9610-45BD-842A-41C87B872432@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] tcg/ppc: Optimize 26-bit jumps
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: npiggin@gmail.com
-References: <20220908211829.181447-1-leandro.lupori@eldorado.org.br>
- <70efa596-eeaf-7470-0b02-ccdbec7c2a24@linaro.org>
-From: Leandro Lupori <leandro.lupori@eldorado.org.br>
-In-Reply-To: <70efa596-eeaf-7470-0b02-ccdbec7c2a24@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 09 Sep 2022 12:01:27.0801 (UTC)
- FILETIME=[E435BE90:01D8C443]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=leandro.lupori@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.079,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,42 +93,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/8/22 18:44, Richard Henderson wrote:
-> On 9/8/22 22:18, Leandro Lupori wrote:
->> PowerPC64 processors handle direct branches better than indirect
->> ones, resulting in less stalled cycles and branch misses.
->>
->> However, PPC's tb_target_set_jmp_target() was only using direct
->> branches for 16-bit jumps, while PowerPC64's unconditional branch
->> instructions are able to handle displacements of up to 26 bits.
->> To take advantage of this, now jumps whose displacements fit in
->> between 17 and 26 bits are also converted to direct branches.
-> 
-> This doesn't work because you have to be able to unset the jump as well, 
-> and your two step
-> sequence doesn't handle that.  (You wind up with the two insn address 
-> load reset, but the
-> jump continuing to the previous target -- boom.)
-> 
-Hello Richard, thanks for your review!
-Right, I hadn't noticed this issue.
+Am 30=2E August 2022 21:46:57 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <f4=
+bug@amsat=2Eorg>:
+>On 30/8/22 21:00, Bernhard Beschow wrote:
+>> According to good QOM practice, an object should only deal with objects
+>> of its own sub tree=2E Having devices create an alias on the machine
+>> object doesn't respect this good practice=2E To resolve this, create th=
+e
+>> alias in the machine's code=2E
+>
+>IIUC, this is only true for Pegasos II, not (yet) for the Fuloong 2E=2E
+>
+>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>> ---
+>>   hw/isa/vt82c686=2Ec   | 2 --
+>>   hw/mips/fuloong2e=2Ec | 4 ++++
+>>   hw/ppc/pegasos2=2Ec   | 4 ++++
+>>   3 files changed, 8 insertions(+), 2 deletions(-)
+>>=20
+>> diff --git a/hw/isa/vt82c686=2Ec b/hw/isa/vt82c686=2Ec
+>> index 0ef9446374=2E=2Ea23ffbb3ff 100644
+>> --- a/hw/isa/vt82c686=2Ec
+>> +++ b/hw/isa/vt82c686=2Ec
+>> @@ -631,8 +631,6 @@ static void via_isa_realize(PCIDevice *d, Error **e=
+rrp)
+>>       if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
+>>           return;
+>>       }
+>> -    object_property_add_alias(qdev_get_machine(), "rtc-time", OBJECT(&=
+s->rtc),
+>> -                              "date");
+>>       isa_connect_gpio_out(ISA_DEVICE(&s->rtc), 0, s->rtc=2Eisairq);
+>>         for (i =3D 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
+>> diff --git a/hw/mips/fuloong2e=2Ec b/hw/mips/fuloong2e=2Ec
+>> index 2d8723ab74=2E=2E0f4cfe1188 100644
+>> --- a/hw/mips/fuloong2e=2Ec
+>> +++ b/hw/mips/fuloong2e=2Ec
+>> @@ -203,6 +203,10 @@ static void vt82c686b_southbridge_init(PCIBus *pci=
+_bus, int slot, qemu_irq intc,
+>>         via =3D pci_create_simple_multifunction(pci_bus, PCI_DEVFN(slot=
+, 0), true,
+>>                                             TYPE_VT82C686B_ISA);
+>> +    object_property_add_alias(qdev_get_machine(), "rtc-time",
+>> +                              object_resolve_path_component(OBJECT(via=
+),
+>> +                                                            "rtc"),
+>> +                              "date");
+>>       qdev_connect_gpio_out(DEVICE(via), 0, intc);
+>>         dev =3D PCI_DEVICE(object_resolve_path_component(OBJECT(via), "=
+ide"));
+>> diff --git a/hw/ppc/pegasos2=2Ec b/hw/ppc/pegasos2=2Ec
+>> index 09fdb7557f=2E=2Ef50e1d8b3f 100644
+>> --- a/hw/ppc/pegasos2=2Ec
+>> +++ b/hw/ppc/pegasos2=2Ec
+>> @@ -161,6 +161,10 @@ static void pegasos2_init(MachineState *machine)
+>>       /* VIA VT8231 South Bridge (multifunction PCI device) */
+>>       via =3D pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0)=
+, true,
+>>                                             TYPE_VT8231_ISA);
+>> +    object_property_add_alias(qdev_get_machine(), "rtc-time",
+>
+>We already have a 'machine' pointer=2E
 
-> For v2.07+, you could use stq to update 4 insns atomically.
-> 
-I'll try this alternative in v2, so that more CPUs can benefit from this 
-change.
+Fixed in v5=2E
 
-> For v3.1+, you can eliminate TCG_REG_TB, using prefixed pc-relative 
-> addressing instead.
-> Which brings you back to only needing to update 8 bytes atomically 
-> (select either paddi to
-> compute address to feed to following mtctr+bcctr, or direct branch + nop 
-> leaving the
-> mtctr+bcctr alone and unreachable).
-> 
-> (Actually, there are lots of updates one could make to tcg/ppc for v3.1...)
-> 
-> 
-> r~
+>
+>> +                              object_resolve_path_component(OBJECT(via=
+),
+>> +                                                            "rtc"),
+>> +                              "date");
+>>       qdev_connect_gpio_out(DEVICE(via), 0,
+>>                             qdev_get_gpio_in_named(pm->mv, "gpp", 31));
+>>  =20
+>
 
 
