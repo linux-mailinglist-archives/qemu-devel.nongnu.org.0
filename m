@@ -2,80 +2,123 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A08765B3DE4
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 19:25:31 +0200 (CEST)
-Received: from localhost ([::1]:50120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0A385B3F56
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 21:17:27 +0200 (CEST)
+Received: from localhost ([::1]:49272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWhkv-0006dc-Q3
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 13:25:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44192)
+	id 1oWjVG-0005Ej-GB
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 15:17:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
- id 1oWhhO-0003dN-D3
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 13:21:50 -0400
-Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:36542)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
- id 1oWhhM-00062T-I5
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 13:21:50 -0400
-Received: by mail-qt1-x832.google.com with SMTP id h21so1812823qta.3
- for <qemu-devel@nongnu.org>; Fri, 09 Sep 2022 10:21:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=Su3ISGG4372smQeXT3zgsSTyn3vhNFTlc1zBpjntIbs=;
- b=oP9JeDx85I1GEhxgraM5xGt9BsN+QA6bdBVwE0/W9HU9kkGTRAnu9KGjlw0tfPEspF
- /RBYBnEswsj9jiBFJEPJObf+dwGROsg1yOLAg5An9pnsi4yfjGiP58azdPK+X4d+poZL
- rVgAynXb5quj+ZT7qEcx3MnvnL8Nof4z83QSR6M5B8EcorZPhLtIpIJ63P61HTwRU+2S
- 6E1g2s7ftB6UntdrtHfkDGcyNBOjfygL2uz1VkrGSyFQ2+jZuhRjRVUFnGWsvGsfrWZQ
- ytS+zhjJauVso6RMAbIhMhZ4gO6YZLg3WxZXpirysGCckCFIYgwIHFFpaT7+cUjH7qc3
- OkpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=Su3ISGG4372smQeXT3zgsSTyn3vhNFTlc1zBpjntIbs=;
- b=2uyaPAYdxgHMAv3Biw9dLwwoxdmHJ9XDT4nQahE1PAsRxPHllVXelawzlF9r1AtqPz
- H+5Ej4QpgHy4vIy6xcR5ETGbYCp9Q8adKFbViAY8ctF9ff4vZBZ+PhhNvNOkhNh/m3mT
- oDKrrw66cuvRkzp4kwsMS2/yPuOo38oDhl0C8xt0e+c5Pey5ckE96BIZpFNHBKCsemU2
- JYHRVXqwtB6ZHBZfZzZ2YxA34XtT1pgRT3IgUB2/KNg0mfX6kY0n5hR8mPULFSmx8Wy6
- CEQy/ygfpihNjiY/6ZDqUQV//slSQM0H1wh6hISVrBNb292p0U97Qay0DjvDEbz5Ie9b
- dKfw==
-X-Gm-Message-State: ACgBeo3Qa5PE3cUlVHhks4mejOrQ2SLKug1X96Ma8Be9OeuT6NCLmNUw
- MLe+TGqAV/AamKPj04slrKYo9grUMFgpq+gtY3wbuw==
-X-Google-Smtp-Source: AA6agR4As4QIg2NP915OkanWoOWMVHVy7AGXITv9XidJCXcNh0Jp02OFoNaSCMyeFQERC9SAxvGACVCO60vEdu4Zf2o=
-X-Received: by 2002:ac8:5e4c:0:b0:343:423:e736 with SMTP id
- i12-20020ac85e4c000000b003430423e736mr13537482qtx.490.1662744106888; Fri, 09
- Sep 2022 10:21:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220906122243.1243354-1-christoph.muellner@vrull.eu>
- <20220906122243.1243354-11-christoph.muellner@vrull.eu>
- <13c9f7be-d8b8-37aa-ee99-79056e11e30c@linaro.org>
-In-Reply-To: <13c9f7be-d8b8-37aa-ee99-79056e11e30c@linaro.org>
-From: =?UTF-8?Q?Christoph_M=C3=BCllner?= <christoph.muellner@vrull.eu>
-Date: Fri, 9 Sep 2022 19:21:36 +0200
-Message-ID: <CAEg0e7hVJx8EJDSNswuCVt=Z3CnrwcLxpocPrV8k=rG2JVgjnw@mail.gmail.com>
-Subject: Re: [PATCH 10/11] RISC-V: Adding T-Head FMemIdx extension
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, 
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko.stuebner@vrull.eu>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Nelson Chu <nelson@rivosinc.com>, 
- Kito Cheng <kito.cheng@sifive.com>, Cooper Qu <cooper.qu@linux.alibaba.com>, 
- Lifang Xia <lifang_xia@linux.alibaba.com>,
- Yunhai Shang <yunhai@linux.alibaba.com>, 
- Zhiwei Liu <zhiwei_liu@linux.alibaba.com>
-Content-Type: multipart/alternative; boundary="000000000000d8056f05e841c736"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
- envelope-from=christoph.muellner@vrull.eu; helo=mail-qt1-x832.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1oWjPc-00083l-1j
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 15:11:36 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:57116)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1oWjPZ-0005Kf-RZ
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 15:11:35 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2742761FC2;
+ Fri,  9 Sep 2022 19:11:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 804DAC433C1;
+ Fri,  9 Sep 2022 19:11:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1662750690;
+ bh=SUgnHRqE57J9ijihjzghns114gPu46lDz6ObxsACSls=;
+ h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+ b=fTdb4ftAq7R9/GGRhnXmD2nv/XLZdUp78IC3/k1noM0mwC3ia4w4JmkSoNel+Ot4u
+ kO7uEgI3rWIF9d+q0yVj9JzimKSIiFI5w4VI7vzV2gL/AqjtODf0zHe6ZpzT2r7bOU
+ bBtjUaVmEvsKeFSmE/+pjzwNffNkXhjWRx2D+AULoQLP9FuB1Zn8xi6605QLcSEH0e
+ oLt7BzlpcaEt3g0oAKqBMQduFEIO554y3f8XgZPOv5cfN37vX7NQT7I+nD8+/rasz+
+ Gg/HVms627W4sQu0JF+Reug86HzEcGb9S+2x6xEowoF3FfIR0AAk6EF758cLaYuTjt
+ TS0MvwAO5K49A==
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailauth.nyi.internal (Postfix) with ESMTP id 553A027C005B;
+ Fri,  9 Sep 2022 15:11:28 -0400 (EDT)
+Received: from imap48 ([10.202.2.98])
+ by compute2.internal (MEProxy); Fri, 09 Sep 2022 15:11:28 -0400
+X-ME-Sender: <xms:3Y8bY6W-KYrmAFI553F8rujXR0g64BgP6DLpnotxRF1FXtLNJ8HFBw>
+ <xme:3Y8bY2mGIHOUYqrgPQoo6lCLblHQfRXn1TrwdrKu37BsJGaUl1q9KEsnmDthPnrkU
+ H166w9VAMXv6wF6C60>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedthedgudefjecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+ nhguhicunfhuthhomhhirhhskhhifdcuoehluhhtoheskhgvrhhnvghlrdhorhhgqeenuc
+ ggtffrrghtthgvrhhnpeekuddthfelkeegtdelteeuieevkeegudduheevtdetieegheet
+ ffelleduvddtueenucffohhmrghinhepihhnthgvlhdrtghomhdpmhgvmhdrphgrghgvne
+ cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghnugih
+ odhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduudeiudekheeifedvqddvie
+ efudeiiedtkedqlhhuthhopeepkhgvrhhnvghlrdhorhhgsehlihhnuhigrdhluhhtohdr
+ uhhs
+X-ME-Proxy: <xmx:3Y8bY-boxyux9UHxTSpDjSQ_XMb8t9pN3tnUfCzsYYr-YmbSUrrfYQ>
+ <xmx:3Y8bYxU6SKx_iHwkYWHhgjAFp228ubVUSNUw1K9UBfWNqpN08LyJKg>
+ <xmx:3Y8bY0ldjzwm-xTSJ0MnLj-GuI65WGFYRayDMrmStHHIV_vywU2XFg>
+ <xmx:4I8bY2CvMpUqEExrjUfE79Y1rQF_Xta75SFKNDsCa1iznWpscOiDs5SXkxE>
+Feedback-ID: ieff94742:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 4802E31A0062; Fri,  9 Sep 2022 15:11:25 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-927-gf4c98c8499-fm-20220826.002-gf4c98c84
+Mime-Version: 1.0
+Message-Id: <762581e4-a6bf-41d1-b0d3-72543153ffb1@www.fastmail.com>
+In-Reply-To: <20220909143236.sznwzkpedldrlnn5@box.shutemov.name>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
+ <20220818132421.6xmjqduempmxnnu2@box>
+ <c6ccbb96-5849-2e2f-3b49-4ea711af525d@google.com>
+ <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
+ <95bd287b-d17f-fda8-58c9-20700b1e0c72@kernel.org>
+ <20220909143236.sznwzkpedldrlnn5@box.shutemov.name>
+Date: Fri, 09 Sep 2022 12:11:05 -0700
+From: "Andy Lutomirski" <luto@kernel.org>
+To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: "Kirill A . Shutemov" <kirill@shutemov.name>,
+ "Hugh Dickins" <hughd@google.com>,
+ "Chao Peng" <chao.p.peng@linux.intel.com>,
+ "kvm list" <kvm@vger.kernel.org>,
+ "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ "Linux API" <linux-api@vger.kernel.org>, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
+ "Paolo Bonzini" <pbonzini@redhat.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Sean Christopherson" <seanjc@google.com>,
+ "Vitaly Kuznetsov" <vkuznets@redhat.com>,
+ "Wanpeng Li" <wanpengli@tencent.com>,
+ "Jim Mattson" <jmattson@google.com>, "Joerg Roedel" <joro@8bytes.org>,
+ "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "the arch/x86 maintainers" <x86@kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, "Jeff Layton" <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Shuah Khan" <shuah@kernel.org>, "Mike Rapoport" <rppt@kernel.org>,
+ "Steven Price" <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ "Vlastimil Babka" <vbabka@suse.cz>,
+ "Vishal Annapurve" <vannapurve@google.com>,
+ "Yu Zhang" <yu.c.zhang@linux.intel.com>, "Nakajima,
+ Jun" <jun.nakajima@intel.com>, "Dave Hansen" <dave.hansen@intel.com>,
+ "Andi Kleen" <ak@linux.intel.com>,
+ "David Hildenbrand" <david@redhat.com>, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ "Quentin Perret" <qperret@google.com>,
+ "Michael Roth" <michael.roth@amd.com>, "Michal Hocko" <mhocko@suse.com>,
+ "Muchun Song" <songmuchun@bytedance.com>, "Gupta,
+ Pankaj" <pankaj.gupta@amd.com>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Content-Type: text/plain
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=luto@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,95 +135,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d8056f05e841c736
-Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Sep 8, 2022 at 9:45 AM Richard Henderson <
-richard.henderson@linaro.org> wrote:
 
-> On 9/6/22 13:22, Christoph Muellner wrote:
-> > @@ -732,6 +733,7 @@ static int ex_rvc_shifti(DisasContext *ctx, int imm)
-> >   #include "decode-xtheadbs.c.inc"
-> >   #include "decode-xtheadcmo.c.inc"
-> >   #include "decode-xtheadcondmov.c.inc"
-> > +#include "decode-xtheadfmemidx.c.inc"
-> >   #include "decode-xtheadmac.c.inc"
-> >   #include "decode-xtheadmemidx.c.inc"
-> >   #include "decode-xtheadmempair.c.inc"
-> > @@ -1061,6 +1063,7 @@ static void decode_opc(CPURISCVState *env,
-> DisasContext *ctx, uint16_t opcode)
-> >           { has_xtheadbs_p, decode_xtheadbs },
-> >           { has_xtheadcmo_p, decode_xtheadcmo },
-> >           { has_xtheadcondmov_p, decode_xtheadcondmov },
-> > +        { has_xtheadfmemidx_p, decode_xtheadfmemidx },
-> >           { has_xtheadmac_p, decode_xtheadmac },
-> >           { has_xtheadmemidx_p, decode_xtheadmemidx },
-> >           { has_xtheadmempair_p, decode_xtheadmempair },
+On Fri, Sep 9, 2022, at 7:32 AM, Kirill A . Shutemov wrote:
+> On Thu, Sep 08, 2022 at 09:48:35PM -0700, Andy Lutomirski wrote:
+>> On 8/19/22 17:27, Kirill A. Shutemov wrote:
+>> > On Thu, Aug 18, 2022 at 08:00:41PM -0700, Hugh Dickins wrote:
+>> > > On Thu, 18 Aug 2022, Kirill A . Shutemov wrote:
+>> > > > On Wed, Aug 17, 2022 at 10:40:12PM -0700, Hugh Dickins wrote:
+>> > > > > 
+>> > > > > If your memory could be swapped, that would be enough of a good reason
+>> > > > > to make use of shmem.c: but it cannot be swapped; and although there
+>> > > > > are some references in the mailthreads to it perhaps being swappable
+>> > > > > in future, I get the impression that will not happen soon if ever.
+>> > > > > 
+>> > > > > If your memory could be migrated, that would be some reason to use
+>> > > > > filesystem page cache (because page migration happens to understand
+>> > > > > that type of memory): but it cannot be migrated.
+>> > > > 
+>> > > > Migration support is in pipeline. It is part of TDX 1.5 [1]. And swapping
+>> > > > theoretically possible, but I'm not aware of any plans as of now.
+>> > > > 
+>> > > > [1] https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html
+>> > > 
+>> > > I always forget, migration means different things to different audiences.
+>> > > As an mm person, I was meaning page migration, whereas a virtualization
+>> > > person thinks VM live migration (which that reference appears to be about),
+>> > > a scheduler person task migration, an ornithologist bird migration, etc.
+>> > > 
+>> > > But you're an mm person too: you may have cited that reference in the
+>> > > knowledge that TDX 1.5 Live Migration will entail page migration of the
+>> > > kind I'm thinking of.  (Anyway, it's not important to clarify that here.)
+>> > 
+>> > TDX 1.5 brings both.
+>> > 
+>> > In TDX speak, mm migration called relocation. See TDH.MEM.PAGE.RELOCATE.
+>> > 
+>> 
+>> This seems to be a pretty bad fit for the way that the core mm migrates
+>> pages.  The core mm unmaps the page, then moves (in software) the contents
+>> to a new address, then faults it in.  TDH.MEM.PAGE.RELOCATE doesn't fit into
+>> that workflow very well.  I'm not saying it can't be done, but it won't just
+>> work.
 >
-> I think you should have a single decoder for all of the xthread
-> extensions, and each
-> translate function should test for the individual extension.  You know
-> up-front that these
-> extensions do not conflict.
+> Hm. From what I see we have all necessary infrastructure in place.
 >
+> Unmaping is NOP for inaccessible pages as it is never mapped and we have
+> mapping->a_ops->migrate_folio() callback that allows to replace software
+> copying with whatever is needed, like TDH.MEM.PAGE.RELOCATE.
 >
-Ok, I will restructure the series and use a single decoder.
+> What do I miss?
 
-Thanks!
+Hmm, maybe this isn't as bad as I thought.
 
+Right now, unless I've missed something, the migration workflow is to unmap (via try_to_migrate) all mappings, then migrate the backing store (with ->migrate_folio(), although it seems like most callers expect the actual copy to happen outside of ->migrate_folio(), and then make new mappings.  With the *current* (vma-based, not fd-based) model for KVM memory, this won't work -- we can't unmap before calling TDH.MEM.PAGE.RELOCATE.
 
->
-> r~
->
+But maybe it's actually okay with some care or maybe mild modifications with the fd-based model.  We don't have any mmaps, per se, to unmap for secret / INACCESSIBLE memory.  So maybe we can get all the way to ->migrate_folio() without zapping anything in the secure EPT and just call TDH-MEM.PAGE.RELOCATE from inside migrate_folio().  And there will be nothing to fault back in.  From the core code's perspective, it's like migrating a memfd that doesn't happen to have my mappings at the time.
 
---000000000000d8056f05e841c736
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 8, 2022 at 9:45 AM Richar=
-d Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hen=
-derson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">On 9/6/22 13:22, Christoph Muellner wrote:<br>
-&gt; @@ -732,6 +733,7 @@ static int ex_rvc_shifti(DisasContext *ctx, int im=
-m)<br>
-&gt;=C2=A0 =C2=A0#include &quot;decode-xtheadbs.c.inc&quot;<br>
-&gt;=C2=A0 =C2=A0#include &quot;decode-xtheadcmo.c.inc&quot;<br>
-&gt;=C2=A0 =C2=A0#include &quot;decode-xtheadcondmov.c.inc&quot;<br>
-&gt; +#include &quot;decode-xtheadfmemidx.c.inc&quot;<br>
-&gt;=C2=A0 =C2=A0#include &quot;decode-xtheadmac.c.inc&quot;<br>
-&gt;=C2=A0 =C2=A0#include &quot;decode-xtheadmemidx.c.inc&quot;<br>
-&gt;=C2=A0 =C2=A0#include &quot;decode-xtheadmempair.c.inc&quot;<br>
-&gt; @@ -1061,6 +1063,7 @@ static void decode_opc(CPURISCVState *env, Disas=
-Context *ctx, uint16_t opcode)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{ has_xtheadbs_p, decode_xthea=
-dbs },<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{ has_xtheadcmo_p, decode_xthe=
-adcmo },<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{ has_xtheadcondmov_p, decode_=
-xtheadcondmov },<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 { has_xtheadfmemidx_p, decode_xtheadfmemi=
-dx },<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{ has_xtheadmac_p, decode_xthe=
-admac },<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{ has_xtheadmemidx_p, decode_x=
-theadmemidx },<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{ has_xtheadmempair_p, decode_=
-xtheadmempair },<br>
-<br>
-I think you should have a single decoder for all of the xthread extensions,=
- and each <br>
-translate function should test for the individual extension.=C2=A0 You know=
- up-front that these <br>
-extensions do not conflict.<br>
-<br></blockquote><div><br></div><div>Ok, I will restructure the series and =
-use a single decoder.</div><div><br></div><div>Thanks!</div><div>=C2=A0</di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-r~<br>
-</blockquote></div></div>
-
---000000000000d8056f05e841c736--
+--Andy
 
