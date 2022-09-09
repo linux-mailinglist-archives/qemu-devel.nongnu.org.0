@@ -2,91 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6E2E5B396C
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 15:44:44 +0200 (CEST)
-Received: from localhost ([::1]:56910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37F5E5B396D
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 15:44:46 +0200 (CEST)
+Received: from localhost ([::1]:46548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWeJH-0001Ox-9R
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 09:44:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36810)
+	id 1oWeJJ-0001Xb-Bi
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 09:44:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oWeE5-0002Rb-3N
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 09:39:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40812)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oWeE1-0002km-Aq
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 09:39:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662730755;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oWeG9-0004tb-Dm
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 09:41:30 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:58292)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oWeG7-00039t-Oi
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 09:41:29 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id EC0D522A07;
+ Fri,  9 Sep 2022 13:41:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1662730883; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lm8SyaC+upHefWX1/Dqw7ZpRyCh+ryEz1CyiUkaHuLk=;
- b=XbGydv2M0W6EaPyGZa78fFvtZE69j2N2GhHIt9JyyGWU3wrL91LpZYjxNc2ho5aeQ1ziBh
- 2WkaaH4Uh5fY/uYxY9uzBiAGfku2jxo/jEV6DNUFYIv/WmNVe0v86HBeYsY42XQVAI1+gd
- yEHaeKKbCUTWAchsYP/In4rpFg0TPMc=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-636-9bSnwR6qOqOFmRRypwQGSg-1; Fri, 09 Sep 2022 09:39:14 -0400
-X-MC-Unique: 9bSnwR6qOqOFmRRypwQGSg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- f14-20020a0564021e8e00b00448da245f25so1277432edf.18
- for <qemu-devel@nongnu.org>; Fri, 09 Sep 2022 06:39:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date;
- bh=lm8SyaC+upHefWX1/Dqw7ZpRyCh+ryEz1CyiUkaHuLk=;
- b=6ZRlAwJqcqTfGwfuk306/fuoNvX04WQoHCDIQCN6pm1lzW79RYiyILyS9Cg1PjmBsf
- BqVKidwTzM0kRSjXOyXEk3Jr4s6qUIiwar8E3amf8M2gchj2eD6yy4+PPzCbCqLM8FbL
- /gUwp7z8XzlpE6cZfBPVL3JhKnNjnX8ZELkcHEaso6d9RDa0oAwU9lbF0dkGdvMKlnam
- ziRjKVgkU0DqLgh6fCSJaeO6K6+g70d8wpsNYQvtvwGzuzUomvYkHubgiH1eialJtb6h
- hea9yqZkTiXA468scIgYzn3aee4rDGzDgIm2xbeh5digJ1Tbbir5kL/rfjVNRSb6StwZ
- dpsw==
-X-Gm-Message-State: ACgBeo1MrYXhyemRhhIJAfTVmL5doZ52Gewuwb1Bixe7ATwGCaIK9v9D
- bIRwUGt/2mBfzo1lfvaWMyliDcV2/pi5FKHB7qG6YQC/5O6LJ16OSJUw36wTQz6yHnD6ivlrmGs
- rNJL956wRRuD8/Og=
-X-Received: by 2002:a17:907:1c1b:b0:73d:6a20:5664 with SMTP id
- nc27-20020a1709071c1b00b0073d6a205664mr9728710ejc.583.1662730752893; 
- Fri, 09 Sep 2022 06:39:12 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5SbYAd7r1vBqluqGTRJXo6QFf/s9yn+1nsfA4ZjtuIXbsr71+7Q+b3eLdJx+q0vkCBo7ESdQ==
-X-Received: by 2002:a17:907:1c1b:b0:73d:6a20:5664 with SMTP id
- nc27-20020a1709071c1b00b0073d6a205664mr9728689ejc.583.1662730752634; 
- Fri, 09 Sep 2022 06:39:12 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- v2-20020a170906292200b00730bfe6adc4sm319242ejd.37.2022.09.09.06.39.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Sep 2022 06:39:12 -0700 (PDT)
-Date: Fri, 9 Sep 2022 15:39:10 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Robert Hoo <robert.hu@linux.intel.com>
-Cc: mst@redhat.com, xiaoguangrong.eric@gmail.com, ani@anisinha.ca,
- dan.j.williams@intel.com, jingqi.liu@intel.com, qemu-devel@nongnu.org,
- robert.hu@intel.com
-Subject: Re: [PATCH v3 4/5] acpi/nvdimm: Implement ACPI NVDIMM Label Methods
-Message-ID: <20220909153910.557fdbe7@redhat.com>
-In-Reply-To: <20220901032721.1392482-5-robert.hu@linux.intel.com>
-References: <20220901032721.1392482-1-robert.hu@linux.intel.com>
- <20220901032721.1392482-5-robert.hu@linux.intel.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ bh=lsoRis+FeHVHc4Fyc1lLmm08Dpo4r8FEYS1T44hPqhk=;
+ b=VIOKDxUgCAe+sIndx0786gD8y8SLcCZWgAxRRWfZ8b39eixneVnUhILBq04r43d7QDX+fQ
+ GK9Dyb+LJVOpqur4S70/ORvXb6hNKid83Nr5vE/a0JhCFd5zEO4tDY5CnpVvuojCad5LQB
+ FPJFGLpImovx3YqNnDDxaAEeReVFFt4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1662730883;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lsoRis+FeHVHc4Fyc1lLmm08Dpo4r8FEYS1T44hPqhk=;
+ b=SVfbD+44H9fOxUgRxX0UoYvJ7+kHgNUhO+gg3qwgVdAuaSmrlbzX2dRdY5gTXD1yMOiFbd
+ O7eFYh5U8bHxnuCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 730DD139D5;
+ Fri,  9 Sep 2022 13:41:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 35DxGYNCG2PTSAAAMHmgww
+ (envelope-from <cfontana@suse.de>); Fri, 09 Sep 2022 13:41:23 +0000
+Message-ID: <490c7ed8-53be-31de-1065-14b2fec492b2@suse.de>
+Date: Fri, 9 Sep 2022 15:41:22 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v3] audio: add help option for -audio and -audiodev
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, =?UTF-8?Q?Volker_R=c3=bcmelin?=
+ <vr_qemu@t-online.de>, qemu-devel <qemu-devel@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>
+References: <20220908093936.19280-1-pbonzini@redhat.com>
+ <67f82e6b-683d-564f-aa9f-a9aaaafd0382@suse.de>
+ <CABgObfaQuw20OB2whQMg1kp0Pau370zs3NyUP4SMN1GkFUvLpA@mail.gmail.com>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <CABgObfaQuw20OB2whQMg1kp0Pau370zs3NyUP4SMN1GkFUvLpA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -64
+X-Spam_score: -6.5
+X-Spam_bar: ------
+X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.079,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,153 +97,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu,  1 Sep 2022 11:27:20 +0800
-Robert Hoo <robert.hu@linux.intel.com> wrote:
-
-> Recent ACPI spec [1] has defined NVDIMM Label Methods _LS{I,R,W}, which
-> deprecates corresponding _DSM Functions defined by PMEM _DSM Interface spec
-> [2].
+On 9/9/22 00:05, Paolo Bonzini wrote:
+> Il gio 8 set 2022, 15:47 Claudio Fontana <cfontana@suse.de> ha scritto:
 > 
-> Since the semantics of the new Label Methods are same as old _DSM
-> methods, the implementations here simply wrapper old ones.
+>> On 9/8/22 11:39, Paolo Bonzini wrote:
+>>> Queued, thanks.
+>>>
+>>> Paolo
+>>>
+>>>
+>>
+>> Thanks. When it comes to programmatic checks about what QEMU supports in
+>> terms of audio,
+>>
+>> is there something that can be done with QMP?
+>>
+>> I checked the QMP manual at:
+>>
+>>
+>> https://qemu.readthedocs.io/en/latest/interop/qemu-qmp-ref.html#qapidoc-2948
+>>
+>> but in the "Audio" section there is a bunch of Objects and enums defined,
+>> but no command to query them...
+>>
+>> Thanks,
+>>
+>> Claudio
+>>
+>>
+> No, there's nothing yet.
 > 
-> ASL form diff can be found in next patch of updating golden master
-> binaries.
+> Paolo
 > 
-> [1] ACPI Spec v6.4, 6.5.10 NVDIMM Label Methods
-> https://uefi.org/sites/default/files/resources/ACPI_Spec_6_4_Jan22.pdf
-> [2] Intel PMEM _DSM Interface Spec v2.0, 3.10 Deprecated Functions
-> https://pmem.io/documents/IntelOptanePMem_DSM_Interface-V2.0.pdf
-> 
-> Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
-> Reviewed-by: Jingqi Liu <jingqi.liu@intel.com>
+ 
+Interesting. What about Display (ie ui-*) ? I mean how do I figure out from, say, libvirt,
+everything that QEMU can do in terms of display, which drivers are actually installed?
 
-looks more or less fine except of excessive use of named variables
-which creates global scope variables.
+Same for block...
 
-I'd suggest to store temporary buffers/packages in LocalX variales,
-you should be able to do that for everything modulo aml_create_dword_field().
+with the increasing modularization of QEMU we should I presume strengthen the discoverability of QEMU capabilities right?
+This way we can configure once, and install just what is needed to match the user requirements, or distro variant.
 
-see an example below
+As Markus mentioned maybe a more general solution would be to have these things as qom objects so that a
 
-> ---
->  hw/acpi/nvdimm.c | 91 ++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 91 insertions(+)
-> 
-> diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-> index afff911c1e..516acfe53b 100644
-> --- a/hw/acpi/nvdimm.c
-> +++ b/hw/acpi/nvdimm.c
-> @@ -1243,6 +1243,7 @@ static void nvdimm_build_fit(Aml *dev)
->  static void nvdimm_build_nvdimm_devices(Aml *root_dev, uint32_t ram_slots)
->  {
->      uint32_t slot;
-> +    Aml *method, *pkg, *field, *com_call;
->  
->      for (slot = 0; slot < ram_slots; slot++) {
->          uint32_t handle = nvdimm_slot_to_handle(slot);
-> @@ -1260,6 +1261,96 @@ static void nvdimm_build_nvdimm_devices(Aml *root_dev, uint32_t ram_slots)
->           */
->          aml_append(nvdimm_dev, aml_name_decl("_ADR", aml_int(handle)));
->  
-> +        /*
-> +         * ACPI v6.4: Section 6.5.10 NVDIMM Label Methods
-> +         */
-> +        /* _LSI */
-> +        method = aml_method("_LSI", 0, AML_SERIALIZED);
-> +        com_call = aml_call5(NVDIMM_COMMON_DSM,
-> +                            aml_touuid(NVDIMM_DEVICE_DSM_UUID),
-> +                            aml_int(1), aml_int(4), aml_int(0),
-> +                            aml_int(handle));
-> +        aml_append(method, aml_store(com_call, aml_local(0)));
-> +
-> +        aml_append(method, aml_create_dword_field(aml_local(0),
-> +                                                  aml_int(0), "STTS"));
-> +        aml_append(method, aml_create_dword_field(aml_local(0), aml_int(4),
-> +                                                  "SLSA"));
-> +        aml_append(method, aml_create_dword_field(aml_local(0), aml_int(8),
-> +                                                  "MAXT"));
-> +
-> +        pkg = aml_package(3);
-> +        aml_append(pkg, aml_name("STTS"));
-> +        aml_append(pkg, aml_name("SLSA"));
-> +        aml_append(pkg, aml_name("MAXT"));
-> +        aml_append(method, aml_name_decl("RET", pkg));
-ex: put it in local instead of named variable and return that
-the same applies to other named temporary named variables.
+qom-list-types
 
-> +        aml_append(method, aml_return(aml_name("RET")));
-> +
-> +        aml_append(nvdimm_dev, method);
-> +
-> +        /* _LSR */
-> +        method = aml_method("_LSR", 2, AML_SERIALIZED);
-> +        aml_append(method, aml_name_decl("INPT", aml_buffer(8, NULL)));
-> +
-> +        aml_append(method, aml_create_dword_field(aml_name("INPT"),
-> +                                                  aml_int(0), "OFST"));
-> +        aml_append(method, aml_create_dword_field(aml_name("INPT"),
-> +                                                  aml_int(4), "LEN"));
-> +        aml_append(method, aml_store(aml_arg(0), aml_name("OFST")));
-> +        aml_append(method, aml_store(aml_arg(1), aml_name("LEN")));
-> +
-> +        pkg = aml_package(1);
-> +        aml_append(pkg, aml_name("INPT"));
-> +        aml_append(method, aml_name_decl("PKG1", pkg));
-> +
-> +        com_call = aml_call5(NVDIMM_COMMON_DSM,
-> +                            aml_touuid(NVDIMM_DEVICE_DSM_UUID),
-> +                            aml_int(1), aml_int(5), aml_name("PKG1"),
-> +                            aml_int(handle));
-> +        aml_append(method, aml_store(com_call, aml_local(3)));
-> +        field = aml_create_dword_field(aml_local(3), aml_int(0), "STTS");
-> +        aml_append(method, field);
-> +        field = aml_create_field(aml_local(3), aml_int(32),
-> +                                 aml_shiftleft(aml_name("LEN"), aml_int(3)),
-> +                                 "LDAT");
-> +        aml_append(method, field);
-> +        aml_append(method, aml_name_decl("LSA", aml_buffer(0, NULL)));
-> +        aml_append(method, aml_to_buffer(aml_name("LDAT"), aml_name("LSA")));
-> +        pkg = aml_package(2);
-> +        aml_append(pkg, aml_name("STTS"));
-> +        aml_append(pkg, aml_name("LSA"));
-> +        aml_append(method, aml_name_decl("RET", pkg));
-> +        aml_append(method, aml_return(aml_name("RET")));
-> +        aml_append(nvdimm_dev, method);
-> +
-> +        /* _LSW */
-> +        method = aml_method("_LSW", 3, AML_SERIALIZED);
-> +        aml_append(method, aml_store(aml_arg(2), aml_local(2)));
-> +        aml_append(method, aml_name_decl("INPT", aml_buffer(8, NULL)));
-> +        field = aml_create_dword_field(aml_name("INPT"),
-> +                                                  aml_int(0), "OFST");
-> +        aml_append(method, field);
-> +        field = aml_create_dword_field(aml_name("INPT"),
-> +                                                  aml_int(4), "TLEN");
-> +        aml_append(method, field);
-> +        aml_append(method, aml_store(aml_arg(0), aml_name("OFST")));
-> +        aml_append(method, aml_store(aml_arg(1), aml_name("TLEN")));
-> +
-> +        aml_append(method, aml_concatenate(aml_name("INPT"), aml_local(2),
-> +                                            aml_name("INPT")));
-> +        pkg = aml_package(1);
-> +        aml_append(pkg, aml_name("INPT"));
-> +        aml_append(method, aml_name_decl("PKG1", pkg));
-> +        com_call = aml_call5(NVDIMM_COMMON_DSM,
-> +                            aml_touuid(NVDIMM_DEVICE_DSM_UUID),
-> +                            aml_int(1), aml_int(6), aml_name("PKG1"),
-> +                            aml_int(handle));
-> +        aml_append(method, aml_store(com_call, aml_local(3)));
-> +        field = aml_create_dword_field(aml_local(3), aml_int(0), "STTS");
-> +        aml_append(method, field);
-> +        aml_append(method, aml_return(aml_to_integer(aml_name("STTS"))));
-why do you need explicitly convert DWORD field to integer?
-it should be fine to return STTS directly (implicit conversion should take care of the rest)
+can be used to get all 'audiodev' types, or all 'display' types, or all 'block' types and solve the problem this way?
 
-> +        aml_append(nvdimm_dev, method);
-> +
->          nvdimm_build_device_dsm(nvdimm_dev, handle);
->          aml_append(root_dev, nvdimm_dev);
->      }
+Is there a more general problem / solution that I am not seeing?
 
+Thanks,
+
+Claudio
 
