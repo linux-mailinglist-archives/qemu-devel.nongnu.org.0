@@ -2,85 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37F5E5B396D
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 15:44:46 +0200 (CEST)
-Received: from localhost ([::1]:46548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A355A5B3996
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 15:51:44 +0200 (CEST)
+Received: from localhost ([::1]:35816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWeJJ-0001Xb-Bi
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 09:44:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48212)
+	id 1oWeQ3-0002U6-Qj
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 09:51:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oWeG9-0004tb-Dm
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 09:41:30 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:58292)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oWeH2-0006x2-71; Fri, 09 Sep 2022 09:42:24 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:35562)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oWeG7-00039t-Oi
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 09:41:29 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id EC0D522A07;
- Fri,  9 Sep 2022 13:41:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1662730883; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lsoRis+FeHVHc4Fyc1lLmm08Dpo4r8FEYS1T44hPqhk=;
- b=VIOKDxUgCAe+sIndx0786gD8y8SLcCZWgAxRRWfZ8b39eixneVnUhILBq04r43d7QDX+fQ
- GK9Dyb+LJVOpqur4S70/ORvXb6hNKid83Nr5vE/a0JhCFd5zEO4tDY5CnpVvuojCad5LQB
- FPJFGLpImovx3YqNnDDxaAEeReVFFt4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1662730883;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lsoRis+FeHVHc4Fyc1lLmm08Dpo4r8FEYS1T44hPqhk=;
- b=SVfbD+44H9fOxUgRxX0UoYvJ7+kHgNUhO+gg3qwgVdAuaSmrlbzX2dRdY5gTXD1yMOiFbd
- O7eFYh5U8bHxnuCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 730DD139D5;
- Fri,  9 Sep 2022 13:41:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 35DxGYNCG2PTSAAAMHmgww
- (envelope-from <cfontana@suse.de>); Fri, 09 Sep 2022 13:41:23 +0000
-Message-ID: <490c7ed8-53be-31de-1065-14b2fec492b2@suse.de>
-Date: Fri, 9 Sep 2022 15:41:22 +0200
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oWeH0-0003GI-Gu; Fri, 09 Sep 2022 09:42:23 -0400
+Received: by mail-pf1-x430.google.com with SMTP id e5so1712568pfl.2;
+ Fri, 09 Sep 2022 06:42:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=0NiTrMcvg+oQAfKwWrT9F0nxen0MKb9Zo7O/5cgyVx8=;
+ b=F5LqMe1Mt56QeB/jCMXj5HGSLWh6r6sl+te2HfIo4m1DVVDfwEDS8a4itUbutX89fE
+ siKiQu4OWSiRV3HimfHqbulwym+OwMFWfivkC489DFl0VznD5tJsaup2mu3UVodWIRzS
+ dURUlDt6frVAVx0C5x+DzlY6c7HegUJDmqe7l+MtdCQ13Q7VOl+B/+bJ6cNmd5TUZjWg
+ CqwchlR0dgOYgaCWnAZx9++Jh/XWbHryTFdvjuCRAc6FBdWRvUFWxFmsxyeDtdaSNOnj
+ q3ge0SwDUhWwA6gnv+D/TXiQzhd1x6sEQryTdg6y2iUn8G4PqlkPwPw3Tn6vkmA4mMr0
+ l5hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=0NiTrMcvg+oQAfKwWrT9F0nxen0MKb9Zo7O/5cgyVx8=;
+ b=xkUzZeHbRgB+sXZilYiXqPocw5/vkVYt0Lal03dT/TMlMkz/CayO9Yr39QGKIQBXTI
+ hGhWw8I+oiKyGrTosSqv/i3y4aMiDVyjqqLPycMcIEQenL8VsMhJEq/aapUf4KmM43J7
+ d1JkfkH6ba5EkxcEbUB2m4nLJ/a5Iulf++ARx4KJGvUNa6ekvcml0mDW41obTO46ZlwX
+ 66ssX4E5xvXOM9+Mfb+rB1W3bUZOklcrKOQIIpaTxmMcyCfvefzMCoLSApqraEa+kjou
+ oXaomRhO+uxee4Xjw+QuotOFQfJIhmkb5O8l3fD/lLN/VzNXD6PLE3T5mYLn4JjwFurX
+ 1sig==
+X-Gm-Message-State: ACgBeo08zyKvmFzKEbw+uuKUiYhdA5ScFb2sx/i3Rnq8OKFYfM0QC4Ng
+ iHbo2Iypa/6O4P9OOO9HKIGmbcqpUms=
+X-Google-Smtp-Source: AA6agR6Jb/DkXyMB8+XpvjNPHaHYgRaMf24ZQzPK9g3wjZc1tW4XlRVtcmxJY2Vh38ZXwXiKkQuPHQ==
+X-Received: by 2002:a62:84c6:0:b0:538:3c39:5819 with SMTP id
+ k189-20020a6284c6000000b005383c395819mr14437959pfd.4.1662730940201; 
+ Fri, 09 Sep 2022 06:42:20 -0700 (PDT)
+Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id
+ 196-20020a6306cd000000b0042a4612c07esm513172pgg.39.2022.09.09.06.42.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Sep 2022 06:42:19 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ qemu-riscv@nongnu.org
+Subject: [PATCH v2 0/8] target/riscv: Improve RISC-V Debug support
+Date: Fri,  9 Sep 2022 21:42:07 +0800
+Message-Id: <20220909134215.1843865-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v3] audio: add help option for -audio and -audiodev
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>, =?UTF-8?Q?Volker_R=c3=bcmelin?=
- <vr_qemu@t-online.de>, qemu-devel <qemu-devel@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- BALATON Zoltan <balaton@eik.bme.hu>
-References: <20220908093936.19280-1-pbonzini@redhat.com>
- <67f82e6b-683d-564f-aa9f-a9aaaafd0382@suse.de>
- <CABgObfaQuw20OB2whQMg1kp0Pau370zs3NyUP4SMN1GkFUvLpA@mail.gmail.com>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <CABgObfaQuw20OB2whQMg1kp0Pau370zs3NyUP4SMN1GkFUvLpA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -64
-X-Spam_score: -6.5
-X-Spam_bar: ------
-X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.079,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,56 +86,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/9/22 00:05, Paolo Bonzini wrote:
-> Il gio 8 set 2022, 15:47 Claudio Fontana <cfontana@suse.de> ha scritto:
-> 
->> On 9/8/22 11:39, Paolo Bonzini wrote:
->>> Queued, thanks.
->>>
->>> Paolo
->>>
->>>
->>
->> Thanks. When it comes to programmatic checks about what QEMU supports in
->> terms of audio,
->>
->> is there something that can be done with QMP?
->>
->> I checked the QMP manual at:
->>
->>
->> https://qemu.readthedocs.io/en/latest/interop/qemu-qmp-ref.html#qapidoc-2948
->>
->> but in the "Audio" section there is a bunch of Objects and enums defined,
->> but no command to query them...
->>
->> Thanks,
->>
->> Claudio
->>
->>
-> No, there's nothing yet.
-> 
-> Paolo
-> 
- 
-Interesting. What about Display (ie ui-*) ? I mean how do I figure out from, say, libvirt,
-everything that QEMU can do in terms of display, which drivers are actually installed?
+This patchset refactors RISC-V Debug support to allow more types of
+triggers to be extended.
 
-Same for block...
+The initial support of type 6 trigger, which is similar to type 2
+trigger with additional functionality, is also introduced in this
+patchset.
 
-with the increasing modularization of QEMU we should I presume strengthen the discoverability of QEMU capabilities right?
-This way we can configure once, and install just what is needed to match the user requirements, or distro variant.
+This is a v2 respin of previous patch originally done by Frank Chang
+at SiFive. I've incorperated my review comments in v2 and rebased
+against QEMU mainline.
 
-As Markus mentioned maybe a more general solution would be to have these things as qom objects so that a
+Changes in v2:
+- fixed MXL_RV128 case
+- moved macros to patch#2
+- added log guest errors for TRIGGER_TYPE_{NO_EXIST,UNAVAIL}
+- moved RV{32,64}_DATA_MASK definition to this patch
+- add handling of the DBG_ACTION_NONE case in do_trigger_action()
+- drop patch: "target/riscv: debug: Return 0 if previous value written to tselect >= number of triggers"
 
-qom-list-types
+Frank Chang (8):
+  target/riscv: debug: Determine the trigger type from tdata1.type
+  target/riscv: debug: Introduce build_tdata1() to build tdata1 register
+    content
+  target/riscv: debug: Introduce tdata1, tdata2, and tdata3 CSRs
+  target/riscv: debug: Restrict the range of tselect value can be
+    written
+  target/riscv: debug: Introduce tinfo CSR
+  target/riscv: debug: Create common trigger actions function
+  target/riscv: debug: Check VU/VS modes for type 2 trigger
+  target/riscv: debug: Add initial support of type 6 trigger
 
-can be used to get all 'audiodev' types, or all 'display' types, or all 'block' types and solve the problem this way?
+ target/riscv/cpu.h      |   6 +-
+ target/riscv/cpu_bits.h |   1 +
+ target/riscv/debug.h    |  55 +++--
+ target/riscv/csr.c      |  10 +-
+ target/riscv/debug.c    | 484 ++++++++++++++++++++++++++++++++--------
+ target/riscv/machine.c  |  20 +-
+ 6 files changed, 445 insertions(+), 131 deletions(-)
 
-Is there a more general problem / solution that I am not seeing?
+-- 
+2.34.1
 
-Thanks,
-
-Claudio
 
