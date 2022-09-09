@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D8C15B381C
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 14:48:27 +0200 (CEST)
-Received: from localhost ([::1]:49526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D62B05B3843
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 14:56:04 +0200 (CEST)
+Received: from localhost ([::1]:53936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWdQn-0000Ac-7I
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 08:48:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44942)
+	id 1oWdYB-0004lM-4M
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 08:56:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oWdMP-0005p8-Ty; Fri, 09 Sep 2022 08:43:53 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:36460)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oWdVs-0002LE-Ox
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 08:53:40 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:33397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oWdMN-0000TF-53; Fri, 09 Sep 2022 08:43:52 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id e18so2336853edj.3;
- Fri, 09 Sep 2022 05:43:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date;
- bh=Msyh/fQszRzPuE0ABukkfHCybQuD1CU52QIzjaePNlQ=;
- b=cJASt8NR1zZe/+VdN/EboFWueXAAZPVuBLrifOfrTkpKTWoOHXkEEUauLgBUZYaLmT
- HrhI7YWODXN6yTTtFzA1k8JQ3IPB/m4On13LbrJb7fj3Mdn51yik6rA55ald55qKDvcF
- Ok85ovk9WPFsc5Xbt1D75m4VJY8+Pz2kdNgDSE3dhMTiPIigDXqj+NFh6hSlGe1fQhce
- j3ywAB0uzDX2EkxYxDw2XbUflwmRETCIBXPHzK4Ks0MgI1UQDNxLSgrU+1Xrmdr7XMxg
- 8GSXarXitifUf4ypGg0/BD8EkFrPj/9gQtZ7dhUEfK6z8i++hQjHIBGMj8tefbuGHk5C
- +RMA==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oWdVq-0002Lz-Do
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 08:53:40 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id b35so2420169edf.0
+ for <qemu-devel@nongnu.org>; Fri, 09 Sep 2022 05:53:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=xz2CQUw2E0tNmL6fzbD21KNHyjAEJQQpt9hOLeoKRBc=;
+ b=VFxuHeBlWXcMBmVyQyK83rajvvaOdpha6PPe8yfi4AKUHlE2ByNfVn61+CyUi2lYGr
+ XvyBqUctWsx9xPr3a8kE6TOU584d3hcr9dCY+C3wKFHnyzdPRTOxz88HfPOlI7zmf8g4
+ yVC+0cINx0GuC+ZOVt06T6k5hxkZ9zOrDbUKbMJHAuFJ88hxcd0VpflyAdoZaPWznLJ8
+ +pO+lLAgV7AkF3S5VqBD8fdQysficwyQuq3m9yOsvXOf12FjqBJjSZ8ygodpYsvT7RzX
+ y/3isJWR/UpUCWo40swQE5ntDmJVFoCZg0Oz8ffPL3e+DGa/f40FAI/vQYI/DZzWSyLu
+ Msmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date;
- bh=Msyh/fQszRzPuE0ABukkfHCybQuD1CU52QIzjaePNlQ=;
- b=6hNkAsL2KzQ0Iyb/bzzD1jVbPyrbPl8vtZn7NOivt5uF0Is8vyKm5xy+IpilDeTDDy
- TrXldjmk3a9KXq2Ii0Oy5ZkgLAKbNd40c8XNT8iq7omuk/sj8P1byYezM4+kf1iZQHVN
- 7hZqGlYzIE6vqgjiDoO1Umpr4zqFjocga7CYfxEn2BQUq9D89rpJJVuWUW9MHgRDVeDo
- w1wnW4CTJkRgrqdqOfE3QTGqo+D6jN7nRzJ2j9jicDu7T3DZJcWlITXkfkEdEa7FTczH
- Hy678KEv7Cb+DtdN069lFXXE9tS4hTHLk1HZsIugMT8oEP+wDa8DkimFCRJv9pVA9aKO
- OjXQ==
-X-Gm-Message-State: ACgBeo1TSbYQfEgq+drP/9Jf2fIn58aFqSdvYZ5i6xiFqtfoX8OeTEqc
- /mACZ0BQXNopJHTedUOEySo=
-X-Google-Smtp-Source: AA6agR5UC1gTrV9/SRXN/Kd3JfMdHWXaVA1INUX5IHChHLr3NMoAp38aA+oRwoQk6fWCeijbT9m9yg==
-X-Received: by 2002:a05:6402:40d1:b0:44f:e974:f981 with SMTP id
- z17-20020a05640240d100b0044fe974f981mr7420704edb.222.1662727429310; 
- Fri, 09 Sep 2022 05:43:49 -0700 (PDT)
-Received: from [127.0.0.1] (dynamic-077-183-180-255.77.183.pool.telefonica.de.
- [77.183.180.255]) by smtp.gmail.com with ESMTPSA id
- f3-20020a50ee83000000b0043cc66d7accsm310829edr.36.2022.09.09.05.43.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Sep 2022 05:43:48 -0700 (PDT)
-Date: Fri, 09 Sep 2022 12:43:44 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-CC: qemu-ppc@nongnu.org, Huacai Chen <chenhuacai@kernel.org>,
- BALATON Zoltan <balaton@eik.bme.hu>, Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_10/10=5D_hw/isa/vt82c686=3A_?=
- =?US-ASCII?Q?Create_rtc-time_alias_in_boards_instead?=
-In-Reply-To: <113d22be-283c-ebe5-8db3-e622447c7bf5@amsat.org>
-References: <20220830190048.67448-1-shentey@gmail.com>
- <20220830190048.67448-11-shentey@gmail.com>
- <113d22be-283c-ebe5-8db3-e622447c7bf5@amsat.org>
-Message-ID: <FD51AC07-9610-45BD-842A-41C87B872432@gmail.com>
+ bh=xz2CQUw2E0tNmL6fzbD21KNHyjAEJQQpt9hOLeoKRBc=;
+ b=rj6foBARHo7fZdCTGll2rk6ocp3yoNV9zsl0VTsF10Hz5JGdw419xrYPHY9vxRuQ+d
+ hfiEXBPrZWBnGM/meF6yBAHho1QmYm6E8p26lO0HIPYk6KcIJIaNwGKmbnDA6uj2MosY
+ kMzegtXOnpCoh9UqJnTnCMbFZBqkKPevXeFc9SzPa7JCLjceODcl3hz0hUxVcytiBYi3
+ fJqg3Y03SO0LQZUjvoAQrAoT5wy890NAvvLuXpVyq8niBrNK/p31TAuyKy9dK6G8odNU
+ 1dj48ey1BSffJ6YGpxNNf9eS4moIF8ftfAMB2SsWg4eX+oAWb3tdG4xhWC/o1qZ/1Cbd
+ OV5Q==
+X-Gm-Message-State: ACgBeo1SGiZdA7VKksDWvpT8HIDtb+sJg3Z9iXcUl4/RJZ800y2e1wO6
+ Fb0RLO72tubKKgXY/We0R60dk3QC59IXu9La60uVDA==
+X-Google-Smtp-Source: AA6agR5KXvbIibeRZ/LTxr2EMVzzqdFr+whmb2FdiAcVpecFgeUuRM1Rtr4qhT2hfDMmCzpbkVey5mcrd6uvo9OirsQ=
+X-Received: by 2002:a05:6402:f11:b0:44f:e1ff:801a with SMTP id
+ i17-20020a0564020f1100b0044fe1ff801amr7432024eda.109.1662728016271; Fri, 09
+ Sep 2022 05:53:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+References: <20220710170014.1673480-1-ani@anisinha.ca>
+ <20220711044032-mutt-send-email-mst@kernel.org>
+ <CAFEAcA_KUh_Hmozw2KthwNoM2L9rnA18ttrk9GHHnJZ-X_M4yQ@mail.gmail.com>
+ <YxdH/c9jx+3oVs9m@redhat.com>
+ <CAARzgwz7XzNHik3zxJUNXOuO8HN59zhd8nZgMMt+OL22AiVXjw@mail.gmail.com>
+ <YxdLd/rS8PyEY+z+@redhat.com>
+In-Reply-To: <YxdLd/rS8PyEY+z+@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 9 Sep 2022 18:23:24 +0530
+Message-ID: <CAARzgwwrZkOFE5Tsy1AV1n=KHWcxrKurQo0+-B7Mc7DmYJzdxg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/11] Introduce new acpi/smbios python tests using
+ biosbits
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, imammedo@redhat.com, 
+ jsnow@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org, 
+ thuth@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2a00:1450:4864:20::52b;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,78 +92,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 30=2E August 2022 21:46:57 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <f4=
-bug@amsat=2Eorg>:
->On 30/8/22 21:00, Bernhard Beschow wrote:
->> According to good QOM practice, an object should only deal with objects
->> of its own sub tree=2E Having devices create an alias on the machine
->> object doesn't respect this good practice=2E To resolve this, create th=
++alexb
+
+On Tue, Sep 6, 2022 at 7:00 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+> wrote:
+>
+> On Tue, Sep 06, 2022 at 06:58:02PM +0530, Ani Sinha wrote:
+> > On Tue, Sep 6, 2022 at 18:45 Daniel P. Berrang=C3=A9 <berrange@redhat.c=
+om> wrote:
+> >
+> > > On Thu, Jul 14, 2022 at 02:24:18PM +0100, Peter Maydell wrote:
+> > > > On Mon, 11 Jul 2022 at 10:34, Michael S. Tsirkin <mst@redhat.com> w=
+rote:
+> > > > >
+> > > > > On Sun, Jul 10, 2022 at 10:30:03PM +0530, Ani Sinha wrote:
+> > > > > > Changelog:
+> > > > > > v2:
+> > > > > >  - a new class of python based tests introduced that is separat=
 e
->> alias in the machine's code=2E
+> > > from avocado
+> > > > > >    tests or qtests. Can be run by using "make check-pytest".
+> > > > > >  - acpi biosbits tests are the first tests to use pytest enviro=
+nment.
+> > > > > >  - bios bits tests now download the bits binary archives from a
+> > > remote
+> > > > > >    repository if they are not found locally. The test skips if
+> > > download
+> > > > > >    fails.
+> > > > > >  - A new environment variable is introduced that can be passed =
+by
+> > > the tester
+> > > > > >    to specify the location of the bits archives locally. test s=
+kips
+> > > if the
+> > > > > >    bits binaries are not found in that location.
+> > > > > >  - if pip install of python module fails for whatever reaoson, =
+the
+> > > test skips.
+> > > > > >  - misc code fixes including spell check of the README doc. REA=
+DME
+> > > has been
+> > > > > >    updated as well.
+> > > > > >  - addition of SPDX license headers to bits test files.
+> > > > > >  - update MAINTAINERS to reflect the new pytest test class.
+> > > > > >
+> > > > > > For biosbits repo:
+> > > > > >  - added Dockerfile and build script. Made bios bits build on g=
+cc 11.
+> > > > > >
+> > > https://github.com/ani-sinha/bits/blob/bits-qemu-logging/Dockerfile
+> > > > > >
+> > > https://github.com/ani-sinha/bits/blob/bits-qemu-logging/build-artifa=
+cts.sh
+> > > > > >    The build script generates the zip archive and tarball used =
+by
+> > > the test.
+> > > > >
+> > > > > So far so good, I think it's ok for a start. It's probably a good=
+ idea
+> > > > > to host the source on qemu.org. Peter - any objection to this?
+> > > >
+> > > > Dan was looking at v1 from the point of view of how we handle the
+> > > > guest binary blobs for these tests -- I'd rather defer to him rathe=
+r
+> > > > than taking the time to get up to speed on the issue myself.
+> > >
+> > > Storing the *source* git repo for biosbits on gitlab.com/qemu-project
+> > > is sensible, as that's what we've done for other 3rd party bits that
+> > > we bundle/depend on git repo access for.
+> >
+> >
+> > Great. Can you or Peter please create a git repo cloned from the offici=
+al
+> > bios bits repo please? You don=E2=80=99t have to clone mine. Please pro=
+vide me with
+> > push access so that I can push fixes that I have made in order to build=
+ it.
 >
->IIUC, this is only true for Pegasos II, not (yet) for the Fuloong 2E=2E
+> I don't have any admin privileges for qemu infra, so can't do this
+> myself.
 >
->> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->> ---
->>   hw/isa/vt82c686=2Ec   | 2 --
->>   hw/mips/fuloong2e=2Ec | 4 ++++
->>   hw/ppc/pegasos2=2Ec   | 4 ++++
->>   3 files changed, 8 insertions(+), 2 deletions(-)
->>=20
->> diff --git a/hw/isa/vt82c686=2Ec b/hw/isa/vt82c686=2Ec
->> index 0ef9446374=2E=2Ea23ffbb3ff 100644
->> --- a/hw/isa/vt82c686=2Ec
->> +++ b/hw/isa/vt82c686=2Ec
->> @@ -631,8 +631,6 @@ static void via_isa_realize(PCIDevice *d, Error **e=
-rrp)
->>       if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
->>           return;
->>       }
->> -    object_property_add_alias(qdev_get_machine(), "rtc-time", OBJECT(&=
-s->rtc),
->> -                              "date");
->>       isa_connect_gpio_out(ISA_DEVICE(&s->rtc), 0, s->rtc=2Eisairq);
->>         for (i =3D 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
->> diff --git a/hw/mips/fuloong2e=2Ec b/hw/mips/fuloong2e=2Ec
->> index 2d8723ab74=2E=2E0f4cfe1188 100644
->> --- a/hw/mips/fuloong2e=2Ec
->> +++ b/hw/mips/fuloong2e=2Ec
->> @@ -203,6 +203,10 @@ static void vt82c686b_southbridge_init(PCIBus *pci=
-_bus, int slot, qemu_irq intc,
->>         via =3D pci_create_simple_multifunction(pci_bus, PCI_DEVFN(slot=
-, 0), true,
->>                                             TYPE_VT82C686B_ISA);
->> +    object_property_add_alias(qdev_get_machine(), "rtc-time",
->> +                              object_resolve_path_component(OBJECT(via=
-),
->> +                                                            "rtc"),
->> +                              "date");
->>       qdev_connect_gpio_out(DEVICE(via), 0, intc);
->>         dev =3D PCI_DEVICE(object_resolve_path_component(OBJECT(via), "=
-ide"));
->> diff --git a/hw/ppc/pegasos2=2Ec b/hw/ppc/pegasos2=2Ec
->> index 09fdb7557f=2E=2Ef50e1d8b3f 100644
->> --- a/hw/ppc/pegasos2=2Ec
->> +++ b/hw/ppc/pegasos2=2Ec
->> @@ -161,6 +161,10 @@ static void pegasos2_init(MachineState *machine)
->>       /* VIA VT8231 South Bridge (multifunction PCI device) */
->>       via =3D pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0)=
-, true,
->>                                             TYPE_VT8231_ISA);
->> +    object_property_add_alias(qdev_get_machine(), "rtc-time",
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 >
->We already have a 'machine' pointer=2E
-
-Fixed in v5=2E
-
->
->> +                              object_resolve_path_component(OBJECT(via=
-),
->> +                                                            "rtc"),
->> +                              "date");
->>       qdev_connect_gpio_out(DEVICE(via), 0,
->>                             qdev_get_gpio_in_named(pm->mv, "gpp", 31));
->>  =20
->
-
 
