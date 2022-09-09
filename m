@@ -2,90 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB86A5B3CF5
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 18:27:13 +0200 (CEST)
-Received: from localhost ([::1]:60086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69A8B5B3D0B
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 18:33:37 +0200 (CEST)
+Received: from localhost ([::1]:44498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWgqW-0005wj-AK
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 12:27:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52718)
+	id 1oWgwi-00084J-IT
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 12:33:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oWgpG-00048x-21
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 12:25:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46983)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oWgti-0006BX-5k
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 12:30:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34256)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oWgpA-0005rE-H7
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 12:25:51 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oWgtd-0006XP-A6
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 12:30:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662740744;
+ s=mimecast20190719; t=1662741019;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iqg92T6+DIsD3HEOljmpjoovmZlRQMOWaRSmystH/zs=;
- b=d2UQuVu7xLl4w9rGnHr99PQNL8T8fxdULz6zmGNsmMeiYY3a/Ky8BYgDRAjRRT020TD/Fn
- 5QAdK7oOTV6vIad+aXOjFtbm435cMZ1JJVIBQbeNG5KM5CM8AheiDjWMxZcNcTjscZiiCD
- 11e4Z3o44aju/kXR0wnDxFO5dwHdhuM=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=V2R40/+qeRzXpaYTkkUizGtAxrKQohgNlEgo28vSsuw=;
+ b=CeKgEl1+ykQlswYDdC12SMHN6axaWgwFk1ndRV97tF5Ax52EFsnaVXaaaCtIWN1yUvm8qe
+ Ag1UeJ3XrVLQoMropoJDdd9S2U4rN1gOuNKDsxA+WuQQ8hnhTpcu2ep3gHyecMlgBZgJki
+ lLTZ2DDP4Yim/llvM9oLrwpZRBokNd8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-479-xIJk2HkePe6i7gU_WKuOAA-1; Fri, 09 Sep 2022 12:25:42 -0400
-X-MC-Unique: xIJk2HkePe6i7gU_WKuOAA-1
-Received: by mail-qt1-f198.google.com with SMTP id
- s2-20020ac85cc2000000b00342f8ad1f40so1894329qta.12
- for <qemu-devel@nongnu.org>; Fri, 09 Sep 2022 09:25:42 -0700 (PDT)
+ us-mta-391-5sj_5zWEMLGREMm7YWq8Pw-1; Fri, 09 Sep 2022 12:30:18 -0400
+X-MC-Unique: 5sj_5zWEMLGREMm7YWq8Pw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ i29-20020adfa51d000000b00228fa8325c0so484642wrb.15
+ for <qemu-devel@nongnu.org>; Fri, 09 Sep 2022 09:30:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=iqg92T6+DIsD3HEOljmpjoovmZlRQMOWaRSmystH/zs=;
- b=omkgfQmSCBi3rQQY8KCK2oz6U4A00Tj8O4HPcSG/R2bx2e6C1uvW5bg85YMr4GLT3n
- xDKcGLLdukMxG94fnYa2DMRbwE/RacNwPAAYMAWaFU60/5BwWbu5sYUS3iwxzl6dSiEf
- lyumM5rYJKCdj/NAUjiDe2oVwgILb0XQzbrGuHPrI/7wAjJIpQMl9aaSB3SP3JYIdnXE
- ZAnIxJRau3WaIttF7SgPYf9THb6hHAaebMu/PYmCR618aUXstfOx3/ouR+8krm/Ik/es
- TGHooknXa9earlGk4b3akMNwk+5qNDbKzK0shzkTNxOpSLMyCX1dIYMQWiuVa4SkR+Zk
- xIrg==
-X-Gm-Message-State: ACgBeo0NC0ANsZW69X8+aOiHP0HiHhOifHUBEpM1OmK71p7ws0YFfq6I
- q7UbNq+7mIf3HNh509aAqz2Yvj/zg5sabyXw+GnkKSUP7BXyCzeMHBkOx4AVQB/Zmo4LJFU7WYp
- w38fbaebI8ey1EUU=
-X-Received: by 2002:a05:620a:172b:b0:6bb:3dea:1fd with SMTP id
- az43-20020a05620a172b00b006bb3dea01fdmr10375450qkb.683.1662740742150; 
- Fri, 09 Sep 2022 09:25:42 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6n2O7RQP3m3YHIPv2uiMg0nXQxbZoxEAbEDGoaL6WVD66pXUnx5xegwqJGTCORAEgZyyyzOw==
-X-Received: by 2002:a05:620a:172b:b0:6bb:3dea:1fd with SMTP id
- az43-20020a05620a172b00b006bb3dea01fdmr10375433qkb.683.1662740741925; 
- Fri, 09 Sep 2022 09:25:41 -0700 (PDT)
-Received: from xz-m1.local
- (bras-base-aurron9127w-grc-35-70-27-3-10.dsl.bell.ca. [70.27.3.10])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=V2R40/+qeRzXpaYTkkUizGtAxrKQohgNlEgo28vSsuw=;
+ b=sgJgNxC4fIOE7rCmlPDv17088K5tQT85l9hd6hEtsOxZ3qz/wAHunVdO68HI4Nvzfh
+ nvJvOTBPOEvREjOYmh8hEDFOmQMn4Qyie0Sbfn77lmTi0cAM7wCKddK8q3OQ1eu1h9sv
+ VKDfMFCF6cMXVkRa+OzSuyzAxZ6974U0cf9s2VUw1+O3JltRi4JoX7AcxYuhDLT/lVvC
+ 5/StrnXkD96O49v8lFtQhPQ2X+X3RFvej0RdD9WgkSnb+8nlVEOzj63dKN2L5ylGuQ51
+ Q+4zQkt7ahEeKIFjjTXk+Foc0Nqg8OXda8Jp8rAl+e+oUXMSk7/uLSC0TzCfNfMNeO8f
+ ZeFQ==
+X-Gm-Message-State: ACgBeo3Jfam5WtVjAGo0ahof49MEP/BStkMt6uLs27R52dClYab1hwzt
+ 1YT0XqGTILo7TRo5qxScKrfh9vH0RBHYnwlYvKBfc5cnjUwhRQao+xb20xtTxmdO0w13NBM377B
+ +cTbMxWGnjvYE4oU=
+X-Received: by 2002:a5d:4204:0:b0:22a:2e4b:2b1d with SMTP id
+ n4-20020a5d4204000000b0022a2e4b2b1dmr5239339wrq.186.1662741016044; 
+ Fri, 09 Sep 2022 09:30:16 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR76ww2+cAHxo+G7ldweXnZGzZS3rJgBWqjB1LRmRqCcFQe8AaWvEMkIWrNWrVYSsB1P2jpTvA==
+X-Received: by 2002:a5d:4204:0:b0:22a:2e4b:2b1d with SMTP id
+ n4-20020a5d4204000000b0022a2e4b2b1dmr5239318wrq.186.1662741015843; 
+ Fri, 09 Sep 2022 09:30:15 -0700 (PDT)
+Received: from [192.168.0.121]
+ (cpc76434-belc8-2-0-cust705.2-1.cable.virginm.net. [81.109.50.194])
  by smtp.gmail.com with ESMTPSA id
- d14-20020a05620a240e00b006cc190f627bsm884222qkn.63.2022.09.09.09.25.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Sep 2022 09:25:41 -0700 (PDT)
-Date: Fri, 9 Sep 2022 12:25:40 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Chenyi Qiang <chenyi.qiang@intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Xiaoyao Li <xiaoyao.li@intel.com>, qemu-devel@nongnu.org,
- kvm@vger.kernel.org
-Subject: Re: [PATCH v5 3/3] i386: Add notify VM exit support
-Message-ID: <YxtpBMZmrDK3cghT@xz-m1.local>
-References: <20220817020845.21855-1-chenyi.qiang@intel.com>
- <20220817020845.21855-4-chenyi.qiang@intel.com>
+ z11-20020a7bc7cb000000b003b3401f1e24sm1013613wmk.28.2022.09.09.09.30.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Sep 2022 09:30:15 -0700 (PDT)
+Message-ID: <087e64b2-fe9d-991e-c0fe-d00c9f114c20@redhat.com>
+Date: Fri, 9 Sep 2022 18:30:13 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220817020845.21855-4-chenyi.qiang@intel.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 4/7] .gitlab-ci.d/windows.yml: Drop the sed processing in
+ the 64-bit build
+Content-Language: en-US
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>
+References: <20220908132817.1831008-1-bmeng.cn@gmail.com>
+ <20220908132817.1831008-5-bmeng.cn@gmail.com>
+ <CAJ+F1C+h=dryHrx_pE8bn-tkZz2JuY+AVb74pXnuMogCawndxQ@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <CAJ+F1C+h=dryHrx_pE8bn-tkZz2JuY+AVb74pXnuMogCawndxQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.079, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,46 +108,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 17, 2022 at 10:08:45AM +0800, Chenyi Qiang wrote:
-> There are cases that malicious virtual machine can cause CPU stuck (due
-> to event windows don't open up), e.g., infinite loop in microcode when
-> nested #AC (CVE-2015-5307). No event window means no event (NMI, SMI and
-> IRQ) can be delivered. It leads the CPU to be unavailable to host or
-> other VMs. Notify VM exit is introduced to mitigate such kind of
-> attacks, which will generate a VM exit if no event window occurs in VM
-> non-root mode for a specified amount of time (notify window).
+On 08/09/2022 16.04, Marc-André Lureau wrote:
+> Hi
 > 
-> A new KVM capability KVM_CAP_X86_NOTIFY_VMEXIT is exposed to user space
-> so that the user can query the capability and set the expected notify
-> window when creating VMs. The format of the argument when enabling this
-> capability is as follows:
->   Bit 63:32 - notify window specified in qemu command
->   Bit 31:0  - some flags (e.g. KVM_X86_NOTIFY_VMEXIT_ENABLED is set to
->               enable the feature.)
+> On Thu, Sep 8, 2022 at 5:33 PM Bin Meng <bmeng.cn@gmail.com 
+> <mailto:bmeng.cn@gmail.com>> wrote:
 > 
-> Because there are some concerns, e.g. a notify VM exit may happen with
-> VM_CONTEXT_INVALID set in exit qualification (no cases are anticipated
-> that would set this bit), which means VM context is corrupted. To avoid
-> the false positive and a well-behaved guest gets killed, make this
-> feature disabled by default. Users can enable the feature by a new
-> machine property:
->     qemu -machine notify_vmexit=on,notify_window=0 ...
-
-The patch looks sane to me; I only read the KVM interface, though.  Worth
-add a section to qemu-options.hx?  It'll also be worthwhile to mention the
-valid range of notify_window and meaning of zero (IIUC that's also a valid
-input, just use the hardware default window size).
-
-Thanks,
-
+>     From: Bin Meng <bin.meng@windriver.com <mailto:bin.meng@windriver.com>>
 > 
-> A new KVM exit reason KVM_EXIT_NOTIFY is defined for notify VM exit. If
-> it happens with VM_INVALID_CONTEXT, hypervisor exits to user space to
-> inform the fatal case. Then user space can inject a SHUTDOWN event to
-> the target vcpu. This is implemented by injecting a sythesized triple
-> fault event.
+>     The sed processing of build/config-host.mak seems to be no longer
+>     needed, and there is no such in the 32-bit build too. Drop it.
+> 
+>     Signed-off-by: Bin Meng <bin.meng@windriver.com
+>     <mailto:bin.meng@windriver.com>>
+>     ---
+> 
+>       .gitlab-ci.d/windows.yml | 1 -
+>       1 file changed, 1 deletion(-)
+> 
+>     diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+>     index da6013904a..86a4339c48 100644
+>     --- a/.gitlab-ci.d/windows.yml
+>     +++ b/.gitlab-ci.d/windows.yml
+>     @@ -60,7 +60,6 @@ msys2-64bit:
+>         - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
+>         - .\msys64\usr\bin\bash -lc './configure --target-list=x86_64-softmmu
+>             --enable-capstone --without-default-devices'
+>     -  - .\msys64\usr\bin\bash -lc "sed -i '/^ROMS=/d' build/config-host.mak"
+> 
+> 
+> It looks like it is there to remove the ROMS from the make build. No idea if 
+> that still makes sense. Thomas, do you remember?
 
--- 
-Peter Xu
+I originally had to add this sed statement since there was a compile error 
+otherwise in the ROMS ... if it now works fine without this line, this 
+should be fine, of course, too.
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
