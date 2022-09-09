@@ -2,92 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA56F5B3175
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 10:16:41 +0200 (CEST)
-Received: from localhost ([::1]:32804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 130E65B3167
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 10:12:26 +0200 (CEST)
+Received: from localhost ([::1]:40138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWZBo-0002XY-Eo
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 04:16:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50254)
+	id 1oWZ7g-0008FK-Ef
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 04:12:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oWYy0-0002oZ-8v
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 04:02:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43608)
+ id 1oWYyY-00036X-Eo
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 04:02:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43183)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oWYxx-00020d-Gi
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 04:02:23 -0400
+ id 1oWYyM-00021l-1a
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 04:02:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662710540;
+ s=mimecast20190719; t=1662710565;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L4aiCv3DQffhho4nhLvtJMFC0s173+oyNkH3+TzK2R0=;
- b=TmYiMivkm6IGUzem1pfChbdtTOGLM2gC0N5ys2EvUAyiKgsAMh8mnioL2LgEv5bmQdg566
- E2fk3idEk6Il+zxVq45MRNGQtvWcqKTCVB/Coo+etxdFZ6PvuybbtNOkTGrhBcHExAQF10
- mGUpLasVhVRSVMonrxBIMFqCqJ1F4PQ=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=yzEprpmYDxZoU/iLdscba5yKn41f2daHNxZoCNCbLwo=;
+ b=B3TlE6MIu6iSHO5pZPYOuzxtuXZR0QtPW6KUgC+qIzxvP8JmpJxWZsGuPllenSXQw08/K2
+ pdhdDFqxio/bM+5oDAbPCEAgPehBLbeRWjTpq01ZFF9DFe/WutF4rS18DFIP4pkjN95MQG
+ M6oqCp0eT/31iykwBAq9La875o21tmQ=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-297-3dmIZHoiM76K10iXeSTh8g-1; Fri, 09 Sep 2022 04:02:19 -0400
-X-MC-Unique: 3dmIZHoiM76K10iXeSTh8g-1
-Received: by mail-qt1-f197.google.com with SMTP id
- y12-20020ac8708c000000b00342f1bb8428so917353qto.5
- for <qemu-devel@nongnu.org>; Fri, 09 Sep 2022 01:02:19 -0700 (PDT)
+ us-mta-377-RYW0xFmNP8So6VlN3nxCaA-1; Fri, 09 Sep 2022 04:02:44 -0400
+X-MC-Unique: RYW0xFmNP8So6VlN3nxCaA-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ n15-20020ad444af000000b004a2a341ad71so662444qvt.15
+ for <qemu-devel@nongnu.org>; Fri, 09 Sep 2022 01:02:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=L4aiCv3DQffhho4nhLvtJMFC0s173+oyNkH3+TzK2R0=;
- b=tgNCq6oYSGBkjVx7eHXESwD8cJyTPv0duljdyrAKCWmxl14YsoQU4tm2DR0btmKGFp
- PK6JQYvfsNarhBjuFLWfWAkXf3M/tdheN7ngJewV0x5FAIepEpcBrk/vlW3T7kWkXQOb
- T5UO7F8+ymWYajGny6xPj/dfbgyDRZdHqMABJToAVdJu6uq+mYq6W3YkFeH30DqZQ5n/
- eW72wW4rmF0nVQhPqNIayAkA48kte8AjEm3XSfVSnrPS1ZUTj02ayW5EKN/rJrRCgRK8
- f9yz0FNJO1iId/lPbTuAeZhhNsRnQQ02qSk2NdHZT88utwyTvVOMaLZ8Dqr3/BG0nVLu
- pcZw==
-X-Gm-Message-State: ACgBeo1CKjMuzZ9qAJQJ4TRfw9o9iFLbbkVTq/kG5Xa6g5CWo7RVht+y
- nsQOQEMbhkyS4XUBqSUrNKfyZfkDV1netwYaGiEK4t5ywQmCaLkU4Ce2Awmtkz1TFGXNhCIlbwG
- s8By6Ztecm1wDUkk=
-X-Received: by 2002:ac8:5e4f:0:b0:345:391:cee6 with SMTP id
- i15-20020ac85e4f000000b003450391cee6mr11144037qtx.255.1662710538668; 
- Fri, 09 Sep 2022 01:02:18 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6PUhWbboaAJvfMcvsjnLKVPMEpnYD1kR0kHKKQKLGf3kZn/jivKqv+dqTnrFEu/OG/msZC1w==
-X-Received: by 2002:ac8:5e4f:0:b0:345:391:cee6 with SMTP id
- i15-20020ac85e4f000000b003450391cee6mr11144022qtx.255.1662710538485; 
- Fri, 09 Sep 2022 01:02:18 -0700 (PDT)
+ bh=yzEprpmYDxZoU/iLdscba5yKn41f2daHNxZoCNCbLwo=;
+ b=SE9ZEZ3SGphqiTSK9yRiKu+rhquVqw3bHFcF57ofP2UCRQcxSSIbWiZ/LpgNw1SZ2Z
+ XI4545bfpzFWkfIv7WJyQFafqLJW3ASpEbcsZ8wxmpIICMtsemNjgUlRoaef/PFm9tYX
+ 09er6eonk5NWtk+RYqO0i/YdGsJ+LyjhPooqbBV/YPiFhdXOAiVgyGiznLPBaK15tC3t
+ FzFO52VDlOLEP34aZ86d6kLRi5FdN6w2zVj/00t0IevBSVQK2CW5MvOh23cTv3ZEKbp0
+ 8Du6Fs2qAV8Jba/emQ+tMrZ3dI2st+Gzx/88lltgtDLW1iuZIKCEvFCcbQI6Ji9QkD7W
+ l0yw==
+X-Gm-Message-State: ACgBeo32yDwfY5RriPLpU6c6jJ4U7OxcP2lwWmZvZgFKAOeEa6FIpyXw
+ cHVV9X0mUguTtesIUA2AOT2SNaVwroA6EPhvHjXE0hye3DkWtg25b3Wh9xYf8XeT0ds2PoghYuH
+ dgI7NQduKi2ENGjs=
+X-Received: by 2002:a05:620a:192a:b0:6bc:5bb:ffe6 with SMTP id
+ bj42-20020a05620a192a00b006bc05bbffe6mr9337372qkb.268.1662710563625; 
+ Fri, 09 Sep 2022 01:02:43 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4iEFAhLPrQKHexiJaIz+0O/BxP+mb3Uf6thTAzqXRTKL23hztrcJ82I1vFiM2v0zkIdQqdCQ==
+X-Received: by 2002:a05:620a:192a:b0:6bc:5bb:ffe6 with SMTP id
+ bj42-20020a05620a192a00b006bc05bbffe6mr9337364qkb.268.1662710563425; 
+ Fri, 09 Sep 2022 01:02:43 -0700 (PDT)
 Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
  ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
  by smtp.gmail.com with ESMTPSA id
- fw12-20020a05622a4a8c00b00344b807bb95sm1032388qtb.74.2022.09.09.01.02.16
+ s5-20020a05620a254500b006bb9e4b96e6sm934946qko.24.2022.09.09.01.02.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Sep 2022 01:02:17 -0700 (PDT)
-Message-ID: <66ed2e5b-b6a8-d9f7-3fe4-43c974dc0ecd@redhat.com>
-Date: Fri, 9 Sep 2022 10:02:15 +0200
+ Fri, 09 Sep 2022 01:02:42 -0700 (PDT)
+Message-ID: <ce712ede-5d9a-5675-321a-afa402cd1d61@redhat.com>
+Date: Fri, 9 Sep 2022 10:02:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [RFC PATCH 2/2] kvm/kvm-all.c: listener should delay kvm_vm_ioctl
- to the commit phase
+Subject: Re: [RFC PATCH 1/2] softmmu/memory: add missing begin/commit callback
+ calls
 Content-Language: en-US
-To: David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org
 References: <20220816101250.1715523-1-eesposit@redhat.com>
- <20220816101250.1715523-3-eesposit@redhat.com> <Yv6baJoNikyuZ38R@xz-m1.local>
- <CAJ6HWG6maoPjbP8T5qo=iXCbNeHu4dq3wHLKtRLahYKuJmMY-g@mail.gmail.com>
- <YwOOcC72KKABKgU+@xz-m1.local>
- <d4601180-4c95-a952-2b40-d40fa8e55005@redhat.com>
- <YwqFfyZ1fMA9knnK@xz-m1.local>
- <d02d6a6e-637e-48f9-9acc-811344712cd3@redhat.com>
+ <20220816101250.1715523-2-eesposit@redhat.com> <Yv6UVMMX/hHFkGoM@xz-m1.local>
+ <e5935ba7-dd60-b914-3b1d-fff4f8c01da3@redhat.com>
+ <YwjVG+MR8ORLngjd@xz-m1.local> <YwqGtHrcsFrgzLzg@xz-m1.local>
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <d02d6a6e-637e-48f9-9acc-811344712cd3@redhat.com>
+In-Reply-To: <YwqGtHrcsFrgzLzg@xz-m1.local>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
@@ -115,30 +112,34 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
->> One thing I forgot to ask: iirc we used to have a workaround to kick all
->> vcpus out, update memory slots, then continue all vcpus.  Would that work
->> for us too for the problem you're working on?
-> 
-> As reference, here is one such approach for region resizes only:
-> 
-> https://lore.kernel.org/qemu-devel/20200312161217.3590-1-david@redhat.com/
-> 
-> which notes:
-> 
-> "Instead of inhibiting during the region_resize(), we could inhibit for
-> the hole memory transaction (from begin() to commit()). This could be
-> nice, because also splitting of memory regions would be atomic (I
-> remember there was a BUG report regarding that), however, I am not sure
-> if that might impact any RT users."
-> 
-> 
-I read:
 
-"Using pause_all_vcpus()/resume_all_vcpus() is not possible, as it will
-temporarily drop the BQL - something most callers can't handle (esp.
-when called from vcpu context e.g., in virtio code)."
+Am 27/08/2022 um 23:03 schrieb Peter Xu:
+> On Fri, Aug 26, 2022 at 10:13:47AM -0400, Peter Xu wrote:
+>> On Fri, Aug 26, 2022 at 03:53:09PM +0200, Emanuele Giuseppe Esposito wrote:
+>>> What do you mean "will empty all regions with those listeners"?
+>>> But yes theoretically vhost-vdpa and physmem have commit callbacks that
+>>> are independent from whether region_add or other callbacks have been called.
+>>> For kvm and probably vhost it would be no problem, since there won't be
+>>> any list to iterate on.
+>>
+>> Right, begin()/commit() is for address space update, so it should be fine
+>> to have nothing to commit, sorry.
+> 
+> Hold on..
+> 
+> When I was replying to your patch 2 and reading the code around, I fount
+> that this patch does affect vhost..  see region_nop() hook and also vhost's
+> version of vhost_region_addnop().  I think vhost will sync its memory
+> layout for each of the commit(), and any newly created AS could emptify
+> vhost memory list even if registered on address_space_memory.
+> 
+> The other thing is address_space_update_topology() seems to be only used by
+> address_space_init().  It means I don't think there should have any
+> listener registered to this AS anyway.. :) So iiuc this patch (even if
+> converting to loop over per-as memory listeners) is not needed.
+> 
+Agree, dropping this patch :)
 
-Thank you,
 Emanuele
 
 
