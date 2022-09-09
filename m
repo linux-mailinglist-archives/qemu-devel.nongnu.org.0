@@ -2,66 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C2675B31CC
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 10:34:25 +0200 (CEST)
-Received: from localhost ([::1]:47118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B76175B31FC
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 10:43:20 +0200 (CEST)
+Received: from localhost ([::1]:46012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWZSy-0007MD-An
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 04:34:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54792)
+	id 1oWZbb-0002hn-Bt
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 04:43:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oWZ7O-0008DQ-4J
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 04:12:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44826)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oWZWw-0008Vb-RR
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 04:38:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oWZ7J-0003Pi-93
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 04:12:05 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oWZWt-0007jH-QM
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 04:38:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662711120;
+ s=mimecast20190719; t=1662712706;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OaVxRmOqhUa1BGCUbms2VhwQdBBdao4awVXqKCRWbOw=;
- b=a34oYsr7NzCU6K/y05f/5qtzRsEOU89KoNC2/fzE+lrwK3mTWCoeu/M4TYfg9j9Hlb8E0K
- w1tv/V1gt0lIhzKH4Tg++ipA3qs0jByeETMrQkpl5NeiwyWZRK/YEmhX/5X+h9mCMUVmvk
- 3uyyZ5KGaTGfDku3fO8gow+e7kTji+U=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-424-ZxpyqabtNHedvw_2JaB1SA-1; Fri, 09 Sep 2022 04:11:57 -0400
-X-MC-Unique: ZxpyqabtNHedvw_2JaB1SA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C6FAB1C05AAD;
- Fri,  9 Sep 2022 08:11:56 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D266400EA8F;
- Fri,  9 Sep 2022 08:11:56 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Peter Xu <peterx@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [RFC PATCH v2 3/3] kvm/kvm-all.c: listener should delay kvm_vm_ioctl
- to the commit phase
-Date: Fri,  9 Sep 2022 04:11:50 -0400
-Message-Id: <20220909081150.709060-4-eesposit@redhat.com>
-In-Reply-To: <20220909081150.709060-1-eesposit@redhat.com>
-References: <20220909081150.709060-1-eesposit@redhat.com>
+ bh=j11WjbQNNKhtDekz51S+uLyTwwWCmVPjwdFaQikWouI=;
+ b=IYQXXLiRqWSgNqXPn5SLhdUCK66QrOJ2GUaURBkaMyj6qrNh1K4bI0wZFUJDi/qUaSrKwl
+ TH70axCL3RsNXuWWVo7M2yYsEZlPp4U2fMg/+LNEn/cg4k5NLHImJ4ccvmjoslZKJUrlw8
+ TkkhDd9cn09iBQMIQ+LjkhO8aZ8tGVg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-492-VKKdwadqMBmTvEMoSdqZlA-1; Fri, 09 Sep 2022 04:38:25 -0400
+X-MC-Unique: VKKdwadqMBmTvEMoSdqZlA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ r128-20020a1c4486000000b003b3f017f259so523662wma.3
+ for <qemu-devel@nongnu.org>; Fri, 09 Sep 2022 01:38:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=j11WjbQNNKhtDekz51S+uLyTwwWCmVPjwdFaQikWouI=;
+ b=C7/DwYyi84F0AWpPbgNl3fi8vySYHid47lOxNmoO74TQvztmDQdydNx7UzC9/s3LZY
+ FIDAOuwF5lXcX8UV59gEPdoFeje603JFMeI2zJExf02dURthxA7Mpotv2ND8WDkLGf1q
+ TkOGTasYOxDfX/uWkHQF1AynryU+I/FWgTqoJhLUYzt3tZrQwsXS6nQPputlYDGz34AL
+ kgFarvIpI8ZlEvFSVfrEcdIRa7enkVIwIbQV/ZYi18p9qpUlgeM0kG4nH0ihI6MJaL1D
+ r6/7JFgJlDoVK3qNtMmeCtgoTzLaU6lWGtHevH4gavTeDsOs3S4kjIbgV54DtNh7o3ec
+ LVLQ==
+X-Gm-Message-State: ACgBeo1R82w2jtyva+3xjImZOmV7V03Q2izXtop9wG01VIzD5nd22E1G
+ ZvbtuHUAlTijoT1zIKR29twDrNzXlNGy4vpRsMi8pN1ce9Xz5UIceAEH3meR+wrPQMeOYXFcYSQ
+ CgMCspO2bA05ktSI=
+X-Received: by 2002:a05:6000:1863:b0:220:6d5f:deb5 with SMTP id
+ d3-20020a056000186300b002206d5fdeb5mr7178532wri.470.1662712704110; 
+ Fri, 09 Sep 2022 01:38:24 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR48qyUv/v18IZSiOh587XsnXG1CoVeuiS6eGAk5T+6qA+4sbCSnQ/a/bBW7gVJ03lY1tX8ngA==
+X-Received: by 2002:a05:6000:1863:b0:220:6d5f:deb5 with SMTP id
+ d3-20020a056000186300b002206d5fdeb5mr7178522wri.470.1662712703841; 
+ Fri, 09 Sep 2022 01:38:23 -0700 (PDT)
+Received: from redhat.com ([2.52.4.6]) by smtp.gmail.com with ESMTPSA id
+ bg33-20020a05600c3ca100b003a601707174sm1498601wmb.33.2022.09.09.01.38.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Sep 2022 01:38:23 -0700 (PDT)
+Date: Fri, 9 Sep 2022 04:38:19 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ Cindy Lu <lulu@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Si-Wei Liu <si-wei.liu@oracle.com>, Eli Cohen <eli@mellanox.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Laurent Vivier <lvivier@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>
+Subject: Re: [PATCH 2/3] vdpa: load vlan configuration at NIC startup
+Message-ID: <20220909043707-mutt-send-email-mst@kernel.org>
+References: <20220906163621.1144675-1-eperezma@redhat.com>
+ <20220906163621.1144675-3-eperezma@redhat.com>
+ <CACGkMEvnVavevtxWa49Yew+Nnkx_Wfmgf1JLVXCBe=zkpvdHnQ@mail.gmail.com>
+ <CACGkMEswG2nmTve+p2MU9ue5CuwAu69CpeOUzYnu_BVfZE56JA@mail.gmail.com>
+ <CAJaqyWf=NfkL_2uXVapJ6qCLziBc2jg+jMyR+cBQu+yDG6eg5w@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+In-Reply-To: <CAJaqyWf=NfkL_2uXVapJ6qCLziBc2jg+jMyR+cBQu+yDG6eg5w@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -85,220 +110,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of sending a single ioctl every time ->region_* or ->log_*
-callbacks are called, "queue" all memory regions in a
-kvm_userspace_memory_region_list that will be sent only when committing.
+On Fri, Sep 09, 2022 at 10:01:16AM +0200, Eugenio Perez Martin wrote:
+> On Fri, Sep 9, 2022 at 8:40 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> > On Fri, Sep 9, 2022 at 2:38 PM Jason Wang <jasowang@redhat.com> wrote:
+> > >
+> > > On Wed, Sep 7, 2022 at 12:36 AM Eugenio Pérez <eperezma@redhat.com> wrote:
+> > > >
+> > > > To have enabled vlans at device startup may happen in the destination of
+> > > > a live migration, so this configuration must be restored.
+> > > >
+> > > > At this moment the code is not accessible, since SVQ refuses to start if
+> > > > vlan feature is exposed by the device.
+> > > >
+> > > > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+> > > > ---
+> > > >  net/vhost-vdpa.c | 46 ++++++++++++++++++++++++++++++++++++++++++++--
+> > > >  1 file changed, 44 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > > > index 4bc3fd01a8..ecbfd08eb9 100644
+> > > > --- a/net/vhost-vdpa.c
+> > > > +++ b/net/vhost-vdpa.c
+> > > > @@ -100,6 +100,8 @@ static const uint64_t vdpa_svq_device_features =
+> > > >      BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
+> > > >      BIT_ULL(VIRTIO_NET_F_STANDBY);
+> > > >
+> > > > +#define MAX_VLAN    (1 << 12)   /* Per 802.1Q definition */
+> > > > +
+> > > >  VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
+> > > >  {
+> > > >      VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
+> > > > @@ -423,6 +425,47 @@ static int vhost_vdpa_net_load_mq(VhostVDPAState *s,
+> > > >      return *s->status != VIRTIO_NET_OK;
+> > > >  }
+> > > >
+> > > > +static int vhost_vdpa_net_load_single_vlan(VhostVDPAState *s,
+> > > > +                                           const VirtIONet *n,
+> > > > +                                           uint16_t vid)
+> > > > +{
+> > > > +    ssize_t dev_written = vhost_vdpa_net_load_cmd(s, VIRTIO_NET_CTRL_VLAN,
+> > > > +                                                  VIRTIO_NET_CTRL_VLAN_ADD,
+> > > > +                                                  &vid, sizeof(vid));
+> > > > +    if (unlikely(dev_written < 0)) {
+> > > > +        return dev_written;
+> > > > +    }
+> > > > +
+> > > > +    if (unlikely(*s->status != VIRTIO_NET_OK)) {
+> > > > +        return -EINVAL;
+> > > > +    }
+> > > > +
+> > > > +    return 0;
+> > > > +}
+> > > > +
+> > > > +static int vhost_vdpa_net_load_vlan(VhostVDPAState *s,
+> > > > +                                    const VirtIONet *n)
+> > > > +{
+> > > > +    uint64_t features = n->parent_obj.guest_features;
+> > > > +
+> > > > +    if (!(features & BIT_ULL(VIRTIO_NET_F_CTRL_VLAN))) {
+> > > > +        return 0;
+> > > > +    }
+> > > > +
+> > > > +    for (int i = 0; i < MAX_VLAN >> 5; i++) {
+> > > > +        for (int j = 0; n->vlans[i] && j <= 0x1f; j++) {
+> > > > +            if (n->vlans[i] & (1U << j)) {
+> > > > +                int r = vhost_vdpa_net_load_single_vlan(s, n, (i << 5) + j);
+> > >
+> > > This seems to cause a lot of latency if the driver has a lot of vlans.
+> > >
+> > > I wonder if it's simply to let all vlan traffic go by disabling
+> > > CTRL_VLAN feature at vDPA layer.
+> >
+> 
+> The guest will not be able to recover that vlan configuration.
+> 
+> > Another idea is to extend the spec to allow us to accept a bitmap of
+> > the vlan ids via a single command, then we will be fine.
+> >
+> 
+> I'm not sure if adding more ways to configure something is the answer,
+> but I'd be ok to implement it.
+> 
+> Another idea is to allow the sending of many CVQ commands in parallel.
+> It shouldn't be very hard to achieve using exposed buffers as ring
+> buffers, and it will short down the start of the devices with many
+> features.
 
-This allow the KVM kernel API to be extended and support multiple
-memslots updates in a single call.
+This would seem like a reasonable second step.  A first step would be to
+measure the overhead to make sure there's actually a need to optimize
+this.
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- accel/kvm/kvm-all.c      | 131 ++++++++++++++++++++++++++-------------
- include/sysemu/kvm_int.h |   8 +++
- 2 files changed, 96 insertions(+), 43 deletions(-)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index e9947ec18b..9780f3d2da 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -357,56 +357,50 @@ int kvm_physical_memory_addr_from_host(KVMState *s, void *ram,
-     return ret;
- }
- 
-+static struct kvm_userspace_memory_region_entry *kvm_memory_region_entry_get(
-+                                                        KVMMemoryListener *kml)
-+{
-+    struct MemoryRegionNodeArray *arr = &kml->mem_array;
-+    struct kvm_userspace_memory_region_list *list = arr->list;
-+
-+    if (list->nent == arr->max_entries) {
-+        arr->max_entries += DEFAULT_KVM_MEMORY_REGION_ARRAY_GROW;
-+        list = g_realloc(list,
-+                              sizeof(struct kvm_userspace_memory_region_list) +
-+                              arr->max_entries *
-+                              sizeof(struct kvm_userspace_memory_region_entry));
-+    }
-+
-+    return &list->entries[list->nent++];
-+}
-+
- static int kvm_set_user_memory_region(KVMMemoryListener *kml, KVMSlot *slot, bool new)
- {
--    KVMState *s = kvm_state;
--    struct kvm_userspace_memory_region_entry mem;
--    int ret;
-+    struct kvm_userspace_memory_region_entry *mem;
-+
-+    mem = kvm_memory_region_entry_get(kml);
-+
-+    mem->slot = slot->slot | (kml->as_id << 16);
-+    mem->guest_phys_addr = slot->start_addr;
-+    mem->userspace_addr = (unsigned long)slot->ram;
-+    mem->flags = slot->flags;
- 
--    mem.slot = slot->slot | (kml->as_id << 16);
--    mem.guest_phys_addr = slot->start_addr;
--    mem.userspace_addr = (unsigned long)slot->ram;
--    mem.flags = slot->flags;
-+    if (slot->memory_size && !new && (mem->flags ^ slot->old_flags) &
-+        KVM_MEM_READONLY) {
-+        struct kvm_userspace_memory_region_entry *mem2 = mem;
- 
--    if (slot->memory_size && !new && (mem.flags ^ slot->old_flags) & KVM_MEM_READONLY) {
-+        mem = kvm_memory_region_entry_get(kml);
-+        memcpy(mem, mem2, sizeof(struct kvm_userspace_memory_region_entry));
-         /* Set the slot size to 0 before setting the slot to the desired
-          * value. This is needed based on KVM commit 75d61fbc. */
--        mem.memory_size = 0;
--        mem.invalidate_slot = 1;
--        /*
--         * Note that mem is struct kvm_userspace_memory_region_entry, while the
--         * kernel expects a kvm_userspace_memory_region, so it will currently
--         * ignore mem->invalidate_slot and mem->padding.
--         */
--        ret = kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
--        if (ret < 0) {
--            goto err;
--        }
-+        mem2->memory_size = 0;
-+        mem2->invalidate_slot = 1;
-     }
--    mem.memory_size = slot->memory_size;
--    /*
--     * Invalidate if it's a kvm memslot MOVE or DELETE operation, but
--     * currently QEMU does not perform any memslot MOVE operation.
--     */
--    mem.invalidate_slot = slot->memory_size == 0;
-+    mem->memory_size = slot->memory_size;
-+    mem->invalidate_slot = slot->memory_size == 0;
- 
--    /*
--     * Note that mem is struct kvm_userspace_memory_region_entry, while the
--     * kernel expects a kvm_userspace_memory_region, so it will currently
--     * ignore mem->invalidate_slot and mem->padding.
--     */
--    ret = kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, &mem);
--    slot->old_flags = mem.flags;
--err:
--    trace_kvm_set_user_memory(mem.slot, mem.flags, mem.guest_phys_addr,
--                              mem.memory_size, mem.userspace_addr, ret);
--    if (ret < 0) {
--        error_report("%s: KVM_SET_USER_MEMORY_REGION failed, slot=%d,"
--                     " start=0x%" PRIx64 ", size=0x%" PRIx64 ": %s",
--                     __func__, mem.slot, slot->start_addr,
--                     (uint64_t)mem.memory_size, strerror(errno));
--    }
--    return ret;
-+    slot->old_flags = mem->flags;
-+    return 0;
- }
- 
- static int do_kvm_destroy_vcpu(CPUState *cpu)
-@@ -1534,12 +1528,54 @@ static void kvm_region_add(MemoryListener *listener,
- static void kvm_region_del(MemoryListener *listener,
-                            MemoryRegionSection *section)
- {
--    KVMMemoryListener *kml = container_of(listener, KVMMemoryListener, listener);
-+    KVMMemoryListener *kml = container_of(listener, KVMMemoryListener,
-+                                          listener);
- 
-     kvm_set_phys_mem(kml, section, false);
-     memory_region_unref(section->mr);
- }
- 
-+static void kvm_begin(MemoryListener *listener)
-+{
-+    KVMMemoryListener *kml = container_of(listener, KVMMemoryListener,
-+                                          listener);
-+    assert(kml->mem_array.list->nent == 0);
-+}
-+
-+static void kvm_commit(MemoryListener *listener)
-+{
-+    KVMMemoryListener *kml = container_of(listener, KVMMemoryListener,
-+                                          listener);
-+    KVMState *s = kvm_state;
-+    int i;
-+
-+    for (i = 0; i < kml->mem_array.list->nent; i++) {
-+        struct kvm_userspace_memory_region_entry *mem;
-+        int ret;
-+
-+        mem = &kml->mem_array.list->entries[i];
-+
-+        /*
-+         * Note that mem is struct kvm_userspace_memory_region_entry, while the
-+         * kernel expects a kvm_userspace_memory_region, so it will currently
-+         * ignore mem->invalidate_slot and mem->padding.
-+         */
-+        ret = kvm_vm_ioctl(s, KVM_SET_USER_MEMORY_REGION, mem);
-+
-+        trace_kvm_set_user_memory(mem->slot, mem->flags, mem->guest_phys_addr,
-+                                  mem->memory_size, mem->userspace_addr, 0);
-+
-+        if (ret < 0) {
-+            error_report("%s: KVM_SET_USER_MEMORY_REGION failed, slot=%d,"
-+                         " start=0x%" PRIx64 ": %s",
-+                         __func__, mem->slot,
-+                         (uint64_t)mem->memory_size, strerror(errno));
-+        }
-+    }
-+
-+    kml->mem_array.list->nent = 0;
-+}
-+
- static void kvm_log_sync(MemoryListener *listener,
-                          MemoryRegionSection *section)
- {
-@@ -1681,8 +1717,16 @@ void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
-         kml->slots[i].slot = i;
-     }
- 
-+    kml->mem_array.max_entries = DEFAULT_KVM_MEMORY_REGION_ARRAY_GROW;
-+    kml->mem_array.list = g_malloc0(
-+                            sizeof(struct kvm_userspace_memory_region_list) +
-+                            sizeof(struct kvm_userspace_memory_region_entry) *
-+                            kml->mem_array.max_entries);
-+
-     kml->listener.region_add = kvm_region_add;
-     kml->listener.region_del = kvm_region_del;
-+    kml->listener.begin = kvm_begin;
-+    kml->listener.commit = kvm_commit;
-     kml->listener.log_start = kvm_log_start;
-     kml->listener.log_stop = kvm_log_stop;
-     kml->listener.priority = 10;
-@@ -2691,6 +2735,7 @@ err:
-         close(s->fd);
-     }
-     g_free(s->memory_listener.slots);
-+    g_free(s->memory_listener.mem_array.list);
- 
-     return ret;
- }
-diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-index 1f5487d9b7..1adc1c8722 100644
---- a/include/sysemu/kvm_int.h
-+++ b/include/sysemu/kvm_int.h
-@@ -30,9 +30,17 @@ typedef struct KVMSlot
-     ram_addr_t ram_start_offset;
- } KVMSlot;
- 
-+#define DEFAULT_KVM_MEMORY_REGION_ARRAY_GROW 10
-+
-+struct MemoryRegionNodeArray {
-+    struct kvm_userspace_memory_region_list *list;
-+    int max_entries;
-+};
-+
- typedef struct KVMMemoryListener {
-     MemoryListener listener;
-     KVMSlot *slots;
-+    struct MemoryRegionNodeArray mem_array;
-     int as_id;
- } KVMMemoryListener;
- 
--- 
-2.31.1
+> Thanks!
+> 
+> > Thanks
+> >
+> > >
+> > > Thanks
+> > >
+> > > > +                if (unlikely(r != 0)) {
+> > > > +                    return r;
+> > > > +                }
+> > > > +            }
+> > > > +        }
+> > > > +    }
+> > > > +
+> > > > +    return 0;
+> > > > +}
+> > > > +
+> > > >  static int vhost_vdpa_net_load(NetClientState *nc)
+> > > >  {
+> > > >      VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
+> > > > @@ -445,8 +488,7 @@ static int vhost_vdpa_net_load(NetClientState *nc)
+> > > >      if (unlikely(r)) {
+> > > >          return r;
+> > > >      }
+> > > > -
+> > > > -    return 0;
+> > > > +    return vhost_vdpa_net_load_vlan(s, n);
+> > > >  }
+> > > >
+> > > >  static NetClientInfo net_vhost_vdpa_cvq_info = {
+> > > > --
+> > > > 2.31.1
+> > > >
+> >
 
 
