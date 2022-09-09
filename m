@@ -2,89 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E17B5B3481
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 11:54:34 +0200 (CEST)
-Received: from localhost ([::1]:52724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBDFD5B35BF
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 12:56:42 +0200 (CEST)
+Received: from localhost ([::1]:53692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWaiW-0006ug-Gh
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 05:54:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36584)
+	id 1oWbgf-00065C-BS
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 06:56:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oWaV6-0007wS-Jj; Fri, 09 Sep 2022 05:40:40 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:35583)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oWbdC-00033o-GC
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 06:53:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59424)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oWaV4-0000sI-HR; Fri, 09 Sep 2022 05:40:40 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 4CB865C010F;
- Fri,  9 Sep 2022 05:40:35 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Fri, 09 Sep 2022 05:40:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1662716435; x=1662802835; bh=/L
- pUnIyUQwtqbVOndloPn52uo/HbpAAGEgm5S1WZ0XY=; b=Mhp4tDTwZ8uqGLhE0B
- 2jIowH7BBLUxaVJznhW5hgYdpjCli7pqikL3NJ3XK5ZFzO7ZPMseK/opaQkVRHij
- rCUEZOJW060hLDMsguJNTIHgvH6XUxcAbZZ6nUbUDMlCnyeVvgVN/q6cd696IS+8
- Dm+FwO1pvoBCNorvIsaduYrCACyjpZ2O8HIEvpNMSU7zkon1Aev+Vie0s6MWFwNa
- gvAVCVTNEwRXpzibUNQZ7JzHWBBGsdoN+I9W1dZcXc6rcE9x7WHlqWbw5r4H1gq0
- 9SrEohHvLiaRqHcxmy0DaAA0S0DnM3qwMEbhRPp9y/JAH3jWneSN1jeB3sSDcsAn
- 8T0w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1662716435; x=1662802835; bh=/LpUnIyUQwtqbVOndloPn52uo/Hb
- pAAGEgm5S1WZ0XY=; b=Q/spCBsxDNDq1QafeLnZESjzgQIfCgZBuHFlWLMvOa5X
- x1xKV4h3SMPbVZAZ5S9GCj+IxjjrKb9/1+2zKgFJ5STfBz+VZogsOmlz5tRmj+oB
- yDbVUsWuNIEk/Y13R1JH3deL6T9R0IIdmXf5jm0wNqBY1DPANS2D1HnRCnpaXX93
- gZYYlIISChnw62Am6qMUJSpRTBLjD8j8bQUtsCmMWbyFRCWZlAvMsmaPPtBssc/f
- Ika8kVDOT7UZHLAOhamMcg+tve0oMH3PM096k0uNMNYfjouMWFofF2AKKGT44IL3
- F+neHRKxnWTIXBwI+kSHIFs6eVCyguQiaqG/L249vg==
-X-ME-Sender: <xms:EgobY2cUGOnaxJw2CrNOLBB_ZOW4CUPfS6C-z3aS8a1BAJWkWgd7Xw>
- <xme:EgobYwNWf0p1knefP_-qyYVhNUBtU3B-SYPT6-ahZkUG-QqAMHPAKXvtPWvGZteIR
- aLSz2H0t9Fdqk-dm6M>
-X-ME-Received: <xmr:EgobY3ipovt6p3L2IUUt6prugUChHvnvkv7JlAAHpAxrnH-Evj-KMkiNYA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedthedgvddtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepvefhheeuveegkeekueefteejhfelhfetgeeigeehudelhfeuffetuddvheeh
- udejnecuffhomhgrihhnpehnvhhmvgigphhrvghsshdrohhrghenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghn
- thdrughk
-X-ME-Proxy: <xmx:EgobYz9kB9jPOLd6E6L31JEsHmL9bhCkLZdjmTwFCNN6WWoRBuSTTg>
- <xmx:EgobYysNjuecjZyqtrAOVcVcmJypfBb6nBUFzsh4YuBD6WayWczWGg>
- <xmx:EgobY6HZ2iUmgVs6D2Gen4cGOoNxnROsvUYxyXv369EkgVmHkdD56w>
- <xmx:EwobY2JyTif2qkKp7TV_DRnkoj8Nb5Wx2kVTsjJOh5YcN2GEAoK_yg>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 9 Sep 2022 05:40:33 -0400 (EDT)
-Date: Fri, 9 Sep 2022 11:40:31 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Niklas Cassel <niklas.cassel@wdc.com>
-Cc: kbusch@kernel.org, qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH] hw/nvme: remove param zoned.auto_transition
-Message-ID: <YxsKD7SJNd0aiJXi@apples>
-References: <20220812110137.1011659-1-niklas.cassel@wdc.com>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oWbd9-0003fX-5H
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 06:53:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662720781;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8jM7eZrNN3LVdOgupnlJao/Zw6eVANnMZ0vwW7hnRt8=;
+ b=X5zvQ16rtmiO9CwCQQ4l0q59DDhjhKuku3PQlzsuu2DqYZF0KAnXmox26+cTLMZW7asW91
+ 5SqY+hwMzfH0wiU8ux9r5GaAr8ogKvwmHxL61wTs3PkMfFHoLA3e/4FiaCLtrd5EU26wHR
+ wAOpdc2SeBf063aB7ve3WrNbGLu5pyQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-433-aGELd85cNQadMeQpRVVWBw-1; Fri, 09 Sep 2022 06:53:00 -0400
+X-MC-Unique: aGELd85cNQadMeQpRVVWBw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E381080231E;
+ Fri,  9 Sep 2022 10:52:59 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 853A5492C3B;
+ Fri,  9 Sep 2022 10:52:59 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Chenyi Qiang <chenyi.qiang@intel.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, =?utf-8?Q?Daniel?=
+ =?utf-8?Q?_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, Peter Maydell
+ <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: Chenyi Qiang <chenyi.qiang@intel.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 1/2] configure: Add
+ -Wno-gnu-variable-sized-type-not-at-end
+In-Reply-To: <20220909035758.17434-2-chenyi.qiang@intel.com>
+Organization: Red Hat GmbH
+References: <20220909035758.17434-1-chenyi.qiang@intel.com>
+ <20220909035758.17434-2-chenyi.qiang@intel.com>
+User-Agent: Notmuch/0.37 (https://notmuchmail.org)
+Date: Fri, 09 Sep 2022 12:52:57 +0200
+Message-ID: <878rmsom46.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="L2YVUQ4Cf1eHUwd8"
-Content-Disposition: inline
-In-Reply-To: <20220812110137.1011659-1-niklas.cassel@wdc.com>
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
- helo=out5-smtp.messagingengine.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,95 +85,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Sep 09 2022, Chenyi Qiang <chenyi.qiang@intel.com> wrote:
 
---L2YVUQ4Cf1eHUwd8
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> In recent linux headers update to v6.0-rc, it switched GNU
 
-On Aug 12 13:01, Niklas Cassel wrote:
-> The intention of the Zoned Namespace Command Set Specification was
-> never to make an automatic zone transition optional.
->=20
-> Excerpt from the nvmexpress.org zns mailing list:
-> """
-> A question came up internally on the differences between ZNS and ZAC/ZBC
-> that asked about when a controller should transitions a specific zone in
-> the Implicitly Opened state to Closed state.
->=20
-> For example, consider a ZNS SSD that supports a max of 20 active zones,
-> and a max of 10 open zones, which has the following actions occur:
->=20
-> First, the host writes to ten empty zones, thereby transitioning 10 zones
-> to the Implicitly Opened state.
->=20
-> Second, the host issues a write to an 11th empty zone.
->=20
-> Given that state, my understanding of the second part is that the ZNS SSD
-> chooses one of the previously 10 zones, and transition the chosen zone to
-> the Closed state, and then proceeds to write to the new zone which also
-> implicitly transition it from the Empty state to the Impl. Open state.
-> After this, there would be 11 active zones in total, 10 in impl. Open
-> state, and one in closed state.
->=20
-> The above assumes that a ZNS SSD will always transition an implicitly
-> opened zone to closed state when required to free up resources when
-> another zone is opened. However, it isn=E2=80=99t strictly said in the ZN=
-S spec.
->=20
-> The paragraph that should cover it is defined in section
-> 2.1.1.4.1 =E2=80=93 Managing Resources:
-> The controller may transition zones in the ZSIO:Implicitly Opened state
-> to the ZSC:Closed state for resource management purposes.
->=20
-> However, it doesn=E2=80=99t say =E2=80=9Cwhen=E2=80=9D it should occur. T=
-hus, as the text stand,
-> it could be misinterpreted that the controller shouldn=E2=80=99t do close=
- a zone
-> to make room for a new zone. The issue with this, is that it makes the
-> point of having implicitly managed zones moot.
->=20
-> The ZAC/ZBC specs is more specific and clarifies when a zone should be
-> closed. I think it would be natural to the same here.
-> """
->=20
-> While the Zoned Namespace Command Set Specification hasn't received an
-> errata yet, it is quite clear that the intention was that an automatic
-> zone transition was never supposed to be optional, as then the whole
-> point of having implictly open zones would be pointless. Therefore,
-> remove the param zoned.auto_transition, as this was never supposed to
-> be controller implementation specific.
->=20
-> Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+Maybe
+
+"A Linux headers update to v6.0-rc switches some definitions from the
+GNU..."
+
+?
+
+> 'zero-length-array' extension to the C-standard-defined flexible array
+> member. e.g.
+>
+> struct kvm_msrs {
+>         __u32 nmsrs; /* number of msrs in entries */
+>         __u32 pad;
+>
+> -       struct kvm_msr_entry entries[0];
+> +       struct kvm_msr_entry entries[];
+> };
+>
+> Those (unlike the GNU zero-length-array) have some extra restrictions like
+> 'this must be put at the end of a struct', which clang build would compla=
+in
+> about. e.g. the current code
+>
+> struct {
+>         struct kvm_msrs info;
+>         struct kvm_msr_entry entries[1];
+> } msr_data =3D { }
+>
+> generates the warning like:
+>
+> target/i386/kvm/kvm.c:2868:25: error: field 'info' with variable sized
+> type 'struct kvm_msrs' not at the end of a struct or class is a GNU
+> extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
+>         struct kvm_msrs info;
+>                         ^
+> In fact, the variable length 'entries[]' field in 'info' is zero-sized in
+> GNU defined semantics, which can give predictable offset for 'entries[1]'
+> in local msr_data. The local defined struct is just there to force a stack
+> allocation large enough for 1 kvm_msr_entry, a clever trick but requires =
+to
+> turn off this clang warning.
+>
+> Suggested-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
 > ---
->  hw/nvme/ctrl.c | 35 ++++++++++++-----------------------
->  hw/nvme/nvme.h |  1 -
->  2 files changed, 12 insertions(+), 24 deletions(-)
->=20
+>  configure | 1 +
+>  1 file changed, 1 insertion(+)
 
-No quarrel from me, but we need to deprecate the parameter first.
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
-However, I agree that it is a misinterpretation of the spec, so I'm ok
-with removing the code using the parameter so it doesnt do anything.
-
-Please do that, but retain the parameter and add it in
-docs/about/deprecated.rst and remove the documentation related to the
-option.
-
---L2YVUQ4Cf1eHUwd8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmMbCg4ACgkQTeGvMW1P
-DensFQgAv2vjwdQIoGDx3VG2IQ5dhdMtND3eUrgzQInOATBRPt1anr4mAnWwSXS/
-ckHunim+ZQTIGedBHWZ+EHyxkzr5eHP0HFSSuPuWpsR9mQlGeyo8E7mPG9yXp8hB
-St3pdyF4xocSn8ZBXSTY9qCFrafQqm7VZpBs8P/dC5Z0slEEfmD64pce67mw7sRF
-6tv09d2rjqdKWhgmpb64LwTBZgfKH1pBokHbjYpTEpvyUn1RebxQ4suAMKZVWkdl
-q2T45ZO3/DasQqBOXv2dI1RSCripPZOWNXz2TCIUVaXtYu8tC2638yKfSij6wlYB
-oUFSe0jH/sHonVCILgyIHI0MwgxW+w==
-=tfgE
------END PGP SIGNATURE-----
-
---L2YVUQ4Cf1eHUwd8--
 
