@@ -2,150 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F27B35B3338
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 11:14:58 +0200 (CEST)
-Received: from localhost ([::1]:44132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E17B5B3481
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 11:54:34 +0200 (CEST)
+Received: from localhost ([::1]:52724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWa6D-0003Kr-K9
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 05:14:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58298)
+	id 1oWaiW-0006ug-Gh
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 05:54:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=244fa2c59=Niklas.Cassel@wdc.com>)
- id 1oWa3k-0001bW-Ow; Fri, 09 Sep 2022 05:12:25 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:41808)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oWaV6-0007wS-Jj; Fri, 09 Sep 2022 05:40:40 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:35583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=244fa2c59=Niklas.Cassel@wdc.com>)
- id 1oWa3h-0004rt-6o; Fri, 09 Sep 2022 05:12:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1662714740; x=1694250740;
- h=from:to:subject:date:message-id:references:in-reply-to:
- content-id:content-transfer-encoding:mime-version;
- bh=i6MPUO2opkJuD7pzLnngXterlxzxIXis5yXQ2FZu4rk=;
- b=N3ryjwBkeY2Tt8fARkQv1oo5dq8b7x2IjRuDAUhhlWm8tkLcak0oZ1D7
- gLoR/XKk5egH8Bl3G/qOGKNDrRnyahTcaDjbEwAT3diV+roubKhDJ+/RY
- X7tDTC8XASZs/5u2JWutC+wA+V2GLRdIpzGtHYBOQjpfuapBKYvWH/qu6
- l2VGDlvnWgilWbdG6UsCiHufwlNq0+QqsyMKtr30r2Ehc0yCpSpISGP6H
- V0vrZwZtMVtUgO7nh/1XCCufWCB3IpUzW18WAuZ7nFdSsRE+p+seyBwKd
- GDe4zG4VTQQ682N2A01vTz8Sb054UvrDkLAKlPcaTEbKDkFWzqDCkyumP Q==;
-X-IronPort-AV: E=Sophos;i="5.93,302,1654531200"; d="scan'208";a="216094360"
-Received: from mail-bn8nam04lp2042.outbound.protection.outlook.com (HELO
- NAM04-BN8-obe.outbound.protection.outlook.com) ([104.47.74.42])
- by ob1.hgst.iphmx.com with ESMTP; 09 Sep 2022 17:12:13 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eTwevygu31uRxTt2ApvnCotTfe9Gk/n3+uxgg4GVFMkpd7ZLq8DXdJ8abrvvWs8162YlPEdwebIZit4v+9ME8FmwtZ9pVZzWjl/ILNcoJ6lJ+8ng2rP9Tc3RPWmPewBmYgLBLgukTXLr/3hCz5eoi9sA1jYgc0VyxdsQeyBdmuArL+NjqjZQykoikJ2hmX2uby1WcVpzTn8/wOEYDx5gsPfExmeAMs5Daczuu5Utn1XFIqYTL/ikXkC1zYnxHDFKEAFsPg15hKqZHr7sR7o25clDCdNtlphxUz03TdT+rlhoF72hZbWAVWy6O+9uyLKStawi8yidck5KXEMsU8XrPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i6MPUO2opkJuD7pzLnngXterlxzxIXis5yXQ2FZu4rk=;
- b=eWaSsJqechwpdW9+yQ/3rESyp0aTpWrDUVM1cLbf/1pYpYcZh0JRxxKWOsn0sIuSsk3PUOkK+zNncQx+868g8c/n3mcDsy/y0tllkl9h4fQpUTaH0xY7G72IkoJdpJ7D1hHELuTmzyMOk4s7FHtYJODdOKpM2SEtnd/E2zpeJ+QlV/5KN0vNJlGFLyvZVAvprMKctgOUcuXOShz3a7pg1ESffo604v2evRH5N47DroBUA9WhmYltXPsJRV2aElG9gLwbd6RwE4+n2G+K5emBvjla/m7829A7vb8B6wL7tWGiOK1DUJfTsneWnf/0ZStRNwZwmFgMRX5HdktuQKTrlw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i6MPUO2opkJuD7pzLnngXterlxzxIXis5yXQ2FZu4rk=;
- b=fTgh0Bbj082Y3XjAk32T3fqP0709MRUizwz69eDe5J3Lgir6Z7hYVxUHiDxN8WpMMdXrVScoReCht4GjgIfNxQ7pkXWOuA0By9/WCzlRZdN4CotfBjT4TT9vTKVxjPOK01NuWurzINfh2k7mbHZFECQ8f6xEiLEw+7O5HYk3LMo=
-Received: from PH0PR04MB7158.namprd04.prod.outlook.com (2603:10b6:510:8::18)
- by DM6PR04MB4076.namprd04.prod.outlook.com (2603:10b6:5:b8::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.18; Fri, 9 Sep
- 2022 09:12:11 +0000
-Received: from PH0PR04MB7158.namprd04.prod.outlook.com
- ([fe80::c839:6239:54ad:fc30]) by PH0PR04MB7158.namprd04.prod.outlook.com
- ([fe80::c839:6239:54ad:fc30%7]) with mapi id 15.20.5612.020; Fri, 9 Sep 2022
- 09:12:11 +0000
-From: Niklas Cassel <Niklas.Cassel@wdc.com>
-To: "kbusch@kernel.org" <kbusch@kernel.org>, "its@irrelevant.dk"
- <its@irrelevant.dk>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oWaV4-0000sI-HR; Fri, 09 Sep 2022 05:40:40 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 4CB865C010F;
+ Fri,  9 Sep 2022 05:40:35 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Fri, 09 Sep 2022 05:40:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1662716435; x=1662802835; bh=/L
+ pUnIyUQwtqbVOndloPn52uo/HbpAAGEgm5S1WZ0XY=; b=Mhp4tDTwZ8uqGLhE0B
+ 2jIowH7BBLUxaVJznhW5hgYdpjCli7pqikL3NJ3XK5ZFzO7ZPMseK/opaQkVRHij
+ rCUEZOJW060hLDMsguJNTIHgvH6XUxcAbZZ6nUbUDMlCnyeVvgVN/q6cd696IS+8
+ Dm+FwO1pvoBCNorvIsaduYrCACyjpZ2O8HIEvpNMSU7zkon1Aev+Vie0s6MWFwNa
+ gvAVCVTNEwRXpzibUNQZ7JzHWBBGsdoN+I9W1dZcXc6rcE9x7WHlqWbw5r4H1gq0
+ 9SrEohHvLiaRqHcxmy0DaAA0S0DnM3qwMEbhRPp9y/JAH3jWneSN1jeB3sSDcsAn
+ 8T0w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1662716435; x=1662802835; bh=/LpUnIyUQwtqbVOndloPn52uo/Hb
+ pAAGEgm5S1WZ0XY=; b=Q/spCBsxDNDq1QafeLnZESjzgQIfCgZBuHFlWLMvOa5X
+ x1xKV4h3SMPbVZAZ5S9GCj+IxjjrKb9/1+2zKgFJ5STfBz+VZogsOmlz5tRmj+oB
+ yDbVUsWuNIEk/Y13R1JH3deL6T9R0IIdmXf5jm0wNqBY1DPANS2D1HnRCnpaXX93
+ gZYYlIISChnw62Am6qMUJSpRTBLjD8j8bQUtsCmMWbyFRCWZlAvMsmaPPtBssc/f
+ Ika8kVDOT7UZHLAOhamMcg+tve0oMH3PM096k0uNMNYfjouMWFofF2AKKGT44IL3
+ F+neHRKxnWTIXBwI+kSHIFs6eVCyguQiaqG/L249vg==
+X-ME-Sender: <xms:EgobY2cUGOnaxJw2CrNOLBB_ZOW4CUPfS6C-z3aS8a1BAJWkWgd7Xw>
+ <xme:EgobYwNWf0p1knefP_-qyYVhNUBtU3B-SYPT6-ahZkUG-QqAMHPAKXvtPWvGZteIR
+ aLSz2H0t9Fdqk-dm6M>
+X-ME-Received: <xmr:EgobY3ipovt6p3L2IUUt6prugUChHvnvkv7JlAAHpAxrnH-Evj-KMkiNYA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedthedgvddtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepvefhheeuveegkeekueefteejhfelhfetgeeigeehudelhfeuffetuddvheeh
+ udejnecuffhomhgrihhnpehnvhhmvgigphhrvghsshdrohhrghenucevlhhushhtvghruf
+ hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghn
+ thdrughk
+X-ME-Proxy: <xmx:EgobYz9kB9jPOLd6E6L31JEsHmL9bhCkLZdjmTwFCNN6WWoRBuSTTg>
+ <xmx:EgobYysNjuecjZyqtrAOVcVcmJypfBb6nBUFzsh4YuBD6WayWczWGg>
+ <xmx:EgobY6HZ2iUmgVs6D2Gen4cGOoNxnROsvUYxyXv369EkgVmHkdD56w>
+ <xmx:EwobY2JyTif2qkKp7TV_DRnkoj8Nb5Wx2kVTsjJOh5YcN2GEAoK_yg>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 9 Sep 2022 05:40:33 -0400 (EDT)
+Date: Fri, 9 Sep 2022 11:40:31 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Niklas Cassel <niklas.cassel@wdc.com>
+Cc: kbusch@kernel.org, qemu-block@nongnu.org, qemu-devel@nongnu.org
 Subject: Re: [PATCH] hw/nvme: remove param zoned.auto_transition
-Thread-Topic: [PATCH] hw/nvme: remove param zoned.auto_transition
-Thread-Index: AQHYrjruo39gL04Z/UuDQ/Chf5WDQ63W/AUA
-Date: Fri, 9 Sep 2022 09:12:11 +0000
-Message-ID: <YxsDahQ+K2uxlZdG@x1-carbon>
+Message-ID: <YxsKD7SJNd0aiJXi@apples>
 References: <20220812110137.1011659-1-niklas.cassel@wdc.com>
-In-Reply-To: <20220812110137.1011659-1-niklas.cassel@wdc.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR04MB7158:EE_|DM6PR04MB4076:EE_
-x-ms-office365-filtering-correlation-id: 55b7eed2-a9fb-4b01-6d69-08da924360fd
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: gXnn6rXes1MfLn1xji/sxFlgVkMFZO1Eq8GMd5LWFIlOV6M1BNhf0xAgf45Yw5NZTW9CKGVSxLOrMiYLY62blNRTI9ULLzcIu1NXmaxeY3wHnf6gmhjym4S7DtlijQXUKgpG/tkzDpNneLtvxmcT+Mz3eGfmvIXZGcZRluXrHg6DA4z37n47Z7ZnW5/1NYhEoKrYg8dM7VnMkxt3XAUVu26RMQV7ProNMNSBE11QwQVfcKh7SYeeg3UKrkg3MkoaeO6Qr4VsD78vtgfNbznObbTOXO4g5rfcp64vWhftDawJVOgFYoxOTV6mpEPVkBs6QoeOcMzP7XAfqygK+htJhD5iuInI5OTylPC2MXjt4iNi2I7/R6uyC3LrLT4gViWYKUYekgrwat+YhyWkHhQf1iHSwNQdy4g7hCOs2al9Z3wXhQa5z0/eOo8mgcCcNY0NF8NWAIXTD0srkk2uSQLUOQf/+E3K4WqxvhTCdrstiTv6s9/enASFjAsqS6el5JmRkgWtNDv8vo5FCAg5aj63w5peo05ulJeqVgv5VqRWTkMjYqBhrSzrpncJKKtXYfWA8RqvBy4Scfmemu9PJfDjxhlbQYOUbQl+DSTQCOocGu5PEdF24GPvJSitK+86Ml20P5+aREEgjI8m18sOKX6gU5aP+U+iRagGuUjjeji6sjTyX2LFQMYJOXwTHgVHE5j1fSXNLrPiTREESjK6mCwQLeRq7yjtrHVjKuZT8ZadZLYcKvZDVcblF++WUVqs4U9jJaz3w/7DRV64KXgBRapveSQlYckx4NdAYmeH6UERP2A=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR04MB7158.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(7916004)(376002)(396003)(346002)(39860400002)(136003)(366004)(66556008)(83380400001)(82960400001)(38100700002)(186003)(86362001)(38070700005)(8936002)(122000001)(6512007)(5660300002)(76116006)(66946007)(66476007)(8676002)(33716001)(64756008)(91956017)(66446008)(26005)(6506007)(41300700001)(2906002)(478600001)(6486002)(9686003)(71200400001)(110136005)(316002)(67856001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?elJ4Lzg4a2owelZGMEFTTE1MSG5Ud0toNzRTOVREODBqeDhpZXBGdCtDRkFz?=
- =?utf-8?B?eDZYTk9sbWlxN0JXbnRqMWptUlZacktBZ0E3WXVWZEZDNjdyaGl5QkZISDNo?=
- =?utf-8?B?Z0FUa01oVXp3VjFaeGo5Mm1WYUFVNlRmUnAwbEtuUWVCUjJUcUJUWm9nOXBz?=
- =?utf-8?B?bWMzNXN4em44ZVNNTkRMTlZMdFhlWkpmNHBBcVlnQWJJb3RMQkNWZXB1UEdu?=
- =?utf-8?B?NkU4UG53dXJ1eHFSVTZwdEdhczkwZ1dQSUVvQzNneG9FRFZYTlBnTUk4ZWcv?=
- =?utf-8?B?dFIwL0pneVEzZjh5Mm9DaEovVStxQ250OU96SGRKbllxamhPWmIrdlFlTTRh?=
- =?utf-8?B?MHh6QzJyNWxPMWJpTDRZa2FuM2tTMnNmeXBGZ1ZMaXoyZFBGbHN5QmRiYk16?=
- =?utf-8?B?VFVPZGw1RmxzMVh6SFBuampYVEw1OE1qZXhVb1d2ZE04M1ZYUllsd3ZpcEwx?=
- =?utf-8?B?OUcrd081ekRxaWNsc1RjT1NPVy9xTlh1NGRCbm4rcjlVTFFlVmlHQ2QvanhQ?=
- =?utf-8?B?bUZGTFgxMTZKMzdqNm5EQzFHUThOUTZoS043TFExL3MrWStZNHRLTWxnSFZm?=
- =?utf-8?B?N3JGVVl6RmNFY1dtcjlYYUpJTnFKVWNuWjFYRk1GYnV3Q0xFVit2QjZRUjFZ?=
- =?utf-8?B?aWQzMFlnRFJJVE9uZzRiQ3E2dDhFbm9OaHgyWjh0WWJrOU5NV0xxWWZHUnM0?=
- =?utf-8?B?ZGVTZWRLdHRHajErZVplZG5JSko2VE04U0F4ckFFRXhNZGl4UkRrb2U1dW1Y?=
- =?utf-8?B?dTVpVnAzOGs2UnBzeC8yS25pQlp4V2xadFNQYnV2WDdLb0M5MGgzcklJT0lK?=
- =?utf-8?B?OFBRM2pTZ3FOSTNZT3Ayb3hqUzVZMnZzbFBBUWpYSGdyZTNCUlRJTFkvbzdr?=
- =?utf-8?B?V1VIbVB4aFI4UGw2U0ppbTdsZlJUU2hJcW5qODUzRGZxaEVMUUxDTlA1a3M0?=
- =?utf-8?B?OUNnUWhtSGs3d2JNNktVZVhkQzFFMlBDWTJBa2Vxbk1tVXpxYlM3RkhtOGVP?=
- =?utf-8?B?TTNhSm1ldEhOZDhRQnF0Y21iTWZDZkVtNkRwbzA2cmtMWWsybEhLSDAzYURt?=
- =?utf-8?B?S2tYWFR3RTlwY0xVdjRiZ1krZHpwcGsrd0dIS2JQQnNrQmRrb29abCtGNVds?=
- =?utf-8?B?YUZ6R003d3l5ZlIzbUlHa0pDRTFmM3MzTmJYMmZMWlJpRElNcnJRQThjUFMx?=
- =?utf-8?B?eC9kNm4rUU81c3FOSXBIOTFGUjdDNkw1N2M5TGRxTGt0bGh2SzZUZldzd3k2?=
- =?utf-8?B?Lzc0Rno4ZjZGSEpaZFR4UVdicHZXNG1YNHNKbVVxUVpPSUgzRWZQRkI4a295?=
- =?utf-8?B?VWxIYTd0dGtXbFBjcEhiamJqWnk3a2cySHQ3WnlLUjlFOW9aUDRlVnIzTDI4?=
- =?utf-8?B?Q3U0dlJmL1FyZDdzSWhnRnEzL1p4RDVUTEJZVFQxaVZCcEhWL3N0N05CbEVE?=
- =?utf-8?B?T0I3Z3h2dExpUlFZTXM4d1VWOTVaSUFyanUybitFdDRCcXo0bXQyYUk3cnRa?=
- =?utf-8?B?d2NpNTdoU29YR2IwVnFFemdYOExGWGhJYXNSb2JwVXhUa3Izem5lRE52TVNG?=
- =?utf-8?B?L2JoaGU2NGRxeUJhT09ISVFkWnVPQzNDS0E2TkJFWmdLbWxUd1pESnJUbnFz?=
- =?utf-8?B?b2ZTd2pmNnZvTXBhVG5Gck14VHo2UkJ2N292YjhrMHBLQzEvM1Fkb0xzYUoy?=
- =?utf-8?B?ZDZMODF1UDJkV05xWUhhdkgwbkdMTzY0eDNXRHIyMVN0MG5keXFDYmJjbXZO?=
- =?utf-8?B?Qms2TDN4Y3dpckJKL3p1S3lnV2I0a2pKMU92dERXdlB3Z2I3Z0NDSDkzSTd6?=
- =?utf-8?B?QUZZWWwvb293K1FER3U4UzZCMWRKUjhKYVhvdm5uUTBFT202UnN6L1BYcDBY?=
- =?utf-8?B?UjBpdHNWSjhpcnJMeVNjOWJReHFaSko3eTVzdjFrMXRWMUN2NlF4WlllN2pk?=
- =?utf-8?B?N0tKYXNHMjJZSGJQcmRmbnZTVm1td0V0QjJTeWgwYng0Z1BMWHoxSzlrL3dt?=
- =?utf-8?B?YVFPREZlbU5QZTdvSHdWcXNLd2VXMDdRdS9wdmM2dWZoRE1Td3hBcFB1WTkz?=
- =?utf-8?B?WCtPOVFZMEo2d292NzVRUkZmUkhBODNMcHlXcEVGZWR3R3l5NFFXa0lBNktq?=
- =?utf-8?B?ZEVLbmVReWVmVEp3TzQ5eDM0NDlRUGNlYVBDd1FJRk01U1ZXQ3N5eU43UU1L?=
- =?utf-8?B?L1E9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <30978EC13CA5F642837F80FDAA27A0D4@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR04MB7158.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 55b7eed2-a9fb-4b01-6d69-08da924360fd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2022 09:12:11.3407 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SJR/hpGwAV7SUzn9gv7tEvwpuCTtv7FHRfljb6N/n/xnZNAOUodozsLcqTAEO0aMmclCgULhMC+3nGGYf+Y1Tw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB4076
-Received-SPF: pass client-ip=216.71.153.141;
- envelope-from=prvs=244fa2c59=Niklas.Cassel@wdc.com; helo=esa3.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="L2YVUQ4Cf1eHUwd8"
+Content-Disposition: inline
+In-Reply-To: <20220812110137.1011659-1-niklas.cassel@wdc.com>
+Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
+ helo=out5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -162,50 +101,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gRnJpLCBBdWcgMTIsIDIwMjIgYXQgMDE6MDE6MzdQTSArMDIwMCwgTmlrbGFzIENhc3NlbCB3
-cm90ZToNCj4gVGhlIGludGVudGlvbiBvZiB0aGUgWm9uZWQgTmFtZXNwYWNlIENvbW1hbmQgU2V0
-IFNwZWNpZmljYXRpb24gd2FzDQo+IG5ldmVyIHRvIG1ha2UgYW4gYXV0b21hdGljIHpvbmUgdHJh
-bnNpdGlvbiBvcHRpb25hbC4NCj4gDQo+IEV4Y2VycHQgZnJvbSB0aGUgbnZtZXhwcmVzcy5vcmcg
-em5zIG1haWxpbmcgbGlzdDoNCj4gIiIiDQo+IEEgcXVlc3Rpb24gY2FtZSB1cCBpbnRlcm5hbGx5
-IG9uIHRoZSBkaWZmZXJlbmNlcyBiZXR3ZWVuIFpOUyBhbmQgWkFDL1pCQw0KPiB0aGF0IGFza2Vk
-IGFib3V0IHdoZW4gYSBjb250cm9sbGVyIHNob3VsZCB0cmFuc2l0aW9ucyBhIHNwZWNpZmljIHpv
-bmUgaW4NCj4gdGhlIEltcGxpY2l0bHkgT3BlbmVkIHN0YXRlIHRvIENsb3NlZCBzdGF0ZS4NCj4g
-DQo+IEZvciBleGFtcGxlLCBjb25zaWRlciBhIFpOUyBTU0QgdGhhdCBzdXBwb3J0cyBhIG1heCBv
-ZiAyMCBhY3RpdmUgem9uZXMsDQo+IGFuZCBhIG1heCBvZiAxMCBvcGVuIHpvbmVzLCB3aGljaCBo
-YXMgdGhlIGZvbGxvd2luZyBhY3Rpb25zIG9jY3VyOg0KPiANCj4gRmlyc3QsIHRoZSBob3N0IHdy
-aXRlcyB0byB0ZW4gZW1wdHkgem9uZXMsIHRoZXJlYnkgdHJhbnNpdGlvbmluZyAxMCB6b25lcw0K
-PiB0byB0aGUgSW1wbGljaXRseSBPcGVuZWQgc3RhdGUuDQo+IA0KPiBTZWNvbmQsIHRoZSBob3N0
-IGlzc3VlcyBhIHdyaXRlIHRvIGFuIDExdGggZW1wdHkgem9uZS4NCj4gDQo+IEdpdmVuIHRoYXQg
-c3RhdGUsIG15IHVuZGVyc3RhbmRpbmcgb2YgdGhlIHNlY29uZCBwYXJ0IGlzIHRoYXQgdGhlIFpO
-UyBTU0QNCj4gY2hvb3NlcyBvbmUgb2YgdGhlIHByZXZpb3VzbHkgMTAgem9uZXMsIGFuZCB0cmFu
-c2l0aW9uIHRoZSBjaG9zZW4gem9uZSB0bw0KPiB0aGUgQ2xvc2VkIHN0YXRlLCBhbmQgdGhlbiBw
-cm9jZWVkcyB0byB3cml0ZSB0byB0aGUgbmV3IHpvbmUgd2hpY2ggYWxzbw0KPiBpbXBsaWNpdGx5
-IHRyYW5zaXRpb24gaXQgZnJvbSB0aGUgRW1wdHkgc3RhdGUgdG8gdGhlIEltcGwuIE9wZW4gc3Rh
-dGUuDQo+IEFmdGVyIHRoaXMsIHRoZXJlIHdvdWxkIGJlIDExIGFjdGl2ZSB6b25lcyBpbiB0b3Rh
-bCwgMTAgaW4gaW1wbC4gT3Blbg0KPiBzdGF0ZSwgYW5kIG9uZSBpbiBjbG9zZWQgc3RhdGUuDQo+
-IA0KPiBUaGUgYWJvdmUgYXNzdW1lcyB0aGF0IGEgWk5TIFNTRCB3aWxsIGFsd2F5cyB0cmFuc2l0
-aW9uIGFuIGltcGxpY2l0bHkNCj4gb3BlbmVkIHpvbmUgdG8gY2xvc2VkIHN0YXRlIHdoZW4gcmVx
-dWlyZWQgdG8gZnJlZSB1cCByZXNvdXJjZXMgd2hlbg0KPiBhbm90aGVyIHpvbmUgaXMgb3BlbmVk
-LiBIb3dldmVyLCBpdCBpc27igJl0IHN0cmljdGx5IHNhaWQgaW4gdGhlIFpOUyBzcGVjLg0KPiAN
-Cj4gVGhlIHBhcmFncmFwaCB0aGF0IHNob3VsZCBjb3ZlciBpdCBpcyBkZWZpbmVkIGluIHNlY3Rp
-b24NCj4gMi4xLjEuNC4xIOKAkyBNYW5hZ2luZyBSZXNvdXJjZXM6DQo+IFRoZSBjb250cm9sbGVy
-IG1heSB0cmFuc2l0aW9uIHpvbmVzIGluIHRoZSBaU0lPOkltcGxpY2l0bHkgT3BlbmVkIHN0YXRl
-DQo+IHRvIHRoZSBaU0M6Q2xvc2VkIHN0YXRlIGZvciByZXNvdXJjZSBtYW5hZ2VtZW50IHB1cnBv
-c2VzLg0KPiANCj4gSG93ZXZlciwgaXQgZG9lc27igJl0IHNheSDigJx3aGVu4oCdIGl0IHNob3Vs
-ZCBvY2N1ci4gVGh1cywgYXMgdGhlIHRleHQgc3RhbmQsDQo+IGl0IGNvdWxkIGJlIG1pc2ludGVy
-cHJldGVkIHRoYXQgdGhlIGNvbnRyb2xsZXIgc2hvdWxkbuKAmXQgZG8gY2xvc2UgYSB6b25lDQo+
-IHRvIG1ha2Ugcm9vbSBmb3IgYSBuZXcgem9uZS4gVGhlIGlzc3VlIHdpdGggdGhpcywgaXMgdGhh
-dCBpdCBtYWtlcyB0aGUNCj4gcG9pbnQgb2YgaGF2aW5nIGltcGxpY2l0bHkgbWFuYWdlZCB6b25l
-cyBtb290Lg0KPiANCj4gVGhlIFpBQy9aQkMgc3BlY3MgaXMgbW9yZSBzcGVjaWZpYyBhbmQgY2xh
-cmlmaWVzIHdoZW4gYSB6b25lIHNob3VsZCBiZQ0KPiBjbG9zZWQuIEkgdGhpbmsgaXQgd291bGQg
-YmUgbmF0dXJhbCB0byB0aGUgc2FtZSBoZXJlLg0KPiAiIiINCj4gDQo+IFdoaWxlIHRoZSBab25l
-ZCBOYW1lc3BhY2UgQ29tbWFuZCBTZXQgU3BlY2lmaWNhdGlvbiBoYXNuJ3QgcmVjZWl2ZWQgYW4N
-Cj4gZXJyYXRhIHlldCwgaXQgaXMgcXVpdGUgY2xlYXIgdGhhdCB0aGUgaW50ZW50aW9uIHdhcyB0
-aGF0IGFuIGF1dG9tYXRpYw0KPiB6b25lIHRyYW5zaXRpb24gd2FzIG5ldmVyIHN1cHBvc2VkIHRv
-IGJlIG9wdGlvbmFsLCBhcyB0aGVuIHRoZSB3aG9sZQ0KPiBwb2ludCBvZiBoYXZpbmcgaW1wbGlj
-dGx5IG9wZW4gem9uZXMgd291bGQgYmUgcG9pbnRsZXNzLiBUaGVyZWZvcmUsDQo+IHJlbW92ZSB0
-aGUgcGFyYW0gem9uZWQuYXV0b190cmFuc2l0aW9uLCBhcyB0aGlzIHdhcyBuZXZlciBzdXBwb3Nl
-ZCB0bw0KPiBiZSBjb250cm9sbGVyIGltcGxlbWVudGF0aW9uIHNwZWNpZmljLg0KPiANCj4gU2ln
-bmVkLW9mZi1ieTogTmlrbGFzIENhc3NlbCA8bmlrbGFzLmNhc3NlbEB3ZGMuY29tPg0KPiAtLS0N
-Cg0KR2VudGxlIHBpbmcuDQoNCg0KS2luZCByZWdhcmRzLA0KTmlrbGFz
+
+--L2YVUQ4Cf1eHUwd8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Aug 12 13:01, Niklas Cassel wrote:
+> The intention of the Zoned Namespace Command Set Specification was
+> never to make an automatic zone transition optional.
+>=20
+> Excerpt from the nvmexpress.org zns mailing list:
+> """
+> A question came up internally on the differences between ZNS and ZAC/ZBC
+> that asked about when a controller should transitions a specific zone in
+> the Implicitly Opened state to Closed state.
+>=20
+> For example, consider a ZNS SSD that supports a max of 20 active zones,
+> and a max of 10 open zones, which has the following actions occur:
+>=20
+> First, the host writes to ten empty zones, thereby transitioning 10 zones
+> to the Implicitly Opened state.
+>=20
+> Second, the host issues a write to an 11th empty zone.
+>=20
+> Given that state, my understanding of the second part is that the ZNS SSD
+> chooses one of the previously 10 zones, and transition the chosen zone to
+> the Closed state, and then proceeds to write to the new zone which also
+> implicitly transition it from the Empty state to the Impl. Open state.
+> After this, there would be 11 active zones in total, 10 in impl. Open
+> state, and one in closed state.
+>=20
+> The above assumes that a ZNS SSD will always transition an implicitly
+> opened zone to closed state when required to free up resources when
+> another zone is opened. However, it isn=E2=80=99t strictly said in the ZN=
+S spec.
+>=20
+> The paragraph that should cover it is defined in section
+> 2.1.1.4.1 =E2=80=93 Managing Resources:
+> The controller may transition zones in the ZSIO:Implicitly Opened state
+> to the ZSC:Closed state for resource management purposes.
+>=20
+> However, it doesn=E2=80=99t say =E2=80=9Cwhen=E2=80=9D it should occur. T=
+hus, as the text stand,
+> it could be misinterpreted that the controller shouldn=E2=80=99t do close=
+ a zone
+> to make room for a new zone. The issue with this, is that it makes the
+> point of having implicitly managed zones moot.
+>=20
+> The ZAC/ZBC specs is more specific and clarifies when a zone should be
+> closed. I think it would be natural to the same here.
+> """
+>=20
+> While the Zoned Namespace Command Set Specification hasn't received an
+> errata yet, it is quite clear that the intention was that an automatic
+> zone transition was never supposed to be optional, as then the whole
+> point of having implictly open zones would be pointless. Therefore,
+> remove the param zoned.auto_transition, as this was never supposed to
+> be controller implementation specific.
+>=20
+> Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+> ---
+>  hw/nvme/ctrl.c | 35 ++++++++++++-----------------------
+>  hw/nvme/nvme.h |  1 -
+>  2 files changed, 12 insertions(+), 24 deletions(-)
+>=20
+
+No quarrel from me, but we need to deprecate the parameter first.
+
+However, I agree that it is a misinterpretation of the spec, so I'm ok
+with removing the code using the parameter so it doesnt do anything.
+
+Please do that, but retain the parameter and add it in
+docs/about/deprecated.rst and remove the documentation related to the
+option.
+
+--L2YVUQ4Cf1eHUwd8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmMbCg4ACgkQTeGvMW1P
+DensFQgAv2vjwdQIoGDx3VG2IQ5dhdMtND3eUrgzQInOATBRPt1anr4mAnWwSXS/
+ckHunim+ZQTIGedBHWZ+EHyxkzr5eHP0HFSSuPuWpsR9mQlGeyo8E7mPG9yXp8hB
+St3pdyF4xocSn8ZBXSTY9qCFrafQqm7VZpBs8P/dC5Z0slEEfmD64pce67mw7sRF
+6tv09d2rjqdKWhgmpb64LwTBZgfKH1pBokHbjYpTEpvyUn1RebxQ4suAMKZVWkdl
+q2T45ZO3/DasQqBOXv2dI1RSCripPZOWNXz2TCIUVaXtYu8tC2638yKfSij6wlYB
+oUFSe0jH/sHonVCILgyIHI0MwgxW+w==
+=tfgE
+-----END PGP SIGNATURE-----
+
+--L2YVUQ4Cf1eHUwd8--
 
