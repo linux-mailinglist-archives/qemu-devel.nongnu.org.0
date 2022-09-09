@@ -2,56 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 579DC5B38AE
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 15:13:03 +0200 (CEST)
-Received: from localhost ([::1]:58458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF7DF5B38B7
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 15:15:26 +0200 (CEST)
+Received: from localhost ([::1]:56522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWdob-00052h-TS
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 09:13:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46962)
+	id 1oWdqv-0006Xg-MT
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 09:15:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1oWdmd-0003Rv-KQ; Fri, 09 Sep 2022 09:10:59 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:60449)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1oWdmY-0005TB-8M; Fri, 09 Sep 2022 09:10:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=IOC297hLJ9xVejGRMLx4cP5GzuItpDV2eoVbSaJ/SDE=; b=s83we5VNECf31KuE7Rgdbe9qf7
- jT39Ym2IXaDtAD8LFhLcBXkEoKR+pMKnIJEZnvS6N6h/j1ZMnHtk3+T8Ybr281hc/5Odw/Jk7U3YH
- cy1TZ/fgPkHJekXRb07rsHNoohxxRUsCxSxHsECLQyjxy753CeOt3BNfxzcW5Neo2PSFr9QOY1zAi
- lL2ba1SfcL0zZ/scuM91WRrvqpG68nBCQ4bRke22YCkSneRMg1wRjMyScC1/fLvu8W3NgrH7qmqYW
- EsDQrEpt6i4vEuj3o5A/9+bWVIjDcl4p9+cLwxGWZBRoTF3dr+jPhup5GPzfk3EPEAgTnGL/khMzk
- Sdfx+Rieh85QSwwPQmWqbpTvDGXlq96hg0d8pC0Q9Edo4D0VRrVycyDanA/J/kQBOr1OzyAu64VxI
- FdhpvntFO7kwDeUbhYfNVQ5zdnMbFkEwonU0xS7LAI3rX6ZAaNatZpPkEep9QJYSGe/xnjIFFBB22
- OjxdKrUdpEN5d8TjYDU9hBV7D63NfYCTzRnT14kZwRbcsucpbq6eawbmPFicDz29pxtdY65OJjdha
- kOpJTuwPQ86Joq6hPRwyBYURtq3jn/UtzauHsl12yV/AEBxDdmizrWCs+J7nh+/Ayw5Z4lh5Ok3fa
- JxiOZGjE84TdJxSxCmYpkPQ1pukpbf2UeZkirlJsI=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Qemu-block <qemu-block@nongnu.org>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
- Daniel P =?ISO-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Greg Kurz <groug@kaod.org>, Linus Heckemann <git@sphalerite.org>
-Subject: Re: [PATCH v3] 9pfs: use GHashTable for fid table
-Date: Fri, 09 Sep 2022 15:10:48 +0200
-Message-ID: <1948479.BV7xhjtDqn@silver>
-In-Reply-To: <20220908112353.289267-1-git@sphalerite.org>
-References: <20220908112353.289267-1-git@sphalerite.org>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oWdpY-0005AV-0U; Fri, 09 Sep 2022 09:14:00 -0400
+Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e]:34680)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oWdpV-00062i-SS; Fri, 09 Sep 2022 09:13:59 -0400
+Received: by mail-lj1-x22e.google.com with SMTP id z23so1795479ljk.1;
+ Fri, 09 Sep 2022 06:13:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=vCZEEgIzDr/rvrLhpgxy3rB6cKoqmkaaP9u0dbHB1/M=;
+ b=ALdbiWHAVloCMeDSmdcEYIaiu1GNlb5fN5mO1yKT8PzhgK54QPOdKPF7cIwdENkGCy
+ s7qgdP2XMqZD47/zDmlWxCUSCCJ3/P46XQqu68OP8CuEKM296Z6i0RW76mORHtafHBfd
+ 1XTQcUzQk+CcmJ4wlYAubvWLULwqkiCjM6rh5lUViIOWMiLpL9BaGIWCBCZIO99i87Pq
+ J3AatrywUJQDryw2t+GD96QH7XDu5Vlbzo2M/gs1AktKKXFBJQTx9z0mFWy499ZDyT+A
+ LcrKlY07fWrDM6AOcLGVAj8ten+jOCPHZuupNbPUPcloNJwYGh6QR40ggGc9/uRaXzk5
+ Ztpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=vCZEEgIzDr/rvrLhpgxy3rB6cKoqmkaaP9u0dbHB1/M=;
+ b=6TY9czLTyPUoCrZwumzmxwgLsCF196gaVnDnOg3Q3P0w8/NZhBM4Xz2w3dzjNpj9sx
+ bhAss1SZmlGnnKDME/gbgelJmlMh/KPqsLwc60zRONLVUpkgpRDANVzz3/GQE42f90EW
+ UIpUItw2mLrCnmFTWaCqeS9N0Pd89ORP+r3/wB+V+TGQCN17k/Ar1n4z+7kADv4gu5pC
+ /mAw8V52MBHhPJ5PZ4MZ+U2lMsC+BF34JrYTCgvMoNaKtqsyyuCfprRArgBiB39dsltT
+ p9O1wG1HEAI6kZl0ryGiFmw6uyUtemt+OXWWCKLuJm6Eg6utZOtpZs9tCbMHIfc2UMeC
+ z54w==
+X-Gm-Message-State: ACgBeo10X3l57hayv0NeX0uc0y0kr6foazea4DRZdIuUTpShld/On6Gl
+ NHPSYGS2lI8b/VHnKNHztceqmTw5YPD0zb0pl34=
+X-Google-Smtp-Source: AA6agR4uPhsPSe7q6MivMq9R0+RD38qxbbwUl2RIJLUpJpQqJsTDxgj4foMTQVsjHeevGaz/A7oAhYCjWI2hHnZKEZw=
+X-Received: by 2002:a05:651c:a04:b0:25e:753b:db42 with SMTP id
+ k4-20020a05651c0a0400b0025e753bdb42mr3912853ljq.529.1662729235250; Fri, 09
+ Sep 2022 06:13:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+References: <20220908173120.16779-1-arwed.meyer@gmx.de>
+ <20220908173120.16779-3-arwed.meyer@gmx.de>
+In-Reply-To: <20220908173120.16779-3-arwed.meyer@gmx.de>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 9 Sep 2022 17:13:43 +0400
+Message-ID: <CAJ+F1CKuQrumdPyEHZrfRmSTP3gjry2FGS1H=zw-L55Fm5iriQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] chardev: src buffer const for write functions
+To: Arwed Meyer <arwed.meyer@gmx.de>
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+Content-Type: multipart/alternative; boundary="0000000000006cc3bc05e83e512a"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22e;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,47 +82,252 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 8. September 2022 13:23:53 CEST Linus Heckemann wrote:
-> The previous implementation would iterate over the fid table for
-> lookup operations, resulting in an operation with O(n) complexity on
-> the number of open files and poor cache locality -- for every open,
-> stat, read, write, etc operation.
->=20
-> This change uses a hashtable for this instead, significantly improving
-> the performance of the 9p filesystem. The runtime of NixOS's simple
-> installer test, which copies ~122k files totalling ~1.8GiB from 9p,
-> decreased by a factor of about 10.
->=20
-> Signed-off-by: Linus Heckemann <git@sphalerite.org>
-> Reviewed-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-> Reviewed-by: Greg Kurz <groug@kaod.org>
+--0000000000006cc3bc05e83e512a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+On Thu, Sep 8, 2022 at 9:44 PM Arwed Meyer <arwed.meyer@gmx.de> wrote:
+
+> Make source buffers const for char be write functions.
+> This allows using buffers returned by fifo as buf parameter and source
+> buffer
+> should not be changed by write functions anyway.
+>
+> Signed-off-by: Arwed Meyer <arwed.meyer@gmx.de>
+>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+
 > ---
+>  chardev/char.c          | 4 ++--
+>  include/chardev/char.h  | 4 ++--
+>  include/sysemu/replay.h | 2 +-
+>  replay/replay-char.c    | 2 +-
+>  stubs/replay-tools.c    | 2 +-
+>  5 files changed, 7 insertions(+), 7 deletions(-)
+>
+> diff --git a/chardev/char.c b/chardev/char.c
+> index 0169d8dde4..b005df3ccf 100644
+> --- a/chardev/char.c
+> +++ b/chardev/char.c
+> @@ -193,7 +193,7 @@ int qemu_chr_be_can_write(Chardev *s)
+>      return be->chr_can_read(be->opaque);
+>  }
+>
+> -void qemu_chr_be_write_impl(Chardev *s, uint8_t *buf, int len)
+> +void qemu_chr_be_write_impl(Chardev *s, const uint8_t *buf, int len)
+>  {
+>      CharBackend *be =3D s->be;
+>
+> @@ -202,7 +202,7 @@ void qemu_chr_be_write_impl(Chardev *s, uint8_t *buf,
+> int len)
+>      }
+>  }
+>
+> -void qemu_chr_be_write(Chardev *s, uint8_t *buf, int len)
+> +void qemu_chr_be_write(Chardev *s, const uint8_t *buf, int len)
+>  {
+>      if (qemu_chr_replay(s)) {
+>          if (replay_mode =3D=3D REPLAY_MODE_PLAY) {
+> diff --git a/include/chardev/char.h b/include/chardev/char.h
+> index a319b5fdff..44cd82e405 100644
+> --- a/include/chardev/char.h
+> +++ b/include/chardev/char.h
+> @@ -186,7 +186,7 @@ int qemu_chr_be_can_write(Chardev *s);
+>   * the caller should call @qemu_chr_be_can_write to determine how much
+> data
+>   * the front end can currently accept.
+>   */
+> -void qemu_chr_be_write(Chardev *s, uint8_t *buf, int len);
+> +void qemu_chr_be_write(Chardev *s, const uint8_t *buf, int len);
+>
+>  /**
+>   * qemu_chr_be_write_impl:
+> @@ -195,7 +195,7 @@ void qemu_chr_be_write(Chardev *s, uint8_t *buf, int
+> len);
+>   *
+>   * Implementation of back end writing. Used by replay module.
+>   */
+> -void qemu_chr_be_write_impl(Chardev *s, uint8_t *buf, int len);
+> +void qemu_chr_be_write_impl(Chardev *s, const uint8_t *buf, int len);
+>
+>  /**
+>   * qemu_chr_be_update_read_handlers:
+> diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
+> index 73dee9ccdf..7ec0882b50 100644
+> --- a/include/sysemu/replay.h
+> +++ b/include/sysemu/replay.h
+> @@ -198,7 +198,7 @@ uint64_t blkreplay_next_id(void);
+>  /*! Registers char driver to save it's events */
+>  void replay_register_char_driver(struct Chardev *chr);
+>  /*! Saves write to char device event to the log */
+> -void replay_chr_be_write(struct Chardev *s, uint8_t *buf, int len);
+> +void replay_chr_be_write(struct Chardev *s, const uint8_t *buf, int len)=
+;
+>  /*! Writes char write return value to the replay log. */
+>  void replay_char_write_event_save(int res, int offset);
+>  /*! Reads char write return value from the replay log. */
+> diff --git a/replay/replay-char.c b/replay/replay-char.c
+> index d2025948cf..a31aded032 100644
+> --- a/replay/replay-char.c
+> +++ b/replay/replay-char.c
+> @@ -48,7 +48,7 @@ void replay_register_char_driver(Chardev *chr)
+>      char_drivers[drivers_count++] =3D chr;
+>  }
+>
+> -void replay_chr_be_write(Chardev *s, uint8_t *buf, int len)
+> +void replay_chr_be_write(Chardev *s, const uint8_t *buf, int len)
+>  {
+>      CharEvent *event =3D g_new0(CharEvent, 1);
+>
+> diff --git a/stubs/replay-tools.c b/stubs/replay-tools.c
+> index f2e72bb225..3e8ca3212d 100644
+> --- a/stubs/replay-tools.c
+> +++ b/stubs/replay-tools.c
+> @@ -53,7 +53,7 @@ void replay_register_char_driver(struct Chardev *chr)
+>  {
+>  }
+>
+> -void replay_chr_be_write(struct Chardev *s, uint8_t *buf, int len)
+> +void replay_chr_be_write(struct Chardev *s, const uint8_t *buf, int len)
+>  {
+>      abort();
+>  }
+> --
+> 2.34.1
+>
+>
+>
 
-Queued on 9p.next:
-https://github.com/cschoenebeck/qemu/commits/9p.next
+--=20
+Marc-Andr=C3=A9 Lureau
 
-I retained the BUG_ON() in get_fid(), Greg had a point there that continuin=
-g=20
-to work on a clunked fid would still be a bug.
+--0000000000006cc3bc05e83e512a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I also added the suggested TODO comment for g_hash_table_steal_extended(), =
-the=20
-actual change would be outside the scope of this patch.
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 8, 2022 at 9:44 PM Arwe=
+d Meyer &lt;<a href=3D"mailto:arwed.meyer@gmx.de">arwed.meyer@gmx.de</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Make so=
+urce buffers const for char be write functions.<br>
+This allows using buffers returned by fifo as buf parameter and source buff=
+er<br>
+should not be changed by write functions anyway.<br>
+<br>
+Signed-off-by: Arwed Meyer &lt;<a href=3D"mailto:arwed.meyer@gmx.de" target=
+=3D"_blank">arwed.meyer@gmx.de</a>&gt;<br></blockquote><div><br></div><div>=
+Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@=
+redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div>=C2=A0<br></div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0chardev/char.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 4 ++--<br>
+=C2=A0include/chardev/char.h=C2=A0 | 4 ++--<br>
+=C2=A0include/sysemu/replay.h | 2 +-<br>
+=C2=A0replay/replay-char.c=C2=A0 =C2=A0 | 2 +-<br>
+=C2=A0stubs/replay-tools.c=C2=A0 =C2=A0 | 2 +-<br>
+=C2=A05 files changed, 7 insertions(+), 7 deletions(-)<br>
+<br>
+diff --git a/chardev/char.c b/chardev/char.c<br>
+index 0169d8dde4..b005df3ccf 100644<br>
+--- a/chardev/char.c<br>
++++ b/chardev/char.c<br>
+@@ -193,7 +193,7 @@ int qemu_chr_be_can_write(Chardev *s)<br>
+=C2=A0 =C2=A0 =C2=A0return be-&gt;chr_can_read(be-&gt;opaque);<br>
+=C2=A0}<br>
+<br>
+-void qemu_chr_be_write_impl(Chardev *s, uint8_t *buf, int len)<br>
++void qemu_chr_be_write_impl(Chardev *s, const uint8_t *buf, int len)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0CharBackend *be =3D s-&gt;be;<br>
+<br>
+@@ -202,7 +202,7 @@ void qemu_chr_be_write_impl(Chardev *s, uint8_t *buf, i=
+nt len)<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0}<br>
+<br>
+-void qemu_chr_be_write(Chardev *s, uint8_t *buf, int len)<br>
++void qemu_chr_be_write(Chardev *s, const uint8_t *buf, int len)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0if (qemu_chr_replay(s)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (replay_mode =3D=3D REPLAY_MODE_PLAY) =
+{<br>
+diff --git a/include/chardev/char.h b/include/chardev/char.h<br>
+index a319b5fdff..44cd82e405 100644<br>
+--- a/include/chardev/char.h<br>
++++ b/include/chardev/char.h<br>
+@@ -186,7 +186,7 @@ int qemu_chr_be_can_write(Chardev *s);<br>
+=C2=A0 * the caller should call @qemu_chr_be_can_write to determine how muc=
+h data<br>
+=C2=A0 * the front end can currently accept.<br>
+=C2=A0 */<br>
+-void qemu_chr_be_write(Chardev *s, uint8_t *buf, int len);<br>
++void qemu_chr_be_write(Chardev *s, const uint8_t *buf, int len);<br>
+<br>
+=C2=A0/**<br>
+=C2=A0 * qemu_chr_be_write_impl:<br>
+@@ -195,7 +195,7 @@ void qemu_chr_be_write(Chardev *s, uint8_t *buf, int le=
+n);<br>
+=C2=A0 *<br>
+=C2=A0 * Implementation of back end writing. Used by replay module.<br>
+=C2=A0 */<br>
+-void qemu_chr_be_write_impl(Chardev *s, uint8_t *buf, int len);<br>
++void qemu_chr_be_write_impl(Chardev *s, const uint8_t *buf, int len);<br>
+<br>
+=C2=A0/**<br>
+=C2=A0 * qemu_chr_be_update_read_handlers:<br>
+diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h<br>
+index 73dee9ccdf..7ec0882b50 100644<br>
+--- a/include/sysemu/replay.h<br>
++++ b/include/sysemu/replay.h<br>
+@@ -198,7 +198,7 @@ uint64_t blkreplay_next_id(void);<br>
+=C2=A0/*! Registers char driver to save it&#39;s events */<br>
+=C2=A0void replay_register_char_driver(struct Chardev *chr);<br>
+=C2=A0/*! Saves write to char device event to the log */<br>
+-void replay_chr_be_write(struct Chardev *s, uint8_t *buf, int len);<br>
++void replay_chr_be_write(struct Chardev *s, const uint8_t *buf, int len);<=
+br>
+=C2=A0/*! Writes char write return value to the replay log. */<br>
+=C2=A0void replay_char_write_event_save(int res, int offset);<br>
+=C2=A0/*! Reads char write return value from the replay log. */<br>
+diff --git a/replay/replay-char.c b/replay/replay-char.c<br>
+index d2025948cf..a31aded032 100644<br>
+--- a/replay/replay-char.c<br>
++++ b/replay/replay-char.c<br>
+@@ -48,7 +48,7 @@ void replay_register_char_driver(Chardev *chr)<br>
+=C2=A0 =C2=A0 =C2=A0char_drivers[drivers_count++] =3D chr;<br>
+=C2=A0}<br>
+<br>
+-void replay_chr_be_write(Chardev *s, uint8_t *buf, int len)<br>
++void replay_chr_be_write(Chardev *s, const uint8_t *buf, int len)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0CharEvent *event =3D g_new0(CharEvent, 1);<br>
+<br>
+diff --git a/stubs/replay-tools.c b/stubs/replay-tools.c<br>
+index f2e72bb225..3e8ca3212d 100644<br>
+--- a/stubs/replay-tools.c<br>
++++ b/stubs/replay-tools.c<br>
+@@ -53,7 +53,7 @@ void replay_register_char_driver(struct Chardev *chr)<br>
+=C2=A0{<br>
+=C2=A0}<br>
+<br>
+-void replay_chr_be_write(struct Chardev *s, uint8_t *buf, int len)<br>
++void replay_chr_be_write(struct Chardev *s, const uint8_t *buf, int len)<b=
+r>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0abort();<br>
+=C2=A0}<br>
+--<br>
+2.34.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
-And finally I gave this patch a whirl, and what can I say: that's just sick=
-!=20
-Compiling sources with 9p is boosted by around factor 6..7 here! And runnin=
-g=20
-9p as root fs also no longer feels sluggish as before. I mean I knew that t=
-his=20
-fid list traversal performance issue existed and had it on my TODO list, bu=
-t=20
-the actual impact exceeded my expectation by far.
-
-Thanks!
-
-Best regards,
-Christian Schoenebeck
-
-
+--0000000000006cc3bc05e83e512a--
 
