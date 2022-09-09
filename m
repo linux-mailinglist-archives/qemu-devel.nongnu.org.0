@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8B705B3D38
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 18:43:07 +0200 (CEST)
-Received: from localhost ([::1]:48046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2877E5B3D7F
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 18:53:51 +0200 (CEST)
+Received: from localhost ([::1]:60724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWh5u-0003Zm-Ri
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 12:43:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58688)
+	id 1oWhGI-0001Hw-03
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 12:53:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oWh48-00021F-9Y
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 12:41:16 -0400
-Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:33573)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oWh45-0007xh-VN
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 12:41:16 -0400
-Received: by mail-yb1-xb2a.google.com with SMTP id 11so3567618ybu.0
- for <qemu-devel@nongnu.org>; Fri, 09 Sep 2022 09:41:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date; bh=bgGnDvZe+c8LuII7vL8lyuG/HfKB3YZ9q2O3O8JNa6Y=;
- b=DGcrrQqrVINJyiEP0Wl1JfOTeQHBaNjexSS35VrnO9NKAqhpRDgqmW11Fp8ua/e3fs
- T0fAKYpaARKFY8Mi8E88PIw7iEe11mDmrDTEBdC6EH6EMItLFdPIf00rMQimKY4bicj/
- hMXIWYi6FIkD+kKrdW1n/lJcKIO5Zm+ap2E4dfNm/ajcfuxCq2H8z9HOPyJ9bb8gjpm6
- ZEtggAswTJqd9WVea4GLMuOgKQNkiS5GYKGBSbaA4323FCZjf7g3VBrEhEcMKAXpHFaj
- MBL3X9L/fi6cGsTmub0sbBUAcRZuuZESQF1FW5KcLbGtFnelsoRR0eC8zFOQmiEvlUuy
- gLXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date;
- bh=bgGnDvZe+c8LuII7vL8lyuG/HfKB3YZ9q2O3O8JNa6Y=;
- b=a/fbtm5q/gb8uMk1V3U6thbPIiWYb/c0YqXtvHcBw8DW1XU6M2ZhLhGr9aycdtwIoD
- P9cm/dJMmFiKy8L0kUvHbhaT2bi+sm41OyYMjh2kjD3wDxLn1YZ5WxDC8GfeyJTyOuCP
- gwRYTvdgAuEHNHv8QgExUTiFNKkBaK+dCGeGYYe8l92Ye1EGQPX/5DqFPQl04QS27usc
- xmAmtD6pyEZdREN9nDbSaBgWsJ8JRgPNntAWyRIIE9hRFHpU2UTLnmcqO55AWqBoe3vi
- 0tm0i5pRAn0wts2kU7U6Ukycv3FU34PPmXdlttezaEy6tm/s7nK8xZOX0xFhfyygKMgH
- 0CSA==
-X-Gm-Message-State: ACgBeo2npsE3VX8GRVUJQxpDkMDzkp8WL8eEejAVA71vmUg8pF6r/9wA
- DCL8lGPLtvNW/V4YaLnkIjdYyah4M+hnXFHRKC3ZXDJjy8VdDA==
-X-Google-Smtp-Source: AA6agR5RY/2oQd4lrulLn2+rBTZfgXRkdV7rpoL5+RfvohZSehc3cwvtLvUW+qJcvu50DqJQC2ZMLGbHNaoL0JSkFXM=
-X-Received: by 2002:a25:af41:0:b0:6a9:3f9c:b84e with SMTP id
- c1-20020a25af41000000b006a93f9cb84emr12650243ybj.537.1662741672707; Fri, 09
- Sep 2022 09:41:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oWhCN-0005Vi-Di
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 12:49:48 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37560)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oWhCK-0000na-St
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 12:49:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=SkttA0QV1HOR8wYAtMESFzo6Yf17gkEInMGViNQIGkc=; b=ylHXDcjMwUwdVuO/nrMqVeOaPO
+ Nr5aYToYcixqFvKcygcjEZ6KiI0gjutZfdGOdY8y5OJbbkZj3wpdDBzArAkaewvel+JZxkxeHwrz7
+ O0pt3gwOp8dxtBRm+Hq7u8BD2ljXJoXwRByBRtD8C8Cg0hKfjw8+xg7wSI7MXxohgHhkWQhQ86shd
+ 7xjZmN4JVCoWYcSxIsemswBY+sFyg14sETiy9XCxX3jBlaESl7O+H78ILfR1XByheulpwXC9maDiM
+ b31b+eb0kwhlR4KkAuJBEZ6dGzrpwezip/999N2DM0Afz7orM+lWL8GXki9VZu5Kz1ta0asVTlxda
+ 56OeywWzHciYW14Ra3nIrEZpknlU9hUnF5smFTxh7tePbBE2+7N0pzP36odaCYck7hBVbIeu9DEuV
+ f+6YxLwCnQaBorzq60SsHtMS90YCMat5tEW2eBqdLWiCHcJXS7RmoxpLFnPfQ9rdoAVPoYUHLJRaE
+ lHaRxdVw7diYUGcaQa1XlwAj4sN5me6UeH4oUjyVIFhhE6AGLQZjGbhrOFbLw41sbaXPu0iVTT90O
+ gKh+3eGtV3l175RyhZLU8a3pnG650FFKh32ekKmMgMme3AR83O/Nmn6wvyRFSYMBT0jXBQ9sEVEfS
+ L0lVqt20zr+WEbvJPudpBsCessfqfxXQSj3ICsuyA=;
+Received: from [2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oWhAd-00007S-6w; Fri, 09 Sep 2022 17:48:03 +0100
+Message-ID: <556496df-4362-6780-8379-e14bf4269e3f@ilande.co.uk>
+Date: Fri, 9 Sep 2022 17:49:33 +0100
 MIME-Version: 1.0
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Fri, 9 Sep 2022 12:41:01 -0400
-Message-ID: <CAJSP0QUn5wianZaCu8Ka=eu2uuwtwTnTLD-P9pkb+PxFd=1Mzg@mail.gmail.com>
-Subject: Call for Outreachy Dec-Mar internship project ideas
-To: qemu-devel <qemu-devel@nongnu.org>, kvm <kvm@vger.kernel.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Richard Henderson <richard.henderson@linaro.org>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Thomas Huth <thuth@redhat.com>, Warner Losh <imp@bsdimp.com>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- Fabiano Rosas <farosas@linux.ibm.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Frank Chang <frank.chang@sifive.com>,
- Matheus Ferst <matheus.ferst@eldorado.org.br>, 
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Sean Christopherson <seanjc@google.com>, Marc Zyngier <maz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>
+References: <20220908132817.1831008-1-bmeng.cn@gmail.com>
+ <20220908132817.1831008-4-bmeng.cn@gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220908132817.1831008-4-bmeng.cn@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 3/7] scripts/nsis.py: Automatically package required DLLs
+ of QEMU executables
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.079,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,48 +84,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dear QEMU & KVM community,
-The Outreachy open source internship program
-(https://www.outreachy.org/) is running again from December-March. If
-you have a project idea you'd like to mentor and are a regular
-contributor to QEMU or KVM, please reply to this email by September
-22nd.
+On 08/09/2022 14:28, Bin Meng wrote:
 
-I have CCed active contributors based on git-log(1) but you don't need
-to be CCed to become a mentor.
+> From: Bin Meng <bin.meng@windriver.com>
+> 
+> At present packaging the required DLLs of QEMU executables is a
+> manual process, and error prone.
+> 
+> Actually build/config-host.mak contains a GLIB_BINDIR variable
+> which is the directory where glib and other DLLs reside. This
+> works for both Windows native build and cross-build on Linux.
+> We can use it as the search directory for DLLs and automate
+> the whole DLL packaging process.
+> 
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
+> 
+>   meson.build     |  1 +
+>   scripts/nsis.py | 46 ++++++++++++++++++++++++++++++++++++++++++----
+>   2 files changed, 43 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meson.build b/meson.build
+> index c2adb7caf4..4c03850f9f 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -3657,6 +3657,7 @@ if host_machine.system() == 'windows'
+>       '@OUTPUT@',
+>       get_option('prefix'),
+>       meson.current_source_dir(),
+> +    config_host['GLIB_BINDIR'],
+>       host_machine.cpu(),
+>       '--',
+>       '-DDISPLAYVERSION=' + meson.project_version(),
+> diff --git a/scripts/nsis.py b/scripts/nsis.py
+> index baa6ef9594..03ed7608a2 100644
+> --- a/scripts/nsis.py
+> +++ b/scripts/nsis.py
+> @@ -18,12 +18,36 @@ def signcode(path):
+>           return
+>       subprocess.run([cmd, path])
+>   
+> +def find_deps(exe_or_dll, search_path, analyzed_deps):
+> +    deps = [exe_or_dll]
+> +    output = subprocess.check_output(["objdump", "-p", exe_or_dll], text=True)
+> +    output = output.split("\n")
+> +    for line in output:
+> +        if not line.startswith("\tDLL Name: "):
+> +            continue
+> +
+> +        dep = line.split("DLL Name: ")[1].strip()
+> +        if dep in analyzed_deps:
+> +            continue
+> +
+> +        dll = os.path.join(search_path, dep)
+> +        if not os.path.exists(dll):
+> +            # assume it's a Windows provided dll, skip it
+> +            continue
+> +
+> +        analyzed_deps.add(dep)
+> +        # locate the dll dependencies recursively
+> +        rdeps = find_deps(dll, search_path, analyzed_deps)
+> +        deps.extend(rdeps)
+> +
+> +    return deps
+>   
+>   def main():
+>       parser = argparse.ArgumentParser(description="QEMU NSIS build helper.")
+>       parser.add_argument("outfile")
+>       parser.add_argument("prefix")
+>       parser.add_argument("srcdir")
+> +    parser.add_argument("dlldir")
+>       parser.add_argument("cpu")
+>       parser.add_argument("nsisargs", nargs="*")
+>       args = parser.parse_args()
+> @@ -63,9 +87,26 @@ def main():
+>                   !insertmacro MUI_DESCRIPTION_TEXT ${{Section_{0}}} "{1}"
+>                   """.format(arch, desc))
+>   
+> +        search_path = args.dlldir
+> +        print("Searching '%s' for the dependent dlls ..." % search_path)
+> +        dlldir = os.path.join(destdir + prefix, "dll")
+> +        os.mkdir(dlldir)
+> +
+>           for exe in glob.glob(os.path.join(destdir + prefix, "*.exe")):
+>               signcode(exe)
+>   
+> +            # find all dll dependencies
+> +            deps = set(find_deps(exe, search_path, set()))
+> +            deps.remove(exe)
+> +
+> +            # copy all dlls to the DLLDIR
+> +            for dep in deps:
+> +                dllfile = os.path.join(dlldir, os.path.basename(dep))
+> +                if (os.path.exists(dllfile)):
+> +                    continue
+> +                print("Copying '%s' to '%s'" % (dep, dllfile))
+> +                shutil.copy(dep, dllfile)
+> +
+>           makensis = [
+>               "makensis",
+>               "-V2",
+> @@ -73,12 +114,9 @@ def main():
+>               "-DSRCDIR=" + args.srcdir,
+>               "-DBINDIR=" + destdir + prefix,
+>           ]
+> -        dlldir = "w32"
+>           if args.cpu == "x86_64":
+> -            dlldir = "w64"
+>               makensis += ["-DW64"]
+> -        if os.path.exists(os.path.join(args.srcdir, "dll")):
+> -            makensis += ["-DDLLDIR={0}/dll/{1}".format(args.srcdir, dlldir)]
+> +        makensis += ["-DDLLDIR=" + dlldir]
+>   
+>           makensis += ["-DOUTFILE=" + args.outfile] + args.nsisargs
+>           subprocess.run(makensis)
 
-Mentoring an intern is a great way to give back for the support you
-received along the way of your open source journey. You'll get
-experience with interviewing and running projects. And most of all,
-it's fun to work with talented contributors excited about open source!
+FWIW I wrote a similar script a while back to help package a custom Windows build for 
+a client, however I used ldd instead of objdump since it provided the full paths for 
+DLLs installed in the msys2/mingw-w64 environment via pacman which were outside the 
+QEMU build tree.
 
-You must be willing to commit around 5 hours per week during the
-application phase and coding period.
+Once the complete list of DLLs was obtained, it was simple matter of filtering out 
+those DLLs that started with the %WINDIR% prefix before copying them to the final 
+distribution directory.
 
-Project ideas should be:
-- 12 weeks of full-time work for a competent programmer without prior
-exposure to the code base.
-- Well-defined: scope is clear.
-- Self-contained: has few dependencies.
-- Uncontroversial: acceptable to the community.
-- Incremental: produces deliverables along the way.
 
-Project description template:
- === TITLE ===
- '''Summary:''' Short description of the project
+ATB,
 
- Detailed description of the project for someone who is not familiar
-with the code base.
-
- '''Links:'''
- * Wiki links to relevant material
- * External links to mailing lists or web sites
-
- '''Details:'''
- * Skill level: beginner or intermediate or advanced
- * Language: C/Rust/Python
- * Mentors: Email address and IRC nick
-
-Thank you,
-Stefan
+Mark.
 
