@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBDFD5B35BF
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 12:56:42 +0200 (CEST)
-Received: from localhost ([::1]:53692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 408DC5B35C3
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 12:59:20 +0200 (CEST)
+Received: from localhost ([::1]:34920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWbgf-00065C-BS
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 06:56:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43272)
+	id 1oWbjD-0007Wv-3y
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 06:59:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oWbdC-00033o-GC
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 06:53:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59424)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oWbft-0005Yt-1D
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 06:55:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oWbd9-0003fX-5H
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 06:53:04 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oWbfr-0004BZ-14
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 06:55:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662720781;
+ s=mimecast20190719; t=1662720950;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8jM7eZrNN3LVdOgupnlJao/Zw6eVANnMZ0vwW7hnRt8=;
- b=X5zvQ16rtmiO9CwCQQ4l0q59DDhjhKuku3PQlzsuu2DqYZF0KAnXmox26+cTLMZW7asW91
- 5SqY+hwMzfH0wiU8ux9r5GaAr8ogKvwmHxL61wTs3PkMfFHoLA3e/4FiaCLtrd5EU26wHR
- wAOpdc2SeBf063aB7ve3WrNbGLu5pyQ=
+ bh=HbOIvqjIYc94Pf9Vjelq1l/iflzdDGwG5iEFkV0PwNU=;
+ b=US67DvS4U9f7e72GdrAxdmE3MsIzddZlwJHdZwWDZHtXQd94KNi2jRkwLgud1Nn8NqbssF
+ rOo3QU2NDoQTsWzSooRlvdPeLRi2IxWwMMtYwY04brm0Hd8+cUOJrBJlxNcc95VVpaQjvr
+ 9kBqW88kitK46+tfwxntKdQlcQt4s1M=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-433-aGELd85cNQadMeQpRVVWBw-1; Fri, 09 Sep 2022 06:53:00 -0400
-X-MC-Unique: aGELd85cNQadMeQpRVVWBw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-637-AHleCrXGMi-UCY5NBdH0yw-1; Fri, 09 Sep 2022 06:55:49 -0400
+X-MC-Unique: AHleCrXGMi-UCY5NBdH0yw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E381080231E;
- Fri,  9 Sep 2022 10:52:59 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B25CC811E76;
+ Fri,  9 Sep 2022 10:55:48 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 853A5492C3B;
- Fri,  9 Sep 2022 10:52:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 62537945D0;
+ Fri,  9 Sep 2022 10:55:48 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Chenyi Qiang <chenyi.qiang@intel.com>, "Michael S. Tsirkin"
  <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, =?utf-8?Q?Daniel?=
@@ -48,19 +47,17 @@ To: Chenyi Qiang <chenyi.qiang@intel.com>, "Michael S. Tsirkin"
  <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>
 Cc: Chenyi Qiang <chenyi.qiang@intel.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 1/2] configure: Add
- -Wno-gnu-variable-sized-type-not-at-end
-In-Reply-To: <20220909035758.17434-2-chenyi.qiang@intel.com>
+Subject: Re: [PATCH v2 2/2] Update linux headers to v6.0-rc4
+In-Reply-To: <20220909035758.17434-3-chenyi.qiang@intel.com>
 Organization: Red Hat GmbH
 References: <20220909035758.17434-1-chenyi.qiang@intel.com>
- <20220909035758.17434-2-chenyi.qiang@intel.com>
+ <20220909035758.17434-3-chenyi.qiang@intel.com>
 User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Fri, 09 Sep 2022 12:52:57 +0200
-Message-ID: <878rmsom46.fsf@redhat.com>
+Date: Fri, 09 Sep 2022 12:55:46 +0200
+Message-ID: <875yhwolzh.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -87,56 +84,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, Sep 09 2022, Chenyi Qiang <chenyi.qiang@intel.com> wrote:
 
-> In recent linux headers update to v6.0-rc, it switched GNU
-
-Maybe
-
-"A Linux headers update to v6.0-rc switches some definitions from the
-GNU..."
-
-?
-
-> 'zero-length-array' extension to the C-standard-defined flexible array
-> member. e.g.
+> commit 7e18e42e4b280c85b76967a9106a13ca61c16179
 >
-> struct kvm_msrs {
->         __u32 nmsrs; /* number of msrs in entries */
->         __u32 pad;
->
-> -       struct kvm_msr_entry entries[0];
-> +       struct kvm_msr_entry entries[];
-> };
->
-> Those (unlike the GNU zero-length-array) have some extra restrictions like
-> 'this must be put at the end of a struct', which clang build would compla=
-in
-> about. e.g. the current code
->
-> struct {
->         struct kvm_msrs info;
->         struct kvm_msr_entry entries[1];
-> } msr_data =3D { }
->
-> generates the warning like:
->
-> target/i386/kvm/kvm.c:2868:25: error: field 'info' with variable sized
-> type 'struct kvm_msrs' not at the end of a struct or class is a GNU
-> extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
->         struct kvm_msrs info;
->                         ^
-> In fact, the variable length 'entries[]' field in 'info' is zero-sized in
-> GNU defined semantics, which can give predictable offset for 'entries[1]'
-> in local msr_data. The local defined struct is just there to force a stack
-> allocation large enough for 1 kvm_msr_entry, a clever trick but requires =
-to
-> turn off this clang warning.
->
-> Suggested-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
 > ---
->  configure | 1 +
->  1 file changed, 1 insertion(+)
+>  include/standard-headers/asm-x86/bootparam.h  |   7 +-
+>  include/standard-headers/drm/drm_fourcc.h     |  73 +++++++-
+>  include/standard-headers/linux/ethtool.h      |  29 +--
+>  include/standard-headers/linux/input.h        |  12 +-
+>  include/standard-headers/linux/pci_regs.h     |  30 ++-
+>  include/standard-headers/linux/vhost_types.h  |  17 +-
+>  include/standard-headers/linux/virtio_9p.h    |   2 +-
+>  .../standard-headers/linux/virtio_config.h    |   7 +-
+>  include/standard-headers/linux/virtio_ids.h   |  14 +-
+>  include/standard-headers/linux/virtio_net.h   |  34 +++-
+>  include/standard-headers/linux/virtio_pci.h   |   2 +
+>  include/standard-headers/linux/virtio_ring.h  |  16 +-
+>  linux-headers/asm-arm64/kvm.h                 |  33 +++-
+>  linux-headers/asm-generic/unistd.h            |   4 +-
+>  linux-headers/asm-riscv/kvm.h                 |  22 +++
+>  linux-headers/asm-riscv/unistd.h              |   3 +-
+>  linux-headers/asm-s390/kvm.h                  |   1 +
+>  linux-headers/asm-x86/kvm.h                   |  33 ++--
+>  linux-headers/asm-x86/mman.h                  |  14 --
+>  linux-headers/linux/kvm.h                     | 172 +++++++++++++++++-
+>  linux-headers/linux/userfaultfd.h             |  10 +-
+>  linux-headers/linux/vduse.h                   |  47 +++++
+>  linux-headers/linux/vfio.h                    |   4 +-
+>  linux-headers/linux/vfio_zdev.h               |   7 +
+>  linux-headers/linux/vhost.h                   |  35 +++-
+>  25 files changed, 538 insertions(+), 90 deletions(-)
 
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
