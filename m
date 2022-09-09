@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A79F45B2ED2
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 08:25:02 +0200 (CEST)
-Received: from localhost ([::1]:57978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E9E45B2F28
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 08:41:51 +0200 (CEST)
+Received: from localhost ([::1]:45196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWXRl-0008K4-3x
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 02:25:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50686)
+	id 1oWXi1-00065C-N5
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 02:41:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oWXGg-0002JT-ES
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 02:13:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40341)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oWXf3-0003TU-TW
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 02:38:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48763)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oWXGd-0002zR-Eu
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 02:13:32 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oWXf0-0006LP-Ki
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 02:38:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662704010;
+ s=mimecast20190719; t=1662705521;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rNLh4hKFEpap8uDZVtpLjKKsyiyJp2moh14q/PZu9mo=;
- b=IBszp51vvBiDgiAbxamCKauUHYufr5EJ9PvRUKG/GBZuSZYF+/XmHEhXvXWIF1Ax+2t0ip
- VcUBirL4RE0dgb7SM+gQfc7Aer26iCIIdjEF6HTZKXhONWcZQjGIKK3SrgnpB+Y1pJbFyt
- iOSdqRCpoSx9x3f7QYxL98zCnzBOods=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=efKY57i4uSxC2GagPfq0vC+FDtZ7C4d/dcl0JVrh8Mc=;
+ b=CK1AfcSJQXEeOSeIvALrLDYOYqPSuLjd+jiPv4H0ve4izXUwfumGMRS56i2QWuWgvWVsiM
+ uIfO1iepTrvp4gcbWhoGTZ59dUuyaPHvPGtEWNzpynDgsWfw1cgLQlUNSalMXBOWg5wsWT
+ 77y4Qw2ZgkcjpBP2/GZtCHte1okzumw=
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-531-yGW5pi3lP6SiPiFnXku7Ew-1; Fri, 09 Sep 2022 02:13:29 -0400
-X-MC-Unique: yGW5pi3lP6SiPiFnXku7Ew-1
-Received: by mail-wm1-f70.google.com with SMTP id
- o25-20020a05600c339900b003b2973dab88so352026wmp.6
- for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 23:13:28 -0700 (PDT)
+ us-mta-644-waTMt8KTNCij7u-b3KiiaA-1; Fri, 09 Sep 2022 02:38:40 -0400
+X-MC-Unique: waTMt8KTNCij7u-b3KiiaA-1
+Received: by mail-vk1-f200.google.com with SMTP id
+ 200-20020a1f18d1000000b003a0a4957a50so219174vky.10
+ for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 23:38:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=rNLh4hKFEpap8uDZVtpLjKKsyiyJp2moh14q/PZu9mo=;
- b=zpal9b606/AQZ1ejjM+l3fnfHLqxNvfkon48RNPxo6hvg2seiamUO79McAXYs9KQfI
- 6vOEdrjYqVTqzx2NKBTVgL0DX+9DWa0/1Ul5VtxRBAoXq3lyRTEiAO3nSljwRT53pPSD
- 2bUe5JodaeiNOapCpls/TBPSe00s0FhfF84p+MY6Gfpukxx+WWj0TS+Uqpnomt3U3b8O
- Ud+a3311mHeY0nqfvvn00MG2dvx3YVfJU38jUBZItM210FA3sDPCIyIBMCZZd2qK7oBd
- pG2m4fnrJNpf+hKT2jHLAEW26j4E3b3n0ibzYjxXO/0EhLyQ9bHg55YsLCRJXH/ywP5H
- NgiA==
-X-Gm-Message-State: ACgBeo2peq7wZpEC3XJRiBaxTe0tAt/AbeDKAcBs5CovhQS1iqxj1uFf
- mozCQyJ/JU/0a1J1uMQ/gnnp7L2pyjjtZ/niGaOZPjG+bZxM9aLp0mIFWJQ7dbFHTImXkiRBUHU
- XaG0Q+qBnxsOTiO4=
-X-Received: by 2002:a5d:5350:0:b0:225:7560:8403 with SMTP id
- t16-20020a5d5350000000b0022575608403mr6627111wrv.507.1662704008008; 
- Thu, 08 Sep 2022 23:13:28 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5S0Avumx7TLlDBIxldAD6k1vkdGmnLy165kGjXCLD0Znmbo2lEl3oPZ0StD+kgXAJRbFOXFw==
-X-Received: by 2002:a5d:5350:0:b0:225:7560:8403 with SMTP id
- t16-20020a5d5350000000b0022575608403mr6627098wrv.507.1662704007768; 
- Thu, 08 Sep 2022 23:13:27 -0700 (PDT)
-Received: from redhat.com ([176.12.154.16]) by smtp.gmail.com with ESMTPSA id
- p12-20020adfce0c000000b0022a2f4fa042sm995562wrn.103.2022.09.08.23.13.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Sep 2022 23:13:27 -0700 (PDT)
-Date: Fri, 9 Sep 2022 02:13:20 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Sergio Lopez <slp@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
-Subject: Re: [PATCH v2 2/2] [RfC] expose host-phys-bits to guest
-Message-ID: <20220909021213-mutt-send-email-mst@kernel.org>
-References: <20220908113109.470792-1-kraxel@redhat.com>
- <20220908113109.470792-3-kraxel@redhat.com>
- <20220908101757-mutt-send-email-mst@kernel.org>
- <20220909051817.vlai3l6cjl5sfgmv@sirius.home.kraxel.org>
- <20220909014106-mutt-send-email-mst@kernel.org>
- <20220909060653.s4cf7caaem3p7ac3@sirius.home.kraxel.org>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=efKY57i4uSxC2GagPfq0vC+FDtZ7C4d/dcl0JVrh8Mc=;
+ b=XEEF0BRT/VUd6p1bXY+g5lyW3GHDqDyyjfoViu0FbTWnIV3HMGsWahEeYlNFrna2R8
+ 6sjJDyBUY0fHkWgxYbODFxxXJ2/c/W7Njj7jsglegApWQ2bKe6evay6pxwRMyivoWU8n
+ hpu1nUi9dKLWqXSchkUrINwt0xHy/6PAU6uw7BvqVy2urUOwALDFpEfuVY7NbTftL272
+ YBa+nLPohHlpB76QYZ9S9pfWw5PnMJA0QGU3LL2xRIc6NUFBskK0XK8e8b9OVfU90Ljq
+ qKBH8iRzo4hvEAG+LK3v8GpINI4DHIglz4NmYcijDcinEDc5pq43wvCsz/xJ2+znUEM6
+ qUjA==
+X-Gm-Message-State: ACgBeo1wXQTAC7j+HBQyUwZCsHT95f2taOdLfOgmZp4bU9yTPuZ7aZLF
+ ethMGKph4pM6XwIIkkiIh7om+2g0M5IoCTVUmxxHImmW1RS0uve4hjP9aI4QbW1QRLWTOVGsaWS
+ R7wOFJIhmshHCYc7xD6+OH1JlGjAHIic=
+X-Received: by 2002:a1f:2515:0:b0:394:e654:ea55 with SMTP id
+ l21-20020a1f2515000000b00394e654ea55mr4383024vkl.3.1662705519763; 
+ Thu, 08 Sep 2022 23:38:39 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5/ZfPQoy/Ku/8DZqK4nzhbYRGCKONEXNE9is/5X/Nuz7jEh13PSSRbAupuGVjGSFc/sjYYYxps6bFmyWP0rwI=
+X-Received: by 2002:a1f:2515:0:b0:394:e654:ea55 with SMTP id
+ l21-20020a1f2515000000b00394e654ea55mr4383009vkl.3.1662705519513; Thu, 08 Sep
+ 2022 23:38:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220909060653.s4cf7caaem3p7ac3@sirius.home.kraxel.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+References: <20220906163621.1144675-1-eperezma@redhat.com>
+ <20220906163621.1144675-3-eperezma@redhat.com>
+In-Reply-To: <20220906163621.1144675-3-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Fri, 9 Sep 2022 14:38:28 +0800
+Message-ID: <CACGkMEvnVavevtxWa49Yew+Nnkx_Wfmgf1JLVXCBe=zkpvdHnQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] vdpa: load vlan configuration at NIC startup
+To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>, Cindy Lu <lulu@redhat.com>, 
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, Si-Wei Liu <si-wei.liu@oracle.com>,
+ Eli Cohen <eli@mellanox.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Laurent Vivier <lvivier@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Parav Pandit <parav@mellanox.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -104,73 +104,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 09, 2022 at 08:06:53AM +0200, Gerd Hoffmann wrote:
->   Hi,
-> 
-> > > > I think we still want to key this one off host_phys_bits
-> > > > so it works for e.g. hyperv emulation too.
-> > > 
-> > > I think that should be the case.  The chunks above change the
-> > > host-phys-bits option from setting cpu->host_phys_bits to setting
-> > > the FEAT_KVM_HINTS bit.  That should also happen with hyperv emulation
-> > > enabled, and the bit should also be visible to the guest then, just at
-> > > another location (base 0x40000100 instead of 0x40000000).
-> > > 
-> > > take care,
-> > >   Gerd
-> > 
-> > 
-> > You are right, I forgot. Hmm, ok. What about !cpu->expose_kvm ?
-> > 
-> > We have
-> > 
-> >     if (!kvm_enabled() || !cpu->expose_kvm) {
-> >         env->features[FEAT_KVM] = 0;
-> >     }   
-> >         
-> > This is quick grep, I didn't check whether this is called
-> > after the point where you currently use it, but
-> > it frankly seems fragile to pass a generic user specified flag
-> > inside a cpuid where everyone pokes at it.
-> 
-> I tried to avoid keeping the state of the host_phys_bits option at
-> multiple places.  Maybe that wasn't a good idea after all.  How about
-> doing this instead:
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 1db1278a599b..279fde095d7c 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -6219,6 +6219,11 @@ void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
->          env->features[FEAT_KVM] = 0;
->      }
->  
-> +    if (kvm_enabled() && cpu->host_phys_bits) {
-> +        env->features[FEAT_KVM_HINTS] |=
-> +            (1U << KVM_HINTS_PHYS_ADDRESS_SIZE_DATA_VALID);
+On Wed, Sep 7, 2022 at 12:36 AM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
+ote:
+>
+> To have enabled vlans at device startup may happen in the destination of
+> a live migration, so this configuration must be restored.
+>
+> At this moment the code is not accessible, since SVQ refuses to start if
+> vlan feature is exposed by the device.
+>
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> ---
+>  net/vhost-vdpa.c | 46 ++++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 44 insertions(+), 2 deletions(-)
+>
+> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> index 4bc3fd01a8..ecbfd08eb9 100644
+> --- a/net/vhost-vdpa.c
+> +++ b/net/vhost-vdpa.c
+> @@ -100,6 +100,8 @@ static const uint64_t vdpa_svq_device_features =3D
+>      BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
+>      BIT_ULL(VIRTIO_NET_F_STANDBY);
+>
+> +#define MAX_VLAN    (1 << 12)   /* Per 802.1Q definition */
+> +
+>  VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
+>  {
+>      VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> @@ -423,6 +425,47 @@ static int vhost_vdpa_net_load_mq(VhostVDPAState *s,
+>      return *s->status !=3D VIRTIO_NET_OK;
+>  }
+>
+> +static int vhost_vdpa_net_load_single_vlan(VhostVDPAState *s,
+> +                                           const VirtIONet *n,
+> +                                           uint16_t vid)
+> +{
+> +    ssize_t dev_written =3D vhost_vdpa_net_load_cmd(s, VIRTIO_NET_CTRL_V=
+LAN,
+> +                                                  VIRTIO_NET_CTRL_VLAN_A=
+DD,
+> +                                                  &vid, sizeof(vid));
+> +    if (unlikely(dev_written < 0)) {
+> +        return dev_written;
 > +    }
 > +
->      x86_cpu_enable_xsave_components(cpu);
->  
->      /* CPUID[EAX=7,ECX=0].EBX always increased level automatically: */
-> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> index a1fd1f53791d..3335c57b21b2 100644
-> --- a/target/i386/kvm/kvm.c
-> +++ b/target/i386/kvm/kvm.c
-> @@ -459,6 +459,7 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
->          }
->      } else if (function == KVM_CPUID_FEATURES && reg == R_EDX) {
->          ret |= 1U << KVM_HINTS_REALTIME;
-> +        ret |= 1U << KVM_HINTS_PHYS_ADDRESS_SIZE_DATA_VALID;
+> +    if (unlikely(*s->status !=3D VIRTIO_NET_OK)) {
+> +        return -EINVAL;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +static int vhost_vdpa_net_load_vlan(VhostVDPAState *s,
+> +                                    const VirtIONet *n)
+> +{
+> +    uint64_t features =3D n->parent_obj.guest_features;
+> +
+> +    if (!(features & BIT_ULL(VIRTIO_NET_F_CTRL_VLAN))) {
+> +        return 0;
+> +    }
+> +
+> +    for (int i =3D 0; i < MAX_VLAN >> 5; i++) {
+> +        for (int j =3D 0; n->vlans[i] && j <=3D 0x1f; j++) {
+> +            if (n->vlans[i] & (1U << j)) {
+> +                int r =3D vhost_vdpa_net_load_single_vlan(s, n, (i << 5)=
+ + j);
+
+This seems to cause a lot of latency if the driver has a lot of vlans.
+
+I wonder if it's simply to let all vlan traffic go by disabling
+CTRL_VLAN feature at vDPA layer.
+
+Thanks
+
+> +                if (unlikely(r !=3D 0)) {
+> +                    return r;
+> +                }
+> +            }
+> +        }
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>  static int vhost_vdpa_net_load(NetClientState *nc)
+>  {
+>      VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> @@ -445,8 +488,7 @@ static int vhost_vdpa_net_load(NetClientState *nc)
+>      if (unlikely(r)) {
+>          return r;
 >      }
->  
->      return ret;
-
-
-/me nods.
-That seems much more straight-forward.
-
--- 
-MST
+> -
+> -    return 0;
+> +    return vhost_vdpa_net_load_vlan(s, n);
+>  }
+>
+>  static NetClientInfo net_vhost_vdpa_cvq_info =3D {
+> --
+> 2.31.1
+>
 
 
