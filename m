@@ -2,53 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 376095B3FAD
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 21:34:20 +0200 (CEST)
-Received: from localhost ([::1]:59686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F4AF5B4035
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 21:51:50 +0200 (CEST)
+Received: from localhost ([::1]:51292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWjla-0003Ed-Fi
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 15:34:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41082)
+	id 1oWk2U-0007zS-5I
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 15:51:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oWjjm-0001Pe-Ch; Fri, 09 Sep 2022 15:32:26 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:61866)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1oWjz8-00063j-Jz; Fri, 09 Sep 2022 15:48:19 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:36139)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oWjjj-0008Im-2j; Fri, 09 Sep 2022 15:32:25 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 840A774632B;
- Fri,  9 Sep 2022 21:32:17 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 2F35C7461AE; Fri,  9 Sep 2022 21:32:17 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 2D1CC745702;
- Fri,  9 Sep 2022 21:32:17 +0200 (CEST)
-Date: Fri, 9 Sep 2022 21:32:17 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 04/20] ppc4xx: Use Ppc4xxSdramBank in ppc4xx_sdram_banks()
-In-Reply-To: <bd4bf781-8851-7059-4ce4-642e7c976de7@eik.bme.hu>
-Message-ID: <95148cda-bae9-3edd-8d72-c35695a5b628@eik.bme.hu>
-References: <cover.1660926381.git.balaton@eik.bme.hu>
- <c86ed3ab2edade3d7bc481be4a3134b279eff341.1660926381.git.balaton@eik.bme.hu>
- <08e984cb-0d1e-b4a8-28a7-8c91132b664c@kaod.org>
- <bd4bf781-8851-7059-4ce4-642e7c976de7@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1oWjz6-0002cc-Bs; Fri, 09 Sep 2022 15:48:18 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 973EF5C015C;
+ Fri,  9 Sep 2022 15:48:13 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Fri, 09 Sep 2022 15:48:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1662752893; x=1662839293; bh=ql9e7AhZpN
+ W6/s0Xsygu/p0H4degbpe4/pV5baPDv/8=; b=a73Q/aq9QcA0siZUxlLZZnzTPw
+ ixkEEELZ3zU/kBo//olbF4jCuhJV+N+3KBsMg49/FVXRNr3HRsnt1i0yn946QV5Z
+ /fYj02skl34zK4xGYqoOD+UGNW8r1O7YGcjPU3HdtCMK+NKnAp+HwuZXSFTguhip
+ pfAhbnbtPwOROdyL3ka0mLucqkntJ+fBwx9BHlmaXjLHRL/UFfNEfGO0ykTkeeMm
+ qalpXa4s4+9vjNbHWwoIx0QD1LRJw0tmeph6M4RvoyGfVtTDlKvusf6kZ/EBwzPF
+ /ZtLs8wj2J/FRDQMPMH3O1hylh7J28Ai2JxxuEX4afuc2U1gNpPEgG3AST5A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1662752893; x=1662839293; bh=ql9e7AhZpNW6/s0Xsygu/p0H4deg
+ bpe4/pV5baPDv/8=; b=mucTWEPhRbzR1xKPTF0v/Xz2NRjhwS2qizCmrKZb+6mR
+ bvA/CNDzVuIonABx8zqi56+Ubo/0gtj3KG9LWmHuqV/8Bx16fjEh1MwrpUtzeRGA
+ pHrWtTkcwi5WR4WoyQA2/zqAueqVlLRK0aKirE0rHrqgvvwPW87kuGg8FOOkpWxq
+ pWbdZtrtwcl8XmCoZ6OXTzitGSWhUZC/x9mhP/wTimShsV1YmmuaJ6CmelIirXOf
+ fsWgpYTaRaRYAgL42zEKZOauvC9cgq7QRSlEHwDUfqYipOcCG1BlSZfCVvtcjEt4
+ THy9D60HX+iU2nO6hnM06SqWUJiHtVZMmm8ao2flcg==
+X-ME-Sender: <xms:fZgbY6QK-nXz04EFKF6q7KD5ENTKW989GjKEVGdW3h4gDauBsfBDuQ>
+ <xme:fZgbY_z7KzACqHuLfdlYr9PP8klDMp6Z01_I5WTPtFGS76uYTlEQOV8Zlsl0gcQ7L
+ MGtvUHzb3bMAVq2EfY>
+X-ME-Received: <xmr:fZgbY30Kz9Iehras7FcihoQxWWTC_xK5HPjTF1rhjEjibQOYm4Vlqb2s6A2Q7f_0wtHHV-Z7dNdf>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedthedgudeggecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvght
+ vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
+ htthgvrhhnpeduteeihfffleeuveekgedugfeffeehtdeguefffffhleehgfduueejjeek
+ feeukeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hpvghtvghrsehpjhgurdguvghv
+X-ME-Proxy: <xmx:fZgbY2Axsxue5fdieIRqpOruT-ck1tDYKWoM5612BUvcNTyHlOBL4g>
+ <xmx:fZgbYzgKbMq1S22THkSksPBwnp3zkpqP0ZNXi7OZmGjh5hafkpwpJg>
+ <xmx:fZgbYypGtb2A-AfbGpxpJxki3AaklsOfSxyYQWTHmSW3nO0MnVmRvg>
+ <xmx:fZgbY-VgT-YXr4i12rvcpG-5SMHOEAl6a-4-MKa7m-jfIijkox69VA>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 9 Sep 2022 15:48:12 -0400 (EDT)
+Date: Fri, 9 Sep 2022 12:48:10 -0700
+From: Peter Delevoryas <peter@pjd.dev>
+To: Titus Rwantare <titusr@google.com>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, patrick@stwcx.xyz,
+ iwona.winiarska@intel.com, tmaimon77@gmail.com,
+ quic_jaehyoo@quicinc.com, Hao Wu <wuhaotsh@google.com>
+Subject: Re: [RFC PATCH 3/3] hw/peci: add support for EndPointConfig reads
+Message-ID: <YxuYehCwKw/CmWhN@pdel-fedora-MJ0HJWH9>
+References: <20220906220552.1243998-1-titusr@google.com>
+ <20220906220552.1243998-4-titusr@google.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1299867081-1662751937=:94994"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220906220552.1243998-4-titusr@google.com>
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=peter@pjd.dev;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,327 +102,206 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Tue, Sep 06, 2022 at 10:05:52PM +0000, Titus Rwantare wrote:
+> Signed-off-by: Titus Rwantare <titusr@google.com>
+> Reviewed-by: Hao Wu <wuhaotsh@google.com>
+> ---
+>  hw/peci/peci-client.c  | 63 ++++++++++++++++++++++++++++++++++++++++++
+>  hw/peci/peci-core.c    | 44 +++++++++++++++++++++++++++--
+>  include/hw/peci/peci.h | 23 +++++++++++++++
+>  3 files changed, 128 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/peci/peci-client.c b/hw/peci/peci-client.c
+> index 2aa797b5f6..8d93333248 100644
+> --- a/hw/peci/peci-client.c
+> +++ b/hw/peci/peci-client.c
+> @@ -23,6 +23,64 @@
+>  
+>  #define PECI_CLIENT_DEFAULT_TEMP 30
+>  
+> +/* TODO: move this out into a config */
+> +static const PECIEndPtConfig spr_config[] = {
+> +    {
+> +        .hdr.msg_type = LOCAL_PCI_CFG,
+> +        .hdr.addr_type = 0x4,
+> +        .hdr.bus = 31,
+> +        .hdr.dev = 0,
+> +        .hdr.func = 2,
+> +        .hdr.reg = 0xD4,
+> +        .data = BIT(31)
+> +    },
+> +    {
+> +        .hdr.msg_type = LOCAL_PCI_CFG,
+> +        .hdr.addr_type = 0x4,
+> +        .hdr.bus = 31,
+> +        .hdr.dev = 0,
+> +        .hdr.func = 2,
+> +        .hdr.reg = 0xD0,
+> +        .data = BIT(31) | BIT(30)
+> +    },
+> +    {
+> +        .hdr.msg_type = LOCAL_PCI_CFG,
+> +        .hdr.addr_type = 0x4,
+> +        .hdr.bus = 31,
+> +        .hdr.dev = 30,
+> +        .hdr.func = 6,
+> +        .hdr.reg = 0x84,
+> +        .data = 0x03FFFFFF
+> +    },
+> +    {
+> +        .hdr.msg_type = LOCAL_PCI_CFG,
+> +        .hdr.addr_type = 0x4,
+> +        .hdr.bus = 31,
+> +        .hdr.dev = 30,
+> +        .hdr.func = 6,
+> +        .hdr.reg = 0x80,
+> +        .data = 0xFFFFFFFF
+> +    },
+> +    {
+> +        .hdr.msg_type = LOCAL_PCI_CFG,
+> +        .hdr.addr_type = 0x4,
+> +        .hdr.bus = 31,
+> +        .hdr.dev = 30,
+> +        .hdr.func = 6,
+> +        .hdr.reg = 0x84,
+> +        .data = 0x03FFFFFF
+> +    },
+> +    {
+> +        .hdr.msg_type = LOCAL_PCI_CFG,
+> +        .hdr.addr_type = 0x4,
+> +        .hdr.bus = 31,
+> +        .hdr.dev = 30,
+> +        .hdr.func = 6,
+> +        .hdr.reg = 0x80,
+> +        .data = 0xFFFFFFFF
+> +    },
+> +};
+> +
+>  static void peci_client_update_temps(PECIClientDevice *client)
+>  {
+>      uint8_t temp_cpu = 0;
+> @@ -115,7 +173,12 @@ PECIClientDevice *peci_add_client(PECIBus *bus,
+>          break;
+>  
+>      case FAM6_ICELAKE_X:
+> +        client->revision = 0x40;
+> +        break;
+> +
+>      case FAM6_SAPPHIRE_RAPIDS_X:
+> +        client->endpt_conf = spr_config;
+> +        client->num_entries = sizeof(spr_config) / sizeof(spr_config[0]);
+>          client->revision = 0x40;
+>          client->ucode = 0x8c0004a0;
+>          break;
+> diff --git a/hw/peci/peci-core.c b/hw/peci/peci-core.c
+> index 8210bfa198..a961ae51f3 100644
+> --- a/hw/peci/peci-core.c
+> +++ b/hw/peci/peci-core.c
+> @@ -22,6 +22,47 @@
+>  #define PECI_FCS_OK         0
+>  #define PECI_FCS_ERR        1
+>  
+> +static PECIEndPtHeader peci_fmt_end_pt_header(PECICmd *pcmd)
+> +{
+> +    uint32_t val = pcmd->rx[7] | (pcmd->rx[8] << 8) | (pcmd->rx[9] << 16) |
+> +                  (pcmd->rx[10] << 24);
+> +
+> +    PECIEndPtHeader header = {
+> +        .msg_type = pcmd->rx[1],
+> +        .addr_type = pcmd->rx[5],
+> +        .bus = (val >> 20) & 0xFF,
+> +        .dev = (val >> 15) & 0x1F,
+> +        .func = (val >> 12) & 0x7,
+> +        .reg = val & 0xFFF,
+> +    };
+> +
+> +    return header;
+> +}
+> +
+> +static void peci_rd_endpt_cfg(PECIClientDevice *client, PECICmd *pcmd)
+> +{
+> +    PECIPkgCfg *resp = (PECIPkgCfg *)pcmd->tx;
+> +    PECIEndPtHeader req = peci_fmt_end_pt_header(pcmd);
+> +    PECIEndPtConfig const *c;
+> +
+> +    if (client->endpt_conf) {
+> +        for (size_t i = 0; i < client->num_entries; i++) {
+> +            c = &client->endpt_conf[i];
+> +
+> +            if (!memcmp(&req, &c->hdr, sizeof(PECIEndPtHeader))) {
+> +                    resp->data = c->data;
+> +                    resp->cc = PECI_DEV_CC_SUCCESS;
+> +                    return;
+> +            }
+> +        }
+> +    }
+> +
+> +    qemu_log_mask(LOG_UNIMP,
+> +                  "%s: msg_type: 0x%x bus: %u, dev: %u, func: %u, reg: 0x%x\n",
+> +                  __func__, req.msg_type, req.bus, req.dev, req.func, req.reg);
+> +
+> +}
+> +
+>  static void peci_rd_pkg_cfg(PECIClientDevice *client, PECICmd *pcmd)
+>  {
+>      PECIPkgCfg *resp = (PECIPkgCfg *)pcmd->tx;
+> @@ -153,8 +194,7 @@ int peci_handle_cmd(PECIBus *bus, PECICmd *pcmd)
+>          break;
+>  
+>      case PECI_CMD_RD_END_PT_CFG:
+> -        qemu_log_mask(LOG_UNIMP, "%s: unimplemented CMD_RD_END_PT_CFG\n",
+> -                      __func__);
+> +        peci_rd_endpt_cfg(client, pcmd);
+>          break;
+>  
+>      default:
+> diff --git a/include/hw/peci/peci.h b/include/hw/peci/peci.h
+> index 1a0abe65cd..4fb2fc236e 100644
+> --- a/include/hw/peci/peci.h
+> +++ b/include/hw/peci/peci.h
+> @@ -112,6 +112,26 @@ typedef struct PECITempTarget {
+>      uint8_t tjmax;
+>  } PECITempTarget;
+>  
+> +typedef enum PECIEndPtType {
+> +    LOCAL_PCI_CFG = 3,
+> +    PCI_CFG,
+> +    MMIO_BDF,
+> +} PECIEndPtType;
+> +
+> +typedef struct __attribute__ ((__packed__)) {
+> +    PECIEndPtType msg_type;
+> +    uint8_t addr_type;
+> +    uint8_t bus;
+> +    uint8_t dev;
+> +    uint8_t func;
+> +    uint16_t reg;
+> +} PECIEndPtHeader;
+> +
+> +typedef struct {
+> +    PECIEndPtHeader hdr;
+> +    uint32_t data;
+> +} PECIEndPtConfig;
 
---3866299591-1299867081-1662751937=:94994
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+I noticed the summary is "hw/peci: add support for EndPointConfig reads"
+but type definitions here use "EndPt", maybe they should be
+"PECIEndPoint*"? I don't think extending to Point is too long.
 
-On Fri, 2 Sep 2022, BALATON Zoltan wrote:
-> On Fri, 2 Sep 2022, Cédric Le Goater wrote:
->> On 8/19/22 18:55, BALATON Zoltan wrote:
->>> Change ppc4xx_sdram_banks() to take one Ppc4xxSdramBank array instead
->>> of the separate arrays and adjust ppc4xx_sdram_init() and
->>> ppc440_sdram_init() accordingly as well as machines using these.
->>> 
->>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>> ---
->>>   hw/ppc/ppc405.h         |  4 +---
->>>   hw/ppc/ppc405_uc.c      | 10 +++++-----
->>>   hw/ppc/ppc440.h         |  5 ++---
->>>   hw/ppc/ppc440_bamboo.c  | 15 ++++++---------
->>>   hw/ppc/ppc440_uc.c      |  9 ++++-----
->>>   hw/ppc/ppc4xx_devs.c    | 21 +++++++++------------
->>>   hw/ppc/sam460ex.c       | 15 +++++----------
->>>   include/hw/ppc/ppc4xx.h |  9 +++------
->>>   8 files changed, 35 insertions(+), 53 deletions(-)
->>> 
->>> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
->>> index 756865621b..ca0972b88b 100644
->>> --- a/hw/ppc/ppc405.h
->>> +++ b/hw/ppc/ppc405.h
->>> @@ -167,9 +167,7 @@ struct Ppc405SoCState {
->>>       DeviceState parent_obj;
->>>         /* Public */
->>> -    MemoryRegion ram_banks[2];
->>> -    hwaddr ram_bases[2], ram_sizes[2];
->>> -
->>> +    Ppc4xxSdramBank ram_banks[2];
->>>       MemoryRegion *dram_mr;
->>>       hwaddr ram_size;
->>>   diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
->>> index 2833d0d538..461d18c8a5 100644
->>> --- a/hw/ppc/ppc405_uc.c
->>> +++ b/hw/ppc/ppc405_uc.c
->>> @@ -1071,14 +1071,14 @@ static void ppc405_soc_realize(DeviceState *dev, 
->>> Error **errp)
->>>         /* SDRAM controller */
->>>           /* XXX 405EP has no ECC interrupt */
->>> -    s->ram_bases[0] = 0;
->>> -    s->ram_sizes[0] = s->ram_size;
->>> -    memory_region_init_alias(&s->ram_banks[0], OBJECT(s),
->>> +    s->ram_banks[0].base = 0;
->>> +    s->ram_banks[0].size = s->ram_size;
->>> +    memory_region_init_alias(&s->ram_banks[0].ram, OBJECT(s),
->>>                                "ppc405.sdram0", s->dram_mr,
->>> -                             s->ram_bases[0], s->ram_sizes[0]);
->>> +                             s->ram_banks[0].base, s->ram_banks[0].size);
->>>         ppc4xx_sdram_init(env, qdev_get_gpio_in(DEVICE(&s->uic), 17), 1,
->>> -                      s->ram_banks, s->ram_bases, s->ram_sizes);
->>> +                      s->ram_banks);
->> 
->> Compile fails later on :
->> 
->> ../hw/ppc/ppc405_uc.c: In function ‘ppc405_soc_realize’:
->> ../hw/ppc/ppc405_uc.c:1083:5: error: ‘ppc4xx_sdram_init’ accessing 576 
->> bytes in a region of size 272 [-Werror=stringop-overflow=]
->> 1083 |     ppc4xx_sdram_init(env, qdev_get_gpio_in(DEVICE(&s->uic), 17), 1,
->>      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> 1084 |                       s->ram_banks);
->>      |                       ~~~~~~~~~~~~~
->> ../hw/ppc/ppc405_uc.c:1083:5: note: referencing argument 4 of type 
->> ‘Ppc4xxSdramBank[0]’
->
-> I don't understand this error. The 576 bytes seems to be 
-> sizeof(Ppc4xxSdramBank) and 272 is sizeof(MemoryRegion) but I don't see what 
-> the compiler means here or how this could be avoided. Also my compiler 
-> doesn't warn for this so I can't check any alternative solutions. Any ideas?
-
-It would be good to know if this is a compilet bug or a valid error before 
-I try to change it. We have a MemoryRegion within Ppc4xxSdramBank not the 
-other way around which the error seems to say. I'm still lost why we got 
-this error with your compiler version.
-
-> Also this part is removed again two patches later so the best I could do is 
-> maybe try rearranging it to swap these patches but if there's a simpler way 
-> I'd go for that instead.
-
-I've also sent a few questions replying to your review. I waited for a 
-reply for those before preparing a v2. Could you have a look please? It's 
-not urgent but I've already forgot some of the details so it will be more 
-difficult to redo this later. Just changing the patch order to avoid this 
-error would be a bigger task so it there's some other way I'd choose that.
-
-Regards,
-BALATON Zoltan
-
->> 
->> I am using :
->>
->>  gcc version 12.2.1 20220819 (Red Hat 12.2.1-1) (GCC)
->> 
->> Thanks,
->> 
->> C.
->> 
->> 
->>
->>>         /* External bus controller */
->>>       if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->ebc), &s->cpu, errp)) 
->>> {
->>> diff --git a/hw/ppc/ppc440.h b/hw/ppc/ppc440.h
->>> index 7cef936125..5eb2f9a6b3 100644
->>> --- a/hw/ppc/ppc440.h
->>> +++ b/hw/ppc/ppc440.h
->>> @@ -11,14 +11,13 @@
->>>   #ifndef PPC440_H
->>>   #define PPC440_H
->>>   -#include "hw/ppc/ppc.h"
->>> +#include "hw/ppc/ppc4xx.h"
->>>     void ppc4xx_l2sram_init(CPUPPCState *env);
->>>   void ppc4xx_cpr_init(CPUPPCState *env);
->>>   void ppc4xx_sdr_init(CPUPPCState *env);
->>>   void ppc440_sdram_init(CPUPPCState *env, int nbanks,
->>> -                       MemoryRegion *ram_memories,
->>> -                       hwaddr *ram_bases, hwaddr *ram_sizes,
->>> +                       Ppc4xxSdramBank ram_banks[],
->>>                          int do_init);
->>>   void ppc4xx_ahb_init(CPUPPCState *env);
->>>   void ppc4xx_dma_init(CPUPPCState *env, int dcr_base);
->>> diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
->>> index e3412c4fcd..2aac8a3fe9 100644
->>> --- a/hw/ppc/ppc440_bamboo.c
->>> +++ b/hw/ppc/ppc440_bamboo.c
->>> @@ -168,9 +168,8 @@ static void bamboo_init(MachineState *machine)
->>>       unsigned int pci_irq_nrs[4] = { 28, 27, 26, 25 };
->>>       MemoryRegion *address_space_mem = get_system_memory();
->>>       MemoryRegion *isa = g_new(MemoryRegion, 1);
->>> -    MemoryRegion *ram_memories = g_new(MemoryRegion, 
->>> PPC440EP_SDRAM_NR_BANKS);
->>> -    hwaddr ram_bases[PPC440EP_SDRAM_NR_BANKS] = {0};
->>> -    hwaddr ram_sizes[PPC440EP_SDRAM_NR_BANKS] = {0};
->>> +    Ppc4xxSdramBank *ram_banks = g_new0(Ppc4xxSdramBank,
->>> +                                        PPC440EP_SDRAM_NR_BANKS);
->>>       PCIBus *pcibus;
->>>       PowerPCCPU *cpu;
->>>       CPUPPCState *env;
->>> @@ -205,13 +204,11 @@ static void bamboo_init(MachineState *machine)
->>>                          qdev_get_gpio_in(DEVICE(cpu), 
->>> PPC40x_INPUT_CINT));
->>>         /* SDRAM controller */
->>> -    ppc4xx_sdram_banks(machine->ram, PPC440EP_SDRAM_NR_BANKS, 
->>> ram_memories,
->>> -                       ram_bases, ram_sizes, ppc440ep_sdram_bank_sizes);
->>> +    ppc4xx_sdram_banks(machine->ram, PPC440EP_SDRAM_NR_BANKS, ram_banks,
->>> +                       ppc440ep_sdram_bank_sizes);
->>>       /* XXX 440EP's ECC interrupts are on UIC1, but we've only created 
->>> UIC0. */
->>> -    ppc4xx_sdram_init(env,
->>> -                      qdev_get_gpio_in(uicdev, 14),
->>> -                      PPC440EP_SDRAM_NR_BANKS, ram_memories,
->>> -                      ram_bases, ram_sizes);
->>> +    ppc4xx_sdram_init(env, qdev_get_gpio_in(uicdev, 14),
->>> +                      PPC440EP_SDRAM_NR_BANKS, ram_banks);
->>>       /* Enable SDRAM memory regions, this should be done by the firmware 
->>> */
->>>       if (ppc_dcr_write(env->dcr_env, SDRAM0_CFGADDR, 0x20) ||
->>>           ppc_dcr_write(env->dcr_env, SDRAM0_CFGDATA, 0x80000000)) {
->>> diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
->>> index 6ab0ad7985..3507c35b63 100644
->>> --- a/hw/ppc/ppc440_uc.c
->>> +++ b/hw/ppc/ppc440_uc.c
->>> @@ -690,8 +690,7 @@ static void sdram_reset(void *opaque)
->>>   }
->>>     void ppc440_sdram_init(CPUPPCState *env, int nbanks,
->>> -                       MemoryRegion *ram_memories,
->>> -                       hwaddr *ram_bases, hwaddr *ram_sizes,
->>> +                       Ppc4xxSdramBank ram_banks[],
->>>                          int do_init)
->>>   {
->>>       ppc440_sdram_t *sdram;
->>> @@ -700,9 +699,9 @@ void ppc440_sdram_init(CPUPPCState *env, int nbanks,
->>>       sdram = g_malloc0(sizeof(*sdram));
->>>       sdram->nbanks = nbanks;
->>>       for (i = 0; i < nbanks; i++) {
->>> -        sdram->bank[i].ram = ram_memories[i];
->>> -        sdram->bank[i].base = ram_bases[i];
->>> -        sdram->bank[i].size = ram_sizes[i];
->>> +        sdram->bank[i].ram = ram_banks[i].ram;
->>> +        sdram->bank[i].base = ram_banks[i].base;
->>> +        sdram->bank[i].size = ram_banks[i].size;
->>>       }
->>>       qemu_register_reset(&sdram_reset, sdram);
->>>       ppc_dcr_register(env, SDRAM0_CFGADDR,
->>> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
->>> index 936d6f77fe..e0b5931c04 100644
->>> --- a/hw/ppc/ppc4xx_devs.c
->>> +++ b/hw/ppc/ppc4xx_devs.c
->>> @@ -343,9 +343,7 @@ static void sdram_reset(void *opaque)
->>>   }
->>>     void ppc4xx_sdram_init(CPUPPCState *env, qemu_irq irq, int nbanks,
->>> -                       MemoryRegion *ram_memories,
->>> -                       hwaddr *ram_bases,
->>> -                       hwaddr *ram_sizes)
->>> +                       Ppc4xxSdramBank ram_banks[])
->>>   {
->>>       ppc4xx_sdram_t *sdram;
->>>       int i;
->>> @@ -354,9 +352,9 @@ void ppc4xx_sdram_init(CPUPPCState *env, qemu_irq irq, 
->>> int nbanks,
->>>       sdram->irq = irq;
->>>       sdram->nbanks = nbanks;
->>>       for (i = 0; i < nbanks; i++) {
->>> -        sdram->bank[i].ram = ram_memories[i];
->>> -        sdram->bank[i].base = ram_bases[i];
->>> -        sdram->bank[i].size = ram_sizes[i];
->>> +        sdram->bank[i].ram = ram_banks[i].ram;
->>> +        sdram->bank[i].base = ram_banks[i].base;
->>> +        sdram->bank[i].size = ram_banks[i].size;
->>>       }
->>>       qemu_register_reset(&sdram_reset, sdram);
->>>       ppc_dcr_register(env, SDRAM0_CFGADDR,
->>> @@ -376,8 +374,7 @@ void ppc4xx_sdram_init(CPUPPCState *env, qemu_irq irq, 
->>> int nbanks,
->>>    * sizes varies by SoC.
->>>    */
->>>   void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
->>> -                        MemoryRegion ram_memories[],
->>> -                        hwaddr ram_bases[], hwaddr ram_sizes[],
->>> +                        Ppc4xxSdramBank ram_banks[],
->>>                           const ram_addr_t sdram_bank_sizes[])
->>>   {
->>>       ram_addr_t size_left = memory_region_size(ram);
->>> @@ -392,13 +389,13 @@ void ppc4xx_sdram_banks(MemoryRegion *ram, int 
->>> nr_banks,
->>>               if (bank_size <= size_left) {
->>>                   char name[32];
->>>   -                ram_bases[i] = base;
->>> -                ram_sizes[i] = bank_size;
->>> +                ram_banks[i].base = base;
->>> +                ram_banks[i].size = bank_size;
->>>                   base += bank_size;
->>>                   size_left -= bank_size;
->>>                   snprintf(name, sizeof(name), "ppc4xx.sdram%d", i);
->>> -                memory_region_init_alias(&ram_memories[i], NULL, name, 
->>> ram,
->>> -                                         ram_bases[i], ram_sizes[i]);
->>> +                memory_region_init_alias(&ram_banks[i].ram, NULL, name, 
->>> ram,
->>> +                                         ram_banks[i].base, 
->>> ram_banks[i].size);
->>>                   break;
->>>               }
->>>           }
->>> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
->>> index 850bb3b817..f4c2a693fb 100644
->>> --- a/hw/ppc/sam460ex.c
->>> +++ b/hw/ppc/sam460ex.c
->>> @@ -73,7 +73,6 @@
->>>   #define OPB_FREQ 115000000
->>>   #define EBC_FREQ 115000000
->>>   #define UART_FREQ 11059200
->>> -#define SDRAM_NR_BANKS 4
->>>     /* The SoC could also handle 4 GiB but firmware does not work with 
->>> that. */
->>>   /* Maybe it overflows a signed 32 bit number somewhere? */
->>> @@ -274,9 +273,7 @@ static void sam460ex_init(MachineState *machine)
->>>   {
->>>       MemoryRegion *address_space_mem = get_system_memory();
->>>       MemoryRegion *isa = g_new(MemoryRegion, 1);
->>> -    MemoryRegion *ram_memories = g_new(MemoryRegion, SDRAM_NR_BANKS);
->>> -    hwaddr ram_bases[SDRAM_NR_BANKS] = {0};
->>> -    hwaddr ram_sizes[SDRAM_NR_BANKS] = {0};
->>> +    Ppc4xxSdramBank *ram_banks = g_new0(Ppc4xxSdramBank, 1);
->>>       MemoryRegion *l2cache_ram = g_new(MemoryRegion, 1);
->>>       DeviceState *uic[4];
->>>       int i;
->>> @@ -345,20 +342,18 @@ static void sam460ex_init(MachineState *machine)
->>>       /* SDRAM controller */
->>>       /* put all RAM on first bank because board has one slot
->>>        * and firmware only checks that */
->>> -    ppc4xx_sdram_banks(machine->ram, 1, ram_memories, ram_bases, 
->>> ram_sizes,
->>> -                       ppc460ex_sdram_bank_sizes);
->>> +    ppc4xx_sdram_banks(machine->ram, 1, ram_banks, 
->>> ppc460ex_sdram_bank_sizes);
->>>         /* FIXME: does 460EX have ECC interrupts? */
->>> -    ppc440_sdram_init(env, SDRAM_NR_BANKS, ram_memories,
->>> -                      ram_bases, ram_sizes, 1);
->>> +    ppc440_sdram_init(env, 1, ram_banks, 1);
->>>         /* IIC controllers and devices */
->>>       dev = sysbus_create_simple(TYPE_PPC4xx_I2C, 0x4ef600700,
->>>                                  qdev_get_gpio_in(uic[0], 2));
->>>       i2c = PPC4xx_I2C(dev)->bus;
->>>       /* SPD EEPROM on RAM module */
->>> -    spd_data = spd_data_generate(ram_sizes[0] < 128 * MiB ? DDR : DDR2,
->>> -                                 ram_sizes[0]);
->>> +    spd_data = spd_data_generate(ram_banks->size < 128 * MiB ? DDR : 
->>> DDR2,
->>> +                                 ram_banks->size);
->>>       spd_data[20] = 4; /* SO-DIMM module */
->>>       smbus_eeprom_init_one(i2c, 0x50, spd_data);
->>>       /* RTC */
->>> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
->>> index a5e6c185af..0a9781bfaf 100644
->>> --- a/include/hw/ppc/ppc4xx.h
->>> +++ b/include/hw/ppc/ppc4xx.h
->>> @@ -43,14 +43,11 @@ enum {
->>>   };
->>>     void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
->>> -                        MemoryRegion ram_memories[],
->>> -                        hwaddr ram_bases[], hwaddr ram_sizes[],
->>> +                        Ppc4xxSdramBank ram_banks[],
->>>                           const ram_addr_t sdram_bank_sizes[]);
->>>   -void ppc4xx_sdram_init (CPUPPCState *env, qemu_irq irq, int nbanks,
->>> -                        MemoryRegion ram_memories[],
->>> -                        hwaddr *ram_bases,
->>> -                        hwaddr *ram_sizes);
->>> +void ppc4xx_sdram_init(CPUPPCState *env, qemu_irq irq, int nbanks,
->>> +                       Ppc4xxSdramBank ram_banks[]);
->>>     #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
->>> 
->> 
->
---3866299591-1299867081-1662751937=:94994--
+> +
+>  #define PECI_BASE_ADDR              0x30
+>  #define PECI_BUFFER_SIZE            0x100
+>  #define PECI_NUM_CPUS_MAX           56
+> @@ -140,6 +160,9 @@ typedef struct PECIClientDevice {
+>      uint8_t dimm_temp_max;
+>      uint8_t dimm_temp[PECI_NUM_DIMMS_MAX];
+>  
+> +    /* EndPtConfig info */
+> +    PECIEndPtConfig const *endpt_conf;
+> +    size_t num_entries;
+>  } PECIClientDevice;
+>  
+>  #define TYPE_PECI_CLIENT "peci-client"
+> -- 
+> 2.37.2.789.g6183377224-goog
+> 
 
