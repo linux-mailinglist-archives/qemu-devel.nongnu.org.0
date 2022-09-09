@@ -2,80 +2,120 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E728B5B416C
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 23:26:57 +0200 (CEST)
-Received: from localhost ([::1]:59602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E745B42BE
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Sep 2022 01:03:36 +0200 (CEST)
+Received: from localhost ([::1]:44008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWlWa-0001mZ-Ly
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 17:26:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34248)
+	id 1oWn27-0001VB-80
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 19:03:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <walters@verbum.org>)
- id 1oWlUH-0000AW-4i
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 17:24:33 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:36901)
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1oWn0o-00007u-39
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 19:02:14 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:51071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <walters@verbum.org>)
- id 1oWlUF-0008G5-0J
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 17:24:32 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 9FC273200918
- for <qemu-devel@nongnu.org>; Fri,  9 Sep 2022 17:24:25 -0400 (EDT)
-Received: from imap46 ([10.202.2.96])
- by compute5.internal (MEProxy); Fri, 09 Sep 2022 17:24:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=verbum.org; h=cc
- :content-type:date:date:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to; s=fm2; t=
- 1662758665; x=1662845065; bh=jePfmObYTXKBiBIOkiigrDFoj/z1gM5pxCa
- C0A5onDI=; b=fkAnlAF2D5qIJecZLcunljMi6ztYhKVjNdzeJbjEN4I/xqCGc4L
- yxALu6bRNntF5DfWehb9IvkV9ofkDjFMKxxO+zUcgYLnOHbla6S3hAD6+UcpBHzh
- WehUvA88Tj/mYlGX37QqgErTaViNDb0D8vOzvui/5gye51KkgKYtNQnAVMKpMka5
- 9vS65l2lYhF8hhRWBlZpaRhZPIW5RzIA8fFPmpPce1qLoE+Gwn1GlBDvM1YOg4Jg
- yaoiWcgVXfWgXe6P5P42sm2IgO8L25XhvgFuM12PC2SEFXRBl04lowRcVGxtCIkk
- 5QmxD5cGi62zSJaEGw/bterjpP7IXNxudMw==
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1oWn0l-0004sD-Hg
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 19:02:13 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 7A8C95806ED;
+ Fri,  9 Sep 2022 19:02:09 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Fri, 09 Sep 2022 19:02:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1662764529; x=1662771729; bh=LZ
+ qIYAsRBDLHzzFlN7g+AhI2hMyU/ynXCZmSXJx2o4o=; b=Fd9GWSBue9IWHe503e
+ u6NjmzZkClyF2iQ1lgniAHchY/0TuAinaS2NWLg6kXBU39151pE1ovKNVS25Z/eq
+ IFGfoDCZdfi9vsheNiozUhWQhBFe09NjS0fOO3MHFGf7ZJIdFE7URE2+4T8ry1tP
+ Nbg2/Rj0tE3Ek4flC4ACTOcql6PzwfFTME2lnOV+B3N/lL/hnKnCQ6GH5+XhazC2
+ Nmlg33RcE4W1FIQN8y/vZurktFXXaUv+E4bgIUTmtxklpt0y22GN9mlaZnVA1HvP
+ jkswfdiKSGu/tJLd7oZD/eoKEIjjf2SfU40zdSq1rOcMST2//OkJ9MhjZ2EdQs+x
+ twzA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:message-id:mime-version
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1662758665; x=
- 1662845065; bh=jePfmObYTXKBiBIOkiigrDFoj/z1gM5pxCaC0A5onDI=; b=D
- aREDr4x4zL1U0zKTSRZ88iWzbBo+stDccRNdFPHW81t0NuEbOLvqPdPEfO2/jIqq
- UyAzaLLPmPEXzx2l9sTB6HTF8BxPgKvh3E78cwZxc2tVGaU8hWdiLuasScirhYiU
- JJo+w+luwbrAHw0KWDIPWlFV6tgSfxO7KS522k07GWPgjOaTFLv7fq7Cm8mNIhNb
- 7qYd1oG2899qQARChJAITmV07RkLRutCmgZd0F9+rV5C+b6BC03W1xIE34z59Sc0
- 2w+bQp56AJByRCuuVODnxIDiMCQVl5wYRR+keyUgEHT5fB5B2qTFE6TTO7Py2jrG
- rsTetF/WskBtDt/NuEmXg==
-X-ME-Sender: <xms:CK8bYxpCwidKcbkJoYoH9mZRZkyfM44maoeZhGmZrP378t_YC5Zx5w>
- <xme:CK8bYzqdBzmYerENlsbfXSAe2mnEtS0hfxGbemzLlzE0wMNE0Jw7cmnM27WzCcPg2
- yc4b1jR7YwEz0OM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedthedgudeigecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhepofgfggfkfffhvffutgesthdtre
- dtreertdenucfhrhhomhepfdevohhlihhnucghrghlthgvrhhsfdcuoeifrghlthgvrhhs
- sehvvghrsghumhdrohhrgheqnecuggftrfgrthhtvghrnhepueffgffhgfdutdehteduie
- egudetvdehfeefgfeuledtheejgeelteeljedthfejnecuffhomhgrihhnpehkvghrnhgv
- lhdrohhrghdpghhithhhuhgsrdgtohhmpdhlfihnrdhnvghtnecuvehluhhsthgvrhfuih
- iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepfigrlhhtvghrshesvhgvrhgsuhhm
- rdhorhhg
-X-ME-Proxy: <xmx:CK8bY-NlWFQf77Eh2XXe-2e-RrLGRZjpOS1ngNutSsC2Z-BQvLcmVw>
- <xmx:CK8bY86_VGEnIhp0IgJzERk-QEFAbl6FfUjPP9vWXKu2-2wBuFWh-A>
- <xmx:CK8bYw6DlEf9sIBaAdX-Kk1tMofU1MbGGlrNvO7pqACnfVRXAIPn_A>
- <xmx:Ca8bYyEWKweau1TTDhpjZBwVvtqRhpdtq1WP9wTgj7CGukVrUpnWBA>
-Feedback-ID: ibe7c40e9:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id E60892A20079; Fri,  9 Sep 2022 17:24:24 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-927-gf4c98c8499-fm-20220826.002-gf4c98c84
-Mime-Version: 1.0
-Message-Id: <4362261a-c762-4666-84e2-03c9daa6c4d9@www.fastmail.com>
-Date: Fri, 09 Sep 2022 17:24:03 -0400
-From: "Colin Walters" <walters@verbum.org>
-To: qemu-devel@nongnu.org
-Subject: virtiofsd: Any reason why there's not an "openat2" sandbox mode?
-Content-Type: text/plain
-Received-SPF: pass client-ip=64.147.123.25; envelope-from=walters@verbum.org;
- helo=wout2-smtp.messagingengine.com
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1662764529; x=1662771729; bh=LZqIYAsRBDLHzzFlN7g+AhI2hMyU
+ /ynXCZmSXJx2o4o=; b=R0rm0u9Q8CX9dbZ2DhuKZkJyLwqDkiL/bcQEMyyhRDy3
+ DKn59ZmnL3PU6DmHyrEOtbWOQxV0Jvh3Grnr7NnwLKmBBu1OqZr7MHMw5AF8nOc3
+ yZwD78eLbs+PQ7ZV3R0sH3zp40EzNkJRkYIFQoQD0TzJshF7fsO77EIAhb/np+v5
+ fD3+R4uPoMhtBl6YFx1Id+vdQVHvRNN3JNjDEgZx0z97eg2UtW70uB3fK3NPtcQq
+ YXJKLKjalf08E+dU2zl2hDz2uNpIpr6InQLeo3pXVpi6p5g0dYXSjFu2qp7lvcHO
+ z/6UG76BNmJ0JLKn+JDTKA1iOr5MetWJtzkldsMOKw==
+X-ME-Sender: <xms:7sUbY3rI1KJg6T2GIL1QERVjHifgXO5lm0MnxXu08ZpG7b3CagZfXw>
+ <xme:7sUbYxoUJWW56KV29pr_aHSFZMDTg3SRysBUXhQlGa9zL3CR6D-tSmooacFF6F7T4
+ vngwaKGwj26JDXPHtA>
+X-ME-Received: <xmr:7sUbY0NDMWxhzD2mgtmpwtlR72xtvAmgXhoiiyjc53F64CGLIQNkCJkgvMmlVTESiy-95w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedtiedgudekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
+ ihhllhcutecurdcuufhhuhhtvghmohhvfdcuoehkihhrihhllhesshhhuhhtvghmohhvrd
+ hnrghmvgeqnecuggftrfgrthhtvghrnhepvdekkeelteduteduledtgfevledtgeekjeeu
+ ieehgeeltdduteeuueekhffhledvnecuffhomhgrihhnpehinhhtvghlrdgtohhmpdhmvg
+ hmrdhprghgvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
+ ohhmpehkihhrihhllhesshhhuhhtvghmohhvrdhnrghmvg
+X-ME-Proxy: <xmx:7sUbY65BD7T0lBkv38MIfA5C7WIcBVzxQYY2iqyB0VQfm1zOuugzwQ>
+ <xmx:7sUbY24PLQzdG8vOj0k1OQ385SW1ySugRFGwv36hbK-YXtzdMEgHpA>
+ <xmx:7sUbYygCW8klPbx4kDGz3VpnpXvXc5mSI7G4ZJw8EFDOAiv-qLQgWA>
+ <xmx:8cUbY7VMkXPqPikJg5h1mEfMk_BDtkjgyhUL44T0t1A43JkcVR9sBQ>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 9 Sep 2022 19:02:06 -0400 (EDT)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+ id 2DAF3104A9B; Sat, 10 Sep 2022 02:02:03 +0300 (+03)
+Date: Sat, 10 Sep 2022 02:02:03 +0300
+From: "Kirill A . Shutemov" <kirill@shutemov.name>
+To: Andy Lutomirski <luto@kernel.org>
+Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ Hugh Dickins <hughd@google.com>,	Chao Peng <chao.p.peng@linux.intel.com>,
+ kvm list <kvm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ Linux API <linux-api@vger.kernel.org>, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>,	Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,	Jim Mattson <jmattson@google.com>,
+ Joerg Roedel <joro@8bytes.org>,	Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,	Shuah Khan <shuah@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>,	Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,	"Nakajima,
+ Jun" <jun.nakajima@intel.com>,	Dave Hansen <dave.hansen@intel.com>,
+ Andi Kleen <ak@linux.intel.com>,	David Hildenbrand <david@redhat.com>,
+ aarcange@redhat.com,	ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,	Michael Roth <michael.roth@amd.com>,
+ Michal Hocko <mhocko@suse.com>,	Muchun Song <songmuchun@bytedance.com>,
+ "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <20220909230203.czdpronokk3lxses@box.shutemov.name>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
+ <20220818132421.6xmjqduempmxnnu2@box>
+ <c6ccbb96-5849-2e2f-3b49-4ea711af525d@google.com>
+ <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
+ <95bd287b-d17f-fda8-58c9-20700b1e0c72@kernel.org>
+ <20220909143236.sznwzkpedldrlnn5@box.shutemov.name>
+ <762581e4-a6bf-41d1-b0d3-72543153ffb1@www.fastmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <762581e4-a6bf-41d1-b0d3-72543153ffb1@www.fastmail.com>
+Received-SPF: pass client-ip=66.111.4.229; envelope-from=kirill@shutemov.name;
+ helo=new3-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -98,16 +138,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We previously had a chat here https://lore.kernel.org/all/348d4774-bd5f-4832-bd7e-a21491fdac8d@www.fastmail.com/T/
-around virtiofsd and privileges and the case of trying to run virtiofsd inside an unprivileged (Kubernetes) container.
+On Fri, Sep 09, 2022 at 12:11:05PM -0700, Andy Lutomirski wrote:
+> 
+> 
+> On Fri, Sep 9, 2022, at 7:32 AM, Kirill A . Shutemov wrote:
+> > On Thu, Sep 08, 2022 at 09:48:35PM -0700, Andy Lutomirski wrote:
+> >> On 8/19/22 17:27, Kirill A. Shutemov wrote:
+> >> > On Thu, Aug 18, 2022 at 08:00:41PM -0700, Hugh Dickins wrote:
+> >> > > On Thu, 18 Aug 2022, Kirill A . Shutemov wrote:
+> >> > > > On Wed, Aug 17, 2022 at 10:40:12PM -0700, Hugh Dickins wrote:
+> >> > > > > 
+> >> > > > > If your memory could be swapped, that would be enough of a good reason
+> >> > > > > to make use of shmem.c: but it cannot be swapped; and although there
+> >> > > > > are some references in the mailthreads to it perhaps being swappable
+> >> > > > > in future, I get the impression that will not happen soon if ever.
+> >> > > > > 
+> >> > > > > If your memory could be migrated, that would be some reason to use
+> >> > > > > filesystem page cache (because page migration happens to understand
+> >> > > > > that type of memory): but it cannot be migrated.
+> >> > > > 
+> >> > > > Migration support is in pipeline. It is part of TDX 1.5 [1]. And swapping
+> >> > > > theoretically possible, but I'm not aware of any plans as of now.
+> >> > > > 
+> >> > > > [1] https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html
+> >> > > 
+> >> > > I always forget, migration means different things to different audiences.
+> >> > > As an mm person, I was meaning page migration, whereas a virtualization
+> >> > > person thinks VM live migration (which that reference appears to be about),
+> >> > > a scheduler person task migration, an ornithologist bird migration, etc.
+> >> > > 
+> >> > > But you're an mm person too: you may have cited that reference in the
+> >> > > knowledge that TDX 1.5 Live Migration will entail page migration of the
+> >> > > kind I'm thinking of.  (Anyway, it's not important to clarify that here.)
+> >> > 
+> >> > TDX 1.5 brings both.
+> >> > 
+> >> > In TDX speak, mm migration called relocation. See TDH.MEM.PAGE.RELOCATE.
+> >> > 
+> >> 
+> >> This seems to be a pretty bad fit for the way that the core mm migrates
+> >> pages.  The core mm unmaps the page, then moves (in software) the contents
+> >> to a new address, then faults it in.  TDH.MEM.PAGE.RELOCATE doesn't fit into
+> >> that workflow very well.  I'm not saying it can't be done, but it won't just
+> >> work.
+> >
+> > Hm. From what I see we have all necessary infrastructure in place.
+> >
+> > Unmaping is NOP for inaccessible pages as it is never mapped and we have
+> > mapping->a_ops->migrate_folio() callback that allows to replace software
+> > copying with whatever is needed, like TDH.MEM.PAGE.RELOCATE.
+> >
+> > What do I miss?
+> 
+> Hmm, maybe this isn't as bad as I thought.
+> 
+> Right now, unless I've missed something, the migration workflow is to
+> unmap (via try_to_migrate) all mappings, then migrate the backing store
+> (with ->migrate_folio(), although it seems like most callers expect the
+> actual copy to happen outside of ->migrate_folio(),
 
-Right now we're still using 9p, and it has bugs (basically it seems like the 9p inode flushing callback tries to allocate memory to send an RPC, and this causes OOM problems)
-https://github.com/coreos/coreos-assembler/issues/1812
+Most? I guess you are talking about MIGRATE_SYNC_NO_COPY, right? AFAICS,
+it is HMM thing and not a common thing.
 
-Coming back to this...as of lately in Linux, there's support for strongly isolated filesystem access via openat2():
-https://lwn.net/Articles/796868/
+> and then make new
+> mappings.  With the *current* (vma-based, not fd-based) model for KVM
+> memory, this won't work -- we can't unmap before calling
+> TDH.MEM.PAGE.RELOCATE.
 
-Is there any reason we couldn't do an -o sandbox=openat2 ?  This operates without any privileges at all, and should be usable (and secure enough) in our use case.
+We don't need to unmap. The page is not mapped from core-mm PoV.
 
-I may try a patch if this sounds OK...
+> But maybe it's actually okay with some care or maybe mild modifications
+> with the fd-based model.  We don't have any mmaps, per se, to unmap for
+> secret / INACCESSIBLE memory.  So maybe we can get all the way to
+> ->migrate_folio() without zapping anything in the secure EPT and just
+> call TDH-MEM.PAGE.RELOCATE from inside migrate_folio().  And there will
+> be nothing to fault back in.  From the core code's perspective, it's
+> like migrating a memfd that doesn't happen to have my mappings at the
+> time.
+
+Modifications needed if we want to initiate migation from userspace. IIRC,
+we don't have any API that can initiate page migration for file ranges,
+without mapping the file.
+
+But kernel can do it fine for own housekeeping, like compaction doesn't
+need any VMA. And we need compaction working for long term stability of
+the system.
+
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
 
