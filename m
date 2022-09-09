@@ -2,56 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5F8D5B364F
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 13:27:32 +0200 (CEST)
-Received: from localhost ([::1]:59204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1E9C5B36D2
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 13:58:18 +0200 (CEST)
+Received: from localhost ([::1]:50550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWcAV-0005m4-DH
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 07:27:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60070)
+	id 1oWceH-0007DG-5W
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 07:58:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dinghui@sangfor.com.cn>)
- id 1oWc48-0007fW-4J
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 07:20:56 -0400
-Received: from mail-m11880.qiye.163.com ([115.236.118.80]:56118)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dinghui@sangfor.com.cn>)
- id 1oWc3q-0000hk-9R
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 07:20:42 -0400
-Received: from [0.0.0.0] (unknown [172.96.223.238])
- by mail-m11880.qiye.163.com (Hmail) with ESMTPA id 194D7204EC;
- Fri,  9 Sep 2022 19:20:21 +0800 (CST)
-Message-ID: <5660954c-362c-289a-933e-97bd7c236b99@sangfor.com.cn>
-Date: Fri, 9 Sep 2022 19:20:03 +0800
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oWccP-0005Ul-4b; Fri, 09 Sep 2022 07:56:21 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:40734)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oWccN-0007bN-DW; Fri, 09 Sep 2022 07:56:20 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id l14so3396872eja.7;
+ Fri, 09 Sep 2022 04:56:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=0wiBO4Qgn2f/oAakm74MKrsEpWN33LSkfekcwpwrDqM=;
+ b=l1DV4LNaM7TfOH03d96Hac2koM5RRNCRhYI/DJeKzfbn/0HCxPD3XDBL9KdVihyrjy
+ GpmfFzM9q5mKje2N5cnZzsWz2zqiArHKIljMEI8ChHaxpD3XYH/HVWKTtjcaHt/ilP1k
+ sFyTRAskVanN0W3eiyre7UcXPXV9d8IewQJa1QAAQ1LlFvIHHhcYnEMbBygAs2EGUqw3
+ 74/3mljsMPttmFqJhRvOXkOTc0g9DuGehEXva/BYvchXW6YyEKpKJ1z3E2uzNYKIesSf
+ RBWpsHl9+IF0GnsnuiR9INF8D9oumGH2QVNmnKMvD9HgZqEuotgKIK/BHDqMiZXp+uF/
+ sdOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=0wiBO4Qgn2f/oAakm74MKrsEpWN33LSkfekcwpwrDqM=;
+ b=RWhF2iYBirHDK40uO59PGOqfTT1OrQsiK4/dAXH80plAwEORo1L2e8720qaneylAvy
+ VCVdkZldyVoo+39LVEgnWOf06jasG6VFm47B7p+o/KtEvSwrjfMNNStlnyGDrYmM3d47
+ 5AQew84hOQQlP83hVUkylAVLeBEaW8rz3by9Ah0EogXcnKKAFToe8SR/RclJEXpQe4Fn
+ BQ7EqbNE/xmrCUDDFnove1wGPtUavjlRcEHT15KiVj63GGxFtcw/Myw5p7L2dffd/ovd
+ h2aQg4LCit9Ws0j2c1/w9DzhuRTAv8vRhYFepNTMKXczOFFXGAkx+Ej5JcFxq/gcn1lq
+ k7bw==
+X-Gm-Message-State: ACgBeo0P9UoFnJdlIzqZxhmndGjXqUUDfQuw6cHIwgC1YaCqyrAZzB3g
+ Sa0qEbzcb+pLvcMVKhpO6m8=
+X-Google-Smtp-Source: AA6agR61XgdBp/nnXRnvwje5mUz5OiG+ZStCuNEt2RNzVJxXohUZML6JXaqjrEAVNuW3xEu5DvQioQ==
+X-Received: by 2002:a17:906:770d:b0:73c:a08f:593c with SMTP id
+ q13-20020a170906770d00b0073ca08f593cmr10133491ejm.182.1662724576959; 
+ Fri, 09 Sep 2022 04:56:16 -0700 (PDT)
+Received: from [127.0.0.1] (dynamic-077-183-180-255.77.183.pool.telefonica.de.
+ [77.183.180.255]) by smtp.gmail.com with ESMTPSA id
+ kw14-20020a170907770e00b0076f0a723f6bsm190439ejc.58.2022.09.09.04.56.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Sep 2022 04:56:16 -0700 (PDT)
+Date: Fri, 09 Sep 2022 11:56:12 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+CC: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_hw/virtio/vhost-shadow-virtque?=
+ =?US-ASCII?Q?ue=3A_Silence_GCC_error_=22maybe-uninitialized=22?=
+In-Reply-To: <CAAdtpL49zYJUum+Q79iWHbffy2ZCf8095WSUjvwAnnAX-j_raQ@mail.gmail.com>
+References: <20220906171114.14839-1-shentey@gmail.com>
+ <CAAdtpL49zYJUum+Q79iWHbffy2ZCf8095WSUjvwAnnAX-j_raQ@mail.gmail.com>
+Message-ID: <CE6CBCA6-EF79-48E7-95B9-4381AA51209D@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] e1000e: set RX desc status with DD flag in a separate
- operation
-Content-Language: en-US
-To: Jason Wang <jasowang@redhat.com>
-Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- qemu-devel <qemu-devel@nongnu.org>, georgmueller@gmx.net
-References: <20220826160543.2120-1-dinghui@sangfor.com.cn>
- <CACGkMEtN3=6GAvYfjTstk_JFa+8nKGsWN5NzR+TRD4LfxyS9XA@mail.gmail.com>
-From: dinghui <dinghui@sangfor.com.cn>
-In-Reply-To: <CACGkMEtN3=6GAvYfjTstk_JFa+8nKGsWN5NzR+TRD4LfxyS9XA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCTElIVklJT0gaSB0aSEtCHVUTARMWGhIXJBQOD1
- lXWRgSC1lBWUpMSVVCTVVJSUhVSUhDWVdZFhoPEhUdFFlBWU9LSFVKSEpOTUlVSktLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OE06CRw6Hz0uPjVOEQsvCxIz
- HytPCzFVSlVKTU1JTElJT0lPQkpMVTMWGhIXVR8SFRwTDhI7CBoVHB0UCVUYFBZVGBVFWVdZEgtZ
- QVlKTElVQk1VSUlIVUlIQ1lXWQgBWUFOTENINwY+
-X-HM-Tid: 0a8321fabc742eb6kusn194d7204ec
-Received-SPF: pass client-ip=115.236.118.80;
- envelope-from=dinghui@sangfor.com.cn; helo=mail-m11880.qiye.163.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.079,
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -69,119 +92,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/9/9 10:40, Jason Wang wrote:
-> On Sat, Aug 27, 2022 at 12:06 AM Ding Hui <dinghui@sangfor.com.cn> wrote:
+Am 6=2E September 2022 17:52:24 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <=
+f4bug@amsat=2Eorg>:
+>On Tue, Sep 6, 2022 at 7:12 PM Bernhard Beschow <shentey@gmail=2Ecom> wro=
+te:
 >>
->> Like commit 034d00d48581 ("e1000: set RX descriptor status in
->> a separate operation"), there is also same issue in e1000e, which
->> would cause lost packets or stop sending packets to VM with DPDK.
+>> GCC issues a false positive warning, resulting in build failure with -W=
+error:
 >>
->> Do similar fix in e1000e.
+>>   In file included from /usr/include/glib-2=2E0/glib=2Eh:114,
+>>                    from /home/zcone-pisint/Projects/qemu/src/include/gl=
+ib-compat=2Eh:32,
+>>                    from /home/zcone-pisint/Projects/qemu/src/include/qe=
+mu/osdep=2Eh:144,
+>>                    from =2E=2E/src/hw/virtio/vhost-shadow-virtqueue=2Ec=
+:10:
+>>   In function =E2=80=98g_autoptr_cleanup_generic_gfree=E2=80=99,
+>>       inlined from =E2=80=98vhost_handle_guest_kick=E2=80=99 at =2E=2E/=
+src/hw/virtio/vhost-shadow-virtqueue=2Ec:292:42:
+>>   /usr/include/glib-2=2E0/glib/glib-autocleanups=2Eh:28:3: error: =E2=
+=80=98elem=E2=80=99 may be used uninitialized [-Werror=3Dmaybe-uninitialize=
+d]
+>>      28 |   g_free (*pp);
+>>         |   ^~~~~~~~~~~~
+>>   =2E=2E/src/hw/virtio/vhost-shadow-virtqueue=2Ec: In function =E2=80=
+=98vhost_handle_guest_kick=E2=80=99:
+>>   =2E=2E/src/hw/virtio/vhost-shadow-virtqueue=2Ec:292:42: note: =E2=80=
+=98elem=E2=80=99 was declared here
+>>     292 |             g_autofree VirtQueueElement *elem;
+>>         |                                          ^~~~
+>>   cc1: all warnings being treated as errors
 >>
->> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/402
->> Signed-off-by: Ding Hui <dinghui@sangfor.com.cn>
+>> There is actually no problem since "elem" is initialized in both branch=
+es=2E
+>> Silence the warning by initializig it with "NULL"=2E
+>
+>Could you amend the first line of `gcc --version`?
+
+Hi Phil,
+
+Yes, will do in v2=2E
+
+Sorry for getting off-topic, but have you recognized my vt82c686 series? Y=
+our opinion would matter there and I'm not sure if my mail bounced=2E In my=
+ case Gmail likes to put your mail in the spam box :/
+
+Regards,
+Bernhard
+>
+>Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=2Eorg>
+>
+>> Fixes: 9c2ab2f1ec333be8614cc12272d4b91960704dbe ("vhost: stop transfer =
+elem ownership in vhost_handle_guest_kick")
+>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
 >> ---
->>   hw/net/e1000e_core.c | 54 +++++++++++++++++++++++++++++++++++++++++++-
->>   1 file changed, 53 insertions(+), 1 deletion(-)
+>>  hw/virtio/vhost-shadow-virtqueue=2Ec | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
 >>
->> diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
->> index 208e3e0d79..b8038e4014 100644
->> --- a/hw/net/e1000e_core.c
->> +++ b/hw/net/e1000e_core.c
->> @@ -1364,6 +1364,58 @@ struct NetRxPkt *pkt, const E1000E_RSSInfo *rss_info,
->>       }
->>   }
+>> diff --git a/hw/virtio/vhost-shadow-virtqueue=2Ec b/hw/virtio/vhost-sha=
+dow-virtqueue=2Ec
+>> index e8e5bbc368=2E=2E596d4434d2 100644
+>> --- a/hw/virtio/vhost-shadow-virtqueue=2Ec
+>> +++ b/hw/virtio/vhost-shadow-virtqueue=2Ec
+>> @@ -289,7 +289,7 @@ static void vhost_handle_guest_kick(VhostShadowVirt=
+queue *svq)
+>>          virtio_queue_set_notification(svq->vq, false);
 >>
->> +static inline void
->> +e1000e_pci_dma_write_rx_desc(E1000ECore *core, dma_addr_t addr,
->> +                             uint8_t *desc, dma_addr_t len)
->> +{
->> +    PCIDevice *dev = core->owner;
->> +
->> +    if (e1000e_rx_use_legacy_descriptor(core)) {
->> +        struct e1000_rx_desc *d = (struct e1000_rx_desc *) desc;
->> +        size_t offset = offsetof(struct e1000_rx_desc, status);
->> +        typeof(d->status) status = d->status;
->> +
->> +        d->status &= ~E1000_RXD_STAT_DD;
->> +        pci_dma_write(dev, addr, desc, len);
->> +
->> +        if (status & E1000_RXD_STAT_DD) {
->> +            d->status = status;
->> +            pci_dma_write(dev, addr + offset, &status, sizeof(status));
->> +        }
->> +    } else {
->> +        if (core->mac[RCTL] & E1000_RCTL_DTYP_PS) {
->> +            union e1000_rx_desc_packet_split *d =
->> +                (union e1000_rx_desc_packet_split *) desc;
->> +            size_t offset = offsetof(union e1000_rx_desc_packet_split,
->> +                wb.middle.status_error);
->> +            typeof(d->wb.middle.status_error) status =
->> +                d->wb.middle.status_error;
-> 
-> Any reason to use typeof here? Its type is known to be uint32_t?
-> 
-
-My intention was using exact type same with struct member status_error, 
-which is indeed uint32_t now. If the type of status_error in struct be 
-changed in some case, we do not need to change everywhere.
-
-Maybe I worry too much, the struct is related to h/w spec, so it is 
-unlikely be changed in the future.
-
-Should I send v2 to use uint32_t directly? I'm also OK with it.
-
->> +
->> +            d->wb.middle.status_error &= ~E1000_RXD_STAT_DD;
->> +            pci_dma_write(dev, addr, desc, len);
->> +
->> +            if (status & E1000_RXD_STAT_DD) {
->> +                d->wb.middle.status_error = status;
->> +                pci_dma_write(dev, addr + offset, &status, sizeof(status));
->> +            }
->> +        } else {
->> +            union e1000_rx_desc_extended *d =
->> +                (union e1000_rx_desc_extended *) desc;
->> +            size_t offset = offsetof(union e1000_rx_desc_extended,
->> +                wb.upper.status_error);
->> +            typeof(d->wb.upper.status_error) status = d->wb.upper.status_error;
-> 
-> So did here.
-> 
-> Thanks
-> 
->> +
->> +            d->wb.upper.status_error &= ~E1000_RXD_STAT_DD;
->> +            pci_dma_write(dev, addr, desc, len);
->> +
->> +            if (status & E1000_RXD_STAT_DD) {
->> +                d->wb.upper.status_error = status;
->> +                pci_dma_write(dev, addr + offset, &status, sizeof(status));
->> +            }
->> +        }
->> +    }
->> +}
->> +
->>   typedef struct e1000e_ba_state_st {
->>       uint16_t written[MAX_PS_BUFFERS];
->>       uint8_t cur_idx;
->> @@ -1600,7 +1652,7 @@ e1000e_write_packet_to_guest(E1000ECore *core, struct NetRxPkt *pkt,
+>>          while (true) {
+>> -            g_autofree VirtQueueElement *elem;
+>> +            g_autofree VirtQueueElement *elem =3D NULL;
+>>              int r;
 >>
->>           e1000e_write_rx_descr(core, desc, is_last ? core->rx_pkt : NULL,
->>                              rss_info, do_ps ? ps_hdr_len : 0, &bastate.written);
->> -        pci_dma_write(d, base, &desc, core->rx_desc_len);
->> +        e1000e_pci_dma_write_rx_desc(core, base, desc, core->rx_desc_len);
->>
->>           e1000e_ring_advance(core, rxi,
->>                               core->rx_desc_len / E1000_MIN_RX_DESC_LEN);
+>>              if (svq->next_guest_avail_elem) {
 >> --
->> 2.17.1
+>> 2=2E37=2E3
 >>
-> 
-> 
+>>
 
-
--- 
-Thanks,
-- Ding Hui
 
