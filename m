@@ -2,54 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BC0B5B2E9F
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 08:19:28 +0200 (CEST)
-Received: from localhost ([::1]:45334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A79F45B2ED2
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 08:25:02 +0200 (CEST)
+Received: from localhost ([::1]:57978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWXML-0005me-Sp
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 02:19:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59944)
+	id 1oWXRl-0008K4-3x
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 02:25:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1oWXFw-00025D-FZ
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 02:12:49 -0400
-Received: from mailout07.t-online.de ([194.25.134.83]:50260)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oWXGg-0002JT-ES
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 02:13:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40341)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1oWXFn-0002qc-CV
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 02:12:48 -0400
-Received: from fwd70.dcpf.telekom.de (fwd70.aul.t-online.de [10.223.144.96])
- by mailout07.t-online.de (Postfix) with SMTP id B03D5C4BE;
- Fri,  9 Sep 2022 08:12:33 +0200 (CEST)
-Received: from [192.168.211.200] ([84.175.228.180]) by fwd70.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1oWXFe-4If2VV0; Fri, 9 Sep 2022 08:12:30 +0200
-Message-ID: <f7ad8818-b165-4306-64f9-ec4e786a9493@t-online.de>
-Date: Fri, 9 Sep 2022 08:12:30 +0200
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oWXGd-0002zR-Eu
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 02:13:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662704010;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rNLh4hKFEpap8uDZVtpLjKKsyiyJp2moh14q/PZu9mo=;
+ b=IBszp51vvBiDgiAbxamCKauUHYufr5EJ9PvRUKG/GBZuSZYF+/XmHEhXvXWIF1Ax+2t0ip
+ VcUBirL4RE0dgb7SM+gQfc7Aer26iCIIdjEF6HTZKXhONWcZQjGIKK3SrgnpB+Y1pJbFyt
+ iOSdqRCpoSx9x3f7QYxL98zCnzBOods=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-531-yGW5pi3lP6SiPiFnXku7Ew-1; Fri, 09 Sep 2022 02:13:29 -0400
+X-MC-Unique: yGW5pi3lP6SiPiFnXku7Ew-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ o25-20020a05600c339900b003b2973dab88so352026wmp.6
+ for <qemu-devel@nongnu.org>; Thu, 08 Sep 2022 23:13:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=rNLh4hKFEpap8uDZVtpLjKKsyiyJp2moh14q/PZu9mo=;
+ b=zpal9b606/AQZ1ejjM+l3fnfHLqxNvfkon48RNPxo6hvg2seiamUO79McAXYs9KQfI
+ 6vOEdrjYqVTqzx2NKBTVgL0DX+9DWa0/1Ul5VtxRBAoXq3lyRTEiAO3nSljwRT53pPSD
+ 2bUe5JodaeiNOapCpls/TBPSe00s0FhfF84p+MY6Gfpukxx+WWj0TS+Uqpnomt3U3b8O
+ Ud+a3311mHeY0nqfvvn00MG2dvx3YVfJU38jUBZItM210FA3sDPCIyIBMCZZd2qK7oBd
+ pG2m4fnrJNpf+hKT2jHLAEW26j4E3b3n0ibzYjxXO/0EhLyQ9bHg55YsLCRJXH/ywP5H
+ NgiA==
+X-Gm-Message-State: ACgBeo2peq7wZpEC3XJRiBaxTe0tAt/AbeDKAcBs5CovhQS1iqxj1uFf
+ mozCQyJ/JU/0a1J1uMQ/gnnp7L2pyjjtZ/niGaOZPjG+bZxM9aLp0mIFWJQ7dbFHTImXkiRBUHU
+ XaG0Q+qBnxsOTiO4=
+X-Received: by 2002:a5d:5350:0:b0:225:7560:8403 with SMTP id
+ t16-20020a5d5350000000b0022575608403mr6627111wrv.507.1662704008008; 
+ Thu, 08 Sep 2022 23:13:28 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5S0Avumx7TLlDBIxldAD6k1vkdGmnLy165kGjXCLD0Znmbo2lEl3oPZ0StD+kgXAJRbFOXFw==
+X-Received: by 2002:a5d:5350:0:b0:225:7560:8403 with SMTP id
+ t16-20020a5d5350000000b0022575608403mr6627098wrv.507.1662704007768; 
+ Thu, 08 Sep 2022 23:13:27 -0700 (PDT)
+Received: from redhat.com ([176.12.154.16]) by smtp.gmail.com with ESMTPSA id
+ p12-20020adfce0c000000b0022a2f4fa042sm995562wrn.103.2022.09.08.23.13.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Sep 2022 23:13:27 -0700 (PDT)
+Date: Fri, 9 Sep 2022 02:13:20 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Sergio Lopez <slp@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
+Subject: Re: [PATCH v2 2/2] [RfC] expose host-phys-bits to guest
+Message-ID: <20220909021213-mutt-send-email-mst@kernel.org>
+References: <20220908113109.470792-1-kraxel@redhat.com>
+ <20220908113109.470792-3-kraxel@redhat.com>
+ <20220908101757-mutt-send-email-mst@kernel.org>
+ <20220909051817.vlai3l6cjl5sfgmv@sirius.home.kraxel.org>
+ <20220909014106-mutt-send-email-mst@kernel.org>
+ <20220909060653.s4cf7caaem3p7ac3@sirius.home.kraxel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Subject: Re: [PATCH v3] audio: Add sndio backend
-To: Alexandre Ratchov <alex@caoua.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Brad <brad@comstyle.com>
-Cc: qemu-devel@nongnu.org
-References: <YxibXrWsrS3XYQM3@vm1.arverb.com>
-Content-Language: en-US
-In-Reply-To: <YxibXrWsrS3XYQM3@vm1.arverb.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1662703950-50A2B689-16050A26/0/0 CLEAN NORMAL
-X-TOI-MSGID: dc7f095f-9d4e-4f92-8e71-e9b85f1fad4d
-Received-SPF: none client-ip=194.25.134.83; envelope-from=vr_qemu@t-online.de;
- helo=mailout07.t-online.de
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-3.142, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220909060653.s4cf7caaem3p7ac3@sirius.home.kraxel.org>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,59 +104,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 07.09.22 um 15:23 schrieb Alexandre Ratchov:
-> sndio is the native API used by OpenBSD, although it has been ported to
-> other *BSD's and Linux (packages for Ubuntu, Debian, Void, Arch, etc.).
->
-> Signed-off-by: Brad Smith<brad@comstyle.com>
-> Signed-off-by: Alexandre Ratchov<alex@caoua.org>
-> ---
->
-> References to the previous patch versions and related discussions are
-> here:
->
-> https://marc.info/?l=qemu-devel&m=163973393011543	(v2)
-> https://marc.info/?l=qemu-devel&m=163626248712444	(initial patch)
->
-> Here are the changes between v2 and v3 of this patch:
->
-> - fixed of typos in file-names in MAINTAINERS
-> - added Gerd Hoffmann to the M: entry in MAINTAINERS
-> - added missin S: entry in MAINTAINERS
-> - removed unused #include "qemu-common.h"
-> - bumped "Since:" version to 7.2 in qapi/audio.json
-> - regenerated scripts/meson-buildoptions.sh
-> - implement buffer_get_free() method, introduced by
->    commit 9833438ef624155de879d4ed57ecfcd3464a0bbe
->
->    audio: restore mixing-engine playback buffer size
->
-> Running "make update-buildoptions" triggered unrelated changes of
-> scripts/meson-buildoptions.sh, that I removed from the commit as they
-> are not related to sndio.
->
-> Tested on OpenBSD, still works as expected :-)
->
-> Regards,
-> Alexandre
->
->   MAINTAINERS                   |   7 +
->   audio/audio.c                 |   1 +
->   audio/audio_template.h        |   2 +
->   audio/meson.build             |   1 +
->   audio/sndioaudio.c            | 565 ++++++++++++++++++++++++++++++++++
->   meson.build                   |   9 +-
->   meson_options.txt             |   4 +-
->   qapi/audio.json               |  25 +-
->   qemu-options.hx               |  16 +
->   scripts/meson-buildoptions.sh |   7 +-
->   10 files changed, 632 insertions(+), 5 deletions(-)
->   create mode 100644 audio/sndioaudio.c
->
+On Fri, Sep 09, 2022 at 08:06:53AM +0200, Gerd Hoffmann wrote:
+>   Hi,
+> 
+> > > > I think we still want to key this one off host_phys_bits
+> > > > so it works for e.g. hyperv emulation too.
+> > > 
+> > > I think that should be the case.  The chunks above change the
+> > > host-phys-bits option from setting cpu->host_phys_bits to setting
+> > > the FEAT_KVM_HINTS bit.  That should also happen with hyperv emulation
+> > > enabled, and the bit should also be visible to the guest then, just at
+> > > another location (base 0x40000100 instead of 0x40000000).
+> > > 
+> > > take care,
+> > >   Gerd
+> > 
+> > 
+> > You are right, I forgot. Hmm, ok. What about !cpu->expose_kvm ?
+> > 
+> > We have
+> > 
+> >     if (!kvm_enabled() || !cpu->expose_kvm) {
+> >         env->features[FEAT_KVM] = 0;
+> >     }   
+> >         
+> > This is quick grep, I didn't check whether this is called
+> > after the point where you currently use it, but
+> > it frankly seems fragile to pass a generic user specified flag
+> > inside a cpuid where everyone pokes at it.
+> 
+> I tried to avoid keeping the state of the host_phys_bits option at
+> multiple places.  Maybe that wasn't a good idea after all.  How about
+> doing this instead:
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index 1db1278a599b..279fde095d7c 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -6219,6 +6219,11 @@ void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
+>          env->features[FEAT_KVM] = 0;
+>      }
+>  
+> +    if (kvm_enabled() && cpu->host_phys_bits) {
+> +        env->features[FEAT_KVM_HINTS] |=
+> +            (1U << KVM_HINTS_PHYS_ADDRESS_SIZE_DATA_VALID);
+> +    }
+> +
+>      x86_cpu_enable_xsave_components(cpu);
+>  
+>      /* CPUID[EAX=7,ECX=0].EBX always increased level automatically: */
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index a1fd1f53791d..3335c57b21b2 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -459,6 +459,7 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+>          }
+>      } else if (function == KVM_CPUID_FEATURES && reg == R_EDX) {
+>          ret |= 1U << KVM_HINTS_REALTIME;
+> +        ret |= 1U << KVM_HINTS_PHYS_ADDRESS_SIZE_DATA_VALID;
+>      }
+>  
+>      return ret;
 
-Tested again on Linux.
 
-Reviewed-by: Volker Rümelin <vr_qemu@t-online.de>
-Tested-by: Volker Rümelin <vr_qemu@t-online.de>
+/me nods.
+That seems much more straight-forward.
+
+-- 
+MST
 
 
