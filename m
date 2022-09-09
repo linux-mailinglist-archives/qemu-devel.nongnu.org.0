@@ -2,71 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67D45B2D81
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 06:26:05 +0200 (CEST)
-Received: from localhost ([::1]:46280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5021C5B2DB7
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 06:48:13 +0200 (CEST)
+Received: from localhost ([::1]:51358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWVae-0000ws-Ko
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 00:26:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41162)
+	id 1oWVw4-00050w-0O
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 00:48:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oWVZ6-0007u6-Ix
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 00:24:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39507)
+ (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1oWVss-00038B-Qc
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 00:44:55 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:33598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oWVZ3-0003yt-53
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 00:24:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662697464;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PcILEiy6q9YgqkFoiMLhvTGsTam40LOPEOZu+SXVdGI=;
- b=FJsrUIdXbdmDpbyNlbA2xvao/313cFO4l/qJOPY97J+oRqqRpb2wbGkO02r94p+EM700xy
- 3Mez9RKk/aOM74h1DGUlfbO8+JFRX2ZJH02Ox7S535+y1kFC9w2CYAXKnwZ/buTMWpRCK/
- CQMxKpnReGG+yhSleIqr/alUMOVfvmQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-557-uATh8eyMPrWML5ziFydfIQ-1; Fri, 09 Sep 2022 00:24:23 -0400
-X-MC-Unique: uATh8eyMPrWML5ziFydfIQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1oWVsq-0006ON-Gq
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 00:44:54 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD80C294EDF2;
- Fri,  9 Sep 2022 04:24:22 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 88B1E1410F38;
- Fri,  9 Sep 2022 04:24:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 69BA721E6900; Fri,  9 Sep 2022 06:24:21 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Patrick Venture <venture@google.com>,  QEMU Developers
- <qemu-devel@nongnu.org>,  Peter Foley <pefoley@google.com>
-Subject: Re: Seeing qtest assertion failure with 7.1
-References: <CAO=notwARj6d+UygiU4-JBKMJtyOhHmcNFp7C5jwqJReFT-kew@mail.gmail.com>
- <CAFEAcA9brqMEZfyB-c2OjYFWuQPSS28u9_8vFte=zGwePh_Srw@mail.gmail.com>
- <CAO=notxqhKoUS8Mahp=HLGO1XKt07Z7qH3SEe3-Tfo9skk9rBQ@mail.gmail.com>
- <CAFEAcA9mGBjYFNGEVyiUeCMw38zrMCfTyEgpuHO+n3aR-6JjxQ@mail.gmail.com>
-Date: Fri, 09 Sep 2022 06:24:21 +0200
-In-Reply-To: <CAFEAcA9mGBjYFNGEVyiUeCMw38zrMCfTyEgpuHO+n3aR-6JjxQ@mail.gmail.com>
- (Peter Maydell's message of "Thu, 8 Sep 2022 17:00:26 +0100")
-Message-ID: <87h71h18ga.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4347D61E94;
+ Fri,  9 Sep 2022 04:44:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E45CC433C1;
+ Fri,  9 Sep 2022 04:44:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1662698687;
+ bh=enEwLIV4OwLmN/RgbTuEUX2L54sFfCWJPwewzGbYInE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=cLrhFtKHGXINYvsGREelVRIrtsdDSdhyssoSgqKj1qRrv8lKr0eHelXtdnDQr85sC
+ vUhwAfnsNzkQoKexpnXMoJMT2YKwm5XKP5lz/55VUhKJAfkOYJlwEC7BQKT5XWACfI
+ 1k3vOOYkyrSJreY+nrZBkF7nlWbJdvuk7q1CKzdUycNfapzFNnsGW/qGhV4hFmnntR
+ OfJ8zVRoAu1qi5JA6EiUBZ7jakY55X0EANPYhumQNRuDzDBGpuIpiLT6sCkdfGVwZE
+ 3o0LkAEWoAGTiudx3mSdHcf7Y878UhbbaZuVzxJ+2HSUPNQIqSpy8GPq8284tGcG6p
+ KiZxc67uW85HQ==
+Message-ID: <48f7d192-993d-1df1-db0a-f985e61669b6@kernel.org>
+Date: Thu, 8 Sep 2022 21:44:44 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Content-Language: en-US
+To: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Hugh Dickins <hughd@google.com>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, jun.nakajima@intel.com,
+ dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com,
+ aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
+ mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>,
+ "Gupta, Pankaj" <pankaj.gupta@amd.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
+ <20220818132421.6xmjqduempmxnnu2@box>
+From: Andy Lutomirski <luto@kernel.org>
+In-Reply-To: <20220818132421.6xmjqduempmxnnu2@box>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=139.178.84.217; envelope-from=luto@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -102
+X-Spam_score: -10.3
+X-Spam_bar: ----------
+X-Spam_report: (-10.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-3.142, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,31 +97,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+On 8/18/22 06:24, Kirill A . Shutemov wrote:
+> On Wed, Aug 17, 2022 at 10:40:12PM -0700, Hugh Dickins wrote:
+>> On Wed, 6 Jul 2022, Chao Peng wrote:
+>>> This is the v7 of this series which tries to implement the fd-based KVM
+>>> guest private memory.
+>>
+>> Here at last are my reluctant thoughts on this patchset.
+>>
+>> fd-based approach for supporting KVM guest private memory: fine.
+>>
+>> Use or abuse of memfd and shmem.c: mistaken.
+>>
+>> memfd_create() was an excellent way to put together the initial prototype.
+>>
+>> But since then, TDX in particular has forced an effort into preventing
+>> (by flags, seals, notifiers) almost everything that makes it shmem/tmpfs.
+>>
+>> Are any of the shmem.c mods useful to existing users of shmem.c? No.
+>> Is MFD_INACCESSIBLE useful or comprehensible to memfd_create() users? No.
+>>
+>> What use do you have for a filesystem here?  Almost none.
+>> IIUC, what you want is an fd through which QEMU can allocate kernel
+>> memory, selectively free that memory, and communicate fd+offset+length
+>> to KVM.  And perhaps an interface to initialize a little of that memory
+>> from a template (presumably copied from a real file on disk somewhere).
+>>
+>> You don't need shmem.c or a filesystem for that!
+>>
+>> If your memory could be swapped, that would be enough of a good reason
+>> to make use of shmem.c: but it cannot be swapped; and although there
+>> are some references in the mailthreads to it perhaps being swappable
+>> in future, I get the impression that will not happen soon if ever.
+>>
+>> If your memory could be migrated, that would be some reason to use
+>> filesystem page cache (because page migration happens to understand
+>> that type of memory): but it cannot be migrated.
+> 
+> Migration support is in pipeline. It is part of TDX 1.5 [1]. And swapping
+> theoretically possible, but I'm not aware of any plans as of now.
+> 
+> [1] https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html
+> 
 
-> On Thu, 8 Sept 2022 at 16:54, Patrick Venture <venture@google.com> wrote:
->> On Wed, Sep 7, 2022 at 10:40 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->>> Have a look in the source at what exactly the assertion
->>> failure in libqtest.c is checking for -- IIRC it's a pretty
->>> basic "did we open a socket fd" one. I think sometimes I
->>> used to see something like this if there's an old stale socket
->>> lying around in the test directory and the randomly generated
->>> socket filename happens to clash with it.
->
->> Thanks for the debugging tip! I can't reproduce it at this point. I
->> saw it 2-3 times, and now not at all.  So more than likely it's
->> exactly what you're describing.
->
-> Mmm. We do clean up the socket after ourselves in the test
-> harness, but I think what can happen is that if a test case
-> crashes then the cleanup doesn't happen. Then there's a stale
-> file left in the build tree, and then you only hit it if you
-> get unlucky with PID allocation on a future run...
+This thing?
 
-Yes, and that's bad behavior.
+https://cdrdv2.intel.com/v1/dl/getContent/733578
 
-I think we should run each test in its own directory, which we delete
-afterwards.  That way anything the test creates there will be cleaned up
-whether it succeeds or fails.
-
+That looks like migration between computers, not between NUMA nodes.  Or 
+am I missing something?
 
