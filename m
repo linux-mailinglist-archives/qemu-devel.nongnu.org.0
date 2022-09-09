@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E4CA5B2D19
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 05:53:43 +0200 (CEST)
-Received: from localhost ([::1]:43474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 345F95B2D1A
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 05:53:46 +0200 (CEST)
+Received: from localhost ([::1]:55556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWV5J-00008N-Um
-	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 23:53:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58114)
+	id 1oWV5N-0000Jb-Bb
+	for lists+qemu-devel@lfdr.de; Thu, 08 Sep 2022 23:53:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1oWV3S-0005vw-AI
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 23:51:46 -0400
+ id 1oWV3U-0005wv-B9
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 23:51:48 -0400
 Received: from mga04.intel.com ([192.55.52.120]:2107)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1oWV3P-0007cm-MV
- for qemu-devel@nongnu.org; Thu, 08 Sep 2022 23:51:45 -0400
+ id 1oWV3S-0007cm-GE
+ for qemu-devel@nongnu.org; Thu, 08 Sep 2022 23:51:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1662695503; x=1694231503;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=x81esq/0CgqVjajCBAZr/CjZVOBs6mM11Kw3OVnpdVk=;
- b=T+KSjYlZ+lGFQASTybr4bdwxusFeQDM/uoSaOKozNjZlubtmhgI41o6X
- N5PVgi/G0HSGwlgy3DVu5DW/iSrSq56dteVB7bCHaMjRz7ylpEVm9Xz+I
- Fme6hK3xVPpH1weMadOS2sAc1nAeG0Q6R/g2Vj1LeOq2xeGpDOyM/SCNN
- XeZq7vGmjf0kcUgLYhe6/zS78mE4jJb2/BLikosr6ssyh3wRc940lSpmX
- p2wtVJIAdJZTKCn2RRsNJLJxippBdxri2dHHD+KbIW36eDnvBAUxC8ucA
- cAUS3O8OK1NOxNd80dMzrQft4kJpfHdvsVOGmykrw2oU1ecxEgJX6+UX3 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="296125958"
-X-IronPort-AV: E=Sophos;i="5.93,302,1654585200"; d="scan'208";a="296125958"
+ t=1662695506; x=1694231506;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=Lp5q79t7Y5EbMeOotyYgpUIpWHdm8wO46UP2JjcYawA=;
+ b=POvkoav0Kn59V/kDdyuSFarJO+u3Vyu63qtYmXLJQTwgL7pm1tYF3FXE
+ lP3ge8Rqpl72cps26fk/UGl+cT2hQ25QaE4qZjYa0kA4c28OTwKn9HOvs
+ M+btCLFfKBpQOQ07Ew2rREklaC8MuAommPEW3a92nxOY5OjtkAF+L+90Z
+ +UiR4eL6jRtFz9B5Pcitf46vtpf6IOBIMukpnwl2UdxRTukQp9whQ/qg1
+ 6hs3dEQfAVyKMZMRHTmXUs6S8VY9w/FTwABB7AjcSIUf1qwO+7H1NVIMr
+ iC+jK0fjri7f92ebs0TDXpgkXrgx0S41ZgAiFHosWFYhrruJOhYaMXtWH w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="296125966"
+X-IronPort-AV: E=Sophos;i="5.93,302,1654585200"; d="scan'208";a="296125966"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Sep 2022 20:51:21 -0700
-X-IronPort-AV: E=Sophos;i="5.93,302,1654585200"; d="scan'208";a="676991986"
+ 08 Sep 2022 20:51:23 -0700
+X-IronPort-AV: E=Sophos;i="5.93,302,1654585200"; d="scan'208";a="676991999"
 Received: from chenyi-pc.sh.intel.com ([10.239.159.73])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Sep 2022 20:51:19 -0700
+ 08 Sep 2022 20:51:21 -0700
 From: Chenyi Qiang <chenyi.qiang@intel.com>
 To: "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
@@ -48,11 +48,12 @@ To: "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>
 Cc: Chenyi Qiang <chenyi.qiang@intel.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] Update linux headers to v6.0-rc4 and fix the clang
- build error
-Date: Fri,  9 Sep 2022 11:57:56 +0800
-Message-Id: <20220909035758.17434-1-chenyi.qiang@intel.com>
+Subject: [PATCH v2 1/2] configure: Add -Wno-gnu-variable-sized-type-not-at-end
+Date: Fri,  9 Sep 2022 11:57:57 +0800
+Message-Id: <20220909035758.17434-2-chenyi.qiang@intel.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220909035758.17434-1-chenyi.qiang@intel.com>
+References: <20220909035758.17434-1-chenyi.qiang@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -80,53 +81,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After updating linux headers to v6.0-rc, clang build on x86 target would
-generate warnings related to -Wgnu-variable-sized-type-not-at-end.
+In recent linux headers update to v6.0-rc, it switched GNU
+'zero-length-array' extension to the C-standard-defined flexible array
+member. e.g.
 
-Simply turn off this warning in this patch set.
+struct kvm_msrs {
+        __u32 nmsrs; /* number of msrs in entries */
+        __u32 pad;
 
+-       struct kvm_msr_entry entries[0];
++       struct kvm_msr_entry entries[];
+};
+
+Those (unlike the GNU zero-length-array) have some extra restrictions like
+'this must be put at the end of a struct', which clang build would complain
+about. e.g. the current code
+
+struct {
+        struct kvm_msrs info;
+        struct kvm_msr_entry entries[1];
+} msr_data = { }
+
+generates the warning like:
+
+target/i386/kvm/kvm.c:2868:25: error: field 'info' with variable sized
+type 'struct kvm_msrs' not at the end of a struct or class is a GNU
+extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
+        struct kvm_msrs info;
+                        ^
+In fact, the variable length 'entries[]' field in 'info' is zero-sized in
+GNU defined semantics, which can give predictable offset for 'entries[1]'
+in local msr_data. The local defined struct is just there to force a stack
+allocation large enough for 1 kvm_msr_entry, a clever trick but requires to
+turn off this clang warning.
+
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
 ---
+ configure | 1 +
+ 1 file changed, 1 insertion(+)
 
-Change logs
-v1 -> v2:
-- Change the patch order. (Peter Maydell)
-- Expand the commit message in patch 1. (Peter Maydell)
-- v1: https://lore.kernel.org/qemu-devel/20220908080749.32211-1-chenyi.qiang@intel.com/
-
----
-
-Chenyi Qiang (2):
-  configure: Add -Wno-gnu-variable-sized-type-not-at-end
-  Update linux headers to v6.0-rc4
-
- configure                                     |   1 +
- include/standard-headers/asm-x86/bootparam.h  |   7 +-
- include/standard-headers/drm/drm_fourcc.h     |  73 +++++++-
- include/standard-headers/linux/ethtool.h      |  29 +--
- include/standard-headers/linux/input.h        |  12 +-
- include/standard-headers/linux/pci_regs.h     |  30 ++-
- include/standard-headers/linux/vhost_types.h  |  17 +-
- include/standard-headers/linux/virtio_9p.h    |   2 +-
- .../standard-headers/linux/virtio_config.h    |   7 +-
- include/standard-headers/linux/virtio_ids.h   |  14 +-
- include/standard-headers/linux/virtio_net.h   |  34 +++-
- include/standard-headers/linux/virtio_pci.h   |   2 +
- include/standard-headers/linux/virtio_ring.h  |  16 +-
- linux-headers/asm-arm64/kvm.h                 |  33 +++-
- linux-headers/asm-generic/unistd.h            |   4 +-
- linux-headers/asm-riscv/kvm.h                 |  22 +++
- linux-headers/asm-riscv/unistd.h              |   3 +-
- linux-headers/asm-s390/kvm.h                  |   1 +
- linux-headers/asm-x86/kvm.h                   |  33 ++--
- linux-headers/asm-x86/mman.h                  |  14 --
- linux-headers/linux/kvm.h                     | 172 +++++++++++++++++-
- linux-headers/linux/userfaultfd.h             |  10 +-
- linux-headers/linux/vduse.h                   |  47 +++++
- linux-headers/linux/vfio.h                    |   4 +-
- linux-headers/linux/vfio_zdev.h               |   7 +
- linux-headers/linux/vhost.h                   |  35 +++-
- 26 files changed, 539 insertions(+), 90 deletions(-)
-
+diff --git a/configure b/configure
+index 575dde1c1f..7e0a1a4187 100755
+--- a/configure
++++ b/configure
+@@ -1258,6 +1258,7 @@ add_to nowarn_flags -Wno-string-plus-int
+ add_to nowarn_flags -Wno-typedef-redefinition
+ add_to nowarn_flags -Wno-tautological-type-limit-compare
+ add_to nowarn_flags -Wno-psabi
++add_to nowarn_flags -Wno-gnu-variable-sized-type-not-at-end
+ 
+ gcc_flags="$warn_flags $nowarn_flags"
+ 
 -- 
 2.17.1
 
