@@ -2,105 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC5C65B360F
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 13:10:08 +0200 (CEST)
-Received: from localhost ([::1]:33920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5F8D5B364F
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 13:27:32 +0200 (CEST)
+Received: from localhost ([::1]:59204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWbtd-00056y-Dj
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 07:10:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51056)
+	id 1oWcAV-0005m4-DH
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 07:27:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oWbm7-0008EP-Qf
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 07:02:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29618)
+ (Exim 4.90_1) (envelope-from <dinghui@sangfor.com.cn>)
+ id 1oWc48-0007fW-4J
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 07:20:56 -0400
+Received: from mail-m11880.qiye.163.com ([115.236.118.80]:56118)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oWbm2-000556-4k
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 07:02:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662721330;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=552oMY7StYxcNv74FqiwwC+bER9EAS86HhvPvxTkRvE=;
- b=Znr4EI9zy9h83Qs30eeAJpt/ZhugP5rKvctult060GB8WSeuFMjVtTNhuE/oEojdJ5N4gg
- L2R9rOIcVkphZ0kmEHYmxZsVh0bePXV2XnFDgtBayUwpT26mcGjTdauher+w9oDZYM3YTH
- ZXq52HLSYlhKO6/RhcrV5HdR4rIqCdI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-170-3xEWoAdpMGa-4_U2a3d9QQ-1; Fri, 09 Sep 2022 07:02:08 -0400
-X-MC-Unique: 3xEWoAdpMGa-4_U2a3d9QQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j19-20020a05600c1c1300b003ab73e4c45dso2623079wms.0
- for <qemu-devel@nongnu.org>; Fri, 09 Sep 2022 04:02:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date;
- bh=552oMY7StYxcNv74FqiwwC+bER9EAS86HhvPvxTkRvE=;
- b=GttCbrg4PtpwG3ML+JVZNA3Z3chj2dUdKJ296fxBLs9cbEbLrnQRolg96uVaA2jq9T
- 7+bKWjmpgw6Iro3Um/TVg2FLrvZJ04I3iTlnRy9FrKjbzApmzw2lvSmf/euGBdm9wq9E
- yGihdEJNTVUu5o6Ajnop4bDnM+EjE2j2BM2zWNvhE9UoHrMabU6eklwIApGjh+baGGKD
- DkFZVpJ9DAERPe4t9Dr87cbleQYouTFUttG5ftvKHsBiJdTaiVjGNZGb0l+vszass3cm
- iMJc60aU5J7Jm4fb0XazXcuebtIqAYEtjfZyuWtE6Y8TdCmIE8UrFIdJukuCGWpk4aQt
- 1VGA==
-X-Gm-Message-State: ACgBeo1Gy0njdTVHMjxZsTONRWaQMuWWNVVXEzeTESsFLldLsNTq3IV8
- FhnR/OWAxrjNnyNxl0U1ivNaZcwaPHIIegORNfQbDMIgm9KcbaAcrPCo/UdBnSCz1HPKIIx0Uwp
- +Tk+UNGKHGJcAnek=
-X-Received: by 2002:adf:edc9:0:b0:228:60de:1d4b with SMTP id
- v9-20020adfedc9000000b0022860de1d4bmr7840948wro.306.1662721327697; 
- Fri, 09 Sep 2022 04:02:07 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6XrE6BUCNUNrNXlO+Yq7s10DLek+7dAPopvXjQd5tznH4HCs4Zzv6Wb4RjFhFEk1Hz/MJ9mg==
-X-Received: by 2002:adf:edc9:0:b0:228:60de:1d4b with SMTP id
- v9-20020adfedc9000000b0022860de1d4bmr7840932wro.306.1662721327450; 
- Fri, 09 Sep 2022 04:02:07 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c704:6300:1fe0:42e1:62c5:91b6?
- (p200300cbc70463001fe042e162c591b6.dip0.t-ipconnect.de.
- [2003:cb:c704:6300:1fe0:42e1:62c5:91b6])
- by smtp.gmail.com with ESMTPSA id
- z5-20020a05600c0a0500b003a540fef440sm449486wmp.1.2022.09.09.04.02.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Sep 2022 04:02:06 -0700 (PDT)
-Message-ID: <36a9dc69-d045-7ca4-a0a8-995c63951a9f@redhat.com>
-Date: Fri, 9 Sep 2022 13:02:06 +0200
+ (Exim 4.90_1) (envelope-from <dinghui@sangfor.com.cn>)
+ id 1oWc3q-0000hk-9R
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 07:20:42 -0400
+Received: from [0.0.0.0] (unknown [172.96.223.238])
+ by mail-m11880.qiye.163.com (Hmail) with ESMTPA id 194D7204EC;
+ Fri,  9 Sep 2022 19:20:21 +0800 (CST)
+Message-ID: <5660954c-362c-289a-933e-97bd7c236b99@sangfor.com.cn>
+Date: Fri, 9 Sep 2022 19:20:03 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [RFC PATCH 2/2] kvm/kvm-all.c: listener should delay kvm_vm_ioctl
- to the commit phase
+User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] e1000e: set RX desc status with DD flag in a separate
+ operation
 Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Peter Xu <peterx@redhat.com>
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org
-References: <20220816101250.1715523-1-eesposit@redhat.com>
- <20220816101250.1715523-3-eesposit@redhat.com> <Yv6baJoNikyuZ38R@xz-m1.local>
- <CAJ6HWG6maoPjbP8T5qo=iXCbNeHu4dq3wHLKtRLahYKuJmMY-g@mail.gmail.com>
- <YwOOcC72KKABKgU+@xz-m1.local>
- <d4601180-4c95-a952-2b40-d40fa8e55005@redhat.com>
- <YwqFfyZ1fMA9knnK@xz-m1.local>
- <d02d6a6e-637e-48f9-9acc-811344712cd3@redhat.com>
- <66ed2e5b-b6a8-d9f7-3fe4-43c974dc0ecd@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <66ed2e5b-b6a8-d9f7-3fe4-43c974dc0ecd@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ qemu-devel <qemu-devel@nongnu.org>, georgmueller@gmx.net
+References: <20220826160543.2120-1-dinghui@sangfor.com.cn>
+ <CACGkMEtN3=6GAvYfjTstk_JFa+8nKGsWN5NzR+TRD4LfxyS9XA@mail.gmail.com>
+From: dinghui <dinghui@sangfor.com.cn>
+In-Reply-To: <CACGkMEtN3=6GAvYfjTstk_JFa+8nKGsWN5NzR+TRD4LfxyS9XA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -59
-X-Spam_score: -6.0
-X-Spam_bar: ------
-X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.142, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCTElIVklJT0gaSB0aSEtCHVUTARMWGhIXJBQOD1
+ lXWRgSC1lBWUpMSVVCTVVJSUhVSUhDWVdZFhoPEhUdFFlBWU9LSFVKSEpOTUlVSktLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OE06CRw6Hz0uPjVOEQsvCxIz
+ HytPCzFVSlVKTU1JTElJT0lPQkpMVTMWGhIXVR8SFRwTDhI7CBoVHB0UCVUYFBZVGBVFWVdZEgtZ
+ QVlKTElVQk1VSUlIVUlIQ1lXWQgBWUFOTENINwY+
+X-HM-Tid: 0a8321fabc742eb6kusn194d7204ec
+Received-SPF: pass client-ip=115.236.118.80;
+ envelope-from=dinghui@sangfor.com.cn; helo=mail-m11880.qiye.163.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.079,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,36 +69,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09.09.22 10:02, Emanuele Giuseppe Esposito wrote:
+On 2022/9/9 10:40, Jason Wang wrote:
+> On Sat, Aug 27, 2022 at 12:06 AM Ding Hui <dinghui@sangfor.com.cn> wrote:
+>>
+>> Like commit 034d00d48581 ("e1000: set RX descriptor status in
+>> a separate operation"), there is also same issue in e1000e, which
+>> would cause lost packets or stop sending packets to VM with DPDK.
+>>
+>> Do similar fix in e1000e.
+>>
+>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/402
+>> Signed-off-by: Ding Hui <dinghui@sangfor.com.cn>
+>> ---
+>>   hw/net/e1000e_core.c | 54 +++++++++++++++++++++++++++++++++++++++++++-
+>>   1 file changed, 53 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+>> index 208e3e0d79..b8038e4014 100644
+>> --- a/hw/net/e1000e_core.c
+>> +++ b/hw/net/e1000e_core.c
+>> @@ -1364,6 +1364,58 @@ struct NetRxPkt *pkt, const E1000E_RSSInfo *rss_info,
+>>       }
+>>   }
+>>
+>> +static inline void
+>> +e1000e_pci_dma_write_rx_desc(E1000ECore *core, dma_addr_t addr,
+>> +                             uint8_t *desc, dma_addr_t len)
+>> +{
+>> +    PCIDevice *dev = core->owner;
+>> +
+>> +    if (e1000e_rx_use_legacy_descriptor(core)) {
+>> +        struct e1000_rx_desc *d = (struct e1000_rx_desc *) desc;
+>> +        size_t offset = offsetof(struct e1000_rx_desc, status);
+>> +        typeof(d->status) status = d->status;
+>> +
+>> +        d->status &= ~E1000_RXD_STAT_DD;
+>> +        pci_dma_write(dev, addr, desc, len);
+>> +
+>> +        if (status & E1000_RXD_STAT_DD) {
+>> +            d->status = status;
+>> +            pci_dma_write(dev, addr + offset, &status, sizeof(status));
+>> +        }
+>> +    } else {
+>> +        if (core->mac[RCTL] & E1000_RCTL_DTYP_PS) {
+>> +            union e1000_rx_desc_packet_split *d =
+>> +                (union e1000_rx_desc_packet_split *) desc;
+>> +            size_t offset = offsetof(union e1000_rx_desc_packet_split,
+>> +                wb.middle.status_error);
+>> +            typeof(d->wb.middle.status_error) status =
+>> +                d->wb.middle.status_error;
 > 
->>> One thing I forgot to ask: iirc we used to have a workaround to kick all
->>> vcpus out, update memory slots, then continue all vcpus.  Would that work
->>> for us too for the problem you're working on?
->>
->> As reference, here is one such approach for region resizes only:
->>
->> https://lore.kernel.org/qemu-devel/20200312161217.3590-1-david@redhat.com/
->>
->> which notes:
->>
->> "Instead of inhibiting during the region_resize(), we could inhibit for
->> the hole memory transaction (from begin() to commit()). This could be
->> nice, because also splitting of memory regions would be atomic (I
->> remember there was a BUG report regarding that), however, I am not sure
->> if that might impact any RT users."
->>
->>
-> I read:
+> Any reason to use typeof here? Its type is known to be uint32_t?
 > 
-> "Using pause_all_vcpus()/resume_all_vcpus() is not possible, as it will
-> temporarily drop the BQL - something most callers can't handle (esp.
-> when called from vcpu context e.g., in virtio code)."
 
-... that's why the patch takes a different approach? :)
+My intention was using exact type same with struct member status_error, 
+which is indeed uint32_t now. If the type of status_error in struct be 
+changed in some case, we do not need to change everywhere.
+
+Maybe I worry too much, the struct is related to h/w spec, so it is 
+unlikely be changed in the future.
+
+Should I send v2 to use uint32_t directly? I'm also OK with it.
+
+>> +
+>> +            d->wb.middle.status_error &= ~E1000_RXD_STAT_DD;
+>> +            pci_dma_write(dev, addr, desc, len);
+>> +
+>> +            if (status & E1000_RXD_STAT_DD) {
+>> +                d->wb.middle.status_error = status;
+>> +                pci_dma_write(dev, addr + offset, &status, sizeof(status));
+>> +            }
+>> +        } else {
+>> +            union e1000_rx_desc_extended *d =
+>> +                (union e1000_rx_desc_extended *) desc;
+>> +            size_t offset = offsetof(union e1000_rx_desc_extended,
+>> +                wb.upper.status_error);
+>> +            typeof(d->wb.upper.status_error) status = d->wb.upper.status_error;
+> 
+> So did here.
+> 
+> Thanks
+> 
+>> +
+>> +            d->wb.upper.status_error &= ~E1000_RXD_STAT_DD;
+>> +            pci_dma_write(dev, addr, desc, len);
+>> +
+>> +            if (status & E1000_RXD_STAT_DD) {
+>> +                d->wb.upper.status_error = status;
+>> +                pci_dma_write(dev, addr + offset, &status, sizeof(status));
+>> +            }
+>> +        }
+>> +    }
+>> +}
+>> +
+>>   typedef struct e1000e_ba_state_st {
+>>       uint16_t written[MAX_PS_BUFFERS];
+>>       uint8_t cur_idx;
+>> @@ -1600,7 +1652,7 @@ e1000e_write_packet_to_guest(E1000ECore *core, struct NetRxPkt *pkt,
+>>
+>>           e1000e_write_rx_descr(core, desc, is_last ? core->rx_pkt : NULL,
+>>                              rss_info, do_ps ? ps_hdr_len : 0, &bastate.written);
+>> -        pci_dma_write(d, base, &desc, core->rx_desc_len);
+>> +        e1000e_pci_dma_write_rx_desc(core, base, desc, core->rx_desc_len);
+>>
+>>           e1000e_ring_advance(core, rxi,
+>>                               core->rx_desc_len / E1000_MIN_RX_DESC_LEN);
+>> --
+>> 2.17.1
+>>
+> 
+> 
+
 
 -- 
 Thanks,
-
-David / dhildenb
-
+- Ding Hui
 
