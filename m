@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5021C5B2DB7
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 06:48:13 +0200 (CEST)
-Received: from localhost ([::1]:51358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28AF65B2DC9
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 06:51:49 +0200 (CEST)
+Received: from localhost ([::1]:51674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWVw4-00050w-0O
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 00:48:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50972)
+	id 1oWVzX-0006s3-QP
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 00:51:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1oWVss-00038B-Qc
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 00:44:55 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217]:33598)
+ (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1oWVwc-00057A-9p
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 00:48:46 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:39120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1oWVsq-0006ON-Gq
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 00:44:54 -0400
+ (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1oWVwa-0006zq-6g
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 00:48:45 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4347D61E94;
- Fri,  9 Sep 2022 04:44:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E45CC433C1;
- Fri,  9 Sep 2022 04:44:45 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 64F2EB822A8;
+ Fri,  9 Sep 2022 04:48:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77FD9C433C1;
+ Fri,  9 Sep 2022 04:48:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1662698687;
- bh=enEwLIV4OwLmN/RgbTuEUX2L54sFfCWJPwewzGbYInE=;
+ s=k20201202; t=1662698919;
+ bh=0J6ER8fnpFHY39WsvpWQrzmPphu08JvaKTYLSCsE2Hg=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=cLrhFtKHGXINYvsGREelVRIrtsdDSdhyssoSgqKj1qRrv8lKr0eHelXtdnDQr85sC
- vUhwAfnsNzkQoKexpnXMoJMT2YKwm5XKP5lz/55VUhKJAfkOYJlwEC7BQKT5XWACfI
- 1k3vOOYkyrSJreY+nrZBkF7nlWbJdvuk7q1CKzdUycNfapzFNnsGW/qGhV4hFmnntR
- OfJ8zVRoAu1qi5JA6EiUBZ7jakY55X0EANPYhumQNRuDzDBGpuIpiLT6sCkdfGVwZE
- 3o0LkAEWoAGTiudx3mSdHcf7Y878UhbbaZuVzxJ+2HSUPNQIqSpy8GPq8284tGcG6p
- KiZxc67uW85HQ==
-Message-ID: <48f7d192-993d-1df1-db0a-f985e61669b6@kernel.org>
-Date: Thu, 8 Sep 2022 21:44:44 -0700
+ b=Nhj471FrBLU3A3EN6xY82qO+CS7EigLtAFQjoed4e7kJlmYNbsyWx58NBcDcWid+C
+ kpl5OUkyH4T1KLqbUBdoGbX1tHo5jzChTsJZhr63Y2a6JPOddewEf+EMoxk93bvuz9
+ NqGv5k6mcLo2uOReZLUpdQMNVueJVO1CH7VHOd9P1WHejMuUiLAWq1/eSAkVsNC3Fh
+ xd5DtarFsGvOADus8UhKVpVH5D9jaRiIAJe/VLjr3kknWg2PAkKRdx+wB+RLNrdTTE
+ S1pu4iFWorBwalJrPWhjEAwsV7cOngtqcJEVDb3sqUBFE54ruJIj9kp8cQq5SkvUdr
+ AKq+U1uONwy/g==
+Message-ID: <95bd287b-d17f-fda8-58c9-20700b1e0c72@kernel.org>
+Date: Thu, 8 Sep 2022 21:48:35 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
 Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
  guest private memory
 Content-Language: en-US
-To: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+To: "Kirill A. Shutemov" <kirill@shutemov.name>,
  Hugh Dickins <hughd@google.com>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+Cc: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
  linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
@@ -69,12 +70,14 @@ Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
 References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
  <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
  <20220818132421.6xmjqduempmxnnu2@box>
+ <c6ccbb96-5849-2e2f-3b49-4ea711af525d@google.com>
+ <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
 From: Andy Lutomirski <luto@kernel.org>
-In-Reply-To: <20220818132421.6xmjqduempmxnnu2@box>
+In-Reply-To: <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=139.178.84.217; envelope-from=luto@kernel.org;
- helo=dfw.source.kernel.org
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=luto@kernel.org; helo=ams.source.kernel.org
 X-Spam_score_int: -102
 X-Spam_score: -10.3
 X-Spam_bar: ----------
@@ -97,53 +100,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/18/22 06:24, Kirill A . Shutemov wrote:
-> On Wed, Aug 17, 2022 at 10:40:12PM -0700, Hugh Dickins wrote:
->> On Wed, 6 Jul 2022, Chao Peng wrote:
->>> This is the v7 of this series which tries to implement the fd-based KVM
->>> guest private memory.
+On 8/19/22 17:27, Kirill A. Shutemov wrote:
+> On Thu, Aug 18, 2022 at 08:00:41PM -0700, Hugh Dickins wrote:
+>> On Thu, 18 Aug 2022, Kirill A . Shutemov wrote:
+>>> On Wed, Aug 17, 2022 at 10:40:12PM -0700, Hugh Dickins wrote:
+>>>>
+>>>> If your memory could be swapped, that would be enough of a good reason
+>>>> to make use of shmem.c: but it cannot be swapped; and although there
+>>>> are some references in the mailthreads to it perhaps being swappable
+>>>> in future, I get the impression that will not happen soon if ever.
+>>>>
+>>>> If your memory could be migrated, that would be some reason to use
+>>>> filesystem page cache (because page migration happens to understand
+>>>> that type of memory): but it cannot be migrated.
+>>>
+>>> Migration support is in pipeline. It is part of TDX 1.5 [1]. And swapping
+>>> theoretically possible, but I'm not aware of any plans as of now.
+>>>
+>>> [1] https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html
 >>
->> Here at last are my reluctant thoughts on this patchset.
+>> I always forget, migration means different things to different audiences.
+>> As an mm person, I was meaning page migration, whereas a virtualization
+>> person thinks VM live migration (which that reference appears to be about),
+>> a scheduler person task migration, an ornithologist bird migration, etc.
 >>
->> fd-based approach for supporting KVM guest private memory: fine.
->>
->> Use or abuse of memfd and shmem.c: mistaken.
->>
->> memfd_create() was an excellent way to put together the initial prototype.
->>
->> But since then, TDX in particular has forced an effort into preventing
->> (by flags, seals, notifiers) almost everything that makes it shmem/tmpfs.
->>
->> Are any of the shmem.c mods useful to existing users of shmem.c? No.
->> Is MFD_INACCESSIBLE useful or comprehensible to memfd_create() users? No.
->>
->> What use do you have for a filesystem here?  Almost none.
->> IIUC, what you want is an fd through which QEMU can allocate kernel
->> memory, selectively free that memory, and communicate fd+offset+length
->> to KVM.  And perhaps an interface to initialize a little of that memory
->> from a template (presumably copied from a real file on disk somewhere).
->>
->> You don't need shmem.c or a filesystem for that!
->>
->> If your memory could be swapped, that would be enough of a good reason
->> to make use of shmem.c: but it cannot be swapped; and although there
->> are some references in the mailthreads to it perhaps being swappable
->> in future, I get the impression that will not happen soon if ever.
->>
->> If your memory could be migrated, that would be some reason to use
->> filesystem page cache (because page migration happens to understand
->> that type of memory): but it cannot be migrated.
+>> But you're an mm person too: you may have cited that reference in the
+>> knowledge that TDX 1.5 Live Migration will entail page migration of the
+>> kind I'm thinking of.  (Anyway, it's not important to clarify that here.)
 > 
-> Migration support is in pipeline. It is part of TDX 1.5 [1]. And swapping
-> theoretically possible, but I'm not aware of any plans as of now.
+> TDX 1.5 brings both.
 > 
-> [1] https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html
+> In TDX speak, mm migration called relocation. See TDH.MEM.PAGE.RELOCATE.
 > 
 
-This thing?
-
-https://cdrdv2.intel.com/v1/dl/getContent/733578
-
-That looks like migration between computers, not between NUMA nodes.  Or 
-am I missing something?
+This seems to be a pretty bad fit for the way that the core mm migrates 
+pages.  The core mm unmaps the page, then moves (in software) the 
+contents to a new address, then faults it in.  TDH.MEM.PAGE.RELOCATE 
+doesn't fit into that workflow very well.  I'm not saying it can't be 
+done, but it won't just work.
 
