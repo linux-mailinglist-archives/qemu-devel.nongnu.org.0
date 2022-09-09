@@ -2,103 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 295BF5B3155
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 10:08:50 +0200 (CEST)
-Received: from localhost ([::1]:43820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC7A05B318E
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 10:22:11 +0200 (CEST)
+Received: from localhost ([::1]:53082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWZ4C-0006ES-FT
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 04:08:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47002)
+	id 1oWZH8-0005sw-AO
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 04:22:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oWYwf-0001mo-Dr
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 04:01:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55689)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oWYxZ-0002Nq-Us
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 04:01:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43842)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oWYwY-0001u3-Md
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 04:00:59 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oWYxY-0001y7-40
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 04:01:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662710453;
+ s=mimecast20190719; t=1662710515;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8kXJThmh8lkcaH4ThL00dxXWXZVVggKVVWOSvSbJzBo=;
- b=D6OjEPFb2b/zEAbcXTFvR2i/EjI8fnQncIErweJ/LM/hfFU0M9FGjqXJ/N0wyzHcl/qlzY
- /teed5LAzuRxdGLjARaxLVOXgTzp8Gbaeknf5lB2o7dWXVXGfbYkgrgx0JlQ2Qn4F8gxTq
- kF13tZYjYAPMhZ3dg9UbyUU66YLQa+Q=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uf0EvTR/++PK+Z1P0PcX0DjmX2un1LejvAQjJNjm0Ek=;
+ b=JzcHVOhQDEvOPOnF2e2Am7w+J7T7UbFU64KYT8tQ4dEfX7J3Ymja8XMwJ6htyHHU5BZCRn
+ GLEFAA0W84bC1bJZn6b7ztiruARF5Tc3ve3ensMc3QShZpBaf4QInDTG7Dlw7YlEgXIwk7
+ G0yQjWse4PYr5fgP20uG7JzDn1fM4lc=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-515-DFJzcwXoMDqmJsLqtBjYGw-1; Fri, 09 Sep 2022 04:00:51 -0400
-X-MC-Unique: DFJzcwXoMDqmJsLqtBjYGw-1
-Received: by mail-qv1-f70.google.com with SMTP id
- f9-20020ad442c9000000b004ac7f4fde18so662407qvr.14
- for <qemu-devel@nongnu.org>; Fri, 09 Sep 2022 01:00:51 -0700 (PDT)
+ us-mta-402-d2hypZIYPcaUkzgIY9fQKg-1; Fri, 09 Sep 2022 04:01:54 -0400
+X-MC-Unique: d2hypZIYPcaUkzgIY9fQKg-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ h8-20020a05620a284800b006b5c98f09fbso817447qkp.21
+ for <qemu-devel@nongnu.org>; Fri, 09 Sep 2022 01:01:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=8kXJThmh8lkcaH4ThL00dxXWXZVVggKVVWOSvSbJzBo=;
- b=ANzpiruAu/vV9UPGNCM33us5Dzvb2ZcCxvPWDer4n4lYlA6u6bq1JXd55/8QW1CXtT
- L/cR2UI57lUu1X0sQswVrac/wlYrSe9psn1rYt5PRemgP3M6Vpo4iy2+SckWkf8CGYTI
- RLlnbSv78wRDFHsJNg9ncsDFFdncSHtdDZTu+PLGg75aBaV7vzWByjFddK1BKYhs39nQ
- SdIkKPhYcStnYT0Vu1ShScNkiWace+Ux16MRsZnnNm1C1gvtBB61WEC7wzXl9Kf1pUND
- p0o9Qkat26XxBo508we8OllxQzp7w/LXarXp9Ly/q6c+5LllyH1WfKmzakcVcgBtIQaL
- 54rQ==
-X-Gm-Message-State: ACgBeo0B2pwLX2cGEcL96mfo/R1SU61CqIsm6A0KHFY64iQvvFJkjxKk
- DEz6kjZyTFx0KUX+62lfxgFp2XV071IHtuaQVF94MXIBlFXVmTiZ7FfByDFKN4df4E+wDfRKzlt
- hV9q7rVibV3jvWhE=
-X-Received: by 2002:a05:622a:514:b0:343:555a:d611 with SMTP id
- l20-20020a05622a051400b00343555ad611mr11485361qtx.486.1662710451458; 
- Fri, 09 Sep 2022 01:00:51 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4O0+imJPdLBl9OFqfUKw+tM+5xAjMMdde5YWfyIvufRFOF06816S9HfGsSU69t3u7liyHV7Q==
-X-Received: by 2002:a05:622a:514:b0:343:555a:d611 with SMTP id
- l20-20020a05622a051400b00343555ad611mr11485338qtx.486.1662710451195; 
- Fri, 09 Sep 2022 01:00:51 -0700 (PDT)
-Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
- ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id
- bs44-20020a05620a472c00b006b5f06186aesm864617qkb.65.2022.09.09.01.00.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Sep 2022 01:00:50 -0700 (PDT)
-Message-ID: <1c6d0b99-737e-c485-952e-6e21015de455@redhat.com>
-Date: Fri, 9 Sep 2022 10:00:47 +0200
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=uf0EvTR/++PK+Z1P0PcX0DjmX2un1LejvAQjJNjm0Ek=;
+ b=BFUFr4PWveEckIraB/PEs/DckxxqLyi/bGTatxF3XSDerndHpPvi/JTO7u1x7hB5D+
+ RrqBiCT+7Qu6/ecnwDxIwZIAssmuRq9jT8nhFWTuwGNx0AWF6id6jb1FsqbwGneGG3gf
+ SAxA3EwJj+2LIekLqD1R/NwZH18N0XV4j9H704nmrdqWahPmJFN38/JLzgDB2ACLv+Vr
+ NEr4L8E7getOE7wCWgHs3TrXv8McMHiv0xGIqFF9BBpq2H1q/0BmVNWuvqQ+iFYEQv09
+ hxAlGRTUI8SVZXJaSvBFDgj/0aagdNmKCecM8lO8hez1CQY9Kv3Ke6z1twoOEhMH1SDP
+ xp+g==
+X-Gm-Message-State: ACgBeo2RjhI77vbcfe2XqWjIZSDBkOWrg/lwiRGtrK2HAXucGOMY+VBu
+ 0PT6lDfg2JCUITf8Ma8x0OpOrsTdtSEF3vF9V21hvxjUHKHLXe88/oQebqB10E0/8jCbCmgjY/5
+ ek8TQG4rLuCx7dObTbXWuRk8I8Lq/wuk=
+X-Received: by 2002:a05:620a:246:b0:6cb:c0dd:2d7a with SMTP id
+ q6-20020a05620a024600b006cbc0dd2d7amr5119368qkn.234.1662710513741; 
+ Fri, 09 Sep 2022 01:01:53 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5wpLq8hAjsWm5MFzgU1KZNx0MMRsQkq0t+AH+1panEueJfGa2lA+LDS3U6lgbPwCo3t8ye6Dp2V9OtiD1G8UM=
+X-Received: by 2002:a05:620a:246:b0:6cb:c0dd:2d7a with SMTP id
+ q6-20020a05620a024600b006cbc0dd2d7amr5119347qkn.234.1662710513520; Fri, 09
+ Sep 2022 01:01:53 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [RFC PATCH 2/2] kvm/kvm-all.c: listener should delay kvm_vm_ioctl
- to the commit phase
-Content-Language: en-US
-To: Peter Xu <peterx@redhat.com>
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org
-References: <20220816101250.1715523-1-eesposit@redhat.com>
- <20220816101250.1715523-3-eesposit@redhat.com> <Yv6baJoNikyuZ38R@xz-m1.local>
- <CAJ6HWG6maoPjbP8T5qo=iXCbNeHu4dq3wHLKtRLahYKuJmMY-g@mail.gmail.com>
- <YwOOcC72KKABKgU+@xz-m1.local>
- <d4601180-4c95-a952-2b40-d40fa8e55005@redhat.com>
- <YwqFfyZ1fMA9knnK@xz-m1.local>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <YwqFfyZ1fMA9knnK@xz-m1.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+References: <20220906163621.1144675-1-eperezma@redhat.com>
+ <20220906163621.1144675-3-eperezma@redhat.com>
+ <CACGkMEvnVavevtxWa49Yew+Nnkx_Wfmgf1JLVXCBe=zkpvdHnQ@mail.gmail.com>
+ <CACGkMEswG2nmTve+p2MU9ue5CuwAu69CpeOUzYnu_BVfZE56JA@mail.gmail.com>
+In-Reply-To: <CACGkMEswG2nmTve+p2MU9ue5CuwAu69CpeOUzYnu_BVfZE56JA@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Fri, 9 Sep 2022 10:01:16 +0200
+Message-ID: <CAJaqyWf=NfkL_2uXVapJ6qCLziBc2jg+jMyR+cBQu+yDG6eg5w@mail.gmail.com>
+Subject: Re: [PATCH 2/3] vdpa: load vlan configuration at NIC startup
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>, Cindy Lu <lulu@redhat.com>, 
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, Si-Wei Liu <si-wei.liu@oracle.com>,
+ Eli Cohen <eli@mellanox.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Laurent Vivier <lvivier@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Parav Pandit <parav@mellanox.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -59
-X-Spam_score: -6.0
-X-Spam_bar: ------
-X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.142, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,95 +106,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+On Fri, Sep 9, 2022 at 8:40 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Fri, Sep 9, 2022 at 2:38 PM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> > On Wed, Sep 7, 2022 at 12:36 AM Eugenio P=C3=A9rez <eperezma@redhat.com=
+> wrote:
+> > >
+> > > To have enabled vlans at device startup may happen in the destination=
+ of
+> > > a live migration, so this configuration must be restored.
+> > >
+> > > At this moment the code is not accessible, since SVQ refuses to start=
+ if
+> > > vlan feature is exposed by the device.
+> > >
+> > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > ---
+> > >  net/vhost-vdpa.c | 46 ++++++++++++++++++++++++++++++++++++++++++++--
+> > >  1 file changed, 44 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > > index 4bc3fd01a8..ecbfd08eb9 100644
+> > > --- a/net/vhost-vdpa.c
+> > > +++ b/net/vhost-vdpa.c
+> > > @@ -100,6 +100,8 @@ static const uint64_t vdpa_svq_device_features =
+=3D
+> > >      BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
+> > >      BIT_ULL(VIRTIO_NET_F_STANDBY);
+> > >
+> > > +#define MAX_VLAN    (1 << 12)   /* Per 802.1Q definition */
+> > > +
+> > >  VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
+> > >  {
+> > >      VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> > > @@ -423,6 +425,47 @@ static int vhost_vdpa_net_load_mq(VhostVDPAState=
+ *s,
+> > >      return *s->status !=3D VIRTIO_NET_OK;
+> > >  }
+> > >
+> > > +static int vhost_vdpa_net_load_single_vlan(VhostVDPAState *s,
+> > > +                                           const VirtIONet *n,
+> > > +                                           uint16_t vid)
+> > > +{
+> > > +    ssize_t dev_written =3D vhost_vdpa_net_load_cmd(s, VIRTIO_NET_CT=
+RL_VLAN,
+> > > +                                                  VIRTIO_NET_CTRL_VL=
+AN_ADD,
+> > > +                                                  &vid, sizeof(vid))=
+;
+> > > +    if (unlikely(dev_written < 0)) {
+> > > +        return dev_written;
+> > > +    }
+> > > +
+> > > +    if (unlikely(*s->status !=3D VIRTIO_NET_OK)) {
+> > > +        return -EINVAL;
+> > > +    }
+> > > +
+> > > +    return 0;
+> > > +}
+> > > +
+> > > +static int vhost_vdpa_net_load_vlan(VhostVDPAState *s,
+> > > +                                    const VirtIONet *n)
+> > > +{
+> > > +    uint64_t features =3D n->parent_obj.guest_features;
+> > > +
+> > > +    if (!(features & BIT_ULL(VIRTIO_NET_F_CTRL_VLAN))) {
+> > > +        return 0;
+> > > +    }
+> > > +
+> > > +    for (int i =3D 0; i < MAX_VLAN >> 5; i++) {
+> > > +        for (int j =3D 0; n->vlans[i] && j <=3D 0x1f; j++) {
+> > > +            if (n->vlans[i] & (1U << j)) {
+> > > +                int r =3D vhost_vdpa_net_load_single_vlan(s, n, (i <=
+< 5) + j);
+> >
+> > This seems to cause a lot of latency if the driver has a lot of vlans.
+> >
+> > I wonder if it's simply to let all vlan traffic go by disabling
+> > CTRL_VLAN feature at vDPA layer.
+>
 
-Apologies for the delay to answer you.
+The guest will not be able to recover that vlan configuration.
 
-[...]
->>
->> - Doing the above is still not enough, as KVM figures what operation to
->> do depending on the current state of the memslots.
->> Assuming we already have an already existing MR y, and now we get the
->> list DELETE(y) CREATE(y/2) (ie reducing y to half its size).
->> In this case the interval tree can't do anything, but it's very hard to
->> understand that the second request in the list is a CREATE, because when
->> KVM performs the check to understand which type of operation it is
->> (before doing any modification at all in the memslot list), it finds
->> that y (memslot with same id) exist, but has a different size than what
->> provided from userspace, therefore it could either fail, or misinterpret
->> it as another operation (currently fails -EINVALID).
-> 
-> Another good question..  I think that can be partly solved by not allowing
-> ID duplication in the same batched ioctl, or maybe we can fail it.  From
-> qemu perspective, we may need to change the memslot id allocation to not
-> reuse IDs of being-deleted memslots until the batch is processed.
-> 
-> Something like adding similar INVALID tags to kvm memslots in QEMU when we
-> are preparing the batch, then we should only reset memory_size==0 and clear
-> INVALID tag after the ioctl returns.  Then during the batch, any new slots
-> to be added from kvm_get_free_slot() will not return any duplication of a
-> deleting one.
+> Another idea is to extend the spec to allow us to accept a bitmap of
+> the vlan ids via a single command, then we will be fine.
+>
 
-First of all, you're right. No interval tree is needed.
+I'm not sure if adding more ways to configure something is the answer,
+but I'd be ok to implement it.
 
-I think the approach I am currently using is something like what you
-described above: when a DELETE operation is created in QEMU (there is no
-MOVE), I set the invalid_slot flag to 1.
-Then KVM will firstly process the requests with invalid_slot == 1, mark
-the memslot invalid, and then process all the others (invalid included,
-as they need the actual DELETE/MOVE operation).
+Another idea is to allow the sending of many CVQ commands in parallel.
+It shouldn't be very hard to achieve using exposed buffers as ring
+buffers, and it will short down the start of the devices with many
+features.
 
-> 
->> If we instead already provide the labels, then we can:
->> 	1. substitute the memslots pointed by DELETE/MOVE with invalid & swap
->> (so it is visible, non-atomic. But we don't care, as we are not deleting
->> anything)
->> 	2. delete the invalid memslot (in the inactive memslot list)
->> 	3. process the other requests (in the inactive memslot list)
->> 	4. single and atomic swap (step 2 and 3 are now visible).
->>
->> What do you think?
-> 
-> Adding some limitation to the new ioctl makes sense to me, especially
-> moving the DELETE/MOVE to be handled earlier, rather than a complete
-> mixture of all of them.
-> 
-> I'm wondering whether the batch ioctl can be layed out separately on the
-> operations, then it can be clearly documented on the sequence of handling
-> each op:
-> 
->   struct kvm_userspace_memory_region_batch {
->          struct kvm_userspace_memory_region deletes[];
->          struct kvm_userspace_memory_region moves[];
->          struct kvm_userspace_memory_region creates[];
->          struct kvm_userspace_memory_region flags_only[];
->   };
-> 
-> So that the ordering can be very obvious.  But I didn't really think deeper
-> than that.
+Thanks!
 
-No, I think it doesn't work. Oder needs to be preserved, I see many
-DELETE+CREATE operations on the same slot id.
-> 
-> Side note: do we use MOVE at all in QEMU?
-
-Nope :)
-
-> 
->>
->> Bonus question: with this atomic operation, do we really need the
->> invalid memslot logic for MOVE/DELETE?
-> 
-> I think so.  Not an expert on that, but iiuc that's to make sure we'll zap
-> all shadow paging that maps to the slots being deleted/moved.
-> 
-> Paolo can always help to keep me honest above.
-
-Yes, we need to keep that logic.
-
-v2 is coming soon.
-
-Thank you,
-Emanuele
+> Thanks
+>
+> >
+> > Thanks
+> >
+> > > +                if (unlikely(r !=3D 0)) {
+> > > +                    return r;
+> > > +                }
+> > > +            }
+> > > +        }
+> > > +    }
+> > > +
+> > > +    return 0;
+> > > +}
+> > > +
+> > >  static int vhost_vdpa_net_load(NetClientState *nc)
+> > >  {
+> > >      VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> > > @@ -445,8 +488,7 @@ static int vhost_vdpa_net_load(NetClientState *nc=
+)
+> > >      if (unlikely(r)) {
+> > >          return r;
+> > >      }
+> > > -
+> > > -    return 0;
+> > > +    return vhost_vdpa_net_load_vlan(s, n);
+> > >  }
+> > >
+> > >  static NetClientInfo net_vhost_vdpa_cvq_info =3D {
+> > > --
+> > > 2.31.1
+> > >
+>
 
 
