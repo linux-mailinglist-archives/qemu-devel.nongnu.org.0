@@ -2,73 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2877E5B3D7F
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 18:53:51 +0200 (CEST)
-Received: from localhost ([::1]:60724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C50925B3D7E
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Sep 2022 18:53:26 +0200 (CEST)
+Received: from localhost ([::1]:42636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWhGI-0001Hw-03
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 12:53:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45334)
+	id 1oWhFt-0000km-AV
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 12:53:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oWhCN-0005Vi-Di
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 12:49:48 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37560)
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1oWhDa-0006CZ-HT; Fri, 09 Sep 2022 12:51:02 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:19376)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oWhCK-0000na-St
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 12:49:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=SkttA0QV1HOR8wYAtMESFzo6Yf17gkEInMGViNQIGkc=; b=ylHXDcjMwUwdVuO/nrMqVeOaPO
- Nr5aYToYcixqFvKcygcjEZ6KiI0gjutZfdGOdY8y5OJbbkZj3wpdDBzArAkaewvel+JZxkxeHwrz7
- O0pt3gwOp8dxtBRm+Hq7u8BD2ljXJoXwRByBRtD8C8Cg0hKfjw8+xg7wSI7MXxohgHhkWQhQ86shd
- 7xjZmN4JVCoWYcSxIsemswBY+sFyg14sETiy9XCxX3jBlaESl7O+H78ILfR1XByheulpwXC9maDiM
- b31b+eb0kwhlR4KkAuJBEZ6dGzrpwezip/999N2DM0Afz7orM+lWL8GXki9VZu5Kz1ta0asVTlxda
- 56OeywWzHciYW14Ra3nIrEZpknlU9hUnF5smFTxh7tePbBE2+7N0pzP36odaCYck7hBVbIeu9DEuV
- f+6YxLwCnQaBorzq60SsHtMS90YCMat5tEW2eBqdLWiCHcJXS7RmoxpLFnPfQ9rdoAVPoYUHLJRaE
- lHaRxdVw7diYUGcaQa1XlwAj4sN5me6UeH4oUjyVIFhhE6AGLQZjGbhrOFbLw41sbaXPu0iVTT90O
- gKh+3eGtV3l175RyhZLU8a3pnG650FFKh32ekKmMgMme3AR83O/Nmn6wvyRFSYMBT0jXBQ9sEVEfS
- L0lVqt20zr+WEbvJPudpBsCessfqfxXQSj3ICsuyA=;
-Received: from [2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oWhAd-00007S-6w; Fri, 09 Sep 2022 17:48:03 +0100
-Message-ID: <556496df-4362-6780-8379-e14bf4269e3f@ilande.co.uk>
-Date: Fri, 9 Sep 2022 17:49:33 +0100
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1oWhDV-00013a-2j; Fri, 09 Sep 2022 12:51:02 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 289GCAKo031349;
+ Fri, 9 Sep 2022 16:50:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=EkO1msDF8ztyhJLP3X7JSKrUX+hGt8vpaQh1n2V0HFE=;
+ b=EMlrUBt37HHaoNGLQJ7+CuSXP0sCziNz2nypC5Y2ygN+ujmhc7XQ9+gT4nBG1TIzSQLZ
+ B4SlB3XP2DQEXQPboeH4nSjnmVsw8vy4FDweVsyAQo3FYoGMt16DQDQXgxopBUBQBWWC
+ GwGoMSRi1kiha1ErBqjidw/soWy+ogzqwuZCThFq/0RGLVYQTUfErH/ChKOaYFmQn61T
+ vTfeprr23wEy8r5x3Zs2M77HDGFGpAf0iI4cxh4EEK4OqsnrtDoFQ32xoS/zvK8+AIVM
+ dxCrRgDXVwUTbvDX9+xhnxAmoMrzmExwa3FntBBteqUUJY5M9JSqbyegvANf9K7uuM+u BA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jg8sx15fb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 09 Sep 2022 16:50:50 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 289GDhVR006955;
+ Fri, 9 Sep 2022 16:50:50 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jg8sx15ea-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 09 Sep 2022 16:50:49 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 289GolUb003001;
+ Fri, 9 Sep 2022 16:50:47 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma06fra.de.ibm.com with ESMTP id 3jbx6hx4va-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 09 Sep 2022 16:50:47 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 289Gl8CG30081424
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 9 Sep 2022 16:47:08 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C25CEA405B;
+ Fri,  9 Sep 2022 16:50:43 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 14570A4054;
+ Fri,  9 Sep 2022 16:50:43 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.11.120])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri,  9 Sep 2022 16:50:43 +0000 (GMT)
+Message-ID: <b7a70243ccf9ec74525b10452bcbd2f6b9f5f050.camel@linux.ibm.com>
+Subject: Re: [PATCH v9 08/10] target/s390x: interception of PTF instruction
+From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com
+Date: Fri, 09 Sep 2022 18:50:42 +0200
+In-Reply-To: <20220902075531.188916-9-pmorel@linux.ibm.com>
+References: <20220902075531.188916-1-pmorel@linux.ibm.com>
+ <20220902075531.188916-9-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>
-References: <20220908132817.1831008-1-bmeng.cn@gmail.com>
- <20220908132817.1831008-4-bmeng.cn@gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220908132817.1831008-4-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 3/7] scripts/nsis.py: Automatically package required DLLs
- of QEMU executables
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.079,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: imb7SlEZvMFbh2qLZvkTWOsfKIDJoGli
+X-Proofpoint-ORIG-GUID: 4neh8vHYtHaANETWQ4iEWjbdvJ2Ppz82
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-09_08,2022-09-09_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxlogscore=999
+ lowpriorityscore=0 suspectscore=0 bulkscore=0 impostorscore=0 mlxscore=0
+ clxscore=1015 priorityscore=1501 malwarescore=0 adultscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
+ definitions=main-2209090057
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=scgl@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,132 +120,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/09/2022 14:28, Bin Meng wrote:
+On Fri, 2022-09-02 at 09:55 +0200, Pierre Morel wrote:
+> When the host supports the CPU topology facility, the PTF
+> instruction with function code 2 is interpreted by the SIE,
+> provided that the userland hypervizor activates the interpretation
+> by using the KVM_CAP_S390_CPU_TOPOLOGY KVM extension.
+> 
+> The PTF instructions with function code 0 and 1 are intercepted
+> and must be emulated by the userland hypervizor.
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 
-> From: Bin Meng <bin.meng@windriver.com>
-> 
-> At present packaging the required DLLs of QEMU executables is a
-> manual process, and error prone.
-> 
-> Actually build/config-host.mak contains a GLIB_BINDIR variable
-> which is the directory where glib and other DLLs reside. This
-> works for both Windows native build and cross-build on Linux.
-> We can use it as the search directory for DLLs and automate
-> the whole DLL packaging process.
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+
+See note below.
 > ---
+>  hw/s390x/cpu-topology.c            | 52 ++++++++++++++++++++++++++++++
+>  include/hw/s390x/s390-virtio-ccw.h |  6 ++++
+>  target/s390x/kvm/kvm.c             | 13 ++++++++
+>  3 files changed, 71 insertions(+)
 > 
->   meson.build     |  1 +
->   scripts/nsis.py | 46 ++++++++++++++++++++++++++++++++++++++++++----
->   2 files changed, 43 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meson.build b/meson.build
-> index c2adb7caf4..4c03850f9f 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -3657,6 +3657,7 @@ if host_machine.system() == 'windows'
->       '@OUTPUT@',
->       get_option('prefix'),
->       meson.current_source_dir(),
-> +    config_host['GLIB_BINDIR'],
->       host_machine.cpu(),
->       '--',
->       '-DDISPLAYVERSION=' + meson.project_version(),
-> diff --git a/scripts/nsis.py b/scripts/nsis.py
-> index baa6ef9594..03ed7608a2 100644
-> --- a/scripts/nsis.py
-> +++ b/scripts/nsis.py
-> @@ -18,12 +18,36 @@ def signcode(path):
->           return
->       subprocess.run([cmd, path])
->   
-> +def find_deps(exe_or_dll, search_path, analyzed_deps):
-> +    deps = [exe_or_dll]
-> +    output = subprocess.check_output(["objdump", "-p", exe_or_dll], text=True)
-> +    output = output.split("\n")
-> +    for line in output:
-> +        if not line.startswith("\tDLL Name: "):
-> +            continue
+> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> index b6bf839e40..7dcaa28ca3 100644
+> --- a/hw/s390x/cpu-topology.c
+> +++ b/hw/s390x/cpu-topology.c
+> @@ -20,6 +20,58 @@
+>  #include "hw/s390x/s390-virtio-ccw.h"
+>  #include "hw/s390x/cpu-topology.h"
+>  #include "migration/vmstate.h"
+> +#include "target/s390x/cpu.h"
+> +#include "hw/s390x/s390-virtio-ccw.h"
 > +
-> +        dep = line.split("DLL Name: ")[1].strip()
-> +        if dep in analyzed_deps:
-> +            continue
+> +/*
+> + * s390_handle_ptf:
+> + *
+> + * @register 1: contains the function code
+> + *
+> + * Function codes 0 and 1 handle the CPU polarization.
+> + * We assume an horizontal topology, the only one supported currently
+> + * by Linux, consequently we answer to function code 0, requesting
+> + * horizontal polarization that it is already the current polarization
+> + * and reject vertical polarization request without further explanation.
+> + *
+> + * Function code 2 is handling topology changes and is interpreted
+> + * by the SIE.
+> + */
+> +void s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra)
+> +{
+> +    CPUS390XState *env = &cpu->env;
+> +    uint64_t reg = env->regs[r1];
+> +    uint8_t fc = reg & S390_TOPO_FC_MASK;
 > +
-> +        dll = os.path.join(search_path, dep)
-> +        if not os.path.exists(dll):
-> +            # assume it's a Windows provided dll, skip it
-> +            continue
-> +
-> +        analyzed_deps.add(dep)
-> +        # locate the dll dependencies recursively
-> +        rdeps = find_deps(dll, search_path, analyzed_deps)
-> +        deps.extend(rdeps)
-> +
-> +    return deps
->   
->   def main():
->       parser = argparse.ArgumentParser(description="QEMU NSIS build helper.")
->       parser.add_argument("outfile")
->       parser.add_argument("prefix")
->       parser.add_argument("srcdir")
-> +    parser.add_argument("dlldir")
->       parser.add_argument("cpu")
->       parser.add_argument("nsisargs", nargs="*")
->       args = parser.parse_args()
-> @@ -63,9 +87,26 @@ def main():
->                   !insertmacro MUI_DESCRIPTION_TEXT ${{Section_{0}}} "{1}"
->                   """.format(arch, desc))
->   
-> +        search_path = args.dlldir
-> +        print("Searching '%s' for the dependent dlls ..." % search_path)
-> +        dlldir = os.path.join(destdir + prefix, "dll")
-> +        os.mkdir(dlldir)
-> +
->           for exe in glob.glob(os.path.join(destdir + prefix, "*.exe")):
->               signcode(exe)
->   
-> +            # find all dll dependencies
-> +            deps = set(find_deps(exe, search_path, set()))
-> +            deps.remove(exe)
-> +
-> +            # copy all dlls to the DLLDIR
-> +            for dep in deps:
-> +                dllfile = os.path.join(dlldir, os.path.basename(dep))
-> +                if (os.path.exists(dllfile)):
-> +                    continue
-> +                print("Copying '%s' to '%s'" % (dep, dllfile))
-> +                shutil.copy(dep, dllfile)
-> +
->           makensis = [
->               "makensis",
->               "-V2",
-> @@ -73,12 +114,9 @@ def main():
->               "-DSRCDIR=" + args.srcdir,
->               "-DBINDIR=" + destdir + prefix,
->           ]
-> -        dlldir = "w32"
->           if args.cpu == "x86_64":
-> -            dlldir = "w64"
->               makensis += ["-DW64"]
-> -        if os.path.exists(os.path.join(args.srcdir, "dll")):
-> -            makensis += ["-DDLLDIR={0}/dll/{1}".format(args.srcdir, dlldir)]
-> +        makensis += ["-DDLLDIR=" + dlldir]
->   
->           makensis += ["-DOUTFILE=" + args.outfile] + args.nsisargs
->           subprocess.run(makensis)
+> +    if (!s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
+> +        s390_program_interrupt(env, PGM_OPERATION, ra);
+> +        return;
 
-FWIW I wrote a similar script a while back to help package a custom Windows build for 
-a client, however I used ldd instead of objdump since it provided the full paths for 
-DLLs installed in the msys2/mingw-w64 environment via pacman which were outside the 
-QEMU build tree.
+I'm either expecting this function to return -1 here...
+> +    }
+> +
+> +    if (env->psw.mask & PSW_MASK_PSTATE) {
+> +        s390_program_interrupt(env, PGM_PRIVILEGED, ra);
+> +        return;
+> +    }
+> +
+> +    if (reg & ~S390_TOPO_FC_MASK) {
+> +        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+> +        return;
+> +    }
+> +
+> +    switch (fc) {
+> +    case 0:    /* Horizontal polarization is already set */
+> +        env->regs[r1] |= S390_PTF_REASON_DONE;
+> +        setcc(cpu, 2);
+> +        break;
+> +    case 1:    /* Vertical polarization is not supported */
+> +        env->regs[r1] |= S390_PTF_REASON_NONE;
+> +        setcc(cpu, 2);
+> +        break;
+> +    default:
+> +        /* Note that fc == 2 is interpreted by the SIE */
+> +        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+> +    }
+> +}
 
-Once the complete list of DLLs was obtained, it was simple matter of filtering out 
-those DLLs that started with the %WINDIR% prefix before copying them to the final 
-distribution directory.
+[...]
+>  
+> +static int kvm_handle_ptf(S390CPU *cpu, struct kvm_run *run)
+> +{
+> +    uint8_t r1 = (run->s390_sieic.ipb >> 20) & 0x0f;
+> +
+> +    s390_handle_ptf(cpu, r1, RA_IGNORED);
 
+... and this being returned here...
+> +
+> +    return 0;
 
-ATB,
+... or this function being void.
+> +}
+> +
+>  static int handle_b9(S390CPU *cpu, struct kvm_run *run, uint8_t ipa1)
+>  {
+>      int r = 0;
+> @@ -1480,6 +1490,9 @@ static int handle_b9(S390CPU *cpu, struct kvm_run *run, uint8_t ipa1)
+>      case PRIV_B9_RPCIT:
+>          r = kvm_rpcit_service_call(cpu, run);
+>          break;
+> +    case PRIV_B9_PTF:
+> +        r = kvm_handle_ptf(cpu, run);
+> +        break;
+>      case PRIV_B9_EQBS:
+>          /* just inject exception */
+>          r = -1;
 
-Mark.
 
