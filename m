@@ -2,77 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB4AF5B473F
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Sep 2022 17:14:31 +0200 (CEST)
-Received: from localhost ([::1]:37224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B3735B476C
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Sep 2022 18:07:35 +0200 (CEST)
+Received: from localhost ([::1]:39854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oX2Bi-0004Y7-CX
-	for lists+qemu-devel@lfdr.de; Sat, 10 Sep 2022 11:14:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50678)
+	id 1oX313-0002tD-Ql
+	for lists+qemu-devel@lfdr.de; Sat, 10 Sep 2022 12:07:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oX29I-0001S4-LC; Sat, 10 Sep 2022 11:12:02 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:43582)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oX2ym-00013r-W6
+ for qemu-devel@nongnu.org; Sat, 10 Sep 2022 12:05:13 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:54926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oX29F-00047B-30; Sat, 10 Sep 2022 11:11:59 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id v16so10563634ejr.10;
- Sat, 10 Sep 2022 08:11:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=I+GXoMtsvnMhLgL7ULYr+soHxCdrKX4pcoCICaaAZxY=;
- b=fu1qhQkwUVq2N2o+Q8XHgxd349FeNdrrRJvG83oLq5mFBkWKp/FiVa0ho14lN3Emfx
- JhUKGZZP7doEZutFppP19QP6+VGZMbEvJpuu89xD+h0WQQyhRB1rUGvYhljfBVajDkwK
- rCdxu+X/cE7ld1R6SfKxeW6WdnQNJM41OCyrnwi+L8YpP7PvoTG4iQmZAeqiTBPkEcfU
- VZ7pWse460l2aasaNu0sksI7iuhNMzU8oPwBYDDWQ1jUN7iZUSy8DkkPutHRm763QA44
- F0u5bcYVwsGSUYTMwtZ/WlD62u7nGSZmb9BMgSoxqeraJodvfm4++8XdWwR7VSrYrGnt
- yyQA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oX2yi-0003CD-OD
+ for qemu-devel@nongnu.org; Sat, 10 Sep 2022 12:05:11 -0400
+Received: by mail-wm1-x329.google.com with SMTP id az6so3920120wmb.4
+ for <qemu-devel@nongnu.org>; Sat, 10 Sep 2022 09:05:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=ax6cXacV1irQaJ8kMfnLFDa/FvH1MMuLNH30zp/PRt8=;
+ b=sUWxwvg81jKJaknxbkRTTPHg8FbrT+hIhINB/DAbAlJpdiOsc6Ny+6ssEuXfgtlQBc
+ aY4W72mOAsHcvcJjmTWsnmP+RmnxpvudkRV4Qs1nfkDOWzV4VrnrIQ5bJ2TS59fr6lCd
+ 21oQLvgKiU7g6nsq0mbLc67ncM0qPcQpV+/AhzxWvKt1erTOk305ONV7HAvdI2Fi5ApP
+ TvVd/fpotuOYoRJI0AIQRPOK5mCKzZw1lnl0gBlfCfrEKq6TW8+iiYMmedri+2Kp8Vnl
+ /8q7xbKrpiepkcJU0ZnoBZiWI2BE4DWMYclAq8+qWnr3O+bLHXZeTY/ZYLzuAEqtaFpx
+ 48BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=I+GXoMtsvnMhLgL7ULYr+soHxCdrKX4pcoCICaaAZxY=;
- b=W84t1FicMpij5UuNQnB5qJkOsshwoGknK7qU/QRXN7YM+6GZ7TbT11h3hPpw0Y6iUu
- Ha9GqptjsBpCxDNjhm7SySBko8iEqySqukcJJIhx1JQEerqTWaGxzswuujbBlHoFwvGe
- t80dB2yJTihd7FourAPMrckvdmzvZDbCbCfHiVtAj30zbgyIdHM1pFAvp9W2V7QQWyIE
- G5jE0abcMSs5TSQjuTHLEduLG294NXQv0zgtxKugduVnRDIJxpd2a2lkTY4s+P5XtGw0
- 05TnJflPy4L1Nsb0m1XKX0CC9rHsRfKHCZns9LNkxMX4Qce3uH7wtd9kEbenVw/njHTe
- qcDw==
-X-Gm-Message-State: ACgBeo11deZVIE9DBFbw1gyRHpgxrDUXNzuu49vUFmKk37rPcQvYiNyK
- 3Q7NOC2yGHwVzuy4q8MALm7PU6sxcDk=
-X-Google-Smtp-Source: AA6agR4p5d8qs+4UEBqPFApBAZh+Zc0TzC+izCinlGXFWzzy41u0GGZiNa/TPa2waZSQqTBlLxPHOg==
-X-Received: by 2002:a17:907:2d23:b0:730:acf0:4907 with SMTP id
- gs35-20020a1709072d2300b00730acf04907mr13508906ejc.700.1662822713807; 
- Sat, 10 Sep 2022 08:11:53 -0700 (PDT)
-Received: from localhost.localdomain
- (dynamic-089-012-029-149.89.12.pool.telefonica.de. [89.12.29.149])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=ax6cXacV1irQaJ8kMfnLFDa/FvH1MMuLNH30zp/PRt8=;
+ b=h73RrGrjw05LCShX8Tkh04xc2nVOxtkZXIimF7y/ixXlKlP2GgtbZl3TRIIlCgqrvl
+ wsU9GvK3XReqL2JadANqlaVYA3NcAznbteDbS0yYeOdXCBQEnHDXKXpb3KF0hJGn9OQF
+ nWf9OaLt0D2rEQK69W4rcZxjhaAA+N48XJ9THaJzgERaDQaQFzl8X7tyK+m7etmZ0KzY
+ PzriQ7pDkjOxyARlTLAq7svNufjC1Co1abK0xTbd8lz2fIm6k1ZQM5kKZv+SNYMMMVGm
+ CPrWDRmdqjCIgnzjW2tHSuQ6/81t99CgwepuUguxdfsgmI+BMj3B7wPztpKL3QOU2c2s
+ CY7Q==
+X-Gm-Message-State: ACgBeo1F0cCYuQ2boRc8P2CO0US3e/YaJMakIncN8v+OTf1hBu+Zh9eP
+ P53nXmQ1EtEgCY1DonVdnhYkog==
+X-Google-Smtp-Source: AA6agR6gmd8pjnoA4J8Pv0xke/6VMFhPcbaFQxqHfZT5q+vX9eY1bJoB+qzWRbSdsMRTCU1EfTdrCg==
+X-Received: by 2002:a05:600c:198f:b0:3a6:2482:b2be with SMTP id
+ t15-20020a05600c198f00b003a62482b2bemr8889850wmq.110.1662825905889; 
+ Sat, 10 Sep 2022 09:05:05 -0700 (PDT)
+Received: from [192.168.1.58] ([93.107.230.34])
  by smtp.gmail.com with ESMTPSA id
- o15-20020a170906768f00b0077826b92d99sm1858968ejm.12.2022.09.10.08.11.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 10 Sep 2022 08:11:53 -0700 (PDT)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2] hw/virtio/vhost-shadow-virtqueue: Silence GCC error
- "maybe-uninitialized"
-Date: Sat, 10 Sep 2022 17:11:17 +0200
-Message-Id: <20220910151117.6665-1-shentey@gmail.com>
-X-Mailer: git-send-email 2.37.3
+ j12-20020a05600c190c00b003b332a7bf15sm4718764wmq.7.2022.09.10.09.05.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 10 Sep 2022 09:05:05 -0700 (PDT)
+Message-ID: <9498efbe-8aa3-708d-f9f4-52362bc3e458@linaro.org>
+Date: Sat, 10 Sep 2022 17:05:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2] hw/virtio/vhost-shadow-virtqueue: Silence GCC error
+ "maybe-uninitialized"
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+References: <20220910151117.6665-1-shentey@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220910151117.6665-1-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.214,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,49 +94,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-GCC issues a false positive warning, resulting in build failure with -Werror:
+On 9/10/22 16:11, Bernhard Beschow wrote:
+> GCC issues a false positive warning, resulting in build failure with -Werror:
+> 
+>    In file included from /usr/include/glib-2.0/glib.h:114,
+>                     from src/include/glib-compat.h:32,
+>                     from src/include/qemu/osdep.h:144,
+>                     from ../src/hw/virtio/vhost-shadow-virtqueue.c:10:
+>    In function ‘g_autoptr_cleanup_generic_gfree’,
+>        inlined from ‘vhost_handle_guest_kick’ at ../src/hw/virtio/vhost-shadow-virtqueue.c:292:42:
+>    /usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: error: ‘elem’ may be used uninitialized [-Werror=maybe-uninitialized]
+>       28 |   g_free (*pp);
+>          |   ^~~~~~~~~~~~
+>    ../src/hw/virtio/vhost-shadow-virtqueue.c: In function ‘vhost_handle_guest_kick’:
+>    ../src/hw/virtio/vhost-shadow-virtqueue.c:292:42: note: ‘elem’ was declared here
+>      292 |             g_autofree VirtQueueElement *elem;
+>          |                                          ^~~~
+>    cc1: all warnings being treated as errors
+> 
+> There is actually no problem since "elem" is initialized in both branches.
+> Silence the warning by initializig it with "NULL".
+> 
+> $ gcc --version
+> gcc (GCC) 12.2.0
+> 
+> Fixes: 9c2ab2f1ec333be8614cc12272d4b91960704dbe ("vhost: stop transfer elem ownership in vhost_handle_guest_kick")
+> Signed-off-by: Bernhard Beschow<shentey@gmail.com>
+> ---
+>   hw/virtio/vhost-shadow-virtqueue.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-  In file included from /usr/include/glib-2.0/glib.h:114,
-                   from src/include/glib-compat.h:32,
-                   from src/include/qemu/osdep.h:144,
-                   from ../src/hw/virtio/vhost-shadow-virtqueue.c:10:
-  In function ‘g_autoptr_cleanup_generic_gfree’,
-      inlined from ‘vhost_handle_guest_kick’ at ../src/hw/virtio/vhost-shadow-virtqueue.c:292:42:
-  /usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: error: ‘elem’ may be used uninitialized [-Werror=maybe-uninitialized]
-     28 |   g_free (*pp);
-        |   ^~~~~~~~~~~~
-  ../src/hw/virtio/vhost-shadow-virtqueue.c: In function ‘vhost_handle_guest_kick’:
-  ../src/hw/virtio/vhost-shadow-virtqueue.c:292:42: note: ‘elem’ was declared here
-    292 |             g_autofree VirtQueueElement *elem;
-        |                                          ^~~~
-  cc1: all warnings being treated as errors
+It's not a false positive, but the fix is correct.
 
-There is actually no problem since "elem" is initialized in both branches.
-Silence the warning by initializig it with "NULL".
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-$ gcc --version
-gcc (GCC) 12.2.0
 
-Fixes: 9c2ab2f1ec333be8614cc12272d4b91960704dbe ("vhost: stop transfer elem ownership in vhost_handle_guest_kick")
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- hw/virtio/vhost-shadow-virtqueue.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index e8e5bbc368..596d4434d2 100644
---- a/hw/virtio/vhost-shadow-virtqueue.c
-+++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -289,7 +289,7 @@ static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
-         virtio_queue_set_notification(svq->vq, false);
- 
-         while (true) {
--            g_autofree VirtQueueElement *elem;
-+            g_autofree VirtQueueElement *elem = NULL;
-             int r;
- 
-             if (svq->next_guest_avail_elem) {
--- 
-2.37.3
-
+r~
 
