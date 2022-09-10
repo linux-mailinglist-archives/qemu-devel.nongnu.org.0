@@ -2,80 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D07FC5B44D7
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Sep 2022 08:58:29 +0200 (CEST)
-Received: from localhost ([::1]:49928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6BE5B4534
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Sep 2022 10:15:34 +0200 (CEST)
+Received: from localhost ([::1]:33714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWuRh-00053u-08
-	for lists+qemu-devel@lfdr.de; Sat, 10 Sep 2022 02:58:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58134)
+	id 1oWveH-0003Uf-EN
+	for lists+qemu-devel@lfdr.de; Sat, 10 Sep 2022 04:15:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oWuLt-0007NN-Tk; Sat, 10 Sep 2022 02:52:29 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:35435)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oWuLr-0000TX-Gt; Sat, 10 Sep 2022 02:52:29 -0400
-Received: by mail-pg1-x531.google.com with SMTP id t65so3533400pgt.2;
- Fri, 09 Sep 2022 23:52:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=l+Wv0PEoPDYhfP1+4cEC0e+SVrAljhWHmfN7jwX/ym0=;
- b=LIXtkruwnNZ+VEYss6FAlrbJhXBCz/9Vv4vgBsF73dLz1KbEGylXhB5NAJ7jNNcZmW
- wDybX17GaBrSXrJ19wqRjFNGW5FoDu+dkemqHYNPsHHQ3BUHi4FAdz3wRTMtHGhUUNGe
- NbJZO7kOut1yeDPBLVaAMA96dDpqF6xksYMdGMNL8aknKm6N93q68FB7kqEXSYkCLk5k
- t/vlYnPnRjqyI4KOkhxJGyA5n3cOJgcqqCKZfui4wLZecZosUFX3RLaBI7gmsX79hCFh
- HFlIgfV/KDaXFRSQ5iWE31yvOePKEagh/+0x/oiwr44lUgXo2+8KChdCIyp29+AFy2iB
- sqxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=l+Wv0PEoPDYhfP1+4cEC0e+SVrAljhWHmfN7jwX/ym0=;
- b=VpLYFE6iWJYbfji5BoGQ6murWovin5HqsmjszX9tbq0myphgekKp1OD5bThPAxRq+5
- lqpYXMiT7oBKecSJX/5hqENfz2KPGiNUoUTOXWH4Bw4VddgQdUrQnyAnv8JF4Z68XfGx
- Cy3avWvbGYlSQ/MTNsvA9VUtxEq/CrT7Zo/seyozQg6aDlNcqzGvwm4lSUWkW3Di+UlR
- MJtRYKPU8AVTmzOIqEqDClWnRAoN0gzEAlZoXTzmkeR2SJUbaMgFZP305t0H73G3G1y3
- qgfpypnTqakHASrgM+8AIfNWyPOVTTaXHP74uuGio84c7D/JXQ3SZSUDhhuvPdPwzURN
- JgdQ==
-X-Gm-Message-State: ACgBeo0RoFKCnQZzmNKLR3/0Ivu5Zs0iwawkRK6tGqFmT8qZdMAAR88C
- JOlIt5GsxsI5Y2J7Z/4NDcZ/Ro2+TXt4tg==
-X-Google-Smtp-Source: AA6agR6+uvcfBpWEZO6aTn84+dnlMVN8LVWkvsmV7g1Q/jxTvrYMLpP9itW54X59lkic7bkDxIN8eA==
-X-Received: by 2002:a63:dd51:0:b0:430:18d9:edf8 with SMTP id
- g17-20020a63dd51000000b0043018d9edf8mr14904840pgj.163.1662792745429; 
- Fri, 09 Sep 2022 23:52:25 -0700 (PDT)
-Received: from roots.. ([183.221.93.83]) by smtp.gmail.com with ESMTPSA id
- l62-20020a622541000000b0053e6b092294sm890908pfl.212.2022.09.09.23.52.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Sep 2022 23:52:25 -0700 (PDT)
-From: Sam Li <faithilikerun@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, hare@suse.de,
- Kevin Wolf <kwolf@redhat.com>, damien.lemoal@opensource.wdc.com,
- qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- dmitry.fomichev@wdc.com, Stefan Hajnoczi <stefanha@redhat.com>,
- Sam Li <faithilikerun@gmail.com>
-Subject: [PATCH 2/2] virtio-blk: add zoned storage emulation for zoned devices
-Date: Sat, 10 Sep 2022 14:50:57 +0800
-Message-Id: <20220910065057.35017-2-faithilikerun@gmail.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220910065057.35017-1-faithilikerun@gmail.com>
-References: <20220910065057.35017-1-faithilikerun@gmail.com>
+ (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
+ id 1oWto6-00007p-0s
+ for qemu-devel@nongnu.org; Sat, 10 Sep 2022 02:17:34 -0400
+Received: from mail-mw2nam10on20628.outbound.protection.outlook.com
+ ([2a01:111:f400:7e89::628]:12156
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
+ id 1oWto4-0003mu-4R
+ for qemu-devel@nongnu.org; Sat, 10 Sep 2022 02:17:33 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UoBeMoBcZvHOPFgro0hqsf3+iPdTvlPgQtW/YJmENcpl0XBHCf1ecWv1BYGG+YoR7iEw3AbDQIJEenKQfX3yMG1hClemEDOSmOPJMtv80FroWFgDlyATlC4gS+r9CdNnkc6dub0eeWGaJz7czoeB+9Ca5RPCdLA80bJYlAR9FxfaGrXwxqso+9bFcFGukiYALUmyYEbjQ3BD63/onfeWIe6AyNmBgBIO0+zXK2JPWWvZ68cXXqaX9WEeX2JOtP450MKvAl1OOwP0AQ0WX77oKd528+sqW/IWEBg3nCsiCg4drz2+rmGzhtBZ1EjTgItj93UDx8ttfg72B+CqX3wJ6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1VJYFnZWuc7Lg6MNq5m9dKj5CZz39d/owFUb5xplm64=;
+ b=ctGcZ3JIZ98pqWkiJ2jaR+1IUIWY307R2gN694WxZRaaBka/C50WJK62Yh+pEgm31u+A6xtsZAKevL7s/5XahNiaJwN/8GuYOV4pUsOTQxiP7iQh5I7dQpiAsuiFoFcAqn5agqRp/hSJEm5X7pdHH38I5y5oKONMd/AlfO/qTrxLsK0uBY5eWqAXzDNZ3zJOjDSld7msEpFH40UtzWkRcct7+U8WSLY/XMpEZ0YFINwDpCPVWeNVuhIHOAf0rodvW7jCidKGeamc+uoR2asA8OGG9SnfRBMQzqMVBcaUtzdaAhR1v4KE0tkyY+1eDps+bQ2/ZzcWxPS0DVpbc4hYBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1VJYFnZWuc7Lg6MNq5m9dKj5CZz39d/owFUb5xplm64=;
+ b=v4fpioXO0B8FZO00G5QHMEhOjtrzyQhGVgZnhMMwfqEel72uRgwhKHLAjXBm/rhU3HOec62xpnGlOWUiiCr1XZlKsmgm2yavrpSqCqOvOeEdAxGGkC0jiWGZyryqRI/MS46gSwYxTKMnykZS2QY9iC916qBvPksfz3hBvPAH3u0=
+Received: from DM6PR03CA0101.namprd03.prod.outlook.com (2603:10b6:5:333::34)
+ by SJ0PR12MB6736.namprd12.prod.outlook.com (2603:10b6:a03:47a::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.17; Sat, 10 Sep
+ 2022 06:12:23 +0000
+Received: from DM6NAM11FT108.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:333:cafe::26) by DM6PR03CA0101.outlook.office365.com
+ (2603:10b6:5:333::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.14 via Frontend
+ Transport; Sat, 10 Sep 2022 06:12:23 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ DM6NAM11FT108.mail.protection.outlook.com (10.13.172.95) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5612.13 via Frontend Transport; Sat, 10 Sep 2022 06:12:23 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Sat, 10 Sep
+ 2022 01:12:22 -0500
+Received: from xsjfnuv50.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
+ Transport; Sat, 10 Sep 2022 01:12:22 -0500
+From: Vikram Garhwal <vikram.garhwal@amd.com>
+To: <qemu-devel@nongnu.org>
+CC: <edgar.iglesias@amd.com>, <francisco.iglesias@amd.com>,
+ <vikram.garhwal@amd.com>
+Subject: [QEMU][PATCH 0/5] Introduce Xilinx Versal CANFD
+Date: Fri, 9 Sep 2022 23:12:09 -0700
+Message-ID: <20220910061209.2559-1-vikram.garhwal@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=faithilikerun@gmail.com; helo=mail-pg1-x531.google.com
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT108:EE_|SJ0PR12MB6736:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6909f8a0-ccc5-4975-e7a4-08da92f36d57
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hkjXG15a8WyI5cK489We5YnpdBfX99MiKF2+JNjELq872Hii5tnRzH2svvT7eFPCMZdiTaf86V2QQcHQpdJ5e9GIhnsN+c8/tj+NFUV9D3y536dw8VN9yNtIa2HlbnKTmq5fRWsQQPV7TV7zQKY+L4b/h+gSeszz2e3sDZLMMdCn7FT1WK/j50vExe07P4En9BU/uu5VV/XaBN9Z/GBHGoPRkf6VeR3G/DrVecWbzk08GDzE+PmRcPOZA1yJb7rpR4qeJ+am2iEibi3VVY91SrV4sQ1VrQSfaWtczCBRJLXLKeapMrqrpTC7F+8wBPToMNA0dl9jk63aRXvObvw3M2PB5Pe5lVVMc+dcAy6nNUSo7YbcrbZcgfDe/fqco7qdiXCRO6H73laCrZwX7RA16eRKqhGQSOJk4uI0WVovuBwRuhpNX4PQniULUvcHGdvmSxhUCtmEpeIzaurXfqvnzuShU8oGSdh62GTAnwlgWLullu54Z8L5181yfbj6uvXd0trjDx49HVzxGJe7H552vI1fpg1fgIbH5p1I41kPKcjde7t6SW/ZiD3wXMiWpCEISCr3S/WOJxyAumhBs/06G9XRwTDG5YMi6R8dxrul7pHnNO8i9LaEidBgM7YViTjiOj3pg4HQ4uRo+LLweMXVVZb1eNNOcjSbR5KDwxZIKdypLV8N965PejShGbQvq0nKxMP/mO+ZwwzICdq2/rXwIsXrtoEJS/6AZIWcdM8aj9aKgQ5aE5LJbwi0zHZe64IvzEZgAClDp9a5IU2txYrbDkaQp2wv+mRcg349DQplmOs8WSPfHY/vpHHIzzmV2657
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230016)(4636009)(376002)(396003)(136003)(39860400002)(346002)(46966006)(40470700004)(36840700001)(82310400005)(8936002)(36756003)(54906003)(44832011)(2906002)(47076005)(70586007)(8676002)(40480700001)(86362001)(41300700001)(70206006)(5660300002)(356005)(81166007)(316002)(6916009)(4326008)(82740400003)(40460700003)(186003)(36860700001)(336012)(478600001)(426003)(26005)(1076003)(2616005)(6666004)(83380400001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2022 06:12:23.4438 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6909f8a0-ccc5-4975-e7a4-08da92f36d57
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT108.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6736
+Received-SPF: softfail client-ip=2a01:111:f400:7e89::628;
+ envelope-from=vikram.garhwal@amd.com;
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sat, 10 Sep 2022 03:57:30 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,418 +120,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch extends virtio-blk emulation to handle zoned device commands
-by calling the new block layer APIs to perform zoned device I/O on
-behalf of the guest. It supports Report Zone, four zone oparations (open,
-close, finish, reset), and Append Zone.
+Hi,
+This patch implements CANFD controller for xlnx-versal-virt machine. There are
+two controllers CANFD0@0xFF06_0000 and CANFD1@0xFF07_0000 are connected to the
+machine.
 
-The VIRTIO_BLK_F_ZONED feature bit will only be set if the host does
-support zoned block devices. Regular block devices(conventional zones)
-will not be set.
+Also, added basic qtests for data exchange between both the controllers in
+various supported configs.
 
-The guest os having zoned device support can use blkzone(8) to test those
-commands. Furthermore, using zonefs to test zone append write is also
-supported.
+Regards,
+Vikram
 
-Signed-off-by: Sam Li <faithilikerun@gmail.com>
----
- hw/block/virtio-blk.c | 326 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 326 insertions(+)
+Vikram Garhwal (5):
+  MAINTAINERS: Update maintainer's email for Xilinx CAN
+  hw/net/can: Introduce Xilinx Versal CANFD controller
+  xlnx-zynqmp: Connect Xilinx VERSAL CANFD controllers
+  tests/qtest: Introduce tests for Xilinx VERSAL CANFD controller
+  MAINTAINERS: Include canfd tests under Xilinx CAN
 
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index e9ba752f6b..3ef74c01db 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -46,6 +46,8 @@ static const VirtIOFeature feature_sizes[] = {
-      .end = endof(struct virtio_blk_config, discard_sector_alignment)},
-     {.flags = 1ULL << VIRTIO_BLK_F_WRITE_ZEROES,
-      .end = endof(struct virtio_blk_config, write_zeroes_may_unmap)},
-+    {.flags = 1ULL << VIRTIO_BLK_F_ZONED,
-+     .end = endof(struct virtio_blk_config, zoned)},
-     {}
- };
- 
-@@ -614,6 +616,273 @@ err:
-     return err_status;
- }
- 
-+typedef struct ZoneCmdData {
-+    VirtIOBlockReq *req;
-+    union {
-+        struct {
-+            unsigned int nr_zones;
-+            BlockZoneDescriptor *zones;
-+        } ZoneReportData;
-+        struct {
-+            int64_t append_sector;
-+        } ZoneAppendData;
-+    };
-+} ZoneCmdData;
-+
-+/*
-+ * check zone_model: error checking before issuing requests. If all checks
-+ * passed, return true.
-+ * append: true if only zone append request issued.
-+ */
-+static bool check_zone_model(VirtIOBlock *s, int64_t sector, int64_t nr_sector,
-+                             bool append, uint8_t *status) {
-+    BlockDriverState *bs = blk_bs(s->blk);
-+    BlockZoneDescriptor *zone = &bs->bl.zones[sector / bs->bl.zone_sectors];
-+    int64_t max_append_sector = bs->bl.max_append_sectors;
-+
-+    if (!virtio_has_feature(s->host_features, VIRTIO_BLK_F_ZONED)) {
-+        *status = VIRTIO_BLK_S_UNSUPP;
-+        return false;
-+    }
-+
-+    if (zone->cond == BLK_ZS_OFFLINE) {
-+        *status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-+        return false;
-+    }
-+
-+    if (append) {
-+        if ((zone->type != BLK_ZT_SWR) || (zone->cond == BLK_ZS_RDONLY) ||
-+            (sector + nr_sector > (*(zone + 1)).start)) {
-+            /* the end sector of the request exceeds to next zone */
-+            *status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-+            return false;
-+        }
-+
-+        if (nr_sector > max_append_sector) {
-+            if (max_append_sector == 0) {
-+                *status = VIRTIO_BLK_S_UNSUPP;
-+            } else {
-+                *status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-+            }
-+            return false;
-+        }
-+    }
-+    return true;
-+}
-+
-+static void virtio_blk_zone_report_complete(void *opaque, int ret)
-+{
-+    ZoneCmdData *data = opaque;
-+    VirtIOBlockReq *req = data->req;
-+    VirtIOBlock *s = req->dev;
-+    VirtIODevice *vdev = VIRTIO_DEVICE(req->dev);
-+    struct iovec *in_iov = req->elem.in_sg;
-+    unsigned in_num = req->elem.in_num;
-+    int64_t zrp_size, nz, n, j = 0;
-+    int8_t err_status = VIRTIO_BLK_S_OK;
-+
-+    nz = data->ZoneReportData.nr_zones;
-+    struct virtio_blk_zone_report zrp_hdr = (struct virtio_blk_zone_report) {
-+            .nr_zones = cpu_to_le64(nz),
-+    };
-+
-+    zrp_size = sizeof(struct virtio_blk_zone_report)
-+               + sizeof(struct virtio_blk_zone_descriptor) * nz;
-+    n = iov_from_buf(in_iov, in_num, 0, &zrp_hdr, sizeof(zrp_hdr));
-+    if (n != sizeof(zrp_hdr)) {
-+        virtio_error(vdev, "Driver provided intput buffer that is too small!");
-+        err_status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-+        goto out;
-+    }
-+
-+    for (size_t i = sizeof(zrp_hdr); i < zrp_size; i += sizeof(struct virtio_blk_zone_descriptor), ++j) {
-+        struct virtio_blk_zone_descriptor desc =
-+                (struct virtio_blk_zone_descriptor) {
-+                        .z_start = cpu_to_le64(data->ZoneReportData.zones[j].start),
-+                        .z_cap = cpu_to_le64(data->ZoneReportData.zones[j].cap),
-+                        .z_wp = cpu_to_le64(data->ZoneReportData.zones[j].wp),
-+                        .z_type = data->ZoneReportData.zones[j].type,
-+                        .z_state = data->ZoneReportData.zones[j].cond,
-+                };
-+        n = iov_from_buf(in_iov, in_num, i, &desc, sizeof(desc));
-+        if (n != sizeof(desc)) {
-+            virtio_error(vdev, "Driver provided input buffer "
-+                               "for descriptors that is too small!");
-+            err_status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-+            goto out;
-+        }
-+    }
-+    goto out;
-+
-+out:
-+    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-+    virtio_blk_req_complete(req, err_status);
-+    virtio_blk_free_request(req);
-+    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
-+    g_free(data->ZoneReportData.zones);
-+    g_free(data);
-+}
-+
-+static int virtio_blk_handle_zone_report(VirtIOBlockReq *req) {
-+    VirtIOBlock *s = req->dev;
-+    VirtIODevice *vdev = VIRTIO_DEVICE(s);
-+    unsigned int nr_zones;
-+    ZoneCmdData *data;
-+    int64_t zone_size, offset;
-+    uint8_t err_status;
-+
-+    if (req->in_len <= sizeof(struct virtio_blk_inhdr) +
-+                       sizeof(struct virtio_blk_zone_report)) {
-+        virtio_error(vdev, "in buffer too small for zone report");
-+        return -1;
-+    }
-+
-+    /* start byte offset of the zone report */
-+    offset = virtio_ldq_p(vdev, &req->out.sector) * 512;
-+    if (!check_zone_model(s, offset / 512, 0, false, &err_status)) {
-+        goto out;
-+    }
-+
-+    nr_zones = (req->in_len - sizeof(struct virtio_blk_inhdr) -
-+                sizeof(struct virtio_blk_zone_report)) /
-+               sizeof(struct virtio_blk_zone_descriptor);
-+
-+    zone_size = sizeof(BlockZoneDescriptor) * nr_zones;
-+    data = g_malloc(sizeof(ZoneCmdData));
-+    data->req = req;
-+    data->ZoneReportData.nr_zones = nr_zones;
-+    data->ZoneReportData.zones = g_malloc(zone_size),
-+
-+    blk_aio_zone_report(s->blk, offset, &data->ZoneReportData.nr_zones,
-+                        data->ZoneReportData.zones,
-+                        virtio_blk_zone_report_complete, data);
-+    return 0;
-+
-+out:
-+    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-+    virtio_blk_req_complete(req, err_status);
-+    virtio_blk_free_request(req);
-+    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
-+    return err_status;
-+}
-+
-+static void virtio_blk_zone_mgmt_complete(void *opaque, int ret) {
-+    ZoneCmdData *data = opaque;
-+    VirtIOBlockReq *req = data->req;
-+    VirtIOBlock *s = req->dev;
-+
-+    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-+    virtio_blk_req_complete(req, VIRTIO_BLK_S_OK);
-+    virtio_blk_free_request(req);
-+    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
-+    g_free(data);
-+}
-+
-+static int virtio_blk_handle_zone_mgmt(VirtIOBlockReq *req, BlockZoneOp op) {
-+    VirtIOBlock *s = req->dev;
-+    VirtIODevice *vdev = VIRTIO_DEVICE(s);
-+    BlockDriverState *bs = blk_bs(s->blk);
-+    int64_t offset = virtio_ldq_p(vdev, &req->out.sector) * 512;
-+    uint64_t len;
-+    uint32_t type;
-+    uint8_t err_status = VIRTIO_BLK_S_OK;
-+
-+    if (!check_zone_model(s, offset / 512, 0, false, &err_status)) {
-+        goto out;
-+    }
-+
-+    ZoneCmdData *data = g_malloc(sizeof(ZoneCmdData));
-+    data->req = req;
-+
-+    type = virtio_ldl_p(vdev, &req->out.type);
-+    if (type == VIRTIO_BLK_T_ZONE_RESET_ALL) {
-+        /* Entire drive capacity */
-+        offset = 0;
-+        blk_get_geometry(s->blk, &len);
-+        len *= 512;
-+    } else {
-+        len = bs->bl.zone_sectors * 512;
-+    }
-+
-+    blk_aio_zone_mgmt(s->blk, op, offset, len,
-+                      virtio_blk_zone_mgmt_complete, data);
-+
-+    return 0;
-+out:
-+    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-+    virtio_blk_req_complete(req, err_status);
-+    virtio_blk_free_request(req);
-+    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
-+    return err_status;
-+}
-+
-+static void virtio_blk_zone_append_complete(void *opaque, int ret) {
-+    ZoneCmdData *data = opaque;
-+    VirtIOBlockReq *req = data->req;
-+    VirtIOBlock *s = req->dev;
-+    VirtIODevice *vdev = VIRTIO_DEVICE(req->dev);
-+    int64_t append_sector, n;
-+    struct iovec *out_iov = req->elem.out_sg;
-+    unsigned out_num = req->elem.out_num;
-+    uint8_t err_status = VIRTIO_BLK_S_OK;
-+
-+    append_sector = data->ZoneAppendData.append_sector;
-+    int write_granularity = s->conf.conf.logical_block_size;
-+    if ((append_sector * 512 % write_granularity) != 0) {
-+        err_status = VIRTIO_BLK_S_ZONE_UNALIGNED_WP;
-+        goto out;
-+    }
-+    n = iov_to_buf(out_iov, out_num, 0, &append_sector, sizeof(append_sector));
-+    if (n != sizeof(append_sector)) {
-+        virtio_error(vdev, "Driver provided input buffer less than size of "
-+                     "append_sector");
-+        err_status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-+        goto out;
-+    }
-+    goto out;
-+
-+out:
-+    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-+    virtio_blk_req_complete(req, err_status);
-+    virtio_blk_free_request(req);
-+    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
-+    g_free(data);
-+}
-+
-+static int virtio_blk_handle_zone_append(VirtIOBlockReq *req) {
-+    VirtIOBlock *s = req->dev;
-+    VirtIODevice *vdev = VIRTIO_DEVICE(s);
-+    uint64_t niov = req->elem.out_num;
-+    struct iovec *out_iov = req->elem.out_sg;
-+    uint8_t err_status = VIRTIO_BLK_S_OK;
-+
-+    int64_t offset = virtio_ldq_p(vdev, &req->out.sector) * 512;
-+    int64_t len = 0;
-+    for (int i = 1; i < niov; ++i) {
-+        len += out_iov[i].iov_len;
-+    }
-+
-+    if (!check_zone_model(s, offset / 512, len / 512, true, &err_status)) {
-+        goto out;
-+    }
-+
-+    ZoneCmdData *data = g_malloc(sizeof(ZoneCmdData));
-+    data->req = req;
-+    data->ZoneAppendData.append_sector = offset;
-+    qemu_iovec_init_external(&req->qiov, &out_iov[1], niov-1);
-+    blk_aio_zone_append(s->blk, &data->ZoneAppendData.append_sector, &req->qiov, 0,
-+                        virtio_blk_zone_append_complete, data);
-+
-+    return 0;
-+
-+out:
-+    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-+    virtio_blk_req_complete(req, err_status);
-+    virtio_blk_free_request(req);
-+    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
-+    return err_status;
-+}
-+
- static int virtio_blk_handle_request(VirtIOBlockReq *req, MultiReqBuffer *mrb)
- {
-     uint32_t type;
-@@ -700,6 +969,24 @@ static int virtio_blk_handle_request(VirtIOBlockReq *req, MultiReqBuffer *mrb)
-     case VIRTIO_BLK_T_FLUSH:
-         virtio_blk_handle_flush(req, mrb);
-         break;
-+    case VIRTIO_BLK_T_ZONE_REPORT:
-+        virtio_blk_handle_zone_report(req);
-+        break;
-+    case VIRTIO_BLK_T_ZONE_OPEN:
-+        virtio_blk_handle_zone_mgmt(req, BLK_ZO_OPEN);
-+        break;
-+    case VIRTIO_BLK_T_ZONE_CLOSE:
-+        virtio_blk_handle_zone_mgmt(req, BLK_ZO_CLOSE);
-+        break;
-+    case VIRTIO_BLK_T_ZONE_FINISH:
-+        virtio_blk_handle_zone_mgmt(req, BLK_ZO_FINISH);
-+        break;
-+    case VIRTIO_BLK_T_ZONE_RESET:
-+        virtio_blk_handle_zone_mgmt(req, BLK_ZO_RESET);
-+        break;
-+    case VIRTIO_BLK_T_ZONE_RESET_ALL:
-+        virtio_blk_handle_zone_mgmt(req, BLK_ZO_RESET_ALL);
-+        break;
-     case VIRTIO_BLK_T_SCSI_CMD:
-         virtio_blk_handle_scsi(req);
-         break;
-@@ -718,6 +1005,9 @@ static int virtio_blk_handle_request(VirtIOBlockReq *req, MultiReqBuffer *mrb)
-         virtio_blk_free_request(req);
-         break;
-     }
-+   case VIRTIO_BLK_T_ZONE_APPEND & ~VIRTIO_BLK_T_OUT:
-+       virtio_blk_handle_zone_append(req);
-+       break;
-     /*
-      * VIRTIO_BLK_T_DISCARD and VIRTIO_BLK_T_WRITE_ZEROES are defined with
-      * VIRTIO_BLK_T_OUT flag set. We masked this flag in the switch statement,
-@@ -917,6 +1207,7 @@ static void virtio_blk_update_config(VirtIODevice *vdev, uint8_t *config)
- {
-     VirtIOBlock *s = VIRTIO_BLK(vdev);
-     BlockConf *conf = &s->conf.conf;
-+    BlockDriverState *state = blk_bs(s->blk);
-     struct virtio_blk_config blkcfg;
-     uint64_t capacity;
-     int64_t length;
-@@ -976,6 +1267,31 @@ static void virtio_blk_update_config(VirtIODevice *vdev, uint8_t *config)
-         blkcfg.write_zeroes_may_unmap = 1;
-         virtio_stl_p(vdev, &blkcfg.max_write_zeroes_seg, 1);
-     }
-+#ifdef CONFIG_BLKZONED
-+    if (state->bl.zoned != BLK_Z_NONE) {
-+        switch (state->bl.zoned) {
-+        case BLK_Z_HM:
-+            blkcfg.zoned.model = VIRTIO_BLK_Z_HM;
-+            virtio_stl_p(vdev, &blkcfg.zoned.zone_sectors,
-+                         state->bl.zone_sectors);
-+            virtio_stl_p(vdev, &blkcfg.zoned.max_active_zones,
-+                         state->bl.max_active_zones);
-+            virtio_stl_p(vdev, &blkcfg.zoned.max_open_zones,
-+                         state->bl.max_open_zones);
-+            virtio_stl_p(vdev, &blkcfg.zoned.write_granularity, blk_size);
-+            virtio_stl_p(vdev, &blkcfg.zoned.max_append_sectors,
-+                         state->bl.max_append_sectors);
-+            break;
-+        case BLK_Z_HA:
-+            blkcfg.zoned.model = VIRTIO_BLK_Z_HA;
-+            break;
-+        default:
-+            blkcfg.zoned.model = VIRTIO_BLK_Z_NONE;
-+            virtio_error(vdev, "Invalid zoned model %x \n", (int)state->bl.zoned);
-+            break;
-+        }
-+    }
-+#endif
-     memcpy(config, &blkcfg, s->config_size);
- }
- 
-@@ -995,6 +1311,7 @@ static uint64_t virtio_blk_get_features(VirtIODevice *vdev, uint64_t features,
-                                         Error **errp)
- {
-     VirtIOBlock *s = VIRTIO_BLK(vdev);
-+    BlockDriverState *state = blk_bs(s->blk);
- 
-     /* Firstly sync all virtio-blk possible supported features */
-     features |= s->host_features;
-@@ -1003,6 +1320,12 @@ static uint64_t virtio_blk_get_features(VirtIODevice *vdev, uint64_t features,
-     virtio_add_feature(&features, VIRTIO_BLK_F_GEOMETRY);
-     virtio_add_feature(&features, VIRTIO_BLK_F_TOPOLOGY);
-     virtio_add_feature(&features, VIRTIO_BLK_F_BLK_SIZE);
-+    if (state->bl.zoned != BLK_Z_NONE) {
-+        virtio_add_feature(&s->host_features, VIRTIO_BLK_F_ZONED);
-+        if (state->bl.zoned == BLK_Z_HM) {
-+            virtio_clear_feature(&features, VIRTIO_BLK_F_DISCARD);
-+        }
-+    }
-     if (virtio_has_feature(features, VIRTIO_F_VERSION_1)) {
-         if (virtio_has_feature(s->host_features, VIRTIO_BLK_F_SCSI)) {
-             error_setg(errp, "Please set scsi=off for virtio-blk devices in order to use virtio 1.0");
-@@ -1286,6 +1609,9 @@ static Property virtio_blk_properties[] = {
- #ifdef __linux__
-     DEFINE_PROP_BIT64("scsi", VirtIOBlock, host_features,
-                       VIRTIO_BLK_F_SCSI, false),
-+#endif
-+#ifdef CONFIG_BLKZONED
-+    DEFINE_PROP_BIT64("zoned", VirtIOBlock, host_features, VIRTIO_BLK_F_ZONED, true),
- #endif
-     DEFINE_PROP_BIT("request-merging", VirtIOBlock, conf.request_merging, 0,
-                     true),
+ MAINTAINERS                        |    6 +-
+ hw/arm/xlnx-versal-virt.c          |   45 +
+ hw/arm/xlnx-versal.c               |   37 +
+ hw/net/can/meson.build             |    1 +
+ hw/net/can/trace-events            |    7 +
+ hw/net/can/xlnx-versal-canfd.c     | 2157 ++++++++++++++++++++++++++++
+ include/hw/arm/xlnx-versal.h       |   12 +
+ include/hw/net/xlnx-versal-canfd.h |   92 ++
+ tests/qtest/meson.build            |    1 +
+ tests/qtest/xlnx-canfd-test.c      |  421 ++++++
+ 10 files changed, 2776 insertions(+), 3 deletions(-)
+ create mode 100644 hw/net/can/xlnx-versal-canfd.c
+ create mode 100644 include/hw/net/xlnx-versal-canfd.h
+ create mode 100644 tests/qtest/xlnx-canfd-test.c
+
 -- 
-2.37.3
+2.17.1
 
 
