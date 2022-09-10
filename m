@@ -2,75 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D40645B436B
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Sep 2022 02:39:14 +0200 (CEST)
-Received: from localhost ([::1]:46134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B23A55B4371
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Sep 2022 02:51:00 +0200 (CEST)
+Received: from localhost ([::1]:34136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWoWf-0007TB-J6
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 20:39:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48930)
+	id 1oWoi2-0002tZ-Nn
+	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 20:50:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oWoVL-00066a-2l
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 20:37:51 -0400
-Received: from mail-qv1-xf30.google.com ([2607:f8b0:4864:20::f30]:37750)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oWoVJ-0000k5-1t
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 20:37:50 -0400
-Received: by mail-qv1-xf30.google.com with SMTP id y9so2513262qvo.4
- for <qemu-devel@nongnu.org>; Fri, 09 Sep 2022 17:37:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=S0dzynkCb17kWFV2h4Bc97d5h6dCiWyaQHqPEgBNMvA=;
- b=eOU/bWMHZ41IYmgAv6SzKLGb6mCcXFjN1tFzX6xGhawN01l7iiBf0Rf31HqzJ91GTQ
- rAlzkJqwDR+OXx1D0U/lvguLcvOlijUkd3QoWwozGCW3Nc87PwX2wkCDVmS1HfdMZhvl
- e62p9o7tqkSxY6qA8ZqHt/rSD5743eVEtnwYzEV/uvP58DynkMkGLL/v50QkM1tUYdYh
- x3I1BOtmiDwKEHVdLFLmxBV3R/+Dzr2sBYELMknSdLV8zOO5YDMXyOtUud65t/AiO51I
- 7he0S3oYMzqAS3OYmbdftazID7c+SCmHVrmCMBha6qzxAEmlhE20Exx9cYMpsBhLughz
- K+3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=S0dzynkCb17kWFV2h4Bc97d5h6dCiWyaQHqPEgBNMvA=;
- b=vJ8+CjGjgEw6k1MaxS7cecX9VaVLjUCJ8EQ8rbvl8A0FH620TX+oKtZTUrvGLaFMvb
- EjJIFPEYOmLInzIVGmDPdTteBmDueSFhR6e86uGSM6kE/T7BlZgKGyMCHTXGE1BZlTv+
- vD4/zCbXhq3wWHNzKXxfciowZT+4w4MKB9l+n75d4UOEh6w5OtV9LJ9QUJE6tL+LeNaR
- 3aEDWbYo0Vcz30eKue18A1C/Yd3OZKh2e/t9J8msnJ/cdThzXiFaelGQa+E8eV2Fwl1m
- D8jvk32hAsMRj3P10joEVApYdJfGNPtzc9DBaf0F1Y1+S43xFy3ZyAtaX7WA2W5eovHi
- jfqQ==
-X-Gm-Message-State: ACgBeo0RRvMY3oIC2VNdvdVYK8yGQXctxUyxdMOqUS5LxUNHl1YUyrKD
- Q+qhaW3C1pLZLnSnZk+uNRjwEoEGwaOMTRsYmhtdQElR
-X-Google-Smtp-Source: AA6agR5n0tlT0tE2gsGvXX2wXpFEY5zytWWXpFf6Bv07nYi61hvl0td3EnHUpe6CYqZJtAz+6hH3Ni3ZDNMXmck8nVU=
-X-Received: by 2002:a0c:810f:0:b0:47b:299a:56d7 with SMTP id
- 15-20020a0c810f000000b0047b299a56d7mr14473742qvc.12.1662770267968; Fri, 09
- Sep 2022 17:37:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <nicolinc@nvidia.com>)
+ id 1oWofN-0001AD-Rf
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 20:48:14 -0400
+Received: from mail-bn7nam10on20615.outbound.protection.outlook.com
+ ([2a01:111:f400:7e8a::615]:46962
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nicolinc@nvidia.com>)
+ id 1oWofL-0001zw-9S
+ for qemu-devel@nongnu.org; Fri, 09 Sep 2022 20:48:13 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eHZRMj0WFgdRZS/ZlBWAcqEa/WOt+0rt50e6SQEa02OVHEGV7/kghpSS2xaHut8x3+kE8M8gux4XKZiRmMP53bMvoTQ/CbK/8EBl7fq1KondrswaAbUApRQRw+j9YRqDj+6BXhrmOycR0m2fmbC+xtEpYh7GMgMTgmcyg9wArv/M8gR/Nkghygz+0eZa1ZmKj+2uRoEGraMEf7cSd4nbQTz0b4tR0DRR7Siw/h+KlWeeJAyhCDFC6AVxOOTed9ktz2v9R9KjjO41M1VHB2XGXxHnxiAoYLb67/hDGVW4Ny460vncLo4/IyA8a5fFRodk7Ty+YF8Vir30OCuns+iuag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3mh5uFP/HSoLwvGAwVYOUbF43kEUUh6XIu8AOcjfpu8=;
+ b=hrjAZK+Ef3E31KSgt4gKe+b4fitEz7DGat7ObAY8kAqScXWMQjiKeC2yL8+W3VQY4TOfVR8Fdzb6umsN8WI8YoJj2rlG/Nn5mRI7zcM4/TM053WBbWix0htsygA0HE7NfeYMxghBAmXmg6LNkLxkJWkpYVqoFzsTE3aI+PTb2YgdvngiNqV+lBLF8GmVJDN47rlm8f2CutfvkjmG0dEIySCLoPR4xBHOpBQk43Pu0RmvQkfDLS3S1rEyRv9EvjfRuF5cbwE9EAn8X6QBTAGyeDLpsTzAQYuLFjWAIFdXxjd/xm4om30nq7FiTkP6aGJj1tcDsCIqU4Ry6sLuaCaPZg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.234) smtp.rcpttodomain=nongnu.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3mh5uFP/HSoLwvGAwVYOUbF43kEUUh6XIu8AOcjfpu8=;
+ b=gQMhhI9ExJoOFL2uOu2OreFhEZ6wSioNF1T1Lt/hurCYOViUXS7drCYAwE6ZejGT3Q93ZL5+Ow+k1SH6Lc6/HoyE6VaNErUajuZ/muOmVunpZJDCCMWNPbUFN7/HKg9JfrteRhC92705ygf7L0ytlVfuXAksyH01IpCZ8C/rOiu2HuKgambYzdK0G/kq7e4spe2WQE5rWnI+JXIkoVQ6ac3Dy+gciaFH+yAgCS1tCDwytPvr/EvXoSmfyQInuFgEA2X31GEYBjUCTRJEItwQa1Hf7+uE3/eCIaxo+tdvFhI+4n2NVREdmxhhKgPhQhAija3Y9L7ZH0FjOKGJEmvY/g==
+Received: from DM6PR02CA0096.namprd02.prod.outlook.com (2603:10b6:5:1f4::37)
+ by BL1PR12MB5287.namprd12.prod.outlook.com (2603:10b6:208:317::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.12; Sat, 10 Sep
+ 2022 00:43:04 +0000
+Received: from DM6NAM11FT077.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:1f4:cafe::9) by DM6PR02CA0096.outlook.office365.com
+ (2603:10b6:5:1f4::37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.15 via Frontend
+ Transport; Sat, 10 Sep 2022 00:43:04 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.234)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.234 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.234; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (12.22.5.234) by
+ DM6NAM11FT077.mail.protection.outlook.com (10.13.173.147) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5612.13 via Frontend Transport; Sat, 10 Sep 2022 00:43:04 +0000
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by DRHQMAIL101.nvidia.com
+ (10.27.9.10) with Microsoft SMTP Server (TLS) id 15.0.1497.38;
+ Sat, 10 Sep 2022 00:43:03 +0000
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail204.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Fri, 9 Sep 2022
+ 17:43:03 -0700
+Received: from Asurada-Nvidia.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server id 15.2.986.29 via Frontend
+ Transport; Fri, 9 Sep 2022 17:43:02 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: <alex.williamson@redhat.com>
+CC: <qemu-devel@nongnu.org>, <kwankhede@nvidia.com>, <avihaih@nvidia.com>,
+ <shayd@nvidia.com>, <jgg@nvidia.com>
+Subject: [PATCH] vfio/common: Do not g_free in vfio_get_iommu_info
+Date: Fri, 9 Sep 2022 17:42:45 -0700
+Message-ID: <20220910004245.2878-1-nicolinc@nvidia.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20220908132817.1831008-1-bmeng.cn@gmail.com>
- <20220908132817.1831008-4-bmeng.cn@gmail.com>
- <556496df-4362-6780-8379-e14bf4269e3f@ilande.co.uk>
-In-Reply-To: <556496df-4362-6780-8379-e14bf4269e3f@ilande.co.uk>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sat, 10 Sep 2022 08:37:36 +0800
-Message-ID: <CAEUhbmVmKhJJk0pQcVJKryie+V4uZEznZCu0dzjftYCycBtD8w@mail.gmail.com>
-Subject: Re: [PATCH 3/7] scripts/nsis.py: Automatically package required DLLs
- of QEMU executables
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, 
- Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f30;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf30.google.com
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT077:EE_|BL1PR12MB5287:EE_
+X-MS-Office365-Filtering-Correlation-Id: f121158c-68e4-475c-d613-08da92c56bf3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: TJp9Q7Xy54u44OfjRAv2koaIb5oNFXDvFHi+PHr0ygYFR5+1QywxsHqI9HStWXIlSrdHS83QXCgb79r/tZ++H7hxl4eeXL5xcmIGs50mlCnq2UTggfRw8eOrTFZ8mbMSBlAwIgC2JT2Pmz0yVfp0eVoBp3XcJye/pD9BKZcVMWiGobh00m+eduBGBZGRovlCO3xt5Y6ake/sCRLp8FN9lGSbnLYDRn8aZAMjcFwtGgaxbPlmKOpt0ZXtcfSMqzoFPri1A4SsVuoxELAYcrdFKskDNS+PgQHrWvJQT3pjtVYJ+fQblLXaE9PgutHdmoYn8j4Eo1mdm/lLejtcpRxQvEnWcFGSa1nau8AW5DD94lrn0aaM1SP7qU4cCy5O4awwCfZv5DjPBCP11fLE16iPcGMHwO17NbKS3pWQrBtOKdLFm9XJGUyfQ5AT3+WJk96pPlzz0MDiPWmWwwDzZ906bsv1kS4NkCaDJUx9oIYlPxnggvludEH/acoLuzFymAv7j5YPhbixSMnI3KUgAzLdTsw87klUeEpN2/MteGTuIAl3yqdMi3CDQLyWHisDPDFg9FIzb375T0rLVUQStHGDTFv7vBg/2/O483D3c7DppXOeFa0hVFBNSNuYc6E8Omb/OLBmz4YMyjM0tQXeR+5hPaAQgI1WJiK2S1kU3dTggb739VBRLj+nk4uI8xiweX2EC3t3IIgklMg2fG4RzPBBk3q/1uSRTpYC9qaI7eGtGzA2E6MTUdfaFzX85cvLa3b79+QhGcu8N/SyPBVdaD8gD2WAlUuhUb61gI70ct/60gA=
+X-Forefront-Antispam-Report: CIP:12.22.5.234; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
+ SFS:(13230016)(4636009)(396003)(39860400002)(376002)(346002)(136003)(36840700001)(40470700004)(46966006)(26005)(86362001)(356005)(82310400005)(41300700001)(478600001)(7696005)(107886003)(6666004)(40460700003)(36860700001)(336012)(1076003)(186003)(2616005)(81166007)(426003)(47076005)(83380400001)(82740400003)(2906002)(36756003)(40480700001)(5660300002)(4326008)(70586007)(70206006)(8676002)(8936002)(316002)(6916009)(54906003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2022 00:43:04.2138 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f121158c-68e4-475c-d613-08da92c56bf3
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.234];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT077.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5287
+Received-SPF: softfail client-ip=2a01:111:f400:7e8a::615;
+ envelope-from=nicolinc@nvidia.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,138 +124,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Sep 10, 2022 at 12:49 AM Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
->
-> On 08/09/2022 14:28, Bin Meng wrote:
->
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > At present packaging the required DLLs of QEMU executables is a
-> > manual process, and error prone.
-> >
-> > Actually build/config-host.mak contains a GLIB_BINDIR variable
-> > which is the directory where glib and other DLLs reside. This
-> > works for both Windows native build and cross-build on Linux.
-> > We can use it as the search directory for DLLs and automate
-> > the whole DLL packaging process.
-> >
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > ---
-> >
-> >   meson.build     |  1 +
-> >   scripts/nsis.py | 46 ++++++++++++++++++++++++++++++++++++++++++----
-> >   2 files changed, 43 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/meson.build b/meson.build
-> > index c2adb7caf4..4c03850f9f 100644
-> > --- a/meson.build
-> > +++ b/meson.build
-> > @@ -3657,6 +3657,7 @@ if host_machine.system() == 'windows'
-> >       '@OUTPUT@',
-> >       get_option('prefix'),
-> >       meson.current_source_dir(),
-> > +    config_host['GLIB_BINDIR'],
-> >       host_machine.cpu(),
-> >       '--',
-> >       '-DDISPLAYVERSION=' + meson.project_version(),
-> > diff --git a/scripts/nsis.py b/scripts/nsis.py
-> > index baa6ef9594..03ed7608a2 100644
-> > --- a/scripts/nsis.py
-> > +++ b/scripts/nsis.py
-> > @@ -18,12 +18,36 @@ def signcode(path):
-> >           return
-> >       subprocess.run([cmd, path])
-> >
-> > +def find_deps(exe_or_dll, search_path, analyzed_deps):
-> > +    deps = [exe_or_dll]
-> > +    output = subprocess.check_output(["objdump", "-p", exe_or_dll], text=True)
-> > +    output = output.split("\n")
-> > +    for line in output:
-> > +        if not line.startswith("\tDLL Name: "):
-> > +            continue
-> > +
-> > +        dep = line.split("DLL Name: ")[1].strip()
-> > +        if dep in analyzed_deps:
-> > +            continue
-> > +
-> > +        dll = os.path.join(search_path, dep)
-> > +        if not os.path.exists(dll):
-> > +            # assume it's a Windows provided dll, skip it
-> > +            continue
-> > +
-> > +        analyzed_deps.add(dep)
-> > +        # locate the dll dependencies recursively
-> > +        rdeps = find_deps(dll, search_path, analyzed_deps)
-> > +        deps.extend(rdeps)
-> > +
-> > +    return deps
-> >
-> >   def main():
-> >       parser = argparse.ArgumentParser(description="QEMU NSIS build helper.")
-> >       parser.add_argument("outfile")
-> >       parser.add_argument("prefix")
-> >       parser.add_argument("srcdir")
-> > +    parser.add_argument("dlldir")
-> >       parser.add_argument("cpu")
-> >       parser.add_argument("nsisargs", nargs="*")
-> >       args = parser.parse_args()
-> > @@ -63,9 +87,26 @@ def main():
-> >                   !insertmacro MUI_DESCRIPTION_TEXT ${{Section_{0}}} "{1}"
-> >                   """.format(arch, desc))
-> >
-> > +        search_path = args.dlldir
-> > +        print("Searching '%s' for the dependent dlls ..." % search_path)
-> > +        dlldir = os.path.join(destdir + prefix, "dll")
-> > +        os.mkdir(dlldir)
-> > +
-> >           for exe in glob.glob(os.path.join(destdir + prefix, "*.exe")):
-> >               signcode(exe)
-> >
-> > +            # find all dll dependencies
-> > +            deps = set(find_deps(exe, search_path, set()))
-> > +            deps.remove(exe)
-> > +
-> > +            # copy all dlls to the DLLDIR
-> > +            for dep in deps:
-> > +                dllfile = os.path.join(dlldir, os.path.basename(dep))
-> > +                if (os.path.exists(dllfile)):
-> > +                    continue
-> > +                print("Copying '%s' to '%s'" % (dep, dllfile))
-> > +                shutil.copy(dep, dllfile)
-> > +
-> >           makensis = [
-> >               "makensis",
-> >               "-V2",
-> > @@ -73,12 +114,9 @@ def main():
-> >               "-DSRCDIR=" + args.srcdir,
-> >               "-DBINDIR=" + destdir + prefix,
-> >           ]
-> > -        dlldir = "w32"
-> >           if args.cpu == "x86_64":
-> > -            dlldir = "w64"
-> >               makensis += ["-DW64"]
-> > -        if os.path.exists(os.path.join(args.srcdir, "dll")):
-> > -            makensis += ["-DDLLDIR={0}/dll/{1}".format(args.srcdir, dlldir)]
-> > +        makensis += ["-DDLLDIR=" + dlldir]
-> >
-> >           makensis += ["-DOUTFILE=" + args.outfile] + args.nsisargs
-> >           subprocess.run(makensis)
->
-> FWIW I wrote a similar script a while back to help package a custom Windows build for
-> a client, however I used ldd instead of objdump since it provided the full paths for
-> DLLs installed in the msys2/mingw-w64 environment via pacman which were outside the
-> QEMU build tree.
->
+Its caller vfio_connect_container() assigns a default value
+to info->iova_pgsizes, even if vfio_get_iommu_info() fails.
+This would result in a "Segmentation fault" error, when the
+VFIO_IOMMU_GET_INFO ioctl errors out.
 
-Yep, ldd also works, but only on Windows native build. objdump can
-work on both Windows native and Linux cross builds.
+Since the caller has g_free already, drop the g_free in its
+rollback routine and add a line of comments to highlight it.
 
-> Once the complete list of DLLs was obtained, it was simple matter of filtering out
-> those DLLs that started with the %WINDIR% prefix before copying them to the final
-> distribution directory.
->
+Fixes: 87ea529c50 ("vfio: Get migration capability flags for container")
+Cc: Kirti Wankhede <kwankhede@nvidia.com>
+Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
+---
+ hw/vfio/common.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Regards,
-Bin
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index ace9562a9b..51b2e05c76 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -1940,6 +1940,7 @@ static int vfio_init_container(VFIOContainer *container, int group_fd,
+     return 0;
+ }
+ 
++/* The caller is responsible for g_free(*info) */
+ static int vfio_get_iommu_info(VFIOContainer *container,
+                                struct vfio_iommu_type1_info **info)
+ {
+@@ -1951,8 +1952,6 @@ again:
+     (*info)->argsz = argsz;
+ 
+     if (ioctl(container->fd, VFIO_IOMMU_GET_INFO, *info)) {
+-        g_free(*info);
+-        *info = NULL;
+         return -errno;
+     }
+ 
+-- 
+2.17.1
+
 
