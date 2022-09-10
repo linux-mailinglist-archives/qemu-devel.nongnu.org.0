@@ -2,113 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B23A55B4371
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Sep 2022 02:51:00 +0200 (CEST)
-Received: from localhost ([::1]:34136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AD255B4432
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Sep 2022 07:12:55 +0200 (CEST)
+Received: from localhost ([::1]:47616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWoi2-0002tZ-Nn
-	for lists+qemu-devel@lfdr.de; Fri, 09 Sep 2022 20:50:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59278)
+	id 1oWsnV-0004la-Rg
+	for lists+qemu-devel@lfdr.de; Sat, 10 Sep 2022 01:12:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nicolinc@nvidia.com>)
- id 1oWofN-0001AD-Rf
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 20:48:14 -0400
-Received: from mail-bn7nam10on20615.outbound.protection.outlook.com
- ([2a01:111:f400:7e8a::615]:46962
- helo=NAM10-BN7-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nicolinc@nvidia.com>)
- id 1oWofL-0001zw-9S
- for qemu-devel@nongnu.org; Fri, 09 Sep 2022 20:48:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eHZRMj0WFgdRZS/ZlBWAcqEa/WOt+0rt50e6SQEa02OVHEGV7/kghpSS2xaHut8x3+kE8M8gux4XKZiRmMP53bMvoTQ/CbK/8EBl7fq1KondrswaAbUApRQRw+j9YRqDj+6BXhrmOycR0m2fmbC+xtEpYh7GMgMTgmcyg9wArv/M8gR/Nkghygz+0eZa1ZmKj+2uRoEGraMEf7cSd4nbQTz0b4tR0DRR7Siw/h+KlWeeJAyhCDFC6AVxOOTed9ktz2v9R9KjjO41M1VHB2XGXxHnxiAoYLb67/hDGVW4Ny460vncLo4/IyA8a5fFRodk7Ty+YF8Vir30OCuns+iuag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3mh5uFP/HSoLwvGAwVYOUbF43kEUUh6XIu8AOcjfpu8=;
- b=hrjAZK+Ef3E31KSgt4gKe+b4fitEz7DGat7ObAY8kAqScXWMQjiKeC2yL8+W3VQY4TOfVR8Fdzb6umsN8WI8YoJj2rlG/Nn5mRI7zcM4/TM053WBbWix0htsygA0HE7NfeYMxghBAmXmg6LNkLxkJWkpYVqoFzsTE3aI+PTb2YgdvngiNqV+lBLF8GmVJDN47rlm8f2CutfvkjmG0dEIySCLoPR4xBHOpBQk43Pu0RmvQkfDLS3S1rEyRv9EvjfRuF5cbwE9EAn8X6QBTAGyeDLpsTzAQYuLFjWAIFdXxjd/xm4om30nq7FiTkP6aGJj1tcDsCIqU4Ry6sLuaCaPZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.234) smtp.rcpttodomain=nongnu.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3mh5uFP/HSoLwvGAwVYOUbF43kEUUh6XIu8AOcjfpu8=;
- b=gQMhhI9ExJoOFL2uOu2OreFhEZ6wSioNF1T1Lt/hurCYOViUXS7drCYAwE6ZejGT3Q93ZL5+Ow+k1SH6Lc6/HoyE6VaNErUajuZ/muOmVunpZJDCCMWNPbUFN7/HKg9JfrteRhC92705ygf7L0ytlVfuXAksyH01IpCZ8C/rOiu2HuKgambYzdK0G/kq7e4spe2WQE5rWnI+JXIkoVQ6ac3Dy+gciaFH+yAgCS1tCDwytPvr/EvXoSmfyQInuFgEA2X31GEYBjUCTRJEItwQa1Hf7+uE3/eCIaxo+tdvFhI+4n2NVREdmxhhKgPhQhAija3Y9L7ZH0FjOKGJEmvY/g==
-Received: from DM6PR02CA0096.namprd02.prod.outlook.com (2603:10b6:5:1f4::37)
- by BL1PR12MB5287.namprd12.prod.outlook.com (2603:10b6:208:317::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.12; Sat, 10 Sep
- 2022 00:43:04 +0000
-Received: from DM6NAM11FT077.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:1f4:cafe::9) by DM6PR02CA0096.outlook.office365.com
- (2603:10b6:5:1f4::37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.15 via Frontend
- Transport; Sat, 10 Sep 2022 00:43:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.234)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.234 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.234; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.234) by
- DM6NAM11FT077.mail.protection.outlook.com (10.13.173.147) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5612.13 via Frontend Transport; Sat, 10 Sep 2022 00:43:04 +0000
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by DRHQMAIL101.nvidia.com
- (10.27.9.10) with Microsoft SMTP Server (TLS) id 15.0.1497.38;
- Sat, 10 Sep 2022 00:43:03 +0000
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail204.nvidia.com
- (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Fri, 9 Sep 2022
- 17:43:03 -0700
-Received: from Asurada-Nvidia.nvidia.com (10.127.8.10) by mail.nvidia.com
- (10.129.68.6) with Microsoft SMTP Server id 15.2.986.29 via Frontend
- Transport; Fri, 9 Sep 2022 17:43:02 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: <alex.williamson@redhat.com>
-CC: <qemu-devel@nongnu.org>, <kwankhede@nvidia.com>, <avihaih@nvidia.com>,
- <shayd@nvidia.com>, <jgg@nvidia.com>
-Subject: [PATCH] vfio/common: Do not g_free in vfio_get_iommu_info
-Date: Fri, 9 Sep 2022 17:42:45 -0700
-Message-ID: <20220910004245.2878-1-nicolinc@nvidia.com>
-X-Mailer: git-send-email 2.17.1
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1oWskk-000201-Js
+ for qemu-devel@nongnu.org; Sat, 10 Sep 2022 01:10:04 -0400
+Received: from mail-ua1-x931.google.com ([2607:f8b0:4864:20::931]:45642)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1oWski-0002SG-V9
+ for qemu-devel@nongnu.org; Sat, 10 Sep 2022 01:10:02 -0400
+Received: by mail-ua1-x931.google.com with SMTP id a18so1320058uak.12
+ for <qemu-devel@nongnu.org>; Fri, 09 Sep 2022 22:10:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=UHaia8dj64JKL3YKf1HjXplk0avGsF74GpK2v+vt6fE=;
+ b=Y1WfD224Dqwe2CVBUTKK6Jsb51xHDYbwQ0AtK2wNUiOpLz3ePZtdkzJzZGcDzY16kv
+ b8pZpU3aNnFTc0G6lAoAAlAHXmPxqV6EPO+B6xIfAL9zLOmFut/YlGCbDm1oLJ9ouSmf
+ uBX13anfEr9R2ToLusJ/tZkho0Kza5UfEYCoyG3dQiAOXzEZw89YPPo9mIvbqnssIIpE
+ sYvCOtshgBDAZgajNdQcCGzdxFY2h+AFBIx4Vypa2JffR/jxqpxa2PUOH/uIfpTWy+LW
+ 6fkGvCSU+S2UZgC7YgnfmIUTH+MR1ZTkblQE0Z9PiTI6UVga3fEdm6nv0SUXvfvwNLGe
+ 9qkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=UHaia8dj64JKL3YKf1HjXplk0avGsF74GpK2v+vt6fE=;
+ b=cbOdmKwPnN8CHwvmMQoO5iXBmzx+tRtzU9X9do59ko818MxIKyjKTlvIxR8JkXWy/w
+ hnvm3IFf968KkQyogIDQXTZuGoq6c0pbu+0hD71C3vu+rmEk2I5Q8D2gI5KiJBrx3TrT
+ eRCnZTVbl+rjBCi/Rwpujf3FBkig87HaOgtjOtp2CQRKunHCf5WDIDQV22rg/kgGir9S
+ gsaSiU322LnJYpsMHHhvo/Tdp+bRYEKAwKInIl0Jx3117hrGHJIX6JGInKJnWev2lWUR
+ yq9tvZg1RpvdKCVWf14CRa/NBWI70oRyEmlC4eHxQuVFmVnqbksD7jYvmQx5qA6cSsN0
+ 7NyA==
+X-Gm-Message-State: ACgBeo0HBaPeg77kgNaywukJihIZFxdDTSb4laepxkJBXqFnk/fdGelR
+ CIuAzIfkSgEzJtV6qBaY6DXPlBCxmOwNXWY5BGU=
+X-Google-Smtp-Source: AA6agR61kjrt03clpk+8fMgyLKg932Cu8OBFoDfh3zJVBGBTQyxBVqHvBP7nvREI8kRPKnF05YB6XYniBT0rxwjq+JQ=
+X-Received: by 2002:ab0:54d6:0:b0:39f:8376:cdb2 with SMTP id
+ q22-20020ab054d6000000b0039f8376cdb2mr6129642uaa.75.1662786599420; Fri, 09
+ Sep 2022 22:09:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT077:EE_|BL1PR12MB5287:EE_
-X-MS-Office365-Filtering-Correlation-Id: f121158c-68e4-475c-d613-08da92c56bf3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TJp9Q7Xy54u44OfjRAv2koaIb5oNFXDvFHi+PHr0ygYFR5+1QywxsHqI9HStWXIlSrdHS83QXCgb79r/tZ++H7hxl4eeXL5xcmIGs50mlCnq2UTggfRw8eOrTFZ8mbMSBlAwIgC2JT2Pmz0yVfp0eVoBp3XcJye/pD9BKZcVMWiGobh00m+eduBGBZGRovlCO3xt5Y6ake/sCRLp8FN9lGSbnLYDRn8aZAMjcFwtGgaxbPlmKOpt0ZXtcfSMqzoFPri1A4SsVuoxELAYcrdFKskDNS+PgQHrWvJQT3pjtVYJ+fQblLXaE9PgutHdmoYn8j4Eo1mdm/lLejtcpRxQvEnWcFGSa1nau8AW5DD94lrn0aaM1SP7qU4cCy5O4awwCfZv5DjPBCP11fLE16iPcGMHwO17NbKS3pWQrBtOKdLFm9XJGUyfQ5AT3+WJk96pPlzz0MDiPWmWwwDzZ906bsv1kS4NkCaDJUx9oIYlPxnggvludEH/acoLuzFymAv7j5YPhbixSMnI3KUgAzLdTsw87klUeEpN2/MteGTuIAl3yqdMi3CDQLyWHisDPDFg9FIzb375T0rLVUQStHGDTFv7vBg/2/O483D3c7DppXOeFa0hVFBNSNuYc6E8Omb/OLBmz4YMyjM0tQXeR+5hPaAQgI1WJiK2S1kU3dTggb739VBRLj+nk4uI8xiweX2EC3t3IIgklMg2fG4RzPBBk3q/1uSRTpYC9qaI7eGtGzA2E6MTUdfaFzX85cvLa3b79+QhGcu8N/SyPBVdaD8gD2WAlUuhUb61gI70ct/60gA=
-X-Forefront-Antispam-Report: CIP:12.22.5.234; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(39860400002)(376002)(346002)(136003)(36840700001)(40470700004)(46966006)(26005)(86362001)(356005)(82310400005)(41300700001)(478600001)(7696005)(107886003)(6666004)(40460700003)(36860700001)(336012)(1076003)(186003)(2616005)(81166007)(426003)(47076005)(83380400001)(82740400003)(2906002)(36756003)(40480700001)(5660300002)(4326008)(70586007)(70206006)(8676002)(8936002)(316002)(6916009)(54906003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2022 00:43:04.2138 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f121158c-68e4-475c-d613-08da92c56bf3
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.234];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT077.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5287
-Received-SPF: softfail client-ip=2a01:111:f400:7e8a::615;
- envelope-from=nicolinc@nvidia.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
+References: <20220908132817.1831008-1-bmeng.cn@gmail.com>
+ <20220908132817.1831008-7-bmeng.cn@gmail.com>
+ <85f915c4-938c-8a23-a4c2-01fba0f87b63@redhat.com>
+ <CAEUhbmVNNuSRgjHiewKhqOifTF2_Rzn+8uUNphay6aXRYHg=kw@mail.gmail.com>
+In-Reply-To: <CAEUhbmVNNuSRgjHiewKhqOifTF2_Rzn+8uUNphay6aXRYHg=kw@mail.gmail.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Sat, 10 Sep 2022 13:09:49 +0800
+Message-ID: <CAE2XoE8ewwQ+5CgS8rDYemnu9+3BqZcZYMG5Y46rK5r6zOTAog@mail.gmail.com>
+Subject: Re: [PATCH 6/7] .gitlab-ci.d/windows.yml: Unify the prerequisite
+ packages
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: Thomas Huth <thuth@redhat.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000009887a305e84bac02"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::931;
+ envelope-from=luoyonggang@gmail.com; helo=mail-ua1-x931.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -121,46 +89,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: luoyonggang@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Its caller vfio_connect_container() assigns a default value
-to info->iova_pgsizes, even if vfio_get_iommu_info() fails.
-This would result in a "Segmentation fault" error, when the
-VFIO_IOMMU_GET_INFO ioctl errors out.
+--0000000000009887a305e84bac02
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Since the caller has g_free already, drop the g_free in its
-rollback routine and add a line of comments to highlight it.
+How about using github actions, I tried before and it's running fast, there
+is no resource restriction.
+Just don't know how to trigger it through gitlab, if that's possible, then
+it's would be good
 
-Fixes: 87ea529c50 ("vfio: Get migration capability flags for container")
-Cc: Kirti Wankhede <kwankhede@nvidia.com>
-Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
----
- hw/vfio/common.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On Sat, Sep 10, 2022 at 8:33 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Sat, Sep 10, 2022 at 12:32 AM Thomas Huth <thuth@redhat.com> wrote:
+> >
+> > On 08/09/2022 15.28, Bin Meng wrote:
+> > > From: Bin Meng <bin.meng@windriver.com>
+> > >
+> > > At present the prerequisite packages for 64-bit and 32-bit builds
+> > > are slightly different. Let's use the same packages for both.
+> >
+> > Not sure whether that's a good idea ... I did that on purpose to save
+some
+> > few time during compilation (since the Windows jobs are running very
+long
+> > already) ... did you check whether it makes a difference in the run
+time now?
+> >
+>
+> Not much difference on the build time. Actually I found after we
+> switched to single thread build the time did not increase too.
+>
+> One side note regarding the gitlab shared runner:
+>
+> It seems the shared runner Windows VM is quite slow. Is it possible to
+> get a faster VM externally?
+>
+> Regards,
+> Bin
+>
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index ace9562a9b..51b2e05c76 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -1940,6 +1940,7 @@ static int vfio_init_container(VFIOContainer *container, int group_fd,
-     return 0;
- }
- 
-+/* The caller is responsible for g_free(*info) */
- static int vfio_get_iommu_info(VFIOContainer *container,
-                                struct vfio_iommu_type1_info **info)
- {
-@@ -1951,8 +1952,6 @@ again:
-     (*info)->argsz = argsz;
- 
-     if (ioctl(container->fd, VFIO_IOMMU_GET_INFO, *info)) {
--        g_free(*info);
--        *info = NULL;
-         return -errno;
-     }
- 
--- 
-2.17.1
 
+--
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
+
+--0000000000009887a305e84bac02
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">How about using github actions, I tried before and it&#39;=
+s running fast, there is no resource restriction.<br>Just don&#39;t know ho=
+w to trigger it through gitlab, if that&#39;s possible, then it&#39;s would=
+ be good<br><br>On Sat, Sep 10, 2022 at 8:33 AM Bin Meng &lt;<a href=3D"mai=
+lto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; wrote:<br>&gt;<br>&gt; O=
+n Sat, Sep 10, 2022 at 12:32 AM Thomas Huth &lt;<a href=3D"mailto:thuth@red=
+hat.com">thuth@redhat.com</a>&gt; wrote:<br>&gt; &gt;<br>&gt; &gt; On 08/09=
+/2022 15.28, Bin Meng wrote:<br>&gt; &gt; &gt; From: Bin Meng &lt;<a href=
+=3D"mailto:bin.meng@windriver.com">bin.meng@windriver.com</a>&gt;<br>&gt; &=
+gt; &gt;<br>&gt; &gt; &gt; At present the prerequisite packages for 64-bit =
+and 32-bit builds<br>&gt; &gt; &gt; are slightly different. Let&#39;s use t=
+he same packages for both.<br>&gt; &gt;<br>&gt; &gt; Not sure whether that&=
+#39;s a good idea ... I did that on purpose to save some<br>&gt; &gt; few t=
+ime during compilation (since the Windows jobs are running very long<br>&gt=
+; &gt; already) ... did you check whether it makes a difference in the run =
+time now?<br>&gt; &gt;<br>&gt;<br>&gt; Not much difference on the build tim=
+e. Actually I found after we<br>&gt; switched to single thread build the ti=
+me did not increase too.<br>&gt;<br>&gt; One side note regarding the gitlab=
+ shared runner:<br>&gt;<br>&gt; It seems the shared runner Windows VM is qu=
+ite slow. Is it possible to<br>&gt; get a faster VM externally?<br>&gt;<br>=
+&gt; Regards,<br>&gt; Bin<br>&gt;<br><br><br>--<br>=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br=
+>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo<br></div>
+
+--0000000000009887a305e84bac02--
 
