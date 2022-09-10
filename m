@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D343F5B451C
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Sep 2022 10:10:44 +0200 (CEST)
-Received: from localhost ([::1]:57898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D16785B452B
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Sep 2022 10:12:55 +0200 (CEST)
+Received: from localhost ([::1]:53504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWvZb-0006Bm-W9
-	for lists+qemu-devel@lfdr.de; Sat, 10 Sep 2022 04:10:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50462)
+	id 1oWvbi-0000bU-WB
+	for lists+qemu-devel@lfdr.de; Sat, 10 Sep 2022 04:12:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
- id 1oWtk9-0005Qv-M6; Sat, 10 Sep 2022 02:13:29 -0400
-Received: from mail-dm6nam11on2059.outbound.protection.outlook.com
- ([40.107.223.59]:2016 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ id 1oWtkD-0005XM-1H
+ for qemu-devel@nongnu.org; Sat, 10 Sep 2022 02:13:33 -0400
+Received: from mail-bn7nam10on2050.outbound.protection.outlook.com
+ ([40.107.92.50]:1505 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
- id 1oWtk7-000371-KL; Sat, 10 Sep 2022 02:13:29 -0400
+ id 1oWtkA-00037O-9I
+ for qemu-devel@nongnu.org; Sat, 10 Sep 2022 02:13:32 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JasF9EjgaicUfTr19b9ZHz9BSDtvYFxRgCdBSuZX3PmKYqU+ekbc6YSk0Gfrkui/XklEPns0zeQFJVfzUnlAciiOzE2soYvdHu0yO4qU1n6Ypyq+JPDZ8qu9SjTwlUMfn/mwHd2rEyx9L5tq+TrJiKsfOa8o+e2XAGg9j1twuJfQGTbSogQuepgpf683lce4EO9agggNZmIozv3Ub5zJP/mAXoy/EBUcnIGCfzPCLhCjgTazhw1M1c/z2ZyLdQ90f5j9wjHOAptWHXH97Nar3fF5dnKcJZ8f6zPFe3lWGQCSHJP/BPGqAqJ6Vus94XSXQY+J7rnMSXY8YRP1Vdpvig==
+ b=GeZ6+P0xg0MgzssH3b0rUbezoLUa+iazDXTUTaSLegIAjFmufM0hzDyrRkLdIseS3RAEGpBPVs0Tnl0+giQBpQyGuz/EpAX7vNXQOrfiAwFGW5Tk6Xi8JisYtZqct65JaBL8qJKKVVsjTGzJWgGPqUmwwPvd3rLPecX/YZab8gJizMIJVwnqDJVOVZQOdUhsqh4X0oh571axAkF9iY8/CVAJj1IAipdZpz62AvpVGeCgmXzUhDnu7ISOV+2FzVHLy/35TViT75HoRojx9M3YPG+sIji8UjcjBj47+q4e3292RtXyJ/Xzz0FNpPiAg43lXU527aYEwGIDx+9vt6LphA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MG/1598f8Cko2UQ/aCv8hgjPMJ5smXqTYG1jT4aJCYE=;
- b=R3TVCpW9vy75kzLWC4xG9F54FH7OLReiZBBlx+trxhi1xblWX1dcv5piFr5ugta437RM6671O+SunK9EoxLiGkgtvm5J5Tb+mxTYNHnv9UUrE8y6QzDhaDnU/j82TslrFXzICC1wIzFy2lvxIXhME+6KLUqjqX+nlDNycTz0+47wc89F0q17t4n2X0ZIzMs6pf8XqeELbGRaM8Z7cBtTWzPgn+otCCbXJLY7LnAdjLjaTXEnBmR/WBDMltbN5SgA1Dg2L84936OWLX6XeMLaiCznfYzGZpmO/EC3L326MwSdp7DXkKIMeS5Q1PS1wxnLMOxL/rBQ0oVwtmyezWJZ1A==
+ bh=+9Wrrk7Hd6kRZfn4ev/MrHyajNBkYHhOJkud1md72fM=;
+ b=HzPkL6tzXxyBnPXmE4QF5QDQDby3Y7ojCj/2F6AaIWlFrLN7RNJnbV2Ma2pNGuyIvYY59SwAcYIKjqvsExPrUU76o5ZYTlFaSOg033MAB8ns4c53gMdb6dAH+gMg7nwXysKeFZP5u12kM+rL+I/pgNOoV8RnAylOUVMmib6VtbFjBvlT0XqdPSr++KeYajVGcH7DzqnmHV46URtlPTPwcI4a1Vt2PgalitUXNzTWNwtq/okxieXjfpwn+vdbSKqaFc7aVab3VKbFQfwZEEfOq+P9UK/pOcs4FdjxToDRf++cb5XdxoahSGnTdQwkwXGr2Ab+/kGGKMWQwkt1x3NzIQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MG/1598f8Cko2UQ/aCv8hgjPMJ5smXqTYG1jT4aJCYE=;
- b=gyvMUWExVeqDD0AgZML7dPAaTRLIZ1XWWUzldh0+7Q88ri+ehClSlA5iZ6Dn7EXeqxA8tgcFdNxLS/B0yDdlv8YaZRxz0je8JoEMhbmuRwCbVKSNLVUpMeq1xuwMuaaZKJLAq5vvp+At4HcwDs6dPhUbo7Ri2tQtCb3aYoqMqJ0=
-Received: from DS7PR03CA0150.namprd03.prod.outlook.com (2603:10b6:5:3b4::35)
- by PH8PR12MB6868.namprd12.prod.outlook.com (2603:10b6:510:1cb::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Sat, 10 Sep
- 2022 06:13:19 +0000
-Received: from DM6NAM11FT028.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:3b4:cafe::79) by DS7PR03CA0150.outlook.office365.com
- (2603:10b6:5:3b4::35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.19 via Frontend
- Transport; Sat, 10 Sep 2022 06:13:19 +0000
+ bh=+9Wrrk7Hd6kRZfn4ev/MrHyajNBkYHhOJkud1md72fM=;
+ b=jJw9fRUOOesA5Wema86uMPoMn+FIJcLsKX+CYSfDe/vtUgY9faKdclr60JvewlqqAfJP/aYoselZjD4t7jc/+oc9leLp2DudlTSj4E10DhKS7laUeQYZ1yrkVETXLATt4x1DsR+Vdd8fcKZePIy+XzaUCP/XSLB/0nOgWgB9wEs=
+Received: from DM6PR08CA0003.namprd08.prod.outlook.com (2603:10b6:5:80::16) by
+ DM6PR12MB4958.namprd12.prod.outlook.com (2603:10b6:5:20a::8) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5612.16; Sat, 10 Sep 2022 06:13:21 +0000
+Received: from DM6NAM11FT044.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:80:cafe::8c) by DM6PR08CA0003.outlook.office365.com
+ (2603:10b6:5:80::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.12 via Frontend
+ Transport; Sat, 10 Sep 2022 06:13:21 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
 Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT028.mail.protection.outlook.com (10.13.173.140) with Microsoft SMTP
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ DM6NAM11FT044.mail.protection.outlook.com (10.13.173.185) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5612.13 via Frontend Transport; Sat, 10 Sep 2022 06:13:18 +0000
-Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.5612.13 via Frontend Transport; Sat, 10 Sep 2022 06:13:21 +0000
+Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Sat, 10 Sep
- 2022 01:13:18 -0500
+ 2022 01:13:20 -0500
 Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB08.amd.com
  (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Fri, 9 Sep
- 2022 23:13:17 -0700
+ 2022 23:13:20 -0700
 Received: from xsjfnuv50.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
- Transport; Sat, 10 Sep 2022 01:13:17 -0500
+ Transport; Sat, 10 Sep 2022 01:13:19 -0500
 From: Vikram Garhwal <vikram.garhwal@amd.com>
 To: <qemu-devel@nongnu.org>
 CC: <edgar.iglesias@amd.com>, <francisco.iglesias@amd.com>,
- <vikram.garhwal@amd.com>, Alistair Francis <alistair@alistair23.me>, "Edgar
- E. Iglesias" <edgar.iglesias@gmail.com>, Peter Maydell
- <peter.maydell@linaro.org>, "open list:Xilinx ZynqMP and..."
- <qemu-arm@nongnu.org>
-Subject: [QEMU][PATCH 3/5] xlnx-zynqmp: Connect Xilinx VERSAL CANFD controllers
-Date: Fri, 9 Sep 2022 23:12:50 -0700
-Message-ID: <20220910061252.2614-3-vikram.garhwal@amd.com>
+ <vikram.garhwal@amd.com>, Thomas Huth <thuth@redhat.com>, Laurent Vivier
+ <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [QEMU][PATCH 4/5] tests/qtest: Introduce tests for Xilinx VERSAL
+ CANFD controller
+Date: Fri, 9 Sep 2022 23:12:51 -0700
+Message-ID: <20220910061252.2614-4-vikram.garhwal@amd.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220910061252.2614-1-vikram.garhwal@amd.com>
 References: <20220910061252.2614-1-vikram.garhwal@amd.com>
@@ -81,29 +82,29 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT028:EE_|PH8PR12MB6868:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2668e2e1-a451-4147-c8fe-08da92f38e44
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT044:EE_|DM6PR12MB4958:EE_
+X-MS-Office365-Filtering-Correlation-Id: a5819e83-4caf-43f6-5dde-08da92f38fe4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: U6vPOxj62oKroWfPiSVvXAJ+UUIL2M4jRjftCkCiw/iNUdD+67bNtddLz2PZx+Ba92OSqO4n5HsHr16VEv8bDoed0CoXhjzC+CtdrYdAYlZZ0dmgZe93YaNLks1IZ7ubiUyzJbFMqR+XJ6L1lT1W7pWGOrZvfUcnpOBqJ03cG0S6I2ZmYIRxSAOnmnNRMP1Q+PBc/t2O2C9k3gJysYGQWghYBzj4oCzW9vn0niEoCofvRLwZqujc9tshW9Y33fy3JxQdH+JYmc3T33IH0waeoTNTyHpSH55vPpttbfyobkc4tCoA0a+2TeFUe7aXFIARhnBux+R2piqog09AF1HLWTSpMK07fe7UDJvHIzYd7itUBWYiGWlHAYfWMDxySP3x/dayCX/Gv/eneTzmBLSkCwGrPuNqItugVHEYp3pOvANBPoM5uOwPYgyiPYIq1Sd260kqvlhnmWPKvhPVm9puEXls2HzXcHUFJOJvLcf+/xBU2GzzyVE88oo4fp033my/uApC34drHXWud5s298MhbdAqA2N8//q4b/C5InbMT3wOf/LR5QP0oOnESUv0GVG6N/YzDCRvQEFYnBF/P5R+PXSIGVjRpNuqTQOpRIAKeoLJcAHND7XrbakHvoPkWrv3j6auVxLq0hto18nIAu5FTFI9lpJ/Jx2EJ5WbQ9z6kakvbKTQM4uoiosRdKN33lrqYkHCIwSDdImm6Z6rDM+AusqSdokhd+KiRSV4j5MuAkx6jJPJrvHSYd+Livjqg/3lyPKDzi2YcZPaXjeEbwLKH6kYzeVXZBiCz5ul+3/PhCClt7tsr/rpOIsC533fTmMj
+X-Microsoft-Antispam-Message-Info: hUhHmkLRzV7Qb5hcB0KvStOkcXI5Q6QdQaHCQvgsRUfT4tF0A+Yy4z2DBEM5VasC0kR9Bjrcah+QkHmAtw+eKXHQ7zCcuA0JIEj9jhNZpvus4mZZON9GkNUqHNOP568UwAyGbYVK3F+AC0vyOrwZ48DQsULHaK2V4U9eAc1f9X/CNW57CIZd2StjH4r5bHFlaPlznrLpVUCwX4mRmjj/nqG8hqR/aTBYKSuKi523uvDSiSWgJQOuEMN7MetcQFNlGj2J6xMATjj803EFUxwjd/d10fo9wWofYHmhEpfbTd+D047UFoecIkLkMe+J48F8rDgfkunNPZfMM6AifAOxk6SNDZI6qxD/BjzivD2f1wScO30xB/sUM0pSm8Rv7778DMdkJ8KQ77zMJe2E/untHSl6C9ePyb0Kan2WlLEMqKdCKPsalYMj0MEPD11OIDCgTul9X6exEAx480etCoxJ4CjBKtf3WqnZ7WcOTRsFSGyA0tnzn9vkNkvvWHF9mTEHK6D5S0n4AwjlQ5h2RxdLo3uZgpVpeigS0ADXSvmMeoBUOsbStlz1ScBgnzq06Qj7XLM3NuWRaiYyK8lZiXsHKBCmPWzCiegRRVh5+q4RIJQCvPQlNBNgl6z5oObRa8fn0ZQnuqOx6DYfX4wBPd+bf4udYhrLjTMjgD8f2M81jTmZchHpE7z+5qIzz31BPSeSKPflC1R13zFSuFtfdsBFm/k5xHMFX6HWzYIlid42Qw+mikwoHuTin8RhFUIenGzrPeQ6wQ3MOIz070HdHTgB/nxpQoApxhywacqkGDjrKlk=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(376002)(39860400002)(136003)(346002)(36840700001)(40470700004)(46966006)(70206006)(36756003)(40480700001)(82310400005)(4326008)(478600001)(8676002)(41300700001)(2906002)(44832011)(316002)(6916009)(8936002)(70586007)(2616005)(186003)(356005)(1076003)(426003)(86362001)(54906003)(336012)(81166007)(5660300002)(47076005)(26005)(82740400003)(6666004)(36860700001)(40460700003)(36900700001);
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230016)(4636009)(346002)(39860400002)(376002)(396003)(136003)(36840700001)(40470700004)(46966006)(356005)(478600001)(40480700001)(41300700001)(6666004)(40460700003)(81166007)(316002)(86362001)(54906003)(6916009)(1076003)(26005)(336012)(186003)(82740400003)(82310400005)(2616005)(83380400001)(426003)(47076005)(36860700001)(5660300002)(44832011)(8676002)(8936002)(30864003)(70206006)(70586007)(4326008)(36756003)(2906002)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2022 06:13:18.6833 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2668e2e1-a451-4147-c8fe-08da92f38e44
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2022 06:13:21.4225 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a5819e83-4caf-43f6-5dde-08da92f38fe4
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT028.eop-nam11.prod.protection.outlook.com
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT044.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6868
-Received-SPF: softfail client-ip=40.107.223.59;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4958
+Received-SPF: softfail client-ip=40.107.92.50;
  envelope-from=vikram.garhwal@amd.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -112,7 +113,7 @@ X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 10 Sep 2022 03:57:20 -0400
+X-Mailman-Approved-At: Sat, 10 Sep 2022 03:57:29 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,214 +128,457 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Connect CANFD0 and CANFD1 on the Versal-virt machine.
+The QTests perform three tests on the Xilinx VERSAL CANFD controller:
+    Tests the CANFD controllers in loopback.
+    Tests the CANFD controllers in normal mode with CAN frame.
+    Tests the CANFD controllers in normal mode with CANFD frame.
 
 Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
 ---
- hw/arm/xlnx-versal-virt.c    | 45 ++++++++++++++++++++++++++++++++++++
- hw/arm/xlnx-versal.c         | 37 +++++++++++++++++++++++++++++
- include/hw/arm/xlnx-versal.h | 12 ++++++++++
- 3 files changed, 94 insertions(+)
+ tests/qtest/meson.build       |   1 +
+ tests/qtest/xlnx-canfd-test.c | 421 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 422 insertions(+)
+ create mode 100644 tests/qtest/xlnx-canfd-test.c
 
-diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
-index 37fc9b919c..062e6f2a95 100644
---- a/hw/arm/xlnx-versal-virt.c
-+++ b/hw/arm/xlnx-versal-virt.c
-@@ -40,9 +40,11 @@ struct VersalVirt {
-         uint32_t clk_25Mhz;
-         uint32_t usb;
-         uint32_t dwc;
-+        uint32_t canfd[2];
-     } phandle;
-     struct arm_boot_info binfo;
- 
-+    CanBusState *canbus[XLNX_VERSAL_NR_CANFD];
-     struct {
-         bool secure;
-     } cfg;
-@@ -235,6 +237,34 @@ static void fdt_add_uart_nodes(VersalVirt *s)
-     }
- }
- 
-+static void fdt_add_canfd_nodes(VersalVirt *s)
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index e910cb32ca..c3802fd788 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -217,6 +217,7 @@ qtests_aarch64 = \
+   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
+   (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
+   (config_all_devices.has_key('CONFIG_XLNX_ZYNQMP_ARM') ? ['xlnx-can-test', 'fuzz-xlnx-dp-test'] : []) + \
++  (config_all_devices.has_key('CONFIG_XLNX_VERSAL') ? ['xlnx-canfd-test'] : []) + \
+   ['arm-cpu-features',
+    'numa-test',
+    'boot-serial-test',
+diff --git a/tests/qtest/xlnx-canfd-test.c b/tests/qtest/xlnx-canfd-test.c
+new file mode 100644
+index 0000000000..15dc03c98c
+--- /dev/null
++++ b/tests/qtest/xlnx-canfd-test.c
+@@ -0,0 +1,421 @@
++/*
++ * QTests for the Xilinx Versal CANFD controller.
++ *
++ * Copyright (c) 2022 AMD Inc.
++ *
++ * Written-by: Vikram Garhwal<vikram.garhwal@amd.com>
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "libqtest.h"
++
++/* Base address. */
++#define CANFD0_BASE_ADDR                0xFF060000
++#define CANFD1_BASE_ADDR                0xFF070000
++
++/* Register addresses. */
++#define R_SRR_OFFSET                    0x00
++#define R_MSR_OFFSET                    0x04
++#define R_FILTER_CONTROL_REGISTER       0xe0
++#define R_SR_OFFSET                     0x18
++#define R_ISR_OFFSET                    0x1C
++#define R_IER_OFFSET                    0x20
++#define R_ICR_OFFSET                    0x24
++#define R_TX_READY_REQ_REGISTER         0x90
++#define RX_FIFO_STATUS_REGISTER         0xE8
++#define R_TXID_OFFSET                   0x100
++#define R_TXDLC_OFFSET                  0x104
++#define R_TXDATA1_OFFSET                0x108
++#define R_TXDATA2_OFFSET                0x10C
++#define R_AFMR_REGISTER0                0xa00
++#define R_AFIR_REGISTER0                0xa04
++#define R_RX0_ID_OFFSET                 0x2100
++#define R_RX0_DLC_OFFSET                0x2104
++#define R_RX0_DATA1_OFFSET              0x2108
++#define R_RX0_DATA2_OFFSET              0x210C
++
++/* CANFD modes. */
++#define SRR_CONFIG_MODE                 0x00
++#define MSR_NORMAL_MODE                 0x00
++#define MSR_LOOPBACK_MODE               (1 << 1)
++#define ENABLE_CANFD                    (1 << 1)
++
++/* CANFD status. */
++#define STATUS_CONFIG_MODE              (1 << 0)
++#define STATUS_NORMAL_MODE              (1 << 3)
++#define STATUS_LOOPBACK_MODE            (1 << 1)
++#define ISR_TXOK                        (1 << 1)
++#define ISR_RXOK                        (1 << 4)
++
++#define ENABLE_ALL_FILTERS              0xFFFFFFFF
++#define ENABLE_ALL_INTERRUPTS           0xFFFFFFFF
++
++/* We are sending one canfd message. */
++#define TX_READY_REG_VAL                0x1
++
++#define FIRST_RX_STORE_INDEX            0x1
++#define STATUS_REG_MASK                 0xF
++#define DLC_FD_BIT_SHIFT                0x1B
++#define DLC_FD_BIT_MASK                 0xF8000000
++#define FIFO_STATUS_READ_INDEX_MASK     0x3F
++#define FIFO_STATUS_FILL_LEVEL_MASK     0x7F00
++#define FILL_LEVEL_SHIFT                0x8
++
++/* CANFD frame size ID, DLC and 16 DATA word. */
++#define CANFD_FRAME_SIZE        18
++/* CAN frame size ID, DLC and 2 DATA word. */
++#define CAN_FRAME_SIZE          4
++
++/* Set the filters for CANFD controller. */
++static void enable_filters(QTestState *qts)
 +{
-+    uint64_t addrs[] = { MM_CANFD0, MM_CANFD1 };
-+    uint32_t size[] = {MM_CANFD0_SIZE, MM_CANFD1_SIZE};
-+    unsigned int irqs[] = { VERSAL_CANFD0_IRQ_0, VERSAL_CANFD1_IRQ_0 };
-+    const char compat[] = "xlnx,versal-canfd";
-+    int i;
++     const uint32_t arr_afmr[32] = { 0xb423deaa, 0xa2a40bdc, 0x1b64f486,
++                                     0x95c0d4ee, 0xe0c44528, 0x4b407904,
++                                     0xd2673f46, 0x9fc638d6, 0x8844f3d8,
++                                     0xa607d1e8, 0x67871bf4, 0xc2557dc,
++                                     0x9ea5b53e, 0x3643c0cc, 0x5a05ea8e,
++                                     0x83a46d84, 0x4a25c2b8, 0x93a66008,
++                                     0x2e467470, 0xedc66118, 0x9086f9f2,
++                                     0xfa23dd36, 0xb6654b90, 0xb221b8ca,
++                                     0x3467d1e2, 0xa3a55542, 0x5b26a012,
++                                     0x2281ea7e, 0xcea0ece8, 0xdc61e588,
++                                     0x2e5676a,  0x16821320 };
 +
-+    /* Create and connect CANFD0 and CANFD1 nodes to canbus0. */
-+    for (i = 0; i < ARRAY_SIZE(addrs); i++) {
-+        char *name = g_strdup_printf("/canfd@%" PRIx64, addrs[i]);
-+        qemu_fdt_add_subnode(s->fdt, name);
-+        qemu_fdt_setprop_cell(s->fdt, name, "rx-fifo0", 0x40);
-+        qemu_fdt_setprop_cell(s->fdt, name, "enable-rx-fifo1", 0x1);
-+        qemu_fdt_setprop_cell(s->fdt, name, "rx-fifo1", 0x40);
++    const uint32_t arr_afir[32] = { 0xa833dfa1, 0x255a477e, 0x3a4bb1c5,
++                                    0x8f560a6c, 0x27f38903, 0x2fecec4d,
++                                    0xa014c66d, 0xec289b8,  0x7e52dead,
++                                    0x82e94f3c, 0xcf3e3c5c, 0x66059871,
++                                    0x3f213df4, 0x25ac3959, 0xa12e9bef,
++                                    0xa3ad3af,  0xbafd7fe,  0xb3cb40fd,
++                                    0x5d9caa81, 0x2ed61902, 0x7cd64a0,
++                                    0x4b1fa538, 0x9b5ced8c, 0x150de059,
++                                    0xd2794227, 0x635e820a, 0xbb6b02cf,
++                                    0xbb58176,  0x570025bb, 0xa78d9658,
++                                    0x49d735df, 0xe5399d2f };
 +
-+        qemu_fdt_setprop_cells(s->fdt, name, "interrupts",
-+                               GIC_FDT_IRQ_TYPE_SPI, irqs[i],
-+                               GIC_FDT_IRQ_FLAGS_LEVEL_HI);
-+        qemu_fdt_setprop_sized_cells(s->fdt, name, "reg",
-+                                     2, addrs[i], 2, size[i]);
-+        qemu_fdt_setprop(s->fdt, name, "compatible",
-+                         compat, sizeof(compat));
++    /* Passing the respective array values to all the AFMR and AFIR pairs. */
++    for (int i = 0; i < 32; i++) {
++        /* For CANFD0. */
++       qtest_writel(qts, CANFD0_BASE_ADDR + R_AFMR_REGISTER0 + 8 * i,
++                    arr_afmr[i]);
++       qtest_writel(qts, CANFD0_BASE_ADDR + R_AFIR_REGISTER0 + 8 * i,
++                    arr_afir[i]);
 +
-+        g_free(name);
++        /* For CANFD1. */
++       qtest_writel(qts, CANFD1_BASE_ADDR + R_AFMR_REGISTER0 + 8 * i,
++                    arr_afmr[i]);
++       qtest_writel(qts, CANFD1_BASE_ADDR + R_AFIR_REGISTER0 + 8 * i,
++                    arr_afir[i]);
++    }
++
++    /* Enable all the pairs from AFR register. */
++    qtest_writel(qts, CANFD0_BASE_ADDR + R_FILTER_CONTROL_REGISTER,
++                 ENABLE_ALL_FILTERS);
++    qtest_writel(qts, CANFD1_BASE_ADDR + R_FILTER_CONTROL_REGISTER,
++                 ENABLE_ALL_FILTERS);
++}
++
++static void configure_canfd(QTestState *qts, uint8_t mode)
++{
++    uint32_t status = 0;
++
++    /* Put CANFD0 and CANFD1 in config mode. */
++    qtest_writel(qts, CANFD0_BASE_ADDR + R_SRR_OFFSET, SRR_CONFIG_MODE);
++    qtest_writel(qts, CANFD1_BASE_ADDR + R_SRR_OFFSET, SRR_CONFIG_MODE);
++
++    /* Write mode of operation in Mode select register. */
++    qtest_writel(qts, CANFD0_BASE_ADDR + R_MSR_OFFSET, mode);
++    qtest_writel(qts, CANFD1_BASE_ADDR + R_MSR_OFFSET, mode);
++
++    enable_filters(qts);
++
++    /* Check here if CANFD0 and CANFD1 are in config mode. */
++    status = qtest_readl(qts, CANFD0_BASE_ADDR + R_SR_OFFSET);
++    status = status & STATUS_REG_MASK;
++    g_assert_cmpint(status, ==, STATUS_CONFIG_MODE);
++
++    status = qtest_readl(qts, CANFD1_BASE_ADDR + R_SR_OFFSET);
++    status = status & STATUS_REG_MASK;
++    g_assert_cmpint(status, ==, STATUS_CONFIG_MODE);
++
++    qtest_writel(qts, CANFD1_BASE_ADDR + R_IER_OFFSET, ENABLE_ALL_INTERRUPTS);
++    qtest_writel(qts, CANFD1_BASE_ADDR + R_IER_OFFSET, ENABLE_ALL_INTERRUPTS);
++
++    qtest_writel(qts, CANFD0_BASE_ADDR + R_SRR_OFFSET, ENABLE_CANFD);
++    qtest_writel(qts, CANFD1_BASE_ADDR + R_SRR_OFFSET, ENABLE_CANFD);
++}
++
++static void generate_random_data(uint32_t *buf_tx, bool is_canfd_frame)
++{
++    /* Generate random TX data for CANFD frame. */
++    if (is_canfd_frame) {
++        for (int i = 0; i < CANFD_FRAME_SIZE - 2; i++) {
++            buf_tx[2 + i] = rand();
++        }
++    } else {
++        /* Generate random TX data for CAN frame. */
++        for (int i = 0; i < CAN_FRAME_SIZE - 2; i++) {
++            buf_tx[2 + i] = rand();
++        }
 +    }
 +}
 +
- static void fdt_add_fixed_link_nodes(VersalVirt *s, char *gemname,
-                                      uint32_t phandle)
- {
-@@ -639,12 +669,17 @@ static void versal_virt_init(MachineState *machine)
-                             TYPE_XLNX_VERSAL);
-     object_property_set_link(OBJECT(&s->soc), "ddr", OBJECT(machine->ram),
-                              &error_abort);
-+    object_property_set_link(OBJECT(&s->soc), "canbus0", OBJECT(s->canbus[0]),
-+                             &error_abort);
-+    object_property_set_link(OBJECT(&s->soc), "canbus1", OBJECT(s->canbus[1]),
-+                             &error_abort);
-     sysbus_realize(SYS_BUS_DEVICE(&s->soc), &error_fatal);
- 
-     fdt_create(s);
-     create_virtio_regions(s);
-     fdt_add_gem_nodes(s);
-     fdt_add_uart_nodes(s);
-+    fdt_add_canfd_nodes(s);
-     fdt_add_gic_nodes(s);
-     fdt_add_timer_nodes(s);
-     fdt_add_zdma_nodes(s);
-@@ -712,6 +747,16 @@ static void versal_virt_init(MachineState *machine)
- 
- static void versal_virt_machine_instance_init(Object *obj)
- {
-+    VersalVirt *s = XLNX_VERSAL_VIRT_MACHINE(obj);
-+
-+    object_property_add_link(obj, "canbus0", TYPE_CAN_BUS,
-+                             (Object **)&s->canbus[0],
-+                             object_property_allow_set_link,
-+                             0);
-+    object_property_add_link(obj, "canbus1", TYPE_CAN_BUS,
-+                             (Object **)&s->canbus[1],
-+                             object_property_allow_set_link,
-+                             0);
- }
- 
- static void versal_virt_machine_class_init(ObjectClass *oc, void *data)
-diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-index 57276e1506..452f433eb4 100644
---- a/hw/arm/xlnx-versal.c
-+++ b/hw/arm/xlnx-versal.c
-@@ -185,6 +185,38 @@ static void versal_create_uarts(Versal *s, qemu_irq *pic)
-     }
- }
- 
-+static void versal_create_canfds(Versal *s, qemu_irq *pic)
++static void read_data(QTestState *qts, uint64_t can_base_addr, uint32_t *buf_rx)
 +{
-+    int i;
++    uint32_t int_status;
++    uint32_t fifo_status_reg_value;
++    /* At which RX FIFO the received data is stored. */
++    uint8_t store_ind = 0;
++    bool is_canfd_frame = false;
 +
-+    for (i = 0; i < ARRAY_SIZE(s->lpd.iou.canfd); i++) {
-+        static const int irqs[] = { VERSAL_CANFD0_IRQ_0, VERSAL_CANFD1_IRQ_0};
-+        static const uint64_t addrs[] = { MM_CANFD0, MM_CANFD1 };
-+        char *name = g_strdup_printf("canfd%d", i);
-+        DeviceState *dev;
-+        MemoryRegion *mr;
++    /* Read the interrupt on CANFD rx. */
++    int_status = qtest_readl(qts, can_base_addr + R_ISR_OFFSET) & ISR_RXOK;
 +
-+        object_initialize_child(OBJECT(s), name, &s->lpd.iou.canfd[i],
-+                                TYPE_XILINX_CANFD);
-+        dev = DEVICE(&s->lpd.iou.canfd[i]);
++    g_assert_cmpint(int_status, ==, ISR_RXOK);
 +
-+        object_property_set_int(OBJECT(&s->lpd.iou.canfd[i]), "ext_clk_freq",
-+                                XLNX_VERSAL_CANFD_REF_CLK , &error_abort);
++    /* Find the fill level and read index. */
++    fifo_status_reg_value = qtest_readl(qts, can_base_addr +
++                                        RX_FIFO_STATUS_REGISTER);
 +
-+        object_property_set_link(OBJECT(dev), "canfdbus",
-+                                 OBJECT(s->lpd.iou.canbus[i]),
-+                                 &error_abort);
++    store_ind = (fifo_status_reg_value & FIFO_STATUS_READ_INDEX_MASK) +
++                ((fifo_status_reg_value & FIFO_STATUS_FILL_LEVEL_MASK) >>
++                  FILL_LEVEL_SHIFT);
 +
-+        sysbus_realize(SYS_BUS_DEVICE(dev), &error_fatal);
++    g_assert_cmpint(store_ind, ==, FIRST_RX_STORE_INDEX);
 +
-+        mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
-+        memory_region_add_subregion(&s->mr_ps, addrs[i], mr);
++    /* Read the RX register data for CANFD. */
++    buf_rx[0] = qtest_readl(qts, can_base_addr + R_RX0_ID_OFFSET);
++    buf_rx[1] = qtest_readl(qts, can_base_addr + R_RX0_DLC_OFFSET);
 +
-+        sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic[irqs[i]]);
-+        g_free(name);
++    is_canfd_frame = (buf_rx[1] >> DLC_FD_BIT_SHIFT) & 1;
++
++    if (is_canfd_frame) {
++        for (int i = 0; i < CANFD_FRAME_SIZE - 2; i++) {
++            buf_rx[i + 2] = qtest_readl(qts,
++                                    can_base_addr + R_RX0_DATA1_OFFSET + 4 * i);
++        }
++    } else {
++        buf_rx[2] = qtest_readl(qts, can_base_addr + R_RX0_DATA1_OFFSET);
++        buf_rx[3] = qtest_readl(qts, can_base_addr + R_RX0_DATA2_OFFSET);
++    }
++
++    /* Clear the RX interrupt. */
++    qtest_writel(qts, CANFD1_BASE_ADDR + R_ICR_OFFSET, ISR_RXOK);
++}
++
++static void write_data(QTestState *qts, uint64_t can_base_addr,
++                       const uint32_t *buf_tx, bool is_canfd_frame)
++{
++    /* Write the TX register data for CANFD. */
++    qtest_writel(qts, can_base_addr + R_TXID_OFFSET, buf_tx[0]);
++    qtest_writel(qts, can_base_addr + R_TXDLC_OFFSET, buf_tx[1]);
++
++    if (is_canfd_frame) {
++        for (int i = 0; i < CANFD_FRAME_SIZE - 2; i++) {
++            qtest_writel(qts, can_base_addr + R_TXDATA1_OFFSET + 4 * i,
++                         buf_tx[2 + i]);
++        }
++    } else {
++        qtest_writel(qts, can_base_addr + R_TXDATA1_OFFSET, buf_tx[2]);
++        qtest_writel(qts, can_base_addr + R_TXDATA2_OFFSET, buf_tx[3]);
 +    }
 +}
 +
- static void versal_create_usbs(Versal *s, qemu_irq *pic)
- {
-     DeviceState *dev;
-@@ -719,6 +751,7 @@ static void versal_realize(DeviceState *dev, Error **errp)
-     versal_create_apu_gic(s, pic);
-     versal_create_rpu_cpus(s);
-     versal_create_uarts(s, pic);
-+    versal_create_canfds(s, pic);
-     versal_create_usbs(s, pic);
-     versal_create_gems(s, pic);
-     versal_create_admas(s, pic);
-@@ -758,6 +791,10 @@ static void versal_init(Object *obj)
- static Property versal_properties[] = {
-     DEFINE_PROP_LINK("ddr", Versal, cfg.mr_ddr, TYPE_MEMORY_REGION,
-                      MemoryRegion *),
-+    DEFINE_PROP_LINK("canbus0", Versal, lpd.iou.canbus[0],
-+                      TYPE_CAN_BUS, CanBusState *),
-+    DEFINE_PROP_LINK("canbus1", Versal, lpd.iou.canbus[1],
-+                      TYPE_CAN_BUS, CanBusState *),
-     DEFINE_PROP_END_OF_LIST()
- };
- 
-diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
-index cbe8a19c10..97e63a1b0e 100644
---- a/include/hw/arm/xlnx-versal.h
-+++ b/include/hw/arm/xlnx-versal.h
-@@ -31,6 +31,7 @@
- #include "hw/dma/xlnx_csu_dma.h"
- #include "hw/misc/xlnx-versal-crl.h"
- #include "hw/misc/xlnx-versal-pmc-iou-slcr.h"
-+#include "hw/net/xlnx-versal-canfd.h"
- 
- #define TYPE_XLNX_VERSAL "xlnx-versal"
- OBJECT_DECLARE_SIMPLE_TYPE(Versal, XLNX_VERSAL)
-@@ -43,6 +44,8 @@ OBJECT_DECLARE_SIMPLE_TYPE(Versal, XLNX_VERSAL)
- #define XLNX_VERSAL_NR_SDS     2
- #define XLNX_VERSAL_NR_XRAM    4
- #define XLNX_VERSAL_NR_IRQS    192
-+#define XLNX_VERSAL_NR_CANFD   2
-+#define XLNX_VERSAL_CANFD_REF_CLK (24 * 1000 * 1000)
- 
- struct Versal {
-     /*< private >*/
-@@ -73,6 +76,8 @@ struct Versal {
-             CadenceGEMState gem[XLNX_VERSAL_NR_GEMS];
-             XlnxZDMA adma[XLNX_VERSAL_NR_ADMAS];
-             VersalUsb2 usb;
-+            CanBusState *canbus[XLNX_VERSAL_NR_CANFD];
-+            XlnxVersalCANFDState canfd[XLNX_VERSAL_NR_CANFD];
-         } iou;
- 
-         /* Real-time Processing Unit.  */
-@@ -133,6 +138,8 @@ struct Versal {
- #define VERSAL_CRL_IRQ             10
- #define VERSAL_UART0_IRQ_0         18
- #define VERSAL_UART1_IRQ_0         19
-+#define VERSAL_CANFD0_IRQ_0        20
-+#define VERSAL_CANFD1_IRQ_0        21
- #define VERSAL_USB0_IRQ_0          22
- #define VERSAL_GEM0_IRQ_0          56
- #define VERSAL_GEM0_WAKE_IRQ_0     57
-@@ -163,6 +170,11 @@ struct Versal {
- #define MM_UART1                    0xff010000U
- #define MM_UART1_SIZE               0x10000
- 
-+#define MM_CANFD0                   0xff060000
-+#define MM_CANFD0_SIZE              0x10000
-+#define MM_CANFD1                   0xff070000
-+#define MM_CANFD1_SIZE              0x10000
++static void send_data(QTestState *qts, uint64_t can_base_addr)
++{
++    uint32_t int_status;
 +
- #define MM_GEM0                     0xff0c0000U
- #define MM_GEM0_SIZE                0x10000
- #define MM_GEM1                     0xff0d0000U
++    qtest_writel(qts, can_base_addr + R_TX_READY_REQ_REGISTER,
++                 TX_READY_REG_VAL);
++
++    /* Read the interrupt on CANFD for tx. */
++    int_status = qtest_readl(qts, can_base_addr + R_ISR_OFFSET) & ISR_TXOK;
++
++    g_assert_cmpint(int_status, ==, ISR_TXOK);
++
++    /* Clear the interrupt for tx. */
++    qtest_writel(qts, CANFD0_BASE_ADDR + R_ICR_OFFSET, ISR_TXOK);
++}
++
++static void match_rx_tx_data(const uint32_t *buf_tx, const uint32_t *buf_rx,
++                             bool is_canfd_frame)
++{
++    uint16_t size = 0;
++    uint8_t len = CAN_FRAME_SIZE;
++
++    if (is_canfd_frame) {
++        len = CANFD_FRAME_SIZE;
++    }
++
++    while (size < len) {
++        if (R_RX0_ID_OFFSET + 4 * size == R_RX0_DLC_OFFSET)  {
++            g_assert_cmpint((buf_rx[size] & DLC_FD_BIT_MASK), ==,
++                            (buf_tx[size] & DLC_FD_BIT_MASK));
++        } else {
++            if (!is_canfd_frame && size == 4) {
++                break;
++            }
++
++            g_assert_cmpint(buf_rx[size], ==, buf_tx[size]);
++        }
++
++        size++;
++    }
++}
++/*
++ * Xilinx CANFD supports both CAN and CANFD frames. This test will be
++ * transferring CAN frame i.e. 8 bytes of data from CANFD0 and CANFD1 through
++ * canbus. CANFD0 initiate the data transfer to can-bus, CANFD1 receives the
++ * data. Test compares the can frame data sent from CANFD0 and received on
++ * CANFD1.
++ */
++static void test_can_data_transfer(void)
++{
++    uint32_t buf_tx[CAN_FRAME_SIZE] = { 0x5a5bb9a4, 0x80000000,
++                                        0x12345678, 0x87654321 };
++    uint32_t buf_rx[CAN_FRAME_SIZE] = { 0x00, 0x00, 0x00, 0x00 };
++    uint32_t status = 0;
++
++    generate_random_data(buf_tx, false);
++
++    QTestState *qts = qtest_init("-machine xlnx-versal-virt"
++                " -object can-bus,id=canbus"
++                " -machine canbus0=canbus"
++                " -machine canbus1=canbus"
++                );
++
++    configure_canfd(qts, MSR_NORMAL_MODE);
++
++    /* Check if CANFD0 and CANFD1 are in Normal mode. */
++    status = qtest_readl(qts, CANFD0_BASE_ADDR + R_SR_OFFSET);
++    status = status & STATUS_REG_MASK;
++    g_assert_cmpint(status, ==, STATUS_NORMAL_MODE);
++
++    status = qtest_readl(qts, CANFD1_BASE_ADDR + R_SR_OFFSET);
++    status = status & STATUS_REG_MASK;
++    g_assert_cmpint(status, ==, STATUS_NORMAL_MODE);
++
++    write_data(qts, CANFD0_BASE_ADDR, buf_tx, false);
++
++    send_data(qts, CANFD0_BASE_ADDR);
++    read_data(qts, CANFD1_BASE_ADDR, buf_rx);
++    match_rx_tx_data(buf_tx, buf_rx, false);
++
++    qtest_quit(qts);
++}
++
++/*
++ * This test will be transferring CANFD frame i.e. 64 bytes of data from CANFD0
++ * and CANFD1 through canbus. CANFD0 initiate the data transfer to can-bus,
++ * CANFD1 receives the data. Test compares the CANFD frame data sent from CANFD0
++ * with received on CANFD1.
++ */
++static void test_canfd_data_transfer(void)
++{
++    uint32_t buf_tx[CANFD_FRAME_SIZE] = { 0x5a5bb9a4, 0xF8000000 };
++    uint32_t buf_rx[CANFD_FRAME_SIZE] = { 0x00, 0x00, 0x00, 0x00 };
++    uint32_t status = 0;
++
++    generate_random_data(buf_tx, true);
++
++    QTestState *qts = qtest_init("-machine xlnx-versal-virt"
++                " -object can-bus,id=canbus"
++                " -machine canbus0=canbus"
++                " -machine canbus1=canbus"
++                );
++
++    configure_canfd(qts, MSR_NORMAL_MODE);
++
++    /* Check if CANFD0 and CANFD1 are in Normal mode. */
++    status = qtest_readl(qts, CANFD0_BASE_ADDR + R_SR_OFFSET);
++    status = status & STATUS_REG_MASK;
++    g_assert_cmpint(status, ==, STATUS_NORMAL_MODE);
++
++    status = qtest_readl(qts, CANFD1_BASE_ADDR + R_SR_OFFSET);
++    status = status & STATUS_REG_MASK;
++    g_assert_cmpint(status, ==, STATUS_NORMAL_MODE);
++
++    write_data(qts, CANFD0_BASE_ADDR, buf_tx, true);
++
++    send_data(qts, CANFD0_BASE_ADDR);
++    read_data(qts, CANFD1_BASE_ADDR, buf_rx);
++    match_rx_tx_data(buf_tx, buf_rx, true);
++
++    qtest_quit(qts);
++}
++
++/*
++ * This test is performing loopback mode on CANFD0 and CANFD1. Data sent from
++ * TX of each CANFD0 and CANFD1 are compared with RX register data for
++ * respective CANFD Controller.
++ */
++static void test_can_loopback(void)
++{
++    uint32_t buf_tx[CANFD_FRAME_SIZE] = { 0x5a5bb9a4, 0xF8000000 };
++    uint32_t buf_rx[CANFD_FRAME_SIZE] = { 0x00, 0x00, 0x00, 0x00 };
++    uint32_t status = 0;
++
++    generate_random_data(buf_tx, true);
++
++    QTestState *qts = qtest_init("-machine xlnx-versal-virt"
++                " -object can-bus,id=canbus"
++                " -machine canbus0=canbus"
++                " -machine canbus1=canbus"
++                );
++
++    configure_canfd(qts, MSR_LOOPBACK_MODE);
++
++    /* Check if CANFD0 and CANFD1 are set in correct loopback mode. */
++    status = qtest_readl(qts, CANFD0_BASE_ADDR + R_SR_OFFSET);
++    status = status & STATUS_REG_MASK;
++    g_assert_cmpint(status, ==, STATUS_LOOPBACK_MODE);
++
++    status = qtest_readl(qts, CANFD1_BASE_ADDR + R_SR_OFFSET);
++    status = status & STATUS_REG_MASK;
++    g_assert_cmpint(status, ==, STATUS_LOOPBACK_MODE);
++
++    write_data(qts, CANFD0_BASE_ADDR, buf_tx, true);
++
++    send_data(qts, CANFD0_BASE_ADDR);
++    read_data(qts, CANFD0_BASE_ADDR, buf_rx);
++    match_rx_tx_data(buf_tx, buf_rx, true);
++
++    generate_random_data(buf_tx, true);
++
++    write_data(qts, CANFD1_BASE_ADDR, buf_tx, true);
++
++    send_data(qts, CANFD1_BASE_ADDR);
++    read_data(qts, CANFD1_BASE_ADDR, buf_rx);
++    match_rx_tx_data(buf_tx, buf_rx, true);
++
++    qtest_quit(qts);
++}
++
++int main(int argc, char **argv)
++{
++    g_test_init(&argc, &argv, NULL);
++
++    qtest_add_func("/net/canfd/can_data_transfer", test_can_data_transfer);
++    qtest_add_func("/net/canfd/canfd_data_transfer", test_canfd_data_transfer);
++    qtest_add_func("/net/canfd/can_loopback", test_can_loopback);
++
++    return g_test_run();
++}
 -- 
 2.17.1
 
