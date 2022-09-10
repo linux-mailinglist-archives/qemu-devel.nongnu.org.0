@@ -2,77 +2,128 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA4D5B4626
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Sep 2022 14:07:23 +0200 (CEST)
-Received: from localhost ([::1]:40606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADFB25B474F
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Sep 2022 17:37:16 +0200 (CEST)
+Received: from localhost ([::1]:58266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWzGb-00044m-VS
-	for lists+qemu-devel@lfdr.de; Sat, 10 Sep 2022 08:07:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57934)
+	id 1oX2Xj-0005CX-AA
+	for lists+qemu-devel@lfdr.de; Sat, 10 Sep 2022 11:37:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oWzF0-0002TV-Ez
- for qemu-devel@nongnu.org; Sat, 10 Sep 2022 08:05:42 -0400
-Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:38080)
+ (Exim 4.90_1) (envelope-from <nb91605@student.uni-lj.si>)
+ id 1oX1Fr-0008HK-4E; Sat, 10 Sep 2022 10:14:44 -0400
+Received: from mail-eopbgr130112.outbound.protection.outlook.com
+ ([40.107.13.112]:13761 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oWzEq-0002F4-Kr
- for qemu-devel@nongnu.org; Sat, 10 Sep 2022 08:05:40 -0400
-Received: from iva8-3a65cceff156.qloud-c.yandex.net
- (iva8-3a65cceff156.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2d80:0:640:3a65:ccef])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 255772E0ADC;
- Sat, 10 Sep 2022 15:05:24 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:1329::1:2d] (unknown
- [2a02:6b8:b081:1329::1:2d])
- by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- w3amwS9VeM-5LPKHxUO; Sat, 10 Sep 2022 15:05:22 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Precedence: bulk
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1662811522; bh=scEtAZIh+aCzhYvoEVakeLxOGp5phRcqJBDDUEc2BlY=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=jr1//3dTQ8M868NNcgGUKL+ll9y20jSg2j1uOiKOGTliO8AiQgAh24vslUwyxMbn+
- ed+XwUfnpAZ+uZd/w56lsgbW6t4VF+RJCro77eI2iLFIZHNtJuwcVQXe9RVlnowIUl
- mZmuVr39tbWiOarynOoCm+y5hPSp0y34nctEuGpE=
-Authentication-Results: iva8-3a65cceff156.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <7de09a19-2c21-4e4e-c8d0-4119c7e5ebac@yandex-team.ru>
-Date: Sat, 10 Sep 2022 15:05:21 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 4/4] scripts: add script to compare compatible properties
-Content-Language: en-US
-To: Maksim Davydov <davydov-max@yandex-team.ru>, qemu-devel@nongnu.org
-Cc: yc-core@yandex-team.ru, pbonzini@redhat.com, berrange@redhat.com,
- eduardo@habkost.net, marcel.apfelbaum@gmail.com, f4bug@amsat.org,
- wangyanan55@huawei.com, armbru@redhat.com, alxndr@bu.edu, bsd@redhat.com,
- stefanha@redhat.com, thuth@redhat.com, darren.kenny@oracle.com,
- Qiuhao.Li@outlook.com, lvivier@redhat.com, jsnow@redhat.com,
- crosa@redhat.com, bleal@redhat.com
-References: <20220908103650.9518-1-davydov-max@yandex-team.ru>
- <20220908103650.9518-5-davydov-max@yandex-team.ru>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20220908103650.9518-5-davydov-max@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ (Exim 4.90_1) (envelope-from <nb91605@student.uni-lj.si>)
+ id 1oX1Fo-0004Xk-Tm; Sat, 10 Sep 2022 10:14:42 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j9W4k+7s5GJqANe/avc3TLc/NXhuHgNLa01eC0R0ns5BhUxcF6MgjVFy56TcS+EuN+Xs0ugwm3ONZW1LQ99c+yHUXrhO3PzBbitDx4fQln3O2AAwvzArJM3Nz4vvqJLBJQ1XOpWgi0zWMow5soMj6IbJdeM3yy0wb0dxfxhNKISuauXDEMdrGnWZ5dNjerYAZiGirPJGz+2cUx6snAnESK+bEGoHa7rtXpRpO7aMqtng7Q13KRwVns0kMhBlsFageueXSNcG40QMVfBVIYJgXn/bmVKYaQjCOdef0bQOtYoO1VAzK4pGYDu/B6HNPs+azZXfLdWPzfPxTBgrZkcyUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YJCTI8R40yb72XYuX9c0G6zPCe37jK3R0zbLbdC4xVk=;
+ b=PAPfxAsaoyyjEZQGxm3Oob/L55OkNyx7ANPGRhQFKM4RA/1ueuPx9lLsH78M5kpAXI2ubSHdPOPnYn1K2Gh2nlrb1yAV/1CKNgLSDZI8eIyuDskLgt4QtbHHsGYQ7dDnZVZd3p3ksh7UfjlNUIMRLit3A3vsz26INgqgrjked0dOfZauDO2iTC9ym1jngb32Np/SE2Y57Ygo8/Wrua2fjOep1UfmY9ENgm79Hzgg2oZawqoWctKjKv56Yned/e5drMVlhSEaSsX0bNW584vYaUCC6VHY3fkECzz/raGvG9l3HAaDu8rMQq3sJSqTTHp894MP3i0FpDb3QYX+s9CsTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=student.uni-lj.si; dmarc=pass action=none
+ header.from=student.uni-lj.si; dkim=pass header.d=student.uni-lj.si; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=unilj.onmicrosoft.com; 
+ s=selector2-unilj-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YJCTI8R40yb72XYuX9c0G6zPCe37jK3R0zbLbdC4xVk=;
+ b=QBTuH9J6Wo5VdK25QdJNUyHhsYy5ADwbAouFl1/Uc0IpPyF6/WPa8O/smOFmoOCpLhOVnvsGu5ZmUPqVNeAQVLO128za423PcyJ0jURqC2kWqf4aCJ7mX2bQitNMlnGJK10JIqzsDad6CXwbaUuYzTBbZnT15i0GM906t9yl1rI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=student.uni-lj.si;
+Received: from AS8PR10MB7043.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5aa::21)
+ by AS4PR10MB5846.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:511::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.12; Sat, 10 Sep
+ 2022 14:14:33 +0000
+Received: from AS8PR10MB7043.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::355d:20a6:e896:d98b]) by AS8PR10MB7043.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::355d:20a6:e896:d98b%5]) with mapi id 15.20.5612.014; Sat, 10 Sep 2022
+ 14:14:33 +0000
+From: Nikola Brkovic <nb91605@student.uni-lj.si>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, peter.maydell@linaro.org,
+ Nikola Brkovic <nb91605@student.uni-lj.si>
+Subject: [PATCH] arm/monitor: add register name resolution
+Date: Sat, 10 Sep 2022 16:12:16 +0200
+Message-Id: <20220910141213.111154-1-nb91605@student.uni-lj.si>
+X-Mailer: git-send-email 2.37.3
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=95.108.205.193;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.214,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-ClientProxiedBy: VI1PR0202CA0031.eurprd02.prod.outlook.com
+ (2603:10a6:803:14::44) To AS8PR10MB7043.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5aa::21)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR10MB7043:EE_|AS4PR10MB5846:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5e991aff-bb57-491d-53eb-08da9336c8a0
+X-ETR: Bypass spam filtering for student.uni-lj.si
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1pm5rjS4V77sX5xgpLpg84bhbfgMUcDzoaGWwKISMpkstgQUp5/t8tlunAohMt9TH61uDtCE45+S37VkbtdDd7l6w8RFqX0G9cyV888iSAUNPG711Gbe+Fcz3o2fu2pYE1u4mAGvjKwp6nw1pvsqVPHkP65KueUEgxbGLDU6itSHzR3CKSXI94zWySA66xarCAw/tu+tdD6P/kDtmFZDWcugi4abzh0YQ8QuSeU7jl4QbK6qJcgWjs6+wD1cEBGta2IYBxPqjE7nduTwcgueKW6jmR1uCrFAA3jE0sfPapK+EdJb+ZNMF8uZWuHMHyTaIvERJOGL383Ov3Sb6scki86f806SzqDPRupvetBWe21C5GqSFj7ilIVxPQGas0xN0NsoZZ65TuzGjhFAEezfodu0tXdS0qWbr+5mZYYF3jemiGEnrYfgjB388aaTzphzvwvp/9BCVeevTLGG9REL0tkmWkdifATMbelM3WPQf0yaOaFZSgph/wgIbAVusucoH0M8Ne0EIXwed8Bcz9vli/W12e5Hua3wPuAkEDJMwt3vR2M4v5n/xowkLFXQUEUv5PhoJpg9J0R2M6VYg2MDRtvAWStyTIYG/VmTPFJ4p9uwzirlGCFSO1fBgktRuI5/0s3zpF5Db51xkjBtSGlkZTupV5joARVggK8qmPhKuu4t6DiNRpYm/D8z/Do2UHTB5Kx+zUFB+fci4LGZlyy1bQy/3F9JnwbSYWUzfmC+Uyl0sw4/cWa/+dKhoeQCH7fJ+DMIL2/RrhQYE2XQ4DSHzdzwv1jm0LEsGPWTtyc4D9Q=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AS8PR10MB7043.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230016)(396003)(346002)(366004)(136003)(39860400002)(376002)(86362001)(6916009)(6666004)(316002)(107886003)(478600001)(6506007)(186003)(786003)(6486002)(6512007)(52116002)(41300700001)(26005)(2616005)(41320700001)(1076003)(966005)(2906002)(8936002)(66476007)(38350700002)(66556008)(66946007)(5660300002)(4326008)(8676002)(38100700002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TV5SikAUtdd8WV0TGzk8VhU3+gcV7HvyR3nl8JYAEwjGNwH/ZjPYTMtStLzs?=
+ =?us-ascii?Q?1ZrATdJOocKkWty1LgTlVpuXdasJS6Zauu57L6QVjyxSvziMorPtijd17R9a?=
+ =?us-ascii?Q?MBt6W5/+xj1dovtExNqUEXBn5Cl7QEwuCYdzrNT2cdBtBK45B3tXkWfFb9X8?=
+ =?us-ascii?Q?9FMPCH2e3z7hqZNFYS9bJbNLS0mptZPU2zFMTnqGlJOPlJ9aADAEMtD0a5Ax?=
+ =?us-ascii?Q?cwDxDgCOlC6oC/NW3x5VcM21fP/4yHfNEMSOpO58ABGhEyLM2of1KnX+ztB5?=
+ =?us-ascii?Q?pI6lrlDDOyUL/SaGNJ4H0HI6T+iY3W0UcTRy3kIQLz69NaHcKcPhtPtb7QX+?=
+ =?us-ascii?Q?4zxoOTmw8ILlcCf4a9nCXbB192z5lM1IfOhg5uPIf/LjmwCmAYvKapqZjssw?=
+ =?us-ascii?Q?deApPns9KrSkJTb0Xshm23yj19/HlJ1wWzMSUH4WQQK28WbFvLbjC51rZ5/P?=
+ =?us-ascii?Q?9aOD38Em3HLPqE1sWL53SfbopaUyEIThcddbAPrVEGOBRnHGg84KDkdyh/Yb?=
+ =?us-ascii?Q?JBVY7+IRKgvutiuaW2zNz4O57Yw3WmqMRKwIZyOytFK9gKDWFEP8Mgosg9mW?=
+ =?us-ascii?Q?HuopoX8tJrAg05qWy2dVabi6FFjC5N2ojL2i6K3oDjsEqRVMT8LwbLexcGu9?=
+ =?us-ascii?Q?BvfHoIiuhV5xxsA6r7L48EiY5AVRgAVgln0aEQKdhFjoBadCF6rPIS28F3sq?=
+ =?us-ascii?Q?BRyIPGdRh8EPUlqs1hyLEano+u08k7TCh5MFkuBY8IKFEKMPMCWdaqHe51th?=
+ =?us-ascii?Q?vtQY1xtRVY2wKFe9ty2AiHxokm7cRjNUROBChlCfovHUA09GoCjvEkh140H6?=
+ =?us-ascii?Q?COKCghW+71jmtfVSj4gYBJiF1PHtYBrzEudx56lV8Q/YhGKgzWeOVWLVBSPS?=
+ =?us-ascii?Q?qrjsGvsNhCiEpoSAWtxGCmRGA35vny7oHSLO7UeQ8C7VA+kH4gdQGbxi16E5?=
+ =?us-ascii?Q?+ELe6Czvv2ps4pZYes4sPl1X2lFqOuUgzne+xctttiE5NafS6gF9c1clJlWf?=
+ =?us-ascii?Q?WTE1pEqSPtr30Yd/enyD163JJlE12IfsCJQJxwEWD0FaDqgVWSyDFsLEggsv?=
+ =?us-ascii?Q?lcKH25j7A41HnXd/kwOno0kYT9luf5uqREdLDFgU/zTn2GdkoeYAoOaXo44y?=
+ =?us-ascii?Q?tbhaEDzsLDsRTGC92GeAUR15Qj8RTgb+FDIJLShnkulkUUTVSoylx8ldtBOC?=
+ =?us-ascii?Q?3eIixclAhVOfFfr7eH5jLNYn+1j65ATq0XFX9gxb4cWkdh/hmyRvvEjlDsj1?=
+ =?us-ascii?Q?SvD0H3g8WozJPlD+s0WyHER86wAqf4U2QRCUdfqoO/NmDzbC29GTFTAmM2FL?=
+ =?us-ascii?Q?MV4+xuIJlUPJoDtcO5AMPUsNYXktp2AYOXuyktr8EN8p2GR22q0oxIf9+Is9?=
+ =?us-ascii?Q?P05tY0bEUYSsnCI8zGO994Gc0MLvap3xaIOgLa5wgfxe1v0d7UWqdRMQCUbD?=
+ =?us-ascii?Q?kk3RKDrm98Rf1/ngYH/djXzmCj8YUfWTu4WpmvdDyNeACVBMFkFvKiGwfJvl?=
+ =?us-ascii?Q?2tB8soMralMrplBwnom5Q1E4/ItbrFD0QSCFBycMRIPi0Bq+u6e/Fw2MNxyj?=
+ =?us-ascii?Q?cYls1qzDCm5nTvUTBDzfgyL3mxzOhNgbIRl4Moha15SBnU1bUGtmb6Y1xFZs?=
+ =?us-ascii?Q?Pg=3D=3D?=
+X-OriginatorOrg: student.uni-lj.si
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e991aff-bb57-491d-53eb-08da9336c8a0
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB7043.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2022 14:14:33.1376 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: a6cc90df-f580-49dc-903f-87af5a75338e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7nicA2hkj5WwKJeqDFghGcMxFGs3rHQZVE5lLnCGlOXtqRJzqLEWDSHO8jnhnTKTauBMCebeq/IXcUnhaZgFjwHj94+vs66f7xuoXvLHc60=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR10MB5846
+Received-SPF: pass client-ip=40.107.13.112;
+ envelope-from=nb91605@student.uni-lj.si;
+ helo=EUR01-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sat, 10 Sep 2022 11:34:43 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,485 +135,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/8/22 13:36, Maksim Davydov wrote:
-> This script run QEMU to obtain compat_props of machines and default
-> values of different types and produce appropriate table. This table
-> can be used to compare machine types to choose the most suitable
-> machine. Also table in json or csv format should be used to check that
-> new machine doesn't affect previous ones via comparisin tables with and
-> without new machine.
-> Default values of properties are needed to fill "holes" in the table (one
-> machine has these properties and another not).
-> 
-> Notes:
-> * some init values from the devices can't be available like properties
-> from virtio-9p when configure has --disable-virtfs. This situations will
-> be seen in the table as "unavailable driver".
-> * Default values can be get can be obtained in an unobvious way, like
-> x86 features. If the script doesn't know how to get property default value
-> to compare one machine with another it fills "holes" with "unavailable
-> method". This is done because script uses whitelist model to get default
-> values of different types. It means that the method that can't be applied
-> to a new type that can crash this script. It is better to get an
-> "unavailable driver" when creating a new machine with new compatible
-> properties than to break this script. So it turns out a more stable and
-> generic script.
-> * If the default value can't be obtained because this property doesn't
-> exist or because this property can't have default value, appropriate
-> "hole" will be filled by "unknown property" or "no default value"
-> * If the property is applied to the abstract class, the script collects
-> default values from all child classes (set of default values)
-> 
-> Example:
-> 
-> scripts/compare_mt.py --MT pc-q35-3.1 pc-q35-2.12
-> 
-> ╒════════════════════════════════════╤═══════════════╤═══════════════╕
-> │                                    │  pc-q35-2.12  │  pc-q35-3.1   │
-> ╞════════════════════════════════════╪═══════════════╪═══════════════╡
-> │    EPYC-IBPB-x86_64-cpu-xlevel     │  0x8000000a   │  2147483678   │
-> ├────────────────────────────────────┼───────────────┼───────────────┤
-> │       EPYC-x86_64-cpu-xlevel       │  0x8000000a   │  2147483678   │
-> ├────────────────────────────────────┼───────────────┼───────────────┤
-> │ Skylake-Server-IBRS-x86_64-cpu-pku │     False     │     True      │
-> ├────────────────────────────────────┼───────────────┼───────────────┤
-> │   Skylake-Server-x86_64-cpu-pku    │     False     │     True      │
-> ├────────────────────────────────────┼───────────────┼───────────────┤
-> │         VGA-global-vmstate         │     True      │     False     │
-> ├────────────────────────────────────┼───────────────┼───────────────┤
-> │     cirrus-vga-global-vmstate      │     True      │     False     │
-> ├────────────────────────────────────┼───────────────┼───────────────┤
-> │        hda-audio-use-timer         │     False     │     True      │
-> ├────────────────────────────────────┼───────────────┼───────────────┤
-> │  migration-decompress-error-check  │     False     │     True      │
-> ├────────────────────────────────────┼───────────────┼───────────────┤
-> │       qxl-vga-global-vmstate       │     True      │     False     │
-> ├────────────────────────────────────┼───────────────┼───────────────┤
-> │     vmware-svga-global-vmstate     │     True      │     False     │
-> ├────────────────────────────────────┼───────────────┼───────────────┤
-> │      x86_64-cpu-legacy-cache       │     True      │ [True, False] │
-> ├────────────────────────────────────┼───────────────┼───────────────┤
-> │         x86_64-cpu-topoext         │     False     │ [True, False] │
-> ├────────────────────────────────────┼───────────────┼───────────────┤
-> │   x86_64-cpu-x-hv-synic-kvm-only   │     True      │     False     │
-> ╘════════════════════════════════════╧═══════════════╧═══════════════╛
-> 
-> Signed-off-by: Maksim Davydov <davydov-max@yandex-team.ru>
-> ---
->   scripts/compare_mt.py | 370 ++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 370 insertions(+)
->   create mode 100755 scripts/compare_mt.py
-> 
-> diff --git a/scripts/compare_mt.py b/scripts/compare_mt.py
-> new file mode 100755
-> index 0000000000..a063c79682
-> --- /dev/null
-> +++ b/scripts/compare_mt.py
-> @@ -0,0 +1,370 @@
-> +#!/usr/bin/env python3
-> +#
-> +# Copyright (c) Yandex Technologies LLC, 2022
-> +#
-> +# Script to compare machine type compatible properties
-> +#
-> +# This program is free software; you can redistribute it and/or modify
-> +# it under the terms of the GNU General Public License as published by
-> +# the Free Software Foundation; either version 2 of the License, or
-> +# (at your option) any later version.
-> +#
-> +# This program is distributed in the hope that it will be useful,
-> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +# GNU General Public License for more details.
-> +#
-> +# You should have received a copy of the GNU General Public License
-> +# along with this program; if not, see <http://www.gnu.org/licenses/>.
-> +
-> +from tabulate import tabulate
-> +import json
+This patch allows the monitor to resolve the
+stack pointer, instruction pointer,
+system status register and FPU status register
+on ARM targets.
 
-json import unused
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1145
 
-> +import sys
-> +from os import path
-> +from argparse import ArgumentParser, RawTextHelpFormatter
-> +import pandas as pd
-> +
-> +try:
-> +    qemu_dir = path.abspath(path.dirname(path.dirname(__file__)))
-> +    sys.path.append(path.join(qemu_dir, 'python'))
-> +    from qemu.machine import QEMUMachine
-> +    from qemu.qmp import ConnectError
+Signed-off-by: Nikola Brkovic <nb91605@student.uni-lj.si>
+---
+ target/arm/monitor.c | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-ConnectError unused
-
-> +except ModuleNotFoundError as exc:
-> +    print(f"Module '{exc.name}' not found.")
-> +    print("Try export PYTHONPATH=top-qemu-dir/python or run from top-qemu-dir")
-> +    sys.exit(1)
-> +
-> +
-> +DEF_CMD_LINE = 'build/qemu-system-x86_64 -enable-kvm -machine none'
-> +
-> +
-> +# Methods to get right values of drivers props
-> +#
-> +# Use these methods as a 'whitelist' and add entries only if necessary. It's
-> +# important in analysis and tests.
-> +# Names should be in qom-list-types format (486-x86_64-cpu, not 486)
-> +# The latest definition wins:
-> +# 1) device
-> +# 2) cpu
-> +# 3) 486-x86_64-cpu
-> +# For 486 will be used - 3) rule, for virtio device - 1), for Haswell - 2)
-> +def get_device_prop(vm, device, prop_name):
-> +    args = {'typename': device}
-> +    device_props = vm.command('device-list-properties', **args)
-> +    for prop in device_props:
-> +        if prop['name'] == prop_name:
-> +            return str(prop.get('default-value', 'No default value'))
-> +
-> +    return 'Unknown property'
-> +
-> +
-> +def get_x86_64_cpu_prop(vm, device, prop_name):
-> +    # crop last 11 chars '-x86_64-cpu'
-> +    args = {'type': 'full', 'model': {'name': device[:-11]}}
-> +    props = vm.command('query-cpu-model-expansion', **args)['model']['props']
-> +    return str(props.get(prop_name, 'Unknown property'))
-> +
-> +
-> +# Now it's stub, because all memory_backend types don't have default values
-> +# but this behaviour can be changed
-> +def get_memory_backend_prop(vm, driver, prop_name):
-> +    args = {'typename': driver}
-> +    memory_backend_props = vm.command('qom-list-properties', **args)
-> +    for prop in memory_backend_props:
-> +        if prop['name'] == prop_name:
-> +            return str(prop.get('default-value', 'No default value'))
-> +
-> +    return 'Unknown property'
-> +
-> +
-> +property_methods = [
-> +    {'name': 'device', 'method': get_device_prop},
-> +    {'name': 'x86_64-cpu', 'method': get_x86_64_cpu_prop},
-> +    {'name': 'memory-backend', 'method': get_memory_backend_prop}
-> +    ]
-> +# End of methods definition
-> +
-> +
-> +def parse_args():
-> +    parser = ArgumentParser(formatter_class=RawTextHelpFormatter,
-> +                            description='Script to compare machine types '
-> +                            '(their compat_props).\n\n'
-> +                            'The script execution with --all option may take '
-> +                            'several minutes!\n\n'
-> +                            'If a property applies to an abstract class this '
-> +                            'script collects default values of all child '
-> +                            'classes and prints them as a set.\n\n'
-> +                            '"Unavailable method" - means that this script '
-> +                            'doesn\'t know how to get default values of the '
-> +                            'driver. To add method use the construction '
-> +                            'described at the top of the script.\n'
-> +                            '"Unavailable driver" - means that this script '
-> +                            'doesn\'t know this driver. For instance, this '
-> +                            'can happen if you configure QEMU without this '
-> +                            'device or if machine type definition has error.\n'
-> +                            '"No default value" - means that the appropriate '
-> +                            'method can\'t get the default value and most '
-> +                            'likely that this property doesn\'t have it.\n'
-> +                            '"Unknown property" - means that the appropriate '
-> +                            'method can\'t find property with this name.')
-
-Please use triple quotes for this, like
-      description="""\
-
-A lot of text with new
-lines ...
-..."""
-
-> +
-> +    parser.add_argument('--json', action='store_true',
-> +                        help='returns table in json format')
-> +    parser.add_argument('--csv', action='store_true',
-> +                        help='returns table in csv format')
-> +    parser.add_argument('--all', action='store_true',
-> +                        help='prints all available machine types (list of '
-> +                             'machine types will be ignored)')
-> +    parser.add_argument('--MT', nargs="*", type=str,
-> +                        help='list of Machine Types that will be compared')
-> +    parser.add_argument('--raw', action='store_true',
-> +                        help='prints ALL defined properties without '
-> +                             'value transformation. By default, '
-> +                             'only properties with different values '
-> +                             'printed and with value transformation(like '
-> +                             '"on" -> True)')
-> +    parser.add_argument('--cmd-line', default=DEF_CMD_LINE,
-> +                        help='command line to start qemu.'
-> +                             'Default: {}'.format(DEF_CMD_LINE))
-> +    return parser.parse_args()
-> +
-> +
-> +# return touple (name, major, minor, revision)
-
-tuple
-
-> +def MT_comp(MT):
-> +    splited_name = MT['name'].rsplit('-', 1)
-
-accordingly to PEP8 function and variable names should be lowercase. So please don't use uppercase for it, it's harder to read.
-
-> +    if len(splited_name) == 2:
-> +        version = splited_name[1].split('.')
-> +        if len(version) == 2:
-> +            return (splited_name[0], int(version[0]), int(version[1]), 0)
-> +        if len(version) == 3:
-> +            return (splited_name[0],
-> +                    int(version[0]), int(version[1]), int(version[2]))
-> +
-> +    return (splited_name[0], 0, 0, 0)
-> +
-> +
-> +def get_MT_definitions(vm):
-> +    args = {'compat-props': True}
-> +    raw_MT_defs = vm.command('query-machines', **args)
-> +    MT_defs = [] # MT: {driver_1: set_of_props, ...}
-> +    for raw_MT in raw_MT_defs:
-> +        compat_props = {}
-> +        for prop in raw_MT['compat-props']:
-> +            if not compat_props.get(prop['driver'], None):
-
-this condition is better to write like:
-
-    if prop['driver'] not in compat_props:
-
-> +                compat_props[prop['driver']] = {}
-> +            compat_props[prop['driver']][prop['property']] = prop['value']
-> +        MT_defs.append({'name': raw_MT['name'], 'compat-props': compat_props})
-> +
-> +    MT_defs.sort(key=MT_comp)
-> +    return MT_defs
-> +
-> +
-> +def get_req_props(MT_defs):
-> +    driver_props = {}
-> +    for MT in MT_defs:
-> +        compat_props = MT['compat-props']
-> +        for driver, prop in compat_props.items():
-> +            if driver not in driver_props:
-> +                driver_props[driver] = set()
-> +            driver_props[driver].update(prop.keys())
-> +
-> +    return driver_props
-> +
-> +
-> +def get_driver_definitions(vm):
-> +    args = {'abstract': True}
-> +    qom_all_types = vm.command('qom-list-types', **args)
-> +
-> +    driver_to_def = {}
-> +    for obj_type in qom_all_types:
-> +        # parent of Object is None
-> +        parent = obj_type.get('parent', None)
-> +        abstr  = obj_type.get('abstract', False)
-
-double space breaks PEP8
-
-> +        driver_to_def[obj_type['name']] = {
-> +            'parent': parent,
-> +            'abstract': abstr,
-> +            'method': None}
-> +        if abstr:
-> +            type_args = {'implements': obj_type['name'], 'abstract': True}
-> +            list_child_objs = vm.command('qom-list-types', **type_args)
-> +            child_list = [child['name'] for child in list_child_objs]
-> +            driver_to_def[obj_type['name']]['child_list'] = child_list
-> +
-> +    for driver in property_methods:
-> +        if not driver_to_def[driver['name']]['abstract']:
-> +            driver_to_def[driver['name']]['method'] = driver['method']
-> +            continue
-> +
-> +        for child in driver_to_def[driver['name']]['child_list']:
-> +            driver_to_def[child]['method'] = driver['method']
-> +
-> +    return driver_to_def
-> +
-> +
-> +def fill_prop_table(vm, MT_list, driver_props, driver_defs):
-> +    table = {}
-> +    for driver, props in sorted(driver_props.items()):
-> +        for prop in sorted(props):
-> +            name = '{}-{}'.format(driver, prop)
-> +            table[name] = []
-> +            for MT in MT_list:
-> +                compat_props = MT['compat-props']
-> +                if compat_props.get(driver, None):
-> +                    if compat_props[driver].get(prop, None):
-> +                        table[name].append(compat_props[driver][prop])
-> +                        continue
-> +
-> +                # properties from QEMU (not from machine type compat_props)
-> +                # properties from another architecture or config
-> +                if not driver_defs.get(driver, None):
-> +                    table[name].append('Unavailable driver')
-> +                    continue
-> +
-> +                if not driver_defs[driver]['abstract']:
-> +                    if driver_defs[driver]['method'] is None:
-> +                        table[name].append('Unavailable method')
-> +                    else:
-> +                        table[name].append(
-> +                            driver_defs[driver]['method'](vm, driver, prop))
-> +                else:
-> +                    children = driver_defs[driver]['child_list']
-> +                    values = set()
-> +                    for child in children:
-> +                        if driver_defs[child]['abstract']:
-> +                            continue
-> +
-> +                        if driver_defs[child]['method'] is None:
-> +                            values.add('Unavailable method')
-> +                        else:
-> +                            values.add(
-> +                                driver_defs[child]['method'](vm, child, prop))
-> +
-> +                    table[name].append(list(values))
-> +
-> +    headers = [MT['name'] for MT in MT_list]
-> +    return pd.DataFrame.from_dict(table, orient='index', columns=headers)
-> +
-> +
-> +def transform_value(value):
-> +    true_list = ['true', 'on']
-> +    false_list = ['false', 'off']
-> +
-> +    out = value.lower()
-> +
-> +    if out in true_list:
-> +        return True
-> +
-> +    if out in false_list:
-> +        return False
-> +
-> +    return out
-> +
-> +
-> +# Only hex, dec and oct formats
-> +def transform_number(value):
-> +    try:
-> +        # C doesn't work with underscore ('2_5' != 25)
-> +        if '_' in value:
-> +            raise ValueError
-> +
-> +        if 'x' in value or 'X' in value:
-> +            return int(value, 16)
-> +
-> +        if 'o' in value or 'O' in value:
-> +            return int(value, 8)
-> +
-> +        return int(value)
-> +
-> +    except ValueError:
-> +        return None
-> +
-> +
-> +def transformed_table(table):
-> +    new_table = {}
-> +    for index, row in table.iterrows():
-> +        new_row = []
-> +        all_values = set()
-> +        # We want to save original hex/decimal format if not all values
-> +        # are the same in the row. So, transformed and not transformed will be
-> +        # stored
-> +        numeric_values = set()
-> +        for MT_prop_val in row:
-> +            if type(MT_prop_val) is list:
-> +                transformed = [transform_value(val) for val in MT_prop_val]
-> +                if len(transformed) == 1:
-> +                    new_row.append(transformed[0])
-> +                else:
-> +                    new_row.append(transformed)
-> +
-> +                numeric_values.update(set([transform_number(val)
-> +                                           for val in MT_prop_val]))
-> +                all_values.update(set(transformed))
-> +            else:
-> +                transformed = transform_value(MT_prop_val)
-> +                new_row.append(transformed)
-> +                numeric_values.add(transform_number(MT_prop_val))
-> +                all_values.add(transformed)
-> +
-> +        if len(table.columns) > 1:
-> +            if len(all_values) == 1:
-> +                continue
-> +
-> +            if not None in numeric_values and len(numeric_values) == 1:
-
-PEP8 recommends "None not in numeric_value" instead of "not None in numeric_values"
-
-> +                continue
-> +
-> +        new_table[index] = new_row
-> +
-> +    return pd.DataFrame.from_dict(new_table, orient='index',
-> +                                  columns=table.columns.values)
-> +
-> +
-> +if __name__ == '__main__':
-> +    args = parse_args()
-> +    qemu_arg_list = args.cmd_line.split(' ')
-> +    with QEMUMachine(binary=qemu_arg_list[0],
-> +                     qmp_timer=15, args=qemu_arg_list[1:]) as vm:
-> +        vm.launch()
-> +        MT_defs = get_MT_definitions(vm)
-> +        list_MT = [MT['name'] for MT in MT_defs]
-> +
-> +        if not args.all:
-> +            if args.MT is None:
-> +                print('Enter machine types for comparision or use --help')
-> +                print('List of available machine types:')
-> +                print(*list_MT, sep='\n')
-> +                sys.exit(1)
-> +
-> +            for MT in args.MT:
-> +                if MT not in list_MT:
-> +                    print('Wrong machine type name')
-> +                    print('List of available machine types:')
-> +                    print(*list_MT, sep='\n')
-> +                    sys.exit(1)
-> +
-> +        req_MT = []
-> +        if args.all:
-> +            req_MT = MT_defs
-> +        else:
-> +            for MT in MT_defs:
-> +                if MT['name'] in args.MT:
-> +                    req_MT.append(MT)
-> +
-> +        if len(req_MT) == 1:
-> +            args.full = True
-> +
-> +        req_driver_props = get_req_props(req_MT)
-> +        driver_defs = get_driver_definitions(vm)
-> +        comp_table = fill_prop_table(vm, req_MT, req_driver_props, driver_defs)
-> +        if not args.raw:
-> +            comp_table = transformed_table(comp_table)
-> +
-> +        if args.json:
-> +            print(comp_table.to_json())
-> +        elif args.csv:
-> +            print(comp_table.to_csv())
-> +        else:
-> +            print(tabulate(comp_table, showindex=True, stralign='center',
-> +                           tablefmt='fancy_grid', headers='keys',
-> +                           disable_numparse=True))
-> +
-> +        vm.shutdown()
-
-
+diff --git a/target/arm/monitor.c b/target/arm/monitor.c
+index 80c64fa355..143c95bca4 100644
+--- a/target/arm/monitor.c
++++ b/target/arm/monitor.c
+@@ -31,6 +31,7 @@
+ #include "qapi/qmp/qerror.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qom/qom-qobject.h"
++#include "monitor/hmp-target.h"
+ 
+ static GICCapability *gic_cap_new(int version)
+ {
+@@ -228,3 +229,31 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
+ 
+     return expansion_info;
+ }
++
++static target_long monitor_get_cpsr(Monitor *mon, const struct MonitorDef *md,
++                                    int val)
++{
++    CPUArchState *env = mon_get_cpu_env(mon);
++    return cpsr_read(env);
++}
++
++const MonitorDef monitor_defs[] = {
++    { "sp|r13", offsetof(CPUARMState, regs[13])},
++    { "lr|r14", offsetof(CPUARMState, regs[14])},
++#ifndef TARGET_AARCH64
++    { "pc|r15|ip", offsetof(CPUARMState, regs[15]) },
++#else
++    { "pc|ip", offsetof(CPUARMState, pc) },
++#endif
++
++    /* State registers */
++    { "cpsr", 0, &monitor_get_cpsr},
++    { "fpscr", offsetof(CPUARMState, vfp.fp_status)},
++
++    { NULL }
++};
++
++const MonitorDef *target_monitor_defs(void)
++{
++    return monitor_defs;
++}
 -- 
-Best regards,
-Vladimir
+2.37.3
+
 
