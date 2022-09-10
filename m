@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A88B95B460C
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Sep 2022 13:30:03 +0200 (CEST)
-Received: from localhost ([::1]:34720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D7C05B460E
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Sep 2022 13:33:37 +0200 (CEST)
+Received: from localhost ([::1]:57994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oWygU-0003X7-CP
-	for lists+qemu-devel@lfdr.de; Sat, 10 Sep 2022 07:30:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56150)
+	id 1oWyjw-00066P-8f
+	for lists+qemu-devel@lfdr.de; Sat, 10 Sep 2022 07:33:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oWyeT-00028n-Sc
- for qemu-devel@nongnu.org; Sat, 10 Sep 2022 07:27:57 -0400
-Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:60384)
+ id 1oWyfb-0003AU-Ri
+ for qemu-devel@nongnu.org; Sat, 10 Sep 2022 07:29:07 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:33190)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oWyeO-0004dI-Qc
- for qemu-devel@nongnu.org; Sat, 10 Sep 2022 07:27:55 -0400
-Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
- (iva4-f06c35e68a0a.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:152e:0:640:f06c:35e6])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id D88052E0A2D;
- Sat, 10 Sep 2022 14:27:44 +0300 (MSK)
+ id 1oWyfa-0004pE-8g
+ for qemu-devel@nongnu.org; Sat, 10 Sep 2022 07:29:07 -0400
+Received: from vla1-81430ab5870b.qloud-c.yandex.net
+ (vla1-81430ab5870b.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0d:35a1:0:640:8143:ab5])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id B65B72E0A2D;
+ Sat, 10 Sep 2022 14:29:01 +0300 (MSK)
 Received: from [IPV6:2a02:6b8:b081:1329::1:2d] (unknown
  [2a02:6b8:b081:1329::1:2d])
- by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- dyGUdihpuD-RgPidcwl; Sat, 10 Sep 2022 14:27:44 +0300
+ by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ WkMKyKzi6x-T0PaPL5I; Sat, 10 Sep 2022 14:29:01 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 Precedence: bulk
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1662809264; bh=hGUz0g8DAgky1svnzCBIVNmCMWrUnYq2So6qSKANjQs=;
+ t=1662809341; bh=+IrADOAaP6OkASDSmMq4LD3PcuT5HNxAfLtAcf6JVKY=;
  h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=LRpTHENFhW2GoN4T6PaKV9oCSCIlmrPvhSn44RwasI3km4R4lT9g1lkV0Qv3gNwTp
- IRpB0WOAZKSmjj9AkLEw1FElIQ1/kS5tubrcnTbFhtl1n6MauaXe/oP6WKP7LIua95
- xbi9WbCOh5163i5815wSbZPsL9ZguoUovPYYrE4U=
-Authentication-Results: iva4-f06c35e68a0a.qloud-c.yandex.net;
+ b=v0L56oQsnoXNcNfxBoYBTM3KTSQ9W8tIWno4r/Q0KOTkFhOxsWwyiWjO6kORhfPz3
+ r92HG3WrGGfLvUXI448IrLO11bKUi80t9KCbMfro35puvx6p3g15dwHtFRbc6MqK3o
+ dBuV4KPHBb5g6PxM0oEMU06VZza5KXq7P5PuDdMU=
+Authentication-Results: vla1-81430ab5870b.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
-Message-ID: <d226b1e0-8a4f-1f37-314e-6808bb1efe87@yandex-team.ru>
-Date: Sat, 10 Sep 2022 14:27:42 +0300
+Message-ID: <b9a7b9fb-9c30-4738-e4a0-cf2c5f0179ba@yandex-team.ru>
+Date: Sat, 10 Sep 2022 14:29:00 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH 2/4] qmp: add dump machine type compatible properties
+Subject: Re: [PATCH 3/4] python/qmp: increase read buffer size
 Content-Language: en-US
 To: Maksim Davydov <davydov-max@yandex-team.ru>, qemu-devel@nongnu.org
 Cc: yc-core@yandex-team.ru, pbonzini@redhat.com, berrange@redhat.com,
@@ -56,9 +56,9 @@ Cc: yc-core@yandex-team.ru, pbonzini@redhat.com, berrange@redhat.com,
  Qiuhao.Li@outlook.com, lvivier@redhat.com, jsnow@redhat.com,
  crosa@redhat.com, bleal@redhat.com
 References: <20220908103650.9518-1-davydov-max@yandex-team.ru>
- <20220908103650.9518-3-davydov-max@yandex-team.ru>
+ <20220908103650.9518-4-davydov-max@yandex-team.ru>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20220908103650.9518-3-davydov-max@yandex-team.ru>
+In-Reply-To: <20220908103650.9518-4-davydov-max@yandex-team.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=95.108.205.193;
@@ -85,18 +85,34 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/8/22 13:36, Maksim Davydov wrote:
-> To control that creating new machine type doesn't affect the previous
-> types (their compat_props) and to check complex compat_props inheritance
-> we need qmp command to print machine type compatible properties.
-> This patch adds the ability to get list of all the compat_props of the
-> corresponding supported machines for their comparison via new optional
-> argument of "query-machines" command.
+> After modification of "query-machines" command the buffer size should be
+> more than 452kB to contain output with compat-props.
 > 
-> Signed-off-by: Maksim Davydov<davydov-max@yandex-team.ru>
+> Signed-off-by: Maksim Davydov <davydov-max@yandex-team.ru>
+> ---
+>   python/qemu/qmp/qmp_client.py | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/python/qemu/qmp/qmp_client.py b/python/qemu/qmp/qmp_client.py
+> index 5dcda04a75..659fe4d98c 100644
+> --- a/python/qemu/qmp/qmp_client.py
+> +++ b/python/qemu/qmp/qmp_client.py
+> @@ -197,8 +197,8 @@ async def run(self, address='/tmp/qemu.socket'):
+>       #: Logger object used for debugging messages.
+>       logger = logging.getLogger(__name__)
+>   
+> -    # Read buffer limit; large enough to accept query-qmp-schema
+> -    _limit = (256 * 1024)
+> +    # Read buffer limit; large enough to accept query-machines
+> +    _limit = (512 * 1024)
+>   
+>       # Type alias for pending execute() result items
+>       _PendingT = Union[Message, ExecInterruptedError]
 
 
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
+This patch should better go before 02, to never break things in the history.
 
 -- 
 Best regards,
