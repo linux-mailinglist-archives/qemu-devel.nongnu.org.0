@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B25B5B50AE
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Sep 2022 20:41:09 +0200 (CEST)
-Received: from localhost ([::1]:50208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD0415B50AA
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Sep 2022 20:37:49 +0200 (CEST)
+Received: from localhost ([::1]:59478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXRtD-0005nG-1D
-	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 14:41:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33168)
+	id 1oXRq0-0000oF-Ti
+	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 14:37:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oXRXW-0002Ry-9L
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oXRXX-0002S5-GW
  for qemu-devel@nongnu.org; Sun, 11 Sep 2022 14:18:43 -0400
-Received: from mout.gmx.net ([212.227.15.15]:36243)
+Received: from mout.gmx.net ([212.227.15.18]:59789)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oXRXU-0002lD-7t
- for qemu-devel@nongnu.org; Sun, 11 Sep 2022 14:18:41 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oXRXU-0002lE-8f
+ for qemu-devel@nongnu.org; Sun, 11 Sep 2022 14:18:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1662920313;
- bh=loeDl/2mZnUDga515rEsZmw+joKNGkTHOEj5nvdr85U=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
- b=RdW8Ty6pjNtFKUpkEivjs/SjRcpO8B6RzRlcdHe+YqmP09ss4pm+7Qmf7dNdi86fg
- tJwCYkDG+kCGyI3DLpRsvappp+sa9yugH/8PDMYCdXb/px0KEGgOyYLJkcD+0ddVTp
- XcZO4TcK4r/HKlfYd/svp6p8QUEaG9pNpZkkaOMI=
+ bh=iZy4oWlz4gLRtGY1piJ1Up9ec0SQer8EDDaNHLcum+s=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=O1YPVof6d32/GuywkQDTxEhGqqbdGM7641MpaO9/suA6GTshzzaKY1fkjp6WBGAMf
+ ropBvHeNeklubGsuUE42v9lnORl84UCk/F0t369TP+rW7he6AhTBC+N9xdrVYHID/N
+ ZJ0BXt+v/PWl925SxkAGXrUyVoUhggMwkIM84IWI=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from p100.fritz.box ([92.116.178.88]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MKbkM-1oloaj1c7A-00L1UX; Sun, 11
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MsYqv-1pLyks2E6l-00u582; Sun, 11
  Sep 2022 20:18:33 +0200
 From: Helge Deller <deller@gmx.de>
 To: qemu-devel@nongnu.org,
 	Laurent Vivier <laurent@vivier.eu>
 Cc: deller@gmx.de,
 	Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v2 00/12] linux-user: Add more syscalls,
- enhance tracing & logging enhancements
-Date: Sun, 11 Sep 2022 20:18:18 +0200
-Message-Id: <20220911181830.15851-1-deller@gmx.de>
+Subject: [PATCH v2 01/12] linux-user: Add missing signals in strace output
+Date: Sun, 11 Sep 2022 20:18:19 +0200
+Message-Id: <20220911181830.15851-2-deller@gmx.de>
 X-Mailer: git-send-email 2.37.2
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20220911181830.15851-1-deller@gmx.de>
+References: <20220911181830.15851-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:6JOFDJ6eTKdBUkfk3yhGdUwGAN5LANsePtkXtl4LoB7dCfo6RWm
- Bs9COHQt/Vc+H2fL8tYflXDNLmPEGKgueYcuBpFZt1BFZAoEYQ8wIt6ZLVrJIjqDGdHb1I2
- 2bdeqdr6NfUUO1ghLNeVuyUH5Z30J4emuijVt7q5sdau+R8YJkJRNWri/Ediy5bHo99xQvh
- pAQ5CC6m4SeUIxBjM8Eaw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:FjDmhDM/p5c=:5J49AIIBEUSqBcSZsYYLhN
- CUMXreTZWpS4wI0Wytus6TIuIlpx7/4Tj4BO18Z2O7drIz2gzykhiS8Q68nBWUvDW88e9GL6A
- /LyYG8o7lNix+00CC3GdDlY5qE8l6g2DgNJVjee1D4fOlO42vvGBCQTL4+kRUrW8Carmh4msz
- egi4fOmkjNNpL+pzwAghCXHxgdKj36F3sMdjtbYRqalmFmj2qGxdBVkG1HAKa1smD2WXYOq1k
- SxP0wkWKsphwAEq0rPJd6NXdsDIkod/JmdTiayOBbcNScJtzUVh5V52FViLwJJHE3YBdlqewn
- S+sOzp8w8N9xhlIwLgF2mA2QUkAHksnNWKbsWjEI1D4dMAWIpt5xoBG4wklFaIlGoq2mXOde0
- KCITkEeh9N3GzQTMZZWl8WsCFpRHqMrsdzTVmNJFe5/hKpMAOPI6crnIjzVP7FwG4N2/vz5tD
- LhR70TmB5NY3iQ27NFFuxN7g/WryrfF9oQmMBieG3ksrI88DJxJQA4W0mWbLz6HeG4Mth5e0I
- 2nGofghqvz3tVZW2be3N6BA67+owT5yFSrioUUs38GM6AYJIwgJFUqBIT7esVBC2Gj9DkXBKy
- vvRPXf6Pdawxor++KFp3Kj1SLqqYFpGHN/6/K+35Gt1yprYu38lrewOiAtS6n5tRi3IC6/wKW
- 3/UJ99yJwVeuPz2SpagqmbPiEME3ngqyGBOLGnUmTI3RHKWh4QgMcV4upNHbglK+17qoJ99uP
- rTM/gUKFyWqhryFwpUrTpR6209+/FnFWWgSLHGouhCgqmgkZpBhE//e660vQmfjrRaXRJguQE
- Q9MKB2NDv2MOR/Nz3/5fdHyrI7QFJcqxAZKpA3Jle281Lm86AsgSrXHgY4Zf4LhNGgONHCgry
- Mhok2SAQZE1VqHPEgghlxGbgnH/SbmseCDY9Kw2PHho69U7N2KHTA2IV7sRhpZMpm07treRxN
- 3miQpj8+ZvGFYI4L+O5x+fTCS0MgRnJw2bmARKUZqvFdYuUEfMIZ/mP0GlafykXPxmHUdDkPn
- q2MwReZjINajSvo7sYhmMN6QrsjLhD9laStgo1lNi6Ua7OvQ277gGKpv2mW06vctoV9Gl83sT
- fQ3AUmNxBI8EYW7A2RlAQ9jT1iMC7jQdRivN6vpYuGZMA6ZEmJ2GhEJm0cMIMO17yJp30Unf7
- 2rlc4=
-Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:l3nioEHCuAtTKG5EkdNb3nJnUQ+yAUj1/s+v9KwrC8amL18zuIF
+ rD+N5CwKrXhicykZ7oxtF++zop8Up+1lBC5AH84ID+XIzvd8d+YxDWTAu14kKyOc6POtZGr
+ vOES56qY1vcyhMXOAnZX0thjkOQb7EK1mAt3ZfKxe6x3EI8QR5pWwBlOKaqwKXxsSczTXZE
+ dYjV7c6gmSTPtptJfQjYQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ccx2wq0TOlY=:OlTSYM4qy+oEXJEib4JWUZ
+ wxXugDQrqRoa6bW32hySNM72FQBgRn9ruQcUTD6t8q53C8h09sjcgVhblIjo+rS+7zzi1hMSr
+ k0brotP4vq9RGv6+otAX6KCEOYQFMAQ/msANsIGHgvFxmOgtu4Bj8Oj1ctemKyZsqsGxOvXfy
+ RCrDt9YVaRVT9XljM1AemL992y5Azsw4/gp88xtQT2YUei2Lqz2wrxFoD4mJOOK81WBY+4a/D
+ PUK2gCBnALR6gkzV11kOkkXDOpJSI3zyJBTCTQGM9sAq1TFrW7aAEJ3siYx4EwvHPbO49Vvg7
+ +zw5sHBW03u9De9yD+3itirys6NLqm/weGztk7iyzPS4PnmtGki/hf9PfbDe6MwRLQFcQjXkH
+ Gws8oahyFlA7kownHKAS6/ZuQQ7UYtwbURkpVNUyFjBpOylPj7+HZqrmgd6PkHqFX7a3RConn
+ 9my3CQpSAY7AlPqf1TPM3X72/8/RpMUANPHNVRbkjqpm9CWBKOL2X8evOdGLGaeosSwc9EFyy
+ KRE7pZwoKyDTKMTcDooTusYVrBhmqDK7nHDkNHV+Ji+uKiZDRyy6RhVOh4oE3u/7/HGV5xUWn
+ ukqe/nsINYksCmfZ3KDiIa0vrKaDbekJo5rncYemQs+kVndwngcUdvwpD0rzSq9ZkPMig2XFn
+ 1b7BWIkCFDPDZ9QaGdWTtWZGK68PiebejXMhF/tL3oe+iUFeycVEcPoDj0dYQsOdePfHHBHvC
+ Tw+EOMWT4TTSOsQlZxUBG8AYMqK27749Dz3dZcsIFZFfJzJgASomWtFj1KblxcNwNeR/+esHD
+ OjhR8NtEog0zqaXK8Szt/9KGYpPrsYghAoIzN6h7kJMhL2AIpj0fBZ3Fyt222o1nqw8i+CzoW
+ 9e4BCsaZjHXt50BQruUP5oS3h+GZMWTg8+oiAGKtpzSylnLmomeSH9mFC4r9WMqACc/jtgQr+
+ fcBqwcedlkwXOTHHXp75Dvsa5d/H7bRJTPxXMOJy/SGCAhFwnKn3Aytl0KjpGRXCjKaAny3ed
+ 5FgrnId+qvhEhp3xg+sQ+rBqQaWexUst9xBhUrQb2Oua3WhjmCMS395ZPnfIqj/6AfLzlc+Pt
+ r3jXf0VDQKgTlfbFkRAiAz/xrA4/3GfuLmRIMM89OLDiB9Q8ZYSbs4b311M0Rk3ze8rHbdBZp
+ KpWI8=
+Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -71,7 +71,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ UPPERCASE_50_75=0.008 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,52 +88,180 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here is a bunch of patches for linux-user.
+Some of the guest signal numbers are currently not converted to
+their representative names in the strace output, e.g. SIGVTALRM.
 
-Most of them add missing syscalls and enhance the tracing/logging.
-Some of the patches are target-hppa specific.
-I've tested those on productive hppa debian buildd servers (running qemu-u=
-ser).
+This patch introduces a smart way to generate and keep in sync the
+host-to-guest and guest-to-host signal conversion tables for usage in
+the qemu signal and strace code. This ensures that any signals
+will now show up in both tables.
 
-Thanks!
-Helge
+There is no functional change in this patch - with the exception that yet
+missing signal names now show up in the strace code too.
 
-Changes to v1:
-- Dropped the faccessat2() syscall patch in favour of Richard's patch
-- Various changes to the "missing signals in strace output" patch based on
-  Richard's feedback, e.g. static arrays, fixed usage of _NSIG, fix build =
-when
-  TARGET_SIGIOT does not exist
-- Use FUTEX_CMD_MASK in "Show timespec on strace for futex" patch
-  unconditionally and turn into a switch statement - as suggested by Richa=
-rd
+Signed-off-by: Helge Deller <deller@gmx.de>
+=2D--
+ linux-user/signal-common.h | 46 ++++++++++++++++++++++++++++++++++++++
+ linux-user/signal.c        | 37 +++---------------------------
+ linux-user/strace.c        | 30 +++++++++----------------
+ 3 files changed, 60 insertions(+), 53 deletions(-)
 
-Helge Deller (12):
-  linux-user: Add missing signals in strace output
-  linux-user: Add missing clock_gettime64() syscall strace
-  linux-user: Add pidfd_open(), pidfd_send_signal() and pidfd_getfd()
-    syscalls
-  linux-user: Log failing executable in EXCP_DUMP()
-  linux-user/hppa: Use EXCP_DUMP() to show enhanced debug info
-  linux-user/hppa: Dump IIR on register dump
-  linux-user: Fix strace of chmod() if mode =3D=3D 0
-  linux-user/hppa: Set TASK_UNMAPPED_BASE to 0xfa000000 for hppa arch
-  linux-user: Add strace for clock_nanosleep()
-  linux-user: Show timespec on strace for futex()
-  linux-user: Add close_range() syscall
-  linux-user: Add parameters of getrandom() syscall for strace
+diff --git a/linux-user/signal-common.h b/linux-user/signal-common.h
+index 6a7e4a93fc..3e2dc604c2 100644
+=2D-- a/linux-user/signal-common.h
++++ b/linux-user/signal-common.h
+@@ -118,4 +118,50 @@ static inline void finish_sigsuspend_mask(int ret)
+     }
+ }
 
- linux-user/cpu_loop-common.h |   2 +
- linux-user/hppa/cpu_loop.c   |   6 +-
- linux-user/mmap.c            |   4 +
- linux-user/signal-common.h   |  46 ++++++++++++
- linux-user/signal.c          |  37 +--------
- linux-user/strace.c          | 142 ++++++++++++++++++++++++++++++-----
- linux-user/strace.list       |  21 +++++-
- linux-user/syscall.c         |  46 ++++++++++++
- target/hppa/helper.c         |   6 +-
- 9 files changed, 251 insertions(+), 59 deletions(-)
++#if defined(SIGSTKFLT) && defined(TARGET_SIGSTKFLT)
++#define MAKE_SIG_ENTRY_SIGSTKFLT        MAKE_SIG_ENTRY(SIGSTKFLT)
++#else
++#define MAKE_SIG_ENTRY_SIGSTKFLT
++#endif
++
++#if defined(SIGIOT) && defined(TARGET_SIGIOT)
++#define MAKE_SIG_ENTRY_SIGIOT           MAKE_SIG_ENTRY(SIGIOT)
++#else
++#define MAKE_SIG_ENTRY_SIGIOT
++#endif
++
++#define MAKE_SIGNAL_LIST \
++        MAKE_SIG_ENTRY(SIGHUP) \
++        MAKE_SIG_ENTRY(SIGINT) \
++        MAKE_SIG_ENTRY(SIGQUIT) \
++        MAKE_SIG_ENTRY(SIGILL) \
++        MAKE_SIG_ENTRY(SIGTRAP) \
++        MAKE_SIG_ENTRY(SIGABRT) \
++        MAKE_SIG_ENTRY(SIGBUS) \
++        MAKE_SIG_ENTRY(SIGFPE) \
++        MAKE_SIG_ENTRY(SIGKILL) \
++        MAKE_SIG_ENTRY(SIGUSR1) \
++        MAKE_SIG_ENTRY(SIGSEGV) \
++        MAKE_SIG_ENTRY(SIGUSR2) \
++        MAKE_SIG_ENTRY(SIGPIPE) \
++        MAKE_SIG_ENTRY(SIGALRM) \
++        MAKE_SIG_ENTRY(SIGTERM) \
++        MAKE_SIG_ENTRY(SIGCHLD) \
++        MAKE_SIG_ENTRY(SIGCONT) \
++        MAKE_SIG_ENTRY(SIGSTOP) \
++        MAKE_SIG_ENTRY(SIGTSTP) \
++        MAKE_SIG_ENTRY(SIGTTIN) \
++        MAKE_SIG_ENTRY(SIGTTOU) \
++        MAKE_SIG_ENTRY(SIGURG) \
++        MAKE_SIG_ENTRY(SIGXCPU) \
++        MAKE_SIG_ENTRY(SIGXFSZ) \
++        MAKE_SIG_ENTRY(SIGVTALRM) \
++        MAKE_SIG_ENTRY(SIGPROF) \
++        MAKE_SIG_ENTRY(SIGWINCH) \
++        MAKE_SIG_ENTRY(SIGIO) \
++        MAKE_SIG_ENTRY(SIGPWR) \
++        MAKE_SIG_ENTRY(SIGSYS) \
++        MAKE_SIG_ENTRY_SIGSTKFLT \
++        MAKE_SIG_ENTRY_SIGIOT
++
+ #endif
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index 8d29bfaa6b..61c6fa3fcf 100644
+=2D-- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -53,40 +53,9 @@ abi_ulong default_rt_sigreturn;
+ QEMU_BUILD_BUG_ON(__SIGRTMAX + 1 !=3D _NSIG);
+ #endif
+ static uint8_t host_to_target_signal_table[_NSIG] =3D {
+-    [SIGHUP] =3D TARGET_SIGHUP,
+-    [SIGINT] =3D TARGET_SIGINT,
+-    [SIGQUIT] =3D TARGET_SIGQUIT,
+-    [SIGILL] =3D TARGET_SIGILL,
+-    [SIGTRAP] =3D TARGET_SIGTRAP,
+-    [SIGABRT] =3D TARGET_SIGABRT,
+-/*    [SIGIOT] =3D TARGET_SIGIOT,*/
+-    [SIGBUS] =3D TARGET_SIGBUS,
+-    [SIGFPE] =3D TARGET_SIGFPE,
+-    [SIGKILL] =3D TARGET_SIGKILL,
+-    [SIGUSR1] =3D TARGET_SIGUSR1,
+-    [SIGSEGV] =3D TARGET_SIGSEGV,
+-    [SIGUSR2] =3D TARGET_SIGUSR2,
+-    [SIGPIPE] =3D TARGET_SIGPIPE,
+-    [SIGALRM] =3D TARGET_SIGALRM,
+-    [SIGTERM] =3D TARGET_SIGTERM,
+-#ifdef SIGSTKFLT
+-    [SIGSTKFLT] =3D TARGET_SIGSTKFLT,
+-#endif
+-    [SIGCHLD] =3D TARGET_SIGCHLD,
+-    [SIGCONT] =3D TARGET_SIGCONT,
+-    [SIGSTOP] =3D TARGET_SIGSTOP,
+-    [SIGTSTP] =3D TARGET_SIGTSTP,
+-    [SIGTTIN] =3D TARGET_SIGTTIN,
+-    [SIGTTOU] =3D TARGET_SIGTTOU,
+-    [SIGURG] =3D TARGET_SIGURG,
+-    [SIGXCPU] =3D TARGET_SIGXCPU,
+-    [SIGXFSZ] =3D TARGET_SIGXFSZ,
+-    [SIGVTALRM] =3D TARGET_SIGVTALRM,
+-    [SIGPROF] =3D TARGET_SIGPROF,
+-    [SIGWINCH] =3D TARGET_SIGWINCH,
+-    [SIGIO] =3D TARGET_SIGIO,
+-    [SIGPWR] =3D TARGET_SIGPWR,
+-    [SIGSYS] =3D TARGET_SIGSYS,
++#define MAKE_SIG_ENTRY(sig)     [sig] =3D TARGET_##sig,
++        MAKE_SIGNAL_LIST
++#undef MAKE_SIG_ENTRY
+     /* next signals stay the same */
+ };
 
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 7d882526da..a4eeef7ae1 100644
+=2D-- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -17,6 +17,7 @@
+ #include "qemu.h"
+ #include "user-internals.h"
+ #include "strace.h"
++#include "signal-common.h"
+
+ struct syscallname {
+     int nr;
+@@ -141,30 +142,21 @@ if( cmd =3D=3D val ) { \
+     qemu_log("%d", cmd);
+ }
+
++static const char * const target_signal_name[] =3D {
++#define MAKE_SIG_ENTRY(sig)     [TARGET_##sig] =3D #sig,
++        MAKE_SIGNAL_LIST
++#undef MAKE_SIG_ENTRY
++};
++
+ static void
+ print_signal(abi_ulong arg, int last)
+ {
+     const char *signal_name =3D NULL;
+-    switch(arg) {
+-    case TARGET_SIGHUP: signal_name =3D "SIGHUP"; break;
+-    case TARGET_SIGINT: signal_name =3D "SIGINT"; break;
+-    case TARGET_SIGQUIT: signal_name =3D "SIGQUIT"; break;
+-    case TARGET_SIGILL: signal_name =3D "SIGILL"; break;
+-    case TARGET_SIGABRT: signal_name =3D "SIGABRT"; break;
+-    case TARGET_SIGFPE: signal_name =3D "SIGFPE"; break;
+-    case TARGET_SIGKILL: signal_name =3D "SIGKILL"; break;
+-    case TARGET_SIGSEGV: signal_name =3D "SIGSEGV"; break;
+-    case TARGET_SIGPIPE: signal_name =3D "SIGPIPE"; break;
+-    case TARGET_SIGALRM: signal_name =3D "SIGALRM"; break;
+-    case TARGET_SIGTERM: signal_name =3D "SIGTERM"; break;
+-    case TARGET_SIGUSR1: signal_name =3D "SIGUSR1"; break;
+-    case TARGET_SIGUSR2: signal_name =3D "SIGUSR2"; break;
+-    case TARGET_SIGCHLD: signal_name =3D "SIGCHLD"; break;
+-    case TARGET_SIGCONT: signal_name =3D "SIGCONT"; break;
+-    case TARGET_SIGSTOP: signal_name =3D "SIGSTOP"; break;
+-    case TARGET_SIGTTIN: signal_name =3D "SIGTTIN"; break;
+-    case TARGET_SIGTTOU: signal_name =3D "SIGTTOU"; break;
++
++    if (arg < ARRAY_SIZE(target_signal_name)) {
++        signal_name =3D target_signal_name[arg];
+     }
++
+     if (signal_name =3D=3D NULL) {
+         print_raw_param("%ld", arg, last);
+         return;
 =2D-
 2.37.2
 
