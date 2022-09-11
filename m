@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C91A05B5058
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Sep 2022 19:41:38 +0200 (CEST)
-Received: from localhost ([::1]:51056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 167EB5B503F
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Sep 2022 19:25:32 +0200 (CEST)
+Received: from localhost ([::1]:49012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXQxd-0004vg-UX
-	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 13:41:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44206)
+	id 1oXQi3-0000I0-65
+	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 13:25:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oXQfJ-00039M-0x
- for qemu-devel@nongnu.org; Sun, 11 Sep 2022 13:22:41 -0400
-Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43]:38449)
+ id 1oXQfH-00038i-Ij
+ for qemu-devel@nongnu.org; Sun, 11 Sep 2022 13:22:40 -0400
+Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43]:34506)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oXQfE-0003LX-4T
+ id 1oXQfE-0003Lr-5b
  for qemu-devel@nongnu.org; Sun, 11 Sep 2022 13:22:39 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R781e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R591e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045170;
  MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0VPKkjDL_1662916947; 
+ TI=SMTPD_---0VPKkjDy_1662916948; 
 Received: from localhost(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VPKkjDL_1662916947) by smtp.aliyun-inc.com;
- Mon, 12 Sep 2022 01:22:27 +0800
+ fp:SMTPD_---0VPKkjDy_1662916948) by smtp.aliyun-inc.com;
+ Mon, 12 Sep 2022 01:22:29 +0800
 From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, jasowang@redhat.com, eduardo@habkost.net,
  marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
  hengqi@linux.alibaba.com, xuanzhuo@linux.alibaba.com
-Subject: [PATCH v4 14/15] virtio-net: support queue_enable
-Date: Mon, 12 Sep 2022 01:22:10 +0800
-Message-Id: <43fe5810e5587e068b0b3fb62f6e15975cd75f30.1662916759.git.kangjie.xu@linux.alibaba.com>
+Subject: [PATCH v4 15/15] vhost: vhost-kernel: enable vq reset feature
+Date: Mon, 12 Sep 2022 01:22:11 +0800
+Message-Id: <fa23dc20c0250e6a09fbae47e4b3ed140ca55f86.1662916759.git.kangjie.xu@linux.alibaba.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1662916759.git.kangjie.xu@linux.alibaba.com>
 References: <cover.1662916759.git.kangjie.xu@linux.alibaba.com>
@@ -64,62 +64,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Support queue_enable in vhost-kernel scenario. It can be called when
-a vq reset operation has been performed and the vq is restared.
-
-It should be noted that we can restart the vq when the vhost has
-already started. When launching a new vhost device, the vhost is not
-started and all vqs are not initalized until VIRTIO_PCI_COMMON_STATUS
-is written. Thus, we should use vhost_started to differentiate the
-two cases: vq reset and device start.
-
-Currently it only supports vhost-kernel.
+Add virtqueue reset feature for vhost-kernel.
 
 Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 ---
- hw/net/virtio-net.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ hw/net/vhost_net.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index d774a3e652..7817206596 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -557,6 +557,26 @@ static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
-     flush_or_purge_queued_packets(nc);
- }
- 
-+static void virtio_net_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
-+{
-+    VirtIONet *n = VIRTIO_NET(vdev);
-+    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
-+    int r;
-+
-+    if (!nc->peer || !vdev->vhost_started) {
-+        return;
-+    }
-+
-+    if (get_vhost_net(nc->peer) &&
-+        nc->peer->info->type == NET_CLIENT_DRIVER_TAP) {
-+        r = vhost_net_virtqueue_restart(vdev, nc, queue_index);
-+        if (r < 0) {
-+            error_report("unable to restart vhost net virtqueue: %d, "
-+                            "when resetting the queue", queue_index);
-+        }
-+    }
-+}
-+
- static void virtio_net_reset(VirtIODevice *vdev)
- {
-     VirtIONet *n = VIRTIO_NET(vdev);
-@@ -3802,6 +3822,7 @@ static void virtio_net_class_init(ObjectClass *klass, void *data)
-     vdc->bad_features = virtio_net_bad_features;
-     vdc->reset = virtio_net_reset;
-     vdc->queue_reset = virtio_net_queue_reset;
-+    vdc->queue_enable = virtio_net_queue_enable;
-     vdc->set_status = virtio_net_set_status;
-     vdc->guest_notifier_mask = virtio_net_guest_notifier_mask;
-     vdc->guest_notifier_pending = virtio_net_guest_notifier_pending;
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index 1059aa45b4..97cdf9280b 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -46,6 +46,7 @@ static const int kernel_feature_bits[] = {
+     VIRTIO_NET_F_MTU,
+     VIRTIO_F_IOMMU_PLATFORM,
+     VIRTIO_F_RING_PACKED,
++    VIRTIO_F_RING_RESET,
+     VIRTIO_NET_F_HASH_REPORT,
+     VHOST_INVALID_FEATURE_BIT
+ };
 -- 
 2.32.0
 
