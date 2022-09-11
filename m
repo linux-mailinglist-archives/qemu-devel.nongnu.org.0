@@ -2,81 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE57B5B5037
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Sep 2022 19:17:47 +0200 (CEST)
-Received: from localhost ([::1]:37878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EFC45B5047
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Sep 2022 19:28:42 +0200 (CEST)
+Received: from localhost ([::1]:43034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXQaX-0001iC-SP
-	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 13:17:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52566)
+	id 1oXQl7-00062C-Oj
+	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 13:28:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arwed.meyer@gmx.de>)
- id 1oXQXn-0008Ti-Dl; Sun, 11 Sep 2022 13:14:55 -0400
-Received: from mout.gmx.net ([212.227.17.22]:39953)
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oXQf9-00036w-1E
+ for qemu-devel@nongnu.org; Sun, 11 Sep 2022 13:22:32 -0400
+Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44]:42088)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arwed.meyer@gmx.de>)
- id 1oXQXl-00029n-KJ; Sun, 11 Sep 2022 13:14:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1662916487;
- bh=sGIkN2uJw1fRY3SQ/frt0dmBwysZtmT4DJA0rQwJ5Es=;
- h=X-UI-Sender-Class:Date:From:Subject:To:Cc:References:In-Reply-To;
- b=c8X3gRVyfsU65kGqkt78WSSnblI0CTmMHBAhOzE6CGW2J/7AhadcUqqaLtlCpKiEm
- K4OSEWnviKad4sQVrq7KOYlEs4rXiNf/Jt85sRYNR494YnrBsHqN+uDwiwsTElWI9K
- aYjZnkoHxl38Rmkpl0J0IWG5Rr1qZjZD2WvzDEU0=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.178.49] ([178.8.103.147]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MvK0X-1pOhgU1aPh-00rKw0; Sun, 11
- Sep 2022 19:14:47 +0200
-Message-ID: <1bd4abdc-e0db-1fa6-99ba-84b729e5cb22@gmx.de>
-Date: Sun, 11 Sep 2022 19:14:46 +0200
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oXQf4-0003Jv-7L
+ for qemu-devel@nongnu.org; Sun, 11 Sep 2022 13:22:29 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R201e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046050;
+ MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0VPKjFzU_1662916931; 
+Received: from localhost(mailfrom:kangjie.xu@linux.alibaba.com
+ fp:SMTPD_---0VPKjFzU_1662916931) by smtp.aliyun-inc.com;
+ Mon, 12 Sep 2022 01:22:12 +0800
+From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+To: qemu-devel@nongnu.org
+Cc: mst@redhat.com, jasowang@redhat.com, eduardo@habkost.net,
+ marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
+ hengqi@linux.alibaba.com, xuanzhuo@linux.alibaba.com
+Subject: [PATCH v4 00/15] Support VIRTIO_F_RING_RESET for virtio-net,
+ vhost-net kernel in virtio pci-modern
+Date: Mon, 12 Sep 2022 01:21:56 +0800
+Message-Id: <cover.1662916759.git.kangjie.xu@linux.alibaba.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-From: Arwed Meyer <arwed.meyer@gmx.de>
-Subject: Re: [PATCH v2 1/5] msmouse: Handle mouse reset
-Content-Language: de-DE
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220908173120.16779-1-arwed.meyer@gmx.de>
- <20220908173120.16779-2-arwed.meyer@gmx.de>
- <CAFEAcA_F+ETYHT-HSs3wHwjqP4CEe2LtdfCf8B_P2Ted4xvk+w@mail.gmail.com>
-In-Reply-To: <CAFEAcA_F+ETYHT-HSs3wHwjqP4CEe2LtdfCf8B_P2Ted4xvk+w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:1GKxZ34+czQnlB67oZY2PH+9Z5M3pGqWe7+zow2Ec84oIrUvIAP
- 0EgJGzYODukXo+bXycTcNKKqa+LY7bmweqGSliAkVuU8vmJkv7l8zxuE/Un+TwaY5H1nEO9
- mCg22RIgZdxhcI/N2xdOsKQeAs+yA9KHazwif8C/ZlxoigXuxB6j2zH8r/3Qf0XTRGU1oTL
- 5/wgcuJ0WfHysFynflBzA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JuTPDHCQmiE=:RWg9Is2iznQI39FH2QzT6w
- 7dmofhEM5FwfmAtwPDMbJl/MWG5F0uNCC4autoH1vlEu7ymyUhNE3jSzaE7AE7LeZGk0kbe+p
- QVr5LIauasnk6F4gKH0q2URPcUAgBRpwhLHRIBhWr4WORqf5RWvTACW+H7xRPKVF8+YFd0lR/
- 40SCtMH/CI/4KVm5j3/5SsfkJTCUh4a24hEeXqGIAZzzZBZziExbFaJM15MpDGIRAUx3aHM5r
- jec3rhq4GgpqBbI/vHpDbpNzRTCrspjm1ILG100EZNp6+HLD2KtaI7ukN+6boopMHa1Jzefn2
- iNBxaFhqq5XwRX/YfTVoMSq1vu3IZb74LFYlam8rSa/fd4u6vQ/Bb7IDXwMf5mUiKRKEeaYeL
- YGokJFqy58BjV2qox7w9wyI2I2gVy85jFQGvI87BfSw0sUYtlmxVxZDE69Jny1kppG+dEQmqc
- RBY2Br+mGoFaVMeFq+X0nHX9ngEorrfntzmv/wfK1fJDdY1m+Jz+TJgXGS8j6qRba/VA3ba2H
- XX6Os1pKp9Xlb4MohGH3DARiY5lTX/+KxTHCjJsUoGe/5G0bQ7JZGXaKrOafb9hnvV1+/oRkt
- 4OthATf9c4pvw6jLSEsK3AIUpyqEZcSEPpxqEQ+qKqJwCORK/6Yl7i0WkRc3kj3U4cqD9L5uk
- MyXjjHVN0Vg0wKQ9cE3bJReAhMcDQhuGx/2L37k/SpdlPxE+qpgqy7GHCnpw41H0HFQH6M0nj
- 4J6vRyOb28ttDXv0WH4xMrarayDwUJoK7VtINZXhUitOsU0+TDw8JjIc6kcW/uknUarBvvmTo
- wcegNPCS73I+WVURHtGU+s/XOgV0C7NxEt1E2KS674MWHW5+Y8r0BC0RlAv3OLn4CHC5LGz9R
- JtPhd3HhJCVbZ0H9Zf07zWiIbMZkZOJ7OF5uhz9RUFggUF/4Gn8bHZzlWgN4Vo4TRMUs0lLdY
- m0c6WzTVj9Y++6getc2drux26iJBW6TLhPRmlmtRhfgOB1nlo3HwmroC+tncAo0bVzKIWyZbm
- ZFkT5oln3gySUyTZUSkzSh+JIt7uT9sJFmiVHS8WN7RaGEeC9/8EpIIYES0yUvCPlyeQEeofo
- qZS/bqsKUflRyHov7juRRKkw9wWqwGBzerhJqoRM85IpEb97HhAJG6Q69zOm4x/cvIAIRAuSE
- Dj3yF4CiQgh1qqP6P2mSEVibgH
-Received-SPF: pass client-ip=212.227.17.22; envelope-from=arwed.meyer@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-4.101,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.124.30.44;
+ envelope-from=kangjie.xu@linux.alibaba.com;
+ helo=out30-44.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,24 +63,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 08.09.22 um 23:11 schrieb Peter Maydell:
-> On Thu, 8 Sept 2022 at 18:43, Arwed Meyer <arwed.meyer@gmx.de> wrote:
->>
->> Detect mouse reset via RTS or DTR line:
->> Don't send or process anything while in reset.
->> When coming out of reset, send ID sequence first thing.
->> This allows msmouse to be detected by common mouse drivers.
->>
->> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/77
->> Signed-off-by: Arwed Meyer <arwed.meyer@gmx.de>
->
-> How does this work across migration? There doesn't seem
-> to be anything that handles migration of the existing
-> state inside the MouseChardev either, though...
->
-> -- PMM
-Hi,
+The virtio queue reset function has already been defined in the virtio spec 1.2.
+The relevant virtio spec information is here:
 
-can you please explain in more detail what you don't understand and what
-you mean by "migration"?
+    https://github.com/oasis-tcs/virtio-spec/issues/124
+    https://github.com/oasis-tcs/virtio-spec/issues/139
+
+This patch set is to support this function in QEMU. It consists of several parts:
+1. Patches 1-7 are the basic interfaces for vq reset in virtio and virtio-pci.
+2. Patches 8-11 support vq reset and vq restart for vhost-kernel.
+3. Patches 12-14 support vq reset and vq restart for virtio-net.
+5. Patch 15 enables the vq reset feature for vhost-kernel.
+
+The process of virtqueue reset can be concluded as:
+1. The virtqueue is disabled when VIRTIO_PCI_COMMON_Q_RESET is written.
+2. Then the virtqueue can be optionally restarted(re-enabled).
+
+Since this patch set involves multiple modules and seems a bit messy, we briefly describe the
+calling process for different modes below.
+virtio-net:
+1. VIRTIO_PCI_COMMON_Q_RESET is written [virtio-pci]
+    -> virtio_queue_reset() [virtio]
+        -> virtio_net_queue_reset() [virtio-net]
+        -> __virtio_queue_reset()
+2. VIRTIO_PCI_COMMON_Q_ENABLE is written [virtio-pci]
+    -> set enabled, reset status of vq.
+
+vhost-kernel:
+1. VIRTIO_PCI_COMMON_Q_RESET is written [virtio-pci]
+    -> virtio_queue_reset() [virtio]
+        -> virtio_net_queue_reset() [virtio-net]
+            -> vhost_net_virtqueue_stop() [vhost-net]
+                -> vhost_net_set_backend() [vhost]
+                -> vhost_virtqueue_stop()
+        -> __virtio_queue_reset()
+2. VIRTIO_PCI_COMMON_Q_ENABLE is written [virtio-pci]
+    -> virtio_queue_enable() [virtio]
+        -> virtio_net_queue_enable() [virtio-net]
+            -> vhost_net_virtqueue_restart() [vhost-net]
+                -> vhost_virtqueue_start() [vhost]
+                -> vhost_net_set_backend()
+    -> set enabled, reset status of vq.
+
+
+Test environment and method:
+    Host: 5.19.0-rc3 (With vq reset support)
+    Qemu: QEMU emulator version 7.0.50
+    Guest: 5.19.0-rc3 (With vq reset support)
+    Test Cmd: ethtool -g eth1; ethtool -G eth1 rx $1 tx $2; ethtool -g eth1;
+
+    The drvier can resize the virtio queue, then virtio queue reset function should
+    be triggered.
+
+    The default is split mode, modify Qemu virtio-net to add PACKED feature to
+    test packed mode.
+
+Guest Kernel Patch:
+    https://lore.kernel.org/bpf/20220801063902.129329-1-xuanzhuo@linux.alibaba.com/
+
+Host Kernel Patch:
+    https://lore.kernel.org/bpf/20220825085610.80315-1-kangjie.xu@linux.alibaba.com/
+
+Looking forward to your review and comments. Thanks.
+
+changelog:
+v4:
+  1. Add explanation for preventing userspace datapath in virtio-net.
+  2. Return error when vhost is not started in vhost_net_virtqueue_restart().
+  3. Reset the virtqueue in the device reusing vhost_virtqueue_stop().
+  4. Disable queue reset feature for pre-7.2 machine.
+
+v3:
+  1. Remove support for vhost-user in this series and refactor the code.
+  2. Rename 'vhost_net_virtqueue_stop' to 'vhost_net_virtqueue_reset'.
+  3. Make PCI transport ready before device ready when queue_enabled is set to true.
+  4. Add some comments.
+
+v2:
+  1. Add support for vhost-net kernel scenario.
+  2. Add a new vhost-user message VHOST_USER_RESET_VRING.
+  3. Add migration compatibility for virtqueue reset.
+
+Kangjie Xu (10):
+  virtio: introduce virtio_queue_enable()
+  virtio: core: vq reset feature negotation support
+  virtio-pci: support queue enable
+  vhost: expose vhost_virtqueue_start()
+  vhost: expose vhost_virtqueue_stop()
+  vhost-net: vhost-kernel: introduce vhost_net_virtqueue_reset()
+  vhost-net: vhost-kernel: introduce vhost_net_virtqueue_restart()
+  virtio-net: introduce flush_or_purge_queued_packets()
+  virtio-net: support queue_enable
+  vhost: vhost-kernel: enable vq reset feature
+
+Xuan Zhuo (5):
+  virtio: sync relevant definitions with linux
+  virtio: introduce __virtio_queue_reset()
+  virtio: introduce virtio_queue_reset()
+  virtio-pci: support queue reset
+  virtio-net: support queue reset
+
+ hw/core/machine.c                             |  4 +-
+ hw/net/vhost_net.c                            | 78 +++++++++++++++++++
+ hw/net/virtio-net.c                           | 56 +++++++++++--
+ hw/virtio/vhost.c                             | 16 ++--
+ hw/virtio/virtio-pci.c                        | 16 ++++
+ hw/virtio/virtio.c                            | 62 +++++++++++----
+ include/hw/virtio/vhost.h                     |  5 ++
+ include/hw/virtio/virtio-pci.h                |  5 ++
+ include/hw/virtio/virtio.h                    |  8 +-
+ include/net/vhost_net.h                       |  4 +
+ .../standard-headers/linux/virtio_config.h    |  5 ++
+ include/standard-headers/linux/virtio_pci.h   |  2 +
+ 12 files changed, 229 insertions(+), 32 deletions(-)
+
+-- 
+2.32.0
+
 
