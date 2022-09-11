@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C36E75B51EB
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 01:29:09 +0200 (CEST)
-Received: from localhost ([::1]:38280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31E945B51EF
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 01:33:20 +0200 (CEST)
+Received: from localhost ([::1]:41394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXWNw-0002ky-SF
-	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 19:29:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34144)
+	id 1oXWRz-00008v-5t
+	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 19:33:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oXW1E-0000wZ-Qs
- for qemu-devel@nongnu.org; Sun, 11 Sep 2022 19:05:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47341)
+ id 1oXW1G-00012n-90
+ for qemu-devel@nongnu.org; Sun, 11 Sep 2022 19:05:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29431)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oXW17-0007LG-1l
- for qemu-devel@nongnu.org; Sun, 11 Sep 2022 19:05:35 -0400
+ id 1oXW1D-0007LS-OT
+ for qemu-devel@nongnu.org; Sun, 11 Sep 2022 19:05:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662937532;
+ s=mimecast20190719; t=1662937535;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GW2XheR4o4W6ufiiIloxx0V0HDwPwXTU2rDqcPVe0eA=;
- b=MtD8+k9ZFqEFNY0jREDIztSOrqs+Db/A6pOvXKXkCWcGwZ0Cwgol01zml4eENfuHMJDilt
- m3Qj+WJW0/Q3OAjLl7qTB36TVryf2D7Xzfd/p2qG9WriN+LH4jlCVEhBcO55YmrZSOpDKm
- Tn5fZp3ZVIg0CMP+WzpwKL7cl4hnqGc=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=DBAah+7oggi8iL2POsLEQkKSu7EEFicyPdj/k6QJj1s=;
+ b=UsQR0ikvHT/WFUNzCXWq1eiStbYgKdPghmBf5TfsLbff8Zu+F+nvrzThUwgmDIhTq9ovlY
+ jAqf2WjnmVY7BbF86RNBfwV3IY6ifbdRhUrGRkiltPjEZNq62hzAiCvj0gMMM9TdoUcrUi
+ EY3+W8X5tT8JdOf6f4BLoG2exFvyeeU=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-412-Xfph4AaZPSSknvfiLmeDHg-1; Sun, 11 Sep 2022 19:05:31 -0400
-X-MC-Unique: Xfph4AaZPSSknvfiLmeDHg-1
-Received: by mail-ed1-f69.google.com with SMTP id
- z2-20020a056402274200b004516734e755so2469572edd.3
- for <qemu-devel@nongnu.org>; Sun, 11 Sep 2022 16:05:31 -0700 (PDT)
+ us-mta-483-V04ELDmCPCSNZqRZpU47wA-1; Sun, 11 Sep 2022 19:05:33 -0400
+X-MC-Unique: V04ELDmCPCSNZqRZpU47wA-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ hs4-20020a1709073e8400b0073d66965277so2275946ejc.6
+ for <qemu-devel@nongnu.org>; Sun, 11 Sep 2022 16:05:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=GW2XheR4o4W6ufiiIloxx0V0HDwPwXTU2rDqcPVe0eA=;
- b=OdM3YRTtffTv1fA6hjV3XjFiF0difeRi4iXHG6PMGM5qEhN/8n7yQNiEIsnRBM5SjI
- b2zmKREC7Z6SKtw/U+H6NGqVr1euLtzgJrmKL495i11l4WEenGnumUyhtNy7LkTGUELd
- cOIc640ZLAOPmq9WvzzXl5qQb9DWEG9rGuSXz8+xfU90dGRHZSytPSvkt8onUeCPdfgo
- mlqgPaTSJWmZDDO6Myb10ghItOn9mHh8ffg3etXceCu4JnxZyzdzmzp80gD+wy1O/eCX
- 7x3LQyxSmvBQ8Re76w8rQeqxXPCZiKBn7DX+JtF9R5ycYd6TIcmKngrx7NR1xqzxJy54
- fqfw==
-X-Gm-Message-State: ACgBeo13F3taulddP1tvGRL/pl4o+btzAJwPAuCsSrkvR15pfRzpL8Bx
- ySnH7cs9DYps5N3/ZIsouOb+Zp27EYB0THWmD7605LXrzPXmdl3Mh+SSzVQbolZToBHNvdbtgiT
- I66oh6B7RfMiXYOCeJdlQ+w5fI2M44U73Li5fI5611jhxJiJ98ZsEutPKOi0QJXCRqe4=
-X-Received: by 2002:a17:906:9b87:b0:733:1795:2855 with SMTP id
- dd7-20020a1709069b8700b0073317952855mr16785118ejc.156.1662937529836; 
- Sun, 11 Sep 2022 16:05:29 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6EwMzJuufccI18w0T5Jo3qrX20KFW8EKkG1+w8tUdiP2MwPIuY6nXk4xv7XiEU4y69PZWnfg==
-X-Received: by 2002:a17:906:9b87:b0:733:1795:2855 with SMTP id
- dd7-20020a1709069b8700b0073317952855mr16785100ejc.156.1662937529423; 
- Sun, 11 Sep 2022 16:05:29 -0700 (PDT)
+ bh=DBAah+7oggi8iL2POsLEQkKSu7EEFicyPdj/k6QJj1s=;
+ b=qDd5nSaop+JTkGVgkKeI4XmX6wxDbg5vS0nrpUBApTl33gdnmFw2vC4nlsowLIPHRw
+ mXzhMtNWwUWvgVqRFrHVOGLVOrslrYNWAFqJ0tkafiIwZNQBcUpXLieWDtMjayUd/dtr
+ yuFin7DUHwjiX93wTo9YFifQq8q9O5LGGnDZEhe7PTn6s3N8CUZaA+ZsCG3lFVA6Qoen
+ eeaKDPtZztoDkYsBWDmVUB8boFXvXpLx4O7o2vGPNZzX+Xh6yc/1O6cHCPCabrpQFXVx
+ ihFLlzLhxH2VOKgsVZBJlY0LwREfRmWxvLfMoRqXBqROG/HKXyg5l/hJmCj65S09zln9
+ jQSA==
+X-Gm-Message-State: ACgBeo0f6v/zoYdlZ8uBmIx7FNdYlr5xIy3btU0e4/5wsRVsz4NQrcZW
+ IZm3zMLkJKzynegkaTXzH9RKS0gqcXiLmBLdRhBD6bWBho2JOJ9ynGgxYPIhk6dJf5FGk6JwKNK
+ Ey8FS1p/8QZHf+2WYXzcXkXg4dLo1+xAu0nScIL5D2MWE4WYyaK91VunpBb4UpSuvjD0=
+X-Received: by 2002:a17:907:1612:b0:770:86e3:2f1f with SMTP id
+ hb18-20020a170907161200b0077086e32f1fmr15768281ejc.403.1662937532378; 
+ Sun, 11 Sep 2022 16:05:32 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4FOTiAUBG/8q/jVNZN/7aAYxlH8N+MPgLUb2YEbtAwDX/MLNsYb2vrnF4s6kst+t8mnF2QPg==
+X-Received: by 2002:a17:907:1612:b0:770:86e3:2f1f with SMTP id
+ hb18-20020a170907161200b0077086e32f1fmr15768269ejc.403.1662937532048; 
+ Sun, 11 Sep 2022 16:05:32 -0700 (PDT)
 Received: from goa-sendmail (93-44-39-154.ip95.fastwebnet.it. [93.44.39.154])
  by smtp.gmail.com with ESMTPSA id
- c26-20020a056402101a00b0044792480994sm4612566edu.68.2022.09.11.16.05.28
+ l18-20020a1709060cd200b0077085fdd613sm3508935ejh.44.2022.09.11.16.05.31
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Sep 2022 16:05:28 -0700 (PDT)
+ Sun, 11 Sep 2022 16:05:31 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 22/37] target/i386: reimplement 0x0f 0x50-0x5f, add AVX
-Date: Mon, 12 Sep 2022 01:04:02 +0200
-Message-Id: <20220911230418.340941-23-pbonzini@redhat.com>
+Subject: [PATCH 23/37] target/i386: reimplement 0x0f 0x78-0x7f, add AVX
+Date: Mon, 12 Sep 2022 01:04:03 +0200
+Message-Id: <20220911230418.340941-24-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220911230418.340941-1-pbonzini@redhat.com>
 References: <20220911230418.340941-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -100,278 +100,183 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These are mostly floating-point SSE operations.  The odd ones out
-are MOVMSK and CVTxx2yy, the others are straightforward.
+These are a mixed match, including the first two horizontal
+(66 and F2 only) operations, more moves, and SSE4a extract/insert.
 
-Unary operations are a bit special in AVX because they have 2 operands
-for PD/PS operands (VEX.vvvv must be 1111b), and 3 operands for SD/SS.
-They are handled using X86_OP_GROUP3 for compactness.
+Because SSE4a is pretty rare, I chose to leave the helper as they are,
+but it is possible to unify them by loading index and length from the
+source XMM register.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/tcg/decode-new.c.inc |  32 ++++++
- target/i386/tcg/emit.c.inc       | 175 +++++++++++++++++++++++++++++++
- target/i386/tcg/translate.c      |   2 +-
- 3 files changed, 208 insertions(+), 1 deletion(-)
+ target/i386/tcg/decode-new.c.inc | 23 +++++++++
+ target/i386/tcg/emit.c.inc       | 81 ++++++++++++++++++++++++++++++++
+ target/i386/tcg/translate.c      |  1 +
+ 3 files changed, 105 insertions(+)
 
 diff --git a/target/i386/tcg/decode-new.c.inc b/target/i386/tcg/decode-new.c.inc
-index 59f5637583..5a94e05d71 100644
+index 5a94e05d71..6aa8bac74f 100644
 --- a/target/i386/tcg/decode-new.c.inc
 +++ b/target/i386/tcg/decode-new.c.inc
-@@ -243,7 +243,30 @@ static void decode_0F3A(DisasContext *s, CPUX86State *env, X86OpEntry *entry, ui
-     *entry = opcodes_0F3A[*b];
- }
- 
-+static void decode_sse_unary(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
-+{
-+    if (!(s->prefix & (PREFIX_REPZ | PREFIX_REPNZ))) {
-+        entry->op1 = X86_TYPE_None;
-+        entry->s1 = X86_SIZE_None;
-+    }
-+    switch (*b) {
-+    case 0x51: entry->gen = gen_VSQRT; break;
-+    case 0x52: entry->gen = gen_VRSQRT; break;
-+    case 0x53: entry->gen = gen_VRCP; break;
-+    case 0x5A: entry->gen = gen_VCVTfp2fp; break;
-+    }
-+}
-+
- static const X86OpEntry opcodes_0F[256] = {
-+    [0x50] = X86_OP_ENTRY3(MOVMSK,     G,y, None,None, U,x, vex7 p_00_66),
-+    [0x51] = X86_OP_GROUP3(sse_unary,  V,x, H,x, W,x, vex2_rep3 p_00_66_f3_f2),
-+    [0x52] = X86_OP_GROUP3(sse_unary,  V,x, H,x, W,x, vex5 p_00_f3),
-+    [0x53] = X86_OP_GROUP3(sse_unary,  V,x, H,x, W,x, vex5 p_00_f3),
-+    [0x54] = X86_OP_ENTRY3(VAND,       V,x, H,x, W,x,  vex4 p_00_66),
-+    [0x55] = X86_OP_ENTRY3(VANDN,      V,x, H,x, W,x,  vex4 p_00_66),
-+    [0x56] = X86_OP_ENTRY3(VOR,        V,x, H,x, W,x,  vex4 p_00_66),
-+    [0x57] = X86_OP_ENTRY3(VXOR,       V,x, H,x, W,x,  vex4 p_00_66),
-+
-     [0x60] = X86_OP_ENTRY3(PUNPCKLBW,  V,x, H,x, W,x,  vex4 mmx avx2_256 p_00_66),
-     [0x61] = X86_OP_ENTRY3(PUNPCKLWD,  V,x, H,x, W,x,  vex4 mmx avx2_256 p_00_66),
-     [0x62] = X86_OP_ENTRY3(PUNPCKLDQ,  V,x, H,x, W,x,  vex4 mmx avx2_256 p_00_66),
-@@ -256,6 +279,15 @@ static const X86OpEntry opcodes_0F[256] = {
-     [0x38] = X86_OP_GROUP0(0F38),
-     [0x3a] = X86_OP_GROUP0(0F3A),
- 
-+    [0x58] = X86_OP_ENTRY3(VADD,       V,x, H,x, W,x, vex2_rep3 p_00_66_f3_f2),
-+    [0x59] = X86_OP_ENTRY3(VMUL,       V,x, H,x, W,x, vex2_rep3 p_00_66_f3_f2),
-+    [0x5a] = X86_OP_GROUP3(sse_unary,  V,x, H,x, W,x, vex3 p_00_66_f3_f2),
-+    [0x5b] = X86_OP_ENTRY2(VCVTps_dq,  V,x, W,x,      vex2 p_00_66_f3),
-+    [0x5c] = X86_OP_ENTRY3(VSUB,       V,x, H,x, W,x, vex2_rep3 p_00_66_f3_f2),
-+    [0x5d] = X86_OP_ENTRY3(VMIN,       V,x, H,x, W,x, vex2_rep3 p_00_66_f3_f2),
-+    [0x5e] = X86_OP_ENTRY3(VDIV,       V,x, H,x, W,x, vex2_rep3 p_00_66_f3_f2),
-+    [0x5f] = X86_OP_ENTRY3(VMAX,       V,x, H,x, W,x, vex2_rep3 p_00_66_f3_f2),
-+
-     [0x68] = X86_OP_ENTRY3(PUNPCKHBW,  V,x, H,x, W,x,  vex4 mmx avx2_256 p_00_66),
-     [0x69] = X86_OP_ENTRY3(PUNPCKHWD,  V,x, H,x, W,x,  vex4 mmx avx2_256 p_00_66),
-     [0x6a] = X86_OP_ENTRY3(PUNPCKHDQ,  V,x, H,x, W,x,  vex4 mmx avx2_256 p_00_66),
-diff --git a/target/i386/tcg/emit.c.inc b/target/i386/tcg/emit.c.inc
-index 1ba7a45668..5feb50efdb 100644
---- a/target/i386/tcg/emit.c.inc
-+++ b/target/i386/tcg/emit.c.inc
-@@ -246,6 +246,140 @@ static void gen_store_sse(DisasContext *s, CPUX86State *env, X86DecodedInsn *dec
+@@ -159,6 +159,22 @@ static void decode_0F6F(DisasContext *s, CPUX86State *env, X86OpEntry *entry, ui
      }
  }
  
-+static inline int sse_prefix(DisasContext *s)
++static void decode_0F7E(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
 +{
-+    if (s->prefix & (PREFIX_REPZ | PREFIX_REPNZ)) {
-+        return s->prefix & PREFIX_REPZ ? 0xf3 : 0xf2;
++    static const X86OpEntry movd_from_vec =
++        X86_OP_ENTRY3(MOVD_from,  E,y, None,None, V,y, vex5 mmx);
++    static const X86OpEntry movq =
++        X86_OP_ENTRY3(MOVQ,       V,x, None,None, W,q, vex5);  /* wrong dest Vy on SDM! */
++
++    if (s->prefix & PREFIX_REPNZ) {
++        entry->gen = NULL;
++    } else if (s->prefix & PREFIX_REPZ) {
++        *entry = movq;
 +    } else {
-+        return s->prefix & PREFIX_DATA ? 0x66 : 0x00;
++        *entry = movd_from_vec;
 +    }
 +}
 +
-+/*
-+ * 00 = v*ps Vps, Hps, Wpd
-+ * 66 = v*pd Vpd, Hpd, Wps
-+ * f3 = v*ss Vss, Hss, Wps
-+ * f2 = v*sd Vsd, Hsd, Wps
-+ */
-+static inline void gen_unary_fp_sse(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode,
-+                              SSEFunc_0_epp pd_xmm, SSEFunc_0_epp ps_xmm,
-+                              SSEFunc_0_epp pd_ymm, SSEFunc_0_epp ps_ymm,
-+                              SSEFunc_0_eppp sd, SSEFunc_0_eppp ss)
-+{
-+    if ((s->prefix & (PREFIX_REPZ | PREFIX_REPNZ)) != 0) {
-+        SSEFunc_0_eppp fn = s->prefix & PREFIX_REPZ ? ss : sd;
-+        if (!fn) {
-+            gen_illegal_opcode(s);
-+            return;
-+        }
-+        fn(cpu_env, s->ptr0, s->ptr1, s->ptr2);
-+    } else {
-+        SSEFunc_0_epp ps, pd, fn;
-+        ps = s->vex_l ? ps_ymm : ps_xmm;
-+        pd = s->vex_l ? pd_ymm : pd_xmm;
-+        fn = s->prefix & PREFIX_DATA ? pd : ps;
-+        if (!fn) {
-+            gen_illegal_opcode(s);
-+            return;
-+        }
-+        fn(cpu_env, s->ptr0, s->ptr2);
-+    }
-+}
-+#define UNARY_FP_SSE(uname, lname)                                                 \
-+static void gen_##uname(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode) \
-+{                                                                                  \
-+    gen_unary_fp_sse(s, env, decode,                                               \
-+                     gen_helper_##lname##pd_xmm,                                   \
-+                     gen_helper_##lname##ps_xmm,                                   \
-+                     gen_helper_##lname##pd_ymm,                                   \
-+                     gen_helper_##lname##ps_ymm,                                   \
-+                     gen_helper_##lname##sd,                                       \
-+                     gen_helper_##lname##ss);                                      \
-+}
-+UNARY_FP_SSE(VSQRT, sqrt)
+ static const X86OpEntry opcodes_0F38_00toEF[240] = {
+ };
+ 
+@@ -297,6 +313,13 @@ static const X86OpEntry opcodes_0F[256] = {
+     [0x6e] = X86_OP_ENTRY3(MOVD_to,    V,x, None,None, E,y, vex5 mmx p_00_66),  /* wrong dest Vy on SDM! */
+     [0x6f] = X86_OP_GROUP3(0F6F,       V,x, None,None, W,x, vex5 mmx p_00_66_f3),
+ 
++    [0x78] = X86_OP_ENTRY2(SSE4a_I,    V,x, I,w,       cpuid(SSE4A) p_66_f2),
++    [0x79] = X86_OP_ENTRY2(SSE4a_R,    V,x, W,x,       cpuid(SSE4A) p_66_f2),
++    [0x7c] = X86_OP_ENTRY3(VHADD,      V,x, H,x, W,x,  vex2 cpuid(SSE3) p_66_f2),
++    [0x7d] = X86_OP_ENTRY3(VHSUB,      V,x, H,x, W,x,  vex2 cpuid(SSE3) p_66_f2),
++    [0x7e] = X86_OP_GROUP0(0F7E),
++    [0x7f] = X86_OP_GROUP3(0F6F,       W,x, None,None, V,x, vex5 mmx p_00_66_f3),
 +
+     /* Incorrectly missing from 2-17 */
+     [0xd8] = X86_OP_ENTRY3(PSUBUSB,  V,x, H,x, W,x,  vex4 mmx avx2_256 p_00_66),
+     [0xd9] = X86_OP_ENTRY3(PSUBUSW,  V,x, H,x, W,x,  vex4 mmx avx2_256 p_00_66),
+diff --git a/target/i386/tcg/emit.c.inc b/target/i386/tcg/emit.c.inc
+index 5feb50efdb..2053c9d8fb 100644
+--- a/target/i386/tcg/emit.c.inc
++++ b/target/i386/tcg/emit.c.inc
+@@ -380,6 +380,30 @@ static void gen_##uname(DisasContext *s, CPUX86State *env, X86DecodedInsn *decod
+ UNARY_FP32_SSE(VRSQRT, rsqrt)
+ UNARY_FP32_SSE(VRCP, rcp)
+ 
 +/*
-+ * 00 = v*ps Vps, Hps, Wpd
-+ * 66 = v*pd Vpd, Hpd, Wps
-+ * f3 = v*ss Vss, Hss, Wps
-+ * f2 = v*sd Vsd, Hsd, Wps
++ * 66 = v*pd Vpd, Hpd, Wpd
++ * f2 = v*ps Vps, Hps, Wps
 + */
-+static inline void gen_fp_sse(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode,
-+                              SSEFunc_0_eppp pd_xmm, SSEFunc_0_eppp ps_xmm,
-+                              SSEFunc_0_eppp pd_ymm, SSEFunc_0_eppp ps_ymm,
-+                              SSEFunc_0_eppp sd, SSEFunc_0_eppp ss)
++static inline void gen_horizontal_fp_sse(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode,
++                                         SSEFunc_0_eppp pd_xmm, SSEFunc_0_eppp ps_xmm,
++                                         SSEFunc_0_eppp pd_ymm, SSEFunc_0_eppp ps_ymm)
 +{
 +    SSEFunc_0_eppp ps, pd, fn;
-+    if ((s->prefix & (PREFIX_REPZ | PREFIX_REPNZ)) != 0) {
-+        fn = s->prefix & PREFIX_REPZ ? ss : sd;
-+    } else {
-+        ps = s->vex_l ? ps_ymm : ps_xmm;
-+        pd = s->vex_l ? pd_ymm : pd_xmm;
-+        fn = s->prefix & PREFIX_DATA ? pd : ps;
-+    }
-+    if (fn) {
-+        fn(cpu_env, s->ptr0, s->ptr1, s->ptr2);
-+    } else {
-+        gen_illegal_opcode(s);
-+    }
++    ps = s->vex_l ? ps_ymm : ps_xmm;
++    pd = s->vex_l ? pd_ymm : pd_xmm;
++    fn = s->prefix & PREFIX_DATA ? pd : ps;
++    fn(cpu_env, s->ptr0, s->ptr1, s->ptr2);
 +}
-+#define FP_SSE(uname, lname)                                                       \
++#define HORIZONTAL_FP_SSE(uname, lname)                                            \
 +static void gen_##uname(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode) \
 +{                                                                                  \
-+    gen_fp_sse(s, env, decode,                                                     \
-+               gen_helper_##lname##pd_xmm,                                         \
-+               gen_helper_##lname##ps_xmm,                                         \
-+               gen_helper_##lname##pd_ymm,                                         \
-+               gen_helper_##lname##ps_ymm,                                         \
-+               gen_helper_##lname##sd,                                             \
-+               gen_helper_##lname##ss);                                            \
++    gen_horizontal_fp_sse(s, env, decode,                                          \
++                          gen_helper_##lname##pd_xmm, gen_helper_##lname##ps_xmm,  \
++                          gen_helper_##lname##pd_ymm, gen_helper_##lname##ps_ymm); \
 +}
-+FP_SSE(VADD, add)
-+FP_SSE(VMUL, mul)
-+FP_SSE(VSUB, sub)
-+FP_SSE(VMIN, min)
-+FP_SSE(VDIV, div)
-+FP_SSE(VMAX, max)
-+
-+/*
-+ * 00 = v*ps Vps, Wpd
-+ * f3 = v*ss Vss, Wps
-+ */
-+static inline void gen_unary_fp32_sse(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode,
-+                                      SSEFunc_0_epp ps_xmm,
-+                                      SSEFunc_0_epp ps_ymm,
-+                                      SSEFunc_0_eppp ss)
-+{
-+    if ((s->prefix & (PREFIX_DATA | PREFIX_REPNZ)) != 0) {
-+        goto illegal_op;
-+    } else if (s->prefix & PREFIX_REPZ) {
-+        if (!ss) {
-+            goto illegal_op;
-+        }
-+        ss(cpu_env, s->ptr0, s->ptr1, s->ptr2);
-+    } else {
-+        SSEFunc_0_epp fn = s->vex_l ? ps_ymm : ps_xmm;
-+        if (!fn) {
-+            goto illegal_op;
-+        }
-+        fn(cpu_env, s->ptr0, s->ptr2);
-+    }
-+    return;
-+
-+illegal_op:
-+    gen_illegal_opcode(s);
-+}
-+#define UNARY_FP32_SSE(uname, lname)                                               \
-+static void gen_##uname(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode) \
-+{                                                                                  \
-+    gen_unary_fp32_sse(s, env, decode,                                             \
-+                       gen_helper_##lname##ps_xmm,                                 \
-+                       gen_helper_##lname##ps_ymm,                                 \
-+                       gen_helper_##lname##ss);                                    \
-+}
-+UNARY_FP32_SSE(VRSQRT, rsqrt)
-+UNARY_FP32_SSE(VRCP, rcp)
++HORIZONTAL_FP_SSE(VHADD, hadd)
++HORIZONTAL_FP_SSE(VHSUB, hsub)
 +
  /*
   * 00 = p*  Pq, Qq (if mmx not NULL; no VEX)
   * 66 = vp* Vx, Hx, Wx
-@@ -517,6 +651,16 @@ static void gen_MOVDQ(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-     gen_store_sse(s, env, decode, decode->op[2].offset);
+@@ -621,6 +645,28 @@ static void gen_MOVBE(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+     }
  }
  
-+static void gen_MOVMSK(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
++static void gen_MOVD_from(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
 +{
-+    typeof(gen_helper_movmskps_ymm) *ps, *pd, *fn;
-+    ps = s->vex_l ? gen_helper_movmskps_ymm : gen_helper_movmskps_xmm;
-+    pd = s->vex_l ? gen_helper_movmskpd_ymm : gen_helper_movmskpd_xmm;
-+    fn = s->prefix & PREFIX_DATA ? pd : ps;
-+    fn(s->tmp2_i32, cpu_env, s->ptr2);
-+    tcg_gen_extu_i32_tl(s->T0, s->tmp2_i32);
++    MemOp ot = decode->op[2].ot;
++    int lo_ofs = decode->op[2].offset
++        - xmm_offset(decode->op[2].ot)
++        + xmm_offset(ot);
++
++    switch (ot) {
++    case MO_32:
++#ifdef TARGET_X86_64
++        tcg_gen_ld_i32(s->tmp2_i32, cpu_env, lo_ofs);
++        tcg_gen_extu_i32_tl(s->T0, s->tmp2_i32);
++        break;
++    case MO_64:
++#endif
++        tcg_gen_ld_tl(s->T0, cpu_env, lo_ofs);
++        break;
++    default:
++        abort();
++    }
++}
++
+ static void gen_MOVD_to(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+ {
+     MemOp ot = decode->op[2].ot;
+@@ -661,6 +707,18 @@ static void gen_MOVMSK(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode
+     tcg_gen_extu_i32_tl(s->T0, s->tmp2_i32);
+ }
+ 
++static void gen_MOVQ(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
++{
++    int vec_len = sse_vec_len(s, decode);
++    int lo_ofs = decode->op[0].offset
++        - xmm_offset(decode->op[0].ot)
++        + xmm_offset(MO_64);
++
++    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, decode->op[2].offset);
++    tcg_gen_gvec_dup_imm(MO_64, decode->op[0].offset, vec_len, vec_len, 0);
++    tcg_gen_st_i64(s->tmp1_i64, cpu_env, lo_ofs);
 +}
 +
  static void gen_MULX(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
  {
      MemOp ot = decode->op[0].ot;
-@@ -733,3 +877,34 @@ static void gen_SHRX(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-     }
+@@ -878,6 +936,29 @@ static void gen_SHRX(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
      tcg_gen_shr_tl(s->T0, s->T0, s->T1);
  }
-+
-+#define gen_VAND   gen_PAND
-+#define gen_VANDN  gen_PANDN
-+
-+static void gen_VCVTfp2fp(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+ 
++static void gen_SSE4a_I(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
 +{
-+    gen_unary_fp_sse(s, env, decode,
-+                     gen_helper_cvtpd2ps_xmm, gen_helper_cvtps2pd_xmm,
-+                     gen_helper_cvtpd2ps_ymm, gen_helper_cvtps2pd_ymm,
-+                     gen_helper_cvtsd2ss, gen_helper_cvtss2sd);
-+}
++    TCGv_i32 length = tcg_const_i32(decode->immediate & 255);
++    TCGv_i32 index = tcg_const_i32(decode->immediate >> 8);
 +
-+static void gen_VCVTps_dq(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-+{
-+    SSEFunc_0_epp fn = NULL;
-+    switch (sse_prefix(s)) {
-+    case 0x00:
-+        fn = s->vex_l ? gen_helper_cvtdq2ps_ymm : gen_helper_cvtdq2ps_xmm;
-+        break;
-+    case 0x66:
-+        fn = s->vex_l ? gen_helper_cvtps2dq_ymm : gen_helper_cvtps2dq_xmm;
-+        break;
-+    case 0xf3:
-+        fn = s->vex_l ? gen_helper_cvttps2dq_ymm : gen_helper_cvttps2dq_xmm;
-+        break;
++    if (s->prefix & PREFIX_DATA) {
++        gen_helper_extrq_i(cpu_env, s->ptr0, index, length);
++    } else {
++        gen_helper_insertq_i(cpu_env, s->ptr0, index, length);
 +    }
-+    fn(cpu_env, s->ptr0, s->ptr2);
++    tcg_temp_free_i32(length);
++    tcg_temp_free_i32(index);
 +}
 +
-+#define gen_VOR   gen_POR
-+#define gen_VXOR  gen_PXOR
++static void gen_SSE4a_R(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
++{
++    if (s->prefix & PREFIX_DATA) {
++        gen_helper_extrq_r(cpu_env, s->ptr0, s->ptr2);
++    } else {
++        gen_helper_insertq_r(cpu_env, s->ptr0, s->ptr2);
++    }
++}
++
+ #define gen_VAND   gen_PAND
+ #define gen_VANDN  gen_PANDN
+ 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 11c17258eb..8ef419dd59 100644
+index 8ef419dd59..53d693279a 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -4667,7 +4667,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-         use_new &= b <= limit;
+@@ -4668,6 +4668,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
  #endif
          if (use_new &&
--            ((b >= 0x160 && b <= 0x16f) ||
-+            ((b >= 0x150 && b <= 0x16f) ||
+             ((b >= 0x150 && b <= 0x16f) ||
++             (b >= 0x178 && b <= 0x17f) ||
               (b >= 0x1d8 && b <= 0x1ff && (b & 8)))) {
              return disas_insn_new(s, cpu, b + 0x100);
          }
