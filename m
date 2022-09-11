@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3805D5B51D5
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 01:17:29 +0200 (CEST)
-Received: from localhost ([::1]:43020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B47465B51CC
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 01:10:34 +0200 (CEST)
+Received: from localhost ([::1]:41398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXWCa-0001VP-Ey
-	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 19:17:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57132)
+	id 1oXW5x-0007UN-KK
+	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 19:10:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oXW08-0000EY-Ik
- for qemu-devel@nongnu.org; Sun, 11 Sep 2022 19:04:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47373)
+ id 1oXW08-0000Ea-CQ
+ for qemu-devel@nongnu.org; Sun, 11 Sep 2022 19:04:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54045)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oXW01-0006y6-I7
- for qemu-devel@nongnu.org; Sun, 11 Sep 2022 19:04:28 -0400
+ id 1oXW04-0006yE-25
+ for qemu-devel@nongnu.org; Sun, 11 Sep 2022 19:04:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662937465;
+ s=mimecast20190719; t=1662937467;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=NxT0OpNFMAVALLdB3PW5pp95QdHR+DIkndEAWftina0=;
- b=e/ZvvtV6CndJlJdhPjFd4PieztSy+14d69rxTzWzkRrR+zjmkhabHUS/R0qaRAMf6EkxYX
- uXdd1Veg5lmnNaKGotDdKc58Nw7SfG8DmS5fAq7TLVWt1lImtDTBhKV/6bGTXg9QipDIse
- dYjhPK0HAJg9a+7ZzICbShu31Vc8ftc=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8qNlguD+njmm2618TYLP1T4Fj6fykhZdMOk4HXO6te4=;
+ b=Ynjr12MtEi9A1jrhHgJ7lRJyrSZZDKjdlk+Cu019iFv15/700dedVVyFwqUTtDoHQYQ/Rv
+ 6hw2/NU33GLQWXUciiewJkGAGNgYULRwh2rNW1disZdTyjrU6b3LWz61f6/IgExb1+uoFR
+ DHJ8yTsUeDbWdm64w5/cHwxJ86Dv78E=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-55-TkQyM9IZP1Sx6fwzDUG0rg-1; Sun, 11 Sep 2022 19:04:22 -0400
-X-MC-Unique: TkQyM9IZP1Sx6fwzDUG0rg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- z6-20020a05640240c600b0043e1d52fd98so5054353edb.22
- for <qemu-devel@nongnu.org>; Sun, 11 Sep 2022 16:04:22 -0700 (PDT)
+ us-mta-61-_bW_QJPfPteNP0XN-V6b1A-1; Sun, 11 Sep 2022 19:04:26 -0400
+X-MC-Unique: _bW_QJPfPteNP0XN-V6b1A-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ xj11-20020a170906db0b00b0077b6ecb23fcso503218ejb.5
+ for <qemu-devel@nongnu.org>; Sun, 11 Sep 2022 16:04:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date;
- bh=NxT0OpNFMAVALLdB3PW5pp95QdHR+DIkndEAWftina0=;
- b=iWAlxbnGh7FBu1+T0Q2WO+Kg29o+Ik6pzBFA6OiY2PpocarOq2CC3g1fcPceUuVZkO
- IcXalE4Qa5AsBTjb0VDQCUoIi5Eq+9VBk3LoVx60CTyOCT3XPxA1xl1d6cigdrJhiTim
- niAfnL7Z+5wnSyQFgyEoaynAciomSXfaEZKwJXFTE6aekeirhxeayRIFQXhSW4eaOsan
- EhmOgAu893CzPbw0gQtVclxP+j600B7n18fg53ZsjdmdlqsnQNEgXFvtgoWxqLhmy0s7
- rmY9kvd8+ZqaiKJh4VGz7QNWszLJfsdV5BmjDALNTpSNZf/PpGE/KwQRWoKhZXtwlL0u
- OTQg==
-X-Gm-Message-State: ACgBeo0NY1WW/FWsAg25FNDA9GviDbJggDo8pzKQYCcFNq84/ibiNmhJ
- pbl5oeXAfoIFu3aSVRWV27X8Lb2mAYEiiiCa0X+XG9ea+Sz58wU5Zpi+BiA75DyhqGHBmaj7Ryi
- zv/gvwP+of1QU9N3eEfljKbanJONCPNda7GJC7VfRfc7uVJHJze+ueYtiMjKeayZR/HY=
-X-Received: by 2002:a17:907:843:b0:73a:5b0e:8352 with SMTP id
- ww3-20020a170907084300b0073a5b0e8352mr16935957ejb.438.1662937461511; 
- Sun, 11 Sep 2022 16:04:21 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR43SYMurGLCcizna+WWSJeLSl0rqLXiSRw6CDoRUjdeGm+mqTo0v8NhI5MrQMhZHIwEprEGgw==
-X-Received: by 2002:a17:907:843:b0:73a:5b0e:8352 with SMTP id
- ww3-20020a170907084300b0073a5b0e8352mr16935941ejb.438.1662937461128; 
- Sun, 11 Sep 2022 16:04:21 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=8qNlguD+njmm2618TYLP1T4Fj6fykhZdMOk4HXO6te4=;
+ b=2HITrOi470e/mbRRuJRJcE3qgbPrkiTiBb8xbdYkr0tWtSSDbZ9GblC0QEhvihwUbi
+ isgpoFWWTQ+dZ32kUdsalkgXKALz8qZDqeYG4Z+XWxLYpaHhZJMRl2gdz99P6LPUbSS+
+ XFnPsOTt4rz8EgIAksjNFwq7Z/5mNeZ4w1ljuxnAjGjyKsTv10444dMH3Jx2QFRfVpXF
+ wr9YABFt6y3firq8V+FQeeR52E+WgVefgzrHObTR2ORMhgmwCp8E+xElOHXT1gqxW/+z
+ /7T6oW05EKY7K7T2M/TRY0Y/bQ5zCuWshPjn5EJ8ItJ7WV5DACvGbXZpwxW4UEfOD/71
+ x4lg==
+X-Gm-Message-State: ACgBeo3TcjukIGUw62oDk6L1zawvYMOMNp73URSoP4V6zte40qBCvXfw
+ 17wBasOADxIsd0+Jb8jryczcnBuBa68VQHF3bwlpqVjUfUS3pWtsN3F+t1kI1Qcg5suWBqy9fX/
+ ctVttU1URHrQHRHsleaO3nGFBcMtiiEQRMVYEPRNmU0MJs9EjgcdJ/uIMjaoaTbNWGOI=
+X-Received: by 2002:a17:907:7610:b0:77c:b7a:9fb2 with SMTP id
+ jx16-20020a170907761000b0077c0b7a9fb2mr4001709ejc.468.1662937464790; 
+ Sun, 11 Sep 2022 16:04:24 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR602vst2u/i/LH3R8hm3j3FqnvrQSP61FYyhs8GOVy6yKOL/vpXsB5IlRmhhApbEZgJOatkjA==
+X-Received: by 2002:a17:907:7610:b0:77c:b7a:9fb2 with SMTP id
+ jx16-20020a170907761000b0077c0b7a9fb2mr4001695ejc.468.1662937464510; 
+ Sun, 11 Sep 2022 16:04:24 -0700 (PDT)
 Received: from goa-sendmail (93-44-39-154.ip95.fastwebnet.it. [93.44.39.154])
  by smtp.gmail.com with ESMTPSA id
- 13-20020a170906300d00b00770880dfc4fsm3454502ejz.29.2022.09.11.16.04.19
- for <qemu-devel@nongnu.org>
+ 10-20020a170906218a00b007420aaba67esm3546828eju.36.2022.09.11.16.04.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Sep 2022 16:04:20 -0700 (PDT)
+ Sun, 11 Sep 2022 16:04:24 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 00/37] target/i386: new decoder + AVX implementation
-Date: Mon, 12 Sep 2022 01:03:40 +0200
-Message-Id: <20220911230418.340941-1-pbonzini@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH 01/37] target/i386: Define XMMReg and access macros,
+ align ZMM registers
+Date: Mon, 12 Sep 2022 01:03:41 +0200
+Message-Id: <20220911230418.340941-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20220911230418.340941-1-pbonzini@redhat.com>
+References: <20220911230418.340941-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
@@ -96,140 +101,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series fleshes out more of the prototype table-driven decoder
-and uses it to implement SSE and AVX.
+From: Richard Henderson <richard.henderson@linaro.org>
 
-As expected, there's a lot more lines here than in Paul's version
-(roughly twice as much), but in my opinion it is a price worth paying
-for future maintainability and for easier code review.  Nevertheless,
-I cannot even explain how much his work helped; the authorship in
-the log below doesn't tell the whole story because a bunch of patches
-were extracted from his post and somewhat redone, not to mention the
-wonderful tests.  In other words, he did all the hard and important work
-that allowed me to proceed piecewise (and fast).
+This will be used for emission and endian adjustments of gvec operations.
 
-Interestingly, this also found a bunch of errors in the Intel manual,
-which I have noted in the source and have forwarded to the contacts I
-have there.  But overall the manual proved to be very easy to convert
-to source code.  About 10% of the instructions needed some kind of
-special casing, most of them due to differences between register and
-memory operands.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220822223722.1697758-2-richard.henderson@linaro.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/i386/cpu.h | 56 ++++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 43 insertions(+), 13 deletions(-)
 
-Inspired by Richard's series at
-https://lore.kernel.org/qemu-devel/20220822223722.1697758-1-richard.henderson@linaro.org,
-I also took the opportunity to use gvec here and there, especially for
-moves.  However, helpers are not converted to gvec style.  Another
-possible cleanup to be done on top entails checking which helpers really
-need the cpu_env argument.  Most of the integer ones probably don't,
-for example, because the separate generator functions of the new decoder
-provide a little more flexibility there.
-
-This is not quite ready for commit, mostly because I haven't yet tested
-it on big-endian architectures and on system emulation, but I thought I'd
-throw it out early.  SSE4a translation is not tested yet either, and I will
-probably convert 3DNow to the new decoder too, because it seems trivial.
-
-Compared to the very first post, of course the decoder core is more
-fleshed out.  New features include: supporting MMX instructions without
-having to write them down separately; 4-operand instructions; CPUID
-feature testing; simplified handling of opcodes with mandatory 66/F3/F2
-prefixes.  On the other hand I left out the implementation of the one
-byte opcodes, focusing on MMX and SSE instead.  Some "specials" are
-not needed (e.g. NoSeg which is used for LEA) so it's not included.
-
-Patches 1-4 are cleanups to translate.c that come in handy with the new
-decoder.
-
-Patches 5-11 add the generic framework for x86 decoding.
-
-Patches 12-13 move all existing VEX instructions to the new decoder.
-While at it, it also add the other integer instructions in the 0F38 and
-0F3A opcode range, because the corresponding patches for SSE and AVX
-instructions are big enough.  As of patch 13, however, these non-VEX
-instructions will still be translated by the old decoder.
-
-Patches 14-19 extend the helpers to support AVX 3- and 4-operand
-instructions.  Patch 15 is by far the nastiest but it's not really
-possible to split it further; a consolation is that the translate.c
-part of it goes away with the SSE reimplementation.
-
-Unlike in Paul's AVX series, I chose to implement the "merging" behavior
-of AVX 3-operand scalar operations (VADDSx, VSQRTSx, etc.) in the
-helpers rather than in TCG ops, so that change is also introduced at
-this step; for more information see patches 16 and 17.
-
-Patches 20-31 implement SSE and AVX instruction translation in the new
-decoder.  The patches generally operate on groups of 8 to 24 opcodes,
-though there are a couple bigger ones for the 0F38 and 0F3A opcodes.
-
-Patches 32-35 finally enable AVX, and patches 35-36 removes now-unused
-translator and helper code.
-
-Paolo
-
-Paolo Bonzini (32):
-  target/i386: make ldo/sto operations consistent with ldq
-  target/i386: REPZ and REPNZ are mutually exclusive
-  target/i386: introduce insn_get_addr
-  target/i386: add core of new i386 decoder
-  target/i386: add ALU load/writeback core
-  target/i386: add CPUID[EAX=7,ECX=0].ECX to DisasContext
-  target/i386: add CPUID feature checks to new decoder
-  target/i386: validate VEX prefixes via the instructions' exception classes
-  target/i386: validate SSE prefixes directly in the decoding table
-  target/i386: add scalar 0F 38 and 0F 3A instruction to new decoder
-  target/i386: remove scalar VEX instructions from old decoder
-  target/i386: extend helpers to support VEX.V 3- and 4- operand encodings
-  target/i386: support operand merging in binary scalar helpers
-  target/i386: provide 3-operand versions of unary scalar helpers
-  target/i386: implement additional AVX comparison operators
-  target/i386: Introduce 256-bit vector helpers
-  target/i386: reimplement 0x0f 0x60-0x6f, add AVX
-  target/i386: reimplement 0x0f 0xd8-0xdf, 0xe8-0xef, 0xf8-0xff, add AVX
-  target/i386: reimplement 0x0f 0x50-0x5f, add AVX
-  target/i386: reimplement 0x0f 0x78-0x7f, add AVX
-  target/i386: reimplement 0x0f 0x70-0x77, add AVX
-  target/i386: reimplement 0x0f 0xd0-0xd7, 0xe0-0xe7, 0xf0-0xf7, add AVX
-  target/i386: reimplement 0x0f 0x3a, add AVX
-  target/i386: reimplement 0x0f 0x38, add AVX
-  target/i386: reimplement 0x0f 0xc2, 0xc4-0xc6, add AVX
-  target/i386: reimplement 0x0f 0x10-0x17, add AVX
-  target/i386: reimplement 0x0f 0x28-0x2f, add AVX
-  target/i386: implement XSAVE and XRSTOR of AVX registers
-  target/i386: implement VLDMXCSR/VSTMXCSR
-  tests/tcg: extend SSE tests to AVX
-  target/i386: move 3DNow completely out of gen_sse
-  target/i386: remove old SSE decoder
-
-Paul Brook (3):
-  target/i386: add AVX_EN hflag
-  target/i386: Prepare ops_sse_header.h for 256 bit AVX
-  target/i386: Enable AVX cpuid bits when using TCG
-
-Richard Henderson (2):
-  target/i386: Define XMMReg and access macros, align ZMM registers
-  target/i386: Use tcg gvec ops for pmovmskb
-
- target/i386/cpu.c                |   10 +-
- target/i386/cpu.h                |   59 +-
- target/i386/helper.c             |   12 +
- target/i386/helper.h             |    9 +
- target/i386/ops_sse.h            |  655 ++++++---
- target/i386/ops_sse_header.h     |  339 +++--
- target/i386/tcg/decode-new.c.inc | 1694 ++++++++++++++++++++++
- target/i386/tcg/decode-new.h     |  242 ++++
- target/i386/tcg/emit.c.inc       | 2323 ++++++++++++++++++++++++++++++
- target/i386/tcg/fpu_helper.c     |  134 +-
- target/i386/tcg/translate.c      | 2071 ++------------------------
- tests/tcg/i386/Makefile.target   |    2 +-
- tests/tcg/i386/test-avx.c        |  201 +--
- tests/tcg/i386/test-avx.py       |    3 +-
- 14 files changed, 5374 insertions(+), 2380 deletions(-)
- create mode 100644 target/i386/tcg/decode-new.c.inc
- create mode 100644 target/i386/tcg/decode-new.h
- create mode 100644 target/i386/tcg/emit.c.inc
-
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 82004b65b9..8311b69c88 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1233,18 +1233,34 @@ typedef struct SegmentCache {
+     uint32_t flags;
+ } SegmentCache;
+ 
+-#define MMREG_UNION(n, bits)        \
+-    union n {                       \
+-        uint8_t  _b_##n[(bits)/8];  \
+-        uint16_t _w_##n[(bits)/16]; \
+-        uint32_t _l_##n[(bits)/32]; \
+-        uint64_t _q_##n[(bits)/64]; \
+-        float32  _s_##n[(bits)/32]; \
+-        float64  _d_##n[(bits)/64]; \
+-    }
++typedef union MMXReg {
++    uint8_t  _b_MMXReg[64 / 8];
++    uint16_t _w_MMXReg[64 / 16];
++    uint32_t _l_MMXReg[64 / 32];
++    uint64_t _q_MMXReg[64 / 64];
++    float32  _s_MMXReg[64 / 32];
++    float64  _d_MMXReg[64 / 64];
++} MMXReg;
+ 
+-typedef MMREG_UNION(ZMMReg, 512) ZMMReg;
+-typedef MMREG_UNION(MMXReg, 64)  MMXReg;
++typedef union XMMReg {
++    uint64_t _q_XMMReg[128 / 64];
++} XMMReg;
++
++typedef union YMMReg {
++    uint64_t _q_YMMReg[256 / 64];
++    XMMReg   _x_YMMReg[256 / 128];
++} YMMReg;
++
++typedef union ZMMReg {
++    uint8_t  _b_ZMMReg[512 / 8];
++    uint16_t _w_ZMMReg[512 / 16];
++    uint32_t _l_ZMMReg[512 / 32];
++    uint64_t _q_ZMMReg[512 / 64];
++    float32  _s_ZMMReg[512 / 32];
++    float64  _d_ZMMReg[512 / 64];
++    XMMReg   _x_ZMMReg[512 / 128];
++    YMMReg   _y_ZMMReg[512 / 256];
++} ZMMReg;
+ 
+ typedef struct BNDReg {
+     uint64_t lb;
+@@ -1267,6 +1283,13 @@ typedef struct BNDCSReg {
+ #define ZMM_S(n) _s_ZMMReg[15 - (n)]
+ #define ZMM_Q(n) _q_ZMMReg[7 - (n)]
+ #define ZMM_D(n) _d_ZMMReg[7 - (n)]
++#define ZMM_X(n) _x_ZMMReg[3 - (n)]
++#define ZMM_Y(n) _y_ZMMReg[1 - (n)]
++
++#define XMM_Q(n) _q_XMMReg[1 - (n)]
++
++#define YMM_Q(n) _q_YMMReg[3 - (n)]
++#define YMM_X(n) _x_YMMReg[1 - (n)]
+ 
+ #define MMX_B(n) _b_MMXReg[7 - (n)]
+ #define MMX_W(n) _w_MMXReg[3 - (n)]
+@@ -1279,6 +1302,13 @@ typedef struct BNDCSReg {
+ #define ZMM_S(n) _s_ZMMReg[n]
+ #define ZMM_Q(n) _q_ZMMReg[n]
+ #define ZMM_D(n) _d_ZMMReg[n]
++#define ZMM_X(n) _x_ZMMReg[n]
++#define ZMM_Y(n) _y_ZMMReg[n]
++
++#define XMM_Q(n) _q_XMMReg[n]
++
++#define YMM_Q(n) _q_YMMReg[n]
++#define YMM_X(n) _x_YMMReg[n]
+ 
+ #define MMX_B(n) _b_MMXReg[n]
+ #define MMX_W(n) _w_MMXReg[n]
+@@ -1556,8 +1586,8 @@ typedef struct CPUArchState {
+     float_status mmx_status; /* for 3DNow! float ops */
+     float_status sse_status;
+     uint32_t mxcsr;
+-    ZMMReg xmm_regs[CPU_NB_REGS == 8 ? 8 : 32];
+-    ZMMReg xmm_t0;
++    ZMMReg xmm_regs[CPU_NB_REGS == 8 ? 8 : 32] QEMU_ALIGNED(16);
++    ZMMReg xmm_t0 QEMU_ALIGNED(16);
+     MMXReg mmx_t0;
+ 
+     uint64_t opmask_regs[NB_OPMASK_REGS];
 -- 
 2.37.2
+
 
 
