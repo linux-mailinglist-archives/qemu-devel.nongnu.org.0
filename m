@@ -2,116 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E0BF5B4C64
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Sep 2022 08:52:08 +0200 (CEST)
-Received: from localhost ([::1]:40932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6220D5B4C66
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Sep 2022 08:57:52 +0200 (CEST)
+Received: from localhost ([::1]:33940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXGp5-0008HB-9W
-	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 02:52:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50356)
+	id 1oXGud-0002cm-Ff
+	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 02:57:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=2461b4889=damien.lemoal@opensource.wdc.com>)
- id 1oXGlZ-0006dL-I3
- for qemu-devel@nongnu.org; Sun, 11 Sep 2022 02:48:35 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:17252)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=2461b4889=damien.lemoal@opensource.wdc.com>)
- id 1oXGlV-0007Vy-Ve
- for qemu-devel@nongnu.org; Sun, 11 Sep 2022 02:48:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1662878904; x=1694414904;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Jafy7K6B0zsPkvtlzzwTCssfoIERUGIS3hxIRFT64QA=;
- b=cke+cmL3nlCXAdAR3YNXDKRW5Vvg9Tdi3DRJPB7zhO4dEwUalEHrkNyd
- Tf9APYjOriHTukQ+vWBGdhUO4LtgfA8uzfYwZs4t1meyAxT1JKdVhVqXL
- Ip2hpHoTXiF+8PXswS8IoKAtdSYgDYbuffcZjZV/cht8jvG8NLjBZeesz
- LLhJzac/c7fEqi4YlkU3QCD59SEhKPaetK8VNUiik3i7ZIL7z9S5Su/SC
- GPCT98UCYjcyKIlv8gyuISgji+atJ7beGE9d4+3bSy79mhhwCnRrCWxT7
- MtIJPDo3E8e/W2xo/Hnr1kOQGVx5vHtf5+V/ZKGVZL3mL0+uDajwrUD/Q Q==;
-X-IronPort-AV: E=Sophos;i="5.93,307,1654531200"; d="scan'208";a="211038531"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 11 Sep 2022 14:48:20 +0800
-IronPort-SDR: +PdPr0jX1uOr9rYi4fAYk4wi7hRRHyerAivOLMJipoZ4mc0kJ2dlh/ZH47bDCPHZ3E1kc1Xj8P
- OTXvgyl1LppQGvsGfTE9hKnXpw16u2jMf7AEH+y3ViJCmy3sp+buYKHfDV58KaO4Rt3HwijO3x
- wCnpbr7kNVwepJImdxFUzRuwJUadc4aZEiB1v6RBxUswr+kjI0m6a4Q9/LzWh1q2X73rPTnILL
- ACav5JnJZqR8wfvztUUW/IuRa9c5ZQzvRtFcCE6+Du6jywREQNnbV174xdHPiB+4T1Wb2kVcgI
- zU7wGp3eJZLLRlwEWCMFQVDq
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 10 Sep 2022 23:08:37 -0700
-IronPort-SDR: Lk4xfkU3wrdQpthwvXTbmvH8S9/CYuFxcZeVVgpbH5SHLah5bHAjZK05SD+OJJU0pZeMGJFvsK
- 3wfdA5V0SIbU0MF4CIlzdc0UmKpxU28Fxg4uM5FcsCQopjfn8UBz+IpPdRIrsVo1aB4rrvCwX1
- PxHiw3s3XPxleOQuf552JvOuMx5HyN3cd7+vmN65U+GPr6x78BTYkNHvb3BZjkFHjghWtVRywF
- Fl+oD1P37uB3iZPiVnrspglJA8PT1vVGB37vxV097l9LCm3tv4KIWwRruZ3JATp+hVce+3kF11
- nLQ=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 10 Sep 2022 23:48:21 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4MQL0N4Nj0z1Rwtm
- for <qemu-devel@nongnu.org>; Sat, 10 Sep 2022 23:48:20 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :in-reply-to:organization:from:references:to:content-language
- :subject:user-agent:mime-version:date:message-id; s=dkim; t=
- 1662878900; x=1665470901; bh=Jafy7K6B0zsPkvtlzzwTCssfoIERUGIS3hx
- IRFT64QA=; b=uJ7Iw8uNCa+E0R7I8c+dyyD7sUYmjm3ensHXcHoNuFqdNjLuwzJ
- onWmBRsrFlLfm2FJcf7do7gtZpZUhH+1/2VdISxcHMg5VAwDG2d0ys1Q8h5FFMzb
- gBUzccEMKKoQsHFX+RFclbvIL/lOpASumCY+krLW+XTV+tCJ0odqR6pquxEpCgGF
- BbPwWzegtsC1xUbHfd7x/yvvntgvKhaVP4OC4uDjojNKG053QN0YA2iUgUqh2g2X
- GYDpamGatQqnCoy+7iSRqNZgbs+mM/kEFzftM2o/eUfPzdpY5oZW5gSeLDcy3yJm
- EWAuUHVHYpf5vZEtq/bSApoStkiU9AISK5A==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id q5niq530muxS for <qemu-devel@nongnu.org>;
- Sat, 10 Sep 2022 23:48:20 -0700 (PDT)
-Received: from [10.225.1.43] (unknown [10.225.1.43])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4MQL0K1wn2z1RvLy;
- Sat, 10 Sep 2022 23:48:16 -0700 (PDT)
-Message-ID: <27ff94db-fa64-a4d6-00fc-fb289a386337@opensource.wdc.com>
-Date: Sun, 11 Sep 2022 15:48:15 +0900
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oXGrG-0008QX-Da; Sun, 11 Sep 2022 02:54:22 -0400
+Received: from mail-ua1-x92c.google.com ([2607:f8b0:4864:20::92c]:39500)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oXGrC-00087U-IP; Sun, 11 Sep 2022 02:54:22 -0400
+Received: by mail-ua1-x92c.google.com with SMTP id bu4so1883519uab.6;
+ Sat, 10 Sep 2022 23:54:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=qPCghuxvZYgq8Sg5ix11g/S8YZOuXjh3CEiaamvCIw4=;
+ b=TUOnwsI7ZdK9GtaecFJ5SPkDtj7CVql8+f28ujFJJXRhwGJnB67xqK7XJNuv6NF00H
+ e9klJ5EaHz3hHYfLztG8Sp0uu1dPlI8qDR/ebs3wfGsuvV5bWBtlU7kcqwfnIYqE743h
+ hyZrHg1AeNH4ylJkSySXO6zjO/wGfWJouNhutPbodyOhlVh1clWU5glRtVUHPKARiyZK
+ CpmfezFboTeYuEbSdrvbpOAUaoblkc8eoBh10i8w0bTD3f4QcZ9pNwPqVK3q1rLK0wmt
+ oel7SU9v2HjJus/9jSmrmRKdJ+ycCUfBhFtIoulbkttMjEAalYTCqPHs51mFTgb8+94i
+ DYvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=qPCghuxvZYgq8Sg5ix11g/S8YZOuXjh3CEiaamvCIw4=;
+ b=2Ivo1lmODL/x7WhewCWK52o9/fGG/34i+PVh7fNMx2IUO2jocO+HztibDzsS5HiydH
+ pgkl7y/r5oCWPVnbfFV0ideAjrmAaokBIaXFKWqC97csCgc6ADQQt50YWKDA5qtp16F5
+ G00kEw3CcGnL61ofD/StOdHKMzWX70KgTtv/4eNi1OOFlOaibJFTfotARRf0eDI8N7vi
+ 8Fj7SL+FIoZ2sdA9L1G7ilmgNrmCXz5/Mb5s5u6QkMeJa6s/UrtE8ToU7+ILUHKaaNyz
+ LA7ll5u39xTTmvj0jrXg7nyWbREVPGphoZOIMVAV1qgRb/BhQLc8s+GABmYm6AHIuu/e
+ TJyg==
+X-Gm-Message-State: ACgBeo2EKC8AptGAPXv51TK9s1C6SyOcXU1dgvrYXqR0+QmL0t136YmM
+ 5bItg6rBEkLs3q9Af00gq68NMBR0bY5zMznm+T8=
+X-Google-Smtp-Source: AA6agR44X64HV9Q8bs1HXI/SoS0WLldyrZjtXwuDGj3kQi7FIsafinC79M7naV9+KcIrl3UMuyHDtENfRu1na7BXvA0=
+X-Received: by 2002:ab0:373a:0:b0:3b5:5113:4adc with SMTP id
+ s26-20020ab0373a000000b003b551134adcmr4465152uag.122.1662879256978; Sat, 10
+ Sep 2022 23:54:16 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.2.2
-Subject: Re: [PATCH v9 3/7] block: add block layer APIs resembling Linux
- ZonedBlockDevice ioctls
-Content-Language: en-US
-To: Sam Li <faithilikerun@gmail.com>
+References: <20220910052759.27517-1-faithilikerun@gmail.com>
+ <20220910052759.27517-6-faithilikerun@gmail.com>
+ <99fd65d9-a44d-5ff6-f646-9121f1874480@opensource.wdc.com>
+In-Reply-To: <99fd65d9-a44d-5ff6-f646-9121f1874480@opensource.wdc.com>
+From: Sam Li <faithilikerun@gmail.com>
+Date: Sun, 11 Sep 2022 14:54:29 +0800
+Message-ID: <CAAAx-8KXM+PcAAktOaisNeqaq_0K6ntNupa_F-UL_NGg55_C2Q@mail.gmail.com>
+Subject: Re: [PATCH v9 5/7] config: add check to block layer
+To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 Cc: qemu-devel <qemu-devel@nongnu.org>,
- Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
- qemu block <qemu-block@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>, 
+ Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>, 
+ qemu block <qemu-block@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>, 
  Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
  Hannes Reinecke <hare@suse.de>, Hanna Reitz <hreitz@redhat.com>
-References: <20220910052759.27517-1-faithilikerun@gmail.com>
- <20220910052759.27517-4-faithilikerun@gmail.com>
- <1b6b36ef-0a2b-957e-843b-3c3bb2edc320@opensource.wdc.com>
- <CAAAx-8LvWtTGs0cJaQ_LQi9S5fhaLx827E_xfLs1VQbEp8v_Gw@mail.gmail.com>
-From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Organization: Western Digital Research
-In-Reply-To: <CAAAx-8LvWtTGs0cJaQ_LQi9S5fhaLx827E_xfLs1VQbEp8v_Gw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.153.144;
- envelope-from=prvs=2461b4889=damien.lemoal@opensource.wdc.com;
- helo=esa5.hgst.iphmx.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.214,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92c;
+ envelope-from=faithilikerun@gmail.com; helo=mail-ua1-x92c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -128,113 +89,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/09/11 15:33, Sam Li wrote:
-> Damien Le Moal <damien.lemoal@opensource.wdc.com> =E4=BA=8E2022=E5=B9=B4=
-9=E6=9C=8811=E6=97=A5=E5=91=A8=E6=97=A5 13:31=E5=86=99=E9=81=93=EF=BC=9A
-[...]
->>> +/*
->>> + * zone management operations - Execute an operation on a zone
->>> + */
->>> +static int coroutine_fn raw_co_zone_mgmt(BlockDriverState *bs, Block=
-ZoneOp op,
->>> +        int64_t offset, int64_t len) {
->>> +#if defined(CONFIG_BLKZONED)
->>> +    BDRVRawState *s =3D bs->opaque;
->>> +    RawPosixAIOData acb;
->>> +    int64_t zone_sector, zone_sector_mask;
->>> +    const char *zone_op_name;
->>> +    unsigned long zone_op;
->>> +    bool is_all =3D false;
->>> +
->>> +    zone_sector =3D bs->bl.zone_sectors;
->>> +    zone_sector_mask =3D zone_sector - 1;
->>> +    if (offset & zone_sector_mask) {
->>> +        error_report("sector offset %" PRId64 " is not aligned to zo=
-ne size "
->>> +                     "%" PRId64 "", offset, zone_sector);
->>> +        return -EINVAL;
->>> +    }
->>> +
->>> +    if (len & zone_sector_mask) {
->>
->> Linux allows SMR drives to have a smaller last zone. So this needs to =
-be
->> accounted for here. Otherwise, a zone operation that includes the last=
- smaller
->> zone would always fail. Something like this would work:
->>
->>         if (((offset + len) < capacity &&
->>             len & zone_sector_mask) ||
->>             offset + len > capacity) {
->>
->=20
-> I see. I think the offset can be removed, like:
-> if (((len < capacity && len & zone_sector_mask) || len > capacity) {
-> Then if we use the previous zone's len for the last smaller zone, it
-> will be greater than its capacity.
+Damien Le Moal <damien.lemoal@opensource.wdc.com> =E4=BA=8E2022=E5=B9=B49=
+=E6=9C=8811=E6=97=A5=E5=91=A8=E6=97=A5 13:34=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On 2022/09/10 14:27, Sam Li wrote:
+> > Putting zoned/non-zoned BlockDrivers on top of each other is not
+> > allowed.
+> >
+> > Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> >  block.c                          | 14 ++++++++++++++
+> >  block/file-posix.c               | 14 ++++++++++++++
+> >  block/raw-format.c               |  1 +
+> >  include/block/block_int-common.h |  5 +++++
+> >  4 files changed, 34 insertions(+)
+> >
+> > diff --git a/block.c b/block.c
+> > index bc85f46eed..dad2ed3959 100644
+> > --- a/block.c
+> > +++ b/block.c
+> > @@ -7947,6 +7947,20 @@ void bdrv_add_child(BlockDriverState *parent_bs,=
+ BlockDriverState *child_bs,
+> >          return;
+> >      }
+> >
+> > +    /*
+> > +     * Non-zoned block drivers do not follow zoned storage constraints
+> > +     * (i.e. sequential writes to zones). Refuse mixing zoned and non-=
+zoned
+> > +     * drivers in a graph.
+> > +     */
+> > +    if (!parent_bs->drv->supports_zoned_children &&
+> > +        child_bs->bl.zoned =3D=3D BLK_Z_HM) {
+>
+> Shouldn't this be "child_bs->bl.zoned !=3D BLK_Z_NONE" ?
 
-Nope, you cannot remove the offset since the zone operation may be for th=
-at last
-zone only, that is, offset =3D=3D last zone start and len =3D=3D last zon=
-e smaller size.
-In that case, len is alwats smaller than capacity.
+The host-aware model allows zoned storage constraints(sequentially
+write) and random write. Is mixing HA and non-zoned drivers allowed?
+What's the difference?
 
->=20
-> I will also include "opening the last zone" as a test case later.
-
-Note that you can create such smaller last zone on the host with null_blk=
- by
-specifying a device capacity that is *not* a multiple of the zone size.
-
->=20
->>> +        error_report("number of sectors %" PRId64 " is not aligned t=
-o zone size"
->>> +                      " %" PRId64 "", len, zone_sector);
->>> +        return -EINVAL;
->>> +    }
->>> +
->>> +    switch (op) {
->>> +    case BLK_ZO_OPEN:
->>> +        zone_op_name =3D "BLKOPENZONE";
->>> +        zone_op =3D BLKOPENZONE;
->>> +        break;
->>> +    case BLK_ZO_CLOSE:
->>> +        zone_op_name =3D "BLKCLOSEZONE";
->>> +        zone_op =3D BLKCLOSEZONE;
->>> +        break;
->>> +    case BLK_ZO_FINISH:
->>> +        zone_op_name =3D "BLKFINISHZONE";
->>> +        zone_op =3D BLKFINISHZONE;
->>> +        break;
->>> +    case BLK_ZO_RESET:
->>> +        zone_op_name =3D "BLKRESETZONE";
->>> +        zone_op =3D BLKRESETZONE;
->>> +        break;
->>> +    default:
->>> +        g_assert_not_reached();
->>> +    }
->>> +
->>> +    acb =3D (RawPosixAIOData) {
->>> +        .bs             =3D bs,
->>> +        .aio_fildes     =3D s->fd,
->>> +        .aio_type       =3D QEMU_AIO_ZONE_MGMT,
->>> +        .aio_offset     =3D offset,
->>> +        .aio_nbytes     =3D len,
->>> +        .zone_mgmt  =3D {
->>> +                .zone_op =3D zone_op,
->>> +                .zone_op_name =3D zone_op_name,
->>> +                .all =3D is_all,
->>> +        },
->>> +    };
->>> +
->>> +    return raw_thread_pool_submit(bs, handle_aiocb_zone_mgmt, &acb);
->>> +#else
->>> +    return -ENOTSUP;
->>> +#endif
->>> +}
-
---=20
-Damien Le Moal
-Western Digital Research
-
+>
+> > +        error_setg(errp, "Cannot add a %s child to a %s parent",
+> > +                   child_bs->bl.zoned =3D=3D BLK_Z_HM ? "zoned" : "non=
+-zoned",
+> > +                   parent_bs->drv->supports_zoned_children ?
+> > +                   "support zoned children" : "not support zoned child=
+ren");
+> > +        return;
+> > +    }
+> > +
+> >      if (!QLIST_EMPTY(&child_bs->parents)) {
+> >          error_setg(errp, "The node %s already has a parent",
+> >                     child_bs->node_name);
+> > diff --git a/block/file-posix.c b/block/file-posix.c
+> > index 4edfa25d04..354de22860 100644
+> > --- a/block/file-posix.c
+> > +++ b/block/file-posix.c
+> > @@ -779,6 +779,20 @@ static int raw_open_common(BlockDriverState *bs, Q=
+Dict *options,
+> >              goto fail;
+> >          }
+> >      }
+> > +#ifdef CONFIG_BLKZONED
+> > +    /*
+> > +     * The kernel page chache does not reliably work for writes to SWR=
+ zones
+> > +     * of zoned block device because it can not guarantee the order of=
+ writes.
+> > +     */
+> > +    if (strcmp(bs->drv->format_name, "zoned_host_device") =3D=3D 0) {
+> > +        if (!(s->open_flags & O_DIRECT)) {
+> > +            error_setg(errp, "driver=3Dzoned_host_device was specified=
+, but it "
+> > +                             "requires cache.direct=3Don, which was no=
+t specified.");
+> > +            ret =3D -EINVAL;
+>
+> This line is not needed. Simply "return -EINVAL;".
+>
+> > +            return ret; /* No host kernel page cache */
+> > +        }
+> > +    }
+> > +#endif
+> >
+> >      if (S_ISBLK(st.st_mode)) {
+> >  #ifdef BLKDISCARDZEROES
+> > diff --git a/block/raw-format.c b/block/raw-format.c
+> > index 6b20bd22ef..9441536819 100644
+> > --- a/block/raw-format.c
+> > +++ b/block/raw-format.c
+> > @@ -614,6 +614,7 @@ static void raw_child_perm(BlockDriverState *bs, Bd=
+rvChild *c,
+> >  BlockDriver bdrv_raw =3D {
+> >      .format_name          =3D "raw",
+> >      .instance_size        =3D sizeof(BDRVRawState),
+> > +    .supports_zoned_children =3D true,
+> >      .bdrv_probe           =3D &raw_probe,
+> >      .bdrv_reopen_prepare  =3D &raw_reopen_prepare,
+> >      .bdrv_reopen_commit   =3D &raw_reopen_commit,
+> > diff --git a/include/block/block_int-common.h b/include/block/block_int=
+-common.h
+> > index 078ddd7e67..043aa161a0 100644
+> > --- a/include/block/block_int-common.h
+> > +++ b/include/block/block_int-common.h
+> > @@ -127,6 +127,11 @@ struct BlockDriver {
+> >       */
+> >      bool is_format;
+> >
+> > +    /*
+> > +     * Set to true if the BlockDriver supports zoned children.
+> > +     */
+> > +    bool supports_zoned_children;
+> > +
+> >      /*
+> >       * Drivers not implementing bdrv_parse_filename nor bdrv_open shou=
+ld have
+> >       * this field set to true, except ones that are defined only by th=
+eir
+>
+> --
+> Damien Le Moal
+> Western Digital Research
+>
 
