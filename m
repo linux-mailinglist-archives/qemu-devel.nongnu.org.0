@@ -2,78 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A393B5B4CAD
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Sep 2022 10:41:18 +0200 (CEST)
-Received: from localhost ([::1]:35956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAAFB5B4FD8
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Sep 2022 18:05:51 +0200 (CEST)
+Received: from localhost ([::1]:38008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXIWj-0006e1-E0
-	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 04:41:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43556)
+	id 1oXPSw-00024q-Em
+	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 12:05:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oXIUP-0004vD-A2; Sun, 11 Sep 2022 04:38:53 -0400
-Received: from mail-vs1-xe29.google.com ([2607:f8b0:4864:20::e29]:37527)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oXIUN-0004VZ-6e; Sun, 11 Sep 2022 04:38:52 -0400
-Received: by mail-vs1-xe29.google.com with SMTP id u189so6035415vsb.4;
- Sun, 11 Sep 2022 01:38:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=CHIY56wcSIvrys68deLPuk17Sm5nwHMv9CmJvNbwWR4=;
- b=fNr/4gekHsfmHAM7kvnscuMHh76tyWyMXjJGcuNPD11wMlDC+kt0yqQjIG6NHbxqqC
- Y2bFL5LA1bQCmliRDGzo2zlUCmT0OBV1HillS1fIl2no4OhOAT8wJwL0KU5PYv5g15Sg
- 5ZqzyVqGAT6Y22qdiUC//fNWEcLhzInVAvfr6wI7eBOdHdiTrl/oOJGpribAtOaie/7P
- OBQsHzOGR8NjUuJHLFhZnd4AwlR5RAZduinTAIzvzlSQ3jzxmrYyLnrS6bhW/wzMcnPQ
- zdeTLqEHPh2juvCJdglZ0O7d75h4Ms7q5H50AzFbjsYEONOApyKAg6jjk3jNWnEcDw08
- zt0Q==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oXPPi-0006bh-U3
+ for qemu-devel@nongnu.org; Sun, 11 Sep 2022 12:02:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35013)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oXPPf-0000ho-UI
+ for qemu-devel@nongnu.org; Sun, 11 Sep 2022 12:02:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662912145;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kWdYHi0/TYsCnaYbaBhdu5xrU49KOBkcsd8oowdo3fY=;
+ b=MuYI60Qh5IYEInscRsBwjeEbATD7beqys1G4OkB4LfpiLHR8IrejsIaguDO2m4JvKirMuE
+ 8rPc9DzAO/RKygZF6q0+Yp4fx0lcf1MBbw7jeOk/1o3hOS/Nz6MgxrmFR+8sDBsxLkjnAn
+ T6SmCFKfUmjtExzS+rxq2MYoLaCiPK4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-156-KOBNuiZfPWSWSrdDpLic1w-1; Sun, 11 Sep 2022 12:02:23 -0400
+X-MC-Unique: KOBNuiZfPWSWSrdDpLic1w-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ j19-20020a05600c1c1300b003ab73e4c45dso5900643wms.0
+ for <qemu-devel@nongnu.org>; Sun, 11 Sep 2022 09:02:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=CHIY56wcSIvrys68deLPuk17Sm5nwHMv9CmJvNbwWR4=;
- b=Gm4KxO33p4UiFd+ZuTjoujuMuUXYxwGZXWO9cENVZwvx/rMAxZlzdp+y4N/pTd4j//
- 7j323BrWNAb1Po+qgTV3soYsyOYHECqEqQAvGZpHUQ27tDVjiJBkBhuXqmKl1ZoEeZbA
- gzcA2B8m6yc+migAlB0To+CMGqsJOxIQLWpF/vl0T3VWdmJP6pOsecRKk3z8mW7iygHA
- OKjcXY8Rj7i8hcFqEYS3SfqTaUgCFWM8V3DFmUDPHOWcECP//UX5rTibP+48OdMeF0I7
- YIU6QxJAg5wCXqggkNcswTqTUv2xAjycm5/ihNzwnoGtqEQ6sM1xZhd19Istrdht8F1I
- MMXQ==
-X-Gm-Message-State: ACgBeo3vIapl2kVoTDfbpukey94OMiDwycjSzUrZ/aoCrM6OMaChgm6Y
- T9vCpyLWKqUSD+Eqh/wkvTCnvI6Ag/YtQHz7ZYc=
-X-Google-Smtp-Source: AA6agR6F1TUFtCAwgOzrL6V0yGHWnxoKNtvHqIJye7M7hDRg/4FGoHgoxFqiZ8K7JELNxwyEsuS2IQNQWvZmINeZ9+8=
-X-Received: by 2002:a05:6102:3c9d:b0:398:7d74:157e with SMTP id
- c29-20020a0561023c9d00b003987d74157emr518503vsv.71.1662885529865; Sun, 11 Sep
- 2022 01:38:49 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=kWdYHi0/TYsCnaYbaBhdu5xrU49KOBkcsd8oowdo3fY=;
+ b=D58vm1sU3gFdrdVWo39YB5pWMJlxCBuNfS3JQaMzJV7GcCjZnPv+orDSMRBOMv+Sx8
+ NVhJygpEkVSzsQvbEuueAl3hkbk+9Yht703eiO+mkYHuvIrPnHZpTpEnQRrFGjN91fIQ
+ L795t9e2B4acLyEbmSrIXEBTrKKnOu+WyhOzB/NBA1Ek70y3ra2/QQEcQRSszwESCCpn
+ 2CTL+A+EEq5sNSDq4isgxzLBELBh5/BEuVlcFO9IP8XJChKjvlUl5gAb+NZAmT5xRcPU
+ AL+Y7y0c8bZP09/PmaiOZEUJ0mPTTMyDE/vEdhGTSMZHfrBCAwZJE1IRySgt6c5pEBQi
+ grRQ==
+X-Gm-Message-State: ACgBeo2rBgPPJxZP/U1o6ejjGIncgYJH/k0Dj5cqZxBNluJaP0zOPkIW
+ 3q+Bq3qCG/+TSQM1TEePKGD6AyPGvB+83ORIGahjoGCcSFcjQ5hznJ49SAe7r595sDGgsURrDEM
+ QL36eyDhXRw5pQV0=
+X-Received: by 2002:a05:600c:1e13:b0:3b4:74c3:620b with SMTP id
+ ay19-20020a05600c1e1300b003b474c3620bmr4290820wmb.168.1662912142407; 
+ Sun, 11 Sep 2022 09:02:22 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6GDpRI158toabifv2YS9B8hCOJ8cUZX5/YU0nLKbsU71KbcKZRRdpHGPBeTzwzOsM3Z5XkCg==
+X-Received: by 2002:a05:600c:1e13:b0:3b4:74c3:620b with SMTP id
+ ay19-20020a05600c1e1300b003b474c3620bmr4290798wmb.168.1662912142189; 
+ Sun, 11 Sep 2022 09:02:22 -0700 (PDT)
+Received: from [10.134.72.224]
+ (host86-187-239-252.range86-187.btcentralplus.com. [86.187.239.252])
+ by smtp.gmail.com with ESMTPSA id
+ k16-20020a05600c1c9000b003b47b913901sm3637108wms.1.2022.09.11.09.02.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 11 Sep 2022 09:02:21 -0700 (PDT)
+Message-ID: <a1430a34-9a02-327f-e84a-05dbbb51692e@redhat.com>
+Date: Sun, 11 Sep 2022 17:02:19 +0100
 MIME-Version: 1.0
-References: <20220910063836.31295-1-faithilikerun@gmail.com>
- <9665c8b0-b291-7a42-8242-73a7c0967917@opensource.wdc.com>
- <CAAAx-8KUHoW4Apr1u9urRyVnKmp1Qo2kMKWP2+iRui4jtYj9LA@mail.gmail.com>
- <a0d5fe49-8290-72ca-3999-fd8701f94d15@opensource.wdc.com>
-In-Reply-To: <a0d5fe49-8290-72ca-3999-fd8701f94d15@opensource.wdc.com>
-From: Sam Li <faithilikerun@gmail.com>
-Date: Sun, 11 Sep 2022 16:39:02 +0800
-Message-ID: <CAAAx-8L9TsxvUxE8dxLZg+be2P_AneW_KDUHCf2H-iu_Q27vUA@mail.gmail.com>
-Subject: Re: [PATCH] block: introduce zone append write for zoned devices
-To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Kevin Wolf <kwolf@redhat.com>, 
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, Fam Zheng <fam@euphon.net>,
- Hannes Reinecke <hare@suse.de>, 
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
- qemu block <qemu-block@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e29;
- envelope-from=faithilikerun@gmail.com; helo=mail-vs1-xe29.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 6/8] tests: Make all tests that use q35 depend on it being
+ compiled in
+Content-Language: en-US
+To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+Cc: Bandan Das <bsd@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Gerd Hoffmann <kraxel@redhat.com>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+References: <20220902173452.1904-1-quintela@redhat.com>
+ <20220902173452.1904-7-quintela@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220902173452.1904-7-quintela@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-4.101, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,176 +108,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Damien Le Moal <damien.lemoal@opensource.wdc.com> =E4=BA=8E2022=E5=B9=B49=
-=E6=9C=8811=E6=97=A5=E5=91=A8=E6=97=A5 16:36=E5=86=99=E9=81=93=EF=BC=9A
->
-> On 2022/09/11 17:00, Sam Li wrote:
-> [...]
-> >>> @@ -1604,6 +1629,12 @@ static ssize_t handle_aiocb_rw_linear(RawPosix=
-AIOData *aiocb, char *buf)
-> >>>                           (const char *)buf + offset,
-> >>>                           aiocb->aio_nbytes - offset,
-> >>>                           aiocb->aio_offset + offset);
-> >>> +        } else if (aiocb->aio_type =3D=3D QEMU_AIO_ZONE_APPEND) {
-> >>> +            uint64_t wp =3D aiocb->aio_offset;
-> >>
-> >> This variable is not necessary.
-> >>
-> >>> +            len =3D pwrite(aiocb->aio_fildes,
-> >>> +                         (const char *)buf + offset,
-> >>> +                         aiocb->aio_nbytes - offset,
-> >>> +                         wp + offset);
-> >>>          } else {
-> >>>              len =3D pread(aiocb->aio_fildes,
-> >>>                          buf + offset,
-> >>> @@ -1638,7 +1669,6 @@ static int handle_aiocb_rw(void *opaque)
-> >>>      RawPosixAIOData *aiocb =3D opaque;
-> >>>      ssize_t nbytes;
-> >>>      char *buf;
-> >>> -
-> >>
-> >> whiteline change.
-> >>
-> >>>      if (!(aiocb->aio_type & QEMU_AIO_MISALIGNED)) {
-> >>>          /*
-> >>>           * If there is just a single buffer, and it is properly alig=
-ned
-> >>> @@ -1692,7 +1722,7 @@ static int handle_aiocb_rw(void *opaque)
-> >>>      }
-> >>>
-> >>>      nbytes =3D handle_aiocb_rw_linear(aiocb, buf);
-> >>> -    if (!(aiocb->aio_type & QEMU_AIO_WRITE)) {
-> >>> +    if (!(aiocb->aio_type & (QEMU_AIO_WRITE | QEMU_AIO_ZONE_APPEND))=
-) {
-> >>>          char *p =3D buf;
-> >>>          size_t count =3D aiocb->aio_nbytes, copy;
-> >>>          int i;
-> >>> @@ -1713,6 +1743,25 @@ static int handle_aiocb_rw(void *opaque)
-> >>>
-> >>>  out:
-> >>>      if (nbytes =3D=3D aiocb->aio_nbytes) {
-> >>> +#if defined(CONFIG_BLKZONED)
-> >>> +        if (aiocb->aio_type & (QEMU_AIO_WRITE | QEMU_AIO_ZONE_APPEND=
-)) {
-> >>> +            BlockZoneDescriptor *zone =3D aiocb->io.zone;
-> >>> +            int64_t nr_sectors =3D aiocb->aio_nbytes / 512;
-> >>> +            if (zone) {
-> >>> +                qemu_mutex_init(&zone->lock);
-> >>> +                if (zone->type =3D=3D BLK_ZT_SWR) {
-> >>> +                    qemu_mutex_lock(&zone->lock);
-> >>> +                    zone->wp +=3D nr_sectors;
-> >>> +                    qemu_mutex_unlock(&zone->lock);
-> >>> +                }
-> >>> +                qemu_mutex_destroy(&zone->lock);
-> >>
-> >> This is weird. you init the mutex, lock/unlock it and destroy it. So i=
-t has
-> >> absolutely no meaning at all.
-> >
-> > I was thinking that init every lock for all the zones or init the lock
-> > for the zone that needed it. The confusion I have here is the cost of
-> > initializing/destroying the lock.
->
-> A mutex needs to be initialized before it is used and should not be
-> re-initialized, ever, until it is not needed anymore. That is, in this ca=
-se,
-> since the mutex protects a zone wp tracking entry, it should be initializ=
-ed when
-> the array of zone wp is allocated & initialized with a zone report, and t=
-he
-> mutex destroyed when that same array is freed.
->
-> The cost of initializing & destroying a mutex is low. And since that is n=
-ot done
-> in the hot IO path, you do not need to worry about it.
+On 02/09/2022 19.34, Juan Quintela wrote:
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> ---
+>   tests/qtest/meson.build | 27 +++++++++++++++++----------
+>   1 file changed, 17 insertions(+), 10 deletions(-)
+> 
+> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> index e910cb32ca..67b3b678d3 100644
+> --- a/tests/qtest/meson.build
+> +++ b/tests/qtest/meson.build
+> @@ -51,13 +51,16 @@ qtests_i386 = \
+>     (config_all_devices.has_key('CONFIG_WDT_IB700') ? ['wdt_ib700-test'] : []) +              \
+>     (config_all_devices.has_key('CONFIG_PVPANIC_ISA') ? ['pvpanic-test'] : []) +              \
+>     (config_all_devices.has_key('CONFIG_PVPANIC_PCI') ? ['pvpanic-pci-test'] : []) +          \
+> -  (config_all_devices.has_key('CONFIG_HDA') ? ['intel-hda-test'] : []) +                    \
+> +  (config_all_devices.has_key('CONFIG_HDA') ? ['intel-hda-test'] : []) +		    \
 
-I see, thanks!
+White space damage?
 
->
-> [...]
-> >>> +static int coroutine_fn raw_co_zone_append(BlockDriverState *bs,
-> >>> +                                           int64_t *offset,
-> >>> +                                           QEMUIOVector *qiov,
-> >>> +                                           BdrvRequestFlags flags) {
-> >>> +#if defined(CONFIG_BLKZONED)
-> >>> +    BDRVRawState *s =3D bs->opaque;
-> >>> +    int64_t zone_sector =3D bs->bl.zone_sectors;
-> >>> +    int64_t zone_sector_mask =3D zone_sector - 1;
-> >>> +    int64_t iov_len =3D 0;
-> >>> +    int64_t len =3D 0;
-> >>> +    RawPosixAIOData acb;
-> >>> +
-> >>> +    if (*offset & zone_sector_mask) {
-> >>> +        error_report("offset %" PRId64 " is not aligned to zone size=
- "
-> >>> +                     "%" PRId64 "", *offset, zone_sector);
-> >>> +        return -EINVAL;
-> >>> +    }
-> >>> +
-> >>> +    int64_t lbsz =3D bs->bl.logical_block_size;> +    int64_t lbsz_m=
-ask =3D lbsz - 1;
-> >>> +    for (int i =3D 0; i < qiov->niov; i++) {
-> >>> +       iov_len =3D qiov->iov[i].iov_len;
-> >>> +       if (iov_len & lbsz_mask) {
-> >>> +           error_report("len of IOVector[%d] %" PRId64 " is not alig=
-ned to block "
-> >>> +                        "size %" PRId64 "", i, iov_len, lbsz);
-> >>> +           return -EINVAL;
-> >>> +       }
-> >>
-> >> This alignment check should be against the device write granularity, n=
-ot the
-> >> logical block size. The write granularity will always be equal to the =
-device
-> >> physical block size, which may or may not be equal to the device logic=
-al block
-> >> size. E.g. a 512e SMR disk has a 512B logical block size but a 4096B p=
-hysical
-> >> block size. And the ZBC & ZAC specifications mandate that all write be=
- aligned
-> >> to the physical block size.
-> >
-> > I see. I'll change it to physical block size.
->
-> I would use a filed called "write_granularity" since the virtio specs wil=
-l
-> introduce that anyway. This zone granularity is going to be indeed equal =
-to the
-> physical block size of the host device for now.
->
-> [...]
-> >>>      /* removable device specific */
-> >>>      bool (*bdrv_is_inserted)(BlockDriverState *bs);
-> >>> @@ -854,6 +857,12 @@ typedef struct BlockLimits {
-> >>>
-> >>>      /* maximum number of active zones */
-> >>>      int64_t max_active_zones;
-> >>> +
-> >>> +    /* array of zones in the zoned block device. Only tracks write p=
-ointer's
-> >>> +     * location of each zone as a helper for zone_append API */
-> >>> +    BlockZoneDescriptor *zones;
-> >>
-> >> This is a lot of memory for only tracking the wp... Why not reduce thi=
-s to an
-> >> array of int64 values, for the wp only ? As you may need the zone type=
- too
-> >> (conventional vs sequential), you can use the most significant bit (a =
-zone wp
-> >> value will never use all 64 bits !).
-> >>
-> >> Or device another zone structure with zone type, zone wp and mutex onl=
-y, so
-> >> smaller than the regular zone report structure.
-> >
-> > I was just trying to reuse do_zone_report. It is better to only track
-> > the wp only. Then a new struct and smaller zone_report should be
-> > introduced for it.
->
-> Yes, this will use less memory, which is always good.
->
-> --
-> Damien Le Moal
-> Western Digital Research
->
+>     (config_all_devices.has_key('CONFIG_I82801B11') ? ['i82801b11-test'] : []) +             \
+>     (config_all_devices.has_key('CONFIG_IOH3420') ? ['ioh3420-test'] : []) +                  \
+> -  (config_all_devices.has_key('CONFIG_LPC_ICH9') ? ['lpc-ich9-test'] : []) +              \
+> -  (config_all_devices.has_key('CONFIG_USB_UHCI') ? ['usb-hcd-uhci-test'] : []) +            \
+> +  (config_all_devices.has_key('CONFIG_LPC_ICH9') and
+> +   config_all_devices.has_key('CONFIG_Q35') ? ['lpc-ich9-test'] : []) +			    \
+> +  (config_all_devices.has_key('CONFIG_USB_UHCI') and
+> +   config_all_devices.has_key('CONFIG_Q35') ? ['usb-hcd-uhci-test'] : []) +		    \
+
+Are you sure about the UHCI test? I did not spot any "q35" in 
+tests/qtest/usb-hcd-uhci-test.c ...?
+
+  Thomas
+
 
