@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6FA65B51C9
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 01:09:17 +0200 (CEST)
-Received: from localhost ([::1]:54384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D085B51D6
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 01:17:58 +0200 (CEST)
+Received: from localhost ([::1]:57518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXW4e-000673-FO
-	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 19:09:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41544)
+	id 1oXWD5-00021z-J0
+	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 19:17:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oXW0O-0000Gv-Vp
+ id 1oXW0M-0000Gu-Pf
  for qemu-devel@nongnu.org; Sun, 11 Sep 2022 19:04:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20927)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51696)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oXW0K-0006zd-NV
- for qemu-devel@nongnu.org; Sun, 11 Sep 2022 19:04:48 -0400
+ id 1oXW0K-0006zk-SZ
+ for qemu-devel@nongnu.org; Sun, 11 Sep 2022 19:04:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662937482;
+ s=mimecast20190719; t=1662937484;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Umv+Midn7Lb16MmCty5tDWZf5hWKzwOgk4iO4hY9xoY=;
- b=Ajl0otZ/ozJCcbdG6kiJJywXpNQ9s+1YqWJMdtLnnSUwbMvNnoJNqqpM2nMQ/WXDg8Pn7V
- LfA4rcSa0DNWKFwZCAIfSGyqxK0QUWDjI+tETYG8rMlBcHobJpEGn5GFe5jR6dvWCnhnCm
- kT4WFleG3C58O31VUFwX2AwvMKjEyjU=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AXfKQ9wMRjG03YHNEkvjK1M5NZzwlRM0zsPk2T4zDiY=;
+ b=a69MCZHt8xaDIn2V8TxPHOy+gIuS8YovXfV9z9cD5OLg2Mpg9gg6+5a7roOAUvp5HBiFne
+ 1tYWm6k5HBdS3Er6MoirUYNi5OKu6JFgXvRakYj3IUw7Kz7FfvhRdK0vJBGtwsnTZXvKAa
+ hz/5hK6VQtBsIJqrJwuiYlxKGYNx4mo=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-361-fhaRmpYvN_Sw-gKKkQF79w-1; Sun, 11 Sep 2022 19:04:40 -0400
-X-MC-Unique: fhaRmpYvN_Sw-gKKkQF79w-1
-Received: by mail-ed1-f71.google.com with SMTP id
- p4-20020a056402500400b00447e8b6f62bso5005619eda.17
- for <qemu-devel@nongnu.org>; Sun, 11 Sep 2022 16:04:40 -0700 (PDT)
+ us-mta-617-PpGHnI5qOMyeXe776_L1rQ-1; Sun, 11 Sep 2022 19:04:42 -0400
+X-MC-Unique: PpGHnI5qOMyeXe776_L1rQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ e15-20020a056402190f00b0044f41e776a0so4959118edz.0
+ for <qemu-devel@nongnu.org>; Sun, 11 Sep 2022 16:04:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=Umv+Midn7Lb16MmCty5tDWZf5hWKzwOgk4iO4hY9xoY=;
- b=IsOoGSDwcWKqqNx4flskhLdVD+v3i4C7P/RvzQzOUYFXTXtAIvTB+9no2LzZAe8Qon
- eW2II1ZyoOO5ByF9rzYM3VTswnha1wQ64CqPhCkCBsNGOOHZjjLawD+KRhGC7BuzB9mE
- 4RO3eL6rSyoGp8LEnQM0/FiNyAe+FdgiNYNR6UnS30Cr32o5PlCPiE3ju5M0veNYOk6X
- UnxQo6CnH5B506dmVn6Mey0qW+ZRslAZauiGeie5yVbrQfZ28XOr0hvD5KsrmdgeuJlF
- g/uiq8SZZi6YKmUTZDiQ7X+3iksghGwZoCIGFOpB/ivqZJKu84duNAvoPR/xpAxVtvF4
- 3PfQ==
-X-Gm-Message-State: ACgBeo0K2eKq6kRhDBB90ItrvBrhQYFNiAXLvccPofygaY0YIIA2ff8/
- dxq4B22AdoNgDdoPf8zQOCcNOxWydeRdeYhV1f+8J5+REJlU5LNcxZ5h8592/r5lvrxHXOrbJFB
- P5dJkfWCHGjYS5hCFFdJQSXOJgVhKkO09ge9QLRBWQHNGGWSwTWq8cRyBDYE6BOn9Vbs=
-X-Received: by 2002:aa7:da86:0:b0:44e:91c8:eb4f with SMTP id
- q6-20020aa7da86000000b0044e91c8eb4fmr20948748eds.252.1662937479027; 
- Sun, 11 Sep 2022 16:04:39 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5uTlKs4BxGyFlAlFQ3TyXXaau4sAPzPv9XzIRxrFFTe/4Ks6HwtgiA9rp0Pwvhkroc0xOf9Q==
-X-Received: by 2002:aa7:da86:0:b0:44e:91c8:eb4f with SMTP id
- q6-20020aa7da86000000b0044e91c8eb4fmr20948716eds.252.1662937478137; 
- Sun, 11 Sep 2022 16:04:38 -0700 (PDT)
+ bh=AXfKQ9wMRjG03YHNEkvjK1M5NZzwlRM0zsPk2T4zDiY=;
+ b=vrU10RoktFLSrRMKET9U80oel+UG45nZI7NZp9L7s9PV593T/R6csPmcs0yVi9y35C
+ ozKiJHxQxaHvS0TdNXyflyxHa5d9yhqX/B1qveUj8SkR1xOu4wGF3iIJzEVGMzSKYFA/
+ WR60AK0s2tMfDeE4NIXw6xQzWekxfwnLTZczrfSPM9VliNkIxu0TBVJxCpzunxjsFl31
+ +SxEn8W2GSgxnml+3y06tQbltpOapUSZShJquayOsEdYGpgeMMZNUkuVCUL8DQ4oQ8Q1
+ kVuZ8fPl6YE5dhYYOrgVaCxlsFYjytLUJivex5AmQiDRNX/8hLza0P55zT5ya4HvacfX
+ w31A==
+X-Gm-Message-State: ACgBeo3MxMPPMxdNCEiP1BTUnfq5qO1a7Jnkx68EFQJbsEUU5jaZjwLo
+ xpKmEGAQPxu+mk1VL6IM4a2BPGeQgB29QRWr0CeXOkjbsdwJvfb1eqMz7kDx50649w9t1cids6U
+ wg6iHHCqjU20LknALLZFIphxS1xRS3ryHYVkpKWc1cZwQJTR7x9J0vNae2dah14uOj9g=
+X-Received: by 2002:a05:6402:2691:b0:43d:ba10:854b with SMTP id
+ w17-20020a056402269100b0043dba10854bmr19582638edd.158.1662937481302; 
+ Sun, 11 Sep 2022 16:04:41 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7mQhnebdpEp8TEePuKCDWRMB+UAU2P6geZR03b+dEJXju+ENUMwGvTUCubs2qnHvikuu9jUg==
+X-Received: by 2002:a05:6402:2691:b0:43d:ba10:854b with SMTP id
+ w17-20020a056402269100b0043dba10854bmr19582624edd.158.1662937480976; 
+ Sun, 11 Sep 2022 16:04:40 -0700 (PDT)
 Received: from goa-sendmail (93-44-39-154.ip95.fastwebnet.it. [93.44.39.154])
  by smtp.gmail.com with ESMTPSA id
- h25-20020a170906399900b0073da32b7db0sm3471459eje.199.2022.09.11.16.04.36
+ 10-20020a170906310a00b0073d6d6e698bsm3470074ejx.187.2022.09.11.16.04.39
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Sep 2022 16:04:37 -0700 (PDT)
+ Sun, 11 Sep 2022 16:04:40 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/37] target/i386: add core of new i386 decoder
-Date: Mon, 12 Sep 2022 01:03:45 +0200
-Message-Id: <20220911230418.340941-6-pbonzini@redhat.com>
+Subject: [PATCH 06/37] target/i386: add ALU load/writeback core
+Date: Mon, 12 Sep 2022 01:03:46 +0200
+Message-Id: <20220911230418.340941-7-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220911230418.340941-1-pbonzini@redhat.com>
 References: <20220911230418.340941-1-pbonzini@redhat.com>
@@ -100,1124 +100,263 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The new decoder is based on three principles:
-
-- use mostly table-driven decoding, using tables derived as much as possible
-  from the Intel manual.  Centralizing the decode the operands makes it
-  more homogeneous, for example all immediates are signed.  All modrm
-  handling is in one function, and can be shared between SSE and ALU
-  instructions (including XMM<->GPR instructions).  The SSE/AVX decoder
-  will also not have duplicated code between the 0F, 0F38 and 0F3A tables.
-
-- keep the code as "non-branchy" as possible.  Generally, the code for
-  the new decoder is more verbose, but the control flow is simpler.
-  Conditionals are not nested and have small bodies.  All instruction
-  groups are resolved even before operands are decoded, and code
-  generation is separated as much as possible within small functions
-  that only handle one instruction each.
-
-- keep address generation and (for ALU operands) memory loads and writeback
-  as much in common code as possible.  All ALU operations for example
-  are implemented as T0=f(T0,T1).  For non-ALU instructions,
-  read-modify-write memory operations are rare, but registers do not
-  have TCGv equivalents: therefore, the common logic sets up pointer
-  temporaries with the operands, while load and writeback are handled
-  by gvec or by helpers.
-
-These principles make future code review and extensibility simpler, at
-the cost of having a relatively large amount of code in the form of this
-patch.  Even EVEX should not be _too_ hard to implement (it's just a crazy
-large amount of possibilities).
-
-This patch introduces the main decoder flow, and integrates the old
-decoder with the new one.  The old decoder takes care of parsing
-prefixes and then optionally drops to the new one.  The changes to the
-old decoder are minimal and allow it to be replaced incrementally with
-the new one.
-
-There is a debugging mechanism through a "LIMIT" environment variable.
-In user-mode emulation, the variable is the number of instructions
-decoded by the new decoder before permanently switching to the old one.
-In system emulation, the variable is the highest opcode that is decoded
-by the new decoder (this is less friendly, but it's the best that can
-be done without requiring deterministic execution).
+Add generic code generation that takes care of preparing operands
+around calls to decode.e.gen in a table-driven manner, so that ALU
+operations need not take care of that.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/tcg/decode-new.c.inc | 752 +++++++++++++++++++++++++++++++
- target/i386/tcg/decode-new.h     | 181 ++++++++
- target/i386/tcg/emit.c.inc       |  31 ++
- target/i386/tcg/translate.c      |  64 ++-
- 4 files changed, 1021 insertions(+), 7 deletions(-)
- create mode 100644 target/i386/tcg/decode-new.c.inc
- create mode 100644 target/i386/tcg/decode-new.h
- create mode 100644 target/i386/tcg/emit.c.inc
+ target/i386/tcg/decode-new.c.inc |  20 +++-
+ target/i386/tcg/decode-new.h     |   1 +
+ target/i386/tcg/emit.c.inc       | 152 +++++++++++++++++++++++++++++++
+ target/i386/tcg/translate.c      |  24 +++++
+ 4 files changed, 195 insertions(+), 2 deletions(-)
 
 diff --git a/target/i386/tcg/decode-new.c.inc b/target/i386/tcg/decode-new.c.inc
-new file mode 100644
-index 0000000000..de8ef51a2d
---- /dev/null
+index de8ef51a2d..7f76051b2d 100644
+--- a/target/i386/tcg/decode-new.c.inc
 +++ b/target/i386/tcg/decode-new.c.inc
-@@ -0,0 +1,752 @@
-+/*
-+ * New-style decoder for i386 instructions
-+ *
-+ *  Copyright (c) 2022 Red Hat, Inc.
-+ *
-+ * Author: Paolo Bonzini <pbonzini@redhat.com>
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+/*
-+ * The decoder is mostly based on tables copied from the Intel SDM.  As
-+ * a result, most operand load and writeback is done entirely in common
-+ * table-driven code using the same operand type (X86_TYPE_*) and
-+ * size (X86_SIZE_*) codes used in the manual.
-+ *
-+ * The main difference is that the V, U and W types are extended to
-+ * cover MMX as well; if an instruction is like
-+ *
-+ *      por   Pq, Qq
-+ *  66  por   Vx, Hx, Wx
-+ *
-+ * only the second row is included and the instruction is marked as a
-+ * valid MMX instruction.  The MMX flag directs the decoder to rewrite
-+ * the V/U/H/W types to P/N/P/Q if there is no prefix, as well as changing
-+ * "x" to "q" if there is no prefix.
-+ *
-+ * In addition, the ss/ps/sd/pd types are sometimes mushed together as "x"
-+ * if the difference is expressed via prefixes.  Individual instructions
-+ * are separated by prefix in the generator functions.
-+ *
-+ * There are a couple cases in which instructions (e.g. MOVD) write the
-+ * whole XMM or MM register but are established incorrectly in the manual
-+ * as "d" or "q".  These have to be fixed for the decoder to work correctly.
-+ */
-+
-+#define X86_OP_NONE { 0 },
-+
-+#define X86_OP_GROUP3(op, op0_, s0_, op1_, s1_, op2_, s2_, ...) { \
-+    .decode = glue(decode_, op),                                  \
-+    .op0 = glue(X86_TYPE_, op0_),                                 \
-+    .s0 = glue(X86_SIZE_, s0_),                                   \
-+    .op1 = glue(X86_TYPE_, op1_),                                 \
-+    .s1 = glue(X86_SIZE_, s1_),                                   \
-+    .op2 = glue(X86_TYPE_, op2_),                                 \
-+    .s2 = glue(X86_SIZE_, s2_),                                   \
-+    .is_decode = true,                                            \
-+    ## __VA_ARGS__                                                \
-+}
-+
-+#define X86_OP_GROUP0(op, ...)                                    \
-+    X86_OP_GROUP3(op, None, None, None, None, None, None, ## __VA_ARGS__)
-+
-+#define X86_OP_ENTRY3(op, op0_, s0_, op1_, s1_, op2_, s2_, ...) { \
-+    .gen = glue(gen_, op),                                        \
-+    .op0 = glue(X86_TYPE_, op0_),                                 \
-+    .s0 = glue(X86_SIZE_, s0_),                                   \
-+    .op1 = glue(X86_TYPE_, op1_),                                 \
-+    .s1 = glue(X86_SIZE_, s1_),                                   \
-+    .op2 = glue(X86_TYPE_, op2_),                                 \
-+    .s2 = glue(X86_SIZE_, s2_),                                   \
-+    ## __VA_ARGS__                                                \
-+}
-+
-+#define X86_OP_ENTRY4(op, op0_, s0_, op1_, s1_, op2_, s2_, ...)   \
-+    X86_OP_ENTRY3(op, op0_, s0_, op1_, s1_, op2_, s2_,            \
-+        .op3 = X86_TYPE_I, .s3 = X86_SIZE_b,                      \
-+        ## __VA_ARGS__)
-+
-+#define X86_OP_ENTRY2(op, op0, s0, op1, s1, ...)                  \
-+    X86_OP_ENTRY3(op, op0, s0, 2op, s0, op1, s1, ## __VA_ARGS__)
-+#define X86_OP_ENTRY0(op, ...)                                    \
-+    X86_OP_ENTRY3(op, None, None, None, None, None, None, ## __VA_ARGS__)
-+
-+#define i64 .special = X86_SPECIAL_i64,
-+#define o64 .special = X86_SPECIAL_o64,
-+#define xchg .special = X86_SPECIAL_Locked,
-+#define mmx .special = X86_SPECIAL_MMX,
-+#define zext0 .special = X86_SPECIAL_ZExtOp0,
-+#define zext2 .special = X86_SPECIAL_ZExtOp2,
-+
-+static uint8_t get_modrm(DisasContext *s, CPUX86State *env)
-+{
-+    if (!s->has_modrm) {
-+        s->modrm = x86_ldub_code(env, s);
-+        s->has_modrm = true;
-+    }
-+    return s->modrm;
-+}
-+
-+static const X86OpEntry opcodes_0F38_00toEF[240] = {
-+};
-+
-+/* five rows for no prefix, 66, F3, F2, 66+F2  */
-+static X86OpEntry opcodes_0F38_F0toFF[16][5] = {
-+};
-+
-+static void decode_0F38(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
-+{
-+    *b = x86_ldub_code(env, s);
-+    if (*b < 0xf0) {
-+        *entry = opcodes_0F38_00toEF[*b];
+@@ -228,7 +228,7 @@ static bool decode_op_size(DisasContext *s, X86OpEntry *e, X86OpSize size, MemOp
+             *ot = MO_64;
+             return true;
+         }
+-        if (s->vex_l && e->s0 != X86_SIZE_qq) {
++        if (s->vex_l && e->s0 != X86_SIZE_qq && e->s1 != X86_SIZE_qq) {
+             return false;
+         }
+         *ot = MO_128;
+@@ -741,7 +741,23 @@ static target_ulong disas_insn_new(DisasContext *s, CPUState *cpu, int b)
+     if (decode.op[0].has_ea || decode.op[1].has_ea || decode.op[2].has_ea) {
+         gen_load_ea(s, &decode.mem);
+     }
+-    decode.e.gen(s, env, &decode);
++    if (s->prefix & PREFIX_LOCK) {
++        if (decode.op[0].unit != X86_OP_INT || !decode.op[0].has_ea) {
++            goto illegal_op;
++        }
++        gen_load(s, s->T1, NULL, &decode.op[2], decode.immediate);
++        decode.e.gen(s, env, &decode);
 +    } else {
-+        int row = 0;
-+        if (s->prefix & PREFIX_REPZ) {
-+            /* The REPZ (F3) prefix has priority over 66 */
-+            row = 2;
-+        } else {
-+            row += s->prefix & PREFIX_REPNZ ? 3 : 0;
-+            row += s->prefix & PREFIX_DATA ? 1 : 0;
++        if (decode.op[0].unit == X86_OP_MMX) {
++            gen_mmx_offset(s->ptr0, &decode.op[0]);
++        } else if (decode.op[0].unit == X86_OP_SSE) {
++            gen_xmm_offset(s->ptr0, &decode.op[0]);
 +        }
-+        *entry = opcodes_0F38_F0toFF[*b & 15][row];
++        gen_load(s, s->T0, s->ptr1, &decode.op[1], decode.immediate);
++        gen_load(s, s->T1, s->ptr2, &decode.op[2], decode.immediate);
++        decode.e.gen(s, env, &decode);
++        gen_writeback(s, &decode.op[0]);
 +    }
-+}
+     return s->pc;
+  illegal_op:
+     gen_illegal_opcode(s);
+diff --git a/target/i386/tcg/decode-new.h b/target/i386/tcg/decode-new.h
+index fb44560aae..a2d3c3867f 100644
+--- a/target/i386/tcg/decode-new.h
++++ b/target/i386/tcg/decode-new.h
+@@ -168,6 +168,7 @@ typedef struct X86DecodedOp {
+     MemOp ot;     /* For b/c/d/p/s/q/v/w/y/z */
+     X86OpUnit unit;
+     bool has_ea;
++    int offset;   /* For MMX and SSE */
+ } X86DecodedOp;
+ 
+ struct X86DecodedInsn {
+diff --git a/target/i386/tcg/emit.c.inc b/target/i386/tcg/emit.c.inc
+index e86364ffc1..6fa0062d6a 100644
+--- a/target/i386/tcg/emit.c.inc
++++ b/target/i386/tcg/emit.c.inc
+@@ -29,3 +29,155 @@ static void gen_load_ea(DisasContext *s, AddressParts *mem)
+     TCGv ea = gen_lea_modrm_1(s, *mem);
+     gen_lea_v_seg(s, s->aflag, ea, mem->def_seg, s->override);
+ }
 +
-+static const X86OpEntry opcodes_0F3A[256] = {
-+};
-+
-+static void decode_0F3A(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
++static void gen_mmx_offset(TCGv_ptr ptr, X86DecodedOp *op)
 +{
-+    *b = x86_ldub_code(env, s);
-+    *entry = opcodes_0F3A[*b];
-+}
-+
-+static const X86OpEntry opcodes_0F[256] = {
-+    [0x38] = X86_OP_GROUP0(0F38),
-+    [0x3a] = X86_OP_GROUP0(0F3A),
-+};
-+
-+static void do_decode_0F(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
-+{
-+    *entry = opcodes_0F[*b];
-+}
-+
-+static void decode_0F(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
-+{
-+    *b = x86_ldub_code(env, s);
-+    do_decode_0F(s, env, entry, b);
-+}
-+
-+static const X86OpEntry opcodes_root[256] = {
-+    [0x0F] = X86_OP_GROUP0(0F),
-+};
-+
-+#undef mmx
-+
-+/*
-+ * Decode the fixed part of the opcode and place the last
-+ * in b.
-+ */
-+static void decode_root(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
-+{
-+    *entry = opcodes_root[*b];
-+}
-+
-+
-+static int decode_modrm(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode,
-+                        X86DecodedOp *op, X86OpType type)
-+{
-+    int modrm = get_modrm(s, env);
-+    if ((modrm >> 6) == 3) {
-+        if (s->prefix & PREFIX_LOCK) {
-+            decode->e.gen = gen_illegal;
-+            return 0xff;
-+        }
-+        op->n = (modrm & 7);
-+        if (type != X86_TYPE_Q && type != X86_TYPE_N) {
-+            op->n |= REX_B(s);
-+        }
++    if (!op->has_ea) {
++        op->offset = offsetof(CPUX86State, fpregs[op->n].mmx);
 +    } else {
-+        op->has_ea = true;
-+        op->n = -1;
-+        decode->mem = gen_lea_modrm_0(env, s, get_modrm(s, env));
++        op->offset = offsetof(CPUX86State, mmx_t0);
 +    }
-+    return modrm;
-+}
++    tcg_gen_addi_ptr(ptr, cpu_env, op->offset);
 +
-+static bool decode_op_size(DisasContext *s, X86OpEntry *e, X86OpSize size, MemOp *ot)
-+{
-+    switch (size) {
-+    case X86_SIZE_b:  /* byte */
-+        *ot = MO_8;
-+        return true;
-+
-+    case X86_SIZE_d:  /* 32-bit */
-+    case X86_SIZE_ss: /* SSE/AVX scalar single precision */
-+        *ot = MO_32;
-+        return true;
-+
-+    case X86_SIZE_p:  /* Far pointer, return offset size */
-+    case X86_SIZE_s:  /* Descriptor, return offset size */
-+    case X86_SIZE_v:  /* 16/32/64-bit, based on operand size */
-+        *ot = s->dflag;
-+        return true;
-+
-+    case X86_SIZE_pi: /* MMX */
-+    case X86_SIZE_q:  /* 64-bit */
-+    case X86_SIZE_sd: /* SSE/AVX scalar double precision */
-+        *ot = MO_64;
-+        return true;
-+
-+    case X86_SIZE_w:  /* 16-bit */
-+        *ot = MO_16;
-+        return true;
-+
-+    case X86_SIZE_y:  /* 32/64-bit, based on operand size */
-+        *ot = s->dflag == MO_16 ? MO_32 : s->dflag;
-+        return true;
-+
-+    case X86_SIZE_z:  /* 16-bit for 16-bit operand size, else 32-bit */
-+        *ot = s->dflag == MO_16 ? MO_16 : MO_32;
-+        return true;
-+
-+    case X86_SIZE_dq: /* SSE/AVX 128-bit */
-+        if (e->special == X86_SPECIAL_MMX &&
-+            !(s->prefix & (PREFIX_DATA | PREFIX_REPZ | PREFIX_REPNZ))) {
-+            *ot = MO_64;
-+            return true;
-+        }
-+        if (s->vex_l && e->s0 != X86_SIZE_qq) {
-+            return false;
-+        }
-+        *ot = MO_128;
-+        return true;
-+
-+    case X86_SIZE_qq: /* AVX 256-bit */
-+        if (!s->vex_l) {
-+            return false;
-+        }
-+        *ot = MO_256;
-+        return true;
-+
-+    case X86_SIZE_x:  /* 128/256-bit, based on operand size */
-+        if (e->special == X86_SPECIAL_MMX &&
-+            !(s->prefix & (PREFIX_DATA | PREFIX_REPZ | PREFIX_REPNZ))) {
-+            *ot = MO_64;
-+            return true;
-+        }
-+        /* fall through */
-+    case X86_SIZE_ps: /* SSE/AVX packed single precision */
-+    case X86_SIZE_pd: /* SSE/AVX packed double precision */
-+        *ot = s->vex_l ? MO_256 : MO_128;
-+        return true;
-+
-+    case X86_SIZE_d64:  /* Default to 64-bit in 64-bit mode */
-+        *ot = CODE64(s) && s->dflag == MO_32 ? MO_64 : s->dflag;
-+        return true;
-+
-+    case X86_SIZE_f64:  /* Ignore size override prefix in 64-bit mode */
-+        *ot = CODE64(s) ? MO_64 : s->dflag;
-+        return true;
-+
-+    default:
-+        *ot = -1;
-+        return true;
++    /*
++     * ptr is for passing to helpers, and points to the MMXReg; op->offset
++     * is for TCG ops and points to the operand.
++     */
++    if (op->ot == MO_32) {
++        op->offset += offsetof(MMXReg, MMX_L(0));
 +    }
 +}
 +
-+static bool decode_op(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode,
-+                      X86DecodedOp *op, X86OpType type, int b)
++static int xmm_offset(MemOp ot)
 +{
-+    int modrm;
++    if (ot == MO_8) {
++        return offsetof(ZMMReg, ZMM_B(0));
++    } else if (ot == MO_16) {
++        return offsetof(ZMMReg, ZMM_W(0));
++    } else if (ot == MO_32) {
++        return offsetof(ZMMReg, ZMM_L(0));
++    } else if (ot == MO_64) {
++        return offsetof(ZMMReg, ZMM_Q(0));
++    } else if (ot == MO_128) {
++        return offsetof(ZMMReg, ZMM_X(0));
++    } else if (ot == MO_256) {
++        return offsetof(ZMMReg, ZMM_Y(0));
++    } else {
++       abort();
++    }
++}
 +
-+    switch (type) {
-+    case X86_TYPE_A:  /* Implicit */
-+    case X86_TYPE_F:  /* EFLAGS/RFLAGS */
++static void gen_xmm_offset(TCGv_ptr ptr, X86DecodedOp *op)
++{
++    if (!op->has_ea) {
++        op->offset = ZMM_OFFSET(op->n);
++    } else {
++        op->offset = offsetof(CPUX86State, xmm_t0);
++    }
++    /*
++     * ptr is for passing to helpers, and points to the ZMMReg; op->offset
++     * is for TCG ops (especially gvec) and points to the base of the vector.
++     */
++    tcg_gen_addi_ptr(ptr, cpu_env, op->offset);
++    op->offset += xmm_offset(op->ot);
++}
++
++static void gen_load_sse(DisasContext *s, TCGv temp, MemOp ot, int dest_ofs)
++{
++    if (ot == MO_8) {
++        gen_op_ld_v(s, MO_8, temp, s->A0);
++        tcg_gen_st8_tl(temp, cpu_env, dest_ofs);
++    } else if (ot == MO_16) {
++        gen_op_ld_v(s, MO_16, temp, s->A0);
++        tcg_gen_st16_tl(temp, cpu_env, dest_ofs);
++    } else if (ot == MO_32) {
++        gen_op_ld_v(s, MO_32, temp, s->A0);
++        tcg_gen_st32_tl(temp, cpu_env, dest_ofs);
++    } else if (ot == MO_64) {
++        gen_ldq_env_A0(s, dest_ofs);
++    } else if (ot == MO_128) {
++        gen_ldo_env_A0(s, dest_ofs);
++    } else if (ot == MO_256) {
++        gen_ldy_env_A0(s, dest_ofs);
++    }
++}
++
++static void gen_load(DisasContext *s, TCGv v, TCGv_ptr ptr, X86DecodedOp *op, uint64_t imm)
++{
++    switch (op->unit) {
++    case X86_OP_SKIP:
++        return;
++    case X86_OP_SEG:
++        tcg_gen_ld32u_tl(v, cpu_env,
++                         offsetof(CPUX86State,segs[op->n].selector));
 +        break;
-+
-+    case X86_TYPE_B:  /* VEX.vvvv selects a GPR */
-+        op->unit = X86_OP_INT;
-+        op->n = s->vex_v;
++    case X86_OP_CR:
++        tcg_gen_ld_tl(v, cpu_env, offsetof(CPUX86State, cr[op->n]));
 +        break;
-+
-+    case X86_TYPE_C:  /* REG in the modrm byte selects a control register */
-+        op->unit = X86_OP_CR;
-+        goto get_reg;
-+
-+    case X86_TYPE_D:  /* REG in the modrm byte selects a debug register */
-+        op->unit = X86_OP_DR;
-+        goto get_reg;
-+
-+    case X86_TYPE_G:  /* REG in the modrm byte selects a GPR */
-+        op->unit = X86_OP_INT;
-+        goto get_reg;
-+
-+    case X86_TYPE_S:  /* reg selects a segment register */
-+        op->unit = X86_OP_SEG;
-+        goto get_reg;
-+
-+        goto get_reg;
-+
-+    case X86_TYPE_V:  /* reg in the modrm byte selects an XMM/YMM register */
-+        if (decode->e.special == X86_SPECIAL_MMX &&
-+            !(s->prefix & (PREFIX_DATA | PREFIX_REPZ | PREFIX_REPNZ))) {
-+    case X86_TYPE_P:  /* reg in the modrm byte selects an MMX register */
-+            op->unit = X86_OP_MMX;
++    case X86_OP_DR:
++        tcg_gen_ld_tl(v, cpu_env, offsetof(CPUX86State, dr[op->n]));
++        break;
++    case X86_OP_INT:
++        if (op->has_ea) {
++            gen_op_ld_v(s, op->ot, v, s->A0);
 +        } else {
-+            op->unit = X86_OP_SSE;
-+        }
-+    get_reg:
-+        op->n = ((get_modrm(s, env) >> 3) & 7) | REX_R(s);
-+        break;
-+
-+    case X86_TYPE_E:  /* ALU modrm operand */
-+        op->unit = X86_OP_INT;
-+        goto get_modrm;
-+
-+    case X86_TYPE_W:  /* XMM/YMM modrm operand */
-+        if (decode->e.special == X86_SPECIAL_MMX &&
-+            !(s->prefix & (PREFIX_DATA | PREFIX_REPZ | PREFIX_REPNZ))) {
-+    case X86_TYPE_Q:  /* MMX modrm operand */
-+            op->unit = X86_OP_MMX;
-+        } else {
-+            op->unit = X86_OP_SSE;
-+        }
-+        goto get_modrm;
-+
-+    case X86_TYPE_U:  /* R/M in the modrm byte selects an XMM/YMM register */
-+        if (decode->e.special == X86_SPECIAL_MMX &&
-+            !(s->prefix & (PREFIX_DATA | PREFIX_REPZ | PREFIX_REPNZ))) {
-+    case X86_TYPE_N:  /* R/M in the modrm byte selects an MMX register */
-+            op->unit = X86_OP_MMX;
-+        } else {
-+            op->unit = X86_OP_SSE;
-+        }
-+        goto get_modrm_reg;
-+
-+    case X86_TYPE_R:  /* R/M in the modrm byte selects a register */
-+        op->unit = X86_OP_INT;
-+    get_modrm_reg:
-+        modrm = get_modrm(s, env);
-+        if ((modrm >> 6) != 3) {
-+            return false;
-+        }
-+        goto get_modrm;
-+
-+    case X86_TYPE_M:  /* modrm byte selects a memory operand */
-+        modrm = get_modrm(s, env);
-+        if ((modrm >> 6) == 3) {
-+            return false;
-+        }
-+    get_modrm:
-+        decode_modrm(s, env, decode, op, type);
-+        break;
-+
-+    case X86_TYPE_O:  /* Absolute address encoded in the instruction */
-+        op->unit = X86_OP_INT;
-+        op->has_ea = true;
-+        op->n = -1;
-+        decode->mem = (AddressParts) {
-+            .def_seg = R_DS,
-+            .base = -1,
-+            .index = -1,
-+            .disp = insn_get_addr(env, s, s->aflag)
-+        };
-+        break;
-+
-+    case X86_TYPE_H:  /* For AVX, VEX.vvvv selects an XMM/YMM register */
-+        if ((s->prefix & PREFIX_VEX)) {
-+            op->unit = X86_OP_SSE;
-+            op->n = s->vex_v;
-+            break;
-+  e X86_TYPE_J:  /* Relative offset for a jump */
-+        op->unit = X86_OP_IMM;
-+        decode->immediate = insn_get_signed(env, s, op->ot);
-+        decode->immediate += s->pc - s->cs_base;
-+        if (s->dflag == MO_16) {
-+            decode->immediate &= 0xffff;
-+        } else if (!CODE64(s)) {
-+            decode->immediate &= 0xffffffffu;
++            gen_op_mov_v_reg(s, op->ot, v, op->n);
 +        }
 +        break;
-+
-+    case X86_TYPE_L:  /* The upper 4 bits of the immediate select a 128-bit register */
-+        op->n = insn_get(env, s, op->ot) >> 4;
++    case X86_OP_IMM:
++        tcg_gen_movi_tl(v, imm);
 +        break;
 +
-+    case X86_TYPE_X:  /* string source */
-+        op->n = -1;
-+        decode->mem = (AddressParts) {
-+            .def_seg = R_DS,
-+            .base = R_ESI,
-+            .index = -1,
-+        };
-+        break;
++    case X86_OP_MMX:
++        gen_mmx_offset(ptr, op);
++        goto load_vector;
 +
-+    case X86_TYPE_Y:  /* string destination */
-+        op->n = -1;
-+        decode->mem = (AddressParts) {
-+            .def_seg = R_ES,
-+            .base = R_EDI,
-+            .index = -1,
-+        };
-+        break;
-+
-+    case X86_TYPE_2op:
-+        *op = decode->op[0];
-+        break;
-+
-+    case X86_TYPE_LoBits:
-+        op->n = (b & 7) | REX_B(s);
-+        op->unit = X86_OP_INT;
-+        break;
-+
-+    case X86_TYPE_0 ... X86_TYPE_7:
-+        op->n = type - X86_TYPE_0;
-+        op->unit = X86_OP_INT;
-+        break;
-+
-+    case X86_TYPE_ES ... X86_TYPE_GS:
-+        op->n = type - X86_TYPE_ES;
-+        op->unit = X86_OP_SEG;
++    case X86_OP_SSE:
++        gen_xmm_offset(ptr, op);
++    load_vector:
++        if (op->has_ea) {
++            gen_load_sse(s, v, op->ot, op->offset);
++        }
 +        break;
 +
 +    default:
 +        abort();
 +    }
-+
-+    return true;
 +}
 +
-+static bool decode_insn(DisasContext *s, CPUX86State *env, X86DecodeFunc decode_func,
-+                        X86DecodedInsn *decode)
++static void gen_writeback(DisasContext *s, X86DecodedOp *op)
 +{
-+    X86OpEntry *e = &decode->e;
-+
-+    decode_func(s, env, e, &decode->b);
-+    while (e->is_decode) {
-+        e->is_decode = false;
-+        e->decode(s, env, e, &decode->b);
-+    }
-+
-+    /* First compute size of operands in order to initialize s->rip_offset.  */
-+    if (e->op0 != X86_TYPE_None) {
-+        if (!decode_op_size(s, e, e->s0, &decode->op[0].ot)) {
-+            return false;
-+        }
-+        if (e->op0 == X86_TYPE_I) {
-+            s->rip_offset += 1 << decode->op[0].ot;
-+        }
-+    }
-+    if (e->op1 != X86_TYPE_None) {
-+        if (!decode_op_size(s, e, e->s1, &decode->op[1].ot)) {
-+            return false;
-+        }
-+        if (e->op1 == X86_TYPE_I) {
-+            s->rip_offset += 1 << decode->op[1].ot;
-+        }
-+    }
-+    if (e->op2 != X86_TYPE_None) {
-+        if (!decode_op_size(s, e, e->s2, &decode->op[2].ot)) {
-+            return false;
-+        }
-+        if (e->op2 == X86_TYPE_I) {
-+            s->rip_offset += 1 << decode->op[2].ot;
-+        }
-+    }
-+    if (e->op3 != X86_TYPE_None) {
-+        assert(e->op3 == X86_TYPE_I && e->s3 == X86_SIZE_b);
-+        s->rip_offset += 1;
-+    }
-+
-+    if (e->op0 != X86_TYPE_None &&
-+        !decode_op(s, env, decode, &decode->op[0], e->op0, decode->b)) {
-+        return false;
-+    }
-+
-+    if (e->op1 != X86_TYPE_None &&
-+        !decode_op(s, env, decode, &decode->op[1], e->op1, decode->b)) {
-+        return false;
-+    }
-+
-+    if (e->op2 != X86_TYPE_None &&
-+        !decode_op(s, env, decode, &decode->op[2], e->op2, decode->b)) {
-+        return false;
-+    }
-+
-+    if (e->op3 != X86_TYPE_None) {
-+        decode->immediate = insn_get_signed(env, s, MO_8);
-+    }
-+
-+    return true;
-+}
-+
-+/* convert one instruction. s->base.is_jmp is set if the translation must
-+   be stopped. Return the next pc value */
-+static target_ulong disas_insn_new(DisasContext *s, CPUState *cpu, int b)
-+{
-+    CPUX86State *env = cpu->env_ptr;
-+    bool first = true;
-+    X86DecodedInsn decode;
-+    X86DecodeFunc decode_func = decode_root;
-+
-+#ifdef CONFIG_USER_ONLY
-+    if (limit) { --limit; }
-+#endif
-+    s->has_modrm = false;
-+#if 0
-+    s->pc_start = s->pc = s->base.pc_next;
-+    s->override = -1;
-+#ifdef TARGET_X86_64
-+    s->rex_w = false;
-+    s->rex_r = 0;
-+    s->rex_x = 0;
-+    s->rex_b = 0;
-+#endif
-+    s->prefix = 0;
-+    s->rip_offset = 0; /* for relative ip address */
-+    s->vex_l = 0;
-+    s->vex_v = 0;
-+    if (sigsetjmp(s->jmpbuf, 0) != 0) {
-+        gen_exception_gpf(s);
-+        return s->pc;
-+    }
-+#endif
-+
-+ next_byte:
-+    if (first) {
-+        first = false;
-+    } else {
-+        b = x86_ldub_code(env, s);
-+    }
-+    /* Collect prefixes.  */
-+    switch (b) {
-+    case 0xf3:
-+        s->prefix |= PREFIX_REPZ;
-+        s->prefix &= ~PREFIX_REPNZ;
-+        goto next_byte;
-+    case 0xf2:
-+        s->prefix |= PREFIX_REPNZ;
-+        s->prefix &= ~PREFIX_REPZ;
-+        goto next_byte;
-+    case 0xf0:
-+        s->prefix |= PREFIX_LOCK;
-+        goto next_byte;
-+    case 0x2e:
-+        s->override = R_CS;
-+        goto next_byte;
-+    case 0x36:
-+        s->override = R_SS;
-+        goto next_byte;
-+    case 0x3e:
-+        s->override = R_DS;
-+        goto next_byte;
-+    case 0x26:
-+        s->override = R_ES;
-+        goto next_byte;
-+    case 0x64:
-+        s->override = R_FS;
-+        goto next_byte;
-+    case 0x65:
-+        s->override = R_GS;
-+        goto next_byte;
-+    case 0x66:
-+        s->prefix |= PREFIX_DATA;
-+        goto next_byte;
-+    case 0x67:
-+        s->prefix |= PREFIX_ADR;
-+        goto next_byte;
-+#ifdef TARGET_X86_64
-+    case 0x40 ... 0x4f:
-+        if (CODE64(s)) {
-+            /* REX prefix */
-+            s->prefix |= PREFIX_REX;
-+            s->rex_w = (b >> 3) & 1;
-+            s->rex_r = (b & 0x4) << 1;
-+            s->rex_x = (b & 0x2) << 2;
-+            s->rex_b = (b & 0x1) << 3;
-+            goto next_byte;
++    switch (op->unit) {
++    case X86_OP_SKIP:
++        break;
++    case X86_OP_SEG:
++        /* Note that reg == R_SS in gen_movl_seg_T0 always sets is_jmp.  */
++        gen_movl_seg_T0(s, op->n);
++        if (s->base.is_jmp) {
++            gen_jmp_im(s, s->pc - s->cs_base);
++            if (op->n == R_SS) {
++                s->flags &= ~HF_TF_MASK;
++                gen_eob_inhibit_irq(s, true);
++            } else {
++                gen_eob(s);
++            }
 +        }
 +        break;
-+#endif
-+    case 0xc5: /* 2-byte VEX */
-+    case 0xc4: /* 3-byte VEX */
-+        /* VEX prefixes cannot be used except in 32-bit mode.
-+           Otherwise the instruction is LES or LDS.  */
-+        if (CODE32(s) && !VM86(s)) {
-+            static const int pp_prefix[4] = {
-+                0, PREFIX_DATA, PREFIX_REPZ, PREFIX_REPNZ
-+            };
-+            int vex3, vex2 = x86_ldub_code(env, s);
-+
-+            if (!CODE64(s) && (vex2 & 0xc0) != 0xc0) {
-+                /* 4.1.4.6: In 32-bit mode, bits [7:6] must be 11b,
-+                   otherwise the instruction is LES or LDS.  */
-+                s->pc--; /* rewind the advance_pc() x86_ldub_code() did */
-+                break;
-+            }
-+
-+            /* 4.1.1-4.1.3: No preceding lock, 66, f2, f3, or rex prefixes. */
-+            if (s->prefix & (PREFIX_REPZ | PREFIX_REPNZ
-+                             | PREFIX_LOCK | PREFIX_DATA | PREFIX_REX)) {
-+                goto illegal_op;
-+            }
-+#ifdef TARGET_X86_64
-+            s->rex_r = (~vex2 >> 4) & 8;
-+#endif
-+            if (b == 0xc5) {
-+                /* 2-byte VEX prefix: RVVVVlpp, implied 0f leading opcode byte */
-+                vex3 = vex2;
-+                decode_func = decode_0F;
-+            } else {
-+                /* 3-byte VEX prefix: RXBmmmmm wVVVVlpp */
-+                vex3 = x86_ldub_code(env, s);
-+#ifdef TARGET_X86_64
-+                s->rex_x = (~vex2 >> 3) & 8;
-+                s->rex_b = (~vex2 >> 2) & 8;
-+                s->rex_w = (vex3 >> 7) & 1;
-+#endif
-+                switch (vex2 & 0x1f) {
-+                case 0x01: /* Implied 0f leading opcode bytes.  */
-+                    decode_func = decode_0F;
-+                    break;
-+                case 0x02: /* Implied 0f 38 leading opcode bytes.  */
-+                    decode_func = decode_0F38;
-+                    break;
-+                case 0x03: /* Implied 0f 3a leading opcode bytes.  */
-+                    decode_func = decode_0F3A;
-+                    break;
-+                default:   /* Reserved for future use.  */
-+                    goto unknown_op;
-+                }
-+            }
-+            s->vex_v = (~vex3 >> 3) & 0xf;
-+            s->vex_l = (vex3 >> 2) & 1;
-+            s->prefix |= pp_prefix[vex3 & 3] | PREFIX_VEX;
++    case X86_OP_CR:
++    case X86_OP_DR:
++        /* TBD */
++        break;
++    case X86_OP_INT:
++        if (op->has_ea) {
++            gen_op_st_v(s, op->ot, s->T0, s->A0);
++        } else {
++            gen_op_mov_reg_v(s, op->ot, op->n, s->T0);
 +        }
++        break;
++    case X86_OP_MMX:
++    case X86_OP_SSE:
 +        break;
 +    default:
-+        if (b >= 0x100) {
-+            b -= 0x100;
-+            decode_func = do_decode_0F;
-+        }
-+        break;
++        abort();
 +    }
-+
-+    /* Post-process prefixes.  */
-+    if (CODE64(s)) {
-+        /* In 64-bit mode, the default data size is 32-bit.  Select 64-bit
-+           data with rex_w, and 16-bit data with 0x66; rex_w takes precedence
-+           over 0x66 if both are present.  */
-+        s->dflag = (REX_W(s) ? MO_64 : s->prefix & PREFIX_DATA ? MO_16 : MO_32);
-+        /* In 64-bit mode, 0x67 selects 32-bit addressing.  */
-+        s->aflag = (s->prefix & PREFIX_ADR ? MO_32 : MO_64);
-+    } else {
-+        /* In 16/32-bit mode, 0x66 selects the opposite data size.  */
-+        if (CODE32(s) ^ ((s->prefix & PREFIX_DATA) != 0)) {
-+            s->dflag = MO_32;
-+        } else {
-+            s->dflag = MO_16;
-+        }
-+        /* In 16/32-bit mode, 0x67 selects the opposite addressing.  */
-+        if (CODE32(s) ^ ((s->prefix & PREFIX_ADR) != 0)) {
-+            s->aflag = MO_32;
-+        }  else {
-+            s->aflag = MO_16;
-+        }
-+    }
-+
-+    memset(&decode, 0, sizeof(decode));
-+    decode.b = b;
-+    if (!decode_insn(s, env, decode_func, &decode)) {
-+        goto illegal_op;
-+    }
-+    if (!decode.e.gen) {
-+        goto unknown_op;
-+    }
-+
-+    switch (decode.e.special) {
-+    case X86_SPECIAL_None:
-+        break;
-+
-+    case X86_SPECIAL_Locked:
-+        if (decode.op[0].has_ea) {
-+            s->prefix |= PREFIX_LOCK;
-+        }
-+        break;
-+
-+    case X86_SPECIAL_ProtMode:
-+        if (!PE(s) || VM86(s)) {
-+            goto illegal_op;
-+        }
-+        break;
-+
-+    case X86_SPECIAL_i64:
-+        if (CODE64(s)) {
-+            goto illegal_op;
-+        }
-+        break;
-+    case X86_SPECIAL_o64:
-+        if (!CODE64(s)) {
-+            goto illegal_op;
-+        }
-+        break;
-+
-+    case X86_SPECIAL_ZExtOp0:
-+        assert(decode.op[0].unit == X86_OP_INT);
-+        if (!decode.op[0].has_ea) {
-+            decode.op[0].ot = MO_32;
-+        }
-+        break;
-+
-+    case X86_SPECIAL_ZExtOp2:
-+        assert(decode.op[2].unit == X86_OP_INT);
-+        if (!decode.op[2].has_ea) {
-+            decode.op[2].ot = MO_32;
-+        }
-+        break;
-+
-+    case X86_SPECIAL_MMX:
-+        if (!(s->prefix & (PREFIX_REPZ | PREFIX_REPNZ | PREFIX_DATA))) {
-+            gen_helper_enter_mmx(cpu_env);
-+        }
-+        break;
-+    }
-+
-+    if (decode.op[0].has_ea || decode.op[1].has_ea || decode.op[2].has_ea) {
-+        gen_load_ea(s, &decode.mem);
-+    }
-+    decode.e.gen(s, env, &decode);
-+    return s->pc;
-+ illegal_op:
-+    gen_illegal_opcode(s);
-+    return s->pc;
-+ unknown_op:
-+    gen_unknown_opcode(env, s);
-+    return s->pc;
-+}
-diff --git a/target/i386/tcg/decode-new.h b/target/i386/tcg/decode-new.h
-new file mode 100644
-index 0000000000..fb44560aae
---- /dev/null
-+++ b/target/i386/tcg/decode-new.h
-@@ -0,0 +1,181 @@
-+/*
-+ * Decode table flags, mostly based on Intel SDM.
-+ *
-+ *  Copyright (c) 2022 Red Hat, Inc.
-+ *
-+ * Author: Paolo Bonzini <pbonzini@redhat.com>
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+typedef enum X86OpType {
-+    X86_TYPE_None,
-+
-+    X86_TYPE_A, /* Implicit */
-+    X86_TYPE_B, /* VEX.vvvv selects a GPR */
-+    X86_TYPE_C, /* REG in the modrm byte selects a control register */
-+    X86_TYPE_D, /* REG in the modrm byte selects a debug register */
-+    X86_TYPE_E, /* ALU modrm operand */
-+    X86_TYPE_F, /* EFLAGS/RFLAGS */
-+    X86_TYPE_G, /* REG in the modrm byte selects a GPR */
-+    X86_TYPE_H, /* For AVX, VEX.vvvv selects an XMM/YMM register */
-+    X86_TYPE_I, /* Immediate */
-+    X86_TYPE_J, /* Relative offset for a jump */
-+    X86_TYPE_L, /* The upper 4 bits of the immediate select a 128-bit register */
-+    X86_TYPE_M, /* modrm byte selects a memory operand */
-+    X86_TYPE_N, /* R/M in the modrm byte selects an MMX register */
-+    X86_TYPE_O, /* Absolute address encoded in the instruction */
-+    X86_TYPE_P, /* reg in the modrm byte selects an MMX register */
-+    X86_TYPE_Q, /* MMX modrm operand */
-+    X86_TYPE_R, /* R/M in the modrm byte selects a register */
-+    X86_TYPE_S, /* reg selects a segment register */
-+    X86_TYPE_U, /* R/M in the modrm byte selects an XMM/YMM register */
-+    X86_TYPE_V, /* reg in the modrm byte selects an XMM/YMM register */
-+    X86_TYPE_W, /* XMM/YMM modrm operand */
-+    X86_TYPE_X, /* string source */
-+    X86_TYPE_Y, /* string destination */
-+
-+    /* Custom */
-+    X86_TYPE_2op, /* 2-operand RMW instruction */
-+    X86_TYPE_LoBits, /* encoded in bits 0-2 of the operand + REX.B */
-+    X86_TYPE_0, /* Hard-coded GPRs (RAX..RDI) */
-+    X86_TYPE_1,
-+    X86_TYPE_2,
-+    X86_TYPE_3,
-+    X86_TYPE_4,
-+    X86_TYPE_5,
-+    X86_TYPE_6,
-+    X86_TYPE_7,
-+    X86_TYPE_ES, /* Hard-coded segment registers */
-+    X86_TYPE_CS,
-+    X86_TYPE_SS,
-+    X86_TYPE_DS,
-+    X86_TYPE_FS,
-+    X86_TYPE_GS,
-+} X86OpType;
-+
-+typedef enum X86OpSize {
-+    X86_SIZE_None,
-+
-+    X86_SIZE_a,  /* BOUND operand */
-+    X86_SIZE_b,  /* byte */
-+    X86_SIZE_d,  /* 32-bit */
-+    X86_SIZE_dq, /* SSE/AVX 128-bit */
-+    X86_SIZE_p,  /* Far pointer */
-+    X86_SIZE_pd, /* SSE/AVX packed double precision */
-+    X86_SIZE_pi, /* MMX */
-+    X86_SIZE_ps, /* SSE/AVX packed single precision */
-+    X86_SIZE_q,  /* 64-bit */
-+    X86_SIZE_qq, /* AVX 256-bit */
-+    X86_SIZE_s,  /* Descriptor */
-+    X86_SIZE_sd, /* SSE/AVX scalar double precision */
-+    X86_SIZE_ss, /* SSE/AVX scalar single precision */
-+    X86_SIZE_si, /* 32-bit GPR */
-+    X86_SIZE_v,  /* 16/32/64-bit, based on operand size */
-+    X86_SIZE_w,  /* 16-bit */
-+    X86_SIZE_x,  /* 128/256-bit, based on operand size */
-+    X86_SIZE_y,  /* 32/64-bit, based on operand size */
-+    X86_SIZE_z,  /* 16-bit for 16-bit operand size, else 32-bit */
-+
-+    /* Custom */
-+    X86_SIZE_d64,
-+    X86_SIZE_f64,
-+} X86OpSize;
-+
-+/* Execution flags */
-+
-+typedef enum X86OpUnit {
-+    X86_OP_SKIP,    /* not valid or managed by emission function */
-+    X86_OP_SEG,     /* segment selector */
-+    X86_OP_CR,      /* control register */
-+    X86_OP_DR,      /* debug register */
-+    X86_OP_INT,     /* loaded into/stored from s->T0/T1 */
-+    X86_OP_IMM,     /* immediate */
-+    X86_OP_SSE,     /* address in either s->ptrX or s->A0 depending on has_ea */
-+    X86_OP_MMX,     /* address in either s->ptrX or s->A0 depending on has_ea */
-+} X86OpUnit;
-+
-+typedef enum X86InsnSpecial {
-+    X86_SPECIAL_None,
-+
-+    /* Always locked if it has a memory operand (XCHG) */
-+    X86_SPECIAL_Locked,
-+
-+    /* Fault outside protected mode */
-+    X86_SPECIAL_ProtMode,
-+
-+    /*
-+     * Register operand 0/2 is zero extended to 32 bits.  Rd/Mb or Rd/Mw
-+     * in the manual.
-+     */
-+    X86_SPECIAL_ZExtOp0,
-+    X86_SPECIAL_ZExtOp2,
-+
-+    /*
-+     * MMX instruction exists with no prefix; if there is no prefix, V/H/W/U operands
-+     * become P/P/Q/N, and size "x" becomes "q".
-+     */
-+    X86_SPECIAL_MMX,
-+
-+    /* Illegal or exclusive to 64-bit mode */
-+    X86_SPECIAL_i64,
-+    X86_SPECIAL_o64,
-+} X86InsnSpecial;
-+
-+typedef struct X86OpEntry  X86OpEntry;
-+typedef struct X86DecodedInsn X86DecodedInsn;
-+
-+/* Decode function for multibyte opcodes.  */
-+typedef void (*X86DecodeFunc)(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b);
-+
-+/* Code generation function.  */
-+typedef void (*X86GenFunc)(DisasContext *s, CPUX86State *env,nSpecial special : 8;
-+    bool         is_decode : 1;
-+};
-+
-+typedef struct X86DecodedOp {
-+    int8_t n;
-+    MemOp ot;     /* For b/c/d/p/s/q/v/w/y/z */
-+    X86OpUnit unit;
-+    bool has_ea;
-+} X86DecodedOp;
-+
-+struct X86DecodedInsn {
-+    X86OpEntry e;
-+    X86DecodedOp op[3];
-+    target_ulong immediate;
-+    AddressParts mem;
-+
-+    uint8_t b;
-+};
-+
-diff --git a/target/i386/tcg/emit.c.inc b/target/i386/tcg/emit.c.inc
-new file mode 100644
-index 0000000000..e86364ffc1
---- /dev/null
-+++ b/target/i386/tcg/emit.c.inc
-@@ -0,0 +1,31 @@
-+/*
-+ * New-style TCG opcode generator for i386 instructions
-+ *
-+ *  Copyright (c) 2022 Red Hat, Inc.
-+ *
-+ * Author: Paolo Bonzini <pbonzini@redhat.com>
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+static void gen_illegal(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-+{
-+    gen_illegal_opcode(s);
-+}
-+
-+static void gen_load_ea(DisasContext *s, AddressParts *mem)
-+{
-+    TCGv ea = gen_lea_modrm_1(s, *mem);
-+    gen_lea_v_seg(s, s->aflag, ea, mem->def_seg, s->override);
 +}
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index f1aa830fcc..f66bf2ac79 100644
+index f66bf2ac79..7e9920e29c 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -85,6 +85,9 @@ typedef struct DisasContext {
-     int8_t override; /* -1 if no override, else R_CS, R_DS, etc */
-     uint8_t prefix;
- 
-+    bool has_modrm;
-+    uint8_t modrm;
-+
- #ifndef CONFIG_USER_ONLY
-     uint8_t cpl;   /* code priv level */
-     uint8_t iopl;  /* i/o priv level */
-@@ -2356,6 +2359,31 @@ static inline uint32_t insn_get(CPUX86State *env, DisasContext *s, MemOp ot)
-     return ret;
+@@ -2831,6 +2831,30 @@ static inline void gen_sto_env_A0(DisasContext *s, int offset)
+     tcg_gen_qemu_st_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
  }
  
-+static inline target_long insn_get_signed(CPUX86State *env, DisasContext *s, MemOp ot)
++static inline void gen_ldy_env_A0(DisasContext *s, int offset)
 +{
-+    target_long ret;
-+
-+    switch (ot) {
-+    case MO_8:
-+        ret = (int8_t) x86_ldub_code(env, s);
-+        break;
-+    case MO_16:
-+        ret = (int16_t) x86_lduw_code(env, s);
-+        break;
-+    case MO_32:
-+        ret = (int32_t) x86_ldl_code(env, s);
-+        break;
-+#ifdef TARGET_X86_64
-+    case MO_64:
-+        ret = x86_ldq_code(env, s);
-+        break;
-+#endif
-+    default:
-+        tcg_abort();
-+    }
-+    return ret;
++    int mem_index = s->mem_index;
++    gen_ldo_env_A0(s, offset);
++    tcg_gen_addi_tl(s->tmp0, s->A0, 16);
++    tcg_gen_qemu_ld_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
++    tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(2)));
++    tcg_gen_addi_tl(s->tmp0, s->A0, 24);
++    tcg_gen_qemu_ld_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
++    tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(3)));
 +}
 +
- static inline int insn_const_size(MemOp ot)
- {
-     if (ot <= MO_32) {
-@@ -2845,6 +2873,11 @@ typedef void (*SSEFunc_0_ppi)(TCGv_ptr reg_a, TCGv_ptr reg_b, TCGv_i32 val);
- typedef void (*SSEFunc_0_eppt)(TCGv_ptr env, TCGv_ptr reg_a, TCGv_ptr reg_b,
-                                TCGv val);
- 
-+static bool first = true; static unsigned long limit;
-+#include "decode-new.h"
-+#include "emit.c.inc"
-+#include "decode-new.c.inc"
++static inline void gen_sty_env_A0(DisasContext *s, int offset)
++{
++    int mem_index = s->mem_index;
++    gen_sto_env_A0(s, offset);
++    tcg_gen_addi_tl(s->tmp0, s->A0, 16);
++    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(2)));
++    tcg_gen_qemu_st_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
++    tcg_gen_addi_tl(s->tmp0, s->A0, 24);
++    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(3)));
++    tcg_gen_qemu_st_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
++}
 +
- #define SSE_OPF_CMP       (1 << 1) /* does not write for first operand */
- #define SSE_OPF_SPECIAL   (1 << 3) /* magic */
- #define SSE_OPF_3DNOW     (1 << 4) /* 3DNow! instruction */
-@@ -4756,10 +4789,33 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
- 
-     prefixes = 0;
- 
-+    if (first) first = false, limit = getenv("LIMIT") ? atol(getenv("LIMIT")) : -1;
-+    bool use_new = true;
-+#ifdef CONFIG_USER_ONLY
-+    use_new &= limit > 0;
-+#endif
-  next_byte:
-+    s->prefix = prefixes;
-     b = x86_ldub_code(env, s);
-     /* Collect prefixes.  */
-     switch (b) {
-+    default:
-+#ifndef CONFIG_USER_ONLY
-+        use_new &= b <= limit;
-+#endif
-+        if (use_new && 0) {
-+            return disas_insn_new(s, cpu, b);
-+        }
-+        break;
-+    case 0x0f:
-+        b = x86_ldub_code(env, s) + 0x100;
-+#ifndef CONFIG_USER_ONLY
-+        use_new &= b <= limit;
-+#endif
-+        if (use_new && 0) {
-+            return disas_insn_new(s, cpu, b + 0x100);
-+        }
-+        break;
-     case 0xf3:
-         prefixes |= PREFIX_REPZ;
-         prefixes &= ~PREFIX_REPNZ;
-@@ -4810,6 +4866,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
- #endif
-     case 0xc5: /* 2-byte VEX */
-     case 0xc4: /* 3-byte VEX */
-+        use_new = false;
-         /* VEX prefixes cannot be used except in 32-bit mode.
-            Otherwise the instruction is LES or LDS.  */
-         if (CODE32(s) && !VM86(s)) {
-@@ -4894,14 +4951,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-     s->dflag = dflag;
- 
-     /* now check op code */
-- reswitch:
-     switch(b) {
--    case 0x0f:
--        /**************************/
--        /* extended op code */
--        b = x86_ldub_code(env, s) | 0x100;
--        goto reswitch;
--
-         /**************************/
-         /* arith & logic */
-     case 0x00 ... 0x05:
+ static inline void gen_op_movo(DisasContext *s, int d_offset, int s_offset)
+ {
+     tcg_gen_ld_i64(s->tmp1_i64, cpu_env, s_offset + offsetof(XMMReg, XMM_Q(0)));
 -- 
 2.37.2
 
