@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C8B95B509B
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Sep 2022 20:33:06 +0200 (CEST)
-Received: from localhost ([::1]:57110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C0BA5B5094
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Sep 2022 20:27:32 +0200 (CEST)
+Received: from localhost ([::1]:56486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXRlR-00036g-5k
-	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 14:33:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33166)
+	id 1oXRfz-0007U0-T9
+	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 14:27:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oXRXW-0002Rx-94
- for qemu-devel@nongnu.org; Sun, 11 Sep 2022 14:18:43 -0400
-Received: from mout.gmx.net ([212.227.15.15]:47099)
+ (Exim 4.90_1) (envelope-from <arwed.meyer@gmx.de>)
+ id 1oXRYy-0005D5-52; Sun, 11 Sep 2022 14:20:12 -0400
+Received: from mout.gmx.net ([212.227.15.15]:47367)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oXRXS-0002lp-DL
- for qemu-devel@nongnu.org; Sun, 11 Sep 2022 14:18:41 -0400
+ (Exim 4.90_1) (envelope-from <arwed.meyer@gmx.de>)
+ id 1oXRYv-0003TQ-HN; Sun, 11 Sep 2022 14:20:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1662920315;
- bh=xI95ZtW2YAxB1bA4cBpkjh3a9HRqZTZ0Mu1f3lPFvkc=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=PCqcJkgO8feKm/2wv63/DYfJEWxicJ/nG9xv0SR/XQDK7Cyy38RPU4KGA3HdKjYhl
- nDR4LlVtPcCRRTYmBfKfIm2Xbc/To6kd8FC4UBCbU52gzT7SGwVTQrs7endvxW/r9x
- CSLLj+NYd4FzRZrpfm9b1VQj1VnsgZUJI/xq5u/U=
+ s=badeba3b8450; t=1662920406;
+ bh=AARGy+7IEcYeYprBUgBFIvLoiMcHea1YT1cf6+UW2qw=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=Ua23FJgbrGgMCe4q2v0fqndfBapB6qMXkwnfLuQ2Gldwbz2f3aIpK3mTPhNVKPWZq
+ lniIGoG2dwGhkmEe8hqU6xWKQueL4ZSbUuKwnpcmm+V2jk0IG6Ge/r/rgrmTxfT7Vd
+ 1pVJmB7erznluhSAtSXkxN22fIK7Wvrp57RnrSQc=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from p100.fritz.box ([92.116.178.88]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MSKyI-1ovgTj0Ziq-00SgTN; Sun, 11
- Sep 2022 20:18:35 +0200
-From: Helge Deller <deller@gmx.de>
-To: qemu-devel@nongnu.org,
-	Laurent Vivier <laurent@vivier.eu>
-Cc: deller@gmx.de,
-	Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v2 12/12] linux-user: Add parameters of getrandom() syscall
- for strace
-Date: Sun, 11 Sep 2022 20:18:30 +0200
-Message-Id: <20220911181830.15851-13-deller@gmx.de>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220911181830.15851-1-deller@gmx.de>
-References: <20220911181830.15851-1-deller@gmx.de>
+Received: from btm-mobil4.fritz.box ([178.8.103.147]) by mail.gmx.net
+ (mrgmx005 [212.227.17.190]) with ESMTPSA (Nemesis) id
+ 1MhlKs-1p2Oak1mBk-00dpTa; Sun, 11 Sep 2022 20:20:06 +0200
+From: Arwed Meyer <arwed.meyer@gmx.de>
+To: qemu-devel@nongnu.org
+Cc: qemu-stable@nongnu.org,
+	Arwed Meyer <arwed.meyer@gmx.de>
+Subject: [PATCH v2 0/5] Make serial msmouse work
+Date: Sun, 11 Sep 2022 20:18:35 +0200
+Message-Id: <20220911181840.8933-1-arwed.meyer@gmx.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:v6XiL6IY3YlyZnnm7dO/Yj5/PIE1nxAVQIbOTTCXamIn2vYGngZ
- xvsNIcUtsm6rif7EdMtqPDrDispUE9pcRm4KuFj6f703fPy4cqVqwD7Cs16Ynxb2pMb8eJD
- wqoCyZMj186p6ZWho2d/Z1kz5QyVLBI3TlsoWHh6ghttULpYWf7ykL9+bR7zBBjW2kjCPab
- 0PenIOBcQUDE1MGNJv3NA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jyO6kFyeEj4=:StVUR55hSFZo6j4oTR6qSI
- Le2lFJBye4wshuLUkpKJhpubcYrx3dGlbFXm5SHnQx9p7oxaQiy6iQdmyvTYBVXNXUMkEQQem
- kakKNuaeXypy1wX6qmCsAffCvG/JygKcCoeOyIMMrD8P+4AwLWoB9M2ZTVrJQcSGnduk3dV9I
- BZvbmTln6X7HbJr+RunTbo1zpoHIICtu2p+U4dgdoeF25LIA90fA2/7LpAIKeFRt5LZ2cVJ6Z
- l1m3+11zU5oKFrh1mGxqS8DXUPTwjU/2QTlzSAtnOtczsOqrRgZGZVaHve4A05DWGaUzTICGG
- s4m/v0iczXk5DZDzicXLeW4f3JCjoSdG7zaPsCJdQBdBHIwGzZOCh36zT/PUTYZM26Qq9HHYG
- 5DNGzJrNM+SvobaYu6kFUs/jy+FIuWifUwpP41z5v9+tSNtP3j8Rb38GgPx0MS5VCq9NM5Iwp
- EWxxkvGqQou4uXmeSSCbq9Crmu0RqS4f3G2v2UeYtuq73A3xn458YywcOwGjoWOli4VVu3HvW
- h7/TNbfp8nPCLDTyU94FhRJ/44U0WFi3h0rOAwPdk+LA6NUkY+3o34/ky57H+KSPpC16rK0hy
- FsVPO9fHi6aeyRLJvCO6sOFuiH8pvWINw8ivouv9fYbd26LURf4B7u3GBSM8QMNsSS5M+vmcG
- yx/QB0d+uCCtvwpZFJedBJrXHCsLHZCNUauVLFrSgYNAZ19DWyk12nERbHqbD0aL662uxSLKZ
- fM83IIT40IjUzqGzUzs8m1hhp/3TK0FuQkACYNUN1+6kUS9KsWm+L03YR8T0nhfhl55XOCMyh
- fVWLwcuY1JO0QY+RCg68ZUs8HSy0bJ2OX1X/fDcOmLfJaJ0BGxAzsJnu8KlvZy7l05PQdczOH
- s93yUjqVAvbVw9QpkUOOIXhBMg2GhNSdG2IJ4nWAvAPDwWAjnUt9en8D2MjzCaQGI3b+o9RJp
- 5+lZqucIhd3SwA36RELxRNmOj6Ayh5AEsO6qJFW/rl4kvVkT26C+3wndI2GyHRhVPjqIOaUeG
- JnopQ6h8Z5gIB+svvadpmzH2KTrM2DYvaWAVKn9coJXg7m3jmL7UO63pVBoVya63u6YrDruGX
- ZRVrHlkV3+OdELZ8lIk5dDdw9L9EpEKT4nZRM+DlObSf1ciV6qVme5o2T6ZHjVZgBCTgH/oGW
- s6bRnfha8CTHUhGQo6xmu+h7Ef
-Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:8waPjDpHzLH5qi2fX0GsuUDaudxdJ7Yy4sfKn2Xt+1ZbcIFWYUb
+ fX/ve+ph/6Do2xOBhoTyYBMvWObHhpctKxlW/80DOs/mzHH5vz9SCFg1zWpiuyX7gsqPGy7
+ dvfIcsl31pf1JxzHHC3sA9pC7haFARCmRmkaEmF9l+Y47May4ZIcjbENjAsh60+/2UI+o19
+ FPaNV0uYn1vn8nEPmfTaQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:chIZAU1/yaU=:mdDATNsDmfdjwHY7GvXWYA
+ NxUFSJu2xFN73NgewwqLHUhUpsNPN4ZdD1E3WwIzkCblrgDX3qv6jha6ltt/m+yw2cChPUui/
+ ci48+RXZ8qmrKGxqyDr2XFgZaAIGjDw8ewkzfdzUSkMx2f+hfe6leUMXlPdIDt1UQLz7AlJZr
+ GtJd1uXXRnYlCJxLZbMrERr0J1/ZWi/D52A6/oEoVsgdy+1jHfc0NYaytGYDRBoEVt76AGHjm
+ iDG9SCONsxWTdF2IbPZT4n4vO5uzfn6l40jQ1e1p7nxM9+I5h7oGWZyVn8RK6uMNMNxJ/fLFD
+ BHKxPr+mlnzH12mPyjdDGFDPlyXv6j6EATXmRziHGninkmLHa/bZ4/KSMqxjr6Zv5FLjjPL20
+ LKp60NfLk5px3lHCAwBNxlw23gEaWGDqnXgBs71nxZ+et3PfKG2kgAJT1WZbLpXoV505iixVX
+ XbOulTaiflWGZqspymTBjZmujgqIo7pbefbKoVHqv2q8mtdOwTDTphgq22rWcJLkAnWIcjwgN
+ SiNCFBzDkNCLMWb9bosmIm340YglXY7ZjYYwlvVRdJHixTZ9prprgOqDSshoD7ArDmAVdgdfu
+ FTUPUD1mZ72/cvaggbBK19nYeCKYsK1YyzW09B3rO+LB7leCeRcBtvFnXFyDtq0CgbjvotOXq
+ /eZuPvBCTpRCWKhYiuVa8051CDyB4fz4YCHLdXNtOLogomCv8AB9TEy/c5YQULawYA1qhmwpq
+ +n002u2qXT4Z0qoPb8y8P3vs5wp9/UuFZtU3Cj2QvqAQyIH/iaDNYBBPABBxhgsFNpcV4VwYT
+ oWW4vqPphESDpOrT50VGGiijJuzA5sjHBdY5ogu2i1hq8VcQBS/2SELVVVT1SV1OEabUAaPaW
+ EtkPp9dbH4BR7o/TaEhJg8t5nBFItCFNU0FTtrp6Ms27g6+X9op6foVSZ+Xb86R9b8yOZJtmM
+ OdpjmGaTDc+ZpklsX/T5fJQxiH33EIL96RT+JYg/b2ORlDnRu8MfVkbF7CKRXpS+2bPzYne/T
+ UErZ8HVbMqhguVqINf/0a8hKVNWVThtDSFBjCGz9ZJiTBkv6QPQE/GRiE15nBpvfUZjfbVUGv
+ iNoBPl5m2pTPVSL4QsW65zAsDG8wZfSGqJAg006sJov0G/oGMt6eF4aJ8c+4ARxcOrcsTCtlJ
+ leXDO/3IkDkRaUrwU1GHOXZMZd
+Received-SPF: pass client-ip=212.227.15.15; envelope-from=arwed.meyer@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -88,25 +85,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Helge Deller <deller@gmx.de>
-=2D--
- linux-user/strace.list | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This series of patches makes `-serial msmouse` work in practice.
 
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index ad9ef94689..97d8ccadac 100644
-=2D-- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -355,7 +355,7 @@
- { TARGET_NR_getpriority, "getpriority", "%s(%#x,%#x)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_getrandom
--{ TARGET_NR_getrandom, "getrandom", NULL, NULL, NULL },
-+{ TARGET_NR_getrandom, "getrandom", "%s(%p,%u,%d)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_getresgid
- { TARGET_NR_getresgid, "getresgid" , NULL, NULL, NULL },
+Tested with FreeDOS/CTMouse driver `ctmouse /V` which identifies a
+Logitech compatible 3 button mouse.
+It will probably run as well with any other compatible serial mouse
+driver on Windows 9x etc.
+
+Arwed Meyer (5):
+  msmouse: Handle mouse reset
+  chardev: src buffer const for write functions
+  msmouse: Use fifo8 instead of array
+  msmouse: Add pnp data
+  serial: Allow unaligned i/o access
+
+ chardev/char.c          |   4 +-
+ chardev/msmouse.c       | 150 +++++++++++++++++++++++++++++++++-------
+ hw/char/serial.c        |   3 +
+ include/chardev/char.h  |   4 +-
+ include/sysemu/replay.h |   2 +-
+ replay/replay-char.c    |   2 +-
+ stubs/replay-tools.c    |   2 +-
+ 7 files changed, 134 insertions(+), 33 deletions(-)
+
 =2D-
-2.37.2
+2.34.1
 
 
