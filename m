@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2F125B51D3
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 01:16:16 +0200 (CEST)
-Received: from localhost ([::1]:34452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 210305B51D9
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 01:21:52 +0200 (CEST)
+Received: from localhost ([::1]:40732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXWBT-0000kP-Us
-	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 19:16:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41548)
+	id 1oXWGt-0006UL-6C
+	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 19:21:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oXW0T-0000HZ-BZ
- for qemu-devel@nongnu.org; Sun, 11 Sep 2022 19:04:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57023)
+ id 1oXW0Y-0000Lf-8a
+ for qemu-devel@nongnu.org; Sun, 11 Sep 2022 19:04:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55224)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oXW0R-00070g-O9
- for qemu-devel@nongnu.org; Sun, 11 Sep 2022 19:04:53 -0400
+ id 1oXW0W-00070r-BS
+ for qemu-devel@nongnu.org; Sun, 11 Sep 2022 19:04:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662937490;
+ s=mimecast20190719; t=1662937493;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vc/CcSryYtDk6Uvvp8jDUy7rkTxHVOtnsBmH3Dqy7g8=;
- b=B8mjl3uH89bB1fKYycFy+nGs1Zeo6WXvkOcIFlcBd9oE+t7X8eUEiXegh8/Qh++wZWtXjl
- 9l5GKnvX1hpvb685K1rwdj5FefU/mH6IdrbALHdT9qJyTKqe+SQvMdgWSTMdonveFIqJd8
- afIt16Ahv2PgZ+qX8SIhsCbX8IwwsXk=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=88eLT3Xhok9qSDyVtfiTEEhAbzO8EaXK7iUzrXYOifs=;
+ b=PFfeGpQWkRxHtbdm2dxOflS0VcPlcY+Qyyvq4z/lMfUP1MuCfyQS/Vbi8+GvAWWTcJaLkm
+ qymPvDtREQCtdVlkH8f5LjS0AQ1cZ/Kcimt/n3JNFdwR3OaYYf6gPtD5vyQ0x9PyWHmXSM
+ NjFrEDu787pgxoCw6qfh3i6rxji89Jc=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-297-WMJWJGIiP6CR18cd8hUv6w-1; Sun, 11 Sep 2022 19:04:48 -0400
-X-MC-Unique: WMJWJGIiP6CR18cd8hUv6w-1
-Received: by mail-ed1-f72.google.com with SMTP id
- w17-20020a056402269100b0043da2189b71so4887832edd.6
- for <qemu-devel@nongnu.org>; Sun, 11 Sep 2022 16:04:48 -0700 (PDT)
+ us-mta-358-BdzMww4_PJqVZ3SglK5b6w-1; Sun, 11 Sep 2022 19:04:51 -0400
+X-MC-Unique: BdzMww4_PJqVZ3SglK5b6w-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ qk37-20020a1709077fa500b00730c2d975a0so2295845ejc.13
+ for <qemu-devel@nongnu.org>; Sun, 11 Sep 2022 16:04:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=vc/CcSryYtDk6Uvvp8jDUy7rkTxHVOtnsBmH3Dqy7g8=;
- b=DdV+wuvIqgTrGgocjotWZh7x8p0HloypgZE9kCFdV9f6AbLiU+JDKptEE4HaKzEYbx
- llFlHEioYe92TE38kB9VqhokcRVFVpRIelIgOfuXn0/UwH1kSgLLiXdrPEXGve6eHL5j
- gzoUfEcfNA/fRCYEaIFqvWZHGX3Bggvmu7TE9XlwlYy+e+BtgNMbzLiwYcxo3CTQfBH4
- EpuGNOLlzA8FBsrfJrjron0XvA+KqRuROTQCQyIA1RUU9FTD1+cBcRYx1wTduuroO1QA
- zRTAnuXbqoa8Kcq8x9r5JTF2aOiN9UqZaGbjRrvajldI4Cn9WP0KxAmPQRMZ5QK08WOo
- gkAw==
-X-Gm-Message-State: ACgBeo30VkzewJtUvkNwnYJIHz0YpwtTfKa9W6kzpM+NngvHv+5UHBph
- c4J/QE+g+AUZ/kqlE6BQqu802/IOmixQDsBI4+aXFBF3E69YLRpyu/pSHS76Ts/yDx9ZIjsIsqT
- pkJdbjdsxmzlsEuN+tIR0+7lKr9eNQUH8VQIfMcw8cvaWkyZ4h3iBF9z4iviDABKCIr0=
-X-Received: by 2002:a05:6402:454:b0:447:59a8:fc7d with SMTP id
- p20-20020a056402045400b0044759a8fc7dmr20455790edw.68.1662937487287; 
- Sun, 11 Sep 2022 16:04:47 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6Tqnt2LunwAYS6r2DwwdR/RwcDOPyQv+kuEn2HYF1utEKWyV0Mnbhe3+4NYCKPv2enXywTZw==
-X-Received: by 2002:a05:6402:454:b0:447:59a8:fc7d with SMTP id
- p20-20020a056402045400b0044759a8fc7dmr20455779edw.68.1662937486931; 
- Sun, 11 Sep 2022 16:04:46 -0700 (PDT)
+ bh=88eLT3Xhok9qSDyVtfiTEEhAbzO8EaXK7iUzrXYOifs=;
+ b=Uc5uvPeFKrJbaS2TEmXIzVBcRbWjlizvrN9+/v1AjX/jTbUxvxV183U/n7EAMmhLYb
+ +BhW2/wH6t4urgQgsuTirwP7YTQpMq2X2DWPndW9bbQS4JEj1spwmuNX/1r4IbFREzYh
+ xoU6hLCBXeeKmQx8VPqIh2E8IfIsMYu3ufJ2TCw89QGQ8L34UNjNq2dufhSydDe98QFN
+ QZSf/EaLm3ylYi70acO5saAd68gMvLMu9Ti4NSfxb4rkcV/g5Vmc2lZJP07iwaYOx47S
+ lWMz7GTuBTBVskc1Kt0N6scAAIbOjxwXxw550CFFsJqy3z/5eAkr3xOFD9BawOru0k9t
+ RxTw==
+X-Gm-Message-State: ACgBeo0hZnZKElGfkkCbT9VYuV2N5Z23bMpbXD4wgBqiFZ0+sGrc3yJB
+ l7MHk2Y1RPs+C/pJbLS61H60n3BkrHcdNhe97AQFyaVdoZkEk6Mo0545jzQCSFC0EOOgDHP8/Ga
+ 89B62YOqvHW8YGvtBKBHVxI60I0fkBZmvde+NAsB+lTr7adnxoBym9VrIjjaJ1X5Id38=
+X-Received: by 2002:a05:6402:2546:b0:451:5444:8c83 with SMTP id
+ l6-20020a056402254600b0045154448c83mr6867545edb.194.1662937490516; 
+ Sun, 11 Sep 2022 16:04:50 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5haGv0G3SdylQrb7LkkzmHMcor+NWdGX1aqyX4J3BvRd8YZgM+Ok6i/3VhDP1rzW35Oz7gxw==
+X-Received: by 2002:a05:6402:2546:b0:451:5444:8c83 with SMTP id
+ l6-20020a056402254600b0045154448c83mr6867530edb.194.1662937490219; 
+ Sun, 11 Sep 2022 16:04:50 -0700 (PDT)
 Received: from goa-sendmail (93-44-39-154.ip95.fastwebnet.it. [93.44.39.154])
  by smtp.gmail.com with ESMTPSA id
- l21-20020a170906415500b0073d7ab84375sm3507635ejk.92.2022.09.11.16.04.45
- for <qemu-devel@nongnu.org>
+ w15-20020a17090633cf00b007417041fb2bsm3444301eja.116.2022.09.11.16.04.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Sep 2022 16:04:46 -0700 (PDT)
+ Sun, 11 Sep 2022 16:04:49 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/37] target/i386: add CPUID feature checks to new decoder
-Date: Mon, 12 Sep 2022 01:03:48 +0200
-Message-Id: <20220911230418.340941-9-pbonzini@redhat.com>
+Cc: Paul Brook <paul@nowt.org>
+Subject: [PATCH 09/37] target/i386: add AVX_EN hflag
+Date: Mon, 12 Sep 2022 01:03:49 +0200
+Message-Id: <20220911230418.340941-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220911230418.340941-1-pbonzini@redhat.com>
 References: <20220911230418.340941-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -100,126 +100,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Paul Brook <paul@nowt.org>
+
+Add a new hflag bit to determine whether AVX instructions are allowed
+
+Signed-off-by: Paul Brook <paul@nowt.org>
+Message-Id: <20220424220204.2493824-4-paul@nowt.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/tcg/decode-new.c.inc | 51 ++++++++++++++++++++++++++++++++
- target/i386/tcg/decode-new.h     | 20 +++++++++++++
- 2 files changed, 71 insertions(+)
+ target/i386/cpu.h            |  3 +++
+ target/i386/helper.c         | 12 ++++++++++++
+ target/i386/tcg/fpu_helper.c |  1 +
+ 3 files changed, 16 insertions(+)
 
-diff --git a/target/i386/tcg/decode-new.c.inc b/target/i386/tcg/decode-new.c.inc
-index 7f76051b2d..a9b8b6c05f 100644
---- a/target/i386/tcg/decode-new.c.inc
-+++ b/target/i386/tcg/decode-new.c.inc
-@@ -83,6 +83,7 @@
- #define X86_OP_ENTRY0(op, ...)                                    \
-     X86_OP_ENTRY3(op, None, None, None, None, None, None, ## __VA_ARGS__)
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 8311b69c88..ff1df4ea53 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -169,6 +169,7 @@ typedef enum X86Seg {
+ #define HF_MPX_EN_SHIFT     25 /* MPX Enabled (CR4+XCR0+BNDCFGx) */
+ #define HF_MPX_IU_SHIFT     26 /* BND registers in-use */
+ #define HF_UMIP_SHIFT       27 /* CR4.UMIP */
++#define HF_AVX_EN_SHIFT     28 /* AVX Enabled (CR4+XCR0) */
  
-+#define cpuid(feat) .cpuid = X86_FEAT_##feat,
- #define i64 .special = X86_SPECIAL_i64,
- #define o64 .special = X86_SPECIAL_o64,
- #define xchg .special = X86_SPECIAL_Locked,
-@@ -506,6 +507,52 @@ static bool decode_insn(DisasContext *s, CPUX86State *env, X86DecodeFunc decode_
-     return true;
- }
+ #define HF_CPL_MASK          (3 << HF_CPL_SHIFT)
+ #define HF_INHIBIT_IRQ_MASK  (1 << HF_INHIBIT_IRQ_SHIFT)
+@@ -195,6 +196,7 @@ typedef enum X86Seg {
+ #define HF_MPX_EN_MASK       (1 << HF_MPX_EN_SHIFT)
+ #define HF_MPX_IU_MASK       (1 << HF_MPX_IU_SHIFT)
+ #define HF_UMIP_MASK         (1 << HF_UMIP_SHIFT)
++#define HF_AVX_EN_MASK       (1 << HF_AVX_EN_SHIFT)
  
-+static bool has_cpuid_feature(DisasContext *s, X86CPUIDFeature cpuid)
+ /* hflags2 */
+ 
+@@ -2121,6 +2123,7 @@ void host_cpuid(uint32_t function, uint32_t count,
+ 
+ /* helper.c */
+ void x86_cpu_set_a20(X86CPU *cpu, int a20_state);
++void cpu_sync_avx_hflag(CPUX86State *env);
+ 
+ #ifndef CONFIG_USER_ONLY
+ static inline int x86_asidx_from_attrs(CPUState *cs, MemTxAttrs attrs)
+diff --git a/target/i386/helper.c b/target/i386/helper.c
+index fa409e9c44..30083c9cff 100644
+--- a/target/i386/helper.c
++++ b/target/i386/helper.c
+@@ -29,6 +29,17 @@
+ #endif
+ #include "qemu/log.h"
+ 
++void cpu_sync_avx_hflag(CPUX86State *env)
 +{
-+    switch (cpuid) {
-+    case X86_FEAT_None:
-+        return true;
-+    case X86_FEAT_MOVBE:
-+        return (s->cpuid_ext_features & CPUID_EXT_MOVBE);
-+    case X86_FEAT_PCLMULQDQ:
-+        return (s->cpuid_ext_features & CPUID_EXT_PCLMULQDQ);
-+    case X86_FEAT_SSE:
-+        return (s->cpuid_ext_features & CPUID_SSE);
-+    case X86_FEAT_SSE2:
-+        return (s->cpuid_ext_features & CPUID_SSE2);
-+    case X86_FEAT_SSE3:
-+        return (s->cpuid_ext_features & CPUID_EXT_SSE3);
-+    case X86_FEAT_SSSE3:
-+        return (s->cpuid_ext_features & CPUID_EXT_SSSE3);
-+    case X86_FEAT_SSE41:
-+        return (s->cpuid_ext_features & CPUID_EXT_SSE41);
-+    case X86_FEAT_SSE42:
-+        return (s->cpuid_ext_features & CPUID_EXT_SSE42);
-+    case X86_FEAT_AES:
-+        if (s->vex_l) {
-+            return (s->cpuid_7_0_ecx_features & CPUID_7_0_ECX_VAES);
-+        } else {
-+            return (s->cpuid_ext_features & CPUID_EXT_AES);
-+        }
-+    case X86_FEAT_AVX:
-+        return (s->cpuid_ext_features & CPUID_EXT_AVX);
-+
-+    case X86_FEAT_SSE4A:
-+        return (s->cpuid_ext3_features & CPUID_EXT3_SSE4A);
-+
-+    case X86_FEAT_ADX:
-+        return (s->cpuid_7_0_ebx_features & CPUID_7_0_EBX_ADX);
-+    case X86_FEAT_BMI1:
-+        return (s->cpuid_7_0_ebx_features & CPUID_7_0_EBX_BMI1);
-+    case X86_FEAT_BMI2:
-+        return (s->cpuid_7_0_ebx_features & CPUID_7_0_EBX_BMI2);
-+    case X86_FEAT_AVX2:
-+        return (s->cpuid_7_0_ebx_features & CPUID_7_0_EBX_AVX2);
-+    default:
-+        abort();
++    if ((env->cr[4] & CR4_OSXSAVE_MASK)
++        && (env->xcr0 & (XSTATE_SSE_MASK | XSTATE_YMM_MASK))
++            == (XSTATE_SSE_MASK | XSTATE_YMM_MASK)) {
++        env->hflags |= HF_AVX_EN_MASK;
++    } else{
++        env->hflags &= ~HF_AVX_EN_MASK;
 +    }
 +}
 +
- /* convert one instruction. s->base.is_jmp is set if the translation must
-    be stopped. Return the next pc value */
- static target_ulong disas_insn_new(DisasContext *s, CPUState *cpu, int b)
-@@ -690,6 +737,10 @@ static target_ulong disas_insn_new(DisasContext *s, CPUState *cpu, int b)
-         goto unknown_op;
-     }
+ void cpu_sync_bndcs_hflags(CPUX86State *env)
+ {
+     uint32_t hflags = env->hflags;
+@@ -209,6 +220,7 @@ void cpu_x86_update_cr4(CPUX86State *env, uint32_t new_cr4)
+     env->hflags = hflags;
  
-+    if (!has_cpuid_feature(s, decode.e.cpuid)) {
-+        goto illegal_op;
-+    }
-+
-     switch (decode.e.special) {
-     case X86_SPECIAL_None:
-         break;
-diff --git a/target/i386/tcg/decode-new.h b/target/i386/tcg/decode-new.h
-index a2d3c3867f..6fb2d9151e 100644
---- a/target/i386/tcg/decode-new.h
-+++ b/target/i386/tcg/decode-new.h
-@@ -93,6 +93,25 @@ typedef enum X86OpSize {
-     X86_SIZE_f64,
- } X86OpSize;
+     cpu_sync_bndcs_hflags(env);
++    cpu_sync_avx_hflag(env);
+ }
  
-+typedef enum X86CPUIDFeature {
-+    X86_FEAT_None,
-+    X86_FEAT_ADX,
-+    X86_FEAT_AES,
-+    X86_FEAT_AVX,
-+    X86_FEAT_AVX2,
-+    X86_FEAT_BMI1,
-+    X86_FEAT_BMI2,
-+    X86_FEAT_MOVBE,
-+    X86_FEAT_PCLMULQDQ,
-+    X86_FEAT_SSE,
-+    X86_FEAT_SSE2,
-+    X86_FEAT_SSE3,
-+    X86_FEAT_SSSE3,
-+    X86_FEAT_SSE41,
-+    X86_FEAT_SSE42,
-+    X86_FEAT_SSE4A,
-+} X86CPUIDFeature;
-+
- /* Execution flags */
+ #if !defined(CONFIG_USER_ONLY)
+diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
+index 30bc44fcf8..48bf0c5cf8 100644
+--- a/target/i386/tcg/fpu_helper.c
++++ b/target/i386/tcg/fpu_helper.c
+@@ -2943,6 +2943,7 @@ void helper_xsetbv(CPUX86State *env, uint32_t ecx, uint64_t mask)
  
- typedef enum X86OpUnit {
-@@ -160,6 +179,7 @@ struct X86OpEntry {
-     X86OpSize    s3  : 8;
+     env->xcr0 = mask;
+     cpu_sync_bndcs_hflags(env);
++    cpu_sync_avx_hflag(env);
+     return;
  
-     X86InsnSpecial special : 8;
-+    X86CPUIDFeature cpuid : 8;
-     bool         is_decode : 1;
- };
- 
+  do_gpf:
 -- 
 2.37.2
 
