@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 126FB5B50A9
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Sep 2022 20:37:49 +0200 (CEST)
-Received: from localhost ([::1]:59474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 896215B50A1
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Sep 2022 20:35:06 +0200 (CEST)
+Received: from localhost ([::1]:53328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXRpz-0000kw-3E
-	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 14:37:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49134)
+	id 1oXRnN-0004vw-Cf
+	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 14:35:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <arwed.meyer@gmx.de>)
- id 1oXRZ2-0005TZ-8F; Sun, 11 Sep 2022 14:20:16 -0400
-Received: from mout.gmx.net ([212.227.15.18]:52783)
+ id 1oXRZ2-0005Vt-MY; Sun, 11 Sep 2022 14:20:16 -0400
+Received: from mout.gmx.net ([212.227.15.19]:60679)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <arwed.meyer@gmx.de>)
- id 1oXRZ0-0003UH-C8; Sun, 11 Sep 2022 14:20:15 -0400
+ id 1oXRZ0-0003V8-Sh; Sun, 11 Sep 2022 14:20:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1662920410;
- bh=6D2n6vt7vPa8OcErSCHndf2SWlv4bAa6GeHMV0v/ui8=;
+ bh=e4vlNlcI1oCuqYZ/cqmws4Wte8dT3gjwomXBDaL+ROI=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=lniC+4Ci8G4rO7qgtPV7jmod95o+JcQDCOthXDrF8fi3cGfLFYer69Z7Uk1TDsvZa
- aDoR9DJeaunzygATnssBQFqPM3VoXjc0YXhsihwmqYKVPdxJJL6LB8D2gdBq/EgppV
- af9kSZlem1qEPceMHwpeKnqgpaopRXs6UD9p+1L4=
+ b=RTuI72su24CIvFRR3ilA5GrkEhtPjAWEWRGyd0VfIMm9u3DLzXf1OXZysuuKEAH/c
+ F5yMMA6q6gdt0fDoUw89q+eky7KrmKFFSIXKsGOv2ZBdJoQ6IclSjHcH2iJR2TtjPc
+ 10M/TEME0GJwRonAn4H20g8gIfTVtuAN+pP7whcI=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from btm-mobil4.fritz.box ([178.8.103.147]) by mail.gmx.net
  (mrgmx005 [212.227.17.190]) with ESMTPSA (Nemesis) id
- 1MFsUv-1oYFqY2gAx-00HS0f; Sun, 11 Sep 2022 20:20:09 +0200
+ 1MowKi-1p7JTw1uOM-00qViC; Sun, 11 Sep 2022 20:20:10 +0200
 From: Arwed Meyer <arwed.meyer@gmx.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-stable@nongnu.org, Arwed Meyer <arwed.meyer@gmx.de>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v3 3/5] msmouse: Use fifo8 instead of array
-Date: Sun, 11 Sep 2022 20:18:38 +0200
-Message-Id: <20220911181840.8933-4-arwed.meyer@gmx.de>
+Subject: [PATCH v3 4/5] msmouse: Add pnp data
+Date: Sun, 11 Sep 2022 20:18:39 +0200
+Message-Id: <20220911181840.8933-5-arwed.meyer@gmx.de>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220911181840.8933-1-arwed.meyer@gmx.de>
 References: <20220911181840.8933-1-arwed.meyer@gmx.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:hbiNUpFGzGCEhFcR1lJbo7tZcJjqaKaKzJaxuYIyZD+g5dDnDXB
- gqMeQ/RYSYO817d8eUfmE/o6ZCQU7Z8kvbD0q8T+sC8pWVRmXdza1xw/JJlRYU8JXIRuJth
- gaT1kZaI/iA8UtDY4qGDPdJVPaamlVLGyDCMkVCEtnApRD6s6XepOQJT6hNkq5UE8LDDo3d
- Zkrh9leNN2fFivc7slSUA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:UmwsYnUG2cc=:NeJnG1RJ+pNaJZfSd46bgm
- p0LrfN5RfwIboD8uwCaHnkRAswVfU+0UPT33VdLM1SoHq5fQppl4lOVVtyIpHf+1PMKFcm7G4
- uPzToZ6PT/0U9i0BiIvh6scetcx9CdMpVC/hYXIai7oZ/qWb7SATtRGqbo+VJJ5MUFaS2OdkE
- iNc0+r5UkZQEMhjCNeVcIA1kcnhjJUi199/ORdlSwWQItzOndU97JL+hntdl4C+ddRrR+cqHy
- zTiyfsZ+J38YxGfxHj+DWtjKSSyDNwhDbPjCEn7YOnh1kivN4jqom0lfHp7yZyUacPQRXl1uT
- Z94k7JYsggKvxwKOXOxDKXBCZ+7Ve8wujCInRvPISQ8R75L2KQ6HneUa3KgndA4CDDRCoNXFu
- RNgVsrDFRmB3d45eKoYaNtOutlIDNLoxQiNj6BCerLAEtbs4aLKudV5Y0AF5jGo4CR9TinTVa
- Dp8IRKTfyYZmo2VmN5HYRlk+JJSHJDI02QUmhkmb90DOx67KuY9BLDjETlHz6ACnEzMT4vMH6
- PjwAMC5pfJTfaGI9h9ctc+KvtUhTI3s18Cg+3Gdz+hBhwDV6Q4WloLCKXAunsvB3L4NjvkWmC
- tbE051h4Mg6A/tjkoBB5HZDOVAzsjKcdNElMJbuiZ5kDUHuTtZI7ET2XJGrht+FyU+/ROi9iT
- AfRYnkHEycxM2QXGkoOTU2Kds6IoOAFmqdWq7duUMhkENvJI8y2ayQ8r5E5w6VCABJjLyimis
- 8nc6GGZV59FND5tKBdt5gVNUjOX/sviSMntaHuXm7D/hOBUDOF9YS5Si+Un+d5xGOkcBd0GZH
- lo5D+u0YG0wPm5Dyfc+c3kcQF1jglyonggd4UngTa/zUZ4BzKjmKllaV1BHifTjLN6cHMdfvp
- SHYd6yxdEGiWuZ7Q3kJVHQo5EMMqrKezRICta5tbYNcQ/cJ3sljiQ1VDY7vixAhJwmpJR7vgr
- PWOxvLSnx69CldhhDz9+ydQUpEKn2D7XDNCQP4JlpCp/jmrdu47Cuyz3RImL+chqVZiNNpjdz
- 9vlHGkr+i34Zo5J51cV7JfuB43eIM+H0HxsWXffKZZotwtoh4umvuOjqIEYZeL0Jsc1htgOsQ
- MVvN6QQ+ab2hET+q2Ke+2Uy35JVBc2svrI2ckQBJRTFlnf81cBu7Zhn06462TU5DnHxxhMLyZ
- t6R0pvk7YhdYOCHTNiiJba2CSf
-Received-SPF: pass client-ip=212.227.15.18; envelope-from=arwed.meyer@gmx.de;
+X-Provags-ID: V03:K1:uHkoRgtGUSNB1vtVr8JRbN7TjtrmF6iHztnBPzNIQ4vnUZ+ajvh
+ JK43gioHyclx4EIuJL3T2oLILtP8SBvvOVZs8AHMFz380xEjXogBtury57dLv8LBDAozauZ
+ yVzZtvkCc08iJ3djjmqMuqAnCqTEoWDBJ3s9UUS87Q5i5IlFBF0sV4go6Pjr+ZaJmgiwJ48
+ 7G4zUv0w4gtnvTvTMkyKA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:EFYGU6LLg0o=:gw4XXW4toJAl1cifxWUZ9Q
+ Os60e8Jv3eiV0Yt2Lx2OYQ46abE72Wit0VL7duiYUM9TZrcwsb1tXR29Wc3d40m8FhkzzIaQT
+ OrxLsrzC0MTyLqlQPohkmEYpuQozP2kWIpWcqDx4GeIyygTnoJy4f5nY9TjSZr6o64n8woXLy
+ tNkK68ScdOveDQtNTDJbGtZV5B9JqXG7Pvp0Q52DEB+V1yRrzff1ieAWedCBNgQLhrussduIQ
+ xzcSfU54FxEb3SqG7ZzqHIcWJwyIegZkgXmf9A7SHvnni2xoKs3UhkzydV6iLDK0d0IRZqobw
+ 97nCpFSqAPGEK5euinvQ3P/X5MVMZv+MR63TNROME6vTjQSGTdahUc5DfPpzY2oIDSxbJxywr
+ EPYps87FrynjKwQzHccceKVUQTa0NT0A+LAr0KqBUEAppqEYE8tOYbn0BWgibK7Y3/Gb96JFH
+ Z+ptvAvo1OmEUqU0rMMNjpK1VZTRPoc4WzbmVFVJ+DTqQZ3FOBQLnHzQNiDpDo2SG47p21C5A
+ JkVWi2lZ0D8tVBBAwnjdehcd+ciUP4I7HCZp37MmEHBgyS+FzYYi7uDyw+uhesMJ3LNLM/LDt
+ AM5Ud4flvEIF3I3QDFZ+hgBhnTGORvjI44nxSDnxaTlrHXXJ9+QGsDOf+qWUoyyhyLqdkkg9P
+ XvrPW7NJSWMggaQepLtwQdQavMb7cLAWZm1mm0lQvE0vJl/deA0J7kfiL18Aq0OF66S8Ne9vf
+ iohb7SQxA4SYgGklIxkKQhYt2qhAwSL1I+dStGB9+f6Xm28E2q5RyrhHZBUohonfnT4+Y7dnN
+ bDVYliBP6QI3pOLp8RC+vRYTcab5MXh3VCxqYC1JkVXnmF9xU93HNMnfPIzqxwDuaVA/UYYwH
+ d7EJe+WZ5Qz3VeUakateD2mY7N4P+vauCUNK/VxRVfW3hg7t2AF6GuDdChs8HAEOfcJts8B5m
+ mmBmeqVBqJhWUQFNzxPRllMzTPNxrn5RZVLd36byqeTVeqoxlC8/AbtZq18RcsW5DJMoFIiXD
+ Klvv1trV0ZHpnUvPt1cYY70Ox/EOz1T1/6eKypQBYUlQSB7ODvnYa87uyr2/Sev156jacgUi0
+ XHjBfxTUolhSz/KImIl+ActyUdZPzW4Rh0Jiv4k1rDXy90OvXbmxFp85OFs2Vv8jfPOjLE1RY
+ 72jpHvonwxRwdYRdbOEjLyOUL7
+Received-SPF: pass client-ip=212.227.15.19; envelope-from=arwed.meyer@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -88,136 +88,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make use of fifo8 functions instead of implementing own fifo code.
-This makes the code more readable and reduces risk of bugs.
+Make msmouse send serial pnp data.
+Enables you to see nice qemu device name in Win9x.
 
 Signed-off-by: Arwed Meyer <arwed.meyer@gmx.de>
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 =2D--
- chardev/msmouse.c | 47 +++++++++++++++++++++++++----------------------
- 1 file changed, 25 insertions(+), 22 deletions(-)
+ chardev/msmouse.c | 58 ++++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 47 insertions(+), 11 deletions(-)
 
 diff --git a/chardev/msmouse.c b/chardev/msmouse.c
-index 95fa488339..5982c15df6 100644
+index 5982c15df6..9006703023 100644
 =2D-- a/chardev/msmouse.c
 +++ b/chardev/msmouse.c
-@@ -24,6 +24,7 @@
-
- #include "qemu/osdep.h"
- #include "qemu/module.h"
-+#include "qemu/fifo8.h"
- #include "chardev/char.h"
- #include "chardev/char-serial.h"
- #include "ui/console.h"
-@@ -34,6 +35,12 @@
+@@ -35,11 +35,24 @@
  #define MSMOUSE_HI2(n)  (((n) & 0xc0) >> 6)
  #define MSMOUSE_PWR(cm) (cm & (CHR_TIOCM_RTS | CHR_TIOCM_DTR))
 
-+/* Serial fifo size. */
-+#define MSMOUSE_BUF_SZ 64
-+
-+/* Mouse ID: Send "M3" cause we behave like a 3 button logitech mouse. */
-+const uint8_t mouse_id[] =3D {'M', '3'};
-+
++/* Serial PnP for 6 bit devices/mice sends all ASCII chars - 0x20 */
++#define M(c) (c - 0x20)
+ /* Serial fifo size. */
+ #define MSMOUSE_BUF_SZ 64
+
+ /* Mouse ID: Send "M3" cause we behave like a 3 button logitech mouse. */
+ const uint8_t mouse_id[] =3D {'M', '3'};
++/*
++ * PnP start "(", PnP version (1.0), vendor ID, product ID, '\\',
++ * serial ID (omitted), '\\', MS class name, '\\', driver ID (omitted), '=
+\\',
++ * product description, checksum, ")"
++ * Missing parts are inserted later.
++ */
++const uint8_t pnp_data[] =3D {M('('), 1, '$', M('Q'), M('M'), M('U'),
++                         M('0'), M('0'), M('0'), M('1'),
++                         M('\\'), M('\\'),
++                         M('M'), M('O'), M('U'), M('S'), M('E'),
++                         M('\\'), M('\\')};
+
  struct MouseChardev {
      Chardev parent;
-
-@@ -42,8 +49,7 @@ struct MouseChardev {
-     int axis[INPUT_AXIS__MAX];
-     bool btns[INPUT_BUTTON__MAX];
-     bool btnc[INPUT_BUTTON__MAX];
--    uint8_t outbuf[32];
--    int outlen;
-+    Fifo8 outbuf;
- };
- typedef struct MouseChardev MouseChardev;
-
-@@ -54,20 +60,18 @@ DECLARE_INSTANCE_CHECKER(MouseChardev, MOUSE_CHARDEV,
- static void msmouse_chr_accept_input(Chardev *chr)
- {
-     MouseChardev *mouse =3D MOUSE_CHARDEV(chr);
--    int len;
-+    uint32_t len, avail;
-
-     len =3D qemu_chr_be_can_write(chr);
--    if (len > mouse->outlen) {
--        len =3D mouse->outlen;
--    }
--    if (!len) {
--        return;
--    }
--
--    qemu_chr_be_write(chr, mouse->outbuf, len);
--    mouse->outlen -=3D len;
--    if (mouse->outlen) {
--        memmove(mouse->outbuf, mouse->outbuf + len, mouse->outlen);
-+    avail =3D fifo8_num_used(&mouse->outbuf);
-+    while (len > 0 && avail > 0) {
-+        const uint8_t *buf;
-+        uint32_t size;
-+
-+        buf =3D fifo8_pop_buf(&mouse->outbuf, MIN(len, avail), &size);
-+        qemu_chr_be_write(chr, buf, size);
-+        len =3D qemu_chr_be_can_write(chr);
-+        avail -=3D size;
-     }
+@@ -158,11 +171,22 @@ static int msmouse_chr_write(struct Chardev *s, cons=
+t uint8_t *buf, int len)
+     return len;
  }
 
-@@ -94,12 +98,11 @@ static void msmouse_queue_event(MouseChardev *mouse)
-         mouse->btnc[INPUT_BUTTON_MIDDLE]) {
-         bytes[3] |=3D (mouse->btns[INPUT_BUTTON_MIDDLE] ? 0x20 : 0x00);
-         mouse->btnc[INPUT_BUTTON_MIDDLE] =3D false;
--        count =3D 4;
-+        count++;
-     }
++static QemuInputHandler msmouse_handler =3D {
++    .name  =3D "QEMU Microsoft Mouse",
++    .mask  =3D INPUT_EVENT_MASK_BTN | INPUT_EVENT_MASK_REL,
++    .event =3D msmouse_input_event,
++    .sync  =3D msmouse_input_sync,
++};
++
+ static int msmouse_ioctl(Chardev *chr, int cmd, void *arg)
+ {
+     MouseChardev *mouse =3D MOUSE_CHARDEV(chr);
+-    int c;
++    int c, i, j;
++    uint8_t bytes[MSMOUSE_BUF_SZ / 2];
+     int *targ =3D (int *)arg;
++    const uint8_t hexchr[16] =3D {M('0'), M('1'), M('2'), M('3'), M('4'),=
+ M('5'),
++                             M('6'), M('7'), M('8'), M('9'), M('A'), M('B=
+'),
++                             M('C'), M('D'), M('E'), M('F')};
 
--    if (mouse->outlen <=3D sizeof(mouse->outbuf) - count) {
--        memcpy(mouse->outbuf + mouse->outlen, bytes, count);
--        mouse->outlen +=3D count;
-+    if (fifo8_num_free(&mouse->outbuf) >=3D count) {
-+        fifo8_push_all(&mouse->outbuf, bytes, count);
-     } else {
-         /* queue full -> drop event */
-     }
-@@ -172,9 +175,7 @@ static int msmouse_ioctl(Chardev *chr, int cmd, void *=
-arg)
-                  * cause we behave like a 3 button logitech
-                  * mouse.
+     switch (cmd) {
+     case CHR_IOCTL_SERIAL_SET_TIOCM:
+@@ -171,11 +195,30 @@ static int msmouse_ioctl(Chardev *chr, int cmd, void=
+ *arg)
+         if (MSMOUSE_PWR(mouse->tiocm)) {
+             if (!MSMOUSE_PWR(c)) {
+                 /*
+-                 * Power on after reset: send "M3"
+-                 * cause we behave like a 3 button logitech
+-                 * mouse.
++                 * Power on after reset: Send ID and PnP data
++                 * No need to check fifo space as it is empty at this poi=
+nt.
                   */
--                mouse->outbuf[0] =3D 'M';
--                mouse->outbuf[1] =3D '3';
--                mouse->outlen =3D 2;
-+                fifo8_push_all(&mouse->outbuf, mouse_id, sizeof(mouse_id)=
+                 fifo8_push_all(&mouse->outbuf, mouse_id, sizeof(mouse_id)=
 );
++                /* Add PnP data: */
++                fifo8_push_all(&mouse->outbuf, pnp_data, sizeof(pnp_data)=
+);
++                /*
++                 * Add device description from qemu handler name.
++                 * Make sure this all fits into the queue beforehand!
++                 */
++                c =3D M(')');
++                for (i =3D 0; msmouse_handler.name[i]; i++) {
++                    bytes[i] =3D M(msmouse_handler.name[i]);
++                    c +=3D bytes[i];
++                }
++                /* Calc more of checksum */
++                for (j =3D 0; j < sizeof(pnp_data); j++) {
++                    c +=3D pnp_data[j];
++                }
++                c &=3D 0xff;
++                bytes[i++] =3D hexchr[c >> 4];
++                bytes[i++] =3D hexchr[c & 0x0f];
++                bytes[i++] =3D M(')');
++                fifo8_push_all(&mouse->outbuf, bytes, i);
                  /* Start sending data to serial. */
                  msmouse_chr_accept_input(chr);
              }
-@@ -184,7 +185,7 @@ static int msmouse_ioctl(Chardev *chr, int cmd, void *=
-arg)
-          * Reset mouse buffers on power down.
-          * Mouse won't send anything without power.
-          */
--        mouse->outlen =3D 0;
-+        fifo8_reset(&mouse->outbuf);
-         memset(mouse->axis, 0, sizeof(mouse->axis));
-         memset(mouse->btns, false, sizeof(mouse->btns));
-         memset(mouse->btnc, false, sizeof(mouse->btns));
-@@ -204,6 +205,7 @@ static void char_msmouse_finalize(Object *obj)
-     MouseChardev *mouse =3D MOUSE_CHARDEV(obj);
-
-     qemu_input_handler_unregister(mouse->hs);
-+    fifo8_destroy(&mouse->outbuf);
+@@ -208,13 +251,6 @@ static void char_msmouse_finalize(Object *obj)
+     fifo8_destroy(&mouse->outbuf);
  }
 
- static QemuInputHandler msmouse_handler =3D {
-@@ -224,6 +226,7 @@ static void msmouse_chr_open(Chardev *chr,
-     mouse->hs =3D qemu_input_handler_register((DeviceState *)mouse,
-                                             &msmouse_handler);
-     mouse->tiocm =3D 0;
-+    fifo8_create(&mouse->outbuf, MSMOUSE_BUF_SZ);
- }
-
- static void char_msmouse_class_init(ObjectClass *oc, void *data)
+-static QemuInputHandler msmouse_handler =3D {
+-    .name  =3D "QEMU Microsoft Mouse",
+-    .mask  =3D INPUT_EVENT_MASK_BTN | INPUT_EVENT_MASK_REL,
+-    .event =3D msmouse_input_event,
+-    .sync  =3D msmouse_input_sync,
+-};
+-
+ static void msmouse_chr_open(Chardev *chr,
+                              ChardevBackend *backend,
+                              bool *be_opened,
 =2D-
 2.34.1
 
