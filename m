@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2E995B503D
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Sep 2022 19:25:18 +0200 (CEST)
-Received: from localhost ([::1]:58496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 932B85B504E
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Sep 2022 19:36:40 +0200 (CEST)
+Received: from localhost ([::1]:33450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXQhp-0008VN-Sb
-	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 13:25:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45900)
+	id 1oXQsp-0000js-MW
+	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 13:36:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oXQf9-00036z-V8
- for qemu-devel@nongnu.org; Sun, 11 Sep 2022 13:22:32 -0400
-Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:45512)
+ id 1oXQfA-00036v-V8
+ for qemu-devel@nongnu.org; Sun, 11 Sep 2022 13:22:33 -0400
+Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:34482)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oXQf4-0003Jz-77
+ id 1oXQf4-0003K3-GB
  for qemu-devel@nongnu.org; Sun, 11 Sep 2022 13:22:29 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R121e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045176;
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R141e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046051;
  MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0VPKhSsa_1662916936; 
+ TI=SMTPD_---0VPKg0rz_1662916937; 
 Received: from localhost(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VPKhSsa_1662916936) by smtp.aliyun-inc.com;
- Mon, 12 Sep 2022 01:22:16 +0800
+ fp:SMTPD_---0VPKg0rz_1662916937) by smtp.aliyun-inc.com;
+ Mon, 12 Sep 2022 01:22:17 +0800
 From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, jasowang@redhat.com, eduardo@habkost.net,
  marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
  hengqi@linux.alibaba.com, xuanzhuo@linux.alibaba.com
-Subject: [PATCH v4 04/15] virtio: introduce virtio_queue_enable()
-Date: Mon, 12 Sep 2022 01:22:00 +0800
-Message-Id: <216af3a38ad98d10e484d4d9ea275bc5ba3314ac.1662916759.git.kangjie.xu@linux.alibaba.com>
+Subject: [PATCH v4 05/15] virtio: core: vq reset feature negotation support
+Date: Mon, 12 Sep 2022 01:22:01 +0800
+Message-Id: <776e17f969c81d5d0ca3648a39ea8806261eda50.1662916759.git.kangjie.xu@linux.alibaba.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1662916759.git.kangjie.xu@linux.alibaba.com>
 References: <cover.1662916759.git.kangjie.xu@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.133;
+Received-SPF: pass client-ip=115.124.30.57;
  envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-133.freemail.mail.aliyun.com
+ helo=out30-57.freemail.mail.aliyun.com
 X-Spam_score_int: -98
 X-Spam_score: -9.9
 X-Spam_bar: ---------
@@ -64,65 +64,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce the interface queue_enable() in VirtioDeviceClass and the
-fucntion virtio_queue_enable() in virtio, it can be called when
-VIRTIO_PCI_COMMON_Q_ENABLE is written and related virtqueue can be
-started. It only supports the devices of virtio 1 or later. The
-not-supported devices can only start the virtqueue when DRIVER_OK.
+A a new command line parameter "queue_reset" is added.
+
+Meanwhile, the vq reset feature is disabled for pre-7.2 machines.
 
 Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/virtio/virtio.c         | 14 ++++++++++++++
- include/hw/virtio/virtio.h |  2 ++
- 2 files changed, 16 insertions(+)
+ hw/core/machine.c          | 4 +++-
+ include/hw/virtio/virtio.h | 4 +++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 0e9d41366f..141f18c633 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -2050,6 +2050,20 @@ void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
-     __virtio_queue_reset(vdev, queue_index);
- }
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index aa520e74a8..907fa78ff0 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -40,7 +40,9 @@
+ #include "hw/virtio/virtio-pci.h"
+ #include "qom/object_interfaces.h"
  
-+void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+
-+    if (!virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
-+        error_report("queue_enable is only suppported in devices of virtio "
-+                     "1.0 or later.");
-+    }
-+
-+    if (k->queue_enable) {
-+        k->queue_enable(vdev, queue_index);
-+    }
-+}
-+
- void virtio_reset(void *opaque)
- {
-     VirtIODevice *vdev = opaque;
+-GlobalProperty hw_compat_7_1[] = {};
++GlobalProperty hw_compat_7_1[] = {
++    { "virtio-device", "queue_reset", "false" },
++};
+ const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
+ 
+ GlobalProperty hw_compat_7_0[] = {
 diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index 879394299b..085997d8f3 100644
+index 085997d8f3..ed3ecbef80 100644
 --- a/include/hw/virtio/virtio.h
 +++ b/include/hw/virtio/virtio.h
-@@ -131,6 +131,7 @@ struct VirtioDeviceClass {
-     void (*reset)(VirtIODevice *vdev);
-     void (*set_status)(VirtIODevice *vdev, uint8_t val);
-     void (*queue_reset)(VirtIODevice *vdev, uint32_t queue_index);
-+    void (*queue_enable)(VirtIODevice *vdev, uint32_t queue_index);
-     /* For transitional devices, this is a bitmap of features
-      * that are only exposed on the legacy interface but not
-      * the modern one.
-@@ -270,6 +271,7 @@ int virtio_queue_set_host_notifier_mr(VirtIODevice *vdev, int n,
- int virtio_set_status(VirtIODevice *vdev, uint8_t val);
- void virtio_reset(void *opaque);
- void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index);
-+void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index);
- void virtio_update_irq(VirtIODevice *vdev);
- int virtio_set_features(VirtIODevice *vdev, uint64_t val);
+@@ -295,7 +295,9 @@ typedef struct VirtIORNGConf VirtIORNGConf;
+     DEFINE_PROP_BIT64("iommu_platform", _state, _field, \
+                       VIRTIO_F_IOMMU_PLATFORM, false), \
+     DEFINE_PROP_BIT64("packed", _state, _field, \
+-                      VIRTIO_F_RING_PACKED, false)
++                      VIRTIO_F_RING_PACKED, false), \
++    DEFINE_PROP_BIT64("queue_reset", _state, _field, \
++                      VIRTIO_F_RING_RESET, true)
  
+ hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n);
+ bool virtio_queue_enabled_legacy(VirtIODevice *vdev, int n);
 -- 
 2.32.0
 
