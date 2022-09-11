@@ -2,68 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA385B4B47
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Sep 2022 04:10:56 +0200 (CEST)
-Received: from localhost ([::1]:40690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 924E35B4C1E
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Sep 2022 06:59:29 +0200 (CEST)
+Received: from localhost ([::1]:36600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXCQx-0003h7-4C
-	for lists+qemu-devel@lfdr.de; Sat, 10 Sep 2022 22:10:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33948)
+	id 1oXF44-0000m9-5u
+	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 00:59:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liuhaiwei9699@126.com>)
- id 1oXCPQ-0002GN-Oy; Sat, 10 Sep 2022 22:09:20 -0400
-Received: from m1564.mail.126.com ([220.181.15.64]:12880)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liuhaiwei9699@126.com>)
- id 1oXCPJ-0006Yg-Kr; Sat, 10 Sep 2022 22:09:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
- s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=t9nfp
- atXOMhAy3c64b1/8UzIkeufoKr3Xil9AkqUmGE=; b=h4j8OAjs8LTuHbgWhU/kc
- WYtoYPjPMhiKK7tx4THrdTrLkoySREmT62eqcPivCXOcpZdIn3XD1DAH2WsrpbWe
- ++x08b5b7+1v7JSUHNwdzPcl9LD/aQsqe7XSH/O58IxW5oddCDBaQsd5tbmQwXUK
- oxy8A/VSRCVipOz9nf+wVA=
-Received: from liuhaiwei9699$126.com ( [58.56.96.30] ) by
- ajax-webmail-wmsvr64 (Coremail) ; Sun, 11 Sep 2022 10:08:59 +0800 (CST)
-X-Originating-IP: [58.56.96.30]
-Date: Sun, 11 Sep 2022 10:08:59 +0800 (CST)
-From: liuhaiwei9699  <liuhaiwei9699@126.com>
-To: "Vladimir Sementsov-Ogievskiy" <vsementsov@yandex-team.ru>
-Cc: =?GBK?Q?Seaway_Liu=28=C1=F5=BA=A3=CE=B0=29?= <liuhaiwei@inspur.com>, 
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, 
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>, 
- "stefanha@redhat.com" <stefanha@redhat.com>, 
- "fam@euphon.net" <fam@euphon.net>, 
- "eblake@redhat.com" <eblake@redhat.com>, 
- "jsnow@redhat.com" <jsnow@redhat.com>, 
- "quintela@redhat.com" <quintela@redhat.com>, 
- "dgilbert@redhat.com" <dgilbert@redhat.com>
-Subject: Re:Re: [PATCH] bugfix:migrate with block-dirty-bitmap (disk size is
- big enough) can't be finished
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
- Copyright (c) 2002-2022 www.mailtech.cn 126com
-In-Reply-To: <51c4fedf-31dc-92d6-d253-051acf724044@yandex-team.ru>
-References: <p5hg4fm3akts7k6e3oe04m1j.1662806822058@email.android.com>
- <51c4fedf-31dc-92d6-d253-051acf724044@yandex-team.ru>
-Content-Type: multipart/alternative; 
- boundary="----=_Part_4575_333676545.1662862139959"
+ (Exim 4.90_1)
+ (envelope-from <prvs=2461b4889=damien.lemoal@opensource.wdc.com>)
+ id 1oXF1g-0007hi-Ig
+ for qemu-devel@nongnu.org; Sun, 11 Sep 2022 00:57:00 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:36809)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=2461b4889=damien.lemoal@opensource.wdc.com>)
+ id 1oXF1e-00027g-JF
+ for qemu-devel@nongnu.org; Sun, 11 Sep 2022 00:57:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1662872218; x=1694408218;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=6mpMoWejVtOxPfMHqR77FOjg5mNjMZaKwqiqNWPwebQ=;
+ b=FA/ji81s0VMzAZJ2Bal0Dn16n709+P0YO/s4NTgeavynR7o//nb01Tlu
+ 6Aowe5JjB5pEosWuT9CjjBcO2HZ/bwT8dYzmnrd7avLkAZzVpfWnZMEt9
+ OQXq2DhduK01ozfPQ4mE3rjMAFsFB4IrvENtrpS/1e5PfrEv4WXxpai4i
+ iUgApGRlsOgcxEwHoB4m8e/GLRpXDoYqzx4J4BIYHpG9L5f8JzK3X4AR7
+ tAGnZcpLSOd6VMIYNNN8iCjRcDm1gq6b8W/10kE+srfEt3gsMA1GQb1W3
+ 3WIbsFPbS3IEIFpJpDinJ7hwx5BDcrwVxw+0GrD7bh0vG3Z/DJBifp/6r A==;
+X-IronPort-AV: E=Sophos;i="5.93,307,1654531200"; d="scan'208";a="323146124"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 11 Sep 2022 12:56:48 +0800
+IronPort-SDR: sfJO/ZDqmWIkQsdBOmsM0y53Xbz0b4fSbztGJcm6b8XDe9dwGUDcQUco40AbkafJUDSmney+0L
+ vok2MnVxQiMvDT23Q0w5xGQEtM581ivr+p12vVvYmAogLjtJO2ycgA4RKxVSCkIUTc+ZbS/IN+
+ WVzB+s4qJ4n9t4W1ctSdDVxrXdXXlZG+8nK3hYgl3ocLL5sbYdyVdKAEWzNwA97UwU1Z+Is79O
+ eY3EW+ID2eC9rr4hSTz1w7JMlxsH/7tEv1OpPAWVE4Aod4mZ/UYl84n/hAoFOhvzvVFPmSslGM
+ i1M/vvabemEjeQAsKmyM4zCt
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 10 Sep 2022 21:11:39 -0700
+IronPort-SDR: BFPCXu9q64VQ6j4K1iiL7dBqGbeKaT6NqjfyufRJQNGVtjJt127IpWNxR3dB/FBOcdvRdld0u2
+ dLMdGg8eAAzc4aTEkO8YkQhHosP9JbAbUa/TmRqLpedKE0pyhPp0oiJmwqxyIUFcGbuUJ5zfrl
+ tzuQUBqjxOCB1tSW5X25Hig/uARi86KN0f9MoLsdr6SHjsoSUlQrfcT2bTqopUynGq1jAe0+z9
+ LA0s4S7MvuHX0dUix9lsh6/svvZlhoEbuhQEjsuZtvCjeBVHkaJRxXl6hw8p8u2479JRyxHT0z
+ lQ0=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 10 Sep 2022 21:56:49 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4MQHWg66Ytz1RwvL
+ for <qemu-devel@nongnu.org>; Sat, 10 Sep 2022 21:56:47 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :in-reply-to:organization:from:content-language:references:to
+ :subject:user-agent:mime-version:date:message-id; s=dkim; t=
+ 1662872206; x=1665464207; bh=6mpMoWejVtOxPfMHqR77FOjg5mNjMZaKwqi
+ qNWPwebQ=; b=swAX4Wh+wycJVOXCvW1C/0S1gf/1mw3iuPcXtpORIsw6w6mKf+H
+ OjllOOvZzv6ZsuuKcJvBleWZswcLEkc/9F1YnKvsXf832bHl+FVEjLN+bsU39WrD
+ bO2sZ6vbv36GGUnMME38DFrouFsIQeM6BfG6x02/I09GMhA7HOssQjP85P3FeJZS
+ xmC2VBYafJQmtwez3G5VwD4oWRkBew721O7w7pXN7Mmz8Sfrvq53Iju7nFxXi9+h
+ azEzil6O1wo88NqK0dMM6dOh93X5cQheN+gfRqL7lWjf9LFYBTYZrjZyahSUS8bS
+ NvNeXxZ5DII0F5WQ4FAvESypLHg4adTAedQ==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id K_OZQXsHyuE8 for <qemu-devel@nongnu.org>;
+ Sat, 10 Sep 2022 21:56:46 -0700 (PDT)
+Received: from [10.225.1.43] (unknown [10.225.1.43])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4MQHWb6Y9Wz1RvLy;
+ Sat, 10 Sep 2022 21:56:43 -0700 (PDT)
+Message-ID: <82f79c1f-c5fc-7283-095a-7b2c0a4cb81e@opensource.wdc.com>
+Date: Sun, 11 Sep 2022 13:56:41 +0900
 MIME-Version: 1.0
-Message-ID: <6ee5b5c7.4e1.1832a4ea238.Coremail.liuhaiwei9699@126.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: QMqowAAXJnI8Qx1jQExuAA--.48567W
-X-CM-SenderInfo: xolxxt5lzhxmqwzzqiyswou0bp/1tbi7Rx51lpEAsx9KgAAsZ
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
-Received-SPF: pass client-ip=220.181.15.64; envelope-from=liuhaiwei9699@126.com;
- helo=m1564.mail.126.com
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001, MIME_CHARSET_FARAWAY=2.45,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.2.2
+Subject: Re: [PATCH v9 2/7] file-posix: introduce helper functions for sysfs
+ attributes
+To: Sam Li <faithilikerun@gmail.com>, qemu-devel@nongnu.org
+Cc: dmitry.fomichev@wdc.com, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Fam Zheng <fam@euphon.net>, hare@suse.de, Hanna Reitz <hreitz@redhat.com>
+References: <20220910052759.27517-1-faithilikerun@gmail.com>
+ <20220910052759.27517-3-faithilikerun@gmail.com>
+Content-Language: en-US
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <20220910052759.27517-3-faithilikerun@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=68.232.141.245;
+ envelope-from=prvs=2461b4889=damien.lemoal@opensource.wdc.com;
+ helo=esa1.hgst.iphmx.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.214,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,125 +124,207 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------=_Part_4575_333676545.1662862139959
-Content-Type: text/plain; charset=GBK
-Content-Transfer-Encoding: base64
+On 2022/09/10 14:27, Sam Li wrote:
+> Use get_sysfs_str_val() to get the string value of device
+> zoned model. Then get_sysfs_zoned_model() can convert it to
+> BlockZoneModel type of QEMU.
+> 
+> Use get_sysfs_long_val() to get the long value of zoned device
+> information.
+> 
+> Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-CgoKc29tZXRpbWVzICxwb3N0LWNvcHkgbW9kZSBpcyBub3QgdGhlIGJlc3QgY2hvaWNlLiBGb3Ig
-aW5zdGFuY2UsIFN1cHBvc2luZyBtaWdyYXRlIHByb2Nlc3Mgd2lsbCB0YWtlIHRlbiBtaW51dGVz
-LGJ1dCBuZXR3b3JrIG1heSBiZSBpbnRlcnJ1cHR0ZWQgSW4gdGhpcyBwcm9jZXNzIC4KSWYgaXQg
-ZG9lcyBoYXBwZW50aGUgLCBtZW1vcnkgZGF0YSBvZiBWTSB3aWxsIGJlIHNwbGl0dGVkIGludG8g
-dHdvIHBhcnRzLCBhbmQgd2lsbCBub3QgYmUgcm9sbGJhY2suVGhpcyBpcyBhIGJhZCBzaXR1YXRp
-b24KCgpzbyAgbWlncmF0ZS1zdGFydC1wb3N0Y29weSB3aWxsIG5vdCBiZSBzZXR0ZWQgaW4gY29u
-c2VydmF0aXZlIHNjZW5hcmlvLiBJbiB0aGlzIGNhc2UsIHRoZSBtaWdyYXRpb24gd2l0aCBibG9j
-ayBkaXJ0eSBiaXRtYXAgbWF5IG5vdCBiZSBmaW5pc2hlZC4KCgoKClRoZSBtaWdyYXRpb24gb2Yg
-YmxvY2sgZGlydHkgYml0bWFwIHNob3VsZCBub3QgZGVwZW5kZW50IG9uIHBvc3QtY29weSBvciBw
-cmUtY29weSBtb2RlLgoKCkF0IDIwMjItMDktMTAgMTg6NTg6MTIsICJWbGFkaW1pciBTZW1lbnRz
-b3YtT2dpZXZza2l5IiA8dnNlbWVudHNvdkB5YW5kZXgtdGVhbS5ydT4gd3JvdGU6Cj5IaSEKPgo+
-T24gOS8xMC8yMiAxMzo0NywgU2Vhd2F5IExpdSjB9bqjzrApIHdyb3RlOgo+PiBoaSxpIGhhdmUg
-YSBxdWVzdGlvbgo+PiBpZiBmYWlsZWQgaW4gbWlncmF0aW9uIHVzaW5nIHBvc3QtY29weSBtb2Rl
-LGlzIHRoZXJlIHNvbWUgd2F5IHRvIHJlc3RvcmUgdGhlIG1lbW9yeSBkYXRhIGJhY2sgdG8gc291
-Y3JlIFZNPwo+PiAKPgo+Cj5BcyBmYXIgYXMgSSB1bmRlcnN0YW5kLCBubywgdGhlcmUgaXMgbm90
-Lgo+Cj5Qb3N0Y29weSBzdGFydGVkIGFjdHVhbGx5IG1lYW5zOiB0YXJnZXQgaGFzIHN0YXJ0ZWQu
-IFNvLCBSQU0gaXMgdG91Y2hlZCBieSB0YXJnZXQgVk0gcHJvY2Vzcywgbm8gd2F5IHRvIHJvbGxi
-YWNrLgo+Cj5TdGlsbCwgdGhpbmdzIGFyZSBub3Qgc28gYmFkOiB3aGVuIHlvdSBlbmFibGUgZGly
-dHktYml0bWFwcyBjYXBhYmlsaXR5LCBidXQgbm90IHBvc3Rjb3B5LXJhbSBjYXBhYmlsaXR5LCBS
-QU0gaXMgbWlncmF0ZWQgaW4gcHJlY29weSBhcyB1c3VhbC4gU28sIHdoZW4gdGFyZ2V0IHN0YXJ0
-ZWQsIHRoZSBvbmx5IHRoaW5nIHRoYXQgaXMgbm90IHlldCBtaWdyYXRlZCBpcyBkaXJ0eSBiaXRt
-YXAuIFNvLCBpbiB3b3JzdCBjYXNlIChtaWdyYXRpb24gZmFpbHVyZSBhZnRlciBwb3N0Y29weSBz
-dGFydGVkKSB5b3UnbGwgbG9vc2UgeW91ciBkaXJ0eSBiaXRtYXAuIFZNIGlzIG1pZ3JhdGVkIGFu
-ZCBub3JtYWxseSBydW5uaW5nIG9uIHRhcmdldC4gVW5maW5pc2hlZCBiaXRtYXBzIG9uIHRhcmdl
-dCBhcmUgYXV0b21hdGljYWxseSByZWxlYXNlZCAoc2VlIGNhbmNlbF9pbmNvbWluZ19sb2NrZWQo
-KSkuIFNvLCBpbiB3b3JzdCBjYXNlIHlvdSdsbCBoYXZlIHRvIHN0YXJ0IHlvdXIgaW5jcmVtZW50
-YWwgYmFja3VwIGNoYWluIGZyb20gYSBuZXcgZnVsbC1iYWNrdXAuCj4KPj4gCj4+IAo+PiC3otfU
-ztK1xNChw9cKPj4g1NogVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSA8dnNlbWVudHNvdkB5
-YW5kZXgtdGVhbS5ydT6jrDIwMjLE6jnUwjEwyNUgz8LO5zY6MTjQtLXAo7oKPj4gCj4+IE9uIDkv
-MTAvMjIgMDk6MzUsIGxpdWhhaXdlaSB3cm90ZToKPj4+IEZyb206IGxpdWhhaXdlaSA8bGl1aGFp
-d2VpQGluc3B1ci5jb20+Cj4+Pgo+Pj4gYnVnIGRlc2NyaXB0aW9uIGFzICBodHRwczovL2dpdGxh
-Yi5jb20vcWVtdS1wcm9qZWN0L3FlbXUvLS9pc3N1ZXMvMTIwMwo+Pj4gVXN1YWxseSx3ZSB1c2Ug
-dGhlIHByZWNvcHkgb3IgcG9zdGNvcHkgbW9kZSB0byBtaWdyYXRlIGJsb2NrIGRpcnR5IGJpdG1h
-cC4KPj4+IGJ1dCBpZiBibG9jay1kaXJ0eS1iaXRtYXAgc2l6ZSBtb3JlIHRoYW4gdGhyZXNob2xk
-IHNpemUsd2UgY2Fubm90IGVudHJ5IHRoZSBtaWdyYXRpb25fY29tcGxldGlvbiBpbiBtaWdyYXRp
-b25faXRlcmF0aW9uX3J1biBmdW5jdGlvbgo+Pj4gVG8gc29sdmUgdGhpcyBwcm9ibGVtLCB3ZSBj
-YW4gc2V0dGluZyAgdGhlIHBlbmRpbmcgc2l6ZSB0byBhIGZha2UgdmFsdWUodGhyZXNob2xkLTEg
-b3IgMCkgdG8gdGVsbCAgbWlncmF0aW9uX2l0ZXJhdGlvbl9ydW4gZnVuY3Rpb24gdG8gZW50cnkg
-dGhlIG1pZ3JhdGlvbl9jb21wbGV0aW9uLGlmIHBlbmRpbmcgc2l6ZSA+IHRocmVzaG9sZCBzaXpl
-Cj4+Pgo+PiAKPj4gCj4+IEFjdHVhbGx5LCBiaXRtYXBzIG1pZ3JhdGUgaW4gcG9zdGNvcHkuIFNv
-LCB5b3Ugc2hvdWxkIHN0YXJ0IHBvc3Rjb3B5IGZvciBpdCB0byB3b3JrIChxbXAgY29tbWFuZCBt
-aWdyYXRlLXN0YXJ0LXBvc3Rjb3B5KS4gVGhpcyBjb21tYW5kIHNpbXBseSBzZXQgdGhlIGJvb2xl
-YW4gdmFyaWFibGUsIHNvIHRoYXQgaW4gbWlncmF0aW9uX2l0ZXJhdGlvbl9ydW4oKSB3ZSdsbCBt
-b3ZlIHRvIHBvc3Rjb3B5IHdoZW4gbmVlZGVkLiBTbywgeW91IGNhbiBzdGFydCB0aGlzIGNvbW1h
-bmQgaW1tZWRpYXRlbHkgYWZ0ZXIgbWlncmF0ZSBjb21tYW5kLCBvciBldmVuIGJlZm9yZSBpdCwg
-YnV0IGFmdGVyIHNldHRpbmcgdGhlICJkaXJ0eS1iaXRtYXBzIiBjYXBhYmlsaXR5Lgo+PiAKPj4g
-RmFrZSBwZW5kaW5nIGlzIGEgd3JvbmcgdGhpbmcgdG8gZG8sIGl0IG1lYW5zIHRoYXQgeW91IHdp
-bGwgbWFrZSBkb3dudGltZSB0byBiZSBsYXJnZXIgdGhhbiBleHBlY3RlZC4KPj4gCj4+IC0tCj4+
-IEJlc3QgcmVnYXJkcywKPj4gVmxhZGltaXIKPgo+Cj4tLSAKPkJlc3QgcmVnYXJkcywKPlZsYWRp
-bWlyCg==
-------=_Part_4575_333676545.1662862139959
-Content-Type: text/html; charset=GBK
-Content-Transfer-Encoding: base64
+Looks good to me.
 
-PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
-Zm9udC1mYW1pbHk6QXJpYWwiPjxwIHN0eWxlPSJtYXJnaW46IDA7Ij48YnI+PC9wPjxkaXYgc3R5
-bGU9Im1hcmdpbjogMDsiPjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPjxkaXYgc3R5bGU9Im1hcmdp
-bjogMDsiPnNvbWV0aW1lcyAscG9zdC1jb3B5IG1vZGUgaXMgbm90IHRoZSBiZXN0IGNob2ljZS4g
-Rm9yIGluc3RhbmNlLCBTdXBwb3NpbmcgbWlncmF0ZSBwcm9jZXNzIHdpbGwgdGFrZSB0ZW4gbWlu
-dXRlcyxidXQgbmV0d29yayBtYXkgYmUgaW50ZXJydXB0dGVkIEluIHRoaXMgcHJvY2VzcyAuPC9k
-aXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+SWYgaXQgZG9lcyBoYXBwZW50aGUgLCBtZW1vcnkg
-ZGF0YSBvZiBWTSB3aWxsIGJlIHNwbGl0dGVkIGludG8gdHdvIHBhcnRzLCBhbmQgd2lsbCBub3Qg
-YmUgcm9sbGJhY2suVGhpcyBpcyBhIGJhZCBzaXR1YXRpb248L2Rpdj48ZGl2IHN0eWxlPSJtYXJn
-aW46IDA7Ij48YnI+PC9kaXY+PGRpdiBzdHlsZT0ibWFyZ2luOiAwOyI+c28mbmJzcDsgbWlncmF0
-ZS1zdGFydC1wb3N0Y29weSB3aWxsIG5vdCBiZSBzZXR0ZWQgaW4gY29uc2VydmF0aXZlIHNjZW5h
-cmlvLiBJbiB0aGlzIGNhc2UsIHRoZSBtaWdyYXRpb24gd2l0aCBibG9jayBkaXJ0eSBiaXRtYXAg
-bWF5IG5vdCBiZSBmaW5pc2hlZC48L2Rpdj48L2Rpdj48L2Rpdj48cCBzdHlsZT0ibWFyZ2luOiAw
-OyI+PGJyPjwvcD48ZGl2IHN0eWxlPSJwb3NpdGlvbjpyZWxhdGl2ZTt6b29tOjEiPjwvZGl2Pjxk
-aXYgaWQ9ImRpdk5ldGVhc2VNYWlsQ2FyZCI+PC9kaXY+PHAgc3R5bGU9Im1hcmdpbjogMDsiPlRo
-ZSBtaWdyYXRpb24gb2YgYmxvY2sgZGlydHkgYml0bWFwIHNob3VsZCBub3QgZGVwZW5kZW50IG9u
-IHBvc3QtY29weSBvciBwcmUtY29weSBtb2RlLjwvcD48cHJlPjxicj5BdCAyMDIyLTA5LTEwIDE4
-OjU4OjEyLCAiVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSIgJmx0O3ZzZW1lbnRzb3ZAeWFu
-ZGV4LXRlYW0ucnUmZ3Q7IHdyb3RlOgomZ3Q7SGkhCiZndDsKJmd0O09uIDkvMTAvMjIgMTM6NDcs
-IFNlYXdheSBMaXUowfW6o86wKSB3cm90ZToKJmd0OyZndDsgaGksaSBoYXZlIGEgcXVlc3Rpb24K
-Jmd0OyZndDsgaWYgZmFpbGVkIGluIG1pZ3JhdGlvbiB1c2luZyBwb3N0LWNvcHkgbW9kZSxpcyB0
-aGVyZSBzb21lIHdheSB0byByZXN0b3JlIHRoZSBtZW1vcnkgZGF0YSBiYWNrIHRvIHNvdWNyZSBW
-TT8KJmd0OyZndDsgCiZndDsKJmd0OwomZ3Q7QXMgZmFyIGFzIEkgdW5kZXJzdGFuZCwgbm8sIHRo
-ZXJlIGlzIG5vdC4KJmd0OwomZ3Q7UG9zdGNvcHkgc3RhcnRlZCBhY3R1YWxseSBtZWFuczogdGFy
-Z2V0IGhhcyBzdGFydGVkLiBTbywgUkFNIGlzIHRvdWNoZWQgYnkgdGFyZ2V0IFZNIHByb2Nlc3Ms
-IG5vIHdheSB0byByb2xsYmFjay4KJmd0OwomZ3Q7U3RpbGwsIHRoaW5ncyBhcmUgbm90IHNvIGJh
-ZDogd2hlbiB5b3UgZW5hYmxlIGRpcnR5LWJpdG1hcHMgY2FwYWJpbGl0eSwgYnV0IG5vdCBwb3N0
-Y29weS1yYW0gY2FwYWJpbGl0eSwgUkFNIGlzIG1pZ3JhdGVkIGluIHByZWNvcHkgYXMgdXN1YWwu
-IFNvLCB3aGVuIHRhcmdldCBzdGFydGVkLCB0aGUgb25seSB0aGluZyB0aGF0IGlzIG5vdCB5ZXQg
-bWlncmF0ZWQgaXMgZGlydHkgYml0bWFwLiBTbywgaW4gd29yc3QgY2FzZSAobWlncmF0aW9uIGZh
-aWx1cmUgYWZ0ZXIgcG9zdGNvcHkgc3RhcnRlZCkgeW91J2xsIGxvb3NlIHlvdXIgZGlydHkgYml0
-bWFwLiBWTSBpcyBtaWdyYXRlZCBhbmQgbm9ybWFsbHkgcnVubmluZyBvbiB0YXJnZXQuIFVuZmlu
-aXNoZWQgYml0bWFwcyBvbiB0YXJnZXQgYXJlIGF1dG9tYXRpY2FsbHkgcmVsZWFzZWQgKHNlZSBj
-YW5jZWxfaW5jb21pbmdfbG9ja2VkKCkpLiBTbywgaW4gd29yc3QgY2FzZSB5b3UnbGwgaGF2ZSB0
-byBzdGFydCB5b3VyIGluY3JlbWVudGFsIGJhY2t1cCBjaGFpbiBmcm9tIGEgbmV3IGZ1bGwtYmFj
-a3VwLgomZ3Q7CiZndDsmZ3Q7IAomZ3Q7Jmd0OyAKJmd0OyZndDsgt6LX1M7StcTQocPXCiZndDsm
-Z3Q7INTaIFZsYWRpbWlyIFNlbWVudHNvdi1PZ2lldnNraXkgJmx0O3ZzZW1lbnRzb3ZAeWFuZGV4
-LXRlYW0ucnUmZ3Q7o6wyMDIyxOo51MIxMMjVIM/Czuc2OjE40LS1wKO6CiZndDsmZ3Q7IAomZ3Q7
-Jmd0OyBPbiA5LzEwLzIyIDA5OjM1LCBsaXVoYWl3ZWkgd3JvdGU6CiZndDsmZ3Q7Jmd0OyBGcm9t
-OiBsaXVoYWl3ZWkgJmx0O2xpdWhhaXdlaUBpbnNwdXIuY29tJmd0OwomZ3Q7Jmd0OyZndDsKJmd0
-OyZndDsmZ3Q7IGJ1ZyBkZXNjcmlwdGlvbiBhcyAgaHR0cHM6Ly9naXRsYWIuY29tL3FlbXUtcHJv
-amVjdC9xZW11Ly0vaXNzdWVzLzEyMDMKJmd0OyZndDsmZ3Q7IFVzdWFsbHksd2UgdXNlIHRoZSBw
-cmVjb3B5IG9yIHBvc3Rjb3B5IG1vZGUgdG8gbWlncmF0ZSBibG9jayBkaXJ0eSBiaXRtYXAuCiZn
-dDsmZ3Q7Jmd0OyBidXQgaWYgYmxvY2stZGlydHktYml0bWFwIHNpemUgbW9yZSB0aGFuIHRocmVz
-aG9sZCBzaXplLHdlIGNhbm5vdCBlbnRyeSB0aGUgbWlncmF0aW9uX2NvbXBsZXRpb24gaW4gbWln
-cmF0aW9uX2l0ZXJhdGlvbl9ydW4gZnVuY3Rpb24KJmd0OyZndDsmZ3Q7IFRvIHNvbHZlIHRoaXMg
-cHJvYmxlbSwgd2UgY2FuIHNldHRpbmcgIHRoZSBwZW5kaW5nIHNpemUgdG8gYSBmYWtlIHZhbHVl
-KHRocmVzaG9sZC0xIG9yIDApIHRvIHRlbGwgIG1pZ3JhdGlvbl9pdGVyYXRpb25fcnVuIGZ1bmN0
-aW9uIHRvIGVudHJ5IHRoZSBtaWdyYXRpb25fY29tcGxldGlvbixpZiBwZW5kaW5nIHNpemUgJmd0
-OyB0aHJlc2hvbGQgc2l6ZQomZ3Q7Jmd0OyZndDsKJmd0OyZndDsgCiZndDsmZ3Q7IAomZ3Q7Jmd0
-OyBBY3R1YWxseSwgYml0bWFwcyBtaWdyYXRlIGluIHBvc3Rjb3B5LiBTbywgeW91IHNob3VsZCBz
-dGFydCBwb3N0Y29weSBmb3IgaXQgdG8gd29yayAocW1wIGNvbW1hbmQgbWlncmF0ZS1zdGFydC1w
-b3N0Y29weSkuIFRoaXMgY29tbWFuZCBzaW1wbHkgc2V0IHRoZSBib29sZWFuIHZhcmlhYmxlLCBz
-byB0aGF0IGluIG1pZ3JhdGlvbl9pdGVyYXRpb25fcnVuKCkgd2UnbGwgbW92ZSB0byBwb3N0Y29w
-eSB3aGVuIG5lZWRlZC4gU28sIHlvdSBjYW4gc3RhcnQgdGhpcyBjb21tYW5kIGltbWVkaWF0ZWx5
-IGFmdGVyIG1pZ3JhdGUgY29tbWFuZCwgb3IgZXZlbiBiZWZvcmUgaXQsIGJ1dCBhZnRlciBzZXR0
-aW5nIHRoZSAiZGlydHktYml0bWFwcyIgY2FwYWJpbGl0eS4KJmd0OyZndDsgCiZndDsmZ3Q7IEZh
-a2UgcGVuZGluZyBpcyBhIHdyb25nIHRoaW5nIHRvIGRvLCBpdCBtZWFucyB0aGF0IHlvdSB3aWxs
-IG1ha2UgZG93bnRpbWUgdG8gYmUgbGFyZ2VyIHRoYW4gZXhwZWN0ZWQuCiZndDsmZ3Q7IAomZ3Q7
-Jmd0OyAtLQomZ3Q7Jmd0OyBCZXN0IHJlZ2FyZHMsCiZndDsmZ3Q7IFZsYWRpbWlyCiZndDsKJmd0
-OwomZ3Q7LS0gCiZndDtCZXN0IHJlZ2FyZHMsCiZndDtWbGFkaW1pcgo8L3ByZT48L2Rpdj4=
-------=_Part_4575_333676545.1662862139959--
+Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+
+> ---
+>  block/file-posix.c               | 121 ++++++++++++++++++++++---------
+>  include/block/block_int-common.h |   3 +
+>  2 files changed, 88 insertions(+), 36 deletions(-)
+> 
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index 48cd096624..0a8b4b426e 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -1210,66 +1210,109 @@ static int hdev_get_max_hw_transfer(int fd, struct stat *st)
+>  #endif
+>  }
+>  
+> -static int hdev_get_max_segments(int fd, struct stat *st)
+> -{
+> +/*
+> + * Get a sysfs attribute value as character string.
+> + */
+> +static int get_sysfs_str_val(struct stat *st, const char *attribute,
+> +                             char **val) {
+>  #ifdef CONFIG_LINUX
+> -    char buf[32];
+> -    const char *end;
+> -    char *sysfspath = NULL;
+> +    g_autofree char *sysfspath = NULL;
+>      int ret;
+> -    int sysfd = -1;
+> -    long max_segments;
+> +    size_t len;
+>  
+> -    if (S_ISCHR(st->st_mode)) {
+> -        if (ioctl(fd, SG_GET_SG_TABLESIZE, &ret) == 0) {
+> -            return ret;
+> -        }
+> +    if (!S_ISBLK(st->st_mode)) {
+>          return -ENOTSUP;
+>      }
+>  
+> -    if (!S_ISBLK(st->st_mode)) {
+> -        return -ENOTSUP;
+> +    sysfspath = g_strdup_printf("/sys/dev/block/%u:%u/queue/%s",
+> +                                major(st->st_rdev), minor(st->st_rdev),
+> +                                attribute);
+> +    ret = g_file_get_contents(sysfspath, val, &len, NULL);
+> +    if (ret == -1) {
+> +        return -ENOENT;
+>      }
+>  
+> -    sysfspath = g_strdup_printf("/sys/dev/block/%u:%u/queue/max_segments",
+> -                                major(st->st_rdev), minor(st->st_rdev));
+> -    sysfd = open(sysfspath, O_RDONLY);
+> -    if (sysfd == -1) {
+> -        ret = -errno;
+> -        goto out;
+> +    /* The file is ended with '\n' */
+> +    char *p;
+> +    p = *val;
+> +    if (*(p + len - 1) == '\n') {
+> +        *(p + len - 1) = '\0';
+>      }
+> -    do {
+> -        ret = read(sysfd, buf, sizeof(buf) - 1);
+> -    } while (ret == -1 && errno == EINTR);
+> +    return ret;
+> +#else
+> +    return -ENOTSUP;
+> +#endif
+> +}
+> +
+> +static int get_sysfs_zoned_model(struct stat *st, BlockZoneModel *zoned) {
+> +    g_autofree char *val = NULL;
+> +    int ret;
+> +
+> +    ret = get_sysfs_str_val(st, "zoned", &val);
+>      if (ret < 0) {
+> -        ret = -errno;
+> -        goto out;
+> -    } else if (ret == 0) {
+> -        ret = -EIO;
+> -        goto out;
+> +        return ret;
+>      }
+> -    buf[ret] = 0;
+> -    /* The file is ended with '\n', pass 'end' to accept that. */
+> -    ret = qemu_strtol(buf, &end, 10, &max_segments);
+> -    if (ret == 0 && end && *end == '\n') {
+> -        ret = max_segments;
+> +
+> +    if (strcmp(val, "host-managed") == 0) {
+> +        *zoned = BLK_Z_HM;
+> +    } else if (strcmp(val, "host-aware") == 0) {
+> +        *zoned = BLK_Z_HA;
+> +    } else if (strcmp(val, "none") == 0) {
+> +        *zoned = BLK_Z_NONE;
+> +    } else {
+> +        return -ENOTSUP;
+>      }
+> +    return 0;
+> +}
+>  
+> -out:
+> -    if (sysfd != -1) {
+> -        close(sysfd);
+> +/*
+> + * Get a sysfs attribute value as a long integer.
+> + */
+> +static long get_sysfs_long_val(struct stat *st, const char *attribute) {
+> +#ifdef CONFIG_LINUX
+> +    g_autofree char *str = NULL;
+> +    const char *end;
+> +    long val;
+> +    int ret;
+> +
+> +    ret = get_sysfs_str_val(st, attribute, &str);
+> +    if (ret < 0) {
+> +        return ret;
+> +    }
+> +
+> +    /* The file is ended with '\n', pass 'end' to accept that. */
+> +    ret = qemu_strtol(str, &end, 10, &val);
+> +    if (ret == 0 && end && *end == '\0') {
+> +        ret = val;
+>      }
+> -    g_free(sysfspath);
+>      return ret;
+>  #else
+>      return -ENOTSUP;
+>  #endif
+>  }
+>  
+> +static int hdev_get_max_segments(int fd, struct stat *st) {
+> +#ifdef CONFIG_LINUX
+> +    int ret;
+> +
+> +    if (S_ISCHR(st->st_mode)) {
+> +        if (ioctl(fd, SG_GET_SG_TABLESIZE, &ret) == 0) {
+> +            return ret;
+> +        }
+> +        return -ENOTSUP;
+> +    }
+> +    return get_sysfs_long_val(st, "max_segments");
+> +#else
+> +    return -ENOTSUP;
+> +#endif
+> +}
+> +
+>  static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+>  {
+>      BDRVRawState *s = bs->opaque;
+>      struct stat st;
+> +    int ret;
+> +    BlockZoneModel zoned;
+>  
+>      s->needs_alignment = raw_needs_alignment(bs);
+>      raw_probe_alignment(bs, s->fd, errp);
+> @@ -1307,6 +1350,12 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+>              bs->bl.max_hw_iov = ret;
+>          }
+>      }
+> +
+> +    ret = get_sysfs_zoned_model(&st, &zoned);
+> +    if (ret < 0) {
+> +        zoned = BLK_Z_NONE;
+> +    }
+> +    bs->bl.zoned = zoned;
+>  }
+>  
+>  static int check_for_dasd(int fd)
+> diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+> index 8947abab76..7f7863cc9e 100644
+> --- a/include/block/block_int-common.h
+> +++ b/include/block/block_int-common.h
+> @@ -825,6 +825,9 @@ typedef struct BlockLimits {
+>  
+>      /* maximum number of iovec elements */
+>      int max_iov;
+> +
+> +    /* device zone model */
+> +    BlockZoneModel zoned;
+>  } BlockLimits;
+>  
+>  typedef struct BdrvOpBlocker BdrvOpBlocker;
+
+-- 
+Damien Le Moal
+Western Digital Research
 
 
