@@ -2,74 +2,159 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F17105B5E7C
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 18:46:07 +0200 (CEST)
-Received: from localhost ([::1]:53306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4CAE5B5EC5
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 19:06:10 +0200 (CEST)
+Received: from localhost ([::1]:38856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXmZN-00021w-EU
-	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 12:46:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38450)
+	id 1oXmsq-0007kq-Ui
+	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 13:06:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oXmX2-0000DW-Jx
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 12:43:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57966)
+ (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
+ id 1oXmq7-0005am-DG; Mon, 12 Sep 2022 13:03:19 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:9050)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oXmWx-0006uG-UB
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 12:43:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663001010;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BErffXn08NDnCLE908VJM83gknkH0+6TlM6okcIcdZM=;
- b=KEqXB2SjJyW9vyRDNqGPgOS0mczD8wrHQp+9tDL+CyPShVSLsLy+ZaGY0/O+zT8HPanoGX
- qWdTr/AnYl/TH2dp9d3fCfN3YLXm3FVdfKBoKIIX6mphn/O8PGkSbT+DugLOSYEU9Wd4xy
- nYK5mQ1NSTdnFODAJxgT4/uUiKd8fs4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-423-MoDWie-bOwW2NjyKF6cLzA-1; Mon, 12 Sep 2022 12:43:27 -0400
-X-MC-Unique: MoDWie-bOwW2NjyKF6cLzA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A6488037B7;
- Mon, 12 Sep 2022 16:43:27 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A0A6440C2064;
- Mon, 12 Sep 2022 16:43:25 +0000 (UTC)
-Date: Mon, 12 Sep 2022 17:43:22 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Nikolay Borisov <nborisov@suse.com>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, jfehlig@suse.com,
- Claudio.Fontana@suse.com, quintela@redhat.com
-Subject: Re: [PATCH] migration: support file: uri for source migration
-Message-ID: <Yx9hqjMHYufYOlg3@redhat.com>
-References: <b727f0da-8051-2ce5-b1ab-a57452d2b0c3@suse.com>
- <20220908102633.123536-1-nborisov@suse.com>
- <Yx9TO61m1tyUU5oy@redhat.com>
- <a0ba7e7c-f5c4-4772-154a-7e09d540ff9d@suse.com>
+ (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
+ id 1oXmq4-0001kO-IW; Mon, 12 Sep 2022 13:03:18 -0400
+Received: from pps.filterd (m0127842.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28CH07Rg007978;
+ Mon, 12 Sep 2022 10:03:11 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version;
+ s=proofpoint20171006; bh=DLBjc75jRkIzReUgfBxvunArbM6mQWxWmDPNVqGjvWQ=;
+ b=lrAmsJNRwhYDq9jKREih6w/sVuEfnjC5MmiQul1rZU6v7unjz2FPFv0KM9hu7m5/Io8v
+ LH3gvBneHzdDoDZ9qz1xU9S9Qw+VrENdNutmftP4Bjxyi4qMQvYJKJAf4EaLr5qN/1xk
+ /4wHiC7+6SlYr0ygoucNxrZ4h66JPpm95Sa/+kjPB1xWookbRT+lTEKg/ZVoJs3Vu+Uu
+ czCiYygJrGEejlz48rGTdp4qJd8LC9B47zkE0oBnD1wRiFWUGTjgBDfqRnP3jc4yJ5AS
+ wdpPZf/zqZFfZVITPtD+CTMsDOEHH1PaR/iXhbSe5RLU1PXVAzsD+An2wLFuSWWZN6Mp Kw== 
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2109.outbound.protection.outlook.com [104.47.55.109])
+ by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3jgswfv6mh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Sep 2022 10:03:11 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GR7aPiOWcIASe+rawMiMphNCMBP3L6Q2+ctK8h1tMwXlbYoX8al68z59reH+nAdRs1kWs0SjW/16TeYzzSlLHzvfJkYPYjaELr7b68jVNyBtMrIUR+EuRYHPt8pC5LPn/p6T0RUyhlgP7vENS8CzzXKm5ZLEelkFE3U3/Ec5DLrPd92vVSr9NohWK7iGKoAdME//4BpcVQFheBzlbQJmk1+V6sHICaNJzkXp/evBqjCECVd233iXUdPW8NeQirSvfuXeZ54SvGssRzn9RB+GURsEE6VJHhHRlyH7CiPsAFWl5BWsPjOYC9tapTsUI3qvWuLjbore2dBEsacy80mq5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DLBjc75jRkIzReUgfBxvunArbM6mQWxWmDPNVqGjvWQ=;
+ b=alAgQ5oOl4deNlrr7dpAH0BmaDEnl2aCsUKKkEsW5Re1hk9dWn37qGDVfDOE7EFTCghvOrFzu0lc+aope/Uk2vcmdc6it/nUUGCJdjQH4BV2bmpb4Uw7gxUKyzg4f8M6xRHFncfrh0vaurc+8zfGgyAyOSBP9e6a/UrGPkjnZNrv8yx9+nMr7ADzEOiVDCTYk29bF9VlPIBglFLBqA0mewdqDfWYT5DMzW0JEj0xmEhQ2kdXMeDau9R9XSYikMp40CXCUod7c3vNCkn0rLooRmUWgMCaNngv9seo369ViPWIwEoTufqBl1p4WUy9ardO2vUUbSjQJSJK6HibIoAeYw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from BL3PR02MB7938.namprd02.prod.outlook.com (2603:10b6:208:355::20)
+ by CO6PR02MB7828.namprd02.prod.outlook.com (2603:10b6:303:a8::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.18; Mon, 12 Sep
+ 2022 17:03:09 +0000
+Received: from BL3PR02MB7938.namprd02.prod.outlook.com
+ ([fe80::e8ab:ff5d:aded:71ea]) by BL3PR02MB7938.namprd02.prod.outlook.com
+ ([fe80::e8ab:ff5d:aded:71ea%3]) with mapi id 15.20.5612.022; Mon, 12 Sep 2022
+ 17:03:09 +0000
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
+To: Daniil Tatianin <d-tatianin@yandex-team.ru>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "yc-core@yandex-team.ru"
+ <yc-core@yandex-team.ru>, "mst@redhat.com" <mst@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>, "kwolf@redhat.com"
+ <kwolf@redhat.com>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "jasowang@redhat.com" <jasowang@redhat.com>
+Subject: Re: [PATCH v3 0/5] vhost-user-blk: dynamically resize config space
+ based on features
+Thread-Topic: [PATCH v3 0/5] vhost-user-blk: dynamically resize config space
+ based on features
+Thread-Index: AQHYwcKvP8gUp4hBlkmx4MOh0GqH4a3TWZaAgAiR+gD//+DrgA==
+Date: Mon, 12 Sep 2022 17:03:09 +0000
+Message-ID: <33F94439-31C8-4160-9D50-F04A1515F5E9@nutanix.com>
+References: <20220906073111.353245-1-d-tatianin@yandex-team.ru>
+ <20220907040149.GA6661@raphael-debian-dev>
+ <e4b1a094-9674-1242-b479-911983f4039f@yandex-team.ru>
+In-Reply-To: <e4b1a094-9674-1242-b479-911983f4039f@yandex-team.ru>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Microsoft-MacOutlook/16.64.22081401
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BL3PR02MB7938:EE_|CO6PR02MB7828:EE_
+x-ms-office365-filtering-correlation-id: 5256cf21-3e1a-4380-c8f1-08da94e0ab1c
+x-proofpoint-crosstenant: true
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 5eeU2Z5/HDMbdtQSjPh7X9tpbCFLRTgft9oHrom6iDbCEumFKv1S2tNKMYuDC2JSjJYKy2vBtw6vWg5Rtasw6pz59wt0ZHe9q4aWUBlWY1aF8c5VEYOdsdLsv6Zq83goIdkIPi1KShqJc6FYQguleXglFznWPidR4j5TR3ewmpLyyDeUXDaUpTwDakTkx7Sbf5HfLnRW6b+zCc8QhpmwR3Wjl2HHC7JQzfBbVY5RWoDiu3v0LSYNdyL2ONeqRGxDH4RHgWI04IY0aqkouNOn9O2Opwi5A+XGnHXPryW7Y52YYgqsZiCBSMMDoczYBmGgIHQKUvzaj8e27GzbuCILYSlNBULrmapYg0VPFz1vW6W10Jll4G38iGaUVlsB3WM+3Rbwpu0AzxuaX4QTxxAivZ1Wl1zLxgfjtkBnlJaOTMLqZ4G8UM34HtdIRUvw4pXSBp80DoQsAbfSwZ+hvlJOHlHZ0hUGVvHCrkGpWuuNr5uDZscCzNQlJSmVJQTMci6yoKvrD2oiC49QOH46ztv6cKwFwwq6RD/6dWGIQUKqTbjtQsMi2HTKi3kCW6dK3NlPrg5JZVg9ophGcVFO822u8AzDK3D222bD7w62HYKgQxYy7cZVSTCsPn6pZ3P6+yZed/Hbt/C8IrBooAkkKnsymQzeZtMnQX3KI83IApCP+zKxlNJucRoMXEQ+hTm/Xpf2l8WMR7pk8MDg9tqzUInSRvvjQh2KrVJWyoP8peCTt5mz8M7njS8fhRvbXNmcehTMTGBQ9im3VuHwJs8//XKO1up8yU0abXvO+mW0oxhQvdU=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL3PR02MB7938.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230019)(366004)(396003)(39860400002)(376002)(346002)(136003)(451199012)(38070700005)(186003)(6512007)(6506007)(6486002)(36756003)(86362001)(2906002)(76116006)(33656002)(64756008)(66556008)(66446008)(83380400001)(2616005)(122000001)(8676002)(91956017)(44832011)(6916009)(54906003)(316002)(8936002)(4744005)(38100700002)(5660300002)(4326008)(66476007)(66946007)(478600001)(71200400001)(26005)(41300700001)(45980500001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UXB6a2h3L09Db0dzZVJ5a202V3dDRUxFRnFHUVZOUkUwbFFGZysxK1Q0YVZ1?=
+ =?utf-8?B?MVpSOFlUNDBhaU92N2dFekNhbzZiOGZXd2VZenVoOHBaQzdWNlVZQmZwbStF?=
+ =?utf-8?B?S0lKZzl4clBqTjlnK2s2QmVPS0VLVkI1UzFWZGJnWitzM0VFTGY2TGxGQ2M4?=
+ =?utf-8?B?bDFRRHJ0WEZGTG5RWUpoa3dLNEYrNTZmMjl1VUdMQlJVU3JKa2ZIZ0VlMSty?=
+ =?utf-8?B?SnBGeGd3dHZOcldva3AwRWVkMUY4d0dhdzd2QjdUNmFjRC9KUnUxTi9hUFFl?=
+ =?utf-8?B?S1V1a05aQ0wwWnRyWDFjWFBLd2xYLzdtc1BkZnVydXpQeEpUUnh2akpVZWR6?=
+ =?utf-8?B?SWJRMS9IZVNjMXBZdTV5dW5qTjl0R2pya0RXclZrOUpmR2RrL3hiYWZLQkVC?=
+ =?utf-8?B?MTFWeG11NXdpWWl2cU5nRGxNbVprWVBuV1Z0ZkZua09SMStNUFZISmhMSG53?=
+ =?utf-8?B?TnFpbDB6ZWlBb2JzY2V2OU9BS0ZEVGNkT2F0aEdOVWN0NjAzMXUyMHpXYXZS?=
+ =?utf-8?B?OFM0Z1JTTnJ4Zjh3anJGZDF3ZjlzSFNpdVYyd1lVM1cvY3BGaGlZMnJJYXNt?=
+ =?utf-8?B?eGVadTh1cnFyUS9PcE53aEdFSWhLTzhkS2Y5djVyNndMY2twckpkTS9yelJF?=
+ =?utf-8?B?T1o2WlNqN0ZPREgxR3ZXUmFCYXlwd09CelNIcTc0Y2duemFsOG5sZkplMUZs?=
+ =?utf-8?B?dU44N1VjQkh1YVVkMjZhMnlGdVVvTStMZVp5ODVFb2NyRkI2Y2dvbFhMY2Q0?=
+ =?utf-8?B?SjJHNS8veHltMWIyOVZKRUVTSElRc0dvNkRaR1FjYU1Nb2N1cVh4eUNVL0xv?=
+ =?utf-8?B?emdxaVZQZG14SURBZkFtY3RpMCthdzZwM0l0QlRaVmFOVTlTRWQwdXBKTTBz?=
+ =?utf-8?B?K2ZQVm42SnZnNU1XSzIwTVVpWDI5Z3lNQjZhcjJ6ZDZWeDd5eXRBSCtwTGVp?=
+ =?utf-8?B?YWlGWHNPWHhkcFE1eHFydzZONnY4cSt5bDI5ZUVpK3Q3V2huZm5yOU12YnZm?=
+ =?utf-8?B?UTJmVHdabm9WNVp0VW51U0hqMHNEVE9QczFlc1hpemRyYzRVS1BBdFFNMlZH?=
+ =?utf-8?B?K0V2NERRblZ0dnFMaEJTTzgrWHh5UHFEcFNVSGIwNllma0NTNXY0SGl3c2hm?=
+ =?utf-8?B?aEk1MHdpZCtQWklRM1pHcUJxNzJ4ZFhONGVjaDh5dTV5M1N1VGx4OGtyd0M3?=
+ =?utf-8?B?dGt6aHdvSTU4SE12Q2JLcTFPTk9NNmt2YW9ydTNiclBHck5YRGorTnlNM2hD?=
+ =?utf-8?B?YzdhcVZQL2lyRVkzVFZ4dFN3b0l1emNlcUpnQlpENTJicDNyV3lmWThnYlFF?=
+ =?utf-8?B?d3NkNE5nMmYvV0k1cEF5YmRMOE1tU3ZmTG12QkxHMFptNFlma1VZS0ZFaDBW?=
+ =?utf-8?B?TUVveVNFQW5ONUFtM1JNaXZiRjRJT2R3eENQY0xrKzlFSStVaVhDN3NpRi92?=
+ =?utf-8?B?cGpSNlFJL0Q0bEp0QnZLbXZ3ZUQyQTYyM1kvTU9JS3J5Nkl0amw2MzVENEF6?=
+ =?utf-8?B?QmtBeTFLWm9yQW5lYTRrUVRYWDgxbWQybmZyZVg4NFFmOERRM0EyUVJlSnpU?=
+ =?utf-8?B?RzA3czcyUVU4ZUJIeVVKUnVERkpPSUQ4cjNhTkFVenJVL1ZieUNjZTBEY2FE?=
+ =?utf-8?B?ek15TjZzNjFCVWlhLzZ1Q2pJTTE0K1laOHh5Y1ZVMjFndUlpblRpcStZRjVI?=
+ =?utf-8?B?MW5hZUp4VWIxTDduSWdUOW9tR1NPTE52cHg1VWlFYkNWVzNTc0lRR09pZFk1?=
+ =?utf-8?B?QUppWHNBank5YUJVNTBBdVR6M3pxTEtqNUdQZGgwR1A4Ump0eE52aWZMZmJC?=
+ =?utf-8?B?TzZuMTZqMWR0cVJLM2plK3NzQndFVjhyNjNySGxBbTN5bFpoQUtscTVmYzFj?=
+ =?utf-8?B?aFpNd1NNSlB4UWd4Nms0SXFoR0Nvdm1rc0x5aCtzRGl5NXpJRloyYm53WCt1?=
+ =?utf-8?B?VG9UblJDNmZGRHV4MUpuMC85am5xTjdiOXdiUmQwUkRGYWQyZXJRb0J3SzBL?=
+ =?utf-8?B?emdUdWZFTmdnSFFGYTg0ell3RUZmTjh6ck9yanZQaHF0eXFmbVFzdzEvNU10?=
+ =?utf-8?B?czZ1NnhOUXRVaHFvNTRUb3FaU1dua1FuWEdVWnBjR011R293ZnNDQTBlSkJt?=
+ =?utf-8?B?N1RmVWZVeDJUS3AvOUVMbUIvQmdRcVJjRUpzMnppaXFMd212dlJ3S0JTaFcr?=
+ =?utf-8?Q?EggZc6Chqd/Sq4HhNhvYBwo=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <60F5C8D6CED5584399432183566C07AA@namprd02.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a0ba7e7c-f5c4-4772-154a-7e09d540ff9d@suse.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL3PR02MB7938.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5256cf21-3e1a-4380-c8f1-08da94e0ab1c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Sep 2022 17:03:09.0409 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: YM6HR+Jlqs52TrcdiehXiCKMIj5Iz+51Zi6lrqwJygDB3alVUWVfBOoGBAP/sjetRTKm79Bactjdw0RKrVmO52MY4FUOgWf3FxG0mTEXJok=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR02MB7828
+X-Proofpoint-GUID: HwlclpDGR71DAlxQzUBTD2BZ67nWizp4
+X-Proofpoint-ORIG-GUID: HwlclpDGR71DAlxQzUBTD2BZ67nWizp4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-12_12,2022-09-12_02,2022-06-22_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.155.12;
+ envelope-from=raphael.norwitz@nutanix.com; helo=mx0b-002c1b01.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,71 +168,14 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 12, 2022 at 07:30:50PM +0300, Nikolay Borisov wrote:
-> 
-> 
-> On 12.09.22 г. 18:41 ч., Daniel P. Berrangé wrote:
-> > On Thu, Sep 08, 2022 at 01:26:32PM +0300, Nikolay Borisov wrote:
-> > > This is a prototype of supporting a 'file:' based uri protocol for
-> > > writing out the migration stream of qemu. Currently the code always
-> > > opens the file in DIO mode and adheres to an alignment of 64k to be
-> > > generic enough. However this comes with a problem - it requires copying
-> > > all data that we are writing (qemu metadata + guest ram pages) to a
-> > > bounce buffer so that we adhere to this alignment.
-> > 
-> > The adhoc device metadata clearly needs bounce buffers since it
-> > is splattered all over RAM with no concern of alignemnt. THe use
-> > of bounce buffers for this shouldn't be a performance issue though
-> > as metadata is small relative to the size of the snapshot as a whole.
-> 
-> Bounce buffers can be eliminated altogether so long as we simply switch
-> between buffered/DIO mode via fcntl.
-> 
-> > 
-> > The guest RAM pages should not need bounce buffers at all when using
-> > huge pages, as alignment will already be way larger than we required.
-> > Guests with huge pages are the ones which are likely to have huge
-> > RAM sizes and thus need the DIO mode, so we should be sorted for that.
-> > 
-> > When using small pages for guest RAM, if it is not already allocated
-> > with suitable alignment, I feel like we should be able to make it
-> > so that we allocate the RAM block with good alignemnt to avoid the
-> > need for bounce buffers. This would address the less common case of
-> > a guest with huge RAM size but not huge pages.
-> 
-> Ram blocks are generally allocated with good alignment due to them being
-> mmaped(), however as I was toying with eliminating bounce buffers for ram I
-> hit an issue where the page headers being written (8 bytes each) aren't
-> aligned (naturally). Imo I think the on-disk format can be changed the
-> following way:
-> 
-> 
-> <ramblock header, containing base address of ramblock>, each subsequent page
-> is then written at an offset from the base address of the ramblock, that is
-> it's index would be :
-> 
-> page_offset = page_addr - ramblock_base, Then the page is written at
-> ramblock_base (in the file) + page_offset. This would eliminate the page
-> headers altogether. This leaves aligning the initial ramblock header
-> initially. However, this would lead to us potentially having to issue 1
-> lseek per page to write - to adjust the the file position, which might not
-> be a problem in itself but who knows. How dooes that sound to you?
-
-Yes, definitely. We don't want the headers on front of each page,
-just one single large block. Looking forward to multi-fd, we don't
-want to be using lseek at all, because that changes the file offset
-for all threads using the FD. Instead we need to be able to use
-pread/pwrite for writing the RAM blocks.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+PiBUaGFua3MgZm9yIHJldmlld2luZyEgQ291bGQgeW91IHNlbmQgYSBQdWxsIHJlcXVlc3Q/IE9y
+IGRvIHdlIG5lZWQgYW4gDQo+IGFjayBmcm9tIHNvbWVvbmUgZWxzZT8NCg0KbXN0IHR5cGljYWxs
+eSBpbmNsdWRlcyB0aGUgdmhvc3QtdXNlci1ibGsgcGF0Y2hlcyBpbiBoaXMgUFJzLiBVc3VhbGx5
+IGEgZmV3DQpvdGhlciBwZW9wbGUgcmV2aWV3IGJ1dCBJJ20gbm90IHN1cmUgaXQncyByZXF1aXJl
+ZC4NCg0KQSBsb3Qgb2YgZm9sa3MgaGF2ZSBiZWVuIGJ1c3kgcHJlcHBpbmcgZm9yIEtWTSBGb3J1
+bSB0aGUgbGFzdCBmZXcgd2Vla3MNCnNvIEkgd291bGQgZXhwZWN0IGRlbGF5ZWQgcmVzcG9uc2Vz
+L3Jldmlld3MuDQoNCg==
 
