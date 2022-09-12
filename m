@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 741C75B5CEE
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 17:09:02 +0200 (CEST)
-Received: from localhost ([::1]:48328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E4B75B5D4A
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 17:35:22 +0200 (CEST)
+Received: from localhost ([::1]:42242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXl3U-00042h-UQ
-	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 11:09:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40620)
+	id 1oXlSx-0001oj-PD
+	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 11:35:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oXl1U-00024y-8u
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 11:06:59 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:46972)
+ id 1oXlRK-0000Fk-CY
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 11:33:38 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:35533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oXl1S-0000FO-6p
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 11:06:55 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- k6-20020a05600c1c8600b003a54ecc62f6so7400678wms.5
- for <qemu-devel@nongnu.org>; Mon, 12 Sep 2022 08:06:53 -0700 (PDT)
+ id 1oXlRI-0004h1-IC
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 11:33:38 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id bz13so15995098wrb.2
+ for <qemu-devel@nongnu.org>; Mon, 12 Sep 2022 08:33:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=dFRNNeq6H79B1UOBui48lqrBUDaCbNHBHchXQRDyCtc=;
- b=n4m5r/qJv9Y9UtZj20WctdOuhOjYymuCDVU1bo8E65Fgr7B6eLBd0Ck1fY+3ey83Uw
- 3Vi0IQKfluyKMk+n5sUkheayNSnVoKPeBVkC6nPwePKrvNT3s6Cd4yYEPnn8E4m9w+h9
- Pf5YwSoyFhGM8GijtU2TEB7+1cUVv9VXdPuiT9hRbf6v3Vmq8V7bMKyvc9Y3Myzu2vZr
- M6rgpxhGeDOT9uoIdYBEEhIvo7zy60xNmgK/ezmYliCNp+nkYFYZRP1ZZuto7gcmLTcM
- S6h8t24qMukCeHa6wC26l+6XGVcRl1KTYNwfjkCnARkMT51SUyvDRz3MamGYwgKXzG5v
- tEfg==
+ bh=JP8OTRLHjjXikH5h0BJxX4b4TV7fcZMaFqhQuNLlC/Y=;
+ b=aXffLp4Q1cxfYwfqq5qKXITxxOkmFRMAR+bdxefEmjwjSE8F/B2wwrwmctPPM2fNPc
+ ByA5VJxfggBCqv6gncLbsm97G1FuFSMy4E7RsdIVlWZjNhOr6JBBuwe6YIzsY6Va67Xo
+ csTqT8N00W3I8oiWf+LNRbBfirRI/I+tZkIpKAtg7J90uSJYYObCrg7S//iLwi0maaAz
+ xHRqZ+EGn4ROcEsFeWA9qW25NfJNvZSLxNaDk656PvNJ3S0GfsJR9zt3+eLOvxF3Oyvd
+ 4WIyJNcEz9A0eUz1d31h4LzEWuF7zisoeUvToUlR4H0gM/lA37SoAOO3LN6KAOldXD8X
+ da+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=dFRNNeq6H79B1UOBui48lqrBUDaCbNHBHchXQRDyCtc=;
- b=Cv644fhJ8N7ja0SKzu/AVvmCA8K/bmJLOdN+YemRWIQpkp4bIK9h7Rq5zDuuhTlv+7
- BtAamV+FU2LoeLJKxbC39XZlYZhR0WS5eNO0EzOtNW1CG/oehpGs/echGIqDYuGz9NdX
- n33oFLTF6Ck3TGyH1IboeVDp+OZdHqo8iyzwVAbK5vu4AGFdWc21+4fbx4hgixeEDfuY
- 8oJKfstFnGRdelPwDt9HZHlG44x19BDjcn4eFv3ipSon0iI/wnv2BUTQhwqDyaqSioI2
- zMbVRJMFPfH/+PDvdB4Q9VHkgTg53sBshYnDhtdKUzeZzk2wNqUXOcJMrNKE56kvtkI5
- t52A==
-X-Gm-Message-State: ACgBeo38tUQiuMOqb6C0A9iiX9VFNSs7fXJtx4GzdPGbc6tHE2KuXZff
- CV3wkXZkVe5qahUjNPHu+m5xcQ==
-X-Google-Smtp-Source: AA6agR4meGlcVVxzJRLwFq649dZ34xOMQJQM0r5o9oivS4Cx8xcNaiIlKImYAhb1pS+XkUgbSvnBhA==
-X-Received: by 2002:a7b:ca53:0:b0:3b4:90c4:e07 with SMTP id
- m19-20020a7bca53000000b003b490c40e07mr2200788wml.150.1662995211930; 
- Mon, 12 Sep 2022 08:06:51 -0700 (PDT)
+ bh=JP8OTRLHjjXikH5h0BJxX4b4TV7fcZMaFqhQuNLlC/Y=;
+ b=g6txwMNCqfSftcIyKZQyF/7htTiylpIIsse3nfWDaAgwJzKkC35zSUza0WcPyR+9RO
+ Pq3VEOjkBQ1UaCmwHnPoq2k3Bm3xzx8Mc4tx75mC59lFDCC4KYGsWgujPYKEC3OzRVeo
+ WvBX6h29N5yyYrSiH15BnwuCmai9uHgKpOgnB2FrxhniqS6ADkVxZTGyASblHnz1IeC8
+ W8IS0gEqWCBMJUU0MmIryPyxUaUZ6kN/ArbEQAidJL1JM3UMS0N+55HNFX5CavjdZBUJ
+ zGO7dS1BX9eUxkTiddKRkgGZIIwqb8MVOySG3jC90t0opJ5+KTP/IJ0Tm80EHuPGoaep
+ wf7w==
+X-Gm-Message-State: ACgBeo242RcwsMLjfOjeuL+broEO++GvUbIYtB2S2K52M5YCnARBgJth
+ h2jbmE1NlQTgf35ml2emxHda3Q==
+X-Google-Smtp-Source: AA6agR43T8ryshPDhTgU9SwKe+N6tlw7/1zuRVutkPQyfAUa1AoZKf5iE0lVnfkGIo6NTYqlnnFQyg==
+X-Received: by 2002:a5d:47ac:0:b0:22a:9d95:c3d with SMTP id
+ 12-20020a5d47ac000000b0022a9d950c3dmr2372996wrb.35.1662996814688; 
+ Mon, 12 Sep 2022 08:33:34 -0700 (PDT)
 Received: from [10.119.17.153] ([89.101.193.69])
  by smtp.gmail.com with ESMTPSA id
- y25-20020a05600c365900b003b483000583sm5006903wmq.48.2022.09.12.08.06.51
+ r19-20020a05600c35d300b003a83fda1dc5sm11067560wmq.44.2022.09.12.08.33.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Sep 2022 08:06:51 -0700 (PDT)
-Message-ID: <2b54c1ee-8779-795b-d120-2e5f95aab3f3@linaro.org>
-Date: Mon, 12 Sep 2022 16:06:48 +0100
+ Mon, 12 Sep 2022 08:33:33 -0700 (PDT)
+Message-ID: <176dac2e-16b1-6845-5341-0164b1ad0d68@linaro.org>
+Date: Mon, 12 Sep 2022 16:33:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 25/37] target/i386: reimplement 0x0f 0xd0-0xd7, 0xe0-0xe7, 
- 0xf0-0xf7, add AVX
+Subject: Re: [PATCH 26/37] target/i386: reimplement 0x0f 0x3a, add AVX
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20220911230418.340941-1-pbonzini@redhat.com>
- <20220911230418.340941-26-pbonzini@redhat.com>
+ <20220911230418.340941-27-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220911230418.340941-26-pbonzini@redhat.com>
+In-Reply-To: <20220911230418.340941-27-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -96,32 +94,75 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/12/22 00:04, Paolo Bonzini wrote:
-> +    [0xd7] = X86_OP_ENTRY3(PMOVMSKB,  G,d, None,None, U,x,  vex7 mmx avx2_256 p_00_66), /* MOVNTQ/MOVNTDQ */
+> @@ -839,6 +910,10 @@ static bool decode_insn(DisasContext *s, CPUX86State *env, X86DecodeFunc decode_
+>           }
+>       }
+>       if (e->op3 != X86_TYPE_None) {
+> +        /*
+> +         * A couple instructions actually use the extra immediate byte for an Lx
+> +         * register operand; those are handled in the gen_* functions as one off.
+> +         */
+>           assert(e->op3 == X86_TYPE_I && e->s3 == X86_SIZE_b);
+>           s->rip_offset += 1;
+>       }
 
-Cut and paste comment?
+Comment should be squashed back with the code.
 
-> +BINARY_INT_MMX(PMULLW,  pmullw)
-
-tcg_gen_gvec_mul
-
-> +static void gen_VCVTpd_dq(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+> +static inline void gen_binary_imm_sse(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode,
+> +                                      SSEFunc_0_epppi xmm, SSEFunc_0_epppi ymm)
 > +{
-> +    SSEFunc_0_epp fn = NULL;
-> +    switch (sse_prefix(s)) {
-> +    case 0x66:
-> +        fn = s->vex_l ? gen_helper_cvttpd2dq_ymm : gen_helper_cvttpd2dq_xmm;
-> +        break;
-> +    case 0xf3:
-> +        fn = s->vex_l ? gen_helper_cvtdq2pd_ymm : gen_helper_cvtdq2pd_xmm;
-> +        break;
-> +    case 0xf2:
-> +        fn = s->vex_l ? gen_helper_cvtpd2dq_ymm : gen_helper_cvtpd2dq_xmm;
-> +        break;
-> +    }
-> +    fn(cpu_env, s->ptr0, s->ptr2);
-> +}
+> +    TCGv_i32 imm = tcg_const_i32(decode->immediate);
 
-Earlier decode?
+tcg_constant_i32.
+
+> +static inline void gen_unary_imm_fp_sse(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode,
+> +                                        SSEFunc_0_eppi xmm, SSEFunc_0_eppi ymm)
+> +{
+> +    TCGv_i32 imm = tcg_const_i32(decode->immediate);
+
+Likewise.
+
+> +static void gen_PALIGNR(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+> +{
+> +    TCGv_i32 imm = tcg_const_i32(decode->immediate);
+
+Likewise, but could simply be implemented with inline with extract2.
+
+> +static void gen_PCMPESTRI(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+> +{
+> +    TCGv_i32 imm = tcg_const_i32(decode->immediate);
+
+tcg_constant_i32.
+
+> +static void gen_PCMPESTRM(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+> +{
+> +    TCGv_i32 imm = tcg_const_i32(decode->immediate);
+
+Likewise.
+
+>   static void gen_PCMPGTB(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+>   {
+>       int vec_len = sse_vec_len(s, decode);
+>         tcg_gen_ld8u_tl(s->T0, s->ptr1, offsetof(ZMMReg, ZMM_B(val)));
+> +        break;
+> +    case MO_16:
+> +        tcg_gen_ld16u_tl(s->T0, s->ptr1, offsetof(ZMMReg, ZMM_W(val)));
+> +        break;
+
+Mailer breakage?
+
+> +    if (new_mask != 15) {
+> +        if ((val >> 0) & 1)
+> +            tcg_gen_st_i32(zero, s->ptr0, offsetof(ZMMReg, ZMM_L(0)));
+> +        if ((val >> 1) & 1)
+> +            tcg_gen_st_i32(zero, s->ptr0, offsetof(ZMMReg, ZMM_L(1)));
+> +        if ((val >> 2) & 1)
+> +            tcg_gen_st_i32(zero, s->ptr0, offsetof(ZMMReg, ZMM_L(2)));
+> +        if ((val >> 3) & 1)
+> +            tcg_gen_st_i32(zero, s->ptr0, offsetof(ZMMReg, ZMM_L(3)));
+> +    }
+
+Missing braces.
 
 
 r~
