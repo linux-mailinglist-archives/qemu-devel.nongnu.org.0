@@ -2,66 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0A6B5B5ADC
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 15:08:25 +0200 (CEST)
-Received: from localhost ([::1]:57876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88C115B5AEA
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 15:11:55 +0200 (CEST)
+Received: from localhost ([::1]:46406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXjAm-0006pM-NM
-	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 09:08:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46306)
+	id 1oXjE9-00023n-Fe
+	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 09:11:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oXiiT-0005G8-AN
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 08:39:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31154)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oXiiO-0007nk-AS
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 08:39:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662986340;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZrNdS7MF5rWhtAnAXfiNppJ2y3XYLSGAh78N9CvzHrE=;
- b=G1VzvlRrSvnOf6KwTTf3W5pi5QnxxtRs9aEZbxcpcss1m9B2c2T1PmiO151ya9MtZyDxfl
- /3qWCJcCd6aIPKNy0VK4zBAWc/HYM7ELIQ8NM6zuhxdbP0DFHgvuClITU6yR9dopa4uTm3
- tA/VrHypPbKn+dybLusrSvAUzJGtbsk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-628-LE-zHJMWM2iQMRmSTkRFOA-1; Mon, 12 Sep 2022 08:38:54 -0400
-X-MC-Unique: LE-zHJMWM2iQMRmSTkRFOA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7351010665A4;
- Mon, 12 Sep 2022 12:38:54 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.241])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A2D1C15BA4;
- Mon, 12 Sep 2022 12:38:54 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Nicolin Chen <nicolinc@nvidia.com>, alex.williamson@redhat.com
-Cc: qemu-devel@nongnu.org, kwankhede@nvidia.com, avihaih@nvidia.com,
- shayd@nvidia.com, jgg@nvidia.com
-Subject: Re: [PATCH] vfio/common: Do not g_free in vfio_get_iommu_info
-In-Reply-To: <20220910004245.2878-1-nicolinc@nvidia.com>
-Organization: Red Hat GmbH
-References: <20220910004245.2878-1-nicolinc@nvidia.com>
-User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Mon, 12 Sep 2022 14:38:52 +0200
-Message-ID: <8735cwu5r7.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oXj4t-0006Of-JE
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 09:02:19 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:38531)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oXj4r-0003Yu-Ke
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 09:02:19 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id b5so15224534wrr.5
+ for <qemu-devel@nongnu.org>; Mon, 12 Sep 2022 06:02:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=eQTHpn84A0LjlKpt7dE5eXR16Q85SXXf8AUBnb7eBEU=;
+ b=WcoLGYRs268N0ylZ68v9Pv2kD58FC+hgPQooA6LIjFbi/tNh0WoRfhxYZlWWRMULum
+ RMxWUPp7/LBF+aVnymeIBviQFjL2gjEXJSjfMEb9Hn4wOpca12/s3chvu3d+ADwRYFCh
+ pSYRz4dFMIUeMc/pYnoh01MfzSY++Z5vghBDP2RcMuB0l43x7NFxQUqOUbiMkCqI57wS
+ 9XfA/EdtcqojPSO+HO0jKrjBniaSAZKPI8XXDEsoAO+Amq+eAmRMm7nCiPtFGYMFpyFy
+ eu6qGS1mleXMbGHAX5I3DA32Cf0tzNLOIpVAdTvue6VDT028wjvOc2Z9V+uAqzYWZp+i
+ 8lAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=eQTHpn84A0LjlKpt7dE5eXR16Q85SXXf8AUBnb7eBEU=;
+ b=AR+vMiOyZbgeAf18Ir+RcpI8LQPU5ww/kI/INztp9zXomRDpWp9gUDn/YoXFEvawZv
+ MSUAm6dc4xZWKI4/ZsrJGRax8fJ1DgebkDvzlw7XaWwzjBXZCn6NRWMKt2ivg+Gq4ZoQ
+ sWvJkhE4j/qiKfV/iGRI5FDAmrjfUVE+PxeV6AOSQPu94XM86dwti9Ca7odIAaxbmBj6
+ GAxo9hpDfqMX5cm6GZqWbBAL3IGT6i9nu7s5QxyWq4JDjjAbiEOM1Rq/Zp75LRcgIps3
+ +dtUvbUAPX8/CYVij4k2lmRQ+wzHL7UcR7IBoe4cLPjyK//NaZGRsMQcQwC2upqdzEMK
+ TFwg==
+X-Gm-Message-State: ACgBeo2qkRD9pjbkOMMKDjErsgH8K104gHYaNfD7AZUtaqgf/ufiDwTM
+ OpcbZdS5S+ZQtunqHk5aDXSM8g==
+X-Google-Smtp-Source: AA6agR4IA6a58nTrh+KunqoJL1Nub/ULf9l/5LHpmfwp/5jR9058nRZKkqw2wvCGmnlNSJ9wJ/pr5A==
+X-Received: by 2002:adf:f604:0:b0:228:6004:bb70 with SMTP id
+ t4-20020adff604000000b002286004bb70mr14819530wrp.646.1662987735951; 
+ Mon, 12 Sep 2022 06:02:15 -0700 (PDT)
+Received: from [10.119.17.153] ([89.101.193.69])
+ by smtp.gmail.com with ESMTPSA id
+ o14-20020a5d684e000000b002287d99b455sm7301420wrw.15.2022.09.12.06.02.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Sep 2022 06:02:15 -0700 (PDT)
+Message-ID: <c057bdc5-7f68-35c1-16fd-edd4aa37d023@linaro.org>
+Date: Mon, 12 Sep 2022 14:01:47 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 20/37] target/i386: reimplement 0x0f 0x60-0x6f, add AVX
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20220911230418.340941-1-pbonzini@redhat.com>
+ <20220911230418.340941-21-pbonzini@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220911230418.340941-21-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.153,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,58 +93,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 09 2022, Nicolin Chen <nicolinc@nvidia.com> wrote:
+On 9/12/22 00:04, Paolo Bonzini wrote:
+> +static void decode_0F6F(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
+> +{
+> +    if (s->prefix & PREFIX_REPNZ) {
+> +        entry->gen = NULL;
 
-> Its caller vfio_connect_container() assigns a default value
-> to info->iova_pgsizes, even if vfio_get_iommu_info() fails.
-> This would result in a "Segmentation fault" error, when the
-> VFIO_IOMMU_GET_INFO ioctl errors out.
->
-> Since the caller has g_free already, drop the g_free in its
-> rollback routine and add a line of comments to highlight it.
+Are these lines really required with the p_00_66_f3 spec on the group entry?
 
-There's basically two ways to fix this:
+> +    } else if (s->prefix & PREFIX_REPZ) {
+> +        /* movdqu */
+> +        entry->gen = gen_MOVDQ;
+> +        entry->vex_class = 4;
+> +        entry->vex_special = X86_VEX_SSEUnaligned;
+> +    } else {
+> +        /* MMX movq, movdqa */
+> +        entry->gen = gen_MOVDQ;
+> +        entry->vex_class = 1;
+> +        entry->special = X86_SPECIAL_MMX;
+> +    }
 
-- return *info in any case, even on error
-- free *info on error, and make sure that the caller doesn't try to
-  access *info if the function returned !0
+Also, you're overriding vex_class for both valid entries, so why does the group speicfy 
+vex5?  Clearer to use X86_OP_ENTRY3 within this function and copy from static const data 
+instead of overriding individual fields?
 
-The problem with the first option is that the caller will access invalid
-information if it neglects to check the return code, and that might lead
-to not-that-obvious errors; in the second case, a broken caller would at
-least fail quickly with a segfault. The current code is easier to fix
-with the first option.
 
-I think I'd prefer the second option; but obviously maintainer's choice.
-
->
-> Fixes: 87ea529c50 ("vfio: Get migration capability flags for container")
-> Cc: Kirti Wankhede <kwankhede@nvidia.com>
-> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
-> ---
->  hw/vfio/common.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index ace9562a9b..51b2e05c76 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -1940,6 +1940,7 @@ static int vfio_init_container(VFIOContainer *container, int group_fd,
->      return 0;
->  }
->  
-> +/* The caller is responsible for g_free(*info) */
->  static int vfio_get_iommu_info(VFIOContainer *container,
->                                 struct vfio_iommu_type1_info **info)
->  {
-> @@ -1951,8 +1952,6 @@ again:
->      (*info)->argsz = argsz;
->  
->      if (ioctl(container->fd, VFIO_IOMMU_GET_INFO, *info)) {
-> -        g_free(*info);
-> -        *info = NULL;
->          return -errno;
->      }
->  
-
+r~
 
