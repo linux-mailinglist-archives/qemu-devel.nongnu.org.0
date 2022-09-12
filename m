@@ -2,86 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55D1F5B56C0
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 10:52:56 +0200 (CEST)
-Received: from localhost ([::1]:35650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A29F5B56E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 10:59:15 +0200 (CEST)
+Received: from localhost ([::1]:39168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXfBW-0000LA-Jp
-	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 04:52:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53776)
+	id 1oXfHe-0002G9-3f
+	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 04:59:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oXf79-0006SO-96
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 04:48:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25807)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oXfFd-0000hp-NK
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 04:57:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52501)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oXf75-0001Ur-J5
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 04:48:21 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oXfFb-0002py-JX
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 04:57:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1662972498;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Q6Krzn2sYlOgboAyNOBC0mhGRRNbpgwoc1bVq6qvRnk=;
- b=Hv1QjzB1JFXg3A9ClXOqsfK7KlF3M0CZ3JlLZvOkoYuV8EB0Drx+OFViLtnklLtxB9nd02
- ukTuvETnwpLYpXkpp+tRK6dPFWSRANg2ya/Juo0RhBGD/Z+sYRJ9gj44uH8x6rzVnryy0V
- wxG6kEwWoZ7E8sqjHYbr26wGHJGnEzs=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-7-JVm_sh-cOHGWCesuh6siTw-1; Mon, 12 Sep 2022 04:48:16 -0400
-X-MC-Unique: JVm_sh-cOHGWCesuh6siTw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- w20-20020a05640234d400b00450f24c8ca6so5606257edc.13
- for <qemu-devel@nongnu.org>; Mon, 12 Sep 2022 01:48:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date;
- bh=Q6Krzn2sYlOgboAyNOBC0mhGRRNbpgwoc1bVq6qvRnk=;
- b=MaATsfiu2a97c9R9OjHy0IF+AABTTklr55u7hwFfh6NgnTl9GajqZ+Gp0wN5UcmQtW
- TKtOkUhz+tqrEeTRm3YxN2q/NueDtY0+67R4MRFwhFqODESmmoHI8NV8/ErlLvUlpcGk
- HluoWxN7J5JDg5ellqyBVThoAlVGjUQ/d4nlZAOLMbiHz9QJKxXjCN8Qq3sp41UX8fWZ
- cdY8/OqO0SXT31Z4p8xgia7g7PC2wbfbnrS453Ce3eFf3yllnW9VxfFt3/TXKrwhLVYd
- QPBSyBdlILNcMeySyF7cIYeE/P8KhjkPTqnIFBVOU8YqdiFmGUgTsXKJSQSpdzCJY3Is
- +qJA==
-X-Gm-Message-State: ACgBeo2cO5AotXRmICs/YcV0OhJqxBA29VUszzMNeQHwGgb5RemZarWL
- hDDcUjYRIciLqJ6mRsah3DNIe5v+Pyj40us3ClHPdjhzo7qLIgcQHUT4Mp1ogi6Z7NONcyoEsdq
- TAaEqMns0jLLW9OQ=
-X-Received: by 2002:a17:907:783:b0:76e:f290:8b5 with SMTP id
- xd3-20020a170907078300b0076ef29008b5mr18282707ejb.395.1662972495502; 
- Mon, 12 Sep 2022 01:48:15 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7sjdBLkl/tOoaEpFbo31AI6bXSW9BZXs5WGlJ2JW/+68gmjnaZtwXUwrl1oQX5H46MWpP8Rg==
-X-Received: by 2002:a17:907:783:b0:76e:f290:8b5 with SMTP id
- xd3-20020a170907078300b0076ef29008b5mr18282694ejb.395.1662972495300; 
- Mon, 12 Sep 2022 01:48:15 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- l10-20020a1709060cca00b007719eeac013sm4108625ejh.60.2022.09.12.01.48.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Sep 2022 01:48:14 -0700 (PDT)
-Date: Mon, 12 Sep 2022 10:48:13 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Robert Hoo <robert.hu@linux.intel.com>
-Cc: mst@redhat.com, xiaoguangrong.eric@gmail.com, ani@anisinha.ca,
- dan.j.williams@intel.com, jingqi.liu@intel.com, qemu-devel@nongnu.org,
- robert.hu@intel.com
-Subject: Re: [PATCH v3 4/5] acpi/nvdimm: Implement ACPI NVDIMM Label Methods
-Message-ID: <20220912104813.53d1feca@redhat.com>
-In-Reply-To: <52dd8913d8979efdc229a025e1bd23bb44ebadf3.camel@linux.intel.com>
-References: <20220901032721.1392482-1-robert.hu@linux.intel.com>
- <20220901032721.1392482-5-robert.hu@linux.intel.com>
- <20220909153910.557fdbe7@redhat.com>
- <52dd8913d8979efdc229a025e1bd23bb44ebadf3.camel@linux.intel.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ s=mimecast20190719; t=1662973026;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=jLUG2aKtYWudWLidmyDXjoSsOwlG1ybCksIPlqZ3Jso=;
+ b=BFrhKzaVqPWpbVkRWbVVuXZWSLwpd9+jy90DWnl4WvqdreCK8TZIXur1iKvK0+iS+NgXtt
+ IU0GMbhxzgcxtsMssnWJyu+L94Ub6JfxrTrwL3Jvz57V91bf7/2BbeetFCujZ0V9XWt8g1
+ WbQr+soI10DFTioxCAF6ISI9ayWY6Us=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-26-Ww9sxnhAPaeEeTEaGB-fXA-1; Mon, 12 Sep 2022 04:57:04 -0400
+X-MC-Unique: Ww9sxnhAPaeEeTEaGB-fXA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9A6721C07543;
+ Mon, 12 Sep 2022 08:57:04 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F1FED4B400F;
+ Mon, 12 Sep 2022 08:57:02 +0000 (UTC)
+Date: Mon, 12 Sep 2022 09:56:58 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Nikolay Borisov <nborisov@suse.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] migration/multifd: Remove redundant copy of page offsets
+ during send
+Message-ID: <Yx70WiZgJEYPMPhL@redhat.com>
+References: <20220810103942.580784-1-nborisov@suse.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220810103942.580784-1-nborisov@suse.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -102,203 +79,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 09 Sep 2022 22:02:34 +0800
-Robert Hoo <robert.hu@linux.intel.com> wrote:
+Copying in the two migration maintainers.
 
-> On Fri, 2022-09-09 at 15:39 +0200, Igor Mammedov wrote:
-> > On Thu,  1 Sep 2022 11:27:20 +0800
-> > Robert Hoo <robert.hu@linux.intel.com> wrote:
-> >   
-> > > Recent ACPI spec [1] has defined NVDIMM Label Methods _LS{I,R,W},
-> > > which
-> > > deprecates corresponding _DSM Functions defined by PMEM _DSM
-> > > Interface spec
-> > > [2].
-> > > 
-> > > Since the semantics of the new Label Methods are same as old _DSM
-> > > methods, the implementations here simply wrapper old ones.
-> > > 
-> > > ASL form diff can be found in next patch of updating golden master
-> > > binaries.
-> > > 
-> > > [1] ACPI Spec v6.4, 6.5.10 NVDIMM Label Methods
-> > > https://uefi.org/sites/default/files/resources/ACPI_Spec_6_4_Jan22.pdf
-> > > [2] Intel PMEM _DSM Interface Spec v2.0, 3.10 Deprecated Functions
-> > > https://pmem.io/documents/IntelOptanePMem_DSM_Interface-V2.0.pdf
-> > > 
-> > > Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
-> > > Reviewed-by: Jingqi Liu <jingqi.liu@intel.com>  
-> > 
-> > looks more or less fine except of excessive use of named variables
-> > which creates global scope variables.
-> > 
-> > I'd suggest to store temporary buffers/packages in LocalX variales,
-> > you should be able to do that for everything modulo
-> > aml_create_dword_field().
-> > 
-> > see an example below
-> >   
-> > > ---
-> > >  hw/acpi/nvdimm.c | 91
-> > > ++++++++++++++++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 91 insertions(+)
-> > > 
-> > > diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-> > > index afff911c1e..516acfe53b 100644
-> > > --- a/hw/acpi/nvdimm.c
-> > > +++ b/hw/acpi/nvdimm.c
-> > > @@ -1243,6 +1243,7 @@ static void nvdimm_build_fit(Aml *dev)
-> > >  static void nvdimm_build_nvdimm_devices(Aml *root_dev, uint32_t
-> > > ram_slots)
-> > >  {
-> > >      uint32_t slot;
-> > > +    Aml *method, *pkg, *field, *com_call;
-> > >  
-> > >      for (slot = 0; slot < ram_slots; slot++) {
-> > >          uint32_t handle = nvdimm_slot_to_handle(slot);
-> > > @@ -1260,6 +1261,96 @@ static void nvdimm_build_nvdimm_devices(Aml
-> > > *root_dev, uint32_t ram_slots)
-> > >           */
-> > >          aml_append(nvdimm_dev, aml_name_decl("_ADR",
-> > > aml_int(handle)));
-> > >  
-> > > +        /*
-> > > +         * ACPI v6.4: Section 6.5.10 NVDIMM Label Methods
-> > > +         */
-> > > +        /* _LSI */
-> > > +        method = aml_method("_LSI", 0, AML_SERIALIZED);
-> > > +        com_call = aml_call5(NVDIMM_COMMON_DSM,
-> > > +                            aml_touuid(NVDIMM_DEVICE_DSM_UUID),
-> > > +                            aml_int(1), aml_int(4), aml_int(0),
-> > > +                            aml_int(handle));
-> > > +        aml_append(method, aml_store(com_call, aml_local(0)));
-> > > +
-> > > +        aml_append(method, aml_create_dword_field(aml_local(0),
-> > > +                                                  aml_int(0),
-> > > "STTS"));
-> > > +        aml_append(method, aml_create_dword_field(aml_local(0),
-> > > aml_int(4),
-> > > +                                                  "SLSA"));
-> > > +        aml_append(method, aml_create_dword_field(aml_local(0),
-> > > aml_int(8),
-> > > +                                                  "MAXT"));
-> > > +
-> > > +        pkg = aml_package(3);
-> > > +        aml_append(pkg, aml_name("STTS"));
-> > > +        aml_append(pkg, aml_name("SLSA"));
-> > > +        aml_append(pkg, aml_name("MAXT"));
-> > > +        aml_append(method, aml_name_decl("RET", pkg));  
-> > 
-> > ex: put it in local instead of named variable and return that
-> > the same applies to other named temporary named variables.  
+On Wed, Aug 10, 2022 at 01:39:42PM +0300, Nikolay Borisov wrote:
+> All pages which are going to be migrated are first added to
+> MultiFDSendParams::MultiFDPages_t::offset array by the main migration
+> thread and are subsequently copied to MultiFDSendParams::normal by the
+> multifd thread. This is really unnecessary as the MultiFDPages_t is
+> guaranteed to be stable since its mutex is being held. Additionally,
+> this somewhat simplifies the code as the migration pages are now kept
+> in only 1 place during send, also the name 'offset' coupled with the
+> context it's being used - usually added to the host pages makes it
+> obvious that this is an offset.
 > 
-> Could you help provide the example in form of ASL?
-
-see hw/i386/acpi-build.c: build_prt() or aml_pci_device_dsm()
-
-> Thanks.
-> >   
-> > > +        aml_append(method, aml_return(aml_name("RET")));
-> > > +
-> > > +        aml_append(nvdimm_dev, method);
-> > > +
-> > > +        /* _LSR */
-> > > +        method = aml_method("_LSR", 2, AML_SERIALIZED);
-> > > +        aml_append(method, aml_name_decl("INPT", aml_buffer(8,
-> > > NULL)));
-> > > +
-> > > +        aml_append(method,
-> > > aml_create_dword_field(aml_name("INPT"),
-> > > +                                                  aml_int(0),
-> > > "OFST"));
-> > > +        aml_append(method,
-> > > aml_create_dword_field(aml_name("INPT"),
-> > > +                                                  aml_int(4),
-> > > "LEN"));
-> > > +        aml_append(method, aml_store(aml_arg(0),
-> > > aml_name("OFST")));
-> > > +        aml_append(method, aml_store(aml_arg(1),
-> > > aml_name("LEN")));
-> > > +
-> > > +        pkg = aml_package(1);
-> > > +        aml_append(pkg, aml_name("INPT"));
-> > > +        aml_append(method, aml_name_decl("PKG1", pkg));
-> > > +
-> > > +        com_call = aml_call5(NVDIMM_COMMON_DSM,
-> > > +                            aml_touuid(NVDIMM_DEVICE_DSM_UUID),
-> > > +                            aml_int(1), aml_int(5),
-> > > aml_name("PKG1"),
-> > > +                            aml_int(handle));
-> > > +        aml_append(method, aml_store(com_call, aml_local(3)));
-> > > +        field = aml_create_dword_field(aml_local(3), aml_int(0),
-> > > "STTS");
-> > > +        aml_append(method, field);
-> > > +        field = aml_create_field(aml_local(3), aml_int(32),
-> > > +                                 aml_shiftleft(aml_name("LEN"),
-> > > aml_int(3)),
-> > > +                                 "LDAT");
-> > > +        aml_append(method, field);
-> > > +        aml_append(method, aml_name_decl("LSA", aml_buffer(0,
-> > > NULL)));
-> > > +        aml_append(method, aml_to_buffer(aml_name("LDAT"),
-> > > aml_name("LSA")));
-> > > +        pkg = aml_package(2);
-> > > +        aml_append(pkg, aml_name("STTS"));
-> > > +        aml_append(pkg, aml_name("LSA"));
-> > > +        aml_append(method, aml_name_decl("RET", pkg));
-> > > +        aml_append(method, aml_return(aml_name("RET")));
-> > > +        aml_append(nvdimm_dev, method);
-> > > +
-> > > +        /* _LSW */
-> > > +        method = aml_method("_LSW", 3, AML_SERIALIZED);
-> > > +        aml_append(method, aml_store(aml_arg(2), aml_local(2)));
-> > > +        aml_append(method, aml_name_decl("INPT", aml_buffer(8,
-> > > NULL)));
-> > > +        field = aml_create_dword_field(aml_name("INPT"),
-> > > +                                                  aml_int(0),
-> > > "OFST");
-> > > +        aml_append(method, field);
-> > > +        field = aml_create_dword_field(aml_name("INPT"),
-> > > +                                                  aml_int(4),
-> > > "TLEN");
-> > > +        aml_append(method, field);
-> > > +        aml_append(method, aml_store(aml_arg(0),
-> > > aml_name("OFST")));
-> > > +        aml_append(method, aml_store(aml_arg(1),
-> > > aml_name("TLEN")));
-> > > +
-> > > +        aml_append(method, aml_concatenate(aml_name("INPT"),
-> > > aml_local(2),
-> > > +                                            aml_name("INPT")));
-> > > +        pkg = aml_package(1);
-> > > +        aml_append(pkg, aml_name("INPT"));
-> > > +        aml_append(method, aml_name_decl("PKG1", pkg));
-> > > +        com_call = aml_call5(NVDIMM_COMMON_DSM,
-> > > +                            aml_touuid(NVDIMM_DEVICE_DSM_UUID),
-> > > +                            aml_int(1), aml_int(6),
-> > > aml_name("PKG1"),
-> > > +                            aml_int(handle));
-> > > +        aml_append(method, aml_store(com_call, aml_local(3)));
-> > > +        field = aml_create_dword_field(aml_local(3), aml_int(0),
-> > > "STTS");
-> > > +        aml_append(method, field);
-> > > +        aml_append(method,
-> > > aml_return(aml_to_integer(aml_name("STTS"))));  
-> > 
-> > why do you need explicitly convert DWORD field to integer?
-> > it should be fine to return STTS directly (implicit conversion should
-> > take care of the rest)
-> >   
-> > > +        aml_append(nvdimm_dev, method);
-> > > +
-> > >          nvdimm_build_device_dsm(nvdimm_dev, handle);
-> > >          aml_append(root_dev, nvdimm_dev);
-> > >      }  
-> > 
-> >   
+> With this change normal/normal_num are no longer used in the multifd
+> send path.
 > 
+> Signed-off-by: Nikolay Borisov <nborisov@suse.com>
+> ---
+>  migration/multifd-zlib.c |  6 +++---
+>  migration/multifd-zstd.c |  6 +++---
+>  migration/multifd.c      | 25 ++++++++++---------------
+>  3 files changed, 16 insertions(+), 21 deletions(-)
+> 
+> diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
+> index 18213a951302..363b64e95922 100644
+> --- a/migration/multifd-zlib.c
+> +++ b/migration/multifd-zlib.c
+> @@ -122,11 +122,11 @@ static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
+>      int ret;
+>      uint32_t i;
+> 
+> -    for (i = 0; i < p->normal_num; i++) {
+> +    for (i = 0; i < p->pages->num; i++) {
+>          uint32_t available = z->zbuff_len - out_size;
+>          int flush = Z_NO_FLUSH;
+> 
+> -        if (i == p->normal_num - 1) {
+> +        if (i == p->pages->num - 1) {
+>              flush = Z_SYNC_FLUSH;
+>          }
+> 
+> @@ -135,7 +135,7 @@ static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
+>           * with compression. zlib does not guarantee that this is safe,
+>           * therefore copy the page before calling deflate().
+>           */
+> -        memcpy(z->buf, p->pages->block->host + p->normal[i], page_size);
+> +        memcpy(z->buf, p->pages->block->host + p->pages->offset[i], page_size);
+>          zs->avail_in = page_size;
+>          zs->next_in = z->buf;
+> 
+> diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
+> index d788d309f22e..4daec8366727 100644
+> --- a/migration/multifd-zstd.c
+> +++ b/migration/multifd-zstd.c
+> @@ -121,13 +121,13 @@ static int zstd_send_prepare(MultiFDSendParams *p, Error **errp)
+>      z->out.size = z->zbuff_len;
+>      z->out.pos = 0;
+> 
+> -    for (i = 0; i < p->normal_num; i++) {
+> +    for (i = 0; i < p->pages->num; i++) {
+>          ZSTD_EndDirective flush = ZSTD_e_continue;
+> 
+> -        if (i == p->normal_num - 1) {
+> +        if (i == p->pages->num - 1) {
+>              flush = ZSTD_e_flush;
+>          }
+> -        z->in.src = p->pages->block->host + p->normal[i];
+> +        z->in.src = p->pages->block->host + p->pages->offset[i];
+>          z->in.size = page_size;
+>          z->in.pos = 0;
+> 
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index 586ddc9d657a..d70662406490 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -89,13 +89,13 @@ static int nocomp_send_prepare(MultiFDSendParams *p, Error **errp)
+>      MultiFDPages_t *pages = p->pages;
+>      size_t page_size = qemu_target_page_size();
+> 
+> -    for (int i = 0; i < p->normal_num; i++) {
+> -        p->iov[p->iovs_num].iov_base = pages->block->host + p->normal[i];
+> +    for (int i = 0; i < pages->num; i++) {
+> +        p->iov[p->iovs_num].iov_base = pages->block->host + pages->offset[i];
+>          p->iov[p->iovs_num].iov_len = page_size;
+>          p->iovs_num++;
+>      }
+> 
+> -    p->next_packet_size = p->normal_num * page_size;
+> +    p->next_packet_size = pages->num * page_size;
+>      p->flags |= MULTIFD_FLAG_NOCOMP;
+>      return 0;
+>  }
+> @@ -262,7 +262,7 @@ static void multifd_send_fill_packet(MultiFDSendParams *p)
+> 
+>      packet->flags = cpu_to_be32(p->flags);
+>      packet->pages_alloc = cpu_to_be32(p->pages->allocated);
+> -    packet->normal_pages = cpu_to_be32(p->normal_num);
+> +    packet->normal_pages = cpu_to_be32(p->pages->num);
+>      packet->next_packet_size = cpu_to_be32(p->next_packet_size);
+>      packet->packet_num = cpu_to_be64(p->packet_num);
+> 
+> @@ -270,9 +270,9 @@ static void multifd_send_fill_packet(MultiFDSendParams *p)
+>          strncpy(packet->ramblock, p->pages->block->idstr, 256);
+>      }
+> 
+> -    for (i = 0; i < p->normal_num; i++) {
+> +    for (i = 0; i < p->pages->num; i++) {
+>          /* there are architectures where ram_addr_t is 32 bit */
+> -        uint64_t temp = p->normal[i];
+> +        uint64_t temp = p->pages->offset[i];
+> 
+>          packet->offset[i] = cpu_to_be64(temp);
+>      }
+> @@ -668,7 +668,7 @@ static void *multifd_send_thread(void *opaque)
+>          if (p->pending_job) {
+>              uint64_t packet_num = p->packet_num;
+>              uint32_t flags = p->flags;
+> -            p->normal_num = 0;
+> +            uint32_t num_pages = p->pages->num;
+> 
+>              if (use_zero_copy_send) {
+>                  p->iovs_num = 0;
+> @@ -676,12 +676,7 @@ static void *multifd_send_thread(void *opaque)
+>                  p->iovs_num = 1;
+>              }
+> 
+> -            for (int i = 0; i < p->pages->num; i++) {
+> -                p->normal[p->normal_num] = p->pages->offset[i];
+> -                p->normal_num++;
+> -            }
+> -
+> -            if (p->normal_num) {
+> +            if (num_pages) {
+>                  ret = multifd_send_state->ops->send_prepare(p, &local_err);
+>                  if (ret != 0) {
+>                      qemu_mutex_unlock(&p->mutex);
+> @@ -691,12 +686,12 @@ static void *multifd_send_thread(void *opaque)
+>              multifd_send_fill_packet(p);
+>              p->flags = 0;
+>              p->num_packets++;
+> -            p->total_normal_pages += p->normal_num;
+> +            p->total_normal_pages += num_pages;
+>              p->pages->num = 0;
+>              p->pages->block = NULL;
+>              qemu_mutex_unlock(&p->mutex);
+> 
+> -            trace_multifd_send(p->id, packet_num, p->normal_num, flags,
+> +            trace_multifd_send(p->id, packet_num, num_pages, flags,
+>                                 p->next_packet_size);
+> 
+>              if (use_zero_copy_send) {
+> --
+> 2.25.1
+> 
+> 
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
