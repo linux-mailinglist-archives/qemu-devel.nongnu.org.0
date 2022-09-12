@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17E4D5B55DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 10:21:53 +0200 (CEST)
-Received: from localhost ([::1]:35676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCAD55B5665
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 10:37:31 +0200 (CEST)
+Received: from localhost ([::1]:49600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXehS-000473-NC
-	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 04:21:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42612)
+	id 1oXewc-0002Rd-Cz
+	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 04:37:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oXecG-0001Xq-PB
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 04:16:30 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:36498)
+ id 1oXetG-00006a-Kq
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 04:34:03 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:36403)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oXecB-000549-IJ
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 04:16:28 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- i203-20020a1c3bd4000000b003b3df9a5ecbso5706935wma.1
- for <qemu-devel@nongnu.org>; Mon, 12 Sep 2022 01:16:22 -0700 (PDT)
+ id 1oXet9-0007y7-Q4
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 04:34:01 -0400
+Received: by mail-wr1-x431.google.com with SMTP id h8so7139028wrf.3
+ for <qemu-devel@nongnu.org>; Mon, 12 Sep 2022 01:33:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=Yz00z1fEIKXxF7DXUKeODferhZObpHegLNazYJgNLPs=;
- b=TIyUpEKsZXISw/srspRQC0fs910ARX3qcRKUmkmWZeIy0nuwx3AtXtvde7Vt9XlPU2
- zJ4aDimKMLziP+SmIY9xHamy96Tie6gs/AG6rdU7SBypmrrWfgzczDWvD//+tnk4cEwp
- qwsGOkwvA4Joe+oIOJPVohOaDNbA/Eczz0Gvg4HkhHwgSYlMTkjwtUxKmCXEsilz211o
- xQqJsn53okFIPh1+oNZ+OUP1jrsLXK/+nLM6rESzyqe0c6AqxuRQ4YGTniP8hcsEKKkB
- ch6gxV3PljlhlFi9+mG8lnx99YEDrQFEfbgnarrOcmZLPAYWyeG74/2SlNdfmI9jA8x4
- 8nJQ==
+ bh=eMcsFseGqdLR6cQeu+oZkFuKM+xPG1LtgvydaxztnIQ=;
+ b=N1llNeHct9RdHGoY8omroE1ZqEPzjaqhtNQTpRAGS0AKTa8dlhhlh+9AbdWnpILKWP
+ P0hSgNd7QAQu2mfoVhQdebMK2MvfmWjp0G6gD0dkw45SBOj4GOEj86ZekV/N2twelFbX
+ HLmDf8i4IVgmhvykrp0N2719ap/f50jEb/Ef9sgRrt1rgAdi39kn/pRf+FQamRBirrYy
+ QjUnjLm2WTysO5ZTzofvrNlYc5nsBkEz1uGfXm0N3FQzg5a6R29nd1Tv2AWG6/rfmaWF
+ Xs4N2txiUn2Lr+FnMbzMvlF90yVhgeUOsp3Bw9vrbfnEEAxj8CS5tH8xfNyBr2nOsH1c
+ 1ICQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=Yz00z1fEIKXxF7DXUKeODferhZObpHegLNazYJgNLPs=;
- b=IGQLi3uF4uPLISpqCHH2PElnb9u2nrdb81+Hw6m7XBTYacQfDycjMmS00yaTp/bvNj
- NMLgdTZimTNTgHl25S1N3ig8957epnx0d4A7gD2uFITmPdRxo58pIgf222b9RxJr98OV
- ALk8PYjAdl3yXjMogGrbcj61P9SaBs0aqQnYqIPZUSeDCYdkMTlGnVGRIV2Wsqk0IrDm
- Buk6WbQ8zJeMCqHMibA33cWdt6a666+dXuzcpm3lJ97JPF+yXpTVvFp2hJbIVxbYu+ra
- 1PPptOkg+RN7rszVGReLk93SLMciyOVZYfks4HtJRvavA7zaDdObs+e+19eaX3H+gvtV
- eRug==
-X-Gm-Message-State: ACgBeo22T8JYyn2Oj03Z/XqdOIVB2jzb2SlnWakf8Rqq4Jd00rAA0Ohq
- b5NUy1O7vMUUwYtth6wQz2Hg6w==
-X-Google-Smtp-Source: AA6agR69hqNVNRn3k8h+GR6xVRuIumekqy10pmUtgyeOWLNXP7/fHJv6VT5FR0rFRis6Bd+0gIB2ug==
-X-Received: by 2002:a05:600c:1e08:b0:3b4:8fef:d63c with SMTP id
- ay8-20020a05600c1e0800b003b48fefd63cmr918504wmb.158.1662970581817; 
- Mon, 12 Sep 2022 01:16:21 -0700 (PDT)
+ bh=eMcsFseGqdLR6cQeu+oZkFuKM+xPG1LtgvydaxztnIQ=;
+ b=RfpKY7/L9503pkuC5Ef29xbZv+a6CAGRPNru/FOOBO6qMwkS6MTsyssYJ4nmCt2KzH
+ N/mT0ZK+GHtGCsgFtdQWSllEpgQJlbyf+7RrN/HRp5wlXZtTfFQ9UxM59exOuE0+0Mbn
+ b1ieLTYb3236kD8rwtGJSEjOxAyoL+7gmHTVuafV03ngDi5VgpGlg95gjnyafu52L0SO
+ D32CNlfVdu4/R5+Jh+zp0fQFr9FP+PTNkz5E9/kN07Ahgiv/21QOd6M0SqxR+3mUcMVW
+ mjKTtTSN4AK/6Ad6RPf1G1HXz8ujhQLNaqCPOWh3Hqj6BTc9ATQhsOE3DIkVe9SrtDtZ
+ 6HPA==
+X-Gm-Message-State: ACgBeo1FcixWJ3pXZRS0SrkamnBi32NeOFm1AUDL3mOCJCVWGlkZlj12
+ rTb9ZnQZuwjQ+KlwiDmfr7IFng==
+X-Google-Smtp-Source: AA6agR6HDtADEaIVyiyyJCMIIhFhG7F6L5neg8jCcojLA8NoVW6FgXSqr+aiCg8iyHdl6lLplfGHUg==
+X-Received: by 2002:a05:6000:15c7:b0:22a:99a6:8627 with SMTP id
+ y7-20020a05600015c700b0022a99a68627mr1259766wry.344.1662971631414; 
+ Mon, 12 Sep 2022 01:33:51 -0700 (PDT)
 Received: from [192.168.44.231] ([89.101.193.70])
  by smtp.gmail.com with ESMTPSA id
- c16-20020adfef50000000b0021f131de6aesm6575833wrp.34.2022.09.12.01.16.20
+ l4-20020adfe9c4000000b002253fd19a6asm8069087wrn.18.2022.09.12.01.33.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Sep 2022 01:16:21 -0700 (PDT)
-Message-ID: <64c0fed5-56e7-ceb1-ca53-483c3271f3b0@linaro.org>
-Date: Mon, 12 Sep 2022 08:58:21 +0100
+ Mon, 12 Sep 2022 01:33:50 -0700 (PDT)
+Message-ID: <579e64b4-921d-158e-c1d0-7acabcc82e77@linaro.org>
+Date: Mon, 12 Sep 2022 09:33:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 2/2] target/i386: cmpxchg only overwrites ZF
+Subject: Re: [PATCH 02/37] target/i386: make ldo/sto operations consistent
+ with ldq
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20220911222630.338330-1-pbonzini@redhat.com>
- <20220911222630.338330-3-pbonzini@redhat.com>
+References: <20220911230418.340941-1-pbonzini@redhat.com>
+ <20220911230418.340941-3-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220911222630.338330-3-pbonzini@redhat.com>
+In-Reply-To: <20220911230418.340941-3-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, NICE_REPLY_A=-4.101, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -61
+X-Spam_score: -6.2
+X-Spam_bar: ------
+X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.101,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,15 +94,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/11/22 23:26, Paolo Bonzini wrote:
-> Do not set all the flags, they are untouched other than ZF.
+On 9/12/22 00:03, Paolo Bonzini wrote:
+> ldq takes a pointer to the first byte to load the 64-bit word in;
+> ldo takes a pointer to the first byte of the ZMMReg.  Make them
+> consistent, which will be useful in the new SSE decoder's
+> load/writeback routines.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   target/i386/tcg/translate.c | 44 +++++++++++++++++++------------------
+>   1 file changed, 23 insertions(+), 21 deletions(-)
+> 
+> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+> index 001af76663..9a85010dcd 100644
+> --- a/target/i386/tcg/translate.c
+> +++ b/target/i386/tcg/translate.c
+> @@ -2761,28 +2761,29 @@ static inline void gen_ldo_env_A0(DisasContext *s, int offset)
+>   {
+>       int mem_index = s->mem_index;
+>       tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, mem_index, MO_LEUQ);
+> -    tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(0)));
+> +    tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(XMMReg, XMM_Q(0)));
+>       tcg_gen_addi_tl(s->tmp0, s->A0, 8);
+>       tcg_gen_qemu_ld_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
+> -    tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(1)));
+> +    tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(XMMReg, XMM_Q(1)));
+>   }
+>   
+>   static inline void gen_sto_env_A0(DisasContext *s, int offset)
+>   {
+>       int mem_index = s->mem_index;
+> -    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(0)));
+> +    offset -= offsetof(ZMMReg, ZMM_Q(0));
+> +    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, offset + offsetof(XMMReg, XMM_Q(0)));
 
-Um, no, second sentence:
+What is this subtract?  You don't have it for ldo or movo, and it looks wrong.
 
-# The ZF flag is set if the values in the destination operand and register
-# AL, AX, or EAX are equal; otherwise it is
-  cleared. The CF, PF, AF, SF,
-# and OF flags are set according to the results of the comparison operation.
+The rest of it looks ok.
 
 
 r~
