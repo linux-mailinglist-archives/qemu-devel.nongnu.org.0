@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 101B65B5AD0
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 15:04:33 +0200 (CEST)
-Received: from localhost ([::1]:33004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 942335B5ADA
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 15:06:56 +0200 (CEST)
+Received: from localhost ([::1]:51338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXj72-0000hX-65
-	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 09:04:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39762)
+	id 1oXj9L-0003PU-NA
+	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 09:06:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Milica.Lazarevic@Syrmia.com>)
- id 1oXic1-0007Z0-17
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 08:32:29 -0400
-Received: from mail-eopbgr70122.outbound.protection.outlook.com
- ([40.107.7.122]:61667 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ id 1oXic7-0007eW-UK
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 08:32:42 -0400
+Received: from mail-eopbgr70132.outbound.protection.outlook.com
+ ([40.107.7.132]:50574 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Milica.Lazarevic@Syrmia.com>)
- id 1oXibz-0006aE-Gz
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 08:32:28 -0400
+ id 1oXic6-0006at-BQ
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 08:32:35 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NITWAJcgwB6TyPVKDudKDLmXxTJFLApgLLjF/DgPj5HlnG0j1W6ywcRKW8khgDeWz+B2kG3z6jCw9d8xjVgjjKPbNqk8fKvg4oC6/mNZdYjvBzPGM0Bc32mDIZ57y4pAwhRgB/Vlnf+v+Qh64AxHiL05IS8b2lCkCrG8YhoEY0gXNZmcb2l1U+S3jygv78CWDs34J/oaRFKzBKEOqyEifGZerLJhNKpTMV73XmfKGpygiw2XRMrQK8RcOat3RQ66R8p8cT46Gp5BpG8EixX4IiKtEWL0TYMntUkQ9JF2p0Ne7KEvrhtz5J5I+slxH82wcgTufW7TAKocPSAL7kp0pw==
+ b=RchyM0RTlHSUbl+z24sII2BgaENRT8oOP/B30/VB4rJ4BKFCP7OWDIUYKYY8Yy3WbW5gB3McK/+W5AHUjbg3FlGAaTrgDgRcNmB1t3SCruuaZd+l77zb1G2xFxmUE5bC6wdcUzsknUR4M1NVqgLF9+EoyOafqQu64ZncN091jSKHLw+EoE6WG5GbjTC0s9LpknzU3wSl0rdPC7rFmFUoMHB8WO9uiJfK1PR0Gxpi8jN5ckFQCwHZof2PGpoQoFAJzYTUS5FEyoVzBWPtIDmvOrzR+iDby0tkb455EI6yR8JXD41Oc6Iun/IC7asEJBdPVUweSAYYYNNgr+pODNFgnA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cI7pCniV1thh+YoW1Q64i525O2Fc3LeB+R3tqvLqwpE=;
- b=GCHJsrUBuBSxS5O2L0Lm/XyAoOw2edsAhaXhFNuhzXkwZFk5q9hM66D5IKCPzziknM/2AapIjEkhMePsuOimmuyAUQ2ODCAqJT9RUMj8u+UY8tqbWLN/RHhlu/JO+Nl11g+OOd2Bz1S8HXBIK2YqTsrelm708sFcuIunUzBRJdZFdI1cYkV27Ix3ljgV2reTNmDW7oUVomwWkTRu0+M7V+oXEIawiAxH7/NDNELWcEDYgCeDedLQoXRONrs1tOEJevvYKjJ3tVWzJBPc4hGN4VbfMXWRNidQmq6jUZVWwyP0SlVQrD7rGpUH5uVKxaj03ISAKfoZgH/Mo875/99gYQ==
+ bh=CEurgNoRCpAvIXmnYGPzlxWrcjtvuqNr2BUqC7ayMWQ=;
+ b=Ib7+ejvy2oJFiIQR8FmB57kN+Sxd8pq233xPSzHRWLGblvlIHzunMoUyjt+3BdMd1rmt8o5qIlo+eNzn40XJB4ABzqJ5OAFWo5bsL0AaJn7Fyvyem7h+UHQd7+8c55aXvfonf8sQ17i/iL7AXkmRy40/yNZeoc3LE0fMD+/QL44YmTtx+twE6IJ0rqK34ecF70myxdC+7F9NesT+QgYnlcDylmUSQDIZ+biOl3QftDyJ1ayEhG8tK2lBSMsyeozT5mj9lE3YZurKNnzAlglS+aKVdFkTN2j/OOLEJ2uawuxnDyyOguJBWSRd5bwiVGVGewoiLqqooujraIHFVqUDDA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
  dkim=pass header.d=syrmia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cI7pCniV1thh+YoW1Q64i525O2Fc3LeB+R3tqvLqwpE=;
- b=ZMDEhxW/d+hnNBULLp9Bl9DoDvjcVPYpH/VQY216xzYGj7eenrAwjN5Wu5ULuvEBcqJOsGSVikypgVFpRqIwuey0qxUy13bblneyMKJLccO08/yl/N+Y4YyVHICwJ711l/GI85uhDuG42x0lC2GLwtOLaRADhITqMtHTfe1ZvSY=
+ bh=CEurgNoRCpAvIXmnYGPzlxWrcjtvuqNr2BUqC7ayMWQ=;
+ b=XppZxSoGQ3pJ/GWCMHbVMdFSA+Mxri6fmllUWERYrBOzqtd/LQfTn/tdnxl5hGWr4G1WUvUkSE4ooqojUb4sekDTjtZHxUrOAgOtY1MNeq4sfWVJ+zxQNyl5ymM27b/fNQoqG2Y3xkeI8uiU05RB2X5jReyAvD5nTW9xS8HbV6o=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=syrmia.com;
 Received: from VE1PR03MB6045.eurprd03.prod.outlook.com (2603:10a6:803:112::20)
  by AS8PR03MB7603.eurprd03.prod.outlook.com (2603:10a6:20b:34e::15)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.22; Mon, 12 Sep
- 2022 12:32:24 +0000
+ 2022 12:32:31 +0000
 Received: from VE1PR03MB6045.eurprd03.prod.outlook.com
  ([fe80::6dde:d3f:2ed9:e27c]) by VE1PR03MB6045.eurprd03.prod.outlook.com
  ([fe80::6dde:d3f:2ed9:e27c%6]) with mapi id 15.20.5612.022; Mon, 12 Sep 2022
- 12:32:24 +0000
+ 12:32:31 +0000
 From: Milica Lazarevic <milica.lazarevic@syrmia.com>
 To: thuth@redhat.com
 Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
@@ -54,9 +54,9 @@ Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
  djordje.todorovic@syrmia.com, mips32r2@gmail.com,
  dragan.mladjenovic@syrmia.com,
  Milica Lazarevic <milica.lazarevic@syrmia.com>
-Subject: [PATCH v3 22/24] disas/nanomips: Replace Cpp enums for C enums
-Date: Mon, 12 Sep 2022 14:26:33 +0200
-Message-Id: <20220912122635.74032-23-milica.lazarevic@syrmia.com>
+Subject: [PATCH v3 23/24] disas/nanomips: Remove argument passing by ref
+Date: Mon, 12 Sep 2022 14:26:34 +0200
+Message-Id: <20220912122635.74032-24-milica.lazarevic@syrmia.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220912122635.74032-1-milica.lazarevic@syrmia.com>
 References: <20220912122635.74032-1-milica.lazarevic@syrmia.com>
@@ -68,55 +68,55 @@ X-ClientProxiedBy: VI1PR08CA0145.eurprd08.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: VE1PR03MB6045:EE_|AS8PR03MB7603:EE_
-X-MS-Office365-Filtering-Correlation-Id: dc359bba-77f5-44ad-aecb-08da94bad890
+X-MS-Office365-Filtering-Correlation-Id: 1dacd64c-645e-4195-3148-08da94badcb3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WzteyT1vZWvgqUdeLeY6WRqmpP/fFhcTpWoiCFkOYBK7QXC8Z47XnD9vZeek0K8cxqNtKJ00ffmlJkii3lQVVTuCX1zAtb5Wqil/ryXP/NOAB3tLElE95YgSzNb0twLi+bZTU2Ag+WryTo1VW/FX1ZdQ0+Fd1ysExORB3BOH1Bj6Yzi2qnseDiNo+/MUytG9gjM2vGv+IPJUxw7v4xtZOHzOPc+15lb0YDz6GcnGUGuvLbrI2ptWC/6DF+bdsbt6ef/ZhCozS1EeARFrdFmnEYzXPckMLowO4dA2eKTzS2xZQKGjtPtEUzM1sGvR8C0V/tHomAkLyqoW25xpPtACKWq62kVX+YTuUOYnF9EM2yTZx5EChJHjdH46S5R2VBplFS4UYIApmfgeTYIeI/PKlxskuInYtOED9ewuPuSX9F8K7eXBLZTd4MX9bMKzemhT7YUkIzRxkyT7/S99dwzE/qvXMINwdsR3lr5dOEKA74NHueKZydrMs40TjOXWoevqdGxa6hmLf6msScM7ie8ZiCVZdlqA1IRHwQK8fMVmI5Cz9QASCecuTgMv/usxe6IJuArIIVzYJzdpnzSXgSvLRPBZm8v3Iy8lGlqXYLx+rUR7XDqs3ycZBJkz8+aShZ31gdtjIHM5kpVm6z1t+lxKgsnFejbA2F+uIeWPiBQ3xHRMKNo2vqaU3P+fzpKTeQMXLbohtpdUZmeC0oRSdvZhk5zc3s30XWZTeJUHiONnu9z5VEuzWoRytjBkJnGDjDL9
+X-Microsoft-Antispam-Message-Info: Wjv7JiN2dNKZboL/S5Qzy8wy46aVasahP1aPmdvau8puf6EsCnOxcImppuRd3IlyLZbvktmY4jir1WOz6ZRsKbzCtifkecrAMQGUEnDnX2yUU6rkLa74vjAfiAFVPsWQcriLTfI77zLI7sWmNcsiQzZFVEgStQo/rllYRU5HQ3pl2QEt1Paov/rX+fayglEzITMk+0Wr9EuncWnE44kKCQc6RKQIQ8M1pZt+0KYYAbPYypjm4fhtG04SOsMGJIT3jNKtLUqiEvd+lY7dZckDxeXJ3J5prdjsmkWcl44ZUYA+eo4y2fYlrCIfNE3odtoBFxDOvf5Jo9BGOBtBAvANJtIpmTsJwqY9FA3C9vJW831c6jyUkS1X4+9XVarLLz2l48k0MP5AbtBXkBSgRVMULuYURav0DIxiyorA+hRz77fEXQ2M+9EtNSgkmeMq7JBnDaMHcAcywdIwXuhG2eav/VMAe6b7Odu67bJyNT48Ev/bSeeoQ3uk1kJI+gzV8m/NLWClH3elEAjK31yPp3boZL/2fQGr+EQmoAEWe4etYMmeocDKQcq09VA6+t8evZHbnO5RjI7KX+gzf03XpULgxoyQHppazRQgfDnsZfFhHqTWb+074UyrJHqZG7yKIajEgEJOPzUDP1mNWOK0ZoJWr58c5FGhul6/Om4o8s+ta4cuE8mKTk4kot1AQWcJwWHVzoKTvSY8BA6lbVfktXqv73gqlfchBNaIzQ/EXkO/XatktAiOrXacK2hvclezS1tH
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VE1PR03MB6045.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(136003)(376002)(346002)(396003)(366004)(39840400004)(38100700002)(38350700002)(44832011)(83380400001)(2616005)(186003)(1076003)(8936002)(4326008)(66476007)(66946007)(316002)(8676002)(2906002)(6916009)(5660300002)(36756003)(66556008)(6506007)(41300700001)(6486002)(478600001)(26005)(6512007)(52116002)(86362001)(107886003)(6666004);
+ SFS:(13230016)(136003)(376002)(346002)(396003)(366004)(39840400004)(38100700002)(38350700002)(44832011)(83380400001)(2616005)(186003)(1076003)(8936002)(4326008)(66476007)(66946007)(316002)(8676002)(2906002)(6916009)(5660300002)(36756003)(66556008)(6506007)(41300700001)(6486002)(478600001)(26005)(6512007)(52116002)(86362001)(107886003);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Z8FHC1r33D9qhFqCyVuHNjTgRWRtQeB+5GVmgmjY4y+M6SSI9V4Ocz++zPU5?=
- =?us-ascii?Q?xRuMzb3C3hHtbGNOlS1oeJ+QZ2xMjFJybeygjvu8th20tjQxAFrH+7Hd/X1e?=
- =?us-ascii?Q?1qbnC+/mOetxZgegfosiu3AEycvkfVsQseKNe812GBrP008tJqRfQFqFvvXj?=
- =?us-ascii?Q?TNEIqThB6Ms+2XK3MJAySnZ7pccM58Y+WC/LuO1xNO54QfU54yy1L4rIsKyl?=
- =?us-ascii?Q?oU8SHf6iDBD/qqZhLGouzPogXPGBSMBDP2upPxYBWQcbOCXNCll+YwSvJvfR?=
- =?us-ascii?Q?IwC+N1tGyGIjpa7ScovGbN+TUgJymzX5VLzPDCssFt9bDw6BEFcmyAD616NZ?=
- =?us-ascii?Q?EzV9spG8Qyv+RQABQOb2R4r7NLYesfEFFJ05WpTgE7BUKGAnEHj+abQwDqXW?=
- =?us-ascii?Q?qGeHbKzdtPOQgBC8JivgBQN4PTsm5Q3hIy20g6FSMDUNHDemjsoD6gGPHLKW?=
- =?us-ascii?Q?5iPdUrlGV2y2GVnA25oCcjoi3tTw0TpamZCEWp2hP7W3tg/cgsDDvwNX0zz1?=
- =?us-ascii?Q?j2JYp33MBW/gJ4AFI2i9HV3IKGHeWiq46efYfvD2Ue3yQdyHna0AISXtTR2d?=
- =?us-ascii?Q?rkgjcN3wMjpUpn5V7qi6JS77RkoGQamIxucct4+FU7/IFORKpbjZT6ouhsWk?=
- =?us-ascii?Q?I5bILzZsirercdjOeCCth6iELEr7NP9QggZM1K1T9CQYlvZf/hd/HheX0FOn?=
- =?us-ascii?Q?kNV1pZXahIMfCIYF6g0cBgCoVZ36ZpegvZORg3wmwGSCOhE3bkiBJ10s5w52?=
- =?us-ascii?Q?SEoEoJWKi2/aQMiXCFZk9WIjkgjHADyFG7rFa4/stc/o2kw7YCtiRodaZk4O?=
- =?us-ascii?Q?rLbzKM0hitJLb3aFmEM9qM+FPieOTXf0PPT0GB/0Y/HCFz8OYHl8K2D6w1x8?=
- =?us-ascii?Q?4nS4bm3uU1nAHSu2rd1F8Ahw+sCmO8LOCAhm/LUjO2XCnoSbm4iA4MhgvlZ2?=
- =?us-ascii?Q?SGhO+tTPaCXJZ7an9q6SuwRam8AdrH0Ro/LPGYczs6t7NYRwQsx8ryzPcMjK?=
- =?us-ascii?Q?8XzUWh3lXphQnkh9qqff3C3w7d/FPErVwRcQdjH6M168gJfRfj7bbO1m7T4T?=
- =?us-ascii?Q?ZjHS3FRSdirm12agHq3rvHw1DNPlA3IpeSHjfgObyHt/LblGM9l5QJ7u0BMN?=
- =?us-ascii?Q?QkN25irL4zWJgfsFOwFQfugbGUe+X06FAFG7VXGc6okrRLxuoWeFBBSmN3oS?=
- =?us-ascii?Q?3MHKQAAHy9VWPy+vIydAhShGsqsPKqf9KQmYcS+9EjQuWnKSrlP0ZYdpTmA2?=
- =?us-ascii?Q?EN42OdYzVxhdymDw+m6NpiivuOVPiR2FBL310XyFCgkJdMxKq8xXKSqOsiZC?=
- =?us-ascii?Q?4IWxeEItE3zFDJm50d5v3Df7qRqL9GcEUuKxXB1uqGlX6JkBcPCUu/ca7Tjk?=
- =?us-ascii?Q?BqAOiVhCmHDOBgCzEgFo/L7ckK5zclAGQmv+VnTMMs88mheH2vAjlYv2haIp?=
- =?us-ascii?Q?ZtvTmMkvgccs0BH+KXSNqsmnR78/lvcqKsvJuj0kjqDMBVQtq6iAdliHybST?=
- =?us-ascii?Q?UNXNDhQjjyiB5AXOC/WifnE5UsRCj9dys4vTAY2VG+zJMD7hWk1Oo708w5iX?=
- =?us-ascii?Q?qB34nxJ4J6/CpM0mvtF4WLxaIWB5jyurFaVzEZ1yiZMdTLSypnXRNejx0N/T?=
- =?us-ascii?Q?KA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1AOhLqS3AJWOodz2JDpY8+DA8+vhJTawPC8avqu9vNh2u7axfTlQ+pKI+ZRf?=
+ =?us-ascii?Q?NrX4i3aeSazFF10vZ3r/Zjpj4icKo844jKQUox+QhHNua7IX6rQzJq2GGfwm?=
+ =?us-ascii?Q?RGl7ZNPniKB5agYFV6YJoN/p3s3Ani6XCJPvitrCug1EsVnnNz2vxTxd5TPn?=
+ =?us-ascii?Q?L4NZR+NrKK6ly6FVRY7WRbS80Mpn971lnqqKtJeu/f23C8Cu/2QFV/qmRPzE?=
+ =?us-ascii?Q?R2UUeHPXACYs/x/juLH6j/0ILHpdaIbwhjZUsc+zZTW3GtamiJQVQmd4fZfJ?=
+ =?us-ascii?Q?0z3jzAAVIK53QFi74R7TJNIoLGkaSCIO5tAygbnaNXf0FVpW8uDq8eSWncYt?=
+ =?us-ascii?Q?KT9dKmnCJU81ySzgxsARfjCqdNm1vH2gDc/p/Ri/e/DoIIh6vKFCoP4mBXx0?=
+ =?us-ascii?Q?DPIgVUltiUAEkTv6FkTfGgx9lDCNofbKstyOoX3+rVafmYRruW59uisqXIa+?=
+ =?us-ascii?Q?xTGGxDPtIj6lq1IOlymVipJG0PDHUcCytODaLU43c2XzDNWTF52wLPJlu/RM?=
+ =?us-ascii?Q?gTFL927/rK5yS2iRCoc8UAs3AmNwp9WYaXBkTex417lEjlbAzmcDFXXPbWdg?=
+ =?us-ascii?Q?LdjqJIZjgbuptsUNWnKN5P/rNIgUC1lFnk1+obtsAp2G0JbiEoAzDhu21b6l?=
+ =?us-ascii?Q?Qq1E5Mv/yYtCkENXpuClUS53Vd5VjhXi/M0/mGg+JTgHiu6jMiFuLsuGGKkZ?=
+ =?us-ascii?Q?qhNUlQ4SG+uWDKgQJeFmGq4vJdUpp/k0sjymGuZ/QA/3KuRX3OHoxUIYJu5H?=
+ =?us-ascii?Q?waulyTSoalr3qPA1MaNUi1Y7WpmXoa9fZUcitS0ThaiWO63lkVkpIxgkkwO/?=
+ =?us-ascii?Q?R3rm0qFS8Ypqk43L5dQTS9z9bRg+lmGWiAzs8T6bMTEO+nh7HqmIa6R5fbj9?=
+ =?us-ascii?Q?Qr3XZiSnpkIem7oCWxx/xOpd8xFjIIGJkME7vjW0XFLCAnrSTaejduop2FkC?=
+ =?us-ascii?Q?/5i4lielwltKFy364A9MtU9XCiteeTf70Mj961GBfHdIhFC3L8MPBQprnsya?=
+ =?us-ascii?Q?lGNmw01ljfTyIOO1zpITr6B40+jYJ0Lv9+d/sKeK5GSgkUSRoNyhSfmn3gFv?=
+ =?us-ascii?Q?Q4rHvhSy+OhvOqShoqV5T1lTkVzdB5YzjDG/Fz77tR9EyAidS3+RO1FF7jp4?=
+ =?us-ascii?Q?ggcUmPOQxLv7pQ+4NRJNGSGrDWutSeVX+0OAciH8623RgcKyEjNfKznt1/pn?=
+ =?us-ascii?Q?OBHnaulrJAsLd5S8JAJADmxtX7OqkIpihAm0bJYZfYDN4bxaay0Yi2W4fPNI?=
+ =?us-ascii?Q?2ELYl4vIDlsWDW/dP/ItP1AlD+7ADenjI5lv8XTII17l3yz25HdF5a4FZhuK?=
+ =?us-ascii?Q?eohpcGE11qm1QDGV6uCq0PRTitWNV9ANPuD3H25SYoFxlTxsiMwGyO3dyvvi?=
+ =?us-ascii?Q?YHuIGHQyVtdtb/rhT8IjwT8g8nu2SfyBreE/gJ7i+ir0bvtBYgYCkCtP6bWX?=
+ =?us-ascii?Q?AehMFYGMAEMw4K+bX8ao4J1+Hccpv/slC8vvDPgSMhZQB/ssNw3drwe9PHSo?=
+ =?us-ascii?Q?YEe8A4iWxkmfl4tSB6LWlAO7YaRpw19LnnFua+8XsbHkQcshBV6a/bNZ0mEx?=
+ =?us-ascii?Q?dFEnFOy+0q6vxXTwfQyKZ1DVBkcNJPEIf8z2wh2tcm8SDfiA7EjRncZBV/bz?=
+ =?us-ascii?Q?WQ=3D=3D?=
 X-OriginatorOrg: syrmia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc359bba-77f5-44ad-aecb-08da94bad890
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1dacd64c-645e-4195-3148-08da94badcb3
 X-MS-Exchange-CrossTenant-AuthSource: VE1PR03MB6045.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2022 12:32:24.6253 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2022 12:32:31.5155 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HDFj9PsT13sX4atcMyk1c/PcMC2XjRevlE//ryzYrfL9jiePWiWO/e/4mU7xbvMl8leIAYogcHx7Wli+4RkpZirkZvirMNFXBCZ2qDMCCB0=
+X-MS-Exchange-CrossTenant-UserPrincipalName: pmeZbygTSVRwT9ZO5xEzoeMeklHQg9nugs//ATZERhW7TlhH7hTlDCUef9LY3Hx/Um1ZIjst/YnKhJ6or7MCFbgNzjQtDOwCTt5GfPDXWOM=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR03MB7603
-Received-SPF: pass client-ip=40.107.7.122;
+Received-SPF: pass client-ip=40.107.7.132;
  envelope-from=Milica.Lazarevic@Syrmia.com;
  helo=EUR04-HE1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
@@ -141,48 +141,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Change enums to typedef enums to keep naming clear.
+Replaced argument passing by reference with passing by address.
 
 Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- disas/nanomips.cpp | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ disas/nanomips.cpp | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
-index 0121d5da61..7e45897f9c 100644
+index 7e45897f9c..0b5648a7cc 100644
 --- a/disas/nanomips.cpp
 +++ b/disas/nanomips.cpp
-@@ -40,16 +40,16 @@ typedef uint32_t uint32;
- typedef uint16_t uint16;
- typedef uint64_t img_address;
+@@ -560,7 +560,7 @@ static uint64 extract_op_code_value(const uint16 *data, int size)
+  *      disassembly string  - on error will constain error string
+  */
+ static int Disassemble(const uint16 *data, char **dis,
+-                     TABLE_ENTRY_TYPE & type, const Pool *table,
++                     TABLE_ENTRY_TYPE *type, const Pool *table,
+                      int table_size, Dis_info *info)
+ {
+     for (int i = 0; i < table_size; i++) {
+@@ -585,7 +585,7 @@ static int Disassemble(const uint16 *data, char **dis,
+                             "disassembler failure - bad table entry");
+                         return -6;
+                     }
+-                    type = table[i].type;
++                    *type = table[i].type;
+                     *dis = dis_fn(op_code, info);
+                     return table[i].instructions_size;
+                 } else {
+@@ -21915,7 +21915,7 @@ static int nanomips_dis(char **buf,
+     uint16 bits[3] = {one, two, three};
  
--enum TABLE_ENTRY_TYPE {
-+typedef enum  {
-     instruction,
-     call_instruction,
-     branch_instruction,
-     return_instruction,
-     reserved_block,
-     pool,
--};
-+} TABLE_ENTRY_TYPE;
+     TABLE_ENTRY_TYPE type;
+-    int size = Disassemble(bits, buf, type, MAJOR, 2, info);
++    int size = Disassemble(bits, buf, &type, MAJOR, 2, info);
+     return size;
+ }
  
--enum TABLE_ATTRIBUTE_TYPE {
-+typedef enum {
-     MIPS64_    = 0x00000001,
-     XNP_       = 0x00000002,
-     XMMS_      = 0x00000004,
-@@ -67,7 +67,7 @@ enum TABLE_ATTRIBUTE_TYPE {
-     TLB_       = 0x00004000,
-     MVH_       = 0x00008000,
-     ALL_ATTRIBUTES = 0xffffffffull,
--};
-+} TABLE_ATTRIBUTE_TYPE;
- 
- typedef struct Dis_info {
-   img_address m_pc;
 -- 
 2.25.1
 
