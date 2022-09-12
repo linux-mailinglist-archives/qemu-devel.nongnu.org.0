@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDC5C5B58E7
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 12:59:21 +0200 (CEST)
-Received: from localhost ([::1]:57012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B72F25B58DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 12:57:43 +0200 (CEST)
+Received: from localhost ([::1]:52062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXh9s-0002Qu-Tl
-	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 06:59:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57834)
+	id 1oXh8I-0000j9-PP
+	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 06:57:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oXh28-0003aA-Oj
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 06:51:20 -0400
-Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31]:47083)
+ id 1oXh5Q-0005WS-Oo
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 06:54:45 -0400
+Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:42824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oXh26-0003A2-Ot
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 06:51:20 -0400
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-12b542cb1d3so12474489fac.13
- for <qemu-devel@nongnu.org>; Mon, 12 Sep 2022 03:51:18 -0700 (PDT)
+ id 1oXh5P-0003gd-0Z
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 06:54:44 -0400
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-127d10b4f19so22226160fac.9
+ for <qemu-devel@nongnu.org>; Mon, 12 Sep 2022 03:54:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=2HaN8+8iBIMeTc1ew1dlELPcOr/kuCfH1fGnYvP3zeg=;
- b=fvEzHcVeHHGtJz3fpeQmrGl9jkPEPY1BitnMtCu4K1haZopykmycALJAnXuNrDv9/q
- LUL2DDsFNoxfVGcvoGOyBsdiWE5hMrSJUTDENHI7nsVGtPH2RH13xnDdw49DJG3SiVYu
- 1QtLytSVhCqWh0aCAukR+7sRLV4EgAvot8KXgfluz5MHDi503NSg/riHkkxK/MXb24Si
- Hrabr/qZbDXg7bTeteVVqOofCInbVyOOuivWqnsFmiBL/083Y6RfMoWtpRWO9PyFbbfK
- cTi35AF92Q78+p/hB82c+7BS9b3/GeXphLUWvd1NCq9ATzU/KPdhfDTKBb9LbFfxN59c
- MdBA==
+ bh=3iHGB0diEqzc4c0cIAHxf52ydX62L4DAWrTzQv1mbe8=;
+ b=C7MBf4Z/cHRWGJwTIwdLbTCusVuNqvn3h55T3nP57K5bzEcSSVU+I25tA8kl35b227
+ xMotpFA1Ksz52AuSXx4NDVaJG3MGI8opWiRz7rfGdk4jOoSSNwnjkrgk7j/fFaiY95AX
+ /NH/kGU/tRKxD+crrioWKONeuk7QWFQ1/GBjaBT9QpICZdz6DWbQ12+Q892u30d/XEFK
+ mnVH1L1skN/hyxJYmBNbw0q6D+ax8nDkEE+MokonSJh1sPSQH0rr3LFzb5AMmzkbeSrA
+ D6K1P0UzZuRKJyXW5mTEqjf0BqUHP/NdeF48+xgizXKMDmKt8fTkrh98m+nj+oy6xxUJ
+ 4+gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=2HaN8+8iBIMeTc1ew1dlELPcOr/kuCfH1fGnYvP3zeg=;
- b=Pp/kKck9Ph9PVNn7TQLPCIQcdoh5HFHbwESA4ukz/vEppKdnK/KRN3Rqz4GbDsUoOH
- tLhhEKbum62qvBM6FHaVYekcUHFwW8b9sSRxLzDb3I5zhwH4reP1P8CDhwTDPx1g/boB
- xXQi2EZHL5h8k6YeCkXrUjqTtWMwrUGPVkWyDD0VtCTei6BsHaqomfQjOTbutv5QL4/3
- oW1BhRRXkydHRxSuP55OUDQezZBZ8cRvuLvIfdMFP9cM8LU6QjQmIrSmdSF2WeQfh99w
- 8lj+y+cvy36HPsJolI3r5RcwWINx4FSyAFHEG2rUHHm0CSnllqzGPGqaNKpBay4MBlet
- dgFw==
-X-Gm-Message-State: ACgBeo2BTIDRK24UxkBOONvwmN6lJK2oHoNcCw+f4CyjQCLtCE4TiL87
- 6oGz17I80sQdwh+LI3m0QiSzaQ==
-X-Google-Smtp-Source: AA6agR4Uf7T9AXIWha0Z9SJezzj4zNlmz5U+HhoxBLfZMqdL2CA/0NgQcW/QRchRa9kP0f8qOy6TWQ==
-X-Received: by 2002:a05:6808:1412:b0:342:ff44:6e5d with SMTP id
- w18-20020a056808141200b00342ff446e5dmr9472221oiv.160.1662979877357; 
- Mon, 12 Sep 2022 03:51:17 -0700 (PDT)
+ bh=3iHGB0diEqzc4c0cIAHxf52ydX62L4DAWrTzQv1mbe8=;
+ b=nx+4hX6laUwA+xd9wjQt2I82470ZYScsL4JwvVbU0nTZ0BEtrePQ43oyezXxl4xijS
+ lQ6lTpLzl0Od9uih901nsFuhCdVDdLWTz6HNsEZ102u2qcO/PoNevgvCt3PsSKQ0ZVSy
+ 56J41GB+LDVeHL6wQ5ChgTiZFPrR7JVsv8jpXvT3j+s4ps1PEbfF2TQwFzJeW1dm+NWM
+ EoVSPYrwesSfZ5oABob3PLavyrBxNlWARw0fG8DRQ2MAgF57rBXAVUPFXswm0fsX5cF2
+ ooq4AnJLYz+bdesAV3oQgQG4PhF3Ei2qFrfrtXPaMnwS65wtIOLArrI/ERCTBZs3Zx0M
+ Jq2w==
+X-Gm-Message-State: ACgBeo0kZUr04gOxPAequ9bkcQnpglwmieMfsJKAhW657AvuUIbUyI8W
+ DdJqcIOsnodL8q6Z9IdaE2GFrQ==
+X-Google-Smtp-Source: AA6agR5j9NPMf+rwaA0dDbPlTjn6bfZDh9QzQ+CPywCuwSEnn5HrjGR+V6oJoX9kDgyTo4tcJRQ/+Q==
+X-Received: by 2002:a05:6870:7a7:b0:fb:d45:62f with SMTP id
+ en39-20020a05687007a700b000fb0d45062fmr10763406oab.170.1662980080200; 
+ Mon, 12 Sep 2022 03:54:40 -0700 (PDT)
 Received: from [192.168.44.231] ([172.102.14.47])
  by smtp.gmail.com with ESMTPSA id
- y9-20020a056870418900b001267a921ae5sm5253121oac.34.2022.09.12.03.51.15
+ 3-20020aca0703000000b00342df642fd3sm3698012oih.48.2022.09.12.03.54.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Sep 2022 03:51:16 -0700 (PDT)
-Message-ID: <bced38fb-6c5e-b906-6b9f-4bcbe7518e1f@linaro.org>
-Date: Mon, 12 Sep 2022 11:51:11 +0100
+ Mon, 12 Sep 2022 03:54:39 -0700 (PDT)
+Message-ID: <aed50ac6-82ff-4052-4ab1-56ab98e261da@linaro.org>
+Date: Mon, 12 Sep 2022 11:54:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 11/37] target/i386: validate SSE prefixes directly in the
- decoding table
+Subject: Re: [PATCH 05/37] target/i386: add core of new i386 decoder
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20220911230418.340941-1-pbonzini@redhat.com>
- <20220911230418.340941-12-pbonzini@redhat.com>
+ <20220911230418.340941-6-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220911230418.340941-12-pbonzini@redhat.com>
+In-Reply-To: <20220911230418.340941-6-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::31;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x31.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2c.google.com
 X-Spam_score_int: -61
 X-Spam_score: -6.2
 X-Spam_bar: ------
@@ -96,44 +95,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/12/22 00:03, Paolo Bonzini wrote:
-> Many SSE and AVX instructions are only valid with specific prefixes
-> (none, 66, F3, F2).  Introduce a direct way to encode this in the
-> decoding table to avoid using decode groups too much.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   target/i386/tcg/decode-new.c.inc | 37 ++++++++++++++++++++++++++++++++
->   target/i386/tcg/decode-new.h     |  1 +
->   2 files changed, 38 insertions(+)
-> 
-> diff --git a/target/i386/tcg/decode-new.c.inc b/target/i386/tcg/decode-new.c.inc
-> index f6c032c694..7b4fd9fb54 100644
-> --- a/target/i386/tcg/decode-new.c.inc
-> +++ b/target/i386/tcg/decode-new.c.inc
-> @@ -108,6 +108,22 @@
->   
->   #define avx2_256 .vex_special = X86_VEX_AVX2_256,
->   
-> +#define P_00          1
-> +#define P_66          (1 << PREFIX_DATA)
-> +#define P_F3          (1 << PREFIX_REPZ)
-> +#define P_F2          (1 << PREFIX_REPNZ)
+> +/* five rows for no prefix, 66, F3, F2, 66+F2  */
+> +static X86OpEntry opcodes_0F38_F0toFF[16][5] = {
 
-These prefixes are already flags.  Do you really need to shift the shifted value?
-I guess you need to choose a value for "no prefix", but I think you could also (ab,re)use 
-PREFIX_LOCK or something...
-
-> @@ -212,6 +212,7 @@ struct X86OpEntry {
->       X86CPUIDFeature cpuid : 8;
->       uint8_t      vex_class : 8;
->       X86VEXSpecial vex_special : 8;
-> +    uint16_t     valid_prefix : 16;
-
-Anyway, if you did, you'd only need 4 bits instead of 16.
-
-That said, the logic is sound, and saving a few bits doesn't matter much.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+const.
 
 
 r~
