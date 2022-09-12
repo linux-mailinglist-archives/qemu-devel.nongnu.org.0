@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BDBB5B5FBD
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 20:02:08 +0200 (CEST)
-Received: from localhost ([::1]:47344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A08CB5B61E8
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 21:52:04 +0200 (CEST)
+Received: from localhost ([::1]:48962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXnl0-0001O6-G3
-	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 14:02:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53564)
+	id 1oXpTP-0003uh-9N
+	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 15:52:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arwed.meyer@gmx.de>)
- id 1oXne1-0002AS-WA; Mon, 12 Sep 2022 13:54:54 -0400
-Received: from mout.gmx.net ([212.227.17.22]:39677)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arwed.meyer@gmx.de>)
- id 1oXndz-0001a7-V1; Mon, 12 Sep 2022 13:54:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1663005287;
- bh=ou/v3LV0/8+IePB+vNSzfFqALzBLXajYp4dHQsk5brM=;
- h=X-UI-Sender-Class:Date:Subject:From:To:Cc:References:In-Reply-To;
- b=l4IUlRMYBUBuCv78gzPCqT6qPOWM+SVFM1HxGD9fnKnFUdIIv7TtbtnAL8GwkHdph
- G0sehDRu71HTzQWkzLZ7fvRl0U63ZR6fA7fNx7fhqRYoRMEBckzPULB7ADkE58mxMD
- SSrx6+Jm/DYOJHVW2Q9ElaWa1N/wI8hNt5B/09Rw=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.178.49] ([94.223.115.42]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MC34X-1od0Ic0eMv-00COfh; Mon, 12
- Sep 2022 19:54:47 +0200
-Message-ID: <c9a4a495-c16d-f274-8cbc-b2c314c50618@gmx.de>
-Date: Mon, 12 Sep 2022 19:54:46 +0200
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oXpRo-0001o6-S0; Mon, 12 Sep 2022 15:50:25 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:45754)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oXpRm-0004hR-1h; Mon, 12 Sep 2022 15:50:24 -0400
+Received: by mail-ed1-x536.google.com with SMTP id u6so14347863eda.12;
+ Mon, 12 Sep 2022 12:50:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=efc+HCr06fGfpySEXqUb5MH/uUCE8jhZ0CUXlBq8YaQ=;
+ b=nxvyMFNAz65ECMxFuL+MJmj6QJ3SVfHv4TQCCf1zYc9m/zMNztJvLDUvy9DnOWObO0
+ kQu7UmmsE2jVwJX/xZrp1YU9itS3s00CNB+6mh1EGQRtV+DUXDfJrCMRIBEk0kSbKLpW
+ CGTch3JQC49ppEkoAwcp65X+S2paw4o1ykOcg8E+vYwPP1L/Ysx+hR1bPJG1z7V/Ru//
+ vF0YBHL7dzLQo7R8+iMmfn5mmmxH0OGMA7bGURXsEhTo5jTAeB3DZeICDY9yx4TOMSbJ
+ 1UGVuNnQDlqzCA+SHfAuOnNaCMHVDPx4tcUq78V8+qxt8a/kMn4hUbpDr6OlGSg8hCTK
+ /ViQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=efc+HCr06fGfpySEXqUb5MH/uUCE8jhZ0CUXlBq8YaQ=;
+ b=F4xzN+gSCWCv4wmxY7UO6jOq5iofrHohoqbxcJFcIs3xQ6FUNreBVtHfmK1mslxdLR
+ nmgIB9Q5Lk3LbW23v17QurW6B/Z1hvpxrWACEbVj9NBOh87UMviG5keFPr/7OggGSH21
+ iae8K/HfQChqn2Y2w+7R7i9Ghu1FI7ZmZS1pQuYGgMag7Ejyja5wmYaVrHfF/NLHwMNy
+ bGo0D1fnW3KB3im5lICQivmCWnpqGbQeOj0FWfTQnjDe/ae8ZjtyueM0THJvMDXtmUqQ
+ iWudTq5J/Eh0eyKThKLLtzgvuA7DlGR4WIQteEzE3EN9Mv8SLe7z3nBOkY8vQe0wMF+1
+ Xg/A==
+X-Gm-Message-State: ACgBeo3FhMV1IQFT2wgDD+KIl8EvV0RaJ5NR0f3ft+/GesObzjbXRh2R
+ IrthrrjtAdsM2D8Vaam+K6n2l3hFhb8=
+X-Google-Smtp-Source: AA6agR7APLogdIpRpi4RMBlS12SVccfO9hyjsEquGM4O/IWxaNg6w97airplx3/bMkohXOQhw1hqcQ==
+X-Received: by 2002:a05:6402:1712:b0:44d:db03:46f2 with SMTP id
+ y18-20020a056402171200b0044ddb0346f2mr23910956edu.260.1663012218387; 
+ Mon, 12 Sep 2022 12:50:18 -0700 (PDT)
+Received: from [127.0.0.1] (dynamic-077-011-088-148.77.11.pool.telefonica.de.
+ [77.11.88.148]) by smtp.gmail.com with ESMTPSA id
+ gc33-20020a1709072b2100b00731803d4d04sm4849434ejc.82.2022.09.12.12.50.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Sep 2022 12:50:17 -0700 (PDT)
+Date: Mon, 12 Sep 2022 19:50:10 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+CC: qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>,
+ Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH v5 00/13] Instantiate VT82xx functions in host device
+In-Reply-To: <20220901114127.53914-1-shentey@gmail.com>
+References: <20220901114127.53914-1-shentey@gmail.com>
+Message-ID: <E2820A94-3E30-46DB-9F83-8157C9A6FE1B@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 1/5] msmouse: Handle mouse reset
-Content-Language: de-DE
-From: Arwed Meyer <arwed.meyer@gmx.de>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220908173120.16779-1-arwed.meyer@gmx.de>
- <20220908173120.16779-2-arwed.meyer@gmx.de>
- <CAFEAcA_F+ETYHT-HSs3wHwjqP4CEe2LtdfCf8B_P2Ted4xvk+w@mail.gmail.com>
- <1bd4abdc-e0db-1fa6-99ba-84b729e5cb22@gmx.de>
- <CAFEAcA-9RD_Lxypgm1yM6T_R=SS=LD9JPQbD5SFek4_wrCnKhg@mail.gmail.com>
- <8bb22c23-23b2-8c2c-12e7-24a2f299445c@gmx.de>
-In-Reply-To: <8bb22c23-23b2-8c2c-12e7-24a2f299445c@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:W4OlpilaCyCUYYDqfno4NRHy7Hm3Us/tBlVpNQ910goRXD3GESt
- NjMwf5IYqUWn80XXEw6QgMJ4Jnfl43UIF9vcRzxtBaD7xAVzaLm+311cpIVi+ZTTJPzjqNr
- nBEr4YW0Y79QcZDT1YeCEiiKfdCcDxw1JJHeIhw/5MVh+DRKPhOFSxtruJp5VugIThua8ee
- H+YcWZv9sQeAsOMU+t3Gg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vwCbTYdN6q0=:ZRJAIQs3DnJ02Tp1erOYVi
- ETWjm5yrKCwfxnH6QBo4sV+xMv2nZblLYFnconV/8j0PUlUOgeaqlp6tZSjKcJPd88rZ00KIY
- JFQMHeDE3FpSjom3fQMNDW/X7T6ShPsfo/CBiqmK+2MBawXCyjHfyRD8jVGPeNG6y4/dm5kFg
- 8h0Z9YawGELH1FU0oNHLsGtY7NpyMhCuoij5XFoNDz2Yz9K3pG0JRauvRXv6FN1hXb8enJ7Cg
- uXLr9IwsgiydNKhABiMtk8HJksOfU5246Gr1rnJx2QRdb2B5lueUOKMGyZuJKSZYt60KVKN6k
- 75ySEHRbNseTzPRQz7H4wuP4E2g++nLMYkCU4u0v2PHjwzEbpC38VEEcYkI6u5ETe3vukmlq1
- 4uIsjKZNryDHh9h7rxZIcV6MwZNwQN+guZO8qZK7+w8cbVZZ1F75+H6cJf2T75u9uX/ofFnvO
- bP1VFOQPG8Q6fJouc0L57V/9Gzew4akbuy6KnjjRVW+xQvo0tpHVjbFQTE9rm34/RrZmLdiRs
- pEDmryaXvSPD4sJJn/4oTfhmWR+OhV3aRIyFEAuTwUVZM2ctnkE4Twzj1GPsz2wWYAwxZX0zw
- fZSWLjzBLrG3v4cwJG3nZ48ocEuhlPqlKU1YJK7+Aj1FMPke+hE6jce5+9wdGA9v1SNCHLr3D
- CmpMb2AOJ7Lts9st2B8FYM5W8sPBixIO51wKhP1Uz5TWQIOcjJa2IhQvD0S916+2Ux5ziRgMp
- OwU0/QAx8a5yPuKchffRMflREv2dfhVj6GNUb/l+k+gDhY2VnWjI70nySmzn75XtPd7zEXEuf
- WvGN3Mb3lRX/YgGXGJK90GaLJJ2F2vxMiAZvvad7N73LZVa4e2cSBACTvHgLVkkpNhIqV0rse
- 2VPdiRW7ZD0qELeLTEYH8QPdi2nNaJ0xU3jT+rW15n0zztP+rKrhBNmuOtS50btgzgU9wW3jI
- TWY1HCSWJ72JPhiZRqzKyYlfx9Ox8yDgAR7oel/Qf9kLiiaEhx8kvAgwCnxgYHjwRTeypStJn
- Xy3FF6+6cr4D/mCrMCTAS7SF/XOQaDm/a/6dyrq1SO1LWadG7Z4Vqr8nB+M8CfAhOoAsrGj2o
- BJN9pcRPZVkBzcERDOGS5nv5ItJmnD8j0EbIev87CeAs9TgNu2/pbELLArBIEOf4U7/7dDI9b
- DYJLViqP3kuDABBeopcoduhZWx
-Received-SPF: pass client-ip=212.227.17.22; envelope-from=arwed.meyer@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.153,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,66 +92,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 12.09.22 um 19:45 schrieb Arwed Meyer:
-> Am 11.09.22 um 20:27 schrieb Peter Maydell:
->> On Sun, 11 Sept 2022 at 18:14, Arwed Meyer <arwed.meyer@gmx.de> wrote:
->>>
->>> Am 08.09.22 um 23:11 schrieb Peter Maydell:
->>>> On Thu, 8 Sept 2022 at 18:43, Arwed Meyer <arwed.meyer@gmx.de> wrote:
->>>>>
->>>>> Detect mouse reset via RTS or DTR line:
->>>>> Don't send or process anything while in reset.
->>>>> When coming out of reset, send ID sequence first thing.
->>>>> This allows msmouse to be detected by common mouse drivers.
->>>>>
->>>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/77
->>>>> Signed-off-by: Arwed Meyer <arwed.meyer@gmx.de>
->>>>
->>>> How does this work across migration? There doesn't seem
->>>> to be anything that handles migration of the existing
->>>> state inside the MouseChardev either, though...
->>
->>> can you please explain in more detail what you don't understand and wh=
-at
->>> you mean by "migration"?
->>
->> Migration is when the state of the whole VM is copied from
->> one host to another, or, equivalently, when it is saved to
->> the disk image with 'savevm' to be restarted later. For this
->> to work all the guest-changeable state in the whole VM (all
->> device registers, internal state, etc) has to be saved so
->> it can be reloaded on the destination. My question is basically
->> how this new state in mouse->tiocm, and more generally how
->> the existing other state fields in that struct, are saved
->> and loaded during the migration process. I know how this
->> works for device models, but I'm not sure how chardevs
->> figure into it. (Perhaps the answer is "this shouldn't be
->> a chardev at all" ???)
->>
->> thanks
->> -- PMM
+Am 1=2E September 2022 11:41:14 UTC schrieb Bernhard Beschow <shentey@gmail=
+=2Ecom>:
+>v5:
 >
-> Hi,
+>* Add patch "Inline vt82c686b_southbridge_init() and remove it" (Zoltan)
+=
 >
-> thanks for adding some context. Good question.
-> Unfortunately I don't know the device and migration code much, so I
-> can't really say anything about this. I guess(!) it should be enough to
-> save/load contents of struct MouseChardev. No idea if and how this can
-> be done though.
-> Also since saving/loading device state wasn't supported in the msmouse
-> code to begin with, for me this is a new feature and out of scope for
-> this patch set.
-> The result of this missing feature might be that mouse buttons are
-> detected as not pressed and mouse movement data is lost after migration.
+>* Use machine parameter when creating rtc-time alias (Zoltan)
 >
 >
-> Regards
+>
+>Testing done: Same as in v3=2E
+>
+>
+>
+>v4:
+>
+>* Fix in comment: AC97 Modem -> MC97 Modem (Zoltan)
+>
+>* Introduce TYPE_VT82C686B_USB_UHCI define (Zoltan)
+>
+>* Introduce TYPE_VIA_IDE define (for consistency)
+>
+>
+>
+>v3:
+>
+>* Replace pre increment by post increment in for loop (Zoltan)
+>
+>* Move class defines close to where the class is defined (Zoltan)
+>
+>
+>
+>Testing done:
+>
+>* `make check-avocado`
+>
+>  Passes for boot_linux_console=2Epy for mips64el_fuloong2e
+>
+>* `qemu-system-ppc -machine pegasos2 -rtc base=3Dlocaltime -device ati-vg=
+a,guest_hwcursor=3Dtrue,romfile=3D"" -cdrom morphos-3=2E17=2Eiso -kernel mo=
+rphos-3=2E17/boot=2Eimg`
+>
+>  Boots successfully and it is possible to open games and tools=2E
+>
+>
+>
+>v2:
+>
+>* Keep the call to pci_ide_create_devs() in board code for consistency (Z=
+oltan)
+>
+>* Create rtc-time alias in board rather than in south bridge code
+>
+>* Remove stale comments about PCI functions (Zoltan)
+>
+>
+>
+>v1:
+>
+>This series instantiates all PCI functions of the VT82xx south bridges in=
+ the south bridges themselves=2E
+>
+>For the IDE function this is especially important since its interrupt rou=
+ting is configured in the
+>
+>ISA function, hence doesn't make sense to instantiate it as a "Frankenste=
+in" device=2E The interrupt
+>
+>routing is currently hardcoded and changing that is currently not in the =
+scope of this series=2E
+>
+>
+>
+>Testing done:
+>
+>* `qemu-system-ppc -machine pegasos2 -rtc base=3Dlocaltime -device ati-vg=
+a,guest_hwcursor=3Dtrue,romfile=3D"" -cdrom morphos-3=2E17=2Eiso -kernel mo=
+rphos-3=2E17/boot=2Eimg`
+>
+>  Boots successfully and it is possible to open games and tools=2E
+>
+>
+>
+>* I was unable to test the fuloong2e board even before this series since =
+it seems to be unfinished [1]=2E
+>
+>  A buildroot-baked kernel [2] booted but doesn't find its root partition=
+, though the issues could be in the buildroot receipt I created=2E
+>
+>
+>
+>[1] https://osdn=2Enet/projects/qmiga/wiki/SubprojectPegasos2
+>
+>[2] https://github=2Ecom/shentok/buildroot/commits/fuloong2e
+>
 
-... more specific regarding to mouse->tiocm:
-Since it is initialized to 0, the device is put to reset after restoring
-state/migrating and won't react. You'd probably have to reload the
-client's mouse driver to get the mouse up and running again.
+Copying from v2 (just found it in my spam folder :/):
+Series:
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=2Eorg>
 
+Review seems complete, thanks to all who participated! Now we just need so=
+meone to queue this series=2E
 
-Regards
+Best regards,
+Bernhard
+
+>
+>
+>Bernhard Beschow (13):
+>
+>  hw/isa/vt82c686: Resolve chip-specific realize methods
+>
+>  hw/isa/vt82c686: Resolve unneeded attribute
+>
+>  hw/isa/vt82c686: Prefer pci_address_space() over get_system_memory()
+>
+>  hw/isa/vt82c686: Reuse errp
+>
+>  hw/isa/vt82c686: Introduce TYPE_VIA_IDE define
+>
+>  hw/isa/vt82c686: Instantiate IDE function in host device
+>
+>  hw/isa/vt82c686: Introduce TYPE_VT82C686B_USB_UHCI define
+>
+>  hw/isa/vt82c686: Instantiate USB functions in host device
+>
+>  hw/isa/vt82c686: Instantiate PM function in host device
+>
+>  hw/isa/vt82c686: Instantiate AC97 and MC97 functions in host device
+>
+>  hw/mips/fuloong2e: Inline vt82c686b_southbridge_init() and remove it
+>
+>  hw/isa/vt82c686: Embed RTCState in host device
+>
+>  hw/isa/vt82c686: Create rtc-time alias in boards instead
+>
+>
+>
+> configs/devices/mips64el-softmmu/default=2Emak |   1 -
+>
+> hw/ide/via=2Ec                                 |   2 +-
+>
+> hw/isa/Kconfig                               |   1 +
+>
+> hw/isa/vt82c686=2Ec                            | 120 +++++++++++++++----=
+
+>
+> hw/mips/fuloong2e=2Ec                          |  39 +++---
+>
+> hw/ppc/Kconfig                               |   1 -
+>
+> hw/ppc/pegasos2=2Ec                            |  25 ++--
+>
+> hw/usb/vt82c686-uhci-pci=2Ec                   |   4 +-
+>
+> include/hw/isa/vt82c686=2Eh                    |   4 +-
+>
+> 9 files changed, 126 insertions(+), 71 deletions(-)
+>
+>
+>
+>-- >
+>2=2E37=2E3
+>
+>
+>
+
 
