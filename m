@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E8545B52D3
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 05:19:19 +0200 (CEST)
-Received: from localhost ([::1]:57050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D76A35B52D0
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 05:16:46 +0200 (CEST)
+Received: from localhost ([::1]:40198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXZyg-0000Fs-1g
-	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 23:19:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53550)
+	id 1oXZwE-00073C-0P
+	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 23:16:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oXZql-0006Tv-QK
+ id 1oXZql-0006Tw-QL
  for qemu-devel@nongnu.org; Sun, 11 Sep 2022 23:11:07 -0400
-Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:51976)
+Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:33636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oXZqd-0007IR-Vp
+ id 1oXZqe-0007Ib-IB
  for qemu-devel@nongnu.org; Sun, 11 Sep 2022 23:11:05 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R261e4; CH=green; DM=||false|;
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R211e4; CH=green; DM=||false|;
  DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
  MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=6; SR=0;
- TI=SMTPD_---0VPNJLP1_1662952253; 
+ TI=SMTPD_---0VPNIbwO_1662952254; 
 Received: from localhost(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VPNJLP1_1662952253) by smtp.aliyun-inc.com;
- Mon, 12 Sep 2022 11:10:54 +0800
+ fp:SMTPD_---0VPNIbwO_1662952254) by smtp.aliyun-inc.com;
+ Mon, 12 Sep 2022 11:10:55 +0800
 From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, jasowang@redhat.com, arei.gonglei@huawei.com,
  hengqi@linux.alibaba.com, xuanzhuo@linux.alibaba.com
-Subject: [PATCH v2 4/6] vhost-net: vhost-user: update
- vhost_net_virtqueue_restart()
-Date: Mon, 12 Sep 2022 11:10:47 +0800
-Message-Id: <2f51b68283755fe268dd4ce30a8cae7b1488e903.1662949366.git.kangjie.xu@linux.alibaba.com>
+Subject: [PATCH v2 5/6] virtio-net: vhost-user: update queue_reset and
+ queue_enable
+Date: Mon, 12 Sep 2022 11:10:48 +0800
+Message-Id: <407c17b9a62bb7be06423b00a77b0fe301dc46de.1662949366.git.kangjie.xu@linux.alibaba.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1662949366.git.kangjie.xu@linux.alibaba.com>
 References: <cover.1662949366.git.kangjie.xu@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.54;
+Received-SPF: pass client-ip=115.124.30.132;
  envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-54.freemail.mail.aliyun.com
+ helo=out30-132.freemail.mail.aliyun.com
 X-Spam_score_int: -98
 X-Spam_score: -9.9
 X-Spam_bar: ---------
 X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
  USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,32 +64,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update vhost_net_virtqueue_restart() for vhost-user scenario.
-
-In order to reuse some functions, we process the idx for
-vhost-user case. It is because vhost_get_vq_index behave
-differently in vhost-user.
+Update virtio_net_queue_reset() and virtio_net_queue_enable()
+for vhost-user scenario.
 
 Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 ---
- hw/net/vhost_net.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/net/virtio-net.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 25e5665489..8b80942e7c 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -577,6 +577,9 @@ int vhost_net_virtqueue_restart(VirtIODevice *vdev, NetClientState *nc,
-     assert(vhost_ops);
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 6ab796b399..19a2132180 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -550,7 +550,8 @@ static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
+     }
  
-     idx = vhost_ops->vhost_get_vq_index(&net->dev, vq_index);
-+    if (net->nc->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
-+        idx -= net->dev.vq_index;
-+    }
+     if (get_vhost_net(nc->peer) &&
+-        nc->peer->info->type == NET_CLIENT_DRIVER_TAP) {
++        (nc->peer->info->type == NET_CLIENT_DRIVER_TAP ||
++         nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_USER)) {
+         vhost_net_virtqueue_reset(vdev, nc, queue_index);
+     }
  
-     r = vhost_virtqueue_start(&net->dev,
-                               vdev,
+@@ -568,7 +569,8 @@ static void virtio_net_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
+     }
+ 
+     if (get_vhost_net(nc->peer) &&
+-        nc->peer->info->type == NET_CLIENT_DRIVER_TAP) {
++        (nc->peer->info->type == NET_CLIENT_DRIVER_TAP ||
++         nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_USER)) {
+         r = vhost_net_virtqueue_restart(vdev, nc, queue_index);
+         if (r < 0) {
+             error_report("unable to restart vhost net virtqueue: %d, "
 -- 
 2.32.0
 
