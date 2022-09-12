@@ -2,18 +2,18 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F7445B598D
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 13:45:50 +0200 (CEST)
-Received: from localhost ([::1]:57572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB67E5B593A
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 13:24:35 +0200 (CEST)
+Received: from localhost ([::1]:54644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXhsr-0002pI-4j
-	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 07:45:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38194)
+	id 1oXhYI-0001K5-Nu
+	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 07:24:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oXhOH-0001uv-QX
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 07:14:15 -0400
+ id 1oXhJS-0007NI-HY
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 07:09:16 -0400
 Received: from mail-oa1-x2e.google.com ([2001:4860:4864:20::2e]:35523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
