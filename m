@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10C335B573B
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 11:34:21 +0200 (CEST)
-Received: from localhost ([::1]:39550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7FAE5B57E9
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 12:09:24 +0200 (CEST)
+Received: from localhost ([::1]:37562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXfpb-0006Dd-Em
-	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 05:34:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58386)
+	id 1oXgNX-0006Ko-CY
+	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 06:09:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oXfll-0004ez-8R
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 05:30:21 -0400
-Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b]:37500)
+ id 1oXgGW-00014i-T9
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 06:02:13 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46037)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oXflj-0007wX-0N
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 05:30:20 -0400
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-127f5411b9cso21799202fac.4
- for <qemu-devel@nongnu.org>; Mon, 12 Sep 2022 02:30:18 -0700 (PDT)
+ id 1oXgGU-00041d-Kd
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 06:02:08 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id bj14so14442969wrb.12
+ for <qemu-devel@nongnu.org>; Mon, 12 Sep 2022 03:02:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=SUUq0/fAq/bnAsypqgZCWMixwRxXxGSDsZ7h+jKzf3g=;
- b=qj6I1HdYgGhQ3q1X/Mx6n7P3WGxuUIRRJqrGv/PSXkO3U84cTUPLfj8r/oZUvVnxpL
- fW/fgDhJ0LE6fMQTVIBzPNraegZ+vCksaCs5+dvuUB5y1EHdcRx41VkvQ9KxlZejHAcy
- CecFIuqMFTbIYF/IzmvNQ0TkM5AcP2RTAyAbruj4uVIayX2B261MmEq393wukLhgmDKe
- Et0YJH0VEFD1FEzg6eM2r3M0ixMhAaSqtL4jyPsodE4BpGdjQPuuQBrOC8IkKEx5HynM
- U2ELvjRk0/20ZepnNhEZi+6NdnQyIahV6q/zQjXidY4PhgOCG4fcSvoL9OytLdtNv2Pi
- 3zPA==
+ bh=ayJns/kz3+Ov+JOxpkJo1Y49J4Xa9ebiZ1Y0R65c8eI=;
+ b=GBdbFoLI5149nDh1zwigdqun42PyI7Y0om2YIZUuDe/YhTGYyyFmApFzuYv8nceHo2
+ 3Zcp8VW0q11LifNIqc0K6BFe1P10TcRoCgAITd6tUD6OxBbuT2kX9/xxLqL728kCRpWH
+ 2v1qR3sJtTQbbJJRs8RB1k2IBgWeCRDC/l2EoUTcg8ZCZHJD2rtrys7e5P+a4DZ5EJwP
+ /64vEnzpCE6oBc7JB90A4IWt3lYWCk0Ev4yXbJ+mg3NiMCrRdoyPrAvpqZoMaFLt3sJq
+ akEMTKUWKF7C6PASZYKsgOsJ/5toZzk3Ta7fg7etrzK0cTyR2xmPC04AZll1ozVBHNRo
+ 8ErQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=SUUq0/fAq/bnAsypqgZCWMixwRxXxGSDsZ7h+jKzf3g=;
- b=ZQsMpGG1BWgEi7tYGzP4yUFWhBOkSCYlxhOC8MqlLVssnzvPfzhrEZGrzA6p8Q1QUo
- tQiZuf8n1vB01O0FXfDRbl1wIMqv71vwcot9r7c/dDWba0kKP4JAfW/H0FtsVfODxMYg
- MfqqTQOtxxDSnP6gk62lMlo8h91yBSbHkWAQL1ZGTpH/lTgErtWgdEneedWtjGPk3ahg
- MS1qSNVeSx6JXY34fe2baJ1O22ISOgsncPMTqi4wCusGN8XeWatAS1R2HMABsg+x0+J3
- e0Uwc8qrM173VMgT6BZ00YhcZrjoiDbxIIKk5mkVSBM7G26wmD/CVWxjH1xaVPOHg46A
- qglw==
-X-Gm-Message-State: ACgBeo04tVBNW7pfXlrY1mNwrZQt+gXpcYYARIVDna6FPY07R4xWFeNj
- rQTb5APBfZcB/CILtsnAzs4SdA==
-X-Google-Smtp-Source: AA6agR4l/4NTfFQLO0ee1TuauqqvfV3gv5ualHv92e/kDu+Yxt9azpJq9e2a6I2kCiu/wpDP05AzAg==
-X-Received: by 2002:a05:6870:b01e:b0:11d:fbe9:90e7 with SMTP id
- y30-20020a056870b01e00b0011dfbe990e7mr11085423oae.32.1662975015224; 
- Mon, 12 Sep 2022 02:30:15 -0700 (PDT)
-Received: from [192.168.44.231] ([172.102.14.47])
+ bh=ayJns/kz3+Ov+JOxpkJo1Y49J4Xa9ebiZ1Y0R65c8eI=;
+ b=fEQBQaNK7cW4+/GJAZqNt4bHOzK8Z9Gh1FwJV9LGz4q+QI4sPff6+CSb6f/ol5MXht
+ J7zQc08pAxEz1z5ypevSRvltgVdyZziz6jFW+IwfAAAuXl4yOCAggTQAvJyXqF89Q+6j
+ EeI2J4Vk30goLQ4Z2TIQB9Hsr4QcLEhelDLKyjPOciwU/z5PQmFDJvjSWcFUlESP4Y4U
+ y7pAIcpvWuyc0SGMPKPxNNN8Mtbz5rfgiZVFvbBgR7ADr3iqIoOYAP4UTkdMi84Q7ofe
+ XthY7tJIwYQTeITmLUWVxhvusCRFEzHd2nlJK414Z7qRHzMF0/R4HwoOkrFVs/ls6YBd
+ 7A/g==
+X-Gm-Message-State: ACgBeo169ZX7gkOGnf91jKxqZknx0kvjUytuhh0ERBykPOGO2aIBigLH
+ IYi4iYykcv1fp4Zt5RfuJOjIvw==
+X-Google-Smtp-Source: AA6agR5+DfOGW9ZsJF6lcADXT426dGq0vq/noAZl6exE09uiYQqK2tj/nDF1BUr9pOA4ipJxSB7qYA==
+X-Received: by 2002:a05:6000:1865:b0:228:de57:f1c8 with SMTP id
+ d5-20020a056000186500b00228de57f1c8mr14944592wri.370.1662976924860; 
+ Mon, 12 Sep 2022 03:02:04 -0700 (PDT)
+Received: from [192.168.44.231] ([89.101.193.70])
  by smtp.gmail.com with ESMTPSA id
- l2-20020a056808020200b00344f28a7a4csm3641507oie.22.2022.09.12.02.30.13
+ b11-20020a05600c4e0b00b003b492753826sm327844wmq.43.2022.09.12.03.02.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Sep 2022 02:30:14 -0700 (PDT)
-Message-ID: <84f6abe8-ff6a-0a69-d415-1f63b7f57bea@linaro.org>
-Date: Mon, 12 Sep 2022 10:27:58 +0100
+ Mon, 12 Sep 2022 03:02:04 -0700 (PDT)
+Message-ID: <f8b05c03-9e78-679c-3eae-7940b54afdfc@linaro.org>
+Date: Mon, 12 Sep 2022 11:02:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 05/37] target/i386: add core of new i386 decoder
+Subject: Re: [PATCH 06/37] target/i386: add ALU load/writeback core
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20220911230418.340941-1-pbonzini@redhat.com>
- <20220911230418.340941-6-pbonzini@redhat.com>
+ <20220911230418.340941-7-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220911230418.340941-6-pbonzini@redhat.com>
+In-Reply-To: <20220911230418.340941-7-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2b;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -61
 X-Spam_score: -6.2
 X-Spam_bar: ------
@@ -95,197 +94,169 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/12/22 00:03, Paolo Bonzini wrote:
-> +    case X86_TYPE_B:  /* VEX.vvvv selects a GPR */
-> +        op->unit = X86_OP_INT;
-> +        op->n = s->vex_v;
+> Add generic code generation that takes care of preparing operands
+> around calls to decode.e.gen in a table-driven manner, so that ALU
+> operations need not take care of that.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   target/i386/tcg/decode-new.c.inc |  20 +++-
+>   target/i386/tcg/decode-new.h     |   1 +
+>   target/i386/tcg/emit.c.inc       | 152 +++++++++++++++++++++++++++++++
+>   target/i386/tcg/translate.c      |  24 +++++
+>   4 files changed, 195 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/i386/tcg/decode-new.c.inc b/target/i386/tcg/decode-new.c.inc
+> index de8ef51a2d..7f76051b2d 100644
+> --- a/target/i386/tcg/decode-new.c.inc
+> +++ b/target/i386/tcg/decode-new.c.inc
+> @@ -228,7 +228,7 @@ static bool decode_op_size(DisasContext *s, X86OpEntry *e, X86OpSize size, MemOp
+>               *ot = MO_64;
+>               return true;
+>           }
+> -        if (s->vex_l && e->s0 != X86_SIZE_qq) {
+> +        if (s->vex_l && e->s0 != X86_SIZE_qq && e->s1 != X86_SIZE_qq) {
+>               return false;
+>           }
+
+Squash back?
+
+> diff --git a/target/i386/tcg/emit.c.inc b/target/i386/tcg/emit.c.inc
+> index e86364ffc1..6fa0062d6a 100644
+> --- a/target/i386/tcg/emit.c.inc
+> +++ b/target/i386/tcg/emit.c.inc
+> @@ -29,3 +29,155 @@ static void gen_load_ea(DisasContext *s, AddressParts *mem)
+>       TCGv ea = gen_lea_modrm_1(s, *mem);
+>       gen_lea_v_seg(s, s->aflag, ea, mem->def_seg, s->override);
+>   }
+> +
+> +static void gen_mmx_offset(TCGv_ptr ptr, X86DecodedOp *op)
+> +{
+> +    if (!op->has_ea) {
+> +        op->offset = offsetof(CPUX86State, fpregs[op->n].mmx);
+> +    } else {
+> +        op->offset = offsetof(CPUX86State, mmx_t0);
+> +    }
+> +    tcg_gen_addi_ptr(ptr, cpu_env, op->offset);
+
+It's a shame to generate this so early, when you don't know if you'll need it. Better to 
+build these in the gen_binary_int_sse helper, immediately before they're required?
+
+> +
+> +    /*
+> +     * ptr is for passing to helpers, and points to the MMXReg; op->offset
+> +     * is for TCG ops and points to the operand.
+> +     */
+> +    if (op->ot == MO_32) {
+> +        op->offset += offsetof(MMXReg, MMX_L(0));
+> +    }
+
+I guess you'd need an op->offset_base if you do the above...
+Switch and g_assert_not_reached on invalid ot?
+
+> +static int xmm_offset(MemOp ot)
+> +{
+> +    if (ot == MO_8) {
+> +        return offsetof(ZMMReg, ZMM_B(0));
+> +    } else if (ot == MO_16) {
+> +        return offsetof(ZMMReg, ZMM_W(0));
+> +    } else if (ot == MO_32) {
+> +        return offsetof(ZMMReg, ZMM_L(0));
+> +    } else if (ot == MO_64) {
+> +        return offsetof(ZMMReg, ZMM_Q(0));
+> +    } else if (ot == MO_128) {
+> +        return offsetof(ZMMReg, ZMM_X(0));
+> +    } else if (ot == MO_256) {
+> +        return offsetof(ZMMReg, ZMM_Y(0));
+> +    } else {
+> +       abort();
+
+Switch, g_assert_not_reached().
+
+> +static void gen_load_sse(DisasContext *s, TCGv temp, MemOp ot, int dest_ofs)
+> +{
+> +    if (ot == MO_8) {
+> +        gen_op_ld_v(s, MO_8, temp, s->A0);
+> +        tcg_gen_st8_tl(temp, cpu_env, dest_ofs);
+> +    } else if (ot == MO_16) {
+> +        gen_op_ld_v(s, MO_16, temp, s->A0);
+> +        tcg_gen_st16_tl(temp, cpu_env, dest_ofs);
+> +    } else if (ot == MO_32) {
+> +        gen_op_ld_v(s, MO_32, temp, s->A0);
+> +        tcg_gen_st32_tl(temp, cpu_env, dest_ofs);
+> +    } else if (ot == MO_64) {
+> +        gen_ldq_env_A0(s, dest_ofs);
+> +    } else if (ot == MO_128) {
+> +        gen_ldo_env_A0(s, dest_ofs);
+> +    } else if (ot == MO_256) {
+> +        gen_ldy_env_A0(s, dest_ofs);
+> +    }
+
+Likewise.
+
+> +static void gen_writeback(DisasContext *s, X86DecodedOp *op)
+> +{
+> +    switch (op->unit) {
+> +    case X86_OP_SKIP:
+> +        break;
+> +    case X86_OP_SEG:
+> +        /* Note that reg == R_SS in gen_movl_seg_T0 always sets is_jmp.  */
+> +        gen_movl_seg_T0(s, op->n);
+> +        if (s->base.is_jmp) {
+> +            gen_jmp_im(s, s->pc - s->cs_base);
+> +            if (op->n == R_SS) {
+> +                s->flags &= ~HF_TF_MASK;
+> +                gen_eob_inhibit_irq(s, true);
+> +            } else {
+> +                gen_eob(s);
+> +            }
+> +        }
+> +        break;
+> +    case X86_OP_CR:
+> +    case X86_OP_DR:
+> +        /* TBD */
 > +        break;
 
-Could use a comment for where missing vex prefix is diagnosed.
-I guess it's one of the "vexN" group markers in the insn table?
-
-> +    case X86_TYPE_S:  /* reg selects a segment register */
-> +        op->unit = X86_OP_SEG;
-> +        goto get_reg;
-> +
-> +        goto get_reg;
-
-Stray goto.
-
-> +
-> +    case X86_TYPE_V:  /* reg in the modrm byte selects an XMM/YMM register */
-> +        if (decode->e.special == X86_SPECIAL_MMX &&
-> +            !(s->prefix & (PREFIX_DATA | PREFIX_REPZ | PREFIX_REPNZ))) {
-> +    case X86_TYPE_P:  /* reg in the modrm byte selects an MMX register */
-> +            op->unit = X86_OP_MMX;
-> +        } else {
-> +            op->unit = X86_OP_SSE;
-> +        }
-> +    get_reg:
-
-Nesting P into the if works, but it's ugly.
-Better to separate it out as
-
-     case X86_TYPE_P:
-         op->unit = X86_OP_MMX;
-         goto get_reg;
-
-> +    case X86_TYPE_W:  /* XMM/YMM modrm operand */
-> +        if (decode->e.special == X86_SPECIAL_MMX &&
-> +            !(s->prefix & (PREFIX_DATA | PREFIX_REPZ | PREFIX_REPNZ))) {
-> +    case X86_TYPE_Q:  /* MMX modrm operand */
-> +            op->unit = X86_OP_MMX;
-> +        } else {
-> +            op->unit = X86_OP_SSE;
-> +        }
-> +        goto get_modrm;
-
-Likewise.
-
-> +    case X86_TYPE_U:  /* R/M in the modrm byte selects an XMM/YMM register */
-> +        if (decode->e.special == X86_SPECIAL_MMX &&
-> +            !(s->prefix & (PREFIX_DATA | PREFIX_REPZ | PREFIX_REPNZ))) {
-> +    case X86_TYPE_N:  /* R/M in the modrm byte selects an MMX register */
-> +            op->unit = X86_OP_MMX;
-> +        } else {
-> +            op->unit = X86_OP_SSE;
-> +        }
-> +        goto get_modrm_reg;
-
-Likewise.
-
-> +    case X86_TYPE_H:  /* For AVX, VEX.vvvv selects an XMM/YMM register */
-> +        if ((s->prefix & PREFIX_VEX)) {
-> +            op->unit = X86_OP_SSE;
-> +            op->n = s->vex_v;
-> +            break;
-
-Similar to X86_TYPE_B, should this diagnose error if missing VEX?
-
-> +  e X86_TYPE_J:  /* Relative offset for a jump */
-> +        op->unit = X86_OP_IMM;
-> +        decode->immediate = insn_get_signed(env, s, op->ot);
-
-Mailer damage?
-
-> +        decode->immediate += s->pc - s->cs_base;
-
-Please consider
-
-https://lore.kernel.org/qemu-devel/20220906100932.343523-1-richard.henderson@linaro.org/
-
-or at least the first half of the patch set, which rationalizes and consolidates the 
-handing of s->cs_base.
+Leave these adjacent with default abort until needed?
 
 > +    default:
 > +        abort();
+> +    }
 
-g_assert_not_reached().
+g_assert_not_reached.
 
-> +static bool decode_insn(DisasContext *s, CPUX86State *env, X86DecodeFunc decode_func,
-> +                        X86DecodedInsn *decode)
+> +static inline void gen_ldy_env_A0(DisasContext *s, int offset)
 > +{
-> +    X86OpEntry *e = &decode->e;
-> +
-> +    decode_func(s, env, e, &decode->b);
-> +    while (e->is_decode) {
-> +        e->is_decode = false;
-> +        e->decode(s, env, e, &decode->b);
-> +    }
-> +
-> +    /* First compute size of operands in order to initialize s->rip_offset.  */
-> +    if (e->op0 != X86_TYPE_None) {
-> +        if (!decode_op_size(s, e, e->s0, &decode->op[0].ot)) {
-> +            return false;
-> +        }
-> +        if (e->op0 == X86_TYPE_I) {
-> +            s->rip_offset += 1 << decode->op[0].ot;
-> +        }
-> +    }
-> +    if (e->op1 != X86_TYPE_None) {
-> +        if (!decode_op_size(s, e, e->s1, &decode->op[1].ot)) {
-> +            return false;
-> +        }
-> +        if (e->op1 == X86_TYPE_I) {
-> +            s->rip_offset += 1 << decode->op[1].ot;
-> +        }
-> +    }
-> +    if (e->op2 != X86_TYPE_None) {
-> +        if (!decode_op_size(s, e, e->s2, &decode->op[2].ot)) {
-> +            return false;
-> +        }
-> +        if (e->op2 == X86_TYPE_I) {
-> +            s->rip_offset += 1 << decode->op[2].ot;
-> +        }
-> +    }
-> +    if (e->op3 != X86_TYPE_None) {
-> +        assert(e->op3 == X86_TYPE_I && e->s3 == X86_SIZE_b);
-> +        s->rip_offset += 1;
-> +    }
-> +
-> +    if (e->op0 != X86_TYPE_None &&
-> +        !decode_op(s, env, decode, &decode->op[0], e->op0, decode->b)) {
-> +        return false;
-> +    }
-> +
-> +    if (e->op1 != X86_TYPE_None &&
-> +        !decode_op(s, env, decode, &decode->op[1], e->op1, decode->b)) {
-> +        return false;
-> +    }
-> +
-> +    if (e->op2 != X86_TYPE_None &&
-> +        !decode_op(s, env, decode, &decode->op[2], e->op2, decode->b)) {
-> +        return false;
-> +    }
-> +
-> +    if (e->op3 != X86_TYPE_None) {
-> +        decode->immediate = insn_get_signed(env, s, MO_8);
-> +    }
-> +
-> +    return true;
+> +    int mem_index = s->mem_index;
+> +    gen_ldo_env_A0(s, offset);
+> +    tcg_gen_addi_tl(s->tmp0, s->A0, 16);
+> +    tcg_gen_qemu_ld_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
+> +    tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(2)));
+> +    tcg_gen_addi_tl(s->tmp0, s->A0, 24);
+> +    tcg_gen_qemu_ld_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
+> +    tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(3)));
 > +}
 > +
-> +/* convert one instruction. s->base.is_jmp is set if the translation must
-> +   be stopped. Return the next pc value */
-> +static target_ulong disas_insn_new(DisasContext *s, CPUState *cpu, int b)
-
-Note patch 2 from the cs_base cleanup above changes the return type from disas_insn to bool.
-
+> +static inline void gen_sty_env_A0(DisasContext *s, int offset)
 > +{
-> +    CPUX86State *env = cpu->env_ptr;
-> +    bool first = true;
-> +    X86DecodedInsn decode;
-> +    X86DecodeFunc decode_func = decode_root;
-> +
-> +#ifdef CONFIG_USER_ONLY
-> +    if (limit) { --limit; }
-> +#endif
-> +    s->has_modrm = false;
-> +#if 0
-> +    s->pc_start = s->pc = s->base.pc_next;
-> +    s->override = -1;
-> +#ifdef TARGET_X86_64
-> +    s->rex_w = false;
-> +    s->rex_r = 0;
-> +    s->rex_x = 0;
-> +    s->rex_b = 0;
-> +#endif
-> +    s->prefix = 0;
-> +    s->rip_offset = 0; /* for relative ip address */
-> +    s->vex_l = 0;
-> +    s->vex_v = 0;
-> +    if (sigsetjmp(s->jmpbuf, 0) != 0) {
-> +        gen_exception_gpf(s);
-> +        return s->pc;
-> +    }
+> +    int mem_index = s->mem_index;
+> +    gen_sto_env_A0(s, offset);
+> +    tcg_gen_addi_tl(s->tmp0, s->A0, 16);
+> +    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(2)));
+> +    tcg_gen_qemu_st_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
+> +    tcg_gen_addi_tl(s->tmp0, s->A0, 24);
+> +    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(3)));
+> +    tcg_gen_qemu_st_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
+> +}
 
-Mainline has two longjmp error paths:
-(1) insn too long: raise #GP,
-(2) insn crosses page boundary, and isn't first in the TB:
-     undo processing and defer insn to next TB.
+No need for inline markers.
 
-> +static inline target_long insn_get_signed(CPUX86State *env, DisasContext *s, MemOp ot)
+Note that there's an outstanding patch set that enforces alignment restrictions (for 
+ldy/sty it would only be for vmovdqa etc):
 
-No need for inline.
+https://lore.kernel.org/qemu-devel/20220830034816.57091-2-ricky@rzhou.org/
+
+but it's definitely something that ought to build into the new decoder from the start.
 
 
 r~
