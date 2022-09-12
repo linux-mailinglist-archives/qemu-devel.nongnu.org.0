@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC5985B571E
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 11:23:48 +0200 (CEST)
-Received: from localhost ([::1]:34588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C335B573B
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 11:34:21 +0200 (CEST)
+Received: from localhost ([::1]:39550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXffP-0003F3-9I
-	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 05:23:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49628)
+	id 1oXfpb-0006Dd-Em
+	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 05:34:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oXfbs-0007xM-1B
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 05:20:08 -0400
-Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c]:43788)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oXfll-0004ez-8R
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 05:30:21 -0400
+Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b]:37500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oXfbp-0006NZ-Sl
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 05:20:07 -0400
-Received: by mail-lf1-x12c.google.com with SMTP id o2so11626990lfc.10
- for <qemu-devel@nongnu.org>; Mon, 12 Sep 2022 02:20:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=JjWRtBAoTITRK+kxX0QnzhlbAHsiUkh/Q26adT+xWcY=;
- b=RJxIf2UPBDqVkEnVbKnGlfpvoSl7aktBw/F5gV06BHgpqUyZ55yNrjTfwLysxwxyhG
- 0piw0lOF4H6n15C4DHex+n7YX3bUNs4Wg17IFpnv1BCgbUKwSNlhFXpv8+pmM+DxY5WE
- 5Qh5LvOcmEZP4zhJaAWINiu6uqNHnT4QzJKvXIp+EgUZ/dFw6Y5xE3cuNyDrasHmuByJ
- Z9/CqfXLwI1ZUMPDm4/zGaiUeo8mDNpTGmZWovgQKiEcU+H89+Et6CK+sX/cN0jYW5jQ
- mpp6JYFgNkcnslr5sKGAJ2oDHPWqutGPFR+oBPnIyjBlc1eqYPkQiYURwWsFBjL6itXg
- 6BFw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oXflj-0007wX-0N
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 05:30:20 -0400
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-127f5411b9cso21799202fac.4
+ for <qemu-devel@nongnu.org>; Mon, 12 Sep 2022 02:30:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=SUUq0/fAq/bnAsypqgZCWMixwRxXxGSDsZ7h+jKzf3g=;
+ b=qj6I1HdYgGhQ3q1X/Mx6n7P3WGxuUIRRJqrGv/PSXkO3U84cTUPLfj8r/oZUvVnxpL
+ fW/fgDhJ0LE6fMQTVIBzPNraegZ+vCksaCs5+dvuUB5y1EHdcRx41VkvQ9KxlZejHAcy
+ CecFIuqMFTbIYF/IzmvNQ0TkM5AcP2RTAyAbruj4uVIayX2B261MmEq393wukLhgmDKe
+ Et0YJH0VEFD1FEzg6eM2r3M0ixMhAaSqtL4jyPsodE4BpGdjQPuuQBrOC8IkKEx5HynM
+ U2ELvjRk0/20ZepnNhEZi+6NdnQyIahV6q/zQjXidY4PhgOCG4fcSvoL9OytLdtNv2Pi
+ 3zPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=JjWRtBAoTITRK+kxX0QnzhlbAHsiUkh/Q26adT+xWcY=;
- b=N4zfzHVhklM9UHoRZSS00HIWZTLJDaZkdoLVwPMdtqgU4ERoDsX7l4UuZhv+9i+Vf/
- 9e4tjsbdiShB0mXXZoJ9fjPuWCt+6wqaQ/SQucauvD9JkKPKTg2gGzH4LDon4DjBxtaj
- xi5hbgUhJSdncvx94//D3e4FeXfHH1Teohmz3bZXw6UV8KUS6L0e6kOeBlxW3XJqb/8j
- HOydCrPBLZ1iFFn9bBbXncMPrQ+yM5hSO1tZlUuOJhlULI7pE5SXoGFjosIGu6Vwx/5S
- 5aLn40aTHaoKuVlXhGIzFk9qowEsW7x2bfFasiqdTsgcx5JHvV8JD8oiBJiPVI9Bqmlo
- x5aw==
-X-Gm-Message-State: ACgBeo2rgrbHEfVsy9nmfoV0LTpP4YYKSrjToGsmoaObqQMop9EtP1Q6
- I3ka6durw+BntMR6utKB5syhROJlQYZd/77rCtE=
-X-Google-Smtp-Source: AA6agR5sQ3thPI1c7ff55vKiGUD0T2G/8aTHyhm52ouaLgYtcY3rBOwGmjJm2cMthx0H6h9uOjYuZ9KNj3lmh2cSNUA=
-X-Received: by 2002:a05:6512:3d18:b0:498:fafb:229f with SMTP id
- d24-20020a0565123d1800b00498fafb229fmr5543411lfv.356.1662974403798; Mon, 12
- Sep 2022 02:20:03 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=SUUq0/fAq/bnAsypqgZCWMixwRxXxGSDsZ7h+jKzf3g=;
+ b=ZQsMpGG1BWgEi7tYGzP4yUFWhBOkSCYlxhOC8MqlLVssnzvPfzhrEZGrzA6p8Q1QUo
+ tQiZuf8n1vB01O0FXfDRbl1wIMqv71vwcot9r7c/dDWba0kKP4JAfW/H0FtsVfODxMYg
+ MfqqTQOtxxDSnP6gk62lMlo8h91yBSbHkWAQL1ZGTpH/lTgErtWgdEneedWtjGPk3ahg
+ MS1qSNVeSx6JXY34fe2baJ1O22ISOgsncPMTqi4wCusGN8XeWatAS1R2HMABsg+x0+J3
+ e0Uwc8qrM173VMgT6BZ00YhcZrjoiDbxIIKk5mkVSBM7G26wmD/CVWxjH1xaVPOHg46A
+ qglw==
+X-Gm-Message-State: ACgBeo04tVBNW7pfXlrY1mNwrZQt+gXpcYYARIVDna6FPY07R4xWFeNj
+ rQTb5APBfZcB/CILtsnAzs4SdA==
+X-Google-Smtp-Source: AA6agR4l/4NTfFQLO0ee1TuauqqvfV3gv5ualHv92e/kDu+Yxt9azpJq9e2a6I2kCiu/wpDP05AzAg==
+X-Received: by 2002:a05:6870:b01e:b0:11d:fbe9:90e7 with SMTP id
+ y30-20020a056870b01e00b0011dfbe990e7mr11085423oae.32.1662975015224; 
+ Mon, 12 Sep 2022 02:30:15 -0700 (PDT)
+Received: from [192.168.44.231] ([172.102.14.47])
+ by smtp.gmail.com with ESMTPSA id
+ l2-20020a056808020200b00344f28a7a4csm3641507oie.22.2022.09.12.02.30.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Sep 2022 02:30:14 -0700 (PDT)
+Message-ID: <84f6abe8-ff6a-0a69-d415-1f63b7f57bea@linaro.org>
+Date: Mon, 12 Sep 2022 10:27:58 +0100
 MIME-Version: 1.0
-References: <20220829154058.524413-1-antonio.caggiano@collabora.com>
- <CAJ+F1C+zNq7uVn02BLWVvL6E+3gRL4PbqhUMP9rqYr73cCJ2xQ@mail.gmail.com>
- <efeafcb1-a9e1-28dc-cd92-516c22f96f8d@collabora.com>
-In-Reply-To: <efeafcb1-a9e1-28dc-cd92-516c22f96f8d@collabora.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 12 Sep 2022 13:19:52 +0400
-Message-ID: <CAJ+F1CLNuNgs+pWYykSSXonU9JWEA65pgyTOVyQ7+dS8s_rngw@mail.gmail.com>
-Subject: Re: [PATCH 0/5] virtio-gpu: Blob resources
-To: Antonio Caggiano <antonio.caggiano@collabora.com>
-Cc: qemu-devel@nongnu.org, gert.wollny@collabora.com, 
- dmitry.osipenko@collabora.com
-Content-Type: multipart/alternative; boundary="0000000000009bed0805e87766c6"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 05/37] target/i386: add core of new i386 decoder
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20220911230418.340941-1-pbonzini@redhat.com>
+ <20220911230418.340941-6-pbonzini@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220911230418.340941-6-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::2b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2b.google.com
+X-Spam_score_int: -61
+X-Spam_score: -6.2
+X-Spam_bar: ------
+X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.101,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,114 +94,199 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009bed0805e87766c6
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 9/12/22 00:03, Paolo Bonzini wrote:
+> +    case X86_TYPE_B:  /* VEX.vvvv selects a GPR */
+> +        op->unit = X86_OP_INT;
+> +        op->n = s->vex_v;
+> +        break;
 
-Hi
+Could use a comment for where missing vex prefix is diagnosed.
+I guess it's one of the "vexN" group markers in the insn table?
 
-On Mon, Sep 12, 2022 at 12:58 PM Antonio Caggiano <
-antonio.caggiano@collabora.com> wrote:
+> +    case X86_TYPE_S:  /* reg selects a segment register */
+> +        op->unit = X86_OP_SEG;
+> +        goto get_reg;
+> +
+> +        goto get_reg;
 
-> Hi Marc-Andr=C3=A9,
->
-> On 30/08/2022 13:07, Marc-Andr=C3=A9 Lureau wrote:
-> > Hi
-> >
-> > On Mon, Aug 29, 2022 at 7:46 PM Antonio Caggiano
-> > <antonio.caggiano@collabora.com <mailto:antonio.caggiano@collabora.com>=
->
->
-> > wrote:
-> >
-> >     Add shared memory and support blob resource creation, mapping and
-> >     unmapping through virglrenderer new stable APIs[0] when available.
-> >
-> >     [0]
-> >
-> https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/891 <
-> https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/891>
-> >
-> >
-> > This is merged, and will be part of 0.10
-> > (
-> https://gitlab.freedesktop.org/virgl/virglrenderer/-/milestones/9#tab-iss=
-ues
-> <
-> https://gitlab.freedesktop.org/virgl/virglrenderer/-/milestones/9#tab-iss=
-ues>),
-> hopefully soon to be released.
-> >
-> > The series looks ok to me, except for the few comments I left. Could yo=
-u
-> > please update the documentation too?
->
-> Which documentation are you referring to?
->
+Stray goto.
 
-Oh indeed, we really lack documentation about graphics! not your fault  ..
-could you at least give some hints in the commit message how to enable /
-test this feature?
+> +
+> +    case X86_TYPE_V:  /* reg in the modrm byte selects an XMM/YMM register */
+> +        if (decode->e.special == X86_SPECIAL_MMX &&
+> +            !(s->prefix & (PREFIX_DATA | PREFIX_REPZ | PREFIX_REPNZ))) {
+> +    case X86_TYPE_P:  /* reg in the modrm byte selects an MMX register */
+> +            op->unit = X86_OP_MMX;
+> +        } else {
+> +            op->unit = X86_OP_SSE;
+> +        }
+> +    get_reg:
 
-thanks
+Nesting P into the if works, but it's ugly.
+Better to separate it out as
 
---=20
-Marc-Andr=C3=A9 Lureau
+     case X86_TYPE_P:
+         op->unit = X86_OP_MMX;
+         goto get_reg;
 
---0000000000009bed0805e87766c6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> +    case X86_TYPE_W:  /* XMM/YMM modrm operand */
+> +        if (decode->e.special == X86_SPECIAL_MMX &&
+> +            !(s->prefix & (PREFIX_DATA | PREFIX_REPZ | PREFIX_REPNZ))) {
+> +    case X86_TYPE_Q:  /* MMX modrm operand */
+> +            op->unit = X86_OP_MMX;
+> +        } else {
+> +            op->unit = X86_OP_SSE;
+> +        }
+> +        goto get_modrm;
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 12, 2022 at 12:58 PM An=
-tonio Caggiano &lt;<a href=3D"mailto:antonio.caggiano@collabora.com">antoni=
-o.caggiano@collabora.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">Hi Marc-Andr=C3=A9,<br>
-<br>
-On 30/08/2022 13:07, Marc-Andr=C3=A9 Lureau wrote:<br>
-&gt; Hi<br>
-&gt; <br>
-&gt; On Mon, Aug 29, 2022 at 7:46 PM Antonio Caggiano <br>
-&gt; &lt;<a href=3D"mailto:antonio.caggiano@collabora.com" target=3D"_blank=
-">antonio.caggiano@collabora.com</a> &lt;mailto:<a href=3D"mailto:antonio.c=
-aggiano@collabora.com" target=3D"_blank">antonio.caggiano@collabora.com</a>=
-&gt;&gt; <br>
-&gt; wrote:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Add shared memory and support blob resource creatio=
-n, mapping and<br>
-&gt;=C2=A0 =C2=A0 =C2=A0unmapping through virglrenderer new stable APIs[0] =
-when available.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0[0]<br>
-&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://gitlab.freedesktop.org/virgl/vir=
-glrenderer/-/merge_requests/891" rel=3D"noreferrer" target=3D"_blank">https=
-://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/891</a> &lt;=
-<a href=3D"https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_reque=
-sts/891" rel=3D"noreferrer" target=3D"_blank">https://gitlab.freedesktop.or=
-g/virgl/virglrenderer/-/merge_requests/891</a>&gt;<br>
-&gt; <br>
-&gt; <br>
-&gt; This is merged, and will be part of 0.10 <br>
-&gt; (<a href=3D"https://gitlab.freedesktop.org/virgl/virglrenderer/-/miles=
-tones/9#tab-issues" rel=3D"noreferrer" target=3D"_blank">https://gitlab.fre=
-edesktop.org/virgl/virglrenderer/-/milestones/9#tab-issues</a> &lt;<a href=
-=3D"https://gitlab.freedesktop.org/virgl/virglrenderer/-/milestones/9#tab-i=
-ssues" rel=3D"noreferrer" target=3D"_blank">https://gitlab.freedesktop.org/=
-virgl/virglrenderer/-/milestones/9#tab-issues</a>&gt;), hopefully soon to b=
-e released.<br>
-&gt; <br>
-&gt; The series looks ok to me, except for the few comments I left. Could y=
-ou <br>
-&gt; please update the documentation too?<br>
-<br>
-Which documentation are you referring to?<br></blockquote><div><br></div><d=
-iv>Oh indeed, we really lack documentation about graphics! not your fault=
-=C2=A0 .. could you at least give some hints in the commit message how to e=
-nable / test this feature?</div></div><div class=3D"gmail_quote"><br></div>=
-<div class=3D"gmail_quote">thanks<br clear=3D"all"></div><br>-- <br><div di=
-r=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+Likewise.
 
---0000000000009bed0805e87766c6--
+> +    case X86_TYPE_U:  /* R/M in the modrm byte selects an XMM/YMM register */
+> +        if (decode->e.special == X86_SPECIAL_MMX &&
+> +            !(s->prefix & (PREFIX_DATA | PREFIX_REPZ | PREFIX_REPNZ))) {
+> +    case X86_TYPE_N:  /* R/M in the modrm byte selects an MMX register */
+> +            op->unit = X86_OP_MMX;
+> +        } else {
+> +            op->unit = X86_OP_SSE;
+> +        }
+> +        goto get_modrm_reg;
+
+Likewise.
+
+> +    case X86_TYPE_H:  /* For AVX, VEX.vvvv selects an XMM/YMM register */
+> +        if ((s->prefix & PREFIX_VEX)) {
+> +            op->unit = X86_OP_SSE;
+> +            op->n = s->vex_v;
+> +            break;
+
+Similar to X86_TYPE_B, should this diagnose error if missing VEX?
+
+> +  e X86_TYPE_J:  /* Relative offset for a jump */
+> +        op->unit = X86_OP_IMM;
+> +        decode->immediate = insn_get_signed(env, s, op->ot);
+
+Mailer damage?
+
+> +        decode->immediate += s->pc - s->cs_base;
+
+Please consider
+
+https://lore.kernel.org/qemu-devel/20220906100932.343523-1-richard.henderson@linaro.org/
+
+or at least the first half of the patch set, which rationalizes and consolidates the 
+handing of s->cs_base.
+
+> +    default:
+> +        abort();
+
+g_assert_not_reached().
+
+> +static bool decode_insn(DisasContext *s, CPUX86State *env, X86DecodeFunc decode_func,
+> +                        X86DecodedInsn *decode)
+> +{
+> +    X86OpEntry *e = &decode->e;
+> +
+> +    decode_func(s, env, e, &decode->b);
+> +    while (e->is_decode) {
+> +        e->is_decode = false;
+> +        e->decode(s, env, e, &decode->b);
+> +    }
+> +
+> +    /* First compute size of operands in order to initialize s->rip_offset.  */
+> +    if (e->op0 != X86_TYPE_None) {
+> +        if (!decode_op_size(s, e, e->s0, &decode->op[0].ot)) {
+> +            return false;
+> +        }
+> +        if (e->op0 == X86_TYPE_I) {
+> +            s->rip_offset += 1 << decode->op[0].ot;
+> +        }
+> +    }
+> +    if (e->op1 != X86_TYPE_None) {
+> +        if (!decode_op_size(s, e, e->s1, &decode->op[1].ot)) {
+> +            return false;
+> +        }
+> +        if (e->op1 == X86_TYPE_I) {
+> +            s->rip_offset += 1 << decode->op[1].ot;
+> +        }
+> +    }
+> +    if (e->op2 != X86_TYPE_None) {
+> +        if (!decode_op_size(s, e, e->s2, &decode->op[2].ot)) {
+> +            return false;
+> +        }
+> +        if (e->op2 == X86_TYPE_I) {
+> +            s->rip_offset += 1 << decode->op[2].ot;
+> +        }
+> +    }
+> +    if (e->op3 != X86_TYPE_None) {
+> +        assert(e->op3 == X86_TYPE_I && e->s3 == X86_SIZE_b);
+> +        s->rip_offset += 1;
+> +    }
+> +
+> +    if (e->op0 != X86_TYPE_None &&
+> +        !decode_op(s, env, decode, &decode->op[0], e->op0, decode->b)) {
+> +        return false;
+> +    }
+> +
+> +    if (e->op1 != X86_TYPE_None &&
+> +        !decode_op(s, env, decode, &decode->op[1], e->op1, decode->b)) {
+> +        return false;
+> +    }
+> +
+> +    if (e->op2 != X86_TYPE_None &&
+> +        !decode_op(s, env, decode, &decode->op[2], e->op2, decode->b)) {
+> +        return false;
+> +    }
+> +
+> +    if (e->op3 != X86_TYPE_None) {
+> +        decode->immediate = insn_get_signed(env, s, MO_8);
+> +    }
+> +
+> +    return true;
+> +}
+> +
+> +/* convert one instruction. s->base.is_jmp is set if the translation must
+> +   be stopped. Return the next pc value */
+> +static target_ulong disas_insn_new(DisasContext *s, CPUState *cpu, int b)
+
+Note patch 2 from the cs_base cleanup above changes the return type from disas_insn to bool.
+
+> +{
+> +    CPUX86State *env = cpu->env_ptr;
+> +    bool first = true;
+> +    X86DecodedInsn decode;
+> +    X86DecodeFunc decode_func = decode_root;
+> +
+> +#ifdef CONFIG_USER_ONLY
+> +    if (limit) { --limit; }
+> +#endif
+> +    s->has_modrm = false;
+> +#if 0
+> +    s->pc_start = s->pc = s->base.pc_next;
+> +    s->override = -1;
+> +#ifdef TARGET_X86_64
+> +    s->rex_w = false;
+> +    s->rex_r = 0;
+> +    s->rex_x = 0;
+> +    s->rex_b = 0;
+> +#endif
+> +    s->prefix = 0;
+> +    s->rip_offset = 0; /* for relative ip address */
+> +    s->vex_l = 0;
+> +    s->vex_v = 0;
+> +    if (sigsetjmp(s->jmpbuf, 0) != 0) {
+> +        gen_exception_gpf(s);
+> +        return s->pc;
+> +    }
+
+Mainline has two longjmp error paths:
+(1) insn too long: raise #GP,
+(2) insn crosses page boundary, and isn't first in the TB:
+     undo processing and defer insn to next TB.
+
+> +static inline target_long insn_get_signed(CPUX86State *env, DisasContext *s, MemOp ot)
+
+No need for inline.
+
+
+r~
 
