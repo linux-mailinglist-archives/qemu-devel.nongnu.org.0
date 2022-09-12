@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C9635B5674
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 10:40:09 +0200 (CEST)
-Received: from localhost ([::1]:54110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01F875B5681
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 10:42:46 +0200 (CEST)
+Received: from localhost ([::1]:51826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXezA-00043P-7b
-	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 04:40:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47392)
+	id 1oXf1h-0005Y9-1F
+	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 04:42:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oXex8-0002ZE-0O
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 04:38:02 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34389)
+ id 1oXeyv-00043J-Q7
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 04:39:53 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:46592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oXex2-0008WS-VM
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 04:38:00 -0400
-Received: by mail-wr1-x432.google.com with SMTP id d2so14158538wrn.1
- for <qemu-devel@nongnu.org>; Mon, 12 Sep 2022 01:37:56 -0700 (PDT)
+ id 1oXeyr-0000Ha-2g
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 04:39:53 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ k6-20020a05600c1c8600b003a54ecc62f6so6687624wms.5
+ for <qemu-devel@nongnu.org>; Mon, 12 Sep 2022 01:39:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=MYB5GgPcKs7i0RUsm7kg7raJ2vemt1ZCQbFNnLWIbq8=;
- b=OTsl9RM8KkO7nz1Z/vqdA1IbmhiDaA/Ly5T9vnFReMt5dVR/MkiZjX/b+L1kaFaMls
- aWkyyLW/Secg8ZN2eaE+SbGsvonetwQhkGUcqezSPYxh+4NEaqlKM/IomDVCoproSPRs
- G+pnDG3qYSj6we+pA4d6MjbT1zQd41BqGFT25ZXjCTyYY5JN8jVYgf91dDsBDfmu4MPJ
- PLhihO4e4vOQtHH9tClXfzGApDhLD9CLHggWMdq9l/IC49FeIAHLlI+EK+6EP0Xoxxri
- 4EoNzhhP7GU9RqOsTWtmqNj7i3Unjla+DiaTKEBZxUNCNWAID9UjCZsMNdiXDeJgJ0S9
- mERQ==
+ bh=Ha+VbWIPu1yrttWK476RWzcjRdjqeRiFdkU2gI08oGM=;
+ b=ni8z/enal0ifW6heomCFCO4CkEajQbYjGSR5gaK4PEvBPooLIiyqniFMKiOeaOhthn
+ iLluQtKBmgKTWWZExbSjGNhbWouuLFyekSgutRpuxvRtJ6oMhQML0vXY2JWkUBdwlO7V
+ OoD3sdEKWqYuQauc6my+DGeh9Fk6ypRFoMukr3jp5vWH8YzuKJzUkxAxvyJnzvpQuEkk
+ P7xPIodzpdw637wojuvnlsu39NCjyVIOp95cNZ07hNuLd36OkloTBC2ujCwa1ml3sNMe
+ lhGSAeTxRXE0pJA1hs1mG0g/XbR/RWP+Pb1GPO9kR8pcMaHMKFpQPlIgTfWQGOlyrXUQ
+ yuXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=MYB5GgPcKs7i0RUsm7kg7raJ2vemt1ZCQbFNnLWIbq8=;
- b=B0JKDL7IZBpA4azalGF2DlAHLb6hBxGQvLBWyHDKaxgu/mmSjgIB3XPZlarAc1AP+v
- NxNOXiVIQnGqcoleg9S9JxtOaJcBRQ0uOmEnwZyhPS6G/saAY2FGJCsRjKXwj1cNvNK1
- NvyfItXDaDMB6lemi7wamSKlL5GQRKq7FO1okCX5+TVJaP1UabZqtdtUuflSCid3zGFb
- R0cvvYPvaWLfhoQ4kjkIXzuiyodK+ehOM2Z2Qxj+cx/B2U6x0XJi4Was84GVqRvudILk
- 1hjkg7GOGY/o9eCwGH8O0d8ksRO4CeiyjvBcHipb5NyBIH8NZkg9mtUwfhOTnfYi7/v4
- /9UQ==
-X-Gm-Message-State: ACgBeo1w9/lnr8YUQzlWgvltmwkHlIFc3NFLG2/oDOlhHRzUz8iAwEzF
- xiPcyt8xtN7vq21dCtIacB+G92cM+9S1yVom
-X-Google-Smtp-Source: AA6agR7Lkpj1KHc+swk4Wd26ptybsMefJiuXvBWGlJ/+E/LZ8RecXfv1KcvKq6Y4XM3n8dss6lcpOg==
-X-Received: by 2002:adf:f051:0:b0:228:830a:4963 with SMTP id
- t17-20020adff051000000b00228830a4963mr13764833wro.586.1662971875411; 
- Mon, 12 Sep 2022 01:37:55 -0700 (PDT)
+ bh=Ha+VbWIPu1yrttWK476RWzcjRdjqeRiFdkU2gI08oGM=;
+ b=4kTyONQM4iJEaCSnYcdLKTBH7uSEGARz3Q8flfFapnlKADGckXhQg9OvzJ0+HiZ71/
+ F3t+MzBC7AqRSNfVnp+QVxjDlrP/k3qPHb7hwPOP9Cx5FvKUPB7++CoynpvbJw3hNj31
+ 5x9tzCiEWhRWQL1SWPVDVnOHwpuAJ99ssPmrY/7PmUvbaNSG72cWe1Ul3uUbQjerRxoq
+ grLIotWdAihOuJSa72XuJwbqSvvXGcr5JNJ/sx6P10H7K99+hzffFdDeIO/blAWwM76L
+ eNC77cxz4w4zVoxPxFTXpJFjrwcZVEWOkX2H6JwPppcjtxQCjH2jPOrbgal9/YpKPusV
+ c3XQ==
+X-Gm-Message-State: ACgBeo1AeKM+cYjt2JNgqUu5Rmj+LE2n2aRWxJkhNd/MCCSPdr8l9kRt
+ BDujkGwxaOvVPEs6uj1J41bvBw==
+X-Google-Smtp-Source: AA6agR7BvsXo5IYyaBVncC4KDE0PlOxOx081qBv0+RjMN9MI0sqIbZb5TDRZ8rO5YtY8HSN9X3Knng==
+X-Received: by 2002:a05:600c:4ec6:b0:3a5:ff4e:54d4 with SMTP id
+ g6-20020a05600c4ec600b003a5ff4e54d4mr13127791wmq.25.1662971987440; 
+ Mon, 12 Sep 2022 01:39:47 -0700 (PDT)
 Received: from [192.168.44.231] ([89.101.193.70])
  by smtp.gmail.com with ESMTPSA id
- b5-20020a5d4b85000000b00223b8168b15sm6649146wrt.66.2022.09.12.01.37.54
+ c1-20020a7bc001000000b003a5ffec0b91sm8817739wmb.30.2022.09.12.01.39.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Sep 2022 01:37:54 -0700 (PDT)
-Message-ID: <c4b3dce6-8e75-5b84-16f8-0580d42b69c0@linaro.org>
-Date: Mon, 12 Sep 2022 09:37:52 +0100
+ Mon, 12 Sep 2022 01:39:47 -0700 (PDT)
+Message-ID: <2c441cb0-2cfb-a6da-528e-d7c7b577ebcf@linaro.org>
+Date: Mon, 12 Sep 2022 09:39:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 03/37] target/i386: REPZ and REPNZ are mutually exclusive
+Subject: Re: [PATCH 04/37] target/i386: introduce insn_get_addr
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20220911230418.340941-1-pbonzini@redhat.com>
- <20220911230418.340941-4-pbonzini@redhat.com>
+ <20220911230418.340941-5-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220911230418.340941-4-pbonzini@redhat.com>
+In-Reply-To: <20220911230418.340941-5-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -61
 X-Spam_score: -6.2
 X-Spam_bar: ------
@@ -94,14 +95,36 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/12/22 00:03, Paolo Bonzini wrote:
-> The later prefix wins if both are present, make it show in s->prefix too.
+> The "O" operand type in the Intel SDM needs to load an 8- to 64-bit
+> unsigned value, while insn_get is limited to 32 bits.  Extract the code
+> out of disas_insn and into a separate function.
 > 
-> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->   target/i386/tcg/translate.c | 2 ++
->   1 file changed, 2 insertions(+)
+>   target/i386/tcg/translate.c | 36 ++++++++++++++++++++++++++----------
+>   1 file changed, 26 insertions(+), 10 deletions(-)
+> 
+> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+> index f8fd93dae0..f1aa830fcc 100644
+> --- a/target/i386/tcg/translate.c
+> +++ b/target/i386/tcg/translate.c
+> @@ -2308,6 +2308,31 @@ static void gen_ldst_modrm(CPUX86State *env, DisasContext *s, int modrm,
+>       }
+>   }
+>   
+> +static inline target_ulong insn_get_addr(CPUX86State *env, DisasContext *s, MemOp ot)
 
+No need for inline.
+
+> +    default:
+> +        tcg_abort();
+
+Standardize on g_assert_not_reached().
+I should probably zap this macro entirely...
+
+Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
