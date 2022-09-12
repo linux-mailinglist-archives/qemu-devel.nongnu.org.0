@@ -2,106 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2AD25B5B7E
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 15:43:43 +0200 (CEST)
-Received: from localhost ([::1]:56736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACE0D5B5B8E
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 15:49:32 +0200 (CEST)
+Received: from localhost ([::1]:55156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXjiv-0000Bq-Kc
-	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 09:43:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47860)
+	id 1oXjoZ-0003Pm-G5
+	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 09:49:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oXjhF-0006wz-4L; Mon, 12 Sep 2022 09:41:57 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:63548)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oXjhD-00022o-64; Mon, 12 Sep 2022 09:41:56 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28CDANI8027417;
- Mon, 12 Sep 2022 13:41:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=8pK2ryRJTunTmapQOoshhW9yABudepjMNzs5+VDOG6s=;
- b=IRlnX3YgtQqq1IEkozV3sPr/oyHcvQ5RMk9Ai4GyUsjQjm5a8OO7YKFTcqiRUeTeutbz
- VNASrJn1wZgb5Hr3CbQJhbDmb8j2xOCyhIkBd5hE8za6ujDvPGUt2CH3kKFROZTYzP26
- b8u2uDLFiEddD8L60X1v3i2XwQcbx5SVYg/IsL7MK5wRgh7+j7ycyRuWD1MJeFFn4v04
- 8FwyxJPOVyCgGwPySWGcsnOY9Rz9LpMHpaAAwmlVrRuPIT4eJhHhQdZBWA0bPEaizycK
- nTCBvAO0TqLg9E3sh+CB33yGKSVgg3p2Ka1Khawi/EnvlctPXJ7I7DTUXrBlkog7++1I mg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jj450m56c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Sep 2022 13:41:50 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28CCHD6s002827;
- Mon, 12 Sep 2022 13:41:50 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jj450m55d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Sep 2022 13:41:50 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28CDamvG021626;
- Mon, 12 Sep 2022 13:41:48 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma03ams.nl.ibm.com with ESMTP id 3jgj79jf8w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Sep 2022 13:41:48 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 28CDfjij36241830
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 12 Sep 2022 13:41:45 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3081C4207C;
- Mon, 12 Sep 2022 13:41:45 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 72FE44203F;
- Mon, 12 Sep 2022 13:41:44 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.22.70]) by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 12 Sep 2022 13:41:44 +0000 (GMT)
-Message-ID: <f1270e3783e72641a0e8a4ba138a6e858f82cc80.camel@linux.ibm.com>
-Subject: Re: [PATCH v9 10/10] docs/s390x: document s390x cpu topology
-From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com
-Date: Mon, 12 Sep 2022 15:41:44 +0200
-In-Reply-To: <20220902075531.188916-11-pmorel@linux.ibm.com>
-References: <20220902075531.188916-1-pmorel@linux.ibm.com>
- <20220902075531.188916-11-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oXjlS-0000w9-Sz
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 09:46:18 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:36637)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oXjlQ-0002nI-JS
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 09:46:18 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id h8so8468962wrf.3
+ for <qemu-devel@nongnu.org>; Mon, 12 Sep 2022 06:46:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=fXxoQz7cdjjsE79XBynfS3bVwx5O5L9BZvEBjiNVScQ=;
+ b=uQcTKYS15btMNHiil3jM0AXLhLG3XIqb5bBOn+fRpJ3cMDbeY1gJwI3mRP3M9NwTLd
+ Xk7AeXmJNvlJBmgb4y594o9dPxVaH0oNWEp7BkN2LhRMxojQGtEF+RF5pkRgCjUR+Dfw
+ o3NQiTzzOvY07GVXgUbn0O6DhFwkPTTEMzf+o8bKV/dEcoOy71wo9khTieDQiJ1NolXS
+ l1jPicoNPkBuYN0zh+RKBpzD39TtXyP1mUwNU0TVZYqLBMq3KCP3nv+Qi4Ruu4OVsX+w
+ pb7ZJr8HedJ/c4EXiZsfbm17ve11kmelkudWIIxnycgwgbrXdzlQ8uh00gydy5CtYTJX
+ 4UIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=fXxoQz7cdjjsE79XBynfS3bVwx5O5L9BZvEBjiNVScQ=;
+ b=a3ytlFl1XrodVGbnEZlHAEoWcNKk1J8I1nuFHYroOSz545vXudqpGf0IJjInlu5BM0
+ auoWKOkrX1Js21aFhXYY1wPjvqJ1gIZ7ygGLJAKoA3xY9sfrHU8zzfErEhrXQtDrqAff
+ s1Jj/FcRw7SDCe7a0aBu3aFCVFnA5svENggPdJf3xlQOUXLEn9oY+xDOjwsXq2/1aI8+
+ bTG+rq8P2Sis8WZY4RIVYKZGv5QssfBrBwgdq4wCaAx3QUiptxKTe/cVA3upCyUwYjSV
+ jqScX8gTSljn/8YvUVeZ2Fe1i/BnLmZ6xS5eSkWaYIFUgBbfaJJXHNNbYN1Oc0VryE1t
+ wn1A==
+X-Gm-Message-State: ACgBeo2WbLncWvgocfFU/XYa9mkda95pZZn2AENlCEHAmEM4A8yji+Le
+ KLLL6hgWn8fdiPKt0/cz44V4hw==
+X-Google-Smtp-Source: AA6agR6mFl7n54Rr0jO8QA71LNpIT67o6Nx+YKlEdZi0G27gF9m5P6VGySAadiCNUmb3quJLkOuc1Q==
+X-Received: by 2002:a05:6000:144e:b0:22a:4e88:ee3d with SMTP id
+ v14-20020a056000144e00b0022a4e88ee3dmr5466908wrx.49.1662990375021; 
+ Mon, 12 Sep 2022 06:46:15 -0700 (PDT)
+Received: from [10.119.17.153] ([89.101.193.69])
+ by smtp.gmail.com with ESMTPSA id
+ l3-20020a5d4bc3000000b00228fa832b7asm7547056wrt.52.2022.09.12.06.46.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Sep 2022 06:46:14 -0700 (PDT)
+Message-ID: <0e1f4af2-bd50-d437-be6e-269f69017f1b@linaro.org>
+Date: Mon, 12 Sep 2022 14:46:12 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 22/37] target/i386: reimplement 0x0f 0x50-0x5f, add AVX
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20220911230418.340941-1-pbonzini@redhat.com>
+ <20220911230418.340941-23-pbonzini@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220911230418.340941-23-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: -jS1BPrrsfVyqzl7TuMAeESzq0jqIWTV
-X-Proofpoint-ORIG-GUID: 5mtQyxI8VrYuLjnMsILDJh3FpoZpdm7b
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-12_09,2022-09-12_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0
- suspectscore=0 mlxlogscore=999 malwarescore=0 bulkscore=0 phishscore=0
- clxscore=1015 lowpriorityscore=0 priorityscore=1501 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2209120045
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=scgl@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.153,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,117 +93,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2022-09-02 at 09:55 +0200, Pierre Morel wrote:
-> Add some basic examples for the definition of cpu topology
-> in s390x.
+On 9/12/22 00:04, Paolo Bonzini wrote:
+> These are mostly floating-point SSE operations.  The odd ones out
+> are MOVMSK and CVTxx2yy, the others are straightforward.
 > 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> Unary operations are a bit special in AVX because they have 2 operands
+> for PD/PS operands (VEX.vvvv must be 1111b), and 3 operands for SD/SS.
+> They are handled using X86_OP_GROUP3 for compactness.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  docs/system/s390x/cpu_topology.rst | 88 ++++++++++++++++++++++++++++++
->  1 file changed, 88 insertions(+)
->  create mode 100644 docs/system/s390x/cpu_topology.rst
+>   target/i386/tcg/decode-new.c.inc |  32 ++++++
+>   target/i386/tcg/emit.c.inc       | 175 +++++++++++++++++++++++++++++++
+>   target/i386/tcg/translate.c      |   2 +-
+>   3 files changed, 208 insertions(+), 1 deletion(-)
 > 
-> diff --git a/docs/system/s390x/cpu_topology.rst b/docs/system/s390x/cpu_topology.rst
-> new file mode 100644
-> index 0000000000..00977d4319
-> --- /dev/null
-> +++ b/docs/system/s390x/cpu_topology.rst
-> @@ -0,0 +1,88 @@
-> +CPU Topology on s390x
-> +=====================
-> +
-> +CPU Topology on S390x provides up to 4 levels of topology containers:
-> +drawers, books, sockets and CPUs.
-> +While the three higher level containers, Containers Topology List Entries,
-> +(Containers TLE) define a tree hierarchy, the lowest level of topology
-> +definition, the CPU Topology List Entry (CPU TLE), provides the placement
-> +of the CPUs inside the last container.
+> diff --git a/target/i386/tcg/decode-new.c.inc b/target/i386/tcg/decode-new.c.inc
+> index 59f5637583..5a94e05d71 100644
+> --- a/target/i386/tcg/decode-new.c.inc
+> +++ b/target/i386/tcg/decode-new.c.inc
+> @@ -243,7 +243,30 @@ static void decode_0F3A(DisasContext *s, CPUX86State *env, X86OpEntry *entry, ui
+>       *entry = opcodes_0F3A[*b];
+>   }
+>   
+> +static void decode_sse_unary(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
+> +{
+> +    if (!(s->prefix & (PREFIX_REPZ | PREFIX_REPNZ))) {
+> +        entry->op1 = X86_TYPE_None;
+> +        entry->s1 = X86_SIZE_None;
+> +    }
+> +    switch (*b) {
+> +    case 0x51: entry->gen = gen_VSQRT; break;
+> +    case 0x52: entry->gen = gen_VRSQRT; break;
+> +    case 0x53: entry->gen = gen_VRCP; break;
+> +    case 0x5A: entry->gen = gen_VCVTfp2fp; break;
+> +    }
+> +}
 
-inside the parent container
-> +
-> +Prerequisites
-> +-------------
-> +
-> +To use CPU Topology a Linux QEMU/KVM machine providing the CPU Topology facility
-> +(STFLE bit 11) is required.
-> +
-> +However, since this facility has been enabled by default in an early version,
-> +the capability ``KVM_CAP_S390_CPU_TOPOLOGY`` is needed to indicate to KVM
-> +that QEMU support CPU Topology.
+I wonder if a .special would be cleaner here, but I guess this isn't horrible.
 
-I don't understand this paragraph. Early version of what?
-> +
-> +Indicating the CPU topology to the Virtual Machine
-> +--------------------------------------------------
-> +
-> +The CPU Topology, number of drawers, number of books per drawers, number of
-> +sockets per book and number of cores per sockets is specified with the
-> +``-smp`` qemu command arguments.
-> +
-> +Like in :
-> +
-> +.. code-block:: sh
-> +    -smp cpus=1,drawers=3,books=4,sockets=2,cores=8,maxcpus=192
-> +
-> +If drawers or books are not specified, their default to 1.
-> +
-> +New CPUs can be plugged using the device_add hmp command like in:
-> +
-> +.. code-block:: sh
-> +   (qemu) device_add host-s390x-cpu,core-id=9
-> +
-> +The core-id defines the placement of the core in the topology by
-> +starting with core 0 in socket 0, book 0 and drawer 0 up to the maximum
-> +core number of the last socket of the last book in the last drawer.
-> +
-> +In the example above:
-> +
-> +* the core with ID 9 will be placed in container (0,0,1), as core 9
-> +  of CPU TLE 0 of socket 1 in book 0 from drawer 0.
-> +* the core ID 0 is defined by the -smp cpus=1 command and will be
-> +  placed as core 0 in CPU TLE 0 of container (0,0,0)
-> +
-> +Note that the core ID is machine wide and the CPU TLE masks provided
-> +by the STSI instruction will be:
-> +
-> +* in socket 0: 0x80000000 (core id 0)
-> +* in socket 1: 0x00400000 (core id 9)
-> +
-> +Indicating the CPU topology to the Guest
-> +----------------------------------------
-> +
-> +The guest can query for topology changes using the PTF instruction.
-> +In case of a topology change it can request the new topology by issuing
-> +STSI instructions specifying the level of detail required, drawer with
-> +STSI(15.1.4) or books STSI(15.1.3).
-> +
-> +The virtual machine will fill the provided buffer with the count of
-> +drawers (MAG4), books per drawer (MAG3), sockets per book (MAG2) and
-> +cores per socket (MAG1).
-> +
-> +Note that the STSI(15.1.2) is special in two ways:
-> +
-> +* When the firmware detect a change in the values calculated for STSI(15.1.2)
-> +  it will trigger the report of the topology change for the PTF instruction.
+> +    [0x54] = X86_OP_ENTRY3(VAND,       V,x, H,x, W,x,  vex4 p_00_66),
+> +    [0x55] = X86_OP_ENTRY3(VANDN,      V,x, H,x, W,x,  vex4 p_00_66),
+> +    [0x56] = X86_OP_ENTRY3(VOR,        V,x, H,x, W,x,  vex4 p_00_66),
+> +    [0x57] = X86_OP_ENTRY3(VXOR,       V,x, H,x, W,x,  vex4 p_00_66),
 
-I don't know if we need this section, after all documenting this is the
-job of the principles of operation. You could just refer to the
-relevant sections.
-> +
-> +Migration
-> +---------
-> +
-> +For virtio-ccw machines older than s390-virtio-ccw-7.2, CPU Topoogy is
-> +by default disabled.
-> +
-> +CPU Topoogy is by default enabled for s390-virtio-ccw-7.2 and newer machines.
-> +
-> +Enabling the CPU topology on older Machine is done by setting the global
-> +option ''topology-disable'' to false before enabling cpu topology with the
-> +cpu feature "ctop" like in:
-> +
-> +.. code-block:: sh
-> +   -machine s390-ccw-virtio-3.0,accel=kvm,topology-disable=false
-> +   -cpu z14,ctop=on
+Just reuse PAND et al with a comment?  I see there's a define later, but why?
 
+> +static void gen_VCVTfp2fp(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+> +{
+> +    gen_unary_fp_sse(s, env, decode,
+> +                     gen_helper_cvtpd2ps_xmm, gen_helper_cvtps2pd_xmm,
+> +                     gen_helper_cvtpd2ps_ymm, gen_helper_cvtps2pd_ymm,
+> +                     gen_helper_cvtsd2ss, gen_helper_cvtss2sd);
+> +}
+> +
+> +static void gen_VCVTps_dq(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+> +{
+> +    SSEFunc_0_epp fn = NULL;
+> +    switch (sse_prefix(s)) {
+> +    case 0x00:
+> +        fn = s->vex_l ? gen_helper_cvtdq2ps_ymm : gen_helper_cvtdq2ps_xmm;
+> +        break;
+> +    case 0x66:
+> +        fn = s->vex_l ? gen_helper_cvtps2dq_ymm : gen_helper_cvtps2dq_xmm;
+> +        break;
+> +    case 0xf3:
+> +        fn = s->vex_l ? gen_helper_cvttps2dq_ymm : gen_helper_cvttps2dq_xmm;
+> +        break;
+> +    }
+> +    fn(cpu_env, s->ptr0, s->ptr2);
+> +}
+
+Only use of sse_prefix?  We directly look at prefix bits elsewhere...
+
+Also, while these are all coverts, it doesn't seem conceptually different from 
+decode_group_twobyte_6F.  Why are we waiting until generation in this case?
+
+
+r~
 
