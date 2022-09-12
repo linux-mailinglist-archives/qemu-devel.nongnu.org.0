@@ -2,108 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A36C5B5D8D
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 17:43:46 +0200 (CEST)
-Received: from localhost ([::1]:45406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D275B5D8F
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 17:44:02 +0200 (CEST)
+Received: from localhost ([::1]:45426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXlb6-0000ad-PR
-	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 11:43:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42094)
+	id 1oXlbN-000113-1i
+	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 11:44:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oXlYC-0005gP-Cg; Mon, 12 Sep 2022 11:40:44 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:2848)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oXlZX-0006mN-2o
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 11:42:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48814)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oXlY8-0005hO-HG; Mon, 12 Sep 2022 11:40:43 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28CFLUHc019473;
- Mon, 12 Sep 2022 15:40:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=RDZZzOOGSG0RboXRn0tM6UxvvyvPan/bCAqgFBcfdVM=;
- b=LzhxV+QfJ4wzU59EiK1AUWvEPoGr55vlQZX6EMSNCfambFVHQyRr/unx0SrdL8zTxW1D
- 87ZtPjK97GmtBOwYqLxvs+bhnukDo/xaKs25uDgjki48jtu6842AOSEYko9R7RcDpatP
- tBi+mGy4rO0A82ahanM57e2/K1LhliTCFLY7rLPB4372SUNtZE5CSIJNaPDDMmzbdRRN
- Ma9BxV3YM46U7LUb6s0FwlYjcWZulQ7Dy+uxn7g3BfDQTHRtM87H5aI2HVbt+oby2HY3
- Py+rfKGihic4Z0F1jB9W2bLoEGkcx+rmZkSiBmbvAi8STa604kCWuUay0oPN98xfqWXb Aw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jj7bdrhtm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Sep 2022 15:40:35 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28CFbZTL018172;
- Mon, 12 Sep 2022 15:40:34 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jj7bdrhs9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Sep 2022 15:40:34 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28CFLU2J019616;
- Mon, 12 Sep 2022 15:40:32 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma06fra.de.ibm.com with ESMTP id 3jghuhsxaq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Sep 2022 15:40:32 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 28CFerEG23134718
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 12 Sep 2022 15:40:53 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 78FA452050;
- Mon, 12 Sep 2022 15:40:29 +0000 (GMT)
-Received: from [9.171.67.163] (unknown [9.171.67.163])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 34F745204E;
- Mon, 12 Sep 2022 15:40:28 +0000 (GMT)
-Message-ID: <124d3a03-def6-dd9a-1380-c5808e2e54ab@linux.ibm.com>
-Date: Mon, 12 Sep 2022 17:40:27 +0200
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oXlZO-0005r3-RA
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 11:42:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1662997317;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=sS4id3iscsQ32DEvakDNQcNA+mhyAyw3NSm9yVpe79k=;
+ b=OFB5bMyJIpU/wAo62QirNZKutgfIF8WkiQ8QEOie6nJoHxtia7t9fWx/3g/NzvfmWgyiyv
+ jhjBESzUQEl/0P0CV6mQPN+9fB8IUx6hEI0jBYITunwchp5Eqdltkz4qu4ZWYpQnRe7MT+
+ UuoT7TG8KWMbEewuIuVqTI1D/e9Cm1w=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-335-2QMUJKVBOVSJ5e4BB-GOsQ-1; Mon, 12 Sep 2022 11:41:54 -0400
+X-MC-Unique: 2QMUJKVBOVSJ5e4BB-GOsQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 008A73801143;
+ Mon, 12 Sep 2022 15:41:54 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4D2421121314;
+ Mon, 12 Sep 2022 15:41:50 +0000 (UTC)
+Date: Mon, 12 Sep 2022 16:41:47 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Nikolay Borisov <nborisov@suse.com>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, jfehlig@suse.com,
+ Claudio.Fontana@suse.com, quintela@redhat.com
+Subject: Re: [PATCH] migration: support file: uri for source migration
+Message-ID: <Yx9TO61m1tyUU5oy@redhat.com>
+References: <b727f0da-8051-2ce5-b1ab-a57452d2b0c3@suse.com>
+ <20220908102633.123536-1-nborisov@suse.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v9 02/10] s390x/cpu topology: core_id sets s390x CPU
- topology
-Content-Language: en-US
-To: Nico Boehr <nrb@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- frankja@linux.ibm.com
-References: <20220902075531.188916-1-pmorel@linux.ibm.com>
- <20220902075531.188916-3-pmorel@linux.ibm.com>
- <166244388074.53359.17766769465682688178@t14-nrb>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <166244388074.53359.17766769465682688178@t14-nrb>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Eu6UJIy4DqO4aC5hE0rjYGft-6R_wfae
-X-Proofpoint-GUID: 5SyQ1I2xCVnjIAo19Xr7LBBbUfd7ZF0I
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-12_10,2022-09-12_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0
- clxscore=1015 priorityscore=1501 impostorscore=0 mlxscore=0 adultscore=0
- suspectscore=0 mlxlogscore=999 malwarescore=0 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2209120052
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.153,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220908102633.123536-1-nborisov@suse.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,74 +78,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Sep 08, 2022 at 01:26:32PM +0300, Nikolay Borisov wrote:
+> This is a prototype of supporting a 'file:' based uri protocol for
+> writing out the migration stream of qemu. Currently the code always
+> opens the file in DIO mode and adheres to an alignment of 64k to be
+> generic enough. However this comes with a problem - it requires copying
+> all data that we are writing (qemu metadata + guest ram pages) to a
+> bounce buffer so that we adhere to this alignment.
 
+The adhoc device metadata clearly needs bounce buffers since it
+is splattered all over RAM with no concern of alignemnt. THe use
+of bounce buffers for this shouldn't be a performance issue though
+as metadata is small relative to the size of the snapshot as a whole.
 
-On 9/6/22 07:58, Nico Boehr wrote:
-> Quoting Pierre Morel (2022-09-02 09:55:23)
-> [...]
->> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
->> new file mode 100644
->> index 0000000000..a6ca006ec5
->> --- /dev/null
->> +++ b/hw/s390x/cpu-topology.c
-> [...]
->> +void s390_topology_new_cpu(int core_id)
->> +{
-> [...]
->> +    socket_id = core_id / topo->cores;
+The guest RAM pages should not need bounce buffers at all when using
+huge pages, as alignment will already be way larger than we required.
+Guests with huge pages are the ones which are likely to have huge
+RAM sizes and thus need the DIO mode, so we should be sorted for that.
+
+When using small pages for guest RAM, if it is not already allocated
+with suitable alignment, I feel like we should be able to make it
+so that we allocate the RAM block with good alignemnt to avoid the
+need for bounce buffers. This would address the less common case of
+a guest with huge RAM size but not huge pages.
+
+Thus if we assume guest RAM is suitably aligned, then we can avoid
+bounce buffers for RAM pages, while still using bounce buffers for
+the metadata.
+
+>                                                    With this code I get
+> the following performance results:
 > 
-> The comment below is essential for understanding all of this. Move it before this line.
+>       DIO              exec: cat > file         virsh --bypass-cache
+>       82		     		77							81
+>       82		    	    78							80
+>       80		    	    80							82
+>       82		    	    82							77
+>       77		    	    79							77
 > 
-
-OK
-
->> +
->> +    bit = core_id;
->> +    origin = bit / 64;
->> +    bit %= 64;
->> +    bit = 63 - bit;
->> +
->> +    /*
->> +     * At the core level, each CPU is represented by a bit in a 64bit
->> +     * unsigned long. Set on plug and clear on unplug of a CPU.
+> AVG:  80.6		     		79.2						79.4
+> stddev: 1.959		     	1.720						2.05
 > 
-> cleared                                  ^
+> All numbers are in seconds.
 > 
-> [...]
->> +     * In that case the origin field, representing the offset of the first CPU
->> +     * in the CPU container allows to represent up to the maximal number of
->> +     * CPU inside several CPU containers inside the socket container.
-> 
-> How about:
-> "In that case the origin variable represents the offset of the first CPU in the
-> CPU container. More than 64 CPUs per socket are represented in several CPU
-> containers inside the socket container."
+> Those results are somewhat surprising to me as I'd expected doing the
+> writeout directly within qemu and avoiding copying between qemu and
+> virsh's iohelper process would result in a speed up. Clearly that's not
+> the case, I attribute this to the fact that all memory pages have to be
+> copied into the bounce buffer. There are more measurements/profiling
+> work that I'd have to do in order to (dis)prove this hypotheses and will
+> report back when I have the data.
 
-Yes, better, thanks I take it
+When using the libvirt iohelper we have mutliple CPUs involved. IOW the
+bounce buffer copy is taking place on a separate CPU from the QEMU
+migration loop. This ability to use multiple CPUs may well have balanced
+out any benefit from doing DIO on the QEMU side.
+
+If you eliminate bounce buffers for guest RAM and write it directly to
+the fixed location on disk, then we should see the benefit - and if not
+then something is really wrong in our thoughts.
+
+> However I'm sending the code now as I'd like to facilitate a discussion
+> as to whether this is an approach that would be acceptable to upstream
+> merging. Any ideas/comments would be much appreciated.
+
+AFAICT this impl is still using the existing on-disk format, where RAM
+pages are just written inline to the stream. For DIO benefit to be
+maximised we need the on-disk format to be changed, so that the guest
+RAM regions can be directly associated with fixed locations on disk.
+This also means that if guest dirties RAM while its saving, then we
+overwrite the existing content on disk, such that restore only ever
+needs to restore each RAM page once, instead of restoring every
+dirtied version.
 
 
-> 
->> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
->> index b5ca154e2f..15cefd104b 100644
-> [...]
->> @@ -247,6 +248,12 @@ static void ccw_init(MachineState *machine)
->>       /* init memory + setup max page size. Required for the CPU model */
->>       s390_memory_init(machine->ram);
->>   
->> +    /* Adding the topology must be done before CPU intialization*/
-> 
-> space                                                              ^
-> 
-
-Yes thanks
-
-regards,
-Pierre
-
+With regards,
+Daniel
 -- 
-Pierre Morel
-IBM Lab Boeblingen
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
