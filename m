@@ -2,109 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF1F5B595A
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 13:31:26 +0200 (CEST)
-Received: from localhost ([::1]:45248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71F2A5B5964
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 13:38:18 +0200 (CEST)
+Received: from localhost ([::1]:55548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXhev-0000C8-Ah
-	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 07:31:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38360)
+	id 1oXhlX-0005Am-BX
+	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 07:38:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <heecheol.yang@outlook.com>)
- id 1oXhVW-0007gm-0x
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 07:21:42 -0400
+ id 1oXhVY-0007jg-CG
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 07:21:44 -0400
 Received: from mail-bn8nam11olkn2010.outbound.protection.outlook.com
  ([40.92.20.10]:8224 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <heecheol.yang@outlook.com>)
- id 1oXhVT-0000Xk-VL
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 07:21:41 -0400
+ id 1oXhVW-0000Xk-OI
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 07:21:44 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EZot8PvGynTTeQhoZmZZeWxZmAe+o1/+SvSt1RtmH3v0o8/dIiAbDdoeugfzZFdfqulmMkcJ4h7LcPm381CAaRJf5PvliXysjXAIuy5baijVYS6ps9zNesoY5GgS+OsR9Z7LIn/2UuZNPG66Ypml1B1vBcEI1Kv/eiJbXtzBKbm3eZ/3eCllV8/dpSPFGTSgEsoV31jKOHGc+FvhBCN081zpLVnIB0VHz6i+70NkI4Yp1L9MhMv5Yq9U9dwaV0QzN08oDjMyHG/nYMb5avuCVcoJoVuNeR57xY7irA6HDZG9IZwiOwUIUUAYbcLk7L0eDyjlPHlfWemOr1aowYd7qQ==
+ b=WwqQySUhozxZy/oMyLMSx4xLAqnXuNX6o/Vk5p1GVS5F6T84f4NfzJ2b1C1gBzSyHGLzmuJqc+kD44NzURT+uGTl/NIjCMBsQSllH51outeMVXpoRq3uVzTml+ypMfU1FF9rmNPbBeurg2smYtPsx2Ljd16BOhNITx9RD5O2d6ZC4BTJHSyNWq9oCVoC2XUt3WZpnxfC915Qh3YtZME4mTffe532CSz5N/tGoqXVzao4k4zwy2DP1zCSQWYfa8dvvKIiWzjjkCRY5zC4hv8/VyuU6EB4a3y353RAl6nECvXcBlQSt3X2PPZuS0tfsrpckxPy/XPPkEdSNDUA5M9uqg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VwZ5WB1B1qbAZfzz3qbQen4pI2w7ntGOf1IvAOQLH8c=;
- b=R+iW+BT48NUVGAGhWH3Mw6AQ2oUoC3PK+N2eQWvhawN/jznFvUEWtpBhxwQgUYzAIL/JSdTR25KpVgX+RV1OUIj91lOAwQ8kkprkW1zvDQKXhj12lMBGYdjlKb1USatkhDjLMWee4Pl5A1pbmNlFHxZ38dDA8+/BocJ6MwLtjEUIg/RUrqA/sKMIRMHZ7EkBcAP4ZmoXBAGg6Hx714Kmwq2b+/9DDhnGPTBszS4jvN3jSxJtx3t5sDwjrjTdMrcbi1NiSO7nmYSWEyKMdFylUIBZRYNr+rrhMCGCX64YOv0Q0LLnz+dx3J7VCBAnqqzp3snXTMM9DpQsf53FxD5xDA==
+ bh=fEiyinYvw2kKUvor9sZLFsEdYO5eoW0e48t9r2U2SAY=;
+ b=OUk4H8F7Ih1BWVJwcCSleBfdDYLXZf4hBf03MSfmDOlAyvdebKvJqOyO9g8z6ah+1qHOlrXvUmTssgimgvGU1cEifWCgWbVIt7HeArW+RV80r4JX9k8DwGyWbKcytwpd3okwEzvourn/ey7sfPt/p2JdG5acaFme9d+1lJwf8QsXHeTIcnVGISiJLj5Q+1xCu2WDdmnyegkX+C9sUOp8IJWQ0syYS2ESS1CsDJMIkmr9NGFSkWzyJVDQWd5i3gdHre/xsJ8+Z5M7K3BaPDbmLc037Ysj8xMsrXMditgGa2I3U4dPO4oHYA295taKTPqqpt+im/I6wcV3p35DeOWHGA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VwZ5WB1B1qbAZfzz3qbQen4pI2w7ntGOf1IvAOQLH8c=;
- b=WU3stvPcjb0B+d8eFhmoS6M8xXqdWaCpFry+p1f2OwhLNUkdXWVSgpu78PvKwypgMkHVCBo6CEoIpK+NNaDuafeQf/q9EfSpJ1sZRQ5mV8wWqBvVXAP3Gmepw+nS7q3amqUBLW5xO2DZqluFTyaN6Mvf7vfrrhvWzBtydWRWFo7OVkF6rxPV08CR/3c9mYufZADD/JQcM359lC7Z7d2eLT6dCAA0RoaALeoMY7repXeEGXP/Az69/7yMfHKdt7vPXI1yD7zyRrA6exLq+rqwROl+wQlT1gdxUKD2VYE+gwOiNMaV0sw1i3cykfWJx2auE2TDcJgXKGTZPIjTA8tYTg==
+ bh=fEiyinYvw2kKUvor9sZLFsEdYO5eoW0e48t9r2U2SAY=;
+ b=q2apund1QVOZu7dB7TgSOEBV4CEUDX+yYizlpGVsutwwKLoHvuUO8gN0LqOqkk6G1cmXTi8nJmFL7r6yvlphFDvRxn/DsCltkBaSJu5zmwX6zJLJKphxkAttMGvnMgnf0H8mTh7i5cFbtlJfF/cvtBP3SIMMP0jrX6/Ic+C6asSlRsI5YLvGJtHS5LHt3a+5MhMbT1+2juDX2kZAyPmM6sexVqafndfbg6u3XGC+VU87fgxu7cb1beSvKagPKAVyrWi1aElgg/VGEh/JlK+UZAR1HBzelTu5qgqGgcoCFnrma0F8Yb35izPi4wgTiU5cAhzuayvaSpPFR/5Hf36yTw==
 Received: from DM5PR06MB2537.namprd06.prod.outlook.com (2603:10b6:3:53::19) by
  BN7PR06MB3876.namprd06.prod.outlook.com (2603:10b6:406:8d::14) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5612.19; Mon, 12 Sep 2022 11:21:35 +0000
+ 15.20.5612.19; Mon, 12 Sep 2022 11:21:36 +0000
 Received: from DM5PR06MB2537.namprd06.prod.outlook.com
  ([fe80::5dd2:9226:c045:5480]) by DM5PR06MB2537.namprd06.prod.outlook.com
  ([fe80::5dd2:9226:c045:5480%9]) with mapi id 15.20.5612.022; Mon, 12 Sep 2022
- 11:21:35 +0000
+ 11:21:36 +0000
 From: Heecheol Yang <heecheol.yang@outlook.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Michael Rolnik <mrolnik@gmail.com>,
  Heecheol Yang <heecheol.yang@outlook.com>
-Subject: [PATCH 2/8] hw/gpio/avr_gpio: Add migration VMstate
-Date: Mon, 12 Sep 2022 20:21:00 +0900
-Message-ID: <DM5PR06MB253710C6AE4AAAA42DFBBBC2E6449@DM5PR06MB2537.namprd06.prod.outlook.com>
+Subject: [PATCH 3/8] hw/gpio/avr_gpio: Add 'id' field in AVRGPIOState
+Date: Mon, 12 Sep 2022 20:21:01 +0900
+Message-ID: <DM5PR06MB2537ECF173F0297D7FB1CD4AE6449@DM5PR06MB2537.namprd06.prod.outlook.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220912112106.49110-1-heecheol.yang@outlook.com>
 References: <20220912112106.49110-1-heecheol.yang@outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TMN: [IUp9DDtu+9vZLeUsnL4OyD8S7FWJnCcx]
+X-TMN: [5BwSmc28BRzJUcnxwKNMrjcxikChErt4]
 X-ClientProxiedBy: SL2PR04CA0022.apcprd04.prod.outlook.com
  (2603:1096:100:2d::34) To DM5PR06MB2537.namprd06.prod.outlook.com
  (2603:10b6:3:53::19)
-X-Microsoft-Original-Message-ID: <20220912112106.49110-2-heecheol.yang@outlook.com>
+X-Microsoft-Original-Message-ID: <20220912112106.49110-3-heecheol.yang@outlook.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM5PR06MB2537:EE_|BN7PR06MB3876:EE_
-X-MS-Office365-Filtering-Correlation-Id: bb8c6e34-607d-4a27-17d8-08da94b0f395
-X-MS-Exchange-SLBlob-MailProps: EgT5Wr3QDKyy4kLjx+6605uc1W7Yl7+QaIaaxFq6lZEj3D5qBmCLDV4qzRA58mj+sJ2lXKzisKZAWKTgiA/aOgqO+ZYs59AO3Ej14LT4aW8ILIV65Wt2Y30+gbyDRnzO+m92j++eQN34YCrT9yO+I5JicDNKYnZnWqqy9Ba0t/qNL/ijeqxvHAJuMDEPmlsNJyjr/9yBQJnwZ67zX8a3egLSm6/ODm6O9q6YOeV9+abu5RSjwpPb6fKFa5W5GdGzYKJFYVnTB9p6wjEap+aaLFDfLOVIMbY0OalgRqIesUd972nc6z1eLfnS/OY+UJKs5fAyI5Khc/Qb15Ue2Mk4wN5tMZZ3Sw+Abarq2cdp730kLH/k+47Xc43j3BjFUjWcnZsgTGpmhzsZJNZp9WykcZmXSUYNU8RFM6Mf4eunwbSWID6K31ZptHnwTT176Iw+wc/oBSDP/2Bg08uqosE3ZBRAJPLBjxlxXVI3SyQzAVWWv2B/LdFwesCGyY4lDrx3EJM6n6OTTe0G1MN2bUldD4sMPdIn2Hp/9BhGE+nXZoQLafI5jQx3Xou9hMHXeyewy0RpSnq0xRoey22O0e2Ltli7FjGnFggK1IEj4nQGH/A1F2FEPLo4HDp1UVxWIeyiJ8upDwXTQEEw0h2n3eTCusLP1f1UvcJLQBtp/08++VgAhWp/4b2lWXUNF8GhLyH7Z5jtm2e1Rv13BqmRfxlWAJWMTjssHFapWesYvgyRb44=
+X-MS-Office365-Filtering-Correlation-Id: f35e4ed3-4187-4045-e06d-08da94b0f485
+X-MS-Exchange-SLBlob-MailProps: AZnQBsB9Xmqxq1ifAc9vd1hrDdkf/Zi2kLSRSMlRV6h3UIp1FGAQDr36H3K/Q/B+36LZmEh7v0Jn4IbS/eD8QuhiyjwOIyWZaIz5xOd1x/hnoRwZ3LifgImDZEDO4YTqK5+uWIl7Q0TwsAnRtiknRH48zV8wYLt5PSbDVR32RBdfkXqo0JzXb2jLJjuRYIz/DqfXLyyXMgEf/c5w6YYqQnmD+vv6FAswdiURFBe5LKuNCzC5oQwWjXzc30MoG7htAJk1qL0BahEbXI/GejFf4nz5TtSiEG1Wo6jA8Wmswj3ePuVddHgchrFT1Mmj7F6fYNHphfxHvJY7h38legb5eyqdNmKx2NFcPSGR9TkoATEw3ImAg4Xqufjkh16zgLpsTNVb8C411owmvoEMI7+buo84+LKEh44AlVzcQSs8A+UYsa4tBpXCVRyT67IMu3dXxXq8oyiWLj+LEspoAtRogtxDMfZGaQbTqoB6BqNJKaFa4VV9dJa/W7gGOq9XugBrduQyGHAIJgddzMMA5mWzFii+vn+dA352/iSJQ+Hh1Q7DFJ6cUnu7LIn+jorMKs13wcwQ6Cqre5WzLJbDaRQFYnlqSLW1udrYT0CgmUxuzYAZvqDXVcBRepfF56evJFVuk21ztgpKU6mTqoZLU35aM7IFi82YD1xqw0iVHs9rOhd2I9b2rR2P83zD0Yp8kAP75NOcCmOh0cO02rqi+fTXRWctzGS2JhdHt/GwaphJZr7z/KGf0Vly8on1d8TFds4w0/cRyIMjRjU=
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bfh+wji+iLPIRg/vPmaFGPcOGiY760byf49unWyXbdeA8qOvSSOSlAd0SKI41rw6cM3H+Dzl17Efus4PnvQTeglKtB9R1n8tSH9ZzM00kM1EZxiqwcckf3zXVYTxpr3XVOFATBV+P17hmFYNF86KntVrX4DPZngkkYmqPFLC6VZtf6YstsmOo9Cm67pJYUqCbStgOg3U7lXTWM+JBFcD/DY+XlbTnrxqsSwI2h8qnEJCV2ceguSLUo4OsBUfjcrBtSyR4gS12+BKarSDHSEXDuHLJQOCy1TEhVxYvdizWEL0EuS5OAEINOEUPLm+4YFPmVNRfyCEy/VWrIk6XJT3qNUCI0SARBOM8D8GP1NLR0GPjqaMWQygVb+Gxi8kHxxc0wnfwYyzsd+VUqTw31+tzGqQ+Cp9VIlRUjFZj7QOAYrHoSnpBjQRu4lLb2wMq+KNxplDJdo8HR8gUc10OOFDiMiK4oMHK3p4atJFydO8ZpUpRbUKjs+tph50G4tYlFcjiUnPCmHrftUuBy403b9RTdfNZfJbjfSiEEF045mhBTrNM8Owf31HYvHZMTFIXa5DA4WTlpPr2ltMboEqzPCAJl9fUzjPrpb8J2fKo2vC3CdeFypj26mZb9HlM+gvl1rEa7KiU++CJYMLwPZ9mf0sMg==
+X-Microsoft-Antispam-Message-Info: r75ae4FMcarW4fBr7kkY1FfF1tGXcK2sdmYkZwUK17QLd+9mABoI42lSDSf+PYcV7dPfiGva6abxnwq0Er4RKF72+P9lRBiDC9cYxXCutrw+JZCycP5Z5SGylFInT/AiWiUWTzAaEnRu59/rRzN+fSCkd+FrGn7V5rmJxCYIbbyXpJvsFFogbcvk3gP+DauHksMXXgdAEqsTGGP1T1GKUKp8NSZadD3kZOXhhT5Yca9LMjrXQJeFB3R8rcFTQLF83dHqKgrtUSyRflqcryoS1WW5Fh7+4N0xpqgvyHVI532wbKEwT9QTUeF18dJGpt6DQhpgPP/DeTQv666M+T8WfgJDpzWIyVJJn/20UYm8RIxLeA/WpuPXBbaOep3R849+022Z5sMXNWVgsYq5rftjVKThZCtuE22y/Jp3uoxhDnJe+uOZ6NtlC42JH+OMIo7+EyYTHDaJa0vejQddv/Cab3mhH0Z65zELYuPRICDiNu+nbnAfke5NULFW0GTAO3FpUEB9GXl32+YyNjVOYx5VWhNqTmgX/QfCLYGq6tws5Lcw7G0zmgGXtsSUE4l+v6fcVCym4eUYJ2j/p/7r52Zu4Gpof824IXVseLKR0XsB64pfk5ytAeGUjfeVRTPQ8oZdwPI1T3VvQxKG58IbZOtZvA==
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OG9vTmU5K1JTKzFDa2lhS0hqMHBWelVhL1puUGpIRHdSK3F0N0ZmRjlJQUpp?=
- =?utf-8?B?NDN2Y1NKK3RTeGc0dmovN1hTSjlRM2lUM3RCV09TSDlFbHFDK1h5NHplWFdk?=
- =?utf-8?B?bXFOb1lqckx6REpPN2VOZmMxdFhEV015dHFHZlJpZ1dNUG52MUFRSStsUkJo?=
- =?utf-8?B?UzF4YWM4ZHRCWHB4ZmZKTDhZa2FNSUt3bCtVRG8wSHpuSmVXZ3g2OU8rRGtE?=
- =?utf-8?B?d0FhQkM4RUpDTG9xdzZjNFMzdkRBVnRjWEZOWEpVVmg1bHVCR1kyQmxDNThG?=
- =?utf-8?B?cThWZk9FKzZpcElVRFBQell5TGRVcTFlcWNWaDBKNTB4b1VnM005YXVTMTBq?=
- =?utf-8?B?a0lTQnREL0Z6NXpybXlkWEpNcjI5M0lLNDRhRGdSZHBhQWZnMWl1eFpOdkU2?=
- =?utf-8?B?TTVlS24xZmdmZU9SUXB6YzBoR2JQempqelhGYWNLUTVuUDdLN2VyblhKZWJJ?=
- =?utf-8?B?NWNEbTl5SjRjaHM5ZEwvbDNndWxjOUFpVis2MGxtdjBxU0d3M0RHRG5FUnJv?=
- =?utf-8?B?QlhnWmhRRFZYTXhPUVdXeldIbWUrMkxEV3p5VzRHcWVkWmFVRVpPL0VqTGI5?=
- =?utf-8?B?d2MzQXNVRU5vUVhWYnIzOUE3RG00c3VaeldWUmpGd0R2MXpjenorK25FNkpF?=
- =?utf-8?B?MlVOT1d6N2V4RXh1THpxbVpSTHlpUHIzeW51NTBJdkFaaUJydm16U2txQ2ZP?=
- =?utf-8?B?NmsyczNXbFVYaWZPVjJNcFNhaXRiSXQrUTJwcVU1VzIvdUxxdWxnWSt0dGlv?=
- =?utf-8?B?KzgzSmlOOUlMN2l4VmU3ajQ4OUo2OU5zWmtSZlBiNzdIaStSRXFuN0xXQWV2?=
- =?utf-8?B?M0ljQ1hZNW1DRUozSldnQ1E4UXpUZHZWUStjbFpkeVM3UzR3ZW5RN0dBSnJN?=
- =?utf-8?B?VUdhTHIvSTZad01UWmVSM0djL3VzTEVyNXFnWHVlL2ova1BpVGRuU0ZyMjlD?=
- =?utf-8?B?cWFVUWlNbisyaFVjbHRReElEZStvbXNYSVVZOGpkNkdxRXl4dkZGTGl3QU1l?=
- =?utf-8?B?Q1hVbUVXbmRwcUZraWRiYVJWbmNZZWFUWnpYWk0yRU9vSUxTaEpNNU5Icldm?=
- =?utf-8?B?Sk1KcldTZTZvNE5pSjR4b05wNTFaMEp5cGtvcjFVWW9Db2NoMDRnS1lESUk1?=
- =?utf-8?B?Z09DRGw4Qlh1Rm1UYnlDUUVQZXRwMlVkcHFmQUM1UTFJNmdMVEpXT3B3aThK?=
- =?utf-8?B?QklZaVlseGlKRFdNQkF6QnRGdUhHbE9mQnFya2hJb1NlekI5M280cTQwWkhB?=
- =?utf-8?B?T1QwNldpQmp2YkxuUVB1ZGFuQng2MzUzMUVDM2UwdVROV1FTR2ZVeEluUDJ0?=
- =?utf-8?B?Y012WVg1K2FsOXIwNWdERGlDTUl1VVJ6UkhxeTllYmczV0djS3BaM3pKQnZ2?=
- =?utf-8?B?ZWg2ODErWk82RmZaVEtGOExDUFdVZ0s5UUZBaXVOUTZvODFDSEJFZENQR0NH?=
- =?utf-8?B?a2xTNzA1SFFqUitQN3FMQnZCZm9oZGRKaFRUam1TVC9nOHQ0YzdBTCs5aXcy?=
- =?utf-8?B?eGczcGNXbnlEU0dBdFBnL0E0QmZDS0huRUo0MHltN2loYndZK0F1TGVESDkz?=
- =?utf-8?B?aWFmUnRWL0dUVnZ5b0d6NjJMQnhWWk9IdmVqSEdwVVVYZEF3dnFYdmRnbS9Y?=
- =?utf-8?B?L2FjY3paUllnTndLUDNYR24vN3RIU0NjNmtlbzZpV25LSDZ6UDZNWHdqa3hK?=
- =?utf-8?B?NXpuU3NOY28rQ3UzOHovT3FmdllqcnF0QS9zMlpyU2ZKWjFWaGUwenBnRDhS?=
- =?utf-8?Q?EoymbxOdYrwlurg9gY=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SnZ5TG15NktYZ3VzcUVZdjJrdHBIZ0pEWHlXS3Zjc0g1TzAvQWdpY01JeENv?=
+ =?utf-8?B?NnJvRTB2cGtPNTlJcWhabmJPdWFjL2lDand6cStsMHQwK0FGV0lqa1ZvVUdx?=
+ =?utf-8?B?MEFqVjZ6aVJPZW50NWhLZlVJdERFT052VjRxcnI1dnVCdk1xenR2dGFkaDRi?=
+ =?utf-8?B?YTFyeWxZU291ODVrZ1B5VEUvVEFiM3hjS2dBL2ZvblVqZUVyeHlkNTd2ODZx?=
+ =?utf-8?B?bUlBQXVDM0hpaTh0eWIrWHptb0ZaUDF1YS9hM3dsNHB3cWNJSXNHVUxzMnVT?=
+ =?utf-8?B?MkUrV0pWNzY2Uzl2d05xMHdSVnpDdHBvODY0Z1RFakEwN3NPR3AxZENOUnlG?=
+ =?utf-8?B?aHYxTGZRMlJHZGdzNkROMTE4UE9GU3ZzanNmTFR2dzE2b1c3TUJwYkxBWE5I?=
+ =?utf-8?B?VUVhSE9USkJlQ3pJU2x0SFhESXFSZ3JBOTRINXFGNU1FY3YwUHBkV1pGN0VU?=
+ =?utf-8?B?RHVHU3FlSm0rSGNMcGZHd2E5dXo2Y0JwdXlYUDN0OWlYTThvQjEzN3FGM05z?=
+ =?utf-8?B?M3R3VWZGQ2hONFdsWENEU0dDbnVjdEl0UnRPdExQeWQwSWhUSGQ5RitmbWMx?=
+ =?utf-8?B?MkhoRitsKzBDZVNNbFlMSy9MZm9DaUxCbHhvWTA1QVo3c2ZCeWx6WEZKWHRB?=
+ =?utf-8?B?cklaTDVxdm9vZDM4alZCM21PNU9VeHErZjNTU2R3bGtWNlUwZWxuSXRaejBF?=
+ =?utf-8?B?a2I1UjZwaFAwaFdQMS9tR2xxMHB3eDlVS2k1ZTlGT3V1UVJyWE9kcnQ0KzdI?=
+ =?utf-8?B?Yk9HNU85U2FST3VUSnFaSkROeS8vWG8zNHBKNFUrWWpBeERvTDNpRHhQS1Nr?=
+ =?utf-8?B?Z0k3NVJmeGJ0SUtCd2VONkVpa3JLSlU2aTZPZGovU2xKQVdZTVFtUU1kaWZs?=
+ =?utf-8?B?NUN4NElMMVoyTy9qZDB1SkpsOGxvK3AwOXNyU0M0TVlkMUc4RWNwNU9jUE0z?=
+ =?utf-8?B?RjNSa0dJa3UxMmhwOStMQTlQWXh0a1ZFZTJOVXlHa3FpcUZuQ0tYdENNd3NS?=
+ =?utf-8?B?WExrWmhmUjNXMXZOYytDaXB5cnRsWWNIT0cyZTB3YVBPdFdXTVU5YVV2L0pI?=
+ =?utf-8?B?ZmVWWWNsOHpuZVVtYnRGbkZuMjdkK3kwVWx5ejZDYjQ3bXJlNGZrSFhOSWc5?=
+ =?utf-8?B?TEZxS1h2Z3VsVnliSlh3NnRxcEZuNkVleW9PYlc4bXV5bGo1cXVTRHpadHdp?=
+ =?utf-8?B?S1AxVmlNVHI1dFY4UEhuK1VFUzIxY1lYVGJoUDE1M2c1Q3ZPQWNBWmFDVlRZ?=
+ =?utf-8?B?UWtPb2dTUmFpMmx3L2FFck8zekhrK0hsOEh3UGF6QzJSV0dtRDh1bmk4aHRM?=
+ =?utf-8?B?KzVIQjNYbGtrSDY0YXR3TlZlTmQ4ZEZYYlE0d25zMG9aRzJkNTZvaEJVOTl4?=
+ =?utf-8?B?N1BVTmsyL0ZBdzRVeGh5MXdZdGNpWjBtQWJHM1V1R1EyOThrekVXZFVTSHh4?=
+ =?utf-8?B?T3pKY3IyZEFTM1J2cjdscDQyZEJoSkNnZ010MEE4djREWHE2aWMwdU5wSUFE?=
+ =?utf-8?B?QzdkS1JZY2NrNmFVZmRCTTB3cW54L0wxQThwU0NpUm4xZlRDUWl6TUd1YlhH?=
+ =?utf-8?B?VjI4aGxNbVVFMTFqeENkbXgxRlZoSWJSNko1NFpOa010aXpuM3o0VW54Smhq?=
+ =?utf-8?B?S25QRGdYc2labnlxODlqYXpqRGRmRVVoL0ZlVW1JdVMvbGRVVDRweUdPeFZQ?=
+ =?utf-8?B?bVZ6Tm1hdDQ1ZTRVcW9yQnVKZmQ4aFZ3aFJ5UUtMOUUyNDBmMUphYnltY3BF?=
+ =?utf-8?Q?apqjS58wGrqA+QV8xE=3D?=
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bb8c6e34-607d-4a27-17d8-08da94b0f395
+X-MS-Exchange-CrossTenant-Network-Message-Id: f35e4ed3-4187-4045-e06d-08da94b0f485
 X-MS-Exchange-CrossTenant-AuthSource: DM5PR06MB2537.namprd06.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2022 11:21:35.2041 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2022 11:21:36.9227 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
@@ -136,53 +136,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
+AVR MCU have various GPIO ports. Add an 'id' property to distinct
+all instances.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210313165445.2113938-5-f4bug@amsat.org>
+Message-Id: <20210313165445.2113938-6-f4bug@amsat.org>
 Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
 Signed-off-by: Heecheol Yang <heecheol.yang@outlook.com>
 ---
- hw/gpio/avr_gpio.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ hw/avr/atmega.c            |  1 +
+ hw/gpio/avr_gpio.c         | 14 ++++++++++++--
+ include/hw/gpio/avr_gpio.h |  1 +
+ 3 files changed, 14 insertions(+), 2 deletions(-)
 
+diff --git a/hw/avr/atmega.c b/hw/avr/atmega.c
+index f5fb3a5225..d3a966ae94 100644
+--- a/hw/avr/atmega.c
++++ b/hw/avr/atmega.c
+@@ -284,6 +284,7 @@ static void atmega_realize(DeviceState *dev, Error **errp)
+         devname = g_strdup_printf("atmega-gpio-%c", 'a' + (char)i);
+         object_initialize_child(OBJECT(dev), devname, &s->gpio[i],
+                                 TYPE_AVR_GPIO);
++        qdev_prop_set_uint8(DEVICE(&s->gpio[i]), "id", i);
+         sysbus_realize(SYS_BUS_DEVICE(&s->gpio[i]), &error_abort);
+         sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio[i]), 0,
+                         OFFSET_DATA + mc->dev[idx].addr);
 diff --git a/hw/gpio/avr_gpio.c b/hw/gpio/avr_gpio.c
-index cdb574ef0d..da34009dae 100644
+index da34009dae..3db55bfa77 100644
 --- a/hw/gpio/avr_gpio.c
 +++ b/hw/gpio/avr_gpio.c
-@@ -25,6 +25,7 @@
- #include "hw/irq.h"
- #include "hw/gpio/avr_gpio.h"
- #include "hw/qdev-properties.h"
-+#include "migration/vmstate.h"
- 
- static void avr_gpio_reset(DeviceState *dev)
- {
-@@ -100,6 +101,18 @@ static const MemoryRegionOps avr_gpio_ops = {
-     .endianness = DEVICE_NATIVE_ENDIAN,
+@@ -113,6 +113,11 @@ static const VMStateDescription avr_gpio_vmstate = {
+     },
  };
  
-+static const VMStateDescription avr_gpio_vmstate = {
-+    .name = "avr-gpio",
-+    .version_id = 0,
-+    .minimum_version_id = 0,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT8(reg.pin, AVRGPIOState),
-+        VMSTATE_UINT8(reg.ddr, AVRGPIOState),
-+        VMSTATE_UINT8(reg.port, AVRGPIOState),
-+        VMSTATE_END_OF_LIST(),
-+    },
++static Property avr_gpio_properties[] = {
++    DEFINE_PROP_UINT8("id", AVRGPIOState, id, UINT8_MAX),
++    DEFINE_PROP_END_OF_LIST(),
 +};
 +
  static void avr_gpio_init(Object *obj)
  {
      AVRGPIOState *s = AVR_GPIO(obj);
-@@ -120,6 +133,7 @@ static void avr_gpio_class_init(ObjectClass *klass, void *data)
+@@ -123,9 +128,13 @@ static void avr_gpio_init(Object *obj)
+ }
+ static void avr_gpio_realize(DeviceState *dev, Error **errp)
+ {
+-    /* Do nothing currently */
+-}
++    AVRGPIOState *s = AVR_GPIO(dev);
  
++    if (s->id == UINT8_MAX) {
++        error_setg(errp, "property 'id' not set");
++        return;
++    }
++}
+ 
+ static void avr_gpio_class_init(ObjectClass *klass, void *data)
+ {
+@@ -134,6 +143,7 @@ static void avr_gpio_class_init(ObjectClass *klass, void *data)
      dc->reset = avr_gpio_reset;
      dc->realize = avr_gpio_realize;
-+    dc->vmsd = &avr_gpio_vmstate;
+     dc->vmsd = &avr_gpio_vmstate;
++    device_class_set_props(dc, avr_gpio_properties);
  }
  
  static const TypeInfo avr_gpio_info = {
+diff --git a/include/hw/gpio/avr_gpio.h b/include/hw/gpio/avr_gpio.h
+index 498a7275f0..e982f627ea 100644
+--- a/include/hw/gpio/avr_gpio.h
++++ b/include/hw/gpio/avr_gpio.h
+@@ -48,6 +48,7 @@ struct AVRGPIOState {
+     /* PORTx data changed IRQs */
+     qemu_irq out[8u];
+ 
++    uint8_t id;
+ };
+ 
+ #endif /* AVR_GPIO_H */
 -- 
 2.34.1
 
