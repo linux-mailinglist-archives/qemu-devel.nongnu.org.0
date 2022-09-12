@@ -2,77 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70B045B5CCB
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 16:56:42 +0200 (CEST)
-Received: from localhost ([::1]:49606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 741C75B5CEE
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 17:09:02 +0200 (CEST)
+Received: from localhost ([::1]:48328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXkrY-00076L-NZ
-	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 10:56:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46258)
+	id 1oXl3U-00042h-UQ
+	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 11:09:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
- id 1oXkpq-0005QW-2h; Mon, 12 Sep 2022 10:54:54 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:36498)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
- id 1oXkph-0005S3-5n; Mon, 12 Sep 2022 10:54:52 -0400
-Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
- (sas1-c73b4b4f4b95.qloud-c.yandex.net
- [IPv6:2a02:6b8:c08:12a9:0:640:c73b:4b4f])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 906B02E1271;
- Mon, 12 Sep 2022 17:54:24 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:201::1:1e] (unknown
- [2a02:6b8:b081:201::1:1e])
- by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- g8QZdiaQfQ-sNOSgQnx; Mon, 12 Sep 2022 17:54:23 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Precedence: bulk
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1662994463; bh=dofHwLkaPZbGY5IgTv9viVqf6J3ZlwaqZO8eCGrqlnE=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=MExkOo+XtDvIyvYs5/7MkOLqSu5wDxMQFThYuH7hoIU//jcG4+b07hcb8svQucCNf
- VXRqOrh30CaQJRRTvrGniiRUMi0/IHc7AjUJ7OFzRVkden3YlfGxl43u0o95vEiBrP
- jkgwkTVcT3gZQr0oS7K3MahSwwQA7b9lNUtOyV2I=
-Authentication-Results: sas1-c73b4b4f4b95.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <e4b1a094-9674-1242-b479-911983f4039f@yandex-team.ru>
-Date: Mon, 12 Sep 2022 17:54:22 +0300
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oXl1U-00024y-8u
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 11:06:59 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:46972)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oXl1S-0000FO-6p
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 11:06:55 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ k6-20020a05600c1c8600b003a54ecc62f6so7400678wms.5
+ for <qemu-devel@nongnu.org>; Mon, 12 Sep 2022 08:06:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=dFRNNeq6H79B1UOBui48lqrBUDaCbNHBHchXQRDyCtc=;
+ b=n4m5r/qJv9Y9UtZj20WctdOuhOjYymuCDVU1bo8E65Fgr7B6eLBd0Ck1fY+3ey83Uw
+ 3Vi0IQKfluyKMk+n5sUkheayNSnVoKPeBVkC6nPwePKrvNT3s6Cd4yYEPnn8E4m9w+h9
+ Pf5YwSoyFhGM8GijtU2TEB7+1cUVv9VXdPuiT9hRbf6v3Vmq8V7bMKyvc9Y3Myzu2vZr
+ M6rgpxhGeDOT9uoIdYBEEhIvo7zy60xNmgK/ezmYliCNp+nkYFYZRP1ZZuto7gcmLTcM
+ S6h8t24qMukCeHa6wC26l+6XGVcRl1KTYNwfjkCnARkMT51SUyvDRz3MamGYwgKXzG5v
+ tEfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=dFRNNeq6H79B1UOBui48lqrBUDaCbNHBHchXQRDyCtc=;
+ b=Cv644fhJ8N7ja0SKzu/AVvmCA8K/bmJLOdN+YemRWIQpkp4bIK9h7Rq5zDuuhTlv+7
+ BtAamV+FU2LoeLJKxbC39XZlYZhR0WS5eNO0EzOtNW1CG/oehpGs/echGIqDYuGz9NdX
+ n33oFLTF6Ck3TGyH1IboeVDp+OZdHqo8iyzwVAbK5vu4AGFdWc21+4fbx4hgixeEDfuY
+ 8oJKfstFnGRdelPwDt9HZHlG44x19BDjcn4eFv3ipSon0iI/wnv2BUTQhwqDyaqSioI2
+ zMbVRJMFPfH/+PDvdB4Q9VHkgTg53sBshYnDhtdKUzeZzk2wNqUXOcJMrNKE56kvtkI5
+ t52A==
+X-Gm-Message-State: ACgBeo38tUQiuMOqb6C0A9iiX9VFNSs7fXJtx4GzdPGbc6tHE2KuXZff
+ CV3wkXZkVe5qahUjNPHu+m5xcQ==
+X-Google-Smtp-Source: AA6agR4meGlcVVxzJRLwFq649dZ34xOMQJQM0r5o9oivS4Cx8xcNaiIlKImYAhb1pS+XkUgbSvnBhA==
+X-Received: by 2002:a7b:ca53:0:b0:3b4:90c4:e07 with SMTP id
+ m19-20020a7bca53000000b003b490c40e07mr2200788wml.150.1662995211930; 
+ Mon, 12 Sep 2022 08:06:51 -0700 (PDT)
+Received: from [10.119.17.153] ([89.101.193.69])
+ by smtp.gmail.com with ESMTPSA id
+ y25-20020a05600c365900b003b483000583sm5006903wmq.48.2022.09.12.08.06.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Sep 2022 08:06:51 -0700 (PDT)
+Message-ID: <2b54c1ee-8779-795b-d120-2e5f95aab3f3@linaro.org>
+Date: Mon, 12 Sep 2022 16:06:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v3 0/5] vhost-user-blk: dynamically resize config space
- based on features
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 25/37] target/i386: reimplement 0x0f 0xd0-0xd7, 0xe0-0xe7, 
+ 0xf0-0xf7, add AVX
 Content-Language: en-US
-To: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>,
- "mst@redhat.com" <mst@redhat.com>, "stefanha@redhat.com"
- <stefanha@redhat.com>, "kwolf@redhat.com" <kwolf@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "jasowang@redhat.com" <jasowang@redhat.com>
-References: <20220906073111.353245-1-d-tatianin@yandex-team.ru>
- <20220907040149.GA6661@raphael-debian-dev>
-From: Daniil Tatianin <d-tatianin@yandex-team.ru>
-In-Reply-To: <20220907040149.GA6661@raphael-debian-dev>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20220911230418.340941-1-pbonzini@redhat.com>
+ <20220911230418.340941-26-pbonzini@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220911230418.340941-26-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=d-tatianin@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.153,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,61 +95,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks for reviewing! Could you send a Pull request? Or do we need an 
-ack from someone else?
+On 9/12/22 00:04, Paolo Bonzini wrote:
+> +    [0xd7] = X86_OP_ENTRY3(PMOVMSKB,  G,d, None,None, U,x,  vex7 mmx avx2_256 p_00_66), /* MOVNTQ/MOVNTDQ */
 
-On 9/7/22 7:02 AM, Raphael Norwitz wrote:
-> Thanks for the changes. For the whole series:
-> 
-> Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-> 
-> On Tue, Sep 06, 2022 at 10:31:06AM +0300, Daniil Tatianin wrote:
->> This patch set attempts to align vhost-user-blk with virtio-blk in
->> terms of backward compatibility and flexibility. It also improves
->> the virtio core by introducing new common code that can be used by
->> a virtio device to calculate its config space size.
->>
->> In particular it adds the following things:
->> - Common virtio code for deducing the required device config size based
->>    on provided host features.
->> - Ability to disable modern virtio-blk features like
->>    discard/write-zeroes for vhost-user-blk.
->> - Dynamic configuration space resizing based on enabled features,
->>    by reusing the common code introduced in the earlier commits.
->> - Cleans up the VHostUserBlk structure by reusing parent fields.
->>
->> Changes since v1 (mostly addresses Stefan's feedback):
->> - Introduce VirtIOConfigSizeParams & virtio_get_config_size
->> - Remove virtio_blk_set_config_size altogether, make virtio-blk-common.c
->>    only hold the virtio-blk config size parameters.
->> - Reuse parent fields in vhost-user-blk instead of introducing new ones.
->>
->> Changes since v2:
->> - Squash the first four commits into one
->> - Set .min_size for virtio-net as well
->> - Move maintainer/meson user-blk bits to the last commit
->>
->> Daniil Tatianin (5):
->>    virtio: introduce VirtIOConfigSizeParams & virtio_get_config_size
->>    virtio-blk: move config size params to virtio-blk-common
->>    vhost-user-blk: make it possible to disable write-zeroes/discard
->>    vhost-user-blk: make 'config_wce' part of 'host_features'
->>    vhost-user-blk: dynamically resize config space based on features
->>
->>   MAINTAINERS                           |  4 +++
->>   hw/block/meson.build                  |  4 +--
->>   hw/block/vhost-user-blk.c             | 29 +++++++++++---------
->>   hw/block/virtio-blk-common.c          | 39 +++++++++++++++++++++++++++
->>   hw/block/virtio-blk.c                 | 28 +++----------------
->>   hw/net/virtio-net.c                   |  9 +++++--
->>   hw/virtio/virtio.c                    | 10 ++++---
->>   include/hw/virtio/vhost-user-blk.h    |  1 -
->>   include/hw/virtio/virtio-blk-common.h | 20 ++++++++++++++
->>   include/hw/virtio/virtio.h            | 10 +++++--
->>   10 files changed, 105 insertions(+), 49 deletions(-)
->>   create mode 100644 hw/block/virtio-blk-common.c
->>   create mode 100644 include/hw/virtio/virtio-blk-common.h
->>
->> -- 
->> 2.25.1
+Cut and paste comment?
+
+> +BINARY_INT_MMX(PMULLW,  pmullw)
+
+tcg_gen_gvec_mul
+
+> +static void gen_VCVTpd_dq(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+> +{
+> +    SSEFunc_0_epp fn = NULL;
+> +    switch (sse_prefix(s)) {
+> +    case 0x66:
+> +        fn = s->vex_l ? gen_helper_cvttpd2dq_ymm : gen_helper_cvttpd2dq_xmm;
+> +        break;
+> +    case 0xf3:
+> +        fn = s->vex_l ? gen_helper_cvtdq2pd_ymm : gen_helper_cvtdq2pd_xmm;
+> +        break;
+> +    case 0xf2:
+> +        fn = s->vex_l ? gen_helper_cvtpd2dq_ymm : gen_helper_cvtpd2dq_xmm;
+> +        break;
+> +    }
+> +    fn(cpu_env, s->ptr0, s->ptr2);
+> +}
+
+Earlier decode?
+
+
+r~
 
