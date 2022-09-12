@@ -2,110 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 731B65B59A4
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 13:51:01 +0200 (CEST)
-Received: from localhost ([::1]:48498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 538C45B59A1
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 13:50:01 +0200 (CEST)
+Received: from localhost ([::1]:50698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXhxs-00089A-9M
-	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 07:51:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52770)
+	id 1oXhwt-0007Qg-Uv
+	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 07:49:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <heecheol.yang@outlook.com>)
- id 1oXhVe-0007uw-5a
+ id 1oXhVf-0007uy-TQ
  for qemu-devel@nongnu.org; Mon, 12 Sep 2022 07:21:56 -0400
 Received: from mail-bn8nam11olkn2010.outbound.protection.outlook.com
  ([40.92.20.10]:8224 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <heecheol.yang@outlook.com>)
- id 1oXhVc-0000Xk-Do
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 07:21:49 -0400
+ id 1oXhVe-0000Xk-8m
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 07:21:51 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OQ51YB5qN/dAK65+75ddY7C7jS/BdVoUJVO01V/vTpjHIeMIyk5eAHmpGJYlS9fTX0QoJ81zOyN4OIQ3b6z8cLAwDuRIue5ZLz/daXqClhVF76DJus7XNySSuS2QCCr4VZZdlGAF7ctTTk0Akq/5g5sbX8o1LrKfrrpFu+Q1HFN2aCPOXAfVv0u6FloIBsM6rWVevVtty6wRSGxu1VEqOfnO+417AtVq+JYD4jRTmUAOQ3cEfXjQz0k0hKmglxz8r3ZlCy8GrS8xujPw/Uc2Dpkb9fcMuPE5bUuUr76z89iN1Eafmsw3/7RXK948/P8oYIbf2XxXgPEVxRhQsVVT2w==
+ b=QsyajiVUozNqEycv+XWLjkg+gyBRfpaPILS7Uf8nvYcnkak1gRtDxu47Psj1DmOR6IdoIyAXOdGq38EoiJnezLrs690B7ExIOokxUfF9FZvKw8+WiDy4H0RDLz4HOSweADVOvs1c5si4Ck1Z10re91EXZZQCumw3Qi8pDHSRVeyvuige5eiaf0ZQrP9n2QrzW2PfyEROV1UfrI/TV65HNNPpBjXYCrKYh88av41HjgFFKakpuxYJaugTNn92NYWI3FVE5pDCrQImbc+TKAF3wwA0WFosUdBat8na4vna33w8CHIQPTbvgqXvdLlR/DCYEmr0Sz8hMPqHzfnEJ0pU/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UVnueI5fBkxJtBzGKO9tajMDGBxmeIiMebQB0DfBE3k=;
- b=jK8i9YvxS5LarOi8ri5i/6XFyIIE/qmpYrt+Yuioxz4YDl3+ocwRNkQeJAn+cjNLHNPAA3VWG9BpQetlXQbtsS3N0PvwON+vZCrRoeqvKjFwaioZKVjofBcOjTZ+WZJjmVMr/It8C6zLcPxJQjZyEekdcYbl3oMRmfn+FLDlGhlJP9ivyAeN5yWXpfNtq3jjnX+u4DXe3WDG7ipA8G3morz/bVCwEWIgaYwfO/Huhm+23tXr96GOzpUVQbA8x+s9FVYuuMdDIkiKFbzsOlQcbN+HYQOHRFagTEg1XzZl3xx0n6iPcb6rgCgg7keRC6lHSaIT+OVUFipdNIRgHQAlVg==
+ bh=sdo7DP1k8AcmSJZiJ9U6W+JLZhdL2c/VOtzZKNYA6YI=;
+ b=Bjglnt8IHpynYbSUeaphIzxxEzHij6MKO3eojbWrWkLWiYHztDqDA1ZBnQc/KfZOiZxtCHWAjqM16BLT1rN45oGEDqLUw1ajq0NozkU0hnoVDCiHt8BExEPWXPv5cwR9z5yY+xBLmvodxQRSzhytg3vIbRm1WiEUxmeZPlD+zKIROTDD/ckwQw9XYuvvApFnJ6onUTvxGpeun1hrXCkk187G2uvfoJPcM7GQYqiG3PhYaw0Y68YMFxK8W7rKoH4Wm5xfQStBHGpxwZ0BbKSZiQAAAUpUbR1h+IwUiALl8eSYQV975Ajsct53Xdvu8L8gLcDh19RtBpao5y6g6tAxMA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UVnueI5fBkxJtBzGKO9tajMDGBxmeIiMebQB0DfBE3k=;
- b=atYDQAYYlpEuJ9gOfiLybyvkn91TBqndVHi9B4XsH8iTkO+5itSxpmcvxkO1nWmVePBgM7LofQGCCYV9HjW86IY2sA2jtxzanxmUI3xiSj43geDyw1iCe/J3iFj/0QSuXTXaEaOxB1Ht3Avj8NyeVjEL6rqg/ZyqoHYLX6u0LSxVWlQhK+xRimQtQ2clmTJ1x310kEy4Tra3x7GBpPnzq4y09Okm3HSwxJn4joWWC738ejG7gG7mA2zCKnUcv4h3ip2mcNSXwT6zPM88q6U185f4c6RyeDsaQ00kzx3f0DXZGiixYkl/cTLY9lP0pdSRG3C4//v7zo72VqF+43DBJg==
+ bh=sdo7DP1k8AcmSJZiJ9U6W+JLZhdL2c/VOtzZKNYA6YI=;
+ b=okQQuHa8IK2eDIhYkXkcPin9gOPjz8meNW4WaDCcNDBtIgZNEpPEpExMASKGTr7AfupTbYmr5GGWq7FMs5RJ/H3qsW61ShwmwE4NY5kHp2417st8nhMj4H8FuL2l+qO1wPU0Na5RASEHbQyD0h934gg73MseqzWxCjK8kVOfmqqqTaD0DBUC52xxOmxJ+oIPBmGpuj0avE96CWSOnnB+HS0nBA41+uq5X3k0TBXD99QC4fh9SpJliNnndndIZY7eZJ0f3/NQ9eGQWundnHNo9U7ZgBlPlI5/tKY+eNcOT/TYkNMiUWxXmv4hpGqbY6RuurBuZzzpE0T8kSQ2Lmyx8A==
 Received: from DM5PR06MB2537.namprd06.prod.outlook.com (2603:10b6:3:53::19) by
  BN7PR06MB3876.namprd06.prod.outlook.com (2603:10b6:406:8d::14) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5612.19; Mon, 12 Sep 2022 11:21:40 +0000
+ 15.20.5612.19; Mon, 12 Sep 2022 11:21:42 +0000
 Received: from DM5PR06MB2537.namprd06.prod.outlook.com
  ([fe80::5dd2:9226:c045:5480]) by DM5PR06MB2537.namprd06.prod.outlook.com
  ([fe80::5dd2:9226:c045:5480%9]) with mapi id 15.20.5612.022; Mon, 12 Sep 2022
- 11:21:40 +0000
+ 11:21:42 +0000
 From: Heecheol Yang <heecheol.yang@outlook.com>
 To: qemu-devel@nongnu.org
 Cc: G S Niteesh Babu <niteesh.gs@gmail.com>,
  Michael Rolnik <mrolnik@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Heecheol Yang <heecheol.yang@outlook.com>
-Subject: [PATCH 5/8] hw/gpio/avr_gpio: Add tracing for reads and writes
-Date: Mon, 12 Sep 2022 20:21:03 +0900
-Message-ID: <DM5PR06MB2537A9450801CC79DCD955B4E6449@DM5PR06MB2537.namprd06.prod.outlook.com>
+Subject: [PATCH 6/8] hw/avr/arduino: Add D13 LED
+Date: Mon, 12 Sep 2022 20:21:04 +0900
+Message-ID: <DM5PR06MB2537BAC1DA9716B3883C0FA7E6449@DM5PR06MB2537.namprd06.prod.outlook.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220912112106.49110-1-heecheol.yang@outlook.com>
 References: <20220912112106.49110-1-heecheol.yang@outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TMN: [tn4nRy6f4HyAh50oNY3cN2jy2ErIC7/y]
+X-TMN: [OyMZLmjkiwKrylyJJHofw0X1oZF7vJdd]
 X-ClientProxiedBy: SL2PR04CA0022.apcprd04.prod.outlook.com
  (2603:1096:100:2d::34) To DM5PR06MB2537.namprd06.prod.outlook.com
  (2603:10b6:3:53::19)
-X-Microsoft-Original-Message-ID: <20220912112106.49110-5-heecheol.yang@outlook.com>
+X-Microsoft-Original-Message-ID: <20220912112106.49110-6-heecheol.yang@outlook.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM5PR06MB2537:EE_|BN7PR06MB3876:EE_
-X-MS-Office365-Filtering-Correlation-Id: fb4cbbbd-1d26-475d-81eb-08da94b0f699
-X-MS-Exchange-SLBlob-MailProps: AZnQBsB9Xmqxq1ifAc9vd1hrDdkf/Zi2KGZXlYKUcfBMOFbMOXN0G6acWTOsYBhPhFDYsnGA+t7NOIeHL8iixt0dJTjlOCBY+QJETnqoqFfgXUgvOXlrCfurUgt9O7FhfCpjhMS+2Pcokm2AQKy/WRPA3Ng6hqTbdlsnJY8nNr9tJKN5JbBwSO3n8XlRp8EqoPKg/8RKM87gs4+64c7rcmTqcNpPBwKDHj1lwHKfr1dgaX4U43ifPaC3Kn/32kUfhfFl8DfNeirzmVD9zoHKFax4YzTRUZFEqsGFONeLxLq6tjCgemZU8UyOq44GDaCTQZKLivAQU/4hCEtYowCzA8lIY9HIgJPJGMfb6WfYqRxeBpO/pV/N8USENZO/1fCpoyM6iH9el7UxuFBUWezeJjzPWjI5oMJmvATtLIwA0BmSA+FtPbnLXR1p50spI+e+JFlrXpMaim/yu3/BBCXKA1PPJafjPr/HD09auZfkpNNzJMLLFoTMN5qxHf4qUh8AeGZp/RUJT44w6RuuYGNGH05BkYFCDUlFnFKdI9P4EzWZgNUNo7bv9zagubvOhEfB1vI8b0KsZJK8x6LBVPtnTDSGXFxGSsz8ny5gGLpAo0wu2jfXIG8bMHng7hVBaG7F49uOnhDMedj4YKawpMwCX/+fBS8HswdurhuJbX5CTG+7Scc7kaogoXM4yEcKdtDe3uXKFTzsyCG4yKtkKsPnKsKMVwxNpy7tBG5paA/tN/ZPelxvXuvPdmW/9p4ZST0AyWDJVkMsJIQ=
+X-MS-Office365-Filtering-Correlation-Id: 04ba405e-ea1d-45d3-1f80-08da94b0f7c1
+X-MS-Exchange-SLBlob-MailProps: AZnQBsB9Xmqxq1ifAc9vd1hrDdkf/Zi28x2bOXBcG7F4dYQOass6opJJEBSMdk0JHB/Jcbg6w6bBZ38IQobvopqA7ry08TocB2mvtkJoCYpL8CUEKCP1w5keUPqnIgE8Pnozg7xo16oT+LtZXUeNjKGsx7XKYgBsJ6Ske5aQx8/KgTXf6Mp5KlQidZauLgU7ttDvP8PbkLy2R7OEz/x5hqSiePBFSQ96o4knwWMu8dQwg3glefz49pJLVVk3Q/y3M7m07VFc4IiBd0ENPSnNMHemQoFh8kG6PPJZHvYedH8TFdWy0mfu67yfqAGEvLxwz4lGOd5d4I4Wajk52imxdSm0cA7Z1qziaorVf1XpYdzvjXTZFFvxnqG+hZTjFl1xLmiCF3XolbFTv4XpFp9+Mp9Np+lZUWHBe8GdllMXRLp8DsrfWl4z8BPIjgFK8l6o0XRsfICwDAdARAcY/PEveYrV8cgpGAbvtPl1de4IpU2htNUD1gK7A1z2c6kLcRj1rrWMZxMHq1O47N/CDjH/nPbBO0pRQOs/D2qYb4E9EWM1wNpSRRboJPr9w0+CQ4P+0qOshK6Ld6DTVv5RUzeJzKS6FcdBwNzBoEU4kV8dNsqmfgxz/l+UkoGTLTkBYD8MC6Dmcci8W7j8CaLIaQTi2PKVshD6IEH2zddXOzlBXbGUIzdWC5/61k318VGOAAd17tKLa/lDTXCdUUKcsEH6XGFxw+wqJdYwvYHBIIKbaHw83Z+2xaq9AG/sPkE5D+GQbXvDHKEje+I=
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TpPrXp5kueYKDNp+QAQGou1H2NBiynIfJwQyFc76WeO+tblMgbcKXGz7kLqNGQhN7kvspM+OKVZk3rk9yV6hjseqj60+BJf0Rgj3XmqMssVFaX72s3IiQpiQ5lprncuFwjjTDzAh26dPLijklvLtr5luGAZStouvLp/4qIxz+qQXLK/DteJgASGq85M6Cn6YE1tjHsmLHt8kjenIlnvM9uRxitNDjJRG1IwJpv7hDz3sWIt+Dima2xkXLCKAbOn8ySAPlV93j+9HgI2GBk9F2B5LJLf8ot00Yk6zfuDNJkXrxzgfmaSjdiex7zcoByJgKiYKY+S6IVmHZFesnky2D5LzmLks3Ml1Vs6dolq0u3ZrXRZu7kghv8QeYE2XMzfunu7ZUUmz2dgLSbnxfZ7g8tjmq5ZbL3zj6eyGoKsX13sod5z62rvYxN/ffWq+8rObsQ4QptN3KAwipFaFC2NZ8F+8RnUHUGEMJ06ZH+i0CFcOBHQW2WEIkjEBKf+dpvHx8JWHmbxGhdO/j3vu7sYiM3GEltBo9FMPjABNm9nKHtSwezjmtf088WGYYW+T26dVwLyUTKy9GuJZvL04anT/I0Iqtu2fvzFF0GtSdZ6hxhuIozSKg81cBZXTnqCorkqbCe8WHZiSordLiJX0NkZAdA==
+X-Microsoft-Antispam-Message-Info: YBAwTQOUPocIZrI3uOt0MyLvPaewYXN8j4QTuCda1AriR6aDlkECZWwjl10A+89pBa1h2ChpVk04fyGn+AmwN2Fq5EAL19p+4XDPW7zYvfTciCOBlVS9oEHoYRBKjVcMTXY6zi09tV2ra4lICUHKU+RIdFvKCy//Ca7wSoFTkogGbxJ+nZLw8DHKA4QQtbte/AfPfRw+ikydQiJVlfyBy/l4cPs3ptwTjyFRuM3iVvNf1x3bBYjG35IvlJeHLTflYyzb6SGuqrDVelCiRMJRqTtvm5sMc0OHoAAUohX+mmTjqnc14QfC/2eAMN+svvatj2/77LZjXPjQGNLkpVbXL05kXpQGiPabFIUm3ctbsYy3XNKg9F1ntd12bAf5Cj7Nsd6mPZ5ygANtLXTq+A9c7I9y511RoUCo7ab5FJsBd9sug/OkJOKj1vyHzE+UxIXjI+GKSgIkVjdYlgi+jk4mvuVIF+HaZeQnf7yK7d5jGp0z4dI/qEMSvwcXFnoayNQROE+i+DEfMvVuKwvcuGuZMgXIlEEAmlkFrrnU/1yTiU9MgbcPzSaqIshj95TOaywoz75a9Qq2mA1L5Fgx89s7buT567lT+zRcvmuHkyP9u1C6Y2+6h8NDS3dDCORc6xOsCPc8BrspA5meTZ3jfOSIjQ==
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TlAvb1crUlhVMzZ2OWF5N2diT0h0eUlwcC8xdCtvcURFb1V5U1Iwemx1RE1R?=
- =?utf-8?B?MkFpMlM0NEN5UjM5emg1QjBDQTlzQXp3SndkdTRQVTJ5Q2NVbGJCWXFBa3Va?=
- =?utf-8?B?QnpXcG1scm0xVURMSDRzQ0h0VDl0NUN4eVZkSHlqRi9MQVR5WE05RzZQTzF5?=
- =?utf-8?B?MThRc1JhSGxUL0wweXBsMEx0TTg3c3pEbzdxNk41MFhmN1B3U2hTazQybFZR?=
- =?utf-8?B?citCa2swWnFPVG0za2dmRWhCZE5LZUJGRGZEQjlUTjBuc3JkWWI4TFQ4VXpX?=
- =?utf-8?B?c24wTTlMVDFhSjlhQWtHZnVHeFBOZk9Ga3BxNVg0MmcrYTVXZEI3QjJpSTlN?=
- =?utf-8?B?TEM2a2kxYnZCRVRYNnZHRWxTc3BCdkVmb1JXMHd1RWJwU29nZERXMzlaU2cx?=
- =?utf-8?B?NjM3a01Gai9CaVZTdjN3M25meTU1alhrUTlQR3RROThaODZFM0p2R3hLQ1Vz?=
- =?utf-8?B?SGljVml5ZTEzOFEwdjBZUkpGTkh1TWk0ZzZuREd3SHdGVG5nQVJUdGRGWlJt?=
- =?utf-8?B?N2pvRVZ0U2V1L2VsTHdZSnlOTUdiQklpTnlyWW1Qa3hjc0x1ZFBTK0tndnRG?=
- =?utf-8?B?VUN1bXZoejl6ZDgycGJwa3RQMXIzN29QdGgrTkt0V0tzczR3TW9kOHpvb0Iw?=
- =?utf-8?B?bzNsNTJhUEk0enRVenQ2NkxCMU8wUnFrUnFTYjFXWDdLOGtscklyY09vUURm?=
- =?utf-8?B?QWlpREM0bEttRUFjVW1pUkpNVy9ZSGlmS0N2QVpWUElQbHlUMUZCK0lBai9I?=
- =?utf-8?B?d1Q3YU5QcWJKbFIrYVJxWCtabXo5VTRVMVZ2ZUQ1ekpGeXdRb0gzZm04MWtK?=
- =?utf-8?B?OVdjNlgvSncrQ0g3K3ZaZ0x3RVFrZ2F4YnFOL1hYYTEraGZBQkhTMFhoSWtX?=
- =?utf-8?B?ZkI2MlArdzZ2UlRNWmFLbkpZcDdSRHpSTjFGOWorZWdPaU1ielJMay83YlI2?=
- =?utf-8?B?dVVpZGtOVlNybUNRczF1cktMSXdGM1pyc3NEQThmaWpiVEpYcWpwNzA0WWE1?=
- =?utf-8?B?RU1xSVE5dXBxLzk3Qms0ZFdsK2Y2QTRybVNZUmR3c2lWakxGWWtFbHhhOGg4?=
- =?utf-8?B?YWRwcG1zU0tYZ2dtNGVSZ25zTXZhemc0RnYxNTc5eFdBNlJGbnNJR1owSXFa?=
- =?utf-8?B?cEMvdVBONG83WHBjMFFKc1gybDFwTUhCbWE4aTcvS3B6ZmxNV0FTajloT29E?=
- =?utf-8?B?Y0JzbHhPMFRCdFF5SlNpZlRidm90ZUNVOUxFYVk0NFlQM2FoUGE4T0VBTWNH?=
- =?utf-8?B?NXlkQmJHK3VxVW9sWGgxaGxsenJ2SUQ1ZjJTUGxJNTVYSExsUFNGYmlZUUl3?=
- =?utf-8?B?MkNkMUhhZk9taERsT3UvaGpqNWVJT1JuNHJFbUROVGM4N0lJZmpPRnlFWWlP?=
- =?utf-8?B?ZmY4MEh4Qi95V2RzMVpYT1RQUWVUTXBOR0VvYzE2OUxNaitxWWhuZUE1U3Bz?=
- =?utf-8?B?WXVCZEl1dWxtdmgyd2tHL1FYYnBoSm12c2VxTWdzUTh6Q05mM29EeTdQb2tC?=
- =?utf-8?B?ZHhwUlNJL2ZFL0xobjRYb3JjckNkQi9WNHJabEx3N2JhckxwM3dMU3dZTE9x?=
- =?utf-8?B?eVZxcE84WkVNV2RYRUdjNjhyc2JCYS8yeDdKRmViK3dacVVETXYvZU5iWUZm?=
- =?utf-8?B?SVUzeTVGdm9Hb0dUY2k0dWdnRExsSWhtVzBoS1RoNHlXZEFCVk9JV2wzNjFY?=
- =?utf-8?B?elQ0b0p5dS9MRXFoZXBNNEVKOEVRdzdrUEt2VjdqQTNYbHZHQjk4RmxCTGpM?=
- =?utf-8?Q?Gxr+bsDxbE4CL0ymiA=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eXFpdUZCdWZ3WGRoRGVhZnhSQ0NrN0N5R1EvM0YzMFB4NTNvNGNOa1JKUy85?=
+ =?utf-8?B?alVvQ1hGWEVmbmYwMlBWV04ralZhSGF3T0hyYnN5WHZGRy9qUTVwSGYrdFdQ?=
+ =?utf-8?B?MWJzRXJ1d2xFcEZqaG5tekRCOExxaXNXSGU4S0E4L0ptY2RMdmVCazNSUXpU?=
+ =?utf-8?B?eG83bkpzeUdaallOc2FweGY2T2RIemhJQjBicjFuV2lpb1dnMURXRWpXazBy?=
+ =?utf-8?B?U1JzSEQyN3NPRUo2Qkw0QkxlRzhxYjhiV3NSZDJRMWJTK08rTVFjSzVuSzN5?=
+ =?utf-8?B?NDB4bkxZOUdhQ3VWNVZzczBVQXBzaFpaTDg2Z1VwZE10S3JqcmhZMERGelJI?=
+ =?utf-8?B?alhtWUN3N2tNTGdxT2k4b3g1TGZWb2dvdWZtdXBMTnNpQlBhMnpLb1FpL1dW?=
+ =?utf-8?B?djBKOG82MjRtOWpiMG45WjlQVnUrQ0ZLdDBMUVJFTG84MFY3UnNwbWFlSFov?=
+ =?utf-8?B?VXF0eERwb3dhSVhuM2dPYUFXRG5hY3BzQjlrdjJKQit2aG9GZVd0dERtQlE1?=
+ =?utf-8?B?a25mWFhGb2ZmN1JycElqdWNMQmdIdmZlTGpHaWRrdCtjeGlDbXlwZ2VGOW43?=
+ =?utf-8?B?WGhRU3VZbkx6WEJxSFJuQnFEa2xPeGczejBpWm4xSGxOYnNmZ2M1WHFjK2hZ?=
+ =?utf-8?B?Rko2Y291SWE4cEdmQkMxb0c5NjZSYnhPVmdTRFRoQ2swYktTR1ljc2pON0ox?=
+ =?utf-8?B?c2pPU2RHdnFqb2wrYkZCRmhzQU40QVF6NW1SQkhCTTRDeHpBam9zdmpheVUx?=
+ =?utf-8?B?ZE9uWmNneEx4U0F0K08vYVk2YnVWZjBQUjAxY1p6cVVkenNWV2hmcW15cjBR?=
+ =?utf-8?B?UlUra0pFTXpHYXZjWktmK2JZQ0wxdU5vYVNHckpuaEZQbDlqTDFsb2p3a0xa?=
+ =?utf-8?B?OS9lU1Z5RzRicklTQ3h5TFR3VjhYcXJ3YlFFNDRVSEtFbXV6Y2hXUnFuWFdV?=
+ =?utf-8?B?aGdBOVB5eHZnaFczTmJZRUFOenkxSjFyQys1anRyYnlpa1I4YTRSS3E2aWRw?=
+ =?utf-8?B?TXdEcHZBR3FPb1ZGSkpNZjFWamE5OEJKTzdSS0hHdEdjS2VKMGlVZ0FNdmY4?=
+ =?utf-8?B?TEdLemJkOVoyZEQyZ2x0UUsraTZrYmhYNGpGdUFhZGZnMUw2cDBFcVJFRzdi?=
+ =?utf-8?B?Qk5NaHRNZ2NiaGNrNjhkUWhhcHRZNFFESWZjMURDWHB3bzh2bHVMdW44V3ZK?=
+ =?utf-8?B?eDBGRVloWEczS0IyaU42Z0NhclJJR1dBeW1ySmEwaDNlZ05Vbmt1dE9kRSsx?=
+ =?utf-8?B?S2hUSFA5SHJpUk4vUWs2QmNEdW1vcEhUbEMwSnZYeVl5cnFaWTJlV2tUcTdZ?=
+ =?utf-8?B?SWJ1Z0xCd0ZsdEwzdzdLTWJ0OEtPMi80UlFCRm5qVkgwaTNBSjdMOEtXdXJU?=
+ =?utf-8?B?OXkrNjNRU1habUw5eGxidy9yZ0VpUEFJRDJYa2djMkRZd3pIOU04R1Q1V3pT?=
+ =?utf-8?B?Yzh4eC9EeTVVK3lMUEhpQkVEQnNhUkZyeXFGMFRzVDZwbExiWEVTcGhQckgw?=
+ =?utf-8?B?bmt3MW1SMmlEQ3hRN0pkaXlTWXMxNDBKK0UwWmpPaFpZcXFDc1dkMzlTUjNm?=
+ =?utf-8?B?LzV1angveWpGZzAvMFlPS0FoMGZ4YS9ERTRGT29NZXZhK0hjMS9YT0ZGYnJh?=
+ =?utf-8?B?UTQrNENjV2pKNVo5THBjK241UUhUV3Q1bjdvWmt6YU5VVmp1czNKZUxadTZY?=
+ =?utf-8?B?K1drbUVlNmt1YmN4VUZXTlZSRFJRY3lFenpja3NIUXJia1N5WEFqcEtkRDh1?=
+ =?utf-8?Q?B3zmQmU0qHxnhyL4jc=3D?=
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb4cbbbd-1d26-475d-81eb-08da94b0f699
+X-MS-Exchange-CrossTenant-Network-Message-Id: 04ba405e-ea1d-45d3-1f80-08da94b0f7c1
 X-MS-Exchange-CrossTenant-AuthSource: DM5PR06MB2537.namprd06.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2022 11:21:40.4381 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2022 11:21:42.3598 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
@@ -137,109 +137,106 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: G S Niteesh Babu <niteesh.gs@gmail.com>
 
-Added tracing for gpio read, write, and update output irq.
-
-1) trace_avr_gpio_update_ouput_irq
-2) trace_avr_gpio_read
-3) trace_avr_gpio_write
-
 Signed-off-by: G S Niteesh Babu <niteesh.gs@gmail.com>
 Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
-Message-Id: <20210311135539.10206-3-niteesh.gs@gmail.com>
-[PMD: Added port_name(), display port name in trace events]
+Message-Id: <20210311135539.10206-4-niteesh.gs@gmail.com>
+[PMD: Added ArduinoMachineClass::d13_led_portb_bit]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210313165445.2113938-8-f4bug@amsat.org>
+Message-Id: <20210313165445.2113938-9-f4bug@amsat.org>
 Signed-off-by: Heecheol Yang <heecheol.yang@outlook.com>
 ---
- hw/gpio/avr_gpio.c   | 26 +++++++++++++++++++++-----
- hw/gpio/trace-events |  5 +++++
- 2 files changed, 26 insertions(+), 5 deletions(-)
+ hw/avr/Kconfig   |  1 +
+ hw/avr/arduino.c | 19 +++++++++++++++++++
+ 2 files changed, 20 insertions(+)
 
-diff --git a/hw/gpio/avr_gpio.c b/hw/gpio/avr_gpio.c
-index e4c7122e62..29252d6ccf 100644
---- a/hw/gpio/avr_gpio.c
-+++ b/hw/gpio/avr_gpio.c
-@@ -2,6 +2,7 @@
-  * AVR processors GPIO registers emulation.
-  *
-  * Copyright (C) 2020 Heecheol Yang <heecheol.yang@outlook.com>
-+ * Copyright (C) 2021 Niteesh Babu G S <niteesh.gs@gmail.com>
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU General Public License as
-@@ -26,6 +27,12 @@
- #include "hw/gpio/avr_gpio.h"
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
-+#include "trace.h"
-+
-+static char port_name(AVRGPIOState *s)
-+{
-+    return 'A' + s->id;
-+}
+diff --git a/hw/avr/Kconfig b/hw/avr/Kconfig
+index 16a57ced11..e0d4fc5537 100644
+--- a/hw/avr/Kconfig
++++ b/hw/avr/Kconfig
+@@ -8,3 +8,4 @@ config AVR_ATMEGA_MCU
+ config ARDUINO
+     select AVR_ATMEGA_MCU
+     select UNIMP
++    select LED
+diff --git a/hw/avr/arduino.c b/hw/avr/arduino.c
+index 48ef478346..73563a35d0 100644
+--- a/hw/avr/arduino.c
++++ b/hw/avr/arduino.c
+@@ -12,6 +12,8 @@
  
- static void avr_gpio_reset(DeviceState *dev)
- {
-@@ -47,32 +54,41 @@ static void avr_gpio_write_port(AVRGPIOState *s, uint64_t value)
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
++#include "hw/boards.h"
++#include "hw/misc/led.h"
+ #include "atmega.h"
+ #include "boot.h"
+ #include "qom/object.h"
+@@ -21,6 +23,8 @@ struct ArduinoMachineState {
+     MachineState parent_obj;
+     /*< public >*/
+     AtmegaMcuState mcu;
++
++    LEDState *onboard_led;
+ };
+ typedef struct ArduinoMachineState ArduinoMachineState;
  
-         if (cur_ddr_pin_val && (cur_port_pin_val != new_port_pin_val)) {
-             qemu_set_irq(s->out[pin], new_port_pin_val);
-+            trace_avr_gpio_update_output_irq(port_name(s), pin, new_port_pin_val);
-         }
-     }
-     s->reg.port = value & s->reg.ddr;
- }
- static uint64_t avr_gpio_read(void *opaque, hwaddr offset, unsigned int size)
- {
-+    uint8_t val = 0;
-     AVRGPIOState *s = (AVRGPIOState *)opaque;
-     switch (offset) {
-     case GPIO_PIN:
--        return s->reg.pin;
-+        val = s->reg.pin;
-+        break;
-     case GPIO_DDR:
--        return s->reg.ddr;
-+        val = s->reg.ddr;
-+        break;
-     case GPIO_PORT:
--        return s->reg.port;
-+        val = s->reg.port;
-+        break;
-     default:
-         g_assert_not_reached();
-         break;
-     }
--    return 0;
-+
-+    trace_avr_gpio_read(port_name(s), offset, val);
-+    return val;
- }
+@@ -30,6 +34,7 @@ struct ArduinoMachineClass {
+     /*< public >*/
+     const char *mcu_type;
+     uint64_t xtal_hz;
++    unsigned d13_led_portb_bit; /* PORTB GPIO for D13 yellow LED */
+ };
+ typedef struct ArduinoMachineClass ArduinoMachineClass;
  
- static void avr_gpio_write(void *opaque, hwaddr offset, uint64_t value,
-                                 unsigned int size)
- {
-     AVRGPIOState *s = (AVRGPIOState *)opaque;
--    value = value & 0xF;
-+    value = value & 0xFF;
+@@ -48,6 +53,16 @@ static void arduino_machine_init(MachineState *machine)
+                              amc->xtal_hz, &error_abort);
+     sysbus_realize(SYS_BUS_DEVICE(&ams->mcu), &error_abort);
+ 
++    /* Onboard led connected to digital header PIN 13 */
++    ams->onboard_led = led_create_simple(OBJECT(ams),
++                                         GPIO_POLARITY_ACTIVE_HIGH,
++                                         LED_COLOR_YELLOW,
++                                         "D13 LED");
 +
-+    trace_avr_gpio_write(port_name(s), offset, value);
-     switch (offset) {
-     case GPIO_PIN:
-         s->reg.pin = value;
-diff --git a/hw/gpio/trace-events b/hw/gpio/trace-events
-index 9736b362ac..5f89c30910 100644
---- a/hw/gpio/trace-events
-+++ b/hw/gpio/trace-events
-@@ -31,3 +31,8 @@ sifive_gpio_update_output_irq(int64_t line, int64_t value) "line %" PRIi64 " val
- # aspeed_gpio.c
- aspeed_gpio_read(uint64_t offset, uint64_t value) "offset: 0x%" PRIx64 " value 0x%" PRIx64
- aspeed_gpio_write(uint64_t offset, uint64_t value) "offset: 0x%" PRIx64 " value 0x%" PRIx64
++    qdev_connect_gpio_out(DEVICE(&ams->mcu.gpio[1]),
++                          amc->d13_led_portb_bit,
++                          qdev_get_gpio_in(DEVICE(ams->onboard_led), 0));
 +
-+# avr_gpio.c
-+avr_gpio_read(unsigned id, uint64_t offset, uint64_t r) "port %c offset 0x%" PRIx64 " value 0x%" PRIx64
-+avr_gpio_write(unsigned id, uint64_t offset, uint64_t value) "port %c offset 0x%" PRIx64 " value 0x%" PRIx64
-+avr_gpio_update_output_irq(unsigned id, int64_t line, int64_t value) "port %c pin %" PRIi64 " value %" PRIi64
+     if (machine->firmware) {
+         if (!avr_load_firmware(&ams->mcu.cpu, machine,
+                                &ams->mcu.flash, machine->firmware)) {
+@@ -82,6 +97,7 @@ static void arduino_duemilanove_class_init(ObjectClass *oc, void *data)
+     mc->alias       = "2009";
+     amc->mcu_type   = TYPE_ATMEGA168_MCU;
+     amc->xtal_hz    = 16 * 1000 * 1000;
++    amc->d13_led_portb_bit = 5;
+ };
+ 
+ static void arduino_uno_class_init(ObjectClass *oc, void *data)
+@@ -97,6 +113,7 @@ static void arduino_uno_class_init(ObjectClass *oc, void *data)
+     mc->alias       = "uno";
+     amc->mcu_type   = TYPE_ATMEGA328_MCU;
+     amc->xtal_hz    = 16 * 1000 * 1000;
++    amc->d13_led_portb_bit = 5;
+ };
+ 
+ static void arduino_mega_class_init(ObjectClass *oc, void *data)
+@@ -112,6 +129,7 @@ static void arduino_mega_class_init(ObjectClass *oc, void *data)
+     mc->alias       = "mega";
+     amc->mcu_type   = TYPE_ATMEGA1280_MCU;
+     amc->xtal_hz    = 16 * 1000 * 1000;
++    amc->d13_led_portb_bit = 7;
+ };
+ 
+ static void arduino_mega2560_class_init(ObjectClass *oc, void *data)
+@@ -127,6 +145,7 @@ static void arduino_mega2560_class_init(ObjectClass *oc, void *data)
+     mc->alias       = "mega2560";
+     amc->mcu_type   = TYPE_ATMEGA2560_MCU;
+     amc->xtal_hz    = 16 * 1000 * 1000; /* CSTCE16M0V53-R0 */
++    amc->d13_led_portb_bit = 7;
+ };
+ 
+ static const TypeInfo arduino_machine_types[] = {
 -- 
 2.34.1
 
