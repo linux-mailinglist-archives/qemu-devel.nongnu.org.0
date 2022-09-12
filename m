@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 765AB5B52D1
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 05:16:48 +0200 (CEST)
-Received: from localhost ([::1]:40200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E8545B52D3
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 05:19:19 +0200 (CEST)
+Received: from localhost ([::1]:57050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXZwF-000785-J6
-	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 23:16:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53544)
+	id 1oXZyg-0000Fs-1g
+	for lists+qemu-devel@lfdr.de; Sun, 11 Sep 2022 23:19:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oXZql-0006Tr-QE
+ id 1oXZql-0006Tv-QK
  for qemu-devel@nongnu.org; Sun, 11 Sep 2022 23:11:07 -0400
-Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:57816)
+Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:51976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oXZqd-0007IM-Tk
- for qemu-devel@nongnu.org; Sun, 11 Sep 2022 23:11:04 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R211e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046051;
+ id 1oXZqd-0007IR-Vp
+ for qemu-devel@nongnu.org; Sun, 11 Sep 2022 23:11:05 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R261e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
  MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=6; SR=0;
- TI=SMTPD_---0VPNIbvR_1662952252; 
+ TI=SMTPD_---0VPNJLP1_1662952253; 
 Received: from localhost(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VPNIbvR_1662952252) by smtp.aliyun-inc.com;
- Mon, 12 Sep 2022 11:10:53 +0800
+ fp:SMTPD_---0VPNJLP1_1662952253) by smtp.aliyun-inc.com;
+ Mon, 12 Sep 2022 11:10:54 +0800
 From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, jasowang@redhat.com, arei.gonglei@huawei.com,
  hengqi@linux.alibaba.com, xuanzhuo@linux.alibaba.com
-Subject: [PATCH v2 3/6] vhost-net: vhost-user: update
- vhost_net_virtqueue_reset()
-Date: Mon, 12 Sep 2022 11:10:46 +0800
-Message-Id: <a14f5ebdefb82d7679841c1d5ddab54ec9406ea1.1662949366.git.kangjie.xu@linux.alibaba.com>
+Subject: [PATCH v2 4/6] vhost-net: vhost-user: update
+ vhost_net_virtqueue_restart()
+Date: Mon, 12 Sep 2022 11:10:47 +0800
+Message-Id: <2f51b68283755fe268dd4ce30a8cae7b1488e903.1662949366.git.kangjie.xu@linux.alibaba.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1662949366.git.kangjie.xu@linux.alibaba.com>
 References: <cover.1662949366.git.kangjie.xu@linux.alibaba.com>
@@ -64,11 +64,11 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update vhost_net_virtqueue_reset() for vhost-user scenario.
+Update vhost_net_virtqueue_restart() for vhost-user scenario.
 
 In order to reuse some functions, we process the idx for
-vhost-user scenario because vhost_get_vq_index behave
-differently for vhost-user.
+vhost-user case. It is because vhost_get_vq_index behave
+differently in vhost-user.
 
 Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
@@ -77,10 +77,10 @@ Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index ea896ea75b..25e5665489 100644
+index 25e5665489..8b80942e7c 100644
 --- a/hw/net/vhost_net.c
 +++ b/hw/net/vhost_net.c
-@@ -545,6 +545,9 @@ void vhost_net_virtqueue_reset(VirtIODevice *vdev, NetClientState *nc,
+@@ -577,6 +577,9 @@ int vhost_net_virtqueue_restart(VirtIODevice *vdev, NetClientState *nc,
      assert(vhost_ops);
  
      idx = vhost_ops->vhost_get_vq_index(&net->dev, vq_index);
@@ -88,8 +88,8 @@ index ea896ea75b..25e5665489 100644
 +        idx -= net->dev.vq_index;
 +    }
  
-     if (net->nc->info->type == NET_CLIENT_DRIVER_TAP) {
-         file.index = idx;
+     r = vhost_virtqueue_start(&net->dev,
+                               vdev,
 -- 
 2.32.0
 
