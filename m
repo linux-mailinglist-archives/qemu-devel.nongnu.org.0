@@ -2,48 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4896C5B7A56
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 20:58:43 +0200 (CEST)
-Received: from localhost ([::1]:52304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E53F5B7A5A
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 20:59:40 +0200 (CEST)
+Received: from localhost ([::1]:43300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYB7K-00047V-Gk
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 14:58:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55332)
+	id 1oYB8E-0004xg-OU
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 14:59:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oYAZV-00076Q-4C; Tue, 13 Sep 2022 14:23:45 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:15252)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1oYAcu-00035u-B4; Tue, 13 Sep 2022 14:27:16 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:47759)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oYAZR-0007ff-HE; Tue, 13 Sep 2022 14:23:44 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id C1489747F1E;
- Tue, 13 Sep 2022 20:23:19 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 89599747644; Tue, 13 Sep 2022 20:23:19 +0200 (CEST)
-Message-Id: <fa044b804c1b99369fb9a1d0f26aaf1b15789206.1663092335.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1663092335.git.balaton@eik.bme.hu>
-References: <cover.1663092335.git.balaton@eik.bme.hu>
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 18/18] ppc4xx_sdram: Convert DDR SDRAM controller to new
- bank handling
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1oYAcr-0008Pv-Na; Tue, 13 Sep 2022 14:27:16 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id C6295320083A;
+ Tue, 13 Sep 2022 14:27:08 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Tue, 13 Sep 2022 14:27:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1663093628; x=1663180028; bh=ldktJs3dK4
+ asASNRzwExI/G0UuabdIWhRIxuInxS0/E=; b=rSfHSNnUybAhWRtAmqW9IDxb+T
+ cRc1p6ZMQOKkC096fXiKS9axQQemTTU1vlNlY3ntg8yM/0YjkF6676ObDtxhy2cI
+ YHCTgI0nV3aIMinql0pgiC9F9Dba5B8QpZlL0Wsfxlr45yp/iNwmaaIsqVBMLp/A
+ mtf3yZs3o2PzS4wHOl0PlhDeL7RWfD/4aLE1sFL6DCz0GPeaN7J5JA3CxCT+kk5p
+ faFhmDLp0yxWURd7Ei+oVpKRj5fa+yAmnD1ByCwPWY5rRvICA+lWI4SMG8/Vjj6/
+ YlO3Vf5Di6QBCS41Jxk+UzR1a/0Lb/2NrUriweWQhCWqiZIjJfWO74e6yc4g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1663093628; x=1663180028; bh=ldktJs3dK4asASNRzwExI/G0Uuab
+ dIWhRIxuInxS0/E=; b=FUB7t1wFySujh8ScKakOwWPblplVXDvRZS5bdbgFXlxz
+ ggYlYWa+nQojWoGapw+2FtMGLyfOI3kmkpqikMIGtcJ8EcJIrLgWV4J5EXEh4Ou8
+ 77qoC10ZdWvK7GlPZCp6nQwfy2+lGiBV/gzGX8Y4BXOtaDpd+RD7yreF0kX6D9FK
+ nSM3LrDbHM1v63WV02IsTKzLALruPaI46F1XUWS2dKRSJFbRSk/cSOH9U0FjVK/g
+ U2l0dsE5p/jsXm5K+VgF1FEAll/lm28D+V5E5QDcBPF5h1yztsPXIBzlOE6iMuqx
+ hjnu4MCge0EFVLlMGZWtQqBtfAHzHba9jSsUs5E49A==
+X-ME-Sender: <xms:e8sgY1IC-JmwnjnI3KhorWN8KLsqBhFKWHdyPHtbJj5fIOtI1MPh6A>
+ <xme:e8sgYxLFPOiUqg9OAGL5uO_K7OxQj8c_YlO1BKFEWwrbYH_RvmpvNaz8X1k7Vl3Mi
+ 3BBkpmXG15yOayQmOc>
+X-ME-Received: <xmr:e8sgY9ts5rp0DWAPJp6TW-VWzp3FMsvCCvqI2xuTMC6ijd3JHGPUXbo9ssee6WxoRamAExd6VULk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedugedguddvjecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvght
+ vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
+ htthgvrhhnpeduteeihfffleeuveekgedugfeffeehtdeguefffffhleehgfduueejjeek
+ feeukeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hpvghtvghrsehpjhgurdguvghv
+X-ME-Proxy: <xmx:e8sgY2aHsCKI5RAB1oiDsX-Vt7R8zv_Vb41cP9w3GpH6ym-0lAWMHA>
+ <xmx:e8sgY8YOG-GDcMWFpSVbNGHmb1PEjRaDAY9fhZotOPpjgW3isSxlZg>
+ <xmx:e8sgY6DKOfvc-PSzHi7Cv_EjCalxuOV1AJ1biQWsiSjiPg0t3zxoPQ>
+ <xmx:fMsgY7w7tPkzm2FkqsjxsBSwxyj1XJ-NMQJc_ejDiqS51TOIp6EzNQ>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 13 Sep 2022 14:27:06 -0400 (EDT)
+Date: Tue, 13 Sep 2022 11:27:05 -0700
+From: Peter Delevoryas <peter@pjd.dev>
+To: Titus Rwantare <titusr@google.com>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, patrick@stwcx.xyz,
+ iwona.winiarska@intel.com, tmaimon77@gmail.com, quic_jaehyoo@quicinc.com
+Subject: Re: [RFC PATCH 0/3] Initial PECI bus support
+Message-ID: <YyDLeX7vzwg5ZgZA@pdel-fedora-MJ0HJWH9>
+References: <20220906220552.1243998-1-titusr@google.com>
+ <YxuZ95ppk9lZ/23g@pdel-fedora-MJ0HJWH9>
+ <CAMvPwGqjfRrvx7uv0PNQK14VMbjf1wEK_w2LaELL02f91srWBA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To: qemu-devel@nongnu.org,
-    qemu-ppc@nongnu.org
-Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 13 Sep 2022 20:23:19 +0200 (CEST)
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMvPwGqjfRrvx7uv0PNQK14VMbjf1wEK_w2LaELL02f91srWBA@mail.gmail.com>
+Received-SPF: pass client-ip=64.147.123.25; envelope-from=peter@pjd.dev;
+ helo=wout2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,175 +101,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the generic bank handling introduced in previous patch in the DDR
-SDRAM controller too. This also fixes previously broken region unmap
-due to sdram_ddr_unmap_bcr() ignoring container region so it crashed
-with an assert when the guest tried to disable the controller.
+On Tue, Sep 13, 2022 at 11:20:57AM -0700, Titus Rwantare wrote:
+> On Fri, 9 Sept 2022 at 12:54, Peter Delevoryas <peter@pjd.dev> wrote:
+> >
+> > On Tue, Sep 06, 2022 at 10:05:49PM +0000, Titus Rwantare wrote:
+> ...
+> > >
+> > > This is something that can also be extended as other parameters arise that need
+> > > to differ between platforms. So far you can have have different CPUs, DIMM counts,
+> > > DIMM temperatures here. These fields can also be adjusted at runtime through qmp.
+> >
+> > That looks good to me, seems like the standard way to do it in QEMU.
+> >
+> > >
+> > > A lot of the registers are hard coded, see hw/peci/peci-client.c. I'd like to
+> > > gauge interest in what potential users would like to be adjustable at runtime.
+> > > I've not written QEMU models that read config files at runtime, something I'd
+> > > appreciate guidance on.
+> >
+> > This part I don't totally understand. I also barely know anything about
+> > PECI.
+> >
+> > Is the register location for things different between CPU generations?
+> 
+> Some things seem to move between generations and others don't move, someone at
+> Intel would know better than I do.
+> 
+> 
+> 
+> > If so (and I expect it probably is), why is there only a configuration
+> > for Sapphire Rapids, and not for the other ones?
+> >
+> > Is that because of PECI protocol changes between generations?
+> 
+> I haven't dug into the other machines because of internal demand, but
+> I've found that
+> with newer generations, more features get used in addition to existing
+> ones. It's
+> possible these features existed on older machines.
+> 
+> 
+> 
+> > In which case, maybe there needs to be a notion of PECI version
+> > somewhere?
+> >
+> > Also, I don't understand why it would be adjustable at runtime, do we
+> > change register locations during execution?
+> >
+> > I would expect it to be part of the board definition.
+> >
+> > You could provide a bunch of sample configs for the CPU's that you're
+> > testing for, and the board configuration could just select the sample
+> > config it is using (corresponding to the CPU model).
+> >
+> > That's the model I would imagine, but I might be missing some important
+> > context here.
+> 
+> I think it would be nice to have additional registers at runtime, at
+> the time of writing,
+> I don't know how much of the internal workings of Sapphire Rapids
+> Intel is willing to
+> share publicly. If users are free to separately define registers, I
+> don't then get to
+> worry about this. e.g. I'd like to simulate errors from the memory controllers.
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/ppc/ppc4xx_sdram.c | 98 ++++++++++++++++---------------------------
- 1 file changed, 37 insertions(+), 61 deletions(-)
+Oh ok, yeah I guess making it more dynamic shouldn't really hurt
+anything. That sounds ok then.  Also yeah, perhaps keeping the register
+definitions separate for privacy concerns is necessary.
 
-diff --git a/hw/ppc/ppc4xx_sdram.c b/hw/ppc/ppc4xx_sdram.c
-index 79a9efce4b..c731012940 100644
---- a/hw/ppc/ppc4xx_sdram.c
-+++ b/hw/ppc/ppc4xx_sdram.c
-@@ -137,6 +137,8 @@ static void sdram_bank_set_bcr(Ppc4xxSdramBank *bank, uint32_t bcr,
- 
- /*****************************************************************************/
- /* DDR SDRAM controller */
-+#define SDRAM_DDR_BCR_MASK 0xFFDEE001
-+
- static uint32_t sdram_ddr_bcr(hwaddr ram_base, hwaddr ram_size)
- {
-     uint32_t bcr;
-@@ -195,58 +197,6 @@ static hwaddr sdram_ddr_size(uint32_t bcr)
-     return size;
- }
- 
--static void sdram_ddr_set_bcr(Ppc4xxSdramDdrState *sdram, int i,
--                              uint32_t bcr, int enabled)
--{
--    if (sdram->bank[i].bcr & 1) {
--        /* Unmap RAM */
--        trace_ppc4xx_sdram_unmap(sdram_ddr_base(sdram->bank[i].bcr),
--                                 sdram_ddr_size(sdram->bank[i].bcr));
--        memory_region_del_subregion(get_system_memory(),
--                                    &sdram->bank[i].container);
--        memory_region_del_subregion(&sdram->bank[i].container,
--                                    &sdram->bank[i].ram);
--        object_unparent(OBJECT(&sdram->bank[i].container));
--    }
--    sdram->bank[i].bcr = bcr & 0xFFDEE001;
--    if (enabled && (bcr & 1)) {
--        trace_ppc4xx_sdram_map(sdram_ddr_base(bcr), sdram_ddr_size(bcr));
--        memory_region_init(&sdram->bank[i].container, NULL, "sdram-container",
--                           sdram_ddr_size(bcr));
--        memory_region_add_subregion(&sdram->bank[i].container, 0,
--                                    &sdram->bank[i].ram);
--        memory_region_add_subregion(get_system_memory(),
--                                    sdram_ddr_base(bcr),
--                                    &sdram->bank[i].container);
--    }
--}
--
--static void sdram_ddr_map_bcr(Ppc4xxSdramDdrState *sdram)
--{
--    int i;
--
--    for (i = 0; i < sdram->nbanks; i++) {
--        if (sdram->bank[i].size != 0) {
--            sdram_ddr_set_bcr(sdram, i, sdram_ddr_bcr(sdram->bank[i].base,
--                                                      sdram->bank[i].size), 1);
--        } else {
--            sdram_ddr_set_bcr(sdram, i, 0, 0);
--        }
--    }
--}
--
--static void sdram_ddr_unmap_bcr(Ppc4xxSdramDdrState *sdram)
--{
--    int i;
--
--    for (i = 0; i < sdram->nbanks; i++) {
--        trace_ppc4xx_sdram_unmap(sdram_ddr_base(sdram->bank[i].bcr),
--                                 sdram_ddr_size(sdram->bank[i].bcr));
--        memory_region_del_subregion(get_system_memory(),
--                                    &sdram->bank[i].ram);
--    }
--}
--
- static uint32_t sdram_ddr_dcr_read(void *opaque, int dcrn)
- {
-     Ppc4xxSdramDdrState *s = opaque;
-@@ -317,6 +267,7 @@ static uint32_t sdram_ddr_dcr_read(void *opaque, int dcrn)
- static void sdram_ddr_dcr_write(void *opaque, int dcrn, uint32_t val)
- {
-     Ppc4xxSdramDdrState *s = opaque;
-+    int i;
- 
-     switch (dcrn) {
-     case SDRAM0_CFGADDR:
-@@ -338,12 +289,24 @@ static void sdram_ddr_dcr_write(void *opaque, int dcrn, uint32_t val)
-             if (!(s->cfg & 0x80000000) && (val & 0x80000000)) {
-                 trace_ppc4xx_sdram_enable("enable");
-                 /* validate all RAM mappings */
--                sdram_ddr_map_bcr(s);
-+                for (i = 0; i < s->nbanks; i++) {
-+                    if (s->bank[i].size) {
-+                        sdram_bank_set_bcr(&s->bank[i], s->bank[i].bcr,
-+                                           s->bank[i].base, s->bank[i].size,
-+                                           1);
-+                    }
-+                }
-                 s->status &= ~0x80000000;
-             } else if ((s->cfg & 0x80000000) && !(val & 0x80000000)) {
-                 trace_ppc4xx_sdram_enable("disable");
-                 /* invalidate all RAM mappings */
--                sdram_ddr_unmap_bcr(s);
-+                for (i = 0; i < s->nbanks; i++) {
-+                    if (s->bank[i].size) {
-+                        sdram_bank_set_bcr(&s->bank[i], s->bank[i].bcr,
-+                                           s->bank[i].base, s->bank[i].size,
-+                                           0);
-+                    }
-+                }
-                 s->status |= 0x80000000;
-             }
-             if (!(s->cfg & 0x40000000) && (val & 0x40000000)) {
-@@ -363,16 +326,16 @@ static void sdram_ddr_dcr_write(void *opaque, int dcrn, uint32_t val)
-             s->pmit = (val & 0xF8000000) | 0x07C00000;
-             break;
-         case 0x40: /* SDRAM_B0CR */
--            sdram_ddr_set_bcr(s, 0, val, s->cfg & 0x80000000);
--            break;
-         case 0x44: /* SDRAM_B1CR */
--            sdram_ddr_set_bcr(s, 1, val, s->cfg & 0x80000000);
--            break;
-         case 0x48: /* SDRAM_B2CR */
--            sdram_ddr_set_bcr(s, 2, val, s->cfg & 0x80000000);
--            break;
-         case 0x4C: /* SDRAM_B3CR */
--            sdram_ddr_set_bcr(s, 3, val, s->cfg & 0x80000000);
-+            i = (s->addr - 0x40) / 4;
-+            val &= SDRAM_DDR_BCR_MASK;
-+            if (s->bank[i].size) {
-+                sdram_bank_set_bcr(&s->bank[i], val,
-+                                   sdram_ddr_base(val), sdram_ddr_size(val),
-+                                   s->cfg & 0x80000000);
-+            }
-             break;
-         case 0x80: /* SDRAM_TR */
-             s->tr = val & 0x018FC01F;
-@@ -422,6 +385,7 @@ static void ppc4xx_sdram_ddr_realize(DeviceState *dev, Error **errp)
-     const ram_addr_t valid_bank_sizes[] = {
-         256 * MiB, 128 * MiB, 64 * MiB, 32 * MiB, 16 * MiB, 8 * MiB, 4 * MiB, 0
-     };
-+    int i;
- 
-     if (s->nbanks < 1 || s->nbanks > 4) {
-         error_setg(errp, "Invalid number of RAM banks");
-@@ -432,6 +396,18 @@ static void ppc4xx_sdram_ddr_realize(DeviceState *dev, Error **errp)
-         return;
-     }
-     ppc4xx_sdram_banks(s->dram_mr, s->nbanks, s->bank, valid_bank_sizes);
-+    for (i = 0; i < s->nbanks; i++) {
-+        if (s->bank[i].size) {
-+            s->bank[i].bcr = sdram_ddr_bcr(s->bank[i].base, s->bank[i].size);
-+            sdram_bank_set_bcr(&s->bank[i], s->bank[i].bcr,
-+                               s->bank[i].base, s->bank[i].size, 0);
-+        } else {
-+            sdram_bank_set_bcr(&s->bank[i], 0, 0, 0, 0);
-+        }
-+        trace_ppc4xx_sdram_init(sdram_ddr_base(s->bank[i].bcr),
-+                                sdram_ddr_size(s->bank[i].bcr),
-+                                s->bank[i].bcr);
-+    }
- 
-     sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
- 
--- 
-2.30.4
+Reviewed-by: Peter Delevoryas <peter@pjd.dev>
 
+> 
+> 
+> Titus
 
