@@ -2,64 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CA735B769C
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 18:41:42 +0200 (CEST)
-Received: from localhost ([::1]:51916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B354A5B76CB
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 18:54:46 +0200 (CEST)
+Received: from localhost ([::1]:36798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY8yi-0004Js-St
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 12:41:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46562)
+	id 1oY9BN-00075Y-AT
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 12:54:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oY8sg-00008i-Ip
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 12:35:26 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:50625)
+ (Exim 4.90_1) (envelope-from <linus@sphalerite.org>)
+ id 1oY996-0005cQ-Rs
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 12:52:25 -0400
+Received: from sosiego.soundray.org ([116.203.207.114]:57142)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oY8se-0007Dn-9e
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 12:35:26 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N4z2Y-1pH8nS0e5E-010xfL; Tue, 13 Sep 2022 18:35:18 +0200
-Message-ID: <a87f3e42-a8ba-174b-0f74-b9d31be35535@vivier.eu>
-Date: Tue, 13 Sep 2022 18:35:16 +0200
+ (Exim 4.90_1) (envelope-from <linus@sphalerite.org>)
+ id 1oY994-0001XM-2V
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 12:52:23 -0400
+From: Linus Heckemann <git@sphalerite.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sphalerite.org;
+ s=sosiego; t=1663087937;
+ bh=yKiNR1T11SXzfWP/D6GpgA44Msd/1CYy7EnJNkyijqU=;
+ h=From:To:Cc:Subject:Date;
+ b=ieA+xA4OPYY9e0v9DMjE48W4DBtX/ukPIW2axSpz8SU49u8Lk4aGN7vuejqzIPMce
+ sxQDH97PIfTGZnL7iWMntmTs5iaSObA9jI2WaZB9TyWfwQcE2ZOBPsaP51GyP36lQn
+ TOq5q/RHrGaIi+zn6iQAjODk4BCsPv/NJ2GYQvWI=
+To: qemu-devel@nongnu.org
+Cc: Linus Heckemann <git@sphalerite.org>
+Subject: [PATCH] docs/devel: remove incorrect claim about git send-email
+Date: Tue, 13 Sep 2022 18:52:14 +0200
+Message-Id: <20220913165214.97241-1-git@sphalerite.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 0/2] target/m68k: fix two writes to %sr
-Content-Language: fr
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220913142818.7802-1-richard.henderson@linaro.org>
- <5880ddb1-3a7c-139d-3833-9902b98caf01@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <5880ddb1-3a7c-139d-3833-9902b98caf01@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:2KKJqrNJ6RGReEO+vO+hCtvmD103QaLHGte8GGPfhmFMbds3amw
- HK0Cw2ayvT/evHpbdR3hkDNX5sSUtvwbTCSQYPU7CMPRQsv7qc0F48ghIaHtf8c9UAVDhCL
- CiKsN1bD7DCV3BAWeTtM3bSS/ig7uzNAeuBxVQZticwZ/4TEoEm4EJPJuU4PLZVBImeLDBY
- Ci29nplzGPvbvKLqnRHFw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kk/DmLrtNX4=:oj8GmjuXV0zKroi+Jq4ajp
- VOMkgDHGF0ECOWm7kJtr++ZGCH4sEsXTeBBzCL38fcnbboQQHTu/cJgdTekXSxseiEmypkl55
- pP+HMsVvcdotXI4DgN/CbcpahxK2+P0OeeWSkNHXO1WjS+zWeasSUvri5TjPcwUoRL2va6Zkl
- x1WtK78wgWxAYHpA71h4qGi2JCU68FHkeRuJqMS/zyflety9gxJcM61q3nUywq/cAvuL6fh9t
- AZNy/BDJD9RGsQaDFayjW0FAkP5Tl5MI7teYWJP4u0dzN/DUGO5a1Zhyd5Gn+h3nYhT6Zan3k
- DXzPosJczkzMFCql2oU+X2TYXKBL0PNKSzGpILORBZARhySY+X2dqnqFujSteX2kSwVIBgUuK
- ZX5HB9gATi50E1GfRMFrh2Heb4a6WgagfyDH/eJUpXBeQWggLaIJRW+Qgoab9+ckifMfF9wS0
- tDIq22Q4Craz4A+2nqxR5BLDWQ96iTxR42ukG8ERnJg8cIj7Xy2YkDJCHBD6dwIheP4Lv6tqW
- kTDrxjaNXotLUGxma2vi9S4Gwtwc3xS147jz8ZO1iYPTgM+Ak78iXxnN6xgdKJG3ZI5z9O6Rh
- EI0IxCc/s1eioKfyeE8C4KJ805yWjY4gtLKk08Sl/2zUvVbbOzY4wjrKEmHPT8Mcj/fkkViyI
- o0QoghuqNzBgHBTWXvJoL+PdiP1y+9SltnZ2xI6PbicuTdINXEOpzPBn2fhjsy/hJfdS2g16r
- ms3rRxcUnrDaO8dX3r/Id5FIHwB4cG/OqAQUYJZLn+ikx/KOV3Ir8IBcQTF3rCsXLoGvO/6Kq
- KT1F4By
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Received-SPF: pass client-ip=116.203.207.114;
+ envelope-from=linus@sphalerite.org; helo=sosiego.soundray.org
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.628,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,32 +57,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 13/09/2022 à 18:29, Mark Cave-Ayland a écrit :
-> On 13/09/2022 15:28, Richard Henderson wrote:
-> 
->> The second was described by Mark in the lobby of KVM Forum.
->> The first was found by inspection of other uses of gen_helper_set_sr.
->>
->> r~
->>
->> Richard Henderson (2):
->>    target/m68k: Fix MACSR to CCR
->>    target/m68k: Perform writback before modifying SR
->>
->>   target/m68k/translate.c | 14 +++++++++-----
->>   1 file changed, 9 insertions(+), 5 deletions(-)
-> 
-> I've applied these on top of my MacOS virtual memory branch at 
-> https://github.com/mcayland/qemu/commits/q800.upstream2-vm and I can confirm that MacOS 8.1 now 
-> boots here with virtual memory enabled :)
-> 
-> Possibly it might be worth including a tidied-up version of the "WIP: target/m68k: always exit_tb 
-> when changing sr with andi/ori/eori" commit from that branch which is also related to switching 
-> between supervisor and user modes under MacOS. Shall I tidy it up and send it to the list?
+While it's unclear to me what git send-email actually does with the
+-v2 parameter (it is not documented, but also not rejected), it does
+not add a v2 tag to the email's subject, which is what led to the
+mishap in [1].
 
-Yes, send it to the list. I plan to do a PR for m68k soon.
+[1]: https://lists.nongnu.org/archive/html/qemu-devel/2022-09/msg00679.html
+---
+ docs/devel/submitting-a-patch.rst | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Thanks,
-Laurent
+diff --git a/docs/devel/submitting-a-patch.rst b/docs/devel/submitting-a-patch.rst
+index fec33ce148..be2c428b93 100644
+--- a/docs/devel/submitting-a-patch.rst
++++ b/docs/devel/submitting-a-patch.rst
+@@ -456,8 +456,7 @@ patch need not say "v1", just [PATCH] is sufficient.) For patch series,
+ the version applies to the whole series -- even if you only change one
+ patch, you resend the entire series and mark it as "v2". Don't try to
+ track versions of different patches in the series separately.  `git
+-format-patch <http://git-scm.com/docs/git-format-patch>`__ and `git
+-send-email <http://git-scm.com/docs/git-send-email>`__ both understand
++format-patch <http://git-scm.com/docs/git-format-patch>`__ understands
+ the ``-v2`` option to make this easier. Send each new revision as a new
+ top-level thread, rather than burying it in-reply-to an earlier
+ revision, as many reviewers are not looking inside deep threads for new
+-- 
+2.36.2
 
 
