@@ -2,73 +2,147 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35655B6508
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 03:18:32 +0200 (CEST)
-Received: from localhost ([::1]:59080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D602E5B65F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 05:08:31 +0200 (CEST)
+Received: from localhost ([::1]:45168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXuZL-0004x6-D7
-	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 21:18:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37528)
+	id 1oXwHm-0003GZ-IL
+	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 23:08:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1oXuVH-0003Kg-W6
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 21:14:20 -0400
-Received: from mga05.intel.com ([192.55.52.43]:3369)
+ (Exim 4.90_1) (envelope-from <Ruili.Ji@amd.com>) id 1oXwGV-0001s6-Nm
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 23:07:11 -0400
+Received: from mail-dm6nam10on20607.outbound.protection.outlook.com
+ ([2a01:111:f400:7e88::607]:55489
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1oXuVE-0006Bk-Nl
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 21:14:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663031656; x=1694567656;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=jwYI7Y+ErustrW+xyMACGSP6kr582mwHq0bLbgyd9ec=;
- b=A+/7+lib6QPnQQK/AwcnViRo5RmhR8CAeWhAgxmQ3Sn15umx33g38QAu
- AEPfruJH6uLxSjB4aOdsUVxZBNUb/VEWdoCy3aNUErq1dEkl4H86n31iC
- dS2GY6deP0K7Jd65ozl4ySsI3WRFMt6ppdSFyviOAxt3cNHUuT3O8KiZq
- nF3osQPwweipDB+TINg6o4yAJlG72tzLJ7Wb0xxcIY+qT6LQewDffI46m
- RJQzUYS+y4WXxr8szQGADY+4wsKlP7BaCsK+FGOsCyxkT2ZbP/z7A0tD3
- dI/3teC6dtgA5IVhQhGQF4SrtGrgXIQEM5xrOftsX/xPXg/OVB6h/4/O0 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10468"; a="384304416"
-X-IronPort-AV: E=Sophos;i="5.93,311,1654585200"; d="scan'208";a="384304416"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2022 18:14:00 -0700
-X-IronPort-AV: E=Sophos;i="5.93,311,1654585200"; d="scan'208";a="944852505"
-Received: from cqiang-mobl.ccr.corp.intel.com (HELO [10.238.0.135])
- ([10.238.0.135])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2022 18:13:58 -0700
-Message-ID: <db7834a7-5006-4345-3c66-2277c68d29e3@intel.com>
-Date: Tue, 13 Sep 2022 09:13:57 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.2.2
-Subject: Re: [PATCH v5 3/3] i386: Add notify VM exit support
-To: Peter Xu <peterx@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti
- <mtosatti@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Xiaoyao Li <xiaoyao.li@intel.com>,
- qemu-devel@nongnu.org, kvm@vger.kernel.org
-References: <20220817020845.21855-1-chenyi.qiang@intel.com>
- <20220817020845.21855-4-chenyi.qiang@intel.com>
- <YxtpBMZmrDK3cghT@xz-m1.local>
+ (Exim 4.90_1) (envelope-from <Ruili.Ji@amd.com>) id 1oXwGS-0005Cj-Gp
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 23:07:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CcJpAWxHp1YcHlSBrGMyCh7IPCE7B/tZFfQky92qWTWEOU+gliSzCp0EweCEAQxFGWXSJecg3pQ5aLWxkdUjxxOhP9PRl0COyF2+Krs7LDj3x+K6+9zNyTwmWRuNiMBi/mGxya3B93FdM9jrZe7F0dpRdy/pyV1DclCVRJVig7c05xJc6tC7rRZmXO2osenq1VFrkFXC2Jz/aMNJkaU0967Ug8i75wpObcjYUBqZapuSAV5rNtPUW7Ocw2Tfpacrme6EGba2Z8Lz0ZhDuHHLGr/ao6XEE5Ir6Qk78v+zxFG1o0b+t48krFDBMp/y6ddwSgEAwha9848RA4JjgsS+AQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gkvIyBMgo/NmIFYsjc24BRclBG2sUpVhlh4owhI0ob8=;
+ b=O+3f+HCPYK3imDVdGaHqBWtFzNU7hveaRnuTDNMnaU9gDmnFtIo9L/J9PaS1ct/KoFB81qpj8PFoPA3XLog/1XEISMsfoBj9oWU9lNlECSuSw3XsWjnPGIrsaST75reClSfcJWnj6mkxoKKjdIFlzVo0pgByAuB1K9qwPfwNkq2MzZig5vwUSGVoIIZdWCNqbFISJK2jsJPwOEI8ms+rI17+0fl76h5CDsZoCrDmhkanmaO9iHYBXmWP5Q43v2O0ESDnYeH5EYt9HwFZ6kg7wkXK/UkraZhZa69ANPfwJj21NjEKWZoWs6yZqsjN+kPAkYR2Tc75SUVKePYfAPKkLA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gkvIyBMgo/NmIFYsjc24BRclBG2sUpVhlh4owhI0ob8=;
+ b=RK0gWz8rGzuDT2Ec8scqJZLFyMRGInFxp3rkQRmPMxq+xbLmSZbM4RK5JMpVB7vGIUgSH1VVJdCdg4oDatItVZPMOmYZR69uxqAmbL5GqqV3br9SQ5I+EqIZbhqfPFbdyc6EewUhr+ey2Clo13TxEkcaLuUOnDdcCpIkf7KkmPM=
+Received: from BL1PR12MB5993.namprd12.prod.outlook.com (2603:10b6:208:399::9)
+ by SJ0PR12MB5470.namprd12.prod.outlook.com (2603:10b6:a03:3bd::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.19; Tue, 13 Sep
+ 2022 03:02:01 +0000
+Received: from BL1PR12MB5993.namprd12.prod.outlook.com
+ ([fe80::7189:8652:da69:2158]) by BL1PR12MB5993.namprd12.prod.outlook.com
+ ([fe80::7189:8652:da69:2158%7]) with mapi id 15.20.5612.022; Tue, 13 Sep 2022
+ 03:02:01 +0000
+From: "Ji, Ruili" <Ruili.Ji@amd.com>
+To: Paul Durrant <paul@xen.org>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+CC: "Liu, Aaron" <Aaron.Liu@amd.com>, "xen-devel@lists.xenproject.org"
+ <xen-devel@lists.xenproject.org>
+Subject: RE: [PATCH] hw/xen: set pci Atomic Ops requests for passthrough device
+Thread-Topic: [PATCH] hw/xen: set pci Atomic Ops requests for passthrough
+ device
+Thread-Index: AdjBw9S5XjagBB9xT0W01YXm2Fq4yQAkLQ9gATHwuGA=
+Date: Tue, 13 Sep 2022 03:02:01 +0000
+Message-ID: <BL1PR12MB5993DC46EDF5D01ED20E2E179B479@BL1PR12MB5993.namprd12.prod.outlook.com>
+References: <BL1PR12MB599341DC55BA53FE588DE14E9B7E9@BL1PR12MB5993.namprd12.prod.outlook.com>
+ <BL1PR12MB5993C52DD9A881FACE6FA28D9B419@BL1PR12MB5993.namprd12.prod.outlook.com>
+In-Reply-To: <BL1PR12MB5993C52DD9A881FACE6FA28D9B419@BL1PR12MB5993.namprd12.prod.outlook.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Chenyi Qiang <chenyi.qiang@intel.com>
-In-Reply-To: <YxtpBMZmrDK3cghT@xz-m1.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=chenyi.qiang@intel.com;
- helo=mga05.intel.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.153, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ActionId=149f7e60-4d0f-4975-8ab3-8497009eb09c;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ContentBits=0;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Enabled=true;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Method=Standard;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Name=General;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2022-09-06T07:36:17Z;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BL1PR12MB5993:EE_|SJ0PR12MB5470:EE_
+x-ms-office365-filtering-correlation-id: f6636885-7a33-4abe-0a97-08da9534545b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: s3Sc6abCfjKTil2V9hICO9dRGrh2Nu2Ab/GFMnsSq5fPXiff2ZrgK1TCB/Pv4dxWtNyADjwAifc6Htjo7Od01Tltv72UiYgZbmOu2bSkLNwwieYjw8nYKRTLv1r3P3+2W2eOQZS/Xa2TSmC+2vlt+45gSie9/pAaAN+aL71IiuRUjyiy0HrZ1FE4BJUtZNM8UMJSV1MpBpdXIg0Xvv4i0gLYesXm6w0iMU4ad6rw3djzdceS7MHMKsAJsg8/PYpxQ3eDAU7h08ElJ173JveumscVUxso3X6Xq6vSMnkaI6lEAY6Z515IHwBGLBXL5NbLdXV9lreh/OpW9XQBUnbJKMspp3mxzCM8B5vu/XvHBTclto/yFqoke5WzRp6+6s0x41In/HSJeaZJi8V7O2pEjRNjUYppCrm6wp+JzVSIiC6tWoIj04hC9GdDnieaqkT7F/ySIQMnX1puT4PtZQX65pRotqvoCFspbgRc47mPkj26AM2PNVpRQNFAqIW4BVnRn3uCzj8c2q2OLeIxkbrvHJKtygX1W/hnHf2aq9zjFYv5L4ABLsSJw16LT0nymcjmyeFjfxGSKalJs+tMqstdX1QPStKI51+pqQK7rhZuBkPbj88vIXw6ZNp5IEkjyiWQWMKJ0ac2WY6wChw0mmGnfYXN9eTTyh3nhfwSJw5yPPVUm2sj/gNjUzI2OR+2pjRl9X+bGmodC5RgP/6aiunnqT52l+EA0tWmFCShfaL28fYUePv8xkUtPZOlY/rVF0wRbQqjGYiM4zg99+adwxElHFd2+FelNQ0K+bJx78rz0Vs=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL1PR12MB5993.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(396003)(366004)(346002)(376002)(39860400002)(451199015)(966005)(186003)(86362001)(9686003)(53546011)(316002)(41300700001)(64756008)(478600001)(110136005)(7696005)(33656002)(8936002)(122000001)(83380400001)(54906003)(52536014)(38100700002)(4326008)(66446008)(76116006)(66556008)(71200400001)(6506007)(5660300002)(66946007)(26005)(8676002)(66476007)(38070700005)(166002)(55016003)(2906002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-2022-jp?B?aTI1VmJ3NU9pU2syeG00QmZRd1lkZWtLK1NuOWttYzYvN09xUnlhVXVR?=
+ =?iso-2022-jp?B?VytBcSt3VlRXODlSRkN6WGg0TkpuTXVDekxrVDFPRDdnRWhGTmFlenFE?=
+ =?iso-2022-jp?B?UEVFclBHKzJEcW5DNWdFZ3RBdGE2YVVteHl0RWt2OEJwZzN0RWl1NUxh?=
+ =?iso-2022-jp?B?RU1Ea3FBSGNSclRaZWgrVWs2U3ZwdmpMMk9xbm4yWW9sTmdkdUtRSCsv?=
+ =?iso-2022-jp?B?U0tPeHNnVWJ2bXlYMDF2Q012VHdkdmdhdkJPM21JTnlqVVcxZmIyNkZ1?=
+ =?iso-2022-jp?B?eGRhNCtHbmZWQ05DQm1mK1N3aVNhZmI4QXFHakRPcERVRmlnMXFueUIz?=
+ =?iso-2022-jp?B?bEtETm84UzJVQW1NOTVvTlMwcmdHcVhJb0dBZU1RQ3daTTBqenJZek1l?=
+ =?iso-2022-jp?B?SEw4M3Izb3dSTXpvZG5BUjdqTUdVVWNSOGFiNHEzbjB3cHEwNHVwZnZZ?=
+ =?iso-2022-jp?B?WWZIcitWNkNYazd2TUNhckZVWDFCbzg5VVd2N0crZUh2dHl1aGRIWmx1?=
+ =?iso-2022-jp?B?S3IxZHJTZ2s1dTdON2h6MjJ1WmErM0dOUnJBNTIrQS9uYmVzYzBrKyt2?=
+ =?iso-2022-jp?B?UXBBQXl4blp1SFNtcm1YOEdUT3N0VmNzb3VnMlErbkZOMFZjTkNUYTk2?=
+ =?iso-2022-jp?B?ZURjTUpOYXdrMkFFZFNPOC82VnIrV1AxRzFkWW9aTTlKN0lmWlhtb0dM?=
+ =?iso-2022-jp?B?dWtENEFvajgrUWZQSFBFWmh2d0tVb01hL0xsTTlzdlVPOVNnMk13Umc0?=
+ =?iso-2022-jp?B?RGNEWXNkYWNSVkc2ekhEODRrZER3cVV1Yk96SEh0alNIM0VTQU1qbXlZ?=
+ =?iso-2022-jp?B?M3ZDdWNYNW5UTkl4eUNGdTZpUU9TcVNyN01QOFdrVUpUUEwzNkhud1Y2?=
+ =?iso-2022-jp?B?YnpBM1BGMFNPaDdMRlBoNUpTVkN3ZktKYTJkbnZhRzRCeDZqeVV4NFF2?=
+ =?iso-2022-jp?B?SUo4NklTYloxQmdHSENtVWVLc3h0RmZBVFlaN0t6cjRnTlY0OStHUWpm?=
+ =?iso-2022-jp?B?WTRBT0g0a3FZNzN0ajZwZjlzZEZyV0RUNitjVUVDUXA1ak1vZjZmRE1m?=
+ =?iso-2022-jp?B?a0Q2WEhCa3NMM1JtNU1RbzFLekxuUFNEbDExamVCbTBTcDQ5bURRcjha?=
+ =?iso-2022-jp?B?V0R1ZkFnOTVDeENtdEFVYWhjL3I0SGNzQXpQMlhOZm5QcnBVZTlDYnBR?=
+ =?iso-2022-jp?B?ZVlZQzE3cW5Qa1pTUHp5VnlUaUQxYndBMUJ0Qk1RRW02MTNPdWV3aGpJ?=
+ =?iso-2022-jp?B?Zkc0TUd1Rjl3Q2M3ZXRxLzRVQi9FS3dFR3kyZDBpdVdxaUtuYVB1TXhI?=
+ =?iso-2022-jp?B?UnA0aytVOWw4cTgzbENJRG12VlBXY3hqK1RVRjgyRU1zWVB1WmovZkRi?=
+ =?iso-2022-jp?B?cVY3OE5mN0wreWhyRXd2ZTJRNmw4bWxYVXoxYld4SVgyOFIyTjVFTnVv?=
+ =?iso-2022-jp?B?SmZiQ2hYNGN2Nlc4NnRrVTk3UlhYOE15SWdKVnZVZjVPTGUzYU1BU2pa?=
+ =?iso-2022-jp?B?SW1LNEEyWHpDUGJtbTQ0cVdlc3FKU2dleS93UjJRU053R0lsdFREb2Fp?=
+ =?iso-2022-jp?B?VSt4SkFUTm01UEtPc1IwY0dTWlNWenZ6bWFJemllNUIvdUd4ZVJXSzR6?=
+ =?iso-2022-jp?B?cElnckdhTm1xNVFrNXp2ZmEyVTlqRHZPSFJwWkQwZ2NKTFBBYXFyZVJE?=
+ =?iso-2022-jp?B?UDBzNjFCa2JMdXlFRUtCRmorMHR6K25qTUxaMzdiV3BTKzJ1N0FrNjZS?=
+ =?iso-2022-jp?B?OSsrc2lDajV1Yi9lMGpjWVJUcmM1TFhxMGJrRDVjREpORVVqZVc4NlVQ?=
+ =?iso-2022-jp?B?Y2RnVE85SmZ1K0VyNjJaTXdKZ0ZWNzRtb2JVYU40ZFBaTXpIa1NRNUlq?=
+ =?iso-2022-jp?B?MW9aNXhiT3Vyek0vV3FVKzVCYXFyNUEydzM2U1ZTSCtyK3RhSUZNa3pP?=
+ =?iso-2022-jp?B?WXpKVVhkY2hzQ3NLUittQ0ZCUFFpcEZDM2UzaFk0ZGdJZ2p0ZzBzandD?=
+ =?iso-2022-jp?B?TDJwWUVpOHcvbThkNHVxRTFHVGRab1d0VzRJNGJtdWg4UExyNXB6V085?=
+ =?iso-2022-jp?B?SVg1WGJadks0N3RsS0NnSDlFTWFQUmxrREMwK2xXcTBablY2cGgwU0tB?=
+ =?iso-2022-jp?B?elh0QU5TbjYxa2I4TWNmYlk1RkxOSDFXREkyekJUck5pR2JZNmVVdVBI?=
+ =?iso-2022-jp?B?ZUpLMkpVa2lkaGl1L09nVU5udWVGTTl5OWV3TzhZck42dGpLT2NKMnVi?=
+ =?iso-2022-jp?B?OWwvNkZJYktSVDdNQ2dUWStaRDVtRDgxVXB0U0tkSU83eUx0amNRZHU0?=
+ =?iso-2022-jp?B?K3NzUA==?=
+Content-Type: multipart/alternative;
+ boundary="_000_BL1PR12MB5993DC46EDF5D01ED20E2E179B479BL1PR12MB5993namp_"
+MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5993.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6636885-7a33-4abe-0a97-08da9534545b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Sep 2022 03:02:01.2280 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: dw4VW8bG9CBpYjMk+loELpJCu9gjJ7IOvP0boZHIDBOCH1ltdEq8f8gU/8rOQwM+LygRHuh9VYf/bWLSrSEm2g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5470
+Received-SPF: softfail client-ip=2a01:111:f400:7e88::607;
+ envelope-from=Ruili.Ji@amd.com;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,52 +158,260 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--_000_BL1PR12MB5993DC46EDF5D01ED20E2E179B479BL1PR12MB5993namp_
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: quoted-printable
+
+[AMD Official Use Only - General]
+
+Hi Paul,
+
+Could you help to review this patch?
+
+Thanks
+From: Ji, Ruili
+Sent: 2022=1B$BG/=1B(B9=1B$B7n=1B(B7=1B$BF|=1B(B 9:04
+To: 'Paul Durrant' <paul@xen.org>; 'qemu-devel@nongnu.org' <qemu-devel@nong=
+nu.org>
+Cc: Liu, Aaron <Aaron.Liu@amd.com>; 'xen-devel@lists.xenproject.org' <xen-d=
+evel@lists.xenproject.org>
+Subject: RE: [PATCH] hw/xen: set pci Atomic Ops requests for passthrough de=
+vice
+
+FYI
+
+From: Ji, Ruili
+Sent: 2022=1B$BG/=1B(B9=1B$B7n=1B(B6=1B$BF|=1B(B 15:40
+To: qemu-devel@nongnu.org<mailto:qemu-devel@nongnu.org>
+Cc: Liu, Aaron <Aaron.Liu@amd.com<mailto:Aaron.Liu@amd.com>>
+Subject: [PATCH] hw/xen: set pci Atomic Ops requests for passthrough device
+
+From c54e0714a1e1cac7dc416bd843b9ec7162bcfc47 Mon Sep 17 00:00:00 2001
+From: Ruili Ji ruili.ji@amd.com<mailto:ruili.ji@amd.com>
+Date: Tue, 6 Sep 2022 14:09:41 +0800
+Subject: [PATCH] hw/xen: set pci Atomic Ops requests for passthrough device
+
+Make guest os access pci device control 2 reg for passthrough device
+as struct XenPTRegInfo described in the file hw/xen/xen_pt.h.
+/* reg read only field mask (ON:RO/ROS, OFF:other) */
+uint32_t ro_mask;
+/* reg emulate field mask (ON:emu, OFF:passthrough) */
+uint32_t emu_mask;
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1196
+Signed-off-by: Aaron.Liu@amd.com<mailto:Aaron.Liu@amd.com>
+Signed-off-by: ruili.ji@amd.com<mailto:ruili.ji@amd.com>
+---
+hw/xen/xen_pt_config_init.c | 4 ++--
+1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/hw/xen/xen_pt_config_init.c b/hw/xen/xen_pt_config_init.c
+index c5c4e943a8..adc565a00a 100644
+--- a/hw/xen/xen_pt_config_init.c
++++ b/hw/xen/xen_pt_config_init.c
+@@ -985,8 +985,8 @@ static XenPTRegInfo xen_pt_emu_reg_pcie[] =3D {
+         .offset     =3D 0x28,
+         .size       =3D 2,
+         .init_val   =3D 0x0000,
+-        .ro_mask    =3D 0xFFE0,
+-        .emu_mask   =3D 0xFFFF,
++        .ro_mask    =3D 0xFFA0,
++        .emu_mask   =3D 0xFFBF,
+         .init       =3D xen_pt_devctrl2_reg_init,
+         .u.w.read   =3D xen_pt_word_reg_read,
+         .u.w.write  =3D xen_pt_word_reg_write,
+--
+2.34.1
 
 
-On 9/10/2022 12:25 AM, Peter Xu wrote:
-> On Wed, Aug 17, 2022 at 10:08:45AM +0800, Chenyi Qiang wrote:
->> There are cases that malicious virtual machine can cause CPU stuck (due
->> to event windows don't open up), e.g., infinite loop in microcode when
->> nested #AC (CVE-2015-5307). No event window means no event (NMI, SMI and
->> IRQ) can be delivered. It leads the CPU to be unavailable to host or
->> other VMs. Notify VM exit is introduced to mitigate such kind of
->> attacks, which will generate a VM exit if no event window occurs in VM
->> non-root mode for a specified amount of time (notify window).
->>
->> A new KVM capability KVM_CAP_X86_NOTIFY_VMEXIT is exposed to user space
->> so that the user can query the capability and set the expected notify
->> window when creating VMs. The format of the argument when enabling this
->> capability is as follows:
->>    Bit 63:32 - notify window specified in qemu command
->>    Bit 31:0  - some flags (e.g. KVM_X86_NOTIFY_VMEXIT_ENABLED is set to
->>                enable the feature.)
->>
->> Because there are some concerns, e.g. a notify VM exit may happen with
->> VM_CONTEXT_INVALID set in exit qualification (no cases are anticipated
->> that would set this bit), which means VM context is corrupted. To avoid
->> the false positive and a well-behaved guest gets killed, make this
->> feature disabled by default. Users can enable the feature by a new
->> machine property:
->>      qemu -machine notify_vmexit=on,notify_window=0 ...
-> 
-> The patch looks sane to me; I only read the KVM interface, though.  Worth
-> add a section to qemu-options.hx?  It'll also be worthwhile to mention the
-> valid range of notify_window and meaning of zero (IIUC that's also a valid
-> input, just use the hardware default window size).
-> 
+--_000_BL1PR12MB5993DC46EDF5D01ED20E2E179B479BL1PR12MB5993namp_
+Content-Type: text/html; charset="iso-2022-jp"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks Peter for your review.
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-2022-=
+jp">
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:DengXian;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"\@DengXian";
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:"Microsoft YaHei";
+	panose-1:2 11 5 3 2 2 4 2 2 4;}
+@font-face
+	{font-family:"\@Microsoft YaHei";}
+@font-face
+	{font-family:"MS PGothic";
+	panose-1:2 11 6 0 7 2 5 8 2 4;}
+@font-face
+	{font-family:"\@MS PGothic";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:JA;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle19
+	{mso-style-type:personal-reply;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
+break-word">
+<p style=3D"font-family:Arial;font-size:10pt;color:#0000FF;margin:5pt;" ali=
+gn=3D"Left">
+[AMD Official Use Only - General]<br>
+</p>
+<br>
+<div>
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN">Hi Paul,<=
+br>
+<br>
+Could you help to review this patch?<br>
+<br>
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"mso-fareast-language:ZH-CN">Thanks<o:=
+p></o:p></span></p>
+<div>
+<div style=3D"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0cm =
+0cm 0cm">
+<p class=3D"MsoNormal"><b>From:</b> Ji, Ruili <br>
+<b>Sent:</b> 2022<span lang=3D"JA" style=3D"font-family:&quot;MS PGothic&qu=
+ot;,sans-serif">=1B$BG/=1B(B</span>9<span lang=3D"JA" style=3D"font-family:=
+&quot;MS PGothic&quot;,sans-serif">=1B$B7n=1B(B</span>7<span lang=3D"JA" st=
+yle=3D"font-family:&quot;MS PGothic&quot;,sans-serif">=1B$BF|=1B(B</span> 9=
+:04<br>
+<b>To:</b> 'Paul Durrant' &lt;paul@xen.org&gt;; 'qemu-devel@nongnu.org' &lt=
+;qemu-devel@nongnu.org&gt;<br>
+<b>Cc:</b> Liu, Aaron &lt;Aaron.Liu@amd.com&gt;; 'xen-devel@lists.xenprojec=
+t.org' &lt;xen-devel@lists.xenproject.org&gt;<br>
+<b>Subject:</b> RE: [PATCH] hw/xen: set pci Atomic Ops requests for passthr=
+ough device<o:p></o:p></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">FYI<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<div>
+<div style=3D"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0cm =
+0cm 0cm">
+<p class=3D"MsoNormal"><b>From:</b> Ji, Ruili <br>
+<b>Sent:</b> 2022<span lang=3D"ZH-CN" style=3D"font-family:&quot;Microsoft =
+YaHei&quot;,sans-serif;mso-fareast-language:ZH-CN">=1B$BG/=1B(B</span>9<spa=
+n lang=3D"ZH-CN" style=3D"font-family:&quot;Microsoft YaHei&quot;,sans-seri=
+f;mso-fareast-language:ZH-CN">=1B$B7n=1B(B</span>6<span lang=3D"ZH-CN" styl=
+e=3D"font-family:&quot;Microsoft YaHei&quot;,sans-serif;mso-fareast-languag=
+e:ZH-CN">=1B$BF|=1B(B</span>
+ 15:40<br>
+<b>To:</b> <a href=3D"mailto:qemu-devel@nongnu.org">qemu-devel@nongnu.org</=
+a><br>
+<b>Cc:</b> Liu, Aaron &lt;<a href=3D"mailto:Aaron.Liu@amd.com">Aaron.Liu@am=
+d.com</a>&gt;<br>
+<b>Subject:</b> [PATCH] hw/xen: set pci Atomic Ops requests for passthrough=
+ device<o:p></o:p></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">From c54e0714a1e1cac7dc416bd843b9ec7162bcfc47 Mon Se=
+p 17 00:00:00 2001<o:p></o:p></p>
+<p class=3D"MsoNormal">From: Ruili Ji <a href=3D"mailto:ruili.ji@amd.com">r=
+uili.ji@amd.com</a><o:p></o:p></p>
+<p class=3D"MsoNormal">Date: Tue, 6 Sep 2022 14:09:41 +0800<o:p></o:p></p>
+<p class=3D"MsoNormal">Subject: [PATCH] hw/xen: set pci Atomic Ops requests=
+ for passthrough device<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Make guest os access pci device control 2 reg for pa=
+ssthrough device<o:p></o:p></p>
+<p class=3D"MsoNormal">as struct XenPTRegInfo described in the file hw/xen/=
+xen_pt.h.<o:p></o:p></p>
+<p class=3D"MsoNormal">/* reg read only field mask (ON:RO/ROS, OFF:other) *=
+/<o:p></o:p></p>
+<p class=3D"MsoNormal">uint32_t ro_mask;<o:p></o:p></p>
+<p class=3D"MsoNormal">/* reg emulate field mask (ON:emu, OFF:passthrough) =
+*/<o:p></o:p></p>
+<p class=3D"MsoNormal">uint32_t emu_mask;<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Resolves: <a href=3D"https://gitlab.com/qemu-project=
+/qemu/-/issues/1196">
+https://gitlab.com/qemu-project/qemu/-/issues/1196</a><o:p></o:p></p>
+<p class=3D"MsoNormal">Signed-off-by: <a href=3D"mailto:Aaron.Liu@amd.com">=
+Aaron.Liu@amd.com</a><o:p></o:p></p>
+<p class=3D"MsoNormal">Signed-off-by: <a href=3D"mailto:ruili.ji@amd.com">r=
+uili.ji@amd.com</a><o:p></o:p></p>
+<p class=3D"MsoNormal">---<o:p></o:p></p>
+<p class=3D"MsoNormal">hw/xen/xen_pt_config_init.c | 4 ++--<o:p></o:p></p>
+<p class=3D"MsoNormal">1 file changed, 2 insertions(+), 2 deletions(-)<o:p>=
+</o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">diff --git a/hw/xen/xen_pt_config_init.c b/hw/xen/xe=
+n_pt_config_init.c<o:p></o:p></p>
+<p class=3D"MsoNormal">index c5c4e943a8..adc565a00a 100644<o:p></o:p></p>
+<p class=3D"MsoNormal">--- a/hw/xen/xen_pt_config_init.c<o:p></o:p></p>
+<p class=3D"MsoNormal">+++ b/hw/xen/xen_pt_config_init.c<o:p></o:p></p>
+<p class=3D"MsoNormal">@@ -985,8 +985,8 @@ static XenPTRegInfo xen_pt_emu_r=
+eg_pcie[] =3D {<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .of=
+fset&nbsp;&nbsp;&nbsp;&nbsp; =3D 0x28,<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .si=
+ze&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =3D 2,<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .in=
+it_val&nbsp;&nbsp; =3D 0x0000,<o:p></o:p></p>
+<p class=3D"MsoNormal">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .ro_mask=
+&nbsp;&nbsp;&nbsp; =3D 0xFFE0,<o:p></o:p></p>
+<p class=3D"MsoNormal">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .emu_mas=
+k&nbsp;&nbsp; =3D 0xFFFF,<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .ro_mask=
+&nbsp;&nbsp;&nbsp; =3D 0xFFA0,<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .emu_mas=
+k&nbsp;&nbsp; =3D 0xFFBF,<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .in=
+it&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =3D xen_pt_devctrl2_reg_init,<o:p></=
+o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .u.=
+w.read&nbsp;&nbsp; =3D xen_pt_word_reg_read,<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .u.=
+w.write&nbsp; =3D xen_pt_word_reg_write,<o:p></o:p></p>
+<p class=3D"MsoNormal">-- <o:p></o:p></p>
+<p class=3D"MsoNormal">2.34.1<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</div>
+</body>
+</html>
 
-I'll add some doc in qemu-option.hx and also the commit message about 
-the valid range in next version.
-
-> Thanks,
-> 
->>
->> A new KVM exit reason KVM_EXIT_NOTIFY is defined for notify VM exit. If
->> it happens with VM_INVALID_CONTEXT, hypervisor exits to user space to
->> inform the fatal case. Then user space can inject a SHUTDOWN event to
->> the target vcpu. This is implemented by injecting a sythesized triple
->> fault event.
-> 
+--_000_BL1PR12MB5993DC46EDF5D01ED20E2E179B479BL1PR12MB5993namp_--
 
