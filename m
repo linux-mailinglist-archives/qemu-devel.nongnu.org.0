@@ -2,105 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2576D5B775B
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 19:08:39 +0200 (CEST)
-Received: from localhost ([::1]:43110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC7565B7796
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 19:19:55 +0200 (CEST)
+Received: from localhost ([::1]:47152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY9Oo-0007LN-7i
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 13:08:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45554)
+	id 1oY9Zi-0005jx-Gc
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 13:19:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1oY9Gd-0000qP-Kl
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 13:00:13 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35016)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1oY9GZ-0002jk-7y
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 13:00:11 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28DGjjQF026407;
- Tue, 13 Sep 2022 17:00:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=trNtXEN2C6O67IBf98ymayF7nkdL6srnuvoJ1IBjsdc=;
- b=nbysuu/gxrVNGjgIwjDwFonwyKg7tUatTriPKyoqk16zEONurC/kANi6o5iHRWj8i8NW
- DlhvXNj5oZJa4HxKVIlJW14bohEX/3wNsUxix1Yu13G52MVHaLOJQYjgunqHvFIuDAL/
- ObYzNRHfxkur6YUWQWq/twGnkLFpDVM4dNAxYcuv4MTNfFmLpQKmij1b+YMJkucbpU3c
- tQj4JCkyRRBZ1CTongso4XTvT4WaID8DJYGYpsQNd2rQX/rHWGtWsyoweh6KzqXxUY2/
- SALhjXDqPgof5tjYFfSUEf/CMW/WZTQiB9SX4ql1/CnBbILV47F3kvre0w2RmXMzTnPf uQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jjwnwrfjr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Sep 2022 17:00:03 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28DGjtCB027648;
- Tue, 13 Sep 2022 17:00:03 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jjwnwrfgw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Sep 2022 17:00:03 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28DGpsVq008392;
- Tue, 13 Sep 2022 17:00:01 GMT
-Received: from b03cxnp07027.gho.boulder.ibm.com
- (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
- by ppma04wdc.us.ibm.com with ESMTP id 3jgj79d9n7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Sep 2022 17:00:01 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 28DH01i456230176
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 13 Sep 2022 17:00:01 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F392E78067;
- Tue, 13 Sep 2022 17:14:30 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A5F6C7805E;
- Tue, 13 Sep 2022 17:14:30 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 13 Sep 2022 17:14:30 +0000 (GMT)
-From: Stefan Berger <stefanb@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, Stefan Berger <stefanb@linux.ibm.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 4/4] tpm_emulator: Have swtpm relock storage upon migration
- fall-back
-Date: Tue, 13 Sep 2022 12:59:45 -0400
-Message-Id: <20220913165945.1635016-5-stefanb@linux.ibm.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220913165945.1635016-1-stefanb@linux.ibm.com>
-References: <20220913165945.1635016-1-stefanb@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oY9Vd-0003sG-G0
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 13:15:41 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36830)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oY9Vb-0005GA-Oo
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 13:15:41 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id h8so14908940wrf.3
+ for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 10:15:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=txo6rVtBe+vrMnCLxLgsg4qNFWL6t0wwr1oI+Hn/AmU=;
+ b=zV1QWE8SW4848HW1cN58skt78vQcF5e1eyM4dSJPwp83m7VulhZryQiBQQrh7e48MD
+ +gS/ts7A8UxZP0fjdzDZERIfKUE3k5348jwbLgdizqsjPIy9ySrpqXTF62ea7D+btXO9
+ E37VHkaE92oo+nUv/jmstUfgInl10qTh+00JTiPrXUoLj+LrQY+zY7s8SbjBSbeJ8zTJ
+ ChpKYSI4bqqh2htDeq3wntNaxZEsp8PhCsVVgtZjUTT1k3qTI+Fs0aIiy4sqh9LoyDPm
+ na5dcYJEHNV83fi2wod76GI768oCMtsYg49QVgpwopuNwYkFp340Zohp5KSTrJ0uM0VS
+ LcWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=txo6rVtBe+vrMnCLxLgsg4qNFWL6t0wwr1oI+Hn/AmU=;
+ b=FXb+BsYOywm/skVJP6Gz4jKe5EuJUpZMgTJ3IlQF5ASNQXKp4YSufUXuLby0ePDQNm
+ 6jA+UMXUWTYyGAb1d94LrN8lyK3jT+HkOQwKHLlnSGXCGcv5JfmOsU3ABk9Sa+ACV5hN
+ OciRRyI/2hUkEOFtQBGwHiXVpT0eo6faZ9WuaYOt7snLb8FElEIqnsI+CmfKc/7hG0V0
+ EqB239/20bkfIFlAlVCrxalnnhr+iF6odfpb/8HrOX7o1y6iPlgDSUoqXvky8ToLlQdP
+ 8eTm02Wdp5EsPtY7pHO17S/qvfA2JAgjzvzfhzQBio5oaS09NysA3sYC4YFCPQe5G5Ew
+ tb/Q==
+X-Gm-Message-State: ACgBeo1zarJ/RIARAGJ3fwYPyNzD0aK9mb/WnErLHYIz9aQF+SclBoe8
+ Po2HG6Mzc3AR4f7doUqMWIcieQ==
+X-Google-Smtp-Source: AA6agR4ApgpySGfayLss9SKr1ic4e5doGBDfhJEXhX3/m6YtdE4046p+QG1dPh9phYEunK8/XvqmUg==
+X-Received: by 2002:adf:a28e:0:b0:22a:7428:3b04 with SMTP id
+ s14-20020adfa28e000000b0022a74283b04mr7987935wra.75.1663089337768; 
+ Tue, 13 Sep 2022 10:15:37 -0700 (PDT)
+Received: from [10.119.17.153] ([89.101.193.66])
+ by smtp.gmail.com with ESMTPSA id
+ w7-20020a5d4b47000000b0022860e8ae7csm11231028wrs.77.2022.09.13.10.15.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Sep 2022 10:15:37 -0700 (PDT)
+Message-ID: <a9e073e6-08ed-06cf-561e-6f99e2be674d@linaro.org>
+Date: Tue, 13 Sep 2022 18:15:34 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: YufKQIVjGgCPlvHZ0yogcHl5PdwNtWow
-X-Proofpoint-ORIG-GUID: uepNZe5JT4QRmDv_KoIpH3_ciu7nvdXn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-13_09,2022-09-13_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0
- spamscore=0 impostorscore=0 priorityscore=1501 mlxlogscore=999
- clxscore=1015 suspectscore=0 lowpriorityscore=0 mlxscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2209130075
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 0/2] target/m68k: fix two writes to %sr
+Content-Language: en-US
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+Cc: laurent@vivier.eu
+References: <20220913142818.7802-1-richard.henderson@linaro.org>
+ <5880ddb1-3a7c-139d-3833-9902b98caf01@ilande.co.uk>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <5880ddb1-3a7c-139d-3833-9902b98caf01@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.628,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,158 +94,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Swtpm may release the lock once the last one of its state blobs has been
-migrated out. In case of VM migration failure QEMU now needs to notify
-swtpm that it should again take the lock, which it can otherwise only do
-once it has received the first TPM command from the VM.
+On 9/13/22 17:29, Mark Cave-Ayland wrote:
+> Possibly it might be worth including a tidied-up version of the "WIP: target/m68k: always 
+> exit_tb when changing sr with andi/ori/eori" commit from that branch which is also related 
+> to switching between supervisor and user modes under MacOS. Shall I tidy it up and send it 
+> to the list?
 
-Only try to send the lock command if swtpm supports it. It will not have
-released the lock (and support shared storage setups) if it doesn't
-support the locking command since the functionality of releasing the lock
-upon state blob reception and the lock command were added to swtpm
-'together'.
+I peeked at the patch in your tree, and it looks good.
+By inspection, strldsr needs to exit the TB as well.
 
-If QEMU sends the lock command and the storage has already been locked
-no error is reported.
 
-If swtpm does not receive the lock command (from older version of QEMU),
-it will lock the storage once the first TPM command has been received. So
-sending the lock command is an optimization.
-
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-id: 20220912174741.1542330-3-stefanb@linux.ibm.com
----
- backends/tpm/tpm_emulator.c | 60 ++++++++++++++++++++++++++++++++++++-
- backends/tpm/trace-events   |  2 ++
- 2 files changed, 61 insertions(+), 1 deletion(-)
-
-diff --git a/backends/tpm/tpm_emulator.c b/backends/tpm/tpm_emulator.c
-index 9b50c5b3e2..49cc3d749d 100644
---- a/backends/tpm/tpm_emulator.c
-+++ b/backends/tpm/tpm_emulator.c
-@@ -35,6 +35,7 @@
- #include "sysemu/runstate.h"
- #include "sysemu/tpm_backend.h"
- #include "sysemu/tpm_util.h"
-+#include "sysemu/runstate.h"
- #include "tpm_int.h"
- #include "tpm_ioctl.h"
- #include "migration/blocker.h"
-@@ -82,6 +83,9 @@ struct TPMEmulator {
-     unsigned int established_flag_cached:1;
- 
-     TPMBlobBuffers state_blobs;
-+
-+    bool relock_storage;
-+    VMChangeStateEntry *vmstate;
- };
- 
- struct tpm_error {
-@@ -303,6 +307,35 @@ static int tpm_emulator_stop_tpm(TPMBackend *tb)
-     return 0;
- }
- 
-+static int tpm_emulator_lock_storage(TPMEmulator *tpm_emu)
-+{
-+    ptm_lockstorage pls;
-+
-+    if (!TPM_EMULATOR_IMPLEMENTS_ALL_CAPS(tpm_emu, PTM_CAP_LOCK_STORAGE)) {
-+        trace_tpm_emulator_lock_storage_cmd_not_supt();
-+        return 0;
-+    }
-+
-+    /* give failing side 300 * 10ms time to release lock */
-+    pls.u.req.retries = cpu_to_be32(300);
-+    if (tpm_emulator_ctrlcmd(tpm_emu, CMD_LOCK_STORAGE, &pls,
-+                             sizeof(pls.u.req), sizeof(pls.u.resp)) < 0) {
-+        error_report("tpm-emulator: Could not lock storage within 3 seconds: "
-+                     "%s", strerror(errno));
-+        return -1;
-+    }
-+
-+    pls.u.resp.tpm_result = be32_to_cpu(pls.u.resp.tpm_result);
-+    if (pls.u.resp.tpm_result != 0) {
-+        error_report("tpm-emulator: TPM result for CMD_LOCK_STORAGE: 0x%x %s",
-+                     pls.u.resp.tpm_result,
-+                     tpm_emulator_strerror(pls.u.resp.tpm_result));
-+        return -1;
-+    }
-+
-+    return 0;
-+}
-+
- static int tpm_emulator_set_buffer_size(TPMBackend *tb,
-                                         size_t wanted_size,
-                                         size_t *actual_size)
-@@ -853,13 +886,34 @@ static int tpm_emulator_pre_save(void *opaque)
- {
-     TPMBackend *tb = opaque;
-     TPMEmulator *tpm_emu = TPM_EMULATOR(tb);
-+    int ret;
- 
-     trace_tpm_emulator_pre_save();
- 
-     tpm_backend_finish_sync(tb);
- 
-     /* get the state blobs from the TPM */
--    return tpm_emulator_get_state_blobs(tpm_emu);
-+    ret = tpm_emulator_get_state_blobs(tpm_emu);
-+
-+    tpm_emu->relock_storage = ret == 0;
-+
-+    return ret;
-+}
-+
-+static void tpm_emulator_vm_state_change(void *opaque, bool running,
-+                                         RunState state)
-+{
-+    TPMBackend *tb = opaque;
-+    TPMEmulator *tpm_emu = TPM_EMULATOR(tb);
-+
-+    trace_tpm_emulator_vm_state_change(running, state);
-+
-+    if (!running || state != RUN_STATE_RUNNING || !tpm_emu->relock_storage) {
-+        return;
-+    }
-+
-+    /* lock storage after migration fall-back */
-+    tpm_emulator_lock_storage(tpm_emu);
- }
- 
- /*
-@@ -921,6 +975,9 @@ static void tpm_emulator_inst_init(Object *obj)
-     tpm_emu->options = g_new0(TPMEmulatorOptions, 1);
-     tpm_emu->cur_locty_number = ~0;
-     qemu_mutex_init(&tpm_emu->mutex);
-+    tpm_emu->vmstate =
-+        qemu_add_vm_change_state_handler(tpm_emulator_vm_state_change,
-+                                         tpm_emu);
- 
-     vmstate_register(NULL, VMSTATE_INSTANCE_ID_ANY,
-                      &vmstate_tpm_emulator, obj);
-@@ -970,6 +1027,7 @@ static void tpm_emulator_inst_finalize(Object *obj)
-     tpm_sized_buffer_reset(&state_blobs->savestate);
- 
-     qemu_mutex_destroy(&tpm_emu->mutex);
-+    qemu_del_vm_change_state_handler(tpm_emu->vmstate);
- 
-     vmstate_unregister(NULL, &vmstate_tpm_emulator, obj);
- }
-diff --git a/backends/tpm/trace-events b/backends/tpm/trace-events
-index 3298766dd7..1ecef42a07 100644
---- a/backends/tpm/trace-events
-+++ b/backends/tpm/trace-events
-@@ -20,6 +20,8 @@ tpm_emulator_set_buffer_size(uint32_t buffersize, uint32_t minsize, uint32_t max
- tpm_emulator_startup_tpm_resume(bool is_resume, size_t buffersize) "is_resume: %d, buffer size: %zu"
- tpm_emulator_get_tpm_established_flag(uint8_t flag) "got established flag: %d"
- tpm_emulator_cancel_cmd_not_supt(void) "Backend does not support CANCEL_TPM_CMD"
-+tpm_emulator_lock_storage_cmd_not_supt(void) "Backend does not support LOCK_STORAGE"
-+tpm_emulator_vm_state_change(int running, int state) "state change to running %d state %d"
- tpm_emulator_handle_device_opts_tpm12(void) "TPM Version 1.2"
- tpm_emulator_handle_device_opts_tpm2(void) "TPM Version 2"
- tpm_emulator_handle_device_opts_unspec(void) "TPM Version Unspecified"
--- 
-2.37.2
-
+r~
 
