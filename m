@@ -2,113 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B25B5B7298
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 17:00:19 +0200 (CEST)
-Received: from localhost ([::1]:38820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A12E5B7351
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 17:10:25 +0200 (CEST)
+Received: from localhost ([::1]:40778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY7Oc-0003Ah-1b
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 11:00:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34860)
+	id 1oY7YN-0002JL-Ru
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 11:10:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oY7I7-0001nZ-H6
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 10:53:35 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:35672)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oY7I5-0002t1-OW
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 10:53:35 -0400
-Received: by mail-pl1-x635.google.com with SMTP id t3so12089268ply.2
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 07:53:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=OJAIEjey9dL/oOlyHKJUty+rvUtRfrNcjV74l588HbE=;
- b=nipjUGyopyRbnweevoI2Oq+FbDhrGlaD7wKP+k5xapkMVsoGweAQ6K2hQ8AZ+n3N71
- J85U0qDe2D5AD8d1gpjf++nTpiIkyTFzNlFk+YTPVFtJCYSH/SE9jP8KJtPu7wQ0hfi5
- wYDpgxyUrRwd1sYa/NGSuu4VudYk3GqiPthKN+bOi/ckST3RiIggvPeGp3bhm5p8ypVT
- 3f+MwrbGT4h/7a0VEnXrxvfZQW0KEOYcQaivu+1/UqQdLAEGFiH+0RbJHMUiEdIZPPCt
- MhVMuPS1IGUUE+HBMjXHJM9fAUIO8mG1oaSP0/UpGjTZuC/UI7ZeIyP4hCCX4seU5+Tv
- A0Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=OJAIEjey9dL/oOlyHKJUty+rvUtRfrNcjV74l588HbE=;
- b=TIvPXCoKG9E0WnqpHzsF9dZQuJCsbOMhmG+JiOaJ6LZBYjDiP5j8/W6jy+6CgvWao7
- Z9+CMCEqeVnuVJgnLyO1jONyictjd1T1ZnpQWf0Jkm4D209woCLPcElDOzAxuHkF6tDG
- sNTZho8UXkHheYrNxgbRIlatYaWmOnGSOosiK5eJYo9yWi4aQLQSGjqJ5FAMDGPOkBes
- ET51Kvj96RyArwSp1G8GqHkP/mvUXuNEGPRyJXhlcBZH95cj4vRy0qPJQ8+1zwbSauzN
- gEv1zRg8N894/CevN1Uzp1mvGASdL55xAl7chZbHaRd285jd0MAvGr2f3SFWBSLnYMRP
- 84YA==
-X-Gm-Message-State: ACgBeo2fD3DHl2Ysqgh5HTk9+xYoop4RrpjUGmluz9pj6FZqYC7zH7QU
- NE31sfz8e85MkDTR0m1yndjLKw==
-X-Google-Smtp-Source: AA6agR4hCeLSjZthMuJfgYlKUGutRaZadKKJTFOH4uT+lOP/oa9jwO7wbAgJCVwL7oqP3EbrVwcGew==
-X-Received: by 2002:a17:902:c7cc:b0:176:9fdd:ddb7 with SMTP id
- r12-20020a170902c7cc00b001769fddddb7mr32324812pla.150.1663080810301; 
- Tue, 13 Sep 2022 07:53:30 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com.
- [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- k5-20020aa79985000000b00535d3caa66fsm7855085pfh.197.2022.09.13.07.53.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Sep 2022 07:53:29 -0700 (PDT)
-Date: Tue, 13 Sep 2022 14:53:25 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Hugh Dickins <hughd@google.com>,
- Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>,
- "Gupta, Pankaj" <pankaj.gupta@amd.com>,
- Elena Reshetova <elena.reshetova@intel.com>
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <YyCZZSyCrwXLLCD9@google.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
- <20220818132421.6xmjqduempmxnnu2@box>
- <c6ccbb96-5849-2e2f-3b49-4ea711af525d@google.com>
- <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
- <c194262b-b634-4baf-abf0-dc727e8f1d7@google.com>
- <20220831142439.65q2gi4g2d2z4ofh@box.shutemov.name>
- <20220908011037.ez2cdorthqxkerwk@box.shutemov.name>
- <YyBQ+wzPtGwwRB/U@google.com>
- <20220913132821.3ch5cv3rgdxqgz3i@box.shutemov.name>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oY7O4-0002Xk-Ku
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 10:59:44 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:48175)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oY7O2-000443-Tx
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 10:59:44 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N4R0a-1pHjSv3Wpa-011TQl; Tue, 13 Sep 2022 16:59:39 +0200
+Message-ID: <9cecac63-ed92-de1d-71da-bb0e25e1b020@vivier.eu>
+Date: Tue, 13 Sep 2022 16:59:38 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220913132821.3ch5cv3rgdxqgz3i@box.shutemov.name>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=seanjc@google.com; helo=mail-pl1-x635.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH 1/2] target/m68k: Fix MACSR to CCR
+Content-Language: fr
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: mark.cave-ayland@ilande.co.uk, Thomas Huth <huth@tuxfamily.org>
+References: <20220913142818.7802-1-richard.henderson@linaro.org>
+ <20220913142818.7802-2-richard.henderson@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220913142818.7802-2-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:YQ4MkC0Mo1Ulc00APKCTKTVsr6OBMj+Dcjaiy5QU1RydvoQ+mxp
+ 16lw4JN5KO+KUX71tGTTgNzEG2MJrBKtBsJ/1YEC3if2MmhVCMA8mOH4AlOHap6uZqhEKIB
+ K7w7aaEs6jDH4buwwVYhtXn13x1WM4orE9tw9jFWb2aa60WVZc71pPG9LyyNsAsQzgWwazZ
+ CdwPtkaGjj3mXgw0AZzNw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ocZNnrI0aGY=:vNHlNclb459qIOr9YGpX36
+ XB00kcnT1rEDVQPMy/SFniP28NWcvnXugtVZRdIWGHfY8tpKi0gXRfXUHSD5eRRyovCcfwvWN
+ rz+zbyJKBg7tsPb0SI/Xt8BmD8GMYGAycoLMXiBpe2q8MkLx88i3WkGsZoxJNhtdir6xmUyNI
+ kpNUE2lwhwYB+03EOfWYf5Hqz7D0dsa8kewEejw9loXa5VCf15mzSw2bytXojaCTkYGj18rYR
+ QDogG/n8DRBEel5JwRc+rL/KmI48emJhbRIjlqwvZozU1WihbPB65UyyvyOwjI8j8YuFRLtK+
+ Ene8zLYYX0QSFjyyRE/ClMDBEXTq2de6cwOQpVQBur1Tj27zZOnsHsv0FBfolaW8OnY+fDRr3
+ V8bM9daPDNkXQpabeq7SVcbPFk7/+O6+ZKFIEKND3CFhklbrSckWcAgldP2y1cfs7uZdwkA92
+ ehpuY16wiVBe4AvfGIcuWntJ1l4qhVYX1lHeHlj0ruqH4o2C1+8N4vmDpAlwdmRL0gr959zhZ
+ 4NE5sAAOrRWRJaXa503aR5q7xt4tg8k/AFtQCh0X68gzm1mk0WepefdiBufaoLvIFOXJiXx2+
+ RIhBMrRYuSF7lIQgH+hotNZ2GmCnuMBeR6VhiPcTr8jI1Xt7JPwWk1AxZDTLMMb0W2NUj+L/6
+ U+k/R3wdU3ok4YtnwPd6NSlG2tadu4Ybht6e5zYcSlQ+JGDeeh4j3OgY4k0oQDjeC37JCWRWU
+ Cg82cSwZ8hU2u7AX7e6KZPJkDXLgwrBJBW8/lFt0kaKX6Ri9CHNENPyxrUczfNtRxWilCNwIh
+ QrlJ74f
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.628,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -124,45 +75,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 13, 2022, Kirill A. Shutemov wrote:
-> On Tue, Sep 13, 2022 at 09:44:27AM +0000, Sean Christopherson wrote:
-> > On Thu, Sep 08, 2022, Kirill A. Shutemov wrote:
-> > > On Wed, Aug 31, 2022 at 05:24:39PM +0300, Kirill A . Shutemov wrote:
-> > > > On Sat, Aug 20, 2022 at 10:15:32PM -0700, Hugh Dickins wrote:
-> > > > > > I will try next week to rework it as shim to top of shmem. Does it work
-> > > > > > for you?
-> > > > > 
-> > > > > Yes, please do, thanks.  It's a compromise between us: the initial TDX
-> > > > > case has no justification to use shmem at all, but doing it that way
-> > > > > will help you with some of the infrastructure, and will probably be
-> > > > > easiest for KVM to extend to other more relaxed fd cases later.
-> > > > 
-> > > > Okay, below is my take on the shim approach.
-> > > > 
-> > > > I don't hate how it turned out. It is easier to understand without
-> > > > callback exchange thing.
-> > > > 
-> > > > The only caveat is I had to introduce external lock to protect against
-> > > > race between lookup and truncate.
-> > 
-> > As before, I think this lock is unnecessary.  Or at least it's unnessary to hold
-> > the lock across get/put.  The ->invalidate() call will ensure that the pfn is
-> > never actually used if get() races with truncation.
+Le 13/09/2022 à 16:28, Richard Henderson a écrit :
+> First, we were writing to the entire SR register, instead
+> of only the flags portion.  Second, we were not clearing C
+> as per the documentation (X was cleared via the 0xf mask).
 > 
-> The updated version you replying to does not use the lock to protect
-> against truncation anymore. The lock protect notifier list.
-
-Gah, grabbed the patch when applying.
-
-> > Switching topics, what actually prevents mmapp() on the shim?  I tried to follow,
-> > but I don't know these areas well enough.
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/m68k/translate.c | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
 > 
-> It has no f_op->mmap, so mmap() will fail with -ENODEV. See do_mmap().
-> (I did not read the switch statement correctly at first. Note there are
-> two 'fallthrough' there.)
+> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+> index 5098f7e570..87044382c3 100644
+> --- a/target/m68k/translate.c
+> +++ b/target/m68k/translate.c
+> @@ -5892,8 +5892,10 @@ DISAS_INSN(from_mext)
+>   DISAS_INSN(macsr_to_ccr)
+>   {
+>       TCGv tmp = tcg_temp_new();
+> -    tcg_gen_andi_i32(tmp, QREG_MACSR, 0xf);
+> -    gen_helper_set_sr(cpu_env, tmp);
+> +
+> +    /* Note that X and C are always cleared. */
+> +    tcg_gen_andi_i32(tmp, QREG_MACSR, CCF_N | CCF_Z | CCF_V);
+> +    gen_helper_set_ccr(cpu_env, tmp);
+>       tcg_temp_free(tmp);
+>       set_cc_op(s, CC_OP_FLAGS);
+>   }
 
-Ah, validate_mmap_request().  Thought not implementing ->mmap() was the key, but
-couldn't find the actual check.
-
-Thanks much!
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
