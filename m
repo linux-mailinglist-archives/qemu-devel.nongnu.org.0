@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBD735B6E9E
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 15:52:01 +0200 (CEST)
-Received: from localhost ([::1]:51594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BCAA5B6EAF
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 15:58:28 +0200 (CEST)
+Received: from localhost ([::1]:32880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY6KV-00007K-CM
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 09:51:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33066)
+	id 1oY6Qk-00073H-W7
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 09:58:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oY6Hj-0005z1-OQ
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 09:49:08 -0400
-Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:43821)
+ id 1oY6M3-0002KQ-51
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 09:53:35 -0400
+Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d]:40534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oY6Hh-0008N4-WC
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 09:49:07 -0400
-Received: by mail-qt1-x836.google.com with SMTP id a20so5988250qtw.10
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 06:49:05 -0700 (PDT)
+ id 1oY6Lz-0000hu-DB
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 09:53:33 -0400
+Received: by mail-qt1-x82d.google.com with SMTP id z18so8644554qts.7
+ for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 06:53:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=4yQXv4w+8lbXEPvmV1omHYcbSHb5m1ZJFwB9pUoBdwQ=;
- b=pKYFyJraXsi7xjxlNW9glrA1u+KxcpClgpFuRBX0dO+6+KvknGsjCkYSdbG6ndxmNq
- 81UxWMWFZxFxbGKvYt+kwzB6cWi4oGC2dDwa7INIc09gpEhuUp7GtBJZ4pF+p8+CkV6F
- 6YYObo4AV+6kKtdHjZf2GfkMXrTBzXBfTrYlgV/FBAm5Gw7yFRmAlmqNig+nwnNqfnSU
- zhq2Q6qerUzjNRr3BIlA2TJ3tPj2pDuyREpb7aOZeIhPf3Tv2cD9Fvy1we/t1kDBjtN1
- k3sZJQMHgmyiYwHfgYlH7xe3Tizk0y9I7zULlYLfBvBZxhXzVw1qRlvisVEATSA8qL9K
- n5rA==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=G6+btAUJRWhyKP9ZkEd7iYPF63+3H/GDwUkKj23+2X0=;
+ b=Zf0b4mV475i6ANXA5Sj98Cg+kkU8KbUIwpZGCDbFbQp3rHzbICT+92MJgHtmU7UDuz
+ 97jrGLK/X6xcJnFMQJWN4cDNlxfXNT2weOFwmecWUIclk8SlbE0ZnnlZEHivzhwFsdzU
+ SumNY1U6QdNA6B/NyH75T5oFo9an+45alE9O31g3thgqUh5qqs1osq9qgLseOkcosxs9
+ mKGrOruwag9cymVc3/AbH0v/fPK7TWjZ9R+u2b4XbgSrRebbcFpAPbGT/0catQ3YKyNC
+ WhX65hu4Rn9JHgI9QO0/IvvGj2u6nFifxJxzuvFuWbw5xUe4SArKngKT83LFgoJMHOrM
+ wArQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=4yQXv4w+8lbXEPvmV1omHYcbSHb5m1ZJFwB9pUoBdwQ=;
- b=KScQ4mRty5l25n5Pq6Ipvdl/nByMQrwVw5gILAhc/i6XJMay6nNdZOIq/MidJLXbUo
- mT3dDOQAoqPbAlwv5bxORk++S9GX6BVPNmvgH4ipApsIzhSd78+CUEabPi0kQXpOX3OV
- SU5wYhAN6cs8FZqTizsNsnsoHtcd95RXL8PedqsNoCpKvqg2wWu98u6opadaso56dSbf
- OMTr5M2FLawDtCYtKPqR541CgBUuE110JhOW7eS0ew4NF83NLDEIhuuN2AYdf5jK9M7T
- U5ZsPae3fjZDGRZXhqxxlsz6FirS8Dv1BdEhFA/F0a60FQYuxVEz/6kQsfb6ev6ZbMRc
- /c7w==
-X-Gm-Message-State: ACgBeo1MWIwiFzh3BT7HBR+YhUWYChsy6Unrl/XsNS6xV734OigdBrS2
- jMlu8O4BgeG8Vv7Kmj2UM+/FszyHF2gsC2SYgw0=
-X-Google-Smtp-Source: AA6agR5saE0kxcyxkZbTvoAYPi6oK7BRMQbddwjcz3lIRJvQyjt+zCpGbMAcOhHvXTRfXN8rbzhKb51o+q0xHi0OWv0=
-X-Received: by 2002:ac8:7d53:0:b0:344:6545:5c02 with SMTP id
- h19-20020ac87d53000000b0034465455c02mr28114641qtb.365.1663076944607; Tue, 13
- Sep 2022 06:49:04 -0700 (PDT)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=G6+btAUJRWhyKP9ZkEd7iYPF63+3H/GDwUkKj23+2X0=;
+ b=uSG2qXkhh6SjhItKel+Qt/Hyz5o7RGj+b5du8nh0nFOljKIOoZV7P5iinIAlFGUI6D
+ S9vvRuYJlsI9pkahvIVBCeYjiC43kkVBp3OX1odXq10tnUcgEuSkqCoS5NId6cejyFIw
+ /l8fQO4yabTE74h8Sv/71drahQcbJC0PiCnj7vH46/oeJWK9QYNsfKLBH6W2IAffoMTX
+ ckuVSIqGrWvD0QSXIuhL/CCutc6kySqz5XjHkp4vaLyinGdEMsO8qNLa062UJjiMu86B
+ hP4He2w+kfC+GSLb1rApdFez+DAKhGWJMtb6sfpk3fX5WS7Gr6lQNknf2tvnJAsRCkal
+ lYbA==
+X-Gm-Message-State: ACgBeo2yRXKq/FAqbLbomkB9NR339pWRCR1e+wTqHEs0lcNwk+ROKRxf
+ QD334t7/MdxJK0hIji8BUyZ3TDnPk/6WlBlOCB/GFw/v
+X-Google-Smtp-Source: AA6agR5h2bsF8kW/RRdj+5k7mk19xNRZyn/JhKgoIW23C3efbzr4lcVmdJaDnR6Txa33LONybchN/hLdQh0YJaPqQJ4=
+X-Received: by 2002:ac8:5f4a:0:b0:344:5dd9:27d8 with SMTP id
+ y10-20020ac85f4a000000b003445dd927d8mr27924574qta.543.1663077210109; Tue, 13
+ Sep 2022 06:53:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220913105022.81953-1-antonio.caggiano@collabora.com>
- <20220913105022.81953-2-antonio.caggiano@collabora.com>
-In-Reply-To: <20220913105022.81953-2-antonio.caggiano@collabora.com>
+References: <CAJ307Ej5stZr6fPsLROFBkmtg=uzkG50yVVY6=Ru6LTLQzae5A@mail.gmail.com>
+In-Reply-To: <CAJ307Ej5stZr6fPsLROFBkmtg=uzkG50yVVY6=Ru6LTLQzae5A@mail.gmail.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 13 Sep 2022 21:48:51 +0800
-Message-ID: <CAEUhbmXWBFP33j1aSTBxzLhjP7truF_KrkrQn1N+sH0r6cNu+Q@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] virtio: Add shared memory capability
-To: Antonio Caggiano <antonio.caggiano@collabora.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- gert.wollny@collabora.com, 
- dmitry.osipenko@collabora.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>
+Date: Tue, 13 Sep 2022 21:53:19 +0800
+Message-ID: <CAEUhbmX7uduj90Na3U=hfM1ViWviPsUHVF_Rg5sbPz+Hh8dV-w@mail.gmail.com>
+Subject: Re: Question about loading bare metal firmware
+To: =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x836.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x82d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,74 +84,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 13, 2022 at 6:57 PM Antonio Caggiano
-<antonio.caggiano@collabora.com> wrote:
+On Tue, Sep 13, 2022 at 5:39 PM Cl=C3=A9ment Chigot <chigot@adacore.com> wr=
+ote:
 >
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> Hi all,
 >
-> Define a new capability type 'VIRTIO_PCI_CAP_SHARED_MEMORY_CFG'
-> and the data structure 'virtio_pci_shm_cap' to go with it.
-> They allow defining shared memory regions with sizes and offsets
-> of 2^32 and more.
-> Multiple instances of the capability are allowed and distinguished
-> by a device-specific 'id'.
+> I'm wondering if there is an official way to load bare metal software
+> within qemu emulations.
+> I've seen a lot of people (including us) using -kernel. However, the
+> doc seems to imply that the generic loader would be a better approach
+> (cf [1]). I know that the compatibility with older Qemus is one of the
+> reasons why -kernel is still highly used. I've also seen that the
+> reset vector can be initialized automatically by -kernel unlike with
+> the generic loader (this is the case with RiscV AFAICT).
+> But is there any kind of official recommendation on that topic ?
 >
-> v2: Remove virtio_pci_shm_cap as virtio_pci_cap64 is used instead.
-> v3: No need for mask32 as cpu_to_le32 truncates the value.
+> I'm asking that because a recent change in RiscV Polarfire Soc is
+> forcing -dtb to be passed along -kernel. But in case of bare board
+> software, -dtb isn't needed (at least in our use case).
+> I've a patch that allows "-dtb" to be missing with "-kernel" only if
+> "-bios none" is provided. But I'm not sure if this is the right way to
+> say "it's a bare board software".
+>
+> @Bin Meng you're the one that added this -kernel support in PolarFire
+> Soc. Thus, is my approach looking good for you or do you have a better
+> one in mind ?
+>
 
-The above changelog should be put under --- below
+As Peter said, you probably need to use the generic loader for your
+use case. The "-kernel" is mainly for the Linux kernel, or a kernel
+with Linux kernel compatible boot protocol. In this case, Linux kernel
+won't boot without a proper DTB provided, as QEMU PolarFire machine
+does not generate a DTB like other RISC-V machines.
 
->
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
-> ---
->  hw/virtio/virtio-pci.c         | 18 ++++++++++++++++++
->  include/hw/virtio/virtio-pci.h |  4 ++++
->  2 files changed, 22 insertions(+)
->
-> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> index a50c5a57d7..377bb06fec 100644
-> --- a/hw/virtio/virtio-pci.c
-> +++ b/hw/virtio/virtio-pci.c
-> @@ -1169,6 +1169,24 @@ static int virtio_pci_add_mem_cap(VirtIOPCIProxy *proxy,
->      return offset;
->  }
->
-> +int virtio_pci_add_shm_cap(VirtIOPCIProxy *proxy,
-> +                           uint8_t bar, uint64_t offset, uint64_t length,
-> +                           uint8_t id)
-> +{
-> +    struct virtio_pci_cap64 cap = {
-> +        .cap.cap_len = sizeof cap,
-> +        .cap.cfg_type = VIRTIO_PCI_CAP_SHARED_MEMORY_CFG,
-> +    };
-> +
-> +    cap.cap.bar = bar;
-> +    cap.cap.length = cpu_to_le32(length);
-> +    cap.length_hi = cpu_to_le32(length >> 32);
-> +    cap.cap.offset = cpu_to_le32(offset);
-> +    cap.offset_hi = cpu_to_le32(offset >> 32);
-> +    cap.cap.id = id;
-> +    return virtio_pci_add_mem_cap(proxy, &cap.cap);
-> +}
-> +
->  static uint64_t virtio_pci_common_read(void *opaque, hwaddr addr,
->                                         unsigned size)
->  {
-> diff --git a/include/hw/virtio/virtio-pci.h b/include/hw/virtio/virtio-pci.h
-> index 2446dcd9ae..5e5c4a4c6d 100644
-> --- a/include/hw/virtio/virtio-pci.h
-> +++ b/include/hw/virtio/virtio-pci.h
-> @@ -252,4 +252,8 @@ void virtio_pci_types_register(const VirtioPCIDeviceTypeInfo *t);
->   */
->  unsigned virtio_pci_optimal_num_queues(unsigned fixed_queues);
->
-> +int virtio_pci_add_shm_cap(VirtIOPCIProxy *proxy,
-> +                           uint8_t bar, uint64_t offset, uint64_t length,
-> +                           uint8_t id);
-> +
->  #endif
-> --
+> [1] https://www.qemu.org/docs/master/system/qemu-manpage.html#hxtool-8
 
 Regards,
 Bin
