@@ -2,64 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A12E5B7351
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 17:10:25 +0200 (CEST)
-Received: from localhost ([::1]:40778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 132025B75BB
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 17:54:31 +0200 (CEST)
+Received: from localhost ([::1]:51550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY7YN-0002JL-Ru
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 11:10:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59266)
+	id 1oY8F3-0005BW-M3
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 11:54:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oY7O4-0002Xk-Ku
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 10:59:44 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:48175)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oY7O2-000443-Tx
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 10:59:44 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N4R0a-1pHjSv3Wpa-011TQl; Tue, 13 Sep 2022 16:59:39 +0200
-Message-ID: <9cecac63-ed92-de1d-71da-bb0e25e1b020@vivier.eu>
-Date: Tue, 13 Sep 2022 16:59:38 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oY8BQ-0000ad-D7
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 11:50:44 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39539)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oY8BB-0006L6-37
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 11:50:44 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id cc5so11649258wrb.6
+ for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 08:50:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=zPgXvBKfJfKdVLVw1MwG7vyTC/gmDC+uf6dtarBonqk=;
+ b=EVrQjH9jDMdGKX9O1t9EWc8QgvM7RB3VVDSRWN9fO45AbDo2+4Md1b1DpeTsPSlghZ
+ CcmCIBXcErm8dhO/aaX9flANv+O4GOjpbdNOX5vZ8DM/ih+fiAkcHGiG5+Yy9I4YrmcH
+ uVUVDvSkzcAafwQ0a3nDsP32SBMm9x+DoIJTL+nN5lJ/y4rVDlvcwuyuhd50axJvGazW
+ kEK3+eYLwo0/wB4GGUPCFQVIxiHHVsEsWDZYSUE777YXhVOXiV9CPloUm2iuseHbC9vD
+ HhZoZknZCog7pykj+N/qmyao/X/uOh45c7AhjkakPyUbYbe4RE3x08Cluuozgox8W2eB
+ mwCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=zPgXvBKfJfKdVLVw1MwG7vyTC/gmDC+uf6dtarBonqk=;
+ b=4b/aIkrcDowzC6s5Q+FYHo/FR3cfQkyoeCgdDMNPR0i+eFP6cKXkguZTFcBvA/5VRT
+ id4uXclj5Tx+3gDN6nKSV7nuNeAcL5JgfmE7+FoMVO493C8wnT04CHeFNdjpelBXpn3+
+ +QAiMZQuIKPgakMZa9+u9DbZHDRubN0cj7Ier2AIqOvAF6MTcDLmxOu3DleJhOrl4lTs
+ 51ipz1QdfOtMjXWlqZAt0I9U0ggQ8PzQc3OkjRsjLlmZ8cEpOdIKIOSnC3o0Tcg/GY/p
+ lWOAEEv/n0tjZMtqgwBWB1IS+NCJKsb4LUBlily32TzFPSw6mkbXyHnNytzlAiRCdITu
+ SdVg==
+X-Gm-Message-State: ACgBeo1X/ymLRHTRWsLyE5REMgnKx/TxaZqlWEDovsFlfYvtq05HsjXD
+ +c21a3mOoBbjP3zC12J8IUbH27ff0yAcnbRu
+X-Google-Smtp-Source: AA6agR5LfYAUxsLYbXAuqbpC+AHvdwrdY9mv1n0w9SrNRadOA459QgC933mqzS2DRPpwvI8llmRRjQ==
+X-Received: by 2002:adf:d1cc:0:b0:22a:450c:6208 with SMTP id
+ b12-20020adfd1cc000000b0022a450c6208mr11600820wrd.696.1663084218167; 
+ Tue, 13 Sep 2022 08:50:18 -0700 (PDT)
+Received: from stoup.. ([89.101.193.68]) by smtp.gmail.com with ESMTPSA id
+ b11-20020a05600c4e0b00b003b492753826sm5164972wmq.43.2022.09.13.08.50.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Sep 2022 08:50:17 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org,
+	Idan Horowitz <idan.horowitz@gmail.com>
+Subject: [PATCH] target/arm: Do alignment check when translation disabled
+Date: Tue, 13 Sep 2022 16:49:56 +0100
+Message-Id: <20220913154956.12731-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 1/2] target/m68k: Fix MACSR to CCR
-Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: mark.cave-ayland@ilande.co.uk, Thomas Huth <huth@tuxfamily.org>
-References: <20220913142818.7802-1-richard.henderson@linaro.org>
- <20220913142818.7802-2-richard.henderson@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220913142818.7802-2-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:YQ4MkC0Mo1Ulc00APKCTKTVsr6OBMj+Dcjaiy5QU1RydvoQ+mxp
- 16lw4JN5KO+KUX71tGTTgNzEG2MJrBKtBsJ/1YEC3if2MmhVCMA8mOH4AlOHap6uZqhEKIB
- K7w7aaEs6jDH4buwwVYhtXn13x1WM4orE9tw9jFWb2aa60WVZc71pPG9LyyNsAsQzgWwazZ
- CdwPtkaGjj3mXgw0AZzNw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ocZNnrI0aGY=:vNHlNclb459qIOr9YGpX36
- XB00kcnT1rEDVQPMy/SFniP28NWcvnXugtVZRdIWGHfY8tpKi0gXRfXUHSD5eRRyovCcfwvWN
- rz+zbyJKBg7tsPb0SI/Xt8BmD8GMYGAycoLMXiBpe2q8MkLx88i3WkGsZoxJNhtdir6xmUyNI
- kpNUE2lwhwYB+03EOfWYf5Hqz7D0dsa8kewEejw9loXa5VCf15mzSw2bytXojaCTkYGj18rYR
- QDogG/n8DRBEel5JwRc+rL/KmI48emJhbRIjlqwvZozU1WihbPB65UyyvyOwjI8j8YuFRLtK+
- Ene8zLYYX0QSFjyyRE/ClMDBEXTq2de6cwOQpVQBur1Tj27zZOnsHsv0FBfolaW8OnY+fDRr3
- V8bM9daPDNkXQpabeq7SVcbPFk7/+O6+ZKFIEKND3CFhklbrSckWcAgldP2y1cfs7uZdwkA92
- ehpuY16wiVBe4AvfGIcuWntJ1l4qhVYX1lHeHlj0ruqH4o2C1+8N4vmDpAlwdmRL0gr959zhZ
- 4NE5sAAOrRWRJaXa503aR5q7xt4tg8k/AFtQCh0X68gzm1mk0WepefdiBufaoLvIFOXJiXx2+
- RIhBMrRYuSF7lIQgH+hotNZ2GmCnuMBeR6VhiPcTr8jI1Xt7JPwWk1AxZDTLMMb0W2NUj+L/6
- U+k/R3wdU3ok4YtnwPd6NSlG2tadu4Ybht6e5zYcSlQ+JGDeeh4j3OgY4k0oQDjeC37JCWRWU
- Cg82cSwZ8hU2u7AX7e6KZPJkDXLgwrBJBW8/lFt0kaKX6Ri9CHNENPyxrUczfNtRxWilCNwIh
- QrlJ74f
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.628,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,33 +86,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 13/09/2022 à 16:28, Richard Henderson a écrit :
-> First, we were writing to the entire SR register, instead
-> of only the flags portion.  Second, we were not clearing C
-> as per the documentation (X was cleared via the 0xf mask).
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/m68k/translate.c | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-> index 5098f7e570..87044382c3 100644
-> --- a/target/m68k/translate.c
-> +++ b/target/m68k/translate.c
-> @@ -5892,8 +5892,10 @@ DISAS_INSN(from_mext)
->   DISAS_INSN(macsr_to_ccr)
->   {
->       TCGv tmp = tcg_temp_new();
-> -    tcg_gen_andi_i32(tmp, QREG_MACSR, 0xf);
-> -    gen_helper_set_sr(cpu_env, tmp);
-> +
-> +    /* Note that X and C are always cleared. */
-> +    tcg_gen_andi_i32(tmp, QREG_MACSR, CCF_N | CCF_Z | CCF_V);
-> +    gen_helper_set_ccr(cpu_env, tmp);
->       tcg_temp_free(tmp);
->       set_cc_op(s, CC_OP_FLAGS);
->   }
+If translation is disabled, the default memory type is Device,
+which requires alignment checking.  Document, but defer, the
+more general case of per-page alignment checking.
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reported-by: Idan Horowitz <idan.horowitz@gmail.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1204
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/helper.c | 38 ++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 36 insertions(+), 2 deletions(-)
+
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index d7bc467a2a..79609443aa 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -10713,6 +10713,39 @@ ARMMMUIdx arm_mmu_idx(CPUARMState *env)
+     return arm_mmu_idx_el(env, arm_current_el(env));
+ }
+ 
++/*
++ * Return true if memory alignment should be enforced.
++ */
++static bool aprofile_require_alignment(CPUARMState *env, int el, uint64_t sctlr)
++{
++    /* Check the alignment enable bit. */
++    if (sctlr & SCTLR_A) {
++        return true;
++    }
++
++    /*
++     * If translation is disabled, then the default memory type
++     * may be Device(-nGnRnE) instead of Normal, which requires that
++     * alignment be enforced.
++     *
++     * TODO: The more general case is translation enabled, with a per-page
++     * check of the memory type as assigned via MAIR_ELx and the PTE.
++     * We could arrange for a bit in MemTxAttrs to enforce alignment
++     * via forced use of the softmmu slow path.  Given that such pages
++     * are intended for MMIO, where the slow path is required anyhow,
++     * this should not result in extra overhead.
++     */
++    if (sctlr & SCTLR_M) {
++        /* Translation enabled: memory type in PTE via MAIR_ELx. */
++        return false;
++    }
++    if (el < 2 && (arm_hcr_el2_eff(env) & (HCR_DC | HCR_VM))) {
++        /* Stage 2 translation enabled: memory type in PTE. */
++        return false;
++    }
++    return true;
++}
++
+ static CPUARMTBFlags rebuild_hflags_common(CPUARMState *env, int fp_el,
+                                            ARMMMUIdx mmu_idx,
+                                            CPUARMTBFlags flags)
+@@ -10777,8 +10810,9 @@ static CPUARMTBFlags rebuild_hflags_a32(CPUARMState *env, int fp_el,
+ {
+     CPUARMTBFlags flags = {};
+     int el = arm_current_el(env);
++    uint64_t sctlr = arm_sctlr(env, el);
+ 
+-    if (arm_sctlr(env, el) & SCTLR_A) {
++    if (aprofile_require_alignment(env, el, sctlr)) {
+         DP_TBFLAG_ANY(flags, ALIGN_MEM, 1);
+     }
+ 
+@@ -10871,7 +10905,7 @@ static CPUARMTBFlags rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
+ 
+     sctlr = regime_sctlr(env, stage1);
+ 
+-    if (sctlr & SCTLR_A) {
++    if (aprofile_require_alignment(env, el, sctlr)) {
+         DP_TBFLAG_ANY(flags, ALIGN_MEM, 1);
+     }
+ 
+-- 
+2.34.1
+
 
