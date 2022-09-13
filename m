@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C22F5B6BAA
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 12:32:58 +0200 (CEST)
-Received: from localhost ([::1]:48684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E98CA5B6BAB
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 12:33:10 +0200 (CEST)
+Received: from localhost ([::1]:55214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY3Dt-0001no-1w
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 06:32:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40268)
+	id 1oY3E6-0002Ag-4f
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 06:33:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY38l-0005gr-Fm
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 06:27:40 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:36812)
+ id 1oY39c-0006H8-JW
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 06:28:32 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:43902)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY38j-0005Zh-L0
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 06:27:39 -0400
-Received: by mail-wr1-x432.google.com with SMTP id h8so13050644wrf.3
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 03:27:37 -0700 (PDT)
+ id 1oY39a-0005kV-SY
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 06:28:32 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ z14-20020a05600c0a0e00b003b486df42a3so4074026wmp.2
+ for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 03:28:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=VpcnUfphQQabVQ+JGASkjbkYx/4txkFTFctoBJctcg8=;
- b=d4ZsYMx0J0lgqn7gHWK8YGeP4OMHDQGplp/YkS6vB3SQ8XlOR0LeDx64ReA2rTuOOa
- 00/6CujXdXyUDm3UZVkxqUsvs8sGgR+TZ6dZ0IrDB+11Cke5yazBJZ/LAupMjzz/a8ey
- HFwQlOge+1KHMrRxkTnY6j8woaTKjBNIxR4KD0CtIwIAShx4Lcq1ptDbyhTubprbFoVu
- /127r9zVN0gZffDbroavSHuMeQnB7Gn5KYaIFmp/DesvBt3+GZHyvem4/7I6P2fkzDAN
- gaxHYgsBVXm24VoC0pLgDNFWEpaWGEfGIhXHRFDx6MP3HpMU2sov/jpobCL1FU3/V0F9
- Xi1g==
+ bh=dyPVRlNPO2NXqolyzLHXaWYEDyrtGj6/YK/zBOOY9iM=;
+ b=CGD7UaaNTdyuRrBNhbuNUV2UPJFgUwRs0lkzMtVGd5XMLAAOKUo5ZTnJpD1FOtQCVF
+ xZU3d+klQJ62zMbVj8ApH1pInZqPFV5NlKwIpF/qZDEuo7lDjAArKDjaZt3q71SORG5i
+ PvMNBFsOufHubmJbTl6QRu6d5zajafKVYYwEWjAMIJlzdeZ7KkQUmdr9ZIkB1Qt8E4uo
+ ExjFZ6XpUeDarfu+WIHFCwe7NfRO9sXndF3qBgW5jPraa1tb5gGcjZLv6SgaHiSD0luj
+ 30PStTy/cnAC3lLLhdt5QOqKqcct7gVog/dXMoX4MHG2TOIWa3WW2M93/3HXWfbZ+YqB
+ 2m2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=VpcnUfphQQabVQ+JGASkjbkYx/4txkFTFctoBJctcg8=;
- b=fcwCFiluuQB9F2Q1zNH0fTRq9f43l6Ngvay12FuzAzV0cFMYheh2/NL+ya1D6kqKNN
- LGUta35O0Hjis/k77YSZimIQkuF8wVRfVEVodYIREHxfPgFAnD2oASl6M2JQwWO9Kfwn
- KZLtxO19J8pT9mBCKJkCDbQ/auYLWSNmoXnbC2gi0H2yW15Bg29Vm8AoIP9dFt7OhZmF
- xVEWRBvaTEKtmiv1rQobxcjzkaFSc44LT6sMIWmqPRYwMFbXIVMN2D12XQ0Kav7KM+eL
- 08Q3P7yucqmLYLVWBx0miQ9cFeFIcQpRO7Z9QYFUKz0+MEC+lTAvbXHaK+2weBV1QOGf
- 1LxQ==
-X-Gm-Message-State: ACgBeo1HhEmTHd4Ah1JbeGYwAN+tjlG0SGJRTDAn4ZlfLAaEPs6KNqWs
- TfONvmMFI19QS9Nz32Ync2dZrWFfbgBLirxJ
-X-Google-Smtp-Source: AA6agR7CxemQ9oAoEu+BgxEHhPciVSItpCyKRnoZsLrO8Vi/FHO3VOYClKNPE2AsIa2Gfxt2n6PQag==
-X-Received: by 2002:a05:6000:1c8:b0:22a:5a6d:c77a with SMTP id
- t8-20020a05600001c800b0022a5a6dc77amr7463204wrx.242.1663064855746; 
- Tue, 13 Sep 2022 03:27:35 -0700 (PDT)
+ bh=dyPVRlNPO2NXqolyzLHXaWYEDyrtGj6/YK/zBOOY9iM=;
+ b=bItIaMopferw/9Bd1JQxbxxGHOHDGaMxRm0oD1Bqqpecv6zIFw6sB1SZQISsZ+Bw/V
+ i27w6oa/SxVBmNiYBYsym77OuVUScpGyLll3hPL9GZGGtl16jwnW7oloD9neSfPJFYKo
+ +hLo2KEOlMR4YvaP+Sv38DeNanjxcKeeuZ6iAV0EBhqQkuCSzH9QUjUb5UXMXjwm8ArX
+ LTJncgbA59e0e61Ozb0yTWVoT66aL4LGi7TP7umr/TaBbxPvpGinYps02oMhl/7TqmsD
+ MVB9jvUVawXC3+NNHXzF1WVdrGOSctGgVVi2JvLL0Ofnat0tEU1jfVZi5FwP7B+YYsPb
+ VUDA==
+X-Gm-Message-State: ACgBeo09D9ykqRa+I9Scwv7Xx2Gmtr4exUKX62+DIIWFz4HPPZ5o6WO1
+ B8NJdIHy/3CcFHk0xbxeCJ0vvQ==
+X-Google-Smtp-Source: AA6agR5qI/a1d1mo3k3b4orG+LSATsPUVfE4csUqHrquFSsTF/FDFrxb2VVRRL/QJ0NFVS5qtZU9Uw==
+X-Received: by 2002:a05:600c:1f06:b0:3b4:86e8:bd21 with SMTP id
+ bd6-20020a05600c1f0600b003b486e8bd21mr1907426wmb.7.1663064909412; 
+ Tue, 13 Sep 2022 03:28:29 -0700 (PDT)
 Received: from [10.119.17.153] ([89.101.193.67])
  by smtp.gmail.com with ESMTPSA id
- n27-20020a05600c3b9b00b003b4764442f0sm10355406wms.11.2022.09.13.03.27.35
+ o37-20020a05600c33a500b003a5bd5ea215sm11961357wmp.37.2022.09.13.03.28.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Sep 2022 03:27:35 -0700 (PDT)
-Message-ID: <f6993ee3-5797-fd3d-8f27-fbc16043ed3a@linaro.org>
-Date: Tue, 13 Sep 2022 11:27:33 +0100
+ Tue, 13 Sep 2022 03:28:29 -0700 (PDT)
+Message-ID: <991ffbda-6833-4706-88bd-ec409ee237d5@linaro.org>
+Date: Tue, 13 Sep 2022 11:28:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 32/37] target/i386: implement XSAVE and XRSTOR of AVX
- registers
+Subject: Re: [PATCH 33/37] target/i386: Enable AVX cpuid bits when using TCG
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: Paul Brook <paul@nowt.org>
 References: <20220911230418.340941-1-pbonzini@redhat.com>
- <20220911230418.340941-33-pbonzini@redhat.com>
+ <20220911230418.340941-34-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220911230418.340941-33-pbonzini@redhat.com>
+In-Reply-To: <20220911230418.340941-34-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -95,13 +96,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/12/22 00:04, Paolo Bonzini wrote:
-> +    if (rfbm & XSTATE_YMM_MASK) {
-> +        if (xstate_bv & XSTATE_BNDREGS_MASK) {
-> +            do_xrstor_ymmh(env, ptr, ra);
+> From: Paul Brook<paul@nowt.org>
+> 
+> Include AVX, AVX2 and VAES in the guest cpuid features supported by TCG.
+> 
+> Signed-off-by: Paul Brook<paul@nowt.org>
+> Message-Id:<20220424220204.2493824-40-paul@nowt.org>
+> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
+> ---
+>   target/i386/cpu.c | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
 
-Paste-o on second line.
-
-Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
