@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC7565B7796
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 19:19:55 +0200 (CEST)
-Received: from localhost ([::1]:47152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B754F5B7969
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 20:27:15 +0200 (CEST)
+Received: from localhost ([::1]:37012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY9Zi-0005jx-Gc
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 13:19:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49274)
+	id 1oYAcs-0002oD-SC
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 14:27:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY9Vd-0003sG-G0
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 13:15:41 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36830)
+ (Exim 4.90_1) (envelope-from <titusr@google.com>) id 1oYAXT-0004eC-Nt
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 14:21:39 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:36430)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY9Vb-0005GA-Oo
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 13:15:41 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id h8so14908940wrf.3
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 10:15:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=txo6rVtBe+vrMnCLxLgsg4qNFWL6t0wwr1oI+Hn/AmU=;
- b=zV1QWE8SW4848HW1cN58skt78vQcF5e1eyM4dSJPwp83m7VulhZryQiBQQrh7e48MD
- +gS/ts7A8UxZP0fjdzDZERIfKUE3k5348jwbLgdizqsjPIy9ySrpqXTF62ea7D+btXO9
- E37VHkaE92oo+nUv/jmstUfgInl10qTh+00JTiPrXUoLj+LrQY+zY7s8SbjBSbeJ8zTJ
- ChpKYSI4bqqh2htDeq3wntNaxZEsp8PhCsVVgtZjUTT1k3qTI+Fs0aIiy4sqh9LoyDPm
- na5dcYJEHNV83fi2wod76GI768oCMtsYg49QVgpwopuNwYkFp340Zohp5KSTrJ0uM0VS
- LcWQ==
+ (Exim 4.90_1) (envelope-from <titusr@google.com>) id 1oYAXQ-0007No-8H
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 14:21:38 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id y136so12556487pfb.3
+ for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 11:21:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=73X7tjK24eyeMwRo5SkXom90dYm0sSUaWjd90OYmkp4=;
+ b=Qu/O/4Kr8m6ElbRpxlxnefVOk/lX2UhgY0DLxyzrY9Bv/ghlq8l+ZPjczTCRIBt5bm
+ ZzJkHyKIgR5ilKgSgDV4Jdh8yKmj2Q1tNtOgd5rN2nBzeg9h3bCFjOuj081YUHg5Zfsl
+ nTyT9QYIyTl3XbdyFTigmganhtMbhY4mV0IpDCWNusuB9T1kQPlHbKW35XYdqJV+ISLD
+ DS1UD4vBHITC8QHq0ZJ2bljgy+eTzoDurWmyX/N4Ej5USqkWBE/o5KFb1NH/U5eWD3fs
+ YedpQmBmCNcEnTmfJSU09emmO3rIOv0qranI0OjTkIh3ZXrWklCAVjof2imhBO0O1P1R
+ lLog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=txo6rVtBe+vrMnCLxLgsg4qNFWL6t0wwr1oI+Hn/AmU=;
- b=FXb+BsYOywm/skVJP6Gz4jKe5EuJUpZMgTJ3IlQF5ASNQXKp4YSufUXuLby0ePDQNm
- 6jA+UMXUWTYyGAb1d94LrN8lyK3jT+HkOQwKHLlnSGXCGcv5JfmOsU3ABk9Sa+ACV5hN
- OciRRyI/2hUkEOFtQBGwHiXVpT0eo6faZ9WuaYOt7snLb8FElEIqnsI+CmfKc/7hG0V0
- EqB239/20bkfIFlAlVCrxalnnhr+iF6odfpb/8HrOX7o1y6iPlgDSUoqXvky8ToLlQdP
- 8eTm02Wdp5EsPtY7pHO17S/qvfA2JAgjzvzfhzQBio5oaS09NysA3sYC4YFCPQe5G5Ew
- tb/Q==
-X-Gm-Message-State: ACgBeo1zarJ/RIARAGJ3fwYPyNzD0aK9mb/WnErLHYIz9aQF+SclBoe8
- Po2HG6Mzc3AR4f7doUqMWIcieQ==
-X-Google-Smtp-Source: AA6agR4ApgpySGfayLss9SKr1ic4e5doGBDfhJEXhX3/m6YtdE4046p+QG1dPh9phYEunK8/XvqmUg==
-X-Received: by 2002:adf:a28e:0:b0:22a:7428:3b04 with SMTP id
- s14-20020adfa28e000000b0022a74283b04mr7987935wra.75.1663089337768; 
- Tue, 13 Sep 2022 10:15:37 -0700 (PDT)
-Received: from [10.119.17.153] ([89.101.193.66])
- by smtp.gmail.com with ESMTPSA id
- w7-20020a5d4b47000000b0022860e8ae7csm11231028wrs.77.2022.09.13.10.15.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Sep 2022 10:15:37 -0700 (PDT)
-Message-ID: <a9e073e6-08ed-06cf-561e-6f99e2be674d@linaro.org>
-Date: Tue, 13 Sep 2022 18:15:34 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=73X7tjK24eyeMwRo5SkXom90dYm0sSUaWjd90OYmkp4=;
+ b=mhG7apVVnOVzoP9Pmocvyl6q7OSVjVCw9piqr8EJvqN1k/RsOurkyof3l9krg/CPl9
+ hLBirI+MWoG9vz+IYutuNrUXd7LKAPnGCkrMXGxDatWXJZijTShEbueBmVN3N4f1+YxA
+ RPEr2ZMaEaidu72ZooX0uVA9jT9Xts/Eg1OH2CD9CFQU634tdmQrgA1VPSP8pjTNMM/R
+ rgXpfDI0gdBmpedfKLMJTJYN0ejb1EdZcDmPqsdz9vF5FN3uOUutziKZzPcy5TAACsyB
+ yTe+MG1MYNYynjfsvnCU+0eah04nAabCSQlmnDNmDJnEVlKiuMsVHEEdAIhxffk0miAU
+ D21w==
+X-Gm-Message-State: ACgBeo3DqaZweD36kGKivRe9vMv64te52lRbDs2/2upJd2w5ohmn8dXz
+ s4N24BXo4PTLIUYRaIEUFazOkfelwFxcSMfHi7e7PA==
+X-Google-Smtp-Source: AA6agR46E5m6LtlN/c8jDmcA5myZHY7DFPd/9Qy6YmFe8biQgfZoKOCg+xGhLDvgdCRO2nwnAGmrzm4/aotVY0KAdxw=
+X-Received: by 2002:a63:e055:0:b0:438:cd8e:f263 with SMTP id
+ n21-20020a63e055000000b00438cd8ef263mr13539787pgj.378.1663093293725; Tue, 13
+ Sep 2022 11:21:33 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 0/2] target/m68k: fix two writes to %sr
-Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-Cc: laurent@vivier.eu
-References: <20220913142818.7802-1-richard.henderson@linaro.org>
- <5880ddb1-3a7c-139d-3833-9902b98caf01@ilande.co.uk>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <5880ddb1-3a7c-139d-3833-9902b98caf01@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.628,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220906220552.1243998-1-titusr@google.com>
+ <YxuZ95ppk9lZ/23g@pdel-fedora-MJ0HJWH9>
+In-Reply-To: <YxuZ95ppk9lZ/23g@pdel-fedora-MJ0HJWH9>
+From: Titus Rwantare <titusr@google.com>
+Date: Tue, 13 Sep 2022 11:20:57 -0700
+Message-ID: <CAMvPwGqjfRrvx7uv0PNQK14VMbjf1wEK_w2LaELL02f91srWBA@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/3] Initial PECI bus support
+To: Peter Delevoryas <peter@pjd.dev>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, patrick@stwcx.xyz, 
+ iwona.winiarska@intel.com, tmaimon77@gmail.com, quic_jaehyoo@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=titusr@google.com; helo=mail-pf1-x42c.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,15 +83,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/13/22 17:29, Mark Cave-Ayland wrote:
-> Possibly it might be worth including a tidied-up version of the "WIP: target/m68k: always 
-> exit_tb when changing sr with andi/ori/eori" commit from that branch which is also related 
-> to switching between supervisor and user modes under MacOS. Shall I tidy it up and send it 
-> to the list?
+On Fri, 9 Sept 2022 at 12:54, Peter Delevoryas <peter@pjd.dev> wrote:
+>
+> On Tue, Sep 06, 2022 at 10:05:49PM +0000, Titus Rwantare wrote:
+...
+> >
+> > This is something that can also be extended as other parameters arise that need
+> > to differ between platforms. So far you can have have different CPUs, DIMM counts,
+> > DIMM temperatures here. These fields can also be adjusted at runtime through qmp.
+>
+> That looks good to me, seems like the standard way to do it in QEMU.
+>
+> >
+> > A lot of the registers are hard coded, see hw/peci/peci-client.c. I'd like to
+> > gauge interest in what potential users would like to be adjustable at runtime.
+> > I've not written QEMU models that read config files at runtime, something I'd
+> > appreciate guidance on.
+>
+> This part I don't totally understand. I also barely know anything about
+> PECI.
+>
+> Is the register location for things different between CPU generations?
 
-I peeked at the patch in your tree, and it looks good.
-By inspection, strldsr needs to exit the TB as well.
+Some things seem to move between generations and others don't move, someone at
+Intel would know better than I do.
 
 
-r~
+
+> If so (and I expect it probably is), why is there only a configuration
+> for Sapphire Rapids, and not for the other ones?
+>
+> Is that because of PECI protocol changes between generations?
+
+I haven't dug into the other machines because of internal demand, but
+I've found that
+with newer generations, more features get used in addition to existing
+ones. It's
+possible these features existed on older machines.
+
+
+
+> In which case, maybe there needs to be a notion of PECI version
+> somewhere?
+>
+> Also, I don't understand why it would be adjustable at runtime, do we
+> change register locations during execution?
+>
+> I would expect it to be part of the board definition.
+>
+> You could provide a bunch of sample configs for the CPU's that you're
+> testing for, and the board configuration could just select the sample
+> config it is using (corresponding to the CPU model).
+>
+> That's the model I would imagine, but I might be missing some important
+> context here.
+
+I think it would be nice to have additional registers at runtime, at
+the time of writing,
+I don't know how much of the internal workings of Sapphire Rapids
+Intel is willing to
+share publicly. If users are free to separately define registers, I
+don't then get to
+worry about this. e.g. I'd like to simulate errors from the memory controllers.
+
+
+
+Titus
 
