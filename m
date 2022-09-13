@@ -2,57 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0401C5B6B37
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 11:55:37 +0200 (CEST)
-Received: from localhost ([::1]:34600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B2AC5B6AFC
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 11:44:35 +0200 (CEST)
+Received: from localhost ([::1]:60150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY2df-0001Dt-HS
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 05:55:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45480)
+	id 1oY2T4-0002N6-7U
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 05:44:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leohou163@163.com>) id 1oY2ZU-0006mq-4J
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 05:51:14 -0400
-Received: from m13193.mail.163.com ([220.181.13.193]:61000)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <leohou163@163.com>) id 1oY2ZO-0007wY-4b
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 05:51:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=xfMpW
- lM19fLg5DZCChZzeBaWAR0AoCwmZww6zQTqqWQ=; b=l1VEL0G9SleSi5srwHR3r
- wQFmxOOfdywlyYk/sNIMEpYe7pvRqMpe2+10UcQYBNpQXVCnLTn3o0t2dKQvTHxY
- u/jP5DBQXrJbouDLwBDYuRmjpdzDIzyK7fhaigtYvdzvaMGZ0m03OP1c19Df/ZB7
- GahsS9jiH2tg6OXG8wMFl0=
-Received: from leohou163$163.com ( [221.221.157.100] ) by
- ajax-webmail-wmsvr193 (Coremail) ; Tue, 13 Sep 2022 17:35:50 +0800
- (GMT+08:00)
-X-Originating-IP: [221.221.157.100]
-Date: Tue, 13 Sep 2022 17:35:50 +0800 (GMT+08:00)
-From: leohou <leohou163@163.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: suport sr-iov to virtio-net
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210622(1d4788a8)
- MailMasterPC/4.17.3.1009_(Win10_21H1) Copyright (c) 2002-2022
- www.mailtech.cn 163com
-Content-Type: multipart/alternative; 
- boundary="----=_Part_62641_966827958.1663061750240"
+ (Exim 4.90_1) (envelope-from <chigot@adacore.com>)
+ id 1oY2Nm-00071D-D3
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 05:39:06 -0400
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:46810)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <chigot@adacore.com>)
+ id 1oY2Nk-00065u-90
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 05:39:05 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id 202so16762950ybe.13
+ for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 02:39:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=adacore.com; s=google;
+ h=content-transfer-encoding:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date;
+ bh=Vjg83gPWLDPLUQpoQ3Nsq8tnGY8IGQ6USNYzLVULi5k=;
+ b=cjq8VfKkeY94Yq6QoeBu/0k03ufr8EL1ts4fzW5hYjq2mxAmg99lycQxDdQoYSEqHH
+ MTeFeEHIIHd3KfIBa8MdmWtuPfhlb3zdm/wAyEdAK0B9l4RT/GGI7ewj+mJdheluYjEg
+ xuBKiN21DoCiShDUvKey/L4azqbs2mbg9J3cWU/F36avzXmfalh3lT38XEaTYtMauml9
+ eoGd7T/NqZXu7PuPqD0DtriZA/+4BtRok/l7ql0zW5ZBuGAOv5PpMF/7z+Rys0j6/IEZ
+ SgHvC7b2s3WvlDKXdpv/IcjL2JOoVDefReGBI5b3oRAZQlqCaMJy1EZyetUTD4wRPgO8
+ ueOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=Vjg83gPWLDPLUQpoQ3Nsq8tnGY8IGQ6USNYzLVULi5k=;
+ b=HicBnztKPnzf7KC7pq18MQDClg7tb95t3ZH466YueEJiZ1YB4SqJAnNdeOO2hfM/T0
+ 8ApJp/RilyZqmAYAdGFdrpz7JWee9LU2dmvOrZbTeBuixqetb4jTfCTmwIPlE+eszha5
+ jGLrLfc+QxIJ3ImNPrnDfpIi+cAbfY8vjttoKtKMz+9rD+9M51N3/u/v9avcjFuILkj5
+ R0i4hMh+Ry0xMExrJl29dfiMvGWyQmCsyfVs5cFNAo0H7nnNuI4Kno+KBAQPam8FNDwg
+ 9vdjXgL16bg5eTYaIwl/5NQXPNrCUkhNRJShpxjbj0RB4qzDicsfoySevDeXyJUfnvXk
+ rTJA==
+X-Gm-Message-State: ACgBeo2Dm1eeIPOM0pkxkOM530idEX15wQn4KQauQhjQCGQtWdiHBcgG
+ YCoUvuAwcrtfxjUoqN/GOth4YmBnMb1VHJCXm87vlX0ZnfhAlg==
+X-Google-Smtp-Source: AA6agR4t6uf+gYBVUABjB4ibkwKI2gZ88Ft4/AuRu3ae0jmPV0YDDc+yq3aMUvCeWOnVlMeH9cTbTa9FHdxzDD90P6U=
+X-Received: by 2002:a25:d506:0:b0:6ae:cdd4:8149 with SMTP id
+ r6-20020a25d506000000b006aecdd48149mr10911233ybe.306.1663061940677; Tue, 13
+ Sep 2022 02:39:00 -0700 (PDT)
 MIME-Version: 1.0
-Message-ID: <4e7380df.52cf.183363471e0.Coremail.leohou163@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: wcGowAAHF3v2TiBjEMBPAA--.63300W
-X-CM-SenderInfo: xohrx0jxrwjqqrwthudrp/1tbiFRl7Pl5mMjIeUgABs8
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
-Received-SPF: pass client-ip=220.181.13.193; envelope-from=leohou163@163.com;
- helo=m13193.mail.163.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+From: =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
+Date: Tue, 13 Sep 2022 11:38:50 +0200
+Message-ID: <CAJ307Ej5stZr6fPsLROFBkmtg=uzkG50yVVY6=Ru6LTLQzae5A@mail.gmail.com>
+Subject: Question about loading bare metal firmware
+To: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=chigot@adacore.com; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,37 +81,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------=_Part_62641_966827958.1663061750240
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Hi all,
 
-aGkgYWxsLAogICAgICAgIEkgd2FudCB0byBzdXBwb3J0IHNyLWlvdiB0byB2aXJ0aW8tbmV0LCBI
-b3cgYWJvdXQgdGhpcyBmZWF0dXJlPwoK
-------=_Part_62641_966827958.1663061750240
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: base64
+I'm wondering if there is an official way to load bare metal software
+within qemu emulations.
+I've seen a lot of people (including us) using -kernel. However, the
+doc seems to imply that the generic loader would be a better approach
+(cf [1]). I know that the compatibility with older Qemus is one of the
+reasons why -kernel is still highly used. I've also seen that the
+reset vector can be initialized automatically by -kernel unlike with
+the generic loader (this is the case with RiscV AFAICT).
+But is there any kind of official recommendation on that topic ?
 
-PGh0bWw+CjxoZWFkPgogICAgPG1ldGEgaHR0cC1lcXVpdj0iQ29udGVudC1UeXBlIiBjb250ZW50
-PSJ0ZXh0L2h0bWw7IGNoYXJzZXQ9VVRGLTgiPgo8L2hlYWQ+Cjxib2R5Pgo8c3R5bGU+CiAgICBm
-b250ewogICAgICAgIGxpbmUtaGVpZ2h0OiAxLjY7CiAgICB9CiAgICB1bCxvbHsKICAgICAgICBw
-YWRkaW5nLWxlZnQ6IDIwcHg7CiAgICAgICAgbGlzdC1zdHlsZS1wb3NpdGlvbjogaW5zaWRlOwog
-ICAgfQo8L3N0eWxlPgo8ZGl2IHN0eWxlPSJmb250LWZhbWlseTrlvq7ova/pm4Xpu5EsVmVyZGFu
-YSwmcXVvdDtNaWNyb3NvZnQgWWFoZWkmcXVvdDssU2ltU3VuLHNhbnMtc2VyaWY7Zm9udC1zaXpl
-OjE0cHg7IGxpbmUtaGVpZ2h0OjEuNjsiPgogICAgPGRpdj48ZGl2PgogICAgPGRpdj4KICAgICAg
-ICA8ZGl2IHN0eWxlPSJmb250LWZhbWlseTogJ01pY3Jvc29mdCBZYUhlaSBVSScsIFRhaG9tYTsg
-Zm9udC12YXJpYW50LWxpZ2F0dXJlczogbm9ybWFsOyBvcnBoYW5zOiAyOyB3aWRvd3M6IDI7IGJh
-Y2tncm91bmQtY29sb3I6IHJnYigyNTUsIDI1NSwgMjU1KTsiPmhpIGFsbCw8L2Rpdj48ZGl2IHN0
-eWxlPSJmb250LWZhbWlseTogJ01pY3Jvc29mdCBZYUhlaSBVSScsIFRhaG9tYTsgZm9udC12YXJp
-YW50LWxpZ2F0dXJlczogbm9ybWFsOyBvcnBoYW5zOiAyOyB3aWRvd3M6IDI7IGJhY2tncm91bmQt
-Y29sb3I6IHJnYigyNTUsIDI1NSwgMjU1KTsiPiZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyBJIHdhbnQgdG8gc3VwcG9ydCBzci1pb3YgdG8gdmlydGlvLW5ldCwgSG93
-IGFib3V0IHRoaXMgZmVhdHVyZT88L2Rpdj48c3Bhbj4KICAgICAgICAgICAgCiAgICAgICAgPC9z
-cGFuPgogICAgPC9kaXY+CiAgICA8ZGl2PgogICAgICAgIDxzcGFuPgogICAgICAgICAgICA8YnI+
-CiAgICAgICAgPC9zcGFuPgogICAgPC9kaXY+CiAgICA8ZGl2IGlkPSJudGVzLXBjbWFjLXNpZ25h
-dHVyZSIgc3R5bGU9ImZvbnQtZmFtaWx5Oiflvq7ova/pm4Xpu5EnIj4KICAgICAgICAKICAgICAg
-ICA8ZGl2IHN0eWxlPSJmb250LXNpemU6MTRweDsgcGFkZGluZzogMDsgIG1hcmdpbjowOyI+Cgog
-ICAgICAgIDwvZGl2PgogICAgPC9kaXY+CjwvZGl2PjwvZGl2PjwhLS3wn5iALS0+CjwvZGl2Pgo8
-L2JvZHk+CjwvaHRtbD4=
-------=_Part_62641_966827958.1663061750240--
+I'm asking that because a recent change in RiscV Polarfire Soc is
+forcing -dtb to be passed along -kernel. But in case of bare board
+software, -dtb isn't needed (at least in our use case).
+I've a patch that allows "-dtb" to be missing with "-kernel" only if
+"-bios none" is provided. But I'm not sure if this is the right way to
+say "it's a bare board software".
 
+@Bin Meng you're the one that added this -kernel support in PolarFire
+Soc. Thus, is my approach looking good for you or do you have a better
+one in mind ?
+
+[1] https://www.qemu.org/docs/master/system/qemu-manpage.html#hxtool-8
+
+Thanks,
+Cl=C3=A9ment
 
