@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5695B6942
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 10:13:21 +0200 (CEST)
-Received: from localhost ([::1]:50832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8243E5B696C
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 10:22:20 +0200 (CEST)
+Received: from localhost ([::1]:49802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY12m-0007vM-PJ
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 04:13:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57124)
+	id 1oY1BT-0004pL-Jv
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 04:22:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY0vA-0003Kb-MH
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:05:36 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:53891)
+ id 1oY0wo-0003hb-RZ
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:07:10 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:45765)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY0v8-0000GY-1T
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:05:27 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id e18so2715407wmq.3
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 01:05:22 -0700 (PDT)
+ id 1oY0wj-0000RN-HK
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:07:10 -0400
+Received: by mail-wr1-x432.google.com with SMTP id bj14so19395077wrb.12
+ for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 01:07:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=BLW+P3vLpbPzmJgxVpMiF/Iyl6sDujOSockIGi5HjyY=;
- b=aQR0zEiTwDCCkudW2yMoD3AvQwR1S/WrHWnAhZXQaDv+CoJxa8obur2ucmmjLQuQw9
- JLU1RWbGPAIlZFvOM1t8V1HeJjPSkcoKr8OhDmbw66+9RsSsuPRrxwNAxzCuFgDtV++H
- tmA7X7Tt7aL9OjyfgVznPlXAbIfYiPiKonmborXjyzQb+ZKSrguRghP5mG+7sG/BoCPx
- iiptNuhawvScvBfA7rjLNXXFVZDmEFAW/jZQsivyuPoUlPdxrWcqkqVxgcbdb3HkU1oG
- SuvaYLgCWyMOmWNOzBGjAi8p4TiWDvdal+MV4PTQBcqc/U4KCJ96F/CIKGvXnMHkVNiV
- pLdA==
+ bh=xzZABD1frPvERQ+RKzNheendwzpgusOBhvXLlp5rTSs=;
+ b=h8Dpt/6f3e3VSNd+KCJ3DCzCh7i25LkoRSOqu5c7Mps2WIGfDT43Y3LBtLf1jN0oNJ
+ RBZLs+6BueHUysdLW9RnUZkTDgAD9QaF7L0dO0kSimTqX3fa9daxhq5yYItsGlxpCgLY
+ jb3DaNGHST/7MYlaqZSBNFLzZcdB6oGxEnbO/+lfA8t628VgBgjPLRzVJJ/4E/QM1W0+
+ TKHLejtl9uG4+g7C/BQvpPS0p4UJfP44/29XP8OZ/svXT/x0/qkZ2v0lL90u3qBdOpmS
+ b+G/uQGsygtVw3gLXPXi19/JIEge5PP+zFbQ7vU090mhSBDetK8yg7vtaiG5RA6buhO/
+ HAHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=BLW+P3vLpbPzmJgxVpMiF/Iyl6sDujOSockIGi5HjyY=;
- b=1xePKuykVqMaqiVofUxv1Uq+EAUXOAo1qQYbcKd+w9ms9KSrrdHfPMyhaGJgSI4V0n
- G7xliBTIgFfVpJLYp42q92eV5UtkT3qbC+4rdCe8x2W5PVMeG1ulogKFmD5/jZhjqGgw
- 7CncAp7+CfpTv9/ZIrDAQRq7kerQuD0NjZM4F20FXzRnF+/5TbtK5n8FQrLdD2niWf8S
- BBCvZ9UM3adsVWYXU5XV8ShYaK3mSwErnYLLh1vcDJn4+8MqZvSQopPKCxN5A6lvcH01
- h7LhjjefZTM9QbBzBFkXWUrTJeDR+XDeGONWvq2kE2aBxXqcdDFxSylvV8UFP8GnAMCM
- q5Jw==
-X-Gm-Message-State: ACgBeo3x8Dm9ya2o2MUBdNhTat1bK4w9E5h+BrPbqevSgzoJf5//06V+
- PS3A3SLS9039zleTA7Wor//ZzA==
-X-Google-Smtp-Source: AA6agR5kIaJdhmQyUv4brP23bkMlOunlbnSg+345sUi1KfT2rPhz/Pi+W+Pg+Nvywm2gHgwt2XzwIQ==
-X-Received: by 2002:a05:600c:1c84:b0:3b3:ef37:afd3 with SMTP id
- k4-20020a05600c1c8400b003b3ef37afd3mr1371324wms.155.1663056321624; 
- Tue, 13 Sep 2022 01:05:21 -0700 (PDT)
+ bh=xzZABD1frPvERQ+RKzNheendwzpgusOBhvXLlp5rTSs=;
+ b=ZMqF4F/7k1vhQglIKH8nCPGtS4C5KwjFwTNkyw+w9tr9jvnf+p8/VvkhDmzWlIZaBX
+ 9rTPjcXtBVPDhIxU0yZ/XQXhauoidcscBVr8A61h+JpuT6tat3PZY324kmJYocjex6OH
+ GR3DPtMJcIcTcoD0st6vjQdER1saXz2PrRGFH0xHblBNPU3eOwZT07nYqwZmbwIyVeGh
+ c54AU8mM76dnc9G6mcP7coMEmlK+GkXWXaVmYe7vTH8XWh/Kf3LnchJKL9wHLFobkDE/
+ p9LlLl+d54vfT6VJPsbLHXNcEClFz3iBX4qdur2yWHfvxBXFcGRrW5thhzF025BDqr8a
+ efLA==
+X-Gm-Message-State: ACgBeo1nOfGaZjO4hcKS8/In3Rycb+tZWmeM6fuDi080kkzIVITh56/I
+ 9EtcAeFNj82ymOzqmXK5dKC6nA==
+X-Google-Smtp-Source: AA6agR58VTvliHDxjnhMPjeXTsQ63H4kWKBAqnkPKB3h/HM52DRy8gn+sIk8S9wZcdq08ayy39lPig==
+X-Received: by 2002:adf:fa08:0:b0:228:c246:2a4b with SMTP id
+ m8-20020adffa08000000b00228c2462a4bmr16611589wrr.630.1663056423937; 
+ Tue, 13 Sep 2022 01:07:03 -0700 (PDT)
 Received: from [10.119.17.153] ([89.101.193.67])
  by smtp.gmail.com with ESMTPSA id
- u2-20020a056000038200b0022a2ca8b284sm11310096wrf.99.2022.09.13.01.05.20
+ o37-20020a05600c33a500b003a5bd5ea215sm11605961wmp.37.2022.09.13.01.06.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Sep 2022 01:05:21 -0700 (PDT)
-Message-ID: <0f79885a-a5f3-313b-16c4-3c4f38edbaca@linaro.org>
-Date: Tue, 13 Sep 2022 09:05:19 +0100
+ Tue, 13 Sep 2022 01:07:02 -0700 (PDT)
+Message-ID: <f19aa90f-8f89-2e2b-ac0d-c090fbda6e6e@linaro.org>
+Date: Tue, 13 Sep 2022 09:06:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v3 17/24] disas/nanomips: Remove CPR function
+Subject: Re: [PATCH v3 18/24] disas/nanomips: Prevent memory leaking
 Content-Language: en-US
 To: Milica Lazarevic <milica.lazarevic@syrmia.com>, thuth@redhat.com
 Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
@@ -68,13 +68,13 @@ Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
  peter.maydell@linaro.org, djordje.todorovic@syrmia.com, mips32r2@gmail.com,
  dragan.mladjenovic@syrmia.com
 References: <20220912122635.74032-1-milica.lazarevic@syrmia.com>
- <20220912122635.74032-18-milica.lazarevic@syrmia.com>
+ <20220912122635.74032-19-milica.lazarevic@syrmia.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220912122635.74032-18-milica.lazarevic@syrmia.com>
+In-Reply-To: <20220912122635.74032-19-milica.lazarevic@syrmia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -98,18 +98,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/12/22 13:26, Milica Lazarevic wrote:
-> CPR functions has been removed.
+> g_autofree attribute is added for every dynamically allocated string to
+> prevent memory leaking.
 > 
-> Before this patch, we'd been calling img_format twice, the first time
-> through the CPR function to get an appropriate string and the second
-> time to print that formatted string. There's no more need for that.
-> Therefore, calls to CPR are removed, and now we're directly printing
-> "CP" and integer value instead.
+> The implementation of the several functions that work with dynamically
+> allocated strings is slightly changed so we can add those attributes.
 > 
 > Signed-off-by: Milica Lazarevic<milica.lazarevic@syrmia.com>
 > ---
->   disas/nanomips.cpp | 110 +++++++++++++++++++--------------------------
->   1 file changed, 45 insertions(+), 65 deletions(-)
+>   disas/nanomips.cpp | 96 ++++++++++++++++++++++++----------------------
+>   1 file changed, 51 insertions(+), 45 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
