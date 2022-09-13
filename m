@@ -2,75 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 132025B75BB
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 17:54:31 +0200 (CEST)
-Received: from localhost ([::1]:51550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50B415B7632
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 18:13:15 +0200 (CEST)
+Received: from localhost ([::1]:53308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY8F3-0005BW-M3
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 11:54:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60856)
+	id 1oY8XB-0002JD-Ub
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 12:13:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY8BQ-0000ad-D7
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 11:50:44 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39539)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY8BB-0006L6-37
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 11:50:44 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id cc5so11649258wrb.6
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 08:50:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=zPgXvBKfJfKdVLVw1MwG7vyTC/gmDC+uf6dtarBonqk=;
- b=EVrQjH9jDMdGKX9O1t9EWc8QgvM7RB3VVDSRWN9fO45AbDo2+4Md1b1DpeTsPSlghZ
- CcmCIBXcErm8dhO/aaX9flANv+O4GOjpbdNOX5vZ8DM/ih+fiAkcHGiG5+Yy9I4YrmcH
- uVUVDvSkzcAafwQ0a3nDsP32SBMm9x+DoIJTL+nN5lJ/y4rVDlvcwuyuhd50axJvGazW
- kEK3+eYLwo0/wB4GGUPCFQVIxiHHVsEsWDZYSUE777YXhVOXiV9CPloUm2iuseHbC9vD
- HhZoZknZCog7pykj+N/qmyao/X/uOh45c7AhjkakPyUbYbe4RE3x08Cluuozgox8W2eB
- mwCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=zPgXvBKfJfKdVLVw1MwG7vyTC/gmDC+uf6dtarBonqk=;
- b=4b/aIkrcDowzC6s5Q+FYHo/FR3cfQkyoeCgdDMNPR0i+eFP6cKXkguZTFcBvA/5VRT
- id4uXclj5Tx+3gDN6nKSV7nuNeAcL5JgfmE7+FoMVO493C8wnT04CHeFNdjpelBXpn3+
- +QAiMZQuIKPgakMZa9+u9DbZHDRubN0cj7Ier2AIqOvAF6MTcDLmxOu3DleJhOrl4lTs
- 51ipz1QdfOtMjXWlqZAt0I9U0ggQ8PzQc3OkjRsjLlmZ8cEpOdIKIOSnC3o0Tcg/GY/p
- lWOAEEv/n0tjZMtqgwBWB1IS+NCJKsb4LUBlily32TzFPSw6mkbXyHnNytzlAiRCdITu
- SdVg==
-X-Gm-Message-State: ACgBeo1X/ymLRHTRWsLyE5REMgnKx/TxaZqlWEDovsFlfYvtq05HsjXD
- +c21a3mOoBbjP3zC12J8IUbH27ff0yAcnbRu
-X-Google-Smtp-Source: AA6agR5LfYAUxsLYbXAuqbpC+AHvdwrdY9mv1n0w9SrNRadOA459QgC933mqzS2DRPpwvI8llmRRjQ==
-X-Received: by 2002:adf:d1cc:0:b0:22a:450c:6208 with SMTP id
- b12-20020adfd1cc000000b0022a450c6208mr11600820wrd.696.1663084218167; 
- Tue, 13 Sep 2022 08:50:18 -0700 (PDT)
-Received: from stoup.. ([89.101.193.68]) by smtp.gmail.com with ESMTPSA id
- b11-20020a05600c4e0b00b003b492753826sm5164972wmq.43.2022.09.13.08.50.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Sep 2022 08:50:17 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org,
-	Idan Horowitz <idan.horowitz@gmail.com>
-Subject: [PATCH] target/arm: Do alignment check when translation disabled
-Date: Tue, 13 Sep 2022 16:49:56 +0100
-Message-Id: <20220913154956.12731-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1oY8LJ-0001b9-2a
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 12:01:08 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:58897)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1oY8LG-0000pp-Ne
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 12:00:56 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id CC1605802D8;
+ Tue, 13 Sep 2022 12:00:51 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Tue, 13 Sep 2022 12:00:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1663084851; x=1663092051; bh=nR
+ H4z7e+oXA2SkZv/m8JgJqSDk7nulXrp2QoWv1YEN4=; b=XM4CuKJtTWDLoARjMU
+ ZEoD6wB5FqnJdSnY3AUy+IO++7ZeMKuIGV7uzlq8uSGUd+dk9chibkWCsvDK8GNY
+ lUXAlf7MPuPfea2V80ipCokGbqWGe90/O4izA17lU44CEqmslzDymGWi8CmFigUv
+ /1pt2fDthxiWGh3J8mgjWfumcmOTyZXvfPJoP6Id6cvvaavU+5xrsA9EhZpt5Euf
+ aywjzWe1+3TbO7Nv8QkUYFPgV+AlIEB+1KFSYXFxjZDIPVazeJogLXHgNC4ex0Ea
+ /IlPGW+cYL0/VjUf6NiNk6Okczw8aRTkqyNAGpU2Ezuj6KQd9nYmPgjUi1it7PhV
+ upFg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1663084851; x=1663092051; bh=nRH4z7e+oXA2SkZv/m8JgJqSDk7n
+ ulXrp2QoWv1YEN4=; b=L9Yl22VBFNLeetc6fSQgTPfXDMKU/Un/Nk3+eIFVPVGM
+ jXoMC62j/pqiRCZhTsfDKXXjDf0pwGuFtuMs1+x5MjSaHS9RqdS4IdUUxa93GbGA
+ kpWwa4xQFzg0GgHggZDoI/hD1+DFTJ8Y554qKeRFdOTrWvQf98vrayUX4L3sBVbf
+ uF2qW1fujBLU6PEAPaHmqdw/urgqhR4LySbsxm1+RXzmoNNVO2rXx1nfscmcdinv
+ GAoZo5+589NE8/kQ5NTX+lIcLX4szCiqfW2jXy0gAXNFnk8Eide20Iu/gvidC+XI
+ 00H5SJY8aaxn8RExcr8e6V6nkwTTQXr4g+Y4SDFVqQ==
+X-ME-Sender: <xms:MakgY8Bb_c1hF-G-V0xWPp6v2tFFK59WYo5RW7yO9_bo81elPeCgoA>
+ <xme:MakgY-isRLK2xNjFVddU3SuO8bJG_C6SNZa4RK15I9d4SP_yc0hvI3va7iWTOsVZo
+ 3FaCARM6L7l1xyd5Zk>
+X-ME-Received: <xmr:MakgY_lm1icemmPyCRuc9L2e_WJ__1iRM-x3EYy78zCdcr1QKV3cVpWOP2lYACbn3DOrxg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedugedgleekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
+ ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
+ grmhgvqeenucggtffrrghtthgvrhhnpeelgffhfeetlefhveffleevfffgtefffeelfedu
+ udfhjeduteeggfeiheefteehjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuve
+ hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirhhilhhl
+ sehshhhuthgvmhhovhdrnhgrmhgv
+X-ME-Proxy: <xmx:MakgYyz6PLeOqvzrzN5MSngKpLn4PepAjtzzW3M8h49ivJQx919_Qg>
+ <xmx:MakgYxTRjdKN_AfcWIfFLJ3MShKx3UaKy8i5hyCqMXeqjxeGHGl_eQ>
+ <xmx:MakgY9aZkKdjYf2ydxmqv_7Rz2mI3q82LHYS_E-o9H-iPrDI0ym8hA>
+ <xmx:M6kgY4M0E0kvqk7pyaWP0fDgJCM7yLnmmneraumr2YriAtgMkDNi7w>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 13 Sep 2022 12:00:49 -0400 (EDT)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+ id CDFF310465E; Tue, 13 Sep 2022 19:00:46 +0300 (+03)
+Date: Tue, 13 Sep 2022 19:00:46 +0300
+From: "Kirill A. Shutemov" <kirill@shutemov.name>
+To: Sean Christopherson <seanjc@google.com>
+Cc: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Hugh Dickins <hughd@google.com>,	Chao Peng <chao.p.peng@linux.intel.com>,
+ kvm@vger.kernel.org,	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org,	Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,	Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,	Jim Mattson <jmattson@google.com>,
+ Joerg Roedel <joro@8bytes.org>,	Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,	Shuah Khan <shuah@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>,	Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>,	"Gupta,
+ Pankaj" <pankaj.gupta@amd.com>, Elena Reshetova <elena.reshetova@intel.com>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <20220913160046.rkz7uh6cpwy6wyzg@box.shutemov.name>
+References: <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
+ <20220818132421.6xmjqduempmxnnu2@box>
+ <c6ccbb96-5849-2e2f-3b49-4ea711af525d@google.com>
+ <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
+ <c194262b-b634-4baf-abf0-dc727e8f1d7@google.com>
+ <20220831142439.65q2gi4g2d2z4ofh@box.shutemov.name>
+ <20220908011037.ez2cdorthqxkerwk@box.shutemov.name>
+ <YyBQ+wzPtGwwRB/U@google.com>
+ <20220913132821.3ch5cv3rgdxqgz3i@box.shutemov.name>
+ <YyCZZSyCrwXLLCD9@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YyCZZSyCrwXLLCD9@google.com>
+Received-SPF: pass client-ip=66.111.4.224; envelope-from=kirill@shutemov.name;
+ helo=new2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,82 +137,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If translation is disabled, the default memory type is Device,
-which requires alignment checking.  Document, but defer, the
-more general case of per-page alignment checking.
+On Tue, Sep 13, 2022 at 02:53:25PM +0000, Sean Christopherson wrote:
+> > > Switching topics, what actually prevents mmapp() on the shim?  I tried to follow,
+> > > but I don't know these areas well enough.
+> > 
+> > It has no f_op->mmap, so mmap() will fail with -ENODEV. See do_mmap().
+> > (I did not read the switch statement correctly at first. Note there are
+> > two 'fallthrough' there.)
+> 
+> Ah, validate_mmap_request().  Thought not implementing ->mmap() was the key, but
+> couldn't find the actual check.
 
-Reported-by: Idan Horowitz <idan.horowitz@gmail.com>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1204
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/helper.c | 38 ++++++++++++++++++++++++++++++++++++--
- 1 file changed, 36 insertions(+), 2 deletions(-)
+validate_mmap_request() is in mm/nommu.c which is not relevant for real
+computers.
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index d7bc467a2a..79609443aa 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -10713,6 +10713,39 @@ ARMMMUIdx arm_mmu_idx(CPUARMState *env)
-     return arm_mmu_idx_el(env, arm_current_el(env));
- }
- 
-+/*
-+ * Return true if memory alignment should be enforced.
-+ */
-+static bool aprofile_require_alignment(CPUARMState *env, int el, uint64_t sctlr)
-+{
-+    /* Check the alignment enable bit. */
-+    if (sctlr & SCTLR_A) {
-+        return true;
-+    }
-+
-+    /*
-+     * If translation is disabled, then the default memory type
-+     * may be Device(-nGnRnE) instead of Normal, which requires that
-+     * alignment be enforced.
-+     *
-+     * TODO: The more general case is translation enabled, with a per-page
-+     * check of the memory type as assigned via MAIR_ELx and the PTE.
-+     * We could arrange for a bit in MemTxAttrs to enforce alignment
-+     * via forced use of the softmmu slow path.  Given that such pages
-+     * are intended for MMIO, where the slow path is required anyhow,
-+     * this should not result in extra overhead.
-+     */
-+    if (sctlr & SCTLR_M) {
-+        /* Translation enabled: memory type in PTE via MAIR_ELx. */
-+        return false;
-+    }
-+    if (el < 2 && (arm_hcr_el2_eff(env) & (HCR_DC | HCR_VM))) {
-+        /* Stage 2 translation enabled: memory type in PTE. */
-+        return false;
-+    }
-+    return true;
-+}
-+
- static CPUARMTBFlags rebuild_hflags_common(CPUARMState *env, int fp_el,
-                                            ARMMMUIdx mmu_idx,
-                                            CPUARMTBFlags flags)
-@@ -10777,8 +10810,9 @@ static CPUARMTBFlags rebuild_hflags_a32(CPUARMState *env, int fp_el,
- {
-     CPUARMTBFlags flags = {};
-     int el = arm_current_el(env);
-+    uint64_t sctlr = arm_sctlr(env, el);
- 
--    if (arm_sctlr(env, el) & SCTLR_A) {
-+    if (aprofile_require_alignment(env, el, sctlr)) {
-         DP_TBFLAG_ANY(flags, ALIGN_MEM, 1);
-     }
- 
-@@ -10871,7 +10905,7 @@ static CPUARMTBFlags rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
- 
-     sctlr = regime_sctlr(env, stage1);
- 
--    if (sctlr & SCTLR_A) {
-+    if (aprofile_require_alignment(env, el, sctlr)) {
-         DP_TBFLAG_ANY(flags, ALIGN_MEM, 1);
-     }
- 
+I was talking about this check:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/mm/mmap.c#n1495
+
 -- 
-2.34.1
-
+  Kiryl Shutsemau / Kirill A. Shutemov
 
