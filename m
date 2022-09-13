@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E2905B7DA8
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 01:44:26 +0200 (CEST)
-Received: from localhost ([::1]:44100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3CE05B7DA7
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 01:44:24 +0200 (CEST)
+Received: from localhost ([::1]:52410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYFZp-0007Pg-93
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 19:44:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55476)
+	id 1oYFZn-0007KR-9l
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 19:44:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=hIhw=ZQ=zx2c4.com=Jason@kernel.org>)
- id 1oYFXc-0004bh-FG
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 19:42:08 -0400
-Received: from ams.source.kernel.org ([145.40.68.75]:55224)
+ id 1oYFXd-0004c9-2T
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 19:42:09 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:48426)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=hIhw=ZQ=zx2c4.com=Jason@kernel.org>)
- id 1oYFXa-0005ef-3n
+ id 1oYFXb-0005et-5M
  for qemu-devel@nongnu.org; Tue, 13 Sep 2022 19:42:08 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 8813EB81183;
- Tue, 13 Sep 2022 23:42:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E410C433D6;
- Tue, 13 Sep 2022 23:41:59 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 8BA87B8118A;
+ Tue, 13 Sep 2022 23:42:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8744AC433D6;
+ Tue, 13 Sep 2022 23:42:02 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
  dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="jPEwifZK"
+ header.b="mT71h/we"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1663112516;
+ t=1663112521;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=SncbfloIKoicgDu1+JUjqKSLcKrEvv7sBWmCUhdIV4I=;
- b=jPEwifZKc2rBO9DEi/d1x0GXVY/Jf9manR590lmT8pNhSX0aUzuGZXug9Rk39CFYeD6sxR
- EGISiS7du1Ev3gBYsIqI3+w1HaBEeStQwNruYlDRv7gI3kSPsGoaHXxBhlQKAqB0iMBmR5
- xex0d5smOWMOCdUftIHqUlNjpy+GrKI=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 2f36b101
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=S0NdGTedj2Uwu3hKr/q8XtZuSVdOKgVx5ePIUIFlf4g=;
+ b=mT71h/weufPsG9bwCCeM1pugkeAC7y3cLoaHYFXrmD0uIdv5nlz3IyktN3KZpP3dyXNjQa
+ Ouwb005gyNXW5T8q6+RYFdfXdqDh3yJt9EzoiaZSJKrkattxAmUTZ6Whxwjeo/vHo07/qA
+ OFgY5BBo3ph9VbCDOogzTCvCKc3Nv5o=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 529e5e05
  (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Tue, 13 Sep 2022 23:41:56 +0000 (UTC)
+ Tue, 13 Sep 2022 23:42:01 +0000 (UTC)
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 To: qemu-devel@nongnu.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, "Michael S . Tsirkin" <mst@redhat.com>,
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Laurent Vivier <laurent@vivier.eu>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- Ard Biesheuvel <ardb@kernel.org>
-Subject: [PATCH v4 1/2] x86: return modified setup_data only if read as memory,
- not as file
-Date: Wed, 14 Sep 2022 00:41:34 +0100
-Message-Id: <20220913234135.255426-1-Jason@zx2c4.com>
+ Ard Biesheuvel <ardb@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v4 2/2] x86: re-enable rng seeding via setup_data
+Date: Wed, 14 Sep 2022 00:41:35 +0100
+Message-Id: <20220913234135.255426-2-Jason@zx2c4.com>
+In-Reply-To: <20220913234135.255426-1-Jason@zx2c4.com>
+References: <20220913234135.255426-1-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=145.40.68.75;
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
  envelope-from=SRS0=hIhw=ZQ=zx2c4.com=Jason@kernel.org;
  helo=ams.source.kernel.org
 X-Spam_score_int: -67
@@ -84,157 +86,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If setup_data is being read into a specific memory location, then
-generally the setup_data address parameter is read first, so that the
-caller knows where to read it into. In that case, we should return
-setup_data containing the absolute addresses that are hard coded and
-determined a priori. This is the case when kernels are loaded by BIOS,
-for example. In contrast, when setup_data is read as a file, then we
-shouldn't modify setup_data, since the absolute address will be wrong by
-definition. This is the case when OVMF loads the image.
+This reverts 3824e25db1 ("x86: disable rng seeding via setup_data"), but
+for 7.2 rather than 7.1, now that modifying setup_data is safe to do.
 
-This allows setup_data to be used like normal, without crashing when EFI
-tries to use it.
-
-(As a small development note, strangely, fw_cfg_add_file_callback() was
-exported but fw_cfg_add_bytes_callback() wasn't, so this makes that
-consistent.)
-
-Cc: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Laurent Vivier <laurent@vivier.eu>
 Cc: Michael S. Tsirkin <mst@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>
 Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Cc: Richard Henderson <richard.henderson@linaro.org>
-Suggested-by: Ard Biesheuvel <ardb@kernel.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 ---
- hw/i386/x86.c             | 37 +++++++++++++++++++++++++++----------
- hw/nvram/fw_cfg.c         | 12 ++++++------
- include/hw/nvram/fw_cfg.h | 22 ++++++++++++++++++++++
- 3 files changed, 55 insertions(+), 16 deletions(-)
+ hw/i386/microvm.c | 2 +-
+ hw/i386/pc_piix.c | 3 ++-
+ hw/i386/pc_q35.c  | 3 ++-
+ 3 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 050eedc0c8..933bbdd836 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -764,6 +764,18 @@ static bool load_elfboot(const char *kernel_filename,
-     return true;
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 52cafa003d..7fe8cce03e 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -332,7 +332,7 @@ static void microvm_memory_init(MicrovmMachineState *mms)
+     rom_set_fw(fw_cfg);
+ 
+     if (machine->kernel_filename != NULL) {
+-        x86_load_linux(x86ms, fw_cfg, 0, true, true);
++        x86_load_linux(x86ms, fw_cfg, 0, true, false);
+     }
+ 
+     if (mms->option_roms) {
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 8043a250ad..0b1a79c0fa 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -439,7 +439,6 @@ static void pc_i440fx_7_2_machine_options(MachineClass *m)
+     m->alias = "pc";
+     m->is_default = true;
+     pcmc->default_cpu_version = 1;
+-    pcmc->legacy_no_rng_seed = true;
  }
  
-+struct setup_data_fixup {
-+    void *pos;
-+    hwaddr val;
-+    uint32_t addr;
-+};
-+
-+static void fixup_setup_data(void *opaque)
-+{
-+    struct setup_data_fixup *fixup = opaque;
-+    stq_p(fixup->pos, fixup->val);
-+}
-+
- void x86_load_linux(X86MachineState *x86ms,
-                     FWCfgState *fw_cfg,
-                     int acpi_data_size,
-@@ -1088,8 +1100,11 @@ void x86_load_linux(X86MachineState *x86ms,
-         qemu_guest_getrandom_nofail(setup_data->data, RNG_SEED_LENGTH);
-     }
+ DEFINE_I440FX_MACHINE(v7_2, "pc-i440fx-7.2", NULL,
+@@ -447,9 +446,11 @@ DEFINE_I440FX_MACHINE(v7_2, "pc-i440fx-7.2", NULL,
  
--    /* Offset 0x250 is a pointer to the first setup_data link. */
--    stq_p(header + 0x250, first_setup_data);
-+    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, prot_addr);
-+    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
-+    fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
-+    sev_load_ctx.kernel_data = (char *)kernel;
-+    sev_load_ctx.kernel_size = kernel_size;
- 
-     /*
-      * If we're starting an encrypted VM, it will be OVMF based, which uses the
-@@ -1099,16 +1114,18 @@ void x86_load_linux(X86MachineState *x86ms,
-      * file the user passed in.
-      */
-     if (!sev_enabled()) {
-+        struct setup_data_fixup *fixup = g_malloc(sizeof(*fixup));
-+
-         memcpy(setup, header, MIN(sizeof(header), setup_size));
-+        /* Offset 0x250 is a pointer to the first setup_data link. */
-+        fixup->pos = setup + 0x250;
-+        fixup->val = first_setup_data;
-+        fixup->addr = real_addr;
-+        fw_cfg_add_bytes_callback(fw_cfg, FW_CFG_SETUP_ADDR, fixup_setup_data, NULL,
-+                                  fixup, &fixup->addr, sizeof(fixup->addr), true);
-+    } else {
-+        fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_ADDR, real_addr);
-     }
--
--    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, prot_addr);
--    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
--    fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
--    sev_load_ctx.kernel_data = (char *)kernel;
--    sev_load_ctx.kernel_size = kernel_size;
--
--    fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_ADDR, real_addr);
-     fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_SIZE, setup_size);
-     fw_cfg_add_bytes(fw_cfg, FW_CFG_SETUP_DATA, setup, setup_size);
-     sev_load_ctx.setup_data = (char *)setup;
-diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-index d605f3f45a..564bda3395 100644
---- a/hw/nvram/fw_cfg.c
-+++ b/hw/nvram/fw_cfg.c
-@@ -692,12 +692,12 @@ static const VMStateDescription vmstate_fw_cfg = {
-     }
- };
- 
--static void fw_cfg_add_bytes_callback(FWCfgState *s, uint16_t key,
--                                      FWCfgCallback select_cb,
--                                      FWCfgWriteCallback write_cb,
--                                      void *callback_opaque,
--                                      void *data, size_t len,
--                                      bool read_only)
-+void fw_cfg_add_bytes_callback(FWCfgState *s, uint16_t key,
-+                               FWCfgCallback select_cb,
-+                               FWCfgWriteCallback write_cb,
-+                               void *callback_opaque,
-+                               void *data, size_t len,
-+                               bool read_only)
+ static void pc_i440fx_7_1_machine_options(MachineClass *m)
  {
-     int arch = !!(key & FW_CFG_ARCH_LOCAL);
++    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pc_i440fx_7_2_machine_options(m);
+     m->alias = NULL;
+     m->is_default = false;
++    pcmc->legacy_no_rng_seed = true;
+     compat_props_add(m->compat_props, hw_compat_7_1, hw_compat_7_1_len);
+     compat_props_add(m->compat_props, pc_compat_7_1, pc_compat_7_1_len);
+ }
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 53eda50e81..a496bd6e74 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -376,7 +376,6 @@ static void pc_q35_7_2_machine_options(MachineClass *m)
+     pc_q35_machine_options(m);
+     m->alias = "q35";
+     pcmc->default_cpu_version = 1;
+-    pcmc->legacy_no_rng_seed = true;
+ }
  
-diff --git a/include/hw/nvram/fw_cfg.h b/include/hw/nvram/fw_cfg.h
-index 0e7a8bc7af..e4fef393be 100644
---- a/include/hw/nvram/fw_cfg.h
-+++ b/include/hw/nvram/fw_cfg.h
-@@ -117,6 +117,28 @@ struct FWCfgMemState {
-  */
- void fw_cfg_add_bytes(FWCfgState *s, uint16_t key, void *data, size_t len);
+ DEFINE_Q35_MACHINE(v7_2, "pc-q35-7.2", NULL,
+@@ -384,8 +383,10 @@ DEFINE_Q35_MACHINE(v7_2, "pc-q35-7.2", NULL,
  
-+/**
-+ * fw_cfg_add_bytes_callback:
-+ * @s: fw_cfg device being modified
-+ * @key: selector key value for new fw_cfg item
-+ * @select_cb: callback function when selecting
-+ * @write_cb: callback function after a write
-+ * @callback_opaque: argument to be passed into callback function
-+ * @data: pointer to start of item data
-+ * @len: size of item data
-+ * @read_only: is file read only
-+ *
-+ * Add a new fw_cfg item, available by selecting the given key, as a raw
-+ * "blob" of the given size. The data referenced by the starting pointer
-+ * is only linked, NOT copied, into the data structure of the fw_cfg device.
-+ */
-+void fw_cfg_add_bytes_callback(FWCfgState *s, uint16_t key,
-+                               FWCfgCallback select_cb,
-+                               FWCfgWriteCallback write_cb,
-+                               void *callback_opaque,
-+                               void *data, size_t len,
-+                               bool read_only);
-+
- /**
-  * fw_cfg_add_string:
-  * @s: fw_cfg device being modified
+ static void pc_q35_7_1_machine_options(MachineClass *m)
+ {
++    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pc_q35_7_2_machine_options(m);
+     m->alias = NULL;
++    pcmc->legacy_no_rng_seed = true;
+     compat_props_add(m->compat_props, hw_compat_7_1, hw_compat_7_1_len);
+     compat_props_add(m->compat_props, pc_compat_7_1, pc_compat_7_1_len);
+ }
 -- 
 2.37.3
 
