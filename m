@@ -2,83 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D9625B7181
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 16:44:11 +0200 (CEST)
-Received: from localhost ([::1]:48182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C1BD5B7272
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 16:56:50 +0200 (CEST)
+Received: from localhost ([::1]:49380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY78z-0004Lp-RL
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 10:44:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37656)
+	id 1oY7LE-0005Ys-Lj
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 10:56:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oY744-0006dH-5F
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 10:39:04 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:45951)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oY740-0000Qv-JZ
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 10:39:03 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- bd26-20020a05600c1f1a00b003a5e82a6474so9634851wmb.4
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 07:38:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=FW3G9iKVzbtM11BiXVg49hEiSllVekZPAdqyciR39Bo=;
- b=sHJTADA0w506HhwSVRG0jNQZX+Y0WUod5wh+7gXfVTdEJOxfNa2gFWt7HJ2g81s5M9
- l/hoEnSHNB73IUm4zVR+EEKzPADIKbTYHAz9f/XsVVOOZ8vj8XFL6ycmCHQcnkLPLBsc
- Dgu2wP6eLpqLdm8fIeL00jOSg1cRxRJU6lpD51N5UGrqe0wd8M3CGv7zR2RHmRKtWHxI
- +TO0ZQEX04d/rAJJiiTF/uzyoHlAnyosyrBBaL1zldEGQZv7GiV/lfZ/RRh+Hh1n6Q43
- 3KCYcB1aOg+NLP2DJHEovOTTt9Vs0BbOXAZyoshSuoNJw/84C9zoiJQ/DpVtWx9wkVYQ
- gaQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=FW3G9iKVzbtM11BiXVg49hEiSllVekZPAdqyciR39Bo=;
- b=cYCETR+3V0Jdbepvs2TOVEuOKGtVZmIfw/8gyWIlwXHet1lN4M8SJSfCcJdTb1CksF
- Vyoe2P2SFAJ5/4PXRTEciSi+4pwiiAPagSnmB3rNRtne7l1OWrEKDwBQweq+ZL3b7M7N
- 2GVTM4VbXVqhIHm7brrC2+//0gZehLPPUs1ppEzRUpG+rsqlQRaUndlXFJcN5ZWWKKzm
- 3KMsRza/86nid54aUaJeHhDN6n527iCx6epk3WPlj+3SpEfPrpmLrsDsMjmtXw4JckzK
- AGiETCNgEqLzyER5jv33Nfx5A2VmFyJnQBqF0ZhVnmkF0x9HFJb0nd4Jw5aurGS4zP9X
- Lwdw==
-X-Gm-Message-State: ACgBeo3DPSUen8tHtgUF7Mt4S44FuURpcpRK0TC9uo3wBcDKzk14s09C
- VjDKPoi1It2/ZeYV3AtclXuOYQj7801Hut9m
-X-Google-Smtp-Source: AA6agR6TxgqrC32y3kVZ4Fko0lBiBqtyA8r7yUYFYwCIZtH/pIN68kpmSyjgCMqYb26z25Sg32rlsw==
-X-Received: by 2002:a1c:f406:0:b0:3a5:d667:10 with SMTP id
- z6-20020a1cf406000000b003a5d6670010mr2723712wma.70.1663079938540; 
- Tue, 13 Sep 2022 07:38:58 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- m7-20020a5d6247000000b002258235bda3sm10841065wrv.61.2022.09.13.07.38.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Sep 2022 07:38:57 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3B2971FFB7;
- Tue, 13 Sep 2022 15:38:57 +0100 (BST)
-References: <CAJ307Ej5stZr6fPsLROFBkmtg=uzkG50yVVY6=Ru6LTLQzae5A@mail.gmail.com>
-User-agent: mu4e 1.9.0; emacs 28.1.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Cl=C3=A9ment?= Chigot <chigot@adacore.com>
-Cc: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
-Subject: Re: Question about loading bare metal firmware
-Date: Tue, 13 Sep 2022 15:35:14 +0100
-In-reply-to: <CAJ307Ej5stZr6fPsLROFBkmtg=uzkG50yVVY6=Ru6LTLQzae5A@mail.gmail.com>
-Message-ID: <87o7vjz6da.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oY7CZ-0007cL-Df
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 10:47:51 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:52401)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oY7CX-000208-Mk
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 10:47:51 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1M597q-1oZDey3sY8-0017jF; Tue, 13 Sep 2022 16:47:41 +0200
+Message-ID: <8a51c3d7-e21d-ba1e-f320-9e17a31d3c09@vivier.eu>
+Date: Tue, 13 Sep 2022 16:47:39 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH 2/2] target/m68k: Perform writback before modifying SR
+Content-Language: fr
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: mark.cave-ayland@ilande.co.uk
+References: <20220913142818.7802-1-richard.henderson@linaro.org>
+ <20220913142818.7802-3-richard.henderson@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220913142818.7802-3-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:Aoi5WY9z/TsnkESAOFcDitoff0Cz6XYZhhdNPVKxFVyPOC1MgMk
+ bs/2PBvW4Ogim6BRWjl/t6eIr9z+K4FModuux/NGOCy79pJQTHUvBQ2I43E8FEzjhLBRXbU
+ yiNn9fY0LAdNI6/VuToiNQwNkgRvWunMESRcDhwsKq25wi1WNydsiVhyq6THveS4+hUCU28
+ 5LPQucYVgKxFn/6Su0aTg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:u/X87c8w2bM=:1Z/+59gj2EJueMtDPaFezN
+ bmnIAlqQzQySiEf00ORIqAmSZDmd8TLISDVFiJdUGLI2mt/ZFBYRA05Dt/98/SqF0lqC/P4p9
+ sJNLA9usOFpVH8dNJmCCpfplYYfz8Qv0eS6L0L/imiE46CLtWLiBd+72Ql30k8ECUklJZdBiz
+ y/wJPEp2UTwnZX+vM1pt3s0GY+sFpXcwfFX0uZvt6b+DKaO8UBrPjgeIg1vgOtd32/tsvvG3/
+ Bq/jJ+paW44Ai+KL6QJrRDxU+ebgqvJocj6akNY6kpn1/nA9hVAPBiUr4mXnFE/3gNITl33Pt
+ h70HAaq8fE0KCye3mz9tZhJp1GIMHWlIVh1AE9t9LJpENgEWV88j8amw361wkd/drn5awsg3s
+ IYNkQjNWbS7LB4mMhu0rflaE2KmxZ4qA09HR8ipbqZM+7TiK4c50Qy3dN4no0T6JgSkFPnQxc
+ ZqpAUszIZHxHq9tuycDSHm0jzOA5LEVycW5scbrjenPM4mcBqldUs4zr0PJBw5EdUB1vDwWwx
+ xi1GnT/sIUaMG9f+8+ODI/fPH9nU9au1lp5UcqLhKRV4tn4c1JqC/kwlSae+9sTgMdNEEuh9P
+ 5zNyE/MMOhv9XmVyRz+WkxzFuzJEaxHjUk8lTtCUdbhNaqTDmZbHFZl0LV81SIXM86b52Ahxw
+ CC7PRIZdMMU3oyE9AOy9IhOyuw/ZtrRPifHv6Fm8OE9K3Iuk6+n/OjosydBQPsqJ7VZ82GqC4
+ nlDuTqISn3RVcJDMJKyqkutKHnBhfCZA/vns3+zJN6+88HLMNmzqdFchsY3rPUQ2upwwY0t8T
+ z1/9afO
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.628,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,42 +75,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Le 13/09/2022 à 16:28, Richard Henderson a écrit :
+> Writes to SR may change security state, which may involve
+> a swap of %ssp with %usp as reflected in %a7.  Finish the
+> writeback of %sp@+ before swapping stack pointers.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1206
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/m68k/translate.c | 8 +++++---
+>   1 file changed, 5 insertions(+), 3 deletions(-)
+> 
 
-Cl=C3=A9ment Chigot <chigot@adacore.com> writes:
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
-> Hi all,
->
-> I'm wondering if there is an official way to load bare metal software
-> within qemu emulations.
-> I've seen a lot of people (including us) using -kernel. However, the
-> doc seems to imply that the generic loader would be a better approach
-> (cf [1]). I know that the compatibility with older Qemus is one of the
-> reasons why -kernel is still highly used. I've also seen that the
-> reset vector can be initialized automatically by -kernel unlike with
-> the generic loader (this is the case with RiscV AFAICT).
-> But is there any kind of official recommendation on that topic ?
-
-The recommendation is in the document you linked. For bare metal use the
-generic loader and make sure you put the blob in the right place so the
-architectural reset vector will jump to it.
-
-> I'm asking that because a recent change in RiscV Polarfire Soc is
-> forcing -dtb to be passed along -kernel. But in case of bare board
-> software, -dtb isn't needed (at least in our use case).
-> I've a patch that allows "-dtb" to be missing with "-kernel" only if
-> "-bios none" is provided. But I'm not sure if this is the right way to
-> say "it's a bare board software".
->
-> @Bin Meng you're the one that added this -kernel support in PolarFire
-> Soc. Thus, is my approach looking good for you or do you have a better
-> one in mind ?
->
-> [1] https://www.qemu.org/docs/master/system/qemu-manpage.html#hxtool-8
->
-> Thanks,
-> Cl=C3=A9ment
-
-
---=20
-Alex Benn=C3=A9e
 
