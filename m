@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 218205B7AB7
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 21:23:03 +0200 (CEST)
-Received: from localhost ([::1]:59120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A288B5B7ABD
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 21:28:17 +0200 (CEST)
+Received: from localhost ([::1]:55502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYBUs-0003aA-9S
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 15:23:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48912)
+	id 1oYBZw-00019s-St
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 15:28:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oYBLn-0008L1-CX
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 15:13:39 -0400
-Received: from mout.gmx.net ([212.227.17.21]:37159)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oYBLy-0000QE-EB
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 15:13:50 -0400
+Received: from mout.gmx.net ([212.227.17.22]:37783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oYBLf-0007el-U8
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 15:13:39 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oYBLf-0007fR-Ty
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 15:13:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1663096405;
- bh=hdJ42ybplqITg2E5Kl2mdXF9WOlHmOsWF08yplJbwKI=;
+ bh=9HKRSmBH0uIQursAz/Lfos/ipwIs650RLsxkMdvi+zc=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=Y7GzL4QfaV042fe9rYRK76eVq56cT/nepqwkZOmmytH0Gtwi9r+/XN3oSEIJYqsif
- XIJwVyHQyFCygmT0FjC+DqqFdjfBvaHvDmtNMhFkQiSicZQhm8PifyCC3/1DN8b921
- AIgZcXrq5eP+daBx/rLurPxjbbBnWWjEitSN3rxY=
+ b=dN33Do1cNNxG1FCyutSc9bnGj5kgoSDU54aU/IWbHNYBAKVPssRMSvtGVdZsjf0o3
+ sBX9J/hiVeaJAhzkwvxV2QLTTUb5RUwCRk4hn+ct20p/bOXzFAYuHPDhzhwXQDto/Y
+ 1pv3HcyuErXGP+8BdLwaZOQfgOt9iZ09zFObkx/E=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from p100.fritz.box ([92.116.190.164]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mgeo8-1pEvgP0Hoy-00h5Ez; Tue, 13
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MXXyJ-1opSQ60sdr-00Z0O6; Tue, 13
  Sep 2022 21:13:25 +0200
 From: Helge Deller <deller@gmx.de>
 To: Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 Cc: deller@gmx.de
-Subject: [PULL 07/12] linux-user: Fix strace of chmod() if mode == 0
-Date: Tue, 13 Sep 2022 21:13:16 +0200
-Message-Id: <20220913191321.96747-8-deller@gmx.de>
+Subject: [PULL 08/12] linux-user/hppa: Set TASK_UNMAPPED_BASE to 0xfa000000
+ for hppa arch
+Date: Tue, 13 Sep 2022 21:13:17 +0200
+Message-Id: <20220913191321.96747-9-deller@gmx.de>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220913191321.96747-1-deller@gmx.de>
 References: <20220913191321.96747-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:1Olp6EPYRrYCix8ILN0lr1tUUp1lH/Fj3F8S3Sbk5PrllI4YCl7
- BU3HASEskRJ/ONgiit41DVWe2cykqkZUdtLa4yLBoef8iWXpRnBgfEeo7ozr36GEEPDFUzU
- Ig6ZiQEfh4ySeQKbevg4y7FRT9wWpNNf5VCKR5bJ6CeX6zmqpWcRFbSfQD5+iC5THz8KJ4m
- bKgai5ILEL1Xe6qAuMolQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:fgUxVMeBU+M=:tCuWD9Gi9AJUMPKORkOVa8
- L6/zCVbF1E2J+vmbIJkU+9CALsg57/no2LgRqjkXLzH7OkaDva/V/lmdfDUAUQGnMxFSGP27W
- lHqVhlp7XoZxZwBzvAxOBfeeMH0lxx3Mt64sAO8TjZLMIpJpdKDf44N9sT4HXQS5sidn1BNkL
- yaZP7RxYbczcEe5lSzmUXyz0OlQdxIhpU803lTLgG/T/ts/fcwhUFWb1bsDVNQ2fxJopDP2dd
- szyRPfQecjyPEyiadCBAKwhH3AbRhasVnmaKminBkoscGnVJt8Lk5WA3RMwlEifCEeP18pSht
- DtVk4zqv759G7xwEc/NAAt5PxDVoeynSapOMmosLeaeec9oYIsCUWtUfbVERnUpkulb5AH8Zo
- 5uOh3XM9Wf30VorF7ShoXr+PRZ8mswuTpWQVGo9nQ8DphoVCfooGsCsR6gGDqGD4qKuhpN/zm
- JeISENvYPEtmdyciL4PoTDtm9zN/G9UFWYnhBp8HCGF2AWXsyVtH1MYaFJNrTXGqSpoazpyb2
- yhiqP4cAS+qrzTLGPhF35swPH8BlTa7lRzs2/oiNtmt+0AND8xF5Mn+cNqSk2w4Zr3muEIRTG
- 9FJAVIV7KLK+9F2rLq1EqAlxL8jUmjPOCxVlFYZDI6MHvMAbPguuNn+o1nilXvgggUMhP80gB
- 3ObbI3G/YF0rgZe8B6UHnns8jx2goftcfeWrSAKJ4rbullU1lKCjMvd3vxR5NgvaN4eHMzCtw
- 9UWlLa+58kbCuRSGT4Urn7Z9p0LjyoF4+5ClnMx/nxHLWiol63eZ8RFMHMbb5qFUNYbfohR5W
- CHA1qM7t+LF9YNHyR9nFJ/LHSE5lqhsWc80omyio1yIQd6jvTQKqxYXdX/3y6jWVi2yN7OKrT
- QPEdHv4a3K8x3DTbXZNshLZt0H40GK/egGmxWKeZssixbzD7Q6XZp66Mj0xQXP/w+FaF2IPcJ
- YlXmQAPcrWVDNNcKPgHNiTdGZ/FXhpdjSCCsxHS6+ERLxCbStombkgI/jzP+/WH2CMoH4rxi7
- n+ZsxcHGWVkwtmwzTMSP8IdkXr/WYAdcWDHgKenAqqHRcHxxXEjhIK01m+2N2CVNTad42jRhN
- +jywEI4BkI5XyMMk0OZHqHlGSzpg08GWDin2ajTKu/IfGWFQL0yWWpWG7IhkoNx0TsLqpe6aI
- 8ziohsnzDcbrA1JgdjRJP6pxMz
-Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:BaB1jCiMvlUM99S/4gpyeypF6Kj8ZwEq7V+wU39vhYmn1O5tsdC
+ DCO3DjKkzF4IG+8BoJagi+ofhQ5wcKWvh9/mrpY8vG1XVbu75lUP5wwwgP0vKeL9T3w4tm9
+ QcqLTChxjOihg/k6vED1GOgidfld579YX7ZnIfyVKQkVNXbgDjMwBX1dst6DBz19DiEUEnT
+ s/6yVTDqRa0xHvR5ZeVdQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:I05aXBCsgro=:vwiamybuLKUYiJWFZYUfQ6
+ NXsB+ddkdN7fRthSjOJMKjGkSrWAgSBpSqns5YA4hJcuKbkR8wali974BQ/1KQV37WWqkVKfH
+ k8iSQpdNfIndgR27Zdyu/MBNoFwqBRqA9CfLXKpH01/lYwFbY9snreY/hfz1ILbO5ipvQa8zE
+ sKoHv/lXqD80kzDdpvNn2XtM1r3SQ4mH3XKiFJ75qiRidgMGrQtETdFXbBWeqdwY3H39j30ro
+ xghj//8sDlZzBocbblzoR83az+OlhXgETghZbSk9A15jsxuJ5QqZjHJBUdSa7n+n8UWzFMPYg
+ sDj2ZnF56f+fka6p7+lLFtl0cfyp5Q3S8m+gm9PEoDrB7h13ZaRonjaKaxrST02dTpqj4pSW4
+ Ia2SA1ikexNS/Ax1lmEPP3Bu7Y8cQdQ06+mRM2SacKWTYwU0rxlrVFwKy/sZ3QDRQ9MXilYcH
+ PEUpahEE3sZdCu1BWe9fa6NEEEEwR7HO69phqVABDfcIjJNbtxk8uS4rAyWrjs1+iF8Zx3CXG
+ DdmuGoILTRJxrkVPI2RWWtXZOCHzU1RQkeZBM5nGItkBEzU+AIJzGaj6xK5kt1OId8joE7vdH
+ W9LMvIxsH7weqG8fAbs0Zy7lHJfRboA2eQwf2pv8GvBqvcz/9wBqIBRk/zWq3ArWCbGkvQddR
+ JnQKgQi/IFruARd0FGmGxLZyAyJtcdZ6n69erUc2rvoU1/J/IGCCt7K8X3rIRxxr+D3X0NGsz
+ f5xIzk/7chopw8dpMA5HnCmKg21JtDVp687uTKUv+ReyU693+1SgRXzEdcHcYlgpqURoIS/v4
+ VSt1hcRUGh9lf76FN4BNs9irBSwVj5hogg8nYh5axCYDRgslzkUpAvhHwYZuZ4SbTxcJYGxSt
+ ydbK/R1+dDItUYl1zhkQLSwxzDTZmyYeUDWzBob3DKCnHJSdbfSGXog9pX5xwh0p1wn2XVkbV
+ CUjugUyNwRgsi/cIDKYiga0beTN8Ohhh1DTELXkaBL0kfspWCmwHSLkYp7imiS1XOjMKlAyln
+ 1+A5gdHphaMJhpkUHe3zBulJlkNmFc8QjHI7yDVIyy5SmR/RpBzHpSINNLRjGUJ+aA5T7as/G
+ 7PO7qyKLzFTmROPSIS4C5xsEQ5vz/aRimRJJQFhfTLNlA25XZ2+BQwxbu55d8KtcU5DdMUQo3
+ Tnc8X9gJm6o32WuTBXD0P5vYXn
+Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, FREEMAIL_FROM=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,33 +86,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the mode parameter of chmod() is zero, this value isn't shown
-when stracing a program:
-    chmod("filename",)
-This patch fixes it up to show the zero-value as well:
-    chmod("filename",000)
+On the parisc architecture the stack grows upwards.
+Move the TASK_UNMAPPED_BASE to high memory area as it's done by the
+kernel on physical machines.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- linux-user/strace.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ linux-user/mmap.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 5ac64df02b..2f539845bb 100644
-=2D-- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -1505,6 +1505,11 @@ print_file_mode(abi_long mode, int last)
-     const char *sep =3D "";
-     const struct flags *m;
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index 048c4135af..dba6823668 100644
+=2D-- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -251,8 +251,12 @@ static int mmap_frag(abi_ulong real_start,
+ # define TASK_UNMAPPED_BASE  (1ul << 38)
+ #endif
+ #else
++#ifdef TARGET_HPPA
++# define TASK_UNMAPPED_BASE  0xfa000000
++#else
+ # define TASK_UNMAPPED_BASE  0x40000000
+ #endif
++#endif
+ abi_ulong mmap_next_start =3D TASK_UNMAPPED_BASE;
 
-+    if (mode =3D=3D 0) {
-+        qemu_log("000%s", get_comma(last));
-+        return;
-+    }
-+
-     for (m =3D &mode_flags[0]; m->f_string !=3D NULL; m++) {
-         if ((m->f_value & mode) =3D=3D m->f_value) {
-             qemu_log("%s%s", m->f_string, sep);
+ unsigned long last_brk;
 =2D-
 2.37.2
 
