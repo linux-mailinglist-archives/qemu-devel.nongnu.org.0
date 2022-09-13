@@ -2,81 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56AB25B6B8D
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 12:24:10 +0200 (CEST)
-Received: from localhost ([::1]:41582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D89385B6BA7
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 12:30:53 +0200 (CEST)
+Received: from localhost ([::1]:35602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY35N-0003ey-0N
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 06:24:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44560)
+	id 1oY3Bt-0000NS-0Y
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 06:30:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oY2yS-0000wO-KG
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 06:17:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53900)
+ (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
+ id 1oY37K-0004Kv-Km
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 06:26:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34927)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oY2yQ-0003cC-OG
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 06:17:00 -0400
+ (Exim 4.90_1) (envelope-from <sbrivio@redhat.com>)
+ id 1oY37E-0005GT-HE
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 06:26:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663064217;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type; bh=inVe8dJWP7LKJfU9nqCSt710wfXhHJdu+160e8XyDjw=;
- b=EvpLu4uS5a82yE6ndo/xAQtf1Q7FkVb/uUY40Cws093XvqGbjEO/2ftagLbCNLLH21AVDm
- C/od/yzOzTQMNlRIuatLz1LOFqsrZ8MHM3SKzztoTFINHBRbDP7MKOtwQKFrBSBlnDsC1y
- Y5tHkh/4cUkS7S9RAiH1mD/ttvlbuJY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-437-RijQZrs8Pn6fddsNtMLfqw-1; Tue, 13 Sep 2022 06:16:56 -0400
-X-MC-Unique: RijQZrs8Pn6fddsNtMLfqw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 203-20020a1c02d4000000b003b499f99aceso146184wmc.1
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 03:16:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:subject:to:from
- :x-gm-message-state:from:to:cc:subject:date;
- bh=inVe8dJWP7LKJfU9nqCSt710wfXhHJdu+160e8XyDjw=;
- b=fu4QqojF3/K+Hu4RVbWjHSaHgqTiOKG7UtdXVNVqJ9Ydfy8AQwH2VNQoYq/XM0lMMT
- a/k/sylEnzwQ84IkoW1DYSWUHbyZg23+sg/tnFqzmLaTxPGiQLBVBmijBJV1mfVZvrhh
- OUmHZNitvy3hI9AtNPLV/h93MrXvytESNHPxQqxjPE/AwvHBFAJGBMsgPSVG1qwXsTQg
- 8DMvo8mLuZ7JsB2YhFv8V2Kc4SW6McqIEoIQ+xd6jAmfIR9NiIFn+M3eoNjz/SMjLFqF
- gTTKi9bRSyq3khXXMACVFbgMMf3TmwyYAtGUBodSYSgw15sWQwRaehbk67Jt3dZ7WrEq
- nhtg==
-X-Gm-Message-State: ACgBeo0D3/LhKTr8GcY6fhs4oae/BdsEtQnEZsdN6hhHEQy+8f4Jqw2Y
- RSYS/5GaB2k+WzD0v4DYl32fdMek6licaDsvC63apnSz913ItwwkeaquUw+CehViOnNKVH/9h1K
- naiz6MQfy/h4s4NE=
-X-Received: by 2002:a05:6000:2ce:b0:226:d420:db7a with SMTP id
- o14-20020a05600002ce00b00226d420db7amr16951089wry.489.1663064214825; 
- Tue, 13 Sep 2022 03:16:54 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5ENAUQ3Vwt5Y5a4zvjhTouitO7g55T2X93uJd8GKG5xTH8WvYCWVmtq8lfIyaozYJxbnUZPg==
-X-Received: by 2002:a05:6000:2ce:b0:226:d420:db7a with SMTP id
- o14-20020a05600002ce00b00226d420db7amr16951080wry.489.1663064214618; 
- Tue, 13 Sep 2022 03:16:54 -0700 (PDT)
-Received: from localhost ([89.101.193.72]) by smtp.gmail.com with ESMTPSA id
- bw2-20020a0560001f8200b00228c483128dsm7402536wrb.90.2022.09.13.03.16.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Sep 2022 03:16:54 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org
-Subject: KVM call for 2022-09-20
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
-Date: Tue, 13 Sep 2022 12:16:52 +0200
-Message-ID: <87illrpoiz.fsf@secure.mitica>
+ s=mimecast20190719; t=1663064761;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zUjxIwyaVR8u9IfJrAGsggGXXT0y+hLR4nMCEzojP9s=;
+ b=DhoWad59UBc/pjKPnWkAgn7TmFdlP2+sJ5OwpLLCUU4it7B7KfZkpMg3kIZmS01m1KgquY
+ wU3UqpG5nxfihxQuJIWuxCd0rJPGWtCaR6fOFWRAqz59o6dPAMA4TIbKNLFsAQ1uo7SHLH
+ 8iD6QM2kKP0nAB8Z7VxTj3qgvgSij+E=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-546-2En8MbgeNWCX5QUJoeAhPQ-1; Tue, 13 Sep 2022 06:24:39 -0400
+X-MC-Unique: 2En8MbgeNWCX5QUJoeAhPQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A1DF2185A7BA;
+ Tue, 13 Sep 2022 10:24:38 +0000 (UTC)
+Received: from maya.cloud.tilaa.com (unknown [10.40.208.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2CF99C15BA4;
+ Tue, 13 Sep 2022 10:24:38 +0000 (UTC)
+Date: Tue, 13 Sep 2022 11:24:31 +0100
+From: Stefano Brivio <sbrivio@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Gregory Kurz <gregory.kurz@free.fr>, "Daniel P.
+ =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>, Eric Blake
+ <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>, Thomas Huth
+ <thuth@redhat.com>, David Gibson <david@gibson.dropbear.id.au>, "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>, Ralph Schmieder
+ <ralph.schmieder@gmail.com>
+Subject: Re: [PATCH v8 00/14] qapi: net: add unix socket type support to
+ netdev backend
+Message-ID: <20220913112431.12d164de@elisabeth>
+In-Reply-To: <20220913064000.79353-1-lvivier@redhat.com>
+References: <20220913064000.79353-1-lvivier@redhat.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sbrivio@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ PDS_OTHER_BAD_TLD=1.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,33 +84,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 13 Sep 2022 08:39:46 +0200
+Laurent Vivier <lvivier@redhat.com> wrote:
 
+> "-netdev socket" only supports inet sockets.
+> 
+> It's not a complex task to add support for unix sockets, but
+> the socket netdev parameters are not defined to manage well unix
+> socket parameters.
+> 
+> As discussed in:
+> 
+>   "socket.c added support for unix domain socket datagram transport"
+>   https://lore.kernel.org/qemu-devel/1C0E1BC5-904F-46B0-8044-68E43E67BE60@gmail.com/
+> 
+> This series adds support of unix socket type using SocketAddress QAPI structure.
+> 
+> Two new netdev backends, "stream" and "dgram" are added, that are barely a copy of "socket"
+> backend but they use the SocketAddress QAPI to provide socket parameters.
+> And then they also implement unix sockets (TCP and UDP).
 
-Hi
+For the series,
 
-Please, send any topic that you are interested in covering.
+Tested-by: Stefano Brivio <sbrivio@redhat.com>
 
-At the end of Monday I will send an email with the agenda or the
-cancellation of the call, so hurry up.
+...specifically, same as v7, the stream-oriented AF_UNIX support, with
+passt (https://passt.top) and its test suite, running qemu (x86_64 KVM,
+and armv6l, armv7l, aarch64, ppc64, ppc64le, s390x TCG) with something
+on the lines of:
 
-After discussions on the QEMU Summit, we are going to have always open a
-KVM call where you can add topics.
+  -device virtio-net-pci,netdev=socket0 -netdev stream,id=socket0,server=off,addr.type=unix,addr.path=...
 
- Call details:
-
-By popular demand, a google calendar public entry with it
-
-https://calendar.google.com/calendar/u/0/r/eventedit/copy/NWR0NWppODdqNXFyYzAwbzYza3RxN2dob3VfMjAyMjA5MjBUMTMwMDAwWiBlZ2VkN2NraTA1bG11MXRuZ3ZrbDN0aGlkc0Bn/anVhbi5xdWludGVsYUBnbWFpbC5jb20?scp=ALL&sf=true
-
-(Let me know if you have any problems with the calendar entry.  I just
-gave up about getting right at the same time CEST, CET, EDT and DST).
-
-If you need phone number details,  contact me privately
-
-Thanks, Juan.
+-- 
+Stefano
 
 
