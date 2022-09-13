@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D7935B7AAF
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 21:19:45 +0200 (CEST)
-Received: from localhost ([::1]:51778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A33485B7AB8
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 21:23:03 +0200 (CEST)
+Received: from localhost ([::1]:59122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYBRg-0005ig-Oc
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 15:19:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48910)
+	id 1oYBUs-0003bL-KH
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 15:23:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oYBLm-0008Go-8f
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oYBLm-0008GS-6G
  for qemu-devel@nongnu.org; Tue, 13 Sep 2022 15:13:38 -0400
-Received: from mout.gmx.net ([212.227.17.21]:51985)
+Received: from mout.gmx.net ([212.227.17.21]:37217)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oYBLf-0007es-TC
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oYBLf-0007ew-TL
  for qemu-devel@nongnu.org; Tue, 13 Sep 2022 15:13:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1663096405;
- bh=a+VzLr3Jr6Stg5DkRL6y+jodPcSdR3H4tkNT2D1+lps=;
+ bh=11LtDJ/FRxnL1hOwc6wuQJsp9XSl32r0mSiKAp9ljjg=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=BM3XmJMtzvK3oib35mS566x9JaQ81ZehfeV5yc73XT7NSkZSUqP/XOy67xDm+obwI
- q0aC0BVR56P6aAP2otMsI6Hf/IpHpIzGCcTIHJCF6i2/loaB/86d3VTT9dTNexXpbO
- Z8RIpFozaDVcCFr66gG6Yi5BduE3flETe7yJupFo=
+ b=NzSh2UuHmZL/Dfg2P2JlKiaSfRoyw2wesVgSZeLOwUSqt+n5BVMMR21eLEmaiJH8H
+ BE9+zJpoJOjiqbi/6xS8Tx9MIzCh4QrC4jrc4USlD8zMlwseUUtFr1kNyiJD+wPx1P
+ lldMIZVpmUkoR+p7S0/TkoMN/03wgOh5HZ4gy/lo=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from p100.fritz.box ([92.116.190.164]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MWici-1onXPZ1iie-00X4qP; Tue, 13
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N79u8-1pNh6n2PZk-017W3h; Tue, 13
  Sep 2022 21:13:25 +0200
 From: Helge Deller <deller@gmx.de>
 To: Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 Cc: deller@gmx.de
-Subject: [PULL 09/12] linux-user: Add strace for clock_nanosleep()
-Date: Tue, 13 Sep 2022 21:13:18 +0200
-Message-Id: <20220913191321.96747-10-deller@gmx.de>
+Subject: [PULL 10/12] linux-user: Show timespec on strace for futex()
+Date: Tue, 13 Sep 2022 21:13:19 +0200
+Message-Id: <20220913191321.96747-11-deller@gmx.de>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220913191321.96747-1-deller@gmx.de>
 References: <20220913191321.96747-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:iPNylO9zymu/eCpdsQDUpaWSkfd0jlCBzmVkhIlMztxPWr56KxX
- m7oPUb3hweYUi+Dzn/qWiSX9MvpbagQSFUKX6Jcson5c9cN7f/+nqBA5l+HHEEHG7jKunyq
- JIsBb/lQ8QgoD/K8IXXPStxz+OnYOXBkbMMzMi/9QqX4dLhrSJ3rT2RzD/sm0uwtt8r9vom
- 9aulI1wORyjkWezbli6pQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5P3xOZsCswg=:VFNGtSv1109o5i/DKcVI/a
- f7UNtaAa3kXRqzUQI9a35CL881UNzqGMuNTK3zsVP6JIDMB+1vAhcZ8L12q4w5OA0d3rJOnaK
- 481W3MymteZsX36UcAy4QYnn/qi2t0q/DX5CCZwg5zwpBhCaztf3hFBCE2TOsUtKajskO4cue
- +dK04F/B6gKDuF/d9/C5vq1PN7GR/La8U2DIYp2p686tuzau7LauawQICl58hs7UNuBBiDqii
- cOBMNEl6tHlDc6rBQ9nIp+PawtrtWwvTJtsWuzhwQgC7fb9//w9TsPDs9GqgTvTusF+vVAPzK
- l1e1i33HlWnrhJXAZk8UK9SaFrQuAJ6SSdBtkbWsM0T58onhgLxd+N1o6BWl/Qw1yTCfht7Fl
- vTU0HJcYB48RmXYu2VsMfNQcXDXRJJAKOXcEout93g+4+yu6/U+pOm2U/LX6/5uUtH0ViXasv
- qKdgfAUogqFNbU0WPHn44PjdGdlwLksCfdBYWts3ZoOx/LzmvRrrVzAYWpGtZrD2fq0kh4te/
- cB+FIW3TgXTLJC6ExOsbtG5EcX+tfh8VH4cyNeesYFh6GK1Xz+OdMWi8hvkQBGLpIT4xOhqTZ
- RoEaigwqWy5D8fzwR4ONYhqLa6GiE0dJoluleNnZejiLIVXYBNleC+vbYRE279XTlXCqzyxuU
- k58B/WB930sAej7oXqivk3SpwwkChT05T0HoJGJA7EYmuz2KpkmSjaVnX/L9Ru63WB4asAjx4
- kl3SngFhajRXjIuGbI30/m9w7t94kwU5JwWxmeVIlCq4F/84knubGsrbb1nXyh0VsWDcaVD1D
- 9+6VugG1gvGEikK7CYH2XIqKNQOlxSM8XTYcTzY1blcOSZZDxy3UxEFtoJW/Av8st58zeak2N
- eKoMTBRfqO2mnzyK5/SQiF43CJWymseRNunf3gdfF4J2adt2OWOv/MezfIgJAlWqYAci2aQZy
- RpB3eRazDRT7FQXDeys56R02JDN0vAnKtgJwHfWo0z2f1hgnXjvlBPfTtNWwWABIH7IF5NB7i
- cQiJjjj327XN03p/DSvYEfuNh7JKRpHHkd3tW8HCGhD/HBaesiwbkxDg4ToNL12cZ5mUsAEz9
- 0ezCovo2vXSLEX7yKkCjL6o3TXJ0C63Xjl3o176GKbDdFD/3TyWcXF8HLJX8SFGe9GGAohmLy
- 2oZovn5bdtME0nJVfggdSLC3AO
+X-Provags-ID: V03:K1:hAuncdms70yxwvNHGMuygil0SpgPD4XaIhrT9T0rjtAF6bzNFnu
+ BrLdD5v+9QjeSmEUw8A9K0zhvCaIgTxd7PnS2B+J/e1DCc2zXVpNMDWyyF3RBn7VNaoGZsf
+ Af7jXrl3JPGNJK4WDhJIn0nu1uhaNsiG4dENH1pZbORodN3KXYGS3ETZItV4826GVmP1Vd3
+ Zdo/K7NTYzLAJP/jooutg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:N6+jsa3cfow=:dwjZNFArF5+DhCTX1faow5
+ OwjA+hKfXXLljnk7d/k5gJtkxNvXPQsuriH2em9tF7VhMK3NKCHIWNUW+oV+1rWHI8I9LmYl7
+ jyFyKBbWTR7oein6/nFYminEFUAWcaxR5Mu4TztBqKAABPF7DquqlRb5C/SJi25uAPHUSCpfo
+ Lb3owl2VUBHr656Lnfhv54h4jnHDOTHlzw4tOXrXVx3wPW8YuVqtAH4VopX6GnlWKilkpqhEf
+ aXwqj4ShcS2LelluIMjnJPtjI1L5llSuxcSQFP9aWXC6udpXXTQtWTJ3PslFPYRPAA2hKJK60
+ q3QslQd36Ja4UXmliRrxYaaLfk3Xty5vVJYzLgHVToKHkhAOOCfhDnW6+5H+PbzCbZ8Lbkxbt
+ 7pwBH0ZfsRCqYMuuESU08geUBrePA2kqbcJesVezOn0y9wFbDa4SYLAnl4sItVdyXiuZAxiZT
+ gO3yByNXb6eJ7PYSyN5JV8WKPkAV7O4JLShFZlJyTCT9KgA0EY8ju/ovYoh1S0k76P9OEKrie
+ sDfXiI67SE56yYZhziQe3xiAVCKnloGVtF5lk8WZ7qbpBoO5bKv1R1xtVivTOOcnTCahPaCrK
+ P0fHModu7+OEeC0bxTCtT6YRz7MRDj1NThMACHVD/lM7TIoMwe5H/z+WV23hA+NIxj14MkNAr
+ Gcp6D5GN4OQAc/u1mS8hfs6ggMasnfddtyqeCTO1UPqqjQUT8W9Deo/a+mDwdY0jsmw2ZlA5Y
+ t2ndL3y+E1DUg1ItESUnRyA7MOlCSNCgBFH9QV7xg6Upv0KQ/ABRRbUs8sXJDJYx9b4aGpCV+
+ TcYW4RMoMeqWu+SF2L0or4F65albgaIAsljCb4oUt0SyEj2SWBm6lgGKyZ6FcJR5K/n79k7Zs
+ JodJ3Onh0ddJ3Ci8riw0wSUjUa5RtIPkGKMW2zn1xq1QO8382pckaosuWIFnb1LlvQhqnyYiY
+ SE22t2xYk/G6mkRLDpOacgpWAOx+/qLbgBdK3Qk0ZoxDJrX5h+YhPmw/V0ZiMdzm5ckM+xUcf
+ XfLt4Y1YjpCqra+pRifygGX5PqwB5cDk4QmDOdfsmDlDThRHrubL0VSjbh+HWCxzqhRslF12x
+ Kpm0zbVgZq+VkKCUxHfcZivhSloEi/UJUaYyRYdVTHSU60BWRnPkhm+uCc8yNdxqceDFIHQ3S
+ abroxyicf0xjDmsd3VLQh+46Zc
 Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
@@ -88,54 +88,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- linux-user/strace.c    | 15 +++++++++++++++
- linux-user/strace.list |  3 ++-
- 2 files changed, 17 insertions(+), 1 deletion(-)
+ linux-user/strace.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 2f539845bb..6f818212d5 100644
+index 6f818212d5..b6b9abaea4 100644
 =2D-- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -3567,6 +3567,21 @@ print_unshare(CPUArchState *cpu_env, const struct s=
-yscallname *name,
- }
- #endif
-
-+#ifdef TARGET_NR_clock_nanosleep
-+static void
-+print_clock_nanosleep(CPUArchState *cpu_env, const struct syscallname *na=
-me,
-+                abi_long arg0, abi_long arg1, abi_long arg2,
-+                abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_enums(clockids, arg0, 0);
-+    print_raw_param("%d", arg1, 0);
-+    print_timespec(arg2, 0);
-+    print_timespec(arg3, 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
- #ifdef TARGET_NR_utime
- static void
- print_utime(CPUArchState *cpu_env, const struct syscallname *name,
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 4d8b7f6a5e..215d971b2a 100644
-=2D-- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -91,7 +91,8 @@
-                            print_syscall_ret_clock_gettime },
- #endif
- #ifdef TARGET_NR_clock_nanosleep
--{ TARGET_NR_clock_nanosleep, "clock_nanosleep" , NULL, NULL, NULL },
-+{ TARGET_NR_clock_nanosleep, "clock_nanosleep" , NULL, print_clock_nanosl=
-eep,
-+                            NULL },
- #endif
- #ifdef TARGET_NR_clock_settime
- { TARGET_NR_clock_settime, "clock_settime" , NULL, print_clock_settime, N=
-ULL },
+@@ -3714,11 +3714,20 @@ print_futex(CPUArchState *cpu_env, const struct sy=
+scallname *name,
+             abi_long arg0, abi_long arg1, abi_long arg2,
+             abi_long arg3, abi_long arg4, abi_long arg5)
+ {
++    abi_long op =3D arg1 & FUTEX_CMD_MASK;
+     print_syscall_prologue(name);
+     print_pointer(arg0, 0);
+     print_futex_op(arg1, 0);
+     print_raw_param(",%d", arg2, 0);
+-    print_pointer(arg3, 0); /* struct timespec */
++    switch (op) {
++        case FUTEX_WAIT:
++        case FUTEX_WAIT_BITSET:
++            print_timespec(arg3, 0);
++            break;
++        default:
++            print_pointer(arg3, 0);
++            break;
++    }
+     print_pointer(arg4, 0);
+     print_raw_param("%d", arg4, 1);
+     print_syscall_epilogue(name);
 =2D-
 2.37.2
 
