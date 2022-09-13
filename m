@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8243E5B696C
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 10:22:20 +0200 (CEST)
-Received: from localhost ([::1]:49802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C2485B694F
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 10:16:34 +0200 (CEST)
+Received: from localhost ([::1]:56014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY1BT-0004pL-Jv
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 04:22:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42696)
+	id 1oY15t-0001vf-OJ
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 04:16:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY0wo-0003hb-RZ
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:07:10 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:45765)
+ id 1oY0x5-0003nA-QF
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:07:28 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:43744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY0wj-0000RN-HK
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:07:10 -0400
-Received: by mail-wr1-x432.google.com with SMTP id bj14so19395077wrb.12
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 01:07:04 -0700 (PDT)
+ id 1oY0x4-0000T8-93
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:07:27 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id t7so19386504wrm.10
+ for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 01:07:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=xzZABD1frPvERQ+RKzNheendwzpgusOBhvXLlp5rTSs=;
- b=h8Dpt/6f3e3VSNd+KCJ3DCzCh7i25LkoRSOqu5c7Mps2WIGfDT43Y3LBtLf1jN0oNJ
- RBZLs+6BueHUysdLW9RnUZkTDgAD9QaF7L0dO0kSimTqX3fa9daxhq5yYItsGlxpCgLY
- jb3DaNGHST/7MYlaqZSBNFLzZcdB6oGxEnbO/+lfA8t628VgBgjPLRzVJJ/4E/QM1W0+
- TKHLejtl9uG4+g7C/BQvpPS0p4UJfP44/29XP8OZ/svXT/x0/qkZ2v0lL90u3qBdOpmS
- b+G/uQGsygtVw3gLXPXi19/JIEge5PP+zFbQ7vU090mhSBDetK8yg7vtaiG5RA6buhO/
- HAHw==
+ bh=1aobuY0RjQP40coRo/9GJEvFVeAla7wFy76/QMrU4RU=;
+ b=VI/zmh9+a+BtGpo8XbVjOB2BO3//0FIvKSSCjwzk4DIgjCBVEnec3ZlZDx6OW1UW1K
+ mYocMUSdmb5kijpWPs1GmkYHiFajuAJDD/GObFvLdm1fBzCRJYK5MkT4iRtVmx6DvY2O
+ dFd1ERq3aQ5/L+aB5z9Wq78iGaBm/nhyu2OX9fqnLz+Ig7tawsI/MxO4hf+aqK2Y/410
+ Epw44lewM0a0vrFcQ7uNIXj69PHc2Mf60AnSQXe3T/MfVSDL6jE0GUP2DDjhI+wVN6pT
+ pu9Tk28IDeevafuifN7RUtd2GJ0mctuV/ppFK/nNqlsbYsDeP3nB9gkJObKcnpVMwe02
+ s8Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=xzZABD1frPvERQ+RKzNheendwzpgusOBhvXLlp5rTSs=;
- b=ZMqF4F/7k1vhQglIKH8nCPGtS4C5KwjFwTNkyw+w9tr9jvnf+p8/VvkhDmzWlIZaBX
- 9rTPjcXtBVPDhIxU0yZ/XQXhauoidcscBVr8A61h+JpuT6tat3PZY324kmJYocjex6OH
- GR3DPtMJcIcTcoD0st6vjQdER1saXz2PrRGFH0xHblBNPU3eOwZT07nYqwZmbwIyVeGh
- c54AU8mM76dnc9G6mcP7coMEmlK+GkXWXaVmYe7vTH8XWh/Kf3LnchJKL9wHLFobkDE/
- p9LlLl+d54vfT6VJPsbLHXNcEClFz3iBX4qdur2yWHfvxBXFcGRrW5thhzF025BDqr8a
- efLA==
-X-Gm-Message-State: ACgBeo1nOfGaZjO4hcKS8/In3Rycb+tZWmeM6fuDi080kkzIVITh56/I
- 9EtcAeFNj82ymOzqmXK5dKC6nA==
-X-Google-Smtp-Source: AA6agR58VTvliHDxjnhMPjeXTsQ63H4kWKBAqnkPKB3h/HM52DRy8gn+sIk8S9wZcdq08ayy39lPig==
-X-Received: by 2002:adf:fa08:0:b0:228:c246:2a4b with SMTP id
- m8-20020adffa08000000b00228c2462a4bmr16611589wrr.630.1663056423937; 
- Tue, 13 Sep 2022 01:07:03 -0700 (PDT)
+ bh=1aobuY0RjQP40coRo/9GJEvFVeAla7wFy76/QMrU4RU=;
+ b=Scpy2TcLEcsUr2oO+LX0Zzjz7FscHbuqNaEjVc1aCBwXNHvxIF5tF/FBl35d5NOi13
+ +OzNbRpXVi8xvpRhrN15xqChYNU4tl9bB6E6AlbPjY+eQbfCN3UnOTu+4AJBeYZm7gCP
+ w/JOmht6bdYEYhQTaVLdVZXDrBROGcjmTd4mcu5b5YIu/HKaPmi8YzUchIzRdxKTXIbg
+ FLwCsug+RQe6ndBN2zXkwrRAZji2d7p3aQ4qrhv8AZbQ3Vy059OK9tuDu8aXXZ2DKjWD
+ HZHMBgpA7YufgVKDv1565BuISbEzPLV7wBw2yfeZMNsSjZcq2RAIod3+VRoQVpBzo8rp
+ WdUQ==
+X-Gm-Message-State: ACgBeo2SMk5G9yvv0iweTBiAZFvipAe7/f3R7eHV5SXjVwywmP3kQ6vR
+ ohe4jYGLrCGaxnWBTslfE17Ypg==
+X-Google-Smtp-Source: AA6agR75UzLxf0CVDDRXK8+qz9jhCO+zXBimX2kV8HqNgIkfcCmvtKR208Cxuegi8WzyJKgfexjqxw==
+X-Received: by 2002:a5d:584f:0:b0:226:edcd:b467 with SMTP id
+ i15-20020a5d584f000000b00226edcdb467mr16553650wrf.363.1663056444587; 
+ Tue, 13 Sep 2022 01:07:24 -0700 (PDT)
 Received: from [10.119.17.153] ([89.101.193.67])
  by smtp.gmail.com with ESMTPSA id
- o37-20020a05600c33a500b003a5bd5ea215sm11605961wmp.37.2022.09.13.01.06.48
+ a16-20020a5d5090000000b00228d8420f57sm9710041wrt.95.2022.09.13.01.07.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Sep 2022 01:07:02 -0700 (PDT)
-Message-ID: <f19aa90f-8f89-2e2b-ac0d-c090fbda6e6e@linaro.org>
-Date: Tue, 13 Sep 2022 09:06:45 +0100
+ Tue, 13 Sep 2022 01:07:24 -0700 (PDT)
+Message-ID: <8556e124-baa4-7722-2a6b-051f88e36fac@linaro.org>
+Date: Tue, 13 Sep 2022 09:07:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v3 18/24] disas/nanomips: Prevent memory leaking
+Subject: Re: [PATCH v3 19/24] disas/nanomips: Remove function overloading
 Content-Language: en-US
 To: Milica Lazarevic <milica.lazarevic@syrmia.com>, thuth@redhat.com
 Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
@@ -68,13 +68,13 @@ Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
  peter.maydell@linaro.org, djordje.todorovic@syrmia.com, mips32r2@gmail.com,
  dragan.mladjenovic@syrmia.com
 References: <20220912122635.74032-1-milica.lazarevic@syrmia.com>
- <20220912122635.74032-19-milica.lazarevic@syrmia.com>
+ <20220912122635.74032-20-milica.lazarevic@syrmia.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220912122635.74032-19-milica.lazarevic@syrmia.com>
+In-Reply-To: <20220912122635.74032-20-milica.lazarevic@syrmia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -98,18 +98,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/12/22 13:26, Milica Lazarevic wrote:
-> g_autofree attribute is added for every dynamically allocated string to
-> prevent memory leaking.
-> 
-> The implementation of the several functions that work with dynamically
-> allocated strings is slightly changed so we can add those attributes.
+> Disassemble function that calls the other variant of it is deleted.
+> Where it is called, now we're directly calling the other implementation.
 > 
 > Signed-off-by: Milica Lazarevic<milica.lazarevic@syrmia.com>
 > ---
->   disas/nanomips.cpp | 96 ++++++++++++++++++++++++----------------------
->   1 file changed, 51 insertions(+), 45 deletions(-)
+>   disas/nanomips.cpp | 7 +------
+>   1 file changed, 1 insertion(+), 6 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
