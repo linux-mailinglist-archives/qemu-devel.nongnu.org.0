@@ -2,86 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090125B681D
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 08:48:07 +0200 (CEST)
-Received: from localhost ([::1]:57574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD39A5B6859
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 09:03:54 +0200 (CEST)
+Received: from localhost ([::1]:42386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXziH-0001rG-6v
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 02:48:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48346)
+	id 1oXzxZ-0005Gk-GC
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 03:03:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oXzNz-0007cm-BZ
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 02:27:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33517)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1oXzg0-0000g0-Ll
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 02:45:48 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:56967)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oXzNw-0000Ka-GU
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 02:27:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663050423;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FQklb5wF3VYzXb0H80IfmXY1E8Sty/Whbx9rSXB+Z90=;
- b=fCjBJM+i5/WOR1KddudUWvnK6kHznYebcDraqtwJYVgPSOeZnU+5XW+6pIiqfGTSORHaTy
- SjGU2brQeCWEEGLzxjp4s4x53XlyOVNwq6oBopVwN8Jf5GAHqFSLrNad3PAMhEiqrpFu7K
- fS3CyGNd6dahEZD6OJ2ik+9KdCDzMrY=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-662-_QgXRdgKMi6BvBRKjGozxA-1; Tue, 13 Sep 2022 02:27:01 -0400
-X-MC-Unique: _QgXRdgKMi6BvBRKjGozxA-1
-Received: by mail-vk1-f199.google.com with SMTP id
- y13-20020a1f320d000000b003a27b2acf97so746329vky.23
- for <qemu-devel@nongnu.org>; Mon, 12 Sep 2022 23:27:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=FQklb5wF3VYzXb0H80IfmXY1E8Sty/Whbx9rSXB+Z90=;
- b=eG8IPjWacsDyv/wrjYT2wbJIXR6BJXrSbBRoZiCX5vUtcU59YJg9ceXC23VzsXgM9N
- GzUHyNU2GbMfHJsy7YYO9TPI3XMDAGdnijeXaZ2+TqlzXMKX0d1m8fJArWdEYcFEHWqv
- dS246Jurw7MLSpivfaLjmJW70uX5RVA43KJGsa4Ivu9k5DwY5qP/Y14OusEYXc0M/fRx
- YVVetnmCw2KtOP9rDeElwYjhi+Pwci3ehqqML57+WoPGN1S0XT/dBXSSsjrEPJbj2D7b
- bwgNyS8EWBbkQhiS/eigKLajjWNdsboP+YYA3AiyAwEWPBpSwYHlrbkr0mWavqzbypQO
- pk2Q==
-X-Gm-Message-State: ACgBeo3blA9nGhqLwyBpNkDRWMxACkZHJ+KX9LSHUxHc1jh3/6fPa6kN
- FcAjoNFjXwZvJLr2/RIK+x4B7H8LebPcEF58q2x35rxDXIRdg+gtAWZTv4xzEdRPOf3FOCeNlZA
- 22RLVvQblVhG8mR1lk1obe+H9OWNIZ3I=
-X-Received: by 2002:a05:6102:a84:b0:357:c234:8041 with SMTP id
- n4-20020a0561020a8400b00357c2348041mr9150971vsg.25.1663050420549; 
- Mon, 12 Sep 2022 23:27:00 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7GLt68/7VS/UJSpk+qSPPnjpaKpOQWJWV2Wyjil64bYwPBgMtVgsYWNNSZOkhQTOn2MbjsL+bLauMqfTmF630=
-X-Received: by 2002:a05:6102:a84:b0:357:c234:8041 with SMTP id
- n4-20020a0561020a8400b00357c2348041mr9150967vsg.25.1663050420371; Mon, 12 Sep
- 2022 23:27:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1oXzfs-0004DI-8z
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 02:45:40 -0400
+Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
+ mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1Mpkwn-1p6ULA0lKf-00q8wN; Tue, 13 Sep 2022 08:40:05 +0200
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Gregory Kurz <gregory.kurz@free.fr>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Ralph Schmieder <ralph.schmieder@gmail.com>,
+ Stefano Brivio <sbrivio@redhat.com>
+Subject: [PATCH v8 00/14] qapi: net: add unix socket type support to netdev
+ backend
+Date: Tue, 13 Sep 2022 08:39:46 +0200
+Message-Id: <20220913064000.79353-1-lvivier@redhat.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <cover.1662916759.git.kangjie.xu@linux.alibaba.com>
- <a37c5b1646f8fc4981d842abeb6f85f14fd5d261.1662916759.git.kangjie.xu@linux.alibaba.com>
-In-Reply-To: <a37c5b1646f8fc4981d842abeb6f85f14fd5d261.1662916759.git.kangjie.xu@linux.alibaba.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 13 Sep 2022 14:26:49 +0800
-Message-ID: <CACGkMEuUhGUpsvs285O0wrW5YxbH4OOVsYnPt9C8VQOYSdHG=w@mail.gmail.com>
-Subject: Re: [PATCH v4 09/15] vhost: expose vhost_virtqueue_stop()
-To: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, mst <mst@redhat.com>, 
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- wangyanan55@huawei.com, Heng Qi <hengqi@linux.alibaba.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:/dP/zYSDMqTylbJ7JVL6i8igL0VaFlxhSp+bh+k9l2dVuUJvq7h
+ pK1Ew5qbKJWl1pr8Tu9YNQ99rEsANxDdMkbOSC0yorm1tsW5JeuPQ6wFiOaBf8KqnHgtnHc
+ tejp0fipr0q91TO/hr/IVlptF9lS+SGq8LW5YdEgl7K3rthPXtN+bQFKIc9wvVpSgwggbSB
+ wgrOb/Wy5LfaEgMztu9sg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:uVYZhFh3Ye4=:pe1vt/lyFGlaMvBfhpTgoq
+ Tj5yB/9pf7xS8Af3uiHIXBqKqEAiXSRjDun/c+Qru1RdfznRSfpIx+iNXt59U2LpBJ0w5RzCh
+ 3k/IEap1NMOottG2Ek+3liaVW8dM7t4H2mdSklm/NLDBtjY5ww7DVvbjxRa4ii5/Syf9uOwpX
+ lUB9m3mq3wz2aT02RuOnI8R+4ZIKRDNjQbBNN9arlcv+0TOTQXl4b1eNspUK8pGloBEEnifFF
+ nTPedIT1C28GfZj5UjixD1UVJ96zHkPiELu8CxStFstTV1vDEaG++hA3Ym3HBBMS8o5gdG+wb
+ XTP6cbBdpXNdhVe0ISc12nmBXnB10YbWZ1n8vCu3RW6p6jmGP0kPgBcjcuM9SF9rrRFbCH6cv
+ rba8H0oYRBfaSNTpn00HKM/OMQ+7OOIa4td/Mb9N9Upes478fXQgVnEn4yUANfRTTKKAKgXVR
+ rr4Pfa/YYzVq8zB2UwIBN5P6AxsarCio4e9PTa1yUCideRuJElyrf1TKJ2oTLsveR2dc0r5/r
+ 2ecInxnPpk0OgPjIe8GlabgA/29q9OZsF6JZP0tEvzVOAaiZQ1Mt5PVj5Rw4PZcDxDzheEpLT
+ 8ywpvDv9hQac/NX4wL0zeCgQyBsMom4Y0sinRW3RplxEVM31THdd+gSjHQ+toh0AmW2b9dAHH
+ UTzdSw17pbmc+MAiVLkJrrD68pWxGYYKsw9+sT8/6gbknIAYJpNmfJhvSS5qEx4VLWeoaw8kl
+ pBDfQPFF7ovjhlR2C4bXFZwsMsmVqtDySI9zDlEcOXzCaXeP01rD2prSmhvMamXlMNdiKTUVQ
+ WRUNDTB
+Received-SPF: permerror client-ip=212.227.126.187;
+ envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_FAIL=0.001, SPF_HELO_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,55 +81,159 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 12, 2022 at 1:22 AM Kangjie Xu <kangjie.xu@linux.alibaba.com> wrote:
->
-> Expose vhost_virtqueue_stop(), we need to use it when resetting a
-> virtqueue.
->
-> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-
-Acked-by: Jason Wang <jasowang@redhat.com>
-
-> ---
->  hw/virtio/vhost.c         | 8 ++++----
->  include/hw/virtio/vhost.h | 2 ++
->  2 files changed, 6 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> index 7900bc81ab..5407f60226 100644
-> --- a/hw/virtio/vhost.c
-> +++ b/hw/virtio/vhost.c
-> @@ -1201,10 +1201,10 @@ fail_alloc_desc:
->      return r;
->  }
->
-> -static void vhost_virtqueue_stop(struct vhost_dev *dev,
-> -                                    struct VirtIODevice *vdev,
-> -                                    struct vhost_virtqueue *vq,
-> -                                    unsigned idx)
-> +void vhost_virtqueue_stop(struct vhost_dev *dev,
-> +                          struct VirtIODevice *vdev,
-> +                          struct vhost_virtqueue *vq,
-> +                          unsigned idx)
->  {
->      int vhost_vq_index = dev->vhost_ops->vhost_get_vq_index(dev, idx);
->      struct vhost_vring_state state = {
-> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-> index b092f57d98..2b168b2269 100644
-> --- a/include/hw/virtio/vhost.h
-> +++ b/include/hw/virtio/vhost.h
-> @@ -281,6 +281,8 @@ int vhost_device_iotlb_miss(struct vhost_dev *dev, uint64_t iova, int write);
->
->  int vhost_virtqueue_start(struct vhost_dev *dev, struct VirtIODevice *vdev,
->                            struct vhost_virtqueue *vq, unsigned idx);
-> +void vhost_virtqueue_stop(struct vhost_dev *dev, struct VirtIODevice *vdev,
-> +                          struct vhost_virtqueue *vq, unsigned idx);
->
->  void vhost_dev_reset_inflight(struct vhost_inflight *inflight);
->  void vhost_dev_free_inflight(struct vhost_inflight *inflight);
-> --
-> 2.32.0
->
-
+"-netdev socket" only supports inet sockets.=0D
+=0D
+It's not a complex task to add support for unix sockets, but=0D
+the socket netdev parameters are not defined to manage well unix=0D
+socket parameters.=0D
+=0D
+As discussed in:=0D
+=0D
+  "socket.c added support for unix domain socket datagram transport"=0D
+  https://lore.kernel.org/qemu-devel/1C0E1BC5-904F-46B0-8044-68E43E67BE60@g=
+mail.com/=0D
+=0D
+This series adds support of unix socket type using SocketAddress QAPI struc=
+ture.=0D
+=0D
+Two new netdev backends, "stream" and "dgram" are added, that are barely a =
+copy of "socket"=0D
+backend but they use the SocketAddress QAPI to provide socket parameters.=0D
+And then they also implement unix sockets (TCP and UDP).=0D
+=0D
+Some examples of CLI syntax:=0D
+=0D
+  for TCP:=0D
+=0D
+  -netdev stream,id=3Dsocket0,addr.type=3Dinet,addr.host=3Dlocalhost,addr.p=
+ort=3D1234=0D
+  -netdev stream,id=3Dsocket0,server=3Doff,addr.type=3Dinet,addr.host=3Dloc=
+alhost,addr.port=3D1234=0D
+=0D
+  -netdev dgram,id=3Dsocket0,\=0D
+          local.type=3Dinet,local.host=3Dlocalhost,local.port=3D1234,\=0D
+          remote.type=3Dinet,remote.host=3Dlocalhost,remote.port=3D1235=0D
+=0D
+  for UNIX:=0D
+=0D
+  -netdev stream,id=3Dsocket0,addr.type=3Dunix,addr.path=3D/tmp/qemu0=0D
+  -netdev stream,id=3Dsocket0,server=3Doff,addr.type=3Dunix,addr.path=3D/tm=
+p/qemu0=0D
+=0D
+  -netdev dgram,id=3Dsocket0,\=0D
+          local.type=3Dunix,local.path=3D/tmp/qemu0,\=0D
+          remote.type=3Dunix,remote.path=3D/tmp/qemu1=0D
+=0D
+  for FD:=0D
+=0D
+  -netdev stream,id=3Dsocket0,addr.type=3Dfd,addr.str=3D4=0D
+  -netdev stream,id=3Dsocket0,server=3Doff,addr.type=3Dfd,addr.str=3D5=0D
+=0D
+  -netdev dgram,id=3Dsocket0,local.type=3Dfd,addr.str=3D4=0D
+=0D
+v8:=0D
+  - test ipv4 and ipv6 parameters (stream inet)=0D
+  - test abstract parameter (stream unix)=0D
+  - add SocketAddressInet supported parameters in qemu-options.hx=0D
+    (only stream, supported by the move to QIO)=0D
+  - with qio_channel_writev() replace (ret =3D=3D -1 && errno =3D=3D EAGAIN=
+)=0D
+    by (ret =3D=3D QIO_CHANNEL_ERR_BLOCK)=0D
+=0D
+v7:=0D
+  - add qtests=0D
+  - update parameters table in net.json=0D
+  - update socket_uri() and socket_parse()=0D
+=0D
+v6:=0D
+  - s/netdev option/-netdev option/ PATCH 4=0D
+  - s/=C2=A0/ /=0D
+  - update @NetdevStreamOptions and @NetdevDgramOptions comments=0D
+  - update PATCH 4 description message=0D
+  - add missing return in error case for unix stream socket=0D
+  - split socket_uri() patch: move and rename, then change content=0D
+=0D
+v5:=0D
+  - remove RFC prefix=0D
+  - put the change of net_client_parse() into its own patch (exit() in the=
+=0D
+    function)=0D
+  - update comments regarding netdev_is_modern() and netdev_parse_modern()=
+=0D
+  - update error case in net_stream_server_init()=0D
+  - update qemu-options.hx with unix type=0D
+  - fix HMP "info network" with unix protocol/server side.=0D
+=0D
+v4:=0D
+  - net_client_parse() fails with exit() rather than with return.=0D
+  - keep "{ 'name': 'vmnet-host', 'if': 'CONFIG_VMNET' }" on its=0D
+    own line in qapi/net.json=0D
+  - add a comment in qapi/net.json about parameters usage=0D
+  - move netdev_is_modern() check to qemu_init()=0D
+  - in netdev_is_modern(), check for JSON and use qemu_opts_do_parse()=0D
+    to parse parameters and detect type value.=0D
+  - add a blank line after copyright comment=0D
+=0D
+v3:=0D
+  - remove support of "-net" for dgram and stream. They are only=0D
+    supported with "-netdev" option.=0D
+  - use &error_fatal directly in net_client_inits()=0D
+  - update qemu-options.hx=0D
+  - move to QIO for stream socket=0D
+=0D
+v2:=0D
+  - use "stream" and "dgram" rather than "socket-ng,mode=3Dstream"=0D
+    and ""socket-ng,mode=3Ddgram"=0D
+  - extract code to bypass qemu_opts_parse_noisily() to=0D
+    a new patch=0D
+  - do not ignore EINVAL (Stefano)=0D
+  - fix "-net" option=0D
+=0D
+CC: Ralph Schmieder <ralph.schmieder@gmail.com>=0D
+CC: Stefano Brivio <sbrivio@redhat.com>=0D
+CC: Daniel P. Berrang=C3=A9 <berrange@redhat.com>=0D
+CC: Markus Armbruster <armbru@redhat.com>=0D
+=0D
+Laurent Vivier (13):=0D
+  net: introduce convert_host_port()=0D
+  net: remove the @errp argument of net_client_inits()=0D
+  net: simplify net_client_parse() error management=0D
+  qapi: net: introduce a way to bypass qemu_opts_parse_noisily()=0D
+  qapi: net: add stream and dgram netdevs=0D
+  net: stream: add unix socket=0D
+  net: dgram: make dgram_dst generic=0D
+  net: dgram: move mcast specific code from net_socket_fd_init_dgram()=0D
+  net: dgram: add unix socket=0D
+  qemu-sockets: move and rename SocketAddress_to_str()=0D
+  qemu-sockets: update socket_uri() and socket_parse()  to be consistent=0D
+  net: stream: move to QIO=0D
+  tests/qtest: netdev: test stream and dgram backends=0D
+=0D
+Stefano Brivio (1):=0D
+  net: stream: Don't ignore EINVAL on netdev socket connection=0D
+=0D
+ hmp-commands.hx             |   2 +-=0D
+ include/net/net.h           |   6 +-=0D
+ include/qemu/sockets.h      |   4 +-=0D
+ monitor/hmp-cmds.c          |  23 +-=0D
+ net/clients.h               |   6 +=0D
+ net/dgram.c                 | 707 ++++++++++++++++++++++++++++++++++++=0D
+ net/hub.c                   |   2 +=0D
+ net/meson.build             |   2 +=0D
+ net/net.c                   | 169 ++++++---=0D
+ net/stream.c                | 376 +++++++++++++++++++=0D
+ qapi/net.json               |  63 +++-=0D
+ qemu-options.hx             |  14 +=0D
+ softmmu/vl.c                |  16 +-=0D
+ tests/qtest/meson.build     |   1 +=0D
+ tests/qtest/netdev-socket.c | 391 ++++++++++++++++++++=0D
+ util/qemu-sockets.c         |  25 ++=0D
+ 16 files changed, 1725 insertions(+), 82 deletions(-)=0D
+ create mode 100644 net/dgram.c=0D
+ create mode 100644 net/stream.c=0D
+ create mode 100644 tests/qtest/netdev-socket.c=0D
+=0D
+-- =0D
+2.37.3=0D
+=0D
 
