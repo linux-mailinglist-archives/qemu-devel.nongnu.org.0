@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CDFE5B6792
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 07:59:37 +0200 (CEST)
-Received: from localhost ([::1]:45194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E33135B67A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 08:11:05 +0200 (CEST)
+Received: from localhost ([::1]:49220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXyxL-0002Ni-W8
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 01:59:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40936)
+	id 1oXz8S-0005M5-I9
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 02:11:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oXyvA-0000wY-Qk
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 01:57:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45505)
+ id 1oXz3r-000360-38
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 02:06:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32271)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oXyv7-00044m-06
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 01:57:18 -0400
+ id 1oXz3n-0005Uj-QK
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 02:06:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663048631;
+ s=mimecast20190719; t=1663049174;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=RG/6QYUHYQrimrqyHe4Nfxm4SheqHESRLD8uZ3CZw7Q=;
- b=ibtBdTj07DsenrcO5SdlcZE2ridvJdRlcI04OO3zF15nW9h/GL/ybrZ3Pn9dY4B/xz9fQW
- N6qgyd38s89Eyvtpc21ZXFUKeN1JzeyswznQwII+xQDzJWhkH+CDI1jIhXipRydzm3TqZN
- +mtaLbmiE5VtfObT67PTiZM10DRuN4s=
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Qv78+5tmczIN9e8IMR5pPraeCmO5MZuxovaYm8jFjM8=;
+ b=dFc0La1qR54vWmpflCCCZcc6aEJeMQ430qe/b7YqhakcTOsPbePbix7Y5I0gp+aFAyuoJq
+ AGVz3ukw3MPfWHdYEqbe+jn1wQOWktzhpg3Y0nOKfQrY8uYUC8REka1kI5H+rmvwaHp1JR
+ Z91ppJz3ybSbSlD4teIdrcXeFn/IKoU=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-61-uQZKX-bANw-4GF_Wea9gmw-1; Tue, 13 Sep 2022 01:57:09 -0400
-X-MC-Unique: uQZKX-bANw-4GF_Wea9gmw-1
-Received: by mail-vk1-f197.google.com with SMTP id
- e196-20020a1f1ecd000000b003a27f3f8d05so599274vke.21
- for <qemu-devel@nongnu.org>; Mon, 12 Sep 2022 22:57:09 -0700 (PDT)
+ us-mta-602-NBcL6EOjORuHgyOYkAEnoA-1; Tue, 13 Sep 2022 02:06:12 -0400
+X-MC-Unique: NBcL6EOjORuHgyOYkAEnoA-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ h19-20020ab01353000000b00392f0767f64so3340048uae.17
+ for <qemu-devel@nongnu.org>; Mon, 12 Sep 2022 23:06:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=RG/6QYUHYQrimrqyHe4Nfxm4SheqHESRLD8uZ3CZw7Q=;
- b=OKNEozelADFukPBokxnpAK3pA/01DqamPNg2FVumhy+l1p+3RI8Qe2u3E+wwY7St56
- LPU97CMjCuhUh8GgI8FU+RQc5cwlCLOtF/c1H0AQOmMRqcWmeoSe+8FnurseQC+73RM7
- YOMU5WpiLO1QswX/kB7XzvI7Us3a3BvALXFTDhmj2pMMAL+74/NpMFdiIKG2J33G+vH3
- O50qESJNiAPtb/QYklpdk6xgpDfG1AXaX837TBzmr7OgMrAwuyPfD0H6cYSbLft1wz/H
- FbaepeAHMQvuWuCOy4pNeFiYTTgvKzB6BfXltMnwYoX48q74rP0QbMy73mjA0hNGRJDc
- nwpw==
-X-Gm-Message-State: ACgBeo29Ng0Jv8Vgscjg5xkAeg/pnEH9cEyTw0G+sXvyo39n8lbORZZY
- SXYSQbiWknXnh6I+NbDQNCWUMRTJzWkDmJIDFU5gD0OB0mI0xtx0E/PV5Y5TNlVX9p+k97WynPY
- l8tpqrU5Dnc/P3Mgs/70Ja1EmLvjxJlg=
-X-Received: by 2002:a67:6283:0:b0:398:8bb1:6ea4 with SMTP id
- w125-20020a676283000000b003988bb16ea4mr2316764vsb.38.1663048629433; 
- Mon, 12 Sep 2022 22:57:09 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4fzlYkLj/fpJuyvTJoUXjRLo49oMyYpQRmf0go1bJwx+qNOA5fxH9CX/5WGobBgX4xYPr6Zj43FLcVCMNq1tE=
-X-Received: by 2002:a67:6283:0:b0:398:8bb1:6ea4 with SMTP id
- w125-20020a676283000000b003988bb16ea4mr2316757vsb.38.1663048629233; Mon, 12
- Sep 2022 22:57:09 -0700 (PDT)
+ bh=Qv78+5tmczIN9e8IMR5pPraeCmO5MZuxovaYm8jFjM8=;
+ b=U4ZeeHRmnsvEZhq8yiL25GiRI5F//6FmTvOF49WaB/PEDzRaM26skElIbNaGj30krY
+ tGDb9r76Bh/cMhchxP/NOKWLQQQE7OqWv7u/2Yb0h75JEKGTjIQgQisXE3CepEh4J1C2
+ 5Qm2+nqhdk9c1RP/o/sLf1WtrjZ+4bQkbPlhuNyawVIyv7iHmP3j/xoNPFr8dIUCTiKN
+ Ib/OUne01NkvFsIgOX1Azj6w/t4oxQKTOjP2z0Bjb97IvCpKInB9620s6adkzUy76ywv
+ AI2lBGkGo6zFqbienJrdI8jExpFevEGj0R99N6KLN02Ch1Bp3JT2CRk/l/j6psNm2UGA
+ ga6Q==
+X-Gm-Message-State: ACgBeo1rmIzuUlsUZRVjd6WwqorbEXZopQzgVWEXYpVAcbrrQ6MWA7KW
+ xGT2lxVK6ax4HgfAr9y0E/pCO9j8JA7ZDXocR5UlI491U0zIE74OwqecYf+Jt0R3k8DQ2VMAyT/
+ DOXvoXPg3pHLvQ8aJIvVFAowv84v2tk4=
+X-Received: by 2002:a05:6102:a84:b0:357:c234:8041 with SMTP id
+ n4-20020a0561020a8400b00357c2348041mr9134848vsg.25.1663049172506; 
+ Mon, 12 Sep 2022 23:06:12 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4prvI0xqNXfEVWWhiOYZcbCUQQ45AOXL4dB5GoQO5DLZubXF9/brn5RKEXuIfDfnjgQAHWN1aP0EJrawadUwo=
+X-Received: by 2002:a05:6102:a84:b0:357:c234:8041 with SMTP id
+ n4-20020a0561020a8400b00357c2348041mr9134845vsg.25.1663049172255; Mon, 12 Sep
+ 2022 23:06:12 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1662916759.git.kangjie.xu@linux.alibaba.com>
- <776e17f969c81d5d0ca3648a39ea8806261eda50.1662916759.git.kangjie.xu@linux.alibaba.com>
-In-Reply-To: <776e17f969c81d5d0ca3648a39ea8806261eda50.1662916759.git.kangjie.xu@linux.alibaba.com>
+ <a1f10987280e3d69c3e86cdfb444e5b4e3e4028d.1662916759.git.kangjie.xu@linux.alibaba.com>
+In-Reply-To: <a1f10987280e3d69c3e86cdfb444e5b4e3e4028d.1662916759.git.kangjie.xu@linux.alibaba.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 13 Sep 2022 13:56:58 +0800
-Message-ID: <CACGkMEtQ0F48uWg=EfUKa7zJAufYTaTZ_ZPEKgFFRne2kbmsuw@mail.gmail.com>
-Subject: Re: [PATCH v4 05/15] virtio: core: vq reset feature negotation support
+Date: Tue, 13 Sep 2022 14:06:00 +0800
+Message-ID: <CACGkMEtALshdrozSft+sA=thJiiNv23Csiy51JMY7vsz0Kteog@mail.gmail.com>
+Subject: Re: [PATCH v4 08/15] vhost: expose vhost_virtqueue_start()
 To: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 Cc: qemu-devel <qemu-devel@nongnu.org>, mst <mst@redhat.com>, 
  Eduardo Habkost <eduardo@habkost.net>,
@@ -73,7 +73,7 @@ Cc: qemu-devel <qemu-devel@nongnu.org>, mst <mst@redhat.com>,
  wangyanan55@huawei.com, Heng Qi <hengqi@linux.alibaba.com>, 
  Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -99,9 +99,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Mon, Sep 12, 2022 at 1:22 AM Kangjie Xu <kangjie.xu@linux.alibaba.com> wrote:
 >
-> A a new command line parameter "queue_reset" is added.
->
-> Meanwhile, the vq reset feature is disabled for pre-7.2 machines.
+> Expose vhost_virtqueue_start(), we need to use it when restarting a
+> virtqueue.
 >
 > Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
@@ -109,40 +108,43 @@ On Mon, Sep 12, 2022 at 1:22 AM Kangjie Xu <kangjie.xu@linux.alibaba.com> wrote:
 Acked-by: Jason Wang <jasowang@redhat.com>
 
 > ---
->  hw/core/machine.c          | 4 +++-
->  include/hw/virtio/virtio.h | 4 +++-
->  2 files changed, 6 insertions(+), 2 deletions(-)
+>  hw/virtio/vhost.c         | 8 ++++----
+>  include/hw/virtio/vhost.h | 3 +++
+>  2 files changed, 7 insertions(+), 4 deletions(-)
 >
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index aa520e74a8..907fa78ff0 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -40,7 +40,9 @@
->  #include "hw/virtio/virtio-pci.h"
->  #include "qom/object_interfaces.h"
+> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> index f758f177bb..7900bc81ab 100644
+> --- a/hw/virtio/vhost.c
+> +++ b/hw/virtio/vhost.c
+> @@ -1081,10 +1081,10 @@ out:
+>      return ret;
+>  }
 >
-> -GlobalProperty hw_compat_7_1[] = {};
-> +GlobalProperty hw_compat_7_1[] = {
-> +    { "virtio-device", "queue_reset", "false" },
-> +};
->  const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
+> -static int vhost_virtqueue_start(struct vhost_dev *dev,
+> -                                struct VirtIODevice *vdev,
+> -                                struct vhost_virtqueue *vq,
+> -                                unsigned idx)
+> +int vhost_virtqueue_start(struct vhost_dev *dev,
+> +                          struct VirtIODevice *vdev,
+> +                          struct vhost_virtqueue *vq,
+> +                          unsigned idx)
+>  {
+>      BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
+>      VirtioBusState *vbus = VIRTIO_BUS(qbus);
+> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+> index a346f23d13..b092f57d98 100644
+> --- a/include/hw/virtio/vhost.h
+> +++ b/include/hw/virtio/vhost.h
+> @@ -279,6 +279,9 @@ int vhost_net_set_backend(struct vhost_dev *hdev,
 >
->  GlobalProperty hw_compat_7_0[] = {
-> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> index 085997d8f3..ed3ecbef80 100644
-> --- a/include/hw/virtio/virtio.h
-> +++ b/include/hw/virtio/virtio.h
-> @@ -295,7 +295,9 @@ typedef struct VirtIORNGConf VirtIORNGConf;
->      DEFINE_PROP_BIT64("iommu_platform", _state, _field, \
->                        VIRTIO_F_IOMMU_PLATFORM, false), \
->      DEFINE_PROP_BIT64("packed", _state, _field, \
-> -                      VIRTIO_F_RING_PACKED, false)
-> +                      VIRTIO_F_RING_PACKED, false), \
-> +    DEFINE_PROP_BIT64("queue_reset", _state, _field, \
-> +                      VIRTIO_F_RING_RESET, true)
+>  int vhost_device_iotlb_miss(struct vhost_dev *dev, uint64_t iova, int write);
 >
->  hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n);
->  bool virtio_queue_enabled_legacy(VirtIODevice *vdev, int n);
+> +int vhost_virtqueue_start(struct vhost_dev *dev, struct VirtIODevice *vdev,
+> +                          struct vhost_virtqueue *vq, unsigned idx);
+> +
+>  void vhost_dev_reset_inflight(struct vhost_inflight *inflight);
+>  void vhost_dev_free_inflight(struct vhost_inflight *inflight);
+>  void vhost_dev_save_inflight(struct vhost_inflight *inflight, QEMUFile *f);
 > --
 > 2.32.0
 >
