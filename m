@@ -2,65 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9414D5B6D66
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 14:37:48 +0200 (CEST)
-Received: from localhost ([::1]:37916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 602685B6D73
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 14:42:49 +0200 (CEST)
+Received: from localhost ([::1]:34620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY5Af-0003rh-JC
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 08:37:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43858)
+	id 1oY5FY-0007bm-Cx
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 08:42:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oY55H-0007xo-Di
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 08:32:11 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:36604 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oY55E-0003LI-KQ
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 08:32:11 -0400
-Received: from [10.20.42.238] (unknown [10.20.42.238])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Bx32s9eCBjESUYAA--.23021S3; 
- Tue, 13 Sep 2022 20:31:57 +0800 (CST)
-Subject: Re: [PATCH v1 0/9] Fix bugs and improve functions for LoongArch
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, maobibo@loongson.cn, imammedo@redhat.com
-References: <20220908094623.73051-1-yangxiaojuan@loongson.cn>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <40e809bf-2f30-6780-7b9c-f53b698d0d4d@loongson.cn>
-Date: Tue, 13 Sep 2022 20:31:57 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oY5Aw-0004E4-Ip
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 08:38:03 -0400
+Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129]:43802)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oY5At-0004ED-Dj
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 08:38:02 -0400
+Received: by mail-lf1-x129.google.com with SMTP id o2so17693217lfc.10
+ for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 05:37:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=JcFUhOoutwqhEG3fEf/nU7w0zN5bCuTtxaopYvsB6kg=;
+ b=vfG3e8jEuFl26LBEddO3TZz3Jfe1tH2efsJ22Qb48n+n51H0VM0pf8wm/xLIpstUVh
+ zqmUSwYsALPstMcoiR0suBgMldXR6VTi3vt+j7k8QvGEnbgoMuSC7Fb5MctZbQ9FXh6s
+ oi2K+KKtM8o3fp7NoAQHMEeIY/vfOSdeATl4imQJug1k56kAn25WYq+BanmimlkyxiMx
+ p6GdcpVX4So/gR/oPHAlYuG8eRkZSleOuNCIN7bd/S4uZtzkh8rLgTmmGjS+oUFpv1c5
+ uROYWw93Kn4OgLervcjYfLqBjFvdOCujR+gRb4EtrWfxCl/Bx91wMX4z3xjI6HPUNntK
+ +yXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=JcFUhOoutwqhEG3fEf/nU7w0zN5bCuTtxaopYvsB6kg=;
+ b=Q+8PEyZK3G8YY/2TSwfbK88Wp4ZHO24ufzCHyOAxzbBfcDQTogRtMrI5IPxXCJnyXN
+ HHF7EyUGi7qj9yH72s0oO9vCBqkQ8l/4X3JSTeiQjcUzRVRAZB40KPE+sqgP3guFO2GP
+ +LhADIbkt5HBG8gP2a0wiecTwWt0e+5Bm2Mi9BwqVN4x4ucn/lUpz/rhsYAgZmWVSElA
+ 95lDVwLu2KWBY9PnU/W43chp4BWJ+CeFVP0wYuSMYkogtb0dbQXkA7D1Rk2XNRks+Sd0
+ r82ssz7jIXd6vzKaxmOmSL3wd0LQanWwLXxh6/MOS+HlZwCt4qtUUEdZHNHr/Tj4AoI0
+ 0hpw==
+X-Gm-Message-State: ACgBeo32kUqUsF+hTvflisgeJEirMhJ4jou2SXIFwCK+As8/NsmdmjiG
+ 9JdwfLEYDd+MHZsKrnTWWr+y2ygGqJfmYj6goEWwxQ==
+X-Google-Smtp-Source: AA6agR4rHZAkzWRDOnju7HeNNzPLrgOgZCUT90vI5oQEl0g0nOsjoa9vnioMnsZvWX5W1+LufPiYW7A8iJK02rxTESA=
+X-Received: by 2002:a05:6512:ac2:b0:49a:2fec:aa4a with SMTP id
+ n2-20020a0565120ac200b0049a2fecaa4amr3870141lfu.348.1663072676330; Tue, 13
+ Sep 2022 05:37:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20220908094623.73051-1-yangxiaojuan@loongson.cn>
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8Bx32s9eCBjESUYAA--.23021S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7Ww4ruF13uF1ftF4fGFWfZrb_yoW8WFyfpF
- W3Zr1ayr4rJrnFy3s3t3sI9rn5Arn7Cr17XFnrtry8CrW7AryFvFn2y3s8Za4UG34xJFWj
- vr1Fkw18WF4UZFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvK1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E
- 87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
- 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
- Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
- ACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAYIcxG8wCY02Avz4vE-syl
- 42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW5Wr1UJr1l4I8I3I0E4IkC6x0Yz7
- v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
- 1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
- AIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
- 42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxh
- VjvjDU0xZFpf9x0JUdHUDUUUUU=
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
- NICE_REPLY_A=-0.628, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+References: <CAJ307Ej5stZr6fPsLROFBkmtg=uzkG50yVVY6=Ru6LTLQzae5A@mail.gmail.com>
+In-Reply-To: <CAJ307Ej5stZr6fPsLROFBkmtg=uzkG50yVVY6=Ru6LTLQzae5A@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 13 Sep 2022 13:37:44 +0100
+Message-ID: <CAFEAcA9v4Mk7oVgL+Z571e-F9AqEAdn6GrgFcgXK7122qfRxnA@mail.gmail.com>
+Subject: Re: Question about loading bare metal firmware
+To: =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::129;
+ envelope-from=peter.maydell@linaro.org; helo=mail-lf1-x129.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,51 +85,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 13 Sept 2022 at 10:44, Cl=C3=A9ment Chigot <chigot@adacore.com> wro=
+te:
+> I'm wondering if there is an official way to load bare metal software
+> within qemu emulations.
+> I've seen a lot of people (including us) using -kernel. However, the
+> doc seems to imply that the generic loader would be a better approach
+> (cf [1]). I know that the compatibility with older Qemus is one of the
+> reasons why -kernel is still highly used. I've also seen that the
+> reset vector can be initialized automatically by -kernel unlike with
+> the generic loader (this is the case with RiscV AFAICT).
+> But is there any kind of official recommendation on that topic ?
 
-ÔÚ 2022/9/8 ÏÂÎç5:46, Xiaojuan Yang Ð´µÀ:
-> These patches integrate all previous patches, including
-> '[PATCH v1 0/2] Add mem hotplug and improve acpi dsdt (26 Aug )',
-> '[PATCH v1] hw/loongarch: Fix acpi ged irq number in dsdt table (19
-> Aug)',
-> '[PATCH v1 0/6] Add funtions for LoongArch virt machine (11 Aug)'.
-> As none of the patches has not been reviewed, so we integrate them for
-> more convenient reviewing.
->
-> Changes for v1:
-> 1. Remove vga device when loongarch init
-> 2. Support fw_cfg dma function
-> 3. Add interrupt information to FDT table
-> 4. Add platform bus support
-> 5. Add hotplug handler for machine
-> 6. Add RAMFB to dynamic_sysbus_devices list
-> 7. Fix acpi ged irq number in dsdt table
-> 8. Support memory hotplug
-> 9. Improve acpi dsdt table
->
-> Xiaojuan Yang (9):
->    hw/loongarch: Remove vga device when loongarch init
->    hw/loongarch: Support fw_cfg dma function
->    hw/loongarch: Add interrupt information to FDT table
->    hw/loongarch: Add platform bus support
->    hw/loongarch: Add hotplug handler for machine
->    hw/loongarch: Add RAMFB to dynamic_sysbus_devices list
->    hw/loongarch: Fix acpi ged irq number in dsdt table
->    hw/loongarch: Support memory hotplug
->    hw/loongarch: Improve acpi dsdt table
->
->   hw/loongarch/Kconfig        |   5 +-
->   hw/loongarch/acpi-build.c   | 191 ++++++++-------------------------
->   hw/loongarch/fw_cfg.c       |   3 +-
->   hw/loongarch/virt.c         | 205 +++++++++++++++++++++++++++++++++++-
->   include/hw/loongarch/virt.h |   2 +
->   include/hw/pci-host/ls7a.h  |   5 +
->   6 files changed, 259 insertions(+), 152 deletions(-)
->
-This series.
+I dunno if it's officially written down, but "-kernel" is the
+"do what I mean" option, which is mostly intended to be "I am
+a Linux kernel, load me accordingly", plus some odds and ends of
+"do something sensible" for other formats.
 
-Acked-by: Song Gao <gaosong@loongson.cn>
+For bare metal code you are almost always better off using something
+else. There are two options:
+(1) if the machine type supports -bios or -pflash type options,
+you can use those for "load this binary blob into the flash/ROM"
+(which is presumably where the CPU will start executing from on
+reset). This is generally good for "here is a firmware image"
+type use cases.
 
-Thanks.
-Song Gao
+(2) the "generic loader"
+https://www.qemu.org/docs/master/system/generic-loader.html
+This will load the specified file (which can be an ELF file)
+anywhere you like. It's probably what you want for "random
+bare-metal test case code that expects to be loaded into RAM",
+for instance.
 
+> I'm asking that because a recent change in RiscV Polarfire Soc is
+> forcing -dtb to be passed along -kernel. But in case of bare board
+> software, -dtb isn't needed (at least in our use case).
+> I've a patch that allows "-dtb" to be missing with "-kernel" only if
+> "-bios none" is provided. But I'm not sure if this is the right way to
+> say "it's a bare board software".
+
+I would say that you should probably not be using -kernel for this.
+On the other hand, most other board models don't insist on the -dtb
+being passed in even if you are booting a Linux kernel.
+
+-- PMM
 
