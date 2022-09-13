@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 182B05B70E8
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 16:34:26 +0200 (CEST)
-Received: from localhost ([::1]:47096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF9735B70F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 16:40:02 +0200 (CEST)
+Received: from localhost ([::1]:54866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY6zX-0000ll-JE
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 10:34:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50680)
+	id 1oY74z-0007Jq-Vr
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 10:40:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY6tp-0003qR-S7
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 10:28:29 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:37458)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oY6zs-0001X5-VM
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 10:34:54 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:39828)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY6tn-0006y3-G9
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 10:28:28 -0400
-Received: by mail-wr1-x433.google.com with SMTP id bq9so21111325wrb.4
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 07:28:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oY6zq-00085b-G3
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 10:34:44 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ bg5-20020a05600c3c8500b003a7b6ae4eb2so13526077wmb.4
+ for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 07:34:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=sw9CQ87TLvgANwDy6abBvcyo5irfX7fP8stttGLcdDM=;
- b=IjSl43sbQbPKI92aqnMoytT9oYVF3syNGCcrgAwKIOwERLCMYVj11siNjrxdfazlNX
- G2+i6807civLmaMlUvC8dA+DElx7nEBnNXz5hq9nd6714pkKAhvkhropUKuaFEJb6CDQ
- z5UNReLJQuDyUU7xVSMII77+m19aPjENpI6IaMJW7OFfzte971vdQAMH/RKLU+M3Gcr1
- Go4906GcJ8/Vv4MuwkmsI1bRep52mKyrvudcgfTps9WlN9k5TqTzGfutWZr8RxsoccnA
- z93Hff6r0hwttYul0wxiCxM9cb0kiSdVh/dj+LvKn5kVD9Mxyyl2Qa4RLXymd4Iw0TQz
- apyA==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
+ bh=XPQHENrQssTlQpOCqgNm/4TM6G5jZv9RDx24bJeM9Bo=;
+ b=sQuSX28tohLi+SRmjF34mEqKzc+jpwGehyWFGD5hbChBTFIoObUQwntFTefOIx9zjL
+ uCGiZtIEXkZxqOBuu8+XUd2ofQ8zMScqTI12TS80OZsUMtSKA2NSYd4wjjVKLVzZGIVi
+ eQFdaiO00aeCNOCgkkxAd+0VrIZzANiSC5x8WaxwHZeZkcmU00i6mcIGuL/gnuMnJQc5
+ rNhjI/Ay6vWwaZTzSHQut1GB3vNe8gLsgyiuAFbY9pJlsZcZV/9dQErRW6aSr+YxqWcR
+ cYrCwOgXWLjJ3azfFQaKfhosGXUJ953b5Kbbgd9LeJsYRb7NXzK5QpPP1vBUqVXYJcPq
+ rvEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=sw9CQ87TLvgANwDy6abBvcyo5irfX7fP8stttGLcdDM=;
- b=eTEKESbNG25JWCYL1fMxXDPrrl64+py775q4I9EkWn6ZKrBAopIWdkDMkZD1pqTVl6
- JSFrEzMKK8Qf53lSkowlX1u+1d3vjteDOGLv5Zna612JqaLwVIYZpQOMHrMNKiV7fHty
- jcgUBzcc4LJEXvrI14mEYoYzEGsK4G7ch+vmpeOU4XNetTknMb03obsxzo4c2oqVj4Qw
- Et6AueYGbrngS72WJMyyAY7zfZjjg4HNviotrNv9TSMlg0YaYBktr/g13sAegDJijtIv
- Ol20XmPy0jxlgXSNsj68a+/FSjgCg5J6JNu+J0p+AqNKQ75i/vxRa/diE2iKA5Xp6rqD
- 2KwA==
-X-Gm-Message-State: ACgBeo3/EkTVKb875RwKQmQfSGF/YYv+DNfutL2gTDiJ0qA/qlu8TV8k
- 5giBr+yB1rlByMPVSY6rGTIMuUllRo01qoMz
-X-Google-Smtp-Source: AA6agR4aRWEzolhGC6PuH5LWZRdYCasbewhwiMJ6G6IIY8xPEnv8yAEu9fqnAvyutQK9zR/lz/TjAQ==
-X-Received: by 2002:a5d:650e:0:b0:228:b09e:de9a with SMTP id
- x14-20020a5d650e000000b00228b09ede9amr19420028wru.360.1663079305627; 
- Tue, 13 Sep 2022 07:28:25 -0700 (PDT)
-Received: from stoup.. ([89.101.193.68]) by smtp.gmail.com with ESMTPSA id
- e17-20020a5d5951000000b00228dc37ce2asm10673165wri.57.2022.09.13.07.28.24
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date;
+ bh=XPQHENrQssTlQpOCqgNm/4TM6G5jZv9RDx24bJeM9Bo=;
+ b=3EsIdzSpfmnDstiy1d3B9q00Nzkik1zaC4S/HGLD2sr9DL9eQGMKvwcu5ZjRiweee5
+ DpIyXCquCv1pextpz1LRAG7bPXOr+PUUtSqlFFb+hoCbQghnqNMr4teBkcKc2pHPvDaQ
+ ZLDeg27cyxUC5nGP96IuGMcWt5rD+yefeaKjO/8Nhl/d8tlZXL/K5JTT2wFqYt2XyRJx
+ MLXtpFMkE6CcepeQAli9XWTFuTtw/x0vjVG5s4deUYpODZJlykgNayULo28beiiLOxFt
+ rKW4MbOgi3jEDr/SGkwBSXFNle0wIeLLJ5EpCMrq7fiIMRggxBz3vc9qA3FjS5g1k6QQ
+ cZmQ==
+X-Gm-Message-State: ACgBeo2IkJ/TD8WK1I5SIdy0u3Cp9VXJfMp59UoJ7vhSBPiHwGsxsN+s
+ XIqGo7Y2p09X3axtgvmSG6/R1Qcqv4SIt4Ce
+X-Google-Smtp-Source: AA6agR7SoYFGnjl/IP9wGi8+0eU4hApxy2yHkwnkZra9LswJegPFHR4BSx0XwFM/82X4ul5qHMb1Cg==
+X-Received: by 2002:a1c:ed0b:0:b0:3a6:30c:12f with SMTP id
+ l11-20020a1ced0b000000b003a6030c012fmr2676046wmh.133.1663079679962; 
+ Tue, 13 Sep 2022 07:34:39 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ z19-20020a1cf413000000b003a5537bb2besm13231949wma.25.2022.09.13.07.34.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Sep 2022 07:28:25 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: laurent@vivier.eu,
-	mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 2/2] target/m68k: Perform writback before modifying SR
-Date: Tue, 13 Sep 2022 15:28:18 +0100
-Message-Id: <20220913142818.7802-3-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220913142818.7802-1-richard.henderson@linaro.org>
-References: <20220913142818.7802-1-richard.henderson@linaro.org>
+ Tue, 13 Sep 2022 07:34:39 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 94B121FFB7;
+ Tue, 13 Sep 2022 15:34:38 +0100 (BST)
+References: <mvmczbzty5j.fsf@suse.de>
+User-agent: mu4e 1.9.0; emacs 28.1.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Andreas Schwab <schwab@suse.de>
+Cc: qemu-devel@nongnu.org
+Subject: Re: qemu-x86_64 runs out of memory
+Date: Tue, 13 Sep 2022 15:33:57 +0100
+In-reply-to: <mvmczbzty5j.fsf@suse.de>
+Message-ID: <87sfkvz6kh.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x433.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,43 +94,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Writes to SR may change security state, which may involve
-a swap of %ssp with %usp as reflected in %a7.  Finish the
-writeback of %sp@+ before swapping stack pointers.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1206
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/m68k/translate.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Andreas Schwab <schwab@suse.de> writes:
 
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index 87044382c3..8506da0a0b 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -2285,9 +2285,9 @@ static void gen_set_sr_im(DisasContext *s, uint16_t val, int ccr_only)
-         tcg_gen_movi_i32(QREG_CC_N, val & CCF_N ? -1 : 0);
-         tcg_gen_movi_i32(QREG_CC_X, val & CCF_X ? 1 : 0);
-     } else {
--        TCGv sr = tcg_const_i32(val);
--        gen_helper_set_sr(cpu_env, sr);
--        tcg_temp_free(sr);
-+        /* Must writeback before changing security state. */
-+        do_writebacks(s);
-+        gen_helper_set_sr(cpu_env, tcg_constant_i32(val));
-     }
-     set_cc_op(s, CC_OP_FLAGS);
- }
-@@ -2297,6 +2297,8 @@ static void gen_set_sr(DisasContext *s, TCGv val, int ccr_only)
-     if (ccr_only) {
-         gen_helper_set_ccr(cpu_env, val);
-     } else {
-+        /* Must writeback before changing security state. */
-+        do_writebacks(s);
-         gen_helper_set_sr(cpu_env, val);
-     }
-     set_cc_op(s, CC_OP_FLAGS);
--- 
-2.34.1
+> $ cat mmap.c
+> #include <stdio.h>
+> #include <sys/mman.h>
+>
+> int
+> main (void)
+> {
+>   void *A;
+>   size_t L =3D 0, U, Max =3D 0;
+>   for (U =3D 1; ; U *=3D 2)
+>     {
+>       A =3D mmap (0, U, PROT_NONE, MAP_PRIVATE | MAP_ANONYMOUS | MAP_NORE=
+SERVE, -1, 0);
+>       if (A =3D=3D (void *) -1)
+> 	break;
+>       else
+> 	munmap (A, U);
+>     }
+>   while (L + 1 < U)
+>     {
+>       size_t M =3D L + (U - L) / 2;
+>       A =3D mmap (0, M, PROT_NONE, MAP_PRIVATE | MAP_ANONYMOUS | MAP_NORE=
+SERVE, -1, 0);
+>       if (A =3D=3D (void *) -1)
+> 	U =3D M;
+>       else
+> 	{
+> 	  Max =3D M;
+> 	  munmap(A, M);
+> 	  L =3D M;
+> 	}
+>     }
+>   printf ("%zx\n", Max);
+> }
+> $ cc -O2 -g -Wall -std=3Dgnu11 -g     mmap.c   -o mmap
+> $ ./mmap=20
+> 7f672e5ff000
+> $ qemu-x86_64 ./mmap
+> Killed
 
+This is probably the same as bug: https://gitlab.com/qemu-project/qemu/-/is=
+sues/967
+
+--=20
+Alex Benn=C3=A9e
 
