@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2551A5B694A
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 10:15:47 +0200 (CEST)
-Received: from localhost ([::1]:58430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC5695B6942
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 10:13:21 +0200 (CEST)
+Received: from localhost ([::1]:50832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY157-0000wf-LZ
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 04:15:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42528)
+	id 1oY12m-0007vM-PJ
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 04:13:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY0tR-00031Y-Gc
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:03:47 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:44962)
+ id 1oY0vA-0003Kb-MH
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:05:36 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:53891)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY0tP-0008G6-Ud
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:03:41 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- n17-20020a05600c501100b003a84bf9b68bso8940318wmr.3
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 01:03:39 -0700 (PDT)
+ id 1oY0v8-0000GY-1T
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:05:27 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id e18so2715407wmq.3
+ for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 01:05:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=NRKOVGVZhvnD/0zqzBarvNlDs28XMqSbMS42rOayAu4=;
- b=pqhf8Ttg282Ow+H3nXzZSk/VwZxAjKWmJf6KOtDygC1iX3yRUmrzAEW9YD/Rvas5GI
- +ze9mkmSQdU0aTC9fssgy9hHHDNbnA4JNOdbfMshGDxz8DS2m5stPSdJgJkv8uO/9fcV
- 0Z7kGYbuXYpe4mky8fpb0Y0JGWTEqfSrKkGL2TXKYbbNFIMSq/fck941gdElTbsRxsPT
- 2ZFTqvMMmciJjb0IkrS1tJ3awpVpNNI6n21NjskCBabG83upsoIJS3YFiiXNmSr+J8hM
- PRZj7wP4to9IO/zdrPlLN+MmjsRfoy9aOcgG77XT2HvrOvssNN0M7NNu4L8YXm2dLd/X
- S1wg==
+ bh=BLW+P3vLpbPzmJgxVpMiF/Iyl6sDujOSockIGi5HjyY=;
+ b=aQR0zEiTwDCCkudW2yMoD3AvQwR1S/WrHWnAhZXQaDv+CoJxa8obur2ucmmjLQuQw9
+ JLU1RWbGPAIlZFvOM1t8V1HeJjPSkcoKr8OhDmbw66+9RsSsuPRrxwNAxzCuFgDtV++H
+ tmA7X7Tt7aL9OjyfgVznPlXAbIfYiPiKonmborXjyzQb+ZKSrguRghP5mG+7sG/BoCPx
+ iiptNuhawvScvBfA7rjLNXXFVZDmEFAW/jZQsivyuPoUlPdxrWcqkqVxgcbdb3HkU1oG
+ SuvaYLgCWyMOmWNOzBGjAi8p4TiWDvdal+MV4PTQBcqc/U4KCJ96F/CIKGvXnMHkVNiV
+ pLdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=NRKOVGVZhvnD/0zqzBarvNlDs28XMqSbMS42rOayAu4=;
- b=eyF/Pd9c1702JDjcQVcfSLLW5eq2gOQnPqhQSr3pRLLjWsajPOhxJoSx8fx92KLntf
- oOUnq1q9i0Q7lPHTYWRUQuc57QlCrf7YtLngyUkPX/rzrvpULPjxl4IUuWJVrt6jUjlT
- zP8AY/lZnz3CukYwUKd0u0S/zcxffvQx3C6CeSPykkZKKkubQe79ANvDKcmQTM/v16C9
- Qz8qKx2l7z0Ekb5MZ6lcgcr5Ta9c5nMJmiN1pRL8/T6dgTBRt4gUPurTLT7Y4fyRBI+W
- 7mPJs1OfXetWG+i70dGv2yLu96sPrBJlbdppKy3Zd/9HHc5JaSjHs8I0+55tm2qnlhi+
- KaLQ==
-X-Gm-Message-State: ACgBeo0kgg/Z76eNfLpuLKxVA1MNbNrpT3yMv+ban5/cu9QuqPdYY4Pn
- iabZ8H/LR1Oo2MbGm1jmTyuKOw==
-X-Google-Smtp-Source: AA6agR4J+LmcsFRUIgEi7WMSNvAYR4yBKfv0Wz/ZLYU882BeaWbfPutv2Qe26PWMI+ccKhCrCJvCCw==
-X-Received: by 2002:a05:600c:2904:b0:3b4:951f:7303 with SMTP id
- i4-20020a05600c290400b003b4951f7303mr1383089wmd.119.1663056218268; 
- Tue, 13 Sep 2022 01:03:38 -0700 (PDT)
+ bh=BLW+P3vLpbPzmJgxVpMiF/Iyl6sDujOSockIGi5HjyY=;
+ b=1xePKuykVqMaqiVofUxv1Uq+EAUXOAo1qQYbcKd+w9ms9KSrrdHfPMyhaGJgSI4V0n
+ G7xliBTIgFfVpJLYp42q92eV5UtkT3qbC+4rdCe8x2W5PVMeG1ulogKFmD5/jZhjqGgw
+ 7CncAp7+CfpTv9/ZIrDAQRq7kerQuD0NjZM4F20FXzRnF+/5TbtK5n8FQrLdD2niWf8S
+ BBCvZ9UM3adsVWYXU5XV8ShYaK3mSwErnYLLh1vcDJn4+8MqZvSQopPKCxN5A6lvcH01
+ h7LhjjefZTM9QbBzBFkXWUrTJeDR+XDeGONWvq2kE2aBxXqcdDFxSylvV8UFP8GnAMCM
+ q5Jw==
+X-Gm-Message-State: ACgBeo3x8Dm9ya2o2MUBdNhTat1bK4w9E5h+BrPbqevSgzoJf5//06V+
+ PS3A3SLS9039zleTA7Wor//ZzA==
+X-Google-Smtp-Source: AA6agR5kIaJdhmQyUv4brP23bkMlOunlbnSg+345sUi1KfT2rPhz/Pi+W+Pg+Nvywm2gHgwt2XzwIQ==
+X-Received: by 2002:a05:600c:1c84:b0:3b3:ef37:afd3 with SMTP id
+ k4-20020a05600c1c8400b003b3ef37afd3mr1371324wms.155.1663056321624; 
+ Tue, 13 Sep 2022 01:05:21 -0700 (PDT)
 Received: from [10.119.17.153] ([89.101.193.67])
  by smtp.gmail.com with ESMTPSA id
- e9-20020a5d5009000000b00226f39d1a3esm8763585wrt.73.2022.09.13.01.03.37
+ u2-20020a056000038200b0022a2ca8b284sm11310096wrf.99.2022.09.13.01.05.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Sep 2022 01:03:37 -0700 (PDT)
-Message-ID: <210513f4-e5db-e5f9-f8e8-f21308e7764e@linaro.org>
-Date: Tue, 13 Sep 2022 09:03:35 +0100
+ Tue, 13 Sep 2022 01:05:21 -0700 (PDT)
+Message-ID: <0f79885a-a5f3-313b-16c4-3c4f38edbaca@linaro.org>
+Date: Tue, 13 Sep 2022 09:05:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v3 16/24] disas/nanomips: Remove IMMEDIATE functions
+Subject: Re: [PATCH v3 17/24] disas/nanomips: Remove CPR function
 Content-Language: en-US
 To: Milica Lazarevic <milica.lazarevic@syrmia.com>, thuth@redhat.com
 Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
@@ -69,9 +68,9 @@ Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
  peter.maydell@linaro.org, djordje.todorovic@syrmia.com, mips32r2@gmail.com,
  dragan.mladjenovic@syrmia.com
 References: <20220912122635.74032-1-milica.lazarevic@syrmia.com>
- <20220912122635.74032-17-milica.lazarevic@syrmia.com>
+ <20220912122635.74032-18-milica.lazarevic@syrmia.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220912122635.74032-17-milica.lazarevic@syrmia.com>
+In-Reply-To: <20220912122635.74032-18-milica.lazarevic@syrmia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
@@ -99,18 +98,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/12/22 13:26, Milica Lazarevic wrote:
-> Both versions of IMMEDIATE functions have been removed.
+> CPR functions has been removed.
 > 
 > Before this patch, we'd been calling img_format twice, the first time
-> through the IMMEDIATE to get an appropriate string and the second time
-> to print that string. There's no more need for that. Therefore, calls to
-> IMMEDIATE are removed, and now we're directly printing the integer
-> values instead.
+> through the CPR function to get an appropriate string and the second
+> time to print that formatted string. There's no more need for that.
+> Therefore, calls to CPR are removed, and now we're directly printing
+> "CP" and integer value instead.
 > 
 > Signed-off-by: Milica Lazarevic<milica.lazarevic@syrmia.com>
 > ---
->   disas/nanomips.cpp | 756 ++++++++++++++++-----------------------------
->   1 file changed, 265 insertions(+), 491 deletions(-)
+>   disas/nanomips.cpp | 110 +++++++++++++++++++--------------------------
+>   1 file changed, 45 insertions(+), 65 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
