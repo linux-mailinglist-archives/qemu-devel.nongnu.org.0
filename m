@@ -2,51 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 787EE5B6C0C
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 12:57:07 +0200 (CEST)
-Received: from localhost ([::1]:59562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68CA45B6C1D
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 13:00:03 +0200 (CEST)
+Received: from localhost ([::1]:44120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY3bG-0003Tj-D1
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 06:57:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42278)
+	id 1oY3e6-0006VJ-LO
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 07:00:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1oY3Ux-0006EJ-4e
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 06:50:36 -0400
-Received: from madras.collabora.co.uk ([46.235.227.172]:47280)
+ id 1oY3V5-0006HU-15
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 06:50:43 -0400
+Received: from madras.collabora.co.uk
+ ([2a00:1098:0:82:1000:25:2eeb:e5ab]:53214)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1oY3Uv-00019P-2h
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 06:50:34 -0400
+ id 1oY3Uv-00019S-BV
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 06:50:42 -0400
 Received: from dellino.fritz.box (host-79-51-37-159.retail.telecomitalia.it
  [79.51.37.159])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: fahien)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 000F7660201C;
- Tue, 13 Sep 2022 11:50:28 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 7E2DA660201E;
+ Tue, 13 Sep 2022 11:50:29 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1663066229;
- bh=MBEe5c8ZUSca+qjPLMjWypprFXgHrcUHp4cB6i2knTo=;
- h=From:To:Cc:Subject:Date:From;
- b=REs1ghHdjUWWHgpctRcdSqSqyW9RYuy/hXPD+WwKIatyY96WAJwEcha+aTWYj3D1c
- dfzh1nzL6HaIxmDglz501yZfguY9mcsAJrbki5R8ZDBKJtE5QLd99cjq954tWyVoR4
- gydGuqs4DtFTimXh26jjM/S8QxoYFH7Z+iyRIwx2rhRRx1m61BMvl0OBkuhJjnGgKD
- ikEhf9Xu0PFbZtyrQMG1WTs77R6NS5LGSnnVcJpdbn/I5EpyQ/O3gOxKor6TUjAPoj
- qtOWZuDGCLrDbQsk3yI/Cfho2Wf1Oi0mW3hvopSmAg5Xq3fVMUYn5QYCtjYWyRIQ2/
- avCbRQYmq/9jw==
+ bh=lWh9WyS/F7ucYZTr2NF8e4IrmOwvvuFhoG0/A01n8rU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=XyFNnIAcH7UAVj8+QIJ85Q+VUSDFfeZBjYor0l0GN4w5dSZEhlZxXoXW7GTlePIzC
+ TpgJoaomJRgHLtumo0/mKO5QFN/dr/u0JXnHP0//rc5C+9OQ9Atqu+WJZzpgtQFo40
+ 2xZuRcWOoe2EktmrKP6/7U4cqDTxslho9LrXzIgRq8z5yTzlTnvY/FMhB7g52BeShg
+ m10USJn9fv7zZmyb28DakxHiiuZhY/t59dlVeBz4xxVxjUj5yHFTRpJYTVyNfkqNOo
+ YwTZjnExcJMNbT6sz5zlgRxZH0f+DG7o2TJahgKGhRoDkKBuuiN1r4XtwHkyMGEf9a
+ vTag24izGb86g==
 From: Antonio Caggiano <antonio.caggiano@collabora.com>
 To: qemu-devel@nongnu.org
-Cc: gert.wollny@collabora.com,
-	dmitry.osipenko@collabora.com
-Subject: [PATCH v2 0/4] virtio-gpu: Blob resources
-Date: Tue, 13 Sep 2022 12:50:18 +0200
-Message-Id: <20220913105022.81953-1-antonio.caggiano@collabora.com>
+Cc: gert.wollny@collabora.com, dmitry.osipenko@collabora.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Subject: [PATCH v2 1/4] virtio: Add shared memory capability
+Date: Tue, 13 Sep 2022 12:50:19 +0200
+Message-Id: <20220913105022.81953-2-antonio.caggiano@collabora.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220913105022.81953-1-antonio.caggiano@collabora.com>
+References: <20220913105022.81953-1-antonio.caggiano@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=46.235.227.172;
+Received-SPF: pass client-ip=2a00:1098:0:82:1000:25:2eeb:e5ab;
  envelope-from=antonio.caggiano@collabora.com; helo=madras.collabora.co.uk
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -69,34 +73,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add shared memory and support blob resource creation, mapping and
-unmapping through virglrenderer new stable APIs[0] when available.
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-[0] https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/891
+Define a new capability type 'VIRTIO_PCI_CAP_SHARED_MEMORY_CFG'
+and the data structure 'virtio_pci_shm_cap' to go with it.
+They allow defining shared memory regions with sizes and offsets
+of 2^32 and more.
+Multiple instances of the capability are allowed and distinguished
+by a device-specific 'id'.
 
-Antonio Caggiano (1):
-  virtio-gpu: Handle resource blob commands
+v2: Remove virtio_pci_shm_cap as virtio_pci_cap64 is used instead.
+v3: No need for mask32 as cpu_to_le32 truncates the value.
 
-Dmitry Osipenko (1):
-  virtio-gpu: Don't require udmabuf when blob support is enabled
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
+---
+ hw/virtio/virtio-pci.c         | 18 ++++++++++++++++++
+ include/hw/virtio/virtio-pci.h |  4 ++++
+ 2 files changed, 22 insertions(+)
 
-Dr. David Alan Gilbert (1):
-  virtio: Add shared memory capability
-
-Gerd Hoffmann (1):
-  virtio-gpu: hostmem
-
- hw/display/virtio-gpu-pci.c          |  15 +++
- hw/display/virtio-gpu-virgl.c        | 171 +++++++++++++++++++++++++++
- hw/display/virtio-gpu.c              |  29 ++---
- hw/display/virtio-vga.c              |  33 ++++--
- hw/virtio/virtio-pci.c               |  18 +++
- include/hw/virtio/virtio-gpu-bswap.h |  18 +++
- include/hw/virtio/virtio-gpu.h       |  13 ++
- include/hw/virtio/virtio-pci.h       |   4 +
- meson.build                          |   5 +
- 9 files changed, 283 insertions(+), 23 deletions(-)
-
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index a50c5a57d7..377bb06fec 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1169,6 +1169,24 @@ static int virtio_pci_add_mem_cap(VirtIOPCIProxy *proxy,
+     return offset;
+ }
+ 
++int virtio_pci_add_shm_cap(VirtIOPCIProxy *proxy,
++                           uint8_t bar, uint64_t offset, uint64_t length,
++                           uint8_t id)
++{
++    struct virtio_pci_cap64 cap = {
++        .cap.cap_len = sizeof cap,
++        .cap.cfg_type = VIRTIO_PCI_CAP_SHARED_MEMORY_CFG,
++    };
++
++    cap.cap.bar = bar;
++    cap.cap.length = cpu_to_le32(length);
++    cap.length_hi = cpu_to_le32(length >> 32);
++    cap.cap.offset = cpu_to_le32(offset);
++    cap.offset_hi = cpu_to_le32(offset >> 32);
++    cap.cap.id = id;
++    return virtio_pci_add_mem_cap(proxy, &cap.cap);
++}
++
+ static uint64_t virtio_pci_common_read(void *opaque, hwaddr addr,
+                                        unsigned size)
+ {
+diff --git a/include/hw/virtio/virtio-pci.h b/include/hw/virtio/virtio-pci.h
+index 2446dcd9ae..5e5c4a4c6d 100644
+--- a/include/hw/virtio/virtio-pci.h
++++ b/include/hw/virtio/virtio-pci.h
+@@ -252,4 +252,8 @@ void virtio_pci_types_register(const VirtioPCIDeviceTypeInfo *t);
+  */
+ unsigned virtio_pci_optimal_num_queues(unsigned fixed_queues);
+ 
++int virtio_pci_add_shm_cap(VirtIOPCIProxy *proxy,
++                           uint8_t bar, uint64_t offset, uint64_t length,
++                           uint8_t id);
++
+ #endif
 -- 
 2.34.1
 
