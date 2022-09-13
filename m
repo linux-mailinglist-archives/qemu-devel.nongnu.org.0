@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 132E65B70F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 16:35:47 +0200 (CEST)
-Received: from localhost ([::1]:37658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFB8D5B70F3
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 16:38:53 +0200 (CEST)
+Received: from localhost ([::1]:45686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY70r-0002HM-MZ
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 10:35:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50676)
+	id 1oY73s-00064g-Kn
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 10:38:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY6tn-0003pP-Pw
+ id 1oY6tn-0003pQ-Oo
  for qemu-devel@nongnu.org; Tue, 13 Sep 2022 10:28:28 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:51737)
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:45900)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY6tk-0006xk-9A
+ id 1oY6tl-0006xv-95
  for qemu-devel@nongnu.org; Tue, 13 Sep 2022 10:28:26 -0400
-Received: by mail-wm1-x335.google.com with SMTP id o5so5541899wms.1
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 07:28:23 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id
+ bd26-20020a05600c1f1a00b003a5e82a6474so9615788wmb.4
+ for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 07:28:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=qmA5GFqrfBWnZ0AaIBtOilm8q63N0xZOj0jmOP28AFs=;
- b=pu/7KHeB/ycKrKBystx/AWDNlloZ7nSBpXajO40yYWbYj1wX8tndeRnfYdLMJIgm4G
- 81cwghPrW8vaL8GcPH1vUFN93RegPpjcQLFpXftInAHFqjTN4V1dYH74jkfFknvNBSHT
- YX/ixbSUxN8JAFfynSsVF2HCGV45+YggCR4UYcGWSe1UtKh1PbqlTPoAQlISZNaRPl70
- VlQxnMDjgALEu21eFFBXbFmFAnydK9ba1r/8YAwNvHmfSXFny9X6qUNEX8bKHeUZcPZ0
- eb1DSD3fV2mvmDPB6PetKwPhwn1SjXr236fXm6ehRFJPtyffbaJA/npKOcmbtJQeF5Qd
- ZQnQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+ bh=LabXsfMoB7femwXbme12AwMySpTk+r3xGFXtank1s5U=;
+ b=z8W58EH9OVRCLspmjAZGsafZeIVCIZ7w7mwgdirng21h9BV5Br3xEGwAQ6ZZCGYLtk
+ YcrLxiVgWULlwGhivfvrwr09Yalj+IrrQGgSVbTD0sfdZ7R9DSX25hUVuXJf2Dt8giu9
+ y542NvD6wZX4Ib6EFrDvnuOD4DUHanjWWpgJ+T7F5+1S3zyFMu5yUPzhaA+BupGwsTuh
+ FTwjBRYHEcBsWghV0sJafF0fmuH5ID+ADOBofLbnm48hqccsss3AjeViN7lMRiXqflvv
+ qdhqU7WNFKkOsZxkXBVxbZ9JpIyqtcyBW1Eg8vOlEq+Xbu2A9gjlwaD7X/6HPZijD9J1
+ dXBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=qmA5GFqrfBWnZ0AaIBtOilm8q63N0xZOj0jmOP28AFs=;
- b=pFlAPAqHqiZMjpP4W++KBsQiP+F3tz28mpC8AFK5AMHlON4iQ+u+xiCtui0Ih8pMo3
- a9Do4S2RNNWovM0bO4eEgcVei3y0GFqtopDJUUGhBhZtdU2MX8/n1D0iOes9AE+eu9i6
- VCT1M7HsXAk1vjv4N1mY/p8EKTOToxJl3yPffpLPjsOWl68L+B6QiKDRjy3GrPVFS3TL
- JnhQgnODSS7KsAwu+XNJbK9XITrD9NddEidyg+ZV6IfFjHVVR5RvdXGW9HJzh9GQ5HRZ
- xJiac+uUwo2sR1rgZQG7TYzrGvwbeqUzx/1Th+u4HGwxy3bsn7l3Lls5aAGnztemngeE
- KHPw==
-X-Gm-Message-State: ACgBeo3Qypkz8dqJzpXwTQ8t2keYILleS/H+OKTc4cg8naItvBj7MEA9
- z4v07oJR+SOi4iX0tsChPL0s4w/PowFGmjWK
-X-Google-Smtp-Source: AA6agR7VU04C2qMPiuRl9Ge3OtvMEDkJVkGxK9lODclJHQmI/AkDrdpmLrgZpYsUCW+TpaNth4OZuA==
-X-Received: by 2002:a1c:ed0e:0:b0:3b4:5ead:59ac with SMTP id
- l14-20020a1ced0e000000b003b45ead59acmr2727793wmh.105.1663079302710; 
- Tue, 13 Sep 2022 07:28:22 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=LabXsfMoB7femwXbme12AwMySpTk+r3xGFXtank1s5U=;
+ b=eKH1L//KpC5LLgE+rwGGRcC6aIAYSpPE0dePToFnIIh1JN7lmAkN9g+L4dWehSZEUp
+ q9QH3z+Hmh1R17pBJ+sjHMD4eCUWSgwTaZkSDFTOESuQAyRSz+uMS422Cu+YSvTRI6oW
+ FA+djXSQRVneRCPxsJvRlvMKOaEtTYVksFnyK4aN8iiw9+FZ6sQWogg4UcfYKje7U8DQ
+ k9+LKOM7CGFOctO5RCVpsNEoHg9hXPraQWekUOSmjx/Vpyv3RmbRoZHZdrBg+5acdG+q
+ Wo53PqizzRUQ+1rtxTlx3WlwLRUKJ4AigOvDdwgyBUXBxUqd1ckDyKOSUCXpsilUongG
+ u8QA==
+X-Gm-Message-State: ACgBeo3YmYZrnPA8fF5ORZeaDdTYpzerE14DjlGPuh8rOZLn5kyjkdeu
+ kwVUy+Hn/6q0CoZkJwuOGTwRSJjrsMfPBfW8
+X-Google-Smtp-Source: AA6agR72jsK4+wIZClBwJtS8CRKvUp1s+zPNLjF1a7o39+BQ/g2OzCcd3QKHQ9h7S0R0tyIWqnDasg==
+X-Received: by 2002:a05:600c:34d6:b0:3b4:91fd:cfc with SMTP id
+ d22-20020a05600c34d600b003b491fd0cfcmr2697359wmq.1.1663079303823; 
+ Tue, 13 Sep 2022 07:28:23 -0700 (PDT)
 Received: from stoup.. ([89.101.193.68]) by smtp.gmail.com with ESMTPSA id
- e17-20020a5d5951000000b00228dc37ce2asm10673165wri.57.2022.09.13.07.28.21
+ e17-20020a5d5951000000b00228dc37ce2asm10673165wri.57.2022.09.13.07.28.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Sep 2022 07:28:22 -0700 (PDT)
+ Tue, 13 Sep 2022 07:28:23 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: laurent@vivier.eu,
 	mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 0/2] target/m68k: fix two writes to %sr
-Date: Tue, 13 Sep 2022 15:28:16 +0100
-Message-Id: <20220913142818.7802-1-richard.henderson@linaro.org>
+Subject: [PATCH 1/2] target/m68k: Fix MACSR to CCR
+Date: Tue, 13 Sep 2022 15:28:17 +0100
+Message-Id: <20220913142818.7802-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220913142818.7802-1-richard.henderson@linaro.org>
+References: <20220913142818.7802-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,18 +90,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The second was described by Mark in the lobby of KVM Forum.
-The first was found by inspection of other uses of gen_helper_set_sr.
+First, we were writing to the entire SR register, instead
+of only the flags portion.  Second, we were not clearing C
+as per the documentation (X was cleared via the 0xf mask).
 
-r~
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/m68k/translate.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Richard Henderson (2):
-  target/m68k: Fix MACSR to CCR
-  target/m68k: Perform writback before modifying SR
-
- target/m68k/translate.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
-
+diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+index 5098f7e570..87044382c3 100644
+--- a/target/m68k/translate.c
++++ b/target/m68k/translate.c
+@@ -5892,8 +5892,10 @@ DISAS_INSN(from_mext)
+ DISAS_INSN(macsr_to_ccr)
+ {
+     TCGv tmp = tcg_temp_new();
+-    tcg_gen_andi_i32(tmp, QREG_MACSR, 0xf);
+-    gen_helper_set_sr(cpu_env, tmp);
++
++    /* Note that X and C are always cleared. */
++    tcg_gen_andi_i32(tmp, QREG_MACSR, CCF_N | CCF_Z | CCF_V);
++    gen_helper_set_ccr(cpu_env, tmp);
+     tcg_temp_free(tmp);
+     set_cc_op(s, CC_OP_FLAGS);
+ }
 -- 
 2.34.1
 
