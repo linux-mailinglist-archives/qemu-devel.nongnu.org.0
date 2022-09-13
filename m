@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 086EF5B6B79
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 12:16:20 +0200 (CEST)
-Received: from localhost ([::1]:51874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56AB25B6B8D
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 12:24:10 +0200 (CEST)
+Received: from localhost ([::1]:41582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY2xn-0000i5-4l
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 06:16:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58342)
+	id 1oY35N-0003ey-0N
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 06:24:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY2vk-0007a6-Vt
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 06:14:13 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:38682)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY2vi-000360-VL
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 06:14:12 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id b5so19938460wrr.5
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 03:14:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=7w7UucKWQMy2vZPJq5Grgt0I4sHy4yCcqg+nEMzQU+E=;
- b=wjEgqY1Pzovh1ZHY1uzroj9uOdWfCQp7k7IO/O82G/N9L7Jwz72jITGk/Wl5dT2ByF
- ybKHrBIg5FH01Dx/K76bjRdWcusNWQrsYjFZfyWP2xYfWCH3KdT07PV0AY4DAdzCxnji
- VHksVlQ8TbvH1+9zJYEN6HWV6V3DlY7BoMaH06y7WgM9PHM77mbAEDjG5QHTX1CNB2DT
- BFDSmxcDu3U3FZWGsf9PamT22wtrNZkVyKSdDc/jhB/PAfJRe/YYHTeQhyg98nnUG1pY
- KQm9TaA0+b2h6ZBGD694O0MsUj/vEGfHqHw+JXg4qQUtxJcFknxZYUN39GJVJgq2T5iy
- PLQA==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1oY2yS-0000wO-KG
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 06:17:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53900)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1oY2yQ-0003cC-OG
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 06:17:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663064217;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type; bh=inVe8dJWP7LKJfU9nqCSt710wfXhHJdu+160e8XyDjw=;
+ b=EvpLu4uS5a82yE6ndo/xAQtf1Q7FkVb/uUY40Cws093XvqGbjEO/2ftagLbCNLLH21AVDm
+ C/od/yzOzTQMNlRIuatLz1LOFqsrZ8MHM3SKzztoTFINHBRbDP7MKOtwQKFrBSBlnDsC1y
+ Y5tHkh/4cUkS7S9RAiH1mD/ttvlbuJY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-437-RijQZrs8Pn6fddsNtMLfqw-1; Tue, 13 Sep 2022 06:16:56 -0400
+X-MC-Unique: RijQZrs8Pn6fddsNtMLfqw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 203-20020a1c02d4000000b003b499f99aceso146184wmc.1
+ for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 03:16:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=mime-version:message-id:date:reply-to:user-agent:subject:to:from
  :x-gm-message-state:from:to:cc:subject:date;
- bh=7w7UucKWQMy2vZPJq5Grgt0I4sHy4yCcqg+nEMzQU+E=;
- b=fZpnmLZqHEWO2Rgu+pBGzhPgLjGuNph0YjkKLaz1V/Gy93dJ9skT6W5kx+Hp4LSTGh
- PGpPFqY3pW8URw1w50dipIlk1+X89SG03It1v8/0fYJvsvK1S1eAcTYAhShQe9dcypky
- 1MYo2sF8RnMUDZL7PVw+WArvoCVulzYEGkoNp5374S0nhx/I/ujs4iJ/Omes3tbp4RER
- FfGz7lmJdZyVXSKcACs9osMtfnqZrdTVZ85WMYA08+lsFcmDPsPImeF0fFQEiLoQ3VBT
- QtEgtGeJHr2qh26BTZIleMRNWALCOjFnTEI2FAghngkg/Zu+PUnEZtYyA64O8keZ1PBQ
- mTog==
-X-Gm-Message-State: ACgBeo3IN9XbkVMq2SOTzuE0qJ2NHISdVXzbD4Fn2SjwoGATwFTbKSLn
- UrTR/OJF0ebls5YKAiaIIKrwhg==
-X-Google-Smtp-Source: AA6agR7uczskiTYd/PoFbN7nZf6dKYsZDfcWruyLxywcQKZ7lw5ip71WDc2/Y0R3f1CzpMp/sYE7Ug==
-X-Received: by 2002:adf:fe06:0:b0:228:db6f:41ae with SMTP id
- n6-20020adffe06000000b00228db6f41aemr18729487wrr.577.1663064049025; 
- Tue, 13 Sep 2022 03:14:09 -0700 (PDT)
-Received: from [10.119.17.153] ([89.101.193.67])
- by smtp.gmail.com with ESMTPSA id
- t3-20020a1c4603000000b003a5c244fc13sm13200435wma.2.2022.09.13.03.14.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Sep 2022 03:14:08 -0700 (PDT)
-Message-ID: <a877d694-e4c3-5875-a628-76f2328d3242@linaro.org>
-Date: Tue, 13 Sep 2022 11:14:06 +0100
+ bh=inVe8dJWP7LKJfU9nqCSt710wfXhHJdu+160e8XyDjw=;
+ b=fu4QqojF3/K+Hu4RVbWjHSaHgqTiOKG7UtdXVNVqJ9Ydfy8AQwH2VNQoYq/XM0lMMT
+ a/k/sylEnzwQ84IkoW1DYSWUHbyZg23+sg/tnFqzmLaTxPGiQLBVBmijBJV1mfVZvrhh
+ OUmHZNitvy3hI9AtNPLV/h93MrXvytESNHPxQqxjPE/AwvHBFAJGBMsgPSVG1qwXsTQg
+ 8DMvo8mLuZ7JsB2YhFv8V2Kc4SW6McqIEoIQ+xd6jAmfIR9NiIFn+M3eoNjz/SMjLFqF
+ gTTKi9bRSyq3khXXMACVFbgMMf3TmwyYAtGUBodSYSgw15sWQwRaehbk67Jt3dZ7WrEq
+ nhtg==
+X-Gm-Message-State: ACgBeo0D3/LhKTr8GcY6fhs4oae/BdsEtQnEZsdN6hhHEQy+8f4Jqw2Y
+ RSYS/5GaB2k+WzD0v4DYl32fdMek6licaDsvC63apnSz913ItwwkeaquUw+CehViOnNKVH/9h1K
+ naiz6MQfy/h4s4NE=
+X-Received: by 2002:a05:6000:2ce:b0:226:d420:db7a with SMTP id
+ o14-20020a05600002ce00b00226d420db7amr16951089wry.489.1663064214825; 
+ Tue, 13 Sep 2022 03:16:54 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5ENAUQ3Vwt5Y5a4zvjhTouitO7g55T2X93uJd8GKG5xTH8WvYCWVmtq8lfIyaozYJxbnUZPg==
+X-Received: by 2002:a05:6000:2ce:b0:226:d420:db7a with SMTP id
+ o14-20020a05600002ce00b00226d420db7amr16951080wry.489.1663064214618; 
+ Tue, 13 Sep 2022 03:16:54 -0700 (PDT)
+Received: from localhost ([89.101.193.72]) by smtp.gmail.com with ESMTPSA id
+ bw2-20020a0560001f8200b00228c483128dsm7402536wrb.90.2022.09.13.03.16.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Sep 2022 03:16:54 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org
+Subject: KVM call for 2022-09-20
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
+Date: Tue, 13 Sep 2022 12:16:52 +0200
+Message-ID: <87illrpoiz.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 30/37] target/i386: reimplement 0x0f 0x10-0x17, add AVX
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20220911230418.340941-1-pbonzini@redhat.com>
- <20220911230418.340941-31-pbonzini@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220911230418.340941-31-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.153,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,89 +89,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/12/22 00:04, Paolo Bonzini wrote:
-> +static void gen_VMOVHPx_ld(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-> +{
-> +    if (decode->op[0].offset != decode->op[1].offset) {
-> +        tcg_gen_ld_i64(s->tmp1_i64, cpu_env, decode->op[1].offset + offsetof(XMMReg, XMM_Q(0)));
-> +        tcg_gen_st_i64(s->tmp1_i64, cpu_env, decode->op[0].offset + offsetof(XMMReg, XMM_Q(0)));
-> +    }
-> +    gen_ldq_env_A0(s, decode->op[0].offset + offsetof(XMMReg, XMM_Q(1)));
-> +}
-
-Don't modify op0 before the load fault.
-
-> +static void gen_VMOVHLPS(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-> +{
-> +    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, decode->op[2].offset + offsetof(XMMReg, XMM_Q(1)));
-> +    tcg_gen_st_i64(s->tmp1_i64, cpu_env, decode->op[0].offset + offsetof(XMMReg, XMM_Q(0)));
-> +    if (decode->op[0].offset != decode->op[1].offset) {
-> +        tcg_gen_ld_i64(s->tmp1_i64, cpu_env, decode->op[1].offset + offsetof(XMMReg, XMM_Q(1)));
-> +        tcg_gen_st_i64(s->tmp1_i64, cpu_env, decode->op[0].offset + offsetof(XMMReg, XMM_Q(1)));
-> +    }
-> +}
-> +
-> +static void gen_VMOVLHPS(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-> +{
-> +    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, decode->op[2].offset + offsetof(XMMReg, XMM_Q(0)));
-> +    tcg_gen_st_i64(s->tmp1_i64, cpu_env, decode->op[0].offset + offsetof(XMMReg, XMM_Q(1)));
-> +    if (decode->op[0].offset != decode->op[1].offset) {
-> +        tcg_gen_ld_i64(s->tmp1_i64, cpu_env, decode->op[1].offset + offsetof(XMMReg, XMM_Q(0)));
-> +        tcg_gen_st_i64(s->tmp1_i64, cpu_env, decode->op[0].offset + offsetof(XMMReg, XMM_Q(0)));
-> +    }
-> +}
-> +
-> +static void gen_VMOVLPx(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-> +{
-> +    int vec_len = sse_vec_len(s, decode);
-> +
-> +    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, decode->op[2].offset + offsetof(XMMReg, XMM_Q(0)));
-> +    tcg_gen_gvec_mov(MO_64, decode->op[0].offset, decode->op[1].offset, vec_len, vec_len);
-> +    tcg_gen_st_i64(s->tmp1_i64, cpu_env, decode->op[0].offset + offsetof(XMMReg, XMM_Q(0)));
-> +}
-
-You've just been moving i64 pieces in the other functions, why is this one different using 
-a gvec move in the middle?  I do wonder if a generic helper moving offset->offset, with 
-the comparison wouldn't be helpful within these functions, even when you know off1 != 
-off2, due to Q(0) vs Q(1).
-
-> +static void gen_VMOVLPx_ld(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-> +{
-> +    int vec_len = sse_vec_len(s, decode);
-> +
-> +    tcg_gen_gvec_mov(MO_64, decode->op[0].offset, decode->op[1].offset, vec_len, vec_len);
-> +    tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, s->mem_index, MO_64);
-> +    tcg_gen_st_i64(s->tmp1_i64, s->ptr0, offsetof(ZMMReg, ZMM_Q(0)));
-> +}
-
-Don't modify op0 before load fault.
-
-> +static void gen_VMOVSD_ld(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-> +{
-> +    TCGv zero = tcg_const_i64(0);
-> +
-> +    tcg_gen_st_i64(zero, s->ptr0, offsetof(ZMMReg, ZMM_Q(1)));
-> +    tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, s->mem_index, MO_64);
-> +    tcg_gen_st_i64(s->tmp1_i64, s->ptr0, offsetof(ZMMReg, ZMM_Q(0)));
-> +    tcg_temp_free_i64(zero);
-> +}
-
-Likewise.
-
-> +static void gen_VMOVSS_ld(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-> +{
-> +    int vec_len = sse_vec_len(s, decode);
-> +
-> +    tcg_gen_gvec_dup_imm(MO_64, decode->op[0].offset, vec_len, vec_len, 0);
-> +    tcg_gen_qemu_ld_i32(s->tmp2_i32, s->A0, s->mem_index, MO_32);
-> +    tcg_gen_st_i32(s->tmp2_i32, s->ptr0, offsetof(ZMMReg, ZMM_L(0)));
-> +}
-
-Likewise.
 
 
-r~
+Hi
+
+Please, send any topic that you are interested in covering.
+
+At the end of Monday I will send an email with the agenda or the
+cancellation of the call, so hurry up.
+
+After discussions on the QEMU Summit, we are going to have always open a
+KVM call where you can add topics.
+
+ Call details:
+
+By popular demand, a google calendar public entry with it
+
+https://calendar.google.com/calendar/u/0/r/eventedit/copy/NWR0NWppODdqNXFyYzAwbzYza3RxN2dob3VfMjAyMjA5MjBUMTMwMDAwWiBlZ2VkN2NraTA1bG11MXRuZ3ZrbDN0aGlkc0Bn/anVhbi5xdWludGVsYUBnbWFpbC5jb20?scp=ALL&sf=true
+
+(Let me know if you have any problems with the calendar entry.  I just
+gave up about getting right at the same time CEST, CET, EDT and DST).
+
+If you need phone number details,  contact me privately
+
+Thanks, Juan.
+
 
