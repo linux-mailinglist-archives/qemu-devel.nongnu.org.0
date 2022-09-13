@@ -2,48 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27A6F5B7C1C
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 22:15:53 +0200 (CEST)
-Received: from localhost ([::1]:43268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E2905B7DA8
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 01:44:26 +0200 (CEST)
+Received: from localhost ([::1]:44100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYCK0-0003Kw-3O
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 16:15:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35488)
+	id 1oYFZp-0007Pg-93
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 19:44:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oYBy4-0002x7-7k; Tue, 13 Sep 2022 15:53:12 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:12625)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=hIhw=ZQ=zx2c4.com=Jason@kernel.org>)
+ id 1oYFXc-0004bh-FG
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 19:42:08 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:55224)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oYBy1-00055E-7Y; Tue, 13 Sep 2022 15:53:11 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id AFCEF746E07;
- Tue, 13 Sep 2022 21:52:47 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 77E3F746399; Tue, 13 Sep 2022 21:52:47 +0200 (CEST)
-Message-Id: <dd8870906bc7b74a8ce66240ba1d5b52effc954c.1663097286.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1663097286.git.balaton@eik.bme.hu>
-References: <cover.1663097286.git.balaton@eik.bme.hu>
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v3 20/20] ppc4xx_sdram: Convert DDR SDRAM controller to new
- bank handling
+ (Exim 4.90_1)
+ (envelope-from <SRS0=hIhw=ZQ=zx2c4.com=Jason@kernel.org>)
+ id 1oYFXa-0005ef-3n
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 19:42:08 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 8813EB81183;
+ Tue, 13 Sep 2022 23:42:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E410C433D6;
+ Tue, 13 Sep 2022 23:41:59 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="jPEwifZK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1663112516;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SncbfloIKoicgDu1+JUjqKSLcKrEvv7sBWmCUhdIV4I=;
+ b=jPEwifZKc2rBO9DEi/d1x0GXVY/Jf9manR590lmT8pNhSX0aUzuGZXug9Rk39CFYeD6sxR
+ EGISiS7du1Ev3gBYsIqI3+w1HaBEeStQwNruYlDRv7gI3kSPsGoaHXxBhlQKAqB0iMBmR5
+ xex0d5smOWMOCdUftIHqUlNjpy+GrKI=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 2f36b101
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Tue, 13 Sep 2022 23:41:56 +0000 (UTC)
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: qemu-devel@nongnu.org
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ard Biesheuvel <ardb@kernel.org>
+Subject: [PATCH v4 1/2] x86: return modified setup_data only if read as memory,
+ not as file
+Date: Wed, 14 Sep 2022 00:41:34 +0100
+Message-Id: <20220913234135.255426-1-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-To: qemu-devel@nongnu.org,
-    qemu-ppc@nongnu.org
-Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 13 Sep 2022 21:52:47 +0200 (CEST)
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=145.40.68.75;
+ envelope-from=SRS0=hIhw=ZQ=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,175 +84,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the generic bank handling introduced in previous patch in the DDR
-SDRAM controller too. This also fixes previously broken region unmap
-due to sdram_ddr_unmap_bcr() ignoring container region so it crashed
-with an assert when the guest tried to disable the controller.
+If setup_data is being read into a specific memory location, then
+generally the setup_data address parameter is read first, so that the
+caller knows where to read it into. In that case, we should return
+setup_data containing the absolute addresses that are hard coded and
+determined a priori. This is the case when kernels are loaded by BIOS,
+for example. In contrast, when setup_data is read as a file, then we
+shouldn't modify setup_data, since the absolute address will be wrong by
+definition. This is the case when OVMF loads the image.
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+This allows setup_data to be used like normal, without crashing when EFI
+tries to use it.
+
+(As a small development note, strangely, fw_cfg_add_file_callback() was
+exported but fw_cfg_add_bytes_callback() wasn't, so this makes that
+consistent.)
+
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Suggested-by: Ard Biesheuvel <ardb@kernel.org>
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 ---
- hw/ppc/ppc4xx_sdram.c | 98 ++++++++++++++++---------------------------
- 1 file changed, 37 insertions(+), 61 deletions(-)
+ hw/i386/x86.c             | 37 +++++++++++++++++++++++++++----------
+ hw/nvram/fw_cfg.c         | 12 ++++++------
+ include/hw/nvram/fw_cfg.h | 22 ++++++++++++++++++++++
+ 3 files changed, 55 insertions(+), 16 deletions(-)
 
-diff --git a/hw/ppc/ppc4xx_sdram.c b/hw/ppc/ppc4xx_sdram.c
-index 79a9efce4b..c731012940 100644
---- a/hw/ppc/ppc4xx_sdram.c
-+++ b/hw/ppc/ppc4xx_sdram.c
-@@ -137,6 +137,8 @@ static void sdram_bank_set_bcr(Ppc4xxSdramBank *bank, uint32_t bcr,
- 
- /*****************************************************************************/
- /* DDR SDRAM controller */
-+#define SDRAM_DDR_BCR_MASK 0xFFDEE001
-+
- static uint32_t sdram_ddr_bcr(hwaddr ram_base, hwaddr ram_size)
- {
-     uint32_t bcr;
-@@ -195,58 +197,6 @@ static hwaddr sdram_ddr_size(uint32_t bcr)
-     return size;
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 050eedc0c8..933bbdd836 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -764,6 +764,18 @@ static bool load_elfboot(const char *kernel_filename,
+     return true;
  }
  
--static void sdram_ddr_set_bcr(Ppc4xxSdramDdrState *sdram, int i,
--                              uint32_t bcr, int enabled)
--{
--    if (sdram->bank[i].bcr & 1) {
--        /* Unmap RAM */
--        trace_ppc4xx_sdram_unmap(sdram_ddr_base(sdram->bank[i].bcr),
--                                 sdram_ddr_size(sdram->bank[i].bcr));
--        memory_region_del_subregion(get_system_memory(),
--                                    &sdram->bank[i].container);
--        memory_region_del_subregion(&sdram->bank[i].container,
--                                    &sdram->bank[i].ram);
--        object_unparent(OBJECT(&sdram->bank[i].container));
--    }
--    sdram->bank[i].bcr = bcr & 0xFFDEE001;
--    if (enabled && (bcr & 1)) {
--        trace_ppc4xx_sdram_map(sdram_ddr_base(bcr), sdram_ddr_size(bcr));
--        memory_region_init(&sdram->bank[i].container, NULL, "sdram-container",
--                           sdram_ddr_size(bcr));
--        memory_region_add_subregion(&sdram->bank[i].container, 0,
--                                    &sdram->bank[i].ram);
--        memory_region_add_subregion(get_system_memory(),
--                                    sdram_ddr_base(bcr),
--                                    &sdram->bank[i].container);
--    }
--}
--
--static void sdram_ddr_map_bcr(Ppc4xxSdramDdrState *sdram)
--{
--    int i;
--
--    for (i = 0; i < sdram->nbanks; i++) {
--        if (sdram->bank[i].size != 0) {
--            sdram_ddr_set_bcr(sdram, i, sdram_ddr_bcr(sdram->bank[i].base,
--                                                      sdram->bank[i].size), 1);
--        } else {
--            sdram_ddr_set_bcr(sdram, i, 0, 0);
--        }
--    }
--}
--
--static void sdram_ddr_unmap_bcr(Ppc4xxSdramDdrState *sdram)
--{
--    int i;
--
--    for (i = 0; i < sdram->nbanks; i++) {
--        trace_ppc4xx_sdram_unmap(sdram_ddr_base(sdram->bank[i].bcr),
--                                 sdram_ddr_size(sdram->bank[i].bcr));
--        memory_region_del_subregion(get_system_memory(),
--                                    &sdram->bank[i].ram);
--    }
--}
--
- static uint32_t sdram_ddr_dcr_read(void *opaque, int dcrn)
- {
-     Ppc4xxSdramDdrState *s = opaque;
-@@ -317,6 +267,7 @@ static uint32_t sdram_ddr_dcr_read(void *opaque, int dcrn)
- static void sdram_ddr_dcr_write(void *opaque, int dcrn, uint32_t val)
- {
-     Ppc4xxSdramDdrState *s = opaque;
-+    int i;
- 
-     switch (dcrn) {
-     case SDRAM0_CFGADDR:
-@@ -338,12 +289,24 @@ static void sdram_ddr_dcr_write(void *opaque, int dcrn, uint32_t val)
-             if (!(s->cfg & 0x80000000) && (val & 0x80000000)) {
-                 trace_ppc4xx_sdram_enable("enable");
-                 /* validate all RAM mappings */
--                sdram_ddr_map_bcr(s);
-+                for (i = 0; i < s->nbanks; i++) {
-+                    if (s->bank[i].size) {
-+                        sdram_bank_set_bcr(&s->bank[i], s->bank[i].bcr,
-+                                           s->bank[i].base, s->bank[i].size,
-+                                           1);
-+                    }
-+                }
-                 s->status &= ~0x80000000;
-             } else if ((s->cfg & 0x80000000) && !(val & 0x80000000)) {
-                 trace_ppc4xx_sdram_enable("disable");
-                 /* invalidate all RAM mappings */
--                sdram_ddr_unmap_bcr(s);
-+                for (i = 0; i < s->nbanks; i++) {
-+                    if (s->bank[i].size) {
-+                        sdram_bank_set_bcr(&s->bank[i], s->bank[i].bcr,
-+                                           s->bank[i].base, s->bank[i].size,
-+                                           0);
-+                    }
-+                }
-                 s->status |= 0x80000000;
-             }
-             if (!(s->cfg & 0x40000000) && (val & 0x40000000)) {
-@@ -363,16 +326,16 @@ static void sdram_ddr_dcr_write(void *opaque, int dcrn, uint32_t val)
-             s->pmit = (val & 0xF8000000) | 0x07C00000;
-             break;
-         case 0x40: /* SDRAM_B0CR */
--            sdram_ddr_set_bcr(s, 0, val, s->cfg & 0x80000000);
--            break;
-         case 0x44: /* SDRAM_B1CR */
--            sdram_ddr_set_bcr(s, 1, val, s->cfg & 0x80000000);
--            break;
-         case 0x48: /* SDRAM_B2CR */
--            sdram_ddr_set_bcr(s, 2, val, s->cfg & 0x80000000);
--            break;
-         case 0x4C: /* SDRAM_B3CR */
--            sdram_ddr_set_bcr(s, 3, val, s->cfg & 0x80000000);
-+            i = (s->addr - 0x40) / 4;
-+            val &= SDRAM_DDR_BCR_MASK;
-+            if (s->bank[i].size) {
-+                sdram_bank_set_bcr(&s->bank[i], val,
-+                                   sdram_ddr_base(val), sdram_ddr_size(val),
-+                                   s->cfg & 0x80000000);
-+            }
-             break;
-         case 0x80: /* SDRAM_TR */
-             s->tr = val & 0x018FC01F;
-@@ -422,6 +385,7 @@ static void ppc4xx_sdram_ddr_realize(DeviceState *dev, Error **errp)
-     const ram_addr_t valid_bank_sizes[] = {
-         256 * MiB, 128 * MiB, 64 * MiB, 32 * MiB, 16 * MiB, 8 * MiB, 4 * MiB, 0
-     };
-+    int i;
- 
-     if (s->nbanks < 1 || s->nbanks > 4) {
-         error_setg(errp, "Invalid number of RAM banks");
-@@ -432,6 +396,18 @@ static void ppc4xx_sdram_ddr_realize(DeviceState *dev, Error **errp)
-         return;
++struct setup_data_fixup {
++    void *pos;
++    hwaddr val;
++    uint32_t addr;
++};
++
++static void fixup_setup_data(void *opaque)
++{
++    struct setup_data_fixup *fixup = opaque;
++    stq_p(fixup->pos, fixup->val);
++}
++
+ void x86_load_linux(X86MachineState *x86ms,
+                     FWCfgState *fw_cfg,
+                     int acpi_data_size,
+@@ -1088,8 +1100,11 @@ void x86_load_linux(X86MachineState *x86ms,
+         qemu_guest_getrandom_nofail(setup_data->data, RNG_SEED_LENGTH);
      }
-     ppc4xx_sdram_banks(s->dram_mr, s->nbanks, s->bank, valid_bank_sizes);
-+    for (i = 0; i < s->nbanks; i++) {
-+        if (s->bank[i].size) {
-+            s->bank[i].bcr = sdram_ddr_bcr(s->bank[i].base, s->bank[i].size);
-+            sdram_bank_set_bcr(&s->bank[i], s->bank[i].bcr,
-+                               s->bank[i].base, s->bank[i].size, 0);
-+        } else {
-+            sdram_bank_set_bcr(&s->bank[i], 0, 0, 0, 0);
-+        }
-+        trace_ppc4xx_sdram_init(sdram_ddr_base(s->bank[i].bcr),
-+                                sdram_ddr_size(s->bank[i].bcr),
-+                                s->bank[i].bcr);
-+    }
  
-     sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
+-    /* Offset 0x250 is a pointer to the first setup_data link. */
+-    stq_p(header + 0x250, first_setup_data);
++    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, prot_addr);
++    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
++    fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
++    sev_load_ctx.kernel_data = (char *)kernel;
++    sev_load_ctx.kernel_size = kernel_size;
  
+     /*
+      * If we're starting an encrypted VM, it will be OVMF based, which uses the
+@@ -1099,16 +1114,18 @@ void x86_load_linux(X86MachineState *x86ms,
+      * file the user passed in.
+      */
+     if (!sev_enabled()) {
++        struct setup_data_fixup *fixup = g_malloc(sizeof(*fixup));
++
+         memcpy(setup, header, MIN(sizeof(header), setup_size));
++        /* Offset 0x250 is a pointer to the first setup_data link. */
++        fixup->pos = setup + 0x250;
++        fixup->val = first_setup_data;
++        fixup->addr = real_addr;
++        fw_cfg_add_bytes_callback(fw_cfg, FW_CFG_SETUP_ADDR, fixup_setup_data, NULL,
++                                  fixup, &fixup->addr, sizeof(fixup->addr), true);
++    } else {
++        fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_ADDR, real_addr);
+     }
+-
+-    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, prot_addr);
+-    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
+-    fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
+-    sev_load_ctx.kernel_data = (char *)kernel;
+-    sev_load_ctx.kernel_size = kernel_size;
+-
+-    fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_ADDR, real_addr);
+     fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_SIZE, setup_size);
+     fw_cfg_add_bytes(fw_cfg, FW_CFG_SETUP_DATA, setup, setup_size);
+     sev_load_ctx.setup_data = (char *)setup;
+diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+index d605f3f45a..564bda3395 100644
+--- a/hw/nvram/fw_cfg.c
++++ b/hw/nvram/fw_cfg.c
+@@ -692,12 +692,12 @@ static const VMStateDescription vmstate_fw_cfg = {
+     }
+ };
+ 
+-static void fw_cfg_add_bytes_callback(FWCfgState *s, uint16_t key,
+-                                      FWCfgCallback select_cb,
+-                                      FWCfgWriteCallback write_cb,
+-                                      void *callback_opaque,
+-                                      void *data, size_t len,
+-                                      bool read_only)
++void fw_cfg_add_bytes_callback(FWCfgState *s, uint16_t key,
++                               FWCfgCallback select_cb,
++                               FWCfgWriteCallback write_cb,
++                               void *callback_opaque,
++                               void *data, size_t len,
++                               bool read_only)
+ {
+     int arch = !!(key & FW_CFG_ARCH_LOCAL);
+ 
+diff --git a/include/hw/nvram/fw_cfg.h b/include/hw/nvram/fw_cfg.h
+index 0e7a8bc7af..e4fef393be 100644
+--- a/include/hw/nvram/fw_cfg.h
++++ b/include/hw/nvram/fw_cfg.h
+@@ -117,6 +117,28 @@ struct FWCfgMemState {
+  */
+ void fw_cfg_add_bytes(FWCfgState *s, uint16_t key, void *data, size_t len);
+ 
++/**
++ * fw_cfg_add_bytes_callback:
++ * @s: fw_cfg device being modified
++ * @key: selector key value for new fw_cfg item
++ * @select_cb: callback function when selecting
++ * @write_cb: callback function after a write
++ * @callback_opaque: argument to be passed into callback function
++ * @data: pointer to start of item data
++ * @len: size of item data
++ * @read_only: is file read only
++ *
++ * Add a new fw_cfg item, available by selecting the given key, as a raw
++ * "blob" of the given size. The data referenced by the starting pointer
++ * is only linked, NOT copied, into the data structure of the fw_cfg device.
++ */
++void fw_cfg_add_bytes_callback(FWCfgState *s, uint16_t key,
++                               FWCfgCallback select_cb,
++                               FWCfgWriteCallback write_cb,
++                               void *callback_opaque,
++                               void *data, size_t len,
++                               bool read_only);
++
+ /**
+  * fw_cfg_add_string:
+  * @s: fw_cfg device being modified
 -- 
-2.30.4
+2.37.3
 
 
