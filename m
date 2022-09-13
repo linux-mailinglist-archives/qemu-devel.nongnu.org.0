@@ -2,111 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEBCC5B6B29
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 11:49:50 +0200 (CEST)
-Received: from localhost ([::1]:47176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE3905B6B38
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 11:55:49 +0200 (CEST)
+Received: from localhost ([::1]:34602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY2Y8-0006GT-TY
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 05:49:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58826)
+	id 1oY2dw-0001Js-Ou
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 05:55:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oY2T7-0002bO-Mm
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 05:44:37 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:44797)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oY2Ty-0003N2-88
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 05:45:32 -0400
+Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f]:45944)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oY2T4-0006r5-2J
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 05:44:36 -0400
-Received: by mail-pf1-x433.google.com with SMTP id j12so11195095pfi.11
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 02:44:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=ZmfmFbMYmaq0ZyQMdMN01+8jHfJN0luS93tqSO/DBY4=;
- b=kjd/plfmNvrnSBexSRLrDTrVGwbFvpmKW/pCZ9ip9X3RoMI0PIUIt+BX7cJtWwzy+T
- N6FzGmRSYRbga2Hfey2bwFqsTNtkZ3PtoRAzL2bq20SSTD099hzZZR2HKnkQsBLhs0Xr
- pGrlRrtmyHjhWXepdyNQlVL4TclSL5+7o2GRqb1mg8L5MJsCX5BMltQxX5lleEImYIJG
- jQwSkPAv/SNPTmNOeqDc8HSrQIrmjdhIBFOXM2UC3nT0BG/Yq8OC3tiPvYTDIPnEEAq/
- hZzpJnQ3ur8fgAox4BiTLBYLUW/hY8W89cnaJk+CshU7bSYsyWnaw+0JSUVdBrg1EVXA
- 8W2Q==
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oY2Tv-0007AO-T8
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 05:45:29 -0400
+Received: by mail-lj1-x22f.google.com with SMTP id c7so2290928ljm.12
+ for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 02:45:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=VMSKcv+0+y/N1AvPgMImqlIcoBM/UPsrLt3PSg5oBK8=;
+ b=gMKEb2kHhYqDg9FNS5fxyMjCOKU/FxF16947aqwaz4EakouXzp8kd6/U5DsIeFBud1
+ 3QRqFXXTf3fEQNfDkPEeT3lA1/Gj7O/n5q5iPP2bOQTmQ+jmHAXqfpMcOJ8Yjhvm2XmE
+ W9b+rKljgNC5PS/pUextffxpRNtqpcBU122mGJLqlk/H6aQE4ZlahKxrbS+mcM81jLHt
+ I2I5e+bSTSs/HyorQATR5AD01CYD/vbuqVuIHJka02kcIt10mNZ3mV8mAJjRy6N7ISPu
+ zMVRFMQ+qQd08EVR/1Vas7LhxNi1M7Tao4I44mMvmMA6D72/ON/3522O27s615ordHzS
+ YgXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=ZmfmFbMYmaq0ZyQMdMN01+8jHfJN0luS93tqSO/DBY4=;
- b=lfv1tAA4WmKibgVPnDLuJ4ELBI9HAswwn5AuxWwNy7NB3WGrvW8lDkEJ4sKuSRuWv4
- 7MOSD5hJ4h1Zau52JlGfuaFdSURg1dG42hbT6OysD2nnzO3euuyKfk3h1BYR00Y3Vub/
- ZuqX2MzhVOcqmpafZYorC50ONflIN7y4dja/gGib1v8L2ex6qvrZN/7tob9SdIwExzwQ
- S0Jx0RO/JyNyI/yF8mcB9A4jTBt1u2rQ9P5szrXON7A0Rb9iouWlKY1kLN6Lzt/v8Dot
- RKDjnxgEtZ9FiK63FCDQVW8f8wZFrmGbebWeNlRY8yGwax5Xw2NgN5TVKdEoG/XG3HN1
- 6dvw==
-X-Gm-Message-State: ACgBeo3QFwRAMfsiKi4GarbLmKpkxBQIyfLLPdHoY5yQYp/odyOHblcJ
- TaMF+5srHZaYXCU9jKRP5Mr36A==
-X-Google-Smtp-Source: AA6agR7eB/++IWh7o7ceymNTd594u7FaPNMIjNiPIe8nwYUseP7bj+TI+2SkDa9U94pgy3+68+fu7Q==
-X-Received: by 2002:a05:6a00:1892:b0:540:acee:29e8 with SMTP id
- x18-20020a056a00189200b00540acee29e8mr24802369pfh.1.1663062271855; 
- Tue, 13 Sep 2022 02:44:31 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com.
- [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- e14-20020a63db0e000000b0042c2def703asm7191167pgg.22.2022.09.13.02.44.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Sep 2022 02:44:31 -0700 (PDT)
-Date: Tue, 13 Sep 2022 09:44:27 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Hugh Dickins <hughd@google.com>,
- Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>,
- "Gupta, Pankaj" <pankaj.gupta@amd.com>,
- Elena Reshetova <elena.reshetova@intel.com>
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <YyBQ+wzPtGwwRB/U@google.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
- <20220818132421.6xmjqduempmxnnu2@box>
- <c6ccbb96-5849-2e2f-3b49-4ea711af525d@google.com>
- <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
- <c194262b-b634-4baf-abf0-dc727e8f1d7@google.com>
- <20220831142439.65q2gi4g2d2z4ofh@box.shutemov.name>
- <20220908011037.ez2cdorthqxkerwk@box.shutemov.name>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=VMSKcv+0+y/N1AvPgMImqlIcoBM/UPsrLt3PSg5oBK8=;
+ b=wJpPiX5Z9Q9WxoWMQFJYeTE/n8n5bLFUg7Jma/fuiS7qu3n+91Uo2/plF6eq+aQWjc
+ bRU32yKaybjXxahs+fpWpirKo5HBaYTngadmegiusGx8aMIAhZh8ZKsZVmCoO9IuOjaQ
+ MCJynKLVDhzaQgSVgoYii3ijxi6ZP2AwIn9ZOeqaTtm8U0T4ByOVIMjcgUm+vzWx9x2j
+ 5jACi/3AQVBJROrdoFMSv/NitfGt7fMzWpbQOGBejD8+OqOBGbpPJXKZf2ENf71szxcu
+ Wy0F2yi38DeLy1uGPxrDzDP3rdygkXh2keb/UzImdi6hNkgvJv6rhhpV8vG5dgUfmIN/
+ aHZg==
+X-Gm-Message-State: ACgBeo0zcVivgbUx/trymR+0MQmFMxNRlcMzYt99QoeOr4eDZTI0EkRe
+ aZo75sE0IQwp1/a3IPEfqOySrcOTSKAO6Ke1O98=
+X-Google-Smtp-Source: AA6agR5DIy08SPLdAGRq63Un9SkmhaWAkvb7crTiCE955BkLtizatt9hZoJD8aI5kjdOKHbROmk7GEbQyYWidp+eMb0=
+X-Received: by 2002:a2e:8917:0:b0:26a:a520:db52 with SMTP id
+ d23-20020a2e8917000000b0026aa520db52mr8647804lji.289.1663062325520; Tue, 13
+ Sep 2022 02:45:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220908011037.ez2cdorthqxkerwk@box.shutemov.name>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=seanjc@google.com; helo=mail-pf1-x433.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+References: <20220909014052.7297-1-dongwon.kim@intel.com>
+In-Reply-To: <20220909014052.7297-1-dongwon.kim@intel.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 13 Sep 2022 13:45:13 +0400
+Message-ID: <CAJ+F1CK-NMGyZTKJqo=gqigPAnku3vXabcbfR8SPmW09TCOw7A@mail.gmail.com>
+Subject: Re: [PATCH] virtio-gpu: update scanout if there is any area covered
+ by the rect
+To: Dongwon Kim <dongwon.kim@intel.com>
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000026f25005e88bdf50"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -122,29 +83,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 08, 2022, Kirill A. Shutemov wrote:
-> On Wed, Aug 31, 2022 at 05:24:39PM +0300, Kirill A . Shutemov wrote:
-> > On Sat, Aug 20, 2022 at 10:15:32PM -0700, Hugh Dickins wrote:
-> > > > I will try next week to rework it as shim to top of shmem. Does it work
-> > > > for you?
-> > > 
-> > > Yes, please do, thanks.  It's a compromise between us: the initial TDX
-> > > case has no justification to use shmem at all, but doing it that way
-> > > will help you with some of the infrastructure, and will probably be
-> > > easiest for KVM to extend to other more relaxed fd cases later.
-> > 
-> > Okay, below is my take on the shim approach.
-> > 
-> > I don't hate how it turned out. It is easier to understand without
-> > callback exchange thing.
-> > 
-> > The only caveat is I had to introduce external lock to protect against
-> > race between lookup and truncate.
+--00000000000026f25005e88bdf50
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-As before, I think this lock is unnecessary.  Or at least it's unnessary to hold
-the lock across get/put.  The ->invalidate() call will ensure that the pfn is
-never actually used if get() races with truncation.
+On Fri, Sep 9, 2022 at 5:50 AM Dongwon Kim <dongwon.kim@intel.com> wrote:
 
-Switching topics, what actually prevents mmapp() on the shim?  I tried to follow,
-but I don't know these areas well enough.
+> The scanout is currently updated only if the whole rect is inside the
+> scanout space. This is not a correct condition because the scanout should
+> be updated even a small area in the scanout space is covered by the rect.
+>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+
+> ---
+>  hw/display/virtio-gpu.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+> index 20cc703dcc..5e15c79b94 100644
+> --- a/hw/display/virtio-gpu.c
+> +++ b/hw/display/virtio-gpu.c
+> @@ -515,9 +515,10 @@ static void virtio_gpu_resource_flush(VirtIOGPU *g,
+>          for (i =3D 0; i < g->parent_obj.conf.max_outputs; i++) {
+>              scanout =3D &g->parent_obj.scanout[i];
+>              if (scanout->resource_id =3D=3D res->resource_id &&
+> -                rf.r.x >=3D scanout->x && rf.r.y >=3D scanout->y &&
+> -                rf.r.x + rf.r.width <=3D scanout->x + scanout->width &&
+> -                rf.r.y + rf.r.height <=3D scanout->y + scanout->height &=
+&
+> +                rf.r.x < scanout->x + scanout->width &&
+> +                rf.r.x + rf.r.width >=3D scanout->x &&
+> +                rf.r.y < scanout->y + scanout->height &&
+> +                rf.r.y + rf.r.height >=3D scanout->y &&
+>                  console_has_gl(scanout->con)) {
+>                  dpy_gl_update(scanout->con, 0, 0, scanout->width,
+>                                scanout->height);
+> --
+> 2.20.1
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--00000000000026f25005e88bdf50
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 9, 2022 at 5:50 AM Dongwo=
+n Kim &lt;<a href=3D"mailto:dongwon.kim@intel.com">dongwon.kim@intel.com</a=
+>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">The=
+ scanout is currently updated only if the whole rect is inside the<br>
+scanout space. This is not a correct condition because the scanout should<b=
+r>
+be updated even a small area in the scanout space is covered by the rect.<b=
+r>
+<br>
+Cc: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D"_blank=
+">kraxel@redhat.com</a>&gt;<br>
+Signed-off-by: Dongwon Kim &lt;<a href=3D"mailto:dongwon.kim@intel.com" tar=
+get=3D"_blank">dongwon.kim@intel.com</a>&gt;<br></blockquote><div><br></div=
+><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.l=
+ureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div>=C2=A0<br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0hw/display/virtio-gpu.c | 7 ++++---<br>
+=C2=A01 file changed, 4 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c<br>
+index 20cc703dcc..5e15c79b94 100644<br>
+--- a/hw/display/virtio-gpu.c<br>
++++ b/hw/display/virtio-gpu.c<br>
+@@ -515,9 +515,10 @@ static void virtio_gpu_resource_flush(VirtIOGPU *g,<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; g-&gt;parent_obj.con=
+f.max_outputs; i++) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0scanout =3D &amp;g-&gt;pare=
+nt_obj.scanout[i];<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (scanout-&gt;resource_id=
+ =3D=3D res-&gt;resource_id &amp;&amp;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rf.r.x &gt;=3D sca=
+nout-&gt;x &amp;&amp; rf.r.y &gt;=3D scanout-&gt;y &amp;&amp;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rf.r.x + rf.r.widt=
+h &lt;=3D scanout-&gt;x + scanout-&gt;width &amp;&amp;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rf.r.y + rf.r.heig=
+ht &lt;=3D scanout-&gt;y + scanout-&gt;height &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rf.r.x &lt; scanou=
+t-&gt;x + scanout-&gt;width &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rf.r.x + rf.r.widt=
+h &gt;=3D scanout-&gt;x &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rf.r.y &lt; scanou=
+t-&gt;y + scanout-&gt;height &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rf.r.y + rf.r.heig=
+ht &gt;=3D scanout-&gt;y &amp;&amp;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0console_has_g=
+l(scanout-&gt;con)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dpy_gl_update=
+(scanout-&gt;con, 0, 0, scanout-&gt;width,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0scanout-&gt;height);<br>
+-- <br>
+2.20.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--00000000000026f25005e88bdf50--
 
