@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4B685B6920
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 09:59:56 +0200 (CEST)
-Received: from localhost ([::1]:52464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD365B6936
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 10:10:21 +0200 (CEST)
+Received: from localhost ([::1]:39632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY0pn-0001AI-Vz
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 03:59:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54802)
+	id 1oY0zr-0004pg-Uy
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 04:10:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY0kd-0006JM-Ar
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 03:54:35 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:53841)
+ id 1oY0qK-0001Kg-L0
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:00:30 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45668)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY0kb-0006f4-M2
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 03:54:34 -0400
-Received: by mail-wm1-x333.google.com with SMTP id e18so2696572wmq.3
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 00:54:33 -0700 (PDT)
+ id 1oY0qD-0007ht-0p
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:00:27 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id bj14so19366190wrb.12
+ for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 01:00:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=cr0FYEC8N/9cpLR6UjtJaUGvYAv9xu00Chg+N+Yzs8U=;
- b=OBHM2YPO5wWKC2op1l9f4z7z1tcT1o0TKI3n0xBqIhJjchQX2XMJS0fsTB30/xLvEm
- IleKiS5d15p4rhBH+rY430a2WChfFHqS3513/nc4wNHr1Cd8BKUt7Mv0L+tcByUjNUMX
- C3DbQ1jIJqb9xKPHjG3isq7Iq029T9+jXviQ2MhS4cEytSRpnEi+Aur6excHzcKvgb+j
- Vu5F4+nV3LqcxqZ+vLp949xocIGY6ZJm2xpys+vJBwK04Yc1+efa+oxEcYWSYfx6Evn2
- fBkpTmuaZ+5ug4cXOL1yBH5tAPAm9OYn/8qLvoebQ58kOWS62T5gGs4pbK7t13u6/z2e
- UVTg==
+ bh=t3fku3er/LSlukd4QIdByMW7FqcN5Iqudg/exfqwopE=;
+ b=idy/QXzZkYjePfejtLHk8nt7b46/bZXVAHNCXuYyQZ2GCIVSX4z1vnOZpDCnLYF3av
+ XOPcEIJp9AnBhincOvMFEyiA3I2V4e4HYjVaHG3GsqYyAR0XhvEOZtjmfF5I01mcADdL
+ JmmKaZbefJJIbOWqGzAU5beDB34GpAZ/F3sgLgBpPFvqDfuXnFmLqSL6kkwAg0GbmqpL
+ omrfCiQWSCOEgRkSo+TyYjjtCc1GgzRq1UEDF93iJs91A9G9aGjUvIZFpgNpu6gtRuAG
+ TEJ0wQ6wyrs+XjWcwMP3vKCHu+N0Btxg3uLzFO6eTuZAmnVO0L85OtDt/vfzsSK1NM/z
+ izEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=cr0FYEC8N/9cpLR6UjtJaUGvYAv9xu00Chg+N+Yzs8U=;
- b=cEaNA/LKAPhxWnwWF8r8WSQVbMezyi/RDph0YYaBDjxdkWe95Cg8c8txQ1Z7s7k+RI
- aY4f/4nKsoOEyCe4gEnMEuhDaGTdG0bElsotECh7wdp47U9N4dS/m/zv7X56dN9mpXGh
- fxrZE/oDS3yduCEgwTJ1XyWXI7vlaW92CPe4U6gf4ZdhNJl0OGBx+w25skM0mF+ZxMdM
- IHHizesDEWHMBGFY8UIrVjRu/ePhROvu2WCvnNUYNgTwCiDrbdQVV56LFjAWApWQVyEM
- 2cIVBG1pvkC9lH+gORaE62KPKTHgGfFP29+8vhSGQuKOWcdmpj/+SJ4XpnlhmvXU7xxH
- PGcA==
-X-Gm-Message-State: ACgBeo3pruJZBjai/oYZdx8U8b2pxpXQkJRnE0e96zji0+HY7m2IQxZ6
- Kul4byS6UDFW4leW3TJA/53Jmw==
-X-Google-Smtp-Source: AA6agR75x9EnKhF37JpSwuh2hNntgHy3c4HhpJ3UD617azzeDXqk2I0ZDl8v3XoO0AjzgPyJloy8FA==
-X-Received: by 2002:a05:600c:1550:b0:3a6:1d8c:247e with SMTP id
- f16-20020a05600c155000b003a61d8c247emr1388663wmg.63.1663055671394; 
- Tue, 13 Sep 2022 00:54:31 -0700 (PDT)
+ bh=t3fku3er/LSlukd4QIdByMW7FqcN5Iqudg/exfqwopE=;
+ b=tG3wFSRvtkdUbmaX1TlS0urdLLijOklHa/LyO39jdawdBSv1knR58BU87goFN29tRI
+ lrXfX9J06uotsXh4WxmrLkFuDg3auNqjDYbrNqBwZMN681ltG4WFEozihtd3IeZYrzfx
+ AufD/aH1eDiI5yfPWgESpy80fjpqqQp4oNqv6/7XK8bXxhjlHNaTCvP4T9JpQMN95FaP
+ 5DWtMcuvcsS4U2ReMeqzAAtFKB8W7uDHKYym4rS2LcLLN//lmjD7Cj3ZJJXTo1bTSFRp
+ 6WxWPCB8Wzl4kR061LFx4pVt8xnk4uOtjuimPsgJsujwJX3OD5wK4no82cp9umX7SZni
+ NLvA==
+X-Gm-Message-State: ACgBeo1ng6Okruo4gbWEovSMfEeKBOUs4vblW/mXlzzBMVJKiX9uckPz
+ jtLtEJJreKY0C+bx9hANkhf6HQ==
+X-Google-Smtp-Source: AA6agR4nQzOAWwLmh+lHl64+lObM7KZo9cgf1y5a7W3KR2INFRtJJmZD18qEFqL++PhoXeidUbHA0A==
+X-Received: by 2002:adf:e508:0:b0:228:62fd:932b with SMTP id
+ j8-20020adfe508000000b0022862fd932bmr18041229wrm.410.1663056019057; 
+ Tue, 13 Sep 2022 01:00:19 -0700 (PDT)
 Received: from [10.119.17.153] ([89.101.193.67])
  by smtp.gmail.com with ESMTPSA id
- j24-20020a05600c1c1800b003a8434530bbsm13696644wms.13.2022.09.13.00.54.30
+ b1-20020a056000054100b0022ac107e287sm946769wrf.113.2022.09.13.01.00.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Sep 2022 00:54:30 -0700 (PDT)
-Message-ID: <30f1d9b3-ec0d-c398-3d67-cfff9acb3cb1@linaro.org>
-Date: Tue, 13 Sep 2022 08:54:29 +0100
+ Tue, 13 Sep 2022 01:00:18 -0700 (PDT)
+Message-ID: <c3f92ec4-b642-a972-00d5-4d3b5afa2348@linaro.org>
+Date: Tue, 13 Sep 2022 09:00:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v3 14/24] disas/nanomips: Delete wrapper functions
+Subject: Re: [PATCH v3 15/24] disas/nanomips: Replace std::string type
 Content-Language: en-US
 To: Milica Lazarevic <milica.lazarevic@syrmia.com>, thuth@redhat.com
 Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
@@ -68,13 +68,13 @@ Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
  peter.maydell@linaro.org, djordje.todorovic@syrmia.com, mips32r2@gmail.com,
  dragan.mladjenovic@syrmia.com
 References: <20220912122635.74032-1-milica.lazarevic@syrmia.com>
- <20220912122635.74032-15-milica.lazarevic@syrmia.com>
+ <20220912122635.74032-16-milica.lazarevic@syrmia.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220912122635.74032-15-milica.lazarevic@syrmia.com>
+In-Reply-To: <20220912122635.74032-16-milica.lazarevic@syrmia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -98,16 +98,46 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/12/22 13:26, Milica Lazarevic wrote:
-> Following functions just wrap the decode_gpr_gpr3() function:
-> - encode_rs3_and_check_rs3_ge_rt3()
-> - encode_rs3_and_check_rs3_lt_rt3()
-> Therefore those have been deleted. Calls to these two functions have
-> been replaced with calls to decode_gpr_gpr3.
+> The return type of typedef disassembly_function is changed to char *
+> instead of std::string. Therefore, for every particular
+> disassembly_function function signature is changed.
+> For example:
+> - static std::string ABS_D(uint64 instruction, img_address m_pc) {...}
+> is replaced with
+> - static char *ABS_D(uint64 instruction, img_address m_pc) {...}
+> 
+> Every helper function used to return std::string is changed to return
+> const char * or char *. Where the return value points to a static string
+> that the caller must not free, the return type is const char *. If a
+> function allocates memory and the caller is required to free it, the
+> return type is a char *. This applies to the following functions:
+> img_format, to_string, GPR, save_restore_list, FPR, etc.
+> 
+> Now that we replaced every std::string for const char * or char *, it is
+> possible to delete multiple versions of the img_format function. The
+> general version:
+> - static char *img_format(const char *format, ...) {...}
+> can handle all string formatting, so others have been deleted.
+> 
+> Where necessary, strings are dynamically allocated with g_strjoinv,
+> g_strdup, g_strdup_vprintf, and g_strdup_printf. Memory leaking will be
+> prevented later.
+> 
+> String concatenation in the save_restore_list() function is handled
+> using g_strjoinv() function instead of += operator.
+> 
+> The type of the "dis" parameter in the Disassemble function is changed
+> - from std::string &
+> - to char **
+> 
+> Without applying all of these changes, the nanomips disassembler may be
+> buildable but can't produce the appropriate output, so all of them are
+> made together.
 > 
 > Signed-off-by: Milica Lazarevic<milica.lazarevic@syrmia.com>
 > ---
->   disas/nanomips.cpp | 18 ++----------------
->   1 file changed, 2 insertions(+), 16 deletions(-)
+>   disas/nanomips.cpp | 4776 ++++++++++++++++++++++----------------------
+>   1 file changed, 2337 insertions(+), 2439 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
