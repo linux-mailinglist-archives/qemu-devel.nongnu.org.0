@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54F0A5B698A
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 10:28:29 +0200 (CEST)
-Received: from localhost ([::1]:58222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A67225B6989
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 10:27:05 +0200 (CEST)
+Received: from localhost ([::1]:50888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY1HQ-0001nC-F4
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 04:28:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37730)
+	id 1oY1G4-0000bs-Fv
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 04:27:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY12H-0006xb-Ne
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:12:49 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:45641)
+ id 1oY16p-0002ZL-HD
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:17:32 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:37391)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY12G-00016v-0N
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:12:49 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- bd26-20020a05600c1f1a00b003a5e82a6474so8943709wmb.4
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 01:12:47 -0700 (PDT)
+ id 1oY16n-0001vz-Pj
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:17:31 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id bq9so19500271wrb.4
+ for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 01:17:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=njiK9Q0qTCDSrRMxs8pQaQFWrdNzFSz11cSl2bGgZYw=;
- b=ErEknhjQ4GpM27fKLs+ebX27XMFy/Ph1JI1i+krS4PxSOxdF1EoWMbI7WtaSobmx35
- oSS80HTL+VgzvP6S0tE6RgQm6tH4RkewT1nYZ+jVNntMcOCgNVLBnTVJ2ts1yPYQ7tAb
- VuOWL4A4PMaMzN4RVXV2GQUvHFyw7Y4jmraHdcftOYvmbxD8SC6mvrSAdwBuydEXvl24
- 0wNBBwPeyhv5Rxp8swEi1y9SrEQ96i+kZQ372QgfhdApU1QnVaEe5SHtf5+n9KQzc6Jm
- vPdRJgSacevT24rBWr9kbFkTtxaHY1VdzWpR2rDjko8W/RJ9Udn2DOqH/DG9M+9eKfBZ
- J3dw==
+ bh=o8heCAAGFmngXAFNEm2Vq565UFQF73sCaIrrE6hijIg=;
+ b=hOYofjRq3qHKc2VsJOIOS4x3xrouQLXfG+d33JL+qQSZZeNWdFpvAKQtotTrkrL8n7
+ 2oL6SqDkvx9NU0zqPNP4lc30jhYTeqFeQisA2gbul3QPztw4tRFqH3CfjWJtC1NCzSer
+ J9k5PA2A+CzFViW8sj4IkYQnZ3AhEHNOsSlep23N3UKmLWgNaIuoHM3AkO+aCF0Pf3Oc
+ 5RP1SRr5KiA44grxfWttBLcJlReacSIjm6Dt7TnluvggWveAY3TdrigUW11IrZvnxxj0
+ DerkmiTurIyX8srUSV5WAdMY8pLT2dtDBAwGXqmVBgumoEpjIdK6QF4yYg3OFNHjK5SB
+ FN2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=njiK9Q0qTCDSrRMxs8pQaQFWrdNzFSz11cSl2bGgZYw=;
- b=x+bDMh+m+bTpTGlIXWv8I9nU7hPKMK6EI319kfPo3pN7nChDwl/qaudARkvNdTpRSv
- +U55x82Grz3igJmjkpqTNqXLroUZPDpU+PdCZXs+Cz4f4nmQU1N6T1MNVeyS7Aj382Mn
- TvdRtaI4US9BglhwnAAukUmyPELZbca4NKHr9KeQByjshN7z7ILqByOSAi4LFaNGhqMN
- yR3cbVialB6kEs4xOFJxy6PNQN0H9dvCdrEjAV/na6ypTB2CAsfoF8jRCS3+Ze+WisGA
- iUcaDVlm8s+RZqcDKt2PbG09gUp8XNWRR8HrReTK/x8R/w186cC4kx7QTSqvEqkY5izk
- Bfpg==
-X-Gm-Message-State: ACgBeo1b5hTeBwirbAH5BoCW/1u+7wxzU2MUYZrUkfVSNY5GVIjLBm+/
- CWj0cSt6XD4xu26JTkG2GC2Rgg==
-X-Google-Smtp-Source: AA6agR6S8cSc6ftRiKErldVoYxSMfuUu6D52yYfPxJbIzkPSrEnE9EoP8SkRkuBlU7F9YvcMgj6Klg==
-X-Received: by 2002:a05:600c:2191:b0:3b4:868a:aad3 with SMTP id
- e17-20020a05600c219100b003b4868aaad3mr1455370wme.112.1663056766416; 
- Tue, 13 Sep 2022 01:12:46 -0700 (PDT)
+ bh=o8heCAAGFmngXAFNEm2Vq565UFQF73sCaIrrE6hijIg=;
+ b=TMtTGKOBvrQ0W6NaeaUXP4YMXw7nH0X/5M7SeItYMjf7pqKQsi+XDlFvybZLzprajJ
+ u0a8W2NEAscsgzD98ePA1F0pkiV8E3W/hMmf6/OEfRcd3+AGBMxyBEV/W+CO1hORk7D6
+ HbSP7D463cZfi70bnkRfsUozC6SF1lAIDAeb2bzANncDdFnpB+CRGMq9wMzU2sjLQ1Bp
+ 74r0XhGFzmmc5ZMFe4t0hvCH4R/wmoakDWypjdNupLsumdDLS/DYB2sZmVNUr78G1H35
+ SQF32y0Zdwczw7QUtWRMvs5k9v5UT5tY2OXgPWZh6GZEnlZBhTdbpHx24n2Nz3KV+EUn
+ H2aA==
+X-Gm-Message-State: ACgBeo0US5TlsaAdYWY2a6kNRTZvi4+76k6oJcm97lMVhYlve5MG7MWN
+ +9iRRQWiONCgmA/1R1BjfCDjXQ==
+X-Google-Smtp-Source: AA6agR5Ud+ErlfZwMz68j3qn8UGRDWz+P+2tqFmaxWyce0UkbmMQlVLdE1SV/nxHBiofzeZBQV9agg==
+X-Received: by 2002:a5d:64ab:0:b0:226:d997:ad5c with SMTP id
+ m11-20020a5d64ab000000b00226d997ad5cmr16852419wrp.602.1663057048111; 
+ Tue, 13 Sep 2022 01:17:28 -0700 (PDT)
 Received: from [10.119.17.153] ([89.101.193.67])
  by smtp.gmail.com with ESMTPSA id
- r23-20020a05600c321700b003b47575d304sm11620751wmp.32.2022.09.13.01.12.37
+ b10-20020a05600010ca00b00224f7c1328dsm9628431wrx.67.2022.09.13.01.16.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Sep 2022 01:12:45 -0700 (PDT)
-Message-ID: <8dea16e5-a7d8-aa15-e23e-e03091db9b90@linaro.org>
-Date: Tue, 13 Sep 2022 09:12:20 +0100
+ Tue, 13 Sep 2022 01:17:27 -0700 (PDT)
+Message-ID: <f7c21765-083c-4548-6d82-4fb855cd0f22@linaro.org>
+Date: Tue, 13 Sep 2022 09:12:53 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v3 21/24] disas/nanomips: Replace exception handling
+Subject: Re: [PATCH v3 24/24] disas/nanomips: Rename nanomips.cpp to nanomips.c
 Content-Language: en-US
 To: Milica Lazarevic <milica.lazarevic@syrmia.com>, thuth@redhat.com
 Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
@@ -69,13 +68,13 @@ Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
  peter.maydell@linaro.org, djordje.todorovic@syrmia.com, mips32r2@gmail.com,
  dragan.mladjenovic@syrmia.com
 References: <20220912122635.74032-1-milica.lazarevic@syrmia.com>
- <20220912122635.74032-22-milica.lazarevic@syrmia.com>
+ <20220912122635.74032-25-milica.lazarevic@syrmia.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220912122635.74032-22-milica.lazarevic@syrmia.com>
+In-Reply-To: <20220912122635.74032-25-milica.lazarevic@syrmia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -99,18 +98,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/12/22 13:26, Milica Lazarevic wrote:
-> Since there's no support for exception handling in C, the try-catch
-> blocks have been deleted, and throw clauses are replaced. When a runtime
-> error happens, we're printing out the error message. Disassembling of
-> the current instruction interrupts. This behavior is achieved by adding
-> sigsetjmp() to discard further disassembling after the error message
-> prints and by adding the siglongjmp() function to imitate throwing an
-> error. The goal was to maintain the same output as it was.
+> Now that everything has been converted to C code the nanomips.cpp file
+> has been renamed. Therefore, meson.build file is also changed.
 > 
 > Signed-off-by: Milica Lazarevic<milica.lazarevic@syrmia.com>
 > ---
->   disas/nanomips.cpp | 100 ++++++++++++++++++++-------------------------
->   1 file changed, 45 insertions(+), 55 deletions(-)
+>   disas/meson.build                  | 2 +-
+>   disas/{nanomips.cpp => nanomips.c} | 0
+>   2 files changed, 1 insertion(+), 1 deletion(-)
+>   rename disas/{nanomips.cpp => nanomips.c} (100%)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
