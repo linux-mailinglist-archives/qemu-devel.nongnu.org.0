@@ -2,78 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 340B35B6D68
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 14:38:09 +0200 (CEST)
-Received: from localhost ([::1]:39514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9414D5B6D66
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 14:37:48 +0200 (CEST)
+Received: from localhost ([::1]:37916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY5B2-0004Di-Bm
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 08:38:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44256)
+	id 1oY5Af-0003rh-JC
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 08:37:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oY54O-0007eZ-LT
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 08:31:17 -0400
-Received: from mail-lj1-x22a.google.com ([2a00:1450:4864:20::22a]:41632)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oY54N-0003H7-2D
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 08:31:16 -0400
-Received: by mail-lj1-x22a.google.com with SMTP id a14so12048621ljj.8
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 05:31:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=LNdxrbPBK23WVdXFvSIizl+cvfvwQk08JoyV4N0LB8Q=;
- b=PeeXsnPN3sc4CAxzFfzTYb+JYY5Mn3le2eRYJovZj0p5adZXwwU98Mtn49NEx6G5Tl
- ikNL737pXdsn4Cjhz2+TCfXcsXHdcHG09siyUri8uDrDnXizxTjcBmXqAr3wMc49eWiO
- WZWDKvajpOWn5guHTgkHU6woN73ilIEJVdKVjM4u8ekX0qaYEg83TMFA6if6HrGjHUzz
- x14s09t+ZCkx7hpp37c0HU016/ibB6ait31LO7Ptj8TTsgPcXnFJqwfSu8jFxu96MDvN
- TzZD7MyWIwjbcoSEv5gQ8xSGXn0Iw2kqVQZCe+ZlIOirHJzrJq7pHH3WLI1+5eHc9rjj
- iFMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=LNdxrbPBK23WVdXFvSIizl+cvfvwQk08JoyV4N0LB8Q=;
- b=0hrCoZRCCCTPO0xDjw62AgosSzyiJLUoA2HT8z0XjVtw8Gf04OUC8egLmdIKlLFHx4
- wzHMa8epLT74ofrQTQgpR6375uM5OFiDs7iO9Bv+qNwtyEyxhx6veQuDG9+EeZNFxDU1
- gOnOqqM32EnOxABBr3HfVX3doJ/bSX0ljvLIpsOlwtCDzvF0F37AhzGptEZdreUtmwuO
- z5jM+56Ks/mErTxqtuJq+bNH5Hh+o+TOIn6f+xkq2Vs4kVKV7lHyXMGQjEgulENysY61
- 67x/HpJ7Mn1z65nVngiw+wueDyhTzn/iyUXQ6aOV/D76HbT3J6qIgZ52eV2Owpnf979y
- i//Q==
-X-Gm-Message-State: ACgBeo1l38mYA1PmTGmoqT3esePDm8+pFFx6RXLUqyw0AshJL88SUufL
- Y90CQG7gd1WMaVjcIZbaykq6taOr1FaDRQWRMVl/Gw==
-X-Google-Smtp-Source: AA6agR6CJRR6Rr5IQAac5CZQKsBdteWCa+W/YyjuiJXT1TRs4ptSjxzCUD4wuNINDlzCdTFp2GJzM8WGo9rmvSjwORs=
-X-Received: by 2002:a05:651c:119a:b0:26a:a1b3:e6f2 with SMTP id
- w26-20020a05651c119a00b0026aa1b3e6f2mr9420464ljo.190.1663072271944; Tue, 13
- Sep 2022 05:31:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1oY55H-0007xo-Di
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 08:32:11 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:36604 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1oY55E-0003LI-KQ
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 08:32:11 -0400
+Received: from [10.20.42.238] (unknown [10.20.42.238])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Bx32s9eCBjESUYAA--.23021S3; 
+ Tue, 13 Sep 2022 20:31:57 +0800 (CST)
+Subject: Re: [PATCH v1 0/9] Fix bugs and improve functions for LoongArch
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, maobibo@loongson.cn, imammedo@redhat.com
+References: <20220908094623.73051-1-yangxiaojuan@loongson.cn>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <40e809bf-2f30-6780-7b9c-f53b698d0d4d@loongson.cn>
+Date: Tue, 13 Sep 2022 20:31:57 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20220908173120.16779-1-arwed.meyer@gmx.de>
- <20220908173120.16779-2-arwed.meyer@gmx.de>
- <CAFEAcA_F+ETYHT-HSs3wHwjqP4CEe2LtdfCf8B_P2Ted4xvk+w@mail.gmail.com>
- <1bd4abdc-e0db-1fa6-99ba-84b729e5cb22@gmx.de>
- <CAFEAcA-9RD_Lxypgm1yM6T_R=SS=LD9JPQbD5SFek4_wrCnKhg@mail.gmail.com>
- <8bb22c23-23b2-8c2c-12e7-24a2f299445c@gmx.de>
-In-Reply-To: <8bb22c23-23b2-8c2c-12e7-24a2f299445c@gmx.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 13 Sep 2022 13:30:59 +0100
-Message-ID: <CAFEAcA-KQnyWXueksODWS+Ew_Fq7g2XXZF+gBpVv3wb=8Mhx2w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] msmouse: Handle mouse reset
-To: Arwed Meyer <arwed.meyer@gmx.de>
-Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
- envelope-from=peter.maydell@linaro.org; helo=mail-lj1-x22a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20220908094623.73051-1-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8Bx32s9eCBjESUYAA--.23021S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7Ww4ruF13uF1ftF4fGFWfZrb_yoW8WFyfpF
+ W3Zr1ayr4rJrnFy3s3t3sI9rn5Arn7Cr17XFnrtry8CrW7AryFvFn2y3s8Za4UG34xJFWj
+ vr1Fkw18WF4UZFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvK1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+ w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+ IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E
+ 87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+ 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
+ Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
+ ACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAYIcxG8wCY02Avz4vE-syl
+ 42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW5Wr1UJr1l4I8I3I0E4IkC6x0Yz7
+ v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
+ 1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
+ AIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
+ 42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxh
+ VjvjDU0xZFpf9x0JUdHUDUUUUU=
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
+ NICE_REPLY_A=-0.628, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,18 +77,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 12 Sept 2022 at 18:45, Arwed Meyer <arwed.meyer@gmx.de> wrote:
-> thanks for adding some context. Good question.
-> Unfortunately I don't know the device and migration code much, so I
-> can't really say anything about this. I guess(!) it should be enough to
-> save/load contents of struct MouseChardev. No idea if and how this can
-> be done though.
-> Also since saving/loading device state wasn't supported in the msmouse
-> code to begin with, for me this is a new feature and out of scope for
-> this patch set.
 
-Yes, agreed. I was really hoping to catch the attention of one
-of the reviewers who's more familiar with chardev...
+ÔÚ 2022/9/8 ÏÂÎç5:46, Xiaojuan Yang Ð´µÀ:
+> These patches integrate all previous patches, including
+> '[PATCH v1 0/2] Add mem hotplug and improve acpi dsdt (26 Aug )',
+> '[PATCH v1] hw/loongarch: Fix acpi ged irq number in dsdt table (19
+> Aug)',
+> '[PATCH v1 0/6] Add funtions for LoongArch virt machine (11 Aug)'.
+> As none of the patches has not been reviewed, so we integrate them for
+> more convenient reviewing.
+>
+> Changes for v1:
+> 1. Remove vga device when loongarch init
+> 2. Support fw_cfg dma function
+> 3. Add interrupt information to FDT table
+> 4. Add platform bus support
+> 5. Add hotplug handler for machine
+> 6. Add RAMFB to dynamic_sysbus_devices list
+> 7. Fix acpi ged irq number in dsdt table
+> 8. Support memory hotplug
+> 9. Improve acpi dsdt table
+>
+> Xiaojuan Yang (9):
+>    hw/loongarch: Remove vga device when loongarch init
+>    hw/loongarch: Support fw_cfg dma function
+>    hw/loongarch: Add interrupt information to FDT table
+>    hw/loongarch: Add platform bus support
+>    hw/loongarch: Add hotplug handler for machine
+>    hw/loongarch: Add RAMFB to dynamic_sysbus_devices list
+>    hw/loongarch: Fix acpi ged irq number in dsdt table
+>    hw/loongarch: Support memory hotplug
+>    hw/loongarch: Improve acpi dsdt table
+>
+>   hw/loongarch/Kconfig        |   5 +-
+>   hw/loongarch/acpi-build.c   | 191 ++++++++-------------------------
+>   hw/loongarch/fw_cfg.c       |   3 +-
+>   hw/loongarch/virt.c         | 205 +++++++++++++++++++++++++++++++++++-
+>   include/hw/loongarch/virt.h |   2 +
+>   include/hw/pci-host/ls7a.h  |   5 +
+>   6 files changed, 259 insertions(+), 152 deletions(-)
+>
+This series.
 
--- PMM
+Acked-by: Song Gao <gaosong@loongson.cn>
+
+Thanks.
+Song Gao
+
 
