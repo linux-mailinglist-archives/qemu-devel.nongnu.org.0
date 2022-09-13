@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF4295B690A
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 09:53:52 +0200 (CEST)
-Received: from localhost ([::1]:59508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 203A35B6916
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 09:56:57 +0200 (CEST)
+Received: from localhost ([::1]:47278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY0jv-0005Dl-91
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 03:53:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33286)
+	id 1oY0mu-0007Sc-7o
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 03:56:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY0h7-00032w-KR
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 03:50:57 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38450)
+ id 1oY0iC-00047U-QZ
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 03:52:04 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:53825)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY0h5-0006GT-UF
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 03:50:57 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id b5so19335629wrr.5
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 00:50:55 -0700 (PDT)
+ id 1oY0iB-0006RT-2W
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 03:52:04 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id e18so2692629wmq.3
+ for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 00:52:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=j6/Q1f4wtwAa8XbwzPVxkQJFqMbBEXv7jTq7YYmbUZc=;
- b=msmwVbXGrboLExPI63oA6NgOBv4YPjnL/tdpUdZd2mGwWaflwUDdLYtHeIzGSA+3N2
- UaWvsRU2u1j9jxpFoh4Cvgpze3s1MXGq/SQ4MjADZaVUCEcsMOh5gUCUBbNYlKaE+rPd
- RZP9wLPW6MxzPmLMUVG1/+FroBUTd+SNy+fT6KNqRea35F1el3n7MEhVQMVYsqkHALGE
- 5qep9o68xj10h0Hy8bEvE8k6qRDSdNcZqYjk8Yw+PapvzJH7XftKHKX1pcrfX8eBAYu5
- 6HzaOU2Erw1aNdHvRjjvemIedcly5bKlaoOh1ezwm+vu+N+AMuti8ayUXqgZsd99v7g6
- B/tg==
+ bh=eNS5KekNwBS3111BT2wqS4H4zqus9NbfRNlN1VFNRec=;
+ b=Ti35s9aV15Ls4bzrhIj11qa68V5v7NxVxPelaj4G4ING5+p5hyAKhvY/mf0jp4VuOE
+ 8gJz1LEThMFKGUiMOnlZuvRk3tLc+L8iJcg4EStelhoujUj/GUEaVpAPigNOqhEthYSc
+ NqR8z2zCxV9gE+IMxlup/dNucmOkMWkL9HFPJV2FugA/N4yWmbct3OVdYebBSlWXWPLI
+ 45ES7/DX68BltbjLBG5p639EIp0i4TXioUcoD6qJb1n0kD49D7C72M5s33SWldUCm/Pz
+ jYX6RPueUPWto698ouIA9HBrSxvQAuvVS+P4E06FX+DIUF/DBOoVyV0OogMX7x1nBaIR
+ LmHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=j6/Q1f4wtwAa8XbwzPVxkQJFqMbBEXv7jTq7YYmbUZc=;
- b=TJe0aAkPQlfY9ifufq7J0/xJQRD4F7GEGsiArLL0KrdKrkOEUUUW7iePNIHNwjqIk9
- klrjt4sugS0LG5eZbyVmUBdx1rfBZXc4ZYq21ywjyKhSjT4Vjw9Wf9d57vua6P9Ho5La
- u6gcabSoxN60gGxuIaPxzEInBwGmzPmCnIImMhc/LcwApKAv4GolPZ5hvxCyPe7gmUjL
- bMKn/IqQS4zZI6djMkC/vq5YIM07tB0+9Zpqv2mlBoMh0ql8iU8rY2hh+ZS24pBzy1oN
- EdrjR1k3bCkNdotCmThKHJM9efaMsRMV37JcmRDVSMbKG3/Yz+B8y7VPbRFZlOs0Hzdy
- i40Q==
-X-Gm-Message-State: ACgBeo2wSWOR6pPf83ua1ESH9UdmKlcT+gIAgBjrkXbaKIzWr6kqI6iS
- A61fPcAbr/YscMUxA0dxDsCsng==
-X-Google-Smtp-Source: AA6agR72O0GH4U/rL3Z9OUrV6AW3BvTmq1OgWnX4Qqy+TzeuwNkMzOgYmWvnMP5rNxPMz3wjYLV5mA==
-X-Received: by 2002:a5d:64a4:0:b0:22a:8633:2d59 with SMTP id
- m4-20020a5d64a4000000b0022a86332d59mr5610035wrp.216.1663055454001; 
- Tue, 13 Sep 2022 00:50:54 -0700 (PDT)
+ bh=eNS5KekNwBS3111BT2wqS4H4zqus9NbfRNlN1VFNRec=;
+ b=x4MelzvdQhuVYIT8CzbTB08z0ou4zks5Rz6Xnv+9z9ELXyBJE8acM8srux8RD32cMF
+ bq9U7OqFmVtH27rRhqrwrw5EKLma7J9ehSmYjk4nwbgFquSUIsMu62GKsgiFQiLZ5wbG
+ 43GRY4A8LFvDknKXNVyIWxbOFhkkOWZQTxJ0IyFpXJQkpMbG4Vr3hHp4oIcWeoiH5CTU
+ ZyRWYSGBqCvFi3KRD8gYpDKIrQYYLwFlE2D5dNmD2jlZmFRlz/ZCoQOSkuwxT8BSF1Qs
+ rvefc7Rvsja8+R4KeGoNkim+00InZVF/ruH1XvCFjtM1pPcMRK3oNtG91trKJxUezMB0
+ ZNgw==
+X-Gm-Message-State: ACgBeo3XxuBMKc2OO0OIqGyjbieqvPYmQ+YvRrflGj9PjtkwAjBqSPGh
+ 4W9v5OqFQDCgaMN+reVO0TH/pQ==
+X-Google-Smtp-Source: AA6agR7Pr+cw3HQFxx8u3AKoPzIyhn99DfJz9Q1Mtz1/EeIaqVO+zSYWC0zg+Bwrfw0cZcTKrRXbxg==
+X-Received: by 2002:a1c:2b46:0:b0:3b3:34c1:4cd8 with SMTP id
+ r67-20020a1c2b46000000b003b334c14cd8mr1435238wmr.42.1663055521162; 
+ Tue, 13 Sep 2022 00:52:01 -0700 (PDT)
 Received: from [10.119.17.153] ([89.101.193.67])
  by smtp.gmail.com with ESMTPSA id
- n9-20020a5d6609000000b0021e51c039c5sm9609226wru.80.2022.09.13.00.50.52
+ z11-20020a7bc7cb000000b003b3401f1e24sm12425104wmk.28.2022.09.13.00.52.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Sep 2022 00:50:52 -0700 (PDT)
-Message-ID: <fc65a90e-4693-009e-f3c2-1c7c4bfc7b74@linaro.org>
-Date: Tue, 13 Sep 2022 08:50:49 +0100
+ Tue, 13 Sep 2022 00:52:00 -0700 (PDT)
+Message-ID: <692fdb95-95c1-c1e1-2a86-c8e43d1b648a@linaro.org>
+Date: Tue, 13 Sep 2022 08:51:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v3 03/24] disas/nanomips: Delete NMD class field
+Subject: Re: [PATCH v3 04/24] disas/nanomips: Delete NMD class second field
 Content-Language: en-US
 To: Milica Lazarevic <milica.lazarevic@syrmia.com>, thuth@redhat.com
 Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
@@ -68,13 +68,13 @@ Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
  peter.maydell@linaro.org, djordje.todorovic@syrmia.com, mips32r2@gmail.com,
  dragan.mladjenovic@syrmia.com
 References: <20220912122635.74032-1-milica.lazarevic@syrmia.com>
- <20220912122635.74032-4-milica.lazarevic@syrmia.com>
+ <20220912122635.74032-5-milica.lazarevic@syrmia.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220912122635.74032-4-milica.lazarevic@syrmia.com>
+In-Reply-To: <20220912122635.74032-5-milica.lazarevic@syrmia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -98,21 +98,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/12/22 13:26, Milica Lazarevic wrote:
-> The m_requested_instruction_categories field always has the same value,
-> ALL_ATTRIBUTES. The only use of that field is within the if statement.
-> When replaced with a specific value, the if statement is always false,
-> so it has been removed.
+> We're deleting the m_pc field of the NMD class. It's now part of the
+> Dis_info struct that this patch introduces. Currently, the Dis_info
+> struct has just one field, m_pc, which we need for address calculation
+> in the ADDRESS function.
 > 
-> Now, when the only use of the m_requested_instruction_categories field
-> is removed, we can delete the field declaration and initialization in
-> the NMD class. Also, we're changing the way of the construction of the
-> NMD object in the nanomips_dis function.
+> We're filling Dis_info at the entrance of the nanoMIPS disassembler.
+> I.e. print_insn_nanomips. Next, we're adding that information as an
+> argument wherever we need to.
+> 
+> Since NMD class now has no more fields, the NMD constructor is
+> also deleted.
 > 
 > Signed-off-by: Milica Lazarevic<milica.lazarevic@syrmia.com>
 > ---
->   disas/nanomips.cpp | 13 +------------
->   disas/nanomips.h   |  4 +---
->   2 files changed, 2 insertions(+), 15 deletions(-)
+>   disas/nanomips.cpp | 1368 ++++++++++++++++++++++----------------------
+>   disas/nanomips.h   | 1292 +++++++++++++++++++++--------------------
+>   2 files changed, 1331 insertions(+), 1329 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
