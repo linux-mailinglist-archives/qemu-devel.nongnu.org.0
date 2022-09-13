@@ -2,117 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FDA05B6268
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Sep 2022 22:58:39 +0200 (CEST)
-Received: from localhost ([::1]:34436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D35655B6508
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 03:18:32 +0200 (CEST)
+Received: from localhost ([::1]:59080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oXqVp-0001Nz-Q5
-	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 16:58:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56608)
+	id 1oXuZL-0004x6-D7
+	for lists+qemu-devel@lfdr.de; Mon, 12 Sep 2022 21:18:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nicolinc@nvidia.com>)
- id 1oXqU0-0007vy-5Y
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 16:56:44 -0400
-Received: from mail-dm3nam02on20611.outbound.protection.outlook.com
- ([2a01:111:f400:7e83::611]:64553
- helo=NAM02-DM3-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1oXuVH-0003Kg-W6
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 21:14:20 -0400
+Received: from mga05.intel.com ([192.55.52.43]:3369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nicolinc@nvidia.com>)
- id 1oXqTx-0005Eb-62
- for qemu-devel@nongnu.org; Mon, 12 Sep 2022 16:56:43 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SdjTsnL4ibG1RnoPwoIdxO+AzERf3bw/NqfPMIquim9p2YsKv9UgDDTHYYDKbAf941UFx8skVmbB4q4yH1q6beBasdqq/gQ2Su61ha5hsWRvNXBfZ8VLjOzOrzP1/fJYsbYeCHIwbxQN6/eesF/42pJuskWVZu+kqYEvkBuxMZ0qGSnZA5M27o7290bTpmOI1vWK7CSZFYdDWFrzZM06vI5uqots6i1wGpe86wtws5QCHN36TO/r1FV4GCd/pZXUCcKuWKrz/pM3c/s8557dWoRDwkTpYx/EcySfRjQYPu49EVf3ZQGgYR4m7Ed2JfU6E0cXBak5Kh9802rySFg9Dg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fxxKoJrL7rVxD0kqDDTZPR4ouQ/wgRfQlLkaNkUFkxA=;
- b=fGk5jGsoRcfs9BI+32a9sd+5H8u6QlY6Anglm2k2opcWGrXVDxKOpSeRiRhgx8OxtILu9neOvqhyjK9Rc+hzeXMai11IMMqZKdRELEDnfCHG2h9SjTepyk5MHYTRSACxufET287jXAbbNxBR/5k1iO+fOBE/kTVMJcjRDJRSyJLE2Q9duk5PMh0/IbE0emgVp+WfawWLZskas6XpNMTARc3/46lMHgV4Ucw2O9zRldojcv/2oq6cSMIWSuuXbltBcTmAXkD0T0AQDW9Jv2MpmeZm+paViDa8jx6hTJcTtl3oO8UIkK+z3rpZbNiyiXHVWZqPEJbTQcbna1nZZvSv/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.238) smtp.rcpttodomain=nongnu.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fxxKoJrL7rVxD0kqDDTZPR4ouQ/wgRfQlLkaNkUFkxA=;
- b=orBnW6oZxAq6MJZaLM+qys0qivfjENGCJ4MysrI8s/swQA2a2NtO3igXnPwCwgTu4+IxjePCvgIlcdoBmVsH4CeYbTYP/dlmQ5yohWR9qb62TWa7HnJNeiogYeX32drbyVk76GgjhRLIDenRGjtLVnldGho5/BXw0khRN9uCb52g2/gqJNp1JTJxHO3cyC/NHHPDHBjzHTEJxlWqdAFjTejOLCyKTgyfPJTzWb19wArAqX5wyPdmMatDxZPLBJDnMJvicbeATGDyGd2hTes4nEu8yGCqQrBuGJpsS/LS3fGPuyX7APeeL58nrHdNpHl4Z4arF3tHVmzxjFc8tKXWVQ==
-Received: from BN9PR03CA0341.namprd03.prod.outlook.com (2603:10b6:408:f6::16)
- by MN2PR12MB4223.namprd12.prod.outlook.com (2603:10b6:208:1d3::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.20; Mon, 12 Sep
- 2022 20:51:35 +0000
-Received: from BN8NAM11FT061.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:f6:cafe::6) by BN9PR03CA0341.outlook.office365.com
- (2603:10b6:408:f6::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.14 via Frontend
- Transport; Mon, 12 Sep 2022 20:51:35 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.238; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.238) by
- BN8NAM11FT061.mail.protection.outlook.com (10.13.177.144) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5612.13 via Frontend Transport; Mon, 12 Sep 2022 20:51:34 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by DRHQMAIL105.nvidia.com
- (10.27.9.14) with Microsoft SMTP Server (TLS) id 15.0.1497.38;
- Mon, 12 Sep 2022 20:51:33 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 12 Sep
- 2022 13:51:32 -0700
-Received: from Asurada-Nvidia (10.127.8.10) by mail.nvidia.com (10.129.68.10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29 via Frontend
- Transport; Mon, 12 Sep 2022 13:51:32 -0700
-Date: Mon, 12 Sep 2022 13:51:30 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: <alex.williamson@redhat.com>, Cornelia Huck <cohuck@redhat.com>
-CC: <qemu-devel@nongnu.org>, <kwankhede@nvidia.com>, <avihaih@nvidia.com>,
- <shayd@nvidia.com>, <jgg@nvidia.com>
-Subject: Re: [PATCH] vfio/common: Do not g_free in vfio_get_iommu_info
-Message-ID: <Yx+b0t20wtneTry+@Asurada-Nvidia>
-References: <20220910004245.2878-1-nicolinc@nvidia.com>
- <8735cwu5r7.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1oXuVE-0006Bk-Nl
+ for qemu-devel@nongnu.org; Mon, 12 Sep 2022 21:14:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663031656; x=1694567656;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=jwYI7Y+ErustrW+xyMACGSP6kr582mwHq0bLbgyd9ec=;
+ b=A+/7+lib6QPnQQK/AwcnViRo5RmhR8CAeWhAgxmQ3Sn15umx33g38QAu
+ AEPfruJH6uLxSjB4aOdsUVxZBNUb/VEWdoCy3aNUErq1dEkl4H86n31iC
+ dS2GY6deP0K7Jd65ozl4ySsI3WRFMt6ppdSFyviOAxt3cNHUuT3O8KiZq
+ nF3osQPwweipDB+TINg6o4yAJlG72tzLJ7Wb0xxcIY+qT6LQewDffI46m
+ RJQzUYS+y4WXxr8szQGADY+4wsKlP7BaCsK+FGOsCyxkT2ZbP/z7A0tD3
+ dI/3teC6dtgA5IVhQhGQF4SrtGrgXIQEM5xrOftsX/xPXg/OVB6h/4/O0 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10468"; a="384304416"
+X-IronPort-AV: E=Sophos;i="5.93,311,1654585200"; d="scan'208";a="384304416"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2022 18:14:00 -0700
+X-IronPort-AV: E=Sophos;i="5.93,311,1654585200"; d="scan'208";a="944852505"
+Received: from cqiang-mobl.ccr.corp.intel.com (HELO [10.238.0.135])
+ ([10.238.0.135])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2022 18:13:58 -0700
+Message-ID: <db7834a7-5006-4345-3c66-2277c68d29e3@intel.com>
+Date: Tue, 13 Sep 2022 09:13:57 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <8735cwu5r7.fsf@redhat.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT061:EE_|MN2PR12MB4223:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5e228068-3227-49df-08b2-08da9500944b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fBNhioR9SkXl9KMPfAA/BxBxFQvmC6tkYsbqQvi7/5UIWYK9UqXBmmxz6lEdoq2CbbTtTkj3Ne6NHZ7O22Q+SjeouM2yfm001xhdUT5oAF0BNnkB8p0A4KJha4LT3Uu1uf8VvS4rt8jHTdtJX7DqzYPjKfrN0V2ljykhF3W40M+bQKSUOUiZjB42RhPSzpNy/euHCa3BclaYzGTNhMV/GzVHQfrbnOmjTw4Er8uLDerZfNYzsk+seFVoSLF9pQqEA4TMA6prmqEtnaG56U/+5ir7lCZ4yxHGEiIG13pMwoy1ngsvZB+cjEwbhHgNVUdk6/ZPrlCyYM39DIVs6lGy8DAFMyi5RapyBohemJeXEjsf7SeohaNMFH/iUunnWxxpzBmJbgr67gjlHA2kPkaYtKJNnsMUd7XSKjPoTaVOBDi6oLnEBkQWkpdvsuZkoB5gwHKr6lxa0FDvrcTRstF7O/s5c2OMLhUntpcRzRsYIZKh48rLT1TzyfDoSSiIewi/jznW+PywMxcoKpSVKo2h6lCbDwvBM3aWIm1oMSBGXzgTFKA+Qz3aFazazuJJePw4x0lTaMSl5iJcL3UXC40xVF3udDcD5pILFaL0yJjmulp5qbbo2tqj9zfS/6xjNwIPHBCrLa1Z/5BynJayhZbSJVgfs2bZhRn4xuACsXlapjHX2OlbA+bxiubjVxWGYDzAFrbxvQU1FkG5O3Q+goJK9wLFgmYXatcbvTGyXr0jz+iVjHJMypCpWv2BnvoE5PlEVfaf1ukRuuUVG5+QelMLN+mnto2SpNz3qkefc4LA0XrXdCwXvhO4VWwEQ3ho6bm9
-X-Forefront-Antispam-Report: CIP:12.22.5.238; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
- SFS:(13230022)(4636009)(346002)(396003)(136003)(39860400002)(376002)(451199015)(36840700001)(46966006)(40470700004)(110136005)(478600001)(40460700003)(55016003)(40480700001)(33716001)(316002)(2906002)(107886003)(5660300002)(41300700001)(9686003)(47076005)(8676002)(82310400005)(426003)(26005)(336012)(70206006)(186003)(356005)(8936002)(54906003)(70586007)(81166007)(83380400001)(82740400003)(36860700001)(86362001)(4326008)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2022 20:51:34.5111 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e228068-3227-49df-08b2-08da9500944b
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.238];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT061.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4223
-Received-SPF: softfail client-ip=2a01:111:f400:7e83::611;
- envelope-from=nicolinc@nvidia.com;
- helo=NAM02-DM3-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.2.2
+Subject: Re: [PATCH v5 3/3] i386: Add notify VM exit support
+To: Peter Xu <peterx@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti
+ <mtosatti@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Xiaoyao Li <xiaoyao.li@intel.com>,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org
+References: <20220817020845.21855-1-chenyi.qiang@intel.com>
+ <20220817020845.21855-4-chenyi.qiang@intel.com>
+ <YxtpBMZmrDK3cghT@xz-m1.local>
+Content-Language: en-US
+From: Chenyi Qiang <chenyi.qiang@intel.com>
+In-Reply-To: <YxtpBMZmrDK3cghT@xz-m1.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=192.55.52.43; envelope-from=chenyi.qiang@intel.com;
+ helo=mga05.intel.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.153, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -128,78 +84,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 12, 2022 at 02:38:52PM +0200, Cornelia Huck wrote:
-> External email: Use caution opening links or attachments
-> 
-> 
-> On Fri, Sep 09 2022, Nicolin Chen <nicolinc@nvidia.com> wrote:
-> 
-> > Its caller vfio_connect_container() assigns a default value
-> > to info->iova_pgsizes, even if vfio_get_iommu_info() fails.
-> > This would result in a "Segmentation fault" error, when the
-> > VFIO_IOMMU_GET_INFO ioctl errors out.
-> >
-> > Since the caller has g_free already, drop the g_free in its
-> > rollback routine and add a line of comments to highlight it.
-> 
-> There's basically two ways to fix this:
-> 
-> - return *info in any case, even on error
-> - free *info on error, and make sure that the caller doesn't try to
->   access *info if the function returned !0
-> 
-> The problem with the first option is that the caller will access invalid
-> information if it neglects to check the return code, and that might lead
-> to not-that-obvious errors; in the second case, a broken caller would at
-> least fail quickly with a segfault. The current code is easier to fix
-> with the first option.
-> 
-> I think I'd prefer the second option; but obviously maintainer's choice.
 
-The caller does check rc all the time. So I made a smaller fix
-(the first option). Attaching the git-diff for the second one.
 
-Alex, please let me know which one you prefer. Thanks!
+On 9/10/2022 12:25 AM, Peter Xu wrote:
+> On Wed, Aug 17, 2022 at 10:08:45AM +0800, Chenyi Qiang wrote:
+>> There are cases that malicious virtual machine can cause CPU stuck (due
+>> to event windows don't open up), e.g., infinite loop in microcode when
+>> nested #AC (CVE-2015-5307). No event window means no event (NMI, SMI and
+>> IRQ) can be delivered. It leads the CPU to be unavailable to host or
+>> other VMs. Notify VM exit is introduced to mitigate such kind of
+>> attacks, which will generate a VM exit if no event window occurs in VM
+>> non-root mode for a specified amount of time (notify window).
+>>
+>> A new KVM capability KVM_CAP_X86_NOTIFY_VMEXIT is exposed to user space
+>> so that the user can query the capability and set the expected notify
+>> window when creating VMs. The format of the argument when enabling this
+>> capability is as follows:
+>>    Bit 63:32 - notify window specified in qemu command
+>>    Bit 31:0  - some flags (e.g. KVM_X86_NOTIFY_VMEXIT_ENABLED is set to
+>>                enable the feature.)
+>>
+>> Because there are some concerns, e.g. a notify VM exit may happen with
+>> VM_CONTEXT_INVALID set in exit qualification (no cases are anticipated
+>> that would set this bit), which means VM context is corrupted. To avoid
+>> the false positive and a well-behaved guest gets killed, make this
+>> feature disabled by default. Users can enable the feature by a new
+>> machine property:
+>>      qemu -machine notify_vmexit=on,notify_window=0 ...
+> 
+> The patch looks sane to me; I only read the KVM interface, though.  Worth
+> add a section to qemu-options.hx?  It'll also be worthwhile to mention the
+> valid range of notify_window and meaning of zero (IIUC that's also a valid
+> input, just use the hardware default window size).
+> 
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 51b2e05c76..74431411ab 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -2109,6 +2109,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-     case VFIO_TYPE1_IOMMU:
-     {
-         struct vfio_iommu_type1_info *info;
-+        uint64_t iova_pgsizes;
- 
-         /*
-          * FIXME: This assumes that a Type1 IOMMU can map any 64-bit
-@@ -2119,20 +2120,22 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-          */
-         ret = vfio_get_iommu_info(container, &info);
- 
--        if (ret || !(info->flags & VFIO_IOMMU_INFO_PGSIZES)) {
-+        if (info && (info->flags & VFIO_IOMMU_INFO_PGSIZES)) {
-+            iova_pgsizes = info->iova_pgsizes;
-+        } else {
-             /* Assume 4k IOVA page size */
--            info->iova_pgsizes = 4096;
-+            iova_pgsizes = 4096;
-         }
--        vfio_host_win_add(container, 0, (hwaddr)-1, info->iova_pgsizes);
--        container->pgsizes = info->iova_pgsizes;
-+        vfio_host_win_add(container, 0, (hwaddr)-1, iova_pgsizes);
-+        container->pgsizes = iova_pgsizes;
- 
-         /* The default in the kernel ("dma_entry_limit") is 65535. */
-         container->dma_max_mappings = 65535;
--        if (!ret) {
-+        if (info) {
-             vfio_get_info_dma_avail(info, &container->dma_max_mappings);
-             vfio_get_iommu_info_migration(container, info);
-+            g_free(info);
-         }
--        g_free(info);
-         break;
-     }
-     case VFIO_SPAPR_TCE_v2_IOMMU:
+Thanks Peter for your review.
+
+I'll add some doc in qemu-option.hx and also the commit message about 
+the valid range in next version.
+
+> Thanks,
+> 
+>>
+>> A new KVM exit reason KVM_EXIT_NOTIFY is defined for notify VM exit. If
+>> it happens with VM_INVALID_CONTEXT, hypervisor exits to user space to
+>> inform the fatal case. Then user space can inject a SHUTDOWN event to
+>> the target vcpu. This is implemented by injecting a sythesized triple
+>> fault event.
+> 
 
