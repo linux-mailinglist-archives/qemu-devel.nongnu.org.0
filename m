@@ -2,73 +2,123 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 602685B6D73
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 14:42:49 +0200 (CEST)
-Received: from localhost ([::1]:34620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A425B6E5F
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 15:30:36 +0200 (CEST)
+Received: from localhost ([::1]:53318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY5FY-0007bm-Cx
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 08:42:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58492)
+	id 1oY5zm-0005yS-PR
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 09:30:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oY5Aw-0004E4-Ip
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 08:38:03 -0400
-Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129]:43802)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oY5At-0004ED-Dj
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 08:38:02 -0400
-Received: by mail-lf1-x129.google.com with SMTP id o2so17693217lfc.10
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 05:37:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=JcFUhOoutwqhEG3fEf/nU7w0zN5bCuTtxaopYvsB6kg=;
- b=vfG3e8jEuFl26LBEddO3TZz3Jfe1tH2efsJ22Qb48n+n51H0VM0pf8wm/xLIpstUVh
- zqmUSwYsALPstMcoiR0suBgMldXR6VTi3vt+j7k8QvGEnbgoMuSC7Fb5MctZbQ9FXh6s
- oi2K+KKtM8o3fp7NoAQHMEeIY/vfOSdeATl4imQJug1k56kAn25WYq+BanmimlkyxiMx
- p6GdcpVX4So/gR/oPHAlYuG8eRkZSleOuNCIN7bd/S4uZtzkh8rLgTmmGjS+oUFpv1c5
- uROYWw93Kn4OgLervcjYfLqBjFvdOCujR+gRb4EtrWfxCl/Bx91wMX4z3xjI6HPUNntK
- +yXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=JcFUhOoutwqhEG3fEf/nU7w0zN5bCuTtxaopYvsB6kg=;
- b=Q+8PEyZK3G8YY/2TSwfbK88Wp4ZHO24ufzCHyOAxzbBfcDQTogRtMrI5IPxXCJnyXN
- HHF7EyUGi7qj9yH72s0oO9vCBqkQ8l/4X3JSTeiQjcUzRVRAZB40KPE+sqgP3guFO2GP
- +LhADIbkt5HBG8gP2a0wiecTwWt0e+5Bm2Mi9BwqVN4x4ucn/lUpz/rhsYAgZmWVSElA
- 95lDVwLu2KWBY9PnU/W43chp4BWJ+CeFVP0wYuSMYkogtb0dbQXkA7D1Rk2XNRks+Sd0
- r82ssz7jIXd6vzKaxmOmSL3wd0LQanWwLXxh6/MOS+HlZwCt4qtUUEdZHNHr/Tj4AoI0
- 0hpw==
-X-Gm-Message-State: ACgBeo32kUqUsF+hTvflisgeJEirMhJ4jou2SXIFwCK+As8/NsmdmjiG
- 9JdwfLEYDd+MHZsKrnTWWr+y2ygGqJfmYj6goEWwxQ==
-X-Google-Smtp-Source: AA6agR4rHZAkzWRDOnju7HeNNzPLrgOgZCUT90vI5oQEl0g0nOsjoa9vnioMnsZvWX5W1+LufPiYW7A8iJK02rxTESA=
-X-Received: by 2002:a05:6512:ac2:b0:49a:2fec:aa4a with SMTP id
- n2-20020a0565120ac200b0049a2fecaa4amr3870141lfu.348.1663072676330; Tue, 13
- Sep 2022 05:37:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1oY5xp-0004MA-CE
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 09:28:33 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:48137)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1oY5xl-0004XP-Pr
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 09:28:33 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 6452758125D;
+ Tue, 13 Sep 2022 09:28:27 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Tue, 13 Sep 2022 09:28:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1663075707; x=1663082907; bh=n3
+ 5h590WgdUt3xeeXXEzHszlHEJbyzJQQXGzriv2Bdw=; b=lKhOb1x+8VXpLkYPJq
+ dQl5YvKDsVrJ3pc1cddIuP6OhdRr8PsWyp/A/vRSqdBGYijU98a2laOVKR84OdSY
+ CdujPPGE0VZNBRb8AFY5Y5Bx1hpN0K9qsML8ipAktp7Q4dsDv5hCzrn+3fKsf/oU
+ AhorqLE+1pGl42TcXBgEa1DEL85Fj/o6hRRyojZPC9K2zjk3pPIL5621K5ST63O8
+ QfX/As62Z9kgVwLF1Vd52L/j0ZbsibgzX3lP1nE0p6SlvlCfHzYP8Y99DMnqszRU
+ 4kZiWacNgNvCjeHG/gHZIM3PEyq5YzCWaFwJxZ8RsSsTMQSpviggfPNqbX84abPQ
+ SlkA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1663075707; x=1663082907; bh=n35h590WgdUt3xeeXXEzHszlHEJb
+ yzJQQXGzriv2Bdw=; b=ZZUXlLMBCwce09seR6ZzZnhVx7X63lDnrSq7QexCOwba
+ A9401e3wLEjkdxebo61so4SM6Eq2+gBV02DerWOkmkljGlX/8BrYO0KifPKbfmud
+ tQGaxOuowW4z8g5wT/UeLXR8rB2bnERzrbHJwJ5umSz5EJnMO4J9NxfjkUcDN41W
+ ISvaKFiU8znaJRomeYO0cB8ZVXsFHA6uardhWbtNSZOWNtG8CTvsDtlB8FinOjfN
+ 45PNRNVCpZA3g1XU+QLYkHfi3HSFsluN4GdXXUFeq8Zm+Jgw+zf2yo/okKDpCwuQ
+ Wv9geoz6xdCGPVhJGhJCSQxqRkadFT8yTRz4LL3O3A==
+X-ME-Sender: <xms:eYUgY8CjLPKuTLErxJ4o7QqNakfFEyw9cYv848faCnzZPxniWs4lwg>
+ <xme:eYUgY-hUFvVKwy38mKzxfqEfSEJ3tEM_VA5Gzsp_f_5cZePwaLvxqDi6bkNeJt1XW
+ CueKAX56_RWW-j6RfE>
+X-ME-Received: <xmr:eYUgY_nuCtjj0RQRFpPvX2-WFSAdAlgNrUl5Hj9r4PSXpqEMl-Z2eKx-upeysHMSG2w3RQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedugedgieeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
+ ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
+ grmhgvqeenucggtffrrghtthgvrhhnpefhieeghfdtfeehtdeftdehgfehuddtvdeuheet
+ tddtheejueekjeegueeivdektdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+ epmhgrihhlfhhrohhmpehkihhrihhllhesshhhuhhtvghmohhvrdhnrghmvg
+X-ME-Proxy: <xmx:eYUgYyziyk8GEwFDdH5XLuijt9yUa6rzCS1KLcOm2ep5cIGYKtwNtw>
+ <xmx:eYUgYxSZaSXMPQyjTS7T6QD290vjxjCsvaAjVUPK4mcC-Dgg1cdtuw>
+ <xmx:eYUgY9bB1MRIgbGNWw19SQsAqBeUUHmJgRlp1QnEzC7DGx9oHYpRvg>
+ <xmx:e4UgY4Oc1dwdLRHEd5XIz0WqilcnByyzA9-tDEQ_CmYKJfC235yyYQ>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 13 Sep 2022 09:28:25 -0400 (EDT)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+ id 9C1AC10458D; Tue, 13 Sep 2022 16:28:21 +0300 (+03)
+Date: Tue, 13 Sep 2022 16:28:21 +0300
+From: "Kirill A. Shutemov" <kirill@shutemov.name>
+To: Sean Christopherson <seanjc@google.com>
+Cc: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Hugh Dickins <hughd@google.com>,	Chao Peng <chao.p.peng@linux.intel.com>,
+ kvm@vger.kernel.org,	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org,	Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,	Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,	Jim Mattson <jmattson@google.com>,
+ Joerg Roedel <joro@8bytes.org>,	Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,	Shuah Khan <shuah@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>,	Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>,	"Gupta,
+ Pankaj" <pankaj.gupta@amd.com>, Elena Reshetova <elena.reshetova@intel.com>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <20220913132821.3ch5cv3rgdxqgz3i@box.shutemov.name>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
+ <20220818132421.6xmjqduempmxnnu2@box>
+ <c6ccbb96-5849-2e2f-3b49-4ea711af525d@google.com>
+ <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
+ <c194262b-b634-4baf-abf0-dc727e8f1d7@google.com>
+ <20220831142439.65q2gi4g2d2z4ofh@box.shutemov.name>
+ <20220908011037.ez2cdorthqxkerwk@box.shutemov.name>
+ <YyBQ+wzPtGwwRB/U@google.com>
 MIME-Version: 1.0
-References: <CAJ307Ej5stZr6fPsLROFBkmtg=uzkG50yVVY6=Ru6LTLQzae5A@mail.gmail.com>
-In-Reply-To: <CAJ307Ej5stZr6fPsLROFBkmtg=uzkG50yVVY6=Ru6LTLQzae5A@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 13 Sep 2022 13:37:44 +0100
-Message-ID: <CAFEAcA9v4Mk7oVgL+Z571e-F9AqEAdn6GrgFcgXK7122qfRxnA@mail.gmail.com>
-Subject: Re: Question about loading bare metal firmware
-To: =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::129;
- envelope-from=peter.maydell@linaro.org; helo=mail-lf1-x129.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YyBQ+wzPtGwwRB/U@google.com>
+Received-SPF: pass client-ip=66.111.4.229; envelope-from=kirill@shutemov.name;
+ helo=new3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,48 +135,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 13 Sept 2022 at 10:44, Cl=C3=A9ment Chigot <chigot@adacore.com> wro=
-te:
-> I'm wondering if there is an official way to load bare metal software
-> within qemu emulations.
-> I've seen a lot of people (including us) using -kernel. However, the
-> doc seems to imply that the generic loader would be a better approach
-> (cf [1]). I know that the compatibility with older Qemus is one of the
-> reasons why -kernel is still highly used. I've also seen that the
-> reset vector can be initialized automatically by -kernel unlike with
-> the generic loader (this is the case with RiscV AFAICT).
-> But is there any kind of official recommendation on that topic ?
+On Tue, Sep 13, 2022 at 09:44:27AM +0000, Sean Christopherson wrote:
+> On Thu, Sep 08, 2022, Kirill A. Shutemov wrote:
+> > On Wed, Aug 31, 2022 at 05:24:39PM +0300, Kirill A . Shutemov wrote:
+> > > On Sat, Aug 20, 2022 at 10:15:32PM -0700, Hugh Dickins wrote:
+> > > > > I will try next week to rework it as shim to top of shmem. Does it work
+> > > > > for you?
+> > > > 
+> > > > Yes, please do, thanks.  It's a compromise between us: the initial TDX
+> > > > case has no justification to use shmem at all, but doing it that way
+> > > > will help you with some of the infrastructure, and will probably be
+> > > > easiest for KVM to extend to other more relaxed fd cases later.
+> > > 
+> > > Okay, below is my take on the shim approach.
+> > > 
+> > > I don't hate how it turned out. It is easier to understand without
+> > > callback exchange thing.
+> > > 
+> > > The only caveat is I had to introduce external lock to protect against
+> > > race between lookup and truncate.
+> 
+> As before, I think this lock is unnecessary.  Or at least it's unnessary to hold
+> the lock across get/put.  The ->invalidate() call will ensure that the pfn is
+> never actually used if get() races with truncation.
 
-I dunno if it's officially written down, but "-kernel" is the
-"do what I mean" option, which is mostly intended to be "I am
-a Linux kernel, load me accordingly", plus some odds and ends of
-"do something sensible" for other formats.
+The updated version you replying to does not use the lock to protect
+against truncation anymore. The lock protect notifier list.
 
-For bare metal code you are almost always better off using something
-else. There are two options:
-(1) if the machine type supports -bios or -pflash type options,
-you can use those for "load this binary blob into the flash/ROM"
-(which is presumably where the CPU will start executing from on
-reset). This is generally good for "here is a firmware image"
-type use cases.
+> Switching topics, what actually prevents mmapp() on the shim?  I tried to follow,
+> but I don't know these areas well enough.
 
-(2) the "generic loader"
-https://www.qemu.org/docs/master/system/generic-loader.html
-This will load the specified file (which can be an ELF file)
-anywhere you like. It's probably what you want for "random
-bare-metal test case code that expects to be loaded into RAM",
-for instance.
+It has no f_op->mmap, so mmap() will fail with -ENODEV. See do_mmap().
+(I did not read the switch statement correctly at first. Note there are
+two 'fallthrough' there.)
 
-> I'm asking that because a recent change in RiscV Polarfire Soc is
-> forcing -dtb to be passed along -kernel. But in case of bare board
-> software, -dtb isn't needed (at least in our use case).
-> I've a patch that allows "-dtb" to be missing with "-kernel" only if
-> "-bios none" is provided. But I'm not sure if this is the right way to
-> say "it's a bare board software".
-
-I would say that you should probably not be using -kernel for this.
-On the other hand, most other board models don't insist on the -dtb
-being passed in even if you are booting a Linux kernel.
-
--- PMM
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
 
