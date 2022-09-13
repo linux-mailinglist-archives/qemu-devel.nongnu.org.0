@@ -2,79 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A67225B6989
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 10:27:05 +0200 (CEST)
-Received: from localhost ([::1]:50888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EA705B6998
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Sep 2022 10:32:03 +0200 (CEST)
+Received: from localhost ([::1]:59704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oY1G4-0000bs-Fv
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 04:27:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56308)
+	id 1oY1Ks-0003nv-1L
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 04:32:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY16p-0002ZL-HD
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:17:32 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:37391)
+ id 1oY177-0002f0-Sx
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:17:51 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oY16n-0001vz-Pj
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:17:31 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id bq9so19500271wrb.4
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 01:17:29 -0700 (PDT)
+ id 1oY175-0001xE-LV
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 04:17:48 -0400
+Received: by mail-wr1-x435.google.com with SMTP id t14so19475618wrx.8
+ for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 01:17:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=o8heCAAGFmngXAFNEm2Vq565UFQF73sCaIrrE6hijIg=;
- b=hOYofjRq3qHKc2VsJOIOS4x3xrouQLXfG+d33JL+qQSZZeNWdFpvAKQtotTrkrL8n7
- 2oL6SqDkvx9NU0zqPNP4lc30jhYTeqFeQisA2gbul3QPztw4tRFqH3CfjWJtC1NCzSer
- J9k5PA2A+CzFViW8sj4IkYQnZ3AhEHNOsSlep23N3UKmLWgNaIuoHM3AkO+aCF0Pf3Oc
- 5RP1SRr5KiA44grxfWttBLcJlReacSIjm6Dt7TnluvggWveAY3TdrigUW11IrZvnxxj0
- DerkmiTurIyX8srUSV5WAdMY8pLT2dtDBAwGXqmVBgumoEpjIdK6QF4yYg3OFNHjK5SB
- FN2Q==
+ bh=scuaxStb2Y3MM+2gJfeDP2pqc0TSdskY38WG72/OZcU=;
+ b=qjwvnvVC7JZt3IOTv7UVUChf3cYJpFJDLzwiCuk17kQhyTmCF772nmFd2kgjSn7GNt
+ BGPrDtgz0RrroupJJeEwH8IFrcyax2dxb9w+L37xZrMchFTYNY0vJuxpzMMp3SZBiRPl
+ eTf8pJQlsQOffbhF+++GgJJNiMp79zDbHD/9qudNEZHilhnU77VfWBuMa24kLU1ZSFuq
+ dMS2FmsAhChelXkkWbF49B0ARABglszctnSYnto3x4VNNZf/ji0Ns83dIH/b3s9gKx3V
+ qT4JtGZY4X3Yc9Ac1QI9+QimV9AI0bgYFLcIWo4kwNnXP/vsEMybQmQONreDBGHzXvTQ
+ Y/WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=o8heCAAGFmngXAFNEm2Vq565UFQF73sCaIrrE6hijIg=;
- b=TMtTGKOBvrQ0W6NaeaUXP4YMXw7nH0X/5M7SeItYMjf7pqKQsi+XDlFvybZLzprajJ
- u0a8W2NEAscsgzD98ePA1F0pkiV8E3W/hMmf6/OEfRcd3+AGBMxyBEV/W+CO1hORk7D6
- HbSP7D463cZfi70bnkRfsUozC6SF1lAIDAeb2bzANncDdFnpB+CRGMq9wMzU2sjLQ1Bp
- 74r0XhGFzmmc5ZMFe4t0hvCH4R/wmoakDWypjdNupLsumdDLS/DYB2sZmVNUr78G1H35
- SQF32y0Zdwczw7QUtWRMvs5k9v5UT5tY2OXgPWZh6GZEnlZBhTdbpHx24n2Nz3KV+EUn
- H2aA==
-X-Gm-Message-State: ACgBeo0US5TlsaAdYWY2a6kNRTZvi4+76k6oJcm97lMVhYlve5MG7MWN
- +9iRRQWiONCgmA/1R1BjfCDjXQ==
-X-Google-Smtp-Source: AA6agR5Ud+ErlfZwMz68j3qn8UGRDWz+P+2tqFmaxWyce0UkbmMQlVLdE1SV/nxHBiofzeZBQV9agg==
-X-Received: by 2002:a5d:64ab:0:b0:226:d997:ad5c with SMTP id
- m11-20020a5d64ab000000b00226d997ad5cmr16852419wrp.602.1663057048111; 
- Tue, 13 Sep 2022 01:17:28 -0700 (PDT)
+ bh=scuaxStb2Y3MM+2gJfeDP2pqc0TSdskY38WG72/OZcU=;
+ b=RICb+1jnT61SOW+zkekXM89CVS/s/9iqR2DVFGfQlSe7DlQ1UsvZSFc+4/ehBSks3o
+ DD/KJwx3jRaEchiT/BuTZFNwAg3DNTKfOoNrljVCTZfzGc/xYhRuma4uYsDL24jgXjAB
+ UpK0oXuF2bFGNzhD3EpZRs59lHwZ33pzNLCDjkVp4Q78Jmca4xkAprFeAcKNeGPKPMoB
+ KThD8sVG1ULJcf7oy11M1b1+GflfDmwOsko+0HRCdsPaTZCRS4LYA6KJEuhAVwn9K8C0
+ u94MyQVsOTpQovKDZd6E5U8jZH/slDxYajL48vpy4D9TNnBpopKtAcw1y8BljSfD9Zbv
+ Slig==
+X-Gm-Message-State: ACgBeo014iz2KBwx3fciyaUoFbgm7rano2vFnP1GsX9nP8RNYp3B2R5y
+ DSiirDcwTdRaMoPEBSGooDUk2Q==
+X-Google-Smtp-Source: AA6agR5olIcwFQ0jTVsfy2usaUjRQeyxgsRqXEW9Jy+r8Jz+GIJhtVd48vI1JkNXAMmcQ6xJ8bCNIA==
+X-Received: by 2002:a5d:49c8:0:b0:22a:35a1:1755 with SMTP id
+ t8-20020a5d49c8000000b0022a35a11755mr12830257wrs.180.1663057066009; 
+ Tue, 13 Sep 2022 01:17:46 -0700 (PDT)
 Received: from [10.119.17.153] ([89.101.193.67])
  by smtp.gmail.com with ESMTPSA id
- b10-20020a05600010ca00b00224f7c1328dsm9628431wrx.67.2022.09.13.01.16.52
+ q14-20020adff94e000000b00228c2462a78sm9586414wrr.24.2022.09.13.01.17.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Sep 2022 01:17:27 -0700 (PDT)
-Message-ID: <f7c21765-083c-4548-6d82-4fb855cd0f22@linaro.org>
-Date: Tue, 13 Sep 2022 09:12:53 +0100
+ Tue, 13 Sep 2022 01:17:45 -0700 (PDT)
+Message-ID: <58a3c681-a46a-d433-38b5-37c03515a3c9@linaro.org>
+Date: Tue, 13 Sep 2022 09:16:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v3 24/24] disas/nanomips: Rename nanomips.cpp to nanomips.c
+Subject: Re: [PATCH 27/37] target/i386: Use tcg gvec ops for pmovmskb
 Content-Language: en-US
-To: Milica Lazarevic <milica.lazarevic@syrmia.com>, thuth@redhat.com
-Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
- pbonzini@redhat.com, vince.delvecchio@mediatek.com,
- peter.maydell@linaro.org, djordje.todorovic@syrmia.com, mips32r2@gmail.com,
- dragan.mladjenovic@syrmia.com
-References: <20220912122635.74032-1-milica.lazarevic@syrmia.com>
- <20220912122635.74032-25-milica.lazarevic@syrmia.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20220911230418.340941-1-pbonzini@redhat.com>
+ <20220911230418.340941-28-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220912122635.74032-25-milica.lazarevic@syrmia.com>
+In-Reply-To: <20220911230418.340941-28-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -97,18 +93,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/12/22 13:26, Milica Lazarevic wrote:
-> Now that everything has been converted to C code the nanomips.cpp file
-> has been renamed. Therefore, meson.build file is also changed.
-> 
-> Signed-off-by: Milica Lazarevic<milica.lazarevic@syrmia.com>
-> ---
->   disas/meson.build                  | 2 +-
->   disas/{nanomips.cpp => nanomips.c} | 0
->   2 files changed, 1 insertion(+), 1 deletion(-)
->   rename disas/{nanomips.cpp => nanomips.c} (100%)
+On 9/12/22 00:04, Paolo Bonzini wrote:
+> +    while (vec_len > 8) {
+> +        vec_len -= 8;
+> +        tcg_gen_shli_tl(s->T0, s->T0, 8);
+> +        tcg_gen_ld8u_tl(t, cpu_env, offsetof(CPUX86State, xmm_t0.ZMM_B(vec_len - 1)));
+> +        tcg_gen_or_tl(s->T0, s->T0, t);
+>       }
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+The shl + or is deposit, for those hosts that have it,
+and will be re-expanded to shl + or for those that don't:
+
+     tcg_gen_ld8u_tl(t, ...);
+     tcg_gen_deposit_tl(s->T0, t, s->T0, 8, TARGET_LONG_BITS - 8);
+
 
 r~
 
