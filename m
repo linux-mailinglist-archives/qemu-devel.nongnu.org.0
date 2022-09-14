@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AE655B8DAD
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 19:00:11 +0200 (CEST)
-Received: from localhost ([::1]:43174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F16E5B8DE5
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 19:12:23 +0200 (CEST)
+Received: from localhost ([::1]:40658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYVk9-00013b-Uq
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 13:00:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33590)
+	id 1oYVvx-0008DC-Up
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 13:12:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oYUxj-0005lN-A6
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 12:10:12 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:33398)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oYUxe-0004Pf-SB
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 12:10:06 -0400
-Received: by mail-wr1-x432.google.com with SMTP id k9so26534957wri.0
- for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 09:09:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=KTWhWCodscN9QmBf6ymhSnJIqLxNPXfRH0SuystR2vc=;
- b=VjBYn/qnFC5H71kgDB5wD+9OSGyUu9KiEHZmaonTUpgISEHHqSAfELVqCq3rYDrJfQ
- nHgmfxNDNi7SOHoBXF8GcjuCwTyOnzIXUURgqE037CKk0njVilR7bk+sRbJrWDcpUoWN
- jYUkH5hxAQkqxVFh+IL9AvO7RJneJapvAwELAL5iV2Fv/H0MPfhNOWuvnQRg11EdkpSv
- 49UDFSPCOmGV/t/guRNVvj65i1zs3XfysMWe9alBDWU5fCrbvd+x9qU6Eejw411IA8h0
- d6dI+BXDbBkiDZbwQgQ0MaUi+nRIZSOaup4XVkUUunmzpIYcAH+PuodUto2fBpH5RaGN
- Zg5g==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oYV57-0005FW-Gq
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 12:17:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20837)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oYV54-0005jy-Bu
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 12:17:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663172258;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OH7sNps7nEGOBGZMxDy5XpDQzZuvZSuH2pEBMnaF9OM=;
+ b=RJUOF+f1IS8O6KlqjVarT0pkRaJPjb0nQ/1VrozuvOnM+JywivsxvC2icqNao4WHuduOGZ
+ iFdx52UrXolE2doJq0KqnY518pSDYEqIrN9jgHjab2g7HIcbugJ+qByxJz4UtZQE4rAXnC
+ /ztNH88EdhSiPW6WqK+A61owysrhAUI=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-532-zGrl33mWMxif_v06QsKYQg-1; Wed, 14 Sep 2022 12:17:36 -0400
+X-MC-Unique: zGrl33mWMxif_v06QsKYQg-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ z34-20020a2ebe22000000b0026c18a910fcso2055414ljq.23
+ for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 09:17:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=KTWhWCodscN9QmBf6ymhSnJIqLxNPXfRH0SuystR2vc=;
- b=lZrWSJFAxmrFWmf5LpR9dF65FG9OFwiHJX93Q7z23tJpySpSeQnO+ssD4mzEhlvHDw
- lejyoZ/XjkBaIP+dz/UrfB4E6TAEuO6zHX7esLVPFacrEah6SUkrUl9nGNb/HA6qs5Xv
- XMriwMUjx+B5idvQWY1fAo2D4Eqwnp4NYGrkYPrm0DUd90Wro6oR5aUQ8fXOK1CVD7xr
- fGih4fUxjWJgIWmcSlOfP6GdMx6MF99L071zVibJhML1enkXwKJvC7Zwg6vwFdSDfOf5
- YYcgnCJcV3I/V0ZHZD6CD/9QcY9x6OPCyC3xojsEhqRxb9ujAP9DxiFBVsxpMhbnRnMq
- wExg==
-X-Gm-Message-State: ACgBeo3ybf1i70f9/cwEMFAS9RQi4Q/wG/PURLYjY7eoy8dsqHvBW4wR
- sIvFjbfIx5SJzPxPL+wfZ7AvQw==
-X-Google-Smtp-Source: AA6agR6/EqN4BGv/4/na+ZsDnKIHgk5ApUSiECKSFulWufrnwfHta7HSNA9gMjGLBchByFhQq0VJHg==
-X-Received: by 2002:adf:d1ec:0:b0:228:d9ea:cbd2 with SMTP id
- g12-20020adfd1ec000000b00228d9eacbd2mr21998462wrd.609.1663171799021; 
- Wed, 14 Sep 2022 09:09:59 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- b17-20020adfee91000000b0022ac12fff29sm4911415wro.65.2022.09.14.09.09.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Sep 2022 09:09:56 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 769FE1FFBC;
- Wed, 14 Sep 2022 17:09:55 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [RFC PATCH 4/4] hw/timer: convert mptimer access to attrs to derive
- cpu index
-Date: Wed, 14 Sep 2022 17:09:55 +0100
-Message-Id: <20220914160955.812151-5-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220914160955.812151-1-alex.bennee@linaro.org>
-References: <20220914160955.812151-1-alex.bennee@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=OH7sNps7nEGOBGZMxDy5XpDQzZuvZSuH2pEBMnaF9OM=;
+ b=6xBsKeI2tyuYooYjUibE/xwbUBOVGtV5KTI9wVMM6rwR3XN4NQtc8w4tF4OHNwaP09
+ 1TvyKV7c8JaN6sYGP7mLzfs1RydYiq87ZEEo4bVR9Po0ALCnHEnpsqaIkGLRT6f2VSIZ
+ DDRqjCUOM5J1Y4TMnvt8FQsazvJhOMi/+ATb+BN38CtPNZ2HqVl0MvLCHM0v5cMoPicw
+ o1k7zUTieh0+oinX+RiwiKUHVz7FsSKTfejwJFMqx1zMkYVbXCr7Yb0o1NH8DO6seYg/
+ nuAZZ5oRMT7ViglANUj9oPceA8lVj3S91tDOGu+NBBDyIHFe8RLfsREEYtMbmKRhNYxz
+ Havg==
+X-Gm-Message-State: ACgBeo0vjIclElzSlAghMl7Ve0ukrBHwkHvnA0bu62h2XjXOnzaMvLYm
+ JuHP7k3K53+31JWAP70qkYWLb9nuMo5whZ/7l6xKIA+fYUkOgubDrnMigp464WlQTWMbDyuN26E
+ 2Up4QuYwhrtYqWTSPjH1/RQUxX18fyaQ=
+X-Received: by 2002:a2e:a7c6:0:b0:26b:e7b4:5136 with SMTP id
+ x6-20020a2ea7c6000000b0026be7b45136mr7352928ljp.425.1663172255295; 
+ Wed, 14 Sep 2022 09:17:35 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5tANjX2SF11wQD7Cpkfbo7DV9eVDwmF/v3cQd0GWFBMyldlzKakxxe9puRh7fDyRGuUDJEzssnL8TSkA1PogA=
+X-Received: by 2002:a2e:a7c6:0:b0:26b:e7b4:5136 with SMTP id
+ x6-20020a2ea7c6000000b0026be7b45136mr7352921ljp.425.1663172255053; Wed, 14
+ Sep 2022 09:17:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220911230418.340941-1-pbonzini@redhat.com>
+ <20220911230418.340941-24-pbonzini@redhat.com>
+ <e87ec571-3d79-3a4c-ed60-51fbd0c7b005@linaro.org>
+In-Reply-To: <e87ec571-3d79-3a4c-ed60-51fbd0c7b005@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 14 Sep 2022 18:17:23 +0200
+Message-ID: <CABgObfZNGnpFqD3JqEhhxnvquSX4ez=5YV4oDjPDipSbH_NS_Q@mail.gmail.com>
+Subject: Re: [PATCH 23/37] target/i386: reimplement 0x0f 0x78-0x7f, add AVX
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,68 +93,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This removes the hacks to deal with empty current_cpu.
+On Mon, Sep 12, 2022 at 3:56 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- hw/timer/arm_mptimer.c | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
+> > +static void gen_SSE4a_I(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+> > +{
+> > +    TCGv_i32 length = tcg_const_i32(decode->immediate & 255);
+> > +    TCGv_i32 index = tcg_const_i32(decode->immediate >> 8);
+> > +
+> > +    if (s->prefix & PREFIX_DATA) {
+> > +        gen_helper_extrq_i(cpu_env, s->ptr0, index, length);
+> > +    } else {
+> > +        gen_helper_insertq_i(cpu_env, s->ptr0, index, length);
+> > +    }
+> > +    tcg_temp_free_i32(length);
+> > +    tcg_temp_free_i32(index);
+>
+> Again, why the choice of delayed decode?  I guess it doesn't matter, but it's odd.
 
-diff --git a/hw/timer/arm_mptimer.c b/hw/timer/arm_mptimer.c
-index cdfca3000b..a7fe6ddc0d 100644
---- a/hw/timer/arm_mptimer.c
-+++ b/hw/timer/arm_mptimer.c
-@@ -41,9 +41,10 @@
-  * which is used in both the ARM11MPCore and Cortex-A9MP.
-  */
- 
--static inline int get_current_cpu(ARMMPTimerState *s)
-+static inline int get_current_cpu(ARMMPTimerState *s, MemTxAttrs attrs)
- {
--    int cpu_id = current_cpu ? current_cpu->cpu_index : 0;
-+    int cpu_id = attrs.requester_id;
-+    g_assert(attrs.requester_cpu == 1);
- 
-     if (cpu_id >= s->num_cpu) {
-         hw_error("arm_mptimer: num-cpu %d but this cpu is %d!\n",
-@@ -178,25 +179,27 @@ static void timerblock_write(void *opaque, hwaddr addr,
- /* Wrapper functions to implement the "read timer/watchdog for
-  * the current CPU" memory regions.
-  */
--static uint64_t arm_thistimer_read(void *opaque, hwaddr addr,
--                                   unsigned size)
-+static MemTxResult arm_thistimer_read(void *opaque, hwaddr addr, uint64_t *data,
-+                                      unsigned size, MemTxAttrs attrs)
- {
-     ARMMPTimerState *s = (ARMMPTimerState *)opaque;
--    int id = get_current_cpu(s);
--    return timerblock_read(&s->timerblock[id], addr, size);
-+    int id = get_current_cpu(s, attrs);
-+    *data = timerblock_read(&s->timerblock[id], addr, size);
-+    return MEMTX_OK;
- }
- 
--static void arm_thistimer_write(void *opaque, hwaddr addr,
--                                uint64_t value, unsigned size)
-+static MemTxResult arm_thistimer_write(void *opaque, hwaddr addr,
-+                                uint64_t value, unsigned size, MemTxAttrs attrs)
- {
-     ARMMPTimerState *s = (ARMMPTimerState *)opaque;
--    int id = get_current_cpu(s);
-+    int id = get_current_cpu(s, attrs);
-     timerblock_write(&s->timerblock[id], addr, value, size);
-+    return MEMTX_OK;
- }
- 
- static const MemoryRegionOps arm_thistimer_ops = {
--    .read = arm_thistimer_read,
--    .write = arm_thistimer_write,
-+    .read_with_attrs = arm_thistimer_read,
-+    .write_with_attrs = arm_thistimer_write,
-     .valid = {
-         .min_access_size = 4,
-         .max_access_size = 4,
--- 
-2.34.1
+Mostly because I wasn't sure of which would be preferable so I tried
+different things. I think now I have a better picture.
+
+I will mostly switch to decode_by_prefix.
+
+Paolo
 
 
