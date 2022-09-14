@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C4BA5B88E6
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 15:14:34 +0200 (CEST)
-Received: from localhost ([::1]:33370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E6475B8917
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 15:27:20 +0200 (CEST)
+Received: from localhost ([::1]:56798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYSDp-0006WE-JF
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 09:14:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39750)
+	id 1oYSQB-0004Zu-6W
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 09:27:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYQwc-0000Xi-SV
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 07:52:42 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:47018)
+ id 1oYQwf-0000fA-H3
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 07:52:45 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:54841)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYQwU-00006d-AP
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 07:52:42 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- n40-20020a05600c3ba800b003b49aefc35fso2092463wms.5
- for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 04:52:33 -0700 (PDT)
+ id 1oYQwV-00006z-83
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 07:52:45 -0400
+Received: by mail-wm1-x334.google.com with SMTP id az6so11431531wmb.4
+ for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 04:52:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=cWtVxLGk2Gz3c0rqKUOonGO/yrqOCOPVcHSSu/486Rw=;
- b=ja/yRueSVKZ7ylhmIRANZaQgPgwiigr1YqdumzoV0IUKLOUD8vSrqjM21hwdwaP9Mt
- SpROa/N7SjCJQ9C9jI/exZtUv9/1c/rk979uZepwP0OkGGpdYeGbp1BEIA9R1gJZG8N2
- cwRg6GFDQmUNXKTtmulr40XfMIZI4xxOa2W2AUiWbS8nVKuQD5LzphEnyRDMDzwiLVwd
- 0OHzLP6x8dxYyh1rRVTCHTNPwVd4rHa8sGLMFjF9MQ/LZhmV3624p3cNtT7NhHEotCCw
- Q2fRjaQlUGlclcZDzzGgzUSTfSXrttYgpZms2hoYbllKS7VxzWqYZSPvJWKAaLrwnHyx
- Pzgw==
+ bh=/Zv1141lSqg4CG9ilpWiN4/CwNcObP9cE5AABDghOqA=;
+ b=HNFqB7wabDyOYbg3wrbgk3vCA7ZeoWHR7o0/is21iDPQpt3/WLgQ2RRGkyXSNG8tZL
+ 7bubfg69RhteXePIPQeLJa2xCG/5xAuiJQDsK/MDi8zNS1Q4Jls7KJ5Vy0bZssUw2rd1
+ +Kps8N0rrgPOfdbRjtbqo630CXKGPuazisOaNwdcGldsX6y5BABj+BvK7x+JG2qw0cVR
+ Ii60JMG7vByQj6IKXgaNSx0rWkYfYRvDMs0wpm47vpBSzpn6JJLYvqzioY6fLqt9bVuz
+ kMYmh4vmbN2OzS75lT6AuHwWF5VETF/FH20gF6lfgnCvWIzNlHs3XNmB3Rzo0sXdp+X5
+ oCgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=cWtVxLGk2Gz3c0rqKUOonGO/yrqOCOPVcHSSu/486Rw=;
- b=2rPm46R5uBjqN+B0Fq5b8XFWJkNBuFoJUG3U2Oun8s6dIt4QPLH0KlVfuRUAKxF+G9
- MZtvj3M52rlmwmLS6gEB0tBvHWSu9GbP/zLf5SEUZGx6rxqLGmEjWNBglmg3Gjh24HxV
- r0UKIRnk8RWlRHvcQaoISFMojgQHxwygm5u4EhNtkw3iKjujJTljN1tejjxLs6WaVXyx
- 1S2q4f19QQhJLD+0sXBE9X6pGoRVY6AHhl2NTn3wbHUvKcCQl5QvzD9vS6Lq6MFdaG3d
- VnSJ6qpV0+1Och9u1AMnxE5aseiya10avC8aR5rSu3yl0oBlWGycKlkmwvHwa6oJ0bos
- JljQ==
-X-Gm-Message-State: ACgBeo0TuRURG2gC5UO9guMcbFvi4loQQy9r2M64d03uVfKCM0gcOEoQ
- KP/PXQ6bBKMVpqRZXaGGc4t7Cr5wwhoR5HSu
-X-Google-Smtp-Source: AA6agR7j6DHka52ov4Ak/nZ7CrbWcskTi7GQ8exR58ewmN6+EY4cpKrrI6feAjKM1Y1JiSsWphdfTw==
-X-Received: by 2002:a05:600c:414b:b0:3b4:a655:720f with SMTP id
- h11-20020a05600c414b00b003b4a655720fmr955500wmm.92.1663156352920; 
- Wed, 14 Sep 2022 04:52:32 -0700 (PDT)
+ bh=/Zv1141lSqg4CG9ilpWiN4/CwNcObP9cE5AABDghOqA=;
+ b=vLMooWZeI6wWRiZu5MSpJCpz7Olbe7gp6jzYy3KeHgK64tXPkK6/Z2obGNCIqwRPhl
+ psY99veNDe9DkZm/qBcz7LW8nb5mgDikQtf6PlEXldam2F+f0GQTRbdD1xhiqi9a5wr9
+ 6XyiREPbnUWC2ZNTkFDUBYkDwnE2dL0EInkcqTYEBGHu2C/cNomTSvBUGRniSNzBma2l
+ ClMLA5Fvka8lspBVmN+cg3Olzcs2GR+IOkNLwCll/L7ErUpIt3whL3V6jF1mPjy13COX
+ IJO+53XL9EIqD9q6MsPH9jge2waZmXcSD490aSIddW/Voqc7zOI24TEK4WRrVtlN7vKA
+ 2MRA==
+X-Gm-Message-State: ACgBeo2vGi3BD9izNgrW0m+dXpoY48xF3nPL85HImAvyyjbF9QGhX4Z6
+ 4eW2WxPeRE7C++a30i1h2Bg2sOTyw2PfvAp7
+X-Google-Smtp-Source: AA6agR7nHnKeIaE79OuyzliSy3JHSy3Zvi9g3GCGZCNLqYS3JPlOaaY60Vm59dAbf07KpFbY0VE2zQ==
+X-Received: by 2002:a05:600c:a02:b0:3ad:455c:b710 with SMTP id
+ z2-20020a05600c0a0200b003ad455cb710mr2880798wmp.56.1663156353747; 
+ Wed, 14 Sep 2022 04:52:33 -0700 (PDT)
 Received: from stoup.. ([89.101.193.70]) by smtp.gmail.com with ESMTPSA id
- t9-20020a5d6909000000b0022a3a887ceasm13712970wru.49.2022.09.14.04.52.32
+ t9-20020a5d6909000000b0022a3a887ceasm13712970wru.49.2022.09.14.04.52.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Sep 2022 04:52:32 -0700 (PDT)
+ Wed, 14 Sep 2022 04:52:33 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 14/20] target/arm: Detect overflow when calculating next PMU
- interrupt
-Date: Wed, 14 Sep 2022 12:52:11 +0100
-Message-Id: <20220914115217.117532-16-richard.henderson@linaro.org>
+Subject: [PULL 15/20] target/arm: Rename pmu_8_n feature test functions
+Date: Wed, 14 Sep 2022 12:52:12 +0100
+Message-Id: <20220914115217.117532-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220914115217.117532-1-richard.henderson@linaro.org>
 References: <20220914115217.117532-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,68 +91,143 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-In pmccntr_op_finish() and pmevcntr_op_finish() we calculate the next
-point at which we will get an overflow and need to fire the PMU
-interrupt or set the overflow flag.  We do this by calculating the
-number of nanoseconds to the overflow event and then adding it to
-qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL).  However, we don't check
-whether that signed addition overflows, which can happen if the next
-PMU interrupt would happen massively far in the future (250 years or
-more).
+Our feature test functions that check the PMU version are named
+isar_feature_{aa32,aa64,any}_pmu_8_{1,4}.  This doesn't match the
+current Arm ARM official feature names, which are FEAT_PMUv3p1 and
+FEAT_PMUv3p4.  Rename these functions to _pmuv3p1 and _pmuv3p4.
 
-Since QEMU assumes that "when the QEMU_CLOCK_VIRTUAL rolls over" is
-"never", the sensible behaviour in this situation is simply to not
-try to set the timer if it would be beyond that point.  Detect the
-overflow, and skip setting the timer in that case.
+This commit was created with:
+  sed -i -e 's/pmu_8_/pmuv3p/g' target/arm/*.[ch]
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220822132358.3524971-7-peter.maydell@linaro.org>
+Message-Id: <20220822132358.3524971-8-peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
+ target/arm/cpu.h    | 16 ++++++++--------
+ target/arm/helper.c | 18 +++++++++---------
+ 2 files changed, 17 insertions(+), 17 deletions(-)
 
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index fa24ce9f96..d86e51992a 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3712,14 +3712,14 @@ static inline bool isar_feature_aa32_ats1e1(const ARMISARegisters *id)
+     return FIELD_EX32(id->id_mmfr3, ID_MMFR3, PAN) >= 2;
+ }
+ 
+-static inline bool isar_feature_aa32_pmu_8_1(const ARMISARegisters *id)
++static inline bool isar_feature_aa32_pmuv3p1(const ARMISARegisters *id)
+ {
+     /* 0xf means "non-standard IMPDEF PMU" */
+     return FIELD_EX32(id->id_dfr0, ID_DFR0, PERFMON) >= 4 &&
+         FIELD_EX32(id->id_dfr0, ID_DFR0, PERFMON) != 0xf;
+ }
+ 
+-static inline bool isar_feature_aa32_pmu_8_4(const ARMISARegisters *id)
++static inline bool isar_feature_aa32_pmuv3p4(const ARMISARegisters *id)
+ {
+     /* 0xf means "non-standard IMPDEF PMU" */
+     return FIELD_EX32(id->id_dfr0, ID_DFR0, PERFMON) >= 5 &&
+@@ -4038,13 +4038,13 @@ static inline bool isar_feature_aa64_sme(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, SME) != 0;
+ }
+ 
+-static inline bool isar_feature_aa64_pmu_8_1(const ARMISARegisters *id)
++static inline bool isar_feature_aa64_pmuv3p1(const ARMISARegisters *id)
+ {
+     return FIELD_EX64(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) >= 4 &&
+         FIELD_EX64(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) != 0xf;
+ }
+ 
+-static inline bool isar_feature_aa64_pmu_8_4(const ARMISARegisters *id)
++static inline bool isar_feature_aa64_pmuv3p4(const ARMISARegisters *id)
+ {
+     return FIELD_EX64(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) >= 5 &&
+         FIELD_EX64(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) != 0xf;
+@@ -4213,14 +4213,14 @@ static inline bool isar_feature_any_predinv(const ARMISARegisters *id)
+     return isar_feature_aa64_predinv(id) || isar_feature_aa32_predinv(id);
+ }
+ 
+-static inline bool isar_feature_any_pmu_8_1(const ARMISARegisters *id)
++static inline bool isar_feature_any_pmuv3p1(const ARMISARegisters *id)
+ {
+-    return isar_feature_aa64_pmu_8_1(id) || isar_feature_aa32_pmu_8_1(id);
++    return isar_feature_aa64_pmuv3p1(id) || isar_feature_aa32_pmuv3p1(id);
+ }
+ 
+-static inline bool isar_feature_any_pmu_8_4(const ARMISARegisters *id)
++static inline bool isar_feature_any_pmuv3p4(const ARMISARegisters *id)
+ {
+-    return isar_feature_aa64_pmu_8_4(id) || isar_feature_aa32_pmu_8_4(id);
++    return isar_feature_aa64_pmuv3p4(id) || isar_feature_aa32_pmuv3p4(id);
+ }
+ 
+ static inline bool isar_feature_any_ccidx(const ARMISARegisters *id)
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index b792694df0..11a7a57710 100644
+index 11a7a57710..987ac19fe8 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -1227,10 +1227,13 @@ static void pmccntr_op_finish(CPUARMState *env)
-         int64_t overflow_in = cycles_ns_per(remaining_cycles);
- 
-         if (overflow_in > 0) {
--            int64_t overflow_at = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
--                overflow_in;
--            ARMCPU *cpu = env_archcpu(env);
--            timer_mod_anticipate_ns(cpu->pmu_timer, overflow_at);
-+            int64_t overflow_at;
-+
-+            if (!sadd64_overflow(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
-+                                 overflow_in, &overflow_at)) {
-+                ARMCPU *cpu = env_archcpu(env);
-+                timer_mod_anticipate_ns(cpu->pmu_timer, overflow_at);
-+            }
-         }
+@@ -879,16 +879,16 @@ static int64_t instructions_ns_per(uint64_t icount)
+ }
  #endif
  
-@@ -1275,10 +1278,13 @@ static void pmevcntr_op_finish(CPUARMState *env, uint8_t counter)
-         int64_t overflow_in = pm_events[event_idx].ns_per_count(delta);
+-static bool pmu_8_1_events_supported(CPUARMState *env)
++static bool pmuv3p1_events_supported(CPUARMState *env)
+ {
+     /* For events which are supported in any v8.1 PMU */
+-    return cpu_isar_feature(any_pmu_8_1, env_archcpu(env));
++    return cpu_isar_feature(any_pmuv3p1, env_archcpu(env));
+ }
  
-         if (overflow_in > 0) {
--            int64_t overflow_at = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
--                overflow_in;
--            ARMCPU *cpu = env_archcpu(env);
--            timer_mod_anticipate_ns(cpu->pmu_timer, overflow_at);
-+            int64_t overflow_at;
-+
-+            if (!sadd64_overflow(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
-+                                 overflow_in, &overflow_at)) {
-+                ARMCPU *cpu = env_archcpu(env);
-+                timer_mod_anticipate_ns(cpu->pmu_timer, overflow_at);
-+            }
-         }
+-static bool pmu_8_4_events_supported(CPUARMState *env)
++static bool pmuv3p4_events_supported(CPUARMState *env)
+ {
+     /* For events which are supported in any v8.1 PMU */
+-    return cpu_isar_feature(any_pmu_8_4, env_archcpu(env));
++    return cpu_isar_feature(any_pmuv3p4, env_archcpu(env));
+ }
+ 
+ static uint64_t zero_event_get_count(CPUARMState *env)
+@@ -922,17 +922,17 @@ static const pm_event pm_events[] = {
+     },
  #endif
- 
+     { .number = 0x023, /* STALL_FRONTEND */
+-      .supported = pmu_8_1_events_supported,
++      .supported = pmuv3p1_events_supported,
+       .get_count = zero_event_get_count,
+       .ns_per_count = zero_event_ns_per,
+     },
+     { .number = 0x024, /* STALL_BACKEND */
+-      .supported = pmu_8_1_events_supported,
++      .supported = pmuv3p1_events_supported,
+       .get_count = zero_event_get_count,
+       .ns_per_count = zero_event_ns_per,
+     },
+     { .number = 0x03c, /* STALL */
+-      .supported = pmu_8_4_events_supported,
++      .supported = pmuv3p4_events_supported,
+       .get_count = zero_event_get_count,
+       .ns_per_count = zero_event_ns_per,
+     },
+@@ -6400,7 +6400,7 @@ static void define_pmu_regs(ARMCPU *cpu)
+         g_free(pmevtyper_name);
+         g_free(pmevtyper_el0_name);
+     }
+-    if (cpu_isar_feature(aa32_pmu_8_1, cpu)) {
++    if (cpu_isar_feature(aa32_pmuv3p1, cpu)) {
+         ARMCPRegInfo v81_pmu_regs[] = {
+             { .name = "PMCEID2", .state = ARM_CP_STATE_AA32,
+               .cp = 15, .opc1 = 0, .crn = 9, .crm = 14, .opc2 = 4,
+@@ -6413,7 +6413,7 @@ static void define_pmu_regs(ARMCPU *cpu)
+         };
+         define_arm_cp_regs(cpu, v81_pmu_regs);
+     }
+-    if (cpu_isar_feature(any_pmu_8_4, cpu)) {
++    if (cpu_isar_feature(any_pmuv3p4, cpu)) {
+         static const ARMCPRegInfo v84_pmmir = {
+             .name = "PMMIR_EL1", .state = ARM_CP_STATE_BOTH,
+             .opc0 = 3, .opc1 = 0, .crn = 9, .crm = 14, .opc2 = 6,
 -- 
 2.34.1
 
