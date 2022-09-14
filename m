@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4047A5B8CFC
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 18:28:43 +0200 (CEST)
-Received: from localhost ([::1]:40448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41D6A5B8D0F
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 18:31:10 +0200 (CEST)
+Received: from localhost ([::1]:42062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYVFi-0006QD-CB
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 12:28:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37182)
+	id 1oYVI4-0000He-Og
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 12:31:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oYUny-0006cI-Sf
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 12:00:02 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:45957)
+ id 1oYUnx-0006ac-FR
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 12:00:01 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:33783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oYUnx-0002or-0D
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 12:00:02 -0400
-Received: by mail-wr1-x432.google.com with SMTP id bj14so26394903wrb.12
- for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 09:00:00 -0700 (PDT)
+ id 1oYUnv-0002mB-73
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 12:00:01 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id k9so26487989wri.0
+ for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 08:59:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=b37tM16YW2hM4J2q/2/cHZ/O4ghItjIzNOwocMzl0HY=;
- b=Zi+DQhoSm/INAb+dWyd9jb6OshLkQ7zt3ksZPsRE+15i5y5gTza5H1jOBc7LpWVTFS
- 7EOEzKBmcFyutxLtiUHRXmyP3evhlRpfwDs8tbVbs1SLBFOVtO64mQIEf/eUi15BFzOr
- 59Q1VItBwgvXeB7eRJ2sMPfxlR2Ye/4fytD/vp22eym9FZvctY6rQ+NU24guN2w4CwMZ
- afgJFg4Ve3zvhPg2S9cwfTAqs+w8A2LHHV3o8KwCLmbIOMq7qej4v1HSdH7Zc/Yr+QyV
- K9k6/R+JANqz+ryjB8vxBvcKnECVHtViLlBmVbgwBW5JIeAJ4vTbtoPd4fZD5vDtRqHp
- Czvw==
+ bh=3e20V6KO3fnSe6hV5y58MKOdP3MKisUIItuiv04/Bkk=;
+ b=wov5x4qyCV9JC18Yg46LbF8lwsWAkuXWB0zHtJ+DZOgh5LcDA4lJIZSlZMXGvutjT6
+ bRDymU17TIcdxpCX6PYQPnvzkUeJfOXb8oauFnbJbSzbmn2dr0i8XVfhJF8lNB8zNsTf
+ ZA+aTel1ns3n+ov6S5iC86Z0bhyuqIR8ndo71UCeAG7bjAcq38WrSHRxYBhfzV6DVn+f
+ JaNnpsr+0nMG89InvIt+VItIznViiIya3r+HQCXsSU+x2so+2bYYgvFtz6et0UP2bimj
+ 45+rssD5mB6RYdq46xVQEACDFE5s0nmDbQN3FBOjxwp6Y9ogHzz8gR9bF1/e9jAwAW+t
+ JWCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=b37tM16YW2hM4J2q/2/cHZ/O4ghItjIzNOwocMzl0HY=;
- b=FbetOC/ms4BHl9dXt5XQmLLKux7OrOVq/yCS5V8j8u7rCzvfr/EfrnD9KkCkPrmpQx
- ojW/D23ZT0HcYCuUSS1kmL5YTqez46WrZPDBZLk8PAobrUvblhEWxMRBQn7a+kTw8BTe
- Jz6QqmedJSRdCRsyHQ2AmWjFpOuYM+yueFFwtgujsyMURt4Z8o9ErR+KyyVkB5RUcue/
- bDfLRz47ksNPPQRSSWq9033mckhTLLqeav+1CAdX269cvtku+JfTSej7jocjZrR3dPBe
- Q1zQVoPxuPztsnmlLYngcF0EvcgosPBOVUhPfaOyFRVI5g0uydujTaVKFi47sdkLsMX6
- JMfA==
-X-Gm-Message-State: ACgBeo0jklDChBKhFyf6A+wH277VoZYTvpdJHnc9J7HQpBCkPBU0jOot
- o187j3iE0gjpLjrREIvhtfHlkA==
-X-Google-Smtp-Source: AA6agR6wblAMBg+noLYndemPMFVJMmBp0T/R2+7l/FceicAAobgNWIPVQSNBQMKQt91TTAY25Gk93A==
-X-Received: by 2002:a05:6000:1d8b:b0:22a:c046:946d with SMTP id
- bk11-20020a0560001d8b00b0022ac046946dmr5398549wrb.249.1663171199647; 
- Wed, 14 Sep 2022 08:59:59 -0700 (PDT)
+ bh=3e20V6KO3fnSe6hV5y58MKOdP3MKisUIItuiv04/Bkk=;
+ b=Vjqwd27EcIJyLeyfHKw/gYMohdcviCaJHP20Ty4cEj3UOfCuSs6fONpZkUEtsn6jrZ
+ VX4wjvdYlCY0lQyrpGY6pQQaknNEkfl9rDMX6PIqmvbrgOkYwkdA8mRw4SJvadSLk5OO
+ elyjJKcdQP6L8Gk1kBRUYrC5e9IlONuamigzt3QkU1Ok7DK1T6ORomPvpmNblZj/mwd5
+ LHon0cdRqvPTe/P98Fol0FbamHlF///zg0E9zwnb7Rnjqi3J33t7Q1UopufVtkmCwRvd
+ Slxvj2tH6AaNGWO5qwabUNOhD9IqU4S8RtUKMKoIbKiuk/WrM8Tqwee3DLvr8O73RSiI
+ e6Tw==
+X-Gm-Message-State: ACgBeo3nhR/f9xHES2sMCxB3rpfR73XlER68thqeLYslNvkxLPZUpKtX
+ a/MjQd8dFIX+0ZOn89kdg+phRg==
+X-Google-Smtp-Source: AA6agR4h5fh24RWaqsqr9QW/sfy2i/urZrch7tTvmiadmXPN/ALaOcx0saC96RX2w9mS60/SFl7eSg==
+X-Received: by 2002:a05:6000:1683:b0:22a:53cd:39cd with SMTP id
+ y3-20020a056000168300b0022a53cd39cdmr12606577wrd.55.1663171198465; 
+ Wed, 14 Sep 2022 08:59:58 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- f10-20020a05600c4e8a00b003b31fc77407sm20128857wmq.30.2022.09.14.08.59.54
+ t17-20020a5d5351000000b0022abcc1e3cesm6013027wrv.116.2022.09.14.08.59.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 14 Sep 2022 08:59:57 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7EBC11FFC5;
+ by zen.linaroharston (Postfix) with ESMTP id 9B0161FFC6;
  Wed, 14 Sep 2022 16:59:51 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -65,17 +65,17 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH v2 13/30] tests/docker: update and flatten debian-sparc64-cross
-Date: Wed, 14 Sep 2022 16:59:33 +0100
-Message-Id: <20220914155950.804707-14-alex.bennee@linaro.org>
+Subject: [PATCH  v2 14/30] tests/docker: flatten debian-powerpc-test-cross
+Date: Wed, 14 Sep 2022 16:59:34 +0100
+Message-Id: <20220914155950.804707-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220914155950.804707-1-alex.bennee@linaro.org>
 References: <20220914155950.804707-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,55 +98,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update to the latest stable Debian. While we are at it flatten into a
-single dockerfile. We really don't need the rest of the stuff from
-the QEMU base image just to compile test images.
+Flatten into a single dockerfile. We really don't need the rest of the
+stuff from the QEMU base image just to compile test images.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20220826172128.353798-9-alex.bennee@linaro.org>
+Message-Id: <20220826172128.353798-10-alex.bennee@linaro.org>
 ---
  .gitlab-ci.d/container-cross.yml                     |  1 -
  tests/docker/Makefile.include                        |  1 -
- tests/docker/dockerfiles/debian-sparc64-cross.docker | 12 +++++++-----
+ .../dockerfiles/debian-powerpc-test-cross.docker     | 12 +++++++-----
  3 files changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cross.yml
-index 8a611fc824..db0ea15d0d 100644
+index db0ea15d0d..67bbf19a27 100644
 --- a/.gitlab-ci.d/container-cross.yml
 +++ b/.gitlab-ci.d/container-cross.yml
-@@ -143,7 +143,6 @@ sh4-debian-cross-container:
- sparc64-debian-cross-container:
+@@ -102,7 +102,6 @@ mipsel-debian-cross-container:
+ powerpc-test-cross-container:
    extends: .container_job_template
    stage: containers
--  needs: ['amd64-debian10-container']
+-  needs: ['amd64-debian11-container']
    variables:
-     NAME: debian-sparc64-cross
+     NAME: debian-powerpc-test-cross
  
 diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 37c4ea913f..8828b6b8fa 100644
+index 8828b6b8fa..e034eca3af 100644
 --- a/tests/docker/Makefile.include
 +++ b/tests/docker/Makefile.include
-@@ -89,7 +89,6 @@ DOCKER_PARTIAL_IMAGES += fedora
- endif
+@@ -137,7 +137,6 @@ docker-image-debian-all-test-cross: docker-image-debian10
+ docker-image-debian-loongarch-cross: docker-image-debian11
+ docker-image-debian-microblaze-cross: docker-image-debian10
+ docker-image-debian-nios2-cross: docker-image-debian10
+-docker-image-debian-powerpc-test-cross: docker-image-debian11
+ docker-image-debian-riscv64-test-cross: docker-image-debian11
  
- docker-image-debian-mips-cross: docker-image-debian10
--docker-image-debian-sparc64-cross: docker-image-debian10
- 
- # The native build should never use the registry
- docker-image-debian-native: DOCKER_REGISTRY=
-diff --git a/tests/docker/dockerfiles/debian-sparc64-cross.docker b/tests/docker/dockerfiles/debian-sparc64-cross.docker
-index f4bb9b561c..8d3d306bc1 100644
---- a/tests/docker/dockerfiles/debian-sparc64-cross.docker
-+++ b/tests/docker/dockerfiles/debian-sparc64-cross.docker
-@@ -1,12 +1,14 @@
+ # These images may be good enough for building tests but not for test builds
+diff --git a/tests/docker/dockerfiles/debian-powerpc-test-cross.docker b/tests/docker/dockerfiles/debian-powerpc-test-cross.docker
+index 36b336f709..d6b2909cc4 100644
+--- a/tests/docker/dockerfiles/debian-powerpc-test-cross.docker
++++ b/tests/docker/dockerfiles/debian-powerpc-test-cross.docker
+@@ -1,13 +1,15 @@
  #
- # Docker cross-compiler target
+ # Docker powerpc/ppc64/ppc64le cross-compiler target
  #
--# This docker target builds on the debian Buster base image.
+-# This docker target builds on the debian Bullseye base image.
 +# This docker target builds on the Debian Bullseye base image.
  #
--FROM qemu/debian10
+-FROM qemu/debian11
 +FROM docker.io/library/debian:11-slim
  
 -RUN apt update && \
@@ -157,8 +156,9 @@ index f4bb9b561c..8d3d306bc1 100644
 +    apt-get install -y eatmydata && \
 +    eatmydata apt-get dist-upgrade -y && \
 +    eatmydata apt-get install --no-install-recommends -y \
-         gcc-sparc64-linux-gnu \
-         libc6-dev-sparc64-cross
+         gcc-powerpc-linux-gnu \
+         libc6-dev-powerpc-cross \
+         gcc-10-powerpc64-linux-gnu \
 -- 
 2.34.1
 
