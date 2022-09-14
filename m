@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45E205B87CE
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 14:08:45 +0200 (CEST)
-Received: from localhost ([::1]:42958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F37EB5B8828
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 14:24:46 +0200 (CEST)
+Received: from localhost ([::1]:50556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYRC6-00071e-HB
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 08:08:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42514)
+	id 1oYRRe-0005uf-5C
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 08:24:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oYQey-0004Mg-7T; Wed, 14 Sep 2022 07:34:28 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:42870)
+ id 1oYQf0-0004Og-GZ; Wed, 14 Sep 2022 07:34:30 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:42875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oYQew-0005ap-9O; Wed, 14 Sep 2022 07:34:27 -0400
+ id 1oYQex-0005bB-J5; Wed, 14 Sep 2022 07:34:30 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id BFA03746399;
- Wed, 14 Sep 2022 13:34:24 +0200 (CEST)
+ by localhost (Postfix) with SMTP id CE51174633F;
+ Wed, 14 Sep 2022 13:34:25 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 9E0ED74632B; Wed, 14 Sep 2022 13:34:24 +0200 (CEST)
-Message-Id: <cd7fae004b752f235bcecaae6892793f86cd7d21.1663154398.git.balaton@eik.bme.hu>
+ id AEBC674632B; Wed, 14 Sep 2022 13:34:25 +0200 (CEST)
+Message-Id: <b74f5da838d7f3fd84db34a86cb077e30aa84e52.1663154398.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1663154398.git.balaton@eik.bme.hu>
 References: <cover.1663154398.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v4 11/21] ppc440_sdram: Get rid of the init RAM hack
+Subject: [PATCH v4 12/21] ppc440_sdram: Rename local variable for readability
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -34,15 +34,16 @@ To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 14 Sep 2022 13:34:24 +0200 (CEST)
+Date: Wed, 14 Sep 2022 13:34:25 +0200 (CEST)
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,80 +59,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the do_init parameter of ppc440_sdram_init and enable SDRAM
-controller from the board via DCR access instead. Firmware does this
-so it may not be needed when booting firmware only with -kernel but we
-enable it unconditionally to preserve previous behaviour.
+Rename local sdram variable in ppc440_sdram_init to s for readability.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/ppc/ppc440.h    | 3 +--
- hw/ppc/ppc440_uc.c | 8 ++------
- hw/ppc/sam460ex.c  | 8 +++++++-
- 3 files changed, 10 insertions(+), 9 deletions(-)
+ hw/ppc/ppc440_uc.c | 36 ++++++++++++++++++------------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/hw/ppc/ppc440.h b/hw/ppc/ppc440.h
-index e6c905b7d6..01d76b8000 100644
---- a/hw/ppc/ppc440.h
-+++ b/hw/ppc/ppc440.h
-@@ -17,8 +17,7 @@ void ppc4xx_l2sram_init(CPUPPCState *env);
- void ppc4xx_cpr_init(CPUPPCState *env);
- void ppc4xx_sdr_init(CPUPPCState *env);
- void ppc440_sdram_init(CPUPPCState *env, int nbanks,
--                       Ppc4xxSdramBank *ram_banks,
--                       int do_init);
-+                       Ppc4xxSdramBank *ram_banks);
- void ppc4xx_ahb_init(CPUPPCState *env);
- void ppc4xx_dma_init(CPUPPCState *env, int dcr_base);
- void ppc460ex_pcie_init(CPUPPCState *env);
 diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
-index aa09534abb..9d011ae0cb 100644
+index 9d011ae0cb..c316893944 100644
 --- a/hw/ppc/ppc440_uc.c
 +++ b/hw/ppc/ppc440_uc.c
-@@ -727,12 +727,11 @@ static void sdram_reset(void *opaque)
-     ppc440_sdram_t *sdram = opaque;
- 
-     sdram->addr = 0;
--    sdram->mcopt2 = SDRAM_DDR2_MCOPT2_DCEN;
-+    sdram->mcopt2 = 0;
- }
- 
+@@ -733,40 +733,40 @@ static void sdram_reset(void *opaque)
  void ppc440_sdram_init(CPUPPCState *env, int nbanks,
--                       Ppc4xxSdramBank *ram_banks,
--                       int do_init)
-+                       Ppc4xxSdramBank *ram_banks)
+                        Ppc4xxSdramBank *ram_banks)
  {
-     ppc440_sdram_t *sdram;
+-    ppc440_sdram_t *sdram;
++    ppc440_sdram_t *s;
      int i;
-@@ -749,9 +748,6 @@ void ppc440_sdram_init(CPUPPCState *env, int nbanks,
-                      sdram, &dcr_read_sdram, &dcr_write_sdram);
+ 
+-    sdram = g_malloc0(sizeof(*sdram));
+-    sdram->nbanks = nbanks;
++    s = g_malloc0(sizeof(*s));
++    s->nbanks = nbanks;
+     for (i = 0; i < nbanks; i++) {
+-        sdram->bank[i].ram = ram_banks[i].ram;
+-        sdram->bank[i].base = ram_banks[i].base;
+-        sdram->bank[i].size = ram_banks[i].size;
++        s->bank[i].ram = ram_banks[i].ram;
++        s->bank[i].base = ram_banks[i].base;
++        s->bank[i].size = ram_banks[i].size;
+     }
+-    qemu_register_reset(&sdram_reset, sdram);
++    qemu_register_reset(&sdram_reset, s);
+     ppc_dcr_register(env, SDRAM0_CFGADDR,
+-                     sdram, &dcr_read_sdram, &dcr_write_sdram);
++                     s, &dcr_read_sdram, &dcr_write_sdram);
      ppc_dcr_register(env, SDRAM0_CFGDATA,
-                      sdram, &dcr_read_sdram, &dcr_write_sdram);
--    if (do_init) {
--        sdram_map_bcr(sdram);
--    }
+-                     sdram, &dcr_read_sdram, &dcr_write_sdram);
++                     s, &dcr_read_sdram, &dcr_write_sdram);
  
      ppc_dcr_register(env, SDRAM_R0BAS,
-                      sdram, &dcr_read_sdram, &dcr_write_sdram);
-diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
-index f4c2a693fb..dac329d482 100644
---- a/hw/ppc/sam460ex.c
-+++ b/hw/ppc/sam460ex.c
-@@ -345,7 +345,13 @@ static void sam460ex_init(MachineState *machine)
-     ppc4xx_sdram_banks(machine->ram, 1, ram_banks, ppc460ex_sdram_bank_sizes);
+-                     sdram, &dcr_read_sdram, &dcr_write_sdram);
++                     s, &dcr_read_sdram, &dcr_write_sdram);
+     ppc_dcr_register(env, SDRAM_R1BAS,
+-                     sdram, &dcr_read_sdram, &dcr_write_sdram);
++                     s, &dcr_read_sdram, &dcr_write_sdram);
+     ppc_dcr_register(env, SDRAM_R2BAS,
+-                     sdram, &dcr_read_sdram, &dcr_write_sdram);
++                     s, &dcr_read_sdram, &dcr_write_sdram);
+     ppc_dcr_register(env, SDRAM_R3BAS,
+-                     sdram, &dcr_read_sdram, &dcr_write_sdram);
++                     s, &dcr_read_sdram, &dcr_write_sdram);
+     ppc_dcr_register(env, SDRAM_CONF1HB,
+-                     sdram, &dcr_read_sdram, &dcr_write_sdram);
++                     s, &dcr_read_sdram, &dcr_write_sdram);
+     ppc_dcr_register(env, SDRAM_PLBADDULL,
+-                     sdram, &dcr_read_sdram, &dcr_write_sdram);
++                     s, &dcr_read_sdram, &dcr_write_sdram);
+     ppc_dcr_register(env, SDRAM_CONF1LL,
+-                     sdram, &dcr_read_sdram, &dcr_write_sdram);
++                     s, &dcr_read_sdram, &dcr_write_sdram);
+     ppc_dcr_register(env, SDRAM_CONFPATHB,
+-                     sdram, &dcr_read_sdram, &dcr_write_sdram);
++                     s, &dcr_read_sdram, &dcr_write_sdram);
+     ppc_dcr_register(env, SDRAM_PLBADDUHB,
+-                     sdram, &dcr_read_sdram, &dcr_write_sdram);
++                     s, &dcr_read_sdram, &dcr_write_sdram);
+ }
  
-     /* FIXME: does 460EX have ECC interrupts? */
--    ppc440_sdram_init(env, 1, ram_banks, 1);
-+    ppc440_sdram_init(env, 1, ram_banks);
-+    /* Enable SDRAM memory regions as we may boot without firmware */
-+    if (ppc_dcr_write(env->dcr_env, SDRAM0_CFGADDR, 0x21) ||
-+        ppc_dcr_write(env->dcr_env, SDRAM0_CFGDATA, 0x08000000)) {
-+        error_report("Couldn't enable memory regions");
-+        exit(1);
-+    }
- 
-     /* IIC controllers and devices */
-     dev = sysbus_create_simple(TYPE_PPC4xx_I2C, 0x4ef600700,
+ /*****************************************************************************/
 -- 
 2.30.4
 
