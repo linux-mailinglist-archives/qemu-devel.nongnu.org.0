@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BEBC5B8D41
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 18:40:57 +0200 (CEST)
-Received: from localhost ([::1]:33474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B27775B8D9A
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 18:55:08 +0200 (CEST)
+Received: from localhost ([::1]:37258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYVRY-0001AP-6v
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 12:40:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54140)
+	id 1oYVfH-0000vs-JF
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 12:55:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oYUty-0001Nn-Gi
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 12:06:14 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:34451)
+ id 1oYUu5-0001Yr-Vr
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 12:06:27 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:37866)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oYUtv-0003qY-Pi
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 12:06:14 -0400
-Received: by mail-wr1-x435.google.com with SMTP id bo13so9952707wrb.1
- for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 09:06:11 -0700 (PDT)
+ id 1oYUu3-0003s6-Qa
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 12:06:21 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ c2-20020a1c3502000000b003b2973dafb7so15830781wma.2
+ for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 09:06:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=iVi2M5JVgPxoYJPoTzeenSW9Sp6hbVA3bl4+rpNzI1c=;
- b=mz4/OrEyjjt81DvzpbXnvsmvzRDJMYN+zISwQzHWgC+aGUFecFmQUxVml82gfV9Er1
- EjeOJ07u24INePXJpNa7F0d3fZ8s2tLyyqZEAoyhWId/3aJJM/kt5WdYaOp5vB/PdGYO
- ovyD6sPOHMPJwNOAoVssO+ZtjlxmRJuApXPoZny8kBljvwCCEYOAs1bJ+SG6jKHsC1To
- iqcqc0rxE8e6kY4cUTK3Zimvesu2FKpR9bJekAS36Ev0Q1NCjJPOYWGi/a2RmoExndMZ
- YVEhPs0S168B1Rp4V/a9lOYsM01F5Y1TgOkGnLnJq9TWYFDEaMMG/VLFj7+ys95BKiXZ
- iyWQ==
+ bh=DWTMcgN+s3+EuJqXGUpffad3Z1M+TpIkfsiXcXLeD1g=;
+ b=Ph1JPh1dMEE5eQobms/jLe2+fk6fWBg0CszT4HZllGmwdfmOYDeo3kphug3O7IyBjU
+ fOYgivkV8Fgfsiuji7ZYijyAqZSatxHoqm6e+jwHJVuR77dFZQjP0zFJ2xe7YcumSx8d
+ erAp0L12FTd0PIFdUP3B/7lmeAgzA3XEP8dHTZQE4N7csgCMI1pZfQgXLhag2Kv/Ome4
+ gwgI3bwotPWcm+ItZn82mdfbShZ3vg6ooa3w+2dr0mtjxxfZQjY62SWZu+IqApALujoT
+ oj2R1x+nG7JDSXwSNL0QA3Va3wPH/eMvjmeNFVYaalIom8G6lXHNbP04rhd/5hQG4Xpl
+ 542w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=iVi2M5JVgPxoYJPoTzeenSW9Sp6hbVA3bl4+rpNzI1c=;
- b=MovQRaKVlHfm3CrSW2IYSYlG5Pche800e1xfl9cNkxcgFmdj6i81i9ek6tBFs+fM4m
- 6OM8aqIyMtfYHjO58rNoJY2oTGLeUdfvWPeKHME+wy7BT8BYAff01i8rIZLuimEyspTj
- VrRClEqyYB7S6x+ktcEP0geBi8GBg3G0MKFuaSTWB/Fqfhy09OBKtb0oE8luK6vU7mdu
- L/j5PfEpmtgs6t3ovtUukVMlzHUK/91yahhw4s4fBvdSPyI9GhFrn+EeMmvcwsdda/Jo
- vKpoQfOb/Kmpfb/WGslesFfKEcWti8LNED1GnRnQfnhurqEOG+5K0B+c8CGgEYFvw39K
- LtsA==
-X-Gm-Message-State: ACgBeo0Z525QoKBAXbykkhQMzX1usezJJVG/6Qz57HxIFmka9Jna56Ip
- qmBPwvr7mstogzAtTKtUxhUiLA==
-X-Google-Smtp-Source: AA6agR5qUO5NVe9emfl8cqm9wyHQ+Y72OuQkeYOyRWHTNc+OneSnaQ5xkbevkSFjTgdTWVKwgcHcNA==
-X-Received: by 2002:a5d:4284:0:b0:22a:291e:fa8f with SMTP id
- k4-20020a5d4284000000b0022a291efa8fmr20378360wrq.553.1663171570204; 
- Wed, 14 Sep 2022 09:06:10 -0700 (PDT)
+ bh=DWTMcgN+s3+EuJqXGUpffad3Z1M+TpIkfsiXcXLeD1g=;
+ b=MtTsvp8V3bVIQmq+ARKhmcV7aE5qPL1k13y5W13J0uiebUi9jWSEPKxHhir5DXC/iC
+ nWdHwuNGZeEndafi0Et4O/x5oFyzGs7qLXaKHjwYkbY29AOyP6Bdp5sCjzmI6cGF2bmB
+ Y1ymRWngCXQ8OJZPJjAZ1Nobkgjf0QRm3DaEnOvhCvOsFNjnWHBhLvicM4FyJ0pRoaKa
+ 9PoAFDXOJpJ5/OpdsdMmbrq7LN6IqiHr7yYudTtCONl5+KlUAEp9XrxRJC1ALJRbgGFQ
+ Is2RAQn6JnuVxaFW1IlJASRBtEHFKnlHK4eQJ7cKXtJ2FuvGihevkpx0ZCp0m9YrGG2h
+ nicw==
+X-Gm-Message-State: ACgBeo0w8Wb7bW/gl9jjvTY4fJGKGIrH/GggFu/BQUOpLxYzvXkgPqi8
+ Lann6ZAu9rbgeYzU2LXC+RJDbg==
+X-Google-Smtp-Source: AA6agR5WEF5pjZQ0lK3aS1TrfOkBIG/33rIS0/yss/IxGc+0YWnlHXIxx08tUlBf7CIFndfjqzI5hw==
+X-Received: by 2002:a05:600c:255:b0:3aa:2150:b184 with SMTP id
+ 21-20020a05600c025500b003aa2150b184mr3782578wmj.138.1663171577374; 
+ Wed, 14 Sep 2022 09:06:17 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- m23-20020a05600c3b1700b003b477532e66sm6817566wms.2.2022.09.14.09.06.09
+ az8-20020a05600c600800b003b27f644488sm17873716wmb.29.2022.09.14.09.06.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Sep 2022 09:06:09 -0700 (PDT)
+ Wed, 14 Sep 2022 09:06:13 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0B7211FFD3;
+ by zen.linaroharston (Postfix) with ESMTP id 205261FFD4;
  Wed, 14 Sep 2022 16:59:53 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -65,18 +66,17 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH v2 29/30] tests/docker: remove FROM qemu/ support from
- docker.py
-Date: Wed, 14 Sep 2022 16:59:49 +0100
-Message-Id: <20220914155950.804707-30-alex.bennee@linaro.org>
+Subject: [PATCH  v2 30/30] tests/docker: remove the Debian base images
+Date: Wed, 14 Sep 2022 16:59:50 +0100
+Message-Id: <20220914155950.804707-31-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220914155950.804707-1-alex.bennee@linaro.org>
 References: <20220914155950.804707-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,87 +99,160 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to migrate from docker.py to building our images directly with
-docker/podman. Before we get there we need to make sure we don't
-re-introduce our layered builds so bug out if we see FROM qemu/ in a
-Dockerfile.
+We no longer use these in any of our images. Clean-up the remaining
+comments and documentation that reference them and remove from the
+build.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20220826172128.353798-24-alex.bennee@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20220826172128.353798-25-alex.bennee@linaro.org>
 ---
- tests/docker/docker.py | 38 ++++++++++----------------------------
- 1 file changed, 10 insertions(+), 28 deletions(-)
+ docs/devel/testing.rst                   |  2 +-
+ .gitlab-ci.d/container-core.yml          |  5 ----
+ .gitlab-ci.d/containers.yml              |  5 ----
+ tests/docker/Makefile.include            |  8 +----
+ tests/docker/dockerfiles/debian10.docker | 38 ------------------------
+ tests/docker/dockerfiles/debian11.docker | 18 -----------
+ 6 files changed, 2 insertions(+), 74 deletions(-)
+ delete mode 100644 tests/docker/dockerfiles/debian10.docker
+ delete mode 100644 tests/docker/dockerfiles/debian11.docker
 
-diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index d0af2861b8..3a1ed7cb18 100755
---- a/tests/docker/docker.py
-+++ b/tests/docker/docker.py
-@@ -205,22 +205,17 @@ def _read_qemu_dockerfile(img_name):
-     return _read_dockerfile(df)
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index f35f117d95..aea5b42356 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -375,7 +375,7 @@ locally by using the ``NOCACHE`` build option:
  
+ .. code::
  
--def _dockerfile_preprocess(df):
--    out = ""
-+def _dockerfile_verify_flat(df):
-+    "Verify we do not include other qemu/ layers"
-     for l in df.splitlines():
-         if len(l.strip()) == 0 or l.startswith("#"):
-             continue
-         from_pref = "FROM qemu/"
-         if l.startswith(from_pref):
--            # TODO: Alternatively we could replace this line with "FROM $ID"
--            # where $ID is the image's hex id obtained with
--            #    $ docker images $IMAGE --format="{{.Id}}"
--            # but unfortunately that's not supported by RHEL 7.
--            inlining = _read_qemu_dockerfile(l[len(from_pref):])
--            out += _dockerfile_preprocess(inlining)
--            continue
--        out += l + "\n"
--    return out
-+            print("We no longer support multiple QEMU layers.")
-+            print("Dockerfiles should be flat, ideally created by lcitool")
-+            return False
-+    return True
+-   make docker-image-debian10 NOCACHE=1
++   make docker-image-debian-arm64-cross NOCACHE=1
  
+ Images
+ ~~~~~~
+diff --git a/.gitlab-ci.d/container-core.yml b/.gitlab-ci.d/container-core.yml
+index e8dd1f476a..08f8450fa1 100644
+--- a/.gitlab-ci.d/container-core.yml
++++ b/.gitlab-ci.d/container-core.yml
+@@ -10,8 +10,3 @@ amd64-fedora-container:
+   extends: .container_job_template
+   variables:
+     NAME: fedora
+-
+-amd64-debian10-container:
+-  extends: .container_job_template
+-  variables:
+-    NAME: debian10
+diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+index be34cbc7ba..96d2a3b58b 100644
+--- a/.gitlab-ci.d/containers.yml
++++ b/.gitlab-ci.d/containers.yml
+@@ -7,11 +7,6 @@ amd64-alpine-container:
+   variables:
+     NAME: alpine
  
- class Docker(object):
-@@ -309,23 +304,10 @@ def build_image(self, tag, docker_dir, dockerfile,
-         if argv is None:
-             argv = []
+-amd64-debian11-container:
+-  extends: .container_job_template
+-  variables:
+-    NAME: debian11
+-
+ amd64-debian-container:
+   extends: .container_job_template
+   stage: containers
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index a3174346da..270e99786e 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -69,9 +69,7 @@ docker-binfmt-image-debian-%: $(DOCKER_FILES_DIR)/debian-bootstrap.docker
+ 			{ echo "You will need to build $(EXECUTABLE)"; exit 1;},\
+ 			"CHECK", "debian-$* exists"))
  
--        # pre-calculate the docker checksum before any
--        # substitutions we make for caching
--        checksum = _text_checksum(_dockerfile_preprocess(dockerfile))
-+        if not _dockerfile_verify_flat(dockerfile):
-+            return -1
+-# Enforce dependencies for composite images
+-# we don't run tests on intermediate images (used as base by another image)
+-DOCKER_PARTIAL_IMAGES := debian10 debian11
++# Special case cross-compiling x86_64 on non-x86_64 systems.
+ ifeq ($(HOST_ARCH),x86_64)
+ DOCKER_PARTIAL_IMAGES += debian-amd64-cross
+ else
+@@ -89,10 +87,6 @@ endif
+ # The native build should never use the registry
+ docker-image-debian-native: DOCKER_REGISTRY=
  
--        if registry is not None:
--            sources = re.findall("FROM qemu\/(.*)", dockerfile)
--            # Fetch any cache layers we can, may fail
--            for s in sources:
--                pull_args = ["pull", "%s/qemu/%s" % (registry, s)]
--                if self._do(pull_args, quiet=quiet) != 0:
--                    registry = None
--                    break
--            # Make substitutions
--            if registry is not None:
--                dockerfile = dockerfile.replace("FROM qemu/",
--                                                "FROM %s/qemu/" %
--                                                (registry))
-+        checksum = _text_checksum(dockerfile)
+-# base images should not add a local user
+-docker-image-debian10: NOUSER=1
+-docker-image-debian11: NOUSER=1
+-
+ # alpine has no adduser
+ docker-image-alpine: NOUSER=1
  
-         tmp_df = tempfile.NamedTemporaryFile(mode="w+t",
-                                              encoding='utf-8',
-@@ -371,7 +353,7 @@ def image_matches_dockerfile(self, tag, dockerfile):
-             checksum = self.get_image_dockerfile_checksum(tag)
-         except Exception:
-             return False
--        return checksum == _text_checksum(_dockerfile_preprocess(dockerfile))
-+        return checksum == _text_checksum(dockerfile)
- 
-     def run(self, cmd, keep, quiet, as_user=False):
-         label = uuid.uuid4().hex
+diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+deleted file mode 100644
+index 03be923066..0000000000
+--- a/tests/docker/dockerfiles/debian10.docker
++++ /dev/null
+@@ -1,38 +0,0 @@
+-#
+-# Docker multiarch cross-compiler target
+-#
+-# This docker target is builds on Debian cross compiler targets to build distro
+-# with a selection of cross compilers for building test binaries.
+-#
+-# On its own you can't build much but the docker-foo-cross targets
+-# build on top of the base debian image.
+-#
+-FROM docker.io/library/debian:buster-slim
+-
+-# Duplicate deb line as deb-src
+-RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
+-
+-# Install common build utilities
+-RUN apt update && \
+-    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt install -y --no-install-recommends \
+-        bc \
+-        build-essential \
+-        ca-certificates \
+-        ccache \
+-        clang \
+-        dbus \
+-        gdb-multiarch \
+-        gettext \
+-        git \
+-        libffi-dev \
+-        libncurses5-dev \
+-        ninja-build \
+-        pkg-config \
+-        psmisc \
+-        python3 \
+-        python3-sphinx \
+-        python3-sphinx-rtd-theme \
+-        python3-venv \
+-        $(apt-get -s build-dep --arch-only qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
+diff --git a/tests/docker/dockerfiles/debian11.docker b/tests/docker/dockerfiles/debian11.docker
+deleted file mode 100644
+index febf884f8f..0000000000
+--- a/tests/docker/dockerfiles/debian11.docker
++++ /dev/null
+@@ -1,18 +0,0 @@
+-#
+-# Docker multiarch cross-compiler target
+-#
+-# This docker target uses the current development version of Debian as
+-# a base for cross compilers for building test binaries. We won't
+-# attempt to build QEMU on it yet given it is still in development.
+-#
+-# On its own you can't build much but the docker-foo-cross targets
+-# build on top of the base debian image.
+-#
+-FROM docker.io/library/debian:bullseye-slim
+-
+-# Duplicate deb line as deb-src
+-RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
+-
+-# Install common build utilities
+-RUN apt update && \
+-    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata
 -- 
 2.34.1
 
