@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 958AC5B88B3
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 14:56:37 +0200 (CEST)
-Received: from localhost ([::1]:43492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4BA5B88E6
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 15:14:34 +0200 (CEST)
+Received: from localhost ([::1]:33370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYRwS-00005E-Nr
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 08:56:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39746)
+	id 1oYSDp-0006WE-JF
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 09:14:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYQwb-0000Vm-Lv
+ id 1oYQwc-0000Xi-SV
  for qemu-devel@nongnu.org; Wed, 14 Sep 2022 07:52:42 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:50732)
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:47018)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYQwU-00005w-8x
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 07:52:41 -0400
-Received: by mail-wm1-x334.google.com with SMTP id ay36so1814317wmb.0
- for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 04:52:32 -0700 (PDT)
+ id 1oYQwU-00006d-AP
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 07:52:42 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ n40-20020a05600c3ba800b003b49aefc35fso2092463wms.5
+ for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 04:52:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=B1HwVRetoBVY21lBSjEDvodWTQyZBfluPojpmU/kW4s=;
- b=vNOaAo0YZIV1C0eoznlMnJ6Y0fpoGoOeZhTF/fYvMs30beOJhl/I0NRIoyFsvCbxaY
- qDa+Pu5FTiS+rWUqTuznGveb1UprQyvxJK1+y8aAWmOUTYsfrT4akZbRzzexY+0sJUVA
- NTSr62C2tvdv4swX6nUTQfPDjd8cV9cpnsdz71phqXVCEf6lE/w2BZYisCSqYqYOTGbO
- obrcXzBl/8Jv9uassNNaR2HxqmH3UPvHEX83RFIQJ6qnYzUdUR9Nr9KBYA6gK2KXbHPB
- zCoROHGPUC8ViigtgAxbvZwse6T1v1raLv739QjtW6/tE7YwbuB/zMXd3YOs5OAkjYOQ
- izDw==
+ bh=cWtVxLGk2Gz3c0rqKUOonGO/yrqOCOPVcHSSu/486Rw=;
+ b=ja/yRueSVKZ7ylhmIRANZaQgPgwiigr1YqdumzoV0IUKLOUD8vSrqjM21hwdwaP9Mt
+ SpROa/N7SjCJQ9C9jI/exZtUv9/1c/rk979uZepwP0OkGGpdYeGbp1BEIA9R1gJZG8N2
+ cwRg6GFDQmUNXKTtmulr40XfMIZI4xxOa2W2AUiWbS8nVKuQD5LzphEnyRDMDzwiLVwd
+ 0OHzLP6x8dxYyh1rRVTCHTNPwVd4rHa8sGLMFjF9MQ/LZhmV3624p3cNtT7NhHEotCCw
+ Q2fRjaQlUGlclcZDzzGgzUSTfSXrttYgpZms2hoYbllKS7VxzWqYZSPvJWKAaLrwnHyx
+ Pzgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=B1HwVRetoBVY21lBSjEDvodWTQyZBfluPojpmU/kW4s=;
- b=GwFtc0NUflixfsokHnXty1kx55LxafM02+3b2xkCvocWQ9R48+JEGHY2FI9RfJ81y/
- A0Fe/MAlfNxyikg4kMx7R31m8as4eNb+t9+B/EAwaSS6oiQ9hAQOUlieJRM1MxVc7kTF
- /rN/n02tSRs5lWjUQ2uBoi4l5hEc2YLzxwV9lff/9YyoJOrUAvDTfc+l4qrVLpld7tis
- wNVydvYPMkQQtgkFdOF2q0f4AACpWhebrLqSWpSizKDM2mA/C4RVVxe5Cu6Ug/vH8NaN
- zC0arUmN0kzcXMt1GzZCrJLQJK23rp6LQxmq0yRVZY/+dxRmjcuBYo2QtE215qtDaWD6
- 8KIA==
-X-Gm-Message-State: ACgBeo1S6c64X+9S02oiyNf87fz724NP1q8f9xSOGpgPEq21LIpTbbnE
- IWTq3Kp1nhPllfHFSZOndIa8oZNdW55/lgag
-X-Google-Smtp-Source: AA6agR5RXGwHzKsQ01HwBgwG2M2K6OjQ6h4TcOpSbVhyNQp4+pLq5XaszCyrlbC/5T36sfM5r6eLtw==
-X-Received: by 2002:a05:600c:4f8d:b0:3b4:9f2f:4311 with SMTP id
- n13-20020a05600c4f8d00b003b49f2f4311mr2240460wmq.17.1663156351830; 
- Wed, 14 Sep 2022 04:52:31 -0700 (PDT)
+ bh=cWtVxLGk2Gz3c0rqKUOonGO/yrqOCOPVcHSSu/486Rw=;
+ b=2rPm46R5uBjqN+B0Fq5b8XFWJkNBuFoJUG3U2Oun8s6dIt4QPLH0KlVfuRUAKxF+G9
+ MZtvj3M52rlmwmLS6gEB0tBvHWSu9GbP/zLf5SEUZGx6rxqLGmEjWNBglmg3Gjh24HxV
+ r0UKIRnk8RWlRHvcQaoISFMojgQHxwygm5u4EhNtkw3iKjujJTljN1tejjxLs6WaVXyx
+ 1S2q4f19QQhJLD+0sXBE9X6pGoRVY6AHhl2NTn3wbHUvKcCQl5QvzD9vS6Lq6MFdaG3d
+ VnSJ6qpV0+1Och9u1AMnxE5aseiya10avC8aR5rSu3yl0oBlWGycKlkmwvHwa6oJ0bos
+ JljQ==
+X-Gm-Message-State: ACgBeo0TuRURG2gC5UO9guMcbFvi4loQQy9r2M64d03uVfKCM0gcOEoQ
+ KP/PXQ6bBKMVpqRZXaGGc4t7Cr5wwhoR5HSu
+X-Google-Smtp-Source: AA6agR7j6DHka52ov4Ak/nZ7CrbWcskTi7GQ8exR58ewmN6+EY4cpKrrI6feAjKM1Y1JiSsWphdfTw==
+X-Received: by 2002:a05:600c:414b:b0:3b4:a655:720f with SMTP id
+ h11-20020a05600c414b00b003b4a655720fmr955500wmm.92.1663156352920; 
+ Wed, 14 Sep 2022 04:52:32 -0700 (PDT)
 Received: from stoup.. ([89.101.193.70]) by smtp.gmail.com with ESMTPSA id
- t9-20020a5d6909000000b0022a3a887ceasm13712970wru.49.2022.09.14.04.52.31
+ t9-20020a5d6909000000b0022a3a887ceasm13712970wru.49.2022.09.14.04.52.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Sep 2022 04:52:31 -0700 (PDT)
+ Wed, 14 Sep 2022 04:52:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 13/20] target/arm: Honour MDCR_EL2.HPMD in Secure EL2
-Date: Wed, 14 Sep 2022 12:52:10 +0100
-Message-Id: <20220914115217.117532-15-richard.henderson@linaro.org>
+Subject: [PULL 14/20] target/arm: Detect overflow when calculating next PMU
+ interrupt
+Date: Wed, 14 Sep 2022 12:52:11 +0100
+Message-Id: <20220914115217.117532-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220914115217.117532-1-richard.henderson@linaro.org>
 References: <20220914115217.117532-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,62 +93,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-The logic in pmu_counter_enabled() for handling the 'prohibit event
-counting' bits MDCR_EL2.HPMD and MDCR_EL3.SPME is written in a way
-that assumes that EL2 is never Secure.  This used to be true, but the
-architecture now permits Secure EL2, and QEMU can emulate this.
+In pmccntr_op_finish() and pmevcntr_op_finish() we calculate the next
+point at which we will get an overflow and need to fire the PMU
+interrupt or set the overflow flag.  We do this by calculating the
+number of nanoseconds to the overflow event and then adding it to
+qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL).  However, we don't check
+whether that signed addition overflows, which can happen if the next
+PMU interrupt would happen massively far in the future (250 years or
+more).
 
-Refactor the prohibit logic so that we effectively OR together
-the various prohibit bits when they apply, rather than trying to
-construct an if-else ladder where any particular state of the CPU
-ends up in exactly one branch of the ladder.
-
-This fixes the Secure EL2 case and also is a better structure for
-adding the PMUv8.5 bits MDCR_EL2.HCCD and MDCR_EL3.SCCD.
+Since QEMU assumes that "when the QEMU_CLOCK_VIRTUAL rolls over" is
+"never", the sensible behaviour in this situation is simply to not
+try to set the timer if it would be beyond that point.  Detect the
+overflow, and skip setting the timer in that case.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220822132358.3524971-6-peter.maydell@linaro.org>
+Message-Id: <20220822132358.3524971-7-peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ target/arm/helper.c | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index f1b20de16d..b792694df0 100644
+index b792694df0..11a7a57710 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -1094,7 +1094,7 @@ static bool pmu_counter_enabled(CPUARMState *env, uint8_t counter)
- {
-     uint64_t filter;
-     bool e, p, u, nsk, nsu, nsh, m;
--    bool enabled, prohibited, filtered;
-+    bool enabled, prohibited = false, filtered;
-     bool secure = arm_is_secure(env);
-     int el = arm_current_el(env);
-     uint64_t mdcr_el2 = arm_mdcr_el2_eff(env);
-@@ -1112,15 +1112,12 @@ static bool pmu_counter_enabled(CPUARMState *env, uint8_t counter)
-     }
-     enabled = e && (env->cp15.c9_pmcnten & (1 << counter));
+@@ -1227,10 +1227,13 @@ static void pmccntr_op_finish(CPUARMState *env)
+         int64_t overflow_in = cycles_ns_per(remaining_cycles);
  
--    if (!secure) {
--        if (el == 2 && (counter < hpmn || counter == 31)) {
--            prohibited = mdcr_el2 & MDCR_HPMD;
--        } else {
--            prohibited = false;
--        }
--    } else {
--        prohibited = arm_feature(env, ARM_FEATURE_EL3) &&
--           !(env->cp15.mdcr_el3 & MDCR_SPME);
-+    /* Is event counting prohibited? */
-+    if (el == 2 && (counter < hpmn || counter == 31)) {
-+        prohibited = mdcr_el2 & MDCR_HPMD;
-+    }
-+    if (secure) {
-+        prohibited = prohibited || !(env->cp15.mdcr_el3 & MDCR_SPME);
-     }
+         if (overflow_in > 0) {
+-            int64_t overflow_at = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
+-                overflow_in;
+-            ARMCPU *cpu = env_archcpu(env);
+-            timer_mod_anticipate_ns(cpu->pmu_timer, overflow_at);
++            int64_t overflow_at;
++
++            if (!sadd64_overflow(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
++                                 overflow_in, &overflow_at)) {
++                ARMCPU *cpu = env_archcpu(env);
++                timer_mod_anticipate_ns(cpu->pmu_timer, overflow_at);
++            }
+         }
+ #endif
  
-     if (prohibited && counter == 31) {
+@@ -1275,10 +1278,13 @@ static void pmevcntr_op_finish(CPUARMState *env, uint8_t counter)
+         int64_t overflow_in = pm_events[event_idx].ns_per_count(delta);
+ 
+         if (overflow_in > 0) {
+-            int64_t overflow_at = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
+-                overflow_in;
+-            ARMCPU *cpu = env_archcpu(env);
+-            timer_mod_anticipate_ns(cpu->pmu_timer, overflow_at);
++            int64_t overflow_at;
++
++            if (!sadd64_overflow(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
++                                 overflow_in, &overflow_at)) {
++                ARMCPU *cpu = env_archcpu(env);
++                timer_mod_anticipate_ns(cpu->pmu_timer, overflow_at);
++            }
+         }
+ #endif
+ 
 -- 
 2.34.1
 
