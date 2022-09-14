@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 559425B8F2B
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 21:11:28 +0200 (CEST)
-Received: from localhost ([::1]:44986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68BDB5B8F6B
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 21:57:52 +0200 (CEST)
+Received: from localhost ([::1]:56574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYXnD-0001LP-7G
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 15:11:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58228)
+	id 1oYYW6-0004S3-Qv
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 15:57:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oYXka-0006iR-IQ
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 15:08:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28645)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1oYYSO-0001FL-Ki
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 15:54:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oYXkW-0003CV-KD
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 15:08:43 -0400
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1oYYSI-0001b3-Gu
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 15:53:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663182518;
+ s=mimecast20190719; t=1663185231;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V28+D3WiFHpJtz1E8Py3nxSa8ZHM1O06/KdF/iz1HUw=;
- b=dNFbCS7VRjfp7yxXrGS5QzqFn30Xr1wFdY3BE/wAP8mdQyEcWZkRf06s0Wiu9C/cA6dLRv
- SfIRjbdHjWu+7OaJ8+eQVjqK93JPRG1Ja9t/TZWyj8rT/9QzeCUq7BhYbQksVBsszhbjX9
- ZIPq5whlYIspiSNrbcLsE6dq1wNCdBI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0EQgiJKXGpPNKplJVER7eGQGq01L7LdxU29W2IHf6TQ=;
+ b=afaUXd+ubQ8uLqbsXEBx/RTquyvdKeQq5/Xmk9wwpmlvlGdTaELgRA6uLH5v7FiMvc6N6p
+ BVFIWEEQzVXDxgFLK0X6+mRJVCEjb0rmuE6BTJmGhaIEP/Ok7oG0vt/9ATI6fYb/w8CL+T
+ lHZPzccjfdstnX10yfmfPQm4LRRz9zg=
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-98-XQSBXkUhN1a70Wnem_forg-1; Wed, 14 Sep 2022 15:08:35 -0400
-X-MC-Unique: XQSBXkUhN1a70Wnem_forg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- k38-20020a05600c1ca600b003b49a809168so2648948wms.5
- for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 12:08:35 -0700 (PDT)
+ us-mta-307-rhev3L9ZMmieMg0upwywBQ-1; Wed, 14 Sep 2022 15:53:42 -0400
+X-MC-Unique: rhev3L9ZMmieMg0upwywBQ-1
+Received: by mail-il1-f200.google.com with SMTP id
+ z9-20020a921a49000000b002f0f7fb57e3so10949219ill.2
+ for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 12:53:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date;
- bh=V28+D3WiFHpJtz1E8Py3nxSa8ZHM1O06/KdF/iz1HUw=;
- b=WDqRd93aPp0cMQSy0U562HTEJQFo2VrXEHHSF8HyCS3sdOgSpWSQAUMxPB6O2gFUs6
- lQTK3s9lLKC1lQmb32dNWdJhEHNErfSie6bOUPqpy6U319D3gMNvEMPWvExYtqwDZHeP
- 0PXFvg1QdurcSGotcnEuv9BsMoHoT1BGdjJ6bD9vNUAledQ4PFeld5lItoWNVTNRo5el
- VIwo0tBiFKlsfRB0lmdf8B/i1noQ/8KOe8+b93nWQzb7fumtOvWUci+90geh2UunyPDs
- 4eDN3o+H6kEZ34GX/8bb8TTrn4anyJPL6i8X/JZ2tHta9AnHE86FjsgR0NUgbF4H+KsE
- U66A==
-X-Gm-Message-State: ACrzQf1bQ5uOIKTUUBUEgkKv1nI/pbjSx/V22G/GUdTI7mtSzNN8+74m
- dls7xwz3QgN7EQM6tQr0WljZaPwXK5GuxMKWUOf5X6YikNpJ2BXumqCsj623mXzcwnIbKZHmEin
- 6IQOAol8A2+/gZ44=
-X-Received: by 2002:a5d:584e:0:b0:22a:c99d:f687 with SMTP id
- i14-20020a5d584e000000b0022ac99df687mr2411023wrf.451.1663182514515; 
- Wed, 14 Sep 2022 12:08:34 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7PYhoH23FZAhKcsQIwWV0X8oyuLlO2gHiQrvqaTue7++iph+sKI1ht+c3ATCM/DCrpYhiB1w==
-X-Received: by 2002:a5d:584e:0:b0:22a:c99d:f687 with SMTP id
- i14-20020a5d584e000000b0022ac99df687mr2411015wrf.451.1663182514340; 
- Wed, 14 Sep 2022 12:08:34 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- iv11-20020a05600c548b00b003a84375d0d1sm19710924wmb.44.2022.09.14.12.08.33
+ h=content-transfer-encoding:mime-version:organization:references
+ :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date;
+ bh=0EQgiJKXGpPNKplJVER7eGQGq01L7LdxU29W2IHf6TQ=;
+ b=a6d5UL7iENNH1KbcCNSm1Prg5QPQIw1kWZVdR0kdLQNnxedDB55VoY3iLQKYCHUsUc
+ ZMPVyECgp7ehW11AVg+dEx6mxbug2W/6Hxo+utLk/MKrJuaKMtdBKZLjorgQNJQMhyqb
+ OXSzVPALAitV/CU2jy9k4CRU6ehIWg2HBfOarkCMzyzPl4VYjZxn5w+5AZB0TGGuVLXV
+ D47anSm84LN6RhfnHeJfZq7TDu0VAK3b2cqY+VwLMF/Q7/Zp7Fo4RYzl87kLtcQLtXxX
+ M3rLlUrStQ6c4qkMNuR1A/7So3YnZP29+IQwMVKiJDCkvN8qeclIQIVu5QJEAchBTOD/
+ WhSA==
+X-Gm-Message-State: ACgBeo0eZwLYwre/o4oCIXNZ2ACYMgKQ5tO5cK+J5RbFg/BQm5o6kDb5
+ yzO6GWxUIC1un2jeKpr0OQslaoV1Vc5wikVx1tb+3GJWE9n4ptKjvH9+nZEAmt61EXFryBcKcOE
+ Y8BwGvTGVlNnezuU=
+X-Received: by 2002:a02:c55a:0:b0:358:317b:7472 with SMTP id
+ g26-20020a02c55a000000b00358317b7472mr18028212jaj.248.1663185222111; 
+ Wed, 14 Sep 2022 12:53:42 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR57xOYdo0oOWz9hch54JdQGu7k4DKCzMloHcqAv82FDcoTxyKBI51i7Z1EV4uSPqcbhU1/ARQ==
+X-Received: by 2002:a02:c55a:0:b0:358:317b:7472 with SMTP id
+ g26-20020a02c55a000000b00358317b7472mr18028200jaj.248.1663185221866; 
+ Wed, 14 Sep 2022 12:53:41 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ k16-20020a0566022d9000b006a1fed36549sm732555iow.10.2022.09.14.12.53.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Sep 2022 12:08:34 -0700 (PDT)
-Date: Wed, 14 Sep 2022 20:08:32 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Gregory Kurz <gregory.kurz@free.fr>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Thomas Huth <thuth@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v8 11/14] qemu-sockets: move and rename
- SocketAddress_to_str()
-Message-ID: <YyImsPSlNZ5Ti6y3@work-vm>
-References: <20220913064000.79353-1-lvivier@redhat.com>
- <20220913064000.79353-12-lvivier@redhat.com>
+ Wed, 14 Sep 2022 12:53:41 -0700 (PDT)
+Date: Wed, 14 Sep 2022 13:53:39 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: Cornelia Huck <cohuck@redhat.com>, <qemu-devel@nongnu.org>,
+ <kwankhede@nvidia.com>, <avihaih@nvidia.com>, <shayd@nvidia.com>,
+ <jgg@nvidia.com>
+Subject: Re: [PATCH] vfio/common: Do not g_free in vfio_get_iommu_info
+Message-ID: <20220914135339.665b90b1.alex.williamson@redhat.com>
+In-Reply-To: <YyIlYK6TKmBRmUqI@Asurada-Nvidia>
+References: <20220910004245.2878-1-nicolinc@nvidia.com>
+ <8735cwu5r7.fsf@redhat.com> <Yx+b0t20wtneTry+@Asurada-Nvidia>
+ <20220914121029.1a693e5d.alex.williamson@redhat.com>
+ <YyIlYK6TKmBRmUqI@Asurada-Nvidia>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220913064000.79353-12-lvivier@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -105,117 +105,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Laurent Vivier (lvivier@redhat.com) wrote:
-> Rename SocketAddress_to_str() to socket_uri() and move it to
-> util/qemu-sockets.c close to socket_parse().
-> 
-> socket_uri() generates a string from a SocketAddress while
-> socket_parse() generates a SocketAddress from a string.
-> 
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+On Wed, 14 Sep 2022 12:02:56 -0700
+Nicolin Chen <nicolinc@nvidia.com> wrote:
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Hi Alex,
+> 
+> On Wed, Sep 14, 2022 at 12:10:29PM -0600, Alex Williamson wrote:
+> 
+> > > > > Its caller vfio_connect_container() assigns a default value
+> > > > > to info->iova_pgsizes, even if vfio_get_iommu_info() fails.
+> > > > > This would result in a "Segmentation fault" error, when the
+> > > > > VFIO_IOMMU_GET_INFO ioctl errors out.
+> > > > >
+> > > > > Since the caller has g_free already, drop the g_free in its
+> > > > > rollback routine and add a line of comments to highlight it.  
+> > > >
+> > > > There's basically two ways to fix this:
+> > > >
+> > > > - return *info in any case, even on error
+> > > > - free *info on error, and make sure that the caller doesn't try to
+> > > >   access *info if the function returned !0
+> > > >
+> > > > The problem with the first option is that the caller will access invalid
+> > > > information if it neglects to check the return code, and that might lead
+> > > > to not-that-obvious errors; in the second case, a broken caller would at
+> > > > least fail quickly with a segfault. The current code is easier to fix
+> > > > with the first option.
+> > > >
+> > > > I think I'd prefer the second option; but obviously maintainer's choice.  
+> > >
+> > > The caller does check rc all the time. So I made a smaller fix
+> > > (the first option). Attaching the git-diff for the second one.
+> > >
+> > > Alex, please let me know which one you prefer. Thanks!  
+> 
+> > I think we can do better than that, I don't think we need to maintain
+> > the existing grouping, and that FIXME comment is outdated and has
+> > drifted from the relevant line of code.  What about:  
+> 
+> Your patch looks good and clean to me (some nits inline).
+> 
+> Would you please send and merge it, replacing mine?
+> 
+> > +       /*
+> > +         * Setup defaults for container pgsizes and dma_max_mappings if not
+> > +         * provided by kernel below.
+> >           */  
+> 
+> Indentation is misaligned at the first line.
 
-> ---
->  include/qemu/sockets.h |  2 +-
->  monitor/hmp-cmds.c     | 23 +----------------------
->  util/qemu-sockets.c    | 20 ++++++++++++++++++++
->  3 files changed, 22 insertions(+), 23 deletions(-)
+Oops, will run through checkpatch.
+
 > 
-> diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
-> index 47194b9732f8..e5a06d2e3729 100644
-> --- a/include/qemu/sockets.h
-> +++ b/include/qemu/sockets.h
-> @@ -40,6 +40,7 @@ NetworkAddressFamily inet_netfamily(int family);
->  int unix_listen(const char *path, Error **errp);
->  int unix_connect(const char *path, Error **errp);
->  
-> +char *socket_uri(SocketAddress *addr);
->  SocketAddress *socket_parse(const char *str, Error **errp);
->  int socket_connect(SocketAddress *addr, Error **errp);
->  int socket_listen(SocketAddress *addr, int num, Error **errp);
-> @@ -123,5 +124,4 @@ SocketAddress *socket_address_flatten(SocketAddressLegacy *addr);
->   * Return 0 on success.
->   */
->  int socket_address_parse_named_fd(SocketAddress *addr, Error **errp);
-> -
->  #endif /* QEMU_SOCKETS_H */
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index c6cd6f91dde6..cb35059c2d45 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -197,27 +197,6 @@ void hmp_info_mice(Monitor *mon, const QDict *qdict)
->      qapi_free_MouseInfoList(mice_list);
->  }
->  
-> -static char *SocketAddress_to_str(SocketAddress *addr)
-> -{
-> -    switch (addr->type) {
-> -    case SOCKET_ADDRESS_TYPE_INET:
-> -        return g_strdup_printf("tcp:%s:%s",
-> -                               addr->u.inet.host,
-> -                               addr->u.inet.port);
-> -    case SOCKET_ADDRESS_TYPE_UNIX:
-> -        return g_strdup_printf("unix:%s",
-> -                               addr->u.q_unix.path);
-> -    case SOCKET_ADDRESS_TYPE_FD:
-> -        return g_strdup_printf("fd:%s", addr->u.fd.str);
-> -    case SOCKET_ADDRESS_TYPE_VSOCK:
-> -        return g_strdup_printf("tcp:%s:%s",
-> -                               addr->u.vsock.cid,
-> -                               addr->u.vsock.port);
-> -    default:
-> -        return g_strdup("unknown address type");
-> -    }
-> -}
-> -
->  void hmp_info_migrate(Monitor *mon, const QDict *qdict)
->  {
->      MigrationInfo *info;
-> @@ -380,7 +359,7 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
->          monitor_printf(mon, "socket address: [\n");
->  
->          for (addr = info->socket_address; addr; addr = addr->next) {
-> -            char *s = SocketAddress_to_str(addr->value);
-> +            char *s = socket_uri(addr->value);
->              monitor_printf(mon, "\t%s\n", s);
->              g_free(s);
->          }
-> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-> index 83f4bd6fd211..9f6f655fd526 100644
-> --- a/util/qemu-sockets.c
-> +++ b/util/qemu-sockets.c
-> @@ -1077,6 +1077,26 @@ int unix_connect(const char *path, Error **errp)
->      return sock;
->  }
->  
-> +char *socket_uri(SocketAddress *addr)
-> +{
-> +    switch (addr->type) {
-> +    case SOCKET_ADDRESS_TYPE_INET:
-> +        return g_strdup_printf("tcp:%s:%s",
-> +                               addr->u.inet.host,
-> +                               addr->u.inet.port);
-> +    case SOCKET_ADDRESS_TYPE_UNIX:
-> +        return g_strdup_printf("unix:%s",
-> +                               addr->u.q_unix.path);
-> +    case SOCKET_ADDRESS_TYPE_FD:
-> +        return g_strdup_printf("fd:%s", addr->u.fd.str);
-> +    case SOCKET_ADDRESS_TYPE_VSOCK:
-> +        return g_strdup_printf("tcp:%s:%s",
-> +                               addr->u.vsock.cid,
-> +                               addr->u.vsock.port);
-> +    default:
-> +        return g_strdup("unknown address type");
-> +    }
-> +}
->  
->  SocketAddress *socket_parse(const char *str, Error **errp)
->  {
-> -- 
-> 2.37.3
+> > +        container->pgsizes = 4096;  
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> This might be a separate question/issue: I wonder if we should use
+> "sysconf(_SC_PAGE_SIZE)" here instead of 4096.
+> 
+> With a kernel using a larger page size, e.g. CONFIG_ARM64_64K_PAGES,
+> the IO page size is likely to be 64K too. If the ioctl fails, this
+> default 4K setup won't work.
+
+Perhaps, but IIRC this solution came about because we originally forgot
+to expose the IOMMU_INFO flag to indicate the pgsize field was valid.
+At the time we only supported 4K systems, so it made sense to provide
+this default, though it is indeed dated.
+
+TBH, I don't really see why we should try to continue if the ioctl
+itself fails, so maybe this should be:
+
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index ace9562a9ba1..ad188b7649e6 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -2111,29 +2111,31 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+     {
+         struct vfio_iommu_type1_info *info;
+ 
+-        /*
+-         * FIXME: This assumes that a Type1 IOMMU can map any 64-bit
+-         * IOVA whatsoever.  That's not actually true, but the current
+-         * kernel interface doesn't tell us what it can map, and the
+-         * existing Type1 IOMMUs generally support any IOVA we're
+-         * going to actually try in practice.
+-         */
+         ret = vfio_get_iommu_info(container, &info);
++        if (ret) {
++            error_setg_errno(errp, -ret, "Failed to get VFIO IOMMU info");
++            goto enable_discards_exit:;
++        }
+ 
+-        if (ret || !(info->flags & VFIO_IOMMU_INFO_PGSIZES)) {
+-            /* Assume 4k IOVA page size */
+-            info->iova_pgsizes = 4096;
++        if (info->flags & VFIO_IOMMU_INFO_PGSIZES) {
++            container->pgsizes = info->iova_pgsizes;
++        } else {
++            container->pgsizes = qemu_real_host_page_size();
+         }
+-        vfio_host_win_add(container, 0, (hwaddr)-1, info->iova_pgsizes);
+-        container->pgsizes = info->iova_pgsizes;
+ 
+-        /* The default in the kernel ("dma_entry_limit") is 65535. */
+-        container->dma_max_mappings = 65535;
+-        if (!ret) {
+-            vfio_get_info_dma_avail(info, &container->dma_max_mappings);
+-            vfio_get_iommu_info_migration(container, info);
++        if (!vfio_get_info_dma_avail(info, &container->dma_max_mappings)) {
++            container->dma_max_mappings = 65535;
+         }
++        vfio_get_iommu_info_migration(container, info);
+         g_free(info);
++
++        /*
++         * FIXME: We should parse VFIO_IOMMU_TYPE1_INFO_CAP_IOVA_RANGE
++         * information to get the actual window extent rather than assume
++         * a 64-bit IOVA address space.
++         */
++        vfio_host_win_add(container, 0, (hwaddr)-1, container->pgsizes);
++
+         break;
+     }
+     case VFIO_SPAPR_TCE_v2_IOMMU:
 
 
