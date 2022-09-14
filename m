@@ -2,86 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08BAF5B7F3E
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 05:18:03 +0200 (CEST)
-Received: from localhost ([::1]:47430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 727455B7F3F
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 05:18:32 +0200 (CEST)
+Received: from localhost ([::1]:34652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYIuY-0008L8-47
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 23:18:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52812)
+	id 1oYIv1-0000GL-KI
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 23:18:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oYIrg-0005g4-5C
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 23:15:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60428)
+ id 1oYIsK-0005wV-9W
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 23:15:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53927)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oYIre-0002OX-6j
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 23:15:03 -0400
+ id 1oYIsH-0002kC-3C
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 23:15:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663125301;
+ s=mimecast20190719; t=1663125340;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2BkSHtD1l0Sw84IFNXyFD37guTxUvOoBk6Y28dnKL2c=;
- b=DnkmB8t41JhYnwm3QDAcMglrzaf/wJMt3NwB16/ok3OjZxiCefdb4nUBIcjLoLftklEoJw
- OuYXR/o7HSNyOopxBAwcpF1D2W4/aZ3+TcDkskeF+8HvrRAJkOiCOvWLjCt2Lus3KHm8mE
- FZ+poBkfmIONzrBTYLo8iO8OuWil9O0=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=s8m8pHCY5di2HvTxTuh1s3inzGVd47OLL+B8V2Meb6E=;
+ b=A9N5EgvC/ihyeM0+gePzdFNeDLNr2YzxetO4zZLCinUDjQ0ZW0EvwC/jPqCW8OKu97Zw/z
+ PymX3tzA6DzdX5dJvAqYeYOn+Ory/qGgsVWCp774gowuX+9eNx3Mp9vIDEn+RvuZsIEO3b
+ 30SfvX+skSxAM6LXsBTjag23D83Bfws=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-494-WgYq6gGGNNGNMUHViYusAQ-1; Tue, 13 Sep 2022 23:15:00 -0400
-X-MC-Unique: WgYq6gGGNNGNMUHViYusAQ-1
-Received: by mail-pj1-f71.google.com with SMTP id
- j11-20020a17090a738b00b001faeb619f6eso6477780pjg.5
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 20:14:59 -0700 (PDT)
+ us-mta-385-utb7iKliMCC_I2Ob6aIZ5g-1; Tue, 13 Sep 2022 23:15:39 -0400
+X-MC-Unique: utb7iKliMCC_I2Ob6aIZ5g-1
+Received: by mail-pf1-f200.google.com with SMTP id
+ cg5-20020a056a00290500b0053511889856so8343256pfb.18
+ for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 20:15:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=2BkSHtD1l0Sw84IFNXyFD37guTxUvOoBk6Y28dnKL2c=;
- b=c7hVMXRnSy58luJPjkZtcaVsntWEvUM76k5xGZBSKx91ubXTLV1wTNeEydiIu81s4e
- q8izYM2u1NUS6d/SWrYpl67umNYP/wWWMg2SJwoPN99egXBza0kfjCQF2Dcg7FgrFZsR
- VrWPByCfsXdOQ98k67G5ssy+Xr1NIA3HgmPFxICeeN0UH1orsBonqHsWaA4gVERooOQT
- M9RWZ40P/ITK/k1SbqBbUiqEpsugp6NEoIHGbKBxBoUpX57z8Nq5tw6Y9XG4jKrOtUhm
- NKZgLJ/L8CWDIwDO3yONqcfCMKakrNapoeMtHDRDu63G3iiCUaD53LaiQJaHnigHZc96
- 0qoA==
-X-Gm-Message-State: ACrzQf1D4vHVlavaSjqVvx01438JHeW6u5fPcxx6ans5mMBF4ueGv0Mj
- 3qrAhsbXrWUUVxpET5awf8t05hVw1iY0rp4BWLk2lp+VKUIhgf659zsXQ7S+9IykQXjYUpJ0cl6
- Vjs3QJ0pctx+/nQU=
-X-Received: by 2002:a17:90b:3016:b0:200:3444:c6c7 with SMTP id
- hg22-20020a17090b301600b002003444c6c7mr2548454pjb.72.1663125298978; 
- Tue, 13 Sep 2022 20:14:58 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4iTKtUMLZP99MImbFtQqvSPtb3HFrgjMJ9lQb3U6AkkjxOtdn7keaRr7LmkEWdLI/B8eX+sA==
-X-Received: by 2002:a17:90b:3016:b0:200:3444:c6c7 with SMTP id
- hg22-20020a17090b301600b002003444c6c7mr2548436pjb.72.1663125298766; 
- Tue, 13 Sep 2022 20:14:58 -0700 (PDT)
+ bh=s8m8pHCY5di2HvTxTuh1s3inzGVd47OLL+B8V2Meb6E=;
+ b=WjwZyhFvzDneZSsefEEBDK75dUa15bbP2AJxarDeGEmth/6D5VZAEUDzZdPm+wEpR3
+ vsToVJxDzU/2TcH/MNsQZBuYzByxFqMvbWlApFj/RfFfSrLjuDOUJDoMjirRltrjtTBc
+ Z20YI1QtqueLEMzRAOvdRzN1kT2mJI6UKhKvsWcwe5IuTIBMirWQSHRnxsiY7U7ZLKdv
+ TeiArxjLZqSthw3PbcZ00oiRNCCTRzYNjrB5fm1yI96GICXaEOh7BZ28AKBPhWoLJsyd
+ CP50q5X6UN7Ha8K58Zekob7plAQYUtvb01+70hbnUFKjx+a/9goMlS6d4T5Krxu3uLwR
+ DoNw==
+X-Gm-Message-State: ACgBeo0OaDugj9BXKQkGbQkCljjriuKhTrDPiJl4hV8LrRR4f3mtKl1l
+ YQ8GSqTdYbNXD8WbGuLVsaShC1xibU+/k0nydbSlyEP1yURpXn41GuXRNgEBci1iXz36cDrqNFu
+ Pt+8ksREdvlN7F70=
+X-Received: by 2002:a17:902:f541:b0:176:e8f1:cd57 with SMTP id
+ h1-20020a170902f54100b00176e8f1cd57mr33227721plf.8.1663125337759; 
+ Tue, 13 Sep 2022 20:15:37 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6OWxXSvgnVPtfb3mr4Pae6FoPpbPLLktoGUCIhFRMCcmrJtqfcVOgHzIVsHKDRGSRuGe50fA==
+X-Received: by 2002:a17:902:f541:b0:176:e8f1:cd57 with SMTP id
+ h1-20020a170902f54100b00176e8f1cd57mr33227702plf.8.1663125337540; 
+ Tue, 13 Sep 2022 20:15:37 -0700 (PDT)
 Received: from [10.72.13.65] ([43.228.180.230])
  by smtp.gmail.com with ESMTPSA id
- z14-20020a1709027e8e00b0017834a6966csm5464041pla.176.2022.09.13.20.14.56
+ n10-20020a170902d2ca00b00174c235e1fdsm9379120plc.199.2022.09.13.20.15.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Sep 2022 20:14:58 -0700 (PDT)
-Message-ID: <12f89fc0-871e-c29a-89b9-cfe4ae2486ef@redhat.com>
-Date: Wed, 14 Sep 2022 11:14:54 +0800
+ Tue, 13 Sep 2022 20:15:37 -0700 (PDT)
+Message-ID: <51b4e2fb-e904-5552-b356-3a6ddd9c8928@redhat.com>
+Date: Wed, 14 Sep 2022 11:15:33 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH v2 5/6] virtio-net: vhost-user: update queue_reset and
- queue_enable
+Subject: Re: [PATCH v2 6/6] vhost: vhost-user: enable vq reset feature
 Content-Language: en-US
 To: Kangjie Xu <kangjie.xu@linux.alibaba.com>, qemu-devel@nongnu.org
 Cc: mst@redhat.com, arei.gonglei@huawei.com, hengqi@linux.alibaba.com,
  xuanzhuo@linux.alibaba.com
 References: <cover.1662949366.git.kangjie.xu@linux.alibaba.com>
- <407c17b9a62bb7be06423b00a77b0fe301dc46de.1662949366.git.kangjie.xu@linux.alibaba.com>
+ <6349759c3ec0fae409f730dfce70240eb255b608.1662949366.git.kangjie.xu@linux.alibaba.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <407c17b9a62bb7be06423b00a77b0fe301dc46de.1662949366.git.kangjie.xu@linux.alibaba.com>
+In-Reply-To: <6349759c3ec0fae409f730dfce70240eb255b608.1662949366.git.kangjie.xu@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
@@ -107,8 +106,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 在 2022/9/12 11:10, Kangjie Xu 写道:
-> Update virtio_net_queue_reset() and virtio_net_queue_enable()
-> for vhost-user scenario.
+> Add virtqueue reset feature for vhost-user.
 >
 > Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
@@ -118,32 +116,20 @@ Acked-by: Jason Wang <jasowang@redhat.com>
 
 
 > ---
->   hw/net/virtio-net.c | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
+>   hw/net/vhost_net.c | 1 +
+>   1 file changed, 1 insertion(+)
 >
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index 6ab796b399..19a2132180 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -550,7 +550,8 @@ static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
->       }
+> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> index 8b80942e7c..ad319faee8 100644
+> --- a/hw/net/vhost_net.c
+> +++ b/hw/net/vhost_net.c
+> @@ -74,6 +74,7 @@ static const int user_feature_bits[] = {
+>       VIRTIO_NET_F_MTU,
+>       VIRTIO_F_IOMMU_PLATFORM,
+>       VIRTIO_F_RING_PACKED,
+> +    VIRTIO_F_RING_RESET,
+>       VIRTIO_NET_F_RSS,
+>       VIRTIO_NET_F_HASH_REPORT,
 >   
->       if (get_vhost_net(nc->peer) &&
-> -        nc->peer->info->type == NET_CLIENT_DRIVER_TAP) {
-> +        (nc->peer->info->type == NET_CLIENT_DRIVER_TAP ||
-> +         nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_USER)) {
->           vhost_net_virtqueue_reset(vdev, nc, queue_index);
->       }
->   
-> @@ -568,7 +569,8 @@ static void virtio_net_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
->       }
->   
->       if (get_vhost_net(nc->peer) &&
-> -        nc->peer->info->type == NET_CLIENT_DRIVER_TAP) {
-> +        (nc->peer->info->type == NET_CLIENT_DRIVER_TAP ||
-> +         nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_USER)) {
->           r = vhost_net_virtqueue_restart(vdev, nc, queue_index);
->           if (r < 0) {
->               error_report("unable to restart vhost net virtqueue: %d, "
 
 
