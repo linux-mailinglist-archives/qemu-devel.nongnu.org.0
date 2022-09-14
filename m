@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8FC15B8717
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 13:15:18 +0200 (CEST)
-Received: from localhost ([::1]:45272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D0C5B8725
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 13:20:38 +0200 (CEST)
+Received: from localhost ([::1]:50030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYQMP-0002fk-PF
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 07:15:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41486)
+	id 1oYQRZ-0004zO-A4
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 07:20:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oYQAC-0000bs-2a
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 07:02:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34366)
+ id 1oYQJW-0007YD-4Q
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 07:12:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oYQA3-0006cV-Ph
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 07:02:33 -0400
+ id 1oYQJS-0000ca-GN
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 07:12:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663153332;
+ s=mimecast20190719; t=1663153933;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KMLYSteN78dx4xxHsSlkHbZOfV6t7AoXvubD7uCKBF8=;
- b=Ouh7cde6sZvNiqbS84c5LWzoAHPMWTq7BwW9TXRfqytv3GvEhRAyxGyePIszBb0jBf/Oxg
- 61REL9Hg7RWQf7ThT2c22UQxriKMb4gY9QL6x8cSMfyeFzF17JlFfCyUJUXgLaDNqQ0/2b
- LrAZpDo/Z6IX/+u9sfHVhtLA+d78PrY=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xD+gvkG3a1/itjX+eL/Tffy7clVVh/C6YoeuHURW3b4=;
+ b=cIwY/BN9oHZKc4jeYtdX8xsTHxaw7ky5N7jbLwalDphEHeMWybB38bm3go55Uw22TmVAsm
+ YrnIdwmRKmlQbepQrOu/k4IO6U6xk8xLEImX+Q87pP8jg4lE9yklTrYI00WAMioqx1lv0z
+ xp91gbWqvqm87hBH+lfGm106TSKosO8=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-467-y7_dAYozPqWCB_w2a0487g-1; Wed, 14 Sep 2022 07:02:11 -0400
-X-MC-Unique: y7_dAYozPqWCB_w2a0487g-1
-Received: by mail-qk1-f200.google.com with SMTP id
- bp17-20020a05620a459100b006ce7f4bb0b7so1909214qkb.5
- for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 04:02:11 -0700 (PDT)
+ us-mta-127-smHio5OwMFq8dvoHsoL3Kw-1; Wed, 14 Sep 2022 07:12:12 -0400
+X-MC-Unique: smHio5OwMFq8dvoHsoL3Kw-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ o22-20020ac85a56000000b0034481129ce6so12142057qta.19
+ for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 04:12:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date;
- bh=KMLYSteN78dx4xxHsSlkHbZOfV6t7AoXvubD7uCKBF8=;
- b=2Ppt1nzN5Y94ALxXDSp60QatRCLLnjetAr17NOB5O3rVcrakfHbqhC2+8B0zGFB4oM
- ZkNDxaOOjs4gpm45hhYBv46ddz3jAki6gsae3Tc91nmDRNeELntU1HYihmcfdn2SqoY5
- KXrNGPMzdfYyNSPvU5UQtnI5/FRVgc21/DBq+4KjJWUH9nKG4cDrN8J8VZ6hP8GcRAC9
- 328uyyylhfY3/Rs8rZ3Ha19ceJKh93ZvfD05EoTtG3RgytNwDk9bMUSsfIu6OrKzyzNT
- j5oPwliBbJEgo83IVmJJWicIxRA3PpIIrmqHuo23ZWYKN3CfBPDm04P4s50nKMbc/p37
- 90qg==
-X-Gm-Message-State: ACgBeo3yW74Z3FjNu4t3QLBV8A1lVu6/uIHhWpHYhsPAMzJJnDsJ3ZkW
- kA1w2jDLeyvxHsZNdgsv1aXmbkbAmYIC4CVXTktJQq5dDxRBcqXoAmcuc3aqouq2jH8CqwGBCD3
- HDONzEY/4Jw3vrZ3/58yaqnFjtUx1X2w=
-X-Received: by 2002:ac8:5f12:0:b0:343:6510:ed6f with SMTP id
- x18-20020ac85f12000000b003436510ed6fmr32645178qta.342.1663153331075; 
- Wed, 14 Sep 2022 04:02:11 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4YA72489eS4LKxWDiN/1zZKrK2Mp31krGqgHle8LzA4bYxKqjpVg8QNJnMbhdVoEBvyQKr+rF4yhD/Zs9R8Ag=
-X-Received: by 2002:ac8:5f12:0:b0:343:6510:ed6f with SMTP id
- x18-20020ac85f12000000b003436510ed6fmr32645151qta.342.1663153330790; Wed, 14
- Sep 2022 04:02:10 -0700 (PDT)
+ bh=xD+gvkG3a1/itjX+eL/Tffy7clVVh/C6YoeuHURW3b4=;
+ b=f5Cbaf1ahBMnaI1fD9ZFu3Hu1gb0WTQNFUzkanf8SMw/JaUZpX/n4VZQ7nTIekrXN4
+ ne7cI3efag3d8WmJ+uEGC6Eqr/thYSu328+khUTg3KwC9yZ8EgVzneX3buwb0dJ3Y9jp
+ 3iF+04ntzD7ZUC+QgIUB3ZWEwj5W9Q4oDBWwNuAlc8CFmwKDPXJhF+M6N2E28IjAJbAW
+ UwkDZJ80NkFv3l03Hp8RMerBhNnGVZPHN1hx4oVHuvcqoOfgLtKSYUikARdYVGeBF/u5
+ Zh/itb5GcYj3kYvFfkkV9IDYfqgNg2UBfhM+X2H6QNi2rRudiJvBw8PfYEm0XrN6d0fL
+ hAHA==
+X-Gm-Message-State: ACgBeo2/f9aVEvlPGsblp6PA5dm3+KPEVNwg0CuwIe0WgOmsCPs6JMHR
+ 2wLIIUJCVq/khlYwZTVpFw+/l6qgWJ283Ly0iLUzVeNv/TPfIoa/OeQ0oq37JsllaFep/BXSCe/
+ ZPgSD4tSrDpnDM4FzPwnHoKX4apI6wEc=
+X-Received: by 2002:a05:6214:b6c:b0:4a6:be2e:1413 with SMTP id
+ ey12-20020a0562140b6c00b004a6be2e1413mr31893600qvb.129.1663153931478; 
+ Wed, 14 Sep 2022 04:12:11 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5DZzLAJtLRBPp3vXjxeDPLNUz71pAMZZBRlMxAJqPc7+LQVRdQD+cvHMn1iaIxdzc75zv3+XPqS23cu8PBqBc=
+X-Received: by 2002:a05:6214:b6c:b0:4a6:be2e:1413 with SMTP id
+ ey12-20020a0562140b6c00b004a6be2e1413mr31893582qvb.129.1663153931232; Wed, 14
+ Sep 2022 04:12:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220906163621.1144675-1-eperezma@redhat.com>
  <20220906163621.1144675-3-eperezma@redhat.com>
  <CACGkMEvnVavevtxWa49Yew+Nnkx_Wfmgf1JLVXCBe=zkpvdHnQ@mail.gmail.com>
  <CACGkMEswG2nmTve+p2MU9ue5CuwAu69CpeOUzYnu_BVfZE56JA@mail.gmail.com>
  <CAJaqyWf=NfkL_2uXVapJ6qCLziBc2jg+jMyR+cBQu+yDG6eg5w@mail.gmail.com>
- <CACGkMEvW5ZUZEcx9COvwjAT5PUraoko8k1foBez=T1nmhjKpDw@mail.gmail.com>
-In-Reply-To: <CACGkMEvW5ZUZEcx9COvwjAT5PUraoko8k1foBez=T1nmhjKpDw@mail.gmail.com>
+ <20220909043707-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20220909043707-mutt-send-email-mst@kernel.org>
 From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 14 Sep 2022 13:01:34 +0200
-Message-ID: <CAJaqyWf778WX1AG22dP0YU+=ZCAsHX1uHa4StZ14vMON_SQf+g@mail.gmail.com>
+Date: Wed, 14 Sep 2022 13:11:34 +0200
+Message-ID: <CAJaqyWfD=zvQFmtsS_=2prH4H7LhWVAAjpDQ7_K73s55Ze7rww@mail.gmail.com>
 Subject: Re: [PATCH 2/3] vdpa: load vlan configuration at NIC startup
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>, Cindy Lu <lulu@redhat.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>,
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Cindy Lu <lulu@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
  Stefano Garzarella <sgarzare@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Si-Wei Liu <si-wei.liu@oracle.com>,
- Eli Cohen <eli@mellanox.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Gautam Dawar <gdawar@xilinx.com>, 
+ Si-Wei Liu <si-wei.liu@oracle.com>, Eli Cohen <eli@mellanox.com>, 
  "Gonglei (Arei)" <arei.gonglei@huawei.com>, Laurent Vivier <lvivier@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
  Parav Pandit <parav@mellanox.com>
@@ -108,11 +107,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 14, 2022 at 4:20 AM Jason Wang <jasowang@redhat.com> wrote:
+On Fri, Sep 9, 2022 at 10:38 AM Michael S. Tsirkin <mst@redhat.com> wrote:
 >
-> On Fri, Sep 9, 2022 at 4:02 PM Eugenio Perez Martin <eperezma@redhat.com>=
- wrote:
-> >
+> On Fri, Sep 09, 2022 at 10:01:16AM +0200, Eugenio Perez Martin wrote:
 > > On Fri, Sep 9, 2022 at 8:40 AM Jason Wang <jasowang@redhat.com> wrote:
 > > >
 > > > On Fri, Sep 9, 2022 at 2:38 PM Jason Wang <jasowang@redhat.com> wrote=
@@ -198,13 +195,6 @@ ns.
 > > >
 > >
 > > The guest will not be able to recover that vlan configuration.
->
-> Spec said it's best effort and we actually don't do this for
-> vhost-net/user for years and manage to survive.
->
-
-If that is accepted I'm ok to do it that way.
-
 > >
 > > > Another idea is to extend the spec to allow us to accept a bitmap of
 > > > the vlan ids via a single command, then we will be fine.
@@ -218,57 +208,21 @@ If that is accepted I'm ok to do it that way.
 > > buffers, and it will short down the start of the devices with many
 > > features.
 >
-> In the extreme case, what if guests decide to filter all of the vlans?
-> It means we need MAX_VLAN commands which may exceeds the size of the
-> control virtqueue.
+> This would seem like a reasonable second step.  A first step would be to
+> measure the overhead to make sure there's actually a need to optimize
+> this.
 >
 
-The buffers should be used in a circular manner: If not every vlan /
-cmd could be sent, we should wait for previous buffers completion and
-keep sending.
+I totally agree.
 
-This would speed up not only vlan initialization but all NIC
-configuration loading.
+The processing time of each command is limited by the device. Taking
+this to the extreme, we could achieve almost instantaneous
+configuration for vdpa_sim_net, but a new device could take forever to
+configure each mac.
 
-> Thanks
->
-> >
-> > Thanks!
-> >
-> > > Thanks
-> > >
-> > > >
-> > > > Thanks
-> > > >
-> > > > > +                if (unlikely(r !=3D 0)) {
-> > > > > +                    return r;
-> > > > > +                }
-> > > > > +            }
-> > > > > +        }
-> > > > > +    }
-> > > > > +
-> > > > > +    return 0;
-> > > > > +}
-> > > > > +
-> > > > >  static int vhost_vdpa_net_load(NetClientState *nc)
-> > > > >  {
-> > > > >      VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
-> > > > > @@ -445,8 +488,7 @@ static int vhost_vdpa_net_load(NetClientState=
- *nc)
-> > > > >      if (unlikely(r)) {
-> > > > >          return r;
-> > > > >      }
-> > > > > -
-> > > > > -    return 0;
-> > > > > +    return vhost_vdpa_net_load_vlan(s, n);
-> > > > >  }
-> > > > >
-> > > > >  static NetClientInfo net_vhost_vdpa_cvq_info =3D {
-> > > > > --
-> > > > > 2.31.1
-> > > > >
-> > >
-> >
->
+So I think it should be considered as an optimization on top too, and
+apply only if we see the initialization is slow on any devices.
+
+Thanks!
 
 
