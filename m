@@ -2,82 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 973675B90D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 01:06:59 +0200 (CEST)
-Received: from localhost ([::1]:46726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 930795B9131
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 01:53:13 +0200 (CEST)
+Received: from localhost ([::1]:39724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYbT8-0000LZ-4k
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 19:06:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33964)
+	id 1oYcBs-00059M-8U
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 19:53:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oYbMX-0006qx-9z
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 19:00:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57466)
+ id 1oYc9N-0003YX-BV
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 19:50:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oYbMU-0005MX-2t
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 19:00:07 -0400
+ id 1oYc9J-0006Jt-Ro
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 19:50:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663196404;
+ s=mimecast20190719; t=1663199432;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6FOJrYFD/JjggleuQHEzUpsZuCDF9od+PJpXtU0geh8=;
- b=Py5U1FRTgfZnK+JZKuaRoCcg1pDQiFRUD7KFOwi/ROEOSzL3vXzbhLE597h1k3NFcf8Jxb
- 801wqvaU+/1HJnGt52qM2gOPtfICLym7Rv6k33TR0B20ELxgIAa7tMD6gk+Jn9BJcjMEtx
- vZL4ieVZ7tcKZUY9aZVE+SSKgvz0ZPw=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ayO1F4YbfKP7PvUXgVPkjQFzknqvDlg070WB4DSANdQ=;
+ b=IxeVddoAQTIQaVxnT+b35DI5+7FGgpQJgeQz6n33Ah8uEsA0Mo7PCAHQOkGpsWVf8g6/1T
+ J6GjfFXT67MyqsrwyOw9AdJcELd1hWtPGOPyxHG5++kexo5dUzKKRZBt9tPTHHHl/18KYh
+ kexb0HMPZ0UsK+y5f7Uzy3ru6obmfZ4=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-342-1G9ZigrTOfKZgupPO0VPJA-1; Wed, 14 Sep 2022 19:00:03 -0400
-X-MC-Unique: 1G9ZigrTOfKZgupPO0VPJA-1
-Received: by mail-lj1-f197.google.com with SMTP id
- bx10-20020a05651c198a00b0026c1cdb5b4cso2122518ljb.2
- for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 16:00:03 -0700 (PDT)
+ us-mta-245-2rcO7H3zPLmrzk0X6KyAIw-1; Wed, 14 Sep 2022 19:50:31 -0400
+X-MC-Unique: 2rcO7H3zPLmrzk0X6KyAIw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ i17-20020a05640242d100b0044f18a5379aso11995654edc.21
+ for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 16:50:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=6FOJrYFD/JjggleuQHEzUpsZuCDF9od+PJpXtU0geh8=;
- b=h1QtjcPEwKZW2l2xBLfmVaepQ4ag70JbnXVv/nl3lN69N1729RDaix+0XwRUxGys3m
- oh6+erQZcsxWBg19drArjKRZ/HvmWGZc/JHEG9BvvJqxUU3qKBv6SWlF4uBd2JFxdkA0
- i5/xPethUoBU1av4pi5DI7uT5F4izbvFMMovrgPWuUn+wYGmBfoX9HnOUyexNCt4KZvh
- TQ8bJNM7J2rjZLu/Tm3EGC9A8yp1z/8LNAv3Bt1gnEtqs87KAM8xbkqFIpvXDAjfExuZ
- ANr8dUSNmZPZFuZmOGVCqy7vC2BleFchvhv4eM90i6t+tYTt4mTwc4IIx18sIRlQrZU2
- 9j2A==
-X-Gm-Message-State: ACrzQf3vyFo/VxvbU90ckCETiAK6RHIF2BnLEiZCJbQ/i/XNZ/I3lgXa
- dCFVcSXPXq0SdFv4+f7YaW44DnGJsr6TciwS3HwRGvsnDngJIh1X8cDaYOmLAyyq+Iv+ulB3Tlo
- xAa8bTKrmcHAHQCnnBkQ3bpf+RnPM1/0=
-X-Received: by 2002:ac2:46e3:0:b0:49e:da0e:a353 with SMTP id
- q3-20020ac246e3000000b0049eda0ea353mr164923lfo.7.1663196402048; 
- Wed, 14 Sep 2022 16:00:02 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6XXVXEXlcki/p90I1z2vE2PjtUdE7D5Int8Bc7p1cgnfqtHjlqJyV+tr+fjMF6bzwlonMYJqAldPQP5aPOMRY=
-X-Received: by 2002:ac2:46e3:0:b0:49e:da0e:a353 with SMTP id
- q3-20020ac246e3000000b0049eda0ea353mr164918lfo.7.1663196401788; Wed, 14 Sep
- 2022 16:00:01 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=ayO1F4YbfKP7PvUXgVPkjQFzknqvDlg070WB4DSANdQ=;
+ b=N2e9A0bKNiDVnlPS8qGFRQmd9thAGvBtnsO+FhkJngDraFpucZARWKjbDtR7qzwB0p
+ SKFHCtsNO54u12Etm6dt86Dx+ikFQjKliP99xT8QwArP/ELyPcFfhENnKFxvAR6gxHrD
+ ZKh19uDQuogBMu2cAGNvwHdCvIrKFUNM1seSzeSUy09L0qfAWSFbl3OiNzm7Mz9TTlYn
+ 8Afbq4C0UVy3YOPnv80PD/iVrMT3G/g9shli2/1+Wrh0ZChVnehgcVn1dDmfelKDkEUX
+ dEjC1auamB6xCMH4K5mrA7O4R/DgYkITrO5t3bbNrWkTq7WDBZdgFFVvZuoBwHlmYh3M
+ 7D8w==
+X-Gm-Message-State: ACgBeo2UUtI18wXdrCJHRi3N+fOVlxd1j6DbRrPnhKoshseuive8JKrT
+ fgdKjyLVWnl5jq8gxHqAs8TUvrH2x8HmWJ8aJRb/bcpoMbZXKz2DLID66QR60y+UYT2pwoqk9zl
+ U51oNDvigr0VdCVg=
+X-Received: by 2002:a17:907:ea6:b0:77e:156d:b07b with SMTP id
+ ho38-20020a1709070ea600b0077e156db07bmr10879430ejc.435.1663199430120; 
+ Wed, 14 Sep 2022 16:50:30 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5rz2N0C8Y61eEDXl3S19F1ZuLb3zkv5VsC8QcqhqQW8thwu5FKKS9JiSSnYGXw8wJC5Plmlw==
+X-Received: by 2002:a17:907:ea6:b0:77e:156d:b07b with SMTP id
+ ho38-20020a1709070ea600b0077e156db07bmr10879421ejc.435.1663199429918; 
+ Wed, 14 Sep 2022 16:50:29 -0700 (PDT)
+Received: from [192.168.77.248] (93-38-132-84.ip70.fastwebnet.it.
+ [93.38.132.84]) by smtp.googlemail.com with ESMTPSA id
+ p8-20020aa7d308000000b00443d657d8a4sm10369053edq.61.2022.09.14.16.50.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Sep 2022 16:50:29 -0700 (PDT)
+Message-ID: <ed0fa748-5560-9ea5-ea06-bc8213b9942f@redhat.com>
+Date: Thu, 15 Sep 2022 01:50:25 +0200
 MIME-Version: 1.0
-References: <20220911230418.340941-1-pbonzini@redhat.com>
- <20220911230418.340941-28-pbonzini@redhat.com>
- <58a3c681-a46a-d433-38b5-37c03515a3c9@linaro.org>
-In-Reply-To: <58a3c681-a46a-d433-38b5-37c03515a3c9@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH 1/2] target/i386: fix cmpxchg with 32-bit register
+ destination
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220911222630.338330-1-pbonzini@redhat.com>
+ <20220911222630.338330-2-pbonzini@redhat.com>
+ <91fe80d5-724b-6adc-ef74-60655c8a25cf@linaro.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Thu, 15 Sep 2022 00:59:50 +0200
-Message-ID: <CABgObfamzmohqhBUa+r4nzJxmYUhfz+8H2W3B3rjWnZxux9XLA@mail.gmail.com>
-Subject: Re: [PATCH 27/37] target/i386: Use tcg gvec ops for pmovmskb
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+In-Reply-To: <91fe80d5-724b-6adc-ef74-60655c8a25cf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.583, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,31 +104,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 13, 2022 at 10:17 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 9/12/22 00:04, Paolo Bonzini wrote:
-> > +    while (vec_len > 8) {
-> > +        vec_len -= 8;
-> > +        tcg_gen_shli_tl(s->T0, s->T0, 8);
-> > +        tcg_gen_ld8u_tl(t, cpu_env, offsetof(CPUX86State, xmm_t0.ZMM_B(vec_len - 1)));
-> > +        tcg_gen_or_tl(s->T0, s->T0, t);
-> >       }
->
-> The shl + or is deposit, for those hosts that have it,
-> and will be re-expanded to shl + or for those that don't:
->
->      tcg_gen_ld8u_tl(t, ...);
->      tcg_gen_deposit_tl(s->T0, t, s->T0, 8, TARGET_LONG_BITS - 8);
+On 9/12/22 09:55, Richard Henderson wrote:
+> 
+>   * Compute...
+> 
+> Why bother passing NULL, and fixing it up at each use...
+> 
+>> +static void gen_op_mov_reg_v(DisasContext *s, MemOp ot, int reg, TCGv 
+>> t0)
+>> +{
+>> +    gen_op_deposit_reg_v(s, ot, reg, NULL, t0);
+>>   }
+> 
+> ... when you can just as easily pass in the register here?
 
-What you get from that is an shl(t, 56) followed by extract2 (i.e.
-SHRD). Yeah there are targets with a native deposit (x86 itself could
-add PDEP/PEXT support I guess) but I find it hard to believe that it
-outperforms a simple shl + or.
+Because dest can be fixed up to either cpu_regs[reg - 4] for high-byte 
+registers, or cpu_regs[reg] for everything else.
 
-If we want to get clever, I should instead load ZMM_B(vec_len - 1)
-directly into the *high* byte of t, using ZMM_L or ZMM_Q, and then
-issue the extract2 myself.
+> We have an outstanding bug report that suggests that the move to eax must use the deposit in both cases:
+> 
+> https://gitlab.com/qemu-project/qemu/-/issues/508
+
+Ok, so that's two bugs.  But both of them can indeed be fixed with 
+gen_op_deposit_reg_v.
 
 Paolo
 
