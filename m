@@ -2,79 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E53585B7EDE
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 04:19:09 +0200 (CEST)
-Received: from localhost ([::1]:56044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E06E5B7EE2
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 04:21:41 +0200 (CEST)
+Received: from localhost ([::1]:47564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYHzY-00079a-F3
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 22:19:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52102)
+	id 1oYI20-0000IL-DE
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 22:21:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oYHxb-0005aA-97
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 22:17:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25659)
+ id 1oYI0v-0007J9-Uj
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 22:20:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47213)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oYHxX-0002tZ-7z
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 22:17:05 -0400
+ id 1oYI0s-0003GM-LH
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 22:20:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663121822;
+ s=mimecast20190719; t=1663122029;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lJj+t88Vi0r7cL3XMPkBCt9Wsvcgtsgg/wufm7rq0o0=;
- b=XRyWXBK08ruvNUydrERv1EkhaT1SYUI5yj+9T82oxswl5qSj8aiuF5rEBerWaFqJv0QKOR
- /UQSy7vrQisfYEeBaqHvmTTFs2MSlxkUT1oDjI1GkfUv58j24XF8GuRsDP0qVUr/N1O2jd
- YJbnPbeXeZmwMLYj44VJsnfPn2ll5As=
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
- [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mMZQk8gmp6mWWB9DYruMvbRhEpKnvvpbrpSmDkeUgZ8=;
+ b=LPpCbVRtqk2CsLgrTsc/gcBWYqB91ST3Mirhy8qEAjtVOcbcbonT6GrDb3jLgDLiyGeArC
+ Yi01KHUDvG4JRb+5dXnur5IKcLv6xy5MTR6vHeHXn9V3EfM3MTMyLIaKzmDRmH3N1f6CVN
+ 0df7mdJSRBDNbrrk8n5/eDYuJ7GVbn0=
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
+ [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-137-ddX4MudRM4igKP0ML27jUA-1; Tue, 13 Sep 2022 22:17:01 -0400
-X-MC-Unique: ddX4MudRM4igKP0ML27jUA-1
-Received: by mail-vk1-f200.google.com with SMTP id
- y13-20020a1f320d000000b003a27b2acf97so1597066vky.23
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 19:17:00 -0700 (PDT)
+ us-mta-590-lrA-k2nRPEm9wU6eq2C6CA-1; Tue, 13 Sep 2022 22:20:28 -0400
+X-MC-Unique: lrA-k2nRPEm9wU6eq2C6CA-1
+Received: by mail-vk1-f199.google.com with SMTP id
+ t204-20020a1f2dd5000000b0039e8fb8258cso3128910vkt.11
+ for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 19:20:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=lJj+t88Vi0r7cL3XMPkBCt9Wsvcgtsgg/wufm7rq0o0=;
- b=lJ7OIeEf/K/jg7pQGdfErllDO/PSKSdVz3TO2B+PxoaK79xkOPBPjebq/CMg3enf09
- tNS0wgwIxlZjLcl77sDU7UyhnFXq5g4E0rkZJr3WUdAxuNOuqkASJgPlcfFa9A5CICuE
- eXAaKOqbyWDUW27+DHU4Uy0BEQLeM5OVVE0CcjY/nLPb9SHkPR49x8za7T6PS5GhCKah
- abnlDri0ko+HQI4mIh+IgC4nhED3J0q3JbXDsMZVaq/2VpOA4ogsZPh+7QbJhFwvmCiR
- /oXoqR3l4R9RVZRYVbzluLv6aAY7AGCZ1Ijq/JgcAguduPqDgHsWLziLtfA3582DD3SW
- c1Vg==
-X-Gm-Message-State: ACgBeo2tqGuvsyFOrYaWV4G7breBMGLRqs4eOcq5yTRGZojpHWyXkFTa
- bDvhwQXwTiG5rpuE4WMSB2ttCwKBdcVrwdnx7ayAf6xeifAV1grceK5s6N1wsMW2zpCjNAkIdQ6
- FL82PIHkCyqYFKRQ5zR53xWBByPiDRHc=
-X-Received: by 2002:a67:a407:0:b0:390:e5b5:159f with SMTP id
- n7-20020a67a407000000b00390e5b5159fmr11717410vse.72.1663121820418; 
- Tue, 13 Sep 2022 19:17:00 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4gw5B1mCI1Z1ciE8S5CSZ6ZWCIH2bZjq7J2z5UUJJNZWx3vUBqB2gxZI3wT9g/GGB5EaBh674fzWzjyi+n5l0=
-X-Received: by 2002:a67:a407:0:b0:390:e5b5:159f with SMTP id
- n7-20020a67a407000000b00390e5b5159fmr11717404vse.72.1663121820202; Tue, 13
- Sep 2022 19:17:00 -0700 (PDT)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=mMZQk8gmp6mWWB9DYruMvbRhEpKnvvpbrpSmDkeUgZ8=;
+ b=aM0oMw3MWoZ6GMC5iadz9bR7Vew1FvHIHTU7ttfe5WzAmTorOl1MfKInM1FUsc+rHX
+ 0cnZO/Ll/yNeDM4d0F1Tfy5vs0zgIm1YMflCB13OQEYprMhDRbc8wS30cuiLyPk/B4B+
+ Nic7TymfXWLNRvU4E21DQA2VuCGtg6BwaXBBNPx7qvaPnYRAr9KXmURMGzyod7PYo32z
+ DyBKR8vH5qvSZrh87ueuanrtXJzCEt62149ac8RgbIA2GUbvI4siJNymd0PPsymdm0rd
+ lUB0r1ufHAeaXWaFDshfbUImxaoFeKws7GxeO3fK3eEVUxgtOM7Kfrx3Em3busOZTiHE
+ homw==
+X-Gm-Message-State: ACgBeo2gYl6Avf/UmGUlOzYCNBhWBsSbsGpOpUXQx7r8hGBkbuvMu6Z/
+ UoAc+Equ1HWT6UbANSj8ADgxYmWHROgbn/zNqdBcHHuxgImn0BSPcoYeppUY1EjpOSBjM2P6g57
+ NXphe3882jNnFE1npivicNXNyBJ5w+9w=
+X-Received: by 2002:a67:e218:0:b0:398:4d8c:8037 with SMTP id
+ g24-20020a67e218000000b003984d8c8037mr8828199vsa.4.1663122028280; 
+ Tue, 13 Sep 2022 19:20:28 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6VObkp9XN651mgdBW94g6OcMXCGYyAfkc8Auvqz82O2qPO4l4hpPVPOrwft5vHP0uAH59pPnnK2JpqXf8ndRI=
+X-Received: by 2002:a67:e218:0:b0:398:4d8c:8037 with SMTP id
+ g24-20020a67e218000000b003984d8c8037mr8828188vsa.4.1663122028000; Tue, 13 Sep
+ 2022 19:20:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1662916759.git.kangjie.xu@linux.alibaba.com>
- <2e171b825516e4367794ca00532a58e8e448fabd.1662916759.git.kangjie.xu@linux.alibaba.com>
-In-Reply-To: <2e171b825516e4367794ca00532a58e8e448fabd.1662916759.git.kangjie.xu@linux.alibaba.com>
+References: <20220906163621.1144675-1-eperezma@redhat.com>
+ <20220906163621.1144675-3-eperezma@redhat.com>
+ <CACGkMEvnVavevtxWa49Yew+Nnkx_Wfmgf1JLVXCBe=zkpvdHnQ@mail.gmail.com>
+ <CACGkMEswG2nmTve+p2MU9ue5CuwAu69CpeOUzYnu_BVfZE56JA@mail.gmail.com>
+ <CAJaqyWf=NfkL_2uXVapJ6qCLziBc2jg+jMyR+cBQu+yDG6eg5w@mail.gmail.com>
+In-Reply-To: <CAJaqyWf=NfkL_2uXVapJ6qCLziBc2jg+jMyR+cBQu+yDG6eg5w@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 14 Sep 2022 10:16:49 +0800
-Message-ID: <CACGkMEsnnBAjR7T-5fxKMmuVOSn2qO11F83DswtZs4q2tcN8yg@mail.gmail.com>
-Subject: Re: [PATCH v4 10/15] vhost-net: vhost-kernel: introduce
- vhost_net_virtqueue_reset()
-To: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, mst <mst@redhat.com>, 
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- wangyanan55@huawei.com, Heng Qi <hengqi@linux.alibaba.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Date: Wed, 14 Sep 2022 10:20:17 +0800
+Message-ID: <CACGkMEvW5ZUZEcx9COvwjAT5PUraoko8k1foBez=T1nmhjKpDw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] vdpa: load vlan configuration at NIC startup
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>, Cindy Lu <lulu@redhat.com>, 
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, Si-Wei Liu <si-wei.liu@oracle.com>,
+ Eli Cohen <eli@mellanox.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Laurent Vivier <lvivier@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Parav Pandit <parav@mellanox.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -98,80 +107,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 12, 2022 at 1:22 AM Kangjie Xu <kangjie.xu@linux.alibaba.com> wrote:
+On Fri, Sep 9, 2022 at 4:02 PM Eugenio Perez Martin <eperezma@redhat.com> w=
+rote:
 >
-> Introduce vhost_virtqueue_reset(), which can reset the specific
-> virtqueue in the device. Then it will unmap vrings and the desc
-> of the virtqueue.
+> On Fri, Sep 9, 2022 at 8:40 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> > On Fri, Sep 9, 2022 at 2:38 PM Jason Wang <jasowang@redhat.com> wrote:
+> > >
+> > > On Wed, Sep 7, 2022 at 12:36 AM Eugenio P=C3=A9rez <eperezma@redhat.c=
+om> wrote:
+> > > >
+> > > > To have enabled vlans at device startup may happen in the destinati=
+on of
+> > > > a live migration, so this configuration must be restored.
+> > > >
+> > > > At this moment the code is not accessible, since SVQ refuses to sta=
+rt if
+> > > > vlan feature is exposed by the device.
+> > > >
+> > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > > ---
+> > > >  net/vhost-vdpa.c | 46 ++++++++++++++++++++++++++++++++++++++++++++=
+--
+> > > >  1 file changed, 44 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > > > index 4bc3fd01a8..ecbfd08eb9 100644
+> > > > --- a/net/vhost-vdpa.c
+> > > > +++ b/net/vhost-vdpa.c
+> > > > @@ -100,6 +100,8 @@ static const uint64_t vdpa_svq_device_features =
+=3D
+> > > >      BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
+> > > >      BIT_ULL(VIRTIO_NET_F_STANDBY);
+> > > >
+> > > > +#define MAX_VLAN    (1 << 12)   /* Per 802.1Q definition */
+> > > > +
+> > > >  VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
+> > > >  {
+> > > >      VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> > > > @@ -423,6 +425,47 @@ static int vhost_vdpa_net_load_mq(VhostVDPASta=
+te *s,
+> > > >      return *s->status !=3D VIRTIO_NET_OK;
+> > > >  }
+> > > >
+> > > > +static int vhost_vdpa_net_load_single_vlan(VhostVDPAState *s,
+> > > > +                                           const VirtIONet *n,
+> > > > +                                           uint16_t vid)
+> > > > +{
+> > > > +    ssize_t dev_written =3D vhost_vdpa_net_load_cmd(s, VIRTIO_NET_=
+CTRL_VLAN,
+> > > > +                                                  VIRTIO_NET_CTRL_=
+VLAN_ADD,
+> > > > +                                                  &vid, sizeof(vid=
+));
+> > > > +    if (unlikely(dev_written < 0)) {
+> > > > +        return dev_written;
+> > > > +    }
+> > > > +
+> > > > +    if (unlikely(*s->status !=3D VIRTIO_NET_OK)) {
+> > > > +        return -EINVAL;
+> > > > +    }
+> > > > +
+> > > > +    return 0;
+> > > > +}
+> > > > +
+> > > > +static int vhost_vdpa_net_load_vlan(VhostVDPAState *s,
+> > > > +                                    const VirtIONet *n)
+> > > > +{
+> > > > +    uint64_t features =3D n->parent_obj.guest_features;
+> > > > +
+> > > > +    if (!(features & BIT_ULL(VIRTIO_NET_F_CTRL_VLAN))) {
+> > > > +        return 0;
+> > > > +    }
+> > > > +
+> > > > +    for (int i =3D 0; i < MAX_VLAN >> 5; i++) {
+> > > > +        for (int j =3D 0; n->vlans[i] && j <=3D 0x1f; j++) {
+> > > > +            if (n->vlans[i] & (1U << j)) {
+> > > > +                int r =3D vhost_vdpa_net_load_single_vlan(s, n, (i=
+ << 5) + j);
+> > >
+> > > This seems to cause a lot of latency if the driver has a lot of vlans=
+.
+> > >
+> > > I wonder if it's simply to let all vlan traffic go by disabling
+> > > CTRL_VLAN feature at vDPA layer.
+> >
 >
-> Here we do not reuse the vhost_net_stop_one() or vhost_dev_stop(),
-> because they work at queue pair level. We do not use
-> vhost_virtqueue_stop() because it may stop the device in the
-> backend.
->
-> This patch only considers the case of vhost-kernel, when
-> NetClientDriver is NET_CLIENT_DRIVER_TAP.
->
-> Furthermore, we do not need net->nc->info->poll() because
-> it enables userspace datapath and we want to stop all
-> datapaths for this reset virtqueue here.
->
-> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> The guest will not be able to recover that vlan configuration.
 
-Acked-by: Jason Wang <jasowang@redhat.com>
+Spec said it's best effort and we actually don't do this for
+vhost-net/user for years and manage to survive.
 
-> ---
->  hw/net/vhost_net.c      | 25 +++++++++++++++++++++++++
->  include/net/vhost_net.h |  2 ++
->  2 files changed, 27 insertions(+)
 >
-> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> index d28f8b974b..8beecb4d22 100644
-> --- a/hw/net/vhost_net.c
-> +++ b/hw/net/vhost_net.c
-> @@ -531,3 +531,28 @@ int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu)
+> > Another idea is to extend the spec to allow us to accept a bitmap of
+> > the vlan ids via a single command, then we will be fine.
+> >
 >
->      return vhost_ops->vhost_net_set_mtu(&net->dev, mtu);
->  }
-> +
-> +void vhost_net_virtqueue_reset(VirtIODevice *vdev, NetClientState *nc,
-> +                               int vq_index)
-> +{
-> +    VHostNetState *net = get_vhost_net(nc->peer);
-> +    const VhostOps *vhost_ops = net->dev.vhost_ops;
-> +    struct vhost_vring_file file = { .fd = -1 };
-> +    int idx;
-> +
-> +    /* should only be called after backend is connected */
-> +    assert(vhost_ops);
-> +
-> +    idx = vhost_ops->vhost_get_vq_index(&net->dev, vq_index);
-> +
-> +    if (net->nc->info->type == NET_CLIENT_DRIVER_TAP) {
-> +        file.index = idx;
-> +        int r = vhost_net_set_backend(&net->dev, &file);
-> +        assert(r >= 0);
-> +    }
-> +
-> +    vhost_virtqueue_stop(&net->dev,
-> +                         vdev,
-> +                         net->dev.vqs + idx,
-> +                         net->dev.vq_index + idx);
-> +}
-> diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
-> index 387e913e4e..85d85a4957 100644
-> --- a/include/net/vhost_net.h
-> +++ b/include/net/vhost_net.h
-> @@ -48,4 +48,6 @@ uint64_t vhost_net_get_acked_features(VHostNetState *net);
+> I'm not sure if adding more ways to configure something is the answer,
+> but I'd be ok to implement it.
 >
->  int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu);
+> Another idea is to allow the sending of many CVQ commands in parallel.
+> It shouldn't be very hard to achieve using exposed buffers as ring
+> buffers, and it will short down the start of the devices with many
+> features.
+
+In the extreme case, what if guests decide to filter all of the vlans?
+It means we need MAX_VLAN commands which may exceeds the size of the
+control virtqueue.
+
+Thanks
+
 >
-> +void vhost_net_virtqueue_reset(VirtIODevice *vdev, NetClientState *nc,
-> +                               int vq_index);
->  #endif
-> --
-> 2.32.0
+> Thanks!
+>
+> > Thanks
+> >
+> > >
+> > > Thanks
+> > >
+> > > > +                if (unlikely(r !=3D 0)) {
+> > > > +                    return r;
+> > > > +                }
+> > > > +            }
+> > > > +        }
+> > > > +    }
+> > > > +
+> > > > +    return 0;
+> > > > +}
+> > > > +
+> > > >  static int vhost_vdpa_net_load(NetClientState *nc)
+> > > >  {
+> > > >      VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> > > > @@ -445,8 +488,7 @@ static int vhost_vdpa_net_load(NetClientState *=
+nc)
+> > > >      if (unlikely(r)) {
+> > > >          return r;
+> > > >      }
+> > > > -
+> > > > -    return 0;
+> > > > +    return vhost_vdpa_net_load_vlan(s, n);
+> > > >  }
+> > > >
+> > > >  static NetClientInfo net_vhost_vdpa_cvq_info =3D {
+> > > > --
+> > > > 2.31.1
+> > > >
+> >
 >
 
 
