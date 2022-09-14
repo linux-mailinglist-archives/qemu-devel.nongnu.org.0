@@ -2,93 +2,184 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D575B8742
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 13:28:39 +0200 (CEST)
-Received: from localhost ([::1]:36412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42EA55B876E
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 13:44:40 +0200 (CEST)
+Received: from localhost ([::1]:56616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYQZK-0001Qr-OH
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 07:28:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55308)
+	id 1oYQoo-00025u-Px
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 07:44:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oYQST-0005Mm-GC
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 07:21:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58448)
+ (Exim 4.90_1) (envelope-from <si-wei.liu@oracle.com>)
+ id 1oYQdm-0003Eb-0l
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 07:33:14 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:62536)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oYQSM-0002AB-UC
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 07:21:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663154481;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9CRQZ3wvCzTzQuBk0vFbmn4J4N7AX5NpqADjfUz4j9I=;
- b=OeWr8w1+yD3oXAgJTrSrsWiRk2rIWNDNFFn0gws2Ef1mxdAZ4USlzd4IRNnohRTJ90wh8z
- b+tvZhULqz8rozy0VvAw5psCNwmOB4onrxtnv0wiGMNAgh+chaWcHORrl71tYCI9QUjSU0
- jH5QwQ4UGNVkZWixQtVNm9pSs9hHQsg=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-624-CNnIOobLMiCV82Vo1SaK0g-1; Wed, 14 Sep 2022 07:21:20 -0400
-X-MC-Unique: CNnIOobLMiCV82Vo1SaK0g-1
-Received: by mail-ed1-f71.google.com with SMTP id
- dz21-20020a0564021d5500b0045217702048so5246778edb.5
- for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 04:21:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:organization:references
- :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc:subject:date;
- bh=9CRQZ3wvCzTzQuBk0vFbmn4J4N7AX5NpqADjfUz4j9I=;
- b=N6wH8TDWXTj4Vwr9LNz719izHT+I//VxL2Ukw8AlODaO8VF3mk705cJtVhbtJycro4
- KUsJU3TM6fOcjqDAEzgfo51yAzb4qR3ivqG0y7rtbQ3X+hDCLeJmKqoesKB9KdMftJTP
- LgBNRmEyhl/kdi2Khd8wllkF0ShLSfvLlf0akp+ueoH8ZdFuulT4YWpBiYgFI1Zs2s//
- B3A/6l8rN6zFBINuCAf5HhCLeJRQwlR+1TcMAj8iIT67zNPHtkRkmIsbAnPs/GWK8ATd
- LowiCQtbsp03ivLCOl6NqjdIGj1RZfCDHXj8jFV+OxWZNXdNaXhlbS/OFeSPMohxfBHS
- d/Uw==
-X-Gm-Message-State: ACgBeo1bpP22K39imkLBiPvgZ/CS5KeLpqvABQ3em2KyRAstKPy7QSpY
- RIm9Wyp7/n4S4LuRg+pueGiSvQSV6ZWxMQJBG7Vt9l4zPDTxk0ejopenFwAbSHSqoXnCk9kVgbb
- etn+faxp6XCRDIQM=
-X-Received: by 2002:a17:907:2723:b0:77c:8beb:643b with SMTP id
- d3-20020a170907272300b0077c8beb643bmr11476344ejl.86.1663154478854; 
- Wed, 14 Sep 2022 04:21:18 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7FFSb5jv2/1GkZMFgx8JLMYHdH4XZIDl4Vn2JUKAOLQ6/101YQbyVAYIYDob0giqaXe//Vjg==
-X-Received: by 2002:a17:907:2723:b0:77c:8beb:643b with SMTP id
- d3-20020a170907272300b0077c8beb643bmr11476321ejl.86.1663154478608; 
- Wed, 14 Sep 2022 04:21:18 -0700 (PDT)
-Received: from imammedo-mac ([185.140.112.229])
- by smtp.gmail.com with ESMTPSA id
- c26-20020a056402101a00b0044792480994sm9446016edu.68.2022.09.14.04.21.17
- (version=TLS1_2 cipher=AES128-SHA bits=128/128);
- Wed, 14 Sep 2022 04:21:18 -0700 (PDT)
-Date: Wed, 14 Sep 2022 13:21:12 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Wang, Lei" <lei4.wang@intel.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, robert.hu@intel.com,
- xiaoyao.li@intel.com, chenyi.qiang@intel.com
-Subject: Re: [PATCH] i386: Add new CPU model SapphireRapids
-Message-ID: <20220914132112.6567dd0c@imammedo-mac>
-In-Reply-To: <20220812055751.14553-1-lei4.wang@intel.com>
-References: <20220812055751.14553-1-lei4.wang@intel.com>
-Organization: imammedo@redhat.com
-X-Mailer: Claws Mail 3.11.1-67-g0d58c6-dirty (GTK+ 2.24.21;
- x86_64-apple-darwin14.0.0)
+ (Exim 4.90_1) (envelope-from <si-wei.liu@oracle.com>)
+ id 1oYQdh-0005EP-CP
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 07:33:13 -0400
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28EAxCPI024214;
+ Wed, 14 Sep 2022 11:32:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2022-7-12;
+ bh=ac3ZnMAra0JSsvFIoT2l59yUalFUU1om6QmNTDZxwd8=;
+ b=M3ghskyL5BcydVTZvkpZYMEqQ/wvnOtmcprUTihCARu7C4tnEasMcYbmQXM66ikYAkT4
+ 6WQLr6S18rkvva7kKZ8yW/Hte0bMUuMAKiJPii/g0E9ZDrmvHY7EVW3gB4P/9toq7A3w
+ KHpIijdw/HMTJep/Omn82eGQWfPPjPY4ySPwlMim0w11maewE4apHMBi3ZJ/K5gF18Ni
+ XTw8A6w5UR08ID/5gyNsh2mTgV6FFKBdhf8ICV3xvG4c61qY4wcz61wNS5/vWbMoWAlw
+ wpWTIZ6xoWvP0Hi4OlHX/4JGu7GjeCfpMf6OckRxM/7fPqebpDwT6lxFyAkgu+KwNckH 5A== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3jjxypa04n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 14 Sep 2022 11:32:28 +0000
+Received: from pps.filterd
+ (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
+ with ESMTP id 28E9fpeT013062; Wed, 14 Sep 2022 11:32:27 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2171.outbound.protection.outlook.com [104.47.55.171])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3jjym4bqra-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 14 Sep 2022 11:32:27 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gEKTVdMXep0k1XbMozPK0nNQk/6cqt+pY2uOrc1n8cYZku3+e0xAMmRw7T2pvFtHV/BbDun5WoycyIaWBT7uz6jr/eAiY6BxE3lLdXvqk2qIxZjqqaaxnNQplZ8X96S9Ue/88dd4uc1gFBhC3nbZ1kcASA+zAV2E1aw7Y1ISbUntwPfe6a90An35F90xrQCkJPG3c1hn4+QE09fubkpDnvzzXOnRjU5DFqtZQ9HZHecFswqDSjV0NJ5EUbdflqONC/upjIvVT3mcLBgZLAKM/U/AVb5Uu06f2+jY6glmXc2Kk7CZqLgYjrKmQAuvZjXiTookuS7fdNDo5wx7eKPobw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ac3ZnMAra0JSsvFIoT2l59yUalFUU1om6QmNTDZxwd8=;
+ b=IpLbtBLwoWKQB/o29Ld2uhPJshzqxgphJ3OjWGFxde9DhUCEJNcNogRYpbhpC8k5BRt4y2r5SkHxQs5QglDmRZ20V2m1Lp/2NLlbEbl8qWtAcsgKWAT4NQEhO4SjNY+V0ivduDHhcZyYoT8xgI+GS+vz8NlZa+sCEheiwRmS451taPm3KPQUha68smM6OG07Yk8DVf4+dkITl258gC0UVstcL8YRm1mTWG/hTfc8qdkelRQhz240SDstTHQa24kv00CUKx8rNWAzfdkZfPEDkYeRk6P3Xk0ldF2TcFzSTEEysLuUnd6oK0wOypxSm+slX/ylzP96UBRENPbs3Ng7Ow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ac3ZnMAra0JSsvFIoT2l59yUalFUU1om6QmNTDZxwd8=;
+ b=oi04+WhbkUKX1IMSgFitMs+qDQFI017ga75dazLhREmgjgHu3hKnzqeBQGh+Ewml/HUQFLkvMxed+SUjW0Zuxc1HSMt1gWcW1Lp3SvLvNegi8fEgB2SuM0CQv9+FLFIs+huCNf5IBeN4trusaPdTbM66Y2VFUx0KvHGBVNZLab0=
+Received: from BYAPR10MB3287.namprd10.prod.outlook.com (2603:10b6:a03:15c::11)
+ by SN4PR10MB5574.namprd10.prod.outlook.com (2603:10b6:806:205::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.14; Wed, 14 Sep
+ 2022 11:32:24 +0000
+Received: from BYAPR10MB3287.namprd10.prod.outlook.com
+ ([fe80::f87e:a65f:758e:688b]) by BYAPR10MB3287.namprd10.prod.outlook.com
+ ([fe80::f87e:a65f:758e:688b%5]) with mapi id 15.20.5612.022; Wed, 14 Sep 2022
+ 11:32:24 +0000
+Message-ID: <34969f96-b7c4-c9f8-2248-3e84a84148b2@oracle.com>
+Date: Wed, 14 Sep 2022 12:32:13 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 2/3] vdpa: load vlan configuration at NIC startup
+Content-Language: en-US
+To: Jason Wang <jasowang@redhat.com>,
+ Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Cindy Lu <lulu@redhat.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Laurent Vivier <lvivier@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>
+References: <20220906163621.1144675-1-eperezma@redhat.com>
+ <20220906163621.1144675-3-eperezma@redhat.com>
+ <CACGkMEvnVavevtxWa49Yew+Nnkx_Wfmgf1JLVXCBe=zkpvdHnQ@mail.gmail.com>
+ <CACGkMEswG2nmTve+p2MU9ue5CuwAu69CpeOUzYnu_BVfZE56JA@mail.gmail.com>
+ <CAJaqyWf=NfkL_2uXVapJ6qCLziBc2jg+jMyR+cBQu+yDG6eg5w@mail.gmail.com>
+ <CACGkMEvW5ZUZEcx9COvwjAT5PUraoko8k1foBez=T1nmhjKpDw@mail.gmail.com>
+From: Si-Wei Liu <si-wei.liu@oracle.com>
+Organization: Oracle Corporation
+In-Reply-To: <CACGkMEvW5ZUZEcx9COvwjAT5PUraoko8k1foBez=T1nmhjKpDw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO4P123CA0320.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:197::19) To BYAPR10MB3287.namprd10.prod.outlook.com
+ (2603:10b6:a03:15c::11)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- UPPERCASE_50_75=0.008 autolearn=ham autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR10MB3287:EE_|SN4PR10MB5574:EE_
+X-MS-Office365-Filtering-Correlation-Id: 19cb37fe-e738-49c3-952b-08da9644cb9d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: czFpkIDI1id39yLaOD97a/fDtKTWZZyht16sT/2kTMhi5EZPHdRf8jZDINJw9mYClxnmnZ9aE49Rvgml9QdePKrcxNCp9t4HbIXK1Rd8gS4KolyTcD8HEqMwtSKD6Sh7PuEZ5tr892IAlRYDox4qpTdT73xMCmcC37DBnamL2wXLGa1FBP9/QoepPWHZ0a4Wz0EuUStUZAmzrhFQI64o0Y9OYkW+ZuUaXgJtZ/Ot4uYBgw/RK0LuBsGjhUmv0o09sfCldHPBl6X04CHTTakfPXmEBOLj7JnVS76gNBSjwUT94hsB3yg7YTq3t4QMZp17wcGLnUXevjEDibkYY96ixszfhKN9PN0uOI4302EeEvKvxaWL2Lvl9vxu9n34JJYNnCFPFnoZIISdoytLRGbnx5u5W/mDpT0tCUbrbAwpSXKUMwaBvmHFnpnXxPDmOBNpruKOKtJRLVcoHaYbJZ4u31/DmBrPPr0jzSswZbq4CLxVj2lnqG4irZMxajjLn3yqNvZStXqOp0cnx+DwnjEaZl2VeZKP0doXoDI8s5i6FzicnMiuW4/LNAq4FaE8B0XlfvIkKmjvCcFdbxTEugJhFJ4qwyJHm72K0TYMp3nG1/yNdYCK/du9HjnbP+GXTbxdXNCM1QvDOQzEw+7msFACBjO+7q8Cl9r6d9ayjRy0NXNdpG3PN8+FMHFj5Vlm+8KraNEotq8C3rr9J+oj1rN+Qu267TsWToj/ba/dd7J4IlLGT+2y0dbXgeyZZvgGNjVICp5YbMSebqA6sZOBl2iTlVaeltGj2B92tdrdDjZjHv0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR10MB3287.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(396003)(366004)(39860400002)(136003)(376002)(346002)(451199015)(316002)(110136005)(26005)(6512007)(186003)(54906003)(5660300002)(7416002)(41300700001)(53546011)(4326008)(66574015)(86362001)(31696002)(36756003)(6506007)(2616005)(66556008)(31686004)(38100700002)(36916002)(6486002)(8676002)(83380400001)(6666004)(66946007)(8936002)(478600001)(2906002)(66476007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U2ZRalQxbzF0QzVXOGZ2MXZzZDhHaGRQd0ZwcnBPcmZvK0s0emg0RzQ2UERD?=
+ =?utf-8?B?VE0xSE5ORk5NTUUreFc1OWdXeVdIR0M1dkV0VHR1YXpyZzZjTk81d29PcGtu?=
+ =?utf-8?B?V3lLUG0zZmtQZmgwNDRMTXF5ZjN0Tm1TbGI2NnVTL05WaDdVZjRVTTR1NkFX?=
+ =?utf-8?B?MWNYR2RIYi9qVFhIWVVxZlh5bUNkT3ZKK05IdnU1TkNnYmJkaWlWVEZBaUdN?=
+ =?utf-8?B?cWNjUzF3d0Uwbm1oNVVidkRRTi8vaTF5dURQZ0RDSHdlejZ6dnREaHZzMVI0?=
+ =?utf-8?B?eHdPakN5TWJqTnlRNWpQRW5zMTRISk5GYzZxMm5YWTROVEhhNzlQaDM2eHc4?=
+ =?utf-8?B?bTV2RWpDR1RjZjZJU3J1Q3BZMHdzYkhXQTNVc0tFZnd4RE82ekRyY0taV3Vn?=
+ =?utf-8?B?WTcrWVJBdDJPdWp2Nk1jODJVN09HUVJ0YlgreHIyanpXdnhuRkZybTl0VVUr?=
+ =?utf-8?B?SWFYV1kvMUliVXpCdkt3Q09tR2ZZRnN6Qms0TCtpK29veDBKN1FJWWxVdGdF?=
+ =?utf-8?B?ZEhwREp0SkNMY3BweHhCYjlURHBSZGZWUnVrQmpUeDdBYU1ZNGh4dEpWWkp0?=
+ =?utf-8?B?OU14c2xFMUd5ZUtMSEpWdlI2NkVMZmlHTm1adDNldkI0Y1FoakVSR3dGOEtB?=
+ =?utf-8?B?ZktPVTVTMmRZTUw1M0V2UjIwckJ0TG1lelZrOC81bnA0SGlMQ3NYSkZZZU5Y?=
+ =?utf-8?B?WkpSb2NIZGl5STVHS1pNQzIzUDl5aDhmY2hjV0tkQTRXSnBqMjlBcjllWkZq?=
+ =?utf-8?B?RGVGeGlaU0hGOE0yNlhVZFFUdnNGWDJDWm9FV1M0Vk90dCtKbjRPQm5iUzZZ?=
+ =?utf-8?B?TVhQWFlZRmNVWmpDM2pDcmlvK1BESGtmRzlCVVJwZi8zd05VV1QzMmppbm5a?=
+ =?utf-8?B?cVV1NGhDRUdTQnMzWVpEN2xDNWdBbTR0Qy9Ea1RHWDRtMkY5MlNHcHlFUE54?=
+ =?utf-8?B?NkUrWUlQYndOOVBJYlp5ZDJRaW5NZDhmYTY1Sm1QNzh1QnVWYURFS0l5cFIy?=
+ =?utf-8?B?UWpYU0RGSU1TVS96M1NDTVZSQnRPMzYvMHV4dGY0R2Z5eHpBMVBDUlNOVnhN?=
+ =?utf-8?B?TFJLVHhhdVp6ZGY3enJENUZ5eUsyS05MTWFOK3UwQTJSMEdHanBqOWxDREc1?=
+ =?utf-8?B?R0JFVnpObXpRRmVDbmxDSnpqcU5aWnZqWExZcC9sSnk0Wkc1aXRWQ1p6MSsx?=
+ =?utf-8?B?ZWFPbmUyeWRaN3BoZUpLK1hLV3RJVlMxQVlYZWUwZG9CNTFybHU3bFNYMzVz?=
+ =?utf-8?B?UjB5RVFUcEJEdVF0NExCbklRclZpSzNjcHlmUzBkaTF3OFcxUy9vUWR3OGRK?=
+ =?utf-8?B?enFlZDhaOFMvSDUrZHBROStrZVd3c0xNS0dIZjg3amIzUTMzZ2dQNDB0czBo?=
+ =?utf-8?B?NUt3bm95M3Vhb1o5M1BrODJubkcvWlB3N3h4WUIrUFRDQWdrTDQxSzllUmd2?=
+ =?utf-8?B?UkQxcGJKWlNQYU5sNllLZDRqUHZWbG4xV2pQNjFhbzZWaEJZK2o3ZldvMnBU?=
+ =?utf-8?B?WVlxSGN0WnErNTNIL2xtSFA4UDZ2MXJjNTZWbzByWFVXdzVhb0dvcEFrRlo0?=
+ =?utf-8?B?cUh3RnZBTmQwMWVhMjNROVdZNnNmNjJlVzNlL3EzM1JxOCttdENZdlV2eU1U?=
+ =?utf-8?B?NHZzaCtreEoyNmVYRHNiWlkwekdpMi83VituQzFOdEpwWno1N3RwbWEzcVBr?=
+ =?utf-8?B?bjNsZ0MxeG14Q09ldE4xN2VtdHpLMm9wUDJGLzFic0ZOQlM1bVljVVQ1MjFm?=
+ =?utf-8?B?TkNlMno5TWVzZmQxNWRtS1R4a3UrNW5tUWRwYTJmZXkrL2dKNE5Iek9NTDNt?=
+ =?utf-8?B?aDRFREJ4OWQyckJwTUQzZFhOT0pyVEp5NW5FV0Ztdkg5Yi9uOFZHUEs5clFr?=
+ =?utf-8?B?aE1iNHBiSGxQdVI4VnpQM3J2cVdueThHYzJubHRrSDdRZnJIMmhGMC8rT3hK?=
+ =?utf-8?B?NlFucmxkLzNPLzBDUWpNMTZ1MzlTVks0QnFsSHk0dmwwbzlCVGh6MlJiS0Uw?=
+ =?utf-8?B?MUFvWEQ2RW1ITWFUZjFvcmlmUHFwZklkUlZrOXBwRUxjWWVMcElHRE5Zb3Ax?=
+ =?utf-8?B?WGdOV3d6eXNNWU8vUndCc2tOa1V2MGpUaEFJM0wxVit1QU83cHIxNzQwY0o3?=
+ =?utf-8?Q?XhZAFQq0Yx4XDAHM4Bv0npcYH?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19cb37fe-e738-49c3-952b-08da9644cb9d
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3287.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2022 11:32:24.7047 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: D3NCgzydh5ISrrCZvhwJCf2Jr6Wh0wpgegrMJqvXkcMavlDNxUcSCDNTgpH5k8bMRZ37T+SFlO/+6FcJT5Ew2g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR10MB5574
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-14_04,2022-09-14_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ phishscore=0 bulkscore=0
+ mlxlogscore=999 mlxscore=0 suspectscore=0 malwarescore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2208220000
+ definitions=main-2209140056
+X-Proofpoint-ORIG-GUID: 77hlCR0Symx1TtOPTuQeAIuJQiUkExDg
+X-Proofpoint-GUID: 77hlCR0Symx1TtOPTuQeAIuJQiUkExDg
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=si-wei.liu@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.583,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,205 +195,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Aug 2022 22:57:51 -0700
-"Wang, Lei" <lei4.wang@intel.com> wrote:
 
-> The new CPU model mostly inherits features from Icelake-Server, while
-> adding new features:
->  - AMX (Advance Matrix eXtensions)
->  - Bus Lock Debug Exception
-> and new instructions:
->  - AVX VNNI (Vector Neural Network Instruction):
->     - VPDPBUS: Multiply and Add Unsigned and Signed Bytes
->     - VPDPBUSDS: Multiply and Add Unsigned and Signed Bytes with Saturation
->     - VPDPWSSD: Multiply and Add Signed Word Integers
->     - VPDPWSSDS: Multiply and Add Signed Integers with Saturation
->  - FP16: Replicates existing AVX512 computational SP (FP32) instructions
->    using FP16 instead of FP32 for ~2X performance gain
->  - SERIALIZE: Provide software with a simple way to force the processor to
->    complete all modifications, faster, allowed in all privilege levels and
->    not causing an unconditional VM exit
->  - TSX Suspend Load Address Tracking: Allows programmers to choose which
->    memory accesses do not need to be tracked in the TSX read set
->  - AVX512_BF16: Vector Neural Network Instructions supporting BFLOAT16
->    inputs and conversion instructions from IEEE single precision
-> 
-> Features may be added in future versions:
->  - CET (virtualization support hasn't been merged)
-> Instructions may be added in future versions:
->  - fast zero-length MOVSB (KVM doesn't support yet)
->  - fast short STOSB (KVM doesn't support yet)
->  - fast short CMPSB, SCASB (KVM doesn't support yet)
-> 
-> Signed-off-by: Wang, Lei <lei4.wang@intel.com>
-> Reviewed-by: Robert Hoo <robert.hu@linux.intel.com>
 
-looks fine to me,
+On 9/14/2022 3:20 AM, Jason Wang wrote:
+> On Fri, Sep 9, 2022 at 4:02 PM Eugenio Perez Martin <eperezma@redhat.com> wrote:
+>> On Fri, Sep 9, 2022 at 8:40 AM Jason Wang <jasowang@redhat.com> wrote:
+>>> On Fri, Sep 9, 2022 at 2:38 PM Jason Wang <jasowang@redhat.com> wrote:
+>>>> On Wed, Sep 7, 2022 at 12:36 AM Eugenio Pérez <eperezma@redhat.com> wrote:
+>>>>> To have enabled vlans at device startup may happen in the destination of
+>>>>> a live migration, so this configuration must be restored.
+>>>>>
+>>>>> At this moment the code is not accessible, since SVQ refuses to start if
+>>>>> vlan feature is exposed by the device.
+>>>>>
+>>>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+>>>>> ---
+>>>>>   net/vhost-vdpa.c | 46 ++++++++++++++++++++++++++++++++++++++++++++--
+>>>>>   1 file changed, 44 insertions(+), 2 deletions(-)
+>>>>>
+>>>>> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+>>>>> index 4bc3fd01a8..ecbfd08eb9 100644
+>>>>> --- a/net/vhost-vdpa.c
+>>>>> +++ b/net/vhost-vdpa.c
+>>>>> @@ -100,6 +100,8 @@ static const uint64_t vdpa_svq_device_features =
+>>>>>       BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
+>>>>>       BIT_ULL(VIRTIO_NET_F_STANDBY);
+>>>>>
+>>>>> +#define MAX_VLAN    (1 << 12)   /* Per 802.1Q definition */
+>>>>> +
+>>>>>   VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
+>>>>>   {
+>>>>>       VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
+>>>>> @@ -423,6 +425,47 @@ static int vhost_vdpa_net_load_mq(VhostVDPAState *s,
+>>>>>       return *s->status != VIRTIO_NET_OK;
+>>>>>   }
+>>>>>
+>>>>> +static int vhost_vdpa_net_load_single_vlan(VhostVDPAState *s,
+>>>>> +                                           const VirtIONet *n,
+>>>>> +                                           uint16_t vid)
+>>>>> +{
+>>>>> +    ssize_t dev_written = vhost_vdpa_net_load_cmd(s, VIRTIO_NET_CTRL_VLAN,
+>>>>> +                                                  VIRTIO_NET_CTRL_VLAN_ADD,
+>>>>> +                                                  &vid, sizeof(vid));
+>>>>> +    if (unlikely(dev_written < 0)) {
+>>>>> +        return dev_written;
+>>>>> +    }
+>>>>> +
+>>>>> +    if (unlikely(*s->status != VIRTIO_NET_OK)) {
+>>>>> +        return -EINVAL;
+>>>>> +    }
+>>>>> +
+>>>>> +    return 0;
+>>>>> +}
+>>>>> +
+>>>>> +static int vhost_vdpa_net_load_vlan(VhostVDPAState *s,
+>>>>> +                                    const VirtIONet *n)
+>>>>> +{
+>>>>> +    uint64_t features = n->parent_obj.guest_features;
+>>>>> +
+>>>>> +    if (!(features & BIT_ULL(VIRTIO_NET_F_CTRL_VLAN))) {
+>>>>> +        return 0;
+>>>>> +    }
+>>>>> +
+>>>>> +    for (int i = 0; i < MAX_VLAN >> 5; i++) {
+>>>>> +        for (int j = 0; n->vlans[i] && j <= 0x1f; j++) {
+>>>>> +            if (n->vlans[i] & (1U << j)) {
+>>>>> +                int r = vhost_vdpa_net_load_single_vlan(s, n, (i << 5) + j);
+>>>> This seems to cause a lot of latency if the driver has a lot of vlans.
+>>>>
+>>>> I wonder if it's simply to let all vlan traffic go by disabling
+>>>> CTRL_VLAN feature at vDPA layer.
+>> The guest will not be able to recover that vlan configuration.
+> Spec said it's best effort and we actually don't do this for
+> vhost-net/user for years and manage to survive.
+I thought there's a border line between best effort and do nothing. ;-)
 
-Acked-by: Igor Mammedov <imammedo@redhat.com>
+I think that the reason this could survive is really software 
+implementation specific - say if the backend doesn't start with VLAN 
+filtering disabled (meaning allow all VLAN traffic to pass) then it 
+would become a problem. This won't be a problem for almost PF NICs but 
+may be problematic for vDPA e.g. VF backed VDPAs.
+>
+>>> Another idea is to extend the spec to allow us to accept a bitmap of
+>>> the vlan ids via a single command, then we will be fine.
+>>>
+>> I'm not sure if adding more ways to configure something is the answer,
+>> but I'd be ok to implement it.
+>>
+>> Another idea is to allow the sending of many CVQ commands in parallel.
+>> It shouldn't be very hard to achieve using exposed buffers as ring
+>> buffers, and it will short down the start of the devices with many
+>> features.
+> In the extreme case, what if guests decide to filter all of the vlans?
+> It means we need MAX_VLAN commands which may exceeds the size of the
+> control virtqueue.
+Indeed, that's a case where a single flat device state blob would be 
+more efficient for hardware drivers to apply than individual control 
+command messages do.
 
-> ---
->  target/i386/cpu.c | 128 ++++++++++++++++++++++++++++++++++++++++++++++
->  target/i386/cpu.h |   4 ++
->  2 files changed, 132 insertions(+)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 1db1278a59..abb43853d4 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -3467,6 +3467,134 @@ static const X86CPUDefinition builtin_x86_defs[] = {
->              { /* end of list */ }
->          }
->      },
-> +    {
-> +        .name = "SapphireRapids",
-> +        .level = 0x20,
-> +        .vendor = CPUID_VENDOR_INTEL,
-> +        .family = 6,
-> +        .model = 143,
-> +        .stepping = 4,
-> +        /*
-> +         * please keep the ascending order so that we can have a clear view of
-> +         * bit position of each feature.
-> +         */
-> +        .features[FEAT_1_EDX] =
-> +            CPUID_FP87 | CPUID_VME | CPUID_DE | CPUID_PSE | CPUID_TSC |
-> +            CPUID_MSR | CPUID_PAE | CPUID_MCE | CPUID_CX8 | CPUID_APIC |
-> +            CPUID_SEP | CPUID_MTRR | CPUID_PGE | CPUID_MCA | CPUID_CMOV |
-> +            CPUID_PAT | CPUID_PSE36 | CPUID_CLFLUSH | CPUID_MMX | CPUID_FXSR |
-> +            CPUID_SSE | CPUID_SSE2,
-> +        .features[FEAT_1_ECX] =
-> +            CPUID_EXT_SSE3 | CPUID_EXT_PCLMULQDQ | CPUID_EXT_SSSE3 |
-> +            CPUID_EXT_FMA | CPUID_EXT_CX16 | CPUID_EXT_PCID | CPUID_EXT_SSE41 |
-> +            CPUID_EXT_SSE42 | CPUID_EXT_X2APIC | CPUID_EXT_MOVBE |
-> +            CPUID_EXT_POPCNT | CPUID_EXT_TSC_DEADLINE_TIMER | CPUID_EXT_AES |
-> +            CPUID_EXT_XSAVE | CPUID_EXT_AVX | CPUID_EXT_F16C | CPUID_EXT_RDRAND,
-> +        .features[FEAT_8000_0001_EDX] =
-> +            CPUID_EXT2_SYSCALL | CPUID_EXT2_NX | CPUID_EXT2_PDPE1GB |
-> +            CPUID_EXT2_RDTSCP | CPUID_EXT2_LM,
-> +        .features[FEAT_8000_0001_ECX] =
-> +            CPUID_EXT3_LAHF_LM | CPUID_EXT3_ABM | CPUID_EXT3_3DNOWPREFETCH,
-> +        .features[FEAT_8000_0008_EBX] =
-> +            CPUID_8000_0008_EBX_WBNOINVD,
-> +        .features[FEAT_7_0_EBX] =
-> +            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 | CPUID_7_0_EBX_HLE |
-> +            CPUID_7_0_EBX_AVX2 | CPUID_7_0_EBX_SMEP | CPUID_7_0_EBX_BMI2 |
-> +            CPUID_7_0_EBX_ERMS | CPUID_7_0_EBX_INVPCID | CPUID_7_0_EBX_RTM |
-> +            CPUID_7_0_EBX_AVX512F | CPUID_7_0_EBX_AVX512DQ |
-> +            CPUID_7_0_EBX_RDSEED | CPUID_7_0_EBX_ADX | CPUID_7_0_EBX_SMAP |
-> +            CPUID_7_0_EBX_AVX512IFMA | CPUID_7_0_EBX_CLFLUSHOPT |
-> +            CPUID_7_0_EBX_CLWB | CPUID_7_0_EBX_AVX512CD | CPUID_7_0_EBX_SHA_NI |
-> +            CPUID_7_0_EBX_AVX512BW | CPUID_7_0_EBX_AVX512VL,
-> +        .features[FEAT_7_0_ECX] =
-> +            CPUID_7_0_ECX_AVX512_VBMI | CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_PKU |
-> +            CPUID_7_0_ECX_AVX512_VBMI2 | CPUID_7_0_ECX_GFNI |
-> +            CPUID_7_0_ECX_VAES | CPUID_7_0_ECX_VPCLMULQDQ |
-> +            CPUID_7_0_ECX_AVX512VNNI | CPUID_7_0_ECX_AVX512BITALG |
-> +            CPUID_7_0_ECX_AVX512_VPOPCNTDQ | CPUID_7_0_ECX_LA57 |
-> +            CPUID_7_0_ECX_RDPID | CPUID_7_0_ECX_BUS_LOCK_DETECT,
-> +        .features[FEAT_7_0_EDX] =
-> +            CPUID_7_0_EDX_FSRM | CPUID_7_0_EDX_SERIALIZE |
-> +            CPUID_7_0_EDX_TSX_LDTRK | CPUID_7_0_EDX_AMX_BF16 |
-> +            CPUID_7_0_EDX_AVX512_FP16 | CPUID_7_0_EDX_AMX_TILE |
-> +            CPUID_7_0_EDX_AMX_INT8 | CPUID_7_0_EDX_SPEC_CTRL |
-> +            CPUID_7_0_EDX_ARCH_CAPABILITIES | CPUID_7_0_EDX_SPEC_CTRL_SSBD,
-> +        .features[FEAT_ARCH_CAPABILITIES] =
-> +            MSR_ARCH_CAP_RDCL_NO | MSR_ARCH_CAP_IBRS_ALL |
-> +            MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY | MSR_ARCH_CAP_MDS_NO |
-> +            MSR_ARCH_CAP_PSCHANGE_MC_NO | MSR_ARCH_CAP_TAA_NO,
-> +        .features[FEAT_XSAVE] =
-> +            CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XSAVEC |
-> +            CPUID_XSAVE_XGETBV1 | CPUID_XSAVE_XSAVES | CPUID_D_1_EAX_XFD,
-> +        .features[FEAT_6_EAX] =
-> +            CPUID_6_EAX_ARAT,
-> +        .features[FEAT_7_1_EAX] =
-> +            CPUID_7_1_EAX_AVX_VNNI | CPUID_7_1_EAX_AVX512_BF16,
-> +        .features[FEAT_VMX_BASIC] =
-> +            MSR_VMX_BASIC_INS_OUTS | MSR_VMX_BASIC_TRUE_CTLS,
-> +        .features[FEAT_VMX_ENTRY_CTLS] =
-> +            VMX_VM_ENTRY_LOAD_DEBUG_CONTROLS | VMX_VM_ENTRY_IA32E_MODE |
-> +            VMX_VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL |
-> +            VMX_VM_ENTRY_LOAD_IA32_PAT | VMX_VM_ENTRY_LOAD_IA32_EFER,
-> +        .features[FEAT_VMX_EPT_VPID_CAPS] =
-> +            MSR_VMX_EPT_EXECONLY |
-> +            MSR_VMX_EPT_PAGE_WALK_LENGTH_4 | MSR_VMX_EPT_PAGE_WALK_LENGTH_5 |
-> +            MSR_VMX_EPT_WB | MSR_VMX_EPT_2MB | MSR_VMX_EPT_1GB |
-> +            MSR_VMX_EPT_INVEPT | MSR_VMX_EPT_AD_BITS |
-> +            MSR_VMX_EPT_INVEPT_SINGLE_CONTEXT | MSR_VMX_EPT_INVEPT_ALL_CONTEXT |
-> +            MSR_VMX_EPT_INVVPID | MSR_VMX_EPT_INVVPID_SINGLE_ADDR |
-> +            MSR_VMX_EPT_INVVPID_SINGLE_CONTEXT |
-> +            MSR_VMX_EPT_INVVPID_ALL_CONTEXT |
-> +            MSR_VMX_EPT_INVVPID_SINGLE_CONTEXT_NOGLOBALS,
-> +        .features[FEAT_VMX_EXIT_CTLS] =
-> +            VMX_VM_EXIT_SAVE_DEBUG_CONTROLS |
-> +            VMX_VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL |
-> +            VMX_VM_EXIT_ACK_INTR_ON_EXIT | VMX_VM_EXIT_SAVE_IA32_PAT |
-> +            VMX_VM_EXIT_LOAD_IA32_PAT | VMX_VM_EXIT_SAVE_IA32_EFER |
-> +            VMX_VM_EXIT_LOAD_IA32_EFER | VMX_VM_EXIT_SAVE_VMX_PREEMPTION_TIMER,
-> +        .features[FEAT_VMX_MISC] =
-> +            MSR_VMX_MISC_STORE_LMA | MSR_VMX_MISC_ACTIVITY_HLT |
-> +            MSR_VMX_MISC_VMWRITE_VMEXIT,
-> +        .features[FEAT_VMX_PINBASED_CTLS] =
-> +            VMX_PIN_BASED_EXT_INTR_MASK | VMX_PIN_BASED_NMI_EXITING |
-> +            VMX_PIN_BASED_VIRTUAL_NMIS | VMX_PIN_BASED_VMX_PREEMPTION_TIMER |
-> +            VMX_PIN_BASED_POSTED_INTR,
-> +        .features[FEAT_VMX_PROCBASED_CTLS] =
-> +            VMX_CPU_BASED_VIRTUAL_INTR_PENDING |
-> +            VMX_CPU_BASED_USE_TSC_OFFSETING | VMX_CPU_BASED_HLT_EXITING |
-> +            VMX_CPU_BASED_INVLPG_EXITING | VMX_CPU_BASED_MWAIT_EXITING |
-> +            VMX_CPU_BASED_RDPMC_EXITING | VMX_CPU_BASED_RDTSC_EXITING |
-> +            VMX_CPU_BASED_CR3_LOAD_EXITING | VMX_CPU_BASED_CR3_STORE_EXITING |
-> +            VMX_CPU_BASED_CR8_LOAD_EXITING | VMX_CPU_BASED_CR8_STORE_EXITING |
-> +            VMX_CPU_BASED_TPR_SHADOW | VMX_CPU_BASED_VIRTUAL_NMI_PENDING |
-> +            VMX_CPU_BASED_MOV_DR_EXITING | VMX_CPU_BASED_UNCOND_IO_EXITING |
-> +            VMX_CPU_BASED_USE_IO_BITMAPS | VMX_CPU_BASED_MONITOR_TRAP_FLAG |
-> +            VMX_CPU_BASED_USE_MSR_BITMAPS | VMX_CPU_BASED_MONITOR_EXITING |
-> +            VMX_CPU_BASED_PAUSE_EXITING |
-> +            VMX_CPU_BASED_ACTIVATE_SECONDARY_CONTROLS,
-> +        .features[FEAT_VMX_SECONDARY_CTLS] =
-> +            VMX_SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES |
-> +            VMX_SECONDARY_EXEC_ENABLE_EPT | VMX_SECONDARY_EXEC_DESC |
-> +            VMX_SECONDARY_EXEC_RDTSCP |
-> +            VMX_SECONDARY_EXEC_VIRTUALIZE_X2APIC_MODE |
-> +            VMX_SECONDARY_EXEC_ENABLE_VPID | VMX_SECONDARY_EXEC_WBINVD_EXITING |
-> +            VMX_SECONDARY_EXEC_UNRESTRICTED_GUEST |
-> +            VMX_SECONDARY_EXEC_APIC_REGISTER_VIRT |
-> +            VMX_SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY |
-> +            VMX_SECONDARY_EXEC_RDRAND_EXITING |
-> +            VMX_SECONDARY_EXEC_ENABLE_INVPCID |
-> +            VMX_SECONDARY_EXEC_ENABLE_VMFUNC | VMX_SECONDARY_EXEC_SHADOW_VMCS |
-> +            VMX_SECONDARY_EXEC_RDSEED_EXITING | VMX_SECONDARY_EXEC_ENABLE_PML |
-> +            VMX_SECONDARY_EXEC_XSAVES,
-> +        .features[FEAT_VMX_VMFUNC] =
-> +            MSR_VMX_VMFUNC_EPT_SWITCHING,
-> +        .xlevel = 0x80000008,
-> +        .model_id = "Intel Xeon Processor (SapphireRapids)",
-> +        .versions = (X86CPUVersionDefinition[]) {
-> +            { .version = 1 },
-> +            { /* end of list */ },
-> +        },
-> +    },
->      {
->          .name = "Denverton",
->          .level = 21,
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index 82004b65b9..ef3e8a5ed5 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -879,10 +879,14 @@ uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
->  #define CPUID_7_0_EDX_TSX_LDTRK         (1U << 16)
->  /* Architectural LBRs */
->  #define CPUID_7_0_EDX_ARCH_LBR          (1U << 19)
-> +/* AMX_BF16 instruction */
-> +#define CPUID_7_0_EDX_AMX_BF16          (1U << 22)
->  /* AVX512_FP16 instruction */
->  #define CPUID_7_0_EDX_AVX512_FP16       (1U << 23)
->  /* AMX tile (two-dimensional register) */
->  #define CPUID_7_0_EDX_AMX_TILE          (1U << 24)
-> +/* AMX_INT8 instruction */
-> +#define CPUID_7_0_EDX_AMX_INT8          (1U << 25)
->  /* Speculation Control */
->  #define CPUID_7_0_EDX_SPEC_CTRL         (1U << 26)
->  /* Single Thread Indirect Branch Predictors */
+-Siwei
+>
+> Thanks
+>
+>> Thanks!
+>>
+>>> Thanks
+>>>
+>>>> Thanks
+>>>>
+>>>>> +                if (unlikely(r != 0)) {
+>>>>> +                    return r;
+>>>>> +                }
+>>>>> +            }
+>>>>> +        }
+>>>>> +    }
+>>>>> +
+>>>>> +    return 0;
+>>>>> +}
+>>>>> +
+>>>>>   static int vhost_vdpa_net_load(NetClientState *nc)
+>>>>>   {
+>>>>>       VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
+>>>>> @@ -445,8 +488,7 @@ static int vhost_vdpa_net_load(NetClientState *nc)
+>>>>>       if (unlikely(r)) {
+>>>>>           return r;
+>>>>>       }
+>>>>> -
+>>>>> -    return 0;
+>>>>> +    return vhost_vdpa_net_load_vlan(s, n);
+>>>>>   }
+>>>>>
+>>>>>   static NetClientInfo net_vhost_vdpa_cvq_info = {
+>>>>> --
+>>>>> 2.31.1
+>>>>>
 
 
