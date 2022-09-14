@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F13105B897F
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 15:52:25 +0200 (CEST)
-Received: from localhost ([::1]:57244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26DA35B897B
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 15:50:53 +0200 (CEST)
+Received: from localhost ([::1]:46000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYSoS-0000tH-Tf
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 09:52:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48374)
+	id 1oYSmy-0006nT-8Q
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 09:50:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYSMO-00088E-22
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 09:23:24 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:51162)
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1oYSO8-0001GW-S9
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 09:25:13 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:40204)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYSML-0000ci-4c
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 09:23:23 -0400
-Received: by mail-wm1-x329.google.com with SMTP id ay36so1983926wmb.0
- for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 06:23:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=Fst4x49rn2TZohR5patrgQl48OlHihnTjCr3gqAYNQs=;
- b=n2hdNL0XAYIF6KU+WDutOS/sYWYvGx/kajB2zcxYR7PcJc55jIPdK32DtYKNlnBKti
- 9di48vukFIvkycrUErxhl22UnIH1QEKf8stf3dlrMuDGB5Px9dhMeZmtOx3A3fP0FM/K
- PSVuCEy5S4dXprRUrJCWFuLDUv15kkBd3OocknGtPkboXMraHX2wYVc0aWOEdqaj5rBj
- VYurw+5hTZKV6xeIY2v1KpwfhRbHkhdlUMqDoL+HN3HGODHsKJS4Ynm7gZk6BDUBLuzO
- tPYzIbzhvIKCBkV6Bco51h4F8i0woGwsr1jZdfOg3iFaEfMKb+nebBpd2LcmixiRXv/D
- 5PqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=Fst4x49rn2TZohR5patrgQl48OlHihnTjCr3gqAYNQs=;
- b=w+F82WCFHk4mburiQH14nuGYqfL/SoaVYcaIx1eLAq3Fq7uENR62vHBa00ctzBhGMJ
- X+OgleXwEu42IF4FdTQoM0LH7Ftrxc5IxOiQyo3DmyjSv5L9OWbkRjipCE44dx77hyZY
- 9qTneRj/KOJ3DQsi4bxLYEdxOmYZXlhf73hHqQsyS9Ma0VJnLMrHalhpnbS2EDRumRcP
- 5Ya7aL7AFosoJLxJRGzkDg3J9uqKRy8cCEWMjrCa8vxsI73C2qYDOaEHxjcuDPJicPIQ
- ropAGBOzWrZGMnWITO9u2Zs3eYfbaJM39ROiooKIqzDLJ0i1CHZLIS9vV5627vee5y1R
- UMNw==
-X-Gm-Message-State: ACgBeo3Sk84OjPtO6Z3bPxjh3cN7+lA9pm/EQqXCLZjtPUtGbMstLNku
- m4Jk6oltt2UljPoD97PK5ItkD1lVgqm2LUba
-X-Google-Smtp-Source: AA6agR64lv1OMuegYYb5qYbYv0ZAMGQ4rSa26ZwHA3nI2KZdnTu8/65dt/P0LGuogBOuxX1YmBBsvw==
-X-Received: by 2002:a05:600c:5486:b0:3b4:7e47:e19 with SMTP id
- iv6-20020a05600c548600b003b47e470e19mr3189672wmb.12.1663161799577; 
- Wed, 14 Sep 2022 06:23:19 -0700 (PDT)
-Received: from stoup.. ([89.101.193.70]) by smtp.gmail.com with ESMTPSA id
- p15-20020a5d48cf000000b00226dedf1ab7sm13768244wrs.76.2022.09.14.06.23.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Sep 2022 06:23:19 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Max Filippov <jcmvbkbc@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 10/11] target/xtensa: Honour -semihosting-config userspace=on
-Date: Wed, 14 Sep 2022 14:23:07 +0100
-Message-Id: <20220914132308.118495-11-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220914132308.118495-1-richard.henderson@linaro.org>
-References: <20220914132308.118495-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1oYSO3-0000ux-CA
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 09:25:12 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id F1DDE33923;
+ Wed, 14 Sep 2022 13:25:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1663161903; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=TA5cU1U92o/Y2z4ScBdpMQWT9ZQulS1ug4bQ2jjh8qo=;
+ b=B3gm2vDQub3tqgZ+5gUcnq6nImr4b26HIwCF+6ZJ9jdc1zCByxAnfSLzQCItXEqyQG5Tzn
+ SzKnzUq48lmHUkWNCFCkH57kct8F1J1Odamr8bikd3hAnYqPUD7GWW0U8XWa4wO5fzOoGP
+ 0NSTt7u/lroIQDN1EuIuTzZW5O6uALY=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9EC9E13494;
+ Wed, 14 Sep 2022 13:25:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4nwRJC/WIWPOGAAAMHmgww
+ (envelope-from <nborisov@suse.com>); Wed, 14 Sep 2022 13:25:03 +0000
+Message-ID: <28a98d5b-3a12-8404-c862-ac9634fd7cfe@suse.com>
+Date: Wed, 14 Sep 2022 16:25:02 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Content-Language: en-US
+From: Nikolay Borisov <nborisov@suse.com>
+Subject: Proposal for a fixed ram migration stream format for file-based
+ migrations
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ dgilbert@redhat.com, Claudio Fontana <Claudio.Fontana@suse.com>,
+ Jim Fehlig <jfehlig@suse.com>, quintela@redhat.com
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=nborisov@suse.com;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,60 +79,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+Hello,
 
-Honour the commandline -semihosting-config userspace=on option,
-instead of always permitting userspace semihosting calls in system
-emulation mode, by passing the correct value to the is_userspace
-argument of semihosting_enabled().
+Based on several discussions I've had in the past 2 days and time spent
+looking at the migration stream code I came up with the following
+proposal for changes to the stream format. Let me recap what we have
+right now:
 
-Note that this is a behaviour change: if the user wants to
-do semihosting calls from userspace they must now specifically
-enable them on the command line.
 
-xtensa semihosting is not implemented for linux-user builds.
+<migration header><ramsize><ramblock header #1><ramblock header #2>...<page#1 offset>(<block name>)<actual page#1 data><device state>
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Acked-by: Max Filippov <jcmvbkbc@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220822141230.3658237-7-peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/xtensa/translate.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Where <block name> is put only when the current page we are writing
+to belongs to a different block than the last written page. My proposal is to
+change this format to:
 
-diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index afae8a1bea..bdd4690a5c 100644
---- a/target/xtensa/translate.c
-+++ b/target/xtensa/translate.c
-@@ -2362,13 +2362,14 @@ static uint32_t test_exceptions_simcall(DisasContext *dc,
-                                         const OpcodeArg arg[],
-                                         const uint32_t par[])
- {
-+    bool is_semi = semihosting_enabled(dc->cring != 0);
- #ifdef CONFIG_USER_ONLY
-     bool ill = true;
- #else
-     /* Between RE.2 and RE.3 simcall opcode's become nop for the hardware. */
--    bool ill = dc->config->hw_version <= 250002 && !semihosting_enabled(false);
-+    bool ill = dc->config->hw_version <= 250002 && !is_semi;
- #endif
--    if (ill || !semihosting_enabled(false)) {
-+    if (ill || !is_semi) {
-         qemu_log_mask(LOG_GUEST_ERROR, "SIMCALL but semihosting is disabled\n");
-     }
-     return ill ? XTENSA_OP_ILL : 0;
-@@ -2378,7 +2379,7 @@ static void translate_simcall(DisasContext *dc, const OpcodeArg arg[],
-                               const uint32_t par[])
- {
- #ifndef CONFIG_USER_ONLY
--    if (semihosting_enabled(false)) {
-+    if (semihosting_enabled(dc->cring != 0)) {
-         gen_helper_simcall(cpu_env);
-     }
- #endif
--- 
-2.34.1
+<migration header><ramsize><ramblock #1 header><all dirtied pages belonging to ramblock #1><ramblock #2 header>...<device state>
 
+Each page belonging to a ramblock would be at a fixed offset in the file. Which is going to be
+<ramblock hdr offset> + page_offset. The size of the region for a particular ramblock would be
+ramblock::used_length but not the whole range is going to be written, only those pages which
+have been dirtied. If we assume a 1tb ramblock then we'd make the the region 1 tb but it will
+be sparsely populated. This means that we can have the following layout for the memory range:
+
+
+|---p---ppp----pp---p|
+0		     1tb
+
+Each 'p' signifies an allocated page and '-' is a page which hasn't been dirtied ergo its
+index in the stream is not touched. This of course would result in having a lot of holes, so when
+the incoming migration starts parsing the stream it might end up in a situation
+where page at offset 0 is read, but then it has to jump some at arbitrary
+location for the next page. To avoid resorting to calling into the filesystem and dealing with
+fiemap's format I also intend to extend the ramblock header format by adding a dirty bitmap in
+which every bit would signify whether a page has been written or not, the bit's position would be
+used to index into the allocated space for pages. Simple maths shows that for 4k pages, 1tb can be
+indexed with just 32kbytes of memory. The way the indexing would work is
+
+page = ramblock->offset (this is the offset in the file, not the in-memory ::ofset field) +
+bit's position * target_page_size
+
+That way we can still handle sparsely dirtied memory and have direct mapping in the file, this
+dirty bitmap would be populated during the course of ram migration and once the final page is written,
+those in-memory bitmaps would be written into their respective positions in the file, needless to say
+this would be supported only on seekable channels (for now only file-based channels).
+
+Another important thing worth mentioning is I don't intend on incrementing the
+format version but rather introducing a new migration capability.
+
+Any thoughts/comments/suggestions, would be highly appreciated.
 
