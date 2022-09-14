@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4837C5B8843
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 14:30:16 +0200 (CEST)
-Received: from localhost ([::1]:44454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4FE5B88B6
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 14:58:10 +0200 (CEST)
+Received: from localhost ([::1]:45440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYRWx-0004ZA-BU
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 08:30:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35940)
+	id 1oYRxx-0001Ne-Sp
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 08:58:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYQwU-0000AR-MC
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 07:52:34 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:45857)
+ id 1oYQwW-0000FP-0p
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 07:52:36 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:51721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYQwK-0008VX-Pc
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 07:52:34 -0400
-Received: by mail-wr1-x431.google.com with SMTP id bj14so25257434wrb.12
- for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 04:52:24 -0700 (PDT)
+ id 1oYQwL-0008Vj-M9
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 07:52:35 -0400
+Received: by mail-wm1-x335.google.com with SMTP id o5so7351064wms.1
+ for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 04:52:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=PkomJ9lGCe9l0kTq7cdHjcXwr1BTefxDkf2qRWjzl8Y=;
- b=yyJHL6vyFNuXQj2QA5EumAffnqPA/PpN4AsjgC14X1UCinTMuUa4wk5ECJBaOeWNE6
- u2nnTHqA2lKxUkS8fjTYlFo7gibeQqtYqWUG2EsxmcCqS7AwQJsLarQjHRTbmoRswVuF
- cZ+X9QmqcBC6SiJBhXUmwZy2bjTJZM2WKJXrgjgZ9b7pO9ZstIpxEm0UuXk99DEiAqSI
- NXokTUgzNZlK2mbf/H9Y6mW0nVRuLqTnsiLXAz2X07sX3UpK1ijpwitvNEaMnd5I1DsW
- msEgOZcj4N01PPeFoJtEi2oQBUMPb+1s+EKYyCtcVzc3XPTa97MXu+dlADFGE7CdT/lp
- druQ==
+ bh=lt+ttdGIQexwt79JDxPbiWwikZH53evL9J0LFT30Rjk=;
+ b=anRq/B7OavS/ZZsMEBoCtwqQPhi+nJyPi2ZFsh6c151AWPCo8kvC7UfMi6Y+4IR3Pk
+ dkCuf2JkqlsvOrfht7Zp0duRiGsQHUp/OX5IbT18TGmEg4rjfusJIEm2SJ+jOW6r769G
+ npnT0EiLO4tso66yOQEMBle1iyTlp3U2LCjrJzq3veoFjjm/cboKGu2Cg6j373gXE3II
+ OV7j0UoQmFAxkS9MejzkwA2JwZSz6ByLuzJeqizRgmdjYPhRHKdvsOuS44Irk4nh2gVn
+ gUNt16uLvcKbEgRJ+2dOrxvfFSJGN2KEKpQINdoxGGUUj5f3TMHGDRwOt5AXiSgh40m9
+ xaCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=PkomJ9lGCe9l0kTq7cdHjcXwr1BTefxDkf2qRWjzl8Y=;
- b=sCoTD91sGVcNdJQcY6gProSFhZiuuFBC6kic1bHS5fk91O7l/UvwpB3GEESEnf1gw9
- tL+6S4QOCukbT9wQdkSU1VE70rrBtF3ov/V2avgMmQWIh3LmUlilhb3hwUj+n8k/xrva
- NcMnaiHrpLs7/IEBjtV671w9gsaN1Uiz/PhxDyTUlMgaeFFyeZgyac1rZVuOBDFY4SL+
- I7Bxx7TdJk5E7o5GRT9HcI75u2O8l06QsihqnFabdTYV3QiNFnC7x+S4vBHEiNhCmRKq
- 13A/KoTT0cmIooGK74mNkjmUgwvGicknF60kF6HqK76GmJ/T2POQ88RgLB/IwwXnfrdx
- zC2Q==
-X-Gm-Message-State: ACgBeo2m24qcZ8CE2j+V3SHZVik2+4GhPuw+CgL4W1T91Tituu1sy1Nj
- gf4K6Vo9ecpA4PpxoNtTIHCM1qdEv1EXUk7G
-X-Google-Smtp-Source: AA6agR7bNE/rkQ/9nqTq735932cGW6tezlkPTbUAqbYpCiW1KOTrOfuCA4EKdcj87enVYgRYHLCkvw==
-X-Received: by 2002:a5d:5273:0:b0:228:b382:8ea0 with SMTP id
- l19-20020a5d5273000000b00228b3828ea0mr20603640wrc.347.1663156343284; 
- Wed, 14 Sep 2022 04:52:23 -0700 (PDT)
+ bh=lt+ttdGIQexwt79JDxPbiWwikZH53evL9J0LFT30Rjk=;
+ b=TTpi1mMt7w7BFZRuACdxeLUpvcttwHuELzuqdbhd+4AIIR9Kv+vWz2GHqdoi2BAHCO
+ 0hbGeFmcEjQww6DzgpMFR1NJPgIxYK14tJ2tKOe0JPmzimn55/c2IcS3kwECIW/ZxHwM
+ 041NaQudDp2uU2B3Q9pLBLsVhnL+T/MOUCB4Pgj1xkNl5QIU9cgmZ5pvvvmWf6HQP3LN
+ v40FBTK5ngNF/fGs8QjJdSwNTveOjhUIMruwsanGYax66emf9Q/HuleP2wIrv+qcaITg
+ 36u1zK96lR/aGqE8C4S4iE07AtTFZd57irARPg6QsBzylq8hlEiCBGpmsQHJvkP3iE/A
+ LOiQ==
+X-Gm-Message-State: ACgBeo2oeHi4PmT9whlOc6X5C6SlwqtPxWLN7bJPfbBVvkHOa0wssAgM
+ UTvOZqeovnLPdjlSWNRSFxwJ1mtbUNGlJjO4
+X-Google-Smtp-Source: AA6agR58gyzJSWRG5O67N5GH7G+TAfWg3Hsg+gpsOxElvSAemP+oPTPDCmIwAlRLLOtPI9NMt5wDUw==
+X-Received: by 2002:a7b:c844:0:b0:3a9:70d2:bf23 with SMTP id
+ c4-20020a7bc844000000b003a970d2bf23mr2775850wml.165.1663156344108; 
+ Wed, 14 Sep 2022 04:52:24 -0700 (PDT)
 Received: from stoup.. ([89.101.193.70]) by smtp.gmail.com with ESMTPSA id
- t9-20020a5d6909000000b0022a3a887ceasm13712970wru.49.2022.09.14.04.52.22
+ t9-20020a5d6909000000b0022a3a887ceasm13712970wru.49.2022.09.14.04.52.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Sep 2022 04:52:22 -0700 (PDT)
+ Wed, 14 Sep 2022 04:52:23 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 04/20] target/arm: Sort KVM reads of AArch32 ID registers into
- encoding order
-Date: Wed, 14 Sep 2022 12:52:01 +0100
-Message-Id: <20220914115217.117532-6-richard.henderson@linaro.org>
+Subject: [PULL 05/20] target/arm: Implement ID_MMFR5
+Date: Wed, 14 Sep 2022 12:52:02 +0100
+Message-Id: <20220914115217.117532-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220914115217.117532-1-richard.henderson@linaro.org>
 References: <20220914115217.117532-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,38 +91,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-The code that reads the AArch32 ID registers from KVM in
-kvm_arm_get_host_cpu_features() does so almost but not quite in
-encoding order.  Move the read of ID_PFR2 down so it's really in
-encoding order.
+In Armv8.6 a new AArch32 ID register ID_MMFR5 is defined.
+Implement this; we want to be able to use it to report to
+the guest that we implement FEAT_ETS.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220819110052.2942289-3-peter.maydell@linaro.org>
+Message-Id: <20220819110052.2942289-4-peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/kvm64.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/arm/cpu.h    | 1 +
+ target/arm/helper.c | 4 ++--
+ target/arm/kvm64.c  | 2 ++
+ 3 files changed, 5 insertions(+), 2 deletions(-)
 
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 5168e3d837..fcc5927587 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -975,6 +975,7 @@ struct ArchCPU {
+         uint32_t id_mmfr2;
+         uint32_t id_mmfr3;
+         uint32_t id_mmfr4;
++        uint32_t id_mmfr5;
+         uint32_t id_pfr0;
+         uint32_t id_pfr1;
+         uint32_t id_pfr2;
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index c171770b03..0737851925 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -7586,11 +7586,11 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+               .access = PL1_R, .type = ARM_CP_CONST,
+               .accessfn = access_aa64_tid3,
+               .resetvalue = 0 },
+-            { .name = "RES_0_C0_C3_6", .state = ARM_CP_STATE_BOTH,
++            { .name = "ID_MMFR5", .state = ARM_CP_STATE_BOTH,
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 3, .opc2 = 6,
+               .access = PL1_R, .type = ARM_CP_CONST,
+               .accessfn = access_aa64_tid3,
+-              .resetvalue = 0 },
++              .resetvalue = cpu->isar.id_mmfr5 },
+             { .name = "RES_0_C0_C3_7", .state = ARM_CP_STATE_BOTH,
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 3, .opc2 = 7,
+               .access = PL1_R, .type = ARM_CP_CONST,
 diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index 9b9dd46d78..84c4c85f40 100644
+index 84c4c85f40..2d737c443e 100644
 --- a/target/arm/kvm64.c
 +++ b/target/arm/kvm64.c
-@@ -608,8 +608,6 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
-                               ARM64_SYS_REG(3, 0, 0, 1, 0));
-         err |= read_sys_reg32(fdarray[2], &ahcf->isar.id_pfr1,
-                               ARM64_SYS_REG(3, 0, 0, 1, 1));
--        err |= read_sys_reg32(fdarray[2], &ahcf->isar.id_pfr2,
--                              ARM64_SYS_REG(3, 0, 0, 3, 4));
-         err |= read_sys_reg32(fdarray[2], &ahcf->isar.id_dfr0,
-                               ARM64_SYS_REG(3, 0, 0, 1, 2));
-         err |= read_sys_reg32(fdarray[2], &ahcf->isar.id_mmfr0,
-@@ -643,6 +641,8 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
-                               ARM64_SYS_REG(3, 0, 0, 3, 1));
-         err |= read_sys_reg32(fdarray[2], &ahcf->isar.mvfr2,
+@@ -643,6 +643,8 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
                                ARM64_SYS_REG(3, 0, 0, 3, 2));
-+        err |= read_sys_reg32(fdarray[2], &ahcf->isar.id_pfr2,
-+                              ARM64_SYS_REG(3, 0, 0, 3, 4));
+         err |= read_sys_reg32(fdarray[2], &ahcf->isar.id_pfr2,
+                               ARM64_SYS_REG(3, 0, 0, 3, 4));
++        err |= read_sys_reg32(fdarray[2], &ahcf->isar.id_mmfr5,
++                              ARM64_SYS_REG(3, 0, 0, 3, 6));
  
          /*
           * DBGDIDR is a bit complicated because the kernel doesn't
