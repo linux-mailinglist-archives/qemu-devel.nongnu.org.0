@@ -2,51 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A380F5B8914
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 15:26:54 +0200 (CEST)
-Received: from localhost ([::1]:58044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA6F5B8988
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 15:55:54 +0200 (CEST)
+Received: from localhost ([::1]:42684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYSPl-0003kQ-PL
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 09:26:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48146)
+	id 1oYSrp-0006lT-7z
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 09:55:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dinghui@sangfor.com.cn>)
- id 1oYRKt-0001n2-1T
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 08:17:47 -0400
-Received: from mail-m11880.qiye.163.com ([115.236.118.80]:52942)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oYRdd-0002eN-Gs; Wed, 14 Sep 2022 08:37:09 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:60420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dinghui@sangfor.com.cn>)
- id 1oYRKh-0004o6-8V
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 08:17:42 -0400
-Received: from localhost.localdomain (unknown
- [IPV6:240e:3b7:327b:69f0:59f1:859a:4343:98e3])
- by mail-m11880.qiye.163.com (Hmail) with ESMTPA id D4A63201B9;
- Wed, 14 Sep 2022 20:17:22 +0800 (CST)
-From: Ding Hui <dinghui@sangfor.com.cn>
-To: dmitry.fleytman@gmail.com,
-	jasowang@redhat.com
-Cc: qemu-devel@nongnu.org, georgmueller@gmx.net,
- Ding Hui <dinghui@sangfor.com.cn>
-Subject: [PATCH v2] e1000e: set RX desc status with DD flag in a separate
- operation
-Date: Wed, 14 Sep 2022 20:16:47 +0800
-Message-Id: <20220914121647.11585-1-dinghui@sangfor.com.cn>
-X-Mailer: git-send-email 2.17.1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDH0xIVkMaTUJCShpLTR5LH1UTARMWGhIXJBQOD1
- lXWRgSC1lBWUlPSx5BSBlMQUhJTBlBTUIdS0FOQh1KQUNOQhpBT0hPSEFCQx5IWVdZFhoPEhUdFF
- lBWU9LSFVKSktISkNVSktLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NBA6Lyo5Nz0ZMi4JGSsaFwMd
- ChBPCyNVSlVKTU1ISk5MQ09ISExJVTMWGhIXVR8SFRwTDhI7CBoVHB0UCVUYFBZVGBVFWVdZEgtZ
- QVlJT0seQUgZTEFISUwZQU1CHUtBTkIdSkFDTkIaQU9IT0hBQkMeSFlXWQgBWUFPSkpLNwY+
-X-HM-Tid: 0a833beeb43e2eb6kusnd4a63201b9
-Received-SPF: pass client-ip=115.236.118.80;
- envelope-from=dinghui@sangfor.com.cn; helo=mail-m11880.qiye.163.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oYRdZ-0000hX-3D; Wed, 14 Sep 2022 08:37:08 -0400
+Received: from vla5-b2806cb321eb.qloud-c.yandex.net
+ (vla5-b2806cb321eb.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c18:3e0d:0:640:b280:6cb3])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 608782E1308;
+ Wed, 14 Sep 2022 15:36:52 +0300 (MSK)
+Received: from [172.31.103.133] (172.31.103.133-vpn.dhcp.yndx.net
+ [172.31.103.133])
+ by vla5-b2806cb321eb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 36nxhuGh1d-apOSw7RN; Wed, 14 Sep 2022 15:36:51 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1663159011; bh=clTQshszlYk7bRW2bUKnSLJO1a/UQNWLHrNHS6Kpduk=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=xSswUkJbCXwTLUhL3+K30WrFkRZjv80n3TKEZUhOFIka8Yqk25oYOUDp88tcn0Blk
+ q0h/rvmQN3us0mM3IWUvmTgUaXAdIVp45zKje15gXRBZDo5HTPwKzNgKtpTrjBGDkF
+ C88UkzqP2Jo3r53z7aY1/sFwbvR+UDwBzxXK5E2g=
+Authentication-Results: vla5-b2806cb321eb.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <7f6282ea-b2ce-ac87-b099-446bfccbd194@yandex-team.ru>
+Date: Wed, 14 Sep 2022 15:36:51 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v11 11/21] jobs: group together API calls under the same
+ job lock
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220826132104.3678958-1-eesposit@redhat.com>
+ <20220826132104.3678958-12-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20220826132104.3678958-12-eesposit@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.583,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -64,93 +85,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Like commit 034d00d48581 ("e1000: set RX descriptor status in
-a separate operation"), there is also same issue in e1000e, which
-would cause lost packets or stop sending packets to VM with DPDK.
+On 8/26/22 16:20, Emanuele Giuseppe Esposito wrote:
+> Now that the API offers also _locked() functions, take advantage
+> of it and give also the caller control to take the lock and call
+> _locked functions.
+> 
+> This makes sense especially when we have for loops, because it
+> makes no sense to have:
+> 
+> for(job = job_next(); ...)
+> 
+> where each job_next() takes the lock internally.
+> Instead we want
+> 
+> JOB_LOCK_GUARD();
+> for(job = job_next_locked(); ...)
+> 
+> In addition, protect also direct field accesses, by either creating a
+> new critical section or widening the existing ones.
+> 
+> Note: at this stage, job_{lock/unlock} and job lock guard macros
+> are *nop*.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+> ---
+>   block.c            | 17 ++++++++++-------
+>   blockdev.c         | 14 ++++++++++----
+>   blockjob.c         | 35 ++++++++++++++++++++++-------------
+>   job-qmp.c          |  9 ++++++---
+>   job.c              |  7 +++++--
+>   monitor/qmp-cmds.c |  7 +++++--
+>   qemu-img.c         | 17 +++++++++++------
+>   7 files changed, 69 insertions(+), 37 deletions(-)
+> 
 
-Do similar fix in e1000e.
+[..]
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/402
-Signed-off-by: Ding Hui <dinghui@sangfor.com.cn>
----
- hw/net/e1000e_core.c | 53 +++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 52 insertions(+), 1 deletion(-)
+> diff --git a/job.c b/job.c
+> index dcd561fd46..e336af0c1c 100644
+> --- a/job.c
+> +++ b/job.c
 
----
-v2: use uint8_t/uint32_t directly instead of typeof
+job.c hunks are unrelated in this patch, they should go to patch 05.
 
-diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index 208e3e0d79..a570b366b2 100644
---- a/hw/net/e1000e_core.c
-+++ b/hw/net/e1000e_core.c
-@@ -1364,6 +1364,57 @@ struct NetRxPkt *pkt, const E1000E_RSSInfo *rss_info,
-     }
- }
- 
-+static inline void
-+e1000e_pci_dma_write_rx_desc(E1000ECore *core, dma_addr_t addr,
-+                             uint8_t *desc, dma_addr_t len)
-+{
-+    PCIDevice *dev = core->owner;
-+
-+    if (e1000e_rx_use_legacy_descriptor(core)) {
-+        struct e1000_rx_desc *d = (struct e1000_rx_desc *) desc;
-+        size_t offset = offsetof(struct e1000_rx_desc, status);
-+        uint8_t status = d->status;
-+
-+        d->status &= ~E1000_RXD_STAT_DD;
-+        pci_dma_write(dev, addr, desc, len);
-+
-+        if (status & E1000_RXD_STAT_DD) {
-+            d->status = status;
-+            pci_dma_write(dev, addr + offset, &status, sizeof(status));
-+        }
-+    } else {
-+        if (core->mac[RCTL] & E1000_RCTL_DTYP_PS) {
-+            union e1000_rx_desc_packet_split *d =
-+                (union e1000_rx_desc_packet_split *) desc;
-+            size_t offset = offsetof(union e1000_rx_desc_packet_split,
-+                wb.middle.status_error);
-+            uint32_t status = d->wb.middle.status_error;
-+
-+            d->wb.middle.status_error &= ~E1000_RXD_STAT_DD;
-+            pci_dma_write(dev, addr, desc, len);
-+
-+            if (status & E1000_RXD_STAT_DD) {
-+                d->wb.middle.status_error = status;
-+                pci_dma_write(dev, addr + offset, &status, sizeof(status));
-+            }
-+        } else {
-+            union e1000_rx_desc_extended *d =
-+                (union e1000_rx_desc_extended *) desc;
-+            size_t offset = offsetof(union e1000_rx_desc_extended,
-+                wb.upper.status_error);
-+            uint32_t status = d->wb.upper.status_error;
-+
-+            d->wb.upper.status_error &= ~E1000_RXD_STAT_DD;
-+            pci_dma_write(dev, addr, desc, len);
-+
-+            if (status & E1000_RXD_STAT_DD) {
-+                d->wb.upper.status_error = status;
-+                pci_dma_write(dev, addr + offset, &status, sizeof(status));
-+            }
-+        }
-+    }
-+}
-+
- typedef struct e1000e_ba_state_st {
-     uint16_t written[MAX_PS_BUFFERS];
-     uint8_t cur_idx;
-@@ -1600,7 +1651,7 @@ e1000e_write_packet_to_guest(E1000ECore *core, struct NetRxPkt *pkt,
- 
-         e1000e_write_rx_descr(core, desc, is_last ? core->rx_pkt : NULL,
-                            rss_info, do_ps ? ps_hdr_len : 0, &bastate.written);
--        pci_dma_write(d, base, &desc, core->rx_desc_len);
-+        e1000e_pci_dma_write_rx_desc(core, base, desc, core->rx_desc_len);
- 
-         e1000e_ring_advance(core, rxi,
-                             core->rx_desc_len / E1000_MIN_RX_DESC_LEN);
+> @@ -672,7 +672,7 @@ void coroutine_fn job_pause_point(Job *job)
+>       job_pause_point_locked(job);
+>   }
+>   
+> -void job_yield_locked(Job *job)
+> +static void job_yield_locked(Job *job)
+>   {
+>       assert(job->busy);
+>   
+> @@ -1046,11 +1046,14 @@ static void job_completed_txn_abort_locked(Job *job)
+>   /* Called with job_mutex held, but releases it temporarily */
+>   static int job_prepare_locked(Job *job)
+>   {
+> +    int ret;
+> +
+>       GLOBAL_STATE_CODE();
+>       if (job->ret == 0 && job->driver->prepare) {
+>           job_unlock();
+> -        job->ret = job->driver->prepare(job);
+> +        ret = job->driver->prepare(job);
+>           job_lock();
+> +        job->ret = ret;
+>           job_update_rc_locked(job);
+>       }
+>       return job->ret;
+> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+> index 7314cd813d..81c8fdadf8 100644
+> --- a/monitor/qmp-cmds.c
+> +++ b/monitor/qmp-cmds.c
+> @@ -135,8 +135,11 @@ void qmp_cont(Error **errp)
+>           blk_iostatus_reset(blk);
+>       }
+>   
+> -    for (job = block_job_next(NULL); job; job = block_job_next(job)) {
+> -        block_job_iostatus_reset(job);
+> +    WITH_JOB_LOCK_GUARD() {
+> +        for (job = block_job_next_locked(NULL); job;
+> +             job = block_job_next_locked(job)) {
+> +            block_job_iostatus_reset_locked(job);
+> +        }
+>       }
+>   
+>       /* Continuing after completed migration. Images have been inactivated to
+> diff --git a/qemu-img.c b/qemu-img.c
+> index 7d4b33b3da..c8ae704166 100644
+> --- a/qemu-img.c
+> +++ b/qemu-img.c
+> @@ -912,25 +912,30 @@ static void run_block_job(BlockJob *job, Error **errp)
+>       int ret = 0;
+>   
+>       aio_context_acquire(aio_context);
+> -    job_ref(&job->job);
+> +    job_lock();
+> +    job_ref_locked(&job->job);
+>       do {
+>           float progress = 0.0f;
+> +        job_unlock();
+>           aio_poll(aio_context, true);
+>   
+>           progress_get_snapshot(&job->job.progress, &progress_current,
+> -                              &progress_total);
+> +                                &progress_total);
+
+broken indentation
+
+>           if (progress_total) {
+>               progress = (float)progress_current / progress_total * 100.f;
+>           }
+>           qemu_progress_print(progress, 0);
+> -    } while (!job_is_ready(&job->job) && !job_is_completed(&job->job));
+> +        job_lock();
+> +    } while (!job_is_ready_locked(&job->job) &&
+> +                !job_is_completed_locked(&job->job));
+
+and here
+
+>   
+> -    if (!job_is_completed(&job->job)) {
+> -        ret = job_complete_sync(&job->job, errp);
+> +    if (!job_is_completed_locked(&job->job)) {
+> +        ret = job_complete_sync_locked(&job->job, errp);
+>       } else {
+>           ret = job->job.ret;
+>       }
+> -    job_unref(&job->job);
+> +    job_unref_locked(&job->job);
+> +    job_unlock();
+>       aio_context_release(aio_context);
+>   
+>       /* publish completion progress only when success */
+
+
 -- 
-2.17.1
-
+Best regards,
+Vladimir
 
