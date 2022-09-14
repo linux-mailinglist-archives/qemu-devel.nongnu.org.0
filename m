@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE7F25B88D0
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 15:04:26 +0200 (CEST)
-Received: from localhost ([::1]:45508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A380F5B8914
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 15:26:54 +0200 (CEST)
+Received: from localhost ([::1]:58044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYS41-0007QD-J7
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 09:04:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38698)
+	id 1oYSPl-0003kQ-PL
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 09:26:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oYQww-0000rC-EM; Wed, 14 Sep 2022 07:53:02 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:28545)
+ (Exim 4.90_1) (envelope-from <dinghui@sangfor.com.cn>)
+ id 1oYRKt-0001n2-1T
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 08:17:47 -0400
+Received: from mail-m11880.qiye.163.com ([115.236.118.80]:52942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oYQws-0000KJ-5E; Wed, 14 Sep 2022 07:53:01 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id DBB7E74633F;
- Wed, 14 Sep 2022 13:52:55 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B558274632B; Wed, 14 Sep 2022 13:52:55 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id B3F80746307;
- Wed, 14 Sep 2022 13:52:55 +0200 (CEST)
-Date: Wed, 14 Sep 2022 13:52:55 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v3 00/20] ppc4xx_sdram QOMify and clean ups
-In-Reply-To: <52948dfd-a296-aab4-5797-90bf99ae37ce@kaod.org>
-Message-ID: <ebbb96b8-c54b-4271-ba24-f3b102a44c@eik.bme.hu>
-References: <cover.1663097286.git.balaton@eik.bme.hu>
- <52948dfd-a296-aab4-5797-90bf99ae37ce@kaod.org>
-MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1500668822-1663156375=:20411"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ (Exim 4.90_1) (envelope-from <dinghui@sangfor.com.cn>)
+ id 1oYRKh-0004o6-8V
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 08:17:42 -0400
+Received: from localhost.localdomain (unknown
+ [IPV6:240e:3b7:327b:69f0:59f1:859a:4343:98e3])
+ by mail-m11880.qiye.163.com (Hmail) with ESMTPA id D4A63201B9;
+ Wed, 14 Sep 2022 20:17:22 +0800 (CST)
+From: Ding Hui <dinghui@sangfor.com.cn>
+To: dmitry.fleytman@gmail.com,
+	jasowang@redhat.com
+Cc: qemu-devel@nongnu.org, georgmueller@gmx.net,
+ Ding Hui <dinghui@sangfor.com.cn>
+Subject: [PATCH v2] e1000e: set RX desc status with DD flag in a separate
+ operation
+Date: Wed, 14 Sep 2022 20:16:47 +0800
+Message-Id: <20220914121647.11585-1-dinghui@sangfor.com.cn>
+X-Mailer: git-send-email 2.17.1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDH0xIVkMaTUJCShpLTR5LH1UTARMWGhIXJBQOD1
+ lXWRgSC1lBWUlPSx5BSBlMQUhJTBlBTUIdS0FOQh1KQUNOQhpBT0hPSEFCQx5IWVdZFhoPEhUdFF
+ lBWU9LSFVKSktISkNVSktLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NBA6Lyo5Nz0ZMi4JGSsaFwMd
+ ChBPCyNVSlVKTU1ISk5MQ09ISExJVTMWGhIXVR8SFRwTDhI7CBoVHB0UCVUYFBZVGBVFWVdZEgtZ
+ QVlJT0seQUgZTEFISUwZQU1CHUtBTkIdSkFDTkIaQU9IT0hBQkMeSFlXWQgBWUFPSkpLNwY+
+X-HM-Tid: 0a833beeb43e2eb6kusnd4a63201b9
+Received-SPF: pass client-ip=115.236.118.80;
+ envelope-from=dinghui@sangfor.com.cn; helo=mail-m11880.qiye.163.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -63,83 +64,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Like commit 034d00d48581 ("e1000: set RX descriptor status in
+a separate operation"), there is also same issue in e1000e, which
+would cause lost packets or stop sending packets to VM with DPDK.
 
---3866299591-1500668822-1663156375=:20411
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Do similar fix in e1000e.
 
-On Wed, 14 Sep 2022, Cédric Le Goater wrote:
-> On 9/13/22 21:52, BALATON Zoltan wrote:
->> This is the end of the QOMify series started by Cédric. This series
->> handles the SDRAM controller models to clean them up, QOMify and unify
->> them and at least partially clean up the mess that has accumulated
->> around these in the past. This includes the not yet merged patches
->> from the last series and new ones that change the DDR2 version used by
->> sam460ex.
->
->
-> I made comments on the first ~10 patches. Let's try to agree on these
-> first. We will see the remaining ones in a second patchset.
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/402
+Signed-off-by: Ding Hui <dinghui@sangfor.com.cn>
+---
+ hw/net/e1000e_core.c | 53 +++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 52 insertions(+), 1 deletion(-)
 
-Patch 10 does not make much sense without 11 and the final unificatoin of 
-the two controllers is the real goal here so please try to review further 
-patches too.
+---
+v2: use uint8_t/uint32_t directly instead of typeof
 
-Regards,
-BALATON Zoltan
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index 208e3e0d79..a570b366b2 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -1364,6 +1364,57 @@ struct NetRxPkt *pkt, const E1000E_RSSInfo *rss_info,
+     }
+ }
+ 
++static inline void
++e1000e_pci_dma_write_rx_desc(E1000ECore *core, dma_addr_t addr,
++                             uint8_t *desc, dma_addr_t len)
++{
++    PCIDevice *dev = core->owner;
++
++    if (e1000e_rx_use_legacy_descriptor(core)) {
++        struct e1000_rx_desc *d = (struct e1000_rx_desc *) desc;
++        size_t offset = offsetof(struct e1000_rx_desc, status);
++        uint8_t status = d->status;
++
++        d->status &= ~E1000_RXD_STAT_DD;
++        pci_dma_write(dev, addr, desc, len);
++
++        if (status & E1000_RXD_STAT_DD) {
++            d->status = status;
++            pci_dma_write(dev, addr + offset, &status, sizeof(status));
++        }
++    } else {
++        if (core->mac[RCTL] & E1000_RCTL_DTYP_PS) {
++            union e1000_rx_desc_packet_split *d =
++                (union e1000_rx_desc_packet_split *) desc;
++            size_t offset = offsetof(union e1000_rx_desc_packet_split,
++                wb.middle.status_error);
++            uint32_t status = d->wb.middle.status_error;
++
++            d->wb.middle.status_error &= ~E1000_RXD_STAT_DD;
++            pci_dma_write(dev, addr, desc, len);
++
++            if (status & E1000_RXD_STAT_DD) {
++                d->wb.middle.status_error = status;
++                pci_dma_write(dev, addr + offset, &status, sizeof(status));
++            }
++        } else {
++            union e1000_rx_desc_extended *d =
++                (union e1000_rx_desc_extended *) desc;
++            size_t offset = offsetof(union e1000_rx_desc_extended,
++                wb.upper.status_error);
++            uint32_t status = d->wb.upper.status_error;
++
++            d->wb.upper.status_error &= ~E1000_RXD_STAT_DD;
++            pci_dma_write(dev, addr, desc, len);
++
++            if (status & E1000_RXD_STAT_DD) {
++                d->wb.upper.status_error = status;
++                pci_dma_write(dev, addr + offset, &status, sizeof(status));
++            }
++        }
++    }
++}
++
+ typedef struct e1000e_ba_state_st {
+     uint16_t written[MAX_PS_BUFFERS];
+     uint8_t cur_idx;
+@@ -1600,7 +1651,7 @@ e1000e_write_packet_to_guest(E1000ECore *core, struct NetRxPkt *pkt,
+ 
+         e1000e_write_rx_descr(core, desc, is_last ? core->rx_pkt : NULL,
+                            rss_info, do_ps ? ps_hdr_len : 0, &bastate.written);
+-        pci_dma_write(d, base, &desc, core->rx_desc_len);
++        e1000e_pci_dma_write_rx_desc(core, base, desc, core->rx_desc_len);
+ 
+         e1000e_ring_advance(core, rxi,
+                             core->rx_desc_len / E1000_MIN_RX_DESC_LEN);
+-- 
+2.17.1
 
-> Thanks,
->
-> C.
->
->
->
->> v3: Fix patches that got squashed during rebase
->> v2: address some review comments and try to avoid compile problem with
->> gcc 12.2 (untested)
->> 
->> BALATON Zoltan (20):
->>    ppc440_bamboo: Remove unnecessary memsets
->>    ppc4xx: Introduce Ppc4xxSdramBank struct
->>    ppc4xx_sdram: Get rid of the init RAM hack
->>    ppc4xx: Use Ppc4xxSdramBank in ppc4xx_sdram_banks()
->>    ppc440_bamboo: Add missing 4 MiB valid memory size
->>    ppc4xx_sdram: Move size check to ppc4xx_sdram_init()
->>    ppc4xx_sdram: QOM'ify
->>    ppc4xx_sdram: Drop extra zeros for readability
->>    ppc440_sdram: Split off map/unmap of sdram banks for later reuse
->>    ppc440_sdram: Implement enable bit in the DDR2 SDRAM
->>    ppc440_sdram: Get rid of the init RAM hack
->>    ppc440_sdram: Rename local variable for readibility
->>    ppc4xx_sdram: Rename functions to prevent name clashes
->>    ppc440_sdram: Move RAM size check to ppc440_sdram_init
->>    ppc440_sdram: QOM'ify
->>    ppc4xx_sdram: Move ppc4xx DDR and DDR2 SDRAM controller models
->>      together
->>    ppc4xx_sdram: Use hwaddr for memory bank size
->>    ppc4xx_sdram: Rename local state variable for brevity
->>    ppc4xx_sdram: Generalise bank setup
->>    ppc4xx_sdram: Convert DDR SDRAM controller to new bank handling
->>
->>   hw/ppc/meson.build      |   3 +-
->>   hw/ppc/ppc405.h         |   8 +-
->>   hw/ppc/ppc405_boards.c  |  22 +-
->>   hw/ppc/ppc405_uc.c      |  33 +-
->>   hw/ppc/ppc440.h         |   4 -
->>   hw/ppc/ppc440_bamboo.c  |  29 +-
->>   hw/ppc/ppc440_uc.c      | 267 +--------------
->>   hw/ppc/ppc4xx_devs.c    | 413 -----------------------
->>   hw/ppc/ppc4xx_sdram.c   | 723 ++++++++++++++++++++++++++++++++++++++++
->>   hw/ppc/sam460ex.c       |  48 +--
->>   hw/ppc/trace-events     |   1 +
->>   include/hw/ppc/ppc4xx.h |  66 +++-
->>   12 files changed, 847 insertions(+), 770 deletions(-)
->>   create mode 100644 hw/ppc/ppc4xx_sdram.c
->> 
->
->
->
---3866299591-1500668822-1663156375=:20411--
 
