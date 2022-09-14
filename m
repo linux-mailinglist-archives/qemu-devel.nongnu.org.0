@@ -2,97 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B2F5B7EEB
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 04:24:33 +0200 (CEST)
-Received: from localhost ([::1]:50798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 581995B7EEC
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 04:25:49 +0200 (CEST)
+Received: from localhost ([::1]:40480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYI4m-0003vA-KY
-	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 22:24:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35870)
+	id 1oYI60-00066k-Fw
+	for lists+qemu-devel@lfdr.de; Tue, 13 Sep 2022 22:25:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oYI2d-0000PG-9V
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 22:22:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50189)
+ id 1oYI4k-00041F-IS
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 22:24:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37483)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oYI2b-0003Km-55
- for qemu-devel@nongnu.org; Tue, 13 Sep 2022 22:22:18 -0400
+ id 1oYI4h-0003fS-QR
+ for qemu-devel@nongnu.org; Tue, 13 Sep 2022 22:24:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663122136;
+ s=mimecast20190719; t=1663122267;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wI7qmHl68LaGyHDDf4iv1v6DGyst7EEWBEWZUHTjbbY=;
- b=UmyHmM/+B1VyrNXaFhuGN9CpHpKFbff/WVcRpJWeLR1biYDLphpRXUA7vJlYzhKB5knnZQ
- aORfDmisH8s9uwhd2i1cFSrNnu1DlGVw2qIzUtzhHyr60rkb4qf8fEvdblLPJXtxOg538y
- V09ar14EI9hMhEfYvtVS92qj6pQtMr4=
-Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
- [209.85.217.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=8KV8Tdmluu2CeC93WcirGI+DrOuq3HUwPXC3vfv8GXs=;
+ b=FTi0Db8sHwCoLZQtgKcIZoHc3+DXYjphXhYRPUEP0pGlsqcg8FlC+Oo29hxGMpnfVmmlM5
+ 4dU9sR3kR2V6IqUqD7+EWleIo7KBp4Ls54wfx5s8xKcgxAYJiwSLNiFIdeY4FaJqX7grD4
+ cUQX9YHdj1+lDvhtAv3rKVWOSaghe+E=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-198-gGPE8IBlNNihsNzMCGLXbg-1; Tue, 13 Sep 2022 22:22:15 -0400
-X-MC-Unique: gGPE8IBlNNihsNzMCGLXbg-1
-Received: by mail-vs1-f71.google.com with SMTP id
- c129-20020a671c87000000b0038ae002e7a6so1389229vsc.14
- for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 19:22:15 -0700 (PDT)
+ us-mta-387-vPY6d_D8OUCtDhhGoYQDvA-1; Tue, 13 Sep 2022 22:24:25 -0400
+X-MC-Unique: vPY6d_D8OUCtDhhGoYQDvA-1
+Received: by mail-pl1-f197.google.com with SMTP id
+ b11-20020a170902d50b00b0017828988079so6464207plg.21
+ for <qemu-devel@nongnu.org>; Tue, 13 Sep 2022 19:24:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=wI7qmHl68LaGyHDDf4iv1v6DGyst7EEWBEWZUHTjbbY=;
- b=ZIl+pZ6TKCPV2pgig0kfKcqdX7+C1giLtUjCqSSIeICNlO5lMXoehS42AwxGE1di1c
- 8mLKMVl+kt1U8sG3MLoZuyhMM8uGHRwrjp/5+5JSsQVwGY7axVldO6lP0Q78/YKQwmPF
- 1qsFa8Ew40bFueheJqcLu6YwK5OwoO29qo8HHYPQ/7d36BWcY45vC0GitVlX2zZW7rn+
- B1ui9mmYJBuRH7PIuqSly2OgyLN6h3xBLGNXfSxM4ZBabb1dQKIhcEFMEZzIYXh2QEeE
- 1bBZk0k0LGhlQqzclaryhTwGlFRRlYkhU5zhbRZ2nRj3FUdkvegujIHGGJT6fWeG3Fhb
- 3Jyw==
-X-Gm-Message-State: ACgBeo3MQp/1NfQHcAigrkfqqr7skIjYOjAXnHiCf2V80ihef2k7hNmP
- rj3SB2Ftdsutb7oQ2hkNZrkIVjQt3Cpb2S1ZSuJgnhTPdTJs1H2cg6mGINKcaOok7FfiZQ0ncPZ
- Awvf7FO+/drjVJaifHbn7wiMoukvrBno=
-X-Received: by 2002:a05:6102:1341:b0:398:889e:7f28 with SMTP id
- j1-20020a056102134100b00398889e7f28mr4799541vsl.21.1663122134911; 
- Tue, 13 Sep 2022 19:22:14 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5k4XckeRxrRby/mPlmRGBD5wvNRHfdJVqBDPqTDjlCPpkzrnilgKZ5/xmtqYu14a7T0TiZwPTkpSIS+9FVHoQ=
-X-Received: by 2002:a05:6102:1341:b0:398:889e:7f28 with SMTP id
- j1-20020a056102134100b00398889e7f28mr4799528vsl.21.1663122134710; Tue, 13 Sep
- 2022 19:22:14 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=8KV8Tdmluu2CeC93WcirGI+DrOuq3HUwPXC3vfv8GXs=;
+ b=Um8646RSSKyyXZjfUFlu1K9POJejF9jpRemUceM3mFt2Jn5NHdDcRvqtVpBrxIp17e
+ 9chEOiTDmbwHYZrvcuxBkmqI+VIlSKzNb/mekcL4sT4B1DwkmZJp6Qfh7YgElqCBw9DW
+ iNhIqkE4h68dRJbL/tIE6omQWCA6FDdY6dcVS3NaCf84WXVpJTEkPv4UcEcH3YIMv5SA
+ sA//2ejag01T91+PhOI34z/gAwcYo/ECg0iandKMIjOAZtF9v3Qaxpqsfr/lOgT1cxnp
+ eHSu/LuViQ4ndgcPqNctrSjhI9e4cVAV7Y+zWF4uFiA/iZXNaMLilihsAjBx15yGTJXo
+ Sqaw==
+X-Gm-Message-State: ACgBeo1rRq0Av4Wg8P2se4bwOX8YqAthEXQsSlyLy9XZVW8b+n3QOpnE
+ OvGq+xFV3zdlW8B+JEsQit26TPfO1t+QqW2aF00p5nSHnpWMsbkU9Ln5sApxvCAT37xvZLoIJ0q
+ vwBK+DFa2Ac4BVdQ=
+X-Received: by 2002:a63:6cc7:0:b0:42b:7d8f:7136 with SMTP id
+ h190-20020a636cc7000000b0042b7d8f7136mr29737084pgc.15.1663122264767; 
+ Tue, 13 Sep 2022 19:24:24 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6jVO5jBesTkqoW6Chp8ZfzdSdUiR0PkOK94r8cy2ie/JANIwqk8l9amF9hHYd/lTEjTSAfdw==
+X-Received: by 2002:a63:6cc7:0:b0:42b:7d8f:7136 with SMTP id
+ h190-20020a636cc7000000b0042b7d8f7136mr29737071pgc.15.1663122264538; 
+ Tue, 13 Sep 2022 19:24:24 -0700 (PDT)
+Received: from [10.72.13.238] ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id
+ b6-20020a170902d50600b0016c0c82e85csm9316840plg.75.2022.09.13.19.24.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Sep 2022 19:24:24 -0700 (PDT)
+Message-ID: <30d3dacf-b1ca-ea92-2ec0-e9499d67a5d3@redhat.com>
+Date: Wed, 14 Sep 2022 10:24:18 +0800
 MIME-Version: 1.0
-References: <20220906163621.1144675-1-eperezma@redhat.com>
- <20220906163621.1144675-3-eperezma@redhat.com>
- <CACGkMEvnVavevtxWa49Yew+Nnkx_Wfmgf1JLVXCBe=zkpvdHnQ@mail.gmail.com>
- <CACGkMEswG2nmTve+p2MU9ue5CuwAu69CpeOUzYnu_BVfZE56JA@mail.gmail.com>
- <CAJaqyWf=NfkL_2uXVapJ6qCLziBc2jg+jMyR+cBQu+yDG6eg5w@mail.gmail.com>
- <20220909043707-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220909043707-mutt-send-email-mst@kernel.org>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.0
+Subject: Re: [PATCH v4 11/15] vhost-net: vhost-kernel: introduce
+ vhost_net_virtqueue_restart()
+Content-Language: en-US
+To: Kangjie Xu <kangjie.xu@linux.alibaba.com>, qemu-devel@nongnu.org
+Cc: mst@redhat.com, eduardo@habkost.net, marcel.apfelbaum@gmail.com,
+ f4bug@amsat.org, wangyanan55@huawei.com, hengqi@linux.alibaba.com,
+ xuanzhuo@linux.alibaba.com
+References: <cover.1662916759.git.kangjie.xu@linux.alibaba.com>
+ <e95212a61687ae8df7be05af09e220d90160c9a3.1662916759.git.kangjie.xu@linux.alibaba.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 14 Sep 2022 10:22:03 +0800
-Message-ID: <CACGkMEtkphsV2XkyBRfp7OK5zpW5VWS5zHOusLYcHj5w6e6tdA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] vdpa: load vlan configuration at NIC startup
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Eugenio Perez Martin <eperezma@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- Cindy Lu <lulu@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, Gautam Dawar <gdawar@xilinx.com>, 
- Si-Wei Liu <si-wei.liu@oracle.com>, Eli Cohen <eli@mellanox.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Laurent Vivier <lvivier@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
- Parav Pandit <parav@mellanox.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+In-Reply-To: <e95212a61687ae8df7be05af09e220d90160c9a3.1662916759.git.kangjie.xu@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.628, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,152 +106,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 9, 2022 at 4:38 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Fri, Sep 09, 2022 at 10:01:16AM +0200, Eugenio Perez Martin wrote:
-> > On Fri, Sep 9, 2022 at 8:40 AM Jason Wang <jasowang@redhat.com> wrote:
-> > >
-> > > On Fri, Sep 9, 2022 at 2:38 PM Jason Wang <jasowang@redhat.com> wrote=
-:
-> > > >
-> > > > On Wed, Sep 7, 2022 at 12:36 AM Eugenio P=C3=A9rez <eperezma@redhat=
-.com> wrote:
-> > > > >
-> > > > > To have enabled vlans at device startup may happen in the destina=
-tion of
-> > > > > a live migration, so this configuration must be restored.
-> > > > >
-> > > > > At this moment the code is not accessible, since SVQ refuses to s=
-tart if
-> > > > > vlan feature is exposed by the device.
-> > > > >
-> > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > > > ---
-> > > > >  net/vhost-vdpa.c | 46 ++++++++++++++++++++++++++++++++++++++++++=
-++--
-> > > > >  1 file changed, 44 insertions(+), 2 deletions(-)
-> > > > >
-> > > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > > > > index 4bc3fd01a8..ecbfd08eb9 100644
-> > > > > --- a/net/vhost-vdpa.c
-> > > > > +++ b/net/vhost-vdpa.c
-> > > > > @@ -100,6 +100,8 @@ static const uint64_t vdpa_svq_device_feature=
-s =3D
-> > > > >      BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
-> > > > >      BIT_ULL(VIRTIO_NET_F_STANDBY);
-> > > > >
-> > > > > +#define MAX_VLAN    (1 << 12)   /* Per 802.1Q definition */
-> > > > > +
-> > > > >  VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
-> > > > >  {
-> > > > >      VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
-> > > > > @@ -423,6 +425,47 @@ static int vhost_vdpa_net_load_mq(VhostVDPAS=
-tate *s,
-> > > > >      return *s->status !=3D VIRTIO_NET_OK;
-> > > > >  }
-> > > > >
-> > > > > +static int vhost_vdpa_net_load_single_vlan(VhostVDPAState *s,
-> > > > > +                                           const VirtIONet *n,
-> > > > > +                                           uint16_t vid)
-> > > > > +{
-> > > > > +    ssize_t dev_written =3D vhost_vdpa_net_load_cmd(s, VIRTIO_NE=
-T_CTRL_VLAN,
-> > > > > +                                                  VIRTIO_NET_CTR=
-L_VLAN_ADD,
-> > > > > +                                                  &vid, sizeof(v=
-id));
-> > > > > +    if (unlikely(dev_written < 0)) {
-> > > > > +        return dev_written;
-> > > > > +    }
-> > > > > +
-> > > > > +    if (unlikely(*s->status !=3D VIRTIO_NET_OK)) {
-> > > > > +        return -EINVAL;
-> > > > > +    }
-> > > > > +
-> > > > > +    return 0;
-> > > > > +}
-> > > > > +
-> > > > > +static int vhost_vdpa_net_load_vlan(VhostVDPAState *s,
-> > > > > +                                    const VirtIONet *n)
-> > > > > +{
-> > > > > +    uint64_t features =3D n->parent_obj.guest_features;
-> > > > > +
-> > > > > +    if (!(features & BIT_ULL(VIRTIO_NET_F_CTRL_VLAN))) {
-> > > > > +        return 0;
-> > > > > +    }
-> > > > > +
-> > > > > +    for (int i =3D 0; i < MAX_VLAN >> 5; i++) {
-> > > > > +        for (int j =3D 0; n->vlans[i] && j <=3D 0x1f; j++) {
-> > > > > +            if (n->vlans[i] & (1U << j)) {
-> > > > > +                int r =3D vhost_vdpa_net_load_single_vlan(s, n, =
-(i << 5) + j);
-> > > >
-> > > > This seems to cause a lot of latency if the driver has a lot of vla=
-ns.
-> > > >
-> > > > I wonder if it's simply to let all vlan traffic go by disabling
-> > > > CTRL_VLAN feature at vDPA layer.
-> > >
-> >
-> > The guest will not be able to recover that vlan configuration.
-> >
-> > > Another idea is to extend the spec to allow us to accept a bitmap of
-> > > the vlan ids via a single command, then we will be fine.
-> > >
-> >
-> > I'm not sure if adding more ways to configure something is the answer,
-> > but I'd be ok to implement it.
-> >
-> > Another idea is to allow the sending of many CVQ commands in parallel.
-> > It shouldn't be very hard to achieve using exposed buffers as ring
-> > buffers, and it will short down the start of the devices with many
-> > features.
->
-> This would seem like a reasonable second step.  A first step would be to
-> measure the overhead to make sure there's actually a need to optimize
-> this.
 
-+1.
+在 2022/9/12 01:22, Kangjie Xu 写道:
+> Introduce vhost_net_virtqueue_restart(), which can restart the
+> specific virtqueue when the vhost net started running before.
+> If it fails to restart the virtqueue, the device will be stopped.
+>
+> Here we do not reuse vhost_net_start_one() or vhost_dev_start()
+> because they work at queue pair level. The mem table and features
+> do not change, so we can call the vhost_virtqueue_start() to
+> restart a specific queue.
+>
+> This patch only considers the case of vhost-kernel, when
+> NetClientDriver is NET_CLIENT_DRIVER_TAP.
+>
+> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> ---
+>   hw/net/vhost_net.c      | 52 +++++++++++++++++++++++++++++++++++++++++
+>   include/net/vhost_net.h |  2 ++
+>   2 files changed, 54 insertions(+)
+>
+> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> index 8beecb4d22..1059aa45b4 100644
+> --- a/hw/net/vhost_net.c
+> +++ b/hw/net/vhost_net.c
+> @@ -556,3 +556,55 @@ void vhost_net_virtqueue_reset(VirtIODevice *vdev, NetClientState *nc,
+>                            net->dev.vqs + idx,
+>                            net->dev.vq_index + idx);
+>   }
+> +
+> +int vhost_net_virtqueue_restart(VirtIODevice *vdev, NetClientState *nc,
+> +                                int vq_index)
+> +{
+> +    VHostNetState *net = get_vhost_net(nc->peer);
+> +    const VhostOps *vhost_ops = net->dev.vhost_ops;
+> +    struct vhost_vring_file file = { };
+> +    int idx, r;
+> +
+> +    if (!net->dev.started) {
+> +        return -ENOTSUP;
+> +    }
+
+
+-EBUSY?
+
+
+> +
+> +    /* should only be called after backend is connected */
+> +    assert(vhost_ops);
+> +
+> +    idx = vhost_ops->vhost_get_vq_index(&net->dev, vq_index);
+> +
+> +    r = vhost_virtqueue_start(&net->dev,
+> +                              vdev,
+> +                              net->dev.vqs + idx,
+> +                              net->dev.vq_index + idx);
+> +    if (r < 0) {
+> +        goto err_start;
+> +    }
+> +
+> +    if (net->nc->info->type == NET_CLIENT_DRIVER_TAP) {
+> +        file.index = idx;
+> +        file.fd = net->backend;
+> +        r = vhost_net_set_backend(&net->dev, &file);
+> +        if (r < 0) {
+> +            r = -errno;
+> +            goto err_start;
+> +        }
+> +    }
+> +
+> +    return 0;
+> +
+> +err_start:
+> +    error_report("Error when restarting the queue.");
+> +
+> +    if (net->nc->info->type == NET_CLIENT_DRIVER_TAP) {
+> +        file.fd = -1;
+
+
+Let's try reuse  VHOST_FILE_UNBIND.
+
+Other looks good.
 
 Thanks
 
->
->
-> > Thanks!
-> >
-> > > Thanks
-> > >
-> > > >
-> > > > Thanks
-> > > >
-> > > > > +                if (unlikely(r !=3D 0)) {
-> > > > > +                    return r;
-> > > > > +                }
-> > > > > +            }
-> > > > > +        }
-> > > > > +    }
-> > > > > +
-> > > > > +    return 0;
-> > > > > +}
-> > > > > +
-> > > > >  static int vhost_vdpa_net_load(NetClientState *nc)
-> > > > >  {
-> > > > >      VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
-> > > > > @@ -445,8 +488,7 @@ static int vhost_vdpa_net_load(NetClientState=
- *nc)
-> > > > >      if (unlikely(r)) {
-> > > > >          return r;
-> > > > >      }
-> > > > > -
-> > > > > -    return 0;
-> > > > > +    return vhost_vdpa_net_load_vlan(s, n);
-> > > > >  }
-> > > > >
-> > > > >  static NetClientInfo net_vhost_vdpa_cvq_info =3D {
-> > > > > --
-> > > > > 2.31.1
-> > > > >
-> > >
->
+
+> +        file.index = idx;
+> +        int r = vhost_net_set_backend(&net->dev, &file);
+> +        assert(r >= 0);
+> +    }
+> +
+> +    vhost_dev_stop(&net->dev, vdev);
+> +
+> +    return r;
+> +}
+> diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
+> index 85d85a4957..40b9a40074 100644
+> --- a/include/net/vhost_net.h
+> +++ b/include/net/vhost_net.h
+> @@ -50,4 +50,6 @@ int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu);
+>   
+>   void vhost_net_virtqueue_reset(VirtIODevice *vdev, NetClientState *nc,
+>                                  int vq_index);
+> +int vhost_net_virtqueue_restart(VirtIODevice *vdev, NetClientState *nc,
+> +                                int vq_index);
+>   #endif
 
 
