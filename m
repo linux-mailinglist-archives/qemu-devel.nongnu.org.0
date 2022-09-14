@@ -2,54 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64A455B8916
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 15:27:14 +0200 (CEST)
-Received: from localhost ([::1]:42580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4FE25B8915
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 15:27:09 +0200 (CEST)
+Received: from localhost ([::1]:42578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYSQ5-0004Ej-Gb
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 09:27:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41146)
+	id 1oYSQ1-000472-0n
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 09:27:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oYRiX-0000m6-7h; Wed, 14 Sep 2022 08:42:14 -0400
-Received: from [200.168.210.66] (port=2858 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oYRiV-0001ac-Be; Wed, 14 Sep 2022 08:42:13 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Wed, 14 Sep 2022 09:41:55 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 988E2800146;
- Wed, 14 Sep 2022 09:41:55 -0300 (-03)
-From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
-Subject: [PATCH v2 3/4] scripts/ci/setup: spice-server only on x86 aarch64
-Date: Wed, 14 Sep 2022 09:41:52 -0300
-Message-Id: <20220914124153.61017-4-lucas.araujo@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220914124153.61017-1-lucas.araujo@eldorado.org.br>
-References: <20220914124153.61017-1-lucas.araujo@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oYRrx-0000oH-DZ; Wed, 14 Sep 2022 08:51:57 -0400
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:49896)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oYRrn-0002xi-OV; Wed, 14 Sep 2022 08:51:50 -0400
+Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
+ (sas1-c73b4b4f4b95.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:12a9:0:640:c73b:4b4f])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id BE8D22E130F;
+ Wed, 14 Sep 2022 15:51:36 +0300 (MSK)
+Received: from [172.31.103.133] (172.31.103.133-vpn.dhcp.yndx.net
+ [172.31.103.133])
+ by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ ejS8QUdcm0-pXOSOp2t; Wed, 14 Sep 2022 15:51:36 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1663159896; bh=5yi4210fpkGBSaeTHKllrEEHyM0wnpsM55Q2uhJRvRE=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=PW0coaTGiuKMhq3bep9754HZ5g9DbVLmKdJhsVTnjP/25x7jesUz1B5NQD1WGZn14
+ la4mRiedy0jZJVTCS3GU/LVOzwHG+QJvAwBNnUSua76m+nB26bHRqYZbP22+Pa7gOn
+ wNrsU4p8pPJ0ZLOGbUmYHXO8ApB6w/siK4FMhfbI=
+Authentication-Results: sas1-c73b4b4f4b95.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <b8148eb5-9ece-0cfa-100f-f4de6370cedb@yandex-team.ru>
+Date: Wed, 14 Sep 2022 15:51:33 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 14 Sep 2022 12:41:55.0869 (UTC)
- FILETIME=[5F8444D0:01D8C837]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v11 10/21] block/mirror.c: use of job helpers in drivers
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220826132104.3678958-1-eesposit@redhat.com>
+ <20220826132104.3678958-11-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20220826132104.3678958-11-eesposit@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=77.88.29.217;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.583,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,44 +83,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
+On 8/26/22 16:20, Emanuele Giuseppe Esposito wrote:
+> Once job lock is used and aiocontext is removed, mirror has
+> to perform job operations under the same critical section,
+> Note: at this stage, job_{lock/unlock} and job lock guard macros
+> are*nop*.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito<eesposit@redhat.com>
 
-Changed build-environment.yml to only install spice-server on x86_64 and
-aarch64 as this package is only available on those architectures.
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
----
- scripts/ci/setup/build-environment.yml | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/ci/setup/build-environment.yml b/scripts/ci/setup/build-environment.yml
-index 7535228685..43cf8c759f 100644
---- a/scripts/ci/setup/build-environment.yml
-+++ b/scripts/ci/setup/build-environment.yml
-@@ -160,7 +160,6 @@
-           - python36
-           - rdma-core-devel
-           - spice-glib-devel
--          - spice-server
-           - systemtap-sdt-devel
-           - tar
-           - zlib-devel
-@@ -168,3 +167,14 @@
-       when:
-         - ansible_facts['distribution_file_variety'] == 'RedHat'
-         - ansible_facts['distribution_version'] == '8'
-+
-+    - name: Install packages only available on x86 and aarch64
-+      dnf:
-+        # Spice server not available in ppc64le
-+        name:
-+          - spice-server
-+        state: present
-+      when:
-+        - ansible_facts['distribution_file_variety'] == 'RedHat'
-+        - ansible_facts['distribution_version'] == '8'
-+        - ansible_facts['architecture'] == 'aarch64' or ansible_facts['architecture'] == 'x86_64'
 -- 
-2.31.1
-
+Best regards,
+Vladimir
 
