@@ -2,86 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0AA45B8D9B
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 18:55:28 +0200 (CEST)
-Received: from localhost ([::1]:55394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58F0C5B8DF3
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 19:16:51 +0200 (CEST)
+Received: from localhost ([::1]:44558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYVfb-0001wj-QQ
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 12:55:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33586)
+	id 1oYW0H-00050O-PP
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 13:16:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oYUxj-0005lL-A6
+ id 1oYUxj-0005lK-9D
  for qemu-devel@nongnu.org; Wed, 14 Sep 2022 12:10:12 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:36707)
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:52836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oYUxd-0004P4-6a
+ id 1oYUxd-0004PM-6E
  for qemu-devel@nongnu.org; Wed, 14 Sep 2022 12:10:04 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- i203-20020a1c3bd4000000b003b3df9a5ecbso11115272wma.1
- for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 09:09:57 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id l8so6559849wmi.2
+ for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 09:09:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=2BRQIFYhGXX3NZ2a5yWXs0RohY3X8tQiSkdK+Z3nAt0=;
- b=H9w0sCum2LsofztkvXjsvZkhm3Icjhf9rP2fQdZX7H48HCui2r897Kc62b43l/idBR
- u08Hcy+K24BiLS43mXv3aOM5EW3k8A1OecmwyIw2kD1V7adKUD0t5fvsYyXAy6GQDLjO
- KEkDG0jXn5qPLu/I1M0oRnnfmG9tvp+22MAYuPxTcmLkeL4tXjT8oFaSeoGgZIGlfpY/
- /4uccENrYaHaUn0PRwn45ZyyRXJCP9HEj7cOPbCn0UjcwN7UWLm87rGEVZZSpILCD6ms
- qQnrxYNeqw2qMs4tYqV2F56/3CtlfDxXs1gSITTSGbCCRt2cr3MrUR5nFx9cLmYmLyT5
- CTVg==
+ bh=DSnARNU2MU0jNZ2gpMOycqSlPYInAf2rUpygqpHvJec=;
+ b=NrhpHyC/C30GdbtjwiynuPlZprkDVioQN27V824W0gMI2jWm44inUfFBK7N7cmjyj1
+ qHgHdFnUcBMfmIZr5U3I5/369Wiiwj5Mjrdrcq026HNps688dh6q6OA+VhapHSsQ2+7P
+ VuUUjyxyC6fjVFf7oqTH9FsTBgWT+Mf+/9j+1s6q+yah1EQ9V8Xoad7JuxFqdCToI3UV
+ DQPMC0dj3nIR2RM/hxJWdj3i/32q75gKf/yF+ThTTasavmfn7vi8YObFpgFJUd4LJP4J
+ fbC7NZEH3QPoF9wN1frUtZFdEvmwa0NPVbsFVEfdb1FW1vW/RsIwwWQFbKWtC7LMGl5r
+ EHgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=2BRQIFYhGXX3NZ2a5yWXs0RohY3X8tQiSkdK+Z3nAt0=;
- b=kDUAK9H+Oop6PdIVuXGu1WekwYD6W81wBh39oJAY9gfa9a3ix1sniFwBRRMmteEr4a
- HVrqUYd/fyT2Uu78K4IVd9ak/Ez6cYIAuUNMQwmW+cf+yFC6/PzfJAXyfP7dDPmcnmZN
- kemb2+bRPs7uONnKUNTXl+NFlueTWA+9DfQIUvQ7/eKjngvlwaA1sOl3vd44eTqlHUTK
- 1g7zKUii8pasWEd8t3Yo29h8KVbTQLLohoc6RTUnlMGkxVwRpcn0ebtqzWR9e5oZceCT
- K1fcnSpi0LsAKsmL/ypPQRHOWTx2KyqP4roxOB2dUUikjPb4pqkexjwcPODxVYoM8bDh
- mKmg==
-X-Gm-Message-State: ACgBeo3FWxL4zlFH/v0ZgGSoP2sljrasELXD4ajN69ZAEBfGgPbL10cj
- B4vnEk3plY9zensj5Dv33H1BCQ==
-X-Google-Smtp-Source: AA6agR41tqTJOelRowrPr+NArEjP7XK1qPhRiEjhY2wUkvjHuP2FGQNh+qTPf59bXX318T5PADS6Ig==
-X-Received: by 2002:a05:600c:a47:b0:3a6:5848:4bde with SMTP id
- c7-20020a05600c0a4700b003a658484bdemr3636095wmq.189.1663171796799; 
- Wed, 14 Sep 2022 09:09:56 -0700 (PDT)
+ bh=DSnARNU2MU0jNZ2gpMOycqSlPYInAf2rUpygqpHvJec=;
+ b=nfc5hJRz7NJGXn0lejXodt3y3AZMeosAycEZMNK1xCyo/cIHnwRzMeWkomPA3XSWh5
+ iHd6UUV7uNP0N7zL3eOB1/gfGI1gffFg0U1F8KU7w7/dU6uEZAk0915HDKjJvOpY8O07
+ zYuRIp3nWf+pDi+0Av4tyVg1rjP1bl9Yz16vcLuFsTaJqO3aTsLb7mH1xSIOFEz6iHdv
+ fMvVqAwfJ721EmFzZnVnCDFTHHaudj66uJ3ubxB3sbtvRWSb8p6SBSJDXbU21QDKw6w6
+ A/2+Bl3rq/PNleodYIXgDy8Gxm4b83bi2exM3320eeEQu7Dsnl+oT/9PgTD33KssJVCp
+ aHfA==
+X-Gm-Message-State: ACgBeo0YbH3OJ8yfQBn0IqfNwVdbwkUFHnfNS4IVpYdGjmuexGvL0A40
+ 7FbnWx/3NRLSNZL2ctJaCGg4+g==
+X-Google-Smtp-Source: AA6agR6koNiHCRC6J8SezZEikY8zgHmPYlJg3++L8s/TznP+6DjncLgbmdQzzHAjmiITP0Zvsng/Yg==
+X-Received: by 2002:a05:600c:2181:b0:3b4:74e4:16f8 with SMTP id
+ e1-20020a05600c218100b003b474e416f8mr3547393wme.174.1663171797984; 
+ Wed, 14 Sep 2022 09:09:57 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- g5-20020a5d4885000000b00228de58ae2bsm13869284wrq.12.2022.09.14.09.09.55
+ l1-20020a05600002a100b00228d183f9c2sm15739754wry.89.2022.09.14.09.09.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Sep 2022 09:09:55 -0700 (PDT)
+ Wed, 14 Sep 2022 09:09:56 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3FBDA1FFB8;
+ by zen.linaroharston (Postfix) with ESMTP id 554C51FFBA;
  Wed, 14 Sep 2022 17:09:55 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [RFC PATCH  1/4] hw: encode accessing CPU index in MemTxAttrs
-Date: Wed, 14 Sep 2022 17:09:52 +0100
-Message-Id: <20220914160955.812151-2-alex.bennee@linaro.org>
+Subject: [RFC PATCH 2/4] qtest: make read/write operation appear to be from CPU
+Date: Wed, 14 Sep 2022 17:09:53 +0100
+Message-Id: <20220914160955.812151-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220914160955.812151-1-alex.bennee@linaro.org>
 References: <20220914160955.812151-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,140 +96,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We currently have hacks across the hw/ to reference current_cpu to
-work out what the current accessing CPU is. This breaks in some cases
-including using gdbstub to access HW state. As we have MemTxAttrs to
-describe details about the access lets extend it to mention if this is
-a CPU access and which one it is.
-
-There are a number of places we need to fix up including:
-
-  CPU helpers directly calling address_space_*() fns
-  models in hw/ fishing the data out of current_cpu
-
-I'll start addressing some of these in following patches.
+The point of qtest is to simulate how running code might interact with
+the system. However because it's not a real system we have places in
+the code which especially handle check qtest_enabled() before
+referencing current_cpu. Now we can encode these details in the
+MemTxAttrs lets do that so we can start removing them.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/exec/memattrs.h |  4 +++-
- accel/tcg/cputlb.c      | 22 ++++++++++++++++------
- hw/core/cpu-sysemu.c    | 17 +++++++++++++----
- 3 files changed, 32 insertions(+), 11 deletions(-)
+ softmmu/qtest.c | 31 +++++++++++++++++++------------
+ 1 file changed, 19 insertions(+), 12 deletions(-)
 
-diff --git a/include/exec/memattrs.h b/include/exec/memattrs.h
-index 9fb98bc1ef..3bccd5d291 100644
---- a/include/exec/memattrs.h
-+++ b/include/exec/memattrs.h
-@@ -43,7 +43,9 @@ typedef struct MemTxAttrs {
-      * (see MEMTX_ACCESS_ERROR).
-      */
-     unsigned int memory:1;
--    /* Requester ID (for MSI for example) */
-+    /* Requester is CPU (or as CPU, e.g. debug) */
-+    unsigned int requester_cpu:1;
-+    /* Requester ID (for MSI for example) or cpu_index */
-     unsigned int requester_id:16;
-     /* Invert endianness for this page */
-     unsigned int byte_swap:1;
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 8fad2d9b83..68dc7dc646 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1340,8 +1340,13 @@ static uint64_t io_readx(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-     uint64_t val;
-     bool locked = false;
-     MemTxResult r;
-+    MemTxAttrs attrs = iotlbentry->attrs;
- 
--    section = iotlb_to_section(cpu, iotlbentry->addr, iotlbentry->attrs);
-+    /* encode the accessing CPU */
-+    attrs.requester_cpu = 1;
-+    attrs.requester_id = cpu->cpu_index;
-+
-+    section = iotlb_to_section(cpu, iotlbentry->addr, attrs);
-     mr = section->mr;
-     mr_offset = (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
-     cpu->mem_io_pc = retaddr;
-@@ -1353,14 +1358,14 @@ static uint64_t io_readx(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-         qemu_mutex_lock_iothread();
-         locked = true;
-     }
--    r = memory_region_dispatch_read(mr, mr_offset, &val, op, iotlbentry->attrs);
-+    r = memory_region_dispatch_read(mr, mr_offset, &val, op, attrs);
-     if (r != MEMTX_OK) {
-         hwaddr physaddr = mr_offset +
-             section->offset_within_address_space -
-             section->offset_within_region;
- 
-         cpu_transaction_failed(cpu, physaddr, addr, memop_size(op), access_type,
--                               mmu_idx, iotlbentry->attrs, r, retaddr);
-+                               mmu_idx, attrs, r, retaddr);
-     }
-     if (locked) {
-         qemu_mutex_unlock_iothread();
-@@ -1395,8 +1400,13 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-     MemoryRegion *mr;
-     bool locked = false;
-     MemTxResult r;
-+    MemTxAttrs attrs = iotlbentry->attrs;
-+
-+    /* encode the accessing CPU */
-+    attrs.requester_cpu = 1;
-+    attrs.requester_id = cpu->cpu_index;
- 
--    section = iotlb_to_section(cpu, iotlbentry->addr, iotlbentry->attrs);
-+    section = iotlb_to_section(cpu, iotlbentry->addr, attrs);
-     mr = section->mr;
-     mr_offset = (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
-     if (!cpu->can_do_io) {
-@@ -1414,14 +1424,14 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-         qemu_mutex_lock_iothread();
-         locked = true;
-     }
--    r = memory_region_dispatch_write(mr, mr_offset, val, op, iotlbentry->attrs);
-+    r = memory_region_dispatch_write(mr, mr_offset, val, op, attrs);
-     if (r != MEMTX_OK) {
-         hwaddr physaddr = mr_offset +
-             section->offset_within_address_space -
-             section->offset_within_region;
- 
-         cpu_transaction_failed(cpu, physaddr, addr, memop_size(op),
--                               MMU_DATA_STORE, mmu_idx, iotlbentry->attrs, r,
-+                               MMU_DATA_STORE, mmu_idx, attrs, r,
-                                retaddr);
-     }
-     if (locked) {
-diff --git a/hw/core/cpu-sysemu.c b/hw/core/cpu-sysemu.c
-index 00253f8929..bd7ae983ed 100644
---- a/hw/core/cpu-sysemu.c
-+++ b/hw/core/cpu-sysemu.c
-@@ -51,13 +51,22 @@ hwaddr cpu_get_phys_page_attrs_debug(CPUState *cpu, vaddr addr,
-                                      MemTxAttrs *attrs)
- {
-     CPUClass *cc = CPU_GET_CLASS(cpu);
-+    MemTxAttrs local = { };
-+    hwaddr res;
- 
-     if (cc->sysemu_ops->get_phys_page_attrs_debug) {
--        return cc->sysemu_ops->get_phys_page_attrs_debug(cpu, addr, attrs);
-+        res = cc->sysemu_ops->get_phys_page_attrs_debug(cpu, addr, &local);
-+    } else {
-+        /* Fallback for CPUs which don't implement the _attrs_ hook */
-+        local = MEMTXATTRS_UNSPECIFIED;
-+        res = cc->sysemu_ops->get_phys_page_debug(cpu, addr);
-     }
--    /* Fallback for CPUs which don't implement the _attrs_ hook */
--    *attrs = MEMTXATTRS_UNSPECIFIED;
--    return cc->sysemu_ops->get_phys_page_debug(cpu, addr);
-+
-+    /* debug access is treated as though it came from the CPU */
-+    local.requester_cpu = 1;
-+    local.requester_id = cpu->cpu_index;
-+    *attrs = local;
-+    return res;
+diff --git a/softmmu/qtest.c b/softmmu/qtest.c
+index f8acef2628..c086bd34b7 100644
+--- a/softmmu/qtest.c
++++ b/softmmu/qtest.c
+@@ -362,6 +362,13 @@ static void qtest_clock_warp(int64_t dest)
+     qemu_clock_notify(QEMU_CLOCK_VIRTUAL);
  }
  
- hwaddr cpu_get_phys_page_debug(CPUState *cpu, vaddr addr)
++/*
++ * QTest memory accesses are treated as though they come from the
++ * first (non-existent) CPU. We need to expose this via MemTxAttrs for
++ * those bits of HW which care which core is accessing them.
++ */
++#define MEMTXATTRS_QTEST ((MemTxAttrs) { .requester_cpu = 1 })
++
+ static void qtest_process_command(CharBackend *chr, gchar **words)
+ {
+     const gchar *command;
+@@ -525,17 +532,17 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+         } else if (words[0][5] == 'w') {
+             uint16_t data = value;
+             tswap16s(&data);
+-            address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_write(first_cpu->as, addr, MEMTXATTRS_QTEST,
+                                 &data, 2);
+         } else if (words[0][5] == 'l') {
+             uint32_t data = value;
+             tswap32s(&data);
+-            address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_write(first_cpu->as, addr, MEMTXATTRS_QTEST,
+                                 &data, 4);
+         } else if (words[0][5] == 'q') {
+             uint64_t data = value;
+             tswap64s(&data);
+-            address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_write(first_cpu->as, addr, MEMTXATTRS_QTEST,
+                                 &data, 8);
+         }
+         qtest_send_prefix(chr);
+@@ -554,21 +561,21 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+ 
+         if (words[0][4] == 'b') {
+             uint8_t data;
+-            address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_read(first_cpu->as, addr, MEMTXATTRS_QTEST,
+                                &data, 1);
+             value = data;
+         } else if (words[0][4] == 'w') {
+             uint16_t data;
+-            address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_read(first_cpu->as, addr, MEMTXATTRS_QTEST,
+                                &data, 2);
+             value = tswap16(data);
+         } else if (words[0][4] == 'l') {
+             uint32_t data;
+-            address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_read(first_cpu->as, addr, MEMTXATTRS_QTEST,
+                                &data, 4);
+             value = tswap32(data);
+         } else if (words[0][4] == 'q') {
+-            address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_read(first_cpu->as, addr, MEMTXATTRS_QTEST,
+                                &value, 8);
+             tswap64s(&value);
+         }
+@@ -589,7 +596,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+         g_assert(len);
+ 
+         data = g_malloc(len);
+-        address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED, data,
++        address_space_read(first_cpu->as, addr, MEMTXATTRS_QTEST, data,
+                            len);
+ 
+         enc = g_malloc(2 * len + 1);
+@@ -615,7 +622,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+         g_assert(ret == 0);
+ 
+         data = g_malloc(len);
+-        address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED, data,
++        address_space_read(first_cpu->as, addr, MEMTXATTRS_QTEST, data,
+                            len);
+         b64_data = g_base64_encode(data, len);
+         qtest_send_prefix(chr);
+@@ -650,7 +657,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+                 data[i] = 0;
+             }
+         }
+-        address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED, data,
++        address_space_write(first_cpu->as, addr, MEMTXATTRS_QTEST, data,
+                             len);
+         g_free(data);
+ 
+@@ -673,7 +680,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+         if (len) {
+             data = g_malloc(len);
+             memset(data, pattern, len);
+-            address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_write(first_cpu->as, addr, MEMTXATTRS_QTEST,
+                                 data, len);
+             g_free(data);
+         }
+@@ -707,7 +714,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+             out_len = MIN(out_len, len);
+         }
+ 
+-        address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED, data,
++        address_space_write(first_cpu->as, addr, MEMTXATTRS_QTEST, data,
+                             len);
+ 
+         qtest_send_prefix(chr);
 -- 
 2.34.1
 
