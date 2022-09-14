@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B4855B896A
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 15:47:16 +0200 (CEST)
-Received: from localhost ([::1]:45746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F13105B897F
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 15:52:25 +0200 (CEST)
+Received: from localhost ([::1]:57244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYSjT-0001JV-2t
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 09:47:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48370)
+	id 1oYSoS-0000tH-Tf
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 09:52:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYSMM-00085K-PR
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 09:23:23 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:45042)
+ id 1oYSMO-00088E-22
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 09:23:24 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:51162)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYSMK-0000bQ-Mh
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 09:23:22 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- n17-20020a05600c501100b003a84bf9b68bso11509325wmr.3
- for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 06:23:18 -0700 (PDT)
+ id 1oYSML-0000ci-4c
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 09:23:23 -0400
+Received: by mail-wm1-x329.google.com with SMTP id ay36so1983926wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 06:23:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=PXOhY/GLE5ushsuwq2usxIkhOBcQf53LWE9OWb978Zw=;
- b=v6z0wlGt0YEhK/ryaJgZNhWUPE3Ocs6fb53TvoXRubDYNLxIVvsYj1pHyLoBQTbtFq
- 8gVtPfxfKt6PCBcDDUhP+Lc87Vz/17S+y45OoekKns9afN6DdzyMHfOHo0XaPGH9SvlD
- 3jWFoQKJkJ2z80Rw3TDEAyVB5tHu2A5JNIKRh9RN0YgWjsPx59CByE/Wm6kNJ+4Zxmwt
- g53955GOAwLKHcyaxQAh1+5XWA8vL39tjISXYt0WQsu1SxOkTIau57REBST/aX4yc4M4
- Ll8HiM8ldyWXm28fJ2g8D12x+hMpSeIuBqiHNv0SRblZmmXjA2bqYjwUJW+jgd5+/oN6
- Ysww==
+ bh=Fst4x49rn2TZohR5patrgQl48OlHihnTjCr3gqAYNQs=;
+ b=n2hdNL0XAYIF6KU+WDutOS/sYWYvGx/kajB2zcxYR7PcJc55jIPdK32DtYKNlnBKti
+ 9di48vukFIvkycrUErxhl22UnIH1QEKf8stf3dlrMuDGB5Px9dhMeZmtOx3A3fP0FM/K
+ PSVuCEy5S4dXprRUrJCWFuLDUv15kkBd3OocknGtPkboXMraHX2wYVc0aWOEdqaj5rBj
+ VYurw+5hTZKV6xeIY2v1KpwfhRbHkhdlUMqDoL+HN3HGODHsKJS4Ynm7gZk6BDUBLuzO
+ tPYzIbzhvIKCBkV6Bco51h4F8i0woGwsr1jZdfOg3iFaEfMKb+nebBpd2LcmixiRXv/D
+ 5PqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=PXOhY/GLE5ushsuwq2usxIkhOBcQf53LWE9OWb978Zw=;
- b=7bBv+I7cFXLl/SAufUpXCB0RlWXR/g5hu9xxYNGd5XcAZYg3fhgFzCH002y6x+fVT4
- eTJTgBiD5swBZKFhek9P+oQXvY3AtSZegkQ1K52pMFqV9H5dZx8SkpCAe5/i2ZfPe93o
- fmNedy+YR2QCstB77jiTUeg8+rdnlWcsxzRUZDuPfHetWeubkVdr29ganda0oQ9nS/Qk
- xYH0xIfBXkWw3wUDz7kxyg91PSrCEcSne4CZ1XCVPrMBGJeGj/KUh2parUzM0h0s/vk+
- b3Wk/xIa6ueCk2wALtRL4bhuPPK1Rq2rOPWaKAgHLuMKPpywGyT7/Zrzaf+z+z6izcWX
- GS4Q==
-X-Gm-Message-State: ACgBeo2xOhRsaeQrTRb1X5zuiLGed22bkE1qzhuiuXl5Qc6RyEoQVE2y
- ShavSBs58FKfPx5DazK/7V9mPdpsp2VItEqs
-X-Google-Smtp-Source: AA6agR4cvwsqKxb6d+fbxqWzOARFxHnu2CutyxO/m5flDCQMa8RFPaZJV2uU0o4PeC2S0fhg/sNLRA==
-X-Received: by 2002:a1c:7905:0:b0:3b3:3fa9:4c3a with SMTP id
- l5-20020a1c7905000000b003b33fa94c3amr3211504wme.55.1663161797762; 
- Wed, 14 Sep 2022 06:23:17 -0700 (PDT)
+ bh=Fst4x49rn2TZohR5patrgQl48OlHihnTjCr3gqAYNQs=;
+ b=w+F82WCFHk4mburiQH14nuGYqfL/SoaVYcaIx1eLAq3Fq7uENR62vHBa00ctzBhGMJ
+ X+OgleXwEu42IF4FdTQoM0LH7Ftrxc5IxOiQyo3DmyjSv5L9OWbkRjipCE44dx77hyZY
+ 9qTneRj/KOJ3DQsi4bxLYEdxOmYZXlhf73hHqQsyS9Ma0VJnLMrHalhpnbS2EDRumRcP
+ 5Ya7aL7AFosoJLxJRGzkDg3J9uqKRy8cCEWMjrCa8vxsI73C2qYDOaEHxjcuDPJicPIQ
+ ropAGBOzWrZGMnWITO9u2Zs3eYfbaJM39ROiooKIqzDLJ0i1CHZLIS9vV5627vee5y1R
+ UMNw==
+X-Gm-Message-State: ACgBeo3Sk84OjPtO6Z3bPxjh3cN7+lA9pm/EQqXCLZjtPUtGbMstLNku
+ m4Jk6oltt2UljPoD97PK5ItkD1lVgqm2LUba
+X-Google-Smtp-Source: AA6agR64lv1OMuegYYb5qYbYv0ZAMGQ4rSa26ZwHA3nI2KZdnTu8/65dt/P0LGuogBOuxX1YmBBsvw==
+X-Received: by 2002:a05:600c:5486:b0:3b4:7e47:e19 with SMTP id
+ iv6-20020a05600c548600b003b47e470e19mr3189672wmb.12.1663161799577; 
+ Wed, 14 Sep 2022 06:23:19 -0700 (PDT)
 Received: from stoup.. ([89.101.193.70]) by smtp.gmail.com with ESMTPSA id
- p15-20020a5d48cf000000b00226dedf1ab7sm13768244wrs.76.2022.09.14.06.23.17
+ p15-20020a5d48cf000000b00226dedf1ab7sm13768244wrs.76.2022.09.14.06.23.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Sep 2022 06:23:17 -0700 (PDT)
+ Wed, 14 Sep 2022 06:23:19 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Max Filippov <jcmvbkbc@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 08/11] target/mips: Honour -semihosting-config userspace=on
-Date: Wed, 14 Sep 2022 14:23:05 +0100
-Message-Id: <20220914132308.118495-9-richard.henderson@linaro.org>
+Subject: [PULL 10/11] target/xtensa: Honour -semihosting-config userspace=on
+Date: Wed, 14 Sep 2022 14:23:07 +0100
+Message-Id: <20220914132308.118495-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220914132308.118495-1-richard.henderson@linaro.org>
 References: <20220914132308.118495-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,124 +102,48 @@ Note that this is a behaviour change: if the user wants to
 do semihosting calls from userspace they must now specifically
 enable them on the command line.
 
-MIPS semihosting is not implemented for linux-user builds.
+xtensa semihosting is not implemented for linux-user builds.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Acked-by: Max Filippov <jcmvbkbc@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220822141230.3658237-5-peter.maydell@linaro.org>
+Message-Id: <20220822141230.3658237-7-peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/mips/tcg/translate.c               | 9 +++++----
- target/mips/tcg/micromips_translate.c.inc | 6 +++---
- target/mips/tcg/mips16e_translate.c.inc   | 2 +-
- target/mips/tcg/nanomips_translate.c.inc  | 4 ++--
- 4 files changed, 11 insertions(+), 10 deletions(-)
+ target/xtensa/translate.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index 0d936e2648..c3f92ea652 100644
---- a/target/mips/tcg/translate.c
-+++ b/target/mips/tcg/translate.c
-@@ -12082,12 +12082,13 @@ static void gen_cache_operation(DisasContext *ctx, uint32_t op, int base,
-     tcg_temp_free_i32(t0);
- }
- 
--static inline bool is_uhi(int sdbbp_code)
-+static inline bool is_uhi(DisasContext *ctx, int sdbbp_code)
+diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
+index afae8a1bea..bdd4690a5c 100644
+--- a/target/xtensa/translate.c
++++ b/target/xtensa/translate.c
+@@ -2362,13 +2362,14 @@ static uint32_t test_exceptions_simcall(DisasContext *dc,
+                                         const OpcodeArg arg[],
+                                         const uint32_t par[])
  {
++    bool is_semi = semihosting_enabled(dc->cring != 0);
  #ifdef CONFIG_USER_ONLY
-     return false;
+     bool ill = true;
  #else
--    return semihosting_enabled() && sdbbp_code == 1;
-+    bool is_user = (ctx->hflags & MIPS_HFLAG_KSU) == MIPS_HFLAG_UM;
-+    return semihosting_enabled(is_user) && sdbbp_code == 1;
+     /* Between RE.2 and RE.3 simcall opcode's become nop for the hardware. */
+-    bool ill = dc->config->hw_version <= 250002 && !semihosting_enabled(false);
++    bool ill = dc->config->hw_version <= 250002 && !is_semi;
  #endif
- }
- 
-@@ -13898,7 +13899,7 @@ static void decode_opc_special_r6(CPUMIPSState *env, DisasContext *ctx)
-         }
-         break;
-     case R6_OPC_SDBBP:
--        if (is_uhi(extract32(ctx->opcode, 6, 20))) {
-+        if (is_uhi(ctx, extract32(ctx->opcode, 6, 20))) {
-             ctx->base.is_jmp = DISAS_SEMIHOST;
-         } else {
-             if (ctx->hflags & MIPS_HFLAG_SBRI) {
-@@ -14310,7 +14311,7 @@ static void decode_opc_special2_legacy(CPUMIPSState *env, DisasContext *ctx)
-         gen_cl(ctx, op1, rd, rs);
-         break;
-     case OPC_SDBBP:
--        if (is_uhi(extract32(ctx->opcode, 6, 20))) {
-+        if (is_uhi(ctx, extract32(ctx->opcode, 6, 20))) {
-             ctx->base.is_jmp = DISAS_SEMIHOST;
-         } else {
-             /*
-diff --git a/target/mips/tcg/micromips_translate.c.inc b/target/mips/tcg/micromips_translate.c.inc
-index b2c696f891..632895cc9e 100644
---- a/target/mips/tcg/micromips_translate.c.inc
-+++ b/target/mips/tcg/micromips_translate.c.inc
-@@ -825,7 +825,7 @@ static void gen_pool16c_insn(DisasContext *ctx)
-         generate_exception_break(ctx, extract32(ctx->opcode, 0, 4));
-         break;
-     case SDBBP16:
--        if (is_uhi(extract32(ctx->opcode, 0, 4))) {
-+        if (is_uhi(ctx, extract32(ctx->opcode, 0, 4))) {
-             ctx->base.is_jmp = DISAS_SEMIHOST;
-         } else {
-             /*
-@@ -941,7 +941,7 @@ static void gen_pool16c_r6_insn(DisasContext *ctx)
-             break;
-         case R6_SDBBP16:
-             /* SDBBP16 */
--            if (is_uhi(extract32(ctx->opcode, 6, 4))) {
-+            if (is_uhi(ctx, extract32(ctx->opcode, 6, 4))) {
-                 ctx->base.is_jmp = DISAS_SEMIHOST;
-             } else {
-                 if (ctx->hflags & MIPS_HFLAG_SBRI) {
-@@ -1310,7 +1310,7 @@ static void gen_pool32axf(CPUMIPSState *env, DisasContext *ctx, int rt, int rs)
-             generate_exception_end(ctx, EXCP_SYSCALL);
-             break;
-         case SDBBP:
--            if (is_uhi(extract32(ctx->opcode, 16, 10))) {
-+            if (is_uhi(ctx, extract32(ctx->opcode, 16, 10))) {
-                 ctx->base.is_jmp = DISAS_SEMIHOST;
-             } else {
-                 check_insn(ctx, ISA_MIPS_R1);
-diff --git a/target/mips/tcg/mips16e_translate.c.inc b/target/mips/tcg/mips16e_translate.c.inc
-index 7568933e23..918b15d55c 100644
---- a/target/mips/tcg/mips16e_translate.c.inc
-+++ b/target/mips/tcg/mips16e_translate.c.inc
-@@ -951,7 +951,7 @@ static int decode_ase_mips16e(CPUMIPSState *env, DisasContext *ctx)
-             }
-             break;
-         case RR_SDBBP:
--            if (is_uhi(extract32(ctx->opcode, 5, 6))) {
-+            if (is_uhi(ctx, extract32(ctx->opcode, 5, 6))) {
-                 ctx->base.is_jmp = DISAS_SEMIHOST;
-             } else {
-                 /*
-diff --git a/target/mips/tcg/nanomips_translate.c.inc b/target/mips/tcg/nanomips_translate.c.inc
-index b3aff22c18..812c111e3c 100644
---- a/target/mips/tcg/nanomips_translate.c.inc
-+++ b/target/mips/tcg/nanomips_translate.c.inc
-@@ -3694,7 +3694,7 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
-                 generate_exception_end(ctx, EXCP_BREAK);
-                 break;
-             case NM_SDBBP:
--                if (is_uhi(extract32(ctx->opcode, 0, 19))) {
-+                if (is_uhi(ctx, extract32(ctx->opcode, 0, 19))) {
-                     ctx->base.is_jmp = DISAS_SEMIHOST;
-                 } else {
-                     if (ctx->hflags & MIPS_HFLAG_SBRI) {
-@@ -4633,7 +4633,7 @@ static int decode_isa_nanomips(CPUMIPSState *env, DisasContext *ctx)
-                 generate_exception_end(ctx, EXCP_BREAK);
-                 break;
-             case NM_SDBBP16:
--                if (is_uhi(extract32(ctx->opcode, 0, 3))) {
-+                if (is_uhi(ctx, extract32(ctx->opcode, 0, 3))) {
-                     ctx->base.is_jmp = DISAS_SEMIHOST;
-                 } else {
-                     if (ctx->hflags & MIPS_HFLAG_SBRI) {
+-    if (ill || !semihosting_enabled(false)) {
++    if (ill || !is_semi) {
+         qemu_log_mask(LOG_GUEST_ERROR, "SIMCALL but semihosting is disabled\n");
+     }
+     return ill ? XTENSA_OP_ILL : 0;
+@@ -2378,7 +2379,7 @@ static void translate_simcall(DisasContext *dc, const OpcodeArg arg[],
+                               const uint32_t par[])
+ {
+ #ifndef CONFIG_USER_ONLY
+-    if (semihosting_enabled(false)) {
++    if (semihosting_enabled(dc->cring != 0)) {
+         gen_helper_simcall(cpu_env);
+     }
+ #endif
 -- 
 2.34.1
 
