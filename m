@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A97A65B870C
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 13:12:25 +0200 (CEST)
-Received: from localhost ([::1]:47292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D4A45B86FA
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 13:05:11 +0200 (CEST)
+Received: from localhost ([::1]:36516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYQJb-0007eV-VI
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 07:12:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48772)
+	id 1oYQCc-0002Dz-1A
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 07:05:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <davydov-max@yandex-team.ru>)
- id 1oYQ3x-0004Tn-R7
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 06:56:13 -0400
-Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:45868)
+ id 1oYQ3w-0004Rd-JY
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 06:56:12 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:41700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <davydov-max@yandex-team.ru>)
- id 1oYQ3v-0005W5-PK
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 06:56:13 -0400
+ id 1oYQ3t-0005VY-9Q
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 06:56:12 -0400
 Received: from vla5-b2806cb321eb.qloud-c.yandex.net
  (vla5-b2806cb321eb.qloud-c.yandex.net
  [IPv6:2a02:6b8:c18:3e0d:0:640:b280:6cb3])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 69C582E0D5D;
- Wed, 14 Sep 2022 13:55:59 +0300 (MSK)
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 978DB2E12EB;
+ Wed, 14 Sep 2022 13:56:00 +0300 (MSK)
 Received: from davydov-max-nux.yandex.net (unknown
  [2a02:6b8:0:107:fa75:a4ff:fe7d:8480])
  by vla5-b2806cb321eb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- BUZ4sh4mWm-twOqfr8i; Wed, 14 Sep 2022 13:55:58 +0300
+ BUZ4sh4mWm-txOqWJ3x; Wed, 14 Sep 2022 13:55:59 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 Precedence: bulk
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1663152958; bh=oFprw3uUFoLytr9Lv+ETp67t74TaC5z5c04J7UUz0yM=;
- h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=vAoi++6qjKJ8Zp3i1EC+t4CNl/KgcXtw2wemTa821KxR20k0LzT9bvnmiEKEh2J2u
- xQcqdKuXKaSAlnUwRVkY4uxQI8akLQwG8cmcb292mr1WHdXgxBCqRu/s5qrga3l8vl
- DgaT2Z5SUnGPXhtto/fYqC0GY12Mnh1ueDS7/MVA=
+ t=1663152959; bh=Y0JG+8a82D/bZd6zYE1qlIw5/vMhDkge+cRpSH4M5Dw=;
+ h=Cc:Message-Id:References:Date:In-Reply-To:Subject:To:From;
+ b=Pw9253O69BxZ9hUnZiMw4/0RfZe30MW9lsl+VIsz2lLC8UkkPvQbIU/2w4fzUqcP4
+ WooMjY4zZrOzxCq/lMB17lMQKBIrduP16svMQyWJ9dUwh2EYafQ/BLQmLJ6ovJWRWq
+ rMflxgiVSXMWEGxK5frxMb6H4JjpfPuS/320dJDU=
 Authentication-Results: vla5-b2806cb321eb.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 From: Maksim Davydov <davydov-max@yandex-team.ru>
@@ -49,16 +50,17 @@ Cc: davydov-max@yandex-team.ru, yc-core@yandex-team.ru, pbonzini@redhat.com,
  bsd@redhat.com, stefanha@redhat.com, thuth@redhat.com,
  darren.kenny@oracle.com, Qiuhao.Li@outlook.com, lvivier@redhat.com,
  jsnow@redhat.com, crosa@redhat.com, bleal@redhat.com
-Subject: [PATCH v2 3/4] qmp: add dump machine type compatible properties
-Date: Wed, 14 Sep 2022 13:55:38 +0300
-Message-Id: <20220914105539.18461-4-davydov-max@yandex-team.ru>
+Subject: [PATCH v2 4/4] scripts: add script to compare compatible properties
+Date: Wed, 14 Sep 2022 13:55:39 +0300
+Message-Id: <20220914105539.18461-5-davydov-max@yandex-team.ru>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220914105539.18461-1-davydov-max@yandex-team.ru>
 References: <20220914105539.18461-1-davydov-max@yandex-team.ru>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
- envelope-from=davydov-max@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=davydov-max@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,163 +81,454 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To control that creating new machine type doesn't affect the previous
-types (their compat_props) and to check complex compat_props inheritance
-we need qmp command to print machine type compatible properties.
-This patch adds the ability to get list of all the compat_props of the
-corresponding supported machines for their comparison via new optional
-argument of "query-machines" command.
+This script run QEMU to obtain compat_props of machines and default
+values of different types and produce appropriate table. This table
+can be used to compare machine types to choose the most suitable
+machine. Also table in json or csv format should be used to check that
+new machine doesn't affect previous ones via comparisin tables with and
+without new machine.
+Default values of properties are needed to fill "holes" in the table (one
+machine has these properties and another not).
+
+Notes:
+* some init values from the devices can't be available like properties
+from virtio-9p when configure has --disable-virtfs. This situations will
+be seen in the table as "unavailable driver".
+* Default values can be get can be obtained in an unobvious way, like
+x86 features. If the script doesn't know how to get property default value
+to compare one machine with another it fills "holes" with "unavailable
+method". This is done because script uses whitelist model to get default
+values of different types. It means that the method that can't be applied
+to a new type that can crash this script. It is better to get an
+"unavailable driver" when creating a new machine with new compatible
+properties than to break this script. So it turns out a more stable and
+generic script.
+* If the default value can't be obtained because this property doesn't
+exist or because this property can't have default value, appropriate
+"hole" will be filled by "unknown property" or "no default value"
+* If the property is applied to the abstract class, the script collects
+default values from all child classes (set of default values)
+
+Example:
+
+./scripts/compare_mt.py --mt pc-q35-3.1 pc-q35-2.12
+
+╒════════════════════════════════════╤═══════════════╤═══════════════╕
+│                                    │  pc-q35-2.12  │  pc-q35-3.1   │
+╞════════════════════════════════════╪═══════════════╪═══════════════╡
+│    EPYC-IBPB-x86_64-cpu-xlevel     │  0x8000000a   │  2147483678   │
+├────────────────────────────────────┼───────────────┼───────────────┤
+│       EPYC-x86_64-cpu-xlevel       │  0x8000000a   │  2147483678   │
+├────────────────────────────────────┼───────────────┼───────────────┤
+│ Skylake-Server-IBRS-x86_64-cpu-pku │     False     │     True      │
+├────────────────────────────────────┼───────────────┼───────────────┤
+│   Skylake-Server-x86_64-cpu-pku    │     False     │     True      │
+├────────────────────────────────────┼───────────────┼───────────────┤
+│         VGA-global-vmstate         │     True      │     False     │
+├────────────────────────────────────┼───────────────┼───────────────┤
+│     cirrus-vga-global-vmstate      │     True      │     False     │
+├────────────────────────────────────┼───────────────┼───────────────┤
+│        hda-audio-use-timer         │     False     │     True      │
+├────────────────────────────────────┼───────────────┼───────────────┤
+│  migration-decompress-error-check  │     False     │     True      │
+├────────────────────────────────────┼───────────────┼───────────────┤
+│       qxl-vga-global-vmstate       │     True      │     False     │
+├────────────────────────────────────┼───────────────┼───────────────┤
+│     vmware-svga-global-vmstate     │     True      │     False     │
+├────────────────────────────────────┼───────────────┼───────────────┤
+│      x86_64-cpu-legacy-cache       │     True      │ [True, False] │
+├────────────────────────────────────┼───────────────┼───────────────┤
+│         x86_64-cpu-topoext         │     False     │ [True, False] │
+├────────────────────────────────────┼───────────────┼───────────────┤
+│   x86_64-cpu-x-hv-synic-kvm-only   │     True      │     False     │
+╘════════════════════════════════════╧═══════════════╧═══════════════╛
 
 Signed-off-by: Maksim Davydov <davydov-max@yandex-team.ru>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 ---
- hw/core/machine-qmp-cmds.c  | 22 ++++++++++++++-
- qapi/machine.json           | 54 +++++++++++++++++++++++++++++++++++--
- tests/qtest/fuzz/qos_fuzz.c |  2 +-
- 3 files changed, 74 insertions(+), 4 deletions(-)
+ scripts/compare_mt.py | 374 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 374 insertions(+)
+ create mode 100755 scripts/compare_mt.py
 
-diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-index 4f4ab30f8c..a6fc387439 100644
---- a/hw/core/machine-qmp-cmds.c
-+++ b/hw/core/machine-qmp-cmds.c
-@@ -74,7 +74,8 @@ CpuInfoFastList *qmp_query_cpus_fast(Error **errp)
-     return head;
- }
- 
--MachineInfoList *qmp_query_machines(Error **errp)
-+MachineInfoList *qmp_query_machines(bool has_compat_props, bool compat_props,
-+                                    Error **errp)
- {
-     GSList *el, *machines = object_class_get_list(TYPE_MACHINE, false);
-     MachineInfoList *mach_list = NULL;
-@@ -107,6 +108,25 @@ MachineInfoList *qmp_query_machines(Error **errp)
-             info->default_ram_id = g_strdup(mc->default_ram_id);
-             info->has_default_ram_id = true;
-         }
-+        if (compat_props && mc->compat_props) {
-+            int i;
-+            info->compat_props = NULL;
-+            CompatPropertyList **tail = &(info->compat_props);
-+            info->has_compat_props = true;
+diff --git a/scripts/compare_mt.py b/scripts/compare_mt.py
+new file mode 100755
+index 0000000000..1df5e6c4f4
+--- /dev/null
++++ b/scripts/compare_mt.py
+@@ -0,0 +1,374 @@
++#!/usr/bin/env python3
++#
++# Script to compare machine type compatible properties (include/hw/boards.h).
++# compat_props are applied to the driver during initialization to change
++# default values, for instance, to maintain compatibility.
++# This script constructs table with machines and values of their compat_props
++# to compare and to find places for improvements or places with bugs. If
++# during the comparision, some machine type doesn't have a property (it is in
++# the comparision table because another machine type has it), then the
++# appropriate method will be used to obtain the default value of this driver
++# property via qmp command (e.g. query-cpu-model-expansion for x86_64-cpu).
++# These methods are defined below in propery_methods.
++#
++# Copyright (c) Yandex Technologies LLC, 2022
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, see <http://www.gnu.org/licenses/>.
 +
-+            for (i = 0; i < mc->compat_props->len; i++) {
-+                GlobalProperty *mt_prop = g_ptr_array_index(mc->compat_props,
-+                                                            i);
-+                CompatProperty *prop;
++from tabulate import tabulate
++import sys
++from os import path
++from argparse import ArgumentParser, RawTextHelpFormatter
++import pandas as pd
 +
-+                prop = g_malloc0(sizeof(*prop));
-+                prop->driver = g_strdup(mt_prop->driver);
-+                prop->property = g_strdup(mt_prop->property);
-+                prop->value = g_strdup(mt_prop->value);
++try:
++    qemu_dir = path.abspath(path.dirname(path.dirname(__file__)))
++    sys.path.append(path.join(qemu_dir, 'python'))
++    from qemu.machine import QEMUMachine
++except ModuleNotFoundError as exc:
++    print(f"Module '{exc.name}' not found.")
++    print("Try export PYTHONPATH=top-qemu-dir/python or run from top-qemu-dir")
++    sys.exit(1)
 +
-+                QAPI_LIST_APPEND(tail, prop);
-+            }
-+        }
- 
-         QAPI_LIST_PREPEND(mach_list, info);
-     }
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 6afd1936b0..b5477224a8 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -127,6 +127,25 @@
- ##
- { 'command': 'query-cpus-fast', 'returns': [ 'CpuInfoFast' ] }
- 
-+##
-+# @CompatProperty:
-+#
-+# Machine type compatible property. It's based on GlobalProperty and created
-+# for machine type compat properties (see scripts)
-+#
-+# @driver: name of the driver that has GlobalProperty
-+#
-+# @property: global property name
-+#
-+# @value: global property value
-+#
-+# Since: 7.2
-+##
-+{ 'struct': 'CompatProperty',
-+  'data': { 'driver': 'str',
-+            'property': 'str',
-+            'value': 'str' } }
 +
- ##
- # @MachineInfo:
- #
-@@ -155,6 +174,9 @@
- #
- # @default-ram-id: the default ID of initial RAM memory backend (since 5.2)
- #
-+# @compat-props: List of compatible properties that defines machine type
-+#                (since 7.2)
++default_cmd_line = 'build/qemu-system-x86_64 -enable-kvm -machine none'
++
++
++# Methods to get right values of drivers props
 +#
- # Since: 1.2
- ##
- { 'struct': 'MachineInfo',
-@@ -162,18 +184,46 @@
-             '*is-default': 'bool', 'cpu-max': 'int',
-             'hotpluggable-cpus': 'bool',  'numa-mem-supported': 'bool',
-             'deprecated': 'bool', '*default-cpu-type': 'str',
--            '*default-ram-id': 'str' } }
-+            '*default-ram-id': 'str', '*compat-props': ['CompatProperty'] } }
- 
- ##
- # @query-machines:
- #
- # Return a list of supported machines
- #
-+# @compat-props: if true return will contain information about machine type
-+#                compatible properties (since 7.2)
-+#
- # Returns: a list of MachineInfo
- #
- # Since: 1.2
-+#
-+# Example:
-+#
-+# -> { "execute": "query-machines", "arguments": { "compat-props": true } }
-+# <- { "return": [
-+#          {
-+#              "hotpluggable-cpus": true,
-+#              "name": "pc-q35-6.2",
-+#              "compat-props": [
-+#                  {
-+#                      "driver": "virtio-mem",
-+#                      "property": "unplugged-inaccessible",
-+#                      "value": "off"
-+#                   }
-+#               ],
-+#               "numa-mem-supported": false,
-+#               "default-cpu-type": "qemu64-x86_64-cpu",
-+#               "cpu-max": 288,
-+#               "deprecated": false,
-+#               "default-ram-id": "pc.ram"
-+#           },
-+#           ...
-+#    }
- ##
--{ 'command': 'query-machines', 'returns': ['MachineInfo'] }
-+{ 'command': 'query-machines',
-+  'data': { '*compat-props': 'bool' },
-+  'returns': ['MachineInfo'] }
- 
- ##
- # @CurrentMachineParams:
-diff --git a/tests/qtest/fuzz/qos_fuzz.c b/tests/qtest/fuzz/qos_fuzz.c
-index c856d3d500..f0c9ed4c4b 100644
---- a/tests/qtest/fuzz/qos_fuzz.c
-+++ b/tests/qtest/fuzz/qos_fuzz.c
-@@ -46,7 +46,7 @@ static void qos_set_machines_devices_available(void)
-     MachineInfoList *mach_info;
-     ObjectTypeInfoList *type_info;
- 
--    mach_info = qmp_query_machines(&error_abort);
-+    mach_info = qmp_query_machines(false, false, &error_abort);
-     machines_apply_to_node(mach_info);
-     qapi_free_MachineInfoList(mach_info);
- 
++# Use these methods as a 'whitelist' and add entries only if necessary. It's
++# important to be stable and predictable in analysis and tests.
++# * Names should be in qom-list-types format (486-x86_64-cpu, not 486)
++# * The latest definition wins:
++#   1) device
++#   2) cpu
++#   3) 486-x86_64-cpu
++#   For 486 will be used - rule #3, for virtio device - #1, for Haswell - #2
++def get_device_prop(vm, device, prop_name):
++    args = {'typename': device}
++    device_props = vm.command('device-list-properties', **args)
++    for prop in device_props:
++        if prop['name'] == prop_name:
++            return str(prop.get('default-value', 'No default value'))
++
++    return 'Unknown property'
++
++
++def get_x86_64_cpu_prop(vm, device, prop_name):
++    # crop last 11 chars '-x86_64-cpu'
++    args = {'type': 'full', 'model': {'name': device[:-11]}}
++    props = vm.command('query-cpu-model-expansion', **args)['model']['props']
++    return str(props.get(prop_name, 'Unknown property'))
++
++
++# Now it's stub, because all memory_backend types don't have default values
++# but this behaviour can be changed
++def get_memory_backend_prop(vm, driver, prop_name):
++    args = {'typename': driver}
++    memory_backend_props = vm.command('qom-list-properties', **args)
++    for prop in memory_backend_props:
++        if prop['name'] == prop_name:
++            return str(prop.get('default-value', 'No default value'))
++
++    return 'Unknown property'
++
++
++property_methods = [
++    {'name': 'device', 'method': get_device_prop},
++    {'name': 'x86_64-cpu', 'method': get_x86_64_cpu_prop},
++    {'name': 'memory-backend', 'method': get_memory_backend_prop}
++    ]
++# End of methods definition
++
++
++script_desc="""Script to compare machine types (their compat_props).
++
++If a property applies to an abstract class this script collects default \
++values of all child classes and prints them as a set.
++
++"Unavailable method" - means that this script doesn\'t know how to get \
++default values of the driver. To add method use the construction described \
++at the top of the script.
++"Unavailable driver" - means that this script doesn\'t know this driver. \
++For instance, this can happen if you configure QEMU without this device or \
++if machine type definition has error.
++"No default value" - means that the appropriate method can\'t get the default \
++value and most likely that this property doesn\'t have it.
++"Unknown property" - means that the appropriate method can\'t find property \
++with this name."""
++
++
++def parse_args():
++    parser = ArgumentParser(formatter_class=RawTextHelpFormatter,
++                            description=script_desc)
++    parser.add_argument('--json', action='store_true',
++                        help='returns table in json format')
++    parser.add_argument('--csv', action='store_true',
++                        help='returns table in csv format')
++    parser.add_argument('--all', action='store_true',
++                        help='prints all available machine types (list of '
++                             'machine types will be ignored). Execution with '
++                             '--all may take several minutes!')
++    parser.add_argument('--mt', nargs="*", type=str,
++                        help='list of Machine Types that will be compared')
++    parser.add_argument('--raw', action='store_true',
++                        help='prints ALL defined properties without value '
++                             'transformation. By default, only properties '
++                             'with different values will be printed and with '
++                             'value transformation(e.g. "on" -> True)')
++    parser.add_argument('--cmd-line', default=default_cmd_line,
++                        help='command line to start qemu. '
++                             'Default: "{}"'.format(default_cmd_line))
++    return parser.parse_args()
++
++
++# return tuple (name, major, minor, revision)
++def mt_comp(mt):
++    splited_name = mt['name'].rsplit('-', 1)
++    if len(splited_name) == 2:
++        version = splited_name[1].split('.')
++        if len(version) == 2:
++            return (splited_name[0], int(version[0]), int(version[1]), 0)
++        if len(version) == 3:
++            return (splited_name[0],
++                    int(version[0]), int(version[1]), int(version[2]))
++
++    return (splited_name[0], 0, 0, 0)
++
++
++def get_mt_definitions(vm):
++    args = {'compat-props': True}
++    raw_mt_defs = vm.command('query-machines', **args)
++    mt_defs = [] # MT: {driver_1: set_of_props, ...}
++    for raw_mt in raw_mt_defs:
++        compat_props = {}
++        for prop in raw_mt['compat-props']:
++            if prop['driver'] not in compat_props:
++                compat_props[prop['driver']] = {}
++            compat_props[prop['driver']][prop['property']] = prop['value']
++        mt_defs.append({'name': raw_mt['name'], 'compat-props': compat_props})
++
++    mt_defs.sort(key=mt_comp)
++    return mt_defs
++
++
++def get_req_props(mt_defs):
++    driver_props = {}
++    for mt in mt_defs:
++        compat_props = mt['compat-props']
++        for driver, prop in compat_props.items():
++            if driver not in driver_props:
++                driver_props[driver] = set()
++            driver_props[driver].update(prop.keys())
++
++    return driver_props
++
++
++def get_driver_definitions(vm):
++    args = {'abstract': True}
++    qom_all_types = vm.command('qom-list-types', **args)
++
++    driver_to_def = {}
++    for obj_type in qom_all_types:
++        # parent of Object is None
++        parent = obj_type.get('parent', None)
++        abstr = obj_type.get('abstract', False)
++        driver_to_def[obj_type['name']] = {
++            'parent': parent,
++            'abstract': abstr,
++            'method': None}
++        if abstr:
++            type_args = {'implements': obj_type['name'], 'abstract': True}
++            list_child_objs = vm.command('qom-list-types', **type_args)
++            child_list = [child['name'] for child in list_child_objs]
++            driver_to_def[obj_type['name']]['child_list'] = child_list
++
++    for driver in property_methods:
++        if not driver_to_def[driver['name']]['abstract']:
++            driver_to_def[driver['name']]['method'] = driver['method']
++            continue
++
++        for child in driver_to_def[driver['name']]['child_list']:
++            driver_to_def[child]['method'] = driver['method']
++
++    return driver_to_def
++
++
++def fill_prop_table(vm, mt_list, driver_props, driver_defs):
++    table = {}
++    for driver, props in sorted(driver_props.items()):
++        for prop in sorted(props):
++            name = '{}-{}'.format(driver, prop)
++            table[name] = []
++            for mt in mt_list:
++                compat_props = mt['compat-props']
++                if driver in compat_props:
++                    if prop in compat_props[driver]:
++                        table[name].append(compat_props[driver][prop])
++                        continue
++
++                # properties from QEMU (not from machine type compat_props)
++                # properties from another architecture or config
++                if driver not in driver_defs:
++                    table[name].append('Unavailable driver')
++                    continue
++
++                if not driver_defs[driver]['abstract']:
++                    if driver_defs[driver]['method'] is None:
++                        table[name].append('Unavailable method')
++                    else:
++                        table[name].append(
++                            driver_defs[driver]['method'](vm, driver, prop))
++                else:
++                    children = driver_defs[driver]['child_list']
++                    values = set()
++                    for child in children:
++                        if driver_defs[child]['abstract']:
++                            continue
++
++                        if driver_defs[child]['method'] is None:
++                            values.add('Unavailable method')
++                        else:
++                            values.add(
++                                driver_defs[child]['method'](vm, child, prop))
++
++                    table[name].append(list(values))
++
++    headers = [mt['name'] for mt in mt_list]
++    return pd.DataFrame.from_dict(table, orient='index', columns=headers)
++
++
++def transform_value(value):
++    true_list = ['true', 'on']
++    false_list = ['false', 'off']
++
++    out = value.lower()
++
++    if out in true_list:
++        return True
++
++    if out in false_list:
++        return False
++
++    return out
++
++
++# Only hex, dec and oct formats
++def transform_number(value):
++    try:
++        # C doesn't work with underscore ('2_5' != 25)
++        if '_' in value:
++            raise ValueError
++
++        if 'x' in value or 'X' in value:
++            return int(value, 16)
++
++        if 'o' in value or 'O' in value:
++            return int(value, 8)
++
++        return int(value)
++
++    except ValueError:
++        return None
++
++
++def transformed_table(table):
++    new_table = {}
++    for index, row in table.iterrows():
++        new_row = []
++        all_values = set()
++        # We want to save original hex/decimal format if not all values
++        # are the same in the row. So, transformed and not transformed will be
++        # stored
++        numeric_values = set()
++        for mt_prop_val in row:
++            if type(mt_prop_val) is list:
++                transformed = [transform_value(val) for val in mt_prop_val]
++                if len(transformed) == 1:
++                    new_row.append(transformed[0])
++                else:
++                    new_row.append(transformed)
++
++                numeric_values.update(set([transform_number(val)
++                                           for val in mt_prop_val]))
++                all_values.update(set(transformed))
++            else:
++                transformed = transform_value(mt_prop_val)
++                new_row.append(transformed)
++                numeric_values.add(transform_number(mt_prop_val))
++                all_values.add(transformed)
++
++        if len(table.columns) > 1:
++            if len(all_values) == 1:
++                continue
++
++            if None not in numeric_values and len(numeric_values) == 1:
++                continue
++
++        new_table[index] = new_row
++
++    return pd.DataFrame.from_dict(new_table, orient='index',
++                                  columns=table.columns.values)
++
++
++if __name__ == '__main__':
++    args = parse_args()
++    qemu_arg_list = args.cmd_line.split(' ')
++    with QEMUMachine(binary=qemu_arg_list[0],
++                     qmp_timer=15, args=qemu_arg_list[1:]) as vm:
++        vm.launch()
++        mt_defs = get_mt_definitions(vm)
++        list_mt = [mt['name'] for mt in mt_defs]
++
++        if not args.all:
++            if args.mt is None:
++                print('Enter machine types for comparision or use --help')
++                print('List of available machine types:')
++                print(*list_mt, sep='\n')
++                sys.exit(1)
++
++            for mt in args.mt:
++                if mt not in list_mt:
++                    print('Wrong machine type name')
++                    print('List of available machine types:')
++                    print(*list_mt, sep='\n')
++                    sys.exit(1)
++
++        req_mt = []
++        if args.all:
++            req_mt = mt_defs
++        else:
++            for mt in mt_defs:
++                if mt['name'] in args.mt:
++                    req_mt.append(mt)
++
++        if len(req_mt) == 1:
++            args.full = True
++
++        req_driver_props = get_req_props(req_mt)
++        driver_defs = get_driver_definitions(vm)
++        comp_table = fill_prop_table(vm, req_mt, req_driver_props, driver_defs)
++        if not args.raw:
++            comp_table = transformed_table(comp_table)
++
++        if args.json:
++            print(comp_table.to_json())
++        elif args.csv:
++            print(comp_table.to_csv())
++        else:
++            print(tabulate(comp_table, showindex=True, stralign='center',
++                           tablefmt='fancy_grid', headers='keys',
++                           disable_numparse=True))
++
++        vm.shutdown()
 -- 
 2.25.1
 
