@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F08305B8975
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 15:48:52 +0200 (CEST)
-Received: from localhost ([::1]:40052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F72F5B8983
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 15:53:41 +0200 (CEST)
+Received: from localhost ([::1]:35140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYSl1-0003YI-Pf
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 09:48:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41142)
+	id 1oYSpg-0002av-5l
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 09:53:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oYRiQ-0000ho-Tn; Wed, 14 Sep 2022 08:42:09 -0400
+ id 1oYRiT-0000iG-J4; Wed, 14 Sep 2022 08:42:09 -0400
 Received: from [200.168.210.66] (port=2858 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oYRiO-0001ac-QH; Wed, 14 Sep 2022 08:42:06 -0400
+ id 1oYRiS-0001ac-17; Wed, 14 Sep 2022 08:42:09 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Wed, 14 Sep 2022 09:41:55 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 65FB38003B3;
+ by p9ibm (Postfix) with ESMTP id 803EC800684;
  Wed, 14 Sep 2022 09:41:55 -0300 (-03)
 From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
@@ -31,16 +31,17 @@ Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
  "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
-Subject: [PATCH v2 1/4] scripts/ci/setup: ninja missing from build-environment
-Date: Wed, 14 Sep 2022 09:41:50 -0300
-Message-Id: <20220914124153.61017-2-lucas.araujo@eldorado.org.br>
+Subject: [PATCH v2 2/4] scripts/ci/setup: Fix libxen requirements
+Date: Wed, 14 Sep 2022 09:41:51 -0300
+Message-Id: <20220914124153.61017-3-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220914124153.61017-1-lucas.araujo@eldorado.org.br>
 References: <20220914124153.61017-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 14 Sep 2022 12:41:55.0697 (UTC)
- FILETIME=[5F6A0610:01D8C837]
+X-OriginalArrivalTime: 14 Sep 2022 12:41:55.0822 (UTC)
+ FILETIME=[5F7D18E0:01D8C837]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -67,27 +68,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
-ninja-build is missing from the RHEL environment, so a system prepared
-with that script would still fail to compile QEMU.
-Tested on a Fedora 36
+XEN hypervisor is only available in ARM and x86, but the yaml only
+checked if the architecture is different from s390x, changed it to
+a more accurate test.
+Tested this change on a Ubuntu 20.04 ppc64le.
 
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- scripts/ci/setup/build-environment.yml | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/ci/setup/build-environment.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/ci/setup/build-environment.yml b/scripts/ci/setup/build-environment.yml
-index 232525b91d..6df3e61d94 100644
+index 6df3e61d94..7535228685 100644
 --- a/scripts/ci/setup/build-environment.yml
 +++ b/scripts/ci/setup/build-environment.yml
-@@ -150,6 +150,7 @@
-           - libepoxy-devel
-           - libgcrypt-devel
-           - lzo-devel
-+          - ninja-build
-           - make
-           - mesa-libEGL-devel
-           - nettle-devel
+@@ -97,7 +97,7 @@
+         state: present
+       when:
+         - ansible_facts['distribution'] == 'Ubuntu'
+-        - ansible_facts['architecture'] != 's390x'
++        - ansible_facts['architecture'] == 'aarch64' or ansible_facts['architecture'] == 'x86_64'
+ 
+     - name: Install basic packages to build QEMU on Ubuntu 20.04
+       package:
 -- 
 2.31.1
 
