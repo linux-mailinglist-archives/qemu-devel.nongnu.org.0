@@ -2,82 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F16E5B8DE5
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 19:12:23 +0200 (CEST)
-Received: from localhost ([::1]:40658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B90C85B8E22
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 19:27:57 +0200 (CEST)
+Received: from localhost ([::1]:40234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYVvx-0008DC-Up
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 13:12:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51404)
+	id 1oYWB0-0000Kb-K1
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 13:27:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oYV57-0005FW-Gq
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 12:17:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20837)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oYVKK-0003Oo-KQ
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 12:33:28 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:40125)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oYV54-0005jy-Bu
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 12:17:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663172258;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OH7sNps7nEGOBGZMxDy5XpDQzZuvZSuH2pEBMnaF9OM=;
- b=RJUOF+f1IS8O6KlqjVarT0pkRaJPjb0nQ/1VrozuvOnM+JywivsxvC2icqNao4WHuduOGZ
- iFdx52UrXolE2doJq0KqnY518pSDYEqIrN9jgHjab2g7HIcbugJ+qByxJz4UtZQE4rAXnC
- /ztNH88EdhSiPW6WqK+A61owysrhAUI=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-532-zGrl33mWMxif_v06QsKYQg-1; Wed, 14 Sep 2022 12:17:36 -0400
-X-MC-Unique: zGrl33mWMxif_v06QsKYQg-1
-Received: by mail-lj1-f200.google.com with SMTP id
- z34-20020a2ebe22000000b0026c18a910fcso2055414ljq.23
- for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 09:17:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=OH7sNps7nEGOBGZMxDy5XpDQzZuvZSuH2pEBMnaF9OM=;
- b=6xBsKeI2tyuYooYjUibE/xwbUBOVGtV5KTI9wVMM6rwR3XN4NQtc8w4tF4OHNwaP09
- 1TvyKV7c8JaN6sYGP7mLzfs1RydYiq87ZEEo4bVR9Po0ALCnHEnpsqaIkGLRT6f2VSIZ
- DDRqjCUOM5J1Y4TMnvt8FQsazvJhOMi/+ATb+BN38CtPNZ2HqVl0MvLCHM0v5cMoPicw
- o1k7zUTieh0+oinX+RiwiKUHVz7FsSKTfejwJFMqx1zMkYVbXCr7Yb0o1NH8DO6seYg/
- nuAZZ5oRMT7ViglANUj9oPceA8lVj3S91tDOGu+NBBDyIHFe8RLfsREEYtMbmKRhNYxz
- Havg==
-X-Gm-Message-State: ACgBeo0vjIclElzSlAghMl7Ve0ukrBHwkHvnA0bu62h2XjXOnzaMvLYm
- JuHP7k3K53+31JWAP70qkYWLb9nuMo5whZ/7l6xKIA+fYUkOgubDrnMigp464WlQTWMbDyuN26E
- 2Up4QuYwhrtYqWTSPjH1/RQUxX18fyaQ=
-X-Received: by 2002:a2e:a7c6:0:b0:26b:e7b4:5136 with SMTP id
- x6-20020a2ea7c6000000b0026be7b45136mr7352928ljp.425.1663172255295; 
- Wed, 14 Sep 2022 09:17:35 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5tANjX2SF11wQD7Cpkfbo7DV9eVDwmF/v3cQd0GWFBMyldlzKakxxe9puRh7fDyRGuUDJEzssnL8TSkA1PogA=
-X-Received: by 2002:a2e:a7c6:0:b0:26b:e7b4:5136 with SMTP id
- x6-20020a2ea7c6000000b0026be7b45136mr7352921ljp.425.1663172255053; Wed, 14
- Sep 2022 09:17:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oYVKI-0008QS-Sc
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 12:33:28 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MOAJt-1ox4aO2cJt-00OUcF; Wed, 14 Sep 2022 18:33:21 +0200
+Message-ID: <3aab1e0f-418f-3e74-e178-404ee6d9e6d8@vivier.eu>
+Date: Wed, 14 Sep 2022 18:33:20 +0200
 MIME-Version: 1.0
-References: <20220911230418.340941-1-pbonzini@redhat.com>
- <20220911230418.340941-24-pbonzini@redhat.com>
- <e87ec571-3d79-3a4c-ed60-51fbd0c7b005@linaro.org>
-In-Reply-To: <e87ec571-3d79-3a4c-ed60-51fbd0c7b005@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 14 Sep 2022 18:17:23 +0200
-Message-ID: <CABgObfZNGnpFqD3JqEhhxnvquSX4ez=5YV4oDjPDipSbH_NS_Q@mail.gmail.com>
-Subject: Re: [PATCH 23/37] target/i386: reimplement 0x0f 0x78-0x7f, add AVX
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH] target/m68k: Implement atomic test-and-set
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220829051746.227094-1-richard.henderson@linaro.org>
+Content-Language: fr
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220829051746.227094-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:qhVA8nKwNmvpqU2+JaneAwrpf76axKtp4Ba1Ge3y4NJi6oveohL
+ PJYL+UWqxBMPduvihLu9+lHGPKhRy8kUeKnECJ2Hhg4EsVrfe8JC/LvHVA5KQ7lKagpeaCj
+ +BWL6tDAA646mBvH7KK2Mjd0Vwn+OwyOZ9fXzmc2+iDfU5/EDICRBVFc0qS9TnuFmmxqUpn
+ H5CefO6Wj4n53WOswAtMQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:o3n72C+Daa8=:RKc/GHQX1u1GqCgKC1rYzC
+ mX7H3Op+RkyPzJhPmt22TKtaDtazysSxqh1GYhGXx3bOl/5smbUpYEhOISaU6nUZRYzrGmgAi
+ SL48CBeMDWlMlaTFaJvE+Do+od/gZ+2E0crKdfP7ZLVDEndC+kvVJpWCVG/0wU8Yij2hx698a
+ tm1sFNDl/WDF2DbbiRyuBcTIKyWeXdBWabNC6AYgLVlgRI2EH5T6+cWs3GxyCSHVm9X47QkaB
+ 7DVCwFnhupQj7JNFrxpfzBnB3if1nflKx/UuBS1I4/V3gi4orAMDMOIJyvMhSmz3G3+ma8UXl
+ tvXlkV7w8YHHzTjZcXKwxQ11LTZwka2vrGUgOd9xIysch2ZTKk6Wo8kSXrHtmOWRR62Hobw3Q
+ CAzMUid63w3/yDtv/8/c6/vJBOovIc15ASpCgTf/0d8DBvrw/NUyYksctffzvwQ3GsoRcgkVa
+ FO+cZytMWL3+6NveAq0YFjc9IdF3Np+vcEHxnF1bDOgKCZlm5BB9h08iJGxgzTt5kiVZYd+Qg
+ 8KOpLTpb1PRnEBjy/aDL8x+HVMd9rzvxF+4KO56q2YjKmoKWqz4J8fGr5u854rNzxplB3SZLC
+ 7yUbx6i7XyB9ziWRx9zFDPsJ/vwVywA/h/MMV3VZbQOgDvfX3nMC0kiZNxQy1KVFRbwSqziij
+ Q5cHh6YIa+lIIKIsIu9nlTcj8Qa215puvgeKlw59NEQnRG6WWtVSYqgeWA71VgpG79a6Gvjpp
+ 076yL7dJo/39qcLRli7ALio1PiUgZpZqR0ORTBwbGYjnzGOpSu/PqPhZX0Me/BMPzNHcI9Y9m
+ nmNrF4D
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.583,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,29 +73,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 12, 2022 at 3:56 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
+Le 29/08/2022 à 07:17, Richard Henderson a écrit :
+> This is slightly more complicated than cas,
+> because tas is allowed on data registers.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/m68k/translate.c | 40 ++++++++++++++++++++++++++++++----------
+>   1 file changed, 30 insertions(+), 10 deletions(-)
+> 
+> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+> index 8f3c298ad0..0aef827b38 100644
+> --- a/target/m68k/translate.c
+> +++ b/target/m68k/translate.c
+> @@ -2825,19 +2825,39 @@ DISAS_INSN(illegal)
+>       gen_exception(s, s->base.pc_next, EXCP_ILLEGAL);
+>   }
+>   
+> -/* ??? This should be atomic.  */
+>   DISAS_INSN(tas)
+>   {
+> -    TCGv dest;
+> -    TCGv src1;
+> -    TCGv addr;
+> +    int mode = extract32(insn, 3, 3);
+> +    int reg0 = REG(insn, 0);
+>   
+> -    dest = tcg_temp_new();
+> -    SRC_EA(env, src1, OS_BYTE, 1, &addr);
+> -    gen_logic_cc(s, src1, OS_BYTE);
+> -    tcg_gen_ori_i32(dest, src1, 0x80);
+> -    DEST_EA(env, insn, OS_BYTE, dest, &addr);
+> -    tcg_temp_free(dest);
+> +    if (mode == 0) {
+> +        /* data register direct */
+> +        TCGv dest = cpu_dregs[reg0];
+> +        gen_logic_cc(s, dest, OS_BYTE);
+> +        tcg_gen_ori_tl(dest, dest, 0x80);
+> +    } else {
+> +        TCGv src1, addr;
+> +
+> +        addr = gen_lea_mode(env, s, mode, reg0, OS_BYTE);
+> +        if (IS_NULL_QREG(addr)) {
+> +            gen_addr_fault(s);
+> +            return;
+> +        }
+> +        src1 = tcg_temp_new();
+> +        tcg_gen_atomic_fetch_or_tl(src1, addr, tcg_constant_tl(0x80),
+> +                                   IS_USER(s), MO_SB);
+> +        gen_logic_cc(s, src1, OS_BYTE);
+> +        tcg_temp_free(src1);
+> +
+> +        switch (mode) {
+> +        case 3: /* Indirect postincrement.  */
+> +            tcg_gen_addi_i32(AREG(insn, 0), addr, 1);
+> +            break;
+> +        case 4: /* Indirect predecrememnt.  */
+> +            tcg_gen_mov_i32(AREG(insn, 0), addr);
+> +            break;
+> +        }
+> +    }
+>   }
+>   
+>   DISAS_INSN(mull)
 
-> > +static void gen_SSE4a_I(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-> > +{
-> > +    TCGv_i32 length = tcg_const_i32(decode->immediate & 255);
-> > +    TCGv_i32 index = tcg_const_i32(decode->immediate >> 8);
-> > +
-> > +    if (s->prefix & PREFIX_DATA) {
-> > +        gen_helper_extrq_i(cpu_env, s->ptr0, index, length);
-> > +    } else {
-> > +        gen_helper_insertq_i(cpu_env, s->ptr0, index, length);
-> > +    }
-> > +    tcg_temp_free_i32(length);
-> > +    tcg_temp_free_i32(index);
->
-> Again, why the choice of delayed decode?  I guess it doesn't matter, but it's odd.
-
-Mostly because I wasn't sure of which would be preferable so I tried
-different things. I think now I have a better picture.
-
-I will mostly switch to decode_by_prefix.
-
-Paolo
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
