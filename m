@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3367D5B8713
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 13:13:13 +0200 (CEST)
-Received: from localhost ([::1]:51432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FC945B86F7
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 13:05:08 +0200 (CEST)
+Received: from localhost ([::1]:54144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYQKO-0008K3-9c
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 07:13:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48768)
+	id 1oYQCY-0002AG-QN
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 07:05:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <davydov-max@yandex-team.ru>)
- id 1oYQ3v-0004Ol-PY
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 06:56:11 -0400
-Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:45704)
+ id 1oYQ3u-0004OB-VV
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 06:56:10 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:41656)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <davydov-max@yandex-team.ru>)
- id 1oYQ3q-0005VI-OP
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 06:56:10 -0400
+ id 1oYQ3q-0005VL-OP
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 06:56:09 -0400
 Received: from vla5-b2806cb321eb.qloud-c.yandex.net
  (vla5-b2806cb321eb.qloud-c.yandex.net
  [IPv6:2a02:6b8:c18:3e0d:0:640:b280:6cb3])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id D5E552E0945;
- Wed, 14 Sep 2022 13:55:57 +0300 (MSK)
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 995D02E12EE;
+ Wed, 14 Sep 2022 13:55:58 +0300 (MSK)
 Received: from davydov-max-nux.yandex.net (unknown
  [2a02:6b8:0:107:fa75:a4ff:fe7d:8480])
  by vla5-b2806cb321eb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- BUZ4sh4mWm-tvOqTToo; Wed, 14 Sep 2022 13:55:57 +0300
+ BUZ4sh4mWm-tvOqLUjD; Wed, 14 Sep 2022 13:55:58 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 Precedence: bulk
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1663152957; bh=iCA3TvzOpzGSwYUA21kDCPvpG/UnlIYQVfMFoKVgdOw=;
+ t=1663152958; bh=OYeiWRd2PeTtBWfHgsi6/ymkA79L1SXo5pYvkeFy1nw=;
  h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=qypMOMZ8+GU+lJtpmMEzgn70mojBGG5lURlKPV6HZrYX78Ry0/WxU7MJKE4rBNj7f
- 5zz2Q9/YQ77Y32sAYQ3rj44yUmP2K+GYjsd6jIyZj2G3Q2nE/yJb2dOURdsBDr1bK6
- 7ckVk8GCNdZJezwnvHB6WYv3/wytEB7HvDWVERpw=
+ b=LdFwJ6TQDCbgi15uAbvErHj9B1EqDdIm2G9sfS/Ej1LHdK4KyDCvARkJw9haU+SY/
+ 34P+5X9YRohHNirik7wmYUHl4ni5fAYPq3QlJxtSSdeIbgSlYOl6QcTeOCBgzF8brV
+ Xw7jgV+lOEqx3KXT509P2kc/zMreWDsDgTCnfDJU=
 Authentication-Results: vla5-b2806cb321eb.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 From: Maksim Davydov <davydov-max@yandex-team.ru>
@@ -49,16 +50,16 @@ Cc: davydov-max@yandex-team.ru, yc-core@yandex-team.ru, pbonzini@redhat.com,
  bsd@redhat.com, stefanha@redhat.com, thuth@redhat.com,
  darren.kenny@oracle.com, Qiuhao.Li@outlook.com, lvivier@redhat.com,
  jsnow@redhat.com, crosa@redhat.com, bleal@redhat.com
-Subject: [PATCH v2 1/4] qom: add devault value
-Date: Wed, 14 Sep 2022 13:55:36 +0300
-Message-Id: <20220914105539.18461-2-davydov-max@yandex-team.ru>
+Subject: [PATCH v2 2/4] python/qmp: increase read buffer size
+Date: Wed, 14 Sep 2022 13:55:37 +0300
+Message-Id: <20220914105539.18461-3-davydov-max@yandex-team.ru>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220914105539.18461-1-davydov-max@yandex-team.ru>
 References: <20220914105539.18461-1-davydov-max@yandex-team.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
- envelope-from=davydov-max@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=davydov-max@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,30 +80,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qmp_qom_list_properties can print default values if they are available
-as qmp_device_list_properties does, because both of them use the
-ObjectPropertyInfo structure with default_value field. This can be useful
-when working with "not device" types.
+After modification of "query-machines" command the buffer size should be
+more than 452kB to contain output with compat-props.
 
 Signed-off-by: Maksim Davydov <davydov-max@yandex-team.ru>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 ---
- qom/qom-qmp-cmds.c | 2 ++
- 1 file changed, 2 insertions(+)
+ python/qemu/qmp/qmp_client.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/qom/qom-qmp-cmds.c b/qom/qom-qmp-cmds.c
-index 2e63a4c184..1d7867dc19 100644
---- a/qom/qom-qmp-cmds.c
-+++ b/qom/qom-qmp-cmds.c
-@@ -217,6 +217,8 @@ ObjectPropertyInfoList *qmp_qom_list_properties(const char *typename,
-         info->type = g_strdup(prop->type);
-         info->has_description = !!prop->description;
-         info->description = g_strdup(prop->description);
-+        info->default_value = qobject_ref(prop->defval);
-+        info->has_default_value = !!info->default_value;
+diff --git a/python/qemu/qmp/qmp_client.py b/python/qemu/qmp/qmp_client.py
+index 5dcda04a75..659fe4d98c 100644
+--- a/python/qemu/qmp/qmp_client.py
++++ b/python/qemu/qmp/qmp_client.py
+@@ -197,8 +197,8 @@ async def run(self, address='/tmp/qemu.socket'):
+     #: Logger object used for debugging messages.
+     logger = logging.getLogger(__name__)
  
-         QAPI_LIST_PREPEND(prop_list, info);
-     }
+-    # Read buffer limit; large enough to accept query-qmp-schema
+-    _limit = (256 * 1024)
++    # Read buffer limit; large enough to accept query-machines
++    _limit = (512 * 1024)
+ 
+     # Type alias for pending execute() result items
+     _PendingT = Union[Message, ExecInterruptedError]
 -- 
 2.25.1
 
