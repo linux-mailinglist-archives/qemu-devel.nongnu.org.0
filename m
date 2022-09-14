@@ -2,59 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6CB5B8068
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 06:52:33 +0200 (CEST)
-Received: from localhost ([::1]:48286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 961B35B8050
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 06:34:33 +0200 (CEST)
+Received: from localhost ([::1]:54818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYKNy-0000eq-VH
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 00:52:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51396)
+	id 1oYK6a-0005Pc-LU
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 00:34:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1oYKDr-00045m-Ez
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 00:42:03 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:35541)
+ (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
+ id 1oYJtm-0001si-Or
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 00:21:18 -0400
+Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:54295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1oYKDm-0005tP-0s
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 00:42:03 -0400
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4MS72z4S1pz4xG8; Wed, 14 Sep 2022 14:41:47 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1663130507;
- bh=8yzrNp2g/bgJ1kqXlg3istWVNb5G/50fTBCw9Rrb898=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AEPWQgHbNh/xMqABo7GctH1YRBKmJeg3INFCz9m65d+IXYAnkpqFObQIxGq+FFp68
- VThQKfBzLd5ZSC/aoOF635FUYTrIfxRv0uchJacTEeuUuQCK+ewQqZwRLLbnOHSrNU
- ad3c2Mx/fCahfn5vwXlawZOhmlyeN8Yq20+x0CRU=
-Date: Wed, 14 Sep 2022 12:29:19 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Gregory Kurz <gregory.kurz@free.fr>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v8 03/14] net: simplify net_client_parse() error management
-Message-ID: <YyE8f+vkS/E3xAAM@yekko>
-References: <20220913064000.79353-1-lvivier@redhat.com>
- <20220913064000.79353-4-lvivier@redhat.com>
+ (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
+ id 1oYJtf-0003NG-NI
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 00:21:17 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R871e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
+ MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=8; SR=0;
+ TI=SMTPD_---0VPlXDA8_1663129255; 
+Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
+ fp:SMTPD_---0VPlXDA8_1663129255) by smtp.aliyun-inc.com;
+ Wed, 14 Sep 2022 12:20:56 +0800
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+To: qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, kangjie.xu@linux.alibaba.com
+Subject: [PATCH v5 00/15] Support VIRTIO_F_RING_RESET for virtio-net,
+ vhost-net kernel in virtio pci-modern
+Date: Wed, 14 Sep 2022 12:20:40 +0800
+Message-Id: <20220914042055.61939-1-xuanzhuo@linux.alibaba.com>
+X-Mailer: git-send-email 2.32.0.3.g01195cf9f
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="IJQ+Dj2d+tFRcgqH"
-Content-Disposition: inline
-In-Reply-To: <20220913064000.79353-4-lvivier@redhat.com>
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Git-Hash: 164b406b96
+Content-Type: text/plain; charset=utf8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.124.30.45;
+ envelope-from=xuanzhuo@linux.alibaba.com;
+ helo=out30-45.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,120 +67,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The virtio queue reset function has already been defined in the virtio spec 1.2.
+The relevant virtio spec information is here:
 
---IJQ+Dj2d+tFRcgqH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+    https://github.com/oasis-tcs/virtio-spec/issues/124
+    https://github.com/oasis-tcs/virtio-spec/issues/139
 
-On Tue, Sep 13, 2022 at 08:39:49AM +0200, Laurent Vivier wrote:
-> All net_client_parse() callers exit in case of error.
->=20
-> Move exit(1) to net_client_parse() and remove error checking from
-> the callers.
->=20
-> Suggested-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+This patch set is to support this function in QEMU. It consists of several parts:
+1. Patches 1-7 are the basic interfaces for vq reset in virtio and virtio-pci.
+2. Patches 8-11 support vq reset and vq restart for vhost-kernel.
+3. Patches 12-14 support vq reset and vq restart for virtio-net.
+5. Patch 15 enables the vq reset feature for vhost-kernel.
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-> ---
->  include/net/net.h |  2 +-
->  net/net.c         |  6 ++----
->  softmmu/vl.c      | 12 +++---------
->  3 files changed, 6 insertions(+), 14 deletions(-)
->=20
-> diff --git a/include/net/net.h b/include/net/net.h
-> index c1c34a58f849..55023e7e9fa9 100644
-> --- a/include/net/net.h
-> +++ b/include/net/net.h
-> @@ -220,7 +220,7 @@ extern NICInfo nd_table[MAX_NICS];
->  extern const char *host_net_devices[];
-> =20
->  /* from net.c */
-> -int net_client_parse(QemuOptsList *opts_list, const char *str);
-> +void net_client_parse(QemuOptsList *opts_list, const char *str);
->  void show_netdevs(void);
->  void net_init_clients(void);
->  void net_check_clients(void);
-> diff --git a/net/net.c b/net/net.c
-> index 15958f881776..f056e8aebfb2 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -1579,13 +1579,11 @@ void net_init_clients(void)
->                        &error_fatal);
->  }
-> =20
-> -int net_client_parse(QemuOptsList *opts_list, const char *optarg)
-> +void net_client_parse(QemuOptsList *opts_list, const char *optarg)
->  {
->      if (!qemu_opts_parse_noisily(opts_list, optarg, true)) {
-> -        return -1;
-> +        exit(1);
->      }
-> -
-> -    return 0;
->  }
-> =20
->  /* From FreeBSD */
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 1fe8b5c5a120..55d163475e9e 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -2809,21 +2809,15 @@ void qemu_init(int argc, char **argv, char **envp)
->                  break;
->              case QEMU_OPTION_netdev:
->                  default_net =3D 0;
-> -                if (net_client_parse(qemu_find_opts("netdev"), optarg) =
-=3D=3D -1) {
-> -                    exit(1);
-> -                }
-> +                net_client_parse(qemu_find_opts("netdev"), optarg);
->                  break;
->              case QEMU_OPTION_nic:
->                  default_net =3D 0;
-> -                if (net_client_parse(qemu_find_opts("nic"), optarg) =3D=
-=3D -1) {
-> -                    exit(1);
-> -                }
-> +                net_client_parse(qemu_find_opts("nic"), optarg);
->                  break;
->              case QEMU_OPTION_net:
->                  default_net =3D 0;
-> -                if (net_client_parse(qemu_find_opts("net"), optarg) =3D=
-=3D -1) {
-> -                    exit(1);
-> -                }
-> +                net_client_parse(qemu_find_opts("net"), optarg);
->                  break;
->  #ifdef CONFIG_LIBISCSI
->              case QEMU_OPTION_iscsi:
+The process of virtqueue reset can be concluded as:
+1. The virtqueue is disabled when VIRTIO_PCI_COMMON_Q_RESET is written.
+2. Then the virtqueue can be optionally restarted(re-enabled).
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Since this patch set involves multiple modules and seems a bit messy, we briefly describe the
+calling process for different modes below.
+virtio-net:
+1. VIRTIO_PCI_COMMON_Q_RESET is written [virtio-pci]
+    -> virtio_queue_reset() [virtio]
+        -> virtio_net_queue_reset() [virtio-net]
+        -> __virtio_queue_reset()
+2. VIRTIO_PCI_COMMON_Q_ENABLE is written [virtio-pci]
+    -> set enabled, reset status of vq.
 
---IJQ+Dj2d+tFRcgqH
-Content-Type: application/pgp-signature; name="signature.asc"
+vhost-kernel:
+1. VIRTIO_PCI_COMMON_Q_RESET is written [virtio-pci]
+    -> virtio_queue_reset() [virtio]
+        -> virtio_net_queue_reset() [virtio-net]
+            -> vhost_net_virtqueue_stop() [vhost-net]
+                -> vhost_net_set_backend() [vhost]
+                -> vhost_virtqueue_stop()
+        -> __virtio_queue_reset()
+2. VIRTIO_PCI_COMMON_Q_ENABLE is written [virtio-pci]
+    -> virtio_queue_enable() [virtio]
+        -> virtio_net_queue_enable() [virtio-net]
+            -> vhost_net_virtqueue_restart() [vhost-net]
+                -> vhost_virtqueue_start() [vhost]
+                -> vhost_net_set_backend()
+    -> set enabled, reset status of vq.
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmMhPHgACgkQgypY4gEw
-YSJbsA//WK8oaBYERVpz1hDiN09vninIVThRUTbNIblrAdeYdmfxeBgS/Lx+jNwy
-7NeX/AWaAdnFCUzhnsP3RfTZnRugSRSFg9AMz2eDNP5Z6nVrMrVqpF8z6+OCB8cs
-E/uBVmj24UJ1YjSvvlmBLY2YjXYzbtaAnDoSP4U2pXhmeLCCFJlrO5v8eUW6tavq
-VcWxi++/ttFbTLNi/MGGFnu2X5YOgqxJ4N15tE5MRVOoqjs2ikt0mwJvmSRi7vAB
-/iJZ1pq3sLidAHzOYSJpb5wyMamskqJn1UAym8wkQVBja6/QmGt/ry/NLRmRHKgx
-EUfsfdm+ld+XvCFpOeSet1ArVPZUR5II9Y5pN8EAIrz/Bct5I4BhS3lCMTCB6Z6h
-vDVUKwpwag3cWcypiUgFkYfAYJY1tHa+CJUwezaA7cC2+fBABq1zoKL5I65Ad8DO
-Ob1q0K7Dzwb9RlAGYKP7fUdpopKiBDZNY/lAQrxyMRi3AkoHon2Efi/nZA14N9La
-Cwa36H6940k6rzhE9zyyQnKu6eBY2X2qJx6hROGOZbzVtxlptpEC7EG90ljHlHuu
-jwkMTSuGMx/qpIpk1WcEMPAJI4jryE1fdxOoE73DgJag4n2h0fOJgRuryTrOZ2wH
-lQdP40YRvb6h42TwqVYoqQ26Pppcu4qvRkzimyfECVSWO6ZgKrQ=
-=mcL5
------END PGP SIGNATURE-----
+Test environment and method:
+    Host: 5.19.0-rc3 (With vq reset support)
+    Qemu: QEMU emulator version 7.0.50
+    Guest: 5.19.0-rc3 (With vq reset support)
+    Test Cmd: ethtool -g eth1; ethtool -G eth1 rx $1 tx $2; ethtool -g eth1;
 
---IJQ+Dj2d+tFRcgqH--
+    The drvier can resize the virtio queue, then virtio queue reset function should
+    be triggered.
+
+    The default is split mode, modify Qemu virtio-net to add PACKED feature to
+    test packed mode.
+
+Guest Kernel Patch:
+    https://lore.kernel.org/bpf/20220801063902.129329-1-xuanzhuo@linux.alibaba.com/
+
+Host Kernel Patch:
+    https://lore.kernel.org/bpf/20220825085610.80315-1-kangjie.xu@linux.alibaba.com/
+
+Looking forward to your review and comments. Thanks.
+
+changelog:
+
+v5:
+  1. vhost_net_virtqueue_restart() use -EBUSY replace -ENOTSUP. @Jason
+  2. reuse  VHOST_FILE_UNBIND. @Jason
+
+v4:
+  1. Add explanation for preventing userspace datapath in virtio-net.
+  2. Return error when vhost is not started in vhost_net_virtqueue_restart().
+  3. Reset the virtqueue in the device reusing vhost_virtqueue_stop().
+  4. Disable queue reset feature for pre-7.2 machine.
+
+v3:
+  1. Remove support for vhost-user in this series and refactor the code.
+  2. Rename 'vhost_net_virtqueue_stop' to 'vhost_net_virtqueue_reset'.
+  3. Make PCI transport ready before device ready when queue_enabled is set to true.
+  4. Add some comments.
+
+v2:
+  1. Add support for vhost-net kernel scenario.
+  2. Add a new vhost-user message VHOST_USER_RESET_VRING.
+  3. Add migration compatibility for virtqueue reset.
+
+Kangjie Xu (10):
+  virtio: introduce virtio_queue_enable()
+  virtio: core: vq reset feature negotation support
+  virtio-pci: support queue enable
+  vhost: expose vhost_virtqueue_start()
+  vhost: expose vhost_virtqueue_stop()
+  vhost-net: vhost-kernel: introduce vhost_net_virtqueue_reset()
+  vhost-net: vhost-kernel: introduce vhost_net_virtqueue_restart()
+  virtio-net: introduce flush_or_purge_queued_packets()
+  virtio-net: support queue_enable
+  vhost: vhost-kernel: enable vq reset feature
+
+Xuan Zhuo (5):
+  virtio: sync relevant definitions with linux
+  virtio: introduce __virtio_queue_reset()
+  virtio: introduce virtio_queue_reset()
+  virtio-pci: support queue reset
+  virtio-net: support queue reset
+
+ hw/core/machine.c                             |  4 +-
+ hw/net/vhost_net.c                            | 79 +++++++++++++++++++
+ hw/net/virtio-net.c                           | 56 +++++++++++--
+ hw/virtio/vhost.c                             | 16 ++--
+ hw/virtio/virtio-pci.c                        | 16 ++++
+ hw/virtio/virtio.c                            | 62 +++++++++++----
+ include/hw/virtio/vhost.h                     |  5 ++
+ include/hw/virtio/virtio-pci.h                |  5 ++
+ include/hw/virtio/virtio.h                    |  8 +-
+ include/net/vhost_net.h                       |  4 +
+ .../standard-headers/linux/virtio_config.h    |  5 ++
+ include/standard-headers/linux/virtio_pci.h   |  2 +
+ 12 files changed, 230 insertions(+), 32 deletions(-)
+
+--
+2.32.0.3.g01195cf9f
+
 
