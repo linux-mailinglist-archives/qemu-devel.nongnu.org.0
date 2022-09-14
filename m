@@ -2,126 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B52C5B8FA1
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 22:20:50 +0200 (CEST)
-Received: from localhost ([::1]:48310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 474585B8FAB
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 22:32:31 +0200 (CEST)
+Received: from localhost ([::1]:38962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYYsK-0005rO-OI
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 16:20:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54186)
+	id 1oYZ3a-0000e5-7M
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 16:32:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nicolinc@nvidia.com>)
- id 1oYYoS-0003cy-UE
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 16:17:07 -0400
-Received: from mail-bn7nam10on2080.outbound.protection.outlook.com
- ([40.107.92.80]:41929 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oYZ0o-0007Wm-83
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 16:29:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nicolinc@nvidia.com>)
- id 1oYYoQ-0005cI-Gx
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 16:16:48 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=na+0Pe+CwvdGogEPVERTey+APTjxws1sAwOSJp1fQfVD1bfwFy2RzxmGmzl3x1PVnAytQsDHEOfxF6h612pKH30R+VPXPMMcH0SVlTpcRAmgwgVv9kWNea/+RRL3+id9Wv6IG0DmTXvTJs2vnLrp71F+1UbC1cP9oQigG/dhP1MWvlWzjcxma2lK0X2BfT2D12ZEgYL5AEfQxuVdJmNTX6ebwEp5vy0uCzX6RCb5LsIe0dmUwi4ISfipA1acmKU7ll2YPqastNoyemfvAcija5xiwI3Hc78E8Z8ss3OeUumYTrTS5m1BWzUraUPDkkRhzMZYYY7CKXvqC8IIggYB1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Homm1po4t+LCzRBQx36OwkzYfd8rHp9nvvsn0h0tfWk=;
- b=LkHKSOlrEW7iCODEnZ2kDs0LiMtY6NgvB93yzXJrjQEY9kqrfz1SX4DPSr2hBEJiplT+LAcJT7DAOj0zQb0ns0SWkWPIkA/jGLBvFDDXTTmuoEOdnrV6EMfloh27aX2sgyo4dBb8Zot0jL35p1n2gYCkvbEhv4TnlnBHZWZeCX0jc9txOb8IWhhGsxuvchm0uFowwtEVdWT2AGxOexMY5RfRTEe3tL3vHhe3KFuxiW6L3MlQoSmxPhFm5ymsampsLRRN7cQVRWQQtCJzeGPUdA81eGqpqux8QeZPo9OITtHRNPJZtsw0Y84RH9dXs6BTu1jVTQMSMtcI3MWbLNsRBQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Homm1po4t+LCzRBQx36OwkzYfd8rHp9nvvsn0h0tfWk=;
- b=SF9C0qzj+WDg32IbYh2Y7b1yIMBmVoUJ2bciywjEih/WM8sWDo+7LbrnvG5Yezvdg5F7CBBI0+XMDAcwZ6poUux9Qgz17m5A+9BXe60lu2HIBJry4B3GtaNVM8s1NgchzCuhVEuwCU/cHR4OmJ+wktJ/R12+rMht9kL9W+6Q6qVWWJmUJysM0n4UXCUV0pP7krcdTbmfqVgeqZ8QlL+JUWqVfND98H9yYWDmSZQHq+Zmtsj9+cYqsNfH2b5AQ4kC9LS8IfgnnZ0ulVf5uAngjmAFrgUegT6Vv8wakUtqMqEXUTCJOlhqtaIADl4Yra5R7D4XZoFqvr5II8/8L2KNOw==
-Received: from BN8PR15CA0015.namprd15.prod.outlook.com (2603:10b6:408:c0::28)
- by BN9PR12MB5367.namprd12.prod.outlook.com (2603:10b6:408:104::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.12; Wed, 14 Sep
- 2022 20:16:42 +0000
-Received: from BN8NAM11FT010.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:c0:cafe::37) by BN8PR15CA0015.outlook.office365.com
- (2603:10b6:408:c0::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.14 via Frontend
- Transport; Wed, 14 Sep 2022 20:16:42 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- BN8NAM11FT010.mail.protection.outlook.com (10.13.177.53) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5632.12 via Frontend Transport; Wed, 14 Sep 2022 20:16:42 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Wed, 14 Sep
- 2022 13:16:28 -0700
-Received: from drhqmail203.nvidia.com (10.126.190.182) by
- rnnvmail203.nvidia.com (10.129.68.9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Wed, 14 Sep 2022 13:16:28 -0700
-Received: from drhqmail202.nvidia.com (10.126.190.181) by
- drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Wed, 14 Sep 2022 13:16:28 -0700
-Received: from Asurada-Nvidia (10.127.8.11) by mail.nvidia.com
- (10.126.190.181) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29 via Frontend
- Transport; Wed, 14 Sep 2022 13:16:27 -0700
-Date: Wed, 14 Sep 2022 13:16:26 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-CC: Cornelia Huck <cohuck@redhat.com>, <qemu-devel@nongnu.org>,
- <kwankhede@nvidia.com>, <avihaih@nvidia.com>, <shayd@nvidia.com>,
- <jgg@nvidia.com>
-Subject: Re: [PATCH] vfio/common: Do not g_free in vfio_get_iommu_info
-Message-ID: <YyI2mp0qUFD0loB+@Asurada-Nvidia>
-References: <20220910004245.2878-1-nicolinc@nvidia.com>
- <8735cwu5r7.fsf@redhat.com> <Yx+b0t20wtneTry+@Asurada-Nvidia>
- <20220914121029.1a693e5d.alex.williamson@redhat.com>
- <YyIlYK6TKmBRmUqI@Asurada-Nvidia>
- <20220914135339.665b90b1.alex.williamson@redhat.com>
- <20220914140325.41bd470d.alex.williamson@redhat.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oYZ0k-0007N5-TO
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 16:29:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663187369;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PhREPHhXm+crAtuezNs5+K9qCzV3incP8lph2OQ7jjs=;
+ b=AsnAfMQ7NQONc8JBT8QB9ly2Y0Rwdt3WLxYctPNnFJje3MWDawqqbTfEpRScJ7xbb1+LVL
+ tla6c/RzW9yK8I4sKBP5UGld5E1AxRAImnATtmI50zo4aaVjcQHumrNNHb55/HfDISjZOG
+ X//7Il/BA1PRUJAk5IEbhy8KuPhESX0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-148-FJF0YSGCNoKlTCpRgfSFJA-1; Wed, 14 Sep 2022 16:29:28 -0400
+X-MC-Unique: FJF0YSGCNoKlTCpRgfSFJA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ d30-20020adfa41e000000b00228c0e80c49so4238302wra.21
+ for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 13:29:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=PhREPHhXm+crAtuezNs5+K9qCzV3incP8lph2OQ7jjs=;
+ b=KVRPxbax8UzNnqzK9J2CXxmidlClI6KZmnn7/4aa7SA+hGx72TLvfv9XXHHFHP0Pvf
+ +HUQTjEJu7tOY3UJhwHB5yo8p5cXvLHXetPiGH0I5opMvt+au5CpY7kqk0IlhkFIavLv
+ +SeUmi2XiN2X0aRSjX2mpcUNPbqiuaNR9WTSddzurLWUewHYmRmOQOY092rI7kZw5AV2
+ hs5hHztgW8H/NMsXatPyIup0q7htNTPpvOOQRsAJvtAwFmhVjzF5nu31+AcG4jkLgGpP
+ otHqC5QXUGfrta2xfLhnFIbv4eqQDj4JPPlnH2ifiMrx0U2BuCmsePrFqS148kwmMyoo
+ J93Q==
+X-Gm-Message-State: ACgBeo2kHsFin2i4vQxIFJQxSWhbHYtbO56ltPWhI2FArkKh170geDRl
+ 47PfhmBguG8Hi9ZXBVYfifTNz9f09tg61mXtXcBliTtRIId8P+pwIXrFTPcR9/YlwH4xlmZGSPW
+ dlUUdLqnWi4Lt+MA=
+X-Received: by 2002:adf:fbca:0:b0:225:2ac9:e306 with SMTP id
+ d10-20020adffbca000000b002252ac9e306mr22985704wrs.259.1663187367469; 
+ Wed, 14 Sep 2022 13:29:27 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6YXTaJOacdFSbxSeKGCDnlhfkDPhCbwzOsad/tcT/rwmf7YkdrU5vyi+BuMa/rM5LxIoKJyQ==
+X-Received: by 2002:adf:fbca:0:b0:225:2ac9:e306 with SMTP id
+ d10-20020adffbca000000b002252ac9e306mr22985680wrs.259.1663187367144; 
+ Wed, 14 Sep 2022 13:29:27 -0700 (PDT)
+Received: from [172.20.194.41] ([79.140.208.123])
+ by smtp.gmail.com with ESMTPSA id
+ h15-20020a5d430f000000b00228de351fc0sm175784wrq.38.2022.09.14.13.29.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Sep 2022 13:29:26 -0700 (PDT)
+Message-ID: <f62c6a7e-960d-9552-582c-4b3f676b3b5d@redhat.com>
+Date: Wed, 14 Sep 2022 21:29:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20220914140325.41bd470d.alex.williamson@redhat.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT010:EE_|BN9PR12MB5367:EE_
-X-MS-Office365-Filtering-Correlation-Id: c3a57fe6-97bd-4846-33ee-08da968e0a35
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cbl9asiL5lCeblozc99bkTCsUEwfvFuxvgADbVxkA7ogLPtvy5d1N0GAL6WV/2Rzi1Q1pvaVZEYMCNSBgURlDkZ87LwM97HTd9uMDbHfXXOo0HUn7M21spgNxLT8AUeq1y2dFfwXgDYPILom3kc/1dpVtkG0m7N+iIUI/r5R+8P5C+0ewzhNB2REjA2HkrRB95N+kiIdesB8sitYuaaUkRvxaI/I7EFagsTNXn92KDo8Uwe386ODgF9RnOELoAipZ+4uEzubeGP2fRh59ma7WhwGVsoAVLwgrqZ6y12GbS9HCEh+Cxzo1++JN03BIEU0TjdWoFyVHOEUIasckQT3tAKqmkltOfA2vnYgb94I5FpKrphOzgEbf5RJNxmcAgEM8R4HUGVjNr3SBcUFNXBZ/6GyoW9wwmaP/n5zr+3sZn1jgIFB33QPm6KhDpq4GZJ4d1hc7FMFy0EAM3zS28GZbz6fLKWBaLFD7DkhP7l/Ib4tGBrGkOm5tyR9Fo2mnXVd13fJX++7S4EI4V+lBaQt/6oBJUhecVGavPADfkEJGLyBuM3jcJMoI/Opx/YRyrupWTxU51hMnVs+eOer9ywZylvBJLXJuF4sn1DvjVFRvmPKi/p92XHZLV//QKPxzqfSBOZTjaydAdYti4Vdk+fYks/+IAPyRugDGFAsrJPTXskbueG6gTaqjRQBOkbXY6bPfU12Y7W2mrV39cFfTf3UviOL0AVOgrMih8JT42MCeRktPPDyRIsll4QEIPXPo0ODNjUk3yB6o3ERZz7qkhBYZw==
-X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230022)(4636009)(396003)(376002)(136003)(39860400002)(346002)(451199015)(46966006)(40470700004)(36840700001)(2906002)(54906003)(41300700001)(336012)(426003)(9686003)(70586007)(33716001)(40460700003)(47076005)(40480700001)(107886003)(186003)(86362001)(4326008)(7636003)(70206006)(8676002)(8936002)(26005)(478600001)(356005)(82740400003)(5660300002)(6916009)(55016003)(36860700001)(82310400005)(316002);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2022 20:16:42.4940 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3a57fe6-97bd-4846-33ee-08da968e0a35
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT010.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5367
-Received-SPF: softfail client-ip=40.107.92.80;
- envelope-from=nicolinc@nvidia.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v2 04/30] tests/avocado: add explicit timeout for s390 TCG
+ tests
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
+ aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
+ crosa@redhat.com, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ "open list:S390 general arch..." <qemu-s390x@nongnu.org>
+References: <20220914155950.804707-1-alex.bennee@linaro.org>
+ <20220914155950.804707-5-alex.bennee@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220914155950.804707-5-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ NICE_REPLY_A=-1.583, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -138,51 +107,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 14, 2022 at 02:03:25PM -0600, Alex Williamson wrote:
-
-> > > > +        container->pgsizes = 4096;
-> > >
-> > > This might be a separate question/issue: I wonder if we should use
-> > > "sysconf(_SC_PAGE_SIZE)" here instead of 4096.
-> > >
-> > > With a kernel using a larger page size, e.g. CONFIG_ARM64_64K_PAGES,
-> > > the IO page size is likely to be 64K too. If the ioctl fails, this
-> > > default 4K setup won't work.
-> >
-> > Perhaps, but IIRC this solution came about because we originally forgot
-> > to expose the IOMMU_INFO flag to indicate the pgsize field was valid.
-> > At the time we only supported 4K systems, so it made sense to provide
-> > this default, though it is indeed dated.
-> >
-> > TBH, I don't really see why we should try to continue if the ioctl
-> > itself fails, so maybe this should be:
-
-OK. Makes sense to me.
-
-> > diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> > index ace9562a9ba1..ad188b7649e6 100644
-> > --- a/hw/vfio/common.c
-> > +++ b/hw/vfio/common.c
-> > @@ -2111,29 +2111,31 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-> >      {
-> >          struct vfio_iommu_type1_info *info;
-> >
-> > -        /*
-> > -         * FIXME: This assumes that a Type1 IOMMU can map any 64-bit
-> > -         * IOVA whatsoever.  That's not actually true, but the current
-> > -         * kernel interface doesn't tell us what it can map, and the
-> > -         * existing Type1 IOMMUs generally support any IOVA we're
-> > -         * going to actually try in practice.
-> > -         */
-> >          ret = vfio_get_iommu_info(container, &info);
-> > +        if (ret) {
+On 14/09/2022 16.59, Alex Bennée wrote:
+> We don't want to rely on the soon to be reduced default time. These
+> tests are still slow for something we want to run in CI though.
 > 
-> Clearly untested,
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   tests/avocado/boot_linux.py | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
->                ret = -errno;
-> 
-> > +            error_setg_errno(errp, -ret, "Failed to get VFIO IOMMU info");
-> > +            goto enable_discards_exit:;
+> diff --git a/tests/avocado/boot_linux.py b/tests/avocado/boot_linux.py
+> index 67a24fe51c..4f07c27ac6 100644
+> --- a/tests/avocado/boot_linux.py
+> +++ b/tests/avocado/boot_linux.py
+> @@ -130,6 +130,8 @@ class BootLinuxS390X(LinuxTest):
+>       :avocado: tags=arch:s390x
+>       """
+>   
+> +    timeout = 240
+> +
+>       @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+>       def test_s390_ccw_virtio_tcg(self):
+>           """
 
-There is a ":" in-between :)
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+
 
