@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 788645B8A30
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 16:19:38 +0200 (CEST)
-Received: from localhost ([::1]:57078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ADF45B8A6C
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 16:26:42 +0200 (CEST)
+Received: from localhost ([::1]:50082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYTEn-0004ee-AE
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 10:19:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48368)
+	id 1oYTLd-0003pa-D8
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 10:26:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYSMM-00084Z-In
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 09:23:22 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:43782)
+ id 1oYSMO-00088K-4l
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 09:23:24 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYSMK-0000ca-O9
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 09:23:22 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- z14-20020a05600c0a0e00b003b486df42a3so6403803wmp.2
- for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 06:23:19 -0700 (PDT)
+ id 1oYSML-0000ae-F5
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 09:23:23 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id cc5so15852870wrb.6
+ for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 06:23:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=+jD9lKzsh1CbGMDE7cH4Ty4evA7hw2r7Od0SGTHPpGM=;
- b=kO9EoxQEqaWyJ/rQBz15iFnqQrip6/s4MRX4f5w4Qj9Yh5L+H2j3lm9pt+Ys27iafQ
- IkKj6GYa99K37Pn72sY+Ds1X22E2evcHcfpQKsMk3QJsDMQ/VIi5Hmh9CqJYNk/tho7T
- x+rJPpqzPGN6iiQDgB+qJozzf7DL601XMPe8NOQJqRi3DaZ49im0qY2PAHx8IHXrtlKw
- hFTbDfEz4pcxahYga/C6yd9lnmgeqIqk+eVSHvZ1EVWOaRFOxAyS44Cj93WSEHQMH9lY
- qh3VYZcGZdcCpLyqTxC5QiJUI+EIyMHY4dPf9t8mZ6pguq59IrB+CshIVrIHXhozQSv4
- mTVg==
+ bh=5hn5ZCIWBTjKXNmV0CdKODbs07VBGmCbJWLiyFIEtk8=;
+ b=UT2iBFutxaQZG3iau273rZQEnu9bwj2hVUgwj9atPhXvuLjzq38B+yh4zIxRRmNWY3
+ lTek+YRzjy964PBiL06pl51sGJmvHYweKkU++77WDgSYyA3gtgieTndhcWHbTj+WAB5m
+ fSrhWxxvBNJeRs1moVLV9XWZAEtj9H3fgz5lBIQWhdRVL0pOGwrK2qD/3Skly+je8bOd
+ PLYNv809mJBxUzuNCh5+q3OdI4BQS4ZoN/BTksjK4qLeCKznQFPAewyWBj44gsX0K5I3
+ lr4xWHmxdDiRkjZu1DnevjFzHh6azlWW604vuuZibXAXU2AEzpK16/eh2/XNPGzwJP46
+ /YVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=+jD9lKzsh1CbGMDE7cH4Ty4evA7hw2r7Od0SGTHPpGM=;
- b=j3EL5i1MfaUwJK3tLPqjV77lGd+4FNTNAZyd+eoIDjPZuuh/cxadtxK41/oDkrffzt
- cpcjCMDvN5hHp9i8lqTD3qcu1+sx1lP7FU+a/hmSFwoTF/G+xc7mAMjRXBOqi+m9p8BD
- 6hb7aOxB5G8uGdI1ZzPHWSBOO8cHlswqSlUMCwl1WEiODbUqbhA06zvGdtuV9CnueO0G
- AAJWZKsxuKzEz+DLHAkqxz8A5ztoHgsvsMFhTLtSqauHzq97B7neM3Df7yhysWh5lwRh
- Jtbv69XEW1FVYxO6sIBGJIbr4+jXALhZlcWw7S6P6STESEGHzptKhST6QGsIohoZicf1
- bRuQ==
-X-Gm-Message-State: ACgBeo0BzNEzZvgJDACid3mFuprANQg2qyg9YnfVpmwGc3bEXPvkYybq
- 7B8iuHlzat8lLOoXP+0CFHuWIgtazn80M09/
-X-Google-Smtp-Source: AA6agR6Py3wcAU/o9RH9SB2EzKdpC8sjJ7qauKimnnDNfY20nYG/YKA1MCyNIejoadY7sdeY1Peg1g==
-X-Received: by 2002:a05:600c:2d09:b0:3b4:7ff0:ae89 with SMTP id
- x9-20020a05600c2d0900b003b47ff0ae89mr3073236wmf.163.1663161798630; 
- Wed, 14 Sep 2022 06:23:18 -0700 (PDT)
+ bh=5hn5ZCIWBTjKXNmV0CdKODbs07VBGmCbJWLiyFIEtk8=;
+ b=GqGND5F/84+SnPbvdRTuqzMpqHFKlPkipHhkg6g185DlEexlQR95CEIpWweM+IoGVF
+ z6ddwKcswIlAcXb4J2PdLLZMNhQnX4YCadkZQHUXxXghBKkOJ6vJQRQciOur60yUzHCY
+ y/vtyj+4sHdbA0k2WEEfVgyyDVhMPb6rTHo1P3hAzxI+EkRyA1Qycjic6QgA6jPeSxu/
+ A3699bFg3C01sVOMKekheT3izPL7p6cXKtUrkeq5JRYPUz85mbCpAP2Bgln1oPGDZEJo
+ 3ChpHWXGJd8kBQa0+dj2suQ8UmGczth09HW6JRGau0ErdG8qP3fU54f0KOZ4Qvx3010P
+ MpPA==
+X-Gm-Message-State: ACgBeo0gRCutCq1YE9SuuwDuamUDX0+uJhk8fpmNL4TR5cfLL1hxNsJ4
+ rU+ZgxmHqHr+dLtovdpDLgbFMwovii26QaVv
+X-Google-Smtp-Source: AA6agR64LE5V8zL57GsXZLjfOXvvZUJXo/aM3xvNW2VBYYSW/3CzpqUOaRKa6OAmIU5QE2/tQnbz2g==
+X-Received: by 2002:adf:e411:0:b0:226:d3f9:4a03 with SMTP id
+ g17-20020adfe411000000b00226d3f94a03mr22967527wrm.673.1663161800516; 
+ Wed, 14 Sep 2022 06:23:20 -0700 (PDT)
 Received: from stoup.. ([89.101.193.70]) by smtp.gmail.com with ESMTPSA id
- p15-20020a5d48cf000000b00226dedf1ab7sm13768244wrs.76.2022.09.14.06.23.17
+ p15-20020a5d48cf000000b00226dedf1ab7sm13768244wrs.76.2022.09.14.06.23.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Sep 2022 06:23:18 -0700 (PDT)
+ Wed, 14 Sep 2022 06:23:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 09/11] target/nios2: Honour -semihosting-config userspace=on
-Date: Wed, 14 Sep 2022 14:23:06 +0100
-Message-Id: <20220914132308.118495-10-richard.henderson@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 11/11] target/riscv: Honour -semihosting-config userspace=on
+ and enable=on
+Date: Wed, 14 Sep 2022 14:23:08 +0100
+Message-Id: <20220914132308.118495-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220914132308.118495-1-richard.henderson@linaro.org>
 References: <20220914132308.118495-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,40 +92,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-Honour the commandline -semihosting-config userspace=on option,
-instead of always permitting userspace semihosting calls in system
-emulation mode, by passing the correct value to the is_userspace
-argument of semihosting_enabled().
+The riscv target incorrectly enabled semihosting always, whether the
+user asked for it or not.  Call semihosting_enabled() passing the
+correct value to the is_userspace argument, which fixes this and also
+handles the userspace=on argument.  Because we do this at translate
+time, we no longer need to check the privilege level in
+riscv_cpu_do_interrupt().
 
-Note that this is a behaviour change: if the user wants to
-do semihosting calls from userspace they must now specifically
-enable them on the command line.
-
-nios2 semihosting is not implemented for linux-user builds.
+Note that this is a behaviour change: we used to default to
+semihosting being enabled, and now the user must pass
+"-semihosting-config enable=on" if they want it.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220822141230.3658237-6-peter.maydell@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20220822141230.3658237-8-peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/nios2/translate.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/riscv/cpu_helper.c                      | 9 +++------
+ target/riscv/translate.c                       | 1 +
+ target/riscv/insn_trans/trans_privileged.c.inc | 3 ++-
+ 3 files changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index ff631a42f6..8dc0a32c6c 100644
---- a/target/nios2/translate.c
-+++ b/target/nios2/translate.c
-@@ -817,8 +817,9 @@ static void gen_break(DisasContext *dc, uint32_t code, uint32_t flags)
- {
- #ifndef CONFIG_USER_ONLY
-     /* The semihosting instruction is "break 1".  */
-+    bool is_user = FIELD_EX32(dc->tb_flags, TBFLAGS, U);
-     R_TYPE(instr, code);
--    if (semihosting_enabled(false) && instr.imm5 == 1) {
-+    if (semihosting_enabled(is_user) && instr.imm5 == 1) {
-         t_gen_helper_raise_exception(dc, EXCP_SEMIHOST);
-         return;
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 67e4c0efd2..278d163803 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -1589,12 +1589,9 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+     target_ulong mtval2 = 0;
+ 
+     if  (cause == RISCV_EXCP_SEMIHOST) {
+-        if (env->priv >= PRV_S) {
+-            do_common_semihosting(cs);
+-            env->pc += 4;
+-            return;
+-        }
+-        cause = RISCV_EXCP_BREAKPOINT;
++        do_common_semihosting(cs);
++        env->pc += 4;
++        return;
      }
+ 
+     if (!async) {
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 8925a44c6e..db123da5ec 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -28,6 +28,7 @@
+ 
+ #include "exec/translator.h"
+ #include "exec/log.h"
++#include "semihosting/semihost.h"
+ 
+ #include "instmap.h"
+ #include "internals.h"
+diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/riscv/insn_trans/trans_privileged.c.inc
+index 46f96ad74d..3281408a87 100644
+--- a/target/riscv/insn_trans/trans_privileged.c.inc
++++ b/target/riscv/insn_trans/trans_privileged.c.inc
+@@ -52,7 +52,8 @@ static bool trans_ebreak(DisasContext *ctx, arg_ebreak *a)
+      * that no exception will be raised when fetching them.
+      */
+ 
+-    if ((pre_addr & TARGET_PAGE_MASK) == (post_addr & TARGET_PAGE_MASK)) {
++    if (semihosting_enabled(ctx->mem_idx < PRV_S) &&
++        (pre_addr & TARGET_PAGE_MASK) == (post_addr & TARGET_PAGE_MASK)) {
+         pre    = opcode_at(&ctx->base, pre_addr);
+         ebreak = opcode_at(&ctx->base, ebreak_addr);
+         post   = opcode_at(&ctx->base, post_addr);
 -- 
 2.34.1
 
