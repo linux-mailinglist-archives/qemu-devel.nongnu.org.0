@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81F2A5B8069
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 06:56:07 +0200 (CEST)
-Received: from localhost ([::1]:42640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D6CB5B8068
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Sep 2022 06:52:33 +0200 (CEST)
+Received: from localhost ([::1]:48286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYKRS-0002JR-AL
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 00:56:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51398)
+	id 1oYKNy-0000eq-VH
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 00:52:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1oYKDr-00045q-G1
+ id 1oYKDr-00045m-Ez
  for qemu-devel@nongnu.org; Wed, 14 Sep 2022 00:42:03 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:51495)
+Received: from gandalf.ozlabs.org ([150.107.74.76]:35541)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1oYKDl-0005tN-Vj
+ id 1oYKDm-0005tP-0s
  for qemu-devel@nongnu.org; Wed, 14 Sep 2022 00:42:03 -0400
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4MS72z4MGGz4xGC; Wed, 14 Sep 2022 14:41:47 +1000 (AEST)
+ id 4MS72z4S1pz4xG8; Wed, 14 Sep 2022 14:41:47 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1663130507;
- bh=+iz76pSlP5xawfAju6RR3TzW8UgPa1nLw3+YCcPrlzw=;
+ bh=8yzrNp2g/bgJ1kqXlg3istWVNb5G/50fTBCw9Rrb898=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VrHxYL8LVP7RTVVhZNd5c4Z8UV9WgJ+bZF2mPJMu8Uy/wo+ZO/VIydXnaehPrCfvn
- 0lVQabigMvMYfCOk9SZiTquwsLc9cV5ULNtzdbVr2ATQvdCv5trbveIU3pb39wqidL
- +d8AIJDFvBKG+TABvp6JI+Zy6L2DYGzkZwSy2mPw=
-Date: Wed, 14 Sep 2022 12:28:29 +1000
+ b=AEPWQgHbNh/xMqABo7GctH1YRBKmJeg3INFCz9m65d+IXYAnkpqFObQIxGq+FFp68
+ VThQKfBzLd5ZSC/aoOF635FUYTrIfxRv0uchJacTEeuUuQCK+ewQqZwRLLbnOHSrNU
+ ad3c2Mx/fCahfn5vwXlawZOhmlyeN8Yq20+x0CRU=
+Date: Wed, 14 Sep 2022 12:29:19 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Laurent Vivier <lvivier@redhat.com>
 Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
@@ -37,16 +37,15 @@ Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
  Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Thomas Huth <thuth@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v8 02/14] net: remove the @errp argument of
- net_client_inits()
-Message-ID: <YyE8TRYC67W+36z1@yekko>
+Subject: Re: [PATCH v8 03/14] net: simplify net_client_parse() error management
+Message-ID: <YyE8f+vkS/E3xAAM@yekko>
 References: <20220913064000.79353-1-lvivier@redhat.com>
- <20220913064000.79353-3-lvivier@redhat.com>
+ <20220913064000.79353-4-lvivier@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wWJ7mNMbDhV8DvBs"
+ protocol="application/pgp-signature"; boundary="IJQ+Dj2d+tFRcgqH"
 Content-Disposition: inline
-In-Reply-To: <20220913064000.79353-3-lvivier@redhat.com>
+In-Reply-To: <20220913064000.79353-4-lvivier@redhat.com>
 Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
 X-Spam_score_int: -17
@@ -72,96 +71,93 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---wWJ7mNMbDhV8DvBs
+--IJQ+Dj2d+tFRcgqH
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 13, 2022 at 08:39:48AM +0200, Laurent Vivier wrote:
-> The only caller passes &error_fatal, so use this directly in the function.
+On Tue, Sep 13, 2022 at 08:39:49AM +0200, Laurent Vivier wrote:
+> All net_client_parse() callers exit in case of error.
 >=20
-> It's what we do for -blockdev, -device, and -object.
+> Move exit(1) to net_client_parse() and remove error checking from
+> the callers.
 >=20
 > Suggested-by: Markus Armbruster <armbru@redhat.com>
 > Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 > Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-
 > ---
 >  include/net/net.h |  2 +-
->  net/net.c         | 20 +++++++-------------
->  softmmu/vl.c      |  2 +-
->  3 files changed, 9 insertions(+), 15 deletions(-)
+>  net/net.c         |  6 ++----
+>  softmmu/vl.c      | 12 +++---------
+>  3 files changed, 6 insertions(+), 14 deletions(-)
 >=20
 > diff --git a/include/net/net.h b/include/net/net.h
-> index 81d0b21defce..c1c34a58f849 100644
+> index c1c34a58f849..55023e7e9fa9 100644
 > --- a/include/net/net.h
 > +++ b/include/net/net.h
-> @@ -222,7 +222,7 @@ extern const char *host_net_devices[];
+> @@ -220,7 +220,7 @@ extern NICInfo nd_table[MAX_NICS];
+>  extern const char *host_net_devices[];
+> =20
 >  /* from net.c */
->  int net_client_parse(QemuOptsList *opts_list, const char *str);
+> -int net_client_parse(QemuOptsList *opts_list, const char *str);
+> +void net_client_parse(QemuOptsList *opts_list, const char *str);
 >  void show_netdevs(void);
-> -int net_init_clients(Error **errp);
-> +void net_init_clients(void);
+>  void net_init_clients(void);
 >  void net_check_clients(void);
->  void net_cleanup(void);
->  void hmp_host_net_add(Monitor *mon, const QDict *qdict);
 > diff --git a/net/net.c b/net/net.c
-> index d2288bd3a929..15958f881776 100644
+> index 15958f881776..f056e8aebfb2 100644
 > --- a/net/net.c
 > +++ b/net/net.c
-> @@ -1562,27 +1562,21 @@ out:
->      return ret;
+> @@ -1579,13 +1579,11 @@ void net_init_clients(void)
+>                        &error_fatal);
 >  }
 > =20
-> -int net_init_clients(Error **errp)
-> +void net_init_clients(void)
+> -int net_client_parse(QemuOptsList *opts_list, const char *optarg)
+> +void net_client_parse(QemuOptsList *opts_list, const char *optarg)
 >  {
->      net_change_state_entry =3D
->          qemu_add_vm_change_state_handler(net_vm_change_state_handler, NU=
-LL);
-> =20
->      QTAILQ_INIT(&net_clients);
-> =20
-> -    if (qemu_opts_foreach(qemu_find_opts("netdev"),
-> -                          net_init_netdev, NULL, errp)) {
+>      if (!qemu_opts_parse_noisily(opts_list, optarg, true)) {
 > -        return -1;
-> -    }
+> +        exit(1);
+>      }
 > -
-> -    if (qemu_opts_foreach(qemu_find_opts("nic"), net_param_nic, NULL, er=
-rp)) {
-> -        return -1;
-> -    }
-> +    qemu_opts_foreach(qemu_find_opts("netdev"), net_init_netdev, NULL,
-> +                      &error_fatal);
-> =20
-> -    if (qemu_opts_foreach(qemu_find_opts("net"), net_init_client, NULL, =
-errp)) {
-> -        return -1;
-> -    }
-> +    qemu_opts_foreach(qemu_find_opts("nic"), net_param_nic, NULL,
-> +                      &error_fatal);
-> =20
 > -    return 0;
-> +    qemu_opts_foreach(qemu_find_opts("net"), net_init_client, NULL,
-> +                      &error_fatal);
 >  }
 > =20
->  int net_client_parse(QemuOptsList *opts_list, const char *optarg)
+>  /* From FreeBSD */
 > diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index dea4005e4791..1fe8b5c5a120 100644
+> index 1fe8b5c5a120..55d163475e9e 100644
 > --- a/softmmu/vl.c
 > +++ b/softmmu/vl.c
-> @@ -1906,7 +1906,7 @@ static void qemu_create_late_backends(void)
->          qtest_server_init(qtest_chrdev, qtest_log, &error_fatal);
->      }
-> =20
-> -    net_init_clients(&error_fatal);
-> +    net_init_clients();
-> =20
->      object_option_foreach_add(object_create_late);
-> =20
+> @@ -2809,21 +2809,15 @@ void qemu_init(int argc, char **argv, char **envp)
+>                  break;
+>              case QEMU_OPTION_netdev:
+>                  default_net =3D 0;
+> -                if (net_client_parse(qemu_find_opts("netdev"), optarg) =
+=3D=3D -1) {
+> -                    exit(1);
+> -                }
+> +                net_client_parse(qemu_find_opts("netdev"), optarg);
+>                  break;
+>              case QEMU_OPTION_nic:
+>                  default_net =3D 0;
+> -                if (net_client_parse(qemu_find_opts("nic"), optarg) =3D=
+=3D -1) {
+> -                    exit(1);
+> -                }
+> +                net_client_parse(qemu_find_opts("nic"), optarg);
+>                  break;
+>              case QEMU_OPTION_net:
+>                  default_net =3D 0;
+> -                if (net_client_parse(qemu_find_opts("net"), optarg) =3D=
+=3D -1) {
+> -                    exit(1);
+> -                }
+> +                net_client_parse(qemu_find_opts("net"), optarg);
+>                  break;
+>  #ifdef CONFIG_LIBISCSI
+>              case QEMU_OPTION_iscsi:
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -169,25 +165,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---wWJ7mNMbDhV8DvBs
+--IJQ+Dj2d+tFRcgqH
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmMhPDQACgkQgypY4gEw
-YSLFPg/+Jt86DE523YNcc8fwlEUfY+gIZzuWuHICeohMAFs0jhYSBZ4WjSTIU9sd
-Dez8ZOfyaunLfrJUfbQc6jeYNPtg4/EAE8Dytn3bv7PFdds9sxhGFoGZ1Z9A4cWq
-uDQV6OjEK1Jmid8I4qp27U66ppe/XQ58ymY/ysAR7z7Gj1hooiSSy2wems9ZLC6n
-HRuICedPKT5hEbUrnJwBQuiYhsdfLCIZKUm8HUHYHFmmnUF6L+EOr+h9WkOg6opp
-DkVXR1hXAlw+AGllMeuwWCu+PYizAMaaKNnEwXvWbOphCHp+AVqV6i35Mh1/QOkZ
-IeRHGeID0WgkbnOCTcinm98MuQzI9wTmcK5KfdE+X5EBc1C65Y81g5KsdHGjtkGp
-qykjPIfTlJgWwAQ5NR8qPtjZiiLs9tevohSx5Hpa6jzWea9dpokazXiMqKTF6eSh
-NJapKUat3iW3Vu77qSXUnEclszbCRaPAHH7ZLegMvE4YYEhY2aHUNlUEL3QagCIM
-KmDzj/3F5rHTt2ZDqUSi24VFMu2ptISmWxTSr2jWdb2Eb7tjfgaLglsRrzFSfAA6
-DSrLyr0RUfR0ifsex8v94dDrupGHQ2Lk+hsjqWSZg6PCKJPXeanTsy/r5iMBxj+K
-rAlT6JBpc51V2i1lxLBt5BHwJnRvVFy2/9YtigwZqP5NKxBMjo8=
-=OwGO
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmMhPHgACgkQgypY4gEw
+YSJbsA//WK8oaBYERVpz1hDiN09vninIVThRUTbNIblrAdeYdmfxeBgS/Lx+jNwy
+7NeX/AWaAdnFCUzhnsP3RfTZnRugSRSFg9AMz2eDNP5Z6nVrMrVqpF8z6+OCB8cs
+E/uBVmj24UJ1YjSvvlmBLY2YjXYzbtaAnDoSP4U2pXhmeLCCFJlrO5v8eUW6tavq
+VcWxi++/ttFbTLNi/MGGFnu2X5YOgqxJ4N15tE5MRVOoqjs2ikt0mwJvmSRi7vAB
+/iJZ1pq3sLidAHzOYSJpb5wyMamskqJn1UAym8wkQVBja6/QmGt/ry/NLRmRHKgx
+EUfsfdm+ld+XvCFpOeSet1ArVPZUR5II9Y5pN8EAIrz/Bct5I4BhS3lCMTCB6Z6h
+vDVUKwpwag3cWcypiUgFkYfAYJY1tHa+CJUwezaA7cC2+fBABq1zoKL5I65Ad8DO
+Ob1q0K7Dzwb9RlAGYKP7fUdpopKiBDZNY/lAQrxyMRi3AkoHon2Efi/nZA14N9La
+Cwa36H6940k6rzhE9zyyQnKu6eBY2X2qJx6hROGOZbzVtxlptpEC7EG90ljHlHuu
+jwkMTSuGMx/qpIpk1WcEMPAJI4jryE1fdxOoE73DgJag4n2h0fOJgRuryTrOZ2wH
+lQdP40YRvb6h42TwqVYoqQ26Pppcu4qvRkzimyfECVSWO6ZgKrQ=
+=mcL5
 -----END PGP SIGNATURE-----
 
---wWJ7mNMbDhV8DvBs--
+--IJQ+Dj2d+tFRcgqH--
 
