@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 273555BA21F
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 23:00:13 +0200 (CEST)
-Received: from localhost ([::1]:49366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88A655BA236
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 23:12:22 +0200 (CEST)
+Received: from localhost ([::1]:48196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYvy0-0001YN-6G
-	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 17:00:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57198)
+	id 1oYw9l-0000WQ-BL
+	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 17:12:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oYvhr-0001uG-8J
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 16:43:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35248)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oYvhv-00021i-Cd
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 16:43:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50033)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oYvhl-0000IH-R9
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 16:43:30 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oYvhm-0000Iu-Gu
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 16:43:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1663274605;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UCZwrPwKkLWJv5Lc9YgNeEa6bsUalV0yIXF4bZ59uCw=;
- b=Z2Zv7J3LWoj8Yfzh4i64KV2wCVgOOI910aOxPewsFhssvkF2f0NLekCZzpttsHDvE484ur
- h78clS+Y8dhKvq4XIim+Grze0B91h7/PZN+2YyFMpbvV++eLjqwhL1cykd69KQF1pmv+tL
- LEBCdh8UOm25F7fBFHj976pcVa1vupY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mtp998FpO8oFYDjKO+KSh2k/qnePyNlHrOwrBNsOlsA=;
+ b=i5YIDy1E+LBKgcNc1cZeIaT1xspx7Oxo1oSITFeD0CQReCAqO2JLNpUhu+Xq5JLl9YdhNH
+ xEqborG2iqAtft8Fy0GlW/h5AwR3b+517iVcrgxm4PtLpl1MwsJp+hBxzrKSY1z4tkCJLc
+ S0vQ+iiqZnMB9m7VnvL4GBxat3apKMQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-255-f4rKfhdVMoiRPC__R5s1wg-1; Thu, 15 Sep 2022 16:43:22 -0400
-X-MC-Unique: f4rKfhdVMoiRPC__R5s1wg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-149-QagKNgEdMQy9jkWMpMpmbQ-1; Thu, 15 Sep 2022 16:43:22 -0400
+X-MC-Unique: QagKNgEdMQy9jkWMpMpmbQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A3F99386FC62;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EBD0C855306;
  Thu, 15 Sep 2022 20:43:21 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F40C40C6EC3;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F8931121314;
  Thu, 15 Sep 2022 20:43:21 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E410921E68BF; Thu, 15 Sep 2022 22:43:17 +0200 (CEST)
+ id E798721E676C; Thu, 15 Sep 2022 22:43:17 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: michael.roth@amd.com, jsnow@redhat.com, eblake@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 07/27] qapi audio: Elide redundant has_FOO in generated C
-Date: Thu, 15 Sep 2022 22:42:57 +0200
-Message-Id: <20220915204317.3766007-8-armbru@redhat.com>
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-block@nongnu.org
+Subject: [PATCH 08/27] qapi block: Elide redundant has_FOO in generated C
+Date: Thu, 15 Sep 2022 22:42:58 +0200
+Message-Id: <20220915204317.3766007-9-armbru@redhat.com>
 In-Reply-To: <20220915204317.3766007-1-armbru@redhat.com>
 References: <20220915204317.3766007-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -83,224 +84,1717 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 The has_FOO for pointer-valued FOO are redundant, except for arrays.
 They are also a nuisance to work with.  Recent commit "qapi: Start to
 elide redundant has_FOO in generated C" provided the means to elide
-them step by step.  This is the step for qapi/audio.json.
+them step by step.  This is the step for qapi/block*.json.
 
-Said commit explains the transformation in more detail.  The invariant
-violations mentioned there do not occur here.
+Said commit explains the transformation in more detail.
 
-Additionally, helper get_str() loses its @has_dst parameter.
+There is one instance of the Invariant violation mentioned there:
+qcow2_signal_corruption() passes false, "" when node_name is an empty
+string.  Take care to pass NULL then.
 
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Additionally, helper bdrv_latency_histogram_stats() loses its output
+parameters and returns a value instead.
+
+Cc: Kevin Wolf <kwolf@redhat.com>
+Cc: Hanna Reitz <hreitz@redhat.com>
+Cc: qemu-block@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- audio/alsaaudio.c      |  2 +-
- audio/audio.c          |  6 ++----
- audio/audio_legacy.c   | 17 +++++++----------
- audio/ossaudio.c       |  8 +++-----
- audio/paaudio.c        | 12 ++++++------
- audio/wavaudio.c       |  2 +-
- scripts/qapi/schema.py |  1 -
- 7 files changed, 20 insertions(+), 28 deletions(-)
+ block/block-backend.c          |   2 +-
+ block/copy-before-write.c      |   2 +-
+ block/dirty-bitmap.c           |   1 -
+ block/export/export.c          |   2 +-
+ block/export/vduse-blk.c       |   3 +-
+ block/gluster.c                |   3 -
+ block/monitor/block-hmp-cmds.c |  48 ++++------
+ block/qapi-sysemu.c            |  73 +++++---------
+ block/qapi.c                   |  62 +++++-------
+ block/qcow.c                   |  10 +-
+ block/qcow2.c                  |  18 ++--
+ block/qed.c                    |   2 +-
+ block/quorum.c                 |   2 +-
+ block/rbd.c                    |  15 +--
+ block/ssh.c                    |   2 +-
+ blockdev-nbd.c                 |   9 +-
+ blockdev.c                     | 170 +++++++++++++--------------------
+ blockjob.c                     |   2 -
+ monitor/hmp-cmds.c             |   3 +-
+ nbd/server.c                   |   2 +-
+ qemu-img.c                     |  13 ++-
+ qemu-nbd.c                     |   2 -
+ scripts/qapi/schema.py         |   3 -
+ 23 files changed, 170 insertions(+), 279 deletions(-)
 
-diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
-index 4a61378cd7..e8ad919cff 100644
---- a/audio/alsaaudio.c
-+++ b/audio/alsaaudio.c
-@@ -449,7 +449,7 @@ static int alsa_open(bool in, struct alsa_params_req *req,
-     snd_pcm_hw_params_t *hw_params;
-     int err;
-     unsigned int freq, nchannels;
--    const char *pcm_name = apdo->has_dev ? apdo->dev : "default";
-+    const char *pcm_name = apdo->dev ?: "default";
-     snd_pcm_uframes_t obt_buffer_size;
-     const char *typ = in ? "ADC" : "DAC";
-     snd_pcm_format_t obtfmt;
-diff --git a/audio/audio.c b/audio/audio.c
-index 76b8735b44..5ecbac312a 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -2008,15 +2008,13 @@ void audio_create_pdos(Audiodev *dev)
-     switch (dev->driver) {
- #define CASE(DRIVER, driver, pdo_name)                              \
-     case AUDIODEV_DRIVER_##DRIVER:                                  \
--        if (!dev->u.driver.has_in) {                                \
-+        if (!dev->u.driver.in) {                                    \
-             dev->u.driver.in = g_malloc0(                           \
-                 sizeof(Audiodev##pdo_name##PerDirectionOptions));   \
--            dev->u.driver.has_in = true;                            \
-         }                                                           \
--        if (!dev->u.driver.has_out) {                               \
-+        if (!dev->u.driver.out) {                                   \
-             dev->u.driver.out = g_malloc0(                          \
-                 sizeof(Audiodev##pdo_name##PerDirectionOptions));   \
--            dev->u.driver.has_out = true;                           \
-         }                                                           \
-         break
+diff --git a/block/block-backend.c b/block/block-backend.c
+index d4a5df2ac2..0433a1b0ba 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -1861,7 +1861,7 @@ static void send_qmp_error_event(BlockBackend *blk,
+     BlockDriverState *bs = blk_bs(blk);
  
-diff --git a/audio/audio_legacy.c b/audio/audio_legacy.c
-index 595949f52c..18a89ffffb 100644
---- a/audio/audio_legacy.c
-+++ b/audio/audio_legacy.c
-@@ -62,15 +62,12 @@ static void get_int(const char *env, uint32_t *dst, bool *has_dst)
+     optype = is_read ? IO_OPERATION_TYPE_READ : IO_OPERATION_TYPE_WRITE;
+-    qapi_event_send_block_io_error(blk_name(blk), !!bs,
++    qapi_event_send_block_io_error(blk_name(blk),
+                                    bs ? bdrv_get_node_name(bs) : NULL, optype,
+                                    action, blk_iostatus_is_enabled(blk),
+                                    error == ENOSPC, strerror(error));
+diff --git a/block/copy-before-write.c b/block/copy-before-write.c
+index c24b8dd117..6315651c7d 100644
+--- a/block/copy-before-write.c
++++ b/block/copy-before-write.c
+@@ -432,7 +432,7 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
+         return -EINVAL;
+     }
+ 
+-    if (opts->has_bitmap) {
++    if (opts->bitmap) {
+         bitmap = block_dirty_bitmap_lookup(opts->bitmap->node,
+                                            opts->bitmap->name, NULL, errp);
+         if (!bitmap) {
+diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+index bf3dc0512a..9c39550698 100644
+--- a/block/dirty-bitmap.c
++++ b/block/dirty-bitmap.c
+@@ -541,7 +541,6 @@ BlockDirtyInfoList *bdrv_query_dirty_bitmaps(BlockDriverState *bs)
+ 
+         info->count = bdrv_get_dirty_count(bm);
+         info->granularity = bdrv_dirty_bitmap_granularity(bm);
+-        info->has_name = !!bm->name;
+         info->name = g_strdup(bm->name);
+         info->recording = bdrv_dirty_bitmap_recording(bm);
+         info->busy = bdrv_dirty_bitmap_busy(bm);
+diff --git a/block/export/export.c b/block/export/export.c
+index 4744862915..da7480372c 100644
+--- a/block/export/export.c
++++ b/block/export/export.c
+@@ -114,7 +114,7 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
+     ctx = bdrv_get_aio_context(bs);
+     aio_context_acquire(ctx);
+ 
+-    if (export->has_iothread) {
++    if (export->iothread) {
+         IOThread *iothread;
+         AioContext *new_ctx;
+         Error **set_context_errp;
+diff --git a/block/export/vduse-blk.c b/block/export/vduse-blk.c
+index f101c24c3f..350d6fdaf0 100644
+--- a/block/export/vduse-blk.c
++++ b/block/export/vduse-blk.c
+@@ -265,8 +265,7 @@ static int vduse_blk_exp_create(BlockExport *exp, BlockExportOptions *opts,
+     }
+     vblk_exp->num_queues = num_queues;
+     vblk_exp->handler.blk = exp->blk;
+-    vblk_exp->handler.serial = g_strdup(vblk_opts->has_serial ?
+-                                        vblk_opts->serial : "");
++    vblk_exp->handler.serial = g_strdup(vblk_opts->serial ?: "");
+     vblk_exp->handler.logical_block_size = logical_block_size;
+     vblk_exp->handler.writable = opts->writable;
+ 
+diff --git a/block/gluster.c b/block/gluster.c
+index b60213ab80..e70f1c488a 100644
+--- a/block/gluster.c
++++ b/block/gluster.c
+@@ -830,7 +830,6 @@ static int qemu_gluster_open(BlockDriverState *bs,  QDict *options,
+     s->logfile = g_strdup(logfile ? logfile : GLUSTER_LOGFILE_DEFAULT);
+ 
+     gconf->logfile = g_strdup(s->logfile);
+-    gconf->has_logfile = true;
+ 
+     s->glfs = qemu_gluster_init(gconf, filename, options, errp);
+     if (!s->glfs) {
+@@ -917,7 +916,6 @@ static int qemu_gluster_reopen_prepare(BDRVReopenState *state,
+     gconf->debug = s->debug;
+     gconf->has_debug = true;
+     gconf->logfile = g_strdup(s->logfile);
+-    gconf->has_logfile = true;
+ 
+     /*
+      * If 'state->bs->exact_filename' is empty, 'state->options' should contain
+@@ -1162,7 +1160,6 @@ static int coroutine_fn qemu_gluster_co_create_opts(BlockDriver *drv,
+     if (!gconf->logfile) {
+         gconf->logfile = g_strdup(GLUSTER_LOGFILE_DEFAULT);
+     }
+-    gconf->has_logfile = true;
+ 
+     ret = qemu_gluster_parse(gconf, filename, NULL, errp);
+     if (ret < 0) {
+diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
+index bfb3c043a0..a4a8d11950 100644
+--- a/block/monitor/block-hmp-cmds.c
++++ b/block/monitor/block-hmp-cmds.c
+@@ -241,7 +241,6 @@ void hmp_drive_mirror(Monitor *mon, const QDict *qdict)
+     DriveMirror mirror = {
+         .device = (char *)qdict_get_str(qdict, "device"),
+         .target = (char *)filename,
+-        .has_format = !!format,
+         .format = (char *)format,
+         .sync = full ? MIRROR_SYNC_MODE_FULL : MIRROR_SYNC_MODE_TOP,
+         .has_mode = true,
+@@ -270,7 +269,6 @@ void hmp_drive_backup(Monitor *mon, const QDict *qdict)
+     DriveBackup backup = {
+         .device = (char *)device,
+         .target = (char *)filename,
+-        .has_format = !!format,
+         .format = (char *)format,
+         .sync = full ? MIRROR_SYNC_MODE_FULL : MIRROR_SYNC_MODE_TOP,
+         .has_mode = true,
+@@ -360,9 +358,7 @@ void hmp_snapshot_blkdev(Monitor *mon, const QDict *qdict)
+     }
+ 
+     mode = reuse ? NEW_IMAGE_MODE_EXISTING : NEW_IMAGE_MODE_ABSOLUTE_PATHS;
+-    qmp_blockdev_snapshot_sync(true, device, false, NULL,
+-                               filename, false, NULL,
+-                               !!format, format,
++    qmp_blockdev_snapshot_sync(device, NULL, filename, NULL, format,
+                                true, mode, &err);
+ end:
+     hmp_handle_error(mon, err);
+@@ -385,8 +381,7 @@ void hmp_snapshot_delete_blkdev_internal(Monitor *mon, const QDict *qdict)
+     const char *id = qdict_get_try_str(qdict, "id");
+     Error *err = NULL;
+ 
+-    qmp_blockdev_snapshot_delete_internal_sync(device, !!id, id,
+-                                               true, name, &err);
++    qmp_blockdev_snapshot_delete_internal_sync(device, id, name, &err);
+     hmp_handle_error(mon, err);
+ }
+ 
+@@ -427,7 +422,7 @@ void hmp_nbd_server_start(Monitor *mon, const QDict *qdict)
+     block_list = qmp_query_block(NULL);
+ 
+     for (info = block_list; info; info = info->next) {
+-        if (!info->value->has_inserted) {
++        if (!info->value->inserted) {
+             continue;
+         }
+ 
+@@ -460,7 +455,6 @@ void hmp_nbd_server_add(Monitor *mon, const QDict *qdict)
+ 
+     NbdServerAddOptions export = {
+         .device         = (char *) device,
+-        .has_name       = !!name,
+         .name           = (char *) name,
+         .has_writable   = true,
+         .writable       = writable,
+@@ -495,7 +489,7 @@ void hmp_block_resize(Monitor *mon, const QDict *qdict)
+     int64_t size = qdict_get_int(qdict, "size");
+     Error *err = NULL;
+ 
+-    qmp_block_resize(true, device, false, NULL, size, &err);
++    qmp_block_resize(device, NULL, size, &err);
+     hmp_handle_error(mon, err);
+ }
+ 
+@@ -506,11 +500,10 @@ void hmp_block_stream(Monitor *mon, const QDict *qdict)
+     const char *base = qdict_get_try_str(qdict, "base");
+     int64_t speed = qdict_get_try_int(qdict, "speed", 0);
+ 
+-    qmp_block_stream(true, device, device, base != NULL, base, false, NULL,
+-                     false, NULL, false, NULL,
+-                     qdict_haskey(qdict, "speed"), speed, true,
+-                     BLOCKDEV_ON_ERROR_REPORT, false, NULL, false, false, false,
+-                     false, &error);
++    qmp_block_stream(device, device, base, NULL, NULL, NULL,
++                     qdict_haskey(qdict, "speed"), speed,
++                     true, BLOCKDEV_ON_ERROR_REPORT, NULL,
++                     false, false, false, false, &error);
+ 
+     hmp_handle_error(mon, error);
+ }
+@@ -534,10 +527,8 @@ void hmp_block_set_io_throttle(Monitor *mon, const QDict *qdict)
+      * version has only one, so we must decide which one to pass.
+      */
+     if (blk_by_name(device)) {
+-        throttle.has_device = true;
+         throttle.device = device;
+     } else {
+-        throttle.has_id = true;
+         throttle.id = device;
+     }
+ 
+@@ -551,7 +542,7 @@ void hmp_eject(Monitor *mon, const QDict *qdict)
+     const char *device = qdict_get_str(qdict, "device");
+     Error *err = NULL;
+ 
+-    qmp_eject(true, device, false, NULL, true, force, &err);
++    qmp_eject(device, NULL, true, force, &err);
+     hmp_handle_error(mon, err);
+ }
+ 
+@@ -635,18 +626,18 @@ static void print_block_info(Monitor *mon, BlockInfo *info,
+ {
+     ImageInfo *image_info;
+ 
+-    assert(!info || !info->has_inserted || info->inserted == inserted);
++    assert(!info || !info->inserted || info->inserted == inserted);
+ 
+     if (info && *info->device) {
+         monitor_printf(mon, "%s", info->device);
+-        if (inserted && inserted->has_node_name) {
++        if (inserted && inserted->node_name) {
+             monitor_printf(mon, " (%s)", inserted->node_name);
+         }
+     } else {
+         assert(info || inserted);
+         monitor_printf(mon, "%s",
+-                       inserted && inserted->has_node_name ? inserted->node_name
+-                       : info && info->has_qdev ? info->qdev
++                       inserted && inserted->node_name ? inserted->node_name
++                       : info && info->qdev ? info->qdev
+                        : "<anonymous>");
+     }
+ 
+@@ -661,7 +652,7 @@ static void print_block_info(Monitor *mon, BlockInfo *info,
+     }
+ 
+     if (info) {
+-        if (info->has_qdev) {
++        if (info->qdev) {
+             monitor_printf(mon, "    Attached to:      %s\n", info->qdev);
+         }
+         if (info->has_io_status && info->io_status != BLOCK_DEVICE_IO_STATUS_OK) {
+@@ -686,7 +677,7 @@ static void print_block_info(Monitor *mon, BlockInfo *info,
+                    inserted->cache->direct ? ", direct" : "",
+                    inserted->cache->no_flush ? ", ignore flushes" : "");
+ 
+-    if (inserted->has_backing_file) {
++    if (inserted->backing_file) {
+         monitor_printf(mon,
+                        "    Backing file:     %s "
+                        "(chain depth: %" PRId64 ")\n",
+@@ -735,7 +726,7 @@ static void print_block_info(Monitor *mon, BlockInfo *info,
+         image_info = inserted->image;
+         while (1) {
+                 bdrv_image_info_dump(image_info);
+-            if (image_info->has_backing_image) {
++            if (image_info->backing_image) {
+                 image_info = image_info->backing_image;
+             } else {
+                 break;
+@@ -769,8 +760,7 @@ void hmp_info_block(Monitor *mon, const QDict *qdict)
+             monitor_printf(mon, "\n");
+         }
+ 
+-        print_block_info(mon, info->value, info->value->has_inserted
+-                                           ? info->value->inserted : NULL,
++        print_block_info(mon, info->value, info->value->inserted,
+                          verbose);
+         printed = true;
+     }
+@@ -784,7 +774,7 @@ void hmp_info_block(Monitor *mon, const QDict *qdict)
+     /* Print node information */
+     blockdev_list = qmp_query_named_block_nodes(false, false, NULL);
+     for (blockdev = blockdev_list; blockdev; blockdev = blockdev->next) {
+-        assert(blockdev->value->has_node_name);
++        assert(blockdev->value->node_name);
+         if (device && strcmp(device, blockdev->value->node_name)) {
+             continue;
+         }
+@@ -805,7 +795,7 @@ void hmp_info_blockstats(Monitor *mon, const QDict *qdict)
+     stats_list = qmp_query_blockstats(false, false, NULL);
+ 
+     for (stats = stats_list; stats; stats = stats->next) {
+-        if (!stats->value->has_device) {
++        if (!stats->value->device) {
+             continue;
+         }
+ 
+diff --git a/block/qapi-sysemu.c b/block/qapi-sysemu.c
+index 680c7ee342..0c7a1423de 100644
+--- a/block/qapi-sysemu.c
++++ b/block/qapi-sysemu.c
+@@ -116,8 +116,8 @@ static int do_open_tray(const char *blk_name, const char *qdev_id,
+     return 0;
+ }
+ 
+-void qmp_blockdev_open_tray(bool has_device, const char *device,
+-                            bool has_id, const char *id,
++void qmp_blockdev_open_tray(const char *device,
++                            const char *id,
+                             bool has_force, bool force,
+                             Error **errp)
+ {
+@@ -127,9 +127,7 @@ void qmp_blockdev_open_tray(bool has_device, const char *device,
+     if (!has_force) {
+         force = false;
+     }
+-    rc = do_open_tray(has_device ? device : NULL,
+-                      has_id ? id : NULL,
+-                      force, &local_err);
++    rc = do_open_tray(device, id, force, &local_err);
+     if (rc && rc != -ENOSYS && rc != -EINPROGRESS) {
+         error_propagate(errp, local_err);
+         return;
+@@ -137,16 +135,13 @@ void qmp_blockdev_open_tray(bool has_device, const char *device,
+     error_free(local_err);
+ }
+ 
+-void qmp_blockdev_close_tray(bool has_device, const char *device,
+-                             bool has_id, const char *id,
++void qmp_blockdev_close_tray(const char *device,
++                             const char *id,
+                              Error **errp)
+ {
+     BlockBackend *blk;
+     Error *local_err = NULL;
+ 
+-    device = has_device ? device : NULL;
+-    id = has_id ? id : NULL;
+-
+     blk = qmp_get_blk(device, id, errp);
+     if (!blk) {
+         return;
+@@ -173,17 +168,14 @@ void qmp_blockdev_close_tray(bool has_device, const char *device,
      }
  }
  
--static void get_str(const char *env, char **dst, bool *has_dst)
-+static void get_str(const char *env, char **dst)
+-static void blockdev_remove_medium(bool has_device, const char *device,
+-                                   bool has_id, const char *id, Error **errp)
++static void blockdev_remove_medium(const char *device, const char *id,
++                                   Error **errp)
  {
-     const char *val = getenv(env);
-     if (val) {
--        if (*has_dst) {
--            g_free(*dst);
--        }
-+        g_free(*dst);
-         *dst = g_strdup(val);
--        *has_dst = true;
+     BlockBackend *blk;
+     BlockDriverState *bs;
+     AioContext *aio_context;
+     bool has_attached_device;
+ 
+-    device = has_device ? device : NULL;
+-    id = has_id ? id : NULL;
+-
+     blk = qmp_get_blk(device, id, errp);
+     if (!blk) {
+         return;
+@@ -232,7 +224,7 @@ out:
+ 
+ void qmp_blockdev_remove_medium(const char *id, Error **errp)
+ {
+-    blockdev_remove_medium(false, NULL, true, id, errp);
++    blockdev_remove_medium(NULL, id, errp);
+ }
+ 
+ static void qmp_blockdev_insert_anon_medium(BlockBackend *blk,
+@@ -280,16 +272,13 @@ static void qmp_blockdev_insert_anon_medium(BlockBackend *blk,
      }
  }
  
-@@ -169,7 +166,7 @@ static void handle_alsa_per_direction(
-     get_bool(buf, &apdo->try_poll, &apdo->has_try_poll);
- 
-     strcpy(buf + len, "DEV");
--    get_str(buf, &apdo->dev, &apdo->has_dev);
-+    get_str(buf, &apdo->dev);
- 
-     strcpy(buf + len, "SIZE_IN_USEC");
-     get_bool(buf, &size_in_usecs, &dummy);
-@@ -235,7 +232,7 @@ static void handle_oss_per_direction(
-     const char *dev_env)
+-static void blockdev_insert_medium(bool has_device, const char *device,
+-                                   bool has_id, const char *id,
++static void blockdev_insert_medium(const char *device, const char *id,
+                                    const char *node_name, Error **errp)
  {
-     get_bool(try_poll_env, &opdo->try_poll, &opdo->has_try_poll);
--    get_str(dev_env, &opdo->dev, &opdo->has_dev);
-+    get_str(dev_env, &opdo->dev);
+     BlockBackend *blk;
+     BlockDriverState *bs;
  
-     get_bytes_to_usecs("QEMU_OSS_FRAGSIZE",
-                        &opdo->buffer_length, &opdo->has_buffer_length,
-@@ -261,7 +258,7 @@ static void handle_oss(Audiodev *dev)
- static void handle_pa_per_direction(
-     AudiodevPaPerDirectionOptions *ppdo, const char *env)
+-    blk = qmp_get_blk(has_device ? device : NULL,
+-                      has_id ? id : NULL,
+-                      errp);
++    blk = qmp_get_blk(device, id, errp);
+     if (!blk) {
+         return;
+     }
+@@ -311,13 +300,13 @@ static void blockdev_insert_medium(bool has_device, const char *device,
+ void qmp_blockdev_insert_medium(const char *id, const char *node_name,
+                                 Error **errp)
  {
--    get_str(env, &ppdo->name, &ppdo->has_name);
-+    get_str(env, &ppdo->name);
+-    blockdev_insert_medium(false, NULL, true, id, node_name, errp);
++    blockdev_insert_medium(NULL, id, node_name, errp);
  }
  
- static void handle_pa(Audiodev *dev)
-@@ -278,7 +275,7 @@ static void handle_pa(Audiodev *dev)
-         &dev->u.pa.out->has_buffer_length,
-         qapi_AudiodevPaPerDirectionOptions_base(dev->u.pa.out));
+-void qmp_blockdev_change_medium(bool has_device, const char *device,
+-                                bool has_id, const char *id,
++void qmp_blockdev_change_medium(const char *device,
++                                const char *id,
+                                 const char *filename,
+-                                bool has_format, const char *format,
++                                const char *format,
+                                 bool has_force, bool force,
+                                 bool has_read_only,
+                                 BlockdevChangeReadOnlyMode read_only,
+@@ -331,9 +320,7 @@ void qmp_blockdev_change_medium(bool has_device, const char *device,
+     QDict *options = NULL;
+     Error *err = NULL;
  
--    get_str("QEMU_PA_SERVER", &dev->u.pa.server, &dev->u.pa.has_server);
-+    get_str("QEMU_PA_SERVER", &dev->u.pa.server);
+-    blk = qmp_get_blk(has_device ? device : NULL,
+-                      has_id ? id : NULL,
+-                      errp);
++    blk = qmp_get_blk(device, id, errp);
+     if (!blk) {
+         goto fail;
+     }
+@@ -370,7 +357,7 @@ void qmp_blockdev_change_medium(bool has_device, const char *device,
+     detect_zeroes = blk_get_detect_zeroes_from_root_state(blk);
+     qdict_put_str(options, "detect-zeroes", detect_zeroes ? "on" : "off");
+ 
+-    if (has_format) {
++    if (format) {
+         qdict_put_str(options, "driver", format);
+     }
+ 
+@@ -379,9 +366,7 @@ void qmp_blockdev_change_medium(bool has_device, const char *device,
+         goto fail;
+     }
+ 
+-    rc = do_open_tray(has_device ? device : NULL,
+-                      has_id ? id : NULL,
+-                      force, &err);
++    rc = do_open_tray(device, id, force, &err);
+     if (rc && rc != -ENOSYS) {
+         error_propagate(errp, err);
+         goto fail;
+@@ -389,7 +374,7 @@ void qmp_blockdev_change_medium(bool has_device, const char *device,
+     error_free(err);
+     err = NULL;
+ 
+-    blockdev_remove_medium(has_device, device, has_id, id, &err);
++    blockdev_remove_medium(device, id, &err);
+     if (err) {
+         error_propagate(errp, err);
+         goto fail;
+@@ -401,7 +386,7 @@ void qmp_blockdev_change_medium(bool has_device, const char *device,
+         goto fail;
+     }
+ 
+-    qmp_blockdev_close_tray(has_device, device, has_id, id, errp);
++    qmp_blockdev_close_tray(device, id, errp);
+ 
+ fail:
+     /* If the medium has been inserted, the device has its own reference, so
+@@ -410,8 +395,7 @@ fail:
+     bdrv_unref(medium_bs);
  }
  
- /* SDL */
-@@ -299,7 +296,7 @@ static void handle_wav(Audiodev *dev)
-             &dev->u.wav.out->has_format);
-     get_int("QEMU_WAV_DAC_FIXED_CHANNELS",
-             &dev->u.wav.out->channels, &dev->u.wav.out->has_channels);
--    get_str("QEMU_WAV_PATH", &dev->u.wav.path, &dev->u.wav.has_path);
-+    get_str("QEMU_WAV_PATH", &dev->u.wav.path);
+-void qmp_eject(bool has_device, const char *device,
+-               bool has_id, const char *id,
++void qmp_eject(const char *device, const char *id,
+                bool has_force, bool force, Error **errp)
+ {
+     Error *local_err = NULL;
+@@ -421,16 +405,14 @@ void qmp_eject(bool has_device, const char *device,
+         force = false;
+     }
+ 
+-    rc = do_open_tray(has_device ? device : NULL,
+-                      has_id ? id : NULL,
+-                      force, &local_err);
++    rc = do_open_tray(device, id, force, &local_err);
+     if (rc && rc != -ENOSYS) {
+         error_propagate(errp, local_err);
+         return;
+     }
+     error_free(local_err);
+ 
+-    blockdev_remove_medium(has_device, device, has_id, id, errp);
++    blockdev_remove_medium(device, id, errp);
  }
  
- /* general */
-diff --git a/audio/ossaudio.c b/audio/ossaudio.c
-index 8e075edb70..e8d732b612 100644
---- a/audio/ossaudio.c
-+++ b/audio/ossaudio.c
-@@ -252,7 +252,7 @@ static int oss_open(int in, struct oss_params *req, audsettings *as,
-     audio_buf_info abinfo;
-     int fmt, freq, nchannels;
-     int setfragment = 1;
--    const char *dspname = opdo->has_dev ? opdo->dev : "/dev/dsp";
-+    const char *dspname = opdo->dev ?: "/dev/dsp";
-     const char *typ = in ? "ADC" : "DAC";
- #ifdef USE_DSP_POLICY
-     int policy = oopts->has_dsp_policy ? oopts->dsp_policy : 5;
-@@ -745,10 +745,8 @@ static void *oss_audio_init(Audiodev *dev)
-     oss_init_per_direction(oopts->in);
-     oss_init_per_direction(oopts->out);
+ /* throttling disk I/O limits */
+@@ -441,9 +423,7 @@ void qmp_block_set_io_throttle(BlockIOThrottle *arg, Error **errp)
+     BlockBackend *blk;
+     AioContext *aio_context;
  
--    if (access(oopts->in->has_dev ? oopts->in->dev : "/dev/dsp",
--               R_OK | W_OK) < 0 ||
--        access(oopts->out->has_dev ? oopts->out->dev : "/dev/dsp",
--               R_OK | W_OK) < 0) {
-+    if (access(oopts->in->dev ?: "/dev/dsp", R_OK | W_OK) < 0 ||
-+        access(oopts->out->dev ?: "/dev/dsp", R_OK | W_OK) < 0) {
+-    blk = qmp_get_blk(arg->has_device ? arg->device : NULL,
+-                      arg->has_id ? arg->id : NULL,
+-                      errp);
++    blk = qmp_get_blk(arg->device, arg->id, errp);
+     if (!blk) {
+         return;
+     }
+@@ -516,11 +496,8 @@ void qmp_block_set_io_throttle(BlockIOThrottle *arg, Error **errp)
+         /* Enable I/O limits if they're not enabled yet, otherwise
+          * just update the throttling group. */
+         if (!blk_get_public(blk)->throttle_group_member.throttle_state) {
+-            blk_io_limits_enable(blk,
+-                                 arg->has_group ? arg->group :
+-                                 arg->has_device ? arg->device :
+-                                 arg->id);
+-        } else if (arg->has_group) {
++            blk_io_limits_enable(blk, arg->group ?: arg->device ?: arg->id);
++        } else if (arg->group) {
+             blk_io_limits_update_group(blk, arg->group);
+         }
+         /* Set the new throttling configuration */
+diff --git a/block/qapi.c b/block/qapi.c
+index cf557e3aea..fea808425b 100644
+--- a/block/qapi.c
++++ b/block/qapi.c
+@@ -71,13 +71,11 @@ BlockDeviceInfo *bdrv_block_device_info(BlockBackend *blk,
+     };
+ 
+     if (bs->node_name[0]) {
+-        info->has_node_name = true;
+         info->node_name = g_strdup(bs->node_name);
+     }
+ 
+     backing = bdrv_cow_bs(bs);
+     if (backing) {
+-        info->has_backing_file = true;
+         info->backing_file = g_strdup(backing->filename);
+     }
+ 
+@@ -139,7 +137,6 @@ BlockDeviceInfo *bdrv_block_device_info(BlockBackend *blk,
+         info->has_iops_size = cfg.op_size;
+         info->iops_size = cfg.op_size;
+ 
+-        info->has_group = true;
+         info->group =
+             g_strdup(throttle_group_get_name(&blkp->throttle_group_member));
+     }
+@@ -170,7 +167,6 @@ BlockDeviceInfo *bdrv_block_device_info(BlockBackend *blk,
+              */
+             info->backing_file_depth++;
+             bs0 = bdrv_filter_or_cow_bs(bs0);
+-            (*p_image_info)->has_backing_image = true;
+             p_image_info = &((*p_image_info)->backing_image);
+         } else {
+             break;
+@@ -301,26 +297,21 @@ void bdrv_query_image_info(BlockDriverState *bs,
+         qapi_free_ImageInfo(info);
+         goto out;
+     }
+-    info->has_format_specific = info->format_specific != NULL;
+-
+     backing_filename = bs->backing_file;
+     if (backing_filename[0] != '\0') {
+         char *backing_filename2;
+ 
+         info->backing_filename = g_strdup(backing_filename);
+-        info->has_backing_filename = true;
+         backing_filename2 = bdrv_get_full_backing_filename(bs, NULL);
+ 
+         /* Always report the full_backing_filename if present, even if it's the
+          * same as backing_filename. That they are same is useful info. */
+         if (backing_filename2) {
+             info->full_backing_filename = g_strdup(backing_filename2);
+-            info->has_full_backing_filename = true;
+         }
+ 
+         if (bs->backing_format[0]) {
+             info->backing_filename_format = g_strdup(bs->backing_format);
+-            info->has_backing_filename_format = true;
+         }
+         g_free(backing_filename2);
+     }
+@@ -367,7 +358,6 @@ static void bdrv_query_info(BlockBackend *blk, BlockInfo **p_info,
+ 
+     qdev = blk_get_attached_dev_id(blk);
+     if (qdev && *qdev) {
+-        info->has_qdev = true;
+         info->qdev = qdev;
+     } else {
+         g_free(qdev);
+@@ -384,7 +374,6 @@ static void bdrv_query_info(BlockBackend *blk, BlockInfo **p_info,
+     }
+ 
+     if (bs && bs->drv) {
+-        info->has_inserted = true;
+         info->inserted = bdrv_block_device_info(blk, bs, false, errp);
+         if (info->inserted == NULL) {
+             goto err;
+@@ -411,23 +400,26 @@ static uint64List *uint64_list(uint64_t *list, int size)
+     return out_list;
+ }
+ 
+-static void bdrv_latency_histogram_stats(BlockLatencyHistogram *hist,
+-                                         bool *not_null,
+-                                         BlockLatencyHistogramInfo **info)
++static BlockLatencyHistogramInfo *
++bdrv_latency_histogram_stats(BlockLatencyHistogram *hist)
+ {
+-    *not_null = hist->bins != NULL;
+-    if (*not_null) {
+-        *info = g_new0(BlockLatencyHistogramInfo, 1);
++    BlockLatencyHistogramInfo *info;
+ 
+-        (*info)->boundaries = uint64_list(hist->boundaries, hist->nbins - 1);
+-        (*info)->bins = uint64_list(hist->bins, hist->nbins);
++    if (!hist->bins) {
++        return NULL;
+     }
++
++    info = g_new0(BlockLatencyHistogramInfo, 1);
++    info->boundaries = uint64_list(hist->boundaries, hist->nbins - 1);
++    info->bins = uint64_list(hist->bins, hist->nbins);
++    return info;
+ }
+ 
+ static void bdrv_query_blk_stats(BlockDeviceStats *ds, BlockBackend *blk)
+ {
+     BlockAcctStats *stats = blk_get_stats(blk);
+     BlockAcctTimedStats *ts = NULL;
++    BlockLatencyHistogram *hgram;
+ 
+     ds->rd_bytes = stats->nr_bytes[BLOCK_ACCT_READ];
+     ds->wr_bytes = stats->nr_bytes[BLOCK_ACCT_WRITE];
+@@ -493,15 +485,13 @@ static void bdrv_query_blk_stats(BlockDeviceStats *ds, BlockBackend *blk)
+         QAPI_LIST_PREPEND(ds->timed_stats, dev_stats);
+     }
+ 
+-    bdrv_latency_histogram_stats(&stats->latency_histogram[BLOCK_ACCT_READ],
+-                                 &ds->has_rd_latency_histogram,
+-                                 &ds->rd_latency_histogram);
+-    bdrv_latency_histogram_stats(&stats->latency_histogram[BLOCK_ACCT_WRITE],
+-                                 &ds->has_wr_latency_histogram,
+-                                 &ds->wr_latency_histogram);
+-    bdrv_latency_histogram_stats(&stats->latency_histogram[BLOCK_ACCT_FLUSH],
+-                                 &ds->has_flush_latency_histogram,
+-                                 &ds->flush_latency_histogram);
++    hgram = stats->latency_histogram;
++    ds->rd_latency_histogram
++        = bdrv_latency_histogram_stats(&hgram[BLOCK_ACCT_READ]);
++    ds->wr_latency_histogram
++        = bdrv_latency_histogram_stats(&hgram[BLOCK_ACCT_WRITE]);
++    ds->flush_latency_histogram
++        = bdrv_latency_histogram_stats(&hgram[BLOCK_ACCT_FLUSH]);
+ }
+ 
+ static BlockStats *bdrv_query_bds_stats(BlockDriverState *bs,
+@@ -526,16 +516,12 @@ static BlockStats *bdrv_query_bds_stats(BlockDriverState *bs,
+     }
+ 
+     if (bdrv_get_node_name(bs)[0]) {
+-        s->has_node_name = true;
+         s->node_name = g_strdup(bdrv_get_node_name(bs));
+     }
+ 
+     s->stats->wr_highest_offset = stat64_get(&bs->wr_highest_offset);
+ 
+     s->driver_specific = bdrv_get_specific_stats(bs);
+-    if (s->driver_specific) {
+-        s->has_driver_specific = true;
+-    }
+ 
+     parent_child = bdrv_primary_child(bs);
+     if (!parent_child ||
+@@ -564,7 +550,6 @@ static BlockStats *bdrv_query_bds_stats(BlockDriverState *bs,
+         }
+     }
+     if (parent_child) {
+-        s->has_parent = true;
+         s->parent = bdrv_query_bds_stats(parent_child->bs, blk_level);
+     }
+ 
+@@ -575,7 +560,6 @@ static BlockStats *bdrv_query_bds_stats(BlockDriverState *bs,
+          * compatibility to when we put bs0->backing here, which might
+          * be either)
+          */
+-        s->has_backing = true;
+         s->backing = bdrv_query_bds_stats(filter_or_cow_bs, blk_level);
+     }
+ 
+@@ -640,12 +624,10 @@ BlockStatsList *qmp_query_blockstats(bool has_query_nodes,
+ 
+             aio_context_acquire(ctx);
+             s = bdrv_query_bds_stats(blk_bs(blk), true);
+-            s->has_device = true;
+             s->device = g_strdup(blk_name(blk));
+ 
+             qdev = blk_get_attached_dev_id(blk);
+             if (qdev && *qdev) {
+-                s->has_qdev = true;
+                 s->qdev = qdev;
+             } else {
+                 g_free(qdev);
+@@ -822,16 +804,16 @@ void bdrv_image_info_dump(ImageInfo *info)
+         qemu_printf("cleanly shut down: no\n");
+     }
+ 
+-    if (info->has_backing_filename) {
++    if (info->backing_filename) {
+         qemu_printf("backing file: %s", info->backing_filename);
+-        if (!info->has_full_backing_filename) {
++        if (!info->full_backing_filename) {
+             qemu_printf(" (cannot determine actual path)");
+         } else if (strcmp(info->backing_filename,
+                           info->full_backing_filename) != 0) {
+             qemu_printf(" (actual path: %s)", info->full_backing_filename);
+         }
+         qemu_printf("\n");
+-        if (info->has_backing_filename_format) {
++        if (info->backing_filename_format) {
+             qemu_printf("backing file format: %s\n",
+                         info->backing_filename_format);
+         }
+@@ -865,7 +847,7 @@ void bdrv_image_info_dump(ImageInfo *info)
+         }
+     }
+ 
+-    if (info->has_format_specific) {
++    if (info->format_specific) {
+         qemu_printf("Format specific information:\n");
+         bdrv_image_info_specific_dump(info->format_specific);
+     }
+diff --git a/block/qcow.c b/block/qcow.c
+index 311aaa8705..6374380e77 100644
+--- a/block/qcow.c
++++ b/block/qcow.c
+@@ -825,7 +825,7 @@ static int coroutine_fn qcow_co_create(BlockdevCreateOptions *opts,
+         return -EINVAL;
+     }
+ 
+-    if (qcow_opts->has_encrypt &&
++    if (qcow_opts->encrypt &&
+         qcow_opts->encrypt->format != Q_CRYPTO_BLOCK_FORMAT_QCOW)
+     {
+         error_setg(errp, "Unsupported encryption format");
+@@ -853,7 +853,7 @@ static int coroutine_fn qcow_co_create(BlockdevCreateOptions *opts,
+     header.size = cpu_to_be64(total_size);
+     header_size = sizeof(header);
+     backing_filename_len = 0;
+-    if (qcow_opts->has_backing_file) {
++    if (qcow_opts->backing_file) {
+         if (strcmp(qcow_opts->backing_file, "fat:")) {
+             header.backing_file_offset = cpu_to_be64(header_size);
+             backing_filename_len = strlen(qcow_opts->backing_file);
+@@ -861,7 +861,7 @@ static int coroutine_fn qcow_co_create(BlockdevCreateOptions *opts,
+             header_size += backing_filename_len;
+         } else {
+             /* special backing file for vvfat */
+-            qcow_opts->has_backing_file = false;
++            qcow_opts->backing_file = NULL;
+         }
+         header.cluster_bits = 9; /* 512 byte cluster to avoid copying
+                                     unmodified sectors */
+@@ -876,7 +876,7 @@ static int coroutine_fn qcow_co_create(BlockdevCreateOptions *opts,
+ 
+     header.l1_table_offset = cpu_to_be64(header_size);
+ 
+-    if (qcow_opts->has_encrypt) {
++    if (qcow_opts->encrypt) {
+         header.crypt_method = cpu_to_be32(QCOW_CRYPT_AES);
+ 
+         crypto = qcrypto_block_create(qcow_opts->encrypt, "encrypt.",
+@@ -895,7 +895,7 @@ static int coroutine_fn qcow_co_create(BlockdevCreateOptions *opts,
+         goto exit;
+     }
+ 
+-    if (qcow_opts->has_backing_file) {
++    if (qcow_opts->backing_file) {
+         ret = blk_pwrite(qcow_blk, sizeof(header), backing_filename_len,
+                          qcow_opts->backing_file, 0);
+         if (ret < 0) {
+diff --git a/block/qcow2.c b/block/qcow2.c
+index c6c6692fb7..bb782f331d 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -3495,7 +3495,7 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
+     if (!qcow2_opts->has_preallocation) {
+         qcow2_opts->preallocation = PREALLOC_MODE_OFF;
+     }
+-    if (qcow2_opts->has_backing_file &&
++    if (qcow2_opts->backing_file &&
+         qcow2_opts->preallocation != PREALLOC_MODE_OFF &&
+         !qcow2_opts->extended_l2)
+     {
+@@ -3504,7 +3504,7 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
+         ret = -EINVAL;
+         goto out;
+     }
+-    if (qcow2_opts->has_backing_fmt && !qcow2_opts->has_backing_file) {
++    if (qcow2_opts->has_backing_fmt && !qcow2_opts->backing_file) {
+         error_setg(errp, "Backing format cannot be used without backing file");
+         ret = -EINVAL;
+         goto out;
+@@ -3545,7 +3545,7 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
+         ret = -EINVAL;
+         goto out;
+     }
+-    if (qcow2_opts->data_file_raw && qcow2_opts->has_backing_file) {
++    if (qcow2_opts->data_file_raw && qcow2_opts->backing_file) {
+         error_setg(errp, "Backing file and data-file-raw cannot be used at "
+                    "the same time");
+         ret = -EINVAL;
+@@ -3571,7 +3571,7 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
+          * backing file when specifying data_file_raw is an error
+          * anyway.
+          */
+-        assert(!qcow2_opts->has_backing_file);
++        assert(!qcow2_opts->backing_file);
+     }
+ 
+     if (qcow2_opts->data_file) {
+@@ -3739,7 +3739,7 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
+     }
+ 
+     /* Want a backing file? There you go. */
+-    if (qcow2_opts->has_backing_file) {
++    if (qcow2_opts->backing_file) {
+         const char *backing_format = NULL;
+ 
+         if (qcow2_opts->has_backing_fmt) {
+@@ -3757,7 +3757,7 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
+     }
+ 
+     /* Want encryption? There you go. */
+-    if (qcow2_opts->has_encrypt) {
++    if (qcow2_opts->encrypt) {
+         ret = qcow2_set_up_encryption(blk_bs(blk), qcow2_opts->encrypt, errp);
+         if (ret < 0) {
+             goto out;
+@@ -5182,7 +5182,6 @@ static ImageInfoSpecific *qcow2_get_specific_info(BlockDriverState *bs,
+             .refcount_bits      = s->refcount_bits,
+             .has_bitmaps        = !!bitmaps,
+             .bitmaps            = bitmaps,
+-            .has_data_file      = !!s->image_data_file,
+             .data_file          = g_strdup(s->image_data_file),
+             .has_data_file_raw  = has_data_file(bs),
+             .data_file_raw      = data_file_is_raw(bs),
+@@ -5213,7 +5212,6 @@ static ImageInfoSpecific *qcow2_get_specific_info(BlockDriverState *bs,
+         memset(&encrypt_info->u, 0, sizeof(encrypt_info->u));
+         qapi_free_QCryptoBlockInfo(encrypt_info);
+ 
+-        spec_info->u.qcow2.data->has_encrypt = true;
+         spec_info->u.qcow2.data->encrypt = qencrypt;
+     }
+ 
+@@ -5833,7 +5831,7 @@ static int coroutine_fn qcow2_co_amend(BlockDriverState *bs,
+     BDRVQcow2State *s = bs->opaque;
+     int ret = 0;
+ 
+-    if (qopts->has_encrypt) {
++    if (qopts->encrypt) {
+         if (!s->crypto) {
+             error_setg(errp, "image is not encrypted, can't amend");
+             return -EOPNOTSUPP;
+@@ -5898,7 +5896,7 @@ void qcow2_signal_corruption(BlockDriverState *bs, bool fatal, int64_t offset,
+ 
+     node_name = bdrv_get_node_name(bs);
+     qapi_event_send_block_image_corrupted(bdrv_get_device_name(bs),
+-                                          *node_name != '\0', node_name,
++                                          *node_name ? node_name : NULL,
+                                           message, offset >= 0, offset,
+                                           size >= 0, size,
+                                           fatal);
+diff --git a/block/qed.c b/block/qed.c
+index 40943e679b..d09ebe0e0f 100644
+--- a/block/qed.c
++++ b/block/qed.c
+@@ -691,7 +691,7 @@ static int coroutine_fn bdrv_qed_co_create(BlockdevCreateOptions *opts,
+         goto out;
+     }
+ 
+-    if (qed_opts->has_backing_file) {
++    if (qed_opts->backing_file) {
+         header.features |= QED_F_BACKING_FILE;
+         header.backing_filename_offset = sizeof(le_header);
+         header.backing_filename_size = strlen(qed_opts->backing_file);
+diff --git a/block/quorum.c b/block/quorum.c
+index f33f30d36b..582627a813 100644
+--- a/block/quorum.c
++++ b/block/quorum.c
+@@ -203,7 +203,7 @@ static void quorum_report_bad(QuorumOpType type, uint64_t offset,
+         msg = strerror(-ret);
+     }
+ 
+-    qapi_event_send_quorum_report_bad(type, !!msg, msg, node_name, start_sector,
++    qapi_event_send_quorum_report_bad(type, msg, node_name, start_sector,
+                                       end_sector - start_sector);
+ }
+ 
+diff --git a/block/rbd.c b/block/rbd.c
+index f826410f40..d809b8e0a3 100644
+--- a/block/rbd.c
++++ b/block/rbd.c
+@@ -536,7 +536,7 @@ static int qemu_rbd_do_create(BlockdevCreateOptions *options,
+     int ret;
+ 
+     assert(options->driver == BLOCKDEV_DRIVER_RBD);
+-    if (opts->location->has_snapshot) {
++    if (opts->location->snapshot) {
+         error_setg(errp, "Can't use snapshot name for image creation");
+         return -EINVAL;
+     }
+@@ -574,7 +574,7 @@ static int qemu_rbd_do_create(BlockdevCreateOptions *options,
+     }
+ 
+ #ifdef LIBRBD_SUPPORTS_ENCRYPTION
+-    if (opts->has_encrypt) {
++    if (opts->encrypt) {
+         rbd_image_t image;
+ 
+         ret = rbd_open(io_ctx, opts->location->image, &image, NULL);
+@@ -686,7 +686,6 @@ static int coroutine_fn qemu_rbd_co_create_opts(BlockDriver *drv,
+         goto exit;
+     }
+     rbd_opts->encrypt     = encrypt;
+-    rbd_opts->has_encrypt = !!encrypt;
+ 
+     /*
+      * Caution: while qdict_get_try_str() is fine, getting non-string
+@@ -697,11 +696,8 @@ static int coroutine_fn qemu_rbd_co_create_opts(BlockDriver *drv,
+     loc = rbd_opts->location;
+     loc->pool        = g_strdup(qdict_get_try_str(options, "pool"));
+     loc->conf        = g_strdup(qdict_get_try_str(options, "conf"));
+-    loc->has_conf    = !!loc->conf;
+     loc->user        = g_strdup(qdict_get_try_str(options, "user"));
+-    loc->has_user    = !!loc->user;
+     loc->q_namespace = g_strdup(qdict_get_try_str(options, "namespace"));
+-    loc->has_q_namespace = !!loc->q_namespace;
+     loc->image       = g_strdup(qdict_get_try_str(options, "image"));
+     keypairs         = qdict_get_try_str(options, "=keyvalue-pairs");
+ 
+@@ -767,7 +763,6 @@ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
+             return -EINVAL;
+         }
+         opts->key_secret = g_strdup(secretid);
+-        opts->has_key_secret = true;
+     }
+ 
+     mon_host = qemu_rbd_mon_host(opts, &local_err);
+@@ -785,7 +780,7 @@ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
+ 
+     /* try default location when conf=NULL, but ignore failure */
+     r = rados_conf_read_file(*cluster, opts->conf);
+-    if (opts->has_conf && r < 0) {
++    if (opts->conf && r < 0) {
+         error_setg_errno(errp, -r, "error reading conf file %s", opts->conf);
+         goto failed_shutdown;
+     }
+@@ -833,7 +828,7 @@ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
+     }
+ 
+ #ifdef HAVE_RBD_NAMESPACE_EXISTS
+-    if (opts->has_q_namespace && strlen(opts->q_namespace) > 0) {
++    if (opts->q_namespace && strlen(opts->q_namespace) > 0) {
+         bool exists;
+ 
+         r = rbd_namespace_exists(*io_ctx, opts->q_namespace, &exists);
+@@ -991,7 +986,7 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
+         goto failed_open;
+     }
+ 
+-    if (opts->has_encrypt) {
++    if (opts->encrypt) {
+ #ifdef LIBRBD_SUPPORTS_ENCRYPTION
+         r = qemu_rbd_encryption_load(s->image, opts->encrypt, errp);
+         if (r < 0) {
+diff --git a/block/ssh.c b/block/ssh.c
+index a2dc646536..2d2dac5f88 100644
+--- a/block/ssh.c
++++ b/block/ssh.c
+@@ -643,7 +643,7 @@ static int connect_to_ssh(BDRVSSHState *s, BlockdevOptionsSsh *opts,
+     unsigned int port = 0;
+     int new_sock = -1;
+ 
+-    if (opts->has_user) {
++    if (opts->user) {
+         s->user = g_strdup(opts->user);
+     } else {
+         s->user = g_strdup(g_get_user_name());
+diff --git a/blockdev-nbd.c b/blockdev-nbd.c
+index 012256bb02..213012435f 100644
+--- a/blockdev-nbd.c
++++ b/blockdev-nbd.c
+@@ -173,8 +173,8 @@ void nbd_server_start_options(NbdServerOptions *arg, Error **errp)
+ }
+ 
+ void qmp_nbd_server_start(SocketAddressLegacy *addr,
+-                          bool has_tls_creds, const char *tls_creds,
+-                          bool has_tls_authz, const char *tls_authz,
++                          const char *tls_creds,
++                          const char *tls_authz,
+                           bool has_max_connections, uint32_t max_connections,
+                           Error **errp)
+ {
+@@ -200,8 +200,7 @@ void qmp_nbd_server_add(NbdServerAddOptions *arg, Error **errp)
+      * block-export-add would default to the node-name, but we may have to use
+      * the device name as a default here for compatibility.
+      */
+-    if (!arg->has_name) {
+-        arg->has_name = true;
++    if (!arg->name) {
+         arg->name = g_strdup(arg->device);
+     }
+ 
+@@ -215,7 +214,7 @@ void qmp_nbd_server_add(NbdServerAddOptions *arg, Error **errp)
+     };
+     QAPI_CLONE_MEMBERS(BlockExportOptionsNbdBase, &export_opts->u.nbd,
+                        qapi_NbdServerAddOptions_base(arg));
+-    if (arg->has_bitmap) {
++    if (arg->bitmap) {
+         BlockDirtyBitmapOrStr *el = g_new(BlockDirtyBitmapOrStr, 1);
+ 
+         *el = (BlockDirtyBitmapOrStr) {
+diff --git a/blockdev.c b/blockdev.c
+index 9230888e34..c1259f6bf1 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -1042,23 +1042,17 @@ static void blockdev_do_action(TransactionAction *action, Error **errp)
+     qmp_transaction(&list, false, NULL, errp);
+ }
+ 
+-void qmp_blockdev_snapshot_sync(bool has_device, const char *device,
+-                                bool has_node_name, const char *node_name,
++void qmp_blockdev_snapshot_sync(const char *device, const char *node_name,
+                                 const char *snapshot_file,
+-                                bool has_snapshot_node_name,
+                                 const char *snapshot_node_name,
+-                                bool has_format, const char *format,
++                                const char *format,
+                                 bool has_mode, NewImageMode mode, Error **errp)
+ {
+     BlockdevSnapshotSync snapshot = {
+-        .has_device = has_device,
+         .device = (char *) device,
+-        .has_node_name = has_node_name,
+         .node_name = (char *) node_name,
+         .snapshot_file = (char *) snapshot_file,
+-        .has_snapshot_node_name = has_snapshot_node_name,
+         .snapshot_node_name = (char *) snapshot_node_name,
+-        .has_format = has_format,
+         .format = (char *) format,
+         .has_mode = has_mode,
+         .mode = mode,
+@@ -1100,9 +1094,7 @@ void qmp_blockdev_snapshot_internal_sync(const char *device,
+ }
+ 
+ SnapshotInfo *qmp_blockdev_snapshot_delete_internal_sync(const char *device,
+-                                                         bool has_id,
+                                                          const char *id,
+-                                                         bool has_name,
+                                                          const char *name,
+                                                          Error **errp)
+ {
+@@ -1120,14 +1112,6 @@ SnapshotInfo *qmp_blockdev_snapshot_delete_internal_sync(const char *device,
+     aio_context = bdrv_get_aio_context(bs);
+     aio_context_acquire(aio_context);
+ 
+-    if (!has_id) {
+-        id = NULL;
+-    }
+-
+-    if (!has_name) {
+-        name = NULL;
+-    }
+-
+     if (!id && !name) {
+         error_setg(errp, "Name or id must be provided");
+         goto out_aio_context;
+@@ -1441,8 +1425,8 @@ static void external_snapshot_prepare(BlkActionState *common,
+     case TRANSACTION_ACTION_KIND_BLOCKDEV_SNAPSHOT_SYNC:
+         {
+             BlockdevSnapshotSync *s = action->u.blockdev_snapshot_sync.data;
+-            device = s->has_device ? s->device : NULL;
+-            node_name = s->has_node_name ? s->node_name : NULL;
++            device = s->device;
++            node_name = s->node_name;
+             new_image_file = s->snapshot_file;
+             snapshot_ref = NULL;
+         }
+@@ -1486,10 +1470,9 @@ static void external_snapshot_prepare(BlkActionState *common,
+ 
+     if (action->type == TRANSACTION_ACTION_KIND_BLOCKDEV_SNAPSHOT_SYNC) {
+         BlockdevSnapshotSync *s = action->u.blockdev_snapshot_sync.data;
+-        const char *format = s->has_format ? s->format : "qcow2";
++        const char *format = s->format ?: "qcow2";
+         enum NewImageMode mode;
+-        const char *snapshot_node_name =
+-            s->has_snapshot_node_name ? s->snapshot_node_name : NULL;
++        const char *snapshot_node_name = s->snapshot_node_name;
+ 
+         if (node_name && !snapshot_node_name) {
+             error_setg(errp, "New overlay node-name missing");
+@@ -1708,7 +1691,7 @@ static void drive_backup_prepare(BlkActionState *common, Error **errp)
+     /* Paired with .clean() */
+     bdrv_drained_begin(bs);
+ 
+-    if (!backup->has_format) {
++    if (!backup->format) {
+         backup->format = backup->mode == NEW_IMAGE_MODE_EXISTING ?
+                          NULL : (char *) bs->drv->format_name;
+     }
+@@ -2385,9 +2368,7 @@ exit:
+         }
+         g_free(state);
+     }
+-    if (!has_props) {
+-        qapi_free_TransactionProperties(props);
+-    }
++    qapi_free_TransactionProperties(props);
+     job_txn_unref(block_job_txn);
+ }
+ 
+@@ -2416,8 +2397,7 @@ BlockDirtyBitmapSha256 *qmp_x_debug_block_dirty_bitmap_sha256(const char *node,
+     return ret;
+ }
+ 
+-void coroutine_fn qmp_block_resize(bool has_device, const char *device,
+-                                   bool has_node_name, const char *node_name,
++void coroutine_fn qmp_block_resize(const char *device, const char *node_name,
+                                    int64_t size, Error **errp)
+ {
+     Error *local_err = NULL;
+@@ -2425,9 +2405,7 @@ void coroutine_fn qmp_block_resize(bool has_device, const char *device,
+     BlockDriverState *bs;
+     AioContext *old_ctx;
+ 
+-    bs = bdrv_lookup_bs(has_device ? device : NULL,
+-                        has_node_name ? node_name : NULL,
+-                        &local_err);
++    bs = bdrv_lookup_bs(device, node_name, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         return;
+@@ -2462,14 +2440,14 @@ void coroutine_fn qmp_block_resize(bool has_device, const char *device,
+     bdrv_co_unlock(bs);
+ }
+ 
+-void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+-                      bool has_base, const char *base,
+-                      bool has_base_node, const char *base_node,
+-                      bool has_backing_file, const char *backing_file,
+-                      bool has_bottom, const char *bottom,
++void qmp_block_stream(const char *job_id, const char *device,
++                      const char *base,
++                      const char *base_node,
++                      const char *backing_file,
++                      const char *bottom,
+                       bool has_speed, int64_t speed,
+                       bool has_on_error, BlockdevOnError on_error,
+-                      bool has_filter_node_name, const char *filter_node_name,
++                      const char *filter_node_name,
+                       bool has_auto_finalize, bool auto_finalize,
+                       bool has_auto_dismiss, bool auto_dismiss,
+                       Error **errp)
+@@ -2481,19 +2459,19 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+     Error *local_err = NULL;
+     int job_flags = JOB_DEFAULT;
+ 
+-    if (has_base && has_base_node) {
++    if (base && base_node) {
+         error_setg(errp, "'base' and 'base-node' cannot be specified "
+                    "at the same time");
+         return;
+     }
+ 
+-    if (has_base && has_bottom) {
++    if (base && bottom) {
+         error_setg(errp, "'base' and 'bottom' cannot be specified "
+                    "at the same time");
+         return;
+     }
+ 
+-    if (has_bottom && has_base_node) {
++    if (bottom && base_node) {
+         error_setg(errp, "'bottom' and 'base-node' cannot be specified "
+                    "at the same time");
+         return;
+@@ -2511,7 +2489,7 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+     aio_context = bdrv_get_aio_context(bs);
+     aio_context_acquire(aio_context);
+ 
+-    if (has_base) {
++    if (base) {
+         base_bs = bdrv_find_backing_image(bs, base);
+         if (base_bs == NULL) {
+             error_setg(errp, "Can't find '%s' in the backing chain", base);
+@@ -2520,7 +2498,7 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+         assert(bdrv_get_aio_context(base_bs) == aio_context);
+     }
+ 
+-    if (has_base_node) {
++    if (base_node) {
+         base_bs = bdrv_lookup_bs(NULL, base_node, errp);
+         if (!base_bs) {
+             goto out;
+@@ -2534,7 +2512,7 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+         bdrv_refresh_filename(base_bs);
+     }
+ 
+-    if (has_bottom) {
++    if (bottom) {
+         bottom_bs = bdrv_lookup_bs(NULL, bottom, errp);
+         if (!bottom_bs) {
+             goto out;
+@@ -2559,7 +2537,7 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+     /*
+      * Check for op blockers in the whole chain between bs and base (or bottom)
+      */
+-    iter_end = has_bottom ? bdrv_filter_or_cow_bs(bottom_bs) : base_bs;
++    iter_end = bottom ? bdrv_filter_or_cow_bs(bottom_bs) : base_bs;
+     for (iter = bs; iter && iter != iter_end;
+          iter = bdrv_filter_or_cow_bs(iter))
+     {
+@@ -2570,7 +2548,7 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+ 
+     /* if we are streaming the entire chain, the result will have no backing
+      * file, and specifying one is therefore an error */
+-    if (base_bs == NULL && has_backing_file) {
++    if (!base_bs && backing_file) {
+         error_setg(errp, "backing file specified, but streaming the "
+                          "entire chain");
+         goto out;
+@@ -2583,7 +2561,7 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+         job_flags |= JOB_MANUAL_DISMISS;
+     }
+ 
+-    stream_start(has_job_id ? job_id : NULL, bs, base_bs, backing_file,
++    stream_start(job_id, bs, base_bs, backing_file,
+                  bottom_bs, job_flags, has_speed ? speed : 0, on_error,
+                  filter_node_name, &local_err);
+     if (local_err) {
+@@ -2597,15 +2575,15 @@ out:
+     aio_context_release(aio_context);
+ }
+ 
+-void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
+-                      bool has_base_node, const char *base_node,
+-                      bool has_base, const char *base,
+-                      bool has_top_node, const char *top_node,
+-                      bool has_top, const char *top,
+-                      bool has_backing_file, const char *backing_file,
++void qmp_block_commit(const char *job_id, const char *device,
++                      const char *base_node,
++                      const char *base,
++                      const char *top_node,
++                      const char *top,
++                      const char *backing_file,
+                       bool has_speed, int64_t speed,
+                       bool has_on_error, BlockdevOnError on_error,
+-                      bool has_filter_node_name, const char *filter_node_name,
++                      const char *filter_node_name,
+                       bool has_auto_finalize, bool auto_finalize,
+                       bool has_auto_dismiss, bool auto_dismiss,
+                       Error **errp)
+@@ -2624,9 +2602,6 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
+     if (!has_on_error) {
+         on_error = BLOCKDEV_ON_ERROR_REPORT;
+     }
+-    if (!has_filter_node_name) {
+-        filter_node_name = NULL;
+-    }
+     if (has_auto_finalize && !auto_finalize) {
+         job_flags |= JOB_MANUAL_FINALIZE;
+     }
+@@ -2662,10 +2637,10 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
+     /* default top_bs is the active layer */
+     top_bs = bs;
+ 
+-    if (has_top_node && has_top) {
++    if (top_node && top) {
+         error_setg(errp, "'top-node' and 'top' are mutually exclusive");
+         goto out;
+-    } else if (has_top_node) {
++    } else if (top_node) {
+         top_bs = bdrv_lookup_bs(NULL, top_node, errp);
+         if (top_bs == NULL) {
+             goto out;
+@@ -2675,7 +2650,7 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
+                        top_node);
+             goto out;
+         }
+-    } else if (has_top && top) {
++    } else if (top) {
+         /* This strcmp() is just a shortcut, there is no need to
+          * refresh @bs's filename.  If it mismatches,
+          * bdrv_find_backing_image() will do the refresh and may still
+@@ -2692,10 +2667,10 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
+ 
+     assert(bdrv_get_aio_context(top_bs) == aio_context);
+ 
+-    if (has_base_node && has_base) {
++    if (base_node && base) {
+         error_setg(errp, "'base-node' and 'base' are mutually exclusive");
+         goto out;
+-    } else if (has_base_node) {
++    } else if (base_node) {
+         base_bs = bdrv_lookup_bs(NULL, base_node, errp);
+         if (base_bs == NULL) {
+             goto out;
+@@ -2705,7 +2680,7 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
+                        base_node);
+             goto out;
+         }
+-    } else if (has_base && base) {
++    } else if (base) {
+         base_bs = bdrv_find_backing_image(top_bs, base);
+         if (base_bs == NULL) {
+             error_setg(errp, "Can't find '%s' in the backing chain", base);
+@@ -2747,7 +2722,7 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
+     if (top_perm & BLK_PERM_WRITE ||
+         bdrv_skip_filters(top_bs) == bdrv_skip_filters(bs))
+     {
+-        if (has_backing_file) {
++        if (backing_file) {
+             if (bdrv_skip_filters(top_bs) == bdrv_skip_filters(bs)) {
+                 error_setg(errp, "'backing-file' specified,"
+                                  " but 'top' is the active layer");
+@@ -2757,7 +2732,7 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
+             }
+             goto out;
+         }
+-        if (!has_job_id) {
++        if (!job_id) {
+             /*
+              * Emulate here what block_job_create() does, because it
+              * is possible that @bs != @top_bs (the block job should
+@@ -2773,8 +2748,8 @@ void qmp_block_commit(bool has_job_id, const char *job_id, const char *device,
+         if (bdrv_op_is_blocked(overlay_bs, BLOCK_OP_TYPE_COMMIT_TARGET, errp)) {
+             goto out;
+         }
+-        commit_start(has_job_id ? job_id : NULL, bs, base_bs, top_bs, job_flags,
+-                     speed, on_error, has_backing_file ? backing_file : NULL,
++        commit_start(job_id, bs, base_bs, top_bs, job_flags,
++                     speed, on_error, backing_file,
+                      filter_node_name, &local_err);
+     }
+     if (local_err != NULL) {
+@@ -2807,9 +2782,6 @@ static BlockJob *do_backup_common(BackupCommon *backup,
+     if (!backup->has_on_target_error) {
+         backup->on_target_error = BLOCKDEV_ON_ERROR_REPORT;
+     }
+-    if (!backup->has_job_id) {
+-        backup->job_id = NULL;
+-    }
+     if (!backup->has_auto_finalize) {
+         backup->auto_finalize = true;
+     }
+@@ -2835,7 +2807,7 @@ static BlockJob *do_backup_common(BackupCommon *backup,
+     if ((backup->sync == MIRROR_SYNC_MODE_BITMAP) ||
+         (backup->sync == MIRROR_SYNC_MODE_INCREMENTAL)) {
+         /* done before desugaring 'incremental' to print the right message */
+-        if (!backup->has_bitmap) {
++        if (!backup->bitmap) {
+             error_setg(errp, "must provide a valid bitmap name for "
+                        "'%s' sync mode", MirrorSyncMode_str(backup->sync));
+             return NULL;
+@@ -2856,7 +2828,7 @@ static BlockJob *do_backup_common(BackupCommon *backup,
+         backup->bitmap_mode = BITMAP_SYNC_MODE_ON_SUCCESS;
+     }
+ 
+-    if (backup->has_bitmap) {
++    if (backup->bitmap) {
+         bmap = bdrv_find_dirty_bitmap(bs, backup->bitmap);
+         if (!bmap) {
+             error_setg(errp, "Bitmap '%s' could not be found", backup->bitmap);
+@@ -2889,7 +2861,7 @@ static BlockJob *do_backup_common(BackupCommon *backup,
+         }
+     }
+ 
+-    if (!backup->has_bitmap && backup->has_bitmap_mode) {
++    if (!backup->bitmap && backup->has_bitmap_mode) {
+         error_setg(errp, "Cannot specify bitmap sync mode without a bitmap");
          return NULL;
      }
-     return dev;
-diff --git a/audio/paaudio.c b/audio/paaudio.c
-index e91116f239..529b39daac 100644
---- a/audio/paaudio.c
-+++ b/audio/paaudio.c
-@@ -536,9 +536,9 @@ static int qpa_init_out(HWVoiceOut *hw, struct audsettings *as,
- 
-     pa->stream = qpa_simple_new (
-         c,
--        ppdo->has_stream_name ? ppdo->stream_name : g->dev->id,
-+        ppdo->stream_name ?: g->dev->id,
-         PA_STREAM_PLAYBACK,
--        ppdo->has_name ? ppdo->name : NULL,
-+        ppdo->name,
-         &ss,
-         &ba,                    /* buffering attributes */
-         &error
-@@ -585,9 +585,9 @@ static int qpa_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
- 
-     pa->stream = qpa_simple_new (
-         c,
--        ppdo->has_stream_name ? ppdo->stream_name : g->dev->id,
-+        ppdo->stream_name ?: g->dev->id,
-         PA_STREAM_RECORD,
--        ppdo->has_name ? ppdo->name : NULL,
-+        ppdo->name,
-         &ss,
-         &ba,                    /* buffering attributes */
-         &error
-@@ -827,7 +827,7 @@ static void *qpa_audio_init(Audiodev *dev)
- 
-     assert(dev->driver == AUDIODEV_DRIVER_PA);
- 
--    if (!popts->has_server) {
-+    if (!popts->server) {
-         char pidfile[64];
-         char *runtime;
-         struct stat st;
-@@ -850,7 +850,7 @@ static void *qpa_audio_init(Audiodev *dev)
+@@ -2949,7 +2921,7 @@ void qmp_blockdev_backup(BlockdevBackup *backup, Error **errp)
+  **/
+ static void blockdev_mirror_common(const char *job_id, BlockDriverState *bs,
+                                    BlockDriverState *target,
+-                                   bool has_replaces, const char *replaces,
++                                   const char *replaces,
+                                    enum MirrorSyncMode sync,
+                                    BlockMirrorBackingMode backing_mode,
+                                    bool zero_target,
+@@ -2961,7 +2933,6 @@ static void blockdev_mirror_common(const char *job_id, BlockDriverState *bs,
+                                    bool has_on_target_error,
+                                    BlockdevOnError on_target_error,
+                                    bool has_unmap, bool unmap,
+-                                   bool has_filter_node_name,
+                                    const char *filter_node_name,
+                                    bool has_copy_mode, MirrorCopyMode copy_mode,
+                                    bool has_auto_finalize, bool auto_finalize,
+@@ -2989,9 +2960,6 @@ static void blockdev_mirror_common(const char *job_id, BlockDriverState *bs,
+     if (!has_unmap) {
+         unmap = true;
+     }
+-    if (!has_filter_node_name) {
+-        filter_node_name = NULL;
+-    }
+     if (!has_copy_mode) {
+         copy_mode = MIRROR_COPY_MODE_BACKGROUND;
+     }
+@@ -3024,16 +2992,15 @@ static void blockdev_mirror_common(const char *job_id, BlockDriverState *bs,
+         sync = MIRROR_SYNC_MODE_FULL;
      }
  
-     g = g_new0(paaudio, 1);
--    server = popts->has_server ? popts->server : NULL;
-+    server = popts->server;
+-    if (!has_replaces) {
++    if (!replaces) {
+         /* We want to mirror from @bs, but keep implicit filters on top */
+         unfiltered_bs = bdrv_skip_implicit_filters(bs);
+         if (unfiltered_bs != bs) {
+             replaces = unfiltered_bs->node_name;
+-            has_replaces = true;
+         }
+     }
  
-     g->dev = dev;
+-    if (has_replaces) {
++    if (replaces) {
+         BlockDriverState *to_replace_bs;
+         AioContext *replace_aio_context;
+         int64_t bs_size, replace_size;
+@@ -3070,7 +3037,7 @@ static void blockdev_mirror_common(const char *job_id, BlockDriverState *bs,
+      * and will allow to check whether the node still exist at mirror completion
+      */
+     mirror_start(job_id, bs, target,
+-                 has_replaces ? replaces : NULL, job_flags,
++                 replaces, job_flags,
+                  speed, granularity, buf_size, sync, backing_mode, zero_target,
+                  on_source_error, on_target_error, unmap, filter_node_name,
+                  copy_mode, errp);
+@@ -3108,7 +3075,7 @@ void qmp_drive_mirror(DriveMirror *arg, Error **errp)
+         arg->mode = NEW_IMAGE_MODE_ABSOLUTE_PATHS;
+     }
  
-diff --git a/audio/wavaudio.c b/audio/wavaudio.c
-index ac666335c7..8a01a5f6ac 100644
---- a/audio/wavaudio.c
-+++ b/audio/wavaudio.c
-@@ -78,7 +78,7 @@ static int wav_init_out(HWVoiceOut *hw, struct audsettings *as,
-     Audiodev *dev = drv_opaque;
-     AudiodevWavOptions *wopts = &dev->u.wav;
-     struct audsettings wav_as = audiodev_to_audsettings(dev->u.wav.out);
--    const char *wav_path = wopts->has_path ? wopts->path : "qemu.wav";
-+    const char *wav_path = wopts->path ?: "qemu.wav";
+-    if (!arg->has_format) {
++    if (!arg->format) {
+         format = (arg->mode == NEW_IMAGE_MODE_EXISTING
+                   ? NULL : bs->drv->format_name);
+     }
+@@ -3128,8 +3095,8 @@ void qmp_drive_mirror(DriveMirror *arg, Error **errp)
+         goto out;
+     }
  
-     stereo = wav_as.nchannels == 2;
-     switch (wav_as.fmt) {
+-    if (arg->has_replaces) {
+-        if (!arg->has_node_name) {
++    if (arg->replaces) {
++        if (!arg->node_name) {
+             error_setg(errp, "a node-name must be provided when replacing a"
+                              " named node of the graph");
+             goto out;
+@@ -3179,7 +3146,7 @@ void qmp_drive_mirror(DriveMirror *arg, Error **errp)
+     }
+ 
+     options = qdict_new();
+-    if (arg->has_node_name) {
++    if (arg->node_name) {
+         qdict_put_str(options, "node-name", arg->node_name);
+     }
+     if (format) {
+@@ -3214,8 +3181,8 @@ void qmp_drive_mirror(DriveMirror *arg, Error **errp)
+     aio_context_release(old_context);
+     aio_context_acquire(aio_context);
+ 
+-    blockdev_mirror_common(arg->has_job_id ? arg->job_id : NULL, bs, target_bs,
+-                           arg->has_replaces, arg->replaces, arg->sync,
++    blockdev_mirror_common(arg->job_id, bs, target_bs,
++                           arg->replaces, arg->sync,
+                            backing_mode, zero_target,
+                            arg->has_speed, arg->speed,
+                            arg->has_granularity, arg->granularity,
+@@ -3223,7 +3190,7 @@ void qmp_drive_mirror(DriveMirror *arg, Error **errp)
+                            arg->has_on_source_error, arg->on_source_error,
+                            arg->has_on_target_error, arg->on_target_error,
+                            arg->has_unmap, arg->unmap,
+-                           false, NULL,
++                           NULL,
+                            arg->has_copy_mode, arg->copy_mode,
+                            arg->has_auto_finalize, arg->auto_finalize,
+                            arg->has_auto_dismiss, arg->auto_dismiss,
+@@ -3233,9 +3200,9 @@ out:
+     aio_context_release(aio_context);
+ }
+ 
+-void qmp_blockdev_mirror(bool has_job_id, const char *job_id,
++void qmp_blockdev_mirror(const char *job_id,
+                          const char *device, const char *target,
+-                         bool has_replaces, const char *replaces,
++                         const char *replaces,
+                          MirrorSyncMode sync,
+                          bool has_speed, int64_t speed,
+                          bool has_granularity, uint32_t granularity,
+@@ -3244,7 +3211,6 @@ void qmp_blockdev_mirror(bool has_job_id, const char *job_id,
+                          BlockdevOnError on_source_error,
+                          bool has_on_target_error,
+                          BlockdevOnError on_target_error,
+-                         bool has_filter_node_name,
+                          const char *filter_node_name,
+                          bool has_copy_mode, MirrorCopyMode copy_mode,
+                          bool has_auto_finalize, bool auto_finalize,
+@@ -3285,15 +3251,14 @@ void qmp_blockdev_mirror(bool has_job_id, const char *job_id,
+         goto out;
+     }
+ 
+-    blockdev_mirror_common(has_job_id ? job_id : NULL, bs, target_bs,
+-                           has_replaces, replaces, sync, backing_mode,
++    blockdev_mirror_common(job_id, bs, target_bs,
++                           replaces, sync, backing_mode,
+                            zero_target, has_speed, speed,
+                            has_granularity, granularity,
+                            has_buf_size, buf_size,
+                            has_on_source_error, on_source_error,
+                            has_on_target_error, on_target_error,
+-                           true, true,
+-                           has_filter_node_name, filter_node_name,
++                           true, true, filter_node_name,
+                            has_copy_mode, copy_mode,
+                            has_auto_finalize, auto_finalize,
+                            has_auto_dismiss, auto_dismiss,
+@@ -3569,7 +3534,7 @@ void qmp_blockdev_reopen(BlockdevOptionsList *reopen_list, Error **errp)
+         QDict *qdict;
+ 
+         /* Check for the selected node name */
+-        if (!options->has_node_name) {
++        if (!options->node_name) {
+             error_setg(errp, "node-name not specified");
+             goto fail;
+         }
+@@ -3674,8 +3639,7 @@ static BdrvChild *bdrv_find_child(BlockDriverState *parent_bs,
+     return NULL;
+ }
+ 
+-void qmp_x_blockdev_change(const char *parent, bool has_child,
+-                           const char *child, bool has_node,
++void qmp_x_blockdev_change(const char *parent, const char *child,
+                            const char *node, Error **errp)
+ {
+     BlockDriverState *parent_bs, *new_bs = NULL;
+@@ -3686,8 +3650,8 @@ void qmp_x_blockdev_change(const char *parent, bool has_child,
+         return;
+     }
+ 
+-    if (has_child == has_node) {
+-        if (has_child) {
++    if (!child == !node) {
++        if (child) {
+             error_setg(errp, "The parameters child and node are in conflict");
+         } else {
+             error_setg(errp, "Either child or node must be specified");
+@@ -3695,7 +3659,7 @@ void qmp_x_blockdev_change(const char *parent, bool has_child,
+         return;
+     }
+ 
+-    if (has_child) {
++    if (child) {
+         p_child = bdrv_find_child(parent_bs, child);
+         if (!p_child) {
+             error_setg(errp, "Node '%s' does not have child '%s'",
+@@ -3705,7 +3669,7 @@ void qmp_x_blockdev_change(const char *parent, bool has_child,
+         bdrv_del_child(parent_bs, p_child, errp);
+     }
+ 
+-    if (has_node) {
++    if (node) {
+         new_bs = bdrv_find_node(node);
+         if (!new_bs) {
+             error_setg(errp, "Node '%s' not found", node);
+diff --git a/blockjob.c b/blockjob.c
+index 4868453d74..726f5f4b13 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -340,7 +340,6 @@ BlockJobInfo *block_job_query(BlockJob *job, Error **errp)
+     info->auto_finalize = job->job.auto_finalize;
+     info->auto_dismiss  = job->job.auto_dismiss;
+     if (job->job.ret) {
+-        info->has_error = true;
+         info->error = job->job.err ?
+                         g_strdup(error_get_pretty(job->job.err)) :
+                         g_strdup(strerror(-job->job.ret));
+@@ -397,7 +396,6 @@ static void block_job_event_completed(Notifier *n, void *opaque)
+                                         progress_total,
+                                         progress_current,
+                                         job->speed,
+-                                        !!msg,
+                                         msg);
+ }
+ 
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index c6cd6f91dd..134c29698c 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1515,8 +1515,7 @@ void hmp_change(Monitor *mon, const QDict *qdict)
+             }
+         }
+ 
+-        qmp_blockdev_change_medium(true, device, false, NULL, target,
+-                                   !!arg, arg, true, force,
++        qmp_blockdev_change_medium(device, NULL, target, arg, true, force,
+                                    !!read_only, read_only_mode,
+                                    &err);
+     }
+diff --git a/nbd/server.c b/nbd/server.c
+index ada16089f3..f25b3032fd 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -1653,7 +1653,7 @@ static int nbd_export_create(BlockExport *blk_exp, BlockExportOptions *exp_args,
+         return -EINVAL;
+     }
+ 
+-    if (!arg->has_name) {
++    if (!arg->name) {
+         arg->name = exp_args->node_name;
+     }
+ 
+diff --git a/qemu-img.c b/qemu-img.c
+index 7d4b33b3da..1863d6b754 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -2912,15 +2912,15 @@ static ImageInfoList *collect_image_info_list(bool image_opts,
+         image_opts = false;
+ 
+         if (chain) {
+-            if (info->has_full_backing_filename) {
++            if (info->full_backing_filename) {
+                 filename = info->full_backing_filename;
+-            } else if (info->has_backing_filename) {
++            } else if (info->backing_filename) {
+                 error_report("Could not determine absolute backing filename,"
+                              " but backing filename '%s' present",
+                              info->backing_filename);
+                 goto err;
+             }
+-            if (info->has_backing_filename_format) {
++            if (info->backing_filename_format) {
+                 fmt = info->backing_filename_format;
+             }
+         }
+@@ -3043,7 +3043,7 @@ static int dump_map_entry(OutputFormat output_format, MapEntry *e,
+             printf("%#-16"PRIx64"%#-16"PRIx64"%#-16"PRIx64"%s\n",
+                    e->start, e->length,
+                    e->has_offset ? e->offset : 0,
+-                   e->has_filename ? e->filename : "");
++                   e->filename ?: "");
+         }
+         /* This format ignores the distinction between 0, ZERO and ZERO|DATA.
+          * Modify the flags here to allow more coalescing.
+@@ -3124,7 +3124,6 @@ static int get_block_status(BlockDriverState *bs, int64_t offset,
+         .has_offset = has_offset,
+         .depth = depth,
+         .present = !!(ret & BDRV_BLOCK_ALLOCATED),
+-        .has_filename = filename,
+         .filename = filename,
+     };
+ 
+@@ -3140,11 +3139,11 @@ static inline bool entry_mergeable(const MapEntry *curr, const MapEntry *next)
+         curr->data != next->data ||
+         curr->depth != next->depth ||
+         curr->present != next->present ||
+-        curr->has_filename != next->has_filename ||
++        !curr->filename != !next->filename ||
+         curr->has_offset != next->has_offset) {
+         return false;
+     }
+-    if (curr->has_filename && strcmp(curr->filename, next->filename)) {
++    if (curr->filename && strcmp(curr->filename, next->filename)) {
+         return false;
+     }
+     if (curr->has_offset && curr->offset + curr->length != next->offset) {
+diff --git a/qemu-nbd.c b/qemu-nbd.c
+index 0cd5aa6f02..6ff45308a9 100644
+--- a/qemu-nbd.c
++++ b/qemu-nbd.c
+@@ -1107,9 +1107,7 @@ int main(int argc, char **argv)
+         .has_writable       = true,
+         .writable           = !readonly,
+         .u.nbd = {
+-            .has_name             = true,
+             .name                 = g_strdup(export_name),
+-            .has_description      = !!export_description,
+             .description          = g_strdup(export_description),
+             .has_bitmaps          = !!bitmaps,
+             .bitmaps              = bitmaps,
 diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 5160a659b7..e5a635999e 100644
+index e5a635999e..0b51d5759e 100644
 --- a/scripts/qapi/schema.py
 +++ b/scripts/qapi/schema.py
-@@ -759,7 +759,6 @@ def need_has(self):
+@@ -759,9 +759,6 @@ def need_has(self):
          assert self.type
          # Temporary hack to support dropping the has_FOO in reviewable chunks
          opt_out = [
--            'qapi/audio.json',
-             'qapi/block-core.json',
-             'qapi/block-export.json',
-             'qapi/block.json',
+-            'qapi/block-core.json',
+-            'qapi/block-export.json',
+-            'qapi/block.json',
+             'qapi/char.json',
+             'qapi/crypto.json',
+             'qapi/dump.json',
 -- 
 2.37.2
 
