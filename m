@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86FB45B9A15
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 13:52:32 +0200 (CEST)
-Received: from localhost ([::1]:44670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F3D45B9BE0
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 15:34:41 +0200 (CEST)
+Received: from localhost ([::1]:33328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYnPy-0002ZF-6i
-	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 07:52:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49014)
+	id 1oYp0q-0003d9-Hm
+	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 09:34:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oYnJX-0008FP-7G; Thu, 15 Sep 2022 07:45:52 -0400
-Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:51818)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oYnJR-0000eP-EG; Thu, 15 Sep 2022 07:45:49 -0400
-Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
- (myt5-70c90f7d6d7d.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:3e2c:0:640:70c9:f7d])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 3A7712E1968;
- Thu, 15 Sep 2022 14:45:26 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:1208::1:d] (unknown
- [2a02:6b8:b081:1208::1:d])
- by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- D4ZJn7h0Pb-jOOi6rZB; Thu, 15 Sep 2022 14:45:25 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1663242325; bh=uspMgB8vInHHyMVVDCZvD47fSxFFV+HOQMOA0zxSglw=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=qzXsnGrbC6gYotR+RLreBtl25ChlCpIj8MVvYWVBjclev/4NbJdb3RolROSkXlj/g
- C5chCWwWPmiviP1KyaUVbjIO0dkTKZO3E1zfOSH3U6DDLlscLOCRSU7aA89EEhUTPN
- JhDcE7TRA9i7b10zIWQ/U06p4DRWZIbz8jus6IRc=
-Authentication-Results: myt5-70c90f7d6d7d.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <153efe1b-cbf5-f627-8497-01878ec4b96c@yandex-team.ru>
-Date: Thu, 15 Sep 2022 14:45:24 +0300
+ (Exim 4.90_1) (envelope-from <egsherlock@gmail.com>)
+ id 1oYhGb-0001iO-Ia
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 01:18:25 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:37488)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <egsherlock@gmail.com>)
+ id 1oYhGZ-0005RI-1r
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 01:18:25 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ n23-20020a17090a091700b00202a51cc78bso14975323pjn.2
+ for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 22:18:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date; bh=iz6yk6WFw0wHh1MVm0zW1mIpjKYyIFEOlk8phUs2x8A=;
+ b=D6HNGAywhWzJwKGCxTaMrr2R2LQObDpejz0oVJBWmV+N7zm4jOVRlwftqhQTMXa1s7
+ 9qS43YTZgjMmB9cS2e/FUE3yuVFSbh7ZzN5ViGHNqlCapvBBG1JhdhMRmP2+IeEZslkw
+ OiK9qtM5PF4b4C43fkJ0kpHToGNxGeXuOueFB91M/7GRCVYTjiHzEw7GrqCrbnNJxzlw
+ uUZEJ+ZCxTrVeGhX0zuNAfPIVjEziAJH7nL91yUamWs5Xe5ca6AdAO0DwWbeSak3q8Ms
+ VE0a+F6t9nkV6DxHRtZWzrA8paczywCCDL0osSjTSEWIw3HlPsjsgjCVy1DaA1Y5mbP8
+ CJ9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date;
+ bh=iz6yk6WFw0wHh1MVm0zW1mIpjKYyIFEOlk8phUs2x8A=;
+ b=PhYyXylyQ+EYzQiJy4olu6Io6H84lxKghPRfpbNPfgAPVQks0hhDHvy6mJtr8an4IT
+ DQqJo6R9gMjR26/8uHQYpoLVZdKj6nLdAcDF8E9IGdBnPkYAEmqn5b93TYW4ggv+s6t9
+ RXi99L8JDUc0M1hVI4vecJQDF7Pnb3YjBuoFG/TKBT92ERLqvlNCdOgEFysw9Gi/T0Eb
+ CM0GT+qOxaKIhn+Pr8Gmh9EBZRYaW5Q4ymukzy3lO4PFVSPVKQcbkkY6fcjkFriIrwE4
+ XlYK/sO5wIN28dLdsziFZPTYfS46+GuwDnNxjo0J49XQgkmoRvjdvSmed0I60SPoTaod
+ wQTw==
+X-Gm-Message-State: ACrzQf11EHfsL4TdP9UMEU7PGKWHLkVqkHFh3ENl07umcKqeAlPe8QWL
+ Kr9pRHyb66PEmHEDK/ArbuNuIvA8oU/e2BV9QHQhFJAKEG7O0Q==
+X-Google-Smtp-Source: AMsMyM4q5/GNq4HwEdpvOI6JTihGftB8BeBqKsRWsAWblZrZDWynpZjrJEdwM0D36QRrZPtWa86Hj9O8nwgcNCpPvGo=
+X-Received: by 2002:a17:902:7c0b:b0:174:abfc:f5 with SMTP id
+ x11-20020a1709027c0b00b00174abfc00f5mr2612054pll.124.1663219101171; Wed, 14
+ Sep 2022 22:18:21 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] bugfix:migrate with block-dirty-bitmap (disk size is big
- enough) can't be finished
-Content-Language: en-US
-To: liuhaiwei9699 <liuhaiwei9699@126.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, stefanha@redhat.com,
- fam@euphon.net, eblake@redhat.com, jsnow@redhat.com, quintela@redhat.com,
- dgilbert@redhat.com, liuhaiwei <liuhaiwei@inspur.com>
-References: <20220910063542.3036319-1-liuhaiwei9699@126.com>
- <626e7cce-d85f-7448-b28f-a5de559f6aa6@yandex-team.ru>
- <785be6cd.e78.1833ec34e9f.Coremail.liuhaiwei9699@126.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <785be6cd.e78.1833ec34e9f.Coremail.liuhaiwei9699@126.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.816,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Evan Sherlock <egsherlock@gmail.com>
+Date: Wed, 14 Sep 2022 22:17:41 -0700
+Message-ID: <CANZg8SLZdLJ_vcEzTc0sOhZSU0kkjJaQ8FrJWxXf8P_W-K9OXQ@mail.gmail.com>
+Subject: Cannot get Qemu to move past "Booting from ROM"?
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000b5833905e8b05fc3"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=egsherlock@gmail.com; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 15 Sep 2022 09:22:10 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,55 +80,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Post-copy migration of dirty-bitmaps doesn't mean post-copy migration of RAM.
+--000000000000b5833905e8b05fc3
+Content-Type: text/plain; charset="UTF-8"
 
-To turn on post-copy migration of RAM, you should enable postcopy-ram capability. If you don't enable it, RAM is migrated in pre-copy (i.e. before starting VM on target).
+My custom build kernel 4.9.327 with gcc-11.2 is not booting in Qemu and it
+is stuck on "Booting from ROM".
 
-migrate-start-postcopy command doesn't enable postcopy-ram capability automatically, so don't be afraid of it.
+Just like the screenshot here: Custom 64bit 3.10.9 kernel not booting in
+qemu and stucks on Booting from ROM
+<https://unix.stackexchange.com/questions/625230/custom-64bit-3-10-9-kernel-not-booting-in-qemu-and-stucks-on-booting-from-rom>
 
-On 9/15/22 04:28, liuhaiwei9699 wrote:
-> Hi ,Vladimir
-> sometimes ,post-copy mode is not the best choice. For instance, Supposing migrate process will take ten minutes,but network may be interruptted In this process .
-> If it does happenthe , memory data of VM will be splitted into two parts, and will not be rollback.This is a bad situation
+I run qemu-system-x86_64 -kernel linux-4.9.327/arch/x86/boot/bzImage
 
-If you don't enable postcopy-ram capability, memory data is already migrated _before_ starting VM on destination. So, the only thing that we may lose in worst case is dirty bitmap itself, not RAM.
+Shouldn't the kernel crash?
 
-> 
-> so  migrate-start-postcopy will not be setted in conservative scenario. In this case, the migration with block dirty bitmap may not be finished.
+Any tips?
 
-Again, migrate-start-postcopy command don't enable postcopy of RAM. It only allow to enter generic postcopy mode. If dirty-bitmaps capability is enabled and postcopy-ram is not, the only thing that can be migrated in postcopy is dirty bitmap.
+--000000000000b5833905e8b05fc3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> 
-> I think  migration of block dirty bitmap should not dependent on post-copy or pre-copy mode.
-> 
+<div dir=3D"ltr"><div class=3D"gmail-_3xX726aBn29LDbsDtzr_6E gmail-_1Ap4F5m=
+aDtT1E1YuCiaO0r gmail-D3IL3FD0RFy_mkKLPwL4" style=3D"max-width:800px"><div =
+class=3D"gmail-_292iotee39Lmt0MkQZ2hPV gmail-RichTextJSON-root"><p class=3D=
+"gmail-_1qeIAgB0cPwnLhDF9XSiJM">My custom build kernel 4.9.327 with gcc-11.=
+2 is not booting in Qemu and it is stuck on &quot;Booting from ROM&quot;.</=
+p><p class=3D"gmail-_1qeIAgB0cPwnLhDF9XSiJM">Just like the screenshot here:=
+ <a href=3D"https://unix.stackexchange.com/questions/625230/custom-64bit-3-=
+10-9-kernel-not-booting-in-qemu-and-stucks-on-booting-from-rom" class=3D"gm=
+ail-_3t5uN8xUmg0TOwRCOGQEcU" rel=3D"noopener nofollow ugc" target=3D"_blank=
+">Custom 64bit 3.10.9 kernel not booting in qemu and stucks on Booting from=
+ ROM</a></p><p class=3D"gmail-_1qeIAgB0cPwnLhDF9XSiJM">I run qemu-system-x8=
+6_64 -kernel linux-4.9.327/arch/x86/boot/bzImage</p><p class=3D"gmail-_1qeI=
+AgB0cPwnLhDF9XSiJM">Shouldn&#39;t the kernel crash?<br></p><p class=3D"gmai=
+l-_1qeIAgB0cPwnLhDF9XSiJM">Any tips?</p></div></div><h1 class=3D"gmail-_eYt=
+D2XCVieq6emjKBH3m"></h1></div>
 
-But dirty bitmaps migration is realized as postcopy in Qemu.
-
-We can't migrate bitmaps during downtime in general, as bitmaps may be large and connection slow (your case). So, we have to migrate them either in pre-copy or in post-copy mode. Historically, the second method was chosen.
-
-> 
-> At 2022-09-10 18:18:04, "Vladimir Sementsov-Ogievskiy" <vsementsov@yandex-team.ru> wrote:
->>On 9/10/22 09:35, liuhaiwei wrote:
->>> From: liuhaiwei <liuhaiwei@inspur.com>
->>> 
->>> bug description as  https://gitlab.com/qemu-project/qemu/-/issues/1203
->>> Usually,we use the precopy or postcopy mode to migrate block dirty bitmap.
->>> but if block-dirty-bitmap size more than threshold size,we cannot entry the migration_completion in migration_iteration_run function
->>> To solve this problem, we can setting  the pending size to a fake value(threshold-1 or 0) to tell  migration_iteration_run function to entry the migration_completion,if pending size > threshold size
->>> 
->>
->>
->>Actually, bitmaps migrate in postcopy. So, you should start postcopy for it to work (qmp command migrate-start-postcopy). This command simply set the boolean variable, so that in migration_iteration_run() we'll move to postcopy when needed. So, you can start this command immediately after migrate command, or even before it, but after setting the "dirty-bitmaps" capability.
->>
->>Fake pending is a wrong thing to do, it means that you will make downtime to be larger than expected.
->>
->>-- 
->>Best regards,
->>Vladimir
-
-
--- 
-Best regards,
-Vladimir
+--000000000000b5833905e8b05fc3--
 
