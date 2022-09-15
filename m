@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 995495B9DCF
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 16:55:17 +0200 (CEST)
-Received: from localhost ([::1]:34678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 797585B9E84
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 17:15:17 +0200 (CEST)
+Received: from localhost ([::1]:45698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYqGq-000619-7p
-	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 10:55:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60052)
+	id 1oYqaB-0004Jw-R0
+	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 11:15:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oYqE0-0003wQ-M4; Thu, 15 Sep 2022 10:52:20 -0400
-Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:57398)
+ id 1oYqYF-0002B0-3E; Thu, 15 Sep 2022 11:13:16 -0400
+Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:38828)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oYqDw-0003t6-Fo; Thu, 15 Sep 2022 10:52:19 -0400
-Received: from iva8-3a65cceff156.qloud-c.yandex.net
- (iva8-3a65cceff156.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2d80:0:640:3a65:ccef])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 056AB2E0A35;
- Thu, 15 Sep 2022 17:52:03 +0300 (MSK)
+ id 1oYqY6-0000mw-Si; Thu, 15 Sep 2022 11:13:11 -0400
+Received: from myt6-81d8ab6a9f9d.qloud-c.yandex.net
+ (myt6-81d8ab6a9f9d.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:520a:0:640:81d8:ab6a])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id A6C1F2E0A75;
+ Thu, 15 Sep 2022 18:12:51 +0300 (MSK)
 Received: from [IPV6:2a02:6b8:b081:1208::1:d] (unknown
  [2a02:6b8:b081:1208::1:d])
- by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- VTWsTzRoFo-q1PWdACH; Thu, 15 Sep 2022 17:52:02 +0300
+ by myt6-81d8ab6a9f9d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ l8zbYnpCoY-CmOeng9j; Thu, 15 Sep 2022 18:12:51 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1663253522; bh=hIxniqLkDZSIvbvdb1wa3js3zwfJjzdbMfWGxU+SBPE=;
+ t=1663254771; bh=E5q1l15IxLydQYFkr5w2AYj02FPyq+78ME5X8ExPjtk=;
  h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=V6VGMREVdAVe7MzqoSCxCgcqZvFQMOrBbHY9TAZl/aLe4cddZWFWpBXf5/lUokL4F
- zcwBW1TtPawTjYwIknbgCNtnqcjtwidhvRh+U6gD7JPwxqrNdptKtzet3C05s22emT
- GoJNi/sjjM7VUBCGvD1norVIF+uYNj8nSbiGC8eI=
-Authentication-Results: iva8-3a65cceff156.qloud-c.yandex.net;
+ b=uMlzARHv0/TXTa8jTF/yRLSVjyPJBeW5S7CsX6lU23debzvFYhwh3Y0sVYrgDxvE8
+ cS8VP4gvcV2LGR3zNwECuUISu9q/bZYNQTDcG71s0OhYc+gj5Lryb3EW57iHuXeW88
+ FHeoiZkEZ+RX4VVnpssxZMSQxYtAIxvnqxp64mEI=
+Authentication-Results: myt6-81d8ab6a9f9d.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
-Message-ID: <09759123-8ed4-9c6e-2086-7f65af921a13@yandex-team.ru>
-Date: Thu, 15 Sep 2022 17:52:01 +0300
+Message-ID: <c584907d-bfed-173c-d29e-d3bb352d6d85@yandex-team.ru>
+Date: Thu, 15 Sep 2022 18:12:48 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH v11 18/21] job.c: enable job lock/unlock and remove
- Aiocontext locks
+Subject: Re: [PATCH v11 05/21] job.c: add job_lock/unlock while keeping job.h
+ intact
 Content-Language: en-US
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
@@ -55,13 +55,13 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
  <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
 References: <20220826132104.3678958-1-eesposit@redhat.com>
- <20220826132104.3678958-19-eesposit@redhat.com>
+ <20220826132104.3678958-6-eesposit@redhat.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20220826132104.3678958-19-eesposit@redhat.com>
+In-Reply-To: <20220826132104.3678958-6-eesposit@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
@@ -83,63 +83,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/26/22 16:21, Emanuele Giuseppe Esposito wrote:
-> Change the job_{lock/unlock} and macros to use job_mutex.
+On 8/26/22 16:20, Emanuele Giuseppe Esposito wrote:
+> With "intact" we mean that all job.h functions implicitly
+> take the lock. Therefore API callers are unmodified.
 > 
-> Now that they are not nop anymore, remove the aiocontext
-> to avoid deadlocks.
+> This means that:
+> - many static functions that will be always called with job lock held
+>    become _locked, and call _locked functions
+> - all public functions take the lock internally if needed, and call _locked
+>    functions
+> - all public functions called internally by other functions in job.c will have a
+>    _locked counterpart (sometimes public), to avoid deadlocks (job lock already taken).
+>    These functions are not used for now.
+> - some public functions called only from exernal files (not job.c) do not
+>    have _locked() counterpart and take the lock inside. Others won't need
+>    the lock at all because use fields only set at initialization and
+>    never modified.
 > 
-> Therefore:
-> - when possible, remove completely the aiocontext lock/unlock pair
-> - if it is used by some other function too, reduce the locking
->    section as much as possible, leaving the job API outside.
-> - change AIO_WAIT_WHILE in AIO_WAIT_WHILE_UNLOCKED, since we
->    are not using the aiocontext lock anymore
+> job_{lock/unlock} is independent from real_job_{lock/unlock}.
 > 
-> The only functions that still need the aiocontext lock are the JobDriver
-> callbacks, already documented in job.h. Reduce the locking section to
-> only cover the callback invocation and document the functions that
-> take the AioContext lock, to avoid taking it twice.
+> Note: at this stage, job_{lock/unlock} and job lock guard macros
+> are*nop*
 > 
-> Also remove real_job_{lock/unlock}, as they are replaced by the
-> public functions.
-> 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
+> Signed-off-by: Emanuele Giuseppe Esposito<eesposit@redhat.com>
+> Reviewed-by: Kevin Wolf<kwolf@redhat.com>
+> Reviewed-by: Stefan Hajnoczi<stefanha@redhat.com>
 
-[..]
-
-> --- a/qemu-img.c
-> +++ b/qemu-img.c
-> @@ -911,7 +911,6 @@ static void run_block_job(BlockJob *job, Error **errp)
->       AioContext *aio_context = block_job_get_aio_context(job);
->       int ret = 0;
->   
-> -    aio_context_acquire(aio_context);
->       job_lock();
->       job_ref_locked(&job->job);
->       do {
-
-aio_poll() call here, doesn't require aio_context to be acquired?
-
-> @@ -936,7 +935,6 @@ static void run_block_job(BlockJob *job, Error **errp)
->       }
->       job_unref_locked(&job->job);
->       job_unlock();
-> -    aio_context_release(aio_context);
->   
->       /* publish completion progress only when success */
->       if (!ret) {
-
-[..]
-
-In replication_stop, we call job_cancel_sync() inside aio_context_acquire - aio_context_release section. Should it be fixed?
-
-Another question, sometimes you move job_start out of aio-context-acquire critical section, sometimes not. As I understand, it's of for job_start to be called both with acquired aio-context or not acquired?
-
-
-Otherwise looks good to me!
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
 -- 
 Best regards,
