@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA7105B96AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 10:53:09 +0200 (CEST)
-Received: from localhost ([::1]:34664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2E4E5B966E
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 10:34:48 +0200 (CEST)
+Received: from localhost ([::1]:33074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYkcL-0005fB-Hi
-	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 04:53:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57776)
+	id 1oYkKY-0004wt-DV
+	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 04:34:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYk48-0000nL-U0
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:17:48 -0400
-Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f]:41505)
+ id 1oYk7v-0000Eh-IB
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:21:39 -0400
+Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:35634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYk47-0007TP-9W
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:17:44 -0400
-Received: by mail-il1-x12f.google.com with SMTP id d16so9298275ils.8
- for <qemu-devel@nongnu.org>; Thu, 15 Sep 2022 01:17:42 -0700 (PDT)
+ id 1oYk7r-00089e-SY
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:21:37 -0400
+Received: by mail-io1-xd29.google.com with SMTP id b23so14173366iof.2
+ for <qemu-devel@nongnu.org>; Thu, 15 Sep 2022 01:21:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=SLIN/T2UVl0GiEwLwyvJIoYqnT+Vo1HQI1JH12/FB7E=;
- b=VD3ML2PXYOTXg63HleEwRJ5Y4CIcNNs3dvEDJ3ng2u0UesZiOPlJ0rFN/6+5kHNLSG
- 5jIOYBquNiow6kWeHRMRvPbsYNA8cbreymMhYblZy3DQLNYZKAvdzjJh+shws6Yebc/x
- 55h7Ywt1hg7f4IHavtj6ANd0BNsD/6VzYQ8UVDl0VSXUCaapw5YFeWTdh8gnaqF/BJma
- 4vnRO3AfHz1IDOf4xUCe0YVjn3WVSfgSikeHI5Nc8I42BbiBGDxaJJa4sGPF2MvGlKLk
- YJzxER1AlGWEdXnm8WKmckYfwQd+t27hDbfsrBSuw16O/lWpjwOowYj7z0tZCorUI7UU
- 2A7Q==
+ bh=sagwqiJzF0s2i2jxVOw2gPnxlMWz6VbuB5RnR8EiMrw=;
+ b=o13V1FmmEhcl1OSVXu0UFBSLg9cTUjYtDfFiFaWOt1aU+yYAEc0FYxQ6h7hE99kZBb
+ mBcU89WcKOys7LRxgnCpfOM8Qn+1soEL+G9+s/i4edTVjlz8K4o6o6wf0AjZUhEbeLg1
+ 3yFN24VVnHaiRRF5J7wUCdwU2ARQ3/khvag/xcQu8IZXckvsEafBk95s6G7y2YkO/mCl
+ 9aRxB7ichw5Ri6YX7yvTb4qCdHkDWqBfGlv40Q+aEB6Jc8SZyxPUS5WsSx05nQDr2QPX
+ QF9cclh3sEfTEVCGZ3p6rV0OtBDYeRKB68dmrAhHceUEtNvhrFdDqzxN7FHbK9ZQGRr1
+ tKcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=SLIN/T2UVl0GiEwLwyvJIoYqnT+Vo1HQI1JH12/FB7E=;
- b=2wcd8Az3XZZOVaXtQcz9EIl3LGk1kPVE+6pV9n2FINGb6jXRbEN+bMnrmL7qn25siR
- ccR55PkHYjT39aSuwDMWzAPEDP5aWlqsTednK+di/5W+74yIBnasoHnlhnNXIPaSLZYs
- PGSTSXTIHDkDCpKbwh0Fmmd598O0Nmb45Sf+pFB9Oxioy7BEovgjzDVLvzB09lxOOM4L
- gFjE7TBojAtoMbX8KGD2jqKicMMBfXpGg6qcCS4I2uDwGONDJufDtYp0YbOogxGJkcqr
- Azgsk4dVPw4cECQCc64oDDDZbACwOnZAzVAMcdDkXoA9D915GMbgQdB3c6BhKTb2JEGl
- kT7w==
-X-Gm-Message-State: ACgBeo1BRACDlQTOaHi58eVfb9swMaqHg5/0ci/tSz9PR9iOH2/Qjy0n
- AODdNhKAy6sPLPlISuwnmLYlJw==
-X-Google-Smtp-Source: AA6agR7LJKoLaGPEkCo6Ec8cCvd6h3fcQHmlBDp1BI6VT1U5UYzqJy8CYLhmXCrUthvxk7gAG8IukA==
-X-Received: by 2002:a05:6e02:1748:b0:2eb:e656:8123 with SMTP id
- y8-20020a056e02174800b002ebe6568123mr16688138ill.15.1663229861944; 
- Thu, 15 Sep 2022 01:17:41 -0700 (PDT)
+ bh=sagwqiJzF0s2i2jxVOw2gPnxlMWz6VbuB5RnR8EiMrw=;
+ b=4mkn8qx9+U5KoL/C5RQ5/ZcstMUrZs2g53yY1o3rWSM1gA7dL6Gv4ZwfDh32lju3m+
+ +P5m3gGR3wW9KMQ3E+LL9KPWwtYSCwUVz8qhSInQ3vBG5ZgZQqWWfy2apxtyAkwshFde
+ UiTa40Kr6q032UVqzQ85B7Oi2H9eI/ad/3VBlBqm5W7Kby74AYzS+Z0Ij8FJKsyXsT9U
+ Me8EKGmAaXmyDElTfoLkYdlfkvaoLRatPN3GQLSz8p4nXFiUZTV5tlDtIHz6p6L2OVxZ
+ Nwpqbs3iiSjqoHowg68/samv5qQVGD9jkmiGhcbXRYzguqHTMCY3t2D7cbbRtybtxRV9
+ WrdA==
+X-Gm-Message-State: ACgBeo07B9ADO1iET3iVMkAwIOaf/yBLk6Wkh//hE473QScVoZS/rAzV
+ oa/EJWE+nOu77XJ/HqzkvaPBEw==
+X-Google-Smtp-Source: AA6agR41x6rzpP5T9P6vE4T7bMS1D9tYBFuLm76yr4LmduQiGlleZxA4qjXoxrdqH/vk5SwqKAVFTA==
+X-Received: by 2002:a6b:ba0a:0:b0:6a0:cf7e:b647 with SMTP id
+ k10-20020a6bba0a000000b006a0cf7eb647mr12204242iof.137.1663230093920; 
+ Thu, 15 Sep 2022 01:21:33 -0700 (PDT)
 Received: from ?IPV6:2605:ef80:80c3:3064:7ddf:d6a7:e3e2:a0bf?
  ([2605:ef80:80c3:3064:7ddf:d6a7:e3e2:a0bf])
  by smtp.gmail.com with ESMTPSA id
- d18-20020a0566022d5200b0067b7a057ee8sm5179450iow.25.2022.09.15.01.17.39
+ m2-20020a6b3f02000000b006a19152b3f0sm4629664ioa.5.2022.09.15.01.21.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Sep 2022 01:17:41 -0700 (PDT)
-Message-ID: <91b4f280-abab-1227-35e7-7d3189f14cbf@linaro.org>
-Date: Thu, 15 Sep 2022 09:17:36 +0100
+ Thu, 15 Sep 2022 01:21:33 -0700 (PDT)
+Message-ID: <9e9267b1-d1c5-3720-6e3b-0ca0647efe77@linaro.org>
+Date: Thu, 15 Sep 2022 09:21:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [RFC PATCH 4/4] hw/timer: convert mptimer access to attrs to
- derive cpu index
+Subject: Re: [PATCH v2 01/30] gitlab: reduce targets in cross_user_build_job
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-References: <20220914160955.812151-1-alex.bennee@linaro.org>
- <20220914160955.812151-5-alex.bennee@linaro.org>
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
+ aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
+ crosa@redhat.com, Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20220914155950.804707-1-alex.bennee@linaro.org>
+ <20220914155950.804707-2-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220914160955.812151-5-alex.bennee@linaro.org>
+In-Reply-To: <20220914155950.804707-2-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12f;
- envelope-from=richard.henderson@linaro.org; helo=mail-il1-x12f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd29.google.com
 X-Spam_score_int: -36
 X-Spam_score: -3.7
 X-Spam_bar: ---
@@ -97,34 +100,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/14/22 17:09, Alex Bennée wrote:
-> This removes the hacks to deal with empty current_cpu.
+On 9/14/22 16:59, Alex Bennée wrote:
+> We already limit the scope of the cross system build to reduce the
+> cross build times. With the recent addition of more targets we are
+> also running into timeout issues for some of the cross user builds.
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> I've selected a few of those linux-user targets which are less likely
+> to be in common use as distros don't have pre-built rootfs for them.
+> I've also added the same CROSS_SKIP_TARGETS variable as is
+> occasionally used to further limit cross system builds.
+> 
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
 > ---
->   hw/timer/arm_mptimer.c | 25 ++++++++++++++-----------
->   1 file changed, 14 insertions(+), 11 deletions(-)
-> 
-> diff --git a/hw/timer/arm_mptimer.c b/hw/timer/arm_mptimer.c
-> index cdfca3000b..a7fe6ddc0d 100644
-> --- a/hw/timer/arm_mptimer.c
-> +++ b/hw/timer/arm_mptimer.c
-> @@ -41,9 +41,10 @@
->    * which is used in both the ARM11MPCore and Cortex-A9MP.
->    */
->   
-> -static inline int get_current_cpu(ARMMPTimerState *s)
-> +static inline int get_current_cpu(ARMMPTimerState *s, MemTxAttrs attrs)
->   {
-> -    int cpu_id = current_cpu ? current_cpu->cpu_index : 0;
-> +    int cpu_id = attrs.requester_id;
-> +    g_assert(attrs.requester_cpu == 1);
+>   .gitlab-ci.d/crossbuild-template.yml | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
 
-Again, drop the "== 1".
-
-Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
