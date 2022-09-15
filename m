@@ -2,79 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C82385B9B79
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 14:58:51 +0200 (CEST)
-Received: from localhost ([::1]:35080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF21A5B9BCB
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 15:25:23 +0200 (CEST)
+Received: from localhost ([::1]:48176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYoS7-0002qH-R7
-	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 08:58:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35858)
+	id 1oYorq-0000Y1-SR
+	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 09:25:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oYoPj-0001BQ-O0; Thu, 15 Sep 2022 08:56:20 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:32976 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>)
- id 1oYoPg-0001p0-SK; Thu, 15 Sep 2022 08:56:19 -0400
-Received: from [10.20.42.238] (unknown [10.20.42.238])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Dx_2vhICNjbS8aAA--.33284S3; 
- Thu, 15 Sep 2022 20:56:01 +0800 (CST)
-Subject: Re: [PATCH V4 1/3] hw/arm, loongarch: Move load_image_to_fw_cfg() to
- common location
-To: Sunil V L <sunilvl@ventanamicro.com>,
- Alistair Francis <alistair23@gmail.com>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>, Gerd Hoffmann <kraxel@redhat.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Andrew Jones <ajones@ventanamicro.com>,
- Anup Patel <apatel@ventanamicro.com>, Atish Kumar Patra
- <atishp@rivosinc.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>
-References: <20220906090219.412517-1-sunilvl@ventanamicro.com>
- <20220906090219.412517-2-sunilvl@ventanamicro.com>
- <CAKmqyKOZSaE9CYGmYSKOEnkQkGDUkchut+i2mQjcZLSVx-qWag@mail.gmail.com>
- <YyMTpMuQ0UP9Mqaz@sunil-laptop>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <2ecd4eff-d0a4-a140-5dd5-b4de89040189@loongson.cn>
-Date: Thu, 15 Sep 2022 20:56:01 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oYogy-0007DW-GZ
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 09:14:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51454)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oYogu-0002qA-Ix
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 09:14:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663247643;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jHoL0sm1x6fBJuED0zxvaeNa5dbsYOXhMm396L44gqc=;
+ b=aJk+iHb8V0ePgEgL0ghwgYW4I3Uoeii+NEEprroWmN1RH7eN+UBOTBJIEBjXx7dsh4Rp/m
+ QgH7M4MEd6UEJP9fhyrcsI5ZEXrwbCV3zwftytxcPNWXcWvNIeHVZi7cEdIRJZu9s7Q81Q
+ kBpgojeEtyaFtN3jAGA2xsbRFedTFZE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-438-xxAQMhHEPLKNR080wS4hcg-1; Thu, 15 Sep 2022 09:14:01 -0400
+X-MC-Unique: xxAQMhHEPLKNR080wS4hcg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ s5-20020adfa285000000b0022ad5c2771cso489498wra.18
+ for <qemu-devel@nongnu.org>; Thu, 15 Sep 2022 06:14:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=jHoL0sm1x6fBJuED0zxvaeNa5dbsYOXhMm396L44gqc=;
+ b=ZqIBB1fEgK3mSOAoQS8fysfOadSlvPlUSTvT3QbkC/48++XDwSErJZjDO2FVgqbWkC
+ fFfUKyWn0Y9/m/aY5nTvWqPZRu3ib4WiGRrvotxWPgzbQTtOguVsdBfHSVf6zUPc1V4Z
+ mQTWYJPoZodFroDJ/RI8JmPqzKWm8whSeT8Of+PfRyrioZ8npIRukoQY3Xx8DpBMc0kg
+ C4kRp0qLHaSakCFEysHzonbhkDUU6T7guDDR25IkyhlfYyPKdp00h/Xc3olW+loWJG+D
+ 61Ogg0qjnX4fjzUfBZdFxFVh4rXflkWvcpaLMyL4+I5aJtCTTilp0ejnxNcNuB0bsr5Z
+ wRUg==
+X-Gm-Message-State: ACgBeo3iKJ0n9vxHBt8O022BB6gwlZbm8QuOryG1xswN8JF/UBWyKXUB
+ 21M9dEJWVoc+CN8cxo/ePd/EyOrof8q1kAYmyZEWB4LRISuLwe10o3hxb81j3H9XLsXwyaOtWhZ
+ s1+LA2OW5iSSXA0s=
+X-Received: by 2002:a05:600c:5493:b0:3b4:6db5:aeef with SMTP id
+ iv19-20020a05600c549300b003b46db5aeefmr6724204wmb.31.1663247639970; 
+ Thu, 15 Sep 2022 06:13:59 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR71L1On5DDzP8yLF3cHvIkRWxsel4NAwhv0KlQAuc0wzkGDNup4Y9fYZeAER8WAiNFVvWvZ/g==
+X-Received: by 2002:a05:600c:5493:b0:3b4:6db5:aeef with SMTP id
+ iv19-20020a05600c549300b003b46db5aeefmr6724193wmb.31.1663247639767; 
+ Thu, 15 Sep 2022 06:13:59 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ f7-20020a05600c4e8700b003b31fc77407sm3492115wmq.30.2022.09.15.06.13.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Sep 2022 06:13:59 -0700 (PDT)
+Date: Thu, 15 Sep 2022 14:13:57 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, armbru@redhat.com
+Subject: Re: [PATCH] hmp: Fix ordering of text
+Message-ID: <YyMlFdR+iFtGTX8G@work-vm>
+References: <20220913101041.99869-1-dgilbert@redhat.com>
+ <YyMTEijc2a+BBKMq@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YyMTpMuQ0UP9Mqaz@sunil-laptop>
-Content-Type: text/plain; charset=gbk; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8Dx_2vhICNjbS8aAA--.33284S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxKFW3Zr4xAF13Jr4rJr15XFb_yoWxtw1xpF
- ZxGFnIyFWkXry3Kr12q34Y9Fy3Wr97Gr13X347GFyxtrnIyFn7KF1qkw1fuFW8urWUJa10
- vr109Fy3tF98JaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBI1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
- z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
- Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
- 6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
- 1lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IE
- e2xFo4CEbIxvr21lc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY2
- 0_XrWUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2Iq
- xVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42
- IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY
- 6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aV
- CY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
- NICE_REPLY_A=-1.816, SPF_HELO_PASS=-0.001,
+In-Reply-To: <YyMTEijc2a+BBKMq@redhat.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,225 +102,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> On Tue, Sep 13, 2022 at 11:10:41AM +0100, Dr. David Alan Gilbert (git) wrote:
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > 
+> > Fix the ordering of the help text so it's always after the commands
+> > being defined.  A few had got out of order.  Keep 'info' at the end.
+> > 
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > ---
+> >  hmp-commands.hx | 46 +++++++++++++++++++++++-----------------------
+> >  1 file changed, 23 insertions(+), 23 deletions(-)
+> 
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-ÔÚ 2022/9/15 ÏÂÎç7:59, Sunil V L Ð´µÀ:
-> Hi,
->
-> Could maintainers of hw/arm and hw/loongarch to take a look at this? I
-> have addressed Peter's earlier comment.
->
-> Thanks
-> Sunil
->
-> On Thu, Sep 08, 2022 at 11:17:52AM +0200, Alistair Francis wrote:
->> On Tue, Sep 6, 2022 at 11:38 AM Sunil V L <sunilvl@ventanamicro.com> wrote:
->>> load_image_to_fw_cfg() is duplicated by both arm and loongarch. The same
->>> function will be required by riscv too. So, it's time to refactor and
->>> move this function to a common path.
->>>
->>> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
->>> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
->> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->>
->> Alistair
-Reviewed-by: Song Gao <gaosong@loongson.cn>
-
-Thanks
-Song Gao
->>> ---
->>>   hw/arm/boot.c             | 49 ---------------------------------------
->>>   hw/loongarch/virt.c       | 33 --------------------------
->>>   hw/nvram/fw_cfg.c         | 32 +++++++++++++++++++++++++
->>>   include/hw/nvram/fw_cfg.h | 21 +++++++++++++++++
->>>   4 files changed, 53 insertions(+), 82 deletions(-)
->>>
->>> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
->>> index ada2717f76..704f368d9c 100644
->>> --- a/hw/arm/boot.c
->>> +++ b/hw/arm/boot.c
->>> @@ -818,55 +818,6 @@ static void do_cpu_reset(void *opaque)
->>>       }
->>>   }
->>>
->>> -/**
->>> - * load_image_to_fw_cfg() - Load an image file into an fw_cfg entry identified
->>> - *                          by key.
->>> - * @fw_cfg:         The firmware config instance to store the data in.
->>> - * @size_key:       The firmware config key to store the size of the loaded
->>> - *                  data under, with fw_cfg_add_i32().
->>> - * @data_key:       The firmware config key to store the loaded data under,
->>> - *                  with fw_cfg_add_bytes().
->>> - * @image_name:     The name of the image file to load. If it is NULL, the
->>> - *                  function returns without doing anything.
->>> - * @try_decompress: Whether the image should be decompressed (gunzipped) before
->>> - *                  adding it to fw_cfg. If decompression fails, the image is
->>> - *                  loaded as-is.
->>> - *
->>> - * In case of failure, the function prints an error message to stderr and the
->>> - * process exits with status 1.
->>> - */
->>> -static void load_image_to_fw_cfg(FWCfgState *fw_cfg, uint16_t size_key,
->>> -                                 uint16_t data_key, const char *image_name,
->>> -                                 bool try_decompress)
->>> -{
->>> -    size_t size = -1;
->>> -    uint8_t *data;
->>> -
->>> -    if (image_name == NULL) {
->>> -        return;
->>> -    }
->>> -
->>> -    if (try_decompress) {
->>> -        size = load_image_gzipped_buffer(image_name,
->>> -                                         LOAD_IMAGE_MAX_GUNZIP_BYTES, &data);
->>> -    }
->>> -
->>> -    if (size == (size_t)-1) {
->>> -        gchar *contents;
->>> -        gsize length;
->>> -
->>> -        if (!g_file_get_contents(image_name, &contents, &length, NULL)) {
->>> -            error_report("failed to load \"%s\"", image_name);
->>> -            exit(1);
->>> -        }
->>> -        size = length;
->>> -        data = (uint8_t *)contents;
->>> -    }
->>> -
->>> -    fw_cfg_add_i32(fw_cfg, size_key, size);
->>> -    fw_cfg_add_bytes(fw_cfg, data_key, data, size);
->>> -}
->>> -
->>>   static int do_arm_linux_init(Object *obj, void *opaque)
->>>   {
->>>       if (object_dynamic_cast(obj, TYPE_ARM_LINUX_BOOT_IF)) {
->>> diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
->>> index 5cc0b05538..eee2c193c0 100644
->>> --- a/hw/loongarch/virt.c
->>> +++ b/hw/loongarch/virt.c
->>> @@ -542,39 +542,6 @@ static void reset_load_elf(void *opaque)
->>>       }
->>>   }
->>>
->>> -/* Load an image file into an fw_cfg entry identified by key. */
->>> -static void load_image_to_fw_cfg(FWCfgState *fw_cfg, uint16_t size_key,
->>> -                                 uint16_t data_key, const char *image_name,
->>> -                                 bool try_decompress)
->>> -{
->>> -    size_t size = -1;
->>> -    uint8_t *data;
->>> -
->>> -    if (image_name == NULL) {
->>> -        return;
->>> -    }
->>> -
->>> -    if (try_decompress) {
->>> -        size = load_image_gzipped_buffer(image_name,
->>> -                                         LOAD_IMAGE_MAX_GUNZIP_BYTES, &data);
->>> -    }
->>> -
->>> -    if (size == (size_t)-1) {
->>> -        gchar *contents;
->>> -        gsize length;
->>> -
->>> -        if (!g_file_get_contents(image_name, &contents, &length, NULL)) {
->>> -            error_report("failed to load \"%s\"", image_name);
->>> -            exit(1);
->>> -        }
->>> -        size = length;
->>> -        data = (uint8_t *)contents;
->>> -    }
->>> -
->>> -    fw_cfg_add_i32(fw_cfg, size_key, size);
->>> -    fw_cfg_add_bytes(fw_cfg, data_key, data, size);
->>> -}
->>> -
->>>   static void fw_cfg_add_kernel_info(FWCfgState *fw_cfg)
->>>   {
->>>       /*
->>> diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
->>> index d605f3f45a..371a45dfe2 100644
->>> --- a/hw/nvram/fw_cfg.c
->>> +++ b/hw/nvram/fw_cfg.c
->>> @@ -41,6 +41,7 @@
->>>   #include "qapi/error.h"
->>>   #include "hw/acpi/aml-build.h"
->>>   #include "hw/pci/pci_bus.h"
->>> +#include "hw/loader.h"
->>>
->>>   #define FW_CFG_FILE_SLOTS_DFLT 0x20
->>>
->>> @@ -1221,6 +1222,37 @@ FWCfgState *fw_cfg_find(void)
->>>       return FW_CFG(object_resolve_path_type("", TYPE_FW_CFG, NULL));
->>>   }
->>>
->>> +void load_image_to_fw_cfg(FWCfgState *fw_cfg, uint16_t size_key,
->>> +                          uint16_t data_key, const char *image_name,
->>> +                          bool try_decompress)
->>> +{
->>> +    size_t size = -1;
->>> +    uint8_t *data;
->>> +
->>> +    if (image_name == NULL) {
->>> +        return;
->>> +    }
->>> +
->>> +    if (try_decompress) {
->>> +        size = load_image_gzipped_buffer(image_name,
->>> +                                         LOAD_IMAGE_MAX_GUNZIP_BYTES, &data);
->>> +    }
->>> +
->>> +    if (size == (size_t)-1) {
->>> +        gchar *contents;
->>> +        gsize length;
->>> +
->>> +        if (!g_file_get_contents(image_name, &contents, &length, NULL)) {
->>> +            error_report("failed to load \"%s\"", image_name);
->>> +            exit(1);
->>> +        }
->>> +        size = length;
->>> +        data = (uint8_t *)contents;
->>> +    }
->>> +
->>> +    fw_cfg_add_i32(fw_cfg, size_key, size);
->>> +    fw_cfg_add_bytes(fw_cfg, data_key, data, size);
->>> +}
->>>
->>>   static void fw_cfg_class_init(ObjectClass *klass, void *data)
->>>   {
->>> diff --git a/include/hw/nvram/fw_cfg.h b/include/hw/nvram/fw_cfg.h
->>> index 0e7a8bc7af..c1f81a5f13 100644
->>> --- a/include/hw/nvram/fw_cfg.h
->>> +++ b/include/hw/nvram/fw_cfg.h
->>> @@ -342,4 +342,25 @@ bool fw_cfg_dma_enabled(void *opaque);
->>>    */
->>>   const char *fw_cfg_arch_key_name(uint16_t key);
->>>
->>> +/**
->>> + * load_image_to_fw_cfg() - Load an image file into an fw_cfg entry identified
->>> + *                          by key.
->>> + * @fw_cfg:         The firmware config instance to store the data in.
->>> + * @size_key:       The firmware config key to store the size of the loaded
->>> + *                  data under, with fw_cfg_add_i32().
->>> + * @data_key:       The firmware config key to store the loaded data under,
->>> + *                  with fw_cfg_add_bytes().
->>> + * @image_name:     The name of the image file to load. If it is NULL, the
->>> + *                  function returns without doing anything.
->>> + * @try_decompress: Whether the image should be decompressed (gunzipped) before
->>> + *                  adding it to fw_cfg. If decompression fails, the image is
->>> + *                  loaded as-is.
->>> + *
->>> + * In case of failure, the function prints an error message to stderr and the
->>> + * process exits with status 1.
->>> + */
->>> +void load_image_to_fw_cfg(FWCfgState *fw_cfg, uint16_t size_key,
->>> +                          uint16_t data_key, const char *image_name,
->>> +                          bool try_decompress);
->>> +
->>>   #endif
->>> --
->>> 2.25.1
->>>
->>>
+Thanks, and queued
+> 
+> With regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
