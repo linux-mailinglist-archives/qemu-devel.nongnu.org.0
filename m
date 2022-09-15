@@ -2,93 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 930795B9131
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 01:53:13 +0200 (CEST)
-Received: from localhost ([::1]:39724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7D115B922B
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 03:33:59 +0200 (CEST)
+Received: from localhost ([::1]:39130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYcBs-00059M-8U
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 19:53:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40304)
+	id 1oYdlN-0004w2-Pt
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 21:33:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oYc9N-0003YX-BV
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 19:50:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27671)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oYc9J-0006Jt-Ro
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 19:50:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663199432;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ayO1F4YbfKP7PvUXgVPkjQFzknqvDlg070WB4DSANdQ=;
- b=IxeVddoAQTIQaVxnT+b35DI5+7FGgpQJgeQz6n33Ah8uEsA0Mo7PCAHQOkGpsWVf8g6/1T
- J6GjfFXT67MyqsrwyOw9AdJcELd1hWtPGOPyxHG5++kexo5dUzKKRZBt9tPTHHHl/18KYh
- kexb0HMPZ0UsK+y5f7Uzy3ru6obmfZ4=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-245-2rcO7H3zPLmrzk0X6KyAIw-1; Wed, 14 Sep 2022 19:50:31 -0400
-X-MC-Unique: 2rcO7H3zPLmrzk0X6KyAIw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- i17-20020a05640242d100b0044f18a5379aso11995654edc.21
- for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 16:50:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=ayO1F4YbfKP7PvUXgVPkjQFzknqvDlg070WB4DSANdQ=;
- b=N2e9A0bKNiDVnlPS8qGFRQmd9thAGvBtnsO+FhkJngDraFpucZARWKjbDtR7qzwB0p
- SKFHCtsNO54u12Etm6dt86Dx+ikFQjKliP99xT8QwArP/ELyPcFfhENnKFxvAR6gxHrD
- ZKh19uDQuogBMu2cAGNvwHdCvIrKFUNM1seSzeSUy09L0qfAWSFbl3OiNzm7Mz9TTlYn
- 8Afbq4C0UVy3YOPnv80PD/iVrMT3G/g9shli2/1+Wrh0ZChVnehgcVn1dDmfelKDkEUX
- dEjC1auamB6xCMH4K5mrA7O4R/DgYkITrO5t3bbNrWkTq7WDBZdgFFVvZuoBwHlmYh3M
- 7D8w==
-X-Gm-Message-State: ACgBeo2UUtI18wXdrCJHRi3N+fOVlxd1j6DbRrPnhKoshseuive8JKrT
- fgdKjyLVWnl5jq8gxHqAs8TUvrH2x8HmWJ8aJRb/bcpoMbZXKz2DLID66QR60y+UYT2pwoqk9zl
- U51oNDvigr0VdCVg=
-X-Received: by 2002:a17:907:ea6:b0:77e:156d:b07b with SMTP id
- ho38-20020a1709070ea600b0077e156db07bmr10879430ejc.435.1663199430120; 
- Wed, 14 Sep 2022 16:50:30 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5rz2N0C8Y61eEDXl3S19F1ZuLb3zkv5VsC8QcqhqQW8thwu5FKKS9JiSSnYGXw8wJC5Plmlw==
-X-Received: by 2002:a17:907:ea6:b0:77e:156d:b07b with SMTP id
- ho38-20020a1709070ea600b0077e156db07bmr10879421ejc.435.1663199429918; 
- Wed, 14 Sep 2022 16:50:29 -0700 (PDT)
-Received: from [192.168.77.248] (93-38-132-84.ip70.fastwebnet.it.
- [93.38.132.84]) by smtp.googlemail.com with ESMTPSA id
- p8-20020aa7d308000000b00443d657d8a4sm10369053edq.61.2022.09.14.16.50.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Sep 2022 16:50:29 -0700 (PDT)
-Message-ID: <ed0fa748-5560-9ea5-ea06-bc8213b9942f@redhat.com>
-Date: Thu, 15 Sep 2022 01:50:25 +0200
+ (Exim 4.90_1) (envelope-from <liuhaiwei9699@126.com>)
+ id 1oYdgm-00037T-Ra; Wed, 14 Sep 2022 21:29:12 -0400
+Received: from m1564.mail.126.com ([220.181.15.64]:48088)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liuhaiwei9699@126.com>)
+ id 1oYdgg-0003aM-Fi; Wed, 14 Sep 2022 21:29:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+ s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=Zt13c
+ OsXRpC844A3R6S+e6E4z0xt3ndINxo13jpLxaQ=; b=ptwdxF37BHAfYGPxG9Ctb
+ q+GyW50VwmPeJVjx9Q3qYuZ+HMMwfy1oe8pE78NCq8rxI929yB0+tdqAM/urC/iH
+ O4kvEjo3po/DHo0qYuMm3fvFC/7Kn0HaSIrswV5B8lh+c5Md/P1R9tA3exQn9pBN
+ TGMrNk8F37VKmjusWR9Rtw=
+Received: from liuhaiwei9699$126.com ( [60.208.111.194] ) by
+ ajax-webmail-wmsvr64 (Coremail) ; Thu, 15 Sep 2022 09:28:50 +0800 (CST)
+X-Originating-IP: [60.208.111.194]
+Date: Thu, 15 Sep 2022 09:28:50 +0800 (CST)
+From: liuhaiwei9699  <liuhaiwei9699@126.com>
+To: "Vladimir Sementsov-Ogievskiy" <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, stefanha@redhat.com, 
+ fam@euphon.net, eblake@redhat.com, jsnow@redhat.com, 
+ quintela@redhat.com, dgilbert@redhat.com, liuhaiwei <liuhaiwei@inspur.com>
+Subject: Re:Re: [PATCH] bugfix:migrate with block-dirty-bitmap (disk size is
+ big enough) can't be finished
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
+ Copyright (c) 2002-2022 www.mailtech.cn 126com
+In-Reply-To: <626e7cce-d85f-7448-b28f-a5de559f6aa6@yandex-team.ru>
+References: <20220910063542.3036319-1-liuhaiwei9699@126.com>
+ <626e7cce-d85f-7448-b28f-a5de559f6aa6@yandex-team.ru>
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_13624_653738307.1663205330591"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 1/2] target/i386: fix cmpxchg with 32-bit register
- destination
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220911222630.338330-1-pbonzini@redhat.com>
- <20220911222630.338330-2-pbonzini@redhat.com>
- <91fe80d5-724b-6adc-ef74-60655c8a25cf@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <91fe80d5-724b-6adc-ef74-60655c8a25cf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.583, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Message-ID: <785be6cd.e78.1833ec34e9f.Coremail.liuhaiwei9699@126.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: QMqowAD3BnPTfyJjh21wAA--.38566W
+X-CM-SenderInfo: xolxxt5lzhxmqwzzqiyswou0bp/1tbiuBt71mJVlV0X7wABsI
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Received-SPF: pass client-ip=220.181.15.64; envelope-from=liuhaiwei9699@126.com;
+ helo=m1564.mail.126.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,30 +73,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/12/22 09:55, Richard Henderson wrote:
-> 
->   * Compute...
-> 
-> Why bother passing NULL, and fixing it up at each use...
-> 
->> +static void gen_op_mov_reg_v(DisasContext *s, MemOp ot, int reg, TCGv 
->> t0)
->> +{
->> +    gen_op_deposit_reg_v(s, ot, reg, NULL, t0);
->>   }
-> 
-> ... when you can just as easily pass in the register here?
+------=_Part_13624_653738307.1663205330591
+Content-Type: text/plain; charset=GBK
+Content-Transfer-Encoding: base64
 
-Because dest can be fixed up to either cpu_regs[reg - 4] for high-byte 
-registers, or cpu_regs[reg] for everything else.
+SGkgLFZsYWRpbWlyCnNvbWV0aW1lcyAscG9zdC1jb3B5IG1vZGUgaXMgbm90IHRoZSBiZXN0IGNo
+b2ljZS4gRm9yIGluc3RhbmNlLCBTdXBwb3NpbmcgbWlncmF0ZSBwcm9jZXNzIHdpbGwgdGFrZSB0
+ZW4gbWludXRlcyxidXQgbmV0d29yayBtYXkgYmUgaW50ZXJydXB0dGVkIEluIHRoaXMgcHJvY2Vz
+cyAuCklmIGl0IGRvZXMgaGFwcGVudGhlICwgbWVtb3J5IGRhdGEgb2YgVk0gd2lsbCBiZSBzcGxp
+dHRlZCBpbnRvIHR3byBwYXJ0cywgYW5kIHdpbGwgbm90IGJlIHJvbGxiYWNrLlRoaXMgaXMgYSBi
+YWQgc2l0dWF0aW9uCgoKc28gIG1pZ3JhdGUtc3RhcnQtcG9zdGNvcHkgd2lsbCBub3QgYmUgc2V0
+dGVkIGluIGNvbnNlcnZhdGl2ZSBzY2VuYXJpby4gSW4gdGhpcyBjYXNlLCB0aGUgbWlncmF0aW9u
+IHdpdGggYmxvY2sgZGlydHkgYml0bWFwIG1heSBub3QgYmUgZmluaXNoZWQuCgoKCgpJIHRoaW5r
+ICBtaWdyYXRpb24gb2YgYmxvY2sgZGlydHkgYml0bWFwIHNob3VsZCBub3QgZGVwZW5kZW50IG9u
+IHBvc3QtY29weSBvciBwcmUtY29weSBtb2RlLgoKCgoKQmVzdCByZWdhcmRzCkF0IDIwMjItMDkt
+MTAgMTg6MTg6MDQsICJWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IiA8dnNlbWVudHNvdkB5
+YW5kZXgtdGVhbS5ydT4gd3JvdGU6Cj5PbiA5LzEwLzIyIDA5OjM1LCBsaXVoYWl3ZWkgd3JvdGU6
+Cj4+IEZyb206IGxpdWhhaXdlaSA8bGl1aGFpd2VpQGluc3B1ci5jb20+Cj4+IAo+PiBidWcgZGVz
+Y3JpcHRpb24gYXMgIGh0dHBzOi8vZ2l0bGFiLmNvbS9xZW11LXByb2plY3QvcWVtdS8tL2lzc3Vl
+cy8xMjAzCj4+IFVzdWFsbHksd2UgdXNlIHRoZSBwcmVjb3B5IG9yIHBvc3Rjb3B5IG1vZGUgdG8g
+bWlncmF0ZSBibG9jayBkaXJ0eSBiaXRtYXAuCj4+IGJ1dCBpZiBibG9jay1kaXJ0eS1iaXRtYXAg
+c2l6ZSBtb3JlIHRoYW4gdGhyZXNob2xkIHNpemUsd2UgY2Fubm90IGVudHJ5IHRoZSBtaWdyYXRp
+b25fY29tcGxldGlvbiBpbiBtaWdyYXRpb25faXRlcmF0aW9uX3J1biBmdW5jdGlvbgo+PiBUbyBz
+b2x2ZSB0aGlzIHByb2JsZW0sIHdlIGNhbiBzZXR0aW5nICB0aGUgcGVuZGluZyBzaXplIHRvIGEg
+ZmFrZSB2YWx1ZSh0aHJlc2hvbGQtMSBvciAwKSB0byB0ZWxsICBtaWdyYXRpb25faXRlcmF0aW9u
+X3J1biBmdW5jdGlvbiB0byBlbnRyeSB0aGUgbWlncmF0aW9uX2NvbXBsZXRpb24saWYgcGVuZGlu
+ZyBzaXplID4gdGhyZXNob2xkIHNpemUKPj4gCj4KPgo+QWN0dWFsbHksIGJpdG1hcHMgbWlncmF0
+ZSBpbiBwb3N0Y29weS4gU28sIHlvdSBzaG91bGQgc3RhcnQgcG9zdGNvcHkgZm9yIGl0IHRvIHdv
+cmsgKHFtcCBjb21tYW5kIG1pZ3JhdGUtc3RhcnQtcG9zdGNvcHkpLiBUaGlzIGNvbW1hbmQgc2lt
+cGx5IHNldCB0aGUgYm9vbGVhbiB2YXJpYWJsZSwgc28gdGhhdCBpbiBtaWdyYXRpb25faXRlcmF0
+aW9uX3J1bigpIHdlJ2xsIG1vdmUgdG8gcG9zdGNvcHkgd2hlbiBuZWVkZWQuIFNvLCB5b3UgY2Fu
+IHN0YXJ0IHRoaXMgY29tbWFuZCBpbW1lZGlhdGVseSBhZnRlciBtaWdyYXRlIGNvbW1hbmQsIG9y
+IGV2ZW4gYmVmb3JlIGl0LCBidXQgYWZ0ZXIgc2V0dGluZyB0aGUgImRpcnR5LWJpdG1hcHMiIGNh
+cGFiaWxpdHkuCj4KPkZha2UgcGVuZGluZyBpcyBhIHdyb25nIHRoaW5nIHRvIGRvLCBpdCBtZWFu
+cyB0aGF0IHlvdSB3aWxsIG1ha2UgZG93bnRpbWUgdG8gYmUgbGFyZ2VyIHRoYW4gZXhwZWN0ZWQu
+Cj4KPi0tIAo+QmVzdCByZWdhcmRzLAo+VmxhZGltaXIK
+------=_Part_13624_653738307.1663205330591
+Content-Type: text/html; charset=GBK
+Content-Transfer-Encoding: base64
 
-> We have an outstanding bug report that suggests that the move to eax must use the deposit in both cases:
-> 
-> https://gitlab.com/qemu-project/qemu/-/issues/508
-
-Ok, so that's two bugs.  But both of them can indeed be fixed with 
-gen_op_deposit_reg_v.
-
-Paolo
+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
+Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPkhpICw8c3BhbiBzdHls
+ZT0iZm9udC1mYW1pbHk6IGFyaWFsOyB3aGl0ZS1zcGFjZTogcHJlLXdyYXA7Ij5WbGFkaW1pcjwv
+c3Bhbj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48ZGl2IHN0eWxlPSJtYXJnaW46IDBw
+eDsgd29yZC1icmVhazogYnJlYWstd29yZCAhaW1wb3J0YW50OyI+PGRpdiBzdHlsZT0ibWFyZ2lu
+OiAwcHg7IHdvcmQtYnJlYWs6IGJyZWFrLXdvcmQgIWltcG9ydGFudDsiPjxkaXYgc3R5bGU9Im1h
+cmdpbjogMHB4OyB3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBvcnRhbnQ7Ij5zb21ldGltZXMg
+LHBvc3QtY29weSBtb2RlIGlzIG5vdCB0aGUgYmVzdCBjaG9pY2UuIEZvciBpbnN0YW5jZSwgU3Vw
+cG9zaW5nIG1pZ3JhdGUgcHJvY2VzcyB3aWxsIHRha2UgdGVuIG1pbnV0ZXMsYnV0IG5ldHdvcmsg
+bWF5IGJlIGludGVycnVwdHRlZCBJbiB0aGlzIHByb2Nlc3MgLjwvZGl2PjxkaXYgc3R5bGU9Im1h
+cmdpbjogMHB4OyB3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBvcnRhbnQ7Ij5JZiBpdCBkb2Vz
+IGhhcHBlbnRoZSAsIG1lbW9yeSBkYXRhIG9mIFZNIHdpbGwgYmUgc3BsaXR0ZWQgaW50byB0d28g
+cGFydHMsIGFuZCB3aWxsIG5vdCBiZSByb2xsYmFjay5UaGlzIGlzIGEgYmFkIHNpdHVhdGlvbjwv
+ZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjogMHB4OyB3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBv
+cnRhbnQ7Ij48YnIgc3R5bGU9IndvcmQtYnJlYWs6IGJyZWFrLXdvcmQgIWltcG9ydGFudDsiPjwv
+ZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjogMHB4OyB3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBv
+cnRhbnQ7Ij5zbyZuYnNwOyBtaWdyYXRlLXN0YXJ0LXBvc3Rjb3B5IHdpbGwgbm90IGJlIHNldHRl
+ZCBpbiBjb25zZXJ2YXRpdmUgc2NlbmFyaW8uIEluIHRoaXMgY2FzZSwgdGhlIG1pZ3JhdGlvbiB3
+aXRoIGJsb2NrIGRpcnR5IGJpdG1hcCBtYXkgbm90IGJlIGZpbmlzaGVkLjwvZGl2PjwvZGl2Pjwv
+ZGl2PjxwIHN0eWxlPSJtYXJnaW46IDBweDsgd29yZC1icmVhazogYnJlYWstd29yZCAhaW1wb3J0
+YW50OyI+PGJyIHN0eWxlPSJ3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBvcnRhbnQ7Ij48L3A+
+PGRpdiBzdHlsZT0icG9zaXRpb246IHJlbGF0aXZlOyB6b29tOiAxOyB3b3JkLWJyZWFrOiBicmVh
+ay13b3JkICFpbXBvcnRhbnQ7Ij48L2Rpdj48ZGl2IGlkPSJkaXZOZXRlYXNlTWFpbENhcmQiIHN0
+eWxlPSJ3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBvcnRhbnQ7Ij48L2Rpdj48cCBzdHlsZT0i
+bWFyZ2luOiAwcHg7IHdvcmQtYnJlYWs6IGJyZWFrLXdvcmQgIWltcG9ydGFudDsiPkkgdGhpbmsm
+bmJzcDsgbWlncmF0aW9uIG9mIGJsb2NrIGRpcnR5IGJpdG1hcCBzaG91bGQgbm90IGRlcGVuZGVu
+dCBvbiBwb3N0LWNvcHkgb3IgcHJlLWNvcHkgbW9kZS48L3A+PC9kaXY+PHAgc3R5bGU9Im1hcmdp
+bjogMDsiPjxicj48L3A+PHByZT5CZXN0IHJlZ2FyZHM8L3ByZT48cHJlPkF0IDIwMjItMDktMTAg
+MTg6MTg6MDQsICJWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IiAmbHQ7dnNlbWVudHNvdkB5
+YW5kZXgtdGVhbS5ydSZndDsgd3JvdGU6CiZndDtPbiA5LzEwLzIyIDA5OjM1LCBsaXVoYWl3ZWkg
+d3JvdGU6CiZndDsmZ3Q7IEZyb206IGxpdWhhaXdlaSAmbHQ7bGl1aGFpd2VpQGluc3B1ci5jb20m
+Z3Q7CiZndDsmZ3Q7IAomZ3Q7Jmd0OyBidWcgZGVzY3JpcHRpb24gYXMgIGh0dHBzOi8vZ2l0bGFi
+LmNvbS9xZW11LXByb2plY3QvcWVtdS8tL2lzc3Vlcy8xMjAzCiZndDsmZ3Q7IFVzdWFsbHksd2Ug
+dXNlIHRoZSBwcmVjb3B5IG9yIHBvc3Rjb3B5IG1vZGUgdG8gbWlncmF0ZSBibG9jayBkaXJ0eSBi
+aXRtYXAuCiZndDsmZ3Q7IGJ1dCBpZiBibG9jay1kaXJ0eS1iaXRtYXAgc2l6ZSBtb3JlIHRoYW4g
+dGhyZXNob2xkIHNpemUsd2UgY2Fubm90IGVudHJ5IHRoZSBtaWdyYXRpb25fY29tcGxldGlvbiBp
+biBtaWdyYXRpb25faXRlcmF0aW9uX3J1biBmdW5jdGlvbgomZ3Q7Jmd0OyBUbyBzb2x2ZSB0aGlz
+IHByb2JsZW0sIHdlIGNhbiBzZXR0aW5nICB0aGUgcGVuZGluZyBzaXplIHRvIGEgZmFrZSB2YWx1
+ZSh0aHJlc2hvbGQtMSBvciAwKSB0byB0ZWxsICBtaWdyYXRpb25faXRlcmF0aW9uX3J1biBmdW5j
+dGlvbiB0byBlbnRyeSB0aGUgbWlncmF0aW9uX2NvbXBsZXRpb24saWYgcGVuZGluZyBzaXplICZn
+dDsgdGhyZXNob2xkIHNpemUKJmd0OyZndDsgCiZndDsKJmd0OwomZ3Q7QWN0dWFsbHksIGJpdG1h
+cHMgbWlncmF0ZSBpbiBwb3N0Y29weS4gU28sIHlvdSBzaG91bGQgc3RhcnQgcG9zdGNvcHkgZm9y
+IGl0IHRvIHdvcmsgKHFtcCBjb21tYW5kIG1pZ3JhdGUtc3RhcnQtcG9zdGNvcHkpLiBUaGlzIGNv
+bW1hbmQgc2ltcGx5IHNldCB0aGUgYm9vbGVhbiB2YXJpYWJsZSwgc28gdGhhdCBpbiBtaWdyYXRp
+b25faXRlcmF0aW9uX3J1bigpIHdlJ2xsIG1vdmUgdG8gcG9zdGNvcHkgd2hlbiBuZWVkZWQuIFNv
+LCB5b3UgY2FuIHN0YXJ0IHRoaXMgY29tbWFuZCBpbW1lZGlhdGVseSBhZnRlciBtaWdyYXRlIGNv
+bW1hbmQsIG9yIGV2ZW4gYmVmb3JlIGl0LCBidXQgYWZ0ZXIgc2V0dGluZyB0aGUgImRpcnR5LWJp
+dG1hcHMiIGNhcGFiaWxpdHkuCiZndDsKJmd0O0Zha2UgcGVuZGluZyBpcyBhIHdyb25nIHRoaW5n
+IHRvIGRvLCBpdCBtZWFucyB0aGF0IHlvdSB3aWxsIG1ha2UgZG93bnRpbWUgdG8gYmUgbGFyZ2Vy
+IHRoYW4gZXhwZWN0ZWQuCiZndDsKJmd0Oy0tIAomZ3Q7QmVzdCByZWdhcmRzLAomZ3Q7VmxhZGlt
+aXIKPC9wcmU+PC9kaXY+
+------=_Part_13624_653738307.1663205330591--
 
 
