@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CED05BA24C
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 23:23:35 +0200 (CEST)
-Received: from localhost ([::1]:53628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8B135BA203
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 22:52:36 +0200 (CEST)
+Received: from localhost ([::1]:55044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYwKb-0002hH-Qd
-	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 17:23:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32878)
+	id 1oYvqd-00059f-TH
+	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 16:52:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oYvhy-00028F-K0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oYvhy-00027z-H6
  for qemu-devel@nongnu.org; Thu, 15 Sep 2022 16:43:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51670)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57002)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oYvho-0000Jo-HB
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oYvho-0000Jj-UA
  for qemu-devel@nongnu.org; Thu, 15 Sep 2022 16:43:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1663274607;
@@ -23,40 +23,42 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kE10O7RC2goUdJWzUXqPtVaYJx+Y1oRiDktZrhWIbws=;
- b=dAS7kVAjwwJ69CWbx5QGWi8jPqRR18Yqj3WlSKDkbOwKQE7FPcx35hxKcWHIbnZy57Sqob
- Pe6kGaz+PwsiT2rPWiDZxRuJ/ni/af5Nwhv4KXrCUec7E9OrWGANdnZ3/jq3i2Bk7RjPSh
- gieejdLMqNqxGlEwuLCaJxWhwolRq6g=
+ bh=e5oS+6JLb1oU84LOA0/uXCQKe6QrxuwoZ8MODdB95Qc=;
+ b=J6Z4BO/eYnpB59YUi6QNj7JIYTacGZZvOVU9Y6FKvlyrut/zN68fHUr3k/hZVNm9XNWT2l
+ LZzcaE9IqXS/dUVnkpqaqAljNxzPzlxHLsF4i2pbInuBPCNmKrpVbVY+mBCJ9GJkfJPdne
+ 8+fLLcHFJCbgu+vZLfEYTdOfLdgPemY=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-460-gvDtETXaORKBs-n3EGnQhw-1; Thu, 15 Sep 2022 16:43:24 -0400
-X-MC-Unique: gvDtETXaORKBs-n3EGnQhw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-411-Dz9Er1n7OPitvhaoBBo4MA-1; Thu, 15 Sep 2022 16:43:24 -0400
+X-MC-Unique: Dz9Er1n7OPitvhaoBBo4MA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E4A983C0D870;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C58F83C0D865;
  Thu, 15 Sep 2022 20:43:23 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9FB7C492CA2;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A08F4140EBF5;
  Thu, 15 Sep 2022 20:43:23 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2109C21E66CA; Thu, 15 Sep 2022 22:43:18 +0200 (CEST)
+ id 232AA21E661A; Thu, 15 Sep 2022 22:43:18 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: michael.roth@amd.com, jsnow@redhat.com, eblake@redhat.com,
- Konstantin Kostiuk <kkostiuk@redhat.com>
-Subject: [PATCH 26/27] qapi qga: Elide redundant has_FOO in generated C
-Date: Thu, 15 Sep 2022 22:43:16 +0200
-Message-Id: <20220915204317.3766007-27-armbru@redhat.com>
+Cc: michael.roth@amd.com,
+	jsnow@redhat.com,
+	eblake@redhat.com
+Subject: [PATCH 27/27] qapi: Drop temporary logic to support conversion step
+ by step
+Date: Thu, 15 Sep 2022 22:43:17 +0200
+Message-Id: <20220915204317.3766007-28-armbru@redhat.com>
 In-Reply-To: <20220915204317.3766007-1-armbru@redhat.com>
 References: <20220915204317.3766007-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,273 +82,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The has_FOO for pointer-valued FOO are redundant, except for arrays.
-They are also a nuisance to work with.  Recent commit "qapi: Start to
-elide redundant has_FOO in generated C" provided the means to elide
-them step by step.  This is the step for qga/qapi-schema.json.
-
-Said commit explains the transformation in more detail.  The invariant
-violations mentioned there do not occur here.
-
-Cc: Michael Roth <michael.roth@amd.com>
-Cc: Konstantin Kostiuk <kkostiuk@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qga/commands-posix.c   | 33 ++++++++-------------------------
- qga/commands.c         | 11 ++++-------
- scripts/qapi/schema.py |  3 +--
- 3 files changed, 13 insertions(+), 34 deletions(-)
+ scripts/qapi/schema.py | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 954efed01b..1db82dc77b 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -81,7 +81,7 @@ static void ga_wait_child(pid_t pid, int *status, Error **errp)
-     g_assert(rpid == pid);
- }
- 
--void qmp_guest_shutdown(bool has_mode, const char *mode, Error **errp)
-+void qmp_guest_shutdown(const char *mode, Error **errp)
- {
-     const char *shutdown_flag;
-     Error *local_err = NULL;
-@@ -99,7 +99,7 @@ void qmp_guest_shutdown(bool has_mode, const char *mode, Error **errp)
- #endif
- 
-     slog("guest-shutdown called, mode: %s", mode);
--    if (!has_mode || strcmp(mode, "powerdown") == 0) {
-+    if (!mode || strcmp(mode, "powerdown") == 0) {
-         shutdown_flag = powerdown_flag;
-     } else if (strcmp(mode, "halt") == 0) {
-         shutdown_flag = halt_flag;
-@@ -407,14 +407,14 @@ end:
-     return f;
- }
- 
--int64_t qmp_guest_file_open(const char *path, bool has_mode, const char *mode,
-+int64_t qmp_guest_file_open(const char *path, const char *mode,
-                             Error **errp)
- {
-     FILE *fh;
-     Error *local_err = NULL;
-     int64_t handle;
- 
--    if (!has_mode) {
-+    if (!mode) {
-         mode = "r";
-     }
-     slog("guest-file-open called, filepath: %s, mode: %s", path, mode);
-@@ -1053,7 +1053,6 @@ static bool build_guest_fsinfo_for_ccw_dev(char const *syspath,
-         return false;
-     }
- 
--    disk->has_ccw_address = true;
-     disk->ccw_address = g_new0(GuestCCWAddress, 1);
-     disk->ccw_address->cssid = cssid;
-     disk->ccw_address->ssid = ssid;
-@@ -1100,12 +1099,10 @@ static void build_guest_fsinfo_for_real_device(char const *syspath,
-         devnode = udev_device_get_devnode(udevice);
-         if (devnode != NULL) {
-             disk->dev = g_strdup(devnode);
--            disk->has_dev = true;
-         }
-         serial = udev_device_get_property_value(udevice, "ID_SERIAL");
-         if (serial != NULL && *serial != 0) {
-             disk->serial = g_strdup(serial);
--            disk->has_serial = true;
-         }
-     }
- 
-@@ -1124,7 +1121,7 @@ static void build_guest_fsinfo_for_real_device(char const *syspath,
-         has_hwinf = false;
-     }
- 
--    if (has_hwinf || disk->has_dev || disk->has_serial) {
-+    if (has_hwinf || disk->dev || disk->serial) {
-         QAPI_LIST_PREPEND(fs->disk, disk);
-     } else {
-         qapi_free_GuestDiskAddress(disk);
-@@ -1427,7 +1424,6 @@ static void get_nvme_smart(GuestDiskInfo *disk)
-         return;
-     }
- 
--    disk->has_smart = true;
-     disk->smart = g_new0(GuestDiskSmart, 1);
-     disk->smart->type = GUEST_DISK_BUS_TYPE_NVME;
- 
-@@ -1465,7 +1461,7 @@ static void get_nvme_smart(GuestDiskInfo *disk)
- 
- static void get_disk_smart(GuestDiskInfo *disk)
- {
--    if (disk->has_address
-+    if (disk->address
-         && (disk->address->bus_type == GUEST_DISK_BUS_TYPE_NVME)) {
-         get_nvme_smart(disk);
-     }
-@@ -1518,7 +1514,6 @@ GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
-         disk->name = dev_name;
-         disk->partition = false;
-         disk->alias = get_alias_for_syspath(disk_dir);
--        disk->has_alias = (disk->alias != NULL);
-         QAPI_LIST_PREPEND(ret, disk);
- 
-         /* Get address for non-virtual devices */
-@@ -1538,8 +1533,6 @@ GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
-                     error_get_pretty(local_err));
-                 error_free(local_err);
-                 local_err = NULL;
--            } else if (disk->address != NULL) {
--                disk->has_address = true;
-             }
-         }
- 
-@@ -1899,7 +1892,6 @@ qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)
-         if (fd == -1) {
-             result->error = g_strdup_printf("failed to open: %s",
-                                             strerror(errno));
--            result->has_error = true;
-             continue;
-         }
- 
-@@ -1914,7 +1906,6 @@ qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)
-         r.minlen = has_minimum ? minimum : 0;
-         ret = ioctl(fd, FITRIM, &r);
-         if (ret == -1) {
--            result->has_error = true;
-             if (errno == ENOTTY || errno == EOPNOTSUPP) {
-                 result->error = g_strdup("trim not supported");
-             } else {
-@@ -3160,7 +3151,7 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
-             QAPI_LIST_APPEND(tail, info);
-         }
- 
--        if (!info->has_hardware_address) {
-+        if (!info->hardware_address) {
-             /* we haven't obtained HW address yet */
-             sock = socket(PF_INET, SOCK_STREAM, 0);
-             if (sock == -1) {
-@@ -3196,8 +3187,6 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
-                                     (int) mac_addr[0], (int) mac_addr[1],
-                                     (int) mac_addr[2], (int) mac_addr[3],
-                                     (int) mac_addr[4], (int) mac_addr[5]);
--
--                info->has_hardware_address = true;
-             }
-             close(sock);
-         }
-@@ -3258,14 +3247,12 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
- 
-         info->has_ip_addresses = true;
- 
--        if (!info->has_statistics) {
-+        if (!info->statistics) {
-             interface_stat = g_malloc0(sizeof(*interface_stat));
-             if (guest_get_network_stats(info->name, interface_stat) == -1) {
--                info->has_statistics = false;
-                 g_free(interface_stat);
-             } else {
-                 info->statistics = interface_stat;
--                info->has_statistics = true;
-             }
-         }
-     }
-@@ -3572,11 +3559,8 @@ GuestOSInfo *qmp_guest_get_osinfo(Error **errp)
-     if (uname(&kinfo) != 0) {
-         error_setg_errno(errp, errno, "uname failed");
-     } else {
--        info->has_kernel_version = true;
-         info->kernel_version = g_strdup(kinfo.version);
--        info->has_kernel_release = true;
-         info->kernel_release = g_strdup(kinfo.release);
--        info->has_machine = true;
-         info->machine = g_strdup(kinfo.machine);
-     }
- 
-@@ -3596,7 +3580,6 @@ GuestOSInfo *qmp_guest_get_osinfo(Error **errp)
-     value = g_key_file_get_value(osrelease, "os-release", osfield, NULL); \
-     if (value != NULL) { \
-         ga_osrelease_replace_special(value); \
--        info->has_ ## field = true; \
-         info->field = value; \
-     } \
- } while (0)
-diff --git a/qga/commands.c b/qga/commands.c
-index 7ff551d092..360077364e 100644
---- a/qga/commands.c
-+++ b/qga/commands.c
-@@ -206,14 +206,12 @@ GuestExecStatus *qmp_guest_exec_status(int64_t pid, Error **errp)
-         }
- #endif
-         if (gei->out.length > 0) {
--            ges->has_out_data = true;
-             ges->out_data = g_base64_encode(gei->out.data, gei->out.length);
-             g_free(gei->out.data);
-             ges->has_out_truncated = gei->out.truncated;
-         }
- 
-         if (gei->err.length > 0) {
--            ges->has_err_data = true;
-             ges->err_data = g_base64_encode(gei->err.data, gei->err.length);
-             g_free(gei->err.data);
-             ges->has_err_truncated = gei->err.truncated;
-@@ -385,7 +383,7 @@ close:
- GuestExec *qmp_guest_exec(const char *path,
-                        bool has_arg, strList *arg,
-                        bool has_env, strList *env,
--                       bool has_input_data, const char *input_data,
-+                       const char *input_data,
-                        bool has_capture_output, bool capture_output,
-                        Error **errp)
- {
-@@ -406,7 +404,7 @@ GuestExec *qmp_guest_exec(const char *path,
-     arglist.value = (char *)path;
-     arglist.next = has_arg ? arg : NULL;
- 
--    if (has_input_data) {
-+    if (input_data) {
-         input = qbase64_decode(input_data, -1, &ninput, errp);
-         if (!input) {
-             return NULL;
-@@ -423,7 +421,7 @@ GuestExec *qmp_guest_exec(const char *path,
-     }
- 
-     ret = g_spawn_async_with_pipes(NULL, argv, envp, flags,
--            guest_exec_task_setup, NULL, &pid, has_input_data ? &in_fd : NULL,
-+            guest_exec_task_setup, NULL, &pid, input_data ? &in_fd : NULL,
-             has_output ? &out_fd : NULL, has_output ? &err_fd : NULL, &gerr);
-     if (!ret) {
-         error_setg(errp, QERR_QGA_COMMAND_FAILED, gerr->message);
-@@ -438,7 +436,7 @@ GuestExec *qmp_guest_exec(const char *path,
-     gei->has_output = has_output;
-     g_child_watch_add(pid, guest_exec_child_watch, gei);
- 
--    if (has_input_data) {
-+    if (input_data) {
-         gei->in.data = g_steal_pointer(&input);
-         gei->in.size = ninput;
- #ifdef G_OS_WIN32
-@@ -547,7 +545,6 @@ GuestTimezone *qmp_guest_get_timezone(Error **errp)
-     info->offset = g_time_zone_get_offset(tz, intv);
-     name = g_time_zone_get_abbreviation(tz, intv);
-     if (name != NULL) {
--        info->has_zone = true;
-         info->zone = g_strdup(name);
-     }
-     g_time_zone_unref(tz);
 diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index b2df148e01..4594c69d0b 100644
+index 4594c69d0b..cd8661125c 100644
 --- a/scripts/qapi/schema.py
 +++ b/scripts/qapi/schema.py
-@@ -758,8 +758,7 @@ def __init__(self, name, info, typ, optional, ifcond=None, features=None):
+@@ -757,12 +757,6 @@ def __init__(self, name, info, typ, optional, ifcond=None, features=None):
+ 
      def need_has(self):
          assert self.type
-         # Temporary hack to support dropping the has_FOO in reviewable chunks
--        opt_out = [
--            'qga/qapi-schema.json']
-+        opt_out = []
-         if self.info and any(self.info.fname.endswith(mod)
-                              for mod in opt_out):
-             return self.optional
+-        # Temporary hack to support dropping the has_FOO in reviewable chunks
+-        opt_out = []
+-        if self.info and any(self.info.fname.endswith(mod)
+-                             for mod in opt_out):
+-            return self.optional
+-        # End of temporary hack
+         return self.optional and self.type.need_has_if_optional()
+ 
+     def check(self, schema):
 -- 
 2.37.2
 
