@@ -2,78 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1F4B5B928F
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 04:14:13 +0200 (CEST)
-Received: from localhost ([::1]:49772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93BCC5B92B7
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 04:42:38 +0200 (CEST)
+Received: from localhost ([::1]:45194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYeOJ-0003Cg-Ny
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 22:14:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55804)
+	id 1oYepp-0007lN-7M
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 22:42:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oYeMf-0001qa-Gl
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 22:12:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58041)
+ id 1oYeoP-0006NZ-Qg
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 22:41:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oYeMb-0007yV-Oc
- for qemu-devel@nongnu.org; Wed, 14 Sep 2022 22:12:27 -0400
+ id 1oYeoJ-0007vG-Fi
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 22:41:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663207944;
+ s=mimecast20190719; t=1663209657;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AYQl78fuAUYqVfos5YIX84BXVyNQB0cNX2gOvtdKaAg=;
- b=TJa++2DZSoatgq7wRLPh0BKEWYGJDoi4To1XbboUtUjMQxaAA2/CLK8Y+6Nq2D+HfUC+vq
- 0Zd4ldtYlVaEASo5MZwgrrKDEaNhM27YYeSIRZxovNfB5/jkAS8gRLDpBOPhqbkiGeaXsR
- mBFh/5BohqPoJEXoaT1L4yGPWTApVqI=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=a2fQ65DMR+6wbwrE8qaoku1D15jtqlRLd0IjsR1dI2k=;
+ b=BIklWX4wgJMRe4y7bcMQVkxowqxT2JVYk7GK3wJn0mXInTSneOxGpa7QB8aXvegG2WGr4Z
+ hK8M+1HDETvUh4JGxOrCAgJ/H9kpAWRJQlxSi8MhdjsZ88uFP7ZZCEQ2SS7XDSHHhCfNIS
+ wjuQZpBq+epmLdQbMFZQKRef04nQSiI=
+Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
+ [209.85.217.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-131-GL6NjLXMPfiEY4z-SpLlWQ-1; Wed, 14 Sep 2022 22:12:22 -0400
-X-MC-Unique: GL6NjLXMPfiEY4z-SpLlWQ-1
-Received: by mail-ua1-f71.google.com with SMTP id
- a8-20020ab04948000000b003b5de1448d2so4610811uad.11
- for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 19:12:22 -0700 (PDT)
+ us-mta-501-MX9z4OpGM92uXMtIo3I93g-1; Wed, 14 Sep 2022 22:40:56 -0400
+X-MC-Unique: MX9z4OpGM92uXMtIo3I93g-1
+Received: by mail-vs1-f69.google.com with SMTP id
+ d187-20020a671dc4000000b0038e312cde86so1807107vsd.13
+ for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 19:40:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date;
- bh=AYQl78fuAUYqVfos5YIX84BXVyNQB0cNX2gOvtdKaAg=;
- b=kUIe+G/o2/lPZTTmqT9EaJe7S75Jpf9oQA/ur28dL6JFbtT9O4kQFtQiMl8NPYZ8F0
- JCAS82u4wRe7iCncHQs99o+trnTfFPFV4etuF7wmWUi9m5EyyvMaxXvHD0gTwSBd4UWs
- 64ddtx7/aCXpkxJLKnN9YdRjhnBnosGIL85Wyb1XPueO6U57k5TAT+Ccw+UBN+kEyobx
- Gdes7j0i9eRUVZ8SiRpcmVF5eo8ylcGOXVnxbsQyw+PGhKb6El61S1tjnrujKzOd0khb
- yuTtSSDMXbDv+6bebi77dyy6LwdufWqsxfdgHJtjv4ujHFawKww8fiEziM0F0D6jqqwx
- AWyg==
-X-Gm-Message-State: ACgBeo2/BvLq3IKAF45vXtTiHHeGlVqK4POnAiI42DdAw96SoaSfbJym
- 9SnaA7dcrjj8aZdKbqCU6iJI2OaQuFdoI9/ssDTPOc96mpMiAx/a44rBLmwHPdjVE+vJ8XgT2oh
- YrE47LZ4VF1Z+BEEfahNJY5/rDytyCGg=
-X-Received: by 2002:a05:6102:1341:b0:398:889e:7f28 with SMTP id
- j1-20020a056102134100b00398889e7f28mr6773616vsl.21.1663207942373; 
- Wed, 14 Sep 2022 19:12:22 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4nZrmkFA02QAfbUxBdq6mfXLdNpgvUrxDo3s7UM3iBYegry0swfBS2h03rGXPBkx/fTpzJgBNE9yOESRKxp1c=
-X-Received: by 2002:a05:6102:1341:b0:398:889e:7f28 with SMTP id
- j1-20020a056102134100b00398889e7f28mr6773609vsl.21.1663207942125; Wed, 14 Sep
- 2022 19:12:22 -0700 (PDT)
+ bh=a2fQ65DMR+6wbwrE8qaoku1D15jtqlRLd0IjsR1dI2k=;
+ b=q1TBAGRwW9qHxchNfiKD1B4sETlr+ojIAixi9JHiDP8lfcxQ5MAfxL6Hvoao183KkY
+ P8F1Bq6EPGhjxJiQnQX9LRuSTWUyG0Jk+wtMHQsqrET5ISn54J1snzuDbwi9c6eRU9ET
+ pdbc7sO9Hpy0J/xCNv4j3fyD0ZvL1DDqCfdOAAYwGvB/AB2SbkqEls21r7nQmzS+e4Hu
+ 1zVBJUCT7Oi2nc3PQZzwPUYqE6rtX5im6JQz27rXcc6lpKDkphYLFJBVBs42ZHbtOahs
+ o3Nr3HrGe6QUfbxvVFw4Szh8JGaYBFAGi4ZKSArq7U562XlBVVSSw04pB5iatjU2frrd
+ f/1g==
+X-Gm-Message-State: ACgBeo36Eatw4TPhnP7V7w/ZfQp9SRCNGg4X6j8fjVChHOYC/z0f6oB1
+ ZGysTurrb4ZyfJj/AsJWdnuazLnZqWf5mPNInd0ObSbgtaNKfBnnW+xismfTUQ2eeq4vomb+NsA
+ V2HHYG+LWeEwWIsIgs7/IhID0ay6Xcfs=
+X-Received: by 2002:a05:6102:a84:b0:357:c234:8041 with SMTP id
+ n4-20020a0561020a8400b00357c2348041mr12764919vsg.25.1663209655743; 
+ Wed, 14 Sep 2022 19:40:55 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5/TOJtOmNglOhJ4nrDs0X3abVMfuWyhzUdbVdvcLsVpyb2M76MNixLcvEVB6Lu+vvSHkEMmR8qW7t3Qw0rZFw=
+X-Received: by 2002:a05:6102:a84:b0:357:c234:8041 with SMTP id
+ n4-20020a0561020a8400b00357c2348041mr12764912vsg.25.1663209655514; Wed, 14
+ Sep 2022 19:40:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1662949366.git.kangjie.xu@linux.alibaba.com>
- <a14f5ebdefb82d7679841c1d5ddab54ec9406ea1.1662949366.git.kangjie.xu@linux.alibaba.com>
- <ac7dacaf-ea85-b608-4047-27254aefd97a@redhat.com>
- <1663136320.6336615-1-xuanzhuo@linux.alibaba.com>
-In-Reply-To: <1663136320.6336615-1-xuanzhuo@linux.alibaba.com>
+References: <20220906163621.1144675-1-eperezma@redhat.com>
+ <20220906163621.1144675-3-eperezma@redhat.com>
+ <CACGkMEvnVavevtxWa49Yew+Nnkx_Wfmgf1JLVXCBe=zkpvdHnQ@mail.gmail.com>
+ <CACGkMEswG2nmTve+p2MU9ue5CuwAu69CpeOUzYnu_BVfZE56JA@mail.gmail.com>
+ <CAJaqyWf=NfkL_2uXVapJ6qCLziBc2jg+jMyR+cBQu+yDG6eg5w@mail.gmail.com>
+ <CACGkMEvW5ZUZEcx9COvwjAT5PUraoko8k1foBez=T1nmhjKpDw@mail.gmail.com>
+ <34969f96-b7c4-c9f8-2248-3e84a84148b2@oracle.com>
+In-Reply-To: <34969f96-b7c4-c9f8-2248-3e84a84148b2@oracle.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 15 Sep 2022 10:12:11 +0800
-Message-ID: <CACGkMEvSt0etgoVyPVTk1axV+mx30CigR6bhbNYt8oYTTC2=Dw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/6] vhost-net: vhost-user: update
- vhost_net_virtqueue_reset()
-To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Cc: mst <mst@redhat.com>, "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
- Heng Qi <hengqi@linux.alibaba.com>, Kangjie Xu <kangjie.xu@linux.alibaba.com>, 
- qemu-devel <qemu-devel@nongnu.org>
+Date: Thu, 15 Sep 2022 10:40:44 +0800
+Message-ID: <CACGkMEvUuhLeXxFZzGHh9kAe0n9_6jTtN7YXpThDRqkhsRsfxQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] vdpa: load vlan configuration at NIC startup
+To: Si-Wei Liu <si-wei.liu@oracle.com>
+Cc: Eugenio Perez Martin <eperezma@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Cindy Lu <lulu@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Laurent Vivier <lvivier@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Parav Pandit <parav@mellanox.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
@@ -100,87 +109,166 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 14, 2022 at 2:21 PM Xuan Zhuo <xuanzhuo@linux.alibaba.com> wrot=
-e:
+On Wed, Sep 14, 2022 at 7:33 PM Si-Wei Liu <si-wei.liu@oracle.com> wrote:
 >
-> On Wed, 14 Sep 2022 11:13:29 +0800, Jason Wang <jasowang@redhat.com> wrot=
-e:
+>
+>
+> On 9/14/2022 3:20 AM, Jason Wang wrote:
+> > On Fri, Sep 9, 2022 at 4:02 PM Eugenio Perez Martin <eperezma@redhat.co=
+m> wrote:
+> >> On Fri, Sep 9, 2022 at 8:40 AM Jason Wang <jasowang@redhat.com> wrote:
+> >>> On Fri, Sep 9, 2022 at 2:38 PM Jason Wang <jasowang@redhat.com> wrote=
+:
+> >>>> On Wed, Sep 7, 2022 at 12:36 AM Eugenio P=C3=A9rez <eperezma@redhat.=
+com> wrote:
+> >>>>> To have enabled vlans at device startup may happen in the destinati=
+on of
+> >>>>> a live migration, so this configuration must be restored.
+> >>>>>
+> >>>>> At this moment the code is not accessible, since SVQ refuses to sta=
+rt if
+> >>>>> vlan feature is exposed by the device.
+> >>>>>
+> >>>>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> >>>>> ---
+> >>>>>   net/vhost-vdpa.c | 46 +++++++++++++++++++++++++++++++++++++++++++=
++--
+> >>>>>   1 file changed, 44 insertions(+), 2 deletions(-)
+> >>>>>
+> >>>>> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> >>>>> index 4bc3fd01a8..ecbfd08eb9 100644
+> >>>>> --- a/net/vhost-vdpa.c
+> >>>>> +++ b/net/vhost-vdpa.c
+> >>>>> @@ -100,6 +100,8 @@ static const uint64_t vdpa_svq_device_features =
+=3D
+> >>>>>       BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
+> >>>>>       BIT_ULL(VIRTIO_NET_F_STANDBY);
+> >>>>>
+> >>>>> +#define MAX_VLAN    (1 << 12)   /* Per 802.1Q definition */
+> >>>>> +
+> >>>>>   VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
+> >>>>>   {
+> >>>>>       VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> >>>>> @@ -423,6 +425,47 @@ static int vhost_vdpa_net_load_mq(VhostVDPASta=
+te *s,
+> >>>>>       return *s->status !=3D VIRTIO_NET_OK;
+> >>>>>   }
+> >>>>>
+> >>>>> +static int vhost_vdpa_net_load_single_vlan(VhostVDPAState *s,
+> >>>>> +                                           const VirtIONet *n,
+> >>>>> +                                           uint16_t vid)
+> >>>>> +{
+> >>>>> +    ssize_t dev_written =3D vhost_vdpa_net_load_cmd(s, VIRTIO_NET_=
+CTRL_VLAN,
+> >>>>> +                                                  VIRTIO_NET_CTRL_=
+VLAN_ADD,
+> >>>>> +                                                  &vid, sizeof(vid=
+));
+> >>>>> +    if (unlikely(dev_written < 0)) {
+> >>>>> +        return dev_written;
+> >>>>> +    }
+> >>>>> +
+> >>>>> +    if (unlikely(*s->status !=3D VIRTIO_NET_OK)) {
+> >>>>> +        return -EINVAL;
+> >>>>> +    }
+> >>>>> +
+> >>>>> +    return 0;
+> >>>>> +}
+> >>>>> +
+> >>>>> +static int vhost_vdpa_net_load_vlan(VhostVDPAState *s,
+> >>>>> +                                    const VirtIONet *n)
+> >>>>> +{
+> >>>>> +    uint64_t features =3D n->parent_obj.guest_features;
+> >>>>> +
+> >>>>> +    if (!(features & BIT_ULL(VIRTIO_NET_F_CTRL_VLAN))) {
+> >>>>> +        return 0;
+> >>>>> +    }
+> >>>>> +
+> >>>>> +    for (int i =3D 0; i < MAX_VLAN >> 5; i++) {
+> >>>>> +        for (int j =3D 0; n->vlans[i] && j <=3D 0x1f; j++) {
+> >>>>> +            if (n->vlans[i] & (1U << j)) {
+> >>>>> +                int r =3D vhost_vdpa_net_load_single_vlan(s, n, (i=
+ << 5) + j);
+> >>>> This seems to cause a lot of latency if the driver has a lot of vlan=
+s.
+> >>>>
+> >>>> I wonder if it's simply to let all vlan traffic go by disabling
+> >>>> CTRL_VLAN feature at vDPA layer.
+> >> The guest will not be able to recover that vlan configuration.
+> > Spec said it's best effort and we actually don't do this for
+> > vhost-net/user for years and manage to survive.
+> I thought there's a border line between best effort and do nothing. ;-)
+>
+> I think that the reason this could survive is really software
+> implementation specific - say if the backend doesn't start with VLAN
+> filtering disabled (meaning allow all VLAN traffic to pass) then it
+> would become a problem. This won't be a problem for almost PF NICs but
+> may be problematic for vDPA e.g. VF backed VDPAs.
+
+So it looks like an issue of the implementation. If CTRL_VLAN is not
+negotiated, the device should disable vlan filters.
+
+
 > >
-> > =E5=9C=A8 2022/9/12 11:10, Kangjie Xu =E5=86=99=E9=81=93:
-> > > Update vhost_net_virtqueue_reset() for vhost-user scenario.
-> > >
-> > > In order to reuse some functions, we process the idx for
-> > > vhost-user scenario because vhost_get_vq_index behave
-> > > differently for vhost-user.
-> > >
-> > > Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-> > > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-> > > ---
-> > >   hw/net/vhost_net.c | 3 +++
-> > >   1 file changed, 3 insertions(+)
-> > >
-> > > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> > > index ea896ea75b..25e5665489 100644
-> > > --- a/hw/net/vhost_net.c
-> > > +++ b/hw/net/vhost_net.c
-> > > @@ -545,6 +545,9 @@ void vhost_net_virtqueue_reset(VirtIODevice *vdev=
-, NetClientState *nc,
-> > >       assert(vhost_ops);
-> > >
-> > >       idx =3D vhost_ops->vhost_get_vq_index(&net->dev, vq_index);
-> > > +    if (net->nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_USER) {
-> > > +        idx -=3D net->dev.vq_index;
-> > > +    }
-> >
-> >
-> > This looks tricky. Any reason we can't simply use vq_index for both
-> > vhost-user and vhost-net?
->
->
-> static int vhost_user_get_vq_index(struct vhost_dev *dev, int idx)
-> {
->     assert(idx >=3D dev->vq_index && idx < dev->vq_index + dev->nvqs);
->
->     return idx;
-> }
->
->
-> static int vhost_kernel_get_vq_index(struct vhost_dev *dev, int idx)
-> {
->     assert(idx >=3D dev->vq_index && idx < dev->vq_index + dev->nvqs);
->
->     return idx - dev->vq_index;
-> }
->
-> The implementation of these two callbacks is different. The structure of =
-the two
-> scenarios is different. We may need to do some optimizations in the futur=
-e.
+> >>> Another idea is to extend the spec to allow us to accept a bitmap of
+> >>> the vlan ids via a single command, then we will be fine.
+> >>>
+> >> I'm not sure if adding more ways to configure something is the answer,
+> >> but I'd be ok to implement it.
+> >>
+> >> Another idea is to allow the sending of many CVQ commands in parallel.
+> >> It shouldn't be very hard to achieve using exposed buffers as ring
+> >> buffers, and it will short down the start of the devices with many
+> >> features.
+> > In the extreme case, what if guests decide to filter all of the vlans?
+> > It means we need MAX_VLAN commands which may exceeds the size of the
+> > control virtqueue.
+> Indeed, that's a case where a single flat device state blob would be
+> more efficient for hardware drivers to apply than individual control
+> command messages do.
 
-Yes, but what I meant is, you do
-
-idx -=3D net->dev.vq_index;
-
-and then
-
-net->dev.vq_index + idx
-
-This is a hint that we should have a better organization of the code.
+Right, so we can optimize the spec for this.
 
 Thanks
 
 >
-> Thanks.
->
->
+> -Siwei
 > >
 > > Thanks
 > >
-> >
-> > >
-> > >       if (net->nc->info->type =3D=3D NET_CLIENT_DRIVER_TAP) {
-> > >           file.index =3D idx;
-> >
+> >> Thanks!
+> >>
+> >>> Thanks
+> >>>
+> >>>> Thanks
+> >>>>
+> >>>>> +                if (unlikely(r !=3D 0)) {
+> >>>>> +                    return r;
+> >>>>> +                }
+> >>>>> +            }
+> >>>>> +        }
+> >>>>> +    }
+> >>>>> +
+> >>>>> +    return 0;
+> >>>>> +}
+> >>>>> +
+> >>>>>   static int vhost_vdpa_net_load(NetClientState *nc)
+> >>>>>   {
+> >>>>>       VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> >>>>> @@ -445,8 +488,7 @@ static int vhost_vdpa_net_load(NetClientState *=
+nc)
+> >>>>>       if (unlikely(r)) {
+> >>>>>           return r;
+> >>>>>       }
+> >>>>> -
+> >>>>> -    return 0;
+> >>>>> +    return vhost_vdpa_net_load_vlan(s, n);
+> >>>>>   }
+> >>>>>
+> >>>>>   static NetClientInfo net_vhost_vdpa_cvq_info =3D {
+> >>>>> --
+> >>>>> 2.31.1
+> >>>>>
 >
 
 
