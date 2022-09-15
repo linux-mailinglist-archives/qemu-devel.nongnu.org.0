@@ -2,61 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D115B922B
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 03:33:59 +0200 (CEST)
-Received: from localhost ([::1]:39130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F4B5B928F
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 04:14:13 +0200 (CEST)
+Received: from localhost ([::1]:49772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYdlN-0004w2-Pt
-	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 21:33:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34050)
+	id 1oYeOJ-0003Cg-Ny
+	for lists+qemu-devel@lfdr.de; Wed, 14 Sep 2022 22:14:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liuhaiwei9699@126.com>)
- id 1oYdgm-00037T-Ra; Wed, 14 Sep 2022 21:29:12 -0400
-Received: from m1564.mail.126.com ([220.181.15.64]:48088)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liuhaiwei9699@126.com>)
- id 1oYdgg-0003aM-Fi; Wed, 14 Sep 2022 21:29:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
- s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=Zt13c
- OsXRpC844A3R6S+e6E4z0xt3ndINxo13jpLxaQ=; b=ptwdxF37BHAfYGPxG9Ctb
- q+GyW50VwmPeJVjx9Q3qYuZ+HMMwfy1oe8pE78NCq8rxI929yB0+tdqAM/urC/iH
- O4kvEjo3po/DHo0qYuMm3fvFC/7Kn0HaSIrswV5B8lh+c5Md/P1R9tA3exQn9pBN
- TGMrNk8F37VKmjusWR9Rtw=
-Received: from liuhaiwei9699$126.com ( [60.208.111.194] ) by
- ajax-webmail-wmsvr64 (Coremail) ; Thu, 15 Sep 2022 09:28:50 +0800 (CST)
-X-Originating-IP: [60.208.111.194]
-Date: Thu, 15 Sep 2022 09:28:50 +0800 (CST)
-From: liuhaiwei9699  <liuhaiwei9699@126.com>
-To: "Vladimir Sementsov-Ogievskiy" <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, stefanha@redhat.com, 
- fam@euphon.net, eblake@redhat.com, jsnow@redhat.com, 
- quintela@redhat.com, dgilbert@redhat.com, liuhaiwei <liuhaiwei@inspur.com>
-Subject: Re:Re: [PATCH] bugfix:migrate with block-dirty-bitmap (disk size is
- big enough) can't be finished
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
- Copyright (c) 2002-2022 www.mailtech.cn 126com
-In-Reply-To: <626e7cce-d85f-7448-b28f-a5de559f6aa6@yandex-team.ru>
-References: <20220910063542.3036319-1-liuhaiwei9699@126.com>
- <626e7cce-d85f-7448-b28f-a5de559f6aa6@yandex-team.ru>
-Content-Type: multipart/alternative; 
- boundary="----=_Part_13624_653738307.1663205330591"
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oYeMf-0001qa-Gl
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 22:12:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58041)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oYeMb-0007yV-Oc
+ for qemu-devel@nongnu.org; Wed, 14 Sep 2022 22:12:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663207944;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AYQl78fuAUYqVfos5YIX84BXVyNQB0cNX2gOvtdKaAg=;
+ b=TJa++2DZSoatgq7wRLPh0BKEWYGJDoi4To1XbboUtUjMQxaAA2/CLK8Y+6Nq2D+HfUC+vq
+ 0Zd4ldtYlVaEASo5MZwgrrKDEaNhM27YYeSIRZxovNfB5/jkAS8gRLDpBOPhqbkiGeaXsR
+ mBFh/5BohqPoJEXoaT1L4yGPWTApVqI=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-131-GL6NjLXMPfiEY4z-SpLlWQ-1; Wed, 14 Sep 2022 22:12:22 -0400
+X-MC-Unique: GL6NjLXMPfiEY4z-SpLlWQ-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ a8-20020ab04948000000b003b5de1448d2so4610811uad.11
+ for <qemu-devel@nongnu.org>; Wed, 14 Sep 2022 19:12:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=AYQl78fuAUYqVfos5YIX84BXVyNQB0cNX2gOvtdKaAg=;
+ b=kUIe+G/o2/lPZTTmqT9EaJe7S75Jpf9oQA/ur28dL6JFbtT9O4kQFtQiMl8NPYZ8F0
+ JCAS82u4wRe7iCncHQs99o+trnTfFPFV4etuF7wmWUi9m5EyyvMaxXvHD0gTwSBd4UWs
+ 64ddtx7/aCXpkxJLKnN9YdRjhnBnosGIL85Wyb1XPueO6U57k5TAT+Ccw+UBN+kEyobx
+ Gdes7j0i9eRUVZ8SiRpcmVF5eo8ylcGOXVnxbsQyw+PGhKb6El61S1tjnrujKzOd0khb
+ yuTtSSDMXbDv+6bebi77dyy6LwdufWqsxfdgHJtjv4ujHFawKww8fiEziM0F0D6jqqwx
+ AWyg==
+X-Gm-Message-State: ACgBeo2/BvLq3IKAF45vXtTiHHeGlVqK4POnAiI42DdAw96SoaSfbJym
+ 9SnaA7dcrjj8aZdKbqCU6iJI2OaQuFdoI9/ssDTPOc96mpMiAx/a44rBLmwHPdjVE+vJ8XgT2oh
+ YrE47LZ4VF1Z+BEEfahNJY5/rDytyCGg=
+X-Received: by 2002:a05:6102:1341:b0:398:889e:7f28 with SMTP id
+ j1-20020a056102134100b00398889e7f28mr6773616vsl.21.1663207942373; 
+ Wed, 14 Sep 2022 19:12:22 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4nZrmkFA02QAfbUxBdq6mfXLdNpgvUrxDo3s7UM3iBYegry0swfBS2h03rGXPBkx/fTpzJgBNE9yOESRKxp1c=
+X-Received: by 2002:a05:6102:1341:b0:398:889e:7f28 with SMTP id
+ j1-20020a056102134100b00398889e7f28mr6773609vsl.21.1663207942125; Wed, 14 Sep
+ 2022 19:12:22 -0700 (PDT)
 MIME-Version: 1.0
-Message-ID: <785be6cd.e78.1833ec34e9f.Coremail.liuhaiwei9699@126.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: QMqowAD3BnPTfyJjh21wAA--.38566W
-X-CM-SenderInfo: xolxxt5lzhxmqwzzqiyswou0bp/1tbiuBt71mJVlV0X7wABsI
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
-Received-SPF: pass client-ip=220.181.15.64; envelope-from=liuhaiwei9699@126.com;
- helo=m1564.mail.126.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <cover.1662949366.git.kangjie.xu@linux.alibaba.com>
+ <a14f5ebdefb82d7679841c1d5ddab54ec9406ea1.1662949366.git.kangjie.xu@linux.alibaba.com>
+ <ac7dacaf-ea85-b608-4047-27254aefd97a@redhat.com>
+ <1663136320.6336615-1-xuanzhuo@linux.alibaba.com>
+In-Reply-To: <1663136320.6336615-1-xuanzhuo@linux.alibaba.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Thu, 15 Sep 2022 10:12:11 +0800
+Message-ID: <CACGkMEvSt0etgoVyPVTk1axV+mx30CigR6bhbNYt8oYTTC2=Dw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] vhost-net: vhost-user: update
+ vhost_net_virtqueue_reset()
+To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Cc: mst <mst@redhat.com>, "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
+ Heng Qi <hengqi@linux.alibaba.com>, Kangjie Xu <kangjie.xu@linux.alibaba.com>, 
+ qemu-devel <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,96 +100,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------=_Part_13624_653738307.1663205330591
-Content-Type: text/plain; charset=GBK
-Content-Transfer-Encoding: base64
+On Wed, Sep 14, 2022 at 2:21 PM Xuan Zhuo <xuanzhuo@linux.alibaba.com> wrot=
+e:
+>
+> On Wed, 14 Sep 2022 11:13:29 +0800, Jason Wang <jasowang@redhat.com> wrot=
+e:
+> >
+> > =E5=9C=A8 2022/9/12 11:10, Kangjie Xu =E5=86=99=E9=81=93:
+> > > Update vhost_net_virtqueue_reset() for vhost-user scenario.
+> > >
+> > > In order to reuse some functions, we process the idx for
+> > > vhost-user scenario because vhost_get_vq_index behave
+> > > differently for vhost-user.
+> > >
+> > > Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+> > > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> > > ---
+> > >   hw/net/vhost_net.c | 3 +++
+> > >   1 file changed, 3 insertions(+)
+> > >
+> > > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> > > index ea896ea75b..25e5665489 100644
+> > > --- a/hw/net/vhost_net.c
+> > > +++ b/hw/net/vhost_net.c
+> > > @@ -545,6 +545,9 @@ void vhost_net_virtqueue_reset(VirtIODevice *vdev=
+, NetClientState *nc,
+> > >       assert(vhost_ops);
+> > >
+> > >       idx =3D vhost_ops->vhost_get_vq_index(&net->dev, vq_index);
+> > > +    if (net->nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_USER) {
+> > > +        idx -=3D net->dev.vq_index;
+> > > +    }
+> >
+> >
+> > This looks tricky. Any reason we can't simply use vq_index for both
+> > vhost-user and vhost-net?
+>
+>
+> static int vhost_user_get_vq_index(struct vhost_dev *dev, int idx)
+> {
+>     assert(idx >=3D dev->vq_index && idx < dev->vq_index + dev->nvqs);
+>
+>     return idx;
+> }
+>
+>
+> static int vhost_kernel_get_vq_index(struct vhost_dev *dev, int idx)
+> {
+>     assert(idx >=3D dev->vq_index && idx < dev->vq_index + dev->nvqs);
+>
+>     return idx - dev->vq_index;
+> }
+>
+> The implementation of these two callbacks is different. The structure of =
+the two
+> scenarios is different. We may need to do some optimizations in the futur=
+e.
 
-SGkgLFZsYWRpbWlyCnNvbWV0aW1lcyAscG9zdC1jb3B5IG1vZGUgaXMgbm90IHRoZSBiZXN0IGNo
-b2ljZS4gRm9yIGluc3RhbmNlLCBTdXBwb3NpbmcgbWlncmF0ZSBwcm9jZXNzIHdpbGwgdGFrZSB0
-ZW4gbWludXRlcyxidXQgbmV0d29yayBtYXkgYmUgaW50ZXJydXB0dGVkIEluIHRoaXMgcHJvY2Vz
-cyAuCklmIGl0IGRvZXMgaGFwcGVudGhlICwgbWVtb3J5IGRhdGEgb2YgVk0gd2lsbCBiZSBzcGxp
-dHRlZCBpbnRvIHR3byBwYXJ0cywgYW5kIHdpbGwgbm90IGJlIHJvbGxiYWNrLlRoaXMgaXMgYSBi
-YWQgc2l0dWF0aW9uCgoKc28gIG1pZ3JhdGUtc3RhcnQtcG9zdGNvcHkgd2lsbCBub3QgYmUgc2V0
-dGVkIGluIGNvbnNlcnZhdGl2ZSBzY2VuYXJpby4gSW4gdGhpcyBjYXNlLCB0aGUgbWlncmF0aW9u
-IHdpdGggYmxvY2sgZGlydHkgYml0bWFwIG1heSBub3QgYmUgZmluaXNoZWQuCgoKCgpJIHRoaW5r
-ICBtaWdyYXRpb24gb2YgYmxvY2sgZGlydHkgYml0bWFwIHNob3VsZCBub3QgZGVwZW5kZW50IG9u
-IHBvc3QtY29weSBvciBwcmUtY29weSBtb2RlLgoKCgoKQmVzdCByZWdhcmRzCkF0IDIwMjItMDkt
-MTAgMTg6MTg6MDQsICJWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IiA8dnNlbWVudHNvdkB5
-YW5kZXgtdGVhbS5ydT4gd3JvdGU6Cj5PbiA5LzEwLzIyIDA5OjM1LCBsaXVoYWl3ZWkgd3JvdGU6
-Cj4+IEZyb206IGxpdWhhaXdlaSA8bGl1aGFpd2VpQGluc3B1ci5jb20+Cj4+IAo+PiBidWcgZGVz
-Y3JpcHRpb24gYXMgIGh0dHBzOi8vZ2l0bGFiLmNvbS9xZW11LXByb2plY3QvcWVtdS8tL2lzc3Vl
-cy8xMjAzCj4+IFVzdWFsbHksd2UgdXNlIHRoZSBwcmVjb3B5IG9yIHBvc3Rjb3B5IG1vZGUgdG8g
-bWlncmF0ZSBibG9jayBkaXJ0eSBiaXRtYXAuCj4+IGJ1dCBpZiBibG9jay1kaXJ0eS1iaXRtYXAg
-c2l6ZSBtb3JlIHRoYW4gdGhyZXNob2xkIHNpemUsd2UgY2Fubm90IGVudHJ5IHRoZSBtaWdyYXRp
-b25fY29tcGxldGlvbiBpbiBtaWdyYXRpb25faXRlcmF0aW9uX3J1biBmdW5jdGlvbgo+PiBUbyBz
-b2x2ZSB0aGlzIHByb2JsZW0sIHdlIGNhbiBzZXR0aW5nICB0aGUgcGVuZGluZyBzaXplIHRvIGEg
-ZmFrZSB2YWx1ZSh0aHJlc2hvbGQtMSBvciAwKSB0byB0ZWxsICBtaWdyYXRpb25faXRlcmF0aW9u
-X3J1biBmdW5jdGlvbiB0byBlbnRyeSB0aGUgbWlncmF0aW9uX2NvbXBsZXRpb24saWYgcGVuZGlu
-ZyBzaXplID4gdGhyZXNob2xkIHNpemUKPj4gCj4KPgo+QWN0dWFsbHksIGJpdG1hcHMgbWlncmF0
-ZSBpbiBwb3N0Y29weS4gU28sIHlvdSBzaG91bGQgc3RhcnQgcG9zdGNvcHkgZm9yIGl0IHRvIHdv
-cmsgKHFtcCBjb21tYW5kIG1pZ3JhdGUtc3RhcnQtcG9zdGNvcHkpLiBUaGlzIGNvbW1hbmQgc2lt
-cGx5IHNldCB0aGUgYm9vbGVhbiB2YXJpYWJsZSwgc28gdGhhdCBpbiBtaWdyYXRpb25faXRlcmF0
-aW9uX3J1bigpIHdlJ2xsIG1vdmUgdG8gcG9zdGNvcHkgd2hlbiBuZWVkZWQuIFNvLCB5b3UgY2Fu
-IHN0YXJ0IHRoaXMgY29tbWFuZCBpbW1lZGlhdGVseSBhZnRlciBtaWdyYXRlIGNvbW1hbmQsIG9y
-IGV2ZW4gYmVmb3JlIGl0LCBidXQgYWZ0ZXIgc2V0dGluZyB0aGUgImRpcnR5LWJpdG1hcHMiIGNh
-cGFiaWxpdHkuCj4KPkZha2UgcGVuZGluZyBpcyBhIHdyb25nIHRoaW5nIHRvIGRvLCBpdCBtZWFu
-cyB0aGF0IHlvdSB3aWxsIG1ha2UgZG93bnRpbWUgdG8gYmUgbGFyZ2VyIHRoYW4gZXhwZWN0ZWQu
-Cj4KPi0tIAo+QmVzdCByZWdhcmRzLAo+VmxhZGltaXIK
-------=_Part_13624_653738307.1663205330591
-Content-Type: text/html; charset=GBK
-Content-Transfer-Encoding: base64
+Yes, but what I meant is, you do
 
-PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
-Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXYgc3R5bGU9Im1hcmdpbjogMDsiPkhpICw8c3BhbiBzdHls
-ZT0iZm9udC1mYW1pbHk6IGFyaWFsOyB3aGl0ZS1zcGFjZTogcHJlLXdyYXA7Ij5WbGFkaW1pcjwv
-c3Bhbj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46IDA7Ij48ZGl2IHN0eWxlPSJtYXJnaW46IDBw
-eDsgd29yZC1icmVhazogYnJlYWstd29yZCAhaW1wb3J0YW50OyI+PGRpdiBzdHlsZT0ibWFyZ2lu
-OiAwcHg7IHdvcmQtYnJlYWs6IGJyZWFrLXdvcmQgIWltcG9ydGFudDsiPjxkaXYgc3R5bGU9Im1h
-cmdpbjogMHB4OyB3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBvcnRhbnQ7Ij5zb21ldGltZXMg
-LHBvc3QtY29weSBtb2RlIGlzIG5vdCB0aGUgYmVzdCBjaG9pY2UuIEZvciBpbnN0YW5jZSwgU3Vw
-cG9zaW5nIG1pZ3JhdGUgcHJvY2VzcyB3aWxsIHRha2UgdGVuIG1pbnV0ZXMsYnV0IG5ldHdvcmsg
-bWF5IGJlIGludGVycnVwdHRlZCBJbiB0aGlzIHByb2Nlc3MgLjwvZGl2PjxkaXYgc3R5bGU9Im1h
-cmdpbjogMHB4OyB3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBvcnRhbnQ7Ij5JZiBpdCBkb2Vz
-IGhhcHBlbnRoZSAsIG1lbW9yeSBkYXRhIG9mIFZNIHdpbGwgYmUgc3BsaXR0ZWQgaW50byB0d28g
-cGFydHMsIGFuZCB3aWxsIG5vdCBiZSByb2xsYmFjay5UaGlzIGlzIGEgYmFkIHNpdHVhdGlvbjwv
-ZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjogMHB4OyB3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBv
-cnRhbnQ7Ij48YnIgc3R5bGU9IndvcmQtYnJlYWs6IGJyZWFrLXdvcmQgIWltcG9ydGFudDsiPjwv
-ZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjogMHB4OyB3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBv
-cnRhbnQ7Ij5zbyZuYnNwOyBtaWdyYXRlLXN0YXJ0LXBvc3Rjb3B5IHdpbGwgbm90IGJlIHNldHRl
-ZCBpbiBjb25zZXJ2YXRpdmUgc2NlbmFyaW8uIEluIHRoaXMgY2FzZSwgdGhlIG1pZ3JhdGlvbiB3
-aXRoIGJsb2NrIGRpcnR5IGJpdG1hcCBtYXkgbm90IGJlIGZpbmlzaGVkLjwvZGl2PjwvZGl2Pjwv
-ZGl2PjxwIHN0eWxlPSJtYXJnaW46IDBweDsgd29yZC1icmVhazogYnJlYWstd29yZCAhaW1wb3J0
-YW50OyI+PGJyIHN0eWxlPSJ3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBvcnRhbnQ7Ij48L3A+
-PGRpdiBzdHlsZT0icG9zaXRpb246IHJlbGF0aXZlOyB6b29tOiAxOyB3b3JkLWJyZWFrOiBicmVh
-ay13b3JkICFpbXBvcnRhbnQ7Ij48L2Rpdj48ZGl2IGlkPSJkaXZOZXRlYXNlTWFpbENhcmQiIHN0
-eWxlPSJ3b3JkLWJyZWFrOiBicmVhay13b3JkICFpbXBvcnRhbnQ7Ij48L2Rpdj48cCBzdHlsZT0i
-bWFyZ2luOiAwcHg7IHdvcmQtYnJlYWs6IGJyZWFrLXdvcmQgIWltcG9ydGFudDsiPkkgdGhpbmsm
-bmJzcDsgbWlncmF0aW9uIG9mIGJsb2NrIGRpcnR5IGJpdG1hcCBzaG91bGQgbm90IGRlcGVuZGVu
-dCBvbiBwb3N0LWNvcHkgb3IgcHJlLWNvcHkgbW9kZS48L3A+PC9kaXY+PHAgc3R5bGU9Im1hcmdp
-bjogMDsiPjxicj48L3A+PHByZT5CZXN0IHJlZ2FyZHM8L3ByZT48cHJlPkF0IDIwMjItMDktMTAg
-MTg6MTg6MDQsICJWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IiAmbHQ7dnNlbWVudHNvdkB5
-YW5kZXgtdGVhbS5ydSZndDsgd3JvdGU6CiZndDtPbiA5LzEwLzIyIDA5OjM1LCBsaXVoYWl3ZWkg
-d3JvdGU6CiZndDsmZ3Q7IEZyb206IGxpdWhhaXdlaSAmbHQ7bGl1aGFpd2VpQGluc3B1ci5jb20m
-Z3Q7CiZndDsmZ3Q7IAomZ3Q7Jmd0OyBidWcgZGVzY3JpcHRpb24gYXMgIGh0dHBzOi8vZ2l0bGFi
-LmNvbS9xZW11LXByb2plY3QvcWVtdS8tL2lzc3Vlcy8xMjAzCiZndDsmZ3Q7IFVzdWFsbHksd2Ug
-dXNlIHRoZSBwcmVjb3B5IG9yIHBvc3Rjb3B5IG1vZGUgdG8gbWlncmF0ZSBibG9jayBkaXJ0eSBi
-aXRtYXAuCiZndDsmZ3Q7IGJ1dCBpZiBibG9jay1kaXJ0eS1iaXRtYXAgc2l6ZSBtb3JlIHRoYW4g
-dGhyZXNob2xkIHNpemUsd2UgY2Fubm90IGVudHJ5IHRoZSBtaWdyYXRpb25fY29tcGxldGlvbiBp
-biBtaWdyYXRpb25faXRlcmF0aW9uX3J1biBmdW5jdGlvbgomZ3Q7Jmd0OyBUbyBzb2x2ZSB0aGlz
-IHByb2JsZW0sIHdlIGNhbiBzZXR0aW5nICB0aGUgcGVuZGluZyBzaXplIHRvIGEgZmFrZSB2YWx1
-ZSh0aHJlc2hvbGQtMSBvciAwKSB0byB0ZWxsICBtaWdyYXRpb25faXRlcmF0aW9uX3J1biBmdW5j
-dGlvbiB0byBlbnRyeSB0aGUgbWlncmF0aW9uX2NvbXBsZXRpb24saWYgcGVuZGluZyBzaXplICZn
-dDsgdGhyZXNob2xkIHNpemUKJmd0OyZndDsgCiZndDsKJmd0OwomZ3Q7QWN0dWFsbHksIGJpdG1h
-cHMgbWlncmF0ZSBpbiBwb3N0Y29weS4gU28sIHlvdSBzaG91bGQgc3RhcnQgcG9zdGNvcHkgZm9y
-IGl0IHRvIHdvcmsgKHFtcCBjb21tYW5kIG1pZ3JhdGUtc3RhcnQtcG9zdGNvcHkpLiBUaGlzIGNv
-bW1hbmQgc2ltcGx5IHNldCB0aGUgYm9vbGVhbiB2YXJpYWJsZSwgc28gdGhhdCBpbiBtaWdyYXRp
-b25faXRlcmF0aW9uX3J1bigpIHdlJ2xsIG1vdmUgdG8gcG9zdGNvcHkgd2hlbiBuZWVkZWQuIFNv
-LCB5b3UgY2FuIHN0YXJ0IHRoaXMgY29tbWFuZCBpbW1lZGlhdGVseSBhZnRlciBtaWdyYXRlIGNv
-bW1hbmQsIG9yIGV2ZW4gYmVmb3JlIGl0LCBidXQgYWZ0ZXIgc2V0dGluZyB0aGUgImRpcnR5LWJp
-dG1hcHMiIGNhcGFiaWxpdHkuCiZndDsKJmd0O0Zha2UgcGVuZGluZyBpcyBhIHdyb25nIHRoaW5n
-IHRvIGRvLCBpdCBtZWFucyB0aGF0IHlvdSB3aWxsIG1ha2UgZG93bnRpbWUgdG8gYmUgbGFyZ2Vy
-IHRoYW4gZXhwZWN0ZWQuCiZndDsKJmd0Oy0tIAomZ3Q7QmVzdCByZWdhcmRzLAomZ3Q7VmxhZGlt
-aXIKPC9wcmU+PC9kaXY+
-------=_Part_13624_653738307.1663205330591--
+idx -=3D net->dev.vq_index;
+
+and then
+
+net->dev.vq_index + idx
+
+This is a hint that we should have a better organization of the code.
+
+Thanks
+
+>
+> Thanks.
+>
+>
+> >
+> > Thanks
+> >
+> >
+> > >
+> > >       if (net->nc->info->type =3D=3D NET_CLIENT_DRIVER_TAP) {
+> > >           file.index =3D idx;
+> >
+>
 
 
