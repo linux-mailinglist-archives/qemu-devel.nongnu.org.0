@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 122F05B9740
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 11:15:39 +0200 (CEST)
-Received: from localhost ([::1]:46168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C48E5B9778
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 11:31:53 +0200 (CEST)
+Received: from localhost ([::1]:35902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYky9-0001Xb-Iz
-	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 05:15:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47746)
+	id 1oYlDr-0004Xl-TD
+	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 05:31:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYkLF-0005dA-1J
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:35:26 -0400
-Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:33540)
+ id 1oYkMT-0005zy-NK
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:36:47 -0400
+Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:35730)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYkL9-0007YL-P8
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:35:23 -0400
-Received: by mail-io1-xd35.google.com with SMTP id g8so11682711iob.0
- for <qemu-devel@nongnu.org>; Thu, 15 Sep 2022 01:35:19 -0700 (PDT)
+ id 1oYkMR-0007lm-8J
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:36:40 -0400
+Received: by mail-io1-xd36.google.com with SMTP id b23so14196589iof.2
+ for <qemu-devel@nongnu.org>; Thu, 15 Sep 2022 01:36:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=SZ4HOOWbYJ7QTCmU6Bf7SBKpvlv3cUUFCFGgp8aHf9U=;
- b=nwEKMKH/pwFSUWrsp9phX1xEqETiwsnpJtr6M6Uad4f7aeWi4cpr/fZ7fH6YXWxH0Q
- qC9FmrOr8zRxXOCL5Om5xA5t1KzKbDysmtRqZkILaZJWgEfSYNYh2lfEDiAkR50h0iUw
- ZFbI7c7iRoalwjGtyE77V3Lz4nNy8WaM9X88kKDLDFu9nHv6gMGWoBuQ0aQiB5DKH2FX
- mr4UxogbJha7AZlJN5qfIayfigY0py/kn+BzYVrfxN+5B1ksQqAGU2oQv8rsgZryAdTF
- B3k2SS9mskPe6fP0AWGPVcEIMS7wjuheC425U8k+4AUSO/b1eUOshQKSwoiEwlL435If
- 1/rg==
+ bh=u/RVzed4QlL9PpFvNTQ0s2MdNV2ek+NO/vdXSeYEOho=;
+ b=JOVpF2lDpR8tTOy9/zNcHa8npcNwRG4sapL8NSproAi755g5NFI7Nf/IHXyzVy+JNw
+ HAMTZtH6QPPiDk2y9sgg24MDYWnwvVbWRpcIQggMMJWig0je7y2yflomootRhZ3A2Zqj
+ CdITlO50CVAd+1Nu7TKG6eG/xYZPcC3s0JogAxOoh1aFgSqSJTfnhJSHKT1nVl2d2tWl
+ SQA1HYcnFycShzwDtxWyJzs7xjhUJ3bulvy1MsdXkBZ4cc5rVSjsm7RNbW6stDGMjoSa
+ GL2+jPUzw9eNPluE8DO0GHxJ2LXx4MzB+SLOB4b+iFsGGZ3PiMWFg6rty0FiV3kkoiSF
+ UMXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=SZ4HOOWbYJ7QTCmU6Bf7SBKpvlv3cUUFCFGgp8aHf9U=;
- b=iCquMXy7lkqSHUP/6iDwb3PTbL/GEbkQSjkjLE3HIwG5nCShUykiklGvAw1eECF2+R
- /mOSZQSl30CYfYkYYm98QSIMZzlz51D2heugYneJQ7qOzSHGB2QuqWgs1HY6fpwC3+r8
- g9i8CU/4y+5vcn91hKuKBatFVEtC1YimVjCn8/JJEt7BzeKJZeqdI12zTQFG+8h12ziI
- MymSkUnftEFPMs/Qnbl8L+XaZ/XB5oXa9iB7soYhTDoYjk1NPUaqvUAEOK4BPqcv667U
- aG7JA3wSM464/nZprY1r0o8C3d07Ktv7zdWnnkdRPaLO6hcQrzUJyG49Ia0TgZTGPLkH
- Maew==
-X-Gm-Message-State: ACgBeo13MQ3YvKJryiLsYu6FK7KlenkSzv42DyjJhtszO2NY3Ddy3Wsw
- xwb1mtsL4SR312ZJtt+p2Oo1JA==
-X-Google-Smtp-Source: AA6agR6svpXNJ/Q3cqzSfLHHJoQhT9jLnM+LcxLTaoLjnEDkfCyrSra+joARA6wXxhpdaJ8daIdLBw==
-X-Received: by 2002:a02:2704:0:b0:349:da85:8819 with SMTP id
- g4-20020a022704000000b00349da858819mr20912906jaa.81.1663230918522; 
- Thu, 15 Sep 2022 01:35:18 -0700 (PDT)
+ bh=u/RVzed4QlL9PpFvNTQ0s2MdNV2ek+NO/vdXSeYEOho=;
+ b=llhuCjRHrI1ysngtOfvwA7y4AvJ+TT0/WmEDuePeqB05CkmlvCuasvay+wYgpNmy0s
+ 3Sql86g0aMnbZCcvHNgQwt2h1/FqBkkV5h64lH3yFSbf3yrdJeACiSIQ4dYCEzFqIqGZ
+ tjOyKvLQrdk8todQrABVXS/ccnq1kK4Xx9K703xPsJX+F4NYp+fNOqjSSesHt/nanLZ1
+ MbaP3YYtA1TKNzFJto8vJY67WX94Y5FdHihqAHIiwL/rdBSpqhT7C7B8tlEWi38I1m1t
+ 3s99b0J0WLFJgal73bMFGwKK7DGWqrc5jQogmABOYk/SKpkhJYUsMxmVxgrDbVKErv2T
+ GfoQ==
+X-Gm-Message-State: ACgBeo0mfeTt0mOOW4N/JdqiWa1Uq1ElEOIQ890Y3y3CmAyC0/7S+1V4
+ VUXpnBFvGL7MSnIfoYgAGyLh2A==
+X-Google-Smtp-Source: AA6agR4MXbxMOHOrwrSvRDkWAQErSrWHsq9FatpvH/zNNyr2S65x91CVbWQTeucgKhp7W5Tx2QPIPw==
+X-Received: by 2002:a05:6602:1592:b0:6a2:1feb:4809 with SMTP id
+ e18-20020a056602159200b006a21feb4809mr736845iow.214.1663230998107; 
+ Thu, 15 Sep 2022 01:36:38 -0700 (PDT)
 Received: from ?IPV6:2605:ef80:80c3:3064:7ddf:d6a7:e3e2:a0bf?
  ([2605:ef80:80c3:3064:7ddf:d6a7:e3e2:a0bf])
  by smtp.gmail.com with ESMTPSA id
- 5-20020a021d05000000b003434b40289dsm809866jaj.165.2022.09.15.01.35.13
+ z26-20020a05663822ba00b00358444942easm842372jas.3.2022.09.15.01.36.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Sep 2022 01:35:18 -0700 (PDT)
-Message-ID: <e6826510-a206-029f-501a-f0eaa19082c5@linaro.org>
-Date: Thu, 15 Sep 2022 09:35:10 +0100
+ Thu, 15 Sep 2022 01:36:37 -0700 (PDT)
+Message-ID: <67f04a50-98ac-64a5-cbcb-cfc96ace3241@linaro.org>
+Date: Thu, 15 Sep 2022 09:36:30 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 22/30] tests/docker: flatten debian-riscv64-test-cross
+Subject: Re: [PATCH v2 23/30] tests/docker: update and flatten
+ debian-all-test-cross
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
@@ -71,13 +72,13 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
 References: <20220914155950.804707-1-alex.bennee@linaro.org>
- <20220914155950.804707-23-alex.bennee@linaro.org>
+ <20220914155950.804707-24-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220914155950.804707-23-alex.bennee@linaro.org>
+In-Reply-To: <20220914155950.804707-24-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
- envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd35.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd36.google.com
 X-Spam_score_int: -36
 X-Spam_score: -3.7
 X-Spam_bar: ---
@@ -101,20 +102,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/14/22 16:59, Alex Bennée wrote:
-> Flatten into a single dockerfile and update to match the rest of the
-> test cross compile dockerfiles.
+> Update to the latest stable Debian. While we are at it flatten into a
+> single dockerfile. We also need to ensure we install clang as it is
+> used for those builds as well.
+> 
+> It would be nice to port this to lcitool but for now this will do.
 > 
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> Message-Id:<20220826172128.353798-17-alex.bennee@linaro.org>
+> Reviewed-by: Thomas Huth<thuth@redhat.com>
+> Message-Id:<20220826172128.353798-18-alex.bennee@linaro.org>
 > 
 > ---
 > v2
->    - minor reword of commit msg
+>    - move ccache/clang/git/ninja-build to main insall stanza
+>    - minor comment tweaks
 > ---
->   .gitlab-ci.d/container-cross.yml                       |  1 -
->   tests/docker/Makefile.include                          |  1 -
->   .../dockerfiles/debian-riscv64-test-cross.docker       | 10 ++++++----
->   3 files changed, 6 insertions(+), 6 deletions(-)
+>   .gitlab-ci.d/container-cross.yml               |  1 -
+>   tests/docker/Makefile.include                  |  1 -
+>   .../dockerfiles/debian-all-test-cross.docker   | 18 +++++++++++++-----
+>   3 files changed, 13 insertions(+), 7 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
