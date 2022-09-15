@@ -2,72 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 797585B9E84
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 17:15:17 +0200 (CEST)
-Received: from localhost ([::1]:45698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8545B9EAB
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 17:23:46 +0200 (CEST)
+Received: from localhost ([::1]:34018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYqaB-0004Jw-R0
-	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 11:15:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37112)
+	id 1oYqiP-0007bw-Gv
+	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 11:23:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oYqYF-0002B0-3E; Thu, 15 Sep 2022 11:13:16 -0400
-Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:38828)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oYqge-0006BA-Ua
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 11:21:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29298)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oYqY6-0000mw-Si; Thu, 15 Sep 2022 11:13:11 -0400
-Received: from myt6-81d8ab6a9f9d.qloud-c.yandex.net
- (myt6-81d8ab6a9f9d.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:520a:0:640:81d8:ab6a])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id A6C1F2E0A75;
- Thu, 15 Sep 2022 18:12:51 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:1208::1:d] (unknown
- [2a02:6b8:b081:1208::1:d])
- by myt6-81d8ab6a9f9d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- l8zbYnpCoY-CmOeng9j; Thu, 15 Sep 2022 18:12:51 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1663254771; bh=E5q1l15IxLydQYFkr5w2AYj02FPyq+78ME5X8ExPjtk=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=uMlzARHv0/TXTa8jTF/yRLSVjyPJBeW5S7CsX6lU23debzvFYhwh3Y0sVYrgDxvE8
- cS8VP4gvcV2LGR3zNwECuUISu9q/bZYNQTDcG71s0OhYc+gj5Lryb3EW57iHuXeW88
- FHeoiZkEZ+RX4VVnpssxZMSQxYtAIxvnqxp64mEI=
-Authentication-Results: myt6-81d8ab6a9f9d.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <c584907d-bfed-173c-d29e-d3bb352d6d85@yandex-team.ru>
-Date: Thu, 15 Sep 2022 18:12:48 +0300
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oYqgZ-0004Gz-AX
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 11:21:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663255310;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/CFlJk7ste3ZReC/254Z5QCPO1PqISieUywIs1VTWqM=;
+ b=T35+JYth9rQN+2xW2mN59JlnCfTWm/2mGXooVXcYrXurk3bBg6SOhx2SwTZYyGRHpAKtx0
+ iWGls8WwnjRXHsFH2lYKWoJG3JKPZrnl8j9oAh7jnE1zaydah9uPDpmcpbQBTMs0JFLd1t
+ 83wE48UV4BxnqhgZSZVSri5RNcXFhLw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-515-VpPLLgUuMC6vVC-aC5FvVA-1; Thu, 15 Sep 2022 11:21:48 -0400
+X-MC-Unique: VpPLLgUuMC6vVC-aC5FvVA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ j16-20020adfb310000000b0022abebda18bso2719059wrd.1
+ for <qemu-devel@nongnu.org>; Thu, 15 Sep 2022 08:21:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=/CFlJk7ste3ZReC/254Z5QCPO1PqISieUywIs1VTWqM=;
+ b=eBpk7dWmO5WMpU50KQoyetXygE/XZgaJPr/CZhNTKyUnHfdcRxyPTN2zq2d0IQ6Tq1
+ KKnWjbOBQ2Qam3HuZ7ASDczkVWwRvkIQaNxJ17iHtrUC4w1VAGbCgT4JLiIz8tkKJZQr
+ pL/HKBu3dDn647j3TdjKvXD8hItx+5kRwqwtAvbEK4ZhYlwgWAY00Atiy2rny2jeT/XG
+ /LN619DWdEVRFraiXMJ6aJ1mDVyjDpc0QXNxi79sjA48jHIRajbG8tn1Pbx0WABHGkuM
+ nQrbWnLSE5T15zUeFlct5CHXAQ0JNajanE5cxO5dz1vvap8HRFDscZR1yZFLjYBgSFP6
+ WsJg==
+X-Gm-Message-State: ACrzQf2PG4A2YbpjlYu4idz7r8vWjDGJJyooXg2FAJg3zyIos7mo423h
+ /tgEUeE3ZSj1QnaD5CF8UN/foxE88TDEwEwpgCk0X1miNcbzWkRyqo6rN3C1JT0/eHahiv0M2B3
+ Em5dmXM8ZjcfJzwI=
+X-Received: by 2002:adf:d4c9:0:b0:228:de3a:220f with SMTP id
+ w9-20020adfd4c9000000b00228de3a220fmr103404wrk.597.1663255307670; 
+ Thu, 15 Sep 2022 08:21:47 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6dBDXQbk9QnK2WciJSxfgGkKRHb/ZaQUYVcVL53eKpLI44D4aIz6ddHugi/wMSf8ibMz3Uhw==
+X-Received: by 2002:adf:d4c9:0:b0:228:de3a:220f with SMTP id
+ w9-20020adfd4c9000000b00228de3a220fmr103383wrk.597.1663255307397; 
+ Thu, 15 Sep 2022 08:21:47 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ g3-20020a5d46c3000000b0022acb7195aesm2823258wrs.33.2022.09.15.08.21.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Sep 2022 08:21:46 -0700 (PDT)
+Date: Thu, 15 Sep 2022 16:21:44 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Subject: Re: Maximum QMP reply size
+Message-ID: <YyNDCDH71oytYujr@work-vm>
+References: <CAFn=p-ZkKLQtYAwzkQb7srFf_fF8ij+g5wkZiRofx4U+kSZ7Rw@mail.gmail.com>
+ <CAFEAcA8Zy3RpTZM-gJk6ZZaUEf6huTuuK3C4-uSo6pYz8KCrMQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v11 05/21] job.c: add job_lock/unlock while keeping job.h
- intact
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20220826132104.3678958-1-eesposit@redhat.com>
- <20220826132104.3678958-6-eesposit@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20220826132104.3678958-6-eesposit@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.816,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA8Zy3RpTZM-gJk6ZZaUEf6huTuuK3C4-uSo6pYz8KCrMQ@mail.gmail.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,35 +101,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/26/22 16:20, Emanuele Giuseppe Esposito wrote:
-> With "intact" we mean that all job.h functions implicitly
-> take the lock. Therefore API callers are unmodified.
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> On Tue, 6 Sept 2022 at 20:41, John Snow <jsnow@redhat.com> wrote:
+> > Hi, I suspect I have asked this before, but I didn't write it down in
+> > a comment, so I forget my justification...
+> >
+> > In the QMP lib, we need to set a buffering limit for how big a QMP
+> > message can be -- In practice, I found that the largest possible
+> > response was the QAPI schema reply, and I set the code to this:
+> >
+> >     # Maximum allowable size of read buffer
+> >     _limit = (64 * 1024)
+> >
+> > However, I didn't document if this was a reasonable limit or just a
+> > "worksforme" one. I assume that there's no hard limit for the protocol
+> > or the implementation thereof in QEMU. Is there any kind of value here
+> > that would be more sensible than another?
+> >
+> > I'm worried that if replies get bigger in the future (possibly in some
+> > degenerate case I am presently unaware of) that the library default
+> > will become nonsensical.
 > 
-> This means that:
-> - many static functions that will be always called with job lock held
->    become _locked, and call _locked functions
-> - all public functions take the lock internally if needed, and call _locked
->    functions
-> - all public functions called internally by other functions in job.c will have a
->    _locked counterpart (sometimes public), to avoid deadlocks (job lock already taken).
->    These functions are not used for now.
-> - some public functions called only from exernal files (not job.c) do not
->    have _locked() counterpart and take the lock inside. Others won't need
->    the lock at all because use fields only set at initialization and
->    never modified.
-> 
-> job_{lock/unlock} is independent from real_job_{lock/unlock}.
-> 
-> Note: at this stage, job_{lock/unlock} and job lock guard macros
-> are*nop*
-> 
-> Signed-off-by: Emanuele Giuseppe Esposito<eesposit@redhat.com>
-> Reviewed-by: Kevin Wolf<kwolf@redhat.com>
-> Reviewed-by: Stefan Hajnoczi<stefanha@redhat.com>
+> There are some QMP commands which return lists of things
+> where we put no inherent limit on how many things there
+> are in the list, like qom-list-types. We'd have to be getting
+> a bit enthusiastic about defining types for that to get
+> up towards 64K's worth of response, but it's not inherently
+> impossible. I think using human-monitor-command to send
+> an 'xp' HMP command is also a way to get back an arbitrarily
+> large string (just ask for a lot of memory to be dumped).
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+We could put size limits on xp; most Humans will only dump a few kB
+maximum like that, any larger and you can dump to file.
 
+Dave
+
+> -- PMM
+> 
 -- 
-Best regards,
-Vladimir
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
