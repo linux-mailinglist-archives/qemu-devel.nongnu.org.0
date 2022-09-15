@@ -2,58 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A924F5B9BCF
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 15:28:15 +0200 (CEST)
-Received: from localhost ([::1]:57842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 575255B9A47
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 14:03:00 +0200 (CEST)
+Received: from localhost ([::1]:54426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYouc-0005KF-Pg
-	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 09:28:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40520)
+	id 1oYna4-00076o-5s
+	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 08:02:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <houyl@yusur.tech>) id 1oYjgG-0001Hr-1S
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 03:53:05 -0400
-Received: from out29-194.mail.aliyun.com ([115.124.29.194]:56619)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oYnUb-0004zj-Dv
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 07:57:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <houyl@yusur.tech>) id 1oYjgB-0005F1-1v
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 03:53:03 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.06552729|-1;
- BR=01201311R111S96rulernew998_84748_2000303; CH=blue; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_alarm|0.637092-0.00359544-0.359312; FP=0|0|0|0|0|-1|-1|-1;
- HT=ay29a033018047192; MF=houyl@yusur.tech; NM=1; PH=DS; RN=10; RT=10; SR=0;
- TI=SMTPD_---.PG8Dsq._1663228367; 
-Received: from HYL(mailfrom:houyl@yusur.tech fp:SMTPD_---.PG8Dsq._1663228367)
- by smtp.aliyun-inc.com; Thu, 15 Sep 2022 15:52:48 +0800
-Date: Thu, 15 Sep 2022 15:52:48 +0800
-From: "houyl@yusur.tech" <houyl@yusur.tech>
-To: =?utf-8?B?6ZmI5rWp?= <chenh@yusur.tech>, mst <mst@redhat.com>, 
- raphael.norwitz <raphael.norwitz@nutanix.com>, 
- jasowang <jasowang@redhat.com>
-Cc: kwolf <kwolf@redhat.com>, hreitz <hreitz@redhat.com>, 
- qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>, 
- zy <zy@yusur.tech>, =?utf-8?B?6ZmI5rWp?= <chenh@yusur.tech>, 
- houyl <houyl@yusur.tech>
-Subject: Re: [PATCH] hw/virtio/vhost-user: support obtain vdpa device's mac
- address automatically
-References: <20220913090817.212224-1-chenh@yusur.tech>
-X-Priority: 3
-X-Has-Attach: no
-X-Mailer: Foxmail 7.2.22.188[cn]
-Mime-Version: 1.0
-Message-ID: <2022091515524780307618@yusur.tech>
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=115.124.29.194; envelope-from=houyl@yusur.tech;
- helo=out29-194.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oYnUX-0003Dx-Q9
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 07:57:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663243031;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2QeewBznr5ASNaBYL+7lcrjaoXgJJgWDi3i2Ds1mfVw=;
+ b=i2jBUikSkBN7cLqPVSihJ1tM7ekd3lFsgrO2FhlkTnPTDE955+5/U/2hvvpMQKjPmLEGmg
+ 1BQfFD+Ctkw+RBg2Y+oOI3PHHt3n+W21JSUiEjIql5NQDDOSsID6O9e0PD+drQJIZsdA/v
+ SC1DaD7QZFzGVRyMivDvqdhrwyWSM6k=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-255-9zHmEvFOOmSzPHHt6qBMGA-1; Thu, 15 Sep 2022 07:57:10 -0400
+X-MC-Unique: 9zHmEvFOOmSzPHHt6qBMGA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ED2B73804504
+ for <qemu-devel@nongnu.org>; Thu, 15 Sep 2022 11:57:09 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 41FCF40C6EC2;
+ Thu, 15 Sep 2022 11:57:09 +0000 (UTC)
+Date: Thu, 15 Sep 2022 12:57:06 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, armbru@redhat.com
+Subject: Re: [PATCH] hmp: Fix ordering of text
+Message-ID: <YyMTEijc2a+BBKMq@redhat.com>
+References: <20220913101041.99869-1-dgilbert@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220913101041.99869-1-dgilbert@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 15 Sep 2022 09:22:10 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,102 +79,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gVHVlLCBTZXAgMTMsIDIwMjIgYXQgMTc6MDggUE0gSGFvIENoZW4gPGNoZW5oQHl1c3VyLnRl
-Y2g+IHdyb3RlOgoKCj5Gcm9tOsKgSGFvIENoZW4KCgoKPkRhdGU6wqAyMDIyLTA5LTEzwqAxNzow
-OAoKCgo+VG86wqBtc3Q7IHJhcGhhZWwubm9yd2l0egoKCgo+Q0M6wqBrd29sZjsgaHJlaXR6OyBq
-YXNvd2FuZzsgcWVtdS1ibG9jazsgcWVtdS1kZXZlbDsgaG91eWw7IHp5OyBIYW8gQ2hlbgoKCgo+
-U3ViamVjdDrCoFtQQVRDSF0gaHcvdmlydGlvL3Zob3N0LXVzZXI6IHN1cHBvcnQgb2J0YWluIHZk
-cGEgZGV2aWNlJ3MgbWFjIGFkZHJlc3MgYXV0b21hdGljYWxseQoKCgo+V2hlbiB1c2UgZHBkay12
-ZHBhIHRlc3RzIHZkcGEgZGV2aWNlLiBZb3UgbmVlZCB0byBzcGVjaWZ5IHRoZSBtYWMgYWRkcmVz
-cyB0bwoKCgo+c3RhcnQgdGhlIHZpcnR1YWwgbWFjaGluZSB0aHJvdWdoIGxpYnZpcnQgb3IgcWVt
-dSwgYnV0IG5vdywgdGhlIGxpYnZpcnQgb3IKCgoKPnFlbXUgY2FuIGNhbGwgZHBkayB2ZHBhIHZl
-bmRvciBkcml2ZXIncyBvcHMgLmdldF9jb25maWcgdGhyb3VnaCB2aG9zdF9uZXRfZ2V0X2NvbmZp
-ZwoKCgo+dG8gZ2V0IHRoZSBtYWMgYWRkcmVzcyBvZiB0aGUgdmRwYSBoYXJkd2FyZSB3aXRob3V0
-IG1hbnVhbCBjb25maWd1cmF0aW9uLgoKCgrCoAoKCgo+U2lnbmVkLW9mZi1ieTogSGFvIENoZW4g
-PGNoZW5oQHl1c3VyLnRlY2g+CgoKCj4tLS0KCgoKPmh3L2Jsb2NrL3Zob3N0LXVzZXItYmxrLmMg
-fMKgIDEgLQoKCgo+aHcvbmV0L3ZpcnRpby1uZXQuY8KgwqDCoMKgwqDCoCB8wqAgMyArKy0KCgoK
-Pmh3L3ZpcnRpby92aG9zdC11c2VyLmPCoMKgwqAgfCAxOSAtLS0tLS0tLS0tLS0tLS0tLS0tCgoK
-Cj4zIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMjEgZGVsZXRpb25zKC0pCgoKCsKg
-CgoKCj5kaWZmIC0tZ2l0IGEvaHcvYmxvY2svdmhvc3QtdXNlci1ibGsuYyBiL2h3L2Jsb2NrL3Zo
-b3N0LXVzZXItYmxrLmMKCgoKPmluZGV4IDkxMTcyMjI0NTYuLjVkY2E0ZWFiMDkgMTAwNjQ0CgoK
-Cj4tLS0gYS9ody9ibG9jay92aG9zdC11c2VyLWJsay5jCgoKCj4rKysgYi9ody9ibG9jay92aG9z
-dC11c2VyLWJsay5jCgoKCj5AQCAtMzM3LDcgKzMzNyw2IEBAIHN0YXRpYyBpbnQgdmhvc3RfdXNl
-cl9ibGtfY29ubmVjdChEZXZpY2VTdGF0ZSAqZGV2LCBFcnJvciAqKmVycnApCgoKCj7CoMKgwqDC
-oCB2aG9zdF9kZXZfc2V0X2NvbmZpZ19ub3RpZmllcigmcy0+ZGV2LCAmYmxrX29wcyk7CgoKCj4t
-wqDCoMKgIHMtPnZob3N0X3VzZXIuc3VwcG9ydHNfY29uZmlnID0gdHJ1ZTsKCgoKPsKgwqDCoCBy
-ZXQgPSB2aG9zdF9kZXZfaW5pdCgmcy0+ZGV2LCAmcy0+dmhvc3RfdXNlciwgVkhPU1RfQkFDS0VO
-RF9UWVBFX1VTRVIsIDAsCgoKCj7CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgZXJycCk7CgoKCj7CoMKgwqAgaWYgKHJldCA8IDApIHsKCgoKPmRpZmYgLS1n
-aXQgYS9ody9uZXQvdmlydGlvLW5ldC5jIGIvaHcvbmV0L3ZpcnRpby1uZXQuYwoKCgo+aW5kZXgg
-ZGQwZDA1NmZkZS4uMjc0ZWE4NDY0NCAxMDA2NDQKCgoKPi0tLSBhL2h3L25ldC92aXJ0aW8tbmV0
-LmMKCgoKPisrKyBiL2h3L25ldC92aXJ0aW8tbmV0LmMKCgoKPkBAIC0xNDksNyArMTQ5LDggQEAg
-c3RhdGljIHZvaWQgdmlydGlvX25ldF9nZXRfY29uZmlnKFZpcnRJT0RldmljZSAqdmRldiwgdWlu
-dDhfdCAqY29uZmlnKQoKCgo+wqDCoMKgwqAgKiBJcyB0aGlzIFZEUEE/IE5vIHBlZXIgbWVhbnMg
-bm90IFZEUEE6IHRoZXJlJ3Mgbm8gd2F5IHRvCgo+Cgo+wqDCoMKgwqDCoCAqIGRpc2Nvbm5lY3Qv
-cmVjb25uZWN0IGEgVkRQQSBwZWVyLgoKCgo+wqDCoMKgwqDCoCAqLwoKCgo+LcKgwqDCoCBpZiAo
-bmMtPnBlZXIgJiYgbmMtPnBlZXItPmluZm8tPnR5cGUgPT0gTkVUX0NMSUVOVF9EUklWRVJfVkhP
-U1RfVkRQQSkgewoKCgo+K8KgwqDCoCBpZiAoKG5jLT5wZWVyICYmIG5jLT5wZWVyLT5pbmZvLT50
-eXBlID09IE5FVF9DTElFTlRfRFJJVkVSX1ZIT1NUX1ZEUEEpIHx8CgoKCj4rwqDCoMKgwqDCoMKg
-wqAgKG5jLT5wZWVyICYmIG5jLT5wZWVyLT5pbmZvLT50eXBlID09IE5FVF9DTElFTlRfRFJJVkVS
-X1ZIT1NUX1VTRVIpKSB7CgoKCj7CoMKgwqDCoMKgwqDCoMKgIHJldCA9IHZob3N0X25ldF9nZXRf
-Y29uZmlnKGdldF92aG9zdF9uZXQobmMtPnBlZXIpLCAodWludDhfdCAqKSZuZXRjZmcsCgoKCsKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgbi0+Y29uZmlnX3NpemUpOwoKCgo+wqDCoMKgwqDCoMKgwqDCoCBpZiAocmV0
-ICE9IC0xKSB7CgoKCj5kaWZmIC0tZ2l0IGEvaHcvdmlydGlvL3Zob3N0LXVzZXIuYyBiL2h3L3Zp
-cnRpby92aG9zdC11c2VyLmMKCgoKPmluZGV4IGJkMjQ3NDFiZTguLjhiMDEwNzgyNDkgMTAwNjQ0
-CgoKCj4tLS0gYS9ody92aXJ0aW8vdmhvc3QtdXNlci5jCgoKCj4rKysgYi9ody92aXJ0aW8vdmhv
-c3QtdXNlci5jCgoKCj5AQCAtMjAxMyw4ICsyMDEzLDYgQEAgc3RhdGljIGludCB2aG9zdF91c2Vy
-X2JhY2tlbmRfaW5pdChzdHJ1Y3Qgdmhvc3RfZGV2ICpkZXYsIHZvaWQgKm9wYXF1ZSwKCgoKPsKg
-wqDCoCB9CgoKCj7CoMKgwqAgaWYgKHZpcnRpb19oYXNfZmVhdHVyZShmZWF0dXJlcywgVkhPU1Rf
-VVNFUl9GX1BST1RPQ09MX0ZFQVRVUkVTKSkgewoKCgo+LcKgwqDCoMKgwqDCoMKgIGJvb2wgc3Vw
-cG9ydHNfZl9jb25maWcgPSB2dXMtPnN1cHBvcnRzX2NvbmZpZyB8fAoKCgo+LcKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgKGRldi0+Y29uZmlnX29wcyAmJiBkZXYtPmNvbmZpZ19vcHMtPnZob3N0X2Rl
-dl9jb25maWdfbm90aWZpZXIpOwoKCgo+wqDCoMKgwqDCoMKgwqDCoCB1aW50NjRfdCBwcm90b2Nv
-bF9mZWF0dXJlczsKCgoKPsKgwqDCoMKgwqDCoMKgwqAgZGV2LT5iYWNrZW5kX2ZlYXR1cmVzIHw9
-IDFVTEwgPDwgVkhPU1RfVVNFUl9GX1BST1RPQ09MX0ZFQVRVUkVTOwoKCgo+QEAgLTIwMzMsMjMg
-KzIwMzEsNiBAQCBzdGF0aWMgaW50IHZob3N0X3VzZXJfYmFja2VuZF9pbml0KHN0cnVjdCB2aG9z
-dF9kZXYgKmRldiwgdm9pZCAqb3BhcXVlLAoKCgo+wqDCoMKgwqDCoMKgwqDCoMKgICovCgoKCj7C
-oMKgwqDCoMKgwqDCoMKgIHByb3RvY29sX2ZlYXR1cmVzICY9IFZIT1NUX1VTRVJfUFJPVE9DT0xf
-RkVBVFVSRV9NQVNLOwoKCgo+LcKgwqDCoMKgwqDCoMKgIGlmIChzdXBwb3J0c19mX2NvbmZpZykg
-ewoKCgo+LcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKCF2aXJ0aW9faGFzX2ZlYXR1cmUocHJv
-dG9jb2xfZmVhdHVyZXMsCgoKCj4twqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBWSE9TVF9VU0VSX1BST1RPQ09MX0Zf
-Q09ORklHKSkgewoKCgo+LcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBlcnJvcl9zZXRn
-KGVycnAsICJ2aG9zdC11c2VyIGRldmljZSBleHBlY3RpbmcgIgoKCgo+LcKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIlZIT1NUX1VTRVJfUFJPVE9D
-T0xfRl9DT05GSUcgYnV0IHRoZSB2aG9zdC11c2VyIGJhY2tlbmQgZG9lcyAiCgoKCj4twqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAibm90IHN1cHBv
-cnQgaXQuIik7CgoKCj4twqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiAtRVBS
-T1RPOwoKCgo+LcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfQoKCgo+LcKgwqDCoMKgwqDCoMKgIH0g
-ZWxzZSB7CgoKCj4twqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAodmlydGlvX2hhc19mZWF0dXJl
-KHByb3RvY29sX2ZlYXR1cmVzLAoKCgo+LcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFZIT1NUX1VTRVJfUFJPVE9DT0xf
-Rl9DT05GSUcpKSB7CgoKCj4twqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHdhcm5fcmVw
-b3J0Zl9lcnIoKmVycnAsICJ2aG9zdC11c2VyIGJhY2tlbmQgc3VwcG9ydHMgIgoKCgo+LcKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgIlZIT1NUX1VTRVJfUFJPVE9DT0xfRl9DT05GSUcgYnV0IFFFTVUgZG9lcyBub3QuIik7CgoK
-Cj4twqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHByb3RvY29sX2ZlYXR1cmVzICY9IH4o
-MVVMTCA8PCBWSE9TVF9VU0VSX1BST1RPQ09MX0ZfQ09ORklHKTsKCgoKPi3CoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIH0KCgoKPi3CoMKgwqDCoMKgwqDCoCB9CgoKCj4tCgoKCj7CoMKgwqDCoMKgwqDC
-oMKgIC8qIGZpbmFsIHNldCBvZiBwcm90b2NvbCBmZWF0dXJlcyAqLwoKCgo+wqDCoMKgwqDCoMKg
-wqAgZGV2LT5wcm90b2NvbF9mZWF0dXJlcyA9IHByb3RvY29sX2ZlYXR1cmVzOwoKCgo+wqDCoMKg
-wqDCoMKgwqDCoCBlcnIgPSB2aG9zdF91c2VyX3NldF9wcm90b2NvbF9mZWF0dXJlcyhkZXYsIGRl
-di0+cHJvdG9jb2xfZmVhdHVyZXMpOwoKCgo+LS0KCgpZdXN1ciAoWVVTVVIgVGVjaG5vbG9neSBD
-by4sIEx0ZC4pIGZvY3VzZXMgb24gdGhlIHJlc2VhcmNoIGFuZCBkZXZlbG9wbWVudCBvZiBzcGVj
-aWFsIGRhdGEgcHJvY2Vzc29ycy4gClRoZSBpbmRlcGVuZGVudGx5IGRldmVsb3BlZCBpbnRlcm5h
-dGlvbmFsIGxlYWRpbmcgRFBVIHNlcmllcyBwcm9kdWN0cyBjYW4gYmUgd2lkZWx5IHVzZWQgaW4g
-dWx0cmEtbG93IApsYXRlbmN5IG5ldHdvcmssIGJpZyBkYXRhIHByb2Nlc3NpbmcsIDVHIGVkZ2Ug
-Y29tcHV0aW5nLCBoaWdoLXNwZWVkIHN0b3JhZ2UgYW5kIG90aGVyIHNjZW5hcmlvcywgCmhlbHBp
-bmcgY29tcHV0aW5nIHBvd2VyIGJlY29tZSB0aGUgbmV3IHByb2R1Y3Rpdml0eSBvZiB0aGUgZGln
-aXRhbCBlcmEuCgpUaGUgY29tcGFueSBwdXQgZm9yd2FyZCBpbm5vdmF0aXZlIFNvZnR3YXJlIERl
-ZmluZWQgQWNjZWxlcmF0b3IgdGVjaG5vbG9neSBhbmQgaW5kZXBlbmRlbnRseSAKZGV2ZWxvcGVk
-IHRoZSBjaGlwIGFyY2hpdGVjdHVyZSBLUFUoS2VybmVsIFByb2Nlc3NpbmcgVW5pdCkgYW5kIGFn
-aWxlIGhldGVyb2dlbmVvdXMgU29mdHdhcmUgc3RhY2sgCihIQURPUykgZm9yIGRvbWFpbi1zcGVj
-aWZpYyBjb21wdXRpbmcgKERTQSkuIAoKCk5vdywgYWRkaW5nIHRoZSBmZWF0dXJlIG9mIG9idGFp
-biB2ZHBhIGRldmljZSdzIG1hYyBhZGRyZXNzIGF1dG9tYXRpY2FsbHkgZm9yIERQREsgdkRQQSAg
-cGF0aC4KCgoKwqAKCgo=
+On Tue, Sep 13, 2022 at 11:10:41AM +0100, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> 
+> Fix the ordering of the help text so it's always after the commands
+> being defined.  A few had got out of order.  Keep 'info' at the end.
+> 
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  hmp-commands.hx | 46 +++++++++++++++++++++++-----------------------
+>  1 file changed, 23 insertions(+), 23 deletions(-)
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
