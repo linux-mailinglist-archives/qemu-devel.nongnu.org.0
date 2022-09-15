@@ -2,90 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 073425B997B
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 13:22:02 +0200 (CEST)
-Received: from localhost ([::1]:52724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86FB45B9A15
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 13:52:32 +0200 (CEST)
+Received: from localhost ([::1]:44670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYmwS-0003mI-LR
-	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 07:22:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41124)
+	id 1oYnPy-0002ZF-6i
+	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 07:52:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oYmut-00024N-Nd
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 07:20:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25995)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oYnJX-0008FP-7G; Thu, 15 Sep 2022 07:45:52 -0400
+Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:51818)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oYmup-00072Y-AT
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 07:20:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663240818;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=X2A89qUt9k1eVlTo0J4woTB0AtjK6aoqdBMp0/a77N0=;
- b=BcW1SgP0jSLorIbJ03I4KOrhoR5CE0SrtUnS5b3uIqpB+OaMBy+IMWilj8WeY7874RPN4O
- CEU8UU3Tm9yoORKiOskdEXpnJAclGlUJOWIipH6hdnl+pPrRXtUmpExw8eimzSffj0LTEt
- tNnETA2NV2tNxZq0cAPkD5QYCTmu6vM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-106-aiD1XAL5M36XEdfPg9Cccg-1; Thu, 15 Sep 2022 07:20:14 -0400
-X-MC-Unique: aiD1XAL5M36XEdfPg9Cccg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j19-20020a05600c1c1300b003ab73e4c45dso12567967wms.0
- for <qemu-devel@nongnu.org>; Thu, 15 Sep 2022 04:20:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date;
- bh=X2A89qUt9k1eVlTo0J4woTB0AtjK6aoqdBMp0/a77N0=;
- b=dJ+nNFaGkkLqpl7Ou6SX7KNcz811+XGxNqMmhwkCyeyWwPHV6/XmkPFz78iUI1I+WV
- DTaYFw7GikO3EBYNju2BIktkf07VN45ARTkvNv731S4FEIEaMEzn/C/cZ67Vh1SMvY/D
- Kwj3syQJZ8eMyIL5NlKPkOh71CDeZUxrLP64wjiR9a6Rb4DbITsu56ML8IAuvfnUSXZ0
- d0y8MFtk2Q50ZHcvVbdI36p7BDh7RQ5CKCBevMZmSQlbPxN1M3VFSVgs/qEgGYCVbru3
- KmCFFfxEqfkXms1lN5z9wqx1B2xfBJ9OIiptKoaB/v6oypS9PS4mPubkrazO1DYHh74B
- yDtg==
-X-Gm-Message-State: ACgBeo27e2u8jX+aje9tb6DEGQTx/zKqeBFQ0ILDpjcozjxanfe0pxbE
- 952wekfJw1fjP07lP68Dl2X2Y7/QC/GW65pQzp8PuxQdhNB51Sv3S35GLmQhpHRKI+/YoliFgke
- aU63hI6uiVuZA6Po=
-X-Received: by 2002:a05:600c:255:b0:3aa:2150:b184 with SMTP id
- 21-20020a05600c025500b003aa2150b184mr6374384wmj.138.1663240813779; 
- Thu, 15 Sep 2022 04:20:13 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6P+YxEjNVL1mc6xU/Hn79S8gle4be+HDxvTqLZ8j2cSQa3Xa5nmtyEoffSNaIYWPuYBXOy+g==
-X-Received: by 2002:a05:600c:255:b0:3aa:2150:b184 with SMTP id
- 21-20020a05600c025500b003aa2150b184mr6374368wmj.138.1663240813482; 
- Thu, 15 Sep 2022 04:20:13 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- j5-20020a5d4485000000b002205cbc1c74sm2335324wrq.101.2022.09.15.04.20.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Sep 2022 04:20:13 -0700 (PDT)
-Date: Thu, 15 Sep 2022 12:20:11 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Dongli Zhang <dongli.zhang@oracle.com>
-Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org, armbru@redhat.com,
- joe.jin@oracle.com
-Subject: Re: [PATCH v3 1/1] monitor/hmp: print trace as option in help for
- log command
-Message-ID: <YyMKa64248tyWrEe@work-vm>
-References: <20220831213943.8155-1-dongli.zhang@oracle.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oYnJR-0000eP-EG; Thu, 15 Sep 2022 07:45:49 -0400
+Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
+ (myt5-70c90f7d6d7d.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:3e2c:0:640:70c9:f7d])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 3A7712E1968;
+ Thu, 15 Sep 2022 14:45:26 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:1208::1:d] (unknown
+ [2a02:6b8:b081:1208::1:d])
+ by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ D4ZJn7h0Pb-jOOi6rZB; Thu, 15 Sep 2022 14:45:25 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1663242325; bh=uspMgB8vInHHyMVVDCZvD47fSxFFV+HOQMOA0zxSglw=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=qzXsnGrbC6gYotR+RLreBtl25ChlCpIj8MVvYWVBjclev/4NbJdb3RolROSkXlj/g
+ C5chCWwWPmiviP1KyaUVbjIO0dkTKZO3E1zfOSH3U6DDLlscLOCRSU7aA89EEhUTPN
+ JhDcE7TRA9i7b10zIWQ/U06p4DRWZIbz8jus6IRc=
+Authentication-Results: myt5-70c90f7d6d7d.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <153efe1b-cbf5-f627-8497-01878ec4b96c@yandex-team.ru>
+Date: Thu, 15 Sep 2022 14:45:24 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220831213943.8155-1-dongli.zhang@oracle.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] bugfix:migrate with block-dirty-bitmap (disk size is big
+ enough) can't be finished
+Content-Language: en-US
+To: liuhaiwei9699 <liuhaiwei9699@126.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, stefanha@redhat.com,
+ fam@euphon.net, eblake@redhat.com, jsnow@redhat.com, quintela@redhat.com,
+ dgilbert@redhat.com, liuhaiwei <liuhaiwei@inspur.com>
+References: <20220910063542.3036319-1-liuhaiwei9699@126.com>
+ <626e7cce-d85f-7448-b28f-a5de559f6aa6@yandex-team.ru>
+ <785be6cd.e78.1833ec34e9f.Coremail.liuhaiwei9699@126.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <785be6cd.e78.1833ec34e9f.Coremail.liuhaiwei9699@126.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.816,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,64 +80,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Dongli Zhang (dongli.zhang@oracle.com) wrote:
-> The below is printed when printing help information in qemu-system-x86_64
-> command line, and when CONFIG_TRACE_LOG is enabled:
-> 
-> ----------------------------
-> $ qemu-system-x86_64 -d help
-> ... ...
-> trace:PATTERN   enable trace events
-> 
-> Use "-d trace:help" to get a list of trace events.
-> ----------------------------
-> 
-> However, the options of "trace:PATTERN" are only printed by
-> "qemu-system-x86_64 -d help", but missing in hmp "help log" command.
-> 
-> Fixes: c84ea00dc2 ("log: add "-d trace:PATTERN"")
-> Cc: Joe Jin <joe.jin@oracle.com>
-> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
+Post-copy migration of dirty-bitmaps doesn't mean post-copy migration of RAM.
 
-Queued
+To turn on post-copy migration of RAM, you should enable postcopy-ram capability. If you don't enable it, RAM is migrated in pre-copy (i.e. before starting VM on target).
 
-> ---
-> Changed since v1:
-> - change format for "none" as well.
-> Changed since v2:
-> - use "log trace:help" in help message.
-> - add more clarification in commit message.
-> - add 'Fixes' tag.
-> ---
->  monitor/hmp.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
+migrate-start-postcopy command doesn't enable postcopy-ram capability automatically, so don't be afraid of it.
+
+On 9/15/22 04:28, liuhaiwei9699 wrote:
+> Hi ,Vladimir
+> sometimes ,post-copy mode is not the best choice. For instance, Supposing migrate process will take ten minutes,but network may be interruptted In this process .
+> If it does happenthe , memory data of VM will be splitted into two parts, and will not be rollback.This is a bad situation
+
+If you don't enable postcopy-ram capability, memory data is already migrated _before_ starting VM on destination. So, the only thing that we may lose in worst case is dirty bitmap itself, not RAM.
+
 > 
-> diff --git a/monitor/hmp.c b/monitor/hmp.c
-> index 15ca04735c..a3375d0341 100644
-> --- a/monitor/hmp.c
-> +++ b/monitor/hmp.c
-> @@ -285,10 +285,15 @@ void help_cmd(Monitor *mon, const char *name)
->          if (!strcmp(name, "log")) {
->              const QEMULogItem *item;
->              monitor_printf(mon, "Log items (comma separated):\n");
-> -            monitor_printf(mon, "%-10s %s\n", "none", "remove all logs");
-> +            monitor_printf(mon, "%-15s %s\n", "none", "remove all logs");
->              for (item = qemu_log_items; item->mask != 0; item++) {
-> -                monitor_printf(mon, "%-10s %s\n", item->name, item->help);
-> +                monitor_printf(mon, "%-15s %s\n", item->name, item->help);
->              }
-> +#ifdef CONFIG_TRACE_LOG
-> +            monitor_printf(mon, "trace:PATTERN   enable trace events\n");
-> +            monitor_printf(mon, "\nUse \"log trace:help\" to get a list of "
-> +                           "trace events.\n\n");
-> +#endif
->              return;
->          }
->  
-> -- 
-> 2.17.1
+> so  migrate-start-postcopy will not be setted in conservative scenario. In this case, the migration with block dirty bitmap may not be finished.
+
+Again, migrate-start-postcopy command don't enable postcopy of RAM. It only allow to enter generic postcopy mode. If dirty-bitmaps capability is enabled and postcopy-ram is not, the only thing that can be migrated in postcopy is dirty bitmap.
+
 > 
+> 
+> I think  migration of block dirty bitmap should not dependent on post-copy or pre-copy mode.
+> 
+
+But dirty bitmaps migration is realized as postcopy in Qemu.
+
+We can't migrate bitmaps during downtime in general, as bitmaps may be large and connection slow (your case). So, we have to migrate them either in pre-copy or in post-copy mode. Historically, the second method was chosen.
+
+> 
+> At 2022-09-10 18:18:04, "Vladimir Sementsov-Ogievskiy" <vsementsov@yandex-team.ru> wrote:
+>>On 9/10/22 09:35, liuhaiwei wrote:
+>>> From: liuhaiwei <liuhaiwei@inspur.com>
+>>> 
+>>> bug description as  https://gitlab.com/qemu-project/qemu/-/issues/1203
+>>> Usually,we use the precopy or postcopy mode to migrate block dirty bitmap.
+>>> but if block-dirty-bitmap size more than threshold size,we cannot entry the migration_completion in migration_iteration_run function
+>>> To solve this problem, we can setting  the pending size to a fake value(threshold-1 or 0) to tell  migration_iteration_run function to entry the migration_completion,if pending size > threshold size
+>>> 
+>>
+>>
+>>Actually, bitmaps migrate in postcopy. So, you should start postcopy for it to work (qmp command migrate-start-postcopy). This command simply set the boolean variable, so that in migration_iteration_run() we'll move to postcopy when needed. So, you can start this command immediately after migrate command, or even before it, but after setting the "dirty-bitmaps" capability.
+>>
+>>Fake pending is a wrong thing to do, it means that you will make downtime to be larger than expected.
+>>
+>>-- 
+>>Best regards,
+>>Vladimir
+
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+Best regards,
+Vladimir
 
