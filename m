@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 099AD5B9ECA
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 17:29:10 +0200 (CEST)
-Received: from localhost ([::1]:49286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F0E5B9ECB
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 17:29:12 +0200 (CEST)
+Received: from localhost ([::1]:49288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYqnc-0004xg-PL
-	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 11:29:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56606)
+	id 1oYqne-00053s-Jj
+	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 11:29:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oYqkW-0007nQ-6U; Thu, 15 Sep 2022 11:25:56 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:43535)
+ id 1oYqkX-0007ng-5z; Thu, 15 Sep 2022 11:25:57 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:44581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oYqkU-0007Dw-J3; Thu, 15 Sep 2022 11:25:55 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id lh5so1212407ejb.10;
- Thu, 15 Sep 2022 08:25:53 -0700 (PDT)
+ id 1oYqkV-0007Ej-Kg; Thu, 15 Sep 2022 11:25:56 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id x94so10170467ede.11;
+ Thu, 15 Sep 2022 08:25:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=nzugGvytbDNUTu0tbrVX+Lh2a7ZkRAaoKEr707jbXjk=;
- b=otlb+twSpJa7jA8FoO440eRq+QscM1WDGIb9Rrv4s1gCAK1ht1T5DmAiodlL0tqKyY
- Co2lQk4MXKNhGQ+VV0hsv4i81iYQZIKXnQJfx+SP8p55h6xVtJKn4WpFuApPcipFukcC
- 8rAzyEaPMDwUIWl2lf+Ty2LOF4PO3GePmqdFkgAugtM4AeKQ4fktL3fJN2qF0sRIXifJ
- /pbhfpRW2FP+oe2pJ7XYchBemdwNg3Ng9U5gllj2EUp7Ec12m1dQqexg4pm2hCYKQJOA
- DPWHI1UXOGblSbwBxPxW6sYZiRHeb3IhAoXtey/wMfggtNfZ8BuUDsNsClyI+HHEvbA/
- CeMg==
+ bh=50TUYZdhxcE2QyHZaGH/ScNbe0XiEUIkUKaPSlGCa0A=;
+ b=aKVLIMBI4yGaxfx2okhNy+odBYomGP4HdAEocxUNp1W2e/hXC78taat0ESnfQpCe0y
+ 59bs6/sa7KW6RYx8XG6p+mqRZNJJZIXgJ84gRmEMv86eua+W/HJUSL3ObBXvir15jxNC
+ x9tuJLftl9P1BEGCD9qu4NiCx7dznEB1gd+arEmS1ioifrjKap0vdAoR/3p104ZVHN6t
+ +xkCcpCkamcvruQAjnDOpnJ7rPSKIgv4A0OYnrN2YMor5UriWOBoDu8xEpvLtR+dXQ+s
+ U1rQL25OrAf9vNLkVNOSDtW3bYHDlAyjgJB1uyiQZbKMHPrIz4jtIxul9iYOCo2iDM62
+ 5bYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=nzugGvytbDNUTu0tbrVX+Lh2a7ZkRAaoKEr707jbXjk=;
- b=HkEoWueYG1VLq4LNsErEmtX6SjwWEjM2DbT/tBkZ95QuwCqntu4Srd2iZXmMN5KAT4
- dmBPkzfk+u6hjnZa9xJSnYoBRx/emBoFDoMaTv4g5eYHKpzSvfkXIHodE2z22ZFr8cK/
- xqllPH3DpVUMsG/RhaijVj6tG5TtjBOOUjcPvRXEqXfxILXPCkIUxdbzGzEkJneExM+k
- centLUxdJhMxiNDklJusfInLMX9zfH8yacu5HbA9xgjhhMQAVU5YpE9NE0iggjj0E5FI
- 67qNrVbkKtgTIBAy2iFBfXf96GyrBg7jQ7u1dDm8vf4J4MaI0bSYzdcv05ATda5vumqV
- 22xQ==
-X-Gm-Message-State: ACrzQf0hNkYL/pyG7l6Lbto2DYDFojxHQUHyfmosQnmVKdj3kdbG99BG
- D7eLCiQY1YnjSlWtz8MZ5gPh7bSOrWA=
-X-Google-Smtp-Source: AMsMyM7sdXqG69kFVFH1U7di19u2QIsiMz/9jSz94HWxEAfZwM/o7jIvDRFwklGl4HqxJ2owPPYitw==
-X-Received: by 2002:a17:907:7208:b0:73d:7097:ac6f with SMTP id
- dr8-20020a170907720800b0073d7097ac6fmr379137ejc.388.1663255552224; 
- Thu, 15 Sep 2022 08:25:52 -0700 (PDT)
+ bh=50TUYZdhxcE2QyHZaGH/ScNbe0XiEUIkUKaPSlGCa0A=;
+ b=f8eL3+P7N4rS1yF7dOLeSk5xPJTEDAoKY/WOo9whfcYjQeuNrM5WKY8V/EFYxFcrvC
+ owiK0MxLydP6gZIiuhH2kG/jAOrf3KhkhftEXGKD6XVATPZ2TQmI/0laefNeo8K3suP2
+ trZLKPu8oLsEMn4nnbnKF3yfuMqR9vN3T3WkAFRHkNco0On8cu+ckCmN9YUx7lu4pp6C
+ Os+wy2h4ndQcxCiA8VddJnMKdr9e+T65IsK40I13BvlEyJH0+1RQj6BYRcospPJP0eUP
+ a2YdtioEf2vEWV+sWnVOlwjMB3yzdU7emEED2ceymdcRi/yPCgK+8kj0YAflThgzbjU5
+ vPPg==
+X-Gm-Message-State: ACrzQf1QeviqiwDLLhBg/7Il3SDefWqIA6WVu038EUABVrQPutBaE0sH
+ Y+Jsa+/eFOSqKmVd2iabb5LWXaIX5c4=
+X-Google-Smtp-Source: AMsMyM7vjhXNRu3X7hCUA5yqEpJk/OY2n7kBet4ZKwZN/fxFTt94rta4bsIc+QQdFl8EFS+mKgpNFw==
+X-Received: by 2002:a05:6402:40c2:b0:44f:963d:1ab4 with SMTP id
+ z2-20020a05640240c200b0044f963d1ab4mr322608edb.319.1663255553229; 
+ Thu, 15 Sep 2022 08:25:53 -0700 (PDT)
 Received: from localhost.localdomain
  (dynamic-077-191-182-143.77.191.pool.telefonica.de. [77.191.182.143])
  by smtp.gmail.com with ESMTPSA id
- 2-20020a170906210200b00730979f568fsm9297138ejt.150.2022.09.15.08.25.51
+ 2-20020a170906210200b00730979f568fsm9297138ejt.150.2022.09.15.08.25.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Sep 2022 08:25:51 -0700 (PDT)
+ Thu, 15 Sep 2022 08:25:52 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  qemu-block@nongnu.org, Bin Meng <bin.meng@windriver.com>,
  qemu-ppc@nongnu.org, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 01/11] hw/ppc/meson: Allow e500 boards to be enabled separately
-Date: Thu, 15 Sep 2022 17:25:10 +0200
-Message-Id: <20220915152520.21948-2-shentey@gmail.com>
+Subject: [PATCH 02/11] hw/gpio/meson: Introduce dedicated config switch for
+ hw/gpio/mpc8xxx
+Date: Thu, 15 Sep 2022 17:25:11 +0200
+Message-Id: <20220915152520.21948-3-shentey@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220915152520.21948-1-shentey@gmail.com>
 References: <20220915152520.21948-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,68 +92,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Gives users more fine-grained control over what should be compiled into
-QEMU.
+Having a dedicated config switch makes dependency handling cleaner.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- configs/devices/ppc-softmmu/default.mak | 3 ++-
- hw/ppc/Kconfig                          | 8 ++++++++
- hw/ppc/meson.build                      | 6 ++----
- 3 files changed, 12 insertions(+), 5 deletions(-)
+ hw/gpio/Kconfig     | 3 +++
+ hw/gpio/meson.build | 2 +-
+ hw/ppc/Kconfig      | 1 +
+ 3 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/configs/devices/ppc-softmmu/default.mak b/configs/devices/ppc-softmmu/default.mak
-index 658a454426..a887f5438b 100644
---- a/configs/devices/ppc-softmmu/default.mak
-+++ b/configs/devices/ppc-softmmu/default.mak
-@@ -1,7 +1,8 @@
- # Default configuration for ppc-softmmu
+diff --git a/hw/gpio/Kconfig b/hw/gpio/Kconfig
+index f0e7405f6e..d2cf3accc8 100644
+--- a/hw/gpio/Kconfig
++++ b/hw/gpio/Kconfig
+@@ -8,6 +8,9 @@ config PL061
+ config GPIO_KEY
+     bool
  
- # For embedded PPCs:
--CONFIG_E500=y
-+CONFIG_E500PLAT=y
-+CONFIG_MPC8544DS=y
- CONFIG_PPC405=y
- CONFIG_PPC440=y
- CONFIG_VIRTEX=y
++config GPIO_MPC8XXX
++    bool
++
+ config GPIO_PWR
+     bool
+ 
+diff --git a/hw/gpio/meson.build b/hw/gpio/meson.build
+index 7bd6a57264..b726e6d27a 100644
+--- a/hw/gpio/meson.build
++++ b/hw/gpio/meson.build
+@@ -1,5 +1,5 @@
+-softmmu_ss.add(when: 'CONFIG_E500', if_true: files('mpc8xxx.c'))
+ softmmu_ss.add(when: 'CONFIG_GPIO_KEY', if_true: files('gpio_key.c'))
++softmmu_ss.add(when: 'CONFIG_GPIO_MPC8XXX', if_true: files('mpc8xxx.c'))
+ softmmu_ss.add(when: 'CONFIG_GPIO_PWR', if_true: files('gpio_pwr.c'))
+ softmmu_ss.add(when: 'CONFIG_MAX7310', if_true: files('max7310.c'))
+ softmmu_ss.add(when: 'CONFIG_PL061', if_true: files('pl061.c'))
 diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index 3a4418a69e..22a64745d4 100644
+index 22a64745d4..791fe78a50 100644
 --- a/hw/ppc/Kconfig
 +++ b/hw/ppc/Kconfig
-@@ -132,6 +132,14 @@ config E500
-     select FDT_PPC
-     select DS1338
- 
-+config E500PLAT
-+    bool
-+    select E500
-+
-+config MPC8544DS
-+    bool
-+    select E500
-+
- config VIRTEX
-     bool
-     select PPC4XX
-diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
-index 62801923f3..32babc9b48 100644
---- a/hw/ppc/meson.build
-+++ b/hw/ppc/meson.build
-@@ -71,12 +71,10 @@ ppc_ss.add(when: 'CONFIG_MAC_OLDWORLD', if_true: files('mac_oldworld.c'))
- # NewWorld PowerMac
- ppc_ss.add(when: 'CONFIG_MAC_NEWWORLD', if_true: files('mac_newworld.c'))
- # e500
-+ppc_ss.add(when: 'CONFIG_E500PLAT', if_true: files('e500plat.c'))
-+ppc_ss.add(when: 'CONFIG_MPC8544DS', if_true: files('mpc8544ds.c'))
- ppc_ss.add(when: 'CONFIG_E500', if_true: files(
-   'e500.c',
--  'mpc8544ds.c',
--  'e500plat.c'
--))
--ppc_ss.add(when: 'CONFIG_E500', if_true: files(
-   'mpc8544_guts.c',
-   'ppce500_spin.c'
- ))
+@@ -124,6 +124,7 @@ config E500
+     imply AT24C
+     imply VIRTIO_PCI
+     select ETSEC
++    select GPIO_MPC8XXX
+     select OPENPIC
+     select PLATFORM_BUS
+     select PPCE500_PCI
 -- 
 2.37.3
 
