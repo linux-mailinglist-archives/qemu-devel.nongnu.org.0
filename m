@@ -2,35 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BF885B9BCE
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 15:28:10 +0200 (CEST)
-Received: from localhost ([::1]:57840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BFCE5B9BD5
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 15:30:55 +0200 (CEST)
+Received: from localhost ([::1]:41064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYouX-00054j-CL
-	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 09:28:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41412)
+	id 1oYoxC-0000Eh-OB
+	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 09:30:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <michael.labiuk@virtuozzo.com>)
- id 1oYohW-0007uJ-0T
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 09:14:43 -0400
-Received: from relay.virtuozzo.com ([130.117.225.111]:51274)
+ id 1oYohY-0007uY-3M
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 09:14:47 -0400
+Received: from relay.virtuozzo.com ([130.117.225.111]:51284)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <michael.labiuk@virtuozzo.com>)
- id 1oYohS-0002u2-Px
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 09:14:41 -0400
+ id 1oYohS-0002ty-Q0
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 09:14:42 -0400
 Received: from [192.168.16.215] (helo=mikewrk.sw.ru)
  by relay.virtuozzo.com with esmtp (Exim 4.95)
- (envelope-from <michael.labiuk@virtuozzo.com>) id 1oYoeq-004BPT-7Z;
- Thu, 15 Sep 2022 15:14:08 +0200
+ (envelope-from <michael.labiuk@virtuozzo.com>) id 1oYoer-004BPT-Bf;
+ Thu, 15 Sep 2022 15:14:09 +0200
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>, den@virtuozzo.com
-Subject: [PATCH v3 1/5] tests/x86: Add subtest with 'q35' machine type to
- device-plug-test
-Date: Thu, 15 Sep 2022 16:14:03 +0300
-Message-Id: <20220915131407.372485-2-michael.labiuk@virtuozzo.com>
+Subject: [PATCH v3 2/5] tests/x86: Add 'q35' machine type to ivshmem-test
+Date: Thu, 15 Sep 2022 16:14:04 +0300
+Message-Id: <20220915131407.372485-3-michael.labiuk@virtuozzo.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220915131407.372485-1-michael.labiuk@virtuozzo.com>
 References: <20220915131407.372485-1-michael.labiuk@virtuozzo.com>
@@ -60,148 +59,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Michael Labiuk <michael.labiuk@virtuozzo.com>
 From:  Michael Labiuk via <qemu-devel@nongnu.org>
 
-Configure pci bridge setting to plug pci device and unplug.
-Move common code for device removing to function.
+Configure pci bridge setting to test ivshmem on 'q35'.
 Signed-off-by: Michael Labiuk <michael.labiuk@virtuozzo.com>
 ---
- tests/qtest/device-plug-test.c | 83 ++++++++++++++++++++++++----------
- 1 file changed, 58 insertions(+), 25 deletions(-)
+ tests/qtest/ivshmem-test.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
-index a1fb99c8ff..d66c386ef4 100644
---- a/tests/qtest/device-plug-test.c
-+++ b/tests/qtest/device-plug-test.c
-@@ -61,6 +61,18 @@ static void wait_device_deleted_event(QTestState *qtest, const char *id)
-     }
+diff --git a/tests/qtest/ivshmem-test.c b/tests/qtest/ivshmem-test.c
+index 9611d05eb5..0f9755abc6 100644
+--- a/tests/qtest/ivshmem-test.c
++++ b/tests/qtest/ivshmem-test.c
+@@ -378,6 +378,32 @@ static void test_ivshmem_server(void)
+     close(thread.pipe[0]);
  }
  
-+static void process_device_remove(QTestState *qtest, const char *id)
++static void device_del(QTestState *qtest, const char *id)
 +{
-+    /*
-+     * Request device removal. As the guest is not running, the request won't
-+     * be processed. However during system reset, the removal will be
-+     * handled, removing the device.
-+     */
-+    device_del(qtest, id);
-+    system_reset(qtest);
-+    wait_device_deleted_event(qtest, id);
++    QDict *resp;
++
++    resp = qtest_qmp(qtest,
++                     "{'execute': 'device_del',"
++                     " 'arguments': { 'id': %s } }", id);
++
++    g_assert(qdict_haskey(resp, "return"));
++    qobject_unref(resp);
 +}
 +
- static void test_pci_unplug_request(void)
++static void test_ivshmem_hotplug_q35(void)
++{
++    QTestState *qts = qtest_init("-object memory-backend-ram,size=1M,id=mb1 "
++                                 "-device pcie-root-port,id=p1 "
++                                 "-device pcie-pci-bridge,bus=p1,id=b1 "
++                                 "-machine q35");
++
++    qtest_qmp_device_add(qts, "ivshmem-plain", "iv1",
++                         "{'memdev': 'mb1', 'bus': 'b1'}");
++    device_del(qts, "iv1");
++
++    qtest_quit(qts);
++}
++
+ #define PCI_SLOT_HP             0x06
+ 
+ static void test_ivshmem_hotplug(void)
+@@ -469,6 +495,7 @@ int main(int argc, char **argv)
  {
-     const char *arch = qtest_get_arch();
-@@ -73,14 +85,20 @@ static void test_pci_unplug_request(void)
-     QTestState *qtest = qtest_initf("%s -device virtio-mouse-pci,id=dev0",
-                                     machine_addition);
+     int ret, fd;
+     gchar dir[] = "/tmp/ivshmem-test.XXXXXX";
++    const char *arch = qtest_get_arch();
  
--    /*
--     * Request device removal. As the guest is not running, the request won't
--     * be processed. However during system reset, the removal will be
--     * handled, removing the device.
--     */
--    device_del(qtest, "dev0");
--    system_reset(qtest);
--    wait_device_deleted_event(qtest, "dev0");
-+    process_device_remove(qtest, "dev0");
-+
-+    qtest_quit(qtest);
-+}
-+
-+static void test_q35_pci_unplug_request(void)
-+{
-+
-+    QTestState *qtest = qtest_initf("-machine q35 "
-+                                    "-device pcie-root-port,id=p1 "
-+                                    "-device pcie-pci-bridge,bus=p1,id=b1 "
-+                                    "-device virtio-mouse-pci,bus=b1,id=dev0");
-+
-+    process_device_remove(qtest, "dev0");
+     g_test_init(&argc, &argv, NULL);
  
-     qtest_quit(qtest);
- }
-@@ -98,14 +116,28 @@ static void test_pci_unplug_json_request(void)
-         "%s -device \"{'driver': 'virtio-mouse-pci', 'id': 'dev0'}\"",
-         machine_addition);
- 
--    /*
--     * Request device removal. As the guest is not running, the request won't
--     * be processed. However during system reset, the removal will be
--     * handled, removing the device.
--     */
--    device_del(qtest, "dev0");
--    system_reset(qtest);
--    wait_device_deleted_event(qtest, "dev0");
-+    process_device_remove(qtest, "dev0");
-+
-+    qtest_quit(qtest);
-+}
-+
-+static void test_q35_pci_unplug_json_request(void)
-+{
-+    const char *port = "-device '{\"driver\": \"pcie-root-port\", "
-+                                      "\"id\": \"p1\"}'";
-+
-+    const char *bridge = "-device '{\"driver\": \"pcie-pci-bridge\", "
-+                                   "\"id\": \"b1\", "
-+                                   "\"bus\": \"p1\"}'";
-+
-+    const char *device = "-device '{\"driver\": \"virtio-mouse-pci\", "
-+                                   "\"bus\": \"b1\", "
-+                                   "\"id\": \"dev0\"}'";
-+
-+    QTestState *qtest = qtest_initf("-machine q35 %s %s %s",
-+                                    port, bridge, device);
-+
-+    process_device_remove(qtest, "dev0");
- 
-     qtest_quit(qtest);
- }
-@@ -128,9 +160,7 @@ static void test_spapr_cpu_unplug_request(void)
-                         "-device power9_v2.0-spapr-cpu-core,core-id=1,id=dev0");
- 
-     /* similar to test_pci_unplug_request */
--    device_del(qtest, "dev0");
--    system_reset(qtest);
--    wait_device_deleted_event(qtest, "dev0");
-+    process_device_remove(qtest, "dev0");
- 
-     qtest_quit(qtest);
- }
-@@ -144,9 +174,7 @@ static void test_spapr_memory_unplug_request(void)
-                         "-device pc-dimm,id=dev0,memdev=mem0");
- 
-     /* similar to test_pci_unplug_request */
--    device_del(qtest, "dev0");
--    system_reset(qtest);
--    wait_device_deleted_event(qtest, "dev0");
-+    process_device_remove(qtest, "dev0");
- 
-     qtest_quit(qtest);
- }
-@@ -158,9 +186,7 @@ static void test_spapr_phb_unplug_request(void)
-     qtest = qtest_initf("-device spapr-pci-host-bridge,index=1,id=dev0");
- 
-     /* similar to test_pci_unplug_request */
--    device_del(qtest, "dev0");
--    system_reset(qtest);
--    wait_device_deleted_event(qtest, "dev0");
-+    process_device_remove(qtest, "dev0");
- 
-     qtest_quit(qtest);
- }
-@@ -195,5 +221,12 @@ int main(int argc, char **argv)
-                        test_spapr_phb_unplug_request);
+@@ -494,6 +521,9 @@ int main(int argc, char **argv)
+         qtest_add_func("/ivshmem/pair", test_ivshmem_pair);
+         qtest_add_func("/ivshmem/server", test_ivshmem_server);
      }
- 
 +    if (!strcmp(arch, "x86_64")) {
-+        qtest_add_func("/device-plug/q35-pci-unplug-request",
-+                   test_q35_pci_unplug_request);
-+        qtest_add_func("/device-plug/q35-pci-unplug-json-request",
-+                   test_q35_pci_unplug_json_request);
++        qtest_add_func("/ivshmem/hotplug-q35", test_ivshmem_hotplug_q35);
 +    }
-+
-     return g_test_run();
- }
+ 
+ out:
+     ret = g_test_run();
 -- 
 2.34.1
 
