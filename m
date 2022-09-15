@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E57505BA235
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 23:11:04 +0200 (CEST)
-Received: from localhost ([::1]:60998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CED05BA24C
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 23:23:35 +0200 (CEST)
+Received: from localhost ([::1]:53628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYw8W-0006Nm-05
-	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 17:11:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32872)
+	id 1oYwKb-0002hH-Qd
+	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 17:23:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oYvhy-00026n-5q
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oYvhy-00028F-K0
  for qemu-devel@nongnu.org; Thu, 15 Sep 2022 16:43:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33595)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51670)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oYvhn-0000Jf-Vb
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 16:43:37 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oYvho-0000Jo-HB
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 16:43:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1663274607;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AEHgXfjbwLUr5OpWAylpqSRVEr+SByCOh+ri6a5QEQM=;
- b=TM/sxrIKUFNVZfN0leFpt57U3HkFCYUF0KepfEj0fD46eXOa0gqlFlTIYeK7zANJ+tgRoK
- 9aHImwqn3kxlPo956M1bskVWbxNg/PPMGgRysxCmX/B9GFvUDIxoV2XYui8ZFFNHlIBrbv
- B1w3vtJhBfXQipJrgxYPMD0VQo4SpY4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=kE10O7RC2goUdJWzUXqPtVaYJx+Y1oRiDktZrhWIbws=;
+ b=dAS7kVAjwwJ69CWbx5QGWi8jPqRR18Yqj3WlSKDkbOwKQE7FPcx35hxKcWHIbnZy57Sqob
+ Pe6kGaz+PwsiT2rPWiDZxRuJ/ni/af5Nwhv4KXrCUec7E9OrWGANdnZ3/jq3i2Bk7RjPSh
+ gieejdLMqNqxGlEwuLCaJxWhwolRq6g=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-501-VQGBqDRFM2qHRCG8_CFFhg-1; Thu, 15 Sep 2022 16:43:24 -0400
-X-MC-Unique: VQGBqDRFM2qHRCG8_CFFhg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-460-gvDtETXaORKBs-n3EGnQhw-1; Thu, 15 Sep 2022 16:43:24 -0400
+X-MC-Unique: gvDtETXaORKBs-n3EGnQhw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DE084857FAC;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E4A983C0D870;
  Thu, 15 Sep 2022 20:43:23 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 99E9C17595;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9FB7C492CA2;
  Thu, 15 Sep 2022 20:43:23 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1E6FA21E6617; Thu, 15 Sep 2022 22:43:18 +0200 (CEST)
+ id 2109C21E66CA; Thu, 15 Sep 2022 22:43:18 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: michael.roth@amd.com, jsnow@redhat.com, eblake@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 25/27] qapi ui: Elide redundant has_FOO in generated C
-Date: Thu, 15 Sep 2022 22:43:15 +0200
-Message-Id: <20220915204317.3766007-26-armbru@redhat.com>
+ Konstantin Kostiuk <kkostiuk@redhat.com>
+Subject: [PATCH 26/27] qapi qga: Elide redundant has_FOO in generated C
+Date: Thu, 15 Sep 2022 22:43:16 +0200
+Message-Id: <20220915204317.3766007-27-armbru@redhat.com>
 In-Reply-To: <20220915204317.3766007-1-armbru@redhat.com>
 References: <20220915204317.3766007-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -83,214 +83,270 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 The has_FOO for pointer-valued FOO are redundant, except for arrays.
 They are also a nuisance to work with.  Recent commit "qapi: Start to
 elide redundant has_FOO in generated C" provided the means to elide
-them step by step.  This is the step for qapi/ui.json.
+them step by step.  This is the step for qga/qapi-schema.json.
 
 Said commit explains the transformation in more detail.  The invariant
 violations mentioned there do not occur here.
 
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>
+Cc: Konstantin Kostiuk <kkostiuk@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- monitor/hmp-cmds.c     | 12 ++++--------
- ui/console.c           |  4 ++--
- ui/input.c             |  4 ++--
- ui/spice-core.c        |  5 -----
- ui/vnc.c               | 10 ----------
- scripts/qapi/schema.py |  1 -
- 6 files changed, 8 insertions(+), 28 deletions(-)
+ qga/commands-posix.c   | 33 ++++++++-------------------------
+ qga/commands.c         | 11 ++++-------
+ scripts/qapi/schema.py |  3 +--
+ 3 files changed, 13 insertions(+), 34 deletions(-)
 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 4a2485ddaa..2a7ffa85f7 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -567,11 +567,9 @@ static void hmp_info_vnc_clients(Monitor *mon, VncClientInfoList *client)
- 
-         hmp_info_VncBasicInfo(mon, qapi_VncClientInfo_base(cinfo), "Client");
-         monitor_printf(mon, "    x509_dname: %s\n",
--                       cinfo->has_x509_dname ?
--                       cinfo->x509_dname : "none");
-+                       cinfo->x509_dname ?: "none");
-         monitor_printf(mon, "    sasl_username: %s\n",
--                       cinfo->has_sasl_username ?
--                       cinfo->sasl_username : "none");
-+                       cinfo->sasl_username ?: "none");
- 
-         client = client->next;
-     }
-@@ -616,7 +614,7 @@ void hmp_info_vnc(Monitor *mon, const QDict *qdict)
-             hmp_info_vnc_authcrypt(mon, "  ", info->auth,
-                                info->has_vencrypt ? &info->vencrypt : NULL);
-         }
--        if (info->has_display) {
-+        if (info->display) {
-             monitor_printf(mon, "  Display: %s\n", info->display);
-         }
-         info2l = info2l->next;
-@@ -1420,7 +1418,6 @@ void hmp_set_password(Monitor *mon, const QDict *qdict)
-     }
- 
-     if (opts.protocol == DISPLAY_PROTOCOL_VNC) {
--        opts.u.vnc.has_display = !!display;
-         opts.u.vnc.display = (char *)display;
-     }
- 
-@@ -1448,7 +1445,6 @@ void hmp_expire_password(Monitor *mon, const QDict *qdict)
-     }
- 
-     if (opts.protocol == DISPLAY_PROTOCOL_VNC) {
--        opts.u.vnc.has_display = !!display;
-         opts.u.vnc.display = (char *)display;
-     }
- 
-@@ -1733,7 +1729,7 @@ hmp_screendump(Monitor *mon, const QDict *qdict)
-         goto end;
-     }
- 
--    qmp_screendump(filename, id != NULL, id, id != NULL, head,
-+    qmp_screendump(filename, id, id != NULL, head,
-                    input_format != NULL, format, &err);
- end:
-     hmp_handle_error(mon, err);
-diff --git a/ui/console.c b/ui/console.c
-index 765892f84f..85e717a364 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -408,7 +408,7 @@ static void graphic_hw_update_bh(void *con)
- 
- /* Safety: coroutine-only, concurrent-coroutine safe, main thread only */
- void coroutine_fn
--qmp_screendump(const char *filename, bool has_device, const char *device,
-+qmp_screendump(const char *filename, const char *device,
-                bool has_head, int64_t head,
-                bool has_format, ImageFormat format, Error **errp)
- {
-@@ -417,7 +417,7 @@ qmp_screendump(const char *filename, bool has_device, const char *device,
-     DisplaySurface *surface;
-     int fd;
- 
--    if (has_device) {
-+    if (device) {
-         con = qemu_console_lookup_by_device_name(device, has_head ? head : 0,
-                                                  errp);
-         if (!con) {
-diff --git a/ui/input.c b/ui/input.c
-index e2a90af889..8f4a87d1d7 100644
---- a/ui/input.c
-+++ b/ui/input.c
-@@ -124,7 +124,7 @@ qemu_input_find_handler(uint32_t mask, QemuConsole *con)
-     return NULL;
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 954efed01b..1db82dc77b 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -81,7 +81,7 @@ static void ga_wait_child(pid_t pid, int *status, Error **errp)
+     g_assert(rpid == pid);
  }
  
--void qmp_input_send_event(bool has_device, const char *device,
-+void qmp_input_send_event(const char *device,
-                           bool has_head, int64_t head,
-                           InputEventList *events, Error **errp)
+-void qmp_guest_shutdown(bool has_mode, const char *mode, Error **errp)
++void qmp_guest_shutdown(const char *mode, Error **errp)
  {
-@@ -133,7 +133,7 @@ void qmp_input_send_event(bool has_device, const char *device,
-     Error *err = NULL;
+     const char *shutdown_flag;
+     Error *local_err = NULL;
+@@ -99,7 +99,7 @@ void qmp_guest_shutdown(bool has_mode, const char *mode, Error **errp)
+ #endif
  
-     con = NULL;
--    if (has_device) {
-+    if (device) {
-         if (!has_head) {
-             head = 0;
-         }
-diff --git a/ui/spice-core.c b/ui/spice-core.c
-index c3ac20ad43..72f8f1681c 100644
---- a/ui/spice-core.c
-+++ b/ui/spice-core.c
-@@ -222,7 +222,6 @@ static void channel_event(int event, SpiceChannelEventInfo *info)
-         break;
-     case SPICE_CHANNEL_EVENT_INITIALIZED:
-         if (auth) {
--            server->has_auth = true;
-             server->auth = g_strdup(auth);
-         }
-         add_channel_info(client, info);
-@@ -522,13 +521,9 @@ static SpiceInfo *qmp_query_spice_real(Error **errp)
-     port = qemu_opt_get_number(opts, "port", 0);
-     tls_port = qemu_opt_get_number(opts, "tls-port", 0);
+     slog("guest-shutdown called, mode: %s", mode);
+-    if (!has_mode || strcmp(mode, "powerdown") == 0) {
++    if (!mode || strcmp(mode, "powerdown") == 0) {
+         shutdown_flag = powerdown_flag;
+     } else if (strcmp(mode, "halt") == 0) {
+         shutdown_flag = halt_flag;
+@@ -407,14 +407,14 @@ end:
+     return f;
+ }
  
--    info->has_auth = true;
-     info->auth = g_strdup(auth);
+-int64_t qmp_guest_file_open(const char *path, bool has_mode, const char *mode,
++int64_t qmp_guest_file_open(const char *path, const char *mode,
+                             Error **errp)
+ {
+     FILE *fh;
+     Error *local_err = NULL;
+     int64_t handle;
+ 
+-    if (!has_mode) {
++    if (!mode) {
+         mode = "r";
+     }
+     slog("guest-file-open called, filepath: %s, mode: %s", path, mode);
+@@ -1053,7 +1053,6 @@ static bool build_guest_fsinfo_for_ccw_dev(char const *syspath,
+         return false;
+     }
+ 
+-    disk->has_ccw_address = true;
+     disk->ccw_address = g_new0(GuestCCWAddress, 1);
+     disk->ccw_address->cssid = cssid;
+     disk->ccw_address->ssid = ssid;
+@@ -1100,12 +1099,10 @@ static void build_guest_fsinfo_for_real_device(char const *syspath,
+         devnode = udev_device_get_devnode(udevice);
+         if (devnode != NULL) {
+             disk->dev = g_strdup(devnode);
+-            disk->has_dev = true;
+         }
+         serial = udev_device_get_property_value(udevice, "ID_SERIAL");
+         if (serial != NULL && *serial != 0) {
+             disk->serial = g_strdup(serial);
+-            disk->has_serial = true;
+         }
+     }
+ 
+@@ -1124,7 +1121,7 @@ static void build_guest_fsinfo_for_real_device(char const *syspath,
+         has_hwinf = false;
+     }
+ 
+-    if (has_hwinf || disk->has_dev || disk->has_serial) {
++    if (has_hwinf || disk->dev || disk->serial) {
+         QAPI_LIST_PREPEND(fs->disk, disk);
+     } else {
+         qapi_free_GuestDiskAddress(disk);
+@@ -1427,7 +1424,6 @@ static void get_nvme_smart(GuestDiskInfo *disk)
+         return;
+     }
+ 
+-    disk->has_smart = true;
+     disk->smart = g_new0(GuestDiskSmart, 1);
+     disk->smart->type = GUEST_DISK_BUS_TYPE_NVME;
+ 
+@@ -1465,7 +1461,7 @@ static void get_nvme_smart(GuestDiskInfo *disk)
+ 
+ static void get_disk_smart(GuestDiskInfo *disk)
+ {
+-    if (disk->has_address
++    if (disk->address
+         && (disk->address->bus_type == GUEST_DISK_BUS_TYPE_NVME)) {
+         get_nvme_smart(disk);
+     }
+@@ -1518,7 +1514,6 @@ GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
+         disk->name = dev_name;
+         disk->partition = false;
+         disk->alias = get_alias_for_syspath(disk_dir);
+-        disk->has_alias = (disk->alias != NULL);
+         QAPI_LIST_PREPEND(ret, disk);
+ 
+         /* Get address for non-virtual devices */
+@@ -1538,8 +1533,6 @@ GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
+                     error_get_pretty(local_err));
+                 error_free(local_err);
+                 local_err = NULL;
+-            } else if (disk->address != NULL) {
+-                disk->has_address = true;
+             }
+         }
+ 
+@@ -1899,7 +1892,6 @@ qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)
+         if (fd == -1) {
+             result->error = g_strdup_printf("failed to open: %s",
+                                             strerror(errno));
+-            result->has_error = true;
+             continue;
+         }
+ 
+@@ -1914,7 +1906,6 @@ qmp_guest_fstrim(bool has_minimum, int64_t minimum, Error **errp)
+         r.minlen = has_minimum ? minimum : 0;
+         ret = ioctl(fd, FITRIM, &r);
+         if (ret == -1) {
+-            result->has_error = true;
+             if (errno == ENOTTY || errno == EOPNOTSUPP) {
+                 result->error = g_strdup("trim not supported");
+             } else {
+@@ -3160,7 +3151,7 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+             QAPI_LIST_APPEND(tail, info);
+         }
+ 
+-        if (!info->has_hardware_address) {
++        if (!info->hardware_address) {
+             /* we haven't obtained HW address yet */
+             sock = socket(PF_INET, SOCK_STREAM, 0);
+             if (sock == -1) {
+@@ -3196,8 +3187,6 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+                                     (int) mac_addr[0], (int) mac_addr[1],
+                                     (int) mac_addr[2], (int) mac_addr[3],
+                                     (int) mac_addr[4], (int) mac_addr[5]);
 -
--    info->has_host = true;
-     info->host = g_strdup(addr ? addr : "*");
+-                info->has_hardware_address = true;
+             }
+             close(sock);
+         }
+@@ -3258,14 +3247,12 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
  
--    info->has_compiled_version = true;
-     major = (SPICE_SERVER_VERSION & 0xff0000) >> 16;
-     minor = (SPICE_SERVER_VERSION & 0xff00) >> 8;
-     micro = SPICE_SERVER_VERSION & 0xff;
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 6a05d06147..e0f74cd5b3 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -244,7 +244,6 @@ static VncServerInfo *vnc_server_info_get(VncDisplay *vd)
-     info = g_malloc0(sizeof(*info));
-     vnc_init_basic_info_from_server_addr(vd->listener->sioc[0],
-                                          qapi_VncServerInfo_base(info), &err);
--    info->has_auth = true;
-     info->auth = g_strdup(vnc_auth_name(vd));
-     if (err) {
-         qapi_free_VncServerInfo(info);
-@@ -263,13 +262,10 @@ static void vnc_client_cache_auth(VncState *client)
-     if (client->tls) {
-         client->info->x509_dname =
-             qcrypto_tls_session_get_peer_name(client->tls);
--        client->info->has_x509_dname =
--            client->info->x509_dname != NULL;
-     }
- #ifdef CONFIG_VNC_SASL
-     if (client->sasl.conn &&
-         client->sasl.username) {
--        client->info->has_sasl_username = true;
-         client->info->sasl_username = g_strdup(client->sasl.username);
-     }
- #endif
-@@ -341,11 +337,9 @@ static VncClientInfo *qmp_query_vnc_client(const VncState *client)
+         info->has_ip_addresses = true;
  
-     if (client->tls) {
-         info->x509_dname = qcrypto_tls_session_get_peer_name(client->tls);
--        info->has_x509_dname = info->x509_dname != NULL;
+-        if (!info->has_statistics) {
++        if (!info->statistics) {
+             interface_stat = g_malloc0(sizeof(*interface_stat));
+             if (guest_get_network_stats(info->name, interface_stat) == -1) {
+-                info->has_statistics = false;
+                 g_free(interface_stat);
+             } else {
+                 info->statistics = interface_stat;
+-                info->has_statistics = true;
+             }
+         }
      }
- #ifdef CONFIG_VNC_SASL
-     if (client->sasl.conn && client->sasl.username) {
--        info->has_sasl_username = true;
-         info->sasl_username = g_strdup(client->sasl.username);
+@@ -3572,11 +3559,8 @@ GuestOSInfo *qmp_guest_get_osinfo(Error **errp)
+     if (uname(&kinfo) != 0) {
+         error_setg_errno(errp, errno, "uname failed");
+     } else {
+-        info->has_kernel_version = true;
+         info->kernel_version = g_strdup(kinfo.version);
+-        info->has_kernel_release = true;
+         info->kernel_release = g_strdup(kinfo.release);
+-        info->has_machine = true;
+         info->machine = g_strdup(kinfo.machine);
      }
+ 
+@@ -3596,7 +3580,6 @@ GuestOSInfo *qmp_guest_get_osinfo(Error **errp)
+     value = g_key_file_get_value(osrelease, "os-release", osfield, NULL); \
+     if (value != NULL) { \
+         ga_osrelease_replace_special(value); \
+-        info->has_ ## field = true; \
+         info->field = value; \
+     } \
+ } while (0)
+diff --git a/qga/commands.c b/qga/commands.c
+index 7ff551d092..360077364e 100644
+--- a/qga/commands.c
++++ b/qga/commands.c
+@@ -206,14 +206,12 @@ GuestExecStatus *qmp_guest_exec_status(int64_t pid, Error **errp)
+         }
  #endif
-@@ -426,11 +420,8 @@ VncInfo *qmp_query_vnc(Error **errp)
-             abort();
+         if (gei->out.length > 0) {
+-            ges->has_out_data = true;
+             ges->out_data = g_base64_encode(gei->out.data, gei->out.length);
+             g_free(gei->out.data);
+             ges->has_out_truncated = gei->out.truncated;
          }
  
--        info->has_host = true;
--        info->has_service = true;
-         info->has_family = true;
+         if (gei->err.length > 0) {
+-            ges->has_err_data = true;
+             ges->err_data = g_base64_encode(gei->err.data, gei->err.length);
+             g_free(gei->err.data);
+             ges->has_err_truncated = gei->err.truncated;
+@@ -385,7 +383,7 @@ close:
+ GuestExec *qmp_guest_exec(const char *path,
+                        bool has_arg, strList *arg,
+                        bool has_env, strList *env,
+-                       bool has_input_data, const char *input_data,
++                       const char *input_data,
+                        bool has_capture_output, bool capture_output,
+                        Error **errp)
+ {
+@@ -406,7 +404,7 @@ GuestExec *qmp_guest_exec(const char *path,
+     arglist.value = (char *)path;
+     arglist.next = has_arg ? arg : NULL;
  
--        info->has_auth = true;
-         info->auth = g_strdup(vnc_auth_name(vd));
+-    if (has_input_data) {
++    if (input_data) {
+         input = qbase64_decode(input_data, -1, &ninput, errp);
+         if (!input) {
+             return NULL;
+@@ -423,7 +421,7 @@ GuestExec *qmp_guest_exec(const char *path,
      }
  
-@@ -568,7 +559,6 @@ VncInfo2List *qmp_query_vnc_servers(Error **errp)
-         if (vd->dcl.con) {
-             dev = DEVICE(object_property_get_link(OBJECT(vd->dcl.con),
-                                                   "device", &error_abort));
--            info->has_display = true;
-             info->display = g_strdup(dev->id);
-         }
-         for (i = 0; vd->listener != NULL && i < vd->listener->nsioc; i++) {
+     ret = g_spawn_async_with_pipes(NULL, argv, envp, flags,
+-            guest_exec_task_setup, NULL, &pid, has_input_data ? &in_fd : NULL,
++            guest_exec_task_setup, NULL, &pid, input_data ? &in_fd : NULL,
+             has_output ? &out_fd : NULL, has_output ? &err_fd : NULL, &gerr);
+     if (!ret) {
+         error_setg(errp, QERR_QGA_COMMAND_FAILED, gerr->message);
+@@ -438,7 +436,7 @@ GuestExec *qmp_guest_exec(const char *path,
+     gei->has_output = has_output;
+     g_child_watch_add(pid, guest_exec_child_watch, gei);
+ 
+-    if (has_input_data) {
++    if (input_data) {
+         gei->in.data = g_steal_pointer(&input);
+         gei->in.size = ninput;
+ #ifdef G_OS_WIN32
+@@ -547,7 +545,6 @@ GuestTimezone *qmp_guest_get_timezone(Error **errp)
+     info->offset = g_time_zone_get_offset(tz, intv);
+     name = g_time_zone_get_abbreviation(tz, intv);
+     if (name != NULL) {
+-        info->has_zone = true;
+         info->zone = g_strdup(name);
+     }
+     g_time_zone_unref(tz);
 diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 7fb24c2e5b..b2df148e01 100644
+index b2df148e01..4594c69d0b 100644
 --- a/scripts/qapi/schema.py
 +++ b/scripts/qapi/schema.py
-@@ -759,7 +759,6 @@ def need_has(self):
+@@ -758,8 +758,7 @@ def __init__(self, name, info, typ, optional, ifcond=None, features=None):
+     def need_has(self):
          assert self.type
          # Temporary hack to support dropping the has_FOO in reviewable chunks
-         opt_out = [
--            'qapi/ui.json',
-             'qga/qapi-schema.json']
+-        opt_out = [
+-            'qga/qapi-schema.json']
++        opt_out = []
          if self.info and any(self.info.fname.endswith(mod)
                               for mod in opt_out):
+             return self.optional
 -- 
 2.37.2
 
