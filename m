@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F5C15B96F4
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 11:05:11 +0200 (CEST)
-Received: from localhost ([::1]:58878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 857B05B9731
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 11:14:31 +0200 (CEST)
+Received: from localhost ([::1]:40998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYko1-0003uN-Ub
-	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 05:05:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58266)
+	id 1oYkx4-0000by-3V
+	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 05:14:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYkBC-0000W3-0v
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:25:02 -0400
-Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:36574)
+ id 1oYkDQ-000241-UL
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:27:21 -0400
+Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b]:46694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYkBA-0008Vf-Br
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:25:01 -0400
-Received: by mail-io1-xd2b.google.com with SMTP id c4so14340440iof.3
- for <qemu-devel@nongnu.org>; Thu, 15 Sep 2022 01:24:59 -0700 (PDT)
+ id 1oYkDM-0001Hq-HJ
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:27:17 -0400
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-12b542cb1d3so36696365fac.13
+ for <qemu-devel@nongnu.org>; Thu, 15 Sep 2022 01:27:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=nbe1mRDXTyb91Z9WMBPYEo9+2BRHrH7iB8qIyaql75w=;
- b=AhFYzCjoACrZuykh3ilJoKWOdGus7bASt0sofaQ2HjNjQE/cFjaVPjuNXYHU+XQmzZ
- +j4LISUSRUCnBayms7rcltZU6qyThyFu0QDCbUYH07+ohEVD4SoAFF78Aj4RZGMLwxgb
- LxRSg5Sb3QGgVA8OtK/WoSi8ey4I9wfI7YCeKcj4KXY2ltpoAIpSzqIOIPZyOFKZ7guw
- eMDr+vkSeNfBLM6h6CuY6sjgBlGnWc9iNxucj5YhK+lMDaQUH9mzC4z0ISP40YJdcZtG
- V/SKb4Ab0oHzQVI7HU3rOqafmAdKTR+c/k6tLOLTwp8iXHEWYzCJMsyjKrh5CDEORDS7
- 3AWg==
+ bh=iwn75kkR5Nziv1IngcASB5KWhOwkli5F9Wy57aZL3U4=;
+ b=ZELFxZnW+cyf99ER3OPYAqraCMOxHjun/y1SZhsfzMjAQ7Wd4pxJtDohwFwn5UbpR6
+ 6dEWBxf6GjJf9cMJBpqP2Z12GYaLpaWAFObn1M0pvO2M/42l/NIsK5oI2ox88boOYVMJ
+ +YGcsbLmeN64cFf1B5ggX6x5OjT7Cu+fv62f8WYUd3LwPMY7SaXUTdApDgpTQVQoMyBP
+ SCuJzkoT/wI2gx1Gk2mk6oy4k315mxPcFUCCCFzcJaJqNd9/E+PHUeW0vNJVvG5URQyI
+ kb7Zu1gRZ3FH5n7iJjx8GzBBihxOD+j2eSOCAE1tWF625R5B2RcJHqFMxowFHFoDdKm1
+ PN1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=nbe1mRDXTyb91Z9WMBPYEo9+2BRHrH7iB8qIyaql75w=;
- b=2SUh8DKpnZ3lek7e7P3hVjypWCaQJdjCvza4HsE7eUIt19EKMnfdYFio5hP/nHqLxc
- jWRG80pu+8d+ty+F8zmdWdfwVphnhzcDs+Vd8OpybzsudmlV6av2wC7X+O5GOQJ2cF2x
- LmHpJqbbVE/ive3bc2n3B7eRw/JlrP3410BX7ywBL1au2cdOLGN6sgzro852vzjlDkwR
- qh3DWm8HEqwEO6wmYKR621mTewLzbe7LxxVZVIQrgHM3f+U2X15g1g7ZzYZ7AacO91vv
- 48Ybjy3we8sd8vI1Q2Axi+1GCm+Auq0yXqppRF1TXu0cvnQaxGSCs6Ry+Aa80QZ0EXxv
- ReIg==
-X-Gm-Message-State: ACgBeo14aoshR53j6bBTHkcxQSeuEt7uHBDE6eZWCtg1eM4Bhgxfcpuc
- bB2oddqE+1wVHOlXsaNVvLPOwQ==
-X-Google-Smtp-Source: AA6agR5zi0s/dc1aJfG+C5RyB+UgXGzJQuTWqOOFco1D6mMT4ZCwOXPkBbIiBtDxkL8ADnxXBy8w4Q==
-X-Received: by 2002:a05:6638:12c4:b0:35a:4c21:f675 with SMTP id
- v4-20020a05663812c400b0035a4c21f675mr7471527jas.143.1663230299235; 
- Thu, 15 Sep 2022 01:24:59 -0700 (PDT)
+ bh=iwn75kkR5Nziv1IngcASB5KWhOwkli5F9Wy57aZL3U4=;
+ b=MCEJfz46eokZS3rICjYbcrTrMIy0hV5LNn3VaP6OideOd10zN/WGE6dCOGj5x6Jbun
+ AErEGQpsnjzsa4Rw6U7tesmWzsdAaIp61ysClhaj2zNRJIioe/Ojbt6O/yhaGPsVEgab
+ dB0ZksXhjbbrycRXMubL8Pn/vAuxIzVMMmPHjL2QbJcmX3gwjOyl437SRGVyESsrbejo
+ t0jujH/74VTIzPBxA4d1MjjpR6lOD62Ylu2AbXyzPMHNSaYGKjxj/wtDv9pQvZaWrpyP
+ lKfYCHs9IKWuuEhWbGkS+D0cQn7lCYKCQmF4eRnGGq4531sFPJMRnZRsEXI4o/V9zyEy
+ sThQ==
+X-Gm-Message-State: ACgBeo1Gj18YQW7TzU0Ctwk+kDPqao81xIw4PaAQOyL+milevNuNRn9Q
+ zxUXP5BbI9lY1Ou9SRm/OCHMsw==
+X-Google-Smtp-Source: AA6agR5/C1oiABehZch0Ham11s4ZuITAOxI/oUiU8R1F96TuMGQ/0nXPjij+A6+6LKoCiqTP+0BzHQ==
+X-Received: by 2002:a05:6870:c0ca:b0:127:ab1c:6d18 with SMTP id
+ e10-20020a056870c0ca00b00127ab1c6d18mr4972263oad.236.1663230434941; 
+ Thu, 15 Sep 2022 01:27:14 -0700 (PDT)
 Received: from ?IPV6:2605:ef80:80c3:3064:7ddf:d6a7:e3e2:a0bf?
  ([2605:ef80:80c3:3064:7ddf:d6a7:e3e2:a0bf])
  by smtp.gmail.com with ESMTPSA id
- c66-20020a029648000000b0034cd02c75dcsm830888jai.65.2022.09.15.01.24.54
+ a23-20020a9d4717000000b006389650374dsm8347503otf.54.2022.09.15.01.27.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Sep 2022 01:24:58 -0700 (PDT)
-Message-ID: <4bb96a86-b654-5ea2-25e2-6dc9237e41de@linaro.org>
-Date: Thu, 15 Sep 2022 09:24:51 +0100
+ Thu, 15 Sep 2022 01:27:14 -0700 (PDT)
+Message-ID: <44fde077-ce8c-ca48-8b97-83094f8ab3c0@linaro.org>
+Date: Thu, 15 Sep 2022 09:27:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 07/30] tests/avocado: reduce the default timeout to 120s
+Subject: Re: [PATCH v2 18/30] configure: explicitly set cflags for
+ --disable-pie
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
  aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
+ crosa@redhat.com
 References: <20220914155950.804707-1-alex.bennee@linaro.org>
- <20220914155950.804707-8-alex.bennee@linaro.org>
+ <20220914155950.804707-19-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220914155950.804707-8-alex.bennee@linaro.org>
+In-Reply-To: <20220914155950.804707-19-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
- envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd2b.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2b.google.com
 X-Spam_score_int: -36
 X-Spam_score: -3.7
 X-Spam_bar: ---
@@ -100,17 +101,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/14/22 16:59, Alex Bennée wrote:
-> We should be aiming to keep our tests under 2 minutes so lets reduce
-> the default timeout to that. Tests that we know take longer should
-> explicitly set a longer timeout.
+> This is working around current limitation of Meson's handling of
+> --disable-pie.
 > 
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> Message-Id:<20220826172128.353798-3-alex.bennee@linaro.org>
+> Cc: Paolo Bonzini<pbonzini@redhat.com>
 > ---
->   tests/avocado/avocado_qemu/__init__.py | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   configure | 6 ++++++
+>   1 file changed, 6 insertions(+)
+
+Ah, yes, thanks.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
