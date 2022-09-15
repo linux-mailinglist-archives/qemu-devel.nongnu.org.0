@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E2615B96B7
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 10:56:17 +0200 (CEST)
-Received: from localhost ([::1]:50392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F5C15B96F4
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 11:05:11 +0200 (CEST)
+Received: from localhost ([::1]:58878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYkfQ-0006lB-Jr
-	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 04:56:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44022)
+	id 1oYko1-0003uN-Ub
+	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 05:05:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYkAo-00008t-KM
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:24:38 -0400
-Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f]:47041)
+ id 1oYkBC-0000W3-0v
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:25:02 -0400
+Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:36574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYkAm-0008U7-6l
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:24:37 -0400
-Received: by mail-il1-x12f.google.com with SMTP id l6so9287653ilk.13
- for <qemu-devel@nongnu.org>; Thu, 15 Sep 2022 01:24:35 -0700 (PDT)
+ id 1oYkBA-0008Vf-Br
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:25:01 -0400
+Received: by mail-io1-xd2b.google.com with SMTP id c4so14340440iof.3
+ for <qemu-devel@nongnu.org>; Thu, 15 Sep 2022 01:24:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=iW/1f8u+b5vzuIrtpaS2+Hra3wMyy72GLArGGQzM6A8=;
- b=elICd5A3LtD8GopOCvVEljg4pmss9yvYe5OhGsjV5p0475hA4mLtT9j+TzbYcL8VWw
- TIJZ4WmKbjLCXLbpLmvM32cmst5qCjxPD9YiEKijLaDZeGeC7swlQ0Qpve8YsUM4+GzI
- eJ0dBhdJ4i6eT+f0iXqurbBy4glg467tos+9jcTkeHOiKbzMi954Wd4/USq14T07glDy
- xpcGZg1/RYeWEHy3yDC4prpJO8btnXT03hysgZ3hR1WUNyrp/ky3uzAz/y+KO310Hn5m
- RiIe6Mxm9Q5J6yr+xzlOeN096zvKQxlk3qosDd9G7/YbzzG/H7wSvro/9z3FThxAhB27
- Xwwg==
+ bh=nbe1mRDXTyb91Z9WMBPYEo9+2BRHrH7iB8qIyaql75w=;
+ b=AhFYzCjoACrZuykh3ilJoKWOdGus7bASt0sofaQ2HjNjQE/cFjaVPjuNXYHU+XQmzZ
+ +j4LISUSRUCnBayms7rcltZU6qyThyFu0QDCbUYH07+ohEVD4SoAFF78Aj4RZGMLwxgb
+ LxRSg5Sb3QGgVA8OtK/WoSi8ey4I9wfI7YCeKcj4KXY2ltpoAIpSzqIOIPZyOFKZ7guw
+ eMDr+vkSeNfBLM6h6CuY6sjgBlGnWc9iNxucj5YhK+lMDaQUH9mzC4z0ISP40YJdcZtG
+ V/SKb4Ab0oHzQVI7HU3rOqafmAdKTR+c/k6tLOLTwp8iXHEWYzCJMsyjKrh5CDEORDS7
+ 3AWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=iW/1f8u+b5vzuIrtpaS2+Hra3wMyy72GLArGGQzM6A8=;
- b=qhJGDheCiWj2jGRP9okA32E6HRymc7csQMoz/MoF+ULSnmCbhMWd5hsP+Cj1J3mLef
- unyXM0CSyBUstCOi1ZPw7lFvAI9BmOXfDqfrXmCMmvpRKaKQKv0FuZfV1PIKjMXzJqlt
- DEsvm2TtFNN6TQ8X5KXma9p4SzpR2EJXNuTqrljFLOBIE/jxf5DrY5B6UMerdStIpz4h
- fJjKaqZyHfizVDgspaY74dFxN0v+BdBzRPmF+keZZaPAxJw+HXTV1w+a1dQlOfKFM9fa
- BSyEbYAUV1VrUkj+AzaghHbQ6XMetODagJ/r5dScx8fZvDyoE7Ql9nwCQILSZXgIMQkq
- 9ZXw==
-X-Gm-Message-State: ACgBeo2r2V4R0hq928l9czwZZitYltpmo2MeVPlGvlcI2H1M1Rf6ULw9
- Y9sXgq8+YcikCyNA04gDJ3bAZA==
-X-Google-Smtp-Source: AA6agR5/6rZV0Vwn5NOboZw/R8crnldkbxdft42ZCjW58XZ+SdO4B7nXcBAG5gx6dQaJyFi+w28mBw==
-X-Received: by 2002:a05:6e02:158a:b0:2d3:f198:9f39 with SMTP id
- m10-20020a056e02158a00b002d3f1989f39mr17336397ilu.206.1663230274997; 
- Thu, 15 Sep 2022 01:24:34 -0700 (PDT)
+ bh=nbe1mRDXTyb91Z9WMBPYEo9+2BRHrH7iB8qIyaql75w=;
+ b=2SUh8DKpnZ3lek7e7P3hVjypWCaQJdjCvza4HsE7eUIt19EKMnfdYFio5hP/nHqLxc
+ jWRG80pu+8d+ty+F8zmdWdfwVphnhzcDs+Vd8OpybzsudmlV6av2wC7X+O5GOQJ2cF2x
+ LmHpJqbbVE/ive3bc2n3B7eRw/JlrP3410BX7ywBL1au2cdOLGN6sgzro852vzjlDkwR
+ qh3DWm8HEqwEO6wmYKR621mTewLzbe7LxxVZVIQrgHM3f+U2X15g1g7ZzYZ7AacO91vv
+ 48Ybjy3we8sd8vI1Q2Axi+1GCm+Auq0yXqppRF1TXu0cvnQaxGSCs6Ry+Aa80QZ0EXxv
+ ReIg==
+X-Gm-Message-State: ACgBeo14aoshR53j6bBTHkcxQSeuEt7uHBDE6eZWCtg1eM4Bhgxfcpuc
+ bB2oddqE+1wVHOlXsaNVvLPOwQ==
+X-Google-Smtp-Source: AA6agR5zi0s/dc1aJfG+C5RyB+UgXGzJQuTWqOOFco1D6mMT4ZCwOXPkBbIiBtDxkL8ADnxXBy8w4Q==
+X-Received: by 2002:a05:6638:12c4:b0:35a:4c21:f675 with SMTP id
+ v4-20020a05663812c400b0035a4c21f675mr7471527jas.143.1663230299235; 
+ Thu, 15 Sep 2022 01:24:59 -0700 (PDT)
 Received: from ?IPV6:2605:ef80:80c3:3064:7ddf:d6a7:e3e2:a0bf?
  ([2605:ef80:80c3:3064:7ddf:d6a7:e3e2:a0bf])
  by smtp.gmail.com with ESMTPSA id
- z12-20020a056638214c00b00356726330a4sm795509jaj.154.2022.09.15.01.24.29
+ c66-20020a029648000000b0034cd02c75dcsm830888jai.65.2022.09.15.01.24.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Sep 2022 01:24:34 -0700 (PDT)
-Message-ID: <ab98f1e9-8d21-d0df-a7ef-9f562f89ff97@linaro.org>
-Date: Thu, 15 Sep 2022 09:24:26 +0100
+ Thu, 15 Sep 2022 01:24:58 -0700 (PDT)
+Message-ID: <4bb96a86-b654-5ea2-25e2-6dc9237e41de@linaro.org>
+Date: Thu, 15 Sep 2022 09:24:51 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 06/30] tests/avocado: split the AST2x00Machine classes
+Subject: Re: [PATCH v2 07/30] tests/avocado: reduce the default timeout to 120s
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
  aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ crosa@redhat.com, Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
 References: <20220914155950.804707-1-alex.bennee@linaro.org>
- <20220914155950.804707-7-alex.bennee@linaro.org>
+ <20220914155950.804707-8-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220914155950.804707-7-alex.bennee@linaro.org>
+In-Reply-To: <20220914155950.804707-8-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12f;
- envelope-from=richard.henderson@linaro.org; helo=mail-il1-x12f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd2b.google.com
 X-Spam_score_int: -36
 X-Spam_score: -3.7
 X-Spam_bar: ---
@@ -101,84 +100,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/14/22 16:59, Alex Bennée wrote:
-> The SDK tests take a lot longer to run and hence need a longer
-> timeout. As they run well over the 60 second maximum for CI lets also
-> disable them for CI as well.
+> We should be aiming to keep our tests under 2 minutes so lets reduce
+> the default timeout to that. Tests that we know take longer should
+> explicitly set a longer timeout.
 > 
-> I suspect they also suffer from the inability to detect the login
-> prompt due to no newlines being processed.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Message-Id: <20220826172128.353798-2-alex.bennee@linaro.org>
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> Message-Id:<20220826172128.353798-3-alex.bennee@linaro.org>
 > ---
->   tests/avocado/machine_aspeed.py | 18 ++++++++++++++++++
->   1 file changed, 18 insertions(+)
-> 
-> diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
-> index 65d38f4efa..0f64eb636c 100644
-> --- a/tests/avocado/machine_aspeed.py
-> +++ b/tests/avocado/machine_aspeed.py
-> @@ -6,12 +6,14 @@
->   # later.  See the COPYING file in the top-level directory.
->   
->   import time
-> +import os
->   
->   from avocado_qemu import QemuSystemTest
->   from avocado_qemu import wait_for_console_pattern
->   from avocado_qemu import exec_command
->   from avocado_qemu import exec_command_and_wait_for_pattern
->   from avocado.utils import archive
-> +from avocado import skipIf
->   
->   
->   class AST1030Machine(QemuSystemTest):
-> @@ -176,6 +178,20 @@ def test_arm_ast2600_evb_builroot(self):
->           self.do_test_arm_aspeed_buidroot_poweroff()
->   
->   
-> +class AST2x00MachineSDK(QemuSystemTest):
-> +
-> +    # FIXME: Although these tests boot a whole distro they are still
-> +    # slower than comparable machine models. There may be some
-> +    # optimisations which bring down the runtime. In the meantime they
-> +    # have generous timeouts and are disable for CI which aims for all
-> +    # tests to run in less than 60 seconds.
-> +    timeout = 240
-> +
-> +    def wait_for_console_pattern(self, success_message, vm=None):
-> +        wait_for_console_pattern(self, success_message,
-> +                                 failure_message='Kernel panic - not syncing',
-> +                                 vm=vm)
+>   tests/avocado/avocado_qemu/__init__.py | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-Accidental patch squash?
-
-But for the timeout+skipif part,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-
 r~
-
-> +
->       def do_test_arm_aspeed_sdk_start(self, image, cpu_id):
->           self.vm.set_console()
->           self.vm.add_args('-drive', 'file=' + image + ',if=mtd,format=raw',
-> @@ -187,6 +203,7 @@ def do_test_arm_aspeed_sdk_start(self, image, cpu_id):
->           self.wait_for_console_pattern('Starting kernel ...')
->           self.wait_for_console_pattern('Booting Linux on physical CPU ' + cpu_id)
->   
-> +    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
->       def test_arm_ast2500_evb_sdk(self):
->           """
->           :avocado: tags=arch:arm
-> @@ -204,6 +221,7 @@ def test_arm_ast2500_evb_sdk(self):
->               self.workdir + '/ast2500-default/image-bmc', '0x0')
->           self.wait_for_console_pattern('ast2500-default login:')
->   
-> +    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
->       def test_arm_ast2600_evb_sdk(self):
->           """
->           :avocado: tags=arch:arm
-
 
