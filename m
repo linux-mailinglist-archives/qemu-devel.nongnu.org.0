@@ -2,71 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB375B965C
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 10:29:58 +0200 (CEST)
-Received: from localhost ([::1]:58222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F9535B9653
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 10:26:07 +0200 (CEST)
+Received: from localhost ([::1]:35538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYkFx-0003Bq-MH
-	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 04:29:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46020)
+	id 1oYkCD-0000c6-MZ
+	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 04:26:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1oYjsO-0008FE-8z
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:05:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42287)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1oYjsL-0002SF-0T
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:05:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663229130;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/R1hF4176GC+dGSt3uqWi4HR9wGQeQV5MLxg7jwnUGY=;
- b=BEafRTPf2xEhJBtck20/Q8uiE1qzl6JQtjyXPfTaumWj+OiE5eEDEKhV53ceqjI0Htf4X4
- bZ7Mv7NFfvJtDuTQp7i5Ij8BSl6uRHPQW6FROeQcoEp4KT3T0P2jVBMH+d3m5Tap7wJFBb
- DlpdzrL40kyGmOI88fSsAkTBQS1lQV4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-639-OIen9jc9Ngq5bkZ3VwCJ_g-1; Thu, 15 Sep 2022 04:05:27 -0400
-X-MC-Unique: OIen9jc9Ngq5bkZ3VwCJ_g-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E183E1C05AAE;
- Thu, 15 Sep 2022 08:05:23 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.166])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4D1E3492CA4;
- Thu, 15 Sep 2022 08:05:22 +0000 (UTC)
-Date: Thu, 15 Sep 2022 09:05:20 +0100
-From: Eric Blake <eblake@redhat.com>
-To: Sam Li <faithilikerun@gmail.com>
-Cc: qemu-devel@nongnu.org, dmitry.fomichev@wdc.com,
- Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- damien.lemoal@opensource.wdc.com, hare@suse.de,
- Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v9 1/7] include: add zoned device structs
-Message-ID: <20220915080447.nti5wdhwgwtwv4ft@redhat.com>
-References: <20220910052759.27517-1-faithilikerun@gmail.com>
- <20220910052759.27517-2-faithilikerun@gmail.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oYk2h-0004q9-0X
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:16:17 -0400
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:41495)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oYk2d-0007Dx-Q8
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:16:13 -0400
+Received: by mail-io1-xd32.google.com with SMTP id r134so14300667iod.8
+ for <qemu-devel@nongnu.org>; Thu, 15 Sep 2022 01:16:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=et4yR2vZNnpuyu+Y+VxJoidQ9mI5mEVRdeAglxprfiM=;
+ b=Xk9Aj5GSSHIAP9NBREZJdHwz7KUA8S3zYS4i7wuU4ym6blCi7BzBQMkzQ+oWdK3VJe
+ EmPvViaxB7jNJO4SwUfE6KE+jjiAQxj4FaxZ9tXO4S1FGmUepPg2+CMVPPNxKnIWPSq6
+ FOregoSD6xvBIxhG6wKcURjsMWAE4kWr35biouSFwCUQRPurGLqmMvPUcEuroo58LHsn
+ bKye0qnY17WXBdZIIBCBHIQ0SxCVDglcEI7AcbsvpY/TaV8wMrAxQYcgaYHNDxE2aFaF
+ bmFTIGDTh8KIQv1VZFuzi5+OMcO2sOwC24EfJRlPmlQs+Ur+Zm/vUeCAFDbkj9vyALxj
+ XrXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=et4yR2vZNnpuyu+Y+VxJoidQ9mI5mEVRdeAglxprfiM=;
+ b=aQok7czuMgY4kSrtj87HQPc8z/wTtv3YVdkJ4nu2Bthr3s4fqqQeQFqaMdQPeqczWe
+ t/SVAE6GV1MOgLMdhM1Ly+CK8KhB2l1urbpl/CH0IB0FM0oke/h/+YqZxig9dkktWolc
+ o3nWuCWpqv8bIiP34WjCPzPQdMRoJDzjfuCJL5sT2tf4qP5z1yMb77bhKl7E2DUcQErS
+ TKtplqtopSTLV4Ma3WO/NyskOWIxhVVa3x2idSVNpvLoVHVS18lCxJ28m6vJrwAIG5QH
+ mCKYLd6hyoaf+iHLpujLUHmFJs8yuYa/3jg0BSBfthzxujFxleXLg8c7UMADkjFpw5bc
+ Y1IQ==
+X-Gm-Message-State: ACgBeo3enxAORqIpjxBv63xty+WBmtaCgz6ppqAwj7KdSu1bYAbbZvZG
+ qMSjps4cMiJLkPWMdXUr/I9prA==
+X-Google-Smtp-Source: AA6agR5A4np2AhL3jI+J8X1NSSUMOV3qoYQsWUN8PAztLOB2yYqtNLS5pRU50hl+Czugx91L4IR/MQ==
+X-Received: by 2002:a02:620c:0:b0:343:5e87:1bae with SMTP id
+ d12-20020a02620c000000b003435e871baemr21010772jac.100.1663229770275; 
+ Thu, 15 Sep 2022 01:16:10 -0700 (PDT)
+Received: from ?IPV6:2605:ef80:80c3:3064:7ddf:d6a7:e3e2:a0bf?
+ ([2605:ef80:80c3:3064:7ddf:d6a7:e3e2:a0bf])
+ by smtp.gmail.com with ESMTPSA id
+ t70-20020a025449000000b00349fb9b1abesm813036jaa.106.2022.09.15.01.16.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Sep 2022 01:16:09 -0700 (PDT)
+Message-ID: <c6d2e06f-75b8-0ba2-5e0d-51603873e40c@linaro.org>
+Date: Thu, 15 Sep 2022 09:08:22 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220910052759.27517-2-faithilikerun@gmail.com>
-User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [RFC PATCH 2/4] qtest: make read/write operation appear to be
+ from CPU
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20220914160955.812151-1-alex.bennee@linaro.org>
+ <20220914160955.812151-3-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220914160955.812151-3-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd32.google.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.583,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,82 +98,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Sep 10, 2022 at 01:27:53PM +0800, Sam Li wrote:
-> Signed-off-by: Sam Li <faithilikerun@gmail.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+On 9/14/22 17:09, Alex Bennée wrote:
+> The point of qtest is to simulate how running code might interact with
+> the system. However because it's not a real system we have places in
+> the code which especially handle check qtest_enabled() before
+> referencing current_cpu. Now we can encode these details in the
+> MemTxAttrs lets do that so we can start removing them.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  include/block/block-common.h | 43 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 43 insertions(+)
+>   softmmu/qtest.c | 31 +++++++++++++++++++------------
+>   1 file changed, 19 insertions(+), 12 deletions(-)
 > 
-> diff --git a/include/block/block-common.h b/include/block/block-common.h
-> index fdb7306e78..36bd0e480e 100644
-> --- a/include/block/block-common.h
-> +++ b/include/block/block-common.h
-> @@ -49,6 +49,49 @@ typedef struct BlockDriver BlockDriver;
->  typedef struct BdrvChild BdrvChild;
->  typedef struct BdrvChildClass BdrvChildClass;
->  
-> +typedef enum BlockZoneOp {
-> +    BLK_ZO_OPEN,
-> +    BLK_ZO_CLOSE,
-> +    BLK_ZO_FINISH,
-> +    BLK_ZO_RESET,
-> +} BlockZoneOp;
-> +
-> +typedef enum BlockZoneModel {
-> +    BLK_Z_NONE = 0x0, /* Regular block device */
-> +    BLK_Z_HM = 0x1, /* Host-managed zoned block device */
-> +    BLK_Z_HA = 0x2, /* Host-aware zoned block device */
-> +} BlockZoneModel;
-> +
-> +typedef enum BlockZoneCondition {
-> +    BLK_ZS_NOT_WP = 0x0,
-> +    BLK_ZS_EMPTY = 0x1,
-> +    BLK_ZS_IOPEN = 0x2,
-> +    BLK_ZS_EOPEN = 0x3,
-> +    BLK_ZS_CLOSED = 0x4,
-> +    BLK_ZS_RDONLY = 0xD,
-> +    BLK_ZS_FULL = 0xE,
-> +    BLK_ZS_OFFLINE = 0xF,
-> +} BlockZoneCondition;
-> +
-> +typedef enum BlockZoneType {
-> +    BLK_ZT_CONV = 0x1, /* Conventional random writes supported */
-> +    BLK_ZT_SWR = 0x2, /* Sequential writes required */
-> +    BLK_ZT_SWP = 0x3, /* Sequential writes preferred */
-> +} BlockZoneType;
-> +
+> diff --git a/softmmu/qtest.c b/softmmu/qtest.c
+> index f8acef2628..c086bd34b7 100644
+> --- a/softmmu/qtest.c
+> +++ b/softmmu/qtest.c
+> @@ -362,6 +362,13 @@ static void qtest_clock_warp(int64_t dest)
+>       qemu_clock_notify(QEMU_CLOCK_VIRTUAL);
+>   }
+>   
 > +/*
-> + * Zone descriptor data structure.
-> + * Provides information on a zone with all position and size values in bytes.
-
-I'm glad that you chose bytes here for use in qemu.  But since the
-kernel struct blk_zone uses sectors instead of bytes, is it worth
-adding a sentence that we intentionally use bytes here, different from
-Linux, to make it easier for reviewers to realize that scaling when
-translating between qemu and kernel is necessary?
-
+> + * QTest memory accesses are treated as though they come from the
+> + * first (non-existent) CPU. We need to expose this via MemTxAttrs for
+> + * those bits of HW which care which core is accessing them.
 > + */
-> +typedef struct BlockZoneDescriptor {
-> +    uint64_t start;
-> +    uint64_t length;
-> +    uint64_t cap;
-> +    uint64_t wp;
-> +    BlockZoneType type;
-> +    BlockZoneCondition cond;
-> +} BlockZoneDescriptor;
-> +
->  typedef struct BlockDriverInfo {
->      /* in bytes, 0 if irrelevant */
->      int cluster_size;
-> -- 
-> 2.37.3
-> 
+> +#define MEMTXATTRS_QTEST ((MemTxAttrs) { .requester_cpu = 1 })
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+Maybe clearer as { .requester_cpu = true, .requester_id = 0 }?
+Otherwise it kinda looks like we're setting the second cpu (index 1).
 
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
