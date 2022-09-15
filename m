@@ -2,64 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A24B45B9888
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 12:10:27 +0200 (CEST)
-Received: from localhost ([::1]:38736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC9FE5B988B
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 12:11:15 +0200 (CEST)
+Received: from localhost ([::1]:40314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYlpB-00040K-Un
-	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 06:10:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59912)
+	id 1oYlpy-0004kY-QW
+	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 06:11:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1oYl4M-0005t1-7V
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 05:22:07 -0400
-Received: from mga18.intel.com ([134.134.136.126]:26535)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1oYl4K-00042T-0H
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 05:22:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663233719; x=1694769719;
- h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=SdILAL/8zd47QyTOHpuXlA7fPczAgfIob64wgJeBSnA=;
- b=b8Pc5n8R9oFbgXoJDIUBIosZDl5LGiV5DjyPdmNbAXz/nZfrpb58V0hh
- Dl5DruoeZnAIwVFXqypyq3lhmJ+9A3VrDeyeae8vzZqyZZQb19y/h6pYn
- KEkHBUhoFkvcA+0DfwpQ1aBjetLqhPsElxiIv84IHT34UYyCxfoExt3av
- JWYLvv30v5Pk59N6BL0qa6a30QpMRha+swIRyfRlgzIWhV/XtsAKhtnZN
- uElqZ+Cfb82kkCNetvSHd+T7l6TtuK8lqx1MQQXhmclx2XeQ5hdd/A+LE
- Fe8RXrFiLmdNjmPISm+x3QnVQ/rRaEb7xPZDQcSFF/kK8+hYPyFXKGGlc g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10470"; a="281694395"
-X-IronPort-AV: E=Sophos;i="5.93,317,1654585200"; d="scan'208";a="281694395"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2022 02:21:59 -0700
-X-IronPort-AV: E=Sophos;i="5.93,317,1654585200"; d="scan'208";a="759563776"
-Received: from chenyi-pc.sh.intel.com ([10.239.159.73])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2022 02:21:57 -0700
-From: Chenyi Qiang <chenyi.qiang@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>,
- Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: Chenyi Qiang <chenyi.qiang@intel.com>, qemu-devel@nongnu.org,
- kvm@vger.kernel.org
-Subject: [PATCH v6 2/2] i386: Add notify VM exit support
-Date: Thu, 15 Sep 2022 17:28:39 +0800
-Message-Id: <20220915092839.5518-3-chenyi.qiang@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220915092839.5518-1-chenyi.qiang@intel.com>
-References: <20220915092839.5518-1-chenyi.qiang@intel.com>
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=chenyi.qiang@intel.com; helo=mga18.intel.com
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oYllO-0000af-5B; Thu, 15 Sep 2022 06:06:30 -0400
+Received: from mail-vk1-xa2d.google.com ([2607:f8b0:4864:20::a2d]:44830)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oYllM-0001ew-BJ; Thu, 15 Sep 2022 06:06:29 -0400
+Received: by mail-vk1-xa2d.google.com with SMTP id s12so2102996vkn.11;
+ Thu, 15 Sep 2022 03:06:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=Hy3NxFpzcShYaewzsiWWH2YXi7bJ4X1l7RDBzrPiHv8=;
+ b=PevTZyabkQ4lUu46hvXTsdAJ42Bxj13uUFNAK7L5pIFJginEQ3q/i9KHreQcue2zRR
+ pX6gi4C8kRRA08DJO3tXfUCbUWLzL0hck+hVeE+JoFMaBo3sPB/a3BQR9ol0sm8FO2Tx
+ yXTfmb2mz8AdxkQl9J2+G3M1CejyiktrD9jyXRg+xVJbFkZ7yq/WaqEKHfQ8XWBqbZsd
+ 4XpVTuaug167Jq3dzKZ14r/bAT320oJ6mYwFC+K+9iC+xIe0PB2TR7Oe/F1+j7OUF28l
+ aBGjrzkgueGClACfD/pEDeqTN8FhRI0duX6fLusQ8Jqgs9bOyMymzg6Wi4ZIaIGQ5O7M
+ rVUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=Hy3NxFpzcShYaewzsiWWH2YXi7bJ4X1l7RDBzrPiHv8=;
+ b=2hmUNrFA7FDtD26tBCRriA35qqFZ9p5eQwXmwvNqXhE4y2CVBXytJyYyihMddXOKi9
+ bmjGKVvpXw9a/FoMF1W8zYiMhqthJHdCNjXLj8FizDZGiXeF2J815eTxVY8+UVgqS/3q
+ hk//7bNhc1fKbrcsyDGaFjnNMKoACQRJ1Xx1YHvEJsb4c30FkCgnQTfpPVQmiiuk6ZNT
+ dw1cLEStZw5sPgkzIOfxX6JTc3K5vnOQmxOe0ldy4cNe9WBBbvE+7kW99b60FhYAZ++G
+ 7H1GdEz9T200f5GX4/JgoI0dZ4w4QSZmbTqDBL+gAn5A1YuYRemZUkvZdUkJtEwSHw5t
+ lPeQ==
+X-Gm-Message-State: ACrzQf0v5kXvtuzj9wuoYmjHMqlxzyLXDUkMxrfZ8043eLRvKcl/1BqK
+ /ptkBCGIGDWgi2PwwNZaa43Xlr498TpwcWhUiH4=
+X-Google-Smtp-Source: AMsMyM7sa6GGKR5lwUQ11IFUwpJW2r4+ea4xex6PM3JMZhcauKbZFwlP6ZgMkH/H/i9WecOR5uqa+iiuF8y8r7Qe6sQ=
+X-Received: by 2002:a1f:e0c5:0:b0:3a2:f287:87e2 with SMTP id
+ x188-20020a1fe0c5000000b003a2f28787e2mr227276vkg.38.1663236386480; Thu, 15
+ Sep 2022 03:06:26 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220910052759.27517-1-faithilikerun@gmail.com>
+ <20220910052759.27517-2-faithilikerun@gmail.com>
+ <20220915080447.nti5wdhwgwtwv4ft@redhat.com>
+In-Reply-To: <20220915080447.nti5wdhwgwtwv4ft@redhat.com>
+From: Sam Li <faithilikerun@gmail.com>
+Date: Thu, 15 Sep 2022 18:06:38 +0800
+Message-ID: <CAAAx-8KFxizaM7o82S_Zza6QjHB-mFf7hB_B-UbZ2E1Uq-sd7g@mail.gmail.com>
+Subject: Re: [PATCH v9 1/7] include: add zoned device structs
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>, 
+ Markus Armbruster <armbru@redhat.com>, qemu block <qemu-block@nongnu.org>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Fam Zheng <fam@euphon.net>, 
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Hannes Reinecke <hare@suse.de>, Hanna Reitz <hreitz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2d;
+ envelope-from=faithilikerun@gmail.com; helo=mail-vk1-xa2d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,224 +90,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are cases that malicious virtual machine can cause CPU stuck (due
-to event windows don't open up), e.g., infinite loop in microcode when
-nested #AC (CVE-2015-5307). No event window means no event (NMI, SMI and
-IRQ) can be delivered. It leads the CPU to be unavailable to host or
-other VMs. Notify VM exit is introduced to mitigate such kind of
-attacks, which will generate a VM exit if no event window occurs in VM
-non-root mode for a specified amount of time (notify window).
+Eric Blake <eblake@redhat.com> =E4=BA=8E2022=E5=B9=B49=E6=9C=8815=E6=97=A5=
+=E5=91=A8=E5=9B=9B 16:05=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Sat, Sep 10, 2022 at 01:27:53PM +0800, Sam Li wrote:
+> > Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+> > ---
+> >  include/block/block-common.h | 43 ++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 43 insertions(+)
+> >
+> > diff --git a/include/block/block-common.h b/include/block/block-common.=
+h
+> > index fdb7306e78..36bd0e480e 100644
+> > --- a/include/block/block-common.h
+> > +++ b/include/block/block-common.h
+> > @@ -49,6 +49,49 @@ typedef struct BlockDriver BlockDriver;
+> >  typedef struct BdrvChild BdrvChild;
+> >  typedef struct BdrvChildClass BdrvChildClass;
+> >
+> > +typedef enum BlockZoneOp {
+> > +    BLK_ZO_OPEN,
+> > +    BLK_ZO_CLOSE,
+> > +    BLK_ZO_FINISH,
+> > +    BLK_ZO_RESET,
+> > +} BlockZoneOp;
+> > +
+> > +typedef enum BlockZoneModel {
+> > +    BLK_Z_NONE =3D 0x0, /* Regular block device */
+> > +    BLK_Z_HM =3D 0x1, /* Host-managed zoned block device */
+> > +    BLK_Z_HA =3D 0x2, /* Host-aware zoned block device */
+> > +} BlockZoneModel;
+> > +
+> > +typedef enum BlockZoneCondition {
+> > +    BLK_ZS_NOT_WP =3D 0x0,
+> > +    BLK_ZS_EMPTY =3D 0x1,
+> > +    BLK_ZS_IOPEN =3D 0x2,
+> > +    BLK_ZS_EOPEN =3D 0x3,
+> > +    BLK_ZS_CLOSED =3D 0x4,
+> > +    BLK_ZS_RDONLY =3D 0xD,
+> > +    BLK_ZS_FULL =3D 0xE,
+> > +    BLK_ZS_OFFLINE =3D 0xF,
+> > +} BlockZoneCondition;
+> > +
+> > +typedef enum BlockZoneType {
+> > +    BLK_ZT_CONV =3D 0x1, /* Conventional random writes supported */
+> > +    BLK_ZT_SWR =3D 0x2, /* Sequential writes required */
+> > +    BLK_ZT_SWP =3D 0x3, /* Sequential writes preferred */
+> > +} BlockZoneType;
+> > +
+> > +/*
+> > + * Zone descriptor data structure.
+> > + * Provides information on a zone with all position and size values in=
+ bytes.
+>
+> I'm glad that you chose bytes here for use in qemu.  But since the
+> kernel struct blk_zone uses sectors instead of bytes, is it worth
+> adding a sentence that we intentionally use bytes here, different from
+> Linux, to make it easier for reviewers to realize that scaling when
+> translating between qemu and kernel is necessary?
 
-A new KVM capability KVM_CAP_X86_NOTIFY_VMEXIT is exposed to user space
-so that the user can query the capability and set the expected notify
-window when creating VMs. The format of the argument when enabling this
-capability is as follows:
-  Bit 63:32 - notify window specified in qemu command
-  Bit 31:0  - some flags (e.g. KVM_X86_NOTIFY_VMEXIT_ENABLED is set to
-              enable the feature.)
+Sorry about the unit mistake. The zone information is in sectors which
+is the same as kernel struct blk_zone. I think adding a sentence to
+inform the sector unit makes it clear what the zone descriptor is.
 
-Because there are some concerns, e.g. a notify VM exit may happen with
-VM_CONTEXT_INVALID set in exit qualification (no cases are anticipated
-that would set this bit), which means VM context is corrupted. To avoid
-the false positive and a well-behaved guest gets killed, make this
-feature disabled by default. Users can enable the feature by a new
-machine property:
-    qemu -machine notify_vmexit=on,notify_window=0 ...
-
-Note that notify_window is only valid when notify_vmexit is on. The valid
-range of notify_window is non-negative. It is even safe to set it to zero
-since there's an internal hardware threshold to be added to ensure no false
-positive.
-
-A new KVM exit reason KVM_EXIT_NOTIFY is defined for notify VM exit. If
-it happens with VM_INVALID_CONTEXT, hypervisor exits to user space to
-inform the fatal case. Then user space can inject a SHUTDOWN event to
-the target vcpu. This is implemented by injecting a sythesized triple
-fault event.
-
-Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
----
- hw/i386/x86.c         | 45 +++++++++++++++++++++++++++++++++++++++++++
- include/hw/i386/x86.h |  5 +++++
- qemu-options.hx       | 10 +++++++++-
- target/i386/kvm/kvm.c | 28 +++++++++++++++++++++++++++
- 4 files changed, 87 insertions(+), 1 deletion(-)
-
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 050eedc0c8..1eccbd3deb 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -1379,6 +1379,37 @@ static void machine_set_sgx_epc(Object *obj, Visitor *v, const char *name,
-     qapi_free_SgxEPCList(list);
- }
- 
-+static bool x86_machine_get_notify_vmexit(Object *obj, Error **errp)
-+{
-+    X86MachineState *x86ms = X86_MACHINE(obj);
-+
-+    return x86ms->notify_vmexit;
-+}
-+
-+static void x86_machine_set_notify_vmexit(Object *obj, bool value, Error **errp)
-+{
-+    X86MachineState *x86ms = X86_MACHINE(obj);
-+
-+    x86ms->notify_vmexit = value;
-+}
-+
-+static void x86_machine_get_notify_window(Object *obj, Visitor *v,
-+                                const char *name, void *opaque, Error **errp)
-+{
-+    X86MachineState *x86ms = X86_MACHINE(obj);
-+    uint32_t notify_window = x86ms->notify_window;
-+
-+    visit_type_uint32(v, name, &notify_window, errp);
-+}
-+
-+static void x86_machine_set_notify_window(Object *obj, Visitor *v,
-+                               const char *name, void *opaque, Error **errp)
-+{
-+    X86MachineState *x86ms = X86_MACHINE(obj);
-+
-+    visit_type_uint32(v, name, &x86ms->notify_window, errp);
-+}
-+
- static void x86_machine_initfn(Object *obj)
- {
-     X86MachineState *x86ms = X86_MACHINE(obj);
-@@ -1392,6 +1423,8 @@ static void x86_machine_initfn(Object *obj)
-     x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
-     x86ms->bus_lock_ratelimit = 0;
-     x86ms->above_4g_mem_start = 4 * GiB;
-+    x86ms->notify_vmexit = false;
-+    x86ms->notify_window = 0;
- }
- 
- static void x86_machine_class_init(ObjectClass *oc, void *data)
-@@ -1461,6 +1494,18 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
-         NULL, NULL);
-     object_class_property_set_description(oc, "sgx-epc",
-         "SGX EPC device");
-+
-+    object_class_property_add(oc, X86_MACHINE_NOTIFY_WINDOW, "uint32_t",
-+                              x86_machine_get_notify_window,
-+                              x86_machine_set_notify_window, NULL, NULL);
-+    object_class_property_set_description(oc, X86_MACHINE_NOTIFY_WINDOW,
-+            "Set the notify window required by notify VM exit");
-+
-+    object_class_property_add_bool(oc, X86_MACHINE_NOTIFY_VMEXIT,
-+                                   x86_machine_get_notify_vmexit,
-+                                   x86_machine_set_notify_vmexit);
-+    object_class_property_set_description(oc, X86_MACHINE_NOTIFY_VMEXIT,
-+            "Enable notify VM exit");
- }
- 
- static const TypeInfo x86_machine_info = {
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index 62fa5774f8..5707329fa7 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -85,6 +85,9 @@ struct X86MachineState {
-      * which means no limitation on the guest's bus locks.
-      */
-     uint64_t bus_lock_ratelimit;
-+
-+    bool notify_vmexit;
-+    uint32_t notify_window;
- };
- 
- #define X86_MACHINE_SMM              "smm"
-@@ -94,6 +97,8 @@ struct X86MachineState {
- #define X86_MACHINE_OEM_ID           "x-oem-id"
- #define X86_MACHINE_OEM_TABLE_ID     "x-oem-table-id"
- #define X86_MACHINE_BUS_LOCK_RATELIMIT  "bus-lock-ratelimit"
-+#define X86_MACHINE_NOTIFY_VMEXIT     "notify-vmexit"
-+#define X86_MACHINE_NOTIFY_WINDOW     "notify-window"
- 
- #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
- OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 31c04f7eea..3cdeeac8f3 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -37,7 +37,8 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
-     "                memory-encryption=@var{} memory encryption object to use (default=none)\n"
-     "                hmat=on|off controls ACPI HMAT support (default=off)\n"
-     "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n"
--    "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n",
-+    "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n"
-+    "                notify_vmexit=on|off,notify_window=n controls notify VM exit support (default=off) and specifies the notify window size (default=0)\n",
-     QEMU_ARCH_ALL)
- SRST
- ``-machine [type=]name[,prop=value[,...]]``
-@@ -157,6 +158,13 @@ SRST
-         ::
- 
-             -machine cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=128G,cxl-fmw.0.interleave-granularity=512k
-+
-+    ``notify_vmexit=on|off,notify_window=n``
-+        Enables or disables Notify VM exit support on x86 host and specify
-+        the corresponding notify window to trigger the VM exit if enabled.
-+        This feature can mitigate the CPU stuck issue due to event windows
-+        don't open up for a specified of time (notify window).
-+        The default is off.
- ERST
- 
- DEF("M", HAS_ARG, QEMU_OPTION_M,
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 3838827134..ae7fb2c495 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -2597,6 +2597,20 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-             ratelimit_set_speed(&bus_lock_ratelimit_ctrl,
-                                 x86ms->bus_lock_ratelimit, BUS_LOCK_SLICE_TIME);
-         }
-+
-+        if (x86ms->notify_vmexit &&
-+            kvm_check_extension(s, KVM_CAP_X86_NOTIFY_VMEXIT)) {
-+            uint64_t notify_window_flags = ((uint64_t)x86ms->notify_window << 32) |
-+                                           KVM_X86_NOTIFY_VMEXIT_ENABLED |
-+                                           KVM_X86_NOTIFY_VMEXIT_USER;
-+            ret = kvm_vm_enable_cap(s, KVM_CAP_X86_NOTIFY_VMEXIT, 0,
-+                                    notify_window_flags);
-+            if (ret < 0) {
-+                error_report("kvm: Failed to enable notify vmexit cap: %s",
-+                             strerror(-ret));
-+                return ret;
-+            }
-+        }
-     }
- 
-     return 0;
-@@ -5141,6 +5155,7 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
-     X86CPU *cpu = X86_CPU(cs);
-     uint64_t code;
-     int ret;
-+    struct kvm_vcpu_events events = {};
- 
-     switch (run->exit_reason) {
-     case KVM_EXIT_HLT:
-@@ -5196,6 +5211,19 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
-         /* already handled in kvm_arch_post_run */
-         ret = 0;
-         break;
-+    case KVM_EXIT_NOTIFY:
-+        ret = 0;
-+        if (run->notify.flags & KVM_NOTIFY_CONTEXT_INVALID) {
-+            warn_report("KVM: invalid context due to notify vmexit");
-+            if (has_triple_fault_event) {
-+                events.flags |= KVM_VCPUEVENT_VALID_TRIPLE_FAULT;
-+                events.triple_fault.pending = true;
-+                ret = kvm_vcpu_ioctl(cs, KVM_SET_VCPU_EVENTS, &events);
-+            } else {
-+                ret = -1;
-+            }
-+        }
-+        break;
-     default:
-         fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
-         ret = -1;
--- 
-2.17.1
-
+>
+> > + */
+> > +typedef struct BlockZoneDescriptor {
+> > +    uint64_t start;
+> > +    uint64_t length;
+> > +    uint64_t cap;
+> > +    uint64_t wp;
+> > +    BlockZoneType type;
+> > +    BlockZoneCondition cond;
+> > +} BlockZoneDescriptor;
+> > +
+> >  typedef struct BlockDriverInfo {
+> >      /* in bytes, 0 if irrelevant */
+> >      int cluster_size;
+> > --
+> > 2.37.3
+> >
+>
+> --
+> Eric Blake, Principal Software Engineer
+> Red Hat, Inc.           +1-919-301-3266
+> Virtualization:  qemu.org | libvirt.org
+>
 
