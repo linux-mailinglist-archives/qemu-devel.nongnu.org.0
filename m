@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 137455B975C
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 11:24:50 +0200 (CEST)
-Received: from localhost ([::1]:38372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 122F05B9740
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Sep 2022 11:15:39 +0200 (CEST)
+Received: from localhost ([::1]:46168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oYl72-0000PY-MK
-	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 05:24:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44166)
+	id 1oYky9-0001Xb-Iz
+	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 05:15:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYkKb-0005CU-Uj
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:34:47 -0400
-Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:34438)
+ id 1oYkLF-0005dA-1J
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:35:26 -0400
+Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:33540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oYkKa-0007L2-5D
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:34:45 -0400
-Received: by mail-io1-xd29.google.com with SMTP id e205so10294770iof.1
- for <qemu-devel@nongnu.org>; Thu, 15 Sep 2022 01:34:43 -0700 (PDT)
+ id 1oYkL9-0007YL-P8
+ for qemu-devel@nongnu.org; Thu, 15 Sep 2022 04:35:23 -0400
+Received: by mail-io1-xd35.google.com with SMTP id g8so11682711iob.0
+ for <qemu-devel@nongnu.org>; Thu, 15 Sep 2022 01:35:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=8sm1dnljVcGfpUWzGXMI6cALE1bI/kZYqPvsPAWJFjE=;
- b=Nk/WxncXxaVdJq52LPpUbZ258KDASckn3M/WHNSUIbV+rDFkeLEqCFceYqYrUZrAQJ
- PiK3dtR8GJ+QH0v+HscR/thegXuS9lsipePtyBk7m/xIcOH7ekd/8Mudnwd0N0o2JQvY
- CwMcBjshBlQLy97bKYQ/Vgstv6vNT2y6j+tTGWXUvBx25ML1uqrpiomS2Cl2hJqTI+fJ
- 2bmYpG5yArCqZChraAaAioRm+aekmorOdcDWdxhRHHO760DbrI3orHP3p2W1G125M1BW
- 1tiotO5bGmXZIuw+IIShNwUclo/pjdOhqIdWU6aciEpmU4zZJqdA8g6HDot9aOOkiCVK
- IeqA==
+ bh=SZ4HOOWbYJ7QTCmU6Bf7SBKpvlv3cUUFCFGgp8aHf9U=;
+ b=nwEKMKH/pwFSUWrsp9phX1xEqETiwsnpJtr6M6Uad4f7aeWi4cpr/fZ7fH6YXWxH0Q
+ qC9FmrOr8zRxXOCL5Om5xA5t1KzKbDysmtRqZkILaZJWgEfSYNYh2lfEDiAkR50h0iUw
+ ZFbI7c7iRoalwjGtyE77V3Lz4nNy8WaM9X88kKDLDFu9nHv6gMGWoBuQ0aQiB5DKH2FX
+ mr4UxogbJha7AZlJN5qfIayfigY0py/kn+BzYVrfxN+5B1ksQqAGU2oQv8rsgZryAdTF
+ B3k2SS9mskPe6fP0AWGPVcEIMS7wjuheC425U8k+4AUSO/b1eUOshQKSwoiEwlL435If
+ 1/rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=8sm1dnljVcGfpUWzGXMI6cALE1bI/kZYqPvsPAWJFjE=;
- b=EnDzAbhS9wKegyhC7lpOWOpedYDLXZ73SM6NpCH73TSd5uIPzBZlL7nkwZTJvWkZrx
- y7Kmm0GkqC85lVPGO5HjYuJDQ2NsVRjyx5e1k4KEabcbLOX3pniwQ1KUMfa0nzM/9rX2
- eb+H9BnhkX7LF/6frchkVZmnJVCE1dnhwSscBEQjZBzFNkACd8Il9G+M1zZ/lgx5aWnf
- kPKDp2pg62wQbmPg3XJVLZZxqc1LLD0g7iPtoNP/wADXqywuA5bUpXPqNx1wyiGAZ8Tg
- 0sqdGGaCDq9cTcPVZu7d5wb6WBXohUG3wNRS0hlizOxj6HqxAb58SWQXuawS9eFpYEdH
- 9BBg==
-X-Gm-Message-State: ACgBeo2PVcfs3xvWoutmW+UPSQhTha5VuW1uwszk8uQ26nm6gcnyvak2
- 1Qerq26gu8I79BYGc+cfRpGZrQ==
-X-Google-Smtp-Source: AA6agR7u/l1qsqsBQYo1i1KVC0GwkY/LiHO9QBqIfa4N2t9MDa5QeTbtheOvTN5fuwzphv+XQ91YAg==
-X-Received: by 2002:a05:6638:160e:b0:35a:5882:db1b with SMTP id
- x14-20020a056638160e00b0035a5882db1bmr5736798jas.299.1663230882793; 
- Thu, 15 Sep 2022 01:34:42 -0700 (PDT)
+ bh=SZ4HOOWbYJ7QTCmU6Bf7SBKpvlv3cUUFCFGgp8aHf9U=;
+ b=iCquMXy7lkqSHUP/6iDwb3PTbL/GEbkQSjkjLE3HIwG5nCShUykiklGvAw1eECF2+R
+ /mOSZQSl30CYfYkYYm98QSIMZzlz51D2heugYneJQ7qOzSHGB2QuqWgs1HY6fpwC3+r8
+ g9i8CU/4y+5vcn91hKuKBatFVEtC1YimVjCn8/JJEt7BzeKJZeqdI12zTQFG+8h12ziI
+ MymSkUnftEFPMs/Qnbl8L+XaZ/XB5oXa9iB7soYhTDoYjk1NPUaqvUAEOK4BPqcv667U
+ aG7JA3wSM464/nZprY1r0o8C3d07Ktv7zdWnnkdRPaLO6hcQrzUJyG49Ia0TgZTGPLkH
+ Maew==
+X-Gm-Message-State: ACgBeo13MQ3YvKJryiLsYu6FK7KlenkSzv42DyjJhtszO2NY3Ddy3Wsw
+ xwb1mtsL4SR312ZJtt+p2Oo1JA==
+X-Google-Smtp-Source: AA6agR6svpXNJ/Q3cqzSfLHHJoQhT9jLnM+LcxLTaoLjnEDkfCyrSra+joARA6wXxhpdaJ8daIdLBw==
+X-Received: by 2002:a02:2704:0:b0:349:da85:8819 with SMTP id
+ g4-20020a022704000000b00349da858819mr20912906jaa.81.1663230918522; 
+ Thu, 15 Sep 2022 01:35:18 -0700 (PDT)
 Received: from ?IPV6:2605:ef80:80c3:3064:7ddf:d6a7:e3e2:a0bf?
  ([2605:ef80:80c3:3064:7ddf:d6a7:e3e2:a0bf])
  by smtp.gmail.com with ESMTPSA id
- i24-20020a056638051800b0035a3be50accsm844200jar.9.2022.09.15.01.34.40
+ 5-20020a021d05000000b003434b40289dsm809866jaj.165.2022.09.15.01.35.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Sep 2022 01:34:42 -0700 (PDT)
-Message-ID: <8d64e197-7002-79fd-4e97-cc224099f26f@linaro.org>
-Date: Thu, 15 Sep 2022 09:34:36 +0100
+ Thu, 15 Sep 2022 01:35:18 -0700 (PDT)
+Message-ID: <e6826510-a206-029f-501a-f0eaa19082c5@linaro.org>
+Date: Thu, 15 Sep 2022 09:35:10 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 21/30] Deprecate 32 bit big-endian MIPS
+Subject: Re: [PATCH v2 22/30] tests/docker: flatten debian-riscv64-test-cross
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
+ aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
+ crosa@redhat.com, Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 References: <20220914155950.804707-1-alex.bennee@linaro.org>
- <20220914155950.804707-22-alex.bennee@linaro.org>
+ <20220914155950.804707-23-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220914155950.804707-22-alex.bennee@linaro.org>
+In-Reply-To: <20220914155950.804707-23-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
- envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
+ envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd35.google.com
 X-Spam_score_int: -36
 X-Spam_score: -3.7
 X-Spam_bar: ---
@@ -96,38 +101,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/14/22 16:59, Alex Bennée wrote:
-> It's becoming harder to maintain a cross-compiler to test this host
-> architecture as the old stable Debian 10 ("Buster") moved into LTS
-> which supports fewer architectures. For now:
-> 
->    - mark it's deprecation in the docs
->    - downgrade the containers to build TCG tests only
->    - drop the cross builds from our CI
-> 
-> Users with an appropriate toolchain and user-space can still take
-> their chances building it.
+> Flatten into a single dockerfile and update to match the rest of the
+> test cross compile dockerfiles.
 > 
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> Reviewed-by: Huacai Chen<chenhuacai@kernel.org>
-> Message-Id:<20220826172128.353798-16-alex.bennee@linaro.org>
+> Message-Id:<20220826172128.353798-17-alex.bennee@linaro.org>
 > 
 > ---
 > v2
->    - explicit little endian instead of LE
->    - s/A/As/
->    - restore mips to dockerfile
+>    - minor reword of commit msg
 > ---
->   docs/about/build-platforms.rst                |  2 +-
->   docs/about/deprecated.rst                     | 13 +++++++
->   .gitlab-ci.d/container-cross.yml              |  1 -
->   .gitlab-ci.d/crossbuilds.yml                  | 14 -------
->   tests/docker/Makefile.include                 |  5 +--
->   .../dockerfiles/debian-mips-cross.docker      | 38 +++++--------------
->   6 files changed, 26 insertions(+), 47 deletions(-)
+>   .gitlab-ci.d/container-cross.yml                       |  1 -
+>   tests/docker/Makefile.include                          |  1 -
+>   .../dockerfiles/debian-riscv64-test-cross.docker       | 10 ++++++----
+>   3 files changed, 6 insertions(+), 6 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
