@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53FDA5BA78D
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 09:40:39 +0200 (CEST)
-Received: from localhost ([::1]:42524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37EF65BA799
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 09:52:45 +0200 (CEST)
+Received: from localhost ([::1]:51862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZ5xk-0001nK-3n
-	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 03:40:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33334)
+	id 1oZ69T-0007JK-LC
+	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 03:52:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oZ5vP-0008IS-4M
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 03:38:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24336)
+ id 1oZ67C-0004nz-PG
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 03:50:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26498)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oZ5vL-00029H-L5
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 03:38:09 -0400
+ id 1oZ678-00048Y-NQ
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 03:50:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663313884;
+ s=mimecast20190719; t=1663314617;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=giqZ+nOaCPJGxmZRrt1bk9EwMFSuMdXodZETVExOc/c=;
- b=eAFv1uxa7ACC7iYtn0dzGetsmIoJIcEJraxgDaMp6Fd9xU6EW5WNh+ByjMoCWN0d+DP1eT
- 18bBthm3+iH0lIkwAJSVATl6TvuM+9GaXcmbPC3ZwrweNWuvGWjbuDN/yLD/PzboHSWkAY
- 4cBokBZlG6YaprsqnQ0X4P0ECeWzC9I=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=1NZTbhFlVyBBQGo1AIaDyf3k05YRJW4RFObswSf0PwI=;
+ b=U4Ot76KQML7U3ftHno03AA1AXgBKCCpZ7YdEX7XtMuu6r7YUv5AG1PvEBx02M3Q6Ctxspb
+ 1912Y+E4jqSdT2RsM91jn9yeBJGDeBg8ZG9xZKpgKl+XAg58/seqzwzKIxuqOUrMlkEm/r
+ pq+0VnNJd7sOg8QtAQoYJt5UKJj3Pww=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-269-jd0otG3iPrmqAqXtwL5ZBQ-1; Fri, 16 Sep 2022 03:38:01 -0400
-X-MC-Unique: jd0otG3iPrmqAqXtwL5ZBQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- f10-20020a0564021e8a00b00451be6582d5so10594544edf.15
- for <qemu-devel@nongnu.org>; Fri, 16 Sep 2022 00:38:00 -0700 (PDT)
+ us-mta-615-JpIeevmXOiiyow8Ce5wsdw-1; Fri, 16 Sep 2022 03:50:16 -0400
+X-MC-Unique: JpIeevmXOiiyow8Ce5wsdw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ t13-20020a056402524d00b00452c6289448so5072742edd.17
+ for <qemu-devel@nongnu.org>; Fri, 16 Sep 2022 00:50:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date;
- bh=giqZ+nOaCPJGxmZRrt1bk9EwMFSuMdXodZETVExOc/c=;
- b=68Vpx3R8aM+hiAIh9DTj7Gqam22so131PHo3mXkMw4mHNb0elI5Z7KvKJ1bDLAg4QS
- I/XMoERW7aBYFp4eLT3GLDrykTMYT2/LxFMCHXaiDXiz8o8uNGXk6l7OhIXYQOmpak2x
- 1BFzkc61JVsm/hglpjQpThYVMaVjQNWF0uld0kIxwBqMUjylYwKfnLViEoASrNPcn9R3
- Boicmqvu4JKamvei27orF24FObNhpqSWHJMmC3ZADMH7Drah8neXAIcPKYw5ropO0yJc
- YxLrld25rPAsyWKCyjF6OYuX14toQRWPe/buEGq9MQAclIaLpO3FQRKWYo3Sj3JnEHfi
- QzNg==
-X-Gm-Message-State: ACrzQf14XxFPNLZwsoxOmBF2gkBPwHeG+IEf8YWWC1l2mcVnOiOCBsYl
- G+cTsdrinu84jujDxzlvj9shARohS2/zEZHMPxu03FL+oBmVfO/Hh49kkU4MY77wXXsf75up1Qh
- Io1vekxKyQTM1CDw=
-X-Received: by 2002:aa7:c415:0:b0:44d:f432:3e84 with SMTP id
- j21-20020aa7c415000000b0044df4323e84mr2916432edq.56.1663313880030; 
- Fri, 16 Sep 2022 00:38:00 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4B0yhstDCXa9ODWCqrlHB9d/naznXMO1x8mpX3nbvZ46fRc471Usf7V2MAYRK6CLyLMuykig==
-X-Received: by 2002:aa7:c415:0:b0:44d:f432:3e84 with SMTP id
- j21-20020aa7c415000000b0044df4323e84mr2916418edq.56.1663313879769; 
- Fri, 16 Sep 2022 00:37:59 -0700 (PDT)
+ bh=1NZTbhFlVyBBQGo1AIaDyf3k05YRJW4RFObswSf0PwI=;
+ b=ieIKKR/w2e7EMecWnekjoQijrBOnYSYR34Y3gcFlJnPecC/m89ahQGB9bCGC6U2p63
+ pmu6Uv02lS/jFUGFh+fZrlFoLxNXCWja/YrlE1IT56OQO9pC02SbbfAMnDBOaZETJp46
+ qUHzb1cxnxex2/B3KGnAztl6nldfaRG8K5Z2PdV5W1J0Z5o4HO38gUgnKKM+pU4F0phY
+ K3sqP2NaO7GVrAgeZ8XGM9FtqALZ7U5urbt4dIdEIRxJDFfRJYdhIRK+KA3Lm4FHn6nu
+ mgv3SYJgs3W/ZP+Ri6n1wGJ0iSKeudvhSpYshEB2BRvebSfVqL+7drxv+rdU6Cwf4CLw
+ lk3Q==
+X-Gm-Message-State: ACrzQf1AvjAfi7JEQkNPI5vrc/AbQjtjhakUNzt3evss3R71S8dRC6CC
+ qx3z6bDm00lzkTTl/uyokedcmibJfnaODWjvAWPqKdcxGNyqLY59G1uixk5gnDtNh7zcIl+ORTB
+ IpeqAy2qPIU44X6w=
+X-Received: by 2002:a17:907:3ea7:b0:77e:6057:3e1a with SMTP id
+ hs39-20020a1709073ea700b0077e60573e1amr2756241ejc.470.1663314615264; 
+ Fri, 16 Sep 2022 00:50:15 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4nHAmLDMPTmzRdijQheulGR9byfJDe6l9spzP9CeeRDH8PLz88ZQb2K0ZV7LCGXUU5mC5lzw==
+X-Received: by 2002:a17:907:3ea7:b0:77e:6057:3e1a with SMTP id
+ hs39-20020a1709073ea700b0077e60573e1amr2756226ejc.470.1663314615045; 
+ Fri, 16 Sep 2022 00:50:15 -0700 (PDT)
 Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- 16-20020a170906301000b007306a4ecc9dsm10208666ejz.18.2022.09.16.00.37.58
+ 1-20020a170906328100b0077909095acasm10143268ejw.143.2022.09.16.00.50.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Sep 2022 00:37:59 -0700 (PDT)
-Date: Fri, 16 Sep 2022 09:37:57 +0200
+ Fri, 16 Sep 2022 00:50:14 -0700 (PDT)
+Date: Fri, 16 Sep 2022 09:50:13 +0200
 From: Igor Mammedov <imammedo@redhat.com>
-To: Robert Hoo <robert.hu@linux.intel.com>
-Cc: mst@redhat.com, xiaoguangrong.eric@gmail.com, ani@anisinha.ca,
- dan.j.williams@intel.com, jingqi.liu@intel.com, qemu-devel@nongnu.org,
- robert.hu@intel.com
-Subject: Re: [PATCH v3 4/5] acpi/nvdimm: Implement ACPI NVDIMM Label Methods
-Message-ID: <20220916093757.689a939f@redhat.com>
-In-Reply-To: <78f021195335f1cc9d01071db58a51539f29c597.camel@linux.intel.com>
-References: <20220901032721.1392482-1-robert.hu@linux.intel.com>
- <20220901032721.1392482-5-robert.hu@linux.intel.com>
- <20220909153910.557fdbe7@redhat.com>
- <78f021195335f1cc9d01071db58a51539f29c597.camel@linux.intel.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, michael.roth@amd.com, jsnow@redhat.com,
+ eblake@redhat.com, "Michael S . Tsirkin" <mst@redhat.com>, Ani Sinha
+ <ani@anisinha.ca>
+Subject: Re: [PATCH 06/27] qapi acpi: Elide redundant has_FOO in generated C
+Message-ID: <20220916095013.5c197a33@redhat.com>
+In-Reply-To: <20220915204317.3766007-7-armbru@redhat.com>
+References: <20220915204317.3766007-1-armbru@redhat.com>
+ <20220915204317.3766007-7-armbru@redhat.com>
 X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -105,103 +103,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 16 Sep 2022 10:27:08 +0800
-Robert Hoo <robert.hu@linux.intel.com> wrote:
+On Thu, 15 Sep 2022 22:42:56 +0200
+Markus Armbruster <armbru@redhat.com> wrote:
 
-> On Fri, 2022-09-09 at 15:39 +0200, Igor Mammedov wrote:
-> ...
-> > looks more or less fine except of excessive use of named variables
-> > which creates global scope variables.
-> > 
-> > I'd suggest to store temporary buffers/packages in LocalX variales,
-> > you should be able to do that for everything modulo
-> > aml_create_dword_field().
-> > 
-> > see an example below
-> >   
-> ...
-> > >  
-> > > +        /*
-> > > +         * ACPI v6.4: Section 6.5.10 NVDIMM Label Methods
-> > > +         */
-> > > +        /* _LSI */
-> > > +        method = aml_method("_LSI", 0, AML_SERIALIZED);
-> > > +        com_call = aml_call5(NVDIMM_COMMON_DSM,
-> > > +                            aml_touuid(NVDIMM_DEVICE_DSM_UUID),
-> > > +                            aml_int(1), aml_int(4), aml_int(0),
-> > > +                            aml_int(handle));
-> > > +        aml_append(method, aml_store(com_call, aml_local(0)));
-> > > +
-> > > +        aml_append(method, aml_create_dword_field(aml_local(0),
-> > > +                                                  aml_int(0),
-> > > "STTS"));
-> > > +        aml_append(method, aml_create_dword_field(aml_local(0),
-> > > aml_int(4),
-> > > +                                                  "SLSA"));
-> > > +        aml_append(method, aml_create_dword_field(aml_local(0),
-> > > aml_int(8),
-> > > +                                                  "MAXT"));
-> > > +
-> > > +        pkg = aml_package(3);
-> > > +        aml_append(pkg, aml_name("STTS"));
-> > > +        aml_append(pkg, aml_name("SLSA"));
-> > > +        aml_append(pkg, aml_name("MAXT"));
-> > > +        aml_append(method, aml_name_decl("RET", pkg));  
-> > 
-> > ex: put it in local instead of named variable and return that
-> > the same applies to other named temporary named variables.
-> >   
-> Fine, get your point now.
-> In ASL it will look like this:
->                     Local1 = Package (0x3) {STTS, SLSA, MAXT}
->                     Return (Local1)
+> The has_FOO for pointer-valued FOO are redundant, except for arrays.
+> They are also a nuisance to work with.  Recent commit "qapi: Start to
+> elide redundant has_FOO in generated C" provided the means to elide
+> them step by step.  This is the step for qapi/acpi.py.
+> 
+> Said commit explains the transformation in more detail.  The invariant
+> violations mentioned there do not occur here.
+> 
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Ani Sinha <ani@anisinha.ca>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
+> ---
+>  hw/acpi/core.c           | 14 +++++++-------
+>  hw/acpi/cpu.c            |  1 -
+>  hw/acpi/memory_hotplug.c |  1 -
+>  scripts/qapi/schema.py   |  1 -
+>  4 files changed, 7 insertions(+), 10 deletions(-)
 > 
-> But as for 
->                     CreateDWordField (Local0, Zero, STTS)  // Status
->                     CreateDWordField (Local0, 0x04, SLSA)  // SizeofLSA
->                     CreateDWordField (Local0, 0x08, MAXT)  // Max Trans
-> 
-> I cannot figure out how to substitute with LocalX. Can you shed more
-> light?
-
-Leave this as is, there is no way to make it anonymous/local with FooField.
-
-(well one might try to use Index and copy field's bytes into a buffer and
-then explicitly convert to Integer, but that's a rather convoluted way
-around limitation so I'd not go this route)
-
-> 
-> CreateQWordFieldTerm :=
-> CreateQWordField (
-> SourceBuffer, // TermArg => Buffer
-> ByteIndex, // TermArg => Integer
-> QWordFieldName // NameString
-> )
-> NameString :=
-> <RootChar NamePath> | <ParentPrefixChar PrefixPath NamePath> |
-> NonEmptyNamePath
-> 
-> > > +        aml_append(method, aml_return(aml_name("RET")));
-> > > +  
-> ...
-> > > +        field = aml_create_dword_field(aml_local(3), aml_int(0),
-> > > "STTS");
-> > > +        aml_append(method, field);
-> > > +        aml_append(method,
-> > > aml_return(aml_to_integer(aml_name("STTS"))));  
-> > 
-> > why do you need explicitly convert DWORD field to integer?
-> > it should be fine to return STTS directly (implicit conversion should
-> > take care of the rest)  
-> 
-> Explicit convert eases my anxiety on uncertainty. ;)
-> 
-> >   
-> > > +        aml_append(nvdimm_dev, method);
-> > > +  
-> ...
-> 
+> diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+> index 3e811bf03c..6da275c599 100644
+> --- a/hw/acpi/core.c
+> +++ b/hw/acpi/core.c
+> @@ -185,7 +185,7 @@ static void acpi_table_install(const char unsigned *blob, size_t bloblen,
+>      changed_fields = 0;
+>      ext_hdr->_length = cpu_to_le16(acpi_payload_size);
+>  
+> -    if (hdrs->has_sig) {
+> +    if (hdrs->sig) {
+>          strncpy(ext_hdr->sig, hdrs->sig, sizeof ext_hdr->sig);
+>          ++changed_fields;
+>      }
+> @@ -204,11 +204,11 @@ static void acpi_table_install(const char unsigned *blob, size_t bloblen,
+>  
+>      ext_hdr->checksum = 0;
+>  
+> -    if (hdrs->has_oem_id) {
+> +    if (hdrs->oem_id) {
+>          strncpy(ext_hdr->oem_id, hdrs->oem_id, sizeof ext_hdr->oem_id);
+>          ++changed_fields;
+>      }
+> -    if (hdrs->has_oem_table_id) {
+> +    if (hdrs->oem_table_id) {
+>          strncpy(ext_hdr->oem_table_id, hdrs->oem_table_id,
+>                  sizeof ext_hdr->oem_table_id);
+>          ++changed_fields;
+> @@ -217,7 +217,7 @@ static void acpi_table_install(const char unsigned *blob, size_t bloblen,
+>          ext_hdr->oem_revision = cpu_to_le32(hdrs->oem_rev);
+>          ++changed_fields;
+>      }
+> -    if (hdrs->has_asl_compiler_id) {
+> +    if (hdrs->asl_compiler_id) {
+>          strncpy(ext_hdr->asl_compiler_id, hdrs->asl_compiler_id,
+>                  sizeof ext_hdr->asl_compiler_id);
+>          ++changed_fields;
+> @@ -255,12 +255,12 @@ void acpi_table_add(const QemuOpts *opts, Error **errp)
+>      if (!hdrs) {
+>          goto out;
+>      }
+> -    if (hdrs->has_file == hdrs->has_data) {
+> +    if (!hdrs->file == !hdrs->data) {
+>          error_setg(errp, "'-acpitable' requires one of 'data' or 'file'");
+>          goto out;
+>      }
+>  
+> -    pathnames = g_strsplit(hdrs->has_file ? hdrs->file : hdrs->data, ":", 0);
+> +    pathnames = g_strsplit(hdrs->file ?: hdrs->data, ":", 0);
+>      if (pathnames == NULL || pathnames[0] == NULL) {
+>          error_setg(errp, "'-acpitable' requires at least one pathname");
+>          goto out;
+> @@ -297,7 +297,7 @@ void acpi_table_add(const QemuOpts *opts, Error **errp)
+>          close(fd);
+>      }
+>  
+> -    acpi_table_install(blob, bloblen, hdrs->has_file, hdrs, errp);
+> +    acpi_table_install(blob, bloblen, !!hdrs->file, hdrs, errp);
+>  
+>  out:
+>      g_free(blob);
+> diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
+> index 3646dbfe68..4e580959a2 100644
+> --- a/hw/acpi/cpu.c
+> +++ b/hw/acpi/cpu.c
+> @@ -35,7 +35,6 @@ static ACPIOSTInfo *acpi_cpu_device_status(int idx, AcpiCpuStatus *cdev)
+>          DeviceState *dev = DEVICE(cdev->cpu);
+>          if (dev->id) {
+>              info->device = g_strdup(dev->id);
+> -            info->has_device = true;
+>          }
+>      }
+>      return info;
+> diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
+> index 0a7e89a13e..a7476330a8 100644
+> --- a/hw/acpi/memory_hotplug.c
+> +++ b/hw/acpi/memory_hotplug.c
+> @@ -44,7 +44,6 @@ static ACPIOSTInfo *acpi_memory_device_status(int slot, MemStatus *mdev)
+>          DeviceState *dev = DEVICE(mdev->dimm);
+>          if (dev->id) {
+>              info->device = g_strdup(dev->id);
+> -            info->has_device = true;
+>          }
+>      }
+>      return info;
+> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+> index 3ae94300c4..5160a659b7 100644
+> --- a/scripts/qapi/schema.py
+> +++ b/scripts/qapi/schema.py
+> @@ -759,7 +759,6 @@ def need_has(self):
+>          assert self.type
+>          # Temporary hack to support dropping the has_FOO in reviewable chunks
+>          opt_out = [
+> -            'qapi/acpi.json',
+>              'qapi/audio.json',
+>              'qapi/block-core.json',
+>              'qapi/block-export.json',
 
 
