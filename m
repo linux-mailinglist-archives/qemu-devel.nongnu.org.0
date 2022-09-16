@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A78E55BA498
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 04:28:32 +0200 (CEST)
-Received: from localhost ([::1]:46050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 788355BA4AE
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 04:39:51 +0200 (CEST)
+Received: from localhost ([::1]:41158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZ15j-0004EJ-Ac
-	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 22:28:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57226)
+	id 1oZ1Gg-0008Ut-1F
+	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 22:39:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1oZ14X-0002kn-CQ
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 22:27:17 -0400
-Received: from mga11.intel.com ([192.55.52.93]:9985)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1oZ14U-0003UQ-RH
- for qemu-devel@nongnu.org; Thu, 15 Sep 2022 22:27:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663295234; x=1694831234;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=S6pCSWzlf9au2cBWzaB1iqqejZ312DlDuXnupUrP6sg=;
- b=Xh0fleFJqp7U0syn1sjkp9uzu32NQgDXGeIT4M9g2RaRENdRHgJhUgGb
- HXyLSgS97FPYIusoeTyICqEetc2lULfVkLqXeNZ7625NmWzH0wa1E6hY4
- GqtnnqEoNDTpiD4YPwl7es+9fkSfUAbsijQUrrVV+hjLpHbs8QpEjU/n2
- R4tBQxNCPc86xwx/VL3NB4Uk0yiGzn+Tm15wxWB/BlS/NX7q3dLNRUW7k
- zABDBInfEHGaDpa+jH4vtnFs3hbC8D/UR1K2wh0SAk3LpWnGZ+I2gYEZY
- a8YoAjYWFDsocRHecNGCDN/4nUBaB7itdDZnr0jv1kh4S56mzO3fxxpkZ g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="296481747"
-X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="296481747"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2022 19:27:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,319,1654585200"; d="scan'208";a="743178354"
-Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
- ([10.239.48.212])
- by orsmga004.jf.intel.com with ESMTP; 15 Sep 2022 19:27:08 -0700
-Message-ID: <78f021195335f1cc9d01071db58a51539f29c597.camel@linux.intel.com>
-Subject: Re: [PATCH v3 4/5] acpi/nvdimm: Implement ACPI NVDIMM Label Methods
-From: Robert Hoo <robert.hu@linux.intel.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: mst@redhat.com, xiaoguangrong.eric@gmail.com, ani@anisinha.ca, 
- dan.j.williams@intel.com, jingqi.liu@intel.com, qemu-devel@nongnu.org, 
- robert.hu@intel.com
-Date: Fri, 16 Sep 2022 10:27:08 +0800
-In-Reply-To: <20220909153910.557fdbe7@redhat.com>
-References: <20220901032721.1392482-1-robert.hu@linux.intel.com>
- <20220901032721.1392482-5-robert.hu@linux.intel.com>
- <20220909153910.557fdbe7@redhat.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oZ1FA-0006qy-5y; Thu, 15 Sep 2022 22:38:16 -0400
+Received: from mail-qv1-xf2d.google.com ([2607:f8b0:4864:20::f2d]:35370)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oZ1F3-0005hW-Vt; Thu, 15 Sep 2022 22:38:15 -0400
+Received: by mail-qv1-xf2d.google.com with SMTP id w4so15693239qvp.2;
+ Thu, 15 Sep 2022 19:38:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=rfE6RXFq6Ff22aG4yPDGoLo8OZ2x8ttm/poZImcqmIo=;
+ b=UrXAhaOJt6JkUPe29SvH0PsivKbWVjPcGUubhsrUxdUKol2AqoAeQ9AA4BK2eK66HX
+ AfpI4NT0U80TOD/0Icj3dcUmKrHSqSaXDzl09k7fxhVmLjPOTnVTsOU0GNzUI6PCZYt3
+ M3uThg66u3pbe3lQ5lLfEI1nrJgOkDqTRgkYeglotm+De2hXrBNZOj6wN40vcEg/isB1
+ TvtTvaboFbr+F+zHzlmLJfhkqSz0x5z2Bs0+mpx4jsl3juQiMaaL5eXCO6JF51EoX3ib
+ T/3uG/c/vY4qRKBVzofVjC3hVCE8yYDPVQk/q5zzkEa4EpXRysAgQQNU3djhINyHXogm
+ f4kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=rfE6RXFq6Ff22aG4yPDGoLo8OZ2x8ttm/poZImcqmIo=;
+ b=VEarQ3e48Q9dvkGADnqTrMvAGL/z1Wkb87FhjQ7XJQyDjUdG5nOEbUPGMPukC0uhmM
+ vxugEiqtIBvo9vtJ1xTCTAfMPakxwNFTPq6KCfRD/SKxgICnIkkZHuHMAQsFtlY0Qlb+
+ wBhWAsMuB9cZ6gcK28p3em1JMAeoqo6UAdC+0Zj7pFHTxQa03XbfPte9o0g6+/N06jU5
+ XrjUPmenKTt6MtJHammVgbH5/+Op8+6WM1wBtB6MQQ4lisYBjGFKvAPRoSQD+t4//veb
+ /9dx8uhDOnCYbGCdo/T8Wio6938ctMeQ2lwzIHpZNhmG37fFFZhr7rRYxxhtVvNXlA+c
+ 5IGg==
+X-Gm-Message-State: ACrzQf3H8lWKO2nDWk0c//2KUDTKGYpHt4MfEI+DoX/J49ty9zauNRq1
+ 3IS5uVB6sZKZezlyx3hr4Q/ZcA5WbKth44j9fAg=
+X-Google-Smtp-Source: AMsMyM5MTcM4ByuPV3Rl+RVqWb7E6DyvTHUOmZgqbPFa708OGNRYVB8s+7BICtQ7MMFRN6xxKzYM74U056V9GUNBCk8=
+X-Received: by 2002:a0c:810f:0:b0:47b:299a:56d7 with SMTP id
+ 15-20020a0c810f000000b0047b299a56d7mr2736085qvc.12.1663295886935; Thu, 15 Sep
+ 2022 19:38:06 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220915152520.21948-1-shentey@gmail.com>
+ <20220915152520.21948-2-shentey@gmail.com>
+In-Reply-To: <20220915152520.21948-2-shentey@gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 16 Sep 2022 10:37:55 +0800
+Message-ID: <CAEUhbmV09XCLcW+Jsiybmfw31Jz2Dm-rv7J_RcOW62ZJo4GB9w@mail.gmail.com>
+Subject: Re: [PATCH 01/11] hw/ppc/meson: Allow e500 boards to be enabled
+ separately
+To: Bernhard Beschow <shentey@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, 
+ Bin Meng <bin.meng@windriver.com>, qemu-ppc <qemu-ppc@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-10.el7) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=192.55.52.93;
- envelope-from=robert.hu@linux.intel.com; helo=mga11.intel.com
-X-Spam_score_int: -69
-X-Spam_score: -7.0
-X-Spam_bar: -------
-X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf2d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,90 +86,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2022-09-09 at 15:39 +0200, Igor Mammedov wrote:
-...
-> looks more or less fine except of excessive use of named variables
-> which creates global scope variables.
-> 
-> I'd suggest to store temporary buffers/packages in LocalX variales,
-> you should be able to do that for everything modulo
-> aml_create_dword_field().
-> 
-> see an example below
-> 
-...
-> >  
-> > +        /*
-> > +         * ACPI v6.4: Section 6.5.10 NVDIMM Label Methods
-> > +         */
-> > +        /* _LSI */
-> > +        method = aml_method("_LSI", 0, AML_SERIALIZED);
-> > +        com_call = aml_call5(NVDIMM_COMMON_DSM,
-> > +                            aml_touuid(NVDIMM_DEVICE_DSM_UUID),
-> > +                            aml_int(1), aml_int(4), aml_int(0),
-> > +                            aml_int(handle));
-> > +        aml_append(method, aml_store(com_call, aml_local(0)));
-> > +
-> > +        aml_append(method, aml_create_dword_field(aml_local(0),
-> > +                                                  aml_int(0),
-> > "STTS"));
-> > +        aml_append(method, aml_create_dword_field(aml_local(0),
-> > aml_int(4),
-> > +                                                  "SLSA"));
-> > +        aml_append(method, aml_create_dword_field(aml_local(0),
-> > aml_int(8),
-> > +                                                  "MAXT"));
-> > +
-> > +        pkg = aml_package(3);
-> > +        aml_append(pkg, aml_name("STTS"));
-> > +        aml_append(pkg, aml_name("SLSA"));
-> > +        aml_append(pkg, aml_name("MAXT"));
-> > +        aml_append(method, aml_name_decl("RET", pkg));
-> 
-> ex: put it in local instead of named variable and return that
-> the same applies to other named temporary named variables.
-> 
-Fine, get your point now.
-In ASL it will look like this:
-                    Local1 = Package (0x3) {STTS, SLSA, MAXT}
-                    Return (Local1)
+On Thu, Sep 15, 2022 at 11:25 PM Bernhard Beschow <shentey@gmail.com> wrote:
+>
+> Gives users more fine-grained control over what should be compiled into
+> QEMU.
+>
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>  configs/devices/ppc-softmmu/default.mak | 3 ++-
+>  hw/ppc/Kconfig                          | 8 ++++++++
+>  hw/ppc/meson.build                      | 6 ++----
+>  3 files changed, 12 insertions(+), 5 deletions(-)
+>
 
-But as for 
-                    CreateDWordField (Local0, Zero, STTS)  // Status
-                    CreateDWordField (Local0, 0x04, SLSA)  // SizeofLSA
-                    CreateDWordField (Local0, 0x08, MAXT)  // Max Trans
-
-I cannot figure out how to substitute with LocalX. Can you shed more
-light?
-
-CreateQWordFieldTerm :=
-CreateQWordField (
-SourceBuffer, // TermArg => Buffer
-ByteIndex, // TermArg => Integer
-QWordFieldName // NameString
-)
-NameString :=
-<RootChar NamePath> | <ParentPrefixChar PrefixPath NamePath> |
-NonEmptyNamePath
-
-> > +        aml_append(method, aml_return(aml_name("RET")));
-> > +
-...
-> > +        field = aml_create_dword_field(aml_local(3), aml_int(0),
-> > "STTS");
-> > +        aml_append(method, field);
-> > +        aml_append(method,
-> > aml_return(aml_to_integer(aml_name("STTS"))));
-> 
-> why do you need explicitly convert DWORD field to integer?
-> it should be fine to return STTS directly (implicit conversion should
-> take care of the rest)
-
-Explicit convert eases my anxiety on uncertainty. ;)
-
-> 
-> > +        aml_append(nvdimm_dev, method);
-> > +
-...
-
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
