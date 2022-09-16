@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C3C85BA716
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 08:55:41 +0200 (CEST)
-Received: from localhost ([::1]:48198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F6B95BA756
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 09:18:53 +0200 (CEST)
+Received: from localhost ([::1]:53942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZ5GF-0004kn-LI
-	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 02:55:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60106)
+	id 1oZ5ch-0002wx-0H
+	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 03:18:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oZ5Cm-0001yx-8V
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 02:52:05 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:39828)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oZ5Ck-0003yL-4B
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 02:52:03 -0400
-Received: by mail-ej1-x636.google.com with SMTP id y17so42233549ejo.6
- for <qemu-devel@nongnu.org>; Thu, 15 Sep 2022 23:52:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=WOf1m7xnIM8PHRmPlY0OHQSDc5n9urwHTQ4y4O3YTz0=;
- b=DKo09I++KMr4cW1deDbscZWpspQ+DEVZ1lhZqkAjeJbPwSDqk7+wEqneGu8CQep3WX
- Ma2J7mkmaripTPBEQdMa9jzPb26Q0wl7T61f4aCC2p8HWxcgsq4ImHJ0Hi7+ig2DdbdK
- qmcYL38TQHqLEYbydSt3uAYb4tVo2ivpDEgzLTMT+jL/PjMOBaUj0xF9cP+58P+K3p6I
- 9/5Y88PqUtBgzj4+Qq0d3yhZMcPcxpK8eXM5G8bVdy/gTjF//IL7FodYSLnFw0BusnmW
- ykxCZBocnHcyNJ7Me05XeTcQuQa5Yl2Sxfn0MgJDurOV/Yf4ommprhh0NNMoOj54v5tB
- LzvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=WOf1m7xnIM8PHRmPlY0OHQSDc5n9urwHTQ4y4O3YTz0=;
- b=BW7FLBTM3w2z19AeQU6A5izchQVKlrlQwrLxC006roFI76J2udCBD6g3PG404jlg1R
- vnhmGxtsxfBPxyr2mPo/wNQQONPF32PHyQNk78rIyFj2qTqgOBmctNN5bpsiTq9qHWTr
- emJR0MyNEe79nNli3jpZ1UbDXvJ7hc2IxoPoZUD0YcrB8z+ISKe4sI25Taj2U5LN8GTy
- wkkwBxPrWC7bQFFQlcum1AK0dtCOXP/Q0EcMAfCddyJAs+uWV4/MrhktUZ1P6EOAdvFr
- EeAlrQnhRrOMSUSrNkLmY9rvZeqXhH8QSxp0/0EgUNemAAOjgXBWlNwm3VgjYBmXDgM3
- lAGQ==
-X-Gm-Message-State: ACrzQf0u/SOb3mxyt8yg+9GoS6eMMLCZBpKoQr27M0G2F6NshdntDetK
- e0kqwGTigmtkavXbW8tJiwnB9Q==
-X-Google-Smtp-Source: AMsMyM6d57c7q3hCT2QoQHNur5YwIVscnXpjddrHYH8Au2JvaNdsLWZV3nrqKtcNF6KhHIelbP1u7w==
-X-Received: by 2002:a17:907:6ea3:b0:77c:4e23:9b2d with SMTP id
- sh35-20020a1709076ea300b0077c4e239b2dmr2555140ejc.6.1663311119269; 
- Thu, 15 Sep 2022 23:51:59 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- pv15-20020a170907208f00b0073d678f50bfsm9915745ejb.164.2022.09.15.23.51.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Sep 2022 23:51:58 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0807A1FFB7;
- Fri, 16 Sep 2022 07:51:58 +0100 (BST)
-References: <20220802095010.3330793-1-alex.bennee@linaro.org>
-User-agent: mu4e 1.9.0; emacs 28.1.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
- stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v4 for 7.2 00/22] virtio-gpio and various virtio cleanups
-Date: Fri, 16 Sep 2022 07:51:40 +0100
-In-reply-to: <20220802095010.3330793-1-alex.bennee@linaro.org>
-Message-ID: <87czbvzu9e.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1oZ5Ze-0001R5-7V
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 03:15:42 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:54986)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>) id 1oZ5Zb-0001CA-TF
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 03:15:41 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id E0966B823FF
+ for <qemu-devel@nongnu.org>; Fri, 16 Sep 2022 07:15:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B4FBC433B5
+ for <qemu-devel@nongnu.org>; Fri, 16 Sep 2022 07:15:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1663312534;
+ bh=AVBjeLLxGFtbbwvyQz6cqEROEblHa6i0fXm30abuaPQ=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=C1iPgzfGgKPzbJucDYhz5uAzRKGW/r2/emDtdIdvlZpnQNzwRSF8M1W6E8b+Mr68/
+ 27ZT57Xu+VYuXpRAj7QD7tXopwnv1PwJeXNY16U6Vl/cvUtJAwmJnDxH6F+r/Bvr4J
+ ivVAwZ8d8hBmfQ30kdXsXk3nMm6UxFSNiYpeKdJ71e0s3of0viITL+ztpohrtf94nJ
+ 8DikVKOB2MfKIqIY763+F5hNLmSZ/IVsGvkGg2Wi252TaFwl72zCwR4Qn+0FaueQSj
+ N3bhqVXTeTV/S9kr+FGIl0IAQpFtkdoUmPJ0uGMQjBr0WoKeFW7ammOPiZuXAFC8+n
+ olJMM3hZpvPUQ==
+Received: by mail-lf1-f50.google.com with SMTP id f14so33175256lfg.5
+ for <qemu-devel@nongnu.org>; Fri, 16 Sep 2022 00:15:34 -0700 (PDT)
+X-Gm-Message-State: ACrzQf1Ai4/0vpIlAviU3cCDt7YcCaYdzvAfwSb8YUZiF2hOvRMARTQH
+ 4NjVsKQaqJABxekyEMgztWqeKP0K6n+QAITX6Mo=
+X-Google-Smtp-Source: AMsMyM5RhcofZGALEc8mlC7pBRERdNBl9tLIBgRDLMtpVBxpukN/YGYuk5/MyQ8H3GeXG/BYK+NV1vL6ZWLNX8NUEvw=
+X-Received: by 2002:a05:6512:13a1:b0:48d:f14:9059 with SMTP id
+ p33-20020a05651213a100b0048d0f149059mr1344544lfa.110.1663312532360; Fri, 16
+ Sep 2022 00:15:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20220913234135.255426-1-Jason@zx2c4.com>
+In-Reply-To: <20220913234135.255426-1-Jason@zx2c4.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Fri, 16 Sep 2022 09:15:20 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXGh3zWghPw7ir5_wwadHZH7Q-h41sDe=0=+D4TAcfME0A@mail.gmail.com>
+Message-ID: <CAMj1kXGh3zWghPw7ir5_wwadHZH7Q-h41sDe=0=+D4TAcfME0A@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] x86: return modified setup_data only if read as
+ memory, not as file
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>, 
+ Laurent Vivier <laurent@vivier.eu>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=ardb@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,52 +84,179 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 14 Sept 2022 at 01:42, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+>
+> If setup_data is being read into a specific memory location, then
+> generally the setup_data address parameter is read first, so that the
+> caller knows where to read it into. In that case, we should return
+> setup_data containing the absolute addresses that are hard coded and
+> determined a priori. This is the case when kernels are loaded by BIOS,
+> for example. In contrast, when setup_data is read as a file, then we
+> shouldn't modify setup_data, since the absolute address will be wrong by
+> definition. This is the case when OVMF loads the image.
+>
+> This allows setup_data to be used like normal, without crashing when EFI
+> tries to use it.
+>
+> (As a small development note, strangely, fw_cfg_add_file_callback() was
+> exported but fw_cfg_add_bytes_callback() wasn't, so this makes that
+> consistent.)
+>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Laurent Vivier <laurent@vivier.eu>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Suggested-by: Ard Biesheuvel <ardb@kernel.org>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
 
-> Hi,
->
-> This is an update to the previous series which fixes the last few
-> niggling CI failures I was seeing.
->
->    Subject: [PATCH v3 for 7.2 00/21] virtio-gpio and various virtio clean=
-ups
->    Date: Tue, 26 Jul 2022 20:21:29 +0100
->    Message-Id: <20220726192150.2435175-1-alex.bennee@linaro.org>
->
-> The CI failures were tricky to track down because they didn't occur
-> locally but after patching to dump backtraces they all seem to involve
-> updates to virtio_set_status() as the machine was torn down. I think
-> patch that switches all users to use virtio_device_started() along
-> with consistent checking of vhost_dev->started stops this from
-> happening. The clean-up seems worthwhile in reducing boilerplate
-> anyway.
->
-> The following patches still need review:
->
->   - tests/qtest: enable tests for virtio-gpio
->   - tests/qtest: add a get_features op to vhost-user-test
->   - tests/qtest: implement stub for VHOST_USER_GET_CONFIG
->   - tests/qtest: add assert to catch bad features
->   - tests/qtest: plain g_assert for VHOST_USER_F_PROTOCOL_FEATURES
->   - tests/qtest: catch unhandled vhost-user messages
->   - tests/qtest: use qos_printf instead of g_test_message
->   - tests/qtest: pass stdout/stderr down to subtests
->   - hw/virtio: move vhd->started check into helper and add FIXME
->   - hw/virtio: move vm_running check to virtio_device_started
->   - hw/virtio: add some vhost-user trace events
->   - hw/virtio: log potentially buggy guest drivers
->   - hw/virtio: fix some coding style issues
->   - include/hw: document vhost_dev feature life-cycle
->   - include/hw/virtio: more comment for VIRTIO_F_BAD_FEATURE
->   - hw/virtio: fix vhost_user_read tracepoint
->   - hw/virtio: handle un-configured shutdown in virtio-pci
->   - hw/virtio: gracefully handle unset vhost_dev vdev
->   - hw/virtio: incorporate backend features in features
-<snip>
+This is still somewhat of a crutch, but at least we can now
+disambiguate between loaders that treat the setup data as a file
+(OVMF) and ones that treat it as an object that lives at a fixed
+address in memory (SeaBIOS)
 
-Ping?
+I'll note that this also addresses the existing issue with -dtb on
+x86, which currently breaks the OVMF direct kernel boot in the same
+way as the RNG seed does.
 
---=20
-Alex Benn=C3=A9e
+> ---
+>  hw/i386/x86.c             | 37 +++++++++++++++++++++++++++----------
+>  hw/nvram/fw_cfg.c         | 12 ++++++------
+>  include/hw/nvram/fw_cfg.h | 22 ++++++++++++++++++++++
+>  3 files changed, 55 insertions(+), 16 deletions(-)
+>
+> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> index 050eedc0c8..933bbdd836 100644
+> --- a/hw/i386/x86.c
+> +++ b/hw/i386/x86.c
+> @@ -764,6 +764,18 @@ static bool load_elfboot(const char *kernel_filename=
+,
+>      return true;
+>  }
+>
+> +struct setup_data_fixup {
+> +    void *pos;
+> +    hwaddr val;
+> +    uint32_t addr;
+> +};
+> +
+> +static void fixup_setup_data(void *opaque)
+> +{
+> +    struct setup_data_fixup *fixup =3D opaque;
+> +    stq_p(fixup->pos, fixup->val);
+> +}
+> +
+>  void x86_load_linux(X86MachineState *x86ms,
+>                      FWCfgState *fw_cfg,
+>                      int acpi_data_size,
+> @@ -1088,8 +1100,11 @@ void x86_load_linux(X86MachineState *x86ms,
+>          qemu_guest_getrandom_nofail(setup_data->data, RNG_SEED_LENGTH);
+>      }
+>
+> -    /* Offset 0x250 is a pointer to the first setup_data link. */
+> -    stq_p(header + 0x250, first_setup_data);
+> +    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, prot_addr);
+> +    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
+> +    fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
+> +    sev_load_ctx.kernel_data =3D (char *)kernel;
+> +    sev_load_ctx.kernel_size =3D kernel_size;
+>
+>      /*
+>       * If we're starting an encrypted VM, it will be OVMF based, which u=
+ses the
+> @@ -1099,16 +1114,18 @@ void x86_load_linux(X86MachineState *x86ms,
+>       * file the user passed in.
+>       */
+>      if (!sev_enabled()) {
+> +        struct setup_data_fixup *fixup =3D g_malloc(sizeof(*fixup));
+> +
+>          memcpy(setup, header, MIN(sizeof(header), setup_size));
+> +        /* Offset 0x250 is a pointer to the first setup_data link. */
+> +        fixup->pos =3D setup + 0x250;
+> +        fixup->val =3D first_setup_data;
+> +        fixup->addr =3D real_addr;
+> +        fw_cfg_add_bytes_callback(fw_cfg, FW_CFG_SETUP_ADDR, fixup_setup=
+_data, NULL,
+> +                                  fixup, &fixup->addr, sizeof(fixup->add=
+r), true);
+> +    } else {
+> +        fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_ADDR, real_addr);
+>      }
+> -
+> -    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, prot_addr);
+> -    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
+> -    fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
+> -    sev_load_ctx.kernel_data =3D (char *)kernel;
+> -    sev_load_ctx.kernel_size =3D kernel_size;
+> -
+> -    fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_ADDR, real_addr);
+>      fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_SIZE, setup_size);
+>      fw_cfg_add_bytes(fw_cfg, FW_CFG_SETUP_DATA, setup, setup_size);
+>      sev_load_ctx.setup_data =3D (char *)setup;
+> diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+> index d605f3f45a..564bda3395 100644
+> --- a/hw/nvram/fw_cfg.c
+> +++ b/hw/nvram/fw_cfg.c
+> @@ -692,12 +692,12 @@ static const VMStateDescription vmstate_fw_cfg =3D =
+{
+>      }
+>  };
+>
+> -static void fw_cfg_add_bytes_callback(FWCfgState *s, uint16_t key,
+> -                                      FWCfgCallback select_cb,
+> -                                      FWCfgWriteCallback write_cb,
+> -                                      void *callback_opaque,
+> -                                      void *data, size_t len,
+> -                                      bool read_only)
+> +void fw_cfg_add_bytes_callback(FWCfgState *s, uint16_t key,
+> +                               FWCfgCallback select_cb,
+> +                               FWCfgWriteCallback write_cb,
+> +                               void *callback_opaque,
+> +                               void *data, size_t len,
+> +                               bool read_only)
+>  {
+>      int arch =3D !!(key & FW_CFG_ARCH_LOCAL);
+>
+> diff --git a/include/hw/nvram/fw_cfg.h b/include/hw/nvram/fw_cfg.h
+> index 0e7a8bc7af..e4fef393be 100644
+> --- a/include/hw/nvram/fw_cfg.h
+> +++ b/include/hw/nvram/fw_cfg.h
+> @@ -117,6 +117,28 @@ struct FWCfgMemState {
+>   */
+>  void fw_cfg_add_bytes(FWCfgState *s, uint16_t key, void *data, size_t le=
+n);
+>
+> +/**
+> + * fw_cfg_add_bytes_callback:
+> + * @s: fw_cfg device being modified
+> + * @key: selector key value for new fw_cfg item
+> + * @select_cb: callback function when selecting
+> + * @write_cb: callback function after a write
+> + * @callback_opaque: argument to be passed into callback function
+> + * @data: pointer to start of item data
+> + * @len: size of item data
+> + * @read_only: is file read only
+> + *
+> + * Add a new fw_cfg item, available by selecting the given key, as a raw
+> + * "blob" of the given size. The data referenced by the starting pointer
+> + * is only linked, NOT copied, into the data structure of the fw_cfg dev=
+ice.
+> + */
+> +void fw_cfg_add_bytes_callback(FWCfgState *s, uint16_t key,
+> +                               FWCfgCallback select_cb,
+> +                               FWCfgWriteCallback write_cb,
+> +                               void *callback_opaque,
+> +                               void *data, size_t len,
+> +                               bool read_only);
+> +
+>  /**
+>   * fw_cfg_add_string:
+>   * @s: fw_cfg device being modified
+> --
+> 2.37.3
+>
 
