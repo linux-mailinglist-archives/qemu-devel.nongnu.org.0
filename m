@@ -2,85 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 634915BBA22
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 21:33:54 +0200 (CEST)
-Received: from localhost ([::1]:40212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24F505BBA48
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 22:20:30 +0200 (CEST)
+Received: from localhost ([::1]:60806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZdZY-00084Q-Uf
-	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 15:33:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60348)
+	id 1oZeIe-0004IR-RZ
+	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 16:20:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZdXP-0006de-Lu
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 15:31:39 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:44004)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZdXN-0002j0-SS
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 15:31:39 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id v4so23310906pgi.10
- for <qemu-devel@nongnu.org>; Sat, 17 Sep 2022 12:31:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date;
- bh=PjGqcCLyTYRul6d3IpZzlUcIFkEhqkcsCbb7Iu+Tm2w=;
- b=ikuw4L1atbVP0bBsSTYx1TP1++OFSOozHN10Ugj9hGLhoSamczvJzMZ0TcWFw+SGVy
- FfJMnOQ194CVLxqmYPJ176jjFFEUNopRrOmN9R0lvZlKudGYT0w/vhkpaX5PmH+8YEZi
- 4wVmZWT2sU25ZmzeZW6DjcdVa/bjgn/923tKVv/SanQ8gdVO3l8mHeE/RFvngqMR2BtH
- IO1VvSRkILHRvjRcwMjeHN4tZQoT99Ma8Zx6iF5kKC9rB1ug78AyzstZg+cZXA4OiAiE
- TZyfjPAKyxrDcGtoWdTndIylJ5hEzRg6xm0UxSmGc+YNttCJCpOLxL7PjEcNF8y/y6O9
- f/bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=PjGqcCLyTYRul6d3IpZzlUcIFkEhqkcsCbb7Iu+Tm2w=;
- b=OUQBuhr+qI9X9tvsBc58HyZxB02nl82xJTIStpV4bhX4NpzAlwxWREN+VWErYVU8eB
- CLQCiAXtBLJBWttiLnPHPw39qTn38I1RyzvsbO6zFfGhNv9eG9xlMm8iuw0xDRz8KCP0
- FtX6+VYRudmGZnnI4WrTyGOtk2/TyuPTAh26c5/JAZlaKephq9tftavl/TOkbdR5RUm6
- Rq9bpdTPuRMtj5u62QYjbMqOwEsY89DV6cvwJbwSgI3ktZBxizRtD/QcyMQBjP1g0mgk
- q8WTBb1Aw7FxC67hurI4B1GMQ+Drk/56KPspaKuxbDiu0emqLeO2RnEdM3vGKWOl7i8X
- ae7w==
-X-Gm-Message-State: ACrzQf0+myChOjtNQqOHYUYMw0ZPeTwbiQhzMjlI4H7gKGakJXwqB2hc
- dBhAPPuvbXo+c85WBKwQx3w=
-X-Google-Smtp-Source: AMsMyM7cUXOZ8twnkJfTyrmXAug4FZDn/wyElaxjG719IhQTUc2k3XYqjYBKOARms43uMY+ZaPWk2A==
-X-Received: by 2002:a05:6a00:ad4:b0:547:8ed2:e41e with SMTP id
- c20-20020a056a000ad400b005478ed2e41emr11531825pfl.3.1663443096235; 
- Sat, 17 Sep 2022 12:31:36 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- k29-20020aa7973d000000b00537ff911a89sm16846685pfg.105.2022.09.17.12.31.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Sep 2022 12:31:35 -0700 (PDT)
-Message-ID: <467e4795-31ea-54b7-1735-ef5c2857ca5f@amsat.org>
-Date: Sat, 17 Sep 2022 21:31:31 +0200
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oZeG8-0008Pz-GU
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 16:18:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39253)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oZeG6-0001Bp-Te
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 16:17:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663445870;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UILJnmbniUPP+yjEAvLOr6NCW24rfZFmU9bVZbAkMLo=;
+ b=QHX4DK8q+ay2xo52mmj0UIk6QJpxOwPirz47FgkwbUSlp/YS78ZOf7xftgRlUHZfFGGREV
+ 6syd00kQpX5iEVqYzOoRXeZgTa8LS3R3UOd+FGN6W7871jPaXtGEkD3Db/xFx2wM0Wdcre
+ Q+vw6dyVsPEHmDhiD/RILpB/YWWMZU4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-636-G0P8AfO7PTafniMA5Zy3yA-1; Sat, 17 Sep 2022 16:17:45 -0400
+X-MC-Unique: G0P8AfO7PTafniMA5Zy3yA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27A0485A583;
+ Sat, 17 Sep 2022 20:17:45 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 82A0349BB60;
+ Sat, 17 Sep 2022 20:17:44 +0000 (UTC)
+Date: Fri, 16 Sep 2022 16:16:51 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Sam Li <faithilikerun@gmail.com>
+Cc: Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ qemu block <qemu-block@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
+ Fam Zheng <fam@euphon.net>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Hannes Reinecke <hare@suse.de>, Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v9 1/7] include: add zoned device structs
+Message-ID: <YySTY9Y+/6IplNXm@fedora>
+References: <20220910052759.27517-1-faithilikerun@gmail.com>
+ <20220910052759.27517-2-faithilikerun@gmail.com>
+ <20220915080447.nti5wdhwgwtwv4ft@redhat.com>
+ <CAAAx-8KFxizaM7o82S_Zza6QjHB-mFf7hB_B-UbZ2E1Uq-sd7g@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PULL 00/12] linux-user patches
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@gmail.com>, Helge Deller <deller@gmx.de>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
- Thomas Huth <thuth@redhat.com>
-References: <20220913191321.96747-1-deller@gmx.de>
- <CAJSP0QWfUhRVhRJ7og1ntfbrjdpcuU31xRnUNWTOBhshpP8cTQ@mail.gmail.com>
-In-Reply-To: <CAJSP0QWfUhRVhRJ7og1ntfbrjdpcuU31xRnUNWTOBhshpP8cTQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52a.google.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.529,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="lcrHx7oK0DsCuwPU"
+Content-Disposition: inline
+In-Reply-To: <CAAAx-8KFxizaM7o82S_Zza6QjHB-mFf7hB_B-UbZ2E1Uq-sd7g@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_24_48=1.34,
+ DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,37 +87,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 17/9/22 16:26, Stefan Hajnoczi wrote:
-> The close_range(2) man page says:
-> close_range() first appeared in Linux 5.9.  Library support was added
-> in glibc in version 2.34.
-> 
-> The qemu-user GitLab CI jobs are failing. For example, see
-> https://gitlab.com/qemu-project/qemu/-/jobs/3043629417:
-> 
-> ../linux-user/syscall.c:8734:26: error: implicit declaration of
-> function 'close_range' is invalid in C99
-> [-Werror,-Wimplicit-function-declaration]
-> return get_errno(close_range(arg1, arg2, arg3));
->                             ^
-> 
-> There is a second issue with this pull request:
-> ../linux-user/syscall.c:357:16: error: ‘pidfd_getfd’ defined but not
-> used [-Werror=unused-function]
-> 357 | _syscall3(int, pidfd_getfd, int, pidfd, int, targetfd, unsigned
-> int, flags);
->         | ^~~~~~~~~~~
-> ../linux-user/syscall.c:251:13: note: in definition of macro ‘_syscall3’
-> 
-> See https://gitlab.com/qemu-project/qemu/-/jobs/3043629434.
 
-Hmm apparently this PR hasn't been reviewed (although the patches were
-on the list for 2 weeks).
+--lcrHx7oK0DsCuwPU
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The 'check DCO' job - looking for S-o-b tags -  is green: 
-https://gitlab.com/qemu-project/qemu/-/jobs/3043629425.
-Should we complete it by a R-b/A-b check over the commit range?
+On Thu, Sep 15, 2022 at 06:06:38PM +0800, Sam Li wrote:
+> Eric Blake <eblake@redhat.com> =E4=BA=8E2022=E5=B9=B49=E6=9C=8815=E6=97=
+=A5=E5=91=A8=E5=9B=9B 16:05=E5=86=99=E9=81=93=EF=BC=9A
+> >
+> > On Sat, Sep 10, 2022 at 01:27:53PM +0800, Sam Li wrote:
+> > > Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> > > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > > Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+> > > ---
+> > >  include/block/block-common.h | 43 ++++++++++++++++++++++++++++++++++=
+++
+> > >  1 file changed, 43 insertions(+)
+> > >
+> > > diff --git a/include/block/block-common.h b/include/block/block-commo=
+n.h
+> > > index fdb7306e78..36bd0e480e 100644
+> > > --- a/include/block/block-common.h
+> > > +++ b/include/block/block-common.h
+> > > @@ -49,6 +49,49 @@ typedef struct BlockDriver BlockDriver;
+> > >  typedef struct BdrvChild BdrvChild;
+> > >  typedef struct BdrvChildClass BdrvChildClass;
+> > >
+> > > +typedef enum BlockZoneOp {
+> > > +    BLK_ZO_OPEN,
+> > > +    BLK_ZO_CLOSE,
+> > > +    BLK_ZO_FINISH,
+> > > +    BLK_ZO_RESET,
+> > > +} BlockZoneOp;
+> > > +
+> > > +typedef enum BlockZoneModel {
+> > > +    BLK_Z_NONE =3D 0x0, /* Regular block device */
+> > > +    BLK_Z_HM =3D 0x1, /* Host-managed zoned block device */
+> > > +    BLK_Z_HA =3D 0x2, /* Host-aware zoned block device */
+> > > +} BlockZoneModel;
+> > > +
+> > > +typedef enum BlockZoneCondition {
+> > > +    BLK_ZS_NOT_WP =3D 0x0,
+> > > +    BLK_ZS_EMPTY =3D 0x1,
+> > > +    BLK_ZS_IOPEN =3D 0x2,
+> > > +    BLK_ZS_EOPEN =3D 0x3,
+> > > +    BLK_ZS_CLOSED =3D 0x4,
+> > > +    BLK_ZS_RDONLY =3D 0xD,
+> > > +    BLK_ZS_FULL =3D 0xE,
+> > > +    BLK_ZS_OFFLINE =3D 0xF,
+> > > +} BlockZoneCondition;
+> > > +
+> > > +typedef enum BlockZoneType {
+> > > +    BLK_ZT_CONV =3D 0x1, /* Conventional random writes supported */
+> > > +    BLK_ZT_SWR =3D 0x2, /* Sequential writes required */
+> > > +    BLK_ZT_SWP =3D 0x3, /* Sequential writes preferred */
+> > > +} BlockZoneType;
+> > > +
+> > > +/*
+> > > + * Zone descriptor data structure.
+> > > + * Provides information on a zone with all position and size values =
+in bytes.
+> >
+> > I'm glad that you chose bytes here for use in qemu.  But since the
+> > kernel struct blk_zone uses sectors instead of bytes, is it worth
+> > adding a sentence that we intentionally use bytes here, different from
+> > Linux, to make it easier for reviewers to realize that scaling when
+> > translating between qemu and kernel is necessary?
+>=20
+> Sorry about the unit mistake. The zone information is in sectors which
+> is the same as kernel struct blk_zone. I think adding a sentence to
+> inform the sector unit makes it clear what the zone descriptor is.
+
+I'd make the units bytes for consistency with the rest of the QEMU block
+layer. For example, the MapEntry structure that "qemu-img map" reports
+has names with similar fields and they are in bytes:
+
+  struct MapEntry {
+      int64_t start;
+      int64_t length;
+
+Stefan
+
+--lcrHx7oK0DsCuwPU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMkk2IACgkQnKSrs4Gr
+c8ieAgf/Y7iIvNe772+u5fdG4V0756QpK8gs7QQUCFUgJP1B0uVq3zhdnEmLqwII
+XP6tDMioY+zRyC2Lp01pJVzCXrBs8fUAU/cSZOdBiYH6SJQgzAa+X7IRIDlJ3Nli
+kEvxRZ6U7Z1ELHBLGIrteyQv1aq56EQrK/k7BIixJJHXKoyMgKoYgcS6NDKevPYJ
+SMV0bN5HBHWSnAA9zSWzcH8TAG8RoLR8wB0JeaRy3jfUhUA6r7VaVE/OjSkui7Xa
+IJFNmkgdop5S2Z/NFRgYT1ytnJ6aVqzHH8wsX/52HqnN4GQu5ZQUcHcM6G8Q0fo5
+JVfmXC4MIhkTDPRpc52u84QMMIU4CQ==
+=rk/f
+-----END PGP SIGNATURE-----
+
+--lcrHx7oK0DsCuwPU--
+
 
