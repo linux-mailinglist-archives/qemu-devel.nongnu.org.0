@@ -2,83 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F935BAC04
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 13:08:44 +0200 (CEST)
-Received: from localhost ([::1]:55486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEE055BAB59
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 12:38:06 +0200 (CEST)
+Received: from localhost ([::1]:35320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZ9D6-0003Es-HO
-	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 07:08:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48874)
+	id 1oZ8jV-0006Vv-Cg
+	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 06:38:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oZ98W-0000ND-Mi
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 07:03:56 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42674)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oZ98S-0003Vm-2k
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 07:03:54 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id z12so17119333wrp.9
- for <qemu-devel@nongnu.org>; Fri, 16 Sep 2022 04:03:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=yWIc2Y0MmjVE0kPRIJG5F0fwxyjWaJnz0+F37xt22As=;
- b=ZLIUQQkOpCQ9DsaZovWCEgxrvP8VrdxMh/JO2wsP9MhufrZW82v4SGIpp6NjdNDZ8S
- 3dDMHnkNd7TbccbDUU8r7Iz/m4NQSeCq94KL4wwXGIPfmt8KNRm4ZHSzSYHeykBCNtHy
- o9tl99j0AoWv9d4t0q+9ctR1+XtTVqbkRjuHOSqNvokzH4na/op5b60LDQyLWxlZikqL
- 3DTYJ4HyTeosaaw3tOTEqCuoAFa3XNHEeGV7m0kEjXWneU0pG4udtqhumCDAtKoqFVHL
- 0SJh8yhjrjOWNArhzoPeTohs+Sd7KD9RlSPY1Gn1a01Q3FdZAxMBhMAyQYUbcbPBW8pc
- FWAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=yWIc2Y0MmjVE0kPRIJG5F0fwxyjWaJnz0+F37xt22As=;
- b=z0AWSs2GoLuKpaECkWjh4lWqqCe3vOyTwfpB6nvlhnQ5h18AvqW73Cku0ASLFh0FrN
- lHQSvR85Sn18bY5CKlS4GDonX7nj5NEA/pD2c0TOZnpMhMkUoeRuCVOCg4i1YbFYbxg1
- 99749UPRyomnP7dDGhaimNq7pDY0o4bBOBY6XtsyU860V/o0GsVItlf3VAwtvqzwrVYL
- FU0JTUw0NzPJDsyUsqRTXJoAbE7ezi8mysovy8kKjW6h+iO2Nj5+/lzGvL6SvSQiEcJf
- /rRG5Mpt4MQA5SUa7gfG0A9iF0fyPqwmGMZqLXWH4J4icYciub1WWFwWkPxFNv9fsESA
- FCBQ==
-X-Gm-Message-State: ACrzQf3Jlqcxft5LXGTreDjQfsaauVmtkUusugtkdjJ5Vx3h4YkCdqvW
- +URC9zcM7ygD7PFCeQO+5sF/vw==
-X-Google-Smtp-Source: AMsMyM4IckB98L0W4SpLozj064V/l3Q0CnHopNWPtnSbmFoV4Bp44e8amGP2xL6xmaO/GXklk5L4kA==
-X-Received: by 2002:a05:6000:144f:b0:22a:94f1:25d6 with SMTP id
- v15-20020a056000144f00b0022a94f125d6mr2395015wrx.422.1663326212061; 
- Fri, 16 Sep 2022 04:03:32 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- h21-20020a05600c351500b003b491f99a25sm2036213wmq.22.2022.09.16.04.03.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Sep 2022 04:03:31 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 78EA91FFB7;
- Fri, 16 Sep 2022 12:03:30 +0100 (BST)
-References: <9bb3ec5d407a5278524d54d7ad53db830b35a74c.1661260622.git.quic_mathbern@quicinc.com>
- <ba99db564c3aeb1812bdfbc9116849092334482f.1661362557.git.quic_mathbern@quicinc.com>
-User-agent: mu4e 1.9.0; emacs 28.1.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-Cc: qemu-devel@nongnu.org, f4bug@amsat.org, peter.maydell@linaro.org
-Subject: Re: [RFC PATCH v2] gdbstub: only send stop-reply packets when
- allowed to
-Date: Fri, 16 Sep 2022 11:33:10 +0100
-In-reply-to: <ba99db564c3aeb1812bdfbc9116849092334482f.1661362557.git.quic_mathbern@quicinc.com>
-Message-ID: <87edwb8ttp.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oZ8i6-0004wv-Lr
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 06:36:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60680)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oZ8i2-0003Ir-JC
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 06:36:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663324593;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SP0FyELxvnoEGejrSlNBqkYXw7nKf7Bl1/OuHIvNU8w=;
+ b=aj1ZClBL4uc5FZQJzPi2KfWnAaZguo5KIPLYtdwl+hbN4fNOERyk/UVgA2wwRR7HMwSi5m
+ mcY/VF/3tiCwra5DDBwB4N1qpTWpYXF8KUO05bZUGoXE8vma6KIJp9eGhXZmA47FKHpTot
+ AzB72K4wlcYsbaUh+rJFTMepFhInS2o=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-388-FSK8Mo3bN7WLmYPBL_1oog-1; Fri, 16 Sep 2022 06:36:32 -0400
+X-MC-Unique: FSK8Mo3bN7WLmYPBL_1oog-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D2517811E81;
+ Fri, 16 Sep 2022 10:36:31 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 86DBB2314B;
+ Fri, 16 Sep 2022 10:36:31 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4B9DD21E6900; Fri, 16 Sep 2022 12:36:30 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  jsnow@redhat.com,
+ eblake@redhat.com
+Subject: Re: [PATCH 05/27] qapi tests: Elide redundant has_FOO in generated C
+References: <20220915204317.3766007-1-armbru@redhat.com>
+ <20220915204317.3766007-6-armbru@redhat.com>
+ <YyQ51Gvy2JS56+TL@redhat.com>
+Date: Fri, 16 Sep 2022 12:36:30 +0200
+In-Reply-To: <YyQ51Gvy2JS56+TL@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Fri, 16 Sep 2022 09:54:44 +0100")
+Message-ID: <87fsgrd2s1.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,192 +85,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-Matheus Tavares Bernardino <quic_mathbern@quicinc.com> writes:
-
-> GDB's remote serial protocol allows stop-reply messages to be sent by
-> the stub either as a notification packet or as a reply to a GDB command
-> (provided that the cmd accepts such a response). QEMU currently does not
-> implement notification packets, so it should only send stop-replies
-> synchronously and when requested. Nevertheless, it may still issue
-> unsolicited stop messages through gdb_vm_state_change().
+> On Thu, Sep 15, 2022 at 10:42:55PM +0200, Markus Armbruster wrote:
+>> The has_FOO for pointer-valued FOO are redundant, except for arrays.
+>> They are also a nuisance to work with.  Recent commit "qapi: Start to
+>> elide redundant has_FOO in generated C" provided the means to elide
+>> them step by step.  This is the step for
+>> tests/qapi-schema/qapi-schema-test.json.
+>>=20
+>> Said commit explains the transformation in more detail.  The invariant
+>> violations mentioned there do not occur here.
+>>=20
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>  tests/qtest/qmp-cmd-test.c               |  2 +-
+>>  tests/unit/test-qmp-cmds.c               | 26 +++++++++++-------------
+>>  tests/unit/test-qmp-event.c              |  4 ++--
+>>  tests/unit/test-qobject-input-visitor.c  |  2 +-
+>>  tests/unit/test-qobject-output-visitor.c |  2 --
+>>  tests/unit/test-visitor-serialization.c  |  3 +--
+>>  scripts/qapi/schema.py                   |  4 +---
+>>  7 files changed, 18 insertions(+), 25 deletions(-)
 >
-> Although this behavior doesn't seem to cause problems with GDB itself,
-> it does with other debuggers that implement the GDB remote serial
-> protocol, like hexagon-lldb. In this case, the debugger fails upon an
-> unexpected stop-reply message from QEMU when lldb attaches to it.
-
-Does this mean we can't have a test case that exercises this behaviour
-with gdb? I'm guessing it will be tricky to exercise anyway because we'd
-need to trigger a vm state change.
-
-> Instead, let's change gdb_set_stop_cpu() to send stop messages only as a
-> response to a previous GDB command, also making sure to check that the
-> command accepts such a reply.
+>> diff --git a/tests/unit/test-qmp-cmds.c b/tests/unit/test-qmp-cmds.c
+>> index 6085c09995..2373cd64cb 100644
+>> --- a/tests/unit/test-qmp-cmds.c
+>> +++ b/tests/unit/test-qmp-cmds.c
+>> @@ -43,15 +43,15 @@ void qmp_user_def_cmd1(UserDefOne * ud1, Error **err=
+p)
+>>  {
+>>  }
+>>=20=20
+>> -FeatureStruct1 *qmp_test_features0(bool has_fs0, FeatureStruct0 *fs0,
+>> -                                   bool has_fs1, FeatureStruct1 *fs1,
+>> -                                   bool has_fs2, FeatureStruct2 *fs2,
+>> -                                   bool has_fs3, FeatureStruct3 *fs3,
+>> -                                   bool has_fs4, FeatureStruct4 *fs4,
+>> -                                   bool has_cfs1, CondFeatureStruct1 *c=
+fs1,
+>> -                                   bool has_cfs2, CondFeatureStruct2 *c=
+fs2,
+>> -                                   bool has_cfs3, CondFeatureStruct3 *c=
+fs3,
+>> -                                   bool has_cfs4, CondFeatureStruct4 *c=
+fs4,
+>> +FeatureStruct1 *qmp_test_features0(FeatureStruct0 *fs0,
+>> +                                   FeatureStruct1 *fs1,
+>> +                                   FeatureStruct2 *fs2,
+>> +                                   FeatureStruct3 *fs3,
+>> +                                   FeatureStruct4 *fs4,
+>> +                                   CondFeatureStruct1 *cfs1,
+>> +                                   CondFeatureStruct2 *cfs2,
+>> +                                   CondFeatureStruct3 *cfs3,
+>> +                                   CondFeatureStruct4 *cfs4,
+>>                                     Error **errp)
 >
-> Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-> ---
+> It makes me so happy to see this change finally arrive, the new
+> method signature just "feels right".
+
+Thank you!
+
+>> @@ -87,8 +86,8 @@ UserDefTwo *qmp_user_def_cmd2(UserDefOne *ud1a,
+>>=20=20
+>>      ud1c->string =3D strdup(ud1a->string);
+>>      ud1c->integer =3D ud1a->integer;
+>> -    ud1d->string =3D strdup(has_udb1 ? ud1b->string : "blah0");
+>> -    ud1d->integer =3D has_udb1 ? ud1b->integer : 0;
+>> +    ud1d->string =3D strdup(ud1b ? ud1b->string : "blah0");
+>> +    ud1d->integer =3D ud1b ? ud1b->integer : 0;
 >
-> Thanks Peter for pointing out about the notification packets at v1.
->
-> Changes in this version include: improvements in the commit message;
-> proper handling of the idle state (so that stop-replies can be sent
-> later, e.g. when the program is stopped due to a watchpoint); and
-> inclusion of other implemented GDB cmds that accept stop-reply as a
-> response.
->
-> There are three additional places that I think may send stop-reply
-> packages asynchronously, but I haven't touched those as I'm not sure if
-> that is really needed:
->
-> - gdb_exit() sends a "W" reply.
-> - gdb_signalled() sends "X".
-> - gdb_handlesig() sends "T".
->
-> Should we also restrict the message sending at these functions with the
-> same rules added to gdb_vm_state_change()?
+> Pre-existing problem. use of 'strdup' will leave these fields
+> NULL on OOM and nothing is checking this.
 
-Hmm probably - that is certainly the implication of:
+Yes.
 
-  https://sourceware.org/gdb/onlinedocs/gdb/Stop-Reply-Packets.html#Stop-Re=
-ply-Packets
+Here, the value is assigned to a mandatory member of a QAPI object type.
+Such members are specified not to be null.  When strdup() returns null
+on OOM, we break the invariant.  Unaffected by the patch.
 
->
->  gdbstub.c | 29 +++++++++++++++++++++++++----
->  1 file changed, 25 insertions(+), 4 deletions(-)
->
-> diff --git a/gdbstub.c b/gdbstub.c
-> index cf869b10e3..23507f21ca 100644
-> --- a/gdbstub.c
-> +++ b/gdbstub.c
-> @@ -350,6 +350,7 @@ typedef struct GDBState {
->      int line_buf_inde;
->      int line_sum; /* running checksum */
->      int line_csum; /* checksum at the end of the packet */
-> +    char last_cmd[MAX_PACKET_LENGTH];
->      GByteArray *last_packet;
->      int signal;
->  #ifdef CONFIG_USER_ONLY
-> @@ -412,6 +413,7 @@ static void reset_gdbserver_state(void)
->      g_free(gdbserver_state.processes);
->      gdbserver_state.processes =3D NULL;
->      gdbserver_state.process_num =3D 0;
-> +    gdbserver_state.last_cmd[0] =3D '\0';
+However, changes like
 
-I'm not super keen on adding another static buffer to the gdb state
-especially as we've been slowly removing the others in favour of
-GString's where appropriate. More over isn't this really a boolean state
-we want, maybe .allow_stop_reply?
+   -    obj->has_frob =3D true;
+        obj->frob =3D strdup(...);
 
->  }
->  #endif
->=20=20
-> @@ -2558,7 +2560,7 @@ static void handle_target_halt(GArray *params, void=
- *user_ctx)
->      gdb_breakpoint_remove_all();
->  }
->=20=20
-> -static int gdb_handle_packet(const char *line_buf)
-> +static void gdb_handle_packet(const char *line_buf)
->  {
->      const GdbCmdParseEntry *cmd_parser =3D NULL;
->=20=20
-> @@ -2800,8 +2802,6 @@ static int gdb_handle_packet(const char *line_buf)
->      if (cmd_parser) {
->          run_cmd_parser(line_buf, cmd_parser);
->      }
-> -
-> -    return RS_IDLE;
->  }
+*are* affected: before the patch, we break the invariant "obj->has_frob
+=3D=3D !!obj->frob", and afterwards, we change present to absent instead.
 
-I guess this is changed to allow the later check against RS_IDLE. May I
-suggest a better place would be to extend GdbCmdParseEntry to contain
-the value of .allow_stop_reply which we could set on successful handling
-of a packet in process_string_cmd, something like:
+Arguing the finer points of this change seems a waste of time, since OOM
+means doom anyway.
 
-        cmd->handler(params, user_ctx);
-        gdbserver_state.allow_stop_reply =3D cmd.allow_stop_reply;
-        return 0;
+>                                           Fortunately it is only
+> the test suite so not a big deal, but worth changing to g_strdup
+> at some point (separate from this patch / series). Repeated in
+> other chunks of the test beyond this quoted one, but I won't
+> point them out.
 
-And then just annotate the command table entries for commands that
-explicitly allow it.
+Yes, g_strdup() would be better.
 
->=20=20
->  void gdb_set_stop_cpu(CPUState *cpu)
-> @@ -2821,8 +2821,14 @@ void gdb_set_stop_cpu(CPUState *cpu)
->  }
->=20=20
->  #ifndef CONFIG_USER_ONLY
-> +static inline bool char_in(char c, const char *str)
-> +{
-> +    return strchr(str, c) !=3D NULL;
-> +}
-> +
+I count some 50 occurences of strdup() in the tree.  Getting rid of them
+shouldn't be too hard.
 
-We can then drop this.
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
->  static void gdb_vm_state_change(void *opaque, bool running, RunState sta=
-te)
->  {
-> +    const char *cmd =3D gdbserver_state.last_cmd;
->      CPUState *cpu =3D gdbserver_state.c_cpu;
->      g_autoptr(GString) buf =3D g_string_new(NULL);
->      g_autoptr(GString) tid =3D g_string_new(NULL);
-> @@ -2843,6 +2849,18 @@ static void gdb_vm_state_change(void *opaque, bool=
- running, RunState state)
->          return;
->      }
->=20=20
-> +    /*
-> +     * We don't implement notification packets, so we should only send a
-> +     * stop-reply in response to a previous GDB command. Commands that a=
-ccept
-> +     * stop-reply packages are: C, c, S, s, ?, vCont, vAttach, vRun, and
-> +     * vStopped. We don't implement vRun, and vStopped. For vAttach and =
-?, the
-> +     * stop-reply is already sent from their respective cmd handler func=
-tions.
-> +     */
-> +    if (gdbserver_state.state !=3D RS_IDLE || /* still parsing the cmd */
-> +        !(startswith(cmd, "vCont;") || (strlen(cmd) =3D=3D 1 && char_in(=
-cmd[0], "cCsS")))) {
-> +        return;
-> +    }
-> +
+Thanks again!
 
-Then this becomes a simple test of
-
-       if (!gdbserver_state.allow_stop_reply) {
-          return;
-       }
-
->      gdb_append_thread_id(cpu, tid);
->=20=20
->      switch (state) {
-> @@ -3130,11 +3148,14 @@ static void gdb_read_byte(uint8_t ch)
->                  reply =3D '-';
->                  put_buffer(&reply, 1);
->                  gdbserver_state.state =3D RS_IDLE;
-> +                gdbserver_state.last_cmd[0] =3D '\0';
->              } else {
->                  /* send ACK reply */
->                  reply =3D '+';
->                  put_buffer(&reply, 1);
-> -                gdbserver_state.state =3D gdb_handle_packet(gdbserver_st=
-ate.line_buf);
-> +                strcpy(gdbserver_state.last_cmd, gdbserver_state.line_bu=
-f);
-> +                gdbserver_state.state =3D RS_IDLE;
-> +                gdb_handle_packet(gdbserver_state.line_buf);
->              }
->              break;
->          default:
-
-Please post the next revision as a standalone patch rather than a reply
-to previous versions. It tends to confuse tooling.
-
-Thanks,
-
---=20
-Alex Benn=C3=A9e
 
