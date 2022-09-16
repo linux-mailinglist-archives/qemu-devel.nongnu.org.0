@@ -2,73 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F7885BAFD0
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 17:03:41 +0200 (CEST)
-Received: from localhost ([::1]:42582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8701A5BAFEA
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 17:11:43 +0200 (CEST)
+Received: from localhost ([::1]:38810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZCsU-00078G-DQ
-	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 11:03:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55630)
+	id 1oZD0I-00061V-0q
+	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 11:11:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oZCpK-0004rx-Kn; Fri, 16 Sep 2022 11:00:22 -0400
-Received: from mail-qv1-xf34.google.com ([2607:f8b0:4864:20::f34]:35691)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oZCpI-0002HD-DR; Fri, 16 Sep 2022 11:00:22 -0400
-Received: by mail-qv1-xf34.google.com with SMTP id w4so16829903qvp.2;
- Fri, 16 Sep 2022 08:00:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=oWk1c6lWGwEB+0UiMTf/EWiM+TNeZNHVKhDmX3KobuQ=;
- b=L1evIi3oYocSroBKjV8SBLAkGZaBekQL+dPAEMrElvE/p0ndefsBcz5d71t5xh6ff+
- Su2f5/uECxTW5yv9tIzOFu0Z2JuChWCh2WFQNXvhqfLYtHz1dcdDgkR4B6lVe6jlAAcp
- Bf5ZUQzD/YwlMnj3K6pGwcNMslYtyasVq66vWXMgo7kHOzlwisWxGcDNoLigiwQY38uV
- PCtUi7U0qEvxLub1mqc4I5hOMibSc3o69SVPfGPBl+5F163C/6GtcsbF1/4MuK3surg3
- Aj79vMGVi9sFa7ziusimToQBtVd731rygOAFWnXNjMdHxdTaSt/sOCqyW7Pfs6u33I9w
- NVMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=oWk1c6lWGwEB+0UiMTf/EWiM+TNeZNHVKhDmX3KobuQ=;
- b=l1P1K49E8daa5bkfJaVCI8oz5it5IBg9GjXMBctI4YF9d7q1THaARJLofcA2Sv4LWq
- 5jDJ6W2YQia5Du7ARde7uTWYQOSdfbxoIwTC/aMdP99J726T/M63D73JYRIppxo7DzUE
- 99mjly27J54me62Vb7EbPADxKfke5RtQTsJgOCwBXyjj+B2D9gikYZt/wNY5lCbevruy
- TKY344J2JSrUvOm5E+5/8/ssERKJr6q2Yla6hlRrzgtLQF+OVT+gAXRHxxR//0XJXsO8
- FsB2Va2qFLZcUULHXyjc49OKjbozrw/KrBVU9HoWeVj8uNYMRFyoVKz4LuoVZ2O+Q1w2
- rKdg==
-X-Gm-Message-State: ACrzQf2nDrh/NUWfQtv7La7NorAa8B18DQS/f/XUtGB/VwL3iqxSBisz
- d1p1/EkigmBBdLLQBWroLfiI3BN2nhPsDuv5ZIk=
-X-Google-Smtp-Source: AMsMyM4g7rDq68k6l0Q3+mU0LYqq87VfhIaoKFXbrqnu+EOSAuomharmNogS8gcDbMznHEE/H9Yu0vQAQti0fTbT0xU=
-X-Received: by 2002:a05:6214:20a8:b0:4ac:b917:ccae with SMTP id
- 8-20020a05621420a800b004acb917ccaemr4092413qvd.85.1663340418636; Fri, 16 Sep
- 2022 08:00:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mathbern@qualcomm.com>)
+ id 1oZCvN-0000ft-VR
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 11:06:38 -0400
+Received: from mx0a-0031df01.pphosted.com ([205.220.168.131]:37826)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mathbern@qualcomm.com>)
+ id 1oZCvL-0004Ry-Bw
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 11:06:37 -0400
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28GE3IiL002546
+ for <qemu-devel@nongnu.org>; Fri, 16 Sep 2022 15:06:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=qcppdkim1; bh=JKKVwlqC1ay6udOECamg4afpxkjfuGabtGbtRJkR97I=;
+ b=F6Y+xkFjDil43kZ3RxDV7owlEh5bAK8hKjQyRzyfP1hTK81d3r0dwDFR8sqXsmpfg/Os
+ 0yKeawxWrgzREUwjZtorbxfi00tR7d7M/D76nJcSbPZnR7cU2hUl11Q68JtzAtwI2Nk0
+ V8Oa+KXdlB1FnHt7zSY7jDIZdDObz7eiSnkeU6cVDlc+lggTIMRvWSbPjvVmJLMluWWp
+ uRFv3LuvNI2xq+6MpmseB+TqG7F1P98e1slt5k78vzkbxrabXHJbQlYPozh4gVDZBKpj
+ AuLi/l/pGAwXsZc3wpi6d5Lb/GNbkIiLkGunHmKjQhtawyVizNNU6N9i72jWtXa7s3t0 Ig== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jm9m1bcc2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 16 Sep 2022 15:06:31 +0000
+Received: from pps.filterd (NALASPPMTA04.qualcomm.com [127.0.0.1])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 28GF2bZ4006090
+ for <qemu-devel@nongnu.org>; Fri, 16 Sep 2022 15:06:30 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by NALASPPMTA04.qualcomm.com (PPS) with ESMTPS id 3jk8x6ttj0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 16 Sep 2022 15:06:30 +0000
+Received: from NALASPPMTA04.qualcomm.com (NALASPPMTA04.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28GF4YUM009305
+ for <qemu-devel@nongnu.org>; Fri, 16 Sep 2022 15:06:30 GMT
+Received: from hu-devc-sd-u20-a-1.qualcomm.com (hu-mathbern-lv.qualcomm.com
+ [10.47.235.147])
+ by NALASPPMTA04.qualcomm.com (PPS) with ESMTPS id 28GF6T4m011151
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 16 Sep 2022 15:06:29 +0000
+Received: by hu-devc-sd-u20-a-1.qualcomm.com (Postfix, from userid 4229910)
+ id 843C54D3C; Fri, 16 Sep 2022 12:06:29 -0300 (-03)
+From: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
+To: qemu-devel@nongnu.org
+Cc: tsimpson@quicinc.com, bcain@quicinc.com
+Subject: [PATCH] Hexagon (tests/tcg/hexagon): add fmin/fmax tests for signed
+ zero
+Date: Fri, 16 Sep 2022 12:06:27 -0300
+Message-Id: <1dca69ceb766924b7664b5b78ce930e3a9abe7dc.1663340756.git.quic_mathbern@quicinc.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-References: <20220915152520.21948-1-shentey@gmail.com>
- <20220915152520.21948-8-shentey@gmail.com>
-In-Reply-To: <20220915152520.21948-8-shentey@gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 16 Sep 2022 23:00:06 +0800
-Message-ID: <CAEUhbmUzss14vX0GeB8GgB1n2YTzai5sKsYno_qzh68fXixqXA@mail.gmail.com>
-Subject: Re: [PATCH 07/11] hw/ppc/e500: Implement pflash handling
-To: Bernhard Beschow <shentey@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, 
- Bin Meng <bin.meng@windriver.com>, qemu-ppc <qemu-ppc@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f34;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf34.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: HOGYS1sm22BE3RJ4lUmRGHNX8sRZQ7Cc
+X-Proofpoint-GUID: HOGYS1sm22BE3RJ4lUmRGHNX8sRZQ7Cc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-16_09,2022-09-16_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ suspectscore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0
+ malwarescore=0 adultscore=0 mlxlogscore=525 spamscore=0 mlxscore=0
+ phishscore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209160112
+Received-SPF: pass client-ip=205.220.168.131;
+ envelope-from=mathbern@qualcomm.com; helo=mx0a-0031df01.pphosted.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,178 +105,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 15, 2022 at 11:36 PM Bernhard Beschow <shentey@gmail.com> wrote:
->
-> Allows e500 boards to have their root file system reside on flash using
-> only builtin devices.
->
-> Note that the flash memory area is only created when a -pflash argument is
-> given, and that the size is determined by the given file. The idea is to
-> put users into control.
->
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->  docs/system/ppc/ppce500.rst | 12 +++++++++
->  hw/ppc/Kconfig              |  1 +
->  hw/ppc/e500.c               | 54 +++++++++++++++++++++++++++++++++++++
->  3 files changed, 67 insertions(+)
->
-> diff --git a/docs/system/ppc/ppce500.rst b/docs/system/ppc/ppce500.rst
-> index ba6bcb7314..c3f55c6f3d 100644
-> --- a/docs/system/ppc/ppce500.rst
-> +++ b/docs/system/ppc/ppce500.rst
-> @@ -119,6 +119,18 @@ To boot the 32-bit Linux kernel:
->        -initrd /path/to/rootfs.cpio \
->        -append "root=/dev/ram"
->
-> +Rather than using a root file system on ram disk, it is possible to have it on
-> +emulated flash. Given an ext2 image whose size must be a power of two, it can
-> +be used as follows:
-> +
-> +.. code-block:: bash
-> +
-> +  $ qemu-system-ppc64 -M ppce500 -cpu e500mc -smp 4 -m 2G \
+Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
+---
+ tests/tcg/hexagon/usr.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-qemu-system-ppc{64|32}
+diff --git a/tests/tcg/hexagon/usr.c b/tests/tcg/hexagon/usr.c
+index a531511cec..fb4514989c 100644
+--- a/tests/tcg/hexagon/usr.c
++++ b/tests/tcg/hexagon/usr.c
+@@ -86,6 +86,7 @@ const uint32_t SF_QNaN_neg =         0xffc00000;
+ const uint32_t SF_SNaN_neg =         0xffb00000;
+ const uint32_t SF_HEX_NaN =          0xffffffff;
+ const uint32_t SF_zero =             0x00000000;
++const uint32_t SF_zero_neg =         0x80000000;
+ const uint32_t SF_one =              0x3f800000;
+ const uint32_t SF_one_recip =        0x3f7f0001;         /* 0.9960...  */
+ const uint32_t SF_one_invsqrta =     0x3f7f0000;         /* 0.99609375 */
+@@ -100,6 +101,7 @@ const uint64_t DF_QNaN_neg =         0xfff8000000000000ULL;
+ const uint64_t DF_SNaN_neg =         0xfff7000000000000ULL;
+ const uint64_t DF_HEX_NaN =          0xffffffffffffffffULL;
+ const uint64_t DF_zero =             0x0000000000000000ULL;
++const uint64_t DF_zero_neg =         0x8000000000000000ULL;
+ const uint64_t DF_any =              0x3f80000000000000ULL;
+ const uint64_t DF_one =              0x3ff0000000000000ULL;
+ const uint64_t DF_one_hh =           0x3ff001ff80000000ULL;     /* 1.00048... */
+@@ -933,6 +935,8 @@ int main()
+     TEST_R_OP_RR(sfmin,  SF_QNaN,     SF_one,         SF_one,       USR_CLEAR);
+     TEST_R_OP_RR(sfmin,  SF_SNaN,     SF_QNaN,        SF_HEX_NaN,   USR_FPINVF);
+     TEST_R_OP_RR(sfmin,  SF_QNaN,     SF_SNaN,        SF_HEX_NaN,   USR_FPINVF);
++    TEST_R_OP_RR(sfmin,  SF_zero,     SF_zero_neg,    SF_zero_neg,  USR_CLEAR);
++    TEST_R_OP_RR(sfmin,  SF_zero_neg, SF_zero,        SF_zero_neg,  USR_CLEAR);
+ 
+     TEST_R_OP_RR(sfmax,  SF_one,      SF_small_neg,   SF_one,       USR_CLEAR);
+     TEST_R_OP_RR(sfmax,  SF_one,      SF_SNaN,        SF_one,       USR_FPINVF);
+@@ -941,6 +945,8 @@ int main()
+     TEST_R_OP_RR(sfmax,  SF_QNaN,     SF_one,         SF_one,       USR_CLEAR);
+     TEST_R_OP_RR(sfmax,  SF_SNaN,     SF_QNaN,        SF_HEX_NaN,   USR_FPINVF);
+     TEST_R_OP_RR(sfmax,  SF_QNaN,     SF_SNaN,        SF_HEX_NaN,   USR_FPINVF);
++    TEST_R_OP_RR(sfmax,  SF_zero,     SF_zero_neg,    SF_zero,      USR_CLEAR);
++    TEST_R_OP_RR(sfmax,  SF_zero_neg, SF_zero,        SF_zero,      USR_CLEAR);
+ 
+     TEST_R_OP_RR(sfadd,  SF_one,      SF_QNaN,        SF_HEX_NaN,   USR_CLEAR);
+     TEST_R_OP_RR(sfadd,  SF_one,      SF_SNaN,        SF_HEX_NaN,   USR_FPINVF);
+@@ -1003,6 +1009,8 @@ int main()
+     TEST_P_OP_PP(dfmin,  DF_QNaN,   DF_any,          DF_any,        USR_CLEAR);
+     TEST_P_OP_PP(dfmin,  DF_SNaN,   DF_QNaN,         DF_HEX_NaN,    USR_FPINVF);
+     TEST_P_OP_PP(dfmin,  DF_QNaN,   DF_SNaN,         DF_HEX_NaN,    USR_FPINVF);
++    TEST_P_OP_PP(dfmin,  DF_zero,   DF_zero_neg,     DF_zero_neg,   USR_CLEAR);
++    TEST_P_OP_PP(dfmin,  DF_zero_neg, DF_zero,       DF_zero_neg,   USR_CLEAR);
+ 
+     TEST_P_OP_PP(dfmax,  DF_any,    DF_small_neg,    DF_any,        USR_CLEAR);
+     TEST_P_OP_PP(dfmax,  DF_any,    DF_SNaN,         DF_any,        USR_FPINVF);
+@@ -1011,6 +1019,8 @@ int main()
+     TEST_P_OP_PP(dfmax,  DF_QNaN,   DF_any,          DF_any,        USR_CLEAR);
+     TEST_P_OP_PP(dfmax,  DF_SNaN,   DF_QNaN,         DF_HEX_NaN,    USR_FPINVF);
+     TEST_P_OP_PP(dfmax,  DF_QNaN,   DF_SNaN,         DF_HEX_NaN,    USR_FPINVF);
++    TEST_P_OP_PP(dfmax,  DF_zero,   DF_zero_neg,     DF_zero,       USR_CLEAR);
++    TEST_P_OP_PP(dfmax,  DF_zero_neg, DF_zero,       DF_zero,       USR_CLEAR);
+ 
+     TEST_XP_OP_PP(dfmpyhh, DF_one,   DF_one,  DF_one,   DF_one_hh,  USR_CLEAR);
+     TEST_XP_OP_PP(dfmpyhh, DF_zero,  DF_any,  DF_QNaN,  DF_HEX_NaN, USR_CLEAR);
+-- 
+2.37.2
 
-> +      -display none -serial stdio \
-> +      -kernel vmlinux \
-> +      -drive if=pflash,file=/path/to/rootfs.ext2,format=raw \
-> +      -append "rootwait root=/dev/mtdblock0"
-> +
->  Running U-Boot
->  --------------
->
-> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-> index 791fe78a50..769a1ead1c 100644
-> --- a/hw/ppc/Kconfig
-> +++ b/hw/ppc/Kconfig
-> @@ -126,6 +126,7 @@ config E500
->      select ETSEC
->      select GPIO_MPC8XXX
->      select OPENPIC
-> +    select PFLASH_CFI01
->      select PLATFORM_BUS
->      select PPCE500_PCI
->      select SERIAL
-> diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-> index 864b6f3d92..7843a4e04b 100644
-> --- a/hw/ppc/e500.c
-> +++ b/hw/ppc/e500.c
-> @@ -23,8 +23,10 @@
->  #include "e500-ccsr.h"
->  #include "net/net.h"
->  #include "qemu/config-file.h"
-> +#include "hw/block/flash.h"
->  #include "hw/char/serial.h"
->  #include "hw/pci/pci.h"
-> +#include "sysemu/block-backend-io.h"
->  #include "sysemu/sysemu.h"
->  #include "sysemu/kvm.h"
->  #include "sysemu/reset.h"
-> @@ -267,6 +269,34 @@ static void sysbus_device_create_devtree(SysBusDevice *sbdev, void *opaque)
->      }
->  }
->
-> +static void create_devtree_flash(SysBusDevice *sbdev,
-> +                                 PlatformDevtreeData *data)
-> +{
-> +    char *name;
-
-Use g_autofree
-
-> +    uint64_t num_blocks = object_property_get_uint(OBJECT(sbdev),
-> +                                                   "num-blocks",
-> +                                                   &error_fatal);
-> +    uint64_t sector_length = object_property_get_uint(OBJECT(sbdev),
-> +                                                      "sector-length",
-> +                                                      &error_fatal);
-> +    uint64_t bank_width = object_property_get_uint(OBJECT(sbdev),
-> +                                                   "width",
-> +                                                   &error_fatal);
-> +    hwaddr flashbase = 0;
-> +    hwaddr flashsize = num_blocks * sector_length;
-> +    void *fdt = data->fdt;
-> +
-> +    name = g_strdup_printf("%s/nor@%" PRIx64, data->node, flashbase);
-> +    qemu_fdt_add_subnode(fdt, name);
-> +    qemu_fdt_setprop_cell(fdt, name, "#address-cells", 1);
-> +    qemu_fdt_setprop_cell(fdt, name, "#size-cells", 1);
-
-#address-cells and #size-cells are not needed.
-
-> +    qemu_fdt_setprop_string(fdt, name, "compatible", "cfi-flash");
-> +    qemu_fdt_setprop_sized_cells(fdt, name, "reg",
-> +                                 1, flashbase, 1, flashsize);
-> +    qemu_fdt_setprop_cell(fdt, name, "bank-width", bank_width);
-> +    g_free(name);
-> +}
-> +
->  static void platform_bus_create_devtree(PPCE500MachineState *pms,
->                                          void *fdt, const char *mpic)
->  {
-> @@ -276,6 +306,8 @@ static void platform_bus_create_devtree(PPCE500MachineState *pms,
->      uint64_t addr = pmc->platform_bus_base;
->      uint64_t size = pmc->platform_bus_size;
->      int irq_start = pmc->platform_bus_first_irq;
-> +    SysBusDevice *sbdev;
-> +    bool ambiguous;
->
->      /* Create a /platform node that we can put all devices into */
->
-> @@ -302,6 +334,13 @@ static void platform_bus_create_devtree(PPCE500MachineState *pms,
->      /* Loop through all dynamic sysbus devices and create nodes for them */
->      foreach_dynamic_sysbus_device(sysbus_device_create_devtree, &data);
->
-> +    sbdev = SYS_BUS_DEVICE(object_resolve_path_type("", TYPE_PFLASH_CFI01,
-> +                                                    &ambiguous));
-
-Can this be moved into sysbus_device_create_devtree(), and use the
-same logic as the eTSEC device?
-
-> +    if (sbdev) {
-> +        assert(!ambiguous);
-> +        create_devtree_flash(sbdev, &data);
-> +    }
-> +
->      g_free(node);
->  }
->
-> @@ -856,6 +895,7 @@ void ppce500_init(MachineState *machine)
->      unsigned int pci_irq_nrs[PCI_NUM_PINS] = {1, 2, 3, 4};
->      IrqLines *irqs;
->      DeviceState *dev, *mpicdev;
-> +    DriveInfo *dinfo;
->      CPUPPCState *firstenv = NULL;
->      MemoryRegion *ccsr_addr_space;
->      SysBusDevice *s;
-> @@ -1024,6 +1064,20 @@ void ppce500_init(MachineState *machine)
->                                  pmc->platform_bus_base,
->                                  sysbus_mmio_get_region(s, 0));
->
-> +    dinfo = drive_get(IF_PFLASH, 0, 0);
-> +    if (dinfo) {
-> +        BlockBackend *blk = blk_by_legacy_dinfo(dinfo);
-> +        BlockDriverState *bs = blk_bs(blk);
-> +        uint64_t size = bdrv_getlength(bs);
-> +        if (ctpop64(size) != 1) {
-> +            error_report("Size of pflash file must be a power of two.");
-> +            exit(1);
-> +        }
-
-I think we should also check whether the flash size plus the eTSEC
-size exceeds the platform bus mmio window size otherwise it won't work
-for both devices present, no?
-
-> +        pflash_cfi01_register(pmc->platform_bus_base, "e500.flash",
-> +                              size, blk,
-> +                              64 * KiB, 2, 0x89, 0x18, 0x0000, 0x0, 1);
-> +    }
-> +
->      /*
->       * Smart firmware defaults ahead!
->       *
-
-Regards,
-Bin
 
