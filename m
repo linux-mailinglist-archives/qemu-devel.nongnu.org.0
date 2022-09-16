@@ -2,85 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5542D5BAA26
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 12:14:08 +0200 (CEST)
-Received: from localhost ([::1]:48808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F2AC5BA9EA
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 12:04:59 +0200 (CEST)
+Received: from localhost ([::1]:49752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZ8MI-0000Y9-VJ
-	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 06:14:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49208)
+	id 1oZ8DS-0007ak-IC
+	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 06:04:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oZ8Js-0006AM-70
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 06:11:36 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45751)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oZ8Jq-0006BP-3v
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 06:11:35 -0400
-Received: by mail-wr1-x433.google.com with SMTP id n10so4636861wrw.12
- for <qemu-devel@nongnu.org>; Fri, 16 Sep 2022 03:11:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=mYVrcVE2mjNLDfJVU7pR77nV270YM5SZHi99gyuEWPE=;
- b=tlcxJEyvfUctc0rzU6tWoHOLm8+ZaMmbP0wPb1nG5eqzlseKa80gIUn02evXCgInCL
- zsc615eD4lhT2HqbTWa3QMjtSBAYmVUj7FtNsNGhyTHOrQ+EDwDhRnWRa6r9jFuhKMdW
- g/uk3TxMwDANrJ0FHEOLwdTozh87W13EgVLitQJsJJI3Wei3MyDAHLr9sIjWAsNbldnd
- olgck/vmfFjKWLbvYtSK2jTfZ05HddUmR9BFiyeS7x8cZvNVdTOsip5i3BKTkN4eGSFL
- RtGXEzFV+zSbKBcfCvR4uFY31h+o6FNl6PSB1jIAwLsv3N6PLvC+54utArS53wA1clqp
- 8Whg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=mYVrcVE2mjNLDfJVU7pR77nV270YM5SZHi99gyuEWPE=;
- b=FRYm24X3k6+E2Y3NrEx7g+XNGGynm/JRhXSpJUx7DteBTlR6xqn42v/LCAfz8woCmZ
- A0hRnflBrBp9mTOpMPpm91+sE37FQiwVa+uC6XOyvNWf+djj04ykYdcFoJepVjr3SrHw
- 0VPIWWVafkGTbZYoCIpHuyIs+invSNnDx9xebAgQTTFhOqK8cbNfptbjJyHhDe5zW+Af
- utR2ewAIHLIE8IZWPlCBabJYzcSTP0/o2LyqMaf/GkZ9R2w0gc5TiVMBlcgO5duTkB/J
- MXt+pwmwKsXR1ZFb0QC8XNElme8dSRFLY7rWQdnT5xVESrZ6IhKcMXObAEMeWmlqU3+l
- JRaA==
-X-Gm-Message-State: ACrzQf0ht5bznZloO79Z31zz0mKtW351hk71+/X6agGh8kc7J4SRz5L7
- rzQbqNnh5NQ4YRoLWXDfLBqiIw==
-X-Google-Smtp-Source: AMsMyM5hn+KictlXLttYKvUdbbrLjy9xIISF1rzBeiP8EPFF8hbGKLunmER1Ldxb2zGL77umQG4Etw==
-X-Received: by 2002:a5d:45cb:0:b0:22a:94df:f88c with SMTP id
- b11-20020a5d45cb000000b0022a94dff88cmr2280503wrs.229.1663323092215; 
- Fri, 16 Sep 2022 03:11:32 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- v12-20020adfebcc000000b00229b76f872asm5542381wrn.27.2022.09.16.03.11.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Sep 2022 03:11:31 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EA2DB1FFB7;
- Fri, 16 Sep 2022 11:11:30 +0100 (BST)
-References: <20220914155950.804707-1-alex.bennee@linaro.org>
- <20220914155950.804707-22-alex.bennee@linaro.org>
- <8d64e197-7002-79fd-4e97-cc224099f26f@linaro.org>
- <68abfbc9-929b-92bd-071a-11e2dec7adc1@freepascal.org>
-User-agent: mu4e 1.9.0; emacs 28.1.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Pierre Muller <pierre@freepascal.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 21/30] Deprecate 32 bit big-endian MIPS
-Date: Fri, 16 Sep 2022 10:33:46 +0100
-In-reply-to: <68abfbc9-929b-92bd-071a-11e2dec7adc1@freepascal.org>
-Message-ID: <87illn8w8d.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oZ87n-0003He-Q9
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 05:59:07 -0400
+Received: from mga04.intel.com ([192.55.52.120]:62386)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oZ87Y-0003cm-4u
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 05:59:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663322332; x=1694858332;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=12OZBcnGODAmYZ+AQhyX6U0d1a9s5HIpAjq3AWPtWJs=;
+ b=CwIWSkPvc0Y9w7eOjFJ0inBos9AcSAaBc1imjj8BzTRaR3Y0Eb3vHk0a
+ 7qIoOL/9zC6QTswozOq3nnvRLeJLlqggET8AJrmNoBaJ2BaD+VMzQbI8r
+ G9VCfOiG3J6qZEYnb+gt4JD800Fx5Tp2ffp8tWVwOiLn8Xi3Oq79xqQ8w
+ j159NqnmX61yH3vAHhzrd2J17eJ6GnyaYUS7Hs9PFDbsiK/deXXDqr9S3
+ VH0M6wtZwZh5bIJn/lUKto1eTK+1pDwMRjDnl3WkHazJaDCjN0Z3IcaXA
+ ePzUYivJvGIi/KFScmKbtMw0xxbuxTalT5g7CzgvAIEA7mDrUPU5r4knb w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="297681443"
+X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; d="scan'208";a="297681443"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2022 02:58:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; d="scan'208";a="620036603"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by fmsmga007.fm.intel.com with ESMTP; 16 Sep 2022 02:58:21 -0700
+Date: Fri, 16 Sep 2022 17:53:42 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <20220916095342.GA2261402@chaop.bj.intel.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
+ <YyQ+dQT9/V5e62/u@debian.me>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YyQ+dQT9/V5e62/u@debian.me>
+Received-SPF: none client-ip=192.55.52.120;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga04.intel.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,74 +98,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Sep 16, 2022 at 04:14:29PM +0700, Bagas Sanjaya wrote:
+> On Thu, Sep 15, 2022 at 10:29:07PM +0800, Chao Peng wrote:
+> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> > index abd7c32126ce..c1fac1e9f820 100644
+> > --- a/Documentation/virt/kvm/api.rst
+> > +++ b/Documentation/virt/kvm/api.rst
+> > @@ -1319,7 +1319,7 @@ yet and must be cleared on entry.
+> >  :Capability: KVM_CAP_USER_MEMORY
+> >  :Architectures: all
+> >  :Type: vm ioctl
+> > -:Parameters: struct kvm_userspace_memory_region (in)
+> > +:Parameters: struct kvm_userspace_memory_region(_ext) (in)
+> >  :Returns: 0 on success, -1 on error
+> >  
+> >  ::
+> > @@ -1332,9 +1332,18 @@ yet and must be cleared on entry.
+> >  	__u64 userspace_addr; /* start of the userspace allocated memory */
+> >    };
+> >  
+> > +  struct kvm_userspace_memory_region_ext {
+> > +	struct kvm_userspace_memory_region region;
+> > +	__u64 private_offset;
+> > +	__u32 private_fd;
+> > +	__u32 pad1;
+> > +	__u64 pad2[14];
+> > +  };
+> > +
+> >    /* for kvm_memory_region::flags */
+> >    #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
+> >    #define KVM_MEM_READONLY	(1UL << 1)
+> > +  #define KVM_MEM_PRIVATE		(1UL << 2)
+> >  
+> >  This ioctl allows the user to create, modify or delete a guest physical
+> >  memory slot.  Bits 0-15 of "slot" specify the slot id and this value
+> > @@ -1365,12 +1374,27 @@ It is recommended that the lower 21 bits of guest_phys_addr and userspace_addr
+> >  be identical.  This allows large pages in the guest to be backed by large
+> >  pages in the host.
+> >  
+> > -The flags field supports two flags: KVM_MEM_LOG_DIRTY_PAGES and
+> > -KVM_MEM_READONLY.  The former can be set to instruct KVM to keep track of
+> > -writes to memory within the slot.  See KVM_GET_DIRTY_LOG ioctl to know how to
+> > -use it.  The latter can be set, if KVM_CAP_READONLY_MEM capability allows it,
+> > -to make a new slot read-only.  In this case, writes to this memory will be
+> > -posted to userspace as KVM_EXIT_MMIO exits.
+> > +kvm_userspace_memory_region_ext includes all the kvm_userspace_memory_region
+> > +fields. It also includes additional fields for some specific features. See
+> > +below description of flags field for more information. It's recommended to use
+> > +kvm_userspace_memory_region_ext in new userspace code.
+> 
+> Better say "kvm_userspace_memory_region_ext includes all fields of
+> kvm_userspace_memory_region struct, while also adds additional fields ..."
+> 
+> > +
+> > +The flags field supports below flags:
+> 
+> s/below/following/
+> 
+> > +
+> > +- KVM_MEM_LOG_DIRTY_PAGES can be set to instruct KVM to keep track of writes to
+> > +  memory within the slot.  See KVM_GET_DIRTY_LOG ioctl to know how to use it.
+> > +
+> 
+> Better say "... For more details, see KVM_GET_DIRTY_LOG."
+> 
+> > +- KVM_MEM_READONLY can be set, if KVM_CAP_READONLY_MEM capability allows it, to
+> > +  make a new slot read-only.  In this case, writes to this memory will be posted
+> > +  to userspace as KVM_EXIT_MMIO exits.
+> > +
+> 
+> Better say "if KVM_CAP_READONLY_MEM allows, KVM_MEM_READONLY makes a new
+> slot read-only ..."
+> 
+> > +- KVM_MEM_PRIVATE can be set to indicate a new slot has private memory backed by
+> > +  a file descirptor(fd) and the content of the private memory is invisible to
+> > +  userspace. In this case, userspace should use private_fd/private_offset in
+> > +  kvm_userspace_memory_region_ext to instruct KVM to provide private memory to
+> > +  guest. Userspace should guarantee not to map the same pfn indicated by
+> > +  private_fd/private_offset to different gfns with multiple memslots. Failed to
+> > +  do this may result undefined behavior.
+> >  
+> 
+> For the lists above,
+> s/can be set/
 
-Pierre Muller <pierre@freepascal.org> writes:
+It all looks good, thanks!
 
->   I am using gcc230 machine for the gcc compile farm.
->
->   This is a big endian mips64 machine runnig Debian Buster.
-
-That's still oldstable, the current release of Debian doesn't support BE
-mips in either 32 or 64 bit. As bullseye was released last year buster
-will drop out of QEMU support window by August 2023 at the latest
-(current LTS + 2 years or upstream drops support whichever comes first).
-
-> When compiling the qemu 7.1.0 release source,
-> the generated binaries are 32-bit mips binaries,
-> and I did not find out how to generate a 64-bit versions
-> of the executables.
-
-I don't think we've ever been able to cross build QEMU BE mips64 - it was
-only with buster we stopped relying on sid for access to working cross
-compilers for building TCG tests:
-
-  4575a701ea (tests/docker: move our mips64 cross compile to Buster)
-
->   As mips32 seems to still be the default arch that gcc uses,
-> I don't really understand the idea of depreciating big endian mips32.
->
-> Is this solely related to cross-compilation issues?
-
-Decent cross-compilation support for building QEMU is the minimum we
-need to ensure things don't bitrot. Ideally we would have real HW
-running a non-bespoke OS with a gitlab runner so we could build *and*
-run tests. However finding such HW is even harder than keeping the cross
-compilation working.
-
->
-> Pierre Muller
->
->
-> More information on gcc230:
-> muller@gcc230:~$ uname -a
-> Linux gcc230 4.9.79-UBNT_E300 #9 SMP Tue Jul 13 13:04:47 BST 2021 mips64 =
-GNU/Linux
-> muller@gcc230:~$ cat /etc/os-release
-> PRETTY_NAME=3D"Debian GNU/Linux 10 (buster)"
-> NAME=3D"Debian GNU/Linux"
-> VERSION_ID=3D"10"
-> VERSION=3D"10 (buster)"
-> VERSION_CODENAME=3Dbuster
-> ID=3Ddebian
-> HOME_URL=3D"https://www.debian.org/"
-> SUPPORT_URL=3D"https://www.debian.org/support"
-> BUG_REPORT_URL=3D"https://bugs.debian.org/"
-> muller@gcc230:~$ gcc --version
-> gcc (Debian 8.3.0-6) 8.3.0
-> Copyright (C) 2018 Free Software Foundation, Inc.
-> This is free software; see the source for copying conditions.  There is NO
-> warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOS=
-E.
->
-> muller@gcc230:~$ gcc -print-libgcc-file-name
-> /usr/lib/gcc/mips-linux-gnu/8/libgcc.a
-> muller@gcc230:~$ gcc -mabi=3D64 -print-libgcc-file-name
-> /usr/lib/gcc/mips-linux-gnu/8/64/libgcc.a
+> 
+> Thanks. 
+> 
+> -- 
+> An old man doll... just what I always wanted! - Clara
 
 
---=20
-Alex Benn=C3=A9e
 
