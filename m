@@ -2,88 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D973C5BB026
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 17:26:20 +0200 (CEST)
-Received: from localhost ([::1]:56550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0788F5BB039
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 17:30:59 +0200 (CEST)
+Received: from localhost ([::1]:43442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZDEQ-0001kF-I4
-	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 11:26:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45448)
+	id 1oZDIw-0006Ad-1Q
+	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 11:30:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZD8z-0004uc-3u
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 11:20:42 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:46909)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oZDEv-00022w-Lg; Fri, 16 Sep 2022 11:26:52 -0400
+Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:35607)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZD8v-0007Ju-IB
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 11:20:40 -0400
-Received: by mail-pl1-x636.google.com with SMTP id jm11so21712776plb.13
- for <qemu-devel@nongnu.org>; Fri, 16 Sep 2022 08:20:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oZDEt-0008CI-NR; Fri, 16 Sep 2022 11:26:49 -0400
+Received: by mail-qt1-x833.google.com with SMTP id g23so11644332qtu.2;
+ Fri, 16 Sep 2022 08:26:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date;
- bh=y6zMUBnafEZyvmU8r5bgD8JubS5Zm4HTf2SMNW1n9kE=;
- b=fuS5iAoY9lZJzaqX9Yvn/e2BoadbtVKCw/bfvguplMdfj9hmPC8hFyUdX3nCvtpgie
- ygIvIamBNbp5RSseHBW1pJiVCu4faw8mqzu5o1mVcI6bR5pDunR6mCGfYhiYiP2qYA33
- lIPNXquOBBNoDjjX4v+GJQ4NYJF23jXpB/1NuQ96EUaKj7AxbdP8BHjY8GBdGkzNirDg
- XbX7xVkz+96b5dJujdoLTSYy7MCNbDt15nRwC4Ar9ow7aoj5m+H9d1YDwwGnx1LPdLyM
- PjtmQd06IEu1h/Gb9dG/QgjitZzG64U7RbtoGc+/nlgwh+ucpF/hDsxEAqMEo7o2Msvi
- oTTg==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=yhHskut9jZ/vz8JVLdu41iPpCu7Rdg7wRKnjxE1D3DE=;
+ b=arkYcnm5nh8bVxJcaJfMofiBCqoNym9c4YUogvwbdvES8eYfcea7bdsybHtvCeHSht
+ e6zTGx6rItn+z1Sw5QnE1/6TtgmzwvJtD9RBEy8W1VT23cWRbeUFSns44TJTLWIdnQje
+ sM5AKThga5W4aWjEYAwHu+1beHPD9WArfdfPaj/syuhU2XwrorUm9ZUan5zusTps4xZM
+ 822psRfRChIl8z7Tn9TCzg7lweHTRLwPotXasB0l4bwGdddCN9GpccaK5Ch35Td3s4VF
+ 3YeXuvzQKWlzXAEwojiRCDxcObyyOFxm0lhIu/pKComVMKvQP0QBY8IjoxkecTgSqFCW
+ gTJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=y6zMUBnafEZyvmU8r5bgD8JubS5Zm4HTf2SMNW1n9kE=;
- b=HQST/dkNULI2z2ms8Iqezi9gXdFnBWsuxw01HYv5Um5P96n1s2q9zB2SGauoTl47wP
- rP3RPjqlj1oeaIgECQ6FtCSsRhuV8zxYb20zw5TODxbm8zST93RWCFexSWyIqzGCV51D
- t+IQzF2cX45JTmRrdq1bK5HdbsqM5a0D2Ng8cc6Ii1zEIvQl32P0kpx47GGpK5ASgYMf
- b3VGbFR34JYG0W0O3g1T40aFJNpwX9139MMh43wxNS43NXAXY0GhwludPqnsvkgAYTk3
- Dh0xnaottceTYgxA1r2wHjadjq10hABVhbtpSIRU4kgDn7NPA3mXNDsTTAKKiVce+w2e
- a8nw==
-X-Gm-Message-State: ACrzQf3dPqcX4A36YQ3H1CAR94lfpG92IAmBSN2cYUkR2SVErCMH9Kfr
- kN+dSmVntXVu++gIpm+pyAs=
-X-Google-Smtp-Source: AMsMyM4pe2Ls8wGjMJ4faZEXhAj0AX+Ihtj+Joj/zcLHUOafSUlxSd5VrUP6wJaS7pk2g79QC55yKA==
-X-Received: by 2002:a17:902:e80b:b0:176:de36:f5a8 with SMTP id
- u11-20020a170902e80b00b00176de36f5a8mr324402plg.127.1663341632911; 
- Fri, 16 Sep 2022 08:20:32 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- e12-20020a17090301cc00b0016be834d54asm15147626plh.306.2022.09.16.08.20.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Sep 2022 08:20:32 -0700 (PDT)
-Message-ID: <73571860-778d-6f70-5d8b-98572c8bfda4@amsat.org>
-Date: Fri, 16 Sep 2022 17:20:27 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=yhHskut9jZ/vz8JVLdu41iPpCu7Rdg7wRKnjxE1D3DE=;
+ b=3B1wc3KU1jNW5DILNiLT7ADPJrBxJAzZZiw/C8jRZHqp9vew5h5Z3v6tj+hFWftYb2
+ IUc27vpC3CVGlcnyFXnj1IvshQjEInk+1BEm4Ufkowg9jkDZ94s7DjLK5THFocMWBZ1u
+ zg78/GIUb1tCTyIIm6l/oEk5WLAgEvvYN6zLCOQNknjsnX+dTqX1CrPTRarSHO1AD63l
+ WkVi1eXc1HB+1QLt9nH9mdRh9R9pqHrgOV86RrwFIw106GzWbOJbbcBaAXNR4wdeCT6j
+ L4J1iRil32zU4hF7mcXKcpWLyhzDYipe/7+mXIs/ucQLs6WoOUT2Rus8rW8Knq6UYnse
+ 3BjQ==
+X-Gm-Message-State: ACrzQf2I3w1thVFq1/z+BY5foM1ev35aeTlcyIkKZrk/mK/FvZIDbPUk
+ /5vzdwur59DEDs+q9ZFJfD0BFjJutgGpu3liC7A=
+X-Google-Smtp-Source: AMsMyM6G5WFl3x01/RKozR0uuPIRNha+cXCUQ1AAT2RYlGM8spuTGZvvJlEysd5ZAwH/ofCMyNtdMMzH3lWRz0cnTgE=
+X-Received: by 2002:ac8:5f47:0:b0:35c:cdc8:7e0f with SMTP id
+ y7-20020ac85f47000000b0035ccdc87e0fmr3315345qta.543.1663342005835; Fri, 16
+ Sep 2022 08:26:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH v2 21/30] Deprecate 32 bit big-endian MIPS
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Pierre Muller <pierre@freepascal.org>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Richard Henderson <richard.henderson@linaro.org>
-References: <20220914155950.804707-1-alex.bennee@linaro.org>
- <20220914155950.804707-22-alex.bennee@linaro.org>
- <8d64e197-7002-79fd-4e97-cc224099f26f@linaro.org>
- <68abfbc9-929b-92bd-071a-11e2dec7adc1@freepascal.org>
- <9b3aa9b3-f657-7087-9d4c-06e071f7da4d@linaro.org>
- <d63b636b-aaf5-461b-d83d-827ee41616b4@freepascal.org>
- <YyROcDHO7u9QL582@redhat.com>
-In-Reply-To: <YyROcDHO7u9QL582@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x636.google.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.816,
+References: <20220915152520.21948-1-shentey@gmail.com>
+ <20220915152520.21948-12-shentey@gmail.com>
+In-Reply-To: <20220915152520.21948-12-shentey@gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 16 Sep 2022 23:26:34 +0800
+Message-ID: <CAEUhbmXroQ7KcG3Cvb73vV0hFm8vsY-9NVCFrx8jZQuu9MY3rg@mail.gmail.com>
+Subject: Re: [PATCH 11/11] hw/ppc/e500: Add Freescale eSDHC to e500 boards
+To: Bernhard Beschow <shentey@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, 
+ Bin Meng <bin.meng@windriver.com>, qemu-ppc <qemu-ppc@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x833.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,25 +84,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 16/9/22 12:22, Daniel P. Berrangé wrote:
-> On Fri, Sep 16, 2022 at 12:10:30PM +0200, Pierre Muller wrote:
->> Le 16/09/2022 à 10:38, Richard Henderson a écrit :
+On Thu, Sep 15, 2022 at 11:30 PM Bernhard Beschow <shentey@gmail.com> wrote:
+>
+> Adds missing functionality to emulated e500 SOCs which increases the
+> chance of given "real" firmware images to access SD cards.
 
->>> We are not intending to *remove* support for big-endian mips, as 99% of the code paths are
->>> shared with little-endian mips, which we can continue to test.  But we are now saying that
->>> big-endian mips is not "supported" and might break.
->>
->>    Thank you for your answer and the clarifications!
-> 
-> In practical terms the lack of CI means that we can't guarantee that a
-> new QEMU release will compile successfully. We're handing off responsbility
-> for keeping it working to any interested users to do adhoc testing of their
-> own. We can still accept bug reports & patches when people discover problems.
+By "firmware" do you mean U-Boot?
 
-Indeed. This is the situation of (host) HPPA. 3 people still build QEMU 
-tools on it and report (build system) bugs from time to time, or send 
-patches.
+>
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>  docs/system/ppc/ppce500.rst | 13 +++++++++++++
+>  hw/ppc/Kconfig              |  1 +
+>  hw/ppc/e500.c               | 32 ++++++++++++++++++++++++++++++++
+>  3 files changed, 46 insertions(+)
+>
+> diff --git a/docs/system/ppc/ppce500.rst b/docs/system/ppc/ppce500.rst
+> index c3f55c6f3d..50b199c8f3 100644
+> --- a/docs/system/ppc/ppce500.rst
+> +++ b/docs/system/ppc/ppce500.rst
+> @@ -19,6 +19,7 @@ The ``ppce500`` machine supports the following devices:
+>  * Power-off functionality via one GPIO pin
+>  * 1 Freescale MPC8xxx PCI host controller
+>  * VirtIO devices via PCI bus
+> +* 1 Freescale Enhanced Secure Digital Host controller (eSDHC)
+>  * 1 Freescale Enhanced Triple Speed Ethernet controller (eTSEC)
+>
+>  Hardware configuration information
+> @@ -131,6 +132,18 @@ be used as follows:
+>        -drive if=pflash,file=/path/to/rootfs.ext2,format=raw \
+>        -append "rootwait root=/dev/mtdblock0"
+>
+> +Alternatively, the root file system can also reside on an emulated SD card
+> +whose size must again be a power of two:
+> +
+> +.. code-block:: bash
+> +
+> +  $ qemu-system-ppc64 -M ppce500 -cpu e500mc -smp 4 -m 2G \
+
+qemu-system-ppc{64|32}
+
+> +      -display none -serial stdio \
+> +      -kernel vmlinux \
+> +      -device sd-card,drive=mydrive \
+> +      -drive id=mydrive,if=none,file=/path/to/rootfs.ext2,format=raw \
+> +      -append "rootwait root=/dev/mmcblk0"
+> +
+>  Running U-Boot
+>  --------------
+>
+> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+> index 769a1ead1c..6e31f568ba 100644
+> --- a/hw/ppc/Kconfig
+> +++ b/hw/ppc/Kconfig
+> @@ -129,6 +129,7 @@ config E500
+>      select PFLASH_CFI01
+>      select PLATFORM_BUS
+>      select PPCE500_PCI
+> +    select SDHCI
+>      select SERIAL
+>      select MPC_I2C
+>      select FDT_PPC
+> diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+> index 7843a4e04b..87a03fd4a9 100644
+> --- a/hw/ppc/e500.c
+> +++ b/hw/ppc/e500.c
+> @@ -48,6 +48,7 @@
+>  #include "hw/net/fsl_etsec/etsec.h"
+>  #include "hw/i2c/i2c.h"
+>  #include "hw/irq.h"
+> +#include "hw/sd/sdhci.h"
+>
+>  #define EPAPR_MAGIC                (0x45504150)
+>  #define DTC_LOAD_PAD               0x1800000
+> @@ -66,11 +67,14 @@
+>  #define MPC8544_SERIAL1_REGS_OFFSET 0x4600ULL
+>  #define MPC8544_PCI_REGS_OFFSET    0x8000ULL
+>  #define MPC8544_PCI_REGS_SIZE      0x1000ULL
+> +#define MPC85XX_ESDHC_REGS_OFFSET  0x2e000ULL
+> +#define MPC85XX_ESDHC_REGS_SIZE    0x1000ULL
+>  #define MPC8544_UTIL_OFFSET        0xe0000ULL
+>  #define MPC8XXX_GPIO_OFFSET        0x000FF000ULL
+>  #define MPC8544_I2C_REGS_OFFSET    0x3000ULL
+>  #define MPC8XXX_GPIO_IRQ           47
+>  #define MPC8544_I2C_IRQ            43
+> +#define MPC85XX_ESDHC_IRQ          72
+>  #define RTC_REGS_OFFSET            0x68
+>
+>  #define PLATFORM_CLK_FREQ_HZ       (400 * 1000 * 1000)
+> @@ -203,6 +207,25 @@ static void dt_i2c_create(void *fdt, const char *soc, const char *mpic,
+>      g_free(i2c);
+>  }
+>
+> +static void dt_sdhc_create(void *fdt, const char *parent, const char *mpic)
+> +{
+> +    hwaddr mmio = MPC85XX_ESDHC_REGS_OFFSET;
+> +    hwaddr size = MPC85XX_ESDHC_REGS_SIZE;
+> +    int irq = MPC85XX_ESDHC_IRQ;
+> +    char *name;
+> +
+> +    name = g_strdup_printf("%s/sdhc@%" PRIx64, parent, mmio);
+> +    qemu_fdt_add_subnode(fdt, name);
+> +    /* qemu_fdt_setprop_cells(fdt, name, "voltage-ranges", 3300, 3300); */
+
+Drop it if it is useless
+
+> +    qemu_fdt_setprop_cells(fdt, name, "clock-frequency", 167000000);
+
+Is this an arbitrary frequency?
+
+> +    qemu_fdt_setprop(fdt, name, "sdhci,auto-cmd12", NULL, 0);
+> +    qemu_fdt_setprop_phandle(fdt, name, "interrupt-parent", mpic);
+> +    qemu_fdt_setprop_cells(fdt, name, "bus-width", 4);
+> +    qemu_fdt_setprop_cells(fdt, name, "interrupts", irq, 0x2);
+> +    qemu_fdt_setprop_cells(fdt, name, "reg", mmio, size);
+> +    qemu_fdt_setprop_string(fdt, name, "compatible", "fsl,esdhc");
+> +    g_free(name);
+> +}
+>
+>  typedef struct PlatformDevtreeData {
+>      void *fdt;
+> @@ -556,6 +579,8 @@ static int ppce500_load_device_tree(PPCE500MachineState *pms,
+>
+>      dt_rtc_create(fdt, "i2c", "rtc");
+>
+> +    /* sdhc */
+> +    dt_sdhc_create(fdt, soc, mpic);
+>
+>      gutil = g_strdup_printf("%s/global-utilities@%llx", soc,
+>                              MPC8544_UTIL_OFFSET);
+> @@ -996,6 +1021,13 @@ void ppce500_init(MachineState *machine)
+>      i2c_slave_create_simple(i2c, "ds1338", RTC_REGS_OFFSET);
+>
+>
+
+nits: use one line for the separation
+
+> +    /* eSDHC */
+> +    dev = qdev_new(TYPE_FSL_ESDHC);
+> +    s = SYS_BUS_DEVICE(dev);
+> +    sysbus_realize_and_unref(s, &error_fatal);
+> +    sysbus_mmio_map(s, 0, pmc->ccsrbar_base + MPC85XX_ESDHC_REGS_OFFSET);
+> +    sysbus_connect_irq(s, 0, qdev_get_gpio_in(mpicdev, MPC85XX_ESDHC_IRQ));
+> +
+>      /* General Utility device */
+>      dev = qdev_new("mpc8544-guts");
+>      s = SYS_BUS_DEVICE(dev);
+> --
+
+Regards,
+Bin
 
