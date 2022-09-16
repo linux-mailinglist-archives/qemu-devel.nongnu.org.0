@@ -2,92 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 103AB5BA7B3
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 10:02:51 +0200 (CEST)
-Received: from localhost ([::1]:41376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DED895BA7C3
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 10:05:54 +0200 (CEST)
+Received: from localhost ([::1]:50126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZ6JE-0002LW-By
-	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 04:02:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49362)
+	id 1oZ6MD-0003d7-Oy
+	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 04:05:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oZ6Fn-0008Gf-Pg
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 03:59:15 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:43917)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oZ6H7-0000Wg-IF
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 04:00:37 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:38651)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oZ6Fl-00067U-N8
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 03:59:15 -0400
-Received: by mail-ed1-x535.google.com with SMTP id y8so23396741edc.10
- for <qemu-devel@nongnu.org>; Fri, 16 Sep 2022 00:59:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=lZJcS0UPveWQlKovoiRpQzaMxq4HiW9xqCr0GyVL9ZQ=;
- b=bM3pBq7c3VGTvluwrDRDV51NboFVF5SmfkpxNwj0Vo7BkcG7ICkLg5j8HimdbGVKRn
- iCP9LidxafQk/1vhr+r8SCsLaR22yGh3qUKQDiZZAeOz30Z93SZBNuJeUBltAGTqFmNH
- vB+pU7J1U3Keh10VmFzdW4bfI/94WOwhD1RfL1HrF536krVS7lxkEcUd5PCPvToAFO/f
- SRYwQ+Kl5WHHXaj1UkAzFR2qTe6NkEqwEHmzimn1YPdmBptZGhfBlUIvsWD3JLYgzxHy
- Rbd9+Wy/m2CTxWWvqAbsJd5TM5/OI66YyoLZmdAevy9H1g3PyFj0/+E9OBwhK9HWcEtK
- PBhw==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oZ6H5-0006tn-FI
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 04:00:37 -0400
+Received: by mail-ej1-x631.google.com with SMTP id u9so47677057ejy.5
+ for <qemu-devel@nongnu.org>; Fri, 16 Sep 2022 01:00:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=3y+bXXpWEdDI9cmjlPYHaa+YyEhXNZg2enPUUa6+NAY=;
+ b=gZUYrlUBMLx8XPgktN541e1E2+gPw+ahVoHyamlJp/wFH9+Qu5HlgCBzBanlUZZ3VV
+ vEE+GTJhhsBSQN53JN/eg+f3M3bxDV6qao4JdB1qlDzRDiEpawH8HEkrbtHDCRoNKaxG
+ ouWLo9cS7sTNwE0SEALZrgP2aqMrtBGtcTrilgg94II2knkzJLdAKXmT9YwngH48W4sW
+ 68BPAEraV2NWvAY1C0GgUc6pgJHgcQy+XRNvLkUHbJD7i0KBhoRRdUh0BPUNc9UcAVCV
+ FbvP5lGhTBDS5IEy/Pbe+vrqj8/sOZBdtDuKJQl3HDOQ7AK4CfMVXhF5gry1AqXORyHQ
+ SXpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=lZJcS0UPveWQlKovoiRpQzaMxq4HiW9xqCr0GyVL9ZQ=;
- b=61gzuglCcclqLhtJh5CkmkNIrleOvMU2LtfJhCn+FVVAE3xSzOCnIr/XVtRZeudM3B
- gvmPCTkmh7XT/xqk7VDfx9dxZUH1TUNyACww4hKZa/zscP8IduTuwK2VJzzCOhkMzy+1
- QJkhGu8hIOP842fHUPk5PwBxebjXIpFzAyKDw5ykxzxmibc0uPXBl8+t+qxxtb3YMOAb
- jtYwQkhMA95uKXmRLFtxEavQRww4tayJBLf1wamQhO5UBLqQLfvghm+oDlJ1oxzzZH47
- XzsW+sWAnNzIjL1t9NHFm0exaTDkgy2aBs+8NyhLfAQs76t4DxfSYhRIUV+Xuy/GPhJT
- dljg==
-X-Gm-Message-State: ACrzQf2UB76sjHqHPU0rqjjDKTzbqDd4SGZfHrp749DeJD9nvJV9/d6G
- KbmCTxjcz+X973ULRmqlpecSwg==
-X-Google-Smtp-Source: AMsMyM7FBtPZKIN94tcOtwOe7hWV5So/V2Wxk1/Hb8sO/pvtiFe0G0C77QNCrTyZjei2QpbBBRkmEA==
-X-Received: by 2002:aa7:c74d:0:b0:44f:d34:affb with SMTP id
- c13-20020aa7c74d000000b0044f0d34affbmr2864023eds.143.1663315151877; 
- Fri, 16 Sep 2022 00:59:11 -0700 (PDT)
-Received: from [10.9.7.77] (vpn-konference.ms.mff.cuni.cz. [195.113.20.101])
- by smtp.gmail.com with ESMTPSA id
- q10-20020a1709063d4a00b0073c74bee6eesm9958962ejf.201.2022.09.16.00.59.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Sep 2022 00:59:11 -0700 (PDT)
-Message-ID: <da5911d9-13d3-fb12-f08f-4260d373a033@linaro.org>
-Date: Fri, 16 Sep 2022 09:59:08 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=3y+bXXpWEdDI9cmjlPYHaa+YyEhXNZg2enPUUa6+NAY=;
+ b=nztZTX/UfhJAeonauufJv7bdg3wmuhYAA/jW57GBWqICaGFTptQ5AkXHb1bvcucaH+
+ FJ7G7sAMXruPnaaMXZIaCn0Im6wbcR/kWEHr3Dm9B6r4vroRS0uYrNW8r2bwjnJDMGi7
+ TZtknvwB6IG0S4SrF6PoI2LZXjV2U4m19094hOUvqGgiZxlw8IfxmLHTbb2NG3WEV17b
+ dtm9BGn9457T4+Be0tiSKVOoPl5ihRHJkAKnHGkgnJTISZhQcJxxbldvk2nWyO4Rd6LG
+ RGvPelJbEltc8NiUmFmmrbEVnXpeNeFjAheSED4ECmvnpyikiP0CQ1NMG1RJv1jwcfDd
+ +Mug==
+X-Gm-Message-State: ACrzQf3+vdtw8BfItth5jKcI1QZ9mHuldiGnRKMerg0TIo2lK082yGd7
+ jbpLTurvLU0rpzPkqkI7ymI6Rffaz7rnKxpBtuh9cA==
+X-Google-Smtp-Source: AMsMyM6dfuokuS1qh10gBIoKngmD/GZrsMh6WnWs1yZZLuqmxe4Sk12KvGaeRQ7ZRyITsJ3tk+dAUJ5zP1oUgBH7SdI=
+X-Received: by 2002:a17:906:8a65:b0:780:9cb2:d57d with SMTP id
+ hy5-20020a1709068a6500b007809cb2d57dmr1705964ejc.625.1663315233147; Fri, 16
+ Sep 2022 01:00:33 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 02/11] RISC-V: Adding T-Head CMO instructions
-Content-Language: en-US
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Christoph Muellner <christoph.muellner@vrull.eu>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Philipp Tomsich
- <philipp.tomsich@vrull.eu>, =?UTF-8?Q?Heiko_St=c3=bcbner?=
- <heiko.stuebner@vrull.eu>, Palmer Dabbelt <palmer@dabbelt.com>,
- Nelson Chu <nelson@rivosinc.com>, Kito Cheng <kito.cheng@sifive.com>,
- Cooper Qu <cooper.qu@linux.alibaba.com>,
- Lifang Xia <lifang_xia@linux.alibaba.com>,
- Yunhai Shang <yunhai@linux.alibaba.com>
-References: <20220906122243.1243354-1-christoph.muellner@vrull.eu>
- <20220906122243.1243354-3-christoph.muellner@vrull.eu>
- <f2a1814a-0611-f2b2-cc6e-e748219ac3be@linux.alibaba.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <f2a1814a-0611-f2b2-cc6e-e748219ac3be@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.816,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220915204317.3766007-1-armbru@redhat.com>
+ <20220915204317.3766007-7-armbru@redhat.com>
+In-Reply-To: <20220915204317.3766007-7-armbru@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 16 Sep 2022 13:30:22 +0530
+Message-ID: <CAARzgwyZK9EuKKj0UpUxC8BYEUBDwRYG==eTfndgNmKOE_FgKA@mail.gmail.com>
+Subject: Re: [PATCH 06/27] qapi acpi: Elide redundant has_FOO in generated C
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, michael.roth@amd.com, jsnow@redhat.com, 
+ eblake@redhat.com, "Michael S . Tsirkin" <mst@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2a00:1450:4864:20::631;
+ envelope-from=ani@anisinha.ca; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,105 +83,128 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/16/22 08:43, LIU Zhiwei wrote:
-> 
-> On 2022/9/6 20:22, Christoph Muellner wrote:
->> From: Christoph Müllner <christoph.muellner@vrull.eu>
->>
->> This patch adds support for the T-Head CMO instructions.
->> To avoid interfering with standard extensions, decoder and translation
->> are in its own T-Head specific files.
->> Future patches should be able to easily add additional T-Head extesions.
->>
->> The implementation does not have much functionality (besides accepting
->> the instructions and not qualifying them as illegal instructions if
->> the hart executes in the required privilege level for the instruction),
->> as QEMU does not model CPU caches and instructions don't have any
->> exception behaviour (at least not documented).
->>
->> The documentation shows, that the instructions are gated by
->> mxstatus.theadisaee and mxstatus.ucme. However, since these
->> settings are not changed by the upstream Linux kernel,
->> we simply enable the instructions in all modes.
->>
->> Signed-off-by: Christoph Müllner <christoph.muellner@vrull.eu>
->> ---
->>   target/riscv/cpu.c                         |  1 +
->>   target/riscv/cpu.h                         |  1 +
->>   target/riscv/insn_trans/trans_xthead.c.inc | 66 ++++++++++++++++++++++
->>   target/riscv/meson.build                   |  1 +
->>   target/riscv/translate.c                   | 11 +++-
->>   target/riscv/xtheadcmo.decode              | 43 ++++++++++++++
->>   6 files changed, 120 insertions(+), 3 deletions(-)
->>   create mode 100644 target/riscv/insn_trans/trans_xthead.c.inc
->>   create mode 100644 target/riscv/xtheadcmo.decode
->>
->> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> index ac6f82ebd0..7718ab0478 100644
->> --- a/target/riscv/cpu.c
->> +++ b/target/riscv/cpu.c
->> @@ -920,6 +920,7 @@ static Property riscv_cpu_extensions[] = {
->>       DEFINE_PROP_BOOL("zhinxmin", RISCVCPU, cfg.ext_zhinxmin, false),
->>       /* Vendor-specific custom extensions */
->> +    DEFINE_PROP_BOOL("xtheadcmo", RISCVCPU, cfg.ext_xtheadcmo, false),
->>       DEFINE_PROP_BOOL("xventanacondops", RISCVCPU, cfg.ext_XVentanaCondOps, false),
->>       /* These are experimental so mark with 'x-' */
->> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
->> index 5c7acc055a..b7ab53b7b8 100644
->> --- a/target/riscv/cpu.h
->> +++ b/target/riscv/cpu.h
->> @@ -440,6 +440,7 @@ struct RISCVCPUConfig {
->>       uint64_t mimpid;
->>       /* Vendor-specific custom extensions */
->> +    bool ext_xtheadcmo;
->>       bool ext_XVentanaCondOps;
->>       uint8_t pmu_num;
->> diff --git a/target/riscv/insn_trans/trans_xthead.c.inc 
->> b/target/riscv/insn_trans/trans_xthead.c.inc
->> new file mode 100644
->> index 0000000000..1b1e21ab77
->> --- /dev/null
->> +++ b/target/riscv/insn_trans/trans_xthead.c.inc
->> @@ -0,0 +1,66 @@
->> +/*
->> + * RISC-V translation routines for the T-Head vendor extensions (xthead*).
->> + *
->> + * Copyright (c) 2022 VRULL GmbH.
->> + *
->> + * This program is free software; you can redistribute it and/or modify it
->> + * under the terms and conditions of the GNU General Public License,
->> + * version 2 or later, as published by the Free Software Foundation.
->> + *
->> + * This program is distributed in the hope it will be useful, but WITHOUT
->> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
->> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
->> + * more details.
->> + *
->> + * You should have received a copy of the GNU General Public License along with
->> + * this program.  If not, see <http://www.gnu.org/licenses/>.
->> + */
->> +
->> +#define REQUIRE_PRIV_MHSU(ctx)
->> +
->> +#ifndef CONFIG_USER_ONLY
->> +#define REQUIRE_PRIV_MHS(ctx)                                   \
->> +do {                                                            \
->> +    if (!(ctx->priv == PRV_M ||                                 \
->> +          ctx->priv == PRV_H ||                                 \
->> +          ctx->priv == PRV_S)) {                                \
->> +        return false;                                           \
->> +    }                                                           \
->> +} while (0)
-> No ';' here. And in #else
->> +#else
->> +#define REQUIRE_PRIV_MHS(ctx)                                   \
->> +  return false;
-> 
-> with ';'
+On Fri, Sep 16, 2022 at 2:13 AM Markus Armbruster <armbru@redhat.com> wrote:
+>
+> The has_FOO for pointer-valued FOO are redundant, except for arrays.
+> They are also a nuisance to work with.  Recent commit "qapi: Start to
+> elide redundant has_FOO in generated C"
 
-Using the inline function that I suggested in response to patch 1, this ifdef is not 
-required.  Also, better with an explicit test against PRV_U?
+Commit is referenced using <commit hash 13 chars min> ("commit header")
 
-
-r~
+provided the means to elide
+> them step by step.  This is the step for qapi/acpi.py.
+>
+> Said commit explains the transformation in more detail.  The invariant
+> violations mentioned there do not occur here.
+>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Ani Sinha <ani@anisinha.ca>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  hw/acpi/core.c           | 14 +++++++-------
+>  hw/acpi/cpu.c            |  1 -
+>  hw/acpi/memory_hotplug.c |  1 -
+>  scripts/qapi/schema.py   |  1 -
+>  4 files changed, 7 insertions(+), 10 deletions(-)
+>
+> diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+> index 3e811bf03c..6da275c599 100644
+> --- a/hw/acpi/core.c
+> +++ b/hw/acpi/core.c
+> @@ -185,7 +185,7 @@ static void acpi_table_install(const char unsigned *blob, size_t bloblen,
+>      changed_fields = 0;
+>      ext_hdr->_length = cpu_to_le16(acpi_payload_size);
+>
+> -    if (hdrs->has_sig) {
+> +    if (hdrs->sig) {
+>          strncpy(ext_hdr->sig, hdrs->sig, sizeof ext_hdr->sig);
+>          ++changed_fields;
+>      }
+> @@ -204,11 +204,11 @@ static void acpi_table_install(const char unsigned *blob, size_t bloblen,
+>
+>      ext_hdr->checksum = 0;
+>
+> -    if (hdrs->has_oem_id) {
+> +    if (hdrs->oem_id) {
+>          strncpy(ext_hdr->oem_id, hdrs->oem_id, sizeof ext_hdr->oem_id);
+>          ++changed_fields;
+>      }
+> -    if (hdrs->has_oem_table_id) {
+> +    if (hdrs->oem_table_id) {
+>          strncpy(ext_hdr->oem_table_id, hdrs->oem_table_id,
+>                  sizeof ext_hdr->oem_table_id);
+>          ++changed_fields;
+> @@ -217,7 +217,7 @@ static void acpi_table_install(const char unsigned *blob, size_t bloblen,
+>          ext_hdr->oem_revision = cpu_to_le32(hdrs->oem_rev);
+>          ++changed_fields;
+>      }
+> -    if (hdrs->has_asl_compiler_id) {
+> +    if (hdrs->asl_compiler_id) {
+>          strncpy(ext_hdr->asl_compiler_id, hdrs->asl_compiler_id,
+>                  sizeof ext_hdr->asl_compiler_id);
+>          ++changed_fields;
+> @@ -255,12 +255,12 @@ void acpi_table_add(const QemuOpts *opts, Error **errp)
+>      if (!hdrs) {
+>          goto out;
+>      }
+> -    if (hdrs->has_file == hdrs->has_data) {
+> +    if (!hdrs->file == !hdrs->data) {
+>          error_setg(errp, "'-acpitable' requires one of 'data' or 'file'");
+>          goto out;
+>      }
+>
+> -    pathnames = g_strsplit(hdrs->has_file ? hdrs->file : hdrs->data, ":", 0);
+> +    pathnames = g_strsplit(hdrs->file ?: hdrs->data, ":", 0);
+>      if (pathnames == NULL || pathnames[0] == NULL) {
+>          error_setg(errp, "'-acpitable' requires at least one pathname");
+>          goto out;
+> @@ -297,7 +297,7 @@ void acpi_table_add(const QemuOpts *opts, Error **errp)
+>          close(fd);
+>      }
+>
+> -    acpi_table_install(blob, bloblen, hdrs->has_file, hdrs, errp);
+> +    acpi_table_install(blob, bloblen, !!hdrs->file, hdrs, errp);
+>
+>  out:
+>      g_free(blob);
+> diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
+> index 3646dbfe68..4e580959a2 100644
+> --- a/hw/acpi/cpu.c
+> +++ b/hw/acpi/cpu.c
+> @@ -35,7 +35,6 @@ static ACPIOSTInfo *acpi_cpu_device_status(int idx, AcpiCpuStatus *cdev)
+>          DeviceState *dev = DEVICE(cdev->cpu);
+>          if (dev->id) {
+>              info->device = g_strdup(dev->id);
+> -            info->has_device = true;
+>          }
+>      }
+>      return info;
+> diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
+> index 0a7e89a13e..a7476330a8 100644
+> --- a/hw/acpi/memory_hotplug.c
+> +++ b/hw/acpi/memory_hotplug.c
+> @@ -44,7 +44,6 @@ static ACPIOSTInfo *acpi_memory_device_status(int slot, MemStatus *mdev)
+>          DeviceState *dev = DEVICE(mdev->dimm);
+>          if (dev->id) {
+>              info->device = g_strdup(dev->id);
+> -            info->has_device = true;
+>          }
+>      }
+>      return info;
+> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+> index 3ae94300c4..5160a659b7 100644
+> --- a/scripts/qapi/schema.py
+> +++ b/scripts/qapi/schema.py
+> @@ -759,7 +759,6 @@ def need_has(self):
+>          assert self.type
+>          # Temporary hack to support dropping the has_FOO in reviewable chunks
+>          opt_out = [
+> -            'qapi/acpi.json',
+>              'qapi/audio.json',
+>              'qapi/block-core.json',
+>              'qapi/block-export.json',
+> --
+> 2.37.2
+>
 
