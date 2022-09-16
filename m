@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E2985BAF85
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 16:42:25 +0200 (CEST)
-Received: from localhost ([::1]:37606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B83765BAF82
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 16:41:38 +0200 (CEST)
+Received: from localhost ([::1]:49602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZCXw-0007FR-0p
-	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 10:42:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48892)
+	id 1oZCXA-00057f-Tz
+	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 10:41:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZCQ3-0006r1-6B; Fri, 16 Sep 2022 10:34:15 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:33638)
+ id 1oZCQy-0007at-Aa; Fri, 16 Sep 2022 10:35:12 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:37694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZCQ0-0003Lq-Qe; Fri, 16 Sep 2022 10:34:14 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id w2so11155201pfb.0;
- Fri, 16 Sep 2022 07:34:11 -0700 (PDT)
+ id 1oZCQu-0003cu-DO; Fri, 16 Sep 2022 10:35:09 -0400
+Received: by mail-pl1-x636.google.com with SMTP id s18so15662914plr.4;
+ Fri, 16 Sep 2022 07:35:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=oGBpfJ//S3v080r4MUvIgQvBv9ugCmLNf50j8ZMU5ZU=;
- b=LpFWZgahJYKUI9VN0wci87jR4mZECSYgNcKqipESQpwAX4p3bgvJtw1Lt/SLllrtA2
- zowczMTNPDlr09PSC86PIsEP+mtQz9Xih0dr3XndwrpTz0Ez7hgM3ppVFlxE4K65Fgdh
- J5v5g9Dx6spUxRHzs+nURB9H3PWNqXSMFmHOmbrBQg5FzjzNQAqYIY9SjVvHbPsK68ui
- OZ416GDtiWL1ut+u2fS9NI8jJXCTXFnD2UufIE1t97S11GmXGpxVnhk4b2i2hvEGKpnF
- Z2sa4cYtEvEYsG6idI4HIhlfNHbbCZZJe16NNGe8UWcDFX7m3+Gsk2sH0uywsb0ubtf2
- NzLQ==
+ bh=RLe31tioKZvrY0rEcwPoqoVY+zpiIzWIetWqe5H0/aY=;
+ b=eSTe8yntiQ/TqQcOK/sOVYKF39T8CL6xW642fs3QIp4FUvkrz5ry9GLXxkKoImkA7a
+ Tzayc4rrfhNnJ24QkKrwiD2TPMjpALIh1NLaO7MipAkYx4ydyG6x0hX3D9Rxw46pDcmS
+ l6cMv/rbtXEDUwqbDdplqUvKfYmWJ6V0iiXClQJ/qADP55UtXEL1yN2Pl3GSyoAR7GlD
+ /p4N6J+B687o514GTKLnsnzby2PsSNeSSVxGzSGu0hf5bh996Fmwg9rBWmp9zJ07gTEf
+ x8Nd2wB9eNhMYtwj0B+HLP6XjzqSkkWIzNrKzkwjQFjv7QWJCbnGT2pm2vVj/fEMYV9Q
+ PBOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=oGBpfJ//S3v080r4MUvIgQvBv9ugCmLNf50j8ZMU5ZU=;
- b=hiXLsSdaATkzFaNGxxNT38VR0sR6duBkYWJ4/oMX29vwZLMsWLppZz1YMy6fg8/H24
- rWWuBoQna8uL88USdk7/vlOJzOcLWw74HLajGIs+7tC4WiQfYHRxuN8Bm/dIl24JQnXM
- u/YKpCYo85lDoZiGdtmVN4jl013usademDlj/+5aEqTVfV29GNaLzff0W4EgwPhVdpMx
- Czav39C0I69tjQFDYrkQaAKQhVqEcpe/iTsAhNTKPl+eQSnF6uyfetspKISFVu2VlfDG
- rJyBYLNXhLfZObXxLsluUqP4wFcOeadPBsmQ446OeOAFYnxtFJB7eQ8rI0sn+qRW3uXm
- WtEA==
-X-Gm-Message-State: ACrzQf0MpWGwT5/TK+V+2ODDzk1T2tBn+lZrSY9pBunZbcgmuXuFhnux
- bLW7t5KcA8e40ZOIcu+anF0=
-X-Google-Smtp-Source: AMsMyM5aeuQ6bceOrBzzYWKlpEbv4C4tKrz2R4YHXK4I7uld4nnnOwBCpmumhlmeSMGQX2WB3momhg==
-X-Received: by 2002:a05:6a00:1a8f:b0:548:8ce8:db73 with SMTP id
- e15-20020a056a001a8f00b005488ce8db73mr5774879pfv.10.1663338850330; 
- Fri, 16 Sep 2022 07:34:10 -0700 (PDT)
+ bh=RLe31tioKZvrY0rEcwPoqoVY+zpiIzWIetWqe5H0/aY=;
+ b=y1a8xIY/ehsxn9uOEaZ+B4ER1LmQE2msMmAKAGAerGZjEjOEYkCoLlxAWctlTRZuCk
+ oaCpLz/BKwvWFbbTMYE2sZozH0bYcxfFMJ+W1QtqjEYDOTbGPSp8qXCRXgxtIx6d8eK9
+ 8nk/znA1K1KTd0oSFmBK/QdnI4Mkr1TCPVk38Zcc46IZYBIHxMxjCsjCN7fdF+gqeXEf
+ jl9AQl6eyQwq6WISXvVRAxvhAEYKH9CGuRnv/KxSrAnkfSsgF4Hg2wLRz2COO/ox3YM2
+ oKBGML9hYZM+q0sZCRvtb3Rp/n87ZPH4CQ2dEme0mVLGpKPd4B+P1aNHRYKZKxd6Uzbd
+ uq5Q==
+X-Gm-Message-State: ACrzQf3HgfgVPaDsm8dW38YQqNef7nyfSo2AE6SQ5SFJKVMpvOWdxsHk
+ hSEQaUEPvpN/nLy1BWJrd+k=
+X-Google-Smtp-Source: AMsMyM7CAjVcCb3nFF/md3Ugj94JBMsAXnq3cOL7zfjnQxJOJXDLgrO+rA0gxZM7dQZrXCTdVRTq9w==
+X-Received: by 2002:a17:902:d4ce:b0:177:fe49:19d2 with SMTP id
+ o14-20020a170902d4ce00b00177fe4919d2mr190051plg.4.1663338903735; 
+ Fri, 16 Sep 2022 07:35:03 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- n26-20020a63a51a000000b0041c49af8156sm13674511pgf.6.2022.09.16.07.34.06
+ s2-20020a170902b18200b00176d347e9a7sm14763561plr.233.2022.09.16.07.35.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Sep 2022 07:34:09 -0700 (PDT)
-Message-ID: <112288f3-78b3-32bf-3c7a-7ac310b7a11d@amsat.org>
-Date: Fri, 16 Sep 2022 16:34:02 +0200
+ Fri, 16 Sep 2022 07:35:03 -0700 (PDT)
+Message-ID: <697688af-11da-380a-4b53-ce31f7bd3a74@amsat.org>
+Date: Fri, 16 Sep 2022 16:34:58 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH v5 13/13] hw/isa/vt82c686: Create rtc-time alias in boards
- instead
+Subject: Re: [PATCH v5 11/13] hw/mips/fuloong2e: Inline
+ vt82c686b_southbridge_init() and remove it
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>,
@@ -67,12 +67,12 @@ Cc: qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
  BALATON Zoltan <balaton@eik.bme.hu>
 References: <20220901114127.53914-1-shentey@gmail.com>
- <20220901114127.53914-14-shentey@gmail.com>
-In-Reply-To: <20220901114127.53914-14-shentey@gmail.com>
+ <20220901114127.53914-12-shentey@gmail.com>
+In-Reply-To: <20220901114127.53914-12-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
@@ -99,45 +99,16 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 1/9/22 13:41, Bernhard Beschow wrote:
-> According to good QOM practice, an object should only deal with objects
-> of its own sub tree. Having devices create an alias on the machine
-> object doesn't respect this good practice. To resolve this, create the
-> alias in the machine's code.
+> The previous patches moved most of this function into the via-isa device
+> model such that it has become fairly trivial. So inline it for
+> simplicity.
 > 
+> Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   hw/isa/vt82c686.c   | 2 --
->   hw/mips/fuloong2e.c | 4 ++++
->   hw/ppc/pegasos2.c   | 4 ++++
->   3 files changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-> index 48cd4d0036..3f9bd0c04d 100644
-> --- a/hw/isa/vt82c686.c
-> +++ b/hw/isa/vt82c686.c
-> @@ -632,8 +632,6 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
->       if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
->           return;
->       }
-> -    object_property_add_alias(qdev_get_machine(), "rtc-time", OBJECT(&s->rtc),
-> -                              "date");
->       isa_connect_gpio_out(ISA_DEVICE(&s->rtc), 0, s->rtc.isairq);
->   
->       for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
-> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-> index 3c46215616..b478483706 100644
-> --- a/hw/mips/fuloong2e.c
-> +++ b/hw/mips/fuloong2e.c
-> @@ -295,6 +295,10 @@ static void mips_fuloong2e_init(MachineState *machine)
->       pci_dev = pci_create_simple_multifunction(pci_bus,
->                                                 PCI_DEVFN(FULOONG2E_VIA_SLOT, 0),
->                                                 true, TYPE_VT82C686B_ISA);
-> +    object_property_add_alias(OBJECT(machine), "rtc-time",
-> +                              object_resolve_path_component(OBJECT(pci_dev),
-> +                                                            "rtc"),
-> +                              "date");
+>   hw/mips/fuloong2e.c | 28 ++++++++++------------------
+>   1 file changed, 10 insertions(+), 18 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
 
 
