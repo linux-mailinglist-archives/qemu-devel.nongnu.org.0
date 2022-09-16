@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1692E5BAF83
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 16:42:05 +0200 (CEST)
-Received: from localhost ([::1]:58320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49F845BAF96
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 16:48:34 +0200 (CEST)
+Received: from localhost ([::1]:37790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZCXc-0006Ln-5c
-	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 10:42:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46342)
+	id 1oZCdt-0005Az-05
+	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 10:48:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZCS2-0000NH-0w; Fri, 16 Sep 2022 10:36:18 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:37408)
+ id 1oZCSy-0000wd-Hd; Fri, 16 Sep 2022 10:37:27 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:45690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZCRw-0004FG-86; Fri, 16 Sep 2022 10:36:16 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- n23-20020a17090a091700b00202a51cc78bso19615357pjn.2; 
- Fri, 16 Sep 2022 07:36:11 -0700 (PDT)
+ id 1oZCSw-0004ZE-Pm; Fri, 16 Sep 2022 10:37:16 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ p1-20020a17090a2d8100b0020040a3f75eso20494576pjd.4; 
+ Fri, 16 Sep 2022 07:37:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=YQUHyWlfI9iUD/lWKmqbUDJfV1xBKCzIpjqTEDNoC3s=;
- b=HPHxI3LHd93rBetpysXY0q0qc/HbJwv+LvZTKPjkidMr8/1/bIiGV4YElFcQVV/4QV
- fV6MkE3+FoFX/NzI+GnR1tWFRKuX6ARO2sCcyc1RPAOtSF0dFbjN/LC0UsTbjtJK7AA0
- KvW2ACRYfrKIGobcHKFOQheQ3vaKQcPPoEtZe4bA9fZKj80BcQjE+wcqk0SnzhdGS4y4
- N5MvctLP5ssKeUbdT7wjFZdeN93uNrfvc6WLjnW84YElScQspjy0EZRUdQ8fGsSaxcbA
- E7i1K7LaG/+5iroH934BVwyRLNdcYncN6FR7ZkX18mtuq8JQUsCU8LatsGXSpxFr32Vi
- yL1g==
+ bh=vcvsZUpJWHPMkraQWN0s9tUJHFYUik65uBj1LFzhKHc=;
+ b=bgGsXorTyxzXWx8phjVP1m0XAbaXvzjIUW+UiCYclOW/uS7zKbT3Wvx2gfAlrmKjrh
+ HkLM5hc7UR5bMF8DrNpd6iVWb+MW4IheMP3mUpjnzxRGOCiXxqpVUODwup2s+3JChgje
+ ZQ2zjeI9EYqE7xzJk29nb4+ymgfD2Fd9eaD3tAtJKmOElZpfafn0potDT7x39E9kImR7
+ BmfoqHV/dG0CEAFo3p5YJCSdp7So9atU35EWZKHQ3YSZ9NjvOrB5Up7MO/wrvlmUn78g
+ y88qhauVoe5y4GCqHYuenCr3avjWHCalsCODCpqNwsxMAEDhFtbd6Hvb5XXW/lM2P1ti
+ E6/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=YQUHyWlfI9iUD/lWKmqbUDJfV1xBKCzIpjqTEDNoC3s=;
- b=KonRcksVYavWHdOtvoX6N3K/p556rG2/mjmErW54O3pdeH1uooBJLPyPtQjED01c6p
- qsRREPD8nQHOSFbde7SpuEe95RK2nCmojQnwj751dlrVjKpt+KvgXIYPnWOw+96RgnDF
- 3ZNFuEYRjfMRdtEIquzlYfneHECjgID+lwzNd8akRSHfuZnFc32xIsHUz0LjhRX3tWub
- x+BbLW4DYyPThkTe+lTheGo/o2HhAONbAjSuWBV4L5CBpPwahHLp0D52tZEs/ogWH016
- w2FPSB0GF7LmZ0TRvqmyEKiwDJfKWxH6NvRHRTKmfgUF5YvYEp/DvhYiX8+1vQpZgAAr
- RIiw==
-X-Gm-Message-State: ACrzQf1fTNDroJStLHmTuSIIx8E3pQiB1W+P9tXrqn4W6pH3dgACL8GR
- A7R1BM6XkEzT6be+TO+7dEQ=
-X-Google-Smtp-Source: AMsMyM5NpPlgw1MzdC+C/n3THOXIXNo5rjOoCkHu7VjZuVxfW3DzjiTAxiqmL5KHwvdZbF/I8aIn4g==
-X-Received: by 2002:a17:903:1247:b0:178:6200:96d2 with SMTP id
- u7-20020a170903124700b00178620096d2mr179654plh.52.1663338970189; 
- Fri, 16 Sep 2022 07:36:10 -0700 (PDT)
+ bh=vcvsZUpJWHPMkraQWN0s9tUJHFYUik65uBj1LFzhKHc=;
+ b=a7D2roBtPyoW7viz4AKgrMO38BtH9kxSGycFOsj3a9dnvJwBWaxUtrVDibqp39Pwzk
+ 3EN33PNdlrXw2EML737nL5l5jbuEHnoMVDYK4iRlnKpDgKIzZp0qA+L5kD8ZMtllapvt
+ 7B47UoYKARE+0en1xi/AJKdcHWLls2uMW9hmgsQrkUemXBVPV7E+GCXH2+xygJs1J6a9
+ NKn4+CImA1lvmHZ5aYLMqEq7QDWRYovPSRktaXlScneRuGVESDnJXx7EyGoTwBanhreh
+ feDYFl6qNGKd4yTPb2VV/Jrrmd83zMWf3SeStKYo9uXCv/+jSkVypO6bG4tI9qb+yclK
+ cLCA==
+X-Gm-Message-State: ACrzQf2TxIoddWEnX3GrpSmMft4aY5cTiWv5d/vV1luxO6OnkjZj1l4A
+ YZfm3hJMYvm3ZXHEes+Z6aEwAYBkYU9e6A==
+X-Google-Smtp-Source: AMsMyM7/dqenNVSGiwhIFUzkzfjhvSugRFYKt87ZwGBKu6KGJS8oH47cTO7JAsbciYFizqUqXMOqRw==
+X-Received: by 2002:a17:902:e94f:b0:173:d0d:c4f5 with SMTP id
+ b15-20020a170902e94f00b001730d0dc4f5mr124595pll.167.1663339033009; 
+ Fri, 16 Sep 2022 07:37:13 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- j6-20020a170903024600b00177e590df96sm14991938plh.118.2022.09.16.07.36.07
+ r6-20020a170902be0600b00178682d5806sm4327714pls.191.2022.09.16.07.37.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Sep 2022 07:36:09 -0700 (PDT)
-Message-ID: <25b0a116-7098-c285-cb20-af05dd03768b@amsat.org>
-Date: Fri, 16 Sep 2022 16:36:05 +0200
+ Fri, 16 Sep 2022 07:37:12 -0700 (PDT)
+Message-ID: <1263ad1b-55fd-67e3-9647-2b49421acd34@amsat.org>
+Date: Fri, 16 Sep 2022 16:37:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH v5 00/13] Instantiate VT82xx functions in host device
+Subject: Re: [PATCH] .gitignore: add .cache/ to .gitignore
 Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>,
- Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
- BALATON Zoltan <balaton@eik.bme.hu>
-References: <20220901114127.53914-1-shentey@gmail.com>
- <E2820A94-3E30-46DB-9F83-8157C9A6FE1B@gmail.com>
-In-Reply-To: <E2820A94-3E30-46DB-9F83-8157C9A6FE1B@gmail.com>
+To: "Wang, Lei" <lei4.wang@intel.com>, qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, QEMU Trivial <qemu-trivial@nongnu.org>
+References: <20220907150010.2047037-1-lei4.wang@intel.com>
+In-Reply-To: <20220907150010.2047037-1-lei4.wang@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
@@ -98,55 +94,16 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 12/9/22 21:50, Bernhard Beschow wrote:
-> Am 1. September 2022 11:41:14 UTC schrieb Bernhard Beschow <shentey@gmail.com>:
-
->> Testing done:
->>
->> * `qemu-system-ppc -machine pegasos2 -rtc base=localtime -device ati-vga,guest_hwcursor=true,romfile="" -cdrom morphos-3.17.iso -kernel morphos-3.17/boot.img`
->>
->>   Boots successfully and it is possible to open games and tools.
->>
->>
->>
->> * I was unable to test the fuloong2e board even before this series since it seems to be unfinished [1].
->>
->>   A buildroot-baked kernel [2] booted but doesn't find its root partition, though the issues could be in the buildroot receipt I created.
->>
->>
->>
->> [1] https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
->>
->> [2] https://github.com/shentok/buildroot/commits/fuloong2e
->>
+On 7/9/22 17:00, Wang, Lei wrote:
+> $PROJECT/.cache/clangd/index is the intended location for project index
+> data when using clangd as the language server. Ignore this directory to
+> keep the git status clean.
 > 
-> Copying from v2 (just found it in my spam folder :/):
-> Series:
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> 
-> Review seems complete, thanks to all who participated! Now we just need someone to queue this series.
-> 
-> Best regards,
-> Bernhard
+> Signed-off-by: Wang, Lei <lei4.wang@intel.com>
+> ---
+>   .gitignore | 1 +
+>   1 file changed, 1 insertion(+)
 
-Excellent cleanup! Series queued to mips-next.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 
