@@ -2,75 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A9D55BA4BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 04:42:22 +0200 (CEST)
-Received: from localhost ([::1]:57154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 875CA5BA4BB
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 04:42:54 +0200 (CEST)
+Received: from localhost ([::1]:34440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZ1J7-0003Sl-9h
-	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 22:42:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32946)
+	id 1oZ1Jd-00046G-MU
+	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 22:42:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oZ1HH-0000Bm-F0; Thu, 15 Sep 2022 22:40:27 -0400
-Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:44731)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oZ1HE-0006AN-Ec; Thu, 15 Sep 2022 22:40:25 -0400
-Received: by mail-qv1-xf36.google.com with SMTP id v15so15671716qvi.11;
- Thu, 15 Sep 2022 19:40:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=uptv9ouL9YsikW7JiYuwBgoJiiAnp4bfnPluNi1wGjo=;
- b=iF4W93AUBTWXheDZiM/uAOrOyKroim5jAeidPHAELVOPNOey38H6TWCczY++DRT7bz
- sw1chJrK5mMt/0ZEFIbH4QR+hMJwBEDEDcH0omyq/R/duagEt+lGXrvd1SeERWJx9QzZ
- vyI+hGxmzgFWldZ3Hh/7aDJQKAhi6QPGhREj9ZMYBUE+VLKQzUAIVJZ0KCm3QDuwt6Md
- lXst6hgRkjaOdqIHePG2BiJcz5FE7fMPMtUzhAfidueR3hUHq+L5vUgdCwnZad39bKKW
- GJxTTDwMNsZPuJ89/f3sqLBs72tNDkPHrucTkqZOGMMNMnee9LyqzLumqYDHQjQYDMD6
- N5QQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=uptv9ouL9YsikW7JiYuwBgoJiiAnp4bfnPluNi1wGjo=;
- b=vN6JOnBO+TKyrygWoicXOp/BcemT2VSOAmMeGNyRVG4YbFo2g6SFx+Z7xa6+jm17lR
- xU5hflJNvsJPugd8s0Tepm57N7e9G5fFxh0NEFiHQbtScjiuJh273gFyhXPoNBoSciSj
- S6TO3BZaRm6HO7zEfdqAtfRSv7RPs8Rgh9OuME3vDrQsePRO+IdbR//xZ3oj1V3D7RgH
- 5UrIvKK/8sQ4rlDQ/RdF/hont3r3GjVDJqWrIU2JYEKYf4HKio9L42hb85RxiGhbPKZE
- r5ln1Gu7l/cz3pdjuZzLSwjmnD71XU0ed/qBf9UvO+HmJzZh1M+dvqyAT1Wdfupu5ste
- 4Naw==
-X-Gm-Message-State: ACrzQf2QZcLYLvQA7Fe3cUg84vTU7u1CaumIMvliDboPjyohnIK9Cpth
- eGu5MUbK+q6H5mPOXKOC3lVD8qHbZ4aX0IL3oeM=
-X-Google-Smtp-Source: AMsMyM4frVLnTCJQltpzSiX2T6ShKI9fRSpYaG1PYCpBSZj8RyNlmCzQlTTZlmGQD1m7aIVH3Z1qo0c2EEhHbLkQfXw=
-X-Received: by 2002:a05:6214:2602:b0:4ac:ada1:de5b with SMTP id
- gu2-20020a056214260200b004acada1de5bmr2722390qvb.122.1663296022827; Thu, 15
- Sep 2022 19:40:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1oZ1Hq-0000rW-H5; Thu, 15 Sep 2022 22:41:02 -0400
+Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:44254)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1oZ1Hb-0006Ez-8z; Thu, 15 Sep 2022 22:40:53 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R211e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045176;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=7; SR=0;
+ TI=SMTPD_---0VPv.xwl_1663296038; 
+Received: from 30.225.65.194(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VPv.xwl_1663296038) by smtp.aliyun-inc.com;
+ Fri, 16 Sep 2022 10:40:39 +0800
+Message-ID: <0cbdb4f3-ceed-923c-1d89-a86c83a9ef48@linux.alibaba.com>
+Date: Fri, 16 Sep 2022 10:40:16 +0800
 MIME-Version: 1.0
-References: <20220915152520.21948-1-shentey@gmail.com>
- <20220915152520.21948-3-shentey@gmail.com>
-In-Reply-To: <20220915152520.21948-3-shentey@gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 16 Sep 2022 10:40:11 +0800
-Message-ID: <CAEUhbmW0sn-3wC1SJW+TfDd6vN1rezZWaGT32kmyh3+HHDa3Sg@mail.gmail.com>
-Subject: Re: [PATCH 02/11] hw/gpio/meson: Introduce dedicated config switch
- for hw/gpio/mpc8xxx
-To: Bernhard Beschow <shentey@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, 
- Bin Meng <bin.meng@windriver.com>, qemu-ppc <qemu-ppc@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf36.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2 6/8] target/riscv: debug: Create common trigger actions
+ function
+Content-Language: en-US
+To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
+Cc: Frank Chang <frank.chang@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ qemu-riscv@nongnu.org
+References: <20220909134215.1843865-1-bmeng.cn@gmail.com>
+ <20220909134215.1843865-7-bmeng.cn@gmail.com>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <20220909134215.1843865-7-bmeng.cn@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=115.124.30.57;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-57.freemail.mail.aliyun.com
+X-Spam_score_int: -116
+X-Spam_score: -11.7
+X-Spam_bar: -----------
+X-Spam_report: (-11.7 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-1.816, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,17 +68,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 15, 2022 at 11:26 PM Bernhard Beschow <shentey@gmail.com> wrote:
->
-> Having a dedicated config switch makes dependency handling cleaner.
->
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->  hw/gpio/Kconfig     | 3 +++
->  hw/gpio/meson.build | 2 +-
->  hw/ppc/Kconfig      | 1 +
->  3 files changed, 5 insertions(+), 1 deletion(-)
->
+Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Zhiwei
+
+On 2022/9/9 21:42, Bin Meng wrote:
+> From: Frank Chang <frank.chang@sifive.com>
+>
+> Trigger actions are shared among all triggers. Extract to a common
+> function.
+>
+> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> [bmeng: handle the DBG_ACTION_NONE case]
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+>
+> ---
+>
+> Changes in v2:
+> - add handling of the DBG_ACTION_NONE case in do_trigger_action()
+>
+>   target/riscv/debug.h | 13 ++++++++++
+>   target/riscv/debug.c | 59 ++++++++++++++++++++++++++++++++++++++++++--
+>   2 files changed, 70 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/riscv/debug.h b/target/riscv/debug.h
+> index 9f69c64591..0e4859cf74 100644
+> --- a/target/riscv/debug.h
+> +++ b/target/riscv/debug.h
+> @@ -44,6 +44,19 @@ typedef enum {
+>       TRIGGER_TYPE_NUM
+>   } trigger_type_t;
+>   
+> +/* actions */
+> +typedef enum {
+> +    DBG_ACTION_NONE = -1,           /* sentinel value */
+> +    DBG_ACTION_BP = 0,
+> +    DBG_ACTION_DBG_MODE,
+> +    DBG_ACTION_TRACE0,
+> +    DBG_ACTION_TRACE1,
+> +    DBG_ACTION_TRACE2,
+> +    DBG_ACTION_TRACE3,
+> +    DBG_ACTION_EXT_DBG0 = 8,
+> +    DBG_ACTION_EXT_DBG1
+> +} trigger_action_t;
+> +
+>   /* tdata1 field masks */
+>   
+>   #define RV32_TYPE(t)    ((uint32_t)(t) << 28)
+> diff --git a/target/riscv/debug.c b/target/riscv/debug.c
+> index 7d546ace42..7a8910f980 100644
+> --- a/target/riscv/debug.c
+> +++ b/target/riscv/debug.c
+> @@ -92,6 +92,37 @@ static inline target_ulong get_trigger_type(CPURISCVState *env,
+>       return extract_trigger_type(env, env->tdata1[trigger_index]);
+>   }
+>   
+> +static trigger_action_t get_trigger_action(CPURISCVState *env,
+> +                                           target_ulong trigger_index)
+> +{
+> +    target_ulong tdata1 = env->tdata1[trigger_index];
+> +    int trigger_type = get_trigger_type(env, trigger_index);
+> +    trigger_action_t action = DBG_ACTION_NONE;
+> +
+> +    switch (trigger_type) {
+> +    case TRIGGER_TYPE_AD_MATCH:
+> +        action = (tdata1 & TYPE2_ACTION) >> 12;
+> +        break;
+> +    case TRIGGER_TYPE_INST_CNT:
+> +    case TRIGGER_TYPE_INT:
+> +    case TRIGGER_TYPE_EXCP:
+> +    case TRIGGER_TYPE_AD_MATCH6:
+> +    case TRIGGER_TYPE_EXT_SRC:
+> +        qemu_log_mask(LOG_UNIMP, "trigger type: %d is not supported\n",
+> +                      trigger_type);
+> +        break;
+> +    case TRIGGER_TYPE_NO_EXIST:
+> +    case TRIGGER_TYPE_UNAVAIL:
+> +        qemu_log_mask(LOG_GUEST_ERROR, "trigger type: %d does not exit\n",
+> +                      trigger_type);
+> +        break;
+> +    default:
+> +        g_assert_not_reached();
+> +    }
+> +
+> +    return action;
+> +}
+> +
+>   static inline target_ulong build_tdata1(CPURISCVState *env,
+>                                           trigger_type_t type,
+>                                           bool dmode, target_ulong data)
+> @@ -182,6 +213,30 @@ static inline void warn_always_zero_bit(target_ulong val, target_ulong mask,
+>       }
+>   }
+>   
+> +static void do_trigger_action(CPURISCVState *env, target_ulong trigger_index)
+> +{
+> +    trigger_action_t action = get_trigger_action(env, trigger_index);
+> +
+> +    switch (action) {
+> +    case DBG_ACTION_NONE:
+> +        break;
+> +    case DBG_ACTION_BP:
+> +        riscv_raise_exception(env, RISCV_EXCP_BREAKPOINT, 0);
+> +        break;
+> +    case DBG_ACTION_DBG_MODE:
+> +    case DBG_ACTION_TRACE0:
+> +    case DBG_ACTION_TRACE1:
+> +    case DBG_ACTION_TRACE2:
+> +    case DBG_ACTION_TRACE3:
+> +    case DBG_ACTION_EXT_DBG0:
+> +    case DBG_ACTION_EXT_DBG1:
+> +        qemu_log_mask(LOG_UNIMP, "action: %d is not supported\n", action);
+> +        break;
+> +    default:
+> +        g_assert_not_reached();
+> +    }
+> +}
+> +
+>   /* type 2 trigger */
+>   
+>   static uint32_t type2_breakpoint_size(CPURISCVState *env, target_ulong ctrl)
+> @@ -384,11 +439,11 @@ void riscv_cpu_debug_excp_handler(CPUState *cs)
+>       if (cs->watchpoint_hit) {
+>           if (cs->watchpoint_hit->flags & BP_CPU) {
+>               cs->watchpoint_hit = NULL;
+> -            riscv_raise_exception(env, RISCV_EXCP_BREAKPOINT, 0);
+> +            do_trigger_action(env, DBG_ACTION_BP);
+>           }
+>       } else {
+>           if (cpu_breakpoint_test(cs, env->pc, BP_CPU)) {
+> -            riscv_raise_exception(env, RISCV_EXCP_BREAKPOINT, 0);
+> +            do_trigger_action(env, DBG_ACTION_BP);
+>           }
+>       }
+>   }
 
