@@ -2,35 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8BA5BB4A8
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 01:09:58 +0200 (CEST)
-Received: from localhost ([::1]:53900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 787E15BB4B2
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 01:12:44 +0200 (CEST)
+Received: from localhost ([::1]:43646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZKT7-0007vv-KM
-	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 19:09:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56022)
+	id 1oZKVn-0006TD-JM
+	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 19:12:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oZKQj-0001eu-Td; Fri, 16 Sep 2022 19:07:29 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:18350)
+ id 1oZKQk-0001fB-2W; Fri, 16 Sep 2022 19:07:30 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:18353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oZKQf-0000VK-3A; Fri, 16 Sep 2022 19:07:28 -0400
+ id 1oZKQf-0000Wf-4p; Fri, 16 Sep 2022 19:07:29 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 8AD4B75A162;
- Sat, 17 Sep 2022 01:07:20 +0200 (CEST)
+ by localhost (Postfix) with SMTP id A137D75A163;
+ Sat, 17 Sep 2022 01:07:21 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 6244175A15D; Sat, 17 Sep 2022 01:07:20 +0200 (CEST)
-Message-Id: <e58a3c14ae73d40629a3dd8b9b542a69fe86b07f.1663368422.git.balaton@eik.bme.hu>
+ id 6D1A275A15D; Sat, 17 Sep 2022 01:07:21 +0200 (CEST)
+Message-Id: <f6b04802d0a62668ba99c0086d0dda8ad103a65d.1663368422.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1663368422.git.balaton@eik.bme.hu>
 References: <cover.1663368422.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 02/10] mac_oldworld: Drop some more variables
+Subject: [PATCH 03/10] mac_{old|new}world: Set default values for some local
+ variables
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Date: Sat, 17 Sep 2022 01:07:20 +0200 (CEST)
+Date: Sat, 17 Sep 2022 01:07:21 +0200 (CEST)
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
@@ -54,140 +55,183 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Drop some more local variables additionally to commit b8df32555ce5 to
-match clean ups done to mac_newwold in previous patch.
+Some lines can be dropped making the code flow simpler and easier to
+follow by setting default values at variable declaration for some
+variables in both mac_oldworld.c and mac_newworld.c.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/ppc/mac_oldworld.c | 43 +++++++++++++++++++++----------------------
- 1 file changed, 21 insertions(+), 22 deletions(-)
+ hw/ppc/mac_newworld.c | 28 +++++-----------------------
+ hw/ppc/mac_oldworld.c | 27 +++++----------------------
+ 2 files changed, 10 insertions(+), 45 deletions(-)
 
+diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+index 27e4e8d136..6bc3bd19be 100644
+--- a/hw/ppc/mac_newworld.c
++++ b/hw/ppc/mac_newworld.c
+@@ -111,11 +111,11 @@ static void ppc_core99_init(MachineState *machine)
+     CPUPPCState *env = NULL;
+     char *filename;
+     IrqLines *openpic_irqs;
+-    int i, j, k, ppc_boot_device, machine_arch, bios_size;
++    int i, j, k, ppc_boot_device, machine_arch, bios_size = -1;
+     const char *bios_name = machine->firmware ?: PROM_FILENAME;
+     MemoryRegion *bios = g_new(MemoryRegion, 1);
+-    hwaddr kernel_base, initrd_base, cmdline_base = 0;
+-    long kernel_size, initrd_size;
++    hwaddr kernel_base = 0, initrd_base = 0, cmdline_base = 0;
++    long kernel_size = 0, initrd_size = 0;
+     UNINHostState *uninorth_pci;
+     PCIBus *pci_bus;
+     PCIDevice *macio;
+@@ -130,7 +130,7 @@ static void ppc_core99_init(MachineState *machine)
+     DeviceState *dev, *pic_dev;
+     DeviceState *uninorth_internal_dev = NULL, *uninorth_agp_dev = NULL;
+     hwaddr nvram_addr = 0xFFF04000;
+-    uint64_t tbfreq;
++    uint64_t tbfreq = kvm_enabled() ? kvmppc_get_tbfreq() : TBFREQ;
+ 
+     /* init CPUs */
+     for (i = 0; i < machine->smp.cpus; i++) {
+@@ -165,8 +165,6 @@ static void ppc_core99_init(MachineState *machine)
+             bios_size = load_image_targphys(filename, PROM_BASE, PROM_SIZE);
+         }
+         g_free(filename);
+-    } else {
+-        bios_size = -1;
+     }
+     if (bios_size < 0 || bios_size > PROM_SIZE) {
+         error_report("could not load PowerPC bios '%s'", bios_name);
+@@ -174,15 +172,12 @@ static void ppc_core99_init(MachineState *machine)
+     }
+ 
+     if (machine->kernel_filename) {
+-        int bswap_needed;
++        int bswap_needed = 0;
+ 
+ #ifdef BSWAP_NEEDED
+         bswap_needed = 1;
+-#else
+-        bswap_needed = 0;
+ #endif
+         kernel_base = KERNEL_LOAD_ADDR;
+-
+         kernel_size = load_elf(machine->kernel_filename, NULL,
+                                translate_kernel_address, NULL, NULL, NULL,
+                                NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
+@@ -212,16 +207,10 @@ static void ppc_core99_init(MachineState *machine)
+             }
+             cmdline_base = TARGET_PAGE_ALIGN(initrd_base + initrd_size);
+         } else {
+-            initrd_base = 0;
+-            initrd_size = 0;
+             cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + KERNEL_GAP);
+         }
+         ppc_boot_device = 'm';
+     } else {
+-        kernel_base = 0;
+-        kernel_size = 0;
+-        initrd_base = 0;
+-        initrd_size = 0;
+         ppc_boot_device = '\0';
+         /* We consider that NewWorld PowerMac never have any floppy drive
+          * For now, OHW cannot boot from the network.
+@@ -343,13 +332,6 @@ static void ppc_core99_init(MachineState *machine)
+     has_adb = (core99_machine->via_config == CORE99_VIA_CONFIG_CUDA ||
+                core99_machine->via_config == CORE99_VIA_CONFIG_PMU_ADB);
+ 
+-    /* Timebase Frequency */
+-    if (kvm_enabled()) {
+-        tbfreq = kvmppc_get_tbfreq();
+-    } else {
+-        tbfreq = TBFREQ;
+-    }
+-
+     /* init basic PC hardware */
+     pci_bus = PCI_HOST_BRIDGE(uninorth_pci)->bus;
+ 
 diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 03732ca7ed..86512d31ad 100644
+index 86512d31ad..cb67e44081 100644
 --- a/hw/ppc/mac_oldworld.c
 +++ b/hw/ppc/mac_oldworld.c
-@@ -80,14 +80,13 @@ static void ppc_heathrow_reset(void *opaque)
- 
- static void ppc_heathrow_init(MachineState *machine)
- {
--    ram_addr_t ram_size = machine->ram_size;
-     const char *bios_name = machine->firmware ?: PROM_FILENAME;
--    const char *boot_device = machine->boot_config.order;
+@@ -84,11 +84,11 @@ static void ppc_heathrow_init(MachineState *machine)
      PowerPCCPU *cpu = NULL;
      CPUPPCState *env = NULL;
      char *filename;
--    int i;
-+    int i, bios_size;
+-    int i, bios_size;
++    int i, bios_size = -1;
      MemoryRegion *bios = g_new(MemoryRegion, 1);
-+    uint64_t bios_addr;
-     uint32_t kernel_base, initrd_base, cmdline_base = 0;
-     int32_t kernel_size, initrd_size;
+     uint64_t bios_addr;
+-    uint32_t kernel_base, initrd_base, cmdline_base = 0;
+-    int32_t kernel_size, initrd_size;
++    uint32_t kernel_base = 0, initrd_base = 0, cmdline_base = 0;
++    int32_t kernel_size = 0, initrd_size = 0;
      PCIBus *pci_bus;
-@@ -97,16 +96,13 @@ static void ppc_heathrow_init(MachineState *machine)
-     SysBusDevice *s;
-     DeviceState *dev, *pic_dev, *grackle_dev;
-     BusState *adb_bus;
--    uint64_t bios_addr;
--    int bios_size;
--    unsigned int smp_cpus = machine->smp.cpus;
+     PCIDevice *macio;
+     MACIOIDEState *macio_ide;
+@@ -99,7 +99,7 @@ static void ppc_heathrow_init(MachineState *machine)
      uint16_t ppc_boot_device;
      DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
      void *fw_cfg;
-     uint64_t tbfreq;
+-    uint64_t tbfreq;
++    uint64_t tbfreq = kvm_enabled() ? kvmppc_get_tbfreq() : TBFREQ;
  
      /* init CPUs */
--    for (i = 0; i < smp_cpus; i++) {
-+    for (i = 0; i < machine->smp.cpus; i++) {
-         cpu = POWERPC_CPU(cpu_create(machine->cpu_type));
-         env = &cpu->env;
- 
-@@ -116,9 +112,9 @@ static void ppc_heathrow_init(MachineState *machine)
+     for (i = 0; i < machine->smp.cpus; i++) {
+@@ -139,8 +139,6 @@ static void ppc_heathrow_init(MachineState *machine)
+             bios_addr = PROM_BASE;
+         }
+         g_free(filename);
+-    } else {
+-        bios_size = -1;
+     }
+     if (bios_size < 0 || bios_addr - PROM_BASE + bios_size > PROM_SIZE) {
+         error_report("could not load PowerPC bios '%s'", bios_name);
+@@ -148,12 +146,10 @@ static void ppc_heathrow_init(MachineState *machine)
      }
  
-     /* allocate RAM */
--    if (ram_size > 2047 * MiB) {
-+    if (machine->ram_size > 2047 * MiB) {
-         error_report("Too much memory for this machine: %" PRId64 " MB, "
--                     "maximum 2047 MB", ram_size / MiB);
-+                     "maximum 2047 MB", machine->ram_size / MiB);
-         exit(1);
-     }
+     if (machine->kernel_filename) {
+-        int bswap_needed;
++        int bswap_needed = 0;
  
-@@ -165,12 +161,12 @@ static void ppc_heathrow_init(MachineState *machine)
-                                NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
-         if (kernel_size < 0)
-             kernel_size = load_aout(machine->kernel_filename, kernel_base,
--                                    ram_size - kernel_base, bswap_needed,
--                                    TARGET_PAGE_SIZE);
-+                                    machine->ram_size - kernel_base,
-+                                    bswap_needed, TARGET_PAGE_SIZE);
-         if (kernel_size < 0)
-             kernel_size = load_image_targphys(machine->kernel_filename,
-                                               kernel_base,
--                                              ram_size - kernel_base);
-+                                              machine->ram_size - kernel_base);
-         if (kernel_size < 0) {
-             error_report("could not load kernel '%s'",
-                          machine->kernel_filename);
-@@ -182,7 +178,7 @@ static void ppc_heathrow_init(MachineState *machine)
-                                             KERNEL_GAP);
-             initrd_size = load_image_targphys(machine->initrd_filename,
-                                               initrd_base,
--                                              ram_size - initrd_base);
-+                                              machine->ram_size - initrd_base);
-             if (initrd_size < 0) {
-                 error_report("could not load initial ram disk '%s'",
-                              machine->initrd_filename);
-@@ -201,19 +197,22 @@ static void ppc_heathrow_init(MachineState *machine)
-         initrd_base = 0;
-         initrd_size = 0;
-         ppc_boot_device = '\0';
--        for (i = 0; boot_device[i] != '\0'; i++) {
--            /* TOFIX: for now, the second IDE channel is not properly
-+        for (i = 0; machine->boot_config.order[i] != '\0'; i++) {
-+            /*
-+             * TOFIX: for now, the second IDE channel is not properly
-              *        used by OHW. The Mac floppy disk are not emulated.
-              *        For now, OHW cannot boot from the network.
-              */
- #if 0
--            if (boot_device[i] >= 'a' && boot_device[i] <= 'f') {
--                ppc_boot_device = boot_device[i];
-+            if (machine->boot_config.order[i] >= 'a' &&
-+                machine->boot_config.order[i] <= 'f') {
-+                ppc_boot_device = machine->boot_config.order[i];
-                 break;
-             }
- #else
--            if (boot_device[i] >= 'c' && boot_device[i] <= 'd') {
--                ppc_boot_device = boot_device[i];
-+            if (machine->boot_config.order[i] >= 'c' &&
-+                machine->boot_config.order[i] <= 'd') {
-+                ppc_boot_device = machine->boot_config.order[i];
-                 break;
-             }
+ #ifdef BSWAP_NEEDED
+         bswap_needed = 1;
+-#else
+-        bswap_needed = 0;
  #endif
-@@ -266,7 +265,7 @@ static void ppc_heathrow_init(MachineState *machine)
+         kernel_base = KERNEL_LOAD_ADDR;
+         kernel_size = load_elf(machine->kernel_filename, NULL,
+@@ -186,16 +182,10 @@ static void ppc_heathrow_init(MachineState *machine)
+             }
+             cmdline_base = TARGET_PAGE_ALIGN(initrd_base + initrd_size);
+         } else {
+-            initrd_base = 0;
+-            initrd_size = 0;
+             cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + KERNEL_GAP);
+         }
+         ppc_boot_device = 'm';
+     } else {
+-        kernel_base = 0;
+-        kernel_size = 0;
+-        initrd_base = 0;
+-        initrd_size = 0;
+         ppc_boot_device = '\0';
+         for (i = 0; machine->boot_config.order[i] != '\0'; i++) {
+             /*
+@@ -223,13 +213,6 @@ static void ppc_heathrow_init(MachineState *machine)
+         }
      }
  
-     /* Connect the heathrow PIC outputs to the 6xx bus */
--    for (i = 0; i < smp_cpus; i++) {
-+    for (i = 0; i < machine->smp.cpus; i++) {
-         switch (PPC_INPUT(env)) {
-         case PPC_FLAGS_INPUT_6xx:
-             /* XXX: we register only 1 output pin for heathrow PIC */
-@@ -323,9 +322,9 @@ static void ppc_heathrow_init(MachineState *machine)
-     sysbus_mmio_map(s, 0, CFG_ADDR);
-     sysbus_mmio_map(s, 1, CFG_ADDR + 2);
- 
--    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)smp_cpus);
-+    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)machine->smp.cpus);
-     fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)machine->smp.max_cpus);
--    fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
-+    fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)machine->ram_size);
-     fw_cfg_add_i16(fw_cfg, FW_CFG_MACHINE_ID, ARCH_HEATHROW);
-     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, kernel_base);
-     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
+-    /* Timebase Frequency */
+-    if (kvm_enabled()) {
+-        tbfreq = kvmppc_get_tbfreq();
+-    } else {
+-        tbfreq = TBFREQ;
+-    }
+-
+     /* Grackle PCI host bridge */
+     grackle_dev = qdev_new(TYPE_GRACKLE_PCI_HOST_BRIDGE);
+     qdev_prop_set_uint32(grackle_dev, "ofw-addr", 0x80000000);
 -- 
 2.30.4
 
