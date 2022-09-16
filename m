@@ -2,91 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 980FA5BAE84
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 15:49:03 +0200 (CEST)
-Received: from localhost ([::1]:36242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D29165BAF69
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 16:31:41 +0200 (CEST)
+Received: from localhost ([::1]:59194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZBiI-0001gF-FA
-	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 09:49:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44878)
+	id 1oZCNY-0004yZ-Vi
+	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 10:31:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oZBfz-00006I-55
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 09:46:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29273)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oZCIr-0008Ay-Sn
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 10:26:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60194)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oZBfu-0004HG-Vl
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 09:46:37 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oZCIn-00070T-67
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 10:26:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663335991;
+ s=mimecast20190719; t=1663338404;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oVQkxGKCXGgLwSrFgEmMU1bfAwvlcNA9HHORbU/p9Q8=;
- b=bCN7fG9cex0C37OwSuzDxRsdPVvlPMmDpxEV3lYSgPUUhOo2WG2Vi24PfsuQoe9DFiPR9V
- UmBfDs+/dPkEVO3SoTPIO2LsD1Fm80x4lrOUahZNznTZbNMEe/it75MdKfM36eUQazJxc6
- /sj3f7rUIYEHdIte4DGV49RUGo8DLPQ=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-416-tg8mYyGBMsGnA3Q9hDFzTg-1; Fri, 16 Sep 2022 09:46:29 -0400
-X-MC-Unique: tg8mYyGBMsGnA3Q9hDFzTg-1
-Received: by mail-pf1-f197.google.com with SMTP id
- g24-20020a056a00079800b0054b1a110543so987096pfu.2
- for <qemu-devel@nongnu.org>; Fri, 16 Sep 2022 06:46:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=oVQkxGKCXGgLwSrFgEmMU1bfAwvlcNA9HHORbU/p9Q8=;
- b=qmfyCYWjb1PMoFaEMn2bluee17OnZSVCXrGycLwiGPessXVd9KFWUJleXjnKuCbvGZ
- eORfkysqBoHZNgKeFll4Jv/bU3yTFzY9hVhzLrqnfZv4VizamV6bI65Nlq2FZOZwF76G
- 41gOLVvsFlMXUsCgxygNp+ZryrsmNqRQ7/ASUbmHPB5nJMI7VtwPTDu6SxJ3xswtGXFt
- ICPL2EWMxNy1VCz8czms3qhpF5CI8dP6DL/epFUF2pid5EY3W4BiTR0zF/+0QtokD3mT
- MNTNZO/IFvJ8EVuvlTzff2OvL2lgowymf9L/yApm2Za9fYv3cjor30GzEbWczzkDVOHk
- cPRg==
-X-Gm-Message-State: ACrzQf01IV6ohXqfooqtwbEaX6eL13XsSM/9MeAu2BLuhFOFMbj811sv
- uMtZV1fELeUG5Hr5toMGaWaN33488tRK6+leVsOAGRAbeA32xq+QFjOX8RSpG09dJPZ8xY+pQ6k
- fE7kaezvWksNWeaMGR7O5u82qMsxLZKQ=
-X-Received: by 2002:a17:90a:9f96:b0:1fa:b4fb:6297 with SMTP id
- o22-20020a17090a9f9600b001fab4fb6297mr5720961pjp.80.1663335988756; 
- Fri, 16 Sep 2022 06:46:28 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5Y+F/vTVK98SNMRwea80YPgKOc0FC/jCmI9tleCoZQhjtwYnrdinxwY3cgPnRpe9uMlWNCg7BXyQNJD4sxgE0=
-X-Received: by 2002:a17:90a:9f96:b0:1fa:b4fb:6297 with SMTP id
- o22-20020a17090a9f9600b001fab4fb6297mr5720919pjp.80.1663335988436; Fri, 16
- Sep 2022 06:46:28 -0700 (PDT)
+ bh=hAB/moGl/OPk1syu6cgRiXSjPnMO5xSM2KClpc0hIoA=;
+ b=jRenrik81A1D5SaLu0T1On5wcbMlN688/w/BZPGPPBvqy8di3gUQ0G8wYqe3VLvXsvsLbe
+ 33BfulafjhbDX7CEEKfTzlHw6rR/iw4rkluzYarrXzyRXU0DBgyZl/6/f3ERZUIQJ741dg
+ IbMih9P1XP/RQV4iAfYtAz+9lJf0FOg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-220-Sz-scRhYPOywpvWIMu8uxQ-1; Fri, 16 Sep 2022 10:26:40 -0400
+X-MC-Unique: Sz-scRhYPOywpvWIMu8uxQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 500BF185A7AA;
+ Fri, 16 Sep 2022 14:26:40 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B93D51121314;
+ Fri, 16 Sep 2022 14:26:39 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4685121E6900; Fri, 16 Sep 2022 16:26:34 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Cc: Markus Armbruster <armbru@redhat.com>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  Richard Henderson <richard.henderson@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>,  qemu-devel@nongnu.org,
+ dinechin@redhat.com,  Gerd Hoffmann <kraxel@redhat.com>,  =?utf-8?Q?Marc?=
+ =?utf-8?Q?-Andr=C3=A9?=
+ Lureau <marcandre.lureau@redhat.com>,  Daniel =?utf-8?Q?P=2EBerrang=C3=A9?=
+ <berrange@redhat.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <f4bug@amsat.org>
+Subject: Re: [PATCH v4 2/3] module: add Error arguments to module_load_one
+ and module_load_qom_one
+References: <20220908183012.17667-1-cfontana@suse.de>
+ <20220908183012.17667-3-cfontana@suse.de>
+ <877d23ekj0.fsf@pond.sub.org>
+ <bc88027a-41bb-aef4-fd64-fcc367bf179d@suse.de>
+Date: Fri, 16 Sep 2022 16:26:34 +0200
+In-Reply-To: <bc88027a-41bb-aef4-fd64-fcc367bf179d@suse.de> (Claudio Fontana's
+ message of "Fri, 16 Sep 2022 12:48:44 +0200")
+Message-ID: <87illnbdk5.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220906163621.1144675-1-eperezma@redhat.com>
- <20220906163621.1144675-3-eperezma@redhat.com>
- <CACGkMEvnVavevtxWa49Yew+Nnkx_Wfmgf1JLVXCBe=zkpvdHnQ@mail.gmail.com>
- <CACGkMEswG2nmTve+p2MU9ue5CuwAu69CpeOUzYnu_BVfZE56JA@mail.gmail.com>
- <CAJaqyWf=NfkL_2uXVapJ6qCLziBc2jg+jMyR+cBQu+yDG6eg5w@mail.gmail.com>
- <CACGkMEvW5ZUZEcx9COvwjAT5PUraoko8k1foBez=T1nmhjKpDw@mail.gmail.com>
- <34969f96-b7c4-c9f8-2248-3e84a84148b2@oracle.com>
- <CAJaqyWfZBHSTwY+WRDbwS+Sw0NsXsmpfhgpOtmLNM3dUWzrd7w@mail.gmail.com>
- <411586c9-22a2-1bd5-fbcd-a7658fd00446@oracle.com>
-In-Reply-To: <411586c9-22a2-1bd5-fbcd-a7658fd00446@oracle.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Fri, 16 Sep 2022 15:45:52 +0200
-Message-ID: <CAJaqyWcJ9Ci5=0jw_WcVuY27mG+H7uUq_imkV3+CWycCEt_h8A@mail.gmail.com>
-Subject: Re: [PATCH 2/3] vdpa: load vlan configuration at NIC startup
-To: Si-Wei Liu <si-wei.liu@oracle.com>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- Cindy Lu <lulu@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Laurent Vivier <lvivier@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
- Parav Pandit <parav@mellanox.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -110,194 +90,550 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 14, 2022 at 5:44 PM Si-Wei Liu <si-wei.liu@oracle.com> wrote:
->
->
->
-> On 9/14/2022 2:57 PM, Eugenio Perez Martin wrote:
-> > On Wed, Sep 14, 2022 at 1:33 PM Si-Wei Liu <si-wei.liu@oracle.com> wrot=
-e:
-> >>
-> >>
-> >> On 9/14/2022 3:20 AM, Jason Wang wrote:
-> >>> On Fri, Sep 9, 2022 at 4:02 PM Eugenio Perez Martin <eperezma@redhat.=
-com> wrote:
-> >>>> On Fri, Sep 9, 2022 at 8:40 AM Jason Wang <jasowang@redhat.com> wrot=
-e:
-> >>>>> On Fri, Sep 9, 2022 at 2:38 PM Jason Wang <jasowang@redhat.com> wro=
-te:
-> >>>>>> On Wed, Sep 7, 2022 at 12:36 AM Eugenio P=C3=A9rez <eperezma@redha=
-t.com> wrote:
-> >>>>>>> To have enabled vlans at device startup may happen in the destina=
-tion of
-> >>>>>>> a live migration, so this configuration must be restored.
-> >>>>>>>
-> >>>>>>> At this moment the code is not accessible, since SVQ refuses to s=
-tart if
-> >>>>>>> vlan feature is exposed by the device.
-> >>>>>>>
-> >>>>>>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> >>>>>>> ---
-> >>>>>>>    net/vhost-vdpa.c | 46 ++++++++++++++++++++++++++++++++++++++++=
-++++--
-> >>>>>>>    1 file changed, 44 insertions(+), 2 deletions(-)
-> >>>>>>>
-> >>>>>>> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> >>>>>>> index 4bc3fd01a8..ecbfd08eb9 100644
-> >>>>>>> --- a/net/vhost-vdpa.c
-> >>>>>>> +++ b/net/vhost-vdpa.c
-> >>>>>>> @@ -100,6 +100,8 @@ static const uint64_t vdpa_svq_device_feature=
-s =3D
-> >>>>>>>        BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
-> >>>>>>>        BIT_ULL(VIRTIO_NET_F_STANDBY);
-> >>>>>>>
-> >>>>>>> +#define MAX_VLAN    (1 << 12)   /* Per 802.1Q definition */
-> >>>>>>> +
-> >>>>>>>    VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
-> >>>>>>>    {
-> >>>>>>>        VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
-> >>>>>>> @@ -423,6 +425,47 @@ static int vhost_vdpa_net_load_mq(VhostVDPAS=
-tate *s,
-> >>>>>>>        return *s->status !=3D VIRTIO_NET_OK;
-> >>>>>>>    }
-> >>>>>>>
-> >>>>>>> +static int vhost_vdpa_net_load_single_vlan(VhostVDPAState *s,
-> >>>>>>> +                                           const VirtIONet *n,
-> >>>>>>> +                                           uint16_t vid)
-> >>>>>>> +{
-> >>>>>>> +    ssize_t dev_written =3D vhost_vdpa_net_load_cmd(s, VIRTIO_NE=
-T_CTRL_VLAN,
-> >>>>>>> +                                                  VIRTIO_NET_CTR=
-L_VLAN_ADD,
-> >>>>>>> +                                                  &vid, sizeof(v=
-id));
-> >>>>>>> +    if (unlikely(dev_written < 0)) {
-> >>>>>>> +        return dev_written;
-> >>>>>>> +    }
-> >>>>>>> +
-> >>>>>>> +    if (unlikely(*s->status !=3D VIRTIO_NET_OK)) {
-> >>>>>>> +        return -EINVAL;
-> >>>>>>> +    }
-> >>>>>>> +
-> >>>>>>> +    return 0;
-> >>>>>>> +}
-> >>>>>>> +
-> >>>>>>> +static int vhost_vdpa_net_load_vlan(VhostVDPAState *s,
-> >>>>>>> +                                    const VirtIONet *n)
-> >>>>>>> +{
-> >>>>>>> +    uint64_t features =3D n->parent_obj.guest_features;
-> >>>>>>> +
-> >>>>>>> +    if (!(features & BIT_ULL(VIRTIO_NET_F_CTRL_VLAN))) {
-> >>>>>>> +        return 0;
-> >>>>>>> +    }
-> >>>>>>> +
-> >>>>>>> +    for (int i =3D 0; i < MAX_VLAN >> 5; i++) {
-> >>>>>>> +        for (int j =3D 0; n->vlans[i] && j <=3D 0x1f; j++) {
-> >>>>>>> +            if (n->vlans[i] & (1U << j)) {
-> >>>>>>> +                int r =3D vhost_vdpa_net_load_single_vlan(s, n, =
-(i << 5) + j);
-> >>>>>> This seems to cause a lot of latency if the driver has a lot of vl=
-ans.
-> >>>>>>
-> >>>>>> I wonder if it's simply to let all vlan traffic go by disabling
-> >>>>>> CTRL_VLAN feature at vDPA layer.
-> >>>> The guest will not be able to recover that vlan configuration.
-> >>> Spec said it's best effort and we actually don't do this for
-> >>> vhost-net/user for years and manage to survive.
-> >> I thought there's a border line between best effort and do nothing. ;-=
-)
-> >>
-> > I also think it is worth at least trying to migrate it for sure. For
-> > MAC there may be too many entries, but VLAN should be totally
-> > manageable (and the information is already there, the bitmap is
-> > actually being migrated).
-> The vlan bitmap is migrated, though you'd still need to add vlan filter
-> one by one through ctrl vq commands, correct? AFAIK you can add one
-> filter for one single vlan ID at a time via VIRTIO_NET_CTRL_VLAN_ADD.
->
-> >
-> >> I think that the reason this could survive is really software
-> >> implementation specific - say if the backend doesn't start with VLAN
-> >> filtering disabled (meaning allow all VLAN traffic to pass) then it
-> >> would become a problem. This won't be a problem for almost PF NICs but
-> >> may be problematic for vDPA e.g. VF backed VDPAs.
-> > I'd say the driver would expect all vlan filters to be cleared after a
-> > reset, isn't it?
-> If I understand the intended behavior (from QEMU implementation)
-> correctly, when VIRTIO_NET_F_CTRL_VLAN is negotiated it would start with
-> all VLANs filtered (meaning only untagged traffic can be received and
-> traffic with VLAN tag would get dropped). However, if
-> VIRTIO_NET_F_CTRL_VLAN is not negotiated, all traffic including untagged
-> and tagged can be received.
->
-> >   The spec doesn't explicitly say anything about that
-> > as far as I see.
-> Here the spec is totally ruled by the (software artifact of)
-> implementation rather than what a real device is expected to work with
-> VLAN rx filters. Are we sure we'd stick to this flawed device
-> implementation? The guest driver seems to be agnostic with this broken
-> spec behavior so far, and I am afraid it's an overkill to add another
-> feature bit or ctrl command to VLAN filter in clean way.
->
+Claudio Fontana <cfontana@suse.de> writes:
 
-I agree with all of the above. So, double checking, all vlan should be
-allowed by default at device start? Maybe the spec needs to be more
-clear in that regard?
-
-> >
-> >>>>> Another idea is to extend the spec to allow us to accept a bitmap o=
-f
-> >>>>> the vlan ids via a single command, then we will be fine.
-> >>>>>
-> >>>> I'm not sure if adding more ways to configure something is the answe=
-r,
-> >>>> but I'd be ok to implement it.
-> >>>>
-> >>>> Another idea is to allow the sending of many CVQ commands in paralle=
-l.
-> >>>> It shouldn't be very hard to achieve using exposed buffers as ring
-> >>>> buffers, and it will short down the start of the devices with many
-> >>>> features.
-> >>> In the extreme case, what if guests decide to filter all of the vlans=
-?
-> >>> It means we need MAX_VLAN commands which may exceeds the size of the
-> >>> control virtqueue.
-> >> Indeed, that's a case where a single flat device state blob would be
-> >> more efficient for hardware drivers to apply than individual control
-> >> command messages do.
-> >>
-> > If we're going that route, being able to set a bitmap for vlan
-> > filtering (Jason's proposal) seems to solve more issues in the same
-> > shot, doesn't it?
-> If I understand correctly about Jason's proposal, it's a spec extension
-> already to add multiple VLAN IDs in a row. This seems not much different
-> than the device state blob for the resume API idea I just presented in
-> the KVM forum (which also needs to extend the spec in another way)?
+> On 9/16/22 11:27, Markus Armbruster wrote:
+>> Claudio Fontana <cfontana@suse.de> writes:
+>> 
+>>> improve error handling during module load, by changing:
+>>>
+>>> bool module_load_one(const char *prefix, const char *lib_name);
+>>> void module_load_qom_one(const char *type);
+>>>
+>>> to:
+>>>
+>>> bool module_load_one(const char *prefix, const char *name, Error **errp);
+>>> bool module_load_qom_one(const char *type, Error **errp);
+>>>
+>>> module_load_qom_one has been introduced in:
+>>>
+>>> commit 28457744c345 ("module: qom module support"), which built on top of
+>>> module_load_one, but discarded the bool return value. Restore it.
+>>>
+>>> Adapt all callers to emit errors, or ignore them, or fail hard,
+>>> as appropriate in each context.
+>> 
+>> How exactly does behavior change?  The commit message is mum on the
+>> behavior before the patch, and vague on the behavior afterwards.
 >
-> struct virtio_mig_cfg_net_ctrl_vlan {
->      struct virtio_mig_state_header hdr;
->      le32 vlans[128];
-> };
+> The current behavior is difficult to describe as it is basically devoid of any error handling for QOM modules.
+> What error handling facilities were potentially available before were rendered moot by commit 28457744c345.
+
+*Sigh*
+
+> the behavior changes in this way:
 >
-> What is additional benefit that makes it able to solve more issues?
+> audio: when attempting to load an audio module, now actually report module load errors.
+> Previous behavior: say nothing, and leave it to the user to figure out what is wrong by failures later on during execution.
 >
+> block: when attempting to load a block module, now actually report module load errors.
+> Previous behavior: say nothing, and leave it to the user to figure out what is wrong by failures later on during execution.
+>
+> block/dmg: specifically for the dmg module, which contains submodules dmg-bz2 and dmg-lzfse, now also warn that if the submodules are not present, the corresponding decompression will not be available.
+> Previous behavior: say nothing, and leave it to the user to figure out what is wrong by failures later on during execution.
+>
+> qdev: when creating a new qdev Device object (DeviceState), actually report module load errors. If a module cannot be loaded to create that device, abort execution as intended.
+> QEMU users of qdev assume that qdev_new() returns non-NULL. There is a separate qdev_try_new() function whose only difference from qdev_new() is that it can return NULL rather than asserting.
+> (see include/hw/qdev-core.h :: qdev_try_new)
+>
+> Previous behavior: say nothing, and leave it to the user to figure out what is wrong by failures later on during execution (likely, just segfault).
+>
+> qom/object.c : when initializing a QOM object, actually report module load errors.
+> Previous behavior: say nothing, and leave it to the user to figure out what is wrong by failures later on during execution.
+>
+> qom/object.c : when looking up an ObjectClass by name (module_object_class_by_name), actually report module load errors.
+> Previous behavior: say nothing, and leave it to the user to figure out what is wrong by failures later on during execution.
+>
+> qtest: when processing the "module_load" qtest command, if there is an actual error in the load of the module, report it in addition to sending a "FAIL" response.
+>
+> console: when attempting to load a display module, now actually report module load errors.
+> Previous behavior: say nothing, and leave it to the user to figure out what is wrong by failures later on during execution.
+>
+> util/module: provide a boolean return value and an Error parameter to module_load_qom_one and provide an Error parameter to module_load_one what was missing it.
+> Report an error using the Error facilities when module is present, but fails to be loaded due to an error occurring.
+> Also report an error if multiple modules are loadable and try to provide the same type.
+>
+> Previous behavior:
+> difficult to describe, a really confused implementation.
+>
+> The module_load_file part of the code seemed to assume being called separately, and was checking the caller arguments as though it would be a self-contained API,
+> rechecking the suffix of the string for a valid ".so" (CONFIG_HOST_DSOSUF), when it is called that way explicitly and only by module_load_one as a static function.
+>
+> It was printing an error with fprintf specifically only in the case where g_module_open failed, and never for any other error condition.
+> It only printed this error if the boolean "mayfail" was set to false, but the argument was always passed as false, in all execution paths.
+> It was not reporting any error if multiple modules are present all providing the same type.
 
-Maybe I totally misunderstood you.
+What a mess.
 
-I don't think the solution to this problem is to create a call from
-the VMM to restore all the device state (vlan, mac, stats, ...),
-because that would not allow the guest to configure many vlan filters
-in one shot and retain all other config.
+> Let me know if you have further questions, what I described is a summary of all the changes contained. I can add to the commit message if necessary.
 
-If your proposal is like Jason's in that regard, I'm totally ok with
-it, and I don't have a strong opinion about the layout. Maybe I would
-not name it "mig_state", since it would be used by the guest in other
-contexts than migration.
+Yes, please.
 
-In other words, we should handle this outside of the migration scope,
-because the guest may use it to set many vlan filters in one shot,
-retaining other configuration. No more, no less.
+>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>> ---
+>>>  audio/audio.c         |   9 ++-
+>>>  block.c               |  15 ++++-
+>>>  block/dmg.c           |  18 +++++-
+>>>  hw/core/qdev.c        |  10 ++-
+>>>  include/qemu/module.h |  38 ++++++++++--
+>>>  qom/object.c          |  18 +++++-
+>>>  softmmu/qtest.c       |   6 +-
+>>>  ui/console.c          |  18 +++++-
+>>>  util/module.c         | 140 ++++++++++++++++++++++++------------------
+>>>  9 files changed, 194 insertions(+), 78 deletions(-)
+>>>
+>>> diff --git a/audio/audio.c b/audio/audio.c
+>>> index 76b8735b44..cff7464c07 100644
+>>> --- a/audio/audio.c
+>>> +++ b/audio/audio.c
+>>> @@ -72,6 +72,7 @@ void audio_driver_register(audio_driver *drv)
+>>>  audio_driver *audio_driver_lookup(const char *name)
+>>>  {
+>>>      struct audio_driver *d;
+>>> +    Error *local_err = NULL;
+>>>  
+>>>      QLIST_FOREACH(d, &audio_drivers, next) {
+>>>          if (strcmp(name, d->name) == 0) {
+>>> @@ -79,7 +80,13 @@ audio_driver *audio_driver_lookup(const char *name)
+>>>          }
+>>>      }
+>>>  
+>>> -    audio_module_load_one(name);
+>>> +    if (!audio_module_load_one(name, &local_err)) {
+>>> +        if (local_err) {
+>>> +            error_report_err(local_err);
+>>> +        }
+>>> +        return NULL;
+>>> +    }
+>>> +
+>>>      QLIST_FOREACH(d, &audio_drivers, next) {
+>>>          if (strcmp(name, d->name) == 0) {
+>>>              return d;
+>>> diff --git a/block.c b/block.c
+>>> index bc85f46eed..8b610c6d95 100644
+>>> --- a/block.c
+>>> +++ b/block.c
+>>> @@ -464,7 +464,14 @@ BlockDriver *bdrv_find_format(const char *format_name)
+>>>      /* The driver isn't registered, maybe we need to load a module */
+>>>      for (i = 0; i < (int)ARRAY_SIZE(block_driver_modules); ++i) {
+>>>          if (!strcmp(block_driver_modules[i].format_name, format_name)) {
+>>> -            block_module_load_one(block_driver_modules[i].library_name);
+>>> +            Error *local_err = NULL;
+>>> +            if (!block_module_load_one(block_driver_modules[i].library_name,
+>>> +                                       &local_err)) {
+>>> +                if (local_err) {
+>>> +                    error_report_err(local_err);
+>>> +                }
+>>> +                return NULL;
+>>> +            }
+>>>              break;
+>>>          }
+>>>      }
+>> 
+>> Before the patch, bdrv_find_format() fails silently[*].
+>> 
+>> Afterwards, it reports an error on some failures, but not on others.
+>> Sure this is what we want?
+>
+> Yes, I am sure. It only reports an error if an error exists.
+> When a module is not present, no error should be printed in this context.
 
-Thanks!
+Callers commonly look like this (this one is in bdrv_fill_options()):
+
+        drv = bdrv_find_format(drvname);
+        if (!drv) {
+            error_setg(errp, "Unknown driver '%s'", drvname);
+            return -ENOENT;
+        }
+
+where @errp is a parameter.
+
+The patch changes bdrv_find_format() to report some failures with
+error_report_err().  This is effectively the same anti-pattern I pointed
+out below, starting with "Uh-oh": use of error_report() or equivalent
+within a function with an Error ** parameter.
+
+If the "Unknown driver" Error object is ultimately passed to
+error_report_err(), we report two errors if module loading fails, else
+one.
+
+Emitting two error messages for the same problem, a useful one and a
+useless one, is bad UI, but it's arguably still better than just a
+useless one.
+
+But what if a caller wants to handle errors without reporting them?
+This is a legitimate use of the Error API.  No go, we spam stderr
+regardless.
+
+What if a caller wants to report the error in some other way, say write
+it to a log file?  No go, we still spam stderr.
+
+The patch breaks on of the Error API's design maxims.  error.h's big
+comment:
+
+ * - Separation of concerns: the function is responsible for detecting
+ *   errors and failing cleanly; handling the error is its caller's
+ *   job.  [...]
+
+The patch changes bdrv_find_options() to no longer satisfy this rule: it
+doesn't leave handling entirely to the caller anymore.
+
+You might argue that no existing caller does such things.  Fine.  Then
+I'll ask you to document that bdrv_fill_options() may only be used in
+certain ways, unlike other functions using the Error API.  Same for all
+the other affected functions.  And then Kevin will probably NAK the
+whole thing :)
+
+>>> @@ -976,7 +983,11 @@ BlockDriver *bdrv_find_protocol(const char *filename,
+>>>      for (i = 0; i < (int)ARRAY_SIZE(block_driver_modules); ++i) {
+>>>          if (block_driver_modules[i].protocol_name &&
+>>>              !strcmp(block_driver_modules[i].protocol_name, protocol)) {
+>>> -            block_module_load_one(block_driver_modules[i].library_name);
+>>> +            Error *local_err = NULL;
+>>> +            if (!block_module_load_one(block_driver_modules[i].library_name,
+>>> +                                       &local_err) && local_err) {
+>> 
+>> Break the line before && local_err, please, like you do elsewhere.
+>
+> This is to avoid hitting the 80 chars on one line, as warned by checkpatch. Should I disregard checkpatch, is it not used anymore?
+
+Elsewhere, you format like this:
+
+                 if (!block_module_load_one(block_driver_modules[i].library_name,
+                                            &local_err)
+                     && local_err) {
+
+Better, isn't it?
+
+>
+>> 
+>>> +                error_report_err(local_err);
+>>> +            }
+>>>              break;
+>>>          }
+>>>      }
+>> 
+>> Uh-oh: error_report() or equivalent in a function with an Error **
+>> parameter.  This is almost always wrong.  Shouldn't you pass the error
+>> to the caller?
+>
+> I guess this is the "almost" case. No I should not pass anything back.
+>
+> The Error **errp parameter of bdrv_find_protocol, and the Error local_err parameter inside it are different errors.
+>
+> The first is about whether a protocol has been found or not.
+> The second is about whether there was an error during the load of a module.
+>
+> No, local_err should not be passed back to the caller in my view. The error passed back to the caller is errp and is already set correctly.
+
+Part of bdrv_find_protocol()'s (unstated) contract is "either succeed
+and return non-null, or fail, return null, and set an error."
+
+This is pretty much ubiquitous among Error-using functions.  error.h's
+big comment:
+
+ * - On success, the function should not touch *errp.  On failure, it
+ *   should set a new error, e.g. with error_setg(errp, ...), or
+ *   propagate an existing one, e.g. with error_propagate(errp, ...).
+
+Note there is no third case "except on some failures, don't set an
+error".
+
+Of course, bdrv_find_protocol() might be an exception, i.e. I still owe
+you proof of my claim about its contract.  So let's examine callers:
+
+* print_block_option_help() in qemu-img.c:
+
+            proto_drv = bdrv_find_protocol(filename, true, &local_err);
+            if (!proto_drv) {
+                error_report_err(local_err);
+                qemu_opts_free(create_opts);
+                return 1;
+            }
+
+  If bdrv_find_protocol() returns null without setting @local_err,
+  error_report_err() will crash.
+
+  Two more instances elsewhere in qemu-img.c
+
+* bdrv_create_file() in block.c:
+
+        drv = bdrv_find_protocol(filename, true, errp);
+        if (drv == NULL) {
+            return -ENOENT;
+        }
+
+  If bdrv_find_protocol() returns null without setting @local_err, then
+  bdrv_create_file() returns -ENOENT without setting an error.
+
+  bdrv_create_file() is called by a bunch of BlockDriver
+  .bdrv_co_create_opts() methods, e.g. raw_co_create_opts():
+
+        return bdrv_create_file(filename, opts, errp);
+
+  The method is called by bdrv_create_co_entry():
+
+        ret = cco->drv->bdrv_co_create_opts(cco->drv,
+                                            cco->filename, cco->opts, &local_err);
+        error_propagate(&cco->err, local_err);
+        cco->ret = ret;
+
+       If bdrv_find_protocol() returns null without setting an error, then
+       we set cco->ret = -ENOENT and cco->err = NULL.
+
+       One of its users is bdrv_create():
+
+        if (qemu_in_coroutine()) {
+            /* Fast-path if already in coroutine context */
+            bdrv_create_co_entry(&cco);
+        } else {
+            co = qemu_coroutine_create(bdrv_create_co_entry, &cco);
+            qemu_coroutine_enter(co);
+            while (cco.ret == NOT_DONE) {
+                aio_poll(qemu_get_aio_context(), true);
+            }
+        }
+
+        ret = cco.ret;
+        if (ret < 0) {
+            if (cco.err) {
+                error_propagate(errp, cco.err);
+            } else {
+                error_setg_errno(errp, -ret, "Could not create image");
+            }
+        }
+
+    out:
+        g_free(cco.filename);
+        return ret;
+
+  If bdrv_find_protocol() returns null without setting an error, then
+  bdrv_create() returns -ENOENT without setting an error.
+
+  One of its callers is bdrv_append_temp_snapshot():
+
+    ret = bdrv_create(&bdrv_qcow2, tmp_filename, opts, errp);
+    qemu_opts_del(opts);
+    if (ret < 0) {
+        error_prepend(errp, "Could not create temporary overlay '%s': ",
+                      tmp_filename);
+        goto out;
+    }
+
+  Crash.
+
+Adding failure modes that use @errp differently than existing ones is
+playing with fire :)
+
+>> Please check all uses of your FOO_load_one() for this issue.
+>
+> I have checked all instances multiple times. If there are issues please present them so I can address them.
+
+I humbly suggest that instances in functions that set an error on
+failures before this patch need re-checking.
+
+>>> diff --git a/block/dmg.c b/block/dmg.c
+>>> index 98db18d82a..11d184d39c 100644
+>>> --- a/block/dmg.c
+>>> +++ b/block/dmg.c
+>>> @@ -434,6 +434,7 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
+>>>      uint64_t plist_xml_offset, plist_xml_length;
+>>>      int64_t offset;
+>>>      int ret;
+>>> +    Error *local_err = NULL;
+>>>  
+>>>      ret = bdrv_apply_auto_read_only(bs, NULL, errp);
+>>>      if (ret < 0) {
+>>> @@ -446,8 +447,21 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
+>>>          return -EINVAL;
+>>>      }
+>>>  
+>>> -    block_module_load_one("dmg-bz2");
+>>> -    block_module_load_one("dmg-lzfse");
+>>> +    if (!block_module_load_one("dmg-bz2", &local_err)) {
+>>> +        if (local_err) {
+>>> +            error_report_err(local_err);
+>>> +            return -EINVAL;
+>>> +        }
+>>> +        warn_report("dmg-bz2 module not present, bz2 decomp unavailable");
+>>> +    }
+>>> +    local_err = NULL;
+>>> +    if (!block_module_load_one("dmg-lzfse", &local_err)) {
+>>> +        if (local_err) {
+>>> +            error_report_err(local_err);
+>>> +            return -EINVAL;
+>>> +        }
+>>> +        warn_report("dmg-lzfse module not present, lzfse decomp unavailable");
+>>> +    }
+>>>  
+>>>      s->n_chunks = 0;
+>>>      s->offsets = s->lengths = s->sectors = s->sectorcounts = NULL;
+>>> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+>>> index 0806d8fcaa..5902c59c94 100644
+>>> --- a/hw/core/qdev.c
+>>> +++ b/hw/core/qdev.c
+>>> @@ -148,7 +148,15 @@ bool qdev_set_parent_bus(DeviceState *dev, BusState *bus, Error **errp)
+>>>  DeviceState *qdev_new(const char *name)
+>>>  {
+>>>      if (!object_class_by_name(name)) {
+>>> -        module_load_qom_one(name);
+>>> +        Error *local_err = NULL;
+>>> +        if (!module_load_qom_one(name, &local_err)) {
+>>> +            if (local_err) {
+>>> +                error_report_err(local_err);
+>>> +            } else {
+>>> +                error_report("could not find a module for type '%s'", name);
+>>> +            }
+>>> +            abort();
+>> 
+>> Why is this a programming error?
+>
+> As described before in your request for previous/after, this is a programming error because qdev_new is not expected to fail.
+> All QEMU users of qdev_new expect the API to return non-NULL and immediately use and dereference the pointer returned.
+> There is a separate API, qdev_try_new, for creating a device and allowing a NULL return value.
+
+Well, then the programming error is "adding loadable device modules
+broke qdev_new()".
+
+This is qdev_new() before commit 7ab6e7fcce "qdev: device module
+support":
+
+    DeviceState *qdev_new(const char *name)
+    {
+        return DEVICE(object_new(name));
+    }
+
+Precondition: @name is a valid device type name.  If it isn't, we fail
+an assertion.
+
+If you got a @name that may not be valid, you must use qdev_try_new()
+instead:
+
+    DeviceState *qdev_try_new(const char *name)
+    {
+        if (!object_class_by_name(name)) {
+            return NULL;
+        }
+
+        return DEVICE(object_new(name));
+    }
+
+The guard ensures we call object_new() only when the precondition holds.
+
+Except it doesn't: when @name is a valid type name, but not a *device*
+type name, we still crash.  Bug.
+
+Commit 7ab6e7fcce changed qdev_new() to
+
+    DeviceState *qdev_new(const char *name)
+    {
+        if (!object_class_by_name(name)) {
+            module_load_qom_one(name);
+        }
+        return DEVICE(object_new(name));
+    }
+
+Now the (enforced!) precondition is @name is a valid device type name
+and the device is either compiled in or it will succeed to load.
+
+"Will succeed to load" is an inappropriate precondition.
+
+Devices compiled as modules must be instantiated with qdev_try_new().
+Loadable module support should be dropped from qdev_new().
+
+Not your patch's fault, of course.  By the way, welcome to the swamp!
+Do not mind the crocodiles, they just want to play.
+
+>>> +        }
+>>>      }
+>>>      return DEVICE(object_new(name));
+>>>  }
+>>> diff --git a/include/qemu/module.h b/include/qemu/module.h
+>>> index 8c012bbe03..78d4c4de96 100644
+>>> --- a/include/qemu/module.h
+>>> +++ b/include/qemu/module.h
+>>> @@ -61,16 +61,44 @@ typedef enum {
+>>>  #define fuzz_target_init(function) module_init(function, \
+>>>                                                 MODULE_INIT_FUZZ_TARGET)
+>>>  #define migration_init(function) module_init(function, MODULE_INIT_MIGRATION)
+>>> -#define block_module_load_one(lib) module_load_one("block-", lib)
+>>> -#define ui_module_load_one(lib) module_load_one("ui-", lib)
+>>> -#define audio_module_load_one(lib) module_load_one("audio-", lib)
+>>> +#define block_module_load_one(lib, errp) module_load_one("block-", lib, errp)
+>>> +#define ui_module_load_one(lib, errp) module_load_one("ui-", lib, errp)
+>>> +#define audio_module_load_one(lib, errp) module_load_one("audio-", lib, errp)
+>>>  
+>>>  void register_module_init(void (*fn)(void), module_init_type type);
+>>>  void register_dso_module_init(void (*fn)(void), module_init_type type);
+>>>  
+>>>  void module_call_init(module_init_type type);
+>>> -bool module_load_one(const char *prefix, const char *lib_name);
+>>> -void module_load_qom_one(const char *type);
+>>> +
+>>> +/*
+>>> + * module_load_one: attempt to load a module from a set of directories
+>>> + *
+>>> + * directories searched are:
+>>> + * - getenv("QEMU_MODULE_DIR")
+>>> + * - get_relocated_path(CONFIG_QEMU_MODDIR);
+>>> + * - /var/run/qemu/${version_dir}
+>>> + *
+>>> + * prefix:         a subsystem prefix, or the empty string ("audio-", ..., "")
+>>> + * name:           name of the module
+>>> + * errp:           error to set in case the module is found, but load failed.
+>>> + *
+>>> + * Return value:   true on success (found and loaded);
+>>> + *                 if module if found, but load failed, errp will be set.
+>>> + *                 if module is not found, errp will not be set.
+>> 
+>> I understand you need to distingush two failure modes "found, but load
+>> failed" and "not found".
+>
+> That is correct.
+>
+>> 
+>> Functions that set an error on some failures only tend to be awkward: in
+>> addition to checking the return value for failure, you have to check
+>> @errp for special failures.  This is particularly cumbersome when it
+>> requires a @local_err and an error_propagate() just for that.  I
+>> generally prefer to return an error code and always set an error.
+>> 
+>> That said, the patch doesn't look bad.  Perhaps it will be once the
+>> issues I pointed out above have been addressed.  Let's not worry about
+>> it right now.
+>> 
+>>> + */
+>>> +bool module_load_one(const char *prefix, const char *name, Error **errp);
+>>> +
+>>> +/*
+>>> + * module_load_qom_one: attempt to load a module to provide a QOM type
+>>> + *
+>>> + * type:           the type to be provided
+>>> + * errp:           error to set.
+>>> + *
+>>> + * Return value:   true on success (found and loaded), false on failure.
+>>> + *                 If a module is simply not found for the type,
+>>> + *                 errp will not be set.
+>>> + */
+>>> +bool module_load_qom_one(const char *type, Error **errp);
+>>>  void module_load_qom_all(void);
+>>>  void module_allow_arch(const char *arch);
+>>>  
+>> 
+>> [...]
+>> 
+>> 
+>> [*] Except it prints "Module is not supported by system\n" to stderr
+>> when !g_module_supported(), which doesn't look right to me.
+>> 
+> I don't know what this comment relates to.
+
+It's a footnote attached to "Before the patch, bdrv_find_format() fails
+silently[*]" above.
+
+
+I think the root of the problems with this patch is that you convert the
+FOO_module_load_one() functions to the Error API without propagating the
+error far enough.  It really needs to go all the way up.
 
 
