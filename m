@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 788355BA4AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 04:39:51 +0200 (CEST)
-Received: from localhost ([::1]:41158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A9D55BA4BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 04:42:22 +0200 (CEST)
+Received: from localhost ([::1]:57154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZ1Gg-0008Ut-1F
-	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 22:39:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51640)
+	id 1oZ1J7-0003Sl-9h
+	for lists+qemu-devel@lfdr.de; Thu, 15 Sep 2022 22:42:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oZ1FA-0006qy-5y; Thu, 15 Sep 2022 22:38:16 -0400
-Received: from mail-qv1-xf2d.google.com ([2607:f8b0:4864:20::f2d]:35370)
+ id 1oZ1HH-0000Bm-F0; Thu, 15 Sep 2022 22:40:27 -0400
+Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:44731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oZ1F3-0005hW-Vt; Thu, 15 Sep 2022 22:38:15 -0400
-Received: by mail-qv1-xf2d.google.com with SMTP id w4so15693239qvp.2;
- Thu, 15 Sep 2022 19:38:07 -0700 (PDT)
+ id 1oZ1HE-0006AN-Ec; Thu, 15 Sep 2022 22:40:25 -0400
+Received: by mail-qv1-xf36.google.com with SMTP id v15so15671716qvi.11;
+ Thu, 15 Sep 2022 19:40:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=rfE6RXFq6Ff22aG4yPDGoLo8OZ2x8ttm/poZImcqmIo=;
- b=UrXAhaOJt6JkUPe29SvH0PsivKbWVjPcGUubhsrUxdUKol2AqoAeQ9AA4BK2eK66HX
- AfpI4NT0U80TOD/0Icj3dcUmKrHSqSaXDzl09k7fxhVmLjPOTnVTsOU0GNzUI6PCZYt3
- M3uThg66u3pbe3lQ5lLfEI1nrJgOkDqTRgkYeglotm+De2hXrBNZOj6wN40vcEg/isB1
- TvtTvaboFbr+F+zHzlmLJfhkqSz0x5z2Bs0+mpx4jsl3juQiMaaL5eXCO6JF51EoX3ib
- T/3uG/c/vY4qRKBVzofVjC3hVCE8yYDPVQk/q5zzkEa4EpXRysAgQQNU3djhINyHXogm
- f4kQ==
+ bh=uptv9ouL9YsikW7JiYuwBgoJiiAnp4bfnPluNi1wGjo=;
+ b=iF4W93AUBTWXheDZiM/uAOrOyKroim5jAeidPHAELVOPNOey38H6TWCczY++DRT7bz
+ sw1chJrK5mMt/0ZEFIbH4QR+hMJwBEDEDcH0omyq/R/duagEt+lGXrvd1SeERWJx9QzZ
+ vyI+hGxmzgFWldZ3Hh/7aDJQKAhi6QPGhREj9ZMYBUE+VLKQzUAIVJZ0KCm3QDuwt6Md
+ lXst6hgRkjaOdqIHePG2BiJcz5FE7fMPMtUzhAfidueR3hUHq+L5vUgdCwnZad39bKKW
+ GJxTTDwMNsZPuJ89/f3sqLBs72tNDkPHrucTkqZOGMMNMnee9LyqzLumqYDHQjQYDMD6
+ N5QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=rfE6RXFq6Ff22aG4yPDGoLo8OZ2x8ttm/poZImcqmIo=;
- b=VEarQ3e48Q9dvkGADnqTrMvAGL/z1Wkb87FhjQ7XJQyDjUdG5nOEbUPGMPukC0uhmM
- vxugEiqtIBvo9vtJ1xTCTAfMPakxwNFTPq6KCfRD/SKxgICnIkkZHuHMAQsFtlY0Qlb+
- wBhWAsMuB9cZ6gcK28p3em1JMAeoqo6UAdC+0Zj7pFHTxQa03XbfPte9o0g6+/N06jU5
- XrjUPmenKTt6MtJHammVgbH5/+Op8+6WM1wBtB6MQQ4lisYBjGFKvAPRoSQD+t4//veb
- /9dx8uhDOnCYbGCdo/T8Wio6938ctMeQ2lwzIHpZNhmG37fFFZhr7rRYxxhtVvNXlA+c
- 5IGg==
-X-Gm-Message-State: ACrzQf3H8lWKO2nDWk0c//2KUDTKGYpHt4MfEI+DoX/J49ty9zauNRq1
- 3IS5uVB6sZKZezlyx3hr4Q/ZcA5WbKth44j9fAg=
-X-Google-Smtp-Source: AMsMyM5MTcM4ByuPV3Rl+RVqWb7E6DyvTHUOmZgqbPFa708OGNRYVB8s+7BICtQ7MMFRN6xxKzYM74U056V9GUNBCk8=
-X-Received: by 2002:a0c:810f:0:b0:47b:299a:56d7 with SMTP id
- 15-20020a0c810f000000b0047b299a56d7mr2736085qvc.12.1663295886935; Thu, 15 Sep
- 2022 19:38:06 -0700 (PDT)
+ bh=uptv9ouL9YsikW7JiYuwBgoJiiAnp4bfnPluNi1wGjo=;
+ b=vN6JOnBO+TKyrygWoicXOp/BcemT2VSOAmMeGNyRVG4YbFo2g6SFx+Z7xa6+jm17lR
+ xU5hflJNvsJPugd8s0Tepm57N7e9G5fFxh0NEFiHQbtScjiuJh273gFyhXPoNBoSciSj
+ S6TO3BZaRm6HO7zEfdqAtfRSv7RPs8Rgh9OuME3vDrQsePRO+IdbR//xZ3oj1V3D7RgH
+ 5UrIvKK/8sQ4rlDQ/RdF/hont3r3GjVDJqWrIU2JYEKYf4HKio9L42hb85RxiGhbPKZE
+ r5ln1Gu7l/cz3pdjuZzLSwjmnD71XU0ed/qBf9UvO+HmJzZh1M+dvqyAT1Wdfupu5ste
+ 4Naw==
+X-Gm-Message-State: ACrzQf2QZcLYLvQA7Fe3cUg84vTU7u1CaumIMvliDboPjyohnIK9Cpth
+ eGu5MUbK+q6H5mPOXKOC3lVD8qHbZ4aX0IL3oeM=
+X-Google-Smtp-Source: AMsMyM4frVLnTCJQltpzSiX2T6ShKI9fRSpYaG1PYCpBSZj8RyNlmCzQlTTZlmGQD1m7aIVH3Z1qo0c2EEhHbLkQfXw=
+X-Received: by 2002:a05:6214:2602:b0:4ac:ada1:de5b with SMTP id
+ gu2-20020a056214260200b004acada1de5bmr2722390qvb.122.1663296022827; Thu, 15
+ Sep 2022 19:40:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220915152520.21948-1-shentey@gmail.com>
- <20220915152520.21948-2-shentey@gmail.com>
-In-Reply-To: <20220915152520.21948-2-shentey@gmail.com>
+ <20220915152520.21948-3-shentey@gmail.com>
+In-Reply-To: <20220915152520.21948-3-shentey@gmail.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 16 Sep 2022 10:37:55 +0800
-Message-ID: <CAEUhbmV09XCLcW+Jsiybmfw31Jz2Dm-rv7J_RcOW62ZJo4GB9w@mail.gmail.com>
-Subject: Re: [PATCH 01/11] hw/ppc/meson: Allow e500 boards to be enabled
- separately
+Date: Fri, 16 Sep 2022 10:40:11 +0800
+Message-ID: <CAEUhbmW0sn-3wC1SJW+TfDd6vN1rezZWaGT32kmyh3+HHDa3Sg@mail.gmail.com>
+Subject: Re: [PATCH 02/11] hw/gpio/meson: Introduce dedicated config switch
+ for hw/gpio/mpc8xxx
 To: Bernhard Beschow <shentey@gmail.com>
 Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
@@ -62,15 +62,15 @@ Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  Qemu-block <qemu-block@nongnu.org>, 
  Bin Meng <bin.meng@windriver.com>, qemu-ppc <qemu-ppc@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf2d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf36.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,17 +86,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 15, 2022 at 11:25 PM Bernhard Beschow <shentey@gmail.com> wrote:
+On Thu, Sep 15, 2022 at 11:26 PM Bernhard Beschow <shentey@gmail.com> wrote:
 >
-> Gives users more fine-grained control over what should be compiled into
-> QEMU.
+> Having a dedicated config switch makes dependency handling cleaner.
 >
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->  configs/devices/ppc-softmmu/default.mak | 3 ++-
->  hw/ppc/Kconfig                          | 8 ++++++++
->  hw/ppc/meson.build                      | 6 ++----
->  3 files changed, 12 insertions(+), 5 deletions(-)
+>  hw/gpio/Kconfig     | 3 +++
+>  hw/gpio/meson.build | 2 +-
+>  hw/ppc/Kconfig      | 1 +
+>  3 files changed, 5 insertions(+), 1 deletion(-)
 >
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
