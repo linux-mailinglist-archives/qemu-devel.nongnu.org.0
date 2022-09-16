@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FE355BA8BB
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 10:57:21 +0200 (CEST)
-Received: from localhost ([::1]:33210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEE2F5BA8FE
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 11:09:11 +0200 (CEST)
+Received: from localhost ([::1]:43982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZ7A0-00053S-4V
-	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 04:57:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36366)
+	id 1oZ7LS-0007DB-9i
+	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 05:09:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oZ73i-0007bg-FR
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 04:50:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51162)
+ id 1oZ77d-0002H0-Oy
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 04:54:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oZ73e-0005TD-2L
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 04:50:47 -0400
+ id 1oZ77a-0005yo-FO
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 04:54:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663318244;
+ s=mimecast20190719; t=1663318489;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YGitLjlR1zU87E/5Yx/kk39s3cPloCPj6c/iW0HIMWY=;
- b=iqvXE+rxKTwQZtMXy/DDRi9EsBw1WCt6nXpjw3+BmOlZTVmyirt2s+4mYmuMsKX8u8WH9/
- 1LzT0VK4jdDR/gmBPNbjyh3PvzezXNFg/93aTHCPrsAs2nbL8TcGP/ptLwPz4PM1nWt2DI
- vBrjYyBSfD7TTzdvL2YArurSCmMMTvU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=PBUdOEoA94aevtunx+Ifxf/DhmqtLls69vA9MlKEs7M=;
+ b=M7lV1kNFl2L7i07lvBwdtNMEh3/fcyd0kfvKNkv4zieyNAreKL4auk/ExXDkJL1aJr7lAx
+ T8sSUbgPLinBNwAY9+i+vl8L80VA72/bafoQWoI5mWcfw2CMYi5O4+LFo+/jYzW/rvzm17
+ 2NJz5Nu/xAZBSpJap05C/wi+u9ayULA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-534-kOWrCe_0OuuduiYCRaw5GQ-1; Fri, 16 Sep 2022 04:50:41 -0400
-X-MC-Unique: kOWrCe_0OuuduiYCRaw5GQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-621-wYeFF1KrOmWgmzFoy3G5Tg-1; Fri, 16 Sep 2022 04:54:48 -0400
+X-MC-Unique: wYeFF1KrOmWgmzFoy3G5Tg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BCD1F101A528;
- Fri, 16 Sep 2022 08:50:40 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 196981C0BDE7;
+ Fri, 16 Sep 2022 08:54:48 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CAEED492CA2;
- Fri, 16 Sep 2022 08:50:39 +0000 (UTC)
-Date: Fri, 16 Sep 2022 09:50:37 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 353B040C83ED;
+ Fri, 16 Sep 2022 08:54:47 +0000 (UTC)
+Date: Fri, 16 Sep 2022 09:54:44 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
 Cc: qemu-devel@nongnu.org, michael.roth@amd.com, jsnow@redhat.com,
  eblake@redhat.com
-Subject: Re: [PATCH 04/27] qapi: Start to elide redundant has_FOO in
- generated C
-Message-ID: <YyQ43fibYYKzkWzR@redhat.com>
+Subject: Re: [PATCH 05/27] qapi tests: Elide redundant has_FOO in generated C
+Message-ID: <YyQ51Gvy2JS56+TL@redhat.com>
 References: <20220915204317.3766007-1-armbru@redhat.com>
- <20220915204317.3766007-5-armbru@redhat.com>
+ <20220915204317.3766007-6-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220915204317.3766007-5-armbru@redhat.com>
+In-Reply-To: <20220915204317.3766007-6-armbru@redhat.com>
 User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -86,59 +85,76 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 15, 2022 at 10:42:54PM +0200, Markus Armbruster wrote:
-> In QAPI, absent optional members are distinct from any present value.
-> We thus represent an optional schema member FOO as two C members: a
-> FOO with the member's type, and a bool has_FOO.  Likewise for function
-> arguments.
+On Thu, Sep 15, 2022 at 10:42:55PM +0200, Markus Armbruster wrote:
+> The has_FOO for pointer-valued FOO are redundant, except for arrays.
+> They are also a nuisance to work with.  Recent commit "qapi: Start to
+> elide redundant has_FOO in generated C" provided the means to elide
+> them step by step.  This is the step for
+> tests/qapi-schema/qapi-schema-test.json.
 > 
-> However, has_FOO is actually redundant for a pointer-valued FOO, which
-> can be null only when has_FOO is false, i.e. has_FOO == !!FOO.  Except
-> for arrays, where we a null FOO can also be a present empty array.
-> 
-> The redundant has_FOO are a nuisance to work with.  Improve the
-> generator to elide them.  Uses of has_FOO need to be replaced as
-> follows.
-> 
-> Tests of has_FOO become the equivalent comparison of FOO with null.
-> For brevity, this is commonly done by implicit conversion to bool.
-> 
-> Assignments to has_FOO get dropped.
-> 
-> Likewise for arguments to has_FOO parameters.
-> 
-> Beware: code may violate the invariant has_FOO == !!FOO before the
-> transformation, and get away with it.  The above transformation can
-> then break things.  Two cases:
-> 
-> * Absent: if code ignores FOO entirely when !has_FOO (except for
->   freeing it if necessary), even non-null / uninitialized FOO works.
->   Such code is known to exist.
-> 
-> * Present: if code ignores FOO entirely when has_FOO, even null FOO
->   works.  Such code should not exist.
-> 
-> In both cases, replacing tests of has_FOO by FOO reverts their sense.
-> We have to fix the value of FOO then.
-> 
-> To facilitate review of the necessary updates to handwritten code, add
-> means to opt out of this change, and opt out for all QAPI schema
-> modules where the change requires updates to handwritten code.  The
-> next few commits will remove these opt-outs in reviewable chunks, then
-> drop the means to opt out.
+> Said commit explains the transformation in more detail.  The invariant
+> violations mentioned there do not occur here.
 > 
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  docs/devel/qapi-code-gen.rst            |  5 +--
->  docs/devel/writing-monitor-commands.rst | 14 ++++----
->  scripts/qapi/commands.py                |  2 +-
->  scripts/qapi/events.py                  |  2 +-
->  scripts/qapi/gen.py                     |  2 +-
->  scripts/qapi/schema.py                  | 47 +++++++++++++++++++++++++
->  scripts/qapi/types.py                   |  2 +-
->  scripts/qapi/visit.py                   | 17 +++++++--
->  8 files changed, 76 insertions(+), 15 deletions(-)
-> 
+>  tests/qtest/qmp-cmd-test.c               |  2 +-
+>  tests/unit/test-qmp-cmds.c               | 26 +++++++++++-------------
+>  tests/unit/test-qmp-event.c              |  4 ++--
+>  tests/unit/test-qobject-input-visitor.c  |  2 +-
+>  tests/unit/test-qobject-output-visitor.c |  2 --
+>  tests/unit/test-visitor-serialization.c  |  3 +--
+>  scripts/qapi/schema.py                   |  4 +---
+>  7 files changed, 18 insertions(+), 25 deletions(-)
+
+> diff --git a/tests/unit/test-qmp-cmds.c b/tests/unit/test-qmp-cmds.c
+> index 6085c09995..2373cd64cb 100644
+> --- a/tests/unit/test-qmp-cmds.c
+> +++ b/tests/unit/test-qmp-cmds.c
+> @@ -43,15 +43,15 @@ void qmp_user_def_cmd1(UserDefOne * ud1, Error **errp)
+>  {
+>  }
+>  
+> -FeatureStruct1 *qmp_test_features0(bool has_fs0, FeatureStruct0 *fs0,
+> -                                   bool has_fs1, FeatureStruct1 *fs1,
+> -                                   bool has_fs2, FeatureStruct2 *fs2,
+> -                                   bool has_fs3, FeatureStruct3 *fs3,
+> -                                   bool has_fs4, FeatureStruct4 *fs4,
+> -                                   bool has_cfs1, CondFeatureStruct1 *cfs1,
+> -                                   bool has_cfs2, CondFeatureStruct2 *cfs2,
+> -                                   bool has_cfs3, CondFeatureStruct3 *cfs3,
+> -                                   bool has_cfs4, CondFeatureStruct4 *cfs4,
+> +FeatureStruct1 *qmp_test_features0(FeatureStruct0 *fs0,
+> +                                   FeatureStruct1 *fs1,
+> +                                   FeatureStruct2 *fs2,
+> +                                   FeatureStruct3 *fs3,
+> +                                   FeatureStruct4 *fs4,
+> +                                   CondFeatureStruct1 *cfs1,
+> +                                   CondFeatureStruct2 *cfs2,
+> +                                   CondFeatureStruct3 *cfs3,
+> +                                   CondFeatureStruct4 *cfs4,
+>                                     Error **errp)
+
+It makes me so happy to see this change finally arrive, the new
+method signature just "feels right".
+
+
+
+> @@ -87,8 +86,8 @@ UserDefTwo *qmp_user_def_cmd2(UserDefOne *ud1a,
+>  
+>      ud1c->string = strdup(ud1a->string);
+>      ud1c->integer = ud1a->integer;
+> -    ud1d->string = strdup(has_udb1 ? ud1b->string : "blah0");
+> -    ud1d->integer = has_udb1 ? ud1b->integer : 0;
+> +    ud1d->string = strdup(ud1b ? ud1b->string : "blah0");
+> +    ud1d->integer = ud1b ? ud1b->integer : 0;
+
+Pre-existing problem. use of 'strdup' will leave these fields
+NULL on OOM and nothing is checking this. Fortunately it is only
+the test suite so not a big deal, but worth changing to g_strdup
+at some point (separate from this patch / series). Repeated in
+other chunks of the test beyond this quoted one, but I won't
+point them out.
+
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
