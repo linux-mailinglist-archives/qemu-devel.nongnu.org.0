@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ECE75BA961
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 11:29:31 +0200 (CEST)
-Received: from localhost ([::1]:51622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D30425BA98B
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 11:38:52 +0200 (CEST)
+Received: from localhost ([::1]:52928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZ7f8-0007RZ-30
-	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 05:29:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40372)
+	id 1oZ7oB-0004Dq-D0
+	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 05:38:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oZ7de-0005NT-5d
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 05:27:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54085)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oZ7da-00087R-I6
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 05:27:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663320473;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=o8jeETvZyBrDMD6s+siBFk8mU+i2DN/ouDl4u96PIGE=;
- b=hCcD5KH4dZMiaeokZ/dJ2DsJ6fLHW+aRhF7YqM1+YOnyVd7BqA7UA4k+p0NnDhZzknVHps
- nEepVE8yJ+GDo3teKoo859wMO1TlJo2uOXuEMT0dUb+Q/o/bWs6AFy/rY9r1vs6OKX64Rd
- 120x1E0fx5shbT+5o/rRcWnRZdOqd6Q=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-548-ylxof6vYP1eTbxftctDsUA-1; Fri, 16 Sep 2022 05:27:49 -0400
-X-MC-Unique: ylxof6vYP1eTbxftctDsUA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8987485A583;
- Fri, 16 Sep 2022 09:27:49 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A08D40C83EF;
- Fri, 16 Sep 2022 09:27:49 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A63E621E6900; Fri, 16 Sep 2022 11:27:47 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,  Richard Henderson
- <richard.henderson@linaro.org>,  Kevin Wolf <kwolf@redhat.com>,
- qemu-devel@nongnu.org,  dinechin@redhat.com,  Gerd Hoffmann
- <kraxel@redhat.com>,  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
- <marcandre.lureau@redhat.com>,
- Daniel P . =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v4 2/3] module: add Error arguments to module_load_one
- and module_load_qom_one
-References: <20220908183012.17667-1-cfontana@suse.de>
- <20220908183012.17667-3-cfontana@suse.de>
-Date: Fri, 16 Sep 2022 11:27:47 +0200
-In-Reply-To: <20220908183012.17667-3-cfontana@suse.de> (Claudio Fontana's
- message of "Thu, 8 Sep 2022 20:30:11 +0200")
-Message-ID: <877d23ekj0.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oZ7iO-00017i-FW
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 05:32:52 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:35463)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oZ7iM-0001D3-EG
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 05:32:52 -0400
+Received: by mail-ej1-x630.google.com with SMTP id go34so48118366ejc.2
+ for <qemu-devel@nongnu.org>; Fri, 16 Sep 2022 02:32:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=j+seZhNxUchyTfIfDq9mopu2KOkdZjZOZXBz06YX3Ag=;
+ b=zzgaalBs1LR2cQ61lbAw932Lhb+XKirzOC8eeidtE5HqlfM0+rsKPbCLssGXXyaIZx
+ PqI99FUuk/hjS68tfgdU6myRg8tVfDVgRxe49oTkAfCgVYbVAYAyTlvnbyy4TiIpStak
+ REk+uQnKtUqgdhWjVAENkbjvLjHZmNzsfF9dnmCOskAcP49zJ1x1ykgAR+g7lPqRxVHj
+ sI35gt5bAMN8CRIyesszKE6xlHbS9Au4pPCVnP2W5nIo91hYIoDsf235Bliki9TYpVCb
+ oofep1M9XnVyjDDjxDqGtN/v1LHcdugJoO9Zr6YSeszuUVEBrzIfqT1ci6nRmY2y4yfr
+ 8zLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=j+seZhNxUchyTfIfDq9mopu2KOkdZjZOZXBz06YX3Ag=;
+ b=cN7koCsn22wtQp7EU7Ch7p+rWLVCMIbyntiaLjXDZpDsqg7paxBDp+PP7wUpjBzUSW
+ PhauyTBfl2tbP6I5ITOATp92iQdWll/oRT0EqdLDbrxAU3J2SXFxo3Z5WUspbqqpCQhD
+ PjmHxO6GJnajB/m3HRYmru2GNw3vR/1TYrm3g5/sdtF9cmD6D1CICZ6BZrnViucxfblO
+ bp11kcsuDPe8neo75rxrjFpScqKOuNo46+Rzp35sOrnR5/+2B+4KzxUVuKDnU73QBZ7q
+ 7sEB4vaRyrOz0ZL/Q1DxGC/niBFYHq/DVXrd/jJ65pgFvO94t87hSnrJYPKdf8+wfu/M
+ 1mCw==
+X-Gm-Message-State: ACrzQf3kfZzvYUkh1sHzg6q3HEsZuBu7NTZccAp3MU9KyQ1Itdy+u9Yv
+ erPgIzBJrGSb6j+mTIc/f9uden4nMwfRJuWQ78j75Q==
+X-Google-Smtp-Source: AMsMyM6GUtitv3VgNoQeQN16537153BhP1vbfOo0z8H25I4A9DNfYJfXPGh1Rv0XeCRecX/m5C0gCq001IU4Rz9zQjE=
+X-Received: by 2002:a17:906:9c82:b0:6e1:2c94:1616 with SMTP id
+ fj2-20020a1709069c8200b006e12c941616mr3018381ejc.64.1663320767556; Fri, 16
+ Sep 2022 02:32:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220915204317.3766007-1-armbru@redhat.com>
+ <20220915204317.3766007-7-armbru@redhat.com>
+ <CAARzgwyZK9EuKKj0UpUxC8BYEUBDwRYG==eTfndgNmKOE_FgKA@mail.gmail.com>
+ <87illnenpv.fsf@pond.sub.org>
+ <CAARzgwx8x0kW4tknikPzscm59cCDBRw_+z__tm_Rb=1EmYF=kQ@mail.gmail.com>
+ <YyQ147txe78shJnc@redhat.com>
+ <CAARzgwyTKe=bV0ScO1VP6yx9-Th0vd4ML5oFDuYOsVqq+VnRag@mail.gmail.com>
+In-Reply-To: <CAARzgwyTKe=bV0ScO1VP6yx9-Th0vd4ML5oFDuYOsVqq+VnRag@mail.gmail.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 16 Sep 2022 15:02:36 +0530
+Message-ID: <CAARzgww3zcA7in-UbL65vDttnE5R-2QyW_i1U=FZ2yn=Pp+szA@mail.gmail.com>
+Subject: Re: [PATCH 06/27] qapi acpi: Elide redundant has_FOO in generated C
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, eblake@redhat.com, jsnow@redhat.com,
+ michael.roth@amd.com, qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000007f97d305e8c80b91"
+Received-SPF: none client-ip=2a00:1450:4864:20::630;
+ envelope-from=ani@anisinha.ca; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,251 +88,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Claudio Fontana <cfontana@suse.de> writes:
+--0000000000007f97d305e8c80b91
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> improve error handling during module load, by changing:
+On Fri, Sep 16, 2022 at 14:15 Ani Sinha <ani@anisinha.ca> wrote:
+
 >
-> bool module_load_one(const char *prefix, const char *lib_name);
-> void module_load_qom_one(const char *type);
 >
-> to:
+> On Fri, Sep 16, 2022 at 14:08 Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m>
+> wrote:
 >
-> bool module_load_one(const char *prefix, const char *name, Error **errp);
-> bool module_load_qom_one(const char *type, Error **errp);
+>> On Fri, Sep 16, 2022 at 01:51:14PM +0530, Ani Sinha wrote:
+>> > On Fri, Sep 16, 2022 at 1:48 PM Markus Armbruster <armbru@redhat.com>
+>> wrote:
+>> > >
+>> > > Ani Sinha <ani@anisinha.ca> writes:
+>> > >
+>> > > > On Fri, Sep 16, 2022 at 2:13 AM Markus Armbruster <
+>> armbru@redhat.com> wrote:
+>> > > >>
+>> > > >> The has_FOO for pointer-valued FOO are redundant, except for
+>> arrays.
+>> > > >> They are also a nuisance to work with.  Recent commit "qapi: Star=
+t
+>> to
+>> > > >> elide redundant has_FOO in generated C"
+>> > > >
+>> > > > Commit is referenced using <commit hash 13 chars min> ("commit
+>> header")
+>> > >
+>> > > Apply my patches in your tree, and your hashes will differ from mine=
+.
+>> > > Hashes can serve as stable reference only when we git-fetch patches,
+>> not
+>> > > when we git-send-email then.
+>> >
+>> > Has the referenced patch not been pushed upstream already? I thought
+>> > it was and hence was asking for the reference.
+>>
+>> Err, it is just a few patches earlier in this very series you're
+>> looking at.
 >
-> module_load_qom_one has been introduced in:
 >
-> commit 28457744c345 ("module: qom module support"), which built on top of
-> module_load_one, but discarded the bool return value. Restore it.
+> Hmm ok. It=E2=80=99s missing from my inbox. Probably was not CC=E2=80=99d=
+ to me.
 >
-> Adapt all callers to emit errors, or ignore them, or fail hard,
-> as appropriate in each context.
 
-How exactly does behavior change?  The commit message is mum on the
-behavior before the patch, and vague on the behavior afterwards.
+Indeed.
+https://lore.kernel.org/all/20220915204317.3766007-5-armbru@redhat.com/
 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> ---
->  audio/audio.c         |   9 ++-
->  block.c               |  15 ++++-
->  block/dmg.c           |  18 +++++-
->  hw/core/qdev.c        |  10 ++-
->  include/qemu/module.h |  38 ++++++++++--
->  qom/object.c          |  18 +++++-
->  softmmu/qtest.c       |   6 +-
->  ui/console.c          |  18 +++++-
->  util/module.c         | 140 ++++++++++++++++++++++++------------------
->  9 files changed, 194 insertions(+), 78 deletions(-)
 >
-> diff --git a/audio/audio.c b/audio/audio.c
-> index 76b8735b44..cff7464c07 100644
-> --- a/audio/audio.c
-> +++ b/audio/audio.c
-> @@ -72,6 +72,7 @@ void audio_driver_register(audio_driver *drv)
->  audio_driver *audio_driver_lookup(const char *name)
->  {
->      struct audio_driver *d;
-> +    Error *local_err = NULL;
->  
->      QLIST_FOREACH(d, &audio_drivers, next) {
->          if (strcmp(name, d->name) == 0) {
-> @@ -79,7 +80,13 @@ audio_driver *audio_driver_lookup(const char *name)
->          }
->      }
->  
-> -    audio_module_load_one(name);
-> +    if (!audio_module_load_one(name, &local_err)) {
-> +        if (local_err) {
-> +            error_report_err(local_err);
-> +        }
-> +        return NULL;
-> +    }
-> +
->      QLIST_FOREACH(d, &audio_drivers, next) {
->          if (strcmp(name, d->name) == 0) {
->              return d;
-> diff --git a/block.c b/block.c
-> index bc85f46eed..8b610c6d95 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -464,7 +464,14 @@ BlockDriver *bdrv_find_format(const char *format_name)
->      /* The driver isn't registered, maybe we need to load a module */
->      for (i = 0; i < (int)ARRAY_SIZE(block_driver_modules); ++i) {
->          if (!strcmp(block_driver_modules[i].format_name, format_name)) {
-> -            block_module_load_one(block_driver_modules[i].library_name);
-> +            Error *local_err = NULL;
-> +            if (!block_module_load_one(block_driver_modules[i].library_name,
-> +                                       &local_err)) {
-> +                if (local_err) {
-> +                    error_report_err(local_err);
-> +                }
-> +                return NULL;
-> +            }
->              break;
->          }
->      }
 
-Before the patch, bdrv_find_format() fails silently[*].
+--0000000000007f97d305e8c80b91
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Afterwards, it reports an error on some failures, but not on others.
-Sure this is what we want?
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Fri, Sep 16, 2022 at 14:15 Ani Sinha &lt;<a href=3D"mail=
+to:ani@anisinha.ca">ani@anisinha.ca</a>&gt; wrote:<br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;=
+border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)=
+"><div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Fri, Sep 16, 2022 at 14:08 Daniel P. Berrang=C3=A9 &lt;<=
+a href=3D"mailto:berrange@redhat.com" target=3D"_blank">berrange@redhat.com=
+</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-lef=
+t:1ex;border-left-color:rgb(204,204,204)">On Fri, Sep 16, 2022 at 01:51:14P=
+M +0530, Ani Sinha wrote:<br>
+&gt; On Fri, Sep 16, 2022 at 1:48 PM Markus Armbruster &lt;<a href=3D"mailt=
+o:armbru@redhat.com" target=3D"_blank">armbru@redhat.com</a>&gt; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; Ani Sinha &lt;<a href=3D"mailto:ani@anisinha.ca" target=3D"_blank=
+">ani@anisinha.ca</a>&gt; writes:<br>
+&gt; &gt;<br>
+&gt; &gt; &gt; On Fri, Sep 16, 2022 at 2:13 AM Markus Armbruster &lt;<a hre=
+f=3D"mailto:armbru@redhat.com" target=3D"_blank">armbru@redhat.com</a>&gt; =
+wrote:<br>
+&gt; &gt; &gt;&gt;<br>
+&gt; &gt; &gt;&gt; The has_FOO for pointer-valued FOO are redundant, except=
+ for arrays.<br>
+&gt; &gt; &gt;&gt; They are also a nuisance to work with.=C2=A0 Recent comm=
+it &quot;qapi: Start to<br>
+&gt; &gt; &gt;&gt; elide redundant has_FOO in generated C&quot;<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Commit is referenced using &lt;commit hash 13 chars min&gt; =
+(&quot;commit header&quot;)<br>
+&gt; &gt;<br>
+&gt; &gt; Apply my patches in your tree, and your hashes will differ from m=
+ine.<br>
+&gt; &gt; Hashes can serve as stable reference only when we git-fetch patch=
+es, not<br>
+&gt; &gt; when we git-send-email then.<br>
+&gt; <br>
+&gt; Has the referenced patch not been pushed upstream already? I thought<b=
+r>
+&gt; it was and hence was asking for the reference.<br>
+<br>
+Err, it is just a few patches earlier in this very series you&#39;re<br>
+looking at.</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Hmm o=
+k. It=E2=80=99s missing from my inbox. Probably was not CC=E2=80=99d to me.=
+=C2=A0</div></div></div></blockquote><div dir=3D"auto"><br></div><div dir=
+=3D"auto">Indeed.=C2=A0<div><a href=3D"https://lore.kernel.org/all/20220915=
+204317.3766007-5-armbru@redhat.com/">https://lore.kernel.org/all/2022091520=
+4317.3766007-5-armbru@redhat.com/</a></div></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left=
+-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)"><div><div=
+ class=3D"gmail_quote"><div dir=3D"auto"></div></div></div>
+</blockquote></div></div>
 
-> @@ -976,7 +983,11 @@ BlockDriver *bdrv_find_protocol(const char *filename,
->      for (i = 0; i < (int)ARRAY_SIZE(block_driver_modules); ++i) {
->          if (block_driver_modules[i].protocol_name &&
->              !strcmp(block_driver_modules[i].protocol_name, protocol)) {
-> -            block_module_load_one(block_driver_modules[i].library_name);
-> +            Error *local_err = NULL;
-> +            if (!block_module_load_one(block_driver_modules[i].library_name,
-> +                                       &local_err) && local_err) {
-
-Break the line before && local_err, please, like you do elsewhere.
-
-> +                error_report_err(local_err);
-> +            }
->              break;
->          }
->      }
-
-Uh-oh: error_report() or equivalent in a function with an Error **
-parameter.  This is almost always wrong.  Shouldn't you pass the error
-to the caller?
-
-Please check all uses of your FOO_load_one() for this issue.
-
-> diff --git a/block/dmg.c b/block/dmg.c
-> index 98db18d82a..11d184d39c 100644
-> --- a/block/dmg.c
-> +++ b/block/dmg.c
-> @@ -434,6 +434,7 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
->      uint64_t plist_xml_offset, plist_xml_length;
->      int64_t offset;
->      int ret;
-> +    Error *local_err = NULL;
->  
->      ret = bdrv_apply_auto_read_only(bs, NULL, errp);
->      if (ret < 0) {
-> @@ -446,8 +447,21 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
->          return -EINVAL;
->      }
->  
-> -    block_module_load_one("dmg-bz2");
-> -    block_module_load_one("dmg-lzfse");
-> +    if (!block_module_load_one("dmg-bz2", &local_err)) {
-> +        if (local_err) {
-> +            error_report_err(local_err);
-> +            return -EINVAL;
-> +        }
-> +        warn_report("dmg-bz2 module not present, bz2 decomp unavailable");
-> +    }
-> +    local_err = NULL;
-> +    if (!block_module_load_one("dmg-lzfse", &local_err)) {
-> +        if (local_err) {
-> +            error_report_err(local_err);
-> +            return -EINVAL;
-> +        }
-> +        warn_report("dmg-lzfse module not present, lzfse decomp unavailable");
-> +    }
->  
->      s->n_chunks = 0;
->      s->offsets = s->lengths = s->sectors = s->sectorcounts = NULL;
-> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-> index 0806d8fcaa..5902c59c94 100644
-> --- a/hw/core/qdev.c
-> +++ b/hw/core/qdev.c
-> @@ -148,7 +148,15 @@ bool qdev_set_parent_bus(DeviceState *dev, BusState *bus, Error **errp)
->  DeviceState *qdev_new(const char *name)
->  {
->      if (!object_class_by_name(name)) {
-> -        module_load_qom_one(name);
-> +        Error *local_err = NULL;
-> +        if (!module_load_qom_one(name, &local_err)) {
-> +            if (local_err) {
-> +                error_report_err(local_err);
-> +            } else {
-> +                error_report("could not find a module for type '%s'", name);
-> +            }
-> +            abort();
-
-Why is this a programming error?
-
-> +        }
->      }
->      return DEVICE(object_new(name));
->  }
-> diff --git a/include/qemu/module.h b/include/qemu/module.h
-> index 8c012bbe03..78d4c4de96 100644
-> --- a/include/qemu/module.h
-> +++ b/include/qemu/module.h
-> @@ -61,16 +61,44 @@ typedef enum {
->  #define fuzz_target_init(function) module_init(function, \
->                                                 MODULE_INIT_FUZZ_TARGET)
->  #define migration_init(function) module_init(function, MODULE_INIT_MIGRATION)
-> -#define block_module_load_one(lib) module_load_one("block-", lib)
-> -#define ui_module_load_one(lib) module_load_one("ui-", lib)
-> -#define audio_module_load_one(lib) module_load_one("audio-", lib)
-> +#define block_module_load_one(lib, errp) module_load_one("block-", lib, errp)
-> +#define ui_module_load_one(lib, errp) module_load_one("ui-", lib, errp)
-> +#define audio_module_load_one(lib, errp) module_load_one("audio-", lib, errp)
->  
->  void register_module_init(void (*fn)(void), module_init_type type);
->  void register_dso_module_init(void (*fn)(void), module_init_type type);
->  
->  void module_call_init(module_init_type type);
-> -bool module_load_one(const char *prefix, const char *lib_name);
-> -void module_load_qom_one(const char *type);
-> +
-> +/*
-> + * module_load_one: attempt to load a module from a set of directories
-> + *
-> + * directories searched are:
-> + * - getenv("QEMU_MODULE_DIR")
-> + * - get_relocated_path(CONFIG_QEMU_MODDIR);
-> + * - /var/run/qemu/${version_dir}
-> + *
-> + * prefix:         a subsystem prefix, or the empty string ("audio-", ..., "")
-> + * name:           name of the module
-> + * errp:           error to set in case the module is found, but load failed.
-> + *
-> + * Return value:   true on success (found and loaded);
-> + *                 if module if found, but load failed, errp will be set.
-> + *                 if module is not found, errp will not be set.
-
-I understand you need to distingush two failure modes "found, but load
-failed" and "not found".
-
-Functions that set an error on some failures only tend to be awkward: in
-addition to checking the return value for failure, you have to check
-@errp for special failures.  This is particularly cumbersome when it
-requires a @local_err and an error_propagate() just for that.  I
-generally prefer to return an error code and always set an error.
-
-That said, the patch doesn't look bad.  Perhaps it will be once the
-issues I pointed out above have been addressed.  Let's not worry about
-it right now.
-
-> + */
-> +bool module_load_one(const char *prefix, const char *name, Error **errp);
-> +
-> +/*
-> + * module_load_qom_one: attempt to load a module to provide a QOM type
-> + *
-> + * type:           the type to be provided
-> + * errp:           error to set.
-> + *
-> + * Return value:   true on success (found and loaded), false on failure.
-> + *                 If a module is simply not found for the type,
-> + *                 errp will not be set.
-> + */
-> +bool module_load_qom_one(const char *type, Error **errp);
->  void module_load_qom_all(void);
->  void module_allow_arch(const char *arch);
->  
-
-[...]
-
-
-[*] Except it prints "Module is not supported by system\n" to stderr
-when !g_module_supported(), which doesn't look right to me.
-
+--0000000000007f97d305e8c80b91--
 
