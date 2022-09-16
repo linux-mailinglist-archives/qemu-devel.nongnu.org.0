@@ -2,86 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40D3B5BAE36
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 15:33:36 +0200 (CEST)
-Received: from localhost ([::1]:35958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74C395BAE67
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 15:43:34 +0200 (CEST)
+Received: from localhost ([::1]:57534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZBTK-0004K5-Nb
-	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 09:33:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33542)
+	id 1oZBcz-00080c-FB
+	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 09:43:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oZBMW-00059N-64
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 09:26:32 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:34450)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oZBMU-0007PF-JQ
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 09:26:31 -0400
-Received: by mail-wr1-x436.google.com with SMTP id z6so3536228wrq.1
- for <qemu-devel@nongnu.org>; Fri, 16 Sep 2022 06:26:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=I90VLk6fg5it/6d1+1GwuCaMWYVh8DckYrKpq65htQw=;
- b=ecQ6f9vYNXisZK2sn+c8r4luQXvonnAjonR5fPhAWLRL4QlplmwylLAUeOT/Npcaz9
- nNBUQk51Z8mOrTfPG8WP+CeCtd4lr+I7RpruAVO+FvPEbh/F0d4+u3myBoxuh2XQh58C
- 0wZSDwXKbfUpJTCXZvhMtcq8B5vz6tZZWyd7QqlXMzmzr3CY/5nDtrOGKEB/mLXZkjpY
- zu5dJTTxKR2uf7UnBfeoHs1hnTmHYC1Ro2+YMzL3iWfywYIyLRLkg9+hsp+6g4OKxzSL
- 0fsPEoWwSj6MfRVJUbkEVL14AzupWyU4022+ACoMwkgwmIT6hB+LTlmcQSj8cCZWcDuk
- yyag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=I90VLk6fg5it/6d1+1GwuCaMWYVh8DckYrKpq65htQw=;
- b=kYWxThV6er9LTvIHoKoAmeaYJZyGNG8xZTcqC7UuAf6y7u6/+AnNw+z34pdFH1CIf0
- VNLhHZTGSWhGePd5Ftv4Lgr/2udPFWEwI3Xrib2frXsw6JFjtJZPiBnquTrngo39eANy
- aHc1Z1SshaaAjChhHWxHYKX/JQCO9uHztFJwokMpjVaNXOiV/yLDuNEDExSfSa4+zb5M
- wdBuOkQlx1/OrlFCi+HqR2JicFfJ4MZUFs0XtYFuLC23nmyaF757NoiezLZuDg7x0UJU
- QI5nXzOvkosyoYW/BfR9nNLW0/fLhXEx2v5hIPYoaGqWu/rM5OAy4gOE0OvX3RPuaj6N
- Dk6A==
-X-Gm-Message-State: ACrzQf0WwS9AXIc4fSirFOAVV0/59NLKXI312jIB0iuxpkxKMN+Sgy7L
- aK3O2w5nF1R1bho6Wc63H+O9XA==
-X-Google-Smtp-Source: AMsMyM5YpfjekQBVh5yWS0uaZAfZNjIHIltjK2fgdri1kiDDuxwoCDUekMCdYaMmc1toMr9CDT+6PA==
-X-Received: by 2002:a5d:6da2:0:b0:228:64cb:5333 with SMTP id
- u2-20020a5d6da2000000b0022864cb5333mr2743194wrs.428.1663334789082; 
- Fri, 16 Sep 2022 06:26:29 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- h7-20020a05600016c700b00228933481dbsm4805998wrf.47.2022.09.16.06.26.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Sep 2022 06:26:28 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 92FB71FFB7;
- Fri, 16 Sep 2022 14:26:27 +0100 (BST)
-References: <ba99db564c3aeb1812bdfbc9116849092334482f.1661362557.git.quic_mathbern@quicinc.com>
- <7d14967366c0e3640f47a15e80d1cc911413cadb.1661946575.git.quic_mathbern@quicinc.com>
- <SN6PR02MB4205789F605DBB66A4A6E178B8489@SN6PR02MB4205.namprd02.prod.outlook.com>
-User-agent: mu4e 1.9.0; emacs 28.1.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Brian Cain <bcain@quicinc.com>
-Cc: "Matheus Bernardino (QUIC)" <quic_mathbern@quicinc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "f4bug@amsat.org"
- <f4bug@amsat.org>, "peter.maydell@linaro.org" <peter.maydell@linaro.org>
-Subject: Re: [RFC PATCH v2] gdbstub: only send stop-reply packets when
- allowed to
-Date: Fri, 16 Sep 2022 14:25:56 +0100
-In-reply-to: <SN6PR02MB4205789F605DBB66A4A6E178B8489@SN6PR02MB4205.namprd02.prod.outlook.com>
-Message-ID: <87a66z8n7g.fsf@linaro.org>
+ (Exim 4.90_1)
+ (envelope-from <SRS0=EpFr=ZT=zx2c4.com=Jason@kernel.org>)
+ id 1oZBW4-00076z-JL
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 09:36:24 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:45110)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=EpFr=ZT=zx2c4.com=Jason@kernel.org>)
+ id 1oZBW1-0001in-4A
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 09:36:23 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id EB85662BB7;
+ Fri, 16 Sep 2022 13:36:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 331FDC433C1;
+ Fri, 16 Sep 2022 13:36:11 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="CIGd+2HL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1663335369;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PTOn1yM0zIBtLe1HQ7WGt9klmo6yUO3KPfHqsrM3jKk=;
+ b=CIGd+2HLe1n3qk8Ps5XTTVFLERJ7nn+vQh7CSxVwFhXNAixruM7PhVRxkxDyEICrXA0+67
+ ySGYkSOyCr/yueEiirNWxn+GSQkucwzNZhuHOEoWDFMfh4y9XiFfp4NpwBD7KFoYK+6tHt
+ 24FfF5HinireBrchOfGckrKZJ9uNk+k=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 69c78dbb
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Fri, 16 Sep 2022 13:36:09 +0000 (UTC)
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: qemu-devel@nongnu.org
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ard Biesheuvel <ardb@kernel.org>
+Subject: [PATCH qboot] Place setup_data at location specified by host
+Date: Fri, 16 Sep 2022 14:36:03 +0100
+Message-Id: <20220916133603.693135-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=139.178.84.217;
+ envelope-from=SRS0=EpFr=ZT=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,31 +77,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+QEMU places setup_data at a particular location, which cannot be
+relocated due to it containing self references in absolute address
+terms. For this reason, it supplies the intended location in
+FW_CFG_SETUP_ADDR, which is what SeaBIOS uses. So use this too in qboot.
+This also has the effect of removing the 8k limit on the copied size,
+since the header is copied to the right location from the beginning.
 
-Brian Cain <bcain@quicinc.com> writes:
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+---
+ fw_cfg.c            | 13 ++++++++-----
+ include/linuxboot.h |  1 -
+ linuxboot.c         |  4 +---
+ 3 files changed, 9 insertions(+), 9 deletions(-)
 
->> -----Original Message-----
->> From: Qemu-devel <qemu-devel-bounces+bcain=3Dquicinc.com@nongnu.org>
->> On Behalf Of Matheus Tavares Bernardino
-> ...
->> On Wed, 24 Aug 2022 at 14:51, Matheus Tavares Bernardino
->> <quic_mathbern@quicinc.com> wrote:
->> >
->> > Instead, let's change gdb_set_stop_cpu() to send stop messages only as=
- a
->> > response to a previous GDB command, also making sure to check that the
->> > command accepts such a reply.
->> >
->> > Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
->> > ---
->>=20
->> Gentle ping :)
->
-> Alex, Peter - any thoughts on this change?
+diff --git a/fw_cfg.c b/fw_cfg.c
+index 4b920cf..f3d9605 100644
+--- a/fw_cfg.c
++++ b/fw_cfg.c
+@@ -269,6 +269,7 @@ void boot_from_fwcfg(void)
+ {
+ 	struct linuxboot_args args;
+ 	uint32_t kernel_size;
++	enum { HEADER_PEEK_SIZE = 8192 };
+ 
+ 	fw_cfg_select(FW_CFG_CMDLINE_SIZE);
+ 	args.cmdline_size = fw_cfg_readl_le();
+@@ -282,15 +283,17 @@ void boot_from_fwcfg(void)
+ 	kernel_size = fw_cfg_readl_le();
+ 	fw_cfg_select(FW_CFG_SETUP_SIZE);
+ 	args.vmlinuz_size = kernel_size + fw_cfg_readl_le();
++	fw_cfg_select(FW_CFG_SETUP_ADDR);
++	args.setup_addr = (void *)fw_cfg_readl_le();
+ 
+ 	if (!args.vmlinuz_size)
+ 		return;
+ 
+ 	fw_cfg_select(FW_CFG_SETUP_DATA);
+-	fw_cfg_read(args.header, sizeof(args.header));
++	fw_cfg_read(args.setup_addr, HEADER_PEEK_SIZE);
+ 
+ 	if (!parse_bzimage(&args)) {
+-		uint8_t *header = args.header;
++		uint8_t *header = args.setup_addr;
+ 
+ 		if (ldl_p(header) == 0x464c457f)  /* ELF magic */
+ 			boot_pvh_from_fw_cfg();
+@@ -298,9 +301,9 @@ void boot_from_fwcfg(void)
+ 	}
+ 
+ 	/* SETUP_DATA already selected */
+-	if (args.setup_size > sizeof(args.header))
+-		fw_cfg_read(args.setup_addr + sizeof(args.header),
+-			    args.setup_size - sizeof(args.header));
++	if (args.setup_size > HEADER_PEEK_SIZE)
++		fw_cfg_read(args.setup_addr + HEADER_PEEK_SIZE,
++			    args.setup_size - HEADER_PEEK_SIZE);
+ 
+ 	fw_cfg_select(FW_CFG_KERNEL_DATA);
+ 	fw_cfg_read_entry(FW_CFG_KERNEL_DATA, args.kernel_addr, kernel_size);
+diff --git a/include/linuxboot.h b/include/linuxboot.h
+index 6e865f0..e04c234 100644
+--- a/include/linuxboot.h
++++ b/include/linuxboot.h
+@@ -10,7 +10,6 @@ struct linuxboot_args {
+ 
+ 	/* Input */
+ 	uint32_t cmdline_size, vmlinuz_size, initrd_size;
+-	uint8_t header[8192];
+ };
+ 
+ bool parse_bzimage(struct linuxboot_args *args);
+diff --git a/linuxboot.c b/linuxboot.c
+index 251bcb6..bdb01ee 100644
+--- a/linuxboot.c
++++ b/linuxboot.c
+@@ -11,7 +11,7 @@ struct hvm_start_info start_info = {0};
+ 
+ bool parse_bzimage(struct linuxboot_args *args)
+ {
+-	uint8_t *header = args->header;
++	uint8_t *header = args->setup_addr;
+ 
+ 	uint32_t real_addr, cmdline_addr, prot_addr, initrd_addr;
+ 	uint32_t setup_size;
+@@ -84,7 +84,6 @@ bool parse_bzimage(struct linuxboot_args *args)
+ 	args->setup_size = (setup_size+1)*512;
+ 	args->kernel_size = args->vmlinuz_size - setup_size;
+ 	args->initrd_addr = (void *)initrd_addr;
+-	args->setup_addr = (void *)real_addr;
+ 	args->kernel_addr = (void *)prot_addr;
+ 	args->cmdline_addr = (void *)cmdline_addr;
+ 	return true;
+@@ -92,7 +91,6 @@ bool parse_bzimage(struct linuxboot_args *args)
+ 
+ void boot_bzimage(struct linuxboot_args *args)
+ {
+-	memcpy(args->setup_addr, args->header, sizeof(args->header));
+ #ifdef BENCHMARK_HACK
+ 	/* Exit just before getting to vmlinuz, so that it is easy
+ 	 * to time/profile the firmware.
+-- 
+2.37.3
 
-Sorry I was super busy on the run up to KVM forum, I have given some
-thoughts today.
-
---=20
-Alex Benn=C3=A9e
 
