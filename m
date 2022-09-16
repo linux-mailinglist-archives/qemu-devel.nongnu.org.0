@@ -2,60 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC3EF5BA684
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 07:49:42 +0200 (CEST)
-Received: from localhost ([::1]:54190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0088E5BA691
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 08:02:01 +0200 (CEST)
+Received: from localhost ([::1]:44460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZ4EP-0002mk-Ek
-	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 01:49:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45974)
+	id 1oZ4QI-0007Bq-Ts
+	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 02:01:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oZ4CI-00017s-8l
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 01:47:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38723)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oZ4M9-0004ad-RS
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 01:57:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oZ4CF-0000uH-Bg
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 01:47:28 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oZ4M6-0002nV-0R
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 01:57:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663307246;
+ s=mimecast20190719; t=1663307857;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kWopYI5BgoR7DKCQH8BmlD1knDtszVecZ79s3JXgHsA=;
- b=MaIGGKX6LcZLFuSTcAagsfVJxYD/FhvTACi5vLE7snHIX4Szb9MtULBcm8XkFRU0jRUAh/
- 49zqMVyDakFupsa3UDurJtTsWSY1X8aJCfoGekpxgGoa1Op61hIlfPgMaCWA75biJ5ZRzm
- 8PnG4HlMB3wpIlFIX88Nm56cLC43AHY=
+ bh=ZXui/eAmD14SvmHyEoTWx2wzS00Tto1KA+1cwxzt/is=;
+ b=h+Oy95OotvdMGRwx0Mw1TyHgIDD63K4sF5UuISUVUO/nbnjSy6M5CZJR3xZeGAOQwJaSUo
+ J6IRw1FmBrc4dn7SVMH8TbpbIKsr4Mk/KG5fyUh8NDHfAcFspLDQrGz1qSBQwtAyrevbQE
+ 9zNoOklZcd4aJjNUDjC2lhDo6wxczSc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-267-b2VhLNQ9MbmvVX7pWduYhw-1; Fri, 16 Sep 2022 01:47:23 -0400
-X-MC-Unique: b2VhLNQ9MbmvVX7pWduYhw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-570-e51vj5XXM1CNrNFZAEKHgw-1; Fri, 16 Sep 2022 01:57:33 -0400
+X-MC-Unique: e51vj5XXM1CNrNFZAEKHgw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A24D3101A528
- for <qemu-devel@nongnu.org>; Fri, 16 Sep 2022 05:47:23 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3BBF5811E67;
+ Fri, 16 Sep 2022 05:57:33 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D51A140EBF5;
- Fri, 16 Sep 2022 05:47:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BCBE5492B04;
+ Fri, 16 Sep 2022 05:57:31 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2608E21E6900; Fri, 16 Sep 2022 07:47:21 +0200 (CEST)
+ id 75FF521E6900; Fri, 16 Sep 2022 07:57:30 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] keyval: Print types on merge inconsistency
-References: <20220913100811.99746-1-dgilbert@redhat.com>
-Date: Fri, 16 Sep 2022 07:47:21 +0200
-In-Reply-To: <20220913100811.99746-1-dgilbert@redhat.com> (David Alan
- Gilbert's message of "Tue, 13 Sep 2022 11:08:11 +0100")
-Message-ID: <87o7vfg9au.fsf@pond.sub.org>
+To: Maksim Davydov <davydov-max@yandex-team.ru>
+Cc: qemu-devel@nongnu.org,  yc-core@yandex-team.ru,  pbonzini@redhat.com,
+ berrange@redhat.com,  eduardo@habkost.net,  marcel.apfelbaum@gmail.com,
+ f4bug@amsat.org,  wangyanan55@huawei.com,  alxndr@bu.edu,
+ bsd@redhat.com,  stefanha@redhat.com,  thuth@redhat.com,
+ darren.kenny@oracle.com,  Qiuhao.Li@outlook.com,  lvivier@redhat.com,
+ jsnow@redhat.com,  crosa@redhat.com,  bleal@redhat.com
+Subject: Re: [PATCH v2 4/4] scripts: add script to compare compatible
+ properties
+References: <20220914105539.18461-1-davydov-max@yandex-team.ru>
+ <20220914105539.18461-5-davydov-max@yandex-team.ru>
+Date: Fri, 16 Sep 2022 07:57:30 +0200
+In-Reply-To: <20220914105539.18461-5-davydov-max@yandex-team.ru> (Maksim
+ Davydov's message of "Wed, 14 Sep 2022 13:55:39 +0300")
+Message-ID: <87illng8tx.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -79,43 +88,219 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> writes:
+Maksim Davydov <davydov-max@yandex-team.ru> writes:
 
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->
-> When 'keyval_do_merge' checks consistency of types, if they mismatch
-> print the types so we get a hint of what's going on.
->
-> e.g.
-> qemu-system-x86_64: Parameter 'memory' used inconsistently (qstring/qdict)
->
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  util/keyval.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/util/keyval.c b/util/keyval.c
-> index 66a5b4740f..9757adf31f 100644
-> --- a/util/keyval.c
-> +++ b/util/keyval.c
-> @@ -329,8 +329,10 @@ static void keyval_do_merge(QDict *dest, const QDict *merged, GString *str, Erro
->          old_value = qdict_get(dest, ent->key);
->          if (old_value) {
->              if (qobject_type(old_value) != qobject_type(ent->value)) {
-> -                error_setg(errp, "Parameter '%s%s' used inconsistently",
-> -                           str->str, ent->key);
-> +                error_setg(errp, "Parameter '%s%s' used inconsistently (%s/%s)",
-> +                           str->str, ent->key,
-> +                           QType_str(qobject_type(old_value)),
-> +                           QType_str(qobject_type(ent->value)));
+> This script run QEMU to obtain compat_props of machines and default
+> values of different types and produce appropriate table. This table
+> can be used to compare machine types to choose the most suitable
+> machine. Also table in json or csv format should be used to check that
+> new machine doesn't affect previous ones via comparisin tables with and
 
-Two more, one in keyval_parse_put(), and one in keyval_listify().
+Do you mean "comparing tables"?
 
-The error message talks in developer terms.  Can we talk in user terms
-instead?  Could showing the conflicting key suffice?
+> without new machine.
 
->                  return;
->              } else if (qobject_type(ent->value) == QTYPE_QDICT) {
->                  /* Merge sub-dictionaries.  */
+Sounds useful.
+
+Can we make this check part of "make check"?  Commit tables for stable
+machine types, run the script and diff output against the committed
+table?
+
+> Default values of properties are needed to fill "holes" in the table (one
+> machine has these properties and another not).
+
+I'm confused.  Can you elaborate?
+
+> Notes:
+> * some init values from the devices can't be available like properties
+> from virtio-9p when configure has --disable-virtfs. This situations will
+> be seen in the table as "unavailable driver".
+> * Default values can be get can be obtained in an unobvious way, like
+> x86 features. If the script doesn't know how to get property default value
+> to compare one machine with another it fills "holes" with "unavailable
+> method". This is done because script uses whitelist model to get default
+> values of different types. It means that the method that can't be applied
+> to a new type that can crash this script. It is better to get an
+> "unavailable driver" when creating a new machine with new compatible
+> properties than to break this script. So it turns out a more stable and
+> generic script.
+> * If the default value can't be obtained because this property doesn't
+> exist or because this property can't have default value, appropriate
+> "hole" will be filled by "unknown property" or "no default value"
+> * If the property is applied to the abstract class, the script collects
+> default values from all child classes (set of default values)
+>
+> Example:
+>
+> ./scripts/compare_mt.py --mt pc-q35-3.1 pc-q35-2.12
+>
+> =E2=95=92=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=
+=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=
+=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=
+=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=
+=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=A4=E2=95=90=E2=95=90=E2=95=90=E2=
+=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=
+=90=E2=95=90=E2=95=90=E2=95=90=E2=95=A4=E2=95=90=E2=95=90=E2=95=90=E2=95=90=
+=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=
+=95=90=E2=95=90=E2=95=90=E2=95=95
+> =E2=94=82                                    =E2=94=82  pc-q35-2.12  =E2=
+=94=82  pc-q35-3.1   =E2=94=82
+> =E2=95=9E=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=
+=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=
+=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=
+=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=
+=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=AA=E2=95=90=E2=95=90=E2=95=90=E2=
+=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=
+=90=E2=95=90=E2=95=90=E2=95=90=E2=95=AA=E2=95=90=E2=95=90=E2=95=90=E2=95=90=
+=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=
+=95=90=E2=95=90=E2=95=90=E2=95=A1
+> =E2=94=82    EPYC-IBPB-x86_64-cpu-xlevel     =E2=94=82  0x8000000a   =E2=
+=94=82  2147483678   =E2=94=82
+> =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=A4
+> =E2=94=82       EPYC-x86_64-cpu-xlevel       =E2=94=82  0x8000000a   =E2=
+=94=82  2147483678   =E2=94=82
+> =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=A4
+> =E2=94=82 Skylake-Server-IBRS-x86_64-cpu-pku =E2=94=82     False     =E2=
+=94=82     True      =E2=94=82
+> =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=A4
+> =E2=94=82   Skylake-Server-x86_64-cpu-pku    =E2=94=82     False     =E2=
+=94=82     True      =E2=94=82
+> =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=A4
+> =E2=94=82         VGA-global-vmstate         =E2=94=82     True      =E2=
+=94=82     False     =E2=94=82
+> =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=A4
+> =E2=94=82     cirrus-vga-global-vmstate      =E2=94=82     True      =E2=
+=94=82     False     =E2=94=82
+> =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=A4
+> =E2=94=82        hda-audio-use-timer         =E2=94=82     False     =E2=
+=94=82     True      =E2=94=82
+> =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=A4
+> =E2=94=82  migration-decompress-error-check  =E2=94=82     False     =E2=
+=94=82     True      =E2=94=82
+> =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=A4
+> =E2=94=82       qxl-vga-global-vmstate       =E2=94=82     True      =E2=
+=94=82     False     =E2=94=82
+> =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=A4
+> =E2=94=82     vmware-svga-global-vmstate     =E2=94=82     True      =E2=
+=94=82     False     =E2=94=82
+> =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=A4
+> =E2=94=82      x86_64-cpu-legacy-cache       =E2=94=82     True      =E2=
+=94=82 [True, False] =E2=94=82
+> =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=A4
+> =E2=94=82         x86_64-cpu-topoext         =E2=94=82     False     =E2=
+=94=82 [True, False] =E2=94=82
+> =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=A4
+> =E2=94=82   x86_64-cpu-x-hv-synic-kvm-only   =E2=94=82     True      =E2=
+=94=82     False     =E2=94=82
+> =E2=95=98=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=
+=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=
+=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=
+=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=
+=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=A7=E2=95=90=E2=95=90=E2=95=90=E2=
+=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=
+=90=E2=95=90=E2=95=90=E2=95=90=E2=95=A7=E2=95=90=E2=95=90=E2=95=90=E2=95=90=
+=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=95=90=E2=
+=95=90=E2=95=90=E2=95=90=E2=95=9B
+
+Would examples showing "unavailable driver", "unavailable method",
+"unknown property", and "no default value" be useful here?
+
+> Signed-off-by: Maksim Davydov <davydov-max@yandex-team.ru>
 
 
