@@ -2,85 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F69D5BA82F
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 10:25:58 +0200 (CEST)
-Received: from localhost ([::1]:40264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 562C35BA830
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 10:26:38 +0200 (CEST)
+Received: from localhost ([::1]:42748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZ6fd-0000FJ-E2
-	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 04:25:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46490)
+	id 1oZ6gG-0001Ey-Db
+	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 04:26:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oZ6Ww-0004Gp-Ap
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 04:16:58 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:59624)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oZ6Wt-0004cu-Nu
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 04:16:58 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 9E15E3389A;
- Fri, 16 Sep 2022 08:16:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1663316212; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oZ6Yx-0005NZ-RH
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 04:19:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56624)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oZ6Yt-0004sF-Sd
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 04:19:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663316338;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=wbO55fbW346ob7HQieT6tKSBJj7QKIjVbMebDrZEMtU=;
- b=g47nLDetZbk6n8dPlDOZ6pl4zn04jaIiwkK20gKc/ZMB7Rh/+EpDy3IipWEcHWa7FymgAY
- hol5n1yJxvWb2mlrU2W2b9WEREE9F7GS7j4zoOoA9USBxAdTPpm4jSfdOMd3NIxGE6tBvT
- Ol7GzqnFg9HwmDzz3BcLFnl7+CEYo80=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1663316212;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wbO55fbW346ob7HQieT6tKSBJj7QKIjVbMebDrZEMtU=;
- b=cNlkMM/WBSkaAgnTEwBeIo0ZD9A+pdu+6m5bon0D2SsqJ0Mtfm1MypyYWnHNMKx7iMgUcE
- iePh1VEMYS4ExTBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=7836hMqLTy/ZqNJKPAQZ7/OMwOmn5pZg16Bjjw0hSaY=;
+ b=SBMJkBy65mFAr8awusP2bNJ+g+ZEPFdxYyZkMAuyuJfdZegKXh9kzG0ifdf5S1+efQE9c/
+ h0FeWXnPAuuF50DzD6Lok1YXbN1gDWshHzeshmNs6awx+PGO07HnC/n6iSoGlBI7Ry+SWc
+ +0oNjm4THTfNc6xMYoHe2thEIs9t2vs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-544-BYGmDb8DM0OthU5RBo1rOA-1; Fri, 16 Sep 2022 04:18:54 -0400
+X-MC-Unique: BYGmDb8DM0OthU5RBo1rOA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 390B11346B;
- Fri, 16 Sep 2022 08:16:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id NabfC/QwJGOrPQAAMHmgww
- (envelope-from <cfontana@suse.de>); Fri, 16 Sep 2022 08:16:52 +0000
-Message-ID: <69eea2bc-3934-510b-49d5-8337a1b0e4ff@suse.de>
-Date: Fri, 16 Sep 2022 10:16:51 +0200
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 889AD800B30;
+ Fri, 16 Sep 2022 08:18:54 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5EA602166B26;
+ Fri, 16 Sep 2022 08:18:54 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 42AD221E6900; Fri, 16 Sep 2022 10:18:52 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  jsnow@redhat.com,
+ eblake@redhat.com,  "Michael S . Tsirkin" <mst@redhat.com>,  Igor
+ Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH 06/27] qapi acpi: Elide redundant has_FOO in generated C
+References: <20220915204317.3766007-1-armbru@redhat.com>
+ <20220915204317.3766007-7-armbru@redhat.com>
+ <CAARzgwyZK9EuKKj0UpUxC8BYEUBDwRYG==eTfndgNmKOE_FgKA@mail.gmail.com>
+Date: Fri, 16 Sep 2022 10:18:52 +0200
+In-Reply-To: <CAARzgwyZK9EuKKj0UpUxC8BYEUBDwRYG==eTfndgNmKOE_FgKA@mail.gmail.com>
+ (Ani Sinha's message of "Fri, 16 Sep 2022 13:30:22 +0530")
+Message-ID: <87illnenpv.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v4 2/3] module: add Error arguments to module_load_one and
- module_load_qom_one
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20220908183012.17667-1-cfontana@suse.de>
- <20220908183012.17667-3-cfontana@suse.de>
- <f1f4688f-4f4c-34ef-8c02-0d01cb811025@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <f1f4688f-4f4c-34ef-8c02-0d01cb811025@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -61
-X-Spam_score: -6.2
-X-Spam_bar: ------
-X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.816,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,48 +83,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/16/22 10:13, Richard Henderson wrote:
-> On 9/8/22 20:30, Claudio Fontana wrote:
->> improve error handling during module load, by changing:
->>
->> bool module_load_one(const char *prefix, const char *lib_name);
->> void module_load_qom_one(const char *type);
->>
->> to:
->>
->> bool module_load_one(const char *prefix, const char *name, Error **errp);
->> bool module_load_qom_one(const char *type, Error **errp);
->>
->> module_load_qom_one has been introduced in:
->>
->> commit 28457744c345 ("module: qom module support"), which built on top of
->> module_load_one, but discarded the bool return value. Restore it.
->>
->> Adapt all callers to emit errors, or ignore them, or fail hard,
->> as appropriate in each context.
->>
->> Signed-off-by: Claudio Fontana<cfontana@suse.de>
->> ---
->>   audio/audio.c         |   9 ++-
->>   block.c               |  15 ++++-
->>   block/dmg.c           |  18 +++++-
->>   hw/core/qdev.c        |  10 ++-
->>   include/qemu/module.h |  38 ++++++++++--
->>   qom/object.c          |  18 +++++-
->>   softmmu/qtest.c       |   6 +-
->>   ui/console.c          |  18 +++++-
->>   util/module.c         | 140 ++++++++++++++++++++++++------------------
->>   9 files changed, 194 insertions(+), 78 deletions(-)
-> 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> 
-> r~
+Ani Sinha <ani@anisinha.ca> writes:
 
-Thanks for your review Richard.
+> On Fri, Sep 16, 2022 at 2:13 AM Markus Armbruster <armbru@redhat.com> wrote:
+>>
+>> The has_FOO for pointer-valued FOO are redundant, except for arrays.
+>> They are also a nuisance to work with.  Recent commit "qapi: Start to
+>> elide redundant has_FOO in generated C"
+>
+> Commit is referenced using <commit hash 13 chars min> ("commit header")
 
-Whose queue can I expect this series to get into?
+Apply my patches in your tree, and your hashes will differ from mine.
+Hashes can serve as stable reference only when we git-fetch patches, not
+when we git-send-email then.
 
-Thanks again,
+>> provided the means to elide
+>> them step by step.  This is the step for qapi/acpi.py.
+>>
+>> Said commit explains the transformation in more detail.  The invariant
+>> violations mentioned there do not occur here.
+>>
+>> Cc: Michael S. Tsirkin <mst@redhat.com>
+>> Cc: Igor Mammedov <imammedo@redhat.com>
+>> Cc: Ani Sinha <ani@anisinha.ca>
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-Claudio
 
