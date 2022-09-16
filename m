@@ -2,84 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC1D05BAF93
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 16:45:46 +0200 (CEST)
-Received: from localhost ([::1]:36260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC2735BAFA7
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 16:54:09 +0200 (CEST)
+Received: from localhost ([::1]:35732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZCbB-0002pf-UR
-	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 10:45:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36568)
+	id 1oZCjI-0000mi-GM
+	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 10:54:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZCWD-0004VD-Vc; Fri, 16 Sep 2022 10:40:38 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:35517)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZCWC-0005QF-9V; Fri, 16 Sep 2022 10:40:37 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id t65so20572659pgt.2;
- Fri, 16 Sep 2022 07:40:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date;
- bh=5IihWDj5b67Y9nHNA77Y/yguccHMnQZ4dH5/aT0IYkk=;
- b=o208qKfKiMFoWJcd1MhXVvZRCWL3ZM9VlaiSDq9kVQSsbi3fITK8cTZpRBXfpgR2lR
- vcBY0H6qPTu+ya2DXZWqmH/JPniW5fLBz6uqXn0D49qtHRQdwT4i4M09ujPtQqKddgOz
- XXdITmQOuuw/mZnlmBbwSch+r3jGnt8Ael/sscGLYFN5yS4V2ypHId18M1Etto9ak1/E
- JV5/XZ+AtzuOnpa6WZt2BxESy1nx7HNEOUfHBPZlrwY/hBH12UT7NMSp5HxWjQwkN5e9
- RIvht2nhJnmzmmXbXsj4g4oQdQkx8lW96Gkge+DnL2tYuPVvZRCuHkMWn4X7MoTJqHX9
- N7PA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=5IihWDj5b67Y9nHNA77Y/yguccHMnQZ4dH5/aT0IYkk=;
- b=tEyESBu9xqVx5zkZjADxMdQww9womz6wiPCOYIElHwzFoVyijwWBKNWaOVxIm3wbiA
- MaiCXHe62L4NyW49WvsJx6721LBRhRX45F9q6gVukKp4f7lZLk1LOYl/l53hRt1ogEP0
- 7OrJXshdL3C9LVa12V8IAvm7dqNsYIPnaTsjE0XJl+SHRxkmurF3Lm69g+o4ODorPNpX
- PLIIZpKp6xso6WxgmECBAGmQnvNfLUGuLmoki7bp3jrtgg7H5tvJbVI4WeUq9h4bPtad
- ++G/ybSZO6BeEh7w7jjpMF0h3Tw/dMZjj+VSd/ZNt1l8DG8qwgCem3K4ByLk421dovRh
- jCdg==
-X-Gm-Message-State: ACrzQf302f9QeIkQRNoRIWoMp640e4/wFiXEb8sfCDP+lkS1U4KsY+ul
- f2yiOIQKbRClDHhttT5QZqA=
-X-Google-Smtp-Source: AMsMyM4g+CP1mMbyazDO8kVEOdPQdoo6RhQhqT1HT9hkv1d0i4UZOwjVBU9FaSmkK0sxlvV8UYF6lA==
-X-Received: by 2002:a63:6685:0:b0:439:869c:e16d with SMTP id
- a127-20020a636685000000b00439869ce16dmr4861478pgc.19.1663339233850; 
- Fri, 16 Sep 2022 07:40:33 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- z23-20020aa79597000000b00540963470d1sm14728700pfj.84.2022.09.16.07.40.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Sep 2022 07:40:33 -0700 (PDT)
-Message-ID: <b80500f1-0ee5-d600-7834-22196baf5bfb@amsat.org>
-Date: Fri, 16 Sep 2022 16:40:27 +0200
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1oZCes-0006US-Fa; Fri, 16 Sep 2022 10:49:34 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2695)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1oZCep-0006vU-Ky; Fri, 16 Sep 2022 10:49:33 -0400
+Received: from fraeml741-chm.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MTcPM1s7lz67P77;
+ Fri, 16 Sep 2022 22:47:51 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
+ fraeml741-chm.china.huawei.com (10.206.15.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 16 Sep 2022 16:49:19 +0200
+Received: from localhost (10.202.226.42) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Fri, 16 Sep
+ 2022 15:49:19 +0100
+Date: Fri, 16 Sep 2022 15:49:18 +0100
+To: Tong Zhang <t.zhang2@samsung.com>
+CC: Ben Widawsky <ben.widawsky@intel.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "ztong0001@gmail.com" <ztong0001@gmail.com>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
+Subject: Re: [PATCH] mem/cxl_type3: fix GPF DVSEC
+Message-ID: <20220916154918.0000710a@huawei.com>
+In-Reply-To: <20220915175853.2902-1-t.zhang2@samsung.com>
+References: <CGME20220915175905uscas1p122c0408beff433071df5df348553be22@uscas1p1.samsung.com>
+ <20220915175853.2902-1-t.zhang2@samsung.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [RFC PATCH 2/4] qtest: make read/write operation appear to be
- from CPU
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20220914160955.812151-1-alex.bennee@linaro.org>
- <20220914160955.812151-3-alex.bennee@linaro.org>
- <c6d2e06f-75b8-0ba2-5e0d-51603873e40c@linaro.org>
-In-Reply-To: <c6d2e06f-75b8-0ba2-5e0d-51603873e40c@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52b.google.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.816,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.226.42]
+X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,46 +68,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On 15/9/22 10:08, Richard Henderson wrote:
-> On 9/14/22 17:09, Alex Bennée wrote:
->> The point of qtest is to simulate how running code might interact with
->> the system. However because it's not a real system we have places in
->> the code which especially handle check qtest_enabled() before
->> referencing current_cpu. Now we can encode these details in the
->> MemTxAttrs lets do that so we can start removing them.
->>
->> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->> ---
->>   softmmu/qtest.c | 31 +++++++++++++++++++------------
->>   1 file changed, 19 insertions(+), 12 deletions(-)
->>
->> diff --git a/softmmu/qtest.c b/softmmu/qtest.c
->> index f8acef2628..c086bd34b7 100644
->> --- a/softmmu/qtest.c
->> +++ b/softmmu/qtest.c
->> @@ -362,6 +362,13 @@ static void qtest_clock_warp(int64_t dest)
->>       qemu_clock_notify(QEMU_CLOCK_VIRTUAL);
->>   }
->> +/*
->> + * QTest memory accesses are treated as though they come from the
->> + * first (non-existent) CPU. We need to expose this via MemTxAttrs for
->> + * those bits of HW which care which core is accessing them.
->> + */
->> +#define MEMTXATTRS_QTEST ((MemTxAttrs) { .requester_cpu = 1 })
-> 
-> Maybe clearer as { .requester_cpu = true, .requester_id = 0 }?
-> Otherwise it kinda looks like we're setting the second cpu (index 1).
+On Thu, 15 Sep 2022 17:59:04 +0000
+Tong Zhang <t.zhang2@samsung.com> wrote:
 
-We could rename the field as 'requester_is_cpu'.
+> The structure is for device dvsec not port dvsec. Change type to fix
+> this issue.
+> 
+> Signed-off-by: Tong Zhang <t.zhang2@samsung.com>
 
-> Otherwise,
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+> ---
+>  hw/mem/cxl_type3.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> 
-> r~
-> 
+> diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+> index 3bf2869573..ada2108fac 100644
+> --- a/hw/mem/cxl_type3.c
+> +++ b/hw/mem/cxl_type3.c
+> @@ -49,7 +49,7 @@ static void build_dvsecs(CXLType3Dev *ct3d)
+>          .phase2_power = 0x33, /* 0x33 miliwatts */
+>      };
+>      cxl_component_create_dvsec(cxl_cstate, CXL2_TYPE3_DEVICE,
+> -                               GPF_DEVICE_DVSEC_LENGTH, GPF_PORT_DVSEC,
+> +                               GPF_DEVICE_DVSEC_LENGTH, GPF_DEVICE_DVSEC,
+>                                 GPF_DEVICE_DVSEC_REVID, dvsec);
+>  }
+>  
 
 
