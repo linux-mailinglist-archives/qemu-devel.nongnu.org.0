@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 806395BAFAB
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 16:56:18 +0200 (CEST)
-Received: from localhost ([::1]:47908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F7885BAFD0
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Sep 2022 17:03:41 +0200 (CEST)
+Received: from localhost ([::1]:42582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZClN-0002Ku-Hh
-	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 10:56:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36584)
+	id 1oZCsU-00078G-DQ
+	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 11:03:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZCfF-0006yG-2l; Fri, 16 Sep 2022 10:49:57 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:39921)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oZCpK-0004rx-Kn; Fri, 16 Sep 2022 11:00:22 -0400
+Received: from mail-qv1-xf34.google.com ([2607:f8b0:4864:20::f34]:35691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZCfD-0006y5-79; Fri, 16 Sep 2022 10:49:56 -0400
-Received: by mail-pl1-x634.google.com with SMTP id f23so5418482plr.6;
- Fri, 16 Sep 2022 07:49:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oZCpI-0002HD-DR; Fri, 16 Sep 2022 11:00:22 -0400
+Received: by mail-qv1-xf34.google.com with SMTP id w4so16829903qvp.2;
+ Fri, 16 Sep 2022 08:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date;
- bh=Cc9sHu2/LbuOvpJmPx8KZ4L4SU0wr9IfsnBM4ucc7K4=;
- b=jyZas1iP+5Dq98iefCET3BXXZE63KjNYAutCW0m6yl0hGgZkXwk2vxbyc1ZTlOIK/9
- WGzYQSj/yAvyL/5MkVdn02WWFKoyX5SMu5JerTeDqDccfNwCVlucfRqGBafIqUYbWRLZ
- MLCNOqMgFeLOgLaAlOSCgXdD1o9PhoxD2JEyY+baau2OFcGz3Iy3MYgusoGeN+Mt50jy
- SrXKHIq7COBYV1D6IdUwJP8fU+/4F5jjba2rRd55bMkCIqPkN5x7gQPBgSTvX43yZjR7
- LOtle4+2A7v5PJFLdhUGsYdRFOkLmla0FosEs1sUIQ4USfUpOpRerHC9V549rPIFfI4i
- T07g==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=oWk1c6lWGwEB+0UiMTf/EWiM+TNeZNHVKhDmX3KobuQ=;
+ b=L1evIi3oYocSroBKjV8SBLAkGZaBekQL+dPAEMrElvE/p0ndefsBcz5d71t5xh6ff+
+ Su2f5/uECxTW5yv9tIzOFu0Z2JuChWCh2WFQNXvhqfLYtHz1dcdDgkR4B6lVe6jlAAcp
+ Bf5ZUQzD/YwlMnj3K6pGwcNMslYtyasVq66vWXMgo7kHOzlwisWxGcDNoLigiwQY38uV
+ PCtUi7U0qEvxLub1mqc4I5hOMibSc3o69SVPfGPBl+5F163C/6GtcsbF1/4MuK3surg3
+ Aj79vMGVi9sFa7ziusimToQBtVd731rygOAFWnXNjMdHxdTaSt/sOCqyW7Pfs6u33I9w
+ NVMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=Cc9sHu2/LbuOvpJmPx8KZ4L4SU0wr9IfsnBM4ucc7K4=;
- b=zbZXtMiZ52GGdAfnpOql55jmUl7SV+Dd17I6dxi+Xt2Ke+2S6mGzaFMI8jW+XxqU//
- e3I5k465uMoJ7xHHG9pGueUyNI4YVccDgbzzbxbOmaij/aWTVjcfVHgckTR+2A5jXW/g
- OpRBDJmmUz39RU2ox4JLFFSOqmZFMNVrdevYkhUS5t1gSVaRY7Fzq8aq5HLB13n7oeBc
- Evsbw0eYnP856Y0i/piWNb1W8pqMvr6OHrNMM89ehuYD29CqHWXsSDreCzBffEwygOfx
- 9gIvVVrprQz5GTxq5vXIYa7OmdHLARrlb95aAyk6yHDfV5GuIKk1/pIFsfSW3Mqa9q3G
- XECw==
-X-Gm-Message-State: ACrzQf1LDYTC/Gg5k7wu2IYJloJOFL5OmnD3zScVsCBfJP6I3FSagKx6
- xhgGvLhW8mhWrZIh1pXikrw=
-X-Google-Smtp-Source: AMsMyM53VeSWQo0lpOV+bMYlnLgXQZIAE+qn7Z7++KdcTevJUoxumml/tHtDZw6yHu1f2gMDBFLqKg==
-X-Received: by 2002:a17:902:be03:b0:178:6f5d:e979 with SMTP id
- r3-20020a170902be0300b001786f5de979mr174636pls.163.1663339792855; 
- Fri, 16 Sep 2022 07:49:52 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- y16-20020a17090264d000b00176b66954a6sm14947923pli.121.2022.09.16.07.49.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Sep 2022 07:49:52 -0700 (PDT)
-Message-ID: <6aebb38e-551e-e241-bda7-4b748e672c29@amsat.org>
-Date: Fri, 16 Sep 2022 16:49:46 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=oWk1c6lWGwEB+0UiMTf/EWiM+TNeZNHVKhDmX3KobuQ=;
+ b=l1P1K49E8daa5bkfJaVCI8oz5it5IBg9GjXMBctI4YF9d7q1THaARJLofcA2Sv4LWq
+ 5jDJ6W2YQia5Du7ARde7uTWYQOSdfbxoIwTC/aMdP99J726T/M63D73JYRIppxo7DzUE
+ 99mjly27J54me62Vb7EbPADxKfke5RtQTsJgOCwBXyjj+B2D9gikYZt/wNY5lCbevruy
+ TKY344J2JSrUvOm5E+5/8/ssERKJr6q2Yla6hlRrzgtLQF+OVT+gAXRHxxR//0XJXsO8
+ FsB2Va2qFLZcUULHXyjc49OKjbozrw/KrBVU9HoWeVj8uNYMRFyoVKz4LuoVZ2O+Q1w2
+ rKdg==
+X-Gm-Message-State: ACrzQf2nDrh/NUWfQtv7La7NorAa8B18DQS/f/XUtGB/VwL3iqxSBisz
+ d1p1/EkigmBBdLLQBWroLfiI3BN2nhPsDuv5ZIk=
+X-Google-Smtp-Source: AMsMyM4g7rDq68k6l0Q3+mU0LYqq87VfhIaoKFXbrqnu+EOSAuomharmNogS8gcDbMznHEE/H9Yu0vQAQti0fTbT0xU=
+X-Received: by 2002:a05:6214:20a8:b0:4ac:b917:ccae with SMTP id
+ 8-20020a05621420a800b004acb917ccaemr4092413qvd.85.1663340418636; Fri, 16 Sep
+ 2022 08:00:18 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [RFC PATCH 3/4] hw/intc/gic: use MxTxAttrs to divine accessing CPU
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-References: <20220914160955.812151-1-alex.bennee@linaro.org>
- <20220914160955.812151-4-alex.bennee@linaro.org>
- <ab834948-3bd9-8e42-f13d-de0a3c573cf1@linaro.org>
-In-Reply-To: <ab834948-3bd9-8e42-f13d-de0a3c573cf1@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.816,
+References: <20220915152520.21948-1-shentey@gmail.com>
+ <20220915152520.21948-8-shentey@gmail.com>
+In-Reply-To: <20220915152520.21948-8-shentey@gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 16 Sep 2022 23:00:06 +0800
+Message-ID: <CAEUhbmUzss14vX0GeB8GgB1n2YTzai5sKsYno_qzh68fXixqXA@mail.gmail.com>
+Subject: Re: [PATCH 07/11] hw/ppc/e500: Implement pflash handling
+To: Bernhard Beschow <shentey@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, 
+ Bin Meng <bin.meng@windriver.com>, qemu-ppc <qemu-ppc@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f34;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf34.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,51 +84,179 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 15/9/22 10:16, Richard Henderson wrote:
-> On 9/14/22 17:09, Alex Bennée wrote:
->> Now that MxTxAttrs encodes a CPU we should use that to figure it out.
->> This solves edge cases like accessing via gdbstub or qtest.
->>
->> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/124
->> ---
->>   hw/intc/arm_gic.c | 39 ++++++++++++++++++++++-----------------
->>   1 file changed, 22 insertions(+), 17 deletions(-)
->>
->> diff --git a/hw/intc/arm_gic.c b/hw/intc/arm_gic.c
->> index 492b2421ab..7feedac735 100644
->> --- a/hw/intc/arm_gic.c
->> +++ b/hw/intc/arm_gic.c
->> @@ -56,17 +56,22 @@ static const uint8_t gic_id_gicv2[] = {
->>       0x04, 0x00, 0x00, 0x00, 0x90, 0xb4, 0x2b, 0x00, 0x0d, 0xf0, 
->> 0x05, 0xb1
->>   };
->> -static inline int gic_get_current_cpu(GICState *s)
->> +static inline int gic_get_current_cpu(GICState *s, MemTxAttrs attrs)
->>   {
->> -    if (!qtest_enabled() && s->num_cpu > 1) {
->> -        return current_cpu->cpu_index;
->> -    }
->> -    return 0;
->> +    /*
->> +     * Something other than a CPU accessing the GIC would be a bug as
->> +     * would a CPU index higher than the GICState expects to be
->> +     * handling
->> +     */
->> +    g_assert(attrs.requester_cpu == 1);
-> 
-> Better without "== 1" -- this field ought to be boolean.
+On Thu, Sep 15, 2022 at 11:36 PM Bernhard Beschow <shentey@gmail.com> wrote:
+>
+> Allows e500 boards to have their root file system reside on flash using
+> only builtin devices.
+>
+> Note that the flash memory area is only created when a -pflash argument is
+> given, and that the size is determined by the given file. The idea is to
+> put users into control.
+>
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>  docs/system/ppc/ppce500.rst | 12 +++++++++
+>  hw/ppc/Kconfig              |  1 +
+>  hw/ppc/e500.c               | 54 +++++++++++++++++++++++++++++++++++++
+>  3 files changed, 67 insertions(+)
+>
+> diff --git a/docs/system/ppc/ppce500.rst b/docs/system/ppc/ppce500.rst
+> index ba6bcb7314..c3f55c6f3d 100644
+> --- a/docs/system/ppc/ppce500.rst
+> +++ b/docs/system/ppc/ppce500.rst
+> @@ -119,6 +119,18 @@ To boot the 32-bit Linux kernel:
+>        -initrd /path/to/rootfs.cpio \
+>        -append "root=/dev/ram"
+>
+> +Rather than using a root file system on ram disk, it is possible to have it on
+> +emulated flash. Given an ext2 image whose size must be a power of two, it can
+> +be used as follows:
+> +
+> +.. code-block:: bash
+> +
+> +  $ qemu-system-ppc64 -M ppce500 -cpu e500mc -smp 4 -m 2G \
 
-Boolean so far, but this could get more types (such DMA...).
-Maybe we could already add an enum definitions, i.e.:
+qemu-system-ppc{64|32}
 
-typedef enum MemTxRequesterType {
-   MEMTXATTRS_CPU,
-   MEMTXATTRS_MSI,
-} MemTxRequesterType;
+> +      -display none -serial stdio \
+> +      -kernel vmlinux \
+> +      -drive if=pflash,file=/path/to/rootfs.ext2,format=raw \
+> +      -append "rootwait root=/dev/mtdblock0"
+> +
+>  Running U-Boot
+>  --------------
+>
+> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+> index 791fe78a50..769a1ead1c 100644
+> --- a/hw/ppc/Kconfig
+> +++ b/hw/ppc/Kconfig
+> @@ -126,6 +126,7 @@ config E500
+>      select ETSEC
+>      select GPIO_MPC8XXX
+>      select OPENPIC
+> +    select PFLASH_CFI01
+>      select PLATFORM_BUS
+>      select PPCE500_PCI
+>      select SERIAL
+> diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+> index 864b6f3d92..7843a4e04b 100644
+> --- a/hw/ppc/e500.c
+> +++ b/hw/ppc/e500.c
+> @@ -23,8 +23,10 @@
+>  #include "e500-ccsr.h"
+>  #include "net/net.h"
+>  #include "qemu/config-file.h"
+> +#include "hw/block/flash.h"
+>  #include "hw/char/serial.h"
+>  #include "hw/pci/pci.h"
+> +#include "sysemu/block-backend-io.h"
+>  #include "sysemu/sysemu.h"
+>  #include "sysemu/kvm.h"
+>  #include "sysemu/reset.h"
+> @@ -267,6 +269,34 @@ static void sysbus_device_create_devtree(SysBusDevice *sbdev, void *opaque)
+>      }
+>  }
+>
+> +static void create_devtree_flash(SysBusDevice *sbdev,
+> +                                 PlatformDevtreeData *data)
+> +{
+> +    char *name;
 
-and name the field MemTxAttrs::requester_type.
+Use g_autofree
+
+> +    uint64_t num_blocks = object_property_get_uint(OBJECT(sbdev),
+> +                                                   "num-blocks",
+> +                                                   &error_fatal);
+> +    uint64_t sector_length = object_property_get_uint(OBJECT(sbdev),
+> +                                                      "sector-length",
+> +                                                      &error_fatal);
+> +    uint64_t bank_width = object_property_get_uint(OBJECT(sbdev),
+> +                                                   "width",
+> +                                                   &error_fatal);
+> +    hwaddr flashbase = 0;
+> +    hwaddr flashsize = num_blocks * sector_length;
+> +    void *fdt = data->fdt;
+> +
+> +    name = g_strdup_printf("%s/nor@%" PRIx64, data->node, flashbase);
+> +    qemu_fdt_add_subnode(fdt, name);
+> +    qemu_fdt_setprop_cell(fdt, name, "#address-cells", 1);
+> +    qemu_fdt_setprop_cell(fdt, name, "#size-cells", 1);
+
+#address-cells and #size-cells are not needed.
+
+> +    qemu_fdt_setprop_string(fdt, name, "compatible", "cfi-flash");
+> +    qemu_fdt_setprop_sized_cells(fdt, name, "reg",
+> +                                 1, flashbase, 1, flashsize);
+> +    qemu_fdt_setprop_cell(fdt, name, "bank-width", bank_width);
+> +    g_free(name);
+> +}
+> +
+>  static void platform_bus_create_devtree(PPCE500MachineState *pms,
+>                                          void *fdt, const char *mpic)
+>  {
+> @@ -276,6 +306,8 @@ static void platform_bus_create_devtree(PPCE500MachineState *pms,
+>      uint64_t addr = pmc->platform_bus_base;
+>      uint64_t size = pmc->platform_bus_size;
+>      int irq_start = pmc->platform_bus_first_irq;
+> +    SysBusDevice *sbdev;
+> +    bool ambiguous;
+>
+>      /* Create a /platform node that we can put all devices into */
+>
+> @@ -302,6 +334,13 @@ static void platform_bus_create_devtree(PPCE500MachineState *pms,
+>      /* Loop through all dynamic sysbus devices and create nodes for them */
+>      foreach_dynamic_sysbus_device(sysbus_device_create_devtree, &data);
+>
+> +    sbdev = SYS_BUS_DEVICE(object_resolve_path_type("", TYPE_PFLASH_CFI01,
+> +                                                    &ambiguous));
+
+Can this be moved into sysbus_device_create_devtree(), and use the
+same logic as the eTSEC device?
+
+> +    if (sbdev) {
+> +        assert(!ambiguous);
+> +        create_devtree_flash(sbdev, &data);
+> +    }
+> +
+>      g_free(node);
+>  }
+>
+> @@ -856,6 +895,7 @@ void ppce500_init(MachineState *machine)
+>      unsigned int pci_irq_nrs[PCI_NUM_PINS] = {1, 2, 3, 4};
+>      IrqLines *irqs;
+>      DeviceState *dev, *mpicdev;
+> +    DriveInfo *dinfo;
+>      CPUPPCState *firstenv = NULL;
+>      MemoryRegion *ccsr_addr_space;
+>      SysBusDevice *s;
+> @@ -1024,6 +1064,20 @@ void ppce500_init(MachineState *machine)
+>                                  pmc->platform_bus_base,
+>                                  sysbus_mmio_get_region(s, 0));
+>
+> +    dinfo = drive_get(IF_PFLASH, 0, 0);
+> +    if (dinfo) {
+> +        BlockBackend *blk = blk_by_legacy_dinfo(dinfo);
+> +        BlockDriverState *bs = blk_bs(blk);
+> +        uint64_t size = bdrv_getlength(bs);
+> +        if (ctpop64(size) != 1) {
+> +            error_report("Size of pflash file must be a power of two.");
+> +            exit(1);
+> +        }
+
+I think we should also check whether the flash size plus the eTSEC
+size exceeds the platform bus mmio window size otherwise it won't work
+for both devices present, no?
+
+> +        pflash_cfi01_register(pmc->platform_bus_base, "e500.flash",
+> +                              size, blk,
+> +                              64 * KiB, 2, 0x89, 0x18, 0x0000, 0x0, 1);
+> +    }
+> +
+>      /*
+>       * Smart firmware defaults ahead!
+>       *
+
+Regards,
+Bin
 
