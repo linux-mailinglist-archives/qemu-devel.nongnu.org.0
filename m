@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D785BBAC4
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 23:56:36 +0200 (CEST)
-Received: from localhost ([::1]:39178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1849E5BBACC
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 00:14:24 +0200 (CEST)
+Received: from localhost ([::1]:33374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZfnf-0002FN-1z
-	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 17:56:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34526)
+	id 1oZg4s-000796-N5
+	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 18:14:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZflz-00083t-48; Sat, 17 Sep 2022 17:54:51 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:51845)
+ id 1oZg3U-0005li-LM; Sat, 17 Sep 2022 18:12:56 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZflx-0001hu-Dg; Sat, 17 Sep 2022 17:54:50 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id o5so14183522wms.1;
- Sat, 17 Sep 2022 14:54:48 -0700 (PDT)
+ id 1oZg3S-0004Fc-9p; Sat, 17 Sep 2022 18:12:56 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id n12so1097066wrx.9;
+ Sat, 17 Sep 2022 15:12:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=0yjlc3xc1yqmAQVYadAVXIdBpfh2ggHfzC5ifkrlEcA=;
- b=AgWbNyOiedzLMDAK8X/PWbAs/L/CvQ9wocvLMkAP9S7MbitoEZE5gFXXVfOUlH8KX2
- ACH6N5JeqDFhZ5TbxH5f0s18s3JmcFuWv7rxneRtOEy2+GYpx6CCRLm8hMMQDnLYE4oa
- 8pX5BxkxYXSbtWBLwXgN8A0oCqAdx0DY2rgJAgO5xyCFkwMCtUYD06xExkgTiiV52yYb
- 5HCbcp2Pqbc+BcpxCegPVMEAcxRa+T39TqXMoZgsAYGq42BdVa1t8qEHZB9fmwn/IxYS
- YJ52gn2Ge09opJBQhfnNMEoRV3ipJm4jcsplKvT3X5Xi7sr8qfZxahqYeEQEiWdzy71J
- V7TQ==
+ bh=WkBlpal0QIqfEPfrzmDvqxvpiHf9ESgL1ta/xDRH1sw=;
+ b=bhrYDxMq6uKi+SN4MmiUEnWdaSA/A50roZCLtjxFHibcdLzrmdfUoLeqdGTWi5JQgV
+ Vt0dKruymF7/x6yjyHNpq7I5VpbczUwVuZG0SRoSiHtCy6zSkhKbjzUuWP3a+ntq3dxB
+ miBv1UzCjkXpvyBSv+8k+beyLVUc3wc3VJQbV1YXxtM9DcZemZDYdF8KgCW8ft/zjJnm
+ xHrWvYxvzojaORUAIeGFw7ggMb1I9IeLNvaiQA+SVVoMGuV7sJwO7JovthiRwcJ4FNDP
+ 0+XpanHHsRq4d4k1E8Dm75NVdmnoF/ufJvjDDGBmq49rFRCWlrVcjLTHLBbynjPd21oP
+ 0eJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=0yjlc3xc1yqmAQVYadAVXIdBpfh2ggHfzC5ifkrlEcA=;
- b=OXttf/iPFv1BFvtjkSdMvzwQ07SrQ2lnaH4ewLbyhlH9yM+WX4L/+x70sGmadExO0Z
- tN7yur7futljzau7aJfFraFzpiJZxVE5OIKhCQCKM7MCa7WutJFSc/KtM7BUMdo1+dPd
- L8U4ySpYwrJKpHLBHTC9eXfgKHWJp03Vb76nJOPZ+esKkjzDxADzkAAROwj4z+AY7tqM
- 6ynOONgj6POUbNCH88BIHMBgKgb05Cw/hJOBaI6OQgwgmRYmc+ucjlUN4V39r5KZGr/p
- r+AA2J3af35nEmqP/CUbgtFefTxZPitq9s+WAs5uaBpzaAViQXxbMf7Lu7XlTgmqBlcM
- o1Uw==
-X-Gm-Message-State: ACrzQf1zRL6eibUCxY1yHGKX8Jw4FhU525jEA3SC0eulIZmkj9TeYCgV
- w1G+GsFxyhoRR4/L93Mod0A=
-X-Google-Smtp-Source: AMsMyM45rabmGsT6n5sXW/vEUuIbskfG+BfZV9+rxgujN0yGrEturkE1oo6JI1B+3UUg2NPb8FJxow==
-X-Received: by 2002:a05:600c:3494:b0:3b4:cf62:78f1 with SMTP id
- a20-20020a05600c349400b003b4cf6278f1mr354240wmq.136.1663451687347; 
- Sat, 17 Sep 2022 14:54:47 -0700 (PDT)
+ bh=WkBlpal0QIqfEPfrzmDvqxvpiHf9ESgL1ta/xDRH1sw=;
+ b=W8GwpjLkSnpAQsW9Y5m5ul2/FCu2FYwbVFYxMcSuKN0QGvaPZ7dFalpEGBNUYudzk1
+ RRZha3J08mfVTTIXvnbfZAqVumXUqatq+ckpbfhMwmaBtXpGfNIuWA8rcMoyPFERht9l
+ thT0SMj5Hn+KEghKj+lXwVBJOwfbLwoZBfzKe9MXE1eEaum+Um4e+POqyqfpgvYFo05g
+ BEAKxhIA2sVUzBkuWSYIPw77JgOPAkIWLw3pQ5AytcOiWRT5MA9ciRfuxW9uBgKPucf0
+ pC+VyCmX8TSJz3Zg8YBqhv0b6Vt6J3yiEY4/nYxq4pXrimSBWMrDp1+CRee9r//bSui6
+ R//A==
+X-Gm-Message-State: ACrzQf13t66Qkyuubx759u8Jazx95NY9fPKhbr4HFpy7lhsLiFLwZ9Hs
+ trCo43ZELsw3RAEYntONQnQ=
+X-Google-Smtp-Source: AMsMyM7qknahKC94P3UtOP4zQ7MFrPRqNRsyUcUTpIatgEFOdkVLHbLg28yQwYcs0NYa0Mw7TkQwCw==
+X-Received: by 2002:a5d:64e8:0:b0:22a:bb78:1e44 with SMTP id
+ g8-20020a5d64e8000000b0022abb781e44mr7116676wri.378.1663452772291; 
+ Sat, 17 Sep 2022 15:12:52 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- h4-20020a5d5044000000b00228d67db06esm8736199wrt.21.2022.09.17.14.54.46
+ l15-20020a05600c2ccf00b003b3180551c8sm3488956wmc.40.2022.09.17.15.12.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Sep 2022 14:54:46 -0700 (PDT)
-Message-ID: <2041d203-ceff-11ce-27fa-16b06eb991b4@amsat.org>
-Date: Sat, 17 Sep 2022 23:54:45 +0200
+ Sat, 17 Sep 2022 15:12:51 -0700 (PDT)
+Message-ID: <b2fc1f9e-8f38-c0d8-6256-d4ae38534e7f@amsat.org>
+Date: Sun, 18 Sep 2022 00:12:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH v4 06/21] ppc4xx_sdram: Move size check to
- ppc4xx_sdram_init()
+Subject: Re: [PATCH v4 08/21] ppc4xx_sdram: Drop extra zeros for readability
 Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
 Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 References: <cover.1663154398.git.balaton@eik.bme.hu>
- <53f8420bf31535257075e2d53368aa6011c5443b.1663154398.git.balaton@eik.bme.hu>
-In-Reply-To: <53f8420bf31535257075e2d53368aa6011c5443b.1663154398.git.balaton@eik.bme.hu>
+ <1a87a1809e99eea94689c3100ba289c733868c22.1663154398.git.balaton@eik.bme.hu>
+In-Reply-To: <1a87a1809e99eea94689c3100ba289c733868c22.1663154398.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -98,19 +101,129 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 14/9/22 13:34, BALATON Zoltan wrote:
-> Instead of checking if memory size is valid in board code move this
-> check to ppc4xx_sdram_init() as this is a restriction imposed by the
-> SDRAM controller.
-> 
+> Constants that are written zero padded for no good reason are hard to
+> read, it's easier to see what is meant if it's just 0 or 1 instead.
+
+It would be nice to be able to use the single quote separator for
+integer literals, but they are only part of C++14, so C2x which doesn't
+seem stabilized yet :/
+
+Ref: https://en.cppreference.com/w/cpp/language/integer_literal
+
+Meanwhile:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->   hw/ppc/ppc405.h         |  2 --
->   hw/ppc/ppc405_boards.c  | 10 ----------
->   hw/ppc/ppc405_uc.c      | 11 ++---------
->   hw/ppc/ppc440_bamboo.c  | 10 +---------
->   hw/ppc/ppc4xx_devs.c    | 14 ++++++--------
->   include/hw/ppc/ppc4xx.h |  2 +-
->   6 files changed, 10 insertions(+), 39 deletions(-)
+>   hw/ppc/ppc4xx_devs.c | 40 ++++++++++++++++++++--------------------
+>   1 file changed, 20 insertions(+), 20 deletions(-)
+> 
+> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+> index 375834a52b..bfe7b2d3a6 100644
+> --- a/hw/ppc/ppc4xx_devs.c
+> +++ b/hw/ppc/ppc4xx_devs.c
+> @@ -49,31 +49,31 @@ static uint32_t sdram_ddr_bcr(hwaddr ram_base, hwaddr ram_size)
+>   
+>       switch (ram_size) {
+>       case 4 * MiB:
+> -        bcr = 0x00000000;
+> +        bcr = 0;
+>           break;
+>       case 8 * MiB:
+> -        bcr = 0x00020000;
+> +        bcr = 0x20000;
+>           break;
+>       case 16 * MiB:
+> -        bcr = 0x00040000;
+> +        bcr = 0x40000;
+>           break;
+>       case 32 * MiB:
+> -        bcr = 0x00060000;
+> +        bcr = 0x60000;
+>           break;
+>       case 64 * MiB:
+> -        bcr = 0x00080000;
+> +        bcr = 0x80000;
+>           break;
+>       case 128 * MiB:
+> -        bcr = 0x000A0000;
+> +        bcr = 0xA0000;
+>           break;
+>       case 256 * MiB:
+> -        bcr = 0x000C0000;
+> +        bcr = 0xC0000;
+>           break;
+>       default:
+>           qemu_log_mask(LOG_GUEST_ERROR,
+>                         "%s: invalid RAM size 0x%" HWADDR_PRIx "\n", __func__,
+>                         ram_size);
+> -        return 0x00000000;
+> +        return 0;
+>       }
+>       bcr |= ram_base & 0xFF800000;
+>       bcr |= 1;
+> @@ -104,7 +104,7 @@ static target_ulong sdram_size(uint32_t bcr)
+>   static void sdram_set_bcr(Ppc4xxSdramDdrState *sdram, int i,
+>                             uint32_t bcr, int enabled)
+>   {
+> -    if (sdram->bank[i].bcr & 0x00000001) {
+> +    if (sdram->bank[i].bcr & 1) {
+>           /* Unmap RAM */
+>           trace_ppc4xx_sdram_unmap(sdram_base(sdram->bank[i].bcr),
+>                                    sdram_size(sdram->bank[i].bcr));
+> @@ -115,7 +115,7 @@ static void sdram_set_bcr(Ppc4xxSdramDdrState *sdram, int i,
+>           object_unparent(OBJECT(&sdram->bank[i].container));
+>       }
+>       sdram->bank[i].bcr = bcr & 0xFFDEE001;
+> -    if (enabled && (bcr & 0x00000001)) {
+> +    if (enabled && (bcr & 1)) {
+>           trace_ppc4xx_sdram_map(sdram_base(bcr), sdram_size(bcr));
+>           memory_region_init(&sdram->bank[i].container, NULL, "sdram-container",
+>                              sdram_size(bcr));
+> @@ -136,7 +136,7 @@ static void sdram_map_bcr(Ppc4xxSdramDdrState *sdram)
+>               sdram_set_bcr(sdram, i, sdram_ddr_bcr(sdram->bank[i].base,
+>                                                     sdram->bank[i].size), 1);
+>           } else {
+> -            sdram_set_bcr(sdram, i, 0x00000000, 0);
+> +            sdram_set_bcr(sdram, i, 0, 0);
+>           }
+>       }
+>   }
+> @@ -213,7 +213,7 @@ static uint32_t sdram_ddr_dcr_read(void *opaque, int dcrn)
+>           break;
+>       default:
+>           /* Avoid gcc warning */
+> -        ret = 0x00000000;
+> +        ret = 0;
+>           break;
+>       }
+>   
+> @@ -306,18 +306,18 @@ static void ppc4xx_sdram_ddr_reset(DeviceState *dev)
+>   {
+>       Ppc4xxSdramDdrState *sdram = PPC4xx_SDRAM_DDR(dev);
+>   
+> -    sdram->addr = 0x00000000;
+> -    sdram->bear = 0x00000000;
+> -    sdram->besr0 = 0x00000000; /* No error */
+> -    sdram->besr1 = 0x00000000; /* No error */
+> -    sdram->cfg = 0x00000000;
+> -    sdram->ecccfg = 0x00000000; /* No ECC */
+> -    sdram->eccesr = 0x00000000; /* No error */
+> +    sdram->addr = 0;
+> +    sdram->bear = 0;
+> +    sdram->besr0 = 0; /* No error */
+> +    sdram->besr1 = 0; /* No error */
+> +    sdram->cfg = 0;
+> +    sdram->ecccfg = 0; /* No ECC */
+> +    sdram->eccesr = 0; /* No error */
+>       sdram->pmit = 0x07C00000;
+>       sdram->rtr = 0x05F00000;
+>       sdram->tr = 0x00854009;
+>       /* We pre-initialize RAM banks */
+> -    sdram->status = 0x00000000;
+> +    sdram->status = 0;
+>       sdram->cfg = 0x00800000;
+>   }
+>   
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
