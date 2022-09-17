@@ -2,69 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F7EA5BBA4E
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 22:23:59 +0200 (CEST)
-Received: from localhost ([::1]:47746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC7DC5BBA60
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 22:29:56 +0200 (CEST)
+Received: from localhost ([::1]:51490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZeM2-0000VY-Ow
-	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 16:23:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57588)
+	id 1oZeRn-0002h4-GA
+	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 16:29:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oZeGG-0008Q8-25
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 16:18:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27222)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oZeQN-0001MY-FO
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 16:28:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54537)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oZeGD-0001Ca-Iy
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 16:17:58 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oZeQL-00033r-4E
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 16:28:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663445876;
+ s=mimecast20190719; t=1663446503;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6EMh6jFhMd4hky3/VA/63EgVbHnVnEiLt9FYy6j7A58=;
- b=SEd1Jf7N1LqBQxe0Xmt7Tk6Ta2zRUy8tBT8HDnKb/5GN7J5gWF3Zk5URmpmccmhiFJsU2d
- CNBU7s7xGldFzAQUobjH87GNiXKunjOXAEnWr5OhHtyxSTncFy2Hb7J1yTjDCNvqX7wP1b
- 94zFJMwgZYIH7aOABBR8uEVNpziMOx4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-620-mdTw5meaP56Fx7Kt7purqw-1; Sat, 17 Sep 2022 16:17:53 -0400
-X-MC-Unique: mdTw5meaP56Fx7Kt7purqw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B2B5A29AA389;
- Sat, 17 Sep 2022 20:17:52 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EC2FB17585;
- Sat, 17 Sep 2022 20:17:51 +0000 (UTC)
-Date: Sat, 17 Sep 2022 16:14:55 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org, pizhenwei@bytedance.com, dongli.zhang@oracle.com,
- armbru@redhat.com
-Subject: Re: [PULL 0/3] hmp queue
-Message-ID: <YyYqv9+BXicrKEMt@fedora>
-References: <20220915154606.124713-1-dgilbert@redhat.com>
+ bh=SFhR7kAt+jbcxSrK4UZahidDtoNRA4frp0eJmTuFU+k=;
+ b=LH9pRZrvnp/DLNj4PPVvjV47VbM3hS4yb8f6U/KyI0+BBsuDt0xUFd6gmknfsuh0H9ixeM
+ Ewv19iyXJHLfO79H200AYRybLZNXqVxjVS+KIGMaRaNxu94s7SH8vGSVoYqawUC/WCOdTr
+ 0+gMuF3azcz3uQovtN32nl540Bipziw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-398-oAAQ0xYJN5WnAGeeJqiDAw-1; Sat, 17 Sep 2022 16:28:22 -0400
+X-MC-Unique: oAAQ0xYJN5WnAGeeJqiDAw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ v190-20020a1cacc7000000b003b4ab30188fso1953928wme.2
+ for <qemu-devel@nongnu.org>; Sat, 17 Sep 2022 13:28:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=SFhR7kAt+jbcxSrK4UZahidDtoNRA4frp0eJmTuFU+k=;
+ b=uriKhGwLO3xEBCdIgcbTR/WkHgYOqiCHq7rq3JkYAzTR0fpVKuGGMBnX/+XifF8xft
+ vhlcT2/qN1M9QqWr0gdJW5Y2twyGdgqHfTq4LsA5JE7szt21tWsWGsLP5O79Eg6Kkdz8
+ fupJqN++C1DGww4Vt0EUGkrHb15OrvV7yb11I9LDO03u6rXpc2ZKFpQMQBhknjm5/iNA
+ curCmNDAITio1pygIySxJXZz9itoByKmmEi7uYZ7JFXalm2/OalB9OS3Wk+SGZJ7shHb
+ YvWgAiRaYtO3MrM1vd2ZfRY0UPGe6BAZPHOPDFpvMWokiWMmOD9fUxNw02B8Fsqt6ggV
+ a4fQ==
+X-Gm-Message-State: ACrzQf3lIPNvdHF5LZQtDlhxBU3AWQg3luXTmFqK3g1s3QhBSaw86LmD
+ LP0ZaCWwTjPo6vo5IM5YlBDJARl+uU3qjy5hNCD75AuOvZ42MWks3gd4B2Y0dkjfR8mueNmQshm
+ 52PodXkRu6kUz/oc=
+X-Received: by 2002:adf:db0d:0:b0:22a:eeed:5145 with SMTP id
+ s13-20020adfdb0d000000b0022aeeed5145mr2458694wri.590.1663446501198; 
+ Sat, 17 Sep 2022 13:28:21 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7dwwhvR06wf0FoZKg8HPRqg8/MTR/oNEseVreWwGDAcAg/7syUKb9h/QoKqQZcpz0zZ8TBVw==
+X-Received: by 2002:adf:db0d:0:b0:22a:eeed:5145 with SMTP id
+ s13-20020adfdb0d000000b0022aeeed5145mr2458681wri.590.1663446500959; 
+ Sat, 17 Sep 2022 13:28:20 -0700 (PDT)
+Received: from redhat.com ([2.52.4.6]) by smtp.gmail.com with ESMTPSA id
+ e1-20020adfef01000000b00226dedf1ab7sm8607303wro.76.2022.09.17.13.28.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 17 Sep 2022 13:28:20 -0700 (PDT)
+Date: Sat, 17 Sep 2022 16:28:16 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: berrange@redhat.com, imammedo@redhat.com, jsnow@redhat.com,
+ pbonzini@redhat.com, peter.maydell@linaro.org,
+ qemu-devel@nongnu.org, thuth@redhat.com
+Subject: Re: [PATCH v2 07/11] acpi/tests/bits: add python test that exercizes
+ QEMU bios tables using biosbits
+Message-ID: <20220917162606-mutt-send-email-mst@kernel.org>
+References: <20220710170014.1673480-1-ani@anisinha.ca>
+ <20220710170014.1673480-8-ani@anisinha.ca>
+ <20220714163611-mutt-send-email-mst@kernel.org>
+ <alpine.DEB.2.22.394.2207150929020.2162493@anisinha-lenovo>
+ <20220715015941-mutt-send-email-mst@kernel.org>
+ <CAARzgwwjXMmbRQ-ETPPqHP5eq5jtrGMSh2GeBh5fLS9Pcsut+A@mail.gmail.com>
+ <20220716112943-mutt-send-email-mst@kernel.org>
+ <alpine.DEB.2.22.394.2207251100590.87138@anisinha-lenovo>
+ <alpine.DEB.2.22.394.2207271137210.130455@anisinha-lenovo>
+ <CAARzgwwpy6yUJfuxxfM2vAUDqh+RyxjLqd+1xARiazqwTLbN9A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="25ZgROAgh7ZeoR9O"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220915154606.124713-1-dgilbert@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAARzgwwpy6yUJfuxxfM2vAUDqh+RyxjLqd+1xARiazqwTLbN9A@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -2
+X-Spam_score: -0.3
+X-Spam_bar: /
+X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SORTED_RECIPS=2.499, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,30 +109,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Sep 16, 2022 at 09:30:42PM +0530, Ani Sinha wrote:
+> On Thu, Jul 28, 2022 at 12:08 AM Ani Sinha <ani@anisinha.ca> wrote:
+> >
+> >
+> >
+> > On Mon, 25 Jul 2022, Ani Sinha wrote:
+> >
+> > >
+> > >
+> > > On Sat, 16 Jul 2022, Michael S. Tsirkin wrote:
+> > >
+> > > > On Sat, Jul 16, 2022 at 12:06:00PM +0530, Ani Sinha wrote:
+> > > > >
+> > > > >
+> > > > > On Fri, Jul 15, 2022 at 11:20 Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > > >
+> > > > >     On Fri, Jul 15, 2022 at 09:47:27AM +0530, Ani Sinha wrote:
+> > > > >     > > Instead of all this mess, can't we just spawn e.g. "git clone --depth
+> > > > >     1"?
+> > > > >     > > And if the directory exists I would fetch and checkout.
+> > > > >     >
+> > > > >     > There are two reasons I can think of why I do not like this idea:
+> > > > >     >
+> > > > >     > (a) a git clone of a whole directory would download all versions of the
+> > > > >     > binary whereas we want only a specific version.
+> > > > >
+> > > > >     You mention shallow clone yourself, and I used --depth 1 above.
+> > > > >
+> > > > >     > Downloading a single file
+> > > > >     > by shallow cloning or creating a git archive is overkill IMHO when a wget
+> > > > >     > style retrieval works just fine.
+> > > > >
+> > > > >     However, it does not provide for versioning, tagging etc so you have
+> > > > >     to implement your own schema.
+> > > > >
+> > > > >
+> > > > > Hmm I’m not sure if we need all that. Bits has its own versioning mechanism and
+> > > > > I think all we need to do is maintain the same versioning logic and maintain
+> > > > > binaries of different  versions. Do we really need the power of git/version
+> > > > > control here? Dunno.
+> > > >
+> > > > Well we need some schema. Given we are not using official bits releases
+> > > > I don't think we can reuse theirs.
+> > >
+> > > OK fine. Lets figuire out how to push bits somewhere in git.qemu.org and
+> > > the binaries in some other repo first. Everything else hinges on that. We
+> > > can fix the rest of the bits later incrementally.
+> >
+> > DanPB, any thoughts on putting bits on git.qemu.org or where and how to
+> > keep the binaries?
+> 
+> Can we please conclude on this?
+> Peter, can you please fork the repo? I have tried many times to reach
+> you on IRC but failed.
 
---25ZgROAgh7ZeoR9O
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Probably because of travel around KVM forum.
 
-Applied, thanks.
+I think given our CI is under pressure again due to gitlab free tier
+limits, tying binaries to CI isn't a great idea at this stage.
+Can Ani just upload binaies to qemu.org for now?
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
-
---25ZgROAgh7ZeoR9O
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMmKr4ACgkQnKSrs4Gr
-c8jyLwgAtXL0KVKgt9ny6hVjw+YkiOaYYoWTL7ZTigeWSy/o9yOYNpRvCQ+CECSU
-74OrWkKPF0SMN7bg/pTe8ezgwaDKDDwmu90+/mgmi3EGI3qlgJBzXJ9JbXgni1cM
-vUgiTGtcBDvZS2ibthnOwzbRjKTFdt7cxVQ5PJH2LyFkefHNFzTPH2ZnpS21MMpp
-WN/KhOY3b9Ys0rNPzVDSSmN6piRkB1bwUq2rZmV91rnpaNsd8maYTCEzgFebLORi
-Hn8Hu3TzDwu58KmZKQ//PvylT3A2o8atEZ+JcrEJ8wIxnzK0e0o64AgeWckqT32Y
-0BOiqyHl1D2wUEH7TwNGrT+YPI3lZQ==
-=gCL3
------END PGP SIGNATURE-----
-
---25ZgROAgh7ZeoR9O--
+-- 
+MST
 
 
