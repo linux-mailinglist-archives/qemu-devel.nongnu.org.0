@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CFA15BBA79
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 22:56:25 +0200 (CEST)
-Received: from localhost ([::1]:59470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE825BBA80
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 23:00:24 +0200 (CEST)
+Received: from localhost ([::1]:48946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZerQ-0005Ya-49
-	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 16:56:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36406)
+	id 1oZevG-0007e0-Sr
+	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 17:00:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oZeq8-00046k-Ta
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 16:55:04 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:40801)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oZetm-00066V-6V; Sat, 17 Sep 2022 16:58:50 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35360)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oZeq7-00011M-C1
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 16:55:04 -0400
-Received: by mail-ej1-x632.google.com with SMTP id l14so56530972eja.7
- for <qemu-devel@nongnu.org>; Sat, 17 Sep 2022 13:55:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oZetk-0001hz-Ja; Sat, 17 Sep 2022 16:58:49 -0400
+Received: by mail-wr1-x431.google.com with SMTP id r7so225172wrm.2;
+ Sat, 17 Sep 2022 13:58:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=A7KuXsBWHS14s3uK3ec+DPAA5QXdMBqNKEdfQuKPomI=;
- b=HEddFn5k/J/S+ixLr/rmKcRnD7mDRGOgSj7toNT8nYpFYrXMp9jeJdB+5XtRO8Q+xd
- k5N86+H112te4yICsR0iVgkQdzYy5NO6Paa0ep+ZF3wn6cgC50DEhGJK8l9HrG1K1X30
- SvioQstJXkQ6PxJIXn92GWJ3N9qvnpWGcgWLHYmhcnmYlz+Nw8WxaUqP1Vr8x2B/Vg0Q
- sTpj88BVcAOpo13mlfXaSgDGhRPd42bDrJTikbEtjgtq2y8MDSHbrVt8q0R2oojHkMGk
- ma+CCNAlFiGSz0Zq+Lzxq0dtOhs+u43AI69bufCX4re7DySiqaMtTZJGUiduB/6gbeal
- Y+zQ==
+ :sender:from:to:cc:subject:date;
+ bh=dnf4eUs3pZxk7IcwGW0mR7AHnN8n8Xj1qhIRg9s63VI=;
+ b=S80StgW0nO7cOtiId7MfDwYZKNUOAnYowuh/F7vbFsqWIEJfLWcK4kE9tCTOr03rm7
+ 2ReFpZpQ/M+LHXGbzR78y22t5tefsDOHt7IxvAkISNf8ZIRqQzWUSqHSj9BY/PrCnEnr
+ ZE79g7lOxfv4Jy0iz+YrgeRAZvrlaV6pN1MVAKCCFTeMSm7U60xTCw+WXImmSFZys0vF
+ C/aLt2/RLj5lBssqJ6OlsO5rEyqTxVFOUrg0+VNesSE4VmVsEbWfcWVfw4lnzS4OpQG6
+ GMDBsMfK3AFPrg66yIf96qW3K4q4VVaBO5Wmlaz6o0A8FGlR6AVAcgi64S3bLWLeOqtE
+ k/Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=A7KuXsBWHS14s3uK3ec+DPAA5QXdMBqNKEdfQuKPomI=;
- b=dL9whktz5gQkSfe0o4U0cKn7s7JS43IbunFAtFh0SLlLvYz2hh8T7iSL/j42bq5t7U
- pXvsukq6cWQSddXyyKL1jTHGtFyL9y1R+nQ/udzP4MHhRgwCpCqoiCGWTssH/QDt3UC2
- IPiPNalvzUiES0WE8ynG9umj9Ybxlh9Ea6BX/TJFCWt3JvRjOxYJDzqWVV7ls8Kk3w5v
- 1jUi+c0LNK3lVSzwrIVEB3JmIU738YqI6Wm4p3DEmtUgbTdesZFcxw4Ax5JfNAKDVPMl
- xSn4+QlsMi4TkTtQjc/2LYPwQxASgt6Z/a4W7Fa8y+cSIB8KNlS0eS0W/9qIgpHq7wdX
- G0uQ==
-X-Gm-Message-State: ACrzQf3+E9l1eifaebA3v8Yes3gNKe4NREbCX6g+hpyoO2BkiPUDskLy
- lpLYZox9tLYC2h+zLKilLnv3dw==
-X-Google-Smtp-Source: AMsMyM5yI4CZ2J6NXfMdjuCdSOm/EFzeDj03K9V3zTVvmT60jssdRTsNiuJAro3lSfwPEAhi4QBHvA==
-X-Received: by 2002:a17:907:783:b0:76e:f290:8b5 with SMTP id
- xd3-20020a170907078300b0076ef29008b5mr8002250ejb.395.1663448101572; 
- Sat, 17 Sep 2022 13:55:01 -0700 (PDT)
-Received: from [192.168.1.176] ([81.0.216.218])
+ :sender:x-gm-message-state:from:to:cc:subject:date;
+ bh=dnf4eUs3pZxk7IcwGW0mR7AHnN8n8Xj1qhIRg9s63VI=;
+ b=gxoBvv+OFKx7FUOZ5VmvdzByml2UXB2fZQ+Ex9S3bf41VcS+ao0+/LSQPLPEKIhedG
+ /HDCGvDfgcMgICHe22RlDPRjhbK4ezwk5hFlQTFdjeDIJ4FjDg3+RgsCoE1vS0Ikowwi
+ H6Z42aImB0bbAF31HDxOR5f1JhE0myBjpdkxuUlocNPx/mwZME0aHh+k/XpSEJmD9vDc
+ elvAHdgFQjDHKiisKmWH0S6p7wp3JkatfSLTM1xBX437SIjga/ZHJHPf8/ZPYMeA7qki
+ YKXI06k0bS7H/qxSAqFkJalqmAD3cssf7iVdInzTyC8ux72tahpyc2Ge2CUvEj21x7TG
+ YtnA==
+X-Gm-Message-State: ACrzQf1EAp2CHALYD0VgmexwFAME48gn48XnXfFV7hBr6vNozEPyRzUI
+ LMMH1XGukXXRG0ywUYRtmoo=
+X-Google-Smtp-Source: AMsMyM4TKM+3rZWRGPoqtULpVUPpMz0Q1tRR0u10zz2j95/FvtFY//9vHxqJeCONBs8dnxJc0VMGmQ==
+X-Received: by 2002:a5d:6986:0:b0:228:60f9:b013 with SMTP id
+ g6-20020a5d6986000000b0022860f9b013mr6252100wru.102.1663448326762; 
+ Sat, 17 Sep 2022 13:58:46 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- v15-20020a17090606cf00b00780a26edfcesm3072101ejb.60.2022.09.17.13.55.00
+ d5-20020adffbc5000000b00228d6bc8450sm9871486wrs.108.2022.09.17.13.58.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Sep 2022 13:55:01 -0700 (PDT)
-Message-ID: <ab521627-1d25-98d8-55d2-be7e03a813a6@linaro.org>
-Date: Sat, 17 Sep 2022 22:54:58 +0200
+ Sat, 17 Sep 2022 13:58:46 -0700 (PDT)
+Message-ID: <ab441386-9fee-1463-5c34-293160c64465@amsat.org>
+Date: Sat, 17 Sep 2022 22:58:44 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.0
 Subject: Re: [PATCH] Remove unused MAX_IDE_BUS define
 Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
  qemu-trivial@nongnu.org
-Cc: deller@gmx.de, chenhuacai@kernel.org, f4bug@amsat.org,
+Cc: richard.henderson@linaro.org, deller@gmx.de, chenhuacai@kernel.org,
  jiaxun.yang@flygoat.com, aurelien@aurel32.net, hpoussin@reactos.org,
  mark.cave-ayland@ilande.co.uk
 References: <20220917115136.A32EF746E06@zero.eik.bme.hu>
-From: Richard Henderson <richard.henderson@linaro.org>
 In-Reply-To: <20220917115136.A32EF746E06@zero.eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
 X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.529,
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.529,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,12 +93,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 9/17/22 13:51, BALATON Zoltan wrote:
+On 17/9/22 13:51, BALATON Zoltan wrote:
 > Several machines have an unused MAX_IDE_BUS define. Remove it from
 > these machines that don't need it.
 > 
-> Signed-off-by: BALATON Zoltan<balaton@eik.bme.hu>
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
 >   hw/alpha/dp264.c    | 2 --
 >   hw/hppa/machine.c   | 2 --
@@ -110,7 +110,7 @@ On 9/17/22 13:51, BALATON Zoltan wrote:
 >   hw/sparc64/sun4u.c  | 1 -
 >   6 files changed, 10 deletions(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-r~
+And queued to mips-next, thanks!
 
