@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 836F75BB8B3
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 16:12:37 +0200 (CEST)
-Received: from localhost ([::1]:36148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7F475BB8C3
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 16:29:30 +0200 (CEST)
+Received: from localhost ([::1]:42046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZYYe-0007M5-IZ
-	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 10:12:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44112)
+	id 1oZYoz-0002b5-9R
+	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 10:29:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1oZYWc-0005xc-Nl
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 10:10:30 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:41855)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oZYmo-0001Dm-IK
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 10:27:14 -0400
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:39817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1oZYWb-0007xe-8o
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 10:10:30 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- az24-20020a05600c601800b003a842e4983cso1503172wmb.0
- for <qemu-devel@nongnu.org>; Sat, 17 Sep 2022 07:10:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oZYmn-0001fJ-1H
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 10:27:14 -0400
+Received: by mail-yb1-xb31.google.com with SMTP id y82so36541579yby.6
+ for <qemu-devel@nongnu.org>; Sat, 17 Sep 2022 07:27:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=lcjxnUpUVmQOmkZcsgUphLbJJBM4vbgJ7h2Sq8m23II=;
- b=OXXx3ue9NZphA2b67zV3ukwupoqtJ4laqOoC8IT3ozmffnVN8f4XnMhYuuTZIcNuQi
- 49e/zFwhpDoJ1M6oIXcrnqZ9BuAg2LjuQ3JfipMdMMglrFrCSaTwg7Xwu4UC02OWyEuo
- tcTWdbOqJxjgfFDg3OmnKIrXwvOKIWopF9HiPlVTAnD9sy4d7LtlMdMF0f8bNRA16JBP
- kcgTdZ6iVbBzkd7wGrUe7hlOiYZfzoZFG0LIHzrFkGrWJCuQbh/aSoLw7fqUntcFwInn
- PDLUfq3FKz3R2A5QL6S9+Fn8az5Q8aRaEAb5eW+ew7gzGyJYc/unhnK+MmsqKlSAsggO
- XP3w==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=1dcAIFV+HKtJsP8PJUXR0KrclGDrkTu/daNObnT8oI0=;
+ b=GUttjybiVkofPmMKjm59bNbvAwPIJ1bYuzxd/6mFGDGNnmllzNj/HOQC54VHXMGWD4
+ 2KvrYwbv8hRixP+TvCk8Y4ORoWM3IHfCRddbZGDM7O79YJZefLo3d3HhlR5WX/Zg73ic
+ iUIQL6Hb/lLb6n3FIf/rzmZIVB402odMkxG8T70/8YB8zNvEn+wepyL+HVHHPoJ4CvzW
+ Ps2NDJEKm31gIXbqUAcTk5jdKiAMXWAi07Fy81QHuEmEiz280KxpmAG77kDiphk04clB
+ 8qOmHevTaBKVXFVnUrDRRNAekNsgbZxr9+A6nJPQv9//8hS33aC/vMxc1o6PN0wIpb4/
+ T5zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=lcjxnUpUVmQOmkZcsgUphLbJJBM4vbgJ7h2Sq8m23II=;
- b=NAv7Hrz/KRt/zW0Bdm+XElh5F3Lm6zAX0ETWSs0fZ+cYix1NOinti30uXOdYg8ZmNO
- T9lqxeXhLAM77LhMFE88qnxZwfo7idZv7tJbJXSnvgqSM8p2Z0rh34fD/osr7bHvFGx4
- ZBQceJjkwxmeXrN36wKdxOUx1nFOZgNDQhV92jiBG6ArKeHbSxkH0Fh8FIP1Gsul4RLF
- XJkpdWFwRWWnfq+DeR3y9DWFlmKe9tNXsPkvPVJZRRSjsensXftsdtLsvM2cZuYnn01b
- iLNBCOLuocI68MaWGfQ9kSfs+r/eE2Gvf8YvlwLJbE8Pd+ABxwNfLsekOtZN8kY7YO+q
- Tk/g==
-X-Gm-Message-State: ACrzQf1e3txGF5TmUipMRMObPR02sc35JtPBGRbeKYvE4j3fhZjhImfs
- AK8G94jPZnkYJ/OYUvRdddY=
-X-Google-Smtp-Source: AMsMyM6nScC06Qoi0VjL/ObkJ1SSkGmE/Pre5mx1Lk8pUrCAhDNx1jQ9TA96odOTT92OQq69vVkTKQ==
-X-Received: by 2002:a7b:ce99:0:b0:3b4:9031:fc02 with SMTP id
- q25-20020a7bce99000000b003b49031fc02mr6784027wmj.154.1663423827687; 
- Sat, 17 Sep 2022 07:10:27 -0700 (PDT)
-Received: from [192.168.33.3] ([147.235.207.82])
- by smtp.gmail.com with ESMTPSA id
- d13-20020adff2cd000000b00228dcf471e8sm8294069wrp.56.2022.09.17.07.10.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Sep 2022 07:10:26 -0700 (PDT)
-Message-ID: <ff45d4c8-1184-ed5d-c347-c65f01f051ba@gmail.com>
-Date: Sat, 17 Sep 2022 17:10:25 +0300
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=1dcAIFV+HKtJsP8PJUXR0KrclGDrkTu/daNObnT8oI0=;
+ b=DaTQtZ4K0mXhGroRAaQfXYyUvLIeu8A8+dNGxvJwfhwAIIkCVgU50INOCCsLKltx8o
+ wwEtVNksASxSu5cHPa2hqa9J84Pns9jYH66hNkHnYv4LLxWZgENLqHp3cueGm8+fTzR6
+ 2Utf7lAMOiS+4X5Y4cO/2w33p04s9j8j6VAjD+r2ib/XGCJF1HFs+ahJXwNtigEGX/1O
+ Vel3p6VEGOwbnQBib+p6Agn2wr6w1oJJZM8MrpHyQHKikG5Zc+HvqR5OmmnJneHurq54
+ RWyPvSb/I14o3IQWoVLeN51kf6wAJsBWEDwjtdviEgIGujxL0DCL0aNh7ayThQwdtS7c
+ ZiAQ==
+X-Gm-Message-State: ACrzQf1zUTNqKztzBx+QrM5Bs3gQ7LJT8Sc9py/viXrP2ILKakVu5zsY
+ ypjQdpxPqHTIABdME5GW2Ttgi4/O+0o7lvURZ8I=
+X-Google-Smtp-Source: AMsMyM4X28AA7k3cDlrK99Q1CGmnZw9ldbxAceJJKtvP647phIffwUgzzyTBPgBpclz0SL28hf4JQG6pSN3TtvjWYpw=
+X-Received: by 2002:a05:6902:44:b0:6af:f412:cfb7 with SMTP id
+ m4-20020a056902004400b006aff412cfb7mr7825154ybh.366.1663424831700; Sat, 17
+ Sep 2022 07:27:11 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH] hw/display: load the correct ROM file for isa-vga device
-To: kraxel@redhat.com
-Cc: qemu-devel@nongnu.org
-References: <20220917140650.105033-1-liavalb@gmail.com>
-Content-Language: en-US
-From: Liav Albani <liavalb@gmail.com>
-In-Reply-To: <20220917140650.105033-1-liavalb@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=liavalb@gmail.com; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20220913191321.96747-1-deller@gmx.de>
+In-Reply-To: <20220913191321.96747-1-deller@gmx.de>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Sat, 17 Sep 2022 10:26:59 -0400
+Message-ID: <CAJSP0QWfUhRVhRJ7og1ntfbrjdpcuU31xRnUNWTOBhshpP8cTQ@mail.gmail.com>
+Subject: Re: [PULL 00/12] linux-user patches
+To: Helge Deller <deller@gmx.de>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb31.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-3.529, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,46 +85,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The close_range(2) man page says:
+close_range() first appeared in Linux 5.9.  Library support was added
+in glibc in version 2.34.
 
-On 9/17/22 17:06, Liav Albani wrote:
-> Apparently we didn't load the correct ROM file when using the isa-vga
-> device, which resulted in a display waiting to be initialized by a guest
-> OS kernel. With this fix, SeaBIOS is able to print vital data to a text
-> mode console during boot, which is useful in case of failing to continue
-> booting.
->
-> Signed-off-by: Liav Albani <liavalb@gmail.com>
-> ---
->   hw/display/vga-isa.c | 2 +-
->   hw/display/vga_int.h | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/display/vga-isa.c b/hw/display/vga-isa.c
-> index 46abbc5653..bcf646d012 100644
-> --- a/hw/display/vga-isa.c
-> +++ b/hw/display/vga-isa.c
-> @@ -84,7 +84,7 @@ static void vga_isa_realizefn(DeviceState *dev, Error **errp)
->                                   VBE_DISPI_LFB_PHYSICAL_ADDRESS,
->                                   &s->vram);
->       /* ROM BIOS */
-> -    rom_add_vga(VGABIOS_FILENAME);
-> +    rom_add_vga(VGABIOS_ISAVGA_FILENAME);
->   }
->   
->   static Property vga_isa_properties[] = {
-> diff --git a/hw/display/vga_int.h b/hw/display/vga_int.h
-> index 305e700014..b5e803ac51 100644
-> --- a/hw/display/vga_int.h
-> +++ b/hw/display/vga_int.h
-> @@ -183,7 +183,7 @@ void vbe_ioport_write_data(void *opaque, uint32_t addr, uint32_t val);
->   extern const uint8_t sr_mask[8];
->   extern const uint8_t gr_mask[16];
->   
-> -#define VGABIOS_FILENAME "vgabios.bin"
-> +#define VGABIOS_ISAVGA_FILENAME "vgabios-isa.bin"
-This should be an "vgabios-isavga.bin" actually, at least this is how it 
-is named on my development machine. I'll send a v2 shortly.
->   #define VGABIOS_CIRRUS_FILENAME "vgabios-cirrus.bin"
->   
->   extern const MemoryRegionOps vga_mem_ops;
+The qemu-user GitLab CI jobs are failing. For example, see
+https://gitlab.com/qemu-project/qemu/-/jobs/3043629417:
+
+../linux-user/syscall.c:8734:26: error: implicit declaration of
+function 'close_range' is invalid in C99
+[-Werror,-Wimplicit-function-declaration]
+return get_errno(close_range(arg1, arg2, arg3));
+                           ^
+
+There is a second issue with this pull request:
+../linux-user/syscall.c:357:16: error: =E2=80=98pidfd_getfd=E2=80=99 define=
+d but not
+used [-Werror=3Dunused-function]
+357 | _syscall3(int, pidfd_getfd, int, pidfd, int, targetfd, unsigned
+int, flags);
+       | ^~~~~~~~~~~
+../linux-user/syscall.c:251:13: note: in definition of macro =E2=80=98_sysc=
+all3=E2=80=99
+
+See https://gitlab.com/qemu-project/qemu/-/jobs/3043629434.
+
+Stefan
 
