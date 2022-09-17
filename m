@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 113585BB7EE
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 12:58:15 +0200 (CEST)
-Received: from localhost ([::1]:39440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE5B5BB7FD
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 13:28:01 +0200 (CEST)
+Received: from localhost ([::1]:38762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZVWX-0005ky-MD
-	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 06:58:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55932)
+	id 1oZVzL-000097-C9
+	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 07:27:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huqi@loongson.cn>) id 1oZVVD-00040p-JK
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 06:56:51 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:44742 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huqi@loongson.cn>) id 1oZVVA-0001XZ-UR
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 06:56:51 -0400
-Received: from [10.90.50.23] (unknown [10.90.50.23])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8AxFeLppyVj+iUcAA--.42499S3; 
- Sat, 17 Sep 2022 18:56:42 +0800 (CST)
-Message-ID: <9855c666-ed0c-52ca-d71b-60e23468161f@loongson.cn>
-Date: Sat, 17 Sep 2022 18:56:41 +0800
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oZVww-0005ke-Sx
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 07:25:30 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:47124)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oZVwv-0006jV-6n
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 07:25:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=a/ICVVOnEb8ACahFrRs1bCh3N9zvNBD1WQUnoRcvJIk=; b=DcC1HydXkyYVam61KXE+Dwnke1
+ G+MBLpKv0uE1SYq+4rGGnzhYfXBtn66yK04Vtu21gmHIo2EXoaJPkQRYeTKaruMRTApBOgjyKsI8y
+ zK8J9pM28E/aNce2FwJqXQ9oNBiW2dZtYE3J6ymrB2mX9EkDJSNauowUJZZwm0eUTkfMnLevjyjHT
+ Yao3NmQYGQXgHqGamPGCy618oASZodDRLNGGm5mj2a6GrR5auF4i/jCjUZvna4XbX5zKqzc7oZxqs
+ c3yCoE3qn4lc7Cm81L8eipgEHEYdXca3GzuzHgxLeWjghxiol6mbANXfeliUdWOF0RL8mGsDLCqer
+ qzf4THyru/9GxzfKTj+q07yjMVXgyAJ6fFDRBtmgQVeAYL0fGy4q7n7UPZZ6wtHiW273PCtcRnxL4
+ Wz5CZHLb3ufMdsh07eIMOc/CtZ+X5qafBqI4xYmvkgvOW349Yec59h0Ce0h9CEasAo40ZRGuyZyTH
+ 7PvzUElZT5J/0I5yFW5Su1Mp0IdC1LGYYPyb7dYrHkSpmeio2fm6Y+ChynMt/qlem+UW5hzoMWj7b
+ SiJti+JC4TsWzQgslM/UjCgCUBA5uyS9BaPQ+dkvDbYzqbMHDS14Cj5LGSuj8CPs1EEXPbJ9pLbtq
+ dK3dvw5n4/SEdich55L+e+bEV9rH2zryv7eK4JCu0=;
+Received: from [2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915] (helo=kentang.home)
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oZVvA-000C7q-DP; Sat, 17 Sep 2022 12:23:44 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: laurent@vivier.eu, richard.henderson@linaro.org, lucienmp.qemu@gmail.com,
+ qemu-devel@nongnu.org
+Date: Sat, 17 Sep 2022 12:25:11 +0100
+Message-Id: <20220917112515.83905-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 2/5] target/loongarch: bstrins.w need set dest register
- EXT_SIGN
-Content-Language: en-US
-To: gaosong <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <20220917075950.1412309-1-gaosong@loongson.cn>
- <20220917075950.1412309-3-gaosong@loongson.cn>
- <6efecbd9-1a88-a5a4-bcb0-9080d710849c@loongson.cn>
- <8e58793b-4683-d026-58e1-fc3db9bf7a8a@loongson.cn>
-From: Qi Hu <huqi@loongson.cn>
-In-Reply-To: <8e58793b-4683-d026-58e1-fc3db9bf7a8a@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8AxFeLppyVj+iUcAA--.42499S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7uw4UGw13ur1xWFyrCw47XFb_yoW8Zw4DpF
- 18CFyUGrWUXr97Zr97Za1qqFy7Jrs7Kw47Wr4I9a4fC3y7Xr10gr4jq39Igr1jyrs7Wr4k
- AF4ru3yq9a15J3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvYb7Iv0xC_tr1lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
- A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xII
- jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
- C2z280aVCY1x0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
- F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
- 4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487
- MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
- 02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_
- JF1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
- CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
- 6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07
- jY6wZUUUUU=
-X-CM-SenderInfo: pkxtxqxorr0wxvrqhubq/1tbiAQAMCWMkZ1wJygAKsx
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=huqi@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.529,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PATCH 0/4] target/m68k: MacOS supervisor/user mode switch fixes
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,53 +75,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This series fixes a couple of bugs that were discovered when trying to boot
+MacOS on my github q800 branch with virtual memory enabled.
 
-On 2022/9/17 17:16, gaosong wrote:
->
-> 在 2022/9/17 下午4:41, Qi Hu 写道:
->>
->> On 2022/9/17 15:59, Song Gao wrote:
->>> Signed-off-by: Song Gao <gaosong@loongson.cn>
->>> ---
->>>   target/loongarch/insn_trans/trans_bit.c.inc | 4 ++--
->>>   1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/target/loongarch/insn_trans/trans_bit.c.inc 
->>> b/target/loongarch/insn_trans/trans_bit.c.inc
->>> index 9337714ec4..33e94878fd 100644
->>> --- a/target/loongarch/insn_trans/trans_bit.c.inc
->>> +++ b/target/loongarch/insn_trans/trans_bit.c.inc
->>> @@ -37,7 +37,7 @@ static bool gen_rr_ms_ls(DisasContext *ctx, 
->>> arg_rr_ms_ls *a,
->>>                            DisasExtend src_ext, DisasExtend dst_ext,
->>>                            void (*func)(TCGv, TCGv, unsigned int, 
->>> unsigned int))
->>>   {
->>> -    TCGv dest = gpr_dst(ctx, a->rd, dst_ext);
->>> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
->> I think this may not be correct. Maybe the code was used for 
->> debugging but forgot to modify?
-> We just need EXT_SIGN  the result.
+Patch 1 renames M68K_FEATURE_M68000 to M68K_FEATURE_M68K in order to clarify
+that this feature indicates any Motorola 68K CPU rather than the 68000
+specifically [1].
 
-Got it. Thanks.
+Patch 2 increases the size of the M68K features bitmap since there are already
+32 features present, and we need to add one more.
 
-Qi
+Patch 3 fixes up the MOVE-from-SR instruction which is privileged from the
+68010 CPU onwards to use a newly introduced M68K_FEATURE_MOVEFROMSR_PRIV
+feature [2].
 
->>>       TCGv src1 = gpr_src(ctx, a->rj, src_ext);
->>>         if (a->ls > a->ms) {
->>> @@ -206,7 +206,7 @@ TRANS(maskeqz, gen_rrr, EXT_NONE, EXT_NONE, 
->>> EXT_NONE, gen_maskeqz)
->>>   TRANS(masknez, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, gen_masknez)
->>>   TRANS(bytepick_w, gen_rrr_sa, EXT_NONE, EXT_NONE, gen_bytepick_w)
->>>   TRANS(bytepick_d, gen_rrr_sa, EXT_NONE, EXT_NONE, gen_bytepick_d)
->>> -TRANS(bstrins_w, gen_rr_ms_ls, EXT_NONE, EXT_NONE, gen_bstrins)
->>> +TRANS(bstrins_w, gen_rr_ms_ls, EXT_NONE, EXT_SIGN, gen_bstrins)
->>>   TRANS(bstrins_d, gen_rr_ms_ls, EXT_NONE, EXT_NONE, gen_bstrins)
->>>   TRANS(bstrpick_w, gen_rr_ms_ls, EXT_NONE, EXT_SIGN, 
->>> tcg_gen_extract_tl)
->>>   TRANS(bstrpick_d, gen_rr_ms_ls, EXT_NONE, EXT_NONE, 
->>> tcg_gen_extract_tl)
->>
->
+Patch 4 ensures that we always call gen_exit_tb() after writes to the SR
+register since any change of the S bit can change the security context.
+
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+
+Notes:
+
+[1] The m68k code currently contains a mix of real CPU features and pseudo
+    features that represent each 680X0 CPU. In general QEMU maps features to
+    CPUs which is why I've introduced the new M68K_FEATURE_MOVEFROMSR_PRIV
+    feature, but there are still checks for specific 680X0 CPU models. This
+    could do with a tidy-up, but without a specific set of test images across
+    68K and Coldfire I don't feel I'm confident enough to do this.
+    
+[2] The existing code in MOVE-from-SR uses !m68k_feature(env, M68K_FEATURE_M68000)
+    to suggest that the condition should match for any CPU that isn't a 68000 (i.e.
+    68010 and later) but as we see from this series, this is not the case according
+    to the code. Some of the Mac 68K folk have suggested there are likely other
+    cases in target/m68k where the same assumption has been used and the check
+    logic is incorrect, but again without specific examples it's difficult for me to
+    test.
+
+
+Mark Cave-Ayland (4):
+  target/m68k: rename M68K_FEATURE_M68000 to M68K_FEATURE_M68K
+  target/m68k: increase size of m68k CPU features from uint32_t to
+    uint64_t
+  target/m68k: use M68K_FEATURE_MOVEFROMSR_PRIV feature for move_from_sr
+    privilege check
+  target/m68k: always call gen_exit_tb() after writes to SR
+
+ target/m68k/cpu.c       |  11 +++-
+ target/m68k/cpu.h       |  13 ++--
+ target/m68k/helper.c    |   2 +-
+ target/m68k/op_helper.c |   2 +-
+ target/m68k/translate.c | 142 +++++++++++++++++++++-------------------
+ 5 files changed, 91 insertions(+), 79 deletions(-)
+
+-- 
+2.30.2
 
 
