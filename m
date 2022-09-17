@@ -2,65 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 557B55BB801
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 13:34:38 +0200 (CEST)
-Received: from localhost ([::1]:48826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C44965BB807
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 13:53:52 +0200 (CEST)
+Received: from localhost ([::1]:48958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZW5l-000596-CM
-	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 07:34:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38560)
+	id 1oZWON-0000wO-A5
+	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 07:53:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oZVxB-00064h-C0
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 07:25:45 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:47162)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oZWMJ-0007kR-Dr; Sat, 17 Sep 2022 07:51:43 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:29948)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oZVx9-0006tc-Q2
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 07:25:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
- Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=NW4O2OYXHBJjZEKEQraf4GMwlYM5sfANUODCuhXnzvw=; b=hoqAXSu5oVY3Di3gyGnFGyvdI+
- TAMw3aO51K8ZfjNW1woma6GuarPwNuh32hWfEMba25K5fxvdIkpHd9orrW6qlWkJMT4Mz+v0fe4aw
- SsE1+w52IEYgymWBXYy9SFHn1Y5TSGIYwnVtni44dlLaNmq7gwiLSNmEL0JOLtWlyO2EDjj4GFI1g
- AkmeUua50h4yVqgYCLhxZLMvCUkt6FnUWBwi678f60F8qNnwRNi3qdhy6HSaJU1UjKmPI7+1DNG2/
- h8K9+LsdLG16VM+OtkGAQfzzKrB3UuZ6VnIAw1fFwUNrOcn+EvYhqH0cSqAEWqFZXccw3PrvBAPqx
- XjDcJtAErhxduBvl9pOShuKK5a+lXgMr0yUulBxwJIgp5XgUe3YrDcVfsjHzndx4gHwPhllFZk7I+
- emhtX7W8aFjugA6ZuQnEmn7G62+29apNlunLjSRBNCrRv3drpj7KT0uDFDTiy62WJAdi4yxHvWmRc
- xVIaJNXyq2x9Vg7LAx8+xqqm+jBfEnyHk6++oF58Lk5nWiIRvyhKAdmhu1Xk4vfbLgxF7g/o4z81q
- eMw8Tb8KJEcNWJF7woHNYRrqpytLXVq/T5CIzZtFFO4Ls4ZpvTQ5EyXxTb6z7TWqeEKNL1i/2CnRR
- Zchot2UCAsHWv8bKrg/D+7lLUBqTGUssi3WTDALF0=;
-Received: from [2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915] (helo=kentang.home)
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oZVvR-000C7q-Bm; Sat, 17 Sep 2022 12:24:01 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: laurent@vivier.eu, richard.henderson@linaro.org, lucienmp.qemu@gmail.com,
- qemu-devel@nongnu.org
-Date: Sat, 17 Sep 2022 12:25:15 +0100
-Message-Id: <20220917112515.83905-5-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220917112515.83905-1-mark.cave-ayland@ilande.co.uk>
-References: <20220917112515.83905-1-mark.cave-ayland@ilande.co.uk>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 4/4] target/m68k: always call gen_exit_tb() after writes to SR
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oZWMG-0001rS-O9; Sat, 17 Sep 2022 07:51:42 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id DA8ED759B50;
+ Sat, 17 Sep 2022 13:51:36 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id A32EF746E06; Sat, 17 Sep 2022 13:51:36 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH] Remove unused MAX_IDE_BUS define
+To: qemu-devel@nongnu.org,
+    qemu-trivial@nongnu.org
+Cc: richard.henderson@linaro.org, deller@gmx.de, chenhuacai@kernel.org,
+ f4bug@amsat.org, 
+ jiaxun.yang@flygoat.com,aurelien@aurel32.net,hpoussin@reactos.org,
+ mark.cave-ayland@ilande.co.uk
+Message-Id: <20220917115136.A32EF746E06@zero.eik.bme.hu>
+Date: Sat, 17 Sep 2022 13:51:36 +0200 (CEST)
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,52 +55,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Any write to SR can change the security state so always call gen_exit_tb() when
-this occurs. In particular MacOS makes use of andiw/oriw in a few places to
-handle the switch between user and supervisor mode.
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Several machines have an unused MAX_IDE_BUS define. Remove it from
+these machines that don't need it.
+
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- target/m68k/translate.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/alpha/dp264.c    | 2 --
+ hw/hppa/machine.c   | 2 --
+ hw/mips/fuloong2e.c | 1 -
+ hw/mips/malta.c     | 2 --
+ hw/ppc/prep.c       | 2 --
+ hw/sparc64/sun4u.c  | 1 -
+ 6 files changed, 10 deletions(-)
 
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index be5561e1e9..892473d01f 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -2373,6 +2373,7 @@ DISAS_INSN(arith_im)
-         tcg_gen_or_i32(dest, src1, im);
-         if (with_SR) {
-             gen_set_sr(s, dest, opsize == OS_BYTE);
-+            gen_exit_tb(s);
-         } else {
-             DEST_EA(env, insn, opsize, dest, &addr);
-             gen_logic_cc(s, dest, opsize);
-@@ -2382,6 +2383,7 @@ DISAS_INSN(arith_im)
-         tcg_gen_and_i32(dest, src1, im);
-         if (with_SR) {
-             gen_set_sr(s, dest, opsize == OS_BYTE);
-+            gen_exit_tb(s);
-         } else {
-             DEST_EA(env, insn, opsize, dest, &addr);
-             gen_logic_cc(s, dest, opsize);
-@@ -2405,6 +2407,7 @@ DISAS_INSN(arith_im)
-         tcg_gen_xor_i32(dest, src1, im);
-         if (with_SR) {
-             gen_set_sr(s, dest, opsize == OS_BYTE);
-+            gen_exit_tb(s);
-         } else {
-             DEST_EA(env, insn, opsize, dest, &addr);
-             gen_logic_cc(s, dest, opsize);
-@@ -4592,6 +4595,7 @@ DISAS_INSN(strldsr)
-     }
-     gen_push(s, gen_get_sr(s));
-     gen_set_sr_im(s, ext, 0);
-+    gen_exit_tb(s);
- }
+diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
+index f4349eba83..c502c8c62a 100644
+--- a/hw/alpha/dp264.c
++++ b/hw/alpha/dp264.c
+@@ -20,8 +20,6 @@
+ #include "qemu/datadir.h"
+ #include "net/net.h"
  
- DISAS_INSN(move_from_sr)
+-#define MAX_IDE_BUS 2
+-
+ static uint64_t cpu_alpha_superpage_to_phys(void *opaque, uint64_t addr)
+ {
+     if (((addr >> 41) & 3) == 2) {
+diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+index e53d5f0fa7..355b3aac2e 100644
+--- a/hw/hppa/machine.c
++++ b/hw/hppa/machine.c
+@@ -30,8 +30,6 @@
+ #include "qemu/log.h"
+ #include "net/net.h"
+ 
+-#define MAX_IDE_BUS 2
+-
+ #define MIN_SEABIOS_HPPA_VERSION 6 /* require at least this fw version */
+ 
+ #define HPA_POWER_BUTTON (FIRMWARE_END - 0x10)
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index 5ee546f5f6..8c747ac1a0 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -49,7 +49,6 @@
+ 
+ /* Fuloong 2e has a 512k flash: Winbond W39L040AP70Z */
+ #define BIOS_SIZE               (512 * KiB)
+-#define MAX_IDE_BUS             2
+ 
+ /*
+  * PMON is not part of qemu and released with BSD license, anyone
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index 0e932988e0..5099ed9592 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -69,8 +69,6 @@
+ 
+ #define FLASH_SIZE          0x400000
+ 
+-#define MAX_IDE_BUS         2
+-
+ typedef struct {
+     MemoryRegion iomem;
+     MemoryRegion iomem_lo; /* 0 - 0x900 */
+diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
+index f08714f2ec..fcbe4c5837 100644
+--- a/hw/ppc/prep.c
++++ b/hw/ppc/prep.c
+@@ -50,8 +50,6 @@
+ /* SMP is not enabled, for now */
+ #define MAX_CPUS 1
+ 
+-#define MAX_IDE_BUS 2
+-
+ #define CFG_ADDR 0xf0000510
+ 
+ #define KERNEL_LOAD_ADDR 0x01000000
+diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+index 0e27715ac4..387181ff77 100644
+--- a/hw/sparc64/sun4u.c
++++ b/hw/sparc64/sun4u.c
+@@ -66,7 +66,6 @@
+ #define PBM_PCI_IO_BASE      (PBM_SPECIAL_BASE + 0x02000000ULL)
+ #define PROM_FILENAME        "openbios-sparc64"
+ #define NVRAM_SIZE           0x2000
+-#define MAX_IDE_BUS          2
+ #define BIOS_CFG_IOPORT      0x510
+ #define FW_CFG_SPARC64_WIDTH (FW_CFG_ARCH_LOCAL + 0x00)
+ #define FW_CFG_SPARC64_HEIGHT (FW_CFG_ARCH_LOCAL + 0x01)
 -- 
-2.30.2
+2.30.4
 
 
