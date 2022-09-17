@@ -2,60 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C0E5BB507
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 02:31:09 +0200 (CEST)
-Received: from localhost ([::1]:38440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 913625BB503
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 02:29:30 +0200 (CEST)
+Received: from localhost ([::1]:49184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZLjf-0001ce-JH
-	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 20:31:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52440)
+	id 1oZLi5-0008Rg-Dd
+	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 20:29:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1oZLgF-0005mg-BV
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 20:27:35 -0400
-Received: from mga17.intel.com ([192.55.52.151]:23538)
+ id 1oZLgC-0005l6-NM
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 20:27:33 -0400
+Received: from mga17.intel.com ([192.55.52.151]:23527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1oZLgC-0000kB-Fw
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 20:27:35 -0400
+ id 1oZLgB-0000iY-4u
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 20:27:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663374452; x=1694910452;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=YjTlBqKyeKQ6a1J8XTBVrW5A7/E2t8WV2eCMe+aFiiI=;
- b=ENsG7o3EGbFEPqtBOPGxO1fmRxG9ZmJMSLqmEjOOHvFvw2VHvFtkYSSB
- uvvGr6sCXk99SzjANgoJnZU6L18mtiga1GegNzapRptFJ8KS7P0kjHOeg
- FQK8odlKZ84O50H8BPrSTk663yPdu8LThnp1hNdMQaVJlJA4EgLGtMsQD
- v9Y+ZiwGuewB9JVJNXZDxUZ06G+vwGWexYN4nhc/YSjCceuW8wyPjrnT0
- AGVNadAjUmXJuuDsREeJ9zROYSNvzXsR9Z4eUk8aI1/BEpYvzSuTYS786
- wskQYD1O7C+k67Qo5bpUQR0W+g4a0326eOzA9PBoqVMT51/HuTqtzJhmi g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10472"; a="279489393"
-X-IronPort-AV: E=Sophos;i="5.93,321,1654585200"; d="scan'208";a="279489393"
+ t=1663374451; x=1694910451;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=tyQ9swSZYvERopPc45XEuZ3lVkPVWxE8P613hgl7eIA=;
+ b=fhnf/GlNWkTk9nPem6ehWLlrS53S9a4rHeAw7VH9MrJedUzfTVXXTDNU
+ 644H9w/sTTD0qSHb6NoQ3ABW/gwvbSsWYuUptywS0BI6qv1+UJWOMamoA
+ dSo0JCXGAwwfvfL/BTGF6OEO5tkAV6sj3dZesWYPB+ZqWJ+lV7V9r9s74
+ gTWzmDIt9R5XMka5BoHEtZeGzQsqdLlEBmMRqz9FDFJZPQ/hxF0fMSBUu
+ jbWpF/touPSnqRBBrM8+DoQy8neOLECEpKy+3H0XWvbcGpnd3dG6kQ1Z9
+ oOeN9TARzvW3wVIHltIZiHSdvWDqij6OFCTi3tuuj1+fSe3JhJoxzLUa+ w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10472"; a="279489394"
+X-IronPort-AV: E=Sophos;i="5.93,321,1654585200"; d="scan'208";a="279489394"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  16 Sep 2022 17:27:20 -0700
-X-IronPort-AV: E=Sophos;i="5.93,321,1654585200"; d="scan'208";a="760235119"
+X-IronPort-AV: E=Sophos;i="5.93,321,1654585200"; d="scan'208";a="760235121"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  16 Sep 2022 17:27:20 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: qemu-devel@nongnu.org
 Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Dongwon Kim <dongwon.kim@intel.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v1 0/3] ui/gtk: Add a new parameter to assign
- connectors/monitors to Guests' windows
-Date: Fri, 16 Sep 2022 17:07:28 -0700
-Message-Id: <20220917000731.465003-1-vivek.kasireddy@intel.com>
+ Gerd Hoffmann <kraxel@redhat.com>, Dongwon Kim <dongwon.kim@intel.com>
+Subject: [PATCH v1 1/3] ui/gtk: Disable the scanout when a detached tab is
+ closed
+Date: Fri, 16 Sep 2022 17:07:29 -0700
+Message-Id: <20220917000731.465003-2-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20220917000731.465003-1-vivek.kasireddy@intel.com>
+References: <20220917000731.465003-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=192.55.52.151;
  envelope-from=vivek.kasireddy@intel.com; helo=mga17.intel.com
@@ -81,55 +77,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is a need (expressed by several customers/users) to assign
-ownership of one or more physical monitors/connectors to individual
-Guests such that there is a clear notion of which Guest's contents
-are being displayed on any given monitor. Given that there is always
-a Display Server/Compositor running on the Host, monitor ownership
-can never truly be transferred to Guests. However, the closest we
-can come to realizing this concept is to request the Host compositor
-to fullscreen the Guest's windows on individual monitors. This way,
-it would become possible to have 4 different Guests' windows be
-displayed on 4 different monitors or a single Guest's windows (or
-virtual consoles/outputs) be displayed on 4 monitors or any such
-combination.
+When a detached tab window is closed, the underlying (EGL) context
+is destroyed; therefore, disable the scanout which also destroys the
+underlying framebuffer (id) and other objects. Also add calls to
+make the context current in disable scanout and other missing places.
 
-This patch series attempts to accomplish this by introducing a new
-parameter named "connector" to assign the monitors to the GFX VCs
-associated with a Guest. If the assigned monitor is not connected,
-then the Guest's window would not be displayed anywhere similar to
-how a Host compositor would behave when the connectors are not
-connected. Once the monitor is hotplugged, the Guest's window(s)
-would be fullscreened on the assigned monitor. The first patch is
-just a bug fix to destroy context related objects when an associated
-window is destroyed. The second patch is a minor refactor and the
-third and last patch introduces the new parameter. This patch series
-is expected to supersede a similar series from Dongwon Kim here:
-https://lists.nongnu.org/archive/html/qemu-devel/2022-07/msg03214.html
-
-Example Usage: -device virtio-gpu-pci,max_outputs=2,blob=true......
-               -display gtk,gl=on,connector.0=eDP-1,connector.1=DP-1.....
-
-Cc: Dongwon Kim <dongwon.kim@intel.com>
 Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Daniel P. Berrangé <berrange@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>
+Cc: Dongwon Kim <dongwon.kim@intel.com>
+Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+---
+ ui/gtk-egl.c     | 2 ++
+ ui/gtk-gl-area.c | 2 ++
+ ui/gtk.c         | 1 +
+ 3 files changed, 5 insertions(+)
 
-Vivek Kasireddy (3):
-  ui/gtk: Disable the scanout when a detached tab is closed
-  ui/gtk: Factor out tab window creation into a separate function
-  ui/gtk: Add a new parameter to assign connectors/monitors to GFX VCs
-
- qapi/ui.json     |   9 +-
- qemu-options.hx  |   1 +
- ui/gtk-egl.c     |   2 +
- ui/gtk-gl-area.c |   2 +
- ui/gtk.c         | 220 ++++++++++++++++++++++++++++++++++++++++++-----
- 5 files changed, 211 insertions(+), 23 deletions(-)
-
+diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
+index b5bffbab25..0f9ef11f4c 100644
+--- a/ui/gtk-egl.c
++++ b/ui/gtk-egl.c
+@@ -211,6 +211,8 @@ void gd_egl_scanout_disable(DisplayChangeListener *dcl)
+ {
+     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
+ 
++    eglMakeCurrent(qemu_egl_display, vc->gfx.esurface,
++                   vc->gfx.esurface, vc->gfx.ectx);
+     vc->gfx.w = 0;
+     vc->gfx.h = 0;
+     gtk_egl_set_scanout_mode(vc, false);
+diff --git a/ui/gtk-gl-area.c b/ui/gtk-gl-area.c
+index 682638a197..0b9fd4713a 100644
+--- a/ui/gtk-gl-area.c
++++ b/ui/gtk-gl-area.c
+@@ -270,6 +270,7 @@ void gd_gl_area_scanout_disable(DisplayChangeListener *dcl)
+ {
+     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
+ 
++    gtk_gl_area_make_current(GTK_GL_AREA(vc->gfx.drawing_area));
+     gtk_gl_area_set_scanout_mode(vc, false);
+ }
+ 
+@@ -278,6 +279,7 @@ void gd_gl_area_scanout_flush(DisplayChangeListener *dcl,
+ {
+     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
+ 
++    gtk_gl_area_make_current(GTK_GL_AREA(vc->gfx.drawing_area));
+     if (vc->gfx.guest_fb.dmabuf) {
+         graphic_hw_gl_block(vc->gfx.dcl.con, true);
+         vc->gfx.guest_fb.dmabuf->draw_submitted = true;
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 1467b8c7d7..0ff31cb852 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -1302,6 +1302,7 @@ static gboolean gd_tab_window_close(GtkWidget *widget, GdkEvent *event,
+     VirtualConsole *vc = opaque;
+     GtkDisplayState *s = vc->s;
+ 
++    dpy_gl_scanout_disable(vc->gfx.dcl.con);
+     gtk_widget_set_sensitive(vc->menu_item, true);
+     gd_widget_reparent(vc->window, s->notebook, vc->tab_item);
+     gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(s->notebook),
 -- 
 2.37.2
 
