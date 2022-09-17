@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 176D95BBAAE
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 23:33:54 +0200 (CEST)
-Received: from localhost ([::1]:37080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2FCC5BBAAF
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 23:34:22 +0200 (CEST)
+Received: from localhost ([::1]:41222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZfRg-0006R6-M3
-	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 17:33:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51362)
+	id 1oZfS9-0007F5-Ky
+	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 17:34:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZfPB-0004EV-L9
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 17:31:27 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39810)
+ id 1oZfQA-0004vO-4L; Sat, 17 Sep 2022 17:32:18 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:36662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZfP9-00079e-O9
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 17:31:17 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id cc5so31527120wrb.6
- for <qemu-devel@nongnu.org>; Sat, 17 Sep 2022 14:31:15 -0700 (PDT)
+ id 1oZfQ8-0007F4-FS; Sat, 17 Sep 2022 17:32:17 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ i203-20020a1c3bd4000000b003b3df9a5ecbso2064823wma.1; 
+ Sat, 17 Sep 2022 14:32:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=sJ61KkIWlKXRfDDMDiElHv0CKEumzLxIW0TH9C0JbIc=;
- b=HXPw9xXqbwp8Qg5KDuQ1slKMC6pLumpDagVdZcwO6kOZC8EireZa0zBpUF2iBuVY/h
- UgOgN2+XV0T6fdTXsY1KbVB7fuY7XDidifyvgJ8p3dd1oK2a/Ex92PbHBwDdHniu1F41
- yo3LnlnEYtNVVOrpPMRQaTU7UK6mI4Mm8Jvjxlc255AZBHVSQT70NQf755bE/W6zxlbv
- VX3vX6W+OoIyXO7TGeiikXP27G6PHHmTwMjyrad67rAke4RB8idlPgQexBmdoHm/xwxH
- ZtLFUolHG7D3sBNR0hPOa9o1UIWZJwqWxC9ADNh9Q0cyb0MRm+HjXXuFjcG63fFevSvU
- F1IA==
+ bh=ZDz5x6v86/IT1mhHgdi2sdOREQHVdgYRmQScrEAWs64=;
+ b=OXkttZVAJl47cqTc2JbZOV7/pilkFPKiF9vUAGwiUcrF5gg/XeTUk+ynT4po0s+uLV
+ iMt9QuWhYNkI9kTyru0yyJF+Aa24uQINRur2N/ziiwMZwEsYocxzgCTP4Y7HCtGreIV1
+ xzoxvDdAvEwHt2n4fg3EjTdUgCKR+iupqvgqYlbc0dC+whGBJ1Yc8Te6QWgBXD7tybpg
+ bKk6Jpm11j9kUJF29WtMCjuIRQNQ8u9/WZK8+wn7SNiMpbW0gUwQy9LpviSgxT8lscp3
+ lQwTIodZBCdGthiy8dxxh6BMXDLweEcs9LXN20xXL5d/jm+fWOiJTrgJ/KZfdZAnQCUN
+ 6olQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=sJ61KkIWlKXRfDDMDiElHv0CKEumzLxIW0TH9C0JbIc=;
- b=cm9dXAtMRJSlWm/zgPJt35SuOg7JfeF92Omz8Q3iXTdb1SaWGgySvovjAkV0wP8OvI
- RyOcq0j3wLBjEbB5TYgsNftIP/O3nAV+hUeEnyoPoJ/t948FlWOdejT58QhM9REuUqLu
- /qhlnHxeSW7YbTXExMhxGXl2VYFofDFpIk6AXLC5k6sjTvlTerUMUUcrrRzeInRh2zRl
- ZvPUGa5zz76ymY8tM92bv62vpNWasEgTlL2mlCT34CoyzH44apOwOMxz1dvrHC4EGzdW
- FfYdJIhJhXBZ0G/aBeLEUANiHE57UMyByah1I+PlzB0IV4lRVqfaO2h2QK5/vI3L9RXc
- A0yw==
-X-Gm-Message-State: ACrzQf1L/z4PGUTwpTBQjsvVGJGpw97U/DOsmal7FPXu44FH8yN9h6Sr
- YB+xjs4N3jF+H1KwxofInac=
-X-Google-Smtp-Source: AMsMyM4xT8jF0q01l+pyKqOeXKlwtqn0Obn/pKeXhTD9eS/t6o185gkmqN00LmNfiIXBS8YITU7tnQ==
-X-Received: by 2002:a05:6000:18a1:b0:22a:f4c2:c9d3 with SMTP id
- b1-20020a05600018a100b0022af4c2c9d3mr1701627wri.92.1663450274170; 
- Sat, 17 Sep 2022 14:31:14 -0700 (PDT)
+ bh=ZDz5x6v86/IT1mhHgdi2sdOREQHVdgYRmQScrEAWs64=;
+ b=plHMaG0iCiawdhhQwu85pD/9l0doBnlnb2fhcjOn656oLY+X33SA0GloYo2yzOttgo
+ C1SkxI2jg5C+7sY9ioGpH/GMbnMPnKYpcKouO9ESQsRm3uo3DTzsIsxraAoQKzZ8gQli
+ F23Q3FO7IL5UbfS31eVulsd+dNiyh0MNioCsLXsJAcB/Hx4M7+fbx5nHzXjRSE/A/nlx
+ QV+wjK5OKtaTqU1GkJcrk+7CmGXw9tMZIH6pTUouotNT1ZWOESsXdNAIsyZYJL0tDw4A
+ fAF4FXzjBiF+eEtNo7M5jSRDZA3Xu86uwpvwUc3JFAxkjITrkQc9Ib8dSOE1mGTUYwwL
+ 3uWw==
+X-Gm-Message-State: ACrzQf2D+KBhldlFevwmV4aT1UnDKHAOsWquuMWLHtgCep7AskyhkcTi
+ Y50feSDfLI0QjlSJBSK7BmE=
+X-Google-Smtp-Source: AMsMyM6JApsCnTs8SZKdMtaxJv9i1sGj1MqxoIgmxvBXkwIBH0Ubp37C2CP/JMJw0bxXKTAmzIFhpA==
+X-Received: by 2002:a05:600c:5486:b0:3b4:7e47:e19 with SMTP id
+ iv6-20020a05600c548600b003b47e470e19mr7589621wmb.12.1663450334675; 
+ Sat, 17 Sep 2022 14:32:14 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- o2-20020a05600c510200b003a5b6086381sm7539198wms.48.2022.09.17.14.31.12
+ t12-20020a05600c128c00b003b4931eb435sm6923983wmd.26.2022.09.17.14.32.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Sep 2022 14:31:13 -0700 (PDT)
-Message-ID: <0fdefda1-92b0-cbf9-049b-1a4bd4ff2de4@amsat.org>
-Date: Sat, 17 Sep 2022 23:31:11 +0200
+ Sat, 17 Sep 2022 14:32:14 -0700 (PDT)
+Message-ID: <f3447651-dadb-c0ed-f1f8-4ad80b551acf@amsat.org>
+Date: Sat, 17 Sep 2022 23:32:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH 7/7] .gitlab-ci.d/windows.yml: Test 'make installer' in
- the CI
+Subject: Re: [PATCH 5/7] block/nfs: Fix 32-bit Windows build
 Content-Language: en-US
 To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Beraldo Leal <bleal@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Peter Lieven <pl@kamp.de>,
+ qemu-block@nongnu.org
 References: <20220908132817.1831008-1-bmeng.cn@gmail.com>
- <20220908132817.1831008-8-bmeng.cn@gmail.com>
-In-Reply-To: <20220908132817.1831008-8-bmeng.cn@gmail.com>
+ <20220908132817.1831008-6-bmeng.cn@gmail.com>
+In-Reply-To: <20220908132817.1831008-6-bmeng.cn@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -103,48 +100,51 @@ From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 On 8/9/22 15:28, Bin Meng wrote:
 > From: Bin Meng <bin.meng@windriver.com>
 > 
-> Now that we have supported packaging DLLs automatically, let's add
-> the 'make installer' in the CI and publish the generated installer
-> file as an artifact.
+> libnfs.h declares nfs_fstat() as the following for win32:
 > 
-> Increase the job timeout to 90 minutes to accommodate to it.
+>    int nfs_fstat(struct nfs_context *nfs, struct nfsfh *nfsfh,
+>                  struct __stat64 *st);
 > 
+> The 'st' parameter should be of type 'struct __stat64'. The
+> codes happen to build successfully for 64-bit Windows, but it
+> does not build for 32-bit Windows.
+> 
+> Fixes: 6542aa9c75bc ("block: add native support for NFS")
+> Fixes: 18a8056e0bc7 ("block/nfs: cache allocated filesize for read-only files")
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > ---
 > 
->   .gitlab-ci.d/windows.yml | 27 +++++++++++++++++++--------
->   1 file changed, 19 insertions(+), 8 deletions(-)
+>   block/nfs.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
 > 
-> diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-> index fffb202658..3a94d40e73 100644
-> --- a/.gitlab-ci.d/windows.yml
-> +++ b/.gitlab-ci.d/windows.yml
-> @@ -10,7 +10,7 @@
->         - ${CI_PROJECT_DIR}/msys64/var/cache
->     needs: []
->     stage: build
-> -  timeout: 70m
-> +  timeout: 90m
->     before_script:
->     - If ( !(Test-Path -Path msys64\var\cache ) ) {
->         mkdir msys64\var\cache
-> @@ -28,6 +28,11 @@
->     - .\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Core update
->     - .\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Normal update
->     - taskkill /F /FI "MODULES eq msys-2.0.dll"
-> +  artifacts:
-> +    name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
-> +    expire_in: 7 days
-> +    paths:
-> +      - build/qemu-setup*.exe
+> diff --git a/block/nfs.c b/block/nfs.c
+> index 444c40b458..d5d67937dd 100644
+> --- a/block/nfs.c
+> +++ b/block/nfs.c
+> @@ -418,7 +418,11 @@ static int64_t nfs_client_open(NFSClient *client, BlockdevOptionsNfs *opts,
+>                                  int flags, int open_flags, Error **errp)
+>   {
+>       int64_t ret = -EINVAL;
+> +#ifdef _WIN32
+> +    struct __stat64 st;
+> +#else
+>       struct stat st;
+> +#endif
+>       char *file = NULL, *strp = NULL;
+>   
+>       qemu_mutex_init(&client->mutex);
+> @@ -781,7 +785,11 @@ static int nfs_reopen_prepare(BDRVReopenState *state,
+>                                 BlockReopenQueue *queue, Error **errp)
+>   {
+>       NFSClient *client = state->bs->opaque;
+> +#ifdef _WIN32
+> +    struct __stat64 st;
+> +#else
+>       struct stat st;
+> +#endif
+>       int ret = 0;
+>   
+>       if (state->flags & BDRV_O_RDWR && bdrv_is_read_only(state->bs)) {
 
-Do you really want to test this binary? I think the CI is only to test
-the installer. This is a stripped down version anyway (./configure
-options). If someone want to package/test, this should not be done here
-but locally.
-
-However I agree testing the installer doesn't bitrot is helpful, so
-*without* the "artifacts" section:
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+What about the field in struct NFSRPC?
 
