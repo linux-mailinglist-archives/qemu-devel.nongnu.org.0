@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8942F5BBABA
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 23:42:22 +0200 (CEST)
-Received: from localhost ([::1]:42542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36FDE5BBABD
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 23:46:01 +0200 (CEST)
+Received: from localhost ([::1]:38012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZfZt-0004FR-Lb
-	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 17:42:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54060)
+	id 1oZfdQ-00066S-1h
+	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 17:46:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZfYa-0001yZ-5Q; Sat, 17 Sep 2022 17:41:00 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:51817)
+ id 1oZfbj-0004Yi-GV; Sat, 17 Sep 2022 17:44:15 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:39711)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZfYX-00009y-PY; Sat, 17 Sep 2022 17:40:59 -0400
-Received: by mail-wm1-x332.google.com with SMTP id o5so14172234wms.1;
- Sat, 17 Sep 2022 14:40:57 -0700 (PDT)
+ id 1oZfbh-0000OE-VT; Sat, 17 Sep 2022 17:44:15 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ bg5-20020a05600c3c8500b003a7b6ae4eb2so2060638wmb.4; 
+ Sat, 17 Sep 2022 14:44:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=8RMSDRDBTilJJsYB3FelQYu8TMMgY7ka7A2MTeLIpeE=;
- b=PkUIk2me5Wu+5ti4s2B0D+nRFoHTDJjK5GD68bi1O7bpSX2/ultIZp/vrP97Dv8sJu
- woGQGHdWktwldS4Gd0t3MZ9Boe/DN9fslMf6IsYqWxZh0kSoe9D0YkfYqu4bThd1yh/y
- kOfyW+tjqGy+APgwQX+LDZa1+rqzTVYc7AsLrUN+VrYIsnVnd+NH2pwnK2wK/CE0NPIU
- fLldofartxrhuZ8M078uvTvDHKoXzKu+5C3sngA3wUOJu5JTkldMs2MDjzKpmyXHyC1G
- 38YT8Ugro4eq9i4T5jd7FjqEZwxo8rquNJ5j4c1hQ9wvsIIgw+E9SkW/a+ghamKGf6fs
- ar3g==
+ bh=fbkgpImrqz8/zFLOXax9hzB8RCnwqZHOgM5QC/7+w98=;
+ b=UBefobC/MbfyGxAkBUrQE8sC4+poocsUJc1ChKsINa5csMYdjDevlOAcRSn/uxT3KF
+ F3UJXJNT/Qt5LhbPGugcCrulp4eUFo0SnJGWZYZH52F+K0TWCdJ1+vgHfplYhQvq6QiY
+ kiIvv42TbbFnUF+Q8Zxr+iqrpYGfQgvsCNrDQxhnfiu9fH6r1YeHZarCAZZotsLtHQEx
+ iuQmxz/xSocMUceFkBcNLCrCL+CkrpjTLs1uv4pCcLD6tmDr6Fae3fPt/7+G+Zez8S94
+ DclUbZ3MwLbUnGemIicUelkJbqnZ85gLTsEKDRnzy/GQfKmRytGz/EMwhNfwzMrC1FA8
+ rRtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=8RMSDRDBTilJJsYB3FelQYu8TMMgY7ka7A2MTeLIpeE=;
- b=Vf6S8VMk7Krt6rCwHlIfiQx9Nd499GhudfrlKVb53JWIQgDBFKpttg+I3MQgtiPssB
- V+BOSJbkYfALVSimwT9P/Bqu48xhzcUF+a0T1U8lPV4bDGOtgXuz4hcij9M9Gjhit3xx
- mg75SwQJSz025Lmm+IZ5YA8br5Ug2ATVVuS7qSXG4Q0XEIYRQoCTPlIqXXUV/qP045Ns
- AGVONIfpy/JZAaQRc/V9brFbdQfoU0tgGQZWduf25cOCuzLaopqc0huppMVdRkzX6jKs
- rzAdNQtcDCnu2jQDi80YO0oa79TIeSgqMZvYSFCtWLlbtYxhK5jU6Og1nq/jxZjTWfwi
- MimQ==
-X-Gm-Message-State: ACgBeo36TAQ8hDNAdRyV0wsZB4K6ieUqDIUDnsx40S/zvf5sbZkAxBCH
- V4RQhRmn98mtH6MrsJ26nOM=
-X-Google-Smtp-Source: AA6agR66ELxO+fh+H2ZsBKFH5OxubO9iNE+uujVhpoJ+g3fOc1m2VLpylVswDdNJeTyX9GT94CXDiQ==
-X-Received: by 2002:a1c:4c02:0:b0:3b4:9249:3539 with SMTP id
- z2-20020a1c4c02000000b003b492493539mr14412835wmf.128.1663450855823; 
- Sat, 17 Sep 2022 14:40:55 -0700 (PDT)
+ bh=fbkgpImrqz8/zFLOXax9hzB8RCnwqZHOgM5QC/7+w98=;
+ b=fhqaKD1fiP40rtiKz3qazo9T+GnN6fam101guRhYE23HYd182VTyFl4mcXABIdlBo4
+ 8FI3NAAXz0JY7Dy+0DU/4MU8lTH9BhSNKALjsxFiUVvQLgivG4FAjicPKlvjG6ePZZmt
+ FN13KNZJugv5wzmCPVG0RURXlIdD8fdO+VG8m8f75x+ZAcI3QrW6abLTAd9AhA4WZcfJ
+ Sn4AuO0oog5kKYGad3qDQ5Jn8i4ESYbI5CsV1Q4dLY9vLECVXhbWzJnYjmpdGwgHX4TJ
+ 039BAI7xju4pJpz1MuL5UurkAEdwfjqHgUqZGG6XLhk9GVuV1w1vuDGEmd3zhP0jPiaA
+ cXXQ==
+X-Gm-Message-State: ACgBeo07h4F/g2lqpGocPLU+d5LQpK/dSGMQGOYjV7ALXMasVaYOcWwD
+ 805dyMqL6kDcWty+saGqkWc=
+X-Google-Smtp-Source: AA6agR5VfY/jTuoQXBqa9Hk4dTkj1XuZDHlB/0rwn31I4vZkAFs07t1WEXNM/LZpU2t4YltODc2Y9g==
+X-Received: by 2002:a05:600c:524b:b0:3b4:8c0c:f3b6 with SMTP id
+ fc11-20020a05600c524b00b003b48c0cf3b6mr14997874wmb.50.1663451052360; 
+ Sat, 17 Sep 2022 14:44:12 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- g8-20020a5d4888000000b00228634628f1sm8737580wrq.110.2022.09.17.14.40.54
+ h7-20020a5d6887000000b0022ae8b862a7sm3246546wru.35.2022.09.17.14.44.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Sep 2022 14:40:55 -0700 (PDT)
-Message-ID: <abc7f51d-d65c-2cff-a182-78333bddb233@amsat.org>
-Date: Sat, 17 Sep 2022 23:40:54 +0200
+ Sat, 17 Sep 2022 14:44:11 -0700 (PDT)
+Message-ID: <d4ed9983-586e-ea44-90ad-0fc0f259acfc@amsat.org>
+Date: Sat, 17 Sep 2022 23:44:10 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH v2 3/4] scripts/ci/setup: spice-server only on x86 aarch64
+Subject: Re: [PATCH v3 1/1] monitor/hmp: print trace as option in help for log
+ command
 Content-Language: en-US
-To: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Daniel Henrique Barboza <danielhb413@gmail.com>
-References: <20220914124153.61017-1-lucas.araujo@eldorado.org.br>
- <20220914124153.61017-4-lucas.araujo@eldorado.org.br>
-In-Reply-To: <20220914124153.61017-4-lucas.araujo@eldorado.org.br>
+To: Markus Armbruster <armbru@redhat.com>,
+ Dongli Zhang <dongli.zhang@oracle.com>
+Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org, dgilbert@redhat.com,
+ joe.jin@oracle.com
+References: <20220831213943.8155-1-dongli.zhang@oracle.com>
+ <87h71qrmkh.fsf@pond.sub.org>
+In-Reply-To: <87h71qrmkh.fsf@pond.sub.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::332;
  envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -49
@@ -97,16 +98,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 14/9/22 14:41, Lucas Mateus Castro(alqotel) wrote:
-> From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
-> 
-> Changed build-environment.yml to only install spice-server on x86_64 and
-> aarch64 as this package is only available on those architectures.
-> 
-> Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
-> ---
->   scripts/ci/setup/build-environment.yml | 12 +++++++++++-
->   1 file changed, 11 insertions(+), 1 deletion(-)
+Hi Markus,
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 2/9/22 14:24, Markus Armbruster wrote:
+> Dongli Zhang <dongli.zhang@oracle.com> writes:
+> 
+>> The below is printed when printing help information in qemu-system-x86_64
+>> command line, and when CONFIG_TRACE_LOG is enabled:
+>>
+>> ----------------------------
+>> $ qemu-system-x86_64 -d help
+>> ... ...
+>> trace:PATTERN   enable trace events
+>>
+>> Use "-d trace:help" to get a list of trace events.
+>> ----------------------------
+>>
+>> However, the options of "trace:PATTERN" are only printed by
+>> "qemu-system-x86_64 -d help", but missing in hmp "help log" command.
+>>
+>> Fixes: c84ea00dc2 ("log: add "-d trace:PATTERN"")
+>> Cc: Joe Jin <joe.jin@oracle.com>
+>> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
+>> ---
+>> Changed since v1:
+>> - change format for "none" as well.
+>> Changed since v2:
+>> - use "log trace:help" in help message.
+>> - add more clarification in commit message.
+>> - add 'Fixes' tag.
+>> ---
+>>   monitor/hmp.c | 9 +++++++--
+>>   1 file changed, 7 insertions(+), 2 deletions(-)
+
+> Not this patch's fault:
+> 
+> 1. "-d help" terminates with exit status 1, "-d trace:help" with 0.  The
+>     former is wrong.
+> 
+> 2. HMP "log trace:help" prints to stdout instead of the current monitor.
+> 
+> 3. Output of HMP "log trace:help" sometimes is truncated for me.
+> 
+> 4. Output of "log trace:help" and "info trace-events" is unwieldy.
+>     Sorted output could be a bit less unwieldy.
+> 
+> 5. Could "log trace:help" and "info trace-events" share code?
+
+Do you mind opening issue(s) on our GitLab so we don't loose your
+analysis buried within the infinite mailing list?
 
