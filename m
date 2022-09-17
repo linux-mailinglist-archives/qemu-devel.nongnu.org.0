@@ -2,44 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0548E5BB710
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 10:07:20 +0200 (CEST)
-Received: from localhost ([::1]:35332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD9085BB717
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 10:12:29 +0200 (CEST)
+Received: from localhost ([::1]:36570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZSr8-00039t-Ri
-	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 04:07:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39738)
+	id 1oZSw8-0007bT-Jx
+	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 04:12:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oZSk3-0006Xf-6Y
+ id 1oZSk3-0006Xg-7u
  for qemu-devel@nongnu.org; Sat, 17 Sep 2022 03:59:59 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:57646 helo=loongson.cn)
+Received: from mail.loongson.cn ([114.242.206.163]:57644 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oZSjz-0008Sg-T8
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 03:59:58 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1oZSjz-0008Se-U4
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 03:59:59 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxBOJ2fiVjHQccAA--.40868S4; 
+ AQAAf8DxBOJ2fiVjHQccAA--.40868S5; 
  Sat, 17 Sep 2022 15:59:51 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, peter.maydell@linaro.org,
  alex.bennee@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
  yangxiaojuan@loongson.cn
-Subject: [PATCH 2/5] target/loongarch: bstrins.w need set dest register
- EXT_SIGN
-Date: Sat, 17 Sep 2022 15:59:47 +0800
-Message-Id: <20220917075950.1412309-3-gaosong@loongson.cn>
+Subject: [PATCH 3/5] target/loongarch: Fix fnm{sub/add}_{s/d} set wrong flags
+Date: Sat, 17 Sep 2022 15:59:48 +0800
+Message-Id: <20220917075950.1412309-4-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220917075950.1412309-1-gaosong@loongson.cn>
 References: <20220917075950.1412309-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxBOJ2fiVjHQccAA--.40868S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7CrW8AF1Utr48XrWrtr45Awb_yoW8Xry3pF
- yUCr1UKr4UXr93Zr97Za1DXFnrJFs5Kw47WF4I9345Ca90qry0gr4Ig39Igryrtwn7XrWv
- yan5u3yjgw4UJ37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf8DxBOJ2fiVjHQccAA--.40868S5
+X-Coremail-Antispam: 1UD129KBjvJXoW7uryrKrykCFyrAFyxCFy8Zrb_yoW8WrWfpr
+ 17urnrKr4UJay8ZwnFqasFy3s7Xr4qvw10q3Z7tFyYyr4Yqa9F9ayrKayq9FWrZw10grW8
+ Aa1qk342kws8WFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -66,31 +65,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/insn_trans/trans_bit.c.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/loongarch/insn_trans/trans_farith.c.inc | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/target/loongarch/insn_trans/trans_bit.c.inc b/target/loongarch/insn_trans/trans_bit.c.inc
-index 9337714ec4..33e94878fd 100644
---- a/target/loongarch/insn_trans/trans_bit.c.inc
-+++ b/target/loongarch/insn_trans/trans_bit.c.inc
-@@ -37,7 +37,7 @@ static bool gen_rr_ms_ls(DisasContext *ctx, arg_rr_ms_ls *a,
-                          DisasExtend src_ext, DisasExtend dst_ext,
-                          void (*func)(TCGv, TCGv, unsigned int, unsigned int))
- {
--    TCGv dest = gpr_dst(ctx, a->rd, dst_ext);
-+    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-     TCGv src1 = gpr_src(ctx, a->rj, src_ext);
- 
-     if (a->ls > a->ms) {
-@@ -206,7 +206,7 @@ TRANS(maskeqz, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, gen_maskeqz)
- TRANS(masknez, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, gen_masknez)
- TRANS(bytepick_w, gen_rrr_sa, EXT_NONE, EXT_NONE, gen_bytepick_w)
- TRANS(bytepick_d, gen_rrr_sa, EXT_NONE, EXT_NONE, gen_bytepick_d)
--TRANS(bstrins_w, gen_rr_ms_ls, EXT_NONE, EXT_NONE, gen_bstrins)
-+TRANS(bstrins_w, gen_rr_ms_ls, EXT_NONE, EXT_SIGN, gen_bstrins)
- TRANS(bstrins_d, gen_rr_ms_ls, EXT_NONE, EXT_NONE, gen_bstrins)
- TRANS(bstrpick_w, gen_rr_ms_ls, EXT_NONE, EXT_SIGN, tcg_gen_extract_tl)
- TRANS(bstrpick_d, gen_rr_ms_ls, EXT_NONE, EXT_NONE, tcg_gen_extract_tl)
+diff --git a/target/loongarch/insn_trans/trans_farith.c.inc b/target/loongarch/insn_trans/trans_farith.c.inc
+index 65ad2ffab8..7bb3f41aee 100644
+--- a/target/loongarch/insn_trans/trans_farith.c.inc
++++ b/target/loongarch/insn_trans/trans_farith.c.inc
+@@ -97,9 +97,9 @@ TRANS(fmadd_s, gen_muladd, gen_helper_fmuladd_s, 0)
+ TRANS(fmadd_d, gen_muladd, gen_helper_fmuladd_d, 0)
+ TRANS(fmsub_s, gen_muladd, gen_helper_fmuladd_s, float_muladd_negate_c)
+ TRANS(fmsub_d, gen_muladd, gen_helper_fmuladd_d, float_muladd_negate_c)
+-TRANS(fnmadd_s, gen_muladd, gen_helper_fmuladd_s,
+-      float_muladd_negate_product | float_muladd_negate_c)
+-TRANS(fnmadd_d, gen_muladd, gen_helper_fmuladd_d,
+-      float_muladd_negate_product | float_muladd_negate_c)
+-TRANS(fnmsub_s, gen_muladd, gen_helper_fmuladd_s, float_muladd_negate_product)
+-TRANS(fnmsub_d, gen_muladd, gen_helper_fmuladd_d, float_muladd_negate_product)
++TRANS(fnmadd_s, gen_muladd, gen_helper_fmuladd_s, float_muladd_negate_result)
++TRANS(fnmadd_d, gen_muladd, gen_helper_fmuladd_d, float_muladd_negate_result)
++TRANS(fnmsub_s, gen_muladd, gen_helper_fmuladd_s,
++      float_muladd_negate_c | float_muladd_negate_result)
++TRANS(fnmsub_d, gen_muladd, gen_helper_fmuladd_d,
++      float_muladd_negate_c | float_muladd_negate_result)
 -- 
 2.31.1
 
