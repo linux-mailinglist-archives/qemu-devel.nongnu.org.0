@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5785C5BBAA8
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 23:21:15 +0200 (CEST)
-Received: from localhost ([::1]:37606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DBB05BBAA7
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 23:21:09 +0200 (CEST)
+Received: from localhost ([::1]:37616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZfFS-00084N-FH
-	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 17:21:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39598)
+	id 1oZfFM-0007qv-O8
+	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 17:21:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZfBU-0003JT-IO; Sat, 17 Sep 2022 17:17:10 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:45005)
+ id 1oZfCw-00051s-5N
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 17:18:38 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45010)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZfBR-0005Nd-Ii; Sat, 17 Sep 2022 17:17:07 -0400
-Received: by mail-wr1-x431.google.com with SMTP id c11so41321991wrp.11;
- Sat, 17 Sep 2022 14:17:04 -0700 (PDT)
+ id 1oZfCu-0005Zg-I6
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 17:18:37 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id c11so41325056wrp.11
+ for <qemu-devel@nongnu.org>; Sat, 17 Sep 2022 14:18:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=JTwqgp6jWEzgCtPAZMvHM/99Jb7Ps91Tm+KrL4ud26g=;
- b=RBZOn4XN8GPBWB8FZUTUtXwpEPUmd4YchfKVlSOZH2hX6CSCrLPKBlWT2+GLDi7CaF
- HWwgWr1RVktNyJ2lgRTcODETVsvifAygOqjLCXg+wOpFEgQV0C9Npsw5QLFvVSSGac9d
- DPpx37nPiprOBfHLBORd7SfyXeCxuzkeriGMoxKijsgh/tWWh1d2BZvUMCr8HP0pSlp5
- 4GK9poURU9pcyVMfYpV3eGznOrgJHlJE2/xOl6YqVNcdzr0fx8H4YTbqqMCufL5xv77C
- iWgff4xJkH4vdbJmmvKzJBVvcoGLWqY+Nijt8EoiB+eOhIS2ZKZ5ZV5nqwZMHrqbtU30
- j0iA==
+ bh=fIBx1d5Iz+fsvHerBXK+DsOZc6zgWtoBe1yh5KSt/Rw=;
+ b=kHUAfSTdm468tvbeuwfOtjnHstgrbt2a7imJwPDCF+MdlhwLw5zBnQZHSG88JXqpRP
+ BLDk6lZsr1jA6Tspk441yPOu5OWSzcCEgn9DnTSXo8LlE6hBJOUlqAt5MyKSAXA+Ukph
+ pYXIRkRvzfhd916d0bYhrrEGKgze7u5++Q3VvqiLXfmS9JoFvyDVQcNtgaEg0skmx7+x
+ yAiB60zRXnxhphBXkrWnIq8732OjMCcUKcCcJnp9qFVklzDeMgsKc/g9ItDFZvPsLKg9
+ UkqYPki0tGnInYIR932Y7YqklSNYy3LFaPqE43MoLdr1lqWyjuMGWdLZao0/cPByopQF
+ dYXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=JTwqgp6jWEzgCtPAZMvHM/99Jb7Ps91Tm+KrL4ud26g=;
- b=3f+X7RNz0fbQpLy063g7AHyUzo2zxOmC5ebl4tfP7GV3N6gOEJwFlN40RxWUlpPta/
- vyMfBw0MTYSWHqhzEtrw6Z0uud4PNr2nn/2nRHhnCEySpEWHCEBLaa9xVQrIfhtY6v4U
- GwnaOjB1DdMtzofRD8JyvkjOQaGJpZL+x8DVaSVCh1SIYIjaimqPz7dHIP8tCSg1Xz86
- b5xGJsNbdbSpZt6x+eepAAVyJA/IwvUj/elHEsCRFPbSNWDBxC7ROIdPME+BNZp0VRhh
- Dw1tm5c2Y03o++qGs5URXzx2qjx7KR/PoR+NwY6reQ/R7XZLGbRnlD+d2DT2SnglK0pW
- Xhhg==
-X-Gm-Message-State: ACrzQf3T8KeHv2q5iTKGqVlfKmZaZisIzjeMzY6cMT8EHBjlwFUi66gh
- hcrgKGPQ96L1Y823/6/CVmPa10VVtos=
-X-Google-Smtp-Source: AMsMyM43uI+LRWgdTBFClaNXJnPSZkEcOcS4wfKq10+45w5kQIVaLQ4nW9yqJrPAV5ZjS3gJBVyeJw==
-X-Received: by 2002:a05:6000:186d:b0:22a:f6ce:72d9 with SMTP id
- d13-20020a056000186d00b0022af6ce72d9mr912768wri.426.1663449423635; 
- Sat, 17 Sep 2022 14:17:03 -0700 (PDT)
+ bh=fIBx1d5Iz+fsvHerBXK+DsOZc6zgWtoBe1yh5KSt/Rw=;
+ b=yuxurZo+9QFBskQ4mHPxDALE2gFae4WPHQP9RjQt5yRC8PctPA7GNepV8gOBKG+F5B
+ 49lAuSq9Ky+IbdQhEielAW3DPvNHQ2ikBUUYY9VQfyk0qGYmncobpIevadVVPElPkhXA
+ TXjPzehwrv5evbdganU5YXCMWCEBOwZDDRCb66TvHfMWzJWJ/8OeLWXUknxgriUjoP3p
+ jS0dkhVeahTRb6kAFNh01BinkPx0U7+9svmT/kJ+82DW7he+SmTEVyRORIZ5R30ycpKV
+ K43Cu50AN/hyGHXs+krBq9OdWLT+2MGw92h+uXh3xCYeB293VU2ZTfq7o55PjeEtVNPH
+ gdZw==
+X-Gm-Message-State: ACrzQf07xoj4JUcImmQK3JQZLVbkaVIfbdDvbcTFGaEKJ0nBoZy0VQsO
+ 3AEsdQi48xJ+QR+xZcrHNzw=
+X-Google-Smtp-Source: AMsMyM5Bs9MXN2dI9CaKhECv12m8Zlyr94+m+pgJsNiuW9Up7CID9ZKQfReIs6x+uKKQt50A6zcFSw==
+X-Received: by 2002:a5d:69cf:0:b0:22a:c2d3:1d4a with SMTP id
+ s15-20020a5d69cf000000b0022ac2d31d4amr6635618wrw.473.1663449514487; 
+ Sat, 17 Sep 2022 14:18:34 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- y1-20020adfdf01000000b0022a297950cesm8757824wrl.23.2022.09.17.14.17.02
+ 7-20020a05600c228700b003a604a29a34sm6999105wmf.35.2022.09.17.14.18.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Sep 2022 14:17:03 -0700 (PDT)
-Message-ID: <4550e3c4-08f8-430a-8858-042e4b291517@amsat.org>
-Date: Sat, 17 Sep 2022 23:17:02 +0200
+ Sat, 17 Sep 2022 14:18:34 -0700 (PDT)
+Message-ID: <db49e38f-415e-46f8-b6ab-717f4a925819@amsat.org>
+Date: Sat, 17 Sep 2022 23:18:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH 07/10] hw/ppc/mac.h: Move macio specific atuff out from
- shared header
+Subject: Re: [PATCH 1/7] scripts/nsis.py: Drop the unnecessary path separator
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <cover.1663368422.git.balaton@eik.bme.hu>
- <3fd567b3162f70414fcbb7d074e3a7731360f6e4.1663368422.git.balaton@eik.bme.hu>
-In-Reply-To: <3fd567b3162f70414fcbb7d074e3a7731360f6e4.1663368422.git.balaton@eik.bme.hu>
+To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>
+References: <20220908132817.1831008-1-bmeng.cn@gmail.com>
+ <20220908132817.1831008-2-bmeng.cn@gmail.com>
+In-Reply-To: <20220908132817.1831008-2-bmeng.cn@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -96,15 +97,17 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 17/9/22 01:07, BALATON Zoltan wrote:
-> Move the parts specific to and only used by macio out from the shared
-> mac.h into macio.c where they better belong.
+On 8/9/22 15:28, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
 > 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> There is no need to append a path separator to the destination
+> directory that is passed to "make install".
+> 
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > ---
->   hw/misc/macio/macio.c | 26 ++++++++++++++++++++++++--
->   hw/ppc/mac.h          | 23 -----------------------
->   2 files changed, 24 insertions(+), 25 deletions(-)
+> 
+>   scripts/nsis.py | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-BTW Subject: "Move macio specifics out of shared header"?
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
