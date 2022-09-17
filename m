@@ -2,87 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE705BB743
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 10:36:54 +0200 (CEST)
-Received: from localhost ([::1]:43668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C085BB751
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 10:43:43 +0200 (CEST)
+Received: from localhost ([::1]:36146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZTJk-0004wI-OF
-	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 04:36:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34386)
+	id 1oZTQM-0006nl-17
+	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 04:43:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oZTGf-0002D2-Sf
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 04:33:43 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:38701)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oZTGQ-0005iA-78
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 04:33:41 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id e17so34607880edc.5
- for <qemu-devel@nongnu.org>; Sat, 17 Sep 2022 01:33:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=q4SRzcwcSalxtTyVkwVel6byYhpjWbRsmzP5G8GpKHU=;
- b=Avx+z9S1U7WhkusdjpMDUrFsiRY7sqXtUnCwnokgOq4z2XT2Yct/qW1MG9rz/yZdWj
- hpofPxk0w0UhZhES0gSDD/zGlsAkw8E1g3v/EVX25iLvN2IyAvHc7rF9v2uY1W72Ls1Z
- /G5GxzZJODkmA51AONWLJu5m/h4KCbREk5B01gLp+hZKHwHqsWGLG5fX9Oqjo2DoP+eq
- guvygnOlC3BfWftIH8lXZ+rwDdUdmUA87LXAcdHt70/6aWXLQOWTwWwrOMId3wzsvc/z
- +KDu1DjI+7B1wDmcVdej7Oi/weCnNkYBXu5uW1jGsWpp3mmXlWDUF4VjcHqQdumcIXO3
- AYMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=q4SRzcwcSalxtTyVkwVel6byYhpjWbRsmzP5G8GpKHU=;
- b=g8jHf1aZWptLe038J4gpS5OQ5ZLkIjPsCdWKnFsOf5yga+PkgqyasJJQFnBkMal3L4
- gS8DnvLGJpHsNQepNaQzr8dUqPGaBlEHhwqSZH9XET18+q34YTmerzu1Z3SF3hezPOHW
- 122yxvf/vse4dI2l+Mt79XHUQCAgfdGhmzxDagrc9T6A6K41+tdfzeG0fbokdWV4FuQS
- 48iqYYMFzHzVf39v5+7D8nW1NGJwkTmwKhrd0nLsaxow+UwZTRzN79GCrRpKKWnTic4x
- 5EzM93MYcgbdYE9/L+vIMT7JAINfT3wD7uFA+2YrjGE8Nry7nE/LCapBfWQ1kN92Uvpo
- JzKg==
-X-Gm-Message-State: ACrzQf0njV4RULbw8EnMnq47m+1Wu4blaUVXdk/EbgdmeBVxHhmknrPQ
- I0uWLs1ejFOZ+z5gIWjIXkIVGg==
-X-Google-Smtp-Source: AMsMyM6ich318pxfppnyoCATm+JJwB7xxihfcnbr6PkDoAEvFtvUXnWJjte8/ynMVARpXCa7+ZwjdQ==
-X-Received: by 2002:a05:6402:42d3:b0:435:2c49:313d with SMTP id
- i19-20020a05640242d300b004352c49313dmr7020995edc.86.1663403604445; 
- Sat, 17 Sep 2022 01:33:24 -0700 (PDT)
-Received: from [10.9.7.77] (vpn-konference.ms.mff.cuni.cz. [195.113.20.101])
- by smtp.gmail.com with ESMTPSA id
- c26-20020a056402101a00b0044792480994sm15165554edu.68.2022.09.17.01.33.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Sep 2022 01:33:23 -0700 (PDT)
-Message-ID: <6af8867f-2d4b-3326-950d-b1e12a2b087c@linaro.org>
-Date: Sat, 17 Sep 2022 10:33:21 +0200
+ (Exim 4.90_1) (envelope-from <huqi@loongson.cn>) id 1oZTOe-0005Oq-ER
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 04:41:56 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:33752 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huqi@loongson.cn>) id 1oZTOc-0007Q4-4M
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 04:41:56 -0400
+Received: from [10.90.50.23] (unknown [10.90.50.23])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Cx72tIiCVjIA8cAA--.38218S3; 
+ Sat, 17 Sep 2022 16:41:44 +0800 (CST)
+Message-ID: <6efecbd9-1a88-a5a4-bcb0-9080d710849c@loongson.cn>
+Date: Sat, 17 Sep 2022 16:41:44 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [RFC PATCH 3/4] hw/intc/gic: use MxTxAttrs to divine accessing CPU
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 2/5] target/loongarch: bstrins.w need set dest register
+ EXT_SIGN
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20220914160955.812151-1-alex.bennee@linaro.org>
- <20220914160955.812151-4-alex.bennee@linaro.org>
- <ab834948-3bd9-8e42-f13d-de0a3c573cf1@linaro.org>
- <6aebb38e-551e-e241-bda7-4b748e672c29@amsat.org> <871qsb8h9y.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <871qsb8h9y.fsf@linaro.org>
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, peter.maydell@linaro.org,
+ alex.bennee@linaro.org, maobibo@loongson.cn, yangxiaojuan@loongson.cn
+References: <20220917075950.1412309-1-gaosong@loongson.cn>
+ <20220917075950.1412309-3-gaosong@loongson.cn>
+From: Qi Hu <huqi@loongson.cn>
+In-Reply-To: <20220917075950.1412309-3-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8Cx72tIiCVjIA8cAA--.38218S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxJr15Zry5tr18ZF1kCFW3KFg_yoW8WF4UpF
+ 1UCr1UKr4UXr97Z3s7Za1DXFnrJFs7Kw47W3yI9345Ca90qry0gr42g39xKryUtwn7Xr4k
+ Aan3urWqgw45Ja7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUv0b7Iv0xC_tr1lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
+ C2z280aVCY1x0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
+ F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
+ 4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487
+ MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+ 02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_
+ Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+ CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
+ 6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8
+ 489tUUUUU==
+X-CM-SenderInfo: pkxtxqxorr0wxvrqhubq/1tbiAQAMCWMkZ1wJqwABsb
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=huqi@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -36
+X-Spam_score: -3.7
 X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.816,
- SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.816,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,14 +78,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/16/22 17:28, Alex Bennée wrote:
-> I pondered boolean but wasn't sure if that would blow up the size of
-> MemTxAttrs so went for the bitfield.
 
-You can use bool with a bitfield.  Though Phil's suggestion of .requestor_type has merit. 
-  That depends on what comes of Peter's hw modeling suggestion that might integrate the 
-types on any given bus.
+On 2022/9/17 15:59, Song Gao wrote:
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> ---
+>   target/loongarch/insn_trans/trans_bit.c.inc | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/loongarch/insn_trans/trans_bit.c.inc b/target/loongarch/insn_trans/trans_bit.c.inc
+> index 9337714ec4..33e94878fd 100644
+> --- a/target/loongarch/insn_trans/trans_bit.c.inc
+> +++ b/target/loongarch/insn_trans/trans_bit.c.inc
+> @@ -37,7 +37,7 @@ static bool gen_rr_ms_ls(DisasContext *ctx, arg_rr_ms_ls *a,
+>                            DisasExtend src_ext, DisasExtend dst_ext,
+>                            void (*func)(TCGv, TCGv, unsigned int, unsigned int))
+>   {
+> -    TCGv dest = gpr_dst(ctx, a->rd, dst_ext);
+> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
+I think this may not be correct. Maybe the code was used for debugging 
+but forgot to modify?
+>       TCGv src1 = gpr_src(ctx, a->rj, src_ext);
+>   
+>       if (a->ls > a->ms) {
+> @@ -206,7 +206,7 @@ TRANS(maskeqz, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, gen_maskeqz)
+>   TRANS(masknez, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, gen_masknez)
+>   TRANS(bytepick_w, gen_rrr_sa, EXT_NONE, EXT_NONE, gen_bytepick_w)
+>   TRANS(bytepick_d, gen_rrr_sa, EXT_NONE, EXT_NONE, gen_bytepick_d)
+> -TRANS(bstrins_w, gen_rr_ms_ls, EXT_NONE, EXT_NONE, gen_bstrins)
+> +TRANS(bstrins_w, gen_rr_ms_ls, EXT_NONE, EXT_SIGN, gen_bstrins)
+>   TRANS(bstrins_d, gen_rr_ms_ls, EXT_NONE, EXT_NONE, gen_bstrins)
+>   TRANS(bstrpick_w, gen_rr_ms_ls, EXT_NONE, EXT_SIGN, tcg_gen_extract_tl)
+>   TRANS(bstrpick_d, gen_rr_ms_ls, EXT_NONE, EXT_NONE, tcg_gen_extract_tl)
 
-
-r~
 
