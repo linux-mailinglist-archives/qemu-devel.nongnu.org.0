@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDE0D5BBAB2
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 23:39:01 +0200 (CEST)
-Received: from localhost ([::1]:54866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C42435BBAB9
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 23:41:52 +0200 (CEST)
+Received: from localhost ([::1]:45952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZfWf-0000vc-0Q
-	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 17:39:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41346)
+	id 1oZfZP-0003Vq-UH
+	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 17:41:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZfVD-0007z7-JM
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 17:37:31 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:40721)
+ id 1oZfXR-00012h-UZ; Sat, 17 Sep 2022 17:39:49 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:42863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZfVB-000814-ER
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 17:37:31 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id e16so41352181wrx.7
- for <qemu-devel@nongnu.org>; Sat, 17 Sep 2022 14:37:29 -0700 (PDT)
+ id 1oZfXQ-000889-H3; Sat, 17 Sep 2022 17:39:49 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ o20-20020a05600c4fd400b003b4a516c479so1929089wmq.1; 
+ Sat, 17 Sep 2022 14:39:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=VcRnA81evSOLiIhi5KYKgAbZPu1jKqgIhJG/y9uJQKo=;
- b=qEKWLzgP40rNtrOSi7bsla0uVsZtZP4cp76A7RMiyiDYfhu90Xddo5CcHlvjRuCjOs
- IWq+lQz4TeNn1SmcRI8ydwkDzLRF8EMCpceh98LIQZDLtEBmU3xmhRxorovinu63d6MS
- 6PADIsfYgmeN9ppfKfIxjj+wjxkKrSQZ4/yZS9+AV++hTxjR94hcI0nb3raeJ8QKp2G0
- XxtvqpVv4Y6CYXjnxS3vq3x38AalUT2RrrmNrpcFpDPRWsIAXFpBFHZcGpVxBYltFitZ
- IgldS5M/MZWC0I7E2pa6R+vsEhjh+gXoDaHMLRjX/HdKdMnAcRRFipUZNpEQAb8fYoRd
- 7sBg==
+ bh=UuxlmufKDaO+uVhqh434cR8OZGtikvtxCDQMwyzPUDg=;
+ b=VNJkQefiZ8CtsVmyF/p0QFLF9afGazBT24Og6lL6U+0jm/ABVUFt2C9T7VeQcOTH1y
+ bCAxUfca3sJdfduGFWYtQE07kDzw8UdREKg4SzRiWX/3edcUWApA3lRpsfbsrt5n9a+C
+ DWiYNSuywVbl+AOWYctjMBB46x6KKWXMX8wBeO8yv5T6kGeUZ0g6Wv9zsRF+L3yIf8Uh
+ Zave+cjPU2gUI6NCyDKt5KAS9IEVEKFsFyFAmZEiqFdweiJ6GldwxCq8MMXVzRdDo4iC
+ jLUwOYU/P1RA/fRTnZuL86YRQ/WgKIre9EKcs5N+iT9Rd53pYQ3Vzb27ag2kaf8DZQ//
+ 2J9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=VcRnA81evSOLiIhi5KYKgAbZPu1jKqgIhJG/y9uJQKo=;
- b=U4md6SuQwucmmSehTL+qypL66G3rTSL5v48Bde9lHak6VnNw8UCJpjaFme7aQK7cdG
- h7HoI3SwP4lYyQm+9t8XGb8onz/XoP/yjII8cgr2bdTAU2Gg0oNFpE7aHjAfKufw3b3v
- C8pR8X/KSoD5sPqgsESQMZJPaBOu+eLMN0VNbTl+8J6eGKtNny26WfH/D3tqmh+oWOQy
- 7cDfiSOSeYaes7DWKRvSJA+3E7ktzTLnw/9iNwAI4pKY435VpXkza91i7BmexFJ9x2fe
- E6TIerowwbXCMdsJjORWDltjW4TbpF/irN4hXUTwNSSIwPBZoZHq6K7tlVd1t7/1z/T4
- O1PA==
-X-Gm-Message-State: ACrzQf0U3SxVDlobxV0u72cEyvc2vHfA7pMqfLlan/fW9aiZ9eLMYGse
- puorHPAwKWZuLGQ3Jo2AlUg=
-X-Google-Smtp-Source: AMsMyM6CXVIIFTDHZ8f6nD66uYgI7OcgmdRBx50uBbOYGYX5KXLPMYlckAq03hX4CuxwD4DwZCDzFA==
-X-Received: by 2002:a5d:500e:0:b0:22a:44ea:dee2 with SMTP id
- e14-20020a5d500e000000b0022a44eadee2mr6422283wrt.325.1663450647826; 
- Sat, 17 Sep 2022 14:37:27 -0700 (PDT)
+ bh=UuxlmufKDaO+uVhqh434cR8OZGtikvtxCDQMwyzPUDg=;
+ b=ylomVk/4d0xa5poQyISm55ghG/cQZlpj1gWrWUs10icbHDPWrFyh2ovuifsFfkZCtn
+ j/POVGgFK29Uo5LrkF72xyTr7LOHgvHbC3pOER9phv8nNzb9zrs6D6DnmU3eK62Ri6rD
+ RA/pv39XiTpOTuixe9uRbjHc+WlmiGwNN8WOnOFI3E7wvu6z61ynDhCBPEYAwCdqgsLO
+ M9BLD9bpLBLiMMFQmWxblunmNSjv8ybAKW5ALjgpz+DVZdaFLpzaoOWcNNSvYrge1HGR
+ Oby/Rg0ZKCCLJkv5kcY76+xvypdLprdt9PFlU/idwTWLH5gQxzkOrndGs5wryUevyQ1D
+ p0mw==
+X-Gm-Message-State: ACrzQf3OzDr8/5wqM679KY3jBEyQ+711Z7OJWvC5RhoxPQfxkX2DzrhZ
+ iwMDFEy333/fIOwuFFZjtv0=
+X-Google-Smtp-Source: AMsMyM4VEzNjWX+DIvRxsRDeKWviiS3epJjRpOEM+YnLjCI5zY7u4P4YPCVZcwzu2u1ARLSCnLzOvg==
+X-Received: by 2002:a05:600c:33a8:b0:3b4:874c:f48f with SMTP id
+ o40-20020a05600c33a800b003b4874cf48fmr7392003wmp.131.1663450786853; 
+ Sat, 17 Sep 2022 14:39:46 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- j16-20020a05600c191000b003a8434530bbsm7451776wmq.13.2022.09.17.14.37.26
+ 185-20020a1c02c2000000b003b482fbd93bsm7096378wmc.24.2022.09.17.14.39.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Sep 2022 14:37:27 -0700 (PDT)
-Message-ID: <344ad5a1-e4c6-4495-3ffd-841909b274a4@amsat.org>
-Date: Sat, 17 Sep 2022 23:37:25 +0200
+ Sat, 17 Sep 2022 14:39:46 -0700 (PDT)
+Message-ID: <9af8b91d-92d4-7e6e-2c8c-34bc29859d46@amsat.org>
+Date: Sat, 17 Sep 2022 23:39:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH] vfio/common: Fix vfio_iommu_type1_info use after free
+Subject: Re: [PATCH v2 2/4] scripts/ci/setup: Fix libxen requirements
 Content-Language: en-US
-To: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org
-Cc: nicolinc@nvidia.com, cohuck@redhat.com, Alberto Faria
- <afaria@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-References: <166326219630.3388898.12882473157184946072.stgit@omen>
-In-Reply-To: <166326219630.3388898.12882473157184946072.stgit@omen>
+To: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ "open list:Xen CPUs" <xen-devel@lists.xenproject.org>
+References: <20220914124153.61017-1-lucas.araujo@eldorado.org.br>
+ <20220914124153.61017-3-lucas.araujo@eldorado.org.br>
+In-Reply-To: <20220914124153.61017-3-lucas.araujo@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -96,81 +101,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 15/9/22 19:18, Alex Williamson wrote:
-> On error, vfio_get_iommu_info() frees and clears *info, but
-> vfio_connect_container() continues to use the pointer regardless
-> of the return value.  Restructure the code such that a failure
-> of this function triggers an error and clean up the remainder of
-> the function, including updating an outdated comment that had
-> drifted from its relevant line of code and using host page size
-> for a default for better compatibility on non-4KB systems.
+On 14/9/22 14:41, Lucas Mateus Castro(alqotel) wrote:
+> From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 > 
-> Reported-by: Nicolin Chen <nicolinc@nvidia.com>
-> Link: https://lore.kernel.org/all/20220910004245.2878-1-nicolinc@nvidia.com/
-> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+> XEN hypervisor is only available in ARM and x86, but the yaml only
+> checked if the architecture is different from s390x, changed it to
+> a more accurate test.
+> Tested this change on a Ubuntu 20.04 ppc64le.
+> 
+> Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->   hw/vfio/common.c |   36 +++++++++++++++++++-----------------
->   1 file changed, 19 insertions(+), 17 deletions(-)
+>   scripts/ci/setup/build-environment.yml | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Turns out I had the errno vs ret correct the first time from the
-> thread in the above Link, vfio_get_iommu_info() returns -errno.
-> 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index ace9562a9ba1..6b5d8c0bf694 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -2111,29 +2111,31 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
->       {
->           struct vfio_iommu_type1_info *info;
+> diff --git a/scripts/ci/setup/build-environment.yml b/scripts/ci/setup/build-environment.yml
+> index 6df3e61d94..7535228685 100644
+> --- a/scripts/ci/setup/build-environment.yml
+> +++ b/scripts/ci/setup/build-environment.yml
+> @@ -97,7 +97,7 @@
+>           state: present
+>         when:
+>           - ansible_facts['distribution'] == 'Ubuntu'
+> -        - ansible_facts['architecture'] != 's390x'
+> +        - ansible_facts['architecture'] == 'aarch64' or ansible_facts['architecture'] == 'x86_64'
 >   
-> -        /*
-> -         * FIXME: This assumes that a Type1 IOMMU can map any 64-bit
-> -         * IOVA whatsoever.  That's not actually true, but the current
-> -         * kernel interface doesn't tell us what it can map, and the
-> -         * existing Type1 IOMMUs generally support any IOVA we're
-> -         * going to actually try in practice.
-> -         */
->           ret = vfio_get_iommu_info(container, &info);
-> +        if (ret) {
-> +            error_setg_errno(errp, -ret, "Failed to get VFIO IOMMU info");
-> +            goto enable_discards_exit;
-> +        }
->   
-> -        if (ret || !(info->flags & VFIO_IOMMU_INFO_PGSIZES)) {
-> -            /* Assume 4k IOVA page size */
-> -            info->iova_pgsizes = 4096;
-> +        if (info->flags & VFIO_IOMMU_INFO_PGSIZES) {
-> +            container->pgsizes = info->iova_pgsizes;
-> +        } else {
-> +            container->pgsizes = qemu_real_host_page_size();
->           }
-> -        vfio_host_win_add(container, 0, (hwaddr)-1, info->iova_pgsizes);
-> -        container->pgsizes = info->iova_pgsizes;
->   
-> -        /* The default in the kernel ("dma_entry_limit") is 65535. */
-> -        container->dma_max_mappings = 65535;
-> -        if (!ret) {
-> -            vfio_get_info_dma_avail(info, &container->dma_max_mappings);
-> -            vfio_get_iommu_info_migration(container, info);
-> +        if (!vfio_get_info_dma_avail(info, &container->dma_max_mappings)) {
-> +            container->dma_max_mappings = 65535;
->           }
-> +        vfio_get_iommu_info_migration(container, info);
->           g_free(info);
-> +
-> +        /*
-> +         * FIXME: We should parse VFIO_IOMMU_TYPE1_INFO_CAP_IOVA_RANGE
-> +         * information to get the actual window extent rather than assume
-> +         * a 64-bit IOVA address space.
-> +         */
-> +        vfio_host_win_add(container, 0, (hwaddr)-1, container->pgsizes);
-> +
->           break;
->       }
->       case VFIO_SPAPR_TCE_v2_IOMMU:
-> 
+>       - name: Install basic packages to build QEMU on Ubuntu 20.04
+>         package:
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-
 
