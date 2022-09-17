@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DBB05BBAA7
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 23:21:09 +0200 (CEST)
-Received: from localhost ([::1]:37616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BD065BBAAA
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 23:22:14 +0200 (CEST)
+Received: from localhost ([::1]:36228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZfFM-0007qv-O8
-	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 17:21:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47430)
+	id 1oZfGP-00014n-Kw
+	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 17:22:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZfCw-00051s-5N
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 17:18:38 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45010)
+ id 1oZfEi-00079f-Up
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 17:20:29 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33375)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZfCu-0005Zg-I6
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 17:18:37 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id c11so41325056wrp.11
- for <qemu-devel@nongnu.org>; Sat, 17 Sep 2022 14:18:35 -0700 (PDT)
+ id 1oZfEh-0005wy-BO
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 17:20:28 -0400
+Received: by mail-wr1-x435.google.com with SMTP id k9so41397430wri.0
+ for <qemu-devel@nongnu.org>; Sat, 17 Sep 2022 14:20:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=fIBx1d5Iz+fsvHerBXK+DsOZc6zgWtoBe1yh5KSt/Rw=;
- b=kHUAfSTdm468tvbeuwfOtjnHstgrbt2a7imJwPDCF+MdlhwLw5zBnQZHSG88JXqpRP
- BLDk6lZsr1jA6Tspk441yPOu5OWSzcCEgn9DnTSXo8LlE6hBJOUlqAt5MyKSAXA+Ukph
- pYXIRkRvzfhd916d0bYhrrEGKgze7u5++Q3VvqiLXfmS9JoFvyDVQcNtgaEg0skmx7+x
- yAiB60zRXnxhphBXkrWnIq8732OjMCcUKcCcJnp9qFVklzDeMgsKc/g9ItDFZvPsLKg9
- UkqYPki0tGnInYIR932Y7YqklSNYy3LFaPqE43MoLdr1lqWyjuMGWdLZao0/cPByopQF
- dYXA==
+ bh=IoZR9NAgcwTFrqDa80EE8teDbIOmZ9sHSGdh4iVC5ac=;
+ b=k3ksG1a+lFJtYhvNuufJI2gxqVPk//jh9ZHcNPG0WBEpReIhpGx8hRUeLxyIRIFvFb
+ oJIdOjwQejfvsFgcQmeCr3bWU/ICU2432g/YE1CNPiYoDoAl4wMGF+rkAhBGiuuPbNa9
+ YCZ7IWs0bfF1Fxhtfj6T/mlw6g61aetc4kr/tghzkLxVmLhiM00QVa7YLhUtxnr4xdvB
+ d8dui/cZk6bQ2LoW3GZ7C7/zorLNZa9alEhD9ttPSLZxX4B5YolVXXIIntuZb57/A03Z
+ LgQdjPFt14NZMzm8AIww/y9ifewB5IkZhHyMhu6LhfPMKZz19K3njM4s85bLMG5IiAca
+ a/5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=fIBx1d5Iz+fsvHerBXK+DsOZc6zgWtoBe1yh5KSt/Rw=;
- b=yuxurZo+9QFBskQ4mHPxDALE2gFae4WPHQP9RjQt5yRC8PctPA7GNepV8gOBKG+F5B
- 49lAuSq9Ky+IbdQhEielAW3DPvNHQ2ikBUUYY9VQfyk0qGYmncobpIevadVVPElPkhXA
- TXjPzehwrv5evbdganU5YXCMWCEBOwZDDRCb66TvHfMWzJWJ/8OeLWXUknxgriUjoP3p
- jS0dkhVeahTRb6kAFNh01BinkPx0U7+9svmT/kJ+82DW7he+SmTEVyRORIZ5R30ycpKV
- K43Cu50AN/hyGHXs+krBq9OdWLT+2MGw92h+uXh3xCYeB293VU2ZTfq7o55PjeEtVNPH
- gdZw==
-X-Gm-Message-State: ACrzQf07xoj4JUcImmQK3JQZLVbkaVIfbdDvbcTFGaEKJ0nBoZy0VQsO
- 3AEsdQi48xJ+QR+xZcrHNzw=
-X-Google-Smtp-Source: AMsMyM5Bs9MXN2dI9CaKhECv12m8Zlyr94+m+pgJsNiuW9Up7CID9ZKQfReIs6x+uKKQt50A6zcFSw==
-X-Received: by 2002:a5d:69cf:0:b0:22a:c2d3:1d4a with SMTP id
- s15-20020a5d69cf000000b0022ac2d31d4amr6635618wrw.473.1663449514487; 
- Sat, 17 Sep 2022 14:18:34 -0700 (PDT)
+ bh=IoZR9NAgcwTFrqDa80EE8teDbIOmZ9sHSGdh4iVC5ac=;
+ b=tG1YEjIgmXSpNgAkohHEgHnh0R8+DN7FsKOjgcRtzqbb+zzdfOhQgNWNsJBhWiAcOh
+ ZP8EwC+kax7WMg6u+41OGGRoKYHkC2ODMREB1fu6Dm9xucsaVZGqs85VX+rwh970SF0K
+ 4KOEovZ4/5gsmW3h27ExVJCcSfIPj9kGvmhPoMI7xOmyuzvr8jJL3LznnPSIwyo5FJeg
+ At7WeityGdnVPkrUZyrEAOrsa7hyEhJ37xx0lQWlDSA0gebqwbf8rWfue0ZDLfj7df1d
+ x+qy8YxqEOlqjSaey56tPCgDaIUdpgKk6pc/2eG5nrPguC1wUnT0l2qLebEDTpK42sbh
+ yHSQ==
+X-Gm-Message-State: ACrzQf32OoxMUvDLHUrHUCW6VSb6Q5Ih/4blN8fiCtEA8K6nIt8YyYg6
+ OcSftSla/OrT3sggepTHv6QNam0gth0=
+X-Google-Smtp-Source: AMsMyM7Nx3HiV05g9JUbjcHbo1GCYWu1MJo/etsKkL7zTLuqtBiSSA8ajMmaLdZ9bWad672hXilM7Q==
+X-Received: by 2002:a5d:522f:0:b0:228:dc7f:b9a8 with SMTP id
+ i15-20020a5d522f000000b00228dc7fb9a8mr6795814wra.617.1663449625896; 
+ Sat, 17 Sep 2022 14:20:25 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- 7-20020a05600c228700b003a604a29a34sm6999105wmf.35.2022.09.17.14.18.33
+ 25-20020a05600c021900b003b332a7b898sm7022097wmi.45.2022.09.17.14.20.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Sep 2022 14:18:34 -0700 (PDT)
-Message-ID: <db49e38f-415e-46f8-b6ab-717f4a925819@amsat.org>
-Date: Sat, 17 Sep 2022 23:18:32 +0200
+ Sat, 17 Sep 2022 14:20:25 -0700 (PDT)
+Message-ID: <24cd05bb-854c-0637-77c5-6d34df100d27@amsat.org>
+Date: Sat, 17 Sep 2022 23:20:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH 1/7] scripts/nsis.py: Drop the unnecessary path separator
+Subject: Re: [PATCH 2/7] scripts/nsis.py: Fix destination directory name when
+ invoked on Windows
 Content-Language: en-US
 To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
 Cc: Bin Meng <bin.meng@windriver.com>, Cleber Rosa <crosa@redhat.com>,
  John Snow <jsnow@redhat.com>
 References: <20220908132817.1831008-1-bmeng.cn@gmail.com>
- <20220908132817.1831008-2-bmeng.cn@gmail.com>
-In-Reply-To: <20220908132817.1831008-2-bmeng.cn@gmail.com>
+ <20220908132817.1831008-3-bmeng.cn@gmail.com>
+In-Reply-To: <20220908132817.1831008-3-bmeng.cn@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -100,14 +101,26 @@ From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 On 8/9/22 15:28, Bin Meng wrote:
 > From: Bin Meng <bin.meng@windriver.com>
 > 
-> There is no need to append a path separator to the destination
-> directory that is passed to "make install".
+> "make installer" on Windows fails with the following message:
 > 
+>    Traceback (most recent call last):
+>      File "G:\msys64\home\foo\git\qemu\scripts\nsis.py", line 89, in <module>
+>        main()
+>      File "G:\msys64\home\foo\git\qemu\scripts\nsis.py", line 34, in main
+>        with open(
+>    OSError: [Errno 22] Invalid argument:
+>    'R:/Temp/tmpw83xhjquG:/msys64/qemu/system-emulations.nsh'
+>    ninja: build stopped: subcommand failed.
+> 
+> Use os.path.splitdrive() to form a canonical path without the drive
+> letter on Windows. This works with cross-build on Linux too.
+> 
+> Fixes: 8adfeba953e0 ("meson: add NSIS building")
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > ---
 > 
->   scripts/nsis.py | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   scripts/nsis.py | 12 +++++++-----
+>   1 file changed, 7 insertions(+), 5 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
