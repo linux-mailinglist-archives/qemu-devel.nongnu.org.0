@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B0765BBAA1
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 23:14:34 +0200 (CEST)
-Received: from localhost ([::1]:60390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 663155BBAA3
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 23:17:00 +0200 (CEST)
+Received: from localhost ([::1]:39092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZf8z-0001FJ-8S
-	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 17:14:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51774)
+	id 1oZfBL-0003AL-6r
+	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 17:16:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZf7l-00088s-VY; Sat, 17 Sep 2022 17:13:18 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:37549)
+ id 1oZf9c-0001L0-8l; Sat, 17 Sep 2022 17:15:12 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:54856)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZf7k-0004Z6-Cx; Sat, 17 Sep 2022 17:13:17 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- c2-20020a1c3502000000b003b2973dafb7so2042955wma.2; 
- Sat, 17 Sep 2022 14:13:15 -0700 (PDT)
+ id 1oZf9Z-000561-Pg; Sat, 17 Sep 2022 17:15:11 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id az6so18231495wmb.4;
+ Sat, 17 Sep 2022 14:15:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=OkLgaXBM0tM7UXAC+uUMwzzD5ZZJTESlKYdYMknq1Xc=;
- b=j/jvhhgeo8sy640HWsyZYfhLBBZUQwXV97v+RsW7WWPxU4ZSCsdH+6LAoLQPvY7vAT
- V3I7CIPwUGYgCqcG8B2VtYTnfRB4wkkTf1PdcTheITzxyacOGJEZrWqmMEmhLh5H+I0T
- KHkNlR5zsO9XgXGKvO3hoxKrxKFkrFnqei2jK6E7Z2+lAGqWeth40QRJskA3K2ny5UCS
- mEYmoj6EQBRtHPbumQgdcrAdEqdXsOsZHrX/w/r1AMQ3bANRIJch7Q3DuaCo+g6RwA7A
- nCwDLGymIJjHlGDPcPy3+sR4iTTSzbM7ibupOBIni5ns2Ur+tQWAcm8ibfj5FetxQjYK
- 2WHQ==
+ bh=DFnaGpq2WRe3GPcq1QyKdbML3fSSKCqYgJgE9HK47No=;
+ b=Kd/NP0wWgNhD5RxSa8095Lq2Vp8FHpWjGihOTWpeGtHy310gUNPGhJfCHI0zHRxkq2
+ ibqlQ3rFqX2hP4rTld6L72k4I5ED6LgDXHlgB7eJwOOvPK64DeJ0Euf5siH7L/91R3cA
+ 4qbe7nwyMMwfhuHG7OTiNa3U+CCbQkvP2DGOmGNDSB0Lur7OaTZrQ8KWOo4RW718aMkl
+ wGDbXH4Pe1u9jQ5oN6JRf4U6AQunJzeHQSK2HS6w1NVwZUTzNpyqeBfOurIHR7kZJW8z
+ 74rWS+vnO/XfTh/IBZJh39Pfnatl5V86lgvuT3MA+XjagdUeqAWH2NM9qlIk493tD0bC
+ AI5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=OkLgaXBM0tM7UXAC+uUMwzzD5ZZJTESlKYdYMknq1Xc=;
- b=wUktylN9qZYFAloEiu/7HvmbuP/EQAT27cOClBXNCKOWp1YQIWEXU/7xDEJDm/rnPx
- f5oCxrR3YAr4S9re21jgtArzDkX6CqwnCangCzujXdEYrXBTa20W50IO8QAxT6ye2P5F
- wzQBOEAAzmtEb8QG3g6uPJdJpEEVhnQkUe2ghsW5PXwDPliDfkj6Fc2VwKzj/PLWb0Uz
- 3rn6MnYZZGh2cu5t361s4grJFpyzL5hfFmQUgi+npG/bI0jkgtI+rzlfj0Tj0cIIb225
- CpuMTfIALpZjF4QSVIYPu604939LRtJxoIIx6tLWTpuy8mDfThOGEU+OBjQDDVHyKdcx
- U/Eg==
-X-Gm-Message-State: ACgBeo38HvmbW1/ykWFVcuhZOS56kNH4ld7O3ME/66vbTNyz4wl8UsZ6
- 2e27JjIIZV/ezmQ28kEougY=
-X-Google-Smtp-Source: AA6agR5pkc/Ol90BhhYFLdAA9pPqdks8fE5YHp7WOwNFQHu9idZTLc1awwHRzuZBVMLcr4injYzjxQ==
-X-Received: by 2002:a05:600c:4e16:b0:3b4:9a80:915c with SMTP id
- b22-20020a05600c4e1600b003b49a80915cmr14150110wmq.126.1663449194376; 
- Sat, 17 Sep 2022 14:13:14 -0700 (PDT)
+ bh=DFnaGpq2WRe3GPcq1QyKdbML3fSSKCqYgJgE9HK47No=;
+ b=3FFRKTxaL2zK4716Tuv2QHuAByA4asyWHxEndoqgfIT1C/+CGWPtlWxjRuOeB8jJz6
+ s7nDMa0LmIbOMcXLIUkfKl7J6LcyIhXK/O0gQsNdxn5Dszmlcvnuo9QL0Y12xa3Pw6Qp
+ vM/mHpnS44RUg71xXEBzCJahCECCK3qjOtiZEaQw2WeVRUdVZ816PrJIjhTU+v2DyHel
+ 4Gnkz1dpZSVMK8v3qBwjYheKHiq8nLIjHfh6oWA5iV7MIHn7uPOMYeldUfB2me3JbAWC
+ pwUdafSqxOKiA8O+j3T9J/guX9nZvsrhOJTUnCq+0grpa0DnZF5Ey+jW4OdtqD53HC8T
+ MSfw==
+X-Gm-Message-State: ACrzQf0Ygo3Od6iEz3HPwrWg+BMbZ7QPkeXO3PXn5D3txNzmwT9G74Hr
+ hwVsRNRkEP6VZMSzdvja5+E=
+X-Google-Smtp-Source: AMsMyM6pCh94heR++1DQzc7jS+3w18jtt1r0AB5ahqlAo65S7qufCVxdGHuslgp16ITp+H0RlF0drw==
+X-Received: by 2002:a05:600c:2253:b0:3b4:61f2:3bba with SMTP id
+ a19-20020a05600c225300b003b461f23bbamr7566199wmm.112.1663449307848; 
+ Sat, 17 Sep 2022 14:15:07 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- h11-20020a05600c28cb00b003b462b314e7sm7014584wmd.16.2022.09.17.14.13.13
+ y6-20020a7bcd86000000b003b33de17577sm6829198wmj.13.2022.09.17.14.15.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Sep 2022 14:13:13 -0700 (PDT)
-Message-ID: <8ec64977-c6bf-5e55-7129-126e7b7a82a4@amsat.org>
-Date: Sat, 17 Sep 2022 23:13:12 +0200
+ Sat, 17 Sep 2022 14:15:07 -0700 (PDT)
+Message-ID: <51f5218b-80be-5927-4bce-ddf0bf59c188@amsat.org>
+Date: Sat, 17 Sep 2022 23:15:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH 05/10] mac_{old|new}world: Reduce number of QOM casts
+Subject: Re: [PATCH 09/10] hw/ppc/mac.h: Move PROM and KERNEL defines to board
+ code
 Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 References: <cover.1663368422.git.balaton@eik.bme.hu>
- <ab40167d23ee0777f99e8dadcf8e6050665092f9.1663368422.git.balaton@eik.bme.hu>
-In-Reply-To: <ab40167d23ee0777f99e8dadcf8e6050665092f9.1663368422.git.balaton@eik.bme.hu>
+ <f8554a36947fc60caf104deffc6cfa5c4f244ae5.1663368422.git.balaton@eik.bme.hu>
+In-Reply-To: <f8554a36947fc60caf104deffc6cfa5c4f244ae5.1663368422.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
@@ -97,15 +97,17 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 17/9/22 01:07, BALATON Zoltan wrote:
-> By storing the device pointers in a variable with the right type the
-> number of QOM casts can be reduced which also makes the code more
-> readable.
+> The PROM_FILENAME and KERNEL_* defines are used by mac_oldworld and
+> mac_newworld but they don't have to be identical so these could be
+> moved to the individual boards. The NVRAM_SIZE define is not used so
+> it can be dropped. This further reduces the mac.h header.
 > 
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->   hw/ppc/mac_newworld.c | 60 ++++++++++++++++++++-----------------------
->   hw/ppc/mac_oldworld.c | 26 ++++++++-----------
->   2 files changed, 39 insertions(+), 47 deletions(-)
+>   hw/ppc/mac.h          | 6 ------
+>   hw/ppc/mac_newworld.c | 4 ++++
+>   hw/ppc/mac_oldworld.c | 7 ++++++-
+>   3 files changed, 10 insertions(+), 7 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
