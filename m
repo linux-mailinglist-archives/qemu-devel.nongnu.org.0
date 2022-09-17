@@ -2,158 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FDB25BB545
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 03:16:57 +0200 (CEST)
-Received: from localhost ([::1]:35626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06A245BB584
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 04:19:10 +0200 (CEST)
+Received: from localhost ([::1]:50622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZMRz-0007ah-Uj
-	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 21:16:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58098)
+	id 1oZNQC-0003IC-HI
+	for lists+qemu-devel@lfdr.de; Fri, 16 Sep 2022 22:19:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=252df0604=wilfred.mallawa@wdc.com>)
- id 1oZMPp-0006D2-CO
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 21:14:41 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:7255)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=252df0604=wilfred.mallawa@wdc.com>)
- id 1oZMPb-0001qO-D3
- for qemu-devel@nongnu.org; Fri, 16 Sep 2022 21:14:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1663377266; x=1694913266;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=NXiWfFwXo09tOneB38XwSWgmiwsTNB0aKv0HQysxUrw=;
- b=JBZRLOese03oxbq7DtNjnDSFh5cN9pyYAcg7YzjnEnCTZwjD/z9DxZz3
- oBrlu8EQA8oblU7Y5I9ZMG8xqz76vU/+lflbm3oa7efvQz7hCsTa0CeOq
- 1sDLpVOrnMuIyTMHDxHnbA2SnwuEc8Dbdk1JjX1tEU4ffLTHpiuVPu4dE
- WUmIh7K0TNYMPJ/e7p+2KO06IfMtXek0ztQAtGdrgrPCa+XS0cPxnAxI8
- iamWD6DRmrxsJcwS8U0+WYf7bu/HUV447XJXetobSPqZPUwzbyz/BOWj5
- BjuHOV/88jRDM7obZtBk5u39ANda8Kmlr35Sk2NuC+bxgE/OzZ5JslZC3 Q==;
-X-IronPort-AV: E=Sophos;i="5.93,321,1654531200"; d="scan'208";a="216744437"
-Received: from mail-co1nam11lp2174.outbound.protection.outlook.com (HELO
- NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.174])
- by ob1.hgst.iphmx.com with ESMTP; 17 Sep 2022 09:14:22 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TR2TV2UqDfCmUISd3cgrhh4/o2Z5ifyIYZvJVK2HFYW6lCX7eTuJOVpqXhIO0VnqWyilBeSCmpYrwVfPTe0+2gUg0t6PSRpNIue9jLyxZrxMjo6iUuhRIcPcoz8O2/SaN24auDZqHR812n9XRQshpc+C8PAG74CrAmP4RHcGJxSEK5qUhvwrbRRl9llcohQLi0bG4D51haW0jmAD64iKl0hGJY4MbxIBzUzZkoyw31FpOPYYXAfARaH6Z4kMz2aKcO43bBh9IysaeSGBaBc3Ldwdx4OUQL+Iy85BrLGfh0WcgB3obu0MZE8c9Ulnw9N9yl3V+00KtWpDHgWsk29jZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NXiWfFwXo09tOneB38XwSWgmiwsTNB0aKv0HQysxUrw=;
- b=LWBkbAt/Vpe5vQEyUIeUrvS0b1BF9klx2yMs6icdIWCfCrA3Eol2kLICoBbX/UueRuMhewGLjeG5wA0IMRDaA7YgebRw6brpycDwQzbpaDLMqd3QwH5QWlrcbxCN46Fg1zhsY51CwLxcPOvo5hpKhR2SCbTcJbSQU6iq9wq8inpmFpg5b0GmYxDveOGP1kS4wq71sFbMdGkYzfOwuuhy48mZJmZqiQXYPQEwXiA0XncHfT99nV+JARpIcXPMATOTZz+3T+cHuT2ZdCEadmi0eWwQTps1LBuMtlwSKnTPLykAJ0siiXvNW9yeEknl/8s7kZ2mJfXH7zuqrTO/7X7/iA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NXiWfFwXo09tOneB38XwSWgmiwsTNB0aKv0HQysxUrw=;
- b=f3qjdF4DOjwCURV2vVe/uMLUAu6QQUgATvf9MPqhbbiytLOD5kWcQIsVoaxHl1ksceS5gsICA6rgIFAuNYux2yH4TF+qqndACD8dy39e/m5l2cHjoRCUjFZbzXhWKI8v/2O77Chf7rLF75+nsT/2woMQ3oGLU5ySGbvmf+sONIM=
-Received: from BL0PR04MB6546.namprd04.prod.outlook.com (2603:10b6:208:1c2::14)
- by MWHPR04MB0353.namprd04.prod.outlook.com (2603:10b6:300:c::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.16; Sat, 17 Sep
- 2022 01:14:19 +0000
-Received: from BL0PR04MB6546.namprd04.prod.outlook.com
- ([fe80::6ef0:1511:8fe1:d319]) by BL0PR04MB6546.namprd04.prod.outlook.com
- ([fe80::6ef0:1511:8fe1:d319%7]) with mapi id 15.20.5632.017; Sat, 17 Sep 2022
- 01:14:19 +0000
-From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-To: "wilfred.mallawa@opensource.wdc.com" <wilfred.mallawa@opensource.wdc.com>, 
- "f4bug@amsat.org" <f4bug@amsat.org>, "richard.henderson@linaro.org"
- <richard.henderson@linaro.org>, "alistair@alistair23.me"
- <alistair@alistair23.me>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Re: [RFC] hw/registerfields: add `FIELDx_1CLEAR()` macro
-Thread-Topic: [RFC] hw/registerfields: add `FIELDx_1CLEAR()` macro
-Thread-Index: AQHYvZ6egGWX6RYIG0qchmFPF2V4uK3KDR0AgAEp74CAF7NVAA==
-Date: Sat, 17 Sep 2022 01:14:19 +0000
-Message-ID: <6641286d492ee6faf40d26dbefeb32959b10c8cb.camel@wdc.com>
-References: <20220901010220.495112-1-wilfred.mallawa@opensource.wdc.com>
- <d2e49911-4aed-5031-f430-71d4e15b130e@linaro.org>
- <d6f71302-864c-b80f-84ea-d1dda4817f80@amsat.org>
-In-Reply-To: <d6f71302-864c-b80f-84ea-d1dda4817f80@amsat.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BL0PR04MB6546:EE_|MWHPR04MB0353:EE_
-x-ms-office365-filtering-correlation-id: 01885721-9059-4ec8-17aa-08da9849f28f
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 9hgifQnuL8wqvJhVIsU9XORZzNl3tBpjQhCferGq4x/fJSaj2roArdJLPFA/9ZFwLFr3FfgWyUT5YrCoDBoSlsxf4GSUfE1IoCHAU2R6qvFpqTjaaV1DQJEMO/gf/ZsahuOz4yICW5v+MbUFzQI51Fy+HzQ+HNRKjkZ31QN/LVW4TPhxyF5IbDh9frvk6aZph/aMt86TBDDMZh+hbuwWaflsx50oGTSWWvzm05LBxu/y81i3DPjYYLDUoEzSam8q478i4HAh9Q9QeoVohpPUn4LIzxj6F27Krcps9XSLScOKlX9oDTMa3PCx3fj//B7VYLraTKgTF2ynKwNKMl6z76ycQLFAM8NPZymWEKBNwmiqkifJ0pQmoyXchPXbIUBTIiHBGzllqSOJhu7ohKkkf2DRoJy1o6UBK1SqaL0VtjDw+TivK/19Tuf33fEbX3E388+i+vB4uM5CxrKHo7cprBCf0UBNDd7Qsk8YTuHEHhuTjzcFo68J/NM1F1sGmS026OfdhT88EgZm/kHRtC5yfPUfPBoktki22Pvl18GvS28HHPUAM9JuWBtssWwIXQqqfdCPtpm8dLl0KGUNatHk3RQE4s0jjFyh3qf0r7K/Ob6B1ZbDBV2pLtn4GN2ug60Iy3c4DrjBq9EsRcQfaaFraMP1vLRdxbJBOuHlN+Uw280v6soLNLxsMylb8Ud29ckuRi+dq05LVix8xr+MsdQ5luhVm6XgYpj6oOgYjIDNS1X3+Yr1evDmb8TjCw5Ym+62amPkc7Z4n8JkTCX/E1NgAfqGoIqwj7fwqQNdUVN7P8RsvjZ5Z8VJQdZISqPciHCwf7l3Ur11K41HGKA/k+XsJxIjwiffji8nJPoiFIApsMYoNUzf39t4TT8bXdJkCMEFlREwEq1e744q+i1h4jok4Q==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR04MB6546.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(376002)(346002)(136003)(396003)(39860400002)(366004)(451199015)(5660300002)(478600001)(966005)(71200400001)(6512007)(82960400001)(8676002)(6506007)(186003)(4326008)(91956017)(66946007)(76116006)(53546011)(26005)(2616005)(110136005)(86362001)(44832011)(2906002)(38070700005)(66446008)(66556008)(64756008)(6486002)(41300700001)(122000001)(38100700002)(316002)(8936002)(36756003)(66476007)(81973001)(357404004);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZlNlQ2M2ejFRaklMN3BnVEtDZHY2akNJOE5rUUZ6WVZnTFBLTDE3UUF2Qklk?=
- =?utf-8?B?T3dnK3BtbnV2VlAycGFXeEFxZmQ5NTV4enpMVENFeXVnWmxDZnFFVHRTZHA0?=
- =?utf-8?B?Z2FzRjlWYnNLQWR2WU9LejhWb2RXcVArdjFIMUx6WngvNVNzdUw1N2sxMGVh?=
- =?utf-8?B?ZEJvdy9wUXNuNWtvTkhQaUtNenNaM0t1cXFMZkNCNzRLU2N1aGc1VFpSUWVr?=
- =?utf-8?B?VHRoVE5tMlZlTVlCdGxSdzZIMjljS0c3YkpBYmdieWpQWVB5dWZneTJkUjQw?=
- =?utf-8?B?Y3FDbFlzb2duVXlmUEo4cnU5OGtJeVRWemUvbG9seGUramRCZWpoNDJZQWU3?=
- =?utf-8?B?Tmd3OVlBTENpbUpudVJiVmVZZTR4Sk1HNFdMZG9naCtndnRsU3hiWXFhWklY?=
- =?utf-8?B?M0VWS0x1WllxQjlmMXpHc3N6aFJoYVR5OXZNdzZ3WjN5NVhOZVFrOVdHcHA2?=
- =?utf-8?B?Z21QNTMrWlR5UHVGNmtYYXZraE5zVVVFVTRwa2RDSHRZUmNaQjZFWEdGdG14?=
- =?utf-8?B?Z0crQTZ0VFg2MUh4N1BudndKTnh3TW1QS1VVb21LenEvMEdQNGdORjNhcmV3?=
- =?utf-8?B?SkpFT01zQzJ5ZHRWTFYvZ1VqVHBLalpwU1dRdDNTQU5taWJqMWc4UDY3eWNq?=
- =?utf-8?B?VVBRa1NIOE5iQjE3MUpaWDFROEtJZkhqWW5VUEdYZ1hIVzQ5b1pyKzFHQjNR?=
- =?utf-8?B?YXEwcFlzUm56d2pEK2tudGRwR05BMTRGYTdMVlZpUktaY0JTZ3NTaFpzQWJ1?=
- =?utf-8?B?REZDZ0JEUEdPaVR2OWMweVFNelJvQmJpeW1qWng3UUNLSTZCS0FLZzVUR0NE?=
- =?utf-8?B?NUM4bUErSitXUTRrT1hKOUxubWZtTEJuK1BYK2JxMVVYZThNa0QydWl1L1U1?=
- =?utf-8?B?MG9iV1lDSVhRc0MxeEpqcnZXMkdVWU1nQURmYyt1OVJOb1cxQXd6WDlVOFpN?=
- =?utf-8?B?bnhGUUZrMDVLV094Zzl6TDFBZlBCNXNZV2llUVhnbEhTQzRzMzF0dVgyVkps?=
- =?utf-8?B?Unh5RWtuWHljL2ErcmxRRkhPQ0NWVC9qUkwxays4YlZETHNZZkNqbmtHMERT?=
- =?utf-8?B?bEpqZ3lrODBFcDhhd3JZcnJ4YnJuZUhzWi91RmdOYWs5L2ZEWXJUbCtUMktu?=
- =?utf-8?B?dHlPOG1EazZEVnFiNnZURE40TFlIQTFwek5ZWUdwY0kzaVVjR2E1cldvTzll?=
- =?utf-8?B?T0wwN2ZqYzRnQS9odzJTdHV0QTkrRGdwVUZ4dGV4V3BNb2tGcFdvMWU1dnpE?=
- =?utf-8?B?MGNUMkRFOHVZOU4xSUp5ZTJpZWdVblgyRHQrbFZDajRuRWdHRlRYOXZXd3BO?=
- =?utf-8?B?OXFuYWVIUDQxVmROZ2FFSHB6UFhCRURZbFZrNHEyNTVtdzA1eHMzUnY0QUpS?=
- =?utf-8?B?clpLdmxRMTgxazB6WVF6c1paVlRjQk45VzRWMWVFSTA4SVR5KysxK3h0cTR1?=
- =?utf-8?B?Q3N4YVlNUjNobG5MbzBROFo1TFM2QjcrTXNNYUdwSjBKV0o1Qm1pRWFSam9p?=
- =?utf-8?B?WUxIVXprSGlPOEFrQW1ObGtXTVJWTnYzV2RuaVBSNTVYWjNRMUdtZG9qMUxO?=
- =?utf-8?B?TkM3VGhUd0RHdFNMeXlFUmxSMVU4eERuQ2c3bmJRdW1JaTdtSW14NjZIamlN?=
- =?utf-8?B?UWxsSzZtNElPbjZhWGNKdXJCSDkrdDlTaG03Z2hhUjJudVNncjlzQkZkdjlX?=
- =?utf-8?B?YmNQWVorZlFpVkxXS2IyWnRSUjUrRmM5cncwTmxTNkgzajFveXR1L0I3RkNm?=
- =?utf-8?B?ZkJ3d2EzMDJZb3VRd1RmbEU4N2VLVk5MOU5PTDAzSmQzNGUrSk5oLzRRZnJp?=
- =?utf-8?B?eXdIUy93N3FIMWlhTHBWZEwxaXFic0tiQTJHQklIWjJiaFBUT2V1Y3BFOUta?=
- =?utf-8?B?UFhOaGJ5TUw0b0tWNWZsVEZaWk5VOTFoZS9YZTN5OEZHRTN6b01KU1kyeVE1?=
- =?utf-8?B?L2lVWitaYk9iTytRZEVpQXhIWEYxU1luMmwwVWxYQ2Z1ZHBuWFg1N3c1dFhv?=
- =?utf-8?B?NW1TZVhwMklkM01FeXdyN3hqMXhHdTU1a3ZjQlRuUno1RUN4ODRMQmhSUWJB?=
- =?utf-8?B?K3VLWjFTVCtFaUdLeTBrNHozb3l0dFZIRWdWaDFuYmp3Z00vVlpBWjRMSk1t?=
- =?utf-8?B?SVBXMTNiVHUyc1FVUklBMyt2dURQajVTbDFCaW5yUWV2Q0xkcUtQWlJBdHNj?=
- =?utf-8?B?L3c9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <842D78381AA4954CACEE50A94BC7F8AE@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <ricky.zhou@gmail.com>)
+ id 1oZNME-0001hO-Py
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 22:15:02 -0400
+Received: from mail-wr1-f52.google.com ([209.85.221.52]:39847)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ricky.zhou@gmail.com>)
+ id 1oZNM8-0005Gg-Sk
+ for qemu-devel@nongnu.org; Fri, 16 Sep 2022 22:15:02 -0400
+Received: by mail-wr1-f52.google.com with SMTP id cc5so28848604wrb.6
+ for <qemu-devel@nongnu.org>; Fri, 16 Sep 2022 19:14:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=HpbBVxJVhCBfV0lbg9tXzu+nDkHqKBLFFqlNUMMRxCY=;
+ b=NzmIgPbD+jK3Q6VGyhhGLrmEm5Gfl3tanCoTGqWaiYFNwpNiGDouXnFYi7fe+twJyQ
+ mFajFPjQJQuQKXZHidAba5sZeYpc99pjvsGTkiePN0pOA2apR7yPTurmrxcxbMQyX2Nm
+ lzwo2zodRqTc8Onnz4JloRo2jIF87VyAQKzTiUlwsAZFD87Qpu5LsF30O6voa15zfngU
+ q53sY12GjrzyUYC3IyOupCeUHlHVH1rEC702CrqBIH7aSxFxYNDIJMQjIg/im1cR5FrI
+ DCdnNZZPoipMHERCL5p5kiN588wiqzFPYb3EUFLOTxK1bitS+bd4arwd1Bz3oUNReHI2
+ yVxQ==
+X-Gm-Message-State: ACrzQf3jQuhXXEdoK10nftcQ2YWtn+kTyBGIVJtTNWLjRUmKSqoGeRYU
+ bOQd00peQr3a5QusyGIsIO6Y5337AffnWdjmT/lqYrDLe1I=
+X-Google-Smtp-Source: AMsMyM6ad7rz3IKfVAhUxgaBS6RUOT2WckhPMqKKp7Sxjd4xTL14sWO30CW3dv9vKBdNpC0cd9jz9Ic/PoCYWxVUk8g=
+X-Received: by 2002:a5d:630b:0:b0:22a:cb13:e7b with SMTP id
+ i11-20020a5d630b000000b0022acb130e7bmr4479049wru.312.1663380894219; Fri, 16
+ Sep 2022 19:14:54 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR04MB6546.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01885721-9059-4ec8-17aa-08da9849f28f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Sep 2022 01:14:19.5376 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xI5QuvxRQo/jSx23SiPgxpxWzzui0l/xtfBfIpknPLaHIHxVR3GXduDy0aL0arl/As4ZlQ8IFM4kYOzgWYqOdg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR04MB0353
-Received-SPF: pass client-ip=216.71.153.141;
- envelope-from=prvs=252df0604=wilfred.mallawa@wdc.com; helo=esa3.hgst.iphmx.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+References: <20220830034816.57091-1-ricky@rzhou.org>
+ <20220830034816.57091-2-ricky@rzhou.org>
+In-Reply-To: <20220830034816.57091-2-ricky@rzhou.org>
+From: Ricky Zhou <ricky@rzhou.org>
+Date: Fri, 16 Sep 2022 19:14:43 -0700
+Message-ID: <CAFoVXjh2RA4MF0m2n0AxAgK=4HA9TRCmKiMNe2+MKbApS14gfg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] target/i386: Raise #GP on unaligned m128 accesses
+ when required.
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
+ eduardo@habkost.net
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=209.85.221.52; envelope-from=ricky.zhou@gmail.com;
+ helo=mail-wr1-f52.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -169,75 +76,308 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGluZyEKCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3FlbXUtZGV2ZWwvMjAyMjA5MDEwMTAyMjAu
-NDk1MTEyLTEtd2lsZnJlZC5tYWxsYXdhQG9wZW5zb3VyY2Uud2RjLmNvbS8KV2lsZnJlZAoKT24g
-RnJpLCAyMDIyLTA5LTAyIGF0IDAxOjE4ICswMjAwLCBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSB3
-cm90ZToKPiBPbiAxLzkvMjIgMDc6MzIsIFJpY2hhcmQgSGVuZGVyc29uIHdyb3RlOgo+ID4gT24g
-OS8xLzIyIDAyOjAyLCBXaWxmcmVkIE1hbGxhd2Egd3JvdGU6Cj4gPiA+IEZyb206IFdpbGZyZWQg
-TWFsbGF3YSA8d2lsZnJlZC5tYWxsYXdhQHdkYy5jb20+Cj4gPiA+IAo+ID4gPiBBZGRzIGEgaGVs
-cGVyIG1hY3JvIHRoYXQgaW1wbGVtZW50cyB0aGUgYHJ3MWNgCj4gPiA+IGJlaGF2aW91ci4KPiA+
-ID4gCj4gPiA+IEV4Ogo+ID4gPiDCoMKgIHVpbnQzMl90IGRhdGEgPSBGSUVMRDMyXzFDTEVBUih2
-YWwsIFJFRywgRklFTEQpOwo+ID4gPiAKPiA+ID4gaWYgdGhlIHNwZWNpZmllZCBgRklFTERgIGlz
-IHNldCAoc2luZ2xlL211bHRpIGJpdCBhbGwgZmllbGRzKQo+ID4gPiB0aGVuIHRoZSByZXNwZWN0
-aXZlIGZpZWxkIGlzIGNsZWFyZWQgYW5kIHJldHVybmVkIHRvIGBkYXRhYC4KPiA+ID4gCj4gPiA+
-IElmIEFMTCBiaXRzIG9mIHRoZSBiaXRmaWVsZCBhcmUgbm90IHNldCwgdGhlbiBubyBjaGFuZ2Ug
-YW5kCj4gPiA+IHZhbCBpcyByZXR1cm5lZC4KPiA+ID4gCj4gPiA+IFNpZ25lZC1vZmYtYnk6IFdp
-bGZyZWQgTWFsbGF3YSA8d2lsZnJlZC5tYWxsYXdhQHdkYy5jb20+Cj4gPiAKPiA+IFdoeSBkbyB0
-aGVzZSBvcGVyYXRpb25zIG5lZWQgdG8gZ28gaW50byBody9yZWdpc3RlcmZpZWxkcy5oPwo+ID4g
-SXQncyBub3QgYSBjb21tb24gb3BlcmF0aW9uLCBzaW5jZSB3ZSd2ZSBuZXZlciBuZWVkZWQgaXQg
-c28gZmFyLgo+IAo+IEkgc3VnZ2VzdGVkIGl0IHRvIGltcHJvdmUgcmVhZGFiaWxpdHkgb2YgdGhp
-cyBwYXRjaDoKPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9xZW11LWRldmVsL2MzMzI1N2EzLTY0
-NWYtOTM4Ni01MmU1LTIxYTE1ZWYwZWJlNUBhbXNhdC5vcmcvCj4gCj4gPiA+IC0tLQo+ID4gPiDC
-oCBpbmNsdWRlL2h3L3JlZ2lzdGVyZmllbGRzLmggfCAyOCArKysrKysrKysrKysrKysrKysrKysr
-KysrKysrCj4gPiA+IMKgIDEgZmlsZSBjaGFuZ2VkLCAyOCBpbnNlcnRpb25zKCspCj4gPiA+IAo+
-ID4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9ody9yZWdpc3RlcmZpZWxkcy5oCj4gPiA+IGIvaW5j
-bHVkZS9ody9yZWdpc3RlcmZpZWxkcy5oCj4gPiA+IGluZGV4IDEzMzBjYTc3ZGUuLjVhODA0Zjcy
-ZTMgMTAwNjQ0Cj4gPiA+IC0tLSBhL2luY2x1ZGUvaHcvcmVnaXN0ZXJmaWVsZHMuaAo+ID4gPiAr
-KysgYi9pbmNsdWRlL2h3L3JlZ2lzdGVyZmllbGRzLmgKPiA+ID4gQEAgLTExNSw2ICsxMTUsMzQg
-QEAKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgUl8gIyMgcmVn
-ICMjIF8gIyMgZmllbGQgIyMgX0xFTkdUSCwgCj4gPiA+IF92LnYpO8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIFwKPiA+ID4gwqDCoMKgwqDCoCBfZDsgfSkKPiA+ID4gKy8qIEdldCB0aGUgbWF4
-IHZhbHVlICh1aW50KSBkaXNjcmliZWQgYnkgYG51bV9iaXRzYCBiaXRzICovCj4gPiA+ICsjZGVm
-aW5lIE1BWF9OX0JJVFMobnVtX2JpdHMpICgoMSA8PCAobnVtX2JpdHMpKSAtIDEpCj4gPiA+ICsK
-PiA+ID4gKy8qCj4gPiA+ICsgKiBDbGVhciB0aGUgc3BlY2lmaWVkIGZpZWxkIGluIHJlZ192YWwg
-aWYKPiA+ID4gKyAqIGFsbCBmaWVsZCBiaXRzIGFyZSBzZXQsIGVsc2Ugbm8gY2hhbmdlcyBtYWRl
-LiBJbXBsZW1lbnRzCj4gPiA+ICsgKiBzaW5nbGUvbXVsdGktYml0IGBydzFjYAo+ID4gPiArICov
-Cj4gPiA+ICsjZGVmaW5lIEZJRUxEOF8xQ0xFQVIocmVnX3ZhbCwgcmVnLCAKPiA+ID4gZmllbGQp
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgXAo+ID4gPiArwqDCoMKgICgoRklFTERfRVg4KHJlZ192YWwsIHJlZywgZmllbGQpIAo+
-ID4gPiA9PcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIFwKPiA+ID4gK8KgwqDCoMKgwqAgTUFYX05fQklUUyhSXyAjIyBy
-ZWcgIyMgXyAjIyBmaWVsZCAjIyBfTEVOR1RIKSkgCj4gPiA+ID/CoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgXAo+ID4gPiArwqDCoMKgwqDCoCBGSUVMRF9EUDgocmVnX3ZhbCwg
-cmVnLCBmaWVsZCwgMHgwMCkgOiByZWdfdmFsKQo+ID4gPiArCj4gPiA+ICsjZGVmaW5lIEZJRUxE
-MTZfMUNMRUFSKHJlZ192YWwsIHJlZywgCj4gPiA+IGZpZWxkKcKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBcCj4gPiA+ICvCoMKgwqAg
-KChGSUVMRF9FWDE2KHJlZ192YWwsIHJlZywgZmllbGQpIAo+ID4gPiA9PcKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBcCj4g
-PiA+ICvCoMKgwqDCoMKgIE1BWF9OX0JJVFMoUl8gIyMgcmVnICMjIF8gIyMgZmllbGQgIyMgX0xF
-TkdUSCkpIAo+ID4gPiA/wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFwKPiA+
-ID4gK8KgwqDCoMKgwqAgRklFTERfRFAxNihyZWdfdmFsLCByZWcsIGZpZWxkLCAweDAwKSA6IHJl
-Z192YWwpCj4gPiA+ICsKPiA+ID4gKyNkZWZpbmUgRklFTEQzMl8xQ0xFQVIocmVnX3ZhbCwgcmVn
-LCAKPiA+ID4gZmllbGQpwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIFwKPiA+ID4gK8KgwqDCoCAoKEZJRUxEX0VYMzIocmVnX3ZhbCwg
-cmVnLCBmaWVsZCkgCj4gPiA+ID09wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFwKPiA+ID4gK8KgwqDCoMKgwqAgTUFYX05f
-QklUUyhSXyAjIyByZWcgIyMgXyAjIyBmaWVsZCAjIyBfTEVOR1RIKSkgCj4gPiA+ID/CoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgXAo+ID4gPiArwqDCoMKgwqDCoCBGSUVMRF9E
-UDMyKHJlZ192YWwsIHJlZywgZmllbGQsIDB4MDApIDogcmVnX3ZhbCkKPiA+ID4gKwo+ID4gPiAr
-I2RlZmluZSBGSUVMRDY0XzFDTEVBUihyZWdfdmFsLCByZWcsIAo+ID4gPiBmaWVsZCnCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgXAo+
-ID4gPiArwqDCoMKgICgoRklFTERfRVg2NChyZWdfdmFsLCByZWcsIGZpZWxkKSAKPiA+ID4gPT3C
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgXAo+ID4gPiArwqDCoMKgwqDCoCBNQVhfTl9CSVRTKFJfICMjIHJlZyAjIyBfICMj
-IGZpZWxkICMjIF9MRU5HVEgpKSAKPiA+ID4gP8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBcCj4gPiA+ICvCoMKgwqDCoMKgIEZJRUxEX0RQNjQocmVnX3ZhbCwgcmVnLCBmaWVs
-ZCwgMHgwMCkgOiByZWdfdmFsKQo+ID4gPiArCj4gPiA+IMKgICNkZWZpbmUgRklFTERfU0RQOChz
-dG9yYWdlLCByZWcsIGZpZWxkLCB2YWwpIAo+ID4gPiAoe8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgXAo+ID4gPiDCoMKgwqDCoMKgIHN0cnVjdCAK
-PiA+ID4ge8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIFwKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgIHNpZ25lZCBpbnQgdjpS
-XyAjIyByZWcgIyMgXyAjIyBmaWVsZCAjIyAKPiA+ID4gX0xFTkdUSDvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIFwKPiA+IAo+ID4gCj4gCgo=
+Checking back on the status of patch, I noticed that there are some
+exciting patches out for AVX support that may conflict with this,
+though I see that they are still in the RFC phase:
+https://patchew.org/QEMU/20220911230418.340941-1-pbonzini@redhat.com/
+
+I'm not sure how far away AVX support is from being merged, but do let
+me know if there's any preference re applying this change vs. waiting
+to rebase on top the AVX support changes, etc.
+
+Thanks!
+Ricky
+
+On Mon, Aug 29, 2022 at 8:48 PM Ricky Zhou <ricky@rzhou.org> wrote:
+>
+> Many instructions which load/store 128-bit values are supposed to
+> raise #GP when the memory operand isn't 16-byte aligned. This includes:
+>  - Instructions explicitly requiring memory alignment (Exceptions Type 1
+>    in the "AVX and SSE Instruction Exception Specification" section of
+>    the SDM)
+>  - Legacy SSE instructions that load/store 128-bit values (Exceptions
+>    Types 2 and 4).
+>
+> This change sets MO_ALIGN_16 on 128-bit memory accesses that require
+> 16-byte alignment. It adds cpu_record_sigbus and cpu_do_unaligned_access
+> hooks that simulate a #GP exception in qemu-user and qemu-system,
+> respectively.
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/217
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Ricky Zhou <ricky@rzhou.org>
+> ---
+>  target/i386/tcg/excp_helper.c        | 13 ++++++++
+>  target/i386/tcg/helper-tcg.h         | 28 ++++++++++-------
+>  target/i386/tcg/sysemu/excp_helper.c |  8 +++++
+>  target/i386/tcg/tcg-cpu.c            |  2 ++
+>  target/i386/tcg/translate.c          | 45 +++++++++++++++++-----------
+>  target/i386/tcg/user/excp_helper.c   |  7 +++++
+>  6 files changed, 74 insertions(+), 29 deletions(-)
+>
+> diff --git a/target/i386/tcg/excp_helper.c b/target/i386/tcg/excp_helper.c
+> index c1ffa1c0ef..7c3c8dc7fe 100644
+> --- a/target/i386/tcg/excp_helper.c
+> +++ b/target/i386/tcg/excp_helper.c
+> @@ -140,3 +140,16 @@ G_NORETURN void raise_exception_ra(CPUX86State *env, int exception_index,
+>  {
+>      raise_interrupt2(env, exception_index, 0, 0, 0, retaddr);
+>  }
+> +
+> +G_NORETURN void handle_unaligned_access(CPUX86State *env, vaddr vaddr,
+> +                                        MMUAccessType access_type,
+> +                                        uintptr_t retaddr)
+> +{
+> +    /*
+> +     * Unaligned accesses are currently only triggered by SSE/AVX
+> +     * instructions that impose alignment requirements on memory
+> +     * operands. These instructions raise #GP(0) upon accessing an
+> +     * unaligned address.
+> +     */
+> +    raise_exception_ra(env, EXCP0D_GPF, retaddr);
+> +}
+> diff --git a/target/i386/tcg/helper-tcg.h b/target/i386/tcg/helper-tcg.h
+> index 34167e2e29..cd1723389a 100644
+> --- a/target/i386/tcg/helper-tcg.h
+> +++ b/target/i386/tcg/helper-tcg.h
+> @@ -42,17 +42,6 @@ void x86_cpu_do_interrupt(CPUState *cpu);
+>  bool x86_cpu_exec_interrupt(CPUState *cpu, int int_req);
+>  #endif
+>
+> -/* helper.c */
+> -#ifdef CONFIG_USER_ONLY
+> -void x86_cpu_record_sigsegv(CPUState *cs, vaddr addr,
+> -                            MMUAccessType access_type,
+> -                            bool maperr, uintptr_t ra);
+> -#else
+> -bool x86_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> -                      MMUAccessType access_type, int mmu_idx,
+> -                      bool probe, uintptr_t retaddr);
+> -#endif
+> -
+>  void breakpoint_handler(CPUState *cs);
+>
+>  /* n must be a constant to be efficient */
+> @@ -78,6 +67,23 @@ G_NORETURN void raise_exception_err_ra(CPUX86State *env, int exception_index,
+>                                         int error_code, uintptr_t retaddr);
+>  G_NORETURN void raise_interrupt(CPUX86State *nenv, int intno, int is_int,
+>                                  int error_code, int next_eip_addend);
+> +G_NORETURN void handle_unaligned_access(CPUX86State *env, vaddr vaddr,
+> +                                        MMUAccessType access_type,
+> +                                        uintptr_t retaddr);
+> +#ifdef CONFIG_USER_ONLY
+> +void x86_cpu_record_sigsegv(CPUState *cs, vaddr addr,
+> +                            MMUAccessType access_type,
+> +                            bool maperr, uintptr_t ra);
+> +void x86_cpu_record_sigbus(CPUState *cs, vaddr addr,
+> +                           MMUAccessType access_type, uintptr_t ra);
+> +#else
+> +bool x86_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> +                      MMUAccessType access_type, int mmu_idx,
+> +                      bool probe, uintptr_t retaddr);
+> +G_NORETURN void x86_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+> +                                            MMUAccessType access_type,
+> +                                            int mmu_idx, uintptr_t retaddr);
+> +#endif
+>
+>  /* cc_helper.c */
+>  extern const uint8_t parity_table[256];
+> diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/excp_helper.c
+> index 48feba7e75..796dc2a1f3 100644
+> --- a/target/i386/tcg/sysemu/excp_helper.c
+> +++ b/target/i386/tcg/sysemu/excp_helper.c
+> @@ -439,3 +439,11 @@ bool x86_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
+>      }
+>      return true;
+>  }
+> +
+> +G_NORETURN void x86_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+> +                                            MMUAccessType access_type,
+> +                                            int mmu_idx, uintptr_t retaddr)
+> +{
+> +    X86CPU *cpu = X86_CPU(cs);
+> +    handle_unaligned_access(&cpu->env, vaddr, access_type, retaddr);
+> +}
+> diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
+> index 6fdfdf9598..d3c2b8fb49 100644
+> --- a/target/i386/tcg/tcg-cpu.c
+> +++ b/target/i386/tcg/tcg-cpu.c
+> @@ -75,10 +75,12 @@ static const struct TCGCPUOps x86_tcg_ops = {
+>  #ifdef CONFIG_USER_ONLY
+>      .fake_user_interrupt = x86_cpu_do_interrupt,
+>      .record_sigsegv = x86_cpu_record_sigsegv,
+> +    .record_sigbus = x86_cpu_record_sigbus,
+>  #else
+>      .tlb_fill = x86_cpu_tlb_fill,
+>      .do_interrupt = x86_cpu_do_interrupt,
+>      .cpu_exec_interrupt = x86_cpu_exec_interrupt,
+> +    .do_unaligned_access = x86_cpu_do_unaligned_access,
+>      .debug_excp_handler = breakpoint_handler,
+>      .debug_check_breakpoint = x86_debug_check_breakpoint,
+>  #endif /* !CONFIG_USER_ONLY */
+> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+> index 3ba5f76156..29104a49b9 100644
+> --- a/target/i386/tcg/translate.c
+> +++ b/target/i386/tcg/translate.c
+> @@ -2731,21 +2731,23 @@ static inline void gen_stq_env_A0(DisasContext *s, int offset)
+>      tcg_gen_qemu_st_i64(s->tmp1_i64, s->A0, s->mem_index, MO_LEUQ);
+>  }
+>
+> -static inline void gen_ldo_env_A0(DisasContext *s, int offset)
+> +static inline void gen_ldo_env_A0(DisasContext *s, int offset, bool align)
+>  {
+>      int mem_index = s->mem_index;
+> -    tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, mem_index, MO_LEUQ);
+> +    tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, mem_index,
+> +                        MO_LEUQ | (align ? MO_ALIGN_16 : 0));
+>      tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(0)));
+>      tcg_gen_addi_tl(s->tmp0, s->A0, 8);
+>      tcg_gen_qemu_ld_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
+>      tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(1)));
+>  }
+>
+> -static inline void gen_sto_env_A0(DisasContext *s, int offset)
+> +static inline void gen_sto_env_A0(DisasContext *s, int offset, bool align)
+>  {
+>      int mem_index = s->mem_index;
+>      tcg_gen_ld_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(0)));
+> -    tcg_gen_qemu_st_i64(s->tmp1_i64, s->A0, mem_index, MO_LEUQ);
+> +    tcg_gen_qemu_st_i64(s->tmp1_i64, s->A0, mem_index,
+> +                        MO_LEUQ | (align ? MO_ALIGN_16 : 0));
+>      tcg_gen_addi_tl(s->tmp0, s->A0, 8);
+>      tcg_gen_ld_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(1)));
+>      tcg_gen_qemu_st_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
+> @@ -3054,7 +3056,7 @@ static const struct SSEOpHelper_epp sse_op_table6[256] = {
+>      [0x25] = SSE41_OP(pmovsxdq),
+>      [0x28] = SSE41_OP(pmuldq),
+>      [0x29] = SSE41_OP(pcmpeqq),
+> -    [0x2a] = SSE41_SPECIAL, /* movntqda */
+> +    [0x2a] = SSE41_SPECIAL, /* movntdqa */
+>      [0x2b] = SSE41_OP(packusdw),
+>      [0x30] = SSE41_OP(pmovzxbw),
+>      [0x31] = SSE41_OP(pmovzxbd),
+> @@ -3194,17 +3196,17 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+>              break;
+>          case 0x1e7: /* movntdq */
+>          case 0x02b: /* movntps */
+> -        case 0x12b: /* movntps */
+> +        case 0x12b: /* movntpd */
+>              if (mod == 3)
+>                  goto illegal_op;
+>              gen_lea_modrm(env, s, modrm);
+> -            gen_sto_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]));
+> +            gen_sto_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]), true);
+>              break;
+>          case 0x3f0: /* lddqu */
+>              if (mod == 3)
+>                  goto illegal_op;
+>              gen_lea_modrm(env, s, modrm);
+> -            gen_ldo_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]));
+> +            gen_ldo_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]), false);
+>              break;
+>          case 0x22b: /* movntss */
+>          case 0x32b: /* movntsd */
+> @@ -3273,7 +3275,9 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+>          case 0x26f: /* movdqu xmm, ea */
+>              if (mod != 3) {
+>                  gen_lea_modrm(env, s, modrm);
+> -                gen_ldo_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]));
+> +                gen_ldo_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]),
+> +                               /* movaps, movapd, movdqa */
+> +                               b == 0x028 || b == 0x128 || b == 0x16f);
+>              } else {
+>                  rm = (modrm & 7) | REX_B(s);
+>                  gen_op_movo(s, offsetof(CPUX86State, xmm_regs[reg]),
+> @@ -3331,7 +3335,8 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+>          case 0x212: /* movsldup */
+>              if (mod != 3) {
+>                  gen_lea_modrm(env, s, modrm);
+> -                gen_ldo_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]));
+> +                gen_ldo_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]),
+> +                               !(s->prefix & PREFIX_VEX));
+>              } else {
+>                  rm = (modrm & 7) | REX_B(s);
+>                  gen_op_movl(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_L(0)),
+> @@ -3373,7 +3378,8 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+>          case 0x216: /* movshdup */
+>              if (mod != 3) {
+>                  gen_lea_modrm(env, s, modrm);
+> -                gen_ldo_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]));
+> +                gen_ldo_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]),
+> +                               !(s->prefix & PREFIX_VEX));
+>              } else {
+>                  rm = (modrm & 7) | REX_B(s);
+>                  gen_op_movl(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_L(1)),
+> @@ -3465,7 +3471,9 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+>          case 0x27f: /* movdqu ea, xmm */
+>              if (mod != 3) {
+>                  gen_lea_modrm(env, s, modrm);
+> -                gen_sto_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]));
+> +                gen_sto_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]),
+> +                               /* movaps, movapd, movdqa */
+> +                               b == 0x029 || b == 0x129 || b == 0x17f);
+>              } else {
+>                  rm = (modrm & 7) | REX_B(s);
+>                  gen_op_movo(s, offsetof(CPUX86State, xmm_regs[rm]),
+> @@ -3622,7 +3630,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+>                  gen_lea_modrm(env, s, modrm);
+>                  op2_offset = offsetof(CPUX86State,xmm_t0);
+>                  if (b1) {
+> -                    gen_ldo_env_A0(s, op2_offset);
+> +                    gen_ldo_env_A0(s, op2_offset, true);
+>                  } else {
+>                      gen_ldq_env_A0(s, op2_offset);
+>                  }
+> @@ -3810,11 +3818,12 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+>                          tcg_gen_st16_tl(s->tmp0, cpu_env, op2_offset +
+>                                          offsetof(ZMMReg, ZMM_W(0)));
+>                          break;
+> -                    case 0x2a:            /* movntqda */
+> -                        gen_ldo_env_A0(s, op1_offset);
+> +                    case 0x2a:            /* movntdqa */
+> +                        gen_ldo_env_A0(s, op1_offset, true);
+>                          return;
+>                      default:
+> -                        gen_ldo_env_A0(s, op2_offset);
+> +                        gen_ldo_env_A0(s, op2_offset,
+> +                                       !(s->prefix & PREFIX_VEX));
+>                      }
+>                  }
+>              } else {
+> @@ -4355,7 +4364,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+>                  } else {
+>                      op2_offset = offsetof(CPUX86State,xmm_t0);
+>                      gen_lea_modrm(env, s, modrm);
+> -                    gen_ldo_env_A0(s, op2_offset);
+> +                    gen_ldo_env_A0(s, op2_offset, !(s->prefix & PREFIX_VEX));
+>                  }
+>              } else {
+>                  op1_offset = offsetof(CPUX86State,fpregs[reg].mmx);
+> @@ -4473,7 +4482,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+>                      break;
+>                  default:
+>                      /* 128 bit access */
+> -                    gen_ldo_env_A0(s, op2_offset);
+> +                    gen_ldo_env_A0(s, op2_offset, !(s->prefix & PREFIX_VEX));
+>                      break;
+>                  }
+>              } else {
+> diff --git a/target/i386/tcg/user/excp_helper.c b/target/i386/tcg/user/excp_helper.c
+> index cd507e2a1b..b3bdb7831a 100644
+> --- a/target/i386/tcg/user/excp_helper.c
+> +++ b/target/i386/tcg/user/excp_helper.c
+> @@ -48,3 +48,10 @@ void x86_cpu_record_sigsegv(CPUState *cs, vaddr addr,
+>
+>      cpu_loop_exit_restore(cs, ra);
+>  }
+> +
+> +void x86_cpu_record_sigbus(CPUState *cs, vaddr addr,
+> +                           MMUAccessType access_type, uintptr_t ra)
+> +{
+> +    X86CPU *cpu = X86_CPU(cs);
+> +    handle_unaligned_access(&cpu->env, addr, access_type, ra);
+> +}
+> --
+> 2.37.2
+>
 
