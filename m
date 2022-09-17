@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FC5D5BB6E6
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 09:17:45 +0200 (CEST)
-Received: from localhost ([::1]:36260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A01EB5BB6E7
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 09:18:59 +0200 (CEST)
+Received: from localhost ([::1]:39966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZS5A-0008QC-6M
-	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 03:17:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48314)
+	id 1oZS6K-0001B9-OE
+	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 03:18:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hi@alyssa.is>) id 1oZS0q-0005tF-Ld
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 03:13:16 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:34953)
+ (Exim 4.90_1) (envelope-from <hi@alyssa.is>) id 1oZS27-0006qR-Di
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 03:14:35 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:39731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hi@alyssa.is>) id 1oZS0o-00019A-BF
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 03:13:16 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id CA75D5C00E1;
- Sat, 17 Sep 2022 03:13:09 -0400 (EDT)
+ (Exim 4.90_1) (envelope-from <hi@alyssa.is>) id 1oZS25-0001Mt-Q9
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 03:14:35 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 3D5765C00E0;
+ Sat, 17 Sep 2022 03:14:31 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Sat, 17 Sep 2022 03:13:09 -0400
+ by compute2.internal (MEProxy); Sat, 17 Sep 2022 03:14:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alyssa.is; h=cc
  :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1663398789; x=1663485189; bh=AOzixdjauw
- Khf0nIIlEZnfq+T3vzUaJGPX1Wq69XTzQ=; b=dTteUyPgrbuhZFKj0j6gnphB4N
- p+WxUlzxgBaJBVL+zfn7MSlD/l+K7w0qOCwqeifzZxY+nJlKIO0zlPxWgeo28riT
- qJYFkJX5ItZ+p/CA4huXap4CIcekfNFoP3ZgBEPcl5rRVGMpwk5fyrmzpOE+cLjE
- PDFWTLBX67FS/R9O7EcK2SxESBAIJbkrV6LIKQ+NRqZ1jgfXeAMCEVcah4HsgV+G
- SQ3OQ0GJ6wOOwMjxKpIJRF0PorHeVG6Qq47jDgXvgHsK8G3uqYSoEHMV+nrWKcLv
- N3Jjh4tHgewkkxv0MiLlmhJlr1/JylrF1qeRFF5PPKpdAdkoVPPVlKIZfbGQ==
+ :subject:to:to; s=fm1; t=1663398871; x=1663485271; bh=ovSb4zT4Rz
+ TmqUHbLq41rNf3jGCrVeLlfdfxhUHw+U0=; b=zZc0CbIS3kpY6CDyWHe2O5DM/g
+ MHlS5zYt8CUNFgR2Dfj3ZzuyxnjTO5sXCAOeliebElAVCaXMIbOaRFCzdwBWruu5
+ VldXtxVVGgiCUZc+xCNJB1/H/OBC+Cti3p1XynhJFoXZX68brcZL7hz9sLL77XmK
+ isY2HKzfLRYgFjz6yYTybbUZCraHze3cXdVaCvflP4P+TZMBLcY5EX8h11UHkPKg
+ P0qvm3ZCQQonlS4miN34SE/4elGuuO3oRC4eKfRGxLTO6dNxmkVxaF6Plbv0VdnH
+ q+UdRMe0G9cbX2zCbBzTkZNMlDQyxJot/Sg4dmS5XcGmrP10qv2ZPqgQeA1Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
  :feedback-id:from:from:in-reply-to:in-reply-to:message-id
  :mime-version:references:reply-to:sender:subject:subject:to:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1663398789; x=1663485189; bh=AOzixdjauwKhf0nIIlEZnfq+T3vz
- UaJGPX1Wq69XTzQ=; b=0h8m5gNMizZSNOlaiGqjVYazKFweIll2LpMpUpHnOaEz
- hFpJm2DZ5f86R4vVQADv+O+shDIDrKP+kscndCVpx6kTe62DRAgmHzricyYtm8PZ
- 2Qy92QUUiAj0XP9pNcpkf8Y4S+EpYodjlmEUGyzjzdMMgCurXsWmHXKSjoINFvFm
- tVR7XQIxhoAQCuujiwyf1YofekjJFj9Do2/bUak0+XXCjrPJJAPF4kl+9L55auHK
- C8nE6fmoeONDM4NNxYoAQZmjMcnPgj1ZbL5aLHzhc+HC7cjMfVcy/umbwtEAYA7h
- TJxhktIiddJgPwcUdH/eOyQenGrNEL/pJCsFWKL/gg==
-X-ME-Sender: <xms:hXMlY9t6vz1U66XKkbhxUjd0FN8o8-cBIqpaoD3CBkta3R1i4Lt8pA>
- <xme:hXMlY2ctwsZkG3tZ-pYBqHzP2OcDPoc23RqHXTTtomx8i-KPIgpLAeQbvBOHzE7AQ
- V5aoZNFfDSkuRB6hQ>
-X-ME-Received: <xmr:hXMlYww3zDlselu7iMeYcD2DaRYHXDbHXH6DWo-LtjTFvTl0ViRn8rphouodC7ZIv92tc0F0NDdT8k_AMIgkgqZ7KLHKwtsM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedvuddguddujecutefuodetggdotefrod
+ fm2; t=1663398871; x=1663485271; bh=ovSb4zT4RzTmqUHbLq41rNf3jGCr
+ VeLlfdfxhUHw+U0=; b=JlSavYK5LnDU945st1KeEVhYL1jO04hBM4nRSxmjUlzX
+ cM0L73TxpDo5/d7C/3Zh0mMGfENHtf9akTsc0ybU5mSE0hbBnbdJlbE+hVRCJKKi
+ 1M43ikEk3EXcms+MdM7hbITQw4RAM1L8Zv1Imne1TDaGlIzQ4yPdT5jwl52paVQl
+ v+ImsyPlcpZ7V49+ihjrEA+Hc5eTkMMy1F15grG5J00D8+J+uU6jDA8GNuSrCdGJ
+ MYs5DtDRYUHMienSLZc2/dq5sbkDFcaT8LRIqzlDgotCbd3LQnOMTtn/kjw2DveA
+ quwUQ1ACOsWNTObJ73EIr1za6z3uttvbka+/8QCiYg==
+X-ME-Sender: <xms:1nMlY7PiY_vOYf7fC73cTyScrCYFp0xekMEjqGOfLgOx_XvVpDlDDA>
+ <xme:1nMlY190LkZ05cI7-IG-Y-i_-g36Z8v7X1mYU5GewjmLcovk4iaZWDO9YcyFutjTY
+ b9M10sTuWSLEoPxaw>
+X-ME-Received: <xmr:1nMlY6Q-ST-jjiUnAiMOdd-d1gTQiYC-RiLUc9VCmh_2n0eNaSGmrYPpVT5rlmIctdGjRKpdJ5Fm40iaJ90P41N5elztGdUf>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedvuddguddukecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefujghffffkgggtsehgtd
  erredttddtnecuhfhrohhmpeetlhihshhsrgcutfhoshhsuceohhhisegrlhihshhsrgdr
@@ -56,23 +56,24 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedvuddguddujecutefuodetgg
  fhveekgedvhffhudetgfehieenucffohhmrghinhepnhhonhhgnhhurdhorhhgnecuvehl
  uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhephhhisegrlhihsh
  hsrgdrihhs
-X-ME-Proxy: <xmx:hXMlY0OkW4FptF44ACVKKMDB2I7EbShOPdEVbEBsjmLPBGLU36Dz9w>
- <xmx:hXMlY9_moC23UZlCAVBXbFroH6L_UR9n4pNP0XoXtB-WjrmalznVmg>
- <xmx:hXMlY0VDabW-yz2J57Cm2zWq6FbflV4I4QNrAwByIVAjPOlRdCXxQQ>
- <xmx:hXMlY6GpjNqQJL-2M-R-DmlanN3M_as6G9VhPtzna2jiReUKsZ-Cow>
+X-ME-Proxy: <xmx:1nMlY_tvivyEutzqZl_DVc7j8YQr7HL18cAqoJx-XUrnGGMtuf_Sdg>
+ <xmx:1nMlYzf0NAmJZwdFFihmo3Ij-BalhdK_1l9mapSgahzbM72vQQicrA>
+ <xmx:1nMlY70BkNQIFKUs41L0T6wUrbIpnh1XZ90UjAo8YDyjY16wHcjsjw>
+ <xmx:13MlYzkMWrjg-EQX_ExRxEJ2dqfISbt1ivj-lWBDvPlCOWSy9N5fPw>
 Feedback-ID: i12284293:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 17 Sep 2022 03:13:09 -0400 (EDT)
+ 17 Sep 2022 03:14:30 -0400 (EDT)
 Received: by x220.qyliss.net (Postfix, from userid 1000)
- id A3DFE979B; Sat, 17 Sep 2022 07:13:08 +0000 (UTC)
+ id 054F49750; Sat, 17 Sep 2022 07:14:30 +0000 (UTC)
 From: Alyssa Ross <hi@alyssa.is>
 To: Linus Heckemann <git@sphalerite.org>
 Cc: qemu-devel@nongnu.org
 Subject: Re: [PATCH] docs/devel: remove incorrect claim about git send-email
-In-Reply-To: <20220913165214.97241-1-git@sphalerite.org>
+In-Reply-To: <87sfkqmq2u.fsf@alyssa.is>
 References: <20220913165214.97241-1-git@sphalerite.org>
-Date: Sat, 17 Sep 2022 07:12:57 +0000
-Message-ID: <87sfkqmq2u.fsf@alyssa.is>
+ <87sfkqmq2u.fsf@alyssa.is>
+Date: Sat, 17 Sep 2022 07:14:27 +0000
+Message-ID: <87o7vemq0c.fsf@alyssa.is>
 MIME-Version: 1.0
 Content-Type: multipart/signed; boundary="=-=-=";
  micalg=pgp-sha256; protocol="application/pgp-signature"
@@ -103,41 +104,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 --=-=-=
 Content-Type: text/plain
 
-Linus Heckemann <git@sphalerite.org> writes:
+Alyssa Ross <hi@alyssa.is> writes:
 
-> While it's unclear to me what git send-email actually does with the
-> -v2 parameter (it is not documented, but also not rejected), it does
-> not add a v2 tag to the email's subject, which is what led to the
-> mishap in [1].
+> Linus Heckemann <git@sphalerite.org> writes:
 >
-> [1]: https://lists.nongnu.org/archive/html/qemu-devel/2022-09/msg00679.html
+>> While it's unclear to me what git send-email actually does with the
+>> -v2 parameter (it is not documented, but also not rejected), it does
+>> not add a v2 tag to the email's subject, which is what led to the
+>> mishap in [1].
+>>
+>> [1]: https://lists.nongnu.org/archive/html/qemu-devel/2022-09/msg00679.html
+>
+> It does for me!
+>
+> Tested with:
+>
+>        git send-email -v2 --to hi@alyssa.is HEAD~
+>
+> X-Mailer: git-send-email 2.37.1
 
-It does for me!
-
-Tested with:
-
-       git send-email -v2 --to hi@alyssa.is HEAD~
-
-X-Mailer: git-send-email 2.37.1
+I wouldn't be surprised if it only adds it when it's generating the
+patch though.  Did you perhaps run git format-patch first to generate a
+patch file, and then use git send-email to send it?
 
 --=-=-=
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEH9wgcxqlHM/ARR3h+dvtSFmyccAFAmMlc3oACgkQ+dvtSFmy
-ccA61g/9HHOvz3be/uGWz33obuRsuebRVsXBnz2knPxcF5P8pz5QC/UY3JARV2hs
-kwb7EUWcIv3YQs380sL7xk0TU/rPOlZXhtX7yztyrxw/+4PCEVA0Past7Zs0cIma
-fFDGqKohPc14KZfkMp2/r0iuFN75VMh0Fpzvo4vc2V4EH7gqXj9A0KTsgfeBQHoo
-QzYuTh+T2NPng7XyYND/IDC8TZsmJTSAG2N3UEh5xrfzjEbx+AUtzFRyU927eTi4
-Qwi6iVUcuhdNrbQzvgbYbSx6LPSqJX8J831bYjGTpoyQrZ1U0Y8svfN1jN3wUj9o
-oK1J6ig7iYY11+/gFh/IPE17lOSKpCc+B/VMUw3SE72KfuQ5mMAZSI3mdAYT+HD4
-3hCDv2G0XsmCyeyFqRO0Ixqi2FQp2YOtr/Lxts777vOu1fonpWcOqE+ZAVGaKYLy
-6r2C50B5BK/j2EbwZCyNlcwbtpQgQIxR4ZGTJlanIZdyu1dJQh1S9RewdmirvVj3
-xEGAyRUoqD+30mgikrWRLIiBYEU/QiB2ZWARBJgXNChPFAmdNJyxsLWqvBXIep/s
-JVz5qmi3sUu9RQwQ2eKmUrbYFuT6hahsLJuUpg52ah2mWDXtBcIH9LbGnArXAN1a
-rDshLkA8jKf4YqlGerKdTPeb01h5Ip19ZCTtHrpyLld9CLGGNCE=
-=b3Pe
+iQIzBAEBCAAdFiEEH9wgcxqlHM/ARR3h+dvtSFmyccAFAmMlc9MACgkQ+dvtSFmy
+ccAu+w//V1peb8j3ByLDSG6pBJRSOGm02x4a/qQIFoaae6qYtSBj/HWIZknurhsi
+45j6+mWJ3MC701y0MCH0xbTVAK7wkEonvFx6s9xXsmGLCNoQ68F9dndqoXnsJFu4
+ih3AsucjM9B9su7CzTeb1K0nFC/lUE59ZNyo+GbZjVmNAJbHBouX9keAVVdpnOce
+Zyah3kk/cTIhI3QG0iY5eEjzE1R67b6LurqVCvYTXmG5J+LzA3qFCKqfp7H0nTCC
+yIlxuk16L03PQslVW5C/Kzmw4HG2XyS5rBIXSq94nMpWyhYzLS5Uq0XboNOEDQWm
+NqPMKAIgdTgl9IKYkIQG97uQmbNOB8/GsSwDAVsHuAVxcPimiEnoLrtCFpcvgHpd
+fSbexcFIETG7HR/HURJSXXhLRJaHfF4vExMQESOtxUaJTETUgOlfdDfkJRcSDcVO
+r9gTnFtt3Ci1zEOaLjry8uT41Qf96fDoPo9GSaKpR5ZdsefnuWUfpmBHPnocGd36
+ahZ4whlhOpmpi0R6ty5gt4V+t+BSi4zMynjbdlqv30seGJN1Aas+uG1aLZ32sMwl
+P+0cKpmSrSyerDhsTivxJ9/eCeEUVKFHvq1Pgg6DIoWqRxfwBlGGtHN4ZkG3hCWA
+QfNVoiu/52xi0tkZNvSonGH27dPXAo4mKBJjmOQRVJXFgQxj2Z0=
+=qDsl
 -----END PGP SIGNATURE-----
 --=-=-=--
 
