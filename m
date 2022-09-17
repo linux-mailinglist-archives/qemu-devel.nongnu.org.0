@@ -2,84 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A70F05BB7AF
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 12:13:18 +0200 (CEST)
-Received: from localhost ([::1]:52298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 113585BB7EE
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 12:58:15 +0200 (CEST)
+Received: from localhost ([::1]:39440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZUp3-0004WV-8H
-	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 06:13:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34652)
+	id 1oZVWX-0005ky-MD
+	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 06:58:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oZUny-0003Bv-2i
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 06:12:10 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:45003)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oZUnw-0002pE-IN
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 06:12:09 -0400
-Received: by mail-ej1-x634.google.com with SMTP id r18so54473828eja.11
- for <qemu-devel@nongnu.org>; Sat, 17 Sep 2022 03:12:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=eboIrKfv6765WKD4fEcPt8C9v2e37Vf6E2OUBmYr1fg=;
- b=ycuLU6Kfeg3Nsk0S37FbMYCEULXmL/uH0getE6bXBv0NoWxPL7TW+klAmFXv8uCvTM
- e9ACq/5mg/0qGd5nYOLFV+ZanbOMxmsnp1q2e+KuoLqbOHRtFyvFbUsf69xmxox0+Pzw
- iXcRkJoendKDQvIsE+5yAayGOao/HSGQDOcShBi6ZKOR7NvBMe3EakBJlrwULG5o8KMl
- 2Kw6DdH2EQkM/lgyVLeoDcskXp/9OATwjGGv84Bq3WUOU7Q/ICjInGmwAm1rKoQskEFH
- vjgE+O0KuxGZnSSmPNCNvZ2d0bt0PbGD0lEnRlwOUbg4dxyp5SeLAtApBllhpAjABdeI
- 7Meg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=eboIrKfv6765WKD4fEcPt8C9v2e37Vf6E2OUBmYr1fg=;
- b=Fpc4qJbqCl/zpNnTZlR7epyc0yV15ctwZ0z44Xv15LdHZanfByaPluD/7ZxA47eMgX
- +DqMBLPibr2KCk6WrWg4+tmgd2yw9JMlX3Z+7pvLdysxRDDgR+nMh5Uvex1pU3CSJSIv
- 0Z/ULb88YQxKUb0T75yScX8FPLext1oYr2OUKAmm/ipoIQpqmOXIJRmwQeuVnqGy/COn
- N9pzOvrvn0Lxlo1G9sORmJ2MT6RuOwcuHySVXeLolczclet4cIyGhEWO5Cmdcrx2KFnC
- fnW8lguLv2D51MkGYZRhw4hBGEoEMcJUZs0F1kBHQE/lUttQDr4j8Ei1oqaorguw/iQJ
- /ZMA==
-X-Gm-Message-State: ACrzQf1ZK4sDn8UmrQ++PextqXzKlOJwGEyqUgtQXTl8aNguJ3ZA5VE9
- AsjoVSdzly1S45j4igUPwuA2OQ==
-X-Google-Smtp-Source: AMsMyM7X1KIDgiNl2eJqmXkvV4sNi/vUnR8qx2URCtBhRMNGL7uIXN3HLLSdEcs1Yujg7G2OZY81DQ==
-X-Received: by 2002:a17:906:ef8c:b0:77c:8d9a:9aed with SMTP id
- ze12-20020a170906ef8c00b0077c8d9a9aedmr6633448ejb.704.1663409525419; 
- Sat, 17 Sep 2022 03:12:05 -0700 (PDT)
-Received: from [10.9.7.77] (vpn-konference.ms.mff.cuni.cz. [195.113.20.101])
- by smtp.gmail.com with ESMTPSA id
- g3-20020aa7c583000000b00445e1489313sm15355430edq.94.2022.09.17.03.12.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Sep 2022 03:12:04 -0700 (PDT)
-Message-ID: <95f7e7f4-f1f1-66d5-0a9f-7bcf6b4ca59a@linaro.org>
-Date: Sat, 17 Sep 2022 12:12:02 +0200
+ (Exim 4.90_1) (envelope-from <huqi@loongson.cn>) id 1oZVVD-00040p-JK
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 06:56:51 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:44742 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huqi@loongson.cn>) id 1oZVVA-0001XZ-UR
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 06:56:51 -0400
+Received: from [10.90.50.23] (unknown [10.90.50.23])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8AxFeLppyVj+iUcAA--.42499S3; 
+ Sat, 17 Sep 2022 18:56:42 +0800 (CST)
+Message-ID: <9855c666-ed0c-52ca-d71b-60e23468161f@loongson.cn>
+Date: Sat, 17 Sep 2022 18:56:41 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 5/5] target/loongarch: div if x/0 set dividend to 0
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 2/5] target/loongarch: bstrins.w need set dest register
+ EXT_SIGN
 Content-Language: en-US
 To: gaosong <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <20220917075950.1412309-1-gaosong@loongson.cn>
- <20220917075950.1412309-6-gaosong@loongson.cn>
- <02cd3a40-d287-35b4-9d68-979c8ebd2e29@loongson.cn>
- <df217ffa-57e1-3e71-f766-fa19770bfe33@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <df217ffa-57e1-3e71-f766-fa19770bfe33@loongson.cn>
+ <20220917075950.1412309-3-gaosong@loongson.cn>
+ <6efecbd9-1a88-a5a4-bcb0-9080d710849c@loongson.cn>
+ <8e58793b-4683-d026-58e1-fc3db9bf7a8a@loongson.cn>
+From: Qi Hu <huqi@loongson.cn>
+In-Reply-To: <8e58793b-4683-d026-58e1-fc3db9bf7a8a@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.816,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CM-TRANSID: AQAAf8AxFeLppyVj+iUcAA--.42499S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7uw4UGw13ur1xWFyrCw47XFb_yoW8Zw4DpF
+ 18CFyUGrWUXr97Zr97Za1qqFy7Jrs7Kw47Wr4I9a4fC3y7Xr10gr4jq39Igr1jyrs7Wr4k
+ AF4ru3yq9a15J3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvYb7Iv0xC_tr1lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
+ C2z280aVCY1x0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
+ F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
+ 4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487
+ MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+ 02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_
+ JF1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+ CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
+ 6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07
+ jY6wZUUUUU=
+X-CM-SenderInfo: pkxtxqxorr0wxvrqhubq/1tbiAQAMCWMkZ1wJygAKsx
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=huqi@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.529,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,23 +78,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/17/22 11:12, gaosong wrote:
-> 
-> 在 2022/9/17 下午4:59, Qi Hu 写道:
+
+On 2022/9/17 17:16, gaosong wrote:
+>
+> 在 2022/9/17 下午4:41, Qi Hu 写道:
 >>
 >> On 2022/9/17 15:59, Song Gao wrote:
->>> div.d, div.du, div,w, div.wu, the LoongArch host if x/0  the result is 0.
->>
->> The message has a typo: "div,w" => "div.w"
->>
->> Also I don't know why we need to do this, since the manual say: "When the divisor is 0, 
->> the result can be any value".
->>
-> I tested on LoongArch host,   the result is always 0.
+>>> Signed-off-by: Song Gao <gaosong@loongson.cn>
+>>> ---
+>>>   target/loongarch/insn_trans/trans_bit.c.inc | 4 ++--
+>>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/target/loongarch/insn_trans/trans_bit.c.inc 
+>>> b/target/loongarch/insn_trans/trans_bit.c.inc
+>>> index 9337714ec4..33e94878fd 100644
+>>> --- a/target/loongarch/insn_trans/trans_bit.c.inc
+>>> +++ b/target/loongarch/insn_trans/trans_bit.c.inc
+>>> @@ -37,7 +37,7 @@ static bool gen_rr_ms_ls(DisasContext *ctx, 
+>>> arg_rr_ms_ls *a,
+>>>                            DisasExtend src_ext, DisasExtend dst_ext,
+>>>                            void (*func)(TCGv, TCGv, unsigned int, 
+>>> unsigned int))
+>>>   {
+>>> -    TCGv dest = gpr_dst(ctx, a->rd, dst_ext);
+>>> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
+>> I think this may not be correct. Maybe the code was used for 
+>> debugging but forgot to modify?
+> We just need EXT_SIGN  the result.
 
-But it is legal for a different loongarch host implementation to return some other value. 
-  Therefore the test itself is not correct.
+Got it. Thanks.
 
+Qi
 
-r~
+>>>       TCGv src1 = gpr_src(ctx, a->rj, src_ext);
+>>>         if (a->ls > a->ms) {
+>>> @@ -206,7 +206,7 @@ TRANS(maskeqz, gen_rrr, EXT_NONE, EXT_NONE, 
+>>> EXT_NONE, gen_maskeqz)
+>>>   TRANS(masknez, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, gen_masknez)
+>>>   TRANS(bytepick_w, gen_rrr_sa, EXT_NONE, EXT_NONE, gen_bytepick_w)
+>>>   TRANS(bytepick_d, gen_rrr_sa, EXT_NONE, EXT_NONE, gen_bytepick_d)
+>>> -TRANS(bstrins_w, gen_rr_ms_ls, EXT_NONE, EXT_NONE, gen_bstrins)
+>>> +TRANS(bstrins_w, gen_rr_ms_ls, EXT_NONE, EXT_SIGN, gen_bstrins)
+>>>   TRANS(bstrins_d, gen_rr_ms_ls, EXT_NONE, EXT_NONE, gen_bstrins)
+>>>   TRANS(bstrpick_w, gen_rr_ms_ls, EXT_NONE, EXT_SIGN, 
+>>> tcg_gen_extract_tl)
+>>>   TRANS(bstrpick_d, gen_rr_ms_ls, EXT_NONE, EXT_NONE, 
+>>> tcg_gen_extract_tl)
+>>
+>
+
 
