@@ -2,42 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52E985BB716
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 10:12:20 +0200 (CEST)
-Received: from localhost ([::1]:36568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 309AC5BB70F
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 10:07:09 +0200 (CEST)
+Received: from localhost ([::1]:55786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZSvz-0007YQ-Dw
-	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 04:12:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39744)
+	id 1oZSqx-00035Q-UA
+	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 04:07:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oZSk4-0006YB-T4
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 04:00:00 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:57676 helo=loongson.cn)
+ id 1oZSk3-0006Xz-Hm
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 03:59:59 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:57642 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oZSk3-0008TP-1R
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 04:00:00 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1oZSjz-0008Sf-R8
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 03:59:59 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxBOJ2fiVjHQccAA--.40868S2; 
+ AQAAf8DxBOJ2fiVjHQccAA--.40868S3; 
  Sat, 17 Sep 2022 15:59:50 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, peter.maydell@linaro.org,
  alex.bennee@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
  yangxiaojuan@loongson.cn
-Subject: [PATCH 0/5] Fix some bugs
-Date: Sat, 17 Sep 2022 15:59:45 +0800
-Message-Id: <20220917075950.1412309-1-gaosong@loongson.cn>
+Subject: [PATCH 1/5] target/loongarch: ftint_xxx insns set the result high
+ 32bit 0xffffffff
+Date: Sat, 17 Sep 2022 15:59:46 +0800
+Message-Id: <20220917075950.1412309-2-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20220917075950.1412309-1-gaosong@loongson.cn>
+References: <20220917075950.1412309-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxBOJ2fiVjHQccAA--.40868S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Gw1DAr4rKryrZr4UJrW5ZFb_yoWxKFb_WF
- WxAryDCr48Way5JFWYkry5X34UCFW8KFnIyFWqq3y7GFy3XF15Cr4qgan5Zr1jvF48XFs8
- Ars7tryrCF13tjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUUUUUUU
+X-CM-TRANSID: AQAAf8DxBOJ2fiVjHQccAA--.40868S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxAF4xCFy8uFWfZw15Wr4kWFg_yoWruFy3p3
+ 4rGrW3KrWvqFZ5Za4xJ398GF15Xw4UGa4xtr4DWa4SvFsFyws8urW7t3y7ZrWDWFWrZr45
+ Ja4jyFy3G3Z0qFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
@@ -61,26 +64,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-hi,
+we just set high 32bit 0xffffffff as the other float instructions do.
 
-This series fix some bugs find from RISU test.
+Signed-off-by: Song Gao <gaosong@loongson.cn>
+---
+ target/loongarch/fpu_helper.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-Thanks.
-Song Gao
-
-Song Gao (5):
-  target/loongarch: ftint_xxx insns set the result high 32bit 0xffffffff
-  target/loongarch: bstrins.w need set dest register EXT_SIGN
-  target/loongarch: Fix fnm{sub/add}_{s/d} set wrong flags
-  target/loongarch: flogb_{s/d} add set float_flag_divbyzero
-  target/loongarch: div if x/0 set dividend to 0
-
- target/loongarch/fpu_helper.c                 | 32 ++++++++++++-----
- target/loongarch/insn_trans/trans_arith.c.inc | 34 +++++++++++++++----
- target/loongarch/insn_trans/trans_bit.c.inc   |  4 +--
- .../loongarch/insn_trans/trans_farith.c.inc   | 12 +++----
- 4 files changed, 58 insertions(+), 24 deletions(-)
-
+diff --git a/target/loongarch/fpu_helper.c b/target/loongarch/fpu_helper.c
+index 4b9637210a..1a24667eaf 100644
+--- a/target/loongarch/fpu_helper.c
++++ b/target/loongarch/fpu_helper.c
+@@ -518,7 +518,7 @@ uint64_t helper_frint_s(CPULoongArchState *env, uint64_t fj)
+ {
+     uint64_t fd;
+ 
+-    fd = (uint64_t)(float32_round_to_int((uint32_t)fj, &env->fp_status));
++    fd = nanbox_s(float32_round_to_int((uint32_t)fj, &env->fp_status));
+     update_fcsr0(env, GETPC());
+     return fd;
+ }
+@@ -574,7 +574,7 @@ uint64_t helper_ftintrm_w_d(CPULoongArchState *env, uint64_t fj)
+     FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
+ 
+     set_float_rounding_mode(float_round_down, &env->fp_status);
+-    fd = (uint64_t)float64_to_int32(fj, &env->fp_status);
++    fd = nanbox_s(float64_to_int32(fj, &env->fp_status));
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+     if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
+@@ -592,7 +592,7 @@ uint64_t helper_ftintrm_w_s(CPULoongArchState *env, uint64_t fj)
+     FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
+ 
+     set_float_rounding_mode(float_round_down, &env->fp_status);
+-    fd = (uint64_t)float32_to_int32((uint32_t)fj, &env->fp_status);
++    fd = nanbox_s(float32_to_int32((uint32_t)fj, &env->fp_status));
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+     if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
+@@ -646,7 +646,7 @@ uint64_t helper_ftintrp_w_d(CPULoongArchState *env, uint64_t fj)
+     FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
+ 
+     set_float_rounding_mode(float_round_up, &env->fp_status);
+-    fd = (uint64_t)float64_to_int32(fj, &env->fp_status);
++    fd = nanbox_s(float64_to_int32(fj, &env->fp_status));
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+     if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
+@@ -664,7 +664,7 @@ uint64_t helper_ftintrp_w_s(CPULoongArchState *env, uint64_t fj)
+     FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
+ 
+     set_float_rounding_mode(float_round_up, &env->fp_status);
+-    fd = (uint64_t)float32_to_int32((uint32_t)fj, &env->fp_status);
++    fd = nanbox_s(float32_to_int32((uint32_t)fj, &env->fp_status));
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+     if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
+@@ -715,7 +715,7 @@ uint64_t helper_ftintrz_w_d(CPULoongArchState *env, uint64_t fj)
+     uint64_t fd;
+     FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
+ 
+-    fd = (uint64_t)float64_to_int32_round_to_zero(fj, &env->fp_status);
++    fd = nanbox_s(float64_to_int32_round_to_zero(fj, &env->fp_status));
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+     if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
+@@ -786,7 +786,7 @@ uint64_t helper_ftintrne_w_d(CPULoongArchState *env, uint64_t fj)
+     FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
+ 
+     set_float_rounding_mode(float_round_nearest_even, &env->fp_status);
+-    fd = (uint64_t)float64_to_int32(fj, &env->fp_status);
++    fd = nanbox_s(float64_to_int32(fj, &env->fp_status));
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+     if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
+@@ -848,7 +848,7 @@ uint64_t helper_ftint_w_s(CPULoongArchState *env, uint64_t fj)
+ {
+     uint64_t fd;
+ 
+-    fd = (uint64_t)float32_to_int32((uint32_t)fj, &env->fp_status);
++    fd = nanbox_s(float32_to_int32((uint32_t)fj, &env->fp_status));
+     if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
+         if (float32_is_any_nan((uint32_t)fj)) {
+             fd = 0;
+@@ -862,7 +862,7 @@ uint64_t helper_ftint_w_d(CPULoongArchState *env, uint64_t fj)
+ {
+     uint64_t fd;
+ 
+-    fd = (uint64_t)float64_to_int32(fj, &env->fp_status);
++    fd = nanbox_s(float64_to_int32(fj, &env->fp_status));
+     if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
+         if (float64_is_any_nan(fj)) {
+             fd = 0;
 -- 
 2.31.1
 
