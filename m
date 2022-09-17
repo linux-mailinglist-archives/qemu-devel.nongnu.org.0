@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 162565BB7FF
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 13:31:00 +0200 (CEST)
-Received: from localhost ([::1]:46436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 557B55BB801
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Sep 2022 13:34:38 +0200 (CEST)
+Received: from localhost ([::1]:48826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZW2E-0002zL-TW
-	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 07:30:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38558)
+	id 1oZW5l-000596-CM
+	for lists+qemu-devel@lfdr.de; Sat, 17 Sep 2022 07:34:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oZVx6-0005w1-9N
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 07:25:40 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:47154)
+ id 1oZVxB-00064h-C0
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 07:25:45 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:47162)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oZVx4-0006qp-IU
- for qemu-devel@nongnu.org; Sat, 17 Sep 2022 07:25:39 -0400
+ id 1oZVx9-0006tc-Q2
+ for qemu-devel@nongnu.org; Sat, 17 Sep 2022 07:25:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=D4AX+gFg5QCWZ5N5qmHn6UaYtuPbsIwFgpRvO9VSHbc=; b=tIuNERrmdDUmXUjgMND+jByD/Y
- BFWHKV/b8eCa+KOtYY6BkLJVgCO+UQ9fdd4dPteB4eaQ7C+zMInIec9yGePVTUYr5qyOJ0TQyjytg
- ewk8ZsA/f7LLmGJIkXWKmUnbCqDOBEsKT2vG4/4f9yU4tkiLkjm022pJhKbhakgn8dubeFNYmzwcE
- WIGmesTXbg4NphoAVh1jrJFWjrRfLuaV/rFWZVzOyXOVXrl8AG33cI63EKmKurKZUrhCzDgrmG9RJ
- wSXFXr5uyuh+NJQMWyTB41EiyAfatGVpiOZc4JnJGkZxI3EAG69nEnqi6AGf7RfzvWluJycBk2mHn
- muICiEj5rVfuGcsg3YRjwOWNiqyxrdtkaAmuWRoxKshfzFaYJv8QA2v1shMO5B48myLnG59dTgmGd
- WSgaZv2l8hU5qm7H16ECGPFZ3/v8/cXIGbtjNzD90SMxIGrkjRm60vAXbd2//cJhbiphyuhkQFtml
- 5RIEFloqdVGksJrYWYjdA+b7XV1iTNgBMRjaKjcLQCG6lJf3y1O9RkG3mYeDbVPAQcahujVMP0er8
- TG8HulhqfOsPVygcJWwYum4NAbJdIJgfxk6Olek4SzdyTHcnkNO99DdkirIXh/6HmBTOFup9cCINm
- VNcJl/05Yv6rnT88pJq0aXqZnoFWjc9sFC+3p4E7Y=;
+ bh=NW4O2OYXHBJjZEKEQraf4GMwlYM5sfANUODCuhXnzvw=; b=hoqAXSu5oVY3Di3gyGnFGyvdI+
+ TAMw3aO51K8ZfjNW1woma6GuarPwNuh32hWfEMba25K5fxvdIkpHd9orrW6qlWkJMT4Mz+v0fe4aw
+ SsE1+w52IEYgymWBXYy9SFHn1Y5TSGIYwnVtni44dlLaNmq7gwiLSNmEL0JOLtWlyO2EDjj4GFI1g
+ AkmeUua50h4yVqgYCLhxZLMvCUkt6FnUWBwi678f60F8qNnwRNi3qdhy6HSaJU1UjKmPI7+1DNG2/
+ h8K9+LsdLG16VM+OtkGAQfzzKrB3UuZ6VnIAw1fFwUNrOcn+EvYhqH0cSqAEWqFZXccw3PrvBAPqx
+ XjDcJtAErhxduBvl9pOShuKK5a+lXgMr0yUulBxwJIgp5XgUe3YrDcVfsjHzndx4gHwPhllFZk7I+
+ emhtX7W8aFjugA6ZuQnEmn7G62+29apNlunLjSRBNCrRv3drpj7KT0uDFDTiy62WJAdi4yxHvWmRc
+ xVIaJNXyq2x9Vg7LAx8+xqqm+jBfEnyHk6++oF58Lk5nWiIRvyhKAdmhu1Xk4vfbLgxF7g/o4z81q
+ eMw8Tb8KJEcNWJF7woHNYRrqpytLXVq/T5CIzZtFFO4Ls4ZpvTQ5EyXxTb6z7TWqeEKNL1i/2CnRR
+ Zchot2UCAsHWv8bKrg/D+7lLUBqTGUssi3WTDALF0=;
 Received: from [2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oZVvN-000C7q-55; Sat, 17 Sep 2022 12:23:57 +0100
+ id 1oZVvR-000C7q-Bm; Sat, 17 Sep 2022 12:24:01 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: laurent@vivier.eu, richard.henderson@linaro.org, lucienmp.qemu@gmail.com,
  qemu-devel@nongnu.org
-Date: Sat, 17 Sep 2022 12:25:14 +0100
-Message-Id: <20220917112515.83905-4-mark.cave-ayland@ilande.co.uk>
+Date: Sat, 17 Sep 2022 12:25:15 +0100
+Message-Id: <20220917112515.83905-5-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220917112515.83905-1-mark.cave-ayland@ilande.co.uk>
 References: <20220917112515.83905-1-mark.cave-ayland@ilande.co.uk>
@@ -51,8 +51,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 3/4] target/m68k: use M68K_FEATURE_MOVEFROMSR_PRIV feature for
- move_from_sr privilege check
+Subject: [PATCH 4/4] target/m68k: always call gen_exit_tb() after writes to SR
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -78,93 +77,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that M68K_FEATURE_M68000 has been renamed to M68K_FEATURE_M68K it is easier
-to see that the privilege exception check is wrong: it is currently only generated
-for ColdFire CPUs when in fact it should also be generated for Motorola CPUs from
-the 68010 onwards.
-
-Introduce a new M68K_FEATURE_MOVEFROMSR_PRIV feature which is set for all non-
-Motorola CPUs, and for all Motorola CPUs from the 68010 onwards and use it to
-determine whether a privilege exception should be generated for the MOVE-from-SR
-instruction.
+Any write to SR can change the security state so always call gen_exit_tb() when
+this occurs. In particular MacOS makes use of andiw/oriw in a few places to
+handle the switch between user and supervisor mode.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- target/m68k/cpu.c       | 5 +++++
- target/m68k/cpu.h       | 2 ++
- target/m68k/translate.c | 2 +-
- 3 files changed, 8 insertions(+), 1 deletion(-)
+ target/m68k/translate.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-index 7b4797e2f1..cc5311a4ac 100644
---- a/target/m68k/cpu.c
-+++ b/target/m68k/cpu.c
-@@ -102,6 +102,7 @@ static void m5206_cpu_initfn(Object *obj)
-     CPUM68KState *env = &cpu->env;
- 
-     m68k_set_feature(env, M68K_FEATURE_CF_ISA_A);
-+    m68k_set_feature(env, M68K_FEATURE_MOVEFROMSR_PRIV);
- }
- 
- /* Base feature set, including isns. for m68k family */
-@@ -129,6 +130,7 @@ static void m68010_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_RTD);
-     m68k_set_feature(env, M68K_FEATURE_BKPT);
-     m68k_set_feature(env, M68K_FEATURE_MOVEC);
-+    m68k_set_feature(env, M68K_FEATURE_MOVEFROMSR_PRIV);
- }
- 
- /*
-@@ -241,6 +243,7 @@ static void m5208_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_BRAL);
-     m68k_set_feature(env, M68K_FEATURE_CF_EMAC);
-     m68k_set_feature(env, M68K_FEATURE_USP);
-+    m68k_set_feature(env, M68K_FEATURE_MOVEFROMSR_PRIV);
- }
- 
- static void cfv4e_cpu_initfn(Object *obj)
-@@ -254,6 +257,7 @@ static void cfv4e_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_CF_FPU);
-     m68k_set_feature(env, M68K_FEATURE_CF_EMAC);
-     m68k_set_feature(env, M68K_FEATURE_USP);
-+    m68k_set_feature(env, M68K_FEATURE_MOVEFROMSR_PRIV);
- }
- 
- static void any_cpu_initfn(Object *obj)
-@@ -275,6 +279,7 @@ static void any_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_USP);
-     m68k_set_feature(env, M68K_FEATURE_EXT_FULL);
-     m68k_set_feature(env, M68K_FEATURE_WORD_INDEX);
-+    m68k_set_feature(env, M68K_FEATURE_MOVEFROMSR_PRIV);
- }
- 
- static void m68k_cpu_realizefn(DeviceState *dev, Error **errp)
-diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
-index d3384e5d98..57936ea780 100644
---- a/target/m68k/cpu.h
-+++ b/target/m68k/cpu.h
-@@ -537,6 +537,8 @@ enum m68k_features {
-     M68K_FEATURE_UNALIGNED_DATA,
-     /* TRAPcc insn. (680[2346]0, and CPU32) */
-     M68K_FEATURE_TRAPCC,
-+    /* MOVE from SR privileged (from 68010) */
-+    M68K_FEATURE_MOVEFROMSR_PRIV,
- };
- 
- static inline uint64_t m68k_feature(CPUM68KState *env, int feature)
 diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index fad8af8f83..be5561e1e9 100644
+index be5561e1e9..892473d01f 100644
 --- a/target/m68k/translate.c
 +++ b/target/m68k/translate.c
-@@ -4598,7 +4598,7 @@ DISAS_INSN(move_from_sr)
- {
-     TCGv sr;
- 
--    if (IS_USER(s) && !m68k_feature(env, M68K_FEATURE_M68K)) {
-+    if (IS_USER(s) && m68k_feature(env, M68K_FEATURE_MOVEFROMSR_PRIV)) {
-         gen_exception(s, s->base.pc_next, EXCP_PRIVILEGE);
-         return;
+@@ -2373,6 +2373,7 @@ DISAS_INSN(arith_im)
+         tcg_gen_or_i32(dest, src1, im);
+         if (with_SR) {
+             gen_set_sr(s, dest, opsize == OS_BYTE);
++            gen_exit_tb(s);
+         } else {
+             DEST_EA(env, insn, opsize, dest, &addr);
+             gen_logic_cc(s, dest, opsize);
+@@ -2382,6 +2383,7 @@ DISAS_INSN(arith_im)
+         tcg_gen_and_i32(dest, src1, im);
+         if (with_SR) {
+             gen_set_sr(s, dest, opsize == OS_BYTE);
++            gen_exit_tb(s);
+         } else {
+             DEST_EA(env, insn, opsize, dest, &addr);
+             gen_logic_cc(s, dest, opsize);
+@@ -2405,6 +2407,7 @@ DISAS_INSN(arith_im)
+         tcg_gen_xor_i32(dest, src1, im);
+         if (with_SR) {
+             gen_set_sr(s, dest, opsize == OS_BYTE);
++            gen_exit_tb(s);
+         } else {
+             DEST_EA(env, insn, opsize, dest, &addr);
+             gen_logic_cc(s, dest, opsize);
+@@ -4592,6 +4595,7 @@ DISAS_INSN(strldsr)
      }
+     gen_push(s, gen_get_sr(s));
+     gen_set_sr_im(s, ext, 0);
++    gen_exit_tb(s);
+ }
+ 
+ DISAS_INSN(move_from_sr)
 -- 
 2.30.2
 
