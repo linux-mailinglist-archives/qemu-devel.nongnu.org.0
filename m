@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606D15BBDC2
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 14:23:14 +0200 (CEST)
-Received: from localhost ([::1]:52798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA5755BBDC4
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 14:25:19 +0200 (CEST)
+Received: from localhost ([::1]:39820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZtKL-0001wv-Av
-	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 08:23:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39212)
+	id 1oZtMM-0003iD-RB
+	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 08:25:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZtFN-0003ty-9k; Sun, 18 Sep 2022 08:18:05 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:36605)
+ id 1oZtGg-0006Fi-GD; Sun, 18 Sep 2022 08:19:27 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39426)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZtFL-0006Oe-R6; Sun, 18 Sep 2022 08:18:05 -0400
-Received: by mail-wr1-x430.google.com with SMTP id h8so36043996wrf.3;
- Sun, 18 Sep 2022 05:18:02 -0700 (PDT)
+ id 1oZtGe-0006Tf-RV; Sun, 18 Sep 2022 08:19:26 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id cc5so33177803wrb.6;
+ Sun, 18 Sep 2022 05:19:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=O5FR/vwNMxQVS2jlik/akEU/ruMhXSCdrJnYzugBRmo=;
- b=cyw2P+Q2xwWgNghn1jOzVaHYFBHSPAKfiLTfa0QIpdGX6mL8z7Ll47fhbQpjEyV3fk
- ylA6NNnDtFWLMmno/rxmvD7o3s8HMGZCa3To/q0U3vewmiSCBLG1DzTsM9C6cquHGj0g
- 0kB8KO68oCZrRa36CNJozm6hcaqKHOoqOzkTLqP5adIigqP1fVWe5hZM/dfw5KH9U3q6
- C7i3LSlDw0tjq59YNvCTNwiNUivhiOMYZDlSDvXZmTYJ7jc8ZprXGGm4AnPKuwa0YPbz
- 5/DDS5QqePwmR+Ic6vtubuBf58mMZRdQRLHRIolz4aWTeMuKl+5cmAr7n+nRTEU4TLBM
- x/6g==
+ bh=2kad/dsKzDGrYCj59lNZ4GGu2fdTfkes4bs5OZNxsW8=;
+ b=V5XmnNJH5m2utcI+nniAWeu+1rG/sBDA78mYRDQEIIN7JunU5nf6T2bMc8FueSv6Li
+ HOyiBlUm4aD7XI77SCiuuniOKV41qRx6KtqyV7Rph4izqo/13TQIBb1hdWIQOQ8CqON1
+ vgI+e+RAezYu+48K0l+RyLj1tO1xjKNTwm8+mMZz+af9zKgeLDLTxxMDeQkp3+mAgCMD
+ CiaFSpei7J79Id5FBfMq8rDyGt1gYB8RvsEk1I/nizn6cqlCPkn+2N+Do427STtifl7X
+ ZWSH9afdRe2H2XhOsMF+1jFV4AkuaFu+0TSPRgNvTneV26dFpgIgvTdNiSHOasp04Ldh
+ 0Wyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=O5FR/vwNMxQVS2jlik/akEU/ruMhXSCdrJnYzugBRmo=;
- b=3qdgsbRm0j9npjC/8pnwv9Roa32iqm4tVJYOwZ1X08cJcczppOqxov/9DfQJI0vrp2
- 16wFuan+1ClTf9XVIc+Apl6PmviMq1gtzSte1QV9Qo2szq8hh1dWZcZxOoMdxqkaQoiq
- L8ciHqwigRFIMT7t8vI2HOXnjpV9KTXAqIPaVekLUi+9lzu9/uc1eQGUpnHEgy3uqi1Z
- CJde/PcZ3gDqofYMSrpFnnMy0/s2SW8WXNd4HKtnTD6393ucoJBfzo/LQa6aQGTJIm/9
- Hh7lT14SCWowkE3FauCy+MlKgmRlZKc1BRO7F2IWOfNVpkdu0xAsXFR0uToVF1PNS3yv
- AdjQ==
-X-Gm-Message-State: ACrzQf1bFxHoHNrRv3Fcbmis1egD+N4BPUPBi7vQ9cegU8ONbebenpcq
- VLmTHG960ct+qcrgGKu9S/lvVKLzix0=
-X-Google-Smtp-Source: AMsMyM6NV/RPg2r73U8FJ0ppOaSZvYuHqnO+G232W8cN0rmKQNntaUoBDBT5QEKIGizHnocFyFSJOw==
-X-Received: by 2002:a05:6000:1ace:b0:22a:c9a6:e203 with SMTP id
- i14-20020a0560001ace00b0022ac9a6e203mr8211206wry.694.1663503480735; 
- Sun, 18 Sep 2022 05:18:00 -0700 (PDT)
+ bh=2kad/dsKzDGrYCj59lNZ4GGu2fdTfkes4bs5OZNxsW8=;
+ b=FYT31qrotMtW2qhAuAVwnfj7+4ttjZvf6fpFuJE3GmEKK/g8UXX4/iaCtB4F0T9h6Y
+ Fif7FmxxDrksNE9XED/958HQJI4x6/0OaEj2JGwLHvHQEanDnwPLi/vt89/YNHeH6lZk
+ deD2Q5FKn7I7y5LZ80xjqMxV6bNwdDilrQ5J91uXeA7GuXhHh5KCKAKwPPs0uMTxNt0M
+ CK7t0zEvS+B/4N+BnNqePTkSBUEf44kVTJNxH2RSf/0m+H5J9Zv8W+I4HF2OaXwIx1Uv
+ SW3gcD46g2Db4/dqBxdHiddZJ3ibcJAouvpK//AtbNQo0FjZrOBZGMzt3MJTa2uKSPPe
+ jsDg==
+X-Gm-Message-State: ACrzQf05ML1CTAZMDD0CTSflnADlWf5inDEkwahQ2uH4t3+6HLEHXsv3
+ jeSW1zAejaDNRtRYlsHC4NCLhozfyis=
+X-Google-Smtp-Source: AMsMyM6lO9u34pJ3wt/btIMjcyB+hYxkPM12TeuMsN2x+f5VrAtU/FCHvlpIaRryFZlbGoIkUYuRcA==
+X-Received: by 2002:a5d:67ca:0:b0:228:7ad5:768f with SMTP id
+ n10-20020a5d67ca000000b002287ad5768fmr7881407wrw.163.1663503562653; 
+ Sun, 18 Sep 2022 05:19:22 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- p10-20020a05600c204a00b003a5fa79007fsm9364753wmg.7.2022.09.18.05.17.59
+ h11-20020a05600c28cb00b003b462b314e7sm9405022wmd.16.2022.09.18.05.19.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Sep 2022 05:18:00 -0700 (PDT)
-Message-ID: <4d36e8f1-0c1c-ee09-9de3-ff2b8c5cd5c2@amsat.org>
-Date: Sun, 18 Sep 2022 14:17:58 +0200
+ Sun, 18 Sep 2022 05:19:22 -0700 (PDT)
+Message-ID: <0cbc6000-f792-6ba6-299a-1624c952a39b@amsat.org>
+Date: Sun, 18 Sep 2022 14:19:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH 05/11] hw/ppc/e500: Remove if statement which is now
- always true
+Subject: Re: [PATCH 08/11] hw/sd/sdhci-internal: Unexport ESDHC defines
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  qemu-block@nongnu.org, Bin Meng <bin.meng@windriver.com>, qemu-ppc@nongnu.org
 References: <20220915152520.21948-1-shentey@gmail.com>
- <20220915152520.21948-6-shentey@gmail.com>
-In-Reply-To: <20220915152520.21948-6-shentey@gmail.com>
+ <20220915152520.21948-9-shentey@gmail.com>
+In-Reply-To: <20220915152520.21948-9-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -51
 X-Spam_score: -5.2
 X-Spam_bar: -----
@@ -97,19 +96,13 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 15/9/22 17:25, Bernhard Beschow wrote:
-> Now that the MPC8544DS board also has a platform bus, the if statement
-> was always true.
-
-s/was/is/.
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
+> These defines aren't used outside of sdhci.c, so can be defined there.
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   hw/ppc/e500.c      | 30 ++++++++++++++----------------
->   hw/ppc/e500.h      |  1 -
->   hw/ppc/e500plat.c  |  1 -
->   hw/ppc/mpc8544ds.c |  1 -
->   4 files changed, 14 insertions(+), 19 deletions(-)
+>   hw/sd/sdhci-internal.h | 20 --------------------
+>   hw/sd/sdhci.c          | 19 +++++++++++++++++++
+>   2 files changed, 19 insertions(+), 20 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
