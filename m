@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F465BBFA3
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 21:50:51 +0200 (CEST)
-Received: from localhost ([::1]:34110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A97985BBFB1
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 21:55:49 +0200 (CEST)
+Received: from localhost ([::1]:55102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oa0JV-0004aH-PT
-	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 15:50:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38152)
+	id 1oa0OK-0006EJ-Q4
+	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 15:55:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oa0Es-00071X-PH
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oa0Et-00071Z-SL
  for qemu-devel@nongnu.org; Sun, 18 Sep 2022 15:46:13 -0400
-Received: from mout.gmx.net ([212.227.17.20]:55001)
+Received: from mout.gmx.net ([212.227.17.21]:44415)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oa0Ep-0007ad-No
- for qemu-devel@nongnu.org; Sun, 18 Sep 2022 15:46:01 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oa0Ep-0007aj-Rh
+ for qemu-devel@nongnu.org; Sun, 18 Sep 2022 15:46:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1663530356;
- bh=eOtm8/SMP826aLASyoJ4JmH78WO5pl6ShNUkvz9YRjc=;
+ s=badeba3b8450; t=1663530357;
+ bh=/gVeQ5FY1ri9znOnzbjiflH84LDpU0qJIjCnWz3aFc0=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=O84RgzLJBlAJLW4lndpDy4HnW9T/yI1HWSLgRbSNZgsIdBexWtsws6PseS4oS7GIw
- Y6AWTBoIlQYEIw46MsPi1vCeDyissGQmSeXoM24p4NaEHRU01iALm/zuCLDLp/ZGvM
- /J56ABIGMt1sEnNnbjkpUgFzPaRThhix2jHSH+dk=
+ b=U/T18sZRWl0/aSPS8c6h9kUQRtKvAtvn4y2FOkFlNqyxN9XfOPODqXSqL7xjjFXY1
+ ms7auHsk3F40umM+/f3j+zhzrbsQ0Hr3fq6fIN49oXyxmaAn2/YMcpYN8mY/wtkBkL
+ p67VuXzs7rQJn6kba86g3cajqzbBo/DYVxoaxWBA=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from p100.fritz.box ([92.116.165.224]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Ma24y-1olydM39QS-00Vztr; Sun, 18
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MhD6g-1pDAnu3tic-00eLcT; Sun, 18
  Sep 2022 21:45:56 +0200
 From: Helge Deller <deller@gmx.de>
 To: Stefan Hajnoczi <stefanha@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 Cc: deller@gmx.de
-Subject: [PATCH v3 03/12] linux-user: Add pidfd_open(),
- pidfd_send_signal() and pidfd_getfd() syscalls
-Date: Sun, 18 Sep 2022 21:45:46 +0200
-Message-Id: <20220918194555.83535-4-deller@gmx.de>
+Subject: [PATCH v3 04/12] linux-user: Log failing executable in EXCP_DUMP()
+Date: Sun, 18 Sep 2022 21:45:47 +0200
+Message-Id: <20220918194555.83535-5-deller@gmx.de>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220918194555.83535-1-deller@gmx.de>
 References: <20220918194555.83535-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Z8VSPQOPb3KPlXG6iouhHw++hJo7mDt9pAEUvJ2nVMNP5hlwxDs
- t7a/TJZK+Nzlydb+VSmCD7mSoBRNfTV3DsZJiqBGD2pJzS0/azO5ZCP5Uko7FCh53RM88k5
- DmdopYpOzM3fdm+TFaZdovzDgl+fdEtWrGJ7dSLcdGEQSmNKj9RohOn5JkoPgowkoMM9vv3
- MvYN2UX6K2DWg78N7UTpw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HEfHolHnD2M=:/WS4Z0MHnp0kKiFbCddSbv
- /FkZYTw80qOqXNCTNgkYGCsAq46rGZYbPdLBfo8XFDbrjaWs6+5PZn0VBNVhD3p3PSrLpgyO4
- 7VRHbN0t50cwo8zRrLzKlq2/EvCveNFc7s8ZnKg3+hf8snj3KxP1t8zINagBFmX9gHrV2/bEM
- BhEKK7tIgttCJr0MSlN6Dfv+uvEfxIMAyLuBzLKeJoVVX6UvzuggArVEKTMUXt2F1JkuJvyYu
- N9tE/tJeb26JpVuh4NkSYYPtKehrHkcOqdFu7PIxpKKDHRbP2M/yxmVSvAN3k7YGReG71juYB
- +HdD+Ma/2DciIs+yM9QmCDuO1ZH59Quk/sysZKRAJ7nFPd98LyeZ35IYEibERNifgO67kg0C0
- sjNZ64aATs7gC0aHYOPLNzdptL1Kka/wmVqbzxAYV6QV220DQrIlPJ40Ulmimyn6/BIgB3wAO
- eibsrP9pyyJb8n43r0eHtxNhr1yuMVO6aBK9X3jQXYOKerdZJU6LT82Bv1+QDaBTj66VOv6yC
- +Gu2WsY1MgneoHuMW6Zfiz9OkLvIpZtdEDpDfCEEXH99Ti3hhvWkrDXnuXxL6DuvShoyprIFf
- X8H1iR5L1AEmGFnOG+r/9TAn3PTA5Wco2JII4X9plR+G3B0GSdqVcvUYUE3ewq+ohGmBCQUVM
- JViHWCrk9AeYTcZEnIKuft5DjymyE174BD4qi7qUojDp4y6lUNcMyuXkRC3uNx63hvmLV6K9C
- vbuXgfExKqLjYa90pFXDhLfD+dRDc5nuoc6GhXPnOB7AhDfr2+q070Sye0Ob1nSC0Rp4kASmF
- JF3EuC1vveOsGA5ESE2IQyK3qnPL3+bVedB/Z26rg3e8NQKiNHZrV4pvCU1HjGktMzatzyF5J
- 8WLFI4fkAGWDgZjXIuCpf5i1WkNT068nX3D8/2ejSZ1819fpNWi1kkoEwtu1H+Ijt7povd2IE
- nG1BO31Kty6+rjjKtRQWL1ttl3cMKRYTLarX6zibBrGYjcu+axer+9MAYKcl+Q+d/VCPHeTAR
- CCMGPf0/G1N9916kEV/pxOiY5rG1T5BloYDWaDC8G/5ZwebxhirqG0yNrTqTXndfepL7YpetQ
- QuPdwuAUR9XckpI0U5lKL8aP7Rr2gNco50hXZEpictZqVrFVTOyxJMVlgugwSbGx2dgHsZcsd
- MDVN4bGGkcNPsJHN/5JYsp1YZR
-Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:yshcvZX/wtCLDBJnx1VT/0UYof/njximycHTnezHSKD4eiWfsbE
+ Q25qPM0aK8PoCdd6gHqG6b6yQ4zLm/GGZ+Dmnto3By9cTMTzOC/CG1ZVQ4Y0i+I5mVEuaBS
+ i8mj96KyHRyG7vsG36ByHOmSmZ9woiXJpw5t918w9l/qLi06+D7L06TDbBlDzoU2vQ2UUkp
+ 3ZTr9dtsH2uIUuyfPSCzw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:W2Rp+si1Olc=:jPmmll5SlhRYfGS1pjypjW
+ 5515PEJL5VS8oUEbmyFI1hKnkYKM9a3v8A2650FUtfKnFUpLAgw1pzwKNs9iNJQ85AB6eKSCZ
+ BWutH1yQslB45Ss6cRLrNKFKalfwDmjzk4kSzm5qKNLg+fP9N7PLWyD2xpMQWt1AATiqxjjNx
+ VFrGM0LTcMpAEPLnlFgvT4I14GKKI8XYS3GgyfdhhjHbZgSGU0hMn9SfcCb2ZIy08Op7TXVOV
+ 0TfLqoGOSi/HGwCQ4Xf1C/DnaT6pjP2DmE5VTxbBoE6J2eMw4XiTOt7mQqRZNA1rX+jgMd2JB
+ p8zszv9FHSSetsXPlnS+n9IttmOGGLS9CLSHZ3Pshd/1kiWu708NVl1UeBrqBt9/WTfEP1xE3
+ Zup2f/5D1SWuUl3HZhuIJPDfDpmjblY87aPcTqKrQugCjpOZpLoOrm9vleWT+nBdKNndT8p9z
+ Hl7ATcchwBYrA07p8yco1dIRb1TUmjLcSti7Buq4ts4YgeGwPIaQf7/thQZuDL3GjfK964N3l
+ 1w/A9Sb/q+ZIteui3I+2lHuVEPZYp0wdJ6GyP5QQx2rGRS9vfNbYhsxFFUcPuwfvNjHpLAJJE
+ cdZ4Ny/edSuCfhCfgDiyPku9odhtT1oxo4THeLGCTD7oTjcd+YBqxGWJ4HuaXAjXdBI3ptiYO
+ ntGJKOCH+yLwo0I0UJeLG8xqzcvXaGcF7srJrX2w17WYR1UFNpblPgEa5Uf2KlXOegUIk6Q2f
+ 20N8utYQyf9rePa35RVMjXNhOa1BiGWsZl8faLleZnVW8qQzDodJfTLUaiTBPA7tPbRgU70B0
+ oAA9LpRHx8rMG2Gm/nqAOV5EnvrIv2pPjBRTap96RrjcerlSY8ebEM9FDsFKyOOZLPVdJPCgu
+ qroNzmP5hkUrasrE0T2Dabrm9ooNm2jF7+k7PwlJcky0Y5S3JOusqvgaAPC4rd4CqEceRU03l
+ zt3EnTuc21LeMRPXUFvO1+Kv+b8XjQUtBuVH86swNzYimH46KNZ7wdp6e+axmGfzH/Cn002eV
+ m3hppyfc69AYMWonrXoKnfvyeiKwpn9SyBKnnBA+CQmrPQy662aGOSa3krgSBfBHFmwLxZoKS
+ aR72f1Cis2gjhnVt3bJF/bhA1jGgI1114XLW9ildQjwPCTck4WsmzvEutoH05FaFbsW83g4Jb
+ zMAkutBGKs9iZZSZi1C2pjBWt5
+Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -88,137 +87,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I noticed those were missing when running the glib2.0 testsuite.
-Add the syscalls including the strace output.
+Enhance the EXCP_DUMP() macro to print out the failing program too.
+During debugging it's sometimes hard to track down the actual failing
+program if you are e.g. building a whole debian package.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- linux-user/strace.c    | 28 ++++++++++++++++++++++++++++
- linux-user/strace.list |  9 +++++++++
- linux-user/syscall.c   | 34 ++++++++++++++++++++++++++++++++++
- 3 files changed, 71 insertions(+)
+ linux-user/cpu_loop-common.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 816e679995..5ac64df02b 100644
-=2D-- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -3317,6 +3317,34 @@ print_openat(CPUArchState *cpu_env, const struct sy=
-scallname *name,
- }
- #endif
-
-+#ifdef TARGET_NR_pidfd_send_signal
-+static void
-+print_pidfd_send_signal(CPUArchState *cpu_env, const struct syscallname *=
-name,
-+                abi_long arg0, abi_long arg1, abi_long arg2,
-+                abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    void *p;
-+    target_siginfo_t uinfo;
-+
-+    print_syscall_prologue(name);
-+    print_raw_param("%d", arg0, 0);
-+    print_signal(arg1, 0);
-+
-+    p =3D lock_user(VERIFY_READ, arg2, sizeof(target_siginfo_t), 1);
-+    if (p) {
-+        get_target_siginfo(&uinfo, p);
-+        print_siginfo(&uinfo);
-+
-+        unlock_user(p, arg2, 0);
-+    } else {
-+        print_pointer(arg2, 1);
-+    }
-+
-+    print_raw_param("%u", arg3, 0);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
- #ifdef TARGET_NR_mq_unlink
- static void
- print_mq_unlink(CPUArchState *cpu_env, const struct syscallname *name,
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index a78cdf3cdf..4d8b7f6a5e 100644
-=2D-- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -1664,6 +1664,15 @@
- #ifdef TARGET_NR_pipe2
- { TARGET_NR_pipe2, "pipe2", NULL, NULL, NULL },
- #endif
-+#ifdef TARGET_NR_pidfd_open
-+{ TARGET_NR_pidfd_open, "pidfd_open", "%s(%d,%u)", NULL, NULL },
-+#endif
-+#ifdef TARGET_NR_pidfd_send_signal
-+{ TARGET_NR_pidfd_send_signal, "pidfd_send_signal", NULL, print_pidfd_sen=
-d_signal, NULL },
-+#endif
-+#ifdef TARGET_NR_pidfd_getfd
-+{ TARGET_NR_pidfd_getfd, "pidfd_getfd", "%s(%d,%d,%u)", NULL, NULL },
-+#endif
- #ifdef TARGET_NR_atomic_cmpxchg_32
- { TARGET_NR_atomic_cmpxchg_32, "atomic_cmpxchg_32", NULL, NULL, NULL },
- #endif
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index f409121202..ca39acfceb 100644
-=2D-- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -346,6 +346,16 @@ _syscall6(int,sys_futex,int *,uaddr,int,op,int,val,
- _syscall6(int,sys_futex_time64,int *,uaddr,int,op,int,val,
-           const struct timespec *,timeout,int *,uaddr2,int,val3)
- #endif
-+#if defined(__NR_pidfd_open) && defined(TARGET_NR_pidfd_open)
-+_syscall2(int, pidfd_open, pid_t, pid, unsigned int, flags);
-+#endif
-+#if defined(__NR_pidfd_send_signal) && defined(TARGET_NR_pidfd_send_signa=
-l)
-+_syscall4(int, pidfd_send_signal, int, pidfd, int, sig, siginfo_t *, info=
-,
-+                             unsigned int, flags);
-+#endif
-+#if defined(__NR_pidfd_getfd) && defined(TARGET_NR_pidfd_getfd)
-+_syscall3(int, pidfd_getfd, int, pidfd, int, targetfd, unsigned int, flag=
-s);
-+#endif
- #define __NR_sys_sched_getaffinity __NR_sched_getaffinity
- _syscall3(int, sys_sched_getaffinity, pid_t, pid, unsigned int, len,
-           unsigned long *, user_mask_ptr);
-@@ -8683,6 +8693,30 @@ static abi_long do_syscall1(CPUArchState *cpu_env, =
-int num, abi_long arg1,
-         ret =3D do_open_by_handle_at(arg1, arg2, arg3);
-         fd_trans_unregister(ret);
-         return ret;
-+#endif
-+#if defined(__NR_pidfd_open) && defined(TARGET_NR_pidfd_open)
-+    case TARGET_NR_pidfd_open:
-+        return get_errno(pidfd_open(arg1, arg2));
-+#endif
-+#if defined(__NR_pidfd_send_signal) && defined(TARGET_NR_pidfd_send_signa=
-l)
-+    case TARGET_NR_pidfd_send_signal:
-+        {
-+            siginfo_t uinfo;
-+
-+            p =3D lock_user(VERIFY_READ, arg3, sizeof(target_siginfo_t), =
-1);
-+            if (!p) {
-+                return -TARGET_EFAULT;
-+            }
-+            target_to_host_siginfo(&uinfo, p);
-+            unlock_user(p, arg3, 0);
-+            ret =3D get_errno(pidfd_send_signal(arg1, target_to_host_sign=
-al(arg2),
-+                &uinfo, arg4));
-+        }
-+        return ret;
-+#endif
-+#if defined(__NR_pidfd_getfd) && defined(TARGET_NR_pidfd_getfd)
-+    case TARGET_NR_pidfd_getfd:
-+        return get_errno(pidfd_getfd(arg1, arg2, arg3));
- #endif
-     case TARGET_NR_close:
-         fd_trans_unregister(arg1);
+diff --git a/linux-user/cpu_loop-common.h b/linux-user/cpu_loop-common.h
+index dc0042e4de..36ff5b14f2 100644
+=2D-- a/linux-user/cpu_loop-common.h
++++ b/linux-user/cpu_loop-common.h
+@@ -27,9 +27,11 @@
+ do {                                                                    \
+     CPUState *cs =3D env_cpu(env);                                       =
+ \
+     fprintf(stderr, fmt , ## __VA_ARGS__);                              \
++    fprintf(stderr, "Failing executable: %s\n", exec_path);             \
+     cpu_dump_state(cs, stderr, 0);                                      \
+     if (qemu_log_separate()) {                                          \
+         qemu_log(fmt, ## __VA_ARGS__);                                  \
++        qemu_log("Failing executable: %s\n", exec_path);                \
+         log_cpu_state(cs, 0);                                           \
+     }                                                                   \
+ } while (0)
 =2D-
 2.37.3
 
