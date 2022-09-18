@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 160DE5BBFA6
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 21:53:30 +0200 (CEST)
-Received: from localhost ([::1]:40132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CA785BBF97
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 21:50:06 +0200 (CEST)
+Received: from localhost ([::1]:36452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oa0M5-0001ge-73
-	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 15:53:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48450)
+	id 1oa0Il-0004Ei-0C
+	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 15:50:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oa0Ew-00071e-GS
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oa0Er-00071O-JW
  for qemu-devel@nongnu.org; Sun, 18 Sep 2022 15:46:13 -0400
-Received: from mout.gmx.net ([212.227.17.20]:43085)
+Received: from mout.gmx.net ([212.227.17.20]:47359)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oa0Ep-0007ae-Pz
- for qemu-devel@nongnu.org; Sun, 18 Sep 2022 15:46:06 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oa0Ep-0007af-No
+ for qemu-devel@nongnu.org; Sun, 18 Sep 2022 15:46:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1663530356;
- bh=7aS2o35HsYTsCq2IrHBGKkUUxkKyHtWnOczIq8CEF3Q=;
+ bh=4I4lfp6ArUG8vjJS1EZv295BBfahRZlwlhlm+UEhPH0=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=JMWURL7C6r4abJwRqTQ6NAccByMDJRColaSDfo/Hv/0DHBWLH7dxT6pbxih3pG3BO
- z6pNYHKKNgNUFzIxYfbQXOwxMkWPtxCVclM1o2/1kI/WGalt/XBb6bRaJfumyKw4hS
- mz+wGV5igx3aC7YrO+iv8gex8gyvWXpeyAedePMg=
+ b=lnEwJMbIRvrX98UMIXtmj7ZcFBgCos6NXELRoqWw2l1CHSbW8+obaE2pXC73cIsUe
+ 5z5J5Zx6QpjTclkLHe4mZ9Cr4EC82reWCdhQy8F8H94rIbJ433d7ZExY0ZyAUuSrkH
+ gqC5nJmPM68MnZCpW19oki+v6ttN7dO1IJfN8vi8=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from p100.fritz.box ([92.116.165.224]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MXp9Y-1ooBYm1eG4-00YBlD; Sun, 18
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mlw3X-1ozgGt2L1X-00iyBQ; Sun, 18
  Sep 2022 21:45:56 +0200
 From: Helge Deller <deller@gmx.de>
 To: Stefan Hajnoczi <stefanha@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 Cc: deller@gmx.de
-Subject: [PATCH v3 01/12] linux-user: Add missing signals in strace output
-Date: Sun, 18 Sep 2022 21:45:44 +0200
-Message-Id: <20220918194555.83535-2-deller@gmx.de>
+Subject: [PATCH v3 02/12] linux-user: Add missing clock_gettime64() syscall
+ strace
+Date: Sun, 18 Sep 2022 21:45:45 +0200
+Message-Id: <20220918194555.83535-3-deller@gmx.de>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220918194555.83535-1-deller@gmx.de>
 References: <20220918194555.83535-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:x4Huu1IRDdNVg8o4c6WOah24K7wejtwJKUQm7Bb6JHoTpTBaB3A
- TuRw6Oq8PrUorAFIVwfK0scNDxWE3QYoVRU92/JDijDyPfD8MArZXMaynEbNYH7jtMubX/X
- Gw4ZH6XZK6Pzu8dp6pVMVBrLMFf7iDmGyA7AZFLzuntUFaxFRj9yOPwFJ+Jg646a1TywiHI
- kijgDbLpgf6o6Xb8F8UKQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:koTVdP/YXBA=:ms9MDCaekm6i0YKmeK9vL7
- 9WUXHdPFQOZqIqJVk6ypA1ID0x9hy3nKpdO8xpkg30RDM5b84FYkQXzYcgfwN7qTcL9+3oKrj
- EY/mfYFO5IurzH8xsCndq8BoMbFGrrii8r8oqQnCC0safUElUbuyIx9kiIsgoa7LU5eGaRv0Q
- 7yTHHY41XfWbo5m+Em1Xr0p7wN2VbVifNJpmUsSFuPHM4WIkNFnbe87yxBIIMQvdA0aPGZEvx
- l1L6v6Kus04IEKsgZTTyx0YiSDOC3VKZD+BnZm/SI9tSwlbj9OS01HjOowWPsj0Ilq1wLFsFy
- NOIinGnP15hBbPNpuHtCGaK4GZpxhVX1wF3v7eAcuBPz3MMU7gnvxOWAn7TGVe+N6o+uilMWF
- 5eSwybUeo39vSOcG6JSj7Q4JjSXtkUKqId1MDgS4SuIiAiXj103UmNFfEmAbMG8VVO9+/MRS8
- +aW7vYvIZXUFIRczQyBf8zJ0MnPZ8vGYFG/vZiJhXcvCsLW6T4Nw/a82dYU1+oznzVXmUXoBn
- THLJpuFWrxBCHXnnTG/xvjNtsHKJUxrFCunDZeRjVKvGlO6dSd2hXcZdSiMzm5L6hy8Nx3Rvu
- 9JI0CczdePAyDhh9bH1EjR0LDWgY81OoPLImdIaebEkhh9zCwUOeuEgDT78oqI5GPjv4312FQ
- gUAnIET+ID+GyTCGMOkDKSdREQtMyfj3y4op9JjJj88wbPHo6YRJNZ/DPrePuXYqEGpL84+g6
- u9PLeC2a2on3qXc8NbnViYb2Q+/XCZ3cBlVefy5aJ1oRbLYhRcSicDUzQRfP6qCZ8eeV3DvO/
- 75NKQMs7pFswCGA16/XAwxzn49UtOSPrKeEOgnrqS1yxlCtTIckYs33rJ6vPVpMfclTwaCmNn
- axkyc8JxAdgG5sHi4oHPFfeT7LnmnZmz4rbUAHOcBCv7/QF1RsMzUzZclyE3EdC+z4PM3z5Ne
- v/Thf2LBC7r+dlmxNkgxWXeahWNPNLLQEaGxrnudnLxSsS64Vji4/DEqAzADRVA6fPSdn7Zxo
- 2m8DXCnZlM8z33aL1javfEqnVUsDEsoZXnCeVYd9dvOdhNIkCFSiyO7T9mX89al0YQTQGXNQb
- d0EDpZ5QUFHF6DE7GotXoPmk2Q24ZFqaIbhtM8pcmRms00g0J3NkBkLVcYVhXMHB7AMcLU+Nu
- B3Gip6PLPYUE4/11gih4O0+pyd
+X-Provags-ID: V03:K1:FUgByadoKNCZPc+Hh5Jt6QHlRwc8EcGPnwYlXMzkJpljdyLEeqg
+ VSLU3Z6TrIPTu9l7HpBRbFrTHcht2W4PzGbEEa98Eob6gLDbMMeA0rqX9KaEd8A1AbRNlLY
+ opRAZGUxwFTiHI/LgBH5TOhFtljosNPNiRWIaYIT1F3iRwhYd81OB+8cBn2LEJXrLCqYHLP
+ pd1zPD8jcBhgErxOiaI3Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2ScGXLJ/IwQ=:33WTJf6i5L0YOxcWESw6/e
+ CJSFuUTUuGYnl82fFz6iJA+hXwdDlvkNzRXgfUxsT3P/jM+HdGMssr5Qljr4xI1jhpl+oqNkJ
+ Irw3KJZG5NX9jKrk7PPp659+7FrRAhZKvZbEI1nH+GwHrI92vzG4M/AGFAJsw2I6R0rQLBK+P
+ YhZ5Wcoa+J8Uc0AJXyxfHcGOFFBf0KZ5VottfL9L/bTcWkOjj8YOFaWw7MSWC64HcCoH7in5w
+ 1JA+pE6TJk3GkIatZQ3k7/wAGTT4ZUb/WMJk2ZCCFEcSNzKFDDXFMkBIKosticBMJetmIUBjt
+ GHlMzMamesvgJc1sbUNneS5BxiVNoo57RDP2UhlC2a5Itx5ySkL4xVeZF5h/wAaRSX9+4pGGZ
+ Cy4KXwCYNvBAgAx6ClgTxETTuyeWX5oIGNgZg90qRldFb/eZWBWF1C6e2MJEGJeQ9e6pM2ZA/
+ w+TbPAhHskqzZkpEN9H8Gg467UPJ9YKdX1+xu2TdOcyR5rn59hff+DRlpxso7vm+2+NZM6er8
+ kYd97Uit1boglRplSoa8xLBOnpiaHrUNwUKeiOTbe77tucvdVmYZZ3kzCuizZv9RYJj0r7Ciw
+ MbotkpM9vkz2SDr1TONLySDOcUqJnWu02F0oW5nm90yhX7fWROp6iJaxFcCYiOXY5GS5U0tKa
+ HtOLR5llWNaKso06FiOvgCaR5DPLjkPEebMC7CzyThWbRtETmlpTMkMHzpaEjv9gSmXDSpd1V
+ zlpJs/5buBrCQpEB7DwJ6ZOeVuA/uaj6j6GxMViaxZ9vt18/Tjv2/Tc7CimDgqPzZF0VUwXGX
+ GXCj5+i3gpQZwQhlLD54GCfn472VZe1CmhF/Mq++obodV6tOncaVBmFRU5R/h539iHpOLuI1q
+ rVglpaQhnQEhHIRQcVlNQM7lsJiTc/cXf20p9IFfGQ+A6ihRIkwpLR+tM7Yzo63L7g+h7+6ze
+ u39lQn3rVx5EohWEFIHKDFnRzbz+dXrdmrsYx+FHGk4xFIB8UaFe1LWFY6x5eSLYVXPItSUNp
+ 1jhrJk9MbwcetjiFk21tcdMBjrGAD0VoWKZzIpZ+So9jcngZu1V5kFMJ+SymOc85suYEoYz5a
+ PF7xbcjASacPvRUzf/XHQ9cjXHlYcgN9RXsR+w+x3EPIkdz4BXdc1R7CLS2MsV1d2T9/txTEW
+ 9fORpYpOpMdWQSdPekNnD4YiiM
 Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,180 +88,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some of the guest signal numbers are currently not converted to
-their representative names in the strace output, e.g. SIGVTALRM.
-
-This patch introduces a smart way to generate and keep in sync the
-host-to-guest and guest-to-host signal conversion tables for usage in
-the qemu signal and strace code. This ensures that any signals
-will now show up in both tables.
-
-There is no functional change in this patch - with the exception that yet
-missing signal names now show up in the strace code too.
+Allow linux-user to strace the clock_gettime64() syscall.
+This syscall is used a lot on 32-bit guest architectures which use newer
+glibc versions.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- linux-user/signal-common.h | 46 ++++++++++++++++++++++++++++++++++++++
- linux-user/signal.c        | 37 +++---------------------------
- linux-user/strace.c        | 30 +++++++++----------------
- 3 files changed, 60 insertions(+), 53 deletions(-)
-
-diff --git a/linux-user/signal-common.h b/linux-user/signal-common.h
-index 6a7e4a93fc..3e2dc604c2 100644
-=2D-- a/linux-user/signal-common.h
-+++ b/linux-user/signal-common.h
-@@ -118,4 +118,50 @@ static inline void finish_sigsuspend_mask(int ret)
-     }
- }
-
-+#if defined(SIGSTKFLT) && defined(TARGET_SIGSTKFLT)
-+#define MAKE_SIG_ENTRY_SIGSTKFLT        MAKE_SIG_ENTRY(SIGSTKFLT)
-+#else
-+#define MAKE_SIG_ENTRY_SIGSTKFLT
-+#endif
-+
-+#if defined(SIGIOT) && defined(TARGET_SIGIOT)
-+#define MAKE_SIG_ENTRY_SIGIOT           MAKE_SIG_ENTRY(SIGIOT)
-+#else
-+#define MAKE_SIG_ENTRY_SIGIOT
-+#endif
-+
-+#define MAKE_SIGNAL_LIST \
-+        MAKE_SIG_ENTRY(SIGHUP) \
-+        MAKE_SIG_ENTRY(SIGINT) \
-+        MAKE_SIG_ENTRY(SIGQUIT) \
-+        MAKE_SIG_ENTRY(SIGILL) \
-+        MAKE_SIG_ENTRY(SIGTRAP) \
-+        MAKE_SIG_ENTRY(SIGABRT) \
-+        MAKE_SIG_ENTRY(SIGBUS) \
-+        MAKE_SIG_ENTRY(SIGFPE) \
-+        MAKE_SIG_ENTRY(SIGKILL) \
-+        MAKE_SIG_ENTRY(SIGUSR1) \
-+        MAKE_SIG_ENTRY(SIGSEGV) \
-+        MAKE_SIG_ENTRY(SIGUSR2) \
-+        MAKE_SIG_ENTRY(SIGPIPE) \
-+        MAKE_SIG_ENTRY(SIGALRM) \
-+        MAKE_SIG_ENTRY(SIGTERM) \
-+        MAKE_SIG_ENTRY(SIGCHLD) \
-+        MAKE_SIG_ENTRY(SIGCONT) \
-+        MAKE_SIG_ENTRY(SIGSTOP) \
-+        MAKE_SIG_ENTRY(SIGTSTP) \
-+        MAKE_SIG_ENTRY(SIGTTIN) \
-+        MAKE_SIG_ENTRY(SIGTTOU) \
-+        MAKE_SIG_ENTRY(SIGURG) \
-+        MAKE_SIG_ENTRY(SIGXCPU) \
-+        MAKE_SIG_ENTRY(SIGXFSZ) \
-+        MAKE_SIG_ENTRY(SIGVTALRM) \
-+        MAKE_SIG_ENTRY(SIGPROF) \
-+        MAKE_SIG_ENTRY(SIGWINCH) \
-+        MAKE_SIG_ENTRY(SIGIO) \
-+        MAKE_SIG_ENTRY(SIGPWR) \
-+        MAKE_SIG_ENTRY(SIGSYS) \
-+        MAKE_SIG_ENTRY_SIGSTKFLT \
-+        MAKE_SIG_ENTRY_SIGIOT
-+
- #endif
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 8d29bfaa6b..61c6fa3fcf 100644
-=2D-- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -53,40 +53,9 @@ abi_ulong default_rt_sigreturn;
- QEMU_BUILD_BUG_ON(__SIGRTMAX + 1 !=3D _NSIG);
- #endif
- static uint8_t host_to_target_signal_table[_NSIG] =3D {
--    [SIGHUP] =3D TARGET_SIGHUP,
--    [SIGINT] =3D TARGET_SIGINT,
--    [SIGQUIT] =3D TARGET_SIGQUIT,
--    [SIGILL] =3D TARGET_SIGILL,
--    [SIGTRAP] =3D TARGET_SIGTRAP,
--    [SIGABRT] =3D TARGET_SIGABRT,
--/*    [SIGIOT] =3D TARGET_SIGIOT,*/
--    [SIGBUS] =3D TARGET_SIGBUS,
--    [SIGFPE] =3D TARGET_SIGFPE,
--    [SIGKILL] =3D TARGET_SIGKILL,
--    [SIGUSR1] =3D TARGET_SIGUSR1,
--    [SIGSEGV] =3D TARGET_SIGSEGV,
--    [SIGUSR2] =3D TARGET_SIGUSR2,
--    [SIGPIPE] =3D TARGET_SIGPIPE,
--    [SIGALRM] =3D TARGET_SIGALRM,
--    [SIGTERM] =3D TARGET_SIGTERM,
--#ifdef SIGSTKFLT
--    [SIGSTKFLT] =3D TARGET_SIGSTKFLT,
--#endif
--    [SIGCHLD] =3D TARGET_SIGCHLD,
--    [SIGCONT] =3D TARGET_SIGCONT,
--    [SIGSTOP] =3D TARGET_SIGSTOP,
--    [SIGTSTP] =3D TARGET_SIGTSTP,
--    [SIGTTIN] =3D TARGET_SIGTTIN,
--    [SIGTTOU] =3D TARGET_SIGTTOU,
--    [SIGURG] =3D TARGET_SIGURG,
--    [SIGXCPU] =3D TARGET_SIGXCPU,
--    [SIGXFSZ] =3D TARGET_SIGXFSZ,
--    [SIGVTALRM] =3D TARGET_SIGVTALRM,
--    [SIGPROF] =3D TARGET_SIGPROF,
--    [SIGWINCH] =3D TARGET_SIGWINCH,
--    [SIGIO] =3D TARGET_SIGIO,
--    [SIGPWR] =3D TARGET_SIGPWR,
--    [SIGSYS] =3D TARGET_SIGSYS,
-+#define MAKE_SIG_ENTRY(sig)     [sig] =3D TARGET_##sig,
-+        MAKE_SIGNAL_LIST
-+#undef MAKE_SIG_ENTRY
-     /* next signals stay the same */
- };
+ linux-user/strace.c    | 53 ++++++++++++++++++++++++++++++++++++++++++
+ linux-user/strace.list |  4 ++++
+ 2 files changed, 57 insertions(+)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 7d882526da..a4eeef7ae1 100644
+index a4eeef7ae1..816e679995 100644
 =2D-- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -17,6 +17,7 @@
- #include "qemu.h"
- #include "user-internals.h"
- #include "strace.h"
-+#include "signal-common.h"
+@@ -82,6 +82,7 @@ UNUSED static void print_buf(abi_long addr, abi_long len=
+, int last);
+ UNUSED static void print_raw_param(const char *, abi_long, int);
+ UNUSED static void print_timeval(abi_ulong, int);
+ UNUSED static void print_timespec(abi_ulong, int);
++UNUSED static void print_timespec64(abi_ulong, int);
+ UNUSED static void print_timezone(abi_ulong, int);
+ UNUSED static void print_itimerval(abi_ulong, int);
+ UNUSED static void print_number(abi_long, int);
+@@ -795,6 +796,24 @@ print_syscall_ret_clock_gettime(CPUArchState *cpu_env=
+, const struct syscallname
+ #define print_syscall_ret_clock_getres     print_syscall_ret_clock_gettim=
+e
+ #endif
 
- struct syscallname {
-     int nr;
-@@ -141,30 +142,21 @@ if( cmd =3D=3D val ) { \
-     qemu_log("%d", cmd);
++#if defined(TARGET_NR_clock_gettime64)
++static void
++print_syscall_ret_clock_gettime64(CPUArchState *cpu_env, const struct sys=
+callname *name,
++                                abi_long ret, abi_long arg0, abi_long arg=
+1,
++                                abi_long arg2, abi_long arg3, abi_long ar=
+g4,
++                                abi_long arg5)
++{
++    if (!print_syscall_err(ret)) {
++        qemu_log(TARGET_ABI_FMT_ld, ret);
++        qemu_log(" (");
++        print_timespec64(arg1, 1);
++        qemu_log(")");
++    }
++
++    qemu_log("\n");
++}
++#endif
++
+ #ifdef TARGET_NR_gettimeofday
+ static void
+ print_syscall_ret_gettimeofday(CPUArchState *cpu_env, const struct syscal=
+lname *name,
+@@ -1652,6 +1671,27 @@ print_timespec(abi_ulong ts_addr, int last)
+     }
  }
 
-+static const char * const target_signal_name[] =3D {
-+#define MAKE_SIG_ENTRY(sig)     [TARGET_##sig] =3D #sig,
-+        MAKE_SIGNAL_LIST
-+#undef MAKE_SIG_ENTRY
-+};
++static void
++print_timespec64(abi_ulong ts_addr, int last)
++{
++    if (ts_addr) {
++        struct target__kernel_timespec *ts;
++
++        ts =3D lock_user(VERIFY_READ, ts_addr, sizeof(*ts), 1);
++        if (!ts) {
++            print_pointer(ts_addr, last);
++            return;
++        }
++        qemu_log("{tv_sec =3D %lld"
++                 ",tv_nsec =3D %lld}%s",
++                 (long long)tswap64(ts->tv_sec), (long long)tswap64(ts->t=
+v_nsec),
++                 get_comma(last));
++        unlock_user(ts, ts_addr, 0);
++    } else {
++        qemu_log("NULL%s", get_comma(last));
++    }
++}
 +
  static void
- print_signal(abi_ulong arg, int last)
+ print_timezone(abi_ulong tz_addr, int last)
  {
-     const char *signal_name =3D NULL;
--    switch(arg) {
--    case TARGET_SIGHUP: signal_name =3D "SIGHUP"; break;
--    case TARGET_SIGINT: signal_name =3D "SIGINT"; break;
--    case TARGET_SIGQUIT: signal_name =3D "SIGQUIT"; break;
--    case TARGET_SIGILL: signal_name =3D "SIGILL"; break;
--    case TARGET_SIGABRT: signal_name =3D "SIGABRT"; break;
--    case TARGET_SIGFPE: signal_name =3D "SIGFPE"; break;
--    case TARGET_SIGKILL: signal_name =3D "SIGKILL"; break;
--    case TARGET_SIGSEGV: signal_name =3D "SIGSEGV"; break;
--    case TARGET_SIGPIPE: signal_name =3D "SIGPIPE"; break;
--    case TARGET_SIGALRM: signal_name =3D "SIGALRM"; break;
--    case TARGET_SIGTERM: signal_name =3D "SIGTERM"; break;
--    case TARGET_SIGUSR1: signal_name =3D "SIGUSR1"; break;
--    case TARGET_SIGUSR2: signal_name =3D "SIGUSR2"; break;
--    case TARGET_SIGCHLD: signal_name =3D "SIGCHLD"; break;
--    case TARGET_SIGCONT: signal_name =3D "SIGCONT"; break;
--    case TARGET_SIGSTOP: signal_name =3D "SIGSTOP"; break;
--    case TARGET_SIGTTIN: signal_name =3D "SIGTTIN"; break;
--    case TARGET_SIGTTOU: signal_name =3D "SIGTTOU"; break;
+@@ -2267,6 +2307,19 @@ print_clock_gettime(CPUArchState *cpu_env, const st=
+ruct syscallname *name,
+ #define print_clock_getres     print_clock_gettime
+ #endif
+
++#if defined(TARGET_NR_clock_gettime64)
++static void
++print_clock_gettime64(CPUArchState *cpu_env, const struct syscallname *na=
+me,
++                    abi_long arg0, abi_long arg1, abi_long arg2,
++                    abi_long arg3, abi_long arg4, abi_long arg5)
++{
++    print_syscall_prologue(name);
++    print_enums(clockids, arg0, 0);
++    print_pointer(arg1, 1);
++    print_syscall_epilogue(name);
++}
++#endif
 +
-+    if (arg < ARRAY_SIZE(target_signal_name)) {
-+        signal_name =3D target_signal_name[arg];
-     }
-+
-     if (signal_name =3D=3D NULL) {
-         print_raw_param("%ld", arg, last);
-         return;
+ #ifdef TARGET_NR_clock_settime
+ static void
+ print_clock_settime(CPUArchState *cpu_env, const struct syscallname *name=
+,
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index 72e17b1acf..a78cdf3cdf 100644
+=2D-- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -1676,3 +1676,7 @@
+ #ifdef TARGET_NR_copy_file_range
+ { TARGET_NR_copy_file_range, "copy_file_range", "%s(%d,%p,%d,%p,"TARGET_A=
+BI_FMT_lu",%u)", NULL, NULL },
+ #endif
++#ifdef TARGET_NR_clock_gettime64
++{ TARGET_NR_clock_gettime64, "clock_gettime64" , NULL, print_clock_gettim=
+e64,
++                           print_syscall_ret_clock_gettime64 },
++#endif
 =2D-
 2.37.3
 
