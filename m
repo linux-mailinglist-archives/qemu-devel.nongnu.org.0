@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5755BBDC4
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 14:25:19 +0200 (CEST)
-Received: from localhost ([::1]:39820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70E4F5BBE80
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 16:39:04 +0200 (CEST)
+Received: from localhost ([::1]:35680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZtMM-0003iD-RB
-	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 08:25:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53108)
+	id 1oZvRn-00020m-51
+	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 10:39:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZtGg-0006Fi-GD; Sun, 18 Sep 2022 08:19:27 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39426)
+ id 1oZvQE-00008A-4j; Sun, 18 Sep 2022 10:37:26 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41651)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZtGe-0006Tf-RV; Sun, 18 Sep 2022 08:19:26 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id cc5so33177803wrb.6;
- Sun, 18 Sep 2022 05:19:23 -0700 (PDT)
+ id 1oZvQC-0002Uc-LW; Sun, 18 Sep 2022 10:37:25 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id t14so43330626wrx.8;
+ Sun, 18 Sep 2022 07:37:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=2kad/dsKzDGrYCj59lNZ4GGu2fdTfkes4bs5OZNxsW8=;
- b=V5XmnNJH5m2utcI+nniAWeu+1rG/sBDA78mYRDQEIIN7JunU5nf6T2bMc8FueSv6Li
- HOyiBlUm4aD7XI77SCiuuniOKV41qRx6KtqyV7Rph4izqo/13TQIBb1hdWIQOQ8CqON1
- vgI+e+RAezYu+48K0l+RyLj1tO1xjKNTwm8+mMZz+af9zKgeLDLTxxMDeQkp3+mAgCMD
- CiaFSpei7J79Id5FBfMq8rDyGt1gYB8RvsEk1I/nizn6cqlCPkn+2N+Do427STtifl7X
- ZWSH9afdRe2H2XhOsMF+1jFV4AkuaFu+0TSPRgNvTneV26dFpgIgvTdNiSHOasp04Ldh
- 0Wyg==
+ bh=NCjMhtGnscURG7oR3bfbKpo9JYVPlmZz2G8wJ907E6A=;
+ b=VZQUC4G55Iyfbvi7/JyT5C4SZmYDwAqsZT4m0foV3YIY78aUvtzjC6hL5nYukxikyH
+ +2ANBRYA2rbvDvAlyDS+jxa2hpzrZpNeU2Fe/Vnd/NsP/I4cto+LQBFWQ/D/JAa/JoNY
+ sAUXotP4OXfUZNavcur7q+OpfX9nOJy3KWCKGFjNITdsz7nRW3rqRACh3hBOSOknm1JE
+ iE2tzcO5p8prPKBNJJYFqz4GrImEEE3yDucd/MULDOwjOTbIRTudRCJwZg3BriV5g4PP
+ Wal0xbgvttsAbntnoMzbhp6Gka6YdnCykRcozA6WJ1CZHhf7RPbUXRMQT3yE4l04ReTI
+ kd8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=2kad/dsKzDGrYCj59lNZ4GGu2fdTfkes4bs5OZNxsW8=;
- b=FYT31qrotMtW2qhAuAVwnfj7+4ttjZvf6fpFuJE3GmEKK/g8UXX4/iaCtB4F0T9h6Y
- Fif7FmxxDrksNE9XED/958HQJI4x6/0OaEj2JGwLHvHQEanDnwPLi/vt89/YNHeH6lZk
- deD2Q5FKn7I7y5LZ80xjqMxV6bNwdDilrQ5J91uXeA7GuXhHh5KCKAKwPPs0uMTxNt0M
- CK7t0zEvS+B/4N+BnNqePTkSBUEf44kVTJNxH2RSf/0m+H5J9Zv8W+I4HF2OaXwIx1Uv
- SW3gcD46g2Db4/dqBxdHiddZJ3ibcJAouvpK//AtbNQo0FjZrOBZGMzt3MJTa2uKSPPe
- jsDg==
-X-Gm-Message-State: ACrzQf05ML1CTAZMDD0CTSflnADlWf5inDEkwahQ2uH4t3+6HLEHXsv3
- jeSW1zAejaDNRtRYlsHC4NCLhozfyis=
-X-Google-Smtp-Source: AMsMyM6lO9u34pJ3wt/btIMjcyB+hYxkPM12TeuMsN2x+f5VrAtU/FCHvlpIaRryFZlbGoIkUYuRcA==
-X-Received: by 2002:a5d:67ca:0:b0:228:7ad5:768f with SMTP id
- n10-20020a5d67ca000000b002287ad5768fmr7881407wrw.163.1663503562653; 
- Sun, 18 Sep 2022 05:19:22 -0700 (PDT)
+ bh=NCjMhtGnscURG7oR3bfbKpo9JYVPlmZz2G8wJ907E6A=;
+ b=mho+UNm3ViirXRWZYefhLQrcItRbCNBSFxVVnfk3H5YT72ioTcKG7L2fJuu0lky44k
+ cEoNsbyl9JJ4hJ/ZKQqgKC7Qe7P4QRWHQz/B3iRnKT7tDo9MHQtMgobD2hTCDJ4szGCR
+ jwQuHFkSrqR9Z2bxKuCMNO70JJucUgDvNSXAh9d15bX8ugSgyP8ma2q5sbp+1JPmOx/q
+ 9yUJOn6liqh7L9NttUgzU65tv9CZP2hcHXUnFaWaBbKeqMTgpr6EGgnnkKoOznJH8flH
+ EVGFzLpYgA9apSpehZVNMUNMTq1h3HiXIQUf2C8sSyAqPk9GU7H+Sb1WUuU698IGDgXw
+ wMRg==
+X-Gm-Message-State: ACrzQf0FfCNXihBOVVueBB2yYbxgjhobsxe98wZ7yn6HaG6H8OBKe621
+ ymq85ccD95/7ooHxapF6G2Y=
+X-Google-Smtp-Source: AMsMyM7yJJZarfJVIubKkPMkcmImrknfod8xFEFuC5U3Acf51O8Dw5snU/6TmDige+vQuigIsqQk1g==
+X-Received: by 2002:a5d:6dac:0:b0:22a:fbff:b2d3 with SMTP id
+ u12-20020a5d6dac000000b0022afbffb2d3mr1217560wrs.543.1663511842479; 
+ Sun, 18 Sep 2022 07:37:22 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- h11-20020a05600c28cb00b003b462b314e7sm9405022wmd.16.2022.09.18.05.19.21
+ y17-20020adff6d1000000b00228d6edade0sm10922060wrp.46.2022.09.18.07.37.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Sep 2022 05:19:22 -0700 (PDT)
-Message-ID: <0cbc6000-f792-6ba6-299a-1624c952a39b@amsat.org>
-Date: Sun, 18 Sep 2022 14:19:20 +0200
+ Sun, 18 Sep 2022 07:37:22 -0700 (PDT)
+Message-ID: <4d6bd47a-1e62-1de2-e6f6-a0f77c56e9f4@amsat.org>
+Date: Sun, 18 Sep 2022 16:37:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH 08/11] hw/sd/sdhci-internal: Unexport ESDHC defines
+Subject: Re: [PATCH 00/11] ppc/e500: Add support for two types of flash,
+ cleanup
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  qemu-block@nongnu.org, Bin Meng <bin.meng@windriver.com>, qemu-ppc@nongnu.org
 References: <20220915152520.21948-1-shentey@gmail.com>
- <20220915152520.21948-9-shentey@gmail.com>
-In-Reply-To: <20220915152520.21948-9-shentey@gmail.com>
+In-Reply-To: <20220915152520.21948-1-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -51
 X-Spam_score: -5.2
 X-Spam_bar: -----
@@ -96,13 +96,29 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 15/9/22 17:25, Bernhard Beschow wrote:
-> These defines aren't used outside of sdhci.c, so can be defined there.
+> This series adds support for -pflash and direct SD card access to the
+> PPC e500 boards. The idea is to increase compatibility with "real" firmware
+> images where only the bare minimum of drivers is compiled in.
 > 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->   hw/sd/sdhci-internal.h | 20 --------------------
->   hw/sd/sdhci.c          | 19 +++++++++++++++++++
->   2 files changed, 19 insertions(+), 20 deletions(-)
+> The series is structured as follows:
+> 
+> Patches 1-3 perform some general cleanup which paves the way for the rest of
+> the series.
+> 
+> Patches 4-7 add -pflash handling where memory-mapped flash can be added on
+> user's behalf. That is, the flash memory region is only added if the -pflash
+> argument is supplied. Note that the cfi01 device model becomes stricter in
+> checking the size of the emulated flash space.
+> 
+> Patches 8-11 add a new device model - the Freescale eSDHC - to the e500
+> boards which was missing so far.
+> 
+> User documentation is also added as the new features become available.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Future possible cleanup: Looking at the e500 component, the MPC8544 GUTS
+added in commit b0fb84236d ("PPC: E500: Implement reboot controller")
+was used in hw/ppce500_mpc8544ds.c board, but in a later refactor
+(commit 4a18e7c92a "PPC: e500: rename mpc8544ds into generic file")
+this file got renamed as hw/ppc/e500.c; having a MPC8544 specific piece
+in the common e500 seems odd.
 
