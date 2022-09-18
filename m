@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 354455BBFEF
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 22:48:53 +0200 (CEST)
-Received: from localhost ([::1]:33418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 761655BBFDF
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 22:38:07 +0200 (CEST)
+Received: from localhost ([::1]:33332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oa1Dg-00040d-0q
-	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 16:48:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56446)
+	id 1oa13G-0006OE-Ia
+	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 16:38:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oa0qe-0005qP-S4; Sun, 18 Sep 2022 16:25:04 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:51209)
+ id 1oa0qL-0004n9-Ku; Sun, 18 Sep 2022 16:24:45 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:51214)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oa0qc-0004CT-OR; Sun, 18 Sep 2022 16:25:04 -0400
+ id 1oa0qJ-0004CZ-Pd; Sun, 18 Sep 2022 16:24:45 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 4871C75A16A;
- Sun, 18 Sep 2022 22:24:41 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 4A99075A16C;
+ Sun, 18 Sep 2022 22:24:42 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 0CFB275A162; Sun, 18 Sep 2022 22:24:41 +0200 (CEST)
-Message-Id: <e6977722d2f29db5e439ef5a13afee697479ede3.1663531117.git.balaton@eik.bme.hu>
+ id 1647975A16B; Sun, 18 Sep 2022 22:24:42 +0200 (CEST)
+Message-Id: <a3f50dd8dd04cee3e9887f4af0129dfad13fb74f.1663531117.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1663531117.git.balaton@eik.bme.hu>
 References: <cover.1663531117.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v5 20/21] ppc4xx_sdram: Convert DDR SDRAM controller to new
- bank handling
+Subject: [PATCH v5 21/21] ppc4xx_sdram: Add errp parameter to
+ ppc4xx_sdram_banks()
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -35,15 +35,15 @@ To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 18 Sep 2022 22:24:41 +0200 (CEST)
+Date: Sun, 18 Sep 2022 22:24:42 +0200 (CEST)
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,174 +59,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the generic bank handling introduced in previous patch in the DDR
-SDRAM controller too. This also fixes previously broken region unmap
-due to sdram_ddr_unmap_bcr() ignoring container region so it crashed
-with an assert when the guest tried to disable the controller.
+Do not exit from ppc4xx_sdram_banks() but report error via an errp
+parameter instead.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/ppc/ppc4xx_sdram.c | 98 ++++++++++++++++---------------------------
- 1 file changed, 37 insertions(+), 61 deletions(-)
+ hw/ppc/ppc4xx_sdram.c | 28 +++++++++++++++++++---------
+ 1 file changed, 19 insertions(+), 9 deletions(-)
 
 diff --git a/hw/ppc/ppc4xx_sdram.c b/hw/ppc/ppc4xx_sdram.c
-index 0d4b4f398f..2ef363d5e6 100644
+index 2ef363d5e6..543d47aec3 100644
 --- a/hw/ppc/ppc4xx_sdram.c
 +++ b/hw/ppc/ppc4xx_sdram.c
-@@ -142,6 +142,8 @@ enum {
- 
- /*****************************************************************************/
- /* DDR SDRAM controller */
-+#define SDRAM_DDR_BCR_MASK 0xFFDEE001
-+
- static uint32_t sdram_ddr_bcr(hwaddr ram_base, hwaddr ram_size)
+@@ -53,10 +53,12 @@
+  * must be one of a small set of sizes. The number of banks and the supported
+  * sizes varies by SoC.
+  */
+-static void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
++static bool ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
+                                Ppc4xxSdramBank ram_banks[],
+-                               const ram_addr_t sdram_bank_sizes[])
++                               const ram_addr_t sdram_bank_sizes[],
++                               Error **errp)
  {
-     uint32_t bcr;
-@@ -200,58 +202,6 @@ static hwaddr sdram_ddr_size(uint32_t bcr)
-     return size;
++    ERRP_GUARD();
+     ram_addr_t size_left = memory_region_size(ram);
+     ram_addr_t base = 0;
+     ram_addr_t bank_size;
+@@ -94,14 +96,16 @@ static void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
+                                    sdram_bank_sizes[i] / MiB,
+                                    sdram_bank_sizes[i + 1] ? ", " : "");
+         }
+-        error_report("at most %d bank%s of %s MiB each supported",
+-                     nr_banks, nr_banks == 1 ? "" : "s", s->str);
+-        error_printf("Possible valid RAM size: %" PRIi64 " MiB\n",
+-            used_size ? used_size / MiB : sdram_bank_sizes[i - 1] / MiB);
++        error_setg(errp, "Invalid SDRAM banks");
++        error_append_hint(errp, "at most %d bank%s of %s MiB each supported\n",
++                          nr_banks, nr_banks == 1 ? "" : "s", s->str);
++        error_append_hint(errp, "Possible valid RAM size: %" PRIi64 " MiB\n",
++                  used_size ? used_size / MiB : sdram_bank_sizes[i - 1] / MiB);
+ 
+         g_string_free(s, true);
+-        exit(EXIT_FAILURE);
++        return false;
+     }
++    return true;
  }
  
--static void sdram_ddr_set_bcr(Ppc4xxSdramDdrState *sdram, int i,
--                              uint32_t bcr, int enabled)
--{
--    if (sdram->bank[i].bcr & 1) {
--        /* Unmap RAM */
--        trace_ppc4xx_sdram_unmap(sdram_ddr_base(sdram->bank[i].bcr),
--                                 sdram_ddr_size(sdram->bank[i].bcr));
--        memory_region_del_subregion(get_system_memory(),
--                                    &sdram->bank[i].container);
--        memory_region_del_subregion(&sdram->bank[i].container,
--                                    &sdram->bank[i].ram);
--        object_unparent(OBJECT(&sdram->bank[i].container));
--    }
--    sdram->bank[i].bcr = bcr & 0xFFDEE001;
--    if (enabled && (bcr & 1)) {
--        trace_ppc4xx_sdram_map(sdram_ddr_base(bcr), sdram_ddr_size(bcr));
--        memory_region_init(&sdram->bank[i].container, NULL, "sdram-container",
--                           sdram_ddr_size(bcr));
--        memory_region_add_subregion(&sdram->bank[i].container, 0,
--                                    &sdram->bank[i].ram);
--        memory_region_add_subregion(get_system_memory(),
--                                    sdram_ddr_base(bcr),
--                                    &sdram->bank[i].container);
--    }
--}
--
--static void sdram_ddr_map_bcr(Ppc4xxSdramDdrState *sdram)
--{
--    int i;
--
--    for (i = 0; i < sdram->nbanks; i++) {
--        if (sdram->bank[i].size != 0) {
--            sdram_ddr_set_bcr(sdram, i, sdram_ddr_bcr(sdram->bank[i].base,
--                                                      sdram->bank[i].size), 1);
--        } else {
--            sdram_ddr_set_bcr(sdram, i, 0, 0);
--        }
--    }
--}
--
--static void sdram_ddr_unmap_bcr(Ppc4xxSdramDdrState *sdram)
--{
--    int i;
--
--    for (i = 0; i < sdram->nbanks; i++) {
--        trace_ppc4xx_sdram_unmap(sdram_ddr_base(sdram->bank[i].bcr),
--                                 sdram_ddr_size(sdram->bank[i].bcr));
--        memory_region_del_subregion(get_system_memory(),
--                                    &sdram->bank[i].ram);
--    }
--}
--
- static uint32_t sdram_ddr_dcr_read(void *opaque, int dcrn)
- {
-     Ppc4xxSdramDdrState *s = opaque;
-@@ -322,6 +272,7 @@ static uint32_t sdram_ddr_dcr_read(void *opaque, int dcrn)
- static void sdram_ddr_dcr_write(void *opaque, int dcrn, uint32_t val)
- {
-     Ppc4xxSdramDdrState *s = opaque;
-+    int i;
- 
-     switch (dcrn) {
-     case SDRAM0_CFGADDR:
-@@ -343,12 +294,24 @@ static void sdram_ddr_dcr_write(void *opaque, int dcrn, uint32_t val)
-             if (!(s->cfg & 0x80000000) && (val & 0x80000000)) {
-                 trace_ppc4xx_sdram_enable("enable");
-                 /* validate all RAM mappings */
--                sdram_ddr_map_bcr(s);
-+                for (i = 0; i < s->nbanks; i++) {
-+                    if (s->bank[i].size) {
-+                        sdram_bank_set_bcr(&s->bank[i], s->bank[i].bcr,
-+                                           s->bank[i].base, s->bank[i].size,
-+                                           1);
-+                    }
-+                }
-                 s->status &= ~0x80000000;
-             } else if ((s->cfg & 0x80000000) && !(val & 0x80000000)) {
-                 trace_ppc4xx_sdram_enable("disable");
-                 /* invalidate all RAM mappings */
--                sdram_ddr_unmap_bcr(s);
-+                for (i = 0; i < s->nbanks; i++) {
-+                    if (s->bank[i].size) {
-+                        sdram_bank_set_bcr(&s->bank[i], s->bank[i].bcr,
-+                                           s->bank[i].base, s->bank[i].size,
-+                                           0);
-+                    }
-+                }
-                 s->status |= 0x80000000;
-             }
-             if (!(s->cfg & 0x40000000) && (val & 0x40000000)) {
-@@ -368,16 +331,16 @@ static void sdram_ddr_dcr_write(void *opaque, int dcrn, uint32_t val)
-             s->pmit = (val & 0xF8000000) | 0x07C00000;
-             break;
-         case 0x40: /* SDRAM_B0CR */
--            sdram_ddr_set_bcr(s, 0, val, s->cfg & 0x80000000);
--            break;
-         case 0x44: /* SDRAM_B1CR */
--            sdram_ddr_set_bcr(s, 1, val, s->cfg & 0x80000000);
--            break;
-         case 0x48: /* SDRAM_B2CR */
--            sdram_ddr_set_bcr(s, 2, val, s->cfg & 0x80000000);
--            break;
-         case 0x4C: /* SDRAM_B3CR */
--            sdram_ddr_set_bcr(s, 3, val, s->cfg & 0x80000000);
-+            i = (s->addr - 0x40) / 4;
-+            val &= SDRAM_DDR_BCR_MASK;
-+            if (s->bank[i].size) {
-+                sdram_bank_set_bcr(&s->bank[i], val,
-+                                   sdram_ddr_base(val), sdram_ddr_size(val),
-+                                   s->cfg & 0x80000000);
-+            }
-             break;
-         case 0x80: /* SDRAM_TR */
-             s->tr = val & 0x018FC01F;
-@@ -427,6 +390,7 @@ static void ppc4xx_sdram_ddr_realize(DeviceState *dev, Error **errp)
-     const ram_addr_t valid_bank_sizes[] = {
-         256 * MiB, 128 * MiB, 64 * MiB, 32 * MiB, 16 * MiB, 8 * MiB, 4 * MiB, 0
-     };
-+    int i;
- 
-     if (s->nbanks < 1 || s->nbanks > 4) {
-         error_setg(errp, "Invalid number of RAM banks");
-@@ -437,6 +401,18 @@ static void ppc4xx_sdram_ddr_realize(DeviceState *dev, Error **errp)
+ static void sdram_bank_map(Ppc4xxSdramBank *bank)
+@@ -400,7 +404,10 @@ static void ppc4xx_sdram_ddr_realize(DeviceState *dev, Error **errp)
+         error_setg(errp, "Missing dram memory region");
          return;
      }
-     ppc4xx_sdram_banks(s->dram_mr, s->nbanks, s->bank, valid_bank_sizes);
-+    for (i = 0; i < s->nbanks; i++) {
-+        if (s->bank[i].size) {
-+            s->bank[i].bcr = sdram_ddr_bcr(s->bank[i].base, s->bank[i].size);
-+            sdram_bank_set_bcr(&s->bank[i], s->bank[i].bcr,
-+                               s->bank[i].base, s->bank[i].size, 0);
-+        } else {
-+            sdram_bank_set_bcr(&s->bank[i], 0, 0, 0, 0);
-+        }
-+        trace_ppc4xx_sdram_init(sdram_ddr_base(s->bank[i].bcr),
-+                                sdram_ddr_size(s->bank[i].bcr),
-+                                s->bank[i].bcr);
+-    ppc4xx_sdram_banks(s->dram_mr, s->nbanks, s->bank, valid_bank_sizes);
++    if (!ppc4xx_sdram_banks(s->dram_mr, s->nbanks, s->bank,
++                            valid_bank_sizes, errp)) {
++        return;
 +    }
- 
-     sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
- 
+     for (i = 0; i < s->nbanks; i++) {
+         if (s->bank[i].size) {
+             s->bank[i].bcr = sdram_ddr_bcr(s->bank[i].base, s->bank[i].size);
+@@ -663,7 +670,10 @@ static void ppc4xx_sdram_ddr2_realize(DeviceState *dev, Error **errp)
+         error_setg(errp, "Missing dram memory region");
+         return;
+     }
+-    ppc4xx_sdram_banks(s->dram_mr, s->nbanks, s->bank, valid_bank_sizes);
++    if (!ppc4xx_sdram_banks(s->dram_mr, s->nbanks, s->bank,
++                            valid_bank_sizes, errp)) {
++        return;
++    }
+     for (i = 0; i < s->nbanks; i++) {
+         if (s->bank[i].size) {
+             s->bank[i].bcr = sdram_ddr2_bcr(s->bank[i].base, s->bank[i].size);
 -- 
 2.30.4
 
