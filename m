@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A55485BBF06
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 18:52:54 +0200 (CEST)
-Received: from localhost ([::1]:44926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 694355BBF08
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 18:56:06 +0200 (CEST)
+Received: from localhost ([::1]:60080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZxXJ-0007H0-Ao
-	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 12:52:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44872)
+	id 1oZxaP-0001GC-I3
+	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 12:56:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oZxVi-0004iM-VW
- for qemu-devel@nongnu.org; Sun, 18 Sep 2022 12:51:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50671)
+ id 1oZxZJ-0007qE-22
+ for qemu-devel@nongnu.org; Sun, 18 Sep 2022 12:54:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oZxVf-00077x-Bt
- for qemu-devel@nongnu.org; Sun, 18 Sep 2022 12:51:13 -0400
+ id 1oZxZH-0007el-9a
+ for qemu-devel@nongnu.org; Sun, 18 Sep 2022 12:54:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663519869;
+ s=mimecast20190719; t=1663520094;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SkRMjDIpcMNUGK1vJp9cWx8mMTTc+QTYKePWr3eFY44=;
- b=VqL2XK/F3vdHgYalG35u79CgzYyfha7TAlU3FdIa5MArl1qf4rIoIHmmCYivodyAORozry
- 46YGN2uWBFgll5GmeNdAmi/qevmpR25NHS9DFyyCvuB3ySsxTCdjpRhzm1uQP4MO1ixC4Z
- TmY44K/C9z+mo9GQ8TN3AUS2SIE9jYo=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=g9KKEOxx1UGoPhxuBz/HQRfx2nUYXWlMibYD7w9gyig=;
+ b=VdFXssnup4d7raXEP4qroy2iP1D/xTKJaX97RxELEYcPdR3aATIdLoyG9VBewT6H0whViu
+ t3K8QOnX4Nf9486RuX6abECg4FHig0DSruoL6GfDw0NqNl9hwRy+m5Pf3kui0na1c2G1tB
+ v4SZg3RDQI3G0AlH904IcwUvIDpgF54=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-620-MJlHi98KPgaNH_DroN-wQA-1; Sun, 18 Sep 2022 12:51:07 -0400
-X-MC-Unique: MJlHi98KPgaNH_DroN-wQA-1
-Received: by mail-qk1-f199.google.com with SMTP id
- n15-20020a05620a294f00b006b5768a0ed0so22468230qkp.7
- for <qemu-devel@nongnu.org>; Sun, 18 Sep 2022 09:51:07 -0700 (PDT)
+ us-mta-209-gg-EDus6NW-cRJnZvyQnRA-1; Sun, 18 Sep 2022 12:54:53 -0400
+X-MC-Unique: gg-EDus6NW-cRJnZvyQnRA-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ f9-20020ad442c9000000b004ac7f4fde18so18216135qvr.14
+ for <qemu-devel@nongnu.org>; Sun, 18 Sep 2022 09:54:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=SkRMjDIpcMNUGK1vJp9cWx8mMTTc+QTYKePWr3eFY44=;
- b=ZVzm+PtN6/rLkf7BR44az1roz9Pt6Rn6cQhZF4PdlKn+ZgCsOjZulkD6E1Z1IMpyVM
- 3bwuOUoh4ELmD6KBGf7vnXkABrbyt1MAPEhyIVVTsC0ZkuX7ODqfGbQ4RYta/1yGdbLF
- dN1JKXYdPlap/1+w12boaIgujybAoAeXDXnbdAzxJ6vkWDZ6gRkZjkP00/fL6B8qO7Wk
- YaKVserQuZgba9XisGpq/eCwRbo6SMPMk3jsP+KVQHf396hKwdS+oQA5lyHsJSRn9O2/
- t8QsmOZ02Q85z5FrsInwjmt+qKv1rvxONnuPmEjqKRp21YVsxbcyTiFHWtT1A6LuCzoQ
- 7roA==
-X-Gm-Message-State: ACrzQf3UWRfOEQApph7da0/Yp8GQD/N+u77kKUrKtn5hFfj2dswxsR7j
- yZY/AotmiVnIfEmWjANcij3P5w+3P8yPefrBxzAe8p2dZKFjOvuxDHoXNe3Eppa40TDwCXNQita
- E409mQ5lXWOnVGPo=
-X-Received: by 2002:a05:622a:105:b0:35c:d63e:3452 with SMTP id
- u5-20020a05622a010500b0035cd63e3452mr9435319qtw.668.1663519867294; 
- Sun, 18 Sep 2022 09:51:07 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7VjlN2jW+2RCIoIN4BKNYbaIzKTSkEhHVGV+oZ4WBHf/ZSs+mqTfgYCpBeoxMKjljL2nKBtA==
-X-Received: by 2002:a05:622a:105:b0:35c:d63e:3452 with SMTP id
- u5-20020a05622a010500b0035cd63e3452mr9435302qtw.668.1663519867060; 
- Sun, 18 Sep 2022 09:51:07 -0700 (PDT)
+ bh=g9KKEOxx1UGoPhxuBz/HQRfx2nUYXWlMibYD7w9gyig=;
+ b=0lOPhY1/EByOvUow0DuLOgrqeQTcgKSqQY65TEWXXWTn7ytcp7YppwgZwMBglgOA8C
+ vhRSqrV1Iqo2DDAonYtaBJTQzmT5UGUxPHK/Nuyw7mmbBmmaCLp818Hb7ftz74n0EREY
+ a3FBTrZkO0jRfS4eBgGCiGjG6UbYS8vCNJJuNfqKclYdy7KOFMz5JeH1/l2wIEYmfMN/
+ MpwG4FmNBm4rUTk30VcFnd/BitVir1BlHkbCyWDoYBF+fW7E7lLHd9A95MXDNPMmqYLX
+ 8TpbNQLBvtqtElO+f1dxZmUuuqcn/OZ7HhVUcjb0XYVnPNvgeDXlTiJ9OHrfNDw8jhnc
+ LFAg==
+X-Gm-Message-State: ACrzQf1NcynSHJfYEFyx5HE8cj4WznxpTQgoA1xulJ+jkq0RSOuSpuSm
+ F9dqhxpTrKeSqEkGQ/3edvmvronVjjHCqwkdxBRnkhHhptKM7k3wcDmQVnIQQg6sQyO2RsW0UQw
+ 2xGIS++S/+ssZIrU=
+X-Received: by 2002:a05:622a:1ba8:b0:35b:b64b:5c82 with SMTP id
+ bp40-20020a05622a1ba800b0035bb64b5c82mr12161877qtb.95.1663520092911; 
+ Sun, 18 Sep 2022 09:54:52 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4F/1rvcuzNwH2H/Ud8b6Uc3rarRf1NRchY1RpCyWOrTlY7hpLPLoXHr0VTmw4Ha05AgNbSEg==
+X-Received: by 2002:a05:622a:1ba8:b0:35b:b64b:5c82 with SMTP id
+ bp40-20020a05622a1ba800b0035bb64b5c82mr12161860qtb.95.1663520092681; 
+ Sun, 18 Sep 2022 09:54:52 -0700 (PDT)
 Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
  ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
  by smtp.gmail.com with ESMTPSA id
- c8-20020a05620a268800b006ce60296f97sm10534103qkp.68.2022.09.18.09.51.04
+ bl10-20020a05620a1a8a00b006b5d9a1d326sm10290160qkb.83.2022.09.18.09.54.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Sep 2022 09:51:06 -0700 (PDT)
-Message-ID: <a93f8516-8de4-a78a-047d-7ad39a941aeb@redhat.com>
-Date: Sun, 18 Sep 2022 18:51:02 +0200
+ Sun, 18 Sep 2022 09:54:52 -0700 (PDT)
+Message-ID: <4e96d073-f968-bffe-87e8-6e78d3798752@redhat.com>
+Date: Sun, 18 Sep 2022 18:54:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH v11 11/21] jobs: group together API calls under the same
- job lock
+Subject: Re: [PATCH v11 13/21] jobs: protect job.aio_context with BQL and
+ job_mutex
 Content-Language: en-US
 To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  qemu-block@nongnu.org
@@ -83,13 +83,13 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
  <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
 References: <20220826132104.3678958-1-eesposit@redhat.com>
- <20220826132104.3678958-12-eesposit@redhat.com>
- <7f6282ea-b2ce-ac87-b099-446bfccbd194@yandex-team.ru>
+ <20220826132104.3678958-14-eesposit@redhat.com>
+ <6c7d735c-b473-c540-5bf6-db29794450d0@yandex-team.ru>
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <7f6282ea-b2ce-ac87-b099-446bfccbd194@yandex-team.ru>
+In-Reply-To: <6c7d735c-b473-c540-5bf6-db29794450d0@yandex-team.ru>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -64
 X-Spam_score: -6.5
@@ -97,7 +97,7 @@ X-Spam_bar: ------
 X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-3.657, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,142 +115,167 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-Am 14/09/2022 um 14:36 schrieb Vladimir Sementsov-Ogievskiy:
+Am 14/09/2022 um 15:25 schrieb Vladimir Sementsov-Ogievskiy:
 > On 8/26/22 16:20, Emanuele Giuseppe Esposito wrote:
->> Now that the API offers also _locked() functions, take advantage
->> of it and give also the caller control to take the lock and call
->> _locked functions.
+>> In order to make it thread safe, implement a "fake rwlock",
+>> where we allow reads under BQL *or* job_mutex held, but
+>> writes only under BQL *and* job_mutex.
 >>
->> This makes sense especially when we have for loops, because it
->> makes no sense to have:
+>> The only write we have is in child_job_set_aio_ctx, which always
+>> happens under drain (so the job is paused).
+>> For this reason, introduce job_set_aio_context and make sure that
+>> the context is set under BQL, job_mutex and drain.
+>> Also make sure all other places where the aiocontext is read
+>> are protected.
 >>
->> for(job = job_next(); ...)
->>
->> where each job_next() takes the lock internally.
->> Instead we want
->>
->> JOB_LOCK_GUARD();
->> for(job = job_next_locked(); ...)
->>
->> In addition, protect also direct field accesses, by either creating a
->> new critical section or widening the existing ones.
+>> The reads in commit.c and mirror.c are actually safe, because always
+>> done under BQL.
 >>
 >> Note: at this stage, job_{lock/unlock} and job lock guard macros
 >> are *nop*.
 >>
+>> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 >> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 >> ---
->>   block.c            | 17 ++++++++++-------
->>   blockdev.c         | 14 ++++++++++----
->>   blockjob.c         | 35 ++++++++++++++++++++++-------------
->>   job-qmp.c          |  9 ++++++---
->>   job.c              |  7 +++++--
->>   monitor/qmp-cmds.c |  7 +++++--
->>   qemu-img.c         | 17 +++++++++++------
->>   7 files changed, 69 insertions(+), 37 deletions(-)
+>>   block/replication.c |  7 +++++--
+>>   blockjob.c          |  3 ++-
+>>   include/qemu/job.h  | 23 ++++++++++++++++++++---
+>>   job.c               | 12 ++++++++++++
+>>   4 files changed, 39 insertions(+), 6 deletions(-)
 >>
+>> diff --git a/block/replication.c b/block/replication.c
+>> index 55c8f894aa..6e02d98126 100644
+>> --- a/block/replication.c
+>> +++ b/block/replication.c
+>> @@ -142,14 +142,17 @@ static void replication_close(BlockDriverState *bs)
+>>   {
+>>       BDRVReplicationState *s = bs->opaque;
+>>       Job *commit_job;
+>> +    GLOBAL_STATE_CODE();
+>>         if (s->stage == BLOCK_REPLICATION_RUNNING) {
+>>           replication_stop(s->rs, false, NULL);
+>>       }
+>>       if (s->stage == BLOCK_REPLICATION_FAILOVER) {
+>>           commit_job = &s->commit_job->job;
+>> -        assert(commit_job->aio_context ==
+>> qemu_get_current_aio_context());
+>> -        job_cancel_sync(commit_job, false);
+>> +        WITH_JOB_LOCK_GUARD() {
+>> +            assert(commit_job->aio_context ==
+>> qemu_get_current_aio_context());
+>> +            job_cancel_sync_locked(commit_job, false);
+>> +        }
 > 
-> [..]
+> As Kevin said, this hunk seems not needed.. Why to add locking for
+> reading aio_context, when we have GLOBAL_STATE_CODE()?
+
+Ok, getting rid of it.
 > 
+>>       }
+>>         if (s->mode == REPLICATION_MODE_SECONDARY) {
+>> diff --git a/blockjob.c b/blockjob.c
+>> index 96fb9d9f73..c8919cef9b 100644
+>> --- a/blockjob.c
+>> +++ b/blockjob.c
+>> @@ -162,12 +162,13 @@ static void child_job_set_aio_ctx(BdrvChild *c,
+>> AioContext *ctx,
+>>           bdrv_set_aio_context_ignore(sibling->bs, ctx, ignore);
+>>       }
+>>   -    job->job.aio_context = ctx;
+>> +    job_set_aio_context(&job->job, ctx);
+>>   }
+>>     static AioContext *child_job_get_parent_aio_context(BdrvChild *c)
+>>   {
+>>       BlockJob *job = c->opaque;
+>> +    GLOBAL_STATE_CODE();
+>>         return job->job.aio_context;
+>>   }
+>> diff --git a/include/qemu/job.h b/include/qemu/job.h
+>> index 5709e8d4a8..cede227e67 100644
+>> --- a/include/qemu/job.h
+>> +++ b/include/qemu/job.h
+>> @@ -74,11 +74,17 @@ typedef struct Job {
+>>       /* ProgressMeter API is thread-safe */
+>>       ProgressMeter progress;
+>>   +    /**
+>> +     * AioContext to run the job coroutine in.
+>> +     * The job Aiocontext can be read when holding *either*
+>> +     * the BQL (so we are in the main loop) or the job_mutex.
+>> +     * It can only be written when we hold *both* BQL
+>> +     * and the job_mutex.
+>> +     */
+>> +    AioContext *aio_context;
+>>   -    /** Protected by AioContext lock */
+>>   -    /** AioContext to run the job coroutine in */
+>> -    AioContext *aio_context;
+>> +    /** Protected by AioContext lock */
+>>         /** Reference count of the block job */
+>>       int refcnt;
+>> @@ -741,4 +747,15 @@ int job_finish_sync(Job *job, void (*finish)(Job
+>> *, Error **errp),
+>>   int job_finish_sync_locked(Job *job, void (*finish)(Job *, Error
+>> **errp),
+>>                              Error **errp);
+>>   +/**
+>> + * Sets the @job->aio_context.
+>> + * Called with job_mutex *not* held.
+>> + *
+>> + * This function must run in the main thread to protect against
+>> + * concurrent read in job_finish_sync_locked(), takes the job_mutex
+>> + * lock to protect against the read in job_do_yield_locked(), and must
+>> + * be called when the coroutine is quiescent.
+> 
+> May be "job is quiscent" or "job is doing nothing", "no in-flight io
+> operations in job".
+> 
+> For example, backup has several running coroutines in contest of
+> block_copy process, and main coroutine of the job
+> is almost always "quescent"..
+
+"job is quiescent" seems ok
+
+> 
+>> + */
+>> +void job_set_aio_context(Job *job, AioContext *ctx);
+>> +
+>>   #endif
 >> diff --git a/job.c b/job.c
->> index dcd561fd46..e336af0c1c 100644
+>> index 85ae843f03..9f2fb2e73b 100644
 >> --- a/job.c
 >> +++ b/job.c
-> 
-> job.c hunks are unrelated in this patch, they should go to patch 05.
-> 
->> @@ -672,7 +672,7 @@ void coroutine_fn job_pause_point(Job *job)
->>       job_pause_point_locked(job);
+>> @@ -396,6 +396,17 @@ Job *job_get(const char *id)
+>>       return job_get_locked(id);
 >>   }
->>   -void job_yield_locked(Job *job)
->> +static void job_yield_locked(Job *job)
->>   {
->>       assert(job->busy);
->>   @@ -1046,11 +1046,14 @@ static void
->> job_completed_txn_abort_locked(Job *job)
->>   /* Called with job_mutex held, but releases it temporarily */
->>   static int job_prepare_locked(Job *job)
->>   {
->> +    int ret;
->> +
->>       GLOBAL_STATE_CODE();
->>       if (job->ret == 0 && job->driver->prepare) {
->>           job_unlock();
->> -        job->ret = job->driver->prepare(job);
->> +        ret = job->driver->prepare(job);
->>           job_lock();
->> +        job->ret = ret;
->>           job_update_rc_locked(job);
->>       }
->>       return job->ret;
->> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
->> index 7314cd813d..81c8fdadf8 100644
->> --- a/monitor/qmp-cmds.c
->> +++ b/monitor/qmp-cmds.c
->> @@ -135,8 +135,11 @@ void qmp_cont(Error **errp)
->>           blk_iostatus_reset(blk);
->>       }
->>   -    for (job = block_job_next(NULL); job; job = block_job_next(job)) {
->> -        block_job_iostatus_reset(job);
->> +    WITH_JOB_LOCK_GUARD() {
->> +        for (job = block_job_next_locked(NULL); job;
->> +             job = block_job_next_locked(job)) {
->> +            block_job_iostatus_reset_locked(job);
->> +        }
->>       }
->>         /* Continuing after completed migration. Images have been
->> inactivated to
->> diff --git a/qemu-img.c b/qemu-img.c
->> index 7d4b33b3da..c8ae704166 100644
->> --- a/qemu-img.c
->> +++ b/qemu-img.c
->> @@ -912,25 +912,30 @@ static void run_block_job(BlockJob *job, Error
->> **errp)
->>       int ret = 0;
->>         aio_context_acquire(aio_context);
->> -    job_ref(&job->job);
->> +    job_lock();
->> +    job_ref_locked(&job->job);
->>       do {
->>           float progress = 0.0f;
->> +        job_unlock();
->>           aio_poll(aio_context, true);
->>             progress_get_snapshot(&job->job.progress, &progress_current,
->> -                              &progress_total);
->> +                                &progress_total);
+>>   +void job_set_aio_context(Job *job, AioContext *ctx)
+>> +{
+>> +    /* protect against read in job_finish_sync_locked and job_start */
+>> +    GLOBAL_STATE_CODE();
+>> +    /* protect against read in job_do_yield_locked */
+>> +    JOB_LOCK_GUARD();
+>> +    /* ensure the coroutine is quiescent while the AioContext is
+>> changed */
 > 
-> broken indentation
-> 
->>           if (progress_total) {
->>               progress = (float)progress_current / progress_total *
->> 100.f;
->>           }
->>           qemu_progress_print(progress, 0);
->> -    } while (!job_is_ready(&job->job) && !job_is_completed(&job->job));
->> +        job_lock();
->> +    } while (!job_is_ready_locked(&job->job) &&
->> +                !job_is_completed_locked(&job->job));
-> 
-> and here
+> same not here.
 
-Makes sense, I'll fix it.
+Ok
 
 Thank you,
 Emanuele
 > 
->>   -    if (!job_is_completed(&job->job)) {
->> -        ret = job_complete_sync(&job->job, errp);
->> +    if (!job_is_completed_locked(&job->job)) {
->> +        ret = job_complete_sync_locked(&job->job, errp);
->>       } else {
->>           ret = job->job.ret;
->>       }
->> -    job_unref(&job->job);
->> +    job_unref_locked(&job->job);
->> +    job_unlock();
->>       aio_context_release(aio_context);
->>         /* publish completion progress only when success */
+>> +    assert(job->paused || job_is_completed_locked(job));
+>> +    job->aio_context = ctx;
+>> +}
+>> +
+>>   /* Called with job_mutex *not* held. */
+>>   static void job_sleep_timer_cb(void *opaque)
+>>   {
+>> @@ -1379,6 +1390,7 @@ int job_finish_sync_locked(Job *job,
+>>   {
+>>       Error *local_err = NULL;
+>>       int ret;
+>> +    GLOBAL_STATE_CODE();
+>>         job_ref_locked(job);
+>>   
 > 
 > 
 
