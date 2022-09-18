@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00BFB5BBFF2
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 22:52:56 +0200 (CEST)
-Received: from localhost ([::1]:39678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFB5E5BBFF4
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 22:55:20 +0200 (CEST)
+Received: from localhost ([::1]:44934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oa1Hb-0002iJ-2e
-	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 16:52:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43076)
+	id 1oa1Jv-0006uO-WB
+	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 16:55:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oa1Ea-0005ni-Aa
- for qemu-devel@nongnu.org; Sun, 18 Sep 2022 16:49:48 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:39717)
+ id 1oa1G5-0008KO-Ng; Sun, 18 Sep 2022 16:51:21 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:38677)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oa1EY-000878-Lv
- for qemu-devel@nongnu.org; Sun, 18 Sep 2022 16:49:47 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id f23so9952572plr.6
- for <qemu-devel@nongnu.org>; Sun, 18 Sep 2022 13:49:46 -0700 (PDT)
+ id 1oa1G4-000086-9E; Sun, 18 Sep 2022 16:51:21 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ x1-20020a17090ab00100b001fda21bbc90so4998214pjq.3; 
+ Sun, 18 Sep 2022 13:51:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=N9JTATzlCsEgrLq76l3tsn14CuDb3U+/zLaABl+4if8=;
- b=effMpwZIXe+X9B46a3oA8vHaJtcmP3ToANM9C3/i8m4tkJwkSDT1+JFCwtXsv5tPpm
- 8MkFLppadysXZzaUOxjj4pNMWZk48bjOFu/YxjZ54S37/uiLp2hcYXtkka6EoQDNty3+
- 4AX+FpDFBxkma0V58wL09gZ7+XEEvrX9hFYX+YMuDtyQizhC1sxP5AAUoYi/iUOeR0Ly
- l56bwJW1SslDpgKgvzsZvs5TCeOwrFepSed41aINVYcGyzrX8CCblIDERIghdEmB94rr
- JToGV+jp71a6dsYExxY8hzV01Uf9n+xmwDVFP4BRFmC0eIGjvTQ05FzUVH9Bzc+pXJ4p
- SYeg==
+ bh=aMGxKYBdjOX1zgkZGTHzBeoLbaeVzse+kIwUoXZM8qA=;
+ b=Z1ILPRE5sH7qNJgeqr4PHWiocZvMVnfmDrCPOJcmedpKpH4ermh5RzdN8RopFcbFdN
+ KwYwC9ex2K4dNDauiESsMiGnz9fxt1IBKlXzj+/SCoPC3zkQYIvcwgEIsb7D/E4yHl94
+ sC1dpoL4+Npnuxhg6F/sdjV3cuSKVpbtNNBHg5SEiRnbtmOTO3c6XTMJyCe6rFaCxQOQ
+ FFuH1VT85wbx4Ms+AS85wDtG8zPffn+mBnrscAPBc5aYHQ8YRX7E/HF52xP6qfxv//pV
+ rksrTJemXT+RU8ZnxM9qEbExzfm5iDpBG8dLKUlK9wOE7FV+G07PMs82bblmqxvHU7dX
+ U2FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=N9JTATzlCsEgrLq76l3tsn14CuDb3U+/zLaABl+4if8=;
- b=Xyxqs/knZKrk1Sz8AQbMBblO1DlppCJjMbvUYjhBIFLLLQjuaQrTzACbgL+PBOy6ti
- MxWyVs5+8J+yDCu8ad9nfmRQuH6vQErKobzdQ80XxSrOdw8gBRUTP0dAlO3aU3uzPQPt
- IwbjQ3GalMytlm6V/3AeAUkU4cEK2QqPOf67ePNuSIo1wnB3IYs/M3QPRwe+BQOxJ5vW
- z3SrXwIuritK71/I6tLmVDRjJy3LjXWkLk3fOjHYC0Tzu3x+JwK46x0/nX47WxHC0ofX
- r34ZTZmAK6g0TnkbVYN2YxAZYv0qxPewFRHpfWFn0afEmiGhXm43TorkSR50UquOYsGe
- w17Q==
-X-Gm-Message-State: ACrzQf1Ziax8eJnwLnEUH2+f/59guBk7xuZ83eViifbHSzWBrRdRlXcM
- da62wn2mVbm2Bnjfs2u5CBQ=
-X-Google-Smtp-Source: AMsMyM4ni8xV3vzVRbys+NAwBlHt+5c+aFF3G3MZojdi4fUFc/anKoTP6wRLBFT3Tg3rOzh05bwI3Q==
-X-Received: by 2002:a17:90a:804a:b0:203:3947:1a9e with SMTP id
- e10-20020a17090a804a00b0020339471a9emr19600417pjw.118.1663534185175; 
- Sun, 18 Sep 2022 13:49:45 -0700 (PDT)
+ bh=aMGxKYBdjOX1zgkZGTHzBeoLbaeVzse+kIwUoXZM8qA=;
+ b=dS2Vp9/CybfyRroNm9Jl8kTS7nKlgA3OdYBmNWXodT4jcPoQHjHltYWfm/bowiurQQ
+ cMmAiMt2yBcJEOvV6N/BUnayryP8JGdyRt6LT+N7PYuiAHodcA8fO5oxYxPxtUNLBPLk
+ mxKtGg6EKEW6Y5sJZdEwYqqHeN37xq1F+zzvT93/rGTcBp0Pcs1h7pA/1nFwAy185P9B
+ P2ZFrql7wESrMzsgC2IQtamYZyHMYaINfBuVGDQFp66y8O6IIbjcuhHF0lMtf2PNOCUS
+ 3mHmKFehMUXshhLEaCkKx3cXjATPXOeqYuXpLdomSGMDcJs/QdDluSbWyx67/kS4gmlW
+ XrJw==
+X-Gm-Message-State: ACrzQf3cmlFZA8E8jUg1urGE+BD/Nplwdmo65sRep7hBACrLS3B4gjGc
+ 8o4SWfqZ1C0v2kwrukee4IObNxZMH6A=
+X-Google-Smtp-Source: AMsMyM6aQfQ5JlZWssZieLISA9l/tvbSge9Xq+9JoMfg9cjx4PMkjPi752GDgbwyde6XkyIrAwrNZw==
+X-Received: by 2002:a17:902:c106:b0:178:8cb:2762 with SMTP id
+ 6-20020a170902c10600b0017808cb2762mr10091284pli.58.1663534278442; 
+ Sun, 18 Sep 2022 13:51:18 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- c12-20020aa7952c000000b0052e987c64efsm19120146pfp.174.2022.09.18.13.49.43
+ n17-20020a170902e55100b001752cb111e0sm19145670plf.69.2022.09.18.13.51.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Sep 2022 13:49:44 -0700 (PDT)
-Message-ID: <02090880-0db6-0a6b-60b0-b3313566b962@amsat.org>
-Date: Sun, 18 Sep 2022 22:49:40 +0200
+ Sun, 18 Sep 2022 13:51:18 -0700 (PDT)
+Message-ID: <336eada3-71f9-997b-d000-0eae9bf822a3@amsat.org>
+Date: Sun, 18 Sep 2022 22:51:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH v3 12/12] linux-user: Add parameters of getrandom()
- syscall for strace
+Subject: Re: [PATCH v5 18/21] ppc4xx_sdram: Rename local state variable for
+ brevity
 Content-Language: en-US
-To: Helge Deller <deller@gmx.de>, Stefan Hajnoczi <stefanha@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20220918194555.83535-1-deller@gmx.de>
- <20220918194555.83535-13-deller@gmx.de>
-In-Reply-To: <20220918194555.83535-13-deller@gmx.de>
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <cover.1663531117.git.balaton@eik.bme.hu>
+ <eaa6db377e78445aa106f9b30e01df3b99e4eeba.1663531117.git.balaton@eik.bme.hu>
+In-Reply-To: <eaa6db377e78445aa106f9b30e01df3b99e4eeba.1663531117.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -51
 X-Spam_score: -5.2
 X-Spam_bar: -----
@@ -98,34 +98,16 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 18/9/22 21:45, Helge Deller wrote:
-> Signed-off-by: Helge Deller <deller@gmx.de>
+On 18/9/22 22:24, BALATON Zoltan wrote:
+> Rename the sdram local state variable to s in dcr read/write functions
+> and reset methods for better readability and to match realize methods.
+> Other places not converted will be changed or removed in subsequent
+> patches.
+> 
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->   linux-user/strace.list | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/linux-user/strace.list b/linux-user/strace.list
-> index ad9ef94689..97d8ccadac 100644
-> --- a/linux-user/strace.list
-> +++ b/linux-user/strace.list
-> @@ -355,7 +355,7 @@
->   { TARGET_NR_getpriority, "getpriority", "%s(%#x,%#x)", NULL, NULL },
->   #endif
->   #ifdef TARGET_NR_getrandom
-> -{ TARGET_NR_getrandom, "getrandom", NULL, NULL, NULL },
-> +{ TARGET_NR_getrandom, "getrandom", "%s(%p,%u,%d)", NULL, NULL },
+>   hw/ppc/ppc4xx_sdram.c | 158 +++++++++++++++++++++---------------------
+>   1 file changed, 79 insertions(+), 79 deletions(-)
 
-The last argument is unsigned.
-
-Conditional to using "%s(%p,%u,%u)":
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
->   #endif
->   #ifdef TARGET_NR_getresgid
->   { TARGET_NR_getresgid, "getresgid" , NULL, NULL, NULL },
-> --
-> 2.37.3
-> 
-> 
-
 
