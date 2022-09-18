@@ -2,45 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CC885BBD4C
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 12:00:25 +0200 (CEST)
-Received: from localhost ([::1]:39616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B045BBD6E
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 12:29:51 +0200 (CEST)
+Received: from localhost ([::1]:56736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZr68-0004re-5p
-	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 06:00:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37148)
+	id 1oZrYc-0004QN-JR
+	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 06:29:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oZr51-0003MQ-SJ; Sun, 18 Sep 2022 05:59:15 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:31655)
+ id 1oZrXC-0002uy-Cl; Sun, 18 Sep 2022 06:28:22 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:29876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oZr4x-0007zr-Uz; Sun, 18 Sep 2022 05:59:15 -0400
+ id 1oZrWn-0003uU-8J; Sun, 18 Sep 2022 06:28:15 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 19E88759B50;
- Sun, 18 Sep 2022 11:59:05 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 7B32E759B50;
+ Sun, 18 Sep 2022 12:27:53 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id BDEDB74638A; Sun, 18 Sep 2022 11:59:04 +0200 (CEST)
+ id 1DE6B74638A; Sun, 18 Sep 2022 12:27:53 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id BB27F74633D;
- Sun, 18 Sep 2022 11:59:04 +0200 (CEST)
-Date: Sun, 18 Sep 2022 11:59:04 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 1C30474633D;
+ Sun, 18 Sep 2022 12:27:53 +0200 (CEST)
+Date: Sun, 18 Sep 2022 12:27:53 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org, 
+To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
  Daniel Henrique Barboza <danielhb413@gmail.com>, 
  Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v4 14/21] ppc440_sdram: Move RAM size check to
- ppc440_sdram_init
-In-Reply-To: <cb366d11-7abd-c70c-6392-d74f3fabf04b@amsat.org>
-Message-ID: <e2fc703c-5b2-3a4e-261b-ad6751abc37@eik.bme.hu>
-References: <cover.1663154398.git.balaton@eik.bme.hu>
- <1e6385a288c0756cb8ec3b2a526393b509fdba40.1663154398.git.balaton@eik.bme.hu>
- <cb366d11-7abd-c70c-6392-d74f3fabf04b@amsat.org>
+Subject: Re: [PATCH v3 03/20] ppc4xx_sdram: Get rid of the init RAM hack
+In-Reply-To: <f08d32e6-e088-087e-77d6-97b6c619ad51@kaod.org>
+Message-ID: <d2e5dc82-98c1-fe8e-a3fb-fee05601aa4@eik.bme.hu>
+References: <cover.1663097286.git.balaton@eik.bme.hu>
+ <554b4cde6c026bb7ba4bfbaa6d3e1e6019b40409.1663097286.git.balaton@eik.bme.hu>
+ <579fe2b8-0e1b-46e6-dc58-523c414744a4@kaod.org>
+ <f21297c-4851-fe69-7438-7e4421a8a45@eik.bme.hu>
+ <e29706b8-69e2-fa67-df56-c40ed6d510b2@kaod.org>
+ <cb0921e-e265-4d47-e66f-77bb5970f3e4@eik.bme.hu>
+ <d88f4a27-acfb-795-8443-f682bbcebde1@eik.bme.hu>
+ <f08d32e6-e088-087e-77d6-97b6c619ad51@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/mixed;
- boundary="3866299591-1304776995-1663495144=:53072"
+ boundary="3866299591-811957638-1663496873=:53072"
 X-Spam-Probability: 9%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
@@ -67,158 +71,215 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-1304776995-1663495144=:53072
+--3866299591-811957638-1663496873=:53072
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8BIT
 
-On Sun, 18 Sep 2022, Philippe Mathieu-Daudé wrote:
-> On 14/9/22 13:34, BALATON Zoltan wrote:
->> Move the check for valid memory sizes from board to sdram controller
->> init. Board now only checks for additional restrictions imposed by
->> firmware then sdram init checks for valid sizes for SoC.
+On Sun, 18 Sep 2022, Cédric Le Goater wrote:
+> On 9/14/22 20:32, BALATON Zoltan wrote:
+>> On Wed, 14 Sep 2022, BALATON Zoltan wrote:
+>>> On Wed, 14 Sep 2022, Cédric Le Goater wrote:
+>>>> On 9/14/22 13:44, BALATON Zoltan wrote:
+>>>>> On Wed, 14 Sep 2022, Cédric Le Goater wrote:
+>>>>>> On 9/13/22 21:52, BALATON Zoltan wrote:
+>>>>>>> The do_init parameter of ppc4xx_sdram_init() is used to map memory
+>>>>>>> regions that is normally done by the firmware by programming the SDRAM
+>>>>>>> controller. This is needed when booting a kernel directly from -kernel
+>>>>>>> without a firmware. Do this from board code accesing normal SDRAM
+>>>>>> 
+>>>>>> accessing
+>>>>> 
+>>>>> Fixed, also two ofhers in another patch you haven't noticed.
+>>>>> 
+>>>>>>> controller registers the same way as firmware would do, so we can get
+>>>>>>> rid of this hack.
+>>>>>>> 
+>>>>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>>>>>> ---
+>>>>>>> v2: Fix ref405ep boot with -kernel and U-Boot
+>>>>>>> 
+>>>>>>>   hw/ppc/ppc405.h         |  1 -
+>>>>>>>   hw/ppc/ppc405_boards.c  | 12 ++++++++++--
+>>>>>>>   hw/ppc/ppc405_uc.c      |  4 +---
+>>>>>>>   hw/ppc/ppc440_bamboo.c  |  8 +++++++-
+>>>>>>>   hw/ppc/ppc440_uc.c      |  2 --
+>>>>>>>   hw/ppc/ppc4xx_devs.c    | 11 +----------
+>>>>>>>   include/hw/ppc/ppc4xx.h |  8 ++++++--
+>>>>>>>   7 files changed, 25 insertions(+), 21 deletions(-)
+>>>>>>> 
+>>>>>>> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+>>>>>>> index 1e558c7831..756865621b 100644
+>>>>>>> --- a/hw/ppc/ppc405.h
+>>>>>>> +++ b/hw/ppc/ppc405.h
+>>>>>>> @@ -169,7 +169,6 @@ struct Ppc405SoCState {
+>>>>>>>       /* Public */
+>>>>>>>       MemoryRegion ram_banks[2];
+>>>>>>>       hwaddr ram_bases[2], ram_sizes[2];
+>>>>>>> -    bool do_dram_init;
+>>>>>>>         MemoryRegion *dram_mr;
+>>>>>>>       hwaddr ram_size;
+>>>>>>> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+>>>>>>> index 083f12b23e..bf02a71c6d 100644
+>>>>>>> --- a/hw/ppc/ppc405_boards.c
+>>>>>>> +++ b/hw/ppc/ppc405_boards.c
+>>>>>>> @@ -274,6 +274,7 @@ static void ppc405_init(MachineState *machine)
+>>>>>>>       MachineClass *mc = MACHINE_GET_CLASS(machine);
+>>>>>>>       const char *kernel_filename = machine->kernel_filename;
+>>>>>>>       MemoryRegion *sysmem = get_system_memory();
+>>>>>>> +    CPUPPCState *env;
+>>>>>>>         if (machine->ram_size != mc->default_ram_size) {
+>>>>>>>           char *sz = size_to_str(mc->default_ram_size);
+>>>>>>> @@ -288,12 +289,19 @@ static void ppc405_init(MachineState *machine)
+>>>>>>>                                machine->ram_size, &error_fatal);
+>>>>>>>       object_property_set_link(OBJECT(&ppc405->soc), "dram",
+>>>>>>>                                OBJECT(machine->ram), &error_abort);
+>>>>>>> -    object_property_set_bool(OBJECT(&ppc405->soc), "dram-init",
+>>>>>>> -                             kernel_filename != NULL, &error_abort);
+>>>>>>>       object_property_set_uint(OBJECT(&ppc405->soc), "sys-clk", 
+>>>>>>> 33333333,
+>>>>>>>                                &error_abort);
+>>>>>>>       qdev_realize(DEVICE(&ppc405->soc), NULL, &error_fatal);
+>>>>>>>   +    /* Enable SDRAM memory regions */
+>>>>>>> +    /* FIXME This shouldn't be needed with firmware but we lack SPD 
+>>>>>>> data */
+>>>>>> 
+>>>>>> what do you mean ?
+>>>>> 
+>>>>> U-Boot detects the available RAM by reading the SPD info of the RAM 
+>>>>> modules but that probably also needs i2c emulation. See sam460ex.
+>>>>> 
+>>>>>>> +    env = &ppc405->soc.cpu.env;
+>>>>>>> +    if (ppc_dcr_write(env->dcr_env, SDRAM0_CFGADDR, 0x20) ||
+>>>>>>> +        ppc_dcr_write(env->dcr_env, SDRAM0_CFGDATA, 0x80000000)) {
+>>>>>> 
+>>>>>> 
+>>>>>> I am not in favor of these ppc_drc_write calls and this is still a 
+>>>>>> hack.
+>>>>> 
+>>>>> It's not. Normally this is done by firmware to enable memory controller 
+>>>>> but the board code has to do it if not using firmware (e.g. booting with 
+>>>>> -kernel) the same way it provides bootinfo or device tree mods the 
+>>>>> firmware would normally do or in this case maybe the emulation is 
+>>>>> incomplete so the part of firmware that configures the SDRAM controller 
+>>>>> does not run.
+>>>> 
+>>>> Exactly, and what the above proposal does is mimicking execution of CPU
+>>>> instructions before the CPU is even fully initiated. Reset has not been
+>>>> called at that stage.
+>>> 
+>>> I don't get this. We're not calling any CPU instructions, ppc_dcr_write 
+>>> just calls the write callback the device has registered for the dcr so it 
+>>> just does the same as the hack did at the end just doing it the same way 
+>>> the firmware should do.
+>>> 
+>>>>>> The "dram-init" property is a cleaner solution. It takes care of doing 
+>>>>>> the
+>>>>>> pre-mapping of RAM banks in the realize routine of the sdram model 
+>>>>>> (when
+>>>>>> available).
+>>>>> 
+>>>>> I disagree, the hardware does not have such feature, it proviesd DCRs as 
+>>>>> the way to configure it. Adding a special property for it deviates from 
+>>>>> hardware and clutters qtree. 
+>>>> 
+>>>> 
+>>>> In this machine, running QEMU with -kernel deviates from HW. That's
+>>> 
+>>> In all machines booting with -kernel likely deviates and all machines 
+>>> probably have additinal code in this case to do some things normally done 
+>>> by the firmware. Look at pegasos2_machine_reset() for example. All that is 
+>>> not needed when we boot with firmware as then the firmware will do all 
+>>> that and provide the device tree, etc. bur we need to do these when 
+>>> booting without firmware. In thes case QEMU also emulates the firmware and 
+>>> has to do thinigs like enabling the memory controller.
+>>> 
+>>>> the whole purpose of this option. It assumes that the SDRAM device
+>>>> is pre-initialized (and much more should be done) by the QEMU machine
+>>>> and the simplest way to acheive this goal is to inform the SDRAM model
+>>>> to take care of the pre-initialization.
+>>> 
+>>> In my opinion the SDRAM controller model should model the hardware and if 
+>>> the board uses it differently then it should take care of that and not 
+>>> change the model.
+>>> 
+>>>> Another way would be to change the default reset values of the SDRAM
+>>>> registers (in the realize method using some property) and perform
+>>>> some actions (mapping the banks) in the reset handler of the SDRAM
+>>>> device model. That would be a deferred initialization but a property
+>>>> is still needed to change the default behavior of the SDRAM model.
+>>>> 
+>>>> Anyhow, this should be isolated under the SDRAM device model and
+>>>> not in the machine init by using the CPU state. That's clearly ugly.
 >> 
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> ---
->>   hw/ppc/ppc440.h    |  4 ++--
->>   hw/ppc/ppc440_uc.c | 15 +++++++--------
->>   hw/ppc/sam460ex.c  | 32 +++++++++++++++++---------------
->>   3 files changed, 26 insertions(+), 25 deletions(-)
->> 
->> diff --git a/hw/ppc/ppc440.h b/hw/ppc/ppc440.h
->> index 01d76b8000..29f6f14ed7 100644
->> --- a/hw/ppc/ppc440.h
->> +++ b/hw/ppc/ppc440.h
->> @@ -11,13 +11,13 @@
->>   #ifndef PPC440_H
->>   #define PPC440_H
->>   -#include "hw/ppc/ppc4xx.h"
->> +#include "hw/ppc/ppc.h"
->>     void ppc4xx_l2sram_init(CPUPPCState *env);
->>   void ppc4xx_cpr_init(CPUPPCState *env);
->>   void ppc4xx_sdr_init(CPUPPCState *env);
->>   void ppc440_sdram_init(CPUPPCState *env, int nbanks,
->> -                       Ppc4xxSdramBank *ram_banks);
->> +                       MemoryRegion *ram);
->>   void ppc4xx_ahb_init(CPUPPCState *env);
->>   void ppc4xx_dma_init(CPUPPCState *env, int dcr_base);
->>   void ppc460ex_pcie_init(CPUPPCState *env);
->> diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
->> index fa313f979d..bd2a489557 100644
->> --- a/hw/ppc/ppc440_uc.c
->> +++ b/hw/ppc/ppc440_uc.c
->> @@ -486,7 +486,7 @@ void ppc4xx_sdr_init(CPUPPCState *env)
->>   typedef struct ppc440_sdram_t {
->>       uint32_t addr;
->>       uint32_t mcopt2;
->> -    int nbanks;
->> +    int nbanks; /* Banks to use from the 4, e.g. when board has less slots 
->> */
->>       Ppc4xxSdramBank bank[4];
->>   } ppc440_sdram_t;
->>   @@ -732,18 +732,17 @@ static void sdram_ddr2_reset(void *opaque)
->>   }
->>     void ppc440_sdram_init(CPUPPCState *env, int nbanks,
->> -                       Ppc4xxSdramBank *ram_banks)
->> +                       MemoryRegion *ram)
->>   {
->>       ppc440_sdram_t *s;
->> -    int i;
->> +    const ram_addr_t valid_bank_sizes[] = {
->> +        4 * GiB, 2 * GiB, 1 * GiB, 512 * MiB, 256 * MiB, 128 * MiB, 64 * 
->> MiB,
->> +        32 * MiB, 16 * MiB, 8 * MiB, 0
+>> Additionally, if you don't like the FIXME comment, 
 >
-> Where 16/8 come from?
+> I didn't understand it. That's different.
+>
+>> it's there because this would really belong at the beginning of 
+>> boot_from_kernel() function before that calls ppc405_set_bootinfo which is 
+>> called when booting without firmware but I left it where it was in init for 
+>> now because you menfioned that firmware boot was also broken 
+>
+> hmm ? but It's not anymore. v2 broke it I think.
 
-From sdram_ddr2_bcr(). This array now has the missing 4 GB, 16 and 8 MB 
-the SoC can handle but the board can't and added separate checks for the 
-board restrictions in the board code. Probably isn't worth splitting this 
-out in a separate patch but I should more explicitly mention it in the 
-commit message to make it clearer.
+First I've put enabling SDRAM controller in boot_from_kernel at the end 
+before qemu_register_reset but this is wrong as the bootinfo is written in 
+RAM so it should be enabled before. So this should be done at the 
+beginning of boot_from_kernel but you said my first version not only broke 
+-kernel but also booting with firmware so that told me firmware also does 
+not enable the SDRAM conroller itself (as now seen below it's disabled) so 
+I moved enabling back to where it was in init. Ideally it should be done 
+by the firmware if using that or QEMU at the beginning of boot_from_kernel 
+when emulating firmwere but that does not work yet so that's why we have 
+the FIXME comment to remind for this.
+
+>> when I had it at the end of boot_from_kernel so I suspect the board is not 
+>> providing the SPD data so the firmware cannot detect the RAM and this why 
+>> it's not enabling the SDRAM itself (or maybe that part is even compiled out 
+>> because of that) but then it's a limitation of the board emulation and not 
+>> the SDRAM controller so it should be handled in the board code.
+>
+> Here is the U-boot tree that can be used :
+>
+>  https://gitlab.com/huth/u-boot/-/tree/taihu
+>
+> and the SDRAM init hacks :
+>   https://gitlab.com/huth/u-boot/-/commit/296e0479a972fa57390f0f3a912650168dabe851
+>
+> May be there is a way to fix the model to remove the U-boot hack.
+
+I don't know how that works for 405. For 440 used by Sam460ex u-boot reads 
+the SPD EEPROMs to detect memmory size and configures the SDRAM DDR2 
+controller according to that but that needs i2c and SPD data as in 
+sam460ex.c. The code you pointed to seems to try a fixed table of valid 
+RAM sizes in mb0cf[] that is either taken from CONFIG_SYS_SDRAM_TABLE 
+value or use default of 128, 64, 32, 16, 4 MB. Maybe the model can be 
+changed to allow this check to succeed so it does not have to be disabled 
+but I don't know what it really tries to do here. The SoC manual may also 
+have some docs on the register which you could check if you have it. This 
+controller should be the same as in some 440 with DDR SDRAM. I think there 
+are three different memory controllers in these SoCs: SDRAM, DDR and DDR2. 
+The 460EX has DDR2, the 440 in bamboo has DDR and I think this is 
+backwards compatible with SDRAM in 405 but the 440 DDR controller has some 
+more regs for ECC. Therefore in QEMU we mostly only model DDR2 and DDR and 
+use DDR instead of SDRAM in 405 as its common regs are likely the same but 
+I don't have docs to prove it, I've only seen docs on 440 DDR so it's just 
+what I've found while doing this series. Anyway you should keep this in 
+mind when changing the DDR model and also check bamboo firmware which I 
+don't have.
 
 Regards,
 BALATON Zoltan
 
->> +    };
->>         s = g_malloc0(sizeof(*s));
->>       s->nbanks = nbanks;
->> -    for (i = 0; i < nbanks; i++) {
->> -        s->bank[i].ram = ram_banks[i].ram;
->> -        s->bank[i].base = ram_banks[i].base;
->> -        s->bank[i].size = ram_banks[i].size;
->> -    }
->> +    ppc4xx_sdram_banks(ram, s->nbanks, s->bank, valid_bank_sizes);
->>       qemu_register_reset(&sdram_ddr2_reset, s);
->>       ppc_dcr_register(env, SDRAM0_CFGADDR,
->>                        s, &sdram_ddr2_dcr_read, &sdram_ddr2_dcr_write);
->> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
->> index dac329d482..9b850808a3 100644
->> --- a/hw/ppc/sam460ex.c
->> +++ b/hw/ppc/sam460ex.c
->> @@ -74,13 +74,6 @@
->>   #define EBC_FREQ 115000000
->>   #define UART_FREQ 11059200
->>   -/* The SoC could also handle 4 GiB but firmware does not work with that. 
->> */
->> -/* Maybe it overflows a signed 32 bit number somewhere? */
->> -static const ram_addr_t ppc460ex_sdram_bank_sizes[] = {
->> -    2 * GiB, 1 * GiB, 512 * MiB, 256 * MiB, 128 * MiB, 64 * MiB,
->> -    32 * MiB, 0
->> -};
->> -
->>   struct boot_info {
->>       uint32_t dt_base;
->>       uint32_t dt_size;
->> @@ -273,7 +266,6 @@ static void sam460ex_init(MachineState *machine)
->>   {
->>       MemoryRegion *address_space_mem = get_system_memory();
->>       MemoryRegion *isa = g_new(MemoryRegion, 1);
->> -    Ppc4xxSdramBank *ram_banks = g_new0(Ppc4xxSdramBank, 1);
->>       MemoryRegion *l2cache_ram = g_new(MemoryRegion, 1);
->>       DeviceState *uic[4];
->>       int i;
->> @@ -340,12 +332,22 @@ static void sam460ex_init(MachineState *machine)
->>       }
->>         /* SDRAM controller */
->> -    /* put all RAM on first bank because board has one slot
->> -     * and firmware only checks that */
->> -    ppc4xx_sdram_banks(machine->ram, 1, ram_banks, 
->> ppc460ex_sdram_bank_sizes);
->> -
->> +    /* The SoC could also handle 4 GiB but firmware does not work with 
->> that. */
->> +    if (machine->ram_size > 2 * GiB) {
->> +        error_report("Memory over 2 GiB is not supported");
->> +        exit(1);
->> +    }
->> +    /* Firmware needs at least 64 MiB */
->> +    if (machine->ram_size < 64 * MiB) {
->> +        error_report("Memory below 64 MiB is not supported");
->> +        exit(1);
->> +    }
->> +    /*
->> +     * Put all RAM on first bank because board has one slot
->> +     * and firmware only checks that
->> +     */
->> +    ppc440_sdram_init(env, 1, machine->ram);
->>       /* FIXME: does 460EX have ECC interrupts? */
->> -    ppc440_sdram_init(env, 1, ram_banks);
->>       /* Enable SDRAM memory regions as we may boot without firmware */
->>       if (ppc_dcr_write(env->dcr_env, SDRAM0_CFGADDR, 0x21) ||
->>           ppc_dcr_write(env->dcr_env, SDRAM0_CFGDATA, 0x08000000)) {
->> @@ -358,8 +360,8 @@ static void sam460ex_init(MachineState *machine)
->>                                  qdev_get_gpio_in(uic[0], 2));
->>       i2c = PPC4xx_I2C(dev)->bus;
->>       /* SPD EEPROM on RAM module */
->> -    spd_data = spd_data_generate(ram_banks->size < 128 * MiB ? DDR : DDR2,
->> -                                 ram_banks->size);
->> +    spd_data = spd_data_generate(machine->ram_size < 128 * MiB ? DDR : 
->> DDR2,
->> +                                 machine->ram_size);
->>       spd_data[20] = 4; /* SO-DIMM module */
->>       smbus_eeprom_init_one(i2c, 0x50, spd_data);
->>       /* RTC */
+>
+> Thomas added a uboot.bin in the tree which is used by :
+>
+>  tests/avocado/ppc_405.py
+>
+> Thanks,
+>
+> C.
 >
 >
---3866299591-1304776995-1663495144=:53072--
+--3866299591-811957638-1663496873=:53072--
 
