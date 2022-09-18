@@ -2,82 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70E4F5BBE80
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 16:39:04 +0200 (CEST)
-Received: from localhost ([::1]:35680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B12895BBEF2
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 18:24:51 +0200 (CEST)
+Received: from localhost ([::1]:57374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oZvRn-00020m-51
-	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 10:39:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50316)
+	id 1oZx6A-0002er-B6
+	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 12:24:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZvQE-00008A-4j; Sun, 18 Sep 2022 10:37:26 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41651)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oZvQC-0002Uc-LW; Sun, 18 Sep 2022 10:37:25 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id t14so43330626wrx.8;
- Sun, 18 Sep 2022 07:37:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date;
- bh=NCjMhtGnscURG7oR3bfbKpo9JYVPlmZz2G8wJ907E6A=;
- b=VZQUC4G55Iyfbvi7/JyT5C4SZmYDwAqsZT4m0foV3YIY78aUvtzjC6hL5nYukxikyH
- +2ANBRYA2rbvDvAlyDS+jxa2hpzrZpNeU2Fe/Vnd/NsP/I4cto+LQBFWQ/D/JAa/JoNY
- sAUXotP4OXfUZNavcur7q+OpfX9nOJy3KWCKGFjNITdsz7nRW3rqRACh3hBOSOknm1JE
- iE2tzcO5p8prPKBNJJYFqz4GrImEEE3yDucd/MULDOwjOTbIRTudRCJwZg3BriV5g4PP
- Wal0xbgvttsAbntnoMzbhp6Gka6YdnCykRcozA6WJ1CZHhf7RPbUXRMQT3yE4l04ReTI
- kd8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=NCjMhtGnscURG7oR3bfbKpo9JYVPlmZz2G8wJ907E6A=;
- b=mho+UNm3ViirXRWZYefhLQrcItRbCNBSFxVVnfk3H5YT72ioTcKG7L2fJuu0lky44k
- cEoNsbyl9JJ4hJ/ZKQqgKC7Qe7P4QRWHQz/B3iRnKT7tDo9MHQtMgobD2hTCDJ4szGCR
- jwQuHFkSrqR9Z2bxKuCMNO70JJucUgDvNSXAh9d15bX8ugSgyP8ma2q5sbp+1JPmOx/q
- 9yUJOn6liqh7L9NttUgzU65tv9CZP2hcHXUnFaWaBbKeqMTgpr6EGgnnkKoOznJH8flH
- EVGFzLpYgA9apSpehZVNMUNMTq1h3HiXIQUf2C8sSyAqPk9GU7H+Sb1WUuU698IGDgXw
- wMRg==
-X-Gm-Message-State: ACrzQf0FfCNXihBOVVueBB2yYbxgjhobsxe98wZ7yn6HaG6H8OBKe621
- ymq85ccD95/7ooHxapF6G2Y=
-X-Google-Smtp-Source: AMsMyM7yJJZarfJVIubKkPMkcmImrknfod8xFEFuC5U3Acf51O8Dw5snU/6TmDige+vQuigIsqQk1g==
-X-Received: by 2002:a5d:6dac:0:b0:22a:fbff:b2d3 with SMTP id
- u12-20020a5d6dac000000b0022afbffb2d3mr1217560wrs.543.1663511842479; 
- Sun, 18 Sep 2022 07:37:22 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- y17-20020adff6d1000000b00228d6edade0sm10922060wrp.46.2022.09.18.07.37.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Sep 2022 07:37:22 -0700 (PDT)
-Message-ID: <4d6bd47a-1e62-1de2-e6f6-a0f77c56e9f4@amsat.org>
-Date: Sun, 18 Sep 2022 16:37:20 +0200
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1oZx4c-00015x-DO
+ for qemu-devel@nongnu.org; Sun, 18 Sep 2022 12:23:14 -0400
+Received: from mailout03.t-online.de ([194.25.134.81]:41786)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1oZx4a-0002v6-9w
+ for qemu-devel@nongnu.org; Sun, 18 Sep 2022 12:23:14 -0400
+Received: from fwd75.dcpf.telekom.de (fwd75.aul.t-online.de [10.223.144.101])
+ by mailout03.t-online.de (Postfix) with SMTP id B5397271A;
+ Sun, 18 Sep 2022 18:23:08 +0200 (CEST)
+Received: from linpower.localnet ([84.175.228.229]) by fwd75.t-online.de
+ with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+ esmtp id 1oZx4W-0xnJMv0; Sun, 18 Sep 2022 18:23:08 +0200
+Received: by linpower.localnet (Postfix, from userid 1000)
+ id 3B10520045B; Sun, 18 Sep 2022 18:23:08 +0200 (CEST)
+From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: [PATCH] ui/console: fix three double frees in png_save()
+Date: Sun, 18 Sep 2022 18:23:08 +0200
+Message-Id: <20220918162308.25191-1-vr_qemu@t-online.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH 00/11] ppc/e500: Add support for two types of flash,
- cleanup
-Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-block@nongnu.org, Bin Meng <bin.meng@windriver.com>, qemu-ppc@nongnu.org
-References: <20220915152520.21948-1-shentey@gmail.com>
-In-Reply-To: <20220915152520.21948-1-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.657,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1663518188-3C882535-90AEC629/0/0 CLEAN NORMAL
+X-TOI-MSGID: 86e703de-ae41-4af7-9f6c-592343f91081
+Received-SPF: none client-ip=194.25.134.81;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout03.t-online.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,33 +61,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 15/9/22 17:25, Bernhard Beschow wrote:
-> This series adds support for -pflash and direct SD card access to the
-> PPC e500 boards. The idea is to increase compatibility with "real" firmware
-> images where only the bare minimum of drivers is compiled in.
-> 
-> The series is structured as follows:
-> 
-> Patches 1-3 perform some general cleanup which paves the way for the rest of
-> the series.
-> 
-> Patches 4-7 add -pflash handling where memory-mapped flash can be added on
-> user's behalf. That is, the flash memory region is only added if the -pflash
-> argument is supplied. Note that the cfi01 device model becomes stricter in
-> checking the size of the emulated flash space.
-> 
-> Patches 8-11 add a new device model - the Freescale eSDHC - to the e500
-> boards which was missing so far.
-> 
-> User documentation is also added as the new features become available.
+The png_destroy_write_struct() function frees all memory used by
+libpng. Don't use the glib auto cleanup mechanism to free the
+memory allocated by libpng again. For the pixman image, use only the
+auto cleanup mechanism and remove the qemu_pixman_image_unref()
+function call to prevent another double free.
 
-Future possible cleanup: Looking at the e500 component, the MPC8544 GUTS
-added in commit b0fb84236d ("PPC: E500: Implement reboot controller")
-was used in hw/ppce500_mpc8544ds.c board, but in a later refactor
-(commit 4a18e7c92a "PPC: e500: rename mpc8544ds into generic file")
-this file got renamed as hw/ppc/e500.c; having a MPC8544 specific piece
-in the common e500 seems odd.
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1210
+Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+---
+ ui/console.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/ui/console.c b/ui/console.c
+index 765892f84f..030e75bc71 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -304,8 +304,8 @@ static bool png_save(int fd, pixman_image_t *image, Error **errp)
+ {
+     int width = pixman_image_get_width(image);
+     int height = pixman_image_get_height(image);
+-    g_autofree png_struct *png_ptr = NULL;
+-    g_autofree png_info *info_ptr = NULL;
++    png_struct *png_ptr;
++    png_info *info_ptr = NULL;
+     g_autoptr(pixman_image_t) linebuf =
+                             qemu_pixman_linebuf_create(PIXMAN_a8r8g8b8, width);
+     uint8_t *buf = (uint8_t *)pixman_image_get_data(linebuf);
+@@ -346,7 +346,6 @@ static bool png_save(int fd, pixman_image_t *image, Error **errp)
+         qemu_pixman_linebuf_fill(linebuf, image, width, 0, y);
+         png_write_row(png_ptr, buf);
+     }
+-    qemu_pixman_image_unref(linebuf);
+ 
+     png_write_end(png_ptr, NULL);
+ 
+-- 
+2.35.3
+
 
