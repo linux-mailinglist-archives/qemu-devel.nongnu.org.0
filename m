@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55BC85BBF86
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 21:40:54 +0200 (CEST)
-Received: from localhost ([::1]:48092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73A905BBF8A
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 21:46:24 +0200 (CEST)
+Received: from localhost ([::1]:43968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oa09t-00037M-1t
-	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 15:40:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58808)
+	id 1oa0FC-0007JI-Vw
+	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 15:46:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oa080-00014P-9d
- for qemu-devel@nongnu.org; Sun, 18 Sep 2022 15:38:56 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:48134)
+ id 1oa0D3-00059F-3O
+ for qemu-devel@nongnu.org; Sun, 18 Sep 2022 15:44:09 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:48170)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oa07y-0006Qu-Q5
- for qemu-devel@nongnu.org; Sun, 18 Sep 2022 15:38:56 -0400
+ id 1oa0D1-0007C0-GI
+ for qemu-devel@nongnu.org; Sun, 18 Sep 2022 15:44:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=lo94F43cAtmIOLqLQZg44XKAS2gdCEvPOcWepTC3Qv4=; b=zORpBEFh+UVo8J10EsHBC4Y8jn
- dVfw0UMASGWhqP4CGK+r9OeYEiVLf8hltOBpb+E+yhUw/Sqs+oS5K1F2UgVwCSwQyLtyb855Th6jj
- 3WmQCzzcTiApKGaJIyQpQ79l7Fq4D91G712eKUgA2e3la7S39c5znvFQkwfkFXbmo8rOQ3u726h2I
- Z8SpcIBeLxWh4BsBqJdkWhf7HCfATGAzuaoagSG3Ad/uAVVrWUiTWBM5uTNnHy2NXxQvmBZJj80TZ
- H95iT0S7TUmCr9zkzRGnMnPlbxDc1idBIN4MJUeP+Srl+sbXAsBFOZgRv16kcj+MapMXKxeQnVeul
- DY4obeoeEY/dTzxBctvuVYnXKmg09rukTtdmaSetCGmOpusRAbAghCajoPbZUpOBos39nsZsIh74Z
- gFEsSHhDR1d/bbxCasUhkVb0oVokXKqvLPyjfsJnocvid1vpeza6dEcNONmmpcyxLena415RGs1FI
- UzRzsT7qRNZ9Iama1WYcAkpLZRclg7PtfDH9jksYtIxlQ5ccmzkl8PSA+G0cOtGddA3yMG2ZfQbor
- AgqhxZ8h0pDbcMMtaGGi9x18pJQaH5zuKjr0LSJY8lsMZ8CIAOJAWREQsk3u7v6hoVjkQTjXCfmdp
- w4oLSzEowBXQtGhXWgAB3ijxaLJ4uyGerAhoLpC9o=;
+ bh=dHIGhl1LLWAw/9JRKhihedXKiE7b3tys/aawgKjMmXA=; b=cbzKeDQueIITdgHqw/cAK0JV6d
+ yULGlHXqDsLtv3JDLnzIutyucqgnPNk5LADzb+Uy0IB/YMhrCgG7h7uNR5vl1irEKG895kC/L6U+f
+ BbicUaEbDXAvivspbOEdbxKYAoZ7zcG3UfoBpBaBiqUvbAtzIPgqXjFCa0lbvc2YPFGvM7hldjM/L
+ UDejzotTqs/ergAlXdIczNVImAbHQK3XjPUBz/wm8uNr8IwsAujl6gEhi2e+1qzGtRk7izGcvy1G0
+ pJyh6C22PGJvUnCIopxIBRFb+Xx6+eJFzIsLjX9KI8wUGuVeOI9FagfZ3vdZ89piH8fErxC9aT8F2
+ WM3QTq392pAXPg2qD6IElJXWohoWRHEWglJ5ZIzOo+LzvQYb5vbSM646RMflME4C9MNXeJe0xeiW9
+ VpYQOh21OUGPVMPOLPiH630iVx9qjGMMf55SDnU4wI/IUck/fK+fknOVn5j1RtLhy5PAMCdgFvRFM
+ ig24ArF+/QQZJv2SEFe5X93fbWK2MirOxYv/md8HwH3mwrHtMrC4Pn5ynXzdLCyNuPGVk0x+BV0lK
+ x63ZOkp91hm3yTDxTEHbbYTo/lBVV2GFSRYJ5nlbFzfD4yKSsdNbyACUQ8MgRzEU3Sabzr7eqIDa9
+ ZBv/PmVgsOrGusruvImWI63n8E1jveXtDMfAXlV9M=;
 Received: from [2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915]
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oa06H-0007QQ-2P; Sun, 18 Sep 2022 20:37:09 +0100
-Message-ID: <43ba9a27-5c9e-01f1-e43e-d3f527a9ab8e@ilande.co.uk>
-Date: Sun, 18 Sep 2022 20:38:47 +0100
+ id 1oa0BL-0007SF-K1; Sun, 18 Sep 2022 20:42:24 +0100
+Message-ID: <ab19614f-610a-5c65-858c-29a93d4ed282@ilande.co.uk>
+Date: Sun, 18 Sep 2022 20:44:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
@@ -56,14 +56,14 @@ Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  "Michael S. Tsirkin" <mst@redhat.com>
 References: <20220901162613.6939-1-shentey@gmail.com>
- <20220901162613.6939-8-shentey@gmail.com>
+ <20220901162613.6939-15-shentey@gmail.com>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220901162613.6939-8-shentey@gmail.com>
+In-Reply-To: <20220901162613.6939-15-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 07/42] hw/intc/i8259: Introduce i8259 proxy "isa-pic"
+Subject: Re: [PATCH 14/42] hw/isa/piix3: Modernize reset handling
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -91,93 +91,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 01/09/2022 17:25, Bernhard Beschow wrote:
 
-> Having an i8259 proxy allows for ISA PICs to be created and wired up in
-> southbridges. This is especially interesting for PIIX3 for two reasons:
-> First, the southbridge doesn't need to care about the virtualization
-> technology used (KVM, TCG, Xen) due to in-IRQs (where devices get
-> attached) and out-IRQs (which will trigger the IRQs of the respective
-> virtzalization technology) are separated. Second, since the in-IRQs are
-> populated with fully initialized qemu_irq's, they can already be wired
-> up inside PIIX3.
+> Rather than registering the reset handler via a function which
+> appends the handler to a global list, prefer to implement it as
+> a virtual method - PIIX4 does the same already.
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   hw/intc/i8259.c         | 27 +++++++++++++++++++++++++++
->   include/hw/intc/i8259.h | 14 ++++++++++++++
->   2 files changed, 41 insertions(+)
+>   hw/isa/piix3.c | 8 +++-----
+>   1 file changed, 3 insertions(+), 5 deletions(-)
 > 
-> diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
-> index cc4e21ffec..531f6cca53 100644
-> --- a/hw/intc/i8259.c
-> +++ b/hw/intc/i8259.c
-> @@ -458,9 +458,36 @@ static const TypeInfo i8259_info = {
->       .class_size = sizeof(PICClass),
->   };
->   
-> +static void isapic_set_irq(void *opaque, int irq, int level)
-> +{
-> +    ISAPICState *s = opaque;
-> +
-> +    qemu_set_irq(s->out_irqs[irq], level);
-> +}
-> +
-> +static void isapic_init(Object *obj)
-> +{
-> +    ISAPICState *s = ISA_PIC(obj);
-> +
-> +    qdev_init_gpio_in(DEVICE(s), isapic_set_irq, ISA_NUM_IRQS);
-> +    qdev_init_gpio_out(DEVICE(s), s->out_irqs, ISA_NUM_IRQS);
-> +
-> +    for (int i = 0; i < ISA_NUM_IRQS; ++i) {
-> +        s->in_irqs[i] = qdev_get_gpio_in(DEVICE(s), i);
-> +    }
-> +}
-> +
-> +static const TypeInfo isapic_info = {
-> +    .name          = TYPE_ISA_PIC,
-> +    .parent        = TYPE_ISA_DEVICE,
-> +    .instance_size = sizeof(ISAPICState),
-> +    .instance_init = isapic_init,
-> +};
-> +
->   static void pic_register_types(void)
->   {
->       type_register_static(&i8259_info);
-> +    type_register_static(&isapic_info);
+> diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
+> index c8c2dd6048..0350f70706 100644
+> --- a/hw/isa/piix3.c
+> +++ b/hw/isa/piix3.c
+> @@ -31,7 +31,6 @@
+>   #include "hw/qdev-properties.h"
+>   #include "hw/isa/isa.h"
+>   #include "hw/xen/xen.h"
+> -#include "sysemu/reset.h"
+>   #include "sysemu/runstate.h"
+>   #include "migration/vmstate.h"
+>   #include "hw/acpi/acpi_aml_interface.h"
+> @@ -156,9 +155,9 @@ static void piix3_write_config_xen(PCIDevice *dev,
+>       piix3_write_config(dev, address, val, len);
 >   }
 >   
->   type_init(pic_register_types)
-> diff --git a/include/hw/intc/i8259.h b/include/hw/intc/i8259.h
-> index e2b1e8c59a..0246ab6ac6 100644
-> --- a/include/hw/intc/i8259.h
-> +++ b/include/hw/intc/i8259.h
-> @@ -1,6 +1,20 @@
->   #ifndef HW_I8259_H
->   #define HW_I8259_H
+> -static void piix3_reset(void *opaque)
+> +static void piix3_reset(DeviceState *dev)
+>   {
+> -    PIIX3State *d = opaque;
+> +    PIIX3State *d = PIIX3_PCI_DEVICE(dev);
+>       uint8_t *pci_conf = d->dev.config;
 >   
-> +#include "qom/object.h"
-> +#include "hw/isa/isa.h"
-> +#include "qemu/typedefs.h"
-> +
-> +#define TYPE_ISA_PIC "isa-pic"
-> +OBJECT_DECLARE_SIMPLE_TYPE(ISAPICState, ISA_PIC)
-> +
-> +struct ISAPICState {
-> +    ISADevice parent_obj;
-> +
-> +    qemu_irq in_irqs[ISA_NUM_IRQS];
-> +    qemu_irq out_irqs[ISA_NUM_IRQS];
-> +};
-> +
->   /* i8259.c */
+>       pci_conf[0x04] = 0x07; /* master, memory and I/O */
+> @@ -321,8 +320,6 @@ static void pci_piix3_realize(PCIDevice *dev, Error **errp)
+>       memory_region_add_subregion_overlap(pci_address_space_io(dev),
+>                                           PIIX_RCR_IOPORT, &d->rcr_mem, 1);
 >   
->   extern DeviceState *isa_pic;
+> -    qemu_register_reset(piix3_reset, d);
+> -
+>       i8257_dma_init(isa_bus, 0);
+>   
+>       /* RTC */
+> @@ -397,6 +394,7 @@ static void pci_piix3_class_init(ObjectClass *klass, void *data)
+>       PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+>       AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(klass);
+>   
+> +    dc->reset       = piix3_reset;
+>       dc->desc        = "ISA bridge";
+>       dc->vmsd        = &vmstate_piix3;
+>       dc->hotpluggable   = false;
 
-So effectively this proxy device is working around the issue that we don't yet have a 
-qdev-ified PIC that can be used to wire up ISA bus IRQs via qdev_connect_gpio_out(). 
-Whilst ultimately this is the goal, I think having the proxy is a nice intermediate 
-step as long as we can ensure that the device is not user-visible (i.e. it won't be 
-exposed via the command line) so that this can be improved later.
+One minor point to be aware of here is that qdev reset is a PCI bus level reset 
+compared with the existing qemu_register_reset() which is a machine level reset. What 
+this means is that dc->reset can also be called writing to the relevant configuration 
+space register on a PCI bridge - it may not be an issue here, but worth a mention.
 
 
 ATB,
