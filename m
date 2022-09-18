@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 898BD5BBFE9
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 22:42:55 +0200 (CEST)
-Received: from localhost ([::1]:40300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 366F75BBFF3
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 22:53:45 +0200 (CEST)
+Received: from localhost ([::1]:51374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oa17u-0006wN-Cl
-	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 16:42:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54916)
+	id 1oa1IO-0004eB-6f
+	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 16:53:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oa145-0000a5-QS
- for qemu-devel@nongnu.org; Sun, 18 Sep 2022 16:38:57 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:37857)
+ id 1oa1BQ-0001tC-QT
+ for qemu-devel@nongnu.org; Sun, 18 Sep 2022 16:46:48 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:45647)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oa144-0006Zb-9M
- for qemu-devel@nongnu.org; Sun, 18 Sep 2022 16:38:57 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id bh13so25069485pgb.4
- for <qemu-devel@nongnu.org>; Sun, 18 Sep 2022 13:38:55 -0700 (PDT)
+ id 1oa1BP-0007on-0f
+ for qemu-devel@nongnu.org; Sun, 18 Sep 2022 16:46:32 -0400
+Received: by mail-pf1-x432.google.com with SMTP id 9so15120917pfz.12
+ for <qemu-devel@nongnu.org>; Sun, 18 Sep 2022 13:46:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=8gGpQejw0Bbi4zcBlTBm7SvSwDwP/9j6vWBJisN2Yw8=;
- b=U6fmO3/Pe3WUAm0YTpyvsoKyQD7KlbayyGufAs3jlL9KJEdW21JSJOEQjCtqpukjNM
- 0rZusLQdpJlAWDx0m1KVniY3X+YcllOaRGR4lQ7znGCGOo1d00qQQLiJP40yrCuUoYaB
- //Vvpyp/X3R4aZJiNA/+iMSE3jB1vM8UvII22xQRe8wTlabYPI7WRyS9PudA8aX8Wb3Z
- trUoSI1q0VzVjZl9bRzocE5SIcH/BfaL/GzwZi+belKp1l4BYaeolCdvnbSKrkFIQZG/
- gBgCttjTpmLGNBkSve60joDN7SZtJp4ogu3YfhIx/4rvqoda1iqhnBc0Yt8GtKhhI/vx
- rN8w==
+ bh=fTSBV72Bz3G5ut9mMF0d4QVe+VZJTTFXukYx+DJB/yw=;
+ b=RauuaqvXojh/YTs7CGOyGYqpOV8Qy7tuS8wljnEehDvIC7fLQKMvQ9xbtwdurLqh+A
+ a+vg2ws3GOScWBfzCcbcbne+TrLS2Ahrjs9pjSPlLeyYDvG5bE7ePIpqUfVlHQ8WIezX
+ u9Fv/fhRdAfyAi3EyWv0/XJWKNv0EGKAc8SXVFht2WXvI7B+tJYFw9hPmk4RkiU2AxUY
+ l8CEyprz87vbqJemlOTordVS1IQfBhsjjboJpeOLQDO2MV/l3u6R4WwbBrFWKC0GYbue
+ tMS/7ZvY9PBnEYjWSHJk4IbeZjtH7ATUaThAFxGN7dUtDqwQBvd9SXfiyBZWd408CGll
+ 7eiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=8gGpQejw0Bbi4zcBlTBm7SvSwDwP/9j6vWBJisN2Yw8=;
- b=1lIeMxD9ylSRN/NSnDx/GfV8iE28TkAouxzhAGiQUr/DgDs8hZLJ20fEriwXfXVY9J
- X9RzzN1zoeAnP311GGaPNbmJgVOjdf3Pxd/JbyKf9jxmVNwQcpVeYxqBsBaI2I96NDrR
- SdFfft+Gee7KEBJb011wa/5B1jSp0zBYj7H2Fl4aS+vhklgidvBCWSIAm7me389y4bBJ
- 1qj6jD6UAk6usdFfAoAjBRsRAiu+9+3SUSVNIBVeFOi8unfL06YKFbBCd/7Cbe9wnbMh
- zODml6v42kCAtjuNn2xM7yFYlN98OsNt8CoEjJNW26AOJweNz7Li2qIPSSQJfJJkjbM6
- X+OA==
-X-Gm-Message-State: ACrzQf3ACGGbRFOhvSG+i5w0UijPoxwDB8GfnNqMq5J9B1/tMe5RYwXt
- Ip2562jKJwTBH6KdS/pdh08=
-X-Google-Smtp-Source: AMsMyM4qje0l2zkVIfZ1PLPv/D2cyQNGYMcvJHnHGQ9zHsMDLpTdr6a9l6mHBl3yKJUMMX/ksvXdxw==
-X-Received: by 2002:a05:6a00:4006:b0:53e:815a:ff71 with SMTP id
- by6-20020a056a00400600b0053e815aff71mr15043422pfb.4.1663533534430; 
- Sun, 18 Sep 2022 13:38:54 -0700 (PDT)
+ bh=fTSBV72Bz3G5ut9mMF0d4QVe+VZJTTFXukYx+DJB/yw=;
+ b=37Wd3rs/wRHJ9QB2FanC0q57BoZAjn7WqZVHfJX+PC2Z8huVFLje9lvIktn10/U7ac
+ 6Dmc/ynwvOtOLXWLdMAGLBmEE0iB+wyTD17GlXzNKnllofuThc5iL235DzqhouDEe4kb
+ 6cCj6iLx6upsnMAqnnV/Yr729iU8IVtGKTnpQMutolulxqABSmx+EiuYO74CGhK5POee
+ QwzLpRaf6EE9bT6rXw9Y3Y+EPaJELzY9bE81wuf43YyqtvcD6PXAF1xzcSoJxV+tt5LJ
+ B+lW4QlEUalgkrp+K+dz7HHoGDP03jn68VawxIOTOKG7WJtCgCk8EtkaQ+7/JFmTTq5b
+ 5fEA==
+X-Gm-Message-State: ACrzQf2c8KrwJmzToj50J0xvTkfzvSJohiPC+tXUXSidblxQ1EyeyCyY
+ 5D+gLyn8jcqW4H9ghFcUlIs=
+X-Google-Smtp-Source: AMsMyM7awpGzx6o89cO+DYccrhM2/o+C/Qpe7IXXdEOj17JYAGVJ2jMilFyKPehqAIDKyaCI8tJk4g==
+X-Received: by 2002:a63:564a:0:b0:439:3ab4:fdff with SMTP id
+ g10-20020a63564a000000b004393ab4fdffmr13100954pgm.397.1663533989473; 
+ Sun, 18 Sep 2022 13:46:29 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- f62-20020a623841000000b00541c68a0689sm17680021pfa.7.2022.09.18.13.38.52
+ d1-20020a170903230100b00172c7dee22fsm18946621plh.236.2022.09.18.13.46.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Sep 2022 13:38:53 -0700 (PDT)
-Message-ID: <d1668b24-9c04-0e54-2a82-7174f0d46fc1@amsat.org>
-Date: Sun, 18 Sep 2022 22:38:49 +0200
+ Sun, 18 Sep 2022 13:46:28 -0700 (PDT)
+Message-ID: <e8bfd1ba-cec7-7c29-9319-eb013c14a237@amsat.org>
+Date: Sun, 18 Sep 2022 22:46:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH v3 06/12] linux-user/hppa: Dump IIR on register dump
+Subject: Re: [PATCH v3 07/12] linux-user: Fix strace of chmod() if mode == 0
 Content-Language: en-US
 To: Helge Deller <deller@gmx.de>, Stefan Hajnoczi <stefanha@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 References: <20220918194555.83535-1-deller@gmx.de>
- <20220918194555.83535-7-deller@gmx.de>
-In-Reply-To: <20220918194555.83535-7-deller@gmx.de>
+ <20220918194555.83535-8-deller@gmx.de>
+In-Reply-To: <20220918194555.83535-8-deller@gmx.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -51
 X-Spam_score: -5.2
 X-Spam_bar: -----
@@ -98,13 +98,43 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 18/9/22 21:45, Helge Deller wrote:
-> Include the IIR register (which holds the opcode of the failing
-> instruction) when dumping the hppa registers.
+> If the mode parameter of chmod() is zero, this value isn't shown
+> when stracing a program:
+>      chmod("filename",)
+> This patch fixes it up to show the zero-value as well:
+>      chmod("filename",000)
 > 
 > Signed-off-by: Helge Deller <deller@gmx.de>
 > ---
->   target/hppa/helper.c | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
+>   linux-user/strace.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
+> diff --git a/linux-user/strace.c b/linux-user/strace.c
+> index 5ac64df02b..2f539845bb 100644
+> --- a/linux-user/strace.c
+> +++ b/linux-user/strace.c
+> @@ -1505,6 +1505,11 @@ print_file_mode(abi_long mode, int last)
+>       const char *sep = "";
+>       const struct flags *m;
+> 
+> +    if (mode == 0) {
+> +        qemu_log("000%s", get_comma(last));
 
+I'd use either 0 or 0000, not 000...
+
+Preferably using a single 0:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+
+> +        return;
+> +    }
+> +
+>       for (m = &mode_flags[0]; m->f_string != NULL; m++) {
+>           if ((m->f_value & mode) == m->f_value) {
+>               qemu_log("%s%s", m->f_string, sep);
+> --
+> 2.37.3
+> 
+> 
+
 
