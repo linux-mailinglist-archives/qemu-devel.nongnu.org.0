@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A97985BBFB1
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 21:55:49 +0200 (CEST)
-Received: from localhost ([::1]:55102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5913D5BBFB2
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 21:56:26 +0200 (CEST)
+Received: from localhost ([::1]:47390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oa0OK-0006EJ-Q4
-	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 15:55:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38156)
+	id 1oa0Ot-0006gT-DZ
+	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 15:56:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oa0Et-00071Z-SL
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oa0Ev-00071d-Uf
  for qemu-devel@nongnu.org; Sun, 18 Sep 2022 15:46:13 -0400
-Received: from mout.gmx.net ([212.227.17.21]:44415)
+Received: from mout.gmx.net ([212.227.17.20]:43813)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oa0Ep-0007aj-Rh
- for qemu-devel@nongnu.org; Sun, 18 Sep 2022 15:46:03 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oa0Ep-0007ah-QO
+ for qemu-devel@nongnu.org; Sun, 18 Sep 2022 15:46:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1663530357;
- bh=/gVeQ5FY1ri9znOnzbjiflH84LDpU0qJIjCnWz3aFc0=;
+ bh=oRRfJEPedHy0ArZycxyZNEYilcWidKpRZKOQkRgiKrg=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=U/T18sZRWl0/aSPS8c6h9kUQRtKvAtvn4y2FOkFlNqyxN9XfOPODqXSqL7xjjFXY1
- ms7auHsk3F40umM+/f3j+zhzrbsQ0Hr3fq6fIN49oXyxmaAn2/YMcpYN8mY/wtkBkL
- p67VuXzs7rQJn6kba86g3cajqzbBo/DYVxoaxWBA=
+ b=ZIUrlmfe+9PCrd6Wx1ZU385Uvu7DWN8wC1H2UCaOxHdLVF3uj0R5uaMMa+ceJVzaw
+ G/ohYMsWLRAdTEZfj6aTqlHklm06Xy2nJ3NNyFBOXmbtYpWFo49HBKzceGdLMTYX+O
+ JrombeQc4NfeRPpCUn9asF2GT0Mskt1s4tYilaJA=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from p100.fritz.box ([92.116.165.224]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MhD6g-1pDAnu3tic-00eLcT; Sun, 18
- Sep 2022 21:45:56 +0200
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N6bjy-1pMyPj0M2g-0184k5; Sun, 18
+ Sep 2022 21:45:57 +0200
 From: Helge Deller <deller@gmx.de>
 To: Stefan Hajnoczi <stefanha@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 Cc: deller@gmx.de
-Subject: [PATCH v3 04/12] linux-user: Log failing executable in EXCP_DUMP()
-Date: Sun, 18 Sep 2022 21:45:47 +0200
-Message-Id: <20220918194555.83535-5-deller@gmx.de>
+Subject: [PATCH v3 05/12] linux-user/hppa: Use EXCP_DUMP() to show enhanced
+ debug info
+Date: Sun, 18 Sep 2022 21:45:48 +0200
+Message-Id: <20220918194555.83535-6-deller@gmx.de>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220918194555.83535-1-deller@gmx.de>
 References: <20220918194555.83535-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:yshcvZX/wtCLDBJnx1VT/0UYof/njximycHTnezHSKD4eiWfsbE
- Q25qPM0aK8PoCdd6gHqG6b6yQ4zLm/GGZ+Dmnto3By9cTMTzOC/CG1ZVQ4Y0i+I5mVEuaBS
- i8mj96KyHRyG7vsG36ByHOmSmZ9woiXJpw5t918w9l/qLi06+D7L06TDbBlDzoU2vQ2UUkp
- 3ZTr9dtsH2uIUuyfPSCzw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:W2Rp+si1Olc=:jPmmll5SlhRYfGS1pjypjW
- 5515PEJL5VS8oUEbmyFI1hKnkYKM9a3v8A2650FUtfKnFUpLAgw1pzwKNs9iNJQ85AB6eKSCZ
- BWutH1yQslB45Ss6cRLrNKFKalfwDmjzk4kSzm5qKNLg+fP9N7PLWyD2xpMQWt1AATiqxjjNx
- VFrGM0LTcMpAEPLnlFgvT4I14GKKI8XYS3GgyfdhhjHbZgSGU0hMn9SfcCb2ZIy08Op7TXVOV
- 0TfLqoGOSi/HGwCQ4Xf1C/DnaT6pjP2DmE5VTxbBoE6J2eMw4XiTOt7mQqRZNA1rX+jgMd2JB
- p8zszv9FHSSetsXPlnS+n9IttmOGGLS9CLSHZ3Pshd/1kiWu708NVl1UeBrqBt9/WTfEP1xE3
- Zup2f/5D1SWuUl3HZhuIJPDfDpmjblY87aPcTqKrQugCjpOZpLoOrm9vleWT+nBdKNndT8p9z
- Hl7ATcchwBYrA07p8yco1dIRb1TUmjLcSti7Buq4ts4YgeGwPIaQf7/thQZuDL3GjfK964N3l
- 1w/A9Sb/q+ZIteui3I+2lHuVEPZYp0wdJ6GyP5QQx2rGRS9vfNbYhsxFFUcPuwfvNjHpLAJJE
- cdZ4Ny/edSuCfhCfgDiyPku9odhtT1oxo4THeLGCTD7oTjcd+YBqxGWJ4HuaXAjXdBI3ptiYO
- ntGJKOCH+yLwo0I0UJeLG8xqzcvXaGcF7srJrX2w17WYR1UFNpblPgEa5Uf2KlXOegUIk6Q2f
- 20N8utYQyf9rePa35RVMjXNhOa1BiGWsZl8faLleZnVW8qQzDodJfTLUaiTBPA7tPbRgU70B0
- oAA9LpRHx8rMG2Gm/nqAOV5EnvrIv2pPjBRTap96RrjcerlSY8ebEM9FDsFKyOOZLPVdJPCgu
- qroNzmP5hkUrasrE0T2Dabrm9ooNm2jF7+k7PwlJcky0Y5S3JOusqvgaAPC4rd4CqEceRU03l
- zt3EnTuc21LeMRPXUFvO1+Kv+b8XjQUtBuVH86swNzYimH46KNZ7wdp6e+axmGfzH/Cn002eV
- m3hppyfc69AYMWonrXoKnfvyeiKwpn9SyBKnnBA+CQmrPQy662aGOSa3krgSBfBHFmwLxZoKS
- aR72f1Cis2gjhnVt3bJF/bhA1jGgI1114XLW9ildQjwPCTck4WsmzvEutoH05FaFbsW83g4Jb
- zMAkutBGKs9iZZSZi1C2pjBWt5
-Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:yAWQjvXUH7yhPGt2iH1gKGXNe+t829gIoCxZMd7rkr2ApghgxVb
+ QnFHH+gH48UoPNLOAtbUj22Z0lHNB7zb/W3OonpA9jqyj7Bog4z2xjoB95cw2Axoftitqol
+ Ibfbp/a4osraQNcA+C7UNsBRBf7KTvyisClxKyXp0j5k0D8UcE4AHUt6EIWOF6JH+MUcg5J
+ f+g0LRzwEr3qdZBblH+ow==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/YhtBFFxXXw=:nzR3aCQRsl1mmeZAZ0yig1
+ KGNLJPdcP6SAgfxt8m4FuUdZT0PFWa91lAtzyV6qAZNhYNlXYB7IJuNgIyLevH0zukQJDDNxk
+ YkWMEj2xBfQWrSEyYUZtktJc/S4xFl2Yfg2rPGL5yIPguaxwilX1L0XbT3babH5OLQ0yWb3fb
+ u/3zgApnalqUUjEkrbV2toqDDFChW/GWDT3PIrzkS/avoYQKdUfm52euyrcXZQ5OEX52CP6tw
+ Emzys+TfNzxpzB0pq7pgf3gpzdBFjSJKabGVOHvp+Tdo0ADPib6dy0L5RiOVZapNEzA6TQifn
+ dyP8TKmC9Ng4SSzVUAypR0hLxUzqDxxwrRD9t/OIR1vvZ2enwqnv7KbMODwyB5JpFko9M0Hu6
+ sZSNEjnUiGs7AzUR23zSJePq+ccJuDi5R87zYQZ2/e7O/GmMoUBdZrWUF+IkLkwMZ1VIUAFZd
+ AjrTZIf5NsI+HNvkmKTjlsJus5n4sI+fgwX+N3Sb9EKPmIjRM1JBBos6DvTK6z1PZglC4l09R
+ jpz+g4JeBva7pPlDX1SNtiHX96/3t+JHOUUsUpVvigOVpJstyH5qnu8AB1SmEUtptVDIw8TKl
+ IW5yUeu6bcRVtP/xwwRUny7zAUx5KBLLbwUohQhgdPam/3aBG/lyWN2qsudc+S89B1Fmwgrfm
+ nITkV/kpN0V8s9n8674tDV0ofNZoB1VnN9EKa1LjySzIeNPmP+iaC528AM8fcdRC9pMMPWLBZ
+ PdrKteljqGvsbo1FydekUmJbPH0+lCT6nqZpvFQX5zT0gLZfCGMhD6WxIdYUUCiGHR/m3tGCV
+ NJrDAdwqw1459Nmb0LXCEgC2/e8UzW5xHi7Gr92/kWSQWyKYsES4wlNfMSfRyarVmdHUN6Y83
+ luyOSDi1hW3Zc0KCbPwSsvJes0ANskGClVKH/eVyh7QcS8VGhnuY+mN8nVZpAvzz3nV2Z17lB
+ Ec9IpJ+LqilykdxcXDSLPTWkGZBUpp0tEqKHOXk7e+Gt4BaRysTagIljkmK+ypDIS7H8lSsxt
+ PPBNIHGuM8HImvp9n7Oh2KtnnjjAdTOxQg9N6JfeBdztUZ89SAhHKSxCLpSplj8EIufGALcu/
+ 5sDQzR8Ea79di6+HJeaUmQhDlz05+CjJOtahdKKAaesY2ChyU84skaHpz/mNGyxfz4wEJ9zaW
+ S1rbUKk5JeYQSS887SXlg52M/T
+Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -87,32 +88,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enhance the EXCP_DUMP() macro to print out the failing program too.
-During debugging it's sometimes hard to track down the actual failing
-program if you are e.g. building a whole debian package.
+Enhance the hppa linux-user cpu_loop() to show more debugging info
+on hard errors.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- linux-user/cpu_loop-common.h | 2 ++
- 1 file changed, 2 insertions(+)
+ linux-user/hppa/cpu_loop.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/cpu_loop-common.h b/linux-user/cpu_loop-common.h
-index dc0042e4de..36ff5b14f2 100644
-=2D-- a/linux-user/cpu_loop-common.h
-+++ b/linux-user/cpu_loop-common.h
-@@ -27,9 +27,11 @@
- do {                                                                    \
-     CPUState *cs =3D env_cpu(env);                                       =
- \
-     fprintf(stderr, fmt , ## __VA_ARGS__);                              \
-+    fprintf(stderr, "Failing executable: %s\n", exec_path);             \
-     cpu_dump_state(cs, stderr, 0);                                      \
-     if (qemu_log_separate()) {                                          \
-         qemu_log(fmt, ## __VA_ARGS__);                                  \
-+        qemu_log("Failing executable: %s\n", exec_path);                \
-         log_cpu_state(cs, 0);                                           \
-     }                                                                   \
- } while (0)
+diff --git a/linux-user/hppa/cpu_loop.c b/linux-user/hppa/cpu_loop.c
+index 64263c3dc4..1ef3b46191 100644
+=2D-- a/linux-user/hppa/cpu_loop.c
++++ b/linux-user/hppa/cpu_loop.c
+@@ -147,12 +147,15 @@ void cpu_loop(CPUHPPAState *env)
+             force_sig_fault(TARGET_SIGSEGV, TARGET_SEGV_MAPERR, env->iaoq=
+_f);
+             break;
+         case EXCP_ILL:
++            EXCP_DUMP(env, "qemu: got CPU exception 0x%x - aborting\n", t=
+rapnr);
+             force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPN, env->iaoq_f=
+);
+             break;
+         case EXCP_PRIV_OPR:
++            EXCP_DUMP(env, "qemu: got CPU exception 0x%x - aborting\n", t=
+rapnr);
+             force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVOPC, env->iaoq_f=
+);
+             break;
+         case EXCP_PRIV_REG:
++            EXCP_DUMP(env, "qemu: got CPU exception 0x%x - aborting\n", t=
+rapnr);
+             force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVREG, env->iaoq_f=
+);
+             break;
+         case EXCP_OVERFLOW:
+@@ -171,7 +174,8 @@ void cpu_loop(CPUHPPAState *env)
+             /* just indicate that signals should be handled asap */
+             break;
+         default:
+-            g_assert_not_reached();
++            EXCP_DUMP(env, "qemu: unhandled CPU exception 0x%x - aborting=
+\n", trapnr);
++            abort();
+         }
+         process_pending_signals(env);
+     }
 =2D-
 2.37.3
 
