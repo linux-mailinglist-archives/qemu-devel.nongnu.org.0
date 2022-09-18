@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A905BBF8A
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 21:46:24 +0200 (CEST)
-Received: from localhost ([::1]:43968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 881F65BBF96
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 21:50:01 +0200 (CEST)
+Received: from localhost ([::1]:36448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oa0FC-0007JI-Vw
-	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 15:46:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53928)
+	id 1oa0Ii-00046l-L1
+	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 15:50:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oa0D3-00059F-3O
- for qemu-devel@nongnu.org; Sun, 18 Sep 2022 15:44:09 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:48170)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oa0Ez-000732-7I
+ for qemu-devel@nongnu.org; Sun, 18 Sep 2022 15:46:13 -0400
+Received: from mout.gmx.net ([212.227.17.22]:56043)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oa0D1-0007C0-GI
- for qemu-devel@nongnu.org; Sun, 18 Sep 2022 15:44:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=dHIGhl1LLWAw/9JRKhihedXKiE7b3tys/aawgKjMmXA=; b=cbzKeDQueIITdgHqw/cAK0JV6d
- yULGlHXqDsLtv3JDLnzIutyucqgnPNk5LADzb+Uy0IB/YMhrCgG7h7uNR5vl1irEKG895kC/L6U+f
- BbicUaEbDXAvivspbOEdbxKYAoZ7zcG3UfoBpBaBiqUvbAtzIPgqXjFCa0lbvc2YPFGvM7hldjM/L
- UDejzotTqs/ergAlXdIczNVImAbHQK3XjPUBz/wm8uNr8IwsAujl6gEhi2e+1qzGtRk7izGcvy1G0
- pJyh6C22PGJvUnCIopxIBRFb+Xx6+eJFzIsLjX9KI8wUGuVeOI9FagfZ3vdZ89piH8fErxC9aT8F2
- WM3QTq392pAXPg2qD6IElJXWohoWRHEWglJ5ZIzOo+LzvQYb5vbSM646RMflME4C9MNXeJe0xeiW9
- VpYQOh21OUGPVMPOLPiH630iVx9qjGMMf55SDnU4wI/IUck/fK+fknOVn5j1RtLhy5PAMCdgFvRFM
- ig24ArF+/QQZJv2SEFe5X93fbWK2MirOxYv/md8HwH3mwrHtMrC4Pn5ynXzdLCyNuPGVk0x+BV0lK
- x63ZOkp91hm3yTDxTEHbbYTo/lBVV2GFSRYJ5nlbFzfD4yKSsdNbyACUQ8MgRzEU3Sabzr7eqIDa9
- ZBv/PmVgsOrGusruvImWI63n8E1jveXtDMfAXlV9M=;
-Received: from [2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oa0BL-0007SF-K1; Sun, 18 Sep 2022 20:42:24 +0100
-Message-ID: <ab19614f-610a-5c65-858c-29a93d4ed282@ilande.co.uk>
-Date: Sun, 18 Sep 2022 20:44:01 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oa0Es-0007bS-V8
+ for qemu-devel@nongnu.org; Sun, 18 Sep 2022 15:46:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1663530356;
+ bh=J6TpzNYIKC9//fCLfiY4BZdyvKb50TjTbjXgU2lhjaw=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=BsyL3IcYbmQak5C6yd2TuQO5yprFUBkM50iGpbth++lrjHuvlx6gQ+WEAFcEdZSze
+ Mu2ZT01zFejo92LX1aMYdcwmTbKli5U6lK8+b6XveudBgZcfQQxLS91m1MTD5qUMEC
+ 3RRSBSN26jRnYXLWZDet+pfD002ZgD0KrqBhXeHQ=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from p100.fritz.box ([92.116.165.224]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MgesG-1pEpEO0vFM-00h5i7; Sun, 18
+ Sep 2022 21:45:56 +0200
+From: Helge Deller <deller@gmx.de>
+To: Stefan Hajnoczi <stefanha@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
-References: <20220901162613.6939-1-shentey@gmail.com>
- <20220901162613.6939-15-shentey@gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220901162613.6939-15-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 14/42] hw/isa/piix3: Modernize reset handling
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.657,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Cc: deller@gmx.de
+Subject: [PATCH v3 00/12] linux-user: Add more syscalls,
+ enhance tracing & logging enhancements
+Date: Sun, 18 Sep 2022 21:45:43 +0200
+Message-Id: <20220918194555.83535-1-deller@gmx.de>
+X-Mailer: git-send-email 2.37.3
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:G5hFi7oW85MCYUpScEBvGJIq28d/MGWMDB00qpBM8M9zameo4MS
+ w5Ppux4ZZ2Ryz2dvxTNC4wffYR81nKMRf92qTKmhVEOYJZRqVMEMFplokUmXvtYAMo6i0zi
+ mIPDGBJiwQ65cJYNxVA3WA1oCiftFxoJlZGG1T1W3tic/dch/gbQjzScWogcGKflBIoT1UT
+ CvJ7GfLj6+4uI63V1d8tg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:iE9Vmhdoyhg=:Yf9KZmc9Kun1wjgI5XTXW2
+ eVpMHUfQPfYkCO7lwXNbVYYAWzhxwWGj4pzqyki28hkRHRKxL+eA+SqgQSq29rEL2taRF/VjV
+ ysvMaRykZQI6NA9Izbcl+V/GIqB/hFC4C+mgXs+2hxdcPL+X+SxtrPEylPGTNWTo2GMH2sqMW
+ 1kzzSnk7Y62m3PSZSXxbXFIGK25MvFbm080uR+obOnSJN3OcmoQuJ4wSXoy+tU6ImCHeHgfmi
+ UKxuZFP6Wh31AREM+dtwmgX574/yx1/IUEHTnsudmdWrawrUiSG9Kew/ty4KnKndH8UIbT0tT
+ bv/8JKmLfE8/7xaMuUhw+fI/YcPpukJbs46BWlus1lE2DZZorKLf7eiQNckHdKML7aMBY76Qb
+ VZ09cUi6SMDhTnkkO5TEcsEQkhEvCBc66LvulJ3r452PlTHCdJ4Q8+WhCjRaAk/WaGEZO4DPN
+ l+VQ1mhNaQm9td6Jy6TBOIZv80XJVGK2VgRzqXJZuX0qUD16MEqTmAbrCF/lFJ+hH/L7mNPE2
+ P21w6ObosFF/5Hp62vPR+U04Wv0oiacj5rq2oh2tplSV3NfiAvDytMF0ND8JEIm/icAKUT9D2
+ b57KTdH0zvAKSrZB31+LSNcxc6UT+fBU7LL23mkRQ89103uQJeZHc1rzXW4jm5eDwqUsGhc0H
+ en6Kd92otT+3Gmplw13ZSj4WujNGjPXlLOMWfqLh3zjl5tlxStpH/MwGj6OCU7D7JxtdLM1on
+ Q9MTy4iB9F7QJB0B5anScQuRrS2zjoHWI5LCEGnwrC+Ppst6JU8H1QX5A0+ZqFk+pcGkHYhC7
+ elWgIPwvcxXXwHHcjFzumR1YoqZBhLjdR8QcQgDebc5mT4UuVMKLjVM0GB4LIRbjsrilFcKce
+ 7RmR/RNAnf8FM4LzT75+DpEg/Qxg3XtpfWi5qgr0H7aV66zXv94q/sl5ZBL7NR2TdfJI7Zy4e
+ jidq534HmblNvsBhlrjxIUlwvc6JlKIR/GgrXL0U5u52A1gKOLEp5B6pjIoJgj2XLMXxR/IVW
+ ocdylaamJpxfv+jIMzZtStBvfYfQKryw+OgqlHmNK64eJQpReagcTC+wVXvWe+6T62vICXk9L
+ 1g1OogSokVpWRrI8Z5qY7sbWyYfDvT9JwtvErZ2YNkTdHqf9iRzSeA5FBNFIqq++EeTBY6wwD
+ wuXbLSWIMme/uMuTY7a19rGCbF
+Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,66 +87,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/09/2022 17:25, Bernhard Beschow wrote:
+Here is a bunch of patches for linux-user.
 
-> Rather than registering the reset handler via a function which
-> appends the handler to a global list, prefer to implement it as
-> a virtual method - PIIX4 does the same already.
-> 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->   hw/isa/piix3.c | 8 +++-----
->   1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-> index c8c2dd6048..0350f70706 100644
-> --- a/hw/isa/piix3.c
-> +++ b/hw/isa/piix3.c
-> @@ -31,7 +31,6 @@
->   #include "hw/qdev-properties.h"
->   #include "hw/isa/isa.h"
->   #include "hw/xen/xen.h"
-> -#include "sysemu/reset.h"
->   #include "sysemu/runstate.h"
->   #include "migration/vmstate.h"
->   #include "hw/acpi/acpi_aml_interface.h"
-> @@ -156,9 +155,9 @@ static void piix3_write_config_xen(PCIDevice *dev,
->       piix3_write_config(dev, address, val, len);
->   }
->   
-> -static void piix3_reset(void *opaque)
-> +static void piix3_reset(DeviceState *dev)
->   {
-> -    PIIX3State *d = opaque;
-> +    PIIX3State *d = PIIX3_PCI_DEVICE(dev);
->       uint8_t *pci_conf = d->dev.config;
->   
->       pci_conf[0x04] = 0x07; /* master, memory and I/O */
-> @@ -321,8 +320,6 @@ static void pci_piix3_realize(PCIDevice *dev, Error **errp)
->       memory_region_add_subregion_overlap(pci_address_space_io(dev),
->                                           PIIX_RCR_IOPORT, &d->rcr_mem, 1);
->   
-> -    qemu_register_reset(piix3_reset, d);
-> -
->       i8257_dma_init(isa_bus, 0);
->   
->       /* RTC */
-> @@ -397,6 +394,7 @@ static void pci_piix3_class_init(ObjectClass *klass, void *data)
->       PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
->       AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(klass);
->   
-> +    dc->reset       = piix3_reset;
->       dc->desc        = "ISA bridge";
->       dc->vmsd        = &vmstate_piix3;
->       dc->hotpluggable   = false;
+Most of them add missing syscalls and enhance the tracing/logging.
+Some of the patches are target-hppa specific.
+I've tested those on productive hppa debian buildd servers (running qemu-u=
+ser).
 
-One minor point to be aware of here is that qdev reset is a PCI bus level reset 
-compared with the existing qemu_register_reset() which is a machine level reset. What 
-this means is that dc->reset can also be called writing to the relevant configuration 
-space register on a PCI bridge - it may not be an issue here, but worth a mention.
+Thanks!
+Helge
 
+Changes to v2:
+- Fix build of close_range() and pidfd_*() patches on older Linux
+  distributions (noticed by Stefan Hajnoczi)
 
-ATB,
+Changes to v1:
+- Dropped the faccessat2() syscall patch in favour of Richard's patch
+- Various changes to the "missing signals in strace output" patch based on
+  Richard's feedback, e.g. static arrays, fixed usage of _NSIG, fix build =
+when
+  TARGET_SIGIOT does not exist
+- Use FUTEX_CMD_MASK in "Show timespec on strace for futex" patch
+  unconditionally and turn into a switch statement - as suggested by Richa=
+rd
 
-Mark.
+Helge Deller (12):
+  linux-user: Add missing signals in strace output
+  linux-user: Add missing clock_gettime64() syscall strace
+  linux-user: Add pidfd_open(), pidfd_send_signal() and pidfd_getfd()
+    syscalls
+  linux-user: Log failing executable in EXCP_DUMP()
+  linux-user/hppa: Use EXCP_DUMP() to show enhanced debug info
+  linux-user/hppa: Dump IIR on register dump
+  linux-user: Fix strace of chmod() if mode =3D=3D 0
+  linux-user/hppa: Set TASK_UNMAPPED_BASE to 0xfa000000 for hppa arch
+  linux-user: Add strace for clock_nanosleep()
+  linux-user: Show timespec on strace for futex()
+  linux-user: Add close_range() syscall
+  linux-user: Add parameters of getrandom() syscall for strace
+
+ linux-user/cpu_loop-common.h |   2 +
+ linux-user/hppa/cpu_loop.c   |   6 +-
+ linux-user/mmap.c            |   4 +
+ linux-user/signal-common.h   |  46 ++++++++++++
+ linux-user/signal.c          |  37 +--------
+ linux-user/strace.c          | 142 ++++++++++++++++++++++++++++++-----
+ linux-user/strace.list       |  21 +++++-
+ linux-user/syscall.c         |  50 ++++++++++++
+ target/hppa/helper.c         |   6 +-
+ 9 files changed, 255 insertions(+), 59 deletions(-)
+
+=2D-
+2.37.3
+
 
