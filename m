@@ -2,55 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C23065BC022
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 23:37:15 +0200 (CEST)
-Received: from localhost ([::1]:48172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF7C75BC024
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 23:37:56 +0200 (CEST)
+Received: from localhost ([::1]:44600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oa1yU-0006QO-LH
-	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 17:37:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52212)
+	id 1oa1z9-0007nz-Rg
+	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 17:37:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oa1wf-00040I-Ke; Sun, 18 Sep 2022 17:35:21 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:27570)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oa1wb-0006Vb-6g; Sun, 18 Sep 2022 17:35:21 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 088CE75A162;
- Sun, 18 Sep 2022 23:35:14 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 72C5375A150; Sun, 18 Sep 2022 23:35:13 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 7095774632C;
- Sun, 18 Sep 2022 23:35:13 +0200 (CEST)
-Date: Sun, 18 Sep 2022 23:35:13 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v3 03/20] ppc4xx_sdram: Get rid of the init RAM hack
-In-Reply-To: <3a37a3b2-2163-0f23-15a6-ec9e9b3021eb@kaod.org>
-Message-ID: <63d8fff-708a-d596-3e53-ffe23a09373@eik.bme.hu>
-References: <cover.1663097286.git.balaton@eik.bme.hu>
- <554b4cde6c026bb7ba4bfbaa6d3e1e6019b40409.1663097286.git.balaton@eik.bme.hu>
- <579fe2b8-0e1b-46e6-dc58-523c414744a4@kaod.org>
- <f21297c-4851-fe69-7438-7e4421a8a45@eik.bme.hu>
- <e29706b8-69e2-fa67-df56-c40ed6d510b2@kaod.org>
- <cb0921e-e265-4d47-e66f-77bb5970f3e4@eik.bme.hu>
- <3a37a3b2-2163-0f23-15a6-ec9e9b3021eb@kaod.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oa1xS-0005En-8h; Sun, 18 Sep 2022 17:36:10 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42651)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oa1xP-0006hl-D5; Sun, 18 Sep 2022 17:36:09 -0400
+Received: by mail-wr1-x433.google.com with SMTP id n12so4218384wrx.9;
+ Sun, 18 Sep 2022 14:36:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc:subject:date;
+ bh=cefnW4Cfx2/IJdwChSTe88+5yoRf+3XhrRW9Pxka93Q=;
+ b=c+ryFzz/lKRjEmRooHwYqEDjAR1BxGxvhXk47pZR3LojuqjqhoW22kVLD2A710A6nH
+ VrkuFADxphV9CwEoolC6s+Fpc4n9jMOJcQIiJG1KMDlbfxBl5SUuYX0n5yJcePUEGxN+
+ p/Z4vRvKrsLpW0SBxqF2SdDcJkKE9ZS3rA5BG9M5bchhozNzC3NtXJIXtJYd/mvtWiH1
+ Wa5cLT6ebeGwx1RgsoqGn1b+NVA9kFdvYXmwwjo0HuHlGH5cbBLW+SZO4/fNjKVMr+xl
+ goYiTCcetMOl0uinILOf07OlN9COzuLazxiSS/kpC7o8S/Sokz2pVUyVdBObiPHe8Oq1
+ S4GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc:subject:date;
+ bh=cefnW4Cfx2/IJdwChSTe88+5yoRf+3XhrRW9Pxka93Q=;
+ b=qmUeOXm+nBM8EMPqL0HijOKHKcW4HyMtpgMoqLuM4XSXI8WmaI/PSHR4UQHUnzmp1i
+ jLJYk2f1M+1I0m3YL3dAspkHSkbPQXCKRRMh6ky5OIbcQQrjjS3fh15BQtE83f+woTcv
+ 9I3aZ01pCVkdC86he1y1MGr6Fuh2hDA0ubwNQpOvtYyNf3MQEKfS/FZx+ieA1fkYjb/Q
+ s3p6NHdZUf4hp9ikbG+vDkBJqrcvaD42liMcXwW2TkpwRv471bTfyfzrk32Mv1Ky+sYV
+ X1LqOryA2HD7D83ulb+lvKnEUi6F6eUael+fljmeAnQ3VcEbRfcXUZXW2+vfYdUC9TCI
+ W/2w==
+X-Gm-Message-State: ACrzQf0gh+DGJDfRmQbfBDhMpsEGuAPBYEqDdV/FJt7cWwhPNPpv4vit
+ 9sgb3eOZn/j+j1YMmBPCMUs=
+X-Google-Smtp-Source: AMsMyM63xDce7us5Hun94qVyUMY1ErhPiJOywmE+V8hWcHBX8ng9/J7vQBsF0VwDl4MLW5KxfnaDzw==
+X-Received: by 2002:a5d:408b:0:b0:228:9c95:3b66 with SMTP id
+ o11-20020a5d408b000000b002289c953b66mr9084100wrp.90.1663536965357; 
+ Sun, 18 Sep 2022 14:36:05 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ t1-20020adfe441000000b0022a2bacabbasm11461280wrm.31.2022.09.18.14.36.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 18 Sep 2022 14:36:04 -0700 (PDT)
+Message-ID: <79cba383-04a3-db39-4578-64f031eadd45@amsat.org>
+Date: Sun, 18 Sep 2022 23:36:03 +0200
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-210637098-1663536913=:20833"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.0
+Subject: Re: [PATCH v5 16/21] ppc4xx_sdram: Move ppc4xx DDR and DDR2 SDRAM
+ controller models together
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <cover.1663531117.git.balaton@eik.bme.hu>
+ <08665c5c248adc3fa4a44cc05065c38126bb8bfb.1663531117.git.balaton@eik.bme.hu>
+ <8495fbef-7eda-fea5-1cf2-60dcb0a50dc4@amsat.org>
+ <f933fad5-26b4-7e68-a4b0-a1b07014da1a@eik.bme.hu>
+In-Reply-To: <f933fad5-26b4-7e68-a4b0-a1b07014da1a@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.657,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,382 +96,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 18/9/22 23:24, BALATON Zoltan wrote:
+> On Sun, 18 Sep 2022, Philippe Mathieu-Daudé wrote:
+>> Hi Zoltan,
+>>
+>> On 18/9/22 22:24, BALATON Zoltan wrote:
+>>> Move the PPC4xx DDR and DDR2 SDRAM contrller models into a new file
+>>> called ppc4xx_sdram to separate from other device models and put them
+>>> in one place allowing sharing some code between them.
+>>>
+>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>> ---
+>>>   hw/ppc/meson.build      |   3 +-
+>>>   hw/ppc/ppc440_uc.c      | 332 -----------------
+>>>   hw/ppc/ppc4xx_devs.c    | 414 ---------------------
+>>>   hw/ppc/ppc4xx_sdram.c   | 771 ++++++++++++++++++++++++++++++++++++++++
+>>>   include/hw/ppc/ppc4xx.h |  24 +-
+>>>   5 files changed, 785 insertions(+), 759 deletions(-)
+>>
+>> This seems a proper cleanup, but even using `git-diff 
+>> --color-moved=dimmed-zebra` I'm having hard time reviewing this single
+>> patch.
+>> Looking at the changes in the ppc4xx_sdram_types[] array, it
+>> seems we can be move one model at a time, right?
+> 
+> I could try to break this patch up some more if absolutely necessary but 
+> I've already spent a lot of time rebasing this series as every little 
+> change in earlier patch leads to conflicts later then patches get 
+> squashed during rebase and I have to redo it again to separate them. So 
+> if you can't review it looking at it some more I could try a v6 but 
+> don't want if can be avoided. I'll wait for Cédric's comments too in any 
+> case to only do as many respins as needed.
 
---3866299591-210637098-1663536913=:20833
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Sun, 18 Sep 2022, Cédric Le Goater wrote:
-> On 9/14/22 20:25, BALATON Zoltan wrote:
->> On Wed, 14 Sep 2022, Cédric Le Goater wrote:
->>> On 9/14/22 13:44, BALATON Zoltan wrote:
->>>> On Wed, 14 Sep 2022, Cédric Le Goater wrote:
->>>>> On 9/13/22 21:52, BALATON Zoltan wrote:
->>>>>> The do_init parameter of ppc4xx_sdram_init() is used to map memory
->>>>>> regions that is normally done by the firmware by programming the SDRAM
->>>>>> controller. This is needed when booting a kernel directly from -kernel
->>>>>> without a firmware. Do this from board code accesing normal SDRAM
->>>>> 
->>>>> accessing
->>>> 
->>>> Fixed, also two ofhers in another patch you haven't noticed.
->>>> 
->>>>>> controller registers the same way as firmware would do, so we can get
->>>>>> rid of this hack.
->>>>>> 
->>>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>>>> ---
->>>>>> v2: Fix ref405ep boot with -kernel and U-Boot
->>>>>> 
->>>>>>   hw/ppc/ppc405.h         |  1 -
->>>>>>   hw/ppc/ppc405_boards.c  | 12 ++++++++++--
->>>>>>   hw/ppc/ppc405_uc.c      |  4 +---
->>>>>>   hw/ppc/ppc440_bamboo.c  |  8 +++++++-
->>>>>>   hw/ppc/ppc440_uc.c      |  2 --
->>>>>>   hw/ppc/ppc4xx_devs.c    | 11 +----------
->>>>>>   include/hw/ppc/ppc4xx.h |  8 ++++++--
->>>>>>   7 files changed, 25 insertions(+), 21 deletions(-)
->>>>>> 
->>>>>> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
->>>>>> index 1e558c7831..756865621b 100644
->>>>>> --- a/hw/ppc/ppc405.h
->>>>>> +++ b/hw/ppc/ppc405.h
->>>>>> @@ -169,7 +169,6 @@ struct Ppc405SoCState {
->>>>>>       /* Public */
->>>>>>       MemoryRegion ram_banks[2];
->>>>>>       hwaddr ram_bases[2], ram_sizes[2];
->>>>>> -    bool do_dram_init;
->>>>>>         MemoryRegion *dram_mr;
->>>>>>       hwaddr ram_size;
->>>>>> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
->>>>>> index 083f12b23e..bf02a71c6d 100644
->>>>>> --- a/hw/ppc/ppc405_boards.c
->>>>>> +++ b/hw/ppc/ppc405_boards.c
->>>>>> @@ -274,6 +274,7 @@ static void ppc405_init(MachineState *machine)
->>>>>>       MachineClass *mc = MACHINE_GET_CLASS(machine);
->>>>>>       const char *kernel_filename = machine->kernel_filename;
->>>>>>       MemoryRegion *sysmem = get_system_memory();
->>>>>> +    CPUPPCState *env;
->>>>>>         if (machine->ram_size != mc->default_ram_size) {
->>>>>>           char *sz = size_to_str(mc->default_ram_size);
->>>>>> @@ -288,12 +289,19 @@ static void ppc405_init(MachineState *machine)
->>>>>>                                machine->ram_size, &error_fatal);
->>>>>>       object_property_set_link(OBJECT(&ppc405->soc), "dram",
->>>>>>                                OBJECT(machine->ram), &error_abort);
->>>>>> -    object_property_set_bool(OBJECT(&ppc405->soc), "dram-init",
->>>>>> -                             kernel_filename != NULL, &error_abort);
->>>>>>       object_property_set_uint(OBJECT(&ppc405->soc), "sys-clk", 
->>>>>> 33333333,
->>>>>>                                &error_abort);
->>>>>>       qdev_realize(DEVICE(&ppc405->soc), NULL, &error_fatal);
->>>>>>   +    /* Enable SDRAM memory regions */
->>>>>> +    /* FIXME This shouldn't be needed with firmware but we lack SPD 
->>>>>> data */
->>>>> 
->>>>> what do you mean ?
->>>> 
->>>> U-Boot detects the available RAM by reading the SPD info of the RAM 
->>>> modules but that probably also needs i2c emulation. See sam460ex.
->>>> 
->>>>>> +    env = &ppc405->soc.cpu.env;
->>>>>> +    if (ppc_dcr_write(env->dcr_env, SDRAM0_CFGADDR, 0x20) ||
->>>>>> +        ppc_dcr_write(env->dcr_env, SDRAM0_CFGDATA, 0x80000000)) {
->>>>> 
->>>>> 
->>>>> I am not in favor of these ppc_drc_write calls and this is still a hack.
->>>> 
->>>> It's not. Normally this is done by firmware to enable memory controller 
->>>> but the board code has to do it if not using firmware (e.g. booting with 
->>>> -kernel) the same way it provides bootinfo or device tree mods the 
->>>> firmware would normally do or in this case maybe the emulation is 
->>>> incomplete so the part of firmware that configures the SDRAM controller 
->>>> does not run.
->>> 
->>> Exactly, and what the above proposal does is mimicking execution of CPU
->>> instructions before the CPU is even fully initiated. Reset has not been
->>> called at that stage.
->> 
->> I don't get this. We're not calling any CPU instructions, ppc_dcr_write 
->> just calls the write callback the device has registered for the dcr so it 
->> just does the same as the hack did at the end just doing it the same way 
->> the firmware should do.
->> 
->>>>> The "dram-init" property is a cleaner solution. It takes care of doing 
->>>>> the
->>>>> pre-mapping of RAM banks in the realize routine of the sdram model (when
->>>>> available).
->>>> 
->>>> I disagree, the hardware does not have such feature, it proviesd DCRs as 
->>>> the way to configure it. Adding a special property for it deviates from 
->>>> hardware and clutters qtree. 
->>> 
->>> 
->>> In this machine, running QEMU with -kernel deviates from HW. That's
->> 
->> In all machines booting with -kernel likely deviates and all machines 
->> probably have additinal code in this case to do some things normally done 
->> by the firmware. Look at pegasos2_machine_reset() for example. All that is 
->> not needed when we boot with firmware as then the firmware will do all that 
->> and provide the device tree, etc. bur we need to do these when booting 
->> without firmware. In thes case QEMU also emulates the firmware and has to 
->> do thinigs like enabling the memory controller.
->> 
->>> the whole purpose of this option. It assumes that the SDRAM device
->>> is pre-initialized (and much more should be done) by the QEMU machine
->>> and the simplest way to acheive this goal is to inform the SDRAM model
->>> to take care of the pre-initialization.
->> 
->> In my opinion the SDRAM controller model should model the hardware and if 
->> the board uses it differently then it should take care of that and not 
->> change the model.
->> 
->>> Another way would be to change the default reset values of the SDRAM
->>> registers (in the realize method using some property) and perform
->>> some actions (mapping the banks) in the reset handler of the SDRAM
->>> device model. That would be a deferred initialization but a property
->>> is still needed to change the default behavior of the SDRAM model.
->>> 
->>> Anyhow, this should be isolated under the SDRAM device model and
->>> not in the machine init by using the CPU state. That's clearly ugly.
->> 
->> Why? You already have the ppc405_set_bootinfo and all it's stuff in the 
->> ppc405 board which is also only needed without firmware. 
->
-> True. ppc405_set_bootinfo() is mimicking u-boot and updating RAM to pretend
-> that FW already ran. It is done from under boot_from_kernel() only.
->
-> FYI, The U-boot support was quite a mess :
->
->  https://lists.ozlabs.org/pipermail/linuxppc-dev/2009-July/074487.html
->
->> If you're opposed to the few lines enabling the memory controller being in 
->> ppc405_init 
->
-> Well, that's what the init property is doing already. I do understand you
-> need to move the code to cleanup the SDRAM model, but there are cleaner
-> ways to do so.
->
-> Alternative would be to remove the SDRAM pre-init for now, change the
-> model and re-add it at the end when all is cleanly modified. The -kernel
-> support would be temporarily broken but that's fine.
-
-Doing the init in any other way than through dcr write is bad becuause 
-then the register values and mapped regions can get out of sync so I don't 
-like to add any other hack to go around this. The code to enable and 
-disable the contrller is there at one place and everything should go 
-through that.
-
-> On that topic, you should probably consider changing the patchset to
-> propose first, a new SDRAM model (without using it in the boards) and
-> then do the model "switch" at the end. That might be easier to review.
-
-Besides that ir would require me to redo everthing from scratch it would 
-also be hard to bisect as you ended up with one patch changing everything 
-and no way to test the individual steps so I don't think this is a good 
-idea.
-
->> I could put it in a function either in ppc405_boards.c or if you think this 
->> should be in ppc4xx_sdrem.c then we can export that function via 
->> include/hw/ppc/ppc4xx.h and call that from boards 
->
-> Yes. That would be better.
-
-I went with this then in v5...
-
-> Please call from under boot_from_kernel(), something like
->
->  sdram_map_bcr(&ppc405->soc.sdram);
-
-...but not quite like this becuase of the above and also because this 
-function will be gone by the end of the series.
-
->> but I don't want to add hacks and a property for this in the device model 
->> becuase I'm not convinced it belongs there. 
->
-> That's how the default state of a model is changed and possibly taken
-> into account at reset. A bit like HW strapping would work.
->
-> Typically, in that case, you could use properties to change the BCR
-> reg values and do the mapping accordingly at reset.
-
-I'm not a fan of qdev properties that turn a sysbus_create_simple() into 5 
-lines of unreadable code and also mess up -device help and info qtree 
-output. (At least these devices are not used creatable so -device help is 
-not a problem here.)
-
->> If the hardware would have such an option then modeling that in is valid 
->
-> QEMU has all kinds of extensions which makes it much more useful than HW
-> in some places. The frontier is not that well draw.
-
-Sure but in this case I think it would not make it more useful and we 
-could just model the device better without such an addition.
-
-Regards,
-BALATON Zoltan
-
-> Thanks,
->
-> C.
->
->
->> but if it's done by the firmare on the real hardware then either use the 
->> firmware or do it in board code which is then emulating the firmware too.
->> 
->> Regards,
->> BALATON Zoltan
->> 
->>> 
->>> Thanks,
->>> 
->>> C.
->>> 
->>> 
->>> 
->>> 
->>> 
->>>> Doing it like this patch is cleaner IMO.
->>>> 
->>>> Regards,
->>>> BALATON Zoltan
->>>> 
->>>>> 
->>>>> C.
->>>>> 
->>>>>> +        error_report("Could not enable memory regions");
->>>>>> +        exit(1);
->>>>>> +    }
->>>>>> +
->>>>>>       /* allocate and load BIOS */
->>>>>>       if (machine->firmware) {
->>>>>>           MemoryRegion *bios = g_new(MemoryRegion, 1);
->>>>>> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
->>>>>> index 2ca42fdef6..1e02347e57 100644
->>>>>> --- a/hw/ppc/ppc405_uc.c
->>>>>> +++ b/hw/ppc/ppc405_uc.c
->>>>>> @@ -1081,8 +1081,7 @@ static void ppc405_soc_realize(DeviceState *dev, 
->>>>>> Error **errp)
->>>>>>                                s->ram_bases[0], s->ram_sizes[0]);
->>>>>>         ppc4xx_sdram_init(env, qdev_get_gpio_in(DEVICE(&s->uic), 17), 
->>>>>> 1,
->>>>>> -                      s->ram_banks, s->ram_bases, s->ram_sizes,
->>>>>> -                      s->do_dram_init);
->>>>>> +                      s->ram_banks, s->ram_bases, s->ram_sizes);
->>>>>>         /* External bus controller */
->>>>>>       if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->ebc), &s->cpu, 
->>>>>> errp)) {
->>>>>> @@ -1160,7 +1159,6 @@ static void ppc405_soc_realize(DeviceState *dev, 
->>>>>> Error **errp)
->>>>>>   static Property ppc405_soc_properties[] = {
->>>>>>       DEFINE_PROP_LINK("dram", Ppc405SoCState, dram_mr, 
->>>>>> TYPE_MEMORY_REGION,
->>>>>>                        MemoryRegion *),
->>>>>> -    DEFINE_PROP_BOOL("dram-init", Ppc405SoCState, do_dram_init, 0),
->>>>>>       DEFINE_PROP_UINT64("ram-size", Ppc405SoCState, ram_size, 0),
->>>>>>       DEFINE_PROP_END_OF_LIST(),
->>>>>>   };
->>>>>> diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
->>>>>> index 5ec82fa8c2..e3412c4fcd 100644
->>>>>> --- a/hw/ppc/ppc440_bamboo.c
->>>>>> +++ b/hw/ppc/ppc440_bamboo.c
->>>>>> @@ -211,7 +211,13 @@ static void bamboo_init(MachineState *machine)
->>>>>>       ppc4xx_sdram_init(env,
->>>>>>                         qdev_get_gpio_in(uicdev, 14),
->>>>>>                         PPC440EP_SDRAM_NR_BANKS, ram_memories,
->>>>>> -                      ram_bases, ram_sizes, 1);
->>>>>> +                      ram_bases, ram_sizes);
->>>>>> +    /* Enable SDRAM memory regions, this should be done by the 
->>>>>> firmware */
->>>>>> +    if (ppc_dcr_write(env->dcr_env, SDRAM0_CFGADDR, 0x20) ||
->>>>>> +        ppc_dcr_write(env->dcr_env, SDRAM0_CFGDATA, 0x80000000)) {
->>>>>> +        error_report("couldn't enable memory regions");
->>>>>> +        exit(1);
->>>>>> +    }
->>>>>>         /* PCI */
->>>>>>       dev = sysbus_create_varargs(TYPE_PPC4xx_PCI_HOST_BRIDGE,
->>>>>> diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
->>>>>> index db33334e29..6ab0ad7985 100644
->>>>>> --- a/hw/ppc/ppc440_uc.c
->>>>>> +++ b/hw/ppc/ppc440_uc.c
->>>>>> @@ -489,8 +489,6 @@ typedef struct ppc440_sdram_t {
->>>>>>   } ppc440_sdram_t;
->>>>>>     enum {
->>>>>> -    SDRAM0_CFGADDR = 0x10,
->>>>>> -    SDRAM0_CFGDATA,
->>>>>>       SDRAM_R0BAS = 0x40,
->>>>>>       SDRAM_R1BAS,
->>>>>>       SDRAM_R2BAS,
->>>>>> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
->>>>>> index 1226ec4aa9..936d6f77fe 100644
->>>>>> --- a/hw/ppc/ppc4xx_devs.c
->>>>>> +++ b/hw/ppc/ppc4xx_devs.c
->>>>>> @@ -56,11 +56,6 @@ struct ppc4xx_sdram_t {
->>>>>>       qemu_irq irq;
->>>>>>   };
->>>>>>   -enum {
->>>>>> -    SDRAM0_CFGADDR = 0x010,
->>>>>> -    SDRAM0_CFGDATA = 0x011,
->>>>>> -};
->>>>>> -
->>>>>>   /*
->>>>>>    * XXX: TOFIX: some patches have made this code become inconsistent:
->>>>>>    *      there are type inconsistencies, mixing hwaddr, target_ulong
->>>>>> @@ -350,8 +345,7 @@ static void sdram_reset(void *opaque)
->>>>>>   void ppc4xx_sdram_init(CPUPPCState *env, qemu_irq irq, int nbanks,
->>>>>>                          MemoryRegion *ram_memories,
->>>>>>                          hwaddr *ram_bases,
->>>>>> -                       hwaddr *ram_sizes,
->>>>>> -                       int do_init)
->>>>>> +                       hwaddr *ram_sizes)
->>>>>>   {
->>>>>>       ppc4xx_sdram_t *sdram;
->>>>>>       int i;
->>>>>> @@ -369,9 +363,6 @@ void ppc4xx_sdram_init(CPUPPCState *env, qemu_irq 
->>>>>> irq, int nbanks,
->>>>>>                        sdram, &dcr_read_sdram, &dcr_write_sdram);
->>>>>>       ppc_dcr_register(env, SDRAM0_CFGDATA,
->>>>>>                        sdram, &dcr_read_sdram, &dcr_write_sdram);
->>>>>> -    if (do_init) {
->>>>>> -        sdram_map_bcr(sdram);
->>>>>> -    }
->>>>>>   }
->>>>>>     /*
->>>>>> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
->>>>>> index 2af0d60577..a5e6c185af 100644
->>>>>> --- a/include/hw/ppc/ppc4xx.h
->>>>>> +++ b/include/hw/ppc/ppc4xx.h
->>>>>> @@ -37,6 +37,11 @@ typedef struct {
->>>>>>       uint32_t bcr;
->>>>>>   } Ppc4xxSdramBank;
->>>>>>   +enum {
->>>>>> +    SDRAM0_CFGADDR = 0x010,
->>>>>> +    SDRAM0_CFGDATA = 0x011,
->>>>>> +};
->>>>>> +
->>>>>>   void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
->>>>>>                           MemoryRegion ram_memories[],
->>>>>>                           hwaddr ram_bases[], hwaddr ram_sizes[],
->>>>>> @@ -45,8 +50,7 @@ void ppc4xx_sdram_banks(MemoryRegion *ram, int 
->>>>>> nr_banks,
->>>>>>   void ppc4xx_sdram_init (CPUPPCState *env, qemu_irq irq, int nbanks,
->>>>>>                           MemoryRegion ram_memories[],
->>>>>>                           hwaddr *ram_bases,
->>>>>> -                        hwaddr *ram_sizes,
->>>>>> -                        int do_init);
->>>>>> +                        hwaddr *ram_sizes);
->>>>>>     #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
->>>>>> 
->>>>> 
->>>>> 
->>>>> 
->>> 
->>> 
->>> 
->
->
->
---3866299591-210637098-1663536913=:20833--
+Sure, I totally understand. Let see first if someone is willing to
+review it as it.
 
