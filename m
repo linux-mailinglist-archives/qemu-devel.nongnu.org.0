@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366F75BBFF3
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 22:53:45 +0200 (CEST)
-Received: from localhost ([::1]:51374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00BFB5BBFF2
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Sep 2022 22:52:56 +0200 (CEST)
+Received: from localhost ([::1]:39678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oa1IO-0004eB-6f
-	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 16:53:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35516)
+	id 1oa1Hb-0002iJ-2e
+	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 16:52:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oa1BQ-0001tC-QT
- for qemu-devel@nongnu.org; Sun, 18 Sep 2022 16:46:48 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:45647)
+ id 1oa1Ea-0005ni-Aa
+ for qemu-devel@nongnu.org; Sun, 18 Sep 2022 16:49:48 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:39717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oa1BP-0007on-0f
- for qemu-devel@nongnu.org; Sun, 18 Sep 2022 16:46:32 -0400
-Received: by mail-pf1-x432.google.com with SMTP id 9so15120917pfz.12
- for <qemu-devel@nongnu.org>; Sun, 18 Sep 2022 13:46:30 -0700 (PDT)
+ id 1oa1EY-000878-Lv
+ for qemu-devel@nongnu.org; Sun, 18 Sep 2022 16:49:47 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id f23so9952572plr.6
+ for <qemu-devel@nongnu.org>; Sun, 18 Sep 2022 13:49:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=fTSBV72Bz3G5ut9mMF0d4QVe+VZJTTFXukYx+DJB/yw=;
- b=RauuaqvXojh/YTs7CGOyGYqpOV8Qy7tuS8wljnEehDvIC7fLQKMvQ9xbtwdurLqh+A
- a+vg2ws3GOScWBfzCcbcbne+TrLS2Ahrjs9pjSPlLeyYDvG5bE7ePIpqUfVlHQ8WIezX
- u9Fv/fhRdAfyAi3EyWv0/XJWKNv0EGKAc8SXVFht2WXvI7B+tJYFw9hPmk4RkiU2AxUY
- l8CEyprz87vbqJemlOTordVS1IQfBhsjjboJpeOLQDO2MV/l3u6R4WwbBrFWKC0GYbue
- tMS/7ZvY9PBnEYjWSHJk4IbeZjtH7ATUaThAFxGN7dUtDqwQBvd9SXfiyBZWd408CGll
- 7eiw==
+ bh=N9JTATzlCsEgrLq76l3tsn14CuDb3U+/zLaABl+4if8=;
+ b=effMpwZIXe+X9B46a3oA8vHaJtcmP3ToANM9C3/i8m4tkJwkSDT1+JFCwtXsv5tPpm
+ 8MkFLppadysXZzaUOxjj4pNMWZk48bjOFu/YxjZ54S37/uiLp2hcYXtkka6EoQDNty3+
+ 4AX+FpDFBxkma0V58wL09gZ7+XEEvrX9hFYX+YMuDtyQizhC1sxP5AAUoYi/iUOeR0Ly
+ l56bwJW1SslDpgKgvzsZvs5TCeOwrFepSed41aINVYcGyzrX8CCblIDERIghdEmB94rr
+ JToGV+jp71a6dsYExxY8hzV01Uf9n+xmwDVFP4BRFmC0eIGjvTQ05FzUVH9Bzc+pXJ4p
+ SYeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=fTSBV72Bz3G5ut9mMF0d4QVe+VZJTTFXukYx+DJB/yw=;
- b=37Wd3rs/wRHJ9QB2FanC0q57BoZAjn7WqZVHfJX+PC2Z8huVFLje9lvIktn10/U7ac
- 6Dmc/ynwvOtOLXWLdMAGLBmEE0iB+wyTD17GlXzNKnllofuThc5iL235DzqhouDEe4kb
- 6cCj6iLx6upsnMAqnnV/Yr729iU8IVtGKTnpQMutolulxqABSmx+EiuYO74CGhK5POee
- QwzLpRaf6EE9bT6rXw9Y3Y+EPaJELzY9bE81wuf43YyqtvcD6PXAF1xzcSoJxV+tt5LJ
- B+lW4QlEUalgkrp+K+dz7HHoGDP03jn68VawxIOTOKG7WJtCgCk8EtkaQ+7/JFmTTq5b
- 5fEA==
-X-Gm-Message-State: ACrzQf2c8KrwJmzToj50J0xvTkfzvSJohiPC+tXUXSidblxQ1EyeyCyY
- 5D+gLyn8jcqW4H9ghFcUlIs=
-X-Google-Smtp-Source: AMsMyM7awpGzx6o89cO+DYccrhM2/o+C/Qpe7IXXdEOj17JYAGVJ2jMilFyKPehqAIDKyaCI8tJk4g==
-X-Received: by 2002:a63:564a:0:b0:439:3ab4:fdff with SMTP id
- g10-20020a63564a000000b004393ab4fdffmr13100954pgm.397.1663533989473; 
- Sun, 18 Sep 2022 13:46:29 -0700 (PDT)
+ bh=N9JTATzlCsEgrLq76l3tsn14CuDb3U+/zLaABl+4if8=;
+ b=Xyxqs/knZKrk1Sz8AQbMBblO1DlppCJjMbvUYjhBIFLLLQjuaQrTzACbgL+PBOy6ti
+ MxWyVs5+8J+yDCu8ad9nfmRQuH6vQErKobzdQ80XxSrOdw8gBRUTP0dAlO3aU3uzPQPt
+ IwbjQ3GalMytlm6V/3AeAUkU4cEK2QqPOf67ePNuSIo1wnB3IYs/M3QPRwe+BQOxJ5vW
+ z3SrXwIuritK71/I6tLmVDRjJy3LjXWkLk3fOjHYC0Tzu3x+JwK46x0/nX47WxHC0ofX
+ r34ZTZmAK6g0TnkbVYN2YxAZYv0qxPewFRHpfWFn0afEmiGhXm43TorkSR50UquOYsGe
+ w17Q==
+X-Gm-Message-State: ACrzQf1Ziax8eJnwLnEUH2+f/59guBk7xuZ83eViifbHSzWBrRdRlXcM
+ da62wn2mVbm2Bnjfs2u5CBQ=
+X-Google-Smtp-Source: AMsMyM4ni8xV3vzVRbys+NAwBlHt+5c+aFF3G3MZojdi4fUFc/anKoTP6wRLBFT3Tg3rOzh05bwI3Q==
+X-Received: by 2002:a17:90a:804a:b0:203:3947:1a9e with SMTP id
+ e10-20020a17090a804a00b0020339471a9emr19600417pjw.118.1663534185175; 
+ Sun, 18 Sep 2022 13:49:45 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- d1-20020a170903230100b00172c7dee22fsm18946621plh.236.2022.09.18.13.46.27
+ c12-20020aa7952c000000b0052e987c64efsm19120146pfp.174.2022.09.18.13.49.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Sep 2022 13:46:28 -0700 (PDT)
-Message-ID: <e8bfd1ba-cec7-7c29-9319-eb013c14a237@amsat.org>
-Date: Sun, 18 Sep 2022 22:46:24 +0200
+ Sun, 18 Sep 2022 13:49:44 -0700 (PDT)
+Message-ID: <02090880-0db6-0a6b-60b0-b3313566b962@amsat.org>
+Date: Sun, 18 Sep 2022 22:49:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH v3 07/12] linux-user: Fix strace of chmod() if mode == 0
+Subject: Re: [PATCH v3 12/12] linux-user: Add parameters of getrandom()
+ syscall for strace
 Content-Language: en-US
 To: Helge Deller <deller@gmx.de>, Stefan Hajnoczi <stefanha@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 References: <20220918194555.83535-1-deller@gmx.de>
- <20220918194555.83535-8-deller@gmx.de>
-In-Reply-To: <20220918194555.83535-8-deller@gmx.de>
+ <20220918194555.83535-13-deller@gmx.de>
+In-Reply-To: <20220918194555.83535-13-deller@gmx.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -51
 X-Spam_score: -5.2
 X-Spam_bar: -----
@@ -98,40 +99,30 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 18/9/22 21:45, Helge Deller wrote:
-> If the mode parameter of chmod() is zero, this value isn't shown
-> when stracing a program:
->      chmod("filename",)
-> This patch fixes it up to show the zero-value as well:
->      chmod("filename",000)
-> 
 > Signed-off-by: Helge Deller <deller@gmx.de>
 > ---
->   linux-user/strace.c | 5 +++++
->   1 file changed, 5 insertions(+)
+>   linux-user/strace.list | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/linux-user/strace.c b/linux-user/strace.c
-> index 5ac64df02b..2f539845bb 100644
-> --- a/linux-user/strace.c
-> +++ b/linux-user/strace.c
-> @@ -1505,6 +1505,11 @@ print_file_mode(abi_long mode, int last)
->       const char *sep = "";
->       const struct flags *m;
-> 
-> +    if (mode == 0) {
-> +        qemu_log("000%s", get_comma(last));
+> diff --git a/linux-user/strace.list b/linux-user/strace.list
+> index ad9ef94689..97d8ccadac 100644
+> --- a/linux-user/strace.list
+> +++ b/linux-user/strace.list
+> @@ -355,7 +355,7 @@
+>   { TARGET_NR_getpriority, "getpriority", "%s(%#x,%#x)", NULL, NULL },
+>   #endif
+>   #ifdef TARGET_NR_getrandom
+> -{ TARGET_NR_getrandom, "getrandom", NULL, NULL, NULL },
+> +{ TARGET_NR_getrandom, "getrandom", "%s(%p,%u,%d)", NULL, NULL },
 
-I'd use either 0 or 0000, not 000...
+The last argument is unsigned.
 
-Preferably using a single 0:
+Conditional to using "%s(%p,%u,%u)":
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-
-> +        return;
-> +    }
-> +
->       for (m = &mode_flags[0]; m->f_string != NULL; m++) {
->           if ((m->f_value & mode) == m->f_value) {
->               qemu_log("%s%s", m->f_string, sep);
+>   #endif
+>   #ifdef TARGET_NR_getresgid
+>   { TARGET_NR_getresgid, "getresgid" , NULL, NULL, NULL },
 > --
 > 2.37.3
 > 
