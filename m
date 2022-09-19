@@ -2,82 +2,132 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8675BD7E8
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 01:11:51 +0200 (CEST)
-Received: from localhost ([::1]:41550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82C7C5BD829
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 01:21:38 +0200 (CEST)
+Received: from localhost ([::1]:46450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaPvZ-0004nm-U9
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 19:11:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52458)
+	id 1oaQ53-0003VF-2O
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 19:21:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oaPtn-0003Bg-5z; Mon, 19 Sep 2022 19:09:59 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:41887)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oaQ1v-00065g-3g; Mon, 19 Sep 2022 19:18:23 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:37790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oaPtl-0000PD-9z; Mon, 19 Sep 2022 19:09:58 -0400
-Received: by mail-pg1-x530.google.com with SMTP id q9so752981pgq.8;
- Mon, 19 Sep 2022 16:09:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oaQ1t-0001np-0x; Mon, 19 Sep 2022 19:18:22 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id a26so2208275ejc.4;
+ Mon, 19 Sep 2022 16:18:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date;
- bh=cBMi/U2b4masA5UJMQwqhxVr7A1n9NvuWkGIzWwt2SI=;
- b=VG1u0o4pNcCXMPdX1c0m/IP56JgmCjWKzfsGlOxthr/L1ZRxyqhLEsKHUgSdd4M49Y
- FfVYeL/QmEL4d+Lrc3KssJFyGjj/pLhUfv3LWz5qS2z/IHxD3wrkDoWa02Zlj7jKn86K
- g07Y63WllckoCZ9kiTUrwe4GgQ/OgWp3GG9HiMsPooDlX+relPfJ5ll4jtQhuq8u/Qop
- MWyCnyHBk1fBNEep8Sa3tvkNCxeTf2V3ZJTtNmPbznh/QjXk1FcY3akpvsAlidgPvgdg
- UIMwgT3YE56RKkNRfgrkWETro20WvBZnIjqDAtcFzns8T/Ltapg9rQDeh8zf2h8IcVic
- zYJw==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=/k4I9yFOQcmiC4x/pIxNVj/VFsZVkB/VTnKtzXV6Nqg=;
+ b=HeU8zrtYBI/0x6nYhy30ykBOxV7FJFi9qix+CVX0GQ295jAdVYP99cwpVxn/2LzxCi
+ ZP5HRKIK6CCkoV8ZYaMeoxr7Er2J7tkGFzoZESbBQa3Q/GPx3mVwKz2IoZNjt/UK7KTA
+ +ihVNLs1B8kQsrWVCKS154FLqcTZ7LjxhE5wx61z1x9ykd/cnWa6+EObscXByUSrlnxu
+ 2p8uLD9vwG4GAwVM6hnJqUMiO5KALvwOqjrkAiOSaB7w+Ho12rSGreEd514XIyflj9qP
+ 8m6Uxp0tRrmxmCRjrG0e2Upp6UcGEKsXugZH9piZvYjMOtG1eklpjW88WsouvJFJCC5o
+ ldSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=cBMi/U2b4masA5UJMQwqhxVr7A1n9NvuWkGIzWwt2SI=;
- b=T3Hq3N4dKEpxTVPlwBD/Qi4oGuaM/OKOTwVTuI/rlnRpNug5IiHMCiZmPF06BA7b+t
- vYvLOmc2tihtzid029M+38eAT9FOJHJBX2ToApVgRRs8n++RqkpFZUzXEuk2TH9wILPD
- XZMjjS1SwIP1xEKd077HINpj6YEWNX8yco4jsISDJgcO4XXhjgUD2afJhxgjpjXFyvwR
- qClhKgv6e+DJ8/k0gpz+Y1nksVKfNi40EIiRZtkKI+U69P+XnrZW1xTkHOjA8GX6fVjD
- M6NfeeHs+7NJ6QCldCOSJFnqnaHa7hzTZZMCGu0O+shezVpjwX0L8ig/E5jz0L5wU/Sf
- e+1Q==
-X-Gm-Message-State: ACrzQf3rnawZkGxdoPUQ9mwqQMUtNbL6t2mXMpW/4NnhqQimnhEB0Gtj
- O2260dU0dMZW5VveTWFKhBk=
-X-Google-Smtp-Source: AMsMyM6CQRL1SXpCtUpRbgsuSzvmCEx9AYif0LI/VpQXnlrQgGJ/Ld95rGg5xwaSKl4+TwXzAPmfZA==
-X-Received: by 2002:a05:6a00:b8d:b0:545:e7de:78e5 with SMTP id
- g13-20020a056a000b8d00b00545e7de78e5mr20571088pfj.72.1663628994404; 
- Mon, 19 Sep 2022 16:09:54 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=/k4I9yFOQcmiC4x/pIxNVj/VFsZVkB/VTnKtzXV6Nqg=;
+ b=aHyzr0YVJYpl3XCfriI5p6ThUtkYqfow7vkyQZo97xLolhsr/Xxnz1YRa7nhCRKtdA
+ cbehJfc9f/TwFTQZvTqakt74/1K9R4PmYoi3ghzEzsvz6TIZpeZSWsZDt+7Wn9lYJPU/
+ K3HsWEvNesK2huzr3xDgdh0hevN8jMxvjLsVx1sryuh7m1P1h8w9RtweUlqHDsqVh8Xn
+ 3aJ8Ir9cN9OvBiUJ9i6i6sXA+/lz4Zo2lgb/XedrnDRXBb070LPntvcBmeSS5koCFNSv
+ KAspod57/3csUhqs0kdauF2eRpLLnNyJpk1Y2Z8Vy4Eu7oH8KqrwtEq0JyGXhy2o/zuE
+ UQaQ==
+X-Gm-Message-State: ACrzQf213X+MyAlbEfU8azFE4VZdsENC+pKrM7lGVETeRafqHCiGqETw
+ B5yMWqUqjWyVKcIZwTUR2bjJOs6jXMdtPQ==
+X-Google-Smtp-Source: AMsMyM6qssf98dEArMM6jpNsUS/ykm1rQJXRhzB+Z5C5spX4oNAkXfl0aR9MWbXenJhowWfNIt1+Yg==
+X-Received: by 2002:a17:907:2c62:b0:77a:e3ce:5ef0 with SMTP id
+ ib2-20020a1709072c6200b0077ae3ce5ef0mr15170276ejc.553.1663629496806; 
+ Mon, 19 Sep 2022 16:18:16 -0700 (PDT)
+Received: from localhost.localdomain
+ (dynamic-078-054-077-055.78.54.pool.telefonica.de. [78.54.77.55])
  by smtp.gmail.com with ESMTPSA id
- w28-20020a637b1c000000b004393cb720afsm13117313pgc.38.2022.09.19.16.09.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Sep 2022 16:09:53 -0700 (PDT)
-Message-ID: <8aa93a4f-beef-a0a6-8bac-3b69ba25de7e@amsat.org>
-Date: Tue, 20 Sep 2022 01:09:47 +0200
+ rn24-20020a170906d93800b00780f6071b5dsm4800926ejb.188.2022.09.19.16.18.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Sep 2022 16:18:16 -0700 (PDT)
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Magnus Damm <magnus.damm@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Bandan Das <bsd@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Sergio Lopez <slp@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ Cameron Esfahani <dirty@apple.com>, Michael Rolnik <mrolnik@gmail.com>,
+ Song Gao <gaosong@loongson.cn>, Jagannathan Raman <jag.raman@oracle.com>,
+ Greg Kurz <groug@kaod.org>, Kamil Rytarowski <kamil@netbsd.org>,
+ Peter Xu <peterx@redhat.com>, Joel Stanley <joel@jms.id.au>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, haxm-team@intel.com,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Markus Armbruster <armbru@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ qemu-ppc@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Helge Deller <deller@gmx.de>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-riscv@nongnu.org, Stafford Horne <shorne@gmail.com>,
+ Paul Durrant <paul@xen.org>, Havard Skinnemoen <hskinnemoen@google.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Alexander Graf <agraf@csgraf.de>, Thomas Huth <thuth@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Tony Krowiak <akrowiak@linux.ibm.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-s390x@nongnu.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Eric Farman <farman@linux.ibm.com>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Alexander Bulekov <alxndr@bu.edu>, Yanan Wang <wangyanan55@huawei.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Tyrone Ting <kfting@nuvoton.com>,
+ xen-devel@lists.xenproject.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Darren Kenny <darren.kenny@oracle.com>, kvm@vger.kernel.org,
+ Qiuhao Li <Qiuhao.Li@outlook.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, qemu-arm@nongnu.org,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>,
+ Alistair Francis <alistair@alistair23.me>,
+ Jason Herne <jjherne@linux.ibm.com>, Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH 0/9] Deprecate sysbus_get_default() and get_system_memory()
+ et. al
+Date: Tue, 20 Sep 2022 01:17:11 +0200
+Message-Id: <20220919231720.163121-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.37.3
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH 0/3] Add a host power device
-Content-Language: en-US
-To: Jian Zhang <zhangjian.3032@bytedance.com>, peter.maydell@linaro.org,
- clg@kaod.org, andrew@aj.id.au, joel@jms.id.au, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-Cc: yulei.sh@bytedance.com, tangyiwei.2022@bytedance.com,
- chentingting.2150@bytedance.com, yuhao.17@bytedance.com,
- wangxiaohua.1217@bytedance.com, xiening.xll@bytedance.com
-References: <20220919172112.2706026-1-zhangjian.3032@bytedance.com>
-In-Reply-To: <20220919172112.2706026-1-zhangjian.3032@bytedance.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.952,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,55 +144,176 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Hi Jian,
-
-On 19/9/22 19:21, Jian Zhang wrote:
-> This patchset adds a host power device and added it into the g220a
-> mahcine. The BMC have a important is to control the power of the host,
-> usually it is nessary in a hardware platform.
-> 
-> The BMC(soc) usually had a output pin to control the power of the host,
-> and a input pin to get the power status of the host.
-> 
-> The host power device is a generic device to simulate the host power,
-> accept the power control command from the BMC and report the power
-> status.
-> 
-> Test on the g220a machine, the host power control command can be simply
-> work.
-> 
-> Jian Zhang (3):
->    hw/gpio/aspeed_gpio: Add gpios in/out init
->    hw/misc/host_power: Add a simple host power device
->    hw/arm/aspeed: g220a: Add host-power device
-
-"power-good" is just a TYPE_LED object, but it doesn't seem you are
-really interested in using it.
-
-My understanding of your "power-button" is a latching switch.
-
-This could be indeed useful. I'd name this model TYPE_LATCHING_SWITCH
-and put it in hw/misc/latching-switch.c (since it is external to a
-SoC). It has one input and one output. Naming them is not particularly
-useful IMHO. The triggering edge should be a property (it might have
-a default, positive/negative), and the switch state must to be in
-vmstate for the object to be migratable.
-
-("power-good"/"power-button" is what this particular board choose to
-use the latch switch input/output for).
-
-Do you mind renaming your series accordingly ("latching switch"),
-and adding the vmstate?
-
-Also I'd reorder your series as 2,1,3:
-- introduce the new device
-- prepare aspeed_gpio
-- wire aspeed_g220a
-
-Regards,
-
-Phil.
+In address-spaces.h it can be read that get_system_memory() and=0D
+get_system_io() are temporary interfaces which "should only be used tempora=
+rily=0D
+until a proper bus interface is available". This statement certainly extend=
+s to=0D
+the address_space_memory and address_space_io singletons. This series attem=
+pts=0D
+to stop further proliferation of their use by turning TYPE_SYSTEM_BUS into =
+an=0D
+object-oriented, "proper bus interface" inspired by PCIBus.=0D
+=0D
+While at it, also the main_system_bus singleton is turned into an attribute=
+ of=0D
+MachineState. Together, this resolves five singletons in total, making the=
+=0D
+ownership relations much more obvious which helps comprehension.=0D
+=0D
+The series is structured as follows: Patch 1 fixes a memory corruption issu=
+e=0D
+uncovered by running `make check` on the last but one patch of this series.=
+=0D
+Patches 2 and 3 turn the main_system_bus singleton into an attribute of=0D
+MachineState which provides an alternative to sysbus_get_default(). Patches=
+ 4-7=0D
+resolve the address space singletons and deprecate the legacy=0D
+get_system_memory() et. al functions. Patch 8 attempts to optimize the new=
+=0D
+implementations of these legacy functions.=0D
+=0D
+Testing done:=0D
+* make check (passes without any issues)=0D
+* make check-avocado (no new issues seem to be introduced compared to maste=
+r)=0D
+=0D
+Bernhard Beschow (9):=0D
+  hw/riscv/sifive_e: Fix inheritance of SiFiveEState=0D
+  exec/hwaddr.h: Add missing include=0D
+  hw/core/sysbus: Resolve main_system_bus singleton=0D
+  hw/ppc/spapr: Fix code style problems reported by checkpatch=0D
+  exec/address-spaces: Wrap address space singletons into functions=0D
+  target/loongarch/cpu: Remove unneeded include directive=0D
+  hw/sysbus: Introduce dedicated struct SysBusState for TYPE_SYSTEM_BUS=0D
+  softmmu/physmem: Let SysBusState absorb memory region and address=0D
+    space singletons=0D
+  exec/address-spaces: Inline legacy functions=0D
+=0D
+ accel/hvf/hvf-accel-ops.c            |  2 +-=0D
+ accel/kvm/kvm-all.c                  | 12 +++----=0D
+ hw/alpha/dp264.c                     |  4 +--=0D
+ hw/alpha/typhoon.c                   |  4 +--=0D
+ hw/arm/smmu-common.c                 |  4 +--=0D
+ hw/arm/smmuv3.c                      | 14 ++++----=0D
+ hw/arm/virt.c                        |  2 +-=0D
+ hw/char/goldfish_tty.c               |  4 +--=0D
+ hw/core/bus.c                        |  5 ++-=0D
+ hw/core/loader.c                     |  2 +-=0D
+ hw/core/machine.c                    |  3 ++=0D
+ hw/core/sysbus.c                     | 24 ++++----------=0D
+ hw/dma/pl330.c                       |  2 +-=0D
+ hw/dma/rc4030.c                      |  2 +-=0D
+ hw/dma/xlnx-zynq-devcfg.c            |  4 +--=0D
+ hw/dma/xlnx_dpdma.c                  |  8 ++---=0D
+ hw/hppa/machine.c                    |  4 +--=0D
+ hw/hyperv/hyperv.c                   |  2 +-=0D
+ hw/hyperv/vmbus.c                    |  2 +-=0D
+ hw/i386/amd_iommu.c                  | 18 +++++-----=0D
+ hw/i386/fw_cfg.c                     |  2 +-=0D
+ hw/i386/intel_iommu.c                | 24 +++++++-------=0D
+ hw/i386/microvm.c                    |  4 +--=0D
+ hw/i386/pc.c                         |  2 +-=0D
+ hw/i386/xen/xen-hvm.c                |  4 +--=0D
+ hw/ide/ahci.c                        |  2 +-=0D
+ hw/ide/macio.c                       | 10 +++---=0D
+ hw/intc/apic.c                       |  2 +-=0D
+ hw/intc/openpic_kvm.c                |  2 +-=0D
+ hw/intc/pnv_xive.c                   |  6 ++--=0D
+ hw/intc/pnv_xive2.c                  |  6 ++--=0D
+ hw/intc/riscv_aplic.c                |  2 +-=0D
+ hw/intc/spapr_xive.c                 |  2 +-=0D
+ hw/intc/xive.c                       |  4 +--=0D
+ hw/intc/xive2.c                      |  4 +--=0D
+ hw/mips/jazz.c                       |  4 +--=0D
+ hw/misc/lasi.c                       |  2 +-=0D
+ hw/misc/macio/mac_dbdma.c            |  8 ++---=0D
+ hw/net/ftgmac100.c                   | 16 ++++-----=0D
+ hw/net/i82596.c                      | 24 +++++++-------=0D
+ hw/net/imx_fec.c                     | 22 ++++++-------=0D
+ hw/net/lasi_i82596.c                 |  2 +-=0D
+ hw/net/npcm7xx_emc.c                 | 14 ++++----=0D
+ hw/openrisc/boot.c                   |  2 +-=0D
+ hw/pci-host/dino.c                   |  6 ++--=0D
+ hw/pci-host/pnv_phb3.c               |  6 ++--=0D
+ hw/pci-host/pnv_phb3_msi.c           |  6 ++--=0D
+ hw/pci-host/pnv_phb4.c               | 10 +++---=0D
+ hw/pci/pci.c                         |  2 +-=0D
+ hw/ppc/pnv_psi.c                     |  2 +-=0D
+ hw/ppc/spapr.c                       |  4 +--=0D
+ hw/ppc/spapr_events.c                |  2 +-=0D
+ hw/ppc/spapr_hcall.c                 |  4 +--=0D
+ hw/ppc/spapr_iommu.c                 |  4 +--=0D
+ hw/ppc/spapr_ovec.c                  |  8 ++---=0D
+ hw/ppc/spapr_rtas.c                  |  2 +-=0D
+ hw/remote/iommu.c                    |  2 +-=0D
+ hw/remote/message.c                  |  4 +--=0D
+ hw/remote/proxy-memory-listener.c    |  2 +-=0D
+ hw/riscv/boot.c                      |  6 ++--=0D
+ hw/riscv/sifive_e.c                  |  2 +-=0D
+ hw/riscv/sifive_u.c                  |  2 +-=0D
+ hw/riscv/virt.c                      |  2 +-=0D
+ hw/s390x/css.c                       | 16 ++++-----=0D
+ hw/s390x/ipl.h                       |  2 +-=0D
+ hw/s390x/s390-pci-bus.c              |  4 +--=0D
+ hw/s390x/s390-pci-inst.c             | 10 +++---=0D
+ hw/s390x/s390-skeys.c                |  2 +-=0D
+ hw/s390x/virtio-ccw.c                | 10 +++---=0D
+ hw/sd/sdhci.c                        |  2 +-=0D
+ hw/sh4/r2d.c                         |  4 +--=0D
+ hw/sparc/sun4m.c                     |  2 +-=0D
+ hw/sparc/sun4m_iommu.c               |  4 +--=0D
+ hw/sparc64/sun4u_iommu.c             |  4 +--=0D
+ hw/timer/hpet.c                      |  2 +-=0D
+ hw/usb/hcd-ehci-pci.c                |  2 +-=0D
+ hw/usb/hcd-ehci-sysbus.c             |  2 +-=0D
+ hw/usb/hcd-ohci.c                    |  2 +-=0D
+ hw/usb/hcd-xhci-sysbus.c             |  2 +-=0D
+ hw/vfio/ap.c                         |  2 +-=0D
+ hw/vfio/ccw.c                        |  2 +-=0D
+ hw/vfio/common.c                     |  8 ++---=0D
+ hw/vfio/platform.c                   |  2 +-=0D
+ hw/virtio/vhost-vdpa.c               |  2 +-=0D
+ hw/virtio/vhost.c                    |  2 +-=0D
+ hw/virtio/virtio-bus.c               |  4 +--=0D
+ hw/virtio/virtio-iommu.c             |  6 ++--=0D
+ hw/virtio/virtio-pci.c               |  2 +-=0D
+ hw/xen/xen_pt.c                      |  4 +--=0D
+ include/exec/address-spaces.h        | 49 +++++++++++++++++++++++-----=0D
+ include/exec/hwaddr.h                |  1 +=0D
+ include/hw/boards.h                  |  2 ++=0D
+ include/hw/elf_ops.h                 |  4 +--=0D
+ include/hw/misc/macio/macio.h        |  2 +-=0D
+ include/hw/ppc/spapr.h               |  6 ++--=0D
+ include/hw/ppc/vof.h                 |  4 +--=0D
+ include/hw/riscv/sifive_e.h          |  3 +-=0D
+ include/hw/sysbus.h                  | 14 ++++++--=0D
+ monitor/misc.c                       |  4 +--=0D
+ softmmu/ioport.c                     | 12 +++----=0D
+ softmmu/memory_mapping.c             |  2 +-=0D
+ softmmu/physmem.c                    | 41 ++++++++---------------=0D
+ target/arm/hvf/hvf.c                 |  4 +--=0D
+ target/arm/kvm.c                     |  4 +--=0D
+ target/avr/helper.c                  |  8 ++---=0D
+ target/i386/hax/hax-all.c            |  2 +-=0D
+ target/i386/hax/hax-mem.c            |  2 +-=0D
+ target/i386/hvf/hvf.c                |  2 +-=0D
+ target/i386/hvf/vmx.h                |  2 +-=0D
+ target/i386/hvf/x86_mmu.c            |  6 ++--=0D
+ target/i386/nvmm/nvmm-all.c          |  4 +--=0D
+ target/i386/sev.c                    |  4 +--=0D
+ target/i386/tcg/sysemu/misc_helper.c | 12 +++----=0D
+ target/i386/whpx/whpx-all.c          |  4 +--=0D
+ target/loongarch/cpu.h               |  1 -=0D
+ target/s390x/diag.c                  |  2 +-=0D
+ target/s390x/mmu_helper.c            |  2 +-=0D
+ target/s390x/sigp.c                  |  2 +-=0D
+ target/xtensa/dbg_helper.c           |  2 +-=0D
+ tests/qtest/fuzz/generic_fuzz.c      |  4 +--=0D
+ 120 files changed, 355 insertions(+), 328 deletions(-)=0D
+=0D
+-- =0D
+2.37.3=0D
+=0D
 
