@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78BBD5BD4C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 20:32:04 +0200 (CEST)
-Received: from localhost ([::1]:42910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 301E05BD4AD
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 20:16:40 +0200 (CEST)
+Received: from localhost ([::1]:38174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaLYo-0003Lf-UY
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 14:32:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43822)
+	id 1oaLJv-0005wj-8H
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 14:16:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oaL9A-0005nu-Pd
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 14:05:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49511)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oaLAX-0008QG-13
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 14:06:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57953)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oaL92-0007Ug-UH
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 14:05:31 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oaLAQ-0007fg-5R
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 14:06:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663610724;
+ s=mimecast20190719; t=1663610809;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T5vEYelug09/xK4VvZE+Zs0VSddcUWjFU+X6iHQ+u+Q=;
- b=hF/WL3O3C+WkKSHIELl4c1dQ/d1x0M2FwnGS1Hyw3BPWxt9aarHMw6YND6DVpfERVzaKeg
- hyxdU4duoPWMAWlQy8BnfD9RrZe5UFLZJp46RlEnbk8A+YcNqi1scJpEcET8NkgvAOx92M
- eZHwM5qbJ7oE7mZBc7nho5G7xWnyXOQ=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5CBfkqJXcSSqqQO+sYCLFPShazhO6vPZSlOIPh91+eE=;
+ b=Cp5wUQSH3eTh+lcu6XDEBfUHs/znV07d7i8oD9K2sZA/qGXYP0P+w8Fwu11TawIOxb5oKL
+ 2DONtZ4KIkEuBePjfOxAoldKzqXUxNWPH7N/8MNYlyWg2Hog9JdEUYBZjPDg7ITQQ22w9e
+ pL9vujHZH2nO83ABE+kCahshgOro4Bg=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-393-aXnKI55vNXK6NZ0PvEA7-A-1; Mon, 19 Sep 2022 14:05:23 -0400
-X-MC-Unique: aXnKI55vNXK6NZ0PvEA7-A-1
-Received: by mail-ej1-f70.google.com with SMTP id
- hr12-20020a1709073f8c00b0077e8371f847so77324ejc.20
- for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 11:05:22 -0700 (PDT)
+ us-mta-454-za2CrSaKMpOnf-Ba6rnjHg-1; Mon, 19 Sep 2022 14:06:48 -0400
+X-MC-Unique: za2CrSaKMpOnf-Ba6rnjHg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ z13-20020a05640240cd00b0045276a79364so165345edb.2
+ for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 11:06:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=T5vEYelug09/xK4VvZE+Zs0VSddcUWjFU+X6iHQ+u+Q=;
- b=lfiZW/WkufYzDcd2CUbZeUdtoLxRxT8eEKliatyr7EfX2tEysFtCnyFlCjIqUL8igw
- /C/EL8hQWsizbPc3+I+s10+AfEZcolmq1s3+B9rKkCtzT1S+NT4dHsqR8mWjc1NbwGhS
- YuH8SJTOhsSo3MR8IzBcrfpQVJB9U/UOtlgvgjOvDdvgsYI6Cd0OGGZ9yyGo5tsIV7kQ
- 1ciAeGc/VYcIsxSuZc0iOncsiJDR7Qr/j85mYxMzsHV+76iYYt/9jJyCFGDYe4oXlNjK
- 5wMS3pAOjVZt8TF2Jh4XrOyuFhxRBF1HdZace4gfk1C9xV822fiPX5VAI6WPMPROZtEX
- DZKA==
-X-Gm-Message-State: ACrzQf1pb8wXGBD3BDI4CKcL5Xl5AYj5Kzo7k89TqW2GBzGQaPvc4yPa
- 48uQvx02Vu3kOmQULMr856Mge9GY5AK+q9IFeBrxkCPrg7a0NoDOoEnRAt1kTVmECnT1Rtn2NB7
- drU78KpC58q7j++I=
-X-Received: by 2002:a05:6402:350a:b0:452:8c84:8b with SMTP id
- b10-20020a056402350a00b004528c84008bmr16811978edd.93.1663610722004; 
- Mon, 19 Sep 2022 11:05:22 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4yOOTeBjtiUQIDRfhI0pKf5vWZ8YVbXzYpjL/nIBicLYiUd61yrj2TNBERg8kAGUaO1Zg+xA==
-X-Received: by 2002:a05:6402:350a:b0:452:8c84:8b with SMTP id
- b10-20020a056402350a00b004528c84008bmr16811933edd.93.1663610721662; 
- Mon, 19 Sep 2022 11:05:21 -0700 (PDT)
+ bh=5CBfkqJXcSSqqQO+sYCLFPShazhO6vPZSlOIPh91+eE=;
+ b=D5YgW/EJW8p4ff8bC0CIhq+B28lnrgzuzCbeqhrbUPfKAXr5sb6WW9BFKW1rcLFNaZ
+ HAIi+4zcZTS4GtU/kyYWZBEUtAQT8OGf224bk/rx1/dccG/gawLGxhGrMLXMQ4j1EwxV
+ IhCGlIPQNOqlNDrGaknw3QRxe98E+VscVQ0bxL3fWhGhhuBVeHEfFldSdAJC1hEKbIj5
+ 4SZqjKeWV2G06CbAgICUg/169JJlgHXLENCZy1urfyaTCzo2MJckKCiGJVF4qi1cm88N
+ midmkW7KRFAyZWVa7ypfvH2kKaxGDs5WicKt75uu7UzKCkr5QCefaxijEyOBXpkq+H/Z
+ gwow==
+X-Gm-Message-State: ACrzQf0rqLhSOdXovyGAy4+yDmy2+2N3OWylmDqY6GxACaM1Irt8LeYt
+ NHNG/7Do9UHUtx7nKjUzD0uolL6TaAxeQQ1ljk8ICRDczo2G42kv/2DUhzFjDZgIGzn4wibIP6I
+ zSFLN/JLfEhc1DFY=
+X-Received: by 2002:a05:6402:240d:b0:442:b0c4:9e02 with SMTP id
+ t13-20020a056402240d00b00442b0c49e02mr16709923eda.210.1663610807052; 
+ Mon, 19 Sep 2022 11:06:47 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7l9LFf3hwMpyXWaiQ24xNtjRo57CBiCoQXMPtop7iJmE3Xu6Bm/vNUWK2CV+rv2xY0R0mWzw==
+X-Received: by 2002:a05:6402:240d:b0:442:b0c4:9e02 with SMTP id
+ t13-20020a056402240d00b00442b0c49e02mr16709910eda.210.1663610806848; 
+ Mon, 19 Sep 2022 11:06:46 -0700 (PDT)
 Received: from [192.168.8.103] (tmo-083-219.customers.d1-online.com.
  [80.187.83.219]) by smtp.gmail.com with ESMTPSA id
- 2-20020a170906210200b00715a02874acsm16064040ejt.35.2022.09.19.11.05.19
+ u2-20020a1709061da200b00764a76d5888sm15817324ejh.27.2022.09.19.11.06.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Sep 2022 11:05:21 -0700 (PDT)
-Message-ID: <34e1bfcf-368e-2a89-4ad4-72c2e6db0eb0@redhat.com>
-Date: Mon, 19 Sep 2022 20:05:18 +0200
+ Mon, 19 Sep 2022 11:06:46 -0700 (PDT)
+Message-ID: <f89980b4-01ca-8c1c-df7c-e529e1eb8e52@redhat.com>
+Date: Mon, 19 Sep 2022 20:06:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH 7/8] meson-build: Enable CONFIG_REPLICATION only when
- replication is set
+Subject: Re: [PATCH 8/8] meson-build: test-crypto-secret depends on
+ CONFIG_SECRET_KEYRING
 Content-Language: en-US
 To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+ "Daniel P. Berrange" <berrange@redhat.com>
 Cc: Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
  Darren Kenny <darren.kenny@oracle.com>, Stefan Hajnoczi
@@ -84,20 +84,20 @@ Cc: Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-block@nongnu.org
 References: <20220902165126.1482-1-quintela@redhat.com>
- <20220902165126.1482-8-quintela@redhat.com>
+ <20220902165126.1482-9-quintela@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220902165126.1482-8-quintela@redhat.com>
+In-Reply-To: <20220902165126.1482-9-quintela@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+X-Spam_score_int: -36
+X-Spam_score: -3.7
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.952, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.952, RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,26 +114,35 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 02/09/2022 18.51, Juan Quintela wrote:
+> With this change "make check" works when configured with --disable-keyring.
+> 
 > Signed-off-by: Juan Quintela <quintela@redhat.com>
 > ---
->   meson.build | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   tests/unit/meson.build | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/meson.build b/meson.build
-> index 20fddbd707..cab0474d0c 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1878,7 +1878,7 @@ config_host_data.set('CONFIG_DEBUG_STACK_USAGE', get_option('debug_stack_usage')
->   config_host_data.set('CONFIG_GPROF', get_option('gprof'))
->   config_host_data.set('CONFIG_LIVE_BLOCK_MIGRATION', get_option('live_block_migration').allowed())
->   config_host_data.set('CONFIG_QOM_CAST_DEBUG', get_option('qom_cast_debug'))
-> -config_host_data.set('CONFIG_REPLICATION', get_option('live_block_migration').allowed())
-> +config_host_data.set('CONFIG_REPLICATION', get_option('replication').allowed())
+> diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+> index b497a41378..988aed27cb 100644
+> --- a/tests/unit/meson.build
+> +++ b/tests/unit/meson.build
+> @@ -78,7 +78,6 @@ if have_block
+>       'test-crypto-hmac': [crypto],
+>       'test-crypto-cipher': [crypto],
+>       'test-crypto-akcipher': [crypto],
+> -    'test-crypto-secret': [crypto, keyutils],
+>       'test-crypto-der': [crypto],
+>       'test-authz-simple': [authz],
+>       'test-authz-list': [authz],
+> @@ -122,6 +121,9 @@ if have_block
+>     if config_host_data.get('CONFIG_EPOLL_CREATE1')
+>       tests += {'test-fdmon-epoll': [testblock]}
+>     endif
+> +  if config_host_data.get('CONFIG_SECRET_KEYRING')
+> +    tests += {'test-crypto-secret': [crypto, keyutils]}
+> +  endif
+>   endif
 >   
->   # has_header
->   config_host_data.set('CONFIG_EPOLL', cc.has_header('sys/epoll.h'))
-
-Fixes: 406523f6b3 ("configure, meson: move block layer options to meson_options.txt")
+>   if have_system
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
