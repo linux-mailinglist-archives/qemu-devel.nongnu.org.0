@@ -2,78 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8595BCBCF
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 14:29:58 +0200 (CEST)
-Received: from localhost ([::1]:59202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B7C05BCBDC
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 14:34:20 +0200 (CEST)
+Received: from localhost ([::1]:44702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaFuP-0003bw-82
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 08:29:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54524)
+	id 1oaFyc-0006Qq-VP
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 08:34:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1oaFos-0006aF-BY
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 08:24:14 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:37479)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1oaFoq-00043l-4Q
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 08:24:13 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id a80so19335989pfa.4
- for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 05:24:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=smartx-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=udRlNNeBNqhAgXCIOcJa0b4vX++DdmVnpvbaLOj43HU=;
- b=5Q7CqBVrwvTXOAMeIVYEviaxJX1lObD9aPHup8ix8Vo6RvlFbm7mJaV6v3nnJQk4dS
- lDdySGfXB3VSmovMJGdY5cSa5zpMJUom9XU95zVsKI4A8LFZJGciD4UjKHNTVquV5lSp
- yOQeUKjfSw4zzICuFTcTs1SGBKjpFQlvWsp551P/SZgIQOt95xrIMphl4jR9YHiZr7uh
- Edf60yMyoakMoVnjFDC6B0/YGxPfc3XaXso8O4rfYOOGhLksRTVFZd+LHW9CM6K6DQgH
- cvoWHH9XnyWSRuP+eM9+C+Cb0lKNfsKe+WauCgnLxVyTAJCfFBfQdwOlcGIk0fTgvWo/
- MVwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=udRlNNeBNqhAgXCIOcJa0b4vX++DdmVnpvbaLOj43HU=;
- b=O6GsKxMl4VEadWVu3alMn31uwrbHrOl/Gou6Wnh0X+O5fINQbSfXLr/hPjcQDKTBns
- 9cbLK3V5QduVa0AiethVmP86ESlTNmeK3Jm4aWYg7U9FuqZjAZx6B5tptsiu8W5+3Wl+
- gfyXtJ5150GpkFwyi2bxdDp1yEIPt33mGsz+5fPiDZqcoIpifII2lPbwPDGoYpdYJUnq
- DsdnIfzxZUuqOtdDUb0/ZBuD1DdANxtO9etXyoT+/GI472NnNhOB9Dq2aEjgOTWj2c1P
- GL4TpiXhyU/wTiQ0JFqN4joG/mrCHqCHghouCDDDxZVS0MjMlyALl7JpgoDmPZe3/Gnq
- 7PQg==
-X-Gm-Message-State: ACrzQf0Dd2Gmh6GLmghALKSV5JutwmixcQz0Z1hCLcTKMaxhCUspBhzl
- bMyrIq87byci8cBXMZsNZJ553tMiphkMaQ2F
-X-Google-Smtp-Source: AMsMyM4DEJLK4wUyF+a02Z9HJ3HBoTvF7cBJGunGSt4QlyYkDW4/GhtpOH3ywmkkKY3kDBRUf7gdgg==
-X-Received: by 2002:a17:902:e5c2:b0:178:2eca:9dea with SMTP id
- u2-20020a170902e5c200b001782eca9deamr12804529plf.73.1663589918401; 
- Mon, 19 Sep 2022 05:18:38 -0700 (PDT)
-Received: from fedora.gitgo.cc ([2400:9ce0:11b3:acbc:7e66:5bee:653c:ded3])
- by smtp.gmail.com with ESMTPSA id
- k2-20020aa79d02000000b0053e8368ec34sm3989869pfp.32.2022.09.19.05.18.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Sep 2022 05:18:37 -0700 (PDT)
-From: Li Feng <fengli@smartx.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-block@nongnu.org (open list:Block layer core),
- qemu-devel@nongnu.org (open list:All patches CC here)
-Cc: lifeng1519@gmail.com,
-	Li Feng <fengli@smartx.com>
-Subject: [PATCH] vhost-user-blk: fix the resize crash
-Date: Mon, 19 Sep 2022 20:18:16 +0800
-Message-Id: <20220919121816.3252223-1-fengli@smartx.com>
-X-Mailer: git-send-email 2.37.3
+ (Exim 4.90_1) (envelope-from <liuhaiwei9699@126.com>)
+ id 1oaFtD-000252-TX
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 08:28:44 -0400
+Received: from mail-m965.mail.126.com ([123.126.96.5]:57846)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liuhaiwei9699@126.com>) id 1oaFt8-0005CG-Oi
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 08:28:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=IllWk
+ RQ4x6aAU4fb3oe9rqTwTvLLwjReNkx0dTL13kQ=; b=cnadqVrBCLsphYhic9zQn
+ JbThNxHaFKEZY1cMJWSJnZ9fI3NsUHRN9sO2WmmQHDNnTGgjx6lt5kh4gndZG0Nn
+ Qw89ituBP7wowW/lBGrqNQOC8S0AdigDHssXiIqYvenGvuzeF/JT57XJeIeO8/M7
+ Nq/htlNOXpXb4CNw1S2cmQ=
+Received: from localhost.localdomain (unknown [60.208.111.213])
+ by smtp10 (Coremail) with SMTP id NuRpCgCnqDhsYChjoCJ5CA--.65147S2;
+ Mon, 19 Sep 2022 20:28:30 +0800 (CST)
+From: liuhaiwei <liuhaiwei9699@126.com>
+To: qemu-devel@nongnu.org
+Cc: mst@redhat.com,
+	jasowang@redhat.com,
+	liuhaiwei <liuhaiwei9699@126.com>
+Subject: [PATCH] virtio-net: set the max of queue size to 4096 according to
+ the virtio specs, The maximum Queue Size value is 32768 :
+ https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs01.html#x1-240006
+Date: Mon, 19 Sep 2022 08:28:22 -0400
+Message-Id: <20220919122822.1928748-1-liuhaiwei9699@126.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::42e;
- envelope-from=fengli@smartx.com; helo=mail-pf1-x42e.google.com
+X-CM-TRANSID: NuRpCgCnqDhsYChjoCJ5CA--.65147S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3Ww4xGryfWr1DJrW3XF47urg_yoWxJFy5p3
+ 4DAF9Yvw18Kr4ftayftFnxGry7ur1kG3ZrWryagryqk3WkWrn8Xw1DGFW5GFWxKFs5J3y8
+ Gr4vqay0qw1UZ3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jz0PfUUUUU=
+X-Originating-IP: [60.208.111.213]
+X-CM-SenderInfo: xolxxt5lzhxmqwzzqiyswou0bp/1tbi7Q6B1lpEAvXeggAAsB
+Received-SPF: pass client-ip=123.126.96.5; envelope-from=liuhaiwei9699@126.com;
+ helo=mail-m965.mail.126.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,33 +72,175 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the os is not installed and doesn't have the virtio guest driver,
-the vhost dev isn't started, so the dev->vdev is NULL.
+the limit of maximum of rx_queue_size and tx_queue to 1024 is so small as to affect our network performance when using the  virtio-net and vhost ,
+we cannot set the maximum size beyond 1k.
+why not enlarge the maximum size (such as 4096) when using the vhost backend?
 
-Reproduce: mount a Win 2019 iso, go into the install ui, then resize
-the virtio-blk device, qemu crash.
-
-Signed-off-by: Li Feng <fengli@smartx.com>
+Signed-off-by: liuhaiwei <liuhaiwei9699@126.com>
 ---
- hw/block/vhost-user-blk.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/net/virtio-net.c        | 47 +++++++++++++++++++++++++++-----------
+ hw/virtio/virtio.c         |  8 +++++--
+ include/hw/virtio/virtio.h |  1 +
+ 3 files changed, 41 insertions(+), 15 deletions(-)
 
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 9117222456..db30bb754f 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -95,6 +95,10 @@ static int vhost_user_blk_handle_config_change(struct vhost_dev *dev)
-     VHostUserBlk *s = VHOST_USER_BLK(dev->vdev);
-     Error *local_err = NULL;
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index dd0d056fde..4b56484855 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -52,12 +52,11 @@
+ #define MAX_VLAN    (1 << 12)   /* Per 802.1Q definition */
  
-+    if (!dev->started) {
-+        return 0;
+ /* previously fixed value */
+-#define VIRTIO_NET_RX_QUEUE_DEFAULT_SIZE 256
+-#define VIRTIO_NET_TX_QUEUE_DEFAULT_SIZE 256
++#define VIRTIO_NET_VHOST_USER_DEFAULT_SIZE 2048
+ 
+ /* for now, only allow larger queue_pairs; with virtio-1, guest can downsize */
+-#define VIRTIO_NET_RX_QUEUE_MIN_SIZE VIRTIO_NET_RX_QUEUE_DEFAULT_SIZE
+-#define VIRTIO_NET_TX_QUEUE_MIN_SIZE VIRTIO_NET_TX_QUEUE_DEFAULT_SIZE
++#define VIRTIO_NET_RX_QUEUE_MIN_SIZE 256
++#define VIRTIO_NET_TX_QUEUE_MIN_SIZE 256
+ 
+ #define VIRTIO_NET_IP4_ADDR_SIZE   8        /* ipv4 saddr + daddr */
+ 
+@@ -594,6 +593,28 @@ static int peer_has_ufo(VirtIONet *n)
+     return n->has_ufo;
+ }
+ 
++static void virtio_net_set_default_queue_size(VirtIONet *n)
++{
++    NetClientState *peer = n->nic_conf.peers.ncs[0];
++
++    /* Default value is 0 if not set */
++    if (n->net_conf.rx_queue_size == 0) {
++        if (peer && peer->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
++            n->net_conf.rx_queue_size = VIRTIO_NET_VHOST_USER_DEFAULT_SIZE;
++        } else {
++            n->net_conf.rx_queue_size = VIRTIO_NET_VQ_MAX_SIZE;
++        }
 +    }
 +
-     ret = vhost_dev_get_config(dev, (uint8_t *)&blkcfg,
-                                sizeof(struct virtio_blk_config),
-                                &local_err);
++    if (n->net_conf.tx_queue_size == 0) {
++        if (peer && peer->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
++            n->net_conf.tx_queue_size = VIRTIO_NET_VHOST_USER_DEFAULT_SIZE;
++        } else {
++            n->net_conf.tx_queue_size = VIRTIO_NET_VQ_MAX_SIZE;
++        }
++    }
++}
++
+ static void virtio_net_set_mrg_rx_bufs(VirtIONet *n, int mergeable_rx_bufs,
+                                        int version_1, int hash_report)
+ {
+@@ -633,7 +654,7 @@ static int virtio_net_max_tx_queue_size(VirtIONet *n)
+      * size.
+      */
+     if (!peer) {
+-        return VIRTIO_NET_TX_QUEUE_DEFAULT_SIZE;
++        return VIRTIO_NET_VQ_MAX_SIZE;
+     }
+ 
+     switch(peer->info->type) {
+@@ -641,7 +662,7 @@ static int virtio_net_max_tx_queue_size(VirtIONet *n)
+     case NET_CLIENT_DRIVER_VHOST_VDPA:
+         return VIRTQUEUE_MAX_SIZE;
+     default:
+-        return VIRTIO_NET_TX_QUEUE_DEFAULT_SIZE;
++        return VIRTIO_NET_VQ_MAX_SIZE;
+     };
+ }
+ 
+@@ -3450,30 +3471,30 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
+ 
+     virtio_net_set_config_size(n, n->host_features);
+     virtio_init(vdev, VIRTIO_ID_NET, n->config_size);
+-
++    virtio_net_set_default_queue_size(n);
+     /*
+      * We set a lower limit on RX queue size to what it always was.
+      * Guests that want a smaller ring can always resize it without
+      * help from us (using virtio 1 and up).
+      */
+     if (n->net_conf.rx_queue_size < VIRTIO_NET_RX_QUEUE_MIN_SIZE ||
+-        n->net_conf.rx_queue_size > VIRTQUEUE_MAX_SIZE ||
++        n->net_conf.rx_queue_size > VIRTIO_NET_VQ_MAX_SIZE ||
+         !is_power_of_2(n->net_conf.rx_queue_size)) {
+         error_setg(errp, "Invalid rx_queue_size (= %" PRIu16 "), "
+                    "must be a power of 2 between %d and %d.",
+                    n->net_conf.rx_queue_size, VIRTIO_NET_RX_QUEUE_MIN_SIZE,
+-                   VIRTQUEUE_MAX_SIZE);
++                   VIRTIO_NET_VQ_MAX_SIZE );
+         virtio_cleanup(vdev);
+         return;
+     }
+ 
+     if (n->net_conf.tx_queue_size < VIRTIO_NET_TX_QUEUE_MIN_SIZE ||
+-        n->net_conf.tx_queue_size > VIRTQUEUE_MAX_SIZE ||
++        n->net_conf.tx_queue_size > VIRTIO_NET_VQ_MAX_SIZE ||
+         !is_power_of_2(n->net_conf.tx_queue_size)) {
+         error_setg(errp, "Invalid tx_queue_size (= %" PRIu16 "), "
+                    "must be a power of 2 between %d and %d",
+                    n->net_conf.tx_queue_size, VIRTIO_NET_TX_QUEUE_MIN_SIZE,
+-                   VIRTQUEUE_MAX_SIZE);
++                   VIRTIO_NET_VQ_MAX_SIZE);
+         virtio_cleanup(vdev);
+         return;
+     }
+@@ -3751,9 +3772,9 @@ static Property virtio_net_properties[] = {
+     DEFINE_PROP_INT32("x-txburst", VirtIONet, net_conf.txburst, TX_BURST),
+     DEFINE_PROP_STRING("tx", VirtIONet, net_conf.tx),
+     DEFINE_PROP_UINT16("rx_queue_size", VirtIONet, net_conf.rx_queue_size,
+-                       VIRTIO_NET_RX_QUEUE_DEFAULT_SIZE),
++                       0),
+     DEFINE_PROP_UINT16("tx_queue_size", VirtIONet, net_conf.tx_queue_size,
+-                       VIRTIO_NET_TX_QUEUE_DEFAULT_SIZE),
++                       0),
+     DEFINE_PROP_UINT16("host_mtu", VirtIONet, net_conf.mtu, 0),
+     DEFINE_PROP_BOOL("x-mtu-bypass-backend", VirtIONet, mtu_bypass_backend,
+                      true),
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 5d607aeaa0..ad9dfa20e7 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2286,11 +2286,15 @@ void virtio_queue_set_rings(VirtIODevice *vdev, int n, hwaddr desc,
+ 
+ void virtio_queue_set_num(VirtIODevice *vdev, int n, int num)
+ {
++    int vq_max_size = VIRTQUEUE_MAX_SIZE;
++    if (!strcmp(vdev->name, "virtio-net")) {
++        vq_max_size = VIRTIO_NET_VQ_MAX_SIZE;
++    }
+     /* Don't allow guest to flip queue between existent and
+      * nonexistent states, or to set it to an invalid size.
+      */
+     if (!!num != !!vdev->vq[n].vring.num ||
+-        num > VIRTQUEUE_MAX_SIZE ||
++        num > vq_max_size ||
+         num < 0) {
+         return;
+     }
+@@ -2423,7 +2427,7 @@ VirtQueue *virtio_add_queue(VirtIODevice *vdev, int queue_size,
+             break;
+     }
+ 
+-    if (i == VIRTIO_QUEUE_MAX || queue_size > VIRTQUEUE_MAX_SIZE)
++    if (i == VIRTIO_QUEUE_MAX )
+         abort();
+ 
+     vdev->vq[i].vring.num = queue_size;
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index db1c0ddf6b..1f4d2eb5d7 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -50,6 +50,7 @@ size_t virtio_feature_get_config_size(const VirtIOFeature *features,
+ typedef struct VirtQueue VirtQueue;
+ 
+ #define VIRTQUEUE_MAX_SIZE 1024
++#define VIRTIO_NET_VQ_MAX_SIZE (4096)
+ 
+ typedef struct VirtQueueElement
+ {
 -- 
-2.37.3
+2.27.0
 
 
