@@ -2,137 +2,134 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44325BCCCA
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 15:18:58 +0200 (CEST)
-Received: from localhost ([::1]:46070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A764F5BCD25
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 15:28:00 +0200 (CEST)
+Received: from localhost ([::1]:44444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaGfp-0001V1-Na
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 09:18:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48618)
+	id 1oaGoZ-0007yP-Lt
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 09:27:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>) id 1oaGa7-0005Dt-CV
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 09:13:03 -0400
-Received: from mail-he1eur04on0702.outbound.protection.outlook.com
- ([2a01:111:f400:fe0d::702]:63764
- helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>) id 1oaGaJ-0005Yn-Cz
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 09:13:15 -0400
+Received: from mail-eopbgr70114.outbound.protection.outlook.com
+ ([40.107.7.114]:35555 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>) id 1oaGa3-0005Fk-1b
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 09:13:02 -0400
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>) id 1oaGaH-0005HY-09
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 09:13:14 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aSeGyBDq+c6Kntz/FfkPkeunSS1hgQDN1y7oRCpmfx+iUZCk1PLoAtx5zmr/d722wT0JD3Os54N1GW7VU+wCRo27+af4PibzKPapawceJOQRWbFy06swXWYdNHhuysE8TYbd29JgHVB38zJ0ue7IDy+vipReuIBewESNCQy526Ram2uPVQNTOJ8Q/gMjEG0OUloSTuYmqBOVkAoqjXX4MDJT9RgULVnTxsWbYvDKeCVIfS8+gxE9AX7xAgSoWxy/Zvq5m0XM8een/i6HBgnkLjrCnGO14LW3uKXgK4TqnVaMa5ok4X+66qmWA0RKMAYHkKV7T0t7tdHwX4FC40k+iQ==
+ b=NnfmNY0sToQcitzWuLJFIJbPGZd9Fj8M/Do6BKz/1oDZ5oRu0Cc+732SP7Uo/0MTY8r8VNGYUCKSUGKNSyjTcCaYG7Td57Qe4tvm0gg73LzumJULsxc/QCFXy3zXmMfLGYCB/wx1k3YJWLFbkHkj6Jdb4SrxV/4eqb8qAM/OZwv6c2ZfQZCcBzhkaHnM2rGxlw71n3xP4KoI6clSDA4B6fkFY7kH0huG5rF6a6pI+Xb4ToyGEuHJZBQPcaWAMAwH5vXIuprn4Vsapq1ZAbpIVgOr3AHoqClrLuFdfAQ3WM11lnLBsYtgVCG7fJXSFpvsN4kQpAfmtO1mRTaFlo14dg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qN7keurVMwW6/80YiDNGYeISRKhj4gFRFR5Lu5a1oWI=;
- b=JRIfZzv6iT3GAn8382VohyKFzS/HZ9DPwmb/tmAtOJ0rZdLY+cgoPF3BM4+fF+LQ/kxoMhltwCfDGwg4J3BmnpQDGUu3ED31FzWPT7kqE3w8S1ySvyQZ4OumE63h5XZnWGefVzRNDDkW+D1I4v4Rqin1ztQpX4woo3FnhrqwAlPoPO+QVan613/oBG3DDWxUfFQrjSKnVxcvzR9x89zS0zxLQaDG42Ys08tm4V+1hx+6KehO1305cMzl0XhnrPjut2D34MoGNCkJYqdhraqrzbUcfRcrjFcrmgg5XhptQIKaXYPlIj5qENNiOpYucdACdC3jDr536qFZ7DHokCstxg==
+ bh=ST9tm813lMFjZTFHlX3NhJvLUEKJj+C8ENceLHmrwmE=;
+ b=grgREnz6seCqH8mvJCnGECc++lLKktODJS9c8Ex2tfBF9kAQfLnwqC9ssVyxuGK/67zFXfJGAa+wgIPUj023QjKWmGFjYEGA3f26QwaRqzFj7KiNMjnulncTu5GaIDRzsBeBeb37inelveDcoD9YYFYX8KQGpGXbLxaB1TnlPwXlRZMeLXN3d2z7feHUc1TM345xPG2jESieQ/atneAjNi04QT1HvgNffppOzsy0SX1lMKaK6QWxd7ka/ZVhavL7SrItoNeXmSvTXJA16+yO4xpn592VvglHpPq6T5TsJPwesM73h4cJS374hMkfXTTvBflHhVNRz19WIP7gDI2K/Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qN7keurVMwW6/80YiDNGYeISRKhj4gFRFR5Lu5a1oWI=;
- b=v9gMnL6ZAaJHVCNBnxuodU8qlSY2uYrbMRM+LI8XRsF2W9zwHdt6Hm++cnE3tt47hKOo+aEN6loRFf0rcOg6lyDE4P2PoM1p7ttvfTX021wt5gAOJJ9F42f8+6s0hFYxdcTJOZIyjEoBioEVSJZZxpP9hKEzfostKGdsQZ7mg0jUnK+allyGtq+7/qc1xMUVy1Xae7gdxCKG/8kq+dbq3N9AWAMrBdUKgZLZ/WcyB+uMV9nubXpNUh4nPsUSd+pCe17+8oYYeHOQCtJjq4Lfk59oJ4ieU/ahes7gmHPk+D3La/dhQ/029qFSBVzq7g1y4Hua1E1XcQ8ZelQ6amML0g==
+ bh=ST9tm813lMFjZTFHlX3NhJvLUEKJj+C8ENceLHmrwmE=;
+ b=ESjIsijpwK1390f/3EHcaKUYcQplxSoFYfFORRwRq2lByYw0hKyXc7Mg/EHmjNJaWQLIrTlM1tMQ7QTOIiu2T0kTutJuNJ18Ot1o+2fP1ZznSUNoVRu3KGNhcl+bAxDrtM+AqkJ9Q0UzG6uNO/eWQ9yveCo2lbPGTJVXDa+3wEG0Ioj5IalaMQw6f9h5TFToKWe1gqP1rG/AVKlfORwRH1ABCIxwuxLDhRdtetckB9rmuMcUbqqhC0eupILrUpMghDyysEZDrQEtbNJO8Y85IsNQOVODtNsy7nGCEqCQtwomvkT2ngRN002yedY3uhpERBFoRaE9WBBSocUOcvomXg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from PAXPR08MB6956.eurprd08.prod.outlook.com (2603:10a6:102:1db::9)
- by GV1PR08MB7347.eurprd08.prod.outlook.com (2603:10a6:150:22::19)
+ by PR3PR08MB5771.eurprd08.prod.outlook.com (2603:10a6:102:83::23)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.15; Mon, 19 Sep
- 2022 13:07:50 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.21; Mon, 19 Sep
+ 2022 13:13:08 +0000
 Received: from PAXPR08MB6956.eurprd08.prod.outlook.com
  ([fe80::f173:be01:d26d:8d2a]) by PAXPR08MB6956.eurprd08.prod.outlook.com
  ([fe80::f173:be01:d26d:8d2a%7]) with mapi id 15.20.5632.021; Mon, 19 Sep 2022
- 13:07:50 +0000
-Message-ID: <491ee271-0342-d281-c9f2-e1c3e0c5f74b@virtuozzo.com>
-Date: Mon, 19 Sep 2022 15:07:49 +0200
+ 13:13:08 +0000
+Message-ID: <69fdd561-4231-cf02-7438-2bf5acef4794@virtuozzo.com>
+Date: Mon, 19 Sep 2022 15:13:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v3 1/5] tests/x86: Add subtest with 'q35' machine type to
- device-plug-test
+Subject: Re: [PATCH v3 2/5] tests/x86: Add 'q35' machine type to ivshmem-test
 Content-Language: en-US
 To: Michael Labiuk <michael.labiuk@virtuozzo.com>, qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 References: <20220915131407.372485-1-michael.labiuk@virtuozzo.com>
- <20220915131407.372485-2-michael.labiuk@virtuozzo.com>
+ <20220915131407.372485-3-michael.labiuk@virtuozzo.com>
 From: "Denis V. Lunev" <den@virtuozzo.com>
-In-Reply-To: <20220915131407.372485-2-michael.labiuk@virtuozzo.com>
+In-Reply-To: <20220915131407.372485-3-michael.labiuk@virtuozzo.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR0302CA0018.eurprd03.prod.outlook.com
- (2603:10a6:800:e9::28) To PAXPR08MB6956.eurprd08.prod.outlook.com
+X-ClientProxiedBy: VI1PR06CA0165.eurprd06.prod.outlook.com
+ (2603:10a6:803:c8::22) To PAXPR08MB6956.eurprd08.prod.outlook.com
  (2603:10a6:102:1db::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR08MB6956:EE_|GV1PR08MB7347:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2dc2fcf1-046a-4ebb-02b5-08da9a3ff4c4
+X-MS-TrafficTypeDiagnostic: PAXPR08MB6956:EE_|PR3PR08MB5771:EE_
+X-MS-Office365-Filtering-Correlation-Id: b2328042-8d30-4e07-9a79-08da9a40b239
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wkz1p2HuCOLjq+d09Q8sX4+rJT1ZU6Rpp90gp/MgAG5hhEpLS7E2fUwiXA5pq0B6ftOSHrqxX/8lLg44g1Uz5tohodFHzeo2zPqPXj+8/ee+PRWk222DY017vmocIeeqSZccUPj/YVDp47fEby1HQtYJ+wEbKGKqinEgHdf1x+V8vyvp55ZphUKVo//OS+RTwCuPS8S7EljPTOX0l/QlIpGf+WBSIToClMh1bIYLAe4kDYteTrupSPy96W9Fx6eB+1B2eMzQ20FAzFX94ligLxni8H8HjOO1FXjFSvxdykWb836JaNjwlTyb/7gokPXEBqs10hZyRVPqCDAXwCbaqZmnEw/hMK/gqEvry8cPKQrccTHA4kl9cqdYitYhCdt46aorLWSietOFk/YNZplgs9qp8MBx4e8bk6DvbZiIECcFIVEDxvZdLbmcJB/gKINUQTPJtiPUtN4MTgV5R/2x9emukhG+fZ6YTfydjoGVBi4SJRh+wkB1X4u/szqiCYqPssKTupf/GgKqdGLx7QWbxKcUCC5/adZoSQtUCKNXbiD735bYHokU6hIcxmHZsqzruu+0iIYID7RgneL4eLvopEYM8umjLKB7dUcqIQsfkZe/IoNELdPMHjcvJk7Z5alVmkRwfeTtSuB6CagWcaTmtQ4CQAdD2wDeBp7y8cFJpZMJNNNieKoY98vnHOHn+rZN2P1AZHxGss98F1Llnv0WXINy6fVyXMg1CM/c7jVyQOXb0dwYnIcznlmlyoFHTyFLEjT5du78EJWMA2gr/FeIb6b/ia2+VQKsa8gAJiIZ4ZbSfO9KLWlUex16DgDpDNV8Ri+DE4ms1I5HWJLz/PrGhQ==
+X-Microsoft-Antispam-Message-Info: /qa1mm61UKiNE+plXSycuyy6AwxQco7VYqOO5umcpWOZejwBnQ4a5+KzJrf1ky6Malqu2O96uYkiVw2u0YtUkzhx7uwwz+iJBqs3RHSUhqF8QlsUHy3vT1x4hrKZZdcSHU+zAtMykCLujb18uMvJygVyIQNrz7fQGVSTGX2CJ6JSjRhDLDYojb/SXmF4myXoTPt3reOmeIR2jA+JnkL+LIrTNX3bCU0KAFntDqQN23QDEAw45iVRgG/SavqR2SXNd7AJp4iDrbROP6YI50RZAmwbc7i4JQ7XXJWfr3G2p5+GuhZnAYn24DoMliJ1+1o838mP741hE4VbZ/FAUNrmsFtL8i5yU4irT6D2RNy6A2n0gm7h+QNTj1AEK6MFlO3Fdg62rbnB1iEilaVDsOKEmf1OaII+Y3yjT17FOjxNLQJXO1cCsFengBuduhiNTTHgb+yHt/sXI577dgLuhxHB4XnaQNxDQR8fErGFgrfUSGGP5DMbojA7GBRLVfET+hn9Gggabu2O/MhSUHkL/V217ZL8m00g2fS4K1FT/VLJ3H39J//c3TR6QtFDk6upgv/tLGzeaHWNxcO9B3EokjNf0lGUZti414zGYTTG9k1AIFhi9Mehk/2emBW+dul2uZOf1+cXgAiMTlGxo94xpBQYUTgIDzXjokm+15AgZ2JYMkCcUL8gDw3i95QcM7OX1aCNKeAWWsJDcYCO5AQCnL/tg0mZKoJNBZG1XGn9qHofCefXdXXDNSkF12tovKl5yBFRnUnoRM9jsR4IMUyd8IpC6w1heWGFuYAlqIu8VnCsCJm5v4EdADv/47TfVlJnatRVLaW2dvusl+pu8RSECix8Qw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PAXPR08MB6956.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(39850400004)(136003)(346002)(366004)(396003)(376002)(451199015)(83380400001)(86362001)(8936002)(41300700001)(2616005)(186003)(478600001)(5660300002)(53546011)(4326008)(316002)(54906003)(66556008)(66476007)(52116002)(6512007)(6486002)(8676002)(66946007)(6506007)(38350700002)(38100700002)(31696002)(31686004)(2906002)(36756003)(26005)(43740500002)(45980500001);
+ SFS:(13230022)(4636009)(346002)(376002)(39850400004)(396003)(136003)(366004)(451199015)(2906002)(31686004)(36756003)(316002)(38350700002)(38100700002)(4326008)(66556008)(8676002)(66476007)(5660300002)(66946007)(8936002)(31696002)(54906003)(86362001)(186003)(478600001)(2616005)(6512007)(26005)(83380400001)(6506007)(6486002)(53546011)(41300700001)(52116002)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d0ZHbnd1allVcnU2VExLcDliT3UxaVU5Ry9aTUJyWmltbFR4ODVJazAwLy9B?=
- =?utf-8?B?d2pGYk1nR2orc2xBOWV2TUVEZVc4QlpVcytmeUJaUWpVazJwc0FUNHFydE0z?=
- =?utf-8?B?UzNqdGg0Nk9yalpKLzhSUmprRzVrZncyWUJ5TlB1YUhPTit6bUxidE1VTWx3?=
- =?utf-8?B?OElHeW9ENk04WGFkOUdwWE5Bc1lBVithclZPQVJiVldjQjlKdTdzU1VSL280?=
- =?utf-8?B?bnB5SnBTZTBMbHNrbU5pc3Q3VTROanZCd3cxRkl1aDczZGE5bGExVFl3SWdO?=
- =?utf-8?B?UVZCZXo1MDRMOWlQYzVBeS9yMCtRNFJ1OWtXRWxGL0FoQThDdmFTY1Byelln?=
- =?utf-8?B?clRJYndYNE1nYkxoZmhrcjBLUzRVdVBzay93VktYR0FYNmFmSUo3UG40aDA3?=
- =?utf-8?B?Z1lFTDRQUWFBVUtSaUNBS3pXZCtkY0hQa1NLdFNPN29BRGc0SUJIVFhkempm?=
- =?utf-8?B?Q1RsNFlPRStYSFNCYlFUT2RpK2NuVXBGMW9kVmZrWTZQejhIWGRoOXMrc2E0?=
- =?utf-8?B?K2YrSGVUdmtDY0RaekcvWDZHK3RncFNremJYUGJIMExIVjNsV1U3OVAyWitw?=
- =?utf-8?B?dVJ2ZzIySnk4cmNpRU1PcGlBd1JuNE1pNmxBcDV6WENHb0ZvRnlKRTdUNWRQ?=
- =?utf-8?B?UDFpay9IRnI0ZmFIQUIxb1R6eGtaSUtEaUJCRVVLTGhXK09YL3IxNGRMdGhH?=
- =?utf-8?B?bGdIUFR0Ui9wMTRqZFArR29jVzJFZGhVUVJyekw5OVRpeUpnajBhYmF2OXhS?=
- =?utf-8?B?M3ExWDFRK2ErVStWYXUyOHdFVUI3MDBocWlrRC9VNGxjMzBrbXFkaU5vdVVO?=
- =?utf-8?B?RllOZEE1My8wU1R0d2VpaVBpaENmQWdwREhNeEdPN2JUSXpQVnFzcmVBOHcr?=
- =?utf-8?B?N1dIWjNMNm02cVdsa3ZCL2pEQ2ZSeUNQQzYvTy9ET2k4TENHN1dWM3BFYzdt?=
- =?utf-8?B?dlNEOU81OFVncDBKbVo4R1ZKNUZtclE4ZjBUbXhlaEU0TTdIajNaOEgvZ3cy?=
- =?utf-8?B?UlVUTkVLWWFDVVJLeUk0RUdzOTdmTzY3K1A5YmFaL2U3Z0V3NzE1QjNuWnha?=
- =?utf-8?B?M3lSVHEvaWlUR2h2eFFvb3pVUUpKVERTaEx4eWdKSkpUUTRPSGxITHduSWFX?=
- =?utf-8?B?cGoxU0wxeHhlV1ZTVWhMcTc1V2tPSGsrSis1bnMxS0ZncGdsbnErTDl2S0lB?=
- =?utf-8?B?TXNIS29VR2tOSEhOWnhhV0RLWXlwemlQY204dVh3TVJoMEx6a3F3a0QxMk01?=
- =?utf-8?B?WkJhQWVFZmpYbTBzVjBDeEJaRnJBTGczYXVuYnRWZUxyMld4WW5EZFQrR3Bo?=
- =?utf-8?B?aWlSaDlYOWZmQmJzR0RlNDllYkNXS05jZ3BzRVZ1OEtPd3NOWTlXRFFGL1V6?=
- =?utf-8?B?dDhEUVowRTV2L3lQc0ZpL0trUlNnbUNuL2t3TnJGL3MrcXdmRVhFbmRGZGgx?=
- =?utf-8?B?c2tlVTRIcWFhQ084bW5wd20wY0N6aHhRL0tzODk0VVc4SnFETlVMVDBOTnJt?=
- =?utf-8?B?bzhFc2VwbDVqWHk5K1BiWlBtdU0wUTVGdDhIS1VIMXpMWFV0T3lCVnRETHhh?=
- =?utf-8?B?Mmo2enZvVHV3VGRveGloRFNISEFIVnozdzROT0wrS1lzQ1BuRTBVOTJsSVpi?=
- =?utf-8?B?VXdua1k1VzZqdlJraEpzbHZKN2trdms0OXMrTjNPa0o3TWZzNjFjYWlTTW9B?=
- =?utf-8?B?OTFsa2RKazhaWlFiSzAxOHF3Uk5RQ2lUQjlhY2lsZlJhYUdvNXNIdUpCV21U?=
- =?utf-8?B?cm55OVN3d3gwaThWNFVXSjN4M0tjZENWYTE2b1pnZHRjRzR1NWNrZ210TlhD?=
- =?utf-8?B?U1dQbWt6LzQ5Q2dtc01uM2NpTHFuVkVCNTRlN2kxWkFJcXM3QkxCdXR5elAy?=
- =?utf-8?B?amt2aWhSREZOL0FyWG5GWmlrTktlc2VQbFpjWnFFTGdXcC9Cbm1tYiszWDRB?=
- =?utf-8?B?cCtTNE5RNzFFcVVoaG91ZitwQlE3WldJa3ErZjZoMGRZeW9QMnBuTThkejB3?=
- =?utf-8?B?N2NaejhBLzJOM01FR3EyZExuSUUreFJQTEg1aGMrMy9rQjA1d0pHbjBPVDB2?=
- =?utf-8?B?K25xbSt6N2JRYm00cjIxcW1JZXFxU1JqK2ZnQkNybVpPc2NRZUZEN0Q4a3U5?=
- =?utf-8?Q?6gNNw/gg/I4DpY1lIAdYzVFa3?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MHZhRERYQ2pHUHczVXJmRzd6L2l3dUVHQ3lvT0pEcEoyRHJERm5DVGtOOEZa?=
+ =?utf-8?B?ZWZmREhCSG01R1djZ0FhVU5VSmRIWHJPOVdoY2JYODFnYXZ0SmttRmZ6cCtN?=
+ =?utf-8?B?dVdoUnM5cEhlMFB1dlo5OW9JK2VWaCt6QUhMcnZ6bTZMVzdDS1FNUE5RN2lk?=
+ =?utf-8?B?V0dlNTM5NHgwajN2NUQvOWNoVVIrLy9EaFFDZE5zdk1zOFFEQkl6Y09mZE5H?=
+ =?utf-8?B?bW1IeEdVYzFSV0dNN0ZiMTRwU0lzd3lpMmtlelNsQVF1UHNPeXJmZnJQNkF3?=
+ =?utf-8?B?NExhSVMvVXFLSTlMTnNJOCtYa0NWR2poRGl0VDc3NDdUQ2tYcDVYc2xpcERn?=
+ =?utf-8?B?a1g2U3p5bG5kWXZkM0ZJYXpTSnNVR2RPMURRSU5XdU1wN1pRYTloKzJ6WDVx?=
+ =?utf-8?B?N2M1Y05xbEZpRzdjYWk5WmZQVXl0VHUrTXp3c0tiZ2J2RE1ROEs2VTY4Um5k?=
+ =?utf-8?B?cFllSGd0d0VzQm1INm9TSCthek90M2lRUENGUFNaaUlaKzR2UjQ0KzFoWkRH?=
+ =?utf-8?B?MG1lM1Q2dVVNM2VBRDZzcTRtd0hVVWNNWk1nVjRYSmdTdHRoekZsS1k1ODQr?=
+ =?utf-8?B?am8vaUVpMm5acjh6MHdWVXgrWHcrbTNYY2lhRDlnS1hLUDJUcGVVckMzdjBS?=
+ =?utf-8?B?UmExcnV5UEdXbmxId1JJYzFIQnJtZ2NSdTUrRkRHdTVXNVFYZ3FDeVRSUlUv?=
+ =?utf-8?B?aE9ITW9ETkJxR3REdnY2S1BsL2xBTDNRNTZFQXNuWFFEV004NkZkQTZSTm91?=
+ =?utf-8?B?SzRWcjlRWTRmUVZFMEFkTE5yL3FMQVA1c3B5UnM4SDhrRmtsSGJxNUg5UHdK?=
+ =?utf-8?B?SVM5N25WVnF3cHVhTHRBK1NRdU1mNys0a3lRT1B5L0lDYjdRTUZCRVFiQUdS?=
+ =?utf-8?B?M0Z3aTY5a2tQOE83UDMva3lZV2oyZGcrTlpOT2xEVG9NSUwrU09OYk9tdTEx?=
+ =?utf-8?B?K1l0SHlVdHM5NDlGMThGV2puOUJ0bWZUMlVkcEhXaHR3SUhUWFZRUFA4S0VP?=
+ =?utf-8?B?Tm5UK0d2aldxdFM4VVFhSzdIcVlHWmc2R0tMajlCR3BEMGxjdkZTeC9YRjNx?=
+ =?utf-8?B?S09LRmhtUmJheUNOZ1g1ZzRMUE5TdllSTHNnZWtmZ1dsanAxaDVZd3JKbTZ0?=
+ =?utf-8?B?am8xNnhaTWpDczcwc1lzSWNHSDVxQlo5KysyUTVJMk12RS9JK081eU5KbVd3?=
+ =?utf-8?B?M202dXJKRDg5Nm9vRm8ySVJQN3Bjam5MMXczNEtHaXJOcW55TTQyakVzR01w?=
+ =?utf-8?B?SXVSdEFoQ1JudTM0TEo3N2lJSVJGUDd2U1BUK0EzSDdiOENxemhSWDRzVTBk?=
+ =?utf-8?B?Rkg1ZGVwZW1sdkNDWmlxTnlsTTk5OVZVbFVkMHZnTVZaMmxYaVRzSEtGUExL?=
+ =?utf-8?B?VDZjVStCUHl1cldVS2src2M2b3pqdHFaek9TTCtZdkJVdk1objJYTjNPdWo4?=
+ =?utf-8?B?VkR5aWRVclQwZ2hkcjc1REo4dW9VeWdFSHNoNlM3Wmo1Q3E3MlpOcGJhM3FL?=
+ =?utf-8?B?R0NHTStocGFta25sT0VJa3N4Y3ZaK1NWV1ppdm83YnV6ZU5UUkRTMXlZdzc4?=
+ =?utf-8?B?UmdZSUNqMzRXUVFrbndkMUk4cytoSTdQb3I1L0JvbE5hWm1BU29vT2RkakJ1?=
+ =?utf-8?B?SjBJQWMwSVJXeXAzSmxSSE5PZWZIa3A1aytZZlFyZEtMT1lvaXhXK3V6eDRp?=
+ =?utf-8?B?cXA3eCtTZHJhaXhOQkZaLysyb3pTdCtCUHlRSkErUnl1Wnc3eWUxRVhROGhi?=
+ =?utf-8?B?THJaaTRoVmU2eU5lNXRnYTlnZWFjbU1sR0RvRTI3K1BXelFUaVdERThneTZj?=
+ =?utf-8?B?MWFoOUtBWUc0Z01qK1JiNjkxSFRWZ2VDY01aU2JiZitBNVU0Z0VUTDRqM0Mw?=
+ =?utf-8?B?cllOS3ZENXQ0L1FDSk1LV2JJbHdvWVAvVHlJNTgxWDZVbkFtTDNiOHY2R1VH?=
+ =?utf-8?B?citKa1EwWGhRanA4WGxEd0dEb3lYZm9aWkJvYzlPNW1ZWDg0RFUvSFNqZjBH?=
+ =?utf-8?B?VUNRUk1HMTROQ25nMEhSUDhWZVZzUEJyMXRtR0lRUitsSnh2YWNIZ3VoS21G?=
+ =?utf-8?B?REhqUG4rOUxrYkhjb1YzRk5jbnVVcC9GQ3dUSmVNMmkyVXFvL0I2NVVYM1Zy?=
+ =?utf-8?Q?f7Z7SeAwFfmuloeE36jqfr8Jl?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2dc2fcf1-046a-4ebb-02b5-08da9a3ff4c4
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2328042-8d30-4e07-9a79-08da9a40b239
 X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6956.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2022 13:07:50.7543 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2022 13:13:08.6300 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uh0YwoD855Kc0AUDbDeLiuZrKDDuzubHq1IKeR3fmlxvS5UNfeg67PVKtng6jBxNnk9jxREg0+9aFkIj2fWdAg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB7347
-Received-SPF: pass client-ip=2a01:111:f400:fe0d::702;
- envelope-from=den@virtuozzo.com;
+X-MS-Exchange-CrossTenant-UserPrincipalName: b3bdXlC2p1A3yM3UDpRkVz9QCR0QQSqv1LLCUDVusQG02UAbg2FEuvwJV4cNTFYpt44KpDRfLEKAxr6SBlwzUg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR08MB5771
+Received-SPF: pass client-ip=40.107.7.114; envelope-from=den@virtuozzo.com;
  helo=EUR04-HE1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.952,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -150,151 +147,74 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/15/22 15:14, Michael Labiuk wrote:
-> Configure pci bridge setting to plug pci device and unplug.
-> Move common code for device removing to function.
+> Configure pci bridge setting to test ivshmem on 'q35'.
+< empty line here is needed
 > Signed-off-by: Michael Labiuk <michael.labiuk@virtuozzo.com>
 > ---
->   tests/qtest/device-plug-test.c | 83 ++++++++++++++++++++++++----------
->   1 file changed, 58 insertions(+), 25 deletions(-)
+>   tests/qtest/ivshmem-test.c | 30 ++++++++++++++++++++++++++++++
+>   1 file changed, 30 insertions(+)
 >
-> diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
-> index a1fb99c8ff..d66c386ef4 100644
-> --- a/tests/qtest/device-plug-test.c
-> +++ b/tests/qtest/device-plug-test.c
-> @@ -61,6 +61,18 @@ static void wait_device_deleted_event(QTestState *qtest, const char *id)
->       }
+> diff --git a/tests/qtest/ivshmem-test.c b/tests/qtest/ivshmem-test.c
+> index 9611d05eb5..0f9755abc6 100644
+> --- a/tests/qtest/ivshmem-test.c
+> +++ b/tests/qtest/ivshmem-test.c
+> @@ -378,6 +378,32 @@ static void test_ivshmem_server(void)
+>       close(thread.pipe[0]);
 >   }
 >   
-> +static void process_device_remove(QTestState *qtest, const char *id)
+> +static void device_del(QTestState *qtest, const char *id)
 > +{
-> +    /*
-> +     * Request device removal. As the guest is not running, the request won't
-> +     * be processed. However during system reset, the removal will be
-> +     * handled, removing the device.
-> +     */
-> +    device_del(qtest, id);
-> +    system_reset(qtest);
-> +    wait_device_deleted_event(qtest, id);
+> +    QDict *resp;
+> +
+> +    resp = qtest_qmp(qtest,
+> +                     "{'execute': 'device_del',"
+> +                     " 'arguments': { 'id': %s } }", id);
+> +
+> +    g_assert(qdict_haskey(resp, "return"));
+> +    qobject_unref(resp);
 > +}
-> +
->   static void test_pci_unplug_request(void)
->   {
->       const char *arch = qtest_get_arch();
-> @@ -73,14 +85,20 @@ static void test_pci_unplug_request(void)
->       QTestState *qtest = qtest_initf("%s -device virtio-mouse-pci,id=dev0",
->                                       machine_addition);
->   
-> -    /*
-> -     * Request device removal. As the guest is not running, the request won't
-> -     * be processed. However during system reset, the removal will be
-> -     * handled, removing the device.
-> -     */
-> -    device_del(qtest, "dev0");
-> -    system_reset(qtest);
-> -    wait_device_deleted_event(qtest, "dev0");
-> +    process_device_remove(qtest, "dev0");
-> +
-> +    qtest_quit(qtest);
-> +}
-> +
-> +static void test_q35_pci_unplug_request(void)
-> +{
-> +
-> +    QTestState *qtest = qtest_initf("-machine q35 "
-> +                                    "-device pcie-root-port,id=p1 "
-> +                                    "-device pcie-pci-bridge,bus=p1,id=b1 "
-> +                                    "-device virtio-mouse-pci,bus=b1,id=dev0");
-> +
-> +    process_device_remove(qtest, "dev0");
->   
->       qtest_quit(qtest);
->   }
-> @@ -98,14 +116,28 @@ static void test_pci_unplug_json_request(void)
->           "%s -device \"{'driver': 'virtio-mouse-pci', 'id': 'dev0'}\"",
->           machine_addition);
->   
-> -    /*
-> -     * Request device removal. As the guest is not running, the request won't
-> -     * be processed. However during system reset, the removal will be
-> -     * handled, removing the device.
-> -     */
-> -    device_del(qtest, "dev0");
-> -    system_reset(qtest);
-> -    wait_device_deleted_event(qtest, "dev0");
-> +    process_device_remove(qtest, "dev0");
-> +
-> +    qtest_quit(qtest);
-> +}
-> +
-> +static void test_q35_pci_unplug_json_request(void)
-> +{
-> +    const char *port = "-device '{\"driver\": \"pcie-root-port\", "
-> +                                      "\"id\": \"p1\"}'";
-> +
-> +    const char *bridge = "-device '{\"driver\": \"pcie-pci-bridge\", "
-> +                                   "\"id\": \"b1\", "
-> +                                   "\"bus\": \"p1\"}'";
-> +
-> +    const char *device = "-device '{\"driver\": \"virtio-mouse-pci\", "
-> +                                   "\"bus\": \"b1\", "
-> +                                   "\"id\": \"dev0\"}'";
-> +
-> +    QTestState *qtest = qtest_initf("-machine q35 %s %s %s",
-> +                                    port, bridge, device);
-> +
-> +    process_device_remove(qtest, "dev0");
->   
->       qtest_quit(qtest);
->   }
-> @@ -128,9 +160,7 @@ static void test_spapr_cpu_unplug_request(void)
->                           "-device power9_v2.0-spapr-cpu-core,core-id=1,id=dev0");
->   
->       /* similar to test_pci_unplug_request */
-> -    device_del(qtest, "dev0");
-> -    system_reset(qtest);
-> -    wait_device_deleted_event(qtest, "dev0");
-> +    process_device_remove(qtest, "dev0");
->   
->       qtest_quit(qtest);
->   }
-> @@ -144,9 +174,7 @@ static void test_spapr_memory_unplug_request(void)
->                           "-device pc-dimm,id=dev0,memdev=mem0");
->   
->       /* similar to test_pci_unplug_request */
-> -    device_del(qtest, "dev0");
-> -    system_reset(qtest);
-> -    wait_device_deleted_event(qtest, "dev0");
-> +    process_device_remove(qtest, "dev0");
->   
->       qtest_quit(qtest);
->   }
-> @@ -158,9 +186,7 @@ static void test_spapr_phb_unplug_request(void)
->       qtest = qtest_initf("-device spapr-pci-host-bridge,index=1,id=dev0");
->   
->       /* similar to test_pci_unplug_request */
-> -    device_del(qtest, "dev0");
-> -    system_reset(qtest);
-> -    wait_device_deleted_event(qtest, "dev0");
-> +    process_device_remove(qtest, "dev0");
->   
->       qtest_quit(qtest);
->   }
-> @@ -195,5 +221,12 @@ int main(int argc, char **argv)
->                          test_spapr_phb_unplug_request);
->       }
->   
-> +    if (!strcmp(arch, "x86_64")) {
-> +        qtest_add_func("/device-plug/q35-pci-unplug-request",
-> +                   test_q35_pci_unplug_request);
-> +        qtest_add_func("/device-plug/q35-pci-unplug-json-request",
-> +                   test_q35_pci_unplug_json_request);
-> +    }
-> +
->       return g_test_run();
->   }
-this patch mixes non-functional changes - process_device_remove() helper
-introduction and functional ones - new test cases added. It is mandatory
-to have such stuff separated into different patches.
+hmmm, why do we need this helper if it is not used anywhere in next
+and this patches?
 
-Den
+it is also unclear to me why don't we do 'device_del' for other archs.
+May be this is to be clarified in the patch description or worth
+additional patch.
+
+> +
+> +static void test_ivshmem_hotplug_q35(void)
+> +{
+> +    QTestState *qts = qtest_init("-object memory-backend-ram,size=1M,id=mb1 "
+> +                                 "-device pcie-root-port,id=p1 "
+> +                                 "-device pcie-pci-bridge,bus=p1,id=b1 "
+> +                                 "-machine q35");
+> +
+> +    qtest_qmp_device_add(qts, "ivshmem-plain", "iv1",
+> +                         "{'memdev': 'mb1', 'bus': 'b1'}");
+> +    device_del(qts, "iv1");
+> +
+> +    qtest_quit(qts);
+> +}
+> +
+>   #define PCI_SLOT_HP             0x06
+>   
+>   static void test_ivshmem_hotplug(void)
+> @@ -469,6 +495,7 @@ int main(int argc, char **argv)
+>   {
+>       int ret, fd;
+>       gchar dir[] = "/tmp/ivshmem-test.XXXXXX";
+> +    const char *arch = qtest_get_arch();
+>   
+>       g_test_init(&argc, &argv, NULL);
+>   
+> @@ -494,6 +521,9 @@ int main(int argc, char **argv)
+>           qtest_add_func("/ivshmem/pair", test_ivshmem_pair);
+>           qtest_add_func("/ivshmem/server", test_ivshmem_server);
+>       }
+> +    if (!strcmp(arch, "x86_64")) {
+> +        qtest_add_func("/ivshmem/hotplug-q35", test_ivshmem_hotplug_q35);
+> +    }
+>   
+>   out:
+>       ret = g_test_run();
+
 
