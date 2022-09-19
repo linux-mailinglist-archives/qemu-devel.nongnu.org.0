@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 412D15BD484
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 20:08:35 +0200 (CEST)
-Received: from localhost ([::1]:58198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA75D5BD455
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 20:04:56 +0200 (CEST)
+Received: from localhost ([::1]:41864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaLC6-0003S3-AU
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 14:08:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48210)
+	id 1oaL8Y-0004nL-Ma
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 14:04:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oaKgI-0003UQ-2X
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:35:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37596)
+ id 1oaKgB-0003Kw-Qn
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:35:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oaKgE-0003Dw-Lv
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:35:40 -0400
+ id 1oaKg0-0003By-UL
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:35:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663608937;
+ s=mimecast20190719; t=1663608924;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2juENqXZ9tAn1nL0v4LoFaAo4E6Rk3IU7RmOIiZ5244=;
- b=Db5hH1YV8SJsDELHLe+0Vw3ANL4wvPj3HWxD/ri9RTlmZe7OFUv6yMqocAmNDWPQHQ5WRS
- z/Jru7Hf4M+2ZgZ7w2q3Hb3m3LX6urISfJhre9fbKKYWpdw8maDY4hG4yvQUmEyofwYvA7
- 5nF368cOLN/8c5eMmVIGVk965WoHPiM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=k4C0VUgdBwQ6L57zBQtY/ZfQFEkt7lIRQ5EO43Tbgjc=;
+ b=CBKkWbox2AI7wF2HInnFbQSoPc4yaFzqrTAeSKOni+/6PPIfyrHBeLt0+3TsIFo4VvQPJU
+ mL7E2OqYOk6Xpo++0zzvkDm0TZrpYr2etqpSl5U+xopLHbWOfk4P3l9rMw2DPOzgngcMJd
+ oEYQ8c0ggPUicmEUiKzPYVHPgvB+r7k=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-606-a9UErLVBPgG7XTR1Dvnc0w-1; Mon, 19 Sep 2022 13:35:20 -0400
-X-MC-Unique: a9UErLVBPgG7XTR1Dvnc0w-1
-Received: by mail-wm1-f70.google.com with SMTP id
- o25-20020a05600c339900b003b2973dab88so15447651wmp.6
- for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 10:35:20 -0700 (PDT)
+ us-mta-526-9t5nxkJ_OIK32G7pDR4jhA-1; Mon, 19 Sep 2022 13:35:23 -0400
+X-MC-Unique: 9t5nxkJ_OIK32G7pDR4jhA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ c128-20020a1c3586000000b003b324bb08c5so4945389wma.9
+ for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 10:35:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=2juENqXZ9tAn1nL0v4LoFaAo4E6Rk3IU7RmOIiZ5244=;
- b=bV0jeW6gqDg1gHFutIuE9htKjG+Q35NsVr9MqbOC8KtoRUpKpaZ5/ezAVyFwwtfhYh
- Io4mYncodae72Ry2PpXfChwHvsh6wXLJidrMGcCPoQ/dnSbYBmDGHJLTrsxrNx27fpse
- yqSWTqAfGyNJoGyzwEHNk8i0klmHS4VFANdohFJbt18vjCf+x08QD6fnMNl95fK/b3X4
- 30w6SyFxqn94NYM85lsQCWP3dXBquLEQbEFatxVbN8ojInEUZ7wny7LYZl4muWlovXsP
- PF+k+K5x7PqO6U6beenQkWaAvE373TnGzEENLPopGsQbU9Qao0Q9afd6buvrrHTldY6H
- XfJg==
-X-Gm-Message-State: ACgBeo1OWya081B6Q8SOpr/hXWvRmW6bdF92YUYK9A6IO2RXXw0moiIA
- YuqnEQWe0uIn2/pgfyog9g7BIxAQL5jPFuWOMPEnfIwEqTK431D2q+bue3SwKpHGQZsU3HtvXYf
- iu8Vh1VE1a0qs4ZMxAFNcvKxC9RXFDEvU8eXxtB14TbOG2GrNzc1xOtxed21HQ0fAGlE=
-X-Received: by 2002:a05:600c:898:b0:3b4:8110:7fab with SMTP id
- l24-20020a05600c089800b003b481107fabmr19027357wmp.19.1663608919036; 
- Mon, 19 Sep 2022 10:35:19 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4ly6GQjod3Et5wV9FV9doJ8dq695/vPMPV6mtvElAdRMaWsf3XPmvW4PnVNUTT9EJaRiIj+g==
-X-Received: by 2002:a05:600c:898:b0:3b4:8110:7fab with SMTP id
- l24-20020a05600c089800b003b481107fabmr19027343wmp.19.1663608918683; 
- Mon, 19 Sep 2022 10:35:18 -0700 (PDT)
+ bh=k4C0VUgdBwQ6L57zBQtY/ZfQFEkt7lIRQ5EO43Tbgjc=;
+ b=d4lHUzWbFy9mpvPxOvf4VseIP4iTbqxDtIK3Ny7Y/L8ZBI2JTdoPNA7MdnD3y+OBg0
+ WyAwcsHDUKcKZChauzKFjtM7Cd1Php8i13IiR4LGMql4/YwE0BXWDtk/zm6grbcSgDFO
+ IljFPia0PCYlMjKq3lM9MOoRZns9WaVrKzsAbtYjOrHM3AhkSmFA6y7PrXzIs9S4eXZq
+ KLwc2vfKP1qh/D6U+Km7DqCcdeOCnW7USLSpruSmVbjyGyld2YDIRXHZ8wHfJWX1ycad
+ MXKH9xUEMVQ5kXb/txf+u7NJZ+VXqPMqqC2r/RBLL3DX0iBUKdZMoaK1E6YfP67A0gV5
+ pxOw==
+X-Gm-Message-State: ACrzQf1ylpd7cWKKowg8Hrqbr/C88WA0vpvThjsiLDPVmjsKX9llV7Kt
+ DuezDPT1jKLilepsNaaC1GT+ZH3WRofO8r8mjE0j3NxkuWsfOb+gQbGlcP1zAOuNmJHAOhW7Aka
+ 4sdYBcIWInxzqZBLgZ5ycmEvFPC2iPClKKePb6+E1nan5RZc9LlVRqcApqX/s1U6avp4=
+X-Received: by 2002:a05:600c:2050:b0:3b4:a51a:a1f5 with SMTP id
+ p16-20020a05600c205000b003b4a51aa1f5mr12526224wmg.177.1663608920431; 
+ Mon, 19 Sep 2022 10:35:20 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4InAA0/H2U9hf30K9I0RjPWSUtlDR5J+YZCnPOTXTbUBJBYCNnBPcmBnASmydt13buST85BQ==
+X-Received: by 2002:a05:600c:2050:b0:3b4:a51a:a1f5 with SMTP id
+ p16-20020a05600c205000b003b4a51aa1f5mr12526211wmg.177.1663608920174; 
+ Mon, 19 Sep 2022 10:35:20 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- x1-20020adfdd81000000b002205cbc1c74sm10278239wrl.101.2022.09.19.10.35.17
+ m9-20020a056000008900b00228cbac7a25sm14137814wrx.64.2022.09.19.10.35.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Sep 2022 10:35:18 -0700 (PDT)
+ Mon, 19 Sep 2022 10:35:19 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 18/21] target/i386: REPZ and REPNZ are mutually exclusive
-Date: Mon, 19 Sep 2022 19:34:46 +0200
-Message-Id: <20220919173449.5864-19-pbonzini@redhat.com>
+Subject: [PULL 19/21] target/i386: introduce insn_get_addr
+Date: Mon, 19 Sep 2022 19:34:47 +0200
+Message-Id: <20220919173449.5864-20-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220919173449.5864-1-pbonzini@redhat.com>
 References: <20220919173449.5864-1-pbonzini@redhat.com>
@@ -100,30 +100,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The later prefix wins if both are present, make it show in s->prefix too.
+The "O" operand type in the Intel SDM needs to load an 8- to 64-bit
+unsigned value, while insn_get is limited to 32 bits.  Extract the code
+out of disas_insn and into a separate function.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/tcg/translate.c | 2 ++
- 1 file changed, 2 insertions(+)
+ target/i386/tcg/translate.c | 36 ++++++++++++++++++++++++++----------
+ 1 file changed, 26 insertions(+), 10 deletions(-)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 5f31a59fb8..eaa56b0f48 100644
+index eaa56b0f48..44af8c107f 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -4733,9 +4733,11 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-     switch (b) {
-     case 0xf3:
-         prefixes |= PREFIX_REPZ;
-+        prefixes &= ~PREFIX_REPNZ;
-         goto next_byte;
-     case 0xf2:
-         prefixes |= PREFIX_REPNZ;
-+        prefixes &= ~PREFIX_REPZ;
-         goto next_byte;
-     case 0xf0:
-         prefixes |= PREFIX_LOCK;
+@@ -2289,6 +2289,31 @@ static void gen_ldst_modrm(CPUX86State *env, DisasContext *s, int modrm,
+     }
+ }
+ 
++static target_ulong insn_get_addr(CPUX86State *env, DisasContext *s, MemOp ot)
++{
++    target_ulong ret;
++
++    switch (ot) {
++    case MO_8:
++        ret = x86_ldub_code(env, s);
++        break;
++    case MO_16:
++        ret = x86_lduw_code(env, s);
++        break;
++    case MO_32:
++        ret = x86_ldl_code(env, s);
++        break;
++#ifdef TARGET_X86_64
++    case MO_64:
++        ret = x86_ldq_code(env, s);
++        break;
++#endif
++    default:
++        g_assert_not_reached();
++    }
++    return ret;
++}
++
+ static inline uint32_t insn_get(CPUX86State *env, DisasContext *s, MemOp ot)
+ {
+     uint32_t ret;
+@@ -5851,16 +5876,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             target_ulong offset_addr;
+ 
+             ot = mo_b_d(b, dflag);
+-            switch (s->aflag) {
+-#ifdef TARGET_X86_64
+-            case MO_64:
+-                offset_addr = x86_ldq_code(env, s);
+-                break;
+-#endif
+-            default:
+-                offset_addr = insn_get(env, s, s->aflag);
+-                break;
+-            }
++            offset_addr = insn_get_addr(env, s, s->aflag);
+             tcg_gen_movi_tl(s->A0, offset_addr);
+             gen_add_A0_ds_seg(s);
+             if ((b & 2) == 0) {
 -- 
 2.37.2
 
