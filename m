@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 301E05BD4AD
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 20:16:40 +0200 (CEST)
-Received: from localhost ([::1]:38174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 863365BD4B9
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 20:26:00 +0200 (CEST)
+Received: from localhost ([::1]:38420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaLJv-0005wj-8H
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 14:16:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39352)
+	id 1oaLSx-0004xb-2g
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 14:25:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oaLAX-0008QG-13
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 14:06:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57953)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oaLCv-0004p2-4W
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 14:09:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46023)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oaLAQ-0007fg-5R
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 14:06:55 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oaLCs-0007wx-Sv
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 14:09:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663610809;
+ s=mimecast20190719; t=1663610961;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5CBfkqJXcSSqqQO+sYCLFPShazhO6vPZSlOIPh91+eE=;
- b=Cp5wUQSH3eTh+lcu6XDEBfUHs/znV07d7i8oD9K2sZA/qGXYP0P+w8Fwu11TawIOxb5oKL
- 2DONtZ4KIkEuBePjfOxAoldKzqXUxNWPH7N/8MNYlyWg2Hog9JdEUYBZjPDg7ITQQ22w9e
- pL9vujHZH2nO83ABE+kCahshgOro4Bg=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QypTAxQwlIZxCKfCpJ2mPulEqP4o5N1ky60yeNAwcHg=;
+ b=ZaQKFMo6WfQwwmzz7bXyG00spsSrwskklajB9L/vrf8utUso3bgIPAxYr6R3Kk2xC8mdaA
+ MdbZmj+LmPrjrHN7SYkOzmMI+UgX9yQvukBuYq0QBo2YRQrUkpXzL5Sx8O2bbM6kn8JA1U
+ C/j+JLtVXQCtb4bkYUJnEkatQf1DJvE=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-454-za2CrSaKMpOnf-Ba6rnjHg-1; Mon, 19 Sep 2022 14:06:48 -0400
-X-MC-Unique: za2CrSaKMpOnf-Ba6rnjHg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- z13-20020a05640240cd00b0045276a79364so165345edb.2
- for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 11:06:47 -0700 (PDT)
+ us-mta-663-udf8d9kaPJ-Plrwok5hwsw-1; Mon, 19 Sep 2022 14:09:20 -0400
+X-MC-Unique: udf8d9kaPJ-Plrwok5hwsw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ c6-20020a05640227c600b004521382116dso122786ede.22
+ for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 11:09:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=5CBfkqJXcSSqqQO+sYCLFPShazhO6vPZSlOIPh91+eE=;
- b=D5YgW/EJW8p4ff8bC0CIhq+B28lnrgzuzCbeqhrbUPfKAXr5sb6WW9BFKW1rcLFNaZ
- HAIi+4zcZTS4GtU/kyYWZBEUtAQT8OGf224bk/rx1/dccG/gawLGxhGrMLXMQ4j1EwxV
- IhCGlIPQNOqlNDrGaknw3QRxe98E+VscVQ0bxL3fWhGhhuBVeHEfFldSdAJC1hEKbIj5
- 4SZqjKeWV2G06CbAgICUg/169JJlgHXLENCZy1urfyaTCzo2MJckKCiGJVF4qi1cm88N
- midmkW7KRFAyZWVa7ypfvH2kKaxGDs5WicKt75uu7UzKCkr5QCefaxijEyOBXpkq+H/Z
- gwow==
-X-Gm-Message-State: ACrzQf0rqLhSOdXovyGAy4+yDmy2+2N3OWylmDqY6GxACaM1Irt8LeYt
- NHNG/7Do9UHUtx7nKjUzD0uolL6TaAxeQQ1ljk8ICRDczo2G42kv/2DUhzFjDZgIGzn4wibIP6I
- zSFLN/JLfEhc1DFY=
-X-Received: by 2002:a05:6402:240d:b0:442:b0c4:9e02 with SMTP id
- t13-20020a056402240d00b00442b0c49e02mr16709923eda.210.1663610807052; 
- Mon, 19 Sep 2022 11:06:47 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7l9LFf3hwMpyXWaiQ24xNtjRo57CBiCoQXMPtop7iJmE3Xu6Bm/vNUWK2CV+rv2xY0R0mWzw==
-X-Received: by 2002:a05:6402:240d:b0:442:b0c4:9e02 with SMTP id
- t13-20020a056402240d00b00442b0c49e02mr16709910eda.210.1663610806848; 
- Mon, 19 Sep 2022 11:06:46 -0700 (PDT)
+ bh=QypTAxQwlIZxCKfCpJ2mPulEqP4o5N1ky60yeNAwcHg=;
+ b=Yi58+6QrA07QNi/g4dfVt171F0HC8B8Hd3/mZaob2vEgOA5JIlZD+6OmLiGL+VkJmq
+ +OSlW3QIoMvb9rzvPJKtQQh/o3mZAqnTLH1SP0apkhhOcKFzoM1VeF/8DYJlvxfc3mEF
+ DEQFzghGbo5/xBIjOJghbuVdPLdY8qUF7koKJ5bhmkZMp+eaHmw7fA2BocVbvXHSxXLr
+ Lcwmsn2mqlB20DG44w4ZPPjR08T+YK1AcLk7koGTDhEbDLtLNsZuGxv0OTeNv78CgOat
+ +QsyOIikd6BrozMbabHVEvu4kvCmnZh6iRN1fs0lho+urBt85Jo98074j+RuNpolpEpR
+ Qisg==
+X-Gm-Message-State: ACrzQf3CAjK09JLWoR8VEGj4nlYugQ4cO5vsKoj5rKHnFPAVN7p59WqO
+ tSkq34BEsEC3Xj0XR1uw+EM8BUSV67BMQUEPwhayCAlThjNkx9Z73bYe14PVafkciWSLMRtVBpZ
+ Shs4YM0I2OpHoo9o=
+X-Received: by 2002:a17:906:fd86:b0:777:d739:1ede with SMTP id
+ xa6-20020a170906fd8600b00777d7391edemr13319282ejb.576.1663610959235; 
+ Mon, 19 Sep 2022 11:09:19 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5HY6YVH2EEegc0L83SsiBAmG+vnPx7X93VE+b+YX/sGnbaVF5U2xS/8r3H/hST0IRvTNRVDQ==
+X-Received: by 2002:a17:906:fd86:b0:777:d739:1ede with SMTP id
+ xa6-20020a170906fd8600b00777d7391edemr13319269ejb.576.1663610959039; 
+ Mon, 19 Sep 2022 11:09:19 -0700 (PDT)
 Received: from [192.168.8.103] (tmo-083-219.customers.d1-online.com.
  [80.187.83.219]) by smtp.gmail.com with ESMTPSA id
- u2-20020a1709061da200b00764a76d5888sm15817324ejh.27.2022.09.19.11.06.44
+ i5-20020a170906698500b007081282cbd8sm15956329ejr.76.2022.09.19.11.09.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Sep 2022 11:06:46 -0700 (PDT)
-Message-ID: <f89980b4-01ca-8c1c-df7c-e529e1eb8e52@redhat.com>
-Date: Mon, 19 Sep 2022 20:06:43 +0200
+ Mon, 19 Sep 2022 11:09:18 -0700 (PDT)
+Message-ID: <dbc0fb51-2546-7792-bc7e-b07024f2ede7@redhat.com>
+Date: Mon, 19 Sep 2022 20:09:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH 8/8] meson-build: test-crypto-secret depends on
- CONFIG_SECRET_KEYRING
+Subject: Re: [PATCH 0/8] tests: Make expliction defaults for tests
 Content-Language: en-US
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Daniel P. Berrange" <berrange@redhat.com>
-Cc: Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+To: Alexander Bulekov <alxndr@bu.edu>, Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Darren Kenny <darren.kenny@oracle.com>, Stefan Hajnoczi
  <stefanha@redhat.com>, Ani Sinha <ani@anisinha.ca>,
  "Michael S. Tsirkin" <mst@redhat.com>, Fam Zheng <fam@euphon.net>,
@@ -84,20 +82,20 @@ Cc: Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-block@nongnu.org
 References: <20220902165126.1482-1-quintela@redhat.com>
- <20220902165126.1482-9-quintela@redhat.com>
+ <20220902171640.qki2azr6qffhj6lp@mozz.bu.edu>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220902165126.1482-9-quintela@redhat.com>
+In-Reply-To: <20220902171640.qki2azr6qffhj6lp@mozz.bu.edu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.952, RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.952, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,37 +111,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/09/2022 18.51, Juan Quintela wrote:
-> With this change "make check" works when configured with --disable-keyring.
+On 02/09/2022 19.16, Alexander Bulekov wrote:
+> On 220902 1851, Juan Quintela wrote:
+>> Hi
+>>
+>> For a long, long time I have had local hacks on my tree to be able to
+>> run "make tests" when I have a minimal configure guest.  This is a
+>> first try to upstream some of it.
+>>
+>> - by default we always setup -display none (it already was the
+>>    default, but some places added it anyways)
+>>
+>> - by default we always setup -net none.  Not clear what was the
+>>    default, but no tests use the default net, so it is safe change and
+>>    now it is explicit.
+>>
+>> - by default we always setup -vga none.  This is a complete difference
+>>    can of worms.  Every tests that use vga already set vga correctly,
+>>    so this is quite obvious, right?  Now they are acpi tables.  They
+>>    are a mess.  And basically this means remove a device for each one
+>>    of them.  Why going through all the trouble?  Because while I am
+>>    develping, I normall compile out vga.
+>>
+>> - Fix several error strings that were set with copy paste.
+>>
+>> - replication test requires CONFIG_REPLICATION.
+>> - test-crypto-secret requires CONFIG_SECRET_KEYRING.
+>>
+>> Please review.  Except for the acpi changes (that I hope I have done
+>> right following the instructions) the rest is quite obvious.
 > 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> ---
->   tests/unit/meson.build | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tests/unit/meson.build b/tests/unit/meson.build
-> index b497a41378..988aed27cb 100644
-> --- a/tests/unit/meson.build
-> +++ b/tests/unit/meson.build
-> @@ -78,7 +78,6 @@ if have_block
->       'test-crypto-hmac': [crypto],
->       'test-crypto-cipher': [crypto],
->       'test-crypto-akcipher': [crypto],
-> -    'test-crypto-secret': [crypto, keyutils],
->       'test-crypto-der': [crypto],
->       'test-authz-simple': [authz],
->       'test-authz-list': [authz],
-> @@ -122,6 +121,9 @@ if have_block
->     if config_host_data.get('CONFIG_EPOLL_CREATE1')
->       tests += {'test-fdmon-epoll': [testblock]}
->     endif
-> +  if config_host_data.get('CONFIG_SECRET_KEYRING')
-> +    tests += {'test-crypto-secret': [crypto, keyutils]}
-> +  endif
->   endif
->   
->   if have_system
+> I think this might break some of the fuzz regression tests, because they
+> have "baked-in" PCI configuration commands with hard-coded PCI
+> addresses, which will shift around if some device is removed (e.g. with
+> -net none). Probably the fix is to add addr=... to the -device parameter
+> in the fuzz tests to keep the PCI address stable.
+> -Alex
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+The patches to default to -net none and -vga none are a good idea, but I 
+agree with Alexander - this needs some careful examination of the fuzz tests 
+first to see whether the BARs are changed here or not.
+
+  Thomas
 
 
