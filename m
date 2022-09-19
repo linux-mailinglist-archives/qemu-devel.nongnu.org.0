@@ -2,40 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C47FD5BCC84
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 15:06:03 +0200 (CEST)
-Received: from localhost ([::1]:37680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A60045BCC50
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 14:58:28 +0200 (CEST)
+Received: from localhost ([::1]:46638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaGTK-0001x0-Rb
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 09:06:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47994)
+	id 1oaGLz-0005OP-PJ
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 08:58:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oaGCy-0001Xf-SY
+ id 1oaGCy-0001WV-IS
  for qemu-devel@nongnu.org; Mon, 19 Sep 2022 08:49:08 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:50908 helo=loongson.cn)
+Received: from mail.loongson.cn ([114.242.206.163]:50916 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oaGCv-0000I1-VM
+ (envelope-from <gaosong@loongson.cn>) id 1oaGCv-0000I3-SR
  for qemu-devel@nongnu.org; Mon, 19 Sep 2022 08:49:08 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Cx72s9ZShjN8QdAA--.43684S2; 
- Mon, 19 Sep 2022 20:49:01 +0800 (CST)
+ AQAAf8Cx72s9ZShjN8QdAA--.43684S3; 
+ Mon, 19 Sep 2022 20:49:03 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org,
-	stefanha@gmail.com
-Subject: [PULL 0/9] loongarch-to-apply queue
-Date: Mon, 19 Sep 2022 20:48:52 +0800
-Message-Id: <20220919124901.2653396-1-gaosong@loongson.cn>
+Cc: richard.henderson@linaro.org, stefanha@gmail.com,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>
+Subject: [PULL 1/9] hw/loongarch: Remove vga device when loongarch init
+Date: Mon, 19 Sep 2022 20:48:53 +0800
+Message-Id: <20220919124901.2653396-2-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20220919124901.2653396-1-gaosong@loongson.cn>
+References: <20220919124901.2653396-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Cx72s9ZShjN8QdAA--.43684S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Ary8KF4xuFW8Kr1fZFyDAwb_yoW8Gw4xpr
- W3Zr13Ar4rJr9rJrn3J3sxXrn8Ars7Gr42qF17tr18CrWUAr1UXr1xAry8ZFyUJ34xJr1q
- vr18Cw1UWF4UJrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf8Cx72s9ZShjN8QdAA--.43684S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7AFWfGw47Gr4kGF1xCrW3Jrb_yoW8JFWUpr
+ ZxZF1kGrW8JrsrJrZFq34kWF1DJFn7Gry2vF4Sy34vkFyDZr95Zr1rZ34qyFyUA3yrJFyI
+ qr95G3yUX3W8GFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -60,39 +62,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit d29201ff34a135cdfc197f4413c1c5047e4f58bb:
+From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 
-  Merge tag 'pull-hmp-20220915a' of https://gitlab.com/dagrh/qemu into staging (2022-09-17 10:31:11 -0400)
+Remove the vga device when loongarch machine init and
+we will support other display device in the future.
 
-are available in the Git repository at:
+Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+Acked-by: Song Gao <gaosong@loongson.cn>
+Message-Id: <20220908094623.73051-2-yangxiaojuan@loongson.cn>
+Signed-off-by: Song Gao <gaosong@loongson.cn>
+---
+ hw/loongarch/Kconfig | 1 -
+ hw/loongarch/virt.c  | 3 ---
+ 2 files changed, 4 deletions(-)
 
-  https://gitlab.com/gaosong/qemu.git tags/pull-loongarch-20220919
-
-for you to fetch changes up to c06bc455a0ac03123548ac9a2a76e5887f9b9a89:
-
-  hw/loongarch: Improve acpi dsdt table (2022-09-19 20:01:41 +0800)
-
-----------------------------------------------------------------
-pull-loongarch
-
-----------------------------------------------------------------
-Xiaojuan Yang (9):
-      hw/loongarch: Remove vga device when loongarch init
-      hw/loongarch: Support fw_cfg dma function
-      hw/loongarch: Add interrupt information to FDT table
-      hw/loongarch: Add platform bus support
-      hw/loongarch: Add hotplug handler for machine
-      hw/loongarch: Add RAMFB to dynamic_sysbus_devices list
-      hw/loongarch: Fix acpi ged irq number in dsdt table
-      hw/loongarch: Support memory hotplug
-      hw/loongarch: Improve acpi dsdt table
-
- hw/loongarch/Kconfig        |   5 +-
- hw/loongarch/acpi-build.c   | 191 ++++++++++-------------------------------
- hw/loongarch/fw_cfg.c       |   3 +-
- hw/loongarch/virt.c         | 205 +++++++++++++++++++++++++++++++++++++++++++-
- include/hw/loongarch/virt.h |   2 +
- include/hw/pci-host/ls7a.h  |   5 ++
- 6 files changed, 259 insertions(+), 152 deletions(-)
+diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+index a99aa387c3..73c52b093e 100644
+--- a/hw/loongarch/Kconfig
++++ b/hw/loongarch/Kconfig
+@@ -2,7 +2,6 @@ config LOONGARCH_VIRT
+     bool
+     select PCI
+     select PCI_EXPRESS_GENERIC_BRIDGE
+-    imply VGA_PCI
+     imply VIRTIO_VGA
+     imply PCI_DEVICES
+     select ISA_BUS
+diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
+index 5cc0b05538..b56820ecda 100644
+--- a/hw/loongarch/virt.c
++++ b/hw/loongarch/virt.c
+@@ -378,9 +378,6 @@ static void loongarch_devices_init(DeviceState *pch_pic, LoongArchMachineState *
+         pci_nic_init_nofail(nd, pci_bus, nd->model, NULL);
+     }
+ 
+-    /* VGA setup */
+-    pci_vga_init(pci_bus);
+-
+     /*
+      * There are some invalid guest memory access.
+      * Create some unimplemented devices to emulate this.
+-- 
+2.31.1
 
 
