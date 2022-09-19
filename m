@@ -2,74 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88FC25BC2C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 08:18:32 +0200 (CEST)
-Received: from localhost ([::1]:55196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 060365BC2CB
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 08:27:43 +0200 (CEST)
+Received: from localhost ([::1]:40816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaA6x-00032m-6Q
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 02:18:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48312)
+	id 1oaAFp-0007G3-Bp
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 02:27:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1oaA1D-000058-TD
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 02:12:35 -0400
-Received: from mga01.intel.com ([192.55.52.88]:15254)
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1oaA8R-0003LX-W8
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 02:20:08 -0400
+Received: from mailout10.t-online.de ([194.25.134.21]:45106)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1oaA19-0005xD-QJ
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 02:12:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663567951; x=1695103951;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=xP07MG2LZpGM4fSELwtQs+nWzgGYK+3ztLksyhtQoIU=;
- b=UcadUj8jG1skcgUFB3vv0HDkbNv63BDhbl6RmTTu1xb5aEupfzt9VUGx
- PWWVYeP5CAGti/rxBt0BYb9DqhsCd9Dgx5DH2lJEogrp5mROBQsbm4snX
- SN9hegljwA8roN9L8H63UjCym+M/m3tV126gBUoyfp2KWvbEXegZwoDAE
- gymcZUOZLn7K3hLyjxfUYGOZWrcNFPNpgMyN7NoOt5U00N8LeyogLocXb
- bkKbNxn4Cs2b+ke322OYiznn8CV28GDC56FdW5E3RpV5D4ddIXi/OpHQf
- iYM0oiIEXMTrwW7Py1sgOrAnZdUmW9K/uBGvdTOmS74ICcUKAqTiJCyLC w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10474"; a="325601751"
-X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; d="scan'208";a="325601751"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2022 23:12:00 -0700
-X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; d="scan'208";a="947078454"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.170.149])
- ([10.249.170.149])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Sep 2022 23:11:57 -0700
-Message-ID: <a224206a-c5db-18a4-ecad-2c7132e12452@intel.com>
-Date: Mon, 19 Sep 2022 14:11:24 +0800
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1oaA8P-0006tf-8U
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 02:20:03 -0400
+Received: from fwd77.dcpf.telekom.de (fwd77.aul.t-online.de [10.223.144.103])
+ by mailout10.t-online.de (Postfix) with SMTP id 52D4FCDCA;
+ Mon, 19 Sep 2022 08:19:58 +0200 (CEST)
+Received: from linpower.localnet ([84.175.228.229]) by fwd77.t-online.de
+ with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+ esmtp id 1oaA8L-1NUYjp0; Mon, 19 Sep 2022 08:19:57 +0200
+Received: by linpower.localnet (Postfix, from userid 1000)
+ id D5E3A200613; Mon, 19 Sep 2022 08:19:56 +0200 (CEST)
+From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Kshitij Suri <kshitij.suri@nutanix.com>, qemu-devel@nongnu.org
+Subject: [PATCH v2] ui/console: fix three double frees in png_save()
+Date: Mon, 19 Sep 2022 08:19:56 +0200
+Message-Id: <20220919061956.30929-1-vr_qemu@t-online.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.13.0
-Subject: Re: [PATCH v6 2/2] i386: Add notify VM exit support
-Content-Language: en-US
-To: Chenyi Qiang <chenyi.qiang@intel.com>, Peter Xu <peterx@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti
- <mtosatti@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, qemu-devel@nongnu.org,
- kvm@vger.kernel.org
-References: <20220915092839.5518-1-chenyi.qiang@intel.com>
- <20220915092839.5518-3-chenyi.qiang@intel.com> <YyTxL7kstA20tB5a@xz-m1.local>
- <5beb9f1c-a419-94f7-a1b9-4aeb281baa41@intel.com>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <5beb9f1c-a419-94f7-a1b9-4aeb281baa41@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.88; envelope-from=xiaoyao.li@intel.com;
- helo=mga01.intel.com
-X-Spam_score_int: -87
-X-Spam_score: -8.8
-X-Spam_bar: --------
-X-Spam_report: (-8.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=0.999, NICE_REPLY_A=-3.657,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TOI-EXPURGATEID: 150726::1663568397-8A6BF81F-38F94621/0/0 CLEAN NORMAL
+X-TOI-MSGID: dcecec61-4d81-4fd7-b1af-351478b79d4d
+Received-SPF: none client-ip=194.25.134.21;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout10.t-online.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,39 +63,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/19/2022 1:46 PM, Chenyi Qiang wrote:
->> Not sure some warning would be also useful here, but I really don't know
->> the whole context so I can't tell whether there can easily be false
->> positives to pollute qemu log.
->>
-> 
-> The false positive case is not easy to happen unless some potential 
-> issues in silicon. But in case of it, to avoid polluting qemu log, how 
-> about:
-> 
-> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> index ae7fb2c495..8f97133cbf 100644
-> --- a/target/i386/kvm/kvm.c
-> +++ b/target/i386/kvm/kvm.c
-> @@ -5213,6 +5213,7 @@ int kvm_arch_handle_exit(CPUState *cs, struct 
-> kvm_run *run)
->           break;
->       case KVM_EXIT_NOTIFY:
->           ret = 0;
-> +        warn_report_once("KVM: notify window was exceeded in guest");
->           if (run->notify.flags & KVM_NOTIFY_CONTEXT_INVALID) {
->               warn_report("KVM: invalid context due to notify vmexit");
->               if (has_triple_fault_event) {
+The png_destroy_write_struct() function frees all memory used by
+libpng. Don't use the glib auto cleanup mechanism to free the
+memory allocated by libpng again. For the pixman image, use only the
+auto cleanup mechanism and remove the qemu_pixman_image_unref()
+function call to prevent another double free.
 
-how about this
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1210
+Fixes: 9a0a119a38 ("Added parameter to take screenshot with screendump as PNG")
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+---
+v2:
+There's no need to inititalize info_ptr with NULL. (Philippe)
 
-     case KVM_EXIT_NOTIFY:
-         bool ctx_invalid = run->notify.flags & KVM_NOTIFY_CONTEXT_INVALID;
-         ret = 0;
-         warn_report_once("KVM: Encounter notify exit with %svalid context",
-                          ctx_invalid ? "in" : "");
+ ui/console.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-         if (ctx_invalid) {
-             ...
-         }
+diff --git a/ui/console.c b/ui/console.c
+index 765892f84f..da179e1832 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -304,8 +304,8 @@ static bool png_save(int fd, pixman_image_t *image, Error **errp)
+ {
+     int width = pixman_image_get_width(image);
+     int height = pixman_image_get_height(image);
+-    g_autofree png_struct *png_ptr = NULL;
+-    g_autofree png_info *info_ptr = NULL;
++    png_struct *png_ptr;
++    png_info *info_ptr;
+     g_autoptr(pixman_image_t) linebuf =
+                             qemu_pixman_linebuf_create(PIXMAN_a8r8g8b8, width);
+     uint8_t *buf = (uint8_t *)pixman_image_get_data(linebuf);
+@@ -346,7 +346,6 @@ static bool png_save(int fd, pixman_image_t *image, Error **errp)
+         qemu_pixman_linebuf_fill(linebuf, image, width, 0, y);
+         png_write_row(png_ptr, buf);
+     }
+-    qemu_pixman_image_unref(linebuf);
+ 
+     png_write_end(png_ptr, NULL);
+ 
+-- 
+2.35.3
+
 
