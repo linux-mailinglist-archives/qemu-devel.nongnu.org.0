@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE855BD34D
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 19:08:07 +0200 (CEST)
-Received: from localhost ([::1]:52896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 628A15BD386
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 19:20:43 +0200 (CEST)
+Received: from localhost ([::1]:47916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaKFY-0005rz-RQ
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 13:08:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50532)
+	id 1oaKRl-0003GX-UA
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 13:20:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oaKCS-0003bj-Ld
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:05:01 -0400
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:36780)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oaKCO-0005vX-VS
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:04:50 -0400
-Received: by mail-yb1-xb2e.google.com with SMTP id a67so43397804ybb.3
- for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 10:04:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date; bh=jhaL46BvXGFl5JFp4knycIDNYyZdop+0mMkBhsZKKNI=;
- b=KUnU50uG2UW1GFhkhY9QrPsy/gGCUWiZdbNqE4/1jzpqrf57EGmpkPo7DYQqIdCaw6
- FOgF6uLTfRMMvyXI45XtVU1nPB0SUsJMpfiRe4uZDAnw5p0/59P6mjX7VCU6d0kvJqq7
- FStvK536E4q+gNSjUMp5Kfhiw369fHUh64vEqi+ZEIuoabhn3ugWCX+Hdge0fEdSkSQO
- W9x3LmumNGvAqQhV7ewPrP0dO+RFn2FTaRLHPk+H7jtOnCZLfwtCr9sSIb6K8fpd4piR
- ru/yixB0MUvv6vcbz1aFeHDLJdNsVNyLqwh+d3x00talIyUKAeirG7ZGTOmwdSRZLx9i
- ON9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date;
- bh=jhaL46BvXGFl5JFp4knycIDNYyZdop+0mMkBhsZKKNI=;
- b=KKV4i6uAIr83nV9dBZxkZgn4/yejXn/zKsYayTcc71B5o1iF7f5SpLjfyuC7QXapz2
- d0Nv6H/+2rg06GF6sUo84DVC5mTgs+2WZTuIUtiFuBGQ2eifav5twMOh6ZrUjm3NIvO/
- AKlJnVi2NMhFKHP8+s3O1kLbx9RkUjDW+FObi6o8uGI1JKqxGxUdBRWQab5N5EU6sVmh
- YNujR9E693DLxPZA/cXWPgBZYCZiZTSB7QeAqcwl3rFDGBxHh2lPPOPTBG/Bpunh7/Ry
- BQGw7lYfJmUD+FJShv2Mgs8d24uT/caPrdS731Mtcg3wwl9gKhFwYxXqVBhBGEmqcFQJ
- pfPQ==
-X-Gm-Message-State: ACrzQf31zcAAneTyfXzQAVLn7BTzgaIEqgXxhhrWaWCa/gcOjh6JGhda
- ufQcSjUgqLQx4OCdcNNvxoBleUqfgeyG62rdDJk=
-X-Google-Smtp-Source: AMsMyM7Bffwtk0OPj4DB1zhACcZkv2vVFR5Cg2FmBUuvAlagmOMHF6xsle2rKAIUVznyR67xSmyhRJKlSmy14xWotwU=
-X-Received: by 2002:a25:230c:0:b0:6ae:ef02:fafc with SMTP id
- j12-20020a25230c000000b006aeef02fafcmr15135166ybj.58.1663607087687; Mon, 19
- Sep 2022 10:04:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oaKO7-0000D2-32; Mon, 19 Sep 2022 13:16:55 -0400
+Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:41212)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oaKO3-00085J-Bp; Mon, 19 Sep 2022 13:16:53 -0400
+Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
+ (sas1-c73b4b4f4b95.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:12a9:0:640:c73b:4b4f])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id BA0222E1C46;
+ Mon, 19 Sep 2022 20:16:38 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b505::1:12] (unknown
+ [2a02:6b8:b081:b505::1:12])
+ by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ gXpDV8wgzk-GbOeFOds; Mon, 19 Sep 2022 20:16:37 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1663607798; bh=QA9VQHu6cluTviK3NvYuRYLulMbYK/aIvKBUXLT5vOQ=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=YhMnNAkVd4vuVUqv359u7DQO6j13yzR1RRWMXAUMw0M1c5jOLQJCRKLzhijxT5KPl
+ x4TvieMakHf7iOZprCjs8uRSpOxhtaVLZf8K/RuGZJrdfCXT6ngzVZJzSns16nC+gM
+ 1vUdsyXOpHA9p/V4v3DLHeU5/w6HK5m10p45OG5o=
+Authentication-Results: sas1-c73b4b4f4b95.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <7f72fd37-41d7-3b43-70cf-e643dbdb2b7f@yandex-team.ru>
+Date: Mon, 19 Sep 2022 20:16:37 +0300
 MIME-Version: 1.0
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 19 Sep 2022 13:04:33 -0400
-Message-ID: <CAJSP0QWjRH+ZWOQUu2_283o3YmcQp0iVTr6bT0Rqvv=Y0YFNdg@mail.gmail.com>
-Subject: Travis CI webhook returns HTTP 500
-To: Thomas Huth <thuth@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 00/11] iotests: use vm.cmd()
+Content-Language: en-US
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, eblake@redhat.com, jsnow@redhat.com
+References: <20220606072731.878226-1-vsementsov@yandex-team.ru>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20220606072731.878226-1-vsementsov@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.952,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,11 +75,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-GitLab sends qemu.git push event webhooks to Travis CI. Recently the
-webhooks have been failing with HTTP 500 Internal Server Error.
+ping
 
-Do you know how to resolve this or who configured Travis CI webhooks for QEMU?
+On 6/6/22 10:27, Vladimir Sementsov-Ogievskiy wrote:
+> Hi all!
+> 
+> Let's get rid of pattern
+> 
+>      result = self.vm.qmp(...)
+>      self.assert_qmp(result, 'return', {})
+> 
+> And switch to just
+> 
+>      self.vm.cmd(...)
+> 
+> Supersedes: <20220408170214.45585-1-vsementsov@openvz.org>
+>     ([RFC 0/2] introduce QEMUMachind.cmd())
+> 
+> Vladimir Sementsov-Ogievskiy (11):
+>    python: rename QEMUMonitorProtocol.cmd() to cmd_raw()
+>    python/qemu: rename command() to cmd()
+>    python/machine.py: upgrade vm.cmd() method
+>    iotests: QemuStorageDaemon: add cmd() method like in QEMUMachine.
+>    iotests: add some missed checks of qmp result
+>    iotests: refactor some common qmp result checks into generic pattern
+>    iotests: drop some occasional semicolons
+>    iotests: drop some extra ** in qmp() call
+>    iotests.py: pause_job(): drop return value
+>    tests/vm/basevm.py: use cmd() instead of qmp()
+>    python: use vm.cmd() instead of vm.qmp() where appropriate
+> 
+>   docs/devel/testing.rst                        |  10 +-
+>   python/qemu/machine/machine.py                |  20 +-
+>   python/qemu/qmp/legacy.py                     |  10 +-
+>   python/qemu/qmp/qmp_shell.py                  |  13 +-
+>   python/qemu/utils/qemu_ga_client.py           |   2 +-
+>   python/qemu/utils/qom.py                      |   8 +-
+>   python/qemu/utils/qom_common.py               |   2 +-
+>   python/qemu/utils/qom_fuse.py                 |   6 +-
+>   scripts/cpu-x86-uarch-abi.py                  |   8 +-
+>   scripts/device-crash-test                     |   8 +-
+>   scripts/render_block_graph.py                 |   8 +-
+>   tests/avocado/avocado_qemu/__init__.py        |   4 +-
+>   tests/avocado/cpu_queries.py                  |   4 +-
+>   tests/avocado/hotplug_cpu.py                  |  10 +-
+>   tests/avocado/info_usernet.py                 |   4 +-
+>   tests/avocado/machine_arm_integratorcp.py     |   6 +-
+>   tests/avocado/machine_m68k_nextcube.py        |   4 +-
+>   tests/avocado/machine_mips_malta.py           |   6 +-
+>   tests/avocado/machine_s390_ccw_virtio.py      |  28 +-
+>   tests/avocado/migration.py                    |  10 +-
+>   tests/avocado/pc_cpu_hotplug_props.py         |   2 +-
+>   tests/avocado/version.py                      |   4 +-
+>   tests/avocado/virtio_check_params.py          |   6 +-
+>   tests/avocado/virtio_version.py               |   4 +-
+>   tests/avocado/vnc.py                          |  16 +-
+>   tests/avocado/x86_cpu_model_versions.py       |  10 +-
+>   tests/migration/guestperf/engine.py           | 150 +++---
+>   tests/qemu-iotests/030                        | 168 +++---
+>   tests/qemu-iotests/040                        | 171 +++----
+>   tests/qemu-iotests/041                        | 482 ++++++++----------
+>   tests/qemu-iotests/045                        |  15 +-
+>   tests/qemu-iotests/055                        |  62 +--
+>   tests/qemu-iotests/056                        |  77 ++-
+>   tests/qemu-iotests/093                        |  42 +-
+>   tests/qemu-iotests/118                        | 225 ++++----
+>   tests/qemu-iotests/124                        | 102 ++--
+>   tests/qemu-iotests/129                        |  14 +-
+>   tests/qemu-iotests/132                        |   5 +-
+>   tests/qemu-iotests/139                        |  45 +-
+>   tests/qemu-iotests/147                        |  30 +-
+>   tests/qemu-iotests/151                        |  56 +-
+>   tests/qemu-iotests/152                        |   8 +-
+>   tests/qemu-iotests/155                        |  55 +-
+>   tests/qemu-iotests/165                        |   8 +-
+>   tests/qemu-iotests/196                        |   3 +-
+>   tests/qemu-iotests/205                        |   6 +-
+>   tests/qemu-iotests/218                        | 105 ++--
+>   tests/qemu-iotests/245                        | 245 ++++-----
+>   tests/qemu-iotests/256                        |  34 +-
+>   tests/qemu-iotests/257                        |  36 +-
+>   tests/qemu-iotests/264                        |  31 +-
+>   tests/qemu-iotests/281                        |  21 +-
+>   tests/qemu-iotests/295                        |  16 +-
+>   tests/qemu-iotests/296                        |  21 +-
+>   tests/qemu-iotests/298                        |  13 +-
+>   tests/qemu-iotests/300                        |  54 +-
+>   tests/qemu-iotests/iotests.py                 |  18 +-
+>   .../tests/export-incoming-iothread            |   6 +-
+>   .../qemu-iotests/tests/graph-changes-while-io |   6 +-
+>   tests/qemu-iotests/tests/image-fleecing       |   3 +-
+>   .../tests/migrate-bitmaps-postcopy-test       |  31 +-
+>   tests/qemu-iotests/tests/migrate-bitmaps-test |  45 +-
+>   .../qemu-iotests/tests/migrate-during-backup  |  41 +-
+>   .../qemu-iotests/tests/migration-permissions  |   9 +-
+>   .../tests/mirror-ready-cancel-error           |  74 ++-
+>   tests/qemu-iotests/tests/mirror-top-perms     |  16 +-
+>   tests/qemu-iotests/tests/nbd-multiconn        |  12 +-
+>   tests/qemu-iotests/tests/reopen-file          |   3 +-
+>   .../qemu-iotests/tests/stream-error-on-reset  |   6 +-
+>   tests/vm/basevm.py                            |   4 +-
+>   70 files changed, 1174 insertions(+), 1613 deletions(-)
+> 
 
-Thanks,
-Stefan
+
+-- 
+Best regards,
+Vladimir
 
