@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 121515BD43D
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 19:56:36 +0200 (CEST)
-Received: from localhost ([::1]:56252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23FDB5BD44E
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 20:00:35 +0200 (CEST)
+Received: from localhost ([::1]:50772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaL0V-0003Fj-4b
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 13:56:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39366)
+	id 1oaL4L-00006P-VJ
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 14:00:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oaKg7-0003Id-L6
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:35:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27762)
+ id 1oaKg9-0003K6-27
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:35:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23080)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oaKfv-000387-QC
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:35:31 -0400
+ id 1oaKfx-00039u-IS
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:35:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663608919;
+ s=mimecast20190719; t=1663608921;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DCfeDcg7stRxSdw0AePAnW4YvAKF+QFscneJiFL2iUo=;
- b=NjRJc/1rZNNz3xdatFGw3h+pulzFbtVOMV4FdHhzHZKXhAEfYTTlQyIivbu+eoUfc51F3T
- IeaeUoWmmzdRHfJlCgXAj3xS3bln2i1g/qUqBiQb2mJKX78ErP2Bm/QXV9Q3zF9JPJygWf
- 2wun07UXrR5+DjoTciKfWj/W2szLtuY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=GHA4iB+vWgQgvrjq6bsYLAWGMi0ifafcuMJ1u5P5lbc=;
+ b=d+eC8sBx9t0Eyo6bz+7HnJTk8M3o3GGtbMlquExvlAjhmGjWR2UHtzkYNIXdQNudHmovk/
+ lTHNh/yI7lFrMeRg8Xe5B8SXmBB0y3Lh8tZPupdz2vmmEROKIq8ALP9fIqt4hhDjrij4z0
+ ca6sM0HaGoajxFOml1Bx2s+0tiPFvng=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-206-bu0NVx5sPw-QAA80gqJ49w-1; Mon, 19 Sep 2022 13:35:17 -0400
-X-MC-Unique: bu0NVx5sPw-QAA80gqJ49w-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 62-20020a1c0241000000b003b4922046e5so13280wmc.1
- for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 10:35:17 -0700 (PDT)
+ us-mta-18-5KCtpuAqPgu4plulixSV2g-1; Mon, 19 Sep 2022 13:35:19 -0400
+X-MC-Unique: 5KCtpuAqPgu4plulixSV2g-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ d30-20020adfa41e000000b00228c0e80c49so29185wra.21
+ for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 10:35:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=DCfeDcg7stRxSdw0AePAnW4YvAKF+QFscneJiFL2iUo=;
- b=e3RUtee3AWatfS85f6YTz8UHnwCSYXCmN4IdGNgncsMjRaDFKgRiKAVpFnd2pf0Oe0
- d0Ko0sm07A7YgW47jMM7oWEKfGKhpyBUlJclqrrZionCmV8ni+H3MP753pd1w+Z65OO2
- sw/UM7zLfNgJRvYw6Vfangu4arJGTiKlZ+XcV4SpI+nloXx+kWlx0jFCNZ9u6TL6qMNL
- yz76QTSoTmAvn7kXUJrLpBTOQaMyXHBFT4tZvMsOVPluZ24QpG4g390n8nPiIxHOJndy
- Xl4/kyD7Sbdon1dr4NaIYH8mkjqzvG/sXFA2/8Es5wdAPtkRpKSkIxPALUFdVGKUMjfo
- ZPxw==
-X-Gm-Message-State: ACgBeo2Px9VEV2csamM5I/20WAOIb4ol/VTlmCARlFle3tPGRYo1gjI6
- FR5RkdLnvsCDkaOeMZyi0IwYETjr9X7EyYIDPASMRg7veeRudzyK6BKmLgO5U+jXBeMXezdpVTf
- PMJxbcxt1cE6ZATE+WtTmIg6WCiGaEGkbmaXyMEh2u2p74pJXmflqyebvGnkjwOsp6XA=
-X-Received: by 2002:a05:600c:1d8f:b0:3b4:90c1:e23a with SMTP id
- p15-20020a05600c1d8f00b003b490c1e23amr19895357wms.122.1663608916390; 
- Mon, 19 Sep 2022 10:35:16 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6iT9t6JzRfk36BuomlF5vSLbkEmSCeO3/2G17YSf2mlW0k6hhgFAG9AMgAo+iDmr8uR9Aaiw==
-X-Received: by 2002:a05:600c:1d8f:b0:3b4:90c1:e23a with SMTP id
- p15-20020a05600c1d8f00b003b490c1e23amr19895343wms.122.1663608916112; 
- Mon, 19 Sep 2022 10:35:16 -0700 (PDT)
+ bh=GHA4iB+vWgQgvrjq6bsYLAWGMi0ifafcuMJ1u5P5lbc=;
+ b=ozciYD5Tm7nk1CnRSc+09mbYoUC4Yr87LatBIFnchoi0NxQ8SjuXlnPG35zCTOZEWs
+ Jou6w5zo1V6MqV0NFYd+R9hgwTzrJ6QO6hciFhXv/pR9Lhdkf1IbADfJ1l3WpFcJHxGw
+ P8vVQsmKy1g3xt18NbkJj9wjnQDm45sjGGBaeWi1fh1slsVPfzBTFSnfuVgakDJHUpXy
+ BVLTfpSfcRmq9viKmt4l2n0CPPLXRzFm+q/b2jSQDk4ztxoEJXUbJ7U5mBsxOiNRAL05
+ RYONl+tpYlYhGEkqnuZsWopzq89gRH1ZYEtz9ybmGY0YCEMnvkbFEID+eDu+da9IrhJb
+ iYTg==
+X-Gm-Message-State: ACgBeo3Cc46IvjwnJir2GNBILO5fB6ZBKsjTpwNBnC3/Td0U+6LkaqnT
+ rlsi1+ODotMYX/QX95aheAK0O75HE2/2P1XCx1o2/CJtr5aanvFKnjrYyNa41z2OM3hSJdy55ol
+ jmJBKzDLGbI7a7gofXPAPtQuJgRpkOKnbopq535OGDYcfEhGdisCoyL0zQN4DpKZO2uw=
+X-Received: by 2002:a05:600c:2646:b0:3b4:7640:3c1a with SMTP id
+ 6-20020a05600c264600b003b476403c1amr20521817wmy.2.1663608917886; 
+ Mon, 19 Sep 2022 10:35:17 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5oZLXy7SpmN7t6SDDdy+JKEJIRGLfMhdQH4gwz/+QQaan4bIU5ZKPXjn7BP5QNavIxwPtbzg==
+X-Received: by 2002:a05:600c:2646:b0:3b4:7640:3c1a with SMTP id
+ 6-20020a05600c264600b003b476403c1amr20521799wmy.2.1663608917456; 
+ Mon, 19 Sep 2022 10:35:17 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- n13-20020a05600c4f8d00b003a5537bb2besm15069381wmq.25.2022.09.19.10.35.15
+ y9-20020a05600c20c900b003a541d893desm13980863wmm.38.2022.09.19.10.35.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Sep 2022 10:35:15 -0700 (PDT)
+ Mon, 19 Sep 2022 10:35:16 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/21] target/i386: correctly mask SSE4a bit indices in
- register operands
-Date: Mon, 19 Sep 2022 19:34:44 +0200
-Message-Id: <20220919173449.5864-17-pbonzini@redhat.com>
+Subject: [PULL 17/21] target/i386: fix INSERTQ implementation
+Date: Mon, 19 Sep 2022 19:34:45 +0200
+Message-Id: <20220919173449.5864-18-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220919173449.5864-1-pbonzini@redhat.com>
 References: <20220919173449.5864-1-pbonzini@redhat.com>
@@ -101,39 +100,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SSE4a instructions EXTRQ and INSERTQ have two bit index operands, that can be
-immediates or taken from an XMM register.  In both cases, the fields are
-6-bit wide and the top two bits in the byte are ignored.  translate.c is
-doing that correctly for the immediate case, but not for the XMM case, so
-fix it.
+INSERTQ is defined to not modify any bits in the lower 64 bits of the
+destination, other than the ones being replaced with bits from the
+source operand.  QEMU instead is using unshifted bits from the source
+for those bits.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/ops_sse.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/i386/ops_sse.h        | 10 +++++-----
+ target/i386/ops_sse_header.h |  2 +-
+ target/i386/tcg/translate.c  | 14 ++++++++++++--
+ 3 files changed, 18 insertions(+), 8 deletions(-)
 
 diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
-index c0766de18d..3504bca36a 100644
+index 3504bca36a..7bf8bb967d 100644
 --- a/target/i386/ops_sse.h
 +++ b/target/i386/ops_sse.h
-@@ -926,7 +926,7 @@ static inline uint64_t helper_extrq(uint64_t src, int shift, int len)
- 
- void helper_extrq_r(CPUX86State *env, ZMMReg *d, ZMMReg *s)
- {
--    d->ZMM_Q(0) = helper_extrq(d->ZMM_Q(0), s->ZMM_B(1), s->ZMM_B(0));
-+    d->ZMM_Q(0) = helper_extrq(d->ZMM_Q(0), s->ZMM_B(1) & 63, s->ZMM_B(0) & 63);
+@@ -934,7 +934,7 @@ void helper_extrq_i(CPUX86State *env, ZMMReg *d, int index, int length)
+     d->ZMM_Q(0) = helper_extrq(d->ZMM_Q(0), index, length);
  }
  
- void helper_extrq_i(CPUX86State *env, ZMMReg *d, int index, int length)
-@@ -948,7 +948,7 @@ static inline uint64_t helper_insertq(uint64_t src, int shift, int len)
+-static inline uint64_t helper_insertq(uint64_t src, int shift, int len)
++static inline uint64_t helper_insertq(uint64_t dest, uint64_t src, int shift, int len)
+ {
+     uint64_t mask;
+ 
+@@ -943,17 +943,17 @@ static inline uint64_t helper_insertq(uint64_t src, int shift, int len)
+     } else {
+         mask = (1ULL << len) - 1;
+     }
+-    return (src & ~(mask << shift)) | ((src & mask) << shift);
++    return (dest & ~(mask << shift)) | ((src & mask) << shift);
+ }
  
  void helper_insertq_r(CPUX86State *env, ZMMReg *d, ZMMReg *s)
  {
--    d->ZMM_Q(0) = helper_insertq(s->ZMM_Q(0), s->ZMM_B(9), s->ZMM_B(8));
-+    d->ZMM_Q(0) = helper_insertq(s->ZMM_Q(0), s->ZMM_B(9) & 63, s->ZMM_B(8) & 63);
+-    d->ZMM_Q(0) = helper_insertq(s->ZMM_Q(0), s->ZMM_B(9) & 63, s->ZMM_B(8) & 63);
++    d->ZMM_Q(0) = helper_insertq(d->ZMM_Q(0), s->ZMM_Q(0), s->ZMM_B(9) & 63, s->ZMM_B(8) & 63);
  }
  
- void helper_insertq_i(CPUX86State *env, ZMMReg *d, int index, int length)
+-void helper_insertq_i(CPUX86State *env, ZMMReg *d, int index, int length)
++void helper_insertq_i(CPUX86State *env, ZMMReg *d, ZMMReg *s, int index, int length)
+ {
+-    d->ZMM_Q(0) = helper_insertq(d->ZMM_Q(0), index, length);
++    d->ZMM_Q(0) = helper_insertq(d->ZMM_Q(0), s->ZMM_Q(0), index, length);
+ }
+ #endif
+ 
+diff --git a/target/i386/ops_sse_header.h b/target/i386/ops_sse_header.h
+index d99464afb0..400b24c091 100644
+--- a/target/i386/ops_sse_header.h
++++ b/target/i386/ops_sse_header.h
+@@ -193,7 +193,7 @@ DEF_HELPER_3(rcpss, void, env, ZMMReg, ZMMReg)
+ DEF_HELPER_3(extrq_r, void, env, ZMMReg, ZMMReg)
+ DEF_HELPER_4(extrq_i, void, env, ZMMReg, int, int)
+ DEF_HELPER_3(insertq_r, void, env, ZMMReg, ZMMReg)
+-DEF_HELPER_4(insertq_i, void, env, ZMMReg, int, int)
++DEF_HELPER_5(insertq_i, void, env, ZMMReg, ZMMReg, int, int)
+ DEF_HELPER_3(glue(haddps, SUFFIX), void, env, ZMMReg, ZMMReg)
+ DEF_HELPER_3(glue(haddpd, SUFFIX), void, env, ZMMReg, ZMMReg)
+ DEF_HELPER_3(glue(hsubps, SUFFIX), void, env, ZMMReg, ZMMReg)
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index 8ec91d17af..5f31a59fb8 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -3506,10 +3506,20 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+                     gen_helper_extrq_i(cpu_env, s->ptr0,
+                                        tcg_const_i32(bit_index),
+                                        tcg_const_i32(field_length));
+-                else
+-                    gen_helper_insertq_i(cpu_env, s->ptr0,
++                else {
++                    if (mod != 3) {
++                        gen_lea_modrm(env, s, modrm);
++                        op2_offset = offsetof(CPUX86State, xmm_t0);
++                        gen_ldq_env_A0(s, offsetof(CPUX86State, xmm_t0.ZMM_D(0)));
++                    } else {
++                        rm = (modrm & 7) | REX_B(s);
++                        op2_offset = ZMM_OFFSET(rm);
++                    }
++                    tcg_gen_addi_ptr(s->ptr1, cpu_env, op2_offset);
++                    gen_helper_insertq_i(cpu_env, s->ptr0, s->ptr1,
+                                          tcg_const_i32(bit_index),
+                                          tcg_const_i32(field_length));
++                }
+             }
+             break;
+         case 0x7e: /* movd ea, mm */
 -- 
 2.37.2
 
