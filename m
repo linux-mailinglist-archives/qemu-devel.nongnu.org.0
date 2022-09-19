@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04F825BCF02
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 16:36:55 +0200 (CEST)
-Received: from localhost ([::1]:50734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F23EC5BCF05
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 16:37:07 +0200 (CEST)
+Received: from localhost ([::1]:56756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaHtF-0007xt-R9
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 10:36:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57382)
+	id 1oaHtS-0008Tv-Jt
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 10:37:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
- id 1oaHo8-0003gT-Q9; Mon, 19 Sep 2022 10:31:38 -0400
-Received: from szxga03-in.huawei.com ([45.249.212.189]:5173)
+ id 1oaHop-0003p2-5D; Mon, 19 Sep 2022 10:32:24 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:4522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
- id 1oaHo6-0002RQ-Fj; Mon, 19 Sep 2022 10:31:36 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4MWRrf6nWmzHnwW;
- Mon, 19 Sep 2022 22:29:22 +0800 (CST)
+ id 1oaHoj-0002Te-EH; Mon, 19 Sep 2022 10:32:17 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MWRpq386lzlW1m;
+ Mon, 19 Sep 2022 22:27:47 +0800 (CST)
 Received: from kwepemm600007.china.huawei.com (7.193.23.208) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 19 Sep 2022 22:31:30 +0800
+ 15.1.2375.31; Mon, 19 Sep 2022 22:31:51 +0800
 Received: from [10.174.185.179] (10.174.185.179) by
  kwepemm600007.china.huawei.com (7.193.23.208) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 19 Sep 2022 22:31:29 +0800
-Subject: Re: [kvm-unit-tests PATCH v4 08/12] arm: pmu: Test SW_INCR event count
+ 15.1.2375.31; Mon, 19 Sep 2022 22:31:50 +0800
+Subject: Re: [kvm-unit-tests PATCH v4 10/12] arm: pmu: test 32-bit <-> 64-bit
+ transitions
 To: Eric Auger <eric.auger@redhat.com>
 CC: <eric.auger.pro@gmail.com>, <maz@kernel.org>,
  <kvmarm@lists.cs.columbia.edu>, <kvm@vger.kernel.org>,
  <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <andrew.murray@arm.com>,
  <andre.przywara@arm.com>
 References: <20200403071326.29932-1-eric.auger@redhat.com>
- <20200403071326.29932-9-eric.auger@redhat.com>
-Message-ID: <64be8eda-a396-26a1-1a05-d43a3ed53c1d@huawei.com>
-Date: Mon, 19 Sep 2022 22:31:28 +0800
+ <20200403071326.29932-11-eric.auger@redhat.com>
+Message-ID: <cead0930-958d-222d-d5c0-6dfe6f88f52f@huawei.com>
+Date: Mon, 19 Sep 2022 22:31:50 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200403071326.29932-9-eric.auger@redhat.com>
+In-Reply-To: <20200403071326.29932-11-eric.auger@redhat.com>
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.174.185.179]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  kwepemm600007.china.huawei.com (7.193.23.208)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189; envelope-from=yuzenghui@huawei.com;
- helo=szxga03-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.187; envelope-from=yuzenghui@huawei.com;
+ helo=szxga01-in.huawei.com
 X-Spam_score_int: -51
 X-Spam_score: -5.2
 X-Spam_bar: -----
@@ -78,52 +79,70 @@ Hi Eric,
 
 On 2020/4/3 15:13, Eric Auger wrote:
 
-> +static void test_sw_incr(void)
+> +static void test_chain_promotion(void)
 > +{
-> +	uint32_t events[] = {SW_INCR, SW_INCR};
-> +	int i;
-> +
-> +	if (!satisfy_prerequisites(events, ARRAY_SIZE(events)))
-> +		return;
-> +
+
+[...]
+
+> +	/* start as MEM_ACCESS/CPU_CYCLES and move to CHAIN/MEM_ACCESS */
 > +	pmu_reset();
+> +	write_regn_el0(pmevtyper, 0, MEM_ACCESS | PMEVTYPER_EXCLUDE_EL0);
+> +	write_regn_el0(pmevtyper, 1, CPU_CYCLES | PMEVTYPER_EXCLUDE_EL0);
+> +	write_sysreg_s(0x3, PMCNTENSET_EL0);
+> +	write_regn_el0(pmevcntr, 0, PRE_OVERFLOW2);
+> +	isb();
 > +
-> +	write_regn_el0(pmevtyper, 0, SW_INCR | PMEVTYPER_EXCLUDE_EL0);
-> +	write_regn_el0(pmevtyper, 1, SW_INCR | PMEVTYPER_EXCLUDE_EL0);
-> +	/* enable counters #0 and #1 */
+> +	mem_access_loop(addr, 20, pmu.pmcr_ro | PMU_PMCR_E);
+> +	report_info("MEM_ACCESS counter #0 has value 0x%lx",
+> +		    read_regn_el0(pmevcntr, 0));
+> +
+> +	/* 0 becomes CHAINED */
+
+"1 becomes CHAINED"?
+
+> +	write_sysreg_s(0x0, PMCNTENSET_EL0);
+
+Writing 0 into PMCNTENSET_EL0 actually has no effect on the counter
+status. What purpose does this serve?
+
+> +	write_regn_el0(pmevtyper, 1, CHAIN | PMEVTYPER_EXCLUDE_EL0);
+> +	write_sysreg_s(0x3, PMCNTENSET_EL0);
+> +	write_regn_el0(pmevcntr, 1, 0x0);
+> +
+> +	mem_access_loop(addr, 20, pmu.pmcr_ro | PMU_PMCR_E);
+> +	report_info("MEM_ACCESS counter #0 has value 0x%lx",
+> +		    read_regn_el0(pmevcntr, 0));
+> +
+> +	report((read_regn_el0(pmevcntr, 1) == 1) && !read_sysreg(pmovsclr_el0),
+> +		"32b->64b: CHAIN counter incremented and no overflow");
+> +
+> +	report_info("CHAIN counter #1 = 0x%lx, overflow=0x%lx",
+> +		read_regn_el0(pmevcntr, 1), read_sysreg(pmovsclr_el0));
+> +
+> +	/* start as CHAIN/MEM_ACCESS and move to MEM_ACCESS/CPU_CYCLES */
+> +	pmu_reset();
+> +	write_regn_el0(pmevtyper, 0, MEM_ACCESS | PMEVTYPER_EXCLUDE_EL0);
+> +	write_regn_el0(pmevtyper, 1, CHAIN | PMEVTYPER_EXCLUDE_EL0);
+> +	write_regn_el0(pmevcntr, 0, PRE_OVERFLOW2);
 > +	write_sysreg_s(0x3, PMCNTENSET_EL0);
 > +
-> +	write_regn_el0(pmevcntr, 0, PRE_OVERFLOW);
+> +	mem_access_loop(addr, 20, pmu.pmcr_ro | PMU_PMCR_E);
+> +	report_info("counter #0=0x%lx, counter #1=0x%lx",
+> +			read_regn_el0(pmevcntr, 0), read_regn_el0(pmevcntr, 1));
 > +
-> +	for (i = 0; i < 100; i++)
-> +		write_sysreg(0x1, pmswinc_el0);
-> +
-> +	report_info("SW_INCR counter #0 has value %ld", read_regn_el0(pmevcntr, 0));
-> +	report(read_regn_el0(pmevcntr, 0) == PRE_OVERFLOW,
-> +		"PWSYNC does not increment if PMCR.E is unset");
-> +
-> +	pmu_reset();
-> +
-> +	write_regn_el0(pmevcntr, 0, PRE_OVERFLOW);
+> +	write_sysreg_s(0x0, PMCNTENSET_EL0);
+
+Ditto
+
+> +	write_regn_el0(pmevtyper, 1, CPU_CYCLES | PMEVTYPER_EXCLUDE_EL0);
 > +	write_sysreg_s(0x3, PMCNTENSET_EL0);
-> +	set_pmcr(pmu.pmcr_ro | PMU_PMCR_E);
 > +
-> +	for (i = 0; i < 100; i++)
-> +		write_sysreg(0x3, pmswinc_el0);
-> +
-> +	report(read_regn_el0(pmevcntr, 0)  == 84, "counter #1 after + 100 SW_INCR");
-
-"counter #0 after + 100 SW_INCR"
-
-> +	report(read_regn_el0(pmevcntr, 1)  == 100,
-> +		"counter #0 after + 100 SW_INCR");
-
-"counter #1 after + 100 SW_INCR"
-
-> +	report_info("counter values after 100 SW_INCR #0=%ld #1=%ld",
-> +		    read_regn_el0(pmevcntr, 0), read_regn_el0(pmevcntr, 1));
-> +	report(read_sysreg(pmovsclr_el0) == 0x1,
-> +		"overflow reg after 100 SW_INCR");
+> +	mem_access_loop(addr, 20, pmu.pmcr_ro | PMU_PMCR_E);
+> +	report(read_sysreg(pmovsclr_el0) == 1,
+> +		"overflow is expected on counter 0");
+> +	report_info("counter #0=0x%lx, counter #1=0x%lx overflow=0x%lx",
+> +			read_regn_el0(pmevcntr, 0), read_regn_el0(pmevcntr, 1),
+> +			read_sysreg(pmovsclr_el0));
 > +}
 > +
 >  #endif
