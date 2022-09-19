@@ -2,61 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A69015BCD6E
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 15:42:04 +0200 (CEST)
-Received: from localhost ([::1]:47132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ADC15BCD68
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 15:40:58 +0200 (CEST)
+Received: from localhost ([::1]:52644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaH2B-0006Ns-ML
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 09:42:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39378)
+	id 1oaH17-0004XN-B3
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 09:40:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1oaGkC-0000Oo-8H
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 09:23:29 -0400
-Received: from madras.collabora.co.uk ([46.235.227.172]:50364)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oaGwF-00074J-BZ
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 09:35:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26015)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1oaGk9-0006zg-E8
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 09:23:27 -0400
-Received: from dellino.fritz.box (host-82-49-101-130.retail.telecomitalia.it
- [82.49.101.130])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: fahien)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 13AA66601D86;
- Mon, 19 Sep 2022 14:23:23 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1663593803;
- bh=MpPWI7/jHoAcN91Fs8veA1JAAblNZld+RwtljDaPjMA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=O5HzMZ1tTLlBu0lG2AzOYQ1XG1dXEWWT0zz35NYIDwVAXHEJiWu43M7gb+fAvL67j
- qNrsI226qKdS4IsoFHBjO0FmMy92oh+dKNgLwNqZcNr54/S86lgg42AyOtQp6ViJe5
- 9+ojkFHz/7x5ld+mUKMiTJMOxJRvy9LYClOK67f0vi9Q1/mt13KuGQYbFFob63O7jc
- YbPiy3UylPBM12LDXV01Th6lFzGXoRxeBy6+8nmX5MH+GAZUE6OeTyReEa6iVSKfvT
- ++ZTA7pxjfl6jiHZ8Ip4JzwvV6VkC55e6pQ4Slny+S0XjJD1X3z4U6op+FyjcMuuyf
- apZ9W2aJENhoA==
-From: Antonio Caggiano <antonio.caggiano@collabora.com>
-To: qemu-devel@nongnu.org
-Cc: gert.wollny@collabora.com, dmitry.osipenko@collabora.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v5 1/1] virtio-gpu: CONTEXT_INIT feature
-Date: Mon, 19 Sep 2022 15:23:15 +0200
-Message-Id: <20220919132315.96858-2-antonio.caggiano@collabora.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220919132315.96858-1-antonio.caggiano@collabora.com>
-References: <20220919132315.96858-1-antonio.caggiano@collabora.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oaGwB-0000rK-UY
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 09:35:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663594551;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=c5YyjWBJrmMqOD7FJT66vsGalm1lmHtYNpSG2RXsMVc=;
+ b=H1TqEE50Q01QcYomdYKyQMZwPxspIWknY1AV7sqc7pkGLHYbIt/deDpNmqY2DdsFGGBNxg
+ 3szYIPc2nO/e/HUsXSEpryklYU8Q2B2Yx4YdTrwWvXfFOWM/Y2JEGeZl3w+/m9NKfC8IGJ
+ yfnExDG+8pb7KTGVmk1vBkUAG2Do/Kc=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-578-rb-b3CxyNmyIms9HUzEVjA-1; Mon, 19 Sep 2022 09:35:49 -0400
+X-MC-Unique: rb-b3CxyNmyIms9HUzEVjA-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ d18-20020a05620a241200b006ce80a4d74aso12979781qkn.6
+ for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 06:35:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=c5YyjWBJrmMqOD7FJT66vsGalm1lmHtYNpSG2RXsMVc=;
+ b=SNInDjgoos+xpXLIIQL+XC7d/pmH1iLAZlvQUo/8W6ggRg20g+g2oigyKpysFJyCum
+ Nr/L1HCAKIRz7M36mFQRwVQQLcw7AV46mJcGu3sTXWkLkEDHXnwrDo4v0SZ3xzEp7ssC
+ XGVSTgWFO9H7SB7x3OhVUEBFXLEtCtOqnKCEykgY1lIsYRi7XXXGNkyJaDv87p9z7Y/h
+ MvEtx57Lpxlb+LQdlhUt+ipThkSetGBYsV9GM+AK0uY/xT+iOynF0kBHnbrIv2KxJNAg
+ rD9mDjy2G+VktGGArfKkdxbH/rJ1Tz0tAG43LbPfjetHIGUbIzXXBd2WxNRcS6DZVPMb
+ XlKg==
+X-Gm-Message-State: ACrzQf3klXw8btd6F6CL5+Ntuyqxqztu3sftpB3t5j26oYWhOjbvOtkH
+ pI1ifCXWxkL2XN1UFbxRIpUhWKrg24zdcMOTvUZcTbwofmJVSanOwdwoZRwgbwiII4YAzamEX95
+ 0zgCatoa9+feTrG/9aa57AGNuaLPEVTw=
+X-Received: by 2002:a0c:a90a:0:b0:4ad:715:897 with SMTP id
+ y10-20020a0ca90a000000b004ad07150897mr14609498qva.114.1663594549227; 
+ Mon, 19 Sep 2022 06:35:49 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5N1MFmjZ5+UD5+V6HhOX2l12SLyeEmws1yu0D/Ovk1cSKn+10ERAdQENJKepLq7OxpZo2Wn/EMjOUSFN87MgA=
+X-Received: by 2002:a0c:a90a:0:b0:4ad:715:897 with SMTP id
+ y10-20020a0ca90a000000b004ad07150897mr14609487qva.114.1663594548985; 
+ Mon, 19 Sep 2022 06:35:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=46.235.227.172;
- envelope-from=antonio.caggiano@collabora.com; helo=madras.collabora.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220916133603.693135-1-Jason@zx2c4.com>
+In-Reply-To: <20220916133603.693135-1-Jason@zx2c4.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Mon, 19 Sep 2022 15:35:37 +0200
+Message-ID: <CABgObfaCzWEcwTxFNRyrBFR72onpeMuEA=NZb5YDVbMpmJSaMw@mail.gmail.com>
+Subject: Re: [PATCH qboot] Place setup_data at location specified by host
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: qemu-devel@nongnu.org, Ard Biesheuvel <ardb@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,120 +91,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create virgl renderer context with flags using context_id when valid.
-The feature can be enabled via the context_init config option.
-A warning message will be emitted and the feature will not be used
-when linking with virglrenderer versions without context_init support.
+On Fri, Sep 16, 2022 at 3:42 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> QEMU places setup_data at a particular location, which cannot be
+> relocated due to it containing self references in absolute address
+> terms. For this reason, it supplies the intended location in
+> FW_CFG_SETUP_ADDR, which is what SeaBIOS uses.
 
-Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
-v2:
-- The feature can be enabled via the context_init config option.
-- A warning message will be emitted and the feature will not be used
-  when linking with virglrenderer versions without context_init support.
-v3: Define HAVE_VIRGL_CONTEXT_INIT in config_host_data.
-v5: Move changelog under "---"
+(Technically not SeaBIOS, but rather the option rom provided in QEMU).
 
- hw/display/virtio-gpu-base.c   |  3 +++
- hw/display/virtio-gpu-virgl.c  | 16 ++++++++++++++--
- hw/display/virtio-gpu.c        |  2 ++
- include/hw/virtio/virtio-gpu.h |  3 +++
- meson.build                    |  5 +++++
- 5 files changed, 27 insertions(+), 2 deletions(-)
+> So use this too in qboot.
+> This also has the effect of removing the 8k limit on the copied size,
+> since the header is copied to the right location from the beginning.
 
-diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
-index a29f191aa8..6c5f1f327f 100644
---- a/hw/display/virtio-gpu-base.c
-+++ b/hw/display/virtio-gpu-base.c
-@@ -215,6 +215,9 @@ virtio_gpu_base_get_features(VirtIODevice *vdev, uint64_t features,
-     if (virtio_gpu_blob_enabled(g->conf)) {
-         features |= (1 << VIRTIO_GPU_F_RESOURCE_BLOB);
-     }
-+    if (virtio_gpu_context_init_enabled(g->conf)) {
-+        features |= (1 << VIRTIO_GPU_F_CONTEXT_INIT);
-+    }
- 
-     return features;
- }
-diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
-index 73cb92c8d5..274cbc44de 100644
---- a/hw/display/virtio-gpu-virgl.c
-+++ b/hw/display/virtio-gpu-virgl.c
-@@ -97,8 +97,20 @@ static void virgl_cmd_context_create(VirtIOGPU *g,
-     trace_virtio_gpu_cmd_ctx_create(cc.hdr.ctx_id,
-                                     cc.debug_name);
- 
--    virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen,
--                                  cc.debug_name);
-+    if (cc.context_init) {
-+#ifdef HAVE_VIRGL_CONTEXT_INIT
-+        virgl_renderer_context_create_with_flags(cc.hdr.ctx_id,
-+                                                 cc.context_init,
-+                                                 cc.nlen,
-+                                                 cc.debug_name);
-+        return;
-+#else
-+        qemu_log_mask(LOG_UNIMP,
-+                      "Linked virglrenderer does not support context-init\n");
-+#endif
-+    }
-+    
-+    virgl_renderer_context_create(cc.hdr.ctx_id, cc.nlen, cc.debug_name);
- }
- 
- static void virgl_cmd_context_destroy(VirtIOGPU *g,
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 20cc703dcc..fa667ec234 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -1424,6 +1424,8 @@ static Property virtio_gpu_properties[] = {
-                      256 * MiB),
-     DEFINE_PROP_BIT("blob", VirtIOGPU, parent_obj.conf.flags,
-                     VIRTIO_GPU_FLAG_BLOB_ENABLED, false),
-+    DEFINE_PROP_BIT("context_init", VirtIOGPU, parent_obj.conf.flags,
-+                    VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-index 2e28507efe..c6f5cfde47 100644
---- a/include/hw/virtio/virtio-gpu.h
-+++ b/include/hw/virtio/virtio-gpu.h
-@@ -90,6 +90,7 @@ enum virtio_gpu_base_conf_flags {
-     VIRTIO_GPU_FLAG_EDID_ENABLED,
-     VIRTIO_GPU_FLAG_DMABUF_ENABLED,
-     VIRTIO_GPU_FLAG_BLOB_ENABLED,
-+    VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED,
- };
- 
- #define virtio_gpu_virgl_enabled(_cfg) \
-@@ -102,6 +103,8 @@ enum virtio_gpu_base_conf_flags {
-     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_DMABUF_ENABLED))
- #define virtio_gpu_blob_enabled(_cfg) \
-     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_BLOB_ENABLED))
-+#define virtio_gpu_context_init_enabled(_cfg) \
-+    (_cfg.flags & (1 << VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED))
- 
- struct virtio_gpu_base_conf {
-     uint32_t max_outputs;
-diff --git a/meson.build b/meson.build
-index c2adb7caf4..08303e7aac 100644
---- a/meson.build
-+++ b/meson.build
-@@ -718,6 +718,11 @@ if not get_option('virglrenderer').auto() or have_system or have_vhost_user_gpu
-                      method: 'pkg-config',
-                      required: get_option('virglrenderer'),
-                      kwargs: static_kwargs)
-+
-+  config_host_data.set('HAVE_VIRGL_CONTEXT_INIT',
-+                       cc.has_function('virgl_renderer_context_create_with_flags',
-+                                       prefix: '#include <virglrenderer.h>',
-+                                       dependencies: virgl))
- endif
- curl = not_found
- if not get_option('curl').auto() or have_block
--- 
-2.34.1
+This was "intentional" to make qboot more similar to the edk2 linuxboot code.
+At the time it seemed like a good idea; of course it was not.
+
+If I understand correctly the bad situation cannot happen because
+QEMU and fw_cfg share the same code to decide on the setup_addr.
+Unlike with the UEFI handover protocol, qboot always boots the
+real mode stub. Still it's a nice fix to remove the 8K limit.
+
+Patch pushed to qboot.git, and the submodule update will be in the
+next pull request.
+
+Paolo
 
 
