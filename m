@@ -2,62 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAA775BCB47
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 13:56:56 +0200 (CEST)
-Received: from localhost ([::1]:46990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 581025BCB5F
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 14:02:17 +0200 (CEST)
+Received: from localhost ([::1]:53018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaFOR-0005HR-35
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 07:56:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58540)
+	id 1oaFTb-000320-72
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 08:02:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oaF7V-0005VB-6s
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 07:39:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39358)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1oaFIc-0002V3-HC
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 07:50:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oaF7Q-0002qH-MX
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 07:39:22 -0400
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1oaFIX-00052W-W0
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 07:50:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663587559;
+ s=mimecast20190719; t=1663588248;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=u6aPVSYTUAam3I68SQGhcUjAaBfCKbO2Dg86PpwLW08=;
- b=L6r5upm67Ok8wFaYgztNE/1FtX8NCfC8Y7Spi5OWkAMEnuiFEKdEbAzRf1dOiGjvEUThog
- NmUmErmUuMZI2TQ5PM3F6vyOYpazuxo8bp/rhTl94KI5Yv9UA6mOxFiVOEkM2f/9xkcXRt
- BQaVIRAji8/43Bn+QmYxwv797gMea9c=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-189-ybqXyUl8N0KHsD455ehJFg-1; Mon, 19 Sep 2022 07:39:17 -0400
-X-MC-Unique: ybqXyUl8N0KHsD455ehJFg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A6C0981173B
- for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 11:39:17 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 70D192166B26;
- Mon, 19 Sep 2022 11:39:17 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id ED3BE21E6900; Mon, 19 Sep 2022 13:39:15 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: victortoso@redhat.com
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, stefanha@redhat.com
-Subject: Re: [PULL 00/10] QAPI patches patches for 2022-09-07
-References: <20220907150327.538464-1-armbru@redhat.com>
- <YxnK7jFo+g2Ahvf4@redhat.com> <87illydrta.fsf@pond.sub.org>
- <87czc6dria.fsf@pond.sub.org>
-Date: Mon, 19 Sep 2022 13:39:15 +0200
-In-Reply-To: <87czc6dria.fsf@pond.sub.org> (Markus Armbruster's message of
- "Thu, 08 Sep 2022 13:39:41 +0200")
-Message-ID: <877d1z7fvg.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=GV3no5O0Ex/rN2YWvmnsmrtYDlp5PG+8hTX2YdS6fAE=;
+ b=GvxbszcmzNbo179WIjRlpJKnuaTA1SyGQPXwBMe4AE2E+AncnrRXZ21a1O4WOMZrBqcIVf
+ G2Bjoi9wmNy73/bLuhz2Z6Swuh/cHFKEQcTtXLqs/MjMU7UPRyL0AcrabtwFsvyGt5QFgd
+ qBieLvusge6LrQHaz6W23JTmE0AXKbQ=
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-45-h8tBWtUSM5-2Ec7NNsGQjA-1; Mon, 19 Sep 2022 07:50:47 -0400
+X-MC-Unique: h8tBWtUSM5-2Ec7NNsGQjA-1
+Received: by mail-il1-f200.google.com with SMTP id
+ o2-20020a056e0214c200b002eb8acbd27cso19479971ilk.22
+ for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 04:50:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:organization:references
+ :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date;
+ bh=GV3no5O0Ex/rN2YWvmnsmrtYDlp5PG+8hTX2YdS6fAE=;
+ b=j5YedtSdSpeUHCx3D/bmXiiT+3+/V//CVvxJCxQbOjjOiDRmWPk24rucVQh5Z5ut4J
+ KEm/AHLFcehYshXPEm1A60wgxdEmc+tn1NM2eNrAVH4ZfPmnjKPxIw86sqFXFzv6h7pD
+ yIWs825R5pz0JQLHdglmofWtMa56AXqE0tfGBV9+C+6VABFA1X7zPxPHlU3uB9+hibbj
+ HE2STah953f2xHGRJR9z5oN2ChhQQWQqYm/jybnFHMoblu+kDVFPmCM3/h69/wjukUOm
+ P7dWGVvSfBf2804UyhoAVXk4uZtX04KbEdP4CP7S0PEPyCQno6umGrooCF3Bn2DNxZzm
+ oYdw==
+X-Gm-Message-State: ACrzQf3UC/DwCiQoOF6RPGe/iblmMOkKx0uEJluO90gKICrRM1mYqI+b
+ Sc6y+F9CvRAkt4zZk8n8lmwECx4SvFuS5qm1js9Gh7Qkhjm+csDMFAUQ6S67hob0hdHuI41nHT8
+ Cuo1caxbSdKJuRJI=
+X-Received: by 2002:a05:6638:448d:b0:35a:81aa:939d with SMTP id
+ bv13-20020a056638448d00b0035a81aa939dmr7595379jab.312.1663588246827; 
+ Mon, 19 Sep 2022 04:50:46 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4KzFqUPYXK2rP5BdhBXzGXT+zAPAdj8v4+ah4jNxj6Xo3jOADS03LFINjLJ9z+XUT06aYWQQ==
+X-Received: by 2002:a05:6638:448d:b0:35a:81aa:939d with SMTP id
+ bv13-20020a056638448d00b0035a81aa939dmr7595363jab.312.1663588246630; 
+ Mon, 19 Sep 2022 04:50:46 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ y12-20020a02354c000000b00349dccb3855sm5489069jae.72.2022.09.19.04.50.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Sep 2022 04:50:46 -0700 (PDT)
+Date: Mon, 19 Sep 2022 05:50:44 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: liulongfang <liulongfang@huawei.com>
+Cc: Avihai Horon <avihaih@nvidia.com>, <qemu-devel@nongnu.org>, Cornelia
+ Huck <cohuck@redhat.com>, "Juan Quintela" <quintela@redhat.com>, "Dr .
+ David Alan Gilbert" <dgilbert@redhat.com>, Joao Martins
+ <joao.m.martins@oracle.com>, Yishai Hadas <yishaih@nvidia.com>, Jason
+ Gunthorpe <jgg@nvidia.com>, Mark Bloch <mbloch@nvidia.com>, Maor Gottlieb
+ <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
+ <targupta@nvidia.com>, "Shameerali Kolothum Thodi"
+ <shameerali.kolothum.thodi@huawei.com>, <jiangkunkun@huawei.com>
+Subject: Re: [PATCH v2 08/11] vfio/migration: Remove VFIO migration protocol v1
+Message-ID: <20220919055044.47372c9f.alex.williamson@redhat.com>
+In-Reply-To: <efba4434-4044-f7ff-0f22-a5e39f48560f@huawei.com>
+References: <20220530170739.19072-1-avihaih@nvidia.com>
+ <20220530170739.19072-9-avihaih@nvidia.com>
+ <efba4434-4044-f7ff-0f22-a5e39f48560f@huawei.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -81,52 +109,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Gentle reminder, Victor :)
+On Mon, 19 Sep 2022 16:35:49 +0800
+liulongfang <liulongfang@huawei.com> wrote:
 
-Markus Armbruster <armbru@redhat.com> writes:
+> On 2022/5/31 1:07, Avihai Horon Wrote:
+> > Now that v2 protocol implementation has been added, remove the
+> > deprecated v1 implementation.
+> > "struct vfio_device_migration_info" still exists in vfio.h,  
+> why does qemu need to delete v1 implementation?
 
-> Markus Armbruster <armbru@redhat.com> writes:
->
->> Kevin Wolf <kwolf@redhat.com> writes:
->>
->>> Am 07.09.2022 um 17:03 hat Markus Armbruster geschrieben:
->>>> The following changes since commit 946e9bccf12f2bcc3ca471b820738fb22d14fc80:
->>>> 
->>>>   Merge tag 'samuel-thibault' of https://people.debian.org/~sthibault/qemu into staging (2022-09-06 08:31:24 -0400)
->>>> 
->>>> are available in the Git repository at:
->>>> 
->>>>   git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2022-09-07
->>>> 
->>>> for you to fetch changes up to 6e7a37ffc230d06852f1a8893097331d39df77c9:
->>>> 
->>>>   qapi: fix examples of events missing timestamp (2022-09-07 15:10:13 +0200)
->>>> 
->>>> ----------------------------------------------------------------
->>>> QAPI patches patches for 2022-09-07
->>>> 
->>>> ----------------------------------------------------------------
->>>> Victor Toso (10):
->>>>       qapi: fix example of query-ballon command
->>>>       qapi: fix example of query-vnc command
->>>>       qapi: fix example of query-dump-guest-memory-capability command
->>>>       qapi: fix example of BLOCK_JOB_READY event
->>>>       qapi: fix example of NIC_RX_FILTER_CHANGED event
->>>>       qapi: fix example of DEVICE_UNPLUG_GUEST_ERROR event
->>>>       qapi: fix example of MEM_UNPLUG_ERROR event
->>>>       qapi: fix examples of blockdev-add with qcow2
->>>
->>> NACK, this patch is wrong.
->>>
->>> 'file' is a required member (defined in BlockdevOptionsGenericFormat),
->>> removing it makes the example invalid. 'data-file' is only an additional
->>> optional member to be used for external data files (i.e. when the guest
->>> data is kept separate from the metadata in the .qcow2 file).
->>
->> I'll respin with #8 dropped.  Thank you!
->
-> Too late, it's already merged.
->
-> Victor, could you fix on top?  Or would you like me to revert the patch?
+It never progressed past experimental support, upstream never committed
+to support it, it's dead code relative to the kernel specification now.
+Thanks,
+
+Alex
 
 
