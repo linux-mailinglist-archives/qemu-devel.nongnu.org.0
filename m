@@ -2,66 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C59135BD38B
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 19:21:57 +0200 (CEST)
-Received: from localhost ([::1]:55824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03CA65BD3C6
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 19:34:10 +0200 (CEST)
+Received: from localhost ([::1]:55694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaKSy-0005oU-Ly
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 13:21:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60978)
+	id 1oaKem-0001wv-SH
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 13:34:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oaKRJ-0002IJ-LT; Mon, 19 Sep 2022 13:20:13 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:44914)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oaKRH-0008QD-Me; Mon, 19 Sep 2022 13:20:13 -0400
-Received: from iva8-3a65cceff156.qloud-c.yandex.net
- (iva8-3a65cceff156.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2d80:0:640:3a65:ccef])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 452B62E0941;
- Mon, 19 Sep 2022 20:20:02 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b505::1:12] (unknown
- [2a02:6b8:b081:b505::1:12])
- by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- DIMuETEkt8-K0P8TSJp; Mon, 19 Sep 2022 20:20:01 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1663608001; bh=vuv18Wpqa0frrNY/BP+SHMy9DkdfbRTeea4CAv4Yn0I=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=Wk4RUOs6KE30mVtzj3Oe9v37nsUmfR6NFU1K2yLpIRyeaEKaH7Yzytj8bQnSTNJzf
- 0aFIslssOeUubPeHbEz6yc2kkyjGmT8MernC80v3S6EA3oydgxpyuMHGl3ZpowrEmF
- S/hU9o3OY9MB4cWcNIZymued5aj+cskQ4ZeFd5mQ=
-Authentication-Results: iva8-3a65cceff156.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <7fc8bc06-6a44-9dc9-2fe4-4b7a321bf86b@yandex-team.ru>
-Date: Mon, 19 Sep 2022 20:20:00 +0300
+ (Exim 4.90_1) (envelope-from <zhangjian.3032@bytedance.com>)
+ id 1oaKSd-00056Z-Pt
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:21:35 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:46986)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <zhangjian.3032@bytedance.com>)
+ id 1oaKSY-0000OD-Ay
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:21:32 -0400
+Received: by mail-pl1-x635.google.com with SMTP id jm11so28469101plb.13
+ for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 10:21:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=bCmvzAKny1aLEo3VxnAGoHnqK+UgoHYHKIov0Cln1Dw=;
+ b=NwF9SeIUsO61E3Q4947wxWSF6AyGzw+Zcb2gGr2eVYex+q81F+GCK+2aI0XwFGHDPQ
+ h+jjQ7LsT0DoMdmX8oEGYJRpFIfkpvFaZkgj0fTRQFQqbBqeo+rzuaLC32uy8FgFbmPE
+ HZtuAiwgUvGWLBVmUrCJ29bnj+ZSxPHeAZq7KbBv/nPNEN6DWd5Rjm4f5GfU4CQM5KUR
+ Gih3w/kvmMqlqWB5dp9WXXRbIcBioaSF1iAZwKsCn8gzw67BEzloLfYKQCPlCPHD3sLG
+ hw+uKziGBALcxEfvBXqnrRvzFBvFi1NeypuYj5PwyJdT7k/wW/+B5Q4p0N17FCYoZcDL
+ RfVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=bCmvzAKny1aLEo3VxnAGoHnqK+UgoHYHKIov0Cln1Dw=;
+ b=ymxJWZ1zPLie+3V/JnDwJmwI17RAAm4HkDMv+CX+yxZ9tW1WMTrp5KBWXjCa020zh0
+ 064unMe1oXVTNz4+ID2VXFgvNHDnVEWhvzKIqusttRmbP2uCSya0uLZfiJBUtIHHzd3k
+ B9sWUSmAx4kUoOSBkZgHXaKvXNTEJ0TDFy4Oh2OiBat3MGz05QWrXyEojRHy+5F06dbl
+ W/hRQ0/XQCifD6jl86t8TyWmr1fHnJJ3Q+mWRK7/Eyla1IOE/1NVbgd2HHpWYisWy/R3
+ 5d6rv8M+9Q9aN0BmU1eblRahlXRoDVSW0DVcxVLN5JCFk6BSuVHagwmuhXJIHSozVOs/
+ FaUg==
+X-Gm-Message-State: ACrzQf00OMaKpIIEI3NKnip4pdYqzrsboH8h7+U9n5vyJWIWmd3fK++F
+ wfseo9FBn417kyksCP5cm0rVdw==
+X-Google-Smtp-Source: AMsMyM5nBvwaM0Ks0BhGtXXYh9+CUZnN828XMiRZe82errJdbT5BqXijxnwdcAXJ+pUNcm74DrxvxA==
+X-Received: by 2002:a17:902:8648:b0:178:1b71:c295 with SMTP id
+ y8-20020a170902864800b001781b71c295mr765292plt.148.1663608087081; 
+ Mon, 19 Sep 2022 10:21:27 -0700 (PDT)
+Received: from localhost ([49.7.199.170]) by smtp.gmail.com with ESMTPSA id
+ r15-20020a63a54f000000b0043395af24f6sm18908032pgu.25.2022.09.19.10.21.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Sep 2022 10:21:26 -0700 (PDT)
+From: Jian Zhang <zhangjian.3032@bytedance.com>
+To: peter.maydell@linaro.org, clg@kaod.org, andrew@aj.id.au, joel@jms.id.au,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Cc: yulei.sh@bytedance.com, tangyiwei.2022@bytedance.com,
+ chentingting.2150@bytedance.com, yuhao.17@bytedance.com,
+ wangxiaohua.1217@bytedance.com, xiening.xll@bytedance.com,
+ Jian Zhang <zhangjian.3032@bytedance.com>
+Subject: [PATCH 0/3] Add a host power device
+Date: Tue, 20 Sep 2022 01:21:09 +0800
+Message-Id: <20220919172112.2706026-1-zhangjian.3032@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v7 for-7.2 00/15] block: cleanup backing and file handling
-Content-Language: en-US
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com
-References: <20220726201134.924743-1-vsementsov@yandex-team.ru>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20220726201134.924743-1-vsementsov@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.952,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=zhangjian.3032@bytedance.com; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 19 Sep 2022 13:29:46 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,73 +90,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping. Seems, all patches are reviewed
+This patchset adds a host power device and added it into the g220a
+mahcine. The BMC have a important is to control the power of the host,
+usually it is nessary in a hardware platform.
 
-On 7/26/22 23:11, Vladimir Sementsov-Ogievskiy wrote:
-> Hi all!
-> 
-> That's the first part of
-> "[PATCH v5 00/45] Transactional block-graph modifying API",
-> updated and is fully reviewed by Hanna.
-> 
-> v7: add r-bs and rebase on master
-> 
-> Vladimir Sementsov-Ogievskiy (15):
->    block: BlockDriver: add .filtered_child_is_backing field
->    block: introduce bdrv_open_file_child() helper
->    block/blklogwrites: don't care to remove bs->file child on failure
->    test-bdrv-graph-mod: update test_parallel_perm_update test case
->    tests-bdrv-drain: bdrv_replace_test driver: declare supports_backing
->    test-bdrv-graph-mod: fix filters to be filters
->    block: document connection between child roles and
->      bs->backing/bs->file
->    block/snapshot: stress that we fallback to primary child
->    Revert "block: Let replace_child_noperm free children"
->    Revert "block: Let replace_child_tran keep indirect pointer"
->    Revert "block: Restructure remove_file_or_backing_child()"
->    Revert "block: Pass BdrvChild ** to replace_child_noperm"
->    block: Manipulate bs->file / bs->backing pointers in .attach/.detach
->    block/snapshot: drop indirection around bdrv_snapshot_fallback_ptr
->    block: refactor bdrv_remove_file_or_backing_child to bdrv_remove_child
-> 
->   block.c                            | 435 ++++++++++-------------------
->   block/blkdebug.c                   |   9 +-
->   block/blklogwrites.c               |  11 +-
->   block/blkreplay.c                  |   7 +-
->   block/blkverify.c                  |   9 +-
->   block/bochs.c                      |   7 +-
->   block/cloop.c                      |   7 +-
->   block/commit.c                     |   1 +
->   block/copy-before-write.c          |   9 +-
->   block/copy-on-read.c               |   9 +-
->   block/crypto.c                     |  11 +-
->   block/dmg.c                        |   7 +-
->   block/filter-compress.c            |   8 +-
->   block/mirror.c                     |   1 +
->   block/parallels.c                  |   7 +-
->   block/preallocate.c                |   9 +-
->   block/qcow.c                       |   6 +-
->   block/qcow2.c                      |   8 +-
->   block/qed.c                        |   8 +-
->   block/raw-format.c                 |   4 +-
->   block/replication.c                |   8 +-
->   block/snapshot-access.c            |   6 +-
->   block/snapshot.c                   |  59 ++--
->   block/throttle.c                   |   8 +-
->   block/vdi.c                        |   7 +-
->   block/vhdx.c                       |   7 +-
->   block/vmdk.c                       |   7 +-
->   block/vpc.c                        |   7 +-
->   include/block/block-common.h       |  39 +++
->   include/block/block-global-state.h |   3 +
->   include/block/block_int-common.h   |  29 +-
->   tests/unit/test-bdrv-drain.c       |  11 +-
->   tests/unit/test-bdrv-graph-mod.c   | 104 ++++---
->   33 files changed, 389 insertions(+), 479 deletions(-)
-> 
+The BMC(soc) usually had a output pin to control the power of the host,
+and a input pin to get the power status of the host.
 
+The host power device is a generic device to simulate the host power,
+accept the power control command from the BMC and report the power
+status.
 
--- 
-Best regards,
-Vladimir
+Test on the g220a machine, the host power control command can be simply
+work.
+
+Jian Zhang (3):
+  hw/gpio/aspeed_gpio: Add gpios in/out init
+  hw/misc/host_power: Add a simple host power device
+  hw/arm/aspeed: g220a: Add host-power device
+
+ MAINTAINERS                  |   2 +
+ hw/arm/Kconfig               |   1 +
+ hw/arm/aspeed.c              |  19 +++++++
+ hw/gpio/aspeed_gpio.c        |  17 ++++++
+ hw/misc/Kconfig              |   3 +
+ hw/misc/host_power.c         | 105 +++++++++++++++++++++++++++++++++++
+ hw/misc/meson.build          |   1 +
+ include/hw/misc/host_power.h |  41 ++++++++++++++
+ 8 files changed, 189 insertions(+)
+ create mode 100644 hw/misc/host_power.c
+ create mode 100644 include/hw/misc/host_power.h
+
+--
+2.25.1
+
 
