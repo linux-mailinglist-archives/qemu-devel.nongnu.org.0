@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA75D5BD455
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 20:04:56 +0200 (CEST)
-Received: from localhost ([::1]:41864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 121CD5BD459
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 20:05:43 +0200 (CEST)
+Received: from localhost ([::1]:48374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaL8Y-0004nL-Ma
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 14:04:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48202)
+	id 1oaL9J-00061l-Uq
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 14:05:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oaKgB-0003Kw-Qn
+ id 1oaKgB-0003LD-Ts
  for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:35:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20564)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oaKg0-0003By-UL
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:35:33 -0400
+ id 1oaKg1-0003CD-JT
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:35:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663608924;
+ s=mimecast20190719; t=1663608925;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k4C0VUgdBwQ6L57zBQtY/ZfQFEkt7lIRQ5EO43Tbgjc=;
- b=CBKkWbox2AI7wF2HInnFbQSoPc4yaFzqrTAeSKOni+/6PPIfyrHBeLt0+3TsIFo4VvQPJU
- mL7E2OqYOk6Xpo++0zzvkDm0TZrpYr2etqpSl5U+xopLHbWOfk4P3l9rMw2DPOzgngcMJd
- oEYQ8c0ggPUicmEUiKzPYVHPgvB+r7k=
+ bh=+qG6qdgR8Jto65cTPgnYEY9MvMDpxeVZ+fynp1vP//c=;
+ b=IOZWC4l5gYPkPPk7GyYtY3kOcbPqJu+Z3sJyFg6rTlzU9CfP4SgI083MM4h4JGbDGmxX0G
+ NiGku4hRmErWpzEjCQI5M67GhmZ03+Hrh3J3/2HOkhu7AiBDr9B+3mT7jOdNZK34bVDXVr
+ a2+ITrYuEYmJ4omM7iZ7qIBdD+VhxW4=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-526-9t5nxkJ_OIK32G7pDR4jhA-1; Mon, 19 Sep 2022 13:35:23 -0400
-X-MC-Unique: 9t5nxkJ_OIK32G7pDR4jhA-1
+ us-mta-638-IgcyNbP2NN69B6KRv224DQ-1; Mon, 19 Sep 2022 13:35:23 -0400
+X-MC-Unique: IgcyNbP2NN69B6KRv224DQ-1
 Received: by mail-wm1-f71.google.com with SMTP id
- c128-20020a1c3586000000b003b324bb08c5so4945389wma.9
+ i132-20020a1c3b8a000000b003b339a8556eso2854wma.4
  for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 10:35:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=k4C0VUgdBwQ6L57zBQtY/ZfQFEkt7lIRQ5EO43Tbgjc=;
- b=d4lHUzWbFy9mpvPxOvf4VseIP4iTbqxDtIK3Ny7Y/L8ZBI2JTdoPNA7MdnD3y+OBg0
- WyAwcsHDUKcKZChauzKFjtM7Cd1Php8i13IiR4LGMql4/YwE0BXWDtk/zm6grbcSgDFO
- IljFPia0PCYlMjKq3lM9MOoRZns9WaVrKzsAbtYjOrHM3AhkSmFA6y7PrXzIs9S4eXZq
- KLwc2vfKP1qh/D6U+Km7DqCcdeOCnW7USLSpruSmVbjyGyld2YDIRXHZ8wHfJWX1ycad
- MXKH9xUEMVQ5kXb/txf+u7NJZ+VXqPMqqC2r/RBLL3DX0iBUKdZMoaK1E6YfP67A0gV5
- pxOw==
-X-Gm-Message-State: ACrzQf1ylpd7cWKKowg8Hrqbr/C88WA0vpvThjsiLDPVmjsKX9llV7Kt
- DuezDPT1jKLilepsNaaC1GT+ZH3WRofO8r8mjE0j3NxkuWsfOb+gQbGlcP1zAOuNmJHAOhW7Aka
- 4sdYBcIWInxzqZBLgZ5ycmEvFPC2iPClKKePb6+E1nan5RZc9LlVRqcApqX/s1U6avp4=
-X-Received: by 2002:a05:600c:2050:b0:3b4:a51a:a1f5 with SMTP id
- p16-20020a05600c205000b003b4a51aa1f5mr12526224wmg.177.1663608920431; 
- Mon, 19 Sep 2022 10:35:20 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4InAA0/H2U9hf30K9I0RjPWSUtlDR5J+YZCnPOTXTbUBJBYCNnBPcmBnASmydt13buST85BQ==
-X-Received: by 2002:a05:600c:2050:b0:3b4:a51a:a1f5 with SMTP id
- p16-20020a05600c205000b003b4a51aa1f5mr12526211wmg.177.1663608920174; 
- Mon, 19 Sep 2022 10:35:20 -0700 (PDT)
+ bh=+qG6qdgR8Jto65cTPgnYEY9MvMDpxeVZ+fynp1vP//c=;
+ b=VljHfnSGV4iXp/0YdHp4zUMqkpzZgNTMCedAAb48VHhCB/+S30yw6sBU7ETAkXScRe
+ fEWRREgokJwNSkdiK8VfD04THiU708Z9+Dz26ijyHQQyynHK9BHQRHPWvW1sLlzTy14f
+ 1lP/vLJ4vz4tNnWzIBq13X9TwrWwDpsHigOwl8eePShcuRcrhyWXnKYVqQ1CyiBEKwJ7
+ TGVVaUGcRkc2SW8sH+5LT+JVdRP+wbGL6LsXjug9v/kaAATKt5kUL1LLZQ27R9Qw8JUc
+ IBrxS/76GMozt+hnPXBZmnWCZ0tljUIxXDAaqDJ9Mul7yHYKHDK5+HXAydhcroW3qX1Q
+ dFvA==
+X-Gm-Message-State: ACrzQf2z6xoStixqpy0InCLltvrdqi6qcbEq2UfXM85/RIhJJqOrN2jY
+ xjESttjSeSCExOZVKCTTzyWzwg70+PfWv8gAvX4Zv7z0Yuf2By2mqucy+q3AjXjcEdDdzXtGrL/
+ h09B0oGlArOVAG94Kz8KEkkkXu+Ih293z27KnV1rZ3Nb+4FxhKmJ2enoiIbe5g1Vi6W8=
+X-Received: by 2002:a05:600c:4e44:b0:3b4:bed2:4f5e with SMTP id
+ e4-20020a05600c4e4400b003b4bed24f5emr11651331wmq.193.1663608921966; 
+ Mon, 19 Sep 2022 10:35:21 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7PBVp2V8xXAr9Km1zDKYhmda/HUrhIa5R/ttM3dCnPrNuM6ZOx6X3cBW8nBRvfuk35nBJY8A==
+X-Received: by 2002:a05:600c:4e44:b0:3b4:bed2:4f5e with SMTP id
+ e4-20020a05600c4e4400b003b4bed24f5emr11651312wmq.193.1663608921618; 
+ Mon, 19 Sep 2022 10:35:21 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- m9-20020a056000008900b00228cbac7a25sm14137814wrx.64.2022.09.19.10.35.19
+ p8-20020a1c5448000000b003b486027c8asm14221441wmi.20.2022.09.19.10.35.20
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Sep 2022 10:35:19 -0700 (PDT)
+ Mon, 19 Sep 2022 10:35:21 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 19/21] target/i386: introduce insn_get_addr
-Date: Mon, 19 Sep 2022 19:34:47 +0200
-Message-Id: <20220919173449.5864-20-pbonzini@redhat.com>
+Subject: [PULL 20/21] build: remove extra parentheses causing missing rebuilds
+Date: Mon, 19 Sep 2022 19:34:48 +0200
+Message-Id: <20220919173449.5864-21-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220919173449.5864-1-pbonzini@redhat.com>
 References: <20220919173449.5864-1-pbonzini@redhat.com>
@@ -100,70 +100,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "O" operand type in the Intel SDM needs to load an 8- to 64-bit
-unsigned value, while insn_get is limited to 32 bits.  Extract the code
-out of disas_insn and into a separate function.
+Because of two stray parentheses at the end of the definition of
+ninja-cmd-goals, the test that is last in the .check-TESTSUITENAME.deps
+variable will not be rebuilt.  Fix that.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/tcg/translate.c | 36 ++++++++++++++++++++++++++----------
- 1 file changed, 26 insertions(+), 10 deletions(-)
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index eaa56b0f48..44af8c107f 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -2289,6 +2289,31 @@ static void gen_ldst_modrm(CPUX86State *env, DisasContext *s, int modrm,
-     }
- }
+diff --git a/Makefile b/Makefile
+index 13234f2aa4..b576cba5a8 100644
+--- a/Makefile
++++ b/Makefile
+@@ -145,7 +145,7 @@ NINJAFLAGS = $(if $V,-v) $(if $(MAKE.n), -n) $(if $(MAKE.k), -k0) \
+         $(filter-out -j, $(lastword -j1 $(filter -l% -j%, $(MAKEFLAGS)))) \
+         -d keepdepfile
+ ninja-cmd-goals = $(or $(MAKECMDGOALS), all)
+-ninja-cmd-goals += $(foreach g, $(MAKECMDGOALS), $(.ninja-goals.$g))))
++ninja-cmd-goals += $(foreach g, $(MAKECMDGOALS), $(.ninja-goals.$g))
  
-+static target_ulong insn_get_addr(CPUX86State *env, DisasContext *s, MemOp ot)
-+{
-+    target_ulong ret;
-+
-+    switch (ot) {
-+    case MO_8:
-+        ret = x86_ldub_code(env, s);
-+        break;
-+    case MO_16:
-+        ret = x86_lduw_code(env, s);
-+        break;
-+    case MO_32:
-+        ret = x86_ldl_code(env, s);
-+        break;
-+#ifdef TARGET_X86_64
-+    case MO_64:
-+        ret = x86_ldq_code(env, s);
-+        break;
-+#endif
-+    default:
-+        g_assert_not_reached();
-+    }
-+    return ret;
-+}
-+
- static inline uint32_t insn_get(CPUX86State *env, DisasContext *s, MemOp ot)
- {
-     uint32_t ret;
-@@ -5851,16 +5876,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-             target_ulong offset_addr;
- 
-             ot = mo_b_d(b, dflag);
--            switch (s->aflag) {
--#ifdef TARGET_X86_64
--            case MO_64:
--                offset_addr = x86_ldq_code(env, s);
--                break;
--#endif
--            default:
--                offset_addr = insn_get(env, s, s->aflag);
--                break;
--            }
-+            offset_addr = insn_get_addr(env, s, s->aflag);
-             tcg_gen_movi_tl(s->A0, offset_addr);
-             gen_add_A0_ds_seg(s);
-             if ((b & 2) == 0) {
+ makefile-targets := build.ninja ctags TAGS cscope dist clean uninstall
+ # "ninja -t targets" also lists all prerequisites.  If build system
 -- 
 2.37.2
 
