@@ -2,48 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8977E5BD4BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 20:27:24 +0200 (CEST)
-Received: from localhost ([::1]:39934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 393045BD495
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 20:13:39 +0200 (CEST)
+Received: from localhost ([::1]:57154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaLUJ-00078q-AX
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 14:27:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36982)
+	id 1oaLGz-0001bf-PW
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 14:13:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1oaL0f-0003gE-4A; Mon, 19 Sep 2022 13:56:45 -0400
-Received: from [200.168.210.66] (port=43379 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1oaL0b-00060T-48; Mon, 19 Sep 2022 13:56:43 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 19 Sep 2022 14:56:33 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 6CFB980030B;
- Mon, 19 Sep 2022 14:56:33 -0300 (-03)
-From: Leandro Lupori <leandro.lupori@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Cc: npiggin@gmail.com, richard.henderson@linaro.org,
- Leandro Lupori <leandro.lupori@eldorado.org.br>
-Subject: [PATCH v3] tcg/ppc: Optimize 26-bit jumps
-Date: Mon, 19 Sep 2022 14:56:14 -0300
-Message-Id: <20220919175614.32879-1-leandro.lupori@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oaL3B-00081D-5d
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:59:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33992)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oaL32-0006KJ-El
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:59:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663610350;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qrgUlsPUm1lxtvse+uEsL21auprLeIbkX+cOYEtE9fg=;
+ b=iUd6gTr47UEMzNi8YzqClXjAUJJQz94yJzx8ZWK94btaCxzLvhVxcWQD378vyZ4lqC0mWL
+ tS/Ka5/NFwU9uaKPiA9zYac0w9LeEr63VoxYIrAw01PhrpkSCIsXTrstvLnbkCkJMmfXOT
+ JGhRsxQX33/2h8qbPSxhCZz/7geFvik=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-604-fsEdER0sPfKI-xo9eLCUig-1; Mon, 19 Sep 2022 13:59:09 -0400
+X-MC-Unique: fsEdER0sPfKI-xo9eLCUig-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ e15-20020a056402190f00b0044f41e776a0so175065edz.0
+ for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 10:59:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=qrgUlsPUm1lxtvse+uEsL21auprLeIbkX+cOYEtE9fg=;
+ b=vChB00A40dlwFkdGIsChoBj8MeUgrGJv5GcJC+5+6lpqRGYS8/hXy9R5IL0MDI1CS7
+ FkjfzwapzimveuhDpKCWI0DFGYafULEanonDA2CtZQklvXXCaRrMdklHrq6Q29eCGKiB
+ /4Mr0eZehAdgdNAqriLWf2PgKDuJ4m2qyhj7cX+Z42wpuGYjQypXThlyEr1rwUyJc6mv
+ 5S4RT0FGYnCNEbCWxC5izejCgb1YEcIAVoBbnJrwZ2s4Sy4RVJ1dYYdGCUYQMn+qDGfs
+ 7TC8CJLumgLLje1Co/i8P0KgDlakIqnOtdi616BNthyLnoV7nmmgEKc8Eqai2Dcv6a9V
+ zR0g==
+X-Gm-Message-State: ACrzQf08MLgFBR9rMYnxhsBKVLFSzbT+CbTS3Lpgo7bGGZtgwL5gilLA
+ yWZhouLkzTMd+B/07/SvMKPvv/di0tUbOANQUfojVX0is8rhvI4NUGcq7eKJUbgaBAUG6bTTu2e
+ TjOFc/4Zh5bSzJ+M=
+X-Received: by 2002:a05:6402:b85:b0:44e:dad7:3e24 with SMTP id
+ cf5-20020a0564020b8500b0044edad73e24mr17179796edb.264.1663610348329; 
+ Mon, 19 Sep 2022 10:59:08 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5Z3tfkNtzcw6Zj18xVKx3kdeyMkIZHDl/7zm1p4vVpK7o7arV8J5A+ys5CMiw1zxgdyle7CQ==
+X-Received: by 2002:a05:6402:b85:b0:44e:dad7:3e24 with SMTP id
+ cf5-20020a0564020b8500b0044edad73e24mr17179761edb.264.1663610348114; 
+ Mon, 19 Sep 2022 10:59:08 -0700 (PDT)
+Received: from [192.168.8.103] (tmo-083-219.customers.d1-online.com.
+ [80.187.83.219]) by smtp.gmail.com with ESMTPSA id
+ c10-20020a17090618aa00b0078194737761sm508008ejf.124.2022.09.19.10.59.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Sep 2022 10:59:07 -0700 (PDT)
+Message-ID: <51bfcb7d-b929-b192-bd7a-158f494d2d30@redhat.com>
+Date: Mon, 19 Sep 2022 19:59:05 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 1/8] qtest: "-display none" is set in qtest_init()
+Content-Language: en-US
+To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Darren Kenny <darren.kenny@oracle.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Gerd Hoffmann <kraxel@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Hannes Reinecke <hare@suse.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-block@nongnu.org
+References: <20220902165126.1482-1-quintela@redhat.com>
+ <20220902165126.1482-2-quintela@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220902165126.1482-2-quintela@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-OriginalArrivalTime: 19 Sep 2022 17:56:33.0821 (UTC)
- FILETIME=[27B7E4D0:01D8CC51]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=leandro.lupori@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.952, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,159 +111,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PowerPC64 processors handle direct branches better than indirect
-ones, resulting in less stalled cycles and branch misses.
+On 02/09/2022 18.51, Juan Quintela wrote:
+> So we don't need to set anywhere else.
+> 
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> ---
+>   tests/qtest/bios-tables-test.c      | 2 +-
+>   tests/qtest/fuzz-lsi53c895a-test.c  | 2 +-
+>   tests/qtest/fuzz-megasas-test.c     | 2 +-
+>   tests/qtest/fuzz-sb16-test.c        | 6 +++---
+>   tests/qtest/fuzz-sdcard-test.c      | 6 +++---
+>   tests/qtest/fuzz-virtio-scsi-test.c | 2 +-
+>   tests/qtest/fuzz-xlnx-dp-test.c     | 2 +-
+>   tests/qtest/fuzz/generic_fuzz.c     | 3 +--
+>   tests/qtest/fuzz/i440fx_fuzz.c      | 2 +-
+>   tests/qtest/fuzz/qos_fuzz.c         | 2 +-
+>   10 files changed, 14 insertions(+), 15 deletions(-)
 
-However, PPC's tb_target_set_jmp_target() was only using direct
-branches for 16-bit jumps, while PowerPC64's unconditional branch
-instructions are able to handle displacements of up to 26 bits.
-To take advantage of this, now jumps whose displacements fit in
-between 17 and 26 bits are also converted to direct branches.
-
-Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
----
-v3:
-  - make goto tb code 16-byte aligned
-  - code cleanup
-
-v2: use stq to replace all instructions atomically
-
- tcg/ppc/tcg-target.c.inc | 105 +++++++++++++++++++++++++++------------
- 1 file changed, 74 insertions(+), 31 deletions(-)
-
-diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index 1cbd047ab3..0cde11c3de 100644
---- a/tcg/ppc/tcg-target.c.inc
-+++ b/tcg/ppc/tcg-target.c.inc
-@@ -1847,44 +1847,87 @@ static void tcg_out_mb(TCGContext *s, TCGArg a0)
-     tcg_out32(s, insn);
- }
- 
--void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
--                              uintptr_t jmp_rw, uintptr_t addr)
-+static inline uint64_t make_pair(tcg_insn_unit i1, tcg_insn_unit i2)
- {
--    if (TCG_TARGET_REG_BITS == 64) {
--        tcg_insn_unit i1, i2;
--        intptr_t tb_diff = addr - tc_ptr;
--        intptr_t br_diff = addr - (jmp_rx + 4);
--        uint64_t pair;
--
--        /* This does not exercise the range of the branch, but we do
--           still need to be able to load the new value of TCG_REG_TB.
--           But this does still happen quite often.  */
--        if (tb_diff == (int16_t)tb_diff) {
--            i1 = ADDI | TAI(TCG_REG_TB, TCG_REG_TB, tb_diff);
--            i2 = B | (br_diff & 0x3fffffc);
--        } else {
--            intptr_t lo = (int16_t)tb_diff;
--            intptr_t hi = (int32_t)(tb_diff - lo);
--            assert(tb_diff == hi + lo);
--            i1 = ADDIS | TAI(TCG_REG_TB, TCG_REG_TB, hi >> 16);
--            i2 = ADDI | TAI(TCG_REG_TB, TCG_REG_TB, lo);
--        }
--#if HOST_BIG_ENDIAN
--        pair = (uint64_t)i1 << 32 | i2;
-+    if (HOST_BIG_ENDIAN) {
-+        return (uint64_t)i1 << 32 | i2;
-+    }
-+    return (uint64_t)i2 << 32 | i1;
-+}
-+
-+static inline void ppc64_replace2(uintptr_t rx, uintptr_t rw,
-+    tcg_insn_unit i0, tcg_insn_unit i1)
-+{
-+#if TCG_TARGET_REG_BITS == 64
-+    qatomic_set((uint64_t *)rw, make_pair(i0, i1));
-+    flush_idcache_range(rx, rw, 8);
- #else
--        pair = (uint64_t)i2 << 32 | i1;
-+    qemu_build_not_reached();
- #endif
-+}
- 
--        /* As per the enclosing if, this is ppc64.  Avoid the _Static_assert
--           within qatomic_set that would fail to build a ppc32 host.  */
--        qatomic_set__nocheck((uint64_t *)jmp_rw, pair);
--        flush_idcache_range(jmp_rx, jmp_rw, 8);
--    } else {
-+static inline void ppc64_replace4(uintptr_t rx, uintptr_t rw,
-+    tcg_insn_unit i0, tcg_insn_unit i1, tcg_insn_unit i2, tcg_insn_unit i3)
-+{
-+    uint64_t p[2];
-+
-+    p[!HOST_BIG_ENDIAN] = make_pair(i0, i1);
-+    p[HOST_BIG_ENDIAN] = make_pair(i2, i3);
-+
-+    asm("mr  %%r6, %1\n\t"
-+        "mr  %%r7, %2\n\t"
-+        "stq %%r6, %0"
-+        : "=Q"(*(__int128 *)rw) : "r"(p[0]), "r"(p[1]) : "r6", "r7");
-+    flush_idcache_range(rx, rw, 16);
-+}
-+
-+void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
-+                              uintptr_t jmp_rw, uintptr_t addr)
-+{
-+    tcg_insn_unit i0, i1, i2, i3;
-+    intptr_t tb_diff = addr - tc_ptr;
-+    intptr_t br_diff = addr - (jmp_rx + 4);
-+    intptr_t lo, hi;
-+
-+    if (TCG_TARGET_REG_BITS == 32) {
-         intptr_t diff = addr - jmp_rx;
-         tcg_debug_assert(in_range_b(diff));
-         qatomic_set((uint32_t *)jmp_rw, B | (diff & 0x3fffffc));
-         flush_idcache_range(jmp_rx, jmp_rw, 4);
-+        return;
-+    }
-+
-+    /*
-+     * This does not exercise the range of the branch, but we do
-+     * still need to be able to load the new value of TCG_REG_TB.
-+     * But this does still happen quite often.
-+     */
-+    if (tb_diff == (int16_t)tb_diff) {
-+        i0 = ADDI | TAI(TCG_REG_TB, TCG_REG_TB, tb_diff);
-+        i1 = B | (br_diff & 0x3fffffc);
-+        ppc64_replace2(jmp_rx, jmp_rw, i0, i1);
-+        return;
-+    }
-+
-+    lo = (int16_t)tb_diff;
-+    hi = (int32_t)(tb_diff - lo);
-+    assert(tb_diff == hi + lo);
-+    i0 = ADDIS | TAI(TCG_REG_TB, TCG_REG_TB, hi >> 16);
-+    i1 = ADDI | TAI(TCG_REG_TB, TCG_REG_TB, lo);
-+    if (!have_isa_2_07) {
-+        ppc64_replace2(jmp_rx, jmp_rw, i0, i1);
-+        return;
-+    }
-+
-+    br_diff -= 4;
-+    if (in_range_b(br_diff)) {
-+        i2 = B | (br_diff & 0x3fffffc);
-+        i3 = NOP;
-+    } else {
-+        i2 = MTSPR | RS(TCG_REG_TB) | CTR;
-+        i3 = BCCTR | BO_ALWAYS;
-     }
-+    ppc64_replace4(jmp_rx, jmp_rw, i0, i1, i2, i3);
- }
- 
- static void tcg_out_call_int(TCGContext *s, int lk,
-@@ -2574,8 +2617,8 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         if (s->tb_jmp_insn_offset) {
-             /* Direct jump. */
-             if (TCG_TARGET_REG_BITS == 64) {
--                /* Ensure the next insns are 8-byte aligned. */
--                if ((uintptr_t)s->code_ptr & 7) {
-+                /* Ensure the next insns are 16-byte aligned. */
-+                while ((uintptr_t)s->code_ptr & 15) {
-                     tcg_out32(s, NOP);
-                 }
-                 s->tb_jmp_insn_offset[args[0]] = tcg_current_code_size(s);
--- 
-2.25.1
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
