@@ -2,140 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7B675BD120
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 17:35:33 +0200 (CEST)
-Received: from localhost ([::1]:39648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3744F5BD1C1
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 18:03:10 +0200 (CEST)
+Received: from localhost ([::1]:52756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaIo0-0004JM-2i
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 11:35:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54462)
+	id 1oaJEi-0002e6-AP
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 12:03:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael.labiuk@virtuozzo.com>)
- id 1oaIjz-0002K4-1p
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 11:31:24 -0400
-Received: from mail-dbaeur03on20725.outbound.protection.outlook.com
- ([2a01:111:f400:fe1a::725]:7152
- helo=EUR03-DBA-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oaJ5Z-0003v9-UD
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 11:53:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32498)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael.labiuk@virtuozzo.com>)
- id 1oaIjw-0004z4-Q1
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 11:31:22 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SIzIs59L9eccZrj0ggnhP/t+1KoFvz7j3d45MBJnSZpMQ77UpVBPchjvezVVR9w4H688eJssh4jVQEP+xaUnn7vaPMvNA5GF6Zzl2J3i9MocbX2M9RvBUoH2NRXulkCs4hTeCV18NLZFiDgTeb8Msx3/wiUHkNCjQTtife17kIr5lzuV5Bzm/wyx6K+Jrp9S8up52FY5cyOcOEcsfNQW3i/nf7BPmeKI4cH90affJkAPo5Y3Tm4kt0eGTO8MD0+DmUtWtnqdE8Ufy410O/J738FNEYDepXYq916hbVmYCWiihSdDdTGHP0PUTAfutdjnOrNv1843nY3e/TzRdHdC+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3BnbXf1umnbWEI9o6LO/ZAwn+CTz168efkly9mcXMAk=;
- b=jZp42OKajOfwwLKdNJX1Ic0GAvOQp51Ew/K26iztJ/EVzr4Y/YT9AbRLC1MpdIK3eCBsOV5W9ppWvDuZ2lfi12auRNE0fOCl7cOzRp04lzKK0tPkWP6jYUbIoHqiliu2H/vsclSiueGS7ha6/AS9KuWg8z1r8pEAnPYBdpmt0hdErbcvsDMInt9kDAJyq5MXejsuXb8EzBRY7YLwnUi2pVNEJWBns0Ku7OC4hCeMotb1yAP3JHA0EHrl3vO7UhF6BMw3VrRBkngTQx027mantzNNM59FrFtkkDu737JWzRkoFAZafYT9vBHnSyuZ6SviZrEYVFkQ0qWKM8MRIeJW5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3BnbXf1umnbWEI9o6LO/ZAwn+CTz168efkly9mcXMAk=;
- b=AEustx9Uv2brfCyT/oCKhTc2rlJcs5Bktfj2Ihfyak+jzCNQd72PkRJKDCdU1cz5YxrAYaFsVy8+AjZDqaBaDvzT2WR1EtYpLfBgj8jwOc6f0Ph/p6Wf+qZeGK5tx53dFlIFycrh6bwCXB2mrGBqoogcUjJlBGkx3RI+85CN+1H8RGaJkl2gWgwAmbySxeT7D96apnBFz7HTFQxJq5z3SRQQgN44l8j2wD2EKXYlBtyTMZ27z6Ew9G6XWS6U/guRhLj4WMabUwmjwarPGCSbbwMKWafgxN8DEy8gstKSIr5WQvKJ312tAK1nZvin/ZORq0ryqPFF3L7k498orrySSw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM0PR08MB3298.eurprd08.prod.outlook.com (2603:10a6:208:5e::31)
- by DBBPR08MB6108.eurprd08.prod.outlook.com (2603:10a6:10:1f4::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.21; Mon, 19 Sep
- 2022 15:26:17 +0000
-Received: from AM0PR08MB3298.eurprd08.prod.outlook.com
- ([fe80::ca1:54c1:1977:2578]) by AM0PR08MB3298.eurprd08.prod.outlook.com
- ([fe80::ca1:54c1:1977:2578%5]) with mapi id 15.20.5632.019; Mon, 19 Sep 2022
- 15:26:17 +0000
-Message-ID: <e4f1f5e9-6212-d832-f54e-485a10be5015@virtuozzo.com>
-Date: Mon, 19 Sep 2022 18:26:15 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 2/5] tests/x86: Add 'q35' machine type to ivshmem-test
-Content-Language: en-US
-To: "Denis V. Lunev" <den@virtuozzo.com>, qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-References: <20220915131407.372485-1-michael.labiuk@virtuozzo.com>
- <20220915131407.372485-3-michael.labiuk@virtuozzo.com>
- <69fdd561-4231-cf02-7438-2bf5acef4794@virtuozzo.com>
-From: Michael Labiuk <michael.labiuk@virtuozzo.com>
-In-Reply-To: <69fdd561-4231-cf02-7438-2bf5acef4794@virtuozzo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS9PR06CA0008.eurprd06.prod.outlook.com
- (2603:10a6:20b:462::22) To AM0PR08MB3298.eurprd08.prod.outlook.com
- (2603:10a6:208:5e::31)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oaJ5W-0000gA-1o
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 11:53:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663602812;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BmwZ55q+ltWBTODJeS1YeWsdDqGJTN490e5tgrjesRc=;
+ b=KV2sc4CbBVBto+gEH6M/OQnLAy0xLLGhBTBlnU8oAdtFA83pesAjCS6dF3v8XuXravNdfh
+ H9y747dBZGKbUWnqgnllQmgpduGNPTYtOBG1TjOFpSJg+Jg0IiR4arsDenm7IyAYkFBAks
+ beybQGfXdEI8/KRQbH8ShVkaEpFQFI8=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-120-wGr68uurOYmYJJmpAjlbOw-1; Mon, 19 Sep 2022 11:53:30 -0400
+X-MC-Unique: wGr68uurOYmYJJmpAjlbOw-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ u20-20020a05620a455400b006ce5151968dso18167349qkp.11
+ for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 08:53:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=BmwZ55q+ltWBTODJeS1YeWsdDqGJTN490e5tgrjesRc=;
+ b=W8w2W5xGeI/ACAIeHw00xIQN3llGdi85+lK5nc/2I+fBs5nXmLpFbj/1XaJUVMzNWY
+ li/FqkLs5Dthde7EUv2o6MhO3lnT/TKb/4udcfRdLqGzbFbu3a2dCrnS2FC29dStNo+D
+ +wJ5elBnsc6qB5KY7593mYIctfcTmm9Uettw5SM0uUXZk/PqQJ3SkLW39ZaUDx6VpFcg
+ QximxUqBAPvKTkPcFdX5gnWniunznadEhDXNm4UqL7tahEzVbIH8jGMeGdz4f02d/88t
+ ljBIT6Jg4fPYsBrg7utIHZgvhyIbSXLTBsSM1hexGd9i4pNa6y+cxtDTdxEkT3KHayzX
+ irCQ==
+X-Gm-Message-State: ACrzQf1adCpNtPC4rl/5sWxxU85cxq3aOVe324an+7dK+Ycd2zipoYGm
+ EqQQsJ9YRGTO9nSS37e6uFeR0YKumMur8XWYgCRhROkhwwqZWKXQh5EAlSUclbek/iycpNvHlkE
+ K9JI+wKfrE4wgk0w=
+X-Received: by 2002:ad4:5aad:0:b0:4aa:a266:d1a7 with SMTP id
+ u13-20020ad45aad000000b004aaa266d1a7mr15296376qvg.70.1663602810314; 
+ Mon, 19 Sep 2022 08:53:30 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5ePIYnkEwpDai/VtXBs4eZEnXLn604LMtsU41WtXJx5zpfGfPeljmTcz2gG4j4Vrmubu3AQA==
+X-Received: by 2002:ad4:5aad:0:b0:4aa:a266:d1a7 with SMTP id
+ u13-20020ad45aad000000b004aaa266d1a7mr15296354qvg.70.1663602810005; 
+ Mon, 19 Sep 2022 08:53:30 -0700 (PDT)
+Received: from xz-m1.local
+ (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca. [70.31.27.79])
+ by smtp.gmail.com with ESMTPSA id
+ h21-20020ac85155000000b0035bbb6268e2sm10465253qtn.67.2022.09.19.08.53.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Sep 2022 08:53:29 -0700 (PDT)
+Date: Mon, 19 Sep 2022 11:53:28 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Chenyi Qiang <chenyi.qiang@intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Xiaoyao Li <xiaoyao.li@intel.com>, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org
+Subject: Re: [PATCH v6 2/2] i386: Add notify VM exit support
+Message-ID: <YyiQeD9QmJ9/eS9F@xz-m1.local>
+References: <20220915092839.5518-1-chenyi.qiang@intel.com>
+ <20220915092839.5518-3-chenyi.qiang@intel.com>
+ <YyTxL7kstA20tB5a@xz-m1.local>
+ <5beb9f1c-a419-94f7-a1b9-4aeb281baa41@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR08MB3298:EE_|DBBPR08MB6108:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4263a4f8-2ea2-474e-8031-08da9a534bf4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: axOLVqVDp0/TD7ZyKSrvsILxvv7P9Xk95wAEtCqq6QABYEa30Kk48a3fnCdRS6KYW32q0xk3K5EJ4vT8s6T5ZVr5mHa/mPwm/R42sTIbFuwLLUgtWe3BAo4wkIt9nNc0ApDXk6l2uRe0eWZi6Op6W4YCKlS2X/ohseSnlLNxqH1WFwKvjxbFJTLf80cPpP1Rt80nV6PInAqiWULyzcT2RyeSArW2xexi4WmOWtLZ8Xg2pLQFb9IP7TE9HY1lsx377WF8zYnHtMfw6WJ1NdQ2yqbkGQJnmnfSa4vDKdOXPWoLC9c69nL1C++eeQjpshhenOT2VMU0td6PTzj/0c59c6y4L4BohM/rj/5/AH7yTNyJzHN9Uaao5zWYrJactwVc02kVUnsVZawkrZhdJ2a9I5fAk5AFmNzlVy/JCKQbsKGQ6Uw55Mmpv1YeJxQ4Fwi6ez+JaePEw6DNxQI1+ND/dIYVY46EfMq9k+cBx9mlS1rKrNki5GnBcwoZ91w1kDIKF+S2P3QELY+5BOXQi+dX8JQdwAykFUhzkA5Px5/6nPCTOVdlB6ptHq/PftQIFCz4UeDhqemUBw96B3qjJNuiBayBdHLmU5oLKy1SFyugP8kFM22hdePHpIUlxiRlrN2pim7bizJ5yzW9Ie2PnaFs0Y+sn6GpNZnKXkdSZ9Mec+r8E6sragZKtDNDHVPLkCHFS2EvcSpvtVXSWheEzKMb7plgJTMOG61YWw8MJWWo2iypoZXINoIRLMSHyTW+/P50nr6XQtzULwJSpE3TzpXznDVcu5zZ/zCXyh9wYWQo12Y=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM0PR08MB3298.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(39840400004)(366004)(396003)(136003)(376002)(346002)(451199015)(4326008)(6506007)(2906002)(31696002)(6512007)(86362001)(38100700002)(53546011)(8936002)(26005)(6486002)(36756003)(66476007)(8676002)(66946007)(41300700001)(478600001)(66556008)(31686004)(54906003)(2616005)(83380400001)(186003)(44832011)(316002)(5660300002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NXpwa0lUQ0JFaDRia1NTSU5Wa3JMay9kOHZpRW90N1c4NU91K2ZXb3RQOHg0?=
- =?utf-8?B?Wkc1OFBBU3l4eTZtcWkzeHJMbVdhTjF4WmJvQ3ZOU2ZUczl5VDg0elNCM0RB?=
- =?utf-8?B?M3ZHWndFQ2pBVU5ick9PYWZKMERFRWlKWlIrQ2xVSUR4aVhVT3VnZ1hzMFRS?=
- =?utf-8?B?MXdiMVZlODBoSGNiL2dhbnl4VWlkbnd3QUJJTkdZbm9IYmh5S2tWTlozOXpq?=
- =?utf-8?B?OS9FSUVuczk3aVdaenN0Sm1GWFIvVGlxdnVPbUJOaEZPM0hlT0MyNUNNN0dJ?=
- =?utf-8?B?UHQzTGd1S2YzL2FWc2c2aGpFZEZUZlJ3UFQ3dVJkZzhsVlJaa2JhdEZ6S1Rw?=
- =?utf-8?B?ekNEUEsrQ01VQlQwK0cvYXkxZTczV2R3SW1kVlVUQUVqVFJyY3ZHT2lqMEFF?=
- =?utf-8?B?eXNISUhLSDA1VFRnd2VkRnl4TmpJaXdkZlNZWnpYRUZnbWhWT1FzZml1MDg1?=
- =?utf-8?B?RGRhL3kxdTZZN3M5REpQY2pXdXl2S05DSlJTb2tJVXp6ZmFOMjFPbVRyVDVm?=
- =?utf-8?B?QzhwZGJwaXYrQlpyQkg3NG5qQ2VnYVp1c0Z2ZnlaUWF0ZWV2dnFJaWlKTHFK?=
- =?utf-8?B?N0FNeGdwUkZFWGEweGJpbzlOSTBsZlk3TlU4ZURVcUwvemh3L1hFbTNrWnpV?=
- =?utf-8?B?OUwyTWdSQnlOVWRMcnFPODdlWlJ3dERXOXhmeVJHNFREQytTMXh3c0dxT21D?=
- =?utf-8?B?ZFp1dVpYdDJhQmg0amRxcXI2dnRZbnBNaktWVWZjZU8vWTZZT09XcCtYeCtH?=
- =?utf-8?B?akwxMWVjOGxTOXAxNkptUERqZkI5UWlreURJamk0QnZCWjkwRGZKdDAwUlVT?=
- =?utf-8?B?WTFQVVZTdkdILzBSZWVNK0RvaVJEbVBCdDE4M0JwNFdTWXh6ZzR2MkJNNnZT?=
- =?utf-8?B?bWFva1FtYjE2OVR0SzVSNmlYekwxTHNTeDhjaksvS21nclpTNU1qZDhwbnZE?=
- =?utf-8?B?YVlybGNmMFJVK2plKzBhMmJyUy9EVkdvZWowcjVsMmlGYi82TEdRVVFBQjhz?=
- =?utf-8?B?aEVKeWI3YW1IQ1NKK1JaOUt1Ujg4NUFhUlFqUkJtMERTQ1BEN2N0MTkrNmJU?=
- =?utf-8?B?UTFaSUE4a1hHK09sMmNGRW9KajFzcDNIZmcvRzdGSXJ1WTQzMzVKZVduMzJx?=
- =?utf-8?B?UkZpZlQwczdvNGkxRE9YOStaMVdwTFU5TG9uczJUNkdqdXd4S0lRanlQc08y?=
- =?utf-8?B?R3VrK3I0TEhXbWVxZXdDM0g1ams4cnRLQm9ZOHNYWEUxRmkwQzd2Vnp2N1M4?=
- =?utf-8?B?L3V2bHAxeGdDVTBoNW1vbDczaDNhRXlpUmVTaFpFVG9HcHg2YkJ3T3F5MUE3?=
- =?utf-8?B?ZHcxQzd2eHRyRDRHYmIzeG4vODkrUVVrQkVsYVpwSW1HNUswaDNpUit1UEty?=
- =?utf-8?B?cVBBckJ1L2RoTE1XRkhlV0pkMkxteTRPN2E4bm4vMnQwWDhvNlpvaTVBYXhJ?=
- =?utf-8?B?Qzkrd2RxL1BHVUcycTJzaEJWOTg2eDZMdG9sTHhZb0NkL3I0OWozRlVUNUJN?=
- =?utf-8?B?WElhTVJJSS9abC9YRGRNR041aCtQNmtZMk5wUUg3My95SXVidVBwTkYwb0R0?=
- =?utf-8?B?NTFINDlhcEpWbnVBODhqSElFOEZta2hKTWRCR2p3K0QyclVZNUN3cGgzODli?=
- =?utf-8?B?b24zQ1lJVEVERkxmZ0NiQithUXdrRUZYanNncXU5MzYzcWMyRXA1enJWTjJi?=
- =?utf-8?B?Z1A1V0g1UmM0eGlFOG1FRitBSXFDbTdSbXpuTGd6a1p0NXJZT1JnZ25uSHY2?=
- =?utf-8?B?aFlOZU50YTdZWUp4VGN5N1pkckR2K3pMTFJ2VEpQeEQ5b1hVSDA2NVphZkl4?=
- =?utf-8?B?WHJEMkhlejFKMUxUQm5QRU5tTU5YTGFIZGl0cjFrOWtZOS9VSDgyTlZkaVRn?=
- =?utf-8?B?dExnSFo0TEhZNmFudmdrSEF4MlNQRlZyS0ducUhhQ202NFQ3SnZDamkvTm1w?=
- =?utf-8?B?aHdkY05jVkZqR2w5N3JBTFhMRS96dTBseklrWjdpbWtEeTVGc3NBWHd2TkJx?=
- =?utf-8?B?UHFqbWk4ZjAzdHMrT0JBN1R1MGVqZmtjRVJ2aWIwQzlVeVB4djRkM0xKbStG?=
- =?utf-8?B?WlF1Wmg3NzVZUmNraVlIM0hQTkVxWUxOUFcycUxBNzlQUFBOUlRYQXdzSVRz?=
- =?utf-8?B?VDIvaWVWRUF5a3J5bXBoV1pubTNGQ3QrRGZJWUtGL05rNzBScWpOYXBNb3Mw?=
- =?utf-8?B?bWc9PQ==?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4263a4f8-2ea2-474e-8031-08da9a534bf4
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR08MB3298.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2022 15:26:17.5030 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KuZ0cMhTG/kHBzp+y8UWBfwBILBgS8a6kpeIAEozAcqaFRF44VGilXM3Vhea/MRH0ZFpFeFcyrWLJ7DWLmbLVGdTbC4aMFNEpiR9RWfGCCY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB6108
-Received-SPF: pass client-ip=2a01:111:f400:fe1a::725;
- envelope-from=michael.labiuk@virtuozzo.com;
- helo=EUR03-DBA-obe.outbound.protection.outlook.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.952,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <5beb9f1c-a419-94f7-a1b9-4aeb281baa41@intel.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -151,38 +103,266 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/19/22 16:13, Denis V. Lunev wrote:
-> On 9/15/22 15:14, Michael Labiuk wrote:
->> diff --git a/tests/qtest/ivshmem-test.c b/tests/qtest/ivshmem-test.c
->> index 9611d05eb5..0f9755abc6 100644
->> --- a/tests/qtest/ivshmem-test.c
->> +++ b/tests/qtest/ivshmem-test.c
->> @@ -378,6 +378,32 @@ static void test_ivshmem_server(void)
->>       close(thread.pipe[0]);
->>   }
->> +static void device_del(QTestState *qtest, const char *id)
->> +{
->> +    QDict *resp;
->> +
->> +    resp = qtest_qmp(qtest,
->> +                     "{'execute': 'device_del',"
->> +                     " 'arguments': { 'id': %s } }", id);
->> +
->> +    g_assert(qdict_haskey(resp, "return"));
->> +    qobject_unref(resp);
->> +}
-> hmmm, why do we need this helper if it is not used anywhere in next
-> and this patches?
+On Mon, Sep 19, 2022 at 01:46:38PM +0800, Chenyi Qiang wrote:
 > 
-> it is also unclear to me why don't we do 'device_del' for other archs.
-> May be this is to be clarified in the patch description or worth
-> additional patch.
+> 
+> On 9/17/2022 5:57 AM, Peter Xu wrote:
+> > On Thu, Sep 15, 2022 at 05:28:39PM +0800, Chenyi Qiang wrote:
+> > > There are cases that malicious virtual machine can cause CPU stuck (due
+> > > to event windows don't open up), e.g., infinite loop in microcode when
+> > > nested #AC (CVE-2015-5307). No event window means no event (NMI, SMI and
+> > > IRQ) can be delivered. It leads the CPU to be unavailable to host or
+> > > other VMs. Notify VM exit is introduced to mitigate such kind of
+> > > attacks, which will generate a VM exit if no event window occurs in VM
+> > > non-root mode for a specified amount of time (notify window).
+> > > 
+> > > A new KVM capability KVM_CAP_X86_NOTIFY_VMEXIT is exposed to user space
+> > > so that the user can query the capability and set the expected notify
+> > > window when creating VMs. The format of the argument when enabling this
+> > > capability is as follows:
+> > >    Bit 63:32 - notify window specified in qemu command
+> > >    Bit 31:0  - some flags (e.g. KVM_X86_NOTIFY_VMEXIT_ENABLED is set to
+> > >                enable the feature.)
+> > > 
+> > > Because there are some concerns, e.g. a notify VM exit may happen with
+> > > VM_CONTEXT_INVALID set in exit qualification (no cases are anticipated
+> > > that would set this bit), which means VM context is corrupted. To avoid
+> > > the false positive and a well-behaved guest gets killed, make this
+> > > feature disabled by default. Users can enable the feature by a new
+> > > machine property:
+> > >      qemu -machine notify_vmexit=on,notify_window=0 ...
+> > > 
+> > > Note that notify_window is only valid when notify_vmexit is on. The valid
+> > > range of notify_window is non-negative. It is even safe to set it to zero
+> > > since there's an internal hardware threshold to be added to ensure no false
+> > > positive.
+> > > 
+> > > A new KVM exit reason KVM_EXIT_NOTIFY is defined for notify VM exit. If
+> > > it happens with VM_INVALID_CONTEXT, hypervisor exits to user space to
+> > > inform the fatal case. Then user space can inject a SHUTDOWN event to
+> > > the target vcpu. This is implemented by injecting a sythesized triple
+> > > fault event.
+> > > 
+> > > Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
+> > > ---
+> > >   hw/i386/x86.c         | 45 +++++++++++++++++++++++++++++++++++++++++++
+> > >   include/hw/i386/x86.h |  5 +++++
+> > >   qemu-options.hx       | 10 +++++++++-
+> > >   target/i386/kvm/kvm.c | 28 +++++++++++++++++++++++++++
+> > >   4 files changed, 87 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> > > index 050eedc0c8..1eccbd3deb 100644
+> > > --- a/hw/i386/x86.c
+> > > +++ b/hw/i386/x86.c
+> > > @@ -1379,6 +1379,37 @@ static void machine_set_sgx_epc(Object *obj, Visitor *v, const char *name,
+> > >       qapi_free_SgxEPCList(list);
+> > >   }
+> > > +static bool x86_machine_get_notify_vmexit(Object *obj, Error **errp)
+> > > +{
+> > > +    X86MachineState *x86ms = X86_MACHINE(obj);
+> > > +
+> > > +    return x86ms->notify_vmexit;
+> > > +}
+> > > +
+> > > +static void x86_machine_set_notify_vmexit(Object *obj, bool value, Error **errp)
+> > > +{
+> > > +    X86MachineState *x86ms = X86_MACHINE(obj);
+> > > +
+> > > +    x86ms->notify_vmexit = value;
+> > > +}
+> > > +
+> > > +static void x86_machine_get_notify_window(Object *obj, Visitor *v,
+> > > +                                const char *name, void *opaque, Error **errp)
+> > > +{
+> > > +    X86MachineState *x86ms = X86_MACHINE(obj);
+> > > +    uint32_t notify_window = x86ms->notify_window;
+> > > +
+> > > +    visit_type_uint32(v, name, &notify_window, errp);
+> > > +}
+> > > +
+> > > +static void x86_machine_set_notify_window(Object *obj, Visitor *v,
+> > > +                               const char *name, void *opaque, Error **errp)
+> > > +{
+> > > +    X86MachineState *x86ms = X86_MACHINE(obj);
+> > > +
+> > > +    visit_type_uint32(v, name, &x86ms->notify_window, errp);
+> > > +}
+> > > +
+> > >   static void x86_machine_initfn(Object *obj)
+> > >   {
+> > >       X86MachineState *x86ms = X86_MACHINE(obj);
+> > > @@ -1392,6 +1423,8 @@ static void x86_machine_initfn(Object *obj)
+> > >       x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
+> > >       x86ms->bus_lock_ratelimit = 0;
+> > >       x86ms->above_4g_mem_start = 4 * GiB;
+> > > +    x86ms->notify_vmexit = false;
+> > > +    x86ms->notify_window = 0;
+> > >   }
+> > >   static void x86_machine_class_init(ObjectClass *oc, void *data)
+> > > @@ -1461,6 +1494,18 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
+> > >           NULL, NULL);
+> > >       object_class_property_set_description(oc, "sgx-epc",
+> > >           "SGX EPC device");
+> > > +
+> > > +    object_class_property_add(oc, X86_MACHINE_NOTIFY_WINDOW, "uint32_t",
+> > > +                              x86_machine_get_notify_window,
+> > > +                              x86_machine_set_notify_window, NULL, NULL);
+> > > +    object_class_property_set_description(oc, X86_MACHINE_NOTIFY_WINDOW,
+> > > +            "Set the notify window required by notify VM exit");
+> > > +
+> > > +    object_class_property_add_bool(oc, X86_MACHINE_NOTIFY_VMEXIT,
+> > > +                                   x86_machine_get_notify_vmexit,
+> > > +                                   x86_machine_set_notify_vmexit);
+> > > +    object_class_property_set_description(oc, X86_MACHINE_NOTIFY_VMEXIT,
+> > > +            "Enable notify VM exit");
+> > >   }
+> > >   static const TypeInfo x86_machine_info = {
+> > > diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+> > > index 62fa5774f8..5707329fa7 100644
+> > > --- a/include/hw/i386/x86.h
+> > > +++ b/include/hw/i386/x86.h
+> > > @@ -85,6 +85,9 @@ struct X86MachineState {
+> > >        * which means no limitation on the guest's bus locks.
+> > >        */
+> > >       uint64_t bus_lock_ratelimit;
+> > > +
+> > > +    bool notify_vmexit;
+> > > +    uint32_t notify_window;
+> > >   };
+> > >   #define X86_MACHINE_SMM              "smm"
+> > > @@ -94,6 +97,8 @@ struct X86MachineState {
+> > >   #define X86_MACHINE_OEM_ID           "x-oem-id"
+> > >   #define X86_MACHINE_OEM_TABLE_ID     "x-oem-table-id"
+> > >   #define X86_MACHINE_BUS_LOCK_RATELIMIT  "bus-lock-ratelimit"
+> > > +#define X86_MACHINE_NOTIFY_VMEXIT     "notify-vmexit"
+> > > +#define X86_MACHINE_NOTIFY_WINDOW     "notify-window"
+> > >   #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
+> > >   OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
+> > > diff --git a/qemu-options.hx b/qemu-options.hx
+> > > index 31c04f7eea..3cdeeac8f3 100644
+> > > --- a/qemu-options.hx
+> > > +++ b/qemu-options.hx
+> > > @@ -37,7 +37,8 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+> > >       "                memory-encryption=@var{} memory encryption object to use (default=none)\n"
+> > >       "                hmat=on|off controls ACPI HMAT support (default=off)\n"
+> > >       "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n"
+> > > -    "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n",
+> > > +    "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n"
+> > > +    "                notify_vmexit=on|off,notify_window=n controls notify VM exit support (default=off) and specifies the notify window size (default=0)\n",
+> > >       QEMU_ARCH_ALL)
+> > >   SRST
+> > >   ``-machine [type=]name[,prop=value[,...]]``
+> > > @@ -157,6 +158,13 @@ SRST
+> > >           ::
+> > >               -machine cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=128G,cxl-fmw.0.interleave-granularity=512k
+> > > +
+> > > +    ``notify_vmexit=on|off,notify_window=n``
+> > > +        Enables or disables Notify VM exit support on x86 host and specify
+> > > +        the corresponding notify window to trigger the VM exit if enabled.
+> > > +        This feature can mitigate the CPU stuck issue due to event windows
+> > > +        don't open up for a specified of time (notify window).
+> > > +        The default is off.
+> > >   ERST
+> > >   DEF("M", HAS_ARG, QEMU_OPTION_M,
+> > > diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> > > index 3838827134..ae7fb2c495 100644
+> > > --- a/target/i386/kvm/kvm.c
+> > > +++ b/target/i386/kvm/kvm.c
+> > > @@ -2597,6 +2597,20 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+> > >               ratelimit_set_speed(&bus_lock_ratelimit_ctrl,
+> > >                                   x86ms->bus_lock_ratelimit, BUS_LOCK_SLICE_TIME);
+> > >           }
+> > > +
+> > > +        if (x86ms->notify_vmexit &&
+> > > +            kvm_check_extension(s, KVM_CAP_X86_NOTIFY_VMEXIT)) {
+> > > +            uint64_t notify_window_flags = ((uint64_t)x86ms->notify_window << 32) |
+> > > +                                           KVM_X86_NOTIFY_VMEXIT_ENABLED |
+> > > +                                           KVM_X86_NOTIFY_VMEXIT_USER;
+> > 
+> > It'll always request a user exit here as long as enabled, then...
+> > 
+> > > +            ret = kvm_vm_enable_cap(s, KVM_CAP_X86_NOTIFY_VMEXIT, 0,
+> > > +                                    notify_window_flags);
+> > > +            if (ret < 0) {
+> > > +                error_report("kvm: Failed to enable notify vmexit cap: %s",
+> > > +                             strerror(-ret));
+> > > +                return ret;
+> > > +            }
+> > > +        }
+> > >       }
+> > >       return 0;
+> > > @@ -5141,6 +5155,7 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+> > >       X86CPU *cpu = X86_CPU(cs);
+> > >       uint64_t code;
+> > >       int ret;
+> > > +    struct kvm_vcpu_events events = {};
+> > >       switch (run->exit_reason) {
+> > >       case KVM_EXIT_HLT:
+> > > @@ -5196,6 +5211,19 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+> > >           /* already handled in kvm_arch_post_run */
+> > >           ret = 0;
+> > >           break;
+> > > +    case KVM_EXIT_NOTIFY:
+> > > +        ret = 0;
+> > > +        if (run->notify.flags & KVM_NOTIFY_CONTEXT_INVALID) {
+> > > +            warn_report("KVM: invalid context due to notify vmexit");
+> > > +            if (has_triple_fault_event) {
+> > > +                events.flags |= KVM_VCPUEVENT_VALID_TRIPLE_FAULT;
+> > > +                events.triple_fault.pending = true;
+> > > +                ret = kvm_vcpu_ioctl(cs, KVM_SET_VCPU_EVENTS, &events);
+> > > +            } else {
+> > > +                ret = -1;
+> > > +            }
+> > > +        }
+> > 
+> > ... should we do something even if the context is valid?  Or I'm a bit
+> 
+> 
+> Yes, make sense. A warning log is necessary if the context is valid.
+> 
+> > confused why KVM_X86_NOTIFY_VMEXIT_USER was set (IIUC we can just enable it
+> > without setting VMEXIT_USER then).
+> > 
+> 
+> VMEXIT_USR was set because KVM community prefers userspace can get notified
+> and help to do some analysis or mitigation if notify window was exceeded.
+> 
+> > Not sure some warning would be also useful here, but I really don't know
+> > the whole context so I can't tell whether there can easily be false
+> > positives to pollute qemu log.
+> > 
+> 
+> The false positive case is not easy to happen unless some potential issues
+> in silicon. But in case of it, to avoid polluting qemu log, how about:
+> 
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index ae7fb2c495..8f97133cbf 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -5213,6 +5213,7 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run
+> *run)
+>          break;
+>      case KVM_EXIT_NOTIFY:
+>          ret = 0;
+> +        warn_report_once("KVM: notify window was exceeded in guest");
 
-device_del() used instead of qpci_unplug_acpi_device_test() because
-unplug_acpi is supported for x86 i440fx only.
+Is there more informative way to dump this?  If it's 99% that the guest was
+doing something weird and needs attention, maybe worthwhile to point that
+out directly to the admin?
 
-Also "DEVICE_DELETED" will not being emitted for 'q35' pci-e device 
-without support from guest side.
+>          if (run->notify.flags & KVM_NOTIFY_CONTEXT_INVALID) {
+>              warn_report("KVM: invalid context due to notify vmexit");
+>              if (has_triple_fault_event) {
 
-These are the reasons for custom unplugging function.
+Adding a warning looks good to me, with that (or in any better form of
+wording):
+
+Acked-by: Peter Xu <peterx@redhat.com>
+
+Thanks,
+
+-- 
+Peter Xu
+
 
