@@ -2,85 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D0655BC488
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 10:44:28 +0200 (CEST)
-Received: from localhost ([::1]:53754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D406B5BC4F7
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 11:06:34 +0200 (CEST)
+Received: from localhost ([::1]:54884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaCO9-00038Y-Ps
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 04:44:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41906)
+	id 1oaCjY-0002TP-08
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 05:06:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oaBuN-00037J-23
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 04:13:39 -0400
-Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:42638)
+ id 1oaBvy-00047N-Kb
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 04:15:19 -0400
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:33586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oaBuH-0008Iy-Pi
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 04:13:38 -0400
-Received: by mail-ot1-x32c.google.com with SMTP id
- h9-20020a9d5549000000b0063727299bb4so19258751oti.9
- for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 01:13:33 -0700 (PDT)
+ id 1oaBvq-0000CP-Mv
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 04:15:17 -0400
+Received: by mail-oi1-x22c.google.com with SMTP id j188so11364934oih.0
+ for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 01:15:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=nFLWkCsUNwlhjc2249lgL2AKnejydHvPdKIRu4VxVa0=;
- b=PzaLbVXMRMLtpnTXpsCJlqSfPOjvPwY8yGR0c7dgCEIDGgf1eW0fKMpdpLkpNk93Gu
- jpNWrGKpazQyuf/Bbbokb/s9ZTmTbnNp0InLhKVM8sHBc37vo7RjO4NBTM4PqZI38o38
- lPoup/eM2kbaJKP7555dBDCdq3wwUYjaYZc8jKG1NgREyrhBwKa5M8EppknESGrsFtIm
- SmBZ9CBNapez1iYeBiysug/JwtQDMau3SG44hwhOkfpFWn9LgsLwNUwTqZPnoglJHLwE
- h0mIHCfrxo7JymjV0FSrP+pzTqAvVOHdbTtz2d0TjzFNJEcl8+Xfh2uiCvAF/Wlvic/0
- BEQA==
+ bh=Ww4Wev8T1tN5yo/ZSUxBB3yUm8MTEssSJImHvmQatlY=;
+ b=Aylp9qkOMrn7FxhdZnDfF666s23Zb/oj8m5OksiDu16wyNe/JDjTskQr6XeoNvEqF/
+ 1R3mWgBXG3iQWbyuVuV4DwpGpXkfT11sJeo1Ws+Q+AGreyVqSC5Dc06Al1r+Gw0KvlWO
+ TAID4tiicV4lRNmjIgHZkM/68L1xWkjPOiSYtKHXaZZQi9mRiMq5qLS0F1YYjego0+Kw
+ 8snQobw+IKMLGeHCGuYLrZSZXALna2P+3w+BWf9TD9GeOm46s7QLEG46Dz5HWft16b4q
+ iKpks2bVyut9b0oKgqST9v9tjFuGilUI/Zu5aXFjCveAQ1SxuY2ZtHWFD2KzmLhfKW/l
+ Q9xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=nFLWkCsUNwlhjc2249lgL2AKnejydHvPdKIRu4VxVa0=;
- b=zWFr+rsZrqfGv/OJV+u4bH8JwqpxKFByo8Nug/J5FbyNMAZxQmU+2Zo6s/rpWkwzHV
- GTUOgIy7pBt7WbcKTh+fLAIj7nYAfFoNIw0BsYdzCVL7AjbhKOb/O5luBG1p4epusJQf
- znbm9J9NOsVrn4QNZOOL+KyGNj+sa6/MjUe2TCim0OEtnVRNnc+H6hVx+/a4ts1evyY4
- bJrGilPgdOwJz8QZvbSP3L8+I5//YxB5nyQy3kMT+tXcTRC9csYvVnwDIb/cEcYrEw/j
- PiFIbRZUngnsvu1BJfg2eNImqbsLYNMXLASMnRvUzxFPiYk3mO9RJIFFtt8V0q0JpsiN
- p9vQ==
-X-Gm-Message-State: ACrzQf34boj39kmkgySbDfrljXlcd+1lT7XwWFA0kxwNoN4pG8v3vsXx
- JwP3XBaVeg2WIm2cxLtA0HvsHg==
-X-Google-Smtp-Source: AMsMyM7mtrBL+6V8mU9xN3oTAiwoUxcEWX1Mzk0ocYPfPXOkP0iIk6r4usyiO+3bmLdHxzQy1e5jRQ==
-X-Received: by 2002:a05:6830:278b:b0:657:cec2:e1b5 with SMTP id
- x11-20020a056830278b00b00657cec2e1b5mr7358198otu.226.1663575212615; 
- Mon, 19 Sep 2022 01:13:32 -0700 (PDT)
+ bh=Ww4Wev8T1tN5yo/ZSUxBB3yUm8MTEssSJImHvmQatlY=;
+ b=eiIDcnQYkpwsgpcVTGFtHvodtl42//stiBxb/KCkUfBV9NEKPeUEs1UCHO9wKhnQ2K
+ Z1u/50ztnUP1sucqXp0rHh6CBHsLHYVeR0HcGR9+tD0+ObtW8qWnSCuVps5CEQTu/aSx
+ 9eVrFQOWij2IbZkm5GBd9vYSDihXAdxkljSdaYcqYIHy9BSwpQtTW+U2V3uUg+UL7Hn5
+ MHNF7nghMf78xbccPzgKvyMc9AFq/88sVVq2oC5D7RCyELMil+/1Pa79hlKA1vAmMAk7
+ M3NzrRhEUPdBbkw5XR/rpYszUkRew2S+3d+6ltsREEoo1oWkKrkdUlXHWP2hDfW7JsyW
+ IJkg==
+X-Gm-Message-State: ACgBeo0SGzEHSQluponAoxTdmepNENBnVNcznUBn9XzwAXaLKB9Nf9u/
+ kgOsmD8zLW/AQY8oTr2Fb1kRmQ==
+X-Google-Smtp-Source: AA6agR6f0AJPADRK6ZnA8JkPKT/4ZxJqJir5Z7lKR1z1M+4YNFOqtBVJNP9yS6tBVVWqjm58aDx4XA==
+X-Received: by 2002:a05:6808:124c:b0:342:9c9e:c935 with SMTP id
+ o12-20020a056808124c00b003429c9ec935mr12001684oiv.70.1663575307420; 
+ Mon, 19 Sep 2022 01:15:07 -0700 (PDT)
 Received: from [192.168.199.227] ([172.58.107.41])
  by smtp.gmail.com with ESMTPSA id
- y16-20020a9d6350000000b0065689e13f52sm8464605otk.71.2022.09.19.01.13.30
+ t16-20020a9d66d0000000b0061c9ab1032dsm13668069otm.18.2022.09.19.01.15.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Sep 2022 01:13:32 -0700 (PDT)
-Message-ID: <c3226a65-e4d9-bb23-ecc5-d5dc6aea954c@linaro.org>
-Date: Mon, 19 Sep 2022 10:13:26 +0200
+ Mon, 19 Sep 2022 01:15:06 -0700 (PDT)
+Message-ID: <e962d009-d46a-5f6e-9377-4d34ccd8d539@linaro.org>
+Date: Mon, 19 Sep 2022 10:15:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 4/4] target/m68k: always call gen_exit_tb() after writes
- to SR
+Subject: Re: [PATCH 3/4] target/m68k: use M68K_FEATURE_MOVEFROMSR_PRIV feature
+ for move_from_sr privilege check
 Content-Language: en-US
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, laurent@vivier.eu,
  lucienmp.qemu@gmail.com, qemu-devel@nongnu.org
 References: <20220917112515.83905-1-mark.cave-ayland@ilande.co.uk>
- <20220917112515.83905-5-mark.cave-ayland@ilande.co.uk>
+ <20220917112515.83905-4-mark.cave-ayland@ilande.co.uk>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220917112515.83905-5-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220917112515.83905-4-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32c.google.com
-X-Spam_score_int: -57
-X-Spam_score: -5.8
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22c.google.com
+X-Spam_score_int: -53
+X-Spam_score: -5.4
 X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.657,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, NICE_REPLY_A=-3.657, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,14 +95,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/17/22 13:25, Mark Cave-Ayland wrote:
-> Any write to SR can change the security state so always call gen_exit_tb() when
-> this occurs. In particular MacOS makes use of andiw/oriw in a few places to
-> handle the switch between user and supervisor mode.
+> Now that M68K_FEATURE_M68000 has been renamed to M68K_FEATURE_M68K it is easier
+> to see that the privilege exception check is wrong: it is currently only generated
+> for ColdFire CPUs when in fact it should also be generated for Motorola CPUs from
+> the 68010 onwards.
+> 
+> Introduce a new M68K_FEATURE_MOVEFROMSR_PRIV feature which is set for all non-
+> Motorola CPUs, and for all Motorola CPUs from the 68010 onwards and use it to
+> determine whether a privilege exception should be generated for the MOVE-from-SR
+> instruction.
 > 
 > Signed-off-by: Mark Cave-Ayland<mark.cave-ayland@ilande.co.uk>
 > ---
->   target/m68k/translate.c | 4 ++++
->   1 file changed, 4 insertions(+)
+>   target/m68k/cpu.c       | 5 +++++
+>   target/m68k/cpu.h       | 2 ++
+>   target/m68k/translate.c | 2 +-
+>   3 files changed, 8 insertions(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
