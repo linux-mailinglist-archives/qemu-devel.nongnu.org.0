@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5875BC1E7
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 05:59:06 +0200 (CEST)
-Received: from localhost ([::1]:44494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90AC25BC29B
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 07:50:51 +0200 (CEST)
+Received: from localhost ([::1]:52820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oa7w1-000142-8L
-	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 23:59:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59484)
+	id 1oa9gA-0003KJ-6G
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 01:50:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
- id 1oa7qx-000257-4D
- for qemu-devel@nongnu.org; Sun, 18 Sep 2022 23:53:51 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:47074)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
- id 1oa7qu-0000rM-2k
- for qemu-devel@nongnu.org; Sun, 18 Sep 2022 23:53:50 -0400
-Received: by mail-pg1-x535.google.com with SMTP id 78so25593003pgb.13
- for <qemu-devel@nongnu.org>; Sun, 18 Sep 2022 20:53:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=BDm5OMhUExrAkjZNxhhnSgdHfl1sA0ne3kApdu9hzYs=;
- b=kxfDxpZXlH5icS+eLyGAsMjWhBlRfMpAPsAF+Fj6OdOy0iA7hbG+WXlKfTdinu6EqF
- epBayuYb/nqEFwTJgRuDhUxN+NTdfaBncl0x72RY47ZgbyuBurqhkE73tAptDD21KkVF
- XrG3FaYEyEJOqis7KG2ElENyB4rMYHxHqR+7zrWueIIPn0D1MN8lL4rKOhmGm1zKoV0r
- VFLip252ejV58NtyNkaFjQqlyNgc+G3+0/VP8t04LboLo+lXgYHKEY0zJ9yD7veWtdHy
- fvMbn8uR0zhdvedwbkO1GMqVtloBlm8Q9gjtnZexbFklXA+m3iG2w7M733iSpB3osFBt
- YOTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=BDm5OMhUExrAkjZNxhhnSgdHfl1sA0ne3kApdu9hzYs=;
- b=uSSfT4LorW3qofIUeO06S4vpjzA9SiFxqUyk24li3aG12x1Iiqni05Qb92krWuj4hr
- hfXBjLBudn1zpwiSDUDnpe3oXnOfVCeieYcV6Yl/G6ZklP/oFF/kaESLbtdIUBBbgg5m
- RuFaLUnlPwz5bVShqM8iaIuGUf/X4Y8comKzzBW9HDkJIUquWQuoanigQvpQzfqs8F63
- kV6pLpPfzsyQn4uzE4EPq03qCSsmr0upOlAx6DU6yPM1n421EnXC5Wnxyx5iUA1fSZ0m
- VDu4I7e+0tv15y2CE4gUHaUYss0vABfbGhdg+puqcDtufX5RvwEvIkdwtrQ4fQhvu9tY
- 7/vQ==
-X-Gm-Message-State: ACrzQf0zmhEAzVl+1apD2Cf12XPRfYYnyEPt9pG2xHxM2pd1/65O0Dgz
- uVCMZ/TTRvSY3m6p8T7y0AntdaEo8RoPng==
-X-Google-Smtp-Source: AMsMyM7i6A3ZI+17ev+nzcYy8fXl3+AIMA7aB6TsDHtG/dJmj6iiTs1T5Mav0zQZ+M7K2qEDno/DRQ==
-X-Received: by 2002:a63:db42:0:b0:438:f2cf:2c8 with SMTP id
- x2-20020a63db42000000b00438f2cf02c8mr14050818pgi.192.1663559626154; 
- Sun, 18 Sep 2022 20:53:46 -0700 (PDT)
-Received: from FVFDK26JP3YV.bytedance.net ([139.177.225.237])
- by smtp.gmail.com with ESMTPSA id
- t19-20020a170902e1d300b0017865059c5dsm9014878pla.161.2022.09.18.20.53.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Sep 2022 20:53:45 -0700 (PDT)
-From: Lei He <helei.sig11@bytedance.com>
-To: qemu-devel@nongnu.org
-Cc: berrange@redhat.com, arei.gonglei@huawei.com, mst@redhat.com,
- pizhenwei@bytedance.com, Lei He <helei.sig11@bytedance.com>
-Subject: [PATCH 4/4] cryptodev: Add a lkcf-backend for cryptodev
-Date: Mon, 19 Sep 2022 11:53:20 +0800
-Message-Id: <20220919035320.84467-5-helei.sig11@bytedance.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20220919035320.84467-1-helei.sig11@bytedance.com>
-References: <20220919035320.84467-1-helei.sig11@bytedance.com>
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1oa9cM-0001s7-6o
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 01:46:54 -0400
+Received: from mga06b.intel.com ([134.134.136.31]:14423 helo=mga06.intel.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1oa9cI-0001tO-MP
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 01:46:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663566410; x=1695102410;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=7maJ1vVkLhJGiLcHyUp6lU1WBSQ2gYn6yXCOSdXmYNE=;
+ b=ABp1UZi+c7EvSXWgGfdL3Jz4agrOlpaeaA8Sup3pivg5cK7L1PCbyz+5
+ 0KcgqQOKTWfXCrRYzFaGRYjKzAxb6GU3+olZaZ5eQxcr2flYNwho9NZoj
+ KOQiSbJK/7000pTX+QJsoqjdP8oHnrxfSz8olxtmFC67qVw2pfeYM7MAs
+ Hxbz4G6F6ExXu+uq169AY8baVmopVXdsN6R9RBPKBlcPP2RbbCSLjFfBF
+ pN/HpAUtArZps08JkKz0vW8alokNT7snDliokwjFXKSL4hg9qsITraPC4
+ a0Mu2MVmgcIJHHHxIinBXirnmXzTnQzSsUWtotQz0kzqwj98GdNYr3ry6 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10474"; a="361047689"
+X-IronPort-AV: E=Sophos;i="5.93,325,1654585200"; d="scan'208";a="361047689"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Sep 2022 22:46:42 -0700
+X-IronPort-AV: E=Sophos;i="5.93,325,1654585200"; d="scan'208";a="651537756"
+Received: from cqiang-mobl.ccr.corp.intel.com (HELO [10.238.0.135])
+ ([10.238.0.135])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Sep 2022 22:46:40 -0700
+Message-ID: <5beb9f1c-a419-94f7-a1b9-4aeb281baa41@intel.com>
+Date: Mon, 19 Sep 2022 13:46:38 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=helei.sig11@bytedance.com; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.2.2
+Subject: Re: [PATCH v6 2/2] i386: Add notify VM exit support
+To: Peter Xu <peterx@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti
+ <mtosatti@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Xiaoyao Li <xiaoyao.li@intel.com>,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org
+References: <20220915092839.5518-1-chenyi.qiang@intel.com>
+ <20220915092839.5518-3-chenyi.qiang@intel.com> <YyTxL7kstA20tB5a@xz-m1.local>
+Content-Language: en-US
+From: Chenyi Qiang <chenyi.qiang@intel.com>
+In-Reply-To: <YyTxL7kstA20tB5a@xz-m1.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=134.134.136.31;
+ envelope-from=chenyi.qiang@intel.com; helo=mga06.intel.com
+X-Spam_score_int: -80
+X-Spam_score: -8.1
+X-Spam_bar: --------
+X-Spam_report: (-8.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.657, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,713 +83,269 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cryptodev: Added a new type of backend named lkcf-backend for
-cryptodev. This backend upload asymmetric keys to linux kernel,
-and let kernel do the accelerations if possible.
-The lkcf stands for Linux Kernel Cryptography Framework.
 
-Signed-off-by: lei he <helei.sig11@bytedance.com>
----
- backends/cryptodev-lkcf.c  | 640 +++++++++++++++++++++++++++++++++++++++++++++
- backends/meson.build       |   3 +
- include/sysemu/cryptodev.h |   1 +
- qapi/qom.json              |   2 +
- 4 files changed, 646 insertions(+)
- create mode 100644 backends/cryptodev-lkcf.c
 
-diff --git a/backends/cryptodev-lkcf.c b/backends/cryptodev-lkcf.c
-new file mode 100644
-index 0000000000..61aef5074e
---- /dev/null
-+++ b/backends/cryptodev-lkcf.c
-@@ -0,0 +1,640 @@
-+/*
-+ * QEMU Cryptodev backend for QEMU cipher APIs
-+ *
-+ * Copyright (c) 2022 Bytedance.Inc
-+ *
-+ * Authors:
-+ *    lei he <helei.sig11@bytedance.com>
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "crypto/cipher.h"
-+#include "crypto/akcipher.h"
-+#include "qapi/error.h"
-+#include "qemu/main-loop.h"
-+#include "qemu/thread.h"
-+#include "qemu/error-report.h"
-+#include "qemu/queue.h"
-+#include "qom/object.h"
-+#include "sysemu/cryptodev.h"
-+#include "standard-headers/linux/virtio_crypto.h"
-+
-+#include <keyutils.h>
-+#include <sys/eventfd.h>
-+
-+/**
-+ * @TYPE_CRYPTODEV_BACKEND_LKCF:
-+ * name of backend that uses linux kernel crypto framework
-+ */
-+#define TYPE_CRYPTODEV_BACKEND_LKCF "cryptodev-backend-lkcf"
-+
-+OBJECT_DECLARE_SIMPLE_TYPE(CryptoDevBackendLKCF, CRYPTODEV_BACKEND_LKCF)
-+
-+#define INVALID_KEY_ID -1
-+#define MAX_SESSIONS 256
-+#define NR_WORKER_THREAD 64
-+
-+#define KCTL_KEY_TYPE_PKEY "asymmetric"
-+/**
-+ * Here the key is uploaded to the thread-keyring of worker thread, at least
-+ * util linux-6.0:
-+ * 1. process keyring seems to behave unexpectedly if main-thread does not
-+ * create the keyring before creating any other thread.
-+ * 2. at present, the guest kernel never perform multiple operations on a
-+ * session.
-+ * 3. it can reduce the load of the main-loop because the key passed by the
-+ * guest kernel has been already checked.
-+ */
-+#define KCTL_KEY_RING KEY_SPEC_THREAD_KEYRING
-+
-+typedef struct CryptoDevBackendLKCFSession {
-+    uint8_t *key;
-+    size_t keylen;
-+    QCryptoAkCipherKeyType keytype;
-+    QCryptoAkCipherOptions akcipher_opts;
-+} CryptoDevBackendLKCFSession;
-+
-+typedef struct CryptoDevBackendLKCF CryptoDevBackendLKCF;
-+typedef struct CryptoDevLKCFTask CryptoDevLKCFTask;
-+struct CryptoDevLKCFTask {
-+    CryptoDevBackendLKCFSession *sess;
-+    CryptoDevBackendOpInfo *op_info;
-+    CryptoDevCompletionFunc cb;
-+    void *opaque;
-+    int status;
-+    CryptoDevBackendLKCF *lkcf;
-+    QSIMPLEQ_ENTRY(CryptoDevLKCFTask) queue;
-+};
-+
-+typedef struct CryptoDevBackendLKCF {
-+    CryptoDevBackend parent_obj;
-+    CryptoDevBackendLKCFSession *sess[MAX_SESSIONS];
-+    QSIMPLEQ_HEAD(, CryptoDevLKCFTask) requests;
-+    QSIMPLEQ_HEAD(, CryptoDevLKCFTask) responses;
-+    QemuMutex mutex;
-+    QemuCond cond;
-+    QemuMutex rsp_mutex;
-+
-+    /**
-+     * There is no async interface for asymmetric keys like AF_ALG sockets,
-+     * we don't seem to have better way than create a lots of thread.
-+     */
-+    QemuThread worker_threads[NR_WORKER_THREAD];
-+    bool running;
-+    int eventfd;
-+} CryptoDevBackendLKCF;
-+
-+static void *cryptodev_lkcf_worker(void *arg);
-+static int cryptodev_lkcf_close_session(CryptoDevBackend *backend,
-+                                        uint64_t session_id,
-+                                        uint32_t queue_index,
-+                                        CryptoDevCompletionFunc cb,
-+                                        void *opaque);
-+
-+static void cryptodev_lkcf_handle_response(void *opaque)
-+{
-+    CryptoDevBackendLKCF *lkcf = (CryptoDevBackendLKCF *)opaque;
-+    QSIMPLEQ_HEAD(, CryptoDevLKCFTask) responses;
-+    CryptoDevLKCFTask *task, *next;
-+    eventfd_t nevent;
-+
-+    QSIMPLEQ_INIT(&responses);
-+    eventfd_read(lkcf->eventfd, &nevent);
-+
-+    qemu_mutex_lock(&lkcf->rsp_mutex);
-+    QSIMPLEQ_PREPEND(&responses, &lkcf->responses);
-+    qemu_mutex_unlock(&lkcf->rsp_mutex);
-+
-+    QSIMPLEQ_FOREACH_SAFE(task, &responses, queue, next) {
-+        if (task->cb) {
-+            task->cb(task->opaque, task->status);
-+        }
-+        g_free(task);
-+    }
-+}
-+
-+static int cryptodev_lkcf_set_op_desc(QCryptoAkCipherOptions *opts,
-+                                      char *key_desc,
-+                                      size_t desc_len,
-+                                      Error **errp)
-+{
-+    QCryptoAkCipherOptionsRSA *rsa_opt;
-+    if (opts->alg != QCRYPTO_AKCIPHER_ALG_RSA) {
-+        error_setg(errp, "Unsupported alg: %u", opts->alg);
-+        return -1;
-+    }
-+
-+    rsa_opt = &opts->u.rsa;
-+    if (rsa_opt->padding_alg == QCRYPTO_RSA_PADDING_ALG_PKCS1) {
-+        snprintf(key_desc, desc_len, "enc=%s hash=%s",
-+                 QCryptoRSAPaddingAlgorithm_str(rsa_opt->padding_alg),
-+                 QCryptoHashAlgorithm_str(rsa_opt->hash_alg));
-+
-+    } else {
-+        snprintf(key_desc, desc_len, "enc=%s",
-+                 QCryptoRSAPaddingAlgorithm_str(rsa_opt->padding_alg));
-+    }
-+    return 0;
-+}
-+
-+static int cryptodev_lkcf_set_rsa_opt(int virtio_padding_alg,
-+                                      int virtio_hash_alg,
-+                                      QCryptoAkCipherOptionsRSA *opt,
-+                                      Error **errp)
-+{
-+    if (virtio_padding_alg == VIRTIO_CRYPTO_RSA_PKCS1_PADDING) {
-+        opt->padding_alg = QCRYPTO_RSA_PADDING_ALG_PKCS1;
-+
-+        switch (virtio_hash_alg) {
-+        case VIRTIO_CRYPTO_RSA_MD5:
-+            opt->hash_alg = QCRYPTO_HASH_ALG_MD5;
-+            break;
-+
-+        case VIRTIO_CRYPTO_RSA_SHA1:
-+            opt->hash_alg = QCRYPTO_HASH_ALG_SHA1;
-+            break;
-+
-+        case VIRTIO_CRYPTO_RSA_SHA256:
-+            opt->hash_alg = QCRYPTO_HASH_ALG_SHA256;
-+            break;
-+
-+        case VIRTIO_CRYPTO_RSA_SHA512:
-+            opt->hash_alg = QCRYPTO_HASH_ALG_SHA512;
-+            break;
-+
-+        default:
-+            error_setg(errp, "Unsupported rsa hash algo: %d", virtio_hash_alg);
-+            return -1;
-+        }
-+        return 0;
-+    }
-+
-+    if (virtio_padding_alg == VIRTIO_CRYPTO_RSA_RAW_PADDING) {
-+        opt->padding_alg = QCRYPTO_RSA_PADDING_ALG_RAW;
-+        return 0;
-+    }
-+
-+    error_setg(errp, "Unsupported rsa padding algo: %u", virtio_padding_alg);
-+    return -1;
-+}
-+
-+static int cryptodev_lkcf_get_unused_session_index(CryptoDevBackendLKCF *lkcf)
-+{
-+    size_t i;
-+
-+    for (i = 0; i < MAX_SESSIONS; i++) {
-+        if (lkcf->sess[i] == NULL) {
-+            return i;
-+        }
-+    }
-+    return -1;
-+}
-+
-+static void cryptodev_lkcf_init(CryptoDevBackend *backend, Error **errp)
-+{
-+    /* Only support one queue */
-+    int queues = backend->conf.peers.queues, i;
-+    CryptoDevBackendClient *cc;
-+    CryptoDevBackendLKCF *lkcf =
-+        CRYPTODEV_BACKEND_LKCF(backend);
-+
-+    if (queues != 1) {
-+        error_setg(errp,
-+                   "Only support one queue in cryptodev-builtin backend");
-+        return;
-+    }
-+    lkcf->eventfd = eventfd(0, 0);
-+    if (lkcf->eventfd < 0) {
-+        error_setg(errp, "Failed to create eventfd: %d", errno);
-+        return;
-+    }
-+
-+    cc = cryptodev_backend_new_client("cryptodev-lkcf", NULL);
-+    cc->info_str = g_strdup_printf("cryptodev-lkcf0");
-+    cc->queue_index = 0;
-+    cc->type = CRYPTODEV_BACKEND_TYPE_LKCF;
-+    backend->conf.peers.ccs[0] = cc;
-+
-+    backend->conf.crypto_services =
-+        1u << VIRTIO_CRYPTO_SERVICE_AKCIPHER;
-+    backend->conf.akcipher_algo = 1u << VIRTIO_CRYPTO_AKCIPHER_RSA;
-+    lkcf->running = true;
-+
-+    QSIMPLEQ_INIT(&lkcf->requests);
-+    QSIMPLEQ_INIT(&lkcf->responses);
-+    qemu_mutex_init(&lkcf->mutex);
-+    qemu_mutex_init(&lkcf->rsp_mutex);
-+    qemu_cond_init(&lkcf->cond);
-+    for (i = 0; i < NR_WORKER_THREAD; i++) {
-+        qemu_thread_create(&lkcf->worker_threads[i], "lkcf-worker",
-+                           cryptodev_lkcf_worker, lkcf, 0);
-+    }
-+    qemu_set_fd_handler(
-+        lkcf->eventfd, cryptodev_lkcf_handle_response, NULL, lkcf);
-+    cryptodev_backend_set_ready(backend, true);
-+}
-+
-+static void cryptodev_lkcf_cleanup(CryptoDevBackend *backend, Error **errp)
-+{
-+    CryptoDevBackendLKCF *lkcf = CRYPTODEV_BACKEND_LKCF(backend);
-+    size_t i;
-+    int queues = backend->conf.peers.queues;
-+    CryptoDevBackendClient *cc;
-+    CryptoDevLKCFTask *task, *next;
-+
-+    qemu_mutex_lock(&lkcf->mutex);
-+    lkcf->running = false;
-+    qemu_mutex_unlock(&lkcf->mutex);
-+    qemu_cond_broadcast(&lkcf->cond);
-+
-+    close(lkcf->eventfd);
-+    for (i = 0; i < NR_WORKER_THREAD; i++) {
-+        qemu_thread_join(&lkcf->worker_threads[i]);
-+    }
-+
-+    QSIMPLEQ_FOREACH_SAFE(task, &lkcf->requests, queue, next) {
-+        if (task->cb) {
-+            task->cb(task->opaque, task->status);
-+        }
-+        g_free(task);
-+    }
-+
-+    QSIMPLEQ_FOREACH_SAFE(task, &lkcf->responses, queue, next) {
-+        if (task->cb) {
-+            task->cb(task->opaque, task->status);
-+        }
-+        g_free(task);
-+    }
-+
-+    qemu_mutex_destroy(&lkcf->mutex);
-+    qemu_cond_destroy(&lkcf->cond);
-+    qemu_mutex_destroy(&lkcf->rsp_mutex);
-+
-+    for (i = 0; i < MAX_SESSIONS; i++) {
-+        if (lkcf->sess[i] != NULL) {
-+            cryptodev_lkcf_close_session(backend, i, 0, NULL, NULL);
-+        }
-+    }
-+
-+    for (i = 0; i < queues; i++) {
-+        cc = backend->conf.peers.ccs[i];
-+        if (cc) {
-+            cryptodev_backend_free_client(cc);
-+            backend->conf.peers.ccs[i] = NULL;
-+        }
-+    }
-+
-+    cryptodev_backend_set_ready(backend, false);
-+}
-+
-+static void cryptodev_lkcf_execute_task(CryptoDevLKCFTask *task)
-+{
-+    CryptoDevBackendLKCFSession *session = task->sess;
-+    CryptoDevBackendAsymOpInfo *asym_op_info;
-+    bool kick = false;
-+    int ret, status, op_code = task->op_info->op_code;
-+    size_t p8info_len;
-+    g_autofree uint8_t *p8info = NULL;
-+    Error *local_error = NULL;
-+    key_serial_t key_id = INVALID_KEY_ID;
-+    char op_desc[64];
-+    g_autoptr(QCryptoAkCipher) akcipher = NULL;
-+
-+    /**
-+     * We only offload private key session:
-+     * 1. currently, the Linux kernel can only accept public key wrapped
-+     * with X.509 certificates, but unfortunately the cost of making a
-+     * ceritificate with public key is too expensive.
-+     * 2. generally, public key related compution is fast, just compute it with
-+     * thread-pool.
-+     */
-+    if (session->keytype == QCRYPTO_AKCIPHER_KEY_TYPE_PRIVATE) {
-+        if (qcrypto_akcipher_export_p8info(&session->akcipher_opts,
-+                                           session->key, session->keylen,
-+                                           &p8info, &p8info_len,
-+                                           &local_error) != 0 ||
-+            cryptodev_lkcf_set_op_desc(&session->akcipher_opts, op_desc,
-+                                       sizeof(op_desc), &local_error) != 0) {
-+            error_report_err(local_error);
-+        }
-+        key_id = add_key(KCTL_KEY_TYPE_PKEY, "lkcf-backend-priv-key", p8info,
-+                         p8info_len, KCTL_KEY_RING);
-+    }
-+
-+    if (key_id < 0) {
-+        akcipher = qcrypto_akcipher_new(&session->akcipher_opts,
-+                                        session->keytype,
-+                                        session->key, session->keylen,
-+                                        &local_error);
-+        if (!akcipher) {
-+            status = -VIRTIO_CRYPTO_ERR;
-+            goto out;
-+        }
-+    }
-+
-+    asym_op_info = task->op_info->u.asym_op_info;
-+    switch (op_code) {
-+    case VIRTIO_CRYPTO_AKCIPHER_ENCRYPT:
-+        if (key_id >= 0) {
-+            ret = keyctl_pkey_encrypt(key_id, op_desc,
-+                asym_op_info->src, asym_op_info->src_len,
-+                asym_op_info->dst, asym_op_info->dst_len);
-+        } else {
-+            ret = qcrypto_akcipher_encrypt(akcipher,
-+                asym_op_info->src, asym_op_info->src_len,
-+                asym_op_info->dst, asym_op_info->dst_len, &local_error);
-+        }
-+        break;
-+
-+    case VIRTIO_CRYPTO_AKCIPHER_DECRYPT:
-+        if (key_id >= 0) {
-+            ret = keyctl_pkey_decrypt(key_id, op_desc,
-+                asym_op_info->src, asym_op_info->src_len,
-+                asym_op_info->dst, asym_op_info->dst_len);
-+        } else {
-+            ret = qcrypto_akcipher_decrypt(akcipher,
-+                asym_op_info->src, asym_op_info->src_len,
-+                asym_op_info->dst, asym_op_info->dst_len, &local_error);
-+        }
-+        break;
-+
-+    case VIRTIO_CRYPTO_AKCIPHER_SIGN:
-+        if (key_id >= 0) {
-+            ret = keyctl_pkey_sign(key_id, op_desc,
-+                asym_op_info->src, asym_op_info->src_len,
-+                asym_op_info->dst, asym_op_info->dst_len);
-+        } else {
-+            ret = qcrypto_akcipher_sign(akcipher,
-+                asym_op_info->src, asym_op_info->src_len,
-+                asym_op_info->dst, asym_op_info->dst_len, &local_error);
-+        }
-+        break;
-+
-+    case VIRTIO_CRYPTO_AKCIPHER_VERIFY:
-+        if (key_id >= 0) {
-+            ret = keyctl_pkey_verify(key_id, op_desc,
-+                asym_op_info->src, asym_op_info->src_len,
-+                asym_op_info->dst, asym_op_info->dst_len);
-+        } else {
-+            ret = qcrypto_akcipher_verify(akcipher,
-+                asym_op_info->src, asym_op_info->src_len,
-+                asym_op_info->dst, asym_op_info->dst_len, &local_error);
-+        }
-+        break;
-+
-+    default:
-+        error_setg(&local_error, "Unknown opcode: %u", op_code);
-+        status = -VIRTIO_CRYPTO_ERR;
-+        goto out;
-+    }
-+
-+    if (ret < 0) {
-+        if (!local_error) {
-+            if (errno != EKEYREJECTED) {
-+                error_report("Failed do operation with keyctl: %d", errno);
-+            }
-+        } else {
-+            error_report_err(local_error);
-+        }
-+        status = op_code == VIRTIO_CRYPTO_AKCIPHER_VERIFY ?
-+            -VIRTIO_CRYPTO_KEY_REJECTED : -VIRTIO_CRYPTO_ERR;
-+    } else {
-+        status = VIRTIO_CRYPTO_OK;
-+        asym_op_info->dst_len = ret;
-+    }
-+
-+out:
-+    if (key_id >= 0) {
-+        keyctl_unlink(key_id, KCTL_KEY_RING);
-+    }
-+    task->status = status;
-+
-+    qemu_mutex_lock(&task->lkcf->rsp_mutex);
-+    if (QSIMPLEQ_EMPTY(&task->lkcf->responses)) {
-+        kick = true;
-+    }
-+    QSIMPLEQ_INSERT_TAIL(&task->lkcf->responses, task, queue);
-+    qemu_mutex_unlock(&task->lkcf->rsp_mutex);
-+
-+    if (kick) {
-+        eventfd_write(task->lkcf->eventfd, 1);
-+    }
-+}
-+
-+static void *cryptodev_lkcf_worker(void *arg)
-+{
-+    CryptoDevBackendLKCF *backend = (CryptoDevBackendLKCF *)arg;
-+    CryptoDevLKCFTask *task;
-+
-+    for (;;) {
-+        task = NULL;
-+        qemu_mutex_lock(&backend->mutex);
-+        while (backend->running && QSIMPLEQ_EMPTY(&backend->requests)) {
-+            qemu_cond_wait(&backend->cond, &backend->mutex);
-+        }
-+        if (backend->running) {
-+            task = QSIMPLEQ_FIRST(&backend->requests);
-+            QSIMPLEQ_REMOVE_HEAD(&backend->requests, queue);
-+        }
-+        qemu_mutex_unlock(&backend->mutex);
-+
-+        /* stopped */
-+        if (!task) {
-+            break;
-+        }
-+        cryptodev_lkcf_execute_task(task);
-+   }
-+
-+   return NULL;
-+}
-+
-+static int cryptodev_lkcf_operation(
-+    CryptoDevBackend *backend,
-+    CryptoDevBackendOpInfo *op_info,
-+    uint32_t queue_index,
-+    CryptoDevCompletionFunc cb,
-+    void *opaque)
-+{
-+    CryptoDevBackendLKCF *lkcf =
-+        CRYPTODEV_BACKEND_LKCF(backend);
-+    CryptoDevBackendLKCFSession *sess;
-+    enum CryptoDevBackendAlgType algtype = op_info->algtype;
-+    CryptoDevLKCFTask *task;
-+
-+    if (op_info->session_id >= MAX_SESSIONS ||
-+        lkcf->sess[op_info->session_id] == NULL) {
-+        error_report("Cannot find a valid session id: %" PRIu64 "",
-+                     op_info->session_id);
-+        return -VIRTIO_CRYPTO_INVSESS;
-+    }
-+
-+    sess = lkcf->sess[op_info->session_id];
-+    if (algtype != CRYPTODEV_BACKEND_ALG_ASYM) {
-+        error_report("algtype not supported: %u", algtype);
-+        return -VIRTIO_CRYPTO_NOTSUPP;
-+    }
-+
-+    task = g_new0(CryptoDevLKCFTask, 1);
-+    task->op_info = op_info;
-+    task->cb = cb;
-+    task->opaque = opaque;
-+    task->sess = sess;
-+    task->lkcf = lkcf;
-+    task->status = -VIRTIO_CRYPTO_ERR;
-+
-+    qemu_mutex_lock(&lkcf->mutex);
-+    QSIMPLEQ_INSERT_TAIL(&lkcf->requests, task, queue);
-+    qemu_mutex_unlock(&lkcf->mutex);
-+    qemu_cond_signal(&lkcf->cond);
-+
-+    return VIRTIO_CRYPTO_OK;
-+}
-+
-+static int cryptodev_lkcf_create_asym_session(
-+    CryptoDevBackendLKCF *lkcf,
-+    CryptoDevBackendAsymSessionInfo *sess_info,
-+    uint64_t *session_id)
-+{
-+    Error *local_error = NULL;
-+    int index;
-+    g_autofree CryptoDevBackendLKCFSession *sess =
-+        g_new0(CryptoDevBackendLKCFSession, 1);
-+
-+    switch (sess_info->algo) {
-+    case VIRTIO_CRYPTO_AKCIPHER_RSA:
-+        sess->akcipher_opts.alg = QCRYPTO_AKCIPHER_ALG_RSA;
-+        if (cryptodev_lkcf_set_rsa_opt(
-+            sess_info->u.rsa.padding_algo, sess_info->u.rsa.hash_algo,
-+            &sess->akcipher_opts.u.rsa, &local_error) != 0) {
-+            error_report_err(local_error);
-+            return -VIRTIO_CRYPTO_ERR;
-+        }
-+        break;
-+
-+    default:
-+        error_report("Unsupported asym alg %u", sess_info->algo);
-+        return -VIRTIO_CRYPTO_NOTSUPP;
-+    }
-+
-+    switch (sess_info->keytype) {
-+    case VIRTIO_CRYPTO_AKCIPHER_KEY_TYPE_PUBLIC:
-+        sess->keytype = QCRYPTO_AKCIPHER_KEY_TYPE_PUBLIC;
-+        break;
-+
-+    case VIRTIO_CRYPTO_AKCIPHER_KEY_TYPE_PRIVATE:
-+        sess->keytype = QCRYPTO_AKCIPHER_KEY_TYPE_PRIVATE;
-+        break;
-+
-+    default:
-+        error_report("Unknown akcipher keytype: %u", sess_info->keytype);
-+        return -VIRTIO_CRYPTO_ERR;
-+    }
-+
-+    index = cryptodev_lkcf_get_unused_session_index(lkcf);
-+    if (index < 0) {
-+        error_report("Total number of sessions created exceeds %u",
-+                     MAX_SESSIONS);
-+        return -VIRTIO_CRYPTO_ERR;
-+    }
-+
-+    sess->keylen = sess_info->keylen;
-+    sess->key = g_malloc(sess_info->keylen);
-+    memcpy(sess->key, sess_info->key, sess_info->keylen);
-+
-+    lkcf->sess[index] = g_steal_pointer(&sess);
-+    *session_id = index;
-+
-+    return VIRTIO_CRYPTO_OK;
-+}
-+
-+static int cryptodev_lkcf_create_session(
-+    CryptoDevBackend *backend,
-+    CryptoDevBackendSessionInfo *sess_info,
-+    uint32_t queue_index,
-+    CryptoDevCompletionFunc cb,
-+    void *opaque)
-+{
-+    CryptoDevBackendAsymSessionInfo *asym_sess_info;
-+    CryptoDevBackendLKCF *lkcf =
-+        CRYPTODEV_BACKEND_LKCF(backend);
-+    int ret;
-+
-+    switch (sess_info->op_code) {
-+    case VIRTIO_CRYPTO_AKCIPHER_CREATE_SESSION:
-+        asym_sess_info = &sess_info->u.asym_sess_info;
-+        ret = cryptodev_lkcf_create_asym_session(
-+            lkcf, asym_sess_info, &sess_info->session_id);
-+        break;
-+
-+    default:
-+        ret = -VIRTIO_CRYPTO_NOTSUPP;
-+        error_report("Unsupported opcode: %" PRIu32 "",
-+                     sess_info->op_code);
-+        break;
-+    }
-+    if (cb) {
-+        cb(opaque, ret);
-+    }
-+    return 0;
-+}
-+
-+static int cryptodev_lkcf_close_session(CryptoDevBackend *backend,
-+                                        uint64_t session_id,
-+                                        uint32_t queue_index,
-+                                        CryptoDevCompletionFunc cb,
-+                                        void *opaque)
-+{
-+    CryptoDevBackendLKCF *lkcf = CRYPTODEV_BACKEND_LKCF(backend);
-+    CryptoDevBackendLKCFSession *session;
-+
-+    assert(session_id < MAX_SESSIONS && lkcf->sess[session_id]);
-+    session = lkcf->sess[session_id];
-+    lkcf->sess[session_id] = NULL;
-+
-+    g_free(session->key);
-+    g_free(session);
-+
-+    if (cb) {
-+        cb(opaque, VIRTIO_CRYPTO_OK);
-+    }
-+    return 0;
-+}
-+
-+static void cryptodev_lkcf_class_init(ObjectClass *oc, void *data)
-+{
-+    CryptoDevBackendClass *bc = CRYPTODEV_BACKEND_CLASS(oc);
-+
-+    bc->init = cryptodev_lkcf_init;
-+    bc->cleanup = cryptodev_lkcf_cleanup;
-+    bc->create_session = cryptodev_lkcf_create_session;
-+    bc->close_session = cryptodev_lkcf_close_session;
-+    bc->do_op = cryptodev_lkcf_operation;
-+}
-+
-+static const TypeInfo cryptodev_builtin_info = {
-+    .name = TYPE_CRYPTODEV_BACKEND_LKCF,
-+    .parent = TYPE_CRYPTODEV_BACKEND,
-+    .class_init = cryptodev_lkcf_class_init,
-+    .instance_size = sizeof(CryptoDevBackendLKCF),
-+};
-+
-+static void cryptodev_lkcf_register_types(void)
-+{
-+    type_register_static(&cryptodev_builtin_info);
-+}
-+
-+type_init(cryptodev_lkcf_register_types);
-diff --git a/backends/meson.build b/backends/meson.build
-index b1884a88ec..954e658b25 100644
---- a/backends/meson.build
-+++ b/backends/meson.build
-@@ -12,6 +12,9 @@ softmmu_ss.add([files(
- softmmu_ss.add(when: 'CONFIG_POSIX', if_true: files('rng-random.c'))
- softmmu_ss.add(when: 'CONFIG_POSIX', if_true: files('hostmem-file.c'))
- softmmu_ss.add(when: 'CONFIG_LINUX', if_true: files('hostmem-memfd.c'))
-+if keyutils.found()
-+    softmmu_ss.add(keyutils, files('cryptodev-lkcf.c'))
-+endif
- if have_vhost_user
-   softmmu_ss.add(when: 'CONFIG_VIRTIO', if_true: files('vhost-user.c'))
- endif
-diff --git a/include/sysemu/cryptodev.h b/include/sysemu/cryptodev.h
-index 32e9f4cf8a..cf9b3f07fe 100644
---- a/include/sysemu/cryptodev.h
-+++ b/include/sysemu/cryptodev.h
-@@ -219,6 +219,7 @@ typedef enum CryptoDevBackendOptionsType {
-     CRYPTODEV_BACKEND_TYPE_NONE = 0,
-     CRYPTODEV_BACKEND_TYPE_BUILTIN = 1,
-     CRYPTODEV_BACKEND_TYPE_VHOST_USER = 2,
-+    CRYPTODEV_BACKEND_TYPE_LKCF = 3,
-     CRYPTODEV_BACKEND_TYPE__MAX,
- } CryptoDevBackendOptionsType;
- 
-diff --git a/qapi/qom.json b/qapi/qom.json
-index 80dd419b39..cb83497c73 100644
---- a/qapi/qom.json
-+++ b/qapi/qom.json
-@@ -850,6 +850,7 @@
-     'colo-compare',
-     'cryptodev-backend',
-     'cryptodev-backend-builtin',
-+    'cryptodev-backend-lkcf',
-     { 'name': 'cryptodev-vhost-user',
-       'if': 'CONFIG_VHOST_CRYPTO' },
-     'dbus-vmstate',
-@@ -917,6 +918,7 @@
-       'colo-compare':               'ColoCompareProperties',
-       'cryptodev-backend':          'CryptodevBackendProperties',
-       'cryptodev-backend-builtin':  'CryptodevBackendProperties',
-+      'cryptodev-backend-lkcf':     'CryptodevBackendProperties',
-       'cryptodev-vhost-user':       { 'type': 'CryptodevVhostUserProperties',
-                                       'if': 'CONFIG_VHOST_CRYPTO' },
-       'dbus-vmstate':               'DBusVMStateProperties',
--- 
-2.11.0
+On 9/17/2022 5:57 AM, Peter Xu wrote:
+> On Thu, Sep 15, 2022 at 05:28:39PM +0800, Chenyi Qiang wrote:
+>> There are cases that malicious virtual machine can cause CPU stuck (due
+>> to event windows don't open up), e.g., infinite loop in microcode when
+>> nested #AC (CVE-2015-5307). No event window means no event (NMI, SMI and
+>> IRQ) can be delivered. It leads the CPU to be unavailable to host or
+>> other VMs. Notify VM exit is introduced to mitigate such kind of
+>> attacks, which will generate a VM exit if no event window occurs in VM
+>> non-root mode for a specified amount of time (notify window).
+>>
+>> A new KVM capability KVM_CAP_X86_NOTIFY_VMEXIT is exposed to user space
+>> so that the user can query the capability and set the expected notify
+>> window when creating VMs. The format of the argument when enabling this
+>> capability is as follows:
+>>    Bit 63:32 - notify window specified in qemu command
+>>    Bit 31:0  - some flags (e.g. KVM_X86_NOTIFY_VMEXIT_ENABLED is set to
+>>                enable the feature.)
+>>
+>> Because there are some concerns, e.g. a notify VM exit may happen with
+>> VM_CONTEXT_INVALID set in exit qualification (no cases are anticipated
+>> that would set this bit), which means VM context is corrupted. To avoid
+>> the false positive and a well-behaved guest gets killed, make this
+>> feature disabled by default. Users can enable the feature by a new
+>> machine property:
+>>      qemu -machine notify_vmexit=on,notify_window=0 ...
+>>
+>> Note that notify_window is only valid when notify_vmexit is on. The valid
+>> range of notify_window is non-negative. It is even safe to set it to zero
+>> since there's an internal hardware threshold to be added to ensure no false
+>> positive.
+>>
+>> A new KVM exit reason KVM_EXIT_NOTIFY is defined for notify VM exit. If
+>> it happens with VM_INVALID_CONTEXT, hypervisor exits to user space to
+>> inform the fatal case. Then user space can inject a SHUTDOWN event to
+>> the target vcpu. This is implemented by injecting a sythesized triple
+>> fault event.
+>>
+>> Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
+>> ---
+>>   hw/i386/x86.c         | 45 +++++++++++++++++++++++++++++++++++++++++++
+>>   include/hw/i386/x86.h |  5 +++++
+>>   qemu-options.hx       | 10 +++++++++-
+>>   target/i386/kvm/kvm.c | 28 +++++++++++++++++++++++++++
+>>   4 files changed, 87 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+>> index 050eedc0c8..1eccbd3deb 100644
+>> --- a/hw/i386/x86.c
+>> +++ b/hw/i386/x86.c
+>> @@ -1379,6 +1379,37 @@ static void machine_set_sgx_epc(Object *obj, Visitor *v, const char *name,
+>>       qapi_free_SgxEPCList(list);
+>>   }
+>>   
+>> +static bool x86_machine_get_notify_vmexit(Object *obj, Error **errp)
+>> +{
+>> +    X86MachineState *x86ms = X86_MACHINE(obj);
+>> +
+>> +    return x86ms->notify_vmexit;
+>> +}
+>> +
+>> +static void x86_machine_set_notify_vmexit(Object *obj, bool value, Error **errp)
+>> +{
+>> +    X86MachineState *x86ms = X86_MACHINE(obj);
+>> +
+>> +    x86ms->notify_vmexit = value;
+>> +}
+>> +
+>> +static void x86_machine_get_notify_window(Object *obj, Visitor *v,
+>> +                                const char *name, void *opaque, Error **errp)
+>> +{
+>> +    X86MachineState *x86ms = X86_MACHINE(obj);
+>> +    uint32_t notify_window = x86ms->notify_window;
+>> +
+>> +    visit_type_uint32(v, name, &notify_window, errp);
+>> +}
+>> +
+>> +static void x86_machine_set_notify_window(Object *obj, Visitor *v,
+>> +                               const char *name, void *opaque, Error **errp)
+>> +{
+>> +    X86MachineState *x86ms = X86_MACHINE(obj);
+>> +
+>> +    visit_type_uint32(v, name, &x86ms->notify_window, errp);
+>> +}
+>> +
+>>   static void x86_machine_initfn(Object *obj)
+>>   {
+>>       X86MachineState *x86ms = X86_MACHINE(obj);
+>> @@ -1392,6 +1423,8 @@ static void x86_machine_initfn(Object *obj)
+>>       x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
+>>       x86ms->bus_lock_ratelimit = 0;
+>>       x86ms->above_4g_mem_start = 4 * GiB;
+>> +    x86ms->notify_vmexit = false;
+>> +    x86ms->notify_window = 0;
+>>   }
+>>   
+>>   static void x86_machine_class_init(ObjectClass *oc, void *data)
+>> @@ -1461,6 +1494,18 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
+>>           NULL, NULL);
+>>       object_class_property_set_description(oc, "sgx-epc",
+>>           "SGX EPC device");
+>> +
+>> +    object_class_property_add(oc, X86_MACHINE_NOTIFY_WINDOW, "uint32_t",
+>> +                              x86_machine_get_notify_window,
+>> +                              x86_machine_set_notify_window, NULL, NULL);
+>> +    object_class_property_set_description(oc, X86_MACHINE_NOTIFY_WINDOW,
+>> +            "Set the notify window required by notify VM exit");
+>> +
+>> +    object_class_property_add_bool(oc, X86_MACHINE_NOTIFY_VMEXIT,
+>> +                                   x86_machine_get_notify_vmexit,
+>> +                                   x86_machine_set_notify_vmexit);
+>> +    object_class_property_set_description(oc, X86_MACHINE_NOTIFY_VMEXIT,
+>> +            "Enable notify VM exit");
+>>   }
+>>   
+>>   static const TypeInfo x86_machine_info = {
+>> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+>> index 62fa5774f8..5707329fa7 100644
+>> --- a/include/hw/i386/x86.h
+>> +++ b/include/hw/i386/x86.h
+>> @@ -85,6 +85,9 @@ struct X86MachineState {
+>>        * which means no limitation on the guest's bus locks.
+>>        */
+>>       uint64_t bus_lock_ratelimit;
+>> +
+>> +    bool notify_vmexit;
+>> +    uint32_t notify_window;
+>>   };
+>>   
+>>   #define X86_MACHINE_SMM              "smm"
+>> @@ -94,6 +97,8 @@ struct X86MachineState {
+>>   #define X86_MACHINE_OEM_ID           "x-oem-id"
+>>   #define X86_MACHINE_OEM_TABLE_ID     "x-oem-table-id"
+>>   #define X86_MACHINE_BUS_LOCK_RATELIMIT  "bus-lock-ratelimit"
+>> +#define X86_MACHINE_NOTIFY_VMEXIT     "notify-vmexit"
+>> +#define X86_MACHINE_NOTIFY_WINDOW     "notify-window"
+>>   
+>>   #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
+>>   OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
+>> diff --git a/qemu-options.hx b/qemu-options.hx
+>> index 31c04f7eea..3cdeeac8f3 100644
+>> --- a/qemu-options.hx
+>> +++ b/qemu-options.hx
+>> @@ -37,7 +37,8 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+>>       "                memory-encryption=@var{} memory encryption object to use (default=none)\n"
+>>       "                hmat=on|off controls ACPI HMAT support (default=off)\n"
+>>       "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n"
+>> -    "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n",
+>> +    "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n"
+>> +    "                notify_vmexit=on|off,notify_window=n controls notify VM exit support (default=off) and specifies the notify window size (default=0)\n",
+>>       QEMU_ARCH_ALL)
+>>   SRST
+>>   ``-machine [type=]name[,prop=value[,...]]``
+>> @@ -157,6 +158,13 @@ SRST
+>>           ::
+>>   
+>>               -machine cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=128G,cxl-fmw.0.interleave-granularity=512k
+>> +
+>> +    ``notify_vmexit=on|off,notify_window=n``
+>> +        Enables or disables Notify VM exit support on x86 host and specify
+>> +        the corresponding notify window to trigger the VM exit if enabled.
+>> +        This feature can mitigate the CPU stuck issue due to event windows
+>> +        don't open up for a specified of time (notify window).
+>> +        The default is off.
+>>   ERST
+>>   
+>>   DEF("M", HAS_ARG, QEMU_OPTION_M,
+>> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+>> index 3838827134..ae7fb2c495 100644
+>> --- a/target/i386/kvm/kvm.c
+>> +++ b/target/i386/kvm/kvm.c
+>> @@ -2597,6 +2597,20 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>>               ratelimit_set_speed(&bus_lock_ratelimit_ctrl,
+>>                                   x86ms->bus_lock_ratelimit, BUS_LOCK_SLICE_TIME);
+>>           }
+>> +
+>> +        if (x86ms->notify_vmexit &&
+>> +            kvm_check_extension(s, KVM_CAP_X86_NOTIFY_VMEXIT)) {
+>> +            uint64_t notify_window_flags = ((uint64_t)x86ms->notify_window << 32) |
+>> +                                           KVM_X86_NOTIFY_VMEXIT_ENABLED |
+>> +                                           KVM_X86_NOTIFY_VMEXIT_USER;
+> 
+> It'll always request a user exit here as long as enabled, then...
+> 
+>> +            ret = kvm_vm_enable_cap(s, KVM_CAP_X86_NOTIFY_VMEXIT, 0,
+>> +                                    notify_window_flags);
+>> +            if (ret < 0) {
+>> +                error_report("kvm: Failed to enable notify vmexit cap: %s",
+>> +                             strerror(-ret));
+>> +                return ret;
+>> +            }
+>> +        }
+>>       }
+>>   
+>>       return 0;
+>> @@ -5141,6 +5155,7 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+>>       X86CPU *cpu = X86_CPU(cs);
+>>       uint64_t code;
+>>       int ret;
+>> +    struct kvm_vcpu_events events = {};
+>>   
+>>       switch (run->exit_reason) {
+>>       case KVM_EXIT_HLT:
+>> @@ -5196,6 +5211,19 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+>>           /* already handled in kvm_arch_post_run */
+>>           ret = 0;
+>>           break;
+>> +    case KVM_EXIT_NOTIFY:
+>> +        ret = 0;
+>> +        if (run->notify.flags & KVM_NOTIFY_CONTEXT_INVALID) {
+>> +            warn_report("KVM: invalid context due to notify vmexit");
+>> +            if (has_triple_fault_event) {
+>> +                events.flags |= KVM_VCPUEVENT_VALID_TRIPLE_FAULT;
+>> +                events.triple_fault.pending = true;
+>> +                ret = kvm_vcpu_ioctl(cs, KVM_SET_VCPU_EVENTS, &events);
+>> +            } else {
+>> +                ret = -1;
+>> +            }
+>> +        }
+> 
+> ... should we do something even if the context is valid?  Or I'm a bit
 
+
+Yes, make sense. A warning log is necessary if the context is valid.
+
+> confused why KVM_X86_NOTIFY_VMEXIT_USER was set (IIUC we can just enable it
+> without setting VMEXIT_USER then).
+> 
+
+VMEXIT_USR was set because KVM community prefers userspace can get 
+notified and help to do some analysis or mitigation if notify window was 
+exceeded.
+
+> Not sure some warning would be also useful here, but I really don't know
+> the whole context so I can't tell whether there can easily be false
+> positives to pollute qemu log.
+> 
+
+The false positive case is not easy to happen unless some potential 
+issues in silicon. But in case of it, to avoid polluting qemu log, how 
+about:
+
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index ae7fb2c495..8f97133cbf 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -5213,6 +5213,7 @@ int kvm_arch_handle_exit(CPUState *cs, struct 
+kvm_run *run)
+          break;
+      case KVM_EXIT_NOTIFY:
+          ret = 0;
++        warn_report_once("KVM: notify window was exceeded in guest");
+          if (run->notify.flags & KVM_NOTIFY_CONTEXT_INVALID) {
+              warn_report("KVM: invalid context due to notify vmexit");
+              if (has_triple_fault_event) {
+
+>> +        break;
+>>       default:
+>>           fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
+>>           ret = -1;
+>> -- 
+>> 2.17.1
+>>
+> 
 
