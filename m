@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ECF65BD483
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 20:08:18 +0200 (CEST)
-Received: from localhost ([::1]:36618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE4665BD494
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 20:13:11 +0200 (CEST)
+Received: from localhost ([::1]:54064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaLBp-0002gz-BL
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 14:08:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47854)
+	id 1oaLGY-0000Qd-LQ
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 14:13:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oaKfq-0002ym-N2
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:35:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41300)
+ id 1oaKg6-0003Ib-CR
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:35:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48031)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oaKfo-000356-LT
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:35:14 -0400
+ id 1oaKfq-00035Y-VX
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:35:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663608911;
+ s=mimecast20190719; t=1663608914;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uvn0kmiceqd2oyNCXiSyFlEG1+Z3hg5qC/XijQrII0Y=;
- b=MEL/gLt7us5/+PTRPckXNXH6IvqlVtfXbIQH9nlgGYjEESHgTSLCeC93yIR8HeqtsRUzFr
- o38/sJX38ygxR4yBrhMHtCa2UsWu1/fgfKKxzvJE33Rxkh4N78oPh4OmOKcPigY7dZ9kQC
- /HO9blRkyW++pHtHbZhuFmHdG1B9OX0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QDX1UMHUn3xQ6hIBz5bc12HygCihV0paTI0fj1irANs=;
+ b=MW0zVmsvnOMedyoWMQzjPAFBJMGks2TGGNcsX3yVTWJvbmC/u4/UT/M8opIDW4PkuKLHZG
+ RrtlVEuL5z1TyZDxyv8oOp9ozgzJP9esa4AnOVozZcvRXUj9MuwppG5j+9okvEcZABhW1/
+ o5+rtVpz9hSvHzrGnYkU+o5QOPlcUKI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-617-Jq31EFYzMsCP1yDb4BMSRQ-1; Mon, 19 Sep 2022 13:35:10 -0400
-X-MC-Unique: Jq31EFYzMsCP1yDb4BMSRQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- p24-20020a05600c1d9800b003b4b226903dso4958769wms.4
- for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 10:35:10 -0700 (PDT)
+ us-mta-376-o2lw-1PIPvm_gidJWcJTmg-1; Mon, 19 Sep 2022 13:35:13 -0400
+X-MC-Unique: o2lw-1PIPvm_gidJWcJTmg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ r128-20020a1c4486000000b003b3f017f259so8410wma.3
+ for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 10:35:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=uvn0kmiceqd2oyNCXiSyFlEG1+Z3hg5qC/XijQrII0Y=;
- b=XLNhnSS+VeVAX13VdOrYG1EzpeF5KNcqezTf8QpJQzIosYdu9Yj1BC589/YltWe/6g
- 95Yu+VWqVzxO+MmXK/C/qim0HsNnjea/8IMzdWrc9DlUo0WufKOkCd2eZaShzDZJj/7b
- eJpRAMra7dHGAMtH9DB7vTLjx5PsHeVN3oMlpxor7faDfk5PdJVkjxq8xvmHsSpL000E
- l9CcGNCokiMCcPXDYBXQ8Sn3FB+d0qjm4GwGT3AgF1ccuCsITWJAxz4VNYbmiwLUMR34
- lZsXCDZs1PC2idVf/SpZHPd9PQ7l5/w2ThdEqWHKSN01NHCSxpr5EMM7J8xrTL1hjdiR
- QGZw==
-X-Gm-Message-State: ACgBeo2vcjFnmgeRxJKKWYBWKrt3WOj8jWbDxaBfhZ8cQABQ4z3P88YM
- dRLrZFWn08Xr3f104DzJY8T1kEizSx9CYd2GbDVAS/8buC3AW0UmWK+PYfeLPST+eZIF8U0sc6D
- xDPfURij3vcw+vo1tHGkYKyQHkCYlq8g8AV4B/7CnQz6AknFhkKdfGsKIAyeR3dcnZPQ=
-X-Received: by 2002:a05:600c:2c4d:b0:3b4:867f:1e6f with SMTP id
- r13-20020a05600c2c4d00b003b4867f1e6fmr20394667wmg.75.1663608909099; 
+ bh=QDX1UMHUn3xQ6hIBz5bc12HygCihV0paTI0fj1irANs=;
+ b=qp93dPfEQqCmUSz3DR5oUAyRRi7AGdKsBkP0ejeHADfvOHsrUuJC9Apy/RnlGeMaN8
+ bO5HnTS5wHNejMXeHP1Z4vPS0es8LKJgyyg/wFY3F+E7PmHu8ZpdwpWZSsH9Ho2YxR3t
+ JGZ9KjzFBbhW4igEKvcOx1kC9kizocmFQaFg2cqhT0Zl+AlZYbZIRi+bWB+fLPq+cYaD
+ eNOV3FYAGPbd1nV7elAw9H/YSTfBGL0+ntrc4c2LFkdoIlrecwPiAa2aV9Y9GW0H8Unp
+ uXpJBtK+tMVhreUgtP1ImC3giNBEWWHfWw1KDkePy4GL4khmr/F7/EQoaHAkXRzTdu47
+ Jdlg==
+X-Gm-Message-State: ACrzQf0qFAUNZiMAfqTLY2zfdS8rimkKreVBFFqkN0CFO3gyECkfjb8W
+ RTU9Vqva/MGfR6DpdSoLQIfv6hifKLZYwp9uksm/VTl6KlldatJjGz9wYsFcoy2LBN0rjjWomIY
+ 4UbCKSraoWDq5vvj3bFwdWW8RJXTgD6BVtHc/H3yZOx0oRCpVwMEerfLBtT3lUd5lqLs=
+X-Received: by 2002:adf:f2c9:0:b0:228:63f6:73c2 with SMTP id
+ d9-20020adff2c9000000b0022863f673c2mr11309917wrp.554.1663608910262; 
+ Mon, 19 Sep 2022 10:35:10 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6YWKTJqOsNJ1tIMu2mFrogNkf+kCWS2lwlA0mPB3aEsK1POaXeeGTbLZFLvxAIf+rdOqal+w==
+X-Received: by 2002:adf:f2c9:0:b0:228:63f6:73c2 with SMTP id
+ d9-20020adff2c9000000b0022863f673c2mr11309901wrp.554.1663608909916; 
  Mon, 19 Sep 2022 10:35:09 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR61ZrI0SMdna6IzGJV+74UIRCP2VvUbKNAyUlcGEQfRHNZYw/XgNPqEzn5WNIxf/DGh/Jr+sQ==
-X-Received: by 2002:a05:600c:2c4d:b0:3b4:867f:1e6f with SMTP id
- r13-20020a05600c2c4d00b003b4867f1e6fmr20394645wmg.75.1663608908695; 
- Mon, 19 Sep 2022 10:35:08 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- t1-20020adfe441000000b0022a2bacabbasm14108601wrm.31.2022.09.19.10.35.07
+ e1-20020adfef01000000b00226dedf1ab7sm14425979wro.76.2022.09.19.10.35.09
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Sep 2022 10:35:08 -0700 (PDT)
+ Mon, 19 Sep 2022 10:35:09 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/21] tests: unit: add NULL-pointer check
-Date: Mon, 19 Sep 2022 19:34:38 +0200
-Message-Id: <20220919173449.5864-11-pbonzini@redhat.com>
+Subject: [PULL 11/21] tests/tcg: i386: fix typos in 3DNow! instructions
+Date: Mon, 19 Sep 2022 19:34:39 +0200
+Message-Id: <20220919173449.5864-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220919173449.5864-1-pbonzini@redhat.com>
 References: <20220919173449.5864-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,32 +100,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In CID 1432593, Coverity complains that the result of qdict_crumple()
-might leak if it is not a dictionary.  This is not a practical concern
-since the test would fail immediately with a NULL pointer dereference
-in qdict_size().
-
-However, it is not nice to depend on qdict_size() crashing, so add an
-explicit assertion that that the crumpled object was indeed a dictionary.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/unit/check-block-qdict.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/tcg/i386/x86.csv | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/unit/check-block-qdict.c b/tests/unit/check-block-qdict.c
-index 5a25825093..751c58e737 100644
---- a/tests/unit/check-block-qdict.c
-+++ b/tests/unit/check-block-qdict.c
-@@ -504,7 +504,7 @@ static void qdict_crumple_test_empty(void)
-     src = qdict_new();
- 
-     dst = qobject_to(QDict, qdict_crumple(src, &error_abort));
--
-+    g_assert(dst);
-     g_assert_cmpint(qdict_size(dst), ==, 0);
- 
-     qobject_unref(src);
+diff --git a/tests/tcg/i386/x86.csv b/tests/tcg/i386/x86.csv
+index d5d0c17f1b..c43bf42dd3 100644
+--- a/tests/tcg/i386/x86.csv
++++ b/tests/tcg/i386/x86.csv
+@@ -1469,16 +1469,16 @@
+ "PFCMPEQ mm1, mm2/m64","PFCMPEQ mm2/m64, mm1","pfcmpeq mm2/m64, mm1","0F 0F B0 /r","V","V","3DNOW","amd","rw,r","",""
+ "PFCMPGE mm1, mm2/m64","PFCMPGE mm2/m64, mm1","pfcmpge mm2/m64, mm1","0F 0F 90 /r","V","V","3DNOW","amd","rw,r","",""
+ "PFCMPGT mm1, mm2/m64","PFCMPGT mm2/m64, mm1","pfcmpgt mm2/m64, mm1","0F 0F A0 /r","V","V","3DNOW","amd","rw,r","",""
+-"PFCPIT1 mm1, mm2/m64","PFCPIT1 mm2/m64, mm1","pfcpit1 mm2/m64, mm1","0F 0F A6 /r","V","V","3DNOW","amd","rw,r","",""
+ "PFMAX mm1, mm2/m64","PFMAX mm2/m64, mm1","pfmax mm2/m64, mm1","0F 0F A4 /r","V","V","3DNOW","amd","rw,r","",""
+ "PFMIN mm1, mm2/m64","PFMIN mm2/m64, mm1","pfmin mm2/m64, mm1","0F 0F 94 /r","V","V","3DNOW","amd","rw,r","",""
+ "PFMUL mm1, mm2/m64","PFMUL mm2/m64, mm1","pfmul mm2/m64, mm1","0F 0F B4 /r","V","V","3DNOW","amd","rw,r","",""
+ "PFNACC mm1, mm2/m64","PFNACC mm2/m64, mm1","pfnacc mm2/m64, mm1","0F 0F 8A /r","V","V","3DNOW","amd","rw,r","",""
+ "PFPNACC mm1, mm2/m64","PFPNACC mm2/m64, mm1","pfpnacc mm2/m64, mm1","0F 0F 8E /r","V","V","3DNOW","amd","rw,r","",""
+ "PFRCP mm1, mm2/m64","PFRCP mm2/m64, mm1","pfrcp mm2/m64, mm1","0F 0F 96 /r","V","V","3DNOW","amd","rw,r","",""
++"PFRCPIT1 mm1, mm2/m64","PFRCPIT1 mm2/m64, mm1","pfrcpit1 mm2/m64, mm1","0F 0F A6 /r","V","V","3DNOW","amd","rw,r","",""
+ "PFRCPIT2 mm1, mm2/m64","PFRCPIT2 mm2/m64, mm1","pfrcpit2 mm2/m64, mm1","0F 0F B6 /r","V","V","3DNOW","amd","rw,r","",""
+ "PFRSQIT1 mm1, mm2/m64","PFRSQIT1 mm2/m64, mm1","pfrsqit1 mm2/m64, mm1","0F 0F A7 /r","V","V","3DNOW","amd","rw,r","",""
+-"PFSQRT mm1, mm2/m64","PFSQRT mm2/m64, mm1","pfsqrt mm2/m64, mm1","0F 0F 97 /r","V","V","3DNOW","amd","rw,r","",""
++"PFRSQRT mm1, mm2/m64","PFRSQRT mm2/m64, mm1","pfrsqrt mm2/m64, mm1","0F 0F 97 /r","V","V","3DNOW","amd","rw,r","",""
+ "PFSUB mm1, mm2/m64","PFSUB mm2/m64, mm1","pfsub mm2/m64, mm1","0F 0F 9A /r","V","V","3DNOW","amd","rw,r","",""
+ "PFSUBR mm1, mm2/m64","PFSUBR mm2/m64, mm1","pfsubr mm2/m64, mm1","0F 0F AA /r","V","V","3DNOW","amd","rw,r","",""
+ "PHADDD mm1, mm2/m64","PHADDD mm2/m64, mm1","phaddd mm2/m64, mm1","0F 38 02 /r","V","V","SSSE3","","rw,r","",""
 -- 
 2.37.2
 
