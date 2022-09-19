@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C8F25BC346
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 09:00:45 +0200 (CEST)
-Received: from localhost ([::1]:32964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A685BC35D
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 09:08:52 +0200 (CEST)
+Received: from localhost ([::1]:34336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaAln-0005tg-Rz
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 03:00:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37816)
+	id 1oaAtf-00024h-4i
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 03:08:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1oaAHt-00086v-5l
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 02:29:49 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:54909)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1oaAHc-00008o-V7
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 02:29:48 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id y11so9865196pjv.4
- for <qemu-devel@nongnu.org>; Sun, 18 Sep 2022 23:29:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=i+HdEVHgTAqhX4nFnIrKeC/y1s1oaBNri9WKmxjnefM=;
- b=nvbqUUBL8+UzFT4AYhjV4g4sROHGUMJZ+fm6QaqLxFCBb4L7F6vmJ/kD8WqaSeTPar
- Yg0M6xtKJBCuT3SF1zrS9MHK2q4kagZMczq1mi0ntZNIdz2XRPWmqA8tbIfBVgPQkPdu
- OIeOCXAtLG//G0667hgsMTFMx/RSFXSR6c0R9+eLavJfEe7thnAq3kOCaHloBL9Wxcbm
- V7PWSnwtB50w6mSPOy5uxMcv2anQqdS2hB43Zf6qH2BCflQMs5Zs7cESNXPTrnyDWs7v
- DgGhTo6yHJFKoY5C73G6yloVEIgjfXXxdXZSyeJdu3cAjvoDM1MhCXdMa7mkscA5MEHl
- VgzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=i+HdEVHgTAqhX4nFnIrKeC/y1s1oaBNri9WKmxjnefM=;
- b=5CcrzkXBCAVo7GnkSW5tkZvXxsf0EXOUqzlQgo5YDZskt99roqPjl6yaAsNBq/bak5
- 4nwFqhVC4mYi+WGYvRiG0cCebJ+Y0XUjJWtQldRZNanY6oHAayY9z/V+uGIF/N48CiMh
- 7W2Ct7a2GOVOAbZ8tetunMgtvndsCOgFsWQPZqgCAqF+E3V5U2OSaqnCytYW5Gou8Ya0
- 1eTwkQ6GtxmZanmrsFpbvm4ph4RNP7EzEG+5QUnvcfbJuRQk2OygIbiJWR90WvNQOmNU
- i+n759zTfRk32f0xpkExSh4xSVSWuaJ++qg+lnsRWDENuj2gg69F8j7sJbQgS8RTRctR
- CSQw==
-X-Gm-Message-State: ACrzQf20BRqcQlf2BkrjEiesjI11k2krP0qMw/JTWf7EQaS2uzFkMx1u
- dXEQT2kJFz6ADu30SkDme4EWhd6ZdzKIpg==
-X-Google-Smtp-Source: AMsMyM70d4aJBnJH0K9I7eyvHPnWDDT6o6UeepD4KFT/reRfVxZUaC0HdhEIoNICqLJdYbaZzFUDRQ==
-X-Received: by 2002:a17:90b:350b:b0:202:8495:6275 with SMTP id
- ls11-20020a17090b350b00b0020284956275mr29575893pjb.216.1663568971361; 
- Sun, 18 Sep 2022 23:29:31 -0700 (PDT)
-Received: from ThinkPad-T490.dc1.ventanamicro.com ([122.169.74.146])
- by smtp.googlemail.com with ESMTPSA id
- y1-20020a17090264c100b001782580ce9csm17678574pli.249.2022.09.18.23.29.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Sep 2022 23:29:30 -0700 (PDT)
-From: Mayuresh Chitale <mchitale@ventanamicro.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Cc: Mayuresh Chitale <mchitale@ventanamicro.com>, alistair.francis@wdc.com,
- Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v9 4/4] target/riscv: smstateen knobs
-Date: Mon, 19 Sep 2022 11:59:08 +0530
-Message-Id: <20220919062908.643945-5-mchitale@ventanamicro.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220919062908.643945-1-mchitale@ventanamicro.com>
-References: <20220919062908.643945-1-mchitale@ventanamicro.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oaAWt-00074S-KQ
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 02:45:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49711)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oaAWp-0002Zw-Ou
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 02:45:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663569914;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qREFu8MFjUuc6X3YqnyMO3UlYylOxf+DmrM3UZMT128=;
+ b=aIswSHkVPpDliZ4ou2Eha3N1rkJV79VpFHQxgAz/IUpxuJeH8zX7UyEE3FnCrmcAh27cly
+ enK+drEYG07wEXm8/mXKQWmqsRXzZN5yxR0qdwIDjoEHrhY8uZD5YOtl5H1tWnzTbC7xYx
+ Aua7AlwbUcuX5ktGlLN+RBOTJhA/Y7k=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-160-SyuOkBfxOsClU2c0LgcZDQ-1; Mon, 19 Sep 2022 02:45:09 -0400
+X-MC-Unique: SyuOkBfxOsClU2c0LgcZDQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 758B8862FE1;
+ Mon, 19 Sep 2022 06:45:09 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 31B8D140EBF5;
+ Mon, 19 Sep 2022 06:45:09 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B36C721E6900; Mon, 19 Sep 2022 08:45:07 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,  "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>,  John Snow <jsnow@redhat.com>,  Eric Blake
+ <eblake@redhat.com>,  qemu-devel <qemu-devel@nongnu.org>
+Subject: Re: Maximum QMP reply size
+References: <CAFn=p-ZkKLQtYAwzkQb7srFf_fF8ij+g5wkZiRofx4U+kSZ7Rw@mail.gmail.com>
+ <CAFEAcA8Zy3RpTZM-gJk6ZZaUEf6huTuuK3C4-uSo6pYz8KCrMQ@mail.gmail.com>
+ <YyNDCDH71oytYujr@work-vm>
+ <CAFEAcA9=hY57=7mXrcs3MHZuGR0HdXwQh-thW8zW=hMmxck2Ng@mail.gmail.com>
+ <YySX9BCEoJ/sARn6@redhat.com>
+Date: Mon, 19 Sep 2022 08:45:07 +0200
+In-Reply-To: <YySX9BCEoJ/sARn6@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Fri, 16 Sep 2022 16:36:20 +0100")
+Message-ID: <87a66vammk.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=mchitale@ventanamicro.com; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,36 +88,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add knobs to allow users to enable smstateen and also export it via the
-ISA extension string.
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
-Reviewed-by: Weiwei Li<liweiwei@iscas.ac.cn>
----
- target/riscv/cpu.c | 2 ++
- 1 file changed, 2 insertions(+)
+> On Fri, Sep 16, 2022 at 04:12:00PM +0100, Peter Maydell wrote:
+>> On Thu, 15 Sept 2022 at 16:21, Dr. David Alan Gilbert
+>> <dgilbert@redhat.com> wrote:
+>> >
+>> > * Peter Maydell (peter.maydell@linaro.org) wrote:
+>> > > On Tue, 6 Sept 2022 at 20:41, John Snow <jsnow@redhat.com> wrote:
+>> > > > Hi, I suspect I have asked this before, but I didn't write it down=
+ in
+>> > > > a comment, so I forget my justification...
+>> > > >
+>> > > > In the QMP lib, we need to set a buffering limit for how big a QMP
+>> > > > message can be -- In practice, I found that the largest possible
+>> > > > response was the QAPI schema reply, and I set the code to this:
+>> > > >
+>> > > >     # Maximum allowable size of read buffer
+>> > > >     _limit =3D (64 * 1024)
+>> > > >
+>> > > > However, I didn't document if this was a reasonable limit or just a
+>> > > > "worksforme" one. I assume that there's no hard limit for the prot=
+ocol
+>> > > > or the implementation thereof in QEMU. Is there any kind of value =
+here
+>> > > > that would be more sensible than another?
+>> > > >
+>> > > > I'm worried that if replies get bigger in the future (possibly in =
+some
+>> > > > degenerate case I am presently unaware of) that the library default
+>> > > > will become nonsensical.
+>> > >
+>> > > There are some QMP commands which return lists of things
+>> > > where we put no inherent limit on how many things there
+>> > > are in the list, like qom-list-types. We'd have to be getting
+>> > > a bit enthusiastic about defining types for that to get
+>> > > up towards 64K's worth of response, but it's not inherently
+>> > > impossible. I think using human-monitor-command to send
+>> > > an 'xp' HMP command is also a way to get back an arbitrarily
+>> > > large string (just ask for a lot of memory to be dumped).
+>> >
+>> > We could put size limits on xp; most Humans will only dump a few kB
+>> > maximum like that, any larger and you can dump to file.
+>>=20
+>> Sure, we could, but why? It's not clear to me why a consumer
+>> of QMP needs to impose a maximum message size limit on it:
+>> I thought it was just JSON. Fixed buffer sizes are very 1980s :-)
+>
+> Well even if they parse the JSON as it streams in, rather than
+> reading the whole doc and then parsing it in one go, you still
+> need to have limits on any sane QMP client.
+>
+> The QEMU process is an untrusted component in the stack, talking
+> to a trusted mgmt layer. If the QEMU process sends a 1 TB JSON
+> message as a QMP reply, the mgmt layer must not try to parse
+> that as they'll let loose the kraken^H^H^H^H^H OOM killer.
+>
+> To be robust against either a malicious or mis-behaving QEMU
+> they need to impose a limit on the size of QMP response they'll
+> be willing to process. The challenge is figuring out what limit
+> is big enough to handle any conceivable valid message, while
+> being small enough to minimize denial of service risks.
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index aee14a239a..1252ca71b3 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -102,6 +102,7 @@ static const struct isa_ext_data isa_edata_arr[] = {
-     ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
-     ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, ext_zhinxmin),
-     ISA_EXT_DATA_ENTRY(smaia, true, PRIV_VERSION_1_12_0, ext_smaia),
-+    ISA_EXT_DATA_ENTRY(smstateen, true, PRIV_VERSION_1_12_0, ext_smstateen),
-     ISA_EXT_DATA_ENTRY(ssaia, true, PRIV_VERSION_1_12_0, ext_ssaia),
-     ISA_EXT_DATA_ENTRY(sscofpmf, true, PRIV_VERSION_1_12_0, ext_sscofpmf),
-     ISA_EXT_DATA_ENTRY(sstc, true, PRIV_VERSION_1_12_0, ext_sstc),
-@@ -1021,6 +1022,7 @@ static Property riscv_cpu_extensions[] = {
-     DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
-     DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
- 
-+    DEFINE_PROP_BOOL("smstateen", RISCVCPU, cfg.ext_smstateen, false),
-     DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
-     DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
-     DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
--- 
-2.25.1
+Yes.
+
+QEMU does this for QMP input.
+
+Trying to defend against malicious QMP input would of course be
+pointless; if you can send QMP input, you "own" QEMU anyway.  It's
+defense against *accidents*.
+
+The limits are extremely (overly?) generous: each command is limited to
+1024 levels of nesting to protect the stack, 64MiB of total token size
+and 2Mi[*] tokens to protect the heap.
+
+> NB, that's not the only thing clients need todo to protect from
+> a bad QEMU. Rate limiting consumption is potentially important too
+> lest a bad QEMU inflict a DoS on the CPU by sending such frequent
+> messages that the QMP client is burning 100% CPU just parsing
+> them.  I've not seen any QMP client do this in practice though,
+> not even libvirt has attempted it.
+
+What could a management application do when it detects it can't /
+doesn't want to keep up with QMP output?
+
+>> If this is a common requirement then should we define something
+>> in the protocol where the client says "I can support messages
+>> up to this big" and then the server has to split things up?
+>
+> Splitting doesn't help protect against the DoS, because the QMP
+> client would have to reassemble the pieces afterwards to process
+> the reply / async event.
+
+Yes.
+
+Can we estimate limits that should suffice?  Documenting them could help
+management applications.
+
+
+[*] If you're curious about this value, see commit df649835fe "qjson:
+Limit number of tokens in addition to total size".
 
 
