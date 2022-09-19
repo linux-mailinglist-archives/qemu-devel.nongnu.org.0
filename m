@@ -2,98 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 581025BCB5F
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 14:02:17 +0200 (CEST)
-Received: from localhost ([::1]:53018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45F085BCB6A
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 14:07:38 +0200 (CEST)
+Received: from localhost ([::1]:42304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaFTb-000320-72
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 08:02:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50034)
+	id 1oaFYm-0005oE-K2
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 08:07:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1oaFIc-0002V3-HC
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 07:50:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28463)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1oaFIX-00052W-W0
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 07:50:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663588248;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GV3no5O0Ex/rN2YWvmnsmrtYDlp5PG+8hTX2YdS6fAE=;
- b=GvxbszcmzNbo179WIjRlpJKnuaTA1SyGQPXwBMe4AE2E+AncnrRXZ21a1O4WOMZrBqcIVf
- G2Bjoi9wmNy73/bLuhz2Z6Swuh/cHFKEQcTtXLqs/MjMU7UPRyL0AcrabtwFsvyGt5QFgd
- qBieLvusge6LrQHaz6W23JTmE0AXKbQ=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-45-h8tBWtUSM5-2Ec7NNsGQjA-1; Mon, 19 Sep 2022 07:50:47 -0400
-X-MC-Unique: h8tBWtUSM5-2Ec7NNsGQjA-1
-Received: by mail-il1-f200.google.com with SMTP id
- o2-20020a056e0214c200b002eb8acbd27cso19479971ilk.22
- for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 04:50:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:organization:references
- :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc:subject:date;
- bh=GV3no5O0Ex/rN2YWvmnsmrtYDlp5PG+8hTX2YdS6fAE=;
- b=j5YedtSdSpeUHCx3D/bmXiiT+3+/V//CVvxJCxQbOjjOiDRmWPk24rucVQh5Z5ut4J
- KEm/AHLFcehYshXPEm1A60wgxdEmc+tn1NM2eNrAVH4ZfPmnjKPxIw86sqFXFzv6h7pD
- yIWs825R5pz0JQLHdglmofWtMa56AXqE0tfGBV9+C+6VABFA1X7zPxPHlU3uB9+hibbj
- HE2STah953f2xHGRJR9z5oN2ChhQQWQqYm/jybnFHMoblu+kDVFPmCM3/h69/wjukUOm
- P7dWGVvSfBf2804UyhoAVXk4uZtX04KbEdP4CP7S0PEPyCQno6umGrooCF3Bn2DNxZzm
- oYdw==
-X-Gm-Message-State: ACrzQf3UC/DwCiQoOF6RPGe/iblmMOkKx0uEJluO90gKICrRM1mYqI+b
- Sc6y+F9CvRAkt4zZk8n8lmwECx4SvFuS5qm1js9Gh7Qkhjm+csDMFAUQ6S67hob0hdHuI41nHT8
- Cuo1caxbSdKJuRJI=
-X-Received: by 2002:a05:6638:448d:b0:35a:81aa:939d with SMTP id
- bv13-20020a056638448d00b0035a81aa939dmr7595379jab.312.1663588246827; 
- Mon, 19 Sep 2022 04:50:46 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4KzFqUPYXK2rP5BdhBXzGXT+zAPAdj8v4+ah4jNxj6Xo3jOADS03LFINjLJ9z+XUT06aYWQQ==
-X-Received: by 2002:a05:6638:448d:b0:35a:81aa:939d with SMTP id
- bv13-20020a056638448d00b0035a81aa939dmr7595363jab.312.1663588246630; 
- Mon, 19 Sep 2022 04:50:46 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- y12-20020a02354c000000b00349dccb3855sm5489069jae.72.2022.09.19.04.50.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Sep 2022 04:50:46 -0700 (PDT)
-Date: Mon, 19 Sep 2022 05:50:44 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: liulongfang <liulongfang@huawei.com>
-Cc: Avihai Horon <avihaih@nvidia.com>, <qemu-devel@nongnu.org>, Cornelia
- Huck <cohuck@redhat.com>, "Juan Quintela" <quintela@redhat.com>, "Dr .
- David Alan Gilbert" <dgilbert@redhat.com>, Joao Martins
- <joao.m.martins@oracle.com>, Yishai Hadas <yishaih@nvidia.com>, Jason
- Gunthorpe <jgg@nvidia.com>, Mark Bloch <mbloch@nvidia.com>, Maor Gottlieb
- <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
- <targupta@nvidia.com>, "Shameerali Kolothum Thodi"
- <shameerali.kolothum.thodi@huawei.com>, <jiangkunkun@huawei.com>
-Subject: Re: [PATCH v2 08/11] vfio/migration: Remove VFIO migration protocol v1
-Message-ID: <20220919055044.47372c9f.alex.williamson@redhat.com>
-In-Reply-To: <efba4434-4044-f7ff-0f22-a5e39f48560f@huawei.com>
-References: <20220530170739.19072-1-avihaih@nvidia.com>
- <20220530170739.19072-9-avihaih@nvidia.com>
- <efba4434-4044-f7ff-0f22-a5e39f48560f@huawei.com>
-Organization: Red Hat
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1oaFDl-000842-Pi
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 07:45:56 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:44820 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1oaFDj-0004BV-2y
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 07:45:53 -0400
+Received: from [10.20.42.238] (unknown [10.20.42.238])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxXWtlVihjVrwdAA--.50447S3; 
+ Mon, 19 Sep 2022 19:45:42 +0800 (CST)
+Subject: Re: [PATCH 5/5] target/loongarch: div if x/0 set dividend to 0
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ maobibo <maobibo@loongson.cn>, Peter Maydell <peter.maydell@linaro.org>,
+ alex.bennee@linaro.org, Qi Hu <huqi@loongson.cn>
+References: <20220917075950.1412309-1-gaosong@loongson.cn>
+ <20220917075950.1412309-6-gaosong@loongson.cn>
+ <02cd3a40-d287-35b4-9d68-979c8ebd2e29@loongson.cn>
+ <df217ffa-57e1-3e71-f766-fa19770bfe33@loongson.cn>
+ <95f7e7f4-f1f1-66d5-0a9f-7bcf6b4ca59a@linaro.org>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <e8a24cfc-005c-1196-35dd-05efdef6858b@loongson.cn>
+Date: Mon, 19 Sep 2022 19:45:41 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <95f7e7f4-f1f1-66d5-0a9f-7bcf6b4ca59a@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8BxXWtlVihjVrwdAA--.50447S3
+X-Coremail-Antispam: 1UD129KBjvdXoWruFyfurWDAw1rury5Ary3twb_yoW3Crc_Zr
+ yfZFsrCwsIyr4ktrs3ta98JFnxtF1kJryFv3yqqr18Xa4aqF4rJryUWr40vFnFyF1DGr9I
+ qrZaqFW3A34Y9jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbVxFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+ wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+ vE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280
+ aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07
+ x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18
+ McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7
+ I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CEbIxvr21lc2xSY4AK6svPMxAI
+ w28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_XrWUJr1UMxC20s026xCaFVCjc4AY6r
+ 1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
+ b7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
+ vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
+ cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa
+ 73UjIFyTuYvjfUoOJ5UUUUU
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.952,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,19 +81,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 19 Sep 2022 16:35:49 +0800
-liulongfang <liulongfang@huawei.com> wrote:
 
-> On 2022/5/31 1:07, Avihai Horon Wrote:
-> > Now that v2 protocol implementation has been added, remove the
-> > deprecated v1 implementation.
-> > "struct vfio_device_migration_info" still exists in vfio.h,  
-> why does qemu need to delete v1 implementation?
+在 2022/9/17 下午6:12, Richard Henderson 写道:
+> On 9/17/22 11:12, gaosong wrote:
+>>
+>> 在 2022/9/17 下午4:59, Qi Hu 写道:
+>>>
+>>> On 2022/9/17 15:59, Song Gao wrote:
+>>>> div.d, div.du, div,w, div.wu, the LoongArch host if x/0  the result 
+>>>> is 0.
+>>>
+>>> The message has a typo: "div,w" => "div.w"
+>>>
+>>> Also I don't know why we need to do this, since the manual say: 
+>>> "When the divisor is 0, the result can be any value".
+>>>
+>> I tested on LoongArch host,   the result is always 0.
+>
+> But it is legal for a different loongarch host implementation to 
+> return some other value.  Therefore the test itself is not correct.
+>
+I think the manual maybe not correct,  the hardware engineer said that 
+they need to comfirm  whether the result is always 0.
 
-It never progressed past experimental support, upstream never committed
-to support it, it's dead code relative to the kernel specification now.
-Thanks,
-
-Alex
+Thanks.
+Song Gao
+> r~
 
 
