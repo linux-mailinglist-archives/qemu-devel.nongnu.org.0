@@ -2,51 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3297D5BCC4E
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 14:58:11 +0200 (CEST)
-Received: from localhost ([::1]:49892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A25715BCD08
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 15:24:49 +0200 (CEST)
+Received: from localhost ([::1]:40416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaGLi-0004fi-9x
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 08:58:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48010)
+	id 1oaGlU-0002ZW-PB
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 09:24:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oaGD1-0001al-Qr
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 08:49:15 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:50986 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oaGCx-0000IY-9z
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 08:49:11 -0400
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Cx72s9ZShjN8QdAA--.43684S11; 
- Mon, 19 Sep 2022 20:49:05 +0800 (CST)
-From: Song Gao <gaosong@loongson.cn>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, stefanha@gmail.com,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Subject: [PULL 9/9] hw/loongarch: Improve acpi dsdt table
-Date: Mon, 19 Sep 2022 20:49:01 +0800
-Message-Id: <20220919124901.2653396-10-gaosong@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220919124901.2653396-1-gaosong@loongson.cn>
-References: <20220919124901.2653396-1-gaosong@loongson.cn>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oaGLp-000595-2u
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 08:58:17 -0400
+Received: from mail-ua1-f46.google.com ([209.85.222.46]:42881)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oaGLn-0002Da-LU
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 08:58:16 -0400
+Received: by mail-ua1-f46.google.com with SMTP id i17so8384387uaq.9
+ for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 05:58:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=UzGIqKfFliZ4PVwE+NMmxhze/aS8nod2JcqYrg0mLeA=;
+ b=cI1tBSRCItxwtUBLmOv4FyY5BuHB0ProC7pG1Uy2AyIzK/nC4WsUSwEla6A1MO6AIx
+ sPI/b650mGFDJu3V/8EiPgNsAyDt5pQAkKR3nWHwNPsT1Rp++mX4TMpg15X3iXYTcRS5
+ +R33ExnaCfXztW+k4he0qAK/HhCH4oIp3FMLlfVptSED2e1XzJvLnvQxgwKWxMrrD3DC
+ rXIPRocIDbe2RPaVGRHZMqKx173cI+FqKKDw7o40n5IGNn+37iEs5NrqyznH8gyJw8Jg
+ pVJ6gZQ4nhO4MqNxBhh2STVQsIvtKUGovq9igCblWWXPQKwF+5qZgmQ4QmkXNQ39NOhT
+ weSQ==
+X-Gm-Message-State: ACrzQf29MyMcF3vyCqE5VGtIPr3SaVCI3OwK+tj7iuQooy9RW0CuotAo
+ jAon3pKj4ImRuWKR3bKZwSQRPJKb/cjoBgxgNEg=
+X-Google-Smtp-Source: AMsMyM7aK5qtn1ItsfgzBOmCoRa3VR0l1/0n9l7DMvqobm7j6e5rzjg6vohO3mz9PltoIN9/udsCP6zXuI9ymdNwd5E=
+X-Received: by 2002:ab0:c07:0:b0:3ae:8f1f:2c53 with SMTP id
+ a7-20020ab00c07000000b003ae8f1f2c53mr5764819uak.17.1663592294691; Mon, 19 Sep
+ 2022 05:58:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Cx72s9ZShjN8QdAA--.43684S11
-X-Coremail-Antispam: 1UD129KBjvJXoW3ArW3tF4UuFW3Gr4rZFy7Jrb_yoW3ZF4Dp3
- ya9FWYvr15GrnFg3yfA3W5XF15Arn7G3sFqasxAr92kFZFkr10qry8C393WFyYy3s3tFWU
- XrZY934UCw4kJr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20220530170739.19072-1-avihaih@nvidia.com>
+ <20220530170739.19072-9-avihaih@nvidia.com>
+ <efba4434-4044-f7ff-0f22-a5e39f48560f@huawei.com>
+ <20220919055044.47372c9f.alex.williamson@redhat.com>
+In-Reply-To: <20220919055044.47372c9f.alex.williamson@redhat.com>
+Date: Mon, 19 Sep 2022 14:58:03 +0200
+Message-ID: <CAAdtpL4__8op6ms_s1Q698ChE8NFSTbenJt5xggQeO=zg0+wOA@mail.gmail.com>
+Subject: Re: [PATCH v2 08/11] vfio/migration: Remove VFIO migration protocol v1
+To: Alex Williamson <alex.williamson@redhat.com>,
+ Avihai Horon <avihaih@nvidia.com>
+Cc: liulongfang <liulongfang@huawei.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Cornelia Huck <cohuck@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, 
+ Joao Martins <joao.m.martins@oracle.com>, Yishai Hadas <yishaih@nvidia.com>, 
+ Jason Gunthorpe <jgg@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
+ Maor Gottlieb <maorg@nvidia.com>, 
+ Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>, 
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ jiangkunkun@huawei.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=209.85.222.46;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ua1-f46.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,245 +83,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= via <qemu-devel@nongnu.org>
 
-From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+On Mon, Sep 19, 2022 at 1:57 PM Alex Williamson
+<alex.williamson@redhat.com> wrote:
+>
+> On Mon, 19 Sep 2022 16:35:49 +0800
+> liulongfang <liulongfang@huawei.com> wrote:
+>
+> > On 2022/5/31 1:07, Avihai Horon Wrote:
+> > > Now that v2 protocol implementation has been added, remove the
+> > > deprecated v1 implementation.
+> > > "struct vfio_device_migration_info" still exists in vfio.h,
+> > why does qemu need to delete v1 implementation?
+>
+> It never progressed past experimental support, upstream never committed
+> to support it, it's dead code relative to the kernel specification now.
 
-Cleanup the previous pci information in acpi dsdt table.
-And using the common acpi_dsdt_add_gpex function to build
-the gpex and pci information.
+Avihai, do you mind adding Alex explanation in your commit description please?
 
-Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Acked-by: Song Gao <gaosong@loongson.cn>
-Message-Id: <20220908094623.73051-10-yangxiaojuan@loongson.cn>
-Signed-off-by: Song Gao <gaosong@loongson.cn>
----
- hw/loongarch/acpi-build.c   | 159 +++++-------------------------------
- hw/loongarch/virt.c         |   1 +
- include/hw/loongarch/virt.h |   1 +
- 3 files changed, 21 insertions(+), 140 deletions(-)
-
-diff --git a/hw/loongarch/acpi-build.c b/hw/loongarch/acpi-build.c
-index 92ee62c11a..378a6d9d38 100644
---- a/hw/loongarch/acpi-build.c
-+++ b/hw/loongarch/acpi-build.c
-@@ -30,6 +30,7 @@
- #include "qom/qom-qobject.h"
- 
- #include "hw/acpi/generic_event_device.h"
-+#include "hw/pci-host/gpex.h"
- 
- #define ACPI_BUILD_ALIGN_SIZE             0x1000
- #define ACPI_BUILD_TABLE_SIZE             0x20000
-@@ -206,108 +207,6 @@ struct AcpiBuildState {
-     MemoryRegion *linker_mr;
- } AcpiBuildState;
- 
--static void build_gpex_pci0_int(Aml *table)
--{
--    Aml *sb_scope = aml_scope("_SB");
--    Aml *pci0_scope = aml_scope("PCI0");
--    Aml *prt_pkg = aml_varpackage(128);
--    int slot, pin;
--
--    for (slot = 0; slot < PCI_SLOT_MAX; slot++) {
--        for (pin = 0; pin < PCI_NUM_PINS; pin++) {
--            Aml *pkg = aml_package(4);
--            aml_append(pkg, aml_int((slot << 16) | 0xFFFF));
--            aml_append(pkg, aml_int(pin));
--            aml_append(pkg, aml_int(0));
--            aml_append(pkg, aml_int(80 + (slot + pin) % 4));
--            aml_append(prt_pkg, pkg);
--        }
--    }
--    aml_append(pci0_scope, aml_name_decl("_PRT", prt_pkg));
--    aml_append(sb_scope, pci0_scope);
--    aml_append(table, sb_scope);
--}
--
--static void build_dbg_aml(Aml *table)
--{
--    Aml *field;
--    Aml *method;
--    Aml *while_ctx;
--    Aml *scope = aml_scope("\\");
--    Aml *buf = aml_local(0);
--    Aml *len = aml_local(1);
--    Aml *idx = aml_local(2);
--
--    aml_append(scope,
--       aml_operation_region("DBG", AML_SYSTEM_IO, aml_int(0x0402), 0x01));
--    field = aml_field("DBG", AML_BYTE_ACC, AML_NOLOCK, AML_PRESERVE);
--    aml_append(field, aml_named_field("DBGB", 8));
--    aml_append(scope, field);
--
--    method = aml_method("DBUG", 1, AML_NOTSERIALIZED);
--
--    aml_append(method, aml_to_hexstring(aml_arg(0), buf));
--    aml_append(method, aml_to_buffer(buf, buf));
--    aml_append(method, aml_subtract(aml_sizeof(buf), aml_int(1), len));
--    aml_append(method, aml_store(aml_int(0), idx));
--
--    while_ctx = aml_while(aml_lless(idx, len));
--    aml_append(while_ctx,
--        aml_store(aml_derefof(aml_index(buf, idx)), aml_name("DBGB")));
--    aml_append(while_ctx, aml_increment(idx));
--    aml_append(method, while_ctx);
--    aml_append(method, aml_store(aml_int(0x0A), aml_name("DBGB")));
--    aml_append(scope, method);
--    aml_append(table, scope);
--}
--
--static Aml *build_osc_method(void)
--{
--    Aml *if_ctx;
--    Aml *if_ctx2;
--    Aml *else_ctx;
--    Aml *method;
--    Aml *a_cwd1 = aml_name("CDW1");
--    Aml *a_ctrl = aml_local(0);
--
--    method = aml_method("_OSC", 4, AML_NOTSERIALIZED);
--    aml_append(method, aml_create_dword_field(aml_arg(3), aml_int(0), "CDW1"));
--
--    if_ctx = aml_if(aml_equal(
--        aml_arg(0), aml_touuid("33DB4D5B-1FF7-401C-9657-7441C03DD766")));
--    aml_append(if_ctx, aml_create_dword_field(aml_arg(3), aml_int(4), "CDW2"));
--    aml_append(if_ctx, aml_create_dword_field(aml_arg(3), aml_int(8), "CDW3"));
--    aml_append(if_ctx, aml_store(aml_name("CDW3"), a_ctrl));
--
--    /*
--     * Always allow native PME, AER (no dependencies)
--     * Allow SHPC (PCI bridges can have SHPC controller)
--     */
--    aml_append(if_ctx, aml_and(a_ctrl, aml_int(0x1F), a_ctrl));
--
--    if_ctx2 = aml_if(aml_lnot(aml_equal(aml_arg(1), aml_int(1))));
--    /* Unknown revision */
--    aml_append(if_ctx2, aml_or(a_cwd1, aml_int(0x08), a_cwd1));
--    aml_append(if_ctx, if_ctx2);
--
--    if_ctx2 = aml_if(aml_lnot(aml_equal(aml_name("CDW3"), a_ctrl)));
--    /* Capabilities bits were masked */
--    aml_append(if_ctx2, aml_or(a_cwd1, aml_int(0x10), a_cwd1));
--    aml_append(if_ctx, if_ctx2);
--
--    /* Update DWORD3 in the buffer */
--    aml_append(if_ctx, aml_store(a_ctrl, aml_name("CDW3")));
--    aml_append(method, if_ctx);
--
--    else_ctx = aml_else();
--    /* Unrecognized UUID */
--    aml_append(else_ctx, aml_or(a_cwd1, aml_int(4), a_cwd1));
--    aml_append(method, else_ctx);
--
--    aml_append(method, aml_return(aml_arg(3)));
--    return method;
--}
--
- static void build_uart_device_aml(Aml *table)
- {
-     Aml *dev;
-@@ -360,57 +259,37 @@ build_la_ged_aml(Aml *dsdt, MachineState *machine)
-     }
- }
- 
-+static void build_pci_device_aml(Aml *scope, LoongArchMachineState *lams)
-+{
-+    struct GPEXConfig cfg = {
-+        .mmio64.base = VIRT_PCI_MEM_BASE,
-+        .mmio64.size = VIRT_PCI_MEM_SIZE,
-+        .pio.base    = VIRT_PCI_IO_BASE,
-+        .pio.size    = VIRT_PCI_IO_SIZE,
-+        .ecam.base   = VIRT_PCI_CFG_BASE,
-+        .ecam.size   = VIRT_PCI_CFG_SIZE,
-+        .irq         = PCH_PIC_IRQ_OFFSET + VIRT_DEVICE_IRQS,
-+        .bus         = lams->pci_bus,
-+    };
-+
-+    acpi_dsdt_add_gpex(scope, &cfg);
-+}
-+
- /* build DSDT */
- static void
- build_dsdt(GArray *table_data, BIOSLinker *linker, MachineState *machine)
- {
--    Aml *dsdt, *sb_scope, *scope, *dev, *crs, *pkg;
--    int root_bus_limit = 0x7F;
-+    Aml *dsdt, *scope, *pkg;
-     LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
-     AcpiTable table = { .sig = "DSDT", .rev = 1, .oem_id = lams->oem_id,
-                         .oem_table_id = lams->oem_table_id };
- 
-     acpi_table_begin(&table, table_data);
--
-     dsdt = init_aml_allocator();
--
--    build_dbg_aml(dsdt);
--
--    sb_scope = aml_scope("_SB");
--    dev = aml_device("PCI0");
--    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
--    aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
--    aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
--    aml_append(dev, aml_name_decl("_BBN", aml_int(0)));
--    aml_append(dev, aml_name_decl("_UID", aml_int(1)));
--    aml_append(dev, build_osc_method());
--    aml_append(sb_scope, dev);
--    aml_append(dsdt, sb_scope);
--
--    build_gpex_pci0_int(dsdt);
-     build_uart_device_aml(dsdt);
-+    build_pci_device_aml(dsdt, lams);
-     build_la_ged_aml(dsdt, machine);
- 
--    scope = aml_scope("\\_SB.PCI0");
--    /* Build PCI0._CRS */
--    crs = aml_resource_template();
--    aml_append(crs,
--        aml_word_bus_number(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
--                            0x0000, 0x0, root_bus_limit,
--                            0x0000, root_bus_limit + 1));
--    aml_append(crs,
--        aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED,
--                    AML_POS_DECODE, AML_ENTIRE_RANGE,
--                    0x0000, 0x0000, 0xFFFF, 0x18000000, 0x10000));
--    aml_append(crs,
--        aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
--                         AML_CACHEABLE, AML_READ_WRITE,
--                         0, VIRT_PCI_MEM_BASE,
--                         VIRT_PCI_MEM_BASE + VIRT_PCI_MEM_SIZE - 1,
--                         0, VIRT_PCI_MEM_BASE));
--    aml_append(scope, aml_name_decl("_CRS", crs));
--    aml_append(dsdt, scope);
--
-     /* System State Package */
-     scope = aml_scope("\\");
-     pkg = aml_package(4);
-diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
-index a81db29384..e90f9fccf3 100644
---- a/hw/loongarch/virt.c
-+++ b/hw/loongarch/virt.c
-@@ -388,6 +388,7 @@ static void loongarch_devices_init(DeviceState *pch_pic, LoongArchMachineState *
-     d = SYS_BUS_DEVICE(gpex_dev);
-     sysbus_realize_and_unref(d, &error_fatal);
-     pci_bus = PCI_HOST_BRIDGE(gpex_dev)->bus;
-+    lams->pci_bus = pci_bus;
- 
-     /* Map only part size_ecam bytes of ECAM space */
-     ecam_alias = g_new0(MemoryRegion, 1);
-diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
-index 64c90b80d2..09f1c88ee5 100644
---- a/include/hw/loongarch/virt.h
-+++ b/include/hw/loongarch/virt.h
-@@ -50,6 +50,7 @@ struct LoongArchMachineState {
-     DeviceState  *acpi_ged;
-     int          fdt_size;
-     DeviceState *platform_bus_dev;
-+    PCIBus       *pci_bus;
- };
- 
- #define TYPE_LOONGARCH_MACHINE  MACHINE_TYPE_NAME("virt")
--- 
-2.31.1
-
+> Thanks,
+>
+> Alex
+>
+>
 
