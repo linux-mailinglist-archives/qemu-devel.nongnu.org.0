@@ -2,65 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A52825BD2BE
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 18:58:10 +0200 (CEST)
-Received: from localhost ([::1]:56164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BE855BD34D
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 19:08:07 +0200 (CEST)
+Received: from localhost ([::1]:52896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaK5x-0008Eh-3i
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 12:58:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51156)
+	id 1oaKFY-0005rz-RQ
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 13:08:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oaK38-0005Mt-Gn
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 12:55:15 -0400
-Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:44753)
+ id 1oaKCS-0003bj-Ld
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:05:01 -0400
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:36780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oaK35-0003nT-Ib
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 12:55:13 -0400
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-345528ceb87so346402357b3.11
- for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 09:55:10 -0700 (PDT)
+ id 1oaKCO-0005vX-VS
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 13:04:50 -0400
+Received: by mail-yb1-xb2e.google.com with SMTP id a67so43397804ybb.3
+ for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 10:04:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=e0bnb79yR6q9btSuZTnmpRTnIR8zQf+PljdYJbigoFs=;
- b=V+pmizWgcMuUqxYTSdq6+LIy0fd9WAyElsKZtorplJ7icfkJMUvNw70rN2ndrfz81K
- fqWhMbmOHOIcmVtM0d568jANyULS7+s+n+s0LG+uxb2vkyZOflTR4oyhZyB0Cdx/fNhQ
- 39gMHBCnVFiO+lq3bgDJKq0NVDCQF1WP+yGAO0I/H9vQDheytv/jgOa7jQX9/wZovKdu
- jl2LCvj26TiHjFHwY2iZ/ayd/uKHtx682IhxU5KOXK8vFrdAMrFDCqpyiA+ArlwLk6nn
- bKjFKcug6qKY9d29Tqc628w75dglqFybySlJoBRHuvjnWfmf4PcJn75svEF6wntAk80c
- IcKA==
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date; bh=jhaL46BvXGFl5JFp4knycIDNYyZdop+0mMkBhsZKKNI=;
+ b=KUnU50uG2UW1GFhkhY9QrPsy/gGCUWiZdbNqE4/1jzpqrf57EGmpkPo7DYQqIdCaw6
+ FOgF6uLTfRMMvyXI45XtVU1nPB0SUsJMpfiRe4uZDAnw5p0/59P6mjX7VCU6d0kvJqq7
+ FStvK536E4q+gNSjUMp5Kfhiw369fHUh64vEqi+ZEIuoabhn3ugWCX+Hdge0fEdSkSQO
+ W9x3LmumNGvAqQhV7ewPrP0dO+RFn2FTaRLHPk+H7jtOnCZLfwtCr9sSIb6K8fpd4piR
+ ru/yixB0MUvv6vcbz1aFeHDLJdNsVNyLqwh+d3x00talIyUKAeirG7ZGTOmwdSRZLx9i
+ ON9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=e0bnb79yR6q9btSuZTnmpRTnIR8zQf+PljdYJbigoFs=;
- b=CTdd3hCz4xMS7d1GYGTfYlrPENUcgSJ6Yag4aKRxzOBW9jojUBdGpA5cbHg3N84tpX
- kGbysBOdVUm9w1x1hybAKX4zqNtp+g0V2FqyVjpokwk2D0+ilc44O4hw7WrVSWc6r9pR
- /k6YUWeT+g9SimCnA99YnRCJy6PghmWXx1/V/iSMbLi28a9IsPKe6CtcMPDVNino4KMW
- Kn4MUF/4Bs6pFvEJufj8yP55HldB7StBx59UndNisnrE21vtvD+gGNrF0nOliJxAFgA4
- WmHB55Y/ueZHYQr4lVkzwLQ5Lid5C2VuxyaWQfGmrO3qXXJHV0JruSJBpJLNMh/zLOIB
- ldAw==
-X-Gm-Message-State: ACrzQf2ImRHr+8KNrIXGxjRw4nH2PG1b/jrPFLFiLGphAQD49wPwfmzG
- mIyLVnJ65QTd/fOmwPk/R+L/O7u5xz4FKNmlPyQ=
-X-Google-Smtp-Source: AMsMyM7fKivI6IrSiR/Iux8WZ7Ef3ThF3Fjxtpn27SPZJyNc5j+9Fk1qQ1tlSQUofuvr4BiAMlYFWW/zkdkn95tGFXQ=
-X-Received: by 2002:a81:6a54:0:b0:345:4292:4dfe with SMTP id
- f81-20020a816a54000000b0034542924dfemr15433784ywc.62.1663606510134; Mon, 19
- Sep 2022 09:55:10 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date;
+ bh=jhaL46BvXGFl5JFp4knycIDNYyZdop+0mMkBhsZKKNI=;
+ b=KKV4i6uAIr83nV9dBZxkZgn4/yejXn/zKsYayTcc71B5o1iF7f5SpLjfyuC7QXapz2
+ d0Nv6H/+2rg06GF6sUo84DVC5mTgs+2WZTuIUtiFuBGQ2eifav5twMOh6ZrUjm3NIvO/
+ AKlJnVi2NMhFKHP8+s3O1kLbx9RkUjDW+FObi6o8uGI1JKqxGxUdBRWQab5N5EU6sVmh
+ YNujR9E693DLxPZA/cXWPgBZYCZiZTSB7QeAqcwl3rFDGBxHh2lPPOPTBG/Bpunh7/Ry
+ BQGw7lYfJmUD+FJShv2Mgs8d24uT/caPrdS731Mtcg3wwl9gKhFwYxXqVBhBGEmqcFQJ
+ pfPQ==
+X-Gm-Message-State: ACrzQf31zcAAneTyfXzQAVLn7BTzgaIEqgXxhhrWaWCa/gcOjh6JGhda
+ ufQcSjUgqLQx4OCdcNNvxoBleUqfgeyG62rdDJk=
+X-Google-Smtp-Source: AMsMyM7Bffwtk0OPj4DB1zhACcZkv2vVFR5Cg2FmBUuvAlagmOMHF6xsle2rKAIUVznyR67xSmyhRJKlSmy14xWotwU=
+X-Received: by 2002:a25:230c:0:b0:6ae:ef02:fafc with SMTP id
+ j12-20020a25230c000000b006aeef02fafcmr15135166ybj.58.1663607087687; Mon, 19
+ Sep 2022 10:04:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220919124901.2653396-1-gaosong@loongson.cn>
-In-Reply-To: <20220919124901.2653396-1-gaosong@loongson.cn>
 From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 19 Sep 2022 12:54:58 -0400
-Message-ID: <CAJSP0QVh2LL8yUhjL-i844TmC1ivsEUF=Qi2ftStg=XWxXGDog@mail.gmail.com>
-Subject: Re: [PULL 0/9] loongarch-to-apply queue
-To: Song Gao <gaosong@loongson.cn>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org
+Date: Mon, 19 Sep 2022 13:04:33 -0400
+Message-ID: <CAJSP0QWjRH+ZWOQUu2_283o3YmcQp0iVTr6bT0Rqvv=Y0YFNdg@mail.gmail.com>
+Subject: Travis CI webhook returns HTTP 500
+To: Thomas Huth <thuth@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x112e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,10 +79,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Song Gao,
-Please push your GPG public key to a key server using "gpg --send-keys
-0x40A2FFF239263EDF". That way others can search for and download your
-public key.
+GitLab sends qemu.git push event webhooks to Travis CI. Recently the
+webhooks have been failing with HTTP 500 Internal Server Error.
+
+Do you know how to resolve this or who configured Travis CI webhooks for QEMU?
 
 Thanks,
 Stefan
