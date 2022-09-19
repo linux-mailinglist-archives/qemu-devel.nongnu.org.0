@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7AA5BD52C
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 21:25:11 +0200 (CEST)
-Received: from localhost ([::1]:60692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A91C95BD53F
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 21:35:32 +0200 (CEST)
+Received: from localhost ([::1]:51306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaMOE-0002Wl-21
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 15:25:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56414)
+	id 1oaMYF-0000RV-8A
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 15:35:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oaMMP-0000qk-Cx
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 15:23:17 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:42839)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oaMMN-0004Tg-Kr
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 15:23:17 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- s90-20020a17090a2f6300b00203a685a1aaso222266pjd.1
- for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 12:23:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:sender:from:to:cc:subject:date;
- bh=4zo/XncxFLJ4jIo+fUsz0yM3ZAnSCZCgw6Pftf1MFHA=;
- b=XCJQsbt/rp6egJ9cTn8P433LGDXV9rpdy0KTYp5VrGzsMY8SVDTHUGnGP+0An8Vubm
- 7mEsPuTZYITeEo30Ah3fhH1DZEnBZLimWy1yDLV2gW2EuzzbkwjROWMUwVxvBnDSpl2V
- sA9TnPnmdzEXoB0tvkSL6AVi5G2RAOwqVloiSm6SN9mr5UAkI+GvzkPBzsPM3uv1ylOM
- p5QvyqxlEQU2g94UdMeUtkEbGZTsH9NiTQ6xEOn5g0JdQIaZ0DGt2/X9uVpk51djJn1B
- +t1baFld8OFAtE40SkNT1i2SISCNO0oTp6eFdA+cfTTWqlg4SD9T6kvh/wQgsuo/norR
- IXHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:sender:x-gm-message-state:from:to:cc:subject:date;
- bh=4zo/XncxFLJ4jIo+fUsz0yM3ZAnSCZCgw6Pftf1MFHA=;
- b=1L9rmew5Z7Q173HGjcmhbEO4CSPK+nFhlUusHIWbCOswbFrBepSxFpJ/6ebFePXvy3
- aEPBCh9CuntAi3GTNZYjdPsH2T4x3I4jtP/mLO72IrJ6dYeXpr94GkaExKzsLxUcues1
- hfvaP2NQVb5Ex75MyYbde3zVOwNypCccoaQu2xvWEjb8FfB98bAsXWjKwY/+WEBoiufa
- qU0HQIPN5OWPYZYo+ZjaY+WczCZKkm7L/S0PWi9M2xusZNCd13Ppo1FPeXUnU220/Q4P
- 2hQ6ZREwXAwcL8vpH6BTyJzuZS6b3kJML3vHCN3BDReG9wDHPyZUMppMc3TB++RSsZXn
- cEwQ==
-X-Gm-Message-State: ACrzQf3LmonN6jAxSAo0SedbrTEn7x8ztyeaMjKTdFdyMVkVv5fUDWuG
- 27WWfs4vr36T1jIH51ryq8r490agkPI=
-X-Google-Smtp-Source: AMsMyM7bA79wHT+JVQEMxYu3eBX3dtjSoZWbpj3pGTqYNmfbMWiQwVgLFsKaLFk6FANYUgyI3srSSg==
-X-Received: by 2002:a17:90b:394d:b0:203:d5a:d9c9 with SMTP id
- oe13-20020a17090b394d00b002030d5ad9c9mr21967908pjb.49.1663615394095; 
- Mon, 19 Sep 2022 12:23:14 -0700 (PDT)
-Received: from localhost.localdomain ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- l16-20020a17090a071000b00200b2894648sm7004448pjl.52.2022.09.19.12.23.11
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 19 Sep 2022 12:23:13 -0700 (PDT)
-To: qemu-devel@nongnu.org
-Cc: Xie Yongji <xieyongji@bytedance.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Subject: [RFC PATCH] libvduse: Do not truncate terminating NUL character with
- strncpy()
-Date: Mon, 19 Sep 2022 21:23:06 +0200
-Message-Id: <20220919192306.52729-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.37.3
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1oaMSH-0003Ct-E9
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 15:29:21 -0400
+Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:46947
+ helo=mail.comstyle.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1oaMSD-0005Fs-Hn
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 15:29:20 -0400
+Received: from mail.comstyle.com (localhost [127.0.0.1])
+ by mail.comstyle.com (Postfix) with ESMTP id 4MWZVd55D9z8PbN;
+ Mon, 19 Sep 2022 15:29:13 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=message-id
+ :date:mime-version:subject:to:cc:references:from:in-reply-to
+ :content-type:content-transfer-encoding; s=default; bh=y2ygjKd5C
+ EexuPJtJQ3zhsVWbBE=; b=crc3kXyLPNo83+pj7semSWZU/DnYffVwmfs0CQl/o
+ phthjSJDsATLza243RLVll4WscARNEDUvrBX1ufnComF9kzv5OzAtFPfnlnFscP1
+ H10WitfhAO6QpJ/BWr7J9X8IV3cqSgqD9mEGOOkKo2K3vahggxr/dS/zWeMJEXPT
+ Go=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=message-id
+ :date:mime-version:subject:to:cc:references:from:in-reply-to
+ :content-type:content-transfer-encoding; q=dns; s=default; b=oW4
+ GO9ilxBtyfqDPkZsdcrJmbjJ/CGmIpjQoVIq6+na9A25qaOh40cqXWmRjo8YL9ib
+ lmQsvHJDeJDLSI5VVWPLwPh/usmjlrdslx17u299OsP5zlH9LC7YWVIbMNRWf0uQ
+ dS/gb7DRQNZnxxbj537Ezly5XnPjyKWqiNqQTwcs=
+Received: from [IPV6:2001:470:b0db:100:38f9:f971:4c66:2899] (unknown
+ [IPv6:2001:470:b0db:100:38f9:f971:4c66:2899])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: brad)
+ by mail.comstyle.com (Postfix) with ESMTPSA id 4MWZVd36v9z8PbK;
+ Mon, 19 Sep 2022 15:29:13 -0400 (EDT)
+Message-ID: <25a2f6d5-7302-e27a-826a-ef5722bd2bea@comstyle.com>
+Date: Mon, 19 Sep 2022 15:29:12 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:105.0) Gecko/20100101
+ Thunderbird/105.0
+Subject: Re: [PATCH v3] audio: Add sndio backend
+Content-Language: en-US
+To: =?UTF-8?Q?Volker_R=C3=BCmelin?= <vr_qemu@t-online.de>,
+ Alexandre Ratchov <alex@caoua.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: qemu-devel@nongnu.org
+References: <YxibXrWsrS3XYQM3@vm1.arverb.com>
+ <f7ad8818-b165-4306-64f9-ec4e786a9493@t-online.de>
+From: Brad Smith <brad@comstyle.com>
+In-Reply-To: <f7ad8818-b165-4306-64f9-ec4e786a9493@t-online.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f938:3000:8::2;
+ envelope-from=brad@comstyle.com; helo=mail.comstyle.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.952,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,60 +79,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-GCC 8 added a -Wstringop-truncation warning:
+On 9/9/2022 2:12 AM, Volker R=C3=BCmelin wrote:
+> Am 07.09.22 um 15:23 schrieb Alexandre Ratchov:
+>> sndio is the native API used by OpenBSD, although it has been ported t=
+o
+>> other *BSD's and Linux (packages for Ubuntu, Debian, Void, Arch, etc.)=
+.
+>>
+>> Signed-off-by: Brad Smith<brad@comstyle.com>
+>> Signed-off-by: Alexandre Ratchov<alex@caoua.org>
+>> ---
+>>
+>> References to the previous patch versions and related discussions are
+>> here:
+>>
+>> https://marc.info/?l=3Dqemu-devel&m=3D163973393011543=C2=A0=C2=A0=C2=A0=
+ (v2)
+>> https://marc.info/?l=3Dqemu-devel&m=3D163626248712444 (initial patch)
+>>
+>> Here are the changes between v2 and v3 of this patch:
+>>
+>> - fixed of typos in file-names in MAINTAINERS
+>> - added Gerd Hoffmann to the M: entry in MAINTAINERS
+>> - added missin S: entry in MAINTAINERS
+>> - removed unused #include "qemu-common.h"
+>> - bumped "Since:" version to 7.2 in qapi/audio.json
+>> - regenerated scripts/meson-buildoptions.sh
+>> - implement buffer_get_free() method, introduced by
+>> =C2=A0=C2=A0 commit 9833438ef624155de879d4ed57ecfcd3464a0bbe
+>>
+>> =C2=A0=C2=A0 audio: restore mixing-engine playback buffer size
+>>
+>> Running "make update-buildoptions" triggered unrelated changes of
+>> scripts/meson-buildoptions.sh, that I removed from the commit as they
+>> are not related to sndio.
+>>
+>> Tested on OpenBSD, still works as expected :-)
+>>
+>> Regards,
+>> Alexandre
+>>
+>> =C2=A0 MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 7 +
+>> =C2=A0 audio/audio.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+>> =C2=A0 audio/audio_template.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ |=C2=A0=C2=A0 2 +
+>> =C2=A0 audio/meson.build=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+>> =C2=A0 audio/sndioaudio.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 | 565 ++++++++++++++++++++++++++++++++++
+>> =C2=A0 meson.build=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 9 +-
+>> =C2=A0 meson_options.txt=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +-
+>> =C2=A0 qapi/audio.json=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 25 +-
+>> =C2=A0 qemu-options.hx=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 16 +
+>> =C2=A0 scripts/meson-buildoptions.sh |=C2=A0=C2=A0 7 +-
+>> =C2=A0 10 files changed, 632 insertions(+), 5 deletions(-)
+>> =C2=A0 create mode 100644 audio/sndioaudio.c
+>>
+>
+> Tested again on Linux.
+>
+> Reviewed-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
+> Tested-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 
-  The -Wstringop-truncation warning added in GCC 8.0 via r254630 for
-  bug 81117 is specifically intended to highlight likely unintended
-  uses of the strncpy function that truncate the terminating NUL
-  character from the source string.
-
-Here the next line indeed unconditionally zeroes the last byte, so
-we can call strncpy() on the buffer size less the last byte. This
-fixes when using gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0:
-
-  [42/666] Compiling C object subprojects/libvduse/libvduse.a.p/libvduse.c.o
-  FAILED: subprojects/libvduse/libvduse.a.p/libvduse.c.o
-  cc -m64 -mcx16 -Isubprojects/libvduse/libvduse.a.p -Isubprojects/libvduse -I../../subprojects/libvduse [...] -o subprojects/libvduse/libvduse.a.p/libvduse.c.o -c ../../subprojects/libvduse/libvduse.c
-  In file included from /usr/include/string.h:495,
-                   from ../../subprojects/libvduse/libvduse.c:24:
-  In function ‘strncpy’,
-      inlined from ‘vduse_dev_create’ at ../../subprojects/libvduse/libvduse.c:1312:5:
-  /usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error: ‘__builtin_strncpy’ specified bound 256 equals destination size [-Werror=stringop-truncation]
-    106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
-        |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  cc1: all warnings being treated as errors
-  ninja: build stopped: cannot make progress due to previous errors.
-
-Fixes: d9cf16c0be ("libvduse: Replace strcpy() with strncpy()")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-Cc: Xie Yongji <xieyongji@bytedance.com>
-Cc: Markus Armbruster <armbru@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>
-
-RFC: Any better idea? We can't use strpadcpy() because libvduse
-doesn't depend on QEMU.
----
- subprojects/libvduse/libvduse.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/subprojects/libvduse/libvduse.c b/subprojects/libvduse/libvduse.c
-index 1a5981445c..e460780ce3 100644
---- a/subprojects/libvduse/libvduse.c
-+++ b/subprojects/libvduse/libvduse.c
-@@ -1309,7 +1309,7 @@ VduseDev *vduse_dev_create(const char *name, uint32_t device_id,
-         goto err_dev;
-     }
- 
--    strncpy(dev_config->name, name, VDUSE_NAME_MAX);
-+    strncpy(dev_config->name, name, VDUSE_NAME_MAX - 1);
-     dev_config->name[VDUSE_NAME_MAX - 1] = '\0';
-     dev_config->device_id = device_id;
-     dev_config->vendor_id = vendor_id;
--- 
-2.37.3
-
+ping.
 
