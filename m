@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A60045BCC50
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 14:58:28 +0200 (CEST)
-Received: from localhost ([::1]:46638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5018F5BCC83
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 15:05:24 +0200 (CEST)
+Received: from localhost ([::1]:49190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaGLz-0005OP-PJ
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 08:58:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47992)
+	id 1oaGSg-00018Q-TC
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 09:05:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oaGCy-0001WV-IS
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 08:49:08 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:50916 helo=loongson.cn)
+ id 1oaGD0-0001aV-6L
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 08:49:15 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:50924 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oaGCv-0000I3-SR
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 08:49:08 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1oaGCx-0000I5-5Y
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 08:49:09 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Cx72s9ZShjN8QdAA--.43684S3; 
+ AQAAf8Cx72s9ZShjN8QdAA--.43684S4; 
  Mon, 19 Sep 2022 20:49:03 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, stefanha@gmail.com,
  Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Subject: [PULL 1/9] hw/loongarch: Remove vga device when loongarch init
-Date: Mon, 19 Sep 2022 20:48:53 +0800
-Message-Id: <20220919124901.2653396-2-gaosong@loongson.cn>
+Subject: [PULL 2/9] hw/loongarch: Support fw_cfg dma function
+Date: Mon, 19 Sep 2022 20:48:54 +0800
+Message-Id: <20220919124901.2653396-3-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220919124901.2653396-1-gaosong@loongson.cn>
 References: <20220919124901.2653396-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Cx72s9ZShjN8QdAA--.43684S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7AFWfGw47Gr4kGF1xCrW3Jrb_yoW8JFWUpr
- ZxZF1kGrW8JrsrJrZFq34kWF1DJFn7Gry2vF4Sy34vkFyDZr95Zr1rZ34qyFyUA3yrJFyI
- qr95G3yUX3W8GFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf8Cx72s9ZShjN8QdAA--.43684S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7AFWfuw1xAF1DAw1rZF1DJrb_yoW8ur4rpF
+ y7Za4DJr48JrsxtrZag34UXr1xJrZ7GrW2qF4Iyw40kasrXw1UZr10v39IyFyUX3s5JFy0
+ va95K3y5X3W8ta7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -64,44 +64,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 
-Remove the vga device when loongarch machine init and
-we will support other display device in the future.
+Support fw_cfg dma function for LoongArch virt machine.
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Acked-by: Song Gao <gaosong@loongson.cn>
-Message-Id: <20220908094623.73051-2-yangxiaojuan@loongson.cn>
+Message-Id: <20220908094623.73051-3-yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- hw/loongarch/Kconfig | 1 -
- hw/loongarch/virt.c  | 3 ---
- 2 files changed, 4 deletions(-)
+ hw/loongarch/Kconfig  | 1 +
+ hw/loongarch/fw_cfg.c | 3 ++-
+ hw/loongarch/virt.c   | 2 +-
+ 3 files changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
-index a99aa387c3..73c52b093e 100644
+index 73c52b093e..1deea83626 100644
 --- a/hw/loongarch/Kconfig
 +++ b/hw/loongarch/Kconfig
-@@ -2,7 +2,6 @@ config LOONGARCH_VIRT
-     bool
-     select PCI
-     select PCI_EXPRESS_GENERIC_BRIDGE
--    imply VGA_PCI
-     imply VIRTIO_VGA
-     imply PCI_DEVICES
-     select ISA_BUS
+@@ -16,3 +16,4 @@ config LOONGARCH_VIRT
+     select SMBIOS
+     select ACPI_PCI
+     select ACPI_HW_REDUCED
++    select FW_CFG_DMA
+diff --git a/hw/loongarch/fw_cfg.c b/hw/loongarch/fw_cfg.c
+index f6503d5607..f15a17416c 100644
+--- a/hw/loongarch/fw_cfg.c
++++ b/hw/loongarch/fw_cfg.c
+@@ -23,7 +23,8 @@ FWCfgState *loongarch_fw_cfg_init(ram_addr_t ram_size, MachineState *ms)
+     int max_cpus = ms->smp.max_cpus;
+     int smp_cpus = ms->smp.cpus;
+ 
+-    fw_cfg = fw_cfg_init_mem_wide(VIRT_FWCFG_BASE + 8, VIRT_FWCFG_BASE, 8, 0, NULL);
++    fw_cfg = fw_cfg_init_mem_wide(VIRT_FWCFG_BASE + 8, VIRT_FWCFG_BASE, 8,
++                                  VIRT_FWCFG_BASE + 16, &address_space_memory);
+     fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)max_cpus);
+     fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
+     fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)smp_cpus);
 diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
-index 5cc0b05538..b56820ecda 100644
+index b56820ecda..4f833a2044 100644
 --- a/hw/loongarch/virt.c
 +++ b/hw/loongarch/virt.c
-@@ -378,9 +378,6 @@ static void loongarch_devices_init(DeviceState *pch_pic, LoongArchMachineState *
-         pci_nic_init_nofail(nd, pci_bus, nd->model, NULL);
-     }
- 
--    /* VGA setup */
--    pci_vga_init(pci_bus);
--
-     /*
-      * There are some invalid guest memory access.
-      * Create some unimplemented devices to emulate this.
+@@ -118,7 +118,7 @@ static void fdt_add_fw_cfg_node(const LoongArchMachineState *lams)
+     qemu_fdt_setprop_string(ms->fdt, nodename,
+                             "compatible", "qemu,fw-cfg-mmio");
+     qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
+-                                 2, base, 2, 0x8);
++                                 2, base, 2, 0x18);
+     qemu_fdt_setprop(ms->fdt, nodename, "dma-coherent", NULL, 0);
+     g_free(nodename);
+ }
 -- 
 2.31.1
 
