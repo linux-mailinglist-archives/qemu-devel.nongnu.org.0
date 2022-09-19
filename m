@@ -2,100 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 863365BD4B9
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 20:26:00 +0200 (CEST)
-Received: from localhost ([::1]:38420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60FD85BD4D2
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 20:36:44 +0200 (CEST)
+Received: from localhost ([::1]:47162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaLSx-0004xb-2g
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 14:25:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41236)
+	id 1oaLdK-00078t-NI
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 14:36:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oaLCv-0004p2-4W
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 14:09:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46023)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oaLCs-0007wx-Sv
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 14:09:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663610961;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QypTAxQwlIZxCKfCpJ2mPulEqP4o5N1ky60yeNAwcHg=;
- b=ZaQKFMo6WfQwwmzz7bXyG00spsSrwskklajB9L/vrf8utUso3bgIPAxYr6R3Kk2xC8mdaA
- MdbZmj+LmPrjrHN7SYkOzmMI+UgX9yQvukBuYq0QBo2YRQrUkpXzL5Sx8O2bbM6kn8JA1U
- C/j+JLtVXQCtb4bkYUJnEkatQf1DJvE=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-663-udf8d9kaPJ-Plrwok5hwsw-1; Mon, 19 Sep 2022 14:09:20 -0400
-X-MC-Unique: udf8d9kaPJ-Plrwok5hwsw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- c6-20020a05640227c600b004521382116dso122786ede.22
- for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 11:09:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oaLV3-0007uU-3x; Mon, 19 Sep 2022 14:28:09 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:46678)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oaLV1-0002xr-BK; Mon, 19 Sep 2022 14:28:08 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id 78so96271pgb.13;
+ Mon, 19 Sep 2022 11:28:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:sender:from:to:cc:subject:date;
+ bh=wbYwsLtCLmXFUkpGURvr6JRX1tlbcPpOA/wi4/BuoNk=;
+ b=KOQzbxML4GbIMwcIfCej8DHUXXCUZljUG0aQasJhWC9gIDJjuDOYFG5Mf9ibA7NPjc
+ 2swQDytTLsye17iQ9I6OVNXGoA1/L8SB1viK5Ok0SGKGoilno/sG5ehMcyq5xJptHnFX
+ IolFf3/xcDV+MYo7tukSwhUP5aLKdkG0wQJ5KU834kH8WBbbZ/pNSpnzs8i4ZGT4gbLu
+ 3VrX82H25zCn8wMTObGARK7lo6QnF3Ea3arXNlWuEmDM33mOT/9N8csFHVFJ6sUh8N07
+ XLcVEEoXFEkQLRj7WF6tMcaW1CV16wyLJ8GXaS1iL1osn9IPEoM/2cO4MIe1J8pM6jfn
+ GpOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=QypTAxQwlIZxCKfCpJ2mPulEqP4o5N1ky60yeNAwcHg=;
- b=Yi58+6QrA07QNi/g4dfVt171F0HC8B8Hd3/mZaob2vEgOA5JIlZD+6OmLiGL+VkJmq
- +OSlW3QIoMvb9rzvPJKtQQh/o3mZAqnTLH1SP0apkhhOcKFzoM1VeF/8DYJlvxfc3mEF
- DEQFzghGbo5/xBIjOJghbuVdPLdY8qUF7koKJ5bhmkZMp+eaHmw7fA2BocVbvXHSxXLr
- Lcwmsn2mqlB20DG44w4ZPPjR08T+YK1AcLk7koGTDhEbDLtLNsZuGxv0OTeNv78CgOat
- +QsyOIikd6BrozMbabHVEvu4kvCmnZh6iRN1fs0lho+urBt85Jo98074j+RuNpolpEpR
- Qisg==
-X-Gm-Message-State: ACrzQf3CAjK09JLWoR8VEGj4nlYugQ4cO5vsKoj5rKHnFPAVN7p59WqO
- tSkq34BEsEC3Xj0XR1uw+EM8BUSV67BMQUEPwhayCAlThjNkx9Z73bYe14PVafkciWSLMRtVBpZ
- Shs4YM0I2OpHoo9o=
-X-Received: by 2002:a17:906:fd86:b0:777:d739:1ede with SMTP id
- xa6-20020a170906fd8600b00777d7391edemr13319282ejb.576.1663610959235; 
- Mon, 19 Sep 2022 11:09:19 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5HY6YVH2EEegc0L83SsiBAmG+vnPx7X93VE+b+YX/sGnbaVF5U2xS/8r3H/hST0IRvTNRVDQ==
-X-Received: by 2002:a17:906:fd86:b0:777:d739:1ede with SMTP id
- xa6-20020a170906fd8600b00777d7391edemr13319269ejb.576.1663610959039; 
- Mon, 19 Sep 2022 11:09:19 -0700 (PDT)
-Received: from [192.168.8.103] (tmo-083-219.customers.d1-online.com.
- [80.187.83.219]) by smtp.gmail.com with ESMTPSA id
- i5-20020a170906698500b007081282cbd8sm15956329ejr.76.2022.09.19.11.09.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Sep 2022 11:09:18 -0700 (PDT)
-Message-ID: <dbc0fb51-2546-7792-bc7e-b07024f2ede7@redhat.com>
-Date: Mon, 19 Sep 2022 20:09:16 +0200
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:sender:x-gm-message-state:from:to:cc:subject:date;
+ bh=wbYwsLtCLmXFUkpGURvr6JRX1tlbcPpOA/wi4/BuoNk=;
+ b=RCVWjpoxdD4ELI8e44bpblMHryxabUUw0TOF/dVSufLPeisZ7aP4zE4OkSMs35RMFL
+ 0hx+e92RQPP5uCQSvIyQg+/2VtN4tMPHchflCvP7McJprDIMfU+Qr1CGqnGn1/InnT6z
+ 5cX4nCtffZUX/wTH+e8yPqukxCy9lDpv/Mya6lI/2K6krNWqaabuhCVDBSEgBO7+dkf5
+ RoUwa81DJ9T1ZqiN6duPfkpXMTgpysG91M89FpxOYKmlBE4iebjGzeW0GmZzn7N7OB4F
+ qJGNDjNTaUV2y1+xRGtY7qBo0ngIcflztogJ1w7zaBngy5mnk1qGOTJW/9bHi/MU4fdq
+ 38GQ==
+X-Gm-Message-State: ACrzQf3ldH92SQSRvi4RBl9ejbfnS/Hh2F7JSCCmCQtleIPXuKxjKvwd
+ j7tLvMpitcvKK0YE9iksGvA7h/yz0ag=
+X-Google-Smtp-Source: AMsMyM6V1Ur01ig4Muvm4UZR8N1RQqllYb31xrKrWoe63aX0TBwbV2OFSPHsV/XYjDtvzp4Uz+6rAw==
+X-Received: by 2002:aa7:8c4e:0:b0:54e:fa98:5031 with SMTP id
+ e14-20020aa78c4e000000b0054efa985031mr6124939pfd.44.1663612083440; 
+ Mon, 19 Sep 2022 11:28:03 -0700 (PDT)
+Received: from localhost.localdomain ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ h7-20020aa796c7000000b0053f2505318asm21283078pfq.142.2022.09.19.11.27.59
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 19 Sep 2022 11:28:03 -0700 (PDT)
+To: qemu-devel@nongnu.org
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-trivial@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org,
+ John Snow <jsnow@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Max Reitz <mreitz@redhat.com>
+Subject: [PATCH] block/qcow2-bitmap: Add missing cast to silent GCC error
+Date: Mon, 19 Sep 2022 20:27:55 +0200
+Message-Id: <20220919182755.51967-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 0/8] tests: Make expliction defaults for tests
-Content-Language: en-US
-To: Alexander Bulekov <alxndr@bu.edu>, Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- "Michael S. Tsirkin" <mst@redhat.com>, Fam Zheng <fam@euphon.net>,
- Gerd Hoffmann <kraxel@redhat.com>, Bandan Das <bsd@redhat.com>,
- Hannes Reinecke <hare@suse.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org
-References: <20220902165126.1482-1-quintela@redhat.com>
- <20220902171640.qki2azr6qffhj6lp@mozz.bu.edu>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220902171640.qki2azr6qffhj6lp@mozz.bu.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.952, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,48 +90,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+From:  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= via <qemu-devel@nongnu.org>
 
-On 02/09/2022 19.16, Alexander Bulekov wrote:
-> On 220902 1851, Juan Quintela wrote:
->> Hi
->>
->> For a long, long time I have had local hacks on my tree to be able to
->> run "make tests" when I have a minimal configure guest.  This is a
->> first try to upstream some of it.
->>
->> - by default we always setup -display none (it already was the
->>    default, but some places added it anyways)
->>
->> - by default we always setup -net none.  Not clear what was the
->>    default, but no tests use the default net, so it is safe change and
->>    now it is explicit.
->>
->> - by default we always setup -vga none.  This is a complete difference
->>    can of worms.  Every tests that use vga already set vga correctly,
->>    so this is quite obvious, right?  Now they are acpi tables.  They
->>    are a mess.  And basically this means remove a device for each one
->>    of them.  Why going through all the trouble?  Because while I am
->>    develping, I normall compile out vga.
->>
->> - Fix several error strings that were set with copy paste.
->>
->> - replication test requires CONFIG_REPLICATION.
->> - test-crypto-secret requires CONFIG_SECRET_KEYRING.
->>
->> Please review.  Except for the acpi changes (that I hope I have done
->> right following the instructions) the rest is quite obvious.
-> 
-> I think this might break some of the fuzz regression tests, because they
-> have "baked-in" PCI configuration commands with hard-coded PCI
-> addresses, which will shift around if some device is removed (e.g. with
-> -net none). Probably the fix is to add addr=... to the -device parameter
-> in the fuzz tests to keep the PCI address stable.
-> -Alex
+Commit d1258dd0c8 ("qcow2: autoloading dirty bitmaps") added the
+set_readonly_helper() GFunc handler, correctly casting the gpointer
+user_data in both the g_slist_foreach() caller and the handler.
+Few commits later (commit 1b6b0562db), the handler is reused in
+qcow2_reopen_bitmaps_rw() but missing the gpointer cast, resulting
+in the following error when using Homebrew GCC 12.2.0:
 
-The patches to default to -net none and -vga none are a good idea, but I 
-agree with Alexander - this needs some careful examination of the fuzz tests 
-first to see whether the BARs are changed here or not.
+  [2/658] Compiling C object libblock.fa.p/block_qcow2-bitmap.c.o
+  ../../block/qcow2-bitmap.c: In function 'qcow2_reopen_bitmaps_rw':
+  ../../block/qcow2-bitmap.c:1211:60: error: incompatible type for argument 3 of 'g_slist_foreach'
+   1211 |     g_slist_foreach(ro_dirty_bitmaps, set_readonly_helper, false);
+        |                                                            ^~~~~
+        |                                                            |
+        |                                                            _Bool
+  In file included from /opt/homebrew/Cellar/glib/2.72.3_1/include/glib-2.0/glib/gmain.h:26,
+                   from /opt/homebrew/Cellar/glib/2.72.3_1/include/glib-2.0/glib/giochannel.h:33,
+                   from /opt/homebrew/Cellar/glib/2.72.3_1/include/glib-2.0/glib.h:54,
+                   from /Users/philmd/source/qemu/include/glib-compat.h:32,
+                   from /Users/philmd/source/qemu/include/qemu/osdep.h:144,
+                   from ../../block/qcow2-bitmap.c:28:
+  /opt/homebrew/Cellar/glib/2.72.3_1/include/glib-2.0/glib/gslist.h:127:61: note: expected 'gpointer' {aka 'void *'} but argument is of type '_Bool'
+    127 |                                           gpointer          user_data);
+        |                                           ~~~~~~~~~~~~~~~~~~^~~~~~~~~
+  At top level:
+  FAILED: libblock.fa.p/block_qcow2-bitmap.c.o
 
-  Thomas
+Fix by adding the missing gpointer cast.
+
+Fixes: 1b6b0562db ("qcow2: support .bdrv_reopen_bitmaps_rw")
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Cc: John Snow <jsnow@redhat.com>
+Cc: Max Reitz <mreitz@redhat.com>
+---
+ block/qcow2-bitmap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
+index ff3309846c..7197754843 100644
+--- a/block/qcow2-bitmap.c
++++ b/block/qcow2-bitmap.c
+@@ -1208,7 +1208,7 @@ int qcow2_reopen_bitmaps_rw(BlockDriverState *bs, Error **errp)
+         }
+     }
+ 
+-    g_slist_foreach(ro_dirty_bitmaps, set_readonly_helper, false);
++    g_slist_foreach(ro_dirty_bitmaps, set_readonly_helper, (gpointer)false);
+     ret = 0;
+ 
+ out:
+-- 
+2.37.3
 
 
