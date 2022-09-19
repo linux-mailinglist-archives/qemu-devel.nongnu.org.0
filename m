@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88B635BC067
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 00:32:45 +0200 (CEST)
-Received: from localhost ([::1]:47028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 587E35BC0D0
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 02:54:08 +0200 (CEST)
+Received: from localhost ([::1]:58566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oa2qC-0005VR-5G
-	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 18:32:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55812)
+	id 1oa52z-0007ZY-Tt
+	for lists+qemu-devel@lfdr.de; Sun, 18 Sep 2022 20:54:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oa2o0-0003kx-C5
- for qemu-devel@nongnu.org; Sun, 18 Sep 2022 18:30:28 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:42662)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oa4zo-00064T-9t; Sun, 18 Sep 2022 20:50:48 -0400
+Received: from mail-ua1-x931.google.com ([2607:f8b0:4864:20::931]:41887)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1oa2nx-0005so-Ip
- for qemu-devel@nongnu.org; Sun, 18 Sep 2022 18:30:27 -0400
-Received: by mail-ed1-x532.google.com with SMTP id q21so38854338edc.9
- for <qemu-devel@nongnu.org>; Sun, 18 Sep 2022 15:30:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oa4zm-000873-Do; Sun, 18 Sep 2022 20:50:47 -0400
+Received: by mail-ua1-x931.google.com with SMTP id y20so6112646uao.8;
+ Sun, 18 Sep 2022 17:50:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date;
- bh=zEzbJjNOPoo6FK5Is/Q4nQEi3fOeuWbWEIdbg+/p2gg=;
- b=HPgisDY8gwk3qsyIO3ya/2tqwJPQ8lQCufBVtrokntGtpt/N/tG5qOm3t42QxRH2Wy
- mkgLEZzwlLYfDTMEQrmRIzsD940n3uwbQ7yBT1KWdGpXJYxyMvnA7Ltj02/57IzeG021
- 0ko3la8eTJLO8k00jFNfAOWVLqmVD2ufnfCO+qyfpAaqCAf1NTg56AZHEMcfQjT8Wa1x
- e4tpiHFoIrpNklKfarjZMKFvJ0hg5FJACZ4h1sxQiduO5cJUJekQfM6nBKpgpaIglYne
- QQ32Q6vtXK45dlsY/G3tvORgVVHBoOzxCK9BvsRmXDqE/RJaJbHJgCO+a7Q16v8nNQVa
- 4MaA==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=fLa2bhzKj4yLgEBoF/q1FGBYpn+9FtcTe8M3S48e6GM=;
+ b=PBeNGkmiML487O0igANBVM5BthUWU2JXZtgmZ2oN2LP+tp2Tc41uaekjdrje/Pds68
+ OYvFQHKG9fuBZiuBdPTdzuUja0Vsiz6ReNM6OSf5SCRRXCOEwQQOY4faGwgGdMriEptt
+ LiLxsER4gX9RBs0i7Z2pxQt+UjWd1YxIDEUr9GC0aej+SMXQmpQN5B2GTmuVLOkW/ebM
+ Es2VT4TB4xnUmHqfSw7M14g0lpZXyLoJTGp7XsM+IB+VstOoiJ0Hj2OOtJbD1BRi2fFm
+ ZYyc5XJRsyKreTFkpymxJGX1cayZRxxtyLT9KD/GLlA4SX2m5w1Li2YIa/jgTvGSYD6z
+ K55Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date;
- bh=zEzbJjNOPoo6FK5Is/Q4nQEi3fOeuWbWEIdbg+/p2gg=;
- b=hRO8TAkuBJiKC1eMN+goyA9oQWs11Ox4La9Dul4fL9qy9wq+IW3tP+f4qghePK3bvn
- LkvYimCl7Mc9VE5k0zAmnOrWzpz9kIzU0bPOsNZI1EjcDXPbPuLKqelNJtZ+o6CNrkpM
- 4q2G/H8NKAEPbi75Dzh/FT+bNHF4I1YmUzwSURaZxMXZsO0pI18cLjIoMQm7/kuI4Rqc
- 67jK/6dQqhLL75Pe2EiiiwQvS+S3q5xn4mfLna72T8bIubcNiDCHJIqbXwVTBknQmcrj
- 2VBq0zeJUHyX1TG60RB9A8PgCBuTG/z3im4rGvNRpn5TvJ1Spq+ElB2KdfzgiUbttnqw
- 0jnw==
-X-Gm-Message-State: ACrzQf3BGsP831CCediTytdNQ0vO0ZqUhHmwxWp3v0YYxqYe6nUZtGrN
- HRfqp3oGokFWdNQec+7CLD4=
-X-Google-Smtp-Source: AMsMyM5fkshnL7pt6ilshp8Gr5BWsMaGDmK5Nlz0uwnXtwL0tO5C92oblTyQDOKa5Dq9ew0/M7vv1w==
-X-Received: by 2002:aa7:d3d3:0:b0:44e:baab:54d9 with SMTP id
- o19-20020aa7d3d3000000b0044ebaab54d9mr12796690edr.43.1663540223732; 
- Sun, 18 Sep 2022 15:30:23 -0700 (PDT)
-Received: from [127.0.0.1] (dynamic-078-054-124-024.78.54.pool.telefonica.de.
- [78.54.124.24]) by smtp.gmail.com with ESMTPSA id
- 17-20020a170906201100b0073dc5bb7c32sm14544299ejo.64.2022.09.18.15.30.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Sep 2022 15:30:23 -0700 (PDT)
-Date: Sun, 18 Sep 2022 22:30:16 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-CC: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH 00/42] Consolidate PIIX south bridges
-In-Reply-To: <7bdc1d9c-a18d-958a-4b9b-3487e159e92f@ilande.co.uk>
-References: <20220901162613.6939-1-shentey@gmail.com>
- <7bdc1d9c-a18d-958a-4b9b-3487e159e92f@ilande.co.uk>
-Message-ID: <330C6CC8-2A01-408A-9044-D022EA0BB23C@gmail.com>
+ bh=fLa2bhzKj4yLgEBoF/q1FGBYpn+9FtcTe8M3S48e6GM=;
+ b=gtXs3UgOFoL7kpDgrw5oDquveY0nJxdGHy+ounNMdWWMux9sHfFKZD/WvfmN9JGpsE
+ hNOXyVSO0fDKUxM+icerxtzSQlu9AdeNML46unqV3DS8/T7TKv/W5Xy53lNCD3HahYjK
+ 4K+FfdNYZo5ef5bxYdyfjlPH6jLR8LVtW23laZrExfMfuglYImkO0sDW9y1EgjqhvUgC
+ +tn9O6ujfRbmL74AiEq+1lpmbPbiPZw9S/aA1sKTfUwMWGasgwHjg4n6qihBTDF3vIJF
+ OshCZpJDJZkmA1psw+DstVEQ8/dqSvKF6U7hh7wVnNU+rVXrJ7sZl5N+pmj7D5IOKOKF
+ njlg==
+X-Gm-Message-State: ACrzQf17FBqemTDOd7qhEfNUC2Ik6fN234IfmIni1A7SF0rihhcL/kln
+ 3/SztaCmfbDVXtMDJvEkEYnpMLhJwCgNFFDeKrI=
+X-Google-Smtp-Source: AMsMyM4FmjUkPBImkYmfKUnvAAVCGGrZGl66sDs3Dfkc8rvWD8IuXwoUbn+0oaGv2RCCUuM6EdVt/v9uzLqlX66vRU8=
+X-Received: by 2002:ab0:474e:0:b0:3b0:5e66:bf47 with SMTP id
+ i14-20020ab0474e000000b003b05e66bf47mr5218013uac.4.1663548644596; Sun, 18 Sep
+ 2022 17:50:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+References: <20220910052759.27517-1-faithilikerun@gmail.com>
+ <20220910052759.27517-2-faithilikerun@gmail.com>
+ <20220915080447.nti5wdhwgwtwv4ft@redhat.com>
+ <CAAAx-8KFxizaM7o82S_Zza6QjHB-mFf7hB_B-UbZ2E1Uq-sd7g@mail.gmail.com>
+ <YySTY9Y+/6IplNXm@fedora>
+In-Reply-To: <YySTY9Y+/6IplNXm@fedora>
+From: Sam Li <faithilikerun@gmail.com>
+Date: Mon, 19 Sep 2022 08:50:57 +0800
+Message-ID: <CAAAx-8+Q5r974Hm51-5cL0qTp59mdHmLfptokLvbmGPKk7iz1w@mail.gmail.com>
+Subject: Re: [PATCH v9 1/7] include: add zoned device structs
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>,
+ Markus Armbruster <armbru@redhat.com>, 
+ qemu block <qemu-block@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
+ Fam Zheng <fam@euphon.net>, 
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Hannes Reinecke <hare@suse.de>, Hanna Reitz <hreitz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::931;
+ envelope-from=faithilikerun@gmail.com; helo=mail-ua1-x931.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,176 +92,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 18=2E September 2022 20:22:55 UTC schrieb Mark Cave-Ayland <mark=2Ecave-=
-ayland@ilande=2Eco=2Euk>:
->On 01/09/2022 17:25, Bernhard Beschow wrote:
+Stefan Hajnoczi <stefanha@redhat.com> =E4=BA=8E2022=E5=B9=B49=E6=9C=8818=E6=
+=97=A5=E5=91=A8=E6=97=A5 04:17=E5=86=99=E9=81=93=EF=BC=9A
 >
->> This series consolidates the implementations of the PIIX3 and PIIX4 sou=
-th
->> bridges and is an extended version of [1]=2E The motivation is to share=
- as much
->> code as possible and to bring both device models to feature parity such=
- that
->> perhaps PIIX4 can become a drop-in-replacement for PIIX3 in the pc mach=
-ine=2E This
->> could resolve the "Frankenstein" PIIX4-PM problem in PIIX3 discussed on=
- this
->> list before=2E
->>=20
->> The series is structured as follows: First, PIIX3 is changed to instant=
-iate
->> internal devices itself, like PIIX4 does already=2E Second, PIIX3 gets =
-prepared
->> for the merge with PIIX4 which includes some fixes, cleanups, and renam=
-ings=2E
->> Third, the same is done for PIIX4=2E In step four the implementations a=
-re merged=2E
->> Since some consolidations could be done easier with merged implementati=
-ons, the
->> consolidation continues in step five which concludes the series=2E
->>=20
->> One particular challenge in this series was that the PIC of PIIX3 used =
-to be
->> instantiated outside of the south bridge while some sub functions requi=
-re a PIC
->> with populated qemu_irqs=2E This has been solved by introducing a proxy=
- PIC which
->> furthermore allows PIIX3 to be agnostic towards the virtualization tech=
-nology
->> used (KVM, TCG, Xen)=2E Due to consolidation PIIX4 gained the PIC as we=
-ll,
->> possibly allowing the Malta board to gain KVM capabilities in the futur=
-e=2E
->>=20
->> Another challenge was dealing with optional devices where Peter already=
- gave
->> advice in [1] which this series implements=2E
->>=20
->> An unsolved problem still is PCI interrupt handling=2E The first functi=
-on
->> passed to pci_bus_irqs() is device-specific while the second one seems
->> board-specific=2E This causes both PIIX device models to be coupled to =
-a
->> particular board=2E Any advice how to resolve this would be highly appr=
-eaciated=2E
+> On Thu, Sep 15, 2022 at 06:06:38PM +0800, Sam Li wrote:
+> > Eric Blake <eblake@redhat.com> =E4=BA=8E2022=E5=B9=B49=E6=9C=8815=E6=97=
+=A5=E5=91=A8=E5=9B=9B 16:05=E5=86=99=E9=81=93=EF=BC=9A
+> > >
+> > > On Sat, Sep 10, 2022 at 01:27:53PM +0800, Sam Li wrote:
+> > > > Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> > > > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > > > Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+> > > > ---
+> > > >  include/block/block-common.h | 43 ++++++++++++++++++++++++++++++++=
+++++
+> > > >  1 file changed, 43 insertions(+)
+> > > >
+> > > > diff --git a/include/block/block-common.h b/include/block/block-com=
+mon.h
+> > > > index fdb7306e78..36bd0e480e 100644
+> > > > --- a/include/block/block-common.h
+> > > > +++ b/include/block/block-common.h
+> > > > @@ -49,6 +49,49 @@ typedef struct BlockDriver BlockDriver;
+> > > >  typedef struct BdrvChild BdrvChild;
+> > > >  typedef struct BdrvChildClass BdrvChildClass;
+> > > >
+> > > > +typedef enum BlockZoneOp {
+> > > > +    BLK_ZO_OPEN,
+> > > > +    BLK_ZO_CLOSE,
+> > > > +    BLK_ZO_FINISH,
+> > > > +    BLK_ZO_RESET,
+> > > > +} BlockZoneOp;
+> > > > +
+> > > > +typedef enum BlockZoneModel {
+> > > > +    BLK_Z_NONE =3D 0x0, /* Regular block device */
+> > > > +    BLK_Z_HM =3D 0x1, /* Host-managed zoned block device */
+> > > > +    BLK_Z_HA =3D 0x2, /* Host-aware zoned block device */
+> > > > +} BlockZoneModel;
+> > > > +
+> > > > +typedef enum BlockZoneCondition {
+> > > > +    BLK_ZS_NOT_WP =3D 0x0,
+> > > > +    BLK_ZS_EMPTY =3D 0x1,
+> > > > +    BLK_ZS_IOPEN =3D 0x2,
+> > > > +    BLK_ZS_EOPEN =3D 0x3,
+> > > > +    BLK_ZS_CLOSED =3D 0x4,
+> > > > +    BLK_ZS_RDONLY =3D 0xD,
+> > > > +    BLK_ZS_FULL =3D 0xE,
+> > > > +    BLK_ZS_OFFLINE =3D 0xF,
+> > > > +} BlockZoneCondition;
+> > > > +
+> > > > +typedef enum BlockZoneType {
+> > > > +    BLK_ZT_CONV =3D 0x1, /* Conventional random writes supported *=
+/
+> > > > +    BLK_ZT_SWR =3D 0x2, /* Sequential writes required */
+> > > > +    BLK_ZT_SWP =3D 0x3, /* Sequential writes preferred */
+> > > > +} BlockZoneType;
+> > > > +
+> > > > +/*
+> > > > + * Zone descriptor data structure.
+> > > > + * Provides information on a zone with all position and size value=
+s in bytes.
+> > >
+> > > I'm glad that you chose bytes here for use in qemu.  But since the
+> > > kernel struct blk_zone uses sectors instead of bytes, is it worth
+> > > adding a sentence that we intentionally use bytes here, different fro=
+m
+> > > Linux, to make it easier for reviewers to realize that scaling when
+> > > translating between qemu and kernel is necessary?
+> >
+> > Sorry about the unit mistake. The zone information is in sectors which
+> > is the same as kernel struct blk_zone. I think adding a sentence to
+> > inform the sector unit makes it clear what the zone descriptor is.
 >
->Could you explain this in a bit more detail?
-
-Sure!
-
-Even after the consolidation there are piix3_pci_slot_get_pirq() and piix4=
-_pci_slot_get_pirq() which seem board-specific rather than south bridge-spe=
-cific=2E So they seem to belong into board code (pc_piix and Malta)=2E piix=
-_set_irq(), OTOH, seems appropriate in piix=2Ec and is even shared between =
-3 and 4=2E However, pci_bus_irqs() assigns both piix_set_irq() and piix{3,4=
-}_pci_slot_get_pirq() in one go=2E So it is unclear to me how to pass the b=
-oard-specific piix{3,4}_pci_slot_get_pirq() into the south bridge for pci_b=
-us_irqs() if this call is performed there=2E
-
-I'm really curious about an answer=2E Let me know if I was still unclear=
-=2E
-
+> I'd make the units bytes for consistency with the rest of the QEMU block
+> layer. For example, the MapEntry structure that "qemu-img map" reports
+> has names with similar fields and they are in bytes:
 >
->> Last but not least there might be some opportunity to consolidate VM st=
-ate
->> handling, probably by reusing the one from PIIX3=2E Since I'm not very =
-familiar
->> with the requirements I didn't touch it so far=2E
->>=20
->> Testing done:
->> * make check
->> * Boot live CD:
->>    * `qemu-system-x86_64 -M pc -m 2G -accel kvm -cpu host -cdrom
->> manjaro-kde-21=2E3=2E2-220704-linux515=2Eiso`
->>    * `qemu-system-x86_64 -M q35 -m 2G -accel kvm -cpu host -cdrom
->> manjaro-kde-21=2E3=2E2-220704-linux515=2Eiso`
->>=20
->> [1] https://lists=2Enongnu=2Eorg/archive/html/qemu-devel/2022-07/msg023=
-48=2Ehtml
->>=20
->> Bernhard Beschow (42):
->>    hw/i386/pc: Create DMA controllers in south bridges
->>    hw/i386/pc: Create RTC controllers in south bridges
->>    hw/i386/pc: No need for rtc_state to be an out-parameter
->>    hw/i386/pc_piix: Allow for setting properties before realizing PIIX3
->>      south bridge
->>    hw/isa/piix3: Create USB controller in host device
->>    hw/isa/piix3: Create power management controller in host device
->>    hw/intc/i8259: Introduce i8259 proxy "isa-pic"
->>    hw/isa/piix3: Create ISA PIC in host device
->>    hw/isa/piix3: Create IDE controller in host device
->>    hw/isa/piix3: Wire up ACPI interrupt internally
->>    hw/isa/piix3: Remove extra ';' outside of functions
->>    hw/isa/piix3: Remove unused include
->>    hw/isa/piix3: Add size constraints to rcr_ops
->>    hw/isa/piix3: Modernize reset handling
->>    hw/isa/piix3: Prefer pci_address_space() over get_system_memory()
->>    hw/isa/piix3: Allow board to provide PCI interrupt routes
->>    hw/isa/piix3: Resolve redundant PIIX_NUM_PIC_IRQS
->>    hw/isa/piix3: Rename pci_piix3_props for sharing with PIIX4
->>    hw/isa/piix3: Rename piix3_reset() for sharing with PIIX4
->>    hw/isa/piix3: Prefix pci_slot_get_pirq() with "piix3_"
->>    hw/isa/piix3: Rename typedef PIIX3State to PIIXState
->>    hw/mips/malta: Reuse dev variable
->>    meson: Fix dependencies of piix4 southbridge
->>    hw/isa/piix4: Add missing initialization
->>    hw/isa/piix4: Move pci_ide_create_devs() call to board code
->>    hw/isa/piix4: Make PIIX4's ACPI and USB functions optional
->>    hw/isa/piix4: Allow board to provide PCI interrupt routes
->>    hw/isa/piix4: Remove unused code
->>    hw/isa/piix4: Use ISA PIC device
->>    hw/isa/piix4: Reuse struct PIIXState from PIIX3
->>    hw/isa/piix4: Rename reset control operations to match PIIX3
->>    hw/isa/piix4: Rename wrongly named method
->>    hw/isa/piix4: Prefix pci_slot_get_pirq() with "piix4_"
->>    hw/isa/piix3: Merge hw/isa/piix4=2Ec
->>    hw/isa/piix: Harmonize names of reset control memory regions
->>    hw/isa/piix: Reuse PIIX3 base class' realize method in PIIX4
->>    hw/isa/piix: Rename functions to be shared for interrupt triggering
->>    hw/isa/piix: Consolidate IRQ triggering
->>    hw/isa/piix: Unexport PIIXState
->>    hw/isa/piix: Share PIIX3 base class with PIIX4
->>    hw/isa/piix: Drop the "3" from the PIIX base class
->>    hw/i386/acpi-build: Resolve PIIX ISA bridge rather than ACPI
->>      controller
->>=20
->>   MAINTAINERS                             |   6 +-
->>   configs/devices/mips-softmmu/common=2Emak |   3 +-
->>   hw/i386/Kconfig                         |   3 +-
->>   hw/i386/acpi-build=2Ec                    |   4 +-
->>   hw/i386/pc=2Ec                            |  19 +-
->>   hw/i386/pc_piix=2Ec                       |  72 +--
->>   hw/i386/pc_q35=2Ec                        |   3 +-
->>   hw/intc/i8259=2Ec                         |  27 +
->>   hw/isa/Kconfig                          |  14 +-
->>   hw/isa/lpc_ich9=2Ec                       |  11 +
->>   hw/isa/meson=2Ebuild                      |   3 +-
->>   hw/isa/piix=2Ec                           | 669 +++++++++++++++++++++=
-+++
->>   hw/isa/piix3=2Ec                          | 431 ---------------
->>   hw/isa/piix4=2Ec                          | 325 ------------
->>   hw/mips/malta=2Ec                         |  34 +-
->>   include/hw/i386/ich9=2Eh                  |   2 +
->>   include/hw/i386/pc=2Eh                    |   2 +-
->>   include/hw/intc/i8259=2Eh                 |  14 +
->>   include/hw/southbridge/piix=2Eh           |  41 +-
->>   19 files changed, 823 insertions(+), 860 deletions(-)
->>   create mode 100644 hw/isa/piix=2Ec
->>   delete mode 100644 hw/isa/piix3=2Ec
->>   delete mode 100644 hw/isa/piix4=2Ec
+>   struct MapEntry {
+>       int64_t start;
+>       int64_t length;
 >
->I've had a quick skim over this series and commented on the parts that ca=
-ught my eye, however I'm generally happy with the way this series is going =
-and it seems like a nice tidy-up - thanks!
 
-I'm glad to read this!
+I think the zone descriptor uses sector units because ioctl() will
+report zones in sector units. Making blk_zone.offset =3D
+zone_descriptor.offset is more convenient than using byte units where
+it needs make conversions twice(sector -> byte -> sector in zone
+descriptors and offset argument in bdrv_co_zone_report). The MapEntry
+uses byte units because lseek() in bdrv_co_block_status suggests the
+file offset is set to bytes and I think it may be why the rest of the
+block layer uses bytes(not sure).
 
-Best regards,
-Bernhard
->
->
->ATB,
->
->Mark=2E
+I do not object to using bytes here but it would require some
+compromises. If I was wrong about anything, please let me know.
 
+
+Sam
 
