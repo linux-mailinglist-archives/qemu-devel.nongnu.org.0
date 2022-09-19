@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B55185BC3B7
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 09:51:35 +0200 (CEST)
-Received: from localhost ([::1]:60012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C29055BC3C4
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Sep 2022 09:55:24 +0200 (CEST)
+Received: from localhost ([::1]:48688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaBZ0-0005FA-RC
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 03:51:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37788)
+	id 1oaBch-00078C-2I
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 03:55:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leohou163@163.com>) id 1oaBRH-0000pW-Eo
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 03:43:39 -0400
-Received: from m13123.mail.163.com ([220.181.13.123]:6937)
+ (Exim 4.90_1) (envelope-from <leohou163@163.com>) id 1oaBTP-0002Eu-29
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 03:45:47 -0400
+Received: from m13123.mail.163.com ([220.181.13.123]:26955)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <leohou163@163.com>) id 1oaBRF-0003FG-Ae
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 03:43:35 -0400
+ (envelope-from <leohou163@163.com>) id 1oaBTL-0003eK-8w
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 03:45:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=32c7S
- nvtMksrvL7Wwdcqr9NXDgj/lPEq/ylAb/LwJR4=; b=iOXw61tJEonx0163GJqvS
- C5bnXVnqOyrfHB0J87ymkyuDqbMcxDE2jgT5+4w08MF8JekVlWkmVLEzO9ZYrf+E
- x1M3dZUOQwv8Q2I9KAo4U9iEQhhbQAc6ipdzO3XxMJMRbkgFgonmj58EWGJ9dFIS
- lhg9U06/rSLmh0wUnYk+bI=
+ s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=Ub6V4
+ nA61/lL7Lk3o6DXcNRA/sQoegQ7QOnRvvcsxwI=; b=Z1yj3fkdohhP94z0/6sCD
+ JlNJ3NgQShdnrr8PzAKCCAen5vUFedRgaS4tjB8zrsALfRToeFyORa6/vca2RLP5
+ vPRwb1XWkNby2hpV34JkMAbnJmx/xHGhQohBrzEMbQT+iS90MnQJvFD2VehA/+qC
+ IMmBeIlaNu+6Za7Ru3ZqC0=
 Received: from leohou163$163.com ( [39.155.188.22] ) by
- ajax-webmail-wmsvr123 (Coremail) ; Mon, 19 Sep 2022 15:43:29 +0800 (CST)
+ ajax-webmail-wmsvr123 (Coremail) ; Mon, 19 Sep 2022 15:45:38 +0800 (CST)
 X-Originating-IP: [39.155.188.22]
-Date: Mon, 19 Sep 2022 15:43:29 +0800 (CST)
-From: leohou <leohou163@163.com>
-To: qemu-devel@nongnu.org
+Date: Mon, 19 Sep 2022 15:45:38 +0800 (CST)
+From: leohou  <leohou163@163.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Subject: suport sr-iov to virtio-net
 X-Priority: 3
 X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
  Copyright (c) 2002-2022 www.mailtech.cn 163com
 Content-Type: multipart/alternative; 
- boundary="----=_Part_65661_463916530.1663573409615"
+ boundary="----=_Part_66146_384846780.1663573538557"
 MIME-Version: 1.0
-Message-ID: <20664370.45e2.18354b3bf4f.Coremail.leohou163@163.com>
+Message-ID: <35182398.4661.18354b5b6fd.Coremail.leohou163@163.com>
 X-Coremail-Locale: zh_CN
-X-CM-TRANSID: e8GowADHa3yhHShjCURhAA--.2119W
+X-CM-TRANSID: e8GowACXPH0iHihj4URhAA--.8855W
 X-CM-SenderInfo: xohrx0jxrwjqqrwthudrp/
 X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 Received-SPF: pass client-ip=220.181.13.123; envelope-from=leohou163@163.com;
@@ -66,37 +66,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------=_Part_65661_463916530.1663573409615
+------=_Part_66146_384846780.1663573538557
 Content-Type: text/plain; charset=GBK
 Content-Transfer-Encoding: base64
 
-aGkgYWxsLAogICAgICAgIEkgd2FudCB0byBzdXBwb3J0IHNyLWlvdiB0byB2aXJ0aW8tbmV0LCBI
-b3cgYWJvdXQgdGhpcyBmZWF0dXJlPw==
-------=_Part_65661_463916530.1663573409615
+aGkgYWxsLAogICAgICAgV2h5IGNhbid0IEkgcmVjZWl2ZSBhIHN1YnNjcmlwdGlvbiByZXBseSBl
+bWFpbD8KCgo=
+------=_Part_66146_384846780.1663573538557
 Content-Type: text/html; charset=GBK
 Content-Transfer-Encoding: base64
 
 PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
-Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXYgc3R5bGU9IndoaXRlLXNwYWNlOiBub3JtYWw7IHdvcmQt
-YnJlYWs6IGJyZWFrLXdvcmQgIWltcG9ydGFudDsgY29sb3I6IHJnYig0OSwgNTMsIDU5KTsgZm9u
-dC1zaXplOiAxNHB4OyBmb250LXN0eWxlOiBub3JtYWw7IGZvbnQtdmFyaWFudDogbm9ybWFsOyBm
-b250LXdlaWdodDogbm9ybWFsOyBsZXR0ZXItc3BhY2luZzogbm9ybWFsOyBsaW5lLWhlaWdodDog
-MjIuNHB4OyB0ZXh0LWFsaWduOiBzdGFydDsgdGV4dC1pbmRlbnQ6IDBweDsgdGV4dC10cmFuc2Zv
-cm06IG5vbmU7IHdvcmQtc3BhY2luZzogMHB4OyAtd2Via2l0LXRleHQtc3Ryb2tlLXdpZHRoOiAw
-cHg7IGZvbnQtZmFtaWx5OiAnTWljcm9zb2Z0IFlhSGVpIFVJJywgVGFob21hOyBmb250LXZhcmlh
-bnQtbGlnYXR1cmVzOiBub3JtYWw7IG9ycGhhbnM6IDI7IHdpZG93czogMjsgYmFja2dyb3VuZC1j
-b2xvcjogcmdiKDI1NSwgMjU1LCAyNTUpOyI+aGkgYWxsLDwvZGl2PjxkaXYgc3R5bGU9IndoaXRl
-LXNwYWNlOiBub3JtYWw7IHdvcmQtYnJlYWs6IGJyZWFrLXdvcmQgIWltcG9ydGFudDsgY29sb3I6
-IHJnYig0OSwgNTMsIDU5KTsgZm9udC1zaXplOiAxNHB4OyBmb250LXN0eWxlOiBub3JtYWw7IGZv
-bnQtdmFyaWFudDogbm9ybWFsOyBmb250LXdlaWdodDogbm9ybWFsOyBsZXR0ZXItc3BhY2luZzog
-bm9ybWFsOyBsaW5lLWhlaWdodDogMjIuNHB4OyB0ZXh0LWFsaWduOiBzdGFydDsgdGV4dC1pbmRl
-bnQ6IDBweDsgdGV4dC10cmFuc2Zvcm06IG5vbmU7IHdvcmQtc3BhY2luZzogMHB4OyAtd2Via2l0
-LXRleHQtc3Ryb2tlLXdpZHRoOiAwcHg7IGZvbnQtZmFtaWx5OiAnTWljcm9zb2Z0IFlhSGVpIFVJ
-JywgVGFob21hOyBmb250LXZhcmlhbnQtbGlnYXR1cmVzOiBub3JtYWw7IG9ycGhhbnM6IDI7IHdp
-ZG93czogMjsgYmFja2dyb3VuZC1jb2xvcjogcmdiKDI1NSwgMjU1LCAyNTUpOyI+Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IEkgd2FudCB0byBzdXBwb3J0IHNyLWlv
-diB0byB2aXJ0aW8tbmV0LCBIb3cgYWJvdXQgdGhpcyBmZWF0dXJlPzwvZGl2PjxwIHN0eWxlPSJt
-YXJnaW46MDsiPjwvcD48L2Rpdj4=
-------=_Part_65661_463916530.1663573409615--
+Zm9udC1mYW1pbHk6QXJpYWwiPgoKICAgIAoKCjxzdHlsZT4KICAgIGZvbnR7CiAgICAgICAgbGlu
+ZS1oZWlnaHQ6IDEuNjsKICAgIH0KICAgIHVsLG9sewogICAgICAgIHBhZGRpbmctbGVmdDogMjBw
+eDsKICAgICAgICBsaXN0LXN0eWxlLXBvc2l0aW9uOiBpbnNpZGU7CiAgICB9Cjwvc3R5bGU+Cjxk
+aXYgc3R5bGU9ImZvbnQtZmFtaWx5Os6iyO3RxbraLFZlcmRhbmEsJnF1b3Q7TWljcm9zb2Z0IFlh
+aGVpJnF1b3Q7LFNpbVN1bixzYW5zLXNlcmlmO2ZvbnQtc2l6ZToxNHB4OyBsaW5lLWhlaWdodDox
+LjY7Ij4KICAgIDxkaXY+PGRpdj4KICAgIDxkaXY+CiAgICAgICAgPGRpdiBzdHlsZT0iZm9udC1m
+YW1pbHk6ICdNaWNyb3NvZnQgWWFIZWkgVUknLCBUYWhvbWE7IGZvbnQtdmFyaWFudC1saWdhdHVy
+ZXM6IG5vcm1hbDsgb3JwaGFuczogMjsgd2lkb3dzOiAyOyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2Io
+MjU1LCAyNTUsIDI1NSk7Ij5oaSBhbGwsPC9kaXY+PGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6ICdN
+aWNyb3NvZnQgWWFIZWkgVUknLCBUYWhvbWE7IGZvbnQtdmFyaWFudC1saWdhdHVyZXM6IG5vcm1h
+bDsgb3JwaGFuczogMjsgd2lkb3dzOiAyOyBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjU1LCAyNTUs
+IDI1NSk7Ij4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgV2h5IGNhbid0IEkg
+cmVjZWl2ZSBhIHN1YnNjcmlwdGlvbiByZXBseSBlbWFpbD88YnI+PC9kaXY+PHNwYW4+CiAgICAg
+ICAgICAgIAogICAgICAgIDwvc3Bhbj4KICAgIDwvZGl2PgogICAgPGRpdj4KICAgICAgICA8c3Bh
+bj4KICAgICAgICAgICAgPGJyPgogICAgICAgIDwvc3Bhbj4KICAgIDwvZGl2PgogICAgPGRpdiBp
+ZD0ibnRlcy1wY21hYy1zaWduYXR1cmUiIHN0eWxlPSJmb250LWZhbWlseTonzqLI7dHFutonIj4K
+ICAgICAgICAKICAgICAgICA8ZGl2IHN0eWxlPSJmb250LXNpemU6MTRweDsgcGFkZGluZzogMDsg
+IG1hcmdpbjowOyI+CgogICAgICAgIDwvZGl2PgogICAgPC9kaXY+CjwvZGl2PjwvZGl2Pgo8L2Rp
+dj4KCjwvZGl2Pg==
+------=_Part_66146_384846780.1663573538557--
 
 
