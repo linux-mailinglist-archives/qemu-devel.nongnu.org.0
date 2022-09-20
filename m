@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD05E5BE406
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 12:59:14 +0200 (CEST)
-Received: from localhost ([::1]:55302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F30105BE430
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 13:13:22 +0200 (CEST)
+Received: from localhost ([::1]:36518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaay9-0002dI-LJ
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 06:59:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49818)
+	id 1oabBp-0001Tj-4O
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 07:13:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oaZuj-0000P8-3v
+ id 1oaZuj-0000PP-7E
  for qemu-devel@nongnu.org; Tue, 20 Sep 2022 05:51:44 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:34014 helo=loongson.cn)
+Received: from mail.loongson.cn ([114.242.206.163]:34026 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oaZuc-0005Tz-Sl
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 05:51:33 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1oaZud-0005U4-7S
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 05:51:36 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxnmsCjSljVJ8eAA--.35099S9; 
+ AQAAf8BxnmsCjSljVJ8eAA--.35099S10; 
  Tue, 20 Sep 2022 17:51:29 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, stefanha@gmail.com,
  Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Subject: [PULL v2 7/9] hw/loongarch: Fix acpi ged irq number in dsdt table
-Date: Tue, 20 Sep 2022 17:50:56 +0800
-Message-Id: <20220920095058.4124145-8-gaosong@loongson.cn>
+Subject: [PULL v2 8/9] hw/loongarch: Support memory hotplug
+Date: Tue, 20 Sep 2022 17:50:57 +0800
+Message-Id: <20220920095058.4124145-9-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220920095058.4124145-1-gaosong@loongson.cn>
 References: <20220920095058.4124145-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxnmsCjSljVJ8eAA--.35099S9
-X-Coremail-Antispam: 1UD129KBjvdXoWrKr1DJFy8Ar13tr1DKF1kuFg_yoWDJFXEya
- 43ArnrG3yDJ3W7Jw18Z3yrJr1UXw1Iy3W3CFsrX34kZ3ZYy3y5JFZxtwnrZF1avrWUuw4f
- G3yFgrsYyw1UAjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUUUUUUU
+X-CM-TRANSID: AQAAf8BxnmsCjSljVJ8eAA--.35099S10
+X-Coremail-Antispam: 1UD129KBjvJXoW3JryUCr1Dtr4fWFW5Gw4DArb_yoW3uw4xpa
+ 1UZF90vr4UWFnxZ3s3tr98WF1rAr4Ika4UXF1IyrWkKFnrWryDAryFk34Yga4UA3s5XF15
+ u3s8Ja12ga13JrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
@@ -64,30 +64,243 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 
-In dsdt, acpi ged irq should use gsi number, and the
-VIRT_SCI_IRQ means it.
+Add hotplug/unplug interface for memory device.
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Acked-by: Song Gao <gaosong@loongson.cn>
-Message-Id: <20220908094623.73051-8-yangxiaojuan@loongson.cn>
+Message-Id: <20220908094623.73051-9-yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- hw/loongarch/acpi-build.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/loongarch/Kconfig      |   2 +
+ hw/loongarch/acpi-build.c |  32 +++++++++---
+ hw/loongarch/virt.c       | 105 +++++++++++++++++++++++++++++++++++++-
+ 3 files changed, 132 insertions(+), 7 deletions(-)
 
+diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+index fef55c5638..17d15b6c90 100644
+--- a/hw/loongarch/Kconfig
++++ b/hw/loongarch/Kconfig
+@@ -4,6 +4,7 @@ config LOONGARCH_VIRT
+     select PCI_EXPRESS_GENERIC_BRIDGE
+     imply VIRTIO_VGA
+     imply PCI_DEVICES
++    imply NVDIMM
+     select ISA_BUS
+     select SERIAL
+     select SERIAL_ISA
+@@ -18,3 +19,4 @@ config LOONGARCH_VIRT
+     select ACPI_PCI
+     select ACPI_HW_REDUCED
+     select FW_CFG_DMA
++    select DIMM
 diff --git a/hw/loongarch/acpi-build.c b/hw/loongarch/acpi-build.c
-index d0f01a6485..95e30975a8 100644
+index 95e30975a8..92ee62c11a 100644
 --- a/hw/loongarch/acpi-build.c
 +++ b/hw/loongarch/acpi-build.c
-@@ -367,7 +367,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, MachineState *machine)
-     if (lams->acpi_ged) {
-         build_ged_aml(dsdt, "\\_SB."GED_DEVICE,
-                       HOTPLUG_HANDLER(lams->acpi_ged),
--                      VIRT_SCI_IRQ - PCH_PIC_IRQ_OFFSET, AML_SYSTEM_MEMORY,
-+                      VIRT_SCI_IRQ, AML_SYSTEM_MEMORY,
-                       VIRT_GED_EVT_ADDR);
-     }
+@@ -186,6 +186,12 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+     build_srat_memory(table_data, VIRT_HIGHMEM_BASE, machine->ram_size - VIRT_LOWMEM_SIZE,
+                       0, MEM_AFFINITY_ENABLED);
  
++    if (ms->device_memory) {
++        build_srat_memory(table_data, ms->device_memory->base,
++                          memory_region_size(&ms->device_memory->mr),
++                          0, MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
++    }
++
+     acpi_table_end(linker, &table);
+ }
+ 
+@@ -335,6 +341,25 @@ static void build_uart_device_aml(Aml *table)
+     aml_append(table, scope);
+ }
+ 
++static void
++build_la_ged_aml(Aml *dsdt, MachineState *machine)
++{
++    uint32_t event;
++    LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
++
++    build_ged_aml(dsdt, "\\_SB."GED_DEVICE,
++                  HOTPLUG_HANDLER(lams->acpi_ged),
++                  VIRT_SCI_IRQ, AML_SYSTEM_MEMORY,
++                  VIRT_GED_EVT_ADDR);
++    event = object_property_get_uint(OBJECT(lams->acpi_ged),
++                                     "ged-event", &error_abort);
++    if (event & ACPI_GED_MEM_HOTPLUG_EVT) {
++        build_memory_hotplug_aml(dsdt, machine->ram_slots, "\\_SB", NULL,
++                                 AML_SYSTEM_MEMORY,
++                                 VIRT_GED_MEM_ADDR);
++    }
++}
++
+ /* build DSDT */
+ static void
+ build_dsdt(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+@@ -364,12 +389,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+ 
+     build_gpex_pci0_int(dsdt);
+     build_uart_device_aml(dsdt);
+-    if (lams->acpi_ged) {
+-        build_ged_aml(dsdt, "\\_SB."GED_DEVICE,
+-                      HOTPLUG_HANDLER(lams->acpi_ged),
+-                      VIRT_SCI_IRQ, AML_SYSTEM_MEMORY,
+-                      VIRT_GED_EVT_ADDR);
+-    }
++    build_la_ged_aml(dsdt, machine);
+ 
+     scope = aml_scope("\\_SB.PCI0");
+     /* Build PCI0._CRS */
+diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
+index 0dd57935b0..fe175e873b 100644
+--- a/hw/loongarch/virt.c
++++ b/hw/loongarch/virt.c
+@@ -40,6 +40,7 @@
+ #include "hw/core/sysbus-fdt.h"
+ #include "hw/platform-bus.h"
+ #include "hw/display/ramfb.h"
++#include "hw/mem/pc-dimm.h"
+ 
+ static void create_fdt(LoongArchMachineState *lams)
+ {
+@@ -718,6 +719,35 @@ static void loongarch_init(MachineState *machine)
+                              machine->ram, offset, highram_size);
+     memory_region_add_subregion(address_space_mem, 0x90000000, &lams->highmem);
+     memmap_add_entry(0x90000000, highram_size, 1);
++
++    /* initialize device memory address space */
++    if (machine->ram_size < machine->maxram_size) {
++        machine->device_memory = g_malloc0(sizeof(*machine->device_memory));
++        ram_addr_t device_mem_size = machine->maxram_size - machine->ram_size;
++
++        if (machine->ram_slots > ACPI_MAX_RAM_SLOTS) {
++            error_report("unsupported amount of memory slots: %"PRIu64,
++                         machine->ram_slots);
++            exit(EXIT_FAILURE);
++        }
++
++        if (QEMU_ALIGN_UP(machine->maxram_size,
++                          TARGET_PAGE_SIZE) != machine->maxram_size) {
++            error_report("maximum memory size must by aligned to multiple of "
++                         "%d bytes", TARGET_PAGE_SIZE);
++            exit(EXIT_FAILURE);
++        }
++        /* device memory base is the top of high memory address. */
++        machine->device_memory->base = 0x90000000 + highram_size;
++        machine->device_memory->base =
++            ROUND_UP(machine->device_memory->base, 1 * GiB);
++
++        memory_region_init(&machine->device_memory->mr, OBJECT(lams),
++                           "device-memory", device_mem_size);
++        memory_region_add_subregion(address_space_mem, machine->device_memory->base,
++                                    &machine->device_memory->mr);
++    }
++
+     /* Add isa io region */
+     memory_region_init_alias(&lams->isa_io, NULL, "isa-io",
+                              get_system_io(), 0, VIRT_ISA_IO_SIZE);
+@@ -804,6 +834,73 @@ static void loongarch_machine_initfn(Object *obj)
+     lams->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
+ }
+ 
++static bool memhp_type_supported(DeviceState *dev)
++{
++    /* we only support pc dimm now */
++    return object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) &&
++           !object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM);
++}
++
++static void virt_mem_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
++                                 Error **errp)
++{
++    pc_dimm_pre_plug(PC_DIMM(dev), MACHINE(hotplug_dev), NULL, errp);
++}
++
++static void virt_machine_device_pre_plug(HotplugHandler *hotplug_dev,
++                                            DeviceState *dev, Error **errp)
++{
++    if (memhp_type_supported(dev)) {
++        virt_mem_pre_plug(hotplug_dev, dev, errp);
++    }
++}
++
++static void virt_mem_unplug_request(HotplugHandler *hotplug_dev,
++                                     DeviceState *dev, Error **errp)
++{
++    LoongArchMachineState *lams = LOONGARCH_MACHINE(hotplug_dev);
++
++    /* the acpi ged is always exist */
++    hotplug_handler_unplug_request(HOTPLUG_HANDLER(lams->acpi_ged), dev,
++                                   errp);
++}
++
++static void virt_machine_device_unplug_request(HotplugHandler *hotplug_dev,
++                                          DeviceState *dev, Error **errp)
++{
++    if (memhp_type_supported(dev)) {
++        virt_mem_unplug_request(hotplug_dev, dev, errp);
++    }
++}
++
++static void virt_mem_unplug(HotplugHandler *hotplug_dev,
++                             DeviceState *dev, Error **errp)
++{
++    LoongArchMachineState *lams = LOONGARCH_MACHINE(hotplug_dev);
++
++    hotplug_handler_unplug(HOTPLUG_HANDLER(lams->acpi_ged), dev, errp);
++    pc_dimm_unplug(PC_DIMM(dev), MACHINE(lams));
++    qdev_unrealize(dev);
++}
++
++static void virt_machine_device_unplug(HotplugHandler *hotplug_dev,
++                                          DeviceState *dev, Error **errp)
++{
++    if (memhp_type_supported(dev)) {
++        virt_mem_unplug(hotplug_dev, dev, errp);
++    }
++}
++
++static void virt_mem_plug(HotplugHandler *hotplug_dev,
++                             DeviceState *dev, Error **errp)
++{
++    LoongArchMachineState *lams = LOONGARCH_MACHINE(hotplug_dev);
++
++    pc_dimm_plug(PC_DIMM(dev), MACHINE(lams));
++    hotplug_handler_plug(HOTPLUG_HANDLER(lams->acpi_ged),
++                         dev, &error_abort);
++}
++
+ static void loongarch_machine_device_plug_cb(HotplugHandler *hotplug_dev,
+                                         DeviceState *dev, Error **errp)
+ {
+@@ -815,6 +912,8 @@ static void loongarch_machine_device_plug_cb(HotplugHandler *hotplug_dev,
+             platform_bus_link_device(PLATFORM_BUS_DEVICE(lams->platform_bus_dev),
+                                      SYS_BUS_DEVICE(dev));
+         }
++    } else if (memhp_type_supported(dev)) {
++        virt_mem_plug(hotplug_dev, dev, errp);
+     }
+ }
+ 
+@@ -823,7 +922,8 @@ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
+ {
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
+ 
+-    if (device_is_dynamic_sysbus(mc, dev)) {
++    if (device_is_dynamic_sysbus(mc, dev) ||
++        memhp_type_supported(dev)) {
+         return HOTPLUG_HANDLER(machine);
+     }
+     return NULL;
+@@ -847,6 +947,9 @@ static void loongarch_class_init(ObjectClass *oc, void *data)
+     mc->no_cdrom = 1;
+     mc->get_hotplug_handler = virt_machine_get_hotplug_handler;
+     hc->plug = loongarch_machine_device_plug_cb;
++    hc->pre_plug = virt_machine_device_pre_plug;
++    hc->unplug_request = virt_machine_device_unplug_request;
++    hc->unplug = virt_machine_device_unplug;
+ 
+     object_class_property_add(oc, "acpi", "OnOffAuto",
+         loongarch_get_acpi, loongarch_set_acpi,
 -- 
 2.31.1
 
