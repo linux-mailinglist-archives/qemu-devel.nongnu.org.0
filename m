@@ -2,55 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 992FB5BF0F5
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 01:16:58 +0200 (CEST)
-Received: from localhost ([::1]:50462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C1255BF18A
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 01:51:52 +0200 (CEST)
+Received: from localhost ([::1]:45310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oamU5-0005Zn-Oi
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 19:16:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58784)
+	id 1oan1r-0000i8-Ja
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 19:51:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oaiUv-0007FC-RX
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 15:01:34 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:54232)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oaiUo-0001vs-7A
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 15:01:32 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 3C07174638A;
- Tue, 20 Sep 2022 21:01:21 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id EF46974632C; Tue, 20 Sep 2022 21:01:20 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id EDF9174632B;
- Tue, 20 Sep 2022 21:01:20 +0200 (CEST)
-Date: Tue, 20 Sep 2022 21:01:20 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-cc: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>, 
- laurent@vivier.eu, richard.henderson@linaro.org, lucienmp.qemu@gmail.com, 
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 2/4] target/m68k: increase size of m68k CPU features from
- uint32_t to uint64_t
-In-Reply-To: <1095351c-953f-0d02-a6d6-055c0730e44d@ilande.co.uk>
-Message-ID: <64b860a1-971c-5179-d39d-9f7138e8f0a@eik.bme.hu>
-References: <20220917112515.83905-1-mark.cave-ayland@ilande.co.uk>
- <20220917112515.83905-3-mark.cave-ayland@ilande.co.uk>
- <6aa798e4-73b2-f96b-589c-4ab390cb1ba2@eik.bme.hu>
- <d8e33415-d44b-6e30-057c-c5de5b2f9bb9@amsat.org>
- <1095351c-953f-0d02-a6d6-055c0730e44d@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oaiYu-0001oh-Sn; Tue, 20 Sep 2022 15:05:40 -0400
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:38763)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oaiYs-0002gO-Ud; Tue, 20 Sep 2022 15:05:40 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id x1so3355834plv.5;
+ Tue, 20 Sep 2022 12:05:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc:subject:date;
+ bh=P6RkJlJYnSXUYFlnbR6lGV0+LzVLLBK5JOGkkK5aU5c=;
+ b=XX3HC6ODm+4XfKtnPcVnKlAXYE39pQcdCDp+3aTCPXok/WMttmul7cmVeG517rz8UM
+ XmZPI9ngc00gNHhXowTtgjPyIiJlkXP5dkQQupWTUn5GRSpQ+RJBZj5+XJ+nu+FA1gjL
+ y7gX5+k9xxJwKQnBWKh1OiyJg6HEG673Sy2x5MSdTbjD2LWlaQ/ooediQCxaSL+boDmq
+ fUKl375WSFcEou2Z3fxAcHAdY/Bq75vHZWvDVGRKEPkZMZ2wrEbU8o6gaTBrlnspyNLp
+ 695Nw8sKcCJCeIwmqQ+8JSg024NrMfbKALJGUyre2gyHYU72GdSCXNDhMlv+eu/HGikW
+ Udww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc:subject:date;
+ bh=P6RkJlJYnSXUYFlnbR6lGV0+LzVLLBK5JOGkkK5aU5c=;
+ b=MYqq/JF7Da0k7oq1Ox8l8vZhiSxcLHbQYRH8/AHQCERIDkH+ePnkw1dnEsbo3YlCUI
+ SxgEs5/QWKrNyU2BGr3vkXUAJ0l2kb1Q8QDkZPHk0skTIdzffjhRRyX3+lowWHXsA0zn
+ kKDJSQxVggoSduRC8Fd5vyrwqjMaNskg8rt3bbLs7VX9y0VM2WkEiESMWzmGGtD6ZT8y
+ e1llAg+fGIapzzf2pGJQm1jhYpBXGmHE5uol+fzrMZFT3mVaKgOutayFulmwSpOQD0CE
+ Ezmqc5jaft1Ya6gce6SxFLbEOIcMuaG9SUCVa5jxxGBwcDS70xouZPzdvWfWeVr3Iox3
+ 0v2A==
+X-Gm-Message-State: ACrzQf01yxE10DVvxFjvB4+dIdIUx0/o1YSkwg9kz+ICVbMDVd/BRRX0
+ mQyO3UPxn6SBWnzWrGVTmA0=
+X-Google-Smtp-Source: AMsMyM5vuBL8ko7Zq4vtfVd0DlwuoZF2KvhfVXtuZMdzvMzF2HLM2J2bQ7G5NG6eGxsnlJvzXZSb7w==
+X-Received: by 2002:a17:902:e547:b0:178:2aee:ab1d with SMTP id
+ n7-20020a170902e54700b001782aeeab1dmr1014023plf.29.1663700736599; 
+ Tue, 20 Sep 2022 12:05:36 -0700 (PDT)
+Received: from [192.168.232.175] (29.red-88-29-182.dynamicip.rima-tde.net.
+ [88.29.182.29]) by smtp.gmail.com with ESMTPSA id
+ v28-20020aa799dc000000b0053e4baecc14sm257721pfi.108.2022.09.20.12.05.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Sep 2022 12:05:35 -0700 (PDT)
+Message-ID: <59521509-4c36-2d9a-828d-45e236888095@amsat.org>
+Date: Tue, 20 Sep 2022 21:05:27 +0200
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="3866299591-69413482-1663700480=:97347"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.0
+Subject: Re: [Phishing Risk] [External] Re: [PATCH 0/3] Add a host power device
+Content-Language: en-US
+To: Zhang Jian <zhangjian.3032@bytedance.com>
+Cc: peter.maydell@linaro.org, clg@kaod.org, andrew@aj.id.au, joel@jms.id.au,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, yulei.sh@bytedance.com,
+ tangyiwei.2022@bytedance.com, chentingting.2150@bytedance.com,
+ yuhao.17@bytedance.com, wangxiaohua.1217@bytedance.com,
+ xiening.xll@bytedance.com
+References: <20220919172112.2706026-1-zhangjian.3032@bytedance.com>
+ <8aa93a4f-beef-a0a6-8bac-3b69ba25de7e@amsat.org>
+ <CA+J-oUt96e0kNwDsee8YgmRkKSzPb==aD=VHU0My9a=CV-8RuQ@mail.gmail.com>
+In-Reply-To: <CA+J-oUt96e0kNwDsee8YgmRkKSzPb==aD=VHU0My9a=CV-8RuQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62c.google.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.182,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,121 +96,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-69413482-1663700480=:97347
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Tue, 20 Sep 2022, Mark Cave-Ayland wrote:
-> On 17/09/2022 23:27, Philippe Mathieu-Daudé via wrote:
->
->> On 17/9/22 14:09, BALATON Zoltan wrote:
->>> On Sat, 17 Sep 2022, Mark Cave-Ayland wrote:
->>>> There are already 32 feature bits in use, so change the size of the m68k
->>>> CPU features to uint64_t (allong with the associated m68k_feature()
->>>> functions) to allow up to 64 feature bits to be used.
->>>> 
->>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>>> ---
->>>> target/m68k/cpu.c | 4 ++--
->>>> target/m68k/cpu.h | 6 +++---
->>>> 2 files changed, 5 insertions(+), 5 deletions(-)
->>>> 
->>>> diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
->>>> index f681be3a2a..7b4797e2f1 100644
->>>> --- a/target/m68k/cpu.c
->>>> +++ b/target/m68k/cpu.c
->>>> @@ -38,12 +38,12 @@ static bool m68k_cpu_has_work(CPUState *cs)
->>>> 
->>>> static void m68k_set_feature(CPUM68KState *env, int feature)
->>>> {
->>>> -    env->features |= (1u << feature);
->>>> +    env->features |= (1ul << feature);
+On 20/9/22 17:17, Zhang Jian wrote:
+> Hi Philippe,
+> 
+> Thanks for your reply.
+> 
+> On Tue, Sep 20, 2022 at 7:09 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
 >>
->>          env->features = deposit64(env->features, feature, 1, 1);
->> 
->>>> }
->>>> 
->>>> static void m68k_unset_feature(CPUM68KState *env, int feature)
->>>> {
->>>> -    env->features &= (-1u - (1u << feature));
->>>> +    env->features &= (-1ul - (1ul << feature));
+>> Hi Jian,
 >>
->>          env->features = deposit64(env->features, feature, 1, 0);
->> 
->>> Should these be ull instead of ul?
->> 
->> Yes. Not needed if using the <qemu/bitops.h> extract/deposit API.
->
-> I must admit I find the deposit64() variants not particularly easy to read:
-
-I agree with that and also dislike the dposit/extract functions that would 
-not bring much here. Maybe they are useful for multiple bits but for a 
-single bit they just add overhead and obfuscation.
-
-> if we're considering alterations rather than changing the constant suffix 
-> then I'd much rather go for:
->
->    env->features |= (1ULL << feature);
->
-> and:
->
->    env->features &= ~(1ULL << feature);
-
-There's also a BIT_ULL macro which could be used but it's up to you, 
-shifting 1ULL is also simple enough to read.
-
-Regards,
-BALATON Zoltan
-
-> Laurent, what would be your preference?
->
->>>> }
->>>> 
->>>> static void m68k_cpu_reset(DeviceState *dev)
->>>> diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
->>>> index 67b6c12c28..d3384e5d98 100644
->>>> --- a/target/m68k/cpu.h
->>>> +++ b/target/m68k/cpu.h
->>>> @@ -154,7 +154,7 @@ typedef struct CPUArchState {
->>>>     struct {} end_reset_fields;
->>>> 
->>>>     /* Fields from here on are preserved across CPU reset. */
->>>> -    uint32_t features;
->>>> +    uint64_t features;
->>>> } CPUM68KState;
->>>> 
->>>> /*
->>>> @@ -539,9 +539,9 @@ enum m68k_features {
->>>>     M68K_FEATURE_TRAPCC,
->>>> };
->>>> 
->>>> -static inline int m68k_feature(CPUM68KState *env, int feature)
->>>> +static inline uint64_t m68k_feature(CPUM68KState *env, int feature)
->> 
->> Why uint64_t? Can we simplify using a boolean?
->
-> I don't really feel strongly either way here. Again I'm happy to go with 
-> whatever Laurent would prefer as maintainer.
->
->>>> {
->>>> -    return (env->features & (1u << feature)) != 0;
->>>> +    return (env->features & (1ul << feature)) != 0;
+>> On 19/9/22 19:21, Jian Zhang wrote:
+>>> This patchset adds a host power device and added it into the g220a
+>>> mahcine. The BMC have a important is to control the power of the host,
+>>> usually it is nessary in a hardware platform.
+>>>
+>>> The BMC(soc) usually had a output pin to control the power of the host,
+>>> and a input pin to get the power status of the host.
+>>>
+>>> The host power device is a generic device to simulate the host power,
+>>> accept the power control command from the BMC and report the power
+>>> status.
+>>>
+>>> Test on the g220a machine, the host power control command can be simply
+>>> work.
+>>>
+>>> Jian Zhang (3):
+>>>     hw/gpio/aspeed_gpio: Add gpios in/out init
+>>>     hw/misc/host_power: Add a simple host power device
+>>>     hw/arm/aspeed: g220a: Add host-power device
 >>
->>          return extract64(env->features, feature, 1) == 1;
->> 
->>>> }
->>>> 
->>>> void m68k_cpu_list(void);
->
->
-> ATB,
->
-> Mark.
->
->
---3866299591-69413482-1663700480=:97347--
+>> "power-good" is just a TYPE_LED object, but it doesn't seem you are
+>> really interested in using it.
+>>
+> yeah, i'd like to just send an irq when the `switch` status changed.
+
+You can do that using feeding the switch latch output to a 2-lines
+TYPE_SPLIT_IRQ object, then wire 1 line to the SoC input, and the
+other one to the TYPE_LED input.
 
