@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 505C85BF1EF
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 02:26:10 +0200 (CEST)
-Received: from localhost ([::1]:48700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 480375BF1FA
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 02:30:58 +0200 (CEST)
+Received: from localhost ([::1]:54862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oanZ3-0005Ke-DS
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 20:26:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47468)
+	id 1oandh-0002e1-Ev
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 20:30:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oajjB-00069U-UP
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 16:20:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31492)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=KZsR=ZX=zx2c4.com=Jason@kernel.org>)
+ id 1oakGZ-0007NV-VM
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 16:54:51 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:38912)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oajj3-0000rL-2q
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 16:20:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663705210;
+ (Exim 4.90_1)
+ (envelope-from <SRS0=KZsR=ZX=zx2c4.com=Jason@kernel.org>)
+ id 1oakGW-0006qe-Tw
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 16:54:51 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id B7A19B82CE2;
+ Tue, 20 Sep 2022 20:54:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F092DC433D6;
+ Tue, 20 Sep 2022 20:54:42 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="KJ16/knb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1663707280;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=V9P3yZ6HwV7PaF2SgQi8ewBSSKSZC525WP+eBYriWWk=;
- b=B8u39hdREPCluIXHF4QffqtVh23pWbC4jkwQ489MtL5WUYd69y0i6XlHFLO/aAHDdBfbp4
- SLz+nUzTOEzlt7yOpZ6W3z28sPtv34ARwq3wBOm552mTZ0QIOk+tX3uqUdj16z4pFBK2ET
- 5J4ctpcOOJbr5EzCtQRH54iylbXcWU8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-610-Az2CP58wMO-f9jf9APHb6Q-1; Tue, 20 Sep 2022 16:20:05 -0400
-X-MC-Unique: Az2CP58wMO-f9jf9APHb6Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 161D88630D7;
- Tue, 20 Sep 2022 20:20:05 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.95])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 982342166B2E;
- Tue, 20 Sep 2022 20:20:04 +0000 (UTC)
-Date: Tue, 20 Sep 2022 16:19:55 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Song Gao <gaosong@loongson.cn>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org, stefanha@gmail.com
-Subject: Re: [PULL v2 0/9] loongarch-to-apply queue
-Message-ID: <YyogaycTLTCkWuv4@fedora>
-References: <20220920095058.4124145-1-gaosong@loongson.cn>
+ bh=HaCexwctgcdOqbjdHtHVH+buepZimqZcmXBHNKwQnww=;
+ b=KJ16/knbY9AOwxMJt8c+Aih1wsJp9xtClvB4cU5lj7uOPZC/uBX2nAyXVY6hqNAqIKl7EF
+ /yG709Ym3U6hvyKN2uGrwlaS4LyMNczLZvqIgnshxVIjw25ff2xqSuEInCyi3ZFbB2C6zQ
+ dDfNW+ESHsy3XSdzI+yCxhOY4L+0W6I=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 715647ec
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Tue, 20 Sep 2022 20:54:40 +0000 (UTC)
+Date: Tue, 20 Sep 2022 22:54:38 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, stefanha@redhat.com
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] qboot: update to latest submodule
+Message-ID: <Yyooji0KGTpZxzL1@zx2c4.com>
+References: <20220919134126.75656-1-pbonzini@redhat.com>
+ <CAHmME9rkethn5PHDkB8CupEBOYWFnzfA9c_YkmB_YMt64ci3pQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="FQX7fMs0yk90i7cI"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220920095058.4124145-1-gaosong@loongson.cn>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAHmME9rkethn5PHDkB8CupEBOYWFnzfA9c_YkmB_YMt64ci3pQ@mail.gmail.com>
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=SRS0=KZsR=ZX=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,30 +80,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Sep 19, 2022 at 04:35:54PM +0200, Jason A. Donenfeld wrote:
+> FYI, that commit made it to:
+> 
+> https://github.com/bonzini/qboot
+> 
+> But wasn't pushed to:
+> 
+> https://github.com/qemu/qboot
+> https://gitlab.com/qemu-project/qboot
+> https://git.qemu.org/?p=qboot.git;a=summary
+> 
+> I have no idea what's canonical, except that the submodule in the qemu
+> checkout seems to point to the gitlab instance.
+> 
 
---FQX7fMs0yk90i7cI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+With my prior email being ignored, this played out exactly as I
+predicted it would:
 
-Applied, thanks.
+Fetching submodule roms/qboot
+fatal: remote error: upload-pack: not our ref 8ca302e86d685fa05b16e2b208888243da319941
+Errors during submodule fetch:
+        roms/qboot
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
+Can somebody push https://github.com/bonzini/qboot to
+https://gitlab.com/qemu-project/qboot please? It will only take a
+second.
 
---FQX7fMs0yk90i7cI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMqIGsACgkQnKSrs4Gr
-c8hSlQf8CnQ/iV0RPAn4624iriDJEKb9W4cZPP8vMfr9mQ9JnsWpKMKXwW8YiWA6
-hf8NaKnR6OYa/TE2UBSsJ3gN/4e+C1x2sD4usHKCb8qYp34uevxdP3pYzqf3xl45
-35BZE65MGfQpP1YBnir4lvqCjWbDwbOvSAZGjIviTDqrDklperiI+d1L6+OTATFs
-tnW/VfqfwhJjcd0zUWVse+xdz3to/rlemQitFORGbq0FB5M4kUGMUBdb6h+NHrAy
-G7XKeowE/K9GVO9DYZPopg0K7/cCKhLFrA34WtboOUdeZw6d8HKbVSxPSiSunoDX
-FaLr7eug3CLswjxS1OeffH9vFFNZ4A==
-=Tf3E
------END PGP SIGNATURE-----
-
---FQX7fMs0yk90i7cI--
-
+Thanks,
+Jason
 
