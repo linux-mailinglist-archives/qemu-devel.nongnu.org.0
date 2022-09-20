@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F1CA5BF1B4
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 02:07:31 +0200 (CEST)
-Received: from localhost ([::1]:55134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E19065BF1D1
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 02:13:42 +0200 (CEST)
+Received: from localhost ([::1]:40076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oanH0-0004py-89
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 20:07:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46216)
+	id 1oanN0-0007om-0s
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 20:13:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oaj8v-0001SL-WA; Tue, 20 Sep 2022 15:42:57 -0400
-Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:41663)
+ id 1oaj8x-0001Sh-SS; Tue, 20 Sep 2022 15:42:58 -0400
+Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31]:35768)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oaj8s-0001sA-D9; Tue, 20 Sep 2022 15:42:52 -0400
-Received: by mail-oi1-x22e.google.com with SMTP id r125so5091811oia.8;
- Tue, 20 Sep 2022 12:42:40 -0700 (PDT)
+ id 1oaj8t-0001qN-MW; Tue, 20 Sep 2022 15:42:54 -0400
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-1225219ee46so5847719fac.2; 
+ Tue, 20 Sep 2022 12:42:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=XEFMl/F9fXeFGAmmZTne9RFTH5sYwxvE5sveyj0yfbk=;
- b=TH7DhTI0ttrvfhcuzMjRBV015F1v/ml5yvmx4CCzo18egjfSpCxCOrdSEOD41uSXX0
- U7iVXwYGq+3LKLXXQEprAY+6IithN8hkKoPMlIAfv5PdZTED+ZLlRM6MxHR26i0kSNoG
- RT4AgrtJ9vZ2MP9MyGgLm/OiKR8Mkcsa6TJo8bBM5ADKHnHzV7h3mebp2WtUTcT8xhs2
- 34xtOPZVd+BBQJViGWeg9KJoTPTiek+5Cqp9dj3cp9EfPvuN9UoDDOfB6PcEowLG+51h
- a9hPGFquY1Kz2FJICdGQpxYXymL/TRbPMGS6UwREnzhWMC9/K/zu+Vipd0kmfq5THQ0i
- JXAA==
+ bh=E1ZW3R369fl4sNndujbvRpTTimpZscgn50GpfMEXvxI=;
+ b=Yif32ayi3OuIYZVthtXXRE6ZuDrGYKLp1r8ImMw54g2GP1i5AANfGQ+VEP7CdRIxZS
+ OFN1RvsNJwiRpi6FFkQIsCI+ZxWIg5lDKQGg1y1n0corHB9b8AovP42iWDZ/b+TqNhlC
+ yUH/jh53IWvqChG6feLSsdU7ZKHMTWswssmaaVJ9W7NlpMd6qQxbpbEQ/EaAbHYrEBvv
+ SY1D5N2JYseUzXW8osY8YaWUunocLRfzGEawUivDBr+ElnPhg9jvYd0d5qKCw1sLgefv
+ c0zPBWlAxdOsaIobslK2jQVRFffq3pOY4RxyQ66+2E9vAK8b/96gNkHNdGEHrr5QQUQW
+ v7Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=XEFMl/F9fXeFGAmmZTne9RFTH5sYwxvE5sveyj0yfbk=;
- b=7orWrqBnwCkBGNca+oIVlUzcPVqKakSoOp3ejVju2ahiYIXznqFt6s7igJPoVDWPkl
- rYDiJQx3vqRCBfc2YYB6Ay3U6PMoF+kjYWlNhuNyPaQC4JTTUbxEFz4DQBUnlGMZT381
- yggDHwt4afxe+0nvuGU1VnNsCsKVZBJVssuBnAlNDea6yhk6BeoZH6t1zKVOhZl4vudZ
- oszbqMvdM0SviwlUHtE0kKmaRX5pyJEyUa77/rV0EZJC3VFFw2/vdx/NO2YGW20aVxwe
- TDrxSWVxid1UjJCkaNjeoOX5Vghf9NDdIYBeBOduj7W6ZtPmVu+YT8zsjI0WtuQAWi7j
- 9E0Q==
-X-Gm-Message-State: ACrzQf20flSRyqQWWSTpt2ctevPSm0SaaX/MMRcoBaq0fIf6YetzDa4Z
- p/Kmks6GFVLbSyju2KXyfvB+Zq/7/Go=
-X-Google-Smtp-Source: AMsMyM4rn+AIbxJPRmFqGJV8HaLQsZA9Rx0CyUcvMohw9mNFl8ZPmu3ABqGphsrskptPfDJNwNkP4w==
-X-Received: by 2002:a05:6808:3013:b0:34d:7e2b:4f01 with SMTP id
- ay19-20020a056808301300b0034d7e2b4f01mr2371148oib.233.1663702959552; 
- Tue, 20 Sep 2022 12:42:39 -0700 (PDT)
+ bh=E1ZW3R369fl4sNndujbvRpTTimpZscgn50GpfMEXvxI=;
+ b=6CouD7NSIUxuf2HGsyqfkjE2gAIrR4NmJcRvPddDYXkpbrJ20gbzQWN+A85WmNMNLo
+ rt/FaNMEjyCCvdyj5cSfxq2k0EzlsNAT3FEkA+ECMC3+XwO0rPHFX+W8Law3nzNvmiHa
+ Hj3NCAQjqbVWrBJk/mvRGHufLTSeSyW86elfujv43ZNZkVuZdG3yYXmHThf8wLPZB3OZ
+ yNKDmUXrVUzkQklKiaQ+0BOKkPO9Mc2FKIwvWuar9sNNoBxtSv8A9TxGA7JDUlISuRgz
+ Lh6hmLPJl0fcES/eSw3rcJXFpa7wUBZu7LGKCqGFiqlLB5phjCmrw6/wPM9Sk83HYUK5
+ dHxA==
+X-Gm-Message-State: ACrzQf13GtUXKGWBAIkCtV0IKoz7YBoZ9Gtltz0kvnYmOQb4TAAMvhLA
+ UturA4NgYMFF26RN0kVDMbWGzkK/I6s=
+X-Google-Smtp-Source: AMsMyM6goOJV4ROKHQvFY9nOq4HJpF26/j+BVK7ulM9YpVtU41DkHrOjkhtmKsNqyAbccKwOSey+BA==
+X-Received: by 2002:a05:6870:9107:b0:12c:e448:c5fd with SMTP id
+ o7-20020a056870910700b0012ce448c5fdmr2969373oae.55.1663702970042; 
+ Tue, 20 Sep 2022 12:42:50 -0700 (PDT)
 Received: from balboa.COMFAST ([191.193.2.69])
  by smtp.gmail.com with ESMTPSA id
- e33-20020a05687023a100b0012763819bcasm333808oap.50.2022.09.20.12.42.37
+ e33-20020a05687023a100b0012763819bcasm333808oap.50.2022.09.20.12.42.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 12:42:39 -0700 (PDT)
+ Tue, 20 Sep 2022 12:42:49 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org,
- =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 11/17] target/ppc: Zero second doubleword for VSX madd
- instructions
-Date: Tue, 20 Sep 2022 16:41:56 -0300
-Message-Id: <20220920194202.82615-12-danielhb413@gmail.com>
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PULL 15/17] hw/ppc: spapr: Use qemu_vfree() to free spapr->htab
+Date: Tue, 20 Sep 2022 16:42:00 -0300
+Message-Id: <20220920194202.82615-16-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220920194202.82615-1-danielhb413@gmail.com>
 References: <20220920194202.82615-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22e.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::31;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x31.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -92,37 +93,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Víctor Colombo <victor.colombo@eldorado.org.br>
+From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 
-In 205eb5a89e we updated most VSX instructions to zero the
-second doubleword, as is requested by PowerISA since v3.1.
-However, VSX_MADD helper was left behind unchanged, while it
-is also affected and should be fixed as well.
+spapr->htab is allocated by qemu_memalign(), hence we should use
+qemu_vfree() to free it.
 
-This patch applies the fix for MADD instructions.
-
-Fixes: 205eb5a89e ("target/ppc: Change VSX instructions behavior to fill with zeros")
-Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+Fixes: c5f54f3e31bf ("pseries: Move hash page table allocation to reset time")
+Fixes: b4db54132ffe ("target/ppc: Implement H_REGISTER_PROCESS_TABLE H_CALL"")
+Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20220906125523.38765-6-victor.colombo@eldorado.org.br>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20220920103159.1865256-28-bmeng.cn@gmail.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/fpu_helper.c | 2 +-
+ hw/ppc/spapr.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 32995179b5..f07330ffc1 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -2167,7 +2167,7 @@ VSX_TSQRT(xvtsqrtsp, 4, float32, VsrW(i), -126, 23)
- void helper_##op(CPUPPCState *env, ppc_vsr_t *xt,                             \
-                  ppc_vsr_t *s1, ppc_vsr_t *s2, ppc_vsr_t *s3)                 \
- {                                                                             \
--    ppc_vsr_t t = *xt;                                                        \
-+    ppc_vsr_t t = { };                                                        \
-     int i;                                                                    \
-                                                                               \
-     helper_reset_fpstatus(env);                                               \
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index fb790b61e4..cc1adc23fa 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -1522,7 +1522,7 @@ int spapr_hpt_shift_for_ramsize(uint64_t ramsize)
+ 
+ void spapr_free_hpt(SpaprMachineState *spapr)
+ {
+-    g_free(spapr->htab);
++    qemu_vfree(spapr->htab);
+     spapr->htab = NULL;
+     spapr->htab_shift = 0;
+     close_htab_fd(spapr);
 -- 
 2.37.3
 
