@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 799395BF1D7
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 02:14:37 +0200 (CEST)
-Received: from localhost ([::1]:54816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24BEC5BF1C9
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 02:12:16 +0200 (CEST)
+Received: from localhost ([::1]:41604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oanNs-0001Ya-Kk
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 20:14:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44070)
+	id 1oanLb-0005Xl-6n
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 20:12:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oam5D-0003i5-10
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oam5D-0003lA-Gu
  for qemu-devel@nongnu.org; Tue, 20 Sep 2022 18:51:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48813)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59279)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oam5A-0001QE-Lb
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 18:51:14 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oam5A-0001QF-RA
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 18:51:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663714271;
+ s=mimecast20190719; t=1663714272;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=20n+HqHIDt4XMNU3hK6k/ngTrHInght+RhwNTmzdlCg=;
- b=aJPWZb+Zb43FtU3ZrMCfGyQw2bnvjuk8SlIwz9osVll0eMrV3gnhuOd+S9zMVPr5abYMHX
- vRjb352+9iVEzYZOxNUzSCxN7fwAVZye5jdkFnTcia3YO/vcsgEKbB36/xDjjc6hawvk0r
- +GEQTqvKrgzR68wRYxjAmCAPbN0sg6A=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nrFe7joiBGxWYq/BylgVOGeA8n5rVAbNSYrRgCoSmoE=;
+ b=HQsJ+2hSocNgkYEZ9JDTJnqYR6REqN5l5vsX3MBwl8G6Vj47D1EiJ/4x494BCT0e8tokyr
+ sM5+/ZkgpAreVWjKg32D9K2gz8CxdQTZC0o9GvQoffNLCsE0EWpEvIp3ac5+1wOeshidKx
+ r6O/4ImLGsJSYJtYEf45XIlcIHaJeMc=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-142-CusPfuOcNJWoAHq6b0Exag-1; Tue, 20 Sep 2022 18:51:10 -0400
-X-MC-Unique: CusPfuOcNJWoAHq6b0Exag-1
-Received: by mail-qv1-f70.google.com with SMTP id
- y7-20020ad45307000000b004ac7fd46495so3057020qvr.23
+ us-mta-265-ywqhi4rxNgmHCiFACnqFWg-1; Tue, 20 Sep 2022 18:51:11 -0400
+X-MC-Unique: ywqhi4rxNgmHCiFACnqFWg-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ c1-20020a0cfb01000000b00495ad218c74so3065444qvp.20
  for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 15:51:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=20n+HqHIDt4XMNU3hK6k/ngTrHInght+RhwNTmzdlCg=;
- b=cDaXb+DQSRP6LPmEbL/raltJxUvkwibHyYtpsBV+pUc3pNo/Csu+fXLkeogFe3FPEI
- xSw0IoTCcOyIIdBlBYtjEzVudClpn6lM/iCE0Y+HpJ31EFPgvZd1lAcYZ5DbFUJNSgzb
- XaBD3QIRZ2EOv0H6E5S8HAcRMc3mnQc+2lnV18WTy7soo8XZEDbAqXJPjBBcP4tZmybZ
- tqfQDSKieRWoR+fOKkvxKa00fMlOdw5WQJYe0q4AU3fAoDEmOKt+iyw2cV5JF1Ku28uL
- zWEfTjKoIXSGdr5+G/nXPstm7WTLVeyz+s/c5uYyqelfABWkxYtp18bPYTJ2Nq5Cu42O
- 97Ww==
-X-Gm-Message-State: ACrzQf1QOuUwojn6CSJ5V0a+SPgACU42SzVCrxDZsXShxKHwgrkousfP
- TzOBQw0GanjRrs9ZKMpA/xQHyUUtUZVId1We4qJ3/U2KtNmuryMkfV2mUUASwFh02UtZPDAPT3J
- 9mVRuR8864j4y4dXjNrVfoAfiEXgicsMmDUY9AZcorsXOPDvBA+khkZQ1PmPHr/Sm
-X-Received: by 2002:a05:622a:c5:b0:35c:f238:b0a4 with SMTP id
- p5-20020a05622a00c500b0035cf238b0a4mr7776535qtw.92.1663714269838; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=nrFe7joiBGxWYq/BylgVOGeA8n5rVAbNSYrRgCoSmoE=;
+ b=hSHkcskBmv3m0/gL66A3HPu3Gz7qH/5OD9am+h0SW8zSagwro7NisBxhn0Ba9zQUzG
+ wMQhbkNqkQxrzqEzqfgAESIN2M2lVtqfVK2EFbPLw9fLBgxcN1pJZexD2blbyG9McyCP
+ mwhQuqfvftk87hkSmhnr4d3R4KBnJX+F15ffvwUMnH+ArigBkYZWQvFapuomnyc0t5vt
+ GLfitNsmM2DY16fnuNaJJAqat2IMneBzYIB7Za9K4yHiEDWsVO8U2JdUCe7fggagwPI5
+ mQz3qIroxa0QRMdsjZKt6sTjPV70ovBTn9xeGtdkeMZ29Lcx4rJf+vLdCYLQaee2sqjZ
+ 9PFQ==
+X-Gm-Message-State: ACrzQf0b8rHuY5kykKRLrzorzIyxRqMnaYKx/LhKE8OJVubW2jnKK0Jd
+ mlv4OxxV6GhK1XP1ftbOpUnMbeuGDcP3wjjssq5sQo1Xw+sLvVyANfH7LLGJDTvhNakeyoCYh3m
+ xi3qC2gqrT3zmkrL7fTIxhf2k4eZyIa8TP3qyHoxxvISWMtXRReKWJvgUShPDh1xX
+X-Received: by 2002:a05:620a:490a:b0:6ce:d88f:30fe with SMTP id
+ ed10-20020a05620a490a00b006ced88f30femr13484513qkb.534.1663714270157; 
+ Tue, 20 Sep 2022 15:51:10 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5R/fIYX222ygjCJQ8pnogOuVhm+XeuKINlmp67r7LfNq5bbx440igQazEksRzjHVXuLCh4XQ==
+X-Received: by 2002:a05:620a:490a:b0:6ce:d88f:30fe with SMTP id
+ ed10-20020a05620a490a00b006ced88f30femr13484497qkb.534.1663714269900; 
  Tue, 20 Sep 2022 15:51:09 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6BJoXQOUwRrD6hk9ivLXXNVAVGRoNDFvhcCkPn9z4Qud9ofvFBM5MMM+EtV6WnIxnz2GVNTA==
-X-Received: by 2002:a05:622a:c5:b0:35c:f238:b0a4 with SMTP id
- p5-20020a05622a00c500b0035cf238b0a4mr7776488qtw.92.1663714268797; 
- Tue, 20 Sep 2022 15:51:08 -0700 (PDT)
 Received: from localhost.localdomain
  (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca. [70.31.27.79])
  by smtp.gmail.com with ESMTPSA id
- j12-20020ac8440c000000b0035d0655b079sm275470qtn.30.2022.09.20.15.51.07
+ j12-20020ac8440c000000b0035d0655b079sm275470qtn.30.2022.09.20.15.51.08
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 20 Sep 2022 15:51:08 -0700 (PDT)
+ Tue, 20 Sep 2022 15:51:09 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
@@ -68,14 +70,16 @@ Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Juan Quintela <quintela@redhat.com>,
  Leonardo Bras Soares Passos <lsoaresp@redhat.com>, ani@anisinha.ca,
  "Daniel P . Berrange" <berrange@redhat.com>
-Subject: [PATCH 00/14] migration: Postcopy Preempt-Full
-Date: Tue, 20 Sep 2022 18:50:52 -0400
-Message-Id: <20220920225106.48451-1-peterx@redhat.com>
+Subject: [PATCH 01/14] migration: Add postcopy_preempt_active()
+Date: Tue, 20 Sep 2022 18:50:53 -0400
+Message-Id: <20220920225106.48451-2-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20220920225106.48451-1-peterx@redhat.com>
+References: <20220920225106.48451-1-peterx@redhat.com>
 MIME-Version: 1.0
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -99,80 +103,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based-on: <20220920223800.47467-1-peterx@redhat.com>
-  [PATCH 0/5] migration: Bug fixes (prepare for preempt-full)
+Add the helper to show that postcopy preempt enabled, meanwhile active.
 
-Tree is here:
-  https://github.com/xzpeter/qemu/tree/preempt-full
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ migration/ram.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-RFC:
-  https://lore.kernel.org/qemu-devel/20220829165659.96046-1-peterx@redhat.com
-
-This patchset is the v1 formal version of preempt-full series.  The RFC tag
-is removed as more tests was done, and all items mentioned in the TODO
-items previously in the RFC cover letters are implemented in this patchset.
-
-A few patches are added. Most of the patches are still the same as the RFC
-ones but may have some trivial touch ups here and there.  E.g., comment
-touch-ups as Dave used to suggest on bitmap_mutex.  If to have a look on
-the diff stat we'll see mostly "+" is the same as "-" this time though,
-because with the rp-return thread change we can logically drop a lot of
-complicated preempt logic previously maintained in migration thread:
-
-  3 files changed, 371 insertions(+), 399 deletions(-)
-
-Feel free to have a look at patch "migration: Remove old preempt code
-around state maintainance" where we dropped a lot of old code on preempt
-state maintainance of migration thread (but the major part of the preempt
-old code still needs to be there, e.g. channel managements) along with the
-break-huge parameter (as we never need to break-huge anymore.. because we
-already run in parallel).
-
-Comparing to the recently merged preempt mode I called it "preempt-full"
-because it threadifies the postcopy channels so now urgent pages can be
-fully handled separately outside of the ram save loop.
-
-The existing preempt code has reduced ramdom page req latency over 10Gbps
-network from ~12ms to ~500us which has already landed.
-
-This preempt-full series can further reduces that ~500us to ~230us per my
-initial test.  More to share below.
-
-Note that no new capability is needed, IOW it's fully compatible with the
-existing preempt mode.  So the naming is actually not important but just to
-identify the difference on the binaries.
-
-The logic of the series is simple: send urgent pages in rp-return thread
-rather than migration thread.  It also means rp-thread will take over the
-ownership of the newly created preempt channel.  It can slow down rp-return
-thread on receiving page requests, but I don't really see a major issue
-with it so far but only benefits.
-
-For detailed performance numbers, please refer to the rfc cover letter.
-
-Please have a look, thanks.
-
-Peter Xu (14):
-  migration: Add postcopy_preempt_active()
-  migration: Cleanup xbzrle zero page cache update logic
-  migration: Trivial cleanup save_page_header() on same block check
-  migration: Remove RAMState.f references in compression code
-  migration: Yield bitmap_mutex properly when sending/sleeping
-  migration: Use atomic ops properly for page accountings
-  migration: Teach PSS about host page
-  migration: Introduce pss_channel
-  migration: Add pss_init()
-  migration: Make PageSearchStatus part of RAMState
-  migration: Move last_sent_block into PageSearchStatus
-  migration: Send requested page directly in rp-return thread
-  migration: Remove old preempt code around state maintainance
-  migration: Drop rs->f
-
- migration/migration.c |  47 +--
- migration/multifd.c   |   2 +-
- migration/ram.c       | 721 ++++++++++++++++++++----------------------
- 3 files changed, 371 insertions(+), 399 deletions(-)
-
+diff --git a/migration/ram.c b/migration/ram.c
+index 1d42414ecc..d8cf7cc901 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -162,6 +162,11 @@ out:
+     return ret;
+ }
+ 
++static bool postcopy_preempt_active(void)
++{
++    return migrate_postcopy_preempt() && migration_in_postcopy();
++}
++
+ bool ramblock_is_ignored(RAMBlock *block)
+ {
+     return !qemu_ram_is_migratable(block) ||
+@@ -2434,7 +2439,7 @@ static void postcopy_preempt_choose_channel(RAMState *rs, PageSearchStatus *pss)
+ /* We need to make sure rs->f always points to the default channel elsewhere */
+ static void postcopy_preempt_reset_channel(RAMState *rs)
+ {
+-    if (migrate_postcopy_preempt() && migration_in_postcopy()) {
++    if (postcopy_preempt_active()) {
+         rs->postcopy_channel = RAM_CHANNEL_PRECOPY;
+         rs->f = migrate_get_current()->to_dst_file;
+         trace_postcopy_preempt_reset_channel();
+@@ -2472,7 +2477,7 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
+         return 0;
+     }
+ 
+-    if (migrate_postcopy_preempt() && migration_in_postcopy()) {
++    if (postcopy_preempt_active()) {
+         postcopy_preempt_choose_channel(rs, pss);
+     }
+ 
 -- 
 2.32.0
 
