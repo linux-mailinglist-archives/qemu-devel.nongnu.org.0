@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9A55BE7CD
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 15:58:16 +0200 (CEST)
-Received: from localhost ([::1]:47634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41E3E5BE7E6
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 16:03:53 +0200 (CEST)
+Received: from localhost ([::1]:38104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oadlP-0000EO-S8
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 09:58:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34248)
+	id 1oadqq-0006ZP-8Q
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 10:03:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oabIp-0000zr-2O
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 07:20:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42356)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oabIj-0006Zt-0f
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 07:20:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663672826;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NSqyQOsJHufVTFgOdKHhYe604XvGa3LgfdXODHa1Q0k=;
- b=asH1+3z/dlElNSTBkNrhfb2i561ukQo7y69NbWTdfqOcfFWnETOLE3jeyxG/VqGbFDb+Xm
- NX5QLJvy6PTW19oj6WBv+X5uq/FTWQB4nIcZV3MHGHl4aJWIss6iLZu/fu4B/W8KP73ygG
- wEBqTTfVCE3tW+VrsEm8lgWLIgkudbI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-500-Plu-8_MhOlinyKCHJgnzMg-1; Tue, 20 Sep 2022 07:20:23 -0400
-X-MC-Unique: Plu-8_MhOlinyKCHJgnzMg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E70171C1BD29;
- Tue, 20 Sep 2022 11:20:22 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F03C40C6EC3;
- Tue, 20 Sep 2022 11:20:22 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 79DCB180039F; Tue, 20 Sep 2022 13:20:20 +0200 (CEST)
-Date: Tue, 20 Sep 2022 13:20:20 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>
-Subject: Re: [PATCH v2 10/39] hw/usb: dev-mtp: Use g_mkdir()
-Message-ID: <20220920112020.vkt45ifukj2asakk@sirius.home.kraxel.org>
-References: <20220920103159.1865256-1-bmeng.cn@gmail.com>
- <20220920103159.1865256-11-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oaajJ-00017U-P7
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:43:55 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:36486)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oaajI-0006vO-9R
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:43:53 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id 13so5145110ejn.3
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 03:43:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=5mr4Y5RdId+omuTpYV9/bPWYx6x+e2AED17JsG4+Txg=;
+ b=Xho2FtAbi5CM7MYsV5lo3JQXMQFN2hyEv+L2P0klhQbQWoRFX7yvbO4RlKGLuARTGg
+ RgzSG+zc2WZxl32iGma3UQXinKdHFwEnWnv2aBMPh/R5PsCz4urj6KRh/2oCUdAiyuhu
+ WQ+8SVO1GH0IQJtHeLm2LVK8mgy/bFYhjKeUydvs1fvhNj9i+miZzhguZxhx4DdXWTtj
+ FXrz1jSiRJ8Gt9wU8999DUiQdaK0Chhr85I/fW7VELn0KN9j27duug2LCoEJHfTYk8wJ
+ +nTgi8QTM0NpOLhilWLatGGElDRA7krBciZ9gyrMQBvsVJ1yWmekgFV2otOuAsW17j/R
+ ViFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=5mr4Y5RdId+omuTpYV9/bPWYx6x+e2AED17JsG4+Txg=;
+ b=6OxDspjXgA/sRBxu3pEEJOs+elpFYyYXlUD0uB1Il0x2OucjHDLXgbAGCZpcyYilex
+ Tb+dJ+bUHLwR+kSAtsNJwUxWjORDaXbUM91ftRzTYEyGyxQWjHHTDBY203BvNalU/D6F
+ DFOb/0b46nhidhO7524NWt+5AhRWnoZ+OQaWejaRZasOeYD/RdKR0HIShIEiUJUENPJ3
+ 3e1U6Sc47IN3HFONiLW4SDO9/l1LHdTa5Zt8bZzCO8EqfqGtaKm9eWFhSBuxsBcO0OQY
+ qPAhPjafUHyaKadq5kOCbt3k3jv3kZ5uCJrUM+yxWhBaWNa+nNbC3uiPs3SdBik6ghln
+ Hrww==
+X-Gm-Message-State: ACrzQf2iEm8FIOBac/wPhakJJg+2W2QFgnhLPabCPEDvOVmVBGUgtsvT
+ lrfSiLJGaTcy/mD0GY8WneHPrT0fkIddpAcEE4y/T59326E=
+X-Google-Smtp-Source: AMsMyM7AErh78/oEhLlv6DI2oXf1/PYXUIfimAYe7tRvHvCJQgz8AuWZvGzNtsycIC8vy+P9BrmLdU/4ZlO5gxKv6L4=
+X-Received: by 2002:a17:907:2bd5:b0:76f:591c:466b with SMTP id
+ gv21-20020a1709072bd500b0076f591c466bmr15672770ejc.504.1663670630722; Tue, 20
+ Sep 2022 03:43:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220920103159.1865256-11-bmeng.cn@gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20220905202259.189852-1-richard.henderson@linaro.org>
+ <20220905202259.189852-3-richard.henderson@linaro.org>
+In-Reply-To: <20220905202259.189852-3-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 20 Sep 2022 11:43:39 +0100
+Message-ID: <CAFEAcA_mNbBujzBQFvs4WLkGCnmzjWJq37NRn3e+7qN8470NcA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/6] accel/tcg: Drop addr member from SavedIOTLB
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, f4bug@amsat.org, qemu-arm@nongnu.org, 
+ pbonzini@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,13 +84,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 20, 2022 at 06:31:30PM +0800, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
-> 
-> Use g_mkdir() to create a directory on all platforms.
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+On Mon, 5 Sept 2022 at 21:27, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This field is only written, not read; remove it.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
+thanks
+-- PMM
 
