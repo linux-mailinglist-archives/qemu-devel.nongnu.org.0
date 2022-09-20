@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D895BEEB2
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 22:43:50 +0200 (CEST)
-Received: from localhost ([::1]:35976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76C9D5BEEC0
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 22:51:47 +0200 (CEST)
+Received: from localhost ([::1]:43572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oak5t-0005Zg-Sh
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 16:43:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47974)
+	id 1oakDa-00036z-5y
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 16:51:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1oafV5-0007RF-S8
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:49:31 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:42868)
+ (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1oafV7-0007TH-Hd
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:49:34 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:34428)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1oafV4-0003FK-1F
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:49:31 -0400
-Received: by mail-wr1-x436.google.com with SMTP id n12so4958386wrx.9
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 08:49:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1oafV5-0003FS-VS
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:49:33 -0400
+Received: by mail-wr1-x435.google.com with SMTP id z6so5049416wrq.1
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 08:49:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=fXeyrAP5y2x5Vu1erUVzC9sKDBemEdcHty7tXEogvkc=;
- b=ONFMDy0mzR5QPnB/sG2ab/XPU8QVkOalCloBxP3jcuSWaaDVoQMCJsqQO8uLXncoc/
- us4mF2/jLk4IvjHIDh2iespYh0FqkOThP1mufWBHFjJJg1oVtfCR8QOq3ILBjQda1gvO
- eU4vpNRYJ0gMhIhMJDFU6VOxPx+m0oWgQaU5nYM2axeOdhFbdchpcy0hppPUjNkVWrXj
- 7fsNHn3kr0soFgkRTBNSYr3cCdIBFOWpVxBDiXTGAtSXHUDgtFYNSlyep8Gv3hZGSUP9
- n/v2d1Dyx3Fug20NjAALFiBGyO6S35uSO0hcoKIxNZH4xeMz6lhkzDd/oK35nnvNisbX
- yTzg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+ bh=tQr6UloN0NhycfhAQGHw2WkJ6sRO+hnSTFjzapZYW40=;
+ b=asH43nNm0YZYLhk0Zx9hpS1onb81CRbp+kcHdjhtlI1AO4mtbbSRQXo5LrpAz0KmT8
+ tZh0whiwK1Yi7ZSTudTXbafdjjKkzG5XDBpTSKr4awXWNh31+Oe0k+boUoeb2TzWCRjO
+ M5JFDJtum/5Yv+HZZuyDE7SNgM3NRnUlq5AlVSrtMVU4L49N/axIIOG02KVNLKHjM9+9
+ 0xnOl0AT8rAs+U4z3KJQHz5aKcIh/Yi8JWP9jiPk419jV+IksjTW1OJZRXbT/gib2FFO
+ do7Dwkl3DA8CqAxkesnY9RTYniv3Nu8iI6YMgeGjWcDPNQgkWzf0KOQVhsVKDZzm4Gfu
+ LHFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=fXeyrAP5y2x5Vu1erUVzC9sKDBemEdcHty7tXEogvkc=;
- b=nlySPpcRNKRMBeAr/6A0rYDzIXnNwJX1i7l/WWUPfRbGZUo2J3ohArYs19nsd5pb1j
- Hwp+TcE5uaVS1CFer3gW4Fmg8Pe/U6yEBwOayS6xpC8OiJV+TiC0xUB2bgeyaMkVYgkL
- BQhEHzEJUfonCSCMNdYnhZW5uTP1K6joHC2YrIqsQQsp7RzWKf/ObZPkNBjQEVKr9j1h
- 9xqVfPoP994EYlpajbQvjjsssUJBTYaRwLgqYuCpBrT+S9qaNCZ8jBr/Z+18x49C9QYp
- adj8p0cD+/ok3G7lOqSUxSwx/HCOqPiNayFJEmXo+f8ZxbDBOiti9EoSb7bmoRgDjIwd
- 0/8A==
-X-Gm-Message-State: ACrzQf0g71f1o3KBwGvu592bq5mt/f+1lselTOXxV2F8nCpRgLfvhkx1
- /j9C36pGDnveAfAL5La4OwM=
-X-Google-Smtp-Source: AMsMyM6uHHziJgO4x1LAPWIEGZ5hXka+DhaX8uTtL8iHVd1ejyJtkCjaZ3PzlcuFpbH8yXzHiHpZsA==
-X-Received: by 2002:a5d:453a:0:b0:228:7873:1101 with SMTP id
- j26-20020a5d453a000000b0022878731101mr14188847wra.241.1663688967825; 
- Tue, 20 Sep 2022 08:49:27 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=tQr6UloN0NhycfhAQGHw2WkJ6sRO+hnSTFjzapZYW40=;
+ b=BNjfqJLylHe3skW5BKoL0x2o8Hq+Ah0KoC6Su+Qp0Mz/jMNG/jCNoL6MTUJwrDfqgd
+ 0Eo8Uu4209tH7yaBgcKMuXAn3gh49Kuehf26QGAtS5KApO0+9mQb/t7vcRmQ8eVLy/Gd
+ 7KX0j8N1xhWlFwclCCrYHc1RzMZxCOz92EF258m6vsaPSn0p1/RO5Y7loRtPF/Pt9Ara
+ DWjS8+f/TFcbpxOAXik8k88jye8oRUMrmBhUyoctjcyyN+t99ME44qrwMPS7iSg5gJdD
+ 0PXxN9TAnd8c4D0V6oU+oR9O3acb/sc5yPNa1ILw0L7bdT8OPU8lqDj8nJXmyysDy2rD
+ N5zw==
+X-Gm-Message-State: ACrzQf32nXvsFD2SXmvHviFJzihwnuBUVXrYyC8t4Ps43dYy8njRjf55
+ Qzx0QU2NaYye4Xs7vYUwmdXkzqz/NPE=
+X-Google-Smtp-Source: AMsMyM79o0mnKGsnnb8woyM36GVt2FklqaAZ4qy+DgiqPGxPLW1UhuKvK+3jqGEnGpwUNAuASmJCSQ==
+X-Received: by 2002:a5d:678a:0:b0:22a:c9d9:443d with SMTP id
+ v10-20020a5d678a000000b0022ac9d9443dmr13875581wru.129.1663688970370; 
+ Tue, 20 Sep 2022 08:49:30 -0700 (PDT)
 Received: from liavpc.localdomain ([147.235.207.82])
  by smtp.gmail.com with ESMTPSA id
- y3-20020a05600c17c300b003b3307fb98fsm102304wmo.24.2022.09.20.08.49.25
+ y3-20020a05600c17c300b003b3307fb98fsm102304wmo.24.2022.09.20.08.49.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 08:49:26 -0700 (PDT)
+ Tue, 20 Sep 2022 08:49:29 -0700 (PDT)
 From: Liav Albani <liavalb@gmail.com>
 To: kraxel@redhat.com
 Cc: qemu-devel@nongnu.org,
 	Liav Albani <liavalb@gmail.com>
-Subject: [PATCH 0/1] hw/display: expose linear framebuffer address in Bochs
+Subject: [PATCH 1/1] hw/display: expose linear framebuffer address in Bochs
  VBE registers
-Date: Tue, 20 Sep 2022 18:49:21 +0300
-Message-Id: <20220920154922.248790-1-liavalb@gmail.com>
+Date: Tue, 20 Sep 2022 18:49:22 +0300
+Message-Id: <20220920154922.248790-2-liavalb@gmail.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20220920154922.248790-1-liavalb@gmail.com>
+References: <20220920154922.248790-1-liavalb@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=liavalb@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=liavalb@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -86,84 +89,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recently I submitted patches to the SerenityOS project in regard to
-enhancing the overall abstractions of x86-specific hardware support
-code in the SerenityOS kernel in preparation for aarch64 support.
-Then, I moved on to submit another patch to introduce support of the
-isa-vga device, as we currently allow people to run an ISA-PC machine
-with SerenityOS without any GUI (see this link for more details -
-https://github.com/SerenityOS/serenity/pull/15259).
+This is quite useful on the isa-vga device, because it lets guest drivers
+to determine where is the framebuffer located in physical memory instead
+of blindly hardcoding an address. It also allows future movements of the
+framebuffer to other locations.
 
-This all worked pretty well and with the patches being applied it is
-possible to boot into a graphical environment. However, not all things
-are perfect (yet). To ensure we only create a driver instance for an
-isa-vga device, I try to ensure that PCI was disabled due to failed
-hardware test and not because of a user decision, to ensure that we do
-not try to drive a PCI stdvga device with an ISA device-targeted HW
-parameters. This worked well too, but one problem is left now - I still
-had to hardcode the framebuffer address to 0xE0000000 in the driver.
-
-Honestly, it's not a big issue of its own - many devices are assumed to
-exist at well-defined physical memory addresses, especially when it is
-related to plain old ISA devices. However, I still want to fix this,
-for these reasons:
-1. Although it is reasonable to assume no more than one isa-vga device
-  will exist in one machine, this could be changed easily later on.
-  As it stands now, on an ISA-PC machine with no PCI bus, there are
-  basically zero methods to detect hardware - you have to assume the
-  hardware is there, or just to probe for it and hope for the best.
-
-  Relying on the BIOS to do hardware detection is also a possibility
-  as it knows the best upon the platform it being used on.
-  In the SerenityOS project we decided for the time being to not use
-  the BIOS as that will require doing hacky stuff to use 16-bit code
-  segments. Also, the BIOS is not perfect and of course it does not
-  give you every little detail you might want, as long as we consider
-  the standard services of an x86 BIOS these days.
-
-  For an ISA-PC machine, the assumption of one isa-vga device at
-  most is OK and will be true in the future as well.
-
-  However, for other machines, and the one I am especially interested
-  in, the microvm machine, this claim could be easily revoked as the
-  microvm machine exposes a device tree - we could easily place many
-  ISA-VGA devices on the "System bus" of a virtual machine, essentially
-  having multiple framebuffer devices on such machine setup, with no PCI
-  bus being involved at all. Of course, we will need to figure out how
-  to make some sort of an ISA-VGA device that resembles a bochs-display
-  device - it should not have VGA capabilities because otherwise the
-  devices' resources will be in conflict for VGA control of the VGA IO
-  space. The Bochs VBE registers will also need to be located in
-  different IO ports too for each device.
-
-  This idea is quite neat in my opinion, because it could speed up the
-  boot of such VM while still providing sufficient display capabilities
-  for those we need them. It could help developers to test their OSes
-  on such hardware setups to ensure multi-monitor configuration works
-  reliably when there's no PCI bus at all but many framebuffer devices
-  being used in one VM.
-
-2. This is more related to the SerenityOS project - I prefer to not 
-  hardcode physical addresses at all wherever I can do so. This makes
-  the code cleaner and more understandable as far as I observe this from
-  the angle of the person which is not me, that tries to make sense from
-  the code flow.
-
-3. The costs of adding this feature are pretty negligible compared to
-  the possible value of this, especially if we apply the idea of running
-  multiple ISA-VGA devices on one microvm machine. Still, the only major
-  "issue" that one can point to is the fact that I bump up the Bochs VBE
-  version number, which could be questionable with how the feature might
-  be insignificant for many guest OSes out there.
-
-Liav Albani (1):
-  hw/display: expose linear framebuffer address in Bochs VBE registers
-
+Signed-off-by: Liav Albani <liavalb@gmail.com>
+---
  hw/display/bochs-display.c     | 10 +++++++++-
  hw/display/vga.c               | 13 +++++++++++--
  include/hw/display/bochs-vbe.h |  7 ++++++-
  3 files changed, 26 insertions(+), 4 deletions(-)
 
+diff --git a/hw/display/bochs-display.c b/hw/display/bochs-display.c
+index 8ed734b195..aa3aa51e2f 100644
+--- a/hw/display/bochs-display.c
++++ b/hw/display/bochs-display.c
+@@ -77,9 +77,17 @@ static uint64_t bochs_display_vbe_read(void *ptr, hwaddr addr,
+ 
+     switch (index) {
+     case VBE_DISPI_INDEX_ID:
+-        return VBE_DISPI_ID5;
++        return VBE_DISPI_ID6;
+     case VBE_DISPI_INDEX_VIDEO_MEMORY_64K:
+         return s->vgamem / (64 * KiB);
++    case VBE_DISPI_VIDEO_MEMORY_PHYSICAL_ADDRESS1:
++        return (s->vram.addr) & 0xffff;
++    case VBE_DISPI_VIDEO_MEMORY_PHYSICAL_ADDRESS2:
++        return (s->vram.addr >> 16) & 0xffff;
++    case VBE_DISPI_VIDEO_MEMORY_PHYSICAL_ADDRESS3:
++        return (s->vram.addr >> 32) & 0xffff;
++    case VBE_DISPI_VIDEO_MEMORY_PHYSICAL_ADDRESS4:
++        return (s->vram.addr >> 48) & 0xffff;
+     }
+ 
+     if (index >= ARRAY_SIZE(s->vbe_regs)) {
+diff --git a/hw/display/vga.c b/hw/display/vga.c
+index 50ecb1ad02..9d91946987 100644
+--- a/hw/display/vga.c
++++ b/hw/display/vga.c
+@@ -727,6 +727,14 @@ uint32_t vbe_ioport_read_data(void *opaque, uint32_t addr)
+         }
+     } else if (s->vbe_index == VBE_DISPI_INDEX_VIDEO_MEMORY_64K) {
+         val = s->vbe_size / (64 * KiB);
++    } else if (s->vbe_index == VBE_DISPI_VIDEO_MEMORY_PHYSICAL_ADDRESS1) {
++        val = (s->vram.addr) & 0xffff;
++    } else if (s->vbe_index == VBE_DISPI_VIDEO_MEMORY_PHYSICAL_ADDRESS2) {
++        val = (s->vram.addr >> 16) & 0xffff;
++    } else if (s->vbe_index == VBE_DISPI_VIDEO_MEMORY_PHYSICAL_ADDRESS3) {
++        val = (s->vram.addr >> 32) & 0xffff;
++    } else if (s->vbe_index == VBE_DISPI_VIDEO_MEMORY_PHYSICAL_ADDRESS4) {
++        val = (s->vram.addr >> 48) & 0xffff;
+     } else {
+         val = 0;
+     }
+@@ -753,7 +761,8 @@ void vbe_ioport_write_data(void *opaque, uint32_t addr, uint32_t val)
+                 val == VBE_DISPI_ID2 ||
+                 val == VBE_DISPI_ID3 ||
+                 val == VBE_DISPI_ID4 ||
+-                val == VBE_DISPI_ID5) {
++                val == VBE_DISPI_ID5 ||
++                val == VBE_DISPI_ID6) {
+                 s->vbe_regs[s->vbe_index] = val;
+             }
+             break;
+@@ -1830,7 +1839,7 @@ void vga_common_reset(VGACommonState *s)
+     s->bank_offset = 0;
+     s->vbe_index = 0;
+     memset(s->vbe_regs, '\0', sizeof(s->vbe_regs));
+-    s->vbe_regs[VBE_DISPI_INDEX_ID] = VBE_DISPI_ID5;
++    s->vbe_regs[VBE_DISPI_INDEX_ID] = VBE_DISPI_ID6;
+     s->vbe_start_addr = 0;
+     s->vbe_line_offset = 0;
+     s->vbe_bank_mask = (s->vram_size >> 16) - 1;
+diff --git a/include/hw/display/bochs-vbe.h b/include/hw/display/bochs-vbe.h
+index bc2f046eee..383474b9d1 100644
+--- a/include/hw/display/bochs-vbe.h
++++ b/include/hw/display/bochs-vbe.h
+@@ -19,8 +19,12 @@
+ #define VBE_DISPI_INDEX_VIRT_HEIGHT     0x7
+ #define VBE_DISPI_INDEX_X_OFFSET        0x8
+ #define VBE_DISPI_INDEX_Y_OFFSET        0x9
+-#define VBE_DISPI_INDEX_NB              0xa /* size of vbe_regs[] */
+ #define VBE_DISPI_INDEX_VIDEO_MEMORY_64K 0xa /* read-only, not in vbe_regs */
++#define VBE_DISPI_VIDEO_MEMORY_PHYSICAL_ADDRESS1 0xb /* read-only, not in vbe_regs */
++#define VBE_DISPI_VIDEO_MEMORY_PHYSICAL_ADDRESS2 0xc /* read-only, not in vbe_regs */
++#define VBE_DISPI_VIDEO_MEMORY_PHYSICAL_ADDRESS3 0xd /* read-only, not in vbe_regs */
++#define VBE_DISPI_VIDEO_MEMORY_PHYSICAL_ADDRESS4 0xe /* read-only, not in vbe_regs */
++#define VBE_DISPI_INDEX_NB              0xe /* size of vbe_regs[] */
+ 
+ /* VBE_DISPI_INDEX_ID */
+ #define VBE_DISPI_ID0                   0xB0C0
+@@ -29,6 +33,7 @@
+ #define VBE_DISPI_ID3                   0xB0C3
+ #define VBE_DISPI_ID4                   0xB0C4
+ #define VBE_DISPI_ID5                   0xB0C5
++#define VBE_DISPI_ID6                   0xB0C6
+ 
+ /* VBE_DISPI_INDEX_ENABLE */
+ #define VBE_DISPI_DISABLED              0x00
 -- 
 2.37.3
 
