@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 387F75BEC1C
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 19:36:54 +0200 (CEST)
-Received: from localhost ([::1]:34094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8685F5BEC5C
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 19:51:24 +0200 (CEST)
+Received: from localhost ([::1]:54644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oahAz-0007Tw-2T
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 13:36:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39262)
+	id 1oahP0-00066o-V2
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 13:51:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1oadQh-00058n-IE
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 09:36:52 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:44658)
+ (Exim 4.90_1) (envelope-from <vtjnash@gmail.com>) id 1oadUq-0000kd-K1
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 09:41:08 -0400
+Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b]:33612)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1oadQb-0004uT-EJ
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 09:36:47 -0400
-Received: by mail-ej1-x630.google.com with SMTP id r18so6145276eja.11
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 06:36:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=k8DiByaDu9Du/V6017bE7jU6tByqBR7kuzhfvzi0/rY=;
- b=YBTE7KxKhuSbgerwVZfFWgTeRJwT+8/qb2g/oG5f27JQsVOk1Gv+emj4qbXOMv3xuI
- a6LLhvM/qFJNIJ6X/MFwNgMq0ccN5U3f6unUgrCUyVhgGEGMd5nJY7saNbE3D7kVpmJ4
- cRuJnu3T9ooYtwA5eYNOQZFA12eGqJ8u5ccrIXXR/VXTAWz+8Y/s334CfYB1KmOtUGaK
- nFj+zI8xqY1CeFohaDg/DBkMj5Qye/gt4LgcFHKtGBeofYjQ9vYGDKAo9lIFDTRzvPwj
- UA+z6pEHX0agoA3jLwQGgc0gedk9tmhHMhazLS4aeo7Zy0qtImMCbISUz3jnWJOZgxkm
- dW3g==
+ (Exim 4.90_1) (envelope-from <vtjnash@gmail.com>) id 1oadUo-0005YR-Ng
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 09:41:08 -0400
+Received: by mail-lj1-x22b.google.com with SMTP id a10so3114725ljq.0
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 06:41:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=NpXpq1zYy/6Z5E5qu87UtsHaMxmINrQkUZIPdZzjdlU=;
+ b=SI2xC2Htcu3PtYN6s1o4hqvVxlggAiFB6RhxW2to25KREat6oKRQwuZaJVLIGZNqKt
+ vp0okh6xKU5Utriv5SWdnWCNpF8Mx8Gx6EFYWIiUjBFjA28cT+83SZGFaGZEw6ET2DFm
+ 3bmevHPs77h/UrUpcINGvSqeCWAJ4BOoExNpccq3omuTeIJ1oB2Hy7YpAHFQq7VnVAHf
+ BLFV44PmDUZMDT0OM0sqFBqzu2HBE1exVeHvwYxPcsI5LcxQ0v5NVHM5y9POoTQ9iiWy
+ qwzcK6ghv8vCwWYYunOYcKotdL0o59HIe+kI+4Qf3KQ9qvLIk33zLXUPFzykehBnh6av
+ TjtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=k8DiByaDu9Du/V6017bE7jU6tByqBR7kuzhfvzi0/rY=;
- b=gCrcS+OMTovcoWwTHW/5O2g4LlQcErrFDyicPmW0A9gPot8XREESdpYJFKQwrtrN1R
- mLXSCfmRcUnLLee3EJszsdzxAHPUTI1QqD4FelaRwI7z87gpG1Koxp7g+EUZgk4dENQO
- lU9ypxx5oiZ/4oXmtPSJAuF1ZowYUDguWWCiZtvI4VBPml+7ANvcpeaV6m9VKuAmikGz
- aVLDGbgGYq81FVWSpvt5tK2HSObt6gVdQUBOvK7LRv84HFFNlGbbcKp+0Fij3wBkOL2P
- JtG3uIeRqWxBqhWgNKYss4yeeyain7MsSuLMVdQHSYeVva8xS2/emk0woBBI6sif94Uo
- HQqg==
-X-Gm-Message-State: ACrzQf08vZC7OM2TWOjaSJweSlScLX9qBTMD/YtQ3PEG77QHwEXVLeQL
- JUNBC9yGuGIJ4NdhNEmKI4iuauPOq72wCmuGvizWJcPZFA==
-X-Google-Smtp-Source: AMsMyM5i4craUDjJKpn9bnE7zei0+Jc3+G+zOO/bGOx/Vs7KBBCJwUJQYVTTw9lfWapQT/fzxh8FcdoVWguFpg/Jd34=
-X-Received: by 2002:a17:907:1b12:b0:72f:9b44:f9e with SMTP id
- mp18-20020a1709071b1200b0072f9b440f9emr16922683ejc.653.1663681001949; Tue, 20
- Sep 2022 06:36:41 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=NpXpq1zYy/6Z5E5qu87UtsHaMxmINrQkUZIPdZzjdlU=;
+ b=4/N8mlbW2C9AW8F5xFfXdnZ9O1hN88m/Jm/W/0jK6sZFt+BsWjVZ/waOn49sGBY9+g
+ 4TGohLr43D2tZ4vALwfS4k+K83XKlWNwv4FY0NGEz5pQhS10gVeXhmPaQA0KDvKo4mAQ
+ +V3DTRC1/o8UJiC3JpgxIjIbIxErjd/ujLKS/spILXSAgX2/5iz2qDHOMWg5lxLnkspm
+ 90kG5HBAKrkd+x4oKKDAm3O6qVaIBQEQzGvDNn/70ik25z6WNEDy7B4Oz1DwFDCnP28g
+ NCe/IldcKLHsaTACpsJwbPCDiGPd3G8os3qWgJUAAegpmtZaMlU6CM7q70ZZijR7iaMf
+ fwnw==
+X-Gm-Message-State: ACrzQf2IeMGfjGQBInS5tEP4wzFJIiAJ9FtQjegG2UtQ7ZHPUgiuA4qn
+ p/kXCx2jxyWIvJf6lgOcYSosop0dKkdI7hTmNVh2njFWpC3NFK9R8xo=
+X-Google-Smtp-Source: AMsMyM5pbVYMxLcDW7trLnmGk7VoqgJuue/1PIADBKdZqyY4BQrfsrQ3H6pA4H8eD+rqzHmLpE0TdSS57i2d9abL2QE=
+X-Received: by 2002:a2e:9657:0:b0:26c:5b63:83f7 with SMTP id
+ z23-20020a2e9657000000b0026c5b6383f7mr1162357ljh.392.1663681262957; Tue, 20
+ Sep 2022 06:41:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220919192306.52729-1-f4bug@amsat.org>
- <87k05yxp7p.fsf@pond.sub.org>
-In-Reply-To: <87k05yxp7p.fsf@pond.sub.org>
-From: Yongji Xie <xieyongji@bytedance.com>
-Date: Tue, 20 Sep 2022 21:36:30 +0800
-Message-ID: <CACycT3sqE+_JNv0k4we7TyLS-JJx_hGhRCfKpe1JMLgCw_x+PA@mail.gmail.com>
-Subject: Re: [RFC PATCH] libvduse: Do not truncate terminating NUL character
- with strncpy()
-To: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>, 
- Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20220808190727.875155-1-vtjnash@gmail.com>
+ <CADnnjUXfz1Z0tZFGqpPwaJpeQQcSs6102JLePf8oaa4+QAOYDA@mail.gmail.com>
+In-Reply-To: <CADnnjUXfz1Z0tZFGqpPwaJpeQQcSs6102JLePf8oaa4+QAOYDA@mail.gmail.com>
+From: Jameson Nash <vtjnash@gmail.com>
+Date: Tue, 20 Sep 2022 15:40:45 +0200
+Message-ID: <CADnnjUWmTg=H=hCSF70veZ41ZsttSHh6TQy+yrt-VH2ieAckEA@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: fix readlinkat handling with magic exe symlink
+To: qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
+Content-Type: multipart/alternative; boundary="000000000000b2ba3205e91bfab5"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22b;
+ envelope-from=vtjnash@gmail.com; helo=mail-lj1-x22b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,82 +81,147 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 20, 2022 at 7:25 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
->
-> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
->
-> > GCC 8 added a -Wstringop-truncation warning:
-> >
-> >   The -Wstringop-truncation warning added in GCC 8.0 via r254630 for
-> >   bug 81117 is specifically intended to highlight likely unintended
-> >   uses of the strncpy function that truncate the terminating NUL
-> >   character from the source string.
-> >
-> > Here the next line indeed unconditionally zeroes the last byte, so
-> > we can call strncpy() on the buffer size less the last byte.
->
-> Actually, the buffer is all zero to begin with, so we could do this even
-> without the next line's assignment.
->
+--000000000000b2ba3205e91bfab5
+Content-Type: text/plain; charset="UTF-8"
 
-Yes, I think we can remove the next line's assignment.
+bump?? This is just copying the existing
+f17f4989fa193fa8279474c5462289a3cfe69aea commit to cover all code paths, so
+I was hoping it would be trivial to get an ack for this. Thanks!
 
-> >                                                              This
-> > fixes when using gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0:
-> >
-> >   [42/666] Compiling C object subprojects/libvduse/libvduse.a.p/libvdus=
-e.c.o
-> >   FAILED: subprojects/libvduse/libvduse.a.p/libvduse.c.o
-> >   cc -m64 -mcx16 -Isubprojects/libvduse/libvduse.a.p -Isubprojects/libv=
-duse -I../../subprojects/libvduse [...] -o subprojects/libvduse/libvduse.a.=
-p/libvduse.c.o -c ../../subprojects/libvduse/libvduse.c
-> >   In file included from /usr/include/string.h:495,
-> >                    from ../../subprojects/libvduse/libvduse.c:24:
-> >   In function =E2=80=98strncpy=E2=80=99,
-> >       inlined from =E2=80=98vduse_dev_create=E2=80=99 at ../../subproje=
-cts/libvduse/libvduse.c:1312:5:
-> >   /usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error: =
-=E2=80=98__builtin_strncpy=E2=80=99 specified bound 256 equals destination =
-size [-Werror=3Dstringop-truncation]
-> >     106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos=
- (__dest));
-> >         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~
-> >   cc1: all warnings being treated as errors
-> >   ninja: build stopped: cannot make progress due to previous errors.
-> >
-> > Fixes: d9cf16c0be ("libvduse: Replace strcpy() with strncpy()")
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
-> The subject feels a bit too alarming to me.  This patch suppresses a
-> warning, no less, no more.  Behavior doesn't change.  Perhaps
->
->     libvduse: Avoid warning about dangerous use of strncpy()
->
-> > ---
-> > Cc: Xie Yongji <xieyongji@bytedance.com>
-> > Cc: Markus Armbruster <armbru@redhat.com>
-> > Cc: Kevin Wolf <kwolf@redhat.com>
-> >
-> > RFC: Any better idea? We can't use strpadcpy() because libvduse
-> > doesn't depend on QEMU.
->
-> There's no need for padding: the destination calloc'ed.  So, pstrcpy()
-> would do, but it's just as unavailable.  Can we use GLib?  There's
-> g_strlcpy().
->
-> Outside this patch's scope: is silent truncation what we want?
->
+On Mon, Aug 29, 2022 at 5:49 PM Jameson Nash <vtjnash@gmail.com> wrote:
 
-Actually silent truncation would not happen since we called
-vduse_name_is_invalid() before.
+> bump? This helps fix one of the libuv tests when run under qemu
+> https://github.com/libuv/libuv/pull/2941#issuecomment-1207145306
+>
+> On Mon, Aug 8, 2022 at 3:07 PM Jameson Nash <vtjnash@gmail.com> wrote:
+>
+>> Exactly the same as f17f4989fa193fa8279474c5462289a3cfe69aea before was
+>> for readlink. I suppose this was simply missed at the time.
+>>
+>> Signed-off-by: Jameson Nash <vtjnash@gmail.com>
+>> ---
+>>  linux-user/syscall.c | 15 +++++++++++++--
+>>  1 file changed, 13 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+>> index ef53feb5ab..6ef4e42b21 100644
+>> --- a/linux-user/syscall.c
+>> +++ b/linux-user/syscall.c
+>> @@ -9894,11 +9894,22 @@ static abi_long do_syscall1(CPUArchState
+>> *cpu_env, int num, abi_long arg1,
+>>              p2 = lock_user(VERIFY_WRITE, arg3, arg4, 0);
+>>              if (!p || !p2) {
+>>                  ret = -TARGET_EFAULT;
+>> +            } else if (!arg4) {
+>> +                /* Short circuit this for the magic exe check. */
+>> +                ret = -TARGET_EINVAL;
+>>              } else if (is_proc_myself((const char *)p, "exe")) {
+>>                  char real[PATH_MAX], *temp;
+>>                  temp = realpath(exec_path, real);
+>> -                ret = temp == NULL ? get_errno(-1) : strlen(real) ;
+>> -                snprintf((char *)p2, arg4, "%s", real);
+>> +                /* Return value is # of bytes that we wrote to the
+>> buffer. */
+>> +                if (temp == NULL) {
+>> +                    ret = get_errno(-1);
+>> +                } else {
+>> +                    /* Don't worry about sign mismatch as earlier mapping
+>> +                     * logic would have thrown a bad address error. */
+>> +                    ret = MIN(strlen(real), arg4);
+>> +                    /* We cannot NUL terminate the string. */
+>> +                    memcpy(p2, real, ret);
+>> +                }
+>>              } else {
+>>                  ret = get_errno(readlinkat(arg1, path(p), p2, arg4));
+>>              }
+>> --
+>> 2.25.1
+>>
+>>
 
-static inline bool vduse_name_is_invalid(const char *name)
-{
-    return strlen(name) >=3D VDUSE_NAME_MAX || strstr(name, "..");
-}
+--000000000000b2ba3205e91bfab5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Yongji
+<div dir=3D"ltr"><div dir=3D"ltr">bump?? This is just copying the existing =
+f17f4989fa193fa8279474c5462289a3cfe69aea commit to cover all code paths, so=
+ I was hoping it would be trivial to get an ack for this. Thanks!</div><br>=
+<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Au=
+g 29, 2022 at 5:49 PM Jameson Nash &lt;<a href=3D"mailto:vtjnash@gmail.com"=
+>vtjnash@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style=
+:solid;border-left-color:rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr=
+"><div>bump? This helps fix one of the libuv tests when run under qemu <a h=
+ref=3D"https://github.com/libuv/libuv/pull/2941#issuecomment-1207145306" ta=
+rget=3D"_blank">https://github.com/libuv/libuv/pull/2941#issuecomment-12071=
+45306</a></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gma=
+il_attr">On Mon, Aug 8, 2022 at 3:07 PM Jameson Nash &lt;<a href=3D"mailto:=
+vtjnash@gmail.com" target=3D"_blank">vtjnash@gmail.com</a>&gt; wrote:<br></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,20=
+4);padding-left:1ex">Exactly the same as f17f4989fa193fa8279474c5462289a3cf=
+e69aea before was<br>
+for readlink. I suppose this was simply missed at the time.<br>
+<br>
+Signed-off-by: Jameson Nash &lt;<a href=3D"mailto:vtjnash@gmail.com" target=
+=3D"_blank">vtjnash@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0linux-user/syscall.c | 15 +++++++++++++--<br>
+=C2=A01 file changed, 13 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c<br>
+index ef53feb5ab..6ef4e42b21 100644<br>
+--- a/linux-user/syscall.c<br>
++++ b/linux-user/syscall.c<br>
+@@ -9894,11 +9894,22 @@ static abi_long do_syscall1(CPUArchState *cpu_env, =
+int num, abi_long arg1,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0p2 =3D lock_user(VERIFY_WRI=
+TE, arg3, arg4, 0);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!p || !p2) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D -TARG=
+ET_EFAULT;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (!arg4) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Short circuit t=
+his for the magic exe check. */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D -TARGET_EI=
+NVAL;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else if (is_proc_myself((=
+const char *)p, &quot;exe&quot;)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0char real[PAT=
+H_MAX], *temp;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0temp =3D real=
+path(exec_path, real);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D temp =3D=
+=3D NULL ? get_errno(-1) : strlen(real) ;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 snprintf((char *)p=
+2, arg4, &quot;%s&quot;, real);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Return value is=
+ # of bytes that we wrote to the buffer. */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (temp =3D=3D NU=
+LL) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =
+=3D get_errno(-1);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* D=
+on&#39;t worry about sign mismatch as earlier mapping<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0* logic would have thrown a bad address error. */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =
+=3D MIN(strlen(real), arg4);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* W=
+e cannot NUL terminate the string. */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 memc=
+py(p2, real, ret);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D get_e=
+rrno(readlinkat(arg1, path(p), p2, arg4));<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+-- <br>
+2.25.1<br>
+<br>
+</blockquote></div></div>
+</blockquote></div></div>
+
+--000000000000b2ba3205e91bfab5--
 
