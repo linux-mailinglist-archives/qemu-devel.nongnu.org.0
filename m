@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EF065BE714
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 15:28:54 +0200 (CEST)
-Received: from localhost ([::1]:40694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD54E5BE72C
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 15:34:49 +0200 (CEST)
+Received: from localhost ([::1]:51822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oadIz-0006PJ-7e
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 09:28:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58062)
+	id 1oadOj-0003wh-0A
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 09:34:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <michael.labiuk@virtuozzo.com>)
- id 1oaaoJ-0003yc-5f
+ id 1oaaoI-0003yT-LC
  for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:49:05 -0400
-Received: from relay.virtuozzo.com ([130.117.225.111]:52164)
+Received: from relay.virtuozzo.com ([130.117.225.111]:52112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <michael.labiuk@virtuozzo.com>)
- id 1oaaoF-0007zi-HJ
+ id 1oaaoE-0007yS-8O
  for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:49:01 -0400
 Received: from [192.168.16.178] (helo=mikewrk.sw.ru)
  by relay.virtuozzo.com with esmtp (Exim 4.95)
- (envelope-from <michael.labiuk@virtuozzo.com>) id 1oaalm-004fUv-9B;
- Tue, 20 Sep 2022 12:48:38 +0200
+ (envelope-from <michael.labiuk@virtuozzo.com>) id 1oaaln-004fUv-T8;
+ Tue, 20 Sep 2022 12:48:40 +0200
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>, den@virtuozzo.com
-Subject: [PATCH v4 4/7] tests/x86: Add 'q35' machine type to drive_del-test
-Date: Tue, 20 Sep 2022 13:48:39 +0300
-Message-Id: <20220920104842.605530-5-michael.labiuk@virtuozzo.com>
+Subject: [PATCH v4 6/7] tests/x86: Refactor hot unplug hd-geo-test
+Date: Tue, 20 Sep 2022 13:48:41 +0300
+Message-Id: <20220920104842.605530-7-michael.labiuk@virtuozzo.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220920104842.605530-1-michael.labiuk@virtuozzo.com>
 References: <20220920104842.605530-1-michael.labiuk@virtuozzo.com>
@@ -59,165 +59,179 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Michael Labiuk <michael.labiuk@virtuozzo.com>
 From:  Michael Labiuk via <qemu-devel@nongnu.org>
 
-Configure pci bridge setting to run tests on 'q35' machine type.
+Moving common code to function.
 
 Signed-off-by: Michael Labiuk <michael.labiuk@virtuozzo.com>
 ---
- tests/qtest/drive_del-test.c | 111 +++++++++++++++++++++++++++++++++++
- 1 file changed, 111 insertions(+)
+ tests/qtest/hd-geo-test.c | 133 +++++++++++++++-----------------------
+ 1 file changed, 53 insertions(+), 80 deletions(-)
 
-diff --git a/tests/qtest/drive_del-test.c b/tests/qtest/drive_del-test.c
-index 5e6d58b4dd..3a2ddecf22 100644
---- a/tests/qtest/drive_del-test.c
-+++ b/tests/qtest/drive_del-test.c
-@@ -258,6 +258,27 @@ static void test_cli_device_del(void)
-     qtest_quit(qts);
+diff --git a/tests/qtest/hd-geo-test.c b/tests/qtest/hd-geo-test.c
+index 58b1107d64..d488ad9ac0 100644
+--- a/tests/qtest/hd-geo-test.c
++++ b/tests/qtest/hd-geo-test.c
+@@ -898,13 +898,55 @@ static void test_override_zero_chs_q35(void)
+     test_override(args, "q35", expected);
  }
  
-+static void test_cli_device_del_q35(void)
++static void test_override_hot_unplug(TestArgs *args, const char *devid,
++                                     CHSResult expected[], CHSResult expected2[])
 +{
 +    QTestState *qts;
-+
-+    /*
-+     * -drive/-device and device_del.  Start with a drive used by a
-+     * device that unplugs after reset.
-+     */
-+    qts = qtest_initf("-drive if=none,id=drive0,file=null-co://,"
-+                      "file.read-zeroes=on,format=raw "
-+                      "-machine q35 -device pcie-root-port,id=p1 "
-+                      "-device pcie-pci-bridge,bus=p1,id=b1 "
-+                      "-device virtio-blk-%s,drive=drive0,bus=b1,id=dev0",
-+                      qvirtio_get_dev_type());
-+
-+    device_del(qts, true);
-+    g_assert(!has_drive(qts));
-+
-+    qtest_quit(qts);
-+}
-+
- static void test_empty_device_del(void)
- {
-     QTestState *qts;
-@@ -294,6 +315,45 @@ static void test_device_add_and_del(void)
-     qtest_quit(qts);
- }
- 
-+static void device_add_q35(QTestState *qts)
-+{
++    char *joined_args;
++    QFWCFG *fw_cfg;
 +    QDict *response;
-+    char driver[32];
-+    snprintf(driver, sizeof(driver), "virtio-blk-%s",
-+             qvirtio_get_dev_type());
++    int i;
 +
-+    response = qtest_qmp(qts, "{'execute': 'device_add',"
-+                              " 'arguments': {"
-+                              "   'driver': %s,"
-+                              "   'drive': 'drive0',"
-+                              "   'id': 'dev0',"
-+                              "   'bus': 'b1'"
-+                              "}}", driver);
++    joined_args = g_strjoinv(" ", args->argv);
++
++    qts = qtest_initf("%s", joined_args);
++    fw_cfg = pc_fw_cfg_init(qts);
++
++    read_bootdevices(fw_cfg, expected);
++
++    /* unplug device an restart */
++    response = qtest_qmp(qts,
++                         "{ 'execute': 'device_del',"
++                         "  'arguments': {'id': %s }}", devid);
 +    g_assert(response);
-+    g_assert(qdict_haskey(response, "return"));
++    g_assert(!qdict_haskey(response, "error"));
 +    qobject_unref(response);
-+}
++    response = qtest_qmp(qts,
++                         "{ 'execute': 'system_reset', 'arguments': { }}");
++    g_assert(response);
++    g_assert(!qdict_haskey(response, "error"));
++    qobject_unref(response);
 +
-+static void test_device_add_and_del_q35(void)
-+{
-+    QTestState *qts;
++    qtest_qmp_eventwait(qts, "RESET");
 +
-+    /*
-+     * -drive/device_add and device_del.  Start with a drive used by a
-+     * device that unplugs after reset.
-+     */
-+    qts = qtest_initf("-machine q35 -device pcie-root-port,id=p1 "
-+                     "-device pcie-pci-bridge,bus=p1,id=b1 "
-+                     "-drive if=none,id=drive0,file=null-co://,"
-+                     "file.read-zeroes=on,format=raw");
++    read_bootdevices(fw_cfg, expected2);
 +
-+    device_add_q35(qts);
-+    device_del(qts, true);
-+    g_assert(!has_drive(qts));
-+
++    g_free(joined_args);
 +    qtest_quit(qts);
++
++    g_free(fw_cfg);
++
++    for (i = 0; i < args->n_drives; i++) {
++        unlink(args->drives[i]);
++        free(args->drives[i]);
++    }
++    g_free(args->drives);
++    g_strfreev(args->argv);
++    g_free(args);
 +}
 +
- static void test_drive_add_device_add_and_del(void)
+ static void test_override_scsi_hot_unplug(void)
  {
-     QTestState *qts;
-@@ -318,6 +378,25 @@ static void test_drive_add_device_add_and_del(void)
-     qtest_quit(qts);
+-    QTestState *qts;
+-    char *joined_args;
+-    QFWCFG *fw_cfg;
+-    QDict *response;
+-    int i;
+     TestArgs *args = create_args();
+     CHSResult expected[] = {
+         {"/pci@i0cf8/scsi@2/channel@0/disk@0,0", {10000, 120, 30} },
+@@ -921,51 +963,14 @@ static void test_override_scsi_hot_unplug(void)
+     add_scsi_disk(args, 0, 0, 0, 0, 0, 10000, 120, 30);
+     add_scsi_disk(args, 1, 0, 0, 1, 0, 20, 20, 20);
+ 
+-    joined_args = g_strjoinv(" ", args->argv);
++    args->argc = append_arg(args->argc, args->argv, ARGV_SIZE,
++                            g_strdup("-machine pc"));
+ 
+-    qts = qtest_initf("-machine pc %s", joined_args);
+-    fw_cfg = pc_fw_cfg_init(qts);
+-
+-    read_bootdevices(fw_cfg, expected);
+-
+-    /* unplug device an restart */
+-    response = qtest_qmp(qts,
+-                         "{ 'execute': 'device_del',"
+-                         "  'arguments': {'id': 'scsi-disk0' }}");
+-    g_assert(response);
+-    g_assert(!qdict_haskey(response, "error"));
+-    qobject_unref(response);
+-    response = qtest_qmp(qts,
+-                         "{ 'execute': 'system_reset', 'arguments': { }}");
+-    g_assert(response);
+-    g_assert(!qdict_haskey(response, "error"));
+-    qobject_unref(response);
+-
+-    qtest_qmp_eventwait(qts, "RESET");
+-
+-    read_bootdevices(fw_cfg, expected2);
+-
+-    g_free(joined_args);
+-    qtest_quit(qts);
+-
+-    g_free(fw_cfg);
+-
+-    for (i = 0; i < args->n_drives; i++) {
+-        unlink(args->drives[i]);
+-        free(args->drives[i]);
+-    }
+-    g_free(args->drives);
+-    g_strfreev(args->argv);
+-    g_free(args);
++    test_override_hot_unplug(args, "scsi-disk0", expected, expected2);
  }
  
-+static void test_drive_add_device_add_and_del_q35(void)
-+{
-+    QTestState *qts;
-+
-+    qts = qtest_init("-machine q35 -device pcie-root-port,id=p1 "
-+                     "-device pcie-pci-bridge,bus=p1,id=b1");
-+
-+    /*
-+     * drive_add/device_add and device_del.  The drive is used by a
-+     * device that unplugs after reset.
-+     */
-+    drive_add_with_media(qts);
-+    device_add_q35(qts);
-+    device_del(qts, true);
-+    g_assert(!has_drive(qts));
-+
-+    qtest_quit(qts);
-+}
-+
- static void test_blockdev_add_device_add_and_del(void)
+ static void test_override_virtio_hot_unplug(void)
  {
-     QTestState *qts;
-@@ -342,8 +421,29 @@ static void test_blockdev_add_device_add_and_del(void)
-     qtest_quit(qts);
+-    QTestState *qts;
+-    char *joined_args;
+-    QFWCFG *fw_cfg;
+-    QDict *response;
+-    int i;
+     TestArgs *args = create_args();
+     CHSResult expected[] = {
+         {"/pci@i0cf8/scsi@2/disk@0,0", {10000, 120, 30} },
+@@ -981,42 +986,10 @@ static void test_override_virtio_hot_unplug(void)
+     add_virtio_disk(args, 0, "pci.0", 2, 10000, 120, 30);
+     add_virtio_disk(args, 1, "pci.0", 3, 20, 20, 20);
+ 
+-    joined_args = g_strjoinv(" ", args->argv);
++    args->argc = append_arg(args->argc, args->argv, ARGV_SIZE,
++                            g_strdup("-machine pc"));
+ 
+-    qts = qtest_initf("-machine pc %s", joined_args);
+-    fw_cfg = pc_fw_cfg_init(qts);
+-
+-    read_bootdevices(fw_cfg, expected);
+-
+-    /* unplug device an restart */
+-    response = qtest_qmp(qts,
+-                         "{ 'execute': 'device_del',"
+-                         "  'arguments': {'id': 'virtio-disk0' }}");
+-    g_assert(response);
+-    g_assert(!qdict_haskey(response, "error"));
+-    qobject_unref(response);
+-    response = qtest_qmp(qts,
+-                         "{ 'execute': 'system_reset', 'arguments': { }}");
+-    g_assert(response);
+-    g_assert(!qdict_haskey(response, "error"));
+-    qobject_unref(response);
+-
+-    qtest_qmp_eventwait(qts, "RESET");
+-
+-    read_bootdevices(fw_cfg, expected2);
+-
+-    g_free(joined_args);
+-    qtest_quit(qts);
+-
+-    g_free(fw_cfg);
+-
+-    for (i = 0; i < args->n_drives; i++) {
+-        unlink(args->drives[i]);
+-        free(args->drives[i]);
+-    }
+-    g_free(args->drives);
+-    g_strfreev(args->argv);
+-    g_free(args);
++    test_override_hot_unplug(args, "virtio-disk0", expected, expected2);
  }
  
-+static void test_blockdev_add_device_add_and_del_q35(void)
-+{
-+    QTestState *qts;
-+
-+    qts = qtest_init("-machine q35 -device pcie-root-port,id=p1 "
-+                     "-device pcie-pci-bridge,bus=p1,id=b1");
-+
-+    /*
-+     * blockdev_add/device_add and device_del.  The it drive is used by a
-+     * device that unplugs after reset, but it doesn't go away.
-+     */
-+    blockdev_add_with_media(qts);
-+    device_add_q35(qts);
-+    device_del(qts, true);
-+    g_assert(has_blockdev(qts));
-+
-+    qtest_quit(qts);
-+}
-+
  int main(int argc, char **argv)
- {
-+    const char *arch = qtest_get_arch();
-+
-     g_test_init(&argc, &argv, NULL);
- 
-     qtest_add_func("/drive_del/without-dev", test_drive_without_dev);
-@@ -363,6 +463,17 @@ int main(int argc, char **argv)
-                        test_empty_device_del);
-         qtest_add_func("/device_del/blockdev",
-                        test_blockdev_add_device_add_and_del);
-+
-+        if (!strcmp(arch, "x86_64")) {
-+            qtest_add_func("/device_del/drive/cli_device_q35",
-+                           test_cli_device_del_q35);
-+            qtest_add_func("/device_del/drive/device_add_q35",
-+                           test_device_add_and_del_q35);
-+            qtest_add_func("/device_del/drive/drive_add_device_add_q35",
-+                           test_drive_add_device_add_and_del_q35);
-+            qtest_add_func("/device_del/blockdev_q35",
-+                           test_blockdev_add_device_add_and_del_q35);
-+        }
-     }
- 
-     return g_test_run();
 -- 
 2.34.1
 
