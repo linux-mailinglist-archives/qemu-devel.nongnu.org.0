@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B09C45BE918
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 16:32:38 +0200 (CEST)
-Received: from localhost ([::1]:56002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F13515BE8DA
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 16:26:41 +0200 (CEST)
+Received: from localhost ([::1]:60492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaeIf-0001Bk-29
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 10:32:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53904)
+	id 1oaeCu-0004Yq-Vj
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 10:26:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oabNg-0005ZT-8H
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 07:25:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47901)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oabNU-0007Vp-6H
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 07:25:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663673119;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YTjOvu/pH4WrKbN+wdz3PeCp03xv9F+2JhCWl/O4GZY=;
- b=DXsyOdAqhm2iJ9rhMsKEFiIu3L6Ogq3hvyzgZfNXsZXV4NzIqYYqKNpC3ek2+m3J5F1K8z
- e8Oo7zBGwCMRdQotaDR8v7CBTvQoRz/+Rj3uoKee2PExADcTAoVQLDtWf6BCo6ZMDeUmQ2
- vsCklbTPNSGxVFE1pQ14lrwGvPHxXwc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-290-Sm4W2I0rOHCb_XUNZFvnAA-1; Tue, 20 Sep 2022 07:25:16 -0400
-X-MC-Unique: Sm4W2I0rOHCb_XUNZFvnAA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1BDDF101A52A;
- Tue, 20 Sep 2022 11:25:16 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A67D12166B31;
- Tue, 20 Sep 2022 11:25:15 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6F9E721E6900; Tue, 20 Sep 2022 13:25:14 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Cc: qemu-devel@nongnu.org,  Xie Yongji <xieyongji@bytedance.com>,  Stefan
- Hajnoczi <stefanha@redhat.com>,  Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [RFC PATCH] libvduse: Do not truncate terminating NUL character
- with strncpy()
-References: <20220919192306.52729-1-f4bug@amsat.org>
-Date: Tue, 20 Sep 2022 13:25:14 +0200
-In-Reply-To: <20220919192306.52729-1-f4bug@amsat.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 19 Sep 2022 21:23:06
- +0200")
-Message-ID: <87k05yxp7p.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oabVL-0005qb-5a
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 07:33:32 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:40502)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oabVI-0000ih-Rg
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 07:33:30 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id w28so3368422edi.7
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 04:33:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
+ bh=2TPJYbE5oV4Ww0eGtsoF5CtzfvZG+MgglCrM+L8KkCc=;
+ b=uQk9+37QU0Nx1XC9bcJOyDYDhL7Ays3aa2YcliaYgsVCfZ9e/6rDvK0jqfjMwc9+KN
+ U1puuuHH3HXjP9HUbzh96ugFCrl0BUqS9dbOYTcTs0pX3pBt6pivCM8LqiP8JPAGRzlK
+ aQN41XJy78+BCyhrYCuvNjCeLAe3AhDDFixT+nIaJ6LLDHue9u5jjpEqIfbySvsWlC6G
+ XdiDN28ynUpqUZyrS30NRZj69Fp4LJku2rx9K3Qp4Sb3WCMED+ebpUtOkVj8E94kjP8K
+ OCsIO30r7LulUzzLEW27pmnDjSKNqdaOrywmsaiVlOS324WsbPfr/BtEvnE0M6S2FN48
+ Z8Ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date;
+ bh=2TPJYbE5oV4Ww0eGtsoF5CtzfvZG+MgglCrM+L8KkCc=;
+ b=IVR/taP8l/fnSHr+P6Nb5wIXXIbf58N2v7Tj9xh8ehO1L7an0rmrwD4TcRvnJ9F+Td
+ SQq4IuJUiaRwWmypRA0dHWsjS3vacQM12bIe8UnaXZWmplthQKne4uOiPoXUZecMhuv9
+ FISjaMmCYk/cXBfBeH5xYyw7AYNZzM+gTI49pA9NQnuF6syUGqcsdAl0SDnOM/qnyDkR
+ 31VOTViD9W2Hc//Ljz7utvi77g5JP+Yjqzto7pA7ORrkQ4Oo0h7vQmBDjHoL2gMVBw0c
+ OorqBVkI8lNs8bi8gvU80SS2pCucqcsVk0rP5Ip+tJ7htfR9eDril9etqNHdxkPTU8fK
+ j+3A==
+X-Gm-Message-State: ACrzQf3j2CLnjGmKr5XE8Y5a/KnQw6/xkKWNZvo9mKOFSZWoGVlCnj3c
+ ZEzNSSz69OYoYggM6UwzfBCh9A==
+X-Google-Smtp-Source: AMsMyM5OAHBhkzzRn62qKvMv+W8tqNQroI/FsJWyefEj4YqssUEXKDqIwynPCsX49EAS1jGRNgwEHw==
+X-Received: by 2002:a50:fc93:0:b0:44d:c809:8158 with SMTP id
+ f19-20020a50fc93000000b0044dc8098158mr19820447edq.365.1663673606073; 
+ Tue, 20 Sep 2022 04:33:26 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ qn5-20020a170907210500b0078135401b9csm708644ejb.130.2022.09.20.04.33.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Sep 2022 04:33:25 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CC1B91FFB7;
+ Tue, 20 Sep 2022 12:33:24 +0100 (BST)
+References: <20220802095010.3330793-1-alex.bennee@linaro.org>
+ <87czbvzu9e.fsf@linaro.org> <YyibNC4CbniKUTmi@fedora>
+User-agent: mu4e 1.9.0; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, slp@redhat.com, mst@redhat.com,
+ marcandre.lureau@redhat.com, mathieu.poirier@linaro.org,
+ viresh.kumar@linaro.org
+Subject: Re: [PATCH v4 for 7.2 00/22] virtio-gpio and various virtio cleanups
+Date: Tue, 20 Sep 2022 12:30:51 +0100
+In-reply-to: <YyibNC4CbniKUTmi@fedora>
+Message-ID: <8735cm9t6j.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,90 +96,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
-> GCC 8 added a -Wstringop-truncation warning:
+Stefan Hajnoczi <stefanha@redhat.com> writes:
+
+> [[PGP Signed Part:Undecided]]
+> On Fri, Sep 16, 2022 at 07:51:40AM +0100, Alex Benn=C3=A9e wrote:
+>>=20
+>> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+>>=20
+>> > Hi,
+>> >
+>> > This is an update to the previous series which fixes the last few
+>> > niggling CI failures I was seeing.
+>> >
+>> >    Subject: [PATCH v3 for 7.2 00/21] virtio-gpio and various virtio cl=
+eanups
+>> >    Date: Tue, 26 Jul 2022 20:21:29 +0100
+>> >    Message-Id: <20220726192150.2435175-1-alex.bennee@linaro.org>
+>> >
+>> > The CI failures were tricky to track down because they didn't occur
+>> > locally but after patching to dump backtraces they all seem to involve
+>> > updates to virtio_set_status() as the machine was torn down. I think
+>> > patch that switches all users to use virtio_device_started() along
+>> > with consistent checking of vhost_dev->started stops this from
+>> > happening. The clean-up seems worthwhile in reducing boilerplate
+>> > anyway.
+>> >
+>> > The following patches still need review:
+>> >
+>> >   - tests/qtest: enable tests for virtio-gpio
+>> >   - tests/qtest: add a get_features op to vhost-user-test
+>> >   - tests/qtest: implement stub for VHOST_USER_GET_CONFIG
+>> >   - tests/qtest: add assert to catch bad features
+>> >   - tests/qtest: plain g_assert for VHOST_USER_F_PROTOCOL_FEATURES
+>> >   - tests/qtest: catch unhandled vhost-user messages
+>> >   - tests/qtest: use qos_printf instead of g_test_message
+>> >   - tests/qtest: pass stdout/stderr down to subtests
+>> >   - hw/virtio: move vhd->started check into helper and add FIXME
+>> >   - hw/virtio: move vm_running check to virtio_device_started
+>> >   - hw/virtio: add some vhost-user trace events
+>> >   - hw/virtio: log potentially buggy guest drivers
+>> >   - hw/virtio: fix some coding style issues
+>> >   - include/hw: document vhost_dev feature life-cycle
+>> >   - include/hw/virtio: more comment for VIRTIO_F_BAD_FEATURE
+>> >   - hw/virtio: fix vhost_user_read tracepoint
+>> >   - hw/virtio: handle un-configured shutdown in virtio-pci
+>> >   - hw/virtio: gracefully handle unset vhost_dev vdev
+>> >   - hw/virtio: incorporate backend features in features
+>> <snip>
+>>=20
+>> Ping?
 >
->   The -Wstringop-truncation warning added in GCC 8.0 via r254630 for
->   bug 81117 is specifically intended to highlight likely unintended
->   uses of the strncpy function that truncate the terminating NUL
->   character from the source string.
+> Who are you pinging?
 >
-> Here the next line indeed unconditionally zeroes the last byte, so
-> we can call strncpy() on the buffer size less the last byte.
+> Only qemu-devel is on To and there are a bunch of people on Cc.
 
-Actually, the buffer is all zero to begin with, so we could do this even
-without the next line's assignment.
+Well I guess MST is the maintainer for the sub-system but I was hoping
+other virtio contributors had some sort of view. The process of
+up-streaming a simple vhost-user stub has flushed out all sorts of
+stuff.
 
->                                                              This
-> fixes when using gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0:
 >
->   [42/666] Compiling C object subprojects/libvduse/libvduse.a.p/libvduse.=
-c.o
->   FAILED: subprojects/libvduse/libvduse.a.p/libvduse.c.o
->   cc -m64 -mcx16 -Isubprojects/libvduse/libvduse.a.p -Isubprojects/libvdu=
-se -I../../subprojects/libvduse [...] -o subprojects/libvduse/libvduse.a.p/=
-libvduse.c.o -c ../../subprojects/libvduse/libvduse.c
->   In file included from /usr/include/string.h:495,
->                    from ../../subprojects/libvduse/libvduse.c:24:
->   In function =E2=80=98strncpy=E2=80=99,
->       inlined from =E2=80=98vduse_dev_create=E2=80=99 at ../../subproject=
-s/libvduse/libvduse.c:1312:5:
->   /usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error: =
-=E2=80=98__builtin_strncpy=E2=80=99 specified bound 256 equals destination =
-size [-Werror=3Dstringop-truncation]
->     106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (=
-__dest));
->         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
->   cc1: all warnings being treated as errors
->   ninja: build stopped: cannot make progress due to previous errors.
+> Stefan
 >
-> Fixes: d9cf16c0be ("libvduse: Replace strcpy() with strncpy()")
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> [[End of PGP Signed Part]]
 
-The subject feels a bit too alarming to me.  This patch suppresses a
-warning, no less, no more.  Behavior doesn't change.  Perhaps
 
-    libvduse: Avoid warning about dangerous use of strncpy()
-
-> ---
-> Cc: Xie Yongji <xieyongji@bytedance.com>
-> Cc: Markus Armbruster <armbru@redhat.com>
-> Cc: Kevin Wolf <kwolf@redhat.com>
->
-> RFC: Any better idea? We can't use strpadcpy() because libvduse
-> doesn't depend on QEMU.
-
-There's no need for padding: the destination calloc'ed.  So, pstrcpy()
-would do, but it's just as unavailable.  Can we use GLib?  There's
-g_strlcpy().
-
-Outside this patch's scope: is silent truncation what we want?
-
-> ---
->  subprojects/libvduse/libvduse.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/subprojects/libvduse/libvduse.c b/subprojects/libvduse/libvd=
-use.c
-> index 1a5981445c..e460780ce3 100644
-> --- a/subprojects/libvduse/libvduse.c
-> +++ b/subprojects/libvduse/libvduse.c
-> @@ -1309,7 +1309,7 @@ VduseDev *vduse_dev_create(const char *name, uint32=
-_t device_id,
->          goto err_dev;
->      }
->=20=20
-> -    strncpy(dev_config->name, name, VDUSE_NAME_MAX);
-> +    strncpy(dev_config->name, name, VDUSE_NAME_MAX - 1);
->      dev_config->name[VDUSE_NAME_MAX - 1] =3D '\0';
->      dev_config->device_id =3D device_id;
->      dev_config->vendor_id =3D vendor_id;
-
-Since the buffer is known to be all zero, the padding done by strncpy()
-is unnecessary, and so is the assignment that follows it.  I don't mind.
-
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-
+--=20
+Alex Benn=C3=A9e
 
