@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B16335BEEDD
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:00:53 +0200 (CEST)
-Received: from localhost ([::1]:34226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B19875BEEEB
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:04:07 +0200 (CEST)
+Received: from localhost ([::1]:52536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oakMJ-0006EP-Af
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:00:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52200)
+	id 1oakPW-0003gt-CV
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:04:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oafgq-0004uY-1W
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:01:52 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:39912)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oafgl-0005HP-Nm
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:01:38 -0400
-Received: by mail-ej1-x629.google.com with SMTP id y17so7302588ejo.6
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 09:01:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=4HCElNzxi9fXay2wgMg1C/+5kWB6SjuogoB7SUnuQ9Y=;
- b=XVETZK3PflKUqA6p1y2AZUxA/9sXfRnRyLhFT0y51kA44b3ZFTB/gg5d3Cappmhrzu
- zSFhOmBjKP1whPvzfS3ID0LLhOQxI2q7DzXNUeQOXI/gcL46f21evXbhoaU8F19awkek
- nDoefYlIEf47H9B39p7DmBqQb7TinvIxmj62oi0frR0KadFmNAel3TaPMgc3z/oJSQ28
- Q2Ri+pPkAMYvD8MbQDT7hLYwiELhftxPP6VPDA1w5VFsOaPmQ5pqk9/31HbY84S4y4gg
- iMmST8ZNuhay33PP5dzC3KWG42z1t3/zSKxsPiKfOBw/q9oaMTsdSuAcVkb6y9ygACQR
- V2JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=4HCElNzxi9fXay2wgMg1C/+5kWB6SjuogoB7SUnuQ9Y=;
- b=r/60wcnEiYkXOBLRezJp/8/ltxgn9PYWWda8875dfGGr27dFpMEpJrQt3CwX1uZIpS
- 0hIF5CwCwN308kvPtpjluR3L/2F8GWw951iDBMaVLA1Agium7ac0wUtyopgCnIBIxiV/
- cQtxZAuAfLpdAELdGm/nBTteLZzruXeJJZDzr65RTEGdcNifAsXSTmaonRUpoZ+6kYw/
- oMqpFcnrzA5yQfFAcAsCXzjOYgYX+az479Zgeqe7v9XLODcCp/APGW9nmRno0eo4J3X+
- FhvQUrnoJMnQfmc+eHXuCh53DaewxG7XhDHDiURSs2jxQR8aWy3nhzfCmHuSRo4YnDer
- 10rg==
-X-Gm-Message-State: ACrzQf07v4E/+9qAvLXolMGr+NgNEps8Y3UNBuHW8ugqGucQf9sWoKzN
- rtDJQrWVl5obESEOs5eicIoZRfp1AokAg4kGgdidRg==
-X-Google-Smtp-Source: AMsMyM7Y58Ttu9Z9rTOJWozih/rp8VPfbthvfDEE9JGRP6KLKNGOLOw07/OA/eJ0sKPYMO5mSOTD2cW59LMtwkEsszI=
-X-Received: by 2002:a17:907:7209:b0:778:e86e:568 with SMTP id
- dr9-20020a170907720900b00778e86e0568mr18056317ejc.659.1663689693619; Tue, 20
- Sep 2022 09:01:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <davydov-max@yandex-team.ru>)
+ id 1oafkT-0005iC-Gm
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:05:31 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:42014)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <davydov-max@yandex-team.ru>)
+ id 1oafkP-0005iW-2N
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:05:23 -0400
+Received: from vla1-f615dbed14ca.qloud-c.yandex.net
+ (vla1-f615dbed14ca.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0d:3183:0:640:f615:dbed])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 2C2132E1470;
+ Tue, 20 Sep 2022 19:05:14 +0300 (MSK)
+Received: from 2a02:6b8:c1f:6255:0:640:95c3:0 (2a02:6b8:c1f:6255:0:640:95c3:0
+ [2a02:6b8:c1f:6255:0:640:95c3:0])
+ by vla1-f615dbed14ca.qloud-c.yandex.net (mxbackcorp/Yandex) with HTTP id
+ t4kKK31J1Os1-5EJaKZ40; Tue, 20 Sep 2022 19:05:14 +0300
+X-Yandex-Fwd: 2
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1663689914; bh=jSYsxRJyGJKXVzCAdQoiFgQIz8eg9G/O6BWNsUNlTGw=;
+ h=Cc:Subject:In-Reply-To:Date:References:To:From:Message-Id;
+ b=weWGLxGdqpVsyzUYvEQ18C+RYkHjCltlFgQO4VQn8CHITguvbJ7/t+b8C/TxccjTd
+ BsKUiRiyqrWmnVCT0mAwgzRMkVXPoskXYQFbGKcBI+gNwPJ4Qz5Xb7XwYHr3RczkK/
+ 3zz/Eg7yGPzuhZKckJfutCatqRBrEoWXYespA4Po=
+Authentication-Results: vla1-f615dbed14ca.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from 25wc44h4wzm3vfpi.iva.yp-c.yandex.net
+ (25wc44h4wzm3vfpi.iva.yp-c.yandex.net [2a02:6b8:c0c:3ad:0:640:89df:0])
+ by iva5-51baefb7689f.qloud-c.yandex.net (mxbackcorp/Yandex) with HTTP id
+ k2kaIZ1KbqM1-acadAL2X
+ for <davydov-max@yandex-team.ru>; Tue, 20 Sep 2022 19:05:04 +0300
+Received: by 25wc44h4wzm3vfpi.iva.yp-c.yandex.net with HTTP;
+ Tue, 20 Sep 2022 19:05:04 +0300
+From: Maksim Davydov <davydov-max@yandex-team.ru>
+To: =?utf-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>
+In-Reply-To: <CAJ+F1CKj5zELJ=HHOde4FMk_q9P3-o4qD+0J0iO-LaSKJZievw@mail.gmail.com>
+References: <20220825165247.33704-1-davydov-max@yandex-team.ru>
+ <CAJ+F1CKj5zELJ=HHOde4FMk_q9P3-o4qD+0J0iO-LaSKJZievw@mail.gmail.com>
+Subject: Re: [PATCH] chardev: fix segfault in finalize
 MIME-Version: 1.0
-References: <20220822152741.1617527-1-richard.henderson@linaro.org>
- <20220822152741.1617527-32-richard.henderson@linaro.org>
-In-Reply-To: <20220822152741.1617527-32-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Sep 2022 17:01:21 +0100
-Message-ID: <CAFEAcA9MuZWy1Y7yMLdh-xVb=HhGxi6bzabeiE-KT7r2DLwnhA@mail.gmail.com>
-Subject: Re: [PATCH v2 31/66] target/arm: Fix S2 disabled check in
- S1_ptw_translate
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Mailer: Yamail [ http://yandex.ru ] 5.0
+Date: Tue, 20 Sep 2022 19:05:14 +0300
+Message-Id: <155421663689437@mail.yandex-team.ru>
+Content-Transfer-Encoding: base64
+Content-Type: text/html; charset=utf-8
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=davydov-max@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ HTML_MIME_NO_HTML_TAG=0.377, MIME_HTML_ONLY=0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,50 +85,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 22 Aug 2022 at 17:23, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Pass the correct stage2 mmu_idx to regime_translation_disabled,
-> which we computed afterward.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/ptw.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-> index dbe5852af6..680139b478 100644
-> --- a/target/arm/ptw.c
-> +++ b/target/arm/ptw.c
-> @@ -211,11 +211,10 @@ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
->                                 ARMMMUFaultInfo *fi)
->  {
->      bool is_secure = *is_secure_ptr;
-> +    ARMMMUIdx s2_mmu_idx = is_secure ? ARMMMUIdx_Stage2_S : ARMMMUIdx_Stage2;
->
->      if (arm_mmu_idx_is_stage1_of_2(mmu_idx) &&
-> -        !regime_translation_disabled(env, ARMMMUIdx_Stage2, is_secure)) {
-> -        ARMMMUIdx s2_mmu_idx = is_secure ? ARMMMUIdx_Stage2_S
-> -                                         : ARMMMUIdx_Stage2;
-> +        !regime_translation_disabled(env, s2_mmu_idx, is_secure)) {
->          GetPhysAddrResult s2 = {};
->          int ret;
-
-
-This doesn't actually change the behaviour, though, right?
-regime_translation_disabled() at this point in the patchset doesn't
-do anything that makes a distinction between Stage2_S and Stage2 AFAICT.
-So this is just making the code clearer; we fixed the actual bug in patch 19.
-
-With a tweaked commit message,
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-Alternatively, pull this patch earlier so it's before patch 19 and
-is the one fixing the bug; then patch 19 is only adding the
-is_secure argument to regime_translation_disabled() and doesn't
-fix the bug in passing. That would be neater but maybe the
-patchset reshuffle is too painful so I don't insist on it.
-
-thanks
--- PMM
+PGRpdj5IaSE8YnIgLz5Db3VsZCB5b3Ugc2VuZCBhIHB1bGwgcmVxdWVzdD88L2Rpdj48ZGl2PsKg
+PC9kaXY+PGRpdj4yNi4wOC4yMDIyLCAxMToyMSwgIk1hcmMtQW5kcsOpIEx1cmVhdSIgJmx0O21h
+cmNhbmRyZS5sdXJlYXVAZ21haWwuY29tJmd0Ozo8L2Rpdj48YmxvY2txdW90ZT48ZGl2PkhpPGRp
+dj7CoDwvZGl2PsKgPGRpdj48ZGl2Pk9uIFRodSwgQXVnIDI1LCAyMDIyIGF0IDk6MDIgUE0gTWFr
+c2ltIERhdnlkb3YgJmx0OzxhIGhyZWY9Im1haWx0bzpkYXZ5ZG92LW1heEB5YW5kZXgtdGVhbS5y
+dSIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5kYXZ5ZG92LW1heEB5YW5kZXgtdGVhbS5ydTwv
+YT4mZ3Q7IHdyb3RlOjwvZGl2PjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXItbGVmdC1jb2xvcjpy
+Z2IoIDIwNCAsIDIwNCAsIDIwNCApO2JvcmRlci1sZWZ0LXN0eWxlOnNvbGlkO2JvcmRlci1sZWZ0
+LXdpZHRoOjFweDttYXJnaW46MHB4IDBweCAwcHggMC44ZXg7cGFkZGluZy1sZWZ0OjFleCI+SWYg
+ZmluYWxpemUgY2hhcmRldi1tc21vdXNlIG9yIGNoYXJkZXYtd2N0YWJsZSBpcyBjYWxsZWQgaW1t
+ZWRpYXRlbHkgYWZ0ZXI8YnIgLz5pbml0IGl0IGNhc2VzIFFFTVUgdG8gY3Jhc2ggd2l0aCBzZWdm
+YXVsdC4gVGhpcyBoYXBwZW5zIGJlY2F1c2Ugb2Y8YnIgLz5RVEFJTFFfUkVNT1ZFIGluIHFlbXVf
+aW5wdXRfaGFuZGxlcl91bnJlZ2lzdGVyIHRyaWVzIHRvIGRlcmVmZXJlbmNlPGJyIC8+TlVMTCBw
+b2ludGVyLjxiciAvPkZvciBpbnN0YW5jZSwgdGhpcyBlcnJvciBjYW4gYmUgcmVwcm9kdWNlZCB2
+aWEgYHFvbS1saXN0LXByb3BlcnRpZXNgPGJyIC8+Y29tbWFuZC48YnIgLz48YnIgLz5TaWduZWQt
+b2ZmLWJ5OiBNYWtzaW0gRGF2eWRvdiAmbHQ7PGEgaHJlZj0ibWFpbHRvOmRhdnlkb3YtbWF4QHlh
+bmRleC10ZWFtLnJ1IiByZWw9Im5vb3BlbmVyIG5vcmVmZXJyZXIiIHRhcmdldD0iX2JsYW5rIj5k
+YXZ5ZG92LW1heEB5YW5kZXgtdGVhbS5ydTwvYT4mZ3Q7PC9ibG9ja3F1b3RlPjxkaXY+wqA8L2Rp
+dj48ZGl2PlJldmlld2VkLWJ5OiBNYXJjLUFuZHLDqSBMdXJlYXUgJmx0OzxhIGhyZWY9Im1haWx0
+bzptYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20iIHJlbD0ibm9vcGVuZXIgbm9yZWZlcnJlciI+
+bWFyY2FuZHJlLmx1cmVhdUByZWRoYXQuY29tPC9hPiZndDs8L2Rpdj48ZGl2PsKgPC9kaXY+PGJs
+b2NrcXVvdGUgc3R5bGU9ImJvcmRlci1sZWZ0LWNvbG9yOnJnYiggMjA0ICwgMjA0ICwgMjA0ICk7
+Ym9yZGVyLWxlZnQtc3R5bGU6c29saWQ7Ym9yZGVyLWxlZnQtd2lkdGg6MXB4O21hcmdpbjowcHgg
+MHB4IDBweCAwLjhleDtwYWRkaW5nLWxlZnQ6MWV4Ij4tLS08YnIgLz7CoGNoYXJkZXYvbXNtb3Vz
+ZS5jwqAgfCA0ICsrKy08YnIgLz7CoGNoYXJkZXYvd2N0YWJsZXQuYyB8IDQgKysrLTxiciAvPsKg
+MiBmaWxlcyBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pPGJyIC8+PGJy
+IC8+ZGlmZiAtLWdpdCBhL2NoYXJkZXYvbXNtb3VzZS5jIGIvY2hhcmRldi9tc21vdXNlLmM8YnIg
+Lz5pbmRleCBlYjkyMzFkY2RiLi4yY2MxYjE2NTYxIDEwMDY0NDxiciAvPi0tLSBhL2NoYXJkZXYv
+bXNtb3VzZS5jPGJyIC8+KysrIGIvY2hhcmRldi9tc21vdXNlLmM8YnIgLz5AQCAtMTQ2LDcgKzE0
+Niw5IEBAIHN0YXRpYyB2b2lkIGNoYXJfbXNtb3VzZV9maW5hbGl6ZShPYmplY3QgKm9iaik8YnIg
+Lz7CoHs8IS0tIC0tPjxiciAvPsKgIMKgIMKgTW91c2VDaGFyZGV2ICptb3VzZSA9IE1PVVNFX0NI
+QVJERVYob2JqKTs8YnIgLz48YnIgLz4twqAgwqAgcWVtdV9pbnB1dF9oYW5kbGVyX3VucmVnaXN0
+ZXIobW91c2UtJmd0O2hzKTs8YnIgLz4rwqAgwqAgaWYgKG1vdXNlLSZndDtocykgezwhLS0gLS0+
+PGJyIC8+K8KgIMKgIMKgIMKgIHFlbXVfaW5wdXRfaGFuZGxlcl91bnJlZ2lzdGVyKG1vdXNlLSZn
+dDtocyk7PGJyIC8+K8KgIMKgIH08YnIgLz7CoH08YnIgLz48YnIgLz7CoHN0YXRpYyBRZW11SW5w
+dXRIYW5kbGVyIG1zbW91c2VfaGFuZGxlciA9IHs8IS0tIC0tPjxiciAvPmRpZmYgLS1naXQgYS9j
+aGFyZGV2L3djdGFibGV0LmMgYi9jaGFyZGV2L3djdGFibGV0LmM8YnIgLz5pbmRleCBlOGIyOTJj
+NDNjLi40M2JkZjZiNjA4IDEwMDY0NDxiciAvPi0tLSBhL2NoYXJkZXYvd2N0YWJsZXQuYzxiciAv
+PisrKyBiL2NoYXJkZXYvd2N0YWJsZXQuYzxiciAvPkBAIC0zMTksNyArMzE5LDkgQEAgc3RhdGlj
+IHZvaWQgd2N0YWJsZXRfY2hyX2ZpbmFsaXplKE9iamVjdCAqb2JqKTxiciAvPsKgezwhLS0gLS0+
+PGJyIC8+wqAgwqAgwqBUYWJsZXRDaGFyZGV2ICp0YWJsZXQgPSBXQ1RBQkxFVF9DSEFSREVWKG9i
+aik7PGJyIC8+PGJyIC8+LcKgIMKgIHFlbXVfaW5wdXRfaGFuZGxlcl91bnJlZ2lzdGVyKHRhYmxl
+dC0mZ3Q7aHMpOzxiciAvPivCoCDCoCBpZiAodGFibGV0LSZndDtocykgezwhLS0gLS0+PGJyIC8+
+K8KgIMKgIMKgIMKgIHFlbXVfaW5wdXRfaGFuZGxlcl91bnJlZ2lzdGVyKHRhYmxldC0mZ3Q7aHMp
+OzxiciAvPivCoCDCoCB9PGJyIC8+wqB9PGJyIC8+PGJyIC8+wqBzdGF0aWMgdm9pZCB3Y3RhYmxl
+dF9jaHJfb3BlbihDaGFyZGV2ICpjaHIsPGJyIC8+LS08YnIgLz4yLjI1LjE8YnIgLz48YnIgLz7C
+oDwvYmxvY2txdW90ZT48L2Rpdj48YnIgLz48YnIgLz4tLTxkaXY+TWFyYy1BbmRyw6kgTHVyZWF1
+PC9kaXY+PC9kaXY+PC9ibG9ja3F1b3RlPjxkaXY+wqA8L2Rpdj48ZGl2PsKgPC9kaXY+PGRpdj4t
+LcKgPC9kaXY+PGRpdj5CZXN0IHJlZ2FyZHMsPC9kaXY+PGRpdj5NYWtzaW0gRGF2eWRvdjwvZGl2
+PjxkaXY+wqA8L2Rpdj4=
 
