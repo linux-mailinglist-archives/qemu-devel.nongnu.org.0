@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8175BF28A
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 03:03:02 +0200 (CEST)
-Received: from localhost ([::1]:36498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F7045BF1E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 02:22:30 +0200 (CEST)
+Received: from localhost ([::1]:43838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oao8j-0001II-M5
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 21:03:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33450)
+	id 1oanVU-0007tL-Sj
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 20:22:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oam6R-0005mI-Py
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oam6R-0005nH-9J
  for qemu-devel@nongnu.org; Tue, 20 Sep 2022 18:52:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45834)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oam6P-0001Uq-28
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oam6P-0001Us-2l
  for qemu-devel@nongnu.org; Tue, 20 Sep 2022 18:52:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1663714347;
@@ -23,46 +23,46 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=leyo+AvhTJYUCn4Xc3eJcztvm2kX2JsxCJVxc3ElatE=;
- b=WAaU4lRv8qhiZ3+ea44TecWYX0zJB6lmjpDZGZyiaBB2TDUJoKggZ1dD/exgHFl4Ne+BgE
- uKo8ukJtzude/PEakVSvnDL36Nqkqi4FGdsa9WquQm0SRw5VpPPhq/qnSCaAvLUqa4KavM
- 7mzLtHWMvTAv+RD97mSbPgAbBa9oxlk=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xjyxsHXLlqCkXQX3xVM0s9I2tYX2rFDZ/QNGQ/MXgNI=;
+ b=fgPlLMazzD9r7rt35wihg6JtIO1Kc0O1UpxjU+f9kSWef9HMzLWUv2zi7GblAgNOesXc6d
+ Cx+XbDO3bMJWb/ylxGwsInmJq6J1UrHJuBz8TnRCo3Jw+uwjSS9KvVUyYyNA3IjiMaKWZx
+ D019FTYTuXsY57MQK5gHT2SNP/0WlAw=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-20-LnQjrf9SNx2snElSpWjKrQ-1; Tue, 20 Sep 2022 18:52:24 -0400
-X-MC-Unique: LnQjrf9SNx2snElSpWjKrQ-1
-Received: by mail-qk1-f200.google.com with SMTP id
- bs33-20020a05620a472100b006cef8cfabe2so3085031qkb.12
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 15:52:24 -0700 (PDT)
+ us-mta-635-1I2nRThtMGum9IpQI97SeA-1; Tue, 20 Sep 2022 18:52:26 -0400
+X-MC-Unique: 1I2nRThtMGum9IpQI97SeA-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ fv21-20020a05622a4a1500b0035cc9b4fc20so2892352qtb.12
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 15:52:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=leyo+AvhTJYUCn4Xc3eJcztvm2kX2JsxCJVxc3ElatE=;
- b=LiyfmcKDNaHXBPntSpb4LB6vn2v5CJWmjnEWhcSP2CfehUdn8D6/ZPTmi3/qA4LME0
- YFVFeaXsejyICyaJ2QYKuILbgXXP30e8eZiTtbyfih3fVq2eqoUav+IL4ZiKmvcX61aU
- BvBnX0hTRTcnC/uQs0iIwzqXGfijH6LrXbO1lHWjyabnKn6eLNn/Y6Mer31FUKP9kZtM
- JAUwOvHUTQ+5HYsSV0FrvUpejC4nk/3a3oGvj04qZhjdC0qcSanBuv4vhuCBHLf8jwO/
- ILj/9L4J8o2KP90ee9ASJPawrwaTCCgsfixOfDJitZ6stGzV6JTFK356Db3NIRsf8PdH
- GUBQ==
-X-Gm-Message-State: ACrzQf0OVl1X29ObqandmxgYbIwDX3c8ibRDT6gabbcKHZAet1JBQTPn
- xRSG7k/0GUM9llySq00nOkymV06rqxWGt/KqVtkAWE+eGM7dAUgWjZuMLs8Lwekrtt0816n8bEM
- vtR3HK2OYlTPqPG3BEw7gEJU9zDXpGMWD6gwh7VYabSGWPxFfg+d3GY/QjABtbvTc
-X-Received: by 2002:ad4:5bc5:0:b0:4ad:34db:1f0f with SMTP id
- t5-20020ad45bc5000000b004ad34db1f0fmr11745174qvt.106.1663714343501; 
- Tue, 20 Sep 2022 15:52:23 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7ob+lGuKb5WNqUbKXgy3E5wEGhT/A+kkVx4NNZb0a9zF1SVpJmgkx8u0Y6rYjFfgb/RVSGNQ==
-X-Received: by 2002:ad4:5bc5:0:b0:4ad:34db:1f0f with SMTP id
- t5-20020ad45bc5000000b004ad34db1f0fmr11745147qvt.106.1663714343184; 
- Tue, 20 Sep 2022 15:52:23 -0700 (PDT)
+ bh=xjyxsHXLlqCkXQX3xVM0s9I2tYX2rFDZ/QNGQ/MXgNI=;
+ b=Tmed2CSKyVhBCL7VYjPwRr+mI2RT+ympLU3pD3bSarSK7tEOhbEJRoy0eqTPg+v/b0
+ m1mpezmc0L5ncITxjRQq+gX4wY9cn5SK83Wuc1DJfnvmtu371GRCLdiWgQmFDyC40tvF
+ djDOWhtkMDOcVJ8bGCcXtt+OHT8nQoOXrjEjTNB3r77RBEysuFueoklndDG+xHmYbZaM
+ QJYja1YVn/eqqm3aE1oVMWngjiC5U9kO3q7vfq39cgvli+16jMm0IG0k/Xl2ufEMLTum
+ Aj05p6h0dcxfyYvOR6GARlmN+DxQTS65Pg0veBW0RXJdBPKJsDDvMJTCOWU1FzwMjAOG
+ I8KA==
+X-Gm-Message-State: ACrzQf0XmM+ZkgOMFTpn6O5hJ7KwOB700vU32txSZJjxpBXYqXP9NUUf
+ p21D2IKXntRRIW3OkgkzvwNj3SmrrbpGVmVWUheYF3OqyzZDFltMrHBu/Or45pIwXvf8tb6k+cM
+ WLGRoFkii1ZYr4MDgUqNiFCbXd8BNxI7ccxN2+lkM0huXjOsU6F25sQ+AU69guwze
+X-Received: by 2002:a05:622a:1790:b0:35c:8450:d9e4 with SMTP id
+ s16-20020a05622a179000b0035c8450d9e4mr21269346qtk.130.1663714345610; 
+ Tue, 20 Sep 2022 15:52:25 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM649vcv9JEQczX/NjT/lxzB7bGFNYZtLjXqtO1LbIwffkQEYSbpnueEa76bR5jr+WVUqYsv9Q==
+X-Received: by 2002:a05:622a:1790:b0:35c:8450:d9e4 with SMTP id
+ s16-20020a05622a179000b0035c8450d9e4mr21269318qtk.130.1663714345250; 
+ Tue, 20 Sep 2022 15:52:25 -0700 (PDT)
 Received: from localhost.localdomain
  (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca. [70.31.27.79])
  by smtp.gmail.com with ESMTPSA id
- d18-20020ac851d2000000b00342fa1f4a10sm522191qtn.61.2022.09.20.15.52.22
+ n18-20020a05622a041200b0035a71a41645sm637377qtx.37.2022.09.20.15.52.24
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 20 Sep 2022 15:52:22 -0700 (PDT)
+ Tue, 20 Sep 2022 15:52:24 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: peterx@redhat.com, Manish Mishra <manish.mishra@nutanix.com>,
@@ -70,16 +70,16 @@ Cc: peterx@redhat.com, Manish Mishra <manish.mishra@nutanix.com>,
  Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  "Daniel P . Berrange" <berrange@redhat.com>
-Subject: [PATCH 10/14] migration: Make PageSearchStatus part of RAMState
-Date: Tue, 20 Sep 2022 18:52:21 -0400
-Message-Id: <20220920225221.48999-1-peterx@redhat.com>
+Subject: [PATCH 11/14] migration: Move last_sent_block into PageSearchStatus
+Date: Tue, 20 Sep 2022 18:52:23 -0400
+Message-Id: <20220920225223.49052-1-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220920225106.48451-1-peterx@redhat.com>
 References: <20220920225106.48451-1-peterx@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -103,208 +103,268 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We used to allocate PSS structure on the stack for precopy when sending
-pages.  Make it static, so as to describe per-channel ram migration status.
+Since we use PageSearchStatus to represent a channel, it makes perfect
+sense to keep last_sent_block (aka, leverage RAM_SAVE_FLAG_CONTINUE) to be
+per-channel rather than global because each channel can be sending
+different pages on ramblocks.
 
-Here we declared RAM_CHANNEL_MAX instances, preparing for postcopy to use
-it, even though this patch has not yet to start using the 2nd instance.
-
-This should not have any functional change per se, but it already starts to
-export PSS information via the RAMState, so that e.g. one PSS channel can
-start to reference the other PSS channel.
-
-Always protect PSS access using the same RAMState.bitmap_mutex.  We already
-do so, so no code change needed, just some comment update.  Maybe we should
-consider renaming bitmap_mutex some day as it's going to be a more commonly
-and big mutex we use for ram states, but just leave it for later.
+Hence move it from RAMState into PageSearchStatus.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/ram.c | 112 ++++++++++++++++++++++++++----------------------
- 1 file changed, 61 insertions(+), 51 deletions(-)
+ migration/ram.c | 71 ++++++++++++++++++++++++++++---------------------
+ 1 file changed, 41 insertions(+), 30 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index b4b36ca59e..dbe11e1ace 100644
+index dbe11e1ace..fdcb61a2c8 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -85,6 +85,46 @@
- 
- XBZRLECacheStats xbzrle_counters;
- 
-+/* used by the search for pages to send */
-+struct PageSearchStatus {
-+    /* The migration channel used for a specific host page */
-+    QEMUFile    *pss_channel;
-+    /* Current block being searched */
-+    RAMBlock    *block;
-+    /* Current page to search from */
-+    unsigned long page;
-+    /* Set once we wrap around */
-+    bool         complete_round;
-+    /*
-+     * [POSTCOPY-ONLY] Whether current page is explicitly requested by
-+     * postcopy.  When set, the request is "urgent" because the dest QEMU
-+     * threads are waiting for us.
-+     */
-+    bool         postcopy_requested;
-+    /*
-+     * [POSTCOPY-ONLY] The target channel to use to send current page.
-+     *
-+     * Note: This may _not_ match with the value in postcopy_requested
-+     * above. Let's imagine the case where the postcopy request is exactly
-+     * the page that we're sending in progress during precopy. In this case
-+     * we'll have postcopy_requested set to true but the target channel
-+     * will be the precopy channel (so that we don't split brain on that
-+     * specific page since the precopy channel already contains partial of
-+     * that page data).
-+     *
-+     * Besides that specific use case, postcopy_target_channel should
-+     * always be equal to postcopy_requested, because by default we send
-+     * postcopy pages via postcopy preempt channel.
-+     */
-+    bool         postcopy_target_channel;
-+    /* Whether we're sending a host page */
-+    bool          host_page_sending;
-+    /* The start/end of current host page.  Invalid if host_page_sending==false */
-+    unsigned long host_page_start;
-+    unsigned long host_page_end;
-+};
-+typedef struct PageSearchStatus PageSearchStatus;
-+
- /* struct contains XBZRLE cache and a static page
-    used by the compression */
- static struct {
-@@ -319,6 +359,11 @@ typedef struct {
- struct RAMState {
-     /* QEMUFile used for this migration */
-     QEMUFile *f;
-+    /*
-+     * PageSearchStatus structures for the channels when send pages.
-+     * Protected by the bitmap_mutex.
-+     */
-+    PageSearchStatus pss[RAM_CHANNEL_MAX];
-     /* UFFD file descriptor, used in 'write-tracking' migration */
+@@ -89,6 +89,8 @@ XBZRLECacheStats xbzrle_counters;
+ struct PageSearchStatus {
+     /* The migration channel used for a specific host page */
+     QEMUFile    *pss_channel;
++    /* Last block from where we have sent data */
++    RAMBlock *last_sent_block;
+     /* Current block being searched */
+     RAMBlock    *block;
+     /* Current page to search from */
+@@ -368,8 +370,6 @@ struct RAMState {
      int uffdio_fd;
      /* Last block that we have visited searching for dirty pages */
-@@ -362,7 +407,12 @@ struct RAMState {
-     uint64_t target_page_count;
-     /* number of dirty bits in the bitmap */
-     uint64_t migration_dirty_pages;
--    /* Protects modification of the bitmap and migration dirty pages */
-+    /*
-+     * Protects:
-+     * - dirty/clear bitmap
-+     * - migration_dirty_pages
-+     * - pss structures
-+     */
-     QemuMutex bitmap_mutex;
-     /* The RAMBlock used in the last src_page_requests */
-     RAMBlock *last_req_rb;
-@@ -444,46 +494,6 @@ void dirty_sync_missed_zero_copy(void)
-     ram_counters.dirty_sync_missed_zero_copy++;
- }
- 
--/* used by the search for pages to send */
--struct PageSearchStatus {
--    /* The migration channel used for a specific host page */
--    QEMUFile    *pss_channel;
--    /* Current block being searched */
--    RAMBlock    *block;
--    /* Current page to search from */
--    unsigned long page;
--    /* Set once we wrap around */
--    bool         complete_round;
--    /*
--     * [POSTCOPY-ONLY] Whether current page is explicitly requested by
--     * postcopy.  When set, the request is "urgent" because the dest QEMU
--     * threads are waiting for us.
--     */
--    bool         postcopy_requested;
--    /*
--     * [POSTCOPY-ONLY] The target channel to use to send current page.
--     *
--     * Note: This may _not_ match with the value in postcopy_requested
--     * above. Let's imagine the case where the postcopy request is exactly
--     * the page that we're sending in progress during precopy. In this case
--     * we'll have postcopy_requested set to true but the target channel
--     * will be the precopy channel (so that we don't split brain on that
--     * specific page since the precopy channel already contains partial of
--     * that page data).
--     *
--     * Besides that specific use case, postcopy_target_channel should
--     * always be equal to postcopy_requested, because by default we send
--     * postcopy pages via postcopy preempt channel.
--     */
--    bool         postcopy_target_channel;
--    /* Whether we're sending a host page */
--    bool          host_page_sending;
--    /* The start/end of current host page.  Only valid if host_page_sending==true */
--    unsigned long host_page_start;
--    unsigned long host_page_end;
--};
--typedef struct PageSearchStatus PageSearchStatus;
--
- CompressionStats compression_counters;
- 
- struct CompressParam {
-@@ -2627,7 +2637,7 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
+     RAMBlock *last_seen_block;
+-    /* Last block from where we have sent data */
+-    RAMBlock *last_sent_block;
+     /* Last dirty target page we have sent */
+     ram_addr_t last_page;
+     /* last ram version we have seen */
+@@ -677,16 +677,17 @@ exit:
+  *
+  * Returns the number of bytes written
+  *
+- * @f: QEMUFile where to send the data
++ * @pss: current PSS channel status
+  * @block: block that contains the page we want to send
+  * @offset: offset inside the block for the page
+  *          in the lower bits, it contains flags
   */
- static int ram_find_and_save_block(RAMState *rs)
+-static size_t save_page_header(RAMState *rs, QEMUFile *f,  RAMBlock *block,
++static size_t save_page_header(PageSearchStatus *pss, RAMBlock *block,
+                                ram_addr_t offset)
  {
--    PageSearchStatus pss;
-+    PageSearchStatus *pss = &rs->pss[RAM_CHANNEL_PRECOPY];
-     int pages = 0;
-     bool again, found;
+     size_t size, len;
+-    bool same_block = (block == rs->last_sent_block);
++    bool same_block = (block == pss->last_sent_block);
++    QEMUFile *f = pss->pss_channel;
  
-@@ -2648,11 +2658,11 @@ static int ram_find_and_save_block(RAMState *rs)
-         rs->last_page = 0;
+     if (same_block) {
+         offset |= RAM_SAVE_FLAG_CONTINUE;
+@@ -699,7 +700,7 @@ static size_t save_page_header(RAMState *rs, QEMUFile *f,  RAMBlock *block,
+         qemu_put_byte(f, len);
+         qemu_put_buffer(f, (uint8_t *)block->idstr, len);
+         size += 1 + len;
+-        rs->last_sent_block = block;
++        pss->last_sent_block = block;
+     }
+     return size;
+ }
+@@ -783,17 +784,19 @@ static void xbzrle_cache_zero_page(RAMState *rs, ram_addr_t current_addr)
+  *          -1 means that xbzrle would be longer than normal
+  *
+  * @rs: current RAM state
++ * @pss: current PSS channel
+  * @current_data: pointer to the address of the page contents
+  * @current_addr: addr of the page
+  * @block: block that contains the page we want to send
+  * @offset: offset inside the block for the page
+  */
+-static int save_xbzrle_page(RAMState *rs, QEMUFile *file,
++static int save_xbzrle_page(RAMState *rs, PageSearchStatus *pss,
+                             uint8_t **current_data, ram_addr_t current_addr,
+                             RAMBlock *block, ram_addr_t offset)
+ {
+     int encoded_len = 0, bytes_xbzrle;
+     uint8_t *prev_cached_page;
++    QEMUFile *file = pss->pss_channel;
+ 
+     if (!cache_is_cached(XBZRLE.cache, current_addr,
+                          ram_counters.dirty_sync_count)) {
+@@ -858,7 +861,7 @@ static int save_xbzrle_page(RAMState *rs, QEMUFile *file,
      }
  
--    pss_init(&pss, rs->last_seen_block, rs->last_page);
-+    pss_init(pss, rs->last_seen_block, rs->last_page);
+     /* Send XBZRLE based compressed page */
+-    bytes_xbzrle = save_page_header(rs, file, block,
++    bytes_xbzrle = save_page_header(pss, block,
+                                     offset | RAM_SAVE_FLAG_XBZRLE);
+     qemu_put_byte(file, ENCODING_FLAG_XBZRLE);
+     qemu_put_be16(file, encoded_len);
+@@ -1289,19 +1292,19 @@ static void ram_release_page(const char *rbname, uint64_t offset)
+  * Returns the size of data written to the file, 0 means the page is not
+  * a zero page
+  *
+- * @rs: current RAM state
+- * @file: the file where the data is saved
++ * @pss: current PSS channel
+  * @block: block that contains the page we want to send
+  * @offset: offset inside the block for the page
+  */
+-static int save_zero_page_to_file(RAMState *rs, QEMUFile *file,
++static int save_zero_page_to_file(PageSearchStatus *pss,
+                                   RAMBlock *block, ram_addr_t offset)
+ {
+     uint8_t *p = block->host + offset;
++    QEMUFile *file = pss->pss_channel;
+     int len = 0;
  
-     do {
-         again = true;
--        found = get_queued_page(rs, &pss);
-+        found = get_queued_page(rs, pss);
+     if (buffer_is_zero(p, TARGET_PAGE_SIZE)) {
+-        len += save_page_header(rs, file, block, offset | RAM_SAVE_FLAG_ZERO);
++        len += save_page_header(pss, block, offset | RAM_SAVE_FLAG_ZERO);
+         qemu_put_byte(file, 0);
+         len += 1;
+         ram_release_page(block->idstr, offset);
+@@ -1314,14 +1317,14 @@ static int save_zero_page_to_file(RAMState *rs, QEMUFile *file,
+  *
+  * Returns the number of pages written.
+  *
+- * @rs: current RAM state
++ * @pss: current PSS channel
+  * @block: block that contains the page we want to send
+  * @offset: offset inside the block for the page
+  */
+-static int save_zero_page(RAMState *rs, QEMUFile *file, RAMBlock *block,
++static int save_zero_page(PageSearchStatus *pss, RAMBlock *block,
+                           ram_addr_t offset)
+ {
+-    int len = save_zero_page_to_file(rs, file, block, offset);
++    int len = save_zero_page_to_file(pss, block, offset);
  
-         if (!found) {
-             /*
-@@ -2660,27 +2670,27 @@ static int ram_find_and_save_block(RAMState *rs)
-              * preempted precopy.  Otherwise find the next dirty bit.
-              */
-             if (postcopy_preempt_triggered(rs)) {
--                postcopy_preempt_restore(rs, &pss, false);
-+                postcopy_preempt_restore(rs, pss, false);
-                 found = true;
-             } else {
-                 /* priority queue empty, so just search for something dirty */
--                found = find_dirty_block(rs, &pss, &again);
-+                found = find_dirty_block(rs, pss, &again);
-             }
-         }
+     if (len) {
+         qatomic_inc(&ram_counters.duplicate);
+@@ -1374,16 +1377,18 @@ static bool control_save_page(PageSearchStatus *pss, RAMBlock *block,
+  *
+  * Returns the number of pages written.
+  *
+- * @rs: current RAM state
++ * @pss: current PSS channel
+  * @block: block that contains the page we want to send
+  * @offset: offset inside the block for the page
+  * @buf: the page to be sent
+  * @async: send to page asyncly
+  */
+-static int save_normal_page(RAMState *rs, QEMUFile *file, RAMBlock *block,
++static int save_normal_page(PageSearchStatus *pss, RAMBlock *block,
+                             ram_addr_t offset, uint8_t *buf, bool async)
+ {
+-    ram_transferred_add(save_page_header(rs, file, block,
++    QEMUFile *file = pss->pss_channel;
++
++    ram_transferred_add(save_page_header(pss, block,
+                                          offset | RAM_SAVE_FLAG_PAGE));
+     if (async) {
+         qemu_put_buffer_async(file, buf, TARGET_PAGE_SIZE,
+@@ -1423,7 +1428,7 @@ static int ram_save_page(RAMState *rs, PageSearchStatus *pss)
  
-         if (found) {
-             /* Update rs->f with correct channel */
-             if (postcopy_preempt_active()) {
--                postcopy_preempt_choose_channel(rs, &pss);
-+                postcopy_preempt_choose_channel(rs, pss);
-             }
-             /* Cache rs->f in pss_channel (TODO: remove rs->f) */
--            pss.pss_channel = rs->f;
--            pages = ram_save_host_page(rs, &pss);
-+            pss->pss_channel = rs->f;
-+            pages = ram_save_host_page(rs, pss);
-         }
-     } while (!pages && again);
+     XBZRLE_cache_lock();
+     if (rs->xbzrle_enabled && !migration_in_postcopy()) {
+-        pages = save_xbzrle_page(rs, pss->pss_channel, &p, current_addr,
++        pages = save_xbzrle_page(rs, pss, &p, current_addr,
+                                  block, offset);
+         if (!rs->last_stage) {
+             /* Can't send this cached data async, since the cache page
+@@ -1435,8 +1440,7 @@ static int ram_save_page(RAMState *rs, PageSearchStatus *pss)
  
--    rs->last_seen_block = pss.block;
--    rs->last_page = pss.page;
-+    rs->last_seen_block = pss->block;
-+    rs->last_page = pss->page;
+     /* XBZRLE overflow or normal page */
+     if (pages == -1) {
+-        pages = save_normal_page(rs, pss->pss_channel, block, offset,
+-                                 p, send_async);
++        pages = save_normal_page(pss, block, offset, p, send_async);
+     }
  
-     return pages;
- }
+     XBZRLE_cache_unlock();
+@@ -1459,14 +1463,15 @@ static bool do_compress_ram_page(QEMUFile *f, z_stream *stream, RAMBlock *block,
+                                  ram_addr_t offset, uint8_t *source_buf)
+ {
+     RAMState *rs = ram_state;
++    PageSearchStatus *pss = &rs->pss[RAM_CHANNEL_PRECOPY];
+     uint8_t *p = block->host + offset;
+     int ret;
+ 
+-    if (save_zero_page_to_file(rs, f, block, offset)) {
++    if (save_zero_page_to_file(pss, block, offset)) {
+         return true;
+     }
+ 
+-    save_page_header(rs, f, block, offset | RAM_SAVE_FLAG_COMPRESS_PAGE);
++    save_page_header(pss, block, offset | RAM_SAVE_FLAG_COMPRESS_PAGE);
+ 
+     /*
+      * copy it to a internal buffer to avoid it being modified by VM
+@@ -2286,7 +2291,8 @@ static bool save_page_use_compression(RAMState *rs)
+  * has been properly handled by compression, otherwise needs other
+  * paths to handle it
+  */
+-static bool save_compress_page(RAMState *rs, RAMBlock *block, ram_addr_t offset)
++static bool save_compress_page(RAMState *rs, PageSearchStatus *pss,
++                               RAMBlock *block, ram_addr_t offset)
+ {
+     if (!save_page_use_compression(rs)) {
+         return false;
+@@ -2302,7 +2308,7 @@ static bool save_compress_page(RAMState *rs, RAMBlock *block, ram_addr_t offset)
+      * We post the fist page as normal page as compression will take
+      * much CPU resource.
+      */
+-    if (block != rs->last_sent_block) {
++    if (block != pss->last_sent_block) {
+         flush_compressed_data(rs);
+         return false;
+     }
+@@ -2333,11 +2339,11 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
+         return res;
+     }
+ 
+-    if (save_compress_page(rs, block, offset)) {
++    if (save_compress_page(rs, pss, block, offset)) {
+         return 1;
+     }
+ 
+-    res = save_zero_page(rs, pss->pss_channel, block, offset);
++    res = save_zero_page(pss, block, offset);
+     if (res > 0) {
+         /* Must let xbzrle know, otherwise a previous (now 0'd) cached
+          * page would be stale
+@@ -2469,7 +2475,7 @@ static void postcopy_preempt_choose_channel(RAMState *rs, PageSearchStatus *pss)
+          * If channel switched, reset last_sent_block since the old sent block
+          * may not be on the same channel.
+          */
+-        rs->last_sent_block = NULL;
++        pss->last_sent_block = NULL;
+ 
+         trace_postcopy_preempt_switch_channel(channel);
+     }
+@@ -2804,8 +2810,13 @@ static void ram_save_cleanup(void *opaque)
+ 
+ static void ram_state_reset(RAMState *rs)
+ {
++    int i;
++
++    for (i = 0; i < RAM_CHANNEL_MAX; i++) {
++        rs->pss[i].last_sent_block = NULL;
++    }
++
+     rs->last_seen_block = NULL;
+-    rs->last_sent_block = NULL;
+     rs->last_page = 0;
+     rs->last_version = ram_list.version;
+     rs->xbzrle_enabled = false;
+@@ -2999,8 +3010,8 @@ void ram_postcopy_send_discard_bitmap(MigrationState *ms)
+     migration_bitmap_sync(rs);
+ 
+     /* Easiest way to make sure we don't resume in the middle of a host-page */
++    rs->pss[RAM_CHANNEL_PRECOPY].last_sent_block = NULL;
+     rs->last_seen_block = NULL;
+-    rs->last_sent_block = NULL;
+     rs->last_page = 0;
+ 
+     postcopy_each_ram_send_discard(ms);
 -- 
 2.32.0
 
