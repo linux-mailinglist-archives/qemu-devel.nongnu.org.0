@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 472C05BED7A
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 21:19:05 +0200 (CEST)
-Received: from localhost ([::1]:38316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE9E5BEDB7
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 21:27:26 +0200 (CEST)
+Received: from localhost ([::1]:54564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oailr-0004w8-RJ
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 15:19:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36234)
+	id 1oaitw-0002oz-Eg
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 15:27:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oaeDS-0005f9-Ok
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 10:27:18 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:37657)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oaeDR-0005oa-BW
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 10:27:14 -0400
-Received: by mail-ej1-x631.google.com with SMTP id a26so6628502ejc.4
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 07:27:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=ISB7uH9y69aaUzbJW2F0v+3N0cC/KP9DACeWVIh4/n0=;
- b=nZFEq0kRQbqqULA+dg2YjZbsCZ3KLxwgJBkzkeTvkk8F5J0r9Q/uSdpJh8Lr/UM9cZ
- rfpi8A6TCDV0u8MnWN9/hw7MDxEzkSnuu/32OW8wmPmd4169WKdU7/bPIGUE1r0g7bBK
- /IlctyWxRcRp2r+daTIP7BT6C3xT9TGbxwiKgrQ4h+RMT738arZRMt3CQxzQ2J0QOKPJ
- osrFnyFFvUET1UdxaNDFnHfiNM+5zFBbhuxbU9vxMlgS3RzQGCjS5iO+jeJY0qocM3Im
- FrmrHUQHt3t/Uw6LWTqt6/PkxggQWnXoine480qixS4gv7g9P3Vc7oQ8bF7GZPNhtQHd
- O5fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=ISB7uH9y69aaUzbJW2F0v+3N0cC/KP9DACeWVIh4/n0=;
- b=s404EzaMdF3fsMVIpS+DCrRhb93EZgtK7C80xnLmhhQd0yjzLdfwom4Szq7TCmv1i4
- DTc26/TLtdFese73vdmuXaNmswlgjgXkMI35jsUnCzpJl77w4/7pvDUPKc+j+sparGT3
- nfdAfTmb/Cq6ZHRJJRLU5KrRgsOE7ehe6jgj+e1ZdvyyVX6pmhqTTa+K547C3i3o3wcr
- EY6mnFH9f2q5lADbzLRu5ZNIuAudidv/QfZFB8QOaXh7AnaZRgkwt/i/c5Aj2BBuekhu
- xfCI0+nEZYF+K405B2yd/wAU0tYxTMQ6ez9UaRhsqg7JS8/z24pL6kWiN0v/IEv8UzHU
- dVGg==
-X-Gm-Message-State: ACrzQf0j5U2V8EnHLHsaXEMgG4m6a1+tfQz4wLgtQlLtj7bHH3jy3uCv
- sw3F+WE2hE9XIvQi+VDwCXi9782CQp4+ovLtXmrB1Q==
-X-Google-Smtp-Source: AMsMyM6fXcfdpYstIVOgn57kai6FiXcXx/Gwoo2yziQNlhN+kBd2X+lFyakvE70+E//63qruVOVau08+VVwyku4gTpI=
-X-Received: by 2002:a17:907:86a5:b0:780:156d:e842 with SMTP id
- qa37-20020a17090786a500b00780156de842mr16953915ejc.555.1663684031498; Tue, 20
- Sep 2022 07:27:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oaeEA-0005sc-8B
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 10:27:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34286)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oaeE6-0005ws-Rs
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 10:27:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663684073;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=x1C9Lx8vSR5W6m/j/OtjG/R4BIh3lDwljPKbxcYe7u4=;
+ b=EPqFYzRg68L/ddU5fQbt1Cv/Qs/JezEoqgVLfHJPLcQC6HctGX3LdLvBTNyOfe1cvkd720
+ hhqtrWbxc7NBZgcAoGGnUPFs7d6Uw0uwcOqm5UGBMOj71St9vbz5tQQQnPqjw1PuO0ZD+/
+ GnU0Nf8SKa44ptp96fBqKhgwzTiQPrU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-391-ABtBEu82MiG_pWqayvXmdA-1; Tue, 20 Sep 2022 10:27:43 -0400
+X-MC-Unique: ABtBEu82MiG_pWqayvXmdA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A667885A583;
+ Tue, 20 Sep 2022 14:27:42 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 503C51759F;
+ Tue, 20 Sep 2022 14:27:42 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id CC61321E6900; Tue, 20 Sep 2022 16:27:39 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Yongji Xie <xieyongji@bytedance.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,  Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [RFC PATCH] libvduse: Do not truncate terminating NUL character
+ with strncpy()
+References: <20220919192306.52729-1-f4bug@amsat.org>
+ <87k05yxp7p.fsf@pond.sub.org>
+ <CACycT3sqE+_JNv0k4we7TyLS-JJx_hGhRCfKpe1JMLgCw_x+PA@mail.gmail.com>
+Date: Tue, 20 Sep 2022 16:27:39 +0200
+In-Reply-To: <CACycT3sqE+_JNv0k4we7TyLS-JJx_hGhRCfKpe1JMLgCw_x+PA@mail.gmail.com>
+ (Yongji Xie's message of "Tue, 20 Sep 2022 21:36:30 +0800")
+Message-ID: <87mtauw278.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220822152741.1617527-1-richard.henderson@linaro.org>
- <20220822152741.1617527-8-richard.henderson@linaro.org>
-In-Reply-To: <20220822152741.1617527-8-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Sep 2022 15:26:59 +0100
-Message-ID: <CAFEAcA8VrNFDOE7Y==fQ0tP7m=f3KOAb0TD4RCOntN_nmKebZg@mail.gmail.com>
-Subject: Re: [PATCH v2 07/66] target/arm: Use GetPhysAddrResult in
- get_phys_addr_pmsav7
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,16 +86,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 22 Aug 2022 at 16:50, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+Yongji Xie <xieyongji@bytedance.com> writes:
+
+> On Tue, Sep 20, 2022 at 7:25 PM Markus Armbruster <armbru@redhat.com> wro=
+te:
+>>
+>> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+>>
+>> > GCC 8 added a -Wstringop-truncation warning:
+>> >
+>> >   The -Wstringop-truncation warning added in GCC 8.0 via r254630 for
+>> >   bug 81117 is specifically intended to highlight likely unintended
+>> >   uses of the strncpy function that truncate the terminating NUL
+>> >   character from the source string.
+>> >
+>> > Here the next line indeed unconditionally zeroes the last byte, so
+>> > we can call strncpy() on the buffer size less the last byte.
+>>
+>> Actually, the buffer is all zero to begin with, so we could do this even
+>> without the next line's assignment.
+>>
 >
-> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/ptw.c | 36 +++++++++++++++++-------------------
+> Yes, I think we can remove the next line's assignment.
+>
+>> >                                                              This
+>> > fixes when using gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0:
+>> >
+>> >   [42/666] Compiling C object subprojects/libvduse/libvduse.a.p/libvdu=
+se.c.o
+>> >   FAILED: subprojects/libvduse/libvduse.a.p/libvduse.c.o
+>> >   cc -m64 -mcx16 -Isubprojects/libvduse/libvduse.a.p -Isubprojects/lib=
+vduse -I../../subprojects/libvduse [...] -o subprojects/libvduse/libvduse.a=
+.p/libvduse.c.o -c ../../subprojects/libvduse/libvduse.c
+>> >   In file included from /usr/include/string.h:495,
+>> >                    from ../../subprojects/libvduse/libvduse.c:24:
+>> >   In function =E2=80=98strncpy=E2=80=99,
+>> >       inlined from =E2=80=98vduse_dev_create=E2=80=99 at ../../subproj=
+ects/libvduse/libvduse.c:1312:5:
+>> >   /usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error:=
+ =E2=80=98__builtin_strncpy=E2=80=99 specified bound 256 equals destination=
+ size [-Werror=3Dstringop-truncation]
+>> >     106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bo=
+s (__dest));
+>> >         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~
+>> >   cc1: all warnings being treated as errors
+>> >   ninja: build stopped: cannot make progress due to previous errors.
+>> >
+>> > Fixes: d9cf16c0be ("libvduse: Replace strcpy() with strncpy()")
+>> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>>
+>> The subject feels a bit too alarming to me.  This patch suppresses a
+>> warning, no less, no more.  Behavior doesn't change.  Perhaps
+>>
+>>     libvduse: Avoid warning about dangerous use of strncpy()
+>>
+>> > ---
+>> > Cc: Xie Yongji <xieyongji@bytedance.com>
+>> > Cc: Markus Armbruster <armbru@redhat.com>
+>> > Cc: Kevin Wolf <kwolf@redhat.com>
+>> >
+>> > RFC: Any better idea? We can't use strpadcpy() because libvduse
+>> > doesn't depend on QEMU.
+>>
+>> There's no need for padding: the destination calloc'ed.  So, pstrcpy()
+>> would do, but it's just as unavailable.  Can we use GLib?  There's
+>> g_strlcpy().
+>>
+>> Outside this patch's scope: is silent truncation what we want?
+>>
+>
+> Actually silent truncation would not happen since we called
+> vduse_name_is_invalid() before.
+>
+> static inline bool vduse_name_is_invalid(const char *name)
+> {
+>     return strlen(name) >=3D VDUSE_NAME_MAX || strstr(name, "..");
+> }
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Ah, so even strcpy() would be safe (but might trigger a compiler
+warning).
 
-thanks
--- PMM
+Thanks!
+
 
