@@ -2,90 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57E675BEF7A
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:58:23 +0200 (CEST)
-Received: from localhost ([::1]:38810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D6A55BEFA2
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 00:05:46 +0200 (CEST)
+Received: from localhost ([::1]:50944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oalG2-0006TS-5q
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:58:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42598)
+	id 1oalNB-0000Ab-8x
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 18:05:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oah0i-0006z1-Ny
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:26:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38659)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oah0S-0002GD-Ti
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:26:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663694760;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lYlCi4izgJ/t/0gMaR1REf/PoK52S5TGaB1ccYyMtxI=;
- b=V+RZb3BkS8S3Jd7ef/nwG1cFrrgxE2dE2xi05+oWvvGM+GfGL+rBO8W7YWM0lsHXqF1N20
- Uouv3SvADsFfnBFTXdt/nrGbbjAlTEhaiIYnfFvSwr+HR71Y1cAI+tfcgGz4V0mXUe8Z6l
- +AQIAVn1ISiWarIADKPIlg1iiYhKzk8=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-466-m8nkar4QNtGv6yeNI4nt4A-1; Tue, 20 Sep 2022 13:25:59 -0400
-X-MC-Unique: m8nkar4QNtGv6yeNI4nt4A-1
-Received: by mail-ej1-f71.google.com with SMTP id
- jg32-20020a170907972000b0077ce313a8f0so1781959ejc.15
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 10:25:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oagqj-0000b3-1G
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:16:00 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:43821)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oagqh-0000ii-Gl
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:15:56 -0400
+Received: by mail-ej1-x629.google.com with SMTP id lh5so7754877ejb.10
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 10:15:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+ bh=kgOtjYfIt+ylJV73NEowm0ceMrq4o4dFJuDidaHM5To=;
+ b=F2nUPLK8zfJyr86IVAOceQrKpw9rbGkAWVTf1TVzguqH/EOBIIIt+jTXec9SNf7nD+
+ qW5pK6ZZLiytc3par8qifQmFElMTVsb2skAgQtyZQhskUX8BsaMgnypGpLCS7/dBR/J8
+ L7fI+HrVjAmJ1XqicImIX+PI+BYJW2cDbINshaHltMp7FBe1HlBqLM1wzdvqws2vLJGQ
+ 61M5RwHpzVRopB41ZAHQIMuDaVrOkk0x9DXW2Cbiov2c8HbI4fAmpUcxeltje7GPcxwn
+ 4npwKCSE3oERHy78usxB/PR0VIEFMBFBJO+zVgUNFkyJayrRNN57/nzioKyEAUgmnjal
+ lj/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=lYlCi4izgJ/t/0gMaR1REf/PoK52S5TGaB1ccYyMtxI=;
- b=5V57vGl53DxmS/xS6GL8biZcI74KqC/cqhlM6o2/kBE1r7Gu0QeSgWzP4F6dbCy8+g
- Fu03xp41Wn6/e4IcPNYsO7iKiW5oePOzynDa3NS/JUxecYNTgcYsjKXel975xwvRWW+w
- XK4WxwjqCxYCdVxtxs4L/lktgUJacSm5naja78dGc9aPZR7gdCPFuVzb0JdLVZ0UJ4TG
- ORCX9wcMazLLDo4t+3pdbgDWp6WZGzbK/Mht1rD55whFQY8vuq33UkX02Un1JqINq/5Z
- 99/wbl6dW2k3JuWPUIzbRdwTb4pgXrvjD/cQhpFF07R++QGkps73va9BwfwSzdjpEpoH
- oMPw==
-X-Gm-Message-State: ACrzQf15Ei1R+seXHbngWKvY0eL+KTX1iqHowEpInkWfEaXiRK+TplOL
- hkHBUZ4BfpV5H0l3R7o4fua1UOZQbg/sCVtR51yVnG/nwoFajgS3ird0NIInr7eQ4Daw94qNQPV
- 9Gj1W2VDt9yrK0m9W9O6ORBt0VGL6vgOvMDZ0I4P9H4zBa9eHn7geCEB62PT5c86ma0c=
-X-Received: by 2002:a17:906:5d04:b0:77f:ca9f:33d1 with SMTP id
- g4-20020a1709065d0400b0077fca9f33d1mr18304917ejt.526.1663694757694; 
- Tue, 20 Sep 2022 10:25:57 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4nIfs0H61xsoAPFs3W1BDsrzZfyYQJy5cH2gFMfc3Gx6a6HKEQ6rlSaJqEq0PHU7oXYSVCEQ==
-X-Received: by 2002:a17:906:5d04:b0:77f:ca9f:33d1 with SMTP id
- g4-20020a1709065d0400b0077fca9f33d1mr18304895ejt.526.1663694757376; 
- Tue, 20 Sep 2022 10:25:57 -0700 (PDT)
-Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ bh=kgOtjYfIt+ylJV73NEowm0ceMrq4o4dFJuDidaHM5To=;
+ b=uTvAnCuE2WWXVzvxW79kpOaODJSNIjjNB2DeLdxsxB7ibWS4c8LORdTkE2wRCCq22J
+ d+U6gEaGzBqI4li/vVVHfzRcPEs1mzIJlrw3jhjYejEWS/InkifzVSevyELNT7KxKYIL
+ +bFR3zHrdBL6mzHpwp2jHQNrejFoN8cIZ/9WM8fNaTq9N6aDQRrPmvt/HB6Ulrg5it8P
+ IB85aZvwS0QPzZU5cjqh3jraeRwK5hcdnvPJKdlMBxNc5pSD6xCDG6IosB7W8X1x+CnF
+ z0WWvi5s939VUieiLYFAx8a3kyzhx2iYtYlgHw/ClxdXBlnnDPel4L+Bx6mI33dFT66D
+ PNCg==
+X-Gm-Message-State: ACrzQf0zhsGBHc+c9ZckRHDPmewmGp9gp+8U3ElLN+KurkUTOa2JbZ3k
+ qThp1H1sv4L0DXCfifZvZTZPcQ==
+X-Google-Smtp-Source: AMsMyM7GmSpr5h/JTJhYCrYWSxXzdyBGhUyL5no4EqDgzFD42IRrfyeYqz22ECnrSypY8zUGV+/rhQ==
+X-Received: by 2002:a17:906:7f03:b0:781:6462:4214 with SMTP id
+ d3-20020a1709067f0300b0078164624214mr7764544ejr.274.1663694154053; 
+ Tue, 20 Sep 2022 10:15:54 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- v3-20020a1709061dc300b007336c3f05bdsm135812ejh.178.2022.09.20.10.25.56
+ o10-20020a170906768a00b00781e7d364ebsm134186ejm.144.2022.09.20.10.15.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 10:25:56 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ Tue, 20 Sep 2022 10:15:45 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 957091FFC1;
+ Tue, 20 Sep 2022 18:15:34 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org,
-	paul@nowt.org
-Subject: [PATCH v2 32/37] target/i386: implement XSAVE and XRSTOR of AVX
- registers
-Date: Tue, 20 Sep 2022 19:25:02 +0200
-Message-Id: <20220920172507.95568-33-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220920172507.95568-1-pbonzini@redhat.com>
-References: <20220920172507.95568-1-pbonzini@redhat.com>
+Cc: stefanha@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PULL 09/30] tests/docker: update and flatten debian-hppa-cross
+Date: Tue, 20 Sep 2022 18:15:12 +0100
+Message-Id: <20220920171533.1098094-10-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220920171533.1098094-1-alex.bennee@linaro.org>
+References: <20220920171533.1098094-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,122 +98,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/tcg/fpu_helper.c | 78 ++++++++++++++++++++++++++++++++++--
- 1 file changed, 75 insertions(+), 3 deletions(-)
+Update to the latest stable Debian. While we are at it flatten into a
+single dockerfile. We really don't need the rest of the stuff from
+the QEMU base image just to compile test images.
 
-diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
-index 819e920ec6..c1e3d74c84 100644
---- a/target/i386/tcg/fpu_helper.c
-+++ b/target/i386/tcg/fpu_helper.c
-@@ -2571,6 +2571,22 @@ static void do_xsave_sse(CPUX86State *env, target_ulong ptr, uintptr_t ra)
-     }
- }
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20220914155950.804707-10-alex.bennee@linaro.org>
+
+diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cross.yml
+index 802e332205..6c1d765463 100644
+--- a/.gitlab-ci.d/container-cross.yml
++++ b/.gitlab-ci.d/container-cross.yml
+@@ -65,7 +65,6 @@ hexagon-cross-container:
+ hppa-debian-cross-container:
+   extends: .container_job_template
+   stage: containers
+-  needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-hppa-cross
  
-+static void do_xsave_ymmh(CPUX86State *env, target_ulong ptr, uintptr_t ra)
-+{
-+    int i, nb_xmm_regs;
-+
-+    if (env->hflags & HF_CS64_MASK) {
-+        nb_xmm_regs = 16;
-+    } else {
-+        nb_xmm_regs = 8;
-+    }
-+
-+    for (i = 0; i < nb_xmm_regs; i++, ptr += 16) {
-+        cpu_stq_data_ra(env, ptr, env->xmm_regs[i].ZMM_Q(2), ra);
-+        cpu_stq_data_ra(env, ptr + 8, env->xmm_regs[i].ZMM_Q(3), ra);
-+    }
-+}
-+
- static void do_xsave_bndregs(CPUX86State *env, target_ulong ptr, uintptr_t ra)
- {
-     target_ulong addr = ptr + offsetof(XSaveBNDREG, bnd_regs);
-@@ -2663,6 +2679,9 @@ static void do_xsave(CPUX86State *env, target_ulong ptr, uint64_t rfbm,
-     if (opt & XSTATE_SSE_MASK) {
-         do_xsave_sse(env, ptr, ra);
-     }
-+    if (opt & XSTATE_YMM_MASK) {
-+        do_xsave_ymmh(env, ptr + XO(avx_state), ra);
-+    }
-     if (opt & XSTATE_BNDREGS_MASK) {
-         do_xsave_bndregs(env, ptr + XO(bndreg_state), ra);
-     }
-@@ -2737,6 +2756,54 @@ static void do_xrstor_sse(CPUX86State *env, target_ulong ptr, uintptr_t ra)
-     }
- }
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index c565aa5e7b..e39597d35c 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -88,7 +88,6 @@ DOCKER_PARTIAL_IMAGES += debian-s390x-cross
+ DOCKER_PARTIAL_IMAGES += fedora
+ endif
  
-+static void do_clear_sse(CPUX86State *env)
-+{
-+    int i, nb_xmm_regs;
-+
-+    if (env->hflags & HF_CS64_MASK) {
-+        nb_xmm_regs = 16;
-+    } else {
-+        nb_xmm_regs = 8;
-+    }
-+
-+    for (i = 0; i < nb_xmm_regs; i++) {
-+        env->xmm_regs[i].ZMM_Q(0) = 0;
-+        env->xmm_regs[i].ZMM_Q(1) = 0;
-+    }
-+}
-+
-+static void do_xrstor_ymmh(CPUX86State *env, target_ulong ptr, uintptr_t ra)
-+{
-+    int i, nb_xmm_regs;
-+
-+    if (env->hflags & HF_CS64_MASK) {
-+        nb_xmm_regs = 16;
-+    } else {
-+        nb_xmm_regs = 8;
-+    }
-+
-+    for (i = 0; i < nb_xmm_regs; i++, ptr += 16) {
-+        env->xmm_regs[i].ZMM_Q(2) = cpu_ldq_data_ra(env, ptr, ra);
-+        env->xmm_regs[i].ZMM_Q(3) = cpu_ldq_data_ra(env, ptr + 8, ra);
-+    }
-+}
-+
-+static void do_clear_ymmh(CPUX86State *env)
-+{
-+    int i, nb_xmm_regs;
-+
-+    if (env->hflags & HF_CS64_MASK) {
-+        nb_xmm_regs = 16;
-+    } else {
-+        nb_xmm_regs = 8;
-+    }
-+
-+    for (i = 0; i < nb_xmm_regs; i++) {
-+        env->xmm_regs[i].ZMM_Q(2) = 0;
-+        env->xmm_regs[i].ZMM_Q(3) = 0;
-+    }
-+}
-+
- static void do_xrstor_bndregs(CPUX86State *env, target_ulong ptr, uintptr_t ra)
- {
-     target_ulong addr = ptr + offsetof(XSaveBNDREG, bnd_regs);
-@@ -2856,9 +2923,14 @@ void helper_xrstor(CPUX86State *env, target_ulong ptr, uint64_t rfbm)
-         if (xstate_bv & XSTATE_SSE_MASK) {
-             do_xrstor_sse(env, ptr, ra);
-         } else {
--            /* ??? When AVX is implemented, we may have to be more
--               selective in the clearing.  */
--            memset(env->xmm_regs, 0, sizeof(env->xmm_regs));
-+            do_clear_sse(env);
-+        }
-+    }
-+    if (rfbm & XSTATE_YMM_MASK) {
-+        if (xstate_bv & XSTATE_YMM_MASK) {
-+            do_xrstor_ymmh(env, ptr + XO(avx_state), ra);
-+        } else {
-+            do_clear_ymmh(env);
-         }
-     }
-     if (rfbm & XSTATE_BNDREGS_MASK) {
+-docker-image-debian-hppa-cross: docker-image-debian10
+ docker-image-debian-m68k-cross: docker-image-debian10
+ docker-image-debian-mips-cross: docker-image-debian10
+ docker-image-debian-mips64-cross: docker-image-debian10
+diff --git a/tests/docker/dockerfiles/debian-hppa-cross.docker b/tests/docker/dockerfiles/debian-hppa-cross.docker
+index 3d6c65a3ef..af1c8403d8 100644
+--- a/tests/docker/dockerfiles/debian-hppa-cross.docker
++++ b/tests/docker/dockerfiles/debian-hppa-cross.docker
+@@ -1,12 +1,14 @@
+ #
+ # Docker cross-compiler target
+ #
+-# This docker target builds on the debian Buster base image.
++# This docker target builds on the Debian Bullseye base image.
+ #
+-FROM qemu/debian10
++FROM docker.io/library/debian:11-slim
+ 
+-RUN apt update && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt install -y --no-install-recommends \
++RUN export DEBIAN_FRONTEND=noninteractive && \
++    apt-get update && \
++    apt-get install -y eatmydata && \
++    eatmydata apt-get dist-upgrade -y && \
++    eatmydata apt-get install --no-install-recommends -y \
+         gcc-hppa-linux-gnu \
+         libc6-dev-hppa-cross
 -- 
-2.37.2
+2.34.1
 
 
