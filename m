@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB2735BE6F7
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 15:24:21 +0200 (CEST)
-Received: from localhost ([::1]:58116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F5F15BE5C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 14:29:23 +0200 (CEST)
+Received: from localhost ([::1]:47548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oadEa-0008Py-Pr
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 09:24:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56800)
+	id 1oacNO-0001H7-EW
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 08:29:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oaaZG-0001IL-2x
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:33:34 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:39743)
+ id 1oaaZK-0001Ij-Dv; Tue, 20 Sep 2022 06:33:34 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:53812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oaaZC-0004td-OF
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:33:28 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id f23so1913932plr.6
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 03:33:24 -0700 (PDT)
+ id 1oaaZG-0004zb-5a; Tue, 20 Sep 2022 06:33:32 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id q3so2551558pjg.3;
+ Tue, 20 Sep 2022 03:33:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=5JX7sGU3bhekd0+rl8Pgr+ORxrbUqYd0iNFII92cHyo=;
- b=kr+z9l8g3SvLJBwnCGpAxOiAMYCgCZG4eh+lDcL4FkyqE6RAFIpzMBjP0ASS0i2XAj
- J19mSKiRsW13dokt34Z4iBbzJIkS+DwLn5CaxIRxy+rS26Kf4xZK3fbqfvHLjvW1bMFW
- neAuQ2tgiLg46ZRih29o4upOLzXsyReR1BTQGBHMG7Qp6GjSyAWl889Tc5bVqmqIWkQQ
- X934lzb5CODXuSwWPQIPpwtdpUgN9lHoCaewwUQuWzdgg0lx3NRefxKN3jIomhEcTDs1
- p87Puwh0EJelZieKhVz/1DfRtEFp+BwOnOZZb3LN0vT2Ci8ZiSarCk3OrmxbibqxQpE8
- c5Zg==
+ bh=qGPOmRjHbysKyb7HVYrvLwoOgzN+2O9KcPhD9XmRvHs=;
+ b=ZLZSHLQDLV+j6k7eLKXqDsWNRvtkZqa+QtewK6V2COplApxkZDHojNZ6frhCoMLcv/
+ pVqtLdpOthwJ9gzBG6N9UIh9PAasFEsPMJ+3qrPNS836mT2VY94HRWX4s/lqWXS+J/i6
+ drhx1vyBHLQQeC/oSpeS8jqAqJUtAQDV0Y9OjKEU3I7irZPSYsP3Zoc5ye58SrtOK+RV
+ e9AqV7x6LGcksg2CTHn5E1+CbddSOZRAiExm3+dQ4JRBpHU5NEoWIAzsIozgL1v0qbNO
+ IfB224xGNceNI+vMCYRDP94azz5Al0TGhqhuUEI1HIZasGWu0jZTfyU3o1Yx9117XEdB
+ JPhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=5JX7sGU3bhekd0+rl8Pgr+ORxrbUqYd0iNFII92cHyo=;
- b=CaYNxOkOFFWdBc1ZpN/FH0s7WVhc58YtDQNvm3kGIP+6MfoqhxGlAbCf8pBX3Q/pJC
- l1PMwx6pfxqx7IF4p7eqC/+nGAs7mS8zzqTnthkimq9iRHtKMO5eELJXZU6Qzsb6coqI
- Mgm3Kd89S0GP3AvwYf4Ax9/tIYF4xH7ZHJ00QOlpZsYCQDRjd2DAmQ10t9z70HjHIoGm
- aorjGtDSpjntG8qQt0L1PgrFK2oOfr8b9rO7kZm8JzsOn0Z+QzXyLjHYok+E1fM35yga
- X+A68LbjNtn0OKnIyO2Xczlo31Qil/YyIAwG0VxwvM2rkVlnweDtk7FCcnqJStlBm7MF
- Kh4A==
-X-Gm-Message-State: ACrzQf2tljysK2SRCLzCpFd/5o9gmQz+0uElPJvgmGh+vDiMnLiOK8mQ
- beCgPSgzw5zXuOG72hizGdSzId5CFrg=
-X-Google-Smtp-Source: AMsMyM4wrPWxE3W7DvLeomr/HDEMpAKL3E65agxKDiw/0zL7BDwbnotRl/uY9HdOOgIHpUMG1emIgw==
-X-Received: by 2002:a17:902:7c11:b0:178:a6ca:4850 with SMTP id
- x17-20020a1709027c1100b00178a6ca4850mr4264056pll.111.1663670004271; 
- Tue, 20 Sep 2022 03:33:24 -0700 (PDT)
+ bh=qGPOmRjHbysKyb7HVYrvLwoOgzN+2O9KcPhD9XmRvHs=;
+ b=vbOA/MQTOJ4CzVc6liSWAuUHaZE4Vw7SNs5Lg6Ww64xkuO+x1r6Ln6T+o0GrpeH7r4
+ VFmbZFRpH45XghsU2QHcrQip/Ds4hhrpe+k9HFGFzA5zKVA7uCNyMaeeDmh+0EK++XG9
+ FRyfRI6zGT7tPIZ9v5RHn66bB6KIvNwI2YxphS/+liIw4Wx9ZXQzVMysY8dRvbBgRUIB
+ g8O7MAYNWYxPPreieLiotWKG6I/tSoxG2C5vHUP6f98Cm/yAzz2Ma72hLUm3Mwr7icGa
+ ZvAjghyD7m7NAOROXIUhhzDNzG0RzypNawcrYJx3TwTlncsek5IKHK+OtvPLrN88QhP5
+ zmjg==
+X-Gm-Message-State: ACrzQf1p93MwKOxQ+47i0MXAKIlLR/t/y1/tEwPVoeksDGoM9SPhSqBL
+ b+NBNub78DFaNDXEzxkW6pXw5tiZA+U=
+X-Google-Smtp-Source: AMsMyM5ERaS4WjHPrFxwZnf6Cgh1ktv2Eo3pu9bZYs9yyr8TrrfO/exGbSv0jyBLg516WnwVrVIPsQ==
+X-Received: by 2002:a17:902:ea0e:b0:178:3d49:45ad with SMTP id
+ s14-20020a170902ea0e00b001783d4945admr4156024plg.103.1663670007450; 
+ Tue, 20 Sep 2022 03:33:27 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- n2-20020aa79842000000b00551fa0e2b2dsm699573pfq.206.2022.09.20.03.33.21
+ n2-20020aa79842000000b00551fa0e2b2dsm699573pfq.206.2022.09.20.03.33.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 03:33:24 -0700 (PDT)
+ Tue, 20 Sep 2022 03:33:27 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
  Bin Meng <bin.meng@windriver.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v2 26/39] tests/qtest: migration-test: Make sure QEMU process
- "to" exited after migration is canceled
-Date: Tue, 20 Sep 2022 18:31:46 +0800
-Message-Id: <20220920103159.1865256-27-bmeng.cn@gmail.com>
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org
+Subject: [PATCH v2 27/39] hw/ppc: spapr: Use qemu_vfree() to free spapr->htab
+Date: Tue, 20 Sep 2022 18:31:47 +0800
+Message-Id: <20220920103159.1865256-28-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220920103159.1865256-1-bmeng.cn@gmail.com>
 References: <20220920103159.1865256-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,35 +96,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 
-Make sure QEMU process "to" exited before launching another target
-for migration in the test_multifd_tcp_cancel case.
+spapr->htab is allocated by qemu_memalign(), hence we should use
+qemu_vfree() to free it.
 
+Fixes: c5f54f3e31bf ("pseries: Move hash page table allocation to reset time")
+Fixes: b4db54132ffe ("target/ppc: Implement H_REGISTER_PROCESS_TABLE H_CALL"")
 Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
 
-Changes in v2:
-- Change to a busy wait after migration is canceled
+(no changes since v1)
 
- tests/qtest/migration-test.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/ppc/spapr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index c87afad9e8..aedd9ddb72 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -2133,6 +2133,10 @@ static void test_multifd_tcp_cancel(void)
-     wait_for_migration_pass(from);
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index fb790b61e4..cc1adc23fa 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -1522,7 +1522,7 @@ int spapr_hpt_shift_for_ramsize(uint64_t ramsize)
  
-     migrate_cancel(from);
-+    /* Make sure QEMU process "to" exited */
-+    while (qtest_probe_child(to)) {
-+        ;
-+    }
- 
-     args = (MigrateStart){
-         .only_target = true,
+ void spapr_free_hpt(SpaprMachineState *spapr)
+ {
+-    g_free(spapr->htab);
++    qemu_vfree(spapr->htab);
+     spapr->htab = NULL;
+     spapr->htab_shift = 0;
+     close_htab_fd(spapr);
 -- 
 2.34.1
 
