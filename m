@@ -2,91 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 494B85BF102
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 01:22:52 +0200 (CEST)
-Received: from localhost ([::1]:38626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A0E35BF0C2
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 01:02:01 +0200 (CEST)
+Received: from localhost ([::1]:34622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oamZm-0005BV-UI
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 19:22:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48922)
+	id 1oamFb-0006N6-VB
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 19:02:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oaieF-0005y9-GU
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 15:11:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28856)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oaieD-0003p2-Oi
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 15:11:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663701069;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=STWTe4U3NJ5zuO1xRAteJIbAx83AiGgkwojLzNH47eU=;
- b=i6kBwrlPJYGkpKdN8BbfXbBrCpqMYoIXKQjuObqYrNjWVkB6Mc8CquPOGd9Abq0QF2Y3KR
- gh/MP7oz9Ry9UQso5ygUm2yvTVP7fvCbSEGrTYhaQVI6ylgplnG9lQ2EllV6lEtUQFtxrY
- HoSOVnDnM0IGS9eoc2t+r8Q81duwgp4=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-155-bkKH2481Mo2TDe17XJ3e-g-1; Tue, 20 Sep 2022 15:11:05 -0400
-X-MC-Unique: bkKH2481Mo2TDe17XJ3e-g-1
-Received: by mail-ed1-f72.google.com with SMTP id
- y14-20020a056402440e00b0044301c7ccd9so2535991eda.19
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 12:11:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oaj8G-0001Kd-Iu; Tue, 20 Sep 2022 15:42:12 -0400
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:45641)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oaj8E-0001od-T3; Tue, 20 Sep 2022 15:42:12 -0400
+Received: by mail-oi1-x22d.google.com with SMTP id o64so5062516oib.12;
+ Tue, 20 Sep 2022 12:42:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=w4mKFWkroJ6LYWtvT/lNqueFTXt2D5h/9jpEPTwV4Zo=;
+ b=iV/0Upo3xaBls77gBvQANw5n9wt0Mva+v2zDu7mB3/E1SnMWm9VJK/R6ZtjZaL+U91
+ Zm8SkbVO8SrYoT4dQsmo43gkj4izzD0l2W+w6w+5OnCcqqnqCV05KtLOOmtI6FuWhnWN
+ Q+t4Ado9dNNUDrZMYAujSjdRs9BSHZQZUm/5NiDibe2LMW5yf3I2VTXCkM1xGwwO9WkI
+ wHsUTUYMDjz6xjfFfdOSkivF46y0X8CHyY4d/zAY45xcscN/9/46XZHdvYD6esceNv6Q
+ EBNNGp1LIQFUbjtYB4gPP+UScO0ELsVCXeAcrUYn5MSFnRvzZUyLkt0UqnqfU4B6nXk0
+ s0Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date;
- bh=STWTe4U3NJ5zuO1xRAteJIbAx83AiGgkwojLzNH47eU=;
- b=SZ/JcxjoaZ5SsvsHO0uxt0eJQnxMAW04fJBxR5W+YtqIyNp9wO4kNXjrtxu9vWJDEj
- UmSlDYvOngWMML4Kci7PFuLLCKnvD5lftBmHq8gPnf2u8S5Jt/cu1pQwnhiCs1Iqllmw
- yentMLTX4lBonxZvMfWGuPVCrDTgZrG4PmDXcFqhNqF2wEf62OuZDAWiH6zmW1zMKVxX
- ceZ/IZLyWuaD0OG9H/RWUPusW2GHmSAoxE3dTTCnFbjkg46MSu1Q0tGvt62OZo57d251
- GusfRX63qh30uNVYBIp/aCootTlzZBSh17CkO3fjH/Y9EEsmMAJ/l/9xzUR920672CXp
- nuWQ==
-X-Gm-Message-State: ACrzQf3xVGjNRf1aW4GMaHAjvuoGK0/n3YfCQWaZkRNTEnd+hOJTHXQh
- vJub2trL19JJJKlk8/IdF5EfqLL/g2/5/rBXUsFoWRUyShITBajOTe+38lu8fvTvviTXwyy4b+D
- YwYA/deJJSxPsaFA=
-X-Received: by 2002:a17:907:9807:b0:781:feee:f87c with SMTP id
- ji7-20020a170907980700b00781feeef87cmr650793ejc.101.1663701064109; 
- Tue, 20 Sep 2022 12:11:04 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6IzV1EY8/SaAL9ArsLqwAPD1Qh2n9F/CsH3YMD7pybfaPTqFZhkSmWOUzBeCgHDk3SDOkM7Q==
-X-Received: by 2002:a17:907:9807:b0:781:feee:f87c with SMTP id
- ji7-20020a170907980700b00781feeef87cmr650780ejc.101.1663701063828; 
- Tue, 20 Sep 2022 12:11:03 -0700 (PDT)
-Received: from redhat.com ([2.55.16.18]) by smtp.gmail.com with ESMTPSA id
- o3-20020a170906768300b0073ddff7e432sm328500ejm.14.2022.09.20.12.11.01
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=w4mKFWkroJ6LYWtvT/lNqueFTXt2D5h/9jpEPTwV4Zo=;
+ b=X2VxlAUQ2HnAx9Gjlx4Lty+gXtz1X/+P3XjNwMA2v7/pNT4xy9wXdzuxFHFBbGtHdc
+ nEGgIqep6h+5qKCnmrzpSAfjz+V9U7l6cMrIH0TDQr0DsWHO9jzLoccVy9W9XFgCiTN8
+ SSoVMjXAjVbw/lGrqk9Qo0Vi4j9Pdo55nqzobmO4kRkud/x4lTEqN3G7hnn4ronVt7b3
+ E5iJOS2CitxzlZ35bMITKYITSnP2NS4WHaZiGtjddL4e+JnXwHSK4kpmbNusHkcRgnHG
+ LOHR9tmWoImgEti7bxfv7iFw+Mx4WKdPrcMOa0OZSGJZWLKXW5GdYDXJWYmwRqy2RV5r
+ UKng==
+X-Gm-Message-State: ACrzQf1+fzJGu63ykczkhxL90iWIB/a1G/MtZjvoSnWZ2Fx/XgUGQYWb
+ AyShHsODELXc+vvCGTNXqUOWJOeuLFI=
+X-Google-Smtp-Source: AMsMyM60ie807qDNmaivCUV+6vrXohXrjTFp1IIYbD527LbsXNIA+bDTgLDoNoglOvF/JB3rIlLqLg==
+X-Received: by 2002:a05:6808:140d:b0:350:d77c:4e6d with SMTP id
+ w13-20020a056808140d00b00350d77c4e6dmr1745026oiv.160.1663702928889; 
+ Tue, 20 Sep 2022 12:42:08 -0700 (PDT)
+Received: from balboa.COMFAST ([191.193.2.69])
+ by smtp.gmail.com with ESMTPSA id
+ e33-20020a05687023a100b0012763819bcasm333808oap.50.2022.09.20.12.42.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 12:11:03 -0700 (PDT)
-Date: Tue, 20 Sep 2022 15:10:59 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- slp@redhat.com, marcandre.lureau@redhat.com,
- mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v4 for 7.2 00/22] virtio-gpio and various virtio cleanups
-Message-ID: <20220920150943-mutt-send-email-mst@kernel.org>
-References: <20220802095010.3330793-1-alex.bennee@linaro.org>
- <87czbvzu9e.fsf@linaro.org> <YyibNC4CbniKUTmi@fedora>
- <8735cm9t6j.fsf@linaro.org>
- <CAJSP0QXN4Sn6rXpZ3rEiPHGQqpgx2bOMX_t0byx+0icBhMNinA@mail.gmail.com>
+ Tue, 20 Sep 2022 12:42:08 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, clg@kaod.org,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: [PULL 00/17] ppc queue
+Date: Tue, 20 Sep 2022 16:41:45 -0300
+Message-Id: <20220920194202.82615-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJSP0QXN4Sn6rXpZ3rEiPHGQqpgx2bOMX_t0byx+0icBhMNinA@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22d.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,77 +87,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 20, 2022 at 02:25:48PM -0400, Stefan Hajnoczi wrote:
-> On Tue, 20 Sept 2022 at 10:18, Alex Bennée <alex.bennee@linaro.org> wrote:
-> >
-> >
-> > Stefan Hajnoczi <stefanha@redhat.com> writes:
-> >
-> > > [[PGP Signed Part:Undecided]]
-> > > On Fri, Sep 16, 2022 at 07:51:40AM +0100, Alex Bennée wrote:
-> > >>
-> > >> Alex Bennée <alex.bennee@linaro.org> writes:
-> > >>
-> > >> > Hi,
-> > >> >
-> > >> > This is an update to the previous series which fixes the last few
-> > >> > niggling CI failures I was seeing.
-> > >> >
-> > >> >    Subject: [PATCH v3 for 7.2 00/21] virtio-gpio and various virtio cleanups
-> > >> >    Date: Tue, 26 Jul 2022 20:21:29 +0100
-> > >> >    Message-Id: <20220726192150.2435175-1-alex.bennee@linaro.org>
-> > >> >
-> > >> > The CI failures were tricky to track down because they didn't occur
-> > >> > locally but after patching to dump backtraces they all seem to involve
-> > >> > updates to virtio_set_status() as the machine was torn down. I think
-> > >> > patch that switches all users to use virtio_device_started() along
-> > >> > with consistent checking of vhost_dev->started stops this from
-> > >> > happening. The clean-up seems worthwhile in reducing boilerplate
-> > >> > anyway.
-> > >> >
-> > >> > The following patches still need review:
-> > >> >
-> > >> >   - tests/qtest: enable tests for virtio-gpio
-> > >> >   - tests/qtest: add a get_features op to vhost-user-test
-> > >> >   - tests/qtest: implement stub for VHOST_USER_GET_CONFIG
-> > >> >   - tests/qtest: add assert to catch bad features
-> > >> >   - tests/qtest: plain g_assert for VHOST_USER_F_PROTOCOL_FEATURES
-> > >> >   - tests/qtest: catch unhandled vhost-user messages
-> > >> >   - tests/qtest: use qos_printf instead of g_test_message
-> > >> >   - tests/qtest: pass stdout/stderr down to subtests
-> > >> >   - hw/virtio: move vhd->started check into helper and add FIXME
-> > >> >   - hw/virtio: move vm_running check to virtio_device_started
-> > >> >   - hw/virtio: add some vhost-user trace events
-> > >> >   - hw/virtio: log potentially buggy guest drivers
-> > >> >   - hw/virtio: fix some coding style issues
-> > >> >   - include/hw: document vhost_dev feature life-cycle
-> > >> >   - include/hw/virtio: more comment for VIRTIO_F_BAD_FEATURE
-> > >> >   - hw/virtio: fix vhost_user_read tracepoint
-> > >> >   - hw/virtio: handle un-configured shutdown in virtio-pci
-> > >> >   - hw/virtio: gracefully handle unset vhost_dev vdev
-> > >> >   - hw/virtio: incorporate backend features in features
-> > >> <snip>
-> > >>
-> > >> Ping?
-> > >
-> > > Who are you pinging?
-> > >
-> > > Only qemu-devel is on To and there are a bunch of people on Cc.
-> >
-> > Well I guess MST is the maintainer for the sub-system but I was hoping
-> > other virtio contributors had some sort of view. The process of
-> > up-streaming a simple vhost-user stub has flushed out all sorts of
-> > stuff.
-> 
-> Okay, moving MST to To in case it helps get his attention.
-> 
-> Thanks,
-> Stefan
+The following changes since commit d29201ff34a135cdfc197f4413c1c5047e4f58bb:
 
-thanks, it's in my queue, just pulling in backlog that built up
-during the forum.
+  Merge tag 'pull-hmp-20220915a' of https://gitlab.com/dagrh/qemu into staging (2022-09-17 10:31:11 -0400)
 
--- 
-MST
+are available in the Git repository at:
 
+  https://gitlab.com/danielhb/qemu.git tags/pull-ppc-20220920
+
+for you to fetch changes up to 6b5cf264ee76d24b357a60b69b0635a533c1f647:
+
+  hw/ppc/spapr: Fix code style problems reported by checkpatch (2022-09-20 12:31:53 -0300)
+
+----------------------------------------------------------------
+ppc patch queue for 2022-09-20:
+
+This queue contains a implementation of PowerISA 3.1B hash insns, ppc
+TCG insns cleanups and fixes, and miscellaneus fixes in the spapr and
+pnv_phb models.
+
+----------------------------------------------------------------
+Bernhard Beschow (1):
+      hw/ppc/spapr: Fix code style problems reported by checkpatch
+
+VÃ­ctor Colombo (14):
+      target/ppc: Add HASHKEYR and HASHPKEYR SPRs
+      target/ppc: Implement hashst and hashchk
+      target/ppc: Implement hashstp and hashchkp
+      target/ppc: Move fsqrt to decodetree
+      target/ppc: Move fsqrts to decodetree
+      target/ppc: Merge fsqrt and fsqrts helpers
+      target/ppc: Remove extra space from s128 field in ppc_vsr_t
+      target/ppc: Remove unused xer_* macros
+      target/ppc: Zero second doubleword in DFP instructions
+      target/ppc: Set result to QNaN for DENBCD when VXCVI occurs
+      target/ppc: Zero second doubleword for VSX madd instructions
+      target/ppc: Set OV32 when OV is set
+      target/ppc: Zero second doubleword of VSR registers for FPR insns
+      target/ppc: Clear fpstatus flags on helpers missing it
+
+Xuzhou Cheng (2):
+      hw/ppc: spapr: Use qemu_vfree() to free spapr->htab
+      hw/pci-host: pnv_phb{3, 4}: Fix heap out-of-bound access failure
+
+ hw/pci-host/pnv_phb3.c                     |  1 +
+ hw/pci-host/pnv_phb4.c                     |  1 +
+ hw/ppc/spapr.c                             |  2 +-
+ include/hw/ppc/spapr.h                     |  5 +-
+ target/ppc/cpu.h                           |  8 ++-
+ target/ppc/cpu_init.c                      | 28 ++++++++++
+ target/ppc/dfp_helper.c                    | 31 +++++++++--
+ target/ppc/excp_helper.c                   | 83 ++++++++++++++++++++++++++++++
+ target/ppc/fpu_helper.c                    | 74 ++++++++++++++------------
+ target/ppc/helper.h                        |  8 ++-
+ target/ppc/insn32.decode                   | 18 +++++++
+ target/ppc/int_helper.c                    |  4 +-
+ target/ppc/translate.c                     | 13 +++++
+ target/ppc/translate/fixedpoint-impl.c.inc | 34 ++++++++++++
+ target/ppc/translate/fp-impl.c.inc         | 50 ++++++------------
+ target/ppc/translate/fp-ops.c.inc          |  2 -
+ 16 files changed, 278 insertions(+), 84 deletions(-)
 
