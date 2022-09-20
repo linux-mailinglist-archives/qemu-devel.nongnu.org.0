@@ -2,132 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B17095BF1C8
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 02:11:19 +0200 (CEST)
-Received: from localhost ([::1]:55998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 799395BF1D7
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 02:14:37 +0200 (CEST)
+Received: from localhost ([::1]:54816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oanKg-0003am-Ru
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 20:11:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49468)
+	id 1oanNs-0001Ya-Kk
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 20:14:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oam52-0003M7-F1; Tue, 20 Sep 2022 18:51:04 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:38879)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oam50-0001OE-5Y; Tue, 20 Sep 2022 18:51:03 -0400
-Received: by mail-ed1-x533.google.com with SMTP id e17so6043833edc.5;
- Tue, 20 Sep 2022 15:50:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date;
- bh=QvFwsZxA6MHmqPpgPr1kmpEeALNsZz3EkiO3t151YWs=;
- b=ibNCByyuTGhFGP39XO+xweQozEi3tAqcBRhZ/WOmAMtm/9JZXAqTHeKDVMR3haUUku
- bX/KG2i8BLKYyZZ5r9zS7NpGgT5D6bwJNH/6EaOJaQxYpBu64mBI46gWkHJPUonkqqL5
- uEs9gpr+y/TWGp+xV48d0PI7qu18qvMXd4eqt6zEm9WuFkfVSx7rwO4U1MQF3yaSFsY/
- 5Jo9YA+0CW00j9RSccq2/MAvvNkxPNwQERMk4xSHlaFAE0ymgCLA5CQSoPJv8sXQ2J8b
- J45/4/j74hFU0Hj4c7mQT5wxM/yWl5q+XEBIfdHitK28VSjZ22xsRBuBV8AWfo2iUnYv
- RJfQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oam5D-0003i5-10
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 18:51:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48813)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oam5A-0001QE-Lb
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 18:51:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663714271;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=20n+HqHIDt4XMNU3hK6k/ngTrHInght+RhwNTmzdlCg=;
+ b=aJPWZb+Zb43FtU3ZrMCfGyQw2bnvjuk8SlIwz9osVll0eMrV3gnhuOd+S9zMVPr5abYMHX
+ vRjb352+9iVEzYZOxNUzSCxN7fwAVZye5jdkFnTcia3YO/vcsgEKbB36/xDjjc6hawvk0r
+ +GEQTqvKrgzR68wRYxjAmCAPbN0sg6A=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-142-CusPfuOcNJWoAHq6b0Exag-1; Tue, 20 Sep 2022 18:51:10 -0400
+X-MC-Unique: CusPfuOcNJWoAHq6b0Exag-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ y7-20020ad45307000000b004ac7fd46495so3057020qvr.23
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 15:51:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date;
- bh=QvFwsZxA6MHmqPpgPr1kmpEeALNsZz3EkiO3t151YWs=;
- b=X2YB0NTcJI63gk6v7s4a+kmCucC2GNkJUA5GDSVR0gmEiwDJtMz0cZriAsqiH/2GZp
- 3cEzSr0jCbjj/vonMRaLs9/k8Ind4CqsFLwPWhrWRh4EPdz3XoJ/TK8NaOuvs4oMYq5p
- L96WVjpJQbgKf6TIVebM2r9Q7Lwr6iXry7Y4JmhWT0I+NCEPeEbIm3CWJP+UEun6GJWW
- 026Zqh3Wt8FwY+JZfPNEDZD+dS4wSc5WJt78Q0EfY7ScVF3EFn4BfDWu9TxOFXjRwlNO
- ouIs5YZFXRm2L4E6I6lmcEYgNd2PWKhpUd7B1/qdgV6XUqKUtqsQ5oQzHXdzkkJ6IlyQ
- j4cw==
-X-Gm-Message-State: ACrzQf1c6iT5/hSxItU3Vl4gIc2pnii42Y3iiQXRnbVprXB4TluXFRYQ
- Wib7eMoT0V/HOITF2dEuzQw=
-X-Google-Smtp-Source: AMsMyM67oSTOvXd574lZXg8CCJPXcxUdWt09EbcZYxRTm1trv1PkATVyBPnkcoMu+n0wqofhvURSSQ==
-X-Received: by 2002:a05:6402:1e8c:b0:44f:f70:e75e with SMTP id
- f12-20020a0564021e8c00b0044f0f70e75emr21468748edf.405.1663714256321; 
- Tue, 20 Sep 2022 15:50:56 -0700 (PDT)
-Received: from [127.0.0.1] (dynamic-078-054-006-055.78.54.pool.telefonica.de.
- [78.54.6.55]) by smtp.gmail.com with ESMTPSA id
- w19-20020a170906185300b00781dbdb2917sm419441eje.208.2022.09.20.15.50.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Sep 2022 15:50:55 -0700 (PDT)
-Date: Tue, 20 Sep 2022 22:50:48 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-CC: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Bandan Das <bsd@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Sergio Lopez <slp@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>, Cameron Esfahani <dirty@apple.com>, 
- Michael Rolnik <mrolnik@gmail.com>, Song Gao <gaosong@loongson.cn>,
- Jagannathan Raman <jag.raman@oracle.com>, Greg Kurz <groug@kaod.org>,
- Kamil Rytarowski <kamil@netbsd.org>, Peter Xu <peterx@redhat.com>,
- Joel Stanley <joel@jms.id.au>, Alistair Francis <Alistair.Francis@wdc.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, haxm-team@intel.com,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Markus Armbruster <armbru@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?ISO-8859-1?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- =?ISO-8859-1?Q?C=E9dric_Le_Goater?= <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Eduardo Habkost <eduardo@habkost.net>,
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- qemu-ppc@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Helge Deller <deller@gmx.de>,
- Stefano Stabellini <sstabellini@kernel.org>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-riscv@nongnu.org, Stafford Horne <shorne@gmail.com>,
- Paul Durrant <paul@xen.org>, Havard Skinnemoen <hskinnemoen@google.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Alexander Graf <agraf@csgraf.de>, Thomas Huth <thuth@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Wenchao Wang <wenchao.wang@intel.com>, Tony Krowiak <akrowiak@linux.ibm.com>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-s390x@nongnu.org,
- =?ISO-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Eric Farman <farman@linux.ibm.com>, Reinoud Zandijk <reinoud@netbsd.org>,
- Alexander Bulekov <alxndr@bu.edu>, Yanan Wang <wangyanan55@huawei.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Tyrone Ting <kfting@nuvoton.com>,
- xen-devel@lists.xenproject.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Darren Kenny <darren.kenny@oracle.com>, kvm@vger.kernel.org,
- Qiuhao Li <Qiuhao.Li@outlook.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Bin Meng <bin.meng@windriver.com>, Sunil Muthuswamy <sunilmut@microsoft.com>, 
- Max Filippov <jcmvbkbc@gmail.com>, qemu-arm@nongnu.org,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, Andrew Jeffery <andrew@aj.id.au>, 
- Artyom Tarasenko <atar4qemu@gmail.com>, Halil Pasic <pasic@linux.ibm.com>,
- "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>,
- Alistair Francis <alistair@alistair23.me>,
- Jason Herne <jjherne@linux.ibm.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_0/9=5D_Deprecate_sysbus=5Fget=5Fd?=
- =?US-ASCII?Q?efault=28=29_and_get=5Fsystem=5Fmemory=28=29_et=2E_al?=
-In-Reply-To: <CAFEAcA8GjXFO4WK=KybgSc8rMfqecwD9EXS0kZMKtqogNf1Tsg@mail.gmail.com>
-References: <20220919231720.163121-1-shentey@gmail.com>
- <CAFEAcA8GjXFO4WK=KybgSc8rMfqecwD9EXS0kZMKtqogNf1Tsg@mail.gmail.com>
-Message-ID: <AD2F1750-F579-4F3B-A9FD-F2ADDF29D9E8@gmail.com>
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=20n+HqHIDt4XMNU3hK6k/ngTrHInght+RhwNTmzdlCg=;
+ b=cDaXb+DQSRP6LPmEbL/raltJxUvkwibHyYtpsBV+pUc3pNo/Csu+fXLkeogFe3FPEI
+ xSw0IoTCcOyIIdBlBYtjEzVudClpn6lM/iCE0Y+HpJ31EFPgvZd1lAcYZ5DbFUJNSgzb
+ XaBD3QIRZ2EOv0H6E5S8HAcRMc3mnQc+2lnV18WTy7soo8XZEDbAqXJPjBBcP4tZmybZ
+ tqfQDSKieRWoR+fOKkvxKa00fMlOdw5WQJYe0q4AU3fAoDEmOKt+iyw2cV5JF1Ku28uL
+ zWEfTjKoIXSGdr5+G/nXPstm7WTLVeyz+s/c5uYyqelfABWkxYtp18bPYTJ2Nq5Cu42O
+ 97Ww==
+X-Gm-Message-State: ACrzQf1QOuUwojn6CSJ5V0a+SPgACU42SzVCrxDZsXShxKHwgrkousfP
+ TzOBQw0GanjRrs9ZKMpA/xQHyUUtUZVId1We4qJ3/U2KtNmuryMkfV2mUUASwFh02UtZPDAPT3J
+ 9mVRuR8864j4y4dXjNrVfoAfiEXgicsMmDUY9AZcorsXOPDvBA+khkZQ1PmPHr/Sm
+X-Received: by 2002:a05:622a:c5:b0:35c:f238:b0a4 with SMTP id
+ p5-20020a05622a00c500b0035cf238b0a4mr7776535qtw.92.1663714269838; 
+ Tue, 20 Sep 2022 15:51:09 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6BJoXQOUwRrD6hk9ivLXXNVAVGRoNDFvhcCkPn9z4Qud9ofvFBM5MMM+EtV6WnIxnz2GVNTA==
+X-Received: by 2002:a05:622a:c5:b0:35c:f238:b0a4 with SMTP id
+ p5-20020a05622a00c500b0035cf238b0a4mr7776488qtw.92.1663714268797; 
+ Tue, 20 Sep 2022 15:51:08 -0700 (PDT)
+Received: from localhost.localdomain
+ (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca. [70.31.27.79])
+ by smtp.gmail.com with ESMTPSA id
+ j12-20020ac8440c000000b0035d0655b079sm275470qtn.30.2022.09.20.15.51.07
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Tue, 20 Sep 2022 15:51:08 -0700 (PDT)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Manish Mishra <manish.mishra@nutanix.com>, peterx@redhat.com,
+ Juan Quintela <quintela@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>, ani@anisinha.ca,
+ "Daniel P . Berrange" <berrange@redhat.com>
+Subject: [PATCH 00/14] migration: Postcopy Preempt-Full
+Date: Tue, 20 Sep 2022 18:50:52 -0400
+Message-Id: <20220920225106.48451-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.32.0
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -144,86 +99,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 20=2E September 2022 09:55:37 UTC schrieb Peter Maydell <peter=2Emaydell=
-@linaro=2Eorg>:
->On Tue, 20 Sept 2022 at 00:18, Bernhard Beschow <shentey@gmail=2Ecom> wro=
-te:
->>
->> In address-spaces=2Eh it can be read that get_system_memory() and
->> get_system_io() are temporary interfaces which "should only be used tem=
-porarily
->> until a proper bus interface is available"=2E This statement certainly =
-extends to
->> the address_space_memory and address_space_io singletons=2E
->
->This is a long standing "we never really completed a cleanup"=2E=2E=2E
->
->> This series attempts
->> to stop further proliferation of their use by turning TYPE_SYSTEM_BUS i=
-nto an
->> object-oriented, "proper bus interface" inspired by PCIBus=2E
->>
->> While at it, also the main_system_bus singleton is turned into an attri=
-bute of
->> MachineState=2E Together, this resolves five singletons in total, makin=
-g the
->> ownership relations much more obvious which helps comprehension=2E
->
->=2E=2E=2Ebut I don't think this is the direction we want to go=2E
->Overall the reason that the "system memory" and "system IO"
->singletons are weird is that in theory they should not be necessary
->at all -- board code should create devices and map them into an
->entirely arbitrary MemoryRegion or set of MemoryRegions corresponding
->to address space(s) for the CPU and for DMA-capable devices=2E
+Based-on: <20220920223800.47467-1-peterx@redhat.com>
+  [PATCH 0/5] migration: Bug fixes (prepare for preempt-full)
 
-My intention was to allow exactly that: By turning sytem memory and system=
- IO into non-singletons, one could have many of them, thus allowing boards =
-to create arbitrary mappings of memory and IO=2E Since QEMU currently assum=
-es one set (memory and IO) of addresses, I for now instantiated the SysBus =
-once in the machine class to preserve behavior=2E
+Tree is here:
+  https://github.com/xzpeter/qemu/tree/preempt-full
 
->But we
->keep them around because
-> (a) there is a ton of legacy code that assumes there's only one
->     address space in the system and this is it
-> (b) when modelling the kind of board where there really is only
->     one address space, having the 'system memory' global makes
->     the APIs for creating and connecting devices a lot simpler
+RFC:
+  https://lore.kernel.org/qemu-devel/20220829165659.96046-1-peterx@redhat.com
 
-Indeed, the APIs may look simpler=2E The issue I see here though is that d=
-evices may make assumptions about these globals which makes the code hard t=
-o change in the long run=2E If devices are given their dependencies by the =
-framework, they must make less assumptions, putting the framework into cont=
-rol=2E This makes the code more homogenious and therefore easier to change=
-=2E
+This patchset is the v1 formal version of preempt-full series.  The RFC tag
+is removed as more tests was done, and all items mentioned in the TODO
+items previously in the RFC cover letters are implemented in this patchset.
 
->Retaining the whole-system singleton but shoving it into MachineState
->doesn't really change much, IMHO=2E
->
->More generally, sysbus is rather weird because it isn't really a
->bus=2E Every device in the system of TYPE_SYS_BUS_DEVICE is "on"
->the unique TYPE_SYSTEM_BUS bus, but that doesn't mean they're
->all in the same address space or that in real hardware they'd
->all be on the same bus=2E
+A few patches are added. Most of the patches are still the same as the RFC
+ones but may have some trivial touch ups here and there.  E.g., comment
+touch-ups as Dave used to suggest on bitmap_mutex.  If to have a look on
+the diff stat we'll see mostly "+" is the same as "-" this time though,
+because with the rp-return thread change we can logically drop a lot of
+complicated preempt logic previously maintained in migration thread:
 
-Again, having multiple SysBuses may solve that issue=2E
+  3 files changed, 371 insertions(+), 399 deletions(-)
 
->sysbus has essentially degraded into a
->hack for having devices get reset=2E I really really need to make
->some time to have another look at reset handling=2E If we get that
->right then I think it's probably possible to collapse the few
->things TYPE_SYS_BUS_DEVICE does that TYPE_DEVICE does not down
->into TYPE_DEVICE and get rid of sysbus altogether=2E=2E=2E
+Feel free to have a look at patch "migration: Remove old preempt code
+around state maintainance" where we dropped a lot of old code on preempt
+state maintainance of migration thread (but the major part of the preempt
+old code still needs to be there, e.g. channel managements) along with the
+break-huge parameter (as we never need to break-huge anymore.. because we
+already run in parallel).
 
-There are many SysBusDevices which directly access the globals I intended =
-to deprecate=2E If those devices could be changed to use the SysBus equival=
-ents instead, this would put the boards in control of memory mappings=2E
+Comparing to the recently merged preempt mode I called it "preempt-full"
+because it threadifies the postcopy channels so now urgent pages can be
+fully handled separately outside of the ram save loop.
 
-Best regards,
-Bernhard
+The existing preempt code has reduced ramdom page req latency over 10Gbps
+network from ~12ms to ~500us which has already landed.
 
->
->thanks
->-- PMM
+This preempt-full series can further reduces that ~500us to ~230us per my
+initial test.  More to share below.
+
+Note that no new capability is needed, IOW it's fully compatible with the
+existing preempt mode.  So the naming is actually not important but just to
+identify the difference on the binaries.
+
+The logic of the series is simple: send urgent pages in rp-return thread
+rather than migration thread.  It also means rp-thread will take over the
+ownership of the newly created preempt channel.  It can slow down rp-return
+thread on receiving page requests, but I don't really see a major issue
+with it so far but only benefits.
+
+For detailed performance numbers, please refer to the rfc cover letter.
+
+Please have a look, thanks.
+
+Peter Xu (14):
+  migration: Add postcopy_preempt_active()
+  migration: Cleanup xbzrle zero page cache update logic
+  migration: Trivial cleanup save_page_header() on same block check
+  migration: Remove RAMState.f references in compression code
+  migration: Yield bitmap_mutex properly when sending/sleeping
+  migration: Use atomic ops properly for page accountings
+  migration: Teach PSS about host page
+  migration: Introduce pss_channel
+  migration: Add pss_init()
+  migration: Make PageSearchStatus part of RAMState
+  migration: Move last_sent_block into PageSearchStatus
+  migration: Send requested page directly in rp-return thread
+  migration: Remove old preempt code around state maintainance
+  migration: Drop rs->f
+
+ migration/migration.c |  47 +--
+ migration/multifd.c   |   2 +-
+ migration/ram.c       | 721 ++++++++++++++++++++----------------------
+ 3 files changed, 371 insertions(+), 399 deletions(-)
+
+-- 
+2.32.0
 
 
