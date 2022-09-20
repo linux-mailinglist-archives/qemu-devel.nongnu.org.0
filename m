@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29905BE45D
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 13:27:28 +0200 (CEST)
-Received: from localhost ([::1]:56324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73ECA5BE48A
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 13:33:54 +0200 (CEST)
+Received: from localhost ([::1]:37578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oabPT-0008Vs-6f
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 07:27:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56092)
+	id 1oabVh-0006EV-HJ
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 07:33:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oaaYk-00012K-PT
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:33:00 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:34592)
+ id 1oaaYm-00012X-DL
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:33:01 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:38737)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oaaYf-0004qa-Fd
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:32:54 -0400
-Received: by mail-pf1-x434.google.com with SMTP id e68so2348834pfe.1
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 03:32:53 -0700 (PDT)
+ id 1oaaYk-0004qr-GR
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:32:59 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id a29so2324862pfk.5
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 03:32:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=coajynULDWAZNTjpgIFLrJ318DUJeq2ShOj+5RVWOfU=;
- b=d+IiRzmYuYKe2hrRuikwivDRvOiQdahdViwE9HTaaKgB1467f7gTCC3rampmnvY1bu
- kKGXJq6jwkC39mcTNlIuJL7QIPLPyoiDRW75e2UEx4+rC1THVJCN24320vr+vQTsbIh3
- CUJdGjIq6UDI2MQNs2KOScMQEvSxHVRrqXObNlQt7z5SaVptddDCNwcBg8wIkcYo9i0/
- gWry0Uv62KfbGuFAnIdLRhN0Iz94Cw3XR/PRXD6qYyP6R4jKxv95fjcI38zK1Wy5fEjk
- whyHEUWRxaUcIAUJn1MOlnBjhx+dh3fXQcmjNZmwNkqWCFcCGi3kFVm0V+M8sskt5BPL
- LPvg==
+ bh=nlrLQubH0zzQT8NxHWeyyJtYXWvWCKu12s8Ktk8w2tQ=;
+ b=ftKgyd3PlC5XPMzRVRca1T6EI+6fMn/Ww5us72GqSb3RmEv4AZvWY4Tn8X4Fz7GYO6
+ FKzc1AXv0O+4viqCEdi2Eyoqz3xmkwTlL4USrKyscMa1BHq4Y3AvNwE2a31QesABsmGS
+ X5pY9GERrwcI9p5FRy5lx2gMfvU2Y2j+UI4W0CH1y15zbtxgKj2d8p1ufVr3wBdP9to1
+ NiZknwF/s5xXDgoOBR+cOI342PO47SIMSS3G/cgteJjgZdeMcRoMkz7q95zf3XIk8p6L
+ gSGSLruR7OtlBtpYHMAaOWVPw8+JQkgniQCydW667ji2JTbmB8CIwLPA6nwgoUrDBQWX
+ 5dEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=coajynULDWAZNTjpgIFLrJ318DUJeq2ShOj+5RVWOfU=;
- b=Htn1yC5d5g+Amj39DlVZNaZCJDQGdmxYw5uPjy3Kc/cjGYDfF8ZwTj00K6cEPJ6IgR
- 9+Ui32XkPT4A5Cy+v2xx4fpQObo8A3PKcsEFbkURzucshV4+yuI2u6I0SkS77H4u/Dr9
- GnaorWCY1v7DHwQZ3s9V5T/O42o2T04S8SW9+g+Yqme/kXQbQdqx603RmD/lc8HkiZ8Z
- gfHnlLOKRxpWs/Ti1q6jLP6F4+D590lzsteXf1xbo+kHvDKkRfn10dPi+E3LiKhBhD3V
- mf0WoXqQasSJcCOE+GMxrT2BZiDBdEqptCjs+p2wdwftwYO0X1yMASFRWSzV0fzSRHF7
- AJ4g==
-X-Gm-Message-State: ACrzQf2Uqamsw0rovljIIXITQD5c6DVoX1TEr0vzVv7LUth6QC4St3Jh
- jn+u0sRsqIsZ96RRy9ceIBhNh+vDrD0=
-X-Google-Smtp-Source: AMsMyM4OdfXFzQy493NueRy/+P0k9lvDYLNVo6xMITTPPug0KBUzlpoiJi+wrsZpNVt0dKAr3GBNyA==
-X-Received: by 2002:a63:e306:0:b0:42c:414a:95e9 with SMTP id
- f6-20020a63e306000000b0042c414a95e9mr20352222pgh.139.1663669971978; 
- Tue, 20 Sep 2022 03:32:51 -0700 (PDT)
+ bh=nlrLQubH0zzQT8NxHWeyyJtYXWvWCKu12s8Ktk8w2tQ=;
+ b=NbIk0vni4DXi6iuxwUDdKtOWhB6RtmerOgoiNALB7hh/SP7kudljMDr8332F5Sj0UD
+ +PC2kMKUVBYC++cW7PTBhl04aYoDMTX5gLxY2TYK1a1/zFkJ4cvRllzYpQ6skyFZXg+Y
+ AGVyduUo93keAJKYQb2lh8RFYxbu9yse+9xjZ1FsK13x5wNquv6aOYVx349v8lDyqAm7
+ mRbXqORuIAM9dFO05HmZQ38mm+hzR6AezCr75bcU/8XHepbNBQOthifVISm+E2unTcRT
+ 0zdKKcxLktzfiPOc8htVX80drWw2R/KQXz7j0pWtg9yul1sPHB3bk2ogKGDOfaG27ezr
+ Iazw==
+X-Gm-Message-State: ACrzQf3/Qsz48ubiDQpVbmNlQG8OTrjC59H6/Ajbs2fYoIy881HrL7vs
+ ck6RjWfB6/XIJypR4WSc4YtY6uQpLkM=
+X-Google-Smtp-Source: AMsMyM73Insw5mptND8kRsavJ5yKVouk+byOUbBQmpLul8jAW21PyL6jaE1fNiSX0arvDO1KuNFANg==
+X-Received: by 2002:a05:6a00:1781:b0:53a:8572:4453 with SMTP id
+ s1-20020a056a00178100b0053a85724453mr23578849pfg.76.1663669974560; 
+ Tue, 20 Sep 2022 03:32:54 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- n2-20020aa79842000000b00551fa0e2b2dsm699573pfq.206.2022.09.20.03.32.48
+ n2-20020aa79842000000b00551fa0e2b2dsm699573pfq.206.2022.09.20.03.32.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 03:32:51 -0700 (PDT)
+ Tue, 20 Sep 2022 03:32:54 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
- Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Laurent Vivier <lvivier@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Yanan Wang <wangyanan55@huawei.com>
-Subject: [PATCH v2 14/39] accel/qtest: Implement a portable qtest accelerator
-Date: Tue, 20 Sep 2022 18:31:34 +0800
-Message-Id: <20220920103159.1865256-15-bmeng.cn@gmail.com>
+ Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: [PATCH v2 15/39] tests/qtest: libqtest: Adapt global_qtest
+ declaration for win32
+Date: Tue, 20 Sep 2022 18:31:35 +0800
+Message-Id: <20220920103159.1865256-16-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220920103159.1865256-1-bmeng.cn@gmail.com>
 References: <20220920103159.1865256-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,130 +94,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 
-Currently signal SIGIPI [=SIGUSR1] is used to kick the dummy CPU
-when qtest accelerator is used. However SIGUSR1 is unsupported on
-Windows. To support Windows, we add a QemuSemaphore CPUState::sem
-to kick the dummy CPU instead.
+Commit dd2107497275 ("tests/libqtest: Use libqtest-single.h in tests that require global_qtest")
+moved global_qtest to libqtest-single.h, by declaring global_qtest
+attribute to be common and weak.
 
-As a result of this, the POSIX implementation via signal is no
-longer needed and can use the same path as Windows.
+This trick unfortunately does not work on Windows, and building
+qtest test cases results in multiple definition errors of the weak
+symbol global_qtest, as Windows PE does not have the concept of
+the so-called weak symbol like ELF in the *nix world.
+
+However Windows does provide a trick to declare a variable to be
+a common symbol, via __declspec(selectany) [1]. It does not provide
+the "strong override weak" effect but we don't need it in our use
+case anyway. So let's use it for win32.
+
+[1] https://docs.microsoft.com/en-us/cpp/cpp/selectany
 
 Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
 
 Changes in v2:
-- Replace signal by the semaphore on posix too
+- Use __declspec(selectany) for the common weak symbol on Windows
 
- include/hw/core/cpu.h   |  1 +
- accel/dummy-cpus.c      | 15 ++-------------
- softmmu/cpus.c          | 10 +---------
- accel/meson.build       |  1 +
- accel/qtest/meson.build |  1 +
- 5 files changed, 6 insertions(+), 22 deletions(-)
+ tests/qtest/libqtest-single.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 500503da13..2f46c37dc1 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -326,6 +326,7 @@ struct CPUState {
- #ifdef _WIN32
-     HANDLE hThread;
- #endif
-+    QemuSemaphore sem;
-     int thread_id;
-     bool running, has_waiter;
-     struct QemuCond *halt_cond;
-diff --git a/accel/dummy-cpus.c b/accel/dummy-cpus.c
-index 10429fdfb2..3769d3db0a 100644
---- a/accel/dummy-cpus.c
-+++ b/accel/dummy-cpus.c
-@@ -21,8 +21,6 @@
- static void *dummy_cpu_thread_fn(void *arg)
- {
-     CPUState *cpu = arg;
--    sigset_t waitset;
--    int r;
+diff --git a/tests/qtest/libqtest-single.h b/tests/qtest/libqtest-single.h
+index 4e7d0ae1dc..851724cbcb 100644
+--- a/tests/qtest/libqtest-single.h
++++ b/tests/qtest/libqtest-single.h
+@@ -13,7 +13,11 @@
  
-     rcu_register_thread();
+ #include "libqtest.h"
  
-@@ -32,23 +30,13 @@ static void *dummy_cpu_thread_fn(void *arg)
-     cpu->can_do_io = 1;
-     current_cpu = cpu;
++#ifndef _WIN32
+ QTestState *global_qtest __attribute__((common, weak));
++#else
++__declspec(selectany) QTestState *global_qtest;
++#endif
  
--    sigemptyset(&waitset);
--    sigaddset(&waitset, SIG_IPI);
--
-     /* signal CPU creation */
-     cpu_thread_signal_created(cpu);
-     qemu_guest_random_seed_thread_part2(cpu->random_seed);
- 
-     do {
-         qemu_mutex_unlock_iothread();
--        do {
--            int sig;
--            r = sigwait(&waitset, &sig);
--        } while (r == -1 && (errno == EAGAIN || errno == EINTR));
--        if (r == -1) {
--            perror("sigwait");
--            exit(1);
--        }
-+        qemu_sem_wait(&cpu->sem);
-         qemu_mutex_lock_iothread();
-         qemu_wait_io_event(cpu);
-     } while (!cpu->unplug);
-@@ -67,6 +55,7 @@ void dummy_start_vcpu_thread(CPUState *cpu)
-     qemu_cond_init(cpu->halt_cond);
-     snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/DUMMY",
-              cpu->cpu_index);
-+    qemu_sem_init(&cpu->sem, 0);
-     qemu_thread_create(cpu->thread, thread_name, dummy_cpu_thread_fn, cpu,
-                        QEMU_THREAD_JOINABLE);
- }
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 23b30484b2..2a992d0d5f 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -437,19 +437,11 @@ void qemu_wait_io_event(CPUState *cpu)
- 
- void cpus_kick_thread(CPUState *cpu)
- {
--#ifndef _WIN32
--    int err;
--
-     if (cpu->thread_kicked) {
-         return;
-     }
-     cpu->thread_kicked = true;
--    err = pthread_kill(cpu->thread->thread, SIG_IPI);
--    if (err && err != ESRCH) {
--        fprintf(stderr, "qemu:%s: %s", __func__, strerror(err));
--        exit(1);
--    }
--#endif
-+    qemu_sem_post(&cpu->sem);
- }
- 
- void qemu_cpu_kick(CPUState *cpu)
-diff --git a/accel/meson.build b/accel/meson.build
-index b9a963cf80..b21c85dc0a 100644
---- a/accel/meson.build
-+++ b/accel/meson.build
-@@ -17,4 +17,5 @@ dummy_ss.add(files(
- ))
- 
- specific_ss.add_all(when: ['CONFIG_SOFTMMU', 'CONFIG_POSIX'], if_true: dummy_ss)
-+specific_ss.add_all(when: ['CONFIG_WIN32'], if_true: dummy_ss)
- specific_ss.add_all(when: ['CONFIG_XEN'], if_true: dummy_ss)
-diff --git a/accel/qtest/meson.build b/accel/qtest/meson.build
-index 4c65600293..a4876fc0f2 100644
---- a/accel/qtest/meson.build
-+++ b/accel/qtest/meson.build
-@@ -1,2 +1,3 @@
- qtest_module_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_POSIX'],
-                     if_true: files('qtest.c'))
-+qtest_module_ss.add(when: ['CONFIG_WIN32'], if_true: files('qtest.c'))
+ /**
+  * qtest_start:
 -- 
 2.34.1
 
