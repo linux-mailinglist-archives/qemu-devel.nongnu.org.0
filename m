@@ -2,69 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 819325BEE04
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 21:51:10 +0200 (CEST)
-Received: from localhost ([::1]:33080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE9565BEE13
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 21:58:54 +0200 (CEST)
+Received: from localhost ([::1]:54042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oajGu-0008M1-EL
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 15:51:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48216)
+	id 1oajOP-0007bV-U4
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 15:58:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oafHi-0007gK-SF
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:35:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38673)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oafK3-0008Sn-6D; Tue, 20 Sep 2022 11:38:07 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oafHg-0001Os-Ri
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:35:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663688140;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=670POACV1KdhNzp23sX54DaUeJrLm1cYUbUrh3OQsQ8=;
- b=aaOyZjvcaKhu71bUBoHjy9lPvBFuRcGTmcGewdRSpdxCc6R2L6DRNNCWrU6zan4wB27W9O
- /SFWMhaPzGSXY3/l+xXL5CKEpmOd2CmOcDeGh31eI1ZVe80mK+L/pUMKvzBZ0LvKlJ7adi
- jgXDNDsPmRUwGVKiu6lWd28lICH6jmo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-319-i_36LIl_N1-UWeR-FJy6lw-1; Tue, 20 Sep 2022 11:35:38 -0400
-X-MC-Unique: i_36LIl_N1-UWeR-FJy6lw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 99AE3833949
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 15:35:38 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.193.218])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 679DF492B04;
- Tue, 20 Sep 2022 15:35:37 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Konstantin Kostiuk <kkostiuk@redhat.com>
-Subject: [PULL 14/15] qga: Replace 'blacklist' command line and config file
- options by 'block-rpcs'
-Date: Tue, 20 Sep 2022 17:35:11 +0200
-Message-Id: <20220920153512.187283-15-thuth@redhat.com>
-In-Reply-To: <20220920153512.187283-1-thuth@redhat.com>
-References: <20220920153512.187283-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oafK1-0001Zj-4n; Tue, 20 Sep 2022 11:38:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=DxUS2wc8S5XxDbYIITAjbCY/K9B97p0z/uIdsCi89f4=; b=q8dDxxpdwWDpHEVedTNp99huTl
+ ieOauNOwBFfYBDnKcDBqCHjuV4ahcE1blChUCvnn1ld2RsCLwnoBIq1ubUWjGD1XG+OipNXhMHYV3
+ A5UVDUPeFztTSqKs6X7P+cnq84CeGwoY32GoPxxVEEcm4T6W++H/W2qq+IUbg08VbaPZn2PpQhA6G
+ bLj5usr33B5oFZ1w1pzMsxXoWw5TqXPu+p5QK2QdWpGZxnhsfad6mIAO4emRZahrJpZli75qhfkPZ
+ JidI8Md/95Pa4BTPf6Cssb8yEiTDu6oS0+mepXs9cZhYwKX0GB+Wh3jWanOFKnNugdGBTJ2negqZ5
+ kQ5zkM8I3F09Yqn2tNuiF62sq4HjlfBTtNVHH/wu5YepzmsU+yGEiv75Er59M/E1rO+t7vI3zdHhL
+ K6EOXVatICRAGXSZ2pXGTOtCsdntXKmTpLa28j5QBqhUoCSVwaSj/dnxqdkPzCQwQsRXyL4b13OSS
+ pTWzfSYUZ3XA1cZjpzVW7U3+3jDQGahsb6BDRM7yMzynJF79hN3JliPwomVGl3TlmAF9ZXbgB6v8x
+ EdBv3RhbS9nnzMB0fMo8v8PRvu4ZQAqDHvVlI+IWDk4CDXNVEIO08YEfWVoJ8mVf99CP1R3I6tydJ
+ Gl7iS5zTOghPdk9mRJyFsq8Jqasp4a0Y+B74kjNoY=;
+Received: from [2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oafGv-000Afu-Ct; Tue, 20 Sep 2022 16:34:53 +0100
+Message-ID: <49325e7d-5020-23f7-4bce-c53d8d988c95@ilande.co.uk>
+Date: Tue, 20 Sep 2022 16:36:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Bernhard Beschow <shentey@gmail.com>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Bandan Das
+ <bsd@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Sergio Lopez <slp@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>, Cameron Esfahani
+ <dirty@apple.com>, Michael Rolnik <mrolnik@gmail.com>,
+ Song Gao <gaosong@loongson.cn>, Jagannathan Raman <jag.raman@oracle.com>,
+ Greg Kurz <groug@kaod.org>, Kamil Rytarowski <kamil@netbsd.org>,
+ Peter Xu <peterx@redhat.com>, Joel Stanley <joel@jms.id.au>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, haxm-team@intel.com,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Markus Armbruster <armbru@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ qemu-ppc@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Helge Deller <deller@gmx.de>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-riscv@nongnu.org, Stafford Horne <shorne@gmail.com>,
+ Paul Durrant <paul@xen.org>, Havard Skinnemoen <hskinnemoen@google.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Alexander Graf <agraf@csgraf.de>, Thomas Huth <thuth@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Wenchao Wang <wenchao.wang@intel.com>, Tony Krowiak
+ <akrowiak@linux.ibm.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ qemu-s390x@nongnu.org, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
+ <marcandre.lureau@redhat.com>, Eric Farman <farman@linux.ibm.com>,
+ Reinoud Zandijk <reinoud@netbsd.org>, Alexander Bulekov <alxndr@bu.edu>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Tyrone Ting <kfting@nuvoton.com>,
+ xen-devel@lists.xenproject.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ John Snow <jsnow@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Darren Kenny <darren.kenny@oracle.com>, kvm@vger.kernel.org,
+ Qiuhao Li <Qiuhao.Li@outlook.com>, John G Johnson
+ <john.g.johnson@oracle.com>, Bin Meng <bin.meng@windriver.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, Max Filippov
+ <jcmvbkbc@gmail.com>, qemu-arm@nongnu.org,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, Andrew Jeffery
+ <andrew@aj.id.au>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Alistair Francis
+ <alistair@alistair23.me>, Jason Herne <jjherne@linux.ibm.com>
+References: <20220919231720.163121-1-shentey@gmail.com>
+ <CAFEAcA8GjXFO4WK=KybgSc8rMfqecwD9EXS0kZMKtqogNf1Tsg@mail.gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <CAFEAcA8GjXFO4WK=KybgSc8rMfqecwD9EXS0kZMKtqogNf1Tsg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 0/9] Deprecate sysbus_get_default() and
+ get_system_memory() et. al
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.182,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,167 +136,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's use a more appropriate wording for this command line and config
-file option. The old ones are still accepted for compatibility reasons,
-but marked as deprecated now so that it could be removed in a future
-version of QEMU.
+On 20/09/2022 10:55, Peter Maydell wrote:
 
-This change is based on earlier patches from Philippe Mathieu-Daudé,
-with the idea for the new option name suggested by BALATON Zoltan.
+> On Tue, 20 Sept 2022 at 00:18, Bernhard Beschow <shentey@gmail.com> wrote:
+>>
+>> In address-spaces.h it can be read that get_system_memory() and
+>> get_system_io() are temporary interfaces which "should only be used temporarily
+>> until a proper bus interface is available". This statement certainly extends to
+>> the address_space_memory and address_space_io singletons.
+> 
+> This is a long standing "we never really completed a cleanup"...
+> 
+>> This series attempts
+>> to stop further proliferation of their use by turning TYPE_SYSTEM_BUS into an
+>> object-oriented, "proper bus interface" inspired by PCIBus.
+>>
+>> While at it, also the main_system_bus singleton is turned into an attribute of
+>> MachineState. Together, this resolves five singletons in total, making the
+>> ownership relations much more obvious which helps comprehension.
+> 
+> ...but I don't think this is the direction we want to go.
+> Overall the reason that the "system memory" and "system IO"
+> singletons are weird is that in theory they should not be necessary
+> at all -- board code should create devices and map them into an
+> entirely arbitrary MemoryRegion or set of MemoryRegions corresponding
+> to address space(s) for the CPU and for DMA-capable devices. But we
+> keep them around because
+>   (a) there is a ton of legacy code that assumes there's only one
+>       address space in the system and this is it
+>   (b) when modelling the kind of board where there really is only
+>       one address space, having the 'system memory' global makes
+>       the APIs for creating and connecting devices a lot simpler
+> 
+> Retaining the whole-system singleton but shoving it into MachineState
+> doesn't really change much, IMHO.
+> 
+> More generally, sysbus is rather weird because it isn't really a
+> bus. Every device in the system of TYPE_SYS_BUS_DEVICE is "on"
+> the unique TYPE_SYSTEM_BUS bus, but that doesn't mean they're
+> all in the same address space or that in real hardware they'd
+> all be on the same bus. sysbus has essentially degraded into a
+> hack for having devices get reset. I really really need to make
+> some time to have another look at reset handling. If we get that
+> right then I think it's probably possible to collapse the few
+> things TYPE_SYS_BUS_DEVICE does that TYPE_DEVICE does not down
+> into TYPE_DEVICE and get rid of sysbus altogether...
 
-And while we're at it, replace the "?" in the help text with "help"
-since that does not have the problem of conflicting with the wildcard
-character of the shells.
+Following on from one of the discussion points from Alex's KVM Forum BoF session: I 
+think longer term what we need to aim for is for QEMU machines to define their own 
+address spaces, and then bind those address spaces containing memory-mapped devices 
+to one or more CPUs.
 
-Message-Id: <20220727092135.302915-2-thuth@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- docs/about/deprecated.rst  | 19 +++++++++++++++++++
- docs/interop/qemu-ga.rst   |  8 ++++----
- qga/main.c                 | 18 +++++++++++++-----
- tests/unit/test-qga.c      |  2 +-
- tests/data/test-qga-config |  2 +-
- 5 files changed, 38 insertions(+), 11 deletions(-)
+Once this in place, as Peter notes above it just remains to solve the reset problem 
+and then it becomes possible to eliminate sysbus altogether as everything else can 
+already be managed by qdev/QOM.
 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index c75a25daad..8c914dfe0f 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -370,3 +370,22 @@ be deleted from this tree.
- New deployments should use the Rust version, and existing systems
- should consider moving to it.  The command line and feature set
- is very close and moving should be simple.
-+
-+
-+QEMU guest agent
-+----------------
-+
-+``--blacklist`` command line option (since 7.2)
-+'''''''''''''''''''''''''''''''''''''''''''''''
-+
-+``--blacklist`` has been replaced by ``--block-rpcs`` (which is a better
-+wording for what this option does). The short form ``-b`` still stays
-+the same and thus is the preferred way for scripts that should run with
-+both, older and future versions of QEMU.
-+
-+``blacklist`` config file option (since 7.2)
-+''''''''''''''''''''''''''''''''''''''''''''
-+
-+The ``blacklist`` config file option has been renamed to ``block-rpcs``
-+(to be in sync with the renaming of the corresponding command line
-+option).
-diff --git a/docs/interop/qemu-ga.rst b/docs/interop/qemu-ga.rst
-index 3063357bb5..a9183802d1 100644
---- a/docs/interop/qemu-ga.rst
-+++ b/docs/interop/qemu-ga.rst
-@@ -79,10 +79,10 @@ Options
- 
-   Daemonize after startup (detach from terminal).
- 
--.. option:: -b, --blacklist=LIST
-+.. option:: -b, --block-rpcs=LIST
- 
--  Comma-separated list of RPCs to disable (no spaces, ``?`` to list
--  available RPCs).
-+  Comma-separated list of RPCs to disable (no spaces, use ``help`` to
-+  list available RPCs).
- 
- .. option:: -D, --dump-conf
- 
-@@ -125,7 +125,7 @@ pidfile        string
- fsfreeze-hook  string
- statedir       string
- verbose        boolean
--blacklist      string list
-+block-rpcs     string list
- =============  ===========
- 
- See also
-diff --git a/qga/main.c b/qga/main.c
-index 5f1efa2333..74e5c9b10c 100644
---- a/qga/main.c
-+++ b/qga/main.c
-@@ -260,8 +260,8 @@ QEMU_COPYRIGHT "\n"
- #ifdef _WIN32
- "  -s, --service     service commands: install, uninstall, vss-install, vss-uninstall\n"
- #endif
--"  -b, --blacklist   comma-separated list of RPCs to disable (no spaces, \"?\"\n"
--"                    to list available RPCs)\n"
-+"  -b, --block-rpcs  comma-separated list of RPCs to disable (no spaces,\n"
-+"                    use \"help\" to list available RPCs)\n"
- "  -D, --dump-conf   dump a qemu-ga config file based on current config\n"
- "                    options / command-line parameters to stdout\n"
- "  -r, --retry-path  attempt re-opening path if it's unavailable or closed\n"
-@@ -963,6 +963,7 @@ static void config_load(GAConfig *config)
-     GError *gerr = NULL;
-     GKeyFile *keyfile;
-     g_autofree char *conf = g_strdup(g_getenv("QGA_CONF")) ?: get_relocated_path(QGA_CONF_DEFAULT);
-+    const gchar *blockrpcs_key = "block-rpcs";
- 
-     /* read system config */
-     keyfile = g_key_file_new();
-@@ -1009,9 +1010,15 @@ static void config_load(GAConfig *config)
-         config->retry_path =
-             g_key_file_get_boolean(keyfile, "general", "retry-path", &gerr);
-     }
-+
-     if (g_key_file_has_key(keyfile, "general", "blacklist", NULL)) {
-+        g_warning("config using deprecated 'blacklist' key, should be replaced"
-+                  " with the 'block-rpcs' key.");
-+        blockrpcs_key = "blacklist";
-+    }
-+    if (g_key_file_has_key(keyfile, "general", blockrpcs_key, NULL)) {
-         config->bliststr =
--            g_key_file_get_string(keyfile, "general", "blacklist", &gerr);
-+            g_key_file_get_string(keyfile, "general", blockrpcs_key, &gerr);
-         config->blacklist = g_list_concat(config->blacklist,
-                                           split_list(config->bliststr, ","));
-     }
-@@ -1073,7 +1080,7 @@ static void config_dump(GAConfig *config)
-     g_key_file_set_boolean(keyfile, "general", "retry-path",
-                            config->retry_path);
-     tmp = list_join(config->blacklist, ',');
--    g_key_file_set_string(keyfile, "general", "blacklist", tmp);
-+    g_key_file_set_string(keyfile, "general", "block-rpcs", tmp);
-     g_free(tmp);
- 
-     tmp = g_key_file_to_data(keyfile, NULL, &error);
-@@ -1105,7 +1112,8 @@ static void config_parse(GAConfig *config, int argc, char **argv)
-         { "method", 1, NULL, 'm' },
-         { "path", 1, NULL, 'p' },
-         { "daemonize", 0, NULL, 'd' },
--        { "blacklist", 1, NULL, 'b' },
-+        { "block-rpcs", 1, NULL, 'b' },
-+        { "blacklist", 1, NULL, 'b' },  /* deprecated alias for 'block-rpcs' */
- #ifdef _WIN32
-         { "service", 1, NULL, 's' },
- #endif
-diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
-index a05a4628ed..099d789092 100644
---- a/tests/unit/test-qga.c
-+++ b/tests/unit/test-qga.c
-@@ -729,7 +729,7 @@ static void test_qga_config(gconstpointer data)
-     g_assert_true(g_key_file_get_boolean(kf, "general", "verbose", &error));
-     g_assert_no_error(error);
- 
--    strv = g_key_file_get_string_list(kf, "general", "blacklist", &n, &error);
-+    strv = g_key_file_get_string_list(kf, "general", "block-rpcs", &n, &error);
-     g_assert_cmpint(n, ==, 2);
-     g_assert_true(g_strv_contains((const char * const *)strv,
-                                   "guest-ping"));
-diff --git a/tests/data/test-qga-config b/tests/data/test-qga-config
-index 4bb721a4a1..b6b7bc9dfd 100644
---- a/tests/data/test-qga-config
-+++ b/tests/data/test-qga-config
-@@ -5,4 +5,4 @@ path=/path/to/org.qemu.guest_agent.0
- pidfile=/var/foo/qemu-ga.pid
- statedir=/var/state
- verbose=true
--blacklist=guest-ping;guest-get-time
-+block-rpcs=guest-ping;guest-get-time
--- 
-2.31.1
 
+ATB,
+
+Mark.
 
