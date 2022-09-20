@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F5F15BE5C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 14:29:23 +0200 (CEST)
-Received: from localhost ([::1]:47548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52EB85BE61D
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 14:43:38 +0200 (CEST)
+Received: from localhost ([::1]:59090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oacNO-0001H7-EW
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 08:29:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56802)
+	id 1oacbB-0001T4-E4
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 08:43:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oaaZK-0001Ij-Dv; Tue, 20 Sep 2022 06:33:34 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:53812)
+ id 1oaaZK-0001Il-Jm; Tue, 20 Sep 2022 06:33:34 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:41848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oaaZG-0004zb-5a; Tue, 20 Sep 2022 06:33:32 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id q3so2551558pjg.3;
- Tue, 20 Sep 2022 03:33:28 -0700 (PDT)
+ id 1oaaZI-000508-0c; Tue, 20 Sep 2022 06:33:34 -0400
+Received: by mail-pg1-x531.google.com with SMTP id q9so2113840pgq.8;
+ Tue, 20 Sep 2022 03:33:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=qGPOmRjHbysKyb7HVYrvLwoOgzN+2O9KcPhD9XmRvHs=;
- b=ZLZSHLQDLV+j6k7eLKXqDsWNRvtkZqa+QtewK6V2COplApxkZDHojNZ6frhCoMLcv/
- pVqtLdpOthwJ9gzBG6N9UIh9PAasFEsPMJ+3qrPNS836mT2VY94HRWX4s/lqWXS+J/i6
- drhx1vyBHLQQeC/oSpeS8jqAqJUtAQDV0Y9OjKEU3I7irZPSYsP3Zoc5ye58SrtOK+RV
- e9AqV7x6LGcksg2CTHn5E1+CbddSOZRAiExm3+dQ4JRBpHU5NEoWIAzsIozgL1v0qbNO
- IfB224xGNceNI+vMCYRDP94azz5Al0TGhqhuUEI1HIZasGWu0jZTfyU3o1Yx9117XEdB
- JPhg==
+ bh=5vK7I12SbKOcFn43HOIKWmaFBkxVao5CvM3jde8q4IE=;
+ b=FugxP0xmy4YDguSzwfMpySA31bnFASSySGjghOCIyELK/Hy/alZ3hk1lZ7wye8hQg+
+ 6yg4FtbYjcBZIgEOCI9VIpU1sUh3FDTstf1J+YgskJT/IxSX5iFzXBaevOfcPVT1Cp66
+ HHicqD4lBqs9HE8HN8J2CnntBgs2oS7qFRJ7tJ6ypZi092U3WcQzxxkB6QgYuVj2Hl/Y
+ FYFZYMISU2z4xEa+AnKiuVo0+PHv2o7000tVdh7rGwFS9jXPhAq9PyrNzzJ898Or5Q15
+ n21BqsDe5rFrlUspr/8BSMQytbQSt9nXzpdPojxRYqC16jf52KQ0qLx3/O6+O5WIbG6W
+ Gq7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=qGPOmRjHbysKyb7HVYrvLwoOgzN+2O9KcPhD9XmRvHs=;
- b=vbOA/MQTOJ4CzVc6liSWAuUHaZE4Vw7SNs5Lg6Ww64xkuO+x1r6Ln6T+o0GrpeH7r4
- VFmbZFRpH45XghsU2QHcrQip/Ds4hhrpe+k9HFGFzA5zKVA7uCNyMaeeDmh+0EK++XG9
- FRyfRI6zGT7tPIZ9v5RHn66bB6KIvNwI2YxphS/+liIw4Wx9ZXQzVMysY8dRvbBgRUIB
- g8O7MAYNWYxPPreieLiotWKG6I/tSoxG2C5vHUP6f98Cm/yAzz2Ma72hLUm3Mwr7icGa
- ZvAjghyD7m7NAOROXIUhhzDNzG0RzypNawcrYJx3TwTlncsek5IKHK+OtvPLrN88QhP5
- zmjg==
-X-Gm-Message-State: ACrzQf1p93MwKOxQ+47i0MXAKIlLR/t/y1/tEwPVoeksDGoM9SPhSqBL
- b+NBNub78DFaNDXEzxkW6pXw5tiZA+U=
-X-Google-Smtp-Source: AMsMyM5ERaS4WjHPrFxwZnf6Cgh1ktv2Eo3pu9bZYs9yyr8TrrfO/exGbSv0jyBLg516WnwVrVIPsQ==
-X-Received: by 2002:a17:902:ea0e:b0:178:3d49:45ad with SMTP id
- s14-20020a170902ea0e00b001783d4945admr4156024plg.103.1663670007450; 
- Tue, 20 Sep 2022 03:33:27 -0700 (PDT)
+ bh=5vK7I12SbKOcFn43HOIKWmaFBkxVao5CvM3jde8q4IE=;
+ b=RS84u6WtLgqW0zKu9WRsRSa5kcPSzOv6/WAHUZenZdxDuXdIhMZWlXEl2mJYcVMC5E
+ 8XrtcaId0sT5cOVt9MAHJ5lhn0Wo+XjTZFRUojbZbHQKgM8KmLMDAA2wNmKobV4F2jRf
+ Gi6qjF+3sycZNtptKlHJu3u2LVUMtSZv5IiW3q1qH4B7+BVLWmzDu2cKzupA8rYwM4JC
+ XjAXugGDusK6PMLPAG6tz2TyJqrq8CURYE71mfXk60Qa5mTPIKZH7/OYy8pcbCk5ypAL
+ BJjrRTpdMiI/rINVfEUmvG9CC3uEWhjwrH9wkefer63NkW00NNgSyFUU45NLPDtid5pd
+ 7eHg==
+X-Gm-Message-State: ACrzQf0zCctcxcCHkquc1lFpqSiFPPct76QVFSh/2zrexUNjy91HS8KR
+ RRk1TTJV0QoYQoCpL+v2PG/5A2yXkTc=
+X-Google-Smtp-Source: AMsMyM7l9zO8A8g0ecjDG77EC05caPdNd9Dzmydc09GCwKUkwhuzEJCaCSWfw8QUZ6A3X5v9yDx/Xw==
+X-Received: by 2002:a63:560a:0:b0:42a:7b1d:4e08 with SMTP id
+ k10-20020a63560a000000b0042a7b1d4e08mr19951452pgb.594.1663670009694; 
+ Tue, 20 Sep 2022 03:33:29 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- n2-20020aa79842000000b00551fa0e2b2dsm699573pfq.206.2022.09.20.03.33.24
+ n2-20020aa79842000000b00551fa0e2b2dsm699573pfq.206.2022.09.20.03.33.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 03:33:27 -0700 (PDT)
+ Tue, 20 Sep 2022 03:33:29 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
  Bin Meng <bin.meng@windriver.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org
-Subject: [PATCH v2 27/39] hw/ppc: spapr: Use qemu_vfree() to free spapr->htab
-Date: Tue, 20 Sep 2022 18:31:47 +0800
-Message-Id: <20220920103159.1865256-28-bmeng.cn@gmail.com>
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org
+Subject: [PATCH v2 28/39] hw/pci-host: pnv_phb{3,
+ 4}: Fix heap out-of-bound access failure
+Date: Tue, 20 Sep 2022 18:31:48 +0800
+Message-Id: <20220920103159.1865256-29-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220920103159.1865256-1-bmeng.cn@gmail.com>
 References: <20220920103159.1865256-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,35 +92,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 
-spapr->htab is allocated by qemu_memalign(), hence we should use
-qemu_vfree() to free it.
+pnv_phb3_root_bus_info and pnv_phb4_root_bus_info are missing the
+instance_size initialization. This results in accessing out-of-bound
+memory when setting 'chip-id' and 'phb-id', and eventually crashes
+glib's malloc functionality with the following message:
 
-Fixes: c5f54f3e31bf ("pseries: Move hash page table allocation to reset time")
-Fixes: b4db54132ffe ("target/ppc: Implement H_REGISTER_PROCESS_TABLE H_CALL"")
+  "qemu-system-ppc64: GLib: ../glib-2.72.3/glib/gmem.c:131: failed to allocate 3232 bytes"
+
+This issue was noticed only when running qtests with QEMU Windows
+32-bit executable. Windows 64-bit, Linux 32/64-bit do not expose
+this bug though.
+
+Fixes: 9ae1329ee2fe ("ppc/pnv: Add models for POWER8 PHB3 PCIe Host bridge")
+Fixes: 4f9924c4d4cf ("ppc/pnv: Add models for POWER9 PHB4 PCIe Host bridge")
 Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
 
-(no changes since v1)
+Changes in v2:
+- new patch: "hw/pci-host: pnv_phb{3,4}: Fix heap out-of-bound access failure"
 
- hw/ppc/spapr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/pci-host/pnv_phb3.c | 1 +
+ hw/pci-host/pnv_phb4.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index fb790b61e4..cc1adc23fa 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1522,7 +1522,7 @@ int spapr_hpt_shift_for_ramsize(uint64_t ramsize)
+diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+index af8575c007..9054c393a2 100644
+--- a/hw/pci-host/pnv_phb3.c
++++ b/hw/pci-host/pnv_phb3.c
+@@ -1169,6 +1169,7 @@ static void pnv_phb3_root_bus_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo pnv_phb3_root_bus_info = {
+     .name = TYPE_PNV_PHB3_ROOT_BUS,
+     .parent = TYPE_PCIE_BUS,
++    .instance_size = sizeof(PnvPHB3RootBus),
+     .class_init = pnv_phb3_root_bus_class_init,
+ };
  
- void spapr_free_hpt(SpaprMachineState *spapr)
- {
--    g_free(spapr->htab);
-+    qemu_vfree(spapr->htab);
-     spapr->htab = NULL;
-     spapr->htab_shift = 0;
-     close_htab_fd(spapr);
+diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+index 824e1a73fb..ccbde841fc 100644
+--- a/hw/pci-host/pnv_phb4.c
++++ b/hw/pci-host/pnv_phb4.c
+@@ -1773,6 +1773,7 @@ static void pnv_phb4_root_bus_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo pnv_phb4_root_bus_info = {
+     .name = TYPE_PNV_PHB4_ROOT_BUS,
+     .parent = TYPE_PCIE_BUS,
++    .instance_size = sizeof(PnvPHB4RootBus),
+     .class_init = pnv_phb4_root_bus_class_init,
+ };
+ 
 -- 
 2.34.1
 
