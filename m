@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C97295BEA64
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 17:41:00 +0200 (CEST)
-Received: from localhost ([::1]:52450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E7915BEB01
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 18:20:21 +0200 (CEST)
+Received: from localhost ([::1]:45580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oafMp-0001HJ-28
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 11:40:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60378)
+	id 1oafys-0003TE-LV
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 12:20:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oacsk-0002Uz-1e
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 09:01:48 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:39553)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oacsi-0007nR-2R
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 09:01:45 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id f20so3711120edf.6
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 06:01:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=smtrdcX9QfdZ22oB+N77L2hzWIKbPV2nSxZiwXrImcQ=;
- b=vLvJmDRLGdhzm1awkpl6hfctBhwdMC5uPbq/SwlNr7XDJERZ70sGpk0R4DTJAQCOoq
- J+4iGOLO+FYQV42HLj9EVQkHe2hzTOduPCC4MPpIyok90tJjw6FNRgJSyI8iso3MihT7
- JNR07xi/E4DC1FXyi9YMl4hn0gE7lNoagZRf74oJRVa7oPOe2YoDrE2HrJC47QwfczP8
- n9+NPQ9cCQDCYKMvpEg3QN8UhvMJz/fAT+ilaq1YZmZtvfH/tzyuQtA88hB+EoJQQ7hr
- +xRT4e3y+GyATVtjH+DF8M9TCSRJZ/EIoqXAorT8bFhdNQDxI8adUivP5NsB469IyeeN
- DAcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=smtrdcX9QfdZ22oB+N77L2hzWIKbPV2nSxZiwXrImcQ=;
- b=3sDo7kTiueVd9qpvarIHb/LRrTxtVKM2PplcRAeI1jfZ2svgzgaJh9Gp6xedBRN9KN
- i5d8QEXgqk8Hn5c/aBfMmWLv6yMUbOfNcUlacUZKXswMnlnc9vdzgIDQHQ1wLJ4etc6D
- XRxvPjwL3K3Fvzsqj1BtMsw9ZWHyLT0/hSauPIjXqhsWGeV19BpcnjnQDBaqkHUCQ13c
- kVBGMTwRKsiKGHk7LqvpqGDc/j+158+S8aG5ul3avy2C9bj9cFofnJ8YHOPXnU5snGgN
- hWZVJrwfH4QOwVB4kZ8YMZt6//+c+n9t9IvKslvpsFpA65/rGBa9Od/DfR70fkeCG2Lz
- xDPQ==
-X-Gm-Message-State: ACrzQf2XnWC9xy8LrQ2uwlQzUQKQDc5P5/oSm6hi76owNXLdGdp7KX/f
- DijI9akAfF4XCHVKktFZZw0ZLolk6Mf+fFhSdkJYeg==
-X-Google-Smtp-Source: AMsMyM60HHSlAtpHHPRygwHWUb36H/HcLQoerKjQqRWE73+NxtLQLHgzeZZwWKRC8VecrJtcaLAxcgc+xN8KlIG+dcE=
-X-Received: by 2002:a05:6402:2787:b0:451:d655:9269 with SMTP id
- b7-20020a056402278700b00451d6559269mr20012170ede.375.1663678901523; Tue, 20
- Sep 2022 06:01:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oacTG-0005vF-8E
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 08:35:26 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:60446)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oacTB-0002rV-5L
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 08:35:24 -0400
+Received: from vla5-b2806cb321eb.qloud-c.yandex.net
+ (vla5-b2806cb321eb.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c18:3e0d:0:640:b280:6cb3])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 9194F2E120F;
+ Tue, 20 Sep 2022 15:35:13 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b65b::1:34] (unknown
+ [2a02:6b8:b081:b65b::1:34])
+ by vla5-b2806cb321eb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ CeudgTyhFM-ZBOej0SU; Tue, 20 Sep 2022 15:35:13 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1663677313; bh=MWTB9GDGc6sLf1ulRhW6prcGIHzH13OXkt6MzveaT+0=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=wzSFnETxFXj5y7t7sMa000vLc9hJ9f5NvWK1tJJjCqJjQMgTzZy4Hil+ob5rWgt2g
+ kBcPVDUD5L5F0sfKL4WXbeb6QHR319sYC5IceTKkvccCQsZRLdiRMVXdVTMoRMkGaG
+ AlaA9U00jKORypbHULY3FL+eftAUzqEysKeYvh24=
+Authentication-Results: vla5-b2806cb321eb.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <eeae2432-c5b6-f2ab-ae21-a27bb318e772@yandex-team.ru>
+Date: Tue, 20 Sep 2022 15:35:11 +0300
 MIME-Version: 1.0
-References: <20220914132308.118495-1-richard.henderson@linaro.org>
- <YyYqnE1PeKmyX/cA@fedora>
-In-Reply-To: <YyYqnE1PeKmyX/cA@fedora>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Sep 2022 14:01:29 +0100
-Message-ID: <CAFEAcA_=52f-rgC85ZNvkWOTa8ci5G0yRUnBoNL8WRBU+rPTcg@mail.gmail.com>
-Subject: Re: [PULL 00/11] semihosting patch queue
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] This patch is to solve the problem that bitmaps in memory
+ are lost after dirve-mirror is completed.
+Content-Language: en-US
+To: Hongleilee <281773481@qq.com>, qemu-devel@nongnu.org
+Cc: eblake@redhat.com, hreitz@redhat.com, kwolf@redhat.com,
+ richard.henderson@linaro.org, John Snow <jsnow@redhat.com>
+References: <tencent_D664D92C94A87E015A59B4A93C16EB1EFC0A@qq.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <tencent_D664D92C94A87E015A59B4A93C16EB1EFC0A@qq.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.182,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,16 +80,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 17 Sept 2022 at 21:20, Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> Applied, thanks.
->
-> Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
+[Cc John]
 
-I have updated the changelog with a note in the 'incompatible changes'
-section to let users know in what case they might need to update their
-command lines.
+Hi!
 
-thanks
--- PMM
+Please make subject line shorter and do longer description in the body of commit message.
+
+About the patch - same thing. Please move/copy bitmaps using Bitmap API.
+
+On 9/20/22 08:47, Hongleilee wrote:
+> Signed-off-by: Hongleilee <281773481@qq.com>
+> ---
+>   block/mirror.c | 29 +++++++++++++++++++++++++++++
+>   1 file changed, 29 insertions(+)
+> 
+> diff --git a/block/mirror.c b/block/mirror.c
+> index 3c4ab1159d..86d2cd6b67 100644
+> --- a/block/mirror.c
+> +++ b/block/mirror.c
+> @@ -24,6 +24,7 @@
+>   #include "qemu/ratelimit.h"
+>   #include "qemu/bitmap.h"
+>   #include "qemu/memalign.h"
+> +#include "qemu/queue.h"
+>   
+>   #define MAX_IN_FLIGHT 16
+>   #define MAX_IO_BYTES (1 << 20) /* 1 Mb */
+> @@ -654,7 +655,10 @@ static int mirror_exit_common(Job *job)
+>       BlockDriverState *target_bs;
+>       BlockDriverState *mirror_top_bs;
+>       Error *local_err = NULL;
+> +    BdrvDirtyBitmap *bm, *next, *bt_mp;
+> +    HBitmap *hb;
+>       bool abort = job->ret < 0;
+> +    int i, j;
+>       int ret = 0;
+>   
+>       if (s->prepared) {
+> @@ -671,6 +675,31 @@ static int mirror_exit_common(Job *job)
+>           bdrv_unfreeze_backing_chain(mirror_top_bs, target_bs);
+>       }
+>   
+> +    QLIST_INIT(&target_bs->dirty_bitmaps);
+> +    QLIST_FOREACH_SAFE(bm, &src->dirty_bitmaps, list, next) {
+> +        if (bm->name) {
+> +            bt_mp = g_new0(BdrvDirtyBitmap, 1);
+> +            hb = g_new0(struct HBitmap, 1);
+> +            hb->count = bm->bitmap->count;
+> +            hb->size = bm->bitmap->size;
+> +            hb->granularity = bm->bitmap->granularity;
+> +            for (i = 0; i < HBITMAP_LEVELS; i++) {
+> +                hb->sizes[i] = bm->bitmap->sizes[i];
+> +                hb->levels[i] = g_new0(unsigned long, bm->bitmap->sizes[i]);
+> +                for (j = 0; j < bm->bitmap->sizes[i]; j++) {
+> +                    hb->levels[i][j] = bm->bitmap->levels[i][j];
+> +                }
+> +            }
+> +            bt_mp->mutex = &target_bs->dirty_bitmap_mutex;
+> +            bt_mp->bitmap = hb;
+> +            bt_mp->size = bm->size;
+> +            bt_mp->name = g_strdup(bm->name);
+> +            qemu_mutex_lock(&target_bs->dirty_bitmap_mutex);
+> +            QLIST_INSERT_HEAD(&target_bs->dirty_bitmaps, bt_mp, list);
+> +            qemu_mutex_unlock(&target_bs->dirty_bitmap_mutex);
+> +        }
+> +    }
+> +
+>       bdrv_release_dirty_bitmap(s->dirty_bitmap);
+>   
+>       /* Make sure that the source BDS doesn't go away during bdrv_replace_node,
+
+
+-- 
+Best regards,
+Vladimir
 
