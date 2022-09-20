@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2430E5BEEBB
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 22:49:03 +0200 (CEST)
-Received: from localhost ([::1]:51622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 335F75BEF08
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:16:27 +0200 (CEST)
+Received: from localhost ([::1]:52540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oakAv-00015x-Rl
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 16:49:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50350)
+	id 1oakbS-0003go-4J
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:16:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oafr4-0000VT-Cj
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:12:17 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:35643)
+ id 1oag0K-0004Ij-35
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:21:48 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:38654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oafr2-00075u-M3
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:12:14 -0400
-Received: by mail-ej1-x634.google.com with SMTP id go34so7414543ejc.2
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 09:12:12 -0700 (PDT)
+ id 1oag0I-00008O-HR
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:21:47 -0400
+Received: by mail-ed1-x536.google.com with SMTP id e17so4618779edc.5
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 09:21:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=MTZQ0ZKgObtmtbYGay8TqRoKaepCg/5wsIJnL82JaoY=;
- b=lGazIORBG2kmJ95qYHD9PS44EVpHRmI8l53fnYdVjNwHmBisyNpgT1J4oa74owvEHa
- bS0rKYDDJh0RKwx+TxwRIFyDkzhdojT0vo7G9QFcZt+/4MsH65fTlYTNFuhMUOFZb0+I
- uETisVs5Plj4z4vglx/SjYB97u9mC1eY8s/yIyL1WgEQYz3Re0dzRVuQEvPwJ5vCofb5
- 0STUrR8rVGHdm30zNpBzTTXs6cuYxpm6HaMziOWB+OhSmONWFnIW7kWDP2aYStV/qr33
- insWnepw9rhet/O1zugbLzQcTQw1Xeyu9CVSEgAJu1ny/kaYWZSCkGaLl9KW6m6jbCIt
- sw8A==
+ bh=5lUHutovwYwYSb4tFgPAdhsfX+qZcwHYtDiahs/qvAI=;
+ b=t2YgrFb4EBlba1TVfrCQU3f8fJUs7YpW6rxQWTDndN3jL2EHKgrLuLNmkGd8z+cmrO
+ TtiBtcMDTElJfNEb7fRz1jRrR/T+pkow+9daCMHfrLtJA83+4nOQbpAR9Gfxa0Oq6Jb3
+ RMv15iSSdwzQznizXdVPRHTcCZ9Z/QvrBmW7rNDbnpnsi+nB60+9BqTrnP+bpFRqx+H5
+ NheiICGSD6oOLenqivgMQRnUvuDaWtFX/SeRepMqQvFwF18BIUsW3OhWkd98+e9HFXlV
+ YhlygcAwDoeQPZYxfZ/RcqAIihcVQ8WxW/amEHuPIZn18oQ5y5bQ+5OkdOc2PxjvAT3D
+ 1xEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=MTZQ0ZKgObtmtbYGay8TqRoKaepCg/5wsIJnL82JaoY=;
- b=b2lCBU9/+HGTl2Hnzi4Hf31GJXz1B/7wR9TZ6qLg4BUAVyWzCS2NrgphpHrRgBwm23
- 3odqwPNnP5Hx0uo8XSYgDyhAOBNzxPpKg4SXwh0YpgsSuy/tbPTU8nRasmFyjyvAGQie
- 7RAzzfUGf5IPvUIU3/ZuxRFPa13C6KsS0EuNE3fpKkduFBnspVPN4ou5byIiNUP60HCw
- Sckv92gYh0VGdFL5NF491Yf+xwmIn23/bbiiAadn8d/GVesHIz91Op19PVDR8mzBbR/P
- nNKrR/GJR7aFGtqCVOmMoOtVjtVLvaVKUGlKHmoZLPe6T/UVVar/PCgzdLjsK8MAzcZb
- LvaA==
-X-Gm-Message-State: ACrzQf0/VRt3rvoIlAr9853shPvq9EW45EPE92FqFQGy3kmHzDCdJzQw
- 3B7wZL6OByU9reQJ5BRzUZRZV6reNhBiBhgaVtZm9Q==
-X-Google-Smtp-Source: AMsMyM4pCs0f6zQ9ZfL4glTJ5IQB0QftKkDowPSTU9bnKlVQjiOgSOo+xB8u91LQyA7cbt9Ab7gcektTMWNDvXBcWnE=
-X-Received: by 2002:a17:907:2bd5:b0:76f:591c:466b with SMTP id
- gv21-20020a1709072bd500b0076f591c466bmr16839389ejc.504.1663690331120; Tue, 20
- Sep 2022 09:12:11 -0700 (PDT)
+ bh=5lUHutovwYwYSb4tFgPAdhsfX+qZcwHYtDiahs/qvAI=;
+ b=Ny0q5v+tSCsNtscDHA28xbEtv3jRyrOnfG7o9PMZW79AJdo2iGMj3s5pOYq1lcx85a
+ 0CYxEu0yL2xYhNIs6zsCzK04Ni8CJc7BMBh/rsKexl3ePzAu42J3PeuIeZ8HxwKtYu11
+ bFDV+98pVq1xWPl5l7BHgUYI/Geai07TgfgbtpwHuA1ymkPXXO/3YTFW9L35tfPUgnL/
+ o1AiZXeEAts6m+4Bc6qfcC+rqj/LZWL/CMfBiDxlVg0j4gtVJ/4a2JSV8or/9OyM7M+H
+ 5S5mKe7L7WiIZNxYSSjf5qDjNkqC65e2GNJaBEQYn65kwEBDKwFyqcYnppWssGg1fXV4
+ ba0w==
+X-Gm-Message-State: ACrzQf2fGDiuinB7fGrTqT16RfmaUX5KNWc5Je8OlbZ4zpaR/dLBmyV4
+ oy8mdKqhDkscA8jPMwbzTTHHNYbTpYpV+BJl+HOsxQ==
+X-Google-Smtp-Source: AMsMyM6BG4tKbgiLx/4PzIg9P97ADGxuZdB48ZRkZbht4aRIuPcfGEyFtNBImlOSzWWynB6yG3bVdBsppsBjte8TCl4=
+X-Received: by 2002:a05:6402:2787:b0:451:d655:9269 with SMTP id
+ b7-20020a056402278700b00451d6559269mr20879248ede.375.1663690904620; Tue, 20
+ Sep 2022 09:21:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220822152741.1617527-1-richard.henderson@linaro.org>
- <20220822152741.1617527-36-richard.henderson@linaro.org>
-In-Reply-To: <20220822152741.1617527-36-richard.henderson@linaro.org>
+ <20220822152741.1617527-37-richard.henderson@linaro.org>
+In-Reply-To: <20220822152741.1617527-37-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Sep 2022 17:11:58 +0100
-Message-ID: <CAFEAcA-_gtGO2bgR7G-eUrcq+vH0__ixBMDR1PB33AeMDDkpmg@mail.gmail.com>
-Subject: Re: [PATCH v2 35/66] target/arm: Split out get_phys_addr_disabled
+Date: Tue, 20 Sep 2022 17:21:33 +0100
+Message-ID: <CAFEAcA9u1yYeDFxWUwvQUHgpEkMWqR3NhqHsuv_8J0obMjS9Rg@mail.gmail.com>
+Subject: Re: [PATCH v2 36/66] target/arm: Reorg get_phys_addr_disabled
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,15 +83,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 22 Aug 2022 at 18:52, Richard Henderson
+On Mon, 22 Aug 2022 at 16:59, Richard Henderson
 <richard.henderson@linaro.org> wrote:
+>
+> Use a switch.  Do not apply memattr or shareability for Stage2
+> translations. Make sure to apply HCR_{DC,DCT} only to Regime_EL10,
+> per the pseudocode in AArch64.S1DisabledOutput.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/ptw.c | 138 +++++++++++++++++++++++++----------------------
->  1 file changed, 74 insertions(+), 64 deletions(-)
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+> +    check_range:
+
+I'm not super keen on this goto label lurking in the switch
+statement -- I would rather we keep the "how do we decide the
+memattr and shareability" logic separate from the
+"which mmu_idxes do we need to do the range check on" logic.
+The simple
+if (mmu_idx != ARMMMUIdx_Stage2 && mmu_idx != ARMMMUIdx_Stage2_S) {
+    range check logic;
+}
+that we had before seems clearer to me than this use of gotos
+and fall-throughs.
 
 thanks
 -- PMM
