@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A4965BEF88
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 00:00:48 +0200 (CEST)
-Received: from localhost ([::1]:43160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C3A05BEF6C
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:52:47 +0200 (CEST)
+Received: from localhost ([::1]:47522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oalIG-00030i-I6
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 18:00:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58684)
+	id 1oalAc-0003Tk-DV
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:52:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oah08-0006QQ-Oi
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:25:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53234)
+ id 1oah0C-0006Qb-Ny
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:25:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oah02-0002A2-Fq
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:25:40 -0400
+ id 1oah09-0002BA-SO
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:25:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663694733;
+ s=mimecast20190719; t=1663694741;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bvfMevmXrR9/Cf/4Gb7PWDBX+h4Rt+ZSzbLf23Fobh4=;
- b=CHiNmRUwExkViIdv7kGKxCRKVnLPfQt6PyCcRgrLjK0Xdh6t09LlBaR984n1D3TZZ2caig
- BrzkmnfWA1Ngj4csIOjCvkFcTZ4o7vK+HjZU2ZJlNO7tf9BtbSLP+Ppwzqf5xCo+D9R0C8
- zDVPQ6TTN+wW4TFQi2tOC3mCgFCA7aE=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Fnp/J9qGLyC/xVWjo8F4/x/2VDjblWvAu1wxTikTieQ=;
+ b=Chela0SDOr9e8jWt9zQ6G0o4292uJk8JxQ8qrkkQNVBoc/YWHZwwUTJZd1QrQvAf/oSWcr
+ qMzYGNBK9HKQ75MO3cNe2iHtZOvtUIe+B60DxMXKX8UtN8s1ruMgFgrSrq3D8BTsNZP/v1
+ Ht7B9nEQj5C/1+7VPfvLklU5fiH4/8Y=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-141-5-h9MWanOI-lQh9b3YlxnA-1; Tue, 20 Sep 2022 13:25:31 -0400
-X-MC-Unique: 5-h9MWanOI-lQh9b3YlxnA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- h13-20020a056402280d00b004528c8400afso2344288ede.6
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 10:25:30 -0700 (PDT)
+ us-mta-261-IDcOZwZaN7G_Tqa5pRcSPg-1; Tue, 20 Sep 2022 13:25:40 -0400
+X-MC-Unique: IDcOZwZaN7G_Tqa5pRcSPg-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ qb30-20020a1709077e9e00b0077d1271283eso1784524ejc.2
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 10:25:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=bvfMevmXrR9/Cf/4Gb7PWDBX+h4Rt+ZSzbLf23Fobh4=;
- b=PFIi8JktjxvlbqwTmGBHGJr8JxCEssRe0FqUTvaxz2GveghpggiNnDAHiem63RSZaW
- rprv3IgV803QcRPG3MAhb7YOt0XFATnelhrfRxh0OqNN50H40p8m1H7svHzZLayd7XhC
- VSE3E+j4lYc1/rOSWsGEMOMMvmZ7eaK7pBshzOfBeOCohm7O9+nYBHquKKzCkD7mt5n2
- HXlWke8IPRQu78K+IfMD3qqZCFl/2PYDT1TdKbBqdrIdXV00svaDTg8PHvcsH0/e5XFL
- vBppVlGAhToK543TWlmIau3jr/Y6LFkF/VewHy4mXVUBCBSNdcesNeyweqqgTryjJ52g
- i15Q==
-X-Gm-Message-State: ACrzQf2f7i4t6WhMn7BlySn1TuK3i+zEKry73tysQQQ1exyUn7X7kP5j
- JP7w/2SIgGM6oj7nwaZT2iOEubYR6Ur/3DqzGc/vRa86ClPyZCFHSTJrsklhnofBsSBHRYzy7/W
- Fx6IKWW/hSY7BZaw/2u9RFM1LyCopAtixDVsGhNueJ1/uoA8U0RE1/segmMowyenCL3Q=
-X-Received: by 2002:a17:906:5a45:b0:77a:406c:6867 with SMTP id
- my5-20020a1709065a4500b0077a406c6867mr17382252ejc.437.1663694729086; 
- Tue, 20 Sep 2022 10:25:29 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7v4tKkHsETfNRhJVKbSGBKIsbcyQkDRnmGhbC3eMno9aDQdVpczl4MwgTLmFz6PI30ir/nEg==
-X-Received: by 2002:a17:906:5a45:b0:77a:406c:6867 with SMTP id
- my5-20020a1709065a4500b0077a406c6867mr17382204ejc.437.1663694728382; 
- Tue, 20 Sep 2022 10:25:28 -0700 (PDT)
+ bh=Fnp/J9qGLyC/xVWjo8F4/x/2VDjblWvAu1wxTikTieQ=;
+ b=HHnprdI3mlqWlwmeuUxuZf6zYRt3ndVdsUJoOEVaENTwsgWA+KPz1HZaZs/EET/wAX
+ okvElnlhc5g/xP3cpxD1EqXVubSHF1Hr2swcQ+hTl410b5smfHRy5aS7+kyS3H3W+3ZJ
+ blXxC1geskuXoxAfrgyCjxvn8Bn9sX77AZbHEf9ysuWLWuIw6lyt186jT6oz6WeKhFkV
+ Mz3225Q4cUa3wK/68wTMEO6hKX/n65xBWfbyNlIdQFmqnoQ1MpN0fWWAp0qhKf56f51G
+ T5DJvp63Jc7Z6u00IdildM0wOUvBCOOffT98b3jBzEX4X/b1ncDcaCvmVJ+O8Lfhimiq
+ 5T5g==
+X-Gm-Message-State: ACrzQf1zkoG7gjzb9UNkm7GFB8xXHN5bS81rXFnam06R0A9zQ//XGF1o
+ jgtM5xi02DoC5/D48THXmNKS1NWC6O/9rDFfdFTN7sdSMNr9CryHrmt0a9khG82br5j9Hek1e70
+ z0sHyt0gxLfgUEo7rbRfTj/n/uTqoRL39dFVISdJ5PNy9zL1ziH2GMHgu33geW8GNdEo=
+X-Received: by 2002:aa7:cfd1:0:b0:451:de20:3392 with SMTP id
+ r17-20020aa7cfd1000000b00451de203392mr21184411edy.16.1663694738538; 
+ Tue, 20 Sep 2022 10:25:38 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5zE5jwnftWYqhkdzo+/s0fISetUwQu/BJrmoT8gqVG9X6WhzN0LqwA25c/5FX53o7eTyrZiQ==
+X-Received: by 2002:aa7:cfd1:0:b0:451:de20:3392 with SMTP id
+ r17-20020aa7cfd1000000b00451de203392mr21184370edy.16.1663694738155; 
+ Tue, 20 Sep 2022 10:25:38 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- d3-20020a170906344300b00779dc23be62sm151764ejb.120.2022.09.20.10.25.27
+ 1-20020a170906210100b0073dd8e5a39fsm134376ejt.156.2022.09.20.10.25.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 10:25:27 -0700 (PDT)
+ Tue, 20 Sep 2022 10:25:37 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org,
 	paul@nowt.org
-Subject: [PATCH v2 12/37] target/i386: move scalar 0F 38 and 0F 3A instruction
- to new decoder
-Date: Tue, 20 Sep 2022 19:24:42 +0200
-Message-Id: <20220920172507.95568-13-pbonzini@redhat.com>
+Subject: [PATCH v2 19/37] target/i386: reimplement 0x0f 0x60-0x6f, add AVX
+Date: Tue, 20 Sep 2022 19:24:49 +0200
+Message-Id: <20220920172507.95568-20-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220920172507.95568-1-pbonzini@redhat.com>
 References: <20220920172507.95568-1-pbonzini@redhat.com>
@@ -102,698 +101,358 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Because these are the only VEX instructions that QEMU supports, the
-new decoder is entered on the first byte of a valid VEX prefix, and VEX
-decoding only needs to be done in decode-new.c.inc.
+These are both MMX and SSE/AVX instructions, except for vmovdqu.  In both
+cases the inputs and output is in s->ptr{0,1,2}, so the only difference
+between MMX, SSE, and AVX is which helper to call.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/tcg/decode-new.c.inc |  59 +++++++
- target/i386/tcg/emit.c.inc       | 258 +++++++++++++++++++++++++++
- target/i386/tcg/translate.c      | 293 +------------------------------
- 3 files changed, 321 insertions(+), 289 deletions(-)
+ target/i386/tcg/decode-new.c.inc |  42 +++++++
+ target/i386/tcg/emit.c.inc       | 203 +++++++++++++++++++++++++++++++
+ target/i386/tcg/translate.c      |  19 ++-
+ 3 files changed, 263 insertions(+), 1 deletion(-)
 
 diff --git a/target/i386/tcg/decode-new.c.inc b/target/i386/tcg/decode-new.c.inc
-index 4dc67e6d37..4344bcb40c 100644
+index 4344bcb40c..6635c41a2f 100644
 --- a/target/i386/tcg/decode-new.c.inc
 +++ b/target/i386/tcg/decode-new.c.inc
-@@ -135,11 +135,69 @@ static uint8_t get_modrm(DisasContext *s, CPUX86State *env)
+@@ -135,6 +135,19 @@ static uint8_t get_modrm(DisasContext *s, CPUX86State *env)
      return s->modrm;
  }
  
-+static void decode_group17(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
++static inline const X86OpEntry *decode_by_prefix(DisasContext *s, const X86OpEntry entries[4])
 +{
-+    static const X86GenFunc group17_gen[8] = {
-+        NULL, gen_BLSR, gen_BLSMSK, gen_BLSI,
++    if (s->prefix & PREFIX_REPNZ) {
++        return &entries[3];
++    } else if (s->prefix & PREFIX_REPZ) {
++        return &entries[2];
++    } else if (s->prefix & PREFIX_DATA) {
++        return &entries[1];
++    } else {
++        return &entries[0];
++    }
++}
++
+ static void decode_group17(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
+ {
+     static const X86GenFunc group17_gen[8] = {
+@@ -144,6 +157,17 @@ static void decode_group17(DisasContext *s, CPUX86State *env, X86OpEntry *entry,
+     entry->gen = group17_gen[op];
+ }
+ 
++static void decode_0F6F(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
++{
++    static const X86OpEntry opcodes_0F6F[4] = {
++        X86_OP_ENTRY3(MOVDQ,       P,q, None,None, Q,q, vex1 mmx),  /* movq */
++        X86_OP_ENTRY3(MOVDQ,       V,x, None,None, W,x, vex1),      /* movdqa */
++        X86_OP_ENTRY3(MOVDQ,       V,x, None,None, W,x, vex4_unal), /* movdqu */
++        {},
 +    };
-+    int op = (get_modrm(s, env) >> 3) & 7;
-+    entry->gen = group17_gen[op];
++    *entry = *decode_by_prefix(s, opcodes_0F6F);
 +}
 +
  static const X86OpEntry opcodes_0F38_00toEF[240] = {
  };
  
- /* five rows for no prefix, 66, F3, F2, 66+F2  */
- static const X86OpEntry opcodes_0F38_F0toFF[16][5] = {
-+    [0] = {
-+        X86_OP_ENTRY3(MOVBE, G,y, M,y, None,None, cpuid(MOVBE)),
-+        X86_OP_ENTRY3(MOVBE, G,w, M,w, None,None, cpuid(MOVBE)),
-+        {},
-+        X86_OP_ENTRY2(CRC32, G,d, E,b, cpuid(SSE42)),
-+        X86_OP_ENTRY2(CRC32, G,d, E,b, cpuid(SSE42)),
-+    },
-+    [1] = {
-+        X86_OP_ENTRY3(MOVBE, M,y, G,y, None,None, cpuid(MOVBE)),
-+        X86_OP_ENTRY3(MOVBE, M,w, G,w, None,None, cpuid(MOVBE)),
-+        {},
-+        X86_OP_ENTRY2(CRC32, G,d, E,y, cpuid(SSE42)),
-+        X86_OP_ENTRY2(CRC32, G,d, E,w, cpuid(SSE42)),
-+    },
-+    [2] = {
-+        X86_OP_ENTRY3(ANDN, G,y, B,y, E,y, vex13 cpuid(BMI1)),
-+        {},
-+        {},
-+        {},
-+        {},
-+    },
-+    [3] = {
-+        X86_OP_GROUP3(group17, B,y, E,y, None,None, vex13 cpuid(BMI1)),
-+        {},
-+        {},
-+        {},
-+        {},
-+    },
-+    [5] = {
-+        X86_OP_ENTRY3(BZHI, G,y, E,y, B,y, vex13 cpuid(BMI1)),
-+        {},
-+        X86_OP_ENTRY3(PEXT, G,y, B,y, E,y, vex13 cpuid(BMI2)),
-+        X86_OP_ENTRY3(PDEP, G,y, B,y, E,y, vex13 cpuid(BMI2)),
-+        {},
-+    },
-+    [6] = {
-+        {},
-+        X86_OP_ENTRY2(ADCX, G,y, E,y, cpuid(ADX)),
-+        X86_OP_ENTRY2(ADOX, G,y, E,y, cpuid(ADX)),
-+        X86_OP_ENTRY3(MULX, /* B,y, */ G,y, E,y, 2,y, vex13 cpuid(BMI2)),
-+        {},
-+    },
-+    [7] = {
-+        X86_OP_ENTRY3(BEXTR, G,y, E,y, B,y, vex13 cpuid(BMI1)),
-+        X86_OP_ENTRY3(SHLX, G,y, E,y, B,y, vex13 cpuid(BMI1)),
-+        X86_OP_ENTRY3(SARX, G,y, E,y, B,y, vex13 cpuid(BMI1)),
-+        X86_OP_ENTRY3(SHRX, G,y, E,y, B,y, vex13 cpuid(BMI1)),
-+        {},
-+    },
- };
- 
- static void decode_0F38(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
-@@ -161,6 +219,7 @@ static void decode_0F38(DisasContext *s, CPUX86State *env, X86OpEntry *entry, ui
+@@ -229,8 +253,26 @@ static void decode_0F3A(DisasContext *s, CPUX86State *env, X86OpEntry *entry, ui
  }
  
- static const X86OpEntry opcodes_0F3A[256] = {
-+    [0xF0] = X86_OP_ENTRY3(RORX, G,y, E,y, I,b, vex13 cpuid(BMI2) p_f2),
+ static const X86OpEntry opcodes_0F[256] = {
++    [0x60] = X86_OP_ENTRY3(PUNPCKLBW,  V,x, H,x, W,x,  vex4 mmx avx2_256 p_00_66),
++    [0x61] = X86_OP_ENTRY3(PUNPCKLWD,  V,x, H,x, W,x,  vex4 mmx avx2_256 p_00_66),
++    [0x62] = X86_OP_ENTRY3(PUNPCKLDQ,  V,x, H,x, W,x,  vex4 mmx avx2_256 p_00_66),
++    [0x63] = X86_OP_ENTRY3(PACKSSWB,   V,x, H,x, W,x,  vex4 mmx avx2_256 p_00_66),
++    [0x64] = X86_OP_ENTRY3(PCMPGTB,    V,x, H,x, W,x,  vex4 mmx avx2_256 p_00_66),
++    [0x65] = X86_OP_ENTRY3(PCMPGTW,    V,x, H,x, W,x,  vex4 mmx avx2_256 p_00_66),
++    [0x66] = X86_OP_ENTRY3(PCMPGTD,    V,x, H,x, W,x,  vex4 mmx avx2_256 p_00_66),
++    [0x67] = X86_OP_ENTRY3(PACKUSWB,   V,x, H,x, W,x,  vex4 mmx avx2_256 p_00_66),
++
+     [0x38] = X86_OP_GROUP0(0F38),
+     [0x3a] = X86_OP_GROUP0(0F3A),
++
++    [0x68] = X86_OP_ENTRY3(PUNPCKHBW,  V,x, H,x, W,x,  vex4 mmx avx2_256 p_00_66),
++    [0x69] = X86_OP_ENTRY3(PUNPCKHWD,  V,x, H,x, W,x,  vex4 mmx avx2_256 p_00_66),
++    [0x6a] = X86_OP_ENTRY3(PUNPCKHDQ,  V,x, H,x, W,x,  vex4 mmx avx2_256 p_00_66),
++    [0x6b] = X86_OP_ENTRY3(PACKSSDW,   V,x, H,x, W,x,  vex4 mmx avx2_256 p_00_66),
++    [0x6c] = X86_OP_ENTRY3(PUNPCKLQDQ, V,x, H,x, W,x,  vex4 p_66 avx2_256),
++    [0x6d] = X86_OP_ENTRY3(PUNPCKHQDQ, V,x, H,x, W,x,  vex4 p_66 avx2_256),
++    [0x6e] = X86_OP_ENTRY3(MOVD_to,    V,x, None,None, E,y, vex5 mmx p_00_66),  /* wrong dest Vy on SDM! */
++    [0x6f] = X86_OP_GROUP0(0F6F),
  };
  
- static void decode_0F3A(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
+ static void do_decode_0F(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
 diff --git a/target/i386/tcg/emit.c.inc b/target/i386/tcg/emit.c.inc
-index 0cba106f74..862da3c84a 100644
+index 862da3c84a..60b80e9d30 100644
 --- a/target/i386/tcg/emit.c.inc
 +++ b/target/i386/tcg/emit.c.inc
-@@ -215,3 +215,261 @@ static void gen_writeback(DisasContext *s, X86DecodedInsn *decode, int opn, TCGv
-         g_assert_not_reached();
+@@ -71,6 +71,56 @@ static inline int xmm_offset(MemOp ot)
      }
  }
-+
-+static void gen_ADCOX(DisasContext *s, CPUX86State *env, MemOp ot, int cc_op)
+ 
++static int vector_reg_offset(X86DecodedOp *op)
 +{
-+    TCGv carry_in = NULL;
-+    TCGv carry_out = (cc_op == CC_OP_ADCX ? cpu_cc_dst : cpu_cc_src2);
-+    TCGv zero;
++    assert(op->unit == X86_OP_MMX || op->unit == X86_OP_SSE);
 +
-+    if (cc_op == s->cc_op || s->cc_op == CC_OP_ADCOX) {
-+        /* Re-use the carry-out from a previous round.  */
-+        carry_in = carry_out;
-+        cc_op = s->cc_op;
-+    } else if (s->cc_op == CC_OP_ADCX || s->cc_op == CC_OP_ADOX) {
-+        /* Merge with the carry-out from the opposite instruction.  */
-+        cc_op = CC_OP_ADCOX;
++    if (op->unit == X86_OP_MMX) {
++        return op->offset - mmx_offset(op->ot);
++    } else {
++        return op->offset - xmm_offset(op->ot);
 +    }
++}
 +
-+    /* If we don't have a carry-in, get it out of EFLAGS.  */
-+    if (!carry_in) {
-+        if (s->cc_op != CC_OP_ADCX && s->cc_op != CC_OP_ADOX) {
-+            gen_compute_eflags(s);
++static int vector_elem_offset(X86DecodedOp *op, MemOp ot, int n)
++{
++    int base_ofs = vector_reg_offset(op);
++    switch(ot) {
++    case MO_8:
++        if (op->unit == X86_OP_MMX) {
++            return base_ofs + offsetof(MMXReg, MMX_B(n));
++        } else {
++            return base_ofs + offsetof(ZMMReg, ZMM_B(n));
 +        }
-+        carry_in = s->tmp0;
-+        tcg_gen_extract_tl(carry_in, cpu_cc_src,
-+            ctz32(cc_op == CC_OP_ADCX ? CC_C : CC_O), 1);
++    case MO_16:
++        if (op->unit == X86_OP_MMX) {
++            return base_ofs + offsetof(MMXReg, MMX_W(n));
++        } else {
++            return base_ofs + offsetof(ZMMReg, ZMM_W(n));
++        }
++    case MO_32:
++        if (op->unit == X86_OP_MMX) {
++            return base_ofs + offsetof(MMXReg, MMX_L(n));
++        } else {
++            return base_ofs + offsetof(ZMMReg, ZMM_L(n));
++        }
++    case MO_64:
++        if (op->unit == X86_OP_MMX) {
++            return base_ofs;
++        } else {
++            return base_ofs + offsetof(ZMMReg, ZMM_Q(n));
++        }
++    case MO_128:
++        assert(op->unit == X86_OP_SSE);
++        return base_ofs + offsetof(ZMMReg, ZMM_X(n));
++    case MO_256:
++        assert(op->unit == X86_OP_SSE);
++        return base_ofs + offsetof(ZMMReg, ZMM_Y(n));
++    default:
++        g_assert_not_reached();
++    }
++}
++
+ static void compute_mmx_offset(X86DecodedOp *op)
+ {
+     if (!op->has_ea) {
+@@ -174,6 +224,23 @@ static void gen_load(DisasContext *s, X86DecodedInsn *decode, int opn, TCGv v)
+     }
+ }
+ 
++static TCGv_ptr op_ptr(X86DecodedInsn *decode, int opn)
++{
++    X86DecodedOp *op = &decode->op[opn];
++    if (op->v_ptr) {
++        return op->v_ptr;
++    }
++    op->v_ptr = tcg_temp_new_ptr();
++
++    /* The temporary points to the MMXReg or ZMMReg.  */
++    tcg_gen_addi_ptr(op->v_ptr, cpu_env, vector_reg_offset(op));
++    return op->v_ptr;
++}
++
++#define OP_PTR0 op_ptr(decode, 0)
++#define OP_PTR1 op_ptr(decode, 1)
++#define OP_PTR2 op_ptr(decode, 2)
++
+ static void gen_writeback(DisasContext *s, X86DecodedInsn *decode, int opn, TCGv v)
+ {
+     X86DecodedOp *op = &decode->op[opn];
+@@ -216,6 +283,114 @@ static void gen_writeback(DisasContext *s, X86DecodedInsn *decode, int opn, TCGv
+     }
+ }
+ 
++static inline int vector_len(DisasContext *s, X86DecodedInsn *decode)
++{
++    if (decode->e.special == X86_SPECIAL_MMX &&
++        !(s->prefix & (PREFIX_DATA | PREFIX_REPZ | PREFIX_REPNZ))) {
++        return 8;
++    }
++    return s->vex_l ? 32 : 16;
++}
++
++static void gen_store_sse(DisasContext *s, X86DecodedInsn *decode, int src_ofs)
++{
++    MemOp ot = decode->op[0].ot;
++    int vec_len = vector_len(s, decode);
++    bool aligned = sse_needs_alignment(s, decode, ot);
++
++    if (!decode->op[0].has_ea) {
++        tcg_gen_gvec_mov(MO_64, decode->op[0].offset, src_ofs, vec_len, vec_len);
++        return;
 +    }
 +
 +    switch (ot) {
-+#ifdef TARGET_X86_64
-+    case MO_32:
-+        /* If TL is 64-bit just do everything in 64-bit arithmetic.  */
-+        tcg_gen_add_i64(s->T0, s->T0, s->T1);
-+        tcg_gen_add_i64(s->T0, s->T0, carry_in);
-+        tcg_gen_shri_i64(carry_out, s->T0, 32);
++    case MO_64:
++        gen_stq_env_A0(s, src_ofs);
 +        break;
-+#endif
++    case MO_128:
++        gen_sto_env_A0(s, src_ofs, aligned);
++        break;
++    case MO_256:
++        gen_sty_env_A0(s, src_ofs, aligned);
++        break;
 +    default:
-+        zero = tcg_constant_tl(0);
-+        tcg_gen_add2_tl(s->T0, carry_out, s->T0, zero, carry_in, zero);
-+        tcg_gen_add2_tl(s->T0, carry_out, s->T0, carry_out, s->T1, zero);
-+        break;
++        g_assert_not_reached();
 +    }
-+    set_cc_op(s, cc_op);
 +}
 +
-+static void gen_ADCX(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
++#define BINARY_INT_GVEC(uname, func, ...)                                          \
++static void gen_##uname(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode) \
++{                                                                                  \
++    int vec_len = vector_len(s, decode);                                          \
++                                                                                   \
++    func(__VA_ARGS__,                                                              \
++         decode->op[0].offset, decode->op[1].offset,                               \
++         decode->op[2].offset, vec_len, vec_len);                                  \
++}
++
++BINARY_INT_GVEC(PCMPGTB, tcg_gen_gvec_cmp, TCG_COND_GT, MO_8)
++BINARY_INT_GVEC(PCMPGTW, tcg_gen_gvec_cmp, TCG_COND_GT, MO_16)
++BINARY_INT_GVEC(PCMPGTD, tcg_gen_gvec_cmp, TCG_COND_GT, MO_32)
++
++
++/*
++ * 00 = p*  Pq, Qq (if mmx not NULL; no VEX)
++ * 66 = vp* Vx, Hx, Wx
++ *
++ * These are really the same encoding, because 1) V is the same as P when VEX.V
++ * is not present 2) P and Q are the same as H and W apart from MM/XMM
++ */
++static inline void gen_binary_int_sse(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode,
++                                      SSEFunc_0_eppp mmx, SSEFunc_0_eppp xmm, SSEFunc_0_eppp ymm)
 +{
-+    gen_ADCOX(s, env, decode->op[0].ot, CC_OP_ADCX);
++    assert(!!mmx == !!(decode->e.special == X86_SPECIAL_MMX));
++
++    if (mmx && (s->prefix & PREFIX_VEX) && !(s->prefix & PREFIX_DATA)) {
++        /* VEX encoding is not applicable to MMX instructions.  */
++        gen_illegal_opcode(s);
++        return;
++    }
++    if (!(s->prefix & PREFIX_DATA)) {
++        mmx(cpu_env, OP_PTR0, OP_PTR1, OP_PTR2);
++    } else if (!s->vex_l) {
++        xmm(cpu_env, OP_PTR0, OP_PTR1, OP_PTR2);
++    } else {
++        ymm(cpu_env, OP_PTR0, OP_PTR1, OP_PTR2);
++    }
 +}
 +
-+static void gen_ADOX(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-+{
-+    gen_ADCOX(s, env, decode->op[0].ot, CC_OP_ADOX);
++
++#define BINARY_INT_MMX(uname, lname)                                               \
++static void gen_##uname(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode) \
++{                                                                                  \
++    gen_binary_int_sse(s, env, decode,                                             \
++                          gen_helper_##lname##_mmx,                                \
++                          gen_helper_##lname##_xmm,                                \
++                          gen_helper_##lname##_ymm);                               \
++}
++BINARY_INT_MMX(PUNPCKLBW,  punpcklbw)
++BINARY_INT_MMX(PUNPCKLWD,  punpcklwd)
++BINARY_INT_MMX(PUNPCKLDQ,  punpckldq)
++BINARY_INT_MMX(PACKSSWB,   packsswb)
++BINARY_INT_MMX(PACKUSWB,   packuswb)
++BINARY_INT_MMX(PUNPCKHBW,  punpckhbw)
++BINARY_INT_MMX(PUNPCKHWD,  punpckhwd)
++BINARY_INT_MMX(PUNPCKHDQ,  punpckhdq)
++BINARY_INT_MMX(PACKSSDW,   packssdw)
++
++/* Instructions with no MMX equivalent.  */
++#define BINARY_INT_SSE(uname, lname)                                               \
++static void gen_##uname(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode) \
++{                                                                                  \
++    gen_binary_int_sse(s, env, decode,                                             \
++                          NULL,                                                    \
++                          gen_helper_##lname##_xmm,                                \
++                          gen_helper_##lname##_ymm);                               \
 +}
 +
-+static void gen_ANDN(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-+{
-+    MemOp ot = decode->op[0].ot;
++BINARY_INT_SSE(PUNPCKLQDQ, punpcklqdq)
++BINARY_INT_SSE(PUNPCKHQDQ, punpckhqdq)
 +
-+    tcg_gen_andc_tl(s->T0, s->T1, s->T0);
-+    gen_op_update1_cc(s);
-+    set_cc_op(s, CC_OP_LOGICB + ot);
-+}
-+
-+static void gen_BEXTR(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-+{
-+    MemOp ot = decode->op[0].ot;
-+    TCGv bound, zero;
-+
-+    /*
-+     * Extract START, and shift the operand.
-+     * Shifts larger than operand size get zeros.
-+     */
-+    tcg_gen_ext8u_tl(s->A0, s->T1);
-+    tcg_gen_shr_tl(s->T0, s->T0, s->A0);
-+
-+    bound = tcg_constant_tl(ot == MO_64 ? 63 : 31);
-+    zero = tcg_constant_tl(0);
-+    tcg_gen_movcond_tl(TCG_COND_LEU, s->T0, s->A0, bound, s->T0, zero);
-+
-+    /*
-+     * Extract the LEN into a mask.  Lengths larger than
-+     * operand size get all ones.
-+     */
-+    tcg_gen_extract_tl(s->A0, s->T1, 8, 8);
-+    tcg_gen_movcond_tl(TCG_COND_LEU, s->A0, s->A0, bound, s->A0, bound);
-+
-+    tcg_gen_movi_tl(s->T1, 1);
-+    tcg_gen_shl_tl(s->T1, s->T1, s->A0);
-+    tcg_gen_subi_tl(s->T1, s->T1, 1);
-+    tcg_gen_and_tl(s->T0, s->T0, s->T1);
-+
-+    gen_op_update1_cc(s);
-+    set_cc_op(s, CC_OP_LOGICB + ot);
-+}
-+
-+static void gen_BLSI(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-+{
-+    MemOp ot = decode->op[0].ot;
-+
-+    tcg_gen_neg_tl(s->T1, s->T0);
-+    tcg_gen_and_tl(s->T0, s->T0, s->T1);
-+    tcg_gen_mov_tl(cpu_cc_dst, s->T0);
-+    set_cc_op(s, CC_OP_BMILGB + ot);
-+}
-+
-+static void gen_BLSMSK(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-+{
-+    MemOp ot = decode->op[0].ot;
-+
-+    tcg_gen_subi_tl(s->T1, s->T0, 1);
-+    tcg_gen_xor_tl(s->T0, s->T0, s->T1);
-+    tcg_gen_mov_tl(cpu_cc_dst, s->T0);
-+    set_cc_op(s, CC_OP_BMILGB + ot);
-+}
-+
-+static void gen_BLSR(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-+{
-+    MemOp ot = decode->op[0].ot;
-+
-+    tcg_gen_subi_tl(s->T1, s->T0, 1);
-+    tcg_gen_and_tl(s->T0, s->T0, s->T1);
-+    tcg_gen_mov_tl(cpu_cc_dst, s->T0);
-+    set_cc_op(s, CC_OP_BMILGB + ot);
-+}
-+
-+static void gen_BZHI(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-+{
-+    MemOp ot = decode->op[0].ot;
-+    TCGv bound;
-+
-+    tcg_gen_ext8u_tl(s->T1, cpu_regs[s->vex_v]);
-+    bound = tcg_constant_tl(ot == MO_64 ? 63 : 31);
-+
-+    /*
-+     * Note that since we're using BMILG (in order to get O
-+     * cleared) we need to store the inverse into C.
-+     */
-+    tcg_gen_setcond_tl(TCG_COND_LT, cpu_cc_src, s->T1, bound);
-+    tcg_gen_movcond_tl(TCG_COND_GT, s->T1, s->T1, bound, bound, s->T1);
-+
-+    tcg_gen_movi_tl(s->A0, -1);
-+    tcg_gen_shl_tl(s->A0, s->A0, s->T1);
-+    tcg_gen_andc_tl(s->T0, s->T0, s->A0);
-+
-+    gen_op_update1_cc(s);
-+    set_cc_op(s, CC_OP_BMILGB + ot);
-+}
-+
-+static void gen_CRC32(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+ static void gen_ADCOX(DisasContext *s, CPUX86State *env, MemOp ot, int cc_op)
+ {
+     TCGv carry_in = NULL;
+@@ -383,6 +558,34 @@ static void gen_MOVBE(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+     }
+ }
+ 
++static void gen_MOVD_to(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
 +{
 +    MemOp ot = decode->op[2].ot;
++    int vec_len = vector_len(s, decode);
++    int lo_ofs = vector_elem_offset(&decode->op[0], ot, 0);
 +
-+    tcg_gen_trunc_tl_i32(s->tmp2_i32, s->T0);
-+    gen_helper_crc32(s->T0, s->tmp2_i32, s->T1, tcg_constant_i32(8 << ot));
-+}
++    tcg_gen_gvec_dup_imm(MO_64, decode->op[0].offset, vec_len, vec_len, 0);
 +
-+static void gen_MOVBE(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-+{
-+    MemOp ot = decode->op[0].ot;
-+
-+    /* M operand type does not load/store */
-+    if (decode->e.op0 == X86_TYPE_M) {
-+        tcg_gen_qemu_st_tl(s->T0, s->A0, s->mem_index, ot | MO_BE);
-+    } else {
-+        tcg_gen_qemu_ld_tl(s->T0, s->A0, s->mem_index, ot | MO_BE);
-+    }
-+}
-+
-+static void gen_MULX(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-+{
-+    MemOp ot = decode->op[0].ot;
-+
-+    /* low part of result in VEX.vvvv, high in MODRM */
 +    switch (ot) {
-+    default:
-+        tcg_gen_trunc_tl_i32(s->tmp2_i32, s->T0);
-+        tcg_gen_trunc_tl_i32(s->tmp3_i32, s->T1);
-+        tcg_gen_mulu2_i32(s->tmp2_i32, s->tmp3_i32,
-+                          s->tmp2_i32, s->tmp3_i32);
-+        tcg_gen_extu_i32_tl(cpu_regs[s->vex_v], s->tmp2_i32);
-+        tcg_gen_extu_i32_tl(s->T0, s->tmp3_i32);
-+        break;
++    case MO_32:
 +#ifdef TARGET_X86_64
-+    case MO_64:
-+        tcg_gen_mulu2_i64(cpu_regs[s->vex_v], s->T0, s->T0, s->T1);
++        tcg_gen_trunc_tl_i32(s->tmp3_i32, s->T1);
++        tcg_gen_st_i32(s->tmp3_i32, cpu_env, lo_ofs);
 +        break;
++    case MO_64:
 +#endif
-+    }
-+
-+}
-+
-+static void gen_PDEP(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-+{
-+    MemOp ot = decode->op[1].ot;
-+    if (ot < MO_64) {
-+        tcg_gen_ext32u_tl(s->T0, s->T0);
-+    }
-+    gen_helper_pdep(s->T0, s->T0, s->T1);
-+}
-+
-+static void gen_PEXT(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-+{
-+    MemOp ot = decode->op[1].ot;
-+    if (ot < MO_64) {
-+        tcg_gen_ext32u_tl(s->T0, s->T0);
-+    }
-+    gen_helper_pext(s->T0, s->T0, s->T1);
-+}
-+
-+static void gen_RORX(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-+{
-+    MemOp ot = decode->op[0].ot;
-+    int b = decode->immediate;
-+
-+    if (ot == MO_64) {
-+        tcg_gen_rotri_tl(s->T0, s->T0, b & 63);
-+    } else {
-+        tcg_gen_trunc_tl_i32(s->tmp2_i32, s->T0);
-+        tcg_gen_rotri_i32(s->tmp2_i32, s->tmp2_i32, b & 31);
-+        tcg_gen_extu_i32_tl(s->T0, s->tmp2_i32);
++        tcg_gen_st_tl(s->T1, cpu_env, lo_ofs);
++        break;
++    default:
++        g_assert_not_reached();
 +    }
 +}
 +
-+static void gen_SARX(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
++static void gen_MOVDQ(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
 +{
-+    MemOp ot = decode->op[0].ot;
-+    int mask;
-+
-+    mask = ot == MO_64 ? 63 : 31;
-+    tcg_gen_andi_tl(s->T1, s->T1, mask);
-+    if (ot != MO_64) {
-+        tcg_gen_ext32s_tl(s->T0, s->T0);
-+    }
-+    tcg_gen_sar_tl(s->T0, s->T0, s->T1);
++    gen_store_sse(s, decode, decode->op[2].offset);
 +}
 +
-+static void gen_SHLX(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-+{
-+    MemOp ot = decode->op[0].ot;
-+    int mask;
-+
-+    mask = ot == MO_64 ? 63 : 31;
-+    tcg_gen_andi_tl(s->T1, s->T1, mask);
-+    tcg_gen_shl_tl(s->T0, s->T0, s->T1);
-+}
-+
-+static void gen_SHRX(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-+{
-+    MemOp ot = decode->op[0].ot;
-+    int mask;
-+
-+    mask = ot == MO_64 ? 63 : 31;
-+    tcg_gen_andi_tl(s->T1, s->T1, mask);
-+    if (ot != MO_64) {
-+        tcg_gen_ext32u_tl(s->T0, s->T0);
-+    }
-+    tcg_gen_shr_tl(s->T0, s->T0, s->T1);
-+}
+ static void gen_MULX(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+ {
+     MemOp ot = decode->op[0].ot;
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index aeda520f35..cc2e6f0906 100644
+index a974fb28f9..1ffbf2f4f8 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -4130,151 +4130,6 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                                        s->mem_index, ot | MO_BE);
-                 }
-                 break;
--
--            case 0x0f2: /* andn Gy, By, Ey */
--                if (!(s->cpuid_7_0_ebx_features & CPUID_7_0_EBX_BMI1)
--                    || !(s->prefix & PREFIX_VEX)
--                    || s->vex_l != 0) {
--                    goto illegal_op;
--                }
--                ot = mo_64_32(s->dflag);
--                gen_ldst_modrm(env, s, modrm, ot, OR_TMP0, 0);
--                tcg_gen_andc_tl(s->T0, s->T0, cpu_regs[s->vex_v]);
--                gen_op_mov_reg_v(s, ot, reg, s->T0);
--                gen_op_update1_cc(s);
--                set_cc_op(s, CC_OP_LOGICB + ot);
--                break;
--
--            case 0x0f7: /* bextr Gy, Ey, By */
--                if (!(s->cpuid_7_0_ebx_features & CPUID_7_0_EBX_BMI1)
--                    || !(s->prefix & PREFIX_VEX)
--                    || s->vex_l != 0) {
--                    goto illegal_op;
--                }
--                ot = mo_64_32(s->dflag);
--                {
--                    TCGv bound, zero;
--
--                    gen_ldst_modrm(env, s, modrm, ot, OR_TMP0, 0);
--                    /* Extract START, and shift the operand.
--                       Shifts larger than operand size get zeros.  */
--                    tcg_gen_ext8u_tl(s->A0, cpu_regs[s->vex_v]);
--                    tcg_gen_shr_tl(s->T0, s->T0, s->A0);
--
--                    bound = tcg_const_tl(ot == MO_64 ? 63 : 31);
--                    zero = tcg_const_tl(0);
--                    tcg_gen_movcond_tl(TCG_COND_LEU, s->T0, s->A0, bound,
--                                       s->T0, zero);
--                    tcg_temp_free(zero);
--
--                    /* Extract the LEN into a mask.  Lengths larger than
--                       operand size get all ones.  */
--                    tcg_gen_extract_tl(s->A0, cpu_regs[s->vex_v], 8, 8);
--                    tcg_gen_movcond_tl(TCG_COND_LEU, s->A0, s->A0, bound,
--                                       s->A0, bound);
--                    tcg_temp_free(bound);
--                    tcg_gen_movi_tl(s->T1, 1);
--                    tcg_gen_shl_tl(s->T1, s->T1, s->A0);
--                    tcg_gen_subi_tl(s->T1, s->T1, 1);
--                    tcg_gen_and_tl(s->T0, s->T0, s->T1);
--
--                    gen_op_mov_reg_v(s, ot, reg, s->T0);
--                    gen_op_update1_cc(s);
--                    set_cc_op(s, CC_OP_LOGICB + ot);
--                }
--                break;
--
--            case 0x0f5: /* bzhi Gy, Ey, By */
--                if (!(s->cpuid_7_0_ebx_features & CPUID_7_0_EBX_BMI2)
--                    || !(s->prefix & PREFIX_VEX)
--                    || s->vex_l != 0) {
--                    goto illegal_op;
--                }
--                ot = mo_64_32(s->dflag);
--                gen_ldst_modrm(env, s, modrm, ot, OR_TMP0, 0);
--                tcg_gen_ext8u_tl(s->T1, cpu_regs[s->vex_v]);
--                {
--                    TCGv bound = tcg_const_tl(ot == MO_64 ? 63 : 31);
--                    /* Note that since we're using BMILG (in order to get O
--                       cleared) we need to store the inverse into C.  */
--                    tcg_gen_setcond_tl(TCG_COND_LT, cpu_cc_src,
--                                       s->T1, bound);
--                    tcg_gen_movcond_tl(TCG_COND_GT, s->T1, s->T1,
--                                       bound, bound, s->T1);
--                    tcg_temp_free(bound);
--                }
--                tcg_gen_movi_tl(s->A0, -1);
--                tcg_gen_shl_tl(s->A0, s->A0, s->T1);
--                tcg_gen_andc_tl(s->T0, s->T0, s->A0);
--                gen_op_mov_reg_v(s, ot, reg, s->T0);
--                gen_op_update1_cc(s);
--                set_cc_op(s, CC_OP_BMILGB + ot);
--                break;
--
--            case 0x3f6: /* mulx By, Gy, rdx, Ey */
--                if (!(s->cpuid_7_0_ebx_features & CPUID_7_0_EBX_BMI2)
--                    || !(s->prefix & PREFIX_VEX)
--                    || s->vex_l != 0) {
--                    goto illegal_op;
--                }
--                ot = mo_64_32(s->dflag);
--                gen_ldst_modrm(env, s, modrm, ot, OR_TMP0, 0);
--                switch (ot) {
--                default:
--                    tcg_gen_trunc_tl_i32(s->tmp2_i32, s->T0);
--                    tcg_gen_trunc_tl_i32(s->tmp3_i32, cpu_regs[R_EDX]);
--                    tcg_gen_mulu2_i32(s->tmp2_i32, s->tmp3_i32,
--                                      s->tmp2_i32, s->tmp3_i32);
--                    tcg_gen_extu_i32_tl(cpu_regs[s->vex_v], s->tmp2_i32);
--                    tcg_gen_extu_i32_tl(cpu_regs[reg], s->tmp3_i32);
--                    break;
--#ifdef TARGET_X86_64
--                case MO_64:
--                    tcg_gen_mulu2_i64(s->T0, s->T1,
--                                      s->T0, cpu_regs[R_EDX]);
--                    tcg_gen_mov_i64(cpu_regs[s->vex_v], s->T0);
--                    tcg_gen_mov_i64(cpu_regs[reg], s->T1);
--                    break;
--#endif
--                }
--                break;
--
--            case 0x3f5: /* pdep Gy, By, Ey */
--                if (!(s->cpuid_7_0_ebx_features & CPUID_7_0_EBX_BMI2)
--                    || !(s->prefix & PREFIX_VEX)
--                    || s->vex_l != 0) {
--                    goto illegal_op;
--                }
--                ot = mo_64_32(s->dflag);
--                gen_ldst_modrm(env, s, modrm, ot, OR_TMP0, 0);
--                /* Note that by zero-extending the source operand, we
--                   automatically handle zero-extending the result.  */
--                if (ot == MO_64) {
--                    tcg_gen_mov_tl(s->T1, cpu_regs[s->vex_v]);
--                } else {
--                    tcg_gen_ext32u_tl(s->T1, cpu_regs[s->vex_v]);
--                }
--                gen_helper_pdep(cpu_regs[reg], s->T1, s->T0);
--                break;
--
--            case 0x2f5: /* pext Gy, By, Ey */
--                if (!(s->cpuid_7_0_ebx_features & CPUID_7_0_EBX_BMI2)
--                    || !(s->prefix & PREFIX_VEX)
--                    || s->vex_l != 0) {
--                    goto illegal_op;
--                }
--                ot = mo_64_32(s->dflag);
--                gen_ldst_modrm(env, s, modrm, ot, OR_TMP0, 0);
--                /* Note that by zero-extending the source operand, we
--                   automatically handle zero-extending the result.  */
--                if (ot == MO_64) {
--                    tcg_gen_mov_tl(s->T1, cpu_regs[s->vex_v]);
--                } else {
--                    tcg_gen_ext32u_tl(s->T1, cpu_regs[s->vex_v]);
--                }
--                gen_helper_pext(cpu_regs[reg], s->T1, s->T0);
--                break;
--
-             case 0x1f6: /* adcx Gy, Ey */
-             case 0x2f6: /* adox Gy, Ey */
-                 CHECK_NO_VEX(s);
-@@ -4354,73 +4209,6 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                 }
-                 break;
+@@ -2854,6 +2854,23 @@ static void gen_ldy_env_A0(DisasContext *s, int offset, bool align)
+     tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(YMMReg, YMM_Q(3)));
+ }
  
--            case 0x1f7: /* shlx Gy, Ey, By */
--            case 0x2f7: /* sarx Gy, Ey, By */
--            case 0x3f7: /* shrx Gy, Ey, By */
--                if (!(s->cpuid_7_0_ebx_features & CPUID_7_0_EBX_BMI2)
--                    || !(s->prefix & PREFIX_VEX)
--                    || s->vex_l != 0) {
--                    goto illegal_op;
--                }
--                ot = mo_64_32(s->dflag);
--                gen_ldst_modrm(env, s, modrm, ot, OR_TMP0, 0);
--                if (ot == MO_64) {
--                    tcg_gen_andi_tl(s->T1, cpu_regs[s->vex_v], 63);
--                } else {
--                    tcg_gen_andi_tl(s->T1, cpu_regs[s->vex_v], 31);
--                }
--                if (b == 0x1f7) {
--                    tcg_gen_shl_tl(s->T0, s->T0, s->T1);
--                } else if (b == 0x2f7) {
--                    if (ot != MO_64) {
--                        tcg_gen_ext32s_tl(s->T0, s->T0);
--                    }
--                    tcg_gen_sar_tl(s->T0, s->T0, s->T1);
--                } else {
--                    if (ot != MO_64) {
--                        tcg_gen_ext32u_tl(s->T0, s->T0);
--                    }
--                    tcg_gen_shr_tl(s->T0, s->T0, s->T1);
--                }
--                gen_op_mov_reg_v(s, ot, reg, s->T0);
--                break;
--
--            case 0x0f3:
--            case 0x1f3:
--            case 0x2f3:
--            case 0x3f3: /* Group 17 */
--                if (!(s->cpuid_7_0_ebx_features & CPUID_7_0_EBX_BMI1)
--                    || !(s->prefix & PREFIX_VEX)
--                    || s->vex_l != 0) {
--                    goto illegal_op;
--                }
--                ot = mo_64_32(s->dflag);
--                gen_ldst_modrm(env, s, modrm, ot, OR_TMP0, 0);
--
--                tcg_gen_mov_tl(cpu_cc_src, s->T0);
--                switch (reg & 7) {
--                case 1: /* blsr By,Ey */
--                    tcg_gen_subi_tl(s->T1, s->T0, 1);
--                    tcg_gen_and_tl(s->T0, s->T0, s->T1);
--                    break;
--                case 2: /* blsmsk By,Ey */
--                    tcg_gen_subi_tl(s->T1, s->T0, 1);
--                    tcg_gen_xor_tl(s->T0, s->T0, s->T1);
--                    break;
--                case 3: /* blsi By, Ey */
--                    tcg_gen_neg_tl(s->T1, s->T0);
--                    tcg_gen_and_tl(s->T0, s->T0, s->T1);
--                    break;
--                default:
--                    goto unknown_op;
--                }
--                tcg_gen_mov_tl(cpu_cc_dst, s->T0);
--                gen_op_mov_reg_v(s, ot, s->vex_v, s->T0);
--                set_cc_op(s, CC_OP_BMILGB + ot);
--                break;
--
--            default:
--                goto unknown_op;
-             }
-             break;
- 
-@@ -4636,37 +4424,6 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-             }
-             break;
- 
--        case 0x33a:
--            /* Various integer extensions at 0f 3a f[0-f].  */
--            b = modrm | (b1 << 8);
--            modrm = x86_ldub_code(env, s);
--            reg = ((modrm >> 3) & 7) | REX_R(s);
--
--            switch (b) {
--            case 0x3f0: /* rorx Gy,Ey, Ib */
--                if (!(s->cpuid_7_0_ebx_features & CPUID_7_0_EBX_BMI2)
--                    || !(s->prefix & PREFIX_VEX)
--                    || s->vex_l != 0) {
--                    goto illegal_op;
--                }
--                ot = mo_64_32(s->dflag);
--                gen_ldst_modrm(env, s, modrm, ot, OR_TMP0, 0);
--                b = x86_ldub_code(env, s);
--                if (ot == MO_64) {
--                    tcg_gen_rotri_tl(s->T0, s->T0, b & 63);
--                } else {
--                    tcg_gen_trunc_tl_i32(s->tmp2_i32, s->T0);
--                    tcg_gen_rotri_i32(s->tmp2_i32, s->tmp2_i32, b & 31);
--                    tcg_gen_extu_i32_tl(s->T0, s->tmp2_i32);
--                }
--                gen_op_mov_reg_v(s, ot, reg, s->T0);
--                break;
--
--            default:
--                goto unknown_op;
--            }
--            break;
--
-         default:
-         unknown_op:
-             gen_unknown_opcode(env, s);
-@@ -4905,59 +4662,17 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
++static void gen_sty_env_A0(DisasContext *s, int offset, bool align)
++{
++    int mem_index = s->mem_index;
++    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, offset + offsetof(YMMReg, YMM_Q(0)));
++    tcg_gen_qemu_st_i64(s->tmp1_i64, s->A0, mem_index,
++                        MO_LEUQ | (align ? MO_ALIGN_32 : 0));
++    tcg_gen_addi_tl(s->tmp0, s->A0, 8);
++    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, offset + offsetof(YMMReg, YMM_Q(1)));
++    tcg_gen_qemu_st_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
++    tcg_gen_addi_tl(s->tmp0, s->A0, 16);
++    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, offset + offsetof(YMMReg, YMM_Q(2)));
++    tcg_gen_qemu_st_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
++    tcg_gen_addi_tl(s->tmp0, s->A0, 24);
++    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, offset + offsetof(YMMReg, YMM_Q(3)));
++    tcg_gen_qemu_st_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
++}
++
+ static inline void gen_op_movo(DisasContext *s, int d_offset, int s_offset)
+ {
+     tcg_gen_ld_i64(s->tmp1_i64, cpu_env, s_offset + offsetof(XMMReg, XMM_Q(0)));
+@@ -4677,7 +4694,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+ #ifndef CONFIG_USER_ONLY
+         use_new &= b <= limit;
  #endif
-     case 0xc5: /* 2-byte VEX */
-     case 0xc4: /* 3-byte VEX */
--        use_new = false;
--        /* VEX prefixes cannot be used except in 32-bit mode.
--           Otherwise the instruction is LES or LDS.  */
-         if (CODE32(s) && !VM86(s)) {
--            static const int pp_prefix[4] = {
--                0, PREFIX_DATA, PREFIX_REPZ, PREFIX_REPNZ
--            };
--            int vex3, vex2 = x86_ldub_code(env, s);
-+            int vex2 = x86_ldub_code(env, s);
-+            s->pc--; /* rewind the advance_pc() x86_ldub_code() did */
- 
-             if (!CODE64(s) && (vex2 & 0xc0) != 0xc0) {
-                 /* 4.1.4.6: In 32-bit mode, bits [7:6] must be 11b,
-                    otherwise the instruction is LES or LDS.  */
--                s->pc--; /* rewind the advance_pc() x86_ldub_code() did */
-                 break;
-             }
--
--            /* 4.1.1-4.1.3: No preceding lock, 66, f2, f3, or rex prefixes. */
--            if (prefixes & (PREFIX_REPZ | PREFIX_REPNZ
--                            | PREFIX_LOCK | PREFIX_DATA | PREFIX_REX)) {
--                goto illegal_op;
--            }
--#ifdef TARGET_X86_64
--            s->rex_r = (~vex2 >> 4) & 8;
--#endif
--            if (b == 0xc5) {
--                /* 2-byte VEX prefix: RVVVVlpp, implied 0f leading opcode byte */
--                vex3 = vex2;
--                b = x86_ldub_code(env, s) | 0x100;
--            } else {
--                /* 3-byte VEX prefix: RXBmmmmm wVVVVlpp */
--                vex3 = x86_ldub_code(env, s);
--#ifdef TARGET_X86_64
--                s->rex_x = (~vex2 >> 3) & 8;
--                s->rex_b = (~vex2 >> 2) & 8;
--                s->rex_w = (vex3 >> 7) & 1;
--#endif
--                switch (vex2 & 0x1f) {
--                case 0x01: /* Implied 0f leading opcode bytes.  */
--                    b = x86_ldub_code(env, s) | 0x100;
--                    break;
--                case 0x02: /* Implied 0f 38 leading opcode bytes.  */
--                    b = 0x138;
--                    break;
--                case 0x03: /* Implied 0f 3a leading opcode bytes.  */
--                    b = 0x13a;
--                    break;
--                default:   /* Reserved for future use.  */
--                    goto unknown_op;
--                }
--            }
--            s->vex_v = (~vex3 >> 3) & 0xf;
--            s->vex_l = (vex3 >> 2) & 1;
--            prefixes |= pp_prefix[vex3 & 3] | PREFIX_VEX;
-+            disas_insn_new(s, cpu, b);
-+            return s->pc;
+-        if (use_new && 0) {
++        if (use_new && (b >= 0x160 && b <= 0x16f)) {
+             disas_insn_new(s, cpu, b + 0x100);
+             return s->pc;
          }
-         break;
-     }
 -- 
 2.37.2
 
