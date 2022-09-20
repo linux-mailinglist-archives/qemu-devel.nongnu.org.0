@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DFB15BEF25
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:29:36 +0200 (CEST)
-Received: from localhost ([::1]:41822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B27905BEF33
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:34:54 +0200 (CEST)
+Received: from localhost ([::1]:55842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oakoB-0005yV-Gz
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:29:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46854)
+	id 1oaktI-0002z8-RO
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:34:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oag3o-0005bf-Ql
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:25:28 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51600)
+ id 1oag8s-00008V-Mn
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:31:07 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oag3l-0000gF-Pr
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:25:23 -0400
+ id 1oag8q-0001nr-8W
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:30:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=O1FjlLS5Ti3vIfe5HwtQMtbZ/1tHifiDbXefxhWfDww=; b=z/y4lbNSYlEQQbyJGrtccF00Xg
- t6gjQfWKJ6S1/EFrYQ0+YBcLTkM36vrl4FuWw9dWnLhqKMhj2XPxbIq6cX0hr24/qtbgxB6PIOACE
- BnGBpcjHfaDM4EsUhIGvx3OsnRty7d7kjQRyoScwFIf1cgGogTh8vzQToLkzuEgWwVNoOb8YyAyQp
- 3FRTdZgRTTQYjUBZ0D2ZUTpmecpbwHbYdmlVnmXMjZIw+c5WtBC9o+wwdB+Ytn5HxYF9rX5GP/9hJ
- yIer6bm1xFlAZb++otx+R9NCQRB047JYTc6irxM68m7LZWWK8emXeySnKGnh7W3QEn0LTnxGA34Am
- xmHx4gpw2hA8gU2w2O0pGYs7xzd2PWcuU6c5UCjhAEWcoMRyRRR9J1nAgl4C9KZmwaypbXKa31eg7
- 1IWJJ1iFDKNrvLT17+y/3sReYLMuRSVw43EIF8IE0EglL5kQACoDs5s2MavDL1g4C9rmIxxYvF2Pd
- 8X1JIXmSYYME/vg3i9gO2BgPLuKo9FBUUWyX6ZvO6hVzMipDmWbqIZ/wHcp1RS4o81oIn+ZiFM9U1
- BMyAdNV5sdEuw1Qh/Mw15/hBlQibRyk/nLBp4dSii34VY1zDpI1Nobk24oRdrk/y3crp3Em/cSAOz
- qbkVs/I2xUjwiMRWXojReswKVfKUAgNtYxUnEyPyo=;
+ bh=kCNOEu7maPP75XE5he0/ZiFKAiiU6dq8ZzTWKkBzUUI=; b=rWSw3xy07PE1kHtRmrSvxi9BQR
+ zIRVdNSKazdBarvb8NGFZd2zq60D/VdbKld/RK38fnCIqOAzWQqIjrJlATBEHuhpbAELiIMa7ZaYo
+ dMwz1uzQxwjLKlecsccyEBrdGMELSLQLMdZ2sA5CguPmaXOmvZeThlR23e06qC0q/eZQ2X0PMhxmS
+ snuXIYbfB7hcalSS6hbdy45zsX4jFgqVAuepfkpB9TJYaia1bdBTG7UyppkIoz1uiLOoFowJYY07k
+ LPyFXelRU/h4lF8pCjbNN63DukcQ03xWwbuSloGoiCvHNl/izVGKOvRcmU+viSgNAVqhKG911sPGI
+ s90XgKDUu7OtYu60CLo+jCkcYk/LMwRGtlA42hFPBS6s7YrIFvD3aU+FX6EDkVkdqk/1sT2vK9j/w
+ qxCCPKG27kXQA+bcQ38xDH2wMrpeABC7GbcHJeEWHRzH0+pCQ3rbmtvFxYYe4K1GwK1ggTJxv+4m6
+ KJgnIn1UY8Mvlk6h0VdLXniIM6+nxyWfOHqcRWMH0vESNNqGmLGO9vpjmxto+ehy67FkKNBd5B1k/
+ HV9yl1b3ijVbs7uOsR+iRqgiHdEcSxNXiBNXlDvGrBXU2hfRHRfooeB1J9PMFXPwPy8ZSqIPWswlx
+ 1mtlmQoBIwwhz3Gfj7iNcOmQVKeyPbrifhVjVPMTs=;
 Received: from [2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915]
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oag1v-000Au5-KP; Tue, 20 Sep 2022 17:23:31 +0100
-Message-ID: <100f6b42-cd03-f2a9-53d1-63ac8fe5dc01@ilande.co.uk>
-Date: Tue, 20 Sep 2022 17:25:06 +0100
+ id 1oag75-000AvW-8O; Tue, 20 Sep 2022 17:28:51 +0100
+Message-ID: <1095351c-953f-0d02-a6d6-055c0730e44d@ilande.co.uk>
+Date: Tue, 20 Sep 2022 17:30:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>
 Cc: laurent@vivier.eu, richard.henderson@linaro.org, lucienmp.qemu@gmail.com, 
  qemu-devel@nongnu.org
 References: <20220917112515.83905-1-mark.cave-ayland@ilande.co.uk>
  <20220917112515.83905-3-mark.cave-ayland@ilande.co.uk>
  <6aa798e4-73b2-f96b-589c-4ab390cb1ba2@eik.bme.hu>
+ <d8e33415-d44b-6e30-057c-c5de5b2f9bb9@amsat.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <6aa798e4-73b2-f96b-589c-4ab390cb1ba2@eik.bme.hu>
+In-Reply-To: <d8e33415-d44b-6e30-057c-c5de5b2f9bb9@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915
@@ -84,69 +86,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/09/2022 13:09, BALATON Zoltan wrote:
+On 17/09/2022 23:27, Philippe Mathieu-Daudé via wrote:
 
-> On Sat, 17 Sep 2022, Mark Cave-Ayland wrote:
->> There are already 32 feature bits in use, so change the size of the m68k
->> CPU features to uint64_t (allong with the associated m68k_feature()
->> functions) to allow up to 64 feature bits to be used.
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> ---
->> target/m68k/cpu.c | 4 ++--
->> target/m68k/cpu.h | 6 +++---
->> 2 files changed, 5 insertions(+), 5 deletions(-)
->>
->> diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
->> index f681be3a2a..7b4797e2f1 100644
->> --- a/target/m68k/cpu.c
->> +++ b/target/m68k/cpu.c
->> @@ -38,12 +38,12 @@ static bool m68k_cpu_has_work(CPUState *cs)
->>
->> static void m68k_set_feature(CPUM68KState *env, int feature)
->> {
->> -    env->features |= (1u << feature);
->> +    env->features |= (1ul << feature);
->> }
->>
->> static void m68k_unset_feature(CPUM68KState *env, int feature)
->> {
->> -    env->features &= (-1u - (1u << feature));
->> +    env->features &= (-1ul - (1ul << feature));
+> On 17/9/22 14:09, BALATON Zoltan wrote:
+>> On Sat, 17 Sep 2022, Mark Cave-Ayland wrote:
+>>> There are already 32 feature bits in use, so change the size of the m68k
+>>> CPU features to uint64_t (allong with the associated m68k_feature()
+>>> functions) to allow up to 64 feature bits to be used.
+>>>
+>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>> ---
+>>> target/m68k/cpu.c | 4 ++--
+>>> target/m68k/cpu.h | 6 +++---
+>>> 2 files changed, 5 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
+>>> index f681be3a2a..7b4797e2f1 100644
+>>> --- a/target/m68k/cpu.c
+>>> +++ b/target/m68k/cpu.c
+>>> @@ -38,12 +38,12 @@ static bool m68k_cpu_has_work(CPUState *cs)
+>>>
+>>> static void m68k_set_feature(CPUM68KState *env, int feature)
+>>> {
+>>> -    env->features |= (1u << feature);
+>>> +    env->features |= (1ul << feature);
 > 
-> Should these be ull instead of ul?
+>          env->features = deposit64(env->features, feature, 1, 1);
+> 
+>>> }
+>>>
+>>> static void m68k_unset_feature(CPUM68KState *env, int feature)
+>>> {
+>>> -    env->features &= (-1u - (1u << feature));
+>>> +    env->features &= (-1ul - (1ul << feature));
+> 
+>          env->features = deposit64(env->features, feature, 1, 0);
+> 
+>> Should these be ull instead of ul?
+> 
+> Yes. Not needed if using the <qemu/bitops.h> extract/deposit API.
 
-Indeed, it looks like Windows needs ULL in order to work correctly with uint64_t - I 
-can easily fix that in v2.
+I must admit I find the deposit64() variants not particularly easy to read: if we're 
+considering alterations rather than changing the constant suffix then I'd much rather 
+go for:
 
->> }
->>
->> static void m68k_cpu_reset(DeviceState *dev)
->> diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
->> index 67b6c12c28..d3384e5d98 100644
->> --- a/target/m68k/cpu.h
->> +++ b/target/m68k/cpu.h
->> @@ -154,7 +154,7 @@ typedef struct CPUArchState {
->>     struct {} end_reset_fields;
->>
->>     /* Fields from here on are preserved across CPU reset. */
->> -    uint32_t features;
->> +    uint64_t features;
->> } CPUM68KState;
->>
->> /*
->> @@ -539,9 +539,9 @@ enum m68k_features {
->>     M68K_FEATURE_TRAPCC,
->> };
->>
->> -static inline int m68k_feature(CPUM68KState *env, int feature)
->> +static inline uint64_t m68k_feature(CPUM68KState *env, int feature)
->> {
->> -    return (env->features & (1u << feature)) != 0;
->> +    return (env->features & (1ul << feature)) != 0;
->> }
->>
->> void m68k_cpu_list(void);
+     env->features |= (1ULL << feature);
+
+and:
+
+     env->features &= ~(1ULL << feature);
+
+Laurent, what would be your preference?
+
+>>> }
+>>>
+>>> static void m68k_cpu_reset(DeviceState *dev)
+>>> diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
+>>> index 67b6c12c28..d3384e5d98 100644
+>>> --- a/target/m68k/cpu.h
+>>> +++ b/target/m68k/cpu.h
+>>> @@ -154,7 +154,7 @@ typedef struct CPUArchState {
+>>>     struct {} end_reset_fields;
+>>>
+>>>     /* Fields from here on are preserved across CPU reset. */
+>>> -    uint32_t features;
+>>> +    uint64_t features;
+>>> } CPUM68KState;
+>>>
+>>> /*
+>>> @@ -539,9 +539,9 @@ enum m68k_features {
+>>>     M68K_FEATURE_TRAPCC,
+>>> };
+>>>
+>>> -static inline int m68k_feature(CPUM68KState *env, int feature)
+>>> +static inline uint64_t m68k_feature(CPUM68KState *env, int feature)
+> 
+> Why uint64_t? Can we simplify using a boolean?
+
+I don't really feel strongly either way here. Again I'm happy to go with whatever 
+Laurent would prefer as maintainer.
+
+>>> {
+>>> -    return (env->features & (1u << feature)) != 0;
+>>> +    return (env->features & (1ul << feature)) != 0;
+> 
+>          return extract64(env->features, feature, 1) == 1;
+> 
+>>> }
+>>>
+>>> void m68k_cpu_list(void);
 
 
 ATB,
