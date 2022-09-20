@@ -2,119 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE9565BEE13
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 21:58:54 +0200 (CEST)
-Received: from localhost ([::1]:54042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D637B5BEE5B
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 22:20:07 +0200 (CEST)
+Received: from localhost ([::1]:52866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oajOP-0007bV-U4
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 15:58:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52348)
+	id 1oajir-0005ct-Kd
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 16:20:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oafK3-0008Sn-6D; Tue, 20 Sep 2022 11:38:07 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51486)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oaetD-0007Qj-F2
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:10:27 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:59930)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oafK1-0001Zj-4n; Tue, 20 Sep 2022 11:38:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=DxUS2wc8S5XxDbYIITAjbCY/K9B97p0z/uIdsCi89f4=; b=q8dDxxpdwWDpHEVedTNp99huTl
- ieOauNOwBFfYBDnKcDBqCHjuV4ahcE1blChUCvnn1ld2RsCLwnoBIq1ubUWjGD1XG+OipNXhMHYV3
- A5UVDUPeFztTSqKs6X7P+cnq84CeGwoY32GoPxxVEEcm4T6W++H/W2qq+IUbg08VbaPZn2PpQhA6G
- bLj5usr33B5oFZ1w1pzMsxXoWw5TqXPu+p5QK2QdWpGZxnhsfad6mIAO4emRZahrJpZli75qhfkPZ
- JidI8Md/95Pa4BTPf6Cssb8yEiTDu6oS0+mepXs9cZhYwKX0GB+Wh3jWanOFKnNugdGBTJ2negqZ5
- kQ5zkM8I3F09Yqn2tNuiF62sq4HjlfBTtNVHH/wu5YepzmsU+yGEiv75Er59M/E1rO+t7vI3zdHhL
- K6EOXVatICRAGXSZ2pXGTOtCsdntXKmTpLa28j5QBqhUoCSVwaSj/dnxqdkPzCQwQsRXyL4b13OSS
- pTWzfSYUZ3XA1cZjpzVW7U3+3jDQGahsb6BDRM7yMzynJF79hN3JliPwomVGl3TlmAF9ZXbgB6v8x
- EdBv3RhbS9nnzMB0fMo8v8PRvu4ZQAqDHvVlI+IWDk4CDXNVEIO08YEfWVoJ8mVf99CP1R3I6tydJ
- Gl7iS5zTOghPdk9mRJyFsq8Jqasp4a0Y+B74kjNoY=;
-Received: from [2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oafGv-000Afu-Ct; Tue, 20 Sep 2022 16:34:53 +0100
-Message-ID: <49325e7d-5020-23f7-4bce-c53d8d988c95@ilande.co.uk>
-Date: Tue, 20 Sep 2022 16:36:26 +0100
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oaet8-0005M0-2G
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:10:21 -0400
+Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
+ (iva4-f06c35e68a0a.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:152e:0:640:f06c:35e6])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id DF7962E136A;
+ Tue, 20 Sep 2022 18:10:09 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b65b::1:34] (unknown
+ [2a02:6b8:b081:b65b::1:34])
+ by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ pBPF8S0ZkA-A8PKgfEN; Tue, 20 Sep 2022 18:10:09 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Precedence: bulk
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1663686609; bh=h2mAmP7hlCH6glhmP8ghOdS708MPh03DAfeTYt56V+U=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=1VuwPPIPBHiSZ5ZKCT39dH93QA07TCWljwTXFnxXD1z+RWpBSu81BMVr2V1IH5Z4S
+ TLt9GOD4CAZ8Sr7ydb9/sPT/WJD4RR0sXYGKati9KrZdWHOlOVigYiw+jC+supDzUF
+ YmWY1TUT7fVQIl48fI3s1m0B3PYYitgjYQhfN4j4=
+Authentication-Results: iva4-f06c35e68a0a.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <fefba94b-03c3-4c43-55bb-032740f4bd47@yandex-team.ru>
+Date: Tue, 20 Sep 2022 18:10:08 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+ Thunderbird/91.8.1
+Subject: Re: [PATCH] virtio: add VIRTQUEUE_ERROR QAPI event
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- Bernhard Beschow <shentey@gmail.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Bandan Das
- <bsd@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Sergio Lopez <slp@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>, Cameron Esfahani
- <dirty@apple.com>, Michael Rolnik <mrolnik@gmail.com>,
- Song Gao <gaosong@loongson.cn>, Jagannathan Raman <jag.raman@oracle.com>,
- Greg Kurz <groug@kaod.org>, Kamil Rytarowski <kamil@netbsd.org>,
- Peter Xu <peterx@redhat.com>, Joel Stanley <joel@jms.id.au>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, haxm-team@intel.com,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Markus Armbruster <armbru@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- qemu-ppc@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Helge Deller <deller@gmx.de>,
- Stefano Stabellini <sstabellini@kernel.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-riscv@nongnu.org, Stafford Horne <shorne@gmail.com>,
- Paul Durrant <paul@xen.org>, Havard Skinnemoen <hskinnemoen@google.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Alexander Graf <agraf@csgraf.de>, Thomas Huth <thuth@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Wenchao Wang <wenchao.wang@intel.com>, Tony Krowiak
- <akrowiak@linux.ibm.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- qemu-s390x@nongnu.org, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>, Eric Farman <farman@linux.ibm.com>,
- Reinoud Zandijk <reinoud@netbsd.org>, Alexander Bulekov <alxndr@bu.edu>,
- Yanan Wang <wangyanan55@huawei.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Tyrone Ting <kfting@nuvoton.com>,
- xen-devel@lists.xenproject.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Darren Kenny <darren.kenny@oracle.com>, kvm@vger.kernel.org,
- Qiuhao Li <Qiuhao.Li@outlook.com>, John G Johnson
- <john.g.johnson@oracle.com>, Bin Meng <bin.meng@windriver.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Max Filippov
- <jcmvbkbc@gmail.com>, qemu-arm@nongnu.org,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, Andrew Jeffery
- <andrew@aj.id.au>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Alistair Francis
- <alistair@alistair23.me>, Jason Herne <jjherne@linux.ibm.com>
-References: <20220919231720.163121-1-shentey@gmail.com>
- <CAFEAcA8GjXFO4WK=KybgSc8rMfqecwD9EXS0kZMKtqogNf1Tsg@mail.gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <CAFEAcA8GjXFO4WK=KybgSc8rMfqecwD9EXS0kZMKtqogNf1Tsg@mail.gmail.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, eblake@redhat.com, eduardo@habkost.net,
+ berrange@redhat.com, pbonzini@redhat.com, mst@redhat.com,
+ rvkagan@yandex-team.ru, yc-core@yandex-team.ru
+References: <20220919194805.195952-1-vsementsov@yandex-team.ru>
+ <87czbqw1aq.fsf@pond.sub.org>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <87czbqw1aq.fsf@pond.sub.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 0/9] Deprecate sysbus_get_default() and
- get_system_memory() et. al
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -124,7 +70,6 @@ X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -136,63 +81,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/09/2022 10:55, Peter Maydell wrote:
-
-> On Tue, 20 Sept 2022 at 00:18, Bernhard Beschow <shentey@gmail.com> wrote:
+On 9/20/22 17:47, Markus Armbruster wrote:
+> Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> writes:
+> 
+>> For now we only log the vhost device error, when virtqueue is actually
+>> stopped. Let's add a QAPI event, which makes possible:
 >>
->> In address-spaces.h it can be read that get_system_memory() and
->> get_system_io() are temporary interfaces which "should only be used temporarily
->> until a proper bus interface is available". This statement certainly extends to
->> the address_space_memory and address_space_io singletons.
+>>   - collect statistics of such errors
+>>   - make immediate actions: take coredums or do some other debugging
 > 
-> This is a long standing "we never really completed a cleanup"...
+> Core dumps, I presume.
 > 
->> This series attempts
->> to stop further proliferation of their use by turning TYPE_SYSTEM_BUS into an
->> object-oriented, "proper bus interface" inspired by PCIBus.
+> Is QMP the right tool for the job?  Or could a trace point do?
+
+Management tool already can collect QMP events. So, if we want to forward some QMP events to other subsystems (to immediately inform support team, or to update some statistics) it's simple to realize for QMP events. But I'm not sure how to do it for trace-events.. Scanning trace logs is not convenient.
+
+Another benefit of QMP events is that they are objects, with fields, which is better for machine processing than textual trace-events.
+
+> 
+>> The event could be reused for some other virtqueue problems (not only
+>> for vhost devices) in future. For this it gets a generic name and
+>> structure.
 >>
->> While at it, also the main_system_bus singleton is turned into an attribute of
->> MachineState. Together, this resolves five singletons in total, making the
->> ownership relations much more obvious which helps comprehension.
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>> ---
+>>   hw/virtio/vhost.c | 12 +++++++++---
+>>   qapi/qdev.json    | 25 +++++++++++++++++++++++++
+>>   2 files changed, 34 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+>> index f758f177bb..caa81f2ace 100644
+>> --- a/hw/virtio/vhost.c
+>> +++ b/hw/virtio/vhost.c
+>> @@ -15,6 +15,7 @@
+>>   
+>>   #include "qemu/osdep.h"
+>>   #include "qapi/error.h"
+>> +#include "qapi/qapi-events-qdev.h"
+>>   #include "hw/virtio/vhost.h"
+>>   #include "qemu/atomic.h"
+>>   #include "qemu/range.h"
 > 
-> ...but I don't think this is the direction we want to go.
-> Overall the reason that the "system memory" and "system IO"
-> singletons are weird is that in theory they should not be necessary
-> at all -- board code should create devices and map them into an
-> entirely arbitrary MemoryRegion or set of MemoryRegions corresponding
-> to address space(s) for the CPU and for DMA-capable devices. But we
-> keep them around because
->   (a) there is a ton of legacy code that assumes there's only one
->       address space in the system and this is it
->   (b) when modelling the kind of board where there really is only
->       one address space, having the 'system memory' global makes
->       the APIs for creating and connecting devices a lot simpler
+> Only tangentially related to this patch, but here goes anyway:
 > 
-> Retaining the whole-system singleton but shoving it into MachineState
-> doesn't really change much, IMHO.
+>     /* enabled until disconnected backend stabilizes */
+>     #define _VHOST_DEBUG 1
 > 
-> More generally, sysbus is rather weird because it isn't really a
-> bus. Every device in the system of TYPE_SYS_BUS_DEVICE is "on"
-> the unique TYPE_SYSTEM_BUS bus, but that doesn't mean they're
-> all in the same address space or that in real hardware they'd
-> all be on the same bus. sysbus has essentially degraded into a
-> hack for having devices get reset. I really really need to make
-> some time to have another look at reset handling. If we get that
-> right then I think it's probably possible to collapse the few
-> things TYPE_SYS_BUS_DEVICE does that TYPE_DEVICE does not down
-> into TYPE_DEVICE and get rid of sysbus altogether...
+> This is from 2016.  Has it stabilized?
 
-Following on from one of the discussion points from Alex's KVM Forum BoF session: I 
-think longer term what we need to aim for is for QEMU machines to define their own 
-address spaces, and then bind those address spaces containing memory-mapped devices 
-to one or more CPUs.
+Hmm, I don't know:) It works for us)
 
-Once this in place, as Peter notes above it just remains to solve the reset problem 
-and then it becomes possible to eliminate sysbus altogether as everything else can 
-already be managed by qdev/QOM.
+But anyway, I agree that error/debug reporting here needs an update. I don't think that dropping the messages is good. Some should be converted to errp-reporting, some to warnings or assertions..
 
+> 
+>     #ifdef _VHOST_DEBUG
+>     #define VHOST_OPS_DEBUG(retval, fmt, ...) \
+>         do { \
+>             error_report(fmt ": %s (%d)", ## __VA_ARGS__, \
+>                          strerror(-retval), -retval); \
+> 
+> error_report() is for errors the user can do something about, not for
+> debug messages.
+> 
+>         } while (0)
+>     #else
+>     #define VHOST_OPS_DEBUG(retval, fmt, ...) \
+>         do { } while (0)
+>     #endif
+> 
+>> @@ -1287,11 +1288,16 @@ static void vhost_virtqueue_error_notifier(EventNotifier *n)
+>>       struct vhost_virtqueue *vq = container_of(n, struct vhost_virtqueue,
+>>                                                 error_notifier);
+>>       struct vhost_dev *dev = vq->dev;
+>> -    int index = vq - dev->vqs;
+>>   
+>>       if (event_notifier_test_and_clear(n) && dev->vdev) {
+>> -        VHOST_OPS_DEBUG(-EINVAL,  "vhost vring error in virtqueue %d",
+>> -                        dev->vq_index + index);
+>> +        int ind = vq - dev->vqs + dev->vq_index;
+>> +        DeviceState *ds = &dev->vdev->parent_obj;
+>> +
+>> +        VHOST_OPS_DEBUG(-EINVAL,  "vhost vring error in virtqueue %d", ind);
+>> +        qapi_event_send_virtqueue_error(!!ds->id, ds->id, ds->canonical_path,
+>> +                                        ind, VIRTQUEUE_ERROR_VHOST_VRING_ERR,
+>> +                                        "vhost reported failure through vring "
+>> +                                        "error fd");
+> 
+> Do we still need VHOST_OPS_DEBUG() here?
 
-ATB,
+I think, this should be decided separately from this patch. Here I keep current behavior and add new event.
 
-Mark.
+> 
+>>       }
+>>   }
+>>   
+>> diff --git a/qapi/qdev.json b/qapi/qdev.json
+>> index 2708fb4e99..b7c2669c2c 100644
+>> --- a/qapi/qdev.json
+>> +++ b/qapi/qdev.json
+>> @@ -158,3 +158,28 @@
+>>   ##
+>>   { 'event': 'DEVICE_UNPLUG_GUEST_ERROR',
+>>     'data': { '*device': 'str', 'path': 'str' } }
+>> +
+>> +##
+>> +# @VirtqueueError:
+>> +#
+>> +# Since: 7.2
+>> +##
+>> +{ 'enum': 'VirtqueueError',
+>> +  'data': [ 'vhost-vring-err' ] }
+>> +
+>> +##
+>> +# @VIRTQUEUE_ERROR:
+>> +#
+>> +# Emitted when a device virtqueue fails in runtime.
+>> +#
+>> +# @device: the device's ID if it has one
+>> +# @path: the device's QOM path
+>> +# @virtqueue: virtqueue index
+>> +# @error: error identifier
+>> +# @description: human readable description
+>> +#
+>> +# Since: 7.2
+>> +##
+>> +{ 'event': 'VIRTQUEUE_ERROR',
+>> + 'data': { '*device': 'str', 'path': 'str', 'virtqueue': 'int',
+>> +            'error': 'VirtqueueError', 'description': 'str'} }
+> 
+> Can the guest trigger the event?
+
+Yes, but as I understand, only once per virtqueue.
+
+> 
+> If yes, it needs to be rate-limited.
+> 
+
+This may be needed if VIRTQUEUE_ERROR will be shared with other errors. Still adding it now will not hurt I think.
+
+-- 
+Best regards,
+Vladimir
 
