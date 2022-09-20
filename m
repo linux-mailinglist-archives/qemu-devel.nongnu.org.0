@@ -2,85 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F13515BE8DA
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 16:26:41 +0200 (CEST)
-Received: from localhost ([::1]:60492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ED495BE928
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 16:36:29 +0200 (CEST)
+Received: from localhost ([::1]:59688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaeCu-0004Yq-Vj
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 10:26:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40452)
+	id 1oaeMO-0004FO-JP
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 10:36:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oabVL-0005qb-5a
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 07:33:32 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:40502)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oabVI-0000ih-Rg
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 07:33:30 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id w28so3368422edi.7
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 04:33:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=2TPJYbE5oV4Ww0eGtsoF5CtzfvZG+MgglCrM+L8KkCc=;
- b=uQk9+37QU0Nx1XC9bcJOyDYDhL7Ays3aa2YcliaYgsVCfZ9e/6rDvK0jqfjMwc9+KN
- U1puuuHH3HXjP9HUbzh96ugFCrl0BUqS9dbOYTcTs0pX3pBt6pivCM8LqiP8JPAGRzlK
- aQN41XJy78+BCyhrYCuvNjCeLAe3AhDDFixT+nIaJ6LLDHue9u5jjpEqIfbySvsWlC6G
- XdiDN28ynUpqUZyrS30NRZj69Fp4LJku2rx9K3Qp4Sb3WCMED+ebpUtOkVj8E94kjP8K
- OCsIO30r7LulUzzLEW27pmnDjSKNqdaOrywmsaiVlOS324WsbPfr/BtEvnE0M6S2FN48
- Z8Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=2TPJYbE5oV4Ww0eGtsoF5CtzfvZG+MgglCrM+L8KkCc=;
- b=IVR/taP8l/fnSHr+P6Nb5wIXXIbf58N2v7Tj9xh8ehO1L7an0rmrwD4TcRvnJ9F+Td
- SQq4IuJUiaRwWmypRA0dHWsjS3vacQM12bIe8UnaXZWmplthQKne4uOiPoXUZecMhuv9
- FISjaMmCYk/cXBfBeH5xYyw7AYNZzM+gTI49pA9NQnuF6syUGqcsdAl0SDnOM/qnyDkR
- 31VOTViD9W2Hc//Ljz7utvi77g5JP+Yjqzto7pA7ORrkQ4Oo0h7vQmBDjHoL2gMVBw0c
- OorqBVkI8lNs8bi8gvU80SS2pCucqcsVk0rP5Ip+tJ7htfR9eDril9etqNHdxkPTU8fK
- j+3A==
-X-Gm-Message-State: ACrzQf3j2CLnjGmKr5XE8Y5a/KnQw6/xkKWNZvo9mKOFSZWoGVlCnj3c
- ZEzNSSz69OYoYggM6UwzfBCh9A==
-X-Google-Smtp-Source: AMsMyM5OAHBhkzzRn62qKvMv+W8tqNQroI/FsJWyefEj4YqssUEXKDqIwynPCsX49EAS1jGRNgwEHw==
-X-Received: by 2002:a50:fc93:0:b0:44d:c809:8158 with SMTP id
- f19-20020a50fc93000000b0044dc8098158mr19820447edq.365.1663673606073; 
- Tue, 20 Sep 2022 04:33:26 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- qn5-20020a170907210500b0078135401b9csm708644ejb.130.2022.09.20.04.33.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 04:33:25 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CC1B91FFB7;
- Tue, 20 Sep 2022 12:33:24 +0100 (BST)
-References: <20220802095010.3330793-1-alex.bennee@linaro.org>
- <87czbvzu9e.fsf@linaro.org> <YyibNC4CbniKUTmi@fedora>
-User-agent: mu4e 1.9.0; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, slp@redhat.com, mst@redhat.com,
- marcandre.lureau@redhat.com, mathieu.poirier@linaro.org,
- viresh.kumar@linaro.org
-Subject: Re: [PATCH v4 for 7.2 00/22] virtio-gpio and various virtio cleanups
-Date: Tue, 20 Sep 2022 12:30:51 +0100
-In-reply-to: <YyibNC4CbniKUTmi@fedora>
-Message-ID: <8735cm9t6j.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oabYn-0000E2-C1
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 07:37:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27825)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oabYe-0001VR-3o
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 07:37:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663673815;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q9Kiy75k/GjyNcX5/jFVpAejSl+0Eo6vMfAUPlGa7+Q=;
+ b=YNLOgLJ3y3TbmFBmF/gdP8Xdk0KoaQW5bsjzmRvPxMazs49OX9f2kORQLMFm3TGm3lWE9I
+ lBA5EHIL0pZGHZ/WuwHvh7ZZD7Ppd//XHlb1ZuorrcFGI8xputyIjC7xbSz2QUYAe/QrR6
+ Wq2UIEWvNI+PUMAp8yxRupBruk+mwBY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-49-nyyOMpweMKOJOc5LnI28Bw-1; Tue, 20 Sep 2022 07:36:52 -0400
+X-MC-Unique: nyyOMpweMKOJOc5LnI28Bw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C1DF3810D23;
+ Tue, 20 Sep 2022 11:36:50 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EF591112131E;
+ Tue, 20 Sep 2022 11:36:48 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A0E0D21E6900; Tue, 20 Sep 2022 13:36:47 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Alistair Francis <alistair23@gmail.com>, Bin Meng
+ <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Bernhard Beschow <shentey@gmail.com>,  "qemu-devel@nongnu.org
+ Developers" <qemu-devel@nongnu.org>,  "Michael S. Tsirkin"
+ <mst@redhat.com>,  Magnus Damm <magnus.damm@gmail.com>,  Aleksandar Rikalo
+ <aleksandar.rikalo@syrmia.com>,  Bandan Das <bsd@redhat.com>,  Matthew
+ Rosato <mjrosato@linux.ibm.com>,  Daniel Henrique Barboza
+ <danielhb413@gmail.com>,  Sergio Lopez <slp@redhat.com>,  Alexey
+ Kardashevskiy <aik@ozlabs.ru>,  Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ Cameron Esfahani <dirty@apple.com>,  Michael Rolnik <mrolnik@gmail.com>,
+ Song Gao <gaosong@loongson.cn>,  Jagannathan Raman
+ <jag.raman@oracle.com>,  Greg Kurz <groug@kaod.org>,  Kamil Rytarowski
+ <kamil@netbsd.org>,  Peter Xu <peterx@redhat.com>,  Joel Stanley
+ <joel@jms.id.au>,  Alistair Francis <Alistair.Francis@wdc.com>,  "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  haxm-team@intel.com,  Roman Bolshakov
+ <r.bolshakov@yadro.com>,  Markus Armbruster <armbru@redhat.com>,  Eric
+ Auger <eric.auger@redhat.com>,  David Gibson
+ <david@gibson.dropbear.id.au>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,  =?utf-8?Q?C=C3=A9dri?=
+ =?utf-8?Q?c?= Le Goater
+ <clg@kaod.org>,  Stefan Hajnoczi <stefanha@redhat.com>,  Qemu-block
+ <qemu-block@nongnu.org>,  Eduardo Habkost <eduardo@habkost.net>,
+ =?utf-8?Q?Herv=C3=A9?=
+ Poussineau <hpoussin@reactos.org>,  "open list:New World"
+ <qemu-ppc@nongnu.org>,  Cornelia Huck <cohuck@redhat.com>,  Helge Deller
+ <deller@gmx.de>,  Stefano Stabellini <sstabellini@kernel.org>,  Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,  "open list:RISC-V"
+ <qemu-riscv@nongnu.org>,  Stafford Horne <shorne@gmail.com>,  Paul Durrant
+ <paul@xen.org>,  Havard Skinnemoen <hskinnemoen@google.com>,  Elena
+ Ufimtseva <elena.ufimtseva@oracle.com>,  Alexander Graf <agraf@csgraf.de>,
+ Thomas Huth <thuth@redhat.com>,  Alex Williamson
+ <alex.williamson@redhat.com>,  Wenchao Wang <wenchao.wang@intel.com>,
+ Tony Krowiak <akrowiak@linux.ibm.com>,  Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>,  qemu-s390x <qemu-s390x@nongnu.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,  Mark
+ Cave-Ayland
+ <mark.cave-ayland@ilande.co.uk>,  Eric Farman <farman@linux.ibm.com>,
+ Reinoud Zandijk <reinoud@netbsd.org>,  Alexander Bulekov <alxndr@bu.edu>,
+ Yanan Wang <wangyanan55@huawei.com>,  "Edgar E. Iglesias"
+ <edgar.iglesias@gmail.com>,  Gerd Hoffmann <kraxel@redhat.com>,  Tyrone
+ Ting <kfting@nuvoton.com>,  "open list:X86"
+ <xen-devel@lists.xenproject.org>,  Yoshinori Sato
+ <ysato@users.sourceforge.jp>,  John Snow <jsnow@redhat.com>,  Richard
+ Henderson <richard.henderson@linaro.org>,  Darren Kenny
+ <darren.kenny@oracle.com>,  "open list:Overall" <kvm@vger.kernel.org>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>,  John G Johnson
+ <john.g.johnson@oracle.com>,  Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Max Filippov <jcmvbkbc@gmail.com>,  qemu-arm <qemu-arm@nongnu.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>,  Peter Maydell
+ <peter.maydell@linaro.org>,  Anthony Perard <anthony.perard@citrix.com>,
+ Andrew Jeffery <andrew@aj.id.au>,  Artyom Tarasenko
+ <atar4qemu@gmail.com>,  Halil Pasic <pasic@linux.ibm.com>,  "Maciej S.
+ Szmigiero" <maciej.szmigiero@oracle.com>,  Jason Wang
+ <jasowang@redhat.com>,  David Hildenbrand <david@redhat.com>,  Laurent
+ Vivier <laurent@vivier.eu>,  Alistair Francis <alistair@alistair23.me>,
+ Jason Herne <jjherne@linux.ibm.com>
+Subject: Re: [PATCH 1/9] hw/riscv/sifive_e: Fix inheritance of SiFiveEState
+References: <20220919231720.163121-1-shentey@gmail.com>
+ <20220919231720.163121-2-shentey@gmail.com>
+ <CAKmqyKN+V2R8PkED67tB8+pCZs9369ViiL8OZ9XhO3SdUCk5=Q@mail.gmail.com>
+Date: Tue, 20 Sep 2022 13:36:47 +0200
+In-Reply-To: <CAKmqyKN+V2R8PkED67tB8+pCZs9369ViiL8OZ9XhO3SdUCk5=Q@mail.gmail.com>
+ (Alistair Francis's message of "Tue, 20 Sep 2022 09:31:10 +1000")
+Message-ID: <87edw6xoog.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,72 +137,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Alistair Francis <alistair23@gmail.com> writes:
 
-Stefan Hajnoczi <stefanha@redhat.com> writes:
-
-> [[PGP Signed Part:Undecided]]
-> On Fri, Sep 16, 2022 at 07:51:40AM +0100, Alex Benn=C3=A9e wrote:
->>=20
->> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
->>=20
->> > Hi,
->> >
->> > This is an update to the previous series which fixes the last few
->> > niggling CI failures I was seeing.
->> >
->> >    Subject: [PATCH v3 for 7.2 00/21] virtio-gpio and various virtio cl=
-eanups
->> >    Date: Tue, 26 Jul 2022 20:21:29 +0100
->> >    Message-Id: <20220726192150.2435175-1-alex.bennee@linaro.org>
->> >
->> > The CI failures were tricky to track down because they didn't occur
->> > locally but after patching to dump backtraces they all seem to involve
->> > updates to virtio_set_status() as the machine was torn down. I think
->> > patch that switches all users to use virtio_device_started() along
->> > with consistent checking of vhost_dev->started stops this from
->> > happening. The clean-up seems worthwhile in reducing boilerplate
->> > anyway.
->> >
->> > The following patches still need review:
->> >
->> >   - tests/qtest: enable tests for virtio-gpio
->> >   - tests/qtest: add a get_features op to vhost-user-test
->> >   - tests/qtest: implement stub for VHOST_USER_GET_CONFIG
->> >   - tests/qtest: add assert to catch bad features
->> >   - tests/qtest: plain g_assert for VHOST_USER_F_PROTOCOL_FEATURES
->> >   - tests/qtest: catch unhandled vhost-user messages
->> >   - tests/qtest: use qos_printf instead of g_test_message
->> >   - tests/qtest: pass stdout/stderr down to subtests
->> >   - hw/virtio: move vhd->started check into helper and add FIXME
->> >   - hw/virtio: move vm_running check to virtio_device_started
->> >   - hw/virtio: add some vhost-user trace events
->> >   - hw/virtio: log potentially buggy guest drivers
->> >   - hw/virtio: fix some coding style issues
->> >   - include/hw: document vhost_dev feature life-cycle
->> >   - include/hw/virtio: more comment for VIRTIO_F_BAD_FEATURE
->> >   - hw/virtio: fix vhost_user_read tracepoint
->> >   - hw/virtio: handle un-configured shutdown in virtio-pci
->> >   - hw/virtio: gracefully handle unset vhost_dev vdev
->> >   - hw/virtio: incorporate backend features in features
->> <snip>
->>=20
->> Ping?
+> On Tue, Sep 20, 2022 at 9:18 AM Bernhard Beschow <shentey@gmail.com> wrote:
+>>
+>> SiFiveEState inherits from SysBusDevice while it's TypeInfo claims it to
+>> inherit from TYPE_MACHINE. This is an inconsistency which can cause
+>> undefined behavior such as memory corruption.
+>>
+>> Change SiFiveEState to inherit from MachineState since it is registered
+>> as a machine.
+>>
+>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 >
-> Who are you pinging?
->
-> Only qemu-devel is on To and there are a bunch of people on Cc.
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Well I guess MST is the maintainer for the sub-system but I was hoping
-other virtio contributors had some sort of view. The process of
-up-streaming a simple vhost-user stub has flushed out all sorts of
-stuff.
+To the SiFive maintainers: since this is a bug fix, let's merge it right
+away.
 
->
-> Stefan
->
-> [[End of PGP Signed Part]]
-
-
---=20
-Alex Benn=C3=A9e
 
