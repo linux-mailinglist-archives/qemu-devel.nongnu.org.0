@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B711B5BE757
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 15:41:41 +0200 (CEST)
-Received: from localhost ([::1]:47054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FE8D5BE6FE
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 15:25:00 +0200 (CEST)
+Received: from localhost ([::1]:38186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oadVM-0001u7-Px
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 09:41:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44726)
+	id 1oadFD-0000c6-Fs
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 09:24:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oaaZh-0001Vx-Lt
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:33:59 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:33662)
+ id 1oaaZk-0001Xo-5r
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:34:00 -0400
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:38419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oaaZf-00053f-LD
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:33:56 -0400
-Received: by mail-pl1-x630.google.com with SMTP id iw17so1963295plb.0
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 03:33:55 -0700 (PDT)
+ id 1oaaZi-00053v-GQ
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:33:59 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id x1so1917401plv.5
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 03:33:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=Jt136OWsjti3Zpu3h4MXfORTFkV12nnDiDA1HXBO+Xk=;
- b=E/2vQAkyGF4Fz4XkDMYm7Xm66TNx1VIYbCcCf4g8nhXRgA/Q7pD9AbNbrtiifryHru
- zWKy2Tr277+tvxsiX+qndf1DABa1ny+CZwpuEYG9f/0pxO/fIuN7WAmIjJnGMjvSq7cB
- QjF6dqatgkIJxN9XFZ8g3VKl7IqgCkMQDVP2sns+eJL3RNHEoI0vGvzvyw5LeV+wwnlp
- bJLQgzmQvkBoKO1wuXim3RF9zl1B3FuwgpK8xG9Z239L6e+/kxM0SAU9742+ivcVkXwU
- fUYyVlKeyEJhjMHUsjVCjLoTe7AzGu2guq8r139yLcGtw0erAfx48p1WrsI4DCAMSiYK
- Z98Q==
+ bh=CeqCs+fhJTq9ubJJCHLWPqSHezBqKxEmHRY/t8v7R8c=;
+ b=l1w6aH1yb78q5GBCs+Uy2kG71s9gacPQyvIJuj3jXOuv4+8/BbeiywNONijxQygMAE
+ uP3HOrzDAYTlpeXmVI57ZRxxQp994rZoiPsj8tUzyvgngIIzdhT5RLKti8essKL6Pmi0
+ NFdww8a8c+2/riFxwCK/Wn+PRS00hv/nwh7Spbfg6wuYQgvSbGuZBVyuvGqtyLEZRmwD
+ 3GhZIKU1yVqmp9BiHhYwOqoMuab7d0WNVWtn44bqjNGEn3e6ni/hHAZ1sAxzj0FtqaSF
+ B2LcxKM8MZEVEdxbsaFVm1PGY2FgTSiIbGNu3FtvKIWmopNqaWXRzw/q9rOH/Ldp9cS/
+ rGhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=Jt136OWsjti3Zpu3h4MXfORTFkV12nnDiDA1HXBO+Xk=;
- b=MzWSK049INC0ht13phXXIflax3uXL67+R4WHg67Bpxo0nIhkS8UB0TP99lz3tRWOHU
- Jy7Cwq3uz7iHOzhj+BR4/02QtY2ixvq7qurIC8cYzIX0VCj2VcHXuoNa7S5R6vFPcdrI
- v9V6MDkxr/dp5p4PSMgZjVmOgjhvDVb5vO/y31v4d2aIZKPCWO5DZPRxMJFEr6iRryg9
- gGxL4yldNJGukwRyAjZhnEMlZVI8pEOoLHn7jQwKib0TR9RC0gTIA4ax/aKL9iaZyVUv
- gzCCAapIgKP85FBmFzxTckaaZnbyLHcDOI8WTEIRpvzQMc7CMDX6oqGckmL1wa+nZyx2
- D7IA==
-X-Gm-Message-State: ACrzQf3jA1n5ZwMbQjGG5H6MnRlZWScuGIwSlp5YtQKQ5ENo8JlgHHvn
- v/Hc2IOJzx/JpYcXhnOU5aDEXId5hiI=
-X-Google-Smtp-Source: AMsMyM5qoOuwyLoV9iQxA+wL0iWPNeGw5oC5ZV4yBkJ22MZX31YGHXDJ8wg2YAixl/N488JqPIh1kg==
-X-Received: by 2002:a17:90b:1c07:b0:200:9728:b8cd with SMTP id
- oc7-20020a17090b1c0700b002009728b8cdmr3215995pjb.139.1663670034210; 
- Tue, 20 Sep 2022 03:33:54 -0700 (PDT)
+ bh=CeqCs+fhJTq9ubJJCHLWPqSHezBqKxEmHRY/t8v7R8c=;
+ b=yp3Fag+OdL4X6DqRYuEzewjEXawL3sFD0SXobYXVGn4SsL+2FfZCmuphZ8E2rN9poO
+ YENI/wX6Lpz9IEBT6IdA1AZaHtm10MwCnboeLSyp/GD+7IkFjW9CNqICywn2zVN3UMD4
+ ZLyU5pqbwynPD3tNT7ZtuCr0QWxOjrq27TqLQ0Ub5yOvR1FYBEjkBK/8syZVL2FyCGN9
+ +Gya7Ufy7QteOxkwfGRn0q0Q59Rx4o7aYIdvEX2rSMkqMFmbYp3V/dqgqkDFmZYHMjYQ
+ ASXWv15ESr7ZdcNuIjLBN5SB7Ayio57hbs00M+8ZC1dPM2hYeUvhlLXbrHhoAwjUgNo3
+ wr6Q==
+X-Gm-Message-State: ACrzQf2RdU+O0YtcHP7X+xIbHHQdYcWf52PE5b982I4p1EC3BxJazHZx
+ uzrifdcNM+A0XM1avYZuE19oNNgKAlo=
+X-Google-Smtp-Source: AMsMyM5rZjZs+JNFOuxRZqeCRyLeFBkRkJYpCAPVhcp+LeG17wIy/QKTC2UTIrRrQPjR6GcLX/wJWg==
+X-Received: by 2002:a17:90a:ec0f:b0:200:b4b5:c352 with SMTP id
+ l15-20020a17090aec0f00b00200b4b5c352mr3210974pjy.205.1663670037209; 
+ Tue, 20 Sep 2022 03:33:57 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- n2-20020aa79842000000b00551fa0e2b2dsm699573pfq.206.2022.09.20.03.33.52
+ n2-20020aa79842000000b00551fa0e2b2dsm699573pfq.206.2022.09.20.03.33.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 03:33:53 -0700 (PDT)
+ Tue, 20 Sep 2022 03:33:56 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v2 38/39] tests/qtest: Enable qtest build on Windows
-Date: Tue, 20 Sep 2022 18:31:58 +0800
-Message-Id: <20220920103159.1865256-39-bmeng.cn@gmail.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Thomas Huth <thuth@redhat.com>, Willian Rampazzo <willianr@redhat.com>
+Subject: [PATCH v2 39/39] docs/devel: testing: Document writing portable test
+ cases
+Date: Tue, 20 Sep 2022 18:31:59 +0800
+Message-Id: <20220920103159.1865256-40-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220920103159.1865256-1-bmeng.cn@gmail.com>
 References: <20220920103159.1865256-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,30 +98,59 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Now that we have fixed various test case issues as seen when running
-on Windows, let's enable the qtest build on Windows.
+Update the best practices of how to write portable test cases that
+can be built and run successfully on both Linux and Windows hosts.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
 
 Changes in v2:
-- new patch: "tests/qtest: Enable qtest build on Windows"
+- Minor wording changes
 
- tests/qtest/meson.build | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ docs/devel/testing.rst | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 455f1bbb7e..ceab141824 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -1,6 +1,5 @@
--# All QTests for now are POSIX-only, but the dependencies are
--# really in libqtest, not in the testcases themselves.
--if not config_host.has_key('CONFIG_POSIX')
-+# Build all QTests for POSIX and Windows
-+if not config_host.has_key('CONFIG_POSIX') and not config_host.has_key('CONFIG_WIN32')
-   subdir_done()
- endif
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index f35f117d95..eb65401ad2 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -115,6 +115,36 @@ check-block
+ are in the "auto" group).
+ See the "QEMU iotests" section below for more information.
+ 
++Writing portable test cases
++~~~~~~~~~~~~~~~~~~~~~~~~~~~
++Both unit tests and qtests can run on POSIX hosts as well as a Windows host.
++Care must be taken when writing portable test cases that can be built and run
++successfully on various hosts. The following are some best practices:
++
++* Use portable APIs from glib whenever necessary, e.g.: g_setenv(),
++  g_mkdtemp(), g_mkdir().
++* Avoid using hardcoded /tmp for temporary file directory.
++  Use g_get_tmp_dir() instead.
++* Bear in mind that Windows has different special string representation for
++  stdin/stdout/stderr and null devices. For example if your test case uses
++  "/dev/fd/2" and "/dev/null" on Linux, remember to use "2" and "nul" on
++  Windows instead. Also IO redirection does not work on Windows, so avoid
++  using "2>nul" whenever necessary.
++* If your test cases uses the blkdebug feature, use relative path to pass
++  the config and image file paths in the command line as Windows absolute
++  path contains the delimeter ":" which will confuse the blkdebug parser.
++* Use double quotes in your extra QEMU commmand line in your test cases
++  instead of single quotes, as Windows does not drop single quotes when
++  passing the command line to QEMU.
++* Windows opens a file in text mode by default, while a POSIX compliant
++  implementation treats text files and binary files the same. So if your
++  test cases opens a file to write some data and later wants to compare the
++  written data with the original one, be sure to pass the letter 'b' as
++  part of the mode string to fopen(), or O_BINARY flag for the open() call.
++* If a certain test case can only run on POSIX or Linux hosts, use a proper
++  #ifdef in the codes. If the whole test suite cannot run on Windows, disable
++  the build in the meson.build file.
++
+ QEMU iotests
+ ------------
  
 -- 
 2.34.1
