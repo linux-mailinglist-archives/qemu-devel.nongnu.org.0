@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B19875BEEEB
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:04:07 +0200 (CEST)
-Received: from localhost ([::1]:52536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E455BEF09
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:16:55 +0200 (CEST)
+Received: from localhost ([::1]:52342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oakPW-0003gt-CV
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:04:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46460)
+	id 1oakbu-0004xy-8r
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:16:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <davydov-max@yandex-team.ru>)
- id 1oafkT-0005iC-Gm
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:05:31 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:42014)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <davydov-max@yandex-team.ru>)
- id 1oafkP-0005iW-2N
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:05:23 -0400
-Received: from vla1-f615dbed14ca.qloud-c.yandex.net
- (vla1-f615dbed14ca.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:3183:0:640:f615:dbed])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 2C2132E1470;
- Tue, 20 Sep 2022 19:05:14 +0300 (MSK)
-Received: from 2a02:6b8:c1f:6255:0:640:95c3:0 (2a02:6b8:c1f:6255:0:640:95c3:0
- [2a02:6b8:c1f:6255:0:640:95c3:0])
- by vla1-f615dbed14ca.qloud-c.yandex.net (mxbackcorp/Yandex) with HTTP id
- t4kKK31J1Os1-5EJaKZ40; Tue, 20 Sep 2022 19:05:14 +0300
-X-Yandex-Fwd: 2
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1663689914; bh=jSYsxRJyGJKXVzCAdQoiFgQIz8eg9G/O6BWNsUNlTGw=;
- h=Cc:Subject:In-Reply-To:Date:References:To:From:Message-Id;
- b=weWGLxGdqpVsyzUYvEQ18C+RYkHjCltlFgQO4VQn8CHITguvbJ7/t+b8C/TxccjTd
- BsKUiRiyqrWmnVCT0mAwgzRMkVXPoskXYQFbGKcBI+gNwPJ4Qz5Xb7XwYHr3RczkK/
- 3zz/Eg7yGPzuhZKckJfutCatqRBrEoWXYespA4Po=
-Authentication-Results: vla1-f615dbed14ca.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from 25wc44h4wzm3vfpi.iva.yp-c.yandex.net
- (25wc44h4wzm3vfpi.iva.yp-c.yandex.net [2a02:6b8:c0c:3ad:0:640:89df:0])
- by iva5-51baefb7689f.qloud-c.yandex.net (mxbackcorp/Yandex) with HTTP id
- k2kaIZ1KbqM1-acadAL2X
- for <davydov-max@yandex-team.ru>; Tue, 20 Sep 2022 19:05:04 +0300
-Received: by 25wc44h4wzm3vfpi.iva.yp-c.yandex.net with HTTP;
- Tue, 20 Sep 2022 19:05:04 +0300
-From: Maksim Davydov <davydov-max@yandex-team.ru>
-To: =?utf-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>
-In-Reply-To: <CAJ+F1CKj5zELJ=HHOde4FMk_q9P3-o4qD+0J0iO-LaSKJZievw@mail.gmail.com>
-References: <20220825165247.33704-1-davydov-max@yandex-team.ru>
- <CAJ+F1CKj5zELJ=HHOde4FMk_q9P3-o4qD+0J0iO-LaSKJZievw@mail.gmail.com>
-Subject: Re: [PATCH] chardev: fix segfault in finalize
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oaflL-000638-Pt
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:06:30 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:45928)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oaflJ-00061v-A5
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:06:19 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id dv25so7229260ejb.12
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 09:06:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=9ojjqBxQHKKGvGj+ykyDON44Vw63oMk4X8s8tx2/iDc=;
+ b=QRfvI5TOb8F5I0RlZA+Nfg56Kl1/FOWUpxLRKtiAfPeIuI66qKrfdCqJ0CNlByDNVG
+ iKcNYrvUEJBPQ7Rh1EVLJUWsME170iA7M0QVRChAdMQQdWOr7Pym9tXj+9ZbtZGN8EKm
+ 2hiXzLJk2UnMBHngw5umySYpskQ9djEvFAw3w53bfDafc8s1KXsTIDLFEAo2mkW8iZYB
+ 6fvVZGXTGjuxYG0cK1EHQYHQAW5JTa2zcRoEpgRxoUl7HT3X8MdNiStooGgIzAGxoJx7
+ 9oPMDmNbvUo7TAljURaafs5/FxmB6iPgyYNyztEiziw+GJulUBvKfmJ6qhGFFiMQ80cd
+ rXwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=9ojjqBxQHKKGvGj+ykyDON44Vw63oMk4X8s8tx2/iDc=;
+ b=6ZGUv/b/21sFGMmMvLrkFeKvZeSswbunfua0yBjNAv+T8HXiiUyUAmNW2Hrssj/6de
+ HUR6Kuy0iy/PRZHZZSqFb1I08z5DnpetK7cVSTSpMUtnNUHpDeFxjHJhg1JdEtYnd6rN
+ /E2eAJVgndz+S7mP6F7Fu5uJwTAxZKowjbs9SCJoF/3oyoq5lVbmBzFyjCkpQWLLQgrJ
+ 3ersVlmoRknip1mWYi2kfC/xnJUr+rTRLcQixFXiKabQDlf3RKW3/EeWNCmxd4yABVw6
+ 6kce12OFVWtSauyUFhK97xdSD556s+u1KYrokBxE+SGlK4pxxG3Ip8Z8M7SYgWIB/MgW
+ WF2g==
+X-Gm-Message-State: ACrzQf1/ZqyenzrQZvGh0ZKWLAPfpM5SgblkNSbdCxmvyjfCTofR6c+F
+ /z9XrSw7zVFQBbhlAq4ibbVlpRoGMoqkWyDEb1/D+HcJl1k=
+X-Google-Smtp-Source: AMsMyM5475y33XXEt176hbIBtChyx5PFGKX9Bg7AmfUSs9rIhblqkQdVLrGn3LRSRI1KEl/O/ojyqCDSvleBDIM2ZR8=
+X-Received: by 2002:a17:906:9c83:b0:779:c14c:55e4 with SMTP id
+ fj3-20020a1709069c8300b00779c14c55e4mr17017183ejc.619.1663689970448; Tue, 20
+ Sep 2022 09:06:10 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailer: Yamail [ http://yandex.ru ] 5.0
-Date: Tue, 20 Sep 2022 19:05:14 +0300
-Message-Id: <155421663689437@mail.yandex-team.ru>
-Content-Transfer-Encoding: base64
-Content-Type: text/html; charset=utf-8
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=davydov-max@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- HTML_MIME_NO_HTML_TAG=0.377, MIME_HTML_ONLY=0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20220822152741.1617527-1-richard.henderson@linaro.org>
+ <20220822152741.1617527-33-richard.henderson@linaro.org>
+In-Reply-To: <20220822152741.1617527-33-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 20 Sep 2022 17:05:58 +0100
+Message-ID: <CAFEAcA8m-PC4L0hXH7rqAUsU5DokPVhxKwx3=LB+_K=G6p3PPQ@mail.gmail.com>
+Subject: Re: [PATCH v2 32/66] target/arm: Remove env argument from
+ combined_attrs_fwb
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,54 +84,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PGRpdj5IaSE8YnIgLz5Db3VsZCB5b3Ugc2VuZCBhIHB1bGwgcmVxdWVzdD88L2Rpdj48ZGl2PsKg
-PC9kaXY+PGRpdj4yNi4wOC4yMDIyLCAxMToyMSwgIk1hcmMtQW5kcsOpIEx1cmVhdSIgJmx0O21h
-cmNhbmRyZS5sdXJlYXVAZ21haWwuY29tJmd0Ozo8L2Rpdj48YmxvY2txdW90ZT48ZGl2PkhpPGRp
-dj7CoDwvZGl2PsKgPGRpdj48ZGl2Pk9uIFRodSwgQXVnIDI1LCAyMDIyIGF0IDk6MDIgUE0gTWFr
-c2ltIERhdnlkb3YgJmx0OzxhIGhyZWY9Im1haWx0bzpkYXZ5ZG92LW1heEB5YW5kZXgtdGVhbS5y
-dSIgcmVsPSJub29wZW5lciBub3JlZmVycmVyIj5kYXZ5ZG92LW1heEB5YW5kZXgtdGVhbS5ydTwv
-YT4mZ3Q7IHdyb3RlOjwvZGl2PjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXItbGVmdC1jb2xvcjpy
-Z2IoIDIwNCAsIDIwNCAsIDIwNCApO2JvcmRlci1sZWZ0LXN0eWxlOnNvbGlkO2JvcmRlci1sZWZ0
-LXdpZHRoOjFweDttYXJnaW46MHB4IDBweCAwcHggMC44ZXg7cGFkZGluZy1sZWZ0OjFleCI+SWYg
-ZmluYWxpemUgY2hhcmRldi1tc21vdXNlIG9yIGNoYXJkZXYtd2N0YWJsZSBpcyBjYWxsZWQgaW1t
-ZWRpYXRlbHkgYWZ0ZXI8YnIgLz5pbml0IGl0IGNhc2VzIFFFTVUgdG8gY3Jhc2ggd2l0aCBzZWdm
-YXVsdC4gVGhpcyBoYXBwZW5zIGJlY2F1c2Ugb2Y8YnIgLz5RVEFJTFFfUkVNT1ZFIGluIHFlbXVf
-aW5wdXRfaGFuZGxlcl91bnJlZ2lzdGVyIHRyaWVzIHRvIGRlcmVmZXJlbmNlPGJyIC8+TlVMTCBw
-b2ludGVyLjxiciAvPkZvciBpbnN0YW5jZSwgdGhpcyBlcnJvciBjYW4gYmUgcmVwcm9kdWNlZCB2
-aWEgYHFvbS1saXN0LXByb3BlcnRpZXNgPGJyIC8+Y29tbWFuZC48YnIgLz48YnIgLz5TaWduZWQt
-b2ZmLWJ5OiBNYWtzaW0gRGF2eWRvdiAmbHQ7PGEgaHJlZj0ibWFpbHRvOmRhdnlkb3YtbWF4QHlh
-bmRleC10ZWFtLnJ1IiByZWw9Im5vb3BlbmVyIG5vcmVmZXJyZXIiIHRhcmdldD0iX2JsYW5rIj5k
-YXZ5ZG92LW1heEB5YW5kZXgtdGVhbS5ydTwvYT4mZ3Q7PC9ibG9ja3F1b3RlPjxkaXY+wqA8L2Rp
-dj48ZGl2PlJldmlld2VkLWJ5OiBNYXJjLUFuZHLDqSBMdXJlYXUgJmx0OzxhIGhyZWY9Im1haWx0
-bzptYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20iIHJlbD0ibm9vcGVuZXIgbm9yZWZlcnJlciI+
-bWFyY2FuZHJlLmx1cmVhdUByZWRoYXQuY29tPC9hPiZndDs8L2Rpdj48ZGl2PsKgPC9kaXY+PGJs
-b2NrcXVvdGUgc3R5bGU9ImJvcmRlci1sZWZ0LWNvbG9yOnJnYiggMjA0ICwgMjA0ICwgMjA0ICk7
-Ym9yZGVyLWxlZnQtc3R5bGU6c29saWQ7Ym9yZGVyLWxlZnQtd2lkdGg6MXB4O21hcmdpbjowcHgg
-MHB4IDBweCAwLjhleDtwYWRkaW5nLWxlZnQ6MWV4Ij4tLS08YnIgLz7CoGNoYXJkZXYvbXNtb3Vz
-ZS5jwqAgfCA0ICsrKy08YnIgLz7CoGNoYXJkZXYvd2N0YWJsZXQuYyB8IDQgKysrLTxiciAvPsKg
-MiBmaWxlcyBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pPGJyIC8+PGJy
-IC8+ZGlmZiAtLWdpdCBhL2NoYXJkZXYvbXNtb3VzZS5jIGIvY2hhcmRldi9tc21vdXNlLmM8YnIg
-Lz5pbmRleCBlYjkyMzFkY2RiLi4yY2MxYjE2NTYxIDEwMDY0NDxiciAvPi0tLSBhL2NoYXJkZXYv
-bXNtb3VzZS5jPGJyIC8+KysrIGIvY2hhcmRldi9tc21vdXNlLmM8YnIgLz5AQCAtMTQ2LDcgKzE0
-Niw5IEBAIHN0YXRpYyB2b2lkIGNoYXJfbXNtb3VzZV9maW5hbGl6ZShPYmplY3QgKm9iaik8YnIg
-Lz7CoHs8IS0tIC0tPjxiciAvPsKgIMKgIMKgTW91c2VDaGFyZGV2ICptb3VzZSA9IE1PVVNFX0NI
-QVJERVYob2JqKTs8YnIgLz48YnIgLz4twqAgwqAgcWVtdV9pbnB1dF9oYW5kbGVyX3VucmVnaXN0
-ZXIobW91c2UtJmd0O2hzKTs8YnIgLz4rwqAgwqAgaWYgKG1vdXNlLSZndDtocykgezwhLS0gLS0+
-PGJyIC8+K8KgIMKgIMKgIMKgIHFlbXVfaW5wdXRfaGFuZGxlcl91bnJlZ2lzdGVyKG1vdXNlLSZn
-dDtocyk7PGJyIC8+K8KgIMKgIH08YnIgLz7CoH08YnIgLz48YnIgLz7CoHN0YXRpYyBRZW11SW5w
-dXRIYW5kbGVyIG1zbW91c2VfaGFuZGxlciA9IHs8IS0tIC0tPjxiciAvPmRpZmYgLS1naXQgYS9j
-aGFyZGV2L3djdGFibGV0LmMgYi9jaGFyZGV2L3djdGFibGV0LmM8YnIgLz5pbmRleCBlOGIyOTJj
-NDNjLi40M2JkZjZiNjA4IDEwMDY0NDxiciAvPi0tLSBhL2NoYXJkZXYvd2N0YWJsZXQuYzxiciAv
-PisrKyBiL2NoYXJkZXYvd2N0YWJsZXQuYzxiciAvPkBAIC0zMTksNyArMzE5LDkgQEAgc3RhdGlj
-IHZvaWQgd2N0YWJsZXRfY2hyX2ZpbmFsaXplKE9iamVjdCAqb2JqKTxiciAvPsKgezwhLS0gLS0+
-PGJyIC8+wqAgwqAgwqBUYWJsZXRDaGFyZGV2ICp0YWJsZXQgPSBXQ1RBQkxFVF9DSEFSREVWKG9i
-aik7PGJyIC8+PGJyIC8+LcKgIMKgIHFlbXVfaW5wdXRfaGFuZGxlcl91bnJlZ2lzdGVyKHRhYmxl
-dC0mZ3Q7aHMpOzxiciAvPivCoCDCoCBpZiAodGFibGV0LSZndDtocykgezwhLS0gLS0+PGJyIC8+
-K8KgIMKgIMKgIMKgIHFlbXVfaW5wdXRfaGFuZGxlcl91bnJlZ2lzdGVyKHRhYmxldC0mZ3Q7aHMp
-OzxiciAvPivCoCDCoCB9PGJyIC8+wqB9PGJyIC8+PGJyIC8+wqBzdGF0aWMgdm9pZCB3Y3RhYmxl
-dF9jaHJfb3BlbihDaGFyZGV2ICpjaHIsPGJyIC8+LS08YnIgLz4yLjI1LjE8YnIgLz48YnIgLz7C
-oDwvYmxvY2txdW90ZT48L2Rpdj48YnIgLz48YnIgLz4tLTxkaXY+TWFyYy1BbmRyw6kgTHVyZWF1
-PC9kaXY+PC9kaXY+PC9ibG9ja3F1b3RlPjxkaXY+wqA8L2Rpdj48ZGl2PsKgPC9kaXY+PGRpdj4t
-LcKgPC9kaXY+PGRpdj5CZXN0IHJlZ2FyZHMsPC9kaXY+PGRpdj5NYWtzaW0gRGF2eWRvdjwvZGl2
-PjxkaXY+wqA8L2Rpdj4=
+On Mon, 22 Aug 2022 at 17:41, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This value is unused.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/ptw.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+> index 680139b478..5c6e5eea88 100644
+> --- a/target/arm/ptw.c
+> +++ b/target/arm/ptw.c
+> @@ -2171,8 +2171,7 @@ static uint8_t force_cacheattr_nibble_wb(uint8_t attr)
+>   * s1 and s2 for the HCR_EL2.FWB == 1 case, returning the
+>   * combined attributes in MAIR_EL1 format.
+>   */
+> -static uint8_t combined_attrs_fwb(CPUARMState *env,
+> -                                  ARMCacheAttrs s1, ARMCacheAttrs s2)
+> +static uint8_t combined_attrs_fwb(ARMCacheAttrs s1, ARMCacheAttrs s2)
+>  {
+>      switch (s2.attrs) {
+>      case 7:
+> @@ -2245,7 +2244,7 @@ static ARMCacheAttrs combine_cacheattrs(CPUARMState *env,
+>
+>      /* Combine memory type and cacheability attributes */
+>      if (arm_hcr_el2_eff(env) & HCR_FWB) {
+> -        ret.attrs = combined_attrs_fwb(env, s1, s2);
+> +        ret.attrs = combined_attrs_fwb(s1, s2);
+>      } else {
+>          ret.attrs = combined_attrs_nofwb(env, s1, s2);
+>      }
+
+There's nothing in the git log, but I'm fairly sure I put the 'env'
+argument into this function to make it parallel with the
+combined_attrs_nofwb() one.
+
+If you really want to get rid of it,
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
+
+-- PMM
 
