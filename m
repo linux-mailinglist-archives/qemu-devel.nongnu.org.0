@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C6B5BF1AC
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 02:03:58 +0200 (CEST)
-Received: from localhost ([::1]:45896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 251D15BF1B7
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 02:08:10 +0200 (CEST)
+Received: from localhost ([::1]:34276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oanDZ-0000Mx-Lh
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 20:03:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53882)
+	id 1oanHd-00067l-9a
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 20:08:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oalsq-0007NN-9j
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oalsq-0007NG-9W
  for qemu-devel@nongnu.org; Tue, 20 Sep 2022 18:38:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24833)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oalsW-00083F-Bn
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oalsX-00083N-9V
  for qemu-devel@nongnu.org; Tue, 20 Sep 2022 18:38:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663713486;
+ s=mimecast20190719; t=1663713487;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4d6wNdJVnWaHfunZXTn5EfI6vsKLdU6f2hPjDDIoWd0=;
- b=faJ3ZTdl5t0z+Zb+UdMF8L+msdXfb5CkOOqOnl5VI3KccwSv1mZ2shoc5r7n3iAc1cH47O
- LaiWpHswOGNZDlp7JUI5ZR3APxOug30DIqGoZ2qsD8RmS6i/qNrLfQPc49Dff8TbZjthmq
- ghhaU+gPH62vMk9y08uPPLxXDLtLXDE=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0XVf+orfGCsPIiWN3l0aR530llnvOFKGwsBNJGUsUSI=;
+ b=bJtkPYAESGXqlVjsFh3AWrX33swsITEark32m3zv4gLZaO69j+Zm/5GxemKtdby1aNbxcF
+ GPO6ynx5F9wVWlRAgC0CGDCPUJgSGPMkd1uvBqHzO7nnq6mGed0ft9ziXy2LT4HSj24zGf
+ WAcKIvYar7iZN3bLyUcgGnAvuMS/UYQ=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-76-Zj1UQ1TaOxu4-h_cviH2Vw-1; Tue, 20 Sep 2022 18:38:05 -0400
-X-MC-Unique: Zj1UQ1TaOxu4-h_cviH2Vw-1
-Received: by mail-qk1-f200.google.com with SMTP id
- k2-20020a05620a414200b006ceec443c8bso3088497qko.14
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 15:38:05 -0700 (PDT)
+ us-mta-548-mkFGLCNkPc6eO6Pg82KBYA-1; Tue, 20 Sep 2022 18:38:06 -0400
+X-MC-Unique: mkFGLCNkPc6eO6Pg82KBYA-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ g4-20020ad45424000000b004a9bb302c85so3034406qvt.22
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 15:38:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=4d6wNdJVnWaHfunZXTn5EfI6vsKLdU6f2hPjDDIoWd0=;
- b=QpCyt22FM+8mYGM1robw+jHirIpE6lossn2gVROQhgHXzjsaGaOUQ6TXHPw59GckiL
- uaxNwrydiSMHnJjO6jZ11oNKqP/kumU6Aa6rLWpAqqfwOLr2wqZQ5WTem4Sq97EbZ6Q3
- BoGJRasO+mfn9VkPoqyJZwCjYiGflnoJI/9TGAzf5ZTa/dTdxbwt4ockGBxnJhJjCGOF
- BGfBgv9/D3b5Y/5IZwh233T1QW7N0VpX0KJrFsZnyNzVRhOYb2Yz9/iZAcjhEyL2lx7M
- 8j8bflBCsrdJQTQMfFk2TWjE8ExmDQ1ruCRMXzaGEhGedR4KBaALg81OEokRDXINAHu0
- A17Q==
-X-Gm-Message-State: ACrzQf2II1g75oKvWc6xrljqghZZt8YuY7SIMkxsee3fHqokA/g4dFdC
- fJyafw3owIa8wjxQmpnfK0kt8WEOke/LUuM+wED3lQOC7HciBiOxMgBcWLT/2Txq09/VdFHb9Gw
- txG4VPmepIgZnEWlqpSeGvQhRzS8PbgKuwS285jgttF3J6iZTfMO6tAohNUGjpGri
-X-Received: by 2002:a05:620a:998:b0:6ce:6069:c713 with SMTP id
- x24-20020a05620a099800b006ce6069c713mr18450220qkx.181.1663713484840; 
- Tue, 20 Sep 2022 15:38:04 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5QkQ8sjWqg9fUDYjfjNGxQ32orDz0f8uEicE/gMXokI/sr2525d/YshZmRh/Db9W1Fweik/g==
-X-Received: by 2002:a05:620a:998:b0:6ce:6069:c713 with SMTP id
- x24-20020a05620a099800b006ce6069c713mr18450201qkx.181.1663713484564; 
- Tue, 20 Sep 2022 15:38:04 -0700 (PDT)
+ bh=0XVf+orfGCsPIiWN3l0aR530llnvOFKGwsBNJGUsUSI=;
+ b=soxpbwsH155PoyDev5cD1Xil2hDFVTNhVfwwSOzLFt1W0jPMdO4JkXnyDA3EctwzW8
+ wFThAIJlgfpMKRASj2hUfvRd/wTrbeuKMcbo6hZM2ysE8hnXZVnOPCOYnZoP5Uz+07zE
+ +n8QgnNCwWOfIRKukE5UmZR0IfwfZlxKAUWhNG4EpUo2tCup0/3+SOIDUfV9DPchubxV
+ Uj8d1/clqMwtglbIMny0w5JggVoo9iJzQxL301dLoVQVOjY91Y2G2xFo9kzgE/ja1lmV
+ szUOPsERowlcyKyMKiupSfJ/4WfY37ppooh3BdHcrm9FFIXL5LLNx+jeteLw46q+wxEg
+ N+rQ==
+X-Gm-Message-State: ACrzQf3drZe+a4q7rIuFTGpCifnZMXsgewAC+1WKVkCQyYybyjiR2qTj
+ 8i3yugeyPjnrgPZoRVbMFoQppg3mbX164S08V87QDWzB2JQRoKzmgR0N9A1kYJHlGnXU3clHD+B
+ 3ns6wQrf0DjyCXV7NmgpjVzYacsOQvsOtwugd7jKVziiieL8JcGA2WFB5ojju72wq
+X-Received: by 2002:a05:6214:2528:b0:4ad:6fa4:4170 with SMTP id
+ gg8-20020a056214252800b004ad6fa44170mr231182qvb.113.1663713485943; 
+ Tue, 20 Sep 2022 15:38:05 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7S5uDSbODjLRlC56UDvQ+11TjV2SXEk0XrBH7zFpVkrcntQtGcRYToGgJouXj0XadmWpEugg==
+X-Received: by 2002:a05:6214:2528:b0:4ad:6fa4:4170 with SMTP id
+ gg8-20020a056214252800b004ad6fa44170mr231167qvb.113.1663713485685; 
+ Tue, 20 Sep 2022 15:38:05 -0700 (PDT)
 Received: from localhost.localdomain
  (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca. [70.31.27.79])
  by smtp.gmail.com with ESMTPSA id
- de4-20020a05620a370400b006bbb07ebd83sm697499qkb.108.2022.09.20.15.38.03
+ de4-20020a05620a370400b006bbb07ebd83sm697499qkb.108.2022.09.20.15.38.04
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 20 Sep 2022 15:38:04 -0700 (PDT)
+ Tue, 20 Sep 2022 15:38:05 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  "Daniel P . Berrange" <berrange@redhat.com>,
  Leonardo Bras Soares Passos <lsoaresp@redhat.com>, peterx@redhat.com,
  Juan Quintela <quintela@redhat.com>
-Subject: [PATCH 2/5] migration: Fix race on qemu_file_shutdown()
-Date: Tue, 20 Sep 2022 18:37:57 -0400
-Message-Id: <20220920223800.47467-3-peterx@redhat.com>
+Subject: [PATCH 3/5] migration: Disallow xbzrle with postcopy
+Date: Tue, 20 Sep 2022 18:37:58 -0400
+Message-Id: <20220920223800.47467-4-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220920223800.47467-1-peterx@redhat.com>
 References: <20220920223800.47467-1-peterx@redhat.com>
@@ -101,88 +101,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In qemu_file_shutdown(), there's a possible race if with current order of
-operation.  There're two major things to do:
+It's not supported since the 1st day, as ram_load_postcopy does not handle
+RAM_SAVE_FLAG_XBZRLE.  Mark it disabled explicitly.
 
-  (1) Do real shutdown() (e.g. shutdown() syscall on socket)
-  (2) Update qemufile's last_error
-
-We must do (2) before (1) otherwise there can be a race condition like:
-
-      page receiver                     other thread
-      -------------                     ------------
-      qemu_get_buffer()
-                                        do shutdown()
-        returns 0 (buffer all zero)
-        (meanwhile we didn't check this retcode)
-      try to detect IO error
-        last_error==NULL, IO okay
-      install ALL-ZERO page
-                                        set last_error
-      --> guest crash!
-
-To fix this, we can also check retval of qemu_get_buffer(), but not all
-APIs can be properly checked and ultimately we still need to go back to
-qemu_file_get_error().  E.g. qemu_get_byte() doesn't return error.
-
-Maybe some day a rework of qemufile API is really needed, but for now keep
-using qemu_file_get_error() and fix it by not allowing that race condition
-to happen.  Here shutdown() is indeed special because the last_error was
-emulated.  For real -EIO errors it'll always be set when e.g. sendmsg()
-error triggers so we won't miss those ones, only shutdown() is a bit tricky
-here.
-
-Cc: Daniel P. Berrange <berrange@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/qemu-file.c | 27 ++++++++++++++++++++++++---
- 1 file changed, 24 insertions(+), 3 deletions(-)
+ migration/migration.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index 4f400c2e52..2d5f74ffc2 100644
---- a/migration/qemu-file.c
-+++ b/migration/qemu-file.c
-@@ -79,6 +79,30 @@ int qemu_file_shutdown(QEMUFile *f)
-     int ret = 0;
- 
-     f->shutdown = true;
+diff --git a/migration/migration.c b/migration/migration.c
+index bb8bbddfe4..fb4066dfb4 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1268,6 +1268,11 @@ static bool migrate_caps_check(bool *cap_list,
+             error_setg(errp, "Postcopy is not compatible with ignore-shared");
+             return false;
+         }
 +
-+    /*
-+     * We must set qemufile error before the real shutdown(), otherwise
-+     * there can be a race window where we thought IO all went though
-+     * (because last_error==NULL) but actually IO has already stopped.
-+     *
-+     * If without correct ordering, the race can happen like this:
-+     *
-+     *      page receiver                     other thread
-+     *      -------------                     ------------
-+     *      qemu_get_buffer()
-+     *                                        do shutdown()
-+     *        returns 0 (buffer all zero)
-+     *        (we didn't check this retcode)
-+     *      try to detect IO error
-+     *        last_error==NULL, IO okay
-+     *      install ALL-ZERO page
-+     *                                        set last_error
-+     *      --> guest crash!
-+     */
-+    if (!f->last_error) {
-+        qemu_file_set_error(f, -EIO);
-+    }
-+
-     if (!qio_channel_has_feature(f->ioc,
-                                  QIO_CHANNEL_FEATURE_SHUTDOWN)) {
-         return -ENOSYS;
-@@ -88,9 +112,6 @@ int qemu_file_shutdown(QEMUFile *f)
-         ret = -EIO;
++        if (cap_list[MIGRATION_CAPABILITY_XBZRLE]) {
++            error_setg(errp, "Postcopy is not compatible with xbzrle");
++            return false;
++        }
      }
  
--    if (!f->last_error) {
--        qemu_file_set_error(f, -EIO);
--    }
-     return ret;
- }
- 
+     if (cap_list[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT]) {
 -- 
 2.32.0
 
