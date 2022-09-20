@@ -2,136 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D1275BDCB9
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 07:56:48 +0200 (CEST)
-Received: from localhost ([::1]:50314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A53A45BDCDF
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 08:04:38 +0200 (CEST)
+Received: from localhost ([::1]:35244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaWFT-0002DI-7M
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 01:56:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49076)
+	id 1oaWN3-0004Pu-G6
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 02:04:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oaVvg-0003Th-4e; Tue, 20 Sep 2022 01:36:24 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:44617)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oaVvd-0006xb-PY; Tue, 20 Sep 2022 01:36:19 -0400
-Received: by mail-wr1-x430.google.com with SMTP id c11so2374925wrp.11;
- Mon, 19 Sep 2022 22:36:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date;
- bh=IZ5Zv4/7hTO/6wXmRF3z+PXEnTdcge7XTl0lYv1HpKI=;
- b=b0lsnmuCPz8cDwBFaPfL1ExlL6hZoGBvsAo90EdbWfbIty8yoFPD3+pM+wCc6r61jh
- 02HNF8QWjamjJ/5XkxHcwZWxllIZeCL3Ej0ajT59Sui+41jMg10A8+RqC1gMCPSMNtsr
- Ynq/WHREdM5adnH2c34ZUcVa02IKeDn0yv7w2JXYtOXYSOzmC9i4UAlhnWs8IdBRdaKj
- +EoC2mIXhoHnXN/nP7wSPWSC/fSlPbfxoLGWA4NiqceL28aaTcdr66NmRjIBw+kyTQ0O
- 3ODJqwU5La/Ozm1eqms4cfz6/VM9dp4JBRM4j1m070bia2cnFcYGHu8fJFoQ3iRtxQbn
- S8QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=IZ5Zv4/7hTO/6wXmRF3z+PXEnTdcge7XTl0lYv1HpKI=;
- b=Bosc7haT4piJNm/z8H8RV0IOuLSPyDWybk2VKhUMCYhdGw9Lo5YLTcl1FaVEb0G53N
- 9f6WBJ0NiVqQkZPAAKW+fSTEe5/1x+ItXvW3+hG2mfNGSH79+SPS1fVt7UQoOQWqYErK
- Zcp9WFY+WOKgBvZnO9Dn3pEYILZqhY6U243qAXokFHihRP2NEHsB3Lnp+RgfF3F+Tjb5
- UQigWqKZFCyGnbGYDzsx07V1joc8bAeZcrk1X8uHMwcF6uY8fUnkSIALRseHWpkqFFPP
- 5G2Q/XvysshsOz2Torkx/yJMeoNW++kWNe5xrvvViFSpUZQzkT7dLus9y7QGlcgOmEMz
- rMQQ==
-X-Gm-Message-State: ACrzQf36rmkZbGPJumd/O+hqIvrbct55z7IAdtr6DuWIImU0goJ8+tMv
- kCEI/ZiVBLjvZW2GhzXlThA=
-X-Google-Smtp-Source: AMsMyM41BnChgmCmf9YfgCAJVBq1U7Xim3pjrtlZIlh9K+YaFBQ0IHYFPx6NutQTrNaAkhNW/vMGlg==
-X-Received: by 2002:a5d:69ca:0:b0:228:dd17:9534 with SMTP id
- s10-20020a5d69ca000000b00228dd179534mr13398301wrw.652.1663652172930; 
- Mon, 19 Sep 2022 22:36:12 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- u16-20020a05600c035000b003b492753826sm804412wmd.43.2022.09.19.22.36.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Sep 2022 22:36:12 -0700 (PDT)
-Message-ID: <38bd4756-dacd-9862-3999-60d609d52f46@amsat.org>
-Date: Tue, 20 Sep 2022 07:36:07 +0200
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1oaWEH-0001pc-1h
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 01:55:34 -0400
+Received: from mga14.intel.com ([192.55.52.115]:44828)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1oaWED-000193-HN
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 01:55:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663653329; x=1695189329;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=qaEROYkSbhs411ung5omsSnSX2XCDA9QShO+4kNaN6k=;
+ b=eXgG4rCItu2Q0rYfxmUUhcKhx7wUY8JG1iOJmjpP+aSzAZhDpA0sgm3G
+ UdIaC8AsA/UDS6mmwSyh1jt5OEalnKqOTFuIDwQcyJFCm0bsuRX/L5nk5
+ TTE/0dqdJoJ/Av2IstWQmK1fvTKs3YDgYdqwuCIRIC4ef+jOPuIAy+Mvr
+ fyzow7vQqAZqNy3I1FsM6/7uOoqp7G0AAGQnll6QAC73l00tfep1SsObd
+ z84xBeU8hUuYXlwo0CNPKzWQhStFxfpgTvrMyhmUEiUUOJiLqpEbhdzKj
+ siDSxcSAPeZRSmAIrBhwC3n5JLedK/XMhvrwxteb5fiqzGp1BKnTmIzZO w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="299594947"
+X-IronPort-AV: E=Sophos;i="5.93,329,1654585200"; d="scan'208";a="299594947"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2022 22:55:24 -0700
+X-IronPort-AV: E=Sophos;i="5.93,329,1654585200"; d="scan'208";a="707846453"
+Received: from cqiang-mobl.ccr.corp.intel.com (HELO [10.238.0.135])
+ ([10.238.0.135])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Sep 2022 22:55:22 -0700
+Message-ID: <ee855874-bb8b-3f43-cffe-425700b26918@intel.com>
+Date: Tue, 20 Sep 2022 13:55:20 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH 5/9] exec/address-spaces: Wrap address space singletons
- into functions
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.2.2
+Subject: Re: [PATCH v6 2/2] i386: Add notify VM exit support
+To: Peter Xu <peterx@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti
+ <mtosatti@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Xiaoyao Li <xiaoyao.li@intel.com>,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org
+References: <20220915092839.5518-1-chenyi.qiang@intel.com>
+ <20220915092839.5518-3-chenyi.qiang@intel.com> <YyTxL7kstA20tB5a@xz-m1.local>
+ <5beb9f1c-a419-94f7-a1b9-4aeb281baa41@intel.com>
+ <YyiQeD9QmJ9/eS9F@xz-m1.local>
 Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Magnus Damm
- <magnus.damm@gmail.com>, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Bandan Das <bsd@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Sergio Lopez <slp@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>, Cameron Esfahani
- <dirty@apple.com>, Michael Rolnik <mrolnik@gmail.com>,
- Song Gao <gaosong@loongson.cn>, Jagannathan Raman <jag.raman@oracle.com>,
- Greg Kurz <groug@kaod.org>, Kamil Rytarowski <kamil@netbsd.org>,
- Peter Xu <peterx@redhat.com>, Joel Stanley <joel@jms.id.au>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, haxm-team@intel.com,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Markus Armbruster <armbru@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- qemu-ppc@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Helge Deller <deller@gmx.de>,
- Stefano Stabellini <sstabellini@kernel.org>, qemu-riscv@nongnu.org,
- Stafford Horne <shorne@gmail.com>, Paul Durrant <paul@xen.org>,
- Havard Skinnemoen <hskinnemoen@google.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Alexander Graf <agraf@csgraf.de>, Thomas Huth <thuth@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Wenchao Wang <wenchao.wang@intel.com>, Tony Krowiak
- <akrowiak@linux.ibm.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- qemu-s390x@nongnu.org, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Eric Farman <farman@linux.ibm.com>, Reinoud Zandijk <reinoud@netbsd.org>,
- Alexander Bulekov <alxndr@bu.edu>, Yanan Wang <wangyanan55@huawei.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Tyrone Ting <kfting@nuvoton.com>,
- xen-devel@lists.xenproject.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Darren Kenny <darren.kenny@oracle.com>, kvm@vger.kernel.org,
- Qiuhao Li <Qiuhao.Li@outlook.com>, John G Johnson
- <john.g.johnson@oracle.com>, Bin Meng <bin.meng@windriver.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Max Filippov
- <jcmvbkbc@gmail.com>, qemu-arm@nongnu.org,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Anthony Perard <anthony.perard@citrix.com>, Andrew Jeffery
- <andrew@aj.id.au>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Alistair Francis
- <alistair@alistair23.me>, Jason Herne <jjherne@linux.ibm.com>
-References: <20220919231720.163121-1-shentey@gmail.com>
- <20220919231720.163121-6-shentey@gmail.com>
-In-Reply-To: <20220919231720.163121-6-shentey@gmail.com>
+From: Chenyi Qiang <chenyi.qiang@intel.com>
+In-Reply-To: <YyiQeD9QmJ9/eS9F@xz-m1.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.952,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=192.55.52.115;
+ envelope-from=chenyi.qiang@intel.com; helo=mga14.intel.com
+X-Spam_score_int: -80
+X-Spam_score: -8.1
+X-Spam_bar: --------
+X-Spam_report: (-8.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.952, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -147,182 +84,283 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 20/9/22 01:17, Bernhard Beschow wrote:
-> In the next steps, these singletons will be resolved by turning them
-> into attributes of the system bus. The system bus is already accessible
-> via the global current_machine variable which will be made use of later
-> in the wrapper functions.
+
+
+On 9/19/2022 11:53 PM, Peter Xu wrote:
+> On Mon, Sep 19, 2022 at 01:46:38PM +0800, Chenyi Qiang wrote:
+>>
+>>
+>> On 9/17/2022 5:57 AM, Peter Xu wrote:
+>>> On Thu, Sep 15, 2022 at 05:28:39PM +0800, Chenyi Qiang wrote:
+>>>> There are cases that malicious virtual machine can cause CPU stuck (due
+>>>> to event windows don't open up), e.g., infinite loop in microcode when
+>>>> nested #AC (CVE-2015-5307). No event window means no event (NMI, SMI and
+>>>> IRQ) can be delivered. It leads the CPU to be unavailable to host or
+>>>> other VMs. Notify VM exit is introduced to mitigate such kind of
+>>>> attacks, which will generate a VM exit if no event window occurs in VM
+>>>> non-root mode for a specified amount of time (notify window).
+>>>>
+>>>> A new KVM capability KVM_CAP_X86_NOTIFY_VMEXIT is exposed to user space
+>>>> so that the user can query the capability and set the expected notify
+>>>> window when creating VMs. The format of the argument when enabling this
+>>>> capability is as follows:
+>>>>     Bit 63:32 - notify window specified in qemu command
+>>>>     Bit 31:0  - some flags (e.g. KVM_X86_NOTIFY_VMEXIT_ENABLED is set to
+>>>>                 enable the feature.)
+>>>>
+>>>> Because there are some concerns, e.g. a notify VM exit may happen with
+>>>> VM_CONTEXT_INVALID set in exit qualification (no cases are anticipated
+>>>> that would set this bit), which means VM context is corrupted. To avoid
+>>>> the false positive and a well-behaved guest gets killed, make this
+>>>> feature disabled by default. Users can enable the feature by a new
+>>>> machine property:
+>>>>       qemu -machine notify_vmexit=on,notify_window=0 ...
+>>>>
+>>>> Note that notify_window is only valid when notify_vmexit is on. The valid
+>>>> range of notify_window is non-negative. It is even safe to set it to zero
+>>>> since there's an internal hardware threshold to be added to ensure no false
+>>>> positive.
+>>>>
+>>>> A new KVM exit reason KVM_EXIT_NOTIFY is defined for notify VM exit. If
+>>>> it happens with VM_INVALID_CONTEXT, hypervisor exits to user space to
+>>>> inform the fatal case. Then user space can inject a SHUTDOWN event to
+>>>> the target vcpu. This is implemented by injecting a sythesized triple
+>>>> fault event.
+>>>>
+>>>> Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
+>>>> ---
+>>>>    hw/i386/x86.c         | 45 +++++++++++++++++++++++++++++++++++++++++++
+>>>>    include/hw/i386/x86.h |  5 +++++
+>>>>    qemu-options.hx       | 10 +++++++++-
+>>>>    target/i386/kvm/kvm.c | 28 +++++++++++++++++++++++++++
+>>>>    4 files changed, 87 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+>>>> index 050eedc0c8..1eccbd3deb 100644
+>>>> --- a/hw/i386/x86.c
+>>>> +++ b/hw/i386/x86.c
+>>>> @@ -1379,6 +1379,37 @@ static void machine_set_sgx_epc(Object *obj, Visitor *v, const char *name,
+>>>>        qapi_free_SgxEPCList(list);
+>>>>    }
+>>>> +static bool x86_machine_get_notify_vmexit(Object *obj, Error **errp)
+>>>> +{
+>>>> +    X86MachineState *x86ms = X86_MACHINE(obj);
+>>>> +
+>>>> +    return x86ms->notify_vmexit;
+>>>> +}
+>>>> +
+>>>> +static void x86_machine_set_notify_vmexit(Object *obj, bool value, Error **errp)
+>>>> +{
+>>>> +    X86MachineState *x86ms = X86_MACHINE(obj);
+>>>> +
+>>>> +    x86ms->notify_vmexit = value;
+>>>> +}
+>>>> +
+>>>> +static void x86_machine_get_notify_window(Object *obj, Visitor *v,
+>>>> +                                const char *name, void *opaque, Error **errp)
+>>>> +{
+>>>> +    X86MachineState *x86ms = X86_MACHINE(obj);
+>>>> +    uint32_t notify_window = x86ms->notify_window;
+>>>> +
+>>>> +    visit_type_uint32(v, name, &notify_window, errp);
+>>>> +}
+>>>> +
+>>>> +static void x86_machine_set_notify_window(Object *obj, Visitor *v,
+>>>> +                               const char *name, void *opaque, Error **errp)
+>>>> +{
+>>>> +    X86MachineState *x86ms = X86_MACHINE(obj);
+>>>> +
+>>>> +    visit_type_uint32(v, name, &x86ms->notify_window, errp);
+>>>> +}
+>>>> +
+>>>>    static void x86_machine_initfn(Object *obj)
+>>>>    {
+>>>>        X86MachineState *x86ms = X86_MACHINE(obj);
+>>>> @@ -1392,6 +1423,8 @@ static void x86_machine_initfn(Object *obj)
+>>>>        x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
+>>>>        x86ms->bus_lock_ratelimit = 0;
+>>>>        x86ms->above_4g_mem_start = 4 * GiB;
+>>>> +    x86ms->notify_vmexit = false;
+>>>> +    x86ms->notify_window = 0;
+>>>>    }
+>>>>    static void x86_machine_class_init(ObjectClass *oc, void *data)
+>>>> @@ -1461,6 +1494,18 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
+>>>>            NULL, NULL);
+>>>>        object_class_property_set_description(oc, "sgx-epc",
+>>>>            "SGX EPC device");
+>>>> +
+>>>> +    object_class_property_add(oc, X86_MACHINE_NOTIFY_WINDOW, "uint32_t",
+>>>> +                              x86_machine_get_notify_window,
+>>>> +                              x86_machine_set_notify_window, NULL, NULL);
+>>>> +    object_class_property_set_description(oc, X86_MACHINE_NOTIFY_WINDOW,
+>>>> +            "Set the notify window required by notify VM exit");
+>>>> +
+>>>> +    object_class_property_add_bool(oc, X86_MACHINE_NOTIFY_VMEXIT,
+>>>> +                                   x86_machine_get_notify_vmexit,
+>>>> +                                   x86_machine_set_notify_vmexit);
+>>>> +    object_class_property_set_description(oc, X86_MACHINE_NOTIFY_VMEXIT,
+>>>> +            "Enable notify VM exit");
+>>>>    }
+>>>>    static const TypeInfo x86_machine_info = {
+>>>> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+>>>> index 62fa5774f8..5707329fa7 100644
+>>>> --- a/include/hw/i386/x86.h
+>>>> +++ b/include/hw/i386/x86.h
+>>>> @@ -85,6 +85,9 @@ struct X86MachineState {
+>>>>         * which means no limitation on the guest's bus locks.
+>>>>         */
+>>>>        uint64_t bus_lock_ratelimit;
+>>>> +
+>>>> +    bool notify_vmexit;
+>>>> +    uint32_t notify_window;
+>>>>    };
+>>>>    #define X86_MACHINE_SMM              "smm"
+>>>> @@ -94,6 +97,8 @@ struct X86MachineState {
+>>>>    #define X86_MACHINE_OEM_ID           "x-oem-id"
+>>>>    #define X86_MACHINE_OEM_TABLE_ID     "x-oem-table-id"
+>>>>    #define X86_MACHINE_BUS_LOCK_RATELIMIT  "bus-lock-ratelimit"
+>>>> +#define X86_MACHINE_NOTIFY_VMEXIT     "notify-vmexit"
+>>>> +#define X86_MACHINE_NOTIFY_WINDOW     "notify-window"
+>>>>    #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
+>>>>    OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
+>>>> diff --git a/qemu-options.hx b/qemu-options.hx
+>>>> index 31c04f7eea..3cdeeac8f3 100644
+>>>> --- a/qemu-options.hx
+>>>> +++ b/qemu-options.hx
+>>>> @@ -37,7 +37,8 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+>>>>        "                memory-encryption=@var{} memory encryption object to use (default=none)\n"
+>>>>        "                hmat=on|off controls ACPI HMAT support (default=off)\n"
+>>>>        "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n"
+>>>> -    "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n",
+>>>> +    "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n"
+>>>> +    "                notify_vmexit=on|off,notify_window=n controls notify VM exit support (default=off) and specifies the notify window size (default=0)\n",
+>>>>        QEMU_ARCH_ALL)
+>>>>    SRST
+>>>>    ``-machine [type=]name[,prop=value[,...]]``
+>>>> @@ -157,6 +158,13 @@ SRST
+>>>>            ::
+>>>>                -machine cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=128G,cxl-fmw.0.interleave-granularity=512k
+>>>> +
+>>>> +    ``notify_vmexit=on|off,notify_window=n``
+>>>> +        Enables or disables Notify VM exit support on x86 host and specify
+>>>> +        the corresponding notify window to trigger the VM exit if enabled.
+>>>> +        This feature can mitigate the CPU stuck issue due to event windows
+>>>> +        don't open up for a specified of time (notify window).
+>>>> +        The default is off.
+>>>>    ERST
+>>>>    DEF("M", HAS_ARG, QEMU_OPTION_M,
+>>>> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+>>>> index 3838827134..ae7fb2c495 100644
+>>>> --- a/target/i386/kvm/kvm.c
+>>>> +++ b/target/i386/kvm/kvm.c
+>>>> @@ -2597,6 +2597,20 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>>>>                ratelimit_set_speed(&bus_lock_ratelimit_ctrl,
+>>>>                                    x86ms->bus_lock_ratelimit, BUS_LOCK_SLICE_TIME);
+>>>>            }
+>>>> +
+>>>> +        if (x86ms->notify_vmexit &&
+>>>> +            kvm_check_extension(s, KVM_CAP_X86_NOTIFY_VMEXIT)) {
+>>>> +            uint64_t notify_window_flags = ((uint64_t)x86ms->notify_window << 32) |
+>>>> +                                           KVM_X86_NOTIFY_VMEXIT_ENABLED |
+>>>> +                                           KVM_X86_NOTIFY_VMEXIT_USER;
+>>>
+>>> It'll always request a user exit here as long as enabled, then...
+>>>
+>>>> +            ret = kvm_vm_enable_cap(s, KVM_CAP_X86_NOTIFY_VMEXIT, 0,
+>>>> +                                    notify_window_flags);
+>>>> +            if (ret < 0) {
+>>>> +                error_report("kvm: Failed to enable notify vmexit cap: %s",
+>>>> +                             strerror(-ret));
+>>>> +                return ret;
+>>>> +            }
+>>>> +        }
+>>>>        }
+>>>>        return 0;
+>>>> @@ -5141,6 +5155,7 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+>>>>        X86CPU *cpu = X86_CPU(cs);
+>>>>        uint64_t code;
+>>>>        int ret;
+>>>> +    struct kvm_vcpu_events events = {};
+>>>>        switch (run->exit_reason) {
+>>>>        case KVM_EXIT_HLT:
+>>>> @@ -5196,6 +5211,19 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+>>>>            /* already handled in kvm_arch_post_run */
+>>>>            ret = 0;
+>>>>            break;
+>>>> +    case KVM_EXIT_NOTIFY:
+>>>> +        ret = 0;
+>>>> +        if (run->notify.flags & KVM_NOTIFY_CONTEXT_INVALID) {
+>>>> +            warn_report("KVM: invalid context due to notify vmexit");
+>>>> +            if (has_triple_fault_event) {
+>>>> +                events.flags |= KVM_VCPUEVENT_VALID_TRIPLE_FAULT;
+>>>> +                events.triple_fault.pending = true;
+>>>> +                ret = kvm_vcpu_ioctl(cs, KVM_SET_VCPU_EVENTS, &events);
+>>>> +            } else {
+>>>> +                ret = -1;
+>>>> +            }
+>>>> +        }
+>>>
+>>> ... should we do something even if the context is valid?  Or I'm a bit
+>>
+>>
+>> Yes, make sense. A warning log is necessary if the context is valid.
+>>
+>>> confused why KVM_X86_NOTIFY_VMEXIT_USER was set (IIUC we can just enable it
+>>> without setting VMEXIT_USER then).
+>>>
+>>
+>> VMEXIT_USR was set because KVM community prefers userspace can get notified
+>> and help to do some analysis or mitigation if notify window was exceeded.
+>>
+>>> Not sure some warning would be also useful here, but I really don't know
+>>> the whole context so I can't tell whether there can easily be false
+>>> positives to pollute qemu log.
+>>>
+>>
+>> The false positive case is not easy to happen unless some potential issues
+>> in silicon. But in case of it, to avoid polluting qemu log, how about:
+>>
+>> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+>> index ae7fb2c495..8f97133cbf 100644
+>> --- a/target/i386/kvm/kvm.c
+>> +++ b/target/i386/kvm/kvm.c
+>> @@ -5213,6 +5213,7 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run
+>> *run)
+>>           break;
+>>       case KVM_EXIT_NOTIFY:
+>>           ret = 0;
+>> +        warn_report_once("KVM: notify window was exceeded in guest");
 > 
-> All changes have been performed with search-and-replace:
-> * s/&address_space_memory/get_address_space_memory()/
-> * s/&address_space_io/get_address_space_io()/
-> The only exceptions were exec/address-spaces.h and softmmu/physmem.c
-> which have been manually changed.
+> Is there more informative way to dump this?  If it's 99% that the guest was
+> doing something weird and needs attention, maybe worthwhile to point that
+> out directly to the admin?
 > 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->   accel/hvf/hvf-accel-ops.c            |  2 +-
->   accel/kvm/kvm-all.c                  | 12 ++++++------
->   hw/alpha/dp264.c                     |  4 ++--
->   hw/alpha/typhoon.c                   |  4 ++--
->   hw/arm/smmu-common.c                 |  4 ++--
->   hw/arm/smmuv3.c                      | 14 +++++++-------
->   hw/arm/virt.c                        |  2 +-
->   hw/char/goldfish_tty.c               |  4 ++--
->   hw/core/loader.c                     |  2 +-
->   hw/dma/pl330.c                       |  2 +-
->   hw/dma/rc4030.c                      |  2 +-
->   hw/dma/xlnx-zynq-devcfg.c            |  4 ++--
->   hw/dma/xlnx_dpdma.c                  |  8 ++++----
->   hw/hppa/machine.c                    |  4 ++--
->   hw/hyperv/hyperv.c                   |  2 +-
->   hw/hyperv/vmbus.c                    |  2 +-
->   hw/i386/amd_iommu.c                  | 18 +++++++++---------
->   hw/i386/fw_cfg.c                     |  2 +-
->   hw/i386/intel_iommu.c                | 24 ++++++++++++------------
->   hw/i386/microvm.c                    |  4 ++--
->   hw/i386/pc.c                         |  2 +-
->   hw/i386/xen/xen-hvm.c                |  4 ++--
->   hw/ide/ahci.c                        |  2 +-
->   hw/ide/macio.c                       | 10 +++++-----
->   hw/intc/apic.c                       |  2 +-
->   hw/intc/openpic_kvm.c                |  2 +-
->   hw/intc/pnv_xive.c                   |  6 +++---
->   hw/intc/pnv_xive2.c                  |  6 +++---
->   hw/intc/riscv_aplic.c                |  2 +-
->   hw/intc/spapr_xive.c                 |  2 +-
->   hw/intc/xive.c                       |  4 ++--
->   hw/intc/xive2.c                      |  4 ++--
->   hw/mips/jazz.c                       |  4 ++--
->   hw/misc/lasi.c                       |  2 +-
->   hw/misc/macio/mac_dbdma.c            |  8 ++++----
->   hw/net/ftgmac100.c                   | 16 ++++++++--------
->   hw/net/i82596.c                      | 24 ++++++++++++------------
->   hw/net/imx_fec.c                     | 22 +++++++++++-----------
->   hw/net/lasi_i82596.c                 |  2 +-
->   hw/net/npcm7xx_emc.c                 | 14 +++++++-------
->   hw/openrisc/boot.c                   |  2 +-
->   hw/pci-host/dino.c                   |  6 +++---
->   hw/pci-host/pnv_phb3.c               |  6 +++---
->   hw/pci-host/pnv_phb3_msi.c           |  6 +++---
->   hw/pci-host/pnv_phb4.c               | 10 +++++-----
->   hw/pci/pci.c                         |  2 +-
->   hw/ppc/pnv_psi.c                     |  2 +-
->   hw/ppc/spapr.c                       |  4 ++--
->   hw/ppc/spapr_events.c                |  2 +-
->   hw/ppc/spapr_hcall.c                 |  4 ++--
->   hw/ppc/spapr_iommu.c                 |  4 ++--
->   hw/ppc/spapr_ovec.c                  |  8 ++++----
->   hw/ppc/spapr_rtas.c                  |  2 +-
->   hw/remote/iommu.c                    |  2 +-
->   hw/remote/message.c                  |  4 ++--
->   hw/remote/proxy-memory-listener.c    |  2 +-
->   hw/riscv/boot.c                      |  6 +++---
->   hw/riscv/sifive_e.c                  |  2 +-
->   hw/riscv/sifive_u.c                  |  2 +-
->   hw/riscv/virt.c                      |  2 +-
->   hw/s390x/css.c                       | 16 ++++++++--------
->   hw/s390x/ipl.h                       |  2 +-
->   hw/s390x/s390-pci-bus.c              |  4 ++--
->   hw/s390x/s390-pci-inst.c             | 10 +++++-----
->   hw/s390x/s390-skeys.c                |  2 +-
->   hw/s390x/virtio-ccw.c                | 10 +++++-----
->   hw/sd/sdhci.c                        |  2 +-
->   hw/sh4/r2d.c                         |  4 ++--
->   hw/sparc/sun4m.c                     |  2 +-
->   hw/sparc/sun4m_iommu.c               |  4 ++--
->   hw/sparc64/sun4u_iommu.c             |  4 ++--
->   hw/timer/hpet.c                      |  2 +-
->   hw/usb/hcd-ehci-pci.c                |  2 +-
->   hw/usb/hcd-ehci-sysbus.c             |  2 +-
->   hw/usb/hcd-ohci.c                    |  2 +-
->   hw/usb/hcd-xhci-sysbus.c             |  2 +-
->   hw/vfio/ap.c                         |  2 +-
->   hw/vfio/ccw.c                        |  2 +-
->   hw/vfio/common.c                     |  8 ++++----
->   hw/vfio/platform.c                   |  2 +-
->   hw/virtio/vhost-vdpa.c               |  2 +-
->   hw/virtio/vhost.c                    |  2 +-
->   hw/virtio/virtio-bus.c               |  4 ++--
->   hw/virtio/virtio-iommu.c             |  6 +++---
->   hw/virtio/virtio-pci.c               |  2 +-
->   hw/xen/xen_pt.c                      |  4 ++--
->   include/exec/address-spaces.h        |  4 ++--
->   include/hw/elf_ops.h                 |  4 ++--
->   include/hw/ppc/spapr.h               |  5 +++--
->   include/hw/ppc/vof.h                 |  4 ++--
->   monitor/misc.c                       |  4 ++--
->   softmmu/ioport.c                     | 12 ++++++------
->   softmmu/memory_mapping.c             |  2 +-
->   softmmu/physmem.c                    | 17 ++++++++++++++---
->   target/arm/hvf/hvf.c                 |  4 ++--
->   target/arm/kvm.c                     |  4 ++--
->   target/avr/helper.c                  |  8 ++++----
->   target/i386/hax/hax-all.c            |  2 +-
->   target/i386/hax/hax-mem.c            |  2 +-
->   target/i386/hvf/hvf.c                |  2 +-
->   target/i386/hvf/vmx.h                |  2 +-
->   target/i386/hvf/x86_mmu.c            |  6 +++---
->   target/i386/nvmm/nvmm-all.c          |  4 ++--
->   target/i386/sev.c                    |  4 ++--
->   target/i386/tcg/sysemu/misc_helper.c | 12 ++++++------
->   target/i386/whpx/whpx-all.c          |  4 ++--
->   target/s390x/diag.c                  |  2 +-
->   target/s390x/mmu_helper.c            |  2 +-
->   target/s390x/sigp.c                  |  2 +-
->   target/xtensa/dbg_helper.c           |  2 +-
->   tests/qtest/fuzz/generic_fuzz.c      |  4 ++--
->   111 files changed, 285 insertions(+), 273 deletions(-)
 
-Please consider using scripts/git.orderfile for tree-wide refactors,
-it helps reviewers.
+Do you mean to use other method to dump the info? i.e. printing a 
+message is not so clear. Or the output message ("KVM: notify window was 
+exceeded in guest") is not obvious and we need other wording.
 
-> diff --git a/include/exec/address-spaces.h b/include/exec/address-spaces.h
-> index db8bfa9a92..d5c8cbd718 100644
-> --- a/include/exec/address-spaces.h
-> +++ b/include/exec/address-spaces.h
-> @@ -33,8 +33,8 @@ MemoryRegion *get_system_memory(void);
->    */
->   MemoryRegion *get_system_io(void);
->   
-> -extern AddressSpace address_space_memory;
-> -extern AddressSpace address_space_io;
-> +AddressSpace *get_address_space_memory(void);
-> +AddressSpace *get_address_space_io(void);
->   
->   #endif
+>>           if (run->notify.flags & KVM_NOTIFY_CONTEXT_INVALID) {
+>>               warn_report("KVM: invalid context due to notify vmexit");
+>>               if (has_triple_fault_event) {
+> 
+> Adding a warning looks good to me, with that (or in any better form of
+> wording):
+> 
+If no objection, I'll follow Xiaoyao's suggestion to form the wording like:
 
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 56e03e07b5..0ac920d446 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -89,8 +89,8 @@ RAMList ram_list = { .blocks = QLIST_HEAD_INITIALIZER(ram_list.blocks) };
->   static MemoryRegion *system_memory;
->   static MemoryRegion *system_io;
->   
-> -AddressSpace address_space_io;
-> -AddressSpace address_space_memory;
-> +static AddressSpace address_space_io;
-> +static AddressSpace address_space_memory;
->   
->   static MemoryRegion io_mem_unassigned;
->   
-> @@ -2690,6 +2690,16 @@ MemoryRegion *get_system_io(void)
->       return system_io;
->   }
->   
-> +AddressSpace *get_address_space_memory(void)
-> +{
-> +    return &address_space_memory;
-> +}
-> +
-> +AddressSpace *get_address_space_io(void)
-> +{
-> +    return &address_space_io;
-> +}
+case KVM_EXIT_NOTIFY:
+     ctx_invalid = !!(run->notify.flags & KVM_NOTIFY_CONTEXT_INVALID);
+     ret = 0;
+     warn_report_once("KVM: Encounter notify exit with %svalid context 
+in guest", ctx_invalid ? "in" : "");
+     if (ctx_invalid) {
+         if (has_triple_fault_event) {}
+     }
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Acked-by: Peter Xu <peterx@redhat.com>
+> 
+> Thanks,
+> 
 
