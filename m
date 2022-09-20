@@ -2,73 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41E3E5BE7E6
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 16:03:53 +0200 (CEST)
-Received: from localhost ([::1]:38104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 621145BE843
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 16:13:15 +0200 (CEST)
+Received: from localhost ([::1]:46704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oadqq-0006ZP-8Q
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 10:03:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48830)
+	id 1oadzu-00042n-3H
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 10:13:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oaajJ-00017U-P7
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:43:55 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:36486)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oaajI-0006vO-9R
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:43:53 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id 13so5145110ejn.3
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 03:43:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=5mr4Y5RdId+omuTpYV9/bPWYx6x+e2AED17JsG4+Txg=;
- b=Xho2FtAbi5CM7MYsV5lo3JQXMQFN2hyEv+L2P0klhQbQWoRFX7yvbO4RlKGLuARTGg
- RgzSG+zc2WZxl32iGma3UQXinKdHFwEnWnv2aBMPh/R5PsCz4urj6KRh/2oCUdAiyuhu
- WQ+8SVO1GH0IQJtHeLm2LVK8mgy/bFYhjKeUydvs1fvhNj9i+miZzhguZxhx4DdXWTtj
- FXrz1jSiRJ8Gt9wU8999DUiQdaK0Chhr85I/fW7VELn0KN9j27duug2LCoEJHfTYk8wJ
- +nTgi8QTM0NpOLhilWLatGGElDRA7krBciZ9gyrMQBvsVJ1yWmekgFV2otOuAsW17j/R
- ViFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=5mr4Y5RdId+omuTpYV9/bPWYx6x+e2AED17JsG4+Txg=;
- b=6OxDspjXgA/sRBxu3pEEJOs+elpFYyYXlUD0uB1Il0x2OucjHDLXgbAGCZpcyYilex
- Tb+dJ+bUHLwR+kSAtsNJwUxWjORDaXbUM91ftRzTYEyGyxQWjHHTDBY203BvNalU/D6F
- DFOb/0b46nhidhO7524NWt+5AhRWnoZ+OQaWejaRZasOeYD/RdKR0HIShIEiUJUENPJ3
- 3e1U6Sc47IN3HFONiLW4SDO9/l1LHdTa5Zt8bZzCO8EqfqGtaKm9eWFhSBuxsBcO0OQY
- qPAhPjafUHyaKadq5kOCbt3k3jv3kZ5uCJrUM+yxWhBaWNa+nNbC3uiPs3SdBik6ghln
- Hrww==
-X-Gm-Message-State: ACrzQf2iEm8FIOBac/wPhakJJg+2W2QFgnhLPabCPEDvOVmVBGUgtsvT
- lrfSiLJGaTcy/mD0GY8WneHPrT0fkIddpAcEE4y/T59326E=
-X-Google-Smtp-Source: AMsMyM7AErh78/oEhLlv6DI2oXf1/PYXUIfimAYe7tRvHvCJQgz8AuWZvGzNtsycIC8vy+P9BrmLdU/4ZlO5gxKv6L4=
-X-Received: by 2002:a17:907:2bd5:b0:76f:591c:466b with SMTP id
- gv21-20020a1709072bd500b0076f591c466bmr15672770ejc.504.1663670630722; Tue, 20
- Sep 2022 03:43:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <michael.labiuk@virtuozzo.com>)
+ id 1oaaoI-0003yV-Uj
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:49:05 -0400
+Received: from relay.virtuozzo.com ([130.117.225.111]:52140)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <michael.labiuk@virtuozzo.com>)
+ id 1oaaoE-0007zR-SN
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:49:01 -0400
+Received: from [192.168.16.178] (helo=mikewrk.sw.ru)
+ by relay.virtuozzo.com with esmtp (Exim 4.95)
+ (envelope-from <michael.labiuk@virtuozzo.com>) id 1oaall-004fUv-FO;
+ Tue, 20 Sep 2022 12:48:37 +0200
+To: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, den@virtuozzo.com
+Subject: [PATCH v4 3/7] tests/x86: Add 'q35' machine type to ivshmem-test
+Date: Tue, 20 Sep 2022 13:48:38 +0300
+Message-Id: <20220920104842.605530-4-michael.labiuk@virtuozzo.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220920104842.605530-1-michael.labiuk@virtuozzo.com>
+References: <20220920104842.605530-1-michael.labiuk@virtuozzo.com>
 MIME-Version: 1.0
-References: <20220905202259.189852-1-richard.henderson@linaro.org>
- <20220905202259.189852-3-richard.henderson@linaro.org>
-In-Reply-To: <20220905202259.189852-3-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Sep 2022 11:43:39 +0100
-Message-ID: <CAFEAcA_mNbBujzBQFvs4WLkGCnmzjWJq37NRn3e+7qN8470NcA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/6] accel/tcg: Drop addr member from SavedIOTLB
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, f4bug@amsat.org, qemu-arm@nongnu.org, 
- pbonzini@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=130.117.225.111;
+ envelope-from=michael.labiuk@virtuozzo.com; helo=relay.virtuozzo.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,17 +56,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Michael Labiuk <michael.labiuk@virtuozzo.com>
+From:  Michael Labiuk via <qemu-devel@nongnu.org>
 
-On Mon, 5 Sept 2022 at 21:27, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> This field is only written, not read; remove it.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+Configure pci bridge setting to test ivshmem on 'q35'.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Michael Labiuk <michael.labiuk@virtuozzo.com>
+---
+ tests/qtest/ivshmem-test.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-thanks
--- PMM
+diff --git a/tests/qtest/ivshmem-test.c b/tests/qtest/ivshmem-test.c
+index 9611d05eb5..0f9755abc6 100644
+--- a/tests/qtest/ivshmem-test.c
++++ b/tests/qtest/ivshmem-test.c
+@@ -378,6 +378,32 @@ static void test_ivshmem_server(void)
+     close(thread.pipe[0]);
+ }
+ 
++static void device_del(QTestState *qtest, const char *id)
++{
++    QDict *resp;
++
++    resp = qtest_qmp(qtest,
++                     "{'execute': 'device_del',"
++                     " 'arguments': { 'id': %s } }", id);
++
++    g_assert(qdict_haskey(resp, "return"));
++    qobject_unref(resp);
++}
++
++static void test_ivshmem_hotplug_q35(void)
++{
++    QTestState *qts = qtest_init("-object memory-backend-ram,size=1M,id=mb1 "
++                                 "-device pcie-root-port,id=p1 "
++                                 "-device pcie-pci-bridge,bus=p1,id=b1 "
++                                 "-machine q35");
++
++    qtest_qmp_device_add(qts, "ivshmem-plain", "iv1",
++                         "{'memdev': 'mb1', 'bus': 'b1'}");
++    device_del(qts, "iv1");
++
++    qtest_quit(qts);
++}
++
+ #define PCI_SLOT_HP             0x06
+ 
+ static void test_ivshmem_hotplug(void)
+@@ -469,6 +495,7 @@ int main(int argc, char **argv)
+ {
+     int ret, fd;
+     gchar dir[] = "/tmp/ivshmem-test.XXXXXX";
++    const char *arch = qtest_get_arch();
+ 
+     g_test_init(&argc, &argv, NULL);
+ 
+@@ -494,6 +521,9 @@ int main(int argc, char **argv)
+         qtest_add_func("/ivshmem/pair", test_ivshmem_pair);
+         qtest_add_func("/ivshmem/server", test_ivshmem_server);
+     }
++    if (!strcmp(arch, "x86_64")) {
++        qtest_add_func("/ivshmem/hotplug-q35", test_ivshmem_hotplug_q35);
++    }
+ 
+ out:
+     ret = g_test_run();
+-- 
+2.34.1
+
 
