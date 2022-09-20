@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52EB85BE61D
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 14:43:38 +0200 (CEST)
-Received: from localhost ([::1]:59090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4595BE68A
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 14:58:55 +0200 (CEST)
+Received: from localhost ([::1]:38400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oacbB-0001T4-E4
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 08:43:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56804)
+	id 1oacpt-0000mA-P9
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 08:58:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oaaZK-0001Il-Jm; Tue, 20 Sep 2022 06:33:34 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:41848)
+ id 1oaaZM-0001Lo-CX; Tue, 20 Sep 2022 06:33:37 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:35501)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oaaZI-000508-0c; Tue, 20 Sep 2022 06:33:34 -0400
-Received: by mail-pg1-x531.google.com with SMTP id q9so2113840pgq.8;
- Tue, 20 Sep 2022 03:33:30 -0700 (PDT)
+ id 1oaaZK-00050J-Rn; Tue, 20 Sep 2022 06:33:36 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ q35-20020a17090a752600b002038d8a68fbso6330010pjk.0; 
+ Tue, 20 Sep 2022 03:33:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=5vK7I12SbKOcFn43HOIKWmaFBkxVao5CvM3jde8q4IE=;
- b=FugxP0xmy4YDguSzwfMpySA31bnFASSySGjghOCIyELK/Hy/alZ3hk1lZ7wye8hQg+
- 6yg4FtbYjcBZIgEOCI9VIpU1sUh3FDTstf1J+YgskJT/IxSX5iFzXBaevOfcPVT1Cp66
- HHicqD4lBqs9HE8HN8J2CnntBgs2oS7qFRJ7tJ6ypZi092U3WcQzxxkB6QgYuVj2Hl/Y
- FYFZYMISU2z4xEa+AnKiuVo0+PHv2o7000tVdh7rGwFS9jXPhAq9PyrNzzJ898Or5Q15
- n21BqsDe5rFrlUspr/8BSMQytbQSt9nXzpdPojxRYqC16jf52KQ0qLx3/O6+O5WIbG6W
- Gq7A==
+ bh=cdOM1RV7vfdzIOgDlIpgFRBOhfRCBARffZGNXtbDMOw=;
+ b=Z4owo7vrx89r1gRzYcIT4A5Mhg6AIFeduPasKpaIp6TH3zpWkVKjDgAUXNfv8NX+SZ
+ 6MtdQJ8qL30RCqAnjElvVnyMyxmXxuoxpkFDrQzHEdrU9kiLF5EN7dthAeAj4rHpcHGn
+ cABxHPo3mV45NZGGDy2bUTfh3ksyskG0NxkyV1bUYQyjxh1o2LdKEhtBBdkLDrHLpJVo
+ VKOZsXM+KrWWfcS73eqrxwZBV/SqHw1SNatT1D4Im7gedVMzI7JRnmr0cODelrqL03EN
+ Ts1OIK1qT+b+q725/EQHmxAvgQVXie9sYmn+uQbhiLLOvrTILZ1qpkkAZc5WLXH3UB5B
+ iESg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=5vK7I12SbKOcFn43HOIKWmaFBkxVao5CvM3jde8q4IE=;
- b=RS84u6WtLgqW0zKu9WRsRSa5kcPSzOv6/WAHUZenZdxDuXdIhMZWlXEl2mJYcVMC5E
- 8XrtcaId0sT5cOVt9MAHJ5lhn0Wo+XjTZFRUojbZbHQKgM8KmLMDAA2wNmKobV4F2jRf
- Gi6qjF+3sycZNtptKlHJu3u2LVUMtSZv5IiW3q1qH4B7+BVLWmzDu2cKzupA8rYwM4JC
- XjAXugGDusK6PMLPAG6tz2TyJqrq8CURYE71mfXk60Qa5mTPIKZH7/OYy8pcbCk5ypAL
- BJjrRTpdMiI/rINVfEUmvG9CC3uEWhjwrH9wkefer63NkW00NNgSyFUU45NLPDtid5pd
- 7eHg==
-X-Gm-Message-State: ACrzQf0zCctcxcCHkquc1lFpqSiFPPct76QVFSh/2zrexUNjy91HS8KR
- RRk1TTJV0QoYQoCpL+v2PG/5A2yXkTc=
-X-Google-Smtp-Source: AMsMyM7l9zO8A8g0ecjDG77EC05caPdNd9Dzmydc09GCwKUkwhuzEJCaCSWfw8QUZ6A3X5v9yDx/Xw==
-X-Received: by 2002:a63:560a:0:b0:42a:7b1d:4e08 with SMTP id
- k10-20020a63560a000000b0042a7b1d4e08mr19951452pgb.594.1663670009694; 
- Tue, 20 Sep 2022 03:33:29 -0700 (PDT)
+ bh=cdOM1RV7vfdzIOgDlIpgFRBOhfRCBARffZGNXtbDMOw=;
+ b=XRPRhu0fhaTKBFXs+1OZWjr4eCPKv7gPiT+p6aYFRlRQ4/+vfLdVtYIFFa14Ir8K4W
+ pgpRmlzBXCcXmSxrNkC+N6dvcS6eWgsXeBCFCkqD93VsCzMe2aOMDYMkiohNJGQkR9R4
+ KwlkhD7/xb8h/8WFmz8A2gVgfBvfRN1r6HwzjREL4QSXXnBqdW1Hx5hpdtultZ9PE1ME
+ q+kpvZzS8HyNhJAGP0EcbK4wqfW/H10vuV5zJ5BPv4ql3YwhTpQweV4m+VNcqcosW+fm
+ rhBvmbE5KEip7Cw8IqiX+SlB7RiqNgyOj7uMETyXDadWecQVVvwwhVJE0fb0vXLRbOPA
+ IP+Q==
+X-Gm-Message-State: ACrzQf3M2bKSMWh7boo1Hi25YFyG/RACK42EZZyQqIEU8RHeSiDB6Uf3
+ /BL8l5Nn4DRAUnQuRcmlIv9x+7hUId8=
+X-Google-Smtp-Source: AMsMyM7jveWXzUDw4xGD+YxsHD9EC4ar4wzRHYsndHgDsfFVgSTVVAxgrQKsG3Y0XlrqX6rAZlPzpA==
+X-Received: by 2002:a17:90b:1b4d:b0:202:c05f:6ea0 with SMTP id
+ nv13-20020a17090b1b4d00b00202c05f6ea0mr3193274pjb.7.1663670012840; 
+ Tue, 20 Sep 2022 03:33:32 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- n2-20020aa79842000000b00551fa0e2b2dsm699573pfq.206.2022.09.20.03.33.27
+ n2-20020aa79842000000b00551fa0e2b2dsm699573pfq.206.2022.09.20.03.33.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 03:33:29 -0700 (PDT)
+ Tue, 20 Sep 2022 03:33:32 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
- Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org
-Subject: [PATCH v2 28/39] hw/pci-host: pnv_phb{3,
- 4}: Fix heap out-of-bound access failure
-Date: Tue, 20 Sep 2022 18:31:48 +0800
-Message-Id: <20220920103159.1865256-29-bmeng.cn@gmail.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Joel Stanley <joel@jms.id.au>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-arm@nongnu.org
+Subject: [PATCH v2 29/39] tests/qtest: microbit-test: Fix socket access for
+ win32
+Date: Tue, 20 Sep 2022 18:31:49 +0800
+Message-Id: <20220920103159.1865256-30-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220920103159.1865256-1-bmeng.cn@gmail.com>
 References: <20220920103159.1865256-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x531.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,56 +95,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-pnv_phb3_root_bus_info and pnv_phb4_root_bus_info are missing the
-instance_size initialization. This results in accessing out-of-bound
-memory when setting 'chip-id' and 'phb-id', and eventually crashes
-glib's malloc functionality with the following message:
+Sockets on Windows do not use *nix-style file descriptors, so
+write()/read()/close() do not work on Windows.
 
-  "qemu-system-ppc64: GLib: ../glib-2.72.3/glib/gmem.c:131: failed to allocate 3232 bytes"
+Switch over to use send()/recv()/closesocket() which work with
+sockets on all platforms.
 
-This issue was noticed only when running qtests with QEMU Windows
-32-bit executable. Windows 64-bit, Linux 32/64-bit do not expose
-this bug though.
-
-Fixes: 9ae1329ee2fe ("ppc/pnv: Add models for POWER8 PHB3 PCIe Host bridge")
-Fixes: 4f9924c4d4cf ("ppc/pnv: Add models for POWER9 PHB4 PCIe Host bridge")
-Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
 
-Changes in v2:
-- new patch: "hw/pci-host: pnv_phb{3,4}: Fix heap out-of-bound access failure"
+(no changes since v1)
 
- hw/pci-host/pnv_phb3.c | 1 +
- hw/pci-host/pnv_phb4.c | 1 +
- 2 files changed, 2 insertions(+)
+ tests/qtest/microbit-test.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-index af8575c007..9054c393a2 100644
---- a/hw/pci-host/pnv_phb3.c
-+++ b/hw/pci-host/pnv_phb3.c
-@@ -1169,6 +1169,7 @@ static void pnv_phb3_root_bus_class_init(ObjectClass *klass, void *data)
- static const TypeInfo pnv_phb3_root_bus_info = {
-     .name = TYPE_PNV_PHB3_ROOT_BUS,
-     .parent = TYPE_PCIE_BUS,
-+    .instance_size = sizeof(PnvPHB3RootBus),
-     .class_init = pnv_phb3_root_bus_class_init,
- };
+diff --git a/tests/qtest/microbit-test.c b/tests/qtest/microbit-test.c
+index b71daae9a9..4bc267020b 100644
+--- a/tests/qtest/microbit-test.c
++++ b/tests/qtest/microbit-test.c
+@@ -51,7 +51,7 @@ static void uart_rw_to_rxd(QTestState *qts, int sock_fd, const char *in,
+ {
+     int i, in_len = strlen(in);
  
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index 824e1a73fb..ccbde841fc 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -1773,6 +1773,7 @@ static void pnv_phb4_root_bus_class_init(ObjectClass *klass, void *data)
- static const TypeInfo pnv_phb4_root_bus_info = {
-     .name = TYPE_PNV_PHB4_ROOT_BUS,
-     .parent = TYPE_PCIE_BUS,
-+    .instance_size = sizeof(PnvPHB4RootBus),
-     .class_init = pnv_phb4_root_bus_class_init,
- };
+-    g_assert_true(write(sock_fd, in, in_len) == in_len);
++    g_assert_true(send(sock_fd, in, in_len, 0) == in_len);
+     for (i = 0; i < in_len; i++) {
+         g_assert_true(uart_wait_for_event(qts, NRF51_UART_BASE +
+                                                A_UART_RXDRDY));
+@@ -77,7 +77,7 @@ static void test_nrf51_uart(void)
+     char s[10];
+     QTestState *qts = qtest_init_with_serial("-M microbit", &sock_fd);
  
+-    g_assert_true(write(sock_fd, "c", 1) == 1);
++    g_assert_true(send(sock_fd, "c", 1, 0) == 1);
+     g_assert_cmphex(qtest_readl(qts, NRF51_UART_BASE + A_UART_RXD), ==, 0x00);
+ 
+     qtest_writel(qts, NRF51_UART_BASE + A_UART_ENABLE, 0x04);
+@@ -97,17 +97,17 @@ static void test_nrf51_uart(void)
+ 
+     qtest_writel(qts, NRF51_UART_BASE + A_UART_STARTTX, 0x01);
+     uart_w_to_txd(qts, "d");
+-    g_assert_true(read(sock_fd, s, 10) == 1);
++    g_assert_true(recv(sock_fd, s, 10, 0) == 1);
+     g_assert_cmphex(s[0], ==, 'd');
+ 
+     qtest_writel(qts, NRF51_UART_BASE + A_UART_SUSPEND, 0x01);
+     qtest_writel(qts, NRF51_UART_BASE + A_UART_TXD, 'h');
+     qtest_writel(qts, NRF51_UART_BASE + A_UART_STARTTX, 0x01);
+     uart_w_to_txd(qts, "world");
+-    g_assert_true(read(sock_fd, s, 10) == 5);
++    g_assert_true(recv(sock_fd, s, 10, 0) == 5);
+     g_assert_true(memcmp(s, "world", 5) == 0);
+ 
+-    close(sock_fd);
++    closesocket(sock_fd);
+ 
+     qtest_quit(qts);
+ }
 -- 
 2.34.1
 
