@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39E985BE4A8
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 13:41:07 +0200 (CEST)
-Received: from localhost ([::1]:33708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 154055BE47B
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 13:29:55 +0200 (CEST)
+Received: from localhost ([::1]:52674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oabcf-00005W-1y
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 07:41:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56882)
+	id 1oabRc-0002wm-Pc
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 07:29:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oaaPz-0003W1-An
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:23:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32695)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oaaPx-0002cY-Pe
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:23:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663669432;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5VMGAmWdNxaM9pLT+BvQW59c0DCsL2Waq+vJsjYDw2Y=;
- b=B/eoiRcBOm+9X02WdnNbISQL2BHKQDYeQtCKCQZom+4gsqhbiM2CQKEta6kr9l6F9CWrnJ
- 7Dh0SEhD4/AUHKy/MKcKH95A6p5hWnbw08WpNnDirToZQYK/IraMf/3EJBcowUJGiblicI
- 19BGaN3tFrx5itG1YX1nq2jLmlFG/+A=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-552-75zmdcIaMvWa_6ZN0BxC7A-1; Tue, 20 Sep 2022 06:23:47 -0400
-X-MC-Unique: 75zmdcIaMvWa_6ZN0BxC7A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B0E2938164C4;
- Tue, 20 Sep 2022 10:23:46 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ED917C15BA8;
- Tue, 20 Sep 2022 10:23:45 +0000 (UTC)
-Date: Tue, 20 Sep 2022 11:23:43 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Brad Smith <brad@comstyle.com>,
- qemu-trivial@nongnu.org
-Subject: Re: [PATCH] gitlab-ci: Update the FreeBSD 13 job from 13.0 to 13.1
-Message-ID: <YymUr8M8+Ia9jnow@redhat.com>
-References: <20220920102041.45067-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oaaQq-0004R2-Tu
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:24:53 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:35684)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oaaQm-0002wn-3w
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:24:48 -0400
+Received: by mail-ed1-x534.google.com with SMTP id 29so3154909edv.2
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 03:24:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=FARkd/geawKARyNW89YvFnsckZMn64TWLKArTQ/0GCM=;
+ b=V8O3VmR7E52X/RPoNtb4WSt0h4CfNLsy07pyp9b34uzqymSv/Fnxv266TlOP5+mKo5
+ sTalPLrhFz9x0Hiz0AFI5X32YSt48Zj5Ngc0LRcyGgD2+QWmYnBHmz4iW91awRFi6FCt
+ VTuZLR0UO+WopDvfLMkgx9fuwq1VpivNR1PbT3QDL4BIgAcqYLHS01df1eF/NpIKEkC2
+ 3qtWDzO4VrgXstj75ozuRt8lntFnCsTqPnkXaN5Q4WMVXuTlcs3czU3mQWudHJ4H8STF
+ doPAvd2W7iZMIH/X3R9jWWVoS94QOL7zz1SE6AOln+LsQO+dEjt0UeAMXXoDOAFRNkMV
+ aNvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=FARkd/geawKARyNW89YvFnsckZMn64TWLKArTQ/0GCM=;
+ b=NBbFt77Jvucb+QMRDfD/lIs5a1xNmTU9EJOQCUiTyBK5OyyChu6FEaZgbSKzS3jqos
+ uaxqDC/4250HXK2ctDboFstkCZx6bcaPQ2oM/uDYWguVgKjjicAvhDzmtAUWnCoj3SW5
+ 9jpscYLXDPNUrapQ9fWcG4DCw/NzbkXOscNmEh2LxuenNPo0SRmtxV/GlUQ3e/nX7L13
+ E+7WK7xJL0yztnnvY21Z3LMkOKgx/01jt9mjiSdOACS6jwFBTQyocfiLdhAPJlLbOmOi
+ 5GI5W/jEGH1AajN+V8CSzqzEU8BY4GQjtCG88dbHIHpINeyHNG0oGmHqGqVSEFsUxzSZ
+ Efnw==
+X-Gm-Message-State: ACrzQf1NkrJCu5KvIRTB7qPzCdZOUxRyxHvlvi2sfjyM2/4f7aMDnDQS
+ N8IMEJ9I6MeZvLxDI8OGQpq/VUbjYbnN/n2H5u8kXg==
+X-Google-Smtp-Source: AMsMyM4k4cQjWUY2zBF1s8NluqETqTCjdU/8Z8FYwQNwSbKrCulyPWG8KESc7GqNG7hA3FnSd+p5fZE3+DXFfyy7OPw=
+X-Received: by 2002:a05:6402:35c5:b0:450:4b7d:9c49 with SMTP id
+ z5-20020a05640235c500b004504b7d9c49mr19729004edc.149.1663669481248; Tue, 20
+ Sep 2022 03:24:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220920102041.45067-1-thuth@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20220914105058.2787404-1-chigot@adacore.com>
+ <dbcca868-afee-2457-33ed-4d0274945c2b@linaro.org>
+In-Reply-To: <dbcca868-afee-2457-33ed-4d0274945c2b@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 20 Sep 2022 11:24:29 +0100
+Message-ID: <CAFEAcA-v30uCqKJT5mNCW72GJnxNVS6oUY0atfmbPR=nj_hC8Q@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Fix alignment for VLD4.32
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>, qemu-arm@nongnu.org, 
+ qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,29 +83,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 20, 2022 at 12:20:41PM +0200, Thomas Huth wrote:
-> The FreeBSD 13 job in our CI started failing since the python port
-> stopped working after 13.1 has been released. Thus update our CI
-> job to FreeBSD 13.1 to get it working again.
-> 
-> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  .gitlab-ci.d/cirrus.yml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, 14 Sept 2022 at 14:11, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 9/14/22 11:50, Cl=C3=A9ment Chigot wrote:
+> > When requested, the alignment for VLD4.32 is 8 and not 16.
+> >
+> > See ARM documentation about VLD4 encoding:
+> >      ebytes =3D 1 << UInt(size);
+> >      if size =3D=3D '10' then
+> >          alignment =3D if a =3D=3D '0' then 1 else 8;
+> >      else
+> >          alignment =3D if a =3D=3D '0' then 1 else 4*ebytes;
+> >
+> > Signed-off-by: Cl=C3=A9ment Chigot <chigot@adacore.com>
+>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Applied to target-arm.next, thanks.
 
+-- PMM
 
