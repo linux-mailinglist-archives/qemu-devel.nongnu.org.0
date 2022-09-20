@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C1265BEFEF
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 00:16:32 +0200 (CEST)
-Received: from localhost ([::1]:38652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A925BEFF6
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 00:19:56 +0200 (CEST)
+Received: from localhost ([::1]:33240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oalXb-0001fE-CT
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 18:16:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54352)
+	id 1oalat-00065U-12
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 18:19:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oagzR-0005gD-9J
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:24:58 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:40657)
+ id 1oagzf-00067U-L7
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:25:11 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:42968)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oagzO-0001nM-QA
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:24:57 -0400
-Received: by mail-ej1-x631.google.com with SMTP id l14so7850445eja.7
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 10:24:54 -0700 (PDT)
+ id 1oagze-0001pC-3G
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:25:11 -0400
+Received: by mail-ej1-x630.google.com with SMTP id sb3so7822486ejb.9
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 10:25:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=8ZUKtzGk7WPnEFS3PMm7d4pu0BGAkLQhtgRChbWSZVU=;
- b=S4JywhnZ9ig+hhir6jtm2ca+Bh83fPXqnvdjOwQ3P5+0OEn9RJqlrzZCNrotJmyaYm
- uQHCNSa+rbqXjXJOgdu6uzQ5Gb9L5wJEqEo1GKoo8RyY2QVSlp5VaLDafOCGF3ddYbQ/
- hh16RQNfEaaYTpbX5g+Ud+j9Ea1S29nklQx/Oj7McX2LStLtPwVdQUooedw7mPI3WB0t
- t4Ae3B7ra2sbEM0mgL3+BvqshrPJ133QDQ7vjLd20b2G1k2YCeO6iAAcXZ9nw34Y302G
- Eq8tLsGr+WAi/6iNHxoVuK/hJmXxSgTUooYV44sGVxCKhBB9e31GU0kJP2UiCVaGlBKq
- /Row==
+ bh=SwsloABj9l4c1j5XqayskjiIM16mHr6hEPOnkBWi5uQ=;
+ b=XHZ9edWefWpq/w+E3WTfaeN+tmWMenqZFrL3a6ZIGuVLG5lwa/pAHE7zsrBPfAQbzQ
+ +QR9FahwkOEMEijozVnlce2nJuK2K07CwrAjoDZCGNzcKO5eVEOpophGy039zWrcXc8+
+ uLVjVTN+Ko/3xpw0AYDUgvOmhP5FZfdmXjmh6kvInAo9HzluI7at4y7WDKvvzbliyGlx
+ 9bCmurYpNusiWHn+5Jb2xX8lHYJHL+/wn1whHeCVyULcplEyWFiumSRR9gO3EHFc9iKV
+ g1Xkmm/U3e7dnSrE9R/k8pAXM5mmNJtyfrDyU/5cuuhGQwHniXWFww/+NCXAxh4jP9rA
+ m3zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=8ZUKtzGk7WPnEFS3PMm7d4pu0BGAkLQhtgRChbWSZVU=;
- b=Jf4XZbcTlSKZyXnbFjBrgyIO4/NXHzhw1uNgx4rKQ0BWKR7HBJhwjL2qgq1wUobUNj
- jHY4ciEoXdEgjN0hdWDfYrUpRYtpsKqaYF/M/zrQS8vX7lES1gHTAYgs75nirD+KbnMP
- XO9YifrZAjiaMWVNEyXnZOIKnOxdphtqYJpdeljUScfdudM0+n6XLxALp4rIw7lYfe4N
- lyQpnK1TLykmv1eG06zMnb/t6gZaSnMz9P8mPXFbfoY2PkHKoLfdaTW2B2E4VN+3dYVJ
- XzOZg3IV6SbSiyhkysxZQrnHlrjFD39zgfxfqZ42NiJtkLVaOaW8+S38JsYg8ohmPAXF
- eWYA==
-X-Gm-Message-State: ACrzQf1GkjGWbP4YNOFWeH5adf6p1jp1IKHOOpMCmO5o5aKJHp33DMR3
- 1apU24RIz0Nm8nx3G4r7bHhkFA==
-X-Google-Smtp-Source: AMsMyM5/XoFZVkuynMVZKs7Zgju4bgPsdeizv81m1Ma/2sDNhhWtdmalUTZSYhNsLDHB1POEPbHR5A==
-X-Received: by 2002:a17:907:86ac:b0:780:df48:6a74 with SMTP id
- qa44-20020a17090786ac00b00780df486a74mr12903922ejc.656.1663694692909; 
- Tue, 20 Sep 2022 10:24:52 -0700 (PDT)
+ bh=SwsloABj9l4c1j5XqayskjiIM16mHr6hEPOnkBWi5uQ=;
+ b=odXc70l06MadiHgSck9yJ9UBIrzZ/wwg4kLA4MqYd0QlMdJzp9QAC84s1b5WvnACnc
+ o5v+qUQYYd4VcooFp6lRJQ32IjFFjH5FUAfwScRGmsg7eOtx51F8y3ORSzLePJhuUyQ4
+ yh04M9srSJ9t4uuW2enPd3O71soK3GHiqhrZ7ssT/G7wgUVHi5lLn3zkE0IWk7KaPavN
+ z8E2IJ8Sf6ZRGRa/tnBKLiZOC4w8AyRPE4YMPis30c4TiHRfKRHA6eXoHPGT4zTrC8cP
+ Mx4j4ABqwupmSsLv8sVDUn210rrNl4F4867d6b6d57/8pi12Q1xkdFrg1czWRrxyCCpR
+ pPNw==
+X-Gm-Message-State: ACrzQf0guwDD0z4zD1kF/bAjHjvKq8Rz84fvH9VqL7xWudxxe/yAYPKn
+ oJWfsxVxh2MTNlDMcKaeAlo3k0swj7yk1A==
+X-Google-Smtp-Source: AMsMyM5cd2YoiWl8UMjtfi6Cfb/rLMlSHx+vxdB5IBkZgs7CR19p4H0Uf0oeEFIkMWk9z4iyEEQEPA==
+X-Received: by 2002:a17:907:1c03:b0:77b:9d77:c5 with SMTP id
+ nc3-20020a1709071c0300b0077b9d7700c5mr17510887ejc.225.1663694709314; 
+ Tue, 20 Sep 2022 10:25:09 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- x16-20020aa7dad0000000b004548dfb895asm226586eds.34.2022.09.20.10.24.51
+ b12-20020a170906d10c00b0076f99055520sm146043ejz.137.2022.09.20.10.24.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 10:24:51 -0700 (PDT)
+ Tue, 20 Sep 2022 10:25:02 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 589AE1FFC8;
+ by zen.linaroharston (Postfix) with ESMTP id 88AAB1FFCA;
  Tue, 20 Sep 2022 18:15:35 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PULL 16/30] tests/docker: remove amd64 qemu/debian10 dependency
-Date: Tue, 20 Sep 2022 18:15:19 +0100
-Message-Id: <20220920171533.1098094-17-alex.bennee@linaro.org>
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 18/30] configure: explicitly set cflags for --disable-pie
+Date: Tue, 20 Sep 2022 18:15:21 +0100
+Message-Id: <20220920171533.1098094-19-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220920171533.1098094-1-alex.bennee@linaro.org>
 References: <20220920171533.1098094-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,26 +96,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We missed removing this dependency when we flattened the build.
-
-Fixes 9e19fd7d4a (tests/docker: update debian-amd64 with lcitool)
+This is working around current limitation of Meson's handling of
+--disable-pie.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20220914155950.804707-17-alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220914155950.804707-19-alex.bennee@linaro.org>
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 5c9398bbc9..c3375f89c5 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -73,7 +73,6 @@ docker-binfmt-image-debian-%: $(DOCKER_FILES_DIR)/debian-bootstrap.docker
- # we don't run tests on intermediate images (used as base by another image)
- DOCKER_PARTIAL_IMAGES := debian10 debian11
- ifeq ($(HOST_ARCH),x86_64)
--docker-image-debian-amd64: docker-image-debian10
- DOCKER_PARTIAL_IMAGES += debian-amd64-cross
- else
- docker-image-debian-amd64-cross: docker-image-debian10
+diff --git a/configure b/configure
+index 575dde1c1f..0bbf9d28af 100755
+--- a/configure
++++ b/configure
+@@ -1382,6 +1382,9 @@ elif test "$pie" = "no"; then
+   if compile_prog "-Werror -fno-pie" "-no-pie"; then
+     CONFIGURE_CFLAGS="-fno-pie $CONFIGURE_CFLAGS"
+     CONFIGURE_LDFLAGS="-no-pie $CONFIGURE_LDFLAGS"
++    # Meson currently only handles pie as a boolean for now so if we have
++    # explicitly disabled PIE we need to extend our cflags because it wont.
++    QEMU_CFLAGS="-fno-pie -no-pie $QEMU_CFLAGS"
+   fi
+ elif compile_prog "-Werror -fPIE -DPIE" "-pie"; then
+   CONFIGURE_CFLAGS="-fPIE -DPIE $CONFIGURE_CFLAGS"
 -- 
 2.34.1
 
