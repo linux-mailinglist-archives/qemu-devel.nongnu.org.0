@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC82C5BEDD1
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 21:32:14 +0200 (CEST)
-Received: from localhost ([::1]:52700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D09C5BEDE4
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 21:37:11 +0200 (CEST)
+Received: from localhost ([::1]:39952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaiyb-00078I-N1
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 15:32:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39438)
+	id 1oaj3O-0004i2-8V
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 15:37:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhangjian.3032@bytedance.com>)
- id 1oaf0A-0005Iw-Jg
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:17:35 -0400
-Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135]:38609)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oaf0a-0005is-Gr
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:18:05 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:44012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zhangjian.3032@bytedance.com>)
- id 1oaf04-0006ag-C3
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:17:30 -0400
-Received: by mail-lf1-x135.google.com with SMTP id f14so4358186lfg.5
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 08:17:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oaf0Y-0006bf-RK
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:18:00 -0400
+Received: by mail-ej1-x630.google.com with SMTP id lh5so6934095ejb.10
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 08:17:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=yc11HwSM7YgO+gEFfU6wqmQndk/XclUvErpmHtS057w=;
- b=mbq/Ow4oe5dAZTOCkOAr/TvhGVuVkbGD6vMEx2KCWnU0XmjE8+bHRftfTFmmJC+USE
- amBovffcSnpLBKWXlhVBtLS1lSmqMQl0cM7J2G3afo8sW4jV3KMzf27LtPxvyp/3375U
- egxUS7fyRgesjFLqCLE2ZqJIXJ/jNM5Y1vgkI3znn2XbuBpHWs9ypHrjpEeS0TdGOp6e
- OOy2HIh2d+sr40FMSSb8i1hiJdP3in8ZHbxdQ4kXTTG3bD/+d9gD7p3zGxB+b3m2dFNY
- WdD2hkjhRSn/nJUVEzLuPfSctxq25Sdp9K7SWtslHM7cPdBRJn/KdgjS1F1ZUKoGExSX
- l36Q==
+ bh=6b4FO4Y2selTSZprGTVO96FDSGRYgtDzZnaiLJGueHw=;
+ b=oTdHgvPXlqz4AnYIXW9o9/mo8zxAA9VU6fHQItkovpIF3ZxIWacHu3FIbpeiUgzEBD
+ +e0B93In2Fcp1WpdX/OyhXIy9ggDnEvgaDgVoxwjK6LqJv0NU+eeE4tD4+9s1zshxk70
+ k3rvw6fThWHJC+SiqrAVs+CIPF4Fi9IJrQK5vW/WM3Te/TGakBjjv0Dm3vi4ajrZqDK3
+ Cj9cSa2qRoPUdfRU0PNJBFkC8ivbQ/2AkzQh2y8Yb6j9j5RVOU68duKVNAhh5KPFYeTJ
+ 8iOtYZobm5hE4tfqe1DjdI1ajddo0vXANAzXmb113q5gnHd0YG4sIO4OYxwBF/7L5Anh
+ Np9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date;
- bh=yc11HwSM7YgO+gEFfU6wqmQndk/XclUvErpmHtS057w=;
- b=PkCeeoUFDSUMJgkSHCgAgXFmDRMkGQ0IbQSI22hLzqo4G/amuDGZTagHV5STsPlxBW
- OIW+2FntyU6u7olYH9QLfJacnUuLWrQ+DNCnpE58SZ+Bh8CPNp3eJoAcAXhik4GWdsCB
- diwxE0/Y2YHH3ClQrYmrAM7JeYLLsdddjd+ujS/vnGfUa9jcWaCFGtZUEFFEJwJFk/y0
- mN637CeOj+H5VG0xxa8iCFLoZiz8vjBV4Zws7EBmUhX5S5cuZ9P8588kHpq2S2iZ2dA1
- kkHCpH0fwj0X8B9VvYNmurX3hECXU0UnakseCskpJziEfFtz0iP67RkJrhUVWDcxpx01
- VMJw==
-X-Gm-Message-State: ACrzQf337g5bwgyTfijI1l2ew8OA6sz2NTnXYM2mQI/HYmWppX+EfaHR
- qDZQwNLsK5g36mC4Lg51ntxCYvZ9VeQ/35fulEFT+Q==
-X-Google-Smtp-Source: AMsMyM6NJk5PlgxSUTkj1ysPXX3KKGXqXNvtf5h6TrQfzI3lNps/HwttfpvOA7hh3PyBPUhsW3HdAEwZQNWECpUUAws=
-X-Received: by 2002:a19:5505:0:b0:497:ad71:39f4 with SMTP id
- n5-20020a195505000000b00497ad7139f4mr8267818lfe.226.1663687045982; Tue, 20
- Sep 2022 08:17:25 -0700 (PDT)
+ bh=6b4FO4Y2selTSZprGTVO96FDSGRYgtDzZnaiLJGueHw=;
+ b=R9Xlt8r4EZuowu6Oqcv5uzIUd0qFr447CN/RCIn5HwI2Sz2KXfsHhoEIsa0oLw3y/e
+ 9a8+Z4nULhNGhwm3JOWWxrl4AAppFaP3z+yf4qf9//akaoSXDI4NATi1q0iFL5fde1wQ
+ pvf+aK6DppX5cyzWOPQrbF5v/zK9nx7GwKB1HSq0e+CppE/ga3hZvVv54aWyOZYOqT/6
+ fz3dTZTNko+sg4Rk/42zGNvhJUqvPUx4595TvUP8UUa2pNNN3V2goyg7YpNRm3bgxYhn
+ ce9RmyczGlk6sAwMDyvxqW8J34nSzIssongd38w27B0b4IDPoi5FP1QN6fKik6hsR7+r
+ Z7zQ==
+X-Gm-Message-State: ACrzQf0n5sPiW/lovFAUt341eOHqsWqLO03UK2tlyizdV1lPL85TXv3q
+ UVMlOoRYAdmXM2mZ1tEpvQYKkTKHc6Bmb8wCZwpj+qrhqZY=
+X-Google-Smtp-Source: AMsMyM45FLBTPBLU+FFJ/9m/wqdOxVKVegwmVXr8IKPlYoKZ5NjpzoQt0of71DrHVIj0YnNuDxSScXzLRZuWXGt4NyM=
+X-Received: by 2002:a17:907:7209:b0:778:e86e:568 with SMTP id
+ dr9-20020a170907720900b00778e86e0568mr17888120ejc.659.1663687077075; Tue, 20
+ Sep 2022 08:17:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220919172112.2706026-1-zhangjian.3032@bytedance.com>
- <8aa93a4f-beef-a0a6-8bac-3b69ba25de7e@amsat.org>
-In-Reply-To: <8aa93a4f-beef-a0a6-8bac-3b69ba25de7e@amsat.org>
-From: Zhang Jian <zhangjian.3032@bytedance.com>
-Date: Tue, 20 Sep 2022 23:17:14 +0800
-Message-ID: <CA+J-oUt96e0kNwDsee8YgmRkKSzPb==aD=VHU0My9a=CV-8RuQ@mail.gmail.com>
-Subject: Re: [Phishing Risk] [External] Re: [PATCH 0/3] Add a host power device
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Cc: peter.maydell@linaro.org, clg@kaod.org, andrew@aj.id.au, joel@jms.id.au, 
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, yulei.sh@bytedance.com, 
- tangyiwei.2022@bytedance.com, chentingting.2150@bytedance.com, 
- yuhao.17@bytedance.com, wangxiaohua.1217@bytedance.com, 
- xiening.xll@bytedance.com
+References: <20220822152741.1617527-1-richard.henderson@linaro.org>
+ <20220822152741.1617527-20-richard.henderson@linaro.org>
+In-Reply-To: <20220822152741.1617527-20-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 20 Sep 2022 16:17:45 +0100
+Message-ID: <CAFEAcA9VDnyR6++kLGCZSS8uQQPT-eh-gwvbX_13-QTdRE223A@mail.gmail.com>
+Subject: Re: [PATCH v2 19/66] target/arm: Add is_secure parameter to
+ regime_translation_disabled
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::135;
- envelope-from=zhangjian.3032@bytedance.com; helo=mail-lf1-x135.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,73 +87,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
+On Mon, 22 Aug 2022 at 16:38, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Remove the use of regime_is_secure from regime_translation_disabled,
+> using the new parameter instead.
+>
+> This fixes a bug in S1_ptw_translate and get_phys_addr where we had
+> passed ARMMMUIdx_Stage2 and not ARMMMUIdx_Stage2_S to determine if
+> Stage2 is disabled, affecting FEAT_SEL2.
+>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
-Thanks for your reply.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-On Tue, Sep 20, 2022 at 7:09 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> Hi Jian,
->
-> On 19/9/22 19:21, Jian Zhang wrote:
-> > This patchset adds a host power device and added it into the g220a
-> > mahcine. The BMC have a important is to control the power of the host,
-> > usually it is nessary in a hardware platform.
-> >
-> > The BMC(soc) usually had a output pin to control the power of the host,
-> > and a input pin to get the power status of the host.
-> >
-> > The host power device is a generic device to simulate the host power,
-> > accept the power control command from the BMC and report the power
-> > status.
-> >
-> > Test on the g220a machine, the host power control command can be simply
-> > work.
-> >
-> > Jian Zhang (3):
-> >    hw/gpio/aspeed_gpio: Add gpios in/out init
-> >    hw/misc/host_power: Add a simple host power device
-> >    hw/arm/aspeed: g220a: Add host-power device
->
-> "power-good" is just a TYPE_LED object, but it doesn't seem you are
-> really interested in using it.
->
-yeah, i'd like to just send an irq when the `switch` status changed.
-
-> My understanding of your "power-button" is a latching switch.
->
-yeah, this really like a latching switch.
-
-> This could be indeed useful. I'd name this model TYPE_LATCHING_SWITCH
-> and put it in hw/misc/latching-switch.c (since it is external to a
-> SoC). It has one input and one output. Naming them is not particularly
-> useful IMHO.
-ok, it's make sense, using input and output directly.
-> The triggering edge should be a property (it might have
-> a default, positive/negative), and the switch state must to be in
-> vmstate for the object to be migratable.
-Ok, i got it.
->
-> ("power-good"/"power-button" is what this particular board choose to
-> use the latch switch input/output for).
->
-> Do you mind renaming your series accordingly ("latching switch"),
-> and adding the vmstate?
->
-Ok, the name latching switch makes more sense and is more generic.
-
-> Also I'd reorder your series as 2,1,3:
-> - introduce the new device
-> - prepare aspeed_gpio
-> - wire aspeed_g220a
->
-okay~
-> Regards,
->
-> Phil.
-
-Thanks for your reply.
-
-Thanks, Jian.
+thanks
+-- PMM
 
