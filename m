@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7824B5BEFD2
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 00:11:02 +0200 (CEST)
-Received: from localhost ([::1]:36228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E3885BF03A
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 00:36:27 +0200 (CEST)
+Received: from localhost ([::1]:39254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oalSH-0001ko-Hs
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 18:11:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51386)
+	id 1oalqs-00040a-HW
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 18:36:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oagzd-00063O-Hf
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:25:09 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:34505)
+ id 1oagzg-00068C-5Z
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:25:12 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:46906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oagza-0001ot-FU
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:25:09 -0400
-Received: by mail-ej1-x631.google.com with SMTP id y3so7922746ejc.1
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 10:25:06 -0700 (PDT)
+ id 1oagze-00021N-Gm
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:25:11 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id z13so4812890edb.13
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 10:25:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=aqXnnX8jlTZ0XZtDvIycK9gnBUppEqoHxatpad3BDw0=;
- b=eJnTGlGd+g2BnmvLBdavrJ+oTvsdJyfOu2aze5QO1ENmvL/B19YGgQQ8e+NPXVN2en
- DIFd4BSwEpbd5n5Q1fIFfgbjcDmZN4m5+49kfRZJ62jE/Ykww0i6JwQy2YpwrLaV17H9
- a5BbSc8Q26w4CDNKCuayAF9w2NB3CZHu0iA06A2PrkO/QDsQLeLpYm8l2K8IW63cds/Q
- 81grgUS0/+X2CIGSib2GjPUteJ+5hKKiq96Tb3Nv2Iu1qRvXIBfBxSdniVdW3wszie5q
- 4sEL9GdO8TfBxEDi9THwFUgSaZuibJwBfA3iyG3VtSGdeIlVDbUxAQljl9IwiLvjTbZC
- K1PA==
+ bh=+HHAGmPTEVaK8BLouLq5FfiutB4A/NBtflNNRIi+YP0=;
+ b=ZYtM23pB/RlfGGkVj8PkOULLBQpEgqmqGuP4EZwn5vnCh/Uk38KM5dS3Aj6N+974Uj
+ EincOuLBxWshGjN79jRwI7GXngY+y31PTOznG7KoxwN9gy8H+XcWDRkjA4/i4IZOCmpZ
+ bCSEkIdfJkpb+iggUntCiNhQyh13N1EcH5Hi0h6MmyHbTWvWcttJepe43xD+SAoBWvxW
+ Yv4Z8T8qrA3+Rv6NQhYhMzsWqce82ADrOA9KFL7EtSez0GrxIxAyOgRhAGjC9xjxbwke
+ A7xnCi5CGv0SRFTg4u+oDW2mO784HbgF2GMr53pKMtwkjcykPVlMQxqwX1fABJnbPAhs
+ E2FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=aqXnnX8jlTZ0XZtDvIycK9gnBUppEqoHxatpad3BDw0=;
- b=ZAem35JM/J9PwCAEOt0ypsAfmK2dkLBBX8HNdcvnUIS65sJyct0ooIDkhHQziKcHeh
- PQDUg3zHlYCmIF0bYRFRK7ZvYzoCoFPtp9uDwuI2vGsmFGdeC8idM+s4azXwzhSQjGaX
- VB65AhryjLY+PfQE+dxBvS/t5qEpJwhZHOzY0XdkYuttOX0lCoqvNzVS2aGRR46OR31w
- boHSpH24eRd6YHI6qhMuVwzHrr/Pq/rxWZX/bzWhi9bGz4ODFqulaw+8RsgJKfJsFEIV
- 7qc6BZx8aIcaSqzPFK2+zITfoJ82KOOtgVf+ezmAReIaUiQ6TquAmzza2jJvP4DU0e5D
- koVQ==
-X-Gm-Message-State: ACrzQf0dHjq0j4S08ZE6ZTOtt611W0kuWLNC2TqD3arWp3WsIgbqRMZ3
- rcJyGIYPf2Cd+ZzBWePoFmaumQ==
-X-Google-Smtp-Source: AMsMyM7EGOcw/iwABkQjJbhK91g29+DxdnhdBLmQ2hcTV6rlX6K0NhOyIdSeNchaJuqYuY9tFd+QSQ==
-X-Received: by 2002:a17:907:7f18:b0:780:7a0a:110c with SMTP id
- qf24-20020a1709077f1800b007807a0a110cmr17753295ejc.446.1663694705730; 
- Tue, 20 Sep 2022 10:25:05 -0700 (PDT)
+ bh=+HHAGmPTEVaK8BLouLq5FfiutB4A/NBtflNNRIi+YP0=;
+ b=rczN8GoYgJy7NhEg4vxyefmK7GNnDVDFTo11a7X9HqRTTb9dG84ewSjW8rwlAOf9Vb
+ ItWws5hK4ptQNHuJIUqsBX3T27GrZSUerYlZtlCu/9jwn0bIJCMmTiTSZvMwQVD456tJ
+ LPcXUvu6BITYbG4VnE5yB7suBFQvR3eir9S3KjMpvNBppZ2H4rb+IrVTUs+rOpY35zV9
+ 8sFRuVIvrU1PlcuutxKsCGI5ikVnNz6XTMIL96tIx3EShSSGJ8KNc7MYsQHeleIeSGDu
+ h6DL1p+5VyGT4oZDH0qQCGGc8VYfAFngEpVYiKkjMbxmjjk9Zyy0k2F6GTJ5w+tuUtE/
+ 00oQ==
+X-Gm-Message-State: ACrzQf10ZnbSB4wH0dHzN6tB51VQSGl5sNLbWF5UZlFXeOR/S6jMkEqP
+ V6MbfSmPc2YTvSXXxJUWZl1hQw==
+X-Google-Smtp-Source: AMsMyM4BgIB0U7DZmu82wSSSuFboTO8DmfarNDzIZKcdn0TVlfsKZVssA/WZKoyTUmQeaGsaT33h2Q==
+X-Received: by 2002:a05:6402:11d4:b0:452:a97c:cd36 with SMTP id
+ j20-20020a05640211d400b00452a97ccd36mr21459262edw.53.1663694708993; 
+ Tue, 20 Sep 2022 10:25:08 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- w8-20020a1709067c8800b007815ca7ae57sm120985ejo.212.2022.09.20.10.24.56
+ w23-20020a170906385700b00780f6071b5dsm129581ejc.188.2022.09.20.10.24.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 10:24:59 -0700 (PDT)
+ Tue, 20 Sep 2022 10:25:04 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E59781FFCC;
- Tue, 20 Sep 2022 18:15:35 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 2B4311FFCE;
+ Tue, 20 Sep 2022 18:15:36 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Huacai Chen <chenhuacai@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
  Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>,
- libvir-list@redhat.com (reviewer:Incompatible changes),
- Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: [PULL 21/30] Deprecate 32 bit big-endian MIPS
-Date: Tue, 20 Sep 2022 18:15:24 +0100
-Message-Id: <20220920171533.1098094-22-alex.bennee@linaro.org>
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PULL 23/30] tests/docker: update and flatten debian-all-test-cross
+Date: Tue, 20 Sep 2022 18:15:26 +0100
+Message-Id: <20220920171533.1098094-24-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220920171533.1098094-1-alex.bennee@linaro.org>
 References: <20220920171533.1098094-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,172 +99,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's becoming harder to maintain a cross-compiler to test this host
-architecture as the old stable Debian 10 ("Buster") moved into LTS
-which supports fewer architectures. For now:
+Update to the latest stable Debian. While we are at it flatten into a
+single dockerfile. We also need to ensure we install clang as it is
+used for those builds as well.
 
-  - mark it's deprecation in the docs
-  - downgrade the containers to build TCG tests only
-  - drop the cross builds from our CI
-
-Users with an appropriate toolchain and user-space can still take
-their chances building it.
+It would be nice to port this to lcitool but for now this will do.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Huacai Chen <chenhuacai@kernel.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220914155950.804707-22-alex.bennee@linaro.org>
+Message-Id: <20220914155950.804707-24-alex.bennee@linaro.org>
 
-diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
-index a2fee53248..1c1e7b9e11 100644
---- a/docs/about/build-platforms.rst
-+++ b/docs/about/build-platforms.rst
-@@ -41,7 +41,7 @@ Those hosts are officially supported, with various accelerators:
-      - Accelerators
-    * - Arm
-      - kvm (64 bit only), tcg, xen
--   * - MIPS
-+   * - MIPS (little endian only)
-      - kvm, tcg
-    * - PPC
-      - kvm, tcg
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index c75a25daad..0d1fd4469b 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -213,6 +213,19 @@ MIPS ``Trap-and-Emul`` KVM support (since 6.0)
- The MIPS ``Trap-and-Emul`` KVM host and guest support has been removed
- from Linux upstream kernel, declare it deprecated.
- 
-+Host Architectures
-+------------------
-+
-+BE MIPS (since 7.2)
-+'''''''''''''''''''
-+
-+As Debian 10 ("Buster") moved into LTS the big endian 32 bit version of
-+MIPS moved out of support making it hard to maintain our
-+cross-compilation CI tests of the architecture. As we no longer have
-+CI coverage support may bitrot away before the deprecation process
-+completes. The little endian variants of MIPS (both 32 and 64 bit) are
-+still a supported host architecture.
-+
- QEMU API (QAPI) events
- ----------------------
- 
 diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cross.yml
-index 611c6c0b39..95d57e1c5d 100644
+index 3a8bd75473..091c0d8fcb 100644
 --- a/.gitlab-ci.d/container-cross.yml
 +++ b/.gitlab-ci.d/container-cross.yml
-@@ -89,7 +89,6 @@ mips64el-debian-cross-container:
- mips-debian-cross-container:
+@@ -14,7 +14,6 @@ amd64-debian-cross-container:
+ amd64-debian-user-cross-container:
    extends: .container_job_template
    stage: containers
 -  needs: ['amd64-debian10-container']
    variables:
-     NAME: debian-mips-cross
+     NAME: debian-all-test-cross
  
-diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-index 4a5fb6ea2a..c4cd96433d 100644
---- a/.gitlab-ci.d/crossbuilds.yml
-+++ b/.gitlab-ci.d/crossbuilds.yml
-@@ -70,20 +70,6 @@ cross-i386-tci:
-     EXTRA_CONFIGURE_OPTS: --target-list=i386-softmmu,i386-linux-user,aarch64-softmmu,aarch64-linux-user,ppc-softmmu,ppc-linux-user
-     MAKE_CHECK_ARGS: check check-tcg
- 
--cross-mips-system:
--  extends: .cross_system_build_job
--  needs:
--    job: mips-debian-cross-container
--  variables:
--    IMAGE: debian-mips-cross
--
--cross-mips-user:
--  extends: .cross_user_build_job
--  needs:
--    job: mips-debian-cross-container
--  variables:
--    IMAGE: debian-mips-cross
--
- cross-mipsel-system:
-   extends: .cross_system_build_job
-   needs:
 diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index c3375f89c5..b1bf56434f 100644
+index 24cd44e667..ddcc502049 100644
 --- a/tests/docker/Makefile.include
 +++ b/tests/docker/Makefile.include
-@@ -81,14 +81,12 @@ endif
+@@ -129,7 +129,6 @@ docker-image-debian-nios2-cross: $(DOCKER_FILES_DIR)/debian-toolchain.docker \
+ 	$(call debian-toolchain, $@)
  
- # For non-x86 hosts not all cross-compilers have been packaged
- ifneq ($(HOST_ARCH),x86_64)
--DOCKER_PARTIAL_IMAGES += debian-mips-cross debian-mipsel-cross debian-mips64el-cross
-+DOCKER_PARTIAL_IMAGES += debian-mipsel-cross debian-mips64el-cross
- DOCKER_PARTIAL_IMAGES += debian-ppc64el-cross
- DOCKER_PARTIAL_IMAGES += debian-s390x-cross
- DOCKER_PARTIAL_IMAGES += fedora
- endif
- 
--docker-image-debian-mips-cross: docker-image-debian10
--
- # The native build should never use the registry
- docker-image-debian-native: DOCKER_REGISTRY=
- 
-@@ -144,6 +142,7 @@ DOCKER_PARTIAL_IMAGES += debian-hppa-cross
- DOCKER_PARTIAL_IMAGES += debian-loongarch-cross
- DOCKER_PARTIAL_IMAGES += debian-m68k-cross debian-mips64-cross
- DOCKER_PARTIAL_IMAGES += debian-microblaze-cross
-+DOCKER_PARTIAL_IMAGES += debian-mips-cross
- DOCKER_PARTIAL_IMAGES += debian-nios2-cross
- DOCKER_PARTIAL_IMAGES += debian-riscv64-test-cross
- DOCKER_PARTIAL_IMAGES += debian-sh4-cross debian-sparc64-cross
-diff --git a/tests/docker/dockerfiles/debian-mips-cross.docker b/tests/docker/dockerfiles/debian-mips-cross.docker
-index 26c154014d..7b55f0f3b2 100644
---- a/tests/docker/dockerfiles/debian-mips-cross.docker
-+++ b/tests/docker/dockerfiles/debian-mips-cross.docker
-@@ -1,32 +1,14 @@
- #
- # Docker mips cross-compiler target
- #
--# This docker target builds on the debian Buster base image.
-+# This docker target builds on the Debian Bullseye base image.
+ # Specialist build images, sometimes very limited tools
+-docker-image-debian-all-test-cross: docker-image-debian10
+ docker-image-debian-loongarch-cross: docker-image-debian11
+ docker-image-debian-microblaze-cross: docker-image-debian10
+ docker-image-debian-nios2-cross: docker-image-debian10
+diff --git a/tests/docker/dockerfiles/debian-all-test-cross.docker b/tests/docker/dockerfiles/debian-all-test-cross.docker
+index dedcea58b4..2beb077fb4 100644
+--- a/tests/docker/dockerfiles/debian-all-test-cross.docker
++++ b/tests/docker/dockerfiles/debian-all-test-cross.docker
+@@ -6,16 +6,24 @@
+ # basic compilers for as many targets as possible. We shall use this
+ # to build and run linux-user tests on GitLab
  #
 -FROM qemu/debian10
--
--MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
--
--# Add the foreign architecture we want and install dependencies
--RUN dpkg --add-architecture mips
--RUN apt update && \
--    DEBIAN_FRONTEND=noninteractive eatmydata \
--    apt install -y --no-install-recommends \
--        gcc-mips-linux-gnu
--
--RUN apt update && \
--    DEBIAN_FRONTEND=noninteractive eatmydata \
--    apt build-dep -yy -a mips --arch-only qemu
--
--# Specify the cross prefix for this image (see tests/docker/common.rc)
--ENV QEMU_CONFIGURE_OPTS --cross-prefix=mips-linux-gnu-
--ENV DEF_TARGET_LIST mips-softmmu,mipsel-linux-user
--
--# Install extra libraries to increase code coverage
--RUN apt update && \
--    DEBIAN_FRONTEND=noninteractive eatmydata \
--    apt install -y --no-install-recommends \
--        libbz2-dev:mips \
--        liblzo2-dev:mips \
--        librdmacm-dev:mips \
--        libsnappy-dev:mips
 +FROM docker.io/library/debian:11-slim
+ 
+-# What we need to build QEMU itself
+-RUN apt update && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
++# Duplicate deb line as deb-src
++RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
 +
 +RUN export DEBIAN_FRONTEND=noninteractive && \
 +    apt-get update && \
 +    apt-get install -y eatmydata && \
 +    eatmydata apt-get dist-upgrade -y && \
-+    eatmydata apt-get install --no-install-recommends -y \
-+            gcc-mips-linux-gnu \
-+            libc6-dev-mips-cross
+     apt build-dep -yy qemu
+ 
+-# Add the foreign architecture we want and install dependencies
++# Add extra build tools and as many cross compilers as we can for testing
+ RUN DEBIAN_FRONTEND=noninteractive eatmydata \
+         apt install -y --no-install-recommends \
++        ccache \
++        clang  \
++        git \
++        ninja-build \
+         gcc-aarch64-linux-gnu \
+         libc6-dev-arm64-cross \
+         gcc-alpha-linux-gnu \
 -- 
 2.34.1
 
