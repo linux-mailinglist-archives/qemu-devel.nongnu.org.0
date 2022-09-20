@@ -2,95 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE4085BE1E8
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 11:29:13 +0200 (CEST)
-Received: from localhost ([::1]:44322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF2825BE254
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 11:48:29 +0200 (CEST)
+Received: from localhost ([::1]:47872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaZZ2-0006Sy-Fa
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 05:29:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41364)
+	id 1oaZrf-00073V-Hr
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 05:48:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oaYyf-0001hx-Sz; Tue, 20 Sep 2022 04:51:38 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:44381)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oaZJi-0005cA-9e
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 05:13:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26286)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oaYyT-00042u-E2; Tue, 20 Sep 2022 04:51:37 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 2031C320090C;
- Tue, 20 Sep 2022 04:51:17 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Tue, 20 Sep 2022 04:51:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1663663876; x=1663750276; bh=4a
- inM1Eidgf5v0tdvMdrXiyZvkM4pPO9YNp2owtZVt0=; b=gXEV2rlrNT7SUQYc+B
- ylcmEId+ffJSKK51PXFlFnIdzBUAZgW3JZ2b5VgNS+aBPJVTkqcIOEGvbybssdU5
- 61T7p4mZl2ZbVZnyvBtt36Hz8sV4GxyLcIm9VdRMnEaeWp3UPRO5jB0/YMBl80Og
- b++fq6sGXuWEU2kzFyY/OqdCyh6gJWn4Acc0Wim5YzgMQ12rNtqKnOe/LdZQo+kF
- vhh1GHL11zar6CKq1UihAXdTIaZMg5whD8ZSFhhCyRjfHBQm+Y0kC/d6YsET/L/V
- ySytCsPDE5sUWlC0owsDinilrHOUGkaPj2FWalhxYn40Ix0ck+yjMs+Sr0IsFCHF
- HxJQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1663663876; x=1663750276; bh=4ainM1Eidgf5v0tdvMdrXiyZvkM4
- pPO9YNp2owtZVt0=; b=B01+Hb8fxwCv/KPY2I/V/iesIhRaegEaNUQ/Vlab3Yxi
- T7v732gWrazSVRtJxbSxUQvuUdGA7gL52Okf2Zrh33rW8mqXiT3LsDYcjJ2HfDCz
- tYT9lppvwViE7TBBzBYUW1gY+EUh2ByJFX4HJ5MDAY0Q1O1KZM1t/4hmVi40bfxl
- JwfdkHHCsGQtXdqcEyh9owE3IpfawhsF83wfj4TVxdMDEJ3P/GAeNvLHxMqtevIk
- 6DibYFboK9f7+8ID9Bmjq5Uif6ht1o7hfQVOYDOOGfPXcIP3HrJU69HeMZH8nWUR
- Sq2LeQX7h3j7e6pwowukYd0msiv4Fxi910gHdQbqiA==
-X-ME-Sender: <xms:A38pY2TVULNbHuhTnIKZTLROy9aHTqNocbgShGDPQRVpQq3tivk62Q>
- <xme:A38pY7zPSLHE_UMisGch9tnTsuhfl5NEdZErKPvrz9e3QEzbg7um4I7FcrwTeMXnB
- WXxQM6qVMLBaSDfans>
-X-ME-Received: <xmr:A38pYz2zU2emE0e-QDmfU-t67LGWKOMDeBjOP61lkyxwiRvxgUPPWio>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedvledgtdelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:A38pYyCLy5iYz4kZWMnyOPBA705BvfDvyO1nPtqTyRzDkT51o28GDQ>
- <xmx:A38pY_jAbCuTGn4_lE2pgArqyBbigg6scZWamIeJKyj5X4-oT0Vajg>
- <xmx:A38pY-qVM6hP7_bdxYKm7zBEWwLaJ3wB79txnP5wddLzx-_3Oe0b7g>
- <xmx:BH8pYyr34ggsl62g0GF_Z_H8p0zkeBdVYsQlTKIfzi_HasuAn6Dv1Q>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 20 Sep 2022 04:51:13 -0400 (EDT)
-Date: Tue, 20 Sep 2022 10:51:12 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Sam Li <faithilikerun@gmail.com>
-Cc: qemu-devel@nongnu.org, dmitry.fomichev@wdc.com,
- Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- damien.lemoal@opensource.wdc.com, hare@suse.de,
- Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v9 3/7] block: add block layer APIs resembling Linux
- ZonedBlockDevice ioctls
-Message-ID: <Yyl/AC9X7uHyeTCu@apples>
-References: <20220910052759.27517-1-faithilikerun@gmail.com>
- <20220910052759.27517-4-faithilikerun@gmail.com>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oaZJU-0007nI-MK
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 05:13:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663665186;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=flhXrL++0LjPhYwvF5uTaOnNyC3rtQq57AEY3SCvkvo=;
+ b=VSRpJze5s7aBbrp52E6zTjixmQEBNwWVfEDQT/gQFS5YTT6tE6JZhrHw5fwp4RoRc/+rtk
+ FtnxHkVODAh03O5l/1UdCC66n2l+w+219PBsed226D8iVqWpni+UmZdWpJwyBVcjJK9o50
+ sLjisZDOV91FRk84qnYJLYCOQADaVAg=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-564-MQQPi1SiPsiQJGl4DJ83oA-1; Tue, 20 Sep 2022 05:13:05 -0400
+X-MC-Unique: MQQPi1SiPsiQJGl4DJ83oA-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ r11-20020a05640251cb00b004516feb8c09so1421423edd.10
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 02:13:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=flhXrL++0LjPhYwvF5uTaOnNyC3rtQq57AEY3SCvkvo=;
+ b=EcHA3hHT3Odtv15RFa/q8iGq8pxwqKRVGqW+4K3vFK5/FICNIX+9EzDuNWgvbeI7EH
+ SoGBf+riudFvUynnyQwCFCGy5H0F1cKkSlvYopjNkx4V0NXFaWjllAzZvzNCJlqbJv7D
+ lXpSmdbaGB7aqwO+nPMo2okcETLBv00z9F3fVn8bXqbdGvOxA+qnjRt7n7lB548lDsTg
+ o3he91+AFJsTeYbkIN/+gMc9AFoWLoYSp44WE2gjxz7TF0mlMASbvUTBn22yDjMotKJF
+ Ddzi3v9ZkZcD4i3XNZ45Kil4g5kJDxoWO/gJQNlt4URVsCv/uA/jEDLSDvXyT9hLvcww
+ xvWw==
+X-Gm-Message-State: ACrzQf2ErhwY5AdrRaxybjNlGCYfHgzRR4ToRBc0PXm9ekvSqztRCyyG
+ a3kqF18kOsymClw5kSsTUeGw2+vND62pk1CDSWdgMu8AyOiKuvIK18R4v52a9A07XlNk5yPNOSz
+ +i2Jsj9VGz5MBwnw=
+X-Received: by 2002:a05:6402:1a4f:b0:44e:f731:f7d5 with SMTP id
+ bf15-20020a0564021a4f00b0044ef731f7d5mr18957926edb.357.1663665184031; 
+ Tue, 20 Sep 2022 02:13:04 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7Uc4np1S5GiNeOThtBO0fJmHbYz4Su407Uevcn+IKw/jzNXR5aiQFGfaPAQYNIkyYomNd/fA==
+X-Received: by 2002:a05:6402:1a4f:b0:44e:f731:f7d5 with SMTP id
+ bf15-20020a0564021a4f00b0044ef731f7d5mr18957913edb.357.1663665183810; 
+ Tue, 20 Sep 2022 02:13:03 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ k20-20020aa7c394000000b00447e5983478sm905453edq.76.2022.09.20.02.13.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Sep 2022 02:13:03 -0700 (PDT)
+Date: Tue, 20 Sep 2022 11:13:02 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Robert Hoo <robert.hu@linux.intel.com>
+Cc: mst@redhat.com, xiaoguangrong.eric@gmail.com, ani@anisinha.ca,
+ dan.j.williams@intel.com, jingqi.liu@intel.com, qemu-devel@nongnu.org,
+ robert.hu@intel.com
+Subject: Re: [PATCH v3 4/5] acpi/nvdimm: Implement ACPI NVDIMM Label Methods
+Message-ID: <20220920111302.0c1716af@redhat.com>
+In-Reply-To: <80b09055416c790922c7c3db60d2ba865792d1b0.camel@linux.intel.com>
+References: <20220901032721.1392482-1-robert.hu@linux.intel.com>
+ <20220901032721.1392482-5-robert.hu@linux.intel.com>
+ <20220909153910.557fdbe7@redhat.com>
+ <78f021195335f1cc9d01071db58a51539f29c597.camel@linux.intel.com>
+ <20220916093757.689a939f@redhat.com>
+ <80b09055416c790922c7c3db60d2ba865792d1b0.camel@linux.intel.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="OYU47mRhbLCfprsv"
-Content-Disposition: inline
-In-Reply-To: <20220910052759.27517-4-faithilikerun@gmail.com>
-Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
- helo=wout3-smtp.messagingengine.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,91 +107,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, 16 Sep 2022 21:15:35 +0800
+Robert Hoo <robert.hu@linux.intel.com> wrote:
 
---OYU47mRhbLCfprsv
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Fri, 2022-09-16 at 09:37 +0200, Igor Mammedov wrote:
+> 
+> > > Fine, get your point now.
+> > > In ASL it will look like this:
+> > >                     Local1 = Package (0x3) {STTS, SLSA, MAXT}
+> > >                     Return (Local1)  
+> > 
+> >   
+> > > 
+> > > But as for 
+> > >                     CreateDWordField (Local0, Zero, STTS)  //
+> > > Status
+> > >                     CreateDWordField (Local0, 0x04, SLSA)  //
+> > > SizeofLSA
+> > >                     CreateDWordField (Local0, 0x08, MAXT)  // Max
+> > > Trans
+> > > 
+> > > I cannot figure out how to substitute with LocalX. Can you shed
+> > > more
+> > > light?  
+> > 
+> > Leave this as is, there is no way to make it anonymous/local with
+> > FooField.
+> > 
+> > (well one might try to use Index and copy field's bytes into a buffer
+> > and
+> > then explicitly convert to Integer, but that's a rather convoluted
+> > way
+> > around limitation so I'd not go this route)
+> >   
+> OK, pls. take a look, how about this?
+> 
+> Method (_LSI, 0, Serialized)  // _LSI: Label Storage Information
+> {   
+>     Local0 = NCAL (ToUUID("4309ac30-0d11-11e4-9191-0800200c9a66"),
+> 0x02, 0x04, Zero, One)    // Buffer
+>     CreateDWordField (Local0, Zero, STTS)  // Status
+>     CreateDWordField (Local0, 0x04, SLSA)  // Size of LSA
+>     CreateDWordField (Local0, 0x08, MAXT)  // Max Transfer Size
+>     Local1 = Package (0x3) {STTS, SLSA, MAXT}
+>     Return (Local1)
+> }
+> 
+> Method (_LSR, 2, Serialized)  // _LSR: Label Storage Read
+> {
+>     Name (INPT, Buffer(8) {})
+>     CreateDWordField (INPT, Zero, OFST);
+>     CreateDWordField (INPT, 4, LEN);
+why do you have to create and use INPT, wouldn't local be enough to keep the buffer?
 
-On Sep 10 13:27, Sam Li wrote:
-> Add a new zoned_host_device BlockDriver. The zoned_host_device option
-> accepts only zoned host block devices. By adding zone management
-> operations in this new BlockDriver, users can use the new block
-> layer APIs including Report Zone and four zone management operations
-> (open, close, finish, reset).
->=20
-> Qemu-io uses the new APIs to perform zoned storage commands of the device:
-> zone_report(zrp), zone_open(zo), zone_close(zc), zone_reset(zrs),
-> zone_finish(zf).
->=20
-> For example, to test zone_report, use following command:
-> $ ./build/qemu-io --image-opts -n driver=3Dzoned_host_device, filename=3D=
-/dev/nullb0
-> -c "zrp offset nr_zones"
->=20
-> Signed-off-by: Sam Li <faithilikerun@gmail.com>
-> Reviewed-by: Hannes Reinecke <hare@suse.de>
-> ---
->  block/block-backend.c             | 145 ++++++++++++++
->  block/file-posix.c                | 323 +++++++++++++++++++++++++++++-
->  block/io.c                        |  41 ++++
->  include/block/block-io.h          |   7 +
->  include/block/block_int-common.h  |  21 ++
->  include/block/raw-aio.h           |   6 +-
->  include/sysemu/block-backend-io.h |  17 ++
->  meson.build                       |   1 +
->  qapi/block-core.json              |   8 +-
->  qemu-io-cmds.c                    | 143 +++++++++++++
->  10 files changed, 708 insertions(+), 4 deletions(-)
->=20
-> +/*
-> + * zone management operations - Execute an operation on a zone
-> + */
-> +static int coroutine_fn raw_co_zone_mgmt(BlockDriverState *bs, BlockZone=
-Op op,
-> +        int64_t offset, int64_t len) {
-> +#if defined(CONFIG_BLKZONED)
-> +    BDRVRawState *s =3D bs->opaque;
-> +    RawPosixAIOData acb;
-> +    int64_t zone_sector, zone_sector_mask;
-> +    const char *zone_op_name;
-> +    unsigned long zone_op;
-> +    bool is_all =3D false;
-> +
-> +    zone_sector =3D bs->bl.zone_sectors;
-> +    zone_sector_mask =3D zone_sector - 1;
-> +    if (offset & zone_sector_mask) {
-> +        error_report("sector offset %" PRId64 " is not aligned to zone s=
-ize "
-> +                     "%" PRId64 "", offset, zone_sector);
-> +        return -EINVAL;
-> +    }
-> +
-> +    if (len & zone_sector_mask) {
-> +        error_report("number of sectors %" PRId64 " is not aligned to zo=
-ne size"
-> +                      " %" PRId64 "", len, zone_sector);
-> +        return -EINVAL;
-> +    }
+>     OFST = Arg0
+>     LEN = Arg1
+>     Local0 = Package (0x01) {INPT}
+>     Local3 = NCAL (ToUUID("4309ac30-0d11-11e4-9191-0800200c9a66"),
+> 0x02, 0x05, Local0, One)
+>     CreateDWordField (Local3, Zero, STTS)
+>     CreateField (Local3, 32, LEN << 3, LDAT)
+>     Local1 = Package (0x2) {STTS, toBuffer(LDAT)}
+>     Return (Local1)
+> }
+> 
+> Method (_LSW, 3, Serialized)  // _LSW: Label Storage Write
+> {
+>     Local2 = Arg2
+>     Name (INPT, Buffer(8) {})
+ditto
 
-These checks impose a power-of-two constraint on the zone size. Can they
-be changed to divisions to lift that constraint? I don't see anything in
-this patch set that relies on power of two zone sizes.
+>     CreateDWordField (INPT, Zero, OFST);
+>     CreateDWordField (INPT, 4, TLEN);
+>     OFST = Arg0
+>     TLEN = Arg1
+>     Concatenate(INPT, Local2, INPT)
+>     Local0 = Package (0x01)
+>     {
+>         INPT
+>     }
+>     Local3 = NCAL (ToUUID ("4309ac30-0d11-11e4-9191-0800200c9a66"),
+> 0x02, 0x06, Local0, One)
+>     CreateDWordField (Local3, 0, STTS)
+>     Return (STTS)
+> }
+> 
+> 
+> 
 
---OYU47mRhbLCfprsv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmMpfvwACgkQTeGvMW1P
-DemdyAf/QTONQeJm1UUkrHLTZTcjPf7O8D2Djn9xA2hm67Pj7xTFUOqgAvO2/yO8
-EfRjPgJJ1w8mAkByb/h1rL8ZrasPG6REQopDFOQrL1szu2b7LyWOjzveuqfwKdKN
-cLCM0coG07lIz7z///17aQmVMrEgr3JoaN618we0M6ciQvVd6gmLlJta/CcA7JZN
-AfwUdhvLb+0gAcSIU8e7fJPFCmp1FefBF8Dt4IaLxrTj+Ajli50yymI56v5UaeZr
-gOIylwPxeN5o2vymd1YWWlyLN146RiXj1aXxCZrYQ7gVwKB6syGqA4xNv+CEtNV9
-DwfDrdIz93NPYIUHcFvqS3zED/Jr9A==
-=uvY0
------END PGP SIGNATURE-----
-
---OYU47mRhbLCfprsv--
 
