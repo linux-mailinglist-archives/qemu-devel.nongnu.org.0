@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44A925BEFF6
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 00:19:56 +0200 (CEST)
-Received: from localhost ([::1]:33240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 574CC5BEFBE
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 00:09:12 +0200 (CEST)
+Received: from localhost ([::1]:55620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oalat-00065U-12
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 18:19:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51392)
+	id 1oalQV-0006AO-Ck
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 18:09:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oagzf-00067U-L7
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:25:11 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:42968)
+ id 1oagqt-0000ho-3N
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:16:12 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:34367)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oagze-0001pC-3G
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:25:11 -0400
-Received: by mail-ej1-x630.google.com with SMTP id sb3so7822486ejb.9
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 10:25:09 -0700 (PDT)
+ id 1oagqr-0000k5-8t
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:16:06 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id y3so7863769ejc.1
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 10:16:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=SwsloABj9l4c1j5XqayskjiIM16mHr6hEPOnkBWi5uQ=;
- b=XHZ9edWefWpq/w+E3WTfaeN+tmWMenqZFrL3a6ZIGuVLG5lwa/pAHE7zsrBPfAQbzQ
- +QR9FahwkOEMEijozVnlce2nJuK2K07CwrAjoDZCGNzcKO5eVEOpophGy039zWrcXc8+
- uLVjVTN+Ko/3xpw0AYDUgvOmhP5FZfdmXjmh6kvInAo9HzluI7at4y7WDKvvzbliyGlx
- 9bCmurYpNusiWHn+5Jb2xX8lHYJHL+/wn1whHeCVyULcplEyWFiumSRR9gO3EHFc9iKV
- g1Xkmm/U3e7dnSrE9R/k8pAXM5mmNJtyfrDyU/5cuuhGQwHniXWFww/+NCXAxh4jP9rA
- m3zQ==
+ bh=N5I2F6uV15K8rJ+JfIBb+LUKr5djlIcn2XXO4PUTzSQ=;
+ b=kDNettcXcvfqL7fbnmOFmKmC8sk92FCfF2RE7rYPRqi8xu30qiMlo752lSCfwiNzTy
+ 087UWbizDmilUcdkzHjaG1nsvuS8JpJKlppwNLHo+mv3s35LhTd1tKLqYqJ/dvPizfdJ
+ 6quu7Zfpd7/uxc6zMJDCzyIAEOWM3cR2Oqhwk8l6jDC2mgp4wJbtUDOLNNF9rHuMEFVj
+ +XTZzLfPDcL8CmzMjf+8psVACOu8i123i5fzmSIuPuwSJHMorx6Ighpt599q5wvX6HVZ
+ B+FVXVEaaT7kGXn3hkV2ZzGF5CF31ZCJLhUGIZKqZamrcNmeu2Mb/t0GIVwkuBn2vvvz
+ 7xOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=SwsloABj9l4c1j5XqayskjiIM16mHr6hEPOnkBWi5uQ=;
- b=odXc70l06MadiHgSck9yJ9UBIrzZ/wwg4kLA4MqYd0QlMdJzp9QAC84s1b5WvnACnc
- o5v+qUQYYd4VcooFp6lRJQ32IjFFjH5FUAfwScRGmsg7eOtx51F8y3ORSzLePJhuUyQ4
- yh04M9srSJ9t4uuW2enPd3O71soK3GHiqhrZ7ssT/G7wgUVHi5lLn3zkE0IWk7KaPavN
- z8E2IJ8Sf6ZRGRa/tnBKLiZOC4w8AyRPE4YMPis30c4TiHRfKRHA6eXoHPGT4zTrC8cP
- Mx4j4ABqwupmSsLv8sVDUn210rrNl4F4867d6b6d57/8pi12Q1xkdFrg1czWRrxyCCpR
- pPNw==
-X-Gm-Message-State: ACrzQf0guwDD0z4zD1kF/bAjHjvKq8Rz84fvH9VqL7xWudxxe/yAYPKn
- oJWfsxVxh2MTNlDMcKaeAlo3k0swj7yk1A==
-X-Google-Smtp-Source: AMsMyM5cd2YoiWl8UMjtfi6Cfb/rLMlSHx+vxdB5IBkZgs7CR19p4H0Uf0oeEFIkMWk9z4iyEEQEPA==
-X-Received: by 2002:a17:907:1c03:b0:77b:9d77:c5 with SMTP id
- nc3-20020a1709071c0300b0077b9d7700c5mr17510887ejc.225.1663694709314; 
- Tue, 20 Sep 2022 10:25:09 -0700 (PDT)
+ bh=N5I2F6uV15K8rJ+JfIBb+LUKr5djlIcn2XXO4PUTzSQ=;
+ b=l9qLtKWr71DK8TUSUGWN3iRxkLBlUqO5oAQYfRpaGW5LRa26s5RYsCQu5ZPa/4VDOg
+ 0zzlzMn8hHLbVjakDWe3mC/U5uN3xrRb4oiwiCx0RJhxkoSDOCu9YElWjvnf4zA1rjs+
+ Uo6XXloh5LV1r/3g86nbMHiyloYw8kSnbjMv9HYm9qVIYuhqTwfqRONh0zXVugHD9c8B
+ xVgUmpqVKeGWe21EhJmkFS40pi7nx7si+LzaGP5wTv2Ve3Psb04SCMixNMqLuefm/xVD
+ F8ZAGBCkd3hfRdd8CRPjKKHho4khOgo5JTjMDK0A70hSFGljB3j6I93QxxMu2LL0r0mp
+ RbjQ==
+X-Gm-Message-State: ACrzQf2JgaEXe082KO1sk191rGQ2uqfTPxDd+ia73xMnC6XDZIDbH0NF
+ L5TiAmvfx4eedebMhA4numazCQ==
+X-Google-Smtp-Source: AMsMyM5aRuEYHAZYhB4CtIVKVQSqYrn7yJq4lhAsRbAd4oco/o7qIndlXUutVG1Ojt8kCkvvEFrApg==
+X-Received: by 2002:a17:907:3f87:b0:781:ee94:7f91 with SMTP id
+ hr7-20020a1709073f8700b00781ee947f91mr1122904ejc.52.1663694161325; 
+ Tue, 20 Sep 2022 10:16:01 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- b12-20020a170906d10c00b0076f99055520sm146043ejz.137.2022.09.20.10.24.56
+ d13-20020a17090648cd00b00770880dfc4fsm200665ejt.29.2022.09.20.10.15.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 10:25:02 -0700 (PDT)
+ Tue, 20 Sep 2022 10:15:55 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 88AAB1FFCA;
+ by zen.linaroharston (Postfix) with ESMTP id A08811FFBA;
  Tue, 20 Sep 2022 18:15:35 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com,
+Cc: stefanha@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 18/30] configure: explicitly set cflags for --disable-pie
-Date: Tue, 20 Sep 2022 18:15:21 +0100
-Message-Id: <20220920171533.1098094-19-alex.bennee@linaro.org>
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PULL 19/30] gitlab-ci/custom-runners: Disable -static-pie for
+ ubuntu-20.04-aarch64
+Date: Tue, 20 Sep 2022 18:15:22 +0100
+Message-Id: <20220920171533.1098094-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220920171533.1098094-1-alex.bennee@linaro.org>
 References: <20220920171533.1098094-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x630.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,28 +99,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is working around current limitation of Meson's handling of
---disable-pie.
+From: Richard Henderson <richard.henderson@linaro.org>
 
+The project has reached the magic size at which we see
+
+/usr/aarch64-linux-gnu/lib/libc.a(init-first.o): in function `__libc_init_first':
+(.text+0x10): relocation truncated to fit: R_AARCH64_LD64_GOTPAGE_LO15 against \
+symbol `__environ' defined in .bss section in /usr/aarch64-linux-gnu/lib/libc.a(environ.o)
+/usr/bin/ld: (.text+0x10): warning: too many GOT entries for -fpic, please recompile with -fPIC
+
+The bug has been reported upstream, but in the meantime there is
+nothing we can do except build a non-pie executable.
+
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220914155950.804707-19-alex.bennee@linaro.org>
+Message-Id: <20220823210329.1969895-1-richard.henderson@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20220914155950.804707-20-alex.bennee@linaro.org>
 
-diff --git a/configure b/configure
-index 575dde1c1f..0bbf9d28af 100755
---- a/configure
-+++ b/configure
-@@ -1382,6 +1382,9 @@ elif test "$pie" = "no"; then
-   if compile_prog "-Werror -fno-pie" "-no-pie"; then
-     CONFIGURE_CFLAGS="-fno-pie $CONFIGURE_CFLAGS"
-     CONFIGURE_LDFLAGS="-no-pie $CONFIGURE_LDFLAGS"
-+    # Meson currently only handles pie as a boolean for now so if we have
-+    # explicitly disabled PIE we need to extend our cflags because it wont.
-+    QEMU_CFLAGS="-fno-pie -no-pie $QEMU_CFLAGS"
-   fi
- elif compile_prog "-Werror -fPIE -DPIE" "-pie"; then
-   CONFIGURE_CFLAGS="-fPIE -DPIE $CONFIGURE_CFLAGS"
+diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
+index 3d878914e7..3f4dee4f86 100644
+--- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
++++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
+@@ -16,7 +16,9 @@ ubuntu-20.04-aarch64-all-linux-static:
+  # --disable-glusterfs is needed because there's no static version of those libs in distro supplied packages
+  - mkdir build
+  - cd build
+- - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
++ # Disable -static-pie due to build error with system libc:
++ # https://bugs.launchpad.net/ubuntu/+source/glibc/+bug/1987438
++ - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh --disable-pie
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+  - make --output-sync -j`nproc --ignore=40`
+  - make --output-sync -j`nproc --ignore=40` check V=1
 -- 
 2.34.1
 
