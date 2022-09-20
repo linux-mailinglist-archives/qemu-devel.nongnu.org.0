@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 906B95BED62
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 21:12:14 +0200 (CEST)
-Received: from localhost ([::1]:45938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D0A5BEE12
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 21:58:37 +0200 (CEST)
+Received: from localhost ([::1]:56042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaifF-0007ri-MU
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 15:12:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35952)
+	id 1oajO8-0006xb-FD
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 15:58:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oaeWt-0000m6-OZ
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 10:47:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58265)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oaeWp-00012o-MC
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 10:47:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663685234;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uyAGmWrpdSn1x3zCsfbb6mR7nHJnMctn20u9vqfsYvQ=;
- b=NBLrTpcm+mrQJmfovTkNCIllD7WPEijOCWLUPkz1YA32cVK33UUdeXCJ+9d9aDyFoFujit
- K/2+O93bII3c18uFnAf1XA7fTNJYUDMc7JQfl9VSjSEHcUIe9XaqrXb5bph+jiwvtF57df
- m+6Z3PtfNOdH6bWP/Uy3ZLZgM6sqZsM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-53-LN3W7xNaMGea3e2NQE8phg-1; Tue, 20 Sep 2022 10:47:13 -0400
-X-MC-Unique: LN3W7xNaMGea3e2NQE8phg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 71EE2862FDF;
- Tue, 20 Sep 2022 14:47:12 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2607140C206B;
- Tue, 20 Sep 2022 14:47:12 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E89F321E6900; Tue, 20 Sep 2022 16:47:09 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org,  eblake@redhat.com,  eduardo@habkost.net,
- berrange@redhat.com,  pbonzini@redhat.com,  mst@redhat.com,
- rvkagan@yandex-team.ru,  yc-core@yandex-team.ru
-Subject: Re: [PATCH] virtio: add VIRTQUEUE_ERROR QAPI event
-References: <20220919194805.195952-1-vsementsov@yandex-team.ru>
-Date: Tue, 20 Sep 2022 16:47:09 +0200
-In-Reply-To: <20220919194805.195952-1-vsementsov@yandex-team.ru> (Vladimir
- Sementsov-Ogievskiy's message of "Mon, 19 Sep 2022 22:48:05 +0300")
-Message-ID: <87czbqw1aq.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oaecN-0005x2-UI
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 10:53:00 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:34794)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oaecM-0001up-A9
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 10:52:59 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id z2so4257472edi.1
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 07:52:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=6k+UR6vpkzUD5ujSlALjelL/Gh07HL86g44Qa+1GFR8=;
+ b=Ti+xALDulbbpFKnWzsjqyRsDzYGFwRuVR6yfDwvem/v2KFH6plhgUkdklcXzHGOVSX
+ 3cw9GN4ptoC7ARLuSTeHfS1+WqIT/PnueeT5GxQ/xmrmiBMYZNrwQSQyCYuGxpIOs9p1
+ q6XP4Jhm7FSB7/SkThkdyk3cLUD+oMzr1x/q6H0y+GdhI6BM1mK2oi6KvPHr1MlEXpPZ
+ wfmFz18HT/BG6inNLqaFXqntOmq7hHzaV1Jp1GQxY9+OGA0A0Sp514UqN5D6v8JypNsP
+ xn7AuvRCgC7IKVfRY9m5v+XYe776mAXKwimve6kP40z+RYAF297KU7lOx9JG0ELA60np
+ VASA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=6k+UR6vpkzUD5ujSlALjelL/Gh07HL86g44Qa+1GFR8=;
+ b=AsH5V/I4cucw9/GJMjQndeqQGUahkAOAKhNPMHuf16EnansVk4/uWPT+wOmTWs/awC
+ BzXz3UVOQL3Wt4Mo/ENa8TOhmSn+cgJNYowCFIrzFUFJteWZBzzT2TPSrGjXsOTO5PDk
+ FTS5tXeS38uHVvjXrANSkro5WiJs/ljS0hJX0fYLShV1aM7uk2FtziTmZ271kqCww4on
+ XF9/Kd0qP0anq5sMeQKgXoVYSCd8uhk5nDpeRqCHDELfIxANOmBqXG9EQrRwvzv9YF3v
+ 3SfvIIXf6oRwU5JAWqqt3N4WQC3dnYFxKvDS037VKEKN2e9uYgqp9pOKu4/ZWRb3pc+F
+ 9ZJQ==
+X-Gm-Message-State: ACrzQf2HpbtqgG0zadJjyitw6bvxpuBzAtV7qBwADKJH5y+rBDMWSfqu
+ CxSPb9f9lLvKTYVWNtyvhWX5F/xNlOPTranE8pozOA==
+X-Google-Smtp-Source: AMsMyM7YiRpp8URugRWj9R60nHGAIIuozuwQD+387epoyalbRQbnblzcJI2YJXaXOMS7Ngkox26kqvhLn9Kkoi+ogjM=
+X-Received: by 2002:a05:6402:35c5:b0:450:4b7d:9c49 with SMTP id
+ z5-20020a05640235c500b004504b7d9c49mr20812656edc.149.1663685576726; Tue, 20
+ Sep 2022 07:52:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20220822152741.1617527-1-richard.henderson@linaro.org>
+ <20220822152741.1617527-18-richard.henderson@linaro.org>
+In-Reply-To: <20220822152741.1617527-18-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 20 Sep 2022 15:52:45 +0100
+Message-ID: <CAFEAcA-wQk1af=VWxBFmDSSmicn_qjcy88M5wns-SL8LqWXHUw@mail.gmail.com>
+Subject: Re: [PATCH v2 17/66] target/arm: Add is_secure parameter to
+ get_phys_addr_lpae
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,122 +87,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> writes:
-
-> For now we only log the vhost device error, when virtqueue is actually
-> stopped. Let's add a QAPI event, which makes possible:
+On Mon, 22 Aug 2022 at 17:33, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
->  - collect statistics of such errors
->  - make immediate actions: take coredums or do some other debugging
-
-Core dumps, I presume.
-
-Is QMP the right tool for the job?  Or could a trace point do?
-
-> The event could be reused for some other virtqueue problems (not only
-> for vhost devices) in future. For this it gets a generic name and
-> structure.
+> Remove the use of regime_is_secure from get_phys_addr_lpae,
+> using the new parameter instead.
 >
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-> ---
->  hw/virtio/vhost.c | 12 +++++++++---
->  qapi/qdev.json    | 25 +++++++++++++++++++++++++
->  2 files changed, 34 insertions(+), 3 deletions(-)
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+> @@ -2334,7 +2334,7 @@ bool get_phys_addr(CPUARMState *env, target_ulong a=
+ddress,
+>              memset(result, 0, sizeof(*result));
 >
-> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> index f758f177bb..caa81f2ace 100644
-> --- a/hw/virtio/vhost.c
-> +++ b/hw/virtio/vhost.c
-> @@ -15,6 +15,7 @@
->  
->  #include "qemu/osdep.h"
->  #include "qapi/error.h"
-> +#include "qapi/qapi-events-qdev.h"
->  #include "hw/virtio/vhost.h"
->  #include "qemu/atomic.h"
->  #include "qemu/range.h"
+>              ret =3D get_phys_addr_lpae(env, ipa, access_type, s2_mmu_idx=
+,
+> -                                     is_el0, result, fi);
+> +                                     ipa_secure, is_el0, result, fi);
+>              fi->s2addr =3D ipa;
 
-Only tangentially related to this patch, but here goes anyway:
+Depending on how we change patch 2, this may want to be looking at
+something other than ipa_secure.
 
-   /* enabled until disconnected backend stabilizes */
-   #define _VHOST_DEBUG 1
-
-This is from 2016.  Has it stabilized?
-
-   #ifdef _VHOST_DEBUG
-   #define VHOST_OPS_DEBUG(retval, fmt, ...) \
-       do { \
-           error_report(fmt ": %s (%d)", ## __VA_ARGS__, \
-                        strerror(-retval), -retval); \
-
-error_report() is for errors the user can do something about, not for
-debug messages.
-
-       } while (0)
-   #else
-   #define VHOST_OPS_DEBUG(retval, fmt, ...) \
-       do { } while (0)
-   #endif
-
-> @@ -1287,11 +1288,16 @@ static void vhost_virtqueue_error_notifier(EventNotifier *n)
->      struct vhost_virtqueue *vq = container_of(n, struct vhost_virtqueue,
->                                                error_notifier);
->      struct vhost_dev *dev = vq->dev;
-> -    int index = vq - dev->vqs;
->  
->      if (event_notifier_test_and_clear(n) && dev->vdev) {
-> -        VHOST_OPS_DEBUG(-EINVAL,  "vhost vring error in virtqueue %d",
-> -                        dev->vq_index + index);
-> +        int ind = vq - dev->vqs + dev->vq_index;
-> +        DeviceState *ds = &dev->vdev->parent_obj;
-> +
-> +        VHOST_OPS_DEBUG(-EINVAL,  "vhost vring error in virtqueue %d", ind);
-> +        qapi_event_send_virtqueue_error(!!ds->id, ds->id, ds->canonical_path,
-> +                                        ind, VIRTQUEUE_ERROR_VHOST_VRING_ERR,
-> +                                        "vhost reported failure through vring "
-> +                                        "error fd");
-
-Do we still need VHOST_OPS_DEBUG() here?
-
->      }
->  }
->  
-> diff --git a/qapi/qdev.json b/qapi/qdev.json
-> index 2708fb4e99..b7c2669c2c 100644
-> --- a/qapi/qdev.json
-> +++ b/qapi/qdev.json
-> @@ -158,3 +158,28 @@
->  ##
->  { 'event': 'DEVICE_UNPLUG_GUEST_ERROR',
->    'data': { '*device': 'str', 'path': 'str' } }
-> +
-> +##
-> +# @VirtqueueError:
-> +#
-> +# Since: 7.2
-> +##
-> +{ 'enum': 'VirtqueueError',
-> +  'data': [ 'vhost-vring-err' ] }
-> +
-> +##
-> +# @VIRTQUEUE_ERROR:
-> +#
-> +# Emitted when a device virtqueue fails in runtime.
-> +#
-> +# @device: the device's ID if it has one
-> +# @path: the device's QOM path
-> +# @virtqueue: virtqueue index
-> +# @error: error identifier
-> +# @description: human readable description
-> +#
-> +# Since: 7.2
-> +##
-> +{ 'event': 'VIRTQUEUE_ERROR',
-> + 'data': { '*device': 'str', 'path': 'str', 'virtqueue': 'int',
-> +            'error': 'VirtqueueError', 'description': 'str'} }
-
-Can the guest trigger the event?
-
-If yes, it needs to be rate-limited.
-
+thanks
+-- PMM
 
