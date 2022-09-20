@@ -2,46 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F3385BE8BE
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 16:23:27 +0200 (CEST)
-Received: from localhost ([::1]:53348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAEFF5BE8D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 16:26:41 +0200 (CEST)
+Received: from localhost ([::1]:60494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oae9m-00021c-1p
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 10:23:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58058)
+	id 1oaeCu-0004Zk-SV
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 10:26:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael.labiuk@virtuozzo.com>)
- id 1oaaoI-0003yY-Ui
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:49:05 -0400
-Received: from relay.virtuozzo.com ([130.117.225.111]:52113)
+ (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
+ id 1oabEo-0005fG-HC; Tue, 20 Sep 2022 07:16:27 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:6090)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael.labiuk@virtuozzo.com>)
- id 1oaaoD-0007yT-UM
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:49:00 -0400
-Received: from [192.168.16.178] (helo=mikewrk.sw.ru)
- by relay.virtuozzo.com with esmtp (Exim 4.95)
- (envelope-from <michael.labiuk@virtuozzo.com>) id 1oaaln-004fUv-30;
- Tue, 20 Sep 2022 12:48:39 +0200
-To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, den@virtuozzo.com
-Subject: [PATCH v4 5/7] tests/x86: Add 'q35' machine type to override-tests in
- hd-geo-test
-Date: Tue, 20 Sep 2022 13:48:40 +0300
-Message-Id: <20220920104842.605530-6-michael.labiuk@virtuozzo.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220920104842.605530-1-michael.labiuk@virtuozzo.com>
-References: <20220920104842.605530-1-michael.labiuk@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
+ id 1oabEk-0005jW-Do; Tue, 20 Sep 2022 07:16:24 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MWzPz6NLszMnNF;
+ Tue, 20 Sep 2022 19:11:35 +0800 (CST)
+Received: from kwepemm600007.china.huawei.com (7.193.23.208) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 20 Sep 2022 19:16:16 +0800
+Received: from [10.174.185.179] (10.174.185.179) by
+ kwepemm600007.china.huawei.com (7.193.23.208) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 20 Sep 2022 19:16:15 +0800
+Subject: Re: [kvm-unit-tests PATCH v4 07/12] arm: pmu: Basic event counter
+ Tests
+To: <eric.auger@redhat.com>
+CC: <eric.auger.pro@gmail.com>, <maz@kernel.org>,
+ <kvmarm@lists.cs.columbia.edu>, <kvm@vger.kernel.org>,
+ <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <andrew.murray@arm.com>,
+ <andre.przywara@arm.com>
+References: <20200403071326.29932-1-eric.auger@redhat.com>
+ <20200403071326.29932-8-eric.auger@redhat.com>
+ <8fa32eeb-f629-6c27-3b5f-a9a81656a679@huawei.com>
+ <82f23813-a8ca-d350-891f-100d23c9601e@redhat.com>
+Message-ID: <2f39a968-92fe-8ac7-94ab-e16f07019574@huawei.com>
+Date: Tue, 20 Sep 2022 19:16:14 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=130.117.225.111;
- envelope-from=michael.labiuk@virtuozzo.com; helo=relay.virtuozzo.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+In-Reply-To: <82f23813-a8ca-d350-891f-100d23c9601e@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.185.179]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemm600007.china.huawei.com (7.193.23.208)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188; envelope-from=yuzenghui@huawei.com;
+ helo=szxga02-in.huawei.com
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.182,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,187 +74,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Michael Labiuk <michael.labiuk@virtuozzo.com>
-From:  Michael Labiuk via <qemu-devel@nongnu.org>
+Reply-to:  Zenghui Yu <yuzenghui@huawei.com>
+From:  Zenghui Yu via <qemu-devel@nongnu.org>
 
-Signed-off-by: Michael Labiuk <michael.labiuk@virtuozzo.com>
----
- tests/qtest/hd-geo-test.c | 105 +++++++++++++++++++++++++++++++++++---
- 1 file changed, 98 insertions(+), 7 deletions(-)
+Hi Eric,
 
-diff --git a/tests/qtest/hd-geo-test.c b/tests/qtest/hd-geo-test.c
-index 413cf964c0..58b1107d64 100644
---- a/tests/qtest/hd-geo-test.c
-+++ b/tests/qtest/hd-geo-test.c
-@@ -693,7 +693,8 @@ static void add_virtio_disk(TestArgs *args,
-     args->n_virtio_disks++;
- }
- 
--static void test_override(TestArgs *args, CHSResult expected[])
-+static void test_override(TestArgs *args, const char *arch,
-+                          CHSResult expected[])
- {
-     QTestState *qts;
-     char *joined_args;
-@@ -702,7 +703,7 @@ static void test_override(TestArgs *args, CHSResult expected[])
- 
-     joined_args = g_strjoinv(" ", args->argv);
- 
--    qts = qtest_initf("-machine pc %s", joined_args);
-+    qts = qtest_initf("-machine %s %s", arch, joined_args);
-     fw_cfg = pc_fw_cfg_init(qts);
- 
-     read_bootdevices(fw_cfg, expected);
-@@ -739,7 +740,28 @@ static void test_override_ide(void)
-     add_ide_disk(args, 1, 0, 1, 9000, 120, 30);
-     add_ide_disk(args, 2, 1, 0, 0, 1, 1);
-     add_ide_disk(args, 3, 1, 1, 1, 0, 0);
--    test_override(args, expected);
-+    test_override(args, "pc", expected);
-+}
-+
-+static void test_override_sata(void)
-+{
-+    TestArgs *args = create_args();
-+    CHSResult expected[] = {
-+        {"/pci@i0cf8/pci8086,2922@1f,2/drive@0/disk@0", {10000, 120, 30} },
-+        {"/pci@i0cf8/pci8086,2922@1f,2/drive@1/disk@0", {9000, 120, 30} },
-+        {"/pci@i0cf8/pci8086,2922@1f,2/drive@2/disk@0", {0, 1, 1} },
-+        {"/pci@i0cf8/pci8086,2922@1f,2/drive@3/disk@0", {1, 0, 0} },
-+        {NULL, {0, 0, 0} }
-+    };
-+    add_drive_with_mbr(args, empty_mbr, 1);
-+    add_drive_with_mbr(args, empty_mbr, 1);
-+    add_drive_with_mbr(args, empty_mbr, 1);
-+    add_drive_with_mbr(args, empty_mbr, 1);
-+    add_ide_disk(args, 0, 0, 0, 10000, 120, 30);
-+    add_ide_disk(args, 1, 1, 0, 9000, 120, 30);
-+    add_ide_disk(args, 2, 2, 0, 0, 1, 1);
-+    add_ide_disk(args, 3, 3, 0, 1, 0, 0);
-+    test_override(args, "q35", expected);
- }
- 
- static void test_override_scsi(void)
-@@ -761,7 +783,43 @@ static void test_override_scsi(void)
-     add_scsi_disk(args, 1, 0, 0, 1, 0, 9000, 120, 30);
-     add_scsi_disk(args, 2, 0, 0, 2, 0, 1, 0, 0);
-     add_scsi_disk(args, 3, 0, 0, 3, 0, 0, 1, 0);
--    test_override(args, expected);
-+    test_override(args, "pc", expected);
-+}
-+
-+static void setup_pci_bridge(TestArgs *args, const char *id, const char *rootid)
-+{
-+
-+    char *root, *br;
-+    root = g_strdup_printf("-device pcie-root-port,id=%s", rootid);
-+    br = g_strdup_printf("-device pcie-pci-bridge,bus=%s,id=%s", rootid, id);
-+
-+    args->argc = append_arg(args->argc, args->argv, ARGV_SIZE, root);
-+    args->argc = append_arg(args->argc, args->argv, ARGV_SIZE, br);
-+}
-+
-+static void test_override_scsi_q35(void)
-+{
-+    TestArgs *args = create_args();
-+    CHSResult expected[] = {
-+        {   "/pci@i0cf8/pci-bridge@1/scsi@3/channel@0/disk@0,0",
-+            {10000, 120, 30}
-+        },
-+        {"/pci@i0cf8/pci-bridge@1/scsi@3/channel@0/disk@1,0", {9000, 120, 30} },
-+        {"/pci@i0cf8/pci-bridge@1/scsi@3/channel@0/disk@2,0", {1, 0, 0} },
-+        {"/pci@i0cf8/pci-bridge@1/scsi@3/channel@0/disk@3,0", {0, 1, 0} },
-+        {NULL, {0, 0, 0} }
-+    };
-+    add_drive_with_mbr(args, empty_mbr, 1);
-+    add_drive_with_mbr(args, empty_mbr, 1);
-+    add_drive_with_mbr(args, empty_mbr, 1);
-+    add_drive_with_mbr(args, empty_mbr, 1);
-+    setup_pci_bridge(args, "pcie.0", "br");
-+    add_scsi_controller(args, "lsi53c895a", "br", 3);
-+    add_scsi_disk(args, 0, 0, 0, 0, 0, 10000, 120, 30);
-+    add_scsi_disk(args, 1, 0, 0, 1, 0, 9000, 120, 30);
-+    add_scsi_disk(args, 2, 0, 0, 2, 0, 1, 0, 0);
-+    add_scsi_disk(args, 3, 0, 0, 3, 0, 0, 1, 0);
-+    test_override(args, "q35", expected);
- }
- 
- static void test_override_scsi_2_controllers(void)
-@@ -784,7 +842,7 @@ static void test_override_scsi_2_controllers(void)
-     add_scsi_disk(args, 1, 0, 0, 1, 0, 9000, 120, 30);
-     add_scsi_disk(args, 2, 1, 0, 0, 1, 1, 0, 0);
-     add_scsi_disk(args, 3, 1, 0, 1, 2, 0, 1, 0);
--    test_override(args, expected);
-+    test_override(args, "pc", expected);
- }
- 
- static void test_override_virtio_blk(void)
-@@ -799,7 +857,23 @@ static void test_override_virtio_blk(void)
-     add_drive_with_mbr(args, empty_mbr, 1);
-     add_virtio_disk(args, 0, "pci.0", 3, 10000, 120, 30);
-     add_virtio_disk(args, 1, "pci.0", 4, 9000, 120, 30);
--    test_override(args, expected);
-+    test_override(args, "pc", expected);
-+}
-+
-+static void test_override_virtio_blk_q35(void)
-+{
-+    TestArgs *args = create_args();
-+    CHSResult expected[] = {
-+        {"/pci@i0cf8/pci-bridge@2/scsi@3/disk@0,0", {10000, 120, 30} },
-+        {"/pci@i0cf8/pci-bridge@2/scsi@4/disk@0,0", {9000, 120, 30} },
-+        {NULL, {0, 0, 0} }
-+    };
-+    add_drive_with_mbr(args, empty_mbr, 1);
-+    add_drive_with_mbr(args, empty_mbr, 1);
-+    setup_pci_bridge(args, "pcie.0", "br");
-+    add_virtio_disk(args, 0, "br", 3, 10000, 120, 30);
-+    add_virtio_disk(args, 1, "br", 4, 9000, 120, 30);
-+    test_override(args, "pc", expected);
- }
- 
- static void test_override_zero_chs(void)
-@@ -810,7 +884,18 @@ static void test_override_zero_chs(void)
-     };
-     add_drive_with_mbr(args, empty_mbr, 1);
-     add_ide_disk(args, 0, 1, 1, 0, 0, 0);
--    test_override(args, expected);
-+    test_override(args, "pc", expected);
-+}
-+
-+static void test_override_zero_chs_q35(void)
-+{
-+    TestArgs *args = create_args();
-+    CHSResult expected[] = {
-+        {NULL, {0, 0, 0} }
-+    };
-+    add_drive_with_mbr(args, empty_mbr, 1);
-+    add_ide_disk(args, 0, 0, 0, 0, 0, 0);
-+    test_override(args, "q35", expected);
- }
- 
- static void test_override_scsi_hot_unplug(void)
-@@ -965,13 +1050,19 @@ int main(int argc, char **argv)
-     qtest_add_func("hd-geo/ide/device/user/chst", test_ide_device_user_chst);
-     if (have_qemu_img()) {
-         qtest_add_func("hd-geo/override/ide", test_override_ide);
-+        qtest_add_func("hd-geo/override/sata", test_override_sata);
-         if (qtest_has_device("lsi53c895a")) {
-             qtest_add_func("hd-geo/override/scsi", test_override_scsi);
-+            qtest_add_func("hd-geo/override/scsiq35", test_override_scsi_q35);
-             qtest_add_func("hd-geo/override/scsi_2_controllers",
-                            test_override_scsi_2_controllers);
-         }
-         qtest_add_func("hd-geo/override/virtio_blk", test_override_virtio_blk);
-+        qtest_add_func("hd-geo/override/virtio_blk_q35",
-+                       test_override_virtio_blk_q35);
-         qtest_add_func("hd-geo/override/zero_chs", test_override_zero_chs);
-+        qtest_add_func("hd-geo/override/zero_chs_q35",
-+                       test_override_zero_chs_q35);
-         qtest_add_func("hd-geo/override/scsi_hot_unplug",
-                        test_override_scsi_hot_unplug);
-         qtest_add_func("hd-geo/override/virtio_hot_unplug",
--- 
-2.34.1
+On 2022/9/20 17:23, Eric Auger wrote:
+> Hi Zenghui,
+> 
+> On 9/19/22 16:30, Zenghui Yu wrote:
+>> Hi Eric,
+>>
+>> A few comments when looking through the PMU test code (2 years after
+>> the series was merged).
+> 
+> Thank you for reviewing even after this time! Do you want to address the
+> issues yourself and send a patch series or do you prefer I proceed?
 
+It'd be great if you could help to proceed. I'm afraid that I don't
+have enough time to deal with it in the next few days.
+
+Thanks,
+Zenghui
 
