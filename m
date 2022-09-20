@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B66815BF159
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 01:38:10 +0200 (CEST)
-Received: from localhost ([::1]:32938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F6D75BF16E
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 01:43:51 +0200 (CEST)
+Received: from localhost ([::1]:56918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oamob-0007Qz-Qi
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 19:38:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55680)
+	id 1oamu6-0004hx-IT
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 19:43:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oaj8x-0001Sf-SW; Tue, 20 Sep 2022 15:42:58 -0400
-Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:45924)
+ id 1oaj8x-0001Sg-Sn; Tue, 20 Sep 2022 15:42:58 -0400
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:43693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oaj8s-0001sE-6b; Tue, 20 Sep 2022 15:42:53 -0400
-Received: by mail-ot1-x336.google.com with SMTP id
- j17-20020a9d7f11000000b0065a20212349so2454393otq.12; 
- Tue, 20 Sep 2022 12:42:43 -0700 (PDT)
+ id 1oaj8t-0001px-BG; Tue, 20 Sep 2022 15:42:54 -0400
+Received: by mail-oi1-x22f.google.com with SMTP id t62so5074712oie.10;
+ Tue, 20 Sep 2022 12:42:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=kaoxYwqVYMfX1J/FS5qVCcaBu8reM1m5FL76Ohk+ggw=;
- b=QAfdJZwSoRMCCiKwvjv61ipWz9YQaie8sRqhBWaMyxXKPm6uv5fnZEc1bCt8o0arTr
- OfQnExybzkOOs5kALCkshL0pNY62KSxu5bv1lWmhoZaFJ6V7nWegULaxuIjwL99YQako
- dKJSAs23O0/G2Ab6E/StGyfraVRk5AmwgnKbYmbiuRCpZ6rlpTl4qVeQgKOVCFHl2JII
- xysHkyYRD/cAiZQoCZbMXvGcfVpy+gKrMudckg0buqy2YOp8XsYleRWwqHOlb8IuP7+N
- m2UY0eTBg7K4kFhhxrsd0SwtY4VYPzAcBMc8k59+K6OPDUTPigwj11Af+dfaADlOGl9v
- cOUw==
+ bh=oNT0UKHr27Jw0ana50L26+pSnwgqDtjOIH2F40x+irg=;
+ b=KRUxc7T0JbC2fSD0jLT3Y5KTHLIPlzrQ5mNcpuQJJgDttPR6Jlib8Cfw0HRZfveKfa
+ yu1uRHEuyb1oNoc9obRulSQBOOIqtR7vV2VMFXXDA9HR74tuMk9AieH4RWjrRJZKtlN4
+ v9PkrIKwAQS+n9C85468xiScq6z23P8NT9x+ITV8wsYd3RGleeI8QV/hM4ytOfdvFJQh
+ OAtLR12trYFEnVD/N0k66Li2wp3G9xy53FB6bq2hiJnLO8SLZI6M/JC5yPVvMJs12+x2
+ FV+8WdLurX6JWt1MEuevpMFBfy2Jv1jGggxyYT3ebMSEOjKzLxrsTHvLPR5nUXwhNkB0
+ kWaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=kaoxYwqVYMfX1J/FS5qVCcaBu8reM1m5FL76Ohk+ggw=;
- b=sZx53Tn9N0bTIaWjfHNTjNMeHphBkBa4J3np4pu1VBegc+djDI4+I/Iukfc47/pu3H
- qzWoP06Bx54m6j0wwlKLpESU9Lhk6zFz5B/kkS2Xog6gWjUGuIh2pnVvir/mYMvIZL6t
- 1GUbip4ODT/mg1R2Ip++fH40rLXtKnILV8UdGzSth9hFhn4zZQ+Qe+VED+pU8XEqUZZn
- L6MDEByfOTPM0Tyu3i9VCnpaCTe39bbKd+0unKDeYRsrRqk7uSMJ9SwkOZ4/fywOdt6/
- VZ+ZPGWYwVCZuHpvkrIKZNw0IYXsDDg64zCNU5o1l24qXqCupjsCM28EFmypZOkHIdlM
- vnXQ==
-X-Gm-Message-State: ACrzQf0q2xO92bsbF+ayuUZZQuBq0aY2DTPdlLgxuab73AOHTgFcUUKs
- TUR3mczogvgq1yauKdyGyTiuYcfMXRI=
-X-Google-Smtp-Source: AMsMyM6j+c5UkgNtAqblpGe4s8NnMtK0J8cZR95DMGNAvvkQxJwwVbfThkrUa+Y+WRXW6uPevCyHvA==
-X-Received: by 2002:a9d:2963:0:b0:65b:a27e:f536 with SMTP id
- d90-20020a9d2963000000b0065ba27ef536mr1497113otb.364.1663702962511; 
- Tue, 20 Sep 2022 12:42:42 -0700 (PDT)
+ bh=oNT0UKHr27Jw0ana50L26+pSnwgqDtjOIH2F40x+irg=;
+ b=vlt3zcScji6iMeS5VSWjPvUer/ju1NFsSfqIy5UfNfrrZoqvEO2avzN144zLYgz3XB
+ FMb+0bOgJU3n7PD0TJQf5URIlAjL5tNkdNH7wFgFG/8/PiSciQEFgtnJgOp6ZgpQD5g6
+ oHm0htGEOZ2hGKy8pb6qvoeoaBGmiwG00eOY1shmNvgat6bCBk96qKlgO2SttLnH78dq
+ YZxg5B+E/A+c3CrHoOqsM8ZjLLq6o4ktSq9686qEPCVzlA6Vh4UOvXxPIHkHecdm7FGW
+ Z2BkQBAvDAWHR13CG9wpOkyOExvZHwy8oVfdP/B/CI4u0GzjbNZ6xO3h9SwRKL/DxB6g
+ /njQ==
+X-Gm-Message-State: ACrzQf2SEpStGELRxbI+nSHD6WphoI5Px6Ooml1RtgeX58oXxudKPI4s
+ VUzmoLelVS6fa338icG0d1pGktZOZiQ=
+X-Google-Smtp-Source: AMsMyM5KVN1FmEIJy9oLfu12rBwlhGh2YfrP9/MGfmQFAnld3k9lTizZ1VWWajRJiyZ5PV5zwGo+8g==
+X-Received: by 2002:a05:6808:140d:b0:350:d77c:4e6d with SMTP id
+ w13-20020a056808140d00b00350d77c4e6dmr1745902oiv.160.1663702964944; 
+ Tue, 20 Sep 2022 12:42:44 -0700 (PDT)
 Received: from balboa.COMFAST ([191.193.2.69])
  by smtp.gmail.com with ESMTPSA id
- e33-20020a05687023a100b0012763819bcasm333808oap.50.2022.09.20.12.42.39
+ e33-20020a05687023a100b0012763819bcasm333808oap.50.2022.09.20.12.42.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 12:42:42 -0700 (PDT)
+ Tue, 20 Sep 2022 12:42:44 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org,
  =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 12/17] target/ppc: Set OV32 when OV is set
-Date: Tue, 20 Sep 2022 16:41:57 -0300
-Message-Id: <20220920194202.82615-13-danielhb413@gmail.com>
+Subject: [PULL 13/17] target/ppc: Zero second doubleword of VSR registers for
+ FPR insns
+Date: Tue, 20 Sep 2022 16:41:58 -0300
+Message-Id: <20220920194202.82615-14-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220920194202.82615-1-danielhb413@gmail.com>
 References: <20220920194202.82615-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x336.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22f.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -94,37 +94,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Víctor Colombo <victor.colombo@eldorado.org.br>
 
-According to PowerISA: "OV32 is set whenever OV is implicitly set, and
-is set to the same value that OV is defined to be set to in 32-bit
-mode".
+FPR register are mapped to the first doubleword of the VSR registers.
+Since PowerISA v3.1, the second doubleword of the target register
+must be zeroed for FP instructions.
 
-This patch changes helper_update_ov_legacy to set/clear ov32 when
-applicable.
+This patch does it by writting 0 to the second dw everytime the
+first dw is being written using set_fpr.
 
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20220906125523.38765-7-victor.colombo@eldorado.org.br>
+Message-Id: <20220906125523.38765-8-victor.colombo@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/int_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/ppc/translate.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index d905f07d02..696096100b 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -37,9 +37,9 @@
- static inline void helper_update_ov_legacy(CPUPPCState *env, int ov)
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 29939bd923..e810842925 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -6443,6 +6443,14 @@ static inline void get_fpr(TCGv_i64 dst, int regno)
+ static inline void set_fpr(int regno, TCGv_i64 src)
  {
-     if (unlikely(ov)) {
--        env->so = env->ov = 1;
-+        env->so = env->ov = env->ov32 = 1;
-     } else {
--        env->ov = 0;
-+        env->ov = env->ov32 = 0;
-     }
+     tcg_gen_st_i64(src, cpu_env, fpr_offset(regno));
++    /*
++     * Before PowerISA v3.1 the result of doubleword 1 of the VSR
++     * corresponding to the target FPR was undefined. However,
++     * most (if not all) real hardware were setting the result to 0.
++     * Starting at ISA v3.1, the result for doubleword 1 is now defined
++     * to be 0.
++     */
++    tcg_gen_st_i64(tcg_constant_i64(0), cpu_env, vsr64_offset(regno, false));
  }
  
+ static inline void get_avr64(TCGv_i64 dst, int regno, bool high)
 -- 
 2.37.3
 
