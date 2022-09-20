@@ -2,92 +2,133 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 220005BF1E9
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 02:22:52 +0200 (CEST)
-Received: from localhost ([::1]:55154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D9105BF1F9
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 02:30:57 +0200 (CEST)
+Received: from localhost ([::1]:54860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oanVr-0000cM-6N
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 20:22:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33456)
+	id 1oandg-0002cj-CK
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 20:30:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oam6V-0005zo-3Z
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 18:52:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35243)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oam6S-0001VP-Ir
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 18:52:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663714352;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eFM6UBQq9Gr7xD4s6za7TeZ1aBDahyr8gEmlZoCT4PI=;
- b=icb2oiMSZVvAubtk6JLf0pxssARoFKlVGsTe/V5BqfFlPKM+Pa7jq1740pN0oTYMTk6YUo
- ZBt4XbVRugpoZOOqPjTxWU+Pi+e/qTl5wz3ac94RA5OQft5EEAhR+7n4R3jTz9ZXi2tvgx
- IuqS3+sbEU4r1CSc3K5N0SRx/+rIITU=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-85-mDsLSB9aM-ugoO9R3YQddg-1; Tue, 20 Sep 2022 18:52:31 -0400
-X-MC-Unique: mDsLSB9aM-ugoO9R3YQddg-1
-Received: by mail-qv1-f69.google.com with SMTP id
- n15-20020ad444af000000b004a2a341ad71so3049218qvt.15
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 15:52:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oamDg-0004vG-HC; Tue, 20 Sep 2022 19:00:00 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:36438)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oamDb-0002dQ-RW; Tue, 20 Sep 2022 19:00:00 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id 13so9736860ejn.3;
+ Tue, 20 Sep 2022 15:59:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=5zGDMClH44o9kBaZpfqB55k2zUqfrg9XV0PUDaOzJJI=;
+ b=fLhdMY9oJXsreiLcZGR2iqMruYR+8+TCZiJyOzjDIshhi2bT8T6q+tOne1hiOdyqXO
+ VTm+mfBfnxXUp/6y/e1nSyP1Dn84N9RSnK9nSVgTSpuwcpk871Gfn+3pte5bQrIhLcRl
+ eGbrMzV5MZcAqPSa7RkI/rIP+ODd6Bso+zAhveSvEjr2iX7tCpsYpQOzGMxKRuBrqoWv
+ +RHUpwX3uIOzr495dtL2pNiP6gCRKUw0kDX34CF8YVOy2VTong7eOTkVA+a7yHmD1cBV
+ qeJNxDhMGv21t0c0x7Yap8LkRSR3ZyVHRzCNFWE0M/lla9o40AxvSWMHge7zOl/LWLNS
+ ENnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date;
- bh=eFM6UBQq9Gr7xD4s6za7TeZ1aBDahyr8gEmlZoCT4PI=;
- b=S+TJaucxs+Pa4q7n1DhgloPXF7dcDGM50IwYIStPJpFYdZDcxj5CEr7+oSyWqgzqel
- U7dKWcQvlrSKXTSexX39+mXrh/qn/KM3vEOir7Gu3pGpvfDUHbC5RUqk41QQmLm1ktV4
- T6RIJRqX5+wE961dXQGvadrLhcw/dwF6QFH8XAJ8sG2S/mwSOgQfIjqS+PsJZInFlU2g
- qo8hBKM0RIn+xphBavqzOpKrKAep68hr4bR0b+Gw3Feb0ldHg3rbp+d4EtmEPsXtqeex
- dfkYPo0z3YYdfidVGRsaIwv1t17rLpNhLxCni+APS/AZIGiGuAqIbFocD03jSPSbuXkx
- IPCg==
-X-Gm-Message-State: ACrzQf06npSFUPrlDYed/xdhAHecU2YrnJGnfVu25VpVy9LZ2pGw32YU
- M1a5K4hZOoCHjUbfb+cK9/lIc55So9VdFAAgOR0LPTAuxaA2qOdCGEM4dL7yDgamvghp7YmvzV1
- wd7o/EoPRutVRfnSp2PSkJlMgbWAAs9nJtgZAilAkQSsX97Sr0E5b0G5oeRa1STer
-X-Received: by 2002:a05:620a:2956:b0:6ce:60f5:d887 with SMTP id
- n22-20020a05620a295600b006ce60f5d887mr18126442qkp.303.1663714350079; 
- Tue, 20 Sep 2022 15:52:30 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM49lITWSIq6Qf4eStlCqcoinipwVYURNvenIv6S2ySvesFAJ4U0gTAtHMOq9uUg1mM4c/vx6Q==
-X-Received: by 2002:a05:620a:2956:b0:6ce:60f5:d887 with SMTP id
- n22-20020a05620a295600b006ce60f5d887mr18126421qkp.303.1663714349600; 
- Tue, 20 Sep 2022 15:52:29 -0700 (PDT)
-Received: from localhost.localdomain
- (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca. [70.31.27.79])
- by smtp.gmail.com with ESMTPSA id
- z12-20020ac87f8c000000b0035ba7012724sm596479qtj.70.2022.09.20.15.52.28
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 20 Sep 2022 15:52:29 -0700 (PDT)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: peterx@redhat.com, Manish Mishra <manish.mishra@nutanix.com>,
- Juan Quintela <quintela@redhat.com>, ani@anisinha.ca,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>
-Subject: [PATCH 13/14] migration: Remove old preempt code around state
- maintainance
-Date: Tue, 20 Sep 2022 18:52:27 -0400
-Message-Id: <20220920225227.49158-1-peterx@redhat.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220920225106.48451-1-peterx@redhat.com>
-References: <20220920225106.48451-1-peterx@redhat.com>
+ bh=5zGDMClH44o9kBaZpfqB55k2zUqfrg9XV0PUDaOzJJI=;
+ b=FpIN4Cemk00XLaFhOLK2GONamigL0doo+v9F5kyxzJzn9abKdBLzx4kCaVsTaidXzo
+ mDW+hm7OE7R1cZApFCkGFUGPI3vMBERcHRF5/aWP072LjIIu3mOsdUqtMzxbYL1LwP2u
+ pa/V+yFtLxPvMcl4bxvoGWkY1/PQ8ltNeZ+nVlq4HiM+Lqm4iG9kMIZJb84aO03cjH+q
+ /OwrRPQmP/kvcXCsoFiBnVrhgQruBMFK2LqHIPCauikHcdNwpyCUaKOAsFvC9xyXps3S
+ 4YDisoZKm9UtAKIq3xYtVDhRVL6+xKvES0yROj+yp4cSx5al35EM1aJON4OKbvWRywy7
+ LvRQ==
+X-Gm-Message-State: ACrzQf0CnAmoNol17ZyeSxrHxxmGF7DL6ig1Avs7DdAesvRauNgdVpGN
+ kd9+3o5fC6Up+jHSNL7zdtI=
+X-Google-Smtp-Source: AMsMyM68ho+SYOSTwNpH652r4SoJ1volg4FPzzUg+Xkd/7GxX6MGFhW5pQGNcXjCKdvhJIRWBodr2w==
+X-Received: by 2002:a17:906:8a53:b0:781:6ee9:db96 with SMTP id
+ gx19-20020a1709068a5300b007816ee9db96mr7656219ejc.301.1663714791350; 
+ Tue, 20 Sep 2022 15:59:51 -0700 (PDT)
+Received: from [127.0.0.1] (dynamic-078-054-006-055.78.54.pool.telefonica.de.
+ [78.54.6.55]) by smtp.gmail.com with ESMTPSA id
+ kw9-20020a170907770900b00781d411a63csm466007ejc.151.2022.09.20.15.59.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Sep 2022 15:59:50 -0700 (PDT)
+Date: Tue, 20 Sep 2022 22:59:42 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Peter Maydell <peter.maydell@linaro.org>
+CC: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Bandan Das <bsd@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Sergio Lopez <slp@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>, Cameron Esfahani <dirty@apple.com>, 
+ Michael Rolnik <mrolnik@gmail.com>, Song Gao <gaosong@loongson.cn>,
+ Jagannathan Raman <jag.raman@oracle.com>, Greg Kurz <groug@kaod.org>,
+ Kamil Rytarowski <kamil@netbsd.org>, Peter Xu <peterx@redhat.com>,
+ Joel Stanley <joel@jms.id.au>, Alistair Francis <Alistair.Francis@wdc.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, haxm-team@intel.com,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Markus Armbruster <armbru@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ =?ISO-8859-1?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ =?ISO-8859-1?Q?C=E9dric_Le_Goater?= <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Eduardo Habkost <eduardo@habkost.net>,
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ qemu-ppc@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Helge Deller <deller@gmx.de>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-riscv@nongnu.org, Stafford Horne <shorne@gmail.com>,
+ Paul Durrant <paul@xen.org>, Havard Skinnemoen <hskinnemoen@google.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Alexander Graf <agraf@csgraf.de>, Thomas Huth <thuth@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Wenchao Wang <wenchao.wang@intel.com>, Tony Krowiak <akrowiak@linux.ibm.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-s390x@nongnu.org,
+ =?ISO-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>,
+ Eric Farman <farman@linux.ibm.com>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Alexander Bulekov <alxndr@bu.edu>, Yanan Wang <wangyanan55@huawei.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Tyrone Ting <kfting@nuvoton.com>,
+ xen-devel@lists.xenproject.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ John Snow <jsnow@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Darren Kenny <darren.kenny@oracle.com>, kvm@vger.kernel.org,
+ Qiuhao Li <Qiuhao.Li@outlook.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Bin Meng <bin.meng@windriver.com>, Sunil Muthuswamy <sunilmut@microsoft.com>, 
+ Max Filippov <jcmvbkbc@gmail.com>, qemu-arm@nongnu.org,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, Andrew Jeffery <andrew@aj.id.au>, 
+ Artyom Tarasenko <atar4qemu@gmail.com>, Halil Pasic <pasic@linux.ibm.com>,
+ "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>,
+ Alistair Francis <alistair@alistair23.me>,
+ Jason Herne <jjherne@linux.ibm.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_0/9=5D_Deprecate_sysbus=5Fget=5Fd?=
+ =?US-ASCII?Q?efault=28=29_and_get=5Fsystem=5Fmemory=28=29_et=2E_al?=
+In-Reply-To: <49325e7d-5020-23f7-4bce-c53d8d988c95@ilande.co.uk>
+References: <20220919231720.163121-1-shentey@gmail.com>
+ <CAFEAcA8GjXFO4WK=KybgSc8rMfqecwD9EXS0kZMKtqogNf1Tsg@mail.gmail.com>
+ <49325e7d-5020-23f7-4bce-c53d8d988c95@ilande.co.uk>
+Message-ID: <7DBD5114-15B2-42A7-AB97-35DBF9DDA825@gmail.com>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,401 +145,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the new code to send pages in rp-return thread, there's little help to
-keep lots of the old code on maintaining the preempt state in migration
-thread, because the new way should always be faster..
+Am 20=2E September 2022 15:36:26 UTC schrieb Mark Cave-Ayland <mark=2Ecave-=
+ayland@ilande=2Eco=2Euk>:
+>On 20/09/2022 10:55, Peter Maydell wrote:
+>
+>> On Tue, 20 Sept 2022 at 00:18, Bernhard Beschow <shentey@gmail=2Ecom> w=
+rote:
+>>>=20
+>>> In address-spaces=2Eh it can be read that get_system_memory() and
+>>> get_system_io() are temporary interfaces which "should only be used te=
+mporarily
+>>> until a proper bus interface is available"=2E This statement certainly=
+ extends to
+>>> the address_space_memory and address_space_io singletons=2E
+>>=20
+>> This is a long standing "we never really completed a cleanup"=2E=2E=2E
+>>=20
+>>> This series attempts
+>>> to stop further proliferation of their use by turning TYPE_SYSTEM_BUS =
+into an
+>>> object-oriented, "proper bus interface" inspired by PCIBus=2E
+>>>=20
+>>> While at it, also the main_system_bus singleton is turned into an attr=
+ibute of
+>>> MachineState=2E Together, this resolves five singletons in total, maki=
+ng the
+>>> ownership relations much more obvious which helps comprehension=2E
+>>=20
+>> =2E=2E=2Ebut I don't think this is the direction we want to go=2E
+>> Overall the reason that the "system memory" and "system IO"
+>> singletons are weird is that in theory they should not be necessary
+>> at all -- board code should create devices and map them into an
+>> entirely arbitrary MemoryRegion or set of MemoryRegions corresponding
+>> to address space(s) for the CPU and for DMA-capable devices=2E But we
+>> keep them around because
+>>   (a) there is a ton of legacy code that assumes there's only one
+>>       address space in the system and this is it
+>>   (b) when modelling the kind of board where there really is only
+>>       one address space, having the 'system memory' global makes
+>>       the APIs for creating and connecting devices a lot simpler
+>>=20
+>> Retaining the whole-system singleton but shoving it into MachineState
+>> doesn't really change much, IMHO=2E
+>>=20
+>> More generally, sysbus is rather weird because it isn't really a
+>> bus=2E Every device in the system of TYPE_SYS_BUS_DEVICE is "on"
+>> the unique TYPE_SYSTEM_BUS bus, but that doesn't mean they're
+>> all in the same address space or that in real hardware they'd
+>> all be on the same bus=2E sysbus has essentially degraded into a
+>> hack for having devices get reset=2E I really really need to make
+>> some time to have another look at reset handling=2E If we get that
+>> right then I think it's probably possible to collapse the few
+>> things TYPE_SYS_BUS_DEVICE does that TYPE_DEVICE does not down
+>> into TYPE_DEVICE and get rid of sysbus altogether=2E=2E=2E
+>
+>Following on from one of the discussion points from Alex's KVM Forum BoF =
+session: I think longer term what we need to aim for is for QEMU machines t=
+o define their own address spaces, and then bind those address spaces conta=
+ining memory-mapped devices to one or more CPUs=2E
 
-Then if we'll always send pages in the rp-return thread anyway, we don't
-need those logic to maintain preempt state anymore because now we serialize
-things using the mutex directly instead of using those fields.
+Isn't that more or less impossible with singletons?
 
-It's very unfortunate to have those code for a short period, but that's
-still one intermediate step that we noticed the next bottleneck on the
-migration thread.  Now what we can do best is to drop unnecessary code as
-long as the new code is stable to reduce the burden.  It's actually a good
-thing because the new "sending page in rp-return thread" model is (IMHO)
-even cleaner and with better performance.
+>
+>Once this in place, as Peter notes above it just remains to solve the res=
+et problem and then it becomes possible to eliminate sysbus altogether as e=
+verything else can already be managed by qdev/QOM=2E
 
-Remove the old code that was responsible for maintaining preempt states, at
-the meantime also remove x-postcopy-preempt-break-huge parameter because
-with concurrent sender threads we don't really need to break-huge anymore.
+Also see my reply to Peter=2E
 
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- migration/migration.c |   2 -
- migration/ram.c       | 258 +-----------------------------------------
- 2 files changed, 3 insertions(+), 257 deletions(-)
-
-diff --git a/migration/migration.c b/migration/migration.c
-index fae8fd378b..698fd94591 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -4399,8 +4399,6 @@ static Property migration_properties[] = {
-     DEFINE_PROP_SIZE("announce-step", MigrationState,
-                       parameters.announce_step,
-                       DEFAULT_MIGRATE_ANNOUNCE_STEP),
--    DEFINE_PROP_BOOL("x-postcopy-preempt-break-huge", MigrationState,
--                      postcopy_preempt_break_huge, true),
-     DEFINE_PROP_STRING("tls-creds", MigrationState, parameters.tls_creds),
-     DEFINE_PROP_STRING("tls-hostname", MigrationState, parameters.tls_hostname),
-     DEFINE_PROP_STRING("tls-authz", MigrationState, parameters.tls_authz),
-diff --git a/migration/ram.c b/migration/ram.c
-index fd301d793c..f42efe02fc 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -343,20 +343,6 @@ struct RAMSrcPageRequest {
-     QSIMPLEQ_ENTRY(RAMSrcPageRequest) next_req;
- };
- 
--typedef struct {
--    /*
--     * Cached ramblock/offset values if preempted.  They're only meaningful if
--     * preempted==true below.
--     */
--    RAMBlock *ram_block;
--    unsigned long ram_page;
--    /*
--     * Whether a postcopy preemption just happened.  Will be reset after
--     * precopy recovered to background migration.
--     */
--    bool preempted;
--} PostcopyPreemptState;
--
- /* State of RAM for migration */
- struct RAMState {
-     /* QEMUFile used for this migration */
-@@ -419,14 +405,6 @@ struct RAMState {
-     /* Queue of outstanding page requests from the destination */
-     QemuMutex src_page_req_mutex;
-     QSIMPLEQ_HEAD(, RAMSrcPageRequest) src_page_requests;
--
--    /* Postcopy preemption informations */
--    PostcopyPreemptState postcopy_preempt_state;
--    /*
--     * Current channel we're using on src VM.  Only valid if postcopy-preempt
--     * is enabled.
--     */
--    unsigned int postcopy_channel;
- };
- typedef struct RAMState RAMState;
- 
-@@ -434,11 +412,6 @@ static RAMState *ram_state;
- 
- static NotifierWithReturnList precopy_notifier_list;
- 
--static void postcopy_preempt_reset(RAMState *rs)
--{
--    memset(&rs->postcopy_preempt_state, 0, sizeof(PostcopyPreemptState));
--}
--
- /* Whether postcopy has queued requests? */
- static bool postcopy_has_request(RAMState *rs)
- {
-@@ -544,9 +517,6 @@ static int ram_save_host_page_urgent(PageSearchStatus *pss);
- static bool do_compress_ram_page(QEMUFile *f, z_stream *stream, RAMBlock *block,
-                                  ram_addr_t offset, uint8_t *source_buf);
- 
--static void postcopy_preempt_restore(RAMState *rs, PageSearchStatus *pss,
--                                     bool postcopy_requested);
--
- /* NOTE: page is the PFN not real ram_addr_t. */
- static void pss_init(PageSearchStatus *pss, RAMBlock *rb, ram_addr_t page)
- {
-@@ -2062,55 +2032,6 @@ void ram_write_tracking_stop(void)
- }
- #endif /* defined(__linux__) */
- 
--/*
-- * Check whether two addr/offset of the ramblock falls onto the same host huge
-- * page.  Returns true if so, false otherwise.
-- */
--static bool offset_on_same_huge_page(RAMBlock *rb, uint64_t addr1,
--                                     uint64_t addr2)
--{
--    size_t page_size = qemu_ram_pagesize(rb);
--
--    addr1 = ROUND_DOWN(addr1, page_size);
--    addr2 = ROUND_DOWN(addr2, page_size);
--
--    return addr1 == addr2;
--}
--
--/*
-- * Whether a previous preempted precopy huge page contains current requested
-- * page?  Returns true if so, false otherwise.
-- *
-- * This should really happen very rarely, because it means when we were sending
-- * during background migration for postcopy we're sending exactly the page that
-- * some vcpu got faulted on on dest node.  When it happens, we probably don't
-- * need to do much but drop the request, because we know right after we restore
-- * the precopy stream it'll be serviced.  It'll slightly affect the order of
-- * postcopy requests to be serviced (e.g. it'll be the same as we move current
-- * request to the end of the queue) but it shouldn't be a big deal.  The most
-- * imporant thing is we can _never_ try to send a partial-sent huge page on the
-- * POSTCOPY channel again, otherwise that huge page will got "split brain" on
-- * two channels (PRECOPY, POSTCOPY).
-- */
--static bool postcopy_preempted_contains(RAMState *rs, RAMBlock *block,
--                                        ram_addr_t offset)
--{
--    PostcopyPreemptState *state = &rs->postcopy_preempt_state;
--
--    /* No preemption at all? */
--    if (!state->preempted) {
--        return false;
--    }
--
--    /* Not even the same ramblock? */
--    if (state->ram_block != block) {
--        return false;
--    }
--
--    return offset_on_same_huge_page(block, offset,
--                                    state->ram_page << TARGET_PAGE_BITS);
--}
--
- /**
-  * get_queued_page: unqueue a page from the postcopy requests
-  *
-@@ -2150,20 +2071,7 @@ static bool get_queued_page(RAMState *rs, PageSearchStatus *pss)
- 
-     } while (block && !dirty);
- 
--    if (block) {
--        /* See comment above postcopy_preempted_contains() */
--        if (postcopy_preempted_contains(rs, block, offset)) {
--            trace_postcopy_preempt_hit(block->idstr, offset);
--            /*
--             * If what we preempted previously was exactly what we're
--             * requesting right now, restore the preempted precopy
--             * immediately, boosting its priority as it's requested by
--             * postcopy.
--             */
--            postcopy_preempt_restore(rs, pss, true);
--            return true;
--        }
--    } else {
-+    if (!block) {
-         /*
-          * Poll write faults too if background snapshot is enabled; that's
-          * when we have vcpus got blocked by the write protected pages.
-@@ -2433,129 +2341,6 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
-     return ram_save_page(rs, pss);
- }
- 
--static bool postcopy_needs_preempt(RAMState *rs, PageSearchStatus *pss)
--{
--    MigrationState *ms = migrate_get_current();
--
--    /* Not enabled eager preempt?  Then never do that. */
--    if (!migrate_postcopy_preempt()) {
--        return false;
--    }
--
--    /* If the user explicitly disabled breaking of huge page, skip */
--    if (!ms->postcopy_preempt_break_huge) {
--        return false;
--    }
--
--    /* If the ramblock we're sending is a small page?  Never bother. */
--    if (qemu_ram_pagesize(pss->block) == TARGET_PAGE_SIZE) {
--        return false;
--    }
--
--    /* Not in postcopy at all? */
--    if (!migration_in_postcopy()) {
--        return false;
--    }
--
--    /*
--     * If we're already handling a postcopy request, don't preempt as this page
--     * has got the same high priority.
--     */
--    if (pss->postcopy_requested) {
--        return false;
--    }
--
--    /* If there's postcopy requests, then check it up! */
--    return postcopy_has_request(rs);
--}
--
--/* Returns true if we preempted precopy, false otherwise */
--static void postcopy_do_preempt(RAMState *rs, PageSearchStatus *pss)
--{
--    PostcopyPreemptState *p_state = &rs->postcopy_preempt_state;
--
--    trace_postcopy_preempt_triggered(pss->block->idstr, pss->page);
--
--    /*
--     * Time to preempt precopy. Cache current PSS into preempt state, so that
--     * after handling the postcopy pages we can recover to it.  We need to do
--     * so because the dest VM will have partial of the precopy huge page kept
--     * over in its tmp huge page caches; better move on with it when we can.
--     */
--    p_state->ram_block = pss->block;
--    p_state->ram_page = pss->page;
--    p_state->preempted = true;
--}
--
--/* Whether we're preempted by a postcopy request during sending a huge page */
--static bool postcopy_preempt_triggered(RAMState *rs)
--{
--    return rs->postcopy_preempt_state.preempted;
--}
--
--static void postcopy_preempt_restore(RAMState *rs, PageSearchStatus *pss,
--                                     bool postcopy_requested)
--{
--    PostcopyPreemptState *state = &rs->postcopy_preempt_state;
--
--    assert(state->preempted);
--
--    pss->block = state->ram_block;
--    pss->page = state->ram_page;
--
--    /* Whether this is a postcopy request? */
--    pss->postcopy_requested = postcopy_requested;
--    /*
--     * When restoring a preempted page, the old data resides in PRECOPY
--     * slow channel, even if postcopy_requested is set.  So always use
--     * PRECOPY channel here.
--     */
--    pss->postcopy_target_channel = RAM_CHANNEL_PRECOPY;
--
--    trace_postcopy_preempt_restored(pss->block->idstr, pss->page);
--
--    /* Reset preempt state, most importantly, set preempted==false */
--    postcopy_preempt_reset(rs);
--}
--
--static void postcopy_preempt_choose_channel(RAMState *rs, PageSearchStatus *pss)
--{
--    MigrationState *s = migrate_get_current();
--    unsigned int channel = pss->postcopy_target_channel;
--    QEMUFile *next;
--
--    if (channel != rs->postcopy_channel) {
--        if (channel == RAM_CHANNEL_PRECOPY) {
--            next = s->to_dst_file;
--        } else {
--            next = s->postcopy_qemufile_src;
--        }
--        /* Update and cache the current channel */
--        rs->f = next;
--        rs->postcopy_channel = channel;
--
--        /*
--         * If channel switched, reset last_sent_block since the old sent block
--         * may not be on the same channel.
--         */
--        pss->last_sent_block = NULL;
--
--        trace_postcopy_preempt_switch_channel(channel);
--    }
--
--    trace_postcopy_preempt_send_host_page(pss->block->idstr, pss->page);
--}
--
--/* We need to make sure rs->f always points to the default channel elsewhere */
--static void postcopy_preempt_reset_channel(RAMState *rs)
--{
--    if (postcopy_preempt_active()) {
--        rs->postcopy_channel = RAM_CHANNEL_PRECOPY;
--        rs->f = migrate_get_current()->to_dst_file;
--        trace_postcopy_preempt_reset_channel();
--    }
--}
--
- /* Should be called before sending a host page */
- static void pss_host_page_prepare(PageSearchStatus *pss)
- {
-@@ -2677,11 +2462,6 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
-     pss_host_page_prepare(pss);
- 
-     do {
--        if (postcopy_needs_preempt(rs, pss)) {
--            postcopy_do_preempt(rs, pss);
--            break;
--        }
--
-         page_dirty = migration_bitmap_clear_dirty(rs, pss->block, pss->page);
-         /*
-          * Properly yield the lock only in postcopy preempt mode because
-@@ -2723,19 +2503,6 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
- 
-     pss_host_page_finish(pss);
- 
--    /*
--     * When with postcopy preempt mode, flush the data as soon as possible for
--     * postcopy requests, because we've already sent a whole huge page, so the
--     * dst node should already have enough resource to atomically filling in
--     * the current missing page.
--     *
--     * More importantly, when using separate postcopy channel, we must do
--     * explicit flush or it won't flush until the buffer is full.
--     */
--    if (migrate_postcopy_preempt() && pss->postcopy_requested) {
--        qemu_fflush(pss->pss_channel);
--    }
--
-     res = ram_save_release_protection(rs, pss, start_page);
-     return (res < 0 ? res : pages);
- }
-@@ -2783,24 +2550,11 @@ static int ram_find_and_save_block(RAMState *rs)
-         found = get_queued_page(rs, pss);
- 
-         if (!found) {
--            /*
--             * Recover previous precopy ramblock/offset if postcopy has
--             * preempted precopy.  Otherwise find the next dirty bit.
--             */
--            if (postcopy_preempt_triggered(rs)) {
--                postcopy_preempt_restore(rs, pss, false);
--                found = true;
--            } else {
--                /* priority queue empty, so just search for something dirty */
--                found = find_dirty_block(rs, pss, &again);
--            }
-+            /* priority queue empty, so just search for something dirty */
-+            found = find_dirty_block(rs, pss, &again);
-         }
- 
-         if (found) {
--            /* Update rs->f with correct channel */
--            if (postcopy_preempt_active()) {
--                postcopy_preempt_choose_channel(rs, pss);
--            }
-             /* Cache rs->f in pss_channel (TODO: remove rs->f) */
-             pss->pss_channel = rs->f;
-             pages = ram_save_host_page(rs, pss);
-@@ -2932,8 +2686,6 @@ static void ram_state_reset(RAMState *rs)
-     rs->last_page = 0;
-     rs->last_version = ram_list.version;
-     rs->xbzrle_enabled = false;
--    postcopy_preempt_reset(rs);
--    rs->postcopy_channel = RAM_CHANNEL_PRECOPY;
- }
- 
- #define MAX_WAIT 50 /* ms, half buffered_file limit */
-@@ -3577,8 +3329,6 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
-     }
-     qemu_mutex_unlock(&rs->bitmap_mutex);
- 
--    postcopy_preempt_reset_channel(rs);
--
-     /*
-      * Must occur before EOS (or any QEMUFile operation)
-      * because of RDMA protocol.
-@@ -3656,8 +3406,6 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
-         return ret;
-     }
- 
--    postcopy_preempt_reset_channel(rs);
--
-     ret = multifd_send_sync_main(rs->f);
-     if (ret < 0) {
-         return ret;
--- 
-2.32.0
+Thanks,
+Bernhard
+>
+>
+>ATB,
+>
+>Mark=2E
 
 
