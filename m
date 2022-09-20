@@ -2,79 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 083865BF07A
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 00:48:29 +0200 (CEST)
-Received: from localhost ([::1]:52016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 992FB5BF0F5
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 01:16:58 +0200 (CEST)
+Received: from localhost ([::1]:50462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oam2W-0001CY-4e
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 18:48:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58824)
+	id 1oamU5-0005Zn-Oi
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 19:16:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhangjian.3032@bytedance.com>)
- id 1oaiGe-0004Ru-F7
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 14:46:51 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:35524)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zhangjian.3032@bytedance.com>)
- id 1oaiGZ-0007S3-Vx
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 14:46:46 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id e5so3598685pfl.2
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 11:46:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=3k7De6dda7HtE0VoeJmLCIiYC0o1UACU10YlAWqrISw=;
- b=uysbs+EUwH5Rc9qwEQ7m40LbRGRcauWexufWDZqaffyGfLYBIi8zSyFKka7GcmyM4B
- 8gvQVnsc9t9IdIjnVHW4Wyjj73QdojRw88HYvfY3qPdka7b8gGeQQd/X6dgZcpbtOkq/
- 8RFO4o/rFeev2ghfuQ9yk0E81FvTa84E/WuCUCIKNBs8KqNwVpF3i4eU9wz5eXmA7arX
- s64JeodAFk7oSv5Ae+8vyiPCO7ZZJlBzOn+DBCBGnLP5f3jYWaJqx+ZQRlctYftEl/yk
- ce16MY3ocBJHxFoy1r/dDgv8IBVcXP/WX5wePI/TseKBkFh0imlwE9rDrc4lTv8MnLDC
- AGyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=3k7De6dda7HtE0VoeJmLCIiYC0o1UACU10YlAWqrISw=;
- b=JVOwgoejFQ/jp808tv+AYqkuQV3YUZV1T0Z2s2/SYM5TzRTxwlq0Z/jC6y+lyK53hJ
- TcaIGK5sCBhR8C4JKPQ+udSqWDBeb61qiIWhKQCc+R0SavjZOSgGDuR9LQAASRVmo1nt
- db+2jiBlXRuiNHevvpo+LVV+xG0C2QCUeGtXW+OkXqvz4BNTcd6vpJDvblpU08lQXtDM
- aqofQvSgkG2HCkdvjpsDaN7AX37YRKQ3iaX4TNvA2V72XEfk9htik5dkSCFqD/zVo4Tf
- +Na/Xpp7xxMI4s9LKXTH9HjzgdPRksVAex5Q01PTIG5kPlDAt6CXPRx0uC7CT3AzKPsh
- K4Ng==
-X-Gm-Message-State: ACrzQf3Edn8Z3NWnSSJoX2POpR70kNKEhhjCgAzZFuF8jKLUDcHVijEU
- /g+3JV83pnuanFREHfEocM5yJw==
-X-Google-Smtp-Source: AMsMyM6AlbLZXygYBJuDmI11ITTNUzqsA+ZTgNE1zBYM0CsZG2+nXKnlcHzrUPzk+EiVC1NaPmWhQg==
-X-Received: by 2002:a05:6a00:15c9:b0:541:1767:4ce2 with SMTP id
- o9-20020a056a0015c900b0054117674ce2mr24202493pfu.30.1663699602291; 
- Tue, 20 Sep 2022 11:46:42 -0700 (PDT)
-Received: from localhost ([49.7.199.220]) by smtp.gmail.com with ESMTPSA id
- y16-20020a626410000000b00545f5046372sm206927pfb.208.2022.09.20.11.46.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 11:46:41 -0700 (PDT)
-From: Jian Zhang <zhangjian.3032@bytedance.com>
-To: f4bug@amsat.org, peter.maydell@linaro.org, clg@kaod.org, andrew@aj.id.au,
- joel@jms.id.au, qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Cc: yulei.sh@bytedance.com, tangyiwei.2022@bytedance.com,
- chentingting.2150@bytedance.com, yuhao.17@bytedance.com,
- wangxiaohua.1217@bytedance.com, xiening.xll@bytedance.com
-Subject: [PATCH v2 3/3] hw/arm/aspeed: g220a: Add a latching switch device
-Date: Wed, 21 Sep 2022 02:46:19 +0800
-Message-Id: <20220920184619.3370115-4-zhangjian.3032@bytedance.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220920184619.3370115-1-zhangjian.3032@bytedance.com>
-References: <20220920184619.3370115-1-zhangjian.3032@bytedance.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oaiUv-0007FC-RX
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 15:01:34 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:54232)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oaiUo-0001vs-7A
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 15:01:32 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 3C07174638A;
+ Tue, 20 Sep 2022 21:01:21 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id EF46974632C; Tue, 20 Sep 2022 21:01:20 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id EDF9174632B;
+ Tue, 20 Sep 2022 21:01:20 +0200 (CEST)
+Date: Tue, 20 Sep 2022 21:01:20 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+cc: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>, 
+ laurent@vivier.eu, richard.henderson@linaro.org, lucienmp.qemu@gmail.com, 
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 2/4] target/m68k: increase size of m68k CPU features from
+ uint32_t to uint64_t
+In-Reply-To: <1095351c-953f-0d02-a6d6-055c0730e44d@ilande.co.uk>
+Message-ID: <64b860a1-971c-5179-d39d-9f7138e8f0a@eik.bme.hu>
+References: <20220917112515.83905-1-mark.cave-ayland@ilande.co.uk>
+ <20220917112515.83905-3-mark.cave-ayland@ilande.co.uk>
+ <6aa798e4-73b2-f96b-589c-4ab390cb1ba2@eik.bme.hu>
+ <d8e33415-d44b-6e30-057c-c5de5b2f9bb9@amsat.org>
+ <1095351c-953f-0d02-a6d6-055c0730e44d@ilande.co.uk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=zhangjian.3032@bytedance.com; helo=mail-pf1-x42c.google.com
+Content-Type: multipart/mixed; boundary="3866299591-69413482-1663700480=:97347"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,87 +67,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a latching switch device connect between g220a BMC machind(soc
-gpio) as host-power.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-The latching switch device default state is off and trigger edge is
-falling edge.
+--3866299591-69413482-1663700480=:97347
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Tested:
-In qemu, use g220a image
+On Tue, 20 Sep 2022, Mark Cave-Ayland wrote:
+> On 17/09/2022 23:27, Philippe Mathieu-Daudé via wrote:
+>
+>> On 17/9/22 14:09, BALATON Zoltan wrote:
+>>> On Sat, 17 Sep 2022, Mark Cave-Ayland wrote:
+>>>> There are already 32 feature bits in use, so change the size of the m68k
+>>>> CPU features to uint64_t (allong with the associated m68k_feature()
+>>>> functions) to allow up to 64 feature bits to be used.
+>>>> 
+>>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>>> ---
+>>>> target/m68k/cpu.c | 4 ++--
+>>>> target/m68k/cpu.h | 6 +++---
+>>>> 2 files changed, 5 insertions(+), 5 deletions(-)
+>>>> 
+>>>> diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
+>>>> index f681be3a2a..7b4797e2f1 100644
+>>>> --- a/target/m68k/cpu.c
+>>>> +++ b/target/m68k/cpu.c
+>>>> @@ -38,12 +38,12 @@ static bool m68k_cpu_has_work(CPUState *cs)
+>>>> 
+>>>> static void m68k_set_feature(CPUM68KState *env, int feature)
+>>>> {
+>>>> -    env->features |= (1u << feature);
+>>>> +    env->features |= (1ul << feature);
+>>
+>>          env->features = deposit64(env->features, feature, 1, 1);
+>> 
+>>>> }
+>>>> 
+>>>> static void m68k_unset_feature(CPUM68KState *env, int feature)
+>>>> {
+>>>> -    env->features &= (-1u - (1u << feature));
+>>>> +    env->features &= (-1ul - (1ul << feature));
+>>
+>>          env->features = deposit64(env->features, feature, 1, 0);
+>> 
+>>> Should these be ull instead of ul?
+>> 
+>> Yes. Not needed if using the <qemu/bitops.h> extract/deposit API.
+>
+> I must admit I find the deposit64() variants not particularly easy to read:
 
-~# ipmitool power status
-Chassis Power is off
+I agree with that and also dislike the dposit/extract functions that would 
+not bring much here. Maybe they are useful for multiple bits but for a 
+single bit they just add overhead and obfuscation.
 
-~# ipmitool power on
-Chassis Power Control: Up/On
+> if we're considering alterations rather than changing the constant suffix 
+> then I'd much rather go for:
+>
+>    env->features |= (1ULL << feature);
+>
+> and:
+>
+>    env->features &= ~(1ULL << feature);
 
-~# ipmitool power status
-Chassis Power is on
+There's also a BIT_ULL macro which could be used but it's up to you, 
+shifting 1ULL is also simple enough to read.
 
-~# ipmitool power off
-Chassis Power Control: Down/Off
+Regards,
+BALATON Zoltan
 
-~# ipmitool power status
-Chassis Power is off
-
-Signed-off-by: Jian Zhang <zhangjian.3032@bytedance.com>
----
- hw/arm/Kconfig  |  1 +
- hw/arm/aspeed.c | 20 ++++++++++++++++++++
- 2 files changed, 21 insertions(+)
-
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 15fa79afd3..f2455db5a0 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -457,6 +457,7 @@ config ASPEED_SOC
-     select LED
-     select PMBUS
-     select MAX31785
-+    select LATCHING_SWITCH
- 
- config MPS2
-     bool
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index bc3ecdb619..070de3aeff 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -27,6 +27,7 @@
- #include "qemu/units.h"
- #include "hw/qdev-clock.h"
- #include "sysemu/sysemu.h"
-+#include "hw/misc/latching_switch.h"
- 
- static struct arm_boot_info aspeed_board_binfo = {
-     .board_id = -1, /* device-tree-only board */
-@@ -666,6 +667,25 @@ static void g220a_bmc_i2c_init(AspeedMachineState *bmc)
-     };
-     smbus_eeprom_init_one(aspeed_i2c_get_bus(&soc->i2c, 4), 0x57,
-                           eeprom_buf);
-+
-+    /* Add a host-power device */
-+    LatchingSwitchState *power =
-+        latching_switch_create_simple(OBJECT(bmc),
-+                                      false, TRIGGER_EDGE_FALLING);
-+
-+    /*
-+     * connect the input to soc(out, power button)
-+     * the power button in g220a is 215
-+     */
-+    qdev_connect_gpio_out(DEVICE(&bmc->soc.gpio), 215,
-+                          qdev_get_gpio_in(DEVICE(power), 0));
-+
-+    /*
-+     * connect the output to soc(in, power good signal)
-+     * the power good in g220a is 209
-+     */
-+    qdev_connect_gpio_out(DEVICE(power), 0,
-+                          qdev_get_gpio_in(DEVICE(&bmc->soc.gpio), 209));
- }
- 
- static void aspeed_eeprom_init(I2CBus *bus, uint8_t addr, uint32_t rsize)
--- 
-2.25.1
-
+> Laurent, what would be your preference?
+>
+>>>> }
+>>>> 
+>>>> static void m68k_cpu_reset(DeviceState *dev)
+>>>> diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
+>>>> index 67b6c12c28..d3384e5d98 100644
+>>>> --- a/target/m68k/cpu.h
+>>>> +++ b/target/m68k/cpu.h
+>>>> @@ -154,7 +154,7 @@ typedef struct CPUArchState {
+>>>>     struct {} end_reset_fields;
+>>>> 
+>>>>     /* Fields from here on are preserved across CPU reset. */
+>>>> -    uint32_t features;
+>>>> +    uint64_t features;
+>>>> } CPUM68KState;
+>>>> 
+>>>> /*
+>>>> @@ -539,9 +539,9 @@ enum m68k_features {
+>>>>     M68K_FEATURE_TRAPCC,
+>>>> };
+>>>> 
+>>>> -static inline int m68k_feature(CPUM68KState *env, int feature)
+>>>> +static inline uint64_t m68k_feature(CPUM68KState *env, int feature)
+>> 
+>> Why uint64_t? Can we simplify using a boolean?
+>
+> I don't really feel strongly either way here. Again I'm happy to go with 
+> whatever Laurent would prefer as maintainer.
+>
+>>>> {
+>>>> -    return (env->features & (1u << feature)) != 0;
+>>>> +    return (env->features & (1ul << feature)) != 0;
+>>
+>>          return extract64(env->features, feature, 1) == 1;
+>> 
+>>>> }
+>>>> 
+>>>> void m68k_cpu_list(void);
+>
+>
+> ATB,
+>
+> Mark.
+>
+>
+--3866299591-69413482-1663700480=:97347--
 
