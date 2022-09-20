@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD6EC5BDAFC
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 05:48:09 +0200 (CEST)
-Received: from localhost ([::1]:38070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BAB95BDB01
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 05:55:27 +0200 (CEST)
+Received: from localhost ([::1]:38366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaUEy-0005Yx-Bp
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 23:48:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36898)
+	id 1oaUM2-0007K6-O8
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 23:55:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oaUDY-00048Y-Jm
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 23:46:40 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:35680)
+ id 1oaUKO-0005yw-Jh
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 23:53:44 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:44836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oaUDW-0008NR-7C
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 23:46:40 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id 29so2003359edv.2
- for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 20:46:37 -0700 (PDT)
+ id 1oaUKN-0000w4-06
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 23:53:44 -0400
+Received: by mail-ed1-x529.google.com with SMTP id x94so1946707ede.11
+ for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 20:53:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=WAM8wl5Wr+kMTKMLaQOJGn7dYKjo/rEuff9pJMzWhqk=;
- b=Zkztre8NqYNuDojJUsvnCaiZYypwG/xMwaMjl3CS4mnt3VLsjZ05Oc/o+VBBfZ+vzX
- DInVRocF2zN4Z+C931tEjVKmPL38O+mosKPHf7eFo3GjCwB3wv+oriVqrypESbETsTJj
- crRf6c+52p+IufkpKhbGA1zvgIW4/uDmKJYEm5crEdQ0Z+ehkfNZ6mNepsxbZP6/H+2j
- 2HQhcdyRRchNslOJ2CdhQiYJ+cO2LMjunDpPvxnLg9YnuGNcbYWlBFn/gyu2qDgq+Dfo
- ng71qOo3/SsZ/Ik2gM8AJ4/PUUiTzF3T7f9LiuRqtB+DgB/ZBJxWV4YkS0dcsWZX7dYy
- kJSg==
+ bh=46HXVGTgf/AJhKnGVANIoXU/2gChTCU00pUengRFdhE=;
+ b=edH8/GN0vj3eqfER+RRu4pOt2zcZSe2nQJXw6LnhAM9bnraoFxy7Pp24mFNxsKZdwl
+ WcTc69gh75nMhtnLCq/JJY7Wbg5hyVjcVFjYAGwxc9f3Jo4y3tteMmt3tGvzxaqzPM1A
+ EI+Qr7NFHpCKqPO+fq4VLVpAKLTQda+lPiklczHky16QIz21kI28yXUvA53vomvoHU22
+ ZzrCBoQxXCLlOL+qOX8U6OdN9SoepUrM6TkWDwZOmpZqbQ9mlDIND/7OcGRbSnGLJhYW
+ 9sKR4lkkUikggGjZhKFgEYWJS64jfWkeZiTtMo74MsPD8mazvO6XIdJUyrgPcP4EN1BC
+ 9b6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=WAM8wl5Wr+kMTKMLaQOJGn7dYKjo/rEuff9pJMzWhqk=;
- b=a77c5dbg4pqmSUAfHFLjcqzGM3qza587wiKrWAZIIeQ2W2FiAWdeCo6dtXehnkeLex
- 2HQGb3lAtr2vYsdHWUDwr7gvLWtPc7mJkCt7ieTXpIuRSTTdXrLYXP178a+gHMNMyjYI
- irLF4/RYoRy/gzGKWVYyyewOE0vLt8mjuP/tjfhr7+DDQxJN45e8gGijRx/Zcp7VvgKL
- sIJvVMIPCMcNOEshaSSiFg+vFHtx7+ZUYeKhIZdJA6S4bWpRMqTAbRKZmS+B+MSroMI+
- SKHHl953QNaEcjmTuCYs5C1JsmvqVQVaB1+euXKKCCruMFBC9hJQzxZoBYynr6bEq48B
- LwmA==
-X-Gm-Message-State: ACrzQf0MUkm38iXtqgpLSLo7P+b4S6ajx0QZfbfeYqbJlvaGfwYTNP7t
- 4UuHSUtgfyus2upkXqmYotK1Zg==
-X-Google-Smtp-Source: AMsMyM5IYNa0NyeCO0qvfN6bn89FujVFoY2ZxLOZBpdWlc2XjhDNvQSSUN0bdQPdAKxp4+r4DTgrVA==
-X-Received: by 2002:a05:6402:3596:b0:450:c4d9:a04b with SMTP id
- y22-20020a056402359600b00450c4d9a04bmr18387781edc.218.1663645596061; 
- Mon, 19 Sep 2022 20:46:36 -0700 (PDT)
+ bh=46HXVGTgf/AJhKnGVANIoXU/2gChTCU00pUengRFdhE=;
+ b=ffJ5lZ6Z0EQKlpVynK7LXwaFCJK7pg9Rqy8erMegJDewR84XVr4RYuc0q3DHUq/HbD
+ uWT5h6sQhnuAmRRTrcacRBdxah96WOCYBJftgxJixTy726vvN7uliSJpR3MpsdxTZYUD
+ wGDOY+JXj7OfHYHSt8MKgFRuTqa0StSxE9vOn3+JXhB0MUCKkzmPtGEcJkBWbGGa8OVx
+ BBWn+VFlC5gRvDyUdS2QBkah1koQ2MjqXOpjeYtZ/vo2nIE/g22rBK51ehMfVwREE4dA
+ 1n0Zodf03vc5Svkw4EOesM/MI1gCmAYxsywOL7VXNMXeAcgU4wTrmtWIR1rOBquYOArA
+ ieVw==
+X-Gm-Message-State: ACrzQf2hEwKcKSSWVIzjWypkhPCMOxe9DcJ+ZMIMMQpwC5ohM8cxNuVr
+ Gufxp6jZccnn8BXKUVcN5kCR5A==
+X-Google-Smtp-Source: AMsMyM74Vb08jddEHxA470fxvHyjIhdFaeW7HJHOe2Gx7Mrw+uvWvhyoL3Qpmznr2SnFfuNk26luiA==
+X-Received: by 2002:a05:6402:3408:b0:43c:2dd3:d86b with SMTP id
+ k8-20020a056402340800b0043c2dd3d86bmr18438182edc.108.1663646021152; 
+ Mon, 19 Sep 2022 20:53:41 -0700 (PDT)
 Received: from [192.168.4.112] (h-213.61.242.164.host.de.colt.net.
  [213.61.242.164]) by smtp.gmail.com with ESMTPSA id
- j23-20020aa7de97000000b0044e9e5ce396sm356441edv.95.2022.09.19.20.46.34
+ gj25-20020a170906e11900b007707ec25071sm88121ejb.220.2022.09.19.20.53.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Sep 2022 20:46:35 -0700 (PDT)
-Message-ID: <90ae9a51-07be-d12a-99bf-d829584805d9@linaro.org>
-Date: Tue, 20 Sep 2022 05:46:29 +0200
+ Mon, 19 Sep 2022 20:53:40 -0700 (PDT)
+Message-ID: <bca58f9b-13cf-846b-3ec2-8bf2d2832082@linaro.org>
+Date: Tue, 20 Sep 2022 05:53:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH] target/i386: correctly mask SSE4a bit indices in register
- operands
+Subject: Re: [PATCH] target/i386: fix INSERTQ implementation
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20220918071807.539664-1-pbonzini@redhat.com>
+References: <20220918075609.549781-1-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220918071807.539664-1-pbonzini@redhat.com>
+In-Reply-To: <20220918075609.549781-1-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
@@ -93,21 +92,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/18/22 09:18, Paolo Bonzini wrote:
-> SSE4a instructions EXTRQ and INSERTQ have two bit index operands, that can be
-> immediates or taken from an XMM register.  In both cases, the fields are
-> 6-bit wide and the top two bits in the byte are ignored.  translate.c is
-> doing that correctly for the immediate case, but not for the XMM case, so
-> fix it.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   target/i386/ops_sse.h | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+On 9/18/22 09:56, Paolo Bonzini wrote:
+> +                else {
+> +                    if (mod != 3) {
+> +                        gen_lea_modrm(env, s, modrm);
+> +                        op2_offset = offsetof(CPUX86State, xmm_t0);
+> +                        gen_ldq_env_A0(s, offsetof(CPUX86State, xmm_t0.ZMM_D(0)));
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+INSERTQ doesn't support a memory source.  The two forms are
 
-But these aren't SSE4a, they're AMD New Media instructions, which was a bit confusing.
+INSERTQ xmm1, xmm2, imm8, imm8
+INSERTQ xmm1, xmm2
 
 
 r~
