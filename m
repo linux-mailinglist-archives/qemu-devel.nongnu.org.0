@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347825BEF04
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:15:02 +0200 (CEST)
-Received: from localhost ([::1]:54170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70FED5BEF02
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:11:51 +0200 (CEST)
+Received: from localhost ([::1]:52196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaka4-0001Zm-Q9
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:15:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47146)
+	id 1oakX0-0003tu-7z
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:11:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oagqT-0000KD-01
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:15:41 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:36645)
+ id 1oagqR-0000Ia-Pr
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:15:40 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:34705)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oagqR-0000eJ-9k
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:15:40 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id 13so7827874ejn.3
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 10:15:38 -0700 (PDT)
+ id 1oagqP-0000eC-Jy
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:15:39 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id z2so4870683edi.1
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 10:15:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=Xn9EeJ1e0W9n/ww6L6+IOrL4d7Yg4BtDuGfce46InmQ=;
- b=MuoshtcmoQci0CvXVYKhCnLNK/M3BqwOyaRpMkviKxjG0X5hWeBBjQFDwVCksMh+XV
- TH6CrdigTMQnp1DqnSVmPP8jg4Su5MsKEAFP2FK3514hMn475AhOVwVb3x1xfnn5HCL2
- GXZ1OlDC44PPrAyOFDBM9qADPwkFZI2OerRBR+T+18vsA/UUxvqZG0cus+E05gnR7AIZ
- /oJJLaFYispqt6FrsbSeOigmPhNxnL5VFK0nXKC3Y74CPeeWA3HDAm6hSSw1Zux74iaM
- i1T8AbTfpjmFga1QRGz2oWVGRESHetSj2zfsjyqnRMabdl0nZB3NVeV04/F8BbNLfIm1
- LcWA==
+ bh=9jZtMLEWUNRGMJhs1MyLKK4Uh8abbgf3TTaN/xU7wp4=;
+ b=EbumFRFlq2BIzT5tsHEKR3/ja7X2fkc3yMZ9XcpqGmbVKq4tdVbDTfJ16EyxbajZi7
+ +lpojXO/CTVQqHjVhN6T0iQJWfyow6xPrX/PArS9hYbWi0rLtEcNUHVk0piyF8QfGmm6
+ ZHJ4Qt6SIJ0Uw9JOLRietHN/rhGzsAc3hddGgXQz3vyfn90V7Pqh6Hgm/1hd2apLP+sb
+ HVTUAyRMN1TqSP7X0BZYbMhXbieBumMuu8Iplxh4biVb59DV+99iKiRwLy/MNcDZ6LUw
+ TOGr9+dd09EjRIpWcBK7jgaT4BAUfozGVns6zOrbXAzcmtYCKnFaRw+/c35gcmrb2zHE
+ NsZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=Xn9EeJ1e0W9n/ww6L6+IOrL4d7Yg4BtDuGfce46InmQ=;
- b=No5F8dOrpS8od+I2yp6YtM81QB16fqufCgTEpbZGBS48son4oRr/zOd+pcMVMYZCnB
- P6SY6b4fB745olfT1uZAeJA6QyqRCl6w+KE67U7QPDMYRvklC0DwElLnafg2j9M6o/kk
- SmiKQvZTKZOvjCQjkGRgoGv5g1SNIZ5+vxMS/gaKcpIzwsPp6IS/Al8Tq/E0QRNSFINq
- YybalJZb4dJ+uoANT6jinbzjEOn0ilyvRKU85bqTJh1HP4GJSBvwEKOQuBJUJpMPt3iC
- 0XGad+NQ2e2PetWnrDaPy+QRGKot2Hd9/NcWKyyNBaBQis4iRS6sEQyPIF7PyDPvP9V9
- LHOA==
-X-Gm-Message-State: ACrzQf0InMz/37PDnuB4ERnolt9Sl7sS2JTNhihzlWn5/lqk1xgI9HWV
- hgGEvP7B/p1QaARlaMWdI57kEA==
-X-Google-Smtp-Source: AMsMyM6Mi/Sd1uP/R4BOM0TcnPaZ60YDzhn2X+JTvF1MmDz3VI3S3hCOSDToxILMu3NYaJ8cuCr0qQ==
-X-Received: by 2002:a17:907:2d2a:b0:77e:def7:65e9 with SMTP id
- gs42-20020a1709072d2a00b0077edef765e9mr17615721ejc.85.1663694137714; 
- Tue, 20 Sep 2022 10:15:37 -0700 (PDT)
+ bh=9jZtMLEWUNRGMJhs1MyLKK4Uh8abbgf3TTaN/xU7wp4=;
+ b=qS7kv+vxAo3GWPTX1uNiag40fPkcehavEqkkRym7gSfzXMc+vlgZeS8cyj7t4+Eksy
+ fjIGdddfyfratWM3Pxfqpx6YOL2KcXxiRcV0UOW11MY2IahLtF5vOq4VScQMiZGXqafx
+ Bqlg0jvyGVe9ir5XYtE/wlP35j65DTyBQhnRccODQ/j/+xRLxveQhzIqy5kE8wPdN3O2
+ or1edeFy+MYo469BCoXAB0hWfMpzXK1ZSt2SCmTh2xLtUWNKAKQYNYTTRA1EaON1Ouwj
+ iQEWa3GYOmq1WhjDN5Pjvlpq7Bf2/N8ghJr7FC00bhotGvJPO4JyFc44HWgtCc47Sb9V
+ mnHw==
+X-Gm-Message-State: ACrzQf2yd8VRKmfU/1UzzR9qEZPIrt5tbmMTV15/rFk5kjdkxIlFqmcd
+ hsoAOf5VkzhopTs7NHlE1nL6VA==
+X-Google-Smtp-Source: AMsMyM7/8RbN6ZIfRZ3OyMAg/sCJ72cqBL3lOH7XKJK8excyLHXbuug/kRIPrLrVgIABxwNoKb8NmQ==
+X-Received: by 2002:a05:6402:3890:b0:451:ef52:8f9e with SMTP id
+ fd16-20020a056402389000b00451ef528f9emr21407038edb.107.1663694135551; 
+ Tue, 20 Sep 2022 10:15:35 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- g17-20020a1709062db100b0077f15e98256sm103221eji.203.2022.09.20.10.15.34
+ g5-20020a170906538500b0073bdf71995dsm140217ejo.139.2022.09.20.10.15.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 20 Sep 2022 10:15:34 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CCC6B1FFB8;
+ by zen.linaroharston (Postfix) with ESMTP id E47AE1FFBA;
  Tue, 20 Sep 2022 18:15:33 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com,
+Cc: stefanha@redhat.com, Thomas Huth <thuth@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PULL 01/30] gitlab: reduce targets in cross_user_build_job
-Date: Tue, 20 Sep 2022 18:15:04 +0100
-Message-Id: <20220920171533.1098094-2-alex.bennee@linaro.org>
+Subject: [PULL 02/30] tests/avocado/boot_linux_console: Fix the
+ test_aarch64_xlnx_versal_virt test
+Date: Tue, 20 Sep 2022 18:15:05 +0100
+Message-Id: <20220920171533.1098094-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220920171533.1098094-1-alex.bennee@linaro.org>
 References: <20220920171533.1098094-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,33 +100,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already limit the scope of the cross system build to reduce the
-cross build times. With the recent addition of more targets we are
-also running into timeout issues for some of the cross user builds.
+From: Thomas Huth <thuth@redhat.com>
 
-I've selected a few of those linux-user targets which are less likely
-to be in common use as distros don't have pre-built rootfs for them.
-I've also added the same CROSS_SKIP_TARGETS variable as is
-occasionally used to further limit cross system builds.
+The assets that this test tries to download have been removed from the
+server. Update to a newer version to get it working again.
 
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20220829080940.110831-1-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220914155950.804707-2-alex.bennee@linaro.org>
+Message-Id: <20220914155950.804707-3-alex.bennee@linaro.org>
 
-diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
-index 28b2142ec2..5e8892fd49 100644
---- a/.gitlab-ci.d/crossbuild-template.yml
-+++ b/.gitlab-ci.d/crossbuild-template.yml
-@@ -46,5 +46,8 @@
-     - cd build
-     - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
-       ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
--        --disable-system
-+        --disable-system --target-list-exclude="aarch64_be-linux-user
-+          alpha-linux-user cris-linux-user m68k-linux-user microblazeel-linux-user
-+          nios2-linux-user or1k-linux-user ppc-linux-user sparc-linux-user
-+          xtensa-linux-user $CROSS_SKIP_TARGETS"
-     - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
+diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
+index 6b1533c17c..f26e036ab5 100644
+--- a/tests/avocado/boot_linux_console.py
++++ b/tests/avocado/boot_linux_console.py
+@@ -335,13 +335,13 @@ def test_aarch64_xlnx_versal_virt(self):
+         """
+         images_url = ('http://ports.ubuntu.com/ubuntu-ports/dists/'
+                       'bionic-updates/main/installer-arm64/'
+-                      '20101020ubuntu543.15/images/')
++                      '20101020ubuntu543.19/images/')
+         kernel_url = images_url + 'netboot/ubuntu-installer/arm64/linux'
+-        kernel_hash = '5bfc54cf7ed8157d93f6e5b0241e727b6dc22c50'
++        kernel_hash = 'e167757620640eb26de0972f578741924abb3a82'
+         kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+ 
+         initrd_url = images_url + 'netboot/ubuntu-installer/arm64/initrd.gz'
+-        initrd_hash = 'd385d3e88d53e2004c5d43cbe668b458a094f772'
++        initrd_hash = 'cab5cb3fcefca8408aa5aae57f24574bfce8bdb9'
+         initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
+ 
+         self.vm.set_console()
 -- 
 2.34.1
 
