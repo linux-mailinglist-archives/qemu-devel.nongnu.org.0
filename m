@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEF9A5BEEF7
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:07:33 +0200 (CEST)
-Received: from localhost ([::1]:42702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2430E5BEEBB
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 22:49:03 +0200 (CEST)
+Received: from localhost ([::1]:51622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oakSq-0007Kk-W7
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:07:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45724)
+	id 1oakAv-00015x-Rl
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 16:49:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oafoq-00077w-L4
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:10:01 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:41525)
+ id 1oafr4-0000VT-Cj
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:12:17 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:35643)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oafom-0006Rr-TY
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:09:54 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id z97so4531186ede.8
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 09:09:52 -0700 (PDT)
+ id 1oafr2-00075u-M3
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:12:14 -0400
+Received: by mail-ej1-x634.google.com with SMTP id go34so7414543ejc.2
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 09:12:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=sHIbIj5CKF3dCNxY69abzfTvIJ32BVUVenHaLj9we48=;
- b=YrBrRA9ndkqeAZwM5xdVJeMvqvcTfzoc2SZ8DCBxUf+oSM4rYuu2+ws/VrE5ZCYj8C
- 4kZpClJUoPGsmY10WUGjq7PEphs3dSdGjksaAAfF4nbbOn4gBRI/J8GfPxrK9QYmgYr2
- yZ7Uzfx2v6h5c9IVvRSpGimXpiUFM3YqYuTzITcSfQMKSpfwjC5lG0phFloEa9t6wrTO
- HXtwBhHJVruNWr5UmS1aMC0PrSv+kZSlO7VTAdwaXBjgYQ1BsQRLkmGfbHXYBL2B5yjx
- cpv0z5gNkix25ySaxrvWjcLa3DNSCuRd1kFYm3blhrL+Oj82nhMNNwWnQ45I7Mt7zG1s
- jthw==
+ bh=MTZQ0ZKgObtmtbYGay8TqRoKaepCg/5wsIJnL82JaoY=;
+ b=lGazIORBG2kmJ95qYHD9PS44EVpHRmI8l53fnYdVjNwHmBisyNpgT1J4oa74owvEHa
+ bS0rKYDDJh0RKwx+TxwRIFyDkzhdojT0vo7G9QFcZt+/4MsH65fTlYTNFuhMUOFZb0+I
+ uETisVs5Plj4z4vglx/SjYB97u9mC1eY8s/yIyL1WgEQYz3Re0dzRVuQEvPwJ5vCofb5
+ 0STUrR8rVGHdm30zNpBzTTXs6cuYxpm6HaMziOWB+OhSmONWFnIW7kWDP2aYStV/qr33
+ insWnepw9rhet/O1zugbLzQcTQw1Xeyu9CVSEgAJu1ny/kaYWZSCkGaLl9KW6m6jbCIt
+ sw8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=sHIbIj5CKF3dCNxY69abzfTvIJ32BVUVenHaLj9we48=;
- b=OerBE8tgU6/JdnRiCplD9hBBDctkpFhWko69UV72Ud6ORynV9sNF/gTkX5o0ab+6oO
- QzkI+GPtYPGvJh48VdIHyMTQKYsYxbjD0p3dMP+SRJFXiSgUVFZRIAcRZTE/XCB72M2J
- vBlFNN3NVheH72kL5jET7wyZI679anvIGcCZBZrFQMz/uTEke0PzBGbHbo4oafVroWJY
- lcog7eKRXELgmSbxu1gKGBfKYsaOuWGpklPprjOMplWEhiKLCBDT+8Mar5VKaRc1mzFC
- B9DpTojcQoHjDwDY4xWXMhVyx4pSAJuFLXlrJ8WcCLEO7h2L5+xWbYKZeh4AiEkWPtyQ
- UfEQ==
-X-Gm-Message-State: ACrzQf3q/6Pk+td0hxl02djMbp4khfdUfet7aJRbjYXVUZwXvYYdEiFY
- Hljrl0vuB6iOSiZobEeGD3W1/70C3eyX3QTpzdHtFQ==
-X-Google-Smtp-Source: AMsMyM5OtCAIpxNLXpi9xHfiVm9zUj6xTj4TQoZ7gTIvnlFnp2GD4T+NQ6Nhm66vD7d/p+eEPkLxTA6RvOEMBKKEJgM=
-X-Received: by 2002:a05:6402:11d4:b0:452:a97c:cd36 with SMTP id
- j20-20020a05640211d400b00452a97ccd36mr21144206edw.53.1663690191317; Tue, 20
- Sep 2022 09:09:51 -0700 (PDT)
+ bh=MTZQ0ZKgObtmtbYGay8TqRoKaepCg/5wsIJnL82JaoY=;
+ b=b2lCBU9/+HGTl2Hnzi4Hf31GJXz1B/7wR9TZ6qLg4BUAVyWzCS2NrgphpHrRgBwm23
+ 3odqwPNnP5Hx0uo8XSYgDyhAOBNzxPpKg4SXwh0YpgsSuy/tbPTU8nRasmFyjyvAGQie
+ 7RAzzfUGf5IPvUIU3/ZuxRFPa13C6KsS0EuNE3fpKkduFBnspVPN4ou5byIiNUP60HCw
+ Sckv92gYh0VGdFL5NF491Yf+xwmIn23/bbiiAadn8d/GVesHIz91Op19PVDR8mzBbR/P
+ nNKrR/GJR7aFGtqCVOmMoOtVjtVLvaVKUGlKHmoZLPe6T/UVVar/PCgzdLjsK8MAzcZb
+ LvaA==
+X-Gm-Message-State: ACrzQf0/VRt3rvoIlAr9853shPvq9EW45EPE92FqFQGy3kmHzDCdJzQw
+ 3B7wZL6OByU9reQJ5BRzUZRZV6reNhBiBhgaVtZm9Q==
+X-Google-Smtp-Source: AMsMyM4pCs0f6zQ9ZfL4glTJ5IQB0QftKkDowPSTU9bnKlVQjiOgSOo+xB8u91LQyA7cbt9Ab7gcektTMWNDvXBcWnE=
+X-Received: by 2002:a17:907:2bd5:b0:76f:591c:466b with SMTP id
+ gv21-20020a1709072bd500b0076f591c466bmr16839389ejc.504.1663690331120; Tue, 20
+ Sep 2022 09:12:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220822152741.1617527-1-richard.henderson@linaro.org>
- <20220822152741.1617527-35-richard.henderson@linaro.org>
-In-Reply-To: <20220822152741.1617527-35-richard.henderson@linaro.org>
+ <20220822152741.1617527-36-richard.henderson@linaro.org>
+In-Reply-To: <20220822152741.1617527-36-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Sep 2022 17:09:39 +0100
-Message-ID: <CAFEAcA_6MqDz3586oDo=Txn+1iYjmCsZh5-K2ESTB_mGVu4HTg@mail.gmail.com>
-Subject: Re: [PATCH v2 34/66] target/arm: Fix ATS12NSO* from S PL1
+Date: Tue, 20 Sep 2022 17:11:58 +0100
+Message-ID: <CAFEAcA-_gtGO2bgR7G-eUrcq+vH0__ixBMDR1PB33AeMDDkpmg@mail.gmail.com>
+Subject: Re: [PATCH v2 35/66] target/arm: Split out get_phys_addr_disabled
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,66 +83,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 22 Aug 2022 at 17:50, Richard Henderson
+On Mon, 22 Aug 2022 at 18:52, Richard Henderson
 <richard.henderson@linaro.org> wrote:
->
-> Use arm_hcr_el2_eff_secstate instead of arm_hcr_el2_eff, so
-> that we use is_state instead of the currend security state.
-
-"is_secure", "current"
-
-> These AT* operations have been broken since arm_hcr_el2_eff
-> gained a check for "el2 enabled" for Secure EL2.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/ptw.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-> index fe06bb032b..4da932b464 100644
-> --- a/target/arm/ptw.c
-> +++ b/target/arm/ptw.c
-> @@ -146,7 +146,7 @@ static bool regime_translation_disabled(CPUARMState *env, ARMMMUIdx mmu_idx,
->          }
->      }
->
-> -    hcr_el2 = arm_hcr_el2_eff(env);
-> +    hcr_el2 = arm_hcr_el2_eff_secstate(env, is_secure);
->
->      switch (mmu_idx) {
->      case ARMMMUIdx_Stage2:
-> @@ -230,7 +230,7 @@ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
->              return ~0;
->          }
->
-> -        hcr = arm_hcr_el2_eff(env);
-> +        hcr = arm_hcr_el2_eff_secstate(env, is_secure);
->          if ((hcr & HCR_PTW) && ptw_attrs_are_device(hcr, s2.cacheattrs)) {
->              /*
->               * PTW set and S1 walk touched S2 Device memory:
-> @@ -2360,7 +2360,7 @@ bool get_phys_addr_with_secure(CPUARMState *env, target_ulong address,
->              }
->
->              /* Combine the S1 and S2 cache attributes. */
-> -            hcr = arm_hcr_el2_eff(env);
-> +            hcr = arm_hcr_el2_eff_secstate(env, is_secure);
->              if (hcr & HCR_DC) {
->                  /*
->                   * HCR.DC forces the first stage attributes to
-> @@ -2493,7 +2493,7 @@ bool get_phys_addr_with_secure(CPUARMState *env, target_ulong address,
->          result->page_size = TARGET_PAGE_SIZE;
->
->          /* Fill in cacheattr a-la AArch64.TranslateAddressS1Off. */
-> -        hcr = arm_hcr_el2_eff(env);
-> +        hcr = arm_hcr_el2_eff_secstate(env, is_secure);
->          result->cacheattrs.shareability = 0;
->          result->cacheattrs.is_s2_format = false;
->          if (hcr & HCR_DC) {
-> --
-> 2.34.1
+>  target/arm/ptw.c | 138 +++++++++++++++++++++++++----------------------
+>  1 file changed, 74 insertions(+), 64 deletions(-)
 
-Otherwise
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
