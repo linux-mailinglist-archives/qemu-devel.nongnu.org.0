@@ -2,139 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77B365BEC37
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 19:46:45 +0200 (CEST)
-Received: from localhost ([::1]:52330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 330605BEC1B
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 19:36:13 +0200 (CEST)
+Received: from localhost ([::1]:47016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oahKW-0003Gy-1v
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 13:46:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46176)
+	id 1oahAJ-0006nJ-Vn
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 13:36:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oadoM-0004ak-3b; Tue, 20 Sep 2022 10:01:18 -0400
-Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:43755)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oae4E-0007LJ-0T
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 10:17:55 -0400
+Received: from mail-vs1-f47.google.com ([209.85.217.47]:45953)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oadoJ-0001I2-LF; Tue, 20 Sep 2022 10:01:17 -0400
-Received: by mail-ot1-x32c.google.com with SMTP id
- cm7-20020a056830650700b006587fe87d1aso1763150otb.10; 
- Tue, 20 Sep 2022 07:01:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=obx72+8lj9qm2WhrMMX0CKsbEGig5oqUktdJe59wJ8c=;
- b=EYGsqsWfnaYLIUhNnwR+W3+HQV7e1PVwf2K+QWqXr8T8ik7uhUchYwfaPRXzwOSNdj
- Y/VehUxaTawGdfoqwV5K3tSuvfrPWqckFhn+PXkxZYghBOhI2+TO0xbTzdFFrdhpyh2x
- veDoWSvsPDca3I578Fy9amlMqEZxQtbHz3JbXHWjMiu5OfyH5uyFImUWMMUvuKamIuTS
- YG8Kte9lSMN+Y8mrfYFVvuA43odoGtzEhiO8+jo4NP0P6X2/MTgvqMcLEzX/vDtgsO9b
- Gwc7jwC79qXCaM1/HPNBUkVZGrFZS5xRrwr2Ne3iu0RW7Y6naElU5JeR1p5TlLLhSvzD
- 4tyQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oae4B-0004MA-RP
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 10:17:41 -0400
+Received: by mail-vs1-f47.google.com with SMTP id m66so3216519vsm.12
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 07:17:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=obx72+8lj9qm2WhrMMX0CKsbEGig5oqUktdJe59wJ8c=;
- b=pNAVbaV0cdBTBX9aeYZ8R39h0Bp2hhrTwkrjEY6+7dW5Xey+HrO+YmOTdLJjRs5VLb
- RvtCLKnlMM1bhZ0UnQ0iQX67NO5zf7lKEJxWC1IboWCg/OpvR8H35i8H/92JPkqb8Za0
- ZadMSB9W8pFRN38gowU72bu80rjveWFaFspXkFMDJzdAYQJqFNGgfGwbxxM+k7PYDHYr
- +ToyOYak834RmJLBzkusXuC5NEwNOPb63UwGgc0j29iZ68DFbTx+lS/HNWx/56S1Nag0
- 5syCyV4KGYBkoV77uUQjW4lfPPoOHP0qZs+W/pGwkZtorPAAZJuUNE6/mqiXP9sDDHe0
- bveQ==
-X-Gm-Message-State: ACrzQf2dzpMK357zbVSiVzbLEuGbT2d5QP97UAT23N0TaoohkBBzvXYu
- lou87CRbDrSV/gtHkxZU76w=
-X-Google-Smtp-Source: AMsMyM7SJwY7Rzq8kp0hCW9RSDbUha/Eoq34TgM/6q2jfQ2yIYDABRMiwIOljIt9IFN/T/DE/u7ntw==
-X-Received: by 2002:a05:6830:18d8:b0:655:1f50:715f with SMTP id
- v24-20020a05683018d800b006551f50715fmr10392167ote.97.1663682472036; 
- Tue, 20 Sep 2022 07:01:12 -0700 (PDT)
-Received: from [192.168.10.102] ([191.193.2.69])
- by smtp.gmail.com with ESMTPSA id
- y22-20020a056830071600b0065892f42157sm821295ots.75.2022.09.20.07.00.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Sep 2022 07:01:10 -0700 (PDT)
-Message-ID: <8906f236-dbfc-7d51-a87d-2c02e8c506b2@gmail.com>
-Date: Tue, 20 Sep 2022 11:00:50 -0300
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=524MgnG9GmwMNLgCnKLXytBMcaqP2b5WrrC9zHh/R3o=;
+ b=If+PE1YexIh7Gal5ye1j8kt1Tz1rE+vf3/kNQ/TvqKHES06baFmghE5a2sSJjyTFPh
+ m6XI0pZdGGZIT2L+t3dfC56WqiTTSgnN1Y8Q2NLuHFU3fJT10OszQl3iz/qVRyHygBMU
+ J/rKZD8j3MyhSIEr/tDJxCB/wc+foig7tEqV/VueareaMNDsh6mtO6DX3XT+lAZE1tox
+ EiacpSsOckjYjWtAG45e2hhEN1734JmCYosnThiv7DwMVzprgF39Fr/nSieJ2cYASgCm
+ aClSVFaXLIkDstG4yVpoMhlf45sB0LOdJ4DByVlFdXlQjY5VzumWxhrU6uBz+g7VcJ2f
+ QJlg==
+X-Gm-Message-State: ACrzQf3oqt+0ZDsP1ae8EOQvpamBk1ZPeXURGyaLCVpm/GaPt1YlB2G1
+ BJQ6yZhHBq80s2cx8U21qvLSuguaChWBbx0l5aA=
+X-Google-Smtp-Source: AMsMyM7pMTA22z61iUK4657uhLK0EFfxIhympXIk0x1qHVETqDHokp5dMjESY6Bn5yoKBpQ8qpAjA23UpCa42YJCBNI=
+X-Received: by 2002:a05:6102:3118:b0:398:904a:32f7 with SMTP id
+ e24-20020a056102311800b00398904a32f7mr8004116vsh.14.1663683456339; Tue, 20
+ Sep 2022 07:17:36 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 4/9] hw/ppc/spapr: Fix code style problems reported by
- checkpatch
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Magnus Damm
- <magnus.damm@gmail.com>, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Bandan Das <bsd@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- Sergio Lopez <slp@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>, Cameron Esfahani
- <dirty@apple.com>, Michael Rolnik <mrolnik@gmail.com>,
- Song Gao <gaosong@loongson.cn>, Jagannathan Raman <jag.raman@oracle.com>,
- Greg Kurz <groug@kaod.org>, Kamil Rytarowski <kamil@netbsd.org>,
- Peter Xu <peterx@redhat.com>, Joel Stanley <joel@jms.id.au>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, haxm-team@intel.com,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Markus Armbruster <armbru@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- qemu-ppc@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Helge Deller <deller@gmx.de>,
- Stefano Stabellini <sstabellini@kernel.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-riscv@nongnu.org, Stafford Horne <shorne@gmail.com>,
- Paul Durrant <paul@xen.org>, Havard Skinnemoen <hskinnemoen@google.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Alexander Graf <agraf@csgraf.de>, Thomas Huth <thuth@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Wenchao Wang <wenchao.wang@intel.com>, Tony Krowiak
- <akrowiak@linux.ibm.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- qemu-s390x@nongnu.org, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Eric Farman <farman@linux.ibm.com>, Reinoud Zandijk <reinoud@netbsd.org>,
- Alexander Bulekov <alxndr@bu.edu>, Yanan Wang <wangyanan55@huawei.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Tyrone Ting <kfting@nuvoton.com>,
- xen-devel@lists.xenproject.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Darren Kenny <darren.kenny@oracle.com>, kvm@vger.kernel.org,
- Qiuhao Li <Qiuhao.Li@outlook.com>, John G Johnson
- <john.g.johnson@oracle.com>, Bin Meng <bin.meng@windriver.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Max Filippov
- <jcmvbkbc@gmail.com>, qemu-arm@nongnu.org,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Anthony Perard <anthony.perard@citrix.com>, Andrew Jeffery
- <andrew@aj.id.au>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Alistair Francis
- <alistair@alistair23.me>, Jason Herne <jjherne@linux.ibm.com>
-References: <20220919231720.163121-1-shentey@gmail.com>
- <20220919231720.163121-5-shentey@gmail.com>
-Content-Language: en-US
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220919231720.163121-5-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32c.google.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.182,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220826113900.794046-1-berrange@redhat.com>
+In-Reply-To: <20220826113900.794046-1-berrange@redhat.com>
+Date: Tue, 20 Sep 2022 16:17:24 +0200
+Message-ID: <CAAdtpL6VZoVfzuGaQ90iUxSxehFNugPS1nfTROh_Moi1C_4Vqw@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: use 'max' instead of 'qemu32' / 'qemu64' by
+ defualt
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Helge Deller <deller@gmx.de>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.217.47;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-vs1-f47.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -149,45 +75,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= via <qemu-devel@nongnu.org>
 
+Typo "default" in subject line.
 
-On 9/19/22 20:17, Bernhard Beschow wrote:
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+On Fri, Aug 26, 2022 at 1:46 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> The 'qemu64' CPU model implements the least featureful x86_64 CPU that's
+> possible. Historically this hasn't been an issue since it was rare for
+> OS distros to build with a higher mandatory CPU baseline.
+>
+> With RHEL-9, however, the entire distro is built for the x86_64-v2 ABI
+> baseline:
+>
+>   https://developers.redhat.com/blog/2021/01/05/building-red-hat-enterpri=
+se-linux-9-for-the-x86-64-v2-microarchitecture-level
+>
+> It is likely that other distros may take similar steps in the not too
+> distant future. For example, it has been suggested for Fedora on a
+> number of occassions.
+
+Typo "occasions".
+
+> This new baseline is not compatible with the qemu64 CPU model though.
+> While it is possible to pass a '-cpu xxx' flag to qemu-x86_64, the
+> usage of QEMU doesn't always allow for this. For example, the args
+> are typically controlled via binfmt rules that the user has no ability
+> to change. This impacts users who are trying to use podman on aarch64
+> platforms, to run containers with x86_64 content. There's no arg to
+> podman that can be used to change the qemu-x86_64 args, and a non-root
+> user of podman can not change binfmt rules without elevating privileges:
+>
+>   https://github.com/containers/podman/issues/15456#issuecomment-12282109=
+73
+>
+> Changing to the 'max' CPU model gives 'qemu-x86_64' maximum
+> compatibility with binaries it is likely to encounter in the wild,
+> and not likely to have a significant downside for existing usage.
+>
+> Most other architectures already use an 'any' CPU model, which is
+> often mapped to 'max' (or similar) already, rather than the oldest
+> possible CPU model.
+>
+> For the sake of consistency the 'i386' architecture is also changed
+> from using 'qemu32' to 'max'.
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > ---
+>  linux-user/i386/target_elf.h   | 2 +-
+>  linux-user/x86_64/target_elf.h | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-
-And I've queued it in gitlab.com/danielhb/qemu/tree/ppc-next since it's not
-tied with the rest of the series. Thanks,
-
-
-Daniel
-
->   include/hw/ppc/spapr.h | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 530d739b1d..04a95669ab 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -848,7 +848,8 @@ static inline uint64_t ppc64_phys_to_real(uint64_t addr)
->   
->   static inline uint32_t rtas_ld(target_ulong phys, int n)
->   {
-> -    return ldl_be_phys(&address_space_memory, ppc64_phys_to_real(phys + 4*n));
-> +    return ldl_be_phys(&address_space_memory,
-> +                       ppc64_phys_to_real(phys + 4 * n));
->   }
->   
->   static inline uint64_t rtas_ldq(target_ulong phys, int n)
-> @@ -858,7 +859,7 @@ static inline uint64_t rtas_ldq(target_ulong phys, int n)
->   
->   static inline void rtas_st(target_ulong phys, int n, uint32_t val)
->   {
-> -    stl_be_phys(&address_space_memory, ppc64_phys_to_real(phys + 4*n), val);
-> +    stl_be_phys(&address_space_memory, ppc64_phys_to_real(phys + 4 * n), val);
->   }
->   
->   typedef void (*spapr_rtas_fn)(PowerPCCPU *cpu, SpaprMachineState *sm,
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
