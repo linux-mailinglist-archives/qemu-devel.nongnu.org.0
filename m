@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6A55BEFA2
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 00:05:46 +0200 (CEST)
-Received: from localhost ([::1]:50944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C93725BF0BC
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 00:59:43 +0200 (CEST)
+Received: from localhost ([::1]:53254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oalNB-0000Ab-8x
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 18:05:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41514)
+	id 1oamDO-00046w-Gq
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 18:59:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oagqj-0000b3-1G
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:16:00 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:43821)
+ id 1oah96-0006AA-1Q
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:34:57 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:33692)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oagqh-0000ii-Gl
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:15:56 -0400
-Received: by mail-ej1-x629.google.com with SMTP id lh5so7754877ejb.10
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 10:15:55 -0700 (PDT)
+ id 1oah93-0003b4-Qq
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:34:55 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id b35so5003019edf.0
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 10:34:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=kgOtjYfIt+ylJV73NEowm0ceMrq4o4dFJuDidaHM5To=;
- b=F2nUPLK8zfJyr86IVAOceQrKpw9rbGkAWVTf1TVzguqH/EOBIIIt+jTXec9SNf7nD+
- qW5pK6ZZLiytc3par8qifQmFElMTVsb2skAgQtyZQhskUX8BsaMgnypGpLCS7/dBR/J8
- L7fI+HrVjAmJ1XqicImIX+PI+BYJW2cDbINshaHltMp7FBe1HlBqLM1wzdvqws2vLJGQ
- 61M5RwHpzVRopB41ZAHQIMuDaVrOkk0x9DXW2Cbiov2c8HbI4fAmpUcxeltje7GPcxwn
- 4npwKCSE3oERHy78usxB/PR0VIEFMBFBJO+zVgUNFkyJayrRNN57/nzioKyEAUgmnjal
- lj/g==
+ bh=iH6jIIlmVr3MkXQmYqy3OgPLmAu7CB0ASJoiLfWhauM=;
+ b=Rg5WwlRAL4ife1eiFjvW2tjpV5UtN5/jf+ObdPnbriW8EH3F7zoT4DC+rZhSM7Bt3k
+ bQVCsw510+E7E27Ni56wMYKIOO4alpGVNcH2x+og8fPeUlMBxvXsVx0xXNWnnpD5CYZ9
+ V2joDiSIsT3nMNkzeDBpU3cWCan+0WZ16yRecf9ZLUQHmd/01V9Bf+LflAynTCVzrKJf
+ 6wlpEORhztdxbg9m3JSn0qY7qelpMZRF2L3nsJqRLZv34IiGQA34hruYY963LLb1PLwT
+ q2m4zP2bM/md/mUy2njkctGDn0jjfa3Xc7go0tjj3CyZdlplmYAsKqI7upyaMiOAyzyx
+ rLpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=kgOtjYfIt+ylJV73NEowm0ceMrq4o4dFJuDidaHM5To=;
- b=uTvAnCuE2WWXVzvxW79kpOaODJSNIjjNB2DeLdxsxB7ibWS4c8LORdTkE2wRCCq22J
- d+U6gEaGzBqI4li/vVVHfzRcPEs1mzIJlrw3jhjYejEWS/InkifzVSevyELNT7KxKYIL
- +bFR3zHrdBL6mzHpwp2jHQNrejFoN8cIZ/9WM8fNaTq9N6aDQRrPmvt/HB6Ulrg5it8P
- IB85aZvwS0QPzZU5cjqh3jraeRwK5hcdnvPJKdlMBxNc5pSD6xCDG6IosB7W8X1x+CnF
- z0WWvi5s939VUieiLYFAx8a3kyzhx2iYtYlgHw/ClxdXBlnnDPel4L+Bx6mI33dFT66D
- PNCg==
-X-Gm-Message-State: ACrzQf0zhsGBHc+c9ZckRHDPmewmGp9gp+8U3ElLN+KurkUTOa2JbZ3k
- qThp1H1sv4L0DXCfifZvZTZPcQ==
-X-Google-Smtp-Source: AMsMyM7GmSpr5h/JTJhYCrYWSxXzdyBGhUyL5no4EqDgzFD42IRrfyeYqz22ECnrSypY8zUGV+/rhQ==
-X-Received: by 2002:a17:906:7f03:b0:781:6462:4214 with SMTP id
- d3-20020a1709067f0300b0078164624214mr7764544ejr.274.1663694154053; 
- Tue, 20 Sep 2022 10:15:54 -0700 (PDT)
+ bh=iH6jIIlmVr3MkXQmYqy3OgPLmAu7CB0ASJoiLfWhauM=;
+ b=su8PxT5sBPvuZindBgj3Fv3Fz7x7xcMmdXbbuWt4B7wU75ZzK06jzrpkD+xRvUuPv1
+ joMB/SvDwu/In7fCUagd3vqVj6Jxrpgm1dZaC/jtgGPcS3UC4MCaAqPCun3V/he1nvBg
+ P3t4UxDFIi5cw3nZuQWbkW3a5rQ4eWwGmHx0xOuE4GtGMJbkJkCGIZRo6mWUGal2xOjT
+ JJ/qe7yrsfFwDP8Qb2+KOEI5qdeIGmCW6k6hG0e7tw35IcCMEP2Xp99kdBiekGzoS48i
+ 3239avtDrzvyBhfnXJMLUzdFTBnG3bNESfk2YUHo7zg8PZ9JkE/0lrMVg1n9FZMQ6lpd
+ X9qA==
+X-Gm-Message-State: ACrzQf3ObDTQ/ZkkQicxTD4BTDJ3hc9C/0aPtWYkGc775UD4xORdnz7I
+ 7VLLewHcVWbci78dZv2J7hzppA==
+X-Google-Smtp-Source: AMsMyM7HLMU77avKf2M0lBImQ54btWwQDSEXRfSU5lF2cWZNF9REm030maps+Nhz4dmdS9XsRVHuFg==
+X-Received: by 2002:a05:6402:3904:b0:451:f01c:9217 with SMTP id
+ fe4-20020a056402390400b00451f01c9217mr20787601edb.78.1663695292101; 
+ Tue, 20 Sep 2022 10:34:52 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- o10-20020a170906768a00b00781e7d364ebsm134186ejm.144.2022.09.20.10.15.39
+ j18-20020a50ed12000000b0044e7f40c48esm186474eds.62.2022.09.20.10.34.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 10:15:45 -0700 (PDT)
+ Tue, 20 Sep 2022 10:34:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 957091FFC1;
- Tue, 20 Sep 2022 18:15:34 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 29D2A1FFC6;
+ Tue, 20 Sep 2022 18:15:35 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com,
@@ -65,17 +65,17 @@ Cc: stefanha@redhat.com,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PULL 09/30] tests/docker: update and flatten debian-hppa-cross
-Date: Tue, 20 Sep 2022 18:15:12 +0100
-Message-Id: <20220920171533.1098094-10-alex.bennee@linaro.org>
+Subject: [PULL 14/30] tests/docker: flatten debian-powerpc-test-cross
+Date: Tue, 20 Sep 2022 18:15:17 +0100
+Message-Id: <20220920171533.1098094-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220920171533.1098094-1-alex.bennee@linaro.org>
 References: <20220920171533.1098094-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,50 +98,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update to the latest stable Debian. While we are at it flatten into a
-single dockerfile. We really don't need the rest of the stuff from
-the QEMU base image just to compile test images.
+Flatten into a single dockerfile. We really don't need the rest of the
+stuff from the QEMU base image just to compile test images.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20220914155950.804707-10-alex.bennee@linaro.org>
+Message-Id: <20220914155950.804707-15-alex.bennee@linaro.org>
 
 diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cross.yml
-index 802e332205..6c1d765463 100644
+index db0ea15d0d..67bbf19a27 100644
 --- a/.gitlab-ci.d/container-cross.yml
 +++ b/.gitlab-ci.d/container-cross.yml
-@@ -65,7 +65,6 @@ hexagon-cross-container:
- hppa-debian-cross-container:
+@@ -102,7 +102,6 @@ mipsel-debian-cross-container:
+ powerpc-test-cross-container:
    extends: .container_job_template
    stage: containers
--  needs: ['amd64-debian10-container']
+-  needs: ['amd64-debian11-container']
    variables:
-     NAME: debian-hppa-cross
+     NAME: debian-powerpc-test-cross
  
 diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index c565aa5e7b..e39597d35c 100644
+index 8828b6b8fa..e034eca3af 100644
 --- a/tests/docker/Makefile.include
 +++ b/tests/docker/Makefile.include
-@@ -88,7 +88,6 @@ DOCKER_PARTIAL_IMAGES += debian-s390x-cross
- DOCKER_PARTIAL_IMAGES += fedora
- endif
+@@ -137,7 +137,6 @@ docker-image-debian-all-test-cross: docker-image-debian10
+ docker-image-debian-loongarch-cross: docker-image-debian11
+ docker-image-debian-microblaze-cross: docker-image-debian10
+ docker-image-debian-nios2-cross: docker-image-debian10
+-docker-image-debian-powerpc-test-cross: docker-image-debian11
+ docker-image-debian-riscv64-test-cross: docker-image-debian11
  
--docker-image-debian-hppa-cross: docker-image-debian10
- docker-image-debian-m68k-cross: docker-image-debian10
- docker-image-debian-mips-cross: docker-image-debian10
- docker-image-debian-mips64-cross: docker-image-debian10
-diff --git a/tests/docker/dockerfiles/debian-hppa-cross.docker b/tests/docker/dockerfiles/debian-hppa-cross.docker
-index 3d6c65a3ef..af1c8403d8 100644
---- a/tests/docker/dockerfiles/debian-hppa-cross.docker
-+++ b/tests/docker/dockerfiles/debian-hppa-cross.docker
-@@ -1,12 +1,14 @@
+ # These images may be good enough for building tests but not for test builds
+diff --git a/tests/docker/dockerfiles/debian-powerpc-test-cross.docker b/tests/docker/dockerfiles/debian-powerpc-test-cross.docker
+index 36b336f709..d6b2909cc4 100644
+--- a/tests/docker/dockerfiles/debian-powerpc-test-cross.docker
++++ b/tests/docker/dockerfiles/debian-powerpc-test-cross.docker
+@@ -1,13 +1,15 @@
  #
- # Docker cross-compiler target
+ # Docker powerpc/ppc64/ppc64le cross-compiler target
  #
--# This docker target builds on the debian Buster base image.
+-# This docker target builds on the debian Bullseye base image.
 +# This docker target builds on the Debian Bullseye base image.
  #
--FROM qemu/debian10
+-FROM qemu/debian11
 +FROM docker.io/library/debian:11-slim
  
 -RUN apt update && \
@@ -152,8 +151,9 @@ index 3d6c65a3ef..af1c8403d8 100644
 +    apt-get install -y eatmydata && \
 +    eatmydata apt-get dist-upgrade -y && \
 +    eatmydata apt-get install --no-install-recommends -y \
-         gcc-hppa-linux-gnu \
-         libc6-dev-hppa-cross
+         gcc-powerpc-linux-gnu \
+         libc6-dev-powerpc-cross \
+         gcc-10-powerpc64-linux-gnu \
 -- 
 2.34.1
 
