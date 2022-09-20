@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A2885BF0F9
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 01:18:54 +0200 (CEST)
-Received: from localhost ([::1]:35670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9223E5BF078
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 00:47:03 +0200 (CEST)
+Received: from localhost ([::1]:38696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oamVx-0007Ti-El
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 19:18:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33224)
+	id 1oam18-0008BJ-Lz
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 18:47:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oah6J-00046L-GY
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:32:03 -0400
-Received: from mout.gmx.net ([212.227.17.21]:47709)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oah6F-0003zq-Ap
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:31:59 -0400
+Received: from mout.gmx.net ([212.227.17.21]:57563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oah6E-0003IT-Bz
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:32:02 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oah6D-0003IX-Dt
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:31:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1663695115;
- bh=Ch0VD1RjoPxJVBQy7NTTlp4njBGwmtHPyvXwy03EIcQ=;
+ bh=eTqsOAZEvSr87I7k2ZocXc4S7Y4RRkoU5ruRaHuVfIs=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=On+NSD9rcLQ6RFPUPOhFkjcUzKKNeUhdaoO22HFQyYCOAt8xqb/kIXA7Jm281TL0M
- LPuZML8+a/YW3GdN4+wQHpCbCnvxYFogTxBXQb8SiWy3M4O0T12LFfJ19DnDrqEs8B
- RV0qm4K2N90Vmw4Avqi8WdPC1FzhVuRswUwhonkI=
+ b=IvzikMhYRAax7tsioVUbkeVF3EkVvzPtRLJ7GsheSgxIdiPmCAPmHpQibD983qUoH
+ ENBCSZqNZdNrTyK1HHWqSrebAg/o8+6oN3jISaxEQyQgcKgEwNdXxly4RZ21xlMneO
+ sFKRQeqws3X3QOwoHkUGr1+FthDTEbsLg8dWQKPo=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from p100.fritz.box ([92.116.174.94]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MysRu-1pWDhg3VA2-00w1GJ; Tue, 20
- Sep 2022 19:31:54 +0200
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MoO24-1p35yV00ue-00okwP; Tue, 20
+ Sep 2022 19:31:55 +0200
 From: Helge Deller <deller@gmx.de>
 To: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
  Richard Henderson <richard.henderson@linaro.org>,
  Stefan Hajnoczi <stefanha@gmail.com>
 Cc: deller@gmx.de
-Subject: [PULL 10/12] linux-user: Show timespec on strace for futex()
-Date: Tue, 20 Sep 2022 19:31:50 +0200
-Message-Id: <20220920173152.199359-11-deller@gmx.de>
+Subject: [PULL 11/12] linux-user: Add close_range() syscall
+Date: Tue, 20 Sep 2022 19:31:51 +0200
+Message-Id: <20220920173152.199359-12-deller@gmx.de>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220920173152.199359-1-deller@gmx.de>
 References: <20220920173152.199359-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:kRfQ2ILoRv44pI/bQcfy0c8wnGLNml73rEnHLatdnFy3HFO75ON
- rowBrDQmydpkQlNf29OEgrq+mpyDh19VdFVUZDvw1mRFpQbtjeUCA26oxoIg7qgOetLaDTU
- Opctds4VrmGR66TaUtEUVCBvjJiFURpHLfi98pCEtJbK4zH7PQq7K3Pndi22nfdkWuL0iMe
- xNbzyMk8sXct8P1km+eUw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:lO9lN6p6NBU=:WVbw4MPWPgSiuhMyxaIW8Y
- Yhd6JI1VdfyTrv9FlNomYGUO0XVh6wj6tXF/Q5HQMSGAehSElZs4LFdnefIYzu731qevHhkD6
- HsYSvveuTs02wwN5KYz9pKWVC7kVBCgyPuRVRLh3p0UPXAXU1cWMO34PZDabhcXSEgZYOzZDl
- BAFy3KEjg8OKBqz9Bi+TFGrz/Nr0ERtJ7YrVhmsv3e5Ugq6Y2MD+4G34wc3nw8U+SpMnC2wxa
- SMtxZE9A+y8HTjaEaMLERtBXZuebCBXdyoXIRQw1q3g0hi9mUAL/HY/RXVOm2R2xFMs5DsMpo
- UrYzdzC+ozSxLtrMXkbFoy43QKUyRYHuB/Bt83h2wWBuRyOh9E99ItAJKhXR6ALFMDx2dMOzX
- gpxYc150Hv5t+Yex/rhuIpCa5IvoJG3QLXTyM7MbeTkiPhDS73VNgOp2+AdkkPNliVsu30JO1
- j6BFL64fFO9IboIuMdfRw732fi5d1X9WvKX+kjUNzOyA0btPZuFPElN5G7nioFwQbZB6Y4T4s
- Dq1k55BANoM6Ma2k5dAkeJ4qjN/Zmrgp0vHCbzBX1tLf6v5uU/UTBWPpDEo+Qy2kgwGtP6+di
- wqPwj84SJURRuL18qa4wJJW/Qph+MMWzFJUELyIeUKR2ayQ0CiJzWLwx2MmhVH6i2PF+cK+v7
- mr4bbPI8LuVXPu48cobt1h3WYeMuXutSCaKUOIxH2iC7/ltKv0qS31j2QZGTItJlWrxbTLRvr
- Rf48Va4/z6eGszIwTZR6qHEERJBC1xbfwllVBQknl2d7wBFf2+jDGmiO7uRlOQCRiS0Y2H5XW
- kk2ZExGUnUFwPeqZMGS/Wjm0/esLBuJ9zs2pXmqtKCsd5q1c2sgbbdLU1CJ3pWTyJFagILSAe
- nrfKiu2vGZDA2eRhwjvQSS0eQYzXbO1a8evXlaJfpZkihR0IyW1G0phF0GVJ9PjU2+2+mu4nS
- pXTs8pRmMRTgTiGDp5DTRt0cGp+8e8mty5oOZJKRJnC9aaDZQPaILagtphs8ta4QaYxrki5hY
- WN3tIoYPoBNoRVDANahIfXMgEduCAYjGDEkMAZCzFtXE2tcKS/8ymkYM3noaGooJM1frcbbAn
- 9SELkBHiTgMKxurOdbTTFgPUj2/T0czxDJ5/Wv6Ijg8tEdhRoYEXh+LcBBjNQmYBINEBIRe7h
- P+ooc=
+X-Provags-ID: V03:K1:u7r0yQYQ7/lVpsZQGKWdXfHn2cep2/o+IoVjdRKMD5aIEKpkhCe
+ X2Jv+jOoh+4MUUq8bsX+tB6hHZ5H2mGEg6ZNF2uISLFPLHyNgl59pN7XG5XhK4SU5YVfMNW
+ yiyvzT5S3y7xWTk+woeTI/9g4PUMoqALLjZ+kzrn6YxUzHBPcb9IHcZgKaGCW4wwU6d+b95
+ eNXzYYcJNBK5O6iqQBZ4w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:g9J0BUo0XvU=:W0myMmJmXQyCpHn6h0lhoz
+ /1JEYb7xSkNckhlKDvoax9EGQsje1yXbPbUEBRl1UdlayAe/iMEYS6RsIfOOMmLXcwF15ImEe
+ A256kjaUVcQDUrCEr1eeMdONPPgNdQiGH+mYbCyBffj/dFwDDyfmbvWbLG2jak9VkCkwTKBNt
+ PoeVcW19LRt+IlcEXeyBnF8eZqzLt7WHIDZ2pOsZi1zKl0hE2qV7mk0BP4z3pLUXP3Xv8pK+Q
+ dISxChd8rQhbxkxtCIPT6tqIjeu+F9YPL3L+C88+xPdYiMsipzJL7ma8m8hbKCmsuZ0Aqy5kT
+ AClz9Ht1JL8DBxDIZoVo2ny9XBfVgyc2OguY58mVVb16a2QsAJMLZWemhkFOyrM5sdcRMLALg
+ je8O+JQ3MVz/m5OvEKOJNcyCi3/sSEwW6MSAS93TmwB1WcnU5n/V411jEz8qbCcLGJaYG4IHa
+ lDGnzRcnOTzkdK1LgdmzXDOq6lRz4POnL6GcNxl+j08YIR5rhLz2eBJINEzq6zUX2rS2NWA+M
+ z2iUIKq4qDILKGVMVlTSbI1qd7tsteFu1oYH5+ql4uaky2qxaAyIzdURTVjvgf0kkq3kFfkl9
+ c4+O/YQPwWmqrSJ9Q3MYiPYy9LYH6yWGLJTrR38om7kF70pgZDTqXXbOgM07UsdljI4/gU9CA
+ K8hoc1sLjf20aEYKwuqioGWSw6RpJ28PC/92qC8mBrtxOkrjqMzhP96xHxdWPeKP0Rnar6UhQ
+ MBPY22dJeEHoffIUsraN/byds3CxM88mKyolpoIcXWquxwbrnifMHgi9SXL7Qx0twCjRhxhhN
+ eXs3VKjrZEs9ymoBtS9B075znAnDk49Ymru+xK2AB/4m97qtrydEAraIgO/LrNt06n+wa7NXC
+ oek6srfut74hsFNxHHQ5xT3IDMxWlSHUkbw6Z70bBk4Mhdyki3QKwe/ThqAzQoUtdLPzMR6Y8
+ b6QIxubIGYaRW5FW2SvT826lEE0Fw8GYLInCvSwxwJ0xrP97jTzci937zXkKAcbV9wW55ZoG5
+ BgvyQriqxQYXLW+J2+puowh3OcZrqLT4x5EUO84gpZs5WHBjlYHeXFzFyX2JjOcO2lUbFSz3Y
+ pifc8g/vlLOojcj9Ls1fzQ+9ZxVnRYI/aoEQrqUyoVE5wDYx0Iq8nx9dcQKza8Hg1h61dHJh1
+ mo//0=
 Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
@@ -89,36 +89,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- linux-user/strace.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ linux-user/strace.list |  3 +++
+ linux-user/syscall.c   | 16 ++++++++++++++++
+ 2 files changed, 19 insertions(+)
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 6f818212d5..b6b9abaea4 100644
-=2D-- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -3714,11 +3714,20 @@ print_futex(CPUArchState *cpu_env, const struct sy=
-scallname *name,
-             abi_long arg0, abi_long arg1, abi_long arg2,
-             abi_long arg3, abi_long arg4, abi_long arg5)
- {
-+    abi_long op =3D arg1 & FUTEX_CMD_MASK;
-     print_syscall_prologue(name);
-     print_pointer(arg0, 0);
-     print_futex_op(arg1, 0);
-     print_raw_param(",%d", arg2, 0);
--    print_pointer(arg3, 0); /* struct timespec */
-+    switch (op) {
-+        case FUTEX_WAIT:
-+        case FUTEX_WAIT_BITSET:
-+            print_timespec(arg3, 0);
-+            break;
-+        default:
-+            print_pointer(arg3, 0);
-+            break;
-+    }
-     print_pointer(arg4, 0);
-     print_raw_param("%d", arg4, 1);
-     print_syscall_epilogue(name);
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index 215d971b2a..ad9ef94689 100644
+=2D-- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -103,6 +103,9 @@
+ #ifdef TARGET_NR_close
+ { TARGET_NR_close, "close" , "%s(%d)", NULL, NULL },
+ #endif
++#ifdef TARGET_NR_close_range
++{ TARGET_NR_close_range, "close_range" , "%s(%d,%d,%d)", NULL, NULL },
++#endif
+ #ifdef TARGET_NR_connect
+ { TARGET_NR_connect, "connect" , "%s(%d,%#x,%d)", NULL, NULL },
+ #endif
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index ca39acfceb..2e0e974562 100644
+=2D-- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -338,6 +338,10 @@ _syscall3(int,sys_syslog,int,type,char*,bufp,int,len)
+ #ifdef __NR_exit_group
+ _syscall1(int,exit_group,int,error_code)
+ #endif
++#if defined(__NR_close_range) && defined(TARGET_NR_close_range)
++#define __NR_sys_close_range __NR_close_range
++_syscall3(int,sys_close_range,int,first,int,last,int,flags)
++#endif
+ #if defined(__NR_futex)
+ _syscall6(int,sys_futex,int *,uaddr,int,op,int,val,
+           const struct timespec *,timeout,int *,uaddr2,int,val3)
+@@ -8721,6 +8725,18 @@ static abi_long do_syscall1(CPUArchState *cpu_env, =
+int num, abi_long arg1,
+     case TARGET_NR_close:
+         fd_trans_unregister(arg1);
+         return get_errno(close(arg1));
++#if defined(__NR_close_range) && defined(TARGET_NR_close_range)
++    case TARGET_NR_close_range:
++        {
++            abi_long fd;
++            abi_long maxfd =3D (arg2 =3D=3D (abi_long)-1) ? target_fd_max=
+ : arg2;
++
++            for (fd =3D arg1; fd <=3D maxfd; fd++) {
++                fd_trans_unregister(fd);
++            }
++        }
++        return get_errno(sys_close_range(arg1, arg2, arg3));
++#endif
+
+     case TARGET_NR_brk:
+         return do_brk(arg1);
 =2D-
 2.37.3
 
