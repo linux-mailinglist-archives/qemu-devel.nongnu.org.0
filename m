@@ -2,126 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ED495BE928
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 16:36:29 +0200 (CEST)
-Received: from localhost ([::1]:59688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D805BE944
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 16:46:23 +0200 (CEST)
+Received: from localhost ([::1]:35642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaeMO-0004FO-JP
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 10:36:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33438)
+	id 1oaeVy-0008AD-3I
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 10:46:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oabYn-0000E2-C1
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 07:37:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27825)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oabb5-0000XA-Lk
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 07:39:33 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:63372)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oabYe-0001VR-3o
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 07:37:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663673815;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Q9Kiy75k/GjyNcX5/jFVpAejSl+0Eo6vMfAUPlGa7+Q=;
- b=YNLOgLJ3y3TbmFBmF/gdP8Xdk0KoaQW5bsjzmRvPxMazs49OX9f2kORQLMFm3TGm3lWE9I
- lBA5EHIL0pZGHZ/WuwHvh7ZZD7Ppd//XHlb1ZuorrcFGI8xputyIjC7xbSz2QUYAe/QrR6
- Wq2UIEWvNI+PUMAp8yxRupBruk+mwBY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-49-nyyOMpweMKOJOc5LnI28Bw-1; Tue, 20 Sep 2022 07:36:52 -0400
-X-MC-Unique: nyyOMpweMKOJOc5LnI28Bw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C1DF3810D23;
- Tue, 20 Sep 2022 11:36:50 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EF591112131E;
- Tue, 20 Sep 2022 11:36:48 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A0E0D21E6900; Tue, 20 Sep 2022 13:36:47 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Alistair Francis <alistair23@gmail.com>, Bin Meng
- <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>
-Cc: Bernhard Beschow <shentey@gmail.com>,  "qemu-devel@nongnu.org
- Developers" <qemu-devel@nongnu.org>,  "Michael S. Tsirkin"
- <mst@redhat.com>,  Magnus Damm <magnus.damm@gmail.com>,  Aleksandar Rikalo
- <aleksandar.rikalo@syrmia.com>,  Bandan Das <bsd@redhat.com>,  Matthew
- Rosato <mjrosato@linux.ibm.com>,  Daniel Henrique Barboza
- <danielhb413@gmail.com>,  Sergio Lopez <slp@redhat.com>,  Alexey
- Kardashevskiy <aik@ozlabs.ru>,  Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- Cameron Esfahani <dirty@apple.com>,  Michael Rolnik <mrolnik@gmail.com>,
- Song Gao <gaosong@loongson.cn>,  Jagannathan Raman
- <jag.raman@oracle.com>,  Greg Kurz <groug@kaod.org>,  Kamil Rytarowski
- <kamil@netbsd.org>,  Peter Xu <peterx@redhat.com>,  Joel Stanley
- <joel@jms.id.au>,  Alistair Francis <Alistair.Francis@wdc.com>,  "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>,  Paolo Bonzini
- <pbonzini@redhat.com>,  haxm-team@intel.com,  Roman Bolshakov
- <r.bolshakov@yadro.com>,  Markus Armbruster <armbru@redhat.com>,  Eric
- Auger <eric.auger@redhat.com>,  David Gibson
- <david@gibson.dropbear.id.au>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
- <berrange@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,  =?utf-8?Q?C=C3=A9dri?=
- =?utf-8?Q?c?= Le Goater
- <clg@kaod.org>,  Stefan Hajnoczi <stefanha@redhat.com>,  Qemu-block
- <qemu-block@nongnu.org>,  Eduardo Habkost <eduardo@habkost.net>,
- =?utf-8?Q?Herv=C3=A9?=
- Poussineau <hpoussin@reactos.org>,  "open list:New World"
- <qemu-ppc@nongnu.org>,  Cornelia Huck <cohuck@redhat.com>,  Helge Deller
- <deller@gmx.de>,  Stefano Stabellini <sstabellini@kernel.org>,  Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,  "open list:RISC-V"
- <qemu-riscv@nongnu.org>,  Stafford Horne <shorne@gmail.com>,  Paul Durrant
- <paul@xen.org>,  Havard Skinnemoen <hskinnemoen@google.com>,  Elena
- Ufimtseva <elena.ufimtseva@oracle.com>,  Alexander Graf <agraf@csgraf.de>,
- Thomas Huth <thuth@redhat.com>,  Alex Williamson
- <alex.williamson@redhat.com>,  Wenchao Wang <wenchao.wang@intel.com>,
- Tony Krowiak <akrowiak@linux.ibm.com>,  Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>,  qemu-s390x <qemu-s390x@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,  Mark
- Cave-Ayland
- <mark.cave-ayland@ilande.co.uk>,  Eric Farman <farman@linux.ibm.com>,
- Reinoud Zandijk <reinoud@netbsd.org>,  Alexander Bulekov <alxndr@bu.edu>,
- Yanan Wang <wangyanan55@huawei.com>,  "Edgar E. Iglesias"
- <edgar.iglesias@gmail.com>,  Gerd Hoffmann <kraxel@redhat.com>,  Tyrone
- Ting <kfting@nuvoton.com>,  "open list:X86"
- <xen-devel@lists.xenproject.org>,  Yoshinori Sato
- <ysato@users.sourceforge.jp>,  John Snow <jsnow@redhat.com>,  Richard
- Henderson <richard.henderson@linaro.org>,  Darren Kenny
- <darren.kenny@oracle.com>,  "open list:Overall" <kvm@vger.kernel.org>,
- Qiuhao Li <Qiuhao.Li@outlook.com>,  John G Johnson
- <john.g.johnson@oracle.com>,  Sunil Muthuswamy <sunilmut@microsoft.com>,
- Max Filippov <jcmvbkbc@gmail.com>,  qemu-arm <qemu-arm@nongnu.org>,
- Marcelo Tosatti <mtosatti@redhat.com>,  Peter Maydell
- <peter.maydell@linaro.org>,  Anthony Perard <anthony.perard@citrix.com>,
- Andrew Jeffery <andrew@aj.id.au>,  Artyom Tarasenko
- <atar4qemu@gmail.com>,  Halil Pasic <pasic@linux.ibm.com>,  "Maciej S.
- Szmigiero" <maciej.szmigiero@oracle.com>,  Jason Wang
- <jasowang@redhat.com>,  David Hildenbrand <david@redhat.com>,  Laurent
- Vivier <laurent@vivier.eu>,  Alistair Francis <alistair@alistair23.me>,
- Jason Herne <jjherne@linux.ibm.com>
-Subject: Re: [PATCH 1/9] hw/riscv/sifive_e: Fix inheritance of SiFiveEState
-References: <20220919231720.163121-1-shentey@gmail.com>
- <20220919231720.163121-2-shentey@gmail.com>
- <CAKmqyKN+V2R8PkED67tB8+pCZs9369ViiL8OZ9XhO3SdUCk5=Q@mail.gmail.com>
-Date: Tue, 20 Sep 2022 13:36:47 +0200
-In-Reply-To: <CAKmqyKN+V2R8PkED67tB8+pCZs9369ViiL8OZ9XhO3SdUCk5=Q@mail.gmail.com>
- (Alistair Francis's message of "Tue, 20 Sep 2022 09:31:10 +1000")
-Message-ID: <87edw6xoog.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oabb3-0001s4-9r
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 07:39:27 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28KBNxUN023812;
+ Tue, 20 Sep 2022 11:39:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=V32dD7Rr+IdtugZCl3iQ+KTNtXDAuqaRngYtPpzeyEs=;
+ b=tr9L/BaS/W8ChEKXVrAO6WTdVi8/Roaz9pBd7U+r4ZyHkKxMWN8LFowIomvsuy7qHYTL
+ 4T2C8/3kL9DDd3FcWdt5k+CjRhnAh2HNRj5tV9uLAXjtX+lZWmotRL3fgHaGyHe6F2d/
+ FDlXdgPr2bZLgy3rpG7zmeVtov18N480JvZSw1QqtAutosEM8L6dIRxaMYOwdguI8HLB
+ wOwujVbfE27q77IYW2qwrQ6dfPLYCJbmdXFLIyY+sDh/RQmi0Y8/wCKhvZqCKqqdSATU
+ fgc7f8SLFkB66vY0bCsrbEL90CZaIvmO+Rugg5lbL25v2rNGDZz/fchlp0EfazAL2Waw Sw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jqckt8sfa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 20 Sep 2022 11:39:23 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28KBNwFD023772;
+ Tue, 20 Sep 2022 11:39:21 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jqckt8ryf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 20 Sep 2022 11:39:21 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28KBaILL007674;
+ Tue, 20 Sep 2022 11:39:12 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma05fra.de.ibm.com with ESMTP id 3jn5v8tsvf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 20 Sep 2022 11:39:12 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 28KBd9Yp37290428
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 20 Sep 2022 11:39:09 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 13AF8A4060;
+ Tue, 20 Sep 2022 11:39:09 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 85A1FA4054;
+ Tue, 20 Sep 2022 11:39:08 +0000 (GMT)
+Received: from heavy.ibmuc.com (unknown [9.171.67.151])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 20 Sep 2022 11:39:08 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Laurent Vivier <laurent@vivier.eu>,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH] linux-user/host/s390: Add vector instructions to
+ host_signal_write()
+Date: Tue, 20 Sep 2022 13:39:07 +0200
+Message-Id: <20220920113907.334144-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: I2LJVlF7tkGVH8_iT5lBECwBekcisa5d
+X-Proofpoint-GUID: ap7d1tNQdR0EptkcfgVajt0QMTyId9TZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-20_04,2022-09-16_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ priorityscore=1501 impostorscore=0 mlxscore=0 suspectscore=0 clxscore=1015
+ bulkscore=0 malwarescore=0 phishscore=0 adultscore=0 mlxlogscore=999
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209200064
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -137,22 +112,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alistair Francis <alistair23@gmail.com> writes:
+The new noexec test fails on s390x with "unexpected SEGV". This test
+overwrites code using libc's memcpy(), which uses VSTL instruction.
+host_signal_write() does not recognize it, which causes SEGV to be
+incorrectly forwarded to the test.
 
-> On Tue, Sep 20, 2022 at 9:18 AM Bernhard Beschow <shentey@gmail.com> wrote:
->>
->> SiFiveEState inherits from SysBusDevice while it's TypeInfo claims it to
->> inherit from TYPE_MACHINE. This is an inconsistency which can cause
->> undefined behavior such as memory corruption.
->>
->> Change SiFiveEState to inherit from MachineState since it is registered
->> as a machine.
->>
->> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Add all vector instructions that write to memory to
+host_signal_write().
 
-To the SiFive maintainers: since this is a bug fix, let's merge it right
-away.
+Reported-by: Thomas Huth <thuth@redhat.com>
+Fixes: ab12c95d3f19 ("target/s390x: Make translator stop before the end of a page")
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+---
+ linux-user/include/host/s390/host-signal.h | 25 ++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+diff --git a/linux-user/include/host/s390/host-signal.h b/linux-user/include/host/s390/host-signal.h
+index 25fefa00bd..e6d3ec26dc 100644
+--- a/linux-user/include/host/s390/host-signal.h
++++ b/linux-user/include/host/s390/host-signal.h
+@@ -87,6 +87,31 @@ static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
+             return true;
+         }
+         break;
++    case 0xe6:
++        switch (pinsn[2] & 0xff) {
++        case 0x09: /* VSTEBRH */
++        case 0x0a: /* VSTEBRG */
++        case 0x0b: /* VSTEBRF */
++        case 0x0e: /* VSTBR */
++        case 0x0f: /* VSTER */
++        case 0x3f: /* VSTRLR */
++            return true;
++        }
++        break;
++    case 0xe7:
++        switch (pinsn[2] & 0xff) {
++        case 0x08: /* VSTEB */
++        case 0x09: /* VSTEH */
++        case 0x0a: /* VSTEG */
++        case 0x0b: /* VSTEF */
++        case 0x0e: /* VST */
++        case 0x1a: /* VSCEG */
++        case 0x1b: /* VSCEF */
++        case 0x3e: /* VSTM */
++        case 0x3f: /* VSTL */
++            return true;
++        }
++        break;
+     case 0xeb: /* RSY format insns */
+         switch (pinsn[2] & 0xff) {
+         case 0x14: /* CSY */
+-- 
+2.37.2
 
 
