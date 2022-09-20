@@ -2,70 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21C7F5BEEDF
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:01:26 +0200 (CEST)
-Received: from localhost ([::1]:57168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9537D5BEF59
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:48:16 +0200 (CEST)
+Received: from localhost ([::1]:42044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oakMu-0006s5-U1
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:01:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39252)
+	id 1oal6E-0002d8-St
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:48:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oagb2-0007qR-5u
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:59:45 -0400
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:37813)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oagqV-0000PB-5y
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:15:43 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:45602)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oagb0-0006Cu-QG
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:59:43 -0400
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-3454b0b1b6dso34581357b3.4
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 09:59:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=IxKIzz77LNQLU/JSzs2i2Qmnswe3Lv4A94b567zBclE=;
- b=JhN5ZRDylhtbXJjt2WlyNGykNLNnqX8donGeTYC5uijZsU7TnoRemrw/T2p+lE9zpz
- pfi5uNrHFjOH/af6OVmLFgg4j9BFHpFDRtGeRgQQrVWYsyEjm2SEZZ6k2jhzhCiKXWky
- 6rPuFMd2WUVHXuxavS1wIxIjcnre46d+Uv/eEaoinImkTFy1EgOEAFDrXfNGHjb5nToX
- xSSE8YVQjcX/z8U8SMeYg6CUhinLGuSwqrBrlKioNyxwdKBY33wLxdZ9qTdBrA9eI0Jw
- oXMpAYyRTV0old/NYTQ/EN0kNPpOjCXL78cNo7tnnjdXXNDveHJsLO6XRH4utDX8HXHe
- SsnA==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oagqT-0000eS-6f
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:15:42 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id m3so4797294eda.12
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 10:15:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=aHQdNorEXjshmGSR0mKASyGtgOaaQnvJ4lxoVpDtcFY=;
+ b=MTWZo3dQb05CU9hQ/AJWK8rOjgPBanZeDp2Pzu8mBKIJG6ikHfBlLC6KKuSt+lJqOj
+ thdxw9yd0845fe2tp5Cp1a1qvsgn18GZseOJuW0Em3dw0OhxTv3COwSC2uVeQ7bW1V+0
+ ZXJUNIdzkzYFRFM8Ta02ILBEdIhjhgahDa6mM+nXdsGtRtAEAqfoJdx+StMI3/q4N84d
+ vyuiUAbsulPryHQQVBn4alLnzkWxJA/dXgMYbPIgVopKKsJGgtqTeCDlaek/sm6xC6Kz
+ 8JRGtLKO3l9lax41mPUF9hUKwXEAsOlAuAF765s1jT9StkO7kgHS47r5mxX3nQWDhCvK
+ IPLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=IxKIzz77LNQLU/JSzs2i2Qmnswe3Lv4A94b567zBclE=;
- b=N0MirOTIIudxsHU/Mil9MSwSyH99cUF7gtmoAH7Ib9fa1bzzj4TjS/iiEMY717qKkT
- bnWDcpULYPNd8BXlfhuMVOpYiAfOyitugJYBrpVU1BE/ZouA+RF6+2yvYTY6SRd8glDt
- nmzSWZZOwbX90jXdmzVzSHWJgGhxaAV6c59ORnd9e8fF7XsQXtlh6B2/uDkbDdPvEGf5
- BfH0TGVwSqV2eon6Ce2fMa8OUriOe0aiMCw1PnO9tqj8vVWM4wAR65QpJyMmDnvh05Gd
- o/fnOEzVRTPSU1e15JbpD89d7232el8OCCAUnfZPo15sh9FihTjt8wx+yZd8qL5mFbfo
- EXwQ==
-X-Gm-Message-State: ACrzQf2ECKnVg2qp3coWgpCU9QNwK6vhqA1vRDZFarskz6ZQ6HW3rfVz
- dIV7vpTiSnPqEHQ/EX0Zas7Lx5IMRmEQjvaufMafQQmMjQdjVi1g
-X-Google-Smtp-Source: AMsMyM4YXqLoxjnREOR6GzRqmZzVJcXjRg0rBSwJch1kbPulG4PAM6+T2Xblf2w8d9WXaUhCIH/y9mqmQlB2kFA+mJg=
-X-Received: by 2002:a0d:df46:0:b0:345:22d9:f5c1 with SMTP id
- i67-20020a0ddf46000000b0034522d9f5c1mr19767187ywe.239.1663693181157; Tue, 20
- Sep 2022 09:59:41 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=aHQdNorEXjshmGSR0mKASyGtgOaaQnvJ4lxoVpDtcFY=;
+ b=sCZhJbFBoZHwVs1i+7kQ7pvjKzKVKaHxMOCrl2aWYdDlVxgDShs6X0n6aXZzRDQYak
+ U7AyvJTWxkUUx0Mx1SrcUxx07T6M3yvHByYy5knnsgpEblgLcF7RovPREZnZ5w03nzeW
+ HFieC+oKOSHt2IFhxqiHYQ+lvfnkWuBdt6PX8Ny42NID5nubZ+ibTrR/FNgfkXeVkf/1
+ ClkKNjt5lAU3ZxjuEZ/HH5zMVbZKaay8/2yMEAOaN7NhIZlfkVpN9Q3vsOEYisfFpjX3
+ NtGB5Rf0k7DQbPIa519foSYf960SH5SNPE8gbM5bIZ4WPQq82oKnEoGP5984k9fLaPw3
+ eTUA==
+X-Gm-Message-State: ACrzQf2jxlHXiUwbFKJV3CRsDmPbQ+yPmmWoo0jQQc23LQW3wyG6bnNu
+ eZ3LaXuH/nHOkOQVy6KfTVaDHQ==
+X-Google-Smtp-Source: AMsMyM40uxBJBT0uxDIh31X+ROIgPTefTsmArnrZIkNlpv0oyxNco66jRnwr0wDSM3WUpkkBecLjzw==
+X-Received: by 2002:a05:6402:50d1:b0:452:899e:77c with SMTP id
+ h17-20020a05640250d100b00452899e077cmr20873779edb.0.1663694139491; 
+ Tue, 20 Sep 2022 10:15:39 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ g2-20020a17090604c200b0072b3406e9c2sm164301eja.95.2022.09.20.10.15.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Sep 2022 10:15:34 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B6D391FFB7;
+ Tue, 20 Sep 2022 18:15:33 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: stefanha@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: [PULL 00/30] testing updates (docker, avocado,
+ deprecate 32bit BE MIPS)
+Date: Tue, 20 Sep 2022 18:15:03 +0100
+Message-Id: <20220920171533.1098094-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220913165945.1635016-1-stefanb@linux.ibm.com>
-In-Reply-To: <20220913165945.1635016-1-stefanb@linux.ibm.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 20 Sep 2022 12:59:29 -0400
-Message-ID: <CAJSP0QWJbmZhwKjcbBj+7gKG-ZEqshmhddHCH2gHr67R8t+Z=w@mail.gmail.com>
-Subject: Re: [PULL 0/4] Merge tpm 2022/09/13 v1
-To: Stefan Berger <stefanb@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x112d.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,8 +94,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Applied, thanks.
+The following changes since commit d29201ff34a135cdfc197f4413c1c5047e4f58bb:
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for
-any user-visible changes.
+  Merge tag 'pull-hmp-20220915a' of https://gitlab.com/dagrh/qemu into staging (2022-09-17 10:31:11 -0400)
+
+are available in the Git repository at:
+
+  https://github.com/stsquad/qemu.git tags/pull-testing-next-200922-2
+
+for you to fetch changes up to d996f0aeb2fe8f5c5f30ac8a2f633e3196457d6f:
+
+  tests/docker: remove the Debian base images (2022-09-20 17:22:08 +0100)
+
+----------------------------------------------------------------
+Testing and CI changes:
+
+  - reduce number of targets for cross_user_build
+  - update avocado xlnx_versal test with new binaries
+  - add explicit timeouts to a number of avocado TCG tests
+  - reduce default timeout to 120s
+  - update lcitool to support cross-amd64
+  - flatten a number of docker cross containers
+  - clean up stale qemu/debian10 dependencies
+  - remove obsolete Fedora VM test
+  - add configure workaround for meson --disable-pie bug
+  - disable --static-pie for aarch64 gitlab runner
+  - update aarch32/aarch64 jobs to 22.04
+  - deprecate 32 bit big-endian MIPS as a host
+  - remove FROM qemu/ support from docker.py
+  - remove Debian base images now everything is flat
+
+----------------------------------------------------------------
+Alex Bennée (27):
+      gitlab: reduce targets in cross_user_build_job
+      tests/avocado: add explicit timeout for Aarch64 TCG tests
+      tests/avocado: add explicit timeout for s390 TCG tests
+      tests/avocado: add explicit timeout for ppc64le TCG tests
+      tests/avocado: split the AST2x00Machine classes
+      tests/avocado: reduce the default timeout to 120s
+      tests/docker: update and flatten debian-alpha-cross
+      tests/docker: update and flatten debian-hppa-cross
+      tests/docker: update and flatten debian-m68k-cross
+      tests/docker: update and flatten debian-mips64-cross
+      tests/docker: update and flatten debian-sh4-cross
+      tests/docker: update and flatten debian-sparc64-cross
+      tests/docker: flatten debian-powerpc-test-cross
+      tests/docker: remove tricore qemu/debian10 dependency
+      tests/docker: remove amd64 qemu/debian10 dependency
+      configure: explicitly set cflags for --disable-pie
+      gitlab-ci: update aarch32/aarch64 custom runner jobs
+      Deprecate 32 bit big-endian MIPS
+      tests/docker: flatten debian-riscv64-test-cross
+      tests/docker: update and flatten debian-all-test-cross
+      tests/lcitool: bump to latest version
+      tests/docker: update and flatten debian-amd64-cross
+      tests/docker: update and flatten debian-loongarch-cross
+      tests/docker: update and flatten debian-hexagon-cross
+      tests/docker: update and flatten debian-toolchain
+      tests/docker: remove FROM qemu/ support from docker.py
+      tests/docker: remove the Debian base images
+
+Richard Henderson (1):
+      gitlab-ci/custom-runners: Disable -static-pie for ubuntu-20.04-aarch64
+
+Thomas Huth (2):
+      tests/avocado/boot_linux_console: Fix the test_aarch64_xlnx_versal_virt test
+      tests/vm: Remove obsolete Fedora VM test
+
+ docs/about/build-platforms.rst                     |   2 +-
+ docs/about/deprecated.rst                          |  13 ++
+ docs/devel/testing.rst                             |   2 +-
+ configure                                          |   3 +
+ .gitlab-ci.d/cirrus/freebsd-12.vars                |   2 +-
+ .gitlab-ci.d/cirrus/freebsd-13.vars                |   2 +-
+ .gitlab-ci.d/container-core.yml                    |   5 -
+ .gitlab-ci.d/container-cross.yml                   |  12 --
+ .gitlab-ci.d/containers.yml                        |   5 -
+ .gitlab-ci.d/crossbuild-template.yml               |   5 +-
+ .gitlab-ci.d/crossbuilds.yml                       |  14 --
+ .gitlab-ci.d/custom-runners.yml                    |   4 +-
+ ...-20.04-aarch32.yml => ubuntu-22.04-aarch32.yml} |   6 +-
+ ...-20.04-aarch64.yml => ubuntu-22.04-aarch64.yml} |  38 ++---
+ MAINTAINERS                                        |   3 +-
+ tests/avocado/avocado_qemu/__init__.py             |   2 +-
+ tests/avocado/boot_linux.py                        |   5 +
+ tests/avocado/boot_linux_console.py                |   6 +-
+ tests/avocado/machine_aspeed.py                    |  18 ++
+ tests/docker/Makefile.include                      |  30 +---
+ tests/docker/docker.py                             |  38 ++---
+ .../dockerfiles/debian-all-test-cross.docker       |  18 +-
+ tests/docker/dockerfiles/debian-alpha-cross.docker |  12 +-
+ tests/docker/dockerfiles/debian-amd64-cross.docker | 178 +++++++++++++++++--
+ .../docker/dockerfiles/debian-hexagon-cross.docker |  19 ++-
+ tests/docker/dockerfiles/debian-hppa-cross.docker  |  12 +-
+ .../dockerfiles/debian-loongarch-cross.docker      |   8 +-
+ tests/docker/dockerfiles/debian-m68k-cross.docker  |  12 +-
+ tests/docker/dockerfiles/debian-mips-cross.docker  |  38 ++---
+ .../docker/dockerfiles/debian-mips64-cross.docker  |  12 +-
+ .../dockerfiles/debian-powerpc-test-cross.docker   |  12 +-
+ .../dockerfiles/debian-riscv64-test-cross.docker   |  10 +-
+ tests/docker/dockerfiles/debian-sh4-cross.docker   |  12 +-
+ .../docker/dockerfiles/debian-sparc64-cross.docker |  12 +-
+ tests/docker/dockerfiles/debian-toolchain.docker   |   5 +-
+ tests/docker/dockerfiles/debian10.docker           |  38 -----
+ tests/docker/dockerfiles/debian11.docker           |  18 --
+ tests/docker/dockerfiles/opensuse-leap.docker      |   3 +-
+ tests/docker/dockerfiles/ubuntu2004.docker         |   2 +-
+ tests/lcitool/libvirt-ci                           |   2 +-
+ tests/lcitool/refresh                              |   7 +
+ tests/vm/Makefile.include                          |   3 +-
+ tests/vm/fedora                                    | 190 ---------------------
+ 43 files changed, 362 insertions(+), 476 deletions(-)
+ rename .gitlab-ci.d/custom-runners/{ubuntu-20.04-aarch32.yml => ubuntu-22.04-aarch32.yml} (86%)
+ rename .gitlab-ci.d/custom-runners/{ubuntu-20.04-aarch64.yml => ubuntu-22.04-aarch64.yml} (82%)
+ delete mode 100644 tests/docker/dockerfiles/debian10.docker
+ delete mode 100644 tests/docker/dockerfiles/debian11.docker
+ delete mode 100755 tests/vm/fedora
+
+
+-- 
+2.34.1
+
 
