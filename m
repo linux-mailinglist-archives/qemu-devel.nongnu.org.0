@@ -2,66 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDA975BECC0
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 20:26:17 +0200 (CEST)
-Received: from localhost ([::1]:39290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD7F5BECE8
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 20:37:40 +0200 (CEST)
+Received: from localhost ([::1]:34538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oahwj-00065k-HN
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 14:26:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47476)
+	id 1oai7m-0004jh-8t
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 14:37:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1oaeQQ-0008Uk-IV
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 10:40:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50622)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1oaeQN-0008Q8-7q
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 10:40:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663684833;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=WRKE9GwciU3Lm1vK7T0mJUi+DG1hCjul8hYQkKsmN+Q=;
- b=ANUD1GfTFOIB28Gl0kh/SEbSGTZCVRi1UZDOp/iPgvJY/Fc3w5tqFakzZbqbEzpR6NyaPx
- uX+Sq1jh46DO3OmsFY04I6JDwDE/o35M2VGcEAGfiPJV/Icx7DNWTRw1fO38AAw8aCGvRR
- uDV2vTREKwQBlTjizwrvV7LqpUyJ128=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-483-YcWVuJSFMuCrWmHHe5O4KQ-1; Tue, 20 Sep 2022 10:40:32 -0400
-X-MC-Unique: YcWVuJSFMuCrWmHHe5O4KQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D8C5C29AA2E9;
- Tue, 20 Sep 2022 14:40:31 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.40.194.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9FD1C1759F;
- Tue, 20 Sep 2022 14:40:30 +0000 (UTC)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: qemu-devel@nongnu.org,
-	Paolo Bonzini <pbonzini@redhat.com>
-Cc: Marcelo Tosatti <mtosatti@redhat.com>, Oliver Upton <oupton@google.com>,
- Maxim Levitsky <mlevitsk@redhat.com>
-Subject: [PATCH] i386: Fix KVM_CAP_ADJUST_CLOCK capability check
-Date: Tue, 20 Sep 2022 16:40:24 +0200
-Message-Id: <20220920144024.3559708-1-vkuznets@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oaeSn-00048H-8o
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 10:43:05 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:38626)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oaeSl-0000Lj-NA
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 10:43:04 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id e17so4180066edc.5
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 07:43:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=Ngt79zf5xbmNIbScywJt3+l5xJho6+RqjbbqkB16kZ4=;
+ b=lYtj2Lfm2+cLphMf+3PNPCmKlD1zEnuqKkFgbd9QZLFVLDuuPirYH1qTwvi4MZn1nJ
+ 3FMPI4M+FXFfRlxbKNxLyUYinle6ZSlBtRaNSxlQ9eoa8qDkkYCtp0KCqbo6kJiLNo3s
+ DZmnIAuM5E/lziqhN/O/mj2abG2/T1T/r/abDV81fgwni1T3Fkkunv5b8o1XzyDB5vCF
+ qKD7zds+MAFbj4FYP8sRBGWgvtr3PqTdAvuL9DBnuS37SpHJEQayiY5Fs09SSb8REzAs
+ khDuggp4HMTMK9KXoW1bpqOYz56H2DepXa1zzHuA+1xzIT0zcPx4WbavakFWxDiwPdCB
+ L3cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=Ngt79zf5xbmNIbScywJt3+l5xJho6+RqjbbqkB16kZ4=;
+ b=eQ5+2I6amFZAcLxq41rAkt6In+kypPUdiNZ885Ze3te1JJK0JS1bxHolreUb6eWPgc
+ ZE9k63oNZOsahQBQHzapK3gx2NmIWUXZ1N4jufRKPks0mnVqpPsYHuRYO/Asw9eeUG9N
+ m/Afj7ENbu9qrh81bMgAv7tS6ZnISeWj+QyPDv1UhHSdatXPKm/FojQso4IsV3i8Dgl/
+ obvP6VFEUXJ0CKAkGjpm+KksTZQdr+YUE339U0mAKO+L76Wdsj5eOLgOEGdUtc2F7fhI
+ 4NDHHNBrwnDEDzLe1URCThSGRfDl4Z4Ew3EIEP+AfEzdHrOZQLQUFDqZUEHtd+uInbB7
+ XLcA==
+X-Gm-Message-State: ACrzQf0y9MYRVcZ/4jZnb6z6qtgVfGjqtx/IykOqolYBTAOGJR/0IqMc
+ LAERsXGwmYJ96APoJ0zytZhWY3OnCZIcAy/XaTuMBA==
+X-Google-Smtp-Source: AMsMyM7q12pKv82CtpbPE1v5fG7j15281KBbAhNdoK7NsVQupkepQgd2A7855ZknyEfGCrB87LchbEK6FxzFUN1zMG0=
+X-Received: by 2002:aa7:c610:0:b0:44e:9a0f:753a with SMTP id
+ h16-20020aa7c610000000b0044e9a0f753amr20113573edq.140.1663684981480; Tue, 20
+ Sep 2022 07:43:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20220822152741.1617527-1-richard.henderson@linaro.org>
+ <20220822152741.1617527-12-richard.henderson@linaro.org>
+In-Reply-To: <20220822152741.1617527-12-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 20 Sep 2022 15:42:49 +0100
+Message-ID: <CAFEAcA9oJyDmN2KR2d4MSOZG_1WCaziYWJX6LhXXuV=dEGB1pA@mail.gmail.com>
+Subject: Re: [PATCH v2 11/66] target/arm: Add is_secure parameter to
+ v8m_security_lookup
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,35 +87,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM commit c68dc1b577ea ("KVM: x86: Report host tsc and realtime values in
-KVM_GET_CLOCK") broke migration of certain workloads, e.g. Win11 + WSL2
-guest reboots immediately after migration. KVM, however, is not to
-blame this time. When KVM_CAP_ADJUST_CLOCK capability is checked, the
-result is all supported flags (which the above mentioned KVM commit
-enhanced) but kvm_has_adjust_clock_stable() wants it to be
-KVM_CLOCK_TSC_STABLE precisely. The result is that 'clock_is_reliable'
-is not set in vmstate and the saved clock reading is discarded in
-kvmclock_vm_state_change().
+On Mon, 22 Aug 2022 at 16:29, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Remove the use of regime_is_secure from v8m_security_lookup,
+> passing the new parameter to the lookup instead.
+>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
- target/i386/kvm/kvm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index a1fd1f53791d..c33192a87dcb 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -157,7 +157,7 @@ bool kvm_has_adjust_clock_stable(void)
- {
-     int ret = kvm_check_extension(kvm_state, KVM_CAP_ADJUST_CLOCK);
- 
--    return (ret == KVM_CLOCK_TSC_STABLE);
-+    return ret & KVM_CLOCK_TSC_STABLE;
- }
- 
- bool kvm_has_adjust_clock(void)
--- 
-2.37.3
-
+thanks
+-- PMM
 
