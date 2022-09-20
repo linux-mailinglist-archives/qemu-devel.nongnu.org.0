@@ -2,76 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 847A45BEE6F
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 22:24:03 +0200 (CEST)
-Received: from localhost ([::1]:60236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81F505BEE31
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 22:03:56 +0200 (CEST)
+Received: from localhost ([::1]:39040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oajmk-0004vf-LC
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 16:24:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58006)
+	id 1oajTH-0004AT-F9
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 16:03:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oaeyU-00045y-VZ
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:15:53 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:42989)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oaeyT-0006Rx-IP
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:15:50 -0400
-Received: by mail-ej1-x636.google.com with SMTP id sb3so6926410ejb.9
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 08:15:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=KkaEiZ02EouUlGaMhxNtZcD46s5sk3AH0Nj2KAp+eNs=;
- b=jqpZGJtmZcagf6mJvd3lSNasvS2kyNZRjPFptXqjgCYzx0Z6LCzxw6VYTEInaKfNcY
- MFq4or75HbVT4PWgcfTtce6BDiCFmGIvZ+5nDfHuIPIVedee+oiVHR5v2K67ooKajWII
- I/lX+RwS/CTXyJ/ycR0S930RdigteHlL4ArDvhAjcW/oeviXhAXvf2eDMpUU5dwVI3sz
- lOHl122G07R9Lpoj2nc4E1iWeooqadPNnbBAIvCTpdAxfL42o6VYZK2o16W7xFHgA32z
- cbn5MJTqkSgwdvyR9BPtuYWXYBmMSrX0bRmd3KJUJiniIfpM/KiA0Qw6YlV4HoQfQhxd
- 9CYQ==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oafCs-00051A-EY
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:30:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46627)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oafCm-0000U7-IS
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:30:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663687824;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=O3bUAd+G6F4RAfkcK/HrkOARYdgZNof6FMfOoLsabqg=;
+ b=ipTvdE78V2irQT7Yxc3xFnf51s3J+/KN5v4leHnWXU6dJ36yabK6yOHsVD02XsjtAijP+e
+ N+Qs+hgx1yLNIgA6aPh/mRSr6BJifACwyibB8XEAehlNiuXUC7sRpSLHa+H3gvwAfOdPRh
+ HSNlZSrK3r6aG0uTFZrtIWeJUb0q0A8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-90-O6VfTiUTMfW8NoizTnUbYg-1; Tue, 20 Sep 2022 11:30:22 -0400
+X-MC-Unique: O6VfTiUTMfW8NoizTnUbYg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ v7-20020adfa1c7000000b0022ae7d7313eso1289362wrv.19
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 08:30:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=KkaEiZ02EouUlGaMhxNtZcD46s5sk3AH0Nj2KAp+eNs=;
- b=mVL8TZRKBD/zBC7fL06LFWv89Sy+RxnNZw9bK7Bt16KY4ozHH1cM0cAv5NiZfqi7Xf
- +eCX+uF6mCi9nsB02Zb1Fev0mu75ssGk3ImINIt+UmW6x0diZHgugxM3aEMPbYrV8/pm
- wT2IoRHRlxvAum3/Zvmeh9cxIPYoPZ76NPA1jMaFZg7ygwPxPk8bOQ91vUU8Bzn/n1iz
- mTphPfbA3MIsvNZ+wxnEz8w7PkJ2+H11sgM1ZjHidfe8ciF857LMGqFEyE1Dx5RZMLjH
- QCowiH8mvTwAJIHTMX5Aj9XDJu5InlJWoD8D4XoiTnxhcaNVswwMzfjF4yzGt9/U+451
- Afpw==
-X-Gm-Message-State: ACrzQf0CcdxeDHPkiB0T3py7gbaO8/YLYTmB5UT7S8JhFQB1AYWh9LPS
- fbUNAY0qn+Stlrzg8q4bZ/T6BKraJl++drdbkwYXdQ==
-X-Google-Smtp-Source: AMsMyM70R5QG+nctBXeLp/H9QHRQ+JmwGikJbU2Oe65sLIy2FRZVy1nvcCOhwuv4lcuRvOzaRNAwq8f00PqnsjkQ3KA=
-X-Received: by 2002:a17:907:86a5:b0:780:156d:e842 with SMTP id
- qa37-20020a17090786a500b00780156de842mr17131369ejc.555.1663686946832; Tue, 20
- Sep 2022 08:15:46 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=O3bUAd+G6F4RAfkcK/HrkOARYdgZNof6FMfOoLsabqg=;
+ b=wK4SDGdWsfyVKzV+yYD/u+b1RNU0LRkbMazM9bS6kcEKeGnCKxIELK1oMPvvEzelqo
+ btSCeKUauwJJJ8iB78eLXNCUDmqs6dMoUJzxusJTmEKabuhEDZX4sPQ3LnvIHtH/Gs96
+ 8PlFeJ+HJniv3smo1VKzVe/JmuFbpHQYUAGLpbmEbbK5Yz6aJNNlh7FoSrH41fWQ1Dl2
+ Wbbbn+VoKYrFN4PSmprmCcbIJ2gw40AnUtvtITrGErf+TMlKgEeEU4u6vGuZNF2Qwji2
+ M6ncTmwHyz84XlRFxp6BmH48IY+/T6Ij8gpT41R4zEWRhfB3ke03YZoKtsVhnhNN6Fyh
+ INDg==
+X-Gm-Message-State: ACrzQf3fPMQTCw0yt5DXQ2xVcsgKLTfpurEknHME4/De5FjZlmVEBRgq
+ SkyFGQbCKsp8JrB2lKLoREIRE0PQDOe1Gy0I/GIb/+YRupf+SEgpePbB/Kb0Ws73iUPo0hQG4Nz
+ M+UWb17lR2WSEwTI=
+X-Received: by 2002:a05:600c:434c:b0:3b4:82fb:5f78 with SMTP id
+ r12-20020a05600c434c00b003b482fb5f78mr2839806wme.157.1663687821526; 
+ Tue, 20 Sep 2022 08:30:21 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6wcsUoxtfD80NP3fAj1ydLf52KlQnGFJoQ4nqMA0IVG9SI8k2pEcNAJUHZAGg1kWFcQaeS4Q==
+X-Received: by 2002:a05:600c:434c:b0:3b4:82fb:5f78 with SMTP id
+ r12-20020a05600c434c00b003b482fb5f78mr2839791wme.157.1663687821289; 
+ Tue, 20 Sep 2022 08:30:21 -0700 (PDT)
+Received: from [192.168.8.103] (tmo-083-219.customers.d1-online.com.
+ [80.187.83.219]) by smtp.gmail.com with ESMTPSA id
+ r123-20020a1c2b81000000b003a62052053csm124277wmr.18.2022.09.20.08.30.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Sep 2022 08:30:20 -0700 (PDT)
+Message-ID: <18a9636d-c6cf-b20b-8679-be62945dc227@redhat.com>
+Date: Tue, 20 Sep 2022 17:30:19 +0200
 MIME-Version: 1.0
-References: <20220822152741.1617527-1-richard.henderson@linaro.org>
- <20220822152741.1617527-19-richard.henderson@linaro.org>
-In-Reply-To: <20220822152741.1617527-19-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Sep 2022 16:15:34 +0100
-Message-ID: <CAFEAcA8+rX2tspDcXHpQ5d7en3ykYfde2B5X=vaKxRwzrgxsnw@mail.gmail.com>
-Subject: Re: [PATCH v2 18/66] target/arm: Add secure parameter to
- get_phys_addr_pmsav7
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PULL 0/3] hmp queue
+Content-Language: en-US
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, pizhenwei@bytedance.com, dongli.zhang@oracle.com
+Cc: armbru@redhat.com
+References: <20220915154606.124713-1-dgilbert@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220915154606.124713-1-dgilbert@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.182, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,17 +101,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 22 Aug 2022 at 16:58, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Remove the use of regime_is_secure from get_phys_addr_pmsav7,
-> using the new parameter instead.
->
-> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 15/09/2022 17.46, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> 
+> The following changes since commit 79dfa177ae348bb5ab5f97c0915359b13d6186e2:
+> 
+>    Merge tag 'pull-qapi-2022-09-07' of git://repo.or.cz/qemu/armbru into staging (2022-09-07 13:13:30 -0400)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/dagrh/qemu.git tags/pull-hmp-20220915a
+> 
+> for you to fetch changes up to 22269b0436cc8e4aaac975b4c8cb01b343d09661:
+> 
+>    hmp: Fix ordering of text (2022-09-15 14:13:30 +0100)
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Not sure whether it's caused by this merge, but a lot of the avocado jobs 
+are failing now in the CI:
 
-thanks
--- PMM
+  https://gitlab.com/qemu-project/qemu/-/pipelines/643064395
+
+I've seen some few Avocado failures (e.g. with the Debian job) in the past 
+already, but the amount of simultaneous failures seem to have increased now. 
+Does anybody have a clue what have caused this?
+
+  Thomas
+
 
