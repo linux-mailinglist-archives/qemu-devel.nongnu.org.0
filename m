@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A44FE5BD9D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 04:05:29 +0200 (CEST)
-Received: from localhost ([::1]:58608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B42EB5BDA0C
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 04:20:14 +0200 (CEST)
+Received: from localhost ([::1]:57982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaSdc-0003RE-5r
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 22:05:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41062)
+	id 1oaSrt-0006xj-87
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 22:20:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oaSbs-0001tl-PD
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 22:03:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24438)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oaSbp-0001ov-Dd
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 22:03:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663639416;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2u9CuHiIYuGL6wAei0Bp4N88j+e+kgz7bFnVlUVznLE=;
- b=HHHnIQBfbfRzbZ1YOpcosxkDif5E+LqufzbONa5eokh2iOWquFDG3BRqGtlyQTAfhvyUPB
- CHuBlxeOp94qIbWTXW3qfzwnuWeWFabxjcZaafF2QKVPGhEw8I5BhTW89U6dzvX/PZVabZ
- DUDlYcO/renwy+W1UT3MU/frd4P01ck=
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
- [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-466-wkKJoXlNPY6ZCTVNMz4bXg-1; Mon, 19 Sep 2022 22:03:34 -0400
-X-MC-Unique: wkKJoXlNPY6ZCTVNMz4bXg-1
-Received: by mail-vk1-f200.google.com with SMTP id
- t132-20020a1faa8a000000b003a23bef3680so333354vke.9
- for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 19:03:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=2u9CuHiIYuGL6wAei0Bp4N88j+e+kgz7bFnVlUVznLE=;
- b=4plM+sTe7iV9O9W5nxOWheqXnKZ8FfF46CYNOBhDwb7fIPFA44Wd/dvRKfO4r4MaSB
- JVmwE2qUrYwYflGES1uNYjQXcvv+xoCzBYCfbuksB+1mxXC8sOefi+qp0DheHUW1bZnu
- 7dv6GUIMwLq3a0wy8Zl++FxUlBG9KCz+wtGg7wG+RQpnAa7cTk07caDXvuHqBwa5ZNOF
- +ZzrlKpmZumITn0065yFKJZgMchUs6tqeFW9jppTgCROJNF8zqSvzC0s7lDuQzIg1ZHF
- ThHh8N8EXkjqWmWb7yoWHPWUDgTwJ00lYMOOFDJ63NRrx6bqxTadzBoWTv1kZNd8pGfg
- yH3w==
-X-Gm-Message-State: ACrzQf3t3t1Hu5mcCXfK0aR6CVA3BNW9ERpO9V0hEYGZig5vRnMi5IDC
- LAQUO5ZeXIeiZIFx/1qpJ3PhPa/IzJu7fyFs9TYWZ3an565VHiw/0s41BX6O0JobF6nUX9CxeLH
- jacz+X/63ON5ujbseRzO82WxTcmSAEZY=
-X-Received: by 2002:ab0:5992:0:b0:3be:fbae:c964 with SMTP id
- g18-20020ab05992000000b003befbaec964mr5053718uad.15.1663639414381; 
- Mon, 19 Sep 2022 19:03:34 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4ZwWy708+/f7n+7Ta+ro4BNndk1J34FIwl3u3ur5LKq3v6puMtlyaLJxiC32Wb04IWy3077MJWCl2eXOF4ueQ=
-X-Received: by 2002:ab0:5992:0:b0:3be:fbae:c964 with SMTP id
- g18-20020ab05992000000b003befbaec964mr5053710uad.15.1663639414119; Mon, 19
- Sep 2022 19:03:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <huqi@loongson.cn>) id 1oaSqE-0004Hw-PW
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 22:18:31 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:50228 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huqi@loongson.cn>) id 1oaSqB-0003yb-Uw
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 22:18:30 -0400
+Received: from [10.90.50.23] (unknown [10.90.50.23])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8CxT+DdIiljLUseAA--.49044S3; 
+ Tue, 20 Sep 2022 10:18:06 +0800 (CST)
+Message-ID: <3c401d0f-a34f-bd29-03a3-dddfae94ce0a@loongson.cn>
+Date: Tue, 20 Sep 2022 10:18:05 +0800
 MIME-Version: 1.0
-References: <20220920011007.1972418-1-liuhaiwei9699@126.com>
- <CACGkMEuWDZzyBWOuAUVgxkUjBytStWC4U9RD0yWw49RS6RG6HA@mail.gmail.com>
-In-Reply-To: <CACGkMEuWDZzyBWOuAUVgxkUjBytStWC4U9RD0yWw49RS6RG6HA@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 20 Sep 2022 10:03:23 +0800
-Message-ID: <CACGkMEuR9-311m3W4F9RSpnEuhGONQFoS5Ns6JErO56R7OU=dA@mail.gmail.com>
-Subject: Re: [PATCH] virtio-net: set the max of queue size to 4096
-To: liuhaiwei <liuhaiwei9699@126.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, mst <mst@redhat.com>, 
- liuhaiwei <liuhaiwei@inspur.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 5/5] target/loongarch: div if x/0 set dividend to 0
+Content-Language: en-US
+To: gaosong <gaosong@loongson.cn>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ maobibo <maobibo@loongson.cn>, Peter Maydell <peter.maydell@linaro.org>,
+ alex.bennee@linaro.org
+References: <20220917075950.1412309-1-gaosong@loongson.cn>
+ <20220917075950.1412309-6-gaosong@loongson.cn>
+ <02cd3a40-d287-35b4-9d68-979c8ebd2e29@loongson.cn>
+ <df217ffa-57e1-3e71-f766-fa19770bfe33@loongson.cn>
+ <95f7e7f4-f1f1-66d5-0a9f-7bcf6b4ca59a@linaro.org>
+ <e8a24cfc-005c-1196-35dd-05efdef6858b@loongson.cn>
+From: Qi Hu <huqi@loongson.cn>
+In-Reply-To: <e8a24cfc-005c-1196-35dd-05efdef6858b@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8CxT+DdIiljLUseAA--.49044S3
+X-Coremail-Antispam: 1UD129KBjvdXoW7XF1UCryrtryrJF4UZrW8Zwb_yoWkuwc_Zr
+ yfur9rCwsIyan8trs5ta98JFZrtF1kAryrX39Fqw18JasIqa98JrWUGr4Ivw1jkFZ5Gr9I
+ qr1FqFW3A390kjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbIAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+ Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+ 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+ 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+ 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
+ bIxvr21lc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI
+ 8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
+ xVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI
+ 8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280
+ aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyT
+ uYvjfUoOJ5UUUUU
+X-CM-SenderInfo: pkxtxqxorr0wxvrqhubq/1tbiAQAPCWMoW90OvQADs6
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=huqi@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.952,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,195 +82,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 20, 2022 at 9:38 AM Jason Wang <jasowang@redhat.com> wrote:
->
-> On Tue, Sep 20, 2022 at 9:10 AM liuhaiwei <liuhaiwei9699@126.com> wrote:
-> >
-> > From: liuhaiwei <liuhaiwei@inspur.com>
-> >
-> > the limit of maximum of rx_queue_size and tx_queue to 1024 is so small as to affect our network performance when using the  virtio-net and vhost ,
-> > we cannot set the maximum size beyond 1k.
-> > why not enlarge the maximum size (such as 4096) when using the vhost backend?
->
-> As Michael mentioned, there's a limitation in the kernel UIO_MAXIOV.
-> We need to find way to overcome that limit first.
 
-Btw, this probably means the skb needs to be built by vhost-net
-itself, instead of tuntap.
-
-Thanks
-
+On 2022/9/19 19:45, gaosong wrote:
 >
-> Thanks
+> 在 2022/9/17 下午6:12, Richard Henderson 写道:
+>> On 9/17/22 11:12, gaosong wrote:
+>>>
+>>> 在 2022/9/17 下午4:59, Qi Hu 写道:
+>>>>
+>>>> On 2022/9/17 15:59, Song Gao wrote:
+>>>>> div.d, div.du, div,w, div.wu, the LoongArch host if x/0  the 
+>>>>> result is 0.
+>>>>
+>>>> The message has a typo: "div,w" => "div.w"
+>>>>
+>>>> Also I don't know why we need to do this, since the manual say: 
+>>>> "When the divisor is 0, the result can be any value".
+>>>>
+>>> I tested on LoongArch host,   the result is always 0.
+>>
+>> But it is legal for a different loongarch host implementation to 
+>> return some other value.  Therefore the test itself is not correct.
+>>
+> I think the manual maybe not correct,  the hardware engineer said that 
+> they need to comfirm  whether the result is always 0.
 >
-> >
-> > Signed-off-by: liuhaiwei <liuhaiwei9699@126.com>
-> > Signed-off-by: liuhaiwei <liuhaiwei@inspur.com>
-> > ---
-> >  hw/net/virtio-net.c        | 47 +++++++++++++++++++++++++++-----------
-> >  hw/virtio/virtio.c         |  8 +++++--
-> >  include/hw/virtio/virtio.h |  1 +
-> >  3 files changed, 41 insertions(+), 15 deletions(-)
-> >
-> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> > index dd0d056fde..4b56484855 100644
-> > --- a/hw/net/virtio-net.c
-> > +++ b/hw/net/virtio-net.c
-> > @@ -52,12 +52,11 @@
-> >  #define MAX_VLAN    (1 << 12)   /* Per 802.1Q definition */
-> >
-> >  /* previously fixed value */
-> > -#define VIRTIO_NET_RX_QUEUE_DEFAULT_SIZE 256
-> > -#define VIRTIO_NET_TX_QUEUE_DEFAULT_SIZE 256
-> > +#define VIRTIO_NET_VHOST_USER_DEFAULT_SIZE 2048
-> >
-> >  /* for now, only allow larger queue_pairs; with virtio-1, guest can downsize */
-> > -#define VIRTIO_NET_RX_QUEUE_MIN_SIZE VIRTIO_NET_RX_QUEUE_DEFAULT_SIZE
-> > -#define VIRTIO_NET_TX_QUEUE_MIN_SIZE VIRTIO_NET_TX_QUEUE_DEFAULT_SIZE
-> > +#define VIRTIO_NET_RX_QUEUE_MIN_SIZE 256
-> > +#define VIRTIO_NET_TX_QUEUE_MIN_SIZE 256
-> >
-> >  #define VIRTIO_NET_IP4_ADDR_SIZE   8        /* ipv4 saddr + daddr */
-> >
-> > @@ -594,6 +593,28 @@ static int peer_has_ufo(VirtIONet *n)
-> >      return n->has_ufo;
-> >  }
-> >
-> > +static void virtio_net_set_default_queue_size(VirtIONet *n)
-> > +{
-> > +    NetClientState *peer = n->nic_conf.peers.ncs[0];
-> > +
-> > +    /* Default value is 0 if not set */
-> > +    if (n->net_conf.rx_queue_size == 0) {
-> > +        if (peer && peer->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
-> > +            n->net_conf.rx_queue_size = VIRTIO_NET_VHOST_USER_DEFAULT_SIZE;
-> > +        } else {
-> > +            n->net_conf.rx_queue_size = VIRTIO_NET_VQ_MAX_SIZE;
-> > +        }
-> > +    }
-> > +
-> > +    if (n->net_conf.tx_queue_size == 0) {
-> > +        if (peer && peer->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
-> > +            n->net_conf.tx_queue_size = VIRTIO_NET_VHOST_USER_DEFAULT_SIZE;
-> > +        } else {
-> > +            n->net_conf.tx_queue_size = VIRTIO_NET_VQ_MAX_SIZE;
-> > +        }
-> > +    }
-> > +}
-> > +
-> >  static void virtio_net_set_mrg_rx_bufs(VirtIONet *n, int mergeable_rx_bufs,
-> >                                         int version_1, int hash_report)
-> >  {
-> > @@ -633,7 +654,7 @@ static int virtio_net_max_tx_queue_size(VirtIONet *n)
-> >       * size.
-> >       */
-> >      if (!peer) {
-> > -        return VIRTIO_NET_TX_QUEUE_DEFAULT_SIZE;
-> > +        return VIRTIO_NET_VQ_MAX_SIZE;
-> >      }
-> >
-> >      switch(peer->info->type) {
-> > @@ -641,7 +662,7 @@ static int virtio_net_max_tx_queue_size(VirtIONet *n)
-> >      case NET_CLIENT_DRIVER_VHOST_VDPA:
-> >          return VIRTQUEUE_MAX_SIZE;
-> >      default:
-> > -        return VIRTIO_NET_TX_QUEUE_DEFAULT_SIZE;
-> > +        return VIRTIO_NET_VQ_MAX_SIZE;
-> >      };
-> >  }
-> >
-> > @@ -3450,30 +3471,30 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
-> >
-> >      virtio_net_set_config_size(n, n->host_features);
-> >      virtio_init(vdev, VIRTIO_ID_NET, n->config_size);
-> > -
-> > +    virtio_net_set_default_queue_size(n);
-> >      /*
-> >       * We set a lower limit on RX queue size to what it always was.
-> >       * Guests that want a smaller ring can always resize it without
-> >       * help from us (using virtio 1 and up).
-> >       */
-> >      if (n->net_conf.rx_queue_size < VIRTIO_NET_RX_QUEUE_MIN_SIZE ||
-> > -        n->net_conf.rx_queue_size > VIRTQUEUE_MAX_SIZE ||
-> > +        n->net_conf.rx_queue_size > VIRTIO_NET_VQ_MAX_SIZE ||
-> >          !is_power_of_2(n->net_conf.rx_queue_size)) {
-> >          error_setg(errp, "Invalid rx_queue_size (= %" PRIu16 "), "
-> >                     "must be a power of 2 between %d and %d.",
-> >                     n->net_conf.rx_queue_size, VIRTIO_NET_RX_QUEUE_MIN_SIZE,
-> > -                   VIRTQUEUE_MAX_SIZE);
-> > +                   VIRTIO_NET_VQ_MAX_SIZE );
-> >          virtio_cleanup(vdev);
-> >          return;
-> >      }
-> >
-> >      if (n->net_conf.tx_queue_size < VIRTIO_NET_TX_QUEUE_MIN_SIZE ||
-> > -        n->net_conf.tx_queue_size > VIRTQUEUE_MAX_SIZE ||
-> > +        n->net_conf.tx_queue_size > VIRTIO_NET_VQ_MAX_SIZE ||
-> >          !is_power_of_2(n->net_conf.tx_queue_size)) {
-> >          error_setg(errp, "Invalid tx_queue_size (= %" PRIu16 "), "
-> >                     "must be a power of 2 between %d and %d",
-> >                     n->net_conf.tx_queue_size, VIRTIO_NET_TX_QUEUE_MIN_SIZE,
-> > -                   VIRTQUEUE_MAX_SIZE);
-> > +                   VIRTIO_NET_VQ_MAX_SIZE);
-> >          virtio_cleanup(vdev);
-> >          return;
-> >      }
-> > @@ -3751,9 +3772,9 @@ static Property virtio_net_properties[] = {
-> >      DEFINE_PROP_INT32("x-txburst", VirtIONet, net_conf.txburst, TX_BURST),
-> >      DEFINE_PROP_STRING("tx", VirtIONet, net_conf.tx),
-> >      DEFINE_PROP_UINT16("rx_queue_size", VirtIONet, net_conf.rx_queue_size,
-> > -                       VIRTIO_NET_RX_QUEUE_DEFAULT_SIZE),
-> > +                       0),
-> >      DEFINE_PROP_UINT16("tx_queue_size", VirtIONet, net_conf.tx_queue_size,
-> > -                       VIRTIO_NET_TX_QUEUE_DEFAULT_SIZE),
-> > +                       0),
-> >      DEFINE_PROP_UINT16("host_mtu", VirtIONet, net_conf.mtu, 0),
-> >      DEFINE_PROP_BOOL("x-mtu-bypass-backend", VirtIONet, mtu_bypass_backend,
-> >                       true),
-> > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> > index 5d607aeaa0..ad9dfa20e7 100644
-> > --- a/hw/virtio/virtio.c
-> > +++ b/hw/virtio/virtio.c
-> > @@ -2286,11 +2286,15 @@ void virtio_queue_set_rings(VirtIODevice *vdev, int n, hwaddr desc,
-> >
-> >  void virtio_queue_set_num(VirtIODevice *vdev, int n, int num)
-> >  {
-> > +    int vq_max_size = VIRTQUEUE_MAX_SIZE;
-> > +    if (!strcmp(vdev->name, "virtio-net")) {
-> > +        vq_max_size = VIRTIO_NET_VQ_MAX_SIZE;
-> > +    }
-> >      /* Don't allow guest to flip queue between existent and
-> >       * nonexistent states, or to set it to an invalid size.
-> >       */
-> >      if (!!num != !!vdev->vq[n].vring.num ||
-> > -        num > VIRTQUEUE_MAX_SIZE ||
-> > +        num > vq_max_size ||
-> >          num < 0) {
-> >          return;
-> >      }
-> > @@ -2423,7 +2427,7 @@ VirtQueue *virtio_add_queue(VirtIODevice *vdev, int queue_size,
-> >              break;
-> >      }
-> >
-> > -    if (i == VIRTIO_QUEUE_MAX || queue_size > VIRTQUEUE_MAX_SIZE)
-> > +    if (i == VIRTIO_QUEUE_MAX )
-> >          abort();
-> >
-> >      vdev->vq[i].vring.num = queue_size;
-> > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> > index db1c0ddf6b..1f4d2eb5d7 100644
-> > --- a/include/hw/virtio/virtio.h
-> > +++ b/include/hw/virtio/virtio.h
-> > @@ -50,6 +50,7 @@ size_t virtio_feature_get_config_size(const VirtIOFeature *features,
-> >  typedef struct VirtQueue VirtQueue;
-> >
-> >  #define VIRTQUEUE_MAX_SIZE 1024
-> > +#define VIRTIO_NET_VQ_MAX_SIZE (4096)
-> >
-> >  typedef struct VirtQueueElement
-> >  {
-> > --
-> > 2.27.0
-> >
+> Thanks.
+> Song Gao
+
+Hi,
+
+The hardware designers suggested that 0 should not be used as the 
+default value when "div 0" occurs. The behavior is not guaranteed in 
+future processors.
+
+So I think there are some ways to solve this:
+
+- Remove this case("div 0") from risu test.
+
+- Keep this patch by yourself. If you want to do risu test, patch it. :-)
+
+
+regards,
+
+Qi
+
+>> r~
+>
 
 
