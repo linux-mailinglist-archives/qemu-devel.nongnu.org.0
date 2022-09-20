@@ -2,75 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 154055BE47B
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 13:29:55 +0200 (CEST)
-Received: from localhost ([::1]:52674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90CED5BE4D6
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 13:43:56 +0200 (CEST)
+Received: from localhost ([::1]:57614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oabRc-0002wm-Pc
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 07:29:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58216)
+	id 1oabfP-0002Hs-CW
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 07:43:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oaaQq-0004R2-Tu
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:24:53 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:35684)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oaaQm-0002wn-3w
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:24:48 -0400
-Received: by mail-ed1-x534.google.com with SMTP id 29so3154909edv.2
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 03:24:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=FARkd/geawKARyNW89YvFnsckZMn64TWLKArTQ/0GCM=;
- b=V8O3VmR7E52X/RPoNtb4WSt0h4CfNLsy07pyp9b34uzqymSv/Fnxv266TlOP5+mKo5
- sTalPLrhFz9x0Hiz0AFI5X32YSt48Zj5Ngc0LRcyGgD2+QWmYnBHmz4iW91awRFi6FCt
- VTuZLR0UO+WopDvfLMkgx9fuwq1VpivNR1PbT3QDL4BIgAcqYLHS01df1eF/NpIKEkC2
- 3qtWDzO4VrgXstj75ozuRt8lntFnCsTqPnkXaN5Q4WMVXuTlcs3czU3mQWudHJ4H8STF
- doPAvd2W7iZMIH/X3R9jWWVoS94QOL7zz1SE6AOln+LsQO+dEjt0UeAMXXoDOAFRNkMV
- aNvg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oaaTT-0005ah-EP
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:27:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23364)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oaaTQ-0003pw-Ab
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:27:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663669647;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iF76SviXI50XkeFkhFp090en5LGWO5TSWy1Fm1qQQPg=;
+ b=J/FIkpBV1VYlBmkAo9BIIiIRlOsZrdFB1jErXDqNkkUsF+slc2ARs73+pjHUxVF6UffJ0N
+ pne1Rz27mguXqpeknk+HqVfICdlO3YMKUrHRU+Bt0ARd8UQsUcRc5EAvJZKuZNjnEherRB
+ P4pRSTZ0vzoxhM0+846GqTBW7aurYbc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-97-u9n83ABaM0u59KsbhtGaRQ-1; Tue, 20 Sep 2022 06:27:26 -0400
+X-MC-Unique: u9n83ABaM0u59KsbhtGaRQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ i29-20020adfa51d000000b00228fa8325c0so962001wrb.15
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 03:27:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=FARkd/geawKARyNW89YvFnsckZMn64TWLKArTQ/0GCM=;
- b=NBbFt77Jvucb+QMRDfD/lIs5a1xNmTU9EJOQCUiTyBK5OyyChu6FEaZgbSKzS3jqos
- uaxqDC/4250HXK2ctDboFstkCZx6bcaPQ2oM/uDYWguVgKjjicAvhDzmtAUWnCoj3SW5
- 9jpscYLXDPNUrapQ9fWcG4DCw/NzbkXOscNmEh2LxuenNPo0SRmtxV/GlUQ3e/nX7L13
- E+7WK7xJL0yztnnvY21Z3LMkOKgx/01jt9mjiSdOACS6jwFBTQyocfiLdhAPJlLbOmOi
- 5GI5W/jEGH1AajN+V8CSzqzEU8BY4GQjtCG88dbHIHpINeyHNG0oGmHqGqVSEFsUxzSZ
- Efnw==
-X-Gm-Message-State: ACrzQf1NkrJCu5KvIRTB7qPzCdZOUxRyxHvlvi2sfjyM2/4f7aMDnDQS
- N8IMEJ9I6MeZvLxDI8OGQpq/VUbjYbnN/n2H5u8kXg==
-X-Google-Smtp-Source: AMsMyM4k4cQjWUY2zBF1s8NluqETqTCjdU/8Z8FYwQNwSbKrCulyPWG8KESc7GqNG7hA3FnSd+p5fZE3+DXFfyy7OPw=
-X-Received: by 2002:a05:6402:35c5:b0:450:4b7d:9c49 with SMTP id
- z5-20020a05640235c500b004504b7d9c49mr19729004edc.149.1663669481248; Tue, 20
- Sep 2022 03:24:41 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=iF76SviXI50XkeFkhFp090en5LGWO5TSWy1Fm1qQQPg=;
+ b=NNVNfDsN7PxFe1myQoMAMO6f1irAL5yWeLpqYEe756YITftmuUfgDjDEANFHmzjPgc
+ wTf2yTZTwKqraLN8R9hTMyw8Ob5o0DEO0oYRKytKqv8CQgAdz/KHss2A1V10NXBG9Mcs
+ OoR0HQ01Pem82PgY411NOtRaEMmikwDiQD6ofhywMIiNiwKUDhjR4ZkBj/ZDAuqPdtRt
+ R6pmqB7uILiQNuqDF3UnNt6uSLinuoqx+xxYqL9j0oajr9LeJ1zdBndjIto/EU3qQ7NF
+ F1rCBI4BoIxRB/mKW5VHVsM4JwffkQKCQanFA0vtElDC/fwfro5QJ3nrcOSToFZV1BoF
+ jiBg==
+X-Gm-Message-State: ACrzQf3IekOvGmdrvDFApQGC1TXr35P48rPegU5oC3Lvz5UZqWRRfzxS
+ sCcK2azcAny+aOpQ8bh5dXaQbuS9X7Q3qvHypTeqv7HgAoE+NyozRUaCFlMm2uuWz3VwLvBaf1S
+ +Ty0ISu04iNOuB3o=
+X-Received: by 2002:a05:600c:1549:b0:3b4:8fd7:af4 with SMTP id
+ f9-20020a05600c154900b003b48fd70af4mr1768665wmg.100.1663669645274; 
+ Tue, 20 Sep 2022 03:27:25 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5FOlTLVs7NgXpS3p1rKr/PWdndvTa0EjlxsmX5euYvw+1k+rsKfmmj9ZABcXgw4M0KjlpRCg==
+X-Received: by 2002:a05:600c:1549:b0:3b4:8fd7:af4 with SMTP id
+ f9-20020a05600c154900b003b48fd70af4mr1768640wmg.100.1663669645010; 
+ Tue, 20 Sep 2022 03:27:25 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-177-8.web.vodafone.de. [109.43.177.8])
+ by smtp.gmail.com with ESMTPSA id
+ b20-20020a05600c4e1400b003b33de17577sm1975701wmq.13.2022.09.20.03.27.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Sep 2022 03:27:24 -0700 (PDT)
+Message-ID: <d64c7c75-8393-19ad-0ce1-950624ba01c3@redhat.com>
+Date: Tue, 20 Sep 2022 12:27:22 +0200
 MIME-Version: 1.0
-References: <20220914105058.2787404-1-chigot@adacore.com>
- <dbcca868-afee-2457-33ed-4d0274945c2b@linaro.org>
-In-Reply-To: <dbcca868-afee-2457-33ed-4d0274945c2b@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Sep 2022 11:24:29 +0100
-Message-ID: <CAFEAcA-v30uCqKJT5mNCW72GJnxNVS6oUY0atfmbPR=nj_hC8Q@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Fix alignment for VLD4.32
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>, qemu-arm@nongnu.org, 
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PULL v3 00/20] tcg patch queue
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: stefanha@gmail.com, Ilya Leoshkevich <iii@linux.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>
+References: <20220906083815.252478-1-richard.henderson@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220906083815.252478-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.952, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,26 +101,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 14 Sept 2022 at 14:11, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 9/14/22 11:50, Cl=C3=A9ment Chigot wrote:
-> > When requested, the alignment for VLD4.32 is 8 and not 16.
-> >
-> > See ARM documentation about VLD4 encoding:
-> >      ebytes =3D 1 << UInt(size);
-> >      if size =3D=3D '10' then
-> >          alignment =3D if a =3D=3D '0' then 1 else 8;
-> >      else
-> >          alignment =3D if a =3D=3D '0' then 1 else 4*ebytes;
-> >
-> > Signed-off-by: Cl=C3=A9ment Chigot <chigot@adacore.com>
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On 06/09/2022 10.37, Richard Henderson wrote:
+> v2: Fix incorretly resolved rebase conflict in patch 16.
+> v3: Work around clang preprocessor bug in patch 3.
+> 
+> 
+> r~
+> 
+> 
+> The following changes since commit fd28528ece590dc709d1a893fce2ff2f68ddca70:
+> 
+>    Merge tag 'pull-or1k-20220904' of https://github.com/stffrdhrn/qemu into staging (2022-09-05 18:01:02 -0400)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20220906
+> 
+> for you to fetch changes up to 00c07344fa245b22e895b363320ba4cd0ec1088a:
+> 
+>    target/riscv: Make translator stop before the end of a page (2022-09-06 08:04:26 +0100)
+> 
+> ----------------------------------------------------------------
+> Respect PROT_EXEC in user-only mode.
+> Fix s390x, i386 and riscv for translations crossing a page.
+> 
+> ----------------------------------------------------------------
+> Ilya Leoshkevich (4):
+>        linux-user: Clear translations on mprotect()
+>        accel/tcg: Introduce is_same_page()
+>        target/s390x: Make translator stop before the end of a page
+>        target/i386: Make translator stop before the end of a page
+> 
+> Richard Henderson (16):
+>        linux-user/arm: Mark the commpage executable
+>        linux-user/hppa: Allocate page zero as a commpage
+>        linux-user/x86_64: Allocate vsyscall page as a commpage
+>        linux-user: Honor PT_GNU_STACK
+>        tests/tcg/i386: Move smc_code2 to an executable section
+>        accel/tcg: Properly implement get_page_addr_code for user-only
+>        accel/tcg: Unlock mmap_lock after longjmp
+>        accel/tcg: Make tb_htable_lookup static
+>        accel/tcg: Move qemu_ram_addr_from_host_nofail to physmem.c
+>        accel/tcg: Use probe_access_internal for softmmu get_page_addr_code_hostp
+>        accel/tcg: Document the faulting lookup in tb_lookup_cmp
+>        accel/tcg: Remove translator_ldsw
+>        accel/tcg: Add pc and host_pc params to gen_intermediate_code
+>        accel/tcg: Add fast path for translator_ld*
+>        target/riscv: Add MAX_INSN_LEN and insn_len
+>        target/riscv: Make translator stop before the end of a page
 
+  Hi Richard!
 
+Since your pull request has been merged, the Travis CI now constantly shows 
+a failure, see:
 
-Applied to target-arm.next, thanks.
+  https://app.travis-ci.com/gitlab/qemu-project/qemu/builds/255231855
 
--- PMM
+The previous runs were all green, so I assume this has been introduced by 
+one of the patches in here. Could you please have a look?
+
+  Thanks,
+   Thomas
+
 
