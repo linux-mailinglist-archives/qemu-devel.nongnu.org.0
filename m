@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D8CB5BE761
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 15:42:36 +0200 (CEST)
-Received: from localhost ([::1]:33562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64BB05BE6CD
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 15:14:51 +0200 (CEST)
+Received: from localhost ([::1]:41116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oadWF-0002dW-FC
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 09:42:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34748)
+	id 1oad5O-0002hF-7n
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 09:14:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oaaZX-0001RN-2I
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:33:48 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:36517)
+ id 1oaaZa-0001SE-CK
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:33:51 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:34648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oaaZV-00051h-Er
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:33:46 -0400
-Received: by mail-pf1-x433.google.com with SMTP id y136so2347521pfb.3
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 03:33:45 -0700 (PDT)
+ id 1oaaZY-000522-0Q
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:33:49 -0400
+Received: by mail-pg1-x532.google.com with SMTP id 3so2143397pga.1
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 03:33:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=xIwwdkQ/UueIjTq9LmfxXmdWH0OF4K6cF8/Wmny7JFg=;
- b=br4BW6okOefvORkIs0aIO+nDgCNzk1px8msHqMm8mwlp3kJsAcsDb2DyF9a5lq5O0Y
- 4p4wdZZXz9wP1UCa5neRdf08g7jwwWKx+LUL0bC50Dv2QAAR2P8Ajlk1Q6BIucOok0Rc
- dhDnCauNfVNM1duHTDm6G+Ryc9nXNJHhVkUpG9sWig9Y41jJ39Ii00QDgV5kQAxAgTaR
- vb2ughF06xNCw3lk4FKhGiUNGb+t86MSb0uLnufq4sa+1L2tbWBmYCj++d9dqBPg2wGZ
- mMjfkNxoHkPSw5KU8ukpeUGEFRtJidQq4ge0f9amNkZqN8TjaVvbC6gxrVniKOBtnqp9
- R3Uw==
+ bh=xmrffeAJpAZ7oRzdU9cwoCFcPUSltVboEjy+YD7LlIE=;
+ b=O2F2rNnO6//5wU5+WZidqqaoBRZa7YhAZCT+gUPM6MVJ6ov74Ql/2AgtmDV9bB3SqF
+ 97MofwFHjPQwF4XhFmu5+wYg13YxocqA6vPdGUiK657jiutCU2pLVUlt8WKMovj+/NZo
+ 1fgMLuc/qil1vwn19L/+c9F8K8QQLHyEsgYzzfS+vNEbC0uEuRP4zmDA/2hhCZdcdOng
+ U0XJsNAQ2CogDHJhrytrTZm2mwcmFdk1b96Q9w6oFKyiJd6iM9wp6y2K0WeBWHGSPaC8
+ 6eSwgpbrxU+SUGi3n4CEO3WeQZqT0jDr4hFEQYHHy5edqLPfGN40Fl6f8UgVnLCMONVl
+ Ru/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=xIwwdkQ/UueIjTq9LmfxXmdWH0OF4K6cF8/Wmny7JFg=;
- b=cILZKK5IiSJ/ZliKqGorMq4BF+mbOV6LwBF73S3EZQH7dU1Bc8nKf8ikDLEMhtVY9f
- e6hi0ZUugRWLvGgx3oKm8DvQLmxPgfkMvNPKtRuGlpTowOwsqyKUGTdm+HqzlbLwWf3e
- LVm6I/vxbpDHeBpgseoIvCVjUe0bi3vxyPaCHaAFzWwtUJO+egxE9ZAzaa5dILVsH+7A
- jRCkm0fEy2if0LV8FnbyxIXImOpH4AD9o256Qpppei5ZJgRW1HEWqZxXrDdxoeFTTZ9F
- yQLbGDpRCgd5bt5DxnWwHV5ov2gB/EgHSYnv7QD4Ql+XUZAOEkDvJUz0Y/Yr2wX81zgz
- Inxw==
-X-Gm-Message-State: ACrzQf0WNXPq7qLNYDV0NmM8bHta7d1FrmYfU9tQZHSsaSJ7NV8lw1aJ
- VAyyxTHnKwG9aBmNupr2xFbYl5MYOR4=
-X-Google-Smtp-Source: AMsMyM5M1TMFwFfiuHQrlrpeLoHsKz0RLBRueVCvKT1jTgg8qwa6WHMngssaTKRbZ2H3FBqvu8BIqw==
-X-Received: by 2002:a65:464b:0:b0:42c:b0:9643 with SMTP id
- k11-20020a65464b000000b0042c00b09643mr20221531pgr.232.1663670023781; 
- Tue, 20 Sep 2022 03:33:43 -0700 (PDT)
+ bh=xmrffeAJpAZ7oRzdU9cwoCFcPUSltVboEjy+YD7LlIE=;
+ b=5kGUZc/QBAoKdmS+hbfz5HEhYt6vPzV3fTT+537jCk/SLLx+9ZLpSfCOrjTwkOBhFk
+ JmHJmgTvr+h663+ahlVgYHDbgd7HLietPVQ5y4KJWf0J0/HaOOHZQnStpRo43MSB4y9G
+ xr0vjI/pw32ozrn4227RW3VQj7m4y3WAJ68jPll4Ci/7Yyz5vmV1C8DYnb2zGkzhrQ6C
+ gyTOK8BANnuEoc0W0c11CQKngeyziYbd+qu7dFBV7t1FGCSrFMMG5k++0mXk1jcQL/89
+ vkf8p3JeP9GYlbkg4o4/FSMgYL75Rdqn0l/1ruHh9/hHL5aKdVeK0QJ/v7QHARAfZWCD
+ tC/A==
+X-Gm-Message-State: ACrzQf0QrURhZmsOHh4DMYEyFq+cvJ5JsLNITYK/CAqjkZW4/3DcD8y8
+ b1E3Fk/xc/fCykdtrQakkRIXazDH7w0=
+X-Google-Smtp-Source: AMsMyM4HgUGSsMnGr8wPOw6wT/fG3Q0vYUKHqSrlXdT9pTAjqwrpC878R/YHNqIXzv/SrbDM3EKZJw==
+X-Received: by 2002:a65:68c8:0:b0:438:744d:b340 with SMTP id
+ k8-20020a6568c8000000b00438744db340mr19296035pgt.142.1663670026484; 
+ Tue, 20 Sep 2022 03:33:46 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- n2-20020aa79842000000b00551fa0e2b2dsm699573pfq.206.2022.09.20.03.33.42
+ n2-20020aa79842000000b00551fa0e2b2dsm699573pfq.206.2022.09.20.03.33.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 03:33:43 -0700 (PDT)
+ Tue, 20 Sep 2022 03:33:46 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v2 34/39] io/channel-watch: Fix socket watch on Windows
-Date: Tue, 20 Sep 2022 18:31:54 +0800
-Message-Id: <20220920103159.1865256-35-bmeng.cn@gmail.com>
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: [PATCH v2 35/39] tests/qtest: migration-test: Skip running some TLS
+ cases for win32
+Date: Tue, 20 Sep 2022 18:31:55 +0800
+Message-Id: <20220920103159.1865256-36-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220920103159.1865256-1-bmeng.cn@gmail.com>
 References: <20220920103159.1865256-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,81 +95,128 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Random failure was observed when running qtests on Windows due to
-"Broken pipe" detected by qmp_fd_receive(). What happened is that
-the qtest executable sends testing data over a socket to the QEMU
-under test but no response is received. The errno of the recv()
-call from the qtest executable indicates ETIMEOUT, due to the qmp
-chardev's tcp_chr_read() is never called to receive testing data
-hence no response is sent to the other side.
+Some migration test cases use TLS to communicate, but they fail on
+Windows with the following error messages:
 
-tcp_chr_read() is registered as the callback of the socket watch
-GSource. The reason of the callback not being called by glib, is
-that the source check fails to indicate the source is ready. There
-are two socket watch sources created to monitor the same socket
-event object from the char-socket backend in update_ioc_handlers().
-During the source check phase, qio_channel_socket_source_check()
-calls WSAEnumNetworkEvents() to discover occurrences of network
-events for the indicated socket, clear internal network event records,
-and reset the event object. Testing shows that if we don't reset the
-event object by not passing the event handle to WSAEnumNetworkEvents()
-the symptom goes away and qtest runs very stably.
+  qemu-system-x86_64: TLS handshake failed: Insufficient credentials for that request.
+  qemu-system-x86_64: TLS handshake failed: Error in the pull function.
+  query-migrate shows failed migration: TLS handshake failed: Error in the pull function.
 
-It seems we don't need to call WSAEnumNetworkEvents() at all, as we
-don't parse the result of WSANETWORKEVENTS returned from this API.
-We use select() to poll the socket status. Fix this instability by
-dropping the WSAEnumNetworkEvents() call.
-
-Some side notes:
-
-During the testing, I removed the following codes in update_ioc_handlers():
-
-  remove_hup_source(s);
-  s->hup_source = qio_channel_create_watch(s->ioc, G_IO_HUP);
-  g_source_set_callback(s->hup_source, (GSourceFunc)tcp_chr_hup,
-                        chr, NULL);
-  g_source_attach(s->hup_source, chr->gcontext);
-
-and such change also makes the symptom go away.
-
-And if I moved the above codes to the beginning, before the call to
-io_add_watch_poll(), the symptom also goes away.
-
-It seems two sources watching on the same socket event object is
-the key that leads to the instability. The order of adding a source
-watch seems to also play a role but I can't explain why.
-Hopefully a Windows and glib expert could explain this behavior.
+Disable them temporarily.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
+I am not familar with the gnutls and simply enabling the gnutls debug
+output does not give me an immedidate hint on why it's failing on
+Windows. Disable these cases for now until someone or maintainers
+who may want to test this on Windows.
 
 (no changes since v1)
 
- io/channel-watch.c | 4 ----
- 1 file changed, 4 deletions(-)
+ tests/qtest/migration-test.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/io/channel-watch.c b/io/channel-watch.c
-index 43d38494f7..ad7c568a84 100644
---- a/io/channel-watch.c
-+++ b/io/channel-watch.c
-@@ -115,17 +115,13 @@ static gboolean
- qio_channel_socket_source_check(GSource *source)
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index aedd9ddb72..dbee9b528a 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -1403,6 +1403,7 @@ static void test_precopy_unix_dirty_ring(void)
+ }
+ 
+ #ifdef CONFIG_GNUTLS
++#ifndef _WIN32
+ static void test_precopy_unix_tls_psk(void)
  {
-     static struct timeval tv0;
--
-     QIOChannelSocketSource *ssource = (QIOChannelSocketSource *)source;
--    WSANETWORKEVENTS ev;
-     fd_set rfds, wfds, xfds;
+     g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+@@ -1415,6 +1416,7 @@ static void test_precopy_unix_tls_psk(void)
  
-     if (!ssource->condition) {
-         return 0;
-     }
+     test_precopy_common(&args);
+ }
++#endif /* _WIN32 */
  
--    WSAEnumNetworkEvents(ssource->socket, ssource->ioc->event, &ev);
--
-     FD_ZERO(&rfds);
-     FD_ZERO(&wfds);
-     FD_ZERO(&xfds);
+ #ifdef CONFIG_TASN1
+ static void test_precopy_unix_tls_x509_default_host(void)
+@@ -1523,6 +1525,7 @@ static void test_precopy_tcp_plain(void)
+ }
+ 
+ #ifdef CONFIG_GNUTLS
++#ifndef _WIN32
+ static void test_precopy_tcp_tls_psk_match(void)
+ {
+     MigrateCommon args = {
+@@ -1533,6 +1536,7 @@ static void test_precopy_tcp_tls_psk_match(void)
+ 
+     test_precopy_common(&args);
+ }
++#endif /* _WIN32 */
+ 
+ static void test_precopy_tcp_tls_psk_mismatch(void)
+ {
+@@ -1930,6 +1934,7 @@ static void test_multifd_tcp_zstd(void)
+ #endif
+ 
+ #ifdef CONFIG_GNUTLS
++#ifndef _WIN32
+ static void *
+ test_migrate_multifd_tcp_tls_psk_start_match(QTestState *from,
+                                              QTestState *to)
+@@ -1937,6 +1942,7 @@ test_migrate_multifd_tcp_tls_psk_start_match(QTestState *from,
+     test_migrate_precopy_tcp_multifd_start_common(from, to, "none");
+     return test_migrate_tls_psk_start_match(from, to);
+ }
++#endif /* _WIN32 */
+ 
+ static void *
+ test_migrate_multifd_tcp_tls_psk_start_mismatch(QTestState *from,
+@@ -1988,6 +1994,7 @@ test_migrate_multifd_tls_x509_start_reject_anon_client(QTestState *from,
+ }
+ #endif /* CONFIG_TASN1 */
+ 
++#ifndef _WIN32
+ static void test_multifd_tcp_tls_psk_match(void)
+ {
+     MigrateCommon args = {
+@@ -1997,6 +2004,7 @@ static void test_multifd_tcp_tls_psk_match(void)
+     };
+     test_precopy_common(&args);
+ }
++#endif /* _WIN32 */
+ 
+ static void test_multifd_tcp_tls_psk_mismatch(void)
+ {
+@@ -2497,8 +2505,10 @@ int main(int argc, char **argv)
+     qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_plain);
+     qtest_add_func("/migration/precopy/unix/xbzrle", test_precopy_unix_xbzrle);
+ #ifdef CONFIG_GNUTLS
++#ifndef _WIN32
+     qtest_add_func("/migration/precopy/unix/tls/psk",
+                    test_precopy_unix_tls_psk);
++#endif
+ 
+     if (has_uffd) {
+         /*
+@@ -2524,8 +2534,10 @@ int main(int argc, char **argv)
+ 
+     qtest_add_func("/migration/precopy/tcp/plain", test_precopy_tcp_plain);
+ #ifdef CONFIG_GNUTLS
++#ifndef _WIN32
+     qtest_add_func("/migration/precopy/tcp/tls/psk/match",
+                    test_precopy_tcp_tls_psk_match);
++#endif
+     qtest_add_func("/migration/precopy/tcp/tls/psk/mismatch",
+                    test_precopy_tcp_tls_psk_mismatch);
+ #ifdef CONFIG_TASN1
+@@ -2569,8 +2581,10 @@ int main(int argc, char **argv)
+                    test_multifd_tcp_zstd);
+ #endif
+ #ifdef CONFIG_GNUTLS
++#ifndef _WIN32
+     qtest_add_func("/migration/multifd/tcp/tls/psk/match",
+                    test_multifd_tcp_tls_psk_match);
++#endif
+     qtest_add_func("/migration/multifd/tcp/tls/psk/mismatch",
+                    test_multifd_tcp_tls_psk_mismatch);
+ #ifdef CONFIG_TASN1
 -- 
 2.34.1
 
