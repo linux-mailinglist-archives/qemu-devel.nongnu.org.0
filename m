@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 739DE5BF00B
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 00:24:07 +0200 (CEST)
-Received: from localhost ([::1]:56130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7824B5BEFD2
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 00:11:02 +0200 (CEST)
+Received: from localhost ([::1]:36228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oalew-000651-AO
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 18:24:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54364)
+	id 1oalSH-0001ko-Hs
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 18:11:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oagzY-0005uK-FT
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:25:04 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:42968)
+ id 1oagzd-00063O-Hf
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:25:09 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:34505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oagzW-0001pC-DF
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:25:04 -0400
-Received: by mail-ej1-x630.google.com with SMTP id sb3so7821612ejb.9
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 10:25:01 -0700 (PDT)
+ id 1oagza-0001ot-FU
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:25:09 -0400
+Received: by mail-ej1-x631.google.com with SMTP id y3so7922746ejc.1
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 10:25:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=3o2V5qY3va6oi4DyilHks2k3IlXaipM0Pd6rZp5g9VI=;
- b=YQJG+rBphFdJCXfNXYp9mcOEYXawJ2q71kwTopRUYoXoH9GPnA2DAjFNUkMJdZQrVM
- BTvK8Z+qxSdlXufOAWRTcou7phTZlqI8IcTIEo2aNgsrRdlnUr2yxWE3akcAiB9MbeyZ
- 2Cz4VUbtwaM7QgZ/qW4TTo0kKH1LKRSrk5auvSznf3VsFXVO+rHBXLhGNkk0f/wKfDBU
- gJLXkS9YqYuXaVFqhyXz8wiRUYp1pqIV/Bdhdnz5l1UQJmOcda9H7rceMdcA/5fwyVwf
- Pgjx4pyKYMlAooKAObN+e1s06lJd6hMJSB6COAaPtjYwL9QZfNqbpK6csy4Rub5ayPp4
- 8BUQ==
+ bh=aqXnnX8jlTZ0XZtDvIycK9gnBUppEqoHxatpad3BDw0=;
+ b=eJnTGlGd+g2BnmvLBdavrJ+oTvsdJyfOu2aze5QO1ENmvL/B19YGgQQ8e+NPXVN2en
+ DIFd4BSwEpbd5n5Q1fIFfgbjcDmZN4m5+49kfRZJ62jE/Ykww0i6JwQy2YpwrLaV17H9
+ a5BbSc8Q26w4CDNKCuayAF9w2NB3CZHu0iA06A2PrkO/QDsQLeLpYm8l2K8IW63cds/Q
+ 81grgUS0/+X2CIGSib2GjPUteJ+5hKKiq96Tb3Nv2Iu1qRvXIBfBxSdniVdW3wszie5q
+ 4sEL9GdO8TfBxEDi9THwFUgSaZuibJwBfA3iyG3VtSGdeIlVDbUxAQljl9IwiLvjTbZC
+ K1PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=3o2V5qY3va6oi4DyilHks2k3IlXaipM0Pd6rZp5g9VI=;
- b=pI2xFdWwCAhnFXiTR4vcVe2t7RgvYvDolyo5E88ZgDtYYVMhCPWvuCnnRwb8jIFsna
- cLxrKjWg/t7VxwA0XsR473akgCcLnH2x1lENjHaHPl0h5Mi44RqsVwdLMGdnNsNfS77o
- fREW4TcsslFUxs7BeWQ5cbxm1jJMa/b/u7bpb/ZH9ZIouNdUEC09XEug1pcWQ+2w0/ba
- WQlz9LUJch9sUILGWGACXkLx3FbdLwDjWYwEtlFJuBVtvEHN2YnBceFbQZT9wWQSSBkR
- /QpAw1lmodyDAlg80xVxmWxMBU7gbfgDd4JrZlm/x/Td9bJELLDcmTtJsGY6DRgOzpGp
- iMXg==
-X-Gm-Message-State: ACrzQf3CjwuRDmWzfhve5bCutnZs2oZ9K/o86sepDmqr/sqU9R0U7R7o
- Gi+Z0+VLjXD2GCepBJKXGl4KqA==
-X-Google-Smtp-Source: AMsMyM61IzQCjkrS5739uFQwz2yQQCPtiEKHJ0Lx1/DsCmUQaroBz4cFh4zRIG2caSP1VyCs+ej/Qg==
-X-Received: by 2002:a17:906:b106:b0:780:83a8:773 with SMTP id
- u6-20020a170906b10600b0078083a80773mr17596317ejy.758.1663694700731; 
- Tue, 20 Sep 2022 10:25:00 -0700 (PDT)
+ bh=aqXnnX8jlTZ0XZtDvIycK9gnBUppEqoHxatpad3BDw0=;
+ b=ZAem35JM/J9PwCAEOt0ypsAfmK2dkLBBX8HNdcvnUIS65sJyct0ooIDkhHQziKcHeh
+ PQDUg3zHlYCmIF0bYRFRK7ZvYzoCoFPtp9uDwuI2vGsmFGdeC8idM+s4azXwzhSQjGaX
+ VB65AhryjLY+PfQE+dxBvS/t5qEpJwhZHOzY0XdkYuttOX0lCoqvNzVS2aGRR46OR31w
+ boHSpH24eRd6YHI6qhMuVwzHrr/Pq/rxWZX/bzWhi9bGz4ODFqulaw+8RsgJKfJsFEIV
+ 7qc6BZx8aIcaSqzPFK2+zITfoJ82KOOtgVf+ezmAReIaUiQ6TquAmzza2jJvP4DU0e5D
+ koVQ==
+X-Gm-Message-State: ACrzQf0dHjq0j4S08ZE6ZTOtt611W0kuWLNC2TqD3arWp3WsIgbqRMZ3
+ rcJyGIYPf2Cd+ZzBWePoFmaumQ==
+X-Google-Smtp-Source: AMsMyM7EGOcw/iwABkQjJbhK91g29+DxdnhdBLmQ2hcTV6rlX6K0NhOyIdSeNchaJuqYuY9tFd+QSQ==
+X-Received: by 2002:a17:907:7f18:b0:780:7a0a:110c with SMTP id
+ qf24-20020a1709077f1800b007807a0a110cmr17753295ejc.446.1663694705730; 
+ Tue, 20 Sep 2022 10:25:05 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- o10-20020a170906768a00b00781e7d364ebsm145286ejm.144.2022.09.20.10.24.53
+ w8-20020a1709067c8800b007815ca7ae57sm120985ejo.212.2022.09.20.10.24.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 10:24:56 -0700 (PDT)
+ Tue, 20 Sep 2022 10:24:59 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C09121FFCB;
+ by zen.linaroharston (Postfix) with ESMTP id E59781FFCC;
  Tue, 20 Sep 2022 18:15:35 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PULL 20/30] gitlab-ci: update aarch32/aarch64 custom runner jobs
-Date: Tue, 20 Sep 2022 18:15:23 +0100
-Message-Id: <20220920171533.1098094-21-alex.bennee@linaro.org>
+ Beraldo Leal <bleal@redhat.com>,
+ libvir-list@redhat.com (reviewer:Incompatible changes),
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: [PULL 21/30] Deprecate 32 bit big-endian MIPS
+Date: Tue, 20 Sep 2022 18:15:24 +0100
+Message-Id: <20220920171533.1098094-22-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220920171533.1098094-1-alex.bennee@linaro.org>
 References: <20220920171533.1098094-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x630.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,197 +102,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The custom runner is now using 22.04 so we can drop our hacks to deal
-with broken libssh and glusterfs. The provisioning scripts will be
-updated in a separate commit.
+It's becoming harder to maintain a cross-compiler to test this host
+architecture as the old stable Debian 10 ("Buster") moved into LTS
+which supports fewer architectures. For now:
+
+  - mark it's deprecation in the docs
+  - downgrade the containers to build TCG tests only
+  - drop the cross builds from our CI
+
+Users with an appropriate toolchain and user-space can still take
+their chances building it.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20220914155950.804707-21-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Huacai Chen <chenhuacai@kernel.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220914155950.804707-22-alex.bennee@linaro.org>
 
-diff --git a/.gitlab-ci.d/custom-runners.yml b/.gitlab-ci.d/custom-runners.yml
-index 15aaccc481..97f99e29c2 100644
---- a/.gitlab-ci.d/custom-runners.yml
-+++ b/.gitlab-ci.d/custom-runners.yml
-@@ -15,6 +15,6 @@ variables:
+diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
+index a2fee53248..1c1e7b9e11 100644
+--- a/docs/about/build-platforms.rst
++++ b/docs/about/build-platforms.rst
+@@ -41,7 +41,7 @@ Those hosts are officially supported, with various accelerators:
+      - Accelerators
+    * - Arm
+      - kvm (64 bit only), tcg, xen
+-   * - MIPS
++   * - MIPS (little endian only)
+      - kvm, tcg
+    * - PPC
+      - kvm, tcg
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index c75a25daad..0d1fd4469b 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -213,6 +213,19 @@ MIPS ``Trap-and-Emul`` KVM support (since 6.0)
+ The MIPS ``Trap-and-Emul`` KVM host and guest support has been removed
+ from Linux upstream kernel, declare it deprecated.
  
- include:
-   - local: '/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml'
--  - local: '/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml'
--  - local: '/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml'
-+  - local: '/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml'
-+  - local: '/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml'
-   - local: '/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml'
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
-similarity index 86%
-rename from .gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml
-rename to .gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
-index cbfa9cc164..1a2f9b8dbe 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
-@@ -1,12 +1,12 @@
--# All ubuntu-20.04 jobs should run successfully in an environment
-+# All ubuntu-22.04 jobs should run successfully in an environment
- # setup by the scripts/ci/setup/qemu/build-environment.yml task
- # "Install basic packages to build QEMU on Ubuntu 20.04"
++Host Architectures
++------------------
++
++BE MIPS (since 7.2)
++'''''''''''''''''''
++
++As Debian 10 ("Buster") moved into LTS the big endian 32 bit version of
++MIPS moved out of support making it hard to maintain our
++cross-compilation CI tests of the architecture. As we no longer have
++CI coverage support may bitrot away before the deprecation process
++completes. The little endian variants of MIPS (both 32 and 64 bit) are
++still a supported host architecture.
++
+ QEMU API (QAPI) events
+ ----------------------
  
--ubuntu-20.04-aarch32-all:
-+ubuntu-22.04-aarch32-all:
-  needs: []
-  stage: build
-  tags:
-- - ubuntu_20.04
-+ - ubuntu_22.04
-  - aarch32
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-similarity index 82%
-rename from .gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
-rename to .gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-index 3f4dee4f86..ce0b18af6f 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-@@ -2,23 +2,21 @@
- # setup by the scripts/ci/setup/qemu/build-environment.yml task
- # "Install basic packages to build QEMU on Ubuntu 20.04"
+diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cross.yml
+index 611c6c0b39..95d57e1c5d 100644
+--- a/.gitlab-ci.d/container-cross.yml
++++ b/.gitlab-ci.d/container-cross.yml
+@@ -89,7 +89,6 @@ mips64el-debian-cross-container:
+ mips-debian-cross-container:
+   extends: .container_job_template
+   stage: containers
+-  needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-mips-cross
  
--ubuntu-20.04-aarch64-all-linux-static:
-+ubuntu-22.04-aarch64-all-linux-static:
-  needs: []
-  stage: build
-  tags:
-- - ubuntu_20.04
-+ - ubuntu_22.04
-  - aarch64
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-  - if: "$AARCH64_RUNNER_AVAILABLE"
-  script:
-- # --disable-libssh is needed because of https://bugs.launchpad.net/qemu/+bug/1838763
-- # --disable-glusterfs is needed because there's no static version of those libs in distro supplied packages
-  - mkdir build
-  - cd build
-  # Disable -static-pie due to build error with system libc:
-  # https://bugs.launchpad.net/ubuntu/+source/glibc/+bug/1987438
-- - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh --disable-pie
-+ - ../configure --enable-debug --static --disable-system --disable-pie
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc --ignore=40`
-  - make --output-sync -j`nproc --ignore=40` check V=1
-@@ -26,11 +24,11 @@ ubuntu-20.04-aarch64-all-linux-static:
-  - make --output-sync -j`nproc --ignore=40` check-tcg V=1
-    || { cat meson-logs/testlog.txt; exit 1; } ;
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index 4a5fb6ea2a..c4cd96433d 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -70,20 +70,6 @@ cross-i386-tci:
+     EXTRA_CONFIGURE_OPTS: --target-list=i386-softmmu,i386-linux-user,aarch64-softmmu,aarch64-linux-user,ppc-softmmu,ppc-linux-user
+     MAKE_CHECK_ARGS: check check-tcg
  
--ubuntu-20.04-aarch64-all:
-+ubuntu-22.04-aarch64-all:
-  needs: []
-  stage: build
-  tags:
-- - ubuntu_20.04
-+ - ubuntu_22.04
-  - aarch64
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-@@ -42,17 +40,17 @@ ubuntu-20.04-aarch64-all:
-  script:
-  - mkdir build
-  - cd build
-- - ../configure --disable-libssh
-+ - ../configure
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc --ignore=40`
-  - make --output-sync -j`nproc --ignore=40` check V=1
-    || { cat meson-logs/testlog.txt; exit 1; } ;
+-cross-mips-system:
+-  extends: .cross_system_build_job
+-  needs:
+-    job: mips-debian-cross-container
+-  variables:
+-    IMAGE: debian-mips-cross
+-
+-cross-mips-user:
+-  extends: .cross_user_build_job
+-  needs:
+-    job: mips-debian-cross-container
+-  variables:
+-    IMAGE: debian-mips-cross
+-
+ cross-mipsel-system:
+   extends: .cross_system_build_job
+   needs:
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index c3375f89c5..b1bf56434f 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -81,14 +81,12 @@ endif
  
--ubuntu-20.04-aarch64-alldbg:
-+ubuntu-22.04-aarch64-alldbg:
-  needs: []
-  stage: build
-  tags:
-- - ubuntu_20.04
-+ - ubuntu_22.04
-  - aarch64
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-@@ -60,18 +58,18 @@ ubuntu-20.04-aarch64-alldbg:
-  script:
-  - mkdir build
-  - cd build
-- - ../configure --enable-debug --disable-libssh
-+ - ../configure --enable-debug
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make clean
-  - make --output-sync -j`nproc --ignore=40`
-  - make --output-sync -j`nproc --ignore=40` check V=1
-    || { cat meson-logs/testlog.txt; exit 1; } ;
+ # For non-x86 hosts not all cross-compilers have been packaged
+ ifneq ($(HOST_ARCH),x86_64)
+-DOCKER_PARTIAL_IMAGES += debian-mips-cross debian-mipsel-cross debian-mips64el-cross
++DOCKER_PARTIAL_IMAGES += debian-mipsel-cross debian-mips64el-cross
+ DOCKER_PARTIAL_IMAGES += debian-ppc64el-cross
+ DOCKER_PARTIAL_IMAGES += debian-s390x-cross
+ DOCKER_PARTIAL_IMAGES += fedora
+ endif
  
--ubuntu-20.04-aarch64-clang:
-+ubuntu-22.04-aarch64-clang:
-  needs: []
-  stage: build
-  tags:
-- - ubuntu_20.04
-+ - ubuntu_22.04
-  - aarch64
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-@@ -89,11 +87,11 @@ ubuntu-20.04-aarch64-clang:
-  - make --output-sync -j`nproc --ignore=40` check V=1
-    || { cat meson-logs/testlog.txt; exit 1; } ;
+-docker-image-debian-mips-cross: docker-image-debian10
+-
+ # The native build should never use the registry
+ docker-image-debian-native: DOCKER_REGISTRY=
  
--ubuntu-20.04-aarch64-tci:
-+ubuntu-22.04-aarch64-tci:
-  needs: []
-  stage: build
-  tags:
-- - ubuntu_20.04
-+ - ubuntu_22.04
-  - aarch64
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-@@ -105,15 +103,15 @@ ubuntu-20.04-aarch64-tci:
-  script:
-  - mkdir build
-  - cd build
-- - ../configure --disable-libssh --enable-tcg-interpreter
-+ - ../configure --enable-tcg-interpreter
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc --ignore=40`
- 
--ubuntu-20.04-aarch64-notcg:
-+ubuntu-22.04-aarch64-notcg:
-  needs: []
-  stage: build
-  tags:
-- - ubuntu_20.04
-+ - ubuntu_22.04
-  - aarch64
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-@@ -125,7 +123,7 @@ ubuntu-20.04-aarch64-notcg:
-  script:
-  - mkdir build
-  - cd build
-- - ../configure --disable-libssh --disable-tcg
-+ - ../configure --disable-tcg
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc --ignore=40`
-  - make --output-sync -j`nproc --ignore=40` check V=1
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1729c0901c..738c4eb647 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3724,7 +3724,8 @@ GitLab custom runner (Works On Arm Sponsored)
- M: Alex Bennée <alex.bennee@linaro.org>
- M: Philippe Mathieu-Daudé <f4bug@amsat.org>
- S: Maintained
--F: .gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
-+F: .gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-+F: .gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
- 
- Documentation
- -------------
+@@ -144,6 +142,7 @@ DOCKER_PARTIAL_IMAGES += debian-hppa-cross
+ DOCKER_PARTIAL_IMAGES += debian-loongarch-cross
+ DOCKER_PARTIAL_IMAGES += debian-m68k-cross debian-mips64-cross
+ DOCKER_PARTIAL_IMAGES += debian-microblaze-cross
++DOCKER_PARTIAL_IMAGES += debian-mips-cross
+ DOCKER_PARTIAL_IMAGES += debian-nios2-cross
+ DOCKER_PARTIAL_IMAGES += debian-riscv64-test-cross
+ DOCKER_PARTIAL_IMAGES += debian-sh4-cross debian-sparc64-cross
+diff --git a/tests/docker/dockerfiles/debian-mips-cross.docker b/tests/docker/dockerfiles/debian-mips-cross.docker
+index 26c154014d..7b55f0f3b2 100644
+--- a/tests/docker/dockerfiles/debian-mips-cross.docker
++++ b/tests/docker/dockerfiles/debian-mips-cross.docker
+@@ -1,32 +1,14 @@
+ #
+ # Docker mips cross-compiler target
+ #
+-# This docker target builds on the debian Buster base image.
++# This docker target builds on the Debian Bullseye base image.
+ #
+-FROM qemu/debian10
+-
+-MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
+-
+-# Add the foreign architecture we want and install dependencies
+-RUN dpkg --add-architecture mips
+-RUN apt update && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt install -y --no-install-recommends \
+-        gcc-mips-linux-gnu
+-
+-RUN apt update && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt build-dep -yy -a mips --arch-only qemu
+-
+-# Specify the cross prefix for this image (see tests/docker/common.rc)
+-ENV QEMU_CONFIGURE_OPTS --cross-prefix=mips-linux-gnu-
+-ENV DEF_TARGET_LIST mips-softmmu,mipsel-linux-user
+-
+-# Install extra libraries to increase code coverage
+-RUN apt update && \
+-    DEBIAN_FRONTEND=noninteractive eatmydata \
+-    apt install -y --no-install-recommends \
+-        libbz2-dev:mips \
+-        liblzo2-dev:mips \
+-        librdmacm-dev:mips \
+-        libsnappy-dev:mips
++FROM docker.io/library/debian:11-slim
++
++RUN export DEBIAN_FRONTEND=noninteractive && \
++    apt-get update && \
++    apt-get install -y eatmydata && \
++    eatmydata apt-get dist-upgrade -y && \
++    eatmydata apt-get install --no-install-recommends -y \
++            gcc-mips-linux-gnu \
++            libc6-dev-mips-cross
 -- 
 2.34.1
 
