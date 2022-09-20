@@ -2,78 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3D4E5BDFA6
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 10:17:23 +0200 (CEST)
-Received: from localhost ([::1]:34136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 194A85BDFA7
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 10:17:28 +0200 (CEST)
+Received: from localhost ([::1]:58294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaYRW-0005VK-Ha
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 04:17:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52252)
+	id 1oaYRa-0005gX-VT
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 04:17:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oaYHa-0008Vt-4l
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 04:07:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36915)
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1oaYIT-0000Mi-Io
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 04:08:12 -0400
+Received: from mx0a-0031df01.pphosted.com ([205.220.168.131]:46722)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oaYHV-00057p-O6
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 04:07:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663661214;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=oOCnfoyc7tReDGQtUscQvT9mHr8nI/a+GuP3ByoQiYk=;
- b=ac+FSOxgB0t06NGKiY/jeozze/fclX/jyasjvnCo2Z9uPLvZWlyPoogSQUHVUEQp+jXYbf
- 0uPADzTtibfKuzmxRv2kbPMTSJ+u3/37U0C4D0wKunBeNUwilb4vxUEujpTM9yblkTSrfE
- u/6I/RzQ6Cg3unpYiQ/SczO82sdXcmE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-269-7G8Mvm8ON3C7pORZebx5LQ-1; Tue, 20 Sep 2022 04:06:52 -0400
-X-MC-Unique: 7G8Mvm8ON3C7pORZebx5LQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E5EF780206D;
- Tue, 20 Sep 2022 08:06:51 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E265740C2064;
- Tue, 20 Sep 2022 08:06:48 +0000 (UTC)
-Date: Tue, 20 Sep 2022 09:06:46 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Darren Kenny <darren.kenny@oracle.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- "Michael S. Tsirkin" <mst@redhat.com>, Fam Zheng <fam@euphon.net>,
- Gerd Hoffmann <kraxel@redhat.com>, Bandan Das <bsd@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Hannes Reinecke <hare@suse.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Igor Mammedov <imammedo@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org
-Subject: Re: [PATCH 8/8] meson-build: test-crypto-secret depends on
- CONFIG_SECRET_KEYRING
-Message-ID: <Yyl0lqMVkdRhvkPw@redhat.com>
-References: <20220902165126.1482-1-quintela@redhat.com>
- <20220902165126.1482-9-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1oaYIN-0005ZT-Uw
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 04:07:57 -0400
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28K7xcV2003256;
+ Tue, 20 Sep 2022 08:07:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=qcppdkim1;
+ bh=K/uMfbc1xjwfE0U2XZi6x76mgV7luuiZs2gTG4F1QAs=;
+ b=B/r47ClsGOgwfu7Jx+jBu4GB/s9w2MRDCj9ukf5hFmPr6ZzdNlgctLVgre3AQNkMg3fk
+ aI8cdSvz3aisLVvhNpF9WeSNwmVWILRDcXEdsYxP88v8A7D1D59ByHKs1xyqNS/y7aMH
+ yoq2cDffIedXJ1IvwAhdRAo1INZjiiH6tWdHbkOJAE+hs/lkiKNKAFtZqKAFtNKLT4Ou
+ P043jtANbZDOOdOAbV0hFuKfx0BT7iM+sg3AeUuZw5ey/FZtP6ph6Z+5wUgTqz5xoEyL
+ rlI0GvnncvoF2o+V1Pu1kvECEHzNGata6RICiM1WOPU2ky6LvvqeeOIw0Bks94/J+Jmm vw== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jpw78a80p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 20 Sep 2022 08:07:50 +0000
+Received: from pps.filterd (NALASPPMTA03.qualcomm.com [127.0.0.1])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 28K87omT003128; 
+ Tue, 20 Sep 2022 08:07:50 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by NALASPPMTA03.qualcomm.com (PPS) with ESMTPS id 3jnqmj02c1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+ Tue, 20 Sep 2022 08:07:50 +0000
+Received: from NALASPPMTA03.qualcomm.com (NALASPPMTA03.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28K87n5j002970;
+ Tue, 20 Sep 2022 08:07:49 GMT
+Received: from hu-devc-lv-u18-c.qualcomm.com (hu-tsimpson-lv.qualcomm.com
+ [10.47.235.220])
+ by NALASPPMTA03.qualcomm.com (PPS) with ESMTP id 28K87nbf002926;
+ Tue, 20 Sep 2022 08:07:49 +0000
+Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
+ id 4A4B75000A7; Tue, 20 Sep 2022 01:07:49 -0700 (PDT)
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: qemu-devel@nongnu.org
+Cc: tsimpson@quicinc.com, richard.henderson@linaro.org, f4bug@amsat.org,
+ ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, mlambert@quicinc.com
+Subject: [PATCH 0/3] Hexagon (target/hexagon) improve store handling
+Date: Tue, 20 Sep 2022 01:07:43 -0700
+Message-Id: <20220920080746.26791-1-tsimpson@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220902165126.1482-9-quintela@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 4x9UaxfabrtOaclQSTnuYkV3FqZ_cd50
+X-Proofpoint-GUID: 4x9UaxfabrtOaclQSTnuYkV3FqZ_cd50
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-20_02,2022-09-16_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=326
+ lowpriorityscore=0 spamscore=0 impostorscore=0 bulkscore=0 clxscore=1015
+ priorityscore=1501 mlxscore=0 adultscore=0 suspectscore=0 malwarescore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209200049
+Received-SPF: pass client-ip=205.220.168.131;
+ envelope-from=tsimpson@qualcomm.com; helo=mx0a-0031df01.pphosted.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,51 +103,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 02, 2022 at 06:51:26PM +0200, Juan Quintela wrote:
-> With this change "make check" works when configured with --disable-keyring.
-> 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> ---
->  tests/unit/meson.build | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tests/unit/meson.build b/tests/unit/meson.build
-> index b497a41378..988aed27cb 100644
-> --- a/tests/unit/meson.build
-> +++ b/tests/unit/meson.build
-> @@ -78,7 +78,6 @@ if have_block
->      'test-crypto-hmac': [crypto],
->      'test-crypto-cipher': [crypto],
->      'test-crypto-akcipher': [crypto],
-> -    'test-crypto-secret': [crypto, keyutils],
->      'test-crypto-der': [crypto],
->      'test-authz-simple': [authz],
->      'test-authz-list': [authz],
-> @@ -122,6 +121,9 @@ if have_block
->    if config_host_data.get('CONFIG_EPOLL_CREATE1')
->      tests += {'test-fdmon-epoll': [testblock]}
->    endif
-> +  if config_host_data.get('CONFIG_SECRET_KEYRING')
-> +    tests += {'test-crypto-secret': [crypto, keyutils]}
-> +  endif
->  endif
-
-This is not right, as it disables testing on all non-Linux platforms.
-The code in test-crypto-secret is already conditional on CONFIG_KEYUTILS
-so it can run on all platforms. The code just needs changing to be using
-CONFIG_SECRET_KEYRING instead of CONFIG_KEYUTILS as the former is more
-general. Don't touch the meson rules at all.
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+TWFrZSBzdG9yZSBoYW5kbGluZyBmYXN0ZXIgYW5kIG1vcmUgcm9idXN0CgpUYXlsb3IgU2ltcHNv
+biAoMyk6CiAgSGV4YWdvbiAodGFyZ2V0L2hleGFnb24pIGFkZCBpbnN0cnVjdGlvbiBhdHRyaWJ1
+dGVzIGZyb20gYXJjaGxpYgogIEhleGFnb24gKHRhcmdldC9oZXhhZ29uKSBtb3ZlIHN0b3JlIHNp
+emUgdHJhY2tpbmcgdG8gdHJhbnNsYXRpb24KICBIZXhhZ29uICh0YXJnZXQvaGV4YWdvbikgQ2hh
+bmdlIGRlY2lzaW9uIHRvIHNldCBwa3RfaGFzX3N0b3JlX3NbMDFdCgogdGFyZ2V0L2hleGFnb24v
+bWFjcm9zLmggICAgICAgICAgICAgICB8ICAgOCArLQogdGFyZ2V0L2hleGFnb24vYXR0cmlic19k
+ZWYuaC5pbmMgICAgICB8ICAzOCArKysrKysrLQogdGFyZ2V0L2hleGFnb24vZGVjb2RlLmMgICAg
+ICAgICAgICAgICB8ICAxNyArKy0tCiB0YXJnZXQvaGV4YWdvbi9nZW5wdHIuYyAgICAgICAgICAg
+ICAgIHwgIDM2ICsrKy0tLS0tCiB0YXJnZXQvaGV4YWdvbi90cmFuc2xhdGUuYyAgICAgICAgICAg
+IHwgIDM2ICsrKysrKystCiB0YXJnZXQvaGV4YWdvbi9oZXhfY29tbW9uLnB5ICAgICAgICAgIHwg
+ICAzICstCiB0YXJnZXQvaGV4YWdvbi9pbXBvcnRlZC9sZHN0LmlkZWYgICAgIHwgMTIyICsrKysr
+KysrKysrKystLS0tLS0tLS0tLS0tCiB0YXJnZXQvaGV4YWdvbi9pbXBvcnRlZC9zdWJpbnNucy5p
+ZGVmIHwgIDcyICsrKysrKystLS0tLS0tLQogOCBmaWxlcyBjaGFuZ2VkLCAxOTYgaW5zZXJ0aW9u
+cygrKSwgMTM2IGRlbGV0aW9ucygtKQoKLS0gCjIuMTcuMQoK
 
