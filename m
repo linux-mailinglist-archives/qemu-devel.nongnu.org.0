@@ -2,71 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B42EB5BDA0C
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 04:20:14 +0200 (CEST)
-Received: from localhost ([::1]:57982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 683845BDA0D
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 04:20:43 +0200 (CEST)
+Received: from localhost ([::1]:50854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaSrt-0006xj-87
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 22:20:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58622)
+	id 1oaSsM-0007XY-EJ
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 22:20:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huqi@loongson.cn>) id 1oaSqE-0004Hw-PW
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 22:18:31 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:50228 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huqi@loongson.cn>) id 1oaSqB-0003yb-Uw
- for qemu-devel@nongnu.org; Mon, 19 Sep 2022 22:18:30 -0400
-Received: from [10.90.50.23] (unknown [10.90.50.23])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxT+DdIiljLUseAA--.49044S3; 
- Tue, 20 Sep 2022 10:18:06 +0800 (CST)
-Message-ID: <3c401d0f-a34f-bd29-03a3-dddfae94ce0a@loongson.cn>
-Date: Tue, 20 Sep 2022 10:18:05 +0800
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oaSqr-0004ek-TU
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 22:19:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37676)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oaSqo-00042L-Ne
+ for qemu-devel@nongnu.org; Mon, 19 Sep 2022 22:19:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663640346;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7MEitvUxu8ItCA3viIyJVLdtKBmNSqx7l6oaAjWYN5A=;
+ b=ZoZZyuvbFzM7fYCpIApY7K0S/qVe5NnxPOGNLEFAqylFi1uD/PqS5jBL/szKc6ZxhGeGDs
+ 7JN2kqLc1xa4ywh+rX9g2Paf9Pon61L6RspyTr6SPInm3CURHEm/+0dhR/iUq0hfmVIAIM
+ iqm6iULtTZFksoE7gNolcTtv3z3Njn4=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-8-tczELkd2OiCykSa7T5ltlQ-1; Mon, 19 Sep 2022 22:19:05 -0400
+X-MC-Unique: tczELkd2OiCykSa7T5ltlQ-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ v6-20020ab05b46000000b003beeaa937ceso408304uae.9
+ for <qemu-devel@nongnu.org>; Mon, 19 Sep 2022 19:19:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=7MEitvUxu8ItCA3viIyJVLdtKBmNSqx7l6oaAjWYN5A=;
+ b=WHPEbxpqDTQmuaLnB2dtXH6JcbuIq0a3liRP6xcgRpa4tNWj4tFPt9QI8DG4L6fhV8
+ CBtsawUTFWuINpvfQJ+CE4VYyTIMLYZClKu2vRsgnh26awjMcQohP6UicrG/ast1qyKf
+ j88Pqjq0g5fYXrX0xsreopDT2IUYYfFzVnBUZIX5WKLs42TbvnmugjauS1joGzgrNNJ2
+ /0r9RiKh4lBqSzj48wtguOLwtZb6YhgeAK7vLZ0WW5FQop3h00Xvee04TowPr5/xWH6q
+ flUkgAZrOVecfx5TNW/g6V2TqwVyJgMaqY1jrJm1wJ94S3g/EL64FiTlLxnMVdcx1G2s
+ 6wpA==
+X-Gm-Message-State: ACrzQf0zQhwIZijupzrZgClGYhUyuDfxO8t3NC/3A+gZ8vaWZtPcCa3r
+ +U/0hHouF1Ek95P1+ViCxIPZ60tBSJm3aTijapS61baor440ID2uFHqJ/RDaKKt6HDQ1NirV94N
+ hp8HHTIGAcb2NO9UqfGK9tQa84WiPKF8=
+X-Received: by 2002:ab0:6941:0:b0:3b0:3934:2932 with SMTP id
+ c1-20020ab06941000000b003b039342932mr7380155uas.76.1663640343208; 
+ Mon, 19 Sep 2022 19:19:03 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM72xw3je8ORJ5pDo3FS+Zl6b8Og558uFpcf16SMk0pNjZ30cffS2H6YX3GPRdF7ZSywcQ14iClzhr+FC0kivD0=
+X-Received: by 2002:ab0:6941:0:b0:3b0:3934:2932 with SMTP id
+ c1-20020ab06941000000b003b039342932mr7380150uas.76.1663640342915; Mon, 19 Sep
+ 2022 19:19:02 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 5/5] target/loongarch: div if x/0 set dividend to 0
-Content-Language: en-US
-To: gaosong <gaosong@loongson.cn>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- maobibo <maobibo@loongson.cn>, Peter Maydell <peter.maydell@linaro.org>,
- alex.bennee@linaro.org
-References: <20220917075950.1412309-1-gaosong@loongson.cn>
- <20220917075950.1412309-6-gaosong@loongson.cn>
- <02cd3a40-d287-35b4-9d68-979c8ebd2e29@loongson.cn>
- <df217ffa-57e1-3e71-f766-fa19770bfe33@loongson.cn>
- <95f7e7f4-f1f1-66d5-0a9f-7bcf6b4ca59a@linaro.org>
- <e8a24cfc-005c-1196-35dd-05efdef6858b@loongson.cn>
-From: Qi Hu <huqi@loongson.cn>
-In-Reply-To: <e8a24cfc-005c-1196-35dd-05efdef6858b@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxT+DdIiljLUseAA--.49044S3
-X-Coremail-Antispam: 1UD129KBjvdXoW7XF1UCryrtryrJF4UZrW8Zwb_yoWkuwc_Zr
- yfur9rCwsIyan8trs5ta98JFZrtF1kAryrX39Fqw18JasIqa98JrWUGr4Ivw1jkFZ5Gr9I
- qr1FqFW3A390kjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbIAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
- Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
- 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
- bIxvr21lc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI
- 8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
- xVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI
- 8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280
- aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyT
- uYvjfUoOJ5UUUUU
-X-CM-SenderInfo: pkxtxqxorr0wxvrqhubq/1tbiAQAPCWMoW90OvQADs6
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=huqi@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220913090817.212224-1-chenh@yusur.tech>
+In-Reply-To: <20220913090817.212224-1-chenh@yusur.tech>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 20 Sep 2022 10:18:51 +0800
+Message-ID: <CACGkMEs4nq_J4xXYUH54JMXETELC_i=WDR9UXByWCw6v1xLF4A@mail.gmail.com>
+Subject: Re: [PATCH] hw/virtio/vhost-user: support obtain vdpa device's mac
+ address automatically
+To: Hao Chen <chenh@yusur.tech>
+Cc: mst <mst@redhat.com>, raphael.norwitz@nutanix.com, 
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>, 
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ qemu-devel <qemu-devel@nongnu.org>, houyl@yusur.tech, 
+ zy@yusur.tech, Cindy Lu <lulu@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.952,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,52 +96,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2022/9/19 19:45, gaosong wrote:
+On Tue, Sep 13, 2022 at 5:13 PM Hao Chen <chenh@yusur.tech> wrote:
 >
-> 在 2022/9/17 下午6:12, Richard Henderson 写道:
->> On 9/17/22 11:12, gaosong wrote:
->>>
->>> 在 2022/9/17 下午4:59, Qi Hu 写道:
->>>>
->>>> On 2022/9/17 15:59, Song Gao wrote:
->>>>> div.d, div.du, div,w, div.wu, the LoongArch host if x/0  the 
->>>>> result is 0.
->>>>
->>>> The message has a typo: "div,w" => "div.w"
->>>>
->>>> Also I don't know why we need to do this, since the manual say: 
->>>> "When the divisor is 0, the result can be any value".
->>>>
->>> I tested on LoongArch host,   the result is always 0.
->>
->> But it is legal for a different loongarch host implementation to 
->> return some other value.  Therefore the test itself is not correct.
->>
-> I think the manual maybe not correct,  the hardware engineer said that 
-> they need to comfirm  whether the result is always 0.
+> When use dpdk-vdpa tests vdpa device. You need to specify the mac address to
+> start the virtual machine through libvirt or qemu, but now, the libvirt or
+> qemu can call dpdk vdpa vendor driver's ops .get_config through vhost_net_get_config
+> to get the mac address of the vdpa hardware without manual configuration.
 >
-> Thanks.
-> Song Gao
+> Signed-off-by: Hao Chen <chenh@yusur.tech>
 
-Hi,
+Adding Cindy for comments.
 
-The hardware designers suggested that 0 should not be used as the 
-default value when "div 0" occurs. The behavior is not guaranteed in 
-future processors.
+Thanks
 
-So I think there are some ways to solve this:
-
-- Remove this case("div 0") from risu test.
-
-- Keep this patch by yourself. If you want to do risu test, patch it. :-)
-
-
-regards,
-
-Qi
-
->> r~
+> ---
+>  hw/block/vhost-user-blk.c |  1 -
+>  hw/net/virtio-net.c       |  3 ++-
+>  hw/virtio/vhost-user.c    | 19 -------------------
+>  3 files changed, 2 insertions(+), 21 deletions(-)
+>
+> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+> index 9117222456..5dca4eab09 100644
+> --- a/hw/block/vhost-user-blk.c
+> +++ b/hw/block/vhost-user-blk.c
+> @@ -337,7 +337,6 @@ static int vhost_user_blk_connect(DeviceState *dev, Error **errp)
+>
+>      vhost_dev_set_config_notifier(&s->dev, &blk_ops);
+>
+> -    s->vhost_user.supports_config = true;
+>      ret = vhost_dev_init(&s->dev, &s->vhost_user, VHOST_BACKEND_TYPE_USER, 0,
+>                           errp);
+>      if (ret < 0) {
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index dd0d056fde..274ea84644 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -149,7 +149,8 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
+>       * Is this VDPA? No peer means not VDPA: there's no way to
+>       * disconnect/reconnect a VDPA peer.
+>       */
+> -    if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
+> +    if ((nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) ||
+> +        (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_USER)) {
+>          ret = vhost_net_get_config(get_vhost_net(nc->peer), (uint8_t *)&netcfg,
+>                                     n->config_size);
+>          if (ret != -1) {
+> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> index bd24741be8..8b01078249 100644
+> --- a/hw/virtio/vhost-user.c
+> +++ b/hw/virtio/vhost-user.c
+> @@ -2013,8 +2013,6 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque,
+>      }
+>
+>      if (virtio_has_feature(features, VHOST_USER_F_PROTOCOL_FEATURES)) {
+> -        bool supports_f_config = vus->supports_config ||
+> -            (dev->config_ops && dev->config_ops->vhost_dev_config_notifier);
+>          uint64_t protocol_features;
+>
+>          dev->backend_features |= 1ULL << VHOST_USER_F_PROTOCOL_FEATURES;
+> @@ -2033,23 +2031,6 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque,
+>           */
+>          protocol_features &= VHOST_USER_PROTOCOL_FEATURE_MASK;
+>
+> -        if (supports_f_config) {
+> -            if (!virtio_has_feature(protocol_features,
+> -                                    VHOST_USER_PROTOCOL_F_CONFIG)) {
+> -                error_setg(errp, "vhost-user device expecting "
+> -                           "VHOST_USER_PROTOCOL_F_CONFIG but the vhost-user backend does "
+> -                           "not support it.");
+> -                return -EPROTO;
+> -            }
+> -        } else {
+> -            if (virtio_has_feature(protocol_features,
+> -                                   VHOST_USER_PROTOCOL_F_CONFIG)) {
+> -                warn_reportf_err(*errp, "vhost-user backend supports "
+> -                                 "VHOST_USER_PROTOCOL_F_CONFIG but QEMU does not.");
+> -                protocol_features &= ~(1ULL << VHOST_USER_PROTOCOL_F_CONFIG);
+> -            }
+> -        }
+> -
+>          /* final set of protocol features */
+>          dev->protocol_features = protocol_features;
+>          err = vhost_user_set_protocol_features(dev, dev->protocol_features);
+> --
+> 2.27.0
 >
 
 
