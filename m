@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23E455BEF09
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:16:55 +0200 (CEST)
-Received: from localhost ([::1]:52342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D94385BEF01
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:11:03 +0200 (CEST)
+Received: from localhost ([::1]:47378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oakbu-0004xy-8r
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:16:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49288)
+	id 1oakWE-0002Sr-Gm
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:11:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oaflL-000638-Pt
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:06:30 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:45928)
+ id 1oafnA-0006d7-Ok
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:08:13 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:42721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oaflJ-00061v-A5
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:06:19 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id dv25so7229260ejb.12
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 09:06:12 -0700 (PDT)
+ id 1oafn7-0006CH-Th
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:08:12 -0400
+Received: by mail-ed1-x534.google.com with SMTP id q21so4530344edc.9
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 09:08:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=9ojjqBxQHKKGvGj+ykyDON44Vw63oMk4X8s8tx2/iDc=;
- b=QRfvI5TOb8F5I0RlZA+Nfg56Kl1/FOWUpxLRKtiAfPeIuI66qKrfdCqJ0CNlByDNVG
- iKcNYrvUEJBPQ7Rh1EVLJUWsME170iA7M0QVRChAdMQQdWOr7Pym9tXj+9ZbtZGN8EKm
- 2hiXzLJk2UnMBHngw5umySYpskQ9djEvFAw3w53bfDafc8s1KXsTIDLFEAo2mkW8iZYB
- 6fvVZGXTGjuxYG0cK1EHQYHQAW5JTa2zcRoEpgRxoUl7HT3X8MdNiStooGgIzAGxoJx7
- 9oPMDmNbvUo7TAljURaafs5/FxmB6iPgyYNyztEiziw+GJulUBvKfmJ6qhGFFiMQ80cd
- rXwA==
+ bh=mL5JaRZf14+0JVykLx8PArlnLI9Rt0Qy6L206SVTixc=;
+ b=YASw0h826NxE5pSYqt+1r18Pxo69fthuAZoZoTR6vOxqbJn6cCyUg7WBrBTlIDDFSs
+ FDDGsKuyFr4pDmA4B5bMzC8zwKKug1xo59F3+6JPvTNsAop8QGeyZbcrFtWwFKWrRhmc
+ MFBsNiNAnL5t84Du6vZEKsD+dgBh08G+iUZRV7y4lAcjSpr5vfL4ZRSmOMQI6NlAPkMt
+ kJVDYstKmO+rSSiNRJXo0gIrp9yNwXKjfPBVaMlg4BITroJFZvbt6wBBuo1px0NacaLl
+ Nn1riUt90RdzTpWmSQQk7mOdid9/1JnLl4mMQsDvwaNOpTM6tPrPwWn/8syOvl1nqIEq
+ 0sFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=9ojjqBxQHKKGvGj+ykyDON44Vw63oMk4X8s8tx2/iDc=;
- b=6ZGUv/b/21sFGMmMvLrkFeKvZeSswbunfua0yBjNAv+T8HXiiUyUAmNW2Hrssj/6de
- HUR6Kuy0iy/PRZHZZSqFb1I08z5DnpetK7cVSTSpMUtnNUHpDeFxjHJhg1JdEtYnd6rN
- /E2eAJVgndz+S7mP6F7Fu5uJwTAxZKowjbs9SCJoF/3oyoq5lVbmBzFyjCkpQWLLQgrJ
- 3ersVlmoRknip1mWYi2kfC/xnJUr+rTRLcQixFXiKabQDlf3RKW3/EeWNCmxd4yABVw6
- 6kce12OFVWtSauyUFhK97xdSD556s+u1KYrokBxE+SGlK4pxxG3Ip8Z8M7SYgWIB/MgW
- WF2g==
-X-Gm-Message-State: ACrzQf1/ZqyenzrQZvGh0ZKWLAPfpM5SgblkNSbdCxmvyjfCTofR6c+F
- /z9XrSw7zVFQBbhlAq4ibbVlpRoGMoqkWyDEb1/D+HcJl1k=
-X-Google-Smtp-Source: AMsMyM5475y33XXEt176hbIBtChyx5PFGKX9Bg7AmfUSs9rIhblqkQdVLrGn3LRSRI1KEl/O/ojyqCDSvleBDIM2ZR8=
-X-Received: by 2002:a17:906:9c83:b0:779:c14c:55e4 with SMTP id
- fj3-20020a1709069c8300b00779c14c55e4mr17017183ejc.619.1663689970448; Tue, 20
- Sep 2022 09:06:10 -0700 (PDT)
+ bh=mL5JaRZf14+0JVykLx8PArlnLI9Rt0Qy6L206SVTixc=;
+ b=2CjRCR/Ef1QDLda3cxNJ3pPFrvaTbSpCMYzWLtDmhTZuN9NJrd36AXMhDshMmHBtLy
+ TWaSYp0NKjt1uGc9dDzjRn48C6yQCaV8qpPLWipSnTumzQIJ2LFJvJ9xeHmYFEzWYR7B
+ gmtUwkMZDxjwSUsN03FpRE6iTHFgJ72GlHJ/QZcABACkCyH+hSCBnim1wpG853sqH49n
+ jnOfqx4NaMyitC9a5qg5tuwRvQQ1IF0LmPZuO8Mm6vnQEgWV3dJYLGo3K6xVjWkDPhTt
+ WwW+7KVnWypEbkRPtJxlzQREnb+H3dwp+1zPNfGgx7zsGCqPyGohfvpY9DACABxrGEy/
+ zWNg==
+X-Gm-Message-State: ACrzQf3woDZOccqU8vHet0RdmBqRgqe13L+Rh2kWrC8YJP+bMvMeow45
+ GQOtc9S3TC5jLaArLJIEngxuzQttpEt2a09CAWMAUw==
+X-Google-Smtp-Source: AMsMyM73PTWBad5ASDeipKa9Zmuq6NzNIHFQGRAdcoPl1qY1NeWLm98N+gsFR79Q+fzH+5I6XZfAeSBmg3U7752gl3o=
+X-Received: by 2002:aa7:c610:0:b0:44e:9a0f:753a with SMTP id
+ h16-20020aa7c610000000b0044e9a0f753amr20472012edq.140.1663690085872; Tue, 20
+ Sep 2022 09:08:05 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220822152741.1617527-1-richard.henderson@linaro.org>
- <20220822152741.1617527-33-richard.henderson@linaro.org>
-In-Reply-To: <20220822152741.1617527-33-richard.henderson@linaro.org>
+ <20220822152741.1617527-34-richard.henderson@linaro.org>
+In-Reply-To: <20220822152741.1617527-34-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Sep 2022 17:05:58 +0100
-Message-ID: <CAFEAcA8m-PC4L0hXH7rqAUsU5DokPVhxKwx3=LB+_K=G6p3PPQ@mail.gmail.com>
-Subject: Re: [PATCH v2 32/66] target/arm: Remove env argument from
- combined_attrs_fwb
+Date: Tue, 20 Sep 2022 17:07:53 +0100
+Message-ID: <CAFEAcA_oeoyQfrjSdUENfUa9MXzp87dOKJ2mgotC86=QqhOUUw@mail.gmail.com>
+Subject: Re: [PATCH v2 33/66] target/arm: Pass HCR to attribute subroutines.
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,49 +83,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 22 Aug 2022 at 17:41, Richard Henderson
+On Mon, 22 Aug 2022 at 17:43, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> This value is unused.
+> These subroutines did not need ENV for anything except
+> retrieving the effective value of HCR anyway.
+>
+> We have computed the effective value of HCR in the callers,
+> and this will be especially important for interpreting HCR
+> in a non-current security state.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/ptw.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-> index 680139b478..5c6e5eea88 100644
-> --- a/target/arm/ptw.c
-> +++ b/target/arm/ptw.c
-> @@ -2171,8 +2171,7 @@ static uint8_t force_cacheattr_nibble_wb(uint8_t attr)
->   * s1 and s2 for the HCR_EL2.FWB == 1 case, returning the
->   * combined attributes in MAIR_EL1 format.
->   */
-> -static uint8_t combined_attrs_fwb(CPUARMState *env,
-> -                                  ARMCacheAttrs s1, ARMCacheAttrs s2)
-> +static uint8_t combined_attrs_fwb(ARMCacheAttrs s1, ARMCacheAttrs s2)
->  {
->      switch (s2.attrs) {
->      case 7:
-> @@ -2245,7 +2244,7 @@ static ARMCacheAttrs combine_cacheattrs(CPUARMState *env,
->
->      /* Combine memory type and cacheability attributes */
->      if (arm_hcr_el2_eff(env) & HCR_FWB) {
-> -        ret.attrs = combined_attrs_fwb(env, s1, s2);
-> +        ret.attrs = combined_attrs_fwb(s1, s2);
->      } else {
->          ret.attrs = combined_attrs_nofwb(env, s1, s2);
->      }
 
-There's nothing in the git log, but I'm fairly sure I put the 'env'
-argument into this function to make it parallel with the
-combined_attrs_nofwb() one.
-
-If you really want to get rid of it,
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
--- PMM
-
 -- PMM
 
