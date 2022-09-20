@@ -2,134 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C617C5BDC31
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 07:19:31 +0200 (CEST)
-Received: from localhost ([::1]:35138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3906F5BDC7C
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 07:34:33 +0200 (CEST)
+Received: from localhost ([::1]:42100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaVfO-0006cP-IU
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 01:19:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41598)
+	id 1oaVtv-0002hd-R1
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 01:34:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oaVc3-00041o-Ud; Tue, 20 Sep 2022 01:16:04 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:43895)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oaVp8-0007aI-Px; Tue, 20 Sep 2022 01:29:34 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:37868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oaVc1-0004Jp-AJ; Tue, 20 Sep 2022 01:16:03 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id t7so2336714wrm.10;
- Mon, 19 Sep 2022 22:15:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oaVp6-0005wU-Ue; Tue, 20 Sep 2022 01:29:34 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id a26so3496037ejc.4;
+ Mon, 19 Sep 2022 22:29:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date;
- bh=zoCj17/FoLXwtexZcC8HC08ap2gyp0m31eL5ZvThkKo=;
- b=R32rY7NSj7Fx9wnIFsIakEDibCO9xnK1hZUIT2HKqPdw/Ary8UunlhchQEe50uZAKt
- IcHwDoHg8BNyr+4XdYGESfHcm//PXvOEVjvXhZPD7y8P5Fpsvk8XUpPTrNV902a8L/l1
- kcrrndYyNFP2f9XhMPsIOO8AQ/iM1BglRxvcvsKItT0E660ecmBZDaSsn0HIoqSf61pq
- K8m/cNkANRYMDuR3+HLK4MzuEAvEdEvPrSnSDqRQAwpf1NMYx6hw3Df9VJdBqPRBqe1C
- BtFe2Lxkcsnodwk0vjI79xEIH7dEOtyIxG8EM0q8g5XNnP9vD2TPzFgVglIz9uW5QTr9
- RzWA==
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=E5CYXRUhkGL8C7j/V79FqD1/q2dkBqCAsiH+yU6lV6s=;
+ b=Z1WbMHAT0/QUxdQDfBxY88t8bQuYSfkZqnDFxpQIco+NhXwzP0+E7TmMYERiq08U26
+ 75yT3eCLaG8Jg8Camnj83aP/f8NU2zY9rJr/ZntoufF9OKBZpfQKf0795LNaLL7kGHHE
+ iLK6nkiqeXFPlmWnhY0TonDSv4Xw4XfKhUyRvzt1kDQW4bl5Lo0u4aFmzgOQAbz2UgvL
+ ibeyHxynuDVhcEOzywzYx8xSXNZVN1LmxfteQ+ioUaHTvsjHbORottp6nkSUh34dtLv8
+ ude7tvYtDUIERKgmU8ykJ4wXCUDlj86EdjRLovh6oe0JAgqPQNZl2Vi4rjkhdpxib+eA
+ wjBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=zoCj17/FoLXwtexZcC8HC08ap2gyp0m31eL5ZvThkKo=;
- b=pPS2YtWXOkaINuKdC3WgIzm+72CSBg9ZUBrExMdngpjdmOvrhf/pS0hLSfv7sOXY3l
- iGAH6pE1NF9b5Tr6e/v+OHvWcGmi9+va3g6EpRmuIbs2iIRHMiRuaSyHPB1ZGoilKxbg
- Lzitl+vbg8VR2P4ee/OqnmiUAccSnB7TH9UB0h/Yx1bTWkBqZV10cq+NwqG0XP3oBaYy
- T6k2Nictty406gXiLbN9YjA4HrghdBNCTFoGzpZqb3K3QwaVQbf8eGsd2xy0TK4l6P5y
- RVGkgoIJ/k3ViYYHRJUd9Ain2744uw8nRYoR92vO8B9NhHqpPDbWupMQCN7vEqJa8Lmw
- TKkA==
-X-Gm-Message-State: ACrzQf0YfzgMiEN+Z2wGBb52rfhJ5ds7IART7BiW0b2Ge/Q0IA1Ug75W
- DgmbdY9Q/H0VqOD95LXMd0k=
-X-Google-Smtp-Source: AMsMyM765pemA7LP3GGPKGAEZ4snxehIWXXseDoYmmmzhMIFFSLEBCiGTStpb6E6ujtqvUpeq7Gp3g==
-X-Received: by 2002:a05:6000:2a7:b0:22a:f98f:b75f with SMTP id
- l7-20020a05600002a700b0022af98fb75fmr6627886wry.373.1663650957809; 
- Mon, 19 Sep 2022 22:15:57 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- t1-20020adfdc01000000b002252ec781f7sm480793wri.8.2022.09.19.22.15.51
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=E5CYXRUhkGL8C7j/V79FqD1/q2dkBqCAsiH+yU6lV6s=;
+ b=PNa9X6APW+yjxYh0mat9N5XruE8to2EHOXSzrc5ZIpzCWzPM0BIx4EaSfy0HZ5RnpR
+ 7xVyuP8mFtMLE6nnI/yDvXxP3kBbRRIc5qmH2GVgVjxIxrPp/Ac9AYZhQxvWKkZxPSr8
+ sP/rEiB8k2QQOdCSZMsGpG7OyPOSg4pqVtHPFYgABr3a1s4kRpRwI9k8jfXZi8gyWNo1
+ NDHSYIRL0roP3LUn5LVVz7Tq1V9qiXPSOldDd9a1MQjBhyoLgBYL9XUNa3gPwdePJtbL
+ 5r7tdEimgfwReWHU+AkkUyml96OlYOEseFgihR1smb0r3DDP5iZrYdhVf2LTdH8cbcEo
+ hpIA==
+X-Gm-Message-State: ACrzQf2OoQF5EG1Uv25hBLKj1/L5Qn5hjbHlT3KvjltJIW232CqZfrhK
+ BoSZaq5ksd1hyYvexMHZlAWbgF5MFwk=
+X-Google-Smtp-Source: AMsMyM4dXSl73YqZG/WkYWNwsk+wG9Zub5uwn9le6AQGD+V64KBIrPkM00kvmhfqHHd2xG6jvOr8oQ==
+X-Received: by 2002:a17:907:968f:b0:774:d10f:a98e with SMTP id
+ hd15-20020a170907968f00b00774d10fa98emr15687832ejc.750.1663651770606; 
+ Mon, 19 Sep 2022 22:29:30 -0700 (PDT)
+Received: from [127.0.0.1] (dynamic-077-011-222-172.77.11.pool.telefonica.de.
+ [77.11.222.172]) by smtp.gmail.com with ESMTPSA id
+ n21-20020a5099d5000000b0044e7f40c48esm525886edb.62.2022.09.19.22.29.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Sep 2022 22:15:55 -0700 (PDT)
-Message-ID: <e1ef18a0-6a85-e536-1fbd-9f8794dc0217@amsat.org>
-Date: Tue, 20 Sep 2022 07:15:50 +0200
+ Mon, 19 Sep 2022 22:29:30 -0700 (PDT)
+Date: Tue, 20 Sep 2022 05:29:25 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+CC: qemu-trivial@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2=5D_hw/virtio/vhost-shadow-virtqu?=
+ =?US-ASCII?Q?eue=3A_Silence_GCC_error_=22maybe-uninitialized=22?=
+In-Reply-To: <20220910151117.6665-1-shentey@gmail.com>
+References: <20220910151117.6665-1-shentey@gmail.com>
+Message-ID: <D1ED14E5-CFF9-4525-96C5-60262DB17309@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH 9/9] exec/address-spaces: Inline legacy functions
-Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Magnus Damm
- <magnus.damm@gmail.com>, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Bandan Das <bsd@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Sergio Lopez <slp@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>, Cameron Esfahani
- <dirty@apple.com>, Michael Rolnik <mrolnik@gmail.com>,
- Song Gao <gaosong@loongson.cn>, Jagannathan Raman <jag.raman@oracle.com>,
- Greg Kurz <groug@kaod.org>, Kamil Rytarowski <kamil@netbsd.org>,
- Peter Xu <peterx@redhat.com>, Joel Stanley <joel@jms.id.au>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, haxm-team@intel.com,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Markus Armbruster <armbru@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- qemu-ppc@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Helge Deller <deller@gmx.de>,
- Stefano Stabellini <sstabellini@kernel.org>, qemu-riscv@nongnu.org,
- Stafford Horne <shorne@gmail.com>, Paul Durrant <paul@xen.org>,
- Havard Skinnemoen <hskinnemoen@google.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Alexander Graf <agraf@csgraf.de>, Thomas Huth <thuth@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Wenchao Wang <wenchao.wang@intel.com>, Tony Krowiak
- <akrowiak@linux.ibm.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- qemu-s390x@nongnu.org, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Eric Farman <farman@linux.ibm.com>, Reinoud Zandijk <reinoud@netbsd.org>,
- Alexander Bulekov <alxndr@bu.edu>, Yanan Wang <wangyanan55@huawei.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Tyrone Ting <kfting@nuvoton.com>,
- xen-devel@lists.xenproject.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Darren Kenny <darren.kenny@oracle.com>, kvm@vger.kernel.org,
- Qiuhao Li <Qiuhao.Li@outlook.com>, John G Johnson
- <john.g.johnson@oracle.com>, Bin Meng <bin.meng@windriver.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Max Filippov
- <jcmvbkbc@gmail.com>, qemu-arm@nongnu.org,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Anthony Perard <anthony.perard@citrix.com>, Andrew Jeffery
- <andrew@aj.id.au>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Alistair Francis
- <alistair@alistair23.me>, Jason Herne <jjherne@linux.ibm.com>
-References: <20220919231720.163121-1-shentey@gmail.com>
- <20220919231720.163121-10-shentey@gmail.com>
-In-Reply-To: <20220919231720.163121-10-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.952,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -146,122 +88,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 20/9/22 01:17, Bernhard Beschow wrote:
-> The functions just access a global pointer and perform some pointer
-> arithmetic on top. Allow the compiler to see through this by inlining.
+Am 10=2E September 2022 15:11:17 UTC schrieb Bernhard Beschow <shentey@gmai=
+l=2Ecom>:
+>GCC issues a false positive warning, resulting in build failure with -Wer=
+ror:
+>
+>  In file included from /usr/include/glib-2=2E0/glib=2Eh:114,
+>                   from src/include/glib-compat=2Eh:32,
+>                   from src/include/qemu/osdep=2Eh:144,
+>                   from =2E=2E/src/hw/virtio/vhost-shadow-virtqueue=2Ec:1=
+0:
+>  In function =E2=80=98g_autoptr_cleanup_generic_gfree=E2=80=99,
+>      inlined from =E2=80=98vhost_handle_guest_kick=E2=80=99 at =2E=2E/sr=
+c/hw/virtio/vhost-shadow-virtqueue=2Ec:292:42:
+>  /usr/include/glib-2=2E0/glib/glib-autocleanups=2Eh:28:3: error: =E2=80=
+=98elem=E2=80=99 may be used uninitialized [-Werror=3Dmaybe-uninitialized]
+>     28 |   g_free (*pp);
+>        |   ^~~~~~~~~~~~
+>  =2E=2E/src/hw/virtio/vhost-shadow-virtqueue=2Ec: In function =E2=80=98v=
+host_handle_guest_kick=E2=80=99:
+>  =2E=2E/src/hw/virtio/vhost-shadow-virtqueue=2Ec:292:42: note: =E2=80=98=
+elem=E2=80=99 was declared here
+>    292 |             g_autofree VirtQueueElement *elem;
+>        |                                          ^~~~
+>  cc1: all warnings being treated as errors
+>
+>There is actually no problem since "elem" is initialized in both branches=
+=2E
+>Silence the warning by initializig it with "NULL"=2E
+>
+>$ gcc --version
+>gcc (GCC) 12=2E2=2E0
+>
+>Fixes: 9c2ab2f1ec333be8614cc12272d4b91960704dbe ("vhost: stop transfer el=
+em ownership in vhost_handle_guest_kick")
+>Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>---
 
-I thought about this while reviewing the previous patch, ...
+Ping
 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->   include/exec/address-spaces.h | 30 ++++++++++++++++++++++++++----
->   softmmu/physmem.c             | 28 ----------------------------
->   2 files changed, 26 insertions(+), 32 deletions(-)
-> 
-> diff --git a/include/exec/address-spaces.h b/include/exec/address-spaces.h
-> index b31bd8dcf0..182af27cad 100644
-> --- a/include/exec/address-spaces.h
-> +++ b/include/exec/address-spaces.h
-> @@ -23,29 +23,51 @@
->   
->   #ifndef CONFIG_USER_ONLY
->   
-> +#include "hw/boards.h"
-
-... but I'm not a fan of including this header here. It is restricted to 
-system emulation, but still... Let see what the others think.
-
->   /**
->    * Get the root memory region.  This is a legacy function, provided for
->    * compatibility. Prefer using SysBusState::system_memory directly.
->    */
-> -MemoryRegion *get_system_memory(void);
-> +inline MemoryRegion *get_system_memory(void)
-> +{
-> +    assert(current_machine);
-> +
-> +    return &current_machine->main_system_bus.system_memory;
-> +}
->   
->   /**
->    * Get the root I/O port region.  This is a legacy function, provided for
->    * compatibility. Prefer using SysBusState::system_io directly.
->    */
-> -MemoryRegion *get_system_io(void);
-> +inline MemoryRegion *get_system_io(void)
-> +{
-> +    assert(current_machine);
-> +
-> +    return &current_machine->main_system_bus.system_io;
-> +}
->   
->   /**
->    * Get the root memory address space.  This is a legacy function, provided for
->    * compatibility. Prefer using SysBusState::address_space_memory directly.
->    */
-> -AddressSpace *get_address_space_memory(void);
-> +inline AddressSpace *get_address_space_memory(void)
-> +{
-> +    assert(current_machine);
-> +
-> +    return &current_machine->main_system_bus.address_space_memory;
-> +}
->   
->   /**
->    * Get the root I/O port address space.  This is a legacy function, provided
->    * for compatibility. Prefer using SysBusState::address_space_io directly.
->    */
-> -AddressSpace *get_address_space_io(void);
-> +inline AddressSpace *get_address_space_io(void)
-> +{
-> +    assert(current_machine);
-> +
-> +    return &current_machine->main_system_bus.address_space_io;
-> +}
->   
->   #endif
->   
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 07e9a9171c..dce088f55c 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -2674,34 +2674,6 @@ static void memory_map_init(SysBusState *sysbus)
->       address_space_init(&sysbus->address_space_io, system_io, "I/O");
->   }
->   
-> -MemoryRegion *get_system_memory(void)
-> -{
-> -    assert(current_machine);
-> -
-> -    return &current_machine->main_system_bus.system_memory;
-> -}
-> -
-> -MemoryRegion *get_system_io(void)
-> -{
-> -    assert(current_machine);
-> -
-> -    return &current_machine->main_system_bus.system_io;
-> -}
-> -
-> -AddressSpace *get_address_space_memory(void)
-> -{
-> -    assert(current_machine);
-> -
-> -    return &current_machine->main_system_bus.address_space_memory;
-> -}
-> -
-> -AddressSpace *get_address_space_io(void)
-> -{
-> -    assert(current_machine);
-> -
-> -    return &current_machine->main_system_bus.address_space_io;
-> -}
-> -
->   static void invalidate_and_set_dirty(MemoryRegion *mr, hwaddr addr,
->                                        hwaddr length)
->   {
+> hw/virtio/vhost-shadow-virtqueue=2Ec | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>diff --git a/hw/virtio/vhost-shadow-virtqueue=2Ec b/hw/virtio/vhost-shado=
+w-virtqueue=2Ec
+>index e8e5bbc368=2E=2E596d4434d2 100644
+>--- a/hw/virtio/vhost-shadow-virtqueue=2Ec
+>+++ b/hw/virtio/vhost-shadow-virtqueue=2Ec
+>@@ -289,7 +289,7 @@ static void vhost_handle_guest_kick(VhostShadowVirtqu=
+eue *svq)
+>         virtio_queue_set_notification(svq->vq, false);
+>=20
+>         while (true) {
+>-            g_autofree VirtQueueElement *elem;
+>+            g_autofree VirtQueueElement *elem =3D NULL;
+>             int r;
+>=20
+>             if (svq->next_guest_avail_elem) {
 
 
