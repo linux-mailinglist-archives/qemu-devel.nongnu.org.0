@@ -2,98 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8B3B5BE295
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 12:01:21 +0200 (CEST)
-Received: from localhost ([::1]:55448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 957905BE292
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 12:00:25 +0200 (CEST)
+Received: from localhost ([::1]:52658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaa48-0005xa-GQ
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 06:01:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58092)
+	id 1oaa3E-0005Ug-6t
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 06:00:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oaZRK-0001G4-MM
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 05:21:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28110)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1oaZTb-0002K0-UF
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 05:23:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oaZR4-0000bj-ET
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 05:21:13 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1oaZTY-0000t5-0Z
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 05:23:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663665657;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1663665810;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0A1Fbf6omgug2sG9LDxjI+g5Kloni4am99uZHmShoZ4=;
- b=YPEgB+u50Ovf0wuMtQdcxHoPtNoR2vT1Lz0qGDPbSKaKQ+XUlHFFF4etXcTLvj48N+UE3g
- SnirhzzyjU4L7kGNppAukmDiKKEvBDnOGxr7sqgC1Gusk9BBZgAwb29LgVQ0BiqPLtQ6aK
- NMXMWEPv1l4IWpEAq4zCtPjQcuNwO0I=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=GSf87BSSgNT/V3eE50g8WgBHpFjYwLE65SvSOgqQPh4=;
+ b=gx+sRURhcG2x6vFG03Shk4VZklufMKdSclrO1D8boSvKjZF+Z70JSIYb+Zil9R3hQFMtHH
+ QXA1Wnpgt/l1PMcNTb21TTydpvZ93gmQUtILmkS9w+2gfkWVryPgerZGY2cg8hcpQDGf3v
+ sWlgy+CheglPs1S/FhC9U2+6HmwNvyk=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-18-0qIiTtGeM0SrVtjp9VtpPw-1; Tue, 20 Sep 2022 05:20:56 -0400
-X-MC-Unique: 0qIiTtGeM0SrVtjp9VtpPw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- g19-20020adfa493000000b0022a2ee64216so904345wrb.14
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 02:20:56 -0700 (PDT)
+ us-mta-211-H_lvotTnNrWoleoU_xCldA-1; Tue, 20 Sep 2022 05:23:28 -0400
+X-MC-Unique: H_lvotTnNrWoleoU_xCldA-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ qa33-20020a17090786a100b0077a69976d24so1043560ejc.7
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 02:23:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=0A1Fbf6omgug2sG9LDxjI+g5Kloni4am99uZHmShoZ4=;
- b=NiOscayRCCTlCVWAmFQFmaO1URpUUwaXQdzLw7Ltln/ieD6ntvXPIu/6SqXmSbjG4b
- 4ilj6DwAuO8tdFYpI+l0XeJ2nylwUJ8kb3xZEOS376V5EGt+bgsiu0sgsVSiXmoEp4+k
- hzk/IQSl6CkdcNfT6yxSSO9a9uKX6Y83Xwc4En4LeS5PB05hk4vbhMA6IaWjE813ZNup
- R7eQYbNzVDKb0R0DaqPEpRnEjPUmnmz09nl1xvqwFJkUnr11AXDZiFcIuDWjF5XmybuX
- pH8oKZj8Ru8hSOC67pyY+h8rc+eJ7wxCawFnjw0SpysgZwNAGBEkYBHKTLgFMUB5MZiR
- SkHQ==
-X-Gm-Message-State: ACrzQf0eoe/1o1pPCXAt8egDwAsdrV266ERjSWU2MnIC5Wy7Fu3trpEJ
- wCsVm0ikELOPRBfQKcKLoQD+rmoQG+fJrvYszvtY4Wt5uVema0N2lSI0LRDCJgl7OG/R3JCtdoU
- BMZ6FXHLhqmAMFfU=
-X-Received: by 2002:adf:fb8d:0:b0:225:4d57:17a6 with SMTP id
- a13-20020adffb8d000000b002254d5717a6mr13407741wrr.251.1663665655094; 
- Tue, 20 Sep 2022 02:20:55 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5inzAK+/pwNi8XymvaI3KYrrOTREd/v2k8z+QiT9ZJST6uloLsjVibBJEe5+hS/44uUfmHlg==
-X-Received: by 2002:adf:fb8d:0:b0:225:4d57:17a6 with SMTP id
- a13-20020adffb8d000000b002254d5717a6mr13407706wrr.251.1663665654820; 
- Tue, 20 Sep 2022 02:20:54 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-177-8.web.vodafone.de. [109.43.177.8])
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date;
+ bh=GSf87BSSgNT/V3eE50g8WgBHpFjYwLE65SvSOgqQPh4=;
+ b=yb9Ty5LLLtTQKQ+Mv0HJ4ROulHIW3Jp6NoiNZFH/dNDFM1H11pSMq/enNL8QYR2PrQ
+ IB1Gb7QFOCAmQMPw27YfscL8GTZdYK0fBPmXK4g829QJwaxwo4cBW/0MAWsdHtV0eqsD
+ lxpe6wePg+oADj5NQrqmcgj+yNKbjHS16KZwxTgtn8T87Ookp239HFXUEmJythwBXlvX
+ SJUvtFPlCkCDoH57IOd4PrHdGV2Iuxfc76hVzvqwrpwC1RybuR2AbC/SCZtF6I9j4wUe
+ 07NqbUpyX9kNpCTtdzluoN7VZAD7SBfw3/uTHLcSYfF04appdYpXjj5paLAn9zIb2eaM
+ Sb0A==
+X-Gm-Message-State: ACrzQf2NzLsivxVZT73rZuBlxmPb4AeOvakBJIi1y4zIdmrvcVYrj9+N
+ IfsNcv+oFkPlzmcrho5ioi40QyQA/PaEzdHd0EtI5g2DyAfZ4UOh//u5TR3qBi/YhQVKz/MZE9x
+ c7U7b6LWuP1L/Tfs=
+X-Received: by 2002:a05:6402:510c:b0:451:f363:24ee with SMTP id
+ m12-20020a056402510c00b00451f36324eemr19402271edd.156.1663665807798; 
+ Tue, 20 Sep 2022 02:23:27 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7THS77/1aqAMyw96VtLINHAQS+Y0X3Fmcn7BxfNJgup6o0hnv6228D6cJl3NPO0wZnB0KUCw==
+X-Received: by 2002:a05:6402:510c:b0:451:f363:24ee with SMTP id
+ m12-20020a056402510c00b00451f36324eemr19402256edd.156.1663665807600; 
+ Tue, 20 Sep 2022 02:23:27 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
  by smtp.gmail.com with ESMTPSA id
- p5-20020a05600c358500b003a608d69a64sm17881934wmq.21.2022.09.20.02.20.52
+ d28-20020a056402401c00b0044e7862ab3fsm952192eda.7.2022.09.20.02.23.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Sep 2022 02:20:54 -0700 (PDT)
-Message-ID: <14c08e0c-4770-0e0c-3c12-b5ed484fe35f@redhat.com>
-Date: Tue, 20 Sep 2022 11:20:51 +0200
+ Tue, 20 Sep 2022 02:23:26 -0700 (PDT)
+Message-ID: <82f23813-a8ca-d350-891f-100d23c9601e@redhat.com>
+Date: Tue, 20 Sep 2022 11:23:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 1/8] qtest: "-display none" is set in qtest_init()
+ Thunderbird/91.11.0
+Subject: Re: [kvm-unit-tests PATCH v4 07/12] arm: pmu: Basic event counter
+ Tests
 Content-Language: en-US
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Darren Kenny <darren.kenny@oracle.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- "Michael S. Tsirkin" <mst@redhat.com>, Fam Zheng <fam@euphon.net>,
- Gerd Hoffmann <kraxel@redhat.com>, Bandan Das <bsd@redhat.com>,
- Hannes Reinecke <hare@suse.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org
-References: <20220902165126.1482-1-quintela@redhat.com>
- <20220902165126.1482-2-quintela@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220902165126.1482-2-quintela@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, NICE_REPLY_A=-0.952, SPF_HELO_NONE=0.001,
+To: Zenghui Yu <yuzenghui@huawei.com>
+Cc: eric.auger.pro@gmail.com, maz@kernel.org, kvmarm@lists.cs.columbia.edu,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ andrew.murray@arm.com, andre.przywara@arm.com
+References: <20200403071326.29932-1-eric.auger@redhat.com>
+ <20200403071326.29932-8-eric.auger@redhat.com>
+ <8fa32eeb-f629-6c27-3b5f-a9a81656a679@huawei.com>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <8fa32eeb-f629-6c27-3b5f-a9a81656a679@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.952, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,62 +106,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/09/2022 18.51, Juan Quintela wrote:
-> So we don't need to set anywhere else.
-> 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> ---
-...
-> diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-> index afc1d20355..94b00288d9 100644
-> --- a/tests/qtest/fuzz/generic_fuzz.c
-> +++ b/tests/qtest/fuzz/generic_fuzz.c
-> @@ -981,8 +981,7 @@ static GString *generic_fuzz_cmdline(FuzzTarget *t)
->       if (!getenv("QEMU_FUZZ_ARGS")) {
->           usage();
->       }
-> -    g_string_append_printf(cmd_line, " -display none \
-> -                                      -machine accel=qtest, \
-> +    g_string_append_printf(cmd_line, " -machine accel=qtest, \
->                                         -m 512M %s ", getenv("QEMU_FUZZ_ARGS"));
->       return cmd_line;
->   }
-> diff --git a/tests/qtest/fuzz/i440fx_fuzz.c b/tests/qtest/fuzz/i440fx_fuzz.c
-> index b17fc725df..f2c729493f 100644
-> --- a/tests/qtest/fuzz/i440fx_fuzz.c
-> +++ b/tests/qtest/fuzz/i440fx_fuzz.c
-> @@ -157,7 +157,7 @@ static void i440fx_fuzz_qos_fork(QTestState *s,
->   }
->   
->   static const char *i440fx_qtest_argv = TARGET_NAME " -machine accel=qtest"
-> -                                       " -m 0 -display none";
-> +                                       " -m 0";
->   static GString *i440fx_argv(FuzzTarget *t)
->   {
->       return g_string_new(i440fx_qtest_argv);
-> diff --git a/tests/qtest/fuzz/qos_fuzz.c b/tests/qtest/fuzz/qos_fuzz.c
-> index 3a3d9c16dd..fd431849a5 100644
-> --- a/tests/qtest/fuzz/qos_fuzz.c
-> +++ b/tests/qtest/fuzz/qos_fuzz.c
-> @@ -85,7 +85,7 @@ static GString *qos_build_main_args(void)
->       }
->       /* Prepend the arguments that we need */
->       g_string_prepend(cmd_line,
-> -            TARGET_NAME " -display none -machine accel=qtest -m 64 ");
-> +            TARGET_NAME " -machine accel=qtest -m 64 ");
->       return cmd_line;
->   }
->   
+Hi Zenghui,
 
-This seems to break the build-oss-fuzz CI job:
+On 9/19/22 16:30, Zenghui Yu wrote:
+> Hi Eric,
+>
+> A few comments when looking through the PMU test code (2 years after
+> the series was merged).
 
-  https://gitlab.com/thuth/qemu/-/jobs/3052856828#L3774
+Thank you for reviewing even after this time! Do you want to address the
+issues yourself and send a patch series or do you prefer I proceed?
 
-Please double-check whether it's ok to remove the "-display none" here.
+Thanks
 
-  Thomas
+Eric
+> On 2020/4/3 15:13, Eric Auger wrote:
+>> Adds the following tests:
+>> - event-counter-config: test event counter configuration
+>> - basic-event-count:
+>>   - programs counters #0 and #1 to count 2 required events
+>>   (resp. CPU_CYCLES and INST_RETIRED). Counter #0 is preset
+>>   to a value close enough to the 32b
+>>   overflow limit so that we check the overflow bit is set
+>>   after the execution of the asm loop.
+>> - mem-access: counts MEM_ACCESS event on counters #0 and #1
+>>   with and without 32-bit overflow.
+>>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+>
+> [...]
+>
+>> diff --git a/arm/pmu.c b/arm/pmu.c
+>> index 8c49e50..45dccf7 100644
+>> --- a/arm/pmu.c
+>> +++ b/arm/pmu.c
+>> @@ -38,6 +43,7 @@
+>>  #define SW_INCR            0x0
+>>  #define INST_RETIRED        0x8
+>>  #define CPU_CYCLES        0x11
+>> +#define MEM_ACCESS        0x13
+>>  #define INST_PREC        0x1B
+>
+> The spec spells event 0x001B as INST_SPEC.
+>
+>>  #define STALL_FRONTEND        0x23
+>>  #define STALL_BACKEND        0x24
+>
+> [...]
+>
+>> @@ -175,6 +188,11 @@ static inline void precise_instrs_loop(int loop,
+>> uint32_t pmcr)
+>>  }
+>>  
+>>  #define PMCEID1_EL0 sys_reg(3, 3, 9, 12, 7)
+>> +#define PMCNTENSET_EL0 sys_reg(3, 3, 9, 12, 1)
+>> +#define PMCNTENCLR_EL0 sys_reg(3, 3, 9, 12, 2)
+>> +
+>> +#define PMEVTYPER_EXCLUDE_EL1 BIT(31)
+>
+> Unused macro.
+>
+>> +#define PMEVTYPER_EXCLUDE_EL0 BIT(30)
+>>  
+>>  static bool is_event_supported(uint32_t n, bool warn)
+>>  {
+>> @@ -228,6 +246,224 @@ static void test_event_introspection(void)
+>>      report(required_events, "Check required events are implemented");
+>>  }
+>>  
+>> +/*
+>> + * Extra instructions inserted by the compiler would be difficult to
+>> compensate
+>> + * for, so hand assemble everything between, and including, the PMCR
+>> accesses
+>> + * to start and stop counting. isb instructions are inserted to make
+>> sure
+>> + * pmccntr read after this function returns the exact instructions
+>> executed
+>> + * in the controlled block. Loads @loop times the data at @address
+>> into x9.
+>> + */
+>> +static void mem_access_loop(void *addr, int loop, uint32_t pmcr)
+>> +{
+>> +asm volatile(
+>> +    "       msr     pmcr_el0, %[pmcr]\n"
+>> +    "       isb\n"
+>> +    "       mov     x10, %[loop]\n"
+>> +    "1:     sub     x10, x10, #1\n"
+>> +    "       ldr    x9, [%[addr]]\n"
+>> +    "       cmp     x10, #0x0\n"
+>> +    "       b.gt    1b\n"
+>> +    "       msr     pmcr_el0, xzr\n"
+>> +    "       isb\n"
+>> +    :
+>> +    : [addr] "r" (addr), [pmcr] "r" (pmcr), [loop] "r" (loop)
+>> +    : "x9", "x10", "cc");
+>> +}
+>> +
+>> +static void pmu_reset(void)
+>> +{
+>> +    /* reset all counters, counting disabled at PMCR level*/
+>> +    set_pmcr(pmu.pmcr_ro | PMU_PMCR_LC | PMU_PMCR_C | PMU_PMCR_P);
+>> +    /* Disable all counters */
+>> +    write_sysreg_s(ALL_SET, PMCNTENCLR_EL0);
+>> +    /* clear overflow reg */
+>> +    write_sysreg(ALL_SET, pmovsclr_el0);
+>> +    /* disable overflow interrupts on all counters */
+>> +    write_sysreg(ALL_SET, pmintenclr_el1);
+>> +    isb();
+>> +}
+>> +
+>> +static void test_event_counter_config(void)
+>> +{
+>> +    int i;
+>> +
+>> +    if (!pmu.nb_implemented_counters) {
+>> +        report_skip("No event counter, skip ...");
+>> +        return;
+>> +    }
+>> +
+>> +    pmu_reset();
+>> +
+>> +    /*
+>> +     * Test setting through PMESELR/PMXEVTYPER and PMEVTYPERn read,
+>
+> s/PMESELR/PMSELR/ ?
+>
+>> +     * select counter 0
+>> +     */
+>> +    write_sysreg(1, PMSELR_EL0);
+>> +    /* program this counter to count unsupported event */
+>> +    write_sysreg(0xEA, PMXEVTYPER_EL0);
+>> +    write_sysreg(0xdeadbeef, PMXEVCNTR_EL0);
+>> +    report((read_regn_el0(pmevtyper, 1) & 0xFFF) == 0xEA,
+>> +        "PMESELR/PMXEVTYPER/PMEVTYPERn");
+>
+> Ditto
+>
+>> +    report((read_regn_el0(pmevcntr, 1) == 0xdeadbeef),
+>> +        "PMESELR/PMXEVCNTR/PMEVCNTRn");
+>
+> Ditto
+>
+>> +
+>> +    /* try to configure an unsupported event within the range [0x0,
+>> 0x3F] */
+>> +    for (i = 0; i <= 0x3F; i++) {
+>> +        if (!is_event_supported(i, false))
+>> +            break;
+>> +    }
+>> +    if (i > 0x3F) {
+>> +        report_skip("pmevtyper: all events within [0x0, 0x3F] are
+>> supported");
+>> +        return;
+>> +    }
+>> +
+>> +    /* select counter 0 */
+>> +    write_sysreg(0, PMSELR_EL0);
+>> +    /* program this counter to count unsupported event */
+>
+> We get the unsupported event number *i* but don't program it into
+> PMXEVTYPER_EL0 (or PMEVTYPER0_EL0). Is it intentional?
+>
+>> +    write_sysreg(i, PMXEVCNTR_EL0);
+>> +    /* read the counter value */
+>> +    read_sysreg(PMXEVCNTR_EL0);
+>> +    report(read_sysreg(PMXEVCNTR_EL0) == i,
+>> +        "read of a counter programmed with unsupported event");
+>> +
+>> +}
+>
+> [...]
+>
+>> +
+>> +static void test_mem_access(void)
+>> +{
+>> +    void *addr = malloc(PAGE_SIZE);
+>
+> *addr* isn't freed at the end of test_mem_access(). The same in
+> test_chain_promotion() and test_overflow_interrupt().
+>
+> Zenghui
+>
 
 
