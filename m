@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C0595BF0DE
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 01:11:11 +0200 (CEST)
-Received: from localhost ([::1]:45986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B4955BF103
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 01:23:13 +0200 (CEST)
+Received: from localhost ([::1]:56752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oamOU-0003gJ-PR
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 19:11:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33220)
+	id 1oama8-0005aC-IM
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 19:23:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oah6H-00043R-70
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:32:01 -0400
-Received: from mout.gmx.net ([212.227.17.21]:37997)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oah6M-00049h-A7
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:32:09 -0400
+Received: from mout.gmx.net ([212.227.17.21]:53615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oah6D-0003IG-Ld
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:32:00 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oah6G-0003IO-3g
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:32:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1663695114;
- bh=wsABdtA7mc4o7G8R1N8b0kDQgcZ9Rz4G69v+vaVuQF4=;
+ bh=BcxOqfmO/trIQjNo29cpvGdH85hMR3n5nzwaODzaDdI=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=I3JJVu7SPQwzWSOTsyEf69tvtMYohOXeFEED4bl8qIK+EeEB6h9UuFgZEmFpnpW/e
- OJXItSzZoagV7997WWyISKTozRoTp4H9KX3FLBuubgFoCdwoRqI2nnJmNqiM5Fi65q
- H47BV7Om9BIBND0ZIBjg4XcVI2MQu3tzf2qnDNJw=
+ b=kkZ7nMSVuORhh4tj4L23okHSV8Ljmoesc7ETfvVuqB094ypgBSNbqzMS4KRnP1Mf1
+ eZLyns6Yi65ZmJiwvMdhyz2zSBwoBaYVWJT9uL/BN/7HduPNcRCmYbby3XMLLORYst
+ Sn/IysGsn/SyVlytKIL+K97usx0BBra26oR5q5tw=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from p100.fritz.box ([92.116.174.94]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N79u8-1pLjK213nQ-017WFF; Tue, 20
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MKbg4-1or7WI1nu0-00L0Dx; Tue, 20
  Sep 2022 19:31:54 +0200
 From: Helge Deller <deller@gmx.de>
 To: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
  Richard Henderson <richard.henderson@linaro.org>,
  Stefan Hajnoczi <stefanha@gmail.com>
 Cc: deller@gmx.de
-Subject: [PULL 07/12] linux-user: Fix strace of chmod() if mode == 0
-Date: Tue, 20 Sep 2022 19:31:47 +0200
-Message-Id: <20220920173152.199359-8-deller@gmx.de>
+Subject: [PULL 08/12] linux-user/hppa: Set TASK_UNMAPPED_BASE to 0xfa000000
+ for hppa arch
+Date: Tue, 20 Sep 2022 19:31:48 +0200
+Message-Id: <20220920173152.199359-9-deller@gmx.de>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220920173152.199359-1-deller@gmx.de>
 References: <20220920173152.199359-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Uul6eBxuNzx317xURXEhC0HUoI8yOrmI9hsVPopOpde2imrApid
- aMkggwEhn+yWdK69iVf5ji8aOQn29vU8l2HTO8/spIbclEBQZCB64GzBNrH3EnELtzvcNw5
- Q8JHJEu+orwfkoICNqSNlhMy46AUbnBejh7srDiUWQ6CVAW2wDlMWyAhj9aWtcVXMg9VfUa
- /wOjz4VuURzaXVk/1lL7Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VLJCGPVqvK4=:AtWZajVpwe9/NQoq2f7DB+
- 6iNsI9S1tTW3kqDSZ1EUkX4vOKzaMfSXhiltAm3dRsnT+LVrtmgBwbAxXC8ChN3aCu5SMTsAJ
- p1YNFMoewocouEEJEyG/RCsQz7Q7oJVh1qW66r58cg1mO6FmcT3TRlYkKkAGYHBb+1VJMGqe+
- zgduXGzcdxy0uV40rGrs9FaDFdbjNdFUdDSSsLzeix3nxE6FOJR/FQKbT3QDR0tq7UGTWoYdC
- PzPazav6+c/yHYL7ryinipAy2T28t11w1nrSX9MpWGyRLYaRwrn/ynFTqWdmRb9yqmJkHhujN
- FvD1vpK1DZ7c3RAP9LpR0fL/LcaK1GyOR9QlP0jQa/2rCLvZIBYGjekwaapoQdXYjIc7jNSxx
- Doxk+C44W8jRuM5zRT5PtowAFUvwerfMKdL65q2x5UtzCR83+Q/pd7EYpJEugMKGb8vWNL0Rr
- kKekPqtXfIdAU15hsVPLe6PsYumgS1b6m6GqT7JK3gwhuwuSL97Lz89aeqpETQujjh1xzNMMd
- NjTcx1gMEkpTceHdu6ltZLY0HbTk3O6OPy62D8htvH35LTgzWHvbDjAdEO2HCwxiNaEb19NMp
- GwHxz/4uH4v1vx4emmCy8gVQ//kDuxohZHrfBAuXctxtoHo5NsM/3SEy08+M+uH2o0D2KqhtX
- XvV7Fs7W1L7Y+GXiX+Uunqgh8aCqQmsruL+Z45oL7XqY8d2ZPSsVmhVJW3WIq2o68816ZGhFb
- Jtx6KS15J0HfD5BdShbPGRtjmckhPqZyDC5MGh2twu3MUUgDMt+XFqGIYBjCTXOD5a1qcqsM2
- Kg/azDZT8sKkJwcmEG5PR12rCfwSE2Sx5hySK6S+O7HUjLbc1RXsvcJwvkcczVM8yuC41XE/Y
- SbbnrUJp6GVDZGIvs/L2F9T8j26VzY49aTQZg/0C3eEKQTZe3af4VUiSL2sjppAUTryydqpQ8
- xWy/ksseuhg+9Qfj6UZFdvnZX6gs0S8BsQEtbxB7//8mFxbkYeqee2XHHeLoQ+BjK+YzYY58b
- +e8DZewC4IdAyV5aHXfCSnGlD8kAsvFukFgXohc9Kco9fbXfuGhyKd7VJf3E4LZGyYjW8MhmQ
- tq+LsuFqOx/WXow0OlF2M/9IYTEQweF1z9MXUC4c3CeNBZRekeFUWsmHk/2cnUgaRiNAapTAr
- PHuLA=
+X-Provags-ID: V03:K1:FkLP9tkjtH8iyG+/FIAcbUwIaHAMBJw43DcTVUCH06SxnI3nvoz
+ M9o0xHlLtd/k0eSZS1OImoGZlr3jSQOPb8+99xwncNqgu+K5g2e8q62Brpv4VVmRDd7wV2h
+ LDLYF44z5/+TCJ/B33r+Ut8Kz6gKb2k+ffP4J75Vj9/CE1fb/nFTQOtWssHp+o4AjdApRcG
+ Z42p3h6DDdXOBrK/+4eQQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ZctraO/anlk=:i+T1pnzrbJeBo9ba76k9+a
+ I5Tb7ib15U8MBrJQlWEQeUAIq669d/GZlesPxADn6NNS/0ldGxMQtw30ggeUCgWWK9T9pLwVF
+ Bbdw7FNQVAwPPPmcGggXMvdxoMOQSpAcKtX1G6FRKMOF2sBvS3aKWJRIJDyqbL6qOJBTRxHQY
+ 7I4me7/Gx33/hnGkR1qUVTGbXtElm7uryG3CGslcgPU1aQUlbJ2rQeAXl0dnLGm7y7QSAnEh7
+ 71Ardt1hEdplT7QpPENfHyG5sJ44hFQ+OhD7hjbvSXcD8faC3xhiUzs/r0j0jYSO8muK5qiiQ
+ kXlKA3qB5w5BlMPBbsLCZqDte1WIocj7eZPtkafwQ+Vrtyt8MG/aQKlw1fOcYYaTSW4K7Zhqf
+ QW7S3Z3VYYzJoJ3mGVjw7XU3x7aIBSwCLKt+u2z/44bnxNYa4ptPv3TwNhFChtTjLFWOUNuA9
+ oG1XTgBmLVhHVyS5LzWXln+IJgjutSVFOieaGJzoXs4vop/swdoHEw3kbTAObs9AFKzp/vxuY
+ 8YtP4YMLuoO6VRwtVBUHHyt7/dzBQuIWNbWj21zcnXtPgYSrM9eV0ZFfnDvqxpgxqWdzk2FSj
+ Vlvz5ljh6hMwHd7fQxwyQDCNZ8qWYs/OL0DJH0QE1k8NZnMPf/5X4kin3VP3OqSeBai7v02DX
+ qAJXdBLXgV1vu5JzLC0fpY83upFy6rTvDoaqElQahfNB1WhsPEgtgY4w3XIp6QVDGg3ihcIya
+ zFu8nw0Kla1YW2bP4UWvY7+23LwDx/maAR+bse/rFwfLkdYcbpAv/TMpRnZcUupFSg7iQZUSd
+ zQqOxDMhVLiKmikfkihehvTLmIYnR5a0QpHbvH5VYaH3PR6tCPuEWBYoCRPpWJgPF0FNcI1Jx
+ BF4v7gklJEXFLsNAAr+fQFRhoG7B21g5tKYr5osKi2pXOgKq88Kkulnoc/QtMPmofYyMPozGJ
+ musqa6oZrm2h+i/142Tc+0CLzmsQolG4XOQJEVLbLvBI6RysP/3J+vgaVrI7kXCI7L5KSAmiM
+ FGuXwtkf0Y5+zjEDjsjQyEJGwTFTqa7u4/WJ3a959t5JcK1DeDKi3KlNQPCoytL9u8/Oow7Wq
+ Xvdms93teA12Mo3Eon0yxrbwMwTxwCulTTJQCPW5LN4OXia7bYvBMy76RjCLQkq0rUSU9SvM6
+ v+SncSb047JTvAx535qgQA6VK3
 Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
@@ -87,33 +88,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the mode parameter of chmod() is zero, this value isn't shown
-when stracing a program:
-    chmod("filename",)
-This patch fixes it up to show the zero-value as well:
-    chmod("filename",000)
+On the parisc architecture the stack grows upwards.
+Move the TASK_UNMAPPED_BASE to high memory area as it's done by the
+kernel on physical machines.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- linux-user/strace.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ linux-user/mmap.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 5ac64df02b..2f539845bb 100644
-=2D-- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -1505,6 +1505,11 @@ print_file_mode(abi_long mode, int last)
-     const char *sep =3D "";
-     const struct flags *m;
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index 048c4135af..dba6823668 100644
+=2D-- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -251,8 +251,12 @@ static int mmap_frag(abi_ulong real_start,
+ # define TASK_UNMAPPED_BASE  (1ul << 38)
+ #endif
+ #else
++#ifdef TARGET_HPPA
++# define TASK_UNMAPPED_BASE  0xfa000000
++#else
+ # define TASK_UNMAPPED_BASE  0x40000000
+ #endif
++#endif
+ abi_ulong mmap_next_start =3D TASK_UNMAPPED_BASE;
 
-+    if (mode =3D=3D 0) {
-+        qemu_log("000%s", get_comma(last));
-+        return;
-+    }
-+
-     for (m =3D &mode_flags[0]; m->f_string !=3D NULL; m++) {
-         if ((m->f_value & mode) =3D=3D m->f_value) {
-             qemu_log("%s%s", m->f_string, sep);
+ unsigned long last_brk;
 =2D-
 2.37.3
 
