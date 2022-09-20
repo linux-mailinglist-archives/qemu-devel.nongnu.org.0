@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D41605BE6C2
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 15:11:29 +0200 (CEST)
-Received: from localhost ([::1]:54354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3DC35BE6DE
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 15:19:25 +0200 (CEST)
+Received: from localhost ([::1]:52244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oad28-0006vR-LL
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 09:11:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47450)
+	id 1oad9p-0005n6-11
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 09:19:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oaaYS-0000Wu-CX; Tue, 20 Sep 2022 06:32:40 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:33568)
+ id 1oaaYT-0000Xp-A5
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:32:42 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:33648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oaaYQ-0004o1-SB; Tue, 20 Sep 2022 06:32:40 -0400
-Received: by mail-pf1-x431.google.com with SMTP id w2so2383018pfb.0;
- Tue, 20 Sep 2022 03:32:37 -0700 (PDT)
+ id 1oaaYR-0004o8-T5
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:32:41 -0400
+Received: by mail-pl1-x629.google.com with SMTP id iw17so1960583plb.0
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 03:32:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=WrYLl9/VXe4gyeBTYZXcv9KC/z0Fg3KgFQTbTtkAnvE=;
- b=mnhR8h4tt7UyaJKmWEVvqB0nEpXrWtZtSQenvqPYfo7KTqqT3YbG3EV3ys2Q71tMqm
- ykfSAbPrqIVtGep9YMGOUVHyiDWP9BdGpAFviBm0z1w0KfSl4+CgiPwWZwCjffDKRyTP
- dGdNE7kHDLicHbR/qLMYhboTd8jUIcwUnWQlpGKVmodwA1jMEENFQuAJ0/twOT3OzhcB
- akecN1dS/SousXPDrvMm4HlE/7herxtlzA/8W4ABNSghc8yIqtY8rW3nOr32m0HlTbBf
- +B636/mQrpbT7o6SibcSpAusDL37Ys3R9Nmk/rQYfOmG2RbxjmDuJWZOhm/C5Vl2t2Qt
- HSqA==
+ bh=TC94REF6/wVyMzkhGTjrwMtg+rAjCgxxkZ7wM7vEeao=;
+ b=kZdITtmH6gBDVTAwQNPgrxkwsLVjqw0sYPXzTTQq0W7ld9tspaqgrD32K9r9yOTXqU
+ X85q4Cg6j9FoqarltVlv7nwUcgjKR0uluLuadNNUEiYuLQLQxhkJY7+d4IoGmIqgLfQZ
+ dltXpLRnr1PfwnU8J3KCaVCw7yE3g802BMvz5vYgiYAHz0Bo1/ZuUkQPrTjDa9jEDG8Y
+ kYmGm5MUubxWaCtQu4kL2RK0p1RJZs6yL1NDjUbEx3R2BH5bN1+MK576OJpekv9tUupB
+ shspapoB/IKKbOpy8ptoUJayGLZu6Tej0rt874kp8B1ZubjtFJRxpv91yf24c1Ubo7Ym
+ BM2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=WrYLl9/VXe4gyeBTYZXcv9KC/z0Fg3KgFQTbTtkAnvE=;
- b=2z45GSVry/kJ8JpGR8WPGpfI3GAoXi+wmIBJrMX5fBXTzvRuzQneBYJVdKy3u8K12i
- ACmUKfSzyZkb12N0WLHlX+x4OgAvDtl04A0TxJ67iBMd6pSIfmiOGqqDq4XqxKd+xiRl
- ksReBhxV1o06C1eo9eWd60l03OGaZTmfigRuwoAmxGrsCXGJd0TVOzqfjd8bHSZwQ8Aa
- +Bov9bp7uyNtDRba2zFsZDMw4vZPzgWZMrmATZ+WKIz8eYbZMGQXDhMJZFAyWb/O6F9X
- wsOdfZddle8gT59DmF7N9GkhS9TLS7kSmaHm7eIx6iLfRv5D+qaffYdp8C4ucfDd+qSS
- BEjg==
-X-Gm-Message-State: ACrzQf2ndGazBgT3HHh9UvJ2le1W3oFfFb/4af7bB+4RXp34ClS0CyJw
- o7TEvAKSK6yHbviXQfMErZO3uF4D4Eo=
-X-Google-Smtp-Source: AMsMyM7Yvah4QZTxSHcmfjAkK41p/oQitXwwpsig9Cbs1BhGp68WgTgcTp2jSCDvexw1t4PUJLi8sw==
-X-Received: by 2002:a62:7b97:0:b0:551:ab8e:d14 with SMTP id
- w145-20020a627b97000000b00551ab8e0d14mr1687440pfc.24.1663669956204; 
- Tue, 20 Sep 2022 03:32:36 -0700 (PDT)
+ bh=TC94REF6/wVyMzkhGTjrwMtg+rAjCgxxkZ7wM7vEeao=;
+ b=vZbyZM1M0Ck5Jj/YAQjZGO+i+9hOyciGX8lCK/ca/z0Ol8uIYrpNe5gMAEQtnizX71
+ gkHFS7vJZVd57ORJIuPOjMaPqSpoPJhur2dPnUJTPyuzDLhpYyWU0g3lh9XI37n1EbPj
+ O4WA3pTKHkJyIrGIM9qPH4v7b5cSRB7A3Thf5GczDQs0ZLjqmSnoJDZLgHM7enTkvKqL
+ 5wPHuUsGPmznXFsD09j/ROhIpZg0MLffrCKbAB1RpEgYzHDSAKZsZDFoeH8siRfW49JW
+ 1L6jH6UXUfRQlQRJEB8zYpDhDzc6kbt7aqh5e0gCkWv4Q+4aK2bf41rJXQUdWDVRtogi
+ I7cA==
+X-Gm-Message-State: ACrzQf0ZG5S6dbf7e1PjOttTpwpWRLno4O20ekdMaLVXywwne7EYhfQQ
+ +Qn8FyFctCt2FrSdQOAVjPj9e2GZLkQ=
+X-Google-Smtp-Source: AMsMyM4BLP85HHCxa0PpeQljz4Jt5sRP5kzSm+G1ffysMEXZMcECgPcAqFIuoS25Lse++yZieX0CXg==
+X-Received: by 2002:a17:902:e805:b0:178:230b:57e3 with SMTP id
+ u5-20020a170902e80500b00178230b57e3mr4291154plg.102.1663669958268; 
+ Tue, 20 Sep 2022 03:32:38 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- n2-20020aa79842000000b00551fa0e2b2dsm699573pfq.206.2022.09.20.03.32.34
+ n2-20020aa79842000000b00551fa0e2b2dsm699573pfq.206.2022.09.20.03.32.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 03:32:35 -0700 (PDT)
+ Tue, 20 Sep 2022 03:32:37 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Subject: [PATCH v2 08/39] block/vvfat: Unify the mkdir() call
-Date: Tue, 20 Sep 2022 18:31:28 +0800
-Message-Id: <20220920103159.1865256-9-bmeng.cn@gmail.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>
+Subject: [PATCH v2 09/39] fsdev/virtfs-proxy-helper: Use g_mkdir()
+Date: Tue, 20 Sep 2022 18:31:29 +0800
+Message-Id: <20220920103159.1865256-10-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220920103159.1865256-1-bmeng.cn@gmail.com>
 References: <20220920103159.1865256-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,11 +92,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-There is a difference in the mkdir() call for win32 and non-win32
-platforms, and currently is handled in the codes with #ifdefs.
-
-glib provides a portable g_mkdir() API and we can use it to unify
-the codes without #ifdefs.
+Use g_mkdir() to create a directory on all platforms.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
@@ -102,37 +100,30 @@ Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Changes in v2:
 - Change to use g_mkdir()
 
- block/vvfat.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ fsdev/virtfs-proxy-helper.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/block/vvfat.c b/block/vvfat.c
-index d6dd919683..723beef025 100644
---- a/block/vvfat.c
-+++ b/block/vvfat.c
-@@ -25,6 +25,7 @@
+diff --git a/fsdev/virtfs-proxy-helper.c b/fsdev/virtfs-proxy-helper.c
+index 2dde27922f..5cafcd7703 100644
+--- a/fsdev/virtfs-proxy-helper.c
++++ b/fsdev/virtfs-proxy-helper.c
+@@ -10,6 +10,7 @@
+  */
  
  #include "qemu/osdep.h"
- #include <dirent.h>
 +#include <glib/gstdio.h>
- #include "qapi/error.h"
- #include "block/block_int.h"
- #include "block/qdict.h"
-@@ -2726,13 +2727,9 @@ static int handle_renames_and_mkdirs(BDRVVVFATState* s)
-             mapping_t* mapping;
-             int j, parent_path_len;
- 
--#ifdef __MINGW32__
--            if (mkdir(commit->path))
-+            if (g_mkdir(commit->path, 0755)) {
-                 return -5;
--#else
--            if (mkdir(commit->path, 0755))
--                return -5;
--#endif
-+            }
- 
-             mapping = insert_mapping(s, commit->param.mkdir.cluster,
-                     commit->param.mkdir.cluster + 1);
+ #include <sys/resource.h>
+ #include <getopt.h>
+ #include <syslog.h>
+@@ -639,7 +640,7 @@ static int do_create_others(int type, struct iovec *iovec)
+         if (retval < 0) {
+             goto err_out;
+         }
+-        retval = mkdir(path.data, mode);
++        retval = g_mkdir(path.data, mode);
+         break;
+     case T_SYMLINK:
+         retval = proxy_unmarshal(iovec, offset, "ss", &oldpath, &path);
 -- 
 2.34.1
 
