@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E8C65BE7C1
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 15:56:30 +0200 (CEST)
-Received: from localhost ([::1]:50488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B711B5BE757
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 15:41:41 +0200 (CEST)
+Received: from localhost ([::1]:47054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oadjh-0007AF-BA
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 09:56:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34754)
+	id 1oadVM-0001u7-Px
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 09:41:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oaaZf-0001V2-0T
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:33:55 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:44745)
+ id 1oaaZh-0001Vx-Lt
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:33:59 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:33662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oaaZd-00053Y-ET
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:33:54 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id c7so2108063pgt.11
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 03:33:52 -0700 (PDT)
+ id 1oaaZf-00053f-LD
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 06:33:56 -0400
+Received: by mail-pl1-x630.google.com with SMTP id iw17so1963295plb.0
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 03:33:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=woEWPjt3NdjCcAder2sEnEPZ1q9JhhvK0Jn4vXhCEIE=;
- b=aSFVetRgNBBvuOwGXI+POb0ZmW2LdxmAvdUNtzugvSg3W7bJftbHsr0rEoL+rhcMXW
- JrcnF3kxSAR1OcVyzS7Vgab7ZosfoWRTn9GCfpZfo4igas7FsbHWdlhIYQKEJCaO1ADP
- dVowYJTMJdQc3znK1CVZoypXeM1R/sUlP4vlk7O5ExpPZLQcGQizVDorH6ULlhNILAU/
- zTl3OSBM1lCY/058o2645EMDvn4W/dD6tx9k6TzMk/NscHVg95sehkJHquByAR57Jafi
- yfnCNH1539LhzWuhoKDV4TVDoY9KDiSQl+KC4yoPlQgnEfcNvyS+6Y8Xh0/8IGx+QWbU
- 7r+A==
+ bh=Jt136OWsjti3Zpu3h4MXfORTFkV12nnDiDA1HXBO+Xk=;
+ b=E/2vQAkyGF4Fz4XkDMYm7Xm66TNx1VIYbCcCf4g8nhXRgA/Q7pD9AbNbrtiifryHru
+ zWKy2Tr277+tvxsiX+qndf1DABa1ny+CZwpuEYG9f/0pxO/fIuN7WAmIjJnGMjvSq7cB
+ QjF6dqatgkIJxN9XFZ8g3VKl7IqgCkMQDVP2sns+eJL3RNHEoI0vGvzvyw5LeV+wwnlp
+ bJLQgzmQvkBoKO1wuXim3RF9zl1B3FuwgpK8xG9Z239L6e+/kxM0SAU9742+ivcVkXwU
+ fUYyVlKeyEJhjMHUsjVCjLoTe7AzGu2guq8r139yLcGtw0erAfx48p1WrsI4DCAMSiYK
+ Z98Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=woEWPjt3NdjCcAder2sEnEPZ1q9JhhvK0Jn4vXhCEIE=;
- b=rjaF2g46ztK5ZR/z+bBkOu5bPqhnBW2Q6GSBcRo5H8au3t6SPOPKo+PPuXIxpD0s90
- yICe49z4YxBmbOEkA7euVbW98ffGNn80KPQRws0RRct7dZ7V3spUAZ/tmv1ycjaDeCWW
- dqnTKG7PTKJy0/vUaIsutO3Qr42qXkdWLeb4qxp5nR94eEnuiM0U6ITmL+mIdCOlwZPv
- 5iRJrX2vo6nDiGhD7z42hNCGRYYk3R/jikKdLX+yvUBH9CW/KyY9og26a5szH4YYRNMN
- 8DMNNqdrXMirxQ1bs88emvckCJnCTsCiW9uLzOpdWLTOI693d5F3E7ITTLlaZ1y5bvcE
- PZBQ==
-X-Gm-Message-State: ACrzQf0hD17gExdkzb/KRe0oUmpwU0dOdQTvhx8jA6XCHHCCH9fVyXUO
- fMudvAknH6y6SAftM31jMlEQQUCEAQo=
-X-Google-Smtp-Source: AMsMyM4fqYjR/Xnxl8yVkmnxEbEn2f0obEYjGOoNhWmDce+zyqjzTGCI/8GyTipunovGO+ZMtpsb3A==
-X-Received: by 2002:a63:8149:0:b0:439:f66e:23c0 with SMTP id
- t70-20020a638149000000b00439f66e23c0mr10969579pgd.11.1663670031891; 
- Tue, 20 Sep 2022 03:33:51 -0700 (PDT)
+ bh=Jt136OWsjti3Zpu3h4MXfORTFkV12nnDiDA1HXBO+Xk=;
+ b=MzWSK049INC0ht13phXXIflax3uXL67+R4WHg67Bpxo0nIhkS8UB0TP99lz3tRWOHU
+ Jy7Cwq3uz7iHOzhj+BR4/02QtY2ixvq7qurIC8cYzIX0VCj2VcHXuoNa7S5R6vFPcdrI
+ v9V6MDkxr/dp5p4PSMgZjVmOgjhvDVb5vO/y31v4d2aIZKPCWO5DZPRxMJFEr6iRryg9
+ gGxL4yldNJGukwRyAjZhnEMlZVI8pEOoLHn7jQwKib0TR9RC0gTIA4ax/aKL9iaZyVUv
+ gzCCAapIgKP85FBmFzxTckaaZnbyLHcDOI8WTEIRpvzQMc7CMDX6oqGckmL1wa+nZyx2
+ D7IA==
+X-Gm-Message-State: ACrzQf3jA1n5ZwMbQjGG5H6MnRlZWScuGIwSlp5YtQKQ5ENo8JlgHHvn
+ v/Hc2IOJzx/JpYcXhnOU5aDEXId5hiI=
+X-Google-Smtp-Source: AMsMyM5qoOuwyLoV9iQxA+wL0iWPNeGw5oC5ZV4yBkJ22MZX31YGHXDJ8wg2YAixl/N488JqPIh1kg==
+X-Received: by 2002:a17:90b:1c07:b0:200:9728:b8cd with SMTP id
+ oc7-20020a17090b1c0700b002009728b8cdmr3215995pjb.139.1663670034210; 
+ Tue, 20 Sep 2022 03:33:54 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- n2-20020aa79842000000b00551fa0e2b2dsm699573pfq.206.2022.09.20.03.33.49
+ n2-20020aa79842000000b00551fa0e2b2dsm699573pfq.206.2022.09.20.03.33.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 03:33:51 -0700 (PDT)
+ Tue, 20 Sep 2022 03:33:53 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [PATCH v2 37/39] .gitlab-ci.d/windows.yml: Display meson test logs
-Date: Tue, 20 Sep 2022 18:31:57 +0800
-Message-Id: <20220920103159.1865256-38-bmeng.cn@gmail.com>
+Cc: Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: [PATCH v2 38/39] tests/qtest: Enable qtest build on Windows
+Date: Tue, 20 Sep 2022 18:31:58 +0800
+Message-Id: <20220920103159.1865256-39-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220920103159.1865256-1-bmeng.cn@gmail.com>
 References: <20220920103159.1865256-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,37 +92,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-When CI fails we don't know what causes the failure. Displaying the
-meson test logs can be helpful.
+Now that we have fixed various test case issues as seen when running
+on Windows, let's enable the qtest build on Windows.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
 Changes in v2:
-- new patch: Display meson test logs in the Windows CI
+- new patch: "tests/qtest: Enable qtest build on Windows"
 
- .gitlab-ci.d/windows.yml | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/qtest/meson.build | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-index 818676662a..dcd553a081 100644
---- a/.gitlab-ci.d/windows.yml
-+++ b/.gitlab-ci.d/windows.yml
-@@ -62,7 +62,7 @@ msys2-64bit:
-       --enable-capstone'
-   - .\msys64\usr\bin\bash -lc "sed -i '/^ROMS=/d' build/config-host.mak"
-   - .\msys64\usr\bin\bash -lc 'make'
--  - .\msys64\usr\bin\bash -lc 'make check'
-+  - .\msys64\usr\bin\bash -lc 'make check || { cat build/meson-logs/testlog.txt; exit 1; } ;'
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 455f1bbb7e..ceab141824 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -1,6 +1,5 @@
+-# All QTests for now are POSIX-only, but the dependencies are
+-# really in libqtest, not in the testcases themselves.
+-if not config_host.has_key('CONFIG_POSIX')
++# Build all QTests for POSIX and Windows
++if not config_host.has_key('CONFIG_POSIX') and not config_host.has_key('CONFIG_WIN32')
+   subdir_done()
+ endif
  
- msys2-32bit:
-   extends: .shared_msys2_builder
-@@ -95,4 +95,4 @@ msys2-32bit:
-   - cd output
-   - ..\msys64\usr\bin\bash -lc "../configure --target-list=ppc64-softmmu"
-   - ..\msys64\usr\bin\bash -lc 'make'
--  - ..\msys64\usr\bin\bash -lc 'make check'
-+  - ..\msys64\usr\bin\bash -lc 'make check || { cat meson-logs/testlog.txt; exit 1; } ;'
 -- 
 2.34.1
 
