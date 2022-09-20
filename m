@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70FED5BEF02
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:11:51 +0200 (CEST)
-Received: from localhost ([::1]:52196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE2365BEF6D
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:54:05 +0200 (CEST)
+Received: from localhost ([::1]:60644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oakX0-0003tu-7z
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:11:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47144)
+	id 1oalBs-0005nS-Rq
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:54:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oagqR-0000Ia-Pr
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:15:40 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:34705)
+ id 1oagqW-0000Qa-0h
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:15:47 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:46818)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oagqP-0000eC-Jy
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:15:39 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id z2so4870683edi.1
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 10:15:37 -0700 (PDT)
+ id 1oagqU-0000eh-Fj
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 13:15:43 -0400
+Received: by mail-ed1-x534.google.com with SMTP id z13so4775344edb.13
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 10:15:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=9jZtMLEWUNRGMJhs1MyLKK4Uh8abbgf3TTaN/xU7wp4=;
- b=EbumFRFlq2BIzT5tsHEKR3/ja7X2fkc3yMZ9XcpqGmbVKq4tdVbDTfJ16EyxbajZi7
- +lpojXO/CTVQqHjVhN6T0iQJWfyow6xPrX/PArS9hYbWi0rLtEcNUHVk0piyF8QfGmm6
- ZHJ4Qt6SIJ0Uw9JOLRietHN/rhGzsAc3hddGgXQz3vyfn90V7Pqh6Hgm/1hd2apLP+sb
- HVTUAyRMN1TqSP7X0BZYbMhXbieBumMuu8Iplxh4biVb59DV+99iKiRwLy/MNcDZ6LUw
- TOGr9+dd09EjRIpWcBK7jgaT4BAUfozGVns6zOrbXAzcmtYCKnFaRw+/c35gcmrb2zHE
- NsZg==
+ bh=N17HHU9yrrmBbTr01LSTUzVVxN6Q3/Gwl12Sohrp4oE=;
+ b=HHTZKyCfrbe30kYFCkCBEbMOz3f0DQmQ369vTAB5u079yyPT9FHr/7umo6x9/qPRuu
+ +yXxoQzJRo1lOKNebZS4SMjffSREamblDi9+hZMI7bVVhHQkg4b3VurgNkfCJNJXdJzq
+ iRswGJe4TbCkma+Tdlpk8X4ZwrXa07GC9NeLDpyc0CoeHMImgGEKxAdPj07XM0+EPgAR
+ 11roU7L13VRzKvH3QCihTbnHjuJsAfnO9tOThfTnnoaMO9GQBywaTtoRtWuom69bpTU9
+ V0NzEEnC3gM2lsEs3T72EZeIom83vTJZg2+RfyE0YOSoeMwQ4OeAnkJZkiR9ILnS+5NS
+ 2Z1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=9jZtMLEWUNRGMJhs1MyLKK4Uh8abbgf3TTaN/xU7wp4=;
- b=qS7kv+vxAo3GWPTX1uNiag40fPkcehavEqkkRym7gSfzXMc+vlgZeS8cyj7t4+Eksy
- fjIGdddfyfratWM3Pxfqpx6YOL2KcXxiRcV0UOW11MY2IahLtF5vOq4VScQMiZGXqafx
- Bqlg0jvyGVe9ir5XYtE/wlP35j65DTyBQhnRccODQ/j/+xRLxveQhzIqy5kE8wPdN3O2
- or1edeFy+MYo469BCoXAB0hWfMpzXK1ZSt2SCmTh2xLtUWNKAKQYNYTTRA1EaON1Ouwj
- iQEWa3GYOmq1WhjDN5Pjvlpq7Bf2/N8ghJr7FC00bhotGvJPO4JyFc44HWgtCc47Sb9V
- mnHw==
-X-Gm-Message-State: ACrzQf2yd8VRKmfU/1UzzR9qEZPIrt5tbmMTV15/rFk5kjdkxIlFqmcd
- hsoAOf5VkzhopTs7NHlE1nL6VA==
-X-Google-Smtp-Source: AMsMyM7/8RbN6ZIfRZ3OyMAg/sCJ72cqBL3lOH7XKJK8excyLHXbuug/kRIPrLrVgIABxwNoKb8NmQ==
-X-Received: by 2002:a05:6402:3890:b0:451:ef52:8f9e with SMTP id
- fd16-20020a056402389000b00451ef528f9emr21407038edb.107.1663694135551; 
- Tue, 20 Sep 2022 10:15:35 -0700 (PDT)
+ bh=N17HHU9yrrmBbTr01LSTUzVVxN6Q3/Gwl12Sohrp4oE=;
+ b=n++b4eANgDV5HtZiTx6Ivrn2WqJh6av/76LdgFnt7vZPrv3AYrjlaXVes3aAi0kg86
+ k/2jEzr/0iYSuxaJPFoOBay1lR1WbYI8ipMf2YCpS6jO9bwqizfYOZj+Nu97u8FfA5SS
+ qelzKxneiSBukFs16mV7DbrPBTg6ANX6yZFo1lMfwpgUWCCZMRb/E6189MWVjbXTrtfb
+ 8iLEhflNSCgqESjExh1Uii21Mm0ffQzdoWhNpwVzpeAXRKq1zTiXVX+rZGZDLwpLAhhy
+ 9o6GYVg1UL7ombxZd/IpWjjxEs5k64/D1o0/oTUR/Xzc8F+rohUn2vfSZGTusUpwjGGK
+ 9jmA==
+X-Gm-Message-State: ACrzQf27/J+raxX49H83EvCfSSOtOdkGRvS/ttg5KuNJMgY2MpNkAm8x
+ v3xbH5qNLcZPuYZwQ0tTPE70pw==
+X-Google-Smtp-Source: AMsMyM6HkmpP8n1FE1JXoqj7D0DiQmulRsZzRskYtonggJGuj/tAAElNDnCFlF3VQtbJqVxnKPfaVg==
+X-Received: by 2002:a50:fe8c:0:b0:454:31ad:b99a with SMTP id
+ d12-20020a50fe8c000000b0045431adb99amr8199566edt.165.1663694140970; 
+ Tue, 20 Sep 2022 10:15:40 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- g5-20020a170906538500b0073bdf71995dsm140217ejo.139.2022.09.20.10.15.34
+ kx21-20020a170907775500b0073d5948855asm193228ejc.1.2022.09.20.10.15.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 20 Sep 2022 10:15:34 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E47AE1FFBA;
- Tue, 20 Sep 2022 18:15:33 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 06B211FFBB;
+ Tue, 20 Sep 2022 18:15:34 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com, Thomas Huth <thuth@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
+Cc: stefanha@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PULL 02/30] tests/avocado/boot_linux_console: Fix the
- test_aarch64_xlnx_versal_virt test
-Date: Tue, 20 Sep 2022 18:15:05 +0100
-Message-Id: <20220920171533.1098094-3-alex.bennee@linaro.org>
+Subject: [PULL 03/30] tests/avocado: add explicit timeout for Aarch64 TCG tests
+Date: Tue, 20 Sep 2022 18:15:06 +0100
+Message-Id: <20220920171533.1098094-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220920171533.1098094-1-alex.bennee@linaro.org>
 References: <20220920171533.1098094-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,38 +99,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+We don't want to rely on the soon to be reduced default time. These
+tests are still slow for something we want to run in CI though.
 
-The assets that this test tries to download have been removed from the
-server. Update to a newer version to get it working again.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20220829080940.110831-1-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220914155950.804707-3-alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220914155950.804707-4-alex.bennee@linaro.org>
 
-diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
-index 6b1533c17c..f26e036ab5 100644
---- a/tests/avocado/boot_linux_console.py
-+++ b/tests/avocado/boot_linux_console.py
-@@ -335,13 +335,13 @@ def test_aarch64_xlnx_versal_virt(self):
-         """
-         images_url = ('http://ports.ubuntu.com/ubuntu-ports/dists/'
-                       'bionic-updates/main/installer-arm64/'
--                      '20101020ubuntu543.15/images/')
-+                      '20101020ubuntu543.19/images/')
-         kernel_url = images_url + 'netboot/ubuntu-installer/arm64/linux'
--        kernel_hash = '5bfc54cf7ed8157d93f6e5b0241e727b6dc22c50'
-+        kernel_hash = 'e167757620640eb26de0972f578741924abb3a82'
-         kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+diff --git a/tests/avocado/boot_linux.py b/tests/avocado/boot_linux.py
+index ee584d2fdf..67a24fe51c 100644
+--- a/tests/avocado/boot_linux.py
++++ b/tests/avocado/boot_linux.py
+@@ -63,6 +63,7 @@ class BootLinuxAarch64(LinuxTest):
+     :avocado: tags=machine:virt
+     :avocado: tags=machine:gic-version=2
+     """
++    timeout = 240
  
-         initrd_url = images_url + 'netboot/ubuntu-installer/arm64/initrd.gz'
--        initrd_hash = 'd385d3e88d53e2004c5d43cbe668b458a094f772'
-+        initrd_hash = 'cab5cb3fcefca8408aa5aae57f24574bfce8bdb9'
-         initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
- 
-         self.vm.set_console()
+     def add_common_args(self):
+         self.vm.add_args('-bios',
 -- 
 2.34.1
 
