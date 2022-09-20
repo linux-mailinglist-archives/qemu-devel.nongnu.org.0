@@ -2,72 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CADF5BEEC8
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 22:52:35 +0200 (CEST)
-Received: from localhost ([::1]:55006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35FC35BEEF1
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:05:01 +0200 (CEST)
+Received: from localhost ([::1]:40204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oakEM-0004CS-1w
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 16:52:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50506)
+	id 1oakQO-0004wf-Ax
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:05:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oafVk-0007pU-Q4
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:50:13 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:34590)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oafVi-0003TE-PT
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:50:12 -0400
-Received: by mail-ej1-x633.google.com with SMTP id y3so7270369ejc.1
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 08:50:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=ssM9+aX31tyZon3JtI3Oed1n4xMIJ1QIEQdSqlyk1jM=;
- b=WYrqZNV2Ust7zkVmktWhbKDqebe6sLnUyQArpdUgPEo0OH1Y4VOj+zoWurDppZsF1F
- g9qbt6TkylgNrppdKJno6rtIRztviw7MFYcN3OOYiPyTn3nMZj/L41ylh3ktFXPswB64
- qiE+CFRe60U93Ml+e6Bj31DP0LNW/Jm+iOqF81kGBGHzQQHcr9WmUniaP/RTSGDoSEng
- /PLNnUS0/wzItVmALzd6WfsuHZR2Vy9KAeH118wolaR+utUyKTpWxfu6LrQAJDdYLFG4
- aM4y/eWYqa54ih5azXzYN/Aaj+TYte4iJzBoyT9h4JYg1fMPDWk1z1qAL2n/Vt2uPvai
- EKKg==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oafXp-0008VC-3N
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:52:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33275)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oafXk-0003pt-RP
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:52:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663689132;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TIavYQaP1xU/zSQbIfjiROODqnpFWcS38ZFYtE/pL5M=;
+ b=PlrQngoybr6mUU2Z5ezvjulNN8zvJINMeygRJZUSdOLnVHF6YRMHJ02QMvgcCie/nEC1db
+ ZxxTltxpYBMN2YUMymyX6dxHTwFEE+HB7I5Db7j6MA+bSuciRUEZG5P8E/KX9kRUra+AgS
+ K8zwql025gx7H6DU1qviKmjOMNgjBGg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-321-cSNm7sLwMUaWXVfD8OrlPA-1; Tue, 20 Sep 2022 11:52:11 -0400
+X-MC-Unique: cSNm7sLwMUaWXVfD8OrlPA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ v190-20020a1cacc7000000b003b4ab30188fso6507727wme.2
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 08:52:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=ssM9+aX31tyZon3JtI3Oed1n4xMIJ1QIEQdSqlyk1jM=;
- b=jrCWaZP/XhoVdvAovMHsu83bscLkDaIkriJp/+60KQCPJb+828NjDGFnzKiDuG95MA
- AfFuLLlYYNLiTS0voJZGCV8OFTKZqjB3V41ihQrMoPMlmKVzbkF/9WIw0M2b/is0W6PY
- s7VXNopX218M/GBpk2MwFyZtu1v+cbFcLJ+qL6vmPEib5s3TyQBXAs4sV6V8TYqQbkYP
- Uzu6kNerm96LG0/IaAHDV5Y4OZNchBG/+uRT08xMdljY0rKIYah2qIe1mkKRwL+l2PAB
- ktu36UAtLuRgujUu4Az6WZ/7I7ff0DvlJ7HgCg7xDEnCj7ALmNlsEvqDKy3WXGLHGgyx
- MjjQ==
-X-Gm-Message-State: ACrzQf3h+gkgK5ai/lRMhg9d8gtjAnGBJ4iOBsJbot5lviiTcfjaRC8I
- SlQ+0pUI1i0Qo8d03dCO8+lqMup2SUlnf76FWOif4A==
-X-Google-Smtp-Source: AMsMyM4jFHc16roT1svP22YT7ZyBaNUL4WqvRs0gbVHFCh6/UoVTI4D55bjuHOvkkskdSnwYdXkZ+X1G1Y5AMXev/VA=
-X-Received: by 2002:a17:907:7209:b0:778:e86e:568 with SMTP id
- dr9-20020a170907720900b00778e86e0568mr18014326ejc.659.1663689008570; Tue, 20
- Sep 2022 08:50:08 -0700 (PDT)
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=TIavYQaP1xU/zSQbIfjiROODqnpFWcS38ZFYtE/pL5M=;
+ b=X+CF9Ne3Yhcu3ST1sd2JaZHT67hBnQlev/rdCG2w9Cv1fAWowEZXgFN3ZQUVURbJgM
+ 3SrCG+Js6P51pgdiXRWyjySnp9Ye7opYdmvnFVAoJrq0UqMxx+egjPCxxPii9FRVMCH8
+ uPMsJkbB0r2nfuarzIgbTPAK0w/xDKLg6QFRozJC6Ec18+iSrKwTuCHGovLQLUtWXFkY
+ HQs7zg01eGvIuyPmWLLWGvFuHC2i2O/WLbBdNSGTuFh75va8/x9Tt3Jk6JTwKIvH02ge
+ h1S0ws3tSOE2PJ2ua37fpoPB7ZKa90BI8cLdIXCpqMixUNXZe/KcFxDZBjQpG8OLZz5d
+ 7m0g==
+X-Gm-Message-State: ACrzQf1FM7LpfZCgae9kqt0gyFrX94vxrE9T3lkSDSoHEhX+67qMml+M
+ cqUr2YBmc+d6IjUToIGClpaKjDtzH4HVLJyyArrOSkPcHx7VgPvpYBv2p9vyiwgld75nFcI6pXn
+ XS5Jfy+zLBBV4AYA=
+X-Received: by 2002:a5d:4a48:0:b0:22a:e55d:535d with SMTP id
+ v8-20020a5d4a48000000b0022ae55d535dmr11734375wrs.308.1663689129779; 
+ Tue, 20 Sep 2022 08:52:09 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6UavUlRBHu+0W8G1sidcjCqYTiTVw3kxIdln4cZRF96wqL/9sqqJHcwPgMHhCJFb1WEqNs4g==
+X-Received: by 2002:a5d:4a48:0:b0:22a:e55d:535d with SMTP id
+ v8-20020a5d4a48000000b0022ae55d535dmr11734358wrs.308.1663689129587; 
+ Tue, 20 Sep 2022 08:52:09 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ iw1-20020a05600c54c100b003b3401f1e24sm126340wmb.28.2022.09.20.08.52.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Sep 2022 08:52:08 -0700 (PDT)
+Date: Tue, 20 Sep 2022 16:52:07 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Subject: Re: Maximum QMP reply size
+Message-ID: <Yynhp6fhD37wqb8o@work-vm>
+References: <CAFn=p-ZkKLQtYAwzkQb7srFf_fF8ij+g5wkZiRofx4U+kSZ7Rw@mail.gmail.com>
+ <CAFEAcA8Zy3RpTZM-gJk6ZZaUEf6huTuuK3C4-uSo6pYz8KCrMQ@mail.gmail.com>
+ <YyNDCDH71oytYujr@work-vm>
+ <CAFEAcA9=hY57=7mXrcs3MHZuGR0HdXwQh-thW8zW=hMmxck2Ng@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220822152741.1617527-1-richard.henderson@linaro.org>
- <20220822152741.1617527-29-richard.henderson@linaro.org>
-In-Reply-To: <20220822152741.1617527-29-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Sep 2022 16:49:56 +0100
-Message-ID: <CAFEAcA8AwN4tpEPLrLh=47VKN_J9wgADvihy0nfX6X-cMh4ymA@mail.gmail.com>
-Subject: Re: [PATCH v2 28/66] target/arm: Drop secure check for HCR.TGE vs
- SCTLR_EL1.M
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA9=hY57=7mXrcs3MHZuGR0HdXwQh-thW8zW=hMmxck2Ng@mail.gmail.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,17 +103,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 22 Aug 2022 at 16:50, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The effect of TGE does not only apply to non-secure state,
-> now that Secure EL2 exists.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> On Thu, 15 Sept 2022 at 16:21, Dr. David Alan Gilbert
+> <dgilbert@redhat.com> wrote:
+> >
+> > * Peter Maydell (peter.maydell@linaro.org) wrote:
+> > > On Tue, 6 Sept 2022 at 20:41, John Snow <jsnow@redhat.com> wrote:
+> > > > Hi, I suspect I have asked this before, but I didn't write it down in
+> > > > a comment, so I forget my justification...
+> > > >
+> > > > In the QMP lib, we need to set a buffering limit for how big a QMP
+> > > > message can be -- In practice, I found that the largest possible
+> > > > response was the QAPI schema reply, and I set the code to this:
+> > > >
+> > > >     # Maximum allowable size of read buffer
+> > > >     _limit = (64 * 1024)
+> > > >
+> > > > However, I didn't document if this was a reasonable limit or just a
+> > > > "worksforme" one. I assume that there's no hard limit for the protocol
+> > > > or the implementation thereof in QEMU. Is there any kind of value here
+> > > > that would be more sensible than another?
+> > > >
+> > > > I'm worried that if replies get bigger in the future (possibly in some
+> > > > degenerate case I am presently unaware of) that the library default
+> > > > will become nonsensical.
+> > >
+> > > There are some QMP commands which return lists of things
+> > > where we put no inherent limit on how many things there
+> > > are in the list, like qom-list-types. We'd have to be getting
+> > > a bit enthusiastic about defining types for that to get
+> > > up towards 64K's worth of response, but it's not inherently
+> > > impossible. I think using human-monitor-command to send
+> > > an 'xp' HMP command is also a way to get back an arbitrarily
+> > > large string (just ask for a lot of memory to be dumped).
+> >
+> > We could put size limits on xp; most Humans will only dump a few kB
+> > maximum like that, any larger and you can dump to file.
+> 
+> Sure, we could, but why? It's not clear to me why a consumer
+> of QMP needs to impose a maximum message size limit on it:
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+That was just a suggestion if someone did want to limit it; if 'xp'
+sizing is the only thing holding us back.
 
-thanks
--- PMM
+> I thought it was just JSON. Fixed buffer sizes are very 1980s :-)
+
+But generic JSON is awful for this, given there are no constraints on
+field ordering, a parser has to read the whole JSON message before
+being able to determine if anything in it makes sense.  You can't
+generally 'stream' parse it, so do end up reading into buffers.
+
+> If this is a common requirement then should we define something
+> in the protocol where the client says "I can support messages
+> up to this big" and then the server has to split things up?
+
+I fear you'll have to do that for every command type that outputs
+a lot of data; doing it generally could be tricky.
+
+Dave
+
+> -- PMM
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
