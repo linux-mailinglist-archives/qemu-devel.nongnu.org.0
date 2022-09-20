@@ -2,92 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 946B95BEF47
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:40:57 +0200 (CEST)
-Received: from localhost ([::1]:50780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D28965BEF50
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:43:43 +0200 (CEST)
+Received: from localhost ([::1]:47100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oakzA-0004aV-Hz
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:40:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52392)
+	id 1oal1q-0002VQ-VM
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:43:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oagNH-0007Mo-A5
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:45:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35803)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oagS3-0001y2-O0
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:50:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oagNE-00041t-21
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:45:29 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oagS1-0004xF-14
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:50:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663692327;
+ s=mimecast20190719; t=1663692622;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kX45IZHd5T80sxgdzvsZUjfdHOp/mMTOq6VJQy4iOBo=;
- b=KuSrZuczhBbpvRiQFMMTWy32aHUKBQBWBJUv/klX+lAmFWOYDesHLXMK+S5LsAU/82COeq
- qtBwhVmSDimRF7IQXZKSMleNIXdKcmWwhDR/8DGhvA+HVETO3v/8T6GU/+jJe0JjmgN2R+
- bBcyzqkH1o+fYqAsjSvDYhS/znhMXzU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-583-6LlzBup0Mj2Ym-3vuP8-bA-1; Tue, 20 Sep 2022 12:45:23 -0400
-X-MC-Unique: 6LlzBup0Mj2Ym-3vuP8-bA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- c21-20020adfa315000000b0022adc2a2edaso1397246wrb.0
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 09:45:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=kX45IZHd5T80sxgdzvsZUjfdHOp/mMTOq6VJQy4iOBo=;
- b=Rhl0KneiX8kfjmypBb4T5u9diYhb4ZslDqP7MNFCx3zVKnAGpFcAik1rZzvHIeSHV/
- tk6dSt8Mzb6jgo5VzEZ/bo93Q5GJc3DinYwz5WhFDgZZK6YzkXpZFyvdvB44T7mSlAQQ
- ky3qwAlRXl/7bWIq/+R5/YV3qBor6rQwH2lDmiA6OcXv/mHT7vKYk9nKEm/stSZHN1F3
- 5BasduSj6d378hO4w5cUQWncbFrEUkvDHG4stu+QBvloo6+w+6HdgJRUbtbMV8T/jObt
- cbh4yRtiY+feivKLjz+GkUUZTxCDubV4eXmmCLNoZvf5iUzxglHvaX81TFl2wIoLAUGx
- rrmA==
-X-Gm-Message-State: ACrzQf3KDn0Wi5hAKjuf8Cyu2XL6ZjzIJS5z/SDmK5ezRTx4EkdCAQVs
- UxvFHOd4CiKxinxDENHn/7CwmjSygiHmCcMlztkTs+pS0TRV8o2Y5LMVYs5r1tjBpWdtT4dFkPE
- B4OCLKUsdDhviKQ0=
-X-Received: by 2002:a05:600c:3781:b0:3a6:804a:afc with SMTP id
- o1-20020a05600c378100b003a6804a0afcmr3108443wmr.27.1663692322810; 
- Tue, 20 Sep 2022 09:45:22 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5KQKFID6i2QO3Aq7f5lCIRTExIsCOSfsWivfz+8idKP4LUqf60/4B82k5VFXO/9KrE0p7vUA==
-X-Received: by 2002:a05:600c:3781:b0:3a6:804a:afc with SMTP id
- o1-20020a05600c378100b003a6804a0afcmr3108435wmr.27.1663692322606; 
- Tue, 20 Sep 2022 09:45:22 -0700 (PDT)
-Received: from [192.168.8.103] (tmo-083-219.customers.d1-online.com.
- [80.187.83.219]) by smtp.gmail.com with ESMTPSA id
- i27-20020a1c541b000000b003a502c23f2asm312946wmb.16.2022.09.20.09.45.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Sep 2022 09:45:22 -0700 (PDT)
-Message-ID: <a1289aed-8d2a-266a-c766-7c698a3aebfe@redhat.com>
-Date: Tue, 20 Sep 2022 18:45:20 +0200
+ bh=TX1oTxR1pp+eVm/os2Nzq3Sx2FpBh/k63FGHqJ34ZJk=;
+ b=Sn02t7VTw5/UDtL9mYSFjLkwTwDEgl263wBpUPdD1caBz2s91y3n7+knon1zjBpe23Buai
+ GJnwypsgZ0Rmto5wnRbut1EuIyZzM15aackrkmSYLIdoALRRwUdQMx1pVzQ3M/DHReLAUc
+ 9NpXn0PWJkKUFlHxcqky+oxu/FUPAQQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-649-nSFIDSLQPzCgcDWst4eC6A-1; Tue, 20 Sep 2022 12:50:19 -0400
+X-MC-Unique: nSFIDSLQPzCgcDWst4eC6A-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 36F693C16183;
+ Tue, 20 Sep 2022 16:50:19 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 90D9A492CA2;
+ Tue, 20 Sep 2022 16:50:17 +0000 (UTC)
+Date: Tue, 20 Sep 2022 18:50:15 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ dinechin@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v3 2/3] module: add Error arguments to module_load_one
+ and module_load_qom_one
+Message-ID: <YynvR49aIK2AzbJ3@redhat.com>
+References: <20220908145308.30282-1-cfontana@suse.de>
+ <20220908145308.30282-3-cfontana@suse.de>
+ <062faaa8-064c-f68a-e316-aaacb80efa5a@linaro.org>
+ <3c6cb3ee-2470-654f-c2c4-3449861f9781@suse.de>
+ <8682ad9f-aea8-0419-5ff6-c14493e4e980@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PULL 11/20] target/arm: Don't mishandle count when enabling or
- disabling PMU counters
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org
-References: <20220914115217.117532-1-richard.henderson@linaro.org>
- <20220914115217.117532-13-richard.henderson@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220914115217.117532-13-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8682ad9f-aea8-0419-5ff6-c14493e4e980@suse.de>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.182, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,49 +87,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/09/2022 13.52, Richard Henderson wrote:
-> From: Peter Maydell <peter.maydell@linaro.org>
+Am 08.09.2022 um 19:36 hat Claudio Fontana geschrieben:
+> On 9/8/22 19:10, Claudio Fontana wrote:
+> > On 9/8/22 18:03, Richard Henderson wrote:
+> >> On 9/8/22 15:53, Claudio Fontana wrote:
+> >>> @@ -446,8 +447,13 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
+> >>>           return -EINVAL;
+> >>>       }
+> >>>   
+> >>> -    block_module_load_one("dmg-bz2");
+> >>> -    block_module_load_one("dmg-lzfse");
+> >>> +    if (!block_module_load_one("dmg-bz2", &local_err) && local_err) {
+> >>> +        error_report_err(local_err);
+> >>> +    }
+> >>> +    local_err = NULL;
+> >>> +    if (!block_module_load_one("dmg-lzfse", &local_err) && local_err) {
+> >>> +        error_report_err(local_err);
+> >>> +    }
+> >>>   
+> >>>       s->n_chunks = 0;
+> >>>       s->offsets = s->lengths = s->sectors = s->sectorcounts = NULL;
+> >>
+> >> I wonder if these shouldn't fail hard if the modules don't exist?
+> >> Or at least pass back the error.
+> >>
+> >> Kevin?
 > 
-> The PMU cycle and event counter infrastructure design requires that
-> operations on the PMU register fields are wrapped in pmu_op_start()
-> and pmu_op_finish() calls (or their more specific pmmcntr and
-> pmevcntr equivalents).  This includes any changes to registers which
-> affect whether the counter should be enabled or disabled, but we
-> forgot to do this.
+> is "dmg-bz" _required_ for dmg open to work? I suspect if the dmg
+> image is not compressed, "dmg" can function even if the extra dmg-bz
+> module is not loaded right?
+
+Indeed. The code seems to consider that the modules may not be present.
+The behaviour in these cases is questionable (it seems to silently leave
+the buffers as they are and return success), but the modules are clearly
+optional.
+
+> I'd suspect we should then do:
 > 
-> The effect of this bug is that in sequences like:
->   * disable the cycle counter (PMCCNTR) using the PMCNTEN register
->   * write a value such as 0xfffff000 to the PMCCNTR
->   * restart the counter by writing to PMCNTEN
-> the value written to the cycle counter is corrupted, and it starts
-> counting from the wrong place. (Essentially, we fail to record that
-> the QEMU_CLOCK_VIRTUAL timestamp when the counter should be considered
-> to have started counting is the point when PMCNTEN is written to enable
-> the counter.)
+> if (!block_module_load_one("dmg-bz2", &local_err)) {
+>   if (local_err) {
+>      error_report_err(local_err);
+>      return -EINVAL;
+>   }
+>   warn_report("dmg-bz2 is not present, dmg will skip bz2-compressed chunks */
+> }
 > 
-> Add the necessary bracketing calls, so that updates to the various
-> registers which affect whether the PMU is counting are handled
-> correctly.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Message-Id: <20220822132358.3524971-4-peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/arm/helper.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 45 insertions(+)
+> and same for dmg-lzfse...?
 
-  Hi Peter, hi Richard,
+Actually, I think during initialisation, we should just pass NULL as
+errp and ignore any errors.
 
-this seems to break some Avocado based test(s) in our CI:
+When a request would access a block that can't be uncompressed because
+of the missing module, that's where we can have a warn_report_once() and
+arguably should fail the I/O request.
 
-  make check-venv
-  ./tests/venv/bin/avocado run tests/avocado/replay_kernel.py:ReplayKernelNormal.test_aarch64_virt
-
-... fails with commit 01765386a88868ae993bcb but still passes
-with the preceeding commit. Could you please have a look?
-
-  Thanks,
-   Thomas
+Kevin
 
 
