@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F8565BEF3E
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:38:05 +0200 (CEST)
-Received: from localhost ([::1]:50764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 946B95BEF47
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:40:57 +0200 (CEST)
+Received: from localhost ([::1]:50780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oakwN-0008ED-Uc
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:38:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35438)
+	id 1oakzA-0004aV-Hz
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:40:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oagHj-0003km-Sl
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:39:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26679)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oagNH-0007Mo-A5
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:45:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35803)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oagHf-00031N-9N
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:39:44 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oagNE-00041t-21
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 12:45:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663691981;
+ s=mimecast20190719; t=1663692327;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Xc+keV+ciB+yhOVwVbTegfAOhVUVEdl1wSg0ek/CJ8s=;
- b=ICIGvMeJIGiCdzP4NHRInLvdx93QvaVFwwXghPB/SLGTP5OTEM/8sW3PQFuUaThn/Aw7qE
- F5orL7RluenMOqNJRGUC7N2W4J1am08RcS8ONBoxZYXjO17g54hcZc3dEDhiuQ5iIZ5v7z
- dRw/FfUgn/L/pVMZtlSpGxocNhzq8VM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=kX45IZHd5T80sxgdzvsZUjfdHOp/mMTOq6VJQy4iOBo=;
+ b=KuSrZuczhBbpvRiQFMMTWy32aHUKBQBWBJUv/klX+lAmFWOYDesHLXMK+S5LsAU/82COeq
+ qtBwhVmSDimRF7IQXZKSMleNIXdKcmWwhDR/8DGhvA+HVETO3v/8T6GU/+jJe0JjmgN2R+
+ bBcyzqkH1o+fYqAsjSvDYhS/znhMXzU=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-475-Ym0c0A30MM6R_W_kV4NHZw-1; Tue, 20 Sep 2022 12:39:40 -0400
-X-MC-Unique: Ym0c0A30MM6R_W_kV4NHZw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- a13-20020adfbc4d000000b00228631ddfafso1375505wrh.9
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 09:39:40 -0700 (PDT)
+ us-mta-583-6LlzBup0Mj2Ym-3vuP8-bA-1; Tue, 20 Sep 2022 12:45:23 -0400
+X-MC-Unique: 6LlzBup0Mj2Ym-3vuP8-bA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ c21-20020adfa315000000b0022adc2a2edaso1397246wrb.0
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 09:45:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=Xc+keV+ciB+yhOVwVbTegfAOhVUVEdl1wSg0ek/CJ8s=;
- b=ZXjuHUT+oSxzyzpn4lRl484FJISv2Ss8DXl6F1C4zZOtJdwkgPqq3aIviGyuxyg9fU
- fRoPkULD3704iq66CH02JFQtNvjiK71bJiFnrq3nfI3k5TPQqeudJjLb6YNXf3Nw8y3T
- ucvL4YWa0PNEqqYTHu7gITUQyll3Ksw66obiAw5XFWWKZ246pf/x1jJpvGpNGjZt7L3i
- hZbV/+EKXPLR7zsn3uAwcPYI8Q8SgnxyDA/k31c0RHkRnSviLmXZgIhE7LhSDCaAXc6A
- dHjSF1yQXVyfzWT+bDKuxCnP6fVtHubInHHMpDtmThTMOcli9R4MR703ZPpjBHW9frbi
- WVkg==
-X-Gm-Message-State: ACrzQf0oG18KKLEb5xpeVNAJjshlpQgNWLFBDtYwdOxTM17TWGvy27hg
- 0fLPPq9ydboWbt2vs3k3GGph48BWNtBMgyH8MXQc5GSmsFiGIXtYfn84Y1edphoS2YiPz91u16Q
- WIr1oq3HqlJYXl9s=
-X-Received: by 2002:a05:600c:1688:b0:3b4:8726:f304 with SMTP id
- k8-20020a05600c168800b003b48726f304mr3181787wmn.46.1663691979607; 
- Tue, 20 Sep 2022 09:39:39 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6B2Y5ThxxJ/qN6FRaEIzuK2E/f9luCBz7A+j8u3/b1MZi6YX4GmSi0FtyttK0qZYP53Gn3cA==
-X-Received: by 2002:a05:600c:1688:b0:3b4:8726:f304 with SMTP id
- k8-20020a05600c168800b003b48726f304mr3181770wmn.46.1663691979333; 
- Tue, 20 Sep 2022 09:39:39 -0700 (PDT)
+ bh=kX45IZHd5T80sxgdzvsZUjfdHOp/mMTOq6VJQy4iOBo=;
+ b=Rhl0KneiX8kfjmypBb4T5u9diYhb4ZslDqP7MNFCx3zVKnAGpFcAik1rZzvHIeSHV/
+ tk6dSt8Mzb6jgo5VzEZ/bo93Q5GJc3DinYwz5WhFDgZZK6YzkXpZFyvdvB44T7mSlAQQ
+ ky3qwAlRXl/7bWIq/+R5/YV3qBor6rQwH2lDmiA6OcXv/mHT7vKYk9nKEm/stSZHN1F3
+ 5BasduSj6d378hO4w5cUQWncbFrEUkvDHG4stu+QBvloo6+w+6HdgJRUbtbMV8T/jObt
+ cbh4yRtiY+feivKLjz+GkUUZTxCDubV4eXmmCLNoZvf5iUzxglHvaX81TFl2wIoLAUGx
+ rrmA==
+X-Gm-Message-State: ACrzQf3KDn0Wi5hAKjuf8Cyu2XL6ZjzIJS5z/SDmK5ezRTx4EkdCAQVs
+ UxvFHOd4CiKxinxDENHn/7CwmjSygiHmCcMlztkTs+pS0TRV8o2Y5LMVYs5r1tjBpWdtT4dFkPE
+ B4OCLKUsdDhviKQ0=
+X-Received: by 2002:a05:600c:3781:b0:3a6:804a:afc with SMTP id
+ o1-20020a05600c378100b003a6804a0afcmr3108443wmr.27.1663692322810; 
+ Tue, 20 Sep 2022 09:45:22 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5KQKFID6i2QO3Aq7f5lCIRTExIsCOSfsWivfz+8idKP4LUqf60/4B82k5VFXO/9KrE0p7vUA==
+X-Received: by 2002:a05:600c:3781:b0:3a6:804a:afc with SMTP id
+ o1-20020a05600c378100b003a6804a0afcmr3108435wmr.27.1663692322606; 
+ Tue, 20 Sep 2022 09:45:22 -0700 (PDT)
 Received: from [192.168.8.103] (tmo-083-219.customers.d1-online.com.
  [80.187.83.219]) by smtp.gmail.com with ESMTPSA id
- q5-20020a5d6585000000b0022add5a6fb1sm259727wru.30.2022.09.20.09.39.37
+ i27-20020a1c541b000000b003a502c23f2asm312946wmb.16.2022.09.20.09.45.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Sep 2022 09:39:38 -0700 (PDT)
-Message-ID: <6f29b7f8-495a-3f2c-8897-25df60c3000d@redhat.com>
-Date: Tue, 20 Sep 2022 18:39:37 +0200
+ Tue, 20 Sep 2022 09:45:22 -0700 (PDT)
+Message-ID: <a1289aed-8d2a-266a-c766-7c698a3aebfe@redhat.com>
+Date: Tue, 20 Sep 2022 18:45:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PULL 0/3] hmp queue
+Subject: Re: [PULL 11/20] target/arm: Don't mishandle count when enabling or
+ disabling PMU counters
 Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org
+References: <20220914115217.117532-1-richard.henderson@linaro.org>
+ <20220914115217.117532-13-richard.henderson@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, pizhenwei@bytedance.com, dongli.zhang@oracle.com
-Cc: armbru@redhat.com
-References: <20220915154606.124713-1-dgilbert@redhat.com>
- <18a9636d-c6cf-b20b-8679-be62945dc227@redhat.com>
-In-Reply-To: <18a9636d-c6cf-b20b-8679-be62945dc227@redhat.com>
+In-Reply-To: <20220914115217.117532-13-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -49
@@ -86,7 +87,7 @@ X-Spam_bar: -----
 X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-2.182, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,37 +103,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/09/2022 17.30, Thomas Huth wrote:
-> On 15/09/2022 17.46, Dr. David Alan Gilbert (git) wrote:
->> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->>
->> The following changes since commit 79dfa177ae348bb5ab5f97c0915359b13d6186e2:
->>
->>    Merge tag 'pull-qapi-2022-09-07' of git://repo.or.cz/qemu/armbru into 
->> staging (2022-09-07 13:13:30 -0400)
->>
->> are available in the Git repository at:
->>
->>    https://gitlab.com/dagrh/qemu.git tags/pull-hmp-20220915a
->>
->> for you to fetch changes up to 22269b0436cc8e4aaac975b4c8cb01b343d09661:
->>
->>    hmp: Fix ordering of text (2022-09-15 14:13:30 +0100)
+On 14/09/2022 13.52, Richard Henderson wrote:
+> From: Peter Maydell <peter.maydell@linaro.org>
 > 
-> Not sure whether it's caused by this merge, but a lot of the avocado jobs 
-> are failing now in the CI:
+> The PMU cycle and event counter infrastructure design requires that
+> operations on the PMU register fields are wrapped in pmu_op_start()
+> and pmu_op_finish() calls (or their more specific pmmcntr and
+> pmevcntr equivalents).  This includes any changes to registers which
+> affect whether the counter should be enabled or disabled, but we
+> forgot to do this.
 > 
->   https://gitlab.com/qemu-project/qemu/-/pipelines/643064395
+> The effect of this bug is that in sequences like:
+>   * disable the cycle counter (PMCCNTR) using the PMCNTEN register
+>   * write a value such as 0xfffff000 to the PMCCNTR
+>   * restart the counter by writing to PMCNTEN
+> the value written to the cycle counter is corrupted, and it starts
+> counting from the wrong place. (Essentially, we fail to record that
+> the QEMU_CLOCK_VIRTUAL timestamp when the counter should be considered
+> to have started counting is the point when PMCNTEN is written to enable
+> the counter.)
 > 
-> I've seen some few Avocado failures (e.g. with the Debian job) in the past 
-> already, but the amount of simultaneous failures seem to have increased now. 
-> Does anybody have a clue what have caused this?
+> Add the necessary bracketing calls, so that updates to the various
+> registers which affect whether the PMU is counting are handled
+> correctly.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-Id: <20220822132358.3524971-4-peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/arm/helper.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 45 insertions(+)
 
-I was able to reproduce the issue locally on my laptop, so I bisected it ... 
-it's not related to the HMP pull request, but to Peter's ARM pull request a 
-little bit earlier. I'll follow up there.
+  Hi Peter, hi Richard,
 
-  Thomas
+this seems to break some Avocado based test(s) in our CI:
 
+  make check-venv
+  ./tests/venv/bin/avocado run tests/avocado/replay_kernel.py:ReplayKernelNormal.test_aarch64_virt
+
+... fails with commit 01765386a88868ae993bcb but still passes
+with the preceeding commit. Could you please have a look?
+
+  Thanks,
+   Thomas
 
 
