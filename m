@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C4D5BEB55
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 18:49:48 +0200 (CEST)
-Received: from localhost ([::1]:51416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 387F75BEC1C
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 19:36:54 +0200 (CEST)
+Received: from localhost ([::1]:34094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oagRP-0001Br-5Q
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 12:49:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34372)
+	id 1oahAz-0007Tw-2T
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 13:36:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oadBm-0006Vd-70; Tue, 20 Sep 2022 09:21:27 -0400
-Received: from mail-vs1-xe2d.google.com ([2607:f8b0:4864:20::e2d]:33589)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1oadQh-00058n-IE
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 09:36:52 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:44658)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oadBj-0002X1-CE; Tue, 20 Sep 2022 09:21:24 -0400
-Received: by mail-vs1-xe2d.google.com with SMTP id a129so3118989vsc.0;
- Tue, 20 Sep 2022 06:21:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1oadQb-0004uT-EJ
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 09:36:47 -0400
+Received: by mail-ej1-x630.google.com with SMTP id r18so6145276eja.11
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 06:36:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=sHmP507Dk4FIh+DPbpEvgNxu1Vt0L+E3+2vt+iQzcA8=;
- b=ZAK7lJjnNVmODvcLJ16FbyvJSmbiiA1Vhxs5KGpKDIGVuQ/FC+8AT8nUqhiZhfx9DG
- 75ULBjNNsorUh3wbhK6LZwETXE7g8Cws4o+4MA7w/4toD05305NDhKwPRKetx4MQxq72
- pX0/QSoSPNxfhtAOr1IbVVFYGEJ63BnOCMFSDmGdiWRyk9jwNjJgJyAeuq+F7GhrahdY
- MFW49Rb/1TsFHhCanDnTMiUlf7u1IUMJ7OOiz184Q0ozKevCYv+YtmShmpBczo/LbfTm
- v5TA7TTZ1qmClT2pRx1xgzwplYbM0V4wh/XvigCuSBv05C+DAm97Oqzjd+c86NTlen3v
- LtKA==
+ bh=k8DiByaDu9Du/V6017bE7jU6tByqBR7kuzhfvzi0/rY=;
+ b=YBTE7KxKhuSbgerwVZfFWgTeRJwT+8/qb2g/oG5f27JQsVOk1Gv+emj4qbXOMv3xuI
+ a6LLhvM/qFJNIJ6X/MFwNgMq0ccN5U3f6unUgrCUyVhgGEGMd5nJY7saNbE3D7kVpmJ4
+ cRuJnu3T9ooYtwA5eYNOQZFA12eGqJ8u5ccrIXXR/VXTAWz+8Y/s334CfYB1KmOtUGaK
+ nFj+zI8xqY1CeFohaDg/DBkMj5Qye/gt4LgcFHKtGBeofYjQ9vYGDKAo9lIFDTRzvPwj
+ UA+z6pEHX0agoA3jLwQGgc0gedk9tmhHMhazLS4aeo7Zy0qtImMCbISUz3jnWJOZgxkm
+ dW3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date;
- bh=sHmP507Dk4FIh+DPbpEvgNxu1Vt0L+E3+2vt+iQzcA8=;
- b=1W53AiGkd6GJb53KRVvGw4fdna/XlNRtMfWvmPjJ+lF47z08INe5Yt+TMjM24e6FIt
- dZ6QBEPt0YnhFEG2yWuRIfE3z363u+7bDsc1A9svJknRsYYp9SodmiWXTXw5cbD0a2CT
- taropVwE/OZqT2mAyflDwJrjAsidai8BSAeTSw4rJE+TI6N/+iYiuzTtuubBRq3glWTS
- 43L0BGoiNzFdQWBzlXaOyC16QDCvcMWxIgaThcVrFItzYpIh1RbA7Qnfp41sFyrPnEZx
- 77g0QN510JYnX9UlBlYWukQrzEPQR2AdBuVWkLdffvvwWIbRoDy6Kp1qCnioiEwtp5dM
- QpAw==
-X-Gm-Message-State: ACrzQf25qUaDXbLx7AqcbBygqIQjMkfXUCpkIy077y1Vca+9UyncE9Hn
- uugezTKdE/jn3sQbdHQjdshhId1YracD+ZtDoWA=
-X-Google-Smtp-Source: AMsMyM5NJzyqkWylgqnvUCiQYEsweSsEJ/Kaw1fORn/YGM+7qJyWaOB5IGVD5wmy70hnS7RaoT2BOl83VPJoKxO4MIo=
-X-Received: by 2002:a05:6102:22f8:b0:398:d463:cd0 with SMTP id
- b24-20020a05610222f800b00398d4630cd0mr8229086vsh.54.1663680078696; Tue, 20
- Sep 2022 06:21:18 -0700 (PDT)
+ bh=k8DiByaDu9Du/V6017bE7jU6tByqBR7kuzhfvzi0/rY=;
+ b=gCrcS+OMTovcoWwTHW/5O2g4LlQcErrFDyicPmW0A9gPot8XREESdpYJFKQwrtrN1R
+ mLXSCfmRcUnLLee3EJszsdzxAHPUTI1QqD4FelaRwI7z87gpG1Koxp7g+EUZgk4dENQO
+ lU9ypxx5oiZ/4oXmtPSJAuF1ZowYUDguWWCiZtvI4VBPml+7ANvcpeaV6m9VKuAmikGz
+ aVLDGbgGYq81FVWSpvt5tK2HSObt6gVdQUBOvK7LRv84HFFNlGbbcKp+0Fij3wBkOL2P
+ JtG3uIeRqWxBqhWgNKYss4yeeyain7MsSuLMVdQHSYeVva8xS2/emk0woBBI6sif94Uo
+ HQqg==
+X-Gm-Message-State: ACrzQf08vZC7OM2TWOjaSJweSlScLX9qBTMD/YtQ3PEG77QHwEXVLeQL
+ JUNBC9yGuGIJ4NdhNEmKI4iuauPOq72wCmuGvizWJcPZFA==
+X-Google-Smtp-Source: AMsMyM5i4craUDjJKpn9bnE7zei0+Jc3+G+zOO/bGOx/Vs7KBBCJwUJQYVTTw9lfWapQT/fzxh8FcdoVWguFpg/Jd34=
+X-Received: by 2002:a17:907:1b12:b0:72f:9b44:f9e with SMTP id
+ mp18-20020a1709071b1200b0072f9b440f9emr16922683ejc.653.1663681001949; Tue, 20
+ Sep 2022 06:36:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220910052759.27517-1-faithilikerun@gmail.com>
- <20220910052759.27517-4-faithilikerun@gmail.com> <Yyl/AC9X7uHyeTCu@apples>
-In-Reply-To: <Yyl/AC9X7uHyeTCu@apples>
-From: Sam Li <faithilikerun@gmail.com>
-Date: Tue, 20 Sep 2022 21:21:31 +0800
-Message-ID: <CAAAx-8JZWz_oQM3Bb7Seod9cT0vMXec40YsyA9Fmd3+5915aOQ@mail.gmail.com>
-Subject: Re: [PATCH v9 3/7] block: add block layer APIs resembling Linux
- ZonedBlockDevice ioctls
-To: Klaus Jensen <its@irrelevant.dk>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, 
- Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>, 
- qemu block <qemu-block@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>, 
- Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>, 
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Hannes Reinecke <hare@suse.de>, Hanna Reitz <hreitz@redhat.com>
+References: <20220919192306.52729-1-f4bug@amsat.org>
+ <87k05yxp7p.fsf@pond.sub.org>
+In-Reply-To: <87k05yxp7p.fsf@pond.sub.org>
+From: Yongji Xie <xieyongji@bytedance.com>
+Date: Tue, 20 Sep 2022 21:36:30 +0800
+Message-ID: <CACycT3sqE+_JNv0k4we7TyLS-JJx_hGhRCfKpe1JMLgCw_x+PA@mail.gmail.com>
+Subject: Re: [RFC PATCH] libvduse: Do not truncate terminating NUL character
+ with strncpy()
+To: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Kevin Wolf <kwolf@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2d;
- envelope-from=faithilikerun@gmail.com; helo=mail-vs1-xe2d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,84 +88,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Klaus Jensen <its@irrelevant.dk> =E4=BA=8E2022=E5=B9=B49=E6=9C=8820=E6=97=
-=A5=E5=91=A8=E4=BA=8C 16:51=E5=86=99=E9=81=93=EF=BC=9A
+On Tue, Sep 20, 2022 at 7:25 PM Markus Armbruster <armbru@redhat.com> wrote=
+:
 >
-> On Sep 10 13:27, Sam Li wrote:
-> > Add a new zoned_host_device BlockDriver. The zoned_host_device option
-> > accepts only zoned host block devices. By adding zone management
-> > operations in this new BlockDriver, users can use the new block
-> > layer APIs including Report Zone and four zone management operations
-> > (open, close, finish, reset).
+> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+>
+> > GCC 8 added a -Wstringop-truncation warning:
 > >
-> > Qemu-io uses the new APIs to perform zoned storage commands of the devi=
-ce:
-> > zone_report(zrp), zone_open(zo), zone_close(zc), zone_reset(zrs),
-> > zone_finish(zf).
+> >   The -Wstringop-truncation warning added in GCC 8.0 via r254630 for
+> >   bug 81117 is specifically intended to highlight likely unintended
+> >   uses of the strncpy function that truncate the terminating NUL
+> >   character from the source string.
 > >
-> > For example, to test zone_report, use following command:
-> > $ ./build/qemu-io --image-opts -n driver=3Dzoned_host_device, filename=
-=3D/dev/nullb0
-> > -c "zrp offset nr_zones"
+> > Here the next line indeed unconditionally zeroes the last byte, so
+> > we can call strncpy() on the buffer size less the last byte.
+>
+> Actually, the buffer is all zero to begin with, so we could do this even
+> without the next line's assignment.
+>
+
+Yes, I think we can remove the next line's assignment.
+
+> >                                                              This
+> > fixes when using gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0:
 > >
-> > Signed-off-by: Sam Li <faithilikerun@gmail.com>
-> > Reviewed-by: Hannes Reinecke <hare@suse.de>
+> >   [42/666] Compiling C object subprojects/libvduse/libvduse.a.p/libvdus=
+e.c.o
+> >   FAILED: subprojects/libvduse/libvduse.a.p/libvduse.c.o
+> >   cc -m64 -mcx16 -Isubprojects/libvduse/libvduse.a.p -Isubprojects/libv=
+duse -I../../subprojects/libvduse [...] -o subprojects/libvduse/libvduse.a.=
+p/libvduse.c.o -c ../../subprojects/libvduse/libvduse.c
+> >   In file included from /usr/include/string.h:495,
+> >                    from ../../subprojects/libvduse/libvduse.c:24:
+> >   In function =E2=80=98strncpy=E2=80=99,
+> >       inlined from =E2=80=98vduse_dev_create=E2=80=99 at ../../subproje=
+cts/libvduse/libvduse.c:1312:5:
+> >   /usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error: =
+=E2=80=98__builtin_strncpy=E2=80=99 specified bound 256 equals destination =
+size [-Werror=3Dstringop-truncation]
+> >     106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos=
+ (__dest));
+> >         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~
+> >   cc1: all warnings being treated as errors
+> >   ninja: build stopped: cannot make progress due to previous errors.
+> >
+> > Fixes: d9cf16c0be ("libvduse: Replace strcpy() with strncpy()")
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+> The subject feels a bit too alarming to me.  This patch suppresses a
+> warning, no less, no more.  Behavior doesn't change.  Perhaps
+>
+>     libvduse: Avoid warning about dangerous use of strncpy()
+>
 > > ---
-> >  block/block-backend.c             | 145 ++++++++++++++
-> >  block/file-posix.c                | 323 +++++++++++++++++++++++++++++-
-> >  block/io.c                        |  41 ++++
-> >  include/block/block-io.h          |   7 +
-> >  include/block/block_int-common.h  |  21 ++
-> >  include/block/raw-aio.h           |   6 +-
-> >  include/sysemu/block-backend-io.h |  17 ++
-> >  meson.build                       |   1 +
-> >  qapi/block-core.json              |   8 +-
-> >  qemu-io-cmds.c                    | 143 +++++++++++++
-> >  10 files changed, 708 insertions(+), 4 deletions(-)
+> > Cc: Xie Yongji <xieyongji@bytedance.com>
+> > Cc: Markus Armbruster <armbru@redhat.com>
+> > Cc: Kevin Wolf <kwolf@redhat.com>
 > >
-> > +/*
-> > + * zone management operations - Execute an operation on a zone
-> > + */
-> > +static int coroutine_fn raw_co_zone_mgmt(BlockDriverState *bs, BlockZo=
-neOp op,
-> > +        int64_t offset, int64_t len) {
-> > +#if defined(CONFIG_BLKZONED)
-> > +    BDRVRawState *s =3D bs->opaque;
-> > +    RawPosixAIOData acb;
-> > +    int64_t zone_sector, zone_sector_mask;
-> > +    const char *zone_op_name;
-> > +    unsigned long zone_op;
-> > +    bool is_all =3D false;
-> > +
-> > +    zone_sector =3D bs->bl.zone_sectors;
-> > +    zone_sector_mask =3D zone_sector - 1;
-> > +    if (offset & zone_sector_mask) {
-> > +        error_report("sector offset %" PRId64 " is not aligned to zone=
- size "
-> > +                     "%" PRId64 "", offset, zone_sector);
-> > +        return -EINVAL;
-> > +    }
-> > +
-> > +    if (len & zone_sector_mask) {
-> > +        error_report("number of sectors %" PRId64 " is not aligned to =
-zone size"
-> > +                      " %" PRId64 "", len, zone_sector);
-> > +        return -EINVAL;
-> > +    }
+> > RFC: Any better idea? We can't use strpadcpy() because libvduse
+> > doesn't depend on QEMU.
 >
-> These checks impose a power-of-two constraint on the zone size. Can they
-> be changed to divisions to lift that constraint? I don't see anything in
-> this patch set that relies on power of two zone sizes.
+> There's no need for padding: the destination calloc'ed.  So, pstrcpy()
+> would do, but it's just as unavailable.  Can we use GLib?  There's
+> g_strlcpy().
+>
+> Outside this patch's scope: is silent truncation what we want?
+>
 
-Yes, it can be changed when the kernel block layer has non-power-of-2
-zone sizes support. For now, Dmitry's work on zoned device support on
-the kernel side put the constraint on zone sectors to be po2. The
-checks here follow this constraint.
+Actually silent truncation would not happen since we called
+vduse_name_is_invalid() before.
 
-Dmitry's patches can be found here:
-https://lore.kernel.org/linux-block/20220919022921.946344-1-dmitry.fomichev=
-@wdc.com/T/#m9b0b3c8220de1307e53235d1a73dab1e3a10f62b
+static inline bool vduse_name_is_invalid(const char *name)
+{
+    return strlen(name) >=3D VDUSE_NAME_MAX || strstr(name, "..");
+}
 
-
-Sam
+Thanks,
+Yongji
 
