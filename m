@@ -2,91 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57F565BF1A2
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 02:02:14 +0200 (CEST)
-Received: from localhost ([::1]:56920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BDCD5BF1A9
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 02:03:10 +0200 (CEST)
+Received: from localhost ([::1]:34136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oanBt-0006MX-7U
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 20:02:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41478)
+	id 1oanCm-0007Yx-GF
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 20:03:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oam6W-00064z-Db
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 18:52:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23949)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oam6U-0001Vc-NX
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 18:52:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663714354;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iwOXFkTQrTibzA65OyWTTWJhrtaPwhXcDaZWJsbWqCY=;
- b=L7EILORtyl+QD9Aa0rFatIOaCwqNDEdg1I9GTjZ0hDh5bNfVDAmN+GsMFW9w7nK/Hei8Ok
- TAAgACFcN5RAl1cnppy0oJloRKE8/RXOj0li3jVYMNGJdM3IvGjtFCwv7SpFb1B38Nf41B
- 6mutCyh8pmMPh7M1Gd30hx7Wl+NbZn4=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-634-kut4LKlBN7SVF4f1XnnoGw-1; Tue, 20 Sep 2022 18:52:33 -0400
-X-MC-Unique: kut4LKlBN7SVF4f1XnnoGw-1
-Received: by mail-qv1-f72.google.com with SMTP id
- y16-20020a0cec10000000b004a5df9e16c6so3046133qvo.1
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 15:52:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oaj8X-0001Oe-HK; Tue, 20 Sep 2022 15:42:31 -0400
+Received: from mail-oo1-xc34.google.com ([2607:f8b0:4864:20::c34]:37865)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oaj8N-0001pn-Hh; Tue, 20 Sep 2022 15:42:29 -0400
+Received: by mail-oo1-xc34.google.com with SMTP id
+ h1-20020a4aa741000000b004756c611188so554127oom.4; 
+ Tue, 20 Sep 2022 12:42:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+ bh=xd7qgz5EXg1nfUENgP57u+TinL2OMi1lHaQwYs1oXRA=;
+ b=GEiY8DtzRPT/m4bIHqYh1giDOD+u8WkCpKiehKVNFg0sSnfrhHQ3o5e+3rGMqUgNGA
+ FgG89Z5rMkaX6RBcgekmsmJORWUOLihBjBqEWs1n2MJFJy/s3MitJuJaz+a5yLcpzPBO
+ 8uEg50u2AZMZzarrPowujVUtjsk2K/V99+IhKy0vlb3UPy50aNo72EfCPg1mx8Ny6Vaa
+ 2tk/De1OO5Q/pDBRlZsIpj4igejJAjxBkchyybPQuXkWYZ3ixT21b8WWrA/psVu9xzIq
+ QosMu3P/z+ZT0nymMOGMsRkcWuJccfXlXIUjTH7GTfkExxYRVr2l9WRC3qeYYIRoRbkK
+ Wq9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=iwOXFkTQrTibzA65OyWTTWJhrtaPwhXcDaZWJsbWqCY=;
- b=sziPieVvX7rRvwwjGvgeI4kFWAtNKj1cnL/YCX/O4hYeJZSDtOk8mvquuTu0isKW2n
- rKRDYpeJnmXWCGz97zkUraRXAvIWsAmor8gVEx9//dUeAMgo+fhOw6vxdmn9nO+vNryF
- yghC+8frZTfzj3MnX2nh3+jSXKAUMR76AJN2ppAwTvmcwSvBZyIgnw7KZI6WPvcBJg/B
- 6EgFL7SB26SA+Y0aKHPFAkvcSoQr6k/sC5QVRUjBnGKB08v49y4F37SdfijawSYE9xqV
- awNk1zW0PawMrLrE6chOT3YWvGdJ9ro1uQz8IEGfSouOfCADxXYUq6ntX8CgMsurqVCZ
- BpNg==
-X-Gm-Message-State: ACrzQf23ekGV0lGikO7/L3sIffIkf9yuoyAjp2+TkvNdxb5Dz6OwDsqC
- gaQMLu17rwHbo1kVEolw2pho/abwyZcTIY7VZShsc+7wmCAOoYFF2dRQzw7W9urbVvfFzQ/yI8G
- hXtZfcYq9S0b/7xQmkY6UP39uVHK3Dn9mR/JEcUbHnNk6J7VjoLV3nGvd3uN1sg5H
-X-Received: by 2002:a05:622a:590:b0:35c:f3f0:f8dc with SMTP id
- c16-20020a05622a059000b0035cf3f0f8dcmr7118635qtb.440.1663714352078; 
- Tue, 20 Sep 2022 15:52:32 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM57KSLNMXFPEnUQIXIzBCWRd07AM8fRBSx+8D6xo4Ww7OM/aAImGeVQGpnth6Z7Azw8jaOAcA==
-X-Received: by 2002:a05:622a:590:b0:35c:f3f0:f8dc with SMTP id
- c16-20020a05622a059000b0035cf3f0f8dcmr7118618qtb.440.1663714351752; 
- Tue, 20 Sep 2022 15:52:31 -0700 (PDT)
-Received: from localhost.localdomain
- (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca. [70.31.27.79])
+ bh=xd7qgz5EXg1nfUENgP57u+TinL2OMi1lHaQwYs1oXRA=;
+ b=jLxwiiuKu1c1gXvMomcxBwnT4IvihWH2pxelWHy+hVffgTPRz38laF76r2YjNdp5Ba
+ CN1H3xnFVqPOiSS6ayB+j0pQ2CS2MdvS8EpRMpVzKziwFN0f3dbHiBV9nu6436fHjZy+
+ 6/QgfQhTQX8k7Vkrb/n3ETlsMDhwo1ON0jC9LMw/IQmpKPJNhmRcKeqbJYMUMrNuso8M
+ bjYhbW3jQ0dxbHva22zqxIo6KsnAIs17ZYshQFZZdL5kFCdAsPBOZJxf3bwQabsEHV8y
+ D/ux9mh4O5bnSc2ClNtRPQIYrBB/t/qyXXnyqhuABDrPvvuN1RT1UIJw5FdebuAjpbo1
+ Qb0g==
+X-Gm-Message-State: ACrzQf3gYi4J2pb3MbGmNZIEb77nyYwkb9IsT4GQ6wnpnVQSbTrou+v3
+ EppAbkRNHqeMgxhAUr3wQFNVTN5iCHc=
+X-Google-Smtp-Source: AMsMyM7STis0A2SoE9Dk5OiNgpmZJydQ0dSfpbcaefAqRZ1R65CjTQBUw3MUpqQemfPTeKsNJ9dr4A==
+X-Received: by 2002:a05:6820:44b:b0:476:3049:3d32 with SMTP id
+ p11-20020a056820044b00b0047630493d32mr495013oou.92.1663702937780; 
+ Tue, 20 Sep 2022 12:42:17 -0700 (PDT)
+Received: from balboa.COMFAST ([191.193.2.69])
  by smtp.gmail.com with ESMTPSA id
- c3-20020a37e103000000b006ce3fcee2bdsm675903qkm.50.2022.09.20.15.52.30
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 20 Sep 2022 15:52:31 -0700 (PDT)
-From: Peter Xu <peterx@redhat.com>
+ e33-20020a05687023a100b0012763819bcasm333808oap.50.2022.09.20.12.42.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Sep 2022 12:42:17 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: peterx@redhat.com, Manish Mishra <manish.mishra@nutanix.com>,
- Juan Quintela <quintela@redhat.com>, ani@anisinha.ca,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>
-Subject: [PATCH 14/14] migration: Drop rs->f
-Date: Tue, 20 Sep 2022 18:52:29 -0400
-Message-Id: <20220920225229.49212-1-peterx@redhat.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220920225106.48451-1-peterx@redhat.com>
-References: <20220920225106.48451-1-peterx@redhat.com>
+Cc: qemu-ppc@nongnu.org, clg@kaod.org,
+ =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>,
+ Lucas Mateus Castro <lucas.araujo@eldorado.org.br>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: [PULL 03/17] target/ppc: Implement hashstp and hashchkp
+Date: Tue, 20 Sep 2022 16:41:48 -0300
+Message-Id: <20220920194202.82615-4-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20220920194202.82615-1-danielhb413@gmail.com>
+References: <20220920194202.82615-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c34;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc34.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,80 +92,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now with rs->pss we can already cache channels in pss->pss_channels.  That
-pss_channel contains more infromation than rs->f because it's per-channel.
-So rs->f could be replaced by rss->pss[RAM_CHANNEL_PRECOPY].pss_channel,
-while rs->f itself is a bit vague now.
+From: Víctor Colombo <victor.colombo@eldorado.org.br>
 
-Note that vanilla postcopy still send pages via pss[RAM_CHANNEL_PRECOPY],
-that's slightly confusing but it reflects the reality.
+Implementation for instructions hashstp and hashchkp, the privileged
+versions of hashst and hashchk, which were added in Power ISA 3.1B.
 
-Then, after the replacement we can safely drop rs->f.
-
-Signed-off-by: Peter Xu <peterx@redhat.com>
+Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+Reviewed-by: Lucas Mateus Castro <lucas.araujo@eldorado.org.br>
+Message-Id: <20220715205439.161110-4-victor.colombo@eldorado.org.br>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- migration/ram.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ target/ppc/excp_helper.c                   | 2 ++
+ target/ppc/helper.h                        | 2 ++
+ target/ppc/insn32.decode                   | 2 ++
+ target/ppc/translate/fixedpoint-impl.c.inc | 2 ++
+ 4 files changed, 8 insertions(+)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index f42efe02fc..03bf2324ab 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -345,8 +345,6 @@ struct RAMSrcPageRequest {
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index 7a16991f3d..214acf5ac4 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -2253,6 +2253,8 @@ void helper_##op(CPUPPCState *env, target_ulong ea, target_ulong ra,          \
  
- /* State of RAM for migration */
- struct RAMState {
--    /* QEMUFile used for this migration */
--    QEMUFile *f;
-     /*
-      * PageSearchStatus structures for the channels when send pages.
-      * Protected by the bitmap_mutex.
-@@ -2555,8 +2553,6 @@ static int ram_find_and_save_block(RAMState *rs)
-         }
+ HELPER_HASH(HASHST, env->spr[SPR_HASHKEYR], true)
+ HELPER_HASH(HASHCHK, env->spr[SPR_HASHKEYR], false)
++HELPER_HASH(HASHSTP, env->spr[SPR_HASHPKEYR], true)
++HELPER_HASH(HASHCHKP, env->spr[SPR_HASHPKEYR], false)
  
-         if (found) {
--            /* Cache rs->f in pss_channel (TODO: remove rs->f) */
--            pss->pss_channel = rs->f;
-             pages = ram_save_host_page(rs, pss);
-         }
-     } while (!pages && again);
-@@ -3112,7 +3108,7 @@ static void ram_state_resume_prepare(RAMState *rs, QEMUFile *out)
-     ram_state_reset(rs);
+ #if !defined(CONFIG_USER_ONLY)
  
-     /* Update RAMState cache of output QEMUFile */
--    rs->f = out;
-+    rs->pss[RAM_CHANNEL_PRECOPY].pss_channel = out;
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 5817af632b..122b2e9359 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -6,6 +6,8 @@ DEF_HELPER_FLAGS_4(td, TCG_CALL_NO_WG, void, env, tl, tl, i32)
+ #endif
+ DEF_HELPER_4(HASHST, void, env, tl, tl, tl)
+ DEF_HELPER_4(HASHCHK, void, env, tl, tl, tl)
++DEF_HELPER_4(HASHSTP, void, env, tl, tl, tl)
++DEF_HELPER_4(HASHCHKP, void, env, tl, tl, tl)
+ #if !defined(CONFIG_USER_ONLY)
+ DEF_HELPER_2(store_msr, void, env, tl)
+ DEF_HELPER_1(rfi, void, env)
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index 544514565c..da08960fca 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -330,6 +330,8 @@ PEXTD           011111 ..... ..... ..... 0010111100 -   @X
  
-     trace_ram_state_resume_prepare(pages);
- }
-@@ -3203,7 +3199,7 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
-             return -1;
-         }
-     }
--    (*rsp)->f = f;
-+    (*rsp)->pss[RAM_CHANNEL_PRECOPY].pss_channel = f;
+ HASHST          011111 ..... ..... ..... 1011010010 .   @X_DW
+ HASHCHK         011111 ..... ..... ..... 1011110010 .   @X_DW
++HASHSTP         011111 ..... ..... ..... 1010010010 .   @X_DW
++HASHCHKP        011111 ..... ..... ..... 1010110010 .   @X_DW
  
-     WITH_RCU_READ_LOCK_GUARD() {
-         qemu_put_be64(f, ram_bytes_total_common(true) | RAM_SAVE_FLAG_MEM_SIZE);
-@@ -3338,7 +3334,7 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
- out:
-     if (ret >= 0
-         && migration_is_setup_or_active(migrate_get_current()->state)) {
--        ret = multifd_send_sync_main(rs->f);
-+        ret = multifd_send_sync_main(rs->pss[RAM_CHANNEL_PRECOPY].pss_channel);
-         if (ret < 0) {
-             return ret;
-         }
-@@ -3406,7 +3402,7 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
-         return ret;
-     }
+ ## BCD Assist
  
--    ret = multifd_send_sync_main(rs->f);
-+    ret = multifd_send_sync_main(rs->pss[RAM_CHANNEL_PRECOPY].pss_channel);
-     if (ret < 0) {
-         return ret;
-     }
+diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
+index 41c06de8a2..1ba56cbed5 100644
+--- a/target/ppc/translate/fixedpoint-impl.c.inc
++++ b/target/ppc/translate/fixedpoint-impl.c.inc
+@@ -572,3 +572,5 @@ static bool do_hash(DisasContext *ctx, arg_X *a, bool priv,
+ 
+ TRANS(HASHST, do_hash, false, gen_helper_HASHST)
+ TRANS(HASHCHK, do_hash, false, gen_helper_HASHCHK)
++TRANS(HASHSTP, do_hash, true, gen_helper_HASHSTP)
++TRANS(HASHCHKP, do_hash, true, gen_helper_HASHCHKP)
 -- 
-2.32.0
+2.37.3
 
 
