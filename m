@@ -2,86 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D37E5BEE9B
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 22:37:16 +0200 (CEST)
-Received: from localhost ([::1]:49362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2B2D5BEEDC
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 23:00:52 +0200 (CEST)
+Received: from localhost ([::1]:44358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oajzX-0008EH-Bw
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 16:37:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40154)
+	id 1oakMN-0006Iu-0B
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 17:00:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oafMO-0001RJ-7O; Tue, 20 Sep 2022 11:40:32 -0400
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:33342)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oafQS-00049y-Kj
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:44:44 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:40639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oafMM-00026E-Df; Tue, 20 Sep 2022 11:40:31 -0400
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-1274ec87ad5so4878752fac.0; 
- Tue, 20 Sep 2022 08:40:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=BgXKGvAX7TGUhqn3f0++dK0+AnxAU2iMCwEEafnZxzs=;
- b=p2rUYmGFt8VUU9JwBw6xJ/K1orE/QM8cxpkVKhdzhrKNLheNN/h1Ef2tkEPWO9XYgv
- m2SsImZYBP/dWiNlAKpB1/JDpLLd6GHbSMbivZTxSTZ1UjmRR3WCkQjEjKCoeQ9wMv1d
- +HHWBET7B6Ky+Ezc5SWoq7hfEgfVoHl3y4FAORYvga6bUWEkAneE8F6LPwgKy6d6pfDl
- DQNJTNquxOsoUMs/+90VsHAWa9MTdH3URTHuiM1lWC25ENp4svc0MkxWWJIvTOxxRl1E
- gXsbtk/UJKz5sJyuhmn7Iu1amjElIwNqk067aLwrZRpmLcWCaR0Sv2jJMn/bdXP1Hz7F
- P0hw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oafQP-0002UU-4J
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 11:44:44 -0400
+Received: by mail-ej1-x632.google.com with SMTP id l14so7164529eja.7
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 08:44:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=f3OOuq7G2utd6Kl5pM+LB6T0p6nllc8GVPOH6d9hJ4g=;
+ b=XVU54dkSSGg9jA7VelaKho3XCL92W6cy3dqdg/cusW2kghxWw28Xe6jJ8Svg0WryqF
+ yRDrfEfjooGauvRXTiInPV3fC3SUa4WaDFgOm8+Tfa/xi0fQ/lMsR4C1e7bliFPg/9Ia
+ cWXF4g1LQqfWkwg/rcTVsevGL+cPNSiqwWZgFZvPARnQVxdGRYUj+WC966wB73/60nt/
+ AmeE77aYFtRjyYYX7wpIN1vMLkioMdlqPBc6bdjHAFCcNipnjYPDN2/lR2lSmuuvqk7c
+ p2N4+ChtfEPP7NlrNMHz/od2GXL0Amcpv/yvlw3o7zws1KHoPmIns4gY511HP7CQLqGq
+ DxJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=BgXKGvAX7TGUhqn3f0++dK0+AnxAU2iMCwEEafnZxzs=;
- b=ef59MzER4ohVdcWP5rXQ8BgVd8in9Xj/kuqkPmnLpp4dmWozY/l7YwJgIJo141Y7p0
- UsnFy9oPY3zNYRxG24W++750cyAeSgKJCjuh83ntibOU1iaTX3CoPptLLal1V8pcAiZa
- QXZVYkvsQnuoFpfp74VvM5hWrAnWWRPTh8stcyfe3BIKNNL8j2/m+Dl9i77oi84gIY8a
- Qlz3/exgsSAFAd5u+f5/gO5JTE+pNuq8B+3P5cMHJ2w7540mE5Uo5XyjNmYAgLhy5cP2
- 8ZqTH2yMS0psHmuI/mVTU1S1BmcHDXQAix5ohkhTfP59HTDTqD29tpltaF8mtHNi9SsU
- 0hFg==
-X-Gm-Message-State: ACrzQf2VEBHesQGJ4IM4uXQMWD7+LAgYuR59B3uprGmBsjZXS8S9BHsm
- 8Ok6KCj4Wh9AdAf/H7YwF4g=
-X-Google-Smtp-Source: AMsMyM73AFaHYKEOnm7NPcqpVsXdws9MDLKLEI1Z9VZ3WrD7nykpjSnvoww+Snl27z+8qFb99ARBbg==
-X-Received: by 2002:a05:6870:2392:b0:127:7e1:e3bf with SMTP id
- e18-20020a056870239200b0012707e1e3bfmr2489554oap.43.1663688428621; 
- Tue, 20 Sep 2022 08:40:28 -0700 (PDT)
-Received: from [192.168.10.102] ([191.193.2.69])
- by smtp.gmail.com with ESMTPSA id
- ca11-20020a056830610b00b0065a0d4b8969sm71140otb.5.2022.09.20.08.40.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Sep 2022 08:40:27 -0700 (PDT)
-Message-ID: <8c9748e9-0204-c5c5-bdde-3ae069c0c98a@gmail.com>
-Date: Tue, 20 Sep 2022 12:40:23 -0300
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=f3OOuq7G2utd6Kl5pM+LB6T0p6nllc8GVPOH6d9hJ4g=;
+ b=jR0FbNuFCSsuRAMo0vE/zUp/6qxUzDszuB9CqmLVa6Xlce3NUeJb8uBFMOlh8qeU96
+ jIY4ZiKNabnPwd4A8U/okaF9B+NdUvi28aulZlTPgS2pDF5zNyR8f+W4CJsmDlNam08T
+ keonYqaplDTaQt+DZ4OH8EvA3Dfznxd5atf746Brggaux5hplKrB4i27StOcd9a6yB9j
+ j+wilgj1xlIp7MIwWuKvoh6viXxWo1pW7rUmU3MBP7id4rgKaXJW7A1+/g9ZU8X6Zq09
+ 7Ituj5spxcJMBkTcXIKm6VVYv0/RB84J9O09yYKoLz2NP5vxuPjzDa0i1bnZ/ffa9MgY
+ WDpw==
+X-Gm-Message-State: ACrzQf0zWJsxjKu1yOlaig/UJFauWXcTP4uNruw4S5TWQ2BFiJ6mIQPl
+ /ghGcO85yiv1M/fWIkzk7P7xEYTLUlh2POrqCJS61A==
+X-Google-Smtp-Source: AMsMyM4xHP9sbLigV8L/Vsb+/L1Gdx5Nv+8WXuKuAUZFUcPgatpc/5oSoO5l5TKJGlO2As2+nagcujKcOAFw5LflNrA=
+X-Received: by 2002:a17:907:86a5:b0:780:156d:e842 with SMTP id
+ qa37-20020a17090786a500b00780156de842mr17239012ejc.555.1663688679524; Tue, 20
+ Sep 2022 08:44:39 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v2 28/39] hw/pci-host: pnv_phb{3, 4}: Fix heap
- out-of-bound access failure
-Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
-Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
- Bin Meng <bin.meng@windriver.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>, qemu-ppc@nongnu.org
-References: <20220920103159.1865256-1-bmeng.cn@gmail.com>
- <20220920103159.1865256-29-bmeng.cn@gmail.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220920103159.1865256-29-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2c;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2c.google.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20220822152741.1617527-1-richard.henderson@linaro.org>
+ <20220822152741.1617527-27-richard.henderson@linaro.org>
+In-Reply-To: <20220822152741.1617527-27-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 20 Sep 2022 16:44:27 +0100
+Message-ID: <CAFEAcA8WfVEfrtk9EweJ=Dk8SwXLkpb-P6x6XYCj2AJtXNpfUg@mail.gmail.com>
+Subject: Re: [PATCH v2 26/66] target/arm: Fold secure and non-secure a-profile
+ mmu indexes
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.182,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,67 +84,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bin,
+On Mon, 22 Aug 2022 at 18:13, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> For a-profile, which does not bank system registers,
 
-Since I'll send a ppc pull request shortly, I'll queue up both this and patch 27 via
-the ppc tree. These are good fixes that are independent of what happens with the
-'tests/qtest: Enable running qtest on Windows​' series.
+32-bit A-profile has a pile of banked system registers...
 
-
-Thanks,
-
-
-Daniel
-
-On 9/20/22 07:31, Bin Meng wrote:
-> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> 
-> pnv_phb3_root_bus_info and pnv_phb4_root_bus_info are missing the
-> instance_size initialization. This results in accessing out-of-bound
-> memory when setting 'chip-id' and 'phb-id', and eventually crashes
-> glib's malloc functionality with the following message:
-> 
->    "qemu-system-ppc64: GLib: ../glib-2.72.3/glib/gmem.c:131: failed to allocate 3232 bytes"
-> 
-> This issue was noticed only when running qtests with QEMU Windows
-> 32-bit executable. Windows 64-bit, Linux 32/64-bit do not expose
-> this bug though.
-> 
-> Fixes: 9ae1329ee2fe ("ppc/pnv: Add models for POWER8 PHB3 PCIe Host bridge")
-> Fixes: 4f9924c4d4cf ("ppc/pnv: Add models for POWER9 PHB4 PCIe Host bridge")
-> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> it takes
+> quite a lot of code to switch between security states.  In the
+> process, registers such as TCR_EL{1,2} must be swapped, which in
+> itself requires the flushing of softmmu tlbs.  Therefore it
+> doesn't buy us anything to separate tlbs by security state.
+>
+> Retain the distinction between Stage2 and Stage2_S.
+>
+> This will be important as we implement FEAT_RME, and do not
+> wish to add a third set of mmu indexes for Realm state.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-> 
-> Changes in v2:
-> - new patch: "hw/pci-host: pnv_phb{3,4}: Fix heap out-of-bound access failure"
-> 
->   hw/pci-host/pnv_phb3.c | 1 +
->   hw/pci-host/pnv_phb4.c | 1 +
->   2 files changed, 2 insertions(+)
-> 
-> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-> index af8575c007..9054c393a2 100644
-> --- a/hw/pci-host/pnv_phb3.c
-> +++ b/hw/pci-host/pnv_phb3.c
-> @@ -1169,6 +1169,7 @@ static void pnv_phb3_root_bus_class_init(ObjectClass *klass, void *data)
->   static const TypeInfo pnv_phb3_root_bus_info = {
->       .name = TYPE_PNV_PHB3_ROOT_BUS,
->       .parent = TYPE_PCIE_BUS,
-> +    .instance_size = sizeof(PnvPHB3RootBus),
->       .class_init = pnv_phb3_root_bus_class_init,
->   };
->   
-> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-> index 824e1a73fb..ccbde841fc 100644
-> --- a/hw/pci-host/pnv_phb4.c
-> +++ b/hw/pci-host/pnv_phb4.c
-> @@ -1773,6 +1773,7 @@ static void pnv_phb4_root_bus_class_init(ObjectClass *klass, void *data)
->   static const TypeInfo pnv_phb4_root_bus_info = {
->       .name = TYPE_PNV_PHB4_ROOT_BUS,
->       .parent = TYPE_PCIE_BUS,
-> +    .instance_size = sizeof(PnvPHB4RootBus),
->       .class_init = pnv_phb4_root_bus_class_init,
->   };
->   
+>  target/arm/cpu-param.h     |   2 +-
+>  target/arm/cpu.h           |  69 +++++++-----------
+>  target/arm/internals.h     |  31 +-------
+>  target/arm/helper.c        | 144 +++++++++++++------------------------
+>  target/arm/ptw.c           |  25 ++-----
+>  target/arm/translate-a64.c |   8 ---
+>  target/arm/translate.c     |   6 +-
+>  7 files changed, 83 insertions(+), 202 deletions(-)
+>
+> diff --git a/target/arm/cpu-param.h b/target/arm/cpu-param.h
+> index 68ffb12427..08681828ac 100644
+> --- a/target/arm/cpu-param.h
+> +++ b/target/arm/cpu-param.h
+> @@ -32,6 +32,6 @@
+>  # define TARGET_PAGE_BITS_MIN  10
+>  #endif
+>
+> -#define NB_MMU_MODES 15
+> +#define NB_MMU_MODES 8
+>
+>  #endif
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index ee94d8e653..cea2121f67 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -2873,26 +2873,26 @@ bool write_cpustate_to_list(ARMCPU *cpu, bool kvm_sync);
+>   *     table over and over.
+>   *  6. we need separate EL1/EL2 mmu_idx for handling the Privileged Access
+>   *     Never (PAN) bit within PSTATE.
+> + *  7. we fold together the secure and non-secure regimes for A-profile,
+> + *     because there are no banked system registers,
+
+ditto
+
+> so the process of
+> + *     switching between secure and non-secure is already heavyweight.
+>   *
+>   * This gives us the following list of cases:
+>   *
+> - * NS EL0 EL1&0 stage 1+2 (aka NS PL0)
+> - * NS EL1 EL1&0 stage 1+2 (aka NS PL1)
+> - * NS EL1 EL1&0 stage 1+2 +PAN
+> - * NS EL0 EL2&0
+> - * NS EL2 EL2&0
+> - * NS EL2 EL2&0 +PAN
+> - * NS EL2 (aka NS PL2)
+> - * S EL0 EL1&0 (aka S PL0)
+> - * S EL1 EL1&0 (not used if EL3 is 32 bit)
+> - * S EL1 EL1&0 +PAN
+> - * S EL3 (aka S PL1)
+> + * EL0 EL1&0 stage 1+2 (aka NS PL0)
+> + * EL1 EL1&0 stage 1+2 (aka NS PL1)
+> + * EL1 EL1&0 stage 1+2 +PAN
+> + * EL0 EL2&0
+> + * EL2 EL2&0
+> + * EL2 EL2&0 +PAN
+> + * EL2 (aka NS PL2)
+> + * EL3 (aka S PL1)
+>   *
+>   * for a total of 11 different mmu_idx.
+
+This number needs updating :-)
+
+>   *
+>   * R profile CPUs have an MPU, but can use the same set of MMU indexes
+> - * as A profile. They only need to distinguish NS EL0 and NS EL1 (and
+> - * NS EL2 if we ever model a Cortex-R52).
+> + * as A profile. They only need to distinguish EL0 and EL1 (and
+> + * EL2 if we ever model a Cortex-R52).
+>   *
+
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index 09990ca096..b9f1a3d826 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -1671,6 +1671,7 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+>      /* Begin with base v8.0 state.  */
+>      uint32_t valid_mask = 0x3fff;
+>      ARMCPU *cpu = env_archcpu(env);
+> +    uint64_t changed;
+>
+>      /*
+>       * Because SCR_EL3 is the "real" cpreg and SCR is the alias, reset always
+> @@ -1730,7 +1731,22 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+>
+>      /* Clear all-context RES0 bits.  */
+>      value &= valid_mask;
+> -    raw_write(env, ri, value);
+> +    changed = env->cp15.scr_el3 ^ value;
+> +    env->cp15.scr_el3 = value;
+> +
+> +    /*
+> +     * If SCR_EL3.NS changes, i.e. arm_is_secure_below_el3, then
+> +     * we must invalidate all TLBs below EL3.
+> +     */
+> +    if (changed & SCR_NS) {
+> +        tlb_flush_by_mmuidx(env_cpu(env), (ARMMMUIdxBit_E10_0 |
+> +                                           ARMMMUIdxBit_E20_0 |
+> +                                           ARMMMUIdxBit_E10_1 |
+> +                                           ARMMMUIdxBit_E20_2 |
+> +                                           ARMMMUIdxBit_E10_1_PAN |
+> +                                           ARMMMUIdxBit_E20_2_PAN |
+> +                                           ARMMMUIdxBit_E2));
+
+In theory I suppose for a CPU without Secure EL2 support we could avoid
+flushing the EL2 TLBs, but it's probably not worth worrying about.
+
+> +    }
+>  }
+
+Other than the comment/commit message nits,
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
