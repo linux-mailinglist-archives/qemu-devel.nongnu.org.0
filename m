@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB5C95BD87C
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 01:55:09 +0200 (CEST)
-Received: from localhost ([::1]:35398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFAE75BD8D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Sep 2022 02:37:38 +0200 (CEST)
+Received: from localhost ([::1]:49970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaQbU-0000Qg-Ri
-	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 19:55:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51756)
+	id 1oaRGb-0006dN-Et
+	for lists+qemu-devel@lfdr.de; Mon, 19 Sep 2022 20:37:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oaQa9-0007LM-8M; Mon, 19 Sep 2022 19:53:45 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:39716)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oaRF1-0004oE-8L; Mon, 19 Sep 2022 20:35:59 -0400
+Received: from mail-vs1-xe34.google.com ([2607:f8b0:4864:20::e34]:36523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oaQa7-0007gq-J0; Mon, 19 Sep 2022 19:53:44 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- d64-20020a17090a6f4600b00202ce056566so9003158pjk.4; 
- Mon, 19 Sep 2022 16:53:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oaREz-0005lU-84; Mon, 19 Sep 2022 20:35:58 -0400
+Received: by mail-vs1-xe34.google.com with SMTP id o123so1409659vsc.3;
+ Mon, 19 Sep 2022 17:35:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=023v+flDMWxN5iQA52EL9wQAhhagAs5eVB4gEFRAT78=;
- b=R6J9VfsySnI6dTYCCLHoZyE5IGCoA9jeS9M7+1gyYLbDXySTGRCD0kwjJmYySFZNhC
- xvdamVWzIdDCYufkWuQuGBYeqqJ3S1zOSmUGUBykfRWcM4mByUPIJVlVXn8JfZOn3WK0
- p6x2Pk1AXdLRXxw732pEtBXxVRsUrTZtlVlV9cGoMeY+AeJAdJx9KGBGUh//fe7e85cx
- J3MNl4gyaklC5T1Gz3u1CqZ3hXeLROEJDJIA7l3hlAy+ogiwmeJGs8s6x79968+fGeO0
- 7BRU9cUSS7DM5ayiMqmbOycKaSnSSDaeTREOfb4GHPctlrilASR3A+0iJoqrAFi0XR0I
- 4UBw==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=lzxP1zIvynt+fFHL2L4x/3Uxw5Z/m9NOiKyn9w7E6/Q=;
+ b=Gr8cELSoYCmID1EjfJUNkpjsXxRTrGW0d8HJ1nipHKGua9KNbB7jPaOwgxinMpg6Wm
+ vMVwi5GelA1vvHAWTIgA97Kz8MPANWyJpdQ5NcWoRUBsSVnTcnRBIzPYeT/cZ/NzMbIh
+ yvkgJ5OEz31AKZg1Xg53/bWwwAXNzLndnnmQaJyxvsAP7S2ADCcHHautPxEFu7OdXn5C
+ hTfWcgRkD3SpVb8KK3gBSl0HXcJ/qNC3PFJyyVId3TwZxIhdd8VgvdjxUD0ZEpKMnHGh
+ omFy82dpXVnATVwHVr4lD3Mzy/blHXVwPsQLe36yGgYVTmb+wEfik8SW3aPtJFVxCgwY
+ MfDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=023v+flDMWxN5iQA52EL9wQAhhagAs5eVB4gEFRAT78=;
- b=V8mwqWcS7InAVYyNgcbX+El/Mv0gQcXJ2Z8zPrBEupvinTC+F6WLKW+tXx5nK7SBv8
- nzWedXEMfrH5mgbfKOokjca7jN+mA5SA6PedXaW5IwXUCUOueizBwLwlgxCH52kWApZN
- oF8C16fqlhDZz+oKhNNkCQBPVFyCREVxAF41RpzsP4/CLn6ai6n6RK6PNeGbg3KBVCpt
- Eg8ii1rZlPHQDEMh5njd62orQXCwqAnkVz1+jIcEqqY0ovxtISj3yPomBetopo7AYRZ1
- 6Rwopg5uP2RzfxugkdfveJv1WHhrOf3ZusORWBhW5sFn6aoMWBetp4EzYUcfdAefM5nl
- kKCg==
-X-Gm-Message-State: ACrzQf2hUUwJVAbGvNub5cBaOm5CID8ehweDen6v1YEGA/xO+1IN0nxn
- H/TRgXAHTh1bNaGRmfq/JN7hl6qBcvpPmVPzzLs=
-X-Google-Smtp-Source: AMsMyM6d8rjyJctMPF9JFP4K4W5f3WzOTtmxzJPxZdoPdYG2wO7t62Rj6uZ3MqJyNUVSOknO1IK6jnR8oJ8WGlw3ZpQ=
-X-Received: by 2002:a17:903:32c4:b0:178:5206:b396 with SMTP id
- i4-20020a17090332c400b001785206b396mr2177261plr.99.1663631621627; Mon, 19 Sep
- 2022 16:53:41 -0700 (PDT)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=lzxP1zIvynt+fFHL2L4x/3Uxw5Z/m9NOiKyn9w7E6/Q=;
+ b=hRrnxOykRgtzlcvvRK0GEqjPwqytxGyuw9TGb5kweN6hqN1JqF9y6L0+qRydae3an9
+ S1o0BWiyGZZfln0nl7PXzlgXZq/Mtzf4ZzMMoD16vp+NTI2wNSNBSnnHMNUtRyX9tUQc
+ wCwP2CG6bLHUdWk24OaEhyyHyDTDMSVSkC6z1mjPDi0F8BfXb1SPeECPg1z7E5zioB8m
+ 0M8fE544oe7qF0wmtw1gofkZLozHd3X/+G6hAlVPnXD5dCUsaRBX3OJN2SqLAiGQRdAP
+ tJ5G5C5lQOT1fhhgsOyDZnxeA0RqI6CmHZEbjPWpzpLTagNJ79vPWfM0z0A6amBcSJAe
+ 1Bag==
+X-Gm-Message-State: ACrzQf27MQoWDcj0YAlTBGXSnCMGOJisEcDv4PbOzmcaVjPr70NFKHPC
+ PVmu8/q8+wckTjnaaoB92uw7fja+9CYG46J6LIRBBa/eVIA=
+X-Google-Smtp-Source: AMsMyM78eaUk5grrIEamzRnyXlpm87WXsLaAeFB/TYMQWcuevgaM5Bm2hiAt2Aj9N0TdZweEqwgzvAgPeK0/bUOZpe8=
+X-Received: by 2002:a05:6102:3c9d:b0:398:7d74:157e with SMTP id
+ c29-20020a0561023c9d00b003987d74157emr6869709vsv.71.1663634155722; Mon, 19
+ Sep 2022 17:35:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220918083245.13028-1-frank.chang@sifive.com>
-In-Reply-To: <20220918083245.13028-1-frank.chang@sifive.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 20 Sep 2022 09:53:15 +1000
-Message-ID: <CAKmqyKPafB1vMPiXAR20mHqCm0jn6Fs1_7RfGx6O2c=v8ftpFw@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Check the correct exception cause in vector
- GDB stub
-To: Frank Chang <frank.chang@sifive.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- Jim Shu <jim.shu@sifive.com>, Tommy Wu <tommy.wu@sifive.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>
+References: <20220910065057.35017-1-faithilikerun@gmail.com>
+ <YyjKLVKZq4oQHs+F@fedora>
+In-Reply-To: <YyjKLVKZq4oQHs+F@fedora>
+From: Sam Li <faithilikerun@gmail.com>
+Date: Tue, 20 Sep 2022 08:36:08 +0800
+Message-ID: <CAAAx-8KE9FjzVuebQF2TTGK3z=+nozoPkFU_KUZ3QBU5hxV-MQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] include: import virtio_blk headers from linux with
+ zoned device support
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Hannes Reinecke <hare@suse.de>, Kevin Wolf <kwolf@redhat.com>, 
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ qemu block <qemu-block@nongnu.org>, 
+ Hanna Reitz <hreitz@redhat.com>, Dmitry Fomichev <dmitry.fomichev@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=alistair23@gmail.com; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e34;
+ envelope-from=faithilikerun@gmail.com; helo=mail-vs1-xe34.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,54 +88,185 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Sep 18, 2022 at 6:29 PM <frank.chang@sifive.com> wrote:
+Stefan Hajnoczi <stefanha@redhat.com> =E4=BA=8E2022=E5=B9=B49=E6=9C=8820=E6=
+=97=A5=E5=91=A8=E4=BA=8C 03:59=E5=86=99=E9=81=93=EF=BC=9A
 >
-> From: Frank Chang <frank.chang@sifive.com>
+> On Sat, Sep 10, 2022 at 02:50:56PM +0800, Sam Li wrote:
+> > Add file from Dmitry's "virtio-blk:add support for zoned block devices"
+> > linux patch using scripts/update-linux-headers.sh. There is a link for
+> > more information: https://github.com/dmitry-fomichev/virtblk-zbd
 >
-> After RISCVException enum is introduced, riscv_csrrw_debug() returns
-> RISCV_EXCP_NONE to indicate there's no error. RISC-V vector GDB stub
-> should check the result against RISCV_EXCP_NONE instead of value 0.
-> Otherwise, 'E14' packet would be incorrectly reported for vector CSRs
-> when using "info reg vector" GDB command.
+> Hi Sam,
+> Linux headers are imported into QEMU using
+> scripts/update-linux-headers.sh. Did you import the header using this
+> script?
 >
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
-> Reviewed-by: Jim Shu <jim.shu@sifive.com>
-> Reviewed-by: Tommy Wu <tommy.wu@sifive.com>
+> If yes, please mention it in the commit description. If not, please do
+> so in the next revision.
 
-Thanks!
+Yes, I'll change the commit description to "include: update virtio-blk
+header from Linux 5.19-rc2+".
 
-Applied to riscv-to-apply.next
-
-Alistair
-
-> ---
->  target/riscv/gdbstub.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-> index 9ed049c29e..118bd40f10 100644
-> --- a/target/riscv/gdbstub.c
-> +++ b/target/riscv/gdbstub.c
-> @@ -211,7 +211,7 @@ static int riscv_gdb_get_vector(CPURISCVState *env, GByteArray *buf, int n)
->      target_ulong val = 0;
->      int result = riscv_csrrw_debug(env, csrno, &val, 0, 0);
+> Thanks,
+> Stefan
 >
-> -    if (result == 0) {
-> +    if (result == RISCV_EXCP_NONE) {
->          return gdb_get_regl(buf, val);
->      }
->
-> @@ -238,7 +238,7 @@ static int riscv_gdb_set_vector(CPURISCVState *env, uint8_t *mem_buf, int n)
->      target_ulong val = ldtul_p(mem_buf);
->      int result = riscv_csrrw_debug(env, csrno, NULL, val, -1);
->
-> -    if (result == 0) {
-> +    if (result == RISCV_EXCP_NONE) {
->          return sizeof(target_ulong);
->      }
->
-> --
-> 2.36.1
->
->
+> >
+> > Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> > ---
+> >  include/standard-headers/linux/virtio_blk.h | 109 ++++++++++++++++++++
+> >  1 file changed, 109 insertions(+)
+> >
+> > diff --git a/include/standard-headers/linux/virtio_blk.h b/include/stan=
+dard-headers/linux/virtio_blk.h
+> > index 2dcc90826a..490bd21c76 100644
+> > --- a/include/standard-headers/linux/virtio_blk.h
+> > +++ b/include/standard-headers/linux/virtio_blk.h
+> > @@ -40,6 +40,7 @@
+> >  #define VIRTIO_BLK_F_MQ              12      /* support more than one =
+vq */
+> >  #define VIRTIO_BLK_F_DISCARD 13      /* DISCARD is supported */
+> >  #define VIRTIO_BLK_F_WRITE_ZEROES    14      /* WRITE ZEROES is suppor=
+ted */
+> > +#define VIRTIO_BLK_F_ZONED           17      /* Zoned block device */
+> >
+> >  /* Legacy feature bits */
+> >  #ifndef VIRTIO_BLK_NO_LEGACY
+> > @@ -119,6 +120,20 @@ struct virtio_blk_config {
+> >       uint8_t write_zeroes_may_unmap;
+> >
+> >       uint8_t unused1[3];
+> > +
+> > +     /* Secure erase fields that are defined in the virtio spec */
+> > +     uint8_t sec_erase[12];
+> > +
+> > +     /* Zoned block device characteristics (if VIRTIO_BLK_F_ZONED) */
+> > +     struct virtio_blk_zoned_characteristics {
+> > +             __virtio32 zone_sectors;
+> > +             __virtio32 max_open_zones;
+> > +             __virtio32 max_active_zones;
+> > +             __virtio32 max_append_sectors;
+> > +             __virtio32 write_granularity;
+> > +             uint8_t model;
+> > +             uint8_t unused2[3];
+> > +     } zoned;
+> >  } QEMU_PACKED;
+> >
+> >  /*
+> > @@ -153,6 +168,27 @@ struct virtio_blk_config {
+> >  /* Write zeroes command */
+> >  #define VIRTIO_BLK_T_WRITE_ZEROES    13
+> >
+> > +/* Zone append command */
+> > +#define VIRTIO_BLK_T_ZONE_APPEND    15
+> > +
+> > +/* Report zones command */
+> > +#define VIRTIO_BLK_T_ZONE_REPORT    16
+> > +
+> > +/* Open zone command */
+> > +#define VIRTIO_BLK_T_ZONE_OPEN      18
+> > +
+> > +/* Close zone command */
+> > +#define VIRTIO_BLK_T_ZONE_CLOSE     20
+> > +
+> > +/* Finish zone command */
+> > +#define VIRTIO_BLK_T_ZONE_FINISH    22
+> > +
+> > +/* Reset zone command */
+> > +#define VIRTIO_BLK_T_ZONE_RESET     24
+> > +
+> > +/* Reset All zones command */
+> > +#define VIRTIO_BLK_T_ZONE_RESET_ALL 26
+> > +
+> >  #ifndef VIRTIO_BLK_NO_LEGACY
+> >  /* Barrier before this op. */
+> >  #define VIRTIO_BLK_T_BARRIER 0x80000000
+> > @@ -172,6 +208,72 @@ struct virtio_blk_outhdr {
+> >       __virtio64 sector;
+> >  };
+> >
+> > +/*
+> > + * Supported zoned device models.
+> > + */
+> > +
+> > +/* Regular block device */
+> > +#define VIRTIO_BLK_Z_NONE      0
+> > +/* Host-managed zoned device */
+> > +#define VIRTIO_BLK_Z_HM        1
+> > +/* Host-aware zoned device */
+> > +#define VIRTIO_BLK_Z_HA        2
+> > +
+> > +/*
+> > + * Zone descriptor. A part of VIRTIO_BLK_T_ZONE_REPORT command reply.
+> > + */
+> > +struct virtio_blk_zone_descriptor {
+> > +     /* Zone capacity */
+> > +     __virtio64 z_cap;
+> > +     /* The starting sector of the zone */
+> > +     __virtio64 z_start;
+> > +     /* Zone write pointer position in sectors */
+> > +     __virtio64 z_wp;
+> > +     /* Zone type */
+> > +     uint8_t z_type;
+> > +     /* Zone state */
+> > +     uint8_t z_state;
+> > +     uint8_t reserved[38];
+> > +};
+> > +
+> > +struct virtio_blk_zone_report {
+> > +     __virtio64 nr_zones;
+> > +     uint8_t reserved[56];
+> > +     struct virtio_blk_zone_descriptor zones[];
+> > +};
+> > +
+> > +/*
+> > + * Supported zone types.
+> > + */
+> > +
+> > +/* Conventional zone */
+> > +#define VIRTIO_BLK_ZT_CONV         1
+> > +/* Sequential Write Required zone */
+> > +#define VIRTIO_BLK_ZT_SWR          2
+> > +/* Sequential Write Preferred zone */
+> > +#define VIRTIO_BLK_ZT_SWP          3
+> > +
+> > +/*
+> > + * Zone states that are available for zones of all types.
+> > + */
+> > +
+> > +/* Not a write pointer (conventional zones only) */
+> > +#define VIRTIO_BLK_ZS_NOT_WP       0
+> > +/* Empty */
+> > +#define VIRTIO_BLK_ZS_EMPTY        1
+> > +/* Implicitly Open */
+> > +#define VIRTIO_BLK_ZS_IOPEN        2
+> > +/* Explicitly Open */
+> > +#define VIRTIO_BLK_ZS_EOPEN        3
+> > +/* Closed */
+> > +#define VIRTIO_BLK_ZS_CLOSED       4
+> > +/* Read-Only */
+> > +#define VIRTIO_BLK_ZS_RDONLY       13
+> > +/* Full */
+> > +#define VIRTIO_BLK_ZS_FULL         14
+> > +/* Offline */
+> > +#define VIRTIO_BLK_ZS_OFFLINE      15
+> > +
+> >  /* Unmap this range (only valid for write zeroes command) */
+> >  #define VIRTIO_BLK_WRITE_ZEROES_FLAG_UNMAP   0x00000001
+> >
+> > @@ -198,4 +300,11 @@ struct virtio_scsi_inhdr {
+> >  #define VIRTIO_BLK_S_OK              0
+> >  #define VIRTIO_BLK_S_IOERR   1
+> >  #define VIRTIO_BLK_S_UNSUPP  2
+> > +
+> > +/* Error codes that are specific to zoned block devices */
+> > +#define VIRTIO_BLK_S_ZONE_INVALID_CMD     3
+> > +#define VIRTIO_BLK_S_ZONE_UNALIGNED_WP    4
+> > +#define VIRTIO_BLK_S_ZONE_OPEN_RESOURCE   5
+> > +#define VIRTIO_BLK_S_ZONE_ACTIVE_RESOURCE 6
+> > +
+> >  #endif /* _LINUX_VIRTIO_BLK_H */
+> > --
+> > 2.37.3
+> >
 
