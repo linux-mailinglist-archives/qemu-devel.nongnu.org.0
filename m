@@ -2,68 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 480375BF1FA
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 02:30:58 +0200 (CEST)
-Received: from localhost ([::1]:54862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8025BF238
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 02:35:43 +0200 (CEST)
+Received: from localhost ([::1]:48822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oandh-0002e1-Ev
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 20:30:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40952)
+	id 1oaniH-0000I1-GO
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 20:35:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=KZsR=ZX=zx2c4.com=Jason@kernel.org>)
- id 1oakGZ-0007NV-VM
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 16:54:51 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:38912)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=KZsR=ZX=zx2c4.com=Jason@kernel.org>)
- id 1oakGW-0006qe-Tw
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 16:54:51 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id B7A19B82CE2;
- Tue, 20 Sep 2022 20:54:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F092DC433D6;
- Tue, 20 Sep 2022 20:54:42 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="KJ16/knb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1663707280;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HaCexwctgcdOqbjdHtHVH+buepZimqZcmXBHNKwQnww=;
- b=KJ16/knbY9AOwxMJt8c+Aih1wsJp9xtClvB4cU5lj7uOPZC/uBX2nAyXVY6hqNAqIKl7EF
- /yG709Ym3U6hvyKN2uGrwlaS4LyMNczLZvqIgnshxVIjw25ff2xqSuEInCyi3ZFbB2C6zQ
- dDfNW+ESHsy3XSdzI+yCxhOY4L+0W6I=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 715647ec
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Tue, 20 Sep 2022 20:54:40 +0000 (UTC)
-Date: Tue, 20 Sep 2022 22:54:38 +0200
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, stefanha@redhat.com
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] qboot: update to latest submodule
-Message-ID: <Yyooji0KGTpZxzL1@zx2c4.com>
-References: <20220919134126.75656-1-pbonzini@redhat.com>
- <CAHmME9rkethn5PHDkB8CupEBOYWFnzfA9c_YkmB_YMt64ci3pQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oake4-0000Vt-FX
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 17:19:10 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:44632)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oake1-00031Y-KQ
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 17:19:07 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id r18so9204310eja.11
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 14:19:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
+ bh=7q8+gdcavLqfc9o+O76ixePtOmnPXDjLsYaMgstOOws=;
+ b=xU8WwToHZNC3zk9gM38Mk1PD1DExNQ0EaXzhTGwmxNWZIs9jETZQz/tJuGzBAScwcL
+ 3NlVdP0fMsoel95Mlv2Ia/misGWuvjuknr5yMvdDzA1o7VavSmVqOxfpWH3kupCclLwy
+ Rzh1wH4vu1DdCtsLxelF5t8Jsb14Ww2aWynxQZb9K7dKcX258KBNh6m2+yrsfo6SEhXU
+ 0UcRVWVftUNSTn8hNfHt37BLIZyCvmrcbnxF2lPY9rU4669qb4r2erlV1rpHg3GM0uTh
+ DekgSDRTBOOb4zADlIZUYQ82y8qxcYrj9vBHQhsaS6KNAtp5K8a7ohlGmHap1Wa7hjsD
+ WtBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date;
+ bh=7q8+gdcavLqfc9o+O76ixePtOmnPXDjLsYaMgstOOws=;
+ b=dMk4pqeoldJ5+XVEY6nE0nEZu3RCrCBzJ8LhtqRJEev2SRlxmaCLrdIejZIYh3sRZv
+ O9V2O2MiyqGVmHak2TCKb713MnPfXI3CMEGm6bCPfXJGCppGqHmizT5sFwEDkQmL2JY7
+ 8qOVJ/n+rE0L2N7QjnsfKOEMixe1h+dabki5zyaUmcNIEa9HBE3Ww2x78tLBCgfgFjrG
+ aDmqFaq9ShNsuMyAn250MBxVRVCaLCWDq7iXnRd2oMKXTeLflcKmvJ1lhn9qn4JPz/0y
+ ZtTRzc5hdI7IN3yx2w8GS5ccZG/JhRDIZdE0ZnsydUYtepcQDuo1vXPPul/nsuPP4HfL
+ R8IQ==
+X-Gm-Message-State: ACrzQf14Xvi6DsAUBHX0Pz2EnDrOOTt0czxQHwThVZdm8+y/caBI9laW
+ 8qidsReLNdys99xLr8XwGjYRug==
+X-Google-Smtp-Source: AMsMyM6MdL11ZUmd7yu3eos8kpX37jL3Fsjhaw7aAfe/OFUplDluJ4nrzHrdRfxoYouffEA+qWe5Rg==
+X-Received: by 2002:a17:906:1350:b0:77f:76a7:a0f with SMTP id
+ x16-20020a170906135000b0077f76a70a0fmr18169730ejb.503.1663708744158; 
+ Tue, 20 Sep 2022 14:19:04 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ jt2-20020a170906dfc200b007417041fb2bsm385662ejc.116.2022.09.20.14.19.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Sep 2022 14:19:03 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B18741FFB7;
+ Tue, 20 Sep 2022 22:19:02 +0100 (BST)
+References: <20220802095010.3330793-1-alex.bennee@linaro.org>
+ <87czbvzu9e.fsf@linaro.org> <YyibNC4CbniKUTmi@fedora>
+ <8735cm9t6j.fsf@linaro.org>
+ <CAJSP0QXN4Sn6rXpZ3rEiPHGQqpgx2bOMX_t0byx+0icBhMNinA@mail.gmail.com>
+ <20220920150943-mutt-send-email-mst@kernel.org>
+User-agent: mu4e 1.9.0; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, qemu-devel@nongnu.org, slp@redhat.com,
+ marcandre.lureau@redhat.com, mathieu.poirier@linaro.org,
+ viresh.kumar@linaro.org
+Subject: Re: [PATCH v4 for 7.2 00/22] virtio-gpio and various virtio cleanups
+Date: Tue, 20 Sep 2022 22:18:49 +0100
+In-reply-to: <20220920150943-mutt-send-email-mst@kernel.org>
+Message-ID: <87h711922h.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHmME9rkethn5PHDkB8CupEBOYWFnzfA9c_YkmB_YMt64ci3pQ@mail.gmail.com>
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=KZsR=ZX=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,33 +100,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 19, 2022 at 04:35:54PM +0200, Jason A. Donenfeld wrote:
-> FYI, that commit made it to:
-> 
-> https://github.com/bonzini/qboot
-> 
-> But wasn't pushed to:
-> 
-> https://github.com/qemu/qboot
-> https://gitlab.com/qemu-project/qboot
-> https://git.qemu.org/?p=qboot.git;a=summary
-> 
-> I have no idea what's canonical, except that the submodule in the qemu
-> checkout seems to point to the gitlab instance.
-> 
 
-With my prior email being ignored, this played out exactly as I
-predicted it would:
+"Michael S. Tsirkin" <mst@redhat.com> writes:
 
-Fetching submodule roms/qboot
-fatal: remote error: upload-pack: not our ref 8ca302e86d685fa05b16e2b208888243da319941
-Errors during submodule fetch:
-        roms/qboot
+> On Tue, Sep 20, 2022 at 02:25:48PM -0400, Stefan Hajnoczi wrote:
+>> On Tue, 20 Sept 2022 at 10:18, Alex Benn=C3=A9e <alex.bennee@linaro.org>=
+ wrote:
+>> >
+>> >
+>> > Stefan Hajnoczi <stefanha@redhat.com> writes:
+>> >
+>> > > [[PGP Signed Part:Undecided]]
+>> > > On Fri, Sep 16, 2022 at 07:51:40AM +0100, Alex Benn=C3=A9e wrote:
+>> > >>
+>> > >> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+>> > >>
+>> > >> > Hi,
+>> > >> >
+>> > >> > This is an update to the previous series which fixes the last few
+>> > >> > niggling CI failures I was seeing.
+>> > >> >
+>> > >> >    Subject: [PATCH v3 for 7.2 00/21] virtio-gpio and various virt=
+io cleanups
+>> > >> >    Date: Tue, 26 Jul 2022 20:21:29 +0100
+>> > >> >    Message-Id: <20220726192150.2435175-1-alex.bennee@linaro.org>
+>> > >> >
+>> > >> > The CI failures were tricky to track down because they didn't occ=
+ur
+>> > >> > locally but after patching to dump backtraces they all seem to in=
+volve
+>> > >> > updates to virtio_set_status() as the machine was torn down. I th=
+ink
+>> > >> > patch that switches all users to use virtio_device_started() along
+>> > >> > with consistent checking of vhost_dev->started stops this from
+>> > >> > happening. The clean-up seems worthwhile in reducing boilerplate
+>> > >> > anyway.
+>> > >> >
+>> > >> > The following patches still need review:
+>> > >> >
+>> > >> >   - tests/qtest: enable tests for virtio-gpio
+>> > >> >   - tests/qtest: add a get_features op to vhost-user-test
+>> > >> >   - tests/qtest: implement stub for VHOST_USER_GET_CONFIG
+>> > >> >   - tests/qtest: add assert to catch bad features
+>> > >> >   - tests/qtest: plain g_assert for VHOST_USER_F_PROTOCOL_FEATURES
+>> > >> >   - tests/qtest: catch unhandled vhost-user messages
+>> > >> >   - tests/qtest: use qos_printf instead of g_test_message
+>> > >> >   - tests/qtest: pass stdout/stderr down to subtests
+>> > >> >   - hw/virtio: move vhd->started check into helper and add FIXME
+>> > >> >   - hw/virtio: move vm_running check to virtio_device_started
+>> > >> >   - hw/virtio: add some vhost-user trace events
+>> > >> >   - hw/virtio: log potentially buggy guest drivers
+>> > >> >   - hw/virtio: fix some coding style issues
+>> > >> >   - include/hw: document vhost_dev feature life-cycle
+>> > >> >   - include/hw/virtio: more comment for VIRTIO_F_BAD_FEATURE
+>> > >> >   - hw/virtio: fix vhost_user_read tracepoint
+>> > >> >   - hw/virtio: handle un-configured shutdown in virtio-pci
+>> > >> >   - hw/virtio: gracefully handle unset vhost_dev vdev
+>> > >> >   - hw/virtio: incorporate backend features in features
+>> > >> <snip>
+>> > >>
+>> > >> Ping?
+>> > >
+>> > > Who are you pinging?
+>> > >
+>> > > Only qemu-devel is on To and there are a bunch of people on Cc.
+>> >
+>> > Well I guess MST is the maintainer for the sub-system but I was hoping
+>> > other virtio contributors had some sort of view. The process of
+>> > up-streaming a simple vhost-user stub has flushed out all sorts of
+>> > stuff.
+>>=20
+>> Okay, moving MST to To in case it helps get his attention.
+>>=20
+>> Thanks,
+>> Stefan
+>
+> thanks, it's in my queue, just pulling in backlog that built up
+> during the forum.
 
-Can somebody push https://github.com/bonzini/qboot to
-https://gitlab.com/qemu-project/qboot please? It will only take a
-second.
+Thanks, doing the same myself ;-)
 
-Thanks,
-Jason
+--=20
+Alex Benn=C3=A9e
 
