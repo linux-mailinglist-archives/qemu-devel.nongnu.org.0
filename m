@@ -2,81 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 572A25BFEFA
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 15:33:34 +0200 (CEST)
-Received: from localhost ([::1]:53380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77CF25BFED6
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 15:19:07 +0200 (CEST)
+Received: from localhost ([::1]:34532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oazr2-0000Wm-Lt
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 09:33:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42276)
+	id 1oazd3-000291-Vl
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 09:19:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oaz02-00074s-De
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 08:38:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38610)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1oaz3R-00013O-D9
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 08:42:19 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:33991)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oayzz-0003tz-Ha
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 08:38:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663763923;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yEKpWRD0ZRKg6ntLTY8DlFuG4iH0Ll2+2jQ1BF2tDu8=;
- b=DLpiuWHme9vgmUU4UdL6TT9C6qsEozdezP1qOxxwf2H7qU3T9Z8lORZgB9+CYqYHMr2X3q
- WavOCo4QJuz5puTGl3AGgJziwGzDYXN0dnwMdXm5KXBoxt6uB77So+ScnonCkdQSpuIiux
- ZeclJR8YmPqtvEXB1y/892U4GmxUdaA=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-389-RWwStDuwP0SyEqnJSDzBVA-1; Wed, 21 Sep 2022 08:38:36 -0400
-X-MC-Unique: RWwStDuwP0SyEqnJSDzBVA-1
-Received: by mail-qt1-f198.google.com with SMTP id
- e8-20020ac85988000000b0035c39dd5eb9so4043624qte.16
- for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 05:38:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=yEKpWRD0ZRKg6ntLTY8DlFuG4iH0Ll2+2jQ1BF2tDu8=;
- b=ciHOg+3wPD3I6RL9kVpdMJEfSk9l1ZrUzTEkjg9nPEvV1/ur3Cw0eiV4FvTTedMCkE
- BIjI4+jV5kd9LgD64Yb8L0GD5BBJi6UgPdKAwT8FwLEBOyz3DvXFOv7kApzCQDjozAch
- KyArDMSYVY3BO4xcFmHVgkVXyL9bCmQ/swSrV72644N606A6G2HxDp1EwWQ5zdPPilBW
- DsJuOOT4mH9toGUcufpoNxD936zkS8+UwWH4S/qSVWhx31EONf6qbCFOQLzyW9Iw8wjP
- 9hgtaHefuByDWR8Cskco2o9RCqXXyFSaLRqAbXIHPhlKU57C9AmingQwBKKXNNwpWFBN
- Sx4A==
-X-Gm-Message-State: ACrzQf1HMy9cSut7mR+VPxrSDrzC6tNzZZEcLg+QcZBCC4pjvRj/Cgvd
- D29l8K2aKtLRrt8qTgnjrCExJlcgKJIjp4kQJTqwWYxfqnWObnyNQmav46Rec9hF3aVMLNAn74W
- 2e9PnidTZXi5SPeTWtlB7y/8w6v6w58Q=
-X-Received: by 2002:a0c:a90a:0:b0:4ad:715:897 with SMTP id
- y10-20020a0ca90a000000b004ad07150897mr22853503qva.114.1663763915361; 
- Wed, 21 Sep 2022 05:38:35 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7U8ct2OMZ5q+s1qVbAy37psgx6b30eEW9VLkeb1j0IHthWlR2veCtbjSkKuDPq+7gQ8/iK0x8CR9L81vDd6Qo=
-X-Received: by 2002:a0c:a90a:0:b0:4ad:715:897 with SMTP id
- y10-20020a0ca90a000000b004ad07150897mr22853488qva.114.1663763915036; 
- Wed, 21 Sep 2022 05:38:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1oaz3J-0004Xh-ST
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 08:42:14 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id AB06232001FF;
+ Wed, 21 Sep 2022 08:41:41 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Wed, 21 Sep 2022 08:41:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm3; t=1663764101; x=1663850501; bh=7+5Vm4ELh6fH3LgFG13n6f+qP
+ 6HIEBAk7fxxKnBjPQE=; b=mGMEz03r0Jmk/aABUoT9xSrGES+fdBhmPrqbfjPYT
+ 3lzADthMT10QrWmXDVz9KfF4xUKlDRYKbg49TUPuh5DsXium0kk4zqFFWg2Fcjhv
+ H29cPXCFWWyXefE44sAxKeoFTwLlcnRb7Rqk9syBx36p2/iBO8+tyMYvQQoreUS8
+ S9FspWhvf/Kq85JKcOqze21l5U+gBZlhwTK0k4mzHdoRWjpiNMXqdlvFg1MWoiYw
+ D820ZCV843MBCiUvBmUglSt2BrchAeKC8ioTKZOAiCWUxMUlnVqOnG9lky5k2ew0
+ lnShyHSo0Gd87JQsqg7Nr2gF16s8fsbupcx7Qq5rOUWOg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+ 1663764101; x=1663850501; bh=7+5Vm4ELh6fH3LgFG13n6f+qP6HIEBAk7fx
+ xKnBjPQE=; b=tLvk7hqDSw0cDboRZ7U9spU5WVofuiCJxxGfG4WYSvyCriAQ2lR
+ hyYhpPDIXapnCevnXCJ3oYaqAboGZ+GDmkH02R6Kj6IXXsvMD9vMqpMy5Di3tEnL
+ Dap/epbdkIE2J4H9OFiMO+dQnF0CJs//+7wDmHUlHcmZ6KBDS9bRlHys90ujpzwZ
+ uc5XUADeOTNnkZzzz+veihnRgyB+uki3tvII29xiqLaDO4h7x8oIdIK4kCS0HM43
+ DbvQ0vCkd3lAO5xfYr2DTzCwpFfHpiCTnC2Y0TBFvWiXBJH+1fsUxSSE21PXScHN
+ RU08unr9N+6980PEsXx6lp9nM90dfhlp+kA==
+X-ME-Sender: <xms:hAYrY6nac-eSeNCq14xfoQ8-gY6pYAjBzyz3jnIohYIZsK5l8s7x4Q>
+ <xme:hAYrYx0MigzyKvGprDvYOIPdRTROssBmaLvf0YA_mCCrVu_a-cdxfHDEy5A6MpzzN
+ BlFf-X173PrwxnRYwo>
+X-ME-Received: <xmr:hAYrY4qOxaU5hODOiYDK4Af2GxWziDUy3UH5OvjXWXCHkLBr68nA5FhOOQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeefuddgheehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+ ertddtnecuhfhrohhmpeflihgrgihunhcujggrnhhguceojhhirgiguhhnrdihrghnghes
+ fhhlhihgohgrthdrtghomheqnecuggftrfgrthhtvghrnhephfetuddtudevieeljeejte
+ ffheeujeduhefgffejudfhueelleduffefgfffveeknecuvehluhhsthgvrhfuihiivgep
+ tdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgoh
+ grthdrtghomh
+X-ME-Proxy: <xmx:hQYrY-kYSWtZewiYR7zqFI3AYlSMHuFHqVhpxBYSK-JnvWmkASw-iw>
+ <xmx:hQYrY421kJsJYTK4w3UZkCVYEYyxUHbn6xanAMfM-h7e0ZkGLurWsQ>
+ <xmx:hQYrY1uXnGRayzG0nEvJ-SNIzzTPud6PfP27eqJ4_rE9dIs0ZfKBsQ>
+ <xmx:hQYrY2AHlnuyLnqWgcmVE55Yb8tClEfZ071ujmG2SkZj94u-kRNS-g>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 21 Sep 2022 08:41:40 -0400 (EDT)
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+To: qemu-devel@nongnu.org
+Cc: f4bug@amsat.org, richard.henderson@linaro.org,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: [RFC PATCH 0/3] MIPS decodetree conversion attempt 
+Date: Wed, 21 Sep 2022 13:41:02 +0100
+Message-Id: <20220921124105.3824962-1-jiaxun.yang@flygoat.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220906100932.343523-1-richard.henderson@linaro.org>
- <20220906100932.343523-17-richard.henderson@linaro.org>
-In-Reply-To: <20220906100932.343523-17-richard.henderson@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 21 Sep 2022 14:38:24 +0200
-Message-ID: <CABgObfbEuWvH5qg08+qNqsteYRJ6z242QynSm4zHPiP=ZDDG3w@mail.gmail.com>
-Subject: Re: [PATCH v2 16/23] target/i386: Use DISAS_TOO_MANY to exit after
- gen_io_start
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=64.147.123.25;
+ envelope-from=jiaxun.yang@flygoat.com; helo=wout2-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,186 +99,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 6, 2022 at 12:09 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> We can set is_jmp early, using only one if, and let that
-> be overwritten by gen_repz_* etc.
+Hi,
 
-Perhaps "be overwritten by gen_rep*'s calls to gen_jmp_rel". Code-wise,
+This is my attempt of converting MIPS translation code into decodetree.
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Currently only MIPS I to MIPS Release 5 arithmatic functions are converted.
+Old decoding functions are perserved in codebase for now due to dependencies
+from microMIPS/nanoMIPS translation code. Will remove them after dealing with
+release 6.
 
-Paolo
+Both instruction encoding and test cases are generated form MIPS's internal
+architecture validation tools so they are gureented to be correct.
 
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/i386/tcg/translate.c | 42 +++++++++----------------------------
->  1 file changed, 10 insertions(+), 32 deletions(-)
->
-> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-> index 527fb79895..cedc195837 100644
-> --- a/target/i386/tcg/translate.c
-> +++ b/target/i386/tcg/translate.c
-> @@ -5605,14 +5605,12 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
->              }
->              if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
->                  gen_io_start();
-> +                s->base.is_jmp = DISAS_TOO_MANY;
->              }
->              gen_helper_rdrand(s->T0, cpu_env);
->              rm = (modrm & 7) | REX_B(s);
->              gen_op_mov_reg_v(s, dflag, rm, s->T0);
->              set_cc_op(s, CC_OP_EFLAGS);
-> -            if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-> -                gen_jmp(s, s->pc - s->cs_base);
-> -            }
->              break;
->
->          default:
-> @@ -6658,15 +6656,12 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
->          }
->          if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
->              gen_io_start();
-> +            s->base.is_jmp = DISAS_TOO_MANY;
->          }
->          if (prefixes & (PREFIX_REPZ | PREFIX_REPNZ)) {
->              gen_repz_ins(s, ot);
-> -            /* jump generated by gen_repz_ins */
->          } else {
->              gen_ins(s, ot);
-> -            if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-> -                gen_jmp(s, s->pc - s->cs_base);
-> -            }
->          }
->          break;
->      case 0x6e: /* outsS */
-> @@ -6679,15 +6674,12 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
->          }
->          if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
->              gen_io_start();
-> +            s->base.is_jmp = DISAS_TOO_MANY;
->          }
->          if (prefixes & (PREFIX_REPZ | PREFIX_REPNZ)) {
->              gen_repz_outs(s, ot);
-> -            /* jump generated by gen_repz_outs */
->          } else {
->              gen_outs(s, ot);
-> -            if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-> -                gen_jmp(s, s->pc - s->cs_base);
-> -            }
->          }
->          break;
->
-> @@ -6704,13 +6696,11 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
->          }
->          if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
->              gen_io_start();
-> +            s->base.is_jmp = DISAS_TOO_MANY;
->          }
->          gen_helper_in_func(ot, s->T1, s->tmp2_i32);
->          gen_op_mov_reg_v(s, ot, R_EAX, s->T1);
->          gen_bpt_io(s, s->tmp2_i32, ot);
-> -        if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-> -            gen_jmp(s, s->pc - s->cs_base);
-> -        }
->          break;
->      case 0xe6:
->      case 0xe7:
-> @@ -6722,14 +6712,12 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
->          }
->          if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
->              gen_io_start();
-> +            s->base.is_jmp = DISAS_TOO_MANY;
->          }
->          gen_op_mov_v_reg(s, ot, s->T1, R_EAX);
->          tcg_gen_trunc_tl_i32(s->tmp3_i32, s->T1);
->          gen_helper_out_func(ot, s->tmp2_i32, s->tmp3_i32);
->          gen_bpt_io(s, s->tmp2_i32, ot);
-> -        if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-> -            gen_jmp(s, s->pc - s->cs_base);
-> -        }
->          break;
->      case 0xec:
->      case 0xed:
-> @@ -6741,13 +6729,11 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
->          }
->          if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
->              gen_io_start();
-> +            s->base.is_jmp = DISAS_TOO_MANY;
->          }
->          gen_helper_in_func(ot, s->T1, s->tmp2_i32);
->          gen_op_mov_reg_v(s, ot, R_EAX, s->T1);
->          gen_bpt_io(s, s->tmp2_i32, ot);
-> -        if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-> -            gen_jmp(s, s->pc - s->cs_base);
-> -        }
->          break;
->      case 0xee:
->      case 0xef:
-> @@ -6759,14 +6745,12 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
->          }
->          if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
->              gen_io_start();
-> +            s->base.is_jmp = DISAS_TOO_MANY;
->          }
->          gen_op_mov_v_reg(s, ot, s->T1, R_EAX);
->          tcg_gen_trunc_tl_i32(s->tmp3_i32, s->T1);
->          gen_helper_out_func(ot, s->tmp2_i32, s->tmp3_i32);
->          gen_bpt_io(s, s->tmp2_i32, ot);
-> -        if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-> -            gen_jmp(s, s->pc - s->cs_base);
-> -        }
->          break;
->
->          /************************/
-> @@ -7432,11 +7416,9 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
->          gen_update_eip_cur(s);
->          if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
->              gen_io_start();
-> +            s->base.is_jmp = DISAS_TOO_MANY;
->          }
->          gen_helper_rdtsc(cpu_env);
-> -        if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-> -            gen_jmp(s, s->pc - s->cs_base);
-> -        }
->          break;
->      case 0x133: /* rdpmc */
->          gen_update_cc_op(s);
-> @@ -7893,11 +7875,9 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
->              gen_update_eip_cur(s);
->              if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
->                  gen_io_start();
-> +                s->base.is_jmp = DISAS_TOO_MANY;
->              }
->              gen_helper_rdtscp(cpu_env);
-> -            if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-> -                gen_jmp(s, s->pc - s->cs_base);
-> -            }
->              break;
->
->          default:
-> @@ -8261,6 +8241,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
->
->          if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
->              gen_io_start();
-> +            s->base.is_jmp = DISAS_TOO_MANY;
->          }
->          if (b & 2) {
->              gen_svm_check_intercept(s, SVM_EXIT_WRITE_CR0 + reg);
-> @@ -8271,9 +8252,6 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
->              gen_svm_check_intercept(s, SVM_EXIT_READ_CR0 + reg);
->              gen_helper_read_crN(s->T0, cpu_env, tcg_constant_i32(reg));
->              gen_op_mov_reg_v(s, ot, rm, s->T0);
-> -            if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-> -                gen_jmp(s, s->pc - s->cs_base);
-> -            }
->          }
->          break;
->
-> --
-> 2.34.1
->
+Thanks.
+
+- Jiaxun
+
+Jiaxun Yang (3):
+  target/mips: Introduce register access helper functions
+  target/mips: Convert legacy arithmatic instructions to decodetree
+  tests/tcg/mips: Add mips32 arithmatic instruction test cases
+
+ target/mips/tcg/insn_trans/trans_arith.c.inc  | 352 ++++++++++++++++++
+ target/mips/tcg/legacy.decode                 |  62 +++
+ target/mips/tcg/meson.build                   |   1 +
+ target/mips/tcg/translate.c                   | 143 ++++++-
+ target/mips/tcg/translate.h                   |  54 +++
+ tests/tcg/mips/include/test_utils_32.h        |  75 ++++
+ .../tcg/mips/user/isa/mips32/arithmatic/add.c |  99 +++++
+ .../mips/user/isa/mips32/arithmatic/addi.c    |  70 ++++
+ .../mips/user/isa/mips32/arithmatic/addiu.c   |  90 +++++
+ .../mips/user/isa/mips32/arithmatic/addu.c    | 125 +++++++
+ .../tcg/mips/user/isa/mips32/arithmatic/div.c |  81 ++++
+ .../mips/user/isa/mips32/arithmatic/divu.c    |  78 ++++
+ .../mips/user/isa/mips32/arithmatic/madd.c    |  79 ++++
+ .../mips/user/isa/mips32/arithmatic/maddu.c   |  78 ++++
+ .../mips/user/isa/mips32/arithmatic/msub.c    |  78 ++++
+ .../mips/user/isa/mips32/arithmatic/msubu.c   |  78 ++++
+ .../tcg/mips/user/isa/mips32/arithmatic/mul.c |  78 ++++
+ .../mips/user/isa/mips32/arithmatic/mult.c    |  78 ++++
+ .../mips/user/isa/mips32/arithmatic/multu.c   |  78 ++++
+ .../tcg/mips/user/isa/mips32/arithmatic/slt.c |  61 +++
+ .../mips/user/isa/mips32/arithmatic/slti.c    |  48 +++
+ .../mips/user/isa/mips32/arithmatic/sltiu.c   |  48 +++
+ .../mips/user/isa/mips32/arithmatic/sltu.c    |  61 +++
+ .../tcg/mips/user/isa/mips32/arithmatic/sub.c | 104 ++++++
+ .../mips/user/isa/mips32/arithmatic/subu.c    | 108 ++++++
+ 25 files changed, 2206 insertions(+), 1 deletion(-)
+ create mode 100644 target/mips/tcg/insn_trans/trans_arith.c.inc
+ create mode 100644 target/mips/tcg/legacy.decode
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/add.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/addi.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/addiu.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/addu.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/div.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/divu.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/madd.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/maddu.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/msub.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/msubu.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/mul.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/mult.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/multu.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/slt.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/slti.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/sltiu.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/sltu.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/sub.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/subu.c
+
+-- 
+2.34.1
 
 
