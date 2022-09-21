@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A07595BFFAF
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 16:13:25 +0200 (CEST)
-Received: from localhost ([::1]:49070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E28AC5BFF8B
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 16:07:55 +0200 (CEST)
+Received: from localhost ([::1]:47248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob0Tc-0002so-OV
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 10:13:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57746)
+	id 1ob0OI-0003bn-Up
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 10:07:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ob0DX-0000hr-9t
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 09:56:47 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:45018)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ob0DU-0002zx-0h
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 09:56:46 -0400
-Received: by mail-wr1-x429.google.com with SMTP id c11so9975502wrp.11
- for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 06:56:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=BAaK39mZVD7haJdXQzsa8BS1vT5igpkArW/g+kaFmmQ=;
- b=Ta9/jB6tyrluLbxAaUWxe8C2n/hBjfRwJU+qiKl7vOOjnjFcfnpuhEb2hHLu/fbMcI
- xBSV3rJnMosrR5ptwc9f56E6teNGTMcghGJTDvQjNII2xCjwDt+WWqJU1dbfeR0IFw8a
- xUDXgwmvS2pvqcf7Xj+INMueHuN7G03OiMrdXR4FkBuYbkf8oOMfyA38Z4WKIV9U63th
- AdoWYWvP94eq3Ob7bHzAxRKgtHoKdgT9BJgxPb9zJqi6gngLdibXpbeML/p30unrjkva
- qJSAclTZJ8wZRAj1EbdWvaC4V9YU/+fVJbUCZykWJ2WFALvHYevc4XjpPUvxw5jIkCbB
- gIMQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oazVK-0001t0-CR
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 09:11:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27870)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oazVI-000233-EW
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 09:11:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663765862;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=6qfdDAGCzG04eJQY4vMbZbQk1P/pIswjTBTjkDt8T/A=;
+ b=jH0iVCeoeaCwfggVAwdcFGBsvXQ22qHE5uJlXPj9HrlLsgXp2Ldm8lR89S7/Tdo6KfVVMI
+ B7BKy97qnvEKdYbQdy4cQxbL2lngpxg8gHPeKY/R6XypeKBTZuWmDaTiEXjdw+serd3/PI
+ J5YiYW7LM7YXjQxmMz09OeBTz7eTZyM=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-590-MgcuTa05O1eersfbHOzkXA-1; Wed, 21 Sep 2022 09:10:58 -0400
+X-MC-Unique: MgcuTa05O1eersfbHOzkXA-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ b10-20020ac8540a000000b0035ba387b0d1so4112388qtq.15
+ for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 06:10:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=BAaK39mZVD7haJdXQzsa8BS1vT5igpkArW/g+kaFmmQ=;
- b=tT9UkVjosMoKwxyOfymCW3qJP5vBbbcHO8xaQRFGxpQodMuEQXPgKeXU+82gdgzShg
- RLiY7cfFTEcCIManPcfapjqWWIE+FR47Z/7i7+j0lNWSCM9qLTNFoubuQLXz5b/liX7H
- IyFmQbjmpZFcWODU2YeZxV6NV3AtBWozQtPW0psk9Anhh3KdbIwFB8mN05shEHmJ9vN9
- CdVMzFMiupSxUjL70PKpfn4iBqbcvB/qAeQYzciRFl3vn4lfiUb2tfgOmIuG2SXVr3kK
- UhKEIslYWz1EOceCzXXFXxr2NVceC0osRjRu6BoAi4HBOCHlutEvFUkTVoawo/cMk8HH
- WxNw==
-X-Gm-Message-State: ACrzQf052NbbiHyA3bSd5JFO/th6Mlp0peuCwNnYfLqpWZ7LFDdvN/do
- fk/ePMWogBlWZFvGtXRllgCDvg==
-X-Google-Smtp-Source: AMsMyM4da27jBq+Z2v59yhkvck0zGxgXvJkI6IGhqdwEUsVkxJ1wklUfL19SpPjw5lcYNE8mnwwc6A==
-X-Received: by 2002:adf:f443:0:b0:22a:3681:a8ae with SMTP id
- f3-20020adff443000000b0022a3681a8aemr17326890wrp.67.1663768601712; 
- Wed, 21 Sep 2022 06:56:41 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- h3-20020adffd43000000b0022a2f4fa042sm2678818wrs.103.2022.09.21.06.56.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Sep 2022 06:56:41 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A53B61FFB7;
- Wed, 21 Sep 2022 14:56:40 +0100 (BST)
-References: <20220901182734.2987337-1-fasano@mit.edu>
-User-agent: mu4e 1.9.0; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Andrew Fasano <fasano@mit.edu>
-Cc: qemu-devel@nongnu.org, erdnaxe@crans.org, ma.mandourr@gmail.com
-Subject: Re: [RFC 0/4] Support interactions between TCG plugins
-Date: Wed, 21 Sep 2022 13:13:08 +0100
-In-reply-to: <20220901182734.2987337-1-fasano@mit.edu>
-Message-ID: <87illg7rvr.fsf@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=6qfdDAGCzG04eJQY4vMbZbQk1P/pIswjTBTjkDt8T/A=;
+ b=vXGlVzoA7MAK+jkoBSdbz1pqApqfdMfPWGrziw1x8b9o7Zyt5Aq95wk6P0DC5QPABo
+ jbLVPlBtgU42ZAqISOzPFPetkzawnm3wwuM2YepI1j+XtX/HxJ0OinHM61hN0OxhCQY+
+ Sf+hmeGzBi35zXjoq6wiKWwqEal8z9nNRqObSNZerOP1amylujGmj5h/tV+GFQsp0Sou
+ iiXYKTa8gp3IIPan+NS50/iMTnRpGaqWbhGd+VqSweBx3Td5OML2iwlgSLEFptWSW2+A
+ 4WDG6TU/o3r0Lv+udCzWvAQdY2FDUNGk1BxXrP3mCDGV4VATvAeaFJ84+pL0KnGDxdpz
+ qKNA==
+X-Gm-Message-State: ACrzQf0p/V2fpicQCnpqcrX+wssQ8FOQ1jDgfaK4k6bZDND2uiIRsMyI
+ TEc7SidqYzx/APPfhQEgcwOZER+6QgzSuBbDmCAb4wa/wlUWSSTnSUXtbMVtiuRUSTObPizl5I/
+ PVoAfwZH9JoArKX9lGpGdlAMhenP5NtY=
+X-Received: by 2002:a37:503:0:b0:6ce:8a8e:7625 with SMTP id
+ 3-20020a370503000000b006ce8a8e7625mr19723354qkf.288.1663765857684; 
+ Wed, 21 Sep 2022 06:10:57 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7BfTF9l7pwES8nrZyk5bVnhKQYFhdNiN0s93PY1/VpF/JU/l7JAEEa8IyFUmznUDIi5dXXLVHRAhM5nPThuHU=
+X-Received: by 2002:a37:503:0:b0:6ce:8a8e:7625 with SMTP id
+ 3-20020a370503000000b006ce8a8e7625mr19723330qkf.288.1663765857383; Wed, 21
+ Sep 2022 06:10:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220906100932.343523-1-richard.henderson@linaro.org>
+ <20220906100932.343523-21-richard.henderson@linaro.org>
+In-Reply-To: <20220906100932.343523-21-richard.henderson@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 21 Sep 2022 15:10:46 +0200
+Message-ID: <CABgObfa6Ovq9JJmA1ER9YERVGn9Vz-SkX0xUeLsuvTx+CAAv2A@mail.gmail.com>
+Subject: Re: [PATCH v2 20/23] target/i386: Use gen_jmp_rel for gen_repz*
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,258 +92,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Andrew Fasano <fasano@mit.edu> writes:
-
-> Hello,
+On Tue, Sep 6, 2022 at 12:09 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> I'm requesting comments on the following series of patches expanding the
-> TCG plugin system to add the "QEMU Plugin-to-Plugin (QPP)" interface
-> that allows for interactions between TCG plugins. The goal of this
-> interface is to enable plugins to expand on other plugins and reduce
-> code duplication. This patch series includes documentation and
-> significant comments, but a high-level summary is below along with a
-> discussion of the current implementation as well as the benefits and
-> drawbacks of these changes.
-
-Thanks for a very detailed cover letter. My initial thoughts are if we
-are trying to reduce code duplication what about simply using a library
-and linking it to the final plugin. I guess it depends on how
-computational effort has been spent in calculating a particular piece of
-state and if that is avoided by having this IPC mechanism instead of
-just repeating the calculation.
-
-> **Summary**
+> Subtract cur_insn_len to restart the current insn.
 >
-> The QPP interface allows two types of interactions between plugins:
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+I wouldn't mind squashing this with the jecxz/loop patch (and the
+review comments there apply here too).
+
+Paolo
+
+> ---
+>  target/i386/tcg/translate.c | 10 ++--------
+>  1 file changed, 2 insertions(+), 8 deletions(-)
 >
-> 1) Exported functions: A plugin may wish to allow other plugins to call
-> one of the functions it has defined. To do this, the plugin must mark
-> the function definition as publicly visible with the QEMU_PLUGIN_EXPORT
-> macro and place a definition in an included header file using the
-> QPP_FUN_PROTOTYPE macro. Other plugins can then include this header and
-> call the exported function by combining the name of the target plugin
-> with the name of the exported function.
+> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+> index e27f36e4e9..7a9e533c6e 100644
+> --- a/target/i386/tcg/translate.c
+> +++ b/target/i386/tcg/translate.c
+> @@ -224,7 +224,6 @@ STUB_HELPER(wrmsr, TCGv_env env)
 >
-> For example, consider a hypothetical plugin that collects a list of
-> cache misses. This plugin could export two functions using the QPP
-> interface: one to allow another plugin to query this list and another
-> to empty the list. This would enable the development of another plugin
-> that examines guest CPU state to identify process changes and reports
-> the cache misses per process. With the QPP interface, this second plugin
-> would not need to duplicate any logic from the first.
-
-Thinking of this concrete example I guess the process change detection
-is a fairly expensive operation that might be tuned to a particular
-architecture? Is this something Panda currently derives from plugins
-instead of the core QEMU code?
-
-> 2) Callbacks: Multiple plugins may wish to take some action when some
-> event of interest occurs inside a running guest. To support modularity
-> and reduce code duplication, the QPP callback system allows this logic
-> to be contained in single plugin that detects whenever a given event
-> occurs and exposes a callback with a given name. Another plugin can then
-> request to have one of its own functions run whenever this event occurs.
-> Additional plugins could also use this same callback to run additional
-> logic whenever this event occurs.
+>  static void gen_eob(DisasContext *s);
+>  static void gen_jr(DisasContext *s);
+> -static void gen_jmp(DisasContext *s, target_ulong eip);
+>  static void gen_jmp_tb(DisasContext *s, target_ulong eip, int tb_num);
+>  static void gen_jmp_rel(DisasContext *s, MemOp ot, int diff, int tb_num);
+>  static void gen_op(DisasContext *s1, int op, MemOp ot, int d);
+> @@ -1277,7 +1276,7 @@ static void gen_repz(DisasContext *s, MemOp ot,
+>      if (s->repz_opt) {
+>          gen_op_jz_ecx(s, s->aflag, l2);
+>      }
+> -    gen_jmp(s, s->base.pc_next - s->cs_base);
+> +    gen_jmp_rel(s, MO_32, -cur_insn_len(s), 0);
+>  }
 >
-> For example, consider (again) a hypothetical plugin that detects when
-> the current guest process changes by analyzing the guest CPU state. This
-> plugin could define a callback named "on_process_change" and trigger
-> this callback event whenever it detects a process change. Other plugins
-> could then be developed that take various actions on process changes by
-> registering internal functions to run on this event.
+>  #define GEN_REPZ(op) \
+> @@ -1297,7 +1296,7 @@ static void gen_repz2(DisasContext *s, MemOp ot, int nz,
+>      if (s->repz_opt) {
+>          gen_op_jz_ecx(s, s->aflag, l2);
+>      }
+> -    gen_jmp(s, s->base.pc_next - s->cs_base);
+> +    gen_jmp_rel(s, MO_32, -cur_insn_len(s), 0);
+>  }
 >
-> These patches and examples are inspired by the PANDA project
-> (https://panda.re and https://github.com/panda-re/panda), a fork of QEMU
-> modified to support dynamic program analysis and reverse engineering.
-> PANDA also includes a large plugin system with a similar interface for
-> interactions between plugins. I'm one of the maintainers of PANDA
-> and have seen how the ability for plugins to interact with
-> other plugins reduces code duplication and enables the creation of many
-> useful plugins.
-
-Would another use-case be to export the PANDA APIs so you could use the
-existing plugins on an upstream QEMU?
-
-> **Implementation Overview**
+>  #define GEN_REPZ2(op) \
+> @@ -2751,11 +2750,6 @@ static void gen_jmp_rel(DisasContext *s, MemOp ot, int diff, int tb_num)
+>      gen_jmp_tb(s, dest, tb_num);
+>  }
 >
-> These patches modify the TCG plugin build system to define the=20
-> preprocessor variable CURRENT_PLUGIN to the name of the current plugin
-> based off its filename. This can be useful for plugin developers in
-> general and is used internally in the QPP implementation to determine
-> if an exported plugin function is defined in the current plugin or
-> in another.
+> -static void gen_jmp(DisasContext *s, target_ulong eip)
+> -{
+> -    gen_jmp_tb(s, eip, 0);
+> -}
+> -
+>  static inline void gen_ldq_env_A0(DisasContext *s, int offset)
+>  {
+>      tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, s->mem_index, MO_LEUQ);
+> --
+> 2.34.1
 >
-> These patches also add the function qemu_plugin_name_to_handle to the=20
-> core plugin API which uses the new internal function is_plugin_named.
-> The ability for plugins to get a handle to another plugin is necessary
-> for the inter-plugin interactions described below.
->
-> The QPP implementation is contained inside a header file plugin-qpp.h
-> that adds the macros QPP_CREATE_CB, QPP_RUN_CB, QPP_REG_CB,
-> QPP_REMOVE_CB, and QPP_FUN_PROTOTYPE. The first 4 of these are related
-> to the callback system and the last one is for exported functions.
->
-> The QPP_CREATE_CB macro is used by a plugin that wishes to create a
-> callback with a given name. The macro will create an array of function
-> pointers for every function that has been registered to run on this
-> callback event. Other plugins can register a local function
-> with this callback (i.e., add it to this list of function pointers)
-> or remove a previously-registered function using QPP_REG_CB or
-> QPP_REMOVE_CB, respectively. When a plugin wishes to run all the
-> registered callback functions for a given callback, it uses the
-> QPP_RUN_CB macro.
->
-> The QPP_FUN_PROTOYPE macro enables a plugin to expose a function
-> it defines to other plugins. This macro is used in a header file that
-> is included by both the plugin that defines a function as well as
-> plugins that wish to use the function. This prototype creates a=20
-> constructor function that runs on plugin load. If the target plugin
-> name differs from the value of CURRENT_PLUGIN, this function
-> will use qemu_plugin_name_to_handle to get a handle to the target
-> plugin and use g_module_symbol to resolve the target function in
-> that plugin. If this fails, it will print a warning and abort.
->
-> Finally, these patches include an example pair of plugins, qpp_srv and
-> qpp_client. The former provides a trivial QPP callback which simply runs
-> when the plugin is unloaded as well as two functions to add and subtract
-> integers. The latter of these plugins registers a function to run
-> on this callback and uses the two exported functions.
 
-While having an example plugin for debugging is useful I think having a
-more useful in-tree use-case is going to be important to justify the
-merging of a quite large API into the code base.
-
-> **Request for Comments**
->
-> This is my first time proposing any patches to QEMU and these are some
-> non-trivial changes, so I wanted to ask for feedback as opposed to just
-> sending these as a patch. I hope that others agree that there's value
-> in supporting interactions between plugins (particularly inter-plugin
-> callbacks), but I know there are many ways this could be implemented
-> and I'm sure there are ways this could be improved.
-
-I'll comment on the details of the patches inline.
-
-> My goal in this design was to keep the process of creating and using
-> callbacks and exported functions as easy as possible for plugin
-> developers. I'm open to redesigning this interface in
-> a completely different way if that would be necessary to get it merged.
->
-> Although the example plugins I've included for now are trivial, if this
-> interface is merged I'd be willing to develop some more plugins that
-> build atop it.  One of these could be something like the "syscalls2"
-> plugin in PANDA which analyzes guest code and provides distinct
-> callbacks for when a guest runs a system call:
-> https://github.com/panda-re/panda/blob/dev/panda/plugins/syscalls2.
-> Another could be something like the "callstack_isntr" plugin in PANDA
-> which manages a shadow stack, provides callbacks on function calls and
-> returns and also provides exported functions to get the current
-> callstack:
-> https://github.com/panda-re/panda/tree/dev/panda/plugins/callstack_instr
-
-I'm certainly keen to get more plugins merged into the tree. I'm aware
-there are some gaps in the plugin API at the moment. The most pressing
-one is getting access to register values which requires some
-re-factoring of the core code. I have very incomplete WIP branch while I
-consider the API (not wired to plugins yet):
-
-  https://gitlab.com/stsquad/qemu/-/tree/introspection/registers
-
-> I see a handful of potential issues that I'll highlight below:
-> 1) Unstable APIs: these inter-plugin interactions do not specify API
->    versions. If the behavior of a callback or exported function
->    changes without the type signature changing, it may lead to subtle
->    errors in other (unchanged) plugins that were using these functions.
->
->    If the signature of a plugin's callback or exported function,=20
->    changes, build time errors would be raised and necessary
->    changes could be made to in-tree plugins. However, out-of-tree
->    plugins would break.
-
-I'm not overly concerned about out-of-tree plugins for the time being as
-long as we keep the in-tree examples tested and working. That said we do
-implement an API versioning scheme for the core plugin API. Maybe
-something similar can be done for plugin APIs?
-
-> 2) Checkpatch.pl objects to some of these changes. Most importantly,
->    it takes issue with QPP_FUN_PROTOTYPE introducing multiple
->    statements outside of a do while loop. I believe the logic in this
->    macro cannot be wrapped in such a way as it is defining variables
->    that must be available outside of the scope of the macro (in
->    particular, these variables must be used by other QPP macros later).
->
->    Given that this logic is contained in a plugin instead of the main
->    QEMU binary, I'm hoping there's some leeway with this error, but
->    if it needs to be changed, I could split the logic into 5 distinct
->    macros that a plugin developer would then run in order. Or perhaps
->    someone here can suggest a better design.
->
->    Additional, I believe the script is raising a number of false
->    positive errors for the indentation of the multi-line macros, e.g.,
->    "suspect code indent for conditional statements (4, 6)" for
->    QPP_RUN_CB. If I'm wrong about this, I'm happy to adjust the
->    indentation. If it is an issue with the script, I could open a bug
->    report if that would help.
-
-checkpatch.pl isn't gating and certainly macro magic can trip it up.
-That said we try to avoid adding new deep magic into the code base. I
-shall see what the patch does.
-
-> 3) Decentralized interactions. This approach allows plugins to directly
->    interact with other plugins. An alternative design could register
->    exported functions and callbacks with the core plugin logic in=20
->    the main QEMU object and have all the interactions go through there.
->    Would a centralized design where plugins send requests through
->    the core plugin logic in the QEMU binary be better that allowing
->    direct interactions between the shared objects built for the
->    plugins?
-
-I shall see when I read the code but it does make me wander if we are
-just implementing a dynamic linker by another name. Maybe something like
-the callback/event system would be better marshalled by QEMU itself? I
-wonder if the dlload mechanism could just automatically make all
-non-static plugin functions exportable and then just complain if we get
-a clash or missing symbol when it is loaded?
-
-> Does it seem like an interface like this would be worth merging? If so,
-> I'd welcome any and all suggestions on how to improve these changes.
-
-I'm certainly open to it but I do think we will need some more concrete
-examples using such an API before we could consider merging it. I don't
-want to merge something that would only be used by out-of-tree plugins
-because it would impose a maintenance burden for no project gain.
-
->
-> Thank you,
-> Andrew Fasano
->
-> Andrew Fasano (4):
->   docs/tcg-plugins: describe QPP API
->   tcg/plugins: Automatically define CURRENT_PLUGIN
->   tcg/plugins: Support for inter-plugin interactions
->   tcg/plugins: Add example pair of QPP plugins
->
->  contrib/plugins/Makefile     |   4 +-
->  contrib/plugins/qpp_client.c |  42 ++++++
->  contrib/plugins/qpp_client.h |   1 +
->  contrib/plugins/qpp_srv.c    |  33 +++++
->  contrib/plugins/qpp_srv.h    |  17 +++
->  docs/devel/tcg-plugins.rst   |  76 +++++++++++
->  include/qemu/plugin-qpp.h    | 252 +++++++++++++++++++++++++++++++++++
->  plugins/core.c               |  11 ++
->  plugins/loader.c             |  24 ++++
->  plugins/plugin.h             |   5 +
->  plugins/qemu-plugins.symbols |   1 +
->  11 files changed, 465 insertions(+), 1 deletion(-)
->  create mode 100644 contrib/plugins/qpp_client.c
->  create mode 100644 contrib/plugins/qpp_client.h
->  create mode 100644 contrib/plugins/qpp_srv.c
->  create mode 100644 contrib/plugins/qpp_srv.h
->  create mode 100644 include/qemu/plugin-qpp.h
-
-
---=20
-Alex Benn=C3=A9e
 
