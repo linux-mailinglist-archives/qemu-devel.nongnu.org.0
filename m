@@ -2,130 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 627AD5BF1FB
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 02:31:03 +0200 (CEST)
-Received: from localhost ([::1]:54864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8921B5BF1EC
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 02:24:46 +0200 (CEST)
+Received: from localhost ([::1]:48160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oandm-0002fr-HT
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 20:31:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60626)
+	id 1oanXh-0004Sv-KB
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 20:24:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oamaz-0008Jn-3L; Tue, 20 Sep 2022 19:24:05 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:33751)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oanO1-0002Iy-Hv; Tue, 20 Sep 2022 20:14:45 -0400
+Received: from mail-qv1-xf34.google.com ([2607:f8b0:4864:20::f34]:45018)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oamaw-00077A-BK; Tue, 20 Sep 2022 19:24:03 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id lc7so9960137ejb.0;
- Tue, 20 Sep 2022 16:24:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oanO0-0007nx-1F; Tue, 20 Sep 2022 20:14:45 -0400
+Received: by mail-qv1-xf34.google.com with SMTP id v15so3290470qvi.11;
+ Tue, 20 Sep 2022 17:14:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date;
- bh=qKZPVG5iME12/xaovZM6A6+qsWvmHnon3GYaJNYHOS8=;
- b=fCK9HNlTrRewEDKb1ki/vTFY3BFU4vzCnR5/5SporYyj2K3I0iIme7NT7sFxvxSWk3
- umbS7mgSQHCv4vemkhsUb7I8ViXwtdzvdECA7Hg1aPJOJHkBgajnUvnzOd15ofRxvKPW
- 2NmhmYzO4jI0zH5j583BH2fYOyCqRhQagr8KEfGrHxwOvw9vpW0RHacBcO/xfLZqnbG9
- JGQYdHCVFxtkFHNb5If1sypH5E1lsaKJVmD0Bts992LCNZLkqOhf1P9RqHOcsUAWXlWu
- d4YWu7xGj+i6DW0je9gZb13SoS+moDDgWL9JmB1tDOJPynLYKJKZy8VNJloyV8FGfrcV
- cuNg==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=XTdAlu23wNHJ6weopcwn5A+dKIor+xta4K+J9MdXBCc=;
+ b=HsFHZCVuN9OVs0HwmEUUlNbjZxaj1mxx/wB6cy43Jv+OBMrnjgdgxLLnJgfPnGWe74
+ 4uvUTqchQPciZNQx0+dKKPCRpBHuZz07o9IRvTr4j+z/OyYNCC5BinCYX/5ZFd229c3G
+ EAiAb6WOS9tvvO9DsNm9uxaDvRfRMnJXUPMlNy2tXdAuT5hi+BKB+8Es4GTaRsXeTIAL
+ jMpndihFqXnC7NG6K7E9sNh8rmqiMzcZfL96UxxOsgX4waP+TaKvtNzZsTF4EUf14ULw
+ ueIjYCmF+fuUcCfqdsxrlEPTMQpijwHhXb2phfoZN0I1swyDPlASw8q6E8zXKUcJjVq6
+ P9Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date;
- bh=qKZPVG5iME12/xaovZM6A6+qsWvmHnon3GYaJNYHOS8=;
- b=SKn4v4nreFHrzgxH0NqwAVBXIChM1IyU9GXy5ihKfnn0vRTJwuJqNLKLkpmqeZKkPE
- HY1wZW9PaTJVezbNECDOpKiajYDt0fKsx+mJIqoK4a5Ily2z2J/Gc3FJEAFjFyzpsBu3
- AHdr5PXrrlH72LJxBHlshtxx8fM/bbJ4TYryo+iaEV6LwQyN65AkBEnbJpAUh+P3m5iq
- g6PyAM6UYxgG+N7T56WfZ+BUW44xTtR5xjq4ZZ+p7jHxtiqhKoPwNQggUDD2kfRACJTk
- GkhZ+YgjvrZ8Tvc1Zd8K3FrwnV0uQvF6tVFxsJ75vwFAveZCp1Modv31vPBjRC8pbjRO
- DGcw==
-X-Gm-Message-State: ACrzQf1SPTUiPHDJJWjyUqZSJqpDYpAPyq12Xpm6NAnpU0oV4UayJOet
- uf1NYBDJKyFbBKwtrdGUm64=
-X-Google-Smtp-Source: AMsMyM5RM/OVc3EykNVPTfjHa4cDBJJ/DnJiA70xAhCb8RUZeIR5sVs3l/o+BP+JEU8fpdRpHUyjcA==
-X-Received: by 2002:a17:906:eec9:b0:73d:c369:690f with SMTP id
- wu9-20020a170906eec900b0073dc369690fmr19058158ejb.767.1663716238901; 
- Tue, 20 Sep 2022 16:23:58 -0700 (PDT)
-Received: from [127.0.0.1] (dynamic-078-054-006-055.78.54.pool.telefonica.de.
- [78.54.6.55]) by smtp.gmail.com with ESMTPSA id
- j22-20020a508a96000000b0044ed7a75c33sm689265edj.6.2022.09.20.16.23.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Sep 2022 16:23:58 -0700 (PDT)
-Date: Tue, 20 Sep 2022 23:23:52 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: Markus Armbruster <armbru@redhat.com>,
- Alistair Francis <alistair23@gmail.com>, Bin Meng <bin.meng@windriver.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
-CC: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Magnus Damm <magnus.damm@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Bandan Das <bsd@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Sergio Lopez <slp@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>, Cameron Esfahani <dirty@apple.com>, 
- Michael Rolnik <mrolnik@gmail.com>, Song Gao <gaosong@loongson.cn>,
- Jagannathan Raman <jag.raman@oracle.com>, Greg Kurz <groug@kaod.org>,
- Kamil Rytarowski <kamil@netbsd.org>, Peter Xu <peterx@redhat.com>,
- Joel Stanley <joel@jms.id.au>, Alistair Francis <Alistair.Francis@wdc.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, haxm-team@intel.com,
- Roman Bolshakov <r.bolshakov@yadro.com>, Eric Auger <eric.auger@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?ISO-8859-1?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- =?ISO-8859-1?Q?C=E9dric_Le_Goater?= <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- "open list:New World" <qemu-ppc@nongnu.org>,
- Cornelia Huck <cohuck@redhat.com>, Helge Deller <deller@gmx.de>,
- Stefano Stabellini <sstabellini@kernel.org>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Stafford Horne <shorne@gmail.com>, Paul Durrant <paul@xen.org>,
- Havard Skinnemoen <hskinnemoen@google.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Alexander Graf <agraf@csgraf.de>, Thomas Huth <thuth@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Wenchao Wang <wenchao.wang@intel.com>, Tony Krowiak <akrowiak@linux.ibm.com>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- qemu-s390x <qemu-s390x@nongnu.org>,
- =?ISO-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Eric Farman <farman@linux.ibm.com>, Reinoud Zandijk <reinoud@netbsd.org>,
- Alexander Bulekov <alxndr@bu.edu>, Yanan Wang <wangyanan55@huawei.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Tyrone Ting <kfting@nuvoton.com>,
- "open list:X86" <xen-devel@lists.xenproject.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Darren Kenny <darren.kenny@oracle.com>,
- "open list:Overall" <kvm@vger.kernel.org>, Qiuhao Li <Qiuhao.Li@outlook.com>, 
- John G Johnson <john.g.johnson@oracle.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Max Filippov <jcmvbkbc@gmail.com>, 
- qemu-arm <qemu-arm@nongnu.org>, Marcelo Tosatti <mtosatti@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Anthony Perard <anthony.perard@citrix.com>, Andrew Jeffery <andrew@aj.id.au>, 
- Artyom Tarasenko <atar4qemu@gmail.com>, Halil Pasic <pasic@linux.ibm.com>,
- "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>,
- Alistair Francis <alistair@alistair23.me>,
- Jason Herne <jjherne@linux.ibm.com>
-Subject: Re: [PATCH 1/9] hw/riscv/sifive_e: Fix inheritance of SiFiveEState
-In-Reply-To: <87edw6xoog.fsf@pond.sub.org>
-References: <20220919231720.163121-1-shentey@gmail.com>
- <20220919231720.163121-2-shentey@gmail.com>
- <CAKmqyKN+V2R8PkED67tB8+pCZs9369ViiL8OZ9XhO3SdUCk5=Q@mail.gmail.com>
- <87edw6xoog.fsf@pond.sub.org>
-Message-ID: <0BBD7391-7B2D-44E7-9396-D1747784B9DA@gmail.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=XTdAlu23wNHJ6weopcwn5A+dKIor+xta4K+J9MdXBCc=;
+ b=ZumfihzXbbsnBCysiENhf2BpPhSCYYIEpshSeetDIfFtj8Q7++NW9571SaPe+nktQh
+ MABEH2uBautRuUrpk0QjTIbOZ0GtB4/bZxuyZc378gdlsTOM52sJ+qf67pJYjtOld3De
+ oHIt8W7OSGtzip0BNLR1366v+WE03VpWH/M0KsVdXQpq2rjYQiwh7C9IFz8l/mdoPzsD
+ ruKkH8hP9f2yDZ6OGesS584v6kkpM5zr2kOgBKaVDK7tZireKpto7VaQbpuxOmPcXyL1
+ PXsPv6cljoiJWLMDfKpDdNQy3PULNvj3AVxhk5HarlruexaclAOQPtfhideBtPMpd/du
+ Fvzg==
+X-Gm-Message-State: ACrzQf0IHPoe8Kd8tFC+ymUr4FEjiWTp609PVi/XOvGqnbzRLsllBQmR
+ tKH6Nip2Gf3kHtZ3e9yKhalXiJUVWxUHIq3tL8kVzyTf
+X-Google-Smtp-Source: AMsMyM7UNifRvWlR9ZPqaZq2Vk2kgLGYEE712BLCUHBNUKLJ29w4Q9b0pvHNHuHMVve0htUtXVMbHg/zFUPLrpS4ZHM=
+X-Received: by 2002:a05:6214:20a8:b0:4ac:b917:ccae with SMTP id
+ 8-20020a05621420a800b004acb917ccaemr20859593qvd.85.1663719282684; Tue, 20 Sep
+ 2022 17:14:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62d.google.com
+References: <20220920103159.1865256-1-bmeng.cn@gmail.com>
+ <20220920103159.1865256-29-bmeng.cn@gmail.com>
+ <8c9748e9-0204-c5c5-bdde-3ae069c0c98a@gmail.com>
+In-Reply-To: <8c9748e9-0204-c5c5-bdde-3ae069c0c98a@gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 21 Sep 2022 08:14:33 +0800
+Message-ID: <CAEUhbmWH16G+QstGNt9cSU5+nNZrC-Kp09SeMJnGR1eNkDd7nQ@mail.gmail.com>
+Subject: Re: [PATCH v2 28/39] hw/pci-host: pnv_phb{3, 4}: Fix heap
+ out-of-bound access failure
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, 
+ Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ qemu-ppc <qemu-ppc@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f34;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -148,34 +87,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 20=2E September 2022 11:36:47 UTC schrieb Markus Armbruster <armbru@redh=
-at=2Ecom>:
->Alistair Francis <alistair23@gmail=2Ecom> writes:
+On Tue, Sep 20, 2022 at 11:40 PM Daniel Henrique Barboza
+<danielhb413@gmail.com> wrote:
 >
->> On Tue, Sep 20, 2022 at 9:18 AM Bernhard Beschow <shentey@gmail=2Ecom> =
-wrote:
->>>
->>> SiFiveEState inherits from SysBusDevice while it's TypeInfo claims it =
-to
->>> inherit from TYPE_MACHINE=2E This is an inconsistency which can cause
->>> undefined behavior such as memory corruption=2E
->>>
->>> Change SiFiveEState to inherit from MachineState since it is registere=
-d
->>> as a machine=2E
->>>
->>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->>
->> Reviewed-by: Alistair Francis <alistair=2Efrancis@wdc=2Ecom>
+> Bin,
 >
->To the SiFive maintainers: since this is a bug fix, let's merge it right
->away=2E
-
-I could repost this particular patch with the three new tags (incl=2E Fixe=
-s) if desired=2E
-
-Best regards,
-Bernhard
+> Since I'll send a ppc pull request shortly, I'll queue up both this and patch 27 via
+> the ppc tree. These are good fixes that are independent of what happens with the
+> 'tests/qtest: Enable running qtest on Windows' series.
 >
 
+Thank you Daniel.
+
+Regards,
+Bin
 
