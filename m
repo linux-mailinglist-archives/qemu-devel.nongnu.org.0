@@ -2,63 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62DC25BF6BF
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 08:53:22 +0200 (CEST)
-Received: from localhost ([::1]:39850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B8F55BF684
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 08:41:46 +0200 (CEST)
+Received: from localhost ([::1]:37458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oatbl-00006a-1Z
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 02:53:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46066)
+	id 1oatQX-0003d8-41
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 02:41:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangliangzz@126.com>)
- id 1oatCx-0004UC-G1; Wed, 21 Sep 2022 02:27:43 -0400
-Received: from m15111.mail.126.com ([220.181.15.111]:56996)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wangliangzz@126.com>)
- id 1oatCq-0003H2-GA; Wed, 21 Sep 2022 02:27:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
- s=s110527; h=Message-ID:Subject:From:Date:Mime-Version; bh=K6dzT
- LxaZIqmjb07KtS8nX2K471T/oEhAROOhvTkG0g=; b=M/rjE1eZyeYLNM5+5KZvQ
- x4z17RBJCniw6va3HFIBjyqZ73l2Rr5QlZrnpTwv6duyWHVhAkS/mtVeFwWcavFY
- m0+n0NAu1ENadGwsDumxF3hz4wRwf6ErIy57BRSBxKXoXM9YfHLQqZ5qnuUbgCYn
- AA8ZwpPRyWU0MMueWRuS6w=
-Received: from localhost.localdomain (unknown [117.160.246.157])
- by smtp1 (Coremail) with SMTP id C8mowADnC6COripjrpINCA--.10119S3;
- Wed, 21 Sep 2022 14:26:26 +0800 (CST)
-Message-ID: <3c8c6cfa21481cedbd825599b414111bcebbd284.camel@126.com>
-Subject: Re: [PATCH] ratelimit: restrict the delay time to a non-negative value
-From: Wang Liang <wangliangzz@126.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org, 
- qemu-block@nongnu.org, pbonzini@redhat.com, stefanha@redhat.com, 
- silbe@linux.vnet.ibm.com, Wang Liang <wangliangzz@inspur.com>
-Date: Wed, 21 Sep 2022 14:26:22 +0800
-In-Reply-To: <87edw5gwfl.fsf@pond.sub.org>
-References: <20220920123350.205391-1-wangliangzz@126.com>
- <w51h712i3pd.fsf@igalia.com>
- <f4b8e638285a7cfd2bd2e94c0bf9a1176cca0cb7.camel@126.com>
- <87edw5gwfl.fsf@pond.sub.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: C8mowADnC6COripjrpINCA--.10119S3
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Zr4DAFyUGF4DtFWxCw47XFb_yoW8XF4fpr
- W3XFyagF15AF12kF42y3ZxC3WY9r1UGr1kGr1kGF1rZrn0kr93KF17JrWDC34Sya4xCayf
- Xr48Xa90kr1Fk3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRyEEUUUUUU=
-X-Originating-IP: [117.160.246.157]
-X-CM-SenderInfo: pzdqwzpldqw6b26rjloofrz/1tbiLRKD1lpD-lAIQwAAsW
-Received-SPF: pass client-ip=220.181.15.111; envelope-from=wangliangzz@126.com;
- helo=m15111.mail.126.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <chenh@yusur.tech>)
+ id 1oatC1-00043u-LY; Wed, 21 Sep 2022 02:26:47 -0400
+Received: from out28-149.mail.aliyun.com ([115.124.28.149]:52979)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chenh@yusur.tech>)
+ id 1oatBv-00038b-Vo; Wed, 21 Sep 2022 02:26:45 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436334|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.00879649-0.000748136-0.990455;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047205; MF=chenh@yusur.tech; NM=1; PH=DS;
+ RN=10; RT=10; SR=0; TI=SMTPD_---.PKk-2mf_1663741587; 
+Received: from 192.168.10.130(mailfrom:chenh@yusur.tech
+ fp:SMTPD_---.PKk-2mf_1663741587) by smtp.aliyun-inc.com;
+ Wed, 21 Sep 2022 14:26:28 +0800
+Content-Type: multipart/alternative;
+ boundary="------------frsk7wFSv6ax0upyqPZuM3Ej"
+Message-ID: <b5886de1-1fff-5b64-0e38-541009af5d9c@yusur.tech>
+Date: Wed, 21 Sep 2022 14:26:27 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] hw/virtio/vhost-user: support obtain vdpa device's mac
+ address automatically
+To: Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Jason Wang <jasowang@redhat.com>
+Cc: mst <mst@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ qemu-devel <qemu-devel@nongnu.org>, "houyl@yusur.tech" <houyl@yusur.tech>,
+ "zy@yusur.tech" <zy@yusur.tech>, Cindy Lu <lulu@redhat.com>
+References: <20220913090817.212224-1-chenh@yusur.tech>
+ <CACGkMEs4nq_J4xXYUH54JMXETELC_i=WDR9UXByWCw6v1xLF4A@mail.gmail.com>
+ <BL3PR02MB7938BAC963766AF90ECC8DDBEA4C9@BL3PR02MB7938.namprd02.prod.outlook.com>
+From: =?UTF-8?B?6ZmI5rWp?= <chenh@yusur.tech>
+In-Reply-To: <BL3PR02MB7938BAC963766AF90ECC8DDBEA4C9@BL3PR02MB7938.namprd02.prod.outlook.com>
+Received-SPF: pass client-ip=115.124.28.149; envelope-from=chenh@yusur.tech;
+ helo=out28-149.mail.aliyun.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-2.182, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,55 +69,561 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2022-09-21 at 06:53 +0200, Markus Armbruster wrote:
-> Wang Liang <wangliangzz@126.com> writes:
-> 
-> > On Tue, 2022-09-20 at 13:18 +0000, Alberto Garcia wrote:
-> > > On Tue 20 Sep 2022 08:33:50 PM +08, wangliangzz@126.com wrote:
-> > > > From: Wang Liang <wangliangzz@inspur.com>
-> > > > 
-> > > > The delay time should never be a negative value.
-> > > > 
-> > > > -    return limit->slice_end_time - now;
-> > > > +    return MAX(limit->slice_end_time - now, 0);
-> > > 
-> > > How can this be negative? slice_end_time is guaranteed to be
-> > > larger
-> > > than
-> > > now:
-> > > 
-> > >     if (limit->slice_end_time < now) {
-> > >         /* Previous, possibly extended, time slice finished;
-> > > reset
-> > > the
-> > >          * accounting. */
-> > >         limit->slice_start_time = now;
-> > >         limit->slice_end_time = now + limit->slice_ns;
-> > >         limit->dispatched = 0;
-> > >     }
-> > > 
-> > This is just a guarantee. 
-> 
-> Smells like an invariant to me.
-> 
-> > If slice_end_time is assigned later by
-> >     limit->slice_end_time = limit->slice_start_time +
-> >         (uint64_t)(delay_slices * limit->slice_ns);
-> > There may be precision issues at that time.
-> 
-> What are the issues exactly?  What misbehavior are you observing?
-> 
-> Your commit message should show how delay time can become negative,
-> and
-> why that's bad.
-
-It was observed in a production environment based on qemu v2.12.1.
-
-The block-stream job delayed a very long time and do not get any
-progress since ratelimit_calculate_delay returns a negative value.
-
-Sorry, I don't have an environment to reproduce it in the mainline
-version now.
+This is a multi-part message in MIME format.
+--------------frsk7wFSv6ax0upyqPZuM3Ej
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
+在 2022/9/21 13:28, Raphael Norwitz 写道:
+>
+> I have some concerns from the vhost-user-blk side.
+>
+> >On Tue, Sep 13, 2022 at 5:13 PM Hao Chen <chenh@yusur.tech> wrote:
+>
+> >>
+>
+> >> When use dpdk-vdpa tests vdpa device. You need to specify the mac address to
+>
+> >> start the virtual machine through libvirt or qemu, but now, the libvirt or
+>
+> >> qemu can call dpdk vdpa vendor driver's ops .get_config through vhost_net_get_config
+>
+> >> to get the mac address of the vdpa hardware without manual configuration.
+>
+> >>
+>
+> >> Signed-off-by: Hao Chen <chenh@yusur.tech>
+>
+> >
+>
+> >Adding Cindy for comments.
+>
+> >
+>
+> >Thanks
+>
+> >
+>
+> >> ---
+>
+> >>hw/block/vhost-user-blk.c |1 -
+>
+> >>hw/net/virtio-net.c |3 ++-
+>
+> >>hw/virtio/vhost-user.c| 19 -------------------
+>
+> >>3 files changed, 2 insertions(+), 21 deletions(-)
+>
+> >>
+>
+> >> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+>
+> >> index 9117222456..5dca4eab09 100644
+>
+> >> --- a/hw/block/vhost-user-blk.c
+>
+> >> +++ b/hw/block/vhost-user-blk.c
+>
+> >> @@ -337,7 +337,6 @@ static int vhost_user_blk_connect(DeviceState *dev, Error **errp)
+>
+> >>
+>
+> >>vhost_dev_set_config_notifier(&s->dev, &blk_ops);
+>
+> >>
+>
+> >> -s->vhost_user.supports_config = true;
+>
+> vhost-user-blk requires the backend to support 
+> VHOST_USER_PROTOCOL_F_CONFIG
+>
+> and vhost_user.supports_config is used to enforce that.
+>
+> Why are you removing it here?
+>
+> >>ret = vhost_dev_init(&s->dev, &s->vhost_user, VHOST_BACKEND_TYPE_USER, 0,
+>
+> >> errp);
+>
+> >>if (ret < 0) {
+>
+> >> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+>
+> >> index dd0d056fde..274ea84644 100644
+>
+> >> --- a/hw/net/virtio-net.c
+>
+> >> +++ b/hw/net/virtio-net.c
+>
+> >> @@ -149,7 +149,8 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
+>
+> >> * Is this VDPA? No peer means not VDPA: there's no way to
+>
+> >> * disconnect/reconnect a VDPA peer.
+>
+> >> */
+>
+> >> -if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
+>
+> >> +if ((nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) ||
+>
+> >> +(nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_USER)) {
+>
+> >>ret = vhost_net_get_config(get_vhost_net(nc->peer), (uint8_t *)&netcfg,
+>
+> >> n->config_size);
+>
+> >>if (ret != -1) {
+>
+> >> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+>
+> >> index bd24741be8..8b01078249 100644
+>
+> >> --- a/hw/virtio/vhost-user.c
+>
+> >> +++ b/hw/virtio/vhost-user.c
+>
+> >> @@ -2013,8 +2013,6 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque,
+>
+> >>}
+>
+> >>
+>
+> Why are you removing this? Can you expand on how it helps dpdk-vdpa.
+>
+I implemented a function by modifying these places in the patch, and 
+then implementing vhost msg ops '.get_config' in the driver under 
+'DPDK_SRC/drivers/vdpa/' , qemu can use 'vhost_user_get_config' to send 
+vhost msg to calls the dpdk vdpa vendor driver's ops 'get_config' to 
+obtain the mac address information of the vdpa device. In this way, even 
+if the mac address of the network device parameters configured by the 
+user for qemu vhost user is inconsistent with the mac address of the 
+vdpa hardware, qemu can be corrected to be consistent with the mac 
+address of the vdpa hardware.
+
+When vhost-user interface is used by dpdk-vdpa & qemu, 
+'vhost_user_get_config' will get the vdpa device's mac address if dpdk 
+vdpa vendor driver implement 'get_config',otherwise, it won't do anything.
+
+When vhost-user interface is used by dpdk vhost-user, it won't do anything.
+
+I think the functions provided by the VHOST_USER_PROTOCOL_F_CONFIG 
+feature can be available separately, but the check here caused 
+VHOST_USER_PROTOCOL_F_CONFIG feature is cleared, which will cause 
+vhost_user_get_config is not working properly in virtio-net at 
+hw/net/virtio_net.c.
+
+Maybe the check here should be moved other side?
+The new patch v2 has been sent, please reply there.
+
+> >>if (virtio_has_feature(features, VHOST_USER_F_PROTOCOL_FEATURES)) {
+>
+> >> -bool supports_f_config = vus->supports_config ||
+>
+> >> -(dev->config_ops && dev->config_ops->vhost_dev_config_notifier);
+>
+> >>uint64_t protocol_features;
+>
+> >>
+>
+> >>dev->backend_features |= 1ULL << VHOST_USER_F_PROTOCOL_FEATURES;
+>
+> >> @@ -2033,23 +2031,6 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque,
+>
+> >> */
+>
+> >>protocol_features &= VHOST_USER_PROTOCOL_FEATURE_MASK;
+>
+> >>
+>
+> >> -if (supports_f_config) {
+>
+> >> -if (!virtio_has_feature(protocol_features,
+>
+> >> -VHOST_USER_PROTOCOL_F_CONFIG)) {
+>
+> >> -error_setg(errp, "vhost-user device expecting "
+>
+> >> - "VHOST_USER_PROTOCOL_F_CONFIG but the vhost-user backend does "
+>
+> >> - "not support it.");
+>
+> >> -return -EPROTO;
+>
+> >> -}
+>
+> >> -} else {
+>
+> >> -if (virtio_has_feature(protocol_features,
+>
+> >> - VHOST_USER_PROTOCOL_F_CONFIG)) {
+>
+> >> -warn_reportf_err(*errp, "vhost-user backend supports "
+>
+> >> - "VHOST_USER_PROTOCOL_F_CONFIG but QEMU does not.");
+>
+> >> -protocol_features &= ~(1ULL << VHOST_USER_PROTOCOL_F_CONFIG);
+>
+> >> -}
+>
+> >> -}
+>
+> >> -
+>
+> >>/* final set of protocol features */
+>
+> >>dev->protocol_features = protocol_features;
+>
+> >>err = vhost_user_set_protocol_features(dev, dev->protocol_features);
+>
+> >> --
+>
+> >> 2.27.0
+>
+> >>
+>
+> >
+>
+--------------frsk7wFSv6ax0upyqPZuM3Ej
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">在 2022/9/21 13:28, Raphael Norwitz 写道:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:BL3PR02MB7938BAC963766AF90ECC8DDBEA4C9@BL3PR02MB7938.namprd02.prod.outlook.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta name="Generator" content="Microsoft Word 15 (filtered
+        medium)">
+      <style>@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}@font-face
+	{font-family:Menlo;
+	panose-1:2 11 6 9 3 8 4 2 2 4;}p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:10.0pt;
+	font-family:"Calibri",sans-serif;}p.p1, li.p1, div.p1
+	{mso-style-name:p1;
+	margin:0in;
+	font-size:8.5pt;
+	font-family:Menlo;
+	color:black;}span.s1
+	{mso-style-name:s1;}span.apple-converted-space
+	{mso-style-name:apple-converted-space;}.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}div.WordSection1
+	{page:WordSection1;}</style>
+      <div class="WordSection1">
+        <div>
+          <p class="p1"><span class="s1">I have some concerns from the
+              vhost-user-blk side.<o:p></o:p></span></p>
+          <p class="p1"><span class="s1"><o:p> </o:p></span></p>
+          <p class="p1"><span class="s1">&gt;On Tue, Sep 13, 2022 at
+              5:13 PM Hao Chen <a class="moz-txt-link-rfc2396E" href="mailto:chenh@yusur.tech">&lt;chenh@yusur.tech&gt;</a> wrote:</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><o:p> </o:p></p>
+          <p class="p1"><span class="s1">&gt;&gt; When use dpdk-vdpa
+              tests vdpa device. You need to specify the mac address to</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; start the virtual
+              machine through libvirt or qemu, but now, the libvirt or</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; qemu can call dpdk
+              vdpa vendor driver's ops .get_config through
+              vhost_net_get_config</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; to get the mac address
+              of the vdpa hardware without manual configuration.</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><o:p> </o:p></p>
+          <p class="p1"><span class="s1">&gt;&gt; Signed-off-by: Hao
+              Chen <a class="moz-txt-link-rfc2396E" href="mailto:chenh@yusur.tech">&lt;chenh@yusur.tech&gt;</a></span></p>
+          <p class="p1"><span class="s1">&gt;</span><o:p> </o:p></p>
+          <p class="p1"><span class="s1">&gt;Adding Cindy for comments.</span></p>
+          <p class="p1"><span class="s1">&gt;</span><o:p> </o:p></p>
+          <p class="p1"><span class="s1">&gt;Thanks</span></p>
+          <p class="p1"><span class="s1">&gt;</span><o:p> </o:p></p>
+          <p class="p1"><span class="s1">&gt;&gt; ---</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><span
+              class="apple-converted-space">  </span>
+            <span class="s1">hw/block/vhost-user-blk.c |</span><span
+              class="apple-converted-space"> 
+            </span><span class="s1">1 -</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><span
+              class="apple-converted-space">  </span>
+            <span class="s1">hw/net/virtio-net.c </span><span
+              class="apple-converted-space">     
+            </span><span class="s1">|</span><span
+              class="apple-converted-space">  </span><span class="s1">3
+              ++-</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><span
+              class="apple-converted-space">  </span>
+            <span class="s1">hw/virtio/vhost-user.c</span><span
+              class="apple-converted-space">   
+            </span><span class="s1">| 19 -------------------</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><span
+              class="apple-converted-space">  </span>
+            <span class="s1">3 files changed, 2 insertions(+), 21
+              deletions(-)</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><o:p> </o:p></p>
+          <p class="p1"><span class="s1">&gt;&gt; diff --git
+              a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; index
+              9117222456..5dca4eab09 100644</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; ---
+              a/hw/block/vhost-user-blk.c</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; +++
+              b/hw/block/vhost-user-blk.c</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; @@ -337,7 +337,6 @@
+              static int vhost_user_blk_connect(DeviceState *dev, Error
+              **errp)</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><o:p> </o:p></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><span
+              class="apple-converted-space">     
+            </span><span class="s1">vhost_dev_set_config_notifier(&amp;s-&gt;dev,
+              &amp;blk_ops);</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><o:p> </o:p></p>
+          <p class="p1"><span class="s1">&gt;&gt; -</span><span
+              class="apple-converted-space">   
+            </span><span class="s1">s-&gt;vhost_user.supports_config =
+              true;<o:p></o:p></span></p>
+          <p class="p1"><span class="s1"><o:p> </o:p></span></p>
+          <p class="p1"><span class="s1">vhost-user-blk requires the
+              backend to support VHOST_USER_PROTOCOL_F_CONFIG<o:p></o:p></span></p>
+          <p class="p1"><span class="s1">and vhost_user.supports_config
+              is used to enforce that.<o:p></o:p></span></p>
+          <p class="p1"><span class="s1"><o:p> </o:p></span></p>
+          <p class="p1"><span class="s1">Why are you removing it here?<o:p></o:p></span></p>
+          <p class="p1"><span class="s1"><o:p> </o:p></span></p>
+          <p class="p1"><o:p> </o:p></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><span
+              class="apple-converted-space">     
+            </span><span class="s1">ret = vhost_dev_init(&amp;s-&gt;dev,
+              &amp;s-&gt;vhost_user, VHOST_BACKEND_TYPE_USER, 0,</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; </span><span
+              class="apple-converted-space">                         
+            </span><span class="s1">errp);</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><span
+              class="apple-converted-space">     
+            </span><span class="s1">if (ret &lt; 0) {</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; diff --git
+              a/hw/net/virtio-net.c b/hw/net/virtio-net.c</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; index
+              dd0d056fde..274ea84644 100644</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; ---
+              a/hw/net/virtio-net.c</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; +++
+              b/hw/net/virtio-net.c</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; @@ -149,7 +149,8 @@
+              static void virtio_net_get_config(VirtIODevice *vdev,
+              uint8_t *config)</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; </span><span
+              class="apple-converted-space">     
+            </span><span class="s1">* Is this VDPA? No peer means not
+              VDPA: there's no way to</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; </span><span
+              class="apple-converted-space">     
+            </span><span class="s1">* disconnect/reconnect a VDPA peer.</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; </span><span
+              class="apple-converted-space">     
+            </span><span class="s1">*/</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; -</span><span
+              class="apple-converted-space">   
+            </span><span class="s1">if (nc-&gt;peer &amp;&amp;
+              nc-&gt;peer-&gt;info-&gt;type ==
+              NET_CLIENT_DRIVER_VHOST_VDPA) {</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; +</span><span
+              class="apple-converted-space">   
+            </span><span class="s1">if ((nc-&gt;peer &amp;&amp;
+              nc-&gt;peer-&gt;info-&gt;type ==
+              NET_CLIENT_DRIVER_VHOST_VDPA) ||</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; +</span><span
+              class="apple-converted-space">       
+            </span><span class="s1">(nc-&gt;peer &amp;&amp;
+              nc-&gt;peer-&gt;info-&gt;type ==
+              NET_CLIENT_DRIVER_VHOST_USER)) {</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><span
+              class="apple-converted-space">         
+            </span><span class="s1">ret =
+              vhost_net_get_config(get_vhost_net(nc-&gt;peer), (uint8_t
+              *)&amp;netcfg,</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; </span><span
+              class="apple-converted-space">                           
+                     
+            </span><span class="s1">n-&gt;config_size);</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><span
+              class="apple-converted-space">         
+            </span><span class="s1">if (ret != -1) {</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; diff --git
+              a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; index
+              bd24741be8..8b01078249 100644</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; ---
+              a/hw/virtio/vhost-user.c</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; +++
+              b/hw/virtio/vhost-user.c</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; @@ -2013,8 +2013,6 @@
+              static int vhost_user_backend_init(struct vhost_dev *dev,
+              void *opaque,</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><span
+              class="apple-converted-space">     
+            </span><span class="s1">}</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;<o:p> </o:p></span></p>
+          <p class="p1"><span class="s1"><o:p> </o:p></span></p>
+          <p class="p1"><span class="s1">Why are you removing this? Can
+              you expand on how it helps dpdk-vdpa.</span></p>
+        </div>
+      </div>
+    </blockquote>
+    <p>I implemented a function by modifying these places in the patch,
+      and then implementing vhost msg ops '.get_config' in the driver
+      under 'DPDK_SRC/drivers/vdpa/' , qemu can use
+      'vhost_user_get_config' to send vhost msg to calls the dpdk vdpa
+      vendor driver's ops 'get_config' to obtain the mac address
+      information of the vdpa device. In this way, even if the mac
+      address of the network device parameters configured by the user
+      for qemu vhost user is inconsistent with the mac address of the
+      vdpa hardware, qemu can be corrected to be consistent with the mac
+      address of the vdpa hardware.</p>
+    <p>When vhost-user interface is used by dpdk-vdpa &amp; qemu,
+      'vhost_user_get_config' will get the vdpa device's mac address if
+      dpdk vdpa vendor driver implement 'get_config',otherwise, it won't
+      do anything.</p>
+    <p>When vhost-user interface is used by dpdk vhost-user, it won't do
+      anything. </p>
+    <p>I think the functions provided by the
+      VHOST_USER_PROTOCOL_F_CONFIG feature can be available separately,
+      but the check here caused VHOST_USER_PROTOCOL_F_CONFIG feature is
+      cleared, which will cause vhost_user_get_config is not working
+      properly in virtio-net at hw/net/virtio_net.c.<br>
+      <br>
+      Maybe the check here should be moved other side?<br>
+      The new patch v2 has been sent, please reply there.<br>
+    </p>
+    <blockquote type="cite"
+cite="mid:BL3PR02MB7938BAC963766AF90ECC8DDBEA4C9@BL3PR02MB7938.namprd02.prod.outlook.com">
+      <div class="WordSection1">
+        <div>
+          <p class="p1"><span class="s1"><o:p></o:p></span></p>
+          <p class="p1"><o:p> </o:p></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><span
+              class="apple-converted-space">     
+            </span><span class="s1">if (virtio_has_feature(features,
+              VHOST_USER_F_PROTOCOL_FEATURES)) {</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; -</span><span
+              class="apple-converted-space">       
+            </span><span class="s1">bool supports_f_config =
+              vus-&gt;supports_config ||</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; -</span><span
+              class="apple-converted-space">           
+            </span><span class="s1">(dev-&gt;config_ops &amp;&amp;
+              dev-&gt;config_ops-&gt;vhost_dev_config_notifier);</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><span
+              class="apple-converted-space">         
+            </span><span class="s1">uint64_t protocol_features;</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><o:p> </o:p></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><span
+              class="apple-converted-space">         
+            </span><span class="s1">dev-&gt;backend_features |= 1ULL
+              &lt;&lt; VHOST_USER_F_PROTOCOL_FEATURES;</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; @@ -2033,23 +2031,6 @@
+              static int vhost_user_backend_init(struct vhost_dev *dev,
+              void *opaque,</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; </span><span
+              class="apple-converted-space">         
+            </span><span class="s1">*/</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><span
+              class="apple-converted-space">         
+            </span><span class="s1">protocol_features &amp;=
+              VHOST_USER_PROTOCOL_FEATURE_MASK;</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><o:p> </o:p></p>
+          <p class="p1"><span class="s1">&gt;&gt; -</span><span
+              class="apple-converted-space">       
+            </span><span class="s1">if (supports_f_config) {</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; -</span><span
+              class="apple-converted-space">           
+            </span><span class="s1">if
+              (!virtio_has_feature(protocol_features,</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; -</span><span
+              class="apple-converted-space">                           
+                     
+            </span><span class="s1">VHOST_USER_PROTOCOL_F_CONFIG)) {</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; -</span><span
+              class="apple-converted-space">               
+            </span><span class="s1">error_setg(errp, "vhost-user device
+              expecting "</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; - </span><span
+              class="apple-converted-space">                         
+            </span><span class="s1">"VHOST_USER_PROTOCOL_F_CONFIG but
+              the vhost-user backend does "</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; - </span><span
+              class="apple-converted-space">                         
+            </span><span class="s1">"not support it.");</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; -</span><span
+              class="apple-converted-space">               
+            </span><span class="s1">return -EPROTO;</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; -</span><span
+              class="apple-converted-space">           
+            </span><span class="s1">}</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; -</span><span
+              class="apple-converted-space">       
+            </span><span class="s1">} else {</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; -</span><span
+              class="apple-converted-space">           
+            </span><span class="s1">if
+              (virtio_has_feature(protocol_features,</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; - </span><span
+              class="apple-converted-space">                           
+                   
+            </span><span class="s1">VHOST_USER_PROTOCOL_F_CONFIG)) {</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; -</span><span
+              class="apple-converted-space">               
+            </span><span class="s1">warn_reportf_err(*errp, "vhost-user
+              backend supports "</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; - </span><span
+              class="apple-converted-space">                           
+                 
+            </span><span class="s1">"VHOST_USER_PROTOCOL_F_CONFIG but
+              QEMU does not.");</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; -</span><span
+              class="apple-converted-space">               
+            </span><span class="s1">protocol_features &amp;= ~(1ULL
+              &lt;&lt; VHOST_USER_PROTOCOL_F_CONFIG);</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; -</span><span
+              class="apple-converted-space">           
+            </span><span class="s1">}</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; -</span><span
+              class="apple-converted-space">       
+            </span><span class="s1">}</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; -</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><span
+              class="apple-converted-space">         
+            </span><span class="s1">/* final set of protocol features */</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><span
+              class="apple-converted-space">         
+            </span><span class="s1">dev-&gt;protocol_features =
+              protocol_features;</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><span
+              class="apple-converted-space">         
+            </span><span class="s1">err =
+              vhost_user_set_protocol_features(dev,
+              dev-&gt;protocol_features);</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; --</span></p>
+          <p class="p1"><span class="s1">&gt;&gt; 2.27.0</span></p>
+          <p class="p1"><span class="s1">&gt;&gt;</span><o:p> </o:p></p>
+          <p class="p1"><span class="s1">&gt;</span><o:p> </o:p></p>
+          <p class="MsoNormal" style="margin-bottom:12.0pt"><span
+              style="font-size:11.0pt"><o:p> </o:p></span></p>
+        </div>
+      </div>
+    </blockquote>
+  </body>
+</html>
+
+--------------frsk7wFSv6ax0upyqPZuM3Ej--
 
