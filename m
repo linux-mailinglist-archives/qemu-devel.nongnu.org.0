@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D9F55C0562
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 19:37:14 +0200 (CEST)
-Received: from localhost ([::1]:55572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FCA05C0568
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 19:41:23 +0200 (CEST)
+Received: from localhost ([::1]:33742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob3eq-0003PT-W5
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 13:37:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49500)
+	id 1ob3is-0007Lp-3X
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 13:41:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ob3c6-0008Mw-5Q; Wed, 21 Sep 2022 13:34:23 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:39807)
+ id 1ob3fD-00044s-Ez
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 13:37:35 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:46743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ob3c2-0006Dy-RQ; Wed, 21 Sep 2022 13:34:21 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id f23so6361031plr.6;
- Wed, 21 Sep 2022 10:34:17 -0700 (PDT)
+ id 1ob3f9-0006s8-JJ
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 13:37:35 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id c198so6603114pfc.13
+ for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 10:37:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=r1uDIfKVCipRJHAIDB+NtAKXd73F4ShuDhLXnKs/2O0=;
- b=Bw4dbxItbiVzC0IBiHHJamup7DAJRXy84ww7o8MzLKoPZjH+LSH88XWh9B+MZyxNIK
- V90HCRZS1HwjOC9YqpbbaR96BzGSptvVOPFxlNTrPiMsX7+ZuJuEeov12hSTk0FksrNP
- DMvwjAFQLDyRNISUoig9FrSHsJYTtXYRaonbAuQlqLwHwxAmqDczZfPFKprXE1jziccD
- dsht7c1XkyoTOfkF8kFQy/WtIZB1vsRZGJh61BzgjuVMI+7OtnoQCI2BpMOKyPYERf0u
- U1494SuBMIwTm6GNWrdBz8GeTrm2k2/YwBF1hII4dehJPkz1+KNIY4PtnJSQ5K66w6KQ
- 0nKg==
+ bh=n7Ry0cGx1w1i9cdPL1p6BkIrVVVJBrL2QgvsfdIo8R4=;
+ b=PT9oKGeTBItDwGpT8Lc2Tig3umfYpuJhzSH3dOXH9G0+SwIfbz9cUE8CrsVyzKa7EK
+ ieEUYr51oCJRJl0dkv+Dn89mlNJeB+1sdMnOcrC3bTx1GEPX/JdYOYNVbuNBBdrdwxF/
+ +FweAEmJb3uhOx2NwiZQ8Ybn4MqAIFhoiWj8jWNTXSG6CtMJaC6ScWVB4H+pp8os9GEp
+ m0NeQTIEegjBDOybYToJSnycAyCAx6PV0jRQOjfsQ1VbwcfuzVCW7D79q6/cd8GcDz43
+ N+A2dQMcF+QVoGmgtkWZDY2aPjDx8BHvz/UK/KE2Lu0MJi7yRxnklJP1SRKlQm+jR5sT
+ Waxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=r1uDIfKVCipRJHAIDB+NtAKXd73F4ShuDhLXnKs/2O0=;
- b=Uvx6VbxASS8Axy28uUfDTWrin0isClCJbxGgWmzfAUINV7vT51LBDVpacC0kUneDwC
- GAqKfJC34teNLJAl8DRUDmKUjHDQ/EP13r8lXVrg82RMxTdf0FOQU7xvg5Q5vuRaBV2A
- Fbk2bm93yS9ePrSZ/g+Kujzq0fPQyP16TpzJPCiz2ETxQIbhcxmckjVi6NNCV4LVhoQG
- feSFqpLiwNN+1JIxBttobEUYJtchulnvo0Cu/LakNNAGqqKO4gSHjCN95aLnQhls7nVF
- Vnw7J/xlx2W7uvfWmVW6HV022ckClH7TYB5M7xJneX788TvvdydsBMePIKjcyaJ+Pes6
- py/g==
-X-Gm-Message-State: ACrzQf1en42nToRRFohvYoAfT8u7KRz7WfZE3hw6ASoulAcxeooGvT6L
- vMRZJf97Dyzzq7lAyhzMiBg=
-X-Google-Smtp-Source: AMsMyM7GWUuTEBJDdS4DdPUm9+90dFUes2j0z+RBKat0xi/liXnPKxZBREbZ1V9yy/rsf/eRfYPVDQ==
-X-Received: by 2002:a17:902:ea12:b0:178:8e76:c781 with SMTP id
- s18-20020a170902ea1200b001788e76c781mr5982737plg.136.1663781655068; 
- Wed, 21 Sep 2022 10:34:15 -0700 (PDT)
+ bh=n7Ry0cGx1w1i9cdPL1p6BkIrVVVJBrL2QgvsfdIo8R4=;
+ b=jZjE2nmXwaX3yt1YLb5lMqXdmpcAeef/F6Ha1CszhLA6Pz6EJoiIDtw74yWSbk3A6p
+ 9j4vDKXWlR/uOi3FQ3YZ/hxl5Uz89PS4KI7o6TgyRgRMkEdWUchXnKhZ03YA4b6RQ4YI
+ cVc3eWsb6gz/yepyCKJ2JKS/LNlq+0q8IuGKONgpskQ4uZBJglXYUUJ2vCsLanqYHuOC
+ 35Jmb1rsshRqmGCx1S6hEju3dxVl6/+btFQqO0V7MYgL4zrbBIeK30Cd4RsNI2YOdo+q
+ 7Dv9fIV2GTZWvjmPvjTJiLckvkmoiNYEuRibJqtC8OdAD7wKHtP8A7Mui6O809NxxnOh
+ V3yA==
+X-Gm-Message-State: ACrzQf02k3fjDPjVmiRivUYOkEgcwsqnE5O9jL6iQkEucADw5BE10fuS
+ g3gsquAq2zs58RPRWIWPybM=
+X-Google-Smtp-Source: AMsMyM4B+Of/aMTXA2v7nw1bylsgjGLb+IUy6xUugYEIthY2+W1/PiUHKkjTiiGbJAiFmYEi/D7ZdQ==
+X-Received: by 2002:a63:a51e:0:b0:439:857:2758 with SMTP id
+ n30-20020a63a51e000000b0043908572758mr25347611pgf.105.1663781849197; 
+ Wed, 21 Sep 2022 10:37:29 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- n16-20020a056a00213000b0053dec787698sm2502118pfj.175.2022.09.21.10.34.10
+ e30-20020a63545e000000b00429c5270710sm2226874pgm.1.2022.09.21.10.37.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Sep 2022 10:34:14 -0700 (PDT)
-Message-ID: <d25caf9f-dcab-96bc-2202-52e4d7b15b03@amsat.org>
-Date: Wed, 21 Sep 2022 19:34:07 +0200
+ Wed, 21 Sep 2022 10:37:28 -0700 (PDT)
+Message-ID: <7cc5af3b-5e66-27fe-785c-6f449bebeb82@amsat.org>
+Date: Wed, 21 Sep 2022 19:37:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH v1 01/10] monitor: expose monitor_puts to rest of code
+Subject: Re: [PATCH v1 03/10] disas: use result of ->read_memory_func
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 Cc: minyihh@uci.edu, ma.mandourr@gmail.com, Luke.Craig@ll.mit.edu,
  cota@braap.org, aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
  robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
- Richard Henderson <richard.henderson@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- "open list:New World (mac99)" <qemu-ppc@nongnu.org>
+ Richard Henderson <richard.henderson@linaro.org>
 References: <20220921160801.1490125-1-alex.bennee@linaro.org>
- <20220921160801.1490125-2-alex.bennee@linaro.org>
-In-Reply-To: <20220921160801.1490125-2-alex.bennee@linaro.org>
+ <20220921160801.1490125-4-alex.bennee@linaro.org>
+In-Reply-To: <20220921160801.1490125-4-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -51
 X-Spam_score: -5.2
 X-Spam_bar: -----
@@ -105,30 +101,17 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 21/9/22 18:07, Alex Bennée wrote:
-> This helps us construct strings elsewhere before echoing to the
-> monitor. It avoids having to jump through hoops like:
-> 
->    monitor_printf(mon, "%s", s->str);
-> 
-> It will be useful in following patches but for now convert all
-> existing plain "%s" printfs to use the _puts api.
+> This gets especially confusing if you start plugging in host addresses
+> from a trace and you wonder why the output keeps changing. Report when
+> read_memory_func fails instead of blindly disassembling the buffer
+> contents.
 > 
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> 
 > ---
-> v2
->    - s/monitor_printf(mon, "%s"/monitor_puts(mon, /
-> ---
->   docs/devel/writing-monitor-commands.rst |  2 +-
->   include/monitor/monitor.h               |  1 +
->   monitor/monitor-internal.h              |  1 -
->   block/monitor/block-hmp-cmds.c          | 10 +++++-----
->   hw/misc/mos6522.c                       |  2 +-
->   monitor/hmp-cmds.c                      |  8 ++++----
->   monitor/hmp.c                           |  2 +-
->   target/i386/helper.c                    |  2 +-
->   8 files changed, 14 insertions(+), 14 deletions(-)
+>   disas.c          | 20 ++++++-------
+>   disas/capstone.c | 73 ++++++++++++++++++++++++++++--------------------
+>   2 files changed, 53 insertions(+), 40 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
