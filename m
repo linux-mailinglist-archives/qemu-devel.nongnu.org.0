@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570B45BFF81
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 16:05:44 +0200 (CEST)
-Received: from localhost ([::1]:33098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B3425BFFB1
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 16:13:55 +0200 (CEST)
+Received: from localhost ([::1]:48594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob0M8-0000M8-HF
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 10:05:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35316)
+	id 1ob0U6-0003WR-Gy
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 10:13:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ob0F6-0003Cs-85
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 09:58:25 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:45671)
+ id 1ob0Ip-0006lg-Mv
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 10:02:21 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:33305)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ob0F4-0003Mv-E1
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 09:58:24 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id n10so9970108wrw.12
- for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 06:58:21 -0700 (PDT)
+ id 1ob0Ik-000478-T1
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 10:02:12 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id s14so8063053wro.0
+ for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 07:02:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=ZWgFS1bEFBQtI0JidWfCGSfHSWzcNQydSTHWXNmuJuA=;
- b=YvzjC9o4Bvc+zsT19yXilHBNc82G1px22HvuNNdf9m6aXugRzzOGdYQWG0TZdS8OVa
- VBqeIz4kkZm0GBVUY+zXm7Z8QzJ+8D7F2b8WVW0UBzsWafQ2kwrDxaC1ZVRkG4YUz9iv
- voHxEwjSn23tWGXIzBfRgAm9+7+3cROXgRKPYQaV3rBVqkEkWhvbA/BuViVv+Aei6/lW
- JAODoMMroc/pa1uH8MSq8CMPf+8u2GNlvuDo4qM+yWiGcj2jiIyj6Ij5dMBn2rIGbmG0
- tx+dyBymg62z7wY6RImmH+wy05fSkiC5BDE57AWpDhcL0iWx+SrfOjbDvS3qIDwR7MzX
- oboQ==
+ bh=VpKOF+mcXTP/LpM796iq9Vl+HBFQw1vL6eED9I3MPjg=;
+ b=ZFrLGYJM+WF724QesO5L70QZ+wjcSq0tQmV52c1oFPKgZAbyoFH9nNAmYMEKjQ5fKC
+ +WQWE3Ub6PaBKP+yNbjVDZt9qDSVZ5mX1UuZNgR+YULLwiF3aG8KCsNCHGLTfaMrPJ4m
+ km5B5mNKljpNaO82GMvmgRGwmPi8UIw8ek06FDqm9lqdPm85EGN9DfPgZ2ho/cMur/t/
+ hg6rzTr0h/Xj1Vy/Gmdmll2uNzAVW5GZDkwobZxQyE3TrCIeslzpY1WpRSOeDA6+1NiX
+ G18/pMIQGW591cki/ripnjCAOOs9OKR9x+3YqB/nhhKVTMyhcSwdTHhwE9DWLKkWHYZ6
+ 6mMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date;
- bh=ZWgFS1bEFBQtI0JidWfCGSfHSWzcNQydSTHWXNmuJuA=;
- b=v3BD2vWou41Z/azSkmS2/5LE2lCXAkmXMzlrCZObnRnONQxwPGAxIudx2SjdB0PsHa
- IqdV+vgBsVT3Q1QVPNWxWMfdxgK6Ow1HTJKAa/pTA+wAWgfdDczXAUjmEe0Eg5kv8nHe
- SqYbtVPPoqUmV1Kx1TzX76sTUa7cTL6tsSEvOXEqkljl8CyNjNvO69T7t5MtBy/lpO8i
- p/I4M49QvKJrneSbFRCZp06IITFSnrJA4VMHGNYVCo9jONxC5wHTPTd8DxdxAEsL5F+v
- xiEFD3qKzcZF+pNagYixAYMMBN02SyKzDVn/HsLA6eOFHdvnZHunZsximOW3US5SPA5J
- sMIg==
-X-Gm-Message-State: ACrzQf2TqM7QTODGTpmLb4MuTqSkdXY/hXqqXPw3/uGu3LU6wSWvLOo2
- EwGyesBHn5ipPxDbY/z1MbyNmw==
-X-Google-Smtp-Source: AMsMyM4fjHaFTsYSIO2ITdYZiPRCABMIobK5TxwPbpgQtldXwxhrz2/PMFx7ocDTJ7d+mmv+LDc8Tw==
-X-Received: by 2002:a5d:5887:0:b0:22b:107e:7e39 with SMTP id
- n7-20020a5d5887000000b0022b107e7e39mr5966233wrf.694.1663768700518; 
- Wed, 21 Sep 2022 06:58:20 -0700 (PDT)
+ bh=VpKOF+mcXTP/LpM796iq9Vl+HBFQw1vL6eED9I3MPjg=;
+ b=WJMHylMw7dT4vig8drKeHVM/PE2GGNByvtXhjjwUL3WPGCynQxGHXbdpN9NnvPrPXT
+ ltjCvaMUoqE0yApzmi4D3b1u5Fg3ZcdHeATebT0HVli8+CP/lJez4AWbM4uw/3LL1/N0
+ Upmy8d6eJdsT6aJjFWtecoL0EeKf2L6o7UZOmoqHGKwhU01ELSJB/Q2kG0H9SCtybKKc
+ XqPko57u7kvN46miXGFKxRJ0PHY+Za8PjpWchuiieIlGEUa3uDF33S9IH6NAWqNooipF
+ bLEMW/+9sVLXwIT8hFRt2KqYGjZ6E8ourNqLBhy/qD1+yDIeDcpRiivXTHzCZ12Mzs2p
+ tH1g==
+X-Gm-Message-State: ACrzQf2uAuW7xIyh9DAc05VjkWHcBCUgeELQB08FYx9mjBrcuGc1vvcI
+ nUlI+JTZlVuGsSnqTIkk1S+Z8g==
+X-Google-Smtp-Source: AMsMyM6ncR25N/LuKjMfDgX6XJAVB01312A5rngX6GIIrrUk5K0zrVyb35jagJ59xOdNofRCGeijuw==
+X-Received: by 2002:adf:e9d2:0:b0:22a:e4e2:37f1 with SMTP id
+ l18-20020adfe9d2000000b0022ae4e237f1mr15322931wrn.339.1663768928989; 
+ Wed, 21 Sep 2022 07:02:08 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- w8-20020a1cf608000000b003a5fa79007fsm2883948wmc.7.2022.09.21.06.58.19
+ p8-20020a05600c358800b003b47e8a5d22sm3448570wmq.23.2022.09.21.07.02.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Sep 2022 06:58:19 -0700 (PDT)
+ Wed, 21 Sep 2022 07:02:08 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B6F821FFB7;
- Wed, 21 Sep 2022 14:58:18 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 57FEB1FFB7;
+ Wed, 21 Sep 2022 15:02:07 +0100 (BST)
 References: <20220901182734.2987337-1-fasano@mit.edu>
- <20220901182734.2987337-2-fasano@mit.edu>
+ <20220901182734.2987337-3-fasano@mit.edu>
 User-agent: mu4e 1.9.0; emacs 28.2.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Andrew Fasano <fasano@mit.edu>
 Cc: qemu-devel@nongnu.org, erdnaxe@crans.org, ma.mandourr@gmail.com
-Subject: Re: [RFC 1/4] docs/tcg-plugins: describe QPP API
-Date: Wed, 21 Sep 2022 14:57:43 +0100
-In-reply-to: <20220901182734.2987337-2-fasano@mit.edu>
-Message-ID: <87edw47rt1.fsf@linaro.org>
+Subject: Re: [RFC 2/4] tcg/plugins: Automatically define CURRENT_PLUGIN
+Date: Wed, 21 Sep 2022 15:00:18 +0100
+In-reply-to: <20220901182734.2987337-3-fasano@mit.edu>
+Message-ID: <87a66s7rmo.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,133 +97,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Andrew Fasano <fasano@mit.edu> writes:
 
-> Describe how multiple TCG plugins can interact using the QEMU
-> Plugin-to-Plugin API (QPP) with both callbacks and direct
-> function calls.
-
-Looks ok at first glance. I suspect it is quickly coming to the point we
-need to split the examples and the API apart in the docs to stop things
-getting too messy.
-
+> Use plugin filenames to set the preprocessor variable CURRENT_PLUGIN
+> as a string during plugin compilation.
 >
 > Signed-off-by: Andrew Fasano <fasano@mit.edu>
 > ---
->  docs/devel/tcg-plugins.rst | 76 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 76 insertions(+)
+>  contrib/plugins/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-> index a7cc44aa20..7985572027 100644
-> --- a/docs/devel/tcg-plugins.rst
-> +++ b/docs/devel/tcg-plugins.rst
-> @@ -441,3 +441,79 @@ The plugin has a number of arguments, all of them ar=
-e optional:
->    associativity of the L2 cache, respectively. Setting any of the L2
->    configuration arguments implies ``l2=3Don``.
->    (default: N =3D 2097152 (2MB), B =3D 64, A =3D 16)
-> +
-> +Plugin-to-Plugin Interactions
-> +-----------------------------
-> +
-> +Plugins may interact with other plugins through the QEMU Plugin-to-Plugin
-> +("QPP") API by including ``qemu/plugin-qpp.h``. This API supports direct
-> +function calls between plugins as well as an inter-plugin callback syste=
-m.
-> +This API allows for composition of plugins: plugins can make use of logi=
-c in
-> +other plugins without the need for code duplication.
-> +
-> +Plugin names
-> +~~~~~~~~~~~~
-> +Plugins are automatically given a name by removing the suffix from their
-> +filename.  These plugin names will be used during QPP interactions as
-> +described below.  A plugin can access its own name through the preproces=
-sor
-> +variable ``CURRENT_PLUGIN``.
-> +
-> +QPP function calls
-> +~~~~~~~~~~~~~~~~~~
-> +When a plugin (e.g. ``plugin_a``) wishes to make some of its functions (=
-e.g.
-> +``func_1``) available to other plugins, it must:
-> +
-> +1. Mark the function definition with the ``QEMU_PLUGIN_EXPORT`` macro. F=
-or
-> +example : ``QEMU_PLUGIN_EXPORT int func_1(int x) {...}``.
-> +2. Provide prototypes for exported functions in a header file (e.g.
-> +``plugin_a.h``) using the macro ``QPP_FUN_PROTOTYPE`` with arguments of =
-the
-> +plugin's name, the function's return type, the function's name, and any
-> +arguments the function takes. For example:
-> +``QPP_FUN_PROTOTYPE(plugin_a, int, func_1, int);``.
-> +3. Import this header from the plugin.
-> +
-> +When other plugins wish to use the functions exported by ``plugin_a``, t=
-hey
-> +must:
-> +
-> +1. Import the header file (e.g. ``plugin_a.h``) with the function protot=
-ype(s).
-> +2. Call the function when desired by combining the target plugin name, an
-> +   underscore, and the target function name, e.g. ``plugin_a_func_1()``.
-> +
-> +QPP callbacks
-> +~~~~~~~~~~~~~
-> +
-> +The QPP API also allows a plugin to define callback events and for other=
- plugins
-> +to request to be notified whenever these events happens. The plugin that=
- defines
-> +the callback is responsible for triggering the callback when it so wishe=
-s. Other
-> +plugins that wish to be notified on these events must define a function =
-of an
-> +appropriate type and register it to run on this event.
-> +
-> +When a plugin (e.g. ``plugin_a``) wishes to define a callback (an event =
-that
-> +other plugins can request to be notified about), it must:
-> +
-> +1. Define the callback using the ``QPP_CREATE_CB`` macro with a single a=
-rgument
-> +   of the callback's name. For example: ``QPP_CREATE_CB(on_some_event);`=
-`.
-> +2. In a header file (e.g. ``plugin_a.h``) create a prototype for the cal=
-lback
-> +   type with ``QPP_CB_PROTOTYPE`` with arguments of the callback's retur=
-n type
-> +   (only ``void`` is currently supported), the name of the callback, and=
- any
-> +   arguments the callback function will be called with. For example with=
- a
-> +   callback named ``on_some_event`` that returns a void and takes an int=
- and
-> +   a bool as an argument, you would use: ``QPP_CB_PROTOTYPE(void,
-> +   on_some_event, int, bool)``.
-> +3. Import this header from the plugin.
-> +4. When the plugin wishes to run any registered callback functions, it s=
-hould
-> +   use the macro ``QPP_RUN_CB`` with the first argument set to the callb=
-ack
-> +   name followed by the arguments as specified in the header. For exampl=
-e:
-> +   ``QPP_RUN_CB(on_some_event, 2, true);``.
-> +
-> +When other plugins wish to register a function to run on such an event, =
-they
-> +must:
-> +
-> +1. Import the header file with the callback prototype(s) (e.g. ``plugin_=
-a.h``)
-> +2. Define a function that matches the callback signature. For example:
-> +   ``void plugin_b_callback(int, bool) {...}``.
-> +3. Register this function to be run on the callback using the ``QPP_REG_=
-CB``
-> +   macro with the first argument being the name of the plugin that provi=
-des the
-> +   callback (as a string), the second being the callback name, and the t=
-hird as
-> +   the function that should be run. For example: ``QPP_REG_CB("plugin_a",
-> +   on_some_event, plugin_b_callback);``
+> diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
+> index df3499f4f2..b7720fea0f 100644
+> --- a/contrib/plugins/Makefile
+> +++ b/contrib/plugins/Makefile
+> @@ -34,7 +34,7 @@ CFLAGS +=3D -I$(SRC_PATH)/include/qemu
+>  all: $(SONAMES)
+>=20=20
+>  %.o: %.c
+> -	$(CC) $(CFLAGS) -c -o $@ $<
+> +	$(CC) $(CFLAGS) -DCURRENT_PLUGIN=3D\"$(basename $@)\" -c -o $@ $<
+
+While all plugins are currently single files this seems a little clumsy.
+
+We can already check exported plugin symbols in loader.c (see
+qemu_plugin_version) so maybe it would be better to declare an API
+update and mandate any plugin object also needs to define a
+qemu_plugin_name with a null terminated string?
+
+>=20=20
+>  lib%.so: %.o
+>  	$(CC) -shared -Wl,-soname,$@ -o $@ $^ $(LDLIBS)
 
 
 --=20
