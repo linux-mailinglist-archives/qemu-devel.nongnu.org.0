@@ -2,84 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24FDF5C020B
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 17:47:22 +0200 (CEST)
-Received: from localhost ([::1]:52766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 483F55C030B
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 17:59:48 +0200 (CEST)
+Received: from localhost ([::1]:57906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob1wW-0004iU-VV
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 11:47:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50964)
+	id 1ob28Z-0005Hn-4l
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 11:59:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ob1pS-0007ju-Lf
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 11:40:04 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:45666)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ob1pQ-00048i-V9
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 11:40:02 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- d12-20020a05600c3acc00b003b4c12e47f3so4006520wms.4
- for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 08:40:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=RFrp+lQqRHXuLpCeIygBXb3gq8r0nl3GcBdsrFGCUzc=;
- b=YmKa7KBHbGyb9lBsZhhtWSPCmpsw2HhNJcyZ6BOrMNb58WwtvhsIi/OT0WoAxeooEG
- ThtD5sJetdb3EdI0+K1PK2HtmFvp36AYsEY5+pFdyHqDozs52WdCoIsFflh15XxFhlkN
- 4Sw+bPbRBzXFnMxyKRAUZA5eeEKpsm4AxdyOeMkby1RlAKXS7M002Ztm2mfQauywNmQY
- MSYtgjYfcasGC82bTS3DpszP/uoO5qJqmzWj8LooShJQNiU1zgdZsrg82PepBx4JXaoi
- a9553f6lFacSH4nAj5JVcbZnYzaj+5T0hQgQFGTajZjTTA8BZ2emNh+OcxSBMB1zK9xF
- 5C8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=RFrp+lQqRHXuLpCeIygBXb3gq8r0nl3GcBdsrFGCUzc=;
- b=TMX522ZaToGzXCuo/imhtSobO3Ovl0qYMKYpSK2R9k2kZLZ4RezdCd2T19fxKA9PBx
- 6ziBRorqJRi14zIFppRBiKuIPtGYusVOnfHt5t2Bi77RI6WPHJ7YmWcIVCEw6ZxXR165
- co9VVEb9W6h1V6c7yzWbC/s9/Zh2bkF/zHjZnI8Yb2RfdDMFHmtPLdpnO3tdBKy3pDbN
- XuXkCFskdexsOduk6BWbFgw6e48o/TChOs5UkQr0/is9hOS9xlys8j2pGXInZ+jxwB3p
- TLIgGE14WFLicWrLEkCNyfNm5uRrS+msvtlhObn/8IlYy6JrBzCyt/3K9w5PDTaoxkFM
- /5cg==
-X-Gm-Message-State: ACrzQf0GfmrVw2dU2xLVAGyMDRdz3Z7NSV1VyNIz0QTyuD0ju50g0cly
- JLLPCb8KkSm6BJ+GE6h/VKH4dQ==
-X-Google-Smtp-Source: AMsMyM4fKYGXcIGSPyNXc4FnDywhZeKhjnxtTvsHDZa3KSBXYJ6W+7sfxtfs7h4EDAmq+kc507kF5A==
-X-Received: by 2002:a05:600c:548b:b0:3b4:61f4:804e with SMTP id
- iv11-20020a05600c548b00b003b461f4804emr6062827wmb.188.1663774799083; 
- Wed, 21 Sep 2022 08:39:59 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- c62-20020a1c3541000000b003a840690609sm3989501wma.36.2022.09.21.08.39.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Sep 2022 08:39:58 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2E18D1FFB7;
- Wed, 21 Sep 2022 16:39:58 +0100 (BST)
-References: <20220901182734.2987337-1-fasano@mit.edu>
- <20220901182734.2987337-5-fasano@mit.edu>
-User-agent: mu4e 1.9.0; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Andrew Fasano <fasano@mit.edu>
-Cc: qemu-devel@nongnu.org, erdnaxe@crans.org, ma.mandourr@gmail.com
-Subject: Re: [RFC 4/4] tcg/plugins: Add example pair of QPP plugins
-Date: Wed, 21 Sep 2022 16:36:29 +0100
-In-reply-to: <20220901182734.2987337-5-fasano@mit.edu>
-Message-ID: <87r10468j5.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ob21M-0006V9-6Y
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 11:52:20 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:33827)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ob21H-0006Bj-CB
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 11:52:19 -0400
+Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue011
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MqK2d-1p55VX23ud-00nQge; Wed, 21
+ Sep 2022 17:52:12 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 0/5] M68k for 7.2 patches
+Date: Wed, 21 Sep 2022 17:52:06 +0200
+Message-Id: <20220921155211.402559-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:3No6G36tSTA+3AQ9PjBYXoEYaOCx+E82v2upC10MMu7TNpxMFOU
+ snxY0FrIXNTzBiW3iGY8BxqTButEkgixdXPiZOOIIxyd+HjSMx59jWmfv1GebmM18p2pbxy
+ eEsKTx381/Eue8bRS9QzHnt1kriBdWOphofvamnD6qjzW11PMtgu/49h+UL98maDm1Q0ns8
+ 3mcLqQX1WsAy+w+NcdH+Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Sg2dB0qPT0E=:LDNqtW4a4YjBrrYkbM0Ml7
+ bcRCo96DcwSX7ALskaKbljCPzVfB59chYeyX78JcK3RaEimeI50YLnj9rOnevGEKVKFGdAzJW
+ MA6k89t7LvJQ8QH5Pa5i9DeBWahSneYikbdVq5BmSd9rixxNr+6Imuqr+6G59FLwsni8AGSkP
+ 77wa9x552E6/09PxXLiw45H18aCKsTUSum1BoExhLl29AgbCWaFOtHiH7/65cOb2iyPCfJUGA
+ QmwHCvzRmuFJbjNziEjddnLap9XfhwUgAXxpSJxTcyLU+djB6FczyQh16w12cJELOablB0TM5
+ dpUeSg+gtx4cOoXEmGcu4RqAHTwuw9gjArOgD0Y/j708/bm9CrxYP2qBU1peL0/i8N6qxZN0N
+ pvST2cod9Il31a9krLUVD6mDSCapIZhF15hyxLzobszPKHSeRhrN3odB+Oj+4b1g5wectwskQ
+ QWXESaxTfGqrYFONW5qvZXom82qRpQgYvLb40Z70PN8z1y5Cvfj3Tjqwc0Qr/bL2soOz4qs2f
+ +QGIiK93AF65KSQ7rmI/PaWXgX/1q9Qj5MJAV656YysstF/GdDRiJTqnn4bCWRXpYFA8CEGDe
+ 7rL4FwKICUhtKhNQsOU7VfxHf+rc/ZS0wEbJbTcIQKIJOjWCwXcehKq+Nm5H++5NQeAN2fuox
+ BdZfym0r620aGMRIKcsiA+IhxaMl5ImNn232/UnZotn2ZdyKc15hMmOmlFZWYLmJhiAAe8oYA
+ X2L0MLkRBMc3Q2R6aWXTjWr6boGUuVlF7DgYPLRvpx7gqPevS2zOAq1kYhALELlAsGDfIxs/+
+ B5BdOc6
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,33 +70,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit 832e9e33bc51f52fc3ea667d48912e95af3e28f3:
 
-Andrew Fasano <fasano@mit.edu> writes:
+  Merge tag 'pull-loongarch-20220920' of https://gitlab.com/gaosong/qemu into staging (2022-09-20 14:17:03 -0400)
 
-> The first plugin, qpp_srv exposes two functions and one callback that oth=
-er
-> plugins can leverage. These functions are described in the corresponding
-> header file.
->
-> The second plugin, qpp_client, imports this header file, registers its
-> own function to run on a qpp_srv-provided callback, and directly calls
-> into the two exposed functions in qpp_srv.
->
-> Signed-off-by: Andrew Fasano <fasano@mit.edu>
-> ---
->  contrib/plugins/Makefile     |  2 ++
->  contrib/plugins/qpp_client.c | 42 ++++++++++++++++++++++++++++++++++++
->  contrib/plugins/qpp_client.h |  1 +
->  contrib/plugins/qpp_srv.c    | 33 ++++++++++++++++++++++++++++
->  contrib/plugins/qpp_srv.h    | 17 +++++++++++++++
+are available in the Git repository at:
 
-Oh and I forgot this toy case should probably be in test/plugins/qpp with an
-explicit test in tests/tcg/multiarch/Makefile to exercise it during
-"make check-tcg". This should hopefully avoid having to mess with
-PLUGINS in tests/tcg/Makefile.target.
+  https://github.com/vivier/qemu-m68k.git tags/m68k-for-7.2-pull-request
 
-<snip>
+for you to fetch changes up to c7546abfaa1b1c2729eaddd41c6268a73cdae14f:
 
---=20
-Alex Benn=C3=A9e
+  target/m68k: always call gen_exit_tb() after writes to SR (2022-09-21 15:10:57 +0200)
+
+----------------------------------------------------------------
+m68k pull request 20220921
+
+- several fixes for SR
+- implement TAS
+- feature cleanup
+
+----------------------------------------------------------------
+
+Mark Cave-Ayland (2):
+  target/m68k: rename M68K_FEATURE_M68000 to M68K_FEATURE_M68K
+  target/m68k: always call gen_exit_tb() after writes to SR
+
+Richard Henderson (3):
+  target/m68k: Implement atomic test-and-set
+  target/m68k: Fix MACSR to CCR
+  target/m68k: Perform writback before modifying SR
+
+ target/m68k/cpu.h       |   5 +-
+ target/m68k/cpu.c       |   2 +-
+ target/m68k/helper.c    |   2 +-
+ target/m68k/op_helper.c |   2 +-
+ target/m68k/translate.c | 196 +++++++++++++++++++++++-----------------
+ 5 files changed, 118 insertions(+), 89 deletions(-)
+
+-- 
+2.37.3
+
 
