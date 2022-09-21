@@ -2,82 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9F615E4F86
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 20:35:58 +0200 (CEST)
-Received: from localhost ([::1]:57502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C41FC5E4F8F
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 20:37:32 +0200 (CEST)
+Received: from localhost ([::1]:58422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob4KC-0006qS-4A
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 14:19:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40992)
+	id 1ob4Rl-0000ew-G5
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 14:27:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1ob4HX-0005MM-LW
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 14:17:13 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:43758)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ob4OV-0007OG-PS
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 14:24:23 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:40790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1ob4HU-0004Ug-6p
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 14:17:10 -0400
-Received: by mail-wr1-x430.google.com with SMTP id t7so11325669wrm.10
- for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 11:17:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=JMeQg9xpwl85Q548OF7qKB6+NLxYV9R0oLD++sTOJQ0=;
- b=cAZuAB5srvM7KFehd6pgRxsZEIgOkROOEIJPxBZlMDCpjBAz1PccTRCJZ+iZBp0MkW
- pwE+qvIGd14eyzGgrvW2YdYoUSwfFcq9cz3osh//GX9LTIo0UQrnDcKTK9BJLxQFSO2M
- N699uJnJVb28wYL/8ylshcG26peCmIRoSvvQtdxqeL+eSZo3gncvpcezLvCpEtb/KzF1
- TnrREXe3KD4ISdn4afWxeqWE9Iav16xSI+PtgPDpVgMhFlB3SqPev9dkNBg+6a6+AA/7
- KILyiGdAZuebi2vDhaOSWDfLN/hbrFgssUzMRNH6cs8PCUfmwfltQrQ7FHTLc3osOQ1V
- AvcA==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ob4OT-0005Id-Si
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 14:24:23 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ v3-20020a1cac03000000b003b4fd0fe6c0so1209888wme.5
+ for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 11:24:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
+ bh=SN5bNuYTmy9D8wWGi1N8aXUqdNV6Eto83he+e9BqfSY=;
+ b=RIwLpeE+IHtJGxcNIxWX0fzX4tVqyWcf31C8d9l8lqlbbBBS7Zs49Z4zEWhRVEz9f9
+ 87Ko26VHZ2VBHF39lpYbno04fK8nX5oni4F87/Oq74t0Cf2qND6ZuRtuzxzEDzjAbabD
+ wGBTIYLPvTYFmMfVvX+dpt378ZWtcciHn+RSEJriIKTNKJAGqzsC+DfnxURUFhDlyvfn
+ kBp2Nk68W6ePgGRT3RwjJct7cVL25wtCtVxJvgAUsSlmX7K33vXQ86jV/Wo1nYB/W5NL
+ x/Yv7xwYzUYArqFPpQA2xiKEqCM7WLdqUF5h1XM4klsRI4/1V9Eye6SQTfHMtRZjmiCS
+ oFgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=JMeQg9xpwl85Q548OF7qKB6+NLxYV9R0oLD++sTOJQ0=;
- b=7VNxypcBQ61ilZlkpghAiGkEYDfai2pC4V9fhmtxS9eyMkvgoO0lY31T5tsHO4oo1X
- ZhzNihamZ2Oi7rEqiQSB0zzYiAUzM/DXbFmDyl20hGvTDd1u5VgzshXIS+aIfWtHf962
- GqvLr+ESPB+kHL5R2R98cJj9sBEWsfA1my9xihjFR5bRDkrjgeej6IwOit7y8RvbFhZc
- TO77bK6IzBFJtG2Xhct/UsGh0lCl5MTugiqxhjEw9ufjgcFi/O3ilZRn3m1hGKjnZ//I
- rNulKcvrrtOc8CCoPXuNxub9jNc0DQGgT8vyYCYKrL3gO7IWMTguV7NKOQNv2vY/3wQE
- 6CZg==
-X-Gm-Message-State: ACrzQf19esOTSyWB9jquvq8pRLxUMyO9wKg8SQ+k3Y0NCoQ9PPgEICJ+
- 0imbFkfL2eGhwRj2930TW18=
-X-Google-Smtp-Source: AMsMyM6w7QLJy6e4p+5V+P/vkVfNvGLaUuBXw8TVaTrLIHerrrwPM9HOBh48jPTuXsLJQWf+7OMYTQ==
-X-Received: by 2002:adf:fc87:0:b0:228:7e07:73c with SMTP id
- g7-20020adffc87000000b002287e07073cmr17431571wrr.162.1663784225872; 
- Wed, 21 Sep 2022 11:17:05 -0700 (PDT)
-Received: from [192.168.33.3] ([147.235.207.82])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date;
+ bh=SN5bNuYTmy9D8wWGi1N8aXUqdNV6Eto83he+e9BqfSY=;
+ b=NWtEh0OcBDdzNV8aV/GMr5H+uZ9fXynVIJx9+4nGmbcPeMjVZliTaVuI9+7ViQ22Ii
+ lSSJl8sEpGHs5ttoo6eDVF2UJcV/oUpm2LxyFJnxL6+R8fAoViZ+y5gxDGztAu1wKZOq
+ FVkAKjlqup9OvAdgDW7Cq3nzAeRGvoxODJ/cgXh2v9qohnJQmobSXYfovKvPRVlbYEJi
+ JoSqrBP2RptA+Kr3+x3g80vb4z/jv8sc+b/EeHe46zHFKu2XZw3Sj17g341AflXFxiex
+ 3ZiBuoO6Ub0LAOvc+B0i/lVTSRYbPzJ8L9dMNbwRlgwEG121Tl77u7n/GgWh9Iza6uYp
+ gqMQ==
+X-Gm-Message-State: ACrzQf0OYaMkCU2uYu5CSr7HNvpb9JLrDTGi+fccAiGf7goOgUr2lgIj
+ okZGXW7pUu732M2AfPSkmE5d5A==
+X-Google-Smtp-Source: AMsMyM6+OILaxgulvaEawiZk4UFCGcvNqKeTmigdlpDSu2b3Jx/szvUbCutC9gDhhYYiMCEek4yqCw==
+X-Received: by 2002:a7b:cc99:0:b0:3b4:76f2:192b with SMTP id
+ p25-20020a7bcc99000000b003b476f2192bmr6984132wma.138.1663784660399; 
+ Wed, 21 Sep 2022 11:24:20 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- g14-20020a05600c4ece00b003b477532e66sm6613852wmq.2.2022.09.21.11.17.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Sep 2022 11:17:05 -0700 (PDT)
-Message-ID: <fffdb5eb-0a84-9bcf-e05a-dbe8872280db@gmail.com>
-Date: Wed, 21 Sep 2022 21:17:03 +0300
+ u7-20020a056000038700b002258235bda3sm3513301wrf.61.2022.09.21.11.24.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Sep 2022 11:24:19 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3965B1FFB7;
+ Wed, 21 Sep 2022 19:24:19 +0100 (BST)
+References: <20220921060026.392164-1-chenh@yusur.tech>
+User-agent: mu4e 1.9.0; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: chenh <chenh@yusur.tech>
+Cc: raphael.norwitz@nutanix.com, mst@redhat.com, jasowang@redhat.com,
+ kwolf@redhat.com, hreitz@redhat.com, qemu-block@nongnu.org,
+ houyl@yusur.tech, zy@yusur.tech, lulu@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2] hw/virtio/vhost-user: support obtain vdpa device's
+ mac address automatically
+Date: Wed, 21 Sep 2022 19:23:12 +0100
+In-reply-to: <20220921060026.392164-1-chenh@yusur.tech>
+Message-ID: <87mtas60x8.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH 0/1] hw/display: expose linear framebuffer address in
- Bochs VBE registers
-Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <20220920154922.248790-1-liavalb@gmail.com>
- <20220921061447.e2ii6q24f2e6n64q@sirius.home.kraxel.org>
-From: Liav Albani <liavalb@gmail.com>
-In-Reply-To: <20220921061447.e2ii6q24f2e6n64q@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=liavalb@gmail.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-3.702, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,88 +98,92 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 9/21/22 09:14, Gerd Hoffmann wrote:
-> Nope.  Even if you fix the framebuffer address conflict you still have
-> the io address conflict.
-Yeah, that is why I explicitly said that this is needed to be fixed as 
-well in later patches.
-> Yep.  That's why isa-pc is pretty much unused these days.
+chenh <chenh@yusur.tech> writes:
 
-Well, I can't say I use it frequently, but I do test it with the 
-SerenityOS kernel and it works pretty well.
-The SerenityOS kernel is able to drive an isa-vga device just fine after 
-my patches were merged yesterday (in the GitHub pull request I provided 
-a link to), so I do see that machine type as a valuable test platform.
-
-> When you want build a sysbus variant of the bochs-display device and
-> make that discoverable by the guest somehow (dt or acpi) you can expose
-> both io ports and framebuffer address that way.  No need to touch the
-> bochs dispi interface for that.
-This is an interesting idea. A sysbus-bochs-display device might work 
-well as you suggested,
-instead of using an isa-vga device.
+> From: Hao Chen <chenh@yusur.tech>
 >
->>    This idea is quite neat in my opinion, because it could speed up the
->>    boot of such VM while still providing sufficient display capabilities
->>    for those we need them. It could help developers to test their OSes
->>    on such hardware setups to ensure multi-monitor configuration works
->>    reliably when there's no PCI bus at all but many framebuffer devices
->>    being used in one VM.
-> Why not just use virtio-gpu?
-
-Trying to run this command:
-qemu-system-x86_64 -M microvm -m 2048 -device virtio-gpu
-
-Results in:
-qemu-system-x86_64: -device virtio-gpu: No 'PCI' bus found for device 
-'virtio-gpu-pci'
-
-The idea was to not use PCI at all but still to have multiple 
-framebuffer devices. So clearly virtio-gpu
-is not usable in this situation.
-
+> When use dpdk-vdpa tests vdpa device. You need to specify the mac address=
+ to
+> start the virtual machine through libvirt or qemu, but now, the libvirt or
+> qemu can call dpdk vdpa vendor driver's ops .get_config through vhost_net=
+_get_config
+> to get the mac address of the vdpa hardware without manual configuration.
 >
->> 2. This is more related to the SerenityOS project - I prefer to not
->>    hardcode physical addresses at all wherever I can do so. This makes
->>    the code cleaner and more understandable as far as I observe this from
->>    the angle of the person which is not me, that tries to make sense from
->>    the code flow.
-> Yea, fully agree, but why continue to use non-discoverable isa bus
-> devices then?
-
-On the ISA-PC machine, I still want to be able to boot into a graphical 
-environment with the SerenityOS kernel. The only option is
-to use the isa-vga device, which works OK.
-On the microvm machine, it is really not that important if I use the 
-isa-vga device or a sysbus-bochs-display device (when I implement that
-device).
-I just want to support as many x86 platform configurations as possible - 
-modern non-PCI machines, ISA-PC machines and regular i440fx/Q35 machines.
-
+> v1->v2:
+> Only copy ETH_ALEN data of netcfg for some vdpa device such as
+> NVIDIA BLUEFIELD DPU(BF2)'s netcfg->status is not right.
+> We only need the mac address and don't care about the status field.
 >
->> 3. The costs of adding this feature are pretty negligible compared to
->>    the possible value of this, especially if we apply the idea of running
->>    multiple ISA-VGA devices on one microvm machine. Still, the only major
->>    "issue" that one can point to is the fact that I bump up the Bochs VBE
->>    version number, which could be questionable with how the feature might
->>    be insignificant for many guest OSes out there.
-> Touching isa-vga at this point doesn't make sense at all.  We simply
-> can't move around the framebuffer without screwing up users.
-That's an issue I didn't consider, but this is not a real problem on the 
-microvm machine
-if you use the device tree approach to expose the resources of the 
-device, which in some sense makes it unnecessary
-to use the bochs dispi interface to expose the framebuffer physical address.
+> Signed-off-by: Hao Chen <chenh@yusur.tech>
+> ---
+>  hw/block/vhost-user-blk.c |  1 -
+>  hw/net/virtio-net.c       |  7 +++++++
+>  hw/virtio/vhost-user.c    | 19 -------------------
+>  3 files changed, 7 insertions(+), 20 deletions(-)
 >
-> Also I don't see any actual value in this.  Even considering the
-> multiple devices case the patch is a partial solution only (handles
-> the framebuffer but not the ioports) which is pointless.
-Considering the possibility of exposing the framebuffer address within 
-the device tree blob, it is indeed not making more value
-to go with this approach. I'm still fond of the idea to create a sysbus 
-variant of the bochs-display device, so I might work on that instead :)
+> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+> index 9117222456..5dca4eab09 100644
+> --- a/hw/block/vhost-user-blk.c
+> +++ b/hw/block/vhost-user-blk.c
+> @@ -337,7 +337,6 @@ static int vhost_user_blk_connect(DeviceState *dev, E=
+rror **errp)
+>=20=20
+>      vhost_dev_set_config_notifier(&s->dev, &blk_ops);
+>=20=20
+> -    s->vhost_user.supports_config =3D true;
 
-Best regards,
-Liav
+<snip>
 
+NACK from me. The supports_config flag is there for a reason.
+
+>=20=20
+> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> index bd24741be8..8b01078249 100644
+> --- a/hw/virtio/vhost-user.c
+> +++ b/hw/virtio/vhost-user.c
+> @@ -2013,8 +2013,6 @@ static int vhost_user_backend_init(struct vhost_dev=
+ *dev, void *opaque,
+>      }
+>=20=20
+>      if (virtio_has_feature(features, VHOST_USER_F_PROTOCOL_FEATURES)) {
+> -        bool supports_f_config =3D vus->supports_config ||
+> -            (dev->config_ops && dev->config_ops->vhost_dev_config_notifi=
+er);
+>          uint64_t protocol_features;
+>=20=20
+>          dev->backend_features |=3D 1ULL << VHOST_USER_F_PROTOCOL_FEATURE=
+S;
+> @@ -2033,23 +2031,6 @@ static int vhost_user_backend_init(struct vhost_de=
+v *dev, void *opaque,
+>           */
+>          protocol_features &=3D VHOST_USER_PROTOCOL_FEATURE_MASK;
+>=20=20
+> -        if (supports_f_config) {
+> -            if (!virtio_has_feature(protocol_features,
+> -                                    VHOST_USER_PROTOCOL_F_CONFIG)) {
+> -                error_setg(errp, "vhost-user device expecting "
+> -                           "VHOST_USER_PROTOCOL_F_CONFIG but the vhost-u=
+ser backend does "
+> -                           "not support it.");
+> -                return -EPROTO;
+> -            }
+> -        } else {
+> -            if (virtio_has_feature(protocol_features,
+> -                                   VHOST_USER_PROTOCOL_F_CONFIG)) {
+> -                warn_reportf_err(*errp, "vhost-user backend supports "
+> -                                 "VHOST_USER_PROTOCOL_F_CONFIG but QEMU =
+does not.");
+> -                protocol_features &=3D ~(1ULL << VHOST_USER_PROTOCOL_F_C=
+ONFIG);
+> -            }
+> -        }
+> -
+>          /* final set of protocol features */
+>          dev->protocol_features =3D protocol_features;
+>          err =3D vhost_user_set_protocol_features(dev, dev->protocol_feat=
+ures);
+
+
+--=20
+Alex Benn=C3=A9e
 
