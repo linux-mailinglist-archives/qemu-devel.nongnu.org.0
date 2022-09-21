@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 145B55C00F1
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 17:18:50 +0200 (CEST)
-Received: from localhost ([::1]:50726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11CE65C0022
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 16:42:56 +0200 (CEST)
+Received: from localhost ([::1]:36608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob1Uu-0000Mi-Dr
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 11:18:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40868)
+	id 1ob0wB-0006FS-48
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 10:42:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1ob0mf-0005Ah-0g
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 10:33:05 -0400
-Received: from mail-vk1-xa2a.google.com ([2607:f8b0:4864:20::a2a]:39597)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1ob0mc-0001bM-GV
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 10:33:04 -0400
-Received: by mail-vk1-xa2a.google.com with SMTP id t26so3274909vkk.6
- for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 07:33:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=TjBLR4HOR4dxzbKsjNMwcJxJp1X9H/Gyq76Qg6lk8lU=;
- b=3FHoimCicyjc+q0iEuD/XfQ6B/VCXcm3SlCtNc7hQt40SfyCrDmXHnXDk1czNSjyc6
- 5cD9fisXypRpGJXyIS1xGx8j1UsvFgCgZllIcM4yh8X+WyPqHV+LmjhSHDrTj5mbn8EU
- vNYp3LJt8TmQLndBAFS4wWQmsGB1e82G2IIqXvDsVX6TFCAnaXR9gXqAGqV5aJxJO5tG
- q9BkWwHUc2caAZsKJZoyrY5W9EmnsBaASeYeqiP3sw8g9OEtDnSekThmZiaRBMv/eazs
- 5WfsUaCnVEFGqaRi8Hx0kbNE8ASG/posoXfZWcKQC2HOlS16XJnYex0ud7taDOXP1654
- vyZQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ob0nh-0006i9-Rp
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 10:34:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46781)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ob0nd-0001hA-NW
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 10:34:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663770842;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ymYOZMT6SQ7bStL6s1VzfhTll4XczNDbUKma514bENg=;
+ b=Fn+m5/P/VoR88abL28LEqF2HfapbbUEeoREain0cY4iPJEPGdahzDmvKrv68xxJ1Vyk8UR
+ Ezfm6k27M44Bcy9VRVbd+KMHkFEs00sxPkis9RDFg+WPA1QdaDSwG3es/bFl+hR0SkyloN
+ cdbUfg1oLfRaxoc6PnuRDltAEM+OYTo=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-67-ZbueiR_FMzqmS2uNCjzjTg-1; Wed, 21 Sep 2022 10:33:47 -0400
+X-MC-Unique: ZbueiR_FMzqmS2uNCjzjTg-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ v9-20020a05622a188900b0035cc030ca25so4255427qtc.1
+ for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 07:33:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=TjBLR4HOR4dxzbKsjNMwcJxJp1X9H/Gyq76Qg6lk8lU=;
- b=4iUxGaKlvSeXOGt4LZSAyXQxq8X9RdFEmuNPwp+x169FRn0dn/tHpxHkeF1ke+ER6D
- mnAFZn419mzgC/Li0aGckay8j/aR0RAqywDywf0kkXWRQwJO7sdEn3z3qAxwWGGknolD
- 7OvufydtoIr3eBP4E6dMcJ05W/IoAVj6zHDIH04twn4c1GgtIzmtgiKgUyKymnqjeb2p
- v18KoC9WjFnQ6/cO+u0BdwpvK3UBTH3WYLoDoCp+NZEKkyUGziOTcLs22sO29TeLrTvv
- GUrwFKQCRcUG0Xq3KZZkvC6n1prkS4ysW8Oik8edinKUvBomeoP+/Kscn45uJQQ5iNca
- a5Mg==
-X-Gm-Message-State: ACrzQf0PjePY+eQRuUOKJqCFml9ARh2dVYN7CCm27kWK85FwhtIv99Pg
- 790zpa2hAiZoVn+r7vtQVU29wTkM8FFYh5nLIAbKWQ==
-X-Google-Smtp-Source: AMsMyM7pAWGrlRoIxsWzF2CZLMVApTUMVmpkv7EgXLhELk20mHa3OMzradB2O8OJE+4oEQ5WrN3BkwmGcwnPwlz63I4=
-X-Received: by 2002:a1f:20d0:0:b0:39e:befa:fb4b with SMTP id
- g199-20020a1f20d0000000b0039ebefafb4bmr10217122vkg.7.1663770770967; Wed, 21
- Sep 2022 07:32:50 -0700 (PDT)
+ bh=ymYOZMT6SQ7bStL6s1VzfhTll4XczNDbUKma514bENg=;
+ b=B1d8w+4sC6J4di//YI93AtJXua42bzc6mjsVladl4/QdNrBefJGvDiTDnvsWaDpchG
+ k9x2EcQB54MP1uc5qqFqrZ9CampPfQc6LzLlqRSJI/8BzeovvAZc+OKAy2jyzWm+ccyj
+ dbjf2rW4OdKws58YIHV8mJLKVoSYxJVJjXvo3YQHocDgZkzk3lmsIFPiicAR2NGE2fAJ
+ ynEUk+fBMKv9W8SqVFY5ouWF9Gs6DsO7cmtkpzziiBvlZIvJsey8UgI39Z/mTAI0/jEp
+ b9VuhFDAWV+9PAGiaItaf7ZaVAXmBkKu/SVYvTJFLlHD9A5Rus3X7QckI5OOW8eYKyqJ
+ RV9Q==
+X-Gm-Message-State: ACrzQf0QBWrqWQolJ2TWo3gks2ROOaaf/8FLTTSvh0yNZH0FEK5dy9I4
+ Go848w2FkYtwTAI/zNpIrbsqkjUiMFf47ycdA+tl3RhKhcUPKMG3Tr48MEgU7xA5If09Af8Mmfq
+ EPQqZpYJbdG+9QQl953tYMZOcg5vxZZc=
+X-Received: by 2002:a05:6214:20e2:b0:4ac:b9a6:17be with SMTP id
+ 2-20020a05621420e200b004acb9a617bemr22940877qvk.104.1663770827181; 
+ Wed, 21 Sep 2022 07:33:47 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7ydnybWrQS7AupVrO9S4fey1hk5Zg5C+4fsjv/HqQQ6t7lrZMaJlSKYoC6ocRpoY3sTuOKzMa7RJtABfcpNQI=
+X-Received: by 2002:a05:6214:20e2:b0:4ac:b9a6:17be with SMTP id
+ 2-20020a05621420e200b004acb9a617bemr22940855qvk.104.1663770826940; Wed, 21
+ Sep 2022 07:33:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <b403c8e4-3788-7ba1-a038-3a71fa0bc7c6@redhat.com>
- <Yyl4EO0L5h02HOLN@redhat.com>
- <ed402176-df96-dff2-869b-a3326e6314ea@redhat.com>
- <Yyl5yRMxGAEA7K05@redhat.com>
- <CANCZdfr6HWx8M8YzWDv2sqi96z+HyLMSGtzTUnTF_XbfNzcs4g@mail.gmail.com>
- <Yyq5mhBi10bEw+g+@redhat.com>
-In-Reply-To: <Yyq5mhBi10bEw+g+@redhat.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Wed, 21 Sep 2022 08:32:39 -0600
-Message-ID: <CANCZdfrKyWgeVXV2KzngaRA3otierjzGzcDy2bg_GmkqR_QTkQ@mail.gmail.com>
-Subject: Re: QEMU's FreeBSD 13 CI job is failing
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Brad Smith <brad@comstyle.com>, John Snow <jsnow@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000d0b37705e930d190"
-Received-SPF: none client-ip=2607:f8b0:4864:20::a2a;
- envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa2a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20220915233302.145926-1-venu.busireddy@oracle.com>
+In-Reply-To: <20220915233302.145926-1-venu.busireddy@oracle.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 21 Sep 2022 16:33:35 +0200
+Message-ID: <CABgObfZyG1FB5yYEzyH01K6Epsv-oivseHdQUO1bn8OE3+B6NA@mail.gmail.com>
+Subject: Re: [PATCH v2] virtio-scsi: Send "REPORTED LUNS CHANGED" sense data
+ upon disk hotplug events.
+To: Venu Busireddy <venu.busireddy@oracle.com>
+Cc: qemu-devel@nongnu.org, Fam Zheng <fam@euphon.net>, 
+ "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,214 +93,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d0b37705e930d190
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Sep 21, 2022 at 1:13 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m>
-wrote:
-
-> On Tue, Sep 20, 2022 at 02:21:46PM -0600, Warner Losh wrote:
-> > On Tue, Sep 20, 2022 at 2:57 AM Daniel P. Berrang=C3=A9 <berrange@redha=
-t.com>
-> > wrote:
-> >
-> > > On Tue, Sep 20, 2022 at 10:23:56AM +0200, Thomas Huth wrote:
-> > > > On 20/09/2022 10.21, Daniel P. Berrang=C3=A9 wrote:
-> > > > > On Tue, Sep 20, 2022 at 08:44:27AM +0200, Thomas Huth wrote:
-> > > > > >
-> > > > > > Seen here for example:
-> > > > > >
-> > > > > > https://gitlab.com/qemu-project/qemu/-/jobs/3050165356#L2543
-> > > > > >
-> > > > > > ld-elf.so.1: /lib/libc.so.7: version FBSD_1.7 required by
-> > > > > > /usr/local/lib/libpython3.9.so.1.0 not found
-> > > > > > ERROR: Cannot use '/usr/local/bin/python3', Python >=3D 3.6 is
-> > > required.
-> > > > > >
-> > > > > > ... looks like the Python binary is not working anymore? Does
-> > > anybody know
-> > > > > > what happened here?
-> > > > >
-> > > > > FreeBSD ports is only guaranteed to work with latest minor releas=
-e
-> > > > > base image. The python binary recently started relying on symbols
-> > > > > in the 13.1 base image, and we're using 13.0.
-> > > > >
-> > > > > I updated lcitool last week to pick 13.1, so we just need a refre=
-sh
-> > > > > on the QEMU side to pick this up.
-> > > >
-> > > > OK ... Alex, IIRC you have a patch queued to update the files that
-> are
-> > > > refreshed by lcitool ... does that already contain the update for
-> > > FreeBSD,
-> > > > too?
-> > >
-> > > Oh actually, I'm forgetting that QEMU doesn't use the 'lcitool
-> manifest'
-> > > command for auto-generating the gitlab-ci.yml file. In QEMU's case ju=
-st
-> > > manually edit .gitlab-ci.d/cirrus.yml to change
-> > >
-> > >     CIRRUS_VM_IMAGE_NAME: freebsd-13-0
-> > >
-> >
-> > FreeBSD's support policy is that we EOL minor dot releases a few months
-> > after
-> > the next minor release is final. Part of that process involves moving t=
-he
-> > build
-> > of packages to that new minor version (which is what's not guaranteed t=
-o
-> > work
-> > on older versions... only old binaries on new versions is guaranteed)..=
-.
-> > And that's
-> > the problem that was hit here.
+On Fri, Sep 16, 2022 at 3:44 AM Venu Busireddy
+<venu.busireddy@oracle.com> wrote:
+> diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+> index 41f2a5630173..69194c7ae23c 100644
+> --- a/hw/scsi/virtio-scsi.c
+> +++ b/hw/scsi/virtio-scsi.c
+> @@ -608,7 +608,19 @@ static void virtio_scsi_command_complete(SCSIRequest *r, size_t resid)
 >
-> It would be nice if something in the ports tool / packages was
-> able to report the incompatibility at time of install, rather
-> than leaving a later runtime failed.
+>      req->resp.cmd.response = VIRTIO_SCSI_S_OK;
+>      req->resp.cmd.status = r->status;
+> -    if (req->resp.cmd.status == GOOD) {
+> +    if (req->dev->reported_luns_changed &&
+> +            (req->req.cmd.cdb[0] != INQUIRY) &&
+> +            (req->req.cmd.cdb[0] != REPORT_LUNS) &&
+> +            (req->req.cmd.cdb[0] != REQUEST_SENSE)) {
+> +        req->dev->reported_luns_changed = false;
+> +        req->resp.cmd.resid = 0;
+> +        req->resp.cmd.status_qualifier = 0;
+> +        req->resp.cmd.status = CHECK_CONDITION;
+> +        sense_len = scsi_build_sense(sense, SENSE_CODE(REPORTED_LUNS_CHANGED));
+> +        qemu_iovec_from_buf(&req->resp_iov, sizeof(req->resp.cmd),
+> +                            sense, sense_len);
+> +        req->resp.cmd.sense_len = virtio_tswap32(vdev, sense_len);
+> +    } else if (req->resp.cmd.status == GOOD) {
+>          req->resp.cmd.resid = virtio_tswap32(vdev, resid);
+>      } else {
+>          req->resp.cmd.resid = 0;
+
+Hi,
+
+a unit attention sense must be sent _instead_ of executing the command.
+
+QEMU already has a function scsi_device_set_ua() that handles
+everything; you have to call it, if reported_luns_changed is true,
+from virtio_scsi_handle_cmd_req_prepare() before scsi_req_new().
+
+It will also skip GET_CONFIGURATION and GET_EVENT_STATUS_NOTIFICATION
+commands which are further special-cased in 4.1.6.1 of the MMC
+specification.
+
+Thanks,
+
+Paolo
+
+
+> @@ -956,6 +968,7 @@ static void virtio_scsi_hotplug(HotplugHandler *hotplug_dev, DeviceState *dev,
+>          virtio_scsi_push_event(s, sd,
+>                                 VIRTIO_SCSI_T_TRANSPORT_RESET,
+>                                 VIRTIO_SCSI_EVT_RESET_RESCAN);
+> +        s->reported_luns_changed = true;
+>          virtio_scsi_release(s);
+>      }
+>  }
+> @@ -973,6 +986,7 @@ static void virtio_scsi_hotunplug(HotplugHandler *hotplug_dev, DeviceState *dev,
+>          virtio_scsi_push_event(s, sd,
+>                                 VIRTIO_SCSI_T_TRANSPORT_RESET,
+>                                 VIRTIO_SCSI_EVT_RESET_REMOVED);
+> +        s->reported_luns_changed = true;
+>          virtio_scsi_release(s);
+>      }
+>
+> diff --git a/include/hw/virtio/virtio-scsi.h b/include/hw/virtio/virtio-scsi.h
+> index a36aad9c8695..efbcf9ba069a 100644
+> --- a/include/hw/virtio/virtio-scsi.h
+> +++ b/include/hw/virtio/virtio-scsi.h
+> @@ -81,6 +81,7 @@ struct VirtIOSCSI {
+>      SCSIBus bus;
+>      int resetting;
+>      bool events_dropped;
+> +    bool reported_luns_changed;
+>
+>      /* Fields for dataplane below */
+>      AioContext *ctx; /* one iothread per virtio-scsi-pci for now */
 >
 
-Indeed. I've suggested it to the authors...  There's some technical issues
-around this and the package format they need to work out.
-
-
-> > I'll try to submit changes after the next minor release in that 'few
-> month'
-> > window
-> > to update this in the future. In general, doing so would be the best fi=
-t
-> > with FreeBSD's
-> > support model...  It's one of those things I didn't think of at the tim=
-e,
-> > but is obvious in
-> > hindsight.
->
-> Note, we're reliant on Cirrus CI actually publishing the new images
-> for use. I've not previously checked before how quickly they publish
-> them after FreeBSD does the upstream release, but anyway I go by what
-> they list here:
->
->   https://cirrus-ci.org/guide/FreeBSD/
-
-
- Yea. They have been pretty good in the past about getting new images up
-quickly after the release.
-
-Warner
-
---000000000000d0b37705e930d190
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 21, 2022 at 1:13 AM Danie=
-l P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redh=
-at.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">On Tue, Sep 20, 2022 at 02:21:46PM -0600, Warner Losh wrote:<br>
-&gt; On Tue, Sep 20, 2022 at 2:57 AM Daniel P. Berrang=C3=A9 &lt;<a href=3D=
-"mailto:berrange@redhat.com" target=3D"_blank">berrange@redhat.com</a>&gt;<=
-br>
-&gt; wrote:<br>
-&gt; <br>
-&gt; &gt; On Tue, Sep 20, 2022 at 10:23:56AM +0200, Thomas Huth wrote:<br>
-&gt; &gt; &gt; On 20/09/2022 10.21, Daniel P. Berrang=C3=A9 wrote:<br>
-&gt; &gt; &gt; &gt; On Tue, Sep 20, 2022 at 08:44:27AM +0200, Thomas Huth w=
-rote:<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; Seen here for example:<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; <a href=3D"https://gitlab.com/qemu-project/qemu/-/=
-jobs/3050165356#L2543" rel=3D"noreferrer" target=3D"_blank">https://gitlab.=
-com/qemu-project/qemu/-/jobs/3050165356#L2543</a><br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; ld-elf.so.1: /lib/libc.so.7: version FBSD_1.7 requ=
-ired by<br>
-&gt; &gt; &gt; &gt; &gt; /usr/local/lib/libpython3.9.so.1.0 not found<br>
-&gt; &gt; &gt; &gt; &gt; ERROR: Cannot use &#39;/usr/local/bin/python3&#39;=
-, Python &gt;=3D 3.6 is<br>
-&gt; &gt; required.<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; ... looks like the Python binary is not working an=
-ymore? Does<br>
-&gt; &gt; anybody know<br>
-&gt; &gt; &gt; &gt; &gt; what happened here?<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; FreeBSD ports is only guaranteed to work with latest mi=
-nor release<br>
-&gt; &gt; &gt; &gt; base image. The python binary recently started relying =
-on symbols<br>
-&gt; &gt; &gt; &gt; in the 13.1 base image, and we&#39;re using 13.0.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; I updated lcitool last week to pick 13.1, so we just ne=
-ed a refresh<br>
-&gt; &gt; &gt; &gt; on the QEMU side to pick this up.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; OK ... Alex, IIRC you have a patch queued to update the file=
-s that are<br>
-&gt; &gt; &gt; refreshed by lcitool ... does that already contain the updat=
-e for<br>
-&gt; &gt; FreeBSD,<br>
-&gt; &gt; &gt; too?<br>
-&gt; &gt;<br>
-&gt; &gt; Oh actually, I&#39;m forgetting that QEMU doesn&#39;t use the &#3=
-9;lcitool manifest&#39;<br>
-&gt; &gt; command for auto-generating the gitlab-ci.yml file. In QEMU&#39;s=
- case just<br>
-&gt; &gt; manually edit .gitlab-ci.d/cirrus.yml to change<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0CIRRUS_VM_IMAGE_NAME: freebsd-13-0<br>
-&gt; &gt;<br>
-&gt; <br>
-&gt; FreeBSD&#39;s support policy is that we EOL minor dot releases a few m=
-onths<br>
-&gt; after<br>
-&gt; the next minor release is final. Part of that process involves moving =
-the<br>
-&gt; build<br>
-&gt; of packages to that new minor version (which is what&#39;s not guarant=
-eed to<br>
-&gt; work<br>
-&gt; on older versions... only old binaries on new versions is guaranteed).=
-..<br>
-&gt; And that&#39;s<br>
-&gt; the problem that was hit here.<br>
-<br>
-It would be nice if something in the ports tool / packages was<br>
-able to report the incompatibility at time of install, rather<br>
-than leaving a later runtime failed.<br></blockquote><div><br></div><div>In=
-deed. I&#39;ve suggested it to the authors...=C2=A0 There&#39;s some techni=
-cal issues</div><div>around this and the package format they need to work o=
-ut.</div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">
-&gt; I&#39;ll try to submit changes after the next minor release in that &#=
-39;few month&#39;<br>
-&gt; window<br>
-&gt; to update this in the future. In general, doing so would be the best f=
-it<br>
-&gt; with FreeBSD&#39;s<br>
-&gt; support model...=C2=A0 It&#39;s one of those things I didn&#39;t think=
- of at the time,<br>
-&gt; but is obvious in<br>
-&gt; hindsight.<br>
-<br>
-Note, we&#39;re reliant on Cirrus CI actually publishing the new images<br>
-for use. I&#39;ve not previously checked before how quickly they publish<br=
->
-them after FreeBSD does the upstream release, but anyway I go by what<br>
-they list here:<br>
-<br>
-=C2=A0 <a href=3D"https://cirrus-ci.org/guide/FreeBSD/" rel=3D"noreferrer" =
-target=3D"_blank">https://cirrus-ci.org/guide/FreeBSD/</a></blockquote><div=
-><br></div><div>=C2=A0Yea. They have been pretty good in the past about get=
-ting new images up</div><div>quickly after the release.</div><div><br></div=
-><div>Warner</div></div></div>
-
---000000000000d0b37705e930d190--
 
