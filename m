@@ -2,89 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 369315C0086
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 16:58:00 +0200 (CEST)
-Received: from localhost ([::1]:43354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 348715C0134
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 17:26:05 +0200 (CEST)
+Received: from localhost ([::1]:56480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob1Al-0004Ng-7J
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 10:57:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60602)
+	id 1ob1bv-00074q-PE
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 11:26:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ob14r-0006OL-KU
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 10:51:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22393)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ob14n-0004Wi-Is
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 10:51:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663771908;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3XOuJOnXug+5ekYluYDtU/7GGjYjPIIIruj9OCGZyRM=;
- b=XqHRGSsePn+ln+j0cLzFsfH/fE9lxjrJVlNmK+D9cA+vP91HUuSAEarjvfKZNKNLMUrUan
- 958YdeKbIyT9goPFrGo1Gn6Ci8siRdW/ydNhoUAbM7rlgdQ5oF6szws+O+SeGnyS4J2j1+
- lTwinN6VhUDSjupBTA0RcNMQH7hL/Eg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-421-05RO4pk2PCGsB9aVP4gXmA-1; Wed, 21 Sep 2022 10:51:47 -0400
-X-MC-Unique: 05RO4pk2PCGsB9aVP4gXmA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- q17-20020adfab11000000b0022a44f0c5d9so2485580wrc.2
- for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 07:51:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ob1YV-0002uu-1x
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 11:22:31 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37642)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ob1YR-0001Od-Jw
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 11:22:30 -0400
+Received: by mail-wr1-x429.google.com with SMTP id bq9so10475659wrb.4
+ for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 08:22:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
+ bh=aL/SbTZCNENtdCtQCYXUb5BalucijGKHC1wxHjXgmKE=;
+ b=RMe597BQWUB+Kb6zCmEWhNrCPBf5sF/0GdKj5d1VnYxnnLNH0IK3FhoNjJ+O5/Gnyg
+ 27qodE+Nbgb7qYG9RcAVbIcUTMbTRtuzGjKTaKo2t3VNUaNKrH4oYbeDBizMhf+STz7E
+ 7wSmQrCuerKH1POw660/o7dL36xP8G6nQvpFgs98EEBT0x8vkJcGhTxXHjV8d5kUi8fg
+ gAorfDIIOKmeNrZ/S3XujRYJKMwH3DYRu6XT1aniGJgsNmQZNXWXpb0A9PSfDTtAh86k
+ NfbtpnasClYM+9nj1Qa4cK+jKMoEERw0T+QwjUFCDnZl5aKYaVrkQEENYnfMruC/SxWk
+ K1kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date;
- bh=3XOuJOnXug+5ekYluYDtU/7GGjYjPIIIruj9OCGZyRM=;
- b=4ciCBUyo7oEkTqjR79hzH+wKshA17GT43xgpgKvhi6NCxd0/hbIWHKNdEb2Cp+nQ0x
- jGGXWL+CbssQLkAe3mfjma7XqcSh+S92ZLwc1kzhwnkgZQzka0I93L1w/yFO5aZ1QPCh
- 0tkJ9rv19WExcN1gRjGSdJNXwm76/4wZ8Sl73IkMsHzf8WtsUBhozce4W3iXhHCgBT2A
- FyvpSX2icBiDdhexRawAhBdmDJau0sYjCq0tiNOtUlseNFkNfgWY1x+X/OMXS/61dtiK
- Tr6jkku2sIIiBlIwKwXLXCaUysN8MgD6HpdNblBauRcM+pRTgusiY/qyBn5I9R4BsIUg
- oqog==
-X-Gm-Message-State: ACrzQf3OtDz1ga4T1ydotib65nvuU93K5GFdh4xzPITdhLIfWSS0b4RZ
- rmLneoNs+ADm6gWYNR2TEB2yUoEDDW7/y/ZQJZ7ZWj8fRcTj2JD3c3myoyz+abHta6mMi223oac
- ZdLoPzpAldVwz5Jw=
-X-Received: by 2002:a05:600c:1906:b0:3b4:c979:e639 with SMTP id
- j6-20020a05600c190600b003b4c979e639mr6068089wmq.10.1663771905966; 
- Wed, 21 Sep 2022 07:51:45 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5MrHeTx0R0v/bNuNsoyT4lJIHnQ+wR7+KeUZhZzHL840NW0x2U+IWQEy4JoY5i4NDqy3rpYg==
-X-Received: by 2002:a05:600c:1906:b0:3b4:c979:e639 with SMTP id
- j6-20020a05600c190600b003b4c979e639mr6068069wmq.10.1663771905665; 
- Wed, 21 Sep 2022 07:51:45 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- l30-20020a05600c1d1e00b003a601a1c2f7sm3544560wms.19.2022.09.21.07.51.44
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date;
+ bh=aL/SbTZCNENtdCtQCYXUb5BalucijGKHC1wxHjXgmKE=;
+ b=ZebFpv4tRNW7OPDOYBTFFQAGi/+rtl+Ju9RboKnjf5bKj8K+oLDMijaxi/ZuNvZgrP
+ rLJ6/JzHmBJJ6DHL507M5/RCSjcBAi9f4/+XGQGCXZGPNa3FtME8hXNQS22S1DASlyjz
+ M8LPUnMzNyHAJ4/CYztIIiZomru52Cw9Z0AeUhMuMpofJ7nLRLNO6qXn24+7s2YJvVkJ
+ PFiuggUdc0fu4uYvC7DjiNTNtXehqLrXpLnu+oLtEQbbOhTc53OcIioaA4B8odwANKZn
+ 2l5dKBmgTcQJnwdBofI7v/gRT5tBKjaT8KE3U8+VrUCpmGdbMYnVjm+h9U4EpUY2krJc
+ caxw==
+X-Gm-Message-State: ACrzQf0pSB9sJgtPztVeCUHEia/HfspR2RmkzmBbhvi4agxWpnBFgpOi
+ Vl8O3UDfPu9TGhXBSt2ey2AEyQ==
+X-Google-Smtp-Source: AMsMyM5mHe9yyKo6QAlvMO5vwy8obpNhlFfYwAa2x7Gu7X6KbbFM7xjw6qLIF4ABW/M9mMJokAK/3A==
+X-Received: by 2002:a5d:6545:0:b0:228:dab8:af03 with SMTP id
+ z5-20020a5d6545000000b00228dab8af03mr17807792wrv.29.1663773745240; 
+ Wed, 21 Sep 2022 08:22:25 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ t6-20020adfeb86000000b0022afedf3c87sm2824392wrn.105.2022.09.21.08.22.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Sep 2022 07:51:44 -0700 (PDT)
-Date: Wed, 21 Sep 2022 15:51:42 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: "Wang, Lei" <lei4.wang@intel.com>, paul.c.lai@intel.com
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, robert.hu@intel.com,
- xiaoyao.li@intel.com, chenyi.qiang@intel.com
-Subject: Re: [PATCH] i386: Add new CPU model SapphireRapids
-Message-ID: <Yysk/taT/eKR0Bp3@work-vm>
-References: <20220812055751.14553-1-lei4.wang@intel.com>
+ Wed, 21 Sep 2022 08:22:23 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id BF9221FFB7;
+ Wed, 21 Sep 2022 16:22:22 +0100 (BST)
+References: <20220901182734.2987337-1-fasano@mit.edu>
+ <20220901182734.2987337-4-fasano@mit.edu>
+User-agent: mu4e 1.9.0; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Andrew Fasano <fasano@mit.edu>
+Cc: qemu-devel@nongnu.org, erdnaxe@crans.org, ma.mandourr@gmail.com
+Subject: Re: [RFC 3/4] tcg/plugins: Support for inter-plugin interactions
+Date: Wed, 21 Sep 2022 15:51:52 +0100
+In-reply-to: <20220901182734.2987337-4-fasano@mit.edu>
+Message-ID: <8735ck7nwx.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220812055751.14553-1-lei4.wang@intel.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UPPERCASE_50_75=0.008 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,217 +94,499 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Wang, Lei (lei4.wang@intel.com) wrote:
-> The new CPU model mostly inherits features from Icelake-Server, while
-> adding new features:
->  - AMX (Advance Matrix eXtensions)
->  - Bus Lock Debug Exception
-> and new instructions:
->  - AVX VNNI (Vector Neural Network Instruction):
->     - VPDPBUS: Multiply and Add Unsigned and Signed Bytes
->     - VPDPBUSDS: Multiply and Add Unsigned and Signed Bytes with Saturation
->     - VPDPWSSD: Multiply and Add Signed Word Integers
->     - VPDPWSSDS: Multiply and Add Signed Integers with Saturation
->  - FP16: Replicates existing AVX512 computational SP (FP32) instructions
->    using FP16 instead of FP32 for ~2X performance gain
->  - SERIALIZE: Provide software with a simple way to force the processor to
->    complete all modifications, faster, allowed in all privilege levels and
->    not causing an unconditional VM exit
->  - TSX Suspend Load Address Tracking: Allows programmers to choose which
->    memory accesses do not need to be tracked in the TSX read set
->  - AVX512_BF16: Vector Neural Network Instructions supporting BFLOAT16
->    inputs and conversion instructions from IEEE single precision
-> 
-> Features may be added in future versions:
->  - CET (virtualization support hasn't been merged)
-> Instructions may be added in future versions:
->  - fast zero-length MOVSB (KVM doesn't support yet)
->  - fast short STOSB (KVM doesn't support yet)
->  - fast short CMPSB, SCASB (KVM doesn't support yet)
-> 
-> Signed-off-by: Wang, Lei <lei4.wang@intel.com>
-> Reviewed-by: Robert Hoo <robert.hu@linux.intel.com>
 
-Hi,
-   What fills in the AMX tile and tmul information leafs
-(0x1D, 0x1E)?
-  In particular, how would we make sure when we migrate between two
-generations of AMX/Tile/Tmul capable devices with different
-register/palette/tmul limits that the migration is tied to the CPU type
-correctly?
-  Would you expect all devices called a 'SappireRapids' to have the same
-sizes?
+Andrew Fasano <fasano@mit.edu> writes:
 
-Dave
- 
+> Expand tcg-plugin system to allow for plugins to export functions
+> and callbacks that can be used by other plugins. Exported functions
+> can be called at runtime by other loaded plugins. Loaded plugins
+> can register functions with exported callbacks and have these
+> functions run whenever the callback is triggered.
+
+Could you please split the callback and function handling in future
+patches to aid review.
+
+>
+> Signed-off-by: Andrew Fasano <fasano@mit.edu>
 > ---
->  target/i386/cpu.c | 128 ++++++++++++++++++++++++++++++++++++++++++++++
->  target/i386/cpu.h |   4 ++
->  2 files changed, 132 insertions(+)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 1db1278a59..abb43853d4 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -3467,6 +3467,134 @@ static const X86CPUDefinition builtin_x86_defs[] = {
->              { /* end of list */ }
->          }
->      },
-> +    {
-> +        .name = "SapphireRapids",
-> +        .level = 0x20,
-> +        .vendor = CPUID_VENDOR_INTEL,
-> +        .family = 6,
-> +        .model = 143,
-> +        .stepping = 4,
-> +        /*
-> +         * please keep the ascending order so that we can have a clear view of
-> +         * bit position of each feature.
-> +         */
-> +        .features[FEAT_1_EDX] =
-> +            CPUID_FP87 | CPUID_VME | CPUID_DE | CPUID_PSE | CPUID_TSC |
-> +            CPUID_MSR | CPUID_PAE | CPUID_MCE | CPUID_CX8 | CPUID_APIC |
-> +            CPUID_SEP | CPUID_MTRR | CPUID_PGE | CPUID_MCA | CPUID_CMOV |
-> +            CPUID_PAT | CPUID_PSE36 | CPUID_CLFLUSH | CPUID_MMX | CPUID_FXSR |
-> +            CPUID_SSE | CPUID_SSE2,
-> +        .features[FEAT_1_ECX] =
-> +            CPUID_EXT_SSE3 | CPUID_EXT_PCLMULQDQ | CPUID_EXT_SSSE3 |
-> +            CPUID_EXT_FMA | CPUID_EXT_CX16 | CPUID_EXT_PCID | CPUID_EXT_SSE41 |
-> +            CPUID_EXT_SSE42 | CPUID_EXT_X2APIC | CPUID_EXT_MOVBE |
-> +            CPUID_EXT_POPCNT | CPUID_EXT_TSC_DEADLINE_TIMER | CPUID_EXT_AES |
-> +            CPUID_EXT_XSAVE | CPUID_EXT_AVX | CPUID_EXT_F16C | CPUID_EXT_RDRAND,
-> +        .features[FEAT_8000_0001_EDX] =
-> +            CPUID_EXT2_SYSCALL | CPUID_EXT2_NX | CPUID_EXT2_PDPE1GB |
-> +            CPUID_EXT2_RDTSCP | CPUID_EXT2_LM,
-> +        .features[FEAT_8000_0001_ECX] =
-> +            CPUID_EXT3_LAHF_LM | CPUID_EXT3_ABM | CPUID_EXT3_3DNOWPREFETCH,
-> +        .features[FEAT_8000_0008_EBX] =
-> +            CPUID_8000_0008_EBX_WBNOINVD,
-> +        .features[FEAT_7_0_EBX] =
-> +            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 | CPUID_7_0_EBX_HLE |
-> +            CPUID_7_0_EBX_AVX2 | CPUID_7_0_EBX_SMEP | CPUID_7_0_EBX_BMI2 |
-> +            CPUID_7_0_EBX_ERMS | CPUID_7_0_EBX_INVPCID | CPUID_7_0_EBX_RTM |
-> +            CPUID_7_0_EBX_AVX512F | CPUID_7_0_EBX_AVX512DQ |
-> +            CPUID_7_0_EBX_RDSEED | CPUID_7_0_EBX_ADX | CPUID_7_0_EBX_SMAP |
-> +            CPUID_7_0_EBX_AVX512IFMA | CPUID_7_0_EBX_CLFLUSHOPT |
-> +            CPUID_7_0_EBX_CLWB | CPUID_7_0_EBX_AVX512CD | CPUID_7_0_EBX_SHA_NI |
-> +            CPUID_7_0_EBX_AVX512BW | CPUID_7_0_EBX_AVX512VL,
-> +        .features[FEAT_7_0_ECX] =
-> +            CPUID_7_0_ECX_AVX512_VBMI | CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_PKU |
-> +            CPUID_7_0_ECX_AVX512_VBMI2 | CPUID_7_0_ECX_GFNI |
-> +            CPUID_7_0_ECX_VAES | CPUID_7_0_ECX_VPCLMULQDQ |
-> +            CPUID_7_0_ECX_AVX512VNNI | CPUID_7_0_ECX_AVX512BITALG |
-> +            CPUID_7_0_ECX_AVX512_VPOPCNTDQ | CPUID_7_0_ECX_LA57 |
-> +            CPUID_7_0_ECX_RDPID | CPUID_7_0_ECX_BUS_LOCK_DETECT,
-> +        .features[FEAT_7_0_EDX] =
-> +            CPUID_7_0_EDX_FSRM | CPUID_7_0_EDX_SERIALIZE |
-> +            CPUID_7_0_EDX_TSX_LDTRK | CPUID_7_0_EDX_AMX_BF16 |
-> +            CPUID_7_0_EDX_AVX512_FP16 | CPUID_7_0_EDX_AMX_TILE |
-> +            CPUID_7_0_EDX_AMX_INT8 | CPUID_7_0_EDX_SPEC_CTRL |
-> +            CPUID_7_0_EDX_ARCH_CAPABILITIES | CPUID_7_0_EDX_SPEC_CTRL_SSBD,
-> +        .features[FEAT_ARCH_CAPABILITIES] =
-> +            MSR_ARCH_CAP_RDCL_NO | MSR_ARCH_CAP_IBRS_ALL |
-> +            MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY | MSR_ARCH_CAP_MDS_NO |
-> +            MSR_ARCH_CAP_PSCHANGE_MC_NO | MSR_ARCH_CAP_TAA_NO,
-> +        .features[FEAT_XSAVE] =
-> +            CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XSAVEC |
-> +            CPUID_XSAVE_XGETBV1 | CPUID_XSAVE_XSAVES | CPUID_D_1_EAX_XFD,
-> +        .features[FEAT_6_EAX] =
-> +            CPUID_6_EAX_ARAT,
-> +        .features[FEAT_7_1_EAX] =
-> +            CPUID_7_1_EAX_AVX_VNNI | CPUID_7_1_EAX_AVX512_BF16,
-> +        .features[FEAT_VMX_BASIC] =
-> +            MSR_VMX_BASIC_INS_OUTS | MSR_VMX_BASIC_TRUE_CTLS,
-> +        .features[FEAT_VMX_ENTRY_CTLS] =
-> +            VMX_VM_ENTRY_LOAD_DEBUG_CONTROLS | VMX_VM_ENTRY_IA32E_MODE |
-> +            VMX_VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL |
-> +            VMX_VM_ENTRY_LOAD_IA32_PAT | VMX_VM_ENTRY_LOAD_IA32_EFER,
-> +        .features[FEAT_VMX_EPT_VPID_CAPS] =
-> +            MSR_VMX_EPT_EXECONLY |
-> +            MSR_VMX_EPT_PAGE_WALK_LENGTH_4 | MSR_VMX_EPT_PAGE_WALK_LENGTH_5 |
-> +            MSR_VMX_EPT_WB | MSR_VMX_EPT_2MB | MSR_VMX_EPT_1GB |
-> +            MSR_VMX_EPT_INVEPT | MSR_VMX_EPT_AD_BITS |
-> +            MSR_VMX_EPT_INVEPT_SINGLE_CONTEXT | MSR_VMX_EPT_INVEPT_ALL_CONTEXT |
-> +            MSR_VMX_EPT_INVVPID | MSR_VMX_EPT_INVVPID_SINGLE_ADDR |
-> +            MSR_VMX_EPT_INVVPID_SINGLE_CONTEXT |
-> +            MSR_VMX_EPT_INVVPID_ALL_CONTEXT |
-> +            MSR_VMX_EPT_INVVPID_SINGLE_CONTEXT_NOGLOBALS,
-> +        .features[FEAT_VMX_EXIT_CTLS] =
-> +            VMX_VM_EXIT_SAVE_DEBUG_CONTROLS |
-> +            VMX_VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL |
-> +            VMX_VM_EXIT_ACK_INTR_ON_EXIT | VMX_VM_EXIT_SAVE_IA32_PAT |
-> +            VMX_VM_EXIT_LOAD_IA32_PAT | VMX_VM_EXIT_SAVE_IA32_EFER |
-> +            VMX_VM_EXIT_LOAD_IA32_EFER | VMX_VM_EXIT_SAVE_VMX_PREEMPTION_TIMER,
-> +        .features[FEAT_VMX_MISC] =
-> +            MSR_VMX_MISC_STORE_LMA | MSR_VMX_MISC_ACTIVITY_HLT |
-> +            MSR_VMX_MISC_VMWRITE_VMEXIT,
-> +        .features[FEAT_VMX_PINBASED_CTLS] =
-> +            VMX_PIN_BASED_EXT_INTR_MASK | VMX_PIN_BASED_NMI_EXITING |
-> +            VMX_PIN_BASED_VIRTUAL_NMIS | VMX_PIN_BASED_VMX_PREEMPTION_TIMER |
-> +            VMX_PIN_BASED_POSTED_INTR,
-> +        .features[FEAT_VMX_PROCBASED_CTLS] =
-> +            VMX_CPU_BASED_VIRTUAL_INTR_PENDING |
-> +            VMX_CPU_BASED_USE_TSC_OFFSETING | VMX_CPU_BASED_HLT_EXITING |
-> +            VMX_CPU_BASED_INVLPG_EXITING | VMX_CPU_BASED_MWAIT_EXITING |
-> +            VMX_CPU_BASED_RDPMC_EXITING | VMX_CPU_BASED_RDTSC_EXITING |
-> +            VMX_CPU_BASED_CR3_LOAD_EXITING | VMX_CPU_BASED_CR3_STORE_EXITING |
-> +            VMX_CPU_BASED_CR8_LOAD_EXITING | VMX_CPU_BASED_CR8_STORE_EXITING |
-> +            VMX_CPU_BASED_TPR_SHADOW | VMX_CPU_BASED_VIRTUAL_NMI_PENDING |
-> +            VMX_CPU_BASED_MOV_DR_EXITING | VMX_CPU_BASED_UNCOND_IO_EXITING |
-> +            VMX_CPU_BASED_USE_IO_BITMAPS | VMX_CPU_BASED_MONITOR_TRAP_FLAG |
-> +            VMX_CPU_BASED_USE_MSR_BITMAPS | VMX_CPU_BASED_MONITOR_EXITING |
-> +            VMX_CPU_BASED_PAUSE_EXITING |
-> +            VMX_CPU_BASED_ACTIVATE_SECONDARY_CONTROLS,
-> +        .features[FEAT_VMX_SECONDARY_CTLS] =
-> +            VMX_SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES |
-> +            VMX_SECONDARY_EXEC_ENABLE_EPT | VMX_SECONDARY_EXEC_DESC |
-> +            VMX_SECONDARY_EXEC_RDTSCP |
-> +            VMX_SECONDARY_EXEC_VIRTUALIZE_X2APIC_MODE |
-> +            VMX_SECONDARY_EXEC_ENABLE_VPID | VMX_SECONDARY_EXEC_WBINVD_EXITING |
-> +            VMX_SECONDARY_EXEC_UNRESTRICTED_GUEST |
-> +            VMX_SECONDARY_EXEC_APIC_REGISTER_VIRT |
-> +            VMX_SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY |
-> +            VMX_SECONDARY_EXEC_RDRAND_EXITING |
-> +            VMX_SECONDARY_EXEC_ENABLE_INVPCID |
-> +            VMX_SECONDARY_EXEC_ENABLE_VMFUNC | VMX_SECONDARY_EXEC_SHADOW_VMCS |
-> +            VMX_SECONDARY_EXEC_RDSEED_EXITING | VMX_SECONDARY_EXEC_ENABLE_PML |
-> +            VMX_SECONDARY_EXEC_XSAVES,
-> +        .features[FEAT_VMX_VMFUNC] =
-> +            MSR_VMX_VMFUNC_EPT_SWITCHING,
-> +        .xlevel = 0x80000008,
-> +        .model_id = "Intel Xeon Processor (SapphireRapids)",
-> +        .versions = (X86CPUVersionDefinition[]) {
-> +            { .version = 1 },
-> +            { /* end of list */ },
-> +        },
-> +    },
->      {
->          .name = "Denverton",
->          .level = 21,
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index 82004b65b9..ef3e8a5ed5 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -879,10 +879,14 @@ uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
->  #define CPUID_7_0_EDX_TSX_LDTRK         (1U << 16)
->  /* Architectural LBRs */
->  #define CPUID_7_0_EDX_ARCH_LBR          (1U << 19)
-> +/* AMX_BF16 instruction */
-> +#define CPUID_7_0_EDX_AMX_BF16          (1U << 22)
->  /* AVX512_FP16 instruction */
->  #define CPUID_7_0_EDX_AVX512_FP16       (1U << 23)
->  /* AMX tile (two-dimensional register) */
->  #define CPUID_7_0_EDX_AMX_TILE          (1U << 24)
-> +/* AMX_INT8 instruction */
-> +#define CPUID_7_0_EDX_AMX_INT8          (1U << 25)
->  /* Speculation Control */
->  #define CPUID_7_0_EDX_SPEC_CTRL         (1U << 26)
->  /* Single Thread Indirect Branch Predictors */
-> -- 
-> 2.34.1
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>  include/qemu/plugin-qpp.h    | 252 +++++++++++++++++++++++++++++++++++
+>  plugins/core.c               |  11 ++
+>  plugins/loader.c             |  24 ++++
+>  plugins/plugin.h             |   5 +
+>  plugins/qemu-plugins.symbols |   1 +
+>  5 files changed, 293 insertions(+)
+>  create mode 100644 include/qemu/plugin-qpp.h
+>
+> diff --git a/include/qemu/plugin-qpp.h b/include/qemu/plugin-qpp.h
+> new file mode 100644
+> index 0000000000..befa4f9b8b
+> --- /dev/null
+> +++ b/include/qemu/plugin-qpp.h
+> @@ -0,0 +1,252 @@
+> +#ifndef PLUGIN_QPP_H
+> +#define PLUGIN_QPP_H
+> +
+> +/*
+> + * Facilities for "QEMU plugin to plugin" (QPP) interactions between tcg
+> + * plugins.  These allow for an inter-plugin callback system as well
+> + * as direct function calls between loaded plugins. For more details see
+> + * docs/devel/plugin.rst.
+> + */
+> +
+> +#include <dlfcn.h>
+> +#include <gmodule.h>
+> +#include <assert.h>
+> +extern GModule * qemu_plugin_name_to_handle(const char *);
 
+Plugin API functions should have /** */ kernel-doc annotations for the
+benefit of the autogenerated API docs. Moreover handles to plugins are
+usually anonymous pointer types to discourage them fishing about in the
+contents.
+
+The fact we expose GModule to the plugin to do the linking makes me
+think that maybe the linking should be pushed into loader and be done on
+behalf of the plugin.
+
+> +
+> +#define PLUGIN_CONCAT(x, y) _PLUGIN_CONCAT(x, y)
+> +#define _PLUGIN_CONCAT(x, y) x##y
+> +#define QPP_NAME(plugin, fn) PLUGIN_CONCAT(plugin, PLUGIN_CONCAT(_, fn))
+> +#define QPP_MAX_CB 256
+> +#define _QPP_SETUP_NAME(plugin, fn) PLUGIN_CONCAT(_qpp_setup_, \
+> +                                    QPP_NAME(plugin, fn))
+> +
+> +/*
+> + ***********************************************************************=
+***
+> + * The QPP_CREATE_CB and QPP_RUN_CB macros are to be used by a plugin th=
+at
+> + * wishs to create and later trigger QPP-based callback events. These are
+> + * events that the plugin can detect (i.e., through analysis of guest st=
+ate)
+> + * that may be of interest to other plugins.
+> + ***********************************************************************=
+***
+> + */
+> +
+> +/*
+> + * QPP_CREATE_CB(name) will create a callback by defining necessary inte=
+rnal
+> + * functions and variables based off the provided name. It must be run b=
+efore
+> + * triggering the callback event (with QPP_RUN_CB). This macro will crea=
+te the
+> + * following variables and functions, based off the provided name:
+> + *
+> + * 1) qpp_[name]_cb is an array of function pointers storing the
+> + *    registered callbacks.
+> + * 2) qpp_[name]_num_cb stores the number of functions stored with this
+> + *    callback.
+> + * 3) qpp_add_cb_[name] is a function to add a pointer into the qpp_[nam=
+e]_cb
+> + *    array and increment qpp_[name]_num_cb.
+> + * 4) qpp_remove_cb_[name] finds a registered callback, deletes it, decr=
+ements
+> + *    _num_cb and shifts the _cb array appropriately to fill the gap.
+> + *
+> + * Important notes:
+> + *
+> + * 1) Multiple callbacks can be registered for the same event, however c=
+onsumers
+> + *    can not control the order in which they are called and this order =
+may
+> + *    change in the future.
+> + *
+> + * 2) If this macro is incorrectly used multiple times in the same plugi=
+n with
+> + *    the same callback name set, it will raise a compilation error since
+> + *    these variables would then be defined multiple times. The same cal=
+lback
+> + *    name can, however, be created in distrinct plugins without issue.
+> + */
+> +#define QPP_CREATE_CB(cb_name)                              \
+> +void qpp_add_cb_##cb_name(cb_name##_t fptr);                \
+> +bool qpp_remove_cb_##cb_name(cb_name##_t fptr);             \
+> +cb_name##_t * qpp_##cb_name##_cb[QPP_MAX_CB];               \
+> +int qpp_##cb_name##_num_cb;                                 \
+> +                                                            \
+> +void qpp_add_cb_##cb_name(cb_name##_t fptr)                 \
+> +{                                                           \
+> +  assert(qpp_##cb_name##_num_cb < QPP_MAX_CB);              \
+> +  qpp_##cb_name##_cb[qpp_##cb_name##_num_cb] =3D fptr;        \
+> +  qpp_##cb_name##_num_cb +=3D 1;                              \
+> +}                                                           \
+> +                                                            \
+> +bool qpp_remove_cb_##cb_name(cb_name##_t fptr)              \
+> +{                                                           \
+> +  int i =3D 0;                                                \
+> +  bool found =3D false;                                       \
+> +  for (; i < MIN(QPP_MAX_CB, qpp_##cb_name##_num_cb); i++) {\
+> +    if (!found && fptr =3D=3D qpp_##cb_name##_cb[i]) {          \
+> +        found =3D true;                                       \
+> +        qpp_##cb_name##_num_cb--;                           \
+> +    }                                                       \
+> +    if (found && i < QPP_MAX_CB - 2) {                      \
+> +        qpp_##cb_name##_cb[i] =3D qpp_##cb_name##_cb[i + 1];  \
+> +    }                                                       \
+> +  }                                                         \
+> +  return found;                                             \
+> +}
+
+This house keeping definitely makes me think event handling would be
+better handled inside of the core plugin code. Instead of jumping
+through macro hoops to track state you could have something like:
+
+  void * handle =3D qemu_plugin_register_event_trigger("plugin name", "even=
+t name")
+  ...
+  qemu_plugin_trigger_event(handle, void *ev_data);
+
+and then on the listener side:
+
+  qemu_plugin_register_event_listener("plugin name", "event name",  my_fn, =
+user_data);
+  ...
+  my_fun(void *ev_data, void *udata) {
+    .. do stuff ..
+  }
+=20=20
+it would also allow both plugins and the core code to introspect which
+events have been added.
+
+> +
+> +
+> +/*
+> + * QPP_RUN_CB(name, args...) should be run by the plugin that created
+> + * a callback whenever it wishes to trigger the callback functions that
+> + * have been registered with its previously-created callback of the prov=
+ided
+> + * name. If this macro is run with a callback name that was not previous=
+ly
+> + * created, a compile time error will be raised.
+> + */
+> +#define QPP_RUN_CB(cb_name, ...) do {                           \
+> +  int cb_idx;                                                   \
+> +  for (cb_idx =3D 0; cb_idx < qpp_##cb_name##_num_cb; cb_idx++) { \
+> +    if (qpp_##cb_name##_cb[cb_idx] !=3D NULL) {                   \
+> +      qpp_##cb_name##_cb[cb_idx](__VA_ARGS__);                  \
+> +    }                                                           \
+> +  }                                                             \
+> +} while (false)
+> +
+> +/*
+> + * A header file that defines a callback function should use
+> + * the QPP_CB_PROTOTYPE macro to create the necessary types.
+> + */
+> +#define QPP_CB_PROTOTYPE(fn_ret, name, ...) \
+> +  typedef fn_ret(PLUGIN_CONCAT(name, _t))(__VA_ARGS__);
+
+If we stick to a single event prototype with event data (which can be
+specified by the other plugin header) and user data that should be
+flexible enough and avoid additional complications?
+
+> +
+> +/*
+> + ***********************************************************************=
+******
+> + * The QPP_REG_CB and QPP_REMOVE_CB macros are to be used by plugins that
+> + * wish to run internal logic when another plugin determines that some e=
+vent
+> + * has occured. The plugin name, target callback name, and a local funct=
+ion
+> + * are provided to these macros.
+> + ***********************************************************************=
+******
+> + */
+> +
+> +/*
+> + * When a plugin wishes to register a function `cb_func` with a callback
+> + * `cb_name` provided `other_plugin`, it must use the QPP_REG_CB.
+> + */
+> +#define QPP_REG_CB(other_plugin, cb_name, cb_func)      \
+> +{                                                       \
+> +  dlerror();                                            \
+> +  void *h =3D qemu_plugin_name_to_handle(other_plugin);   \
+> +  if (!h) {                                             \
+> +    fprintf(stderr, "In trying to add plugin callback, "\
+> +                    "couldn't load %s plugin\n",        \
+> +                    other_plugin);                      \
+> +    assert(h);                                          \
+> +  }                                                     \
+> +  void (*add_cb)(cb_name##_t fptr);                     \
+> +  if (g_module_symbol(h, "qpp_add_cb_" #cb_name,        \
+> +                      (gpointer *) &add_cb)) {          \
+> +    add_cb(cb_func);                                    \
+> +  } else {                                              \
+> +    fprintf(stderr, "Could not find symbol " #cb_name   \
+> +            " in " #other_plugin "\n");                 \
+> +  }                                                     \
+
+Another benefit of doing the linking in loader would be more graceful
+handling of the error cases and reporting.
+
+> +}
+> +
+> +/*
+> + * If a plugin wishes to disable a previously-registered `cb_func` it sh=
+ould
+> + * use the QPP_REMOVE_CB macro.
+> + */
+> +#define QPP_REMOVE_CB(other_plugin, cb_name, cb_func)            \
+> +{                                                                \
+> +  dlerror();                                                     \
+> +  void *op =3D panda_get_plugin_by_name(other_plugin);             \
+> +  if (!op) {                                                     \
+> +    fprintf(stderr, "In trying to remove plugin callback, "      \
+> +                    "couldn't load %s plugin\n", other_plugin);  \
+> +    assert(op);                                                  \
+> +  }                                                              \
+> +  void (*rm_cb)(cb_name##_t fptr) =3D (void (*)(cb_name##_t))      \
+> +                                    dlsym(op, "qpp_remove_cb_"   \
+> +                                              #cb_name);         \
+> +  assert(rm_cb !=3D 0);                                            \
+> +  rm_cb(cb_func);                                                \
+> +}
+> +
+> +/*
+> + ***********************************************************************=
+******
+> + * The QPP_FUN_PROTOTYPE enables a plugin to expose a local function to =
+other
+> + * plugins. The macro should be used in a header file that is included
+> + * by both the plugin that defines the function as well as other plugins
+> + * that wish to call the function.
+> + ***********************************************************************=
+******
+> + */
+> +
+> +/*
+> + * A header file that defines an exported function should use the
+> + * QPP_FUN_PROTOTYPE to create the necessary types. When other plugins
+> + * include this header, a function pointer named `[plugin_name]_[fn]` wi=
+ll
+> + * be created and available for the plugin to call.
+> + *
+> + * Note that these functions are not callbacks, but instead regular
+> + * functions that are exported by one plugin such that they can be calle=
+d by
+> + * others.
+> + *
+> + * In particular, this macro will create a function pointer by combining=
+ the
+> + * `plugin_name` with an underscore and the name provided in `fn`. It wi=
+ll
+> + * create a function to run on plugin load, that initializes this functi=
+on
+> + * pointer to the function named `fn` inside the plugin named `plugin_na=
+me`.
+> + * If this fails, an error will be printed and the plugin will abort.
+
+This replicates a bunch of what the QEMU_PLUGIN_EXPORT does but also
+adds some concatenation rules. Would it not be enough just to export the
+name and then restrict the linking in loader.c to searching plugins in a
+declared list from the source plugin?
+
+> + *
+> + * There are three distinct cases this macro must handle:
+> + * 1) When the header is loaded by the plugin that defines the function.
+> + *    In this case, we do not need to find the symbol externally.
+> + *    qemu_plugin_name_to_handle will return NULL, we see that the
+> + *    target plugin matches CURRENT_PLUGIN and do nothing.
+> + * 2) When the header is loaded by another plugin but the function
+> + *    is not available (i.e., the target plugin isn't loaded or the
+> + *    target plugin does not export the requested function). In this cas=
+e we
+> + *    raise a fatal error.
+> + * 3) When the header is loaded by another plugin. In this case
+> + *    we need to get a handle to the target plugin and then use
+> + *    g_module_symbol to resolve the symbol and store it as the fn_name.
+> + *    If we get the handle, but can't resolve the symbol, raise a fatal =
+error.
+> + *
+> + * This plugin creates the following local variables and functions:
+> + *
+> + * 1) `fn`: A prototype for the provided function, with the specified ar=
+guments.
+> + *    This is necessary for case 1 above and irrelevant for the others.
+> + * 2) A function pointer typedef for `[fn]_t` set to a pointer of the ty=
+pe of
+> + *    `fn`.
+> + * 3) A function pointer (of type `[fn]_t`) named `[plugin_name]_[fn]`
+> + * 4) A constructor function named "_qpp_setup_[plugin_name]_[fn]" that =
+will
+> + *    run when the plugin is loaded. In case 1 above, it will do nothing=
+. In
+> + *    case 2 it will print an error to stderr and abort. In case 3 it wi=
+ll
+> + *    update the function pointer "[plugin_name]_[fn]" to point to the t=
+arget
+> + *    function.
+> + *
+> + * After this constructor runs, the plugin can directly call the target =
+function
+> + * using `[plugin_name]_[fn]()`.
+> + *
+> + * For example, consider a plugin named "my_plugin" that wishes to expor=
+t a
+> + * function  named "my_func" that returns void and takes a single intege=
+r arg.
+> + * This would work as follows:
+> + * 1) The header file for the plugin, my_plugin.h, should include
+> + *    QPP_FUN_PROTOTYPE(my_plugin, void, my_func, int) which will define=
+ the
+> + *    function prototype and necessary internal state.
+> + * 2) This header should be included by my_plugin.c which should also in=
+clude
+> + *    QEMU_PLUGIN_EXPORT void my_func(int) {...} with the function defin=
+ition.
+> + * 3) Other plugins can get access to this function by including my_plug=
+in.h
+> + *    which will set up the function pointer `my_plugin_my_func` automat=
+ically
+> + *    using the internal state here.
+> + *
+> + */
+> +#define QPP_FUN_PROTOTYPE(plugin_name, fn_ret, fn, args)                =
+      \
+> +  fn_ret fn(args);                                                      =
+      \
+> +  typedef fn_ret(*PLUGIN_CONCAT(fn, _t))(args);                         =
+      \
+> +  fn##_t QPP_NAME(plugin_name, fn);                                     =
+      \
+> +  void _QPP_SETUP_NAME(plugin_name, fn) (void);                         =
+      \
+> +                                                                        =
+      \
+> +  void __attribute__ ((constructor)) _QPP_SETUP_NAME(plugin_name, fn) (v=
+oid) {\
+> +    GModule *h =3D qemu_plugin_name_to_handle(#plugin_name);            =
+        \
+> +    if (!h && strcmp(CURRENT_PLUGIN, #plugin_name) !=3D 0) {        \
+> +      fprintf(stderr, "Error plugin %s cannot access %s. Is it loaded?\n=
+",    \
+> +                       CURRENT_PLUGIN, #plugin_name);             \
+> +      abort();                                                          =
+      \
+> +    } else if (h && !g_module_symbol(h, #fn,                            =
+      \
+> +                           (gpointer *)&QPP_NAME(plugin_name, fn))) {   =
+      \
+> +      fprintf(stderr, "Error loading symbol " # fn " from plugin "      =
+      \
+> +                      # plugin_name "\n");                              =
+      \
+> +      abort();                                                          =
+      \
+> +    }                                                                   =
+      \
+> +  }
+
+While nothing stops a plugin calling abort() itself I'd rather avoid
+having it inserted by macro magic. Another argument for doing this
+inside the core code.
+
+> +
+> +#endif /* PLUGIN_QPP_H */
+> diff --git a/plugins/core.c b/plugins/core.c
+> index 792262da08..81c714bbf4 100644
+> --- a/plugins/core.c
+> +++ b/plugins/core.c
+> @@ -236,6 +236,17 @@ void qemu_plugin_vcpu_exit_hook(CPUState *cpu)
+>      qemu_rec_mutex_unlock(&plugin.lock);
+>  }
+>=20=20
+> +GModule *qemu_plugin_name_to_handle(const char* name)
+> +{
+> +    struct qemu_plugin_ctx *ctx;
+> +    QTAILQ_FOREACH(ctx, &plugin.ctxs, entry) {
+> +        if (is_plugin_named(*ctx, name)) {
+> +            return plugin_id_to_ctx_locked(ctx->id)->handle;
+
+The _locked prefix in QEMU indicated the function expects a lock to be
+held. In this case you could use QEMU_LOCK_GUARD(&plugin.lock); at the
+head of the function.
+
+> +        }
+> +    }
+> +    return NULL;
+> +}
+> +
+>  struct plugin_for_each_args {
+>      struct qemu_plugin_ctx *ctx;
+>      qemu_plugin_vcpu_simple_cb_t cb;
+> diff --git a/plugins/loader.c b/plugins/loader.c
+> index 88c30bde2d..26d3c14661 100644
+> --- a/plugins/loader.c
+> +++ b/plugins/loader.c
+> @@ -265,6 +265,30 @@ static int plugin_load(struct qemu_plugin_desc *desc=
+, const qemu_info_t *info, E
+>      return 1;
+>  }
+>=20=20
+> +/**
+> + * is_plugin_named - compare a plugins's name to a provided name
+> + * @ctx: the ctx for the plugin in question
+> + * @name: the name that should be used in the comparison
+> + *
+> + * Returns true if the names match.
+> + */
+> +
+> +bool is_plugin_named(struct qemu_plugin_ctx ctx, const char *name)
+> +{
+> +  char *plugin_basename =3D basename(ctx.desc->path);
+> +  /*
+> +   * First resolve the name of the shared object for the current plugin,
+> +   * then check if it could possibly be of the form libNAME.so
+> +   * where NAME is the provided name. If so, compare the strings.
+> +   */
+> +  if (plugin_basename =3D=3D NULL || strlen(plugin_basename) !=3D strlen=
+(name) + 6) {
+> +    return false;
+> +  }
+> +
+> +  return strncmp(plugin_basename + 3, name,
+> +                 strlen(plugin_basename) - 6) =3D=3D 0;
+
+I'd rather favour just making plugin names mandatory with the API boost.
+
+> +}
+> +
+>  /* call after having removed @desc from the list */
+>  static void plugin_desc_free(struct qemu_plugin_desc *desc)
+>  {
+> diff --git a/plugins/plugin.h b/plugins/plugin.h
+> index 5eb2fdbc85..69d9b09d4c 100644
+> --- a/plugins/plugin.h
+> +++ b/plugins/plugin.h
+> @@ -97,4 +97,9 @@ void plugin_register_vcpu_mem_cb(GArray **arr,
+>=20=20
+>  void exec_inline_op(struct qemu_plugin_dyn_cb *cb);
+>=20=20
+> +GModule *qemu_plugin_name_to_handle(const char* name);
+
+exported functions shouldn't need to be declared twice, but as above we
+can drop this I think.
+
+> +
+> +/* loader.c */
+> +bool is_plugin_named(struct qemu_plugin_ctx ctx, const char *name);
+> +
+>  #endif /* PLUGIN_H */
+> diff --git a/plugins/qemu-plugins.symbols b/plugins/qemu-plugins.symbols
+> index 71f6c90549..d98c0bc38a 100644
+> --- a/plugins/qemu-plugins.symbols
+> +++ b/plugins/qemu-plugins.symbols
+> @@ -18,6 +18,7 @@
+>    qemu_plugin_mem_size_shift;
+>    qemu_plugin_n_max_vcpus;
+>    qemu_plugin_n_vcpus;
+> +  qemu_plugin_name_to_handle;
+>    qemu_plugin_outs;
+>    qemu_plugin_path_to_binary;
+>    qemu_plugin_register_atexit_cb;
+
+
+--=20
+Alex Benn=C3=A9e
 
