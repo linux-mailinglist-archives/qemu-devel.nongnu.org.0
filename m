@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA7E5BFDD4
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 14:31:10 +0200 (CEST)
-Received: from localhost ([::1]:58560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B8B75BFE16
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 14:39:41 +0200 (CEST)
+Received: from localhost ([::1]:34038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaysf-0000oG-Vs
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 08:31:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58684)
+	id 1oaz0t-0007wJ-3S
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 08:39:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oayKy-0003OV-Sl
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 07:56:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49968)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oayNW-0000UY-CE
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 07:58:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21582)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oayKw-0003ER-4Y
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 07:56:19 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oayNR-0003nZ-Ca
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 07:58:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663761377;
+ s=mimecast20190719; t=1663761532;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=YJGiDJAV79JY+fnDctbeoAuhRNrA9bxNhl0fkeeyCc4=;
- b=aTfcRlsBNkRnCauoBX7gl34+zt9tPi6y8q1LEB+69CbPgmtcZpv/oTvDlFJQuiRKqBv1a5
- LfNHs/7ohKsMYqfqWDSDZrPEi8pKs5gUtgYRox6HWrtxilZzQgdH/Im2n6iDiba4kKbv9j
- gR8yXqMnXbWKRKhl880jaD1B4wetEFY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-133-7aTe_gcxOKWiGuxOGh3kEw-1; Wed, 21 Sep 2022 07:56:14 -0400
-X-MC-Unique: 7aTe_gcxOKWiGuxOGh3kEw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 12A0B1C0BE08;
- Wed, 21 Sep 2022 11:56:14 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 650A0492B15;
- Wed, 21 Sep 2022 11:56:12 +0000 (UTC)
-Date: Wed, 21 Sep 2022 13:56:11 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- dinechin@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v3 2/3] module: add Error arguments to module_load_one
- and module_load_qom_one
-Message-ID: <Yyr72+YyYrhG2zTo@redhat.com>
-References: <20220908145308.30282-1-cfontana@suse.de>
- <20220908145308.30282-3-cfontana@suse.de>
- <062faaa8-064c-f68a-e316-aaacb80efa5a@linaro.org>
- <3c6cb3ee-2470-654f-c2c4-3449861f9781@suse.de>
- <8682ad9f-aea8-0419-5ff6-c14493e4e980@suse.de>
- <YynvR49aIK2AzbJ3@redhat.com>
- <eda3f2ce-a828-8c84-60bd-684844eb25b6@suse.de>
+ bh=tnWrqxJFfDGAlMWYaFkvGz4xvq2SMvFLlr1n0uJ9LvU=;
+ b=cDr3GmW+ob9ckygc1dNbb20j4qSJNGl+DT6QFx670OnDnmajRXg5mUKabcpvTT43VLn7Or
+ l5Gxf0C/JQ4YKrCeRDmdOnKrcvm/8k/bgjT2Fd4zs1x4NmO5nT6U2lbp7+DfoI/+YUXxED
+ qtyry+hio4js/E5/LXl14JYJypEjjOw=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-335-gV9YCc7kOS-v14PIxFtcrg-1; Wed, 21 Sep 2022 07:58:43 -0400
+X-MC-Unique: gV9YCc7kOS-v14PIxFtcrg-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ x22-20020a05620a259600b006b552a69231so4048693qko.18
+ for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 04:58:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=tnWrqxJFfDGAlMWYaFkvGz4xvq2SMvFLlr1n0uJ9LvU=;
+ b=WBnki0uM2srOJu/j9k39GiL6eGc/sk6WzQy0bPLXau9EKwWQBJiy9K0LtG1+qXGzBu
+ yr+IZSblhaOT4dRgYTlByuhT6981H+FxeimslukwIzVgJJurGRK6agltngwdMT9P86zn
+ 3L0DXAOo7nyy4xp5m4kz84o3ltEgkKUs1BcAwjA9UKml4RGhSbMUOf0X3CmjBqEyADGa
+ nvAgt6crih0dEKQkDg/7ZcnuMpHWB8a28eOrHz/m4eEYNRKHixuWRt2Zo1baoh8avAkv
+ aacSigfv9Ws28fX007u2Wc7xU6yaEYPozJf/Nv2VDjUThXTrz+zKIRP/3V368MgR0prD
+ OXBQ==
+X-Gm-Message-State: ACrzQf2rCj83NfxLq8fYeVMq9oTCJM9ccTqWIeP9+fa+hV1r27AgmzGk
+ Htjzbbflxpq1S3Stu4C0V7HOJQ28L2fSpWPkZ906AMMxXxHbREphrqGvJ6grFh+9Grv9kQpDjWQ
+ RL2f7jURMSzpRypR2fkAaphuKWfu60bs=
+X-Received: by 2002:a0c:a90a:0:b0:4ad:715:897 with SMTP id
+ y10-20020a0ca90a000000b004ad07150897mr22685401qva.114.1663761522840; 
+ Wed, 21 Sep 2022 04:58:42 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7B89EeWnlB7HXyh/7G7syKp9pk7YsETbBiq41BrSnHJCVF61Mswz6IgXxS6lOH5OnqcqjM3KeRDdEueYDzdgU=
+X-Received: by 2002:a0c:a90a:0:b0:4ad:715:897 with SMTP id
+ y10-20020a0ca90a000000b004ad07150897mr22685377qva.114.1663761522410; 
+ Wed, 21 Sep 2022 04:58:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eda3f2ce-a828-8c84-60bd-684844eb25b6@suse.de>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+References: <20220906100932.343523-1-richard.henderson@linaro.org>
+ <20220906100932.343523-6-richard.henderson@linaro.org>
+In-Reply-To: <20220906100932.343523-6-richard.henderson@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 21 Sep 2022 13:58:31 +0200
+Message-ID: <CABgObfZxN7mk6nr_yNt5-xbX6FvJjcNpdD-tXi8Vrew4+Qb1_Q@mail.gmail.com>
+Subject: Re: [PATCH v2 05/23] target/i386: Create gen_update_eip_cur
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -89,111 +92,235 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 21.09.2022 um 09:50 hat Claudio Fontana geschrieben:
-> On 9/20/22 18:50, Kevin Wolf wrote:
-> > Am 08.09.2022 um 19:36 hat Claudio Fontana geschrieben:
-> >> On 9/8/22 19:10, Claudio Fontana wrote:
-> >>> On 9/8/22 18:03, Richard Henderson wrote:
-> >>>> On 9/8/22 15:53, Claudio Fontana wrote:
-> >>>>> @@ -446,8 +447,13 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
-> >>>>>           return -EINVAL;
-> >>>>>       }
-> >>>>>   
-> >>>>> -    block_module_load_one("dmg-bz2");
-> >>>>> -    block_module_load_one("dmg-lzfse");
-> >>>>> +    if (!block_module_load_one("dmg-bz2", &local_err) && local_err) {
-> >>>>> +        error_report_err(local_err);
-> >>>>> +    }
-> >>>>> +    local_err = NULL;
-> >>>>> +    if (!block_module_load_one("dmg-lzfse", &local_err) && local_err) {
-> >>>>> +        error_report_err(local_err);
-> >>>>> +    }
-> >>>>>   
-> >>>>>       s->n_chunks = 0;
-> >>>>>       s->offsets = s->lengths = s->sectors = s->sectorcounts = NULL;
-> >>>>
-> >>>> I wonder if these shouldn't fail hard if the modules don't exist?
-> >>>> Or at least pass back the error.
-> >>>>
-> >>>> Kevin?
-> >>
-> >> is "dmg-bz" _required_ for dmg open to work? I suspect if the dmg
-> >> image is not compressed, "dmg" can function even if the extra dmg-bz
-> >> module is not loaded right?
-> > 
-> > Indeed. The code seems to consider that the modules may not be present.
-> > The behaviour in these cases is questionable (it seems to silently leave
-> > the buffers as they are and return success)
+On Tue, Sep 6, 2022 at 12:09 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Like gen_update_cc_op, sync EIP before doing something
+> that could raise an exception.  Replace all gen_jmp_im
+> that use s->base.pc_next.
 
-I think I misunderstood the code here actually. dmg_read_mish_block()
-skips chunks of unknown type, so later trying to find them fails and
-dmg_co_preadv() returns -EIO. Which is a reasonable return value for
-this.
+The commit message seems a bit off (it sounds like adding
+stuff rather than refactoring), but anyway:
 
-> > , but the modules are clearly
-> > optional.
-> > 
-> >> I'd suspect we should then do:
-> >>
-> >> if (!block_module_load_one("dmg-bz2", &local_err)) {
-> >>   if (local_err) {
-> >>      error_report_err(local_err);
-> >>      return -EINVAL;
-> >>   }
-> >>   warn_report("dmg-bz2 is not present, dmg will skip bz2-compressed chunks */
-> >> }
-> >>
-> >> and same for dmg-lzfse...?
-> > 
-> > Actually, I think during initialisation, we should just pass NULL as
-> > errp and ignore any errors.
-> 
-> Hmm really? I'd think that if there is an actual error loading the
-> module (module is installed, but the loading itself fails due to
-> broken module, wrong permissions, I/O errors etc) we would want to
-> report that fact as it happens?
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Can we distinguish the two error cases?
+Paolo
 
-Oooh... Reading the code again carefully, are you returning false
-without setting errp if the module just couldn't be found? This is a
-surprising interface.
-
-Yes, I guess then your proposed code is fine (modulo moving
-warn_report() somewhere else so that it doesn't complain when the image
-doesn't even contain compressed chunks).
-
-> > When a request would access a block that can't be uncompressed because
-> > of the missing module, that's where we can have a warn_report_once() and
-> > arguably should fail the I/O request.
-> > 
-> > Kevin
-> > 
-> 
-> That would mean, moving the
-> 
-> warn_report("dmg-bz2 is not present, dmg will skip bz2-compressed chunks")
-> 
-> to the uncompression code and change it to a warn_report_once() right?
-
-Yeah, though I think this doesn't actually work because we never even
-stored the metadata for chunks of unknown type (see above), so we never
-reach the uncompression code.
-
-What misled me initially is this code in dmg_read_chunk():
-
-        case UDBZ: /* bzip2 compressed */
-            if (!dmg_uncompress_bz2) {
-                break;
-            }
-
-I believe this is dead code, it could actually be an assertion. So
-if I'm not missing anything, adding the warning there would be useless.
-
-The other option is moving it into dmg_is_known_block_type() or its
-caller dmg_read_mish_block(), then we would detect it during open, which
-is probably nicer anyway.
-
-Kevin
+> ---
+>  target/i386/tcg/translate.c | 52 ++++++++++++++++++++-----------------
+>  1 file changed, 28 insertions(+), 24 deletions(-)
+>
+> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+> index 0210382f77..83cb925571 100644
+> --- a/target/i386/tcg/translate.c
+> +++ b/target/i386/tcg/translate.c
+> @@ -511,10 +511,14 @@ static inline void gen_op_st_rm_T0_A0(DisasContext *s, int idx, int d)
+>      }
+>  }
+>
+> -static inline void gen_jmp_im(DisasContext *s, target_ulong pc)
+> +static void gen_jmp_im(DisasContext *s, target_ulong pc)
+>  {
+> -    tcg_gen_movi_tl(s->tmp0, pc);
+> -    gen_op_jmp_v(s->tmp0);
+> +    gen_op_jmp_v(tcg_constant_tl(pc));
+> +}
+> +
+> +static void gen_update_eip_cur(DisasContext *s)
+> +{
+> +    gen_jmp_im(s, s->base.pc_next - s->cs_base);
+>  }
+>
+>  /* Compute SEG:REG into A0.  SEG is selected from the override segment
+> @@ -703,7 +707,7 @@ static bool gen_check_io(DisasContext *s, MemOp ot, TCGv_i32 port,
+>          target_ulong next_eip = s->pc - s->cs_base;
+>
+>          gen_update_cc_op(s);
+> -        gen_jmp_im(s, cur_eip);
+> +        gen_update_eip_cur(s);
+>          if (s->prefix & (PREFIX_REPZ | PREFIX_REPNZ)) {
+>              svm_flags |= SVM_IOIO_REP_MASK;
+>          }
+> @@ -1335,7 +1339,7 @@ static void gen_helper_fp_arith_STN_ST0(int op, int opreg)
+>  static void gen_exception(DisasContext *s, int trapno)
+>  {
+>      gen_update_cc_op(s);
+> -    gen_jmp_im(s, s->base.pc_next - s->cs_base);
+> +    gen_update_eip_cur(s);
+>      gen_helper_raise_exception(cpu_env, tcg_const_i32(trapno));
+>      s->base.is_jmp = DISAS_NORETURN;
+>  }
+> @@ -2605,7 +2609,7 @@ static void gen_unknown_opcode(CPUX86State *env, DisasContext *s)
+>  static void gen_interrupt(DisasContext *s, int intno)
+>  {
+>      gen_update_cc_op(s);
+> -    gen_jmp_im(s, s->base.pc_next - s->cs_base);
+> +    gen_update_eip_cur(s);
+>      gen_helper_raise_interrupt(cpu_env, tcg_constant_i32(intno),
+>                                 tcg_constant_i32(s->pc - s->base.pc_next));
+>      s->base.is_jmp = DISAS_NORETURN;
+> @@ -6796,7 +6800,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+>      do_lret:
+>          if (PE(s) && !VM86(s)) {
+>              gen_update_cc_op(s);
+> -            gen_jmp_im(s, s->base.pc_next - s->cs_base);
+> +            gen_update_eip_cur(s);
+>              gen_helper_lret_protected(cpu_env, tcg_const_i32(dflag - 1),
+>                                        tcg_const_i32(val));
+>          } else {
+> @@ -7292,7 +7296,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+>          }
+>          if (prefixes & PREFIX_REPZ) {
+>              gen_update_cc_op(s);
+> -            gen_jmp_im(s, s->base.pc_next - s->cs_base);
+> +            gen_update_eip_cur(s);
+>              gen_helper_pause(cpu_env, tcg_const_i32(s->pc - s->base.pc_next));
+>              s->base.is_jmp = DISAS_NORETURN;
+>          }
+> @@ -7318,7 +7322,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+>          if (CODE64(s))
+>              goto illegal_op;
+>          gen_update_cc_op(s);
+> -        gen_jmp_im(s, s->base.pc_next - s->cs_base);
+> +        gen_update_eip_cur(s);
+>          gen_helper_into(cpu_env, tcg_const_i32(s->pc - s->base.pc_next));
+>          break;
+>  #ifdef WANT_ICEBP
+> @@ -7425,7 +7429,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+>      case 0x132: /* rdmsr */
+>          if (check_cpl0(s)) {
+>              gen_update_cc_op(s);
+> -            gen_jmp_im(s, s->base.pc_next - s->cs_base);
+> +            gen_update_eip_cur(s);
+>              if (b & 2) {
+>                  gen_helper_rdmsr(cpu_env);
+>              } else {
+> @@ -7437,7 +7441,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+>          break;
+>      case 0x131: /* rdtsc */
+>          gen_update_cc_op(s);
+> -        gen_jmp_im(s, s->base.pc_next - s->cs_base);
+> +        gen_update_eip_cur(s);
+>          if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
+>              gen_io_start();
+>          }
+> @@ -7448,7 +7452,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+>          break;
+>      case 0x133: /* rdpmc */
+>          gen_update_cc_op(s);
+> -        gen_jmp_im(s, s->base.pc_next - s->cs_base);
+> +        gen_update_eip_cur(s);
+>          gen_helper_rdpmc(cpu_env);
+>          s->base.is_jmp = DISAS_NORETURN;
+>          break;
+> @@ -7478,7 +7482,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+>      case 0x105: /* syscall */
+>          /* XXX: is it usable in real mode ? */
+>          gen_update_cc_op(s);
+> -        gen_jmp_im(s, s->base.pc_next - s->cs_base);
+> +        gen_update_eip_cur(s);
+>          gen_helper_syscall(cpu_env, tcg_const_i32(s->pc - s->base.pc_next));
+>          /* TF handling for the syscall insn is different. The TF bit is  checked
+>             after the syscall insn completes. This allows #DB to not be
+> @@ -7504,13 +7508,13 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+>  #endif
+>      case 0x1a2: /* cpuid */
+>          gen_update_cc_op(s);
+> -        gen_jmp_im(s, s->base.pc_next - s->cs_base);
+> +        gen_update_eip_cur(s);
+>          gen_helper_cpuid(cpu_env);
+>          break;
+>      case 0xf4: /* hlt */
+>          if (check_cpl0(s)) {
+>              gen_update_cc_op(s);
+> -            gen_jmp_im(s, s->base.pc_next - s->cs_base);
+> +            gen_update_eip_cur(s);
+>              gen_helper_hlt(cpu_env, tcg_const_i32(s->pc - s->base.pc_next));
+>              s->base.is_jmp = DISAS_NORETURN;
+>          }
+> @@ -7607,7 +7611,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+>                  goto illegal_op;
+>              }
+>              gen_update_cc_op(s);
+> -            gen_jmp_im(s, s->base.pc_next - s->cs_base);
+> +            gen_update_eip_cur(s);
+>              tcg_gen_mov_tl(s->A0, cpu_regs[R_EAX]);
+>              gen_extu(s->aflag, s->A0);
+>              gen_add_A0_ds_seg(s);
+> @@ -7619,7 +7623,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+>                  goto illegal_op;
+>              }
+>              gen_update_cc_op(s);
+> -            gen_jmp_im(s, s->base.pc_next - s->cs_base);
+> +            gen_update_eip_cur(s);
+>              gen_helper_mwait(cpu_env, tcg_const_i32(s->pc - s->base.pc_next));
+>              s->base.is_jmp = DISAS_NORETURN;
+>              break;
+> @@ -7697,7 +7701,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+>                  break;
+>              }
+>              gen_update_cc_op(s);
+> -            gen_jmp_im(s, s->base.pc_next - s->cs_base);
+> +            gen_update_eip_cur(s);
+>              gen_helper_vmrun(cpu_env, tcg_const_i32(s->aflag - 1),
+>                               tcg_const_i32(s->pc - s->base.pc_next));
+>              tcg_gen_exit_tb(NULL, 0);
+> @@ -7709,7 +7713,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+>                  goto illegal_op;
+>              }
+>              gen_update_cc_op(s);
+> -            gen_jmp_im(s, s->base.pc_next - s->cs_base);
+> +            gen_update_eip_cur(s);
+>              gen_helper_vmmcall(cpu_env);
+>              break;
+>
+> @@ -7721,7 +7725,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+>                  break;
+>              }
+>              gen_update_cc_op(s);
+> -            gen_jmp_im(s, s->base.pc_next - s->cs_base);
+> +            gen_update_eip_cur(s);
+>              gen_helper_vmload(cpu_env, tcg_const_i32(s->aflag - 1));
+>              break;
+>
+> @@ -7733,7 +7737,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+>                  break;
+>              }
+>              gen_update_cc_op(s);
+> -            gen_jmp_im(s, s->base.pc_next - s->cs_base);
+> +            gen_update_eip_cur(s);
+>              gen_helper_vmsave(cpu_env, tcg_const_i32(s->aflag - 1));
+>              break;
+>
+> @@ -7759,7 +7763,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+>                  break;
+>              }
+>              gen_update_cc_op(s);
+> -            gen_jmp_im(s, s->base.pc_next - s->cs_base);
+> +            gen_update_eip_cur(s);
+>              gen_helper_clgi(cpu_env);
+>              break;
+>
+> @@ -7905,7 +7909,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+>                  goto illegal_op;
+>              }
+>              gen_update_cc_op(s);
+> -            gen_jmp_im(s, s->base.pc_next - s->cs_base);
+> +            gen_update_eip_cur(s);
+>              if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
+>                  gen_io_start();
+>              }
+> @@ -8818,7 +8822,7 @@ static void i386_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+>      DisasContext *dc = container_of(dcbase, DisasContext, base);
+>
+>      if (dc->base.is_jmp == DISAS_TOO_MANY) {
+> -        gen_jmp_im(dc, dc->base.pc_next - dc->cs_base);
+> +        gen_update_eip_cur(dc);
+>          gen_eob(dc);
+>      }
+>  }
+> --
+> 2.34.1
+>
 
 
