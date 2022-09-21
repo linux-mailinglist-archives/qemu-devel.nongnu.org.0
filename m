@@ -2,88 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A23B75BF51C
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 05:59:18 +0200 (CEST)
-Received: from localhost ([::1]:45528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D80325BF598
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 06:52:21 +0200 (CEST)
+Received: from localhost ([::1]:53362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaqtJ-0006Xg-6U
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 23:59:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57014)
+	id 1oaric-0000GA-6q
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 00:52:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oaqrV-00058L-TP
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 23:57:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49897)
+ (Exim 4.90_1)
+ (envelope-from <prvs=25666b47c=damien.lemoal@opensource.wdc.com>)
+ id 1oarbr-00048i-AQ
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 00:45:19 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:4344)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oaqrS-0006JJ-Cb
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 23:57:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663732641;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0lkBoBGBt+PzEErFb1fhrCgUv/bNJaJSe+KO4CUOcf4=;
- b=dXjhVr4Ljho2ZkgEKPvNlSx8i4OEQfjq3hXkukqyJ2S8yA9WX+O6sIOnaYa7PbA5iOs43T
- whj6+lugHWXqGFCun7TIM3rH3himyEKkmBZnQ76MXDCXU33mICKlyM1rZ35dQubUl5H5XC
- pcmvbBpgHx0YaBt6kJodfn61PnPYiQc=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-404-vQJSwymoMvK09HzKuqfYVg-1; Tue, 20 Sep 2022 23:57:20 -0400
-X-MC-Unique: vQJSwymoMvK09HzKuqfYVg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- q17-20020adfab11000000b0022a44f0c5d9so1908474wrc.2
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 20:57:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=0lkBoBGBt+PzEErFb1fhrCgUv/bNJaJSe+KO4CUOcf4=;
- b=UJ0LtmDObjV9SDtgFDPgNbwzCoD3106N4DPmtReoXzC4ey7giVOnh+Uq6kCyEO8hZB
- dsz/HPLpzu1oWXsNIF/KexMgySqQxOVPwA/Qq488OkmxBJzYmUcI6btiD3bMnRYRXCCa
- TIIO/IT3P2PfbFhk2xmbh9GrrK8YR5LbUPWq9++Kd6MVBp92pNma/VoV5uHwfOVyQWh6
- u0W6L0mxHu2Oa2VIIAKlM/UwNlsPd7ZmE2xhacjt7CgGWdjBgT6YpXpd7MnmBR8k3sob
- fS2hkZCvzfMii16G1XtHyet40aYGkI/yINRgIouTusyVpLrYrd4IAyowLC6P7PhEHql+
- EMOw==
-X-Gm-Message-State: ACrzQf1cu4v8xG4hDVu+0BJER7k8Rf8KsRWMu2dNP/njUq5ea95xwgxq
- vIFCyAXi66zy73i12ZrFMh3YSTs6ckI+hMEz24aKIwQPhIIoiN0S83LxvV7pdTU3dHWCNMDlKag
- 5zjfGAUBbqQWYUfk=
-X-Received: by 2002:a5d:6784:0:b0:22a:e477:8fd4 with SMTP id
- v4-20020a5d6784000000b0022ae4778fd4mr13363966wru.218.1663732638777; 
- Tue, 20 Sep 2022 20:57:18 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5jtmWKPExaWpu5HjqUJ1f1Fkqt3CG2P6D8Wo413QarF4C2LgEybxTOp+JiYEc9CJicMlh57Q==
-X-Received: by 2002:a5d:6784:0:b0:22a:e477:8fd4 with SMTP id
- v4-20020a5d6784000000b0022ae4778fd4mr13363952wru.218.1663732638390; 
- Tue, 20 Sep 2022 20:57:18 -0700 (PDT)
-Received: from redhat.com ([2.55.47.213]) by smtp.gmail.com with ESMTPSA id
- v125-20020a1cac83000000b003a845621c5bsm1409562wme.34.2022.09.20.20.57.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 20:57:17 -0700 (PDT)
-Date: Tue, 20 Sep 2022 23:57:14 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: liuhaiwei <liuhaiwei9699@126.com>, qemu-devel <qemu-devel@nongnu.org>,
- liuhaiwei <liuhaiwei@inspur.com>
-Subject: Re: [PATCH] virtio-net: set the max of queue size to 4096
-Message-ID: <20220920235236-mutt-send-email-mst@kernel.org>
-References: <20220920011007.1972418-1-liuhaiwei9699@126.com>
- <CACGkMEuWDZzyBWOuAUVgxkUjBytStWC4U9RD0yWw49RS6RG6HA@mail.gmail.com>
- <CACGkMEuR9-311m3W4F9RSpnEuhGONQFoS5Ns6JErO56R7OU=dA@mail.gmail.com>
- <20220920080533-mutt-send-email-mst@kernel.org>
- <CACGkMEs+ExUGQMmqqx1_OTskDNeh4mULN_tFSvuLKb0nEdWASA@mail.gmail.com>
+ (Exim 4.90_1)
+ (envelope-from <prvs=25666b47c=damien.lemoal@opensource.wdc.com>)
+ id 1oarbp-0005Hs-7v
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 00:45:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1663735516; x=1695271516;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=iYPyfembzrZ1UreKik23iawZyBNZR6vY64oRYBULmXA=;
+ b=QjFmzGgEnSbnwyBePAxHcBNi+gcUVxnRt201LVUvZL3AxcIeX9rsHFls
+ H0PgHyyyp6aeIng0VNzDjQZ3Tul2YCUOUF1dS4oACqBpkED3E1/9PXl9q
+ SA1sgwd5fdBgsYsyR/pk1TKmbOr9e2shuOkncfnd7ETNivoN4OYY+aEVK
+ C+xZLmNZ2rOvaZFEvxYJKlsmEkFkEfhzCbdafvHQH2CEGyxZPW53CR9hQ
+ 93XzM64UnDmMSaYoSLbbDjV8I4KNP5bB8cJdcP7kNpzYCGUNcYbuIAVLq
+ HLqW8I0NWCeMB+V/AMrD+1aQw6pBMXSI0hc0jYxK7Hm6WxX4MNrHf36cd Q==;
+X-IronPort-AV: E=Sophos;i="5.93,332,1654531200"; d="scan'208";a="211873592"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 21 Sep 2022 12:45:06 +0800
+IronPort-SDR: hMtirYE/1TKeaq5WGW/ZkBDRarmD+vFFMdfhNzwttlnyeymneoiPcCKI12kSGQhxd+1oW4zH7w
+ ZO2wla52KT5/tlg+XozZkSSuurOhJoMVg/bosIMq9gJN+IOWU8Q1Mmxl21abVq2RudWv8Wx1XX
+ ZRQ3gXmvhKpKuuhf0LFfrs7dIsKG+iDhi5L1fpig5vJf88LPSEPEbvGKFy1WPHxl1O3DRVZGnK
+ BoRec3lWxzgHA4K1L5BGIyCoHfZ5ch8U211/Q4Yjr5n9RG/wvEclQEEViihpRsH4T7/CeKaKf+
+ /61IgxIrohOPc0MZL3v6EMge
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 20 Sep 2022 20:59:42 -0700
+IronPort-SDR: PC8uRqoJwqSgGK+xxLNmoi7p54mM99l+jPXXBxNa8oo3HR8FKQ6Lhv5a3G7M368qDhdlYd7TrD
+ KmsrXkzfYQ8g16uTYyvR5ZL0au/ABI0dlJpZ7XOCLfmlgmoOpxv7xa76yTaaVUG+kB008Ev64s
+ kwu3GNWjl7Q0cZTNeI093vlwkC1qdgiYkA63CxSk1p0kNN5SL/0hsQ9oXXC3VfgZRbcZmVtG36
+ Mp2Hl5d7LJI05Eagf2A6WGFFBiwEGccsVG2XoBslB/I1hRK3xJLemOiATY8zDsU06+BugOXlzw
+ vN4=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 20 Sep 2022 21:45:07 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4MXQnZ6QD5z1RvTp
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 21:45:06 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :in-reply-to:organization:from:references:to:content-language
+ :subject:user-agent:mime-version:date:message-id; s=dkim; t=
+ 1663735506; x=1666327507; bh=iYPyfembzrZ1UreKik23iawZyBNZR6vY64o
+ RYBULmXA=; b=B4ONAyV0edXok7pzlFA3lxkd9W2hoktJiaAe8gEVicDykPThLHe
+ ZY/GwhIOLz0ZuotoPDw1xR69rSs3SRW277FjX+NNrzMAQ+aNHuxQ+ygOexizz8w7
+ t2M8EQv+ihKLlA4sJz4qJ5swIYXevahOM/Ox5qOhMZk0Dze+nstDRvrDMOLEq+zJ
+ bo9g6sC+W++6DTS35zHqANpPZBMuGZcK6yU8bVwEjgf0YexUqvwUbzhxdATipVQ/
+ +4WP4YPAct2ZFXrAmv19f68yEcniNDfb27LADukC1uYv3JvTnyvjKIzqFkAW/94F
+ BG9gl6bGPai/ig/vp34LM+SP1sA9xkQYHmw==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id r8Jc8GQJ9SnU for <qemu-devel@nongnu.org>;
+ Tue, 20 Sep 2022 21:45:06 -0700 (PDT)
+Received: from [10.149.53.254] (washi.fujisawa.hgst.com [10.149.53.254])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4MXQnT3JN1z1RvLy;
+ Tue, 20 Sep 2022 21:45:01 -0700 (PDT)
+Message-ID: <10fa1e0b-032a-b82a-80e1-4232d1c6a965@opensource.wdc.com>
+Date: Wed, 21 Sep 2022 13:44:58 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACGkMEs+ExUGQMmqqx1_OTskDNeh4mULN_tFSvuLKb0nEdWASA@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v9 3/7] block: add block layer APIs resembling Linux
+ ZonedBlockDevice ioctls
+Content-Language: en-US
+To: Klaus Jensen <its@irrelevant.dk>, Sam Li <faithilikerun@gmail.com>
+Cc: qemu-devel@nongnu.org, dmitry.fomichev@wdc.com,
+ Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>, hare@suse.de,
+ Hanna Reitz <hreitz@redhat.com>
+References: <20220910052759.27517-1-faithilikerun@gmail.com>
+ <20220910052759.27517-4-faithilikerun@gmail.com> <Yyl/AC9X7uHyeTCu@apples>
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <Yyl/AC9X7uHyeTCu@apples>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=25666b47c=damien.lemoal@opensource.wdc.com;
+ helo=esa5.hgst.iphmx.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.182,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,225 +125,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 21, 2022 at 10:59:50AM +0800, Jason Wang wrote:
-> On Tue, Sep 20, 2022 at 8:59 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Tue, Sep 20, 2022 at 10:03:23AM +0800, Jason Wang wrote:
-> > > On Tue, Sep 20, 2022 at 9:38 AM Jason Wang <jasowang@redhat.com> wrote:
-> > > >
-> > > > On Tue, Sep 20, 2022 at 9:10 AM liuhaiwei <liuhaiwei9699@126.com> wrote:
-> > > > >
-> > > > > From: liuhaiwei <liuhaiwei@inspur.com>
-> > > > >
-> > > > > the limit of maximum of rx_queue_size and tx_queue to 1024 is so small as to affect our network performance when using the  virtio-net and vhost ,
-> > > > > we cannot set the maximum size beyond 1k.
-> > > > > why not enlarge the maximum size (such as 4096) when using the vhost backend?
-> > > >
-> > > > As Michael mentioned, there's a limitation in the kernel UIO_MAXIOV.
-> > > > We need to find way to overcome that limit first.
-> > >
-> > > Btw, this probably means the skb needs to be built by vhost-net
-> > > itself, instead of tuntap.
-> > >
-> > > Thanks
-> >
-> > That might help vhost-net but it won't help virtio-net.
-> >
-> > IMO the right fix is to add a separate limit on s/g size
-> > to the spec. Block and scsi already have it, seems
-> > reasonable to add it for others too.
+On 9/20/22 17:51, Klaus Jensen wrote:
+> On Sep 10 13:27, Sam Li wrote:
+>> Add a new zoned_host_device BlockDriver. The zoned_host_device option
+>> accepts only zoned host block devices. By adding zone management
+>> operations in this new BlockDriver, users can use the new block
+>> layer APIs including Report Zone and four zone management operations
+>> (open, close, finish, reset).
+>>
+>> Qemu-io uses the new APIs to perform zoned storage commands of the device:
+>> zone_report(zrp), zone_open(zo), zone_close(zc), zone_reset(zrs),
+>> zone_finish(zf).
+>>
+>> For example, to test zone_report, use following command:
+>> $ ./build/qemu-io --image-opts -n driver=zoned_host_device, filename=/dev/nullb0
+>> -c "zrp offset nr_zones"
+>>
+>> Signed-off-by: Sam Li <faithilikerun@gmail.com>
+>> Reviewed-by: Hannes Reinecke <hare@suse.de>
+>> ---
+>>   block/block-backend.c             | 145 ++++++++++++++
+>>   block/file-posix.c                | 323 +++++++++++++++++++++++++++++-
+>>   block/io.c                        |  41 ++++
+>>   include/block/block-io.h          |   7 +
+>>   include/block/block_int-common.h  |  21 ++
+>>   include/block/raw-aio.h           |   6 +-
+>>   include/sysemu/block-backend-io.h |  17 ++
+>>   meson.build                       |   1 +
+>>   qapi/block-core.json              |   8 +-
+>>   qemu-io-cmds.c                    | 143 +++++++++++++
+>>   10 files changed, 708 insertions(+), 4 deletions(-)
+>>
+>> +/*
+>> + * zone management operations - Execute an operation on a zone
+>> + */
+>> +static int coroutine_fn raw_co_zone_mgmt(BlockDriverState *bs, BlockZoneOp op,
+>> +        int64_t offset, int64_t len) {
+>> +#if defined(CONFIG_BLKZONED)
+>> +    BDRVRawState *s = bs->opaque;
+>> +    RawPosixAIOData acb;
+>> +    int64_t zone_sector, zone_sector_mask;
+>> +    const char *zone_op_name;
+>> +    unsigned long zone_op;
+>> +    bool is_all = false;
+>> +
+>> +    zone_sector = bs->bl.zone_sectors;
+>> +    zone_sector_mask = zone_sector - 1;
+>> +    if (offset & zone_sector_mask) {
+>> +        error_report("sector offset %" PRId64 " is not aligned to zone size "
+>> +                     "%" PRId64 "", offset, zone_sector);
+>> +        return -EINVAL;
+>> +    }
+>> +
+>> +    if (len & zone_sector_mask) {
+>> +        error_report("number of sectors %" PRId64 " is not aligned to zone size"
+>> +                      " %" PRId64 "", len, zone_sector);
+>> +        return -EINVAL;
+>> +    }
 > 
-> I wonder if it would be simpler to tie the limit to the virtqueue size.
+> These checks impose a power-of-two constraint on the zone size. Can they
+> be changed to divisions to lift that constraint? I don't see anything in
+> this patch set that relies on power of two zone sizes.
 
-Simpler but wrong I think. As another example for RX we do not need s/g
-at all with mergeable. At the same time deep queues are needed
-to avoid underruns.
+Given that Linux will only expose zoned devices that have a zone size 
+that is a power of 2 number of LBAs, this will work as is and avoid 
+divisions in the IO path. But given that zone management operations are 
+not performance critical, generalizing the code should be fine.
+
+However, once we start adding the code for full zone emulation on top of 
+a regular file or qcow image, sector-to-zone conversions requiring 
+divisions will hurt. So I really would prefer the code be left as-is for 
+now.
 
 
-
-> Having individual limits seems to complicate the migration compatibility anyhow.
-> 
-> Thanks
-
-I don't see how it's materially different from queue size.
-We need interfaces for that, that we lack now, userspace is
-expected to guess a subset available on both ends.
-
-> >
-> >
-> >
-> > > >
-> > > > Thanks
-> > > >
-> > > > >
-> > > > > Signed-off-by: liuhaiwei <liuhaiwei9699@126.com>
-> > > > > Signed-off-by: liuhaiwei <liuhaiwei@inspur.com>
-> > > > > ---
-> > > > >  hw/net/virtio-net.c        | 47 +++++++++++++++++++++++++++-----------
-> > > > >  hw/virtio/virtio.c         |  8 +++++--
-> > > > >  include/hw/virtio/virtio.h |  1 +
-> > > > >  3 files changed, 41 insertions(+), 15 deletions(-)
-> > > > >
-> > > > > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> > > > > index dd0d056fde..4b56484855 100644
-> > > > > --- a/hw/net/virtio-net.c
-> > > > > +++ b/hw/net/virtio-net.c
-> > > > > @@ -52,12 +52,11 @@
-> > > > >  #define MAX_VLAN    (1 << 12)   /* Per 802.1Q definition */
-> > > > >
-> > > > >  /* previously fixed value */
-> > > > > -#define VIRTIO_NET_RX_QUEUE_DEFAULT_SIZE 256
-> > > > > -#define VIRTIO_NET_TX_QUEUE_DEFAULT_SIZE 256
-> > > > > +#define VIRTIO_NET_VHOST_USER_DEFAULT_SIZE 2048
-> > > > >
-> > > > >  /* for now, only allow larger queue_pairs; with virtio-1, guest can downsize */
-> > > > > -#define VIRTIO_NET_RX_QUEUE_MIN_SIZE VIRTIO_NET_RX_QUEUE_DEFAULT_SIZE
-> > > > > -#define VIRTIO_NET_TX_QUEUE_MIN_SIZE VIRTIO_NET_TX_QUEUE_DEFAULT_SIZE
-> > > > > +#define VIRTIO_NET_RX_QUEUE_MIN_SIZE 256
-> > > > > +#define VIRTIO_NET_TX_QUEUE_MIN_SIZE 256
-> > > > >
-> > > > >  #define VIRTIO_NET_IP4_ADDR_SIZE   8        /* ipv4 saddr + daddr */
-> > > > >
-> > > > > @@ -594,6 +593,28 @@ static int peer_has_ufo(VirtIONet *n)
-> > > > >      return n->has_ufo;
-> > > > >  }
-> > > > >
-> > > > > +static void virtio_net_set_default_queue_size(VirtIONet *n)
-> > > > > +{
-> > > > > +    NetClientState *peer = n->nic_conf.peers.ncs[0];
-> > > > > +
-> > > > > +    /* Default value is 0 if not set */
-> > > > > +    if (n->net_conf.rx_queue_size == 0) {
-> > > > > +        if (peer && peer->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
-> > > > > +            n->net_conf.rx_queue_size = VIRTIO_NET_VHOST_USER_DEFAULT_SIZE;
-> > > > > +        } else {
-> > > > > +            n->net_conf.rx_queue_size = VIRTIO_NET_VQ_MAX_SIZE;
-> > > > > +        }
-> > > > > +    }
-> > > > > +
-> > > > > +    if (n->net_conf.tx_queue_size == 0) {
-> > > > > +        if (peer && peer->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
-> > > > > +            n->net_conf.tx_queue_size = VIRTIO_NET_VHOST_USER_DEFAULT_SIZE;
-> > > > > +        } else {
-> > > > > +            n->net_conf.tx_queue_size = VIRTIO_NET_VQ_MAX_SIZE;
-> > > > > +        }
-> > > > > +    }
-> > > > > +}
-> > > > > +
-> > > > >  static void virtio_net_set_mrg_rx_bufs(VirtIONet *n, int mergeable_rx_bufs,
-> > > > >                                         int version_1, int hash_report)
-> > > > >  {
-> > > > > @@ -633,7 +654,7 @@ static int virtio_net_max_tx_queue_size(VirtIONet *n)
-> > > > >       * size.
-> > > > >       */
-> > > > >      if (!peer) {
-> > > > > -        return VIRTIO_NET_TX_QUEUE_DEFAULT_SIZE;
-> > > > > +        return VIRTIO_NET_VQ_MAX_SIZE;
-> > > > >      }
-> > > > >
-> > > > >      switch(peer->info->type) {
-> > > > > @@ -641,7 +662,7 @@ static int virtio_net_max_tx_queue_size(VirtIONet *n)
-> > > > >      case NET_CLIENT_DRIVER_VHOST_VDPA:
-> > > > >          return VIRTQUEUE_MAX_SIZE;
-> > > > >      default:
-> > > > > -        return VIRTIO_NET_TX_QUEUE_DEFAULT_SIZE;
-> > > > > +        return VIRTIO_NET_VQ_MAX_SIZE;
-> > > > >      };
-> > > > >  }
-> > > > >
-> > > > > @@ -3450,30 +3471,30 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
-> > > > >
-> > > > >      virtio_net_set_config_size(n, n->host_features);
-> > > > >      virtio_init(vdev, VIRTIO_ID_NET, n->config_size);
-> > > > > -
-> > > > > +    virtio_net_set_default_queue_size(n);
-> > > > >      /*
-> > > > >       * We set a lower limit on RX queue size to what it always was.
-> > > > >       * Guests that want a smaller ring can always resize it without
-> > > > >       * help from us (using virtio 1 and up).
-> > > > >       */
-> > > > >      if (n->net_conf.rx_queue_size < VIRTIO_NET_RX_QUEUE_MIN_SIZE ||
-> > > > > -        n->net_conf.rx_queue_size > VIRTQUEUE_MAX_SIZE ||
-> > > > > +        n->net_conf.rx_queue_size > VIRTIO_NET_VQ_MAX_SIZE ||
-> > > > >          !is_power_of_2(n->net_conf.rx_queue_size)) {
-> > > > >          error_setg(errp, "Invalid rx_queue_size (= %" PRIu16 "), "
-> > > > >                     "must be a power of 2 between %d and %d.",
-> > > > >                     n->net_conf.rx_queue_size, VIRTIO_NET_RX_QUEUE_MIN_SIZE,
-> > > > > -                   VIRTQUEUE_MAX_SIZE);
-> > > > > +                   VIRTIO_NET_VQ_MAX_SIZE );
-> > > > >          virtio_cleanup(vdev);
-> > > > >          return;
-> > > > >      }
-> > > > >
-> > > > >      if (n->net_conf.tx_queue_size < VIRTIO_NET_TX_QUEUE_MIN_SIZE ||
-> > > > > -        n->net_conf.tx_queue_size > VIRTQUEUE_MAX_SIZE ||
-> > > > > +        n->net_conf.tx_queue_size > VIRTIO_NET_VQ_MAX_SIZE ||
-> > > > >          !is_power_of_2(n->net_conf.tx_queue_size)) {
-> > > > >          error_setg(errp, "Invalid tx_queue_size (= %" PRIu16 "), "
-> > > > >                     "must be a power of 2 between %d and %d",
-> > > > >                     n->net_conf.tx_queue_size, VIRTIO_NET_TX_QUEUE_MIN_SIZE,
-> > > > > -                   VIRTQUEUE_MAX_SIZE);
-> > > > > +                   VIRTIO_NET_VQ_MAX_SIZE);
-> > > > >          virtio_cleanup(vdev);
-> > > > >          return;
-> > > > >      }
-> > > > > @@ -3751,9 +3772,9 @@ static Property virtio_net_properties[] = {
-> > > > >      DEFINE_PROP_INT32("x-txburst", VirtIONet, net_conf.txburst, TX_BURST),
-> > > > >      DEFINE_PROP_STRING("tx", VirtIONet, net_conf.tx),
-> > > > >      DEFINE_PROP_UINT16("rx_queue_size", VirtIONet, net_conf.rx_queue_size,
-> > > > > -                       VIRTIO_NET_RX_QUEUE_DEFAULT_SIZE),
-> > > > > +                       0),
-> > > > >      DEFINE_PROP_UINT16("tx_queue_size", VirtIONet, net_conf.tx_queue_size,
-> > > > > -                       VIRTIO_NET_TX_QUEUE_DEFAULT_SIZE),
-> > > > > +                       0),
-> > > > >      DEFINE_PROP_UINT16("host_mtu", VirtIONet, net_conf.mtu, 0),
-> > > > >      DEFINE_PROP_BOOL("x-mtu-bypass-backend", VirtIONet, mtu_bypass_backend,
-> > > > >                       true),
-> > > > > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> > > > > index 5d607aeaa0..ad9dfa20e7 100644
-> > > > > --- a/hw/virtio/virtio.c
-> > > > > +++ b/hw/virtio/virtio.c
-> > > > > @@ -2286,11 +2286,15 @@ void virtio_queue_set_rings(VirtIODevice *vdev, int n, hwaddr desc,
-> > > > >
-> > > > >  void virtio_queue_set_num(VirtIODevice *vdev, int n, int num)
-> > > > >  {
-> > > > > +    int vq_max_size = VIRTQUEUE_MAX_SIZE;
-> > > > > +    if (!strcmp(vdev->name, "virtio-net")) {
-> > > > > +        vq_max_size = VIRTIO_NET_VQ_MAX_SIZE;
-> > > > > +    }
-> > > > >      /* Don't allow guest to flip queue between existent and
-> > > > >       * nonexistent states, or to set it to an invalid size.
-> > > > >       */
-> > > > >      if (!!num != !!vdev->vq[n].vring.num ||
-> > > > > -        num > VIRTQUEUE_MAX_SIZE ||
-> > > > > +        num > vq_max_size ||
-> > > > >          num < 0) {
-> > > > >          return;
-> > > > >      }
-> > > > > @@ -2423,7 +2427,7 @@ VirtQueue *virtio_add_queue(VirtIODevice *vdev, int queue_size,
-> > > > >              break;
-> > > > >      }
-> > > > >
-> > > > > -    if (i == VIRTIO_QUEUE_MAX || queue_size > VIRTQUEUE_MAX_SIZE)
-> > > > > +    if (i == VIRTIO_QUEUE_MAX )
-> > > > >          abort();
-> > > > >
-> > > > >      vdev->vq[i].vring.num = queue_size;
-> > > > > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> > > > > index db1c0ddf6b..1f4d2eb5d7 100644
-> > > > > --- a/include/hw/virtio/virtio.h
-> > > > > +++ b/include/hw/virtio/virtio.h
-> > > > > @@ -50,6 +50,7 @@ size_t virtio_feature_get_config_size(const VirtIOFeature *features,
-> > > > >  typedef struct VirtQueue VirtQueue;
-> > > > >
-> > > > >  #define VIRTQUEUE_MAX_SIZE 1024
-> > > > > +#define VIRTIO_NET_VQ_MAX_SIZE (4096)
-> > > > >
-> > > > >  typedef struct VirtQueueElement
-> > > > >  {
-> > > > > --
-> > > > > 2.27.0
-> > > > >
-> >
+-- 
+Damien Le Moal
+Western Digital Research
 
 
