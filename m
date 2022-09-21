@@ -2,81 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 966F35BFF0B
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 15:39:51 +0200 (CEST)
-Received: from localhost ([::1]:56906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E82ED5BFF33
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 15:51:17 +0200 (CEST)
+Received: from localhost ([::1]:46734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oazx8-0006Pj-KK
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 09:39:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59514)
+	id 1ob08D-00033M-6E
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 09:51:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oazVi-0002zw-Mq
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 09:11:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34267)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oazVe-0002p6-S5
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 09:11:26 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:34341)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oazVh-00027v-1E
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 09:11:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663765888;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oZOCkv/SX4mKYSjkgZW7VHX8ve1HftGh3iXNHqQ34WI=;
- b=bP4FG2npRCC6vW+SG22gINCmsD7OoOp0yQFvUyV9PK97hiovHAGGi/uTJLGOmqfw69Gevc
- SJRoMINABSD/tDeFVhzSJy7tZWBcVBN42z3NV4it9ygeNAxlZazkQ+8G6q1HXCcfwcky/L
- lrxsnWW9IwNj7MUTipadLM1gbQiZr64=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-374-x4Gx6IA8NEyHoM-l46hRyQ-1; Wed, 21 Sep 2022 09:11:27 -0400
-X-MC-Unique: x4Gx6IA8NEyHoM-l46hRyQ-1
-Received: by mail-qk1-f200.google.com with SMTP id
- n15-20020a05620a294f00b006b5768a0ed0so4178848qkp.7
- for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 06:11:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=oZOCkv/SX4mKYSjkgZW7VHX8ve1HftGh3iXNHqQ34WI=;
- b=uRoGZQzmHIJItgDhSVWwKxvsaBvUTmVZzTbeV/DIcmllGUTsUu8x5vG3m3xR7TuwHU
- EyJWV5b1SUq3WlNlm8ZHiHxl8gZlBtJdUcjPp22wlDBesB9LAoaoAT/FsbQuPTWBSdGE
- 5lxN7lr+n4K+DEpjpY+O/S+XTpo1vmHbYSxi5B7HnJ6pi/2kfR4+O+KfAngJwS3YerYz
- Nfv9MberZt0xT1HZoj4Zs2zvJU48u6Y+ItXcQcZSiwVYk7Rp09/AKLd0VKYF3MXe7759
- bGnAfdEaEQLAktILRPPVSFHO5zk3ZKiHDcz0etqIgXfX7YLhSOCPckZLaKpvaqTxisqX
- qANg==
-X-Gm-Message-State: ACrzQf3Ij4oMjnfPuK9vJ5gXZpwGuXz73oXQdBMMk3jgcfgcVxpU3rDx
- 4gtBgID/neSF6Z6tmr1air5trdrZoNpVXFxH1t2exw8u1xeAW5Yz/C46KguRRbFofIbX8ID7LSj
- zgTTK3g2SBzms98PR/DUw/O5R9t/kMhc=
-X-Received: by 2002:a05:622a:1a02:b0:35b:bb29:fb86 with SMTP id
- f2-20020a05622a1a0200b0035bbb29fb86mr23320591qtb.456.1663765886407; 
- Wed, 21 Sep 2022 06:11:26 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7UQUb1vouUPd7fJuzZj/+SAS43yczBl0QUJuZ9rHSrSfXpFeqNg9ahEr9/f4gauRFAOjaoUuTEYJqARBkEEz8=
-X-Received: by 2002:a05:622a:1a02:b0:35b:bb29:fb86 with SMTP id
- f2-20020a05622a1a0200b0035bbb29fb86mr23320567qtb.456.1663765886109; Wed, 21
- Sep 2022 06:11:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oazVc-00027T-Ni
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 09:11:26 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1Mw9Dg-1pT5dF1Ncy-00s5Zi; Wed, 21 Sep 2022 15:11:21 +0200
+Message-ID: <e1bb22cd-e530-c27e-b4f9-17ca578fabbf@vivier.eu>
+Date: Wed, 21 Sep 2022 15:11:20 +0200
 MIME-Version: 1.0
-References: <20220906100932.343523-1-richard.henderson@linaro.org>
- <20220906100932.343523-22-richard.henderson@linaro.org>
-In-Reply-To: <20220906100932.343523-22-richard.henderson@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 21 Sep 2022 15:11:15 +0200
-Message-ID: <CABgObfaujCVbfmC5c4ADu=drNdT7kr2-BfggAw0ei+A2fK-mvA@mail.gmail.com>
-Subject: Re: [PATCH v2 21/23] target/i386: Use gen_jmp_rel for DISAS_TOO_MANY
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH 4/4] target/m68k: always call gen_exit_tb() after writes
+ to SR
+Content-Language: fr
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ richard.henderson@linaro.org, lucienmp.qemu@gmail.com, qemu-devel@nongnu.org
+References: <20220917112515.83905-1-mark.cave-ayland@ilande.co.uk>
+ <20220917112515.83905-5-mark.cave-ayland@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220917112515.83905-5-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:XObnv8IxQCoAzlgAHIvl5fzpwZOyhX5j23HdTN2X4NFmQ7iqj0h
+ 0J9/Yio4BGSLMG9A0Ig4Cbpsvz4SMgRyg4mGmflvSDTZzmn0fmMC8+tLzUGmQrK/jenKPry
+ 4nxLuso7WeX9jlMRzUYt3+8yZsQf/bFrWVebQfcRA/GKJPVCJi+IyxLUeiPvEJzfaEQ/h2b
+ nao3BI1oScsG/ScheM2nQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/Tp45Or8m+o=:jAqXIFZCwpfb+7l6KBlSej
+ 1iGwsSjuM9n6PUGgDV6MQDWqcG19Pc0xWk4FaSAfayhmadcCbVswZqrkfflUAj6hValjdMHm1
+ LNuLzZLDC56f8dQ7SfwznfqCRpF4YlDQhzU49NP6Han8UBv+7JaIQqdXUFV5PvzsAzAvKV5sd
+ UJLj75ZFJTUP1A99a9LQwtUCVnOeteVA4n2XsR94cy/xSkmIPzmdFp3GLv4BjpYQabL1yzs3l
+ OwbpAj0YnxPlOk87BaJiYurSKCG60CWkYcwcyt9stnG6u1sUVDwodI1VqukdXBdDMq90rzsYG
+ gbZ04LhvvBvLmkLpyOLmeDiC7xhbrSZm4luKJj0ArEwasN+Pxrjo5LaJSacwBkq9DAfMsIKcu
+ zIn4azj2bf5gdXiJ5tCwpTy9JPgDIJPTRPxPbIKSE6joAlTj41AB0+sarlIeIra0YA5HB2m1Z
+ 2Pr/PpG62azxRTwi94Aiw2o9QhQ/LJ/RfwbidAapxfqOzhBBiDbrFdc6yZZDhrAZnc1Rzldw3
+ Z2SfnhkqKLCc2F+eGidYn6pNpCvLFdHhWygrC4YX1kSzjcvZiRtgmpJ/srKrM14DwAR7ggAft
+ FWI2xDyYSCrN+lwJWO7UvZVtnFCibvYLEBxuI6f80X3CI5DWuPkuwncBvMjBtat4d+Z/S15te
+ BCHDsRVuwAIepMIyKNGmSEkrNTcm+E+/j8Pi2k6b7NLp6g8uZ/6pKAtVpz7PcStyVJQhnr8tA
+ roOWRM/3rNfLL6APbcOXu3gRbrVPLqjyNXjt0ouFXEXilT97rLFpX9/c1ft8Zqg49G1qFyglf
+ Am4tyeD
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.702,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,32 +76,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 6, 2022 at 12:09 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> With gen_jmp_rel, we may chain between two translation blocks
-> which may only be separated because of TB size limits.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Le 17/09/2022 à 13:25, Mark Cave-Ayland a écrit :
+> Any write to SR can change the security state so always call gen_exit_tb() when
+> this occurs. In particular MacOS makes use of andiw/oriw in a few places to
+> handle the switch between user and supervisor mode.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->  target/i386/tcg/translate.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-> index 7a9e533c6e..97a5f7e432 100644
-> --- a/target/i386/tcg/translate.c
-> +++ b/target/i386/tcg/translate.c
-> @@ -8740,6 +8740,9 @@ static void i386_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
->      case DISAS_NORETURN:
->          break;
->      case DISAS_TOO_MANY:
-> +        gen_update_cc_op(dc);
-> +        gen_jmp_rel(dc, MO_32, 0, 0);
-> +        break;
->      case DISAS_EOB_NEXT:
->          gen_update_cc_op(dc);
->          gen_update_eip_cur(dc);
+>   target/m68k/translate.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+> index be5561e1e9..892473d01f 100644
+> --- a/target/m68k/translate.c
+> +++ b/target/m68k/translate.c
+> @@ -2373,6 +2373,7 @@ DISAS_INSN(arith_im)
+>           tcg_gen_or_i32(dest, src1, im);
+>           if (with_SR) {
+>               gen_set_sr(s, dest, opsize == OS_BYTE);
+> +            gen_exit_tb(s);
+>           } else {
+>               DEST_EA(env, insn, opsize, dest, &addr);
+>               gen_logic_cc(s, dest, opsize);
+> @@ -2382,6 +2383,7 @@ DISAS_INSN(arith_im)
+>           tcg_gen_and_i32(dest, src1, im);
+>           if (with_SR) {
+>               gen_set_sr(s, dest, opsize == OS_BYTE);
+> +            gen_exit_tb(s);
+>           } else {
+>               DEST_EA(env, insn, opsize, dest, &addr);
+>               gen_logic_cc(s, dest, opsize);
+> @@ -2405,6 +2407,7 @@ DISAS_INSN(arith_im)
+>           tcg_gen_xor_i32(dest, src1, im);
+>           if (with_SR) {
+>               gen_set_sr(s, dest, opsize == OS_BYTE);
+> +            gen_exit_tb(s);
+>           } else {
+>               DEST_EA(env, insn, opsize, dest, &addr);
+>               gen_logic_cc(s, dest, opsize);
+> @@ -4592,6 +4595,7 @@ DISAS_INSN(strldsr)
+>       }
+>       gen_push(s, gen_get_sr(s));
+>       gen_set_sr_im(s, ext, 0);
+> +    gen_exit_tb(s);
+>   }
+>   
+>   DISAS_INSN(move_from_sr)
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Applied to my m68k-for-7.2 branch
+
+Thanks,
+Laurent
 
 
