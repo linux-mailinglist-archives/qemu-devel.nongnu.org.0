@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E2665BFF4D
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 15:57:12 +0200 (CEST)
-Received: from localhost ([::1]:44130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 670ED5BFF73
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 16:02:30 +0200 (CEST)
+Received: from localhost ([::1]:60888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob0Du-0001Pi-Vy
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 09:57:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51900)
+	id 1ob0J1-0006ip-CY
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 10:02:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oazgL-0005MQ-Ih
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 09:22:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56490)
+ id 1oaznL-0005MY-41
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 09:29:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oazgI-0003zq-Va
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 09:22:28 -0400
+ id 1oaznI-0005YD-Gy
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 09:29:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663766544;
+ s=mimecast20190719; t=1663766979;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3/foKuq3LrMFu91ZFKCszSU+NXTM6Rf9iWUcrpxd2pU=;
- b=Eytg2zjVyLkG5115pnQddwgmBYZ25cud4VGpkif0jTWq2fGomh/5WzPa3f7vtHS5AYMofX
- u0TVwhedpqaTIqMMSVofoYdFq9Oykg0PUWWR4aW0CMEApiZBJt7qgAckHJmftwh63KjP7A
- vvCvdCR677MST7ypIrom5BxGJFfgbFE=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4viXSoPX4odma717Ac2JZ9bpw/fVejS24HPnGvybxj4=;
+ b=UqfheQMFEgTHb4ZBHLGYRtbdeu5OouTswHrHW0m+n0Lkkbq0vp2F/1yZhs9hwO6Ft7PcVJ
+ Ip3UcmCBuOIecD3ZcvnNJymWU/BCefC7YejZb5cWj3oqsTDJMoKJ8t9nfakApq9e5VRHPS
+ 7aHhBJuV/1P+z0/k7tUNIE93VJBV+Zc=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-592-RrxkrozcNGaLOpsyUCKHwA-1; Wed, 21 Sep 2022 09:22:23 -0400
-X-MC-Unique: RrxkrozcNGaLOpsyUCKHwA-1
-Received: by mail-ej1-f69.google.com with SMTP id
- sb32-20020a1709076da000b0077faea20701so3115384ejc.10
- for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 06:22:23 -0700 (PDT)
+ us-mta-154-lnC37vZnM26D0Csb9Q8qVQ-1; Wed, 21 Sep 2022 09:29:30 -0400
+X-MC-Unique: lnC37vZnM26D0Csb9Q8qVQ-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ gv43-20020a1709072beb00b0077c3f58a03eso3105181ejc.4
+ for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 06:29:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date;
- bh=3/foKuq3LrMFu91ZFKCszSU+NXTM6Rf9iWUcrpxd2pU=;
- b=H5vyenHNEZESXg+TYIX/UXnaVytLQoq68eSGnwG+hmZDrUcHFM3CR2xxCgcjayke6C
- cXgxUi0e0o+LJWbJkweYyZGwq+HnGdW7HmANzrUPFopeTNpgrRTOOvwebNQpRPbw2Jzc
- 1sqbbq/3uH4ztrgPeXMJaR1z+HhZwjIs0TxvCENkF0Jd9EMyJcYb405TCDeZNl7/v88M
- xEj10RPO3dHjA/Oh6QMSD/Cl8LFkxMrQ7AD+dyClJ0A3dV7WJ+1jQOmurIpZXj6ZQv//
- dwEXPN8LnwMAYc3C/4s2w4DUHJjcWwhP/DXTvErQF6F5sNNZRCrkznzHjVTRHtSYykRG
- IiYg==
-X-Gm-Message-State: ACrzQf2MDrWLt0OIcDKGpXFMGvZJB62nwNP3UJ0yVMiJ4rkmxu4Nf4ZO
- CSHWoe7jNvoSlcP5oLNXfUZZ2FdN+IGFAfyTzDF69lN8+HUdg+juBryGDr74G4OpnZWLtYwYvwg
- AqvB7v5kYqGbR9Zg=
-X-Received: by 2002:a05:6402:1d4f:b0:450:fd05:628c with SMTP id
- dz15-20020a0564021d4f00b00450fd05628cmr25168255edb.419.1663766540758; 
- Wed, 21 Sep 2022 06:22:20 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6v+p2CjnGXpxRu4mooXPo8reYgaZAccwLzcSiGhLaWsQlMobOjlDRPcMk7UokBDCIDfzT+oA==
-X-Received: by 2002:a05:6402:1d4f:b0:450:fd05:628c with SMTP id
- dz15-20020a0564021d4f00b00450fd05628cmr25168226edb.419.1663766540452; 
- Wed, 21 Sep 2022 06:22:20 -0700 (PDT)
+ bh=4viXSoPX4odma717Ac2JZ9bpw/fVejS24HPnGvybxj4=;
+ b=V4vD5g5mb5QvqDuhGzKWNjUQOI0e+dUxVJNFPPkwirSAd1W+OA/9G41EaHeF1hkH72
+ ujr0DZeju8BQ63Zc4OamfgZ85qifEGmQ8S4tQdRvotTRw5/rLCZQTr4ppjr6kSQo/gcv
+ vC8Cm5ZuX/f5EU5YaKBF9TWSPazrPqRp32v+c7NXQCBv1+R2goYIqYUzSFWjBUy8Jnmr
+ ty3AOZRundmW8W+ONvZtRgrD3t9ZCQDy1TgeWbvGcLeG/mao1EwoAGUYwgvIy6yg6END
+ yEaBVolcnflV6WhCrHAv3CCbN1mPIMyV2AGXUKu5stkFpTjP/75BIqDzr/cEfnzELbq3
+ zvWw==
+X-Gm-Message-State: ACrzQf2iFszMR5jomoljDAM1vKygpXUxgZGLFm3+gZHYbtJ2MRigr9Pw
+ 2CSN9GLtGgC0hHrI1NDopXJhoqWCZOmR17xcaxrqPAU60CC+BraTjA+yyTlAKYGg4Xx1UNjoMCz
+ NniXBOy69zkZQaNU=
+X-Received: by 2002:a05:6402:4402:b0:453:6a9:ef8a with SMTP id
+ y2-20020a056402440200b0045306a9ef8amr24177321eda.85.1663766969669; 
+ Wed, 21 Sep 2022 06:29:29 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5HhBZcxR0obLofgr8VLjF6cMnk0FbuX/g2p9JZMwM+Y8p9i1YMsb7JnV3ti+VVnB1qrKufTQ==
+X-Received: by 2002:a05:6402:4402:b0:453:6a9:ef8a with SMTP id
+ y2-20020a056402440200b0045306a9ef8amr24177296eda.85.1663766969398; 
+ Wed, 21 Sep 2022 06:29:29 -0700 (PDT)
 Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- la17-20020a170907781100b007821f4bc328sm643970ejc.178.2022.09.21.06.22.19
+ ks23-20020a170906f85700b0073dbaeb50f6sm1263551ejb.169.2022.09.21.06.29.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Sep 2022 06:22:19 -0700 (PDT)
-Date: Wed, 21 Sep 2022 15:22:18 +0200
+ Wed, 21 Sep 2022 06:29:28 -0700 (PDT)
+Date: Wed, 21 Sep 2022 15:29:27 +0200
 From: Igor Mammedov <imammedo@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Keqian Zhu <zhukeqian1@huawei.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, qemu-trivial@nongnu.org, Eric Auger
- <eric.auger@redhat.com>, Peter Xu <peterx@redhat.com>,
- wanghaibin.wang@huawei.com
-Subject: Re: [PATCH v2] hw/acpi: Add ospm_status hook implementation for
- acpi-ged
-Message-ID: <20220921152218.7b55dc76@redhat.com>
-In-Reply-To: <CAFEAcA8jdjkZc24FqXBbw+LBJZ5HiCygqY3Y0S2TtmRzdx1P-A@mail.gmail.com>
-References: <20220816094957.31700-1-zhukeqian1@huawei.com>
- <20220824170433.7ba675ca@redhat.com>
- <CAFEAcA8jdjkZc24FqXBbw+LBJZ5HiCygqY3Y0S2TtmRzdx1P-A@mail.gmail.com>
+To: Robert Hoo <robert.hu@linux.intel.com>
+Cc: mst@redhat.com, xiaoguangrong.eric@gmail.com, ani@anisinha.ca,
+ dan.j.williams@intel.com, jingqi.liu@intel.com, qemu-devel@nongnu.org,
+ robert.hu@intel.com
+Subject: Re: [PATCH v3 4/5] acpi/nvdimm: Implement ACPI NVDIMM Label Methods
+Message-ID: <20220921152927.03973518@redhat.com>
+In-Reply-To: <79e4c6a123e5b1edfaaa88f6ea12facedbaf5711.camel@linux.intel.com>
+References: <20220901032721.1392482-1-robert.hu@linux.intel.com>
+ <20220901032721.1392482-5-robert.hu@linux.intel.com>
+ <20220909153910.557fdbe7@redhat.com>
+ <78f021195335f1cc9d01071db58a51539f29c597.camel@linux.intel.com>
+ <20220916093757.689a939f@redhat.com>
+ <80b09055416c790922c7c3db60d2ba865792d1b0.camel@linux.intel.com>
+ <20220920111302.0c1716af@redhat.com>
+ <79e4c6a123e5b1edfaaa88f6ea12facedbaf5711.camel@linux.intel.com>
 X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -90,7 +93,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,45 +109,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 20 Sep 2022 14:15:36 +0100
-Peter Maydell <peter.maydell@linaro.org> wrote:
+On Tue, 20 Sep 2022 20:28:31 +0800
+Robert Hoo <robert.hu@linux.intel.com> wrote:
 
-> On Wed, 24 Aug 2022 at 16:04, Igor Mammedov <imammedo@redhat.com> wrote:
-> >
-> > On Tue, 16 Aug 2022 17:49:57 +0800
-> > Keqian Zhu <zhukeqian1@huawei.com> wrote:
-> >  
-> > > Setup an ARM virtual machine of machine virt and execute qmp "query-acpi-ospm-status"
-> > > causes segmentation fault with following dumpstack:
-> > >  #1  0x0000aaaaab64235c in qmp_query_acpi_ospm_status (errp=errp@entry=0xfffffffff030) at ../monitor/qmp-cmds.c:312
-> > >  #2  0x0000aaaaabfc4e20 in qmp_marshal_query_acpi_ospm_status (args=<optimized out>, ret=0xffffea4ffe90, errp=0xffffea4ffe88) at qapi/qapi-commands-acpi.c:63
-> > >  #3  0x0000aaaaabff8ba0 in do_qmp_dispatch_bh (opaque=0xffffea4ffe98) at ../qapi/qmp-dispatch.c:128
-> > >  #4  0x0000aaaaac02e594 in aio_bh_call (bh=0xffffe0004d80) at ../util/async.c:150
-> > >  #5  aio_bh_poll (ctx=ctx@entry=0xaaaaad0f6040) at ../util/async.c:178
-> > >  #6  0x0000aaaaac00bd40 in aio_dispatch (ctx=ctx@entry=0xaaaaad0f6040) at ../util/aio-posix.c:421
-> > >  #7  0x0000aaaaac02e010 in aio_ctx_dispatch (source=0xaaaaad0f6040, callback=<optimized out>, user_data=<optimized out>) at ../util/async.c:320
-> > >  #8  0x0000fffff76f6884 in g_main_context_dispatch () at /usr/lib64/libglib-2.0.so.0
-> > >  #9  0x0000aaaaac0452d4 in glib_pollfds_poll () at ../util/main-loop.c:297
-> > >  #10 os_host_main_loop_wait (timeout=0) at ../util/main-loop.c:320
-> > >  #11 main_loop_wait (nonblocking=nonblocking@entry=0) at ../util/main-loop.c:596
-> > >  #12 0x0000aaaaab5c9e50 in qemu_main_loop () at ../softmmu/runstate.c:734
-> > >  #13 0x0000aaaaab185370 in qemu_main (argc=argc@entry=47, argv=argv@entry=0xfffffffff518, envp=envp@entry=0x0) at ../softmmu/main.c:38
-> > >  #14 0x0000aaaaab16f99c in main (argc=47, argv=0xfffffffff518) at ../softmmu/main.c:47
-> > >
-> > > Fixes: ebb62075021a ("hw/acpi: Add ACPI Generic Event Device Support")
-> > > Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>  
-> >
-> > Reviewed-by: Igor Mammedov <imammedo@redhat.com>  
+> On Tue, 2022-09-20 at 11:13 +0200, Igor Mammedov wrote:
+> > On Fri, 16 Sep 2022 21:15:35 +0800
+> > Robert Hoo <robert.hu@linux.intel.com> wrote:
+> >   
+> > > On Fri, 2022-09-16 at 09:37 +0200, Igor Mammedov wrote:
+> > >   
+> > > > > Fine, get your point now.
+> > > > > In ASL it will look like this:
+> > > > >                     Local1 = Package (0x3) {STTS, SLSA, MAXT}
+> > > > >                     Return (Local1)    
+> > > > 
+> > > >     
+> > > > > 
+> > > > > But as for 
+> > > > >                     CreateDWordField (Local0, Zero, STTS)  //
+> > > > > Status
+> > > > >                     CreateDWordField (Local0, 0x04, SLSA)  //
+> > > > > SizeofLSA
+> > > > >                     CreateDWordField (Local0, 0x08, MAXT)  //
+> > > > > Max
+> > > > > Trans
+> > > > > 
+> > > > > I cannot figure out how to substitute with LocalX. Can you shed
+> > > > > more
+> > > > > light?    
+> > > > 
+> > > > Leave this as is, there is no way to make it anonymous/local with
+> > > > FooField.
+> > > > 
+> > > > (well one might try to use Index and copy field's bytes into a
+> > > > buffer
+> > > > and
+> > > > then explicitly convert to Integer, but that's a rather
+> > > > convoluted
+> > > > way
+> > > > around limitation so I'd not go this route)
+> > > >     
+> > > 
+> > > OK, pls. take a look, how about this?
+> > > 
+> > > Method (_LSI, 0, Serialized)  // _LSI: Label Storage Information
+> > > {   
+> > >     Local0 = NCAL (ToUUID("4309ac30-0d11-11e4-9191-0800200c9a66"),
+> > > 0x02, 0x04, Zero, One)    // Buffer
+> > >     CreateDWordField (Local0, Zero, STTS)  // Status
+> > >     CreateDWordField (Local0, 0x04, SLSA)  // Size of LSA
+> > >     CreateDWordField (Local0, 0x08, MAXT)  // Max Transfer Size
+> > >     Local1 = Package (0x3) {STTS, SLSA, MAXT}
+> > >     Return (Local1)
+> > > }
+> > > 
+> > > Method (_LSR, 2, Serialized)  // _LSR: Label Storage Read
+> > > {
+> > >     Name (INPT, Buffer(8) {})
+> > >     CreateDWordField (INPT, Zero, OFST);
+> > >     CreateDWordField (INPT, 4, LEN);  
+> > 
+> > why do you have to create and use INPT, wouldn't local be enough to
+> > keep the buffer?  
 > 
-> I notice this doesn't seem to have gone in yet -- whose tree is it
-> going to go via?
-
-I'd guess ARM tree (due to almost sole user virt-arm).
-(there are toy users like microvm and new loongarch)
-
+> If substitute INPT with LocalX, then later
+> Local0 = Package (0x01) {LocalX} isn't accepted.
 > 
-> thanks
-> -- PMM
+> PackageElement :=
+> DataObject | NameString
+
+ok, then respin series and lets get it some testing.
+
+BTW:
+it looks like Windows Server starting from v2019 has support for
+NVDIMM-P devices which came with 'Optane DC Persistent Memory Modules'
+but it fails to recognize NVDIMMs in QEMU (complaining something about
+wrong target). Perhaps you can reach someone with Optane/ACPI
+expertise within your org and try to fix QEMU side.
+
+> >   
+> > >     OFST = Arg0
+> > >     LEN = Arg1
+> > >     Local0 = Package (0x01) {INPT}
+> > >     Local3 = NCAL (ToUUID("4309ac30-0d11-11e4-9191-0800200c9a66"),
+> > > 0x02, 0x05, Local0, One)
+> > >     CreateDWordField (Local3, Zero, STTS)
+> > >     CreateField (Local3, 32, LEN << 3, LDAT)
+> > >     Local1 = Package (0x2) {STTS, toBuffer(LDAT)}
+> > >     Return (Local1)
+> > > }
+> > > 
+> > > Method (_LSW, 3, Serialized)  // _LSW: Label Storage Write
+> > > {
+> > >     Local2 = Arg2
+> > >     Name (INPT, Buffer(8) {})  
+> > 
+> > ditto
+> >   
+> > >     CreateDWordField (INPT, Zero, OFST);
+> > >     CreateDWordField (INPT, 4, TLEN);
+> > >     OFST = Arg0
+> > >     TLEN = Arg1
+> > >     Concatenate(INPT, Local2, INPT)
+> > >     Local0 = Package (0x01)
+> > >     {
+> > >         INPT
+> > >     }
+> > >     Local3 = NCAL (ToUUID ("4309ac30-0d11-11e4-9191-0800200c9a66"),
+> > > 0x02, 0x06, Local0, One)
+> > >     CreateDWordField (Local3, 0, STTS)
+> > >     Return (STTS)
+> > > }  
+> 
 > 
 
 
