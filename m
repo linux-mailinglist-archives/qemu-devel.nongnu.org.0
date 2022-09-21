@@ -2,87 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B73925BF85D
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 09:56:55 +0200 (CEST)
-Received: from localhost ([::1]:42670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9A5E5BF946
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 10:31:11 +0200 (CEST)
+Received: from localhost ([::1]:48568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaubG-0007LS-Eq
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 03:56:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40596)
+	id 1oav8Q-0004cY-0u
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 04:31:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oauVg-0003Ks-Ki
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 03:51:08 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:33734)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oauVb-0000bf-N2
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 03:51:08 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 7BFB71F388;
- Wed, 21 Sep 2022 07:51:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1663746660; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6ExkrAu7X6iI/SaBHAJ5+77eEroSo+DMa5wWxRIn+cw=;
- b=GpD0cMbaw8+o60ZLGcSZ2A5LzukMBb877W0lNTyB89NHIJYnHWijvuh/Q4PpLFgeTCjCWW
- /BvtFSQFRDzgsGHgx7440qG8l2B9LiozzUNtuydlshaGs8Qj/wxmX7WXXfr2tVDDNvq4zA
- GbZluwkRprt5DPO5SOxZppuzccHmaog=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1663746660;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6ExkrAu7X6iI/SaBHAJ5+77eEroSo+DMa5wWxRIn+cw=;
- b=k61t9RT5M9Jiqh887Zy51zukh6SU9ba4qc/LKvDspZMHFPNIvryZWvy7Skb7Om31w+KAAL
- eq8Qv05b/AOkClCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3638813A00;
- Wed, 21 Sep 2022 07:51:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id LGy4C2TCKmPgFgAAMHmgww
- (envelope-from <cfontana@suse.de>); Wed, 21 Sep 2022 07:51:00 +0000
-Message-ID: <eda3f2ce-a828-8c84-60bd-684844eb25b6@suse.de>
-Date: Wed, 21 Sep 2022 09:50:59 +0200
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1oauvU-0006N6-JC; Wed, 21 Sep 2022 04:17:48 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:39496
+ helo=fanzine2.igalia.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1oauvR-000529-0q; Wed, 21 Sep 2022 04:17:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Type:MIME-Version:Message-ID:Date:References:
+ In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:Content-Transfer-Encoding:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=dAzh8scQptASFOfjVEy1wYUkMCILJ7L+7RP7e5IoN0Y=; b=hy44E21QkxTTNj0rkJn4znQPUf
+ knMW1RAk/ZnF9KOU5HD7pBPQpVQuSokWC/Ff1PIsjF0QTeqamcsMX6lupun38HjULrqoFFZE6WY6U
+ Qhb6Gh0ykuydeQ+lrJKfz++pYcUadxzYHreC5B9wgdDOBKU7wAOrysXZDTqrItlrPrqKQScdxU910
+ lQ/RnWWqeRHsxPU91fjVVO5wEHw0axlA9YNXGfK2l3JjJcXJRctX5wzjnf/7U/Ago6jfc+OO/vC7W
+ 3bwW0waqt887MxK3AebxWCJmvJbGikWnuHgI/HSiuAVAkif+6x5UN6lrs6uOE1ybef0wL5JD1bi+v
+ 3aK+xfTw==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtps 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1oauvH-00G5nq-8X; Wed, 21 Sep 2022 10:17:34 +0200
+Received: from gate.service.igalia.com ([192.168.21.52])
+ by mail.igalia.com with esmtp (Exim)
+ id 1oauvE-00Gvop-Q2; Wed, 21 Sep 2022 10:17:34 +0200
+Received: from berto by gate.service.igalia.com with local (Exim 4.94.2)
+ (envelope-from <berto@igalia.com>)
+ id 1oauvE-000yYa-6v; Wed, 21 Sep 2022 08:17:32 +0000
+From: Alberto Garcia <berto@igalia.com>
+To: Wang Liang <wangliangzz@126.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
+Cc: pbonzini@redhat.com, stefanha@redhat.com, silbe@linux.vnet.ibm.com, Wang
+ Liang <wangliangzz@inspur.com>
+Subject: Re: [PATCH] ratelimit: restrict the delay time to a non-negative value
+In-Reply-To: <f4b8e638285a7cfd2bd2e94c0bf9a1176cca0cb7.camel@126.com>
+References: <20220920123350.205391-1-wangliangzz@126.com>
+ <w51h712i3pd.fsf@igalia.com>
+ <f4b8e638285a7cfd2bd2e94c0bf9a1176cca0cb7.camel@126.com>
+Date: Wed, 21 Sep 2022 08:17:32 +0000
+Message-ID: <w511qs5w38j.fsf@igalia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v3 2/3] module: add Error arguments to module_load_one and
- module_load_qom_one
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, dinechin@redhat.com, Gerd Hoffmann
- <kraxel@redhat.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>
-References: <20220908145308.30282-1-cfontana@suse.de>
- <20220908145308.30282-3-cfontana@suse.de>
- <062faaa8-064c-f68a-e316-aaacb80efa5a@linaro.org>
- <3c6cb3ee-2470-654f-c2c4-3449861f9781@suse.de>
- <8682ad9f-aea8-0419-5ff6-c14493e4e980@suse.de> <YynvR49aIK2AzbJ3@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <YynvR49aIK2AzbJ3@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.182,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine2.igalia.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,75 +78,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/20/22 18:50, Kevin Wolf wrote:
-> Am 08.09.2022 um 19:36 hat Claudio Fontana geschrieben:
->> On 9/8/22 19:10, Claudio Fontana wrote:
->>> On 9/8/22 18:03, Richard Henderson wrote:
->>>> On 9/8/22 15:53, Claudio Fontana wrote:
->>>>> @@ -446,8 +447,13 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
->>>>>           return -EINVAL;
->>>>>       }
->>>>>   
->>>>> -    block_module_load_one("dmg-bz2");
->>>>> -    block_module_load_one("dmg-lzfse");
->>>>> +    if (!block_module_load_one("dmg-bz2", &local_err) && local_err) {
->>>>> +        error_report_err(local_err);
->>>>> +    }
->>>>> +    local_err = NULL;
->>>>> +    if (!block_module_load_one("dmg-lzfse", &local_err) && local_err) {
->>>>> +        error_report_err(local_err);
->>>>> +    }
->>>>>   
->>>>>       s->n_chunks = 0;
->>>>>       s->offsets = s->lengths = s->sectors = s->sectorcounts = NULL;
->>>>
->>>> I wonder if these shouldn't fail hard if the modules don't exist?
->>>> Or at least pass back the error.
->>>>
->>>> Kevin?
->>
->> is "dmg-bz" _required_ for dmg open to work? I suspect if the dmg
->> image is not compressed, "dmg" can function even if the extra dmg-bz
->> module is not loaded right?
-> 
-> Indeed. The code seems to consider that the modules may not be present.
-> The behaviour in these cases is questionable (it seems to silently leave
-> the buffers as they are and return success), but the modules are clearly
-> optional.
-> 
->> I'd suspect we should then do:
->>
->> if (!block_module_load_one("dmg-bz2", &local_err)) {
->>   if (local_err) {
->>      error_report_err(local_err);
->>      return -EINVAL;
->>   }
->>   warn_report("dmg-bz2 is not present, dmg will skip bz2-compressed chunks */
->> }
->>
->> and same for dmg-lzfse...?
-> 
-> Actually, I think during initialisation, we should just pass NULL as
-> errp and ignore any errors.
+On Wed 21 Sep 2022 09:47:32 AM +08, Wang Liang wrote:
+>> > -    return limit->slice_end_time - now;
+>> > +    return MAX(limit->slice_end_time - now, 0);
+>> 
+>> How can this be negative? slice_end_time is guaranteed to be larger
+>> than
+>> now:
+>> 
+>>     if (limit->slice_end_time < now) {
+>>         /* Previous, possibly extended, time slice finished; reset
+>> the
+>>          * accounting. */
+>>         limit->slice_start_time = now;
+>>         limit->slice_end_time = now + limit->slice_ns;
+>>         limit->dispatched = 0;
+>>     }
+>> 
+> This is just a guarantee. 
+>
+> If slice_end_time is assigned later by
+>     limit->slice_end_time = limit->slice_start_time +
+>         (uint64_t)(delay_slices * limit->slice_ns);
 
-Hmm really? I'd think that if there is an actual error loading the module (module is installed, but the loading itself fails due to broken module, wrong permissions, I/O errors etc)
-we would want to report that fact as it happens?
+Ok, on a closer look, if at the start of the function
 
-> 
-> When a request would access a block that can't be uncompressed because
-> of the missing module, that's where we can have a warn_report_once() and
-> arguably should fail the I/O request.
-> 
-> Kevin
-> 
+   limit->slice_start_time < now, and
+   limit->slice_end_time >= now
 
-That would mean, moving the
+it seems that in principle what you say can happen.
 
-warn_report("dmg-bz2 is not present, dmg will skip bz2-compressed chunks")
+If it's so, it would be good to know under what conditions this happens,
+because this hasn't changed in years.
 
-to the uncompression code and change it to a warn_report_once() right?
-
-Thanks,
-
-Claudio
+Berto
 
