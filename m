@@ -2,58 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D34FE5BFCF5
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 13:29:25 +0200 (CEST)
-Received: from localhost ([::1]:37542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C009D5BFD6B
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 13:58:45 +0200 (CEST)
+Received: from localhost ([::1]:60992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oaxuu-000251-Dq
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 07:29:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55804)
+	id 1oayNI-0007oH-1x
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 07:58:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1oaxW4-0001Kr-87
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 07:03:49 -0400
-Received: from madras.collabora.co.uk
- ([2a00:1098:0:82:1000:25:2eeb:e5ab]:43882)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oay8v-0001kJ-P2
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 07:43:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22628)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1oaxW1-0008RB-Tp
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 07:03:43 -0400
-Received: from dellino.fritz.box (host-79-53-89-204.retail.telecomitalia.it
- [79.53.89.204])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: fahien)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 29A296602028;
- Wed, 21 Sep 2022 12:03:36 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1663758216;
- bh=c0yHkpMxDJgc2qiwDP6ZJ9ocQz+OQPdFMRxhpD4sGKE=;
- h=From:To:Cc:Subject:Date:From;
- b=gzh0lyr3Z+nrOr6VDxBLJyw+G7oFSnLxRZ9OKFCPR/BisG6Fw2IjIf7DYOIZn0dPr
- b833wQAg5q7DPIrglhTq5pUFzqnWPx1ZNcwWGEqTJdgUclOU31sNY1/rSJ4gnLOrC7
- cOfQtplwLflTmAMhR5ntMReSIT56eqw3Rdu0AZHbl23cmutD6xNfmN9EEFRV6U/uGw
- IBnCnJKN/ajpVqjn3+MaEmatWTXnE4i59p9NlFGCawjamyL9FW9HO2fdkVo2anZtyJ
- NJC4EsOLB43Pd7/MkBbtEz/07q5ZsBdIHbdCpP6Yu5rqTAXyco8339RUtxWnU20iSP
- P9oeU1hnusW0Q==
-From: Antonio Caggiano <antonio.caggiano@collabora.com>
-To: qemu-devel@nongnu.org
-Cc: gert.wollny@collabora.com, dmitry.osipenko@collabora.com,
- "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH] virtio-gpu: Resource UUID
-Date: Wed, 21 Sep 2022 13:03:25 +0200
-Message-Id: <20220921110326.226981-1-antonio.caggiano@collabora.com>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oay8q-0000us-6C
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 07:43:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663760627;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=M8texLtq1hBzHUDUbn1p4Gd7zKHsoqvG390lu2DRTuo=;
+ b=U83ujrbfBQud2PUoTunfQeZ0fZaxp2BeoZgNmn+bIsIDnu19NeFAzv9PID3ixmNewRyqqo
+ PQsCgYaL5XIfPmUDfotqbs1bam4ok00Rril4fM4esibGLaiblzayHgxFZmgHPrUhTOgKQc
+ 4HNySerKfPkhiRh7HfEieWoLYOlqr04=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-589-ilaUJKqxMP-uzeDEZfruWg-1; Wed, 21 Sep 2022 07:43:45 -0400
+X-MC-Unique: ilaUJKqxMP-uzeDEZfruWg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8A4A3862FE1;
+ Wed, 21 Sep 2022 11:43:45 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 906F31121314;
+ Wed, 21 Sep 2022 11:43:42 +0000 (UTC)
+Date: Wed, 21 Sep 2022 13:43:40 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: Claudio Fontana <cfontana@suse.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ dinechin@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v3 2/3] module: add Error arguments to module_load_one
+ and module_load_qom_one
+Message-ID: <Yyr47JwudwU7JYQq@redhat.com>
+References: <20220908145308.30282-1-cfontana@suse.de>
+ <20220908145308.30282-3-cfontana@suse.de>
+ <062faaa8-064c-f68a-e316-aaacb80efa5a@linaro.org>
+ <3c6cb3ee-2470-654f-c2c4-3449861f9781@suse.de>
+ <8682ad9f-aea8-0419-5ff6-c14493e4e980@suse.de>
+ <YynvR49aIK2AzbJ3@redhat.com> <87r105gwtl.fsf@pond.sub.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1098:0:82:1000:25:2eeb:e5ab;
- envelope-from=antonio.caggiano@collabora.com; helo=madras.collabora.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87r105gwtl.fsf@pond.sub.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,175 +88,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable resource UUID feature and implement command resource assign UUID.
-This is done by introducing a hash table to map resource IDs to their
-UUIDs.
+Am 21.09.2022 um 06:45 hat Markus Armbruster geschrieben:
+> Kevin Wolf <kwolf@redhat.com> writes:
+> 
+> > Am 08.09.2022 um 19:36 hat Claudio Fontana geschrieben:
+> >> On 9/8/22 19:10, Claudio Fontana wrote:
+> >> > On 9/8/22 18:03, Richard Henderson wrote:
+> >> >> On 9/8/22 15:53, Claudio Fontana wrote:
+> >> >>> @@ -446,8 +447,13 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
+> >> >>>           return -EINVAL;
+> >> >>>       }
+> >> >>>   
+> >> >>> -    block_module_load_one("dmg-bz2");
+> >> >>> -    block_module_load_one("dmg-lzfse");
+> >> >>> +    if (!block_module_load_one("dmg-bz2", &local_err) && local_err) {
+> >> >>> +        error_report_err(local_err);
+> >> >>> +    }
+> >> >>> +    local_err = NULL;
+> >> >>> +    if (!block_module_load_one("dmg-lzfse", &local_err) && local_err) {
+> >> >>> +        error_report_err(local_err);
+> >> >>> +    }
+> >> >>>   
+> >> >>>       s->n_chunks = 0;
+> >> >>>       s->offsets = s->lengths = s->sectors = s->sectorcounts = NULL;
+> >> >>
+> >> >> I wonder if these shouldn't fail hard if the modules don't exist?
+> >> >> Or at least pass back the error.
+> >> >>
+> >> >> Kevin?
+> >> 
+> >> is "dmg-bz" _required_ for dmg open to work? I suspect if the dmg
+> >> image is not compressed, "dmg" can function even if the extra dmg-bz
+> >> module is not loaded right?
+> >
+> > Indeed. The code seems to consider that the modules may not be present.
+> > The behaviour in these cases is questionable (it seems to silently leave
+> > the buffers as they are and return success), but the modules are clearly
+> > optional.
+> >
+> >> I'd suspect we should then do:
+> >> 
+> >> if (!block_module_load_one("dmg-bz2", &local_err)) {
+> >>   if (local_err) {
+> >>      error_report_err(local_err);
+> >>      return -EINVAL;
+> >>   }
+> >>   warn_report("dmg-bz2 is not present, dmg will skip bz2-compressed chunks */
+> >> }
+> >> 
+> >> and same for dmg-lzfse...?
+> >
+> > Actually, I think during initialisation, we should just pass NULL as
+> > errp and ignore any errors.
+> >
+> > When a request would access a block that can't be uncompressed because
+> > of the missing module, that's where we can have a warn_report_once() and
+> > arguably should fail the I/O request.
+> 
+> Seems like asking for data corruption.  To avoid it, the complete stack
+> needs to handle I/O errors correctly.
 
-Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
----
- hw/display/trace-events        |  1 +
- hw/display/virtio-gpu-base.c   |  2 ++
- hw/display/virtio-gpu-virgl.c  | 11 ++++++++++
- hw/display/virtio-gpu.c        | 40 ++++++++++++++++++++++++++++++++++
- include/hw/virtio/virtio-gpu.h |  4 ++++
- 5 files changed, 58 insertions(+)
+If you have any component that doesn't handle I/O errors correctly, keep
+it far away from your data because it _will_ cause corruption eventually.
+The earlier it fails, the better for you.
 
-diff --git a/hw/display/trace-events b/hw/display/trace-events
-index 0c0ffcbe42..6632344322 100644
---- a/hw/display/trace-events
-+++ b/hw/display/trace-events
-@@ -41,6 +41,7 @@ virtio_gpu_cmd_res_create_blob(uint32_t res, uint64_t size) "res 0x%x, size %" P
- virtio_gpu_cmd_res_unref(uint32_t res) "res 0x%x"
- virtio_gpu_cmd_res_back_attach(uint32_t res) "res 0x%x"
- virtio_gpu_cmd_res_back_detach(uint32_t res) "res 0x%x"
-+virtio_gpu_cmd_res_assign_uuid(uint32_t res) "res 0x%x"
- virtio_gpu_cmd_res_xfer_toh_2d(uint32_t res) "res 0x%x"
- virtio_gpu_cmd_res_xfer_toh_3d(uint32_t res) "res 0x%x"
- virtio_gpu_cmd_res_xfer_fromh_3d(uint32_t res) "res 0x%x"
-diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
-index a29f191aa8..157d280b14 100644
---- a/hw/display/virtio-gpu-base.c
-+++ b/hw/display/virtio-gpu-base.c
-@@ -216,6 +216,8 @@ virtio_gpu_base_get_features(VirtIODevice *vdev, uint64_t features,
-         features |= (1 << VIRTIO_GPU_F_RESOURCE_BLOB);
-     }
- 
-+    features |= (1 << VIRTIO_GPU_F_RESOURCE_UUID);
-+
-     return features;
- }
- 
-diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
-index 73cb92c8d5..7adb6be993 100644
---- a/hw/display/virtio-gpu-virgl.c
-+++ b/hw/display/virtio-gpu-virgl.c
-@@ -43,6 +43,10 @@ static void virgl_cmd_create_resource_2d(VirtIOGPU *g,
-     args.nr_samples = 0;
-     args.flags = VIRTIO_GPU_RESOURCE_FLAG_Y_0_TOP;
-     virgl_renderer_resource_create(&args, NULL, 0);
-+
-+    struct virtio_gpu_simple_resource *res = g_new0(struct virtio_gpu_simple_resource, 1);
-+    res->resource_id = c2d.resource_id;
-+    QTAILQ_INSERT_HEAD(&g->reslist, res, next);
- }
- 
- static void virgl_cmd_create_resource_3d(VirtIOGPU *g,
-@@ -67,6 +71,10 @@ static void virgl_cmd_create_resource_3d(VirtIOGPU *g,
-     args.nr_samples = c3d.nr_samples;
-     args.flags = c3d.flags;
-     virgl_renderer_resource_create(&args, NULL, 0);
-+
-+    struct virtio_gpu_simple_resource *res = g_new0(struct virtio_gpu_simple_resource, 1);
-+    res->resource_id = c3d.resource_id;
-+    QTAILQ_INSERT_HEAD(&g->reslist, res, next);
- }
- 
- static void virgl_cmd_resource_unref(VirtIOGPU *g,
-@@ -452,6 +460,9 @@ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
-         /* TODO add security */
-         virgl_cmd_ctx_detach_resource(g, cmd);
-         break;
-+    case VIRTIO_GPU_CMD_RESOURCE_ASSIGN_UUID:
-+        virtio_gpu_resource_assign_uuid(g, cmd);
-+        break;
-     case VIRTIO_GPU_CMD_GET_CAPSET_INFO:
-         virgl_cmd_get_capset_info(g, cmd);
-         break;
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 20cc703dcc..67e39fa839 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -937,6 +937,37 @@ virtio_gpu_resource_detach_backing(VirtIOGPU *g,
-     virtio_gpu_cleanup_mapping(g, res);
- }
- 
-+void virtio_gpu_resource_assign_uuid(VirtIOGPU *g,
-+                                     struct virtio_gpu_ctrl_command *cmd)
-+{
-+    struct virtio_gpu_simple_resource *res;
-+    struct virtio_gpu_resource_assign_uuid assign;
-+    struct virtio_gpu_resp_resource_uuid resp;
-+    QemuUUID *uuid = NULL;
-+
-+    VIRTIO_GPU_FILL_CMD(assign);
-+    virtio_gpu_bswap_32(&assign, sizeof(assign));
-+    trace_virtio_gpu_cmd_res_assign_uuid(assign.resource_id);
-+
-+    res = virtio_gpu_find_check_resource(g, assign.resource_id, false, __func__, &cmd->error);
-+    if (!res) {
-+        return;
-+    }
-+
-+    memset(&resp, 0, sizeof(resp));
-+    resp.hdr.type = VIRTIO_GPU_RESP_OK_RESOURCE_UUID;
-+
-+    uuid = g_hash_table_lookup(g->resource_uuids, GUINT_TO_POINTER(assign.resource_id));
-+    if (!uuid) {
-+        uuid = g_new(QemuUUID, 1);
-+        qemu_uuid_generate(uuid);
-+        g_hash_table_insert(g->resource_uuids, GUINT_TO_POINTER(assign.resource_id), uuid);
-+    }
-+
-+    memcpy(resp.uuid, uuid, sizeof(QemuUUID));
-+    virtio_gpu_ctrl_response(g, cmd, &resp.hdr, sizeof(resp));
-+}
-+
- void virtio_gpu_simple_process_cmd(VirtIOGPU *g,
-                                    struct virtio_gpu_ctrl_command *cmd)
- {
-@@ -985,6 +1016,9 @@ void virtio_gpu_simple_process_cmd(VirtIOGPU *g,
-     case VIRTIO_GPU_CMD_RESOURCE_DETACH_BACKING:
-         virtio_gpu_resource_detach_backing(g, cmd);
-         break;
-+    case VIRTIO_GPU_CMD_RESOURCE_ASSIGN_UUID:
-+        virtio_gpu_resource_assign_uuid(g, cmd);
-+        break;
-     default:
-         cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
-         break;
-@@ -1343,6 +1377,8 @@ void virtio_gpu_device_realize(DeviceState *qdev, Error **errp)
-     QTAILQ_INIT(&g->reslist);
-     QTAILQ_INIT(&g->cmdq);
-     QTAILQ_INIT(&g->fenceq);
-+
-+    g->resource_uuids = g_hash_table_new_full(NULL, NULL, NULL, g_free);
- }
- 
- void virtio_gpu_reset(VirtIODevice *vdev)
-@@ -1368,6 +1404,10 @@ void virtio_gpu_reset(VirtIODevice *vdev)
-         g_free(cmd);
-     }
- 
-+    if (g->resource_uuids) {
-+        g_hash_table_remove_all(g->resource_uuids);
-+    }
-+
-     virtio_gpu_base_reset(VIRTIO_GPU_BASE(vdev));
- }
- 
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-index 2e28507efe..41aed312f5 100644
---- a/include/hw/virtio/virtio-gpu.h
-+++ b/include/hw/virtio/virtio-gpu.h
-@@ -189,6 +189,8 @@ struct VirtIOGPU {
-         QTAILQ_HEAD(, VGPUDMABuf) bufs;
-         VGPUDMABuf *primary[VIRTIO_GPU_MAX_SCANOUTS];
-     } dmabuf;
-+
-+    GHashTable *resource_uuids;
- };
- 
- struct VirtIOGPUClass {
-@@ -258,6 +260,8 @@ int virtio_gpu_create_mapping_iov(VirtIOGPU *g,
-                                   uint32_t *niov);
- void virtio_gpu_cleanup_mapping_iov(VirtIOGPU *g,
-                                     struct iovec *iov, uint32_t count);
-+void virtio_gpu_resource_assign_uuid(VirtIOGPU *g,
-+                                     struct virtio_gpu_ctrl_command *cmd);
- void virtio_gpu_process_cmdq(VirtIOGPU *g);
- void virtio_gpu_device_realize(DeviceState *qdev, Error **errp);
- void virtio_gpu_reset(VirtIODevice *vdev);
--- 
-2.34.1
+I don't think we should put great effort into making fundamentally
+broken software a little bit less broken in the corner case that you're
+least likely to hit.
+
+> Can we detect presence of compressed blocks on open?
+
+We seem to read in the full metadata of the image in dmg_open(). So I
+think it would be possible to detect it there.
+
+dmg_read_mish_block() is what fills in s->types. However, it never fills
+in types that it doesn't know (and it pretends it doesn't know the types
+of compressed blocks whose module is not loaded). So instead of checking
+it in dmg_open() after dmg_read_mish_block() has completed, you would
+have to catch the situation already in dmg_read_mish_block() while
+parsing the image file, which should be entirely doable if you want.
+
+This is a change in dmg's behaviour, though, which is not the goal of
+the proposed patch. So if we want to do that, it should be a separate
+patch.
+
+Kevin
 
 
