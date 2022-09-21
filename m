@@ -2,82 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 829175E5442
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 22:12:52 +0200 (CEST)
-Received: from localhost ([::1]:35828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EC235E5475
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 22:23:24 +0200 (CEST)
+Received: from localhost ([::1]:54560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob65T-00040f-Cn
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 16:12:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58828)
+	id 1ob6Ff-0007kb-9m
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 16:23:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ob62c-0000wS-7l
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 16:09:54 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33765)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1ob69g-0004Vj-HK
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 16:17:20 -0400
+Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135]:35640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ob62a-0004x8-KX
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 16:09:53 -0400
-Received: by mail-wr1-x436.google.com with SMTP id s14so9923164wro.0
- for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 13:09:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=nnMQaUJgGDfQ0HBu7DMpicGUrb8sXKnj46LJ/bxnTDc=;
- b=AU0OEEqYcIqCrgH6COhhE7F+wcMADIQEZn8Ozt11sfzTR8QqFaElOVbgPYiIo6tW7q
- AyvBcBc5BsFsxpw3GglNyMbPDxv/kIst4EEZbW7imY6h4kXx3jvlQn3aacwtTTkyG9et
- /4jPpackutnkA0zBfXU8UtsECK9vpmmgWk3wY/UZoxthnN5knlWou0LJzRPQyjyV0nZR
- eElTPTY0P+YZylTJUQ56xNtmmWgOzhnsNeKWbXupuqRE9x1ZMJhpLTY8ZqDIXWVTvB7P
- 4WjWHyYuPTJdmhWUxTPaxUMtg3S3C2GmAvsMUWLxNA5j49QCjBhsvsuKNTHKMepOifAm
- rD4Q==
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1ob69c-0006DI-Pw
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 16:17:12 -0400
+Received: by mail-lf1-x135.google.com with SMTP id z25so11144004lfr.2
+ for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 13:17:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=Bd0ADN6kOy/s6hK/meYtB1/WHeNDc88GL+aW20dj/ag=;
+ b=Hg8OAkDOIS0xsq/DmCWrait60t9XJ4FEbivosNEaQIZ45VsxjVZvBUYA6JCH1HaQtU
+ BZ+lUDNO2+h6NT+cGedkt0vPyWVpBA5JgZSlLGfdVFMQAj5ILl9catOhbCc4JHoVQamM
+ NYZGDjjpCoyZMgxn4hJG5PPx0qcLqwwfJ4btEgVCbOpmain59cSqLlNoqs7dh8/6KSIt
+ Grprh+fcv+rP2ZWqUpq5YuSohncQbKo00TBDKn7odoWX3ga5r8egP01wQniy7GqfTYS4
+ 91iNrl/VLzJ1f6HvytJf5PNg2Sta+0UwFYZpNEiGdZodg538zENwIqtGZtl6byxf80YU
+ 2XFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=nnMQaUJgGDfQ0HBu7DMpicGUrb8sXKnj46LJ/bxnTDc=;
- b=rCo16BiOZNn2ZzR72kObOYuzbBGt8SmeK6KOv9RYHjrPH7hy5F+Uawymu7A+7SLZbg
- gWizjcr005R5QZiQiKrTJxTu4Td8wXH00w3H3EECZX9latQPjqKoLcLeZl+0pYJobge1
- RYqRJifj/okQs0fzgj7nH0jQlUCrKW88luHFHgJcjL22ApxSWMF1i816cGG+PAjhiC5Q
- fUu1Kzobpj0Vnm2GIpIvUXLMGZ4GpQpVUA91K8i/nK8cYLMp3ZvYgul6GZlL5RJkuXau
- oxy8dRLaVaNLk/MsKbJ3rAZC/0uyuZ57jFbmdjYmlT7NqBVjAluL6LZln32HHao8wdb0
- bAwQ==
-X-Gm-Message-State: ACrzQf0BMWTQgjsywoVMehSbvQ49iE1IYKl9d1nuaFYLfAPeiFtEMXtZ
- uICZSCqZD2VN3VWa9oAGa7LmIA==
-X-Google-Smtp-Source: AMsMyM68lAMPBm5D+1utKqtxbuoYKo2XgTFhqQDSHNq34hoAptDFOcq2XeBmRFJsDTrPH1XRF/VkTw==
-X-Received: by 2002:a05:6000:1d93:b0:22a:3318:860d with SMTP id
- bk19-20020a0560001d9300b0022a3318860dmr18301025wrb.352.1663790990995; 
- Wed, 21 Sep 2022 13:09:50 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=Bd0ADN6kOy/s6hK/meYtB1/WHeNDc88GL+aW20dj/ag=;
+ b=0SsbpEP78TwqkLaYNuOm+ssRRrj6/287Ib6N2c3oO63+0qEKD44aL+exsWzGIB/5Ft
+ A5m4V+qtx08OifEz7YyELV2vEDZQyHq94/7YNqjwPi0u9IM/AsmLkwppK1PsXQ9G+GyV
+ HRU10RT7kWJD1h8SpWiwMOdHZGIc1cU5MccbJpJscN07Z6QFwnGL1QtOwfc0BQmKJMY9
+ iVL+V/aG392HFfKw9C82aZaSY0FfWCcVHnexvNf5CVEsf86vFCvlMTDY4tf00+gV9d7j
+ PcYkgSpqiVBjrW2xZqNhQjT+qATvYXtGNxWwsybb72SLzGqrPvzg8tJ8NvfxwtynS1dG
+ Fwvw==
+X-Gm-Message-State: ACrzQf0tuAO8el4S5xip/vArwGtDjaPVZUXL/5gWOq/VW5qg5QQmU41r
+ D1NdQ/k2rEQ/HxowmC3IvWEMvbSwM6Yd5A==
+X-Google-Smtp-Source: AMsMyM4BVslgASwjDUOvo3RW2W1duEgGY33fFlDDKACUY/AS2HOjER0pSehHHH37xJkpEzY0Tz43Xg==
+X-Received: by 2002:a05:6512:31d1:b0:499:fa38:3d7b with SMTP id
+ j17-20020a05651231d100b00499fa383d7bmr10459167lfe.544.1663791425835; 
+ Wed, 21 Sep 2022 13:17:05 -0700 (PDT)
+Received: from gmail.com (81-232-4-135-no39.tbcn.telia.com. [81.232.4.135])
  by smtp.gmail.com with ESMTPSA id
- c7-20020adffb47000000b00226dfac0149sm3306997wrs.114.2022.09.21.13.09.50
+ h2-20020ac250c2000000b00497aa190523sm569394lfm.248.2022.09.21.13.17.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Sep 2022 13:09:50 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DB2BF1FFB7;
- Wed, 21 Sep 2022 21:09:49 +0100 (BST)
-References: <20220906091126.298041-1-richard.henderson@linaro.org>
- <20220906091126.298041-3-richard.henderson@linaro.org>
-User-agent: mu4e 1.9.0; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 2/7] accel/tcg: Use DisasContextBase in
- plugin_gen_tb_start
-Date: Wed, 21 Sep 2022 21:09:27 +0100
-In-reply-to: <20220906091126.298041-3-richard.henderson@linaro.org>
-Message-ID: <87edw45w1e.fsf@linaro.org>
+ Wed, 21 Sep 2022 13:17:05 -0700 (PDT)
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+ edgar.iglesias@amd.com
+Subject: [PULL v1 0/1] Xilinx queue
+Date: Wed, 21 Sep 2022 22:17:04 +0200
+Message-Id: <20220921201705.1309392-1-edgar.iglesias@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::135;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x135.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,20 +87,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: "Edgar E. Iglesias" <edgar.iglesias@amd.com>
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+The following changes since commit 2906f933dd1de6d94c54881cc16ea7390a6ba300:
 
-> Use the pc coming from db->pc_first rather than the TB.
->
-> Use the cached host_addr rather than re-computing for the
-> first page.  We still need a separate lookup for the second
-> page because it won't be computed for DisasContextBase until
-> the translator actually performs a read from the page.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+  Merge tag 'pull-request-2022-09-20' of https://gitlab.com/thuth/qemu into staging (2022-09-20 16:24:07 -0400)
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+are available in the Git repository at:
 
---=20
-Alex Benn=C3=A9e
+  git@github.com:edgarigl/qemu.git tags/edgar/xilinx-next-2022-09-21.for-upstream
+
+for you to fetch changes up to b91b6b5a2cd83a096116929dfc8e016091080adc:
+
+  hw/microblaze: pass random seed to fdt (2022-09-21 19:59:56 +0200)
+
+----------------------------------------------------------------
+Xilinx queue
+
+----------------------------------------------------------------
+Jason A. Donenfeld (1):
+      hw/microblaze: pass random seed to fdt
+
+ hw/microblaze/boot.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+Jason A. Donenfeld (1):
+  hw/microblaze: pass random seed to fdt
+
+ hw/microblaze/boot.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+-- 
+2.25.1
+
 
