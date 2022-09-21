@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0034D5BFD82
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 14:08:25 +0200 (CEST)
-Received: from localhost ([::1]:57028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFA7E5BFDD4
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 14:31:10 +0200 (CEST)
+Received: from localhost ([::1]:58560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oayWf-00061c-2h
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 08:08:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52684)
+	id 1oaysf-0000oG-Vs
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 08:31:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oayGv-00072A-Oj
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 07:52:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41855)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oayKy-0003OV-Sl
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 07:56:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49968)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oayGt-0002Sm-Vo
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 07:52:09 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oayKw-0003ER-4Y
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 07:56:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663761127;
+ s=mimecast20190719; t=1663761377;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tU6kBEuq4wCNXIwXpeHKB41YIzqLk5NsQ9O9tPgFQpg=;
- b=hwZqBbUSsrNxVjFQJJCva2FEW0/wfDCtecUH/vGxBDuQauyF946BF5sr3eMALai9oeNpRp
- ZKHL/1hnMkMZR04eQbTBABDMUII2A6iAABPeBL/lQyg2hZGgVDXGd4hdND+/jkwS9Sv2Ol
- Xp9ZP12EKf1D3kjPZCE9KcWoXkoOKPM=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-661-srW1ad-tNdWlSFn0g16Zhw-1; Wed, 21 Sep 2022 07:52:05 -0400
-X-MC-Unique: srW1ad-tNdWlSFn0g16Zhw-1
-Received: by mail-qk1-f199.google.com with SMTP id
- h8-20020a05620a284800b006b5c98f09fbso4092958qkp.21
- for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 04:52:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=tU6kBEuq4wCNXIwXpeHKB41YIzqLk5NsQ9O9tPgFQpg=;
- b=U0O7k07BkaN3WrLAFg9wQuqm7T0F+GVwaEhGoprAdmqUGWYLWsYDQ91LFy1b1e7PpS
- ctOGwbIua58/CyDcUCrSRP7jpLXlXMDOLCLMjkGheS6Ytz773LFUO0XijjV4yDRB8ZIr
- 71D6Btcrilofw9APaXvqzGB1nKMIYA+xgmPI4n8mnhHnMlzj7Im1BZq/VPRxqWyvKb+1
- JX+sjs+NAngOqNjGh13UfDJN5WH3tPziAtzckjyBsKQEk2tFoRyOXzREJUti0AQ98c+E
- nNB+FCM0/tfdtuov0JkKnfFT5bY8QUCY6rrT4qBztkI9BzOuw3P8/ra9t8n8DthQ6Q4e
- zJKw==
-X-Gm-Message-State: ACrzQf2biIoSiuwMym0npLJwDXrFG+/G8VHFP14zIF1zaSODud8MPr83
- Icu/dE3Mk7W8MagRQs6DZ/K6wHCvXPGCpYYqQZqPn9+2z4aZDZ2XTIho8XXALA4QQ3yIRqp/ZG3
- 25Du5GGEhtGX/9WAGFoGfEd7O0wUB5/E=
-X-Received: by 2002:a05:620a:3725:b0:6ce:e7b3:d8e4 with SMTP id
- de37-20020a05620a372500b006cee7b3d8e4mr13275987qkb.144.1663761125164; 
- Wed, 21 Sep 2022 04:52:05 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6IyzQS0FfcKsP4of8FPTmRlTsBuN8Dr6RU7BLGSE9n7nGw0jbXvl9EH0wbLq0A6PhQqoPLrqhYvNInig7tGTE=
-X-Received: by 2002:a05:620a:3725:b0:6ce:e7b3:d8e4 with SMTP id
- de37-20020a05620a372500b006cee7b3d8e4mr13275976qkb.144.1663761124914; Wed, 21
- Sep 2022 04:52:04 -0700 (PDT)
+ bh=YJGiDJAV79JY+fnDctbeoAuhRNrA9bxNhl0fkeeyCc4=;
+ b=aTfcRlsBNkRnCauoBX7gl34+zt9tPi6y8q1LEB+69CbPgmtcZpv/oTvDlFJQuiRKqBv1a5
+ LfNHs/7ohKsMYqfqWDSDZrPEi8pKs5gUtgYRox6HWrtxilZzQgdH/Im2n6iDiba4kKbv9j
+ gR8yXqMnXbWKRKhl880jaD1B4wetEFY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-133-7aTe_gcxOKWiGuxOGh3kEw-1; Wed, 21 Sep 2022 07:56:14 -0400
+X-MC-Unique: 7aTe_gcxOKWiGuxOGh3kEw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 12A0B1C0BE08;
+ Wed, 21 Sep 2022 11:56:14 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 650A0492B15;
+ Wed, 21 Sep 2022 11:56:12 +0000 (UTC)
+Date: Wed, 21 Sep 2022 13:56:11 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ dinechin@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v3 2/3] module: add Error arguments to module_load_one
+ and module_load_qom_one
+Message-ID: <Yyr72+YyYrhG2zTo@redhat.com>
+References: <20220908145308.30282-1-cfontana@suse.de>
+ <20220908145308.30282-3-cfontana@suse.de>
+ <062faaa8-064c-f68a-e316-aaacb80efa5a@linaro.org>
+ <3c6cb3ee-2470-654f-c2c4-3449861f9781@suse.de>
+ <8682ad9f-aea8-0419-5ff6-c14493e4e980@suse.de>
+ <YynvR49aIK2AzbJ3@redhat.com>
+ <eda3f2ce-a828-8c84-60bd-684844eb25b6@suse.de>
 MIME-Version: 1.0
-References: <20220906100932.343523-1-richard.henderson@linaro.org>
- <20220906100932.343523-5-richard.henderson@linaro.org>
- <f8985dc3-1c96-32c9-c450-2eec6ebd07b1@amsat.org>
-In-Reply-To: <f8985dc3-1c96-32c9-c450-2eec6ebd07b1@amsat.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 21 Sep 2022 13:51:54 +0200
-Message-ID: <CABgObfYeBdFqTMgQk+f7-DGr_eZR7kVTrxz2PvJcMj=2Qg5OhQ@mail.gmail.com>
-Subject: Re: [PATCH v2 04/23] target/i386: Remove cur_eip, next_eip arguments
- to gen_interrupt
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eda3f2ce-a828-8c84-60bd-684844eb25b6@suse.de>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -97,40 +89,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 6, 2022 at 4:46 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
-> wrote:
->
-> On 6/9/22 12:09, Richard Henderson wrote:
-> > All callers pass s->base.pc_next and s->pc, which we can just
-> > as well compute within the function.
-> >
-> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> > ---
-> >   target/i386/tcg/translate.c | 13 ++++++-------
-> >   1 file changed, 6 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-> > index 58e74c3162..0210382f77 100644
-> > --- a/target/i386/tcg/translate.c
-> > +++ b/target/i386/tcg/translate.c
-> > @@ -2602,13 +2602,12 @@ static void gen_unknown_opcode(CPUX86State *env=
-, DisasContext *s)
-> >
-> >   /* an interrupt is different from an exception because of the
-> >      privilege checks */
-> > -static void gen_interrupt(DisasContext *s, int intno,
-> > -                          target_ulong cur_eip, target_ulong next_eip)
-> > +static void gen_interrupt(DisasContext *s, int intno)
-> >   {
-> >       gen_update_cc_op(s);
-> > -    gen_jmp_im(s, cur_eip);
-> > -    gen_helper_raise_interrupt(cpu_env, tcg_const_i32(intno),
-> > -                               tcg_const_i32(next_eip - cur_eip));
-> > +    gen_jmp_im(s, s->base.pc_next - s->cs_base);
-> > +    gen_helper_raise_interrupt(cpu_env, tcg_constant_i32(intno),
-> > +                               tcg_constant_i32(s->pc - s->base.pc_nex=
-t));
+Am 21.09.2022 um 09:50 hat Claudio Fontana geschrieben:
+> On 9/20/22 18:50, Kevin Wolf wrote:
+> > Am 08.09.2022 um 19:36 hat Claudio Fontana geschrieben:
+> >> On 9/8/22 19:10, Claudio Fontana wrote:
+> >>> On 9/8/22 18:03, Richard Henderson wrote:
+> >>>> On 9/8/22 15:53, Claudio Fontana wrote:
+> >>>>> @@ -446,8 +447,13 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
+> >>>>>           return -EINVAL;
+> >>>>>       }
+> >>>>>   
+> >>>>> -    block_module_load_one("dmg-bz2");
+> >>>>> -    block_module_load_one("dmg-lzfse");
+> >>>>> +    if (!block_module_load_one("dmg-bz2", &local_err) && local_err) {
+> >>>>> +        error_report_err(local_err);
+> >>>>> +    }
+> >>>>> +    local_err = NULL;
+> >>>>> +    if (!block_module_load_one("dmg-lzfse", &local_err) && local_err) {
+> >>>>> +        error_report_err(local_err);
+> >>>>> +    }
+> >>>>>   
+> >>>>>       s->n_chunks = 0;
+> >>>>>       s->offsets = s->lengths = s->sectors = s->sectorcounts = NULL;
+> >>>>
+> >>>> I wonder if these shouldn't fail hard if the modules don't exist?
+> >>>> Or at least pass back the error.
+> >>>>
+> >>>> Kevin?
+> >>
+> >> is "dmg-bz" _required_ for dmg open to work? I suspect if the dmg
+> >> image is not compressed, "dmg" can function even if the extra dmg-bz
+> >> module is not loaded right?
+> > 
+> > Indeed. The code seems to consider that the modules may not be present.
+> > The behaviour in these cases is questionable (it seems to silently leave
+> > the buffers as they are and return success)
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+I think I misunderstood the code here actually. dmg_read_mish_block()
+skips chunks of unknown type, so later trying to find them fails and
+dmg_co_preadv() returns -EIO. Which is a reasonable return value for
+this.
+
+> > , but the modules are clearly
+> > optional.
+> > 
+> >> I'd suspect we should then do:
+> >>
+> >> if (!block_module_load_one("dmg-bz2", &local_err)) {
+> >>   if (local_err) {
+> >>      error_report_err(local_err);
+> >>      return -EINVAL;
+> >>   }
+> >>   warn_report("dmg-bz2 is not present, dmg will skip bz2-compressed chunks */
+> >> }
+> >>
+> >> and same for dmg-lzfse...?
+> > 
+> > Actually, I think during initialisation, we should just pass NULL as
+> > errp and ignore any errors.
+> 
+> Hmm really? I'd think that if there is an actual error loading the
+> module (module is installed, but the loading itself fails due to
+> broken module, wrong permissions, I/O errors etc) we would want to
+> report that fact as it happens?
+
+Can we distinguish the two error cases?
+
+Oooh... Reading the code again carefully, are you returning false
+without setting errp if the module just couldn't be found? This is a
+surprising interface.
+
+Yes, I guess then your proposed code is fine (modulo moving
+warn_report() somewhere else so that it doesn't complain when the image
+doesn't even contain compressed chunks).
+
+> > When a request would access a block that can't be uncompressed because
+> > of the missing module, that's where we can have a warn_report_once() and
+> > arguably should fail the I/O request.
+> > 
+> > Kevin
+> > 
+> 
+> That would mean, moving the
+> 
+> warn_report("dmg-bz2 is not present, dmg will skip bz2-compressed chunks")
+> 
+> to the uncompression code and change it to a warn_report_once() right?
+
+Yeah, though I think this doesn't actually work because we never even
+stored the metadata for chunks of unknown type (see above), so we never
+reach the uncompression code.
+
+What misled me initially is this code in dmg_read_chunk():
+
+        case UDBZ: /* bzip2 compressed */
+            if (!dmg_uncompress_bz2) {
+                break;
+            }
+
+I believe this is dead code, it could actually be an assertion. So
+if I'm not missing anything, adding the warning there would be useless.
+
+The other option is moving it into dmg_is_known_block_type() or its
+caller dmg_read_mish_block(), then we would detect it during open, which
+is probably nicer anyway.
+
+Kevin
 
 
