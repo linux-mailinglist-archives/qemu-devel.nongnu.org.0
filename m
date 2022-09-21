@@ -2,68 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C17FD5C00AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 17:05:06 +0200 (CEST)
-Received: from localhost ([::1]:48406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A38045C008B
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 16:59:20 +0200 (CEST)
+Received: from localhost ([::1]:39786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob1Hb-0002FU-0o
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 11:05:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49834)
+	id 1ob1C2-0006OA-CO
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 10:59:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ob16f-0007uS-Vw
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 10:53:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49107)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ob178-0008NQ-DP
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 10:54:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30933)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ob16a-0004rL-Tp
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 10:53:43 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ob176-0004uQ-U5
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 10:54:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663772014;
+ s=mimecast20190719; t=1663772051;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=17XiT9ox8Bym9iTbfphx+8h2a88fkY3C44hYlrXY5BQ=;
- b=JPwVaH2O9iSgXXe7DXfht22U+WiOTeSdbvOFHc9OFHhUSC23ztaLUy0uFuJs6AxncIsLf0
- PCq7KuKMi8FHhC6mC0rMXKeDBIUVSvc6vFYwoiNTUahuWuHJ2mUZQC0MB9yRrR3v8Gqch9
- F0uI09XQSuQmGJdmi4/BqO9mURoedy0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-517-xjsM4DLNMJqLrwL_LhBY3w-1; Wed, 21 Sep 2022 10:53:30 -0400
-X-MC-Unique: xjsM4DLNMJqLrwL_LhBY3w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 377C18027F5;
- Wed, 21 Sep 2022 14:53:30 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 12F0B40C6EC2;
- Wed, 21 Sep 2022 14:53:30 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D1BF321E6900; Wed, 21 Sep 2022 16:53:25 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: luzhipeng <luzhipeng@cestc.cn>
-Cc: qemu-devel <qemu-devel@nongnu.org>,  michael.roth@amd.com,  Konstantin
- Kostiuk <kkostiuk@redhat.com>
-Subject: Re: [PATCH] qga: fix possible memory leak
-References: <20220921142036.1758-1-luzhipeng@cestc.cn>
-Date: Wed, 21 Sep 2022 16:53:25 +0200
-In-Reply-To: <20220921142036.1758-1-luzhipeng@cestc.cn> (luzhipeng@cestc.cn's
- message of "Wed, 21 Sep 2022 22:20:36 +0800")
-Message-ID: <87sfkkaie2.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=nzSIUGoy6i8hN39IS0cxOztgrmmKwSDx0aVy9VwPWz0=;
+ b=XJB9d1vmST7PDF/MonqokPpZvXQ+ZX5lWUSpZmZO9tXoySnHUVaFszvwv+xlfpWzhzIDD/
+ CiqwkQXbQPfgO9zk7wWFwOkxhtyISgmQfHTmfdXvXOomuWTejfXbA4XEmOD3m8wSYss7is
+ uueJYxO/YlHwq9yj1b2bYUCFAzWLT2Q=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-313-8HDxqB48P4O-e3lAgMA1eA-1; Wed, 21 Sep 2022 10:54:10 -0400
+X-MC-Unique: 8HDxqB48P4O-e3lAgMA1eA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ n7-20020a1c2707000000b003a638356355so2705459wmn.2
+ for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 07:54:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date;
+ bh=nzSIUGoy6i8hN39IS0cxOztgrmmKwSDx0aVy9VwPWz0=;
+ b=MEjijRcnjlwJl2uUViZjskWZkyRSyMTNHs6mH3p4IGnDxDqhHEoMZIyea6e+xDoE3/
+ JFEeW/RetrKU3W+U8xXYfe/1XqjSqc/C2Z3+hjzFe0oBf8LhoOVDEjRs2pUAvaOSbP62
+ v5btv4uQy6nKJjUqruNqa6Qzb0JcpibnPdNakrk4m3IEKbeylNmbkyDq8gxVrOjiZdS/
+ xojwIKhKxbF0AJA9tJBNWzM+Ltnow+DrgzKna1XNYaF6o3p279iGGpe0+Z5BcKJuT+Xp
+ LCOBd8f488zJ8s3NZwUYr8bRQ3FoWLeh4UVFzaN/aY/5yV60GEupw1MiQU045DjDIKHo
+ 2Iyg==
+X-Gm-Message-State: ACrzQf0CM5JrXSjNKANBjchQPAV6AoV3np92YLSya+r8aElnsYrv9UeA
+ 4sLAE4GY90Bl6JPA4C0QSECdcTnJTTOX5YPWmR/y3tsno7Wrx9GAOAqQafW0nyhbhb4kIKOSZyS
+ KjJkMgNr6Z0kD0qQ=
+X-Received: by 2002:a05:600c:4ece:b0:3b4:a79c:1333 with SMTP id
+ g14-20020a05600c4ece00b003b4a79c1333mr6334621wmq.49.1663772049451; 
+ Wed, 21 Sep 2022 07:54:09 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7mOGIx306U23N4fpvqiRNvSbmzVitB9BhoSFqSaRtv55L4pcTAOjROxLULXmdUwWk120CrEw==
+X-Received: by 2002:a05:600c:4ece:b0:3b4:a79c:1333 with SMTP id
+ g14-20020a05600c4ece00b003b4a79c1333mr6334600wmq.49.1663772049126; 
+ Wed, 21 Sep 2022 07:54:09 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c703:6900:26b8:85a4:a645:4128?
+ (p200300cbc703690026b885a4a6454128.dip0.t-ipconnect.de.
+ [2003:cb:c703:6900:26b8:85a4:a645:4128])
+ by smtp.gmail.com with ESMTPSA id
+ b10-20020a056000054a00b00228dbaea941sm2908456wrf.26.2022.09.21.07.54.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 21 Sep 2022 07:54:08 -0700 (PDT)
+Message-ID: <b587ca18-945e-1f1d-519f-7f3f75ce32b6@redhat.com>
+Date: Wed, 21 Sep 2022 16:54:07 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH RFC 0/7] hostmem: NUMA-aware memory preallocation using
+ ThreadContext
+Content-Language: en-US
+To: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefan Weil <sw@weilnetz.de>
+References: <20220721120732.118133-1-david@redhat.com>
+ <d17620c7-5d52-c41b-66f2-3055a2dc572a@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <d17620c7-5d52-c41b-66f2-3055a2dc572a@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -64
+X-Spam_score: -6.5
+X-Spam_bar: ------
+X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-3.702, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,113 +113,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-luzhipeng <luzhipeng@cestc.cn> writes:
+On 21.09.22 16:44, Michal Prívozník wrote:
+> On 7/21/22 14:07, David Hildenbrand wrote:
+>>
+> 
+> Ping? Is there any plan how to move forward? I have libvirt patches
+> ready to consume this and I'd like to prune my old local branches :-)
 
-> From: lu zhipeng <luzhipeng@cestc.cn>
->
-> Signed-off-by: lu zhipeng <luzhipeng@cestc.cn>
-> ---
->  qga/main.c | 19 ++++++++++++++-----
->  1 file changed, 14 insertions(+), 5 deletions(-)
->
-> diff --git a/qga/main.c b/qga/main.c
-> index 5f1efa2333..73ea1aae65 100644
-> --- a/qga/main.c
-> +++ b/qga/main.c
-> @@ -1287,7 +1287,7 @@ static GAState *initialize_agent(GAConfig *config, int socket_activation)
->      if (g_mkdir_with_parents(config->state_dir, S_IRWXU) == -1) {
->          g_critical("unable to create (an ancestor of) the state directory"
->                     " '%s': %s", config->state_dir, strerror(errno));
-> -        return NULL;
-> +        goto failed;
->      }
->  #endif
->  
-> @@ -1312,7 +1312,7 @@ static GAState *initialize_agent(GAConfig *config, int socket_activation)
->              if (!log_file) {
->                  g_critical("unable to open specified log file: %s",
->                             strerror(errno));
-> -                return NULL;
-> +                goto failed;
->              }
->              s->log_file = log_file;
->          }
-> @@ -1323,7 +1323,7 @@ static GAState *initialize_agent(GAConfig *config, int socket_activation)
->                                 s->pstate_filepath,
->                                 ga_is_frozen(s))) {
->          g_critical("failed to load persistent state");
-> -        return NULL;
-> +        goto failed;
->      }
->  
->      config->blacklist = ga_command_blacklist_init(config->blacklist);
-> @@ -1344,7 +1344,7 @@ static GAState *initialize_agent(GAConfig *config, int socket_activation)
->  #ifndef _WIN32
->      if (!register_signal_handlers()) {
->          g_critical("failed to register signal handlers");
-> -        return NULL;
-> +        goto failed;
->      }
->  #endif
->  
-> @@ -1357,12 +1357,21 @@ static GAState *initialize_agent(GAConfig *config, int socket_activation)
->      s->wakeup_event = CreateEvent(NULL, TRUE, FALSE, TEXT("WakeUp"));
->      if (s->wakeup_event == NULL) {
->          g_critical("CreateEvent failed");
-> -        return NULL;
-> +        goto failed;
->      }
->  #endif
->  
->      ga_state = s;
->      return s;
-> +
-> +failed:
-> +    g_free(s->pstate_filepath);
-> +    g_free(s->state_filepath_isfrozen);
-> +    if (s->log_file && s->log_file != stderr) {
-> +        fclose(s->log_file);
-> +    }
-> +    g_free(s);
-> +    return NULL;
->  }
->  
->  static void cleanup_agent(GAState *s)
+Heh, I was thinking about this series just today. I was distracted with 
+all other kind of stuff.
 
-The function's only caller is main():
+I'll move forward with this series later this week/early next week.
 
-   int main(int argc, char **argv)
-   {
-       int ret = EXIT_SUCCESS;
+Thanks!
 
-       ...
+-- 
+Thanks,
 
-       s = initialize_agent(config, socket_activation);
-       if (!s) {
-           g_critical("error initializing guest agent");
-           goto end;
-       }
-
-       ...
-
-   end:
-       if (config->daemonize) {
-           unlink(config->pid_filepath);
-       }
-
-       config_free(config);
-
-       return ret;
-   }
-
-When initialize_agent() fails, the process terminates immediately.
-There is no memory leak.
-
-We might want to free in initialize_agent() anyway.  Up to the
-maintainer.
-
-Bug (not related to this patch): when initialize_agent() fails, we still
-terminate successfully.  We should ret = EXIT_FAILURE before goto end,
-like we do elsewhere in main().
+David / dhildenb
 
 
