@@ -2,62 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F34575BFB23
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 11:39:11 +0200 (CEST)
-Received: from localhost ([::1]:57150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C26D5BFB3C
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 11:42:35 +0200 (CEST)
+Received: from localhost ([::1]:57826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oawCE-0002yO-RM
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 05:39:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39120)
+	id 1oawFW-0006CP-Kd
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 05:42:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=I7lL=ZY=zx2c4.com=Jason@kernel.org>)
- id 1oaw5B-0005jY-Mc
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 05:31:53 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:56590)
+ id 1oaw5G-0005sI-Lc
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 05:31:58 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:43990)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=I7lL=ZY=zx2c4.com=Jason@kernel.org>)
- id 1oaw5A-00018l-5c
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 05:31:53 -0400
+ id 1oaw5D-000198-Uc
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 05:31:58 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8A2526303D;
- Wed, 21 Sep 2022 09:31:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DA97C433C1;
- Wed, 21 Sep 2022 09:31:49 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 7A400B82378;
+ Wed, 21 Sep 2022 09:31:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F982C433C1;
+ Wed, 21 Sep 2022 09:31:52 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
  dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="JJt/0WYi"
+ header.b="VVsfxGv/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1663752708;
+ t=1663752711;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mVCAkXlRlp3gruLyM+FFF5K4RDo3j6oaXFh9SSxTcSY=;
- b=JJt/0WYiYs3oqu1R/P+VoIJwx5DwUKApMMINGrQvqLflwlEbX0afmKAUeVCudjdxa/vV0X
- juwHgKpSvveIjCA7T4ivSAHP6n9+gCLlX0nBPfTjDbAOxa5InHwKieYl85sFiyzG77PDU+
- a4RQXROReWhF7J0Vb/O/wLrlb3xbL4w=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id d16651ef
+ bh=S0NdGTedj2Uwu3hKr/q8XtZuSVdOKgVx5ePIUIFlf4g=;
+ b=VVsfxGv/B5NMw+XqhWFLyzCXrXk34LhzNsZPBh5CfdPTEPI36FulCgJetVCUObeRgUV513
+ 9K1naFVSZNXqu+XxaJQUHs90g3EgOxMM/AFYlpf0B25YsMg2CUntYP/3wMb0TCluAM1IFf
+ /k1+n1w4z9rR1uLjPLWNj3r/wZXqsOE=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id c2038a06
  (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Wed, 21 Sep 2022 09:31:48 +0000 (UTC)
+ Wed, 21 Sep 2022 09:31:50 +0000 (UTC)
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 To: pbonzini@redhat.com,
 	qemu-devel@nongnu.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: [PATCH v5 3/4] x86: reinitialize RNG seed on system reboot
-Date: Wed, 21 Sep 2022 11:31:33 +0200
-Message-Id: <20220921093134.2936487-3-Jason@zx2c4.com>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Laurent Vivier <laurent@vivier.eu>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v5 4/4] x86: re-enable rng seeding via SetupData
+Date: Wed, 21 Sep 2022 11:31:34 +0200
+Message-Id: <20220921093134.2936487-4-Jason@zx2c4.com>
 In-Reply-To: <20220921093134.2936487-1-Jason@zx2c4.com>
 References: <20220921093134.2936487-1-Jason@zx2c4.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+Received-SPF: pass client-ip=145.40.68.75;
  envelope-from=SRS0=I7lL=ZY=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
+ helo=ams.source.kernel.org
 X-Spam_score_int: -67
 X-Spam_score: -6.8
 X-Spam_bar: ------
@@ -80,42 +86,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since this is read from fw_cfg on each boot, the kernel zeroing it out
-alone is insufficient to prevent it from being used twice. And indeed on
-reboot we always want a new seed, not the old one. So re-fill it in this
-circumstance.
+This reverts 3824e25db1 ("x86: disable rng seeding via setup_data"), but
+for 7.2 rather than 7.1, now that modifying setup_data is safe to do.
 
+Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Michael S. Tsirkin <mst@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 ---
- hw/i386/x86.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ hw/i386/microvm.c | 2 +-
+ hw/i386/pc_piix.c | 3 ++-
+ hw/i386/pc_q35.c  | 3 ++-
+ 3 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 1ee0b1b413..f9a4ddaa4a 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -783,6 +783,12 @@ static void reset_setup_data(void *opaque)
-     stq_p(fixup->pos, fixup->orig_val);
- }
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 52cafa003d..7fe8cce03e 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -332,7 +332,7 @@ static void microvm_memory_init(MicrovmMachineState *mms)
+     rom_set_fw(fw_cfg);
  
-+static void reset_rng_seed(void *opaque)
-+{
-+    SetupData *setup_data = opaque;
-+    qemu_guest_getrandom_nofail(setup_data->data, le32_to_cpu(setup_data->len));
-+}
-+
- void x86_load_linux(X86MachineState *x86ms,
-                     FWCfgState *fw_cfg,
-                     int acpi_data_size,
-@@ -1105,6 +1111,7 @@ void x86_load_linux(X86MachineState *x86ms,
-         setup_data->type = cpu_to_le32(SETUP_RNG_SEED);
-         setup_data->len = cpu_to_le32(RNG_SEED_LENGTH);
-         qemu_guest_getrandom_nofail(setup_data->data, RNG_SEED_LENGTH);
-+        qemu_register_reset(reset_rng_seed, setup_data);
+     if (machine->kernel_filename != NULL) {
+-        x86_load_linux(x86ms, fw_cfg, 0, true, true);
++        x86_load_linux(x86ms, fw_cfg, 0, true, false);
      }
  
-     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, prot_addr);
+     if (mms->option_roms) {
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 8043a250ad..0b1a79c0fa 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -439,7 +439,6 @@ static void pc_i440fx_7_2_machine_options(MachineClass *m)
+     m->alias = "pc";
+     m->is_default = true;
+     pcmc->default_cpu_version = 1;
+-    pcmc->legacy_no_rng_seed = true;
+ }
+ 
+ DEFINE_I440FX_MACHINE(v7_2, "pc-i440fx-7.2", NULL,
+@@ -447,9 +446,11 @@ DEFINE_I440FX_MACHINE(v7_2, "pc-i440fx-7.2", NULL,
+ 
+ static void pc_i440fx_7_1_machine_options(MachineClass *m)
+ {
++    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pc_i440fx_7_2_machine_options(m);
+     m->alias = NULL;
+     m->is_default = false;
++    pcmc->legacy_no_rng_seed = true;
+     compat_props_add(m->compat_props, hw_compat_7_1, hw_compat_7_1_len);
+     compat_props_add(m->compat_props, pc_compat_7_1, pc_compat_7_1_len);
+ }
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 53eda50e81..a496bd6e74 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -376,7 +376,6 @@ static void pc_q35_7_2_machine_options(MachineClass *m)
+     pc_q35_machine_options(m);
+     m->alias = "q35";
+     pcmc->default_cpu_version = 1;
+-    pcmc->legacy_no_rng_seed = true;
+ }
+ 
+ DEFINE_Q35_MACHINE(v7_2, "pc-q35-7.2", NULL,
+@@ -384,8 +383,10 @@ DEFINE_Q35_MACHINE(v7_2, "pc-q35-7.2", NULL,
+ 
+ static void pc_q35_7_1_machine_options(MachineClass *m)
+ {
++    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pc_q35_7_2_machine_options(m);
+     m->alias = NULL;
++    pcmc->legacy_no_rng_seed = true;
+     compat_props_add(m->compat_props, hw_compat_7_1, hw_compat_7_1_len);
+     compat_props_add(m->compat_props, pc_compat_7_1, pc_compat_7_1_len);
+ }
 -- 
 2.37.3
 
