@@ -2,67 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 213FE5C0564
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 19:38:38 +0200 (CEST)
-Received: from localhost ([::1]:51190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D9F55C0562
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 19:37:14 +0200 (CEST)
+Received: from localhost ([::1]:55572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob3gD-000539-96
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 13:38:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34026)
+	id 1ob3eq-0003PT-W5
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 13:37:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ob3bY-00088Q-5X
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 13:33:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41637)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ob3bT-0006CF-2U
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 13:33:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663781622;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jqSOTcfjNFBpt1oCMGFxnbYD54zrPgMx04YisfnGTos=;
- b=N2DObdA0CYJK+5cCNN+taenm9ihbIEsDUqviVddU7Ic/ojBCDsVxXzQMMUxFxQjtazr5qD
- 7/gpNpndlCXe/p4BivvsVz5Mo8Mgn07IYp/uQ7xHSjYegPySJUOrq+gLzmjRv7qeic4QlF
- j8fGtxaLZvtjaIgo3kDPvWrrY3MGwdU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-192-kHUQlAvAM9iqTI852IcpkA-1; Wed, 21 Sep 2022 13:33:41 -0400
-X-MC-Unique: kHUQlAvAM9iqTI852IcpkA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 042D8296A608
- for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 17:33:41 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 64BE62166B29;
- Wed, 21 Sep 2022 17:33:40 +0000 (UTC)
-Date: Wed, 21 Sep 2022 13:33:38 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PULL 00/15] Testing, qga and misc patches
-Message-ID: <YytK8lGmOE2/1qa4@fedora>
-References: <20220920153512.187283-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ob3c6-0008Mw-5Q; Wed, 21 Sep 2022 13:34:23 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:39807)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ob3c2-0006Dy-RQ; Wed, 21 Sep 2022 13:34:21 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id f23so6361031plr.6;
+ Wed, 21 Sep 2022 10:34:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc:subject:date;
+ bh=r1uDIfKVCipRJHAIDB+NtAKXd73F4ShuDhLXnKs/2O0=;
+ b=Bw4dbxItbiVzC0IBiHHJamup7DAJRXy84ww7o8MzLKoPZjH+LSH88XWh9B+MZyxNIK
+ V90HCRZS1HwjOC9YqpbbaR96BzGSptvVOPFxlNTrPiMsX7+ZuJuEeov12hSTk0FksrNP
+ DMvwjAFQLDyRNISUoig9FrSHsJYTtXYRaonbAuQlqLwHwxAmqDczZfPFKprXE1jziccD
+ dsht7c1XkyoTOfkF8kFQy/WtIZB1vsRZGJh61BzgjuVMI+7OtnoQCI2BpMOKyPYERf0u
+ U1494SuBMIwTm6GNWrdBz8GeTrm2k2/YwBF1hII4dehJPkz1+KNIY4PtnJSQ5K66w6KQ
+ 0nKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc:subject:date;
+ bh=r1uDIfKVCipRJHAIDB+NtAKXd73F4ShuDhLXnKs/2O0=;
+ b=Uvx6VbxASS8Axy28uUfDTWrin0isClCJbxGgWmzfAUINV7vT51LBDVpacC0kUneDwC
+ GAqKfJC34teNLJAl8DRUDmKUjHDQ/EP13r8lXVrg82RMxTdf0FOQU7xvg5Q5vuRaBV2A
+ Fbk2bm93yS9ePrSZ/g+Kujzq0fPQyP16TpzJPCiz2ETxQIbhcxmckjVi6NNCV4LVhoQG
+ feSFqpLiwNN+1JIxBttobEUYJtchulnvo0Cu/LakNNAGqqKO4gSHjCN95aLnQhls7nVF
+ Vnw7J/xlx2W7uvfWmVW6HV022ckClH7TYB5M7xJneX788TvvdydsBMePIKjcyaJ+Pes6
+ py/g==
+X-Gm-Message-State: ACrzQf1en42nToRRFohvYoAfT8u7KRz7WfZE3hw6ASoulAcxeooGvT6L
+ vMRZJf97Dyzzq7lAyhzMiBg=
+X-Google-Smtp-Source: AMsMyM7GWUuTEBJDdS4DdPUm9+90dFUes2j0z+RBKat0xi/liXnPKxZBREbZ1V9yy/rsf/eRfYPVDQ==
+X-Received: by 2002:a17:902:ea12:b0:178:8e76:c781 with SMTP id
+ s18-20020a170902ea1200b001788e76c781mr5982737plg.136.1663781655068; 
+ Wed, 21 Sep 2022 10:34:15 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ n16-20020a056a00213000b0053dec787698sm2502118pfj.175.2022.09.21.10.34.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 21 Sep 2022 10:34:14 -0700 (PDT)
+Message-ID: <d25caf9f-dcab-96bc-2202-52e4d7b15b03@amsat.org>
+Date: Wed, 21 Sep 2022 19:34:07 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="jD2OvAlagb/j0n7b"
-Content-Disposition: inline
-In-Reply-To: <20220920153512.187283-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.0
+Subject: Re: [PATCH v1 01/10] monitor: expose monitor_puts to rest of code
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: minyihh@uci.edu, ma.mandourr@gmail.com, Luke.Craig@ll.mit.edu,
+ cota@braap.org, aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
+ robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ "open list:New World (mac99)" <qemu-ppc@nongnu.org>
+References: <20220921160801.1490125-1-alex.bennee@linaro.org>
+ <20220921160801.1490125-2-alex.bennee@linaro.org>
+In-Reply-To: <20220921160801.1490125-2-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-3.702,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,31 +101,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
+On 21/9/22 18:07, Alex Bennée wrote:
+> This helps us construct strings elsewhere before echoing to the
+> monitor. It avoids having to jump through hoops like:
+> 
+>    monitor_printf(mon, "%s", s->str);
+> 
+> It will be useful in following patches but for now convert all
+> existing plain "%s" printfs to use the _puts api.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> ---
+> v2
+>    - s/monitor_printf(mon, "%s"/monitor_puts(mon, /
+> ---
+>   docs/devel/writing-monitor-commands.rst |  2 +-
+>   include/monitor/monitor.h               |  1 +
+>   monitor/monitor-internal.h              |  1 -
+>   block/monitor/block-hmp-cmds.c          | 10 +++++-----
+>   hw/misc/mos6522.c                       |  2 +-
+>   monitor/hmp-cmds.c                      |  8 ++++----
+>   monitor/hmp.c                           |  2 +-
+>   target/i386/helper.c                    |  2 +-
+>   8 files changed, 14 insertions(+), 14 deletions(-)
 
---jD2OvAlagb/j0n7b
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
-
---jD2OvAlagb/j0n7b
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMrSvIACgkQnKSrs4Gr
-c8hpIQf6Aj307jn87J8Imj46fnUOkcTUAf/esonNHWo98DiEp1qfy1jiWXjtjGU1
-fqRXriR0rEfkmSQsWUBKdVeAFH69UnT8yFHwtq3w2ZtKvECkvml/vNIrCPX6QKjk
-3bMbaB4PrlxfWt2PLMSfQSHbnBqnHr4OXD8AJ/qKO8tff9iDMIPI1CWeBxlOZLKv
-/TPi0wMp5f7Mogwm1y6XZJUQ2bFr8Rs7HVl7151HyTFvadeRmKKw6TxCUf257f+1
-hb2h/y30IGYzgJaI5GxpXVsrr4MmdncD1kbjnY59PeZq5U0TzxDtwEhb16n9TeTU
-dsQVyGyYc3X93O7G7afxCFhgeBlyiQ==
-=BUF2
------END PGP SIGNATURE-----
-
---jD2OvAlagb/j0n7b--
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
