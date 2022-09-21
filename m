@@ -2,90 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 910C55BF271
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 02:51:26 +0200 (CEST)
-Received: from localhost ([::1]:46990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0611D5BF294
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 03:07:48 +0200 (CEST)
+Received: from localhost ([::1]:45314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oanxV-0007rI-N9
-	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 20:51:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46878)
+	id 1oaoDK-0004ce-VM
+	for lists+qemu-devel@lfdr.de; Tue, 20 Sep 2022 21:07:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oanth-0004pQ-4O
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 20:47:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59723)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oantd-00077V-Df
- for qemu-devel@nongnu.org; Tue, 20 Sep 2022 20:47:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663721244;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FZeYVkUTmzhNmpH0onwcr/mcZBA27FW9doDyeSPyQZo=;
- b=E6Vf8gHOHB+TbUI/TIWRFxsO+7ylNRKsypVatX+Xyx4jqATPW8ysnmh5FWgxMgbQbXnueS
- lktuU5nlfCuL5VDQioRIE9sl0VVKlUT7qb1IVJV/65bAFDX7nhoVVZjuKBgW0TimXfTFQn
- lSq/jFzRVGi4qPz9qvlfdlCNa6Vszfk=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-550-KF8pLvVXOwWsrCpp-JU7AA-1; Tue, 20 Sep 2022 20:47:23 -0400
-X-MC-Unique: KF8pLvVXOwWsrCpp-JU7AA-1
-Received: by mail-qv1-f70.google.com with SMTP id
- dw19-20020a0562140a1300b004a8eee124b4so3222100qvb.21
- for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 17:47:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oao8q-0001aD-SR
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 21:03:11 -0400
+Received: from mail-qk1-x732.google.com ([2607:f8b0:4864:20::732]:35703)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oao8o-0001TT-S4
+ for qemu-devel@nongnu.org; Tue, 20 Sep 2022 21:03:08 -0400
+Received: by mail-qk1-x732.google.com with SMTP id u28so3023813qku.2
+ for <qemu-devel@nongnu.org>; Tue, 20 Sep 2022 18:03:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=n1eOrAjNAiXRfD929iPLybmcI661zIXMr08HRxcikSk=;
+ b=ntPwzd9pxEhbeDJl5+yO2mggghMvo/Ps62j+reqQbBOSVQnJ+W6UlV+B9kxOaYtmYs
+ I2cRIXjomnKLqgsYhu0TScFX73eUlzuB4GltOsMuTGSsWraE9yitUE+6nnAz5TIdir1f
+ 3TpxEP6eLfJiYJP7HBJaO3jHlQEGYuLwIcQCUmgUowPJPUJI8w4seZv4/o0FIgDAjCmw
+ xUzaNj9lkVtWy079RVQgGgWInEwrThuwSaZatLCZehGkZbbcaKeOtiwbFtiAFk6r9r32
+ dcDTXLhkcKfo268/1CILtf37aqy4mcMDavDiKIUtt72uU5tjMHo/suMpA3PZ2BoucmqC
+ YEWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=FZeYVkUTmzhNmpH0onwcr/mcZBA27FW9doDyeSPyQZo=;
- b=dx5JDCDrxSTdiy+czZkFmrzuhrWq6E6F2FS4Z2t+JlhQ6sEpPQI9NzFtL/vEEOWFTS
- 92dHLuwWHFdzOeNBCBfS64aPgiEQWK5MBlYtO5TJDODz9EotPV5eQhcmLCZdOMWCfZ7f
- WHBkkSgohcrdX1TzIzyGfF91/FID1qOERKudHnlI865OGS7l5IeLX24oVAk6Xtua4KaN
- 3hnUWPxZ8L28GbE26Y+DL7/b4sU5rLU/z1USIHT66KJrv9tIMsEUOkR60a+98ECLl9x0
- l90A3WqTUOkva3/WZe2+WfuQTMr71LtcwmvysczS/GNVnhPMXI/K4f2osjE+6b2fna2R
- 7Sug==
-X-Gm-Message-State: ACrzQf2KU8KybN/sNW0YvN3q0mK3RUXHbKv+Rm4IfNTPJ8lQa8mfhAHz
- YCqZttNga4shWm/C2PNjObCDA/Z4XBI67mibth6vSmO29m1bcHjCVfVrNgI7GXRM3FrSFT0dc90
- J1E0/+QsVYiwo4UPchIA9a6Z5nmyCzOJFPWULF7lNMsi19aQ3B96lpGsSlwUL/vV1
-X-Received: by 2002:a05:6214:2528:b0:4ad:6fa4:4170 with SMTP id
- gg8-20020a056214252800b004ad6fa44170mr593628qvb.113.1663721242476; 
- Tue, 20 Sep 2022 17:47:22 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6Kj01Gtc/0Bbb+j3mlnqSXi9/C3pA+LrDgsjSdNRbeJulIczwhDWc22fjTpd3hILK2H5Jzsw==
-X-Received: by 2002:a05:6214:2528:b0:4ad:6fa4:4170 with SMTP id
- gg8-20020a056214252800b004ad6fa44170mr593611qvb.113.1663721242231; 
- Tue, 20 Sep 2022 17:47:22 -0700 (PDT)
-Received: from xz-m1.local
- (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca. [70.31.27.79])
- by smtp.gmail.com with ESMTPSA id
- e19-20020ac86713000000b0035bb6c3811asm657502qtp.53.2022.09.20.17.47.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 17:47:21 -0700 (PDT)
-Date: Tue, 20 Sep 2022 20:47:20 -0400
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Manish Mishra <manish.mishra@nutanix.com>,
- Juan Quintela <quintela@redhat.com>, ani@anisinha.ca,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>
-Subject: Re: [PATCH 13/14] migration: Remove old preempt code around state
- maintainance
-Message-ID: <YypfGODnHAc8oJsW@xz-m1.local>
-References: <20220920225106.48451-1-peterx@redhat.com>
- <20220920225227.49158-1-peterx@redhat.com>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=n1eOrAjNAiXRfD929iPLybmcI661zIXMr08HRxcikSk=;
+ b=Fo/uKciaMVFlpm/erGtrQt8jsNj1thrdDotrmBCZV+S2CATs+1gpRfd0SVCwLXCTc+
+ M/k3Pm57NRf8nZfPRDSLtQEI/6h2vn0c6jHzUmY/3DXF8ykB7gzIrjNvpb+DRDZBf2Ze
+ WqFdijJxz/aoWoTMTsBCkRgDW3VLraqipgujOfXTqifykls/QRNNjo5R9wZKBYtky37v
+ fY9TD6neqtKGMVHnuJSlZgE2r2dz/Pe3MNIp1L6ClIrXp8JKcYZ3zKrP/fxN3G3ZWOEt
+ Fhlmg64z8uaD5/l5OkgFbitTsBUFayNWsdO+bYcEjyhf2S62YvRY/6gnW1G/prbP74wY
+ zBqA==
+X-Gm-Message-State: ACrzQf2ASJOdF083Kr1ZtyTIxOJQ67E0XhOB1DJZcWxgPwNXOvz1dW1+
+ j4XdoWru45+7KVspasBivk+GIfaR5S97kEvTXhs=
+X-Google-Smtp-Source: AMsMyM4w6tsmMTLVobLlyD+kFSup5Qdr+tcBHqeRei+AYoCSh9JjMBmUDf7jZRpavpUcOctgtBdcTBANJLaZ1K1Hdl0=
+X-Received: by 2002:ae9:dd42:0:b0:6cc:ead5:14b4 with SMTP id
+ r63-20020ae9dd42000000b006ccead514b4mr18403939qkf.94.1663722185839; Tue, 20
+ Sep 2022 18:03:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220920225227.49158-1-peterx@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
+ <20220824094029.1634519-50-bmeng.cn@gmail.com>
+ <CAJ+F1C+-4U1huf=Jv_uJP-XXnXu88Gj9HHvrGS0dTFyKGv=qBg@mail.gmail.com>
+ <CAEUhbmV_UU1TpRXfyz5U9kRj5r1ihm-HrXhzw_D-L96_Skxy+g@mail.gmail.com>
+ <CAJ+F1CJo-0isj2LKdabMHu854e7kukwjp=CCejgk_TzLRwtA3w@mail.gmail.com>
+ <CAEUhbmXjHCEOy+U3zABsvCU20rDj5pogNVTUCUEevdrqhcjuoA@mail.gmail.com>
+ <CAJ307EiOGrHqfdzSfb6L3MPKtAWLPCQT8ZVY7M+R5mT6d9wVvQ@mail.gmail.com>
+ <CAEUhbmW0v_5Ro3mY6Ztt=MmZJf=ueApmNGpT=+1RTPLrWd4=Rg@mail.gmail.com>
+ <CAJ307EhBSg4ENykkbqsT=5oBjc34JR+d3bJAVSTaxRM-uG4LGg@mail.gmail.com>
+ <CAEUhbmUAF0W_SCtYOuAZ+xc7Y4So3J4QB29Us0AV44eVF8KtLg@mail.gmail.com>
+ <CAJ307EjyXxbGLK-PhBjf18p3AApYM-jGqA2L9q3xLS9wX16h_w@mail.gmail.com>
+ <CAEUhbmWStgz4oUEgrtAVU_YFdKSPFJrK-4kd+DP4jqLS51+X+A@mail.gmail.com>
+ <CAEUhbmVYPo46nx8LLXcS21myzxcwT0HAzKt+cTRprmn06+g0PQ@mail.gmail.com>
+In-Reply-To: <CAEUhbmVYPo46nx8LLXcS21myzxcwT0HAzKt+cTRprmn06+g0PQ@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 21 Sep 2022 09:02:56 +0800
+Message-ID: <CAEUhbmUSLgiZM4w-rnrOeW+tER8SBdj5=1DvC85jp1e4GvKFoA@mail.gmail.com>
+Subject: Re: [PATCH 49/51] io/channel-watch: Fix socket watch on Windows
+To: =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::732;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x732.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,67 +100,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 20, 2022 at 06:52:27PM -0400, Peter Xu wrote:
-> With the new code to send pages in rp-return thread, there's little help to
-> keep lots of the old code on maintaining the preempt state in migration
-> thread, because the new way should always be faster..
-> 
-> Then if we'll always send pages in the rp-return thread anyway, we don't
-> need those logic to maintain preempt state anymore because now we serialize
-> things using the mutex directly instead of using those fields.
-> 
-> It's very unfortunate to have those code for a short period, but that's
-> still one intermediate step that we noticed the next bottleneck on the
-> migration thread.  Now what we can do best is to drop unnecessary code as
-> long as the new code is stable to reduce the burden.  It's actually a good
-> thing because the new "sending page in rp-return thread" model is (IMHO)
-> even cleaner and with better performance.
-> 
-> Remove the old code that was responsible for maintaining preempt states, at
-> the meantime also remove x-postcopy-preempt-break-huge parameter because
-> with concurrent sender threads we don't really need to break-huge anymore.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->  migration/migration.c |   2 -
->  migration/ram.c       | 258 +-----------------------------------------
->  2 files changed, 3 insertions(+), 257 deletions(-)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index fae8fd378b..698fd94591 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -4399,8 +4399,6 @@ static Property migration_properties[] = {
->      DEFINE_PROP_SIZE("announce-step", MigrationState,
->                        parameters.announce_step,
->                        DEFAULT_MIGRATE_ANNOUNCE_STEP),
-> -    DEFINE_PROP_BOOL("x-postcopy-preempt-break-huge", MigrationState,
-> -                      postcopy_preempt_break_huge, true),
+On Wed, Sep 14, 2022 at 4:08 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Wed, Sep 7, 2022 at 1:07 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > Hi Cl=C3=A9ment,
+> >
+> > On Tue, Sep 6, 2022 at 8:06 PM Cl=C3=A9ment Chigot <chigot@adacore.com>=
+ wrote:
+> > >
+> > > > > > I checked your patch, what you did seems to be something one wo=
+uld
+> > > > > > naturally write, but what is currently in the QEMU sources seem=
+s to be
+> > > > > > written intentionally.
+> > > > > >
+> > > > > > +Paolo Bonzini , you are the one who implemented the socket wat=
+ch on
+> > > > > > Windows. Could you please help analyze this issue?
+> > > > > >
+> > > > > > > to avoid WSAEnumNetworkEvents for the master GSource which on=
+ly has
+> > > > > > > G_IO_HUP (or for any GSource having only that).
+> > > > > > > As I said above, the current code doesn't do anything with it=
+ anyway.
+> > > > > > > So, IMO, it's safe to do so.
+> > > > > > >
+> > > > > > > I'll send you my patch attached. I was planning to send it in=
+ the following
+> > > > > > > weeks anyway. I was just waiting to be sure everything looks =
+fine on our
+> > > > > > > CI. Feel free to test and modify it if needed.
+> > > > > >
+> > > > > > I tested your patch. Unfortunately there is still one test case
+> > > > > > (migration-test.exe) throwing up the "Broken pipe" message.
+> > > > >
+> > > > > I must say I didn't fully test it against qemu testsuite yet. May=
+be there are
+> > > > > some refinements to be done. "Broken pipe" might be linked to the=
+ missing
+> > > > > G_IO_HUP support.
+> > > > >
+> > > > > > Can you test my patch instead to see if your gdb issue can be f=
+ixed?
+> > > > >
+> > > > > Yeah sure. I'll try to do it this afternoon.
+> > >
+> > > I can't explain how mad at me I am... I'm pretty sure your patch was =
+the first
+> > > thing I've tried when I encountered this issue. But it wasn't working
+> > > or IIRC the
+> > > issue went away but that was because the polling was actually disable=
+d (looping
+> > > indefinitely)...I'm suspecting that I already had changed the CreateE=
+vent for
+> > > WSACreateEvent which forces you to handle the reset.
+> > > Finally, I end up struggling reworking the whole check function...
+> > > But yeah, your patch does work fine on my gdb issues too.
+> >
+> > Good to know this patch works for you too.
+> >
+> > > And I guess the events are reset when recv() is being called because =
+of the
+> > > auto-reset feature set up by CreateEvent().
+> > > IIUC, what Marc-Andr=C3=A9 means by busy loop is the polling being lo=
+oping
+> > > indefinitely as I encountered. I can ensure that this patch doesn't d=
+o that.
+> > > It can be easily checked by setting the env variable G_MAIN_POLL_DEBU=
+G.
+> > > It'll show what g_poll is doing and it's normally always available on
+> > > Windows.
+> > >
+> > > Anyway, we'll wait for Paolo to see if he remembers why he had to cal=
+l
+> > > WSAEnumNetworkEvents. Otherwize, let's go for your patch. Mine might
+> > > be a good start to improve the whole polling on Windows but if it doe=
+sn't
+> > > work in your case, it then needs some refinements.
+> > >
+> >
+> > Yeah, this issue bugged me quite a lot. If we want to reset the event
+> > in qio_channel_socket_source_check(), we will have to do the following
+> > to make sure qtests are happy.
+> >
+> > diff --git a/io/channel-watch.c b/io/channel-watch.c
+> > index 43d38494f7..f1e1650b81 100644
+> > --- a/io/channel-watch.c
+> > +++ b/io/channel-watch.c
+> > @@ -124,8 +124,6 @@ qio_channel_socket_source_check(GSource *source)
+> > return 0;
+> > }
+> > - WSAEnumNetworkEvents(ssource->socket, ssource->ioc->event, &ev);
+> > -
+> > FD_ZERO(&rfds);
+> > FD_ZERO(&wfds);
+> > FD_ZERO(&xfds);
+> > @@ -153,6 +151,10 @@ qio_channel_socket_source_check(GSource *source)
+> > ssource->revents |=3D G_IO_PRI;
+> > }
+> > + if (ssource->revents) {
+> > + WSAEnumNetworkEvents(ssource->socket, ssource->ioc->event, &ev);
+> > + }
+> > +
+> > return ssource->revents;
+> > }
+> >
+> > Removing "if (ssource->revents)" won't work.
+> >
+> > It seems to me that resetting the event twice (one time with the
+> > master Gsource, and the other time with the child GSource) causes some
+> > bizarre behavior. But MSDN [1] says
+> >
+> >     "Resetting an event that is already reset has no effect."
+> >
+> > [1] https://docs.microsoft.com/en-us/windows/win32/api/synchapi/nf-sync=
+hapi-resetevent
+> >
+>
+> Paolo, any comments about this issue?
+>
 
-Forgot to drop the variable altogether:
+v2 series has been sent out, and this patch remains unchanged.
 
-diff --git a/migration/migration.h b/migration/migration.h
-index cdad8aceaa..ae4ffd3454 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -340,13 +340,6 @@ struct MigrationState {
-     bool send_configuration;
-     /* Whether we send section footer during migration */
-     bool send_section_footer;
--    /*
--     * Whether we allow break sending huge pages when postcopy preempt is
--     * enabled.  When disabled, we won't interrupt precopy within sending a
--     * host huge page, which is the old behavior of vanilla postcopy.
--     * NOTE: this parameter is ignored if postcopy preempt is not enabled.
--     */
--    bool postcopy_preempt_break_huge;
- 
-     /* Needed by postcopy-pause state */
-     QemuSemaphore postcopy_pause_sem;
+Paolo, still would appreciate your comments.
 
-Will squash this in in next version.
-
--- 
-Peter Xu
-
+Regards,
+Bin
 
