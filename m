@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE9FF5C0019
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 16:41:32 +0200 (CEST)
-Received: from localhost ([::1]:39972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 145B55C00F1
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 17:18:50 +0200 (CEST)
+Received: from localhost ([::1]:50726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob0up-0003y7-Ll
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 10:41:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55094)
+	id 1ob1Uu-0000Mi-Dr
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 11:18:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ob0hC-0000XZ-H9
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 10:27:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26674)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ob0h7-0000mu-B9
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 10:27:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663770439;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=97s4p11DurL8eJOBxY9Q/16ramdxkBZJ10V8kdJhjNc=;
- b=ez1x81fWQDQ91en6+Ot4WV6TWSZ1SY5da59lm/bPwTxKfcG8qIcgzOQzrhZOItzrSxnLzR
- 4Vi5Cztu+aSGn/1pjbmsNz7hvcd0ZPOEkxRdV/JJcNxBZwYkOne41lqFX245Qgxd2I+3jR
- MkDbH2eVSaS9U+dbJ73uiNAyS3SO04Q=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-512-1OTVI89MNjqXnE-zCO39TA-1; Wed, 21 Sep 2022 10:27:16 -0400
-X-MC-Unique: 1OTVI89MNjqXnE-zCO39TA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3FD353833289;
- Wed, 21 Sep 2022 14:27:16 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A58DD202E9E0;
- Wed, 21 Sep 2022 14:27:15 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2ABFA21E6900; Wed, 21 Sep 2022 16:27:14 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Cc: qemu-devel@nongnu.org,  Dongwon Kim <dongwon.kim@intel.com>,  Gerd
- Hoffmann <kraxel@redhat.com>,  Daniel P . =?utf-8?Q?Berrang=C3=A9?=
- <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,  =?utf-8?Q?Ma?=
- =?utf-8?Q?rc-Andr=C3=A9?= Lureau
- <marcandre.lureau@redhat.com>,  Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v1 3/3] ui/gtk: Add a new parameter to assign
- connectors/monitors to GFX VCs
-References: <20220917000731.465003-1-vivek.kasireddy@intel.com>
- <20220917000731.465003-4-vivek.kasireddy@intel.com>
-Date: Wed, 21 Sep 2022 16:27:14 +0200
-In-Reply-To: <20220917000731.465003-4-vivek.kasireddy@intel.com> (Vivek
- Kasireddy's message of "Fri, 16 Sep 2022 17:07:31 -0700")
-Message-ID: <877d1wby65.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1ob0mf-0005Ah-0g
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 10:33:05 -0400
+Received: from mail-vk1-xa2a.google.com ([2607:f8b0:4864:20::a2a]:39597)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1ob0mc-0001bM-GV
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 10:33:04 -0400
+Received: by mail-vk1-xa2a.google.com with SMTP id t26so3274909vkk.6
+ for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 07:33:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=TjBLR4HOR4dxzbKsjNMwcJxJp1X9H/Gyq76Qg6lk8lU=;
+ b=3FHoimCicyjc+q0iEuD/XfQ6B/VCXcm3SlCtNc7hQt40SfyCrDmXHnXDk1czNSjyc6
+ 5cD9fisXypRpGJXyIS1xGx8j1UsvFgCgZllIcM4yh8X+WyPqHV+LmjhSHDrTj5mbn8EU
+ vNYp3LJt8TmQLndBAFS4wWQmsGB1e82G2IIqXvDsVX6TFCAnaXR9gXqAGqV5aJxJO5tG
+ q9BkWwHUc2caAZsKJZoyrY5W9EmnsBaASeYeqiP3sw8g9OEtDnSekThmZiaRBMv/eazs
+ 5WfsUaCnVEFGqaRi8Hx0kbNE8ASG/posoXfZWcKQC2HOlS16XJnYex0ud7taDOXP1654
+ vyZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=TjBLR4HOR4dxzbKsjNMwcJxJp1X9H/Gyq76Qg6lk8lU=;
+ b=4iUxGaKlvSeXOGt4LZSAyXQxq8X9RdFEmuNPwp+x169FRn0dn/tHpxHkeF1ke+ER6D
+ mnAFZn419mzgC/Li0aGckay8j/aR0RAqywDywf0kkXWRQwJO7sdEn3z3qAxwWGGknolD
+ 7OvufydtoIr3eBP4E6dMcJ05W/IoAVj6zHDIH04twn4c1GgtIzmtgiKgUyKymnqjeb2p
+ v18KoC9WjFnQ6/cO+u0BdwpvK3UBTH3WYLoDoCp+NZEKkyUGziOTcLs22sO29TeLrTvv
+ GUrwFKQCRcUG0Xq3KZZkvC6n1prkS4ysW8Oik8edinKUvBomeoP+/Kscn45uJQQ5iNca
+ a5Mg==
+X-Gm-Message-State: ACrzQf0PjePY+eQRuUOKJqCFml9ARh2dVYN7CCm27kWK85FwhtIv99Pg
+ 790zpa2hAiZoVn+r7vtQVU29wTkM8FFYh5nLIAbKWQ==
+X-Google-Smtp-Source: AMsMyM7pAWGrlRoIxsWzF2CZLMVApTUMVmpkv7EgXLhELk20mHa3OMzradB2O8OJE+4oEQ5WrN3BkwmGcwnPwlz63I4=
+X-Received: by 2002:a1f:20d0:0:b0:39e:befa:fb4b with SMTP id
+ g199-20020a1f20d0000000b0039ebefafb4bmr10217122vkg.7.1663770770967; Wed, 21
+ Sep 2022 07:32:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <b403c8e4-3788-7ba1-a038-3a71fa0bc7c6@redhat.com>
+ <Yyl4EO0L5h02HOLN@redhat.com>
+ <ed402176-df96-dff2-869b-a3326e6314ea@redhat.com>
+ <Yyl5yRMxGAEA7K05@redhat.com>
+ <CANCZdfr6HWx8M8YzWDv2sqi96z+HyLMSGtzTUnTF_XbfNzcs4g@mail.gmail.com>
+ <Yyq5mhBi10bEw+g+@redhat.com>
+In-Reply-To: <Yyq5mhBi10bEw+g+@redhat.com>
+From: Warner Losh <imp@bsdimp.com>
+Date: Wed, 21 Sep 2022 08:32:39 -0600
+Message-ID: <CANCZdfrKyWgeVXV2KzngaRA3otierjzGzcDy2bg_GmkqR_QTkQ@mail.gmail.com>
+Subject: Re: QEMU's FreeBSD 13 CI job is failing
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Brad Smith <brad@comstyle.com>, John Snow <jsnow@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000d0b37705e930d190"
+Received-SPF: none client-ip=2607:f8b0:4864:20::a2a;
+ envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa2a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,385 +88,214 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vivek Kasireddy <vivek.kasireddy@intel.com> writes:
+--000000000000d0b37705e930d190
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> The new parameter named "connector" can be used to assign physical
-> monitors/connectors to individual GFX VCs such that when the monitor
-> is connected or hotplugged, the associated GTK window would be
-> fullscreened on it. If the monitor is disconnected or unplugged,
-> the associated GTK window would be destroyed and a relevant
-> disconnect event would be sent to the Guest.
+On Wed, Sep 21, 2022 at 1:13 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m>
+wrote:
+
+> On Tue, Sep 20, 2022 at 02:21:46PM -0600, Warner Losh wrote:
+> > On Tue, Sep 20, 2022 at 2:57 AM Daniel P. Berrang=C3=A9 <berrange@redha=
+t.com>
+> > wrote:
+> >
+> > > On Tue, Sep 20, 2022 at 10:23:56AM +0200, Thomas Huth wrote:
+> > > > On 20/09/2022 10.21, Daniel P. Berrang=C3=A9 wrote:
+> > > > > On Tue, Sep 20, 2022 at 08:44:27AM +0200, Thomas Huth wrote:
+> > > > > >
+> > > > > > Seen here for example:
+> > > > > >
+> > > > > > https://gitlab.com/qemu-project/qemu/-/jobs/3050165356#L2543
+> > > > > >
+> > > > > > ld-elf.so.1: /lib/libc.so.7: version FBSD_1.7 required by
+> > > > > > /usr/local/lib/libpython3.9.so.1.0 not found
+> > > > > > ERROR: Cannot use '/usr/local/bin/python3', Python >=3D 3.6 is
+> > > required.
+> > > > > >
+> > > > > > ... looks like the Python binary is not working anymore? Does
+> > > anybody know
+> > > > > > what happened here?
+> > > > >
+> > > > > FreeBSD ports is only guaranteed to work with latest minor releas=
+e
+> > > > > base image. The python binary recently started relying on symbols
+> > > > > in the 13.1 base image, and we're using 13.0.
+> > > > >
+> > > > > I updated lcitool last week to pick 13.1, so we just need a refre=
+sh
+> > > > > on the QEMU side to pick this up.
+> > > >
+> > > > OK ... Alex, IIRC you have a patch queued to update the files that
+> are
+> > > > refreshed by lcitool ... does that already contain the update for
+> > > FreeBSD,
+> > > > too?
+> > >
+> > > Oh actually, I'm forgetting that QEMU doesn't use the 'lcitool
+> manifest'
+> > > command for auto-generating the gitlab-ci.yml file. In QEMU's case ju=
+st
+> > > manually edit .gitlab-ci.d/cirrus.yml to change
+> > >
+> > >     CIRRUS_VM_IMAGE_NAME: freebsd-13-0
+> > >
+> >
+> > FreeBSD's support policy is that we EOL minor dot releases a few months
+> > after
+> > the next minor release is final. Part of that process involves moving t=
+he
+> > build
+> > of packages to that new minor version (which is what's not guaranteed t=
+o
+> > work
+> > on older versions... only old binaries on new versions is guaranteed)..=
+.
+> > And that's
+> > the problem that was hit here.
 >
-> Usage: -device virtio-gpu-pci,max_outputs=3D2,blob=3Dtrue,xres=3D1920,yre=
-s=3D1080...
->        -display gtk,gl=3Don,connector.0=3DeDP-1,connector.1=3DDP-1.....
+> It would be nice if something in the ports tool / packages was
+> able to report the incompatibility at time of install, rather
+> than leaving a later runtime failed.
 >
-> Cc: Dongwon Kim <dongwon.kim@intel.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Cc: Markus Armbruster <armbru@redhat.com>
-> Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> ---
->  qapi/ui.json    |   9 ++-
->  qemu-options.hx |   1 +
->  ui/gtk.c        | 168 ++++++++++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 177 insertions(+), 1 deletion(-)
+
+Indeed. I've suggested it to the authors...  There's some technical issues
+around this and the package format they need to work out.
+
+
+> > I'll try to submit changes after the next minor release in that 'few
+> month'
+> > window
+> > to update this in the future. In general, doing so would be the best fi=
+t
+> > with FreeBSD's
+> > support model...  It's one of those things I didn't think of at the tim=
+e,
+> > but is obvious in
+> > hindsight.
 >
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index 286c5731d1..86787a4c95 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -1199,13 +1199,20 @@
->  #               interfaces (e.g. VGA and virtual console character devic=
-es)
->  #               by default.
->  #               Since 7.1
-> +# @connector:   List of physical monitor/connector names where the GTK w=
-indows
-> +#               containing the respective graphics virtual consoles (VCs=
-) are
-> +#               to be placed. If a mapping exists for a VC, it will be
-> +#               fullscreened on that specific monitor or else it would n=
-ot be
-> +#               displayed anywhere and would appear disconnected to the =
-guest.
+> Note, we're reliant on Cirrus CI actually publishing the new images
+> for use. I've not previously checked before how quickly they publish
+> them after FreeBSD does the upstream release, but anyway I go by what
+> they list here:
+>
+>   https://cirrus-ci.org/guide/FreeBSD/
 
-Let's see whether I understand this...  We have VCs numbered 0, 1, ...
-VC #i is mapped to the i-th element of @connector, counting from zero.
-Correct?
 
-Ignorant question: what's a "physical monitor/connector name"?
+ Yea. They have been pretty good in the past about getting new images up
+quickly after the release.
 
-Would you mind breaking the lines a bit earlier, between column 70 and
-75?
+Warner
 
-> +#               Since 7.2
->  #
->  # Since: 2.12
->  ##
->  { 'struct'  : 'DisplayGTK',
->    'data'    : { '*grab-on-hover' : 'bool',
->                  '*zoom-to-fit'   : 'bool',
-> -                '*show-tabs'     : 'bool'  } }
-> +                '*show-tabs'     : 'bool',
-> +                '*connector'     : ['str']  } }
->=20=20
->  ##
->  # @DisplayEGLHeadless:
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 31c04f7eea..576b65ef9f 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -1945,6 +1945,7 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
->  #if defined(CONFIG_GTK)
->      "-display gtk[,full-screen=3Don|off][,gl=3Don|off][,grab-on-hover=3D=
-on|off]\n"
->      "            [,show-tabs=3Don|off][,show-cursor=3Don|off][,window-cl=
-ose=3Don|off]\n"
-> +    "            [,connector.<id of VC>=3D<connector name>]\n"
+--000000000000d0b37705e930d190
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Is "<id of VC>" a VC number?
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 21, 2022 at 1:13 AM Danie=
+l P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redh=
+at.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">On Tue, Sep 20, 2022 at 02:21:46PM -0600, Warner Losh wrote:<br>
+&gt; On Tue, Sep 20, 2022 at 2:57 AM Daniel P. Berrang=C3=A9 &lt;<a href=3D=
+"mailto:berrange@redhat.com" target=3D"_blank">berrange@redhat.com</a>&gt;<=
+br>
+&gt; wrote:<br>
+&gt; <br>
+&gt; &gt; On Tue, Sep 20, 2022 at 10:23:56AM +0200, Thomas Huth wrote:<br>
+&gt; &gt; &gt; On 20/09/2022 10.21, Daniel P. Berrang=C3=A9 wrote:<br>
+&gt; &gt; &gt; &gt; On Tue, Sep 20, 2022 at 08:44:27AM +0200, Thomas Huth w=
+rote:<br>
+&gt; &gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; &gt; Seen here for example:<br>
+&gt; &gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; &gt; <a href=3D"https://gitlab.com/qemu-project/qemu/-/=
+jobs/3050165356#L2543" rel=3D"noreferrer" target=3D"_blank">https://gitlab.=
+com/qemu-project/qemu/-/jobs/3050165356#L2543</a><br>
+&gt; &gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; &gt; ld-elf.so.1: /lib/libc.so.7: version FBSD_1.7 requ=
+ired by<br>
+&gt; &gt; &gt; &gt; &gt; /usr/local/lib/libpython3.9.so.1.0 not found<br>
+&gt; &gt; &gt; &gt; &gt; ERROR: Cannot use &#39;/usr/local/bin/python3&#39;=
+, Python &gt;=3D 3.6 is<br>
+&gt; &gt; required.<br>
+&gt; &gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; &gt; ... looks like the Python binary is not working an=
+ymore? Does<br>
+&gt; &gt; anybody know<br>
+&gt; &gt; &gt; &gt; &gt; what happened here?<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; FreeBSD ports is only guaranteed to work with latest mi=
+nor release<br>
+&gt; &gt; &gt; &gt; base image. The python binary recently started relying =
+on symbols<br>
+&gt; &gt; &gt; &gt; in the 13.1 base image, and we&#39;re using 13.0.<br>
+&gt; &gt; &gt; &gt;<br>
+&gt; &gt; &gt; &gt; I updated lcitool last week to pick 13.1, so we just ne=
+ed a refresh<br>
+&gt; &gt; &gt; &gt; on the QEMU side to pick this up.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; OK ... Alex, IIRC you have a patch queued to update the file=
+s that are<br>
+&gt; &gt; &gt; refreshed by lcitool ... does that already contain the updat=
+e for<br>
+&gt; &gt; FreeBSD,<br>
+&gt; &gt; &gt; too?<br>
+&gt; &gt;<br>
+&gt; &gt; Oh actually, I&#39;m forgetting that QEMU doesn&#39;t use the &#3=
+9;lcitool manifest&#39;<br>
+&gt; &gt; command for auto-generating the gitlab-ci.yml file. In QEMU&#39;s=
+ case just<br>
+&gt; &gt; manually edit .gitlab-ci.d/cirrus.yml to change<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0CIRRUS_VM_IMAGE_NAME: freebsd-13-0<br>
+&gt; &gt;<br>
+&gt; <br>
+&gt; FreeBSD&#39;s support policy is that we EOL minor dot releases a few m=
+onths<br>
+&gt; after<br>
+&gt; the next minor release is final. Part of that process involves moving =
+the<br>
+&gt; build<br>
+&gt; of packages to that new minor version (which is what&#39;s not guarant=
+eed to<br>
+&gt; work<br>
+&gt; on older versions... only old binaries on new versions is guaranteed).=
+..<br>
+&gt; And that&#39;s<br>
+&gt; the problem that was hit here.<br>
+<br>
+It would be nice if something in the ports tool / packages was<br>
+able to report the incompatibility at time of install, rather<br>
+than leaving a later runtime failed.<br></blockquote><div><br></div><div>In=
+deed. I&#39;ve suggested it to the authors...=C2=A0 There&#39;s some techni=
+cal issues</div><div>around this and the package format they need to work o=
+ut.</div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">
+&gt; I&#39;ll try to submit changes after the next minor release in that &#=
+39;few month&#39;<br>
+&gt; window<br>
+&gt; to update this in the future. In general, doing so would be the best f=
+it<br>
+&gt; with FreeBSD&#39;s<br>
+&gt; support model...=C2=A0 It&#39;s one of those things I didn&#39;t think=
+ of at the time,<br>
+&gt; but is obvious in<br>
+&gt; hindsight.<br>
+<br>
+Note, we&#39;re reliant on Cirrus CI actually publishing the new images<br>
+for use. I&#39;ve not previously checked before how quickly they publish<br=
+>
+them after FreeBSD does the upstream release, but anyway I go by what<br>
+they list here:<br>
+<br>
+=C2=A0 <a href=3D"https://cirrus-ci.org/guide/FreeBSD/" rel=3D"noreferrer" =
+target=3D"_blank">https://cirrus-ci.org/guide/FreeBSD/</a></blockquote><div=
+><br></div><div>=C2=A0Yea. They have been pretty good in the past about get=
+ting new images up</div><div>quickly after the release.</div><div><br></div=
+><div>Warner</div></div></div>
 
->  #endif
->  #if defined(CONFIG_VNC)
->      "-display vnc=3D<display>[,<optargs>]\n"
-
-Remainder of my review is on style only.  Style suggestions are not
-demands :)
-
-> diff --git a/ui/gtk.c b/ui/gtk.c
-> index 945c550909..651aaaf174 100644
-> --- a/ui/gtk.c
-> +++ b/ui/gtk.c
-> @@ -37,6 +37,7 @@
->  #include "qapi/qapi-commands-misc.h"
->  #include "qemu/cutils.h"
->  #include "qemu/main-loop.h"
-> +#include "qemu/option.h"
->=20=20
->  #include "ui/console.h"
->  #include "ui/gtk.h"
-> @@ -115,6 +116,7 @@
->  #endif
->=20=20
->  #define HOTKEY_MODIFIERS        (GDK_CONTROL_MASK | GDK_MOD1_MASK)
-> +#define MAX_NUM_ATTEMPTS 5
-
-Could use a comment, and maybe a more telling name (this one doesn't
-tell me what is being attempted).
-
->=20=20
->  static const guint16 *keycode_map;
->  static size_t keycode_maplen;
-> @@ -126,6 +128,15 @@ struct VCChardev {
->  };
->  typedef struct VCChardev VCChardev;
->=20=20
-> +struct gd_monitor_data {
-> +    GtkDisplayState *s;
-> +    GdkDisplay *dpy;
-> +    GdkMonitor *monitor;
-> +    QEMUTimer *hp_timer;
-> +    int attempt;
-> +};
-> +typedef struct gd_monitor_data gd_monitor_data;
-
-We usually contract these like
-
-   typedef struct gd_monitor_data {
-       ...
-   } gd_monitor_data;
-
-> +
->  #define TYPE_CHARDEV_VC "chardev-vc"
->  DECLARE_INSTANCE_CHECKER(VCChardev, VC_CHARDEV,
->                           TYPE_CHARDEV_VC)
-> @@ -1385,6 +1396,147 @@ static void gd_menu_untabify(GtkMenuItem *item, v=
-oid *opaque)
->      }
->  }
->=20=20
-> +static void gd_monitor_fullscreen(GdkDisplay *dpy, VirtualConsole *vc,
-> +                                  gint monitor_num)
-> +{
-> +    GtkDisplayState *s =3D vc->s;
-> +
-> +    if (!vc->window) {
-> +        gd_tab_window_create(vc);
-> +    }
-> +    gtk_window_fullscreen_on_monitor(GTK_WINDOW(vc->window),
-> +                                     gdk_display_get_default_screen(dpy),
-> +                                     monitor_num);
-> +    s->full_screen =3D TRUE;
-> +    gd_update_cursor(vc);
-> +}
-> +
-> +static int gd_monitor_lookup(GdkDisplay *dpy, char *label)
-> +{
-> +    GdkMonitor *monitor;
-> +    const char *monitor_name;
-> +    int i, total_monitors;
-> +
-> +    total_monitors =3D gdk_display_get_n_monitors(dpy);
-> +    for (i =3D 0; i < total_monitors; i++) {
-
-Suggest to format like this:
-
-       int total_monitors =3D gdk_display_get_n_monitors(dpy);
-       GdkMonitor *monitor;
-       const char *monitor_name;
-       int i;
-
-       for (i =3D 0; i < total_monitors; i++) {
-
-> +        monitor =3D gdk_display_get_monitor(dpy, i);
-> +        if (monitor) {
-> +            monitor_name =3D gdk_monitor_get_model(monitor);
-> +            if (monitor_name && !strcmp(monitor_name, label)) {
-
-Would
-
-           if (monitor && !g_strcmp0(gdk_monitor_get_model(monitor), label)=
-) {
-
-do?
-
-> +                return i;
-> +            }
-> +        }
-> +    }
-> +    return -1;
-> +}
-> +
-> +static void gd_monitor_check_vcs(GdkDisplay *dpy, GdkMonitor *monitor,
-> +                                 GtkDisplayState *s)
-> +{
-> +    VirtualConsole *vc;
-> +    const char *monitor_name =3D gdk_monitor_get_model(monitor);
-> +    int i;
-> +
-> +    for (i =3D 0; i < s->nb_vcs; i++) {
-> +        vc =3D &s->vc[i];
-> +        if (!strcmp(vc->label, monitor_name)) {
-> +            gd_monitor_fullscreen(dpy, vc, gd_monitor_lookup(dpy, vc->la=
-bel));
-> +            gd_set_ui_size(vc, surface_width(vc->gfx.ds),
-> +                           surface_height(vc->gfx.ds));
-> +            break;
-> +        }
-> +    }
-> +}
-> +
-> +static void gd_monitor_hotplug_timer(void *opaque)
-> +{
-> +    gd_monitor_data *data =3D opaque;
-> +    const char *monitor_name =3D gdk_monitor_get_model(data->monitor);
-> +
-> +    if (monitor_name) {
-> +        gd_monitor_check_vcs(data->dpy, data->monitor, data->s);
-> +    }
-> +    if (monitor_name || data->attempt =3D=3D MAX_NUM_ATTEMPTS) {
-> +        timer_del(data->hp_timer);
-> +        g_free(data);
-> +    } else {
-> +        data->attempt++;
-> +        timer_mod(data->hp_timer, qemu_clock_get_ms(QEMU_CLOCK_REALTIME)=
- + 50);
-
-Suggest to break the line like
-
-           timer_mod(data->hp_timer,
-                     qemu_clock_get_ms(QEMU_CLOCK_REALTIME) + 50);
-
-for readability.
-
-> +    }
-> +}
-> +
-> +static void gd_monitor_add(GdkDisplay *dpy, GdkMonitor *monitor,
-> +                           void *opaque)
-> +{
-> +    GtkDisplayState *s =3D opaque;
-> +    gd_monitor_data *data;
-> +    const char *monitor_name =3D gdk_monitor_get_model(monitor);
-> +
-> +    if (!monitor_name) {
-> +        data =3D g_malloc0(sizeof(*data));
-> +        data->s =3D s;
-> +        data->dpy =3D dpy;
-> +        data->monitor =3D monitor;
-> +        data->hp_timer =3D timer_new_ms(QEMU_CLOCK_REALTIME,
-> +                                      gd_monitor_hotplug_timer, data);
-> +        timer_mod(data->hp_timer, qemu_clock_get_ms(QEMU_CLOCK_REALTIME)=
- + 50);
-> +    } else {
-> +        gd_monitor_check_vcs(dpy, monitor, s);
-> +    }
-
-Often
-
-       if (cond) {
-           do stuff when cond
-       } else {
-           do stuff when !cond
-       }
-
-is easier to read than
-
-       if (!cond) {
-           do stuff when !cond
-       } else {
-           do stuff when !!cond
-       }
-
-Give it a thought.
-
-> +}
-> +
-> +static void gd_monitor_remove(GdkDisplay *dpy, GdkMonitor *monitor,
-> +                              void *opaque)
-> +{
-> +    GtkDisplayState *s =3D opaque;
-> +    VirtualConsole *vc;
-> +    const char *monitor_name =3D gdk_monitor_get_model(monitor);
-> +    int i;
-> +
-> +    if (!monitor_name) {
-> +        return;
-> +    }
-> +    for (i =3D 0; i < s->nb_vcs; i++) {
-> +        vc =3D &s->vc[i];
-> +        if (!strcmp(vc->label, monitor_name)) {
-> +            gd_tab_window_close(NULL, NULL, vc);
-> +            gd_set_ui_size(vc, 0, 0);
-> +            break;
-> +        }
-> +    }
-> +}
-> +
-> +static void gd_connectors_init(GdkDisplay *dpy, GtkDisplayState *s)
-> +{
-> +    VirtualConsole *vc;
-> +    strList *connector =3D s->opts->u.gtk.connector;
-> +    gint page_num =3D 0, monitor_num;
-> +
-> +    gtk_notebook_set_show_tabs(GTK_NOTEBOOK(s->notebook), FALSE);
-> +    gtk_widget_hide(s->menu_bar);
-> +    for (; connector; connector =3D connector->next) {
-
-Please don't split off part of the loop control.  What about
-
-       for (conn =3D s->opts->u.gtk.connector; conn; conn =3D conn->next) {
-
-?
-
-> +        vc =3D gd_vc_find_by_page(s, page_num);
-> +        if (!vc) {
-> +            break;
-> +        }
-> +        if (page_num =3D=3D 0) {
-> +            vc->window =3D s->window;
-> +        }
-> +
-> +        g_free(vc->label);
-> +        vc->label =3D g_strdup(connector->value);
-> +        monitor_num =3D gd_monitor_lookup(dpy, vc->label);
-> +        if (monitor_num >=3D 0) {
-> +            gd_monitor_fullscreen(dpy, vc, monitor_num);
-> +            gd_set_ui_size(vc, surface_width(vc->gfx.ds),
-> +                           surface_height(vc->gfx.ds));
-> +        } else {
-> +            gd_set_ui_size(vc, 0, 0);
-> +        }
-> +        page_num++;
-> +    }
-> +}
-> +
->  static void gd_menu_show_menubar(GtkMenuItem *item, void *opaque)
->  {
->      GtkDisplayState *s =3D opaque;
-> @@ -1705,7 +1857,14 @@ static gboolean gd_configure(GtkWidget *widget,
->                               GdkEventConfigure *cfg, gpointer opaque)
->  {
->      VirtualConsole *vc =3D opaque;
-> +    GtkDisplayState *s =3D vc->s;
-> +    GtkWidget *parent =3D gtk_widget_get_parent(widget);
->=20=20
-> +    if (s->opts->u.gtk.has_connector) {
-> +        if (!parent || !GTK_IS_WINDOW(parent)) {
-> +            return FALSE;
-> +        }
-> +    }
->      gd_set_ui_size(vc, cfg->width, cfg->height);
->      return FALSE;
->  }
-> @@ -2038,6 +2197,12 @@ static void gd_connect_signals(GtkDisplayState *s)
->                       G_CALLBACK(gd_menu_grab_input), s);
->      g_signal_connect(s->notebook, "switch-page",
->                       G_CALLBACK(gd_change_page), s);
-> +    if (s->opts->u.gtk.has_connector) {
-> +        g_signal_connect(gtk_widget_get_display(s->window), "monitor-add=
-ed",
-> +                         G_CALLBACK(gd_monitor_add), s);
-> +        g_signal_connect(gtk_widget_get_display(s->window), "monitor-rem=
-oved",
-> +                         G_CALLBACK(gd_monitor_remove), s);
-> +    }
->  }
->=20=20
->  static GtkWidget *gd_create_menu_machine(GtkDisplayState *s)
-> @@ -2402,6 +2567,9 @@ static void gtk_display_init(DisplayState *ds, Disp=
-layOptions *opts)
->          opts->u.gtk.show_tabs) {
->          gtk_menu_item_activate(GTK_MENU_ITEM(s->show_tabs_item));
->      }
-> +    if (s->opts->u.gtk.has_connector) {
-> +        gd_connectors_init(window_display, s);
-> +    }
->      gd_clipboard_init(s);
->  }
-
+--000000000000d0b37705e930d190--
 
