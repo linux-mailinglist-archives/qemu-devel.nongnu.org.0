@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A195C0480
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 18:45:44 +0200 (CEST)
-Received: from localhost ([::1]:44576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B1825C045B
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 18:38:27 +0200 (CEST)
+Received: from localhost ([::1]:43966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob2r1-0000ne-EZ
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 12:45:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36916)
+	id 1ob2jy-0001qo-2F
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 12:38:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ob2ND-000740-Hw
+ id 1ob2ND-000758-O2
  for qemu-devel@nongnu.org; Wed, 21 Sep 2022 12:14:55 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44828)
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:33458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ob2NB-0001Va-OZ
+ id 1ob2NB-0001VY-Ob
  for qemu-devel@nongnu.org; Wed, 21 Sep 2022 12:14:55 -0400
-Received: by mail-wr1-x429.google.com with SMTP id c11so10667356wrp.11
+Received: by mail-wm1-x333.google.com with SMTP id
+ ay7-20020a05600c1e0700b003b49861bf48so2720735wmb.0
  for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 09:14:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=zs6if3JsrgpCg8dSorFuiYuQlfRV6HSFVzcfBOEUknM=;
- b=tBSaZXCHyL0X04o1b89r/sLIPcBvPkr2w01jT2oe9V7TTqQy9BHGCmNmtdgSs0AXsC
- T9bINdrmnGZ+mkMzznBZnAIgdxeeI2iqWvJTNIRpQltLMnSkn+6zK6610r5wvPlaypVM
- sQro1bKETDsae2m8+Fyu5x+siStPyYF+0G1fK6JCV4/9vlmQoo5aukU8uCu7CaWg5lNH
- LBz3X+O3zVHMMM31zPqskcXRtXt/o6Q/iY+pSxjiA7HOujQ0fwZQTHKsvOMIpK8I3vw1
- NZ/FCuWxjKyvvgUw0+GifXs3kl0STEn6v5nb8nKxBEUY6gW6XdJ1t7u9SHcA45JCDzSm
- 8Ugw==
+ bh=GoEs9/h2LLepKNbeRIHGFuvJURS7q8MKK6QKHpul0xk=;
+ b=JyKI51tvaaRmGJEvtwLZkNMg1pNweSuN79tWCjShG5iLTQEZRlc3Nzz6/1ehh16kmw
+ ri3VdHTqBd/yRwL1JlMKwS8WfJsMHAgOGmM9n7kzZ1SGSw8bfMgZuZo7kSYeY9tplrdu
+ XhhyUqxJRI2tcmniWNmeJXTCF2P7C1fL3YEnnPXpiBR3/fJe3JaX2GZx9/DxW/2iP8JU
+ m84gDp99s54rFN7PpyFREuzbzop9lCset84v2X1Rwvyw+7HaMhxbV+Z32IvD8Ch3Y0BV
+ rRypTxRN1i+4pyoSnwZZI3ktd4MMoNH7qDg+yNYPHOR4dcYg3ULSlfz+4Me9R4HIpdqu
+ Yzgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=zs6if3JsrgpCg8dSorFuiYuQlfRV6HSFVzcfBOEUknM=;
- b=fL/fNjNE9XsltlUlySzWwWL8dCH1g9iP7wQaFab5vTdI2nhFdtj2os5kp55jOLbnG4
- lB2SpAWQbStBEbfCGks/dqmK7Ry/GjsbqgzWNR1XZoLsNX+QybhVObWjx2yvb/ysyN7L
- 4BoSE8qsc83V3WFDeBy15gYW5ZMql5NHbaN2X7Gqi1YU5F/Ezv8wBamcIx7oKck8VjyZ
- AIo/Q6Y2+ffwu53eCoKcO6Bo95mAMzDPdcp4cFbitTZUThUMLzSKuzvbicaJIj4lO3Fw
- YBJFxec33t+AfEVA2fOctnRaH4IPBjiSfA9Geu0UJq+OEIi88NR/IJ9NAROMKmgW9z99
- 3btA==
-X-Gm-Message-State: ACrzQf2/UWRHx7bMLcgRdwtQBvmWvSL/VobO+/AQQL0z6CQXJcxUF/as
- 9OIiM9u4+0EfxJKTdXX8heYJXQ==
-X-Google-Smtp-Source: AMsMyM7PhvOqlA7muc8FKwfRm0KNnnmscgHRXtZBD5GBCG42+BbrfQiWPBVJfJ5yZA0N8M7AbYg0Tw==
-X-Received: by 2002:a5d:59a9:0:b0:22b:e6a:4796 with SMTP id
- p9-20020a5d59a9000000b0022b0e6a4796mr6907197wrr.47.1663776892207; 
- Wed, 21 Sep 2022 09:14:52 -0700 (PDT)
+ bh=GoEs9/h2LLepKNbeRIHGFuvJURS7q8MKK6QKHpul0xk=;
+ b=D9z9jp+5PtEOqfR6BjUxs7s8Ms0R7KbMC0uBAjCvN2qTAcKD7q230AtX2TqlWgRK9Q
+ i+71m9T9F/iresKdnsc85mJTCa6UZH6Y2mFiF+2b4LvuMM9NJ6C2U5gbmURPSM94T8Us
+ A49o709Mhb5AKiLX0QRZRSURPSvNoBA70cucgFyrjycdBN5N4uFv4LEglApf14miRy2/
+ 64oCLffCKmI3gy8mMmUdsMlZTE3nKqD5jDiTuwoWe4e02+qPo3pXN5c4MUUjdrLERzUQ
+ zlli75fwhHpcgDdLPcm8bhbo/C2OG+tvFOMXsFqkqs1rQyFPvApnXsOFlN6zSOpA0yGY
+ hb6w==
+X-Gm-Message-State: ACrzQf3x8VjmvvHNJQKfeFqc9RpKVISKlJz97cpSk5yZfxkZ2YaIimzK
+ VswuMmQTDkVUUx1C30ijT1KQdg==
+X-Google-Smtp-Source: AMsMyM6kYJVDJTUx48OQtp4d3cM83SM9P21pcTTKIyEAOGspuz70GJJkne483hjjuvE9efftWuW18A==
+X-Received: by 2002:a05:600c:4ec7:b0:3a8:4622:ad27 with SMTP id
+ g7-20020a05600c4ec700b003a84622ad27mr6786719wmq.88.1663776891802; 
+ Wed, 21 Sep 2022 09:14:51 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- q63-20020a1c4342000000b003b4bd18a23bsm3218113wma.12.2022.09.21.09.14.50
+ bu23-20020a056000079700b0022a3a887ceasm2889808wrb.49.2022.09.21.09.14.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 21 Sep 2022 09:14:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 04F121FFC1;
+ by zen.linaroharston (Postfix) with ESMTP id 1B8EF1FFC2;
  Wed, 21 Sep 2022 17:08:02 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -64,17 +65,17 @@ Cc: minyihh@uci.edu, ma.mandourr@gmail.com, Luke.Craig@ll.mit.edu,
  robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Alexandre Iooss <erdnaxe@crans.org>
-Subject: [PATCH v1 09/10] contrib/plugins: reset skip when matching in execlog
-Date: Wed, 21 Sep 2022 17:08:00 +0100
-Message-Id: <20220921160801.1490125-10-alex.bennee@linaro.org>
+Subject: [PATCH  v1 10/10] docs/devel: document the test plugins
+Date: Wed, 21 Sep 2022 17:08:01 +0100
+Message-Id: <20220921160801.1490125-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220921160801.1490125-1-alex.bennee@linaro.org>
 References: <20220921160801.1490125-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,31 +98,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The purpose of the matches was to only track the execution of
-instructions we care about. Without resetting skip to the value at the
-start of the block we end up dumping all instructions after the match
-with the consequent load on the instrumentation.
+Although the test plugins are fairly basic they are still useful for
+some things so we should document their existence.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Alexandre Iooss <erdnaxe@crans.org>
 ---
- contrib/plugins/execlog.c | 3 +++
- 1 file changed, 3 insertions(+)
+ docs/devel/tcg-plugins.rst | 137 +++++++++++++++++++++++++++++++++++--
+ 1 file changed, 133 insertions(+), 4 deletions(-)
 
-diff --git a/contrib/plugins/execlog.c b/contrib/plugins/execlog.c
-index e659ac9cbb..b5360f2c8e 100644
---- a/contrib/plugins/execlog.c
-+++ b/contrib/plugins/execlog.c
-@@ -147,6 +147,9 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
-             /* Register callback on instruction */
-             qemu_plugin_register_vcpu_insn_exec_cb(insn, vcpu_insn_exec,
-                                                    QEMU_PLUGIN_CB_NO_REGS, output);
-+
-+            /* reset skip */
-+            skip = (imatches || amatches) ? true : false;
-         }
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+index 8b40b2a606..9740a70406 100644
+--- a/docs/devel/tcg-plugins.rst
++++ b/docs/devel/tcg-plugins.rst
+@@ -145,12 +145,141 @@ Example Plugins
  
-     }
+ There are a number of plugins included with QEMU and you are
+ encouraged to contribute your own plugins plugins upstream. There is a
+-``contrib/plugins`` directory where they can go.
++``contrib/plugins`` directory where they can go. There are also some
++basic plugins that are used to test and exercise the API during the
++``make check-tcg`` target in ``tests\plugins``.
+ 
+-- tests/plugins
++- tests/plugins/empty.c
+ 
+-These are some basic plugins that are used to test and exercise the
+-API during the ``make check-tcg`` target.
++Purely a test plugin for measuring the overhead of the plugins system
++itself. Does no instrumentation.
++
++- tests/plugins/bb.c
++
++A very basic plugin which will measure execution in course terms as
++each basic block is executed. By default the results are shown once
++execution finishes::
++
++  $ qemu-aarch64 -plugin tests/plugin/libbb.so \
++      -d plugin ./tests/tcg/aarch64-linux-user/sha1
++  SHA1=15dd99a1991e0b3826fede3deffc1feba42278e6
++  bb's: 2277338, insns: 158483046
++
++Behaviour can be tweaked with the following arguments:
++
++ * inline=true|false
++
++ Use faster inline addition of a single counter. Not per-cpu and not
++ thread safe.
++
++ * idle=true|false
++
++ Dump the current execution stats whenever the guest vCPU idles
++
++- tests/plugins/insn.c
++
++This is a basic instruction level instrumentation which can count the
++number of instructions executed on each core/thread::
++
++  $ qemu-aarch64 -plugin tests/plugin/libinsn.so \
++      -d plugin ./tests/tcg/aarch64-linux-user/threadcount
++  Created 10 threads
++  Done
++  cpu 0 insns: 46765
++  cpu 1 insns: 3694
++  cpu 2 insns: 3694
++  cpu 3 insns: 2994
++  cpu 4 insns: 1497
++  cpu 5 insns: 1497
++  cpu 6 insns: 1497
++  cpu 7 insns: 1497
++  total insns: 63135
++
++Behaviour can be tweaked with the following arguments:
++
++ * inline=true|false
++
++ Use faster inline addition of a single counter. Not per-cpu and not
++ thread safe.
++
++ * sizes=true|false
++
++ Give a summary of the instruction sizes for the execution
++
++ * match=<string>
++
++ Only instrument instructions matching the string prefix. Will show
++ some basic stats including how many instructions have executed since
++ the last execution. For example::
++
++   $ qemu-aarch64 -plugin tests/plugin/libinsn.so,match=bl \
++       -d plugin ./tests/tcg/aarch64-linux-user/sha512-vector
++   ...
++   0x40069c, 'bl #0x4002b0', 10 hits, 1093 match hits, Δ+1257 since last match, 98 avg insns/match
++   0x4006ac, 'bl #0x403690', 10 hits, 1094 match hits, Δ+47 since last match, 98 avg insns/match 
++   0x4037fc, 'bl #0x4002b0', 18 hits, 1095 match hits, Δ+22 since last match, 98 avg insns/match 
++   0x400720, 'bl #0x403690', 10 hits, 1096 match hits, Δ+58 since last match, 98 avg insns/match 
++   0x4037fc, 'bl #0x4002b0', 19 hits, 1097 match hits, Δ+22 since last match, 98 avg insns/match 
++   0x400730, 'bl #0x403690', 10 hits, 1098 match hits, Δ+33 since last match, 98 avg insns/match 
++   0x4037ac, 'bl #0x4002b0', 12 hits, 1099 match hits, Δ+20 since last match, 98 avg insns/match 
++   ...
++
++For more detailed execution tracing see the ``execlog`` plugin for
++other options.
++
++- tests/plugins/mem.c
++
++Basic instruction level memory instrumentation::
++
++  $ qemu-aarch64 -plugin tests/plugin/libmem.so,inline=true \
++      -d plugin ./tests/tcg/aarch64-linux-user/sha1
++  SHA1=15dd99a1991e0b3826fede3deffc1feba42278e6
++  inline mem accesses: 79525013
++
++Behaviour can be tweaked with the following arguments:
++
++ * inline=true|false
++
++ Use faster inline addition of a single counter. Not per-cpu and not
++ thread safe.
++
++ * callback=true|false
++
++ Use callbacks on each memory instrumentation.
++
++ * hwaddr=true|false
++
++ Count IO accesses (only for system emulation)
++
++- tests/plugins/syscall.c
++
++A basic syscall tracing plugin. This only works for user-mode. By
++default it will give a summary of syscall stats at the end of the
++run::
++
++  $ qemu-aarch64 -plugin tests/plugin/libsyscall \
++      -d plugin ./tests/tcg/aarch64-linux-user/threadcount
++  Created 10 threads
++  Done
++  syscall no.  calls  errors
++  226          12     0
++  99           11     11
++  115          11     0
++  222          11     0
++  93           10     0
++  220          10     0
++  233          10     0
++  215          8      0
++  214          4      0
++  134          2      0
++  64           2      0
++  96           1      0
++  94           1      0
++  80           1      0
++  261          1      0
++  78           1      0
++  160          1      0
++  135          1      0
+ 
+ - contrib/plugins/hotblocks.c
+ 
 -- 
 2.34.1
 
