@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F89C5C03F4
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 18:20:35 +0200 (CEST)
-Received: from localhost ([::1]:35258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EDB35C03F6
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 18:21:02 +0200 (CEST)
+Received: from localhost ([::1]:41044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob2Sf-0004vo-Ne
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 12:20:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51410)
+	id 1ob2T7-00051N-5p
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 12:21:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ob2Gl-0003O6-5X
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 12:08:15 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37735)
+ id 1ob2Gh-0003FZ-3Y
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 12:08:11 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:42676)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ob2Gj-0000e3-Ed
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 12:08:14 -0400
-Received: by mail-wr1-x429.google.com with SMTP id bq9so10700834wrb.4
- for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 09:08:13 -0700 (PDT)
+ id 1ob2Ge-0000cG-UG
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 12:08:10 -0400
+Received: by mail-wr1-x429.google.com with SMTP id n12so10643051wrx.9
+ for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 09:08:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=AqWJ7kyP/wVtcUkYapts2DpsBXihq1Vm9sATGZkmD9k=;
- b=prG89gNntB0BCQYooZY3fTpl6Lb5ZwuDlbjaHQbcLF8oef/rpFwfp723aI++JfSjXt
- sQVrygEW6/CCVrtMPTHLH2YmZ+L/toW0EiSmH20mpYfQNCoge9F0k/ZZSEUu5OkcddaC
- x/bY1jIKum2yHjch69cCMfPuWIgDZ0SnB3H0SoNZoh8rEtgNW3RFU7gOJnyM9TxR0FVK
- Oj162hIPUF3497VDa1dA+mt8UODFktJRdFAdTO5kA2uVqRCT6LDDOHhKrXzzJ6XvBpv/
- 0OXbfZjZA4Ja38VxzbWLSulAncO3wHCkSW30FkxUxMsX+1ODYksKZlyw9qr4K1ShR34d
- NsGw==
+ bh=8Ro+xFgh/QdLoZQgvYQ8rQUQbQuFqJuKD5ycvRlp+PA=;
+ b=yDRFOGZIwS5TBvjprxxXPeD/fM1U32vJwucS9FveGYT0CdQTBOyivLde2QxrvyAXt2
+ 1Vn4/s/QysuxWhsINXAqZhpyZShvpp4Y2GhDnqDCt0X9P42dlqs0xr3JoU+sG+IdfsxP
+ gWWmOMkWMJiUKsfClVw3y7KkBcIgoLCyZfx6pJpdRkDzFdaiuH7Sfdj2pwUCYLUPrRkm
+ GYrBTwQQrgDHM14JlAaxpdXO5y2yj5LTKDDv425siJ5bfi7p/t/TgWcTYye2C+juJ2l6
+ 9wX9M+l2rwrEZBsnVzrvU37tL5DWQNyOT32YFRbssHqMM4/6gMvpPZ/kVun8CcoP4X/W
+ 7iKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=AqWJ7kyP/wVtcUkYapts2DpsBXihq1Vm9sATGZkmD9k=;
- b=ZfNsX1URGGj5JUmpM4sXvs4036YsgOSiUpjpn2abSPj5MwpXGK/9mFBSu7BKxLRbo8
- jXhL1JwhLDp69BaCFpop5zigD6jqWTeoH9engD6e99xa1q7iS3CICa4Xh/BSaUAMhxIs
- PC3a9NOe1dAuxNA3X51CVpDev7f/aVwdX7oKXfeUo+IlIfSiZPx8bxgYJd4ANXpgH8S8
- Qs7cUwbDsjtAJ4hqZA7qJLVADvzYXIQTb8VP5MxPvvOqkAe2no4CVI7RilJIsFMNwVAt
- EBbsSi5P4xH/cqZmXVSXMmW3VYia131rbpd4MsPnPPI2pXgR181yaBqtDdDgILYqJjkl
- 07ew==
-X-Gm-Message-State: ACrzQf1af6+SoolNDt8LYWOZRLDYcaYltT4OAgjPlK1PDivAK0LCJF+q
- yBEPEYpSZZizw2utyRLZk8yf4Q==
-X-Google-Smtp-Source: AMsMyM41/V2WGeNTq4r6adjDZh9YvEvcN/JSX/CX7+lQ3esg8Mm+UShj0qT0DYj2IwB310x3YxVUCw==
-X-Received: by 2002:a5d:6ace:0:b0:22a:f444:2ad3 with SMTP id
- u14-20020a5d6ace000000b0022af4442ad3mr12755536wrw.21.1663776491974; 
- Wed, 21 Sep 2022 09:08:11 -0700 (PDT)
+ bh=8Ro+xFgh/QdLoZQgvYQ8rQUQbQuFqJuKD5ycvRlp+PA=;
+ b=iKKshSF4GgWww/SZPLXKi4Y5RZbTw8mI/wlJtyDqeOkJ830zr/efHH9eLMIZMyovIN
+ ibEr9EFTt8ldbWmSx102EYHBjtrWWcZGIRpA3DaS5qP8w/BXf/lhG8WZ1/0sOr9qbh+v
+ nE0F8VuESM7xuPrO8BxxaYnLgarU1pi7Zf9MvLzdC/FzYPsYxcSeGJ59mvFH6mN35csS
+ xq3dbOOglgnM6o4iDQWHblZUj1RRjTG/D8czZ2zg9II6QYYW7cIceO9rmRhwFqHsYhhP
+ DXi0o96/8dCjj816Ege0QHnbXNeQlvLe/EIZ4CvMBXqSa0deKM4r52L/AchSQ+yohB85
+ UF6A==
+X-Gm-Message-State: ACrzQf1fWIwOn/sFiSoLGiH2r2Ty/CBzVz8cgqi4YGvvo6iqbh92Bzhp
+ 9BP2BNxwHOPPClJTGPMpba5S3g==
+X-Google-Smtp-Source: AMsMyM6boG4cIRgF1survFRTZd4Caniql31PKXBe2OhUl5E/ob4SMPewUZERo9uf3bJ0Wqt+zOXsXw==
+X-Received: by 2002:a5d:47aa:0:b0:226:dbf6:680c with SMTP id
+ 10-20020a5d47aa000000b00226dbf6680cmr17803276wrb.581.1663776487085; 
+ Wed, 21 Sep 2022 09:08:07 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- l30-20020a05600c1d1e00b003a601a1c2f7sm3779689wms.19.2022.09.21.09.08.02
+ f4-20020a1cc904000000b003a5c7a942edsm3224652wmb.28.2022.09.21.09.08.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 21 Sep 2022 09:08:03 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 707521FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id 886251FFBC;
  Wed, 21 Sep 2022 17:08:01 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -63,10 +63,11 @@ Cc: minyihh@uci.edu, ma.mandourr@gmail.com, Luke.Craig@ll.mit.edu,
  cota@braap.org, aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
  robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH  v1 03/10] disas: use result of ->read_memory_func
-Date: Wed, 21 Sep 2022 17:07:54 +0100
-Message-Id: <20220921160801.1490125-4-alex.bennee@linaro.org>
+ Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org (open list:ARM TCG CPUs)
+Subject: [PATCH  v1 04/10] tests/tcg: add memory-sve test for aarch64
+Date: Wed, 21 Sep 2022 17:07:55 +0100
+Message-Id: <20220921160801.1490125-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220921160801.1490125-1-alex.bennee@linaro.org>
 References: <20220921160801.1490125-1-alex.bennee@linaro.org>
@@ -81,7 +82,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,153 +98,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This gets especially confusing if you start plugging in host addresses
-from a trace and you wonder why the output keeps changing. Report when
-read_memory_func fails instead of blindly disassembling the buffer
-contents.
+This will be helpful in debugging problems with tracking SVE memory
+accesses via the TCG plugins system.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Cc: Robert Henry <robhenry@microsoft.com>
+Cc: Aaron Lindsay <aaron@os.amperecomputing.com>
 ---
- disas.c          | 20 ++++++-------
- disas/capstone.c | 73 ++++++++++++++++++++++++++++--------------------
- 2 files changed, 53 insertions(+), 40 deletions(-)
+ tests/tcg/aarch64/Makefile.softmmu-target | 7 +++++++
+ tests/tcg/aarch64/system/boot.S           | 3 ++-
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/disas.c b/disas.c
-index f07b6e760b..94d3b45042 100644
---- a/disas.c
-+++ b/disas.c
-@@ -83,18 +83,18 @@ static int print_insn_objdump(bfd_vma pc, disassemble_info *info,
-                               const char *prefix)
- {
-     int i, n = info->buffer_length;
--    uint8_t *buf = g_malloc(n);
--
--    info->read_memory_func(pc, buf, n, info);
--
--    for (i = 0; i < n; ++i) {
--        if (i % 32 == 0) {
--            info->fprintf_func(info->stream, "\n%s: ", prefix);
-+    g_autofree uint8_t *buf = g_malloc(n);
+diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
+index f6fcd4829e..26701b718c 100644
+--- a/tests/tcg/aarch64/Makefile.softmmu-target
++++ b/tests/tcg/aarch64/Makefile.softmmu-target
+@@ -31,6 +31,13 @@ LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
+ 
+ memory: CFLAGS+=-DCHECK_UNALIGNED=1
+ 
++memory-sve: memory.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
++	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
 +
-+    if (info->read_memory_func(pc, buf, n, info) == 0) {
-+        for (i = 0; i < n; ++i) {
-+            if (i % 32 == 0) {
-+                info->fprintf_func(info->stream, "\n%s: ", prefix);
-+            }
-+            info->fprintf_func(info->stream, "%02x", buf[i]);
-         }
--        info->fprintf_func(info->stream, "%02x", buf[i]);
-+    } else {
-+        info->fprintf_func(info->stream, "unable to read memory");
-     }
--
--    g_free(buf);
-     return n;
- }
- 
-diff --git a/disas/capstone.c b/disas/capstone.c
-index 20bc8f9669..fe3efb0d3c 100644
---- a/disas/capstone.c
-+++ b/disas/capstone.c
-@@ -191,37 +191,43 @@ bool cap_disas_target(disassemble_info *info, uint64_t pc, size_t size)
-         size_t tsize = MIN(sizeof(cap_buf) - csize, size);
-         const uint8_t *cbuf = cap_buf;
- 
--        info->read_memory_func(pc + csize, cap_buf + csize, tsize, info);
--        csize += tsize;
--        size -= tsize;
-+        if (info->read_memory_func(pc + csize, cap_buf + csize, tsize, info) == 0) {
-+            csize += tsize;
-+            size -= tsize;
- 
--        while (cs_disasm_iter(handle, &cbuf, &csize, &pc, insn)) {
--            cap_dump_insn(info, insn);
--        }
-+            while (cs_disasm_iter(handle, &cbuf, &csize, &pc, insn)) {
-+                cap_dump_insn(info, insn);
-+            }
++memory-sve: CFLAGS+=-DCHECK_UNALIGNED=1 -march=armv8.1-a+sve -O3 -fno-tree-loop-distribute-patterns
 +
-+            /* If the target memory is not consumed, go back for more... */
-+            if (size != 0) {
-+                /*
-+                 * ... taking care to move any remaining fractional insn
-+                 * to the beginning of the buffer.
-+                 */
-+                if (csize != 0) {
-+                    memmove(cap_buf, cbuf, csize);
-+                }
-+                continue;
-+            }
- 
--        /* If the target memory is not consumed, go back for more... */
--        if (size != 0) {
-             /*
--             * ... taking care to move any remaining fractional insn
--             * to the beginning of the buffer.
-+             * Since the target memory is consumed, we should not have
-+             * a remaining fractional insn.
-              */
-             if (csize != 0) {
--                memmove(cap_buf, cbuf, csize);
-+                info->fprintf_func(info->stream,
-+                                   "Disassembler disagrees with translator "
-+                                   "over instruction decoding\n"
-+                                   "Please report this to qemu-devel@nongnu.org\n");
-             }
--            continue;
--        }
-+            break;
- 
--        /*
--         * Since the target memory is consumed, we should not have
--         * a remaining fractional insn.
--         */
--        if (csize != 0) {
-+        } else {
-             info->fprintf_func(info->stream,
--                "Disassembler disagrees with translator "
--                "over instruction decoding\n"
--                "Please report this to qemu-devel@nongnu.org\n");
-+                               "0x%08" PRIx64 ": unable to read memory\n", pc);
-+            break;
-         }
--        break;
-     }
- 
-     cs_close(&handle);
-@@ -286,16 +292,23 @@ bool cap_disas_monitor(disassemble_info *info, uint64_t pc, int count)
- 
-         /* Make certain that we can make progress.  */
-         assert(tsize != 0);
--        info->read_memory_func(pc + csize, cap_buf + csize, tsize, info);
--        csize += tsize;
--
--        if (cs_disasm_iter(handle, &cbuf, &csize, &pc, insn)) {
--            cap_dump_insn(info, insn);
--            if (--count <= 0) {
--                break;
-+        if (info->read_memory_func(pc + csize, cap_buf + csize,
-+                                   tsize, info) == 0)
-+        {
-+            csize += tsize;
++TESTS+=memory-sve
 +
-+            if (cs_disasm_iter(handle, &cbuf, &csize, &pc, insn)) {
-+                cap_dump_insn(info, insn);
-+                if (--count <= 0) {
-+                    break;
-+                }
-             }
-+            memmove(cap_buf, cbuf, csize);
-+        } else {
-+            info->fprintf_func(info->stream,
-+                               "0x%08" PRIx64 ": unable to read memory\n", pc);
-+            break;
-         }
--        memmove(cap_buf, cbuf, csize);
-     }
+ # Running
+ QEMU_BASE_MACHINE=-M virt -cpu max -display none
+ QEMU_OPTS+=$(QEMU_BASE_MACHINE) -semihosting-config enable=on,target=native,chardev=output -kernel
+diff --git a/tests/tcg/aarch64/system/boot.S b/tests/tcg/aarch64/system/boot.S
+index e190b1efa6..f136363d2a 100644
+--- a/tests/tcg/aarch64/system/boot.S
++++ b/tests/tcg/aarch64/system/boot.S
+@@ -179,12 +179,13 @@ __start:
+ 	isb
  
-     cs_close(&handle);
+ 	/*
+-	 * Enable FP registers. The standard C pre-amble will be
++	 * Enable FP/SVE registers. The standard C pre-amble will be
+ 	 * saving these and A-profile compilers will use AdvSIMD
+ 	 * registers unless we tell it not to.
+ 	*/
+ 	mrs	x0, cpacr_el1
+ 	orr	x0, x0, #(3 << 20)
++	orr	x0, x0, #(3 << 16)
+ 	msr	cpacr_el1, x0
+ 
+ 	/* Setup some stack space and enter the test code.
 -- 
 2.34.1
 
