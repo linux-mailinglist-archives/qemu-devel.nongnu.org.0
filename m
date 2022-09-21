@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9475D1C33
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 20:04:42 +0200 (CEST)
-Received: from localhost ([::1]:58928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F615E4F86
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 20:35:58 +0200 (CEST)
+Received: from localhost ([::1]:57502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob45P-0008HM-Ok
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 14:04:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37472)
+	id 1ob4KC-0006qS-4A
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 14:19:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ob40z-0005m4-EA
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 14:00:05 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:54041)
+ (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1ob4HX-0005MM-LW
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 14:17:13 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:43758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ob40x-00021Z-78
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 14:00:05 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id q3so7281724pjg.3
- for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 11:00:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liavalb@gmail.com>) id 1ob4HU-0004Ug-6p
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 14:17:10 -0400
+Received: by mail-wr1-x430.google.com with SMTP id t7so11325669wrm.10
+ for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 11:17:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date;
- bh=m29O+pIusQUEzRwwGeeQ9pr8OZkiOZWItfTnsxC01L8=;
- b=VQyn7/Bw2PIL+10zWuABhmYLBkUaeN5hrzsKzknI6ZE6H6Uv4kBpp6MQuMHHsYN7Kf
- dphfUins5Zxb6TkdVuwW+5X15Uxl0Hf2f2FxXL10EmTrYpiFCJTna3SGtOG7WtCbiSvU
- KPJ6j62PBVI6UU6G2iATKfICYI0sV4TyvdiiTumN9uvFE+HN1yWEpDjJ1X3DSU789bCD
- VuLwY2rL5wU0yqQnqmkHX37hfXN+wXGefd5b0pXI5U7SMmEMuyBR++ZQKuI/Uj2uhf73
- PXNsaGUxfuq2/Llp/BFMe4rtLw6z5etBcs5KN6CJBKltkdw1miJUiWtsweTAi+1MzKSO
- YYtw==
+ :from:to:cc:subject:date;
+ bh=JMeQg9xpwl85Q548OF7qKB6+NLxYV9R0oLD++sTOJQ0=;
+ b=cAZuAB5srvM7KFehd6pgRxsZEIgOkROOEIJPxBZlMDCpjBAz1PccTRCJZ+iZBp0MkW
+ pwE+qvIGd14eyzGgrvW2YdYoUSwfFcq9cz3osh//GX9LTIo0UQrnDcKTK9BJLxQFSO2M
+ N699uJnJVb28wYL/8ylshcG26peCmIRoSvvQtdxqeL+eSZo3gncvpcezLvCpEtb/KzF1
+ TnrREXe3KD4ISdn4afWxeqWE9Iav16xSI+PtgPDpVgMhFlB3SqPev9dkNBg+6a6+AA/7
+ KILyiGdAZuebi2vDhaOSWDfLN/hbrFgssUzMRNH6cs8PCUfmwfltQrQ7FHTLc3osOQ1V
+ AvcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=m29O+pIusQUEzRwwGeeQ9pr8OZkiOZWItfTnsxC01L8=;
- b=3/3RNIWX7sS33vZHfZbp8QOnV4QMFmPZoJ8LBOqyEIDPDjDetZsMHrG8RjubJfSXmn
- Pf0LKXpRWIl99TyFzO/kWUXv+ZAXnc6Hgo6lNootKLGlzqGJ19shQ1cPLY+Mef9TNZjP
- H2YMmq7of6xC2Cc+R2zdmLbiaVRfO8xMMip26gm98URe4AuBloL+6a5i+mJ3CPiC0uRv
- /rUIe73yVSUmG/A0UQcTn4od7AVwMCQaBXqPVLf4tV9Uoe3+nvkOGhWZQ9udJqu4lyVk
- mhevAKo0c4/nFu589OCZ1RjCAa8ke3DqBWZhC67GCpbjH3RWfhNZWfMe1wg31rtKLgF3
- gL4w==
-X-Gm-Message-State: ACrzQf3eSs/0StwMHSmJxLVtmwxVjqNCTw6cL6ZSW5W5drMFeyD/X82L
- n29tC/vaYkiAQ7GR2p1mwL8=
-X-Google-Smtp-Source: AMsMyM7dRcqeJJhNssAlwm52ZQpsUf0l/gA9hkqa4Lp63q2yidR2Z8GTsxquJ0DKXcAzvt9Gjls4Pg==
-X-Received: by 2002:a17:902:7446:b0:176:85f5:e767 with SMTP id
- e6-20020a170902744600b0017685f5e767mr5960567plt.60.1663783201659; 
- Wed, 21 Sep 2022 11:00:01 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=JMeQg9xpwl85Q548OF7qKB6+NLxYV9R0oLD++sTOJQ0=;
+ b=7VNxypcBQ61ilZlkpghAiGkEYDfai2pC4V9fhmtxS9eyMkvgoO0lY31T5tsHO4oo1X
+ ZhzNihamZ2Oi7rEqiQSB0zzYiAUzM/DXbFmDyl20hGvTDd1u5VgzshXIS+aIfWtHf962
+ GqvLr+ESPB+kHL5R2R98cJj9sBEWsfA1my9xihjFR5bRDkrjgeej6IwOit7y8RvbFhZc
+ TO77bK6IzBFJtG2Xhct/UsGh0lCl5MTugiqxhjEw9ufjgcFi/O3ilZRn3m1hGKjnZ//I
+ rNulKcvrrtOc8CCoPXuNxub9jNc0DQGgT8vyYCYKrL3gO7IWMTguV7NKOQNv2vY/3wQE
+ 6CZg==
+X-Gm-Message-State: ACrzQf19esOTSyWB9jquvq8pRLxUMyO9wKg8SQ+k3Y0NCoQ9PPgEICJ+
+ 0imbFkfL2eGhwRj2930TW18=
+X-Google-Smtp-Source: AMsMyM6w7QLJy6e4p+5V+P/vkVfNvGLaUuBXw8TVaTrLIHerrrwPM9HOBh48jPTuXsLJQWf+7OMYTQ==
+X-Received: by 2002:adf:fc87:0:b0:228:7e07:73c with SMTP id
+ g7-20020adffc87000000b002287e07073cmr17431571wrr.162.1663784225872; 
+ Wed, 21 Sep 2022 11:17:05 -0700 (PDT)
+Received: from [192.168.33.3] ([147.235.207.82])
  by smtp.gmail.com with ESMTPSA id
- k73-20020a633d4c000000b0041a67913d5bsm2151574pga.71.2022.09.21.10.59.59
+ g14-20020a05600c4ece00b003b477532e66sm6613852wmq.2.2022.09.21.11.17.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Sep 2022 11:00:01 -0700 (PDT)
-Message-ID: <daa38114-e29d-4272-c272-32c344f9c3d6@amsat.org>
-Date: Wed, 21 Sep 2022 19:59:57 +0200
+ Wed, 21 Sep 2022 11:17:05 -0700 (PDT)
+Message-ID: <fffdb5eb-0a84-9bcf-e05a-dbe8872280db@gmail.com>
+Date: Wed, 21 Sep 2022 21:17:03 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PULL 00/12] Publish1 patches
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH 0/1] hw/display: expose linear framebuffer address in
+ Bochs VBE registers
 Content-Language: en-US
-To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefan Hajnoczi <stefanha@gmail.com>
-References: <20220920173152.199359-1-deller@gmx.de>
-In-Reply-To: <20220920173152.199359-1-deller@gmx.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org
+References: <20220920154922.248790-1-liavalb@gmail.com>
+ <20220921061447.e2ii6q24f2e6n64q@sirius.home.kraxel.org>
+From: Liav Albani <liavalb@gmail.com>
+In-Reply-To: <20220921061447.e2ii6q24f2e6n64q@sirius.home.kraxel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-3.702,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=liavalb@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-3.702, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,73 +92,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Hi Helge,
 
-On 20/9/22 19:31, Helge Deller wrote:
-> The following changes since commit 621da7789083b80d6f1ff1c0fb499334007b4f51:
-> 
->    Update version for v7.1.0 release (2022-08-30 09:40:11 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://github.com/hdeller/qemu-hppa.git tags/publish1-pull-request
-> 
-> for you to fetch changes up to 7f8674a61a908592bb4e8e698f5bef84d0eeb8cc:
-> 
->    linux-user: Add parameters of getrandom() syscall for strace (2022-09-18 21:35:27 +0200)
-> 
-> ----------------------------------------------------------------
-> linux-user: Add more syscalls, enhance tracing & logging enhancements
-> 
-> Here is a bunch of patches for linux-user.
-> 
-> Most of them add missing syscalls and enhance the tracing/logging.
-> Some of the patches are target-hppa specific.
-> I've tested those on productive hppa debian buildd servers (running qemu-user).
-> 
-> Thanks!
-> Helge
-> 
-> Changes to v2:
-> - Fix build of close_range() and pidfd_*() patches on older Linux
->    distributions (noticed by Stefan Hajnoczi)
-> 
-> Changes to v1:
-> - Dropped the faccessat2() syscall patch in favour of Richard's patch
-> - Various changes to the "missing signals in strace output" patch based on
->    Richard's feedback, e.g. static arrays, fixed usage of _NSIG, fix build when
->    TARGET_SIGIOT does not exist
-> - Use FUTEX_CMD_MASK in "Show timespec on strace for futex" patch
->    unconditionally and turn into a switch statement - as suggested by Richard
-> 
-> ----------------------------------------------------------------
-> 
-> Helge Deller (12):
->    linux-user: Add missing signals in strace output
->    linux-user: Add missing clock_gettime64() syscall strace
->    linux-user: Add pidfd_open(), pidfd_send_signal() and pidfd_getfd()
->      syscalls
->    linux-user: Log failing executable in EXCP_DUMP()
->    linux-user/hppa: Use EXCP_DUMP() to show enhanced debug info
->    linux-user/hppa: Dump IIR on register dump
->    linux-user: Fix strace of chmod() if mode == 0
->    linux-user/hppa: Set TASK_UNMAPPED_BASE to 0xfa000000 for hppa arch
->    linux-user: Add strace for clock_nanosleep()
->    linux-user: Show timespec on strace for futex()
->    linux-user: Add close_range() syscall
->    linux-user: Add parameters of getrandom() syscall for strace
+On 9/21/22 09:14, Gerd Hoffmann wrote:
+> Nope.  Even if you fix the framebuffer address conflict you still have
+> the io address conflict.
+Yeah, that is why I explicitly said that this is needed to be fixed as 
+well in later patches.
+> Yep.  That's why isa-pc is pretty much unused these days.
 
-It seems you missed my review comments:
+Well, I can't say I use it frequently, but I do test it with the 
+SerenityOS kernel and it works pretty well.
+The SerenityOS kernel is able to drive an isa-vga device just fine after 
+my patches were merged yesterday (in the GitHub pull request I provided 
+a link to), so I do see that machine type as a valuable test platform.
 
-- 
-https://lore.kernel.org/qemu-devel/569161db-c8cf-9ae5-9ae6-161de7f22335@amsat.org/
-- 
-https://lore.kernel.org/qemu-devel/d1668b24-9c04-0e54-2a82-7174f0d46fc1@amsat.org/
-- 
-https://lore.kernel.org/qemu-devel/e8bfd1ba-cec7-7c29-9319-eb013c14a237@amsat.org/#t
-- 
-https://lore.kernel.org/qemu-devel/02090880-0db6-0a6b-60b0-b3313566b962@amsat.org/
+> When you want build a sysbus variant of the bochs-display device and
+> make that discoverable by the guest somehow (dt or acpi) you can expose
+> both io ports and framebuffer address that way.  No need to touch the
+> bochs dispi interface for that.
+This is an interesting idea. A sysbus-bochs-display device might work 
+well as you suggested,
+instead of using an isa-vga device.
+>
+>>    This idea is quite neat in my opinion, because it could speed up the
+>>    boot of such VM while still providing sufficient display capabilities
+>>    for those we need them. It could help developers to test their OSes
+>>    on such hardware setups to ensure multi-monitor configuration works
+>>    reliably when there's no PCI bus at all but many framebuffer devices
+>>    being used in one VM.
+> Why not just use virtio-gpu?
+
+Trying to run this command:
+qemu-system-x86_64 -M microvm -m 2048 -device virtio-gpu
+
+Results in:
+qemu-system-x86_64: -device virtio-gpu: No 'PCI' bus found for device 
+'virtio-gpu-pci'
+
+The idea was to not use PCI at all but still to have multiple 
+framebuffer devices. So clearly virtio-gpu
+is not usable in this situation.
+
+>
+>> 2. This is more related to the SerenityOS project - I prefer to not
+>>    hardcode physical addresses at all wherever I can do so. This makes
+>>    the code cleaner and more understandable as far as I observe this from
+>>    the angle of the person which is not me, that tries to make sense from
+>>    the code flow.
+> Yea, fully agree, but why continue to use non-discoverable isa bus
+> devices then?
+
+On the ISA-PC machine, I still want to be able to boot into a graphical 
+environment with the SerenityOS kernel. The only option is
+to use the isa-vga device, which works OK.
+On the microvm machine, it is really not that important if I use the 
+isa-vga device or a sysbus-bochs-display device (when I implement that
+device).
+I just want to support as many x86 platform configurations as possible - 
+modern non-PCI machines, ISA-PC machines and regular i440fx/Q35 machines.
+
+>
+>> 3. The costs of adding this feature are pretty negligible compared to
+>>    the possible value of this, especially if we apply the idea of running
+>>    multiple ISA-VGA devices on one microvm machine. Still, the only major
+>>    "issue" that one can point to is the fact that I bump up the Bochs VBE
+>>    version number, which could be questionable with how the feature might
+>>    be insignificant for many guest OSes out there.
+> Touching isa-vga at this point doesn't make sense at all.  We simply
+> can't move around the framebuffer without screwing up users.
+That's an issue I didn't consider, but this is not a real problem on the 
+microvm machine
+if you use the device tree approach to expose the resources of the 
+device, which in some sense makes it unnecessary
+to use the bochs dispi interface to expose the framebuffer physical address.
+>
+> Also I don't see any actual value in this.  Even considering the
+> multiple devices case the patch is a partial solution only (handles
+> the framebuffer but not the ioports) which is pointless.
+Considering the possibility of exposing the framebuffer address within 
+the device tree blob, it is indeed not making more value
+to go with this approach. I'm still fond of the idea to create a sysbus 
+variant of the bochs-display device, so I might work on that instead :)
+
+Best regards,
+Liav
+
 
