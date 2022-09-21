@@ -2,118 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA8485E54FE
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 23:13:22 +0200 (CEST)
-Received: from localhost ([::1]:39826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 233ED5E55A7
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 23:57:06 +0200 (CEST)
+Received: from localhost ([::1]:44940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob721-0007de-DK
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 17:13:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41668)
+	id 1ob7iK-0002bk-OE
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 17:57:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1ob70N-0006D3-BZ
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 17:11:39 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217]:41138)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1ob70L-0005yk-36
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 17:11:38 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7C2E562861;
- Wed, 21 Sep 2022 21:11:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FD3CC433C1;
- Wed, 21 Sep 2022 21:11:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1663794687;
- bh=q5iTDoMb1h594m9zBAcQ294TqIVliTEQoMBfbSTQOEc=;
- h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
- b=HXKQICEaWSNQF2IN43p5UTWR7wkEBhbRHnddHQoZkXz8gJLh7Pr2bkQPAxjcpnJi2
- 0Q/h6CzriwchnUlmsO9BDrIPtn/TeLnrVo5uHkw+szXrG+6sXl1ElJp1xhSdyvhMlJ
- cuioDOWdEvguwOM6wEjHbayOspWvgVYmtrk92qmcaHWzfQCFkqJWQC2h1+eW5FaVCH
- Wv0Tu9JJEiRYwy9ADZliY6hVGdYUT8dEXk/XfHpcHKoPPq7vjZWjV2QbbCcjdLDi+Z
- vuZjF6LDsm0w768UHnwzYxUul0fXGQ4vzbQ9ilbulLqSISqwiHkJi3bQJ47+UV6Hyw
- mrdSIgubNRwXg==
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailauth.nyi.internal (Postfix) with ESMTP id 277B227C0054;
- Wed, 21 Sep 2022 17:11:25 -0400 (EDT)
-Received: from imap48 ([10.202.2.98])
- by compute2.internal (MEProxy); Wed, 21 Sep 2022 17:11:25 -0400
-X-ME-Sender: <xms:-n0rY_4N0LKpSTfU-17jxItIVA2IeOyeV3GBH-kTGeaQnD44QEGWsA>
- <xme:-n0rY05FRoGSPXzqMPaO0MmZQgUZpWgYxdjP4kFXdAHqngqCBvxsuyaZNtPNWtT0M
- maJP6ri53jokKJgZsg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeefuddgudeitdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
- nhguhicunfhuthhomhhirhhskhhifdcuoehluhhtoheskhgvrhhnvghlrdhorhhgqeenuc
- ggtffrrghtthgvrhhnpedvhfeuvddthfdufffhkeekffetgffhledtleegffetheeugeej
- ffduhefgteeihfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
- hrohhmpegrnhguhidomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudduiedu
- keehieefvddqvdeifeduieeitdekqdhluhhtoheppehkvghrnhgvlhdrohhrgheslhhinh
- hugidrlhhuthhordhush
-X-ME-Proxy: <xmx:-n0rY2fud6xh0WVrheag-M-5En3oxyvmXPkXJRxC0S-XYaeJiPIqsw>
- <xmx:-n0rYwJ4GI3Nzi4ft0zhvleIXE5-DX0-OH5WjOjQhfMBWzMBrktPoA>
- <xmx:-n0rYzKpWKke8wVrjYykrrHICZQAPwgvRIuBwudPMdXnQbse-OJeWA>
- <xmx:_X0rYxkptztuCef_-KiMtVyhiKBRT0-vPWSHiG4dcD54DzNMZcfFTWwsQ6o>
-Feedback-ID: ieff94742:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id C289931A0062; Wed, 21 Sep 2022 17:11:22 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-935-ge4ccd4c47b-fm-20220914.001-ge4ccd4c4
-Mime-Version: 1.0
-Message-Id: <84e81d21-c800-4fd5-ad7c-f20bcdd7508b@www.fastmail.com>
-In-Reply-To: <Yyi+l3+p9lbBAC4M@google.com>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
- <Yyi+l3+p9lbBAC4M@google.com>
-Date: Wed, 21 Sep 2022 14:10:51 -0700
-From: "Andy Lutomirski" <luto@kernel.org>
-To: "Sean Christopherson" <seanjc@google.com>,
- "David Hildenbrand" <david@redhat.com>
-Cc: "Chao Peng" <chao.p.peng@linux.intel.com>,
- "kvm list" <kvm@vger.kernel.org>,
- "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- "Linux API" <linux-api@vger.kernel.org>, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, "Paolo Bonzini" <pbonzini@redhat.com>,
- "Jonathan Corbet" <corbet@lwn.net>,
- "Vitaly Kuznetsov" <vkuznets@redhat.com>,
- "Wanpeng Li" <wanpengli@tencent.com>,
- "Jim Mattson" <jmattson@google.com>, "Joerg Roedel" <joro@8bytes.org>,
- "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>,
- "the arch/x86 maintainers" <x86@kernel.org>,
- "H. Peter Anvin" <hpa@zytor.com>, "Hugh Dickins" <hughd@google.com>,
- "Jeff Layton" <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Shuah Khan" <shuah@kernel.org>, "Mike Rapoport" <rppt@kernel.org>,
- "Steven Price" <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- "Vlastimil Babka" <vbabka@suse.cz>,
- "Vishal Annapurve" <vannapurve@google.com>,
- "Yu Zhang" <yu.c.zhang@linux.intel.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, "Nakajima,
- Jun" <jun.nakajima@intel.com>, "Dave Hansen" <dave.hansen@intel.com>,
- "Andi Kleen" <ak@linux.intel.com>, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- "Quentin Perret" <qperret@google.com>,
- "Michael Roth" <michael.roth@amd.com>, "Michal Hocko" <mhocko@suse.com>,
- "Muchun Song" <songmuchun@bytedance.com>, wei.w.wang@intel.com,
- "Will Deacon" <will@kernel.org>, "Marc Zyngier" <maz@kernel.org>,
- "Fuad Tabba" <tabba@google.com>
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-Content-Type: text/plain
-Received-SPF: pass client-ip=139.178.84.217; envelope-from=luto@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ob7fn-00010F-6J
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 17:54:27 -0400
+Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134]:36744)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ob7fl-0006ga-6X
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 17:54:26 -0400
+Received: by mail-lf1-x134.google.com with SMTP id f9so11502761lfr.3
+ for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 14:54:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=fSDleOigfXnJxu7SC7BRt/6s1XUUcUQkzskIkkTf7mU=;
+ b=acrMljO7U6/iJx3iNZWYIxTkrq1XmBAINqeJwM8dvLzqhLibxgjC7Li1z56UB88a3W
+ JfBUBjZuiC/ZO4brUZ7wu+Eaw8fgulEiCCDmsoDERvTKHUK/dSVOGhYdsbuEVTMW56Dc
+ utsjExHTii9BLPOEQkYpYTTAwhEwYln/hU2fsi2h7f0DKo7pFwouG2InoYRx6u6sG9XG
+ Mnw/b84FNX162l7Nphr9qKqii8BbCAmY3TvAlci62Yn42eT+IeE8lij2hEaZjg7jjLq3
+ FIpK8LO0Dp/epW9lBw83Oem2lAiucJdeLIva+B/YtKIcbjYcEuBqc8WHvGTHxP/k8nF6
+ 1O0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=fSDleOigfXnJxu7SC7BRt/6s1XUUcUQkzskIkkTf7mU=;
+ b=SplMHcNT3GqH0KJNfw1o5hchlr8yfha18DVrifI6hjpjZoBgOnSNYkx37WxWqr7/3C
+ pBCOvqDb5TRswLcDyCYGgHRYgJsLEK9ZVSHx004VeH844pKQcUBIOBrNf7kkRuKfDa0g
+ y6bFtYXlAe4/zpjcQiunvJnbdfABc6+nD+jvpahiiGZZslUO4hbJ91dCvaMcznCgFLsG
+ 9Rlk/XAwad1xb0u0gD47cm7VWz06Qq1hssqBaN9iA5EBOSU1mjp2KTP1esCEWwh88AEm
+ +pa1HXSieBJJlMCLcZPQnIWtNTa112Pk2wXSkhJmR/XpshfaBokBNK5iYtmIXtD/wYNE
+ EVrQ==
+X-Gm-Message-State: ACrzQf2spn7ggmG27sAIsyWloxBXmJMurXVa6a8wuFwf4EWvZK9UDncZ
+ 6Hj8SI3bMOpHMU8MFDu2t5gaImkHCQveqfbQAA4=
+X-Google-Smtp-Source: AMsMyM47wNsYMroANs8S5M+hXZtvXUH5naSsvBqDLeT5ipHG6XTO5wutPiSCAzLjXTVcGO0FN/8SacX0JuxV+uongJw=
+X-Received: by 2002:a05:6512:3d18:b0:498:fafb:229f with SMTP id
+ d24-20020a0565123d1800b00498fafb229fmr79041lfv.356.1663797262210; Wed, 21 Sep
+ 2022 14:54:22 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220920103159.1865256-1-bmeng.cn@gmail.com>
+ <20220920103159.1865256-27-bmeng.cn@gmail.com>
+In-Reply-To: <20220920103159.1865256-27-bmeng.cn@gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 21 Sep 2022 23:54:10 +0200
+Message-ID: <CAJ+F1CLupcHMUSm2rfC5YPGX_JW0O+uG=UfQCdu5VCGRyma+CA@mail.gmail.com>
+Subject: Re: [PATCH v2 26/39] tests/qtest: migration-test: Make sure QEMU
+ process "to" exited after migration is canceled
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-devel@nongnu.org, Xuzhou Cheng <xuzhou.cheng@windriver.com>, 
+ Bin Meng <bin.meng@windriver.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
+ Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000cadc1905e936fc79"
+Received-SPF: pass client-ip=2a00:1450:4864:20::134;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x134.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -130,105 +88,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-(please excuse any formatting disasters.  my internet went out as I was composing this, and i did my best to rescue it.)
+--000000000000cadc1905e936fc79
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 19, 2022, at 12:10 PM, Sean Christopherson wrote:
-> +Will, Marc and Fuad (apologies if I missed other pKVM folks)
->
-> On Mon, Sep 19, 2022, David Hildenbrand wrote:
->> On 15.09.22 16:29, Chao Peng wrote:
->> > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
->> > 
->> > KVM can use memfd-provided memory for guest memory. For normal userspace
->> > accessible memory, KVM userspace (e.g. QEMU) mmaps the memfd into its
->> > virtual address space and then tells KVM to use the virtual address to
->> > setup the mapping in the secondary page table (e.g. EPT).
->> > 
->> > With confidential computing technologies like Intel TDX, the
->> > memfd-provided memory may be encrypted with special key for special
->> > software domain (e.g. KVM guest) and is not expected to be directly
->> > accessed by userspace. Precisely, userspace access to such encrypted
->> > memory may lead to host crash so it should be prevented.
->> 
->> Initially my thaught was that this whole inaccessible thing is TDX specific
->> and there is no need to force that on other mechanisms. That's why I
->> suggested to not expose this to user space but handle the notifier
->> requirements internally.
->> 
->> IIUC now, protected KVM has similar demands. Either access (read/write) of
->> guest RAM would result in a fault and possibly crash the hypervisor (at
->> least not the whole machine IIUC).
->
-> Yep.  The missing piece for pKVM is the ability to convert from shared 
-> to private
-> while preserving the contents, e.g. to hand off a large buffer 
-> (hundreds of MiB)
-> for processing in the protected VM.  Thoughts on this at the bottom.
->
->> > This patch introduces userspace inaccessible memfd (created with
->> > MFD_INACCESSIBLE). Its memory is inaccessible from userspace through
->> > ordinary MMU access (e.g. read/write/mmap) but can be accessed via
->> > in-kernel interface so KVM can directly interact with core-mm without
->> > the need to map the memory into KVM userspace.
->> 
->> With secretmem we decided to not add such "concept switch" flags and instead
->> use a dedicated syscall.
->>
->
-> I have no personal preference whatsoever between a flag and a dedicated syscall,
-> but a dedicated syscall does seem like it would give the kernel a bit more
-> flexibility.
+Hi
 
-The third option is a device node, e.g. /dev/kvm_secretmem or /dev/kvm_tdxmem or similar.  But if we need flags or other details in the future, maybe this isn't ideal.
+On Tue, Sep 20, 2022 at 3:18 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 
+> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 >
->> What about memfd_inaccessible()? Especially, sealing and hugetlb are not
->> even supported and it might take a while to support either.
+> Make sure QEMU process "to" exited before launching another target
+> for migration in the test_multifd_tcp_cancel case.
 >
-> Don't know about sealing, but hugetlb support for "inaccessible" memory 
-> needs to
-> come sooner than later.  "inaccessible" in quotes because we might want 
-> to choose
-> a less binary name, e.g. "restricted"?.
+> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
-> Regarding pKVM's use case, with the shim approach I believe this can be done by
-> allowing userspace mmap() the "hidden" memfd, but with a ton of restrictions
-> piled on top.
->
-> My first thought was to make the uAPI a set of KVM ioctls so that KVM 
-> could tightly
-> tightly control usage without taking on too much complexity in the 
-> kernel, but
-> working through things, routing the behavior through the shim itself 
-> might not be
-> all that horrific.
->
-> IIRC, we discarded the idea of allowing userspace to map the "private" 
-> fd because
-> things got too complex, but with the shim it doesn't seem _that_ bad.
 
-What's the exact use case?  Is it just to pre-populate the memory?
+fwiw, I didn't r-b the version with a busy wait
+(
+https://patchew.org/QEMU/20220824094029.1634519-1-bmeng.cn@gmail.com/202208=
+24094029.1634519-42-bmeng.cn@gmail.com/
+)
 
+---
 >
-> E.g. on the memfd side:
+> Changes in v2:
+> - Change to a busy wait after migration is canceled
 >
->   1. The entire memfd must be mapped, and at most one mapping is allowed, i.e.
->      mapping is all or nothing.
+>  tests/qtest/migration-test.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 >
->   2. Acquiring a reference via get_pfn() is disallowed if there's a mapping for
->      the restricted memfd.
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index c87afad9e8..aedd9ddb72 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -2133,6 +2133,10 @@ static void test_multifd_tcp_cancel(void)
+>      wait_for_migration_pass(from);
 >
->   3. Add notifier hooks to allow downstream users to further restrict things.
+>      migrate_cancel(from);
+> +    /* Make sure QEMU process "to" exited */
+> +    while (qtest_probe_child(to)) {
+> +        ;
+> +    }
 >
->   4. Disallow splitting VMAs, e.g. to force userspace to munmap() everything in
->      one shot.
+>      args =3D (MigrateStart){
+>          .only_target =3D true,
+> --
+> 2.34.1
 >
->   5. Require that there are no outstanding references at munmap().  Or if this
->      can't be guaranteed by userspace, maybe add some way for userspace to wait
->      until it's ok to convert to private?  E.g. so that get_pfn() doesn't need
->      to do an expensive check every time.
+>
+>
 
-Hmm.  I haven't looked at the code to see if this would really work, but I think this could be done more in line with how the rest of the kernel works by using the rmap infrastructure.  When the pKVM memfd is in not-yet-private mode, just let it be mmapped as usual (but don't allow any form of GUP or pinning).  Then have an ioctl to switch to to shared mode that takes locks or sets flags so that no new faults can be serviced and does unmap_mapping_range.
+--=20
+Marc-Andr=C3=A9 Lureau
 
-As long as the shim arranges to have its own vm_ops, I don't immediately see any reason this can't work.
+--000000000000cadc1905e936fc79
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 20, 2022 at 3:18 PM Bin=
+ Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Xuz=
+hou Cheng &lt;<a href=3D"mailto:xuzhou.cheng@windriver.com" target=3D"_blan=
+k">xuzhou.cheng@windriver.com</a>&gt;<br>
+<br>
+Make sure QEMU process &quot;to&quot; exited before launching another targe=
+t<br>
+for migration in the test_multifd_tcp_cancel case.<br>
+<br>
+Signed-off-by: Xuzhou Cheng &lt;<a href=3D"mailto:xuzhou.cheng@windriver.co=
+m" target=3D"_blank">xuzhou.cheng@windriver.com</a>&gt;<br>
+Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" targe=
+t=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
+Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@=
+redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br></bloc=
+kquote><div><br></div><div>fwiw, I didn&#39;t r-b the version with a busy w=
+ait <br></div><div>(<a href=3D"https://patchew.org/QEMU/20220824094029.1634=
+519-1-bmeng.cn@gmail.com/20220824094029.1634519-42-bmeng.cn@gmail.com/">htt=
+ps://patchew.org/QEMU/20220824094029.1634519-1-bmeng.cn@gmail.com/202208240=
+94029.1634519-42-bmeng.cn@gmail.com/</a>)</div><div><br> </div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex">
+---<br>
+<br>
+Changes in v2:<br>
+- Change to a busy wait after migration is canceled<br>
+<br>
+=C2=A0tests/qtest/migration-test.c | 4 ++++<br>
+=C2=A01 file changed, 4 insertions(+)<br>
+<br>
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c<br=
+>
+index c87afad9e8..aedd9ddb72 100644<br>
+--- a/tests/qtest/migration-test.c<br>
++++ b/tests/qtest/migration-test.c<br>
+@@ -2133,6 +2133,10 @@ static void test_multifd_tcp_cancel(void)<br>
+=C2=A0 =C2=A0 =C2=A0wait_for_migration_pass(from);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0migrate_cancel(from);<br>
++=C2=A0 =C2=A0 /* Make sure QEMU process &quot;to&quot; exited */<br>
++=C2=A0 =C2=A0 while (qtest_probe_child(to)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ;<br>
++=C2=A0 =C2=A0 }<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0args =3D (MigrateStart){<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.only_target =3D true,<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000cadc1905e936fc79--
 
