@@ -2,92 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66A3E5C00CD
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 17:11:02 +0200 (CEST)
-Received: from localhost ([::1]:46658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 083EE5C00D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 17:14:46 +0200 (CEST)
+Received: from localhost ([::1]:54436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob1NM-0006yz-33
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 11:11:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58148)
+	id 1ob1Qy-0004mW-Eo
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 11:14:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ob1I1-0002Ye-G9
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 11:05:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58007)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ob1NX-0007H8-B3
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 11:11:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53899)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ob1Hk-0006yB-Gt
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 11:05:27 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ob1NU-00081k-3s
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 11:11:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663772711;
+ s=mimecast20190719; t=1663773067;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i+iVFC+myaJEscTxF7fiAwXznaL6zDbolQynA64C11E=;
- b=FBfIOaNvgKf2kpA+sJGxN9XQPgmi8uZygE2VD4j95BXA+lUR6dl/gqikDebawDwnTjOK6n
- XL39H46kZOzd0uUoHlgiOKQcSSX6KUHgbTJLKLr88qciSpp8giLCa8UlyOt8eb6Jy+CK2G
- ZZy8Pagh9o+gx5/wYbDKnNT3Uaodr60=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-653-HQfS9NvFOC2Pryprad6yBw-1; Wed, 21 Sep 2022 11:05:10 -0400
-X-MC-Unique: HQfS9NvFOC2Pryprad6yBw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- y20-20020a05600c365400b003b4d4ae666fso1733846wmq.4
- for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 08:05:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-transfer-encoding
- :content-disposition:mime-version:references:message-id:subject:cc
- :to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=i+iVFC+myaJEscTxF7fiAwXznaL6zDbolQynA64C11E=;
- b=cKSwWhCKR+4O/kSfBG5SOZ2sUYKyp9rT6y/qqcuTnCdic7t0FKKoLHtqEqmqHWAhMz
- xuGMO/Dwe3qT7dJytVhsYjsiRbMo5JU7DtUVuBJ552Ly0qh2KWs2GVWaylK/+95nwA2T
- cRyaeD4hAY9SEQNyyPfLmEZJGXkt+jkU0oanHq51dtgRyTYC2kpz3T/bhUVYV3lvVqwY
- eqBSTNEt1N7ASVLZKDEjqulmMBmKpVtKnTJqUqBeNRgBAzK1CaJF4puJQJODNXtN1Ppl
- lhyQuzmrt1VD6T/xRQULngBzG/rgWgNXrrOudr+cIi2UPxibAQADaK0+XSkTfsJ/Kf+H
- BlEQ==
-X-Gm-Message-State: ACrzQf2D4jCAUU37GNoX6CVKQwrhdsb9r8+GJTJE2yPAQ6/MR6Fs7hSb
- AG3ZQUlsx0Er44YANj3Oynk1xaxKApoBXihCEL/eFvjxiFY2eS7LE9hCkv1NmfwJvScnk7o+kTH
- Yr57Goadc3Dhoqec=
-X-Received: by 2002:a5d:64e4:0:b0:22a:4997:c13c with SMTP id
- g4-20020a5d64e4000000b0022a4997c13cmr18576442wri.621.1663772708342; 
- Wed, 21 Sep 2022 08:05:08 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6lFB0mFjx/31kUd6jWEDp7SRFzrD9rSo5vPTFOlW2+pJ+R6WOsZKOiHqljfbApg9ZyuQz6Ig==
-X-Received: by 2002:a5d:64e4:0:b0:22a:4997:c13c with SMTP id
- g4-20020a5d64e4000000b0022a4997c13cmr18576411wri.621.1663772707969; 
- Wed, 21 Sep 2022 08:05:07 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- x2-20020a5d6b42000000b002286670bafasm2798308wrw.48.2022.09.21.08.05.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Sep 2022 08:05:07 -0700 (PDT)
-Date: Wed, 21 Sep 2022 16:05:05 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: "Wang, Lei" <lei4.wang@intel.com>, paul.c.lai@intel.com,
- pbonzini@redhat.com, qemu-devel@nongnu.org, robert.hu@intel.com,
- xiaoyao.li@intel.com, chenyi.qiang@intel.com
-Subject: Re: [PATCH] i386: Add new CPU model SapphireRapids
-Message-ID: <YysoIQEkgGRlZmfE@work-vm>
-References: <20220812055751.14553-1-lei4.wang@intel.com>
- <Yysk/taT/eKR0Bp3@work-vm> <YysnZp+Jxt5wHLI+@redhat.com>
+ bh=E9tb5K0ATjyE5IMNLpugAdTFo+8PR9GChQYy7CO3LbM=;
+ b=i/EZ7Ln+E2Cu+9k+/v5sQ2azIH3dJFsfXwmqcBq07u43vozE0L+bTjs/u9AqTB9ehvJ64r
+ +Nk86YoW+SQdGCR5Jbln0H/g5ZYOIqSsi+vVnoJx+qHbmnYP2BDdbxsfM32bSjliEERaq2
+ IaWK7YByibWzrHtHpwmEr0KlhSpuH/U=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-589-x1bE_8J3MriBWaJdVBohDQ-1; Wed, 21 Sep 2022 11:11:05 -0400
+X-MC-Unique: x1bE_8J3MriBWaJdVBohDQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5CDAD803912;
+ Wed, 21 Sep 2022 15:11:05 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 12043C4C9D6;
+ Wed, 21 Sep 2022 15:11:05 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B568621E6900; Wed, 21 Sep 2022 17:11:03 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Dongli Zhang <dongli.zhang@oracle.com>
+Cc: Markus Armbruster <armbru@redhat.com>,  qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org,  dgilbert@redhat.com,  joe.jin@oracle.com,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v3 1/1] monitor/hmp: print trace as option in help for
+ log command
+References: <20220831213943.8155-1-dongli.zhang@oracle.com>
+ <87h71qrmkh.fsf@pond.sub.org>
+ <d4ed9983-586e-ea44-90ad-0fc0f259acfc@amsat.org>
+ <4c0425d5-65fa-72e8-5950-abcee7a3a8ce@oracle.com>
+Date: Wed, 21 Sep 2022 17:11:03 +0200
+In-Reply-To: <4c0425d5-65fa-72e8-5950-abcee7a3a8ce@oracle.com> (Dongli Zhang's
+ message of "Sun, 18 Sep 2022 23:49:25 -0700")
+Message-ID: <87edw4ahko.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YysnZp+Jxt5wHLI+@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,67 +87,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> On Wed, Sep 21, 2022 at 03:51:42PM +0100, Dr. David Alan Gilbert wrote:
-> > * Wang, Lei (lei4.wang@intel.com) wrote:
-> > > The new CPU model mostly inherits features from Icelake-Server, while
-> > > adding new features:
-> > >  - AMX (Advance Matrix eXtensions)
-> > >  - Bus Lock Debug Exception
-> > > and new instructions:
-> > >  - AVX VNNI (Vector Neural Network Instruction):
-> > >     - VPDPBUS: Multiply and Add Unsigned and Signed Bytes
-> > >     - VPDPBUSDS: Multiply and Add Unsigned and Signed Bytes with Saturation
-> > >     - VPDPWSSD: Multiply and Add Signed Word Integers
-> > >     - VPDPWSSDS: Multiply and Add Signed Integers with Saturation
-> > >  - FP16: Replicates existing AVX512 computational SP (FP32) instructions
-> > >    using FP16 instead of FP32 for ~2X performance gain
-> > >  - SERIALIZE: Provide software with a simple way to force the processor to
-> > >    complete all modifications, faster, allowed in all privilege levels and
-> > >    not causing an unconditional VM exit
-> > >  - TSX Suspend Load Address Tracking: Allows programmers to choose which
-> > >    memory accesses do not need to be tracked in the TSX read set
-> > >  - AVX512_BF16: Vector Neural Network Instructions supporting BFLOAT16
-> > >    inputs and conversion instructions from IEEE single precision
-> > > 
-> > > Features may be added in future versions:
-> > >  - CET (virtualization support hasn't been merged)
-> > > Instructions may be added in future versions:
-> > >  - fast zero-length MOVSB (KVM doesn't support yet)
-> > >  - fast short STOSB (KVM doesn't support yet)
-> > >  - fast short CMPSB, SCASB (KVM doesn't support yet)
-> > > 
-> > > Signed-off-by: Wang, Lei <lei4.wang@intel.com>
-> > > Reviewed-by: Robert Hoo <robert.hu@linux.intel.com>
-> > 
-> > Hi,
-> >    What fills in the AMX tile and tmul information leafs
-> > (0x1D, 0x1E)?
-> >   In particular, how would we make sure when we migrate between two
-> > generations of AMX/Tile/Tmul capable devices with different
-> > register/palette/tmul limits that the migration is tied to the CPU type
-> > correctly?
-> >   Would you expect all devices called a 'SappireRapids' to have the same
-> > sizes?
-> 
-> We shouldn't assume this will only be used on 'SappireRapids' host
-> silicon. Thi named CPU model is likely to be used by a guest running
-> on any host silicon generations that follow SappireRapids too.
+Dongli Zhang <dongli.zhang@oracle.com> writes:
 
-Indeed, but I wanted to check the opposite question first; whether
-all SappireRapids had the same sizes; I think you're asking the opposite
-question.
+> Hi Markus,
+>
+> On 9/17/22 2:44 PM, Philippe Mathieu-Daud=C3=A9 via wrote:
+>> Hi Markus,
+>>=20
+>> On 2/9/22 14:24, Markus Armbruster wrote:
+>>> Dongli Zhang <dongli.zhang@oracle.com> writes:
+>>>
+>>>> The below is printed when printing help information in qemu-system-x86=
+_64
+>>>> command line, and when CONFIG_TRACE_LOG is enabled:
+>>>>
+>>>> ----------------------------
+>>>> $ qemu-system-x86_64 -d help
+>>>> ... ...
+>>>> trace:PATTERN=C2=A0=C2=A0 enable trace events
+>>>>
+>>>> Use "-d trace:help" to get a list of trace events.
+>>>> ----------------------------
+>>>>
+>>>> However, the options of "trace:PATTERN" are only printed by
+>>>> "qemu-system-x86_64 -d help", but missing in hmp "help log" command.
+>>>>
+>>>> Fixes: c84ea00dc2 ("log: add "-d trace:PATTERN"")
+>>>> Cc: Joe Jin <joe.jin@oracle.com>
+>>>> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
+>>>> ---
+>>>> Changed since v1:
+>>>> - change format for "none" as well.
+>>>> Changed since v2:
+>>>> - use "log trace:help" in help message.
+>>>> - add more clarification in commit message.
+>>>> - add 'Fixes' tag.
+>>>> ---
+>>>> =C2=A0 monitor/hmp.c | 9 +++++++--
+>>>> =C2=A0 1 file changed, 7 insertions(+), 2 deletions(-)
+>>=20
+>>> Not this patch's fault:
+>>>
+>>> 1. "-d help" terminates with exit status 1, "-d trace:help" with 0.=C2=
+=A0 The
+>>> =C2=A0=C2=A0=C2=A0 former is wrong.
+>
+> May I assume it is expected to have exit status 1 when "-d help"?
 
-Dave
+Non-zero exit status means error.  Asking for and receiving help is not
+an error.  Therefore, "-d help" should exit with status 0, just like
+"-help", "-device help", "-machine help", ...
 
-> With regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> According to the output of "-d", there is even not a "help" option, but o=
+nly a
+> "-d trace:help" option. That is, "-d help" is not officially supported.
+
+It *is* documented:
+
+    $ qemu-system-x86_64 -help | grep -- '^-d '
+    -d item1,...    enable logging of specified items (use '-d help' for a =
+list of log items)
+
+> The below example use "-d hellworld" but not "help".
+>
+> # qemu-system-x86_64 -d helloworld
+> Log items (comma separated):
+> out_asm         show generated host assembly code for each compiled TB
+> in_asm          show target assembly code for each compiled TB
+> op              show micro ops for each compiled TB
+> op_opt          show micro ops after optimization
+> op_ind          show micro ops before indirect lowering
+> int             show interrupts/exceptions in short format
+> exec            show trace before each executed TB (lots of logs)
+> cpu             show CPU registers before entering a TB (lots of logs)
+> fpu             include FPU registers in the 'cpu' logging
+> mmu             log MMU-related activities
+> pcall           x86 only: show protected mode far calls/returns/exceptions
+> cpu_reset       show CPU state before CPU resets
+> unimp           log unimplemented functionality
+> guest_errors    log when the guest OS does something invalid (eg accessin=
+g a
+> non-existent register)
+> page            dump pages at beginning of user mode emulation
+> nochain         do not chain compiled TBs so that "exec" and "cpu" show
+> complete traces
+> plugin          output from TCG plugins
+>
+> strace          log every user-mode syscall, its input, and its result
+> tid             open a separate log file per thread; filename must contai=
+n '%d'
+> trace:PATTERN   enable trace events
+>
+> Use "-d trace:help" to get a list of trace events.
+>
+>
+> According to the source code, the qemu_str_to_log_mask() expects either l=
+og
+> items or "trace". For any other inputs (e.g., "help" or "helloworld"),
+> qemu_str_to_log_mask() returns 0 (no bit set in the mask).
+
+You're right.
+
+>                                                            That indicates=
+ the
+> input (e.g., "help") is not an expected input.
+
+No, it indicates laziness :)
+
+> Therefore, can I assume this is not a bug? I do not think something like =
+below
+> is very helpful.
+>
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 263f029a8e..54c8e624bf 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -2389,6 +2389,8 @@ static void qemu_process_early_options(void)
+>              mask =3D qemu_str_to_log_mask(log_mask);
+>              if (!mask) {
+>                  qemu_print_log_usage(stdout);
+> +                if (g_str_equal(log_mask, "help"))
+> +                    exit(0)
+>                  exit(1);
+>              }
+>          }
+
+Let's make "-d help" print help to stdout and terminate successfully,
+and "-d crap" report an error and terminate unsuccessfully.  Just like
+other options, such as -device and -machine.
+
+> Thank you very much!
+
+You're welcome!
 
 
