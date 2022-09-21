@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3398C5C0281
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C6225C0280
 	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 17:53:57 +0200 (CEST)
-Received: from localhost ([::1]:34714 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:34716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob22u-0000kD-3V
+	id 1ob22u-0000kG-61
 	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 11:53:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43860)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ob21J-0006U9-In
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ob21J-0006UA-JZ
  for qemu-devel@nongnu.org; Wed, 21 Sep 2022 11:52:17 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:43497)
+Received: from mout.kundenserver.de ([212.227.126.187]:41293)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ob21H-0006Bq-N5
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ob21H-0006Bt-NC
  for qemu-devel@nongnu.org; Wed, 21 Sep 2022 11:52:17 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MkpKR-1ozcO33t3n-00mMLw; Wed, 21
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MZCrZ-1onyKS1P0L-00V4ac; Wed, 21
  Sep 2022 17:52:13 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Laurent Vivier <laurent@vivier.eu>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 1/5] target/m68k: Implement atomic test-and-set
-Date: Wed, 21 Sep 2022 17:52:07 +0200
-Message-Id: <20220921155211.402559-2-laurent@vivier.eu>
+Subject: [PULL 2/5] target/m68k: Fix MACSR to CCR
+Date: Wed, 21 Sep 2022 17:52:08 +0200
+Message-Id: <20220921155211.402559-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220921155211.402559-1-laurent@vivier.eu>
 References: <20220921155211.402559-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:6g1DQtSzF3ueHZP2WMd66+ue6bRt88KX6gJwkXxaIktn3qtXkZT
- CWXA0VkHvn8DRymwjjstskEtRVeRPYfDrJUx0NjUQG3iEZt3VqSvZvrWjQWSHIgVWxcPup3
- Ow7JDr4KRCW+iLxCS84VrHTUCUf+5Q+QpiVKTd/LuJiFuBfXsGoo615peRn1M//G6P4RLlF
- QcUAiA4jAHxIVCqbQ4xOg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:R5YDnkGOocw=:bFaqdpWZxeeWuO9IapIbk4
- IB92YUYuI+/l0vp3Kj+KS0rB49U6KwxbBRX7SZntXeOONi4Gobli/P7WNsJb34x5y3uGmPoJ6
- /D+niHZEfxF4yA3ZETpiCIxtEZSXtoxiUo5x7bKHQBWPrZFen2dHGU/qlW+SyFZIyF2jwC//H
- lSNfpC0n3F9HAbcevoyUN+/Q2k69Zrz1DuWgoB9p8AJfMxISWonQxhSdCfZMUcIwJATDXTlBh
- pCCKfGICqnxC/dLuciV07DNFfIc/hHSGQU0MueoeXYvVRPUVPL5HO6K5s27twx5Z5JEYRY3GU
- 8NkXS4TweQz2vAKMmKGmZ3kqtUAjL8DLa+W/+j3t2WzYfys7RG3j8fEK/Yv+M6jD2178I27vW
- QJsUPHulBTWYJ3EaBkArqVYLOa3Ni6eVVUt37cIvfVI18RU8U2NLXZowyGaKYOgXTf8smi+mX
- 8s/BQcGrsvwXuF6O6lgYTBZz8yKzVZuEZB9+pJzI6KUXZJepwdn5cZIEMvqNSvccS/ZUBJ86H
- +z16fMKzjboPWa24ri7rbtrsEWGfbprKQLhxmPXE2sGWOCb/76hBM6GDCfnDtwPxJflYhHtVI
- TA6S0kJ2YFLUjaXqVBo4bI8l4KMcgj2xijn9Fr+ZIdy8/QJSF5QDQGdQ+kjA689dI3whyWy3u
- ZucGSOTfCzii9g6K9+ipGOQIoDk8soowz4TMdmuJy2jndhHdhiSLaIp+c4XSUuJ0j+NN0lDLV
- WewUZcwBJphPF6Gd81FFhSXEcR+sclOa3qDLh3x0ksewcEg3XDXbVP+3R18Qo8MwHfaCcViCL
- g0ljapu
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:nnqJ3MrRMuBEcK2Kv0wFZ2GPdzC+MoASgbQT9b0fR59pF15zrzG
+ jO3A4SwFWpeQLOFW3C7R4yKyjiQkfRTteCPNgO1tR5MHsLzZz9iYxpM9l2I0LYkZnsHgEZo
+ gXKv8odzFnugt++p+5DgBVHmJfxjeWnMYSD2fUYDSewpo2vwE5GoeIzB6GBZZSngusNYA0/
+ p766PK1GzoFV2Z9SMG93w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Rya1V/2mp4I=:OkGzkoeAUiJZceb/QqkN91
+ RMn9cubIeJKNddODLXZnz9PoZXpnAArDtDI36kaQU42oXjMNJ8LI1U/PgKNHFmL0w6WhGfHq0
+ ZKHpHfDRhtIN+2H0cmYntTbwLYPpZRGytOg3ePqod9T8n048nxWh2rRuLx8wqVwrqqJ7Ehs8J
+ YBvPN7yE1aB1M64ZZnGcjPpN7/wK3K/1DACYGxAc7m24h923pO7rMVFms0bXxP2/QeRWG2tIk
+ C4WYsDBcQaZFgPxL5GR3o2H5YB8zsXfOH1AYD5P47+aQCnHkRkqrggOFT8s/94cUzZ1l1xP8I
+ Y2pNxdqxvPWO+RTzyf3axZKH3ciLbHD8GbhJF/XJOcX3XifnWPx9bf9fxDdE+UQzLhJk//VuR
+ +FS23jZy0TisEL2ZQLykuUR0O8nQ1WNJNLdC3V639eT1Yf9Gc/VCzRGILWugCUjVEr8KZiHI0
+ wd95K4NAjreQGijL3Yfed59g1eiI3RCehZ1Y+T9VBShVWWna/l8P+zfCs+ai6z8KjzPCV0WcG
+ iXp8xcwmd2NO9nsALm6JC4XmS7Q5eoO+YcGCA169hHj0NHj20F3cEPKffkHw5dQqnYRGAgqsX
+ QKhSQ5tGkMUDnpPh10Rkzk5dzOWgu6uVVwshcnZtxLVMSyxGyEQlvwxaDawGjgWhhlikRZX1Z
+ Z7db8aOHAi5HmkF8rzvF5JM9ZBWnfpIAMGgBfdlukA87zXEHkNeXeJcoMpotlPK8Q3b9oLFq4
+ l7//KVD7D7CZW4ulV4kFV1VImvYmluzfk+QL4FWJyuofnIyZ+FTcZdfPCxyG9rlYfpnlt2rpi
+ l2yRC4N
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -74,71 +74,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This is slightly more complicated than cas,
-because tas is allowed on data registers.
+First, we were writing to the entire SR register, instead
+of only the flags portion.  Second, we were not clearing C
+as per the documentation (X was cleared via the 0xf mask).
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220829051746.227094-1-richard.henderson@linaro.org>
+Message-Id: <20220913142818.7802-2-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/m68k/translate.c | 40 ++++++++++++++++++++++++++++++----------
- 1 file changed, 30 insertions(+), 10 deletions(-)
+ target/m68k/translate.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index 5098f7e570e0..ffcc761d6011 100644
+index ffcc761d6011..c9bb05380323 100644
 --- a/target/m68k/translate.c
 +++ b/target/m68k/translate.c
-@@ -2825,19 +2825,39 @@ DISAS_INSN(illegal)
-     gen_exception(s, s->base.pc_next, EXCP_ILLEGAL);
- }
- 
--/* ??? This should be atomic.  */
- DISAS_INSN(tas)
+@@ -5912,8 +5912,10 @@ DISAS_INSN(from_mext)
+ DISAS_INSN(macsr_to_ccr)
  {
--    TCGv dest;
--    TCGv src1;
--    TCGv addr;
-+    int mode = extract32(insn, 3, 3);
-+    int reg0 = REG(insn, 0);
- 
--    dest = tcg_temp_new();
--    SRC_EA(env, src1, OS_BYTE, 1, &addr);
--    gen_logic_cc(s, src1, OS_BYTE);
--    tcg_gen_ori_i32(dest, src1, 0x80);
--    DEST_EA(env, insn, OS_BYTE, dest, &addr);
--    tcg_temp_free(dest);
-+    if (mode == 0) {
-+        /* data register direct */
-+        TCGv dest = cpu_dregs[reg0];
-+        gen_logic_cc(s, dest, OS_BYTE);
-+        tcg_gen_ori_tl(dest, dest, 0x80);
-+    } else {
-+        TCGv src1, addr;
+     TCGv tmp = tcg_temp_new();
+-    tcg_gen_andi_i32(tmp, QREG_MACSR, 0xf);
+-    gen_helper_set_sr(cpu_env, tmp);
 +
-+        addr = gen_lea_mode(env, s, mode, reg0, OS_BYTE);
-+        if (IS_NULL_QREG(addr)) {
-+            gen_addr_fault(s);
-+            return;
-+        }
-+        src1 = tcg_temp_new();
-+        tcg_gen_atomic_fetch_or_tl(src1, addr, tcg_constant_tl(0x80),
-+                                   IS_USER(s), MO_SB);
-+        gen_logic_cc(s, src1, OS_BYTE);
-+        tcg_temp_free(src1);
-+
-+        switch (mode) {
-+        case 3: /* Indirect postincrement.  */
-+            tcg_gen_addi_i32(AREG(insn, 0), addr, 1);
-+            break;
-+        case 4: /* Indirect predecrememnt.  */
-+            tcg_gen_mov_i32(AREG(insn, 0), addr);
-+            break;
-+        }
-+    }
++    /* Note that X and C are always cleared. */
++    tcg_gen_andi_i32(tmp, QREG_MACSR, CCF_N | CCF_Z | CCF_V);
++    gen_helper_set_ccr(cpu_env, tmp);
+     tcg_temp_free(tmp);
+     set_cc_op(s, CC_OP_FLAGS);
  }
- 
- DISAS_INSN(mull)
 -- 
 2.37.3
 
