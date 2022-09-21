@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E7D35C040D
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 18:26:33 +0200 (CEST)
-Received: from localhost ([::1]:42676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A195C0480
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 18:45:44 +0200 (CEST)
+Received: from localhost ([::1]:44576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob2YS-00007Z-7e
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 12:26:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54532)
+	id 1ob2r1-0000ne-EZ
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 12:45:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ob2Gq-0003Ts-L1
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 12:08:20 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37735)
+ id 1ob2ND-000740-Hw
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 12:14:55 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44828)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ob2Go-0000e3-NT
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 12:08:20 -0400
-Received: by mail-wr1-x429.google.com with SMTP id bq9so10701321wrb.4
- for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 09:08:18 -0700 (PDT)
+ id 1ob2NB-0001Va-OZ
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 12:14:55 -0400
+Received: by mail-wr1-x429.google.com with SMTP id c11so10667356wrp.11
+ for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 09:14:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=iHHyl8AojnEq14+3x1kjoY7otQgZX0hgTY1qjaFy320=;
- b=DgjEppD2lwo1KBT/JmrbtWMHe24x3FEtWiueAYDoEq3edddOgwN+lsD7HdBvFnKUiw
- dFtkt1TSBzLcHff6bd1ub8OUfL2gptjE+tXJUrX+D4F/tmOjO4NxDl4BFKNTEqCiF+uU
- a5QEXSWKFjjl26XSEyDF4iNtJqVOQ1vC5O8q+LufzUCjDMO6/rpB8PPXrB/h9hTRLdtS
- vU+P5XI2ZAgBVi5TbbYifBVxl5DUpdIf3ESx+F1gxiCjZbDhqFs9WLBModyrFJ88MppS
- YnzVmAZsCnny4OdNv6aTt6OomgacMZBHkCzQrwL7f1VvVCcMQ5PtWBdyWhlOXoF1V1mU
- 5FkA==
+ bh=zs6if3JsrgpCg8dSorFuiYuQlfRV6HSFVzcfBOEUknM=;
+ b=tBSaZXCHyL0X04o1b89r/sLIPcBvPkr2w01jT2oe9V7TTqQy9BHGCmNmtdgSs0AXsC
+ T9bINdrmnGZ+mkMzznBZnAIgdxeeI2iqWvJTNIRpQltLMnSkn+6zK6610r5wvPlaypVM
+ sQro1bKETDsae2m8+Fyu5x+siStPyYF+0G1fK6JCV4/9vlmQoo5aukU8uCu7CaWg5lNH
+ LBz3X+O3zVHMMM31zPqskcXRtXt/o6Q/iY+pSxjiA7HOujQ0fwZQTHKsvOMIpK8I3vw1
+ NZ/FCuWxjKyvvgUw0+GifXs3kl0STEn6v5nb8nKxBEUY6gW6XdJ1t7u9SHcA45JCDzSm
+ 8Ugw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=iHHyl8AojnEq14+3x1kjoY7otQgZX0hgTY1qjaFy320=;
- b=VA8PkrffaN5tht2fjmAEEyF/osug5f/tPvpmQD0rYT39wDRuz2Zm84nCUJIB0GyJZY
- K+ipJKAO1QnVw4CWKA8mIvUJ6YlcM8ZMGzLdGqAHEkrwtSvqVvCZoGuYprPc/4zEML2c
- E5+5AvUVV1JcR//tjU0LkdZF+2q/EivfiBfBTPOhGrXyrl64DnHM8emsnWvGSEQHPhS5
- csA9sv5by4mmGWcOjUdTMctvJskQQ47WMYr8/i6OR/pSrjmztuevVvLGznRZ3UDmA5Oy
- aWoguiSKz7r2Zb+nP6ORxElmMJk1VBbKFkyl7li1bQhOZaTFQkCrlpPBILPmvASBwqJC
- hGDQ==
-X-Gm-Message-State: ACrzQf1lHeRL+gxdGK+KH/bVwh521SsJZ1x9lWRhkquAXJI9oo1OgmQF
- sFbspbqAcRRHNnq8Q3P0Nz/08A==
-X-Google-Smtp-Source: AMsMyM44+Xh/j6yRqnSUs28g0/T3j6kN/0MgJlWh/GTgpEwQyUVPfzJq2QvuhxIMLT3mlSgju58mDA==
-X-Received: by 2002:a05:6000:14c:b0:22a:c14a:29f8 with SMTP id
- r12-20020a056000014c00b0022ac14a29f8mr17631312wrx.588.1663776497802; 
- Wed, 21 Sep 2022 09:08:17 -0700 (PDT)
+ bh=zs6if3JsrgpCg8dSorFuiYuQlfRV6HSFVzcfBOEUknM=;
+ b=fL/fNjNE9XsltlUlySzWwWL8dCH1g9iP7wQaFab5vTdI2nhFdtj2os5kp55jOLbnG4
+ lB2SpAWQbStBEbfCGks/dqmK7Ry/GjsbqgzWNR1XZoLsNX+QybhVObWjx2yvb/ysyN7L
+ 4BoSE8qsc83V3WFDeBy15gYW5ZMql5NHbaN2X7Gqi1YU5F/Ezv8wBamcIx7oKck8VjyZ
+ AIo/Q6Y2+ffwu53eCoKcO6Bo95mAMzDPdcp4cFbitTZUThUMLzSKuzvbicaJIj4lO3Fw
+ YBJFxec33t+AfEVA2fOctnRaH4IPBjiSfA9Geu0UJq+OEIi88NR/IJ9NAROMKmgW9z99
+ 3btA==
+X-Gm-Message-State: ACrzQf2/UWRHx7bMLcgRdwtQBvmWvSL/VobO+/AQQL0z6CQXJcxUF/as
+ 9OIiM9u4+0EfxJKTdXX8heYJXQ==
+X-Google-Smtp-Source: AMsMyM7PhvOqlA7muc8FKwfRm0KNnnmscgHRXtZBD5GBCG42+BbrfQiWPBVJfJ5yZA0N8M7AbYg0Tw==
+X-Received: by 2002:a5d:59a9:0:b0:22b:e6a:4796 with SMTP id
+ p9-20020a5d59a9000000b0022b0e6a4796mr6907197wrr.47.1663776892207; 
+ Wed, 21 Sep 2022 09:14:52 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- j3-20020a05600c300300b003b4868eb6bbsm3675523wmh.23.2022.09.21.09.08.06
+ q63-20020a1c4342000000b003b4bd18a23bsm3218113wma.12.2022.09.21.09.14.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Sep 2022 09:08:14 -0700 (PDT)
+ Wed, 21 Sep 2022 09:14:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E3B041FFC0;
- Wed, 21 Sep 2022 17:08:01 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 04F121FFC1;
+ Wed, 21 Sep 2022 17:08:02 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: minyihh@uci.edu, ma.mandourr@gmail.com, Luke.Craig@ll.mit.edu,
@@ -64,9 +64,9 @@ Cc: minyihh@uci.edu, ma.mandourr@gmail.com, Luke.Craig@ll.mit.edu,
  robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Alexandre Iooss <erdnaxe@crans.org>
-Subject: [PATCH  v1 08/10] docs/devel: move API to end of tcg-plugins.rst
-Date: Wed, 21 Sep 2022 17:07:59 +0100
-Message-Id: <20220921160801.1490125-9-alex.bennee@linaro.org>
+Subject: [PATCH v1 09/10] contrib/plugins: reset skip when matching in execlog
+Date: Wed, 21 Sep 2022 17:08:00 +0100
+Message-Id: <20220921160801.1490125-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220921160801.1490125-1-alex.bennee@linaro.org>
 References: <20220921160801.1490125-1-alex.bennee@linaro.org>
@@ -97,45 +97,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The API documentation is quite dry and doesn't flow nicely with the
-rest of the document. Move it to its own section at the bottom along
-with a little leader text to remind people to update it.
+The purpose of the matches was to only track the execution of
+instructions we care about. Without resetting skip to the value at the
+start of the block we end up dumping all instructions after the match
+with the consequent load on the instrumentation.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Alexandre Iooss <erdnaxe@crans.org>
 ---
- docs/devel/tcg-plugins.rst | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ contrib/plugins/execlog.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-index a6fdde01f8..8b40b2a606 100644
---- a/docs/devel/tcg-plugins.rst
-+++ b/docs/devel/tcg-plugins.rst
-@@ -110,11 +110,6 @@ details are opaque to plugins. The plugin is able to query select
- details of instructions and system configuration only through the
- exported *qemu_plugin* functions.
+diff --git a/contrib/plugins/execlog.c b/contrib/plugins/execlog.c
+index e659ac9cbb..b5360f2c8e 100644
+--- a/contrib/plugins/execlog.c
++++ b/contrib/plugins/execlog.c
+@@ -147,6 +147,9 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+             /* Register callback on instruction */
+             qemu_plugin_register_vcpu_insn_exec_cb(insn, vcpu_insn_exec,
+                                                    QEMU_PLUGIN_CB_NO_REGS, output);
++
++            /* reset skip */
++            skip = (imatches || amatches) ? true : false;
+         }
  
--API
--~~~
--
--.. kernel-doc:: include/qemu/qemu-plugin.h
--
- Internals
- ---------
- 
-@@ -448,3 +443,13 @@ The plugin has a number of arguments, all of them are optional:
-   associativity of the L2 cache, respectively. Setting any of the L2
-   configuration arguments implies ``l2=on``.
-   (default: N = 2097152 (2MB), B = 64, A = 16)
-+
-+API
-+---
-+
-+The following API is generated from the inline documentation in
-+``include/qemu/qemu-plugin.h``. Please ensure any updates to the API
-+include the full kernel-doc annotations.
-+
-+.. kernel-doc:: include/qemu/qemu-plugin.h
-+
+     }
 -- 
 2.34.1
 
