@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44FA65BFFAC
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 16:12:44 +0200 (CEST)
-Received: from localhost ([::1]:54238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37C515BFFE9
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 16:32:12 +0200 (CEST)
+Received: from localhost ([::1]:55236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob0Sx-0001E5-AK
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 10:12:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45988)
+	id 1ob0ll-0004YZ-Of
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 10:32:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oazYa-0006yF-89
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 09:14:29 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:58119)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oazpZ-00076w-TP
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 09:32:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oazYY-0002Ob-LI
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 09:14:28 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MD9jV-1oRx892tQ9-009A8v; Wed, 21 Sep 2022 15:14:20 +0200
-Message-ID: <c91d0b1f-fb49-34ad-2347-38881762beae@vivier.eu>
-Date: Wed, 21 Sep 2022 15:14:19 +0200
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oazpX-0006MO-B5
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 09:32:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663767117;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=d/c3Woi5W2xV0OTd3l2JjVM/8sMdVEMDD1w3TmNlsrM=;
+ b=jJ9flz4BCn69loAhn4MLQqF60OnWnHCgAF8g9Xc/+GDiSe6KU+7czRzxK7N5uKROlGMVVv
+ pmch7eHrdyeLjd4tdfTOBZwe7kxYndPAgnOTWtggAIJZhT5cJ51EZf+aa4KiGSmUJkbrqJ
+ aTXlk/EPTkLDC3dCKDSecCFON3AOIRc=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-578-TdzO_czlNbKCncDl3az6Kw-1; Wed, 21 Sep 2022 09:31:56 -0400
+X-MC-Unique: TdzO_czlNbKCncDl3az6Kw-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ fv21-20020a05622a4a1500b0035cc9b4fc20so4133061qtb.12
+ for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 06:31:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=d/c3Woi5W2xV0OTd3l2JjVM/8sMdVEMDD1w3TmNlsrM=;
+ b=GCjd9+wmGEFOmTi04mlN3zcESBAfPVy+esWbCzVWCRl5aGxc8o4IwlkItROjAweSMz
+ LSnk94dWiNUDJf7xwaDlJy6yai0aCb+Xh/5eTpusL+VhXubtylhswxryzQG/+sqmm8pL
+ B19daAFUECee0EkLyV6ezrFUr6+BOyueAQw2WZtTbgiRqXfRTrQw1cs2KjgOxDKghHgS
+ DQRn5AfEt+ocmMYnyFkBd4WURfLzu6TMSA5ajrHRJhx3e2XaimomaCXQpmUyVysaM9Km
+ uwKKq53YP2+eoKUfFuqgqpLmeKdDlVM6iVz53uqzqXajF6xvuFBh21OJwlsw50jGkqla
+ TD4w==
+X-Gm-Message-State: ACrzQf1APLA2BqRLbjGPFmpYNkconX9dJPCO6Q3cpP4PnLOdkeCi1ha1
+ k04W6RcJq53Vt1x0SyqN5podFHDKM3EkkSssdvQonikr6MJRrEc9NXv7gNN9b6tUGgSaRFz3Ts/
+ 75o/aZsQTX2FxGQ4GP3ptOc+uGhI5d1w=
+X-Received: by 2002:a05:620a:3725:b0:6ce:e7b3:d8e4 with SMTP id
+ de37-20020a05620a372500b006cee7b3d8e4mr13622331qkb.144.1663767115826; 
+ Wed, 21 Sep 2022 06:31:55 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4ygHvRHXjQM219j/aHsx3q977yqihSlbw1n+IikYgbf7hDc5/wdIvd3mAl1CsKZn4zARiYT5v21Jz9vUJ+Rlc=
+X-Received: by 2002:a05:620a:3725:b0:6ce:e7b3:d8e4 with SMTP id
+ de37-20020a05620a372500b006cee7b3d8e4mr13622303qkb.144.1663767115509; Wed, 21
+ Sep 2022 06:31:55 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 2/4] target/m68k: increase size of m68k CPU features from
- uint32_t to uint64_t
-Content-Language: fr
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- BALATON Zoltan <balaton@eik.bme.hu>
-Cc: richard.henderson@linaro.org, lucienmp.qemu@gmail.com,
- qemu-devel@nongnu.org
-References: <20220917112515.83905-1-mark.cave-ayland@ilande.co.uk>
- <20220917112515.83905-3-mark.cave-ayland@ilande.co.uk>
- <6aa798e4-73b2-f96b-589c-4ab390cb1ba2@eik.bme.hu>
- <d8e33415-d44b-6e30-057c-c5de5b2f9bb9@amsat.org>
- <1095351c-953f-0d02-a6d6-055c0730e44d@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <1095351c-953f-0d02-a6d6-055c0730e44d@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:fOIoDsdxS4bjDu04GjH+3v7GydaBfDpDZnhGcsCX4q+vmPeYnUc
- Pyxw5FsqtAMFjGqetmIoaEVL9WoSPUvfuhEna/x0Oo04GGm6F9Zgf2rhHk22v+xxbB+tIk8
- JyUXR7fJr+tu3gLTnY63LR1xnYDL+w41C7mbCqB8vi9O9oYWyyuPER4l2JGqq24gbqVXMRD
- nu7ZCGmUYx3kIlMPOOugA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:n3RvAoBLpbE=:E5zMINRyBZ+kFXAmG0r0T9
- pd844oyevMHTUtagN5MsN91d2QMA/GvL+w4zO7PC4PdQHkIVJEfZtaYaGG2PyGDXnAGq/vx7m
- dbjdoGdNVCKj39PxHLjAvUQU/C3oC96lfWL+BhslN3982WVoDMxWSMYmyk+cCfi88QgiyR63w
- MQSH/fVkLZvFekeN9z81jFBYX4EVumwbhv0rfEeKaambyXHIlyWEV9R1paa6DbcnGaLDFR7Jb
- RlCO0gj4/J4jxpFf9RQoqGero4Jhkqrh2lqtvE66xO80GurN+PjfO+otrMBtfMAZWMv4b99iU
- pZrvdFzCOL4WyASTDxxguotI59lGWc4I5N9CZBT9BUUN2WvKfltNqmplwvNdHn/j3O79jSW3o
- b5SNiF9cVqLaOI5A6wJ9mQCnYoSLln6rL8xfiVlbCuN8Ft4WGiMOjypwOduSQV1XGlwBqKpmt
- tf2HZV2+cen9oxBa8OriaQN+NKrlw9ERiuoNBpUkKVlreeEjKM0pzXphkRBGo5m6pz816UgPa
- DMjjv1/Zm340xjjxmy3mB/qzB+0jg7ynMrnUzaP3h/pTQeFVbTZlvamWNKjepFImZRr2wtCb8
- B8PMsgiy90S4XTg84zBmw/iyxTxJMeaIPk6iRUMEj7AuWbD+3/IadoUCYHVgS0o1ik/pbCOMI
- PGxMkt3F+yi+FQQbPx1oBjZa3SNx6keVxNH6Tb0o0rH/sct3M7aEmje7OlG8e1ecTJOHqdeOn
- 97GCNnTpMqo8Etzf93JqjEujjROArjp7hjzgR/VCdOl8mRrfDfZJbZDhNKdNfuJQ601MT5hTb
- AXxrXy6
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.702,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20220906100932.343523-1-richard.henderson@linaro.org>
+ <20220906100932.343523-24-richard.henderson@linaro.org>
+In-Reply-To: <20220906100932.343523-24-richard.henderson@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 21 Sep 2022 15:31:44 +0200
+Message-ID: <CABgObfan_71HjR5L4qsE3r4Paq_=XRQa9Z0tN02fitzX=JBTtQ@mail.gmail.com>
+Subject: Re: [PATCH v2 23/23] target/i386: Enable TARGET_TB_PCREL
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,91 +92,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 20/09/2022 à 18:30, Mark Cave-Ayland a écrit :
-> On 17/09/2022 23:27, Philippe Mathieu-Daudé via wrote:
-> 
->> On 17/9/22 14:09, BALATON Zoltan wrote:
->>> On Sat, 17 Sep 2022, Mark Cave-Ayland wrote:
->>>> There are already 32 feature bits in use, so change the size of the m68k
->>>> CPU features to uint64_t (allong with the associated m68k_feature()
->>>> functions) to allow up to 64 feature bits to be used.
->>>>
->>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>>> ---
->>>> target/m68k/cpu.c | 4 ++--
->>>> target/m68k/cpu.h | 6 +++---
->>>> 2 files changed, 5 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
->>>> index f681be3a2a..7b4797e2f1 100644
->>>> --- a/target/m68k/cpu.c
->>>> +++ b/target/m68k/cpu.c
->>>> @@ -38,12 +38,12 @@ static bool m68k_cpu_has_work(CPUState *cs)
->>>>
->>>> static void m68k_set_feature(CPUM68KState *env, int feature)
->>>> {
->>>> -    env->features |= (1u << feature);
->>>> +    env->features |= (1ul << feature);
->>
->>          env->features = deposit64(env->features, feature, 1, 1);
->>
->>>> }
->>>>
->>>> static void m68k_unset_feature(CPUM68KState *env, int feature)
->>>> {
->>>> -    env->features &= (-1u - (1u << feature));
->>>> +    env->features &= (-1ul - (1ul << feature));
->>
->>          env->features = deposit64(env->features, feature, 1, 0);
->>
->>> Should these be ull instead of ul?
->>
->> Yes. Not needed if using the <qemu/bitops.h> extract/deposit API.
-> 
-> I must admit I find the deposit64() variants not particularly easy to read: if we're considering 
-> alterations rather than changing the constant suffix then I'd much rather go for:
-> 
->      env->features |= (1ULL << feature);
-> 
-> and:
-> 
->      env->features &= ~(1ULL << feature);
-> 
-> Laurent, what would be your preference?
+On Tue, Sep 6, 2022 at 12:10 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>  static void gen_update_eip_cur(DisasContext *s)
+>  {
+>      gen_jmp_im(s, s->base.pc_next - s->cs_base);
+> +    s->pc_save = s->base.pc_next;
 
-I have no preference, do as you prefer.
+s->pc_save is not valid after all gen_jmp_im() calls. Is it worth
+noting after each call to gen_jmp_im() why this is not a problem?
 
-> 
->>>> }
->>>>
->>>> static void m68k_cpu_reset(DeviceState *dev)
->>>> diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
->>>> index 67b6c12c28..d3384e5d98 100644
->>>> --- a/target/m68k/cpu.h
->>>> +++ b/target/m68k/cpu.h
->>>> @@ -154,7 +154,7 @@ typedef struct CPUArchState {
->>>>     struct {} end_reset_fields;
->>>>
->>>>     /* Fields from here on are preserved across CPU reset. */
->>>> -    uint32_t features;
->>>> +    uint64_t features;
->>>> } CPUM68KState;
->>>>
->>>> /*
->>>> @@ -539,9 +539,9 @@ enum m68k_features {
->>>>     M68K_FEATURE_TRAPCC,
->>>> };
->>>>
->>>> -static inline int m68k_feature(CPUM68KState *env, int feature)
->>>> +static inline uint64_t m68k_feature(CPUM68KState *env, int feature)
->>
->> Why uint64_t? Can we simplify using a boolean?
-> 
-> I don't really feel strongly either way here. Again I'm happy to go with whatever Laurent would 
-> prefer as maintainer.
+>  }
+>
+>  static void gen_update_eip_next(DisasContext *s)
+>  {
+>      gen_jmp_im(s, s->pc - s->cs_base);
+> +    s->pc_save = s->pc;
+> +}
+> +
+> +static TCGv gen_eip_cur(DisasContext *s)
+> +{
+> +    if (TARGET_TB_PCREL) {
+> +        gen_update_eip_cur(s);
+> +        return cpu_eip;
+> +    } else {
+> +        return tcg_constant_tl(s->base.pc_next - s->cs_base);
+> +    }
 
-A boolean seems more logic, I think.
+Ok, now I see why you called it gen_eip_cur(), but it's still a bit
+disconcerting to see the difference in behavior between the
+TARGET_TB_PCREL and !TARGET_TB_PCREL cases, one of them updating
+cpu_eip and other not.
 
-Thanks,
-Laurent
+Perhaps gen_jmp_im() and gen_update_eip_cur() could be rewritten to
+return the destination instead:
+
+static TCGv gen_jmp_im(DisasContext *s, target_ulong eip)
+{
+    if (TARGET_TB_PCREL) {
+        target_ulong eip_save = s->pc_save - s->cs_base;
+        tcg_gen_addi_tl(cpu_eip, cpu_eip, eip - eip_save);
+        return cpu_eip;
+    } else {
+        TCGv dest = tcg_constant_tl(eip);
+        tcg_gen_mov_tl(cpu_eip, dest);
+        return dest;
+    }
+}
+
+static TCGv gen_update_eip_cur(DisasContext *s)
+{
+    TCGv dest = gen_jmp_im(s, s->base.pc_next - s->cs_base);
+    s->pc_save = s->base.pc_next;
+    return dest;
+}
+
+and the "if (update_ip)" case would use the return value?
+
+This change would basically replace the previous patch, with just the
+"if (TARGET_TB_PCREL)" added here.
+
+Paolo
+
 
