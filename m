@@ -2,66 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E7E95C053E
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 19:27:08 +0200 (CEST)
-Received: from localhost ([::1]:48476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 098215C0560
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Sep 2022 19:36:28 +0200 (CEST)
+Received: from localhost ([::1]:56148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob3V5-0005qM-2I
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 13:27:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54688)
+	id 1ob3e6-0002RJ-Ke
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 13:36:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ob3Rq-0003ry-2j
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 13:23:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54313)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ob3bG-0007tW-Gv
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 13:33:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31847)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ob3Rl-0004mo-Ow
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 13:23:43 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ob3bD-0006BU-MU
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 13:33:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663781019;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=3QEQTMUtqmGk7QLhmGkh41QoCIBv9hujmigcJXw558g=;
- b=SQlKvbY+5m0/lnB0t1gpFbGtlKOnee8qsFOTBHwhPdSNqTPK7d6C0TkqZ+Aj0LRUuahr9j
- rni/oYlwAUkbF3zwUF9NJHmArm5l/AJ+SxCiSc3otAiwTn4UM82brAnz43uTN57HdTjQCC
- Cb4iOPcTH5APtzH96gWbvPSte5daWdY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1663781606;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VHGIRGlUJhyCJ0EfZreYoUB3IgezPHZb4z7UbTg02vI=;
+ b=ax/SbZzXikxH1JeNvl5S6zscEDUhdNEpktBaBB82VjKDcb5yamHX4qcmjGvMlNR5txzReK
+ nOsKmy2Om4oa4c/6BmVLh50UDFLpBN47tMfqlBguLNg0ogxZKujgRYU5tNqTcxapscRw61
+ ACYVBcmrvlmK4RMPaf++FOcJ5q39gXk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-248-vu_EbZoEOwGA83YGPBpOQA-1; Wed, 21 Sep 2022 13:23:35 -0400
-X-MC-Unique: vu_EbZoEOwGA83YGPBpOQA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-266-gY0_KpOZOR-gSiowrIvSfQ-1; Wed, 21 Sep 2022 13:33:22 -0400
+X-MC-Unique: gY0_KpOZOR-gSiowrIvSfQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 60E9B86C142;
- Wed, 21 Sep 2022 17:23:35 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.62])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5462349BB60;
- Wed, 21 Sep 2022 17:23:33 +0000 (UTC)
-Date: Wed, 21 Sep 2022 18:23:30 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org,
- Bin Meng <bin.meng@windriver.com>, Juan Quintela <quintela@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 35/39] tests/qtest: migration-test: Skip running some
- TLS cases for win32
-Message-ID: <YytIkiMEC/KHL/9p@redhat.com>
-References: <20220920103159.1865256-1-bmeng.cn@gmail.com>
- <20220920103159.1865256-36-bmeng.cn@gmail.com>
- <YytBFdDoLVgkgqIX@work-vm>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 619AC3C1068F
+ for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 17:33:22 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D37221121314;
+ Wed, 21 Sep 2022 17:33:21 +0000 (UTC)
+Date: Wed, 21 Sep 2022 13:33:19 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PULL 00/21] Misc patches for 2022-09-19
+Message-ID: <YytK39w0pmrLQ2y7@fedora>
+References: <20220919173449.5864-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5hipvI/5pQr7TLRk"
 Content-Disposition: inline
-In-Reply-To: <YytBFdDoLVgkgqIX@work-vm>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <20220919173449.5864-1-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -82,164 +76,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 21, 2022 at 05:51:33PM +0100, Dr. David Alan Gilbert wrote:
-> * Bin Meng (bmeng.cn@gmail.com) wrote:
-> > From: Bin Meng <bin.meng@windriver.com>
-> > 
-> > Some migration test cases use TLS to communicate, but they fail on
-> > Windows with the following error messages:
-> > 
-> >   qemu-system-x86_64: TLS handshake failed: Insufficient credentials for that request.
-> >   qemu-system-x86_64: TLS handshake failed: Error in the pull function.
-> >   query-migrate shows failed migration: TLS handshake failed: Error in the pull function.
-> > 
-> > Disable them temporarily.
-> > 
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > ---
-> > I am not familar with the gnutls and simply enabling the gnutls debug
-> > output does not give me an immedidate hint on why it's failing on
-> > Windows. Disable these cases for now until someone or maintainers
-> > who may want to test this on Windows.
-> 
-> Copying in Dan Berrange, he's our expert on weird TLS failures.
 
-Seems to match this:
+--5hipvI/5pQr7TLRk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://gnutls.org/faq.html#key-usage-violation2
+Applied, thanks.
 
-which suggests we have a configuration mis-match.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
 
-I'm surprised to see you are only needing to disable the TLS PSK tests,
-not the TLS x509 tests.
+--5hipvI/5pQr7TLRk
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I'd like to know if tests/unit/test-crypto-tlssession passes.
+-----BEGIN PGP SIGNATURE-----
 
-If so, it might suggest we are missing 'priority: NORMAL' property
-when configuring TLS creds for the migration test.
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMrSt4ACgkQnKSrs4Gr
+c8jvnQgAxrfuCBIRanZBhi90FQduXm+wXzUW5MUf6REB4sKth0fBpU5tTjvxj9CI
+SJ4ajbdOIFnsPutsEktHFmnTskrijsQabq2IemXH9p6vw/sgpDSk+4wV23qKcix0
+sgRnkcxxL3pOLB/ywUE67qXi9QEQJcHkDe4omlR1gw720bEcBMnmZ2Xo5qbRnB0v
+wT5f2foiHOY6YcjFdC9jvckHlf8/K7ae7HVROrJchJU+CmI/dZtakzy4XTAj0cQp
+wmDMtrlvWr4I3dZdqwG4mNFT7VTygFx0RUT2+pp4D1qZlLVSk8zozM+qjCW8Eqj6
+8bmgcJv3MhifozbAsMPw6hT46e1XNA==
+=l3LD
+-----END PGP SIGNATURE-----
 
-> > (no changes since v1)
-> > 
-> >  tests/qtest/migration-test.c | 14 ++++++++++++++
-> >  1 file changed, 14 insertions(+)
-> > 
-> > diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> > index aedd9ddb72..dbee9b528a 100644
-> > --- a/tests/qtest/migration-test.c
-> > +++ b/tests/qtest/migration-test.c
-> > @@ -1403,6 +1403,7 @@ static void test_precopy_unix_dirty_ring(void)
-> >  }
-> >  
-> >  #ifdef CONFIG_GNUTLS
-> > +#ifndef _WIN32
-> >  static void test_precopy_unix_tls_psk(void)
-> >  {
-> >      g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
-> > @@ -1415,6 +1416,7 @@ static void test_precopy_unix_tls_psk(void)
-> >  
-> >      test_precopy_common(&args);
-> >  }
-> > +#endif /* _WIN32 */
-> >  
-> >  #ifdef CONFIG_TASN1
-> >  static void test_precopy_unix_tls_x509_default_host(void)
-> > @@ -1523,6 +1525,7 @@ static void test_precopy_tcp_plain(void)
-> >  }
-> >  
-> >  #ifdef CONFIG_GNUTLS
-> > +#ifndef _WIN32
-> >  static void test_precopy_tcp_tls_psk_match(void)
-> >  {
-> >      MigrateCommon args = {
-> > @@ -1533,6 +1536,7 @@ static void test_precopy_tcp_tls_psk_match(void)
-> >  
-> >      test_precopy_common(&args);
-> >  }
-> > +#endif /* _WIN32 */
-> >  
-> >  static void test_precopy_tcp_tls_psk_mismatch(void)
-> >  {
-> > @@ -1930,6 +1934,7 @@ static void test_multifd_tcp_zstd(void)
-> >  #endif
-> >  
-> >  #ifdef CONFIG_GNUTLS
-> > +#ifndef _WIN32
-> >  static void *
-> >  test_migrate_multifd_tcp_tls_psk_start_match(QTestState *from,
-> >                                               QTestState *to)
-> > @@ -1937,6 +1942,7 @@ test_migrate_multifd_tcp_tls_psk_start_match(QTestState *from,
-> >      test_migrate_precopy_tcp_multifd_start_common(from, to, "none");
-> >      return test_migrate_tls_psk_start_match(from, to);
-> >  }
-> > +#endif /* _WIN32 */
-> >  
-> >  static void *
-> >  test_migrate_multifd_tcp_tls_psk_start_mismatch(QTestState *from,
-> > @@ -1988,6 +1994,7 @@ test_migrate_multifd_tls_x509_start_reject_anon_client(QTestState *from,
-> >  }
-> >  #endif /* CONFIG_TASN1 */
-> >  
-> > +#ifndef _WIN32
-> >  static void test_multifd_tcp_tls_psk_match(void)
-> >  {
-> >      MigrateCommon args = {
-> > @@ -1997,6 +2004,7 @@ static void test_multifd_tcp_tls_psk_match(void)
-> >      };
-> >      test_precopy_common(&args);
-> >  }
-> > +#endif /* _WIN32 */
-> >  
-> >  static void test_multifd_tcp_tls_psk_mismatch(void)
-> >  {
-> > @@ -2497,8 +2505,10 @@ int main(int argc, char **argv)
-> >      qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_plain);
-> >      qtest_add_func("/migration/precopy/unix/xbzrle", test_precopy_unix_xbzrle);
-> >  #ifdef CONFIG_GNUTLS
-> > +#ifndef _WIN32
-> >      qtest_add_func("/migration/precopy/unix/tls/psk",
-> >                     test_precopy_unix_tls_psk);
-> > +#endif
-> >  
-> >      if (has_uffd) {
-> >          /*
-> > @@ -2524,8 +2534,10 @@ int main(int argc, char **argv)
-> >  
-> >      qtest_add_func("/migration/precopy/tcp/plain", test_precopy_tcp_plain);
-> >  #ifdef CONFIG_GNUTLS
-> > +#ifndef _WIN32
-> >      qtest_add_func("/migration/precopy/tcp/tls/psk/match",
-> >                     test_precopy_tcp_tls_psk_match);
-> > +#endif
-> >      qtest_add_func("/migration/precopy/tcp/tls/psk/mismatch",
-> >                     test_precopy_tcp_tls_psk_mismatch);
-> >  #ifdef CONFIG_TASN1
-> > @@ -2569,8 +2581,10 @@ int main(int argc, char **argv)
-> >                     test_multifd_tcp_zstd);
-> >  #endif
-> >  #ifdef CONFIG_GNUTLS
-> > +#ifndef _WIN32
-> >      qtest_add_func("/migration/multifd/tcp/tls/psk/match",
-> >                     test_multifd_tcp_tls_psk_match);
-> > +#endif
-> >      qtest_add_func("/migration/multifd/tcp/tls/psk/mismatch",
-> >                     test_multifd_tcp_tls_psk_mismatch);
-> >  #ifdef CONFIG_TASN1
-> > -- 
-> > 2.34.1
-> > 
-> -- 
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+--5hipvI/5pQr7TLRk--
 
 
