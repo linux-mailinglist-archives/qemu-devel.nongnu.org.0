@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B005E6B41
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 20:51:59 +0200 (CEST)
-Received: from localhost ([::1]:55974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45F175E6B68
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 21:03:27 +0200 (CEST)
+Received: from localhost ([::1]:40816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obRIk-00086v-Mc
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 14:51:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41196)
+	id 1obRTp-0004ZO-3P
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 15:03:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obPBA-0002CI-DS
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:36:10 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:37714)
+ id 1obPBG-0002Dh-K2
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:36:11 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:45700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obPB8-0005Ri-DS
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:35:59 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- z13-20020a7bc7cd000000b003b5054c6f9bso1181426wmk.2
+ id 1obPB9-0005Q7-Q2
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:36:03 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ d12-20020a05600c3acc00b003b4c12e47f3so1703642wms.4
  for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 09:35:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date;
- bh=qX86iXQWy4diJSSYD9PIr2CHjWMIxQY9Dao4svxApxw=;
- b=Yv6LuHE6V79ZfzLRyigT5YQlR86s3F7vRTGb1rN/+oCXugUM2wCOUpLICCmU8mrabT
- whwmkR0F96Rc7VMkTiApsKnUQco5vc/q+ud1hPrSYCpSw/jwt14eDjLuq4zP08J41xx1
- tZrGqKxZD9Jpz1QK01Dexr+IWGS28YqtuP3NMvFt3wzzGfVC0GIPamqvpWPt1lsVkrcQ
- YxG3wXhvMR7pmFCXMJx3prTk6pu0dOEiYbfwND3ywDwWLWoK+0+45w4yI2bB+q9rhvTg
- R5HrrwmUFfEs6QchNLm1irqulY23lviN1fS10xX+PRMVAoc6konKp5VwWnY6o4a/a94K
- nq4A==
+ bh=CiM/H1ZT11GJiU4qYe1Z3GEoKJxYHvPyHuyNl3EOOzE=;
+ b=ddwaR6VDQECPz2gmSi5yAAHXToTFhBHAMy/tPGSSJw26vPzI6km/jielm7QwW++DL2
+ wQi1+MEY/Lj/FxOSQQ45xr8s8zln+HaperzOee8QXbc31ZrRIYiGIfdc9kmWdSBJe69y
+ 2HwjNzuxkA12fM+MbRAnB9NPIFK8Tz53aab28mCBHzmhy86GUp6Nzg5593NhKCiCxy/n
+ EsSPnEyKv21i1aTLQUz3Y5CRMaEtBXXdjfHKeY6VeOFMSccUj9Rki8JnwOi9+kf/+AwC
+ XMpaHaor/Ls4kkjT7QYSnFtM4ODxhCL09p0RcInw96fPaoNg1ax3aKpwfpJp/a7Rdw+r
+ fOTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=qX86iXQWy4diJSSYD9PIr2CHjWMIxQY9Dao4svxApxw=;
- b=KcY/FhQ6fS/t4xLrGZz7RhO8gUoahpzMdrKeUQtpHCBUwiHUOYMSZCtUADyLrLHFEd
- rw8TTtHTdSAM9u35UmXss2sNQy8TbH3wp2KOypa+cQNDAe2LEmK87b0KdbfdNL8at3Yp
- /h9P2FSv0Dhv48RtHt5pIm640reLNSO/XmY0NH3HGghkfpG0THdTIGhZ8KH2Zns2UwFo
- ZKaGtXM2BeWAMoPoxthIyWjHtCqSx+IUYLv3vMn0NyamwnmiBTxbE6Gz2hiupjPIryV1
- GJ4a1aiJlnzhuJIM5xAqfK6Ni8kQYvI/GejDKv1zDT/AtUSq1mrt+EkZpjotJUo5iQr9
- jzxg==
-X-Gm-Message-State: ACrzQf2XLzmVAIRseMmRbveF1QDjVxNN6liZgNX5Qz0NUxNZuVu6qDW3
- vNMeTgoginxG3py/6iFB/b8WZp7xIfGpWA==
-X-Google-Smtp-Source: AMsMyM5HddHVlowuOv4OsGqMML3ch2ZRK39b0sRWxNAaZGCpW8FGps+vQErO2gbetXL9S9ab7xHPWw==
-X-Received: by 2002:a05:600c:3ba0:b0:3b4:8ad0:6c with SMTP id
- n32-20020a05600c3ba000b003b48ad0006cmr9998060wms.186.1663864554831; 
- Thu, 22 Sep 2022 09:35:54 -0700 (PDT)
+ bh=CiM/H1ZT11GJiU4qYe1Z3GEoKJxYHvPyHuyNl3EOOzE=;
+ b=4jKhjYPbqyiyTllqvwSmlLxafOTxsV9139jPdF3uBfeAFfvREYcEXVtBKsgdu5Yyra
+ GWQ45l0bHVlP7bwkPCGKY7vzR7EVej1VfecsFkM1tY1vVj2PAK6WJx7os4Ffw8Sgxezp
+ eNzoXO+Elq6mKP+fiSQrcR+KJRcx0VE+dKTCrZf0BOwl+uZQahscrpPYQ3kQA2ZMBhak
+ D/pvfNRjFTKsGNVeJehkW08BhsSNtOiYPg8xAhdi1RJh9uUGXip1ve3nL1fHbAEh0KGe
+ Hil/S7WzEMgMNQPZbwKPEu4bdLSDuy1rbVCUv/mJTFjBZElr7tUFa6C6/X6VNtIbMKne
+ UQzQ==
+X-Gm-Message-State: ACrzQf1ycKfNTVg/yRvFueSxNJNct2P/lt0Jml84cHvEG69rU9PDRtXI
+ 8HgBT0VLnKaJpZs2cdWTcSDF0cV98uCC+g==
+X-Google-Smtp-Source: AMsMyM5qC55yDvJeE51EuWHzlLk034F04xdWGdVlBoiCYiShtke2Eu3oyjfujF+2TZryvfePTzrJKA==
+X-Received: by 2002:a05:600c:3c8a:b0:3b4:eff4:a94f with SMTP id
+ bg10-20020a05600c3c8a00b003b4eff4a94fmr9553825wmb.105.1663864555423; 
+ Thu, 22 Sep 2022 09:35:55 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  iw1-20020a05600c54c100b003b3401f1e24sm6452599wmb.28.2022.09.22.09.35.54
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 09:35:54 -0700 (PDT)
+ Thu, 22 Sep 2022 09:35:55 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/39] io/channel-websock: Replace strlen(const_str) by
- sizeof(const_str) - 1
-Date: Thu, 22 Sep 2022 17:35:22 +0100
-Message-Id: <20220922163536.1096175-26-peter.maydell@linaro.org>
+Subject: [PULL 26/39] hw/net/e1000e_core: Use definition to avoid dynamic
+ stack allocation
+Date: Thu, 22 Sep 2022 17:35:23 +0100
+Message-Id: <20220922163536.1096175-27-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220922163536.1096175-1-peter.maydell@linaro.org>
 References: <20220922163536.1096175-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,36 +94,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The combined_key[... QIO_CHANNEL_WEBSOCK_GUID_LEN ...] array in
-qio_channel_websock_handshake_send_res_ok() expands to a call
-to strlen(QIO_CHANNEL_WEBSOCK_GUID), and the compiler doesn't
-realize the string is const, so consider combined_key[] being
-a variable-length array.
-
-To remove the variable-length array, we provide it a hint to
-the compiler by using sizeof() - 1 instead of strlen().
+The compiler isn't clever enough to figure 'min_buf_size'
+is a constant, so help it by using a definitions instead.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20220819153931.3147384-5-peter.maydell@linaro.org
+Message-id: 20220819153931.3147384-6-peter.maydell@linaro.org
 ---
- io/channel-websock.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/net/e1000e_core.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/io/channel-websock.c b/io/channel-websock.c
-index 9619906ac36..fb4932ade70 100644
---- a/io/channel-websock.c
-+++ b/io/channel-websock.c
-@@ -32,7 +32,7 @@
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index 208e3e0d798..82aa61fedcd 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -1622,15 +1622,16 @@ e1000e_rx_fix_l4_csum(E1000ECore *core, struct NetRxPkt *pkt)
+     }
+ }
  
- #define QIO_CHANNEL_WEBSOCK_CLIENT_KEY_LEN 24
- #define QIO_CHANNEL_WEBSOCK_GUID "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
--#define QIO_CHANNEL_WEBSOCK_GUID_LEN strlen(QIO_CHANNEL_WEBSOCK_GUID)
-+#define QIO_CHANNEL_WEBSOCK_GUID_LEN (sizeof(QIO_CHANNEL_WEBSOCK_GUID) - 1)
++/* Min. octets in an ethernet frame sans FCS */
++#define MIN_BUF_SIZE 60
++
+ ssize_t
+ e1000e_receive_iov(E1000ECore *core, const struct iovec *iov, int iovcnt)
+ {
+     static const int maximum_ethernet_hdr_len = (14 + 4);
+-    /* Min. octets in an ethernet frame sans FCS */
+-    static const int min_buf_size = 60;
  
- #define QIO_CHANNEL_WEBSOCK_HEADER_PROTOCOL "sec-websocket-protocol"
- #define QIO_CHANNEL_WEBSOCK_HEADER_VERSION "sec-websocket-version"
+     uint32_t n = 0;
+-    uint8_t min_buf[min_buf_size];
++    uint8_t min_buf[MIN_BUF_SIZE];
+     struct iovec min_iov;
+     uint8_t *filter_buf;
+     size_t size, orig_size;
 -- 
 2.25.1
 
