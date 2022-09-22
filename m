@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E6A55E65AD
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 16:32:44 +0200 (CEST)
-Received: from localhost ([::1]:42932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 635E65E6505
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 16:22:02 +0200 (CEST)
+Received: from localhost ([::1]:36664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obNFq-00082a-SQ
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 10:32:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59920)
+	id 1obN5U-0003xp-VK
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 10:22:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1obMCi-0003pJ-Ok
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 09:25:27 -0400
-Received: from mail-db3eur04on0703.outbound.protection.outlook.com
- ([2a01:111:f400:fe0c::703]:39940
- helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ id 1obM8O-0001WE-3L
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 09:21:06 -0400
+Received: from mail-eopbgr60136.outbound.protection.outlook.com
+ ([40.107.6.136]:7326 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1obMCg-00082M-FJ
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 09:25:24 -0400
+ id 1obM8K-0004pt-Fz
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 09:20:54 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ORrYfGohE1TTYfSv88zkOxHCk8q/w/KR9fa3lVamZohp5Bprq0acTDCKMpqN3faCPWhk+jLNbBls46xQHOcpmE4bQ79q8GRZ3Ohl28PECt2V1l13eQOCV5UCF4qPGJM0LWbmRjXl6bcgRgkC9qQP+ZRXmNYM/dNSlpvBtygp1ruNdiEqTbgIrgiCEZ2IRIjX2CS3Dv/opBjY4MgVHumSyyTh3nDham7wcmS5NSJ/iulvoH2Rj1A7AurQ8E99dQyU03PmSmYvsSXQjTrVRabsiSvMNM94ZSGGH8R/NjAUgyRHm3unO/HRIH1Ks2iOd/xyTFi+5IFQNYA2UvRDpu4Dwg==
+ b=dCVllDXvaxpU0HbAUSfJpJw9DV0surNFT6cREElYw3y6ri8LmjWCinzC+STdwTRRNfm5MkceC13hZbCXdHHqIVMXjRD0O77ZhAI/8/TSyEJaolncclEwIdyCXzvAJ2QRCqa58+wu5M7K1h0fHlam3BIQO/qQtc1SuN0FQkigofdcIqeE7950IGvzCFV+et2EtStxoWEmlx++B6kPxvIZvIRQvsAkWU++GAXytmInuz35OKIsUEYDErev5UU9IWcotBhegTdVDKKw71Ijm2Q6gDmiwf9EjISW1TU8ZD5ocnzBkF0Or9bv/PY15pgyQWDCHc5e9xBPzn3EsVePSsVdTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eFrv1ufMIEuTjrrp9MSpxURObbKKCc+IpHyH3IZgoEc=;
- b=YfDKzriKk6Cl3T2qNTq8oCsu+b6LF4xFfTzKYD48vAfvtGM6Px859X3d8OvWOuitv54Wm3dUIGVNImymQIQIySLY9yP1z7qWx1y+LMqUMHeTPI+Qti2JpgefceQsLstloBUaNAgMXxCSJuF1J2bSTXDBsE87tEVdlHPqReRdyxXqRZZjk1SxNa+63LxHiViygqLUqcTRTbIomDCrnXylTeThPIpCEMYUg4imqUe2hlHP+q1HZPY7Av4tvciv1c8q5o/7lOfpzzYHIQJPm8BNh4mEYUn7GPypI5mTHeWM+n1+4zhL5Qowmx0Kei9lhRoFx5UCphgg2+G7r6XlCd/x4g==
+ bh=KnWNATV3S86omQsc/eiTIbd24tH6lGlT3gh9+O1nfU0=;
+ b=goh+2g/FxAixKvxaStwOySFxLFZ0NSmJyV2rbs879QrP+t30IAHqsasK8L+AnSAQoFu3W3UZWzd8iPMcF01Kd6TzHD5hVlc8NtRdg880SKl55G0V/zs84JVghx8nkB/1jqf1gnzp118qLK+EZExpKVZBwpsJhRc4XqW1Z6RlmMwaOKn1Ts26zL4tLPnWEcbON2tf0qUy3QJmTj//2tCCCqtlX0lbVHrvlrWhEvyZVKYG5RZA3CeQ5MRGDO2BswBytpMZpl1I2Y/RNPF8ap/A3upYky3eZuXT/mvCwwNGcaAnw7GBLCVfq0cEgt3Z6VQHgcAhK3HK3Z1C+G9HHEXuRQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eFrv1ufMIEuTjrrp9MSpxURObbKKCc+IpHyH3IZgoEc=;
- b=TyNVFUIRTv4Hs94k6IhEyJM2GSx3t5S58XfU+2JukmXtJLgbYIRpPmlWqNFYc0+vVkO3TpU0aKvCpb0+10GsujxDa43FssqVtYdS2AkhSHZ0d44YfKeioRXGyiEdiZTlkHnXZVuiM9r+dXmSTgp+IqPrpYMEyjgsL/+LY//rYB1xdcjIofSj8lTbLcu7UY6kLI31M/RnwegsGQTvxmYcQ8mO8/YNP6Jiuq/welutpOuGCSIHOrWFMJxklWEW2DGWNofj6aQFP4f9JXnuv/0iOsMeODje/akPkv59npfVpcKpHMR8NM4i0Prvjiy3ufDwxpGcHiQjehwTOpj1Jwt5eg==
+ bh=KnWNATV3S86omQsc/eiTIbd24tH6lGlT3gh9+O1nfU0=;
+ b=yZ1Xd16D/Pn2vIUNL+WwVzMgQnsKZ8YaLox5cY+RYy1PvMMq8hzv+Lmtv7DgrulSROqwrVoLJ5xnq69ePsZbePmK0Zs2QAZDaQ1QujavK8zxv84LD19g4TuEe1BxJaYs2Pjmm/SwOoKQLfxKhphCZMCXAwUkGe4PxCAav28PXcf897xqqHk3vfh6QFWJGdMyxsSiZ10drZ7SUS1J+TohfDiMn27V5I1DLqio0UttlfWgKLHjqAufDirrDH1j1ZzLDfIlKsyqi2t6Y/yYGbyyz8LNRrG54wVVQ5REz9rNyesx8AEEKEi8GchDIQ+iyzGZm47926UbT0TFhKSoj0CXVQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AS8PR08MB7095.eurprd08.prod.outlook.com (2603:10a6:20b:402::11)
  by PAXPR08MB6480.eurprd08.prod.outlook.com (2603:10a6:102:155::10)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.16; Thu, 22 Sep
- 2022 13:20:13 +0000
+ 2022 13:20:14 +0000
 Received: from AS8PR08MB7095.eurprd08.prod.outlook.com
  ([fe80::5174:25c7:6df8:741b]) by AS8PR08MB7095.eurprd08.prod.outlook.com
  ([fe80::5174:25c7:6df8:741b%8]) with mapi id 15.20.5654.016; Thu, 22 Sep 2022
- 13:20:13 +0000
+ 13:20:14 +0000
 From: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 To: qemu-devel@nongnu.org
 Cc: den@virtuozzo.com,
 	michael.roth@amd.com,
 	kkostiuk@redhat.com
-Subject: [PATCH 2/5] qga: Add initial FreeBSD support
-Date: Thu, 22 Sep 2022 15:19:58 +0200
-Message-Id: <20220922132001.940334-3-alexander.ivanov@virtuozzo.com>
+Subject: [PATCH 3/5] qga: Add UFS freeze/thaw support for FreeBSD
+Date: Thu, 22 Sep 2022 15:19:59 +0200
+Message-Id: <20220922132001.940334-4-alexander.ivanov@virtuozzo.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220922132001.940334-1-alexander.ivanov@virtuozzo.com>
 References: <20220922132001.940334-1-alexander.ivanov@virtuozzo.com>
@@ -66,62 +65,63 @@ X-ClientProxiedBy: FR0P281CA0083.DEUP281.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AS8PR08MB7095:EE_|PAXPR08MB6480:EE_
-X-MS-Office365-Filtering-Correlation-Id: edd79205-a00b-4666-4ae2-08da9c9d2e72
+X-MS-Office365-Filtering-Correlation-Id: cdbb2e8b-0181-4085-1906-08da9c9d2ee7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DGLHHiBuAJSUEM6adHfNOsb84RP+TlrHJ35Kju/PkJRKVVGKyt1KXRXfh2MA7yJldU5q+4McYRb2erdUBnl1iw3snEwrr8t1MMSIOD5uzKznRcCu59hExvWW2encr/xaLyDPLDFBUdyt2ADsODwGjxFs38akOmWr6CQCGG6UixpfsZLq7zlcGUPq5h4KFnQa9qAD+Dewxm0D4EkKTprTAF2mw1H1JDmgizCd+kSFr1vfjhMJsgHT4+eIBunpkzQwi96mAt0v8l0PC4vhyht4FKvJGss1/c4kVFBRz7giA0bdRJDoqkIR/Uc7D7R387xG0tDvCVXiLqJ0zIXGXMP2Drfw/I7Our/xNbc5TbxJcQv+gnVhi8438GmGZAne9LryhlVfNR6GJihn2FB0msWjzyDE8epqKrmly43VVALnN/Y83QyeH/QXhNbMqTMusqLjKG3je1mWid0FHH6ZCrIQ0XWRbaqrSdgeef57zC2JTUz/EUtAVUxMsR8YTwR2KRtr8AEXopdmeYd+oZIzs+Ft9x+578s1gkHpq+zi6u0Ze2bDMcv/w5EvYf8tXBqt22o0td+UPX33+7m+nYYCn9JsOR+zwAMYS/p+96qu5SAs5irvyUoitUD5qNo0AfTmLba4H66Sg+kr5Ws2APwLTKDv8klqm+JR6kKmFC8svQUiz/HdqQ8eX5vLr4vi1ZC0iJT3o0q2aDOSFrRsTJEGpX2r5lPBCYfutmYaIMxrUwYmKJQtGvpkZ7an3Jjf4q540na4
+X-Microsoft-Antispam-Message-Info: N4BJ/Fku7bd6XLfLRA9/AEOETjN9DREI8IVPDsxBJbJo1kYDGEhjxs4OI+zryd7k+GAMYYgf2G0pLN/A1iy/DCAAAy1MQGTLoehgZxRwNcPfOtMxi/W1gsW/ZFr0P2tJzRs+bkDtGdxQtNNa0GlA2PxyHDnDiSZUjAe8WXmLil2W1B8T3MKX+cZE3r8SXmufca8sjPT8ZYVivyzgybOlCDs+YGURonkcYyatf/E1zCmAWk4p/Yb2mtANGqQ56OTwat8s+I6GhXVyDCP9fk+3Fk2D0t3eUH03y49lBpQ+ZeKZ/CVzO1NaQ9lxA+srBcnGSHFGBRdT3RsBjoMhMkVtEyBFGjOZz0ElMzsDnp2oaV26DcwsfCbdGHssWwM6uI2nFRmc78FCnsdZsQSlfZWT9yfRr7/8ro/6bLmdd6Xi2EnWllvmtwidlq2cLSit+eMxvhTljRR5N2JDz7qyKEq3TnebsclGk9wQJcNdtS6cFBq7H99Gy3eMR9pdWeDeVbrCk0+rHR2ZBKzs9lFOSml3grW5n1ecVjV4Mfi1p+gbw3c1if9hZBZRFrxJOlNU8rMtzIL53f7WOkADjCcEBwD+4rQEoGWlL8QeyV2VhETIiTNvWLr3ziviKISbA8yAOXsbX8rA6TKCzUR11ilVR7K7XebM8EaTbqFnTGo759pqUKlHtw4QWnYCaOhh+BnpYZ7p/Zj4PzPOauTjRBc6zbJ16W17ePB3qGC1EhI8UwQ7d66KjXv+p10oKA4S0HbwWWCzZ+1boC08Dzxmd58A6cEcAw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AS8PR08MB7095.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230022)(4636009)(346002)(366004)(376002)(136003)(396003)(39850400004)(451199015)(41300700001)(6486002)(478600001)(6666004)(52116002)(36756003)(66476007)(66556008)(316002)(186003)(66946007)(83380400001)(1076003)(5660300002)(2616005)(8936002)(26005)(6506007)(6916009)(86362001)(8676002)(44832011)(4326008)(2906002)(6512007)(38350700002)(38100700002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+8bExo5Pkr8dJVisy6Aq0zYKLs7bW7ucu1M5zdvBkSFwCkFx9k8zHdGiD+jX?=
- =?us-ascii?Q?J4sL5/6I4ZZAzpdAPACrQtlSCB8vzJ7V2fT4gjBjBydyM7xIjpO0ZjxectoP?=
- =?us-ascii?Q?CvfV3KPvqaPPADdvj3eAcO+Kv/x3A20pY4FXO1E7CVNja9kzEMpPCUxuhVV8?=
- =?us-ascii?Q?mUW+s4LyN5J6D+yBz6L8xX6qoJTAaL0ScTunBr4iWJ7OsS5TDK/dzu1IZHbN?=
- =?us-ascii?Q?HcZUySk4iJv4uJi2v897WrtX606HSZo0sq8CuPSaGvk8hA+WJPSk2awTeaMI?=
- =?us-ascii?Q?+YHGr+aYLDfT2oSySF1PdPwIXsZc/afkbZvnf6IBnJkPyeE12N4OGvxBl0DB?=
- =?us-ascii?Q?DmfFqdb24+0YLHXlwbPcA4PW8qorJ1WP5yMhBNEKbaj/kIBGJP1TaV1pwt+C?=
- =?us-ascii?Q?UPwLHRilVCMHzxOylT8RINNPVBMpXULYRBWfuSvFhMHj3vw7DIUWF5gnrq+O?=
- =?us-ascii?Q?5M6lDxjbNVGVcijk1dybPXMUDGJtHdLLXSOXU4pdtsdBipnNy6zswJSIqoBV?=
- =?us-ascii?Q?rT2krQ2IivlecPq6Ru3U4TkuNmlaDTN5e1qBMN7RuGQQP7WRGXnogGQZFSLV?=
- =?us-ascii?Q?6BDMbg4Vg96S/dPJpLaqlNFdYODb6V96noTt5jzlaXtFz4Se8wOhffbkdnVq?=
- =?us-ascii?Q?v9M8A9HEp6gug2W+L+tyWWB9MV55c55CdJqhqg10+hh6y/bOXDFqrFPCuQgc?=
- =?us-ascii?Q?weyHmICF7odapz2VDMLN7l7QvCd1Pitp39DL5EalXau7Hsa8qDsmLlJbjfAM?=
- =?us-ascii?Q?wN2LqjcC8P0NCuc29Dbh17udwzBxJdXpRfIGSd+VdvYIQzyvZcNFlSW2p1Yt?=
- =?us-ascii?Q?OQCBXCfGtReBiRjKPtyA1geAGAdwgF8AZj6yVqRhI3b0naV72HVQMmJjC18H?=
- =?us-ascii?Q?b/MSSvnJ9OqPSSwR6UIKg/WD42tEu3jHoy4m/v1PkYzzEFgYnpjonbcwTe10?=
- =?us-ascii?Q?EyN0yoDL3ljqL759ob5kHPreaStIfiUWZBlYhkKR1Ezcyzun1A+Ul5iv/Ora?=
- =?us-ascii?Q?1YceuAyOd9oG9gHlLfckB6xUpjvp/pDlx48DZwXw9SdUZHgDj0iJ7Gw4E6ke?=
- =?us-ascii?Q?whIvLSPrwUDTsmjgxvFybT21piMAHz7V5WPvTPzyEVQdnaFLqoYqureDNZzd?=
- =?us-ascii?Q?mHCoPluken8wNkiYFiwowXPzbqYKU1TNMPAmEaxLV0D2nEUhfzDMIkv1ZOGZ?=
- =?us-ascii?Q?7h0H8HPVcKBqzYpNV/eMB3/YwAugjS7rtnTrjyU2GAg1npBU/CN7W834jBEb?=
- =?us-ascii?Q?637xne6K6Jw4/h4CjlDIfc8MqPJKjPLGjo8c7l8ANGvvmZ2bK6iCe9/9efNc?=
- =?us-ascii?Q?NliIyJXR1l6S2lCchuX8iM4p0ZPX1bypAvVA148QrNJaheEi+gEaooEIbx6A?=
- =?us-ascii?Q?9oSB+J+Fzuo6StEYnyPQ6jGD5jnx58+Wf1D76Zb7zBwxnNpR+Hcb3+WX+uM1?=
- =?us-ascii?Q?7eKatSskyU9O4YTyevt4rGJ7ayk3HXpgarRN3a5YGM/+fGQx4vquSklrZ9I3?=
- =?us-ascii?Q?BD4+X5lQrvxx8SNEWN4ONSTFoi+qsFkaXl34ZiiDcsrqsOITN+UCRdmKyiZh?=
- =?us-ascii?Q?SlsXWrsw+HOwJ43HHr6jX4y8S668MVXkIB5gN8kDVub80pWQO4fBCbYTu4Sb?=
- =?us-ascii?Q?fA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?sYVNB6nGz3MJaJJ7rtAeQ9hNC1xelifFRaQ4ocTSaMvHGKsoCFldVw0Brfp1?=
+ =?us-ascii?Q?F21ZTF2PMyNIfbbGBCe7gJjw0sp4XTeAP2HLxi4q9jS3g41qW5BHr7WPPL+Z?=
+ =?us-ascii?Q?fBfE06LQeoT9F4FOrE1fzomsLUwiRB+OsCHCPYCFoq6bU2aZ8L3cmo5C2Hvb?=
+ =?us-ascii?Q?t/JnStGNVb4GtBRxYXXjIknVkSwBMx6WI7Iw1wEdz47H59x2FxofJaUL0GXj?=
+ =?us-ascii?Q?OnzDwik/NAPAypn1PNAjkWUUxqhzUvCtpGJhkd3wjXsD7RCZ91WnrNpEErgK?=
+ =?us-ascii?Q?Qd8vfvARjAWWnvSbHextcuQzVTdcRCBOfN1Bo/2ukF9775YdBy+cLH3GfWaS?=
+ =?us-ascii?Q?oQRlM11wcVxVT+2iabLe/h7v4Y2a2gg5gx9uWQSuT4eLs+z/fhVuwMibAFZ2?=
+ =?us-ascii?Q?S+cfab7rp4EYbMP12qsm13GVrkb9BVLPy40+p1RlTJc4YJp+kmhAWZnqF9Rr?=
+ =?us-ascii?Q?2nugtemorDkwGm+LfvB/lC3JP0P8UIJnmPK0h1Ax6wybnfhpQ7dlnutKd2yJ?=
+ =?us-ascii?Q?WlSeJ3luKi2zo7OOW0Ve04iEQove/fNk0ZAQvuuhnWvbvn18cFKgro6nlDAR?=
+ =?us-ascii?Q?8FqlnCs1sYpjNOiD/Mh7nQ47JZykq7sTCkMhnpCLAh//RLa/5i8vBmeGOl69?=
+ =?us-ascii?Q?CTrX8BlWZI7LEx7eUnLw8AmrAjiekas4zBpf2Ppb9R7sJIEAX155bf/Xkwku?=
+ =?us-ascii?Q?tJ+Lm/V8jHDKTFFHOM7pTx2c4gPgmNyycVAGvZfsFzVndxMQlNqXhStItPsN?=
+ =?us-ascii?Q?aoYTKK7ptJaDQv97YpO1e9V6BKxzkuut6ey27cXBMpVBQF+wG2hbSlcHTOHE?=
+ =?us-ascii?Q?vABuQiZ2C7JBRx9g5yMYJv7fD92aUfTDouHSpYEJwIqJulYSlEJ/USmfT0hU?=
+ =?us-ascii?Q?chww0GPMv3S7FB1e13k4ai3+h5xDKV4A9qMcE7dJitC0WY61IT7bGDtG6H9P?=
+ =?us-ascii?Q?4N2A4ArY0/bGqVaUTR0UUDjM02YSHdzvmh5MdWeQ5BUL1tQPUmUiNVPqLMWo?=
+ =?us-ascii?Q?dOikYlKT/0V2arV68KjWNsPaHkQ9cBhjSOhH5A6CPcdiAIdeUmAduQ0NwT+T?=
+ =?us-ascii?Q?8g4R3uIccz0UPToIaMU0UzS5njHwl17nTc0UYNN3Txwbgrbbu71XikhKJHqQ?=
+ =?us-ascii?Q?wxZvu5SICtysMMotS79rHc1ODTR30N3Fuyh7LnrysngHBiMmThEgW24ygxqp?=
+ =?us-ascii?Q?Qa4pITcw0s2u12fIp0CzVAurDVuACd3tBbh5rSyyWVaE6zYVQfc9/ujZr10X?=
+ =?us-ascii?Q?l27R98pWKCNDivsYPnm5YQV5H1FW8Xh9mun8WT/yie3wYT1NClsDu4Wipf7M?=
+ =?us-ascii?Q?GEsYEPGOMKnNMrCne3Ia6nH6ou7YP6nejYUKrH9NRXFCv0OLKvoE95jBW84W?=
+ =?us-ascii?Q?QQSHr8XqA24gex8hs94115+RYuX/Vpa0afO1xfGiv2oc5e8zPoX/zvZYlIAx?=
+ =?us-ascii?Q?ibu396F92Y4Hifm0GYwqAQ6V4AfEdRlpbekKJnZnFr/dUfUTYkRR76HJmdR8?=
+ =?us-ascii?Q?Z3lF2990/m33DRMrysN5maA8q6ks2IyjbvJlD2z39dxXrtjzyvDXH+Kjd9y5?=
+ =?us-ascii?Q?Zg5FrM6Z9Qc7Es7OTjadvLq10aAz7PIu8RiDXwTI7hLCu8QVb2Zlqb+HJUrB?=
+ =?us-ascii?Q?mQ=3D=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: edd79205-a00b-4666-4ae2-08da9c9d2e72
+X-MS-Exchange-CrossTenant-Network-Message-Id: cdbb2e8b-0181-4085-1906-08da9c9d2ee7
 X-MS-Exchange-CrossTenant-AuthSource: AS8PR08MB7095.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2022 13:20:13.0637 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2022 13:20:14.1260 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: J/IRDEq/sSnhKLfCCf21BOO/thSA4lYJlwwlqs6xdexuTJz1uwyxI5TTjsxlrlgv84zPCGvDYky91P/BFVG2sjPl4kaHncJ7iV01+7eeys4=
+X-MS-Exchange-CrossTenant-UserPrincipalName: GY5A6xHA2QImCatCKULwKZvv9lLqDk1gCV7HwmSDXKPZuh719c57LoBR5kjMcqSTZ9eSRidBfsJ+njodkzi4mQ/e6J1Ek/vUBnLkejOLULM=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6480
-Received-SPF: pass client-ip=2a01:111:f400:fe0c::703;
+Received-SPF: pass client-ip=40.107.6.136;
  envelope-from=alexander.ivanov@virtuozzo.com;
  helo=EUR04-DB3-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -138,229 +138,198 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add commands-bsd.c file with dumb functions, fix device path and make
-the code buildable in FreeBSD.
+UFS supports FS freezing through ioctl UFSSUSPEND on /dev/ufssuspend.
+Freezed FS can be thawed by closing /dev/ufssuspend file descriptior.
+
+Use getmntinfo to get a list of mounted FS.
 
 Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 ---
- meson.build          |   2 +-
- qga/commands-bsd.c   | 121 +++++++++++++++++++++++++++++++++++++++++++
- qga/commands-posix.c |   6 ++-
- qga/main.c           |  11 +++-
- qga/meson.build      |   3 ++
- 5 files changed, 140 insertions(+), 3 deletions(-)
- create mode 100644 qga/commands-bsd.c
+ qga/commands-bsd.c    | 109 +++++++++++++++++++++++++++++++++++++++---
+ qga/commands-common.h |  11 +++++
+ qga/main.c            |   6 +++
+ 3 files changed, 120 insertions(+), 6 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index c2adb7caf4..574cc1e91e 100644
---- a/meson.build
-+++ b/meson.build
-@@ -75,7 +75,7 @@ have_tools = get_option('tools') \
-   .allowed()
- have_ga = get_option('guest_agent') \
-   .disable_auto_if(not have_system and not have_tools) \
--  .require(targetos in ['sunos', 'linux', 'windows'],
-+  .require(targetos in ['sunos', 'linux', 'windows', 'freebsd'],
-            error_message: 'unsupported OS for QEMU guest agent') \
-   .allowed()
- have_block = have_system or have_tools
 diff --git a/qga/commands-bsd.c b/qga/commands-bsd.c
-new file mode 100644
-index 0000000000..c1e3ed13e9
---- /dev/null
+index c1e3ed13e9..5d3f46804a 100644
+--- a/qga/commands-bsd.c
 +++ b/qga/commands-bsd.c
-@@ -0,0 +1,121 @@
-+/*
-+ * QEMU Guest Agent BSD-specific command implementations
-+ *
-+ * Copyright (c) Virtuozzo International GmbH.
-+ *
-+ * Authors:
-+ *  Alexander Ivanov  <alexander.ivanov@virtuozzo.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
+@@ -17,28 +17,125 @@
+ #include "qemu/queue.h"
+ #include "commands-common.h"
+ 
++#include <sys/ioctl.h>
++#include <sys/param.h>
++#include <sys/ucred.h>
++#include <sys/mount.h>
++#include <paths.h>
 +
-+#include "qemu/osdep.h"
-+#include "qga-qapi-commands.h"
-+#include "qapi/qmp/qerror.h"
-+#include "qapi/error.h"
-+#include "qemu/queue.h"
-+#include "commands-common.h"
+ #if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
+ bool build_fs_mount_list(FsMountList *mounts, Error **errp)
+ {
+-    error_setg(errp, QERR_UNSUPPORTED);
+-    return false;
++    FsMount *mount;
++    struct statfs *mntbuf, *mntp;
++    struct stat statbuf;
++    int i, count, ret;
 +
-+#if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
-+bool build_fs_mount_list(FsMountList *mounts, Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return false;
-+}
-+#endif
++    count = getmntinfo(&mntbuf, MNT_NOWAIT);
++    if (count == 0) {
++        error_setg_errno(errp, errno, "getmntinfo failed");
++        return false;
++    }
 +
-+#if defined(CONFIG_FSFREEZE)
-+int64_t qmp_guest_fsfreeze_do_freeze_list(bool has_mountpoints,
-+                                          strList *mountpoints,
-+                                          FsMountList mounts,
-+                                          Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return 0;
-+}
++    for (i = 0; i < count; i++) {
++        mntp = &mntbuf[i];
++        ret = stat(mntp->f_mntonname, &statbuf);
++        if (ret != 0) {
++            continue;
++        }
 +
-+int qmp_guest_fsfreeze_do_thaw(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return 0;
-+}
-+#endif
++        mount = g_new0(FsMount, 1);
 +
-+GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return NULL;
-+}
++        mount->dirname = g_strdup(mntp->f_mntonname);
++        mount->devtype = g_strdup(mntp->f_fstypename);
++        mount->devmajor = major(mount->dev);
++        mount->devminor = minor(mount->dev);
++        mount->fsid = mntp->f_fsid;
++        mount->dev = statbuf.st_dev;
 +
-+GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return NULL;
-+}
-+
-+GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return NULL;
-+}
-+
-+GuestFilesystemInfoList *qmp_guest_get_fsinfo(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return NULL;
-+}
-+
-+void qmp_guest_suspend_disk(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+}
-+
-+void qmp_guest_suspend_ram(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+}
-+
-+void qmp_guest_suspend_hybrid(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+}
-+
-+GuestLogicalProcessorList *qmp_guest_get_vcpus(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return NULL;
-+}
-+
-+int64_t qmp_guest_set_vcpus(GuestLogicalProcessorList *vcpus, Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return -1;
-+}
-+
-+void qmp_guest_set_user_password(const char *username,
-+                                 const char *password,
-+                                 bool crypted,
-+                                 Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+}
-+
-+GuestMemoryBlockList *qmp_guest_get_memory_blocks(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return NULL;
-+}
-+
-+GuestMemoryBlockResponseList *
-+qmp_guest_set_memory_blocks(GuestMemoryBlockList *mem_blks, Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return NULL;
-+}
-+
-+GuestMemoryBlockInfo *qmp_guest_get_memory_block_info(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return NULL;
-+}
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 0bb8b9e2f3..3a1055d5c3 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -31,6 +31,10 @@
- #include <utmpx.h>
++        QTAILQ_INSERT_TAIL(mounts, mount, next);
++    }
++    return true;
+ }
  #endif
  
-+#ifdef __FreeBSD__
-+#undef HAVE_GETIFADDRS
-+#endif
+ #if defined(CONFIG_FSFREEZE)
++static int ufssuspend_fd = -1;
++static int ufssuspend_cnt;
 +
- #ifdef HAVE_GETIFADDRS
- #include <arpa/inet.h>
- #include <sys/socket.h>
-@@ -763,7 +767,7 @@ void qmp_guest_file_flush(int64_t handle, Error **errp)
-     }
+ int64_t qmp_guest_fsfreeze_do_freeze_list(bool has_mountpoints,
+                                           strList *mountpoints,
+                                           FsMountList mounts,
+                                           Error **errp)
+ {
+-    error_setg(errp, QERR_UNSUPPORTED);
+-    return 0;
++    int ret;
++    strList *list;
++    struct FsMount *mount;
++
++    if (ufssuspend_fd != -1) {
++        error_setg(errp, "filesystems have already frozen");
++        return -1;
++    }
++
++    ufssuspend_cnt = 0;
++    ufssuspend_fd = qemu_open(_PATH_UFSSUSPEND, O_RDWR, errp);
++    if (ufssuspend_fd == -1) {
++        return -1;
++    }
++
++    QTAILQ_FOREACH_REVERSE(mount, &mounts, next) {
++        /*
++         * To issue fsfreeze in the reverse order of mounts, check if the
++         * mount is listed in the list here
++         */
++        if (has_mountpoints) {
++            for (list = mountpoints; list; list = list->next) {
++                if (strcmp(list->value, mount->dirname) == 0) {
++                    break;
++                }
++            }
++            if (!list) {
++                continue;
++            }
++        }
++
++        /* Only UFS supports suspend */
++        if (strcmp(mount->devtype, "ufs") != 0) {
++            continue;
++        }
++
++        ret = ioctl(ufssuspend_fd, UFSSUSPEND, &mount->fsid);
++        if (ret == -1) {
++            /*
++             * ioctl returns EBUSY for all the FS except the first one
++             * that was suspended
++             */
++            if (errno == EBUSY) {
++                continue;
++            }
++            error_setg_errno(errp, errno, "failed to freeze %s",
++                             mount->dirname);
++            goto error;
++        }
++        ufssuspend_cnt++;
++    }
++    return ufssuspend_cnt;
++error:
++    close(ufssuspend_fd);
++    ufssuspend_fd = -1;
++    return -1;
++
  }
  
--#if !defined(__linux__)
-+#if !(defined(__linux__) || defined(__FreeBSD__))
- 
- void qmp_guest_suspend_disk(Error **errp)
+ int qmp_guest_fsfreeze_do_thaw(Error **errp)
  {
-diff --git a/qga/main.c b/qga/main.c
-index 5f1efa2333..22b3c0df11 100644
---- a/qga/main.c
-+++ b/qga/main.c
-@@ -45,9 +45,14 @@
+-    error_setg(errp, QERR_UNSUPPORTED);
+-    return 0;
++    int ret = ufssuspend_cnt;
++    ufssuspend_cnt = 0;
++    if (ufssuspend_fd != -1) {
++        close(ufssuspend_fd);
++        ufssuspend_fd = -1;
++    }
++    return ret;
+ }
  #endif
  
- #ifndef _WIN32
+diff --git a/qga/commands-common.h b/qga/commands-common.h
+index aa0472ea4c..c3be6db3a9 100644
+--- a/qga/commands-common.h
++++ b/qga/commands-common.h
+@@ -41,11 +41,22 @@ void ga_wait_child(pid_t pid, int *status, Error **errp);
+ #endif
+ #endif /* __linux__*/
+ 
 +#ifdef __FreeBSD__
-+#define QGA_VIRTIO_PATH_DEFAULT "/dev/vtcon/org.qemu.guest_agent.0"
-+#define QGA_SERIAL_PATH_DEFAULT "/dev/vtcon/org.qemu.guest_agent.0"
-+#else /* __FreeBSD__ */
- #define QGA_VIRTIO_PATH_DEFAULT "/dev/virtio-ports/org.qemu.guest_agent.0"
--#define QGA_STATE_RELATIVE_DIR  "run"
- #define QGA_SERIAL_PATH_DEFAULT "/dev/ttyS0"
-+#endif /* __FreeBSD__ */
-+#define QGA_STATE_RELATIVE_DIR  "run"
- #else
- #define QGA_VIRTIO_PATH_DEFAULT "\\\\.\\Global\\org.qemu.guest_agent.0"
- #define QGA_STATE_RELATIVE_DIR  "qemu-ga"
-@@ -1475,7 +1480,11 @@ int main(int argc, char **argv)
-     }
- 
-     if (config->method == NULL) {
-+#ifdef CONFIG_BSD
-+        config->method = g_strdup("isa-serial");
-+#else
-         config->method = g_strdup("virtio-serial");
++#include <ufs/ffs/fs.h>
++#ifdef UFSSUSPEND
++#define CONFIG_FSFREEZE
 +#endif
-     }
++#endif /* __FreeBSD__ */
++
+ #if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
+ typedef struct FsMount {
+     char *dirname;
+     char *devtype;
+     unsigned int devmajor, devminor;
++#if defined(__FreeBSD__)
++    dev_t dev;
++    fsid_t fsid;
++#endif
+     QTAILQ_ENTRY(FsMount) next;
+ } FsMount;
  
-     socket_activation = check_socket_activation();
-diff --git a/qga/meson.build b/qga/meson.build
-index 409f49a000..456ba4c29f 100644
---- a/qga/meson.build
-+++ b/qga/meson.build
-@@ -75,6 +75,9 @@ qga_ss.add(when: 'CONFIG_POSIX', if_true: files(
- qga_ss.add(when: 'CONFIG_LINUX', if_true: files(
-   'commands-linux.c',
- ))
-+qga_ss.add(when: 'CONFIG_BSD', if_true: files(
-+  'commands-bsd.c',
-+))
- qga_ss.add(when: 'CONFIG_WIN32', if_true: files(
-   'channel-win32.c',
-   'commands-win32.c',
+diff --git a/qga/main.c b/qga/main.c
+index 22b3c0df11..ab420051fb 100644
+--- a/qga/main.c
++++ b/qga/main.c
+@@ -43,6 +43,12 @@
+ #define CONFIG_FSFREEZE
+ #endif
+ #endif
++#ifdef __FreeBSD__
++#include <ufs/ffs/fs.h>
++#ifdef UFSSUSPEND
++#define CONFIG_FSFREEZE
++#endif
++#endif
+ 
+ #ifndef _WIN32
+ #ifdef __FreeBSD__
 -- 
 2.34.1
 
