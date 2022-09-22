@@ -2,78 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 932B35E6956
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 19:13:40 +0200 (CEST)
-Received: from localhost ([::1]:56134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 013FA5E69B1
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 19:33:20 +0200 (CEST)
+Received: from localhost ([::1]:46506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obPlb-0000Dh-AJ
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 13:13:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41228)
+	id 1obQ4c-0001xh-BV
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 13:33:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obPBL-0002GV-GW
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:36:14 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:41876)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obPBG-0005Ts-BT
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:36:10 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id t14so16403670wrx.8
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 09:36:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date;
- bh=v7AVH/6LvpLE+QUztT5pZ1JpIwSOJX2Mt8zbxlW+u0s=;
- b=gTtY5bTuGITw2KV0sOJZpPmvhPOjvn4P2k0QtZ0h1sSPpk7Xj/HHpdeW0GsbLy5xxQ
- /U2XDF4WnxxXedV+rMNG0ZGyRQGmOfWPk0GXAgCq/shU0q9NRjal9U9p6FR2L9s3TjaH
- NMFYH9YaZxs3ZsxLUxUzWzkHX5UZymQRLybuPEv3SOKHVqMDR9ADbTiep+K/TExPODeP
- gyInnU70L8EPPfbvI/kuLfEqYvUexPlJ6Eqj8U1rrD4Wa7ORe4w3mo1CNNXx0168HFI0
- N+APpKcqm8dmBajsdT3HFuOONfLAgTSnDuwPaSMCirD4r3gqmXQAwNca/iNLCzqRXX0p
- h1Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=v7AVH/6LvpLE+QUztT5pZ1JpIwSOJX2Mt8zbxlW+u0s=;
- b=t8xYTdRi3XzjkqRLGpXNrDtzqCTEPapr7lSFRF/cTwhDySOEi76maqtktxhIRBohT5
- zrk0w+jRZMJlc76W7Pvdvz02PBO29BIolLO7wWN56G0waqXMW7a/DnEyU90kEe/15i+h
- rfbjwyKfYT60hakthP5Y9qfHlNhOgDmhNMOfYvAt59WbYrXadYLDa9KSCi2yxumC/rO7
- yL1Xt9dhfTcc6xHV2QrfYqpAGP1/UEQWeMh4o7tzHQiu4iJDD7EJPjehTRo7yvlzAsyE
- fIpQR2TIinQUdbQjySE0+QM37MfW4RA18XhxjIhKPOoxzRxPlZoW338wbqfhO7HgqAAz
- pBYQ==
-X-Gm-Message-State: ACrzQf32i0aEZLvPET3zzrhrDhqnlplOz0w/V7F80vWDGuUMTTsIqAkG
- acKxBqILbYmxfGDbfmHb0vDx+7NlwFrmuQ==
-X-Google-Smtp-Source: AMsMyM5SJc0eET9z4kqJjCPZTmKKJIpnFUz+W3b1OqoEyBIalJyrHt+5TN+rarVUkfD6aoDg2/iJ8g==
-X-Received: by 2002:a5d:598c:0:b0:22b:100f:c2d2 with SMTP id
- n12-20020a5d598c000000b0022b100fc2d2mr2524782wri.263.1663864562492; 
- Thu, 22 Sep 2022 09:36:02 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- iw1-20020a05600c54c100b003b3401f1e24sm6452599wmb.28.2022.09.22.09.36.02
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 09:36:02 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 38/39] configure: Check mkdir result directly, not via $?
-Date: Thu, 22 Sep 2022 17:35:35 +0100
-Message-Id: <20220922163536.1096175-39-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220922163536.1096175-1-peter.maydell@linaro.org>
-References: <20220922163536.1096175-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1obPMQ-0007Jp-HO; Thu, 22 Sep 2022 12:47:39 -0400
+Received: from [200.168.210.66] (port=49764 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1obPMO-0007R1-Et; Thu, 22 Sep 2022 12:47:38 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Thu, 22 Sep 2022 13:47:32 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id 1663680012C;
+ Thu, 22 Sep 2022 13:47:32 -0300 (-03)
+Message-ID: <4989844d-cbac-91e3-d300-1afc96c3b7a4@eldorado.org.br>
+Date: Thu, 22 Sep 2022 13:47:31 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 0/4] Patch series to set up a ppc64le CI
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+References: <20220922135516.33627-1-lucas.araujo@eldorado.org.br>
+ <874jwz4bev.fsf@linaro.org>
+From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
+In-Reply-To: <874jwz4bev.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-OriginalArrivalTime: 22 Sep 2022 16:47:32.0337 (UTC)
+ FILETIME=[0270D610:01D8CEA3]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.893,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,33 +67,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Shellcheck warns that we have one place where we run a command and
-then check if it failed using $?; this is better written to simply
-check the command in the 'if' statement directly.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20220825150703.4074125-7-peter.maydell@linaro.org
----
- configure | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/configure b/configure
-index 8b48e72a135..b39561b2ed7 100755
---- a/configure
-+++ b/configure
-@@ -67,8 +67,7 @@ fi
- # it when configure exits.)
- TMPDIR1="config-temp"
- rm -rf "${TMPDIR1}"
--mkdir -p "${TMPDIR1}"
--if [ $? -ne 0 ]; then
-+if ! mkdir -p "${TMPDIR1}"; then
-     echo "ERROR: failed to create temporary directory"
-     exit 1
- fi
--- 
-2.25.1
-
+DQoNCk9uIDIyLzA5LzIwMjIgMTM6MzIsIEFsZXggQmVubsOpZSB3cm90ZToNCj4gIkx1Y2Fz
+IE1hdGV1cyBDYXN0cm8oYWxxb3RlbCkiIDxsdWNhcy5hcmF1am9AZWxkb3JhZG8ub3JnLmJy
+PiB3cml0ZXM6DQo+IA0KPj4gVGhpcyBwYXRjaCBzZXJpZXMgYWltIHRvIG1ha2UgZWFzaWVy
+IHRvIHNldCB1cCBhIGNvbXBpbGF0aW9uIGFuZCBDSQ0KPj4gZW52aXJvbm1lbnQgb24gUFBD
+NjQgYW5kIFBQQzY0TEUgbWFjaGluZXMuDQo+IA0KPiBRdWV1ZWQgdG8gdGVzdGluZy9uZXh0
+LCB0aGFua3MuDQo+IA0KPiBEbyB3ZSBoYXZlIGEgZG9uYXRlZCBwcGM2NCBtYWNoaW5lIHRv
+IGFkZCB0byB0aGUgY3VzdG9tIHJ1bm5lcnM/DQo+IA0KSSBwcm9iYWJseSBzaG91bGQgaGF2
+ZSBjaGFuZ2VkIHRoZSBtZXNzYWdlLCB0aGlzIGlzIGp1c3QgYSByZXN0cnVjdHVyaW5nIA0K
+b2YgYSBwYXRjaCBzZXJpZXMgb3JpZ2luYWxseSB0byBzZXQgdXAgYSBDSSBmb3IgUFBDNjQg
+DQooPDIwMjIwNzI3MTYzNjMyLjU5ODA2LTEtbHVjYXMuYXJhdWpvQGVsZG9yYWRvLm9yZy5i
+cj4pLCBidXQgRGFuaWVsIA0KcG9pbnRlZCBzb21lIHVuY2VydGFpbnR5IGluIHRoZSBpbmZy
+YXN0cnVjdHVyZSBvcmlnaW5hbGx5IHBsYW5uZWQgdG8gYmUgDQp1c2VkIGZvciB0aGlzIENJ
+ICg8ZTg2MDliZGEtODY1Zi00MmM4LTkyMzQtNzViMDgyY2E5ZGYwQGdtYWlsLmNvbT4pIGFu
+ZCANCmFza2VkIGZvciBhIHJlc2VuZCBvZiBwYXRjaCAxLTQgYXMgdGhvc2Ugd2VyZSBnZW5l
+cmFsIGZpeGVzIGluIHNjcmlwdHMgSSANCmZvdW5kIHdoaWxlIHVzaW5nIHRoZW0gdG8gc2V0
+IHVwIGEgUFBDIG1hY2hpbmUgd2l0aCBhbnNpYmxlIGFuZCBydW4gc29tZSANCmRvY2tlciB0
+ZXN0cy4NClNvIGFzIG9mIHJpZ2h0IG5vdyB0aGlzIHBhdGNoIHNlcmllcyBpcyBub3QgYWJv
+dXQgc2V0IHVwIGEgQ0kgZm9yIA0KUFBDNjQvUFBDNjRMRS4NCj4+IHYzOg0KPj4gQ2hhbmdl
+ZCBwYXRjaCAxIHRvIHJlc3BlY3QgYWxwaGFiZXRpY2FsIG9yZGVyDQo+Pg0KPj4gdjI6DQo+
+PiBUaGlzIHBhdGNoIHNlcmllcyBhcmUgb25seSBwYXRjaGVzIDItNCBvZiB2MSBhbmQgYW4g
+YWx0ZXJuYXRpdmUgdG8gcGF0Y2ggMQ0KPj4gc3VnZ2VzdGVkIGJ5IERhbmllbC4NCj4+DQo+
+PiBMdWNhcyBNYXRldXMgQ2FzdHJvIChhbHFvdGVsKSAoNCk6DQo+PiAgICBzY3JpcHRzL2Np
+L3NldHVwOiBuaW5qYSBtaXNzaW5nIGZyb20gYnVpbGQtZW52aXJvbm1lbnQNCj4+ICAgIHNj
+cmlwdHMvY2kvc2V0dXA6IEZpeCBsaWJ4ZW4gcmVxdWlyZW1lbnRzDQo+PiAgICBzY3JpcHRz
+L2NpL3NldHVwOiBzcGljZS1zZXJ2ZXIgb25seSBvbiB4ODYgYWFyY2g2NA0KPj4gICAgdGVz
+dHMvZG9ja2VyOiBydW4gc2NyaXB0IHVzZSByZWFscGF0aCBpbnN0ZWFkIG9mIHJlYWRsaW5r
+DQo+Pg0KPj4gICBzY3JpcHRzL2NpL3NldHVwL2J1aWxkLWVudmlyb25tZW50LnltbCB8IDE1
+ICsrKysrKysrKysrKystLQ0KPj4gICB0ZXN0cy9kb2NrZXIvcnVuICAgICAgICAgICAgICAg
+ICAgICAgICB8ICAyICstDQo+PiAgIDIgZmlsZXMgY2hhbmdlZCwgMTQgaW5zZXJ0aW9ucygr
+KSwgMyBkZWxldGlvbnMoLSkNCj4gDQo+IA0KPiAtLQ0KPiBBbGV4IEJlbm7DqWUNCg0KLS0g
+DQpMdWNhcyBNYXRldXMgTS4gQXJhdWpvIGUgQ2FzdHJvDQpJbnN0aXR1dG8gZGUgUGVzcXVp
+c2FzIEVMRE9SQURPDQo8aHR0cHM6Ly93d3cuZWxkb3JhZG8ub3JnLmJyLz91dG1fY2FtcGFp
+Z249YXNzaW5hdHVyYV9kZV9lLW1haWwmdXRtX21lZGl1bT1lbWFpbCZ1dG1fc291cmNlPVJE
+K1N0YXRpb24+DQpEZXBhcnRhbWVudG8gQ29tcHV0YcOnw6NvIEVtYmFyY2FkYQ0KQW5hbGlz
+dGEgZGUgU29mdHdhcmUgSnVuaW9yDQpBdmlzbyBMZWdhbCAtIERpc2NsYWltZXIgPGh0dHBz
+Oi8vd3d3LmVsZG9yYWRvLm9yZy5ici9kaXNjbGFpbWVyLmh0bWw+DQo=
 
