@@ -2,75 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1128F5E6285
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 14:35:00 +0200 (CEST)
-Received: from localhost ([::1]:56936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1DCC5E626D
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 14:31:46 +0200 (CEST)
+Received: from localhost ([::1]:36642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obLPo-0002nt-Sl
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 08:34:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47032)
+	id 1obLMa-0007l6-Ns
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 08:31:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1obLCY-0001VE-Ez
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:21:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31414)
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1obLDW-0001my-O6
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:22:11 -0400
+Received: from mga09.intel.com ([134.134.136.24]:16852)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1obLCS-0000lY-Ve
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:21:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663849263;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=e7qSItG4GJ0pjWkOrqf7j7YUBeEY/5XkBwaXQ44W3Ko=;
- b=DfBzdb4WU8HG7ERdcwfJZgUR6spe2S/UflyX+h/+fbk6k8ealhhYQ6uBfhUac9/mjsgw0i
- QuM0TqU44w4KX8JG8qkkr+CFKOD7ELXmWgKijr0cmRrrlPZ6HKD5jhlw/MdFlvfSbjiZRu
- I81r9vJCppKYheI9eapvxBkc0Uqc0sU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-626-MbS4KflOOsWJYHqC3yy1BQ-1; Thu, 22 Sep 2022 08:21:00 -0400
-X-MC-Unique: MbS4KflOOsWJYHqC3yy1BQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D7D293C10237;
- Thu, 22 Sep 2022 12:20:59 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7186253AA;
- Thu, 22 Sep 2022 12:20:59 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 353711800084; Thu, 22 Sep 2022 14:20:58 +0200 (CEST)
-Date: Thu, 22 Sep 2022 14:20:58 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Sergio Lopez <slp@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- kvm@vger.kernel.org, Marcelo Tosatti <mtosatti@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v4] x86: add etc/phys-bits fw_cfg file
-Message-ID: <20220922122058.vesh352623uaon6e@sirius.home.kraxel.org>
-References: <20220922101454.1069462-1-kraxel@redhat.com>
- <YyxF2TNwnXaefT6u@redhat.com>
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1obLDT-0000uP-I5
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:22:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663849327; x=1695385327;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=+6JozoI5zYvQ1c+pDUu/FHW//91sC1MCfk6HYCm9R10=;
+ b=cbBeImdm6yysNYucwkgMunvBqI3hB/JXCUNgFDpo7YJGwqM7MjGwRV6B
+ GQdePynsVu5IEgMeQJxMQ3M0mICgBsZgDaQcpGrwP0xGXYS3q67XXXWZC
+ +IvJ86wcR8v6mzO7boplM4vlFRhoy2vJ9kqzxy8ZO5vwyuzbDLMYe9gcE
+ LEpoUJpqf126oVLVj+0ZeKkjwsBRq8FX91tThccC0vKb7mLhre0mppI2J
+ 2/bgcwpa037IZSJWnSfVf3AQ4nQy/kJIwZCeofT18HYe2rQInEaan2bN5
+ OgDQLZHz0SWsZw+ITonCKy8CUZf+X/EBeDx1JROZ6pUfOx9rCXbXZNVq3 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="301128360"
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="301128360"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2022 05:22:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="795063185"
+Received: from sqa-gate.sh.intel.com (HELO robert-clx2.tsp.org)
+ ([10.239.48.212])
+ by orsmga005.jf.intel.com with ESMTP; 22 Sep 2022 05:22:02 -0700
+From: Robert Hoo <robert.hu@linux.intel.com>
+To: imammedo@redhat.com, mst@redhat.com, xiaoguangrong.eric@gmail.com,
+ ani@anisinha.ca, jingqi.liu@intel.com
+Cc: qemu-devel@nongnu.org, robert.hu@intel.com,
+ Robert Hoo <robert.hu@linux.intel.com>
+Subject: [PATCH v4 0/5] Support ACPI NVDIMM Label Methods
+Date: Thu, 22 Sep 2022 20:21:50 +0800
+Message-Id: <20220922122155.1326543-1-robert.hu@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YyxF2TNwnXaefT6u@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=134.134.136.24;
+ envelope-from=robert.hu@linux.intel.com; helo=mga09.intel.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,36 +76,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 22, 2022 at 12:24:09PM +0100, Daniel P. Berrangé wrote:
-> On Thu, Sep 22, 2022 at 12:14:54PM +0200, Gerd Hoffmann wrote:
-> > In case phys bits are functional and can be used by the guest (aka
-> > host-phys-bits=on) add a fw_cfg file carrying the value.  This can
-> > be used by the guest firmware for address space configuration.
-> > 
-> > The value in the etc/phys-bits fw_cfg file should be identical to
-> > the phys bits value published via cpuid leaf 0x80000008.
-> > 
-> > This is only enabled for 7.2+ machine types for live migration
-> > compatibility reasons.
-> 
-> Is this going to have any implications for what mgmt apps must
-> take into account when selecting valid migration target hosts ?
-> 
-> Historically, apps have tended to ignore any checks for phys
-> bits between src/dst migration hosts and hoped for the best.
-> 
-> Will this new behaviour introduce / change any failure scenarios
-> where the target host has fewer phys bits than the src host, that
-> mgmt apps need to be made aware of ?
+Originally NVDIMM Label methods was defined in Intel PMEM _DSM Interface
+Spec [1], of function index 4, 5 and 6.
+Recent ACPI spec [2] has deprecated those _DSM methods with ACPI NVDIMM
+Label Methods _LS{I,R,W}. The essence of these functions has no changes.
 
-No.  This will basically inform the guest that host-phys-bits has been
-enabled (and pass the number of bits).  So the firmware can make use of
-the available address space instead of trying to be as conservative as
-possible to avoid going beyond the (unknown) limit.
+This patch set is to update QEMU emulation on this, as well as update
+bios-table-test golden binaries.
 
-The phys-bits config itself is not touched.
+[1] Intel PMEM _DSM Interface Spec v2.0, 3.10 Deprecated Functions
+https://pmem.io/documents/IntelOptanePMem_DSM_Interface-V2.0.pdf
+[2] ACPI Spec v6.4, 6.5.10 NVDIMM Label Methods
+https://uefi.org/sites/default/files/resources/ACPI_Spec_6_4_Jan22.pdf
 
-take care,
-  Gerd
+---
+Change Log:
+v3 --> v4:
+Use more LocalX in ASL functions, instead of global scope variables.
+
+v2 --> v3:
+Patch of nvdimm_debug() --> qemu trace, has been separated and already
+upstream'ed.
+Patch of accepting _DSM rev.2 is dropped, as unnecessary.
+Roll back implementation to the idea of simply wrapper _DSM.
+
+v1 --> v2:
+Almost rewritten
+Separate Patch 2
+Dance with tests/qtest/bios-table-tests
+Add trace event
+
+Robert Hoo (5):
+  tests/acpi: allow SSDT changes
+  acpi/ssdt: Fix aml_or() and aml_and() in if clause
+  acpi/nvdimm: define macro for NVDIMM Device _DSM
+  acpi/nvdimm: Implement ACPI NVDIMM Label Methods
+  test/acpi/bios-tables-test: SSDT: update golden master binaries
+
+ hw/acpi/nvdimm.c                 | 106 +++++++++++++++++++++++++++++--
+ tests/data/acpi/pc/SSDT.dimmpxm  | Bin 734 -> 1815 bytes
+ tests/data/acpi/q35/SSDT.dimmpxm | Bin 734 -> 1815 bytes
+ 3 files changed, 100 insertions(+), 6 deletions(-)
+
+
+base-commit: 6338c30111d596d955e6bc933a82184a0b910c43
+-- 
+2.31.1
 
 
