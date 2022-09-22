@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A7CA5E61B2
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 13:48:16 +0200 (CEST)
-Received: from localhost ([::1]:57928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 584125E61D6
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 13:58:08 +0200 (CEST)
+Received: from localhost ([::1]:53088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obKgg-0007rW-KQ
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 07:48:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33018)
+	id 1obKqE-0004fB-Tu
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 07:58:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1obJqK-0004Mo-PN; Thu, 22 Sep 2022 06:54:08 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:44979)
+ id 1obJqc-0004Zy-9e; Thu, 22 Sep 2022 06:54:26 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:39802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1obJqI-00055z-GU; Thu, 22 Sep 2022 06:54:07 -0400
-Received: by mail-pf1-x432.google.com with SMTP id v186so986894pfv.11;
- Thu, 22 Sep 2022 03:54:05 -0700 (PDT)
+ id 1obJqa-00058d-R5; Thu, 22 Sep 2022 06:54:26 -0400
+Received: by mail-pl1-x632.google.com with SMTP id f23so8434563plr.6;
+ Thu, 22 Sep 2022 03:54:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=tyKFwsWpgRu5AG5U/noiod2ew/AgWpc7KZUbCbAwZ4I=;
- b=ohsWQ2WrfM2mQMrTDZB77oiPIMB1vTGHL/7x+5lGdVm7GgN9LMmCDup6oBwwuikSQd
- gf36QR6YS6sUTYGlEHL19MkxFmBrzxPNYkBYrg4vVYpBmDqR3dhrlWdO64bt64tTFOdZ
- mZMM9VLa0Mh1RE586oh6yIv+N3UMldgjRYJCMidIuEo/goEIH7DXN8Is3HjpUggEvytl
- ouExGRxHppkhDDOZjg5IPMP9i2HZWtPIhTxT8tplaMLng7dYgSnPqyN/3XwUrKhQHGDF
- zz0qtJq5k+bBdiqeDCYY+/VvHlPMyydT8CFoc2rVK+V0FlcccK0z6nRIWmYXOREJby/9
- 8JcA==
+ bh=GRf0QYK5avD46exX7JgJRqrhj6l0P79LD5unOaezZdU=;
+ b=YiAulyOJ99+6TIzFjGs7qbyNZ08voN/OSmRc87+8zb+KvPCJIGWNadSKvlPrBlKdO2
+ BGTNZ31GhlOa4POAPhfoxXaDu8nblXds1181+rTyf7wkFJ8M7zG5sJsghf5BJer5tkx+
+ DVf/IEPUUG7Bn817FFrM6vcQ1/ZZ5oluJR6zBf7zvB8gdnu7ScM6YNKaU/mLVnVEqpkk
+ VPWDeKNiA21PlB+GSaJ9JGNNqxXbRbFiyZN2EngcQhQMBC9M5nznne9RRcBfIpuz0mHg
+ hVKE3kpuH2hVBjeVVvrrT6Vrr2+5MQEZRcT4vnWOipud5lKCf4EiW+ZbGBq63GDc8Jws
+ FoPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=tyKFwsWpgRu5AG5U/noiod2ew/AgWpc7KZUbCbAwZ4I=;
- b=NJ9PHhb/fwAy3V/rSleIMg+RExGVyMJmZSMwa96Dz3lzV4OY6DWUGkmCC8ZNNSeaAF
- c4/dmU43xA2w3WRmXpCOV6YiF67KYjOILdK3n6WaXhOfNYgpA7MwmOA3H+hnTWBTQQtq
- FScEEV+2uc7ED2y6Rg/uRAXV5t2oUiGy7apQiUUIR/rUF8Q65ddmkCmTe01uDbigRXo3
- 7cPn/P8z3G3OarptHLP+nEUAiPlpJfxVdB8w0/LB1NMvOLJ/otAhPi/AKu1c5rEkliKh
- u0JTH760eEw0tT5vmbMazlpcoefRNzWxF0n8cRJTz7QTw94j858mR+tKey5stRmg+jeQ
- Hrng==
-X-Gm-Message-State: ACrzQf3sWmodKG/5FqdyVLEsNP95d07M0rNwU/YPj4n0nK9e5bj8dHSs
- XsHQwahk+f/e2JcYNCTZOT4=
-X-Google-Smtp-Source: AMsMyM7bh3L3Qlb3TEVjQRT5SBKRJzuHrKTIeu7pVI5O+trep2mu4+Q4NMw6RyzlwIVv/wunhIbeOA==
-X-Received: by 2002:a05:6a00:1889:b0:540:acee:29e4 with SMTP id
- x9-20020a056a00188900b00540acee29e4mr3050527pfh.49.1663844044657; 
- Thu, 22 Sep 2022 03:54:04 -0700 (PDT)
+ bh=GRf0QYK5avD46exX7JgJRqrhj6l0P79LD5unOaezZdU=;
+ b=5e9edQsbI+TlsqI+YD4ene2E537em+XW2HFDby1w6/Pcmri0s6XtNaaBkEy8CLVjY6
+ 6ItIvNI5YccUQpf+wGBegI8+T1cVFx3DzFMqr2P+20L+Gw1mNA4gY8TRyRaC3oXGGk7Y
+ GKQz2l7tYS38xylReHI0J+0yMG2RHAEoOodFSzUKNlXY1dOlghqh+iiaN3aOQLOzW2V/
+ RXPX/jYtHUc95dYiZsZFrZstBYCcX14lJDF02mM/wVUfcslmhyC2+fnPBf5ZqWpHtl83
+ rJkPcmfiuP1PLJSfTttJ3H1iQEPJY3vcZmZ0fsH5aIRTaOGQEOxzl2TSjpUf5GIO3LWO
+ FGLw==
+X-Gm-Message-State: ACrzQf1kjn8C0+SjpFIijrAY61MqWqInAaetBeondE6QnFpZOgrrn3PT
+ 1TCNCz596jNruOgkf+guYOo=
+X-Google-Smtp-Source: AMsMyM7NlkgEmbgyEQrlh4UKt7cb7S1F8Pq3QVG5ZASPlPMZF9RLk2a/+Bh7i4gBqXsHgmvwvtVFOA==
+X-Received: by 2002:a17:902:c40b:b0:178:e34:efa9 with SMTP id
+ k11-20020a170902c40b00b001780e34efa9mr2632721plk.10.1663844063357; 
+ Thu, 22 Sep 2022 03:54:23 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- h18-20020a170902f71200b00176b0dec886sm3717762plo.58.2022.09.22.03.54.02
+ n15-20020a63e04f000000b0043b565cb57csm3568007pgj.73.2022.09.22.03.54.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Sep 2022 03:54:03 -0700 (PDT)
-Message-ID: <bbcf3335-6d4b-36ef-7e1e-9e3ba68d2173@amsat.org>
-Date: Thu, 22 Sep 2022 12:54:00 +0200
+ Thu, 22 Sep 2022 03:54:22 -0700 (PDT)
+Message-ID: <451b5d11-ec06-83dc-c60b-4eb75d895a03@amsat.org>
+Date: Thu, 22 Sep 2022 12:54:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH v7 07/14] hw/ppc: set machine->fdt in
- xilinx_load_device_tree()
+Subject: Re: [PATCH v7 08/14] hw/ppc: set machine->fdt in
+ pegasos2_machine_reset()
 Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org
 References: <20220908194040.518400-1-danielhb413@gmail.com>
- <20220908194040.518400-8-danielhb413@gmail.com>
-In-Reply-To: <20220908194040.518400-8-danielhb413@gmail.com>
+ <20220908194040.518400-9-danielhb413@gmail.com>
+ <52281b60-27f-1eee-115-b4f8d2693d5d@eik.bme.hu>
+In-Reply-To: <52281b60-27f-1eee-115-b4f8d2693d5d@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -51
 X-Spam_score: -5.2
 X-Spam_bar: -----
@@ -96,20 +97,20 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 8/9/22 21:40, Daniel Henrique Barboza wrote:
-> This will enable support for 'dumpdtb' QMP/HMP command for the
-> virtex_ml507 machine.
+On 8/9/22 21:58, BALATON Zoltan wrote:
+> On Thu, 8 Sep 2022, Daniel Henrique Barboza wrote:
+>> We'll introduce a QMP/HMP command that requires machine->fdt to be set
+>> properly.
+>>
+>> Cc: BALATON Zoltan <balaton@eik.bme.hu>
+>> Cc: qemu-ppc@nongnu.org
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > 
-> Setting machine->fdt requires a MachineState pointer to be used inside
-> xilinx_load_device_tree(). Let's change the function to receive this
-> pointer from the caller. kernel_cmdline' can be retrieved directly from
-> the 'machine' pointer. 'ramsize' wasn't being used so can be removed.
+> Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
 > 
-> Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->   hw/ppc/virtex_ml507.c | 25 ++++++++++++++-----------
->   1 file changed, 14 insertions(+), 11 deletions(-)
+>> ---
+>> hw/ppc/pegasos2.c | 4 ++++
+>> 1 file changed, 4 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
