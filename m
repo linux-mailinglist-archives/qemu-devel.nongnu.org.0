@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE155E6B4C
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 20:54:21 +0200 (CEST)
-Received: from localhost ([::1]:49280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B50815E6AAF
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 20:22:41 +0200 (CEST)
+Received: from localhost ([::1]:59080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obRL2-0002XW-88
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 14:54:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33424)
+	id 1obQqO-0000fD-HF
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 14:22:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1obPFC-0005tE-Fv
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:40:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31322)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1obPGi-0008Et-Cn
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:41:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1obPF8-00067h-7W
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:40:07 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1obPGf-0006NM-OX
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:41:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663864805;
+ s=mimecast20190719; t=1663864896;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=FoU5k5YezdtoVCOpE768w8sLb6a1W8HGqsYG4lswDvg=;
- b=Ou06ct5BawI89RJ9rrkyolR+gAOcJKvFaqMuWEgrpiVpcwiSR6bsaM1FbZsRi+CNbvpiS4
- vZBzu3x50tEH8ZOJzlOwcgSdRTNPJvZrQ8s+lqs9HyA5ZsPlJodfif8+3iTjE37Apboior
- SPMaZiilwwRwv1mq4ogDRfxwpi2RbpQ=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=tN7sBJ022mVZi2q3q3OyaCWGqikXhV0cVNvUgbyZpAI=;
+ b=AtdgjNqFIjB5dH5471Ad6Dd4N/2cq6+7nAEIJuebLdneexGeuAz0aCdzUVZwKll5SSb2R/
+ PHE/fzn5cfBKECZLH6il7fdz4LJeFFzncuQGMu5YxhQf5d3nMP+c5Exa6wjaRAikicHu8f
+ +17I7/YB7PjfG2VX6pB6GVfZ9SVecZk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-74-KzDw016nOCykL3nZ0qUA_Q-1; Thu, 22 Sep 2022 12:40:03 -0400
-X-MC-Unique: KzDw016nOCykL3nZ0qUA_Q-1
-Received: by mail-qv1-f69.google.com with SMTP id
- k10-20020ad4450a000000b004aa116eebe8so6741608qvu.5
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 09:40:03 -0700 (PDT)
+ us-mta-529-m69l1drZPDGsv-rcxMHPXg-1; Thu, 22 Sep 2022 12:41:35 -0400
+X-MC-Unique: m69l1drZPDGsv-rcxMHPXg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ q17-20020adfab11000000b0022a44f0c5d9so3407772wrc.2
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 09:41:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=FoU5k5YezdtoVCOpE768w8sLb6a1W8HGqsYG4lswDvg=;
- b=PKnMKNO6v/p0Et9/83ooPHLXD+yeDtIET9r8524IYw7QK40rTElesoajKTVvj1W+MD
- hDNgrsinq/mOX9/dWU5gptIf19QuxuglHPj83EjQ61lpPeeEXqqrVBp5GojiFREzlSDN
- S7d5jzSx1CVS1ozhPuHze7EV3dEaiP0kL6Av8PXNK2xd/0qDF4m9zCIW9ABVl7LNlouh
- b0Lq37MhRM4ThGRR1NalxtTHdFw7Zq1HTghxx6mhdr3EJkmk76Syy64D8ZxZwqD3tXDu
- z5W3Qm7t7XXi6SIqPXvJ1gIDa2npgN+rMUcG37XsKv9mEpVpWrz9lSBfG/oxbw1dgixZ
- Hotw==
-X-Gm-Message-State: ACrzQf3+Rl/xNlIfqeRPcFcbKA1IJjDQ9TJ7Pe249gExK6d2ZjLqFEze
- sMEMOZrVq8OVGm4PqJTsFXzyH6R11o04FMMEyYZaupnhsSlg7ZGAtcGy1LOYnReJcHWHp5dsR4g
- wNKyVuJiy/hvEaUc=
-X-Received: by 2002:a05:6214:20e5:b0:4aa:b01f:471f with SMTP id
- 5-20020a05621420e500b004aab01f471fmr3396803qvk.38.1663864803151; 
- Thu, 22 Sep 2022 09:40:03 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7O0NG3v8YsuWrveVFU9yZXVbQ3rFU8Z48oiyZ0SSq1NKSbhzowWXDdgFXJBOZf0VmxY7P/ig==
-X-Received: by 2002:a05:6214:20e5:b0:4aa:b01f:471f with SMTP id
- 5-20020a05621420e500b004aab01f471fmr3396786qvk.38.1663864802926; 
- Thu, 22 Sep 2022 09:40:02 -0700 (PDT)
-Received: from xz-m1.local
- (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca. [70.31.27.79])
- by smtp.gmail.com with ESMTPSA id
- t6-20020a05622a01c600b0035bb84a4150sm3961463qtw.71.2022.09.22.09.40.01
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=tN7sBJ022mVZi2q3q3OyaCWGqikXhV0cVNvUgbyZpAI=;
+ b=EbTgChkWQ57A+MO0ZUYi1/9fiPZa+dPMvT8wIlPpdfxUtMYdElR9H+fLoENb8HxHRS
+ wkC5oQ+RUoWrOEydzSZT5UmqbAKTWvAP/7KLLwGFCBzFYyv5OebWsEW1LlSuV7r5ZAmC
+ iiFNRgI+5tZyvWBuFQsgVfFuzaf23vDtNvAtFcWbK7sX5a+AxL0LaWbjPUdb9hnCadFb
+ KLgw4/48Y+bK6DNyoUvqB9WXaY6KE+/p+tpI1JhszbMRzFaU1pFI7j5ECN9ofIApmNOJ
+ gcmOJWZ2gEQ8KZEidRnqFh4UgJdPJsfAP6MXcQ8wcOLk7HWopVbGQEVZ7+EQ5WfIu8u+
+ XGvw==
+X-Gm-Message-State: ACrzQf2BLrG9mcABkyPQdh2CqA1aNle/hteGEbdlgyBrB/wT9Y7nm3xz
+ Eh7BhSTum/1BfX46pGWJlQEWDE3KkFJX6Mx9W1QpAaDt3dJNxeGjcvNoNr7LPqXNEmCvYMH3d8z
+ xUrjblC2LhgQGkPQ=
+X-Received: by 2002:a05:6000:110e:b0:228:c336:b1db with SMTP id
+ z14-20020a056000110e00b00228c336b1dbmr2782957wrw.194.1663864892932; 
+ Thu, 22 Sep 2022 09:41:32 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7qt4aBFukThu+6TaK2xJ20K7RjCxg+NQXLnJPbBa5CzgXhBm6IYY9WqCwCN5QGGHHEUG7zLA==
+X-Received: by 2002:a05:6000:110e:b0:228:c336:b1db with SMTP id
+ z14-20020a056000110e00b00228c336b1dbmr2782936wrw.194.1663864892696; 
+ Thu, 22 Sep 2022 09:41:32 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ a8-20020a05600c348800b003a62400724bsm108458wmq.0.2022.09.22.09.41.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 09:40:02 -0700 (PDT)
-Date: Thu, 22 Sep 2022 12:40:01 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, David Woodhouse <dwmw2@infradead.org>,
- Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH] Revert "intel_iommu: Fix irqchip / X2APIC configuration
- checks"
-Message-ID: <YyyP4b2uKghi1EHL@xz-m1.local>
-References: <20220921161227.57259-1-peterx@redhat.com>
- <20220922154617.57d1a1fb@redhat.com>
+ Thu, 22 Sep 2022 09:41:32 -0700 (PDT)
+Date: Thu, 22 Sep 2022 17:41:30 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, "Daniel P . Berrange" <berrange@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH 1/5] migration: Fix possible deadloop of ram save process
+Message-ID: <YyyQOlxaSHRbZIK6@work-vm>
+References: <20220920223800.47467-1-peterx@redhat.com>
+ <20220920223800.47467-2-peterx@redhat.com>
+ <Yyx2An+YcgYCbsDx@work-vm> <Yyx+cs9ihNx+WE6G@xz-m1.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220922154617.57d1a1fb@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+In-Reply-To: <Yyx+cs9ihNx+WE6G@xz-m1.local>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -101,141 +103,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 22, 2022 at 03:46:17PM +0200, Igor Mammedov wrote:
-> On Wed, 21 Sep 2022 12:12:27 -0400
-> Peter Xu <peterx@redhat.com> wrote:
-> 
-> > It's true that when vcpus<=255 we don't require the length of 32bit APIC
-> > IDs.  However here since we already have EIM=ON it means the hypervisor
-> > will declare the VM as x2apic supported (e.g. VT-d ECAP register will have
-> > EIM bit 4 set), so the guest should assume the APIC IDs are 32bits width
-> > even if vcpus<=255.  In short, commit 77250171bdc breaks any simple cmdline
-> > that wants to boot a VM with >=9 but <=255 vcpus with:
+* Peter Xu (peterx@redhat.com) wrote:
+> On Thu, Sep 22, 2022 at 03:49:38PM +0100, Dr. David Alan Gilbert wrote:
+> > * Peter Xu (peterx@redhat.com) wrote:
+> > > When starting ram saving procedure (especially at the completion phase),
+> > > always set last_seen_block to non-NULL to make sure we can always correctly
+> > > detect the case where "we've migrated all the dirty pages".
+> > > 
+> > > Then we'll guarantee both last_seen_block and pss.block will be valid
+> > > always before the loop starts.
+> > > 
+> > > See the comment in the code for some details.
+> > > 
+> > > Signed-off-by: Peter Xu <peterx@redhat.com>
 > > 
-> >   -device intel-iommu,intremap=on
+> > Yeh I guess it can currently only happen during restart?
+> 
+> There're only two places to clear last_seen_block:
+> 
+> ram_state_reset[2683]          rs->last_seen_block = NULL;
+> ram_postcopy_send_discard_bitmap[2876] rs->last_seen_block = NULL;
+> 
+> Where for the reset case:
+> 
+> ram_state_init[2994]           ram_state_reset(*rsp);
+> ram_state_resume_prepare[3110] ram_state_reset(rs);
+> ram_save_iterate[3271]         ram_state_reset(rs);
+> 
+> So I think it can at least happen in two places, either (1) postcopy just
+> started (assume when postcopy starts accidentally when all dirty pages were
+> migrated?), or (2) postcopy recover from failure.
+
+Oh, (1) is a more general problem then; yeh.
+
+> In my case I triggered this deadloop when I was debugging the other bug
+> fixed by the next patch where it was postcopy recovery (on tls), but only
+> once..  So currently I'm still not 100% sure whether this is the same
+> problem, but logically it could trigger.
+> 
+> I also remember I used to hit very rare deadloops before too, maybe they're
+> the same thing because I did test recovery a lot.
+
+Note; 'deadlock' not 'deadloop'.
+
+Dave
+
 > > 
-> > For anyone who does not want to enable x2apic, we can use eim=off in the
-> > intel-iommu parameters to skip enabling KVM x2apic.
-> > 
-> > This partly reverts commit 77250171bdc02aee106083fd2a068147befa1a38, while
-> > keeping the valid bit on checking split irqchip, but revert the other change.
-> > 
-> > Cc: David Woodhouse <dwmw2@infradead.org>
-> > Cc: Claudio Fontana <cfontana@suse.de>
-> > Cc: Igor Mammedov <imammedo@redhat.com>
-> > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > ---
-> >  hw/i386/intel_iommu.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> > index 05d53a1aa9..6524c2ee32 100644
-> > --- a/hw/i386/intel_iommu.c
-> > +++ b/hw/i386/intel_iommu.c
-> > @@ -3818,6 +3818,11 @@ static bool vtd_decide_config(IntelIOMMUState *s, Error **errp)
-> >              error_setg(errp, "eim=on requires accel=kvm,kernel-irqchip=split");
-> >              return false;
-> >          }
-> > +        if (!kvm_enable_x2apic()) {
+> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > 
-> above 'check' has side-effects
-> if it's supposed to be a check it would be better to use kvm_has_x2apic_api()
-> instead.
-
-A check is not what I wanted.
-
-As stated in the commit message, since for some reason EIM is enabled on
-the VT-d device already, we need to enable x2apic for the whole guest
-(including KVM) to match with EIM=on being declared even if vcpus<255.
-
+> Thanks!
 > 
-> Also 77250171bdc says:
-> "
->     The check on kvm_enable_x2apic() needs to happen *anyway* in order to
->     allow CPUs above 254 even without an IOMMU, so allow that to happen
->     elsewhere.
-> "
+> -- 
+> Peter Xu
 > 
-> Looking for that elsewhere, it looks like commit dc89f32d92b was supposed
-> to take care of removed chunk, but that is not reachable because of > 255 vCPUs"
-> 
-> Likely 77250171bdc just exposed a bug in dc89f32d92b, where
-> the later removed kvm_enable_x2apic() always called (with split irqchip)
-> and made it called only when > 255 vCPUs.
-> 
-> So migration wise it looks like all version with it and less than 255 cpus
-> are broken.
-> 
-> Wait earlier c1bb5418e3, introduced that
->    kvm_irqchip_is_split() && kvm_enable_x2apic()
-> 'condition', also without any compat machinery to keep old behavior.
-
-There's actually some attempt to be compatible, with:
-
- GlobalProperty pc_compat_5_1[] = {
-     { "ICH9-LPC", "x-smi-cpu-hotplug", "off" },
-+    { TYPE_X86_CPU, "kvm-msi-ext-dest-id", "off" },
- };
-
-But I don't think that's strictly correct, because afaict that only
-controls whether guest enables it or not (I can only see Linux does it that
-way; no idea whether that's detected to other OSes from the PV interfaces).
-The KVM x2apic will still be enabled even on old machines I think, as you
-mentioned.
-
-> 
-> And before that kvm_enable_x2apic() was affecting only configuration
-> with intel_iommu (fb506e701e9b).
-
-Right, afaict that's what we "officially" support.
-
-> 
-> I'm not sure if anything could be salvaged here migration wise
-
-This whole thing is indeed very unfortunate.  For easier reference of
-future, here are the list of commits that are relevant in time order:
-
-fb506e701e ("intel_iommu: reject broken EIM", 2016-10-17)
-c1bb5418e3 ("target/i386: Support up to 32768 CPUs without IRQ remapping", 2020-12-10)
-77250171bd ("intel_iommu: Fix irqchip / X2APIC configuration checks", 2022-05-16)
-dc89f32d92 ("target/i386: Fix sanity check on max APIC ID / X2APIC enablement", 2022-05-16)
-
-So regarding compatibility I'm wondering whether we should loose it for
-this case, depending on whether vendors (like RH, or QEMU community in
-general) should support "allowing 32K vcpu without vIOMMU" as an "official"
-feature, or treat it as "experimental only".
-
-IMO it's more important to always make the officially supported bits
-compatible and work as expected.  Here IIUC the (only) official way to
-support >255 vcpus should still be using vIOMMU with EIM enabled so far.
-But I'm happy to be corrected..
-
-If so, I would still suggest having such a patch because it should fix one
-of the basic use cases with vIOMMU and currently upstream is broken on it.
-This patch will definitely change the behavior again, but the old was
-simply broken and we don't really have much choice out of it, IMHO.
-
-Thanks,
-
-> 
-> PS:
-> I'd keep kvm_enable_x2apic() only in corrected x86_cpus_init()
-> and use kvm_has_x2apic_api() elsewhere for checks and bailing out.
-> 
-> 
-> > +            error_setg(errp, "eim=on requires support on the KVM side"
-> > +                             "(X2APIC_API, first shipped in v4.7)");
-> > +            return false;
-> > +        }
-> 
-> 
-> 
-> >      }
-> >  
-> >      /* Currently only address widths supported are 39 and 48 bits */
-> 
-
 -- 
-Peter Xu
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
