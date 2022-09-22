@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71D4B5E6466
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 15:57:03 +0200 (CEST)
-Received: from localhost ([::1]:51506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 572145E62FF
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 14:58:54 +0200 (CEST)
+Received: from localhost ([::1]:60800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obMhK-0002el-Eq
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 09:57:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41344)
+	id 1obLn3-00046j-Dq
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 08:58:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1obLDm-0002Bm-RY
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:22:26 -0400
+ id 1obLDp-0002GY-4l
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:22:29 -0400
 Received: from mga09.intel.com ([134.134.136.24]:16864)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1obLDl-0000xF-0S
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:22:26 -0400
+ id 1obLDn-0000xF-56
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:22:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663849345; x=1695385345;
+ t=1663849347; x=1695385347;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=MmZEcM/DX7E2Mrb4q8YJoVFF6Y6AX8QuVLN7woNCJWE=;
- b=Ia+BpIyOMVuX/RvtgHzBTgUPvf1Anitg+iGwCh8I9EEo0cexCHZUwXH5
- B9Jklxko3Vxhmmy5arWOmKzY4ynWegBRfFrsjD5tcju6yXY6/Xn1UUFeq
- BY0ja6AjYpZtM640+TOnrB9IXU6W0hy/yLBMKiJsSyYVLJZXc5WwzG2re
- sX82XF0SHwYtcRyl2gvIfwcYf/tuAxmhOjWqCPJfH4gRexDe1g2C4dOyp
- PB82QWf6kdj14XrCfVMEQrd3ZpcddLr0q/y51+90QzeqGBIgCgg0SAyGI
- ZYN3A2S8YzO+bYnVHNzJf2vsqbBLwtG2+ipWO+JSBa8aoLlXMd/S4sz4U w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="301128378"
-X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="301128378"
+ bh=NcK7vI/jjf+pZtFQbyYkQwKsR455DOSRfRqLBmFZxEM=;
+ b=AFFJ6IS8t/9A0X7vLV94kLMQf0QmsuUSbmZpH/fD0Ym1ntbv1RNxlpsy
+ gKgi6CbzZmgAVjzhJN5lZuHZKRneJ7yNe6In3fpLG7FEvyDI+mJmxEQvP
+ lj2bgP4yfbKIAi6J036PBLtsf5X9Pzofxs3HupiSQ21cGaxMvKY6YdBk4
+ lGx0qL5zsj7tLYBQI21Xy0r728IlOJQ/IPhvLdsxSV+EiXKWjOa4EtmXM
+ 5ruNQEryG55m7N+5rQ1m/Iqma2FeutrrBCAN58PZ6cJvY8vlauVMDzOiC
+ teacijBGpclxlCkfU1p4L/kcPRmGfcVzSpOuSrQEajj9USIhAfnXaz9DP g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="301128383"
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="301128383"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2022 05:22:11 -0700
+ 22 Sep 2022 05:22:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="795063261"
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="795063271"
 Received: from sqa-gate.sh.intel.com (HELO robert-clx2.tsp.org)
  ([10.239.48.212])
- by orsmga005.jf.intel.com with ESMTP; 22 Sep 2022 05:22:09 -0700
+ by orsmga005.jf.intel.com with ESMTP; 22 Sep 2022 05:22:11 -0700
 From: Robert Hoo <robert.hu@linux.intel.com>
 To: imammedo@redhat.com, mst@redhat.com, xiaoguangrong.eric@gmail.com,
  ani@anisinha.ca, jingqi.liu@intel.com
 Cc: qemu-devel@nongnu.org, robert.hu@intel.com,
  Robert Hoo <robert.hu@linux.intel.com>
-Subject: [PATCH v4 3/5] acpi/nvdimm: define macro for NVDIMM Device _DSM
-Date: Thu, 22 Sep 2022 20:21:53 +0800
-Message-Id: <20220922122155.1326543-4-robert.hu@linux.intel.com>
+Subject: [PATCH v4 4/5] acpi/nvdimm: Implement ACPI NVDIMM Label Methods
+Date: Thu, 22 Sep 2022 20:21:54 +0800
+Message-Id: <20220922122155.1326543-5-robert.hu@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220922122155.1326543-1-robert.hu@linux.intel.com>
 References: <20220922122155.1326543-1-robert.hu@linux.intel.com>
@@ -78,43 +78,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since it will be heavily used in next patch, define macro
-NVDIMM_DEVICE_DSM_UUID for "4309AC30-0D11-11E4-9191-0800200C9A66", which is
-NVDIMM device specific method uuid defined in NVDIMM _DSM interface spec,
-Section 3. [1]
+Recent ACPI spec [1] has defined NVDIMM Label Methods _LS{I,R,W}, which
+deprecates corresponding _DSM Functions defined by PMEM _DSM Interface spec
+[2].
 
-No functional changes in this patch.
+Since the semantics of the new Label Methods are almost same as old _DSM
+methods, the implementations here simply wrapper old ones.
 
-[1] https://pmem.io/documents/IntelOptanePMem_DSM_Interface-V2.0.pdf
+ASL form diff can be found in next patch of updating golden master
+binaries.
+
+[1] ACPI Spec v6.4, 6.5.10 NVDIMM Label Methods
+https://uefi.org/sites/default/files/resources/ACPI_Spec_6_4_Jan22.pdf
+[2] Intel PMEM _DSM Interface Spec v2.0, 3.10 Deprecated Functions
+https://pmem.io/documents/IntelOptanePMem_DSM_Interface-V2.0.pdf
 
 Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/acpi/nvdimm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/acpi/nvdimm.c | 95 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 95 insertions(+)
 
 diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-index 201317c611..afff911c1e 100644
+index afff911c1e..a3b25a92f3 100644
 --- a/hw/acpi/nvdimm.c
 +++ b/hw/acpi/nvdimm.c
-@@ -922,6 +922,7 @@ void nvdimm_init_acpi_state(NVDIMMState *state, MemoryRegion *io,
- #define NVDIMM_DSM_RFIT_STATUS  "RSTA"
+@@ -1243,6 +1243,7 @@ static void nvdimm_build_fit(Aml *dev)
+ static void nvdimm_build_nvdimm_devices(Aml *root_dev, uint32_t ram_slots)
+ {
+     uint32_t slot;
++    Aml *method, *pkg, *field, *com_call;
  
- #define NVDIMM_QEMU_RSVD_UUID   "648B9CF2-CDA1-4312-8AD9-49C4AF32BD62"
-+#define NVDIMM_DEVICE_DSM_UUID  "4309AC30-0D11-11E4-9191-0800200C9A66"
+     for (slot = 0; slot < ram_slots; slot++) {
+         uint32_t handle = nvdimm_slot_to_handle(slot);
+@@ -1260,6 +1261,100 @@ static void nvdimm_build_nvdimm_devices(Aml *root_dev, uint32_t ram_slots)
+          */
+         aml_append(nvdimm_dev, aml_name_decl("_ADR", aml_int(handle)));
  
- static void nvdimm_build_common_dsm(Aml *dev,
-                                     NVDIMMState *nvdimm_state)
-@@ -1029,8 +1030,7 @@ static void nvdimm_build_common_dsm(Aml *dev,
-                /* UUID for QEMU internal use */), expected_uuid));
-     aml_append(elsectx, ifctx);
-     elsectx2 = aml_else();
--    aml_append(elsectx2, aml_store(
--               aml_touuid("4309AC30-0D11-11E4-9191-0800200C9A66")
-+    aml_append(elsectx2, aml_store(aml_touuid(NVDIMM_DEVICE_DSM_UUID)
-                /* UUID for NVDIMM Devices */, expected_uuid));
-     aml_append(elsectx, elsectx2);
-     aml_append(method, elsectx);
++        /*
++         * ACPI v6.4: Section 6.5.10 NVDIMM Label Methods
++         */
++        /* _LSI */
++        method = aml_method("_LSI", 0, AML_SERIALIZED);
++        com_call = aml_call5(NVDIMM_COMMON_DSM,
++                            aml_touuid(NVDIMM_DEVICE_DSM_UUID),
++                            aml_int(1), aml_int(4), aml_int(0),
++                            aml_int(handle));
++        aml_append(method, aml_store(com_call, aml_local(0)));
++
++        aml_append(method, aml_create_dword_field(aml_local(0),
++                                                  aml_int(0), "STTS"));
++        aml_append(method, aml_create_dword_field(aml_local(0), aml_int(4),
++                                                  "SLSA"));
++        aml_append(method, aml_create_dword_field(aml_local(0), aml_int(8),
++                                                  "MAXT"));
++
++        pkg = aml_package(3);
++        aml_append(pkg, aml_name("STTS"));
++        aml_append(pkg, aml_name("SLSA"));
++        aml_append(pkg, aml_name("MAXT"));
++        aml_append(method, aml_store(pkg, aml_local(1)));
++        aml_append(method, aml_return(aml_local(1)));
++
++        aml_append(nvdimm_dev, method);
++
++        /* _LSR */
++        method = aml_method("_LSR", 2, AML_SERIALIZED);
++        aml_append(method, aml_name_decl("INPT", aml_buffer(8, NULL)));
++
++        aml_append(method, aml_create_dword_field(aml_name("INPT"),
++                                                  aml_int(0), "OFST"));
++        aml_append(method, aml_create_dword_field(aml_name("INPT"),
++                                                  aml_int(4), "LEN"));
++        aml_append(method, aml_store(aml_arg(0), aml_name("OFST")));
++        aml_append(method, aml_store(aml_arg(1), aml_name("LEN")));
++
++        pkg = aml_package(1);
++        aml_append(pkg, aml_name("INPT"));
++        aml_append(method, aml_store(pkg, aml_local(0)));
++
++        com_call = aml_call5(NVDIMM_COMMON_DSM,
++                            aml_touuid(NVDIMM_DEVICE_DSM_UUID),
++                            aml_int(1), aml_int(5), aml_local(0),
++                            aml_int(handle));
++        aml_append(method, aml_store(com_call, aml_local(3)));
++        field = aml_create_dword_field(aml_local(3), aml_int(0), "STTS");
++        aml_append(method, field);
++        field = aml_create_field(aml_local(3), aml_int(32),
++                                 aml_shiftleft(aml_name("LEN"), aml_int(3)),
++                                 "LDAT");
++        aml_append(method, field);
++        aml_append(method, aml_name_decl("LSA", aml_buffer(0, NULL)));
++        aml_append(method, aml_to_buffer(aml_name("LDAT"), aml_name("LSA")));
++
++        pkg = aml_package(2);
++        aml_append(pkg, aml_name("STTS"));
++        aml_append(pkg, aml_name("LSA"));
++
++        aml_append(method, aml_store(pkg, aml_local(1)));
++        aml_append(method, aml_return(aml_local(1)));
++
++        aml_append(nvdimm_dev, method);
++
++        /* _LSW */
++        method = aml_method("_LSW", 3, AML_SERIALIZED);
++        aml_append(method, aml_store(aml_arg(2), aml_local(2)));
++        aml_append(method, aml_name_decl("INPT", aml_buffer(8, NULL)));
++        field = aml_create_dword_field(aml_name("INPT"),
++                                                  aml_int(0), "OFST");
++        aml_append(method, field);
++        field = aml_create_dword_field(aml_name("INPT"),
++                                                  aml_int(4), "TLEN");
++        aml_append(method, field);
++        aml_append(method, aml_store(aml_arg(0), aml_name("OFST")));
++        aml_append(method, aml_store(aml_arg(1), aml_name("TLEN")));
++
++        aml_append(method, aml_concatenate(aml_name("INPT"), aml_local(2),
++                                            aml_name("INPT")));
++        pkg = aml_package(1);
++        aml_append(pkg, aml_name("INPT"));
++        aml_append(method, aml_store(pkg, aml_local(0)));
++        com_call = aml_call5(NVDIMM_COMMON_DSM,
++                            aml_touuid(NVDIMM_DEVICE_DSM_UUID),
++                            aml_int(1), aml_int(6), aml_local(0),
++                            aml_int(handle));
++        aml_append(method, aml_store(com_call, aml_local(3)));
++        field = aml_create_dword_field(aml_local(3), aml_int(0), "STTS");
++        aml_append(method, field);
++        aml_append(method, aml_return(aml_name("STTS")));
++
++        aml_append(nvdimm_dev, method);
++
+         nvdimm_build_device_dsm(nvdimm_dev, handle);
+         aml_append(root_dev, nvdimm_dev);
+     }
 -- 
 2.31.1
 
