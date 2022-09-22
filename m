@@ -2,72 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D7DD5E67DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 17:59:20 +0200 (CEST)
-Received: from localhost ([::1]:53030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5ECC5E67D9
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 17:58:18 +0200 (CEST)
+Received: from localhost ([::1]:52386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obObf-0000A4-EC
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 11:59:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39774)
+	id 1obOaf-0006GZ-9E
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 11:58:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obOBC-0005mW-G5
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:31:58 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:46955)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obOBA-0008AK-Co
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:31:58 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id z13so14075541edb.13
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 08:31:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=sUmR2FQ0TnpmIXEitpS0EgueoVe7AtMwEfhlg0XBP6o=;
- b=d0u6W/m/hrlMGvxKey14YaGPRAz20R9eq5GSpI0COvyrM69NwgynT/QKXL8vXAw66f
- 5PHMvLx1rU3MFGVZE9n6JlSfta61Fp4p9AULNgI00VWQ7o/uCYsOPS5rFmG5KGDEYkwL
- 518tW6PYU/YpWO+5N/tsArfV+vzpWay8IdFxRsxisJfVc9BfzhOdCTZVp2ZMrc4/JypY
- RHR0nArQisrqUPN5CCTAvaBCZsbZ50g/jPoixbFUHm34d4e7HbJKSNnpb+rwxXygAF4j
- XoC7vvNaqxqoYiSZCPM/claVXzT4GrRCX5+UMYvbsatiYh0XxsV35MOKsPEYs77A2k3m
- pdRw==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1obOFg-0000HH-PC
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:36:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43628)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1obOFb-0000rr-Eb
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:36:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663860989;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TDR3d81nArABlbrlt/KP7A8NXUJLSgVwg6Wwcw+6jKQ=;
+ b=Q09Awf3g9K9QPvPYMbhF4vgI5B4uVAOAYPvzMg4aLGGelPRmsnMhN1BPZPbr2Lvk1+iHKY
+ 8fZpyEkXRlQ/Y+lrm8kZFHwL8yUDjVF51QHfKB7JXj9hPDy34uz08wVLWSj55kQKsaA92R
+ LrdFAZ6qie5fmb2ubEm9MrdbyyaCw+I=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-167-xZh0j2ciNEWzcXpoojL0_w-1; Thu, 22 Sep 2022 11:36:27 -0400
+X-MC-Unique: xZh0j2ciNEWzcXpoojL0_w-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ dz21-20020a0564021d5500b0045217702048so6872766edb.5
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 08:36:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=sUmR2FQ0TnpmIXEitpS0EgueoVe7AtMwEfhlg0XBP6o=;
- b=GQAYiLaywfWiq50f1s30oira7TMy6jLvsPH9xmePM7GFdMeSDWI0oV9mD8IgrOXvpE
- DhU/43/5g+kTj/6kCXCMAgKLhU+V54j4oUjyuIrNrNqGokIg7/0CaJXtofwMfsW0lXCO
- t3vXtw1E2hwcyIhZea0t/inGxQ/DLxfgBdO8xhO1zq/9KBiH5gw/3GU/TC5SZDXZGJQZ
- mAz0rZD9tDWoxZ0PrQbQ3+xKIC/Ff6ZyGd+aBggcc6dclckCxFQJsin7r9pPvhe5yDon
- ZtgKdOSLj7z1/sZxX0R1NLIV+6nhEbjnTZpuRbuU+iVp8UxUwBkYYSrTZDs1pID38uNu
- iIKw==
-X-Gm-Message-State: ACrzQf0zRoDvciFNA9kGuo+1V94wTEyyUh5y1L5tBiL9PDFYdl1m5Sjb
- KIyWw9nDzuK1P9SAEFkb9X3kXT/Ragf+eNM1oxgt2Q==
-X-Google-Smtp-Source: AMsMyM7Pt5YoWW6xedkRvLNbNfnawjuev+iSlCkhk8FCetZbDPHoXmoLucZDBuXUmd7YVJJ3J99pihxA2w6utfoxGRg=
-X-Received: by 2002:a05:6402:2787:b0:451:d655:9269 with SMTP id
- b7-20020a056402278700b00451d6559269mr3963940ede.375.1663860713060; Thu, 22
- Sep 2022 08:31:53 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=TDR3d81nArABlbrlt/KP7A8NXUJLSgVwg6Wwcw+6jKQ=;
+ b=i/pgSSSVt9deLlfl0B5vl+TA5CHcBxah7/6UeZVBFKFCzKcNCUjKMntsDOON0hPJtu
+ A5q2+njpDgS9WZ72uCI2zoLTyOidbZjyVy4cJG4EGD/d7lpv3UJE0xHu+OWcyWrVewU+
+ 2qZ4UmegWQCGkCZGB9L9gwku0E5O7Ba7sI1+Iq2kffu3Dd9d2A3INz/Qdx+eyl+pCQ3P
+ bfTvMkt5xQaJSXFfLkwi4xq3ekGjwNzn7OZQyRe0AGWkz915/JNaPTAGnLK7SaRNah2S
+ 7Ou3FQTaZ056G2FQqloBV5N5OaJMXZeJlRHcYZZdCew5IMQDbP1Tmi+Xn2i9IhwGMBnh
+ zKjg==
+X-Gm-Message-State: ACrzQf0Qqhhl972axm0hnzjooH8fTjq66r1Afx/zq1dScTdMFMDUhSVP
+ j5lI7VLJIv7XY7d0BfA/OEuQ9mfzbfMlB8jPWENmNPCAkFxqbgUUFv1T/3DspyHMv3wenrgtOYj
+ E+PC3Bjh1ascuP2I=
+X-Received: by 2002:a17:907:b1b:b0:772:1dcc:a512 with SMTP id
+ h27-20020a1709070b1b00b007721dcca512mr3273978ejl.247.1663860986015; 
+ Thu, 22 Sep 2022 08:36:26 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4pz/L5wXJEvtjocPpSl29aM9mc/852jtksPS73JY79WusHbE1lkk/tvTYKB1LBvD94DU0r4A==
+X-Received: by 2002:a17:907:b1b:b0:772:1dcc:a512 with SMTP id
+ h27-20020a1709070b1b00b007721dcca512mr3273957ejl.247.1663860985761; 
+ Thu, 22 Sep 2022 08:36:25 -0700 (PDT)
+Received: from [192.168.45.94] ([37.85.29.70])
+ by smtp.gmail.com with ESMTPSA id
+ r18-20020a1709061bb200b0077205dd15basm2769966ejg.66.2022.09.22.08.36.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Sep 2022 08:36:25 -0700 (PDT)
+Message-ID: <cd8de41e-3401-5e24-4112-47a5a6f8cbb4@redhat.com>
+Date: Thu, 22 Sep 2022 17:36:23 +0200
 MIME-Version: 1.0
-References: <20220914115217.117532-1-richard.henderson@linaro.org>
- <20220914115217.117532-3-richard.henderson@linaro.org>
-In-Reply-To: <20220914115217.117532-3-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 22 Sep 2022 16:31:41 +0100
-Message-ID: <CAFEAcA-_v4bY5fdXsK6EHncxVrznrrS_-VgqD_fOR4ScrvidvA@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Do alignment check when translation disabled
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
- Idan Horowitz <idan.horowitz@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v8 1/2] target/s390x: support SHA-512 extensions
+Content-Language: en-US
+To: David Hildenbrand <david@redhat.com>, "Jason A. Donenfeld"
+ <Jason@zx2c4.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Holger Dengler <dengler@linux.ibm.com>
+References: <20220921100729.2942008-1-Jason@zx2c4.com>
+ <793e6018-da21-2247-1348-ad0e62030e25@redhat.com>
+ <YyxyxCZH4X5n7Rdy@zx2c4.com>
+ <5a8f56a5-50ec-01f3-094f-b1213bb29e56@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <5a8f56a5-50ec-01f3-094f-b1213bb29e56@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.893, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,109 +109,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 14 Sept 2022 at 13:47, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> If translation is disabled, the default memory type is Device,
-> which requires alignment checking.  Document, but defer, the
-> more general case of per-page alignment checking.
->
-> Reported-by: Idan Horowitz <idan.horowitz@gmail.com>
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1204
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/helper.c | 38 ++++++++++++++++++++++++++++++++++++--
->  1 file changed, 36 insertions(+), 2 deletions(-)
->
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index d7bc467a2a..79609443aa 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -10713,6 +10713,39 @@ ARMMMUIdx arm_mmu_idx(CPUARMState *env)
->      return arm_mmu_idx_el(env, arm_current_el(env));
->  }
->
-> +/*
-> + * Return true if memory alignment should be enforced.
-> + */
-> +static bool aprofile_require_alignment(CPUARMState *env, int el, uint64_t sctlr)
-> +{
-> +    /* Check the alignment enable bit. */
-> +    if (sctlr & SCTLR_A) {
-> +        return true;
-> +    }
-> +
-> +    /*
-> +     * If translation is disabled, then the default memory type
-> +     * may be Device(-nGnRnE) instead of Normal, which requires that
+On 22/09/2022 16.51, David Hildenbrand wrote:
+[...]
+> Thanks. I'll resend this patch only as reply to your original one,
+> so Thomas can easily pick it up (or add more feedback :)).
 
-"may be" ?
+We're also missing the machine compat handling ... could you
+add something like this on top:
 
-> +     * alignment be enforced.
-> +     *
-> +     * TODO: The more general case is translation enabled, with a per-page
-> +     * check of the memory type as assigned via MAIR_ELx and the PTE.
-> +     * We could arrange for a bit in MemTxAttrs to enforce alignment
-> +     * via forced use of the softmmu slow path.  Given that such pages
-> +     * are intended for MMIO, where the slow path is required anyhow,
-> +     * this should not result in extra overhead.
-> +     */
-> +    if (sctlr & SCTLR_M) {
-> +        /* Translation enabled: memory type in PTE via MAIR_ELx. */
-> +        return false;
-> +    }
-> +    if (el < 2 && (arm_hcr_el2_eff(env) & (HCR_DC | HCR_VM))) {
-> +        /* Stage 2 translation enabled: memory type in PTE. */
-> +        return false;
-> +    }
-> +    return true;
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -803,8 +803,11 @@ DEFINE_CCW_MACHINE(7_2, "7.2", true);
+  
+  static void ccw_machine_7_1_instance_options(MachineState *machine)
+  {
++    static const S390FeatInit qemu_cpu_feat = { S390_FEAT_LIST_QEMU_V7_1 };
++
+      ccw_machine_7_2_instance_options(machine);
+      s390_cpudef_featoff_greater(16, 1, S390_FEAT_PAIE);
++    s390_set_qemu_cpu_model(0x8561, 15, 1, qemu_cpu_feat);
+  }
+  
+  static void ccw_machine_7_1_class_options(MachineClass *mc)
+diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
+--- a/target/s390x/gen-features.c
++++ b/target/s390x/gen-features.c
+@@ -744,13 +744,16 @@ static uint16_t qemu_V7_0[] = {
+      S390_FEAT_MISC_INSTRUCTION_EXT3,
+  };
+  
++static uint16_t qemu_V7_1[] = {
++    S390_FEAT_VECTOR_ENH2,
++};
++
+  /*
+   * Features for the "qemu" CPU model of the latest QEMU machine and the "max"
+   * CPU model under TCG. Don't include features that are not part of the full
+   * feature set of the current "max" CPU model generation.
+   */
+  static uint16_t qemu_MAX[] = {
+-    S390_FEAT_VECTOR_ENH2,
+      S390_FEAT_MSA_EXT_5,
+      S390_FEAT_KIMD_SHA_512,
+      S390_FEAT_KLMD_SHA_512,
+@@ -876,6 +879,7 @@ static FeatGroupDefSpec QemuFeatDef[] = {
+      QEMU_FEAT_INITIALIZER(V6_0),
+      QEMU_FEAT_INITIALIZER(V6_2),
+      QEMU_FEAT_INITIALIZER(V7_0),
++    QEMU_FEAT_INITIALIZER(V7_1),
+      QEMU_FEAT_INITIALIZER(MAX),
+  };
+  
+(otherwise I can also add it when picking up the patch)
 
-The SCTLR_EL1 docs say that if HCR_EL2.{DC,TGE} != {0,0} then we need to
-treat SCTLR_EL1.M as if it is 0. DC is covered above, but do we need/want
-to do anything special for TGE ? Maybe we just never get into this case
-because TGE means regime_sctlr() is never SCTLR_EL1 ? I forget how it
-works...
+  Thomas
 
-We also need to not do this for anything with ARM_FEATURE_PMSA :
-with PMSA, if the MPU is disabled because SCTLR.M is 0 then the
-default memory type depends on the address (it's defined by the
-"default memory map", DDI0406C.d table B5-1) and isn't always Device.
 
-We should also mention in the comment why we're doing this particular
-special case even though we don't care to do full alignment checking
-for Device memory accesses: because initial MMU-off code is a common
-use-case where the guest will be working with RAM that's set up as
-Device memory, and it's nice to be able to detect misaligned-access
-bugs in it.
-
-> +}
-> +
->  static CPUARMTBFlags rebuild_hflags_common(CPUARMState *env, int fp_el,
->                                             ARMMMUIdx mmu_idx,
->                                             CPUARMTBFlags flags)
-> @@ -10777,8 +10810,9 @@ static CPUARMTBFlags rebuild_hflags_a32(CPUARMState *env, int fp_el,
->  {
->      CPUARMTBFlags flags = {};
->      int el = arm_current_el(env);
-> +    uint64_t sctlr = arm_sctlr(env, el);
->
-> -    if (arm_sctlr(env, el) & SCTLR_A) {
-> +    if (aprofile_require_alignment(env, el, sctlr)) {
->          DP_TBFLAG_ANY(flags, ALIGN_MEM, 1);
->      }
->
-> @@ -10871,7 +10905,7 @@ static CPUARMTBFlags rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
->
->      sctlr = regime_sctlr(env, stage1);
->
-> -    if (sctlr & SCTLR_A) {
-> +    if (aprofile_require_alignment(env, el, sctlr)) {
->          DP_TBFLAG_ANY(flags, ALIGN_MEM, 1);
->      }
->
-> --
-> 2.34.1
-
-thanks
--- PMM
 
