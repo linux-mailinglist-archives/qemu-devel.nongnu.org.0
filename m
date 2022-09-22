@@ -2,89 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F6EA5E6749
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 17:38:00 +0200 (CEST)
-Received: from localhost ([::1]:52706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A715B5E6757
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 17:42:19 +0200 (CEST)
+Received: from localhost ([::1]:59908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obOH0-00023c-1R
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 11:37:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38834)
+	id 1obOLA-0001DA-6A
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 11:42:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obNoh-0001vS-RH
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:08:44 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:54866)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1obNq0-0004zK-91
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:10:04 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:34708)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obNof-0005Cq-IJ
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:08:43 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 358CE1F94B;
- Thu, 22 Sep 2022 15:08:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1663859319; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gNakpuRZkH58ssOJO3aRzMGq0EGWyrwwrf/f8IlbZ3c=;
- b=qWNcE38QDsr23TQsxngjqc17/wNvDUd/ny+RuEt12sqpHhQXkJw89Hm7gqKmOxsjc/2+NM
- hspoqyTHWecBmGd58mIoCYg1haaMOXFD7RwMJLauR3Anlf2WvW7f7FHnVWQFinKBnGOrIK
- 9Iw3ClBBHYWmWNzKMtb1wx9E9EfRx3w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1663859319;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gNakpuRZkH58ssOJO3aRzMGq0EGWyrwwrf/f8IlbZ3c=;
- b=BlPULkRK4vAS8DPFqhxZzKKND6vvSONw2Haxxk5vTh0e5BZuTNJmGFufz8Lp0MPyelBP86
- sbC9kufdusEOXXCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E06951346B;
- Thu, 22 Sep 2022 15:08:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 3Y0cNXZ6LGNMKAAAMHmgww
- (envelope-from <cfontana@suse.de>); Thu, 22 Sep 2022 15:08:38 +0000
-Message-ID: <e065de14-3b73-b7b6-0294-5f12196345f3@suse.de>
-Date: Thu, 22 Sep 2022 17:08:38 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1obNpy-0005MZ-LQ
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:10:04 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id y3so21781515ejc.1
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 08:10:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=L1qwjJUgC4tmrmpbKzQpk5UW5yrSYzDz/EtHRzwrhGg=;
+ b=BqAJIN+IRm8E347crlXH4I24yCTReJW670jJDKgpUe6AoSPAQoBRhCO3kPcKUCdzYl
+ 0ZbmM4DtjtMjQBtHq19KmC8Y+HkUuG+kqU/pXkxi2QUDtlAD1dI+mNdQTbygIVixjen3
+ 15tq5wB5A17Vga3hHNCUqF9d4RzkfQk8Xm4zMtwhWIi8Sfks1uWa+ZUD1BOwXTuAfgrj
+ yoaK9RjF/c3odq/D+WY4PQfE22u1o6nHEM2o1cecvBpWOtEjfCcbIe8M8dTCkXau+jsg
+ 3+bMaJD6oG6At1rgT0vRPMmQ1O0Dzy5JCA69gQx/IPxC3gS0HDA48zFCo9v6yezHmea1
+ ozJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=L1qwjJUgC4tmrmpbKzQpk5UW5yrSYzDz/EtHRzwrhGg=;
+ b=olTEKFqqNE6P07Cjon1BE7DoGGyi7UyT4kvadrTaJn4lz9mJskZFTp1HHpnbOMuOI8
+ CjCioOxrB+dfB+bsXXmdFTTWwltImdScH+BwbzW+fPlLHsItrTZfkfOGnFUfSYIbGVEX
+ USknVunw0t41983Lc3Jh/ZF9Es65DvgC51ZRJT8SEAirjWgpuvIEzrOTix07PgFpOC+L
+ MkGrj2+YtUHfgXugweIMK8un60BPh4eoRK2NAweYNmoflJLf/CzDUhQZiiwaPfCO4g0T
+ lALnaSSY9if6t0Pun5lPTwazCYVf3tD6t8w1tHKXJInstDE/GpvLp4Di4gYnzrUASDUr
+ HOPQ==
+X-Gm-Message-State: ACrzQf2l4HC7+2FQGlgAksgqU/5m//aCMoBPmfzMGfEwr8qztiIjgd2c
+ PCMDK1HaaeT4bFxL3Y6tKWzO/FM0sEAs8cqOeLGFKg==
+X-Google-Smtp-Source: AMsMyM7G7/SqN7xE2E4Xhg19zGoJYTMn4zLIkDpDhGFAEtmprqzNZ9G12yK6DQ+cJcDWQoacI9fL8PLMLngLsnubwcg=
+X-Received: by 2002:a17:907:86a5:b0:780:156d:e842 with SMTP id
+ qa37-20020a17090786a500b00780156de842mr3242913ejc.555.1663859400513; Thu, 22
+ Sep 2022 08:10:00 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v4 2/3] module: add Error arguments to module_load_one and
- module_load_qom_one
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- dinechin@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20220908183012.17667-3-cfontana@suse.de>
- <877d23ekj0.fsf@pond.sub.org>
- <76775f64-e49a-1c3c-0d73-10d93eff34e4@amsat.org>
- <87y1ucdirx.fsf@pond.sub.org> <cc2c5e14-f0a0-4415-9fe1-d7811ee27850@suse.de>
- <878rmc54cw.fsf@pond.sub.org> <Yywcs7CpKDxahOSM@redhat.com>
- <87leqb4ul9.fsf@pond.sub.org> <5f5921fe-6d4f-490b-4328-702a45973bbc@suse.de>
- <87bkr7mvgr.fsf@pond.sub.org> <Yyx3Pc89tbqBliM0@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <Yyx3Pc89tbqBliM0@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -62
-X-Spam_score: -6.3
-X-Spam_bar: ------
-X-Spam_report: (-6.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.893,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220913182149.1468366-1-titusr@google.com>
+In-Reply-To: <20220913182149.1468366-1-titusr@google.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 22 Sep 2022 16:09:49 +0100
+Message-ID: <CAFEAcA-onpK8H0rPkjGWyAriVciPgbCYWy8oVaDfKW9op6NUvA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 0/3] Initial PECI bus support
+To: Titus Rwantare <titusr@google.com>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter@pjd.dev, 
+ patrick@stwcx.xyz, iwona.winiarska@intel.com, tmaimon77@gmail.com, 
+ quic_jaehyoo@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,92 +84,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/22/22 16:54, Kevin Wolf wrote:
-> Am 22.09.2022 um 14:42 hat Markus Armbruster geschrieben:
->> Claudio Fontana <cfontana@suse.de> writes:
->>
->>> On 9/22/22 11:38, Markus Armbruster wrote:
->>>> Daniel P. Berrangé <berrange@redhat.com> writes:
->>>>
->>>>> On Thu, Sep 22, 2022 at 08:07:43AM +0200, Markus Armbruster wrote:
->>>>>> Ease of use matters, too.  When sticking to the rule leads to awkward
->>>>>> code, we should stop and think.  Should we deviate from the rule?  Or
->>>>>> can we avoid that by tweaking the interface?
->>>>>>
->>>>>> Philippe's proposed interface sticks to the rule.
->>>>>
->>>>> The cost is that when you see a  function   dosomething(true|false) as
->>>>> a reader you often have no idea what the effect of true vs false is
->>>>> on the behaviour of that function. You resort to looking at the
->>>>> API docs and/or code.  This is where C would really benefit from
->>>>> having named parameters like as  dosomething(ignore_errors=true|false)
->>>>> is totally obvious. Anyway, I digress.
->>>>
->>>> Right.  Quoting myself: "If having to pass a flag turns out to to be a
->>>> legibility issue, we can have wrapper functions."  :)
->>>
->>> There is something more fundamental that seems to be missed by most in this conversation,
->>> ie the distinction between the normal execution path and the error path.
->>>
->>>
->>>>
->>>>>> Another interface that does: return -1 for error, 0 for module not found
->>>>>> (no error), and 1 for loaded.
->>>>>
->>>>> IMHO this pattern is generally easier to understand when looking at
->>>>> the callers, as the fatal error scenario is always clear.
->>>>>
->>>>> That said I would suggest neither approach as the public facing
->>>>> API. Rather stop trying to overload 3 states onto an error reporting
->>>>> pattern that inherantly wants to be 2 states. Instead just have
->>>>> distinct methods
->>>>
->>>> Like these:
->>>>
->>>>>   bool module_load_one(const char *prefix, const char *name, Error *errp)
->>>>>   bool module_try_load_one(const char *prefix, const char *name, Error *errp)
->>>>>
->>>>> other names are available for the second, eg module_load_one_optional()
->>>>
->>>> module_load_one_if_there()?
->>>
->>> And what do you do with the caller that needs to _know_ whether the module was "there" or not?
->>>
->>> This is losing this information along the way, and the callers NEED it.
->>>
->>> I really invite, with no offense intended,
->>
->> None taken!
->>
->>>                                            to read the hunks of my patch and the callers,
->>> there are occasions where we need to _know_ if the module was there or not, and act depending on the context.
->>>
->>> The information about "bool is_there" needs to be passed to the caller.
->>
->> If you have callers that need to distinguish between not found, found
->> but bad, found and good, then return three distinct values.
->>
->> I proposed to return -1 for found but bad (error), 0 for not found (no
->> error), and 1 for loaded (no error).
-> 
-> My intuition with this one was that "not found" is still an error case,
+On Tue, 13 Sept 2022 at 19:26, Titus Rwantare <titusr@google.com> wrote:
+> A lot of the registers are hard coded, see hw/peci/peci-client.c. I'd like to
+> gauge interest in what potential users would like to be adjustable at runtime.
+> I've not written QEMU models that read config files at runtime, something I'd
+> appreciate guidance on.
 
-You may consider it an "error" but it isn't in the "Exception" sense as we were discussing before.
+From upstream's point of view: please don't do that... Ad-hoc
+config-file-reading code inside device models sounds like it
+would be very confusing, and wouldn't work if the system is being
+run inside a sandbox.
 
-The Error API seems to be mapping to the "Exception" concept, and in that sense module not found is not an Exception at all.
-
-Your intuition comes I think from a historical look at the QEMU codebase,
-but nowadays as QEMU gets more and more modularized, and packaged differently depending
-on distributions, products, and user choices,
-
-the "not found" is genuinely not in general an error case at all.
-
-> but it's an error case that we need to distinguish from other error
-> cases.
-> 
-> Is this one of the rare use cases for error classes?
-> 
-> Kevin
-> 
-
+-- PMM
 
