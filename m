@@ -2,64 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 004AA5E69F8
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 19:54:10 +0200 (CEST)
-Received: from localhost ([::1]:56334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B64E95E6A1D
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 19:58:56 +0200 (CEST)
+Received: from localhost ([::1]:40248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obQOk-0003Vw-9s
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 13:54:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41698)
+	id 1obQTP-0001qT-On
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 13:58:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1obPue-0004BC-Dp
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 13:23:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57834)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1obQE7-0001s7-Jn
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 13:43:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1obPud-0006tW-1H
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 13:23:00 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1obQE4-0000T3-6O
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 13:43:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663867378;
+ s=mimecast20190719; t=1663868580;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=wbaBo40bcu6cdveob0bgzzI1CIYzupMjSt9Ky4EPE0k=;
- b=G79WbXU5iIUUuVN89zbE+eGp5LYoKa/5x+lgoBBgE+SeKHy8r21CeTZ9ckKTVDio8wfo88
- 5/fMaF+sSttjTW9UVB1okKRlQy9PISA1hIjzjDn5zbPSCJ6hFVdVwA8h/IoHD72UHnNoFW
- aHzBGtJRqID4EW9IPTy8i52Qm2YTDzk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-335-AAAYdo01PuqMbzQAWKnzkg-1; Thu, 22 Sep 2022 13:22:55 -0400
-X-MC-Unique: AAAYdo01PuqMbzQAWKnzkg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9683A872843;
- Thu, 22 Sep 2022 17:22:54 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 06B3D17595;
- Thu, 22 Sep 2022 17:22:46 +0000 (UTC)
-Date: Thu, 22 Sep 2022 13:16:42 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: Re: [PULL 00/30] testing updates (docker, avocado, deprecate 32bit
- BE MIPS)
-Message-ID: <YyyYer+scURdkWnj@fedora>
-References: <20220920171533.1098094-1-alex.bennee@linaro.org>
+ bh=gmgT3yAuWbBUK6F8N2CMLvjrjUZKwaateJh/tU8dhB0=;
+ b=XwH5p8ye0bwxO3qS9jfFe/oJTuLvtfGzB94weaeoB/gbm/7V+YKEwMF+Th921/66nwO0PX
+ 279G20L6QpnPwmm3+h2MJlRxBPF/hwtT2adH62ANQomZToB+ZR8Q+npyWZ50suZZkB9oZ2
+ zEvGavwh41Yz9aZmajHPyCiJtnGQ1Wc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-621-w2xb8p-kM06KRhsh1_LjmA-1; Thu, 22 Sep 2022 13:42:58 -0400
+X-MC-Unique: w2xb8p-kM06KRhsh1_LjmA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ u27-20020adfa19b000000b0022863c08ac4so3513914wru.11
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 10:42:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=gmgT3yAuWbBUK6F8N2CMLvjrjUZKwaateJh/tU8dhB0=;
+ b=I3X/aNBOEX/T45HyJNNLffmWb9SyRy1HBujthev/HncaDcErJZvMUjqqwlASuKvXpP
+ DMsCW7rbMZrqog9+9QrhwOqIeX2YvpvI0oD5yYOgI6VSt02AuuFu35f/LUZwBARCME7V
+ 2BHy3OFmzRVTjgv7Wx7lgqxa7qTNKg6xaPW2nmxFySULFdreqfM37/fkfuKRE7oumQLj
+ a/l06GcHD+DQu3vhPa+8f9PZKJe/pYOhZWp/8HPWnoT7F9K8QlGVOolxvDM7hEpTjWTt
+ GLt8E4v8fqwTN6rLyam2sAlPpsImU0iPVyg8Egxqjg6yCt73EdvErTjgMF/JVvSKgJ3G
+ JoDQ==
+X-Gm-Message-State: ACrzQf3PVQnby34DeV1ALcWGOng/ftcu8WLMtims8jNaiukTXazrrqaQ
+ cgkPpRi0PxGncEzhGBoOWvylUtM4LJCG5Sj8fVvet75ztWz1xlEyPWRni3hD5fE2c3aMp9bJVPj
+ 1eBk7FqYZyTPHhBg=
+X-Received: by 2002:a05:600c:2949:b0:3b4:85b2:c1d7 with SMTP id
+ n9-20020a05600c294900b003b485b2c1d7mr10223437wmd.183.1663868576962; 
+ Thu, 22 Sep 2022 10:42:56 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7FLwxetdCZyft33feA+NRHfWE+nOpX/JAX0/bJw8BttYRe6BTID+jytu1bfKpjKPfCM9WnAg==
+X-Received: by 2002:a05:600c:2949:b0:3b4:85b2:c1d7 with SMTP id
+ n9-20020a05600c294900b003b485b2c1d7mr10223423wmd.183.1663868576763; 
+ Thu, 22 Sep 2022 10:42:56 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ k22-20020a05600c1c9600b003b340f00f10sm156331wms.31.2022.09.22.10.42.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Sep 2022 10:42:56 -0700 (PDT)
+Date: Thu, 22 Sep 2022 18:42:54 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Nikolay Borisov <nborisov@suse.com>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] migration/ram: Fix memory leak when using x-ignore-shared
+Message-ID: <Yyyenk4Qu6nWMsJD@work-vm>
+References: <20220916084442.1349996-1-nborisov@suse.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="fii+OkdsrIwpJJ8k"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220920171533.1098094-1-alex.bennee@linaro.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+In-Reply-To: <20220916084442.1349996-1-nborisov@suse.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -83,30 +99,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Nikolay Borisov (nborisov@suse.com) wrote:
+> During ram initialization for migration dirty/clear bitmaps are
+> allocated for all migratable blocks, irrespective of their shared
+> status. However, during ram migration cleanup those bitmaps are freed
+> only for those blocks which aren't shared, in case x-ignore-shared
+> capability is used. This leads to a situation where the bitmaps aren't
+> freed for such blocks.
 
---fii+OkdsrIwpJJ8k
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Can you show me where you're seeing the allocation based on MIGRATABLE?
+I'm looking at ram_list_init_bitmaps:
 
-Applied, thanks.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
+        RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+            block->bmap = bitmap_new(pages);
+....
+            block->clear_bmap = bitmap_new(clear_bmap_size(pages, shift));
 
---fii+OkdsrIwpJJ8k
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+So that's based on NOT_IGNORED.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMsmHoACgkQnKSrs4Gr
-c8j9Cwf+I1QQsOQzazHjL/fsaEMYK0u4NERqTMEu/Ltcii8hQZPg1XQBiZrKrwLS
-MPNs+Cd3Zzz/n4lu42UXmPV1qEhVZlwFPHa8rAE8JdPr7MZOt5JnODo08IfvT92w
-nrev4j0Qfst411wh7Y8b0YGVxK+byhRH741pZPN3MkJEVNpGrRAL62+EjVZ08iq8
-B5kvMC7Rd6T0G33mI3Lb973i2OS/9f9YHjY8aASEm21w9C+jioFd8HXPxVKyKdVr
-jeOsZ2fcYkvKXMZyUj/E3MvGre1ijmHd+s8t19AJyi/ZbQFufQJGPacssVR5hsiy
-GVTpHBFJgZ83dIwdGEbap2X5wEDANg==
-=cG9n
------END PGP SIGNATURE-----
+Dave
 
---fii+OkdsrIwpJJ8k--
+> Fix this by switching the cleanup code to also free bitmaps for all
+> migratable blocks.
+> 
+> Signed-off-by: Nikolay Borisov <nborisov@suse.com>
+> ---
+>  migration/ram.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/migration/ram.c b/migration/ram.c
+> index dc1de9ddbc68..2e40166d2f9e 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -2678,7 +2678,7 @@ static void ram_save_cleanup(void *opaque)
+>          }
+>      }
+>  
+> -    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+> +    RAMBLOCK_FOREACH_MIGRATABLE(block) {
+>          g_free(block->clear_bmap);
+>          block->clear_bmap = NULL;
+>          g_free(block->bmap);
+> -- 
+> 2.34.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
