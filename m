@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C365E6BCF
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 21:37:51 +0200 (CEST)
-Received: from localhost ([::1]:42930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1264E5E6BDA
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 21:40:15 +0200 (CEST)
+Received: from localhost ([::1]:34316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obS17-0002Yf-NS
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 15:37:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49802)
+	id 1obS3S-00078T-4H
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 15:40:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1obRw0-00065Z-KU
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 15:32:32 -0400
-Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235]:41915)
+ id 1obRyR-0007Tv-5b
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 15:35:04 -0400
+Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:37646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1obRvw-0002bu-TU
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 15:32:31 -0400
-Received: by mail-lj1-x235.google.com with SMTP id a14so12203011ljj.8
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 12:32:27 -0700 (PDT)
+ id 1obRyN-0003B5-FN
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 15:35:01 -0400
+Received: by mail-lf1-x12a.google.com with SMTP id k10so16374505lfm.4
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 12:34:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=AEBmJvnizK5Fya/dLIgPHijL06hQIl+8YjWJVLI8w5M=;
- b=ZGk3MRfzdQAB91Cj6hxZoae5l9G/nhYBMHOw5/+1zIQv4/3xEaH95PW7UxqcYCRXy9
- th2eqbWnSkJiI5UvH7MjvIXU7WhYS8pnlX9R/Z14eqH+aTLregzS1mq5vzm83vlLcOkS
- uLaB5AWLar31lfq+fq7Ux3rZ93oOZD2RFkCNkWZwG9SfM229vG8oHndVbddDP9+6ZRcK
- MlKFMCAvxnndru50PGGb4D59cMUJGdIaKa+sIturvjr4g/NQRDqBRpohwXv1vNVBr6w/
- Oc+BgXta4PQrioWtcFw8E0fRZOvdmxgNRABKBUvtg+aOO4yeNh3yTznlsw4cCd+mnJ1b
- vb3w==
+ bh=WQS2JjbaOA90Knfr3zXHSClgoEG0hhHFfnBbIcQZ6Ws=;
+ b=O5OFutGWgh8EUdEQ90PMCjEerk04xfcke0UI5mmNCxwdiQ2mUamAc3Dq9ihY6WXbhK
+ AuJI6icmj/ncFG52HWGqypdYKwukzT6f53Tknv0Eg7G2Ur2XKjVJGL0mdW+9Fbo7QLGT
+ amht6fKeplkXXO+lwYl5So4QKctKEIZe6GKh9DqRzIaBrohS2Nhxuqan1GF2sn3tqh54
+ SmrDw1/6HtgpvDTvK4CfMRQsl47YkXC0JGN92Piz4HblQvssPUysPqBeIXXXAPb76wn6
+ u+4yNsssdYAm9x80b1n/Sy91sg9RQt4hGVrHKDR7syGFY16GphPyOHW0LbYhw5u2N30z
+ 6gcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=AEBmJvnizK5Fya/dLIgPHijL06hQIl+8YjWJVLI8w5M=;
- b=FhohPDQhaLR8zJ7ZIrD0ZbZI6J06B1y2YyIqLhPpn8ARfKoZ1KuqFL46Q0gzAh9mLI
- hGHA1v3rNQNxOQduWtwFlbnnYB4numBgkffbVA2wgPuKxFVbBU7HM4dq2peMoy/hJh1B
- e906UupFkhR05Uecd/oljf+3rumPO5y7OffAAc+72wqLFLwcajkKhQGYUF4M0OY1j2Md
- q+Ma6/Jf7y33Hy5j3k6o5ilT3/WcLvQ5i1hDwChXXaWQkEpcmTu0MRCpdB6n/DBpLyHg
- RGT88g8x6mJk6T3JbMPyCJgb3un/ETYhX2yDnIkA9HoImRqlwSxelyL/4cRAVQBKGc1u
- AzOg==
-X-Gm-Message-State: ACrzQf1wJuzsDF3NO3fwQURb6ODpYxFzcvT8sCOtTSUSwOJBCyRRtwNC
- Fnbyue/UMSgp1EWqaDNeh4azv1HbdTLllQr/9SU=
-X-Google-Smtp-Source: AMsMyM65cw0VEIodFBm98vVwxc/+kOlNl2XVFFVnbTgFRPWQ95lRqj/HHDEsC35QFqQJvRyoiOdAklxbWOk8Wwg0fgc=
-X-Received: by 2002:a2e:8917:0:b0:26a:a520:db52 with SMTP id
- d23-20020a2e8917000000b0026aa520db52mr1589388lji.289.1663875146046; Thu, 22
- Sep 2022 12:32:26 -0700 (PDT)
+ bh=WQS2JjbaOA90Knfr3zXHSClgoEG0hhHFfnBbIcQZ6Ws=;
+ b=KmlBg1CR2bhTv84KPpxg3M2e7TVSN0bl2WlKT+7DOx9POl/ckx9RGwfc+I30X8ZpOK
+ slEXEPracRAqRr36U9/0gUmyjnUm6zkRnTOyH1UcTx+HdiOG+ZpV2lqH+ZrnzeZ9jv44
+ wyFL3VOAREic9S/ssoUGurLjDHKuFH124YLs358HB0zDjpa8R3JJONaTfCtax9NvOA2f
+ F+TuOSNX6230dyeFklPB9DIEbgOaBeqjXNum2PBodmr19Z5z5IysEsTBkeRW0e09SUpl
+ 7fihx25DmKTIzyfj6vY9T+Tbp1cZF4cIgtRlS72TCNV9/9SEaPSfhz82mA/y1EX52LWr
+ OZ+Q==
+X-Gm-Message-State: ACrzQf2McHZ6ZRM43VVEy0qHPYeF0oT1wEpIsY3MOwJUGEWBlyjPpFoB
+ fvecZQ1AWpS6uiqw9HMpDUE/6qbG/9ADyncqft8=
+X-Google-Smtp-Source: AMsMyM72XhU2y53T3iQLdkDuDL65oenfzOux6LpSW+NTb2Oi+lJ6MQCRSY+lFCsnjG7Et376koToM8Qwse10ybk3A3Q=
+X-Received: by 2002:a05:6512:6c9:b0:49a:51d4:d517 with SMTP id
+ u9-20020a05651206c900b0049a51d4d517mr1938955lff.329.1663875296466; Thu, 22
+ Sep 2022 12:34:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220920103159.1865256-1-bmeng.cn@gmail.com>
- <20220920103159.1865256-2-bmeng.cn@gmail.com>
-In-Reply-To: <20220920103159.1865256-2-bmeng.cn@gmail.com>
+ <20220920103159.1865256-3-bmeng.cn@gmail.com>
+In-Reply-To: <20220920103159.1865256-3-bmeng.cn@gmail.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 22 Sep 2022 21:32:14 +0200
-Message-ID: <CAJ+F1CKiCiWBwr5CGAODZukJ8eYoJerhQ01AQYqWMLktsVDM2Q@mail.gmail.com>
-Subject: Re: [PATCH v2 01/39] tests: Change to use g_mkdir()
+Date: Thu, 22 Sep 2022 21:34:44 +0200
+Message-ID: <CAJ+F1CKeLpJReJ3VrowY2=QVDPCHSAJGGzzVKiA7V_U_uKy=WQ@mail.gmail.com>
+Subject: Re: [PATCH v2 02/39] tests/qtest: i440fx-test: Rewrite
+ create_blob_file() to be portable
 To: Bin Meng <bmeng.cn@gmail.com>
 Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, 
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Huth <thuth@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000007e1a905e9491f47"
-Received-SPF: pass client-ip=2a00:1450:4864:20::235;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x235.google.com
+Content-Type: multipart/alternative; boundary="000000000000ff1d2905e9492708"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,205 +86,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000007e1a905e9491f47
+--000000000000ff1d2905e9492708
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-On Tue, Sep 20, 2022 at 1:48 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Tue, Sep 20, 2022 at 12:56 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 
 > From: Bin Meng <bin.meng@windriver.com>
 >
-> Commit 413bebc04603 ("tests: Use g_mkdir_with_parents()") replaces
-> the mkdir() call in the test codes with glib's g_mkdir_with_parents(),
-> but the exact portable replacement for mkdir() should be g_mkdir().
+> Previously request_{bios, pflash} cases were skipped on win32, mainly
+> due to create_blob_file() calling mmap() which does not exist on win32.
+> This rewirtes create_blob_file() to be portable, so that we can enable
+> these cases on Windows.
 >
-> I probably was misled by the GTK glib doc [1] before, thinking that
-> g_mkdir() is not a supported API from glib. But the glib sources do
-> not support this statement. It is probably that the GTK documentation
-> was not built to include all APIs.
->
-> [1] https://docs.gtk.org/glib/?q=3Dmkdir
->
-> Fixes: 413bebc04603 ("tests: Use g_mkdir_with_parents()")
+> Suggested-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
->
-
-I wouldn't bother anymore, I'd keep mkdir_with_parents for now. YMMV
-
----
+> ---
 >
 > Changes in v2:
-> - new patch: "tests: Change to use g_mkdir()"
+> - new patch: "tests/qtest: i440fx-test: Rewrite create_blob_file() to be
+> portable"
 >
->  tests/migration/stress.c              | 3 ++-
->  tests/qtest/migration-test.c          | 7 ++++---
->  tests/unit/test-crypto-tlscredsx509.c | 5 +++--
->  tests/unit/test-crypto-tlssession.c   | 7 ++++---
->  tests/unit/test-io-channel-tls.c      | 7 ++++---
->  5 files changed, 17 insertions(+), 12 deletions(-)
+>  tests/qtest/i440fx-test.c | 53 +++++++++++----------------------------
+>  1 file changed, 14 insertions(+), 39 deletions(-)
 >
-> diff --git a/tests/migration/stress.c b/tests/migration/stress.c
-> index 88acf8dc25..76b91851ad 100644
-> --- a/tests/migration/stress.c
-> +++ b/tests/migration/stress.c
-> @@ -19,6 +19,7 @@
+> diff --git a/tests/qtest/i440fx-test.c b/tests/qtest/i440fx-test.c
+> index 3890f1237c..202bc6022c 100644
+> --- a/tests/qtest/i440fx-test.c
+> +++ b/tests/qtest/i440fx-test.c
+> @@ -278,8 +278,6 @@ static void test_i440fx_pam(gconstpointer opaque)
+>      qtest_end();
+>  }
 >
->  #include "qemu/osdep.h"
->  #include <getopt.h>
-> +#include <glib/gstdio.h>
->  #include <sys/reboot.h>
->  #include <sys/syscall.h>
->  #include <linux/random.h>
-> @@ -232,7 +233,7 @@ static void stress(unsigned long long ramsizeGB, int
-> ncpus)
+> -#ifndef _WIN32
+> -
+>  #define BLOB_SIZE ((size_t)65536)
+>  #define ISA_BIOS_MAXSZ ((size_t)(128 * 1024))
 >
->  static int mount_misc(const char *fstype, const char *dir)
+> @@ -290,44 +288,25 @@ static void test_i440fx_pam(gconstpointer opaque)
+>   */
+>  static char *create_blob_file(void)
 >  {
-> -    if (g_mkdir_with_parents(dir, 0755) < 0 && errno !=3D EEXIST) {
-> +    if (g_mkdir(dir, 0755) < 0 && errno !=3D EEXIST) {
->          fprintf(stderr, "%s (%05d): ERROR: cannot create %s: %s\n",
->                  argv0, gettid(), dir, strerror(errno));
->          return -1;
-> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index 4728d528bb..55892b3798 100644
-> --- a/tests/qtest/migration-test.c
-> +++ b/tests/qtest/migration-test.c
-> @@ -11,6 +11,7 @@
->   */
+> -    int ret, fd;
+> +    int i, fd;
+>      char *pathname;
+> -    GError *error =3D NULL;
+> +    GError *error;
 >
->  #include "qemu/osdep.h"
-> +#include <glib/gstdio.h>
+
+Bad change, please keep "error =3D NULL".
+
++    g_autofree uint8_t *buf =3D g_malloc(BLOB_SIZE);
 >
->  #include "libqtest.h"
->  #include "qapi/error.h"
-> @@ -761,14 +762,14 @@ test_migrate_tls_psk_start_common(QTestState *from,
->      data->workdir =3D g_strdup_printf("%s/tlscredspsk0", tmpfs);
->      data->pskfile =3D g_strdup_printf("%s/%s", data->workdir,
->                                      QCRYPTO_TLS_CREDS_PSKFILE);
-> -    g_mkdir_with_parents(data->workdir, 0700);
-> +    g_mkdir(data->workdir, 0700);
->      test_tls_psk_init(data->pskfile);
+> -    ret =3D -1;
+> +    error =3D NULL;
 >
->      if (mismatch) {
->          data->workdiralt =3D g_strdup_printf("%s/tlscredspskalt0", tmpfs=
-);
->          data->pskfilealt =3D g_strdup_printf("%s/%s", data->workdiralt,
->                                             QCRYPTO_TLS_CREDS_PSKFILE);
-> -        g_mkdir_with_parents(data->workdiralt, 0700);
-> +        g_mkdir(data->workdiralt, 0700);
->          test_tls_psk_init_alt(data->pskfilealt);
+
+Not necessary then
+
+
+>      fd =3D g_file_open_tmp("blob_XXXXXX", &pathname, &error);
+> -    if (fd =3D=3D -1) {
+> -        fprintf(stderr, "unable to create blob file: %s\n",
+> error->message);
+> -        g_error_free(error);
+> -    } else {
+> -        if (ftruncate(fd, BLOB_SIZE) =3D=3D -1) {
+> -            fprintf(stderr, "ftruncate(\"%s\", %zu): %s\n", pathname,
+> -                    BLOB_SIZE, strerror(errno));
+> -        } else {
+> -            void *buf;
+> -
+> -            buf =3D mmap(NULL, BLOB_SIZE, PROT_WRITE, MAP_SHARED, fd, 0)=
+;
+> -            if (buf =3D=3D MAP_FAILED) {
+> -                fprintf(stderr, "mmap(\"%s\", %zu): %s\n", pathname,
+> BLOB_SIZE,
+> -                        strerror(errno));
+> -            } else {
+> -                size_t i;
+> -
+> -                for (i =3D 0; i < BLOB_SIZE; ++i) {
+> -                    ((uint8_t *)buf)[i] =3D i;
+> -                }
+> -                munmap(buf, BLOB_SIZE);
+> -                ret =3D 0;
+> -            }
+> -        }
+> -        close(fd);
+> -        if (ret =3D=3D -1) {
+> -            unlink(pathname);
+> -            g_free(pathname);
+> -        }
+> +    g_assert_no_error(error);
+> +    close(fd);
+> +
+> +    for (i =3D 0; i < BLOB_SIZE; i++) {
+> +        buf[i] =3D i;
 >      }
 >
-> @@ -873,7 +874,7 @@ test_migrate_tls_x509_start_common(QTestState *from,
->          data->clientcert =3D g_strdup_printf("%s/client-cert.pem",
-> data->workdir);
->      }
+> -    return ret =3D=3D -1 ? NULL : pathname;
+> +    error =3D NULL;
 >
-> -    g_mkdir_with_parents(data->workdir, 0700);
-> +    g_mkdir(data->workdir, 0700);
+
+Not necessary either.
+
+
+> +    g_file_set_contents(pathname, (char *)buf, BLOB_SIZE, &error);
+> +    g_assert_no_error(error);
+> +
+> +    return pathname;
+>  }
 >
->      test_tls_init(data->keyfile);
->  #ifndef _WIN32
-> diff --git a/tests/unit/test-crypto-tlscredsx509.c
-> b/tests/unit/test-crypto-tlscredsx509.c
-> index 3c25d75ca1..03fa48a3c5 100644
-> --- a/tests/unit/test-crypto-tlscredsx509.c
-> +++ b/tests/unit/test-crypto-tlscredsx509.c
-> @@ -19,6 +19,7 @@
->   */
+>  static void test_i440fx_firmware(FirmwareTestFixture *fixture,
+> @@ -398,8 +377,6 @@ static void request_pflash(FirmwareTestFixture
+> *fixture,
+>      fixture->is_bios =3D false;
+>  }
 >
->  #include "qemu/osdep.h"
-> +#include <glib/gstdio.h>
+> -#endif /* _WIN32 */
+> -
+>  int main(int argc, char **argv)
+>  {
+>      TestData data;
+> @@ -410,10 +387,8 @@ int main(int argc, char **argv)
 >
->  #include "crypto-tls-x509-helpers.h"
->  #include "crypto/tlscredsx509.h"
-> @@ -75,7 +76,7 @@ static void test_tls_creds(const void *opaque)
->      QCryptoTLSCreds *creds;
+>      qtest_add_data_func("i440fx/defaults", &data, test_i440fx_defaults);
+>      qtest_add_data_func("i440fx/pam", &data, test_i440fx_pam);
+> -#ifndef _WIN32
+>      add_firmware_test("i440fx/firmware/bios", request_bios);
+>      add_firmware_test("i440fx/firmware/pflash", request_pflash);
+> -#endif
 >
->  #define CERT_DIR "tests/test-crypto-tlscredsx509-certs/"
-> -    g_mkdir_with_parents(CERT_DIR, 0700);
-> +    g_mkdir(CERT_DIR, 0700);
->
->      unlink(CERT_DIR QCRYPTO_TLS_CREDS_X509_CA_CERT);
->      if (data->isServer) {
-> @@ -141,7 +142,7 @@ int main(int argc, char **argv)
->      g_test_init(&argc, &argv, NULL);
->      g_setenv("GNUTLS_FORCE_FIPS_MODE", "2", 1);
->
-> -    g_mkdir_with_parents(WORKDIR, 0700);
-> +    g_mkdir(WORKDIR, 0700);
->
->      test_tls_init(KEYFILE);
->
-> diff --git a/tests/unit/test-crypto-tlssession.c
-> b/tests/unit/test-crypto-tlssession.c
-> index 615a1344b4..356afbadfb 100644
-> --- a/tests/unit/test-crypto-tlssession.c
-> +++ b/tests/unit/test-crypto-tlssession.c
-> @@ -19,6 +19,7 @@
->   */
->
->  #include "qemu/osdep.h"
-> +#include <glib/gstdio.h>
->
->  #include "crypto-tls-x509-helpers.h"
->  #include "crypto-tls-psk-helpers.h"
-> @@ -249,8 +250,8 @@ static void test_crypto_tls_session_x509(const void
-> *opaque)
->
->  #define CLIENT_CERT_DIR "tests/test-crypto-tlssession-client/"
->  #define SERVER_CERT_DIR "tests/test-crypto-tlssession-server/"
-> -    g_mkdir_with_parents(CLIENT_CERT_DIR, 0700);
-> -    g_mkdir_with_parents(SERVER_CERT_DIR, 0700);
-> +    g_mkdir(CLIENT_CERT_DIR, 0700);
-> +    g_mkdir(SERVER_CERT_DIR, 0700);
->
->      unlink(SERVER_CERT_DIR QCRYPTO_TLS_CREDS_X509_CA_CERT);
->      unlink(SERVER_CERT_DIR QCRYPTO_TLS_CREDS_X509_SERVER_CERT);
-> @@ -398,7 +399,7 @@ int main(int argc, char **argv)
->      g_test_init(&argc, &argv, NULL);
->      g_setenv("GNUTLS_FORCE_FIPS_MODE", "2", 1);
->
-> -    g_mkdir_with_parents(WORKDIR, 0700);
-> +    g_mkdir(WORKDIR, 0700);
->
->      test_tls_init(KEYFILE);
->      test_tls_psk_init(PSKFILE);
-> diff --git a/tests/unit/test-io-channel-tls.c
-> b/tests/unit/test-io-channel-tls.c
-> index cc39247556..1d95c9f61d 100644
-> --- a/tests/unit/test-io-channel-tls.c
-> +++ b/tests/unit/test-io-channel-tls.c
-> @@ -22,6 +22,7 @@
->
->
->  #include "qemu/osdep.h"
-> +#include <glib/gstdio.h>
->
->  #include "crypto-tls-x509-helpers.h"
->  #include "io/channel-tls.h"
-> @@ -125,8 +126,8 @@ static void test_io_channel_tls(const void *opaque)
->
->  #define CLIENT_CERT_DIR "tests/test-io-channel-tls-client/"
->  #define SERVER_CERT_DIR "tests/test-io-channel-tls-server/"
-> -    g_mkdir_with_parents(CLIENT_CERT_DIR, 0700);
-> -    g_mkdir_with_parents(SERVER_CERT_DIR, 0700);
-> +    g_mkdir(CLIENT_CERT_DIR, 0700);
-> +    g_mkdir(SERVER_CERT_DIR, 0700);
->
->      unlink(SERVER_CERT_DIR QCRYPTO_TLS_CREDS_X509_CA_CERT);
->      unlink(SERVER_CERT_DIR QCRYPTO_TLS_CREDS_X509_SERVER_CERT);
-> @@ -273,7 +274,7 @@ int main(int argc, char **argv)
->      g_test_init(&argc, &argv, NULL);
->      g_setenv("GNUTLS_FORCE_FIPS_MODE", "2", 1);
->
-> -    g_mkdir_with_parents(WORKDIR, 0700);
-> +    g_mkdir(WORKDIR, 0700);
->
->      test_tls_init(KEYFILE);
->
+>      return g_test_run();
+>  }
 > --
 > 2.34.1
 >
@@ -296,247 +231,160 @@ I wouldn't bother anymore, I'd keep mkdir_with_parents for now. YMMV
 --=20
 Marc-Andr=C3=A9 Lureau
 
---00000000000007e1a905e9491f47
+--000000000000ff1d2905e9492708
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi<br></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Tue, Sep 20, 2022 at 1:48 PM Bin Meng &lt;=
-<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; wrote:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">From: Bin Meng &lt;=
-<a href=3D"mailto:bin.meng@windriver.com" target=3D"_blank">bin.meng@windri=
-ver.com</a>&gt;<br>
+<div dir=3D"ltr"><div><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_=
+quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 20, 2022 at 12:56 =
+PM Bin Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a=
+>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Fro=
+m: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" target=3D"_blank"=
+>bin.meng@windriver.com</a>&gt;<br>
 <br>
-Commit 413bebc04603 (&quot;tests: Use g_mkdir_with_parents()&quot;) replace=
-s<br>
-the mkdir() call in the test codes with glib&#39;s g_mkdir_with_parents(),<=
-br>
-but the exact portable replacement for mkdir() should be g_mkdir().<br>
+Previously request_{bios, pflash} cases were skipped on win32, mainly<br>
+due to create_blob_file() calling mmap() which does not exist on win32.<br>
+This rewirtes create_blob_file() to be portable, so that we can enable<br>
+these cases on Windows.<br>
 <br>
-I probably was misled by the GTK glib doc [1] before, thinking that<br>
-g_mkdir() is not a supported API from glib. But the glib sources do<br>
-not support this statement. It is probably that the GTK documentation<br>
-was not built to include all APIs.<br>
-<br>
-[1] <a href=3D"https://docs.gtk.org/glib/?q=3Dmkdir" rel=3D"noreferrer" tar=
-get=3D"_blank">https://docs.gtk.org/glib/?q=3Dmkdir</a><br>
-<br>
-Fixes: 413bebc04603 (&quot;tests: Use g_mkdir_with_parents()&quot;)<br>
+Suggested-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau=
+@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
 Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" targe=
-t=3D"_blank">bin.meng@windriver.com</a>&gt;<br></blockquote><div><br></div>=
-<div>I wouldn&#39;t bother anymore, I&#39;d keep mkdir_with_parents for now=
-. YMMV<br></div><div><br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">
+t=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
 ---<br>
 <br>
 Changes in v2:<br>
-- new patch: &quot;tests: Change to use g_mkdir()&quot;<br>
+- new patch: &quot;tests/qtest: i440fx-test: Rewrite create_blob_file() to =
+be portable&quot;<br>
 <br>
-=C2=A0tests/migration/stress.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 3 ++-<br>
-=C2=A0tests/qtest/migration-test.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 7 ++=
-++---<br>
-=C2=A0tests/unit/test-crypto-tlscredsx509.c | 5 +++--<br>
-=C2=A0tests/unit/test-crypto-tlssession.c=C2=A0 =C2=A0| 7 ++++---<br>
-=C2=A0tests/unit/test-io-channel-tls.c=C2=A0 =C2=A0 =C2=A0 | 7 ++++---<br>
-=C2=A05 files changed, 17 insertions(+), 12 deletions(-)<br>
+=C2=A0tests/qtest/i440fx-test.c | 53 +++++++++++---------------------------=
+-<br>
+=C2=A01 file changed, 14 insertions(+), 39 deletions(-)<br>
 <br>
-diff --git a/tests/migration/stress.c b/tests/migration/stress.c<br>
-index 88acf8dc25..76b91851ad 100644<br>
---- a/tests/migration/stress.c<br>
-+++ b/tests/migration/stress.c<br>
-@@ -19,6 +19,7 @@<br>
+diff --git a/tests/qtest/i440fx-test.c b/tests/qtest/i440fx-test.c<br>
+index 3890f1237c..202bc6022c 100644<br>
+--- a/tests/qtest/i440fx-test.c<br>
++++ b/tests/qtest/i440fx-test.c<br>
+@@ -278,8 +278,6 @@ static void test_i440fx_pam(gconstpointer opaque)<br>
+=C2=A0 =C2=A0 =C2=A0qtest_end();<br>
+=C2=A0}<br>
 <br>
-=C2=A0#include &quot;qemu/osdep.h&quot;<br>
-=C2=A0#include &lt;getopt.h&gt;<br>
-+#include &lt;glib/gstdio.h&gt;<br>
-=C2=A0#include &lt;sys/reboot.h&gt;<br>
-=C2=A0#include &lt;sys/syscall.h&gt;<br>
-=C2=A0#include &lt;linux/random.h&gt;<br>
-@@ -232,7 +233,7 @@ static void stress(unsigned long long ramsizeGB, int nc=
-pus)<br>
+-#ifndef _WIN32<br>
+-<br>
+=C2=A0#define BLOB_SIZE ((size_t)65536)<br>
+=C2=A0#define ISA_BIOS_MAXSZ ((size_t)(128 * 1024))<br>
 <br>
-=C2=A0static int mount_misc(const char *fstype, const char *dir)<br>
+@@ -290,44 +288,25 @@ static void test_i440fx_pam(gconstpointer opaque)<br>
+=C2=A0 */<br>
+=C2=A0static char *create_blob_file(void)<br>
 =C2=A0{<br>
--=C2=A0 =C2=A0 if (g_mkdir_with_parents(dir, 0755) &lt; 0 &amp;&amp; errno =
-!=3D EEXIST) {<br>
-+=C2=A0 =C2=A0 if (g_mkdir(dir, 0755) &lt; 0 &amp;&amp; errno !=3D EEXIST) =
-{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fprintf(stderr, &quot;%s (%05d): ERROR: c=
-annot create %s: %s\n&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0argv0, gettid=
-(), dir, strerror(errno));<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;<br>
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c<br=
->
-index 4728d528bb..55892b3798 100644<br>
---- a/tests/qtest/migration-test.c<br>
-+++ b/tests/qtest/migration-test.c<br>
-@@ -11,6 +11,7 @@<br>
-=C2=A0 */<br>
+-=C2=A0 =C2=A0 int ret, fd;<br>
++=C2=A0 =C2=A0 int i, fd;<br>
+=C2=A0 =C2=A0 =C2=A0char *pathname;<br>
+-=C2=A0 =C2=A0 GError *error =3D NULL;<br>
++=C2=A0 =C2=A0 GError *error;<br></blockquote><div><br></div><div>Bad chang=
+e, please keep &quot;error =3D NULL&quot;.</div><div><br></div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 g_autofree uint8_t *buf =3D g_malloc(BLOB_SIZE);<br>
 <br>
-=C2=A0#include &quot;qemu/osdep.h&quot;<br>
-+#include &lt;glib/gstdio.h&gt;<br>
-<br>
-=C2=A0#include &quot;libqtest.h&quot;<br>
-=C2=A0#include &quot;qapi/error.h&quot;<br>
-@@ -761,14 +762,14 @@ test_migrate_tls_psk_start_common(QTestState *from,<b=
-r>
-=C2=A0 =C2=A0 =C2=A0data-&gt;workdir =3D g_strdup_printf(&quot;%s/tlscredsp=
-sk0&quot;, tmpfs);<br>
-=C2=A0 =C2=A0 =C2=A0data-&gt;pskfile =3D g_strdup_printf(&quot;%s/%s&quot;,=
- data-&gt;workdir,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0QCRYPTO_TLS_CRED=
-S_PSKFILE);<br>
--=C2=A0 =C2=A0 g_mkdir_with_parents(data-&gt;workdir, 0700);<br>
-+=C2=A0 =C2=A0 g_mkdir(data-&gt;workdir, 0700);<br>
-=C2=A0 =C2=A0 =C2=A0test_tls_psk_init(data-&gt;pskfile);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0if (mismatch) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0data-&gt;workdiralt =3D g_strdup_printf(&=
-quot;%s/tlscredspskalt0&quot;, tmpfs);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0data-&gt;pskfilealt =3D g_strdup_printf(&=
-quot;%s/%s&quot;, data-&gt;workdiralt,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 QCRYPTO_TLS_CREDS_PSKFILE);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_mkdir_with_parents(data-&gt;workdiralt, 0700=
-);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_mkdir(data-&gt;workdiralt, 0700);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_tls_psk_init_alt(data-&gt;pskfilealt=
-);<br>
+-=C2=A0 =C2=A0 ret =3D -1;<br>
++=C2=A0 =C2=A0 error =3D NULL;<br></blockquote><div><br></div><div>Not nece=
+ssary then<br></div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0fd =3D g_file_open_tmp(&quot;blob_XXXXXX&quot;, &amp;pa=
+thname, &amp;error);<br>
+-=C2=A0 =C2=A0 if (fd =3D=3D -1) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;unable to create blob fi=
+le: %s\n&quot;, error-&gt;message);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_error_free(error);<br>
+-=C2=A0 =C2=A0 } else {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ftruncate(fd, BLOB_SIZE) =3D=3D -1) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;ftruncate(=
+\&quot;%s\&quot;, %zu): %s\n&quot;, pathname,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 BLOB=
+_SIZE, strerror(errno));<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *buf;<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 buf =3D mmap(NULL, BLOB_SIZE, PR=
+OT_WRITE, MAP_SHARED, fd, 0);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (buf =3D=3D MAP_FAILED) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &q=
+uot;mmap(\&quot;%s\&quot;, %zu): %s\n&quot;, pathname, BLOB_SIZE,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 strerror(errno));<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size_t i;<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &l=
+t; BLOB_SIZE; ++i) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ((ui=
+nt8_t *)buf)[i] =3D i;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 munmap(buf, BLOB_S=
+IZE);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D 0;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(fd);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret =3D=3D -1) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unlink(pathname);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(pathname);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 g_assert_no_error(error);<br>
++=C2=A0 =C2=A0 close(fd);<br>
++<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; BLOB_SIZE; i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 buf[i] =3D i;<br>
 =C2=A0 =C2=A0 =C2=A0}<br>
 <br>
-@@ -873,7 +874,7 @@ test_migrate_tls_x509_start_common(QTestState *from,<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0data-&gt;clientcert =3D g_strdup_printf(&=
-quot;%s/client-cert.pem&quot;, data-&gt;workdir);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
+-=C2=A0 =C2=A0 return ret =3D=3D -1 ? NULL : pathname;<br>
++=C2=A0 =C2=A0 error =3D NULL;<br></blockquote><div><br></div><div>Not nece=
+ssary either.</div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">
++=C2=A0 =C2=A0 g_file_set_contents(pathname, (char *)buf, BLOB_SIZE, &amp;e=
+rror);<br>
++=C2=A0 =C2=A0 g_assert_no_error(error);<br>
++<br>
++=C2=A0 =C2=A0 return pathname;<br>
+=C2=A0}<br>
 <br>
--=C2=A0 =C2=A0 g_mkdir_with_parents(data-&gt;workdir, 0700);<br>
-+=C2=A0 =C2=A0 g_mkdir(data-&gt;workdir, 0700);<br>
+=C2=A0static void test_i440fx_firmware(FirmwareTestFixture *fixture,<br>
+@@ -398,8 +377,6 @@ static void request_pflash(FirmwareTestFixture *fixture=
+,<br>
+=C2=A0 =C2=A0 =C2=A0fixture-&gt;is_bios =3D false;<br>
+=C2=A0}<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0test_tls_init(data-&gt;keyfile);<br>
-=C2=A0#ifndef _WIN32<br>
-diff --git a/tests/unit/test-crypto-tlscredsx509.c b/tests/unit/test-crypto=
--tlscredsx509.c<br>
-index 3c25d75ca1..03fa48a3c5 100644<br>
---- a/tests/unit/test-crypto-tlscredsx509.c<br>
-+++ b/tests/unit/test-crypto-tlscredsx509.c<br>
-@@ -19,6 +19,7 @@<br>
-=C2=A0 */<br>
+-#endif /* _WIN32 */<br>
+-<br>
+=C2=A0int main(int argc, char **argv)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0TestData data;<br>
+@@ -410,10 +387,8 @@ int main(int argc, char **argv)<br>
 <br>
-=C2=A0#include &quot;qemu/osdep.h&quot;<br>
-+#include &lt;glib/gstdio.h&gt;<br>
+=C2=A0 =C2=A0 =C2=A0qtest_add_data_func(&quot;i440fx/defaults&quot;, &amp;d=
+ata, test_i440fx_defaults);<br>
+=C2=A0 =C2=A0 =C2=A0qtest_add_data_func(&quot;i440fx/pam&quot;, &amp;data, =
+test_i440fx_pam);<br>
+-#ifndef _WIN32<br>
+=C2=A0 =C2=A0 =C2=A0add_firmware_test(&quot;i440fx/firmware/bios&quot;, req=
+uest_bios);<br>
+=C2=A0 =C2=A0 =C2=A0add_firmware_test(&quot;i440fx/firmware/pflash&quot;, r=
+equest_pflash);<br>
+-#endif<br>
 <br>
-=C2=A0#include &quot;crypto-tls-x509-helpers.h&quot;<br>
-=C2=A0#include &quot;crypto/tlscredsx509.h&quot;<br>
-@@ -75,7 +76,7 @@ static void test_tls_creds(const void *opaque)<br>
-=C2=A0 =C2=A0 =C2=A0QCryptoTLSCreds *creds;<br>
-<br>
-=C2=A0#define CERT_DIR &quot;tests/test-crypto-tlscredsx509-certs/&quot;<br=
->
--=C2=A0 =C2=A0 g_mkdir_with_parents(CERT_DIR, 0700);<br>
-+=C2=A0 =C2=A0 g_mkdir(CERT_DIR, 0700);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0unlink(CERT_DIR QCRYPTO_TLS_CREDS_X509_CA_CERT);<br>
-=C2=A0 =C2=A0 =C2=A0if (data-&gt;isServer) {<br>
-@@ -141,7 +142,7 @@ int main(int argc, char **argv)<br>
-=C2=A0 =C2=A0 =C2=A0g_test_init(&amp;argc, &amp;argv, NULL);<br>
-=C2=A0 =C2=A0 =C2=A0g_setenv(&quot;GNUTLS_FORCE_FIPS_MODE&quot;, &quot;2&qu=
-ot;, 1);<br>
-<br>
--=C2=A0 =C2=A0 g_mkdir_with_parents(WORKDIR, 0700);<br>
-+=C2=A0 =C2=A0 g_mkdir(WORKDIR, 0700);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0test_tls_init(KEYFILE);<br>
-<br>
-diff --git a/tests/unit/test-crypto-tlssession.c b/tests/unit/test-crypto-t=
-lssession.c<br>
-index 615a1344b4..356afbadfb 100644<br>
---- a/tests/unit/test-crypto-tlssession.c<br>
-+++ b/tests/unit/test-crypto-tlssession.c<br>
-@@ -19,6 +19,7 @@<br>
-=C2=A0 */<br>
-<br>
-=C2=A0#include &quot;qemu/osdep.h&quot;<br>
-+#include &lt;glib/gstdio.h&gt;<br>
-<br>
-=C2=A0#include &quot;crypto-tls-x509-helpers.h&quot;<br>
-=C2=A0#include &quot;crypto-tls-psk-helpers.h&quot;<br>
-@@ -249,8 +250,8 @@ static void test_crypto_tls_session_x509(const void *op=
-aque)<br>
-<br>
-=C2=A0#define CLIENT_CERT_DIR &quot;tests/test-crypto-tlssession-client/&qu=
-ot;<br>
-=C2=A0#define SERVER_CERT_DIR &quot;tests/test-crypto-tlssession-server/&qu=
-ot;<br>
--=C2=A0 =C2=A0 g_mkdir_with_parents(CLIENT_CERT_DIR, 0700);<br>
--=C2=A0 =C2=A0 g_mkdir_with_parents(SERVER_CERT_DIR, 0700);<br>
-+=C2=A0 =C2=A0 g_mkdir(CLIENT_CERT_DIR, 0700);<br>
-+=C2=A0 =C2=A0 g_mkdir(SERVER_CERT_DIR, 0700);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0unlink(SERVER_CERT_DIR QCRYPTO_TLS_CREDS_X509_CA_CERT);=
-<br>
-=C2=A0 =C2=A0 =C2=A0unlink(SERVER_CERT_DIR QCRYPTO_TLS_CREDS_X509_SERVER_CE=
-RT);<br>
-@@ -398,7 +399,7 @@ int main(int argc, char **argv)<br>
-=C2=A0 =C2=A0 =C2=A0g_test_init(&amp;argc, &amp;argv, NULL);<br>
-=C2=A0 =C2=A0 =C2=A0g_setenv(&quot;GNUTLS_FORCE_FIPS_MODE&quot;, &quot;2&qu=
-ot;, 1);<br>
-<br>
--=C2=A0 =C2=A0 g_mkdir_with_parents(WORKDIR, 0700);<br>
-+=C2=A0 =C2=A0 g_mkdir(WORKDIR, 0700);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0test_tls_init(KEYFILE);<br>
-=C2=A0 =C2=A0 =C2=A0test_tls_psk_init(PSKFILE);<br>
-diff --git a/tests/unit/test-io-channel-tls.c b/tests/unit/test-io-channel-=
-tls.c<br>
-index cc39247556..1d95c9f61d 100644<br>
---- a/tests/unit/test-io-channel-tls.c<br>
-+++ b/tests/unit/test-io-channel-tls.c<br>
-@@ -22,6 +22,7 @@<br>
-<br>
-<br>
-=C2=A0#include &quot;qemu/osdep.h&quot;<br>
-+#include &lt;glib/gstdio.h&gt;<br>
-<br>
-=C2=A0#include &quot;crypto-tls-x509-helpers.h&quot;<br>
-=C2=A0#include &quot;io/channel-tls.h&quot;<br>
-@@ -125,8 +126,8 @@ static void test_io_channel_tls(const void *opaque)<br>
-<br>
-=C2=A0#define CLIENT_CERT_DIR &quot;tests/test-io-channel-tls-client/&quot;=
-<br>
-=C2=A0#define SERVER_CERT_DIR &quot;tests/test-io-channel-tls-server/&quot;=
-<br>
--=C2=A0 =C2=A0 g_mkdir_with_parents(CLIENT_CERT_DIR, 0700);<br>
--=C2=A0 =C2=A0 g_mkdir_with_parents(SERVER_CERT_DIR, 0700);<br>
-+=C2=A0 =C2=A0 g_mkdir(CLIENT_CERT_DIR, 0700);<br>
-+=C2=A0 =C2=A0 g_mkdir(SERVER_CERT_DIR, 0700);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0unlink(SERVER_CERT_DIR QCRYPTO_TLS_CREDS_X509_CA_CERT);=
-<br>
-=C2=A0 =C2=A0 =C2=A0unlink(SERVER_CERT_DIR QCRYPTO_TLS_CREDS_X509_SERVER_CE=
-RT);<br>
-@@ -273,7 +274,7 @@ int main(int argc, char **argv)<br>
-=C2=A0 =C2=A0 =C2=A0g_test_init(&amp;argc, &amp;argv, NULL);<br>
-=C2=A0 =C2=A0 =C2=A0g_setenv(&quot;GNUTLS_FORCE_FIPS_MODE&quot;, &quot;2&qu=
-ot;, 1);<br>
-<br>
--=C2=A0 =C2=A0 g_mkdir_with_parents(WORKDIR, 0700);<br>
-+=C2=A0 =C2=A0 g_mkdir(WORKDIR, 0700);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0test_tls_init(KEYFILE);<br>
-<br>
+=C2=A0 =C2=A0 =C2=A0return g_test_run();<br>
+=C2=A0}<br>
 -- <br>
 2.34.1<br>
 <br>
 <br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+</blockquote></div><br clear=3D"all"></div><br><div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div></div>
 
---00000000000007e1a905e9491f47--
+--000000000000ff1d2905e9492708--
 
