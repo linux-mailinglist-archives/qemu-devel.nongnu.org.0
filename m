@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C1225E5E27
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 11:10:00 +0200 (CEST)
-Received: from localhost ([::1]:37368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E42AE5E5E3F
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 11:16:46 +0200 (CEST)
+Received: from localhost ([::1]:36876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obIDW-0001iX-QG
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 05:09:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46538)
+	id 1obIK5-0000cr-Vv
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 05:16:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1obHtn-0004HH-Hk
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 04:49:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34814)
+ id 1obHtq-0004HM-3J
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 04:49:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47360)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1obHtj-000372-TG
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 04:49:33 -0400
+ id 1obHtn-00037P-6H
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 04:49:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663836570;
+ s=mimecast20190719; t=1663836572;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LXUPCEKsOWKG9QuHsF9Ng0OAJFz0RxXDrXgSaXJGzLc=;
- b=alK040UcuVSRE5ufVMD9plwMPDUuATRf1Zm/0uwd5LbQOf/jupIw+4S3Oe26Woex3KTVn8
- 6+yESY3gDEW83cVjfRQ6O6OhBpW/P/3nzC2eRpodAeAwdBTmEcCR2+MuHuUCWAlqJsJG8w
- uaZCt1hCx5REMYQpIuJPdUtxN2AQwcU=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gEG7sP+TZ893sNXFvklbS5KEErh7APC8OAUbfr5xMK4=;
+ b=ODZEF/NzqHNzj5pmsBkvVNZC/64kHlYgfRqQp02Nemv3JlqBB0pkDgBEhHlWnJfQZFbPXY
+ pZIZoSr55ZF3sfbn8BaRs7f914TSqDtNZO+IKGQ5ItG5d6WAQrcUKSkRMpnABRvD+NI+lI
+ Wpkbn1NBtE6K3XCLKJQIUDuDiKec0DA=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-369-c_sh_XnTPMOygnDKkP1Cdw-1; Thu, 22 Sep 2022 04:49:29 -0400
-X-MC-Unique: c_sh_XnTPMOygnDKkP1Cdw-1
-Received: by mail-ej1-f69.google.com with SMTP id
- sh31-20020a1709076e9f00b00781c4e720feso3758293ejc.8
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 01:49:28 -0700 (PDT)
+ us-mta-364-7nHrCHRQOTaXfnP5f83cgw-1; Thu, 22 Sep 2022 04:49:31 -0400
+X-MC-Unique: 7nHrCHRQOTaXfnP5f83cgw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ r11-20020a05640251cb00b004516feb8c09so6175970edd.10
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 01:49:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=LXUPCEKsOWKG9QuHsF9Ng0OAJFz0RxXDrXgSaXJGzLc=;
- b=IsZW2XncnvW4VcuCOoD6Jv9RKC5ilBZa/VTCEQqfRvUXR9luKUfgvpMXw3EKrjloco
- ti59DZCJhSeBkYxTcTfsCZx0ePeAkFZ6LK1N0/cydims/NxIagAAX4nE9EhAd5HvPSNl
- dmstHreU2MeBydmCL8RzDLEPeZI06yzoRq6GN5If5unzikM6SsYDeFavKGTWVjQxdvuN
- V/POHsFPB7QKeaaPS8ulA5JRONjuwAsmHyfoqHu2A+2AfYhFSF3oeSX7hVp8aJRNtDx0
- MM9XFe0skvXMKuBSalUy1j4YCo11NbaQfDjYe9gPcPfihc/sYbvo5hGtNGmuFusKuid1
- ZiUg==
-X-Gm-Message-State: ACrzQf32YrVWGc2lowzRPzuCkPdizHvqlA8RrwTZrZ4EZB9jOh5fOLdx
- DkaeTZB4ACfyKjhfz3VPwWTnEVIf9xZXn8mtU2FbVZ2KaoLbZPWvV4KS1eKeWaZyNd1q6h1Lraa
- E/TEUq9f/U5BFEVGFz5ddtLy5uo0ZQKwfhygu6hC5RY687aIFuTAIZFBFRBvaLXSjoj8=
-X-Received: by 2002:aa7:cb4f:0:b0:453:88d0:bed0 with SMTP id
- w15-20020aa7cb4f000000b0045388d0bed0mr2135427edt.127.1663836567436; 
- Thu, 22 Sep 2022 01:49:27 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM77RCRb22hM+UzOgb3JVupCTDDGnUrz21Q1jonC9M5Sc5ud7ZLtmrDKndsxrrndSynL2cA+4Q==
-X-Received: by 2002:aa7:cb4f:0:b0:453:88d0:bed0 with SMTP id
- w15-20020aa7cb4f000000b0045388d0bed0mr2135407edt.127.1663836567217; 
- Thu, 22 Sep 2022 01:49:27 -0700 (PDT)
+ bh=gEG7sP+TZ893sNXFvklbS5KEErh7APC8OAUbfr5xMK4=;
+ b=iwOLEa2CH+kkITtFAP8fQ474f9k4ioFNZhaHaka7AxFj8Oodsv42pKpQ7EdGKmBNNo
+ 9dY7URW3StPC8QGlM35tsWq8D5Unj2XAGZo9u+KF8ofO3YxSezlk1yxFUV3xMKPv9AtU
+ UQmFhLfcW37L12Nzbu9jRWRiCIbP3g4WuZy0hq30tewhR84n5xGil4ZaBxDFxWUaPnzV
+ erohv65/FlzjE9VQd4QOvj91H2Mlmsf6cB0RVDOo3rbeSoA9uV4101fjbur1FvJLGOnZ
+ +Ak9+5HY49kmEWLG7lRd+aXW0MrD+ppqRp+Jn/A9xgZ5J1N905m5Z/8jqlAztdxpKYet
+ iRSA==
+X-Gm-Message-State: ACrzQf1WXJfACdzdeH4kMAVCFbJY3xCwdtABkPtCzOmubbrjn8Cqd1wN
+ Cs1KTjucABNrKqH6dBhRvm15RKfH4kr32of26AcXku1Q++Ml/U7C8aLct16MIkZzNQpNixmIxf/
+ trjYxxZ9pxa/w+ktrqLM8K2oN3iiFXoKScu1+aOYJR0Lby0e1LYWuA+OzwIJ/Mp3w/Kk=
+X-Received: by 2002:a05:6402:2816:b0:434:ed38:16f3 with SMTP id
+ h22-20020a056402281600b00434ed3816f3mr2165376ede.116.1663836570034; 
+ Thu, 22 Sep 2022 01:49:30 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4HFQ9PbHWqPQLo/qYdLuawfXkVHpXtPhcQK3aHQpDfrbwt1jPnoAKYlDyXZgqh11+YDojHxg==
+X-Received: by 2002:a05:6402:2816:b0:434:ed38:16f3 with SMTP id
+ h22-20020a056402281600b00434ed3816f3mr2165355ede.116.1663836569823; 
+ Thu, 22 Sep 2022 01:49:29 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- d22-20020a056402079600b0044625884285sm3228003edy.49.2022.09.22.01.49.26
+ w13-20020a17090652cd00b0073cd7cc2c81sm2307783ejn.181.2022.09.22.01.49.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 01:49:26 -0700 (PDT)
+ Thu, 22 Sep 2022 01:49:29 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: kwolf@redhat.com,
 	qemu-block@nongnu.org,
 	afaria@redhat.com
-Subject: [PATCH 01/26] block/nvme: separate nvme_get_free_req cases for
- coroutine/non-coroutine context
-Date: Thu, 22 Sep 2022 10:48:59 +0200
-Message-Id: <20220922084924.201610-2-pbonzini@redhat.com>
+Subject: [PATCH 02/26] block: add missing coroutine_fn annotations
+Date: Thu, 22 Sep 2022 10:49:00 +0200
+Message-Id: <20220922084924.201610-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220922084924.201610-1-pbonzini@redhat.com>
 References: <20220922084924.201610-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -103,93 +102,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-nvme_get_free_req has very difference semantics when called in
-coroutine context (where it waits) and in non-coroutine context
-(where it doesn't).  Split the two cases to make it clear what
-is being requested.
+Callers of coroutine_fn must be coroutine_fn themselves, or the call
+must be within "if (qemu_in_coroutine())".  Apply coroutine_fn to
+functions where this holds.
 
-Cc: qemu-block@nongnu.org
-Reviewed-by: Alberto Faria <afaria@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/nvme.c | 48 ++++++++++++++++++++++++++++--------------------
- 1 file changed, 28 insertions(+), 20 deletions(-)
+ block.c               |  6 +++---
+ block/block-backend.c | 10 +++++-----
+ block/io.c            | 22 +++++++++++-----------
+ 3 files changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/block/nvme.c b/block/nvme.c
-index 01fb28aa63..3e6abef1ce 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -293,34 +293,42 @@ static void nvme_kick(NVMeQueuePair *q)
-     q->need_kick = 0;
+diff --git a/block.c b/block.c
+index bc85f46eed..5c34ada53f 100644
+--- a/block.c
++++ b/block.c
+@@ -631,9 +631,9 @@ static int64_t create_file_fallback_truncate(BlockBackend *blk,
+  * Helper function for bdrv_create_file_fallback(): Zero the first
+  * sector to remove any potentially pre-existing image header.
+  */
+-static int create_file_fallback_zero_first_sector(BlockBackend *blk,
+-                                                  int64_t current_size,
+-                                                  Error **errp)
++static int coroutine_fn create_file_fallback_zero_first_sector(BlockBackend *blk,
++                                                               int64_t current_size,
++                                                               Error **errp)
+ {
+     int64_t bytes_to_clear;
+     int ret;
+diff --git a/block/block-backend.c b/block/block-backend.c
+index d4a5df2ac2..aa4adf06ae 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -1546,7 +1546,7 @@ static BlockAIOCB *blk_aio_prwv(BlockBackend *blk, int64_t offset,
+     return &acb->common;
  }
  
--/* Find a free request element if any, otherwise:
-- * a) if in coroutine context, try to wait for one to become available;
-- * b) if not in coroutine, return NULL;
-- */
--static NVMeRequest *nvme_get_free_req(NVMeQueuePair *q)
-+static NVMeRequest *nvme_get_free_req_nofail_locked(NVMeQueuePair *q)
+-static void blk_aio_read_entry(void *opaque)
++static void coroutine_fn blk_aio_read_entry(void *opaque)
  {
-     NVMeRequest *req;
- 
--    qemu_mutex_lock(&q->lock);
--
--    while (q->free_req_head == -1) {
--        if (qemu_in_coroutine()) {
--            trace_nvme_free_req_queue_wait(q->s, q->index);
--            qemu_co_queue_wait(&q->free_req_queue, &q->lock);
--        } else {
--            qemu_mutex_unlock(&q->lock);
--            return NULL;
--        }
--    }
--
-     req = &q->reqs[q->free_req_head];
-     q->free_req_head = req->free_req_next;
-     req->free_req_next = -1;
--
--    qemu_mutex_unlock(&q->lock);
-     return req;
+     BlkAioEmAIOCB *acb = opaque;
+     BlkRwCo *rwco = &acb->rwco;
+@@ -1558,7 +1558,7 @@ static void blk_aio_read_entry(void *opaque)
+     blk_aio_complete(acb);
  }
  
-+/* Return a free request element if any, otherwise return NULL.  */
-+static NVMeRequest *nvme_get_free_req_nowait(NVMeQueuePair *q)
-+{
-+    QEMU_LOCK_GUARD(&q->lock);
-+    if (q->free_req_head == -1) {
-+        return NULL;
-+    }
-+    return nvme_get_free_req_nofail_locked(q);
-+}
-+
-+/*
-+ * Wait for a free request to become available if necessary, then
-+ * return it.
-+ */
-+static coroutine_fn NVMeRequest *nvme_get_free_req(NVMeQueuePair *q)
-+{
-+    QEMU_LOCK_GUARD(&q->lock);
-+
-+    while (q->free_req_head == -1) {
-+       trace_nvme_free_req_queue_wait(q->s, q->index);
-+       qemu_co_queue_wait(&q->free_req_queue, &q->lock);
-+    }
-+
-+    return nvme_get_free_req_nofail_locked(q);
-+}
-+
- /* With q->lock */
- static void nvme_put_free_req_locked(NVMeQueuePair *q, NVMeRequest *req)
+-static void blk_aio_write_entry(void *opaque)
++static void coroutine_fn blk_aio_write_entry(void *opaque)
  {
-@@ -506,7 +514,7 @@ static int nvme_admin_cmd_sync(BlockDriverState *bs, NvmeCmd *cmd)
-     AioContext *aio_context = bdrv_get_aio_context(bs);
-     NVMeRequest *req;
-     int ret = -EINPROGRESS;
--    req = nvme_get_free_req(q);
-+    req = nvme_get_free_req_nowait(q);
-     if (!req) {
-         return -EBUSY;
-     }
+     BlkAioEmAIOCB *acb = opaque;
+     BlkRwCo *rwco = &acb->rwco;
+@@ -1669,7 +1669,7 @@ int coroutine_fn blk_co_ioctl(BlockBackend *blk, unsigned long int req,
+     return ret;
+ }
+ 
+-static void blk_aio_ioctl_entry(void *opaque)
++static void coroutine_fn blk_aio_ioctl_entry(void *opaque)
+ {
+     BlkAioEmAIOCB *acb = opaque;
+     BlkRwCo *rwco = &acb->rwco;
+@@ -1703,7 +1703,7 @@ blk_co_do_pdiscard(BlockBackend *blk, int64_t offset, int64_t bytes)
+     return bdrv_co_pdiscard(blk->root, offset, bytes);
+ }
+ 
+-static void blk_aio_pdiscard_entry(void *opaque)
++static void coroutine_fn blk_aio_pdiscard_entry(void *opaque)
+ {
+     BlkAioEmAIOCB *acb = opaque;
+     BlkRwCo *rwco = &acb->rwco;
+@@ -1747,7 +1747,7 @@ static int coroutine_fn blk_co_do_flush(BlockBackend *blk)
+     return bdrv_co_flush(blk_bs(blk));
+ }
+ 
+-static void blk_aio_flush_entry(void *opaque)
++static void coroutine_fn blk_aio_flush_entry(void *opaque)
+ {
+     BlkAioEmAIOCB *acb = opaque;
+     BlkRwCo *rwco = &acb->rwco;
+diff --git a/block/io.c b/block/io.c
+index 0a8cbefe86..e3dcb8e7e6 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -751,11 +751,11 @@ static void coroutine_fn tracked_request_end(BdrvTrackedRequest *req)
+ /**
+  * Add an active request to the tracked requests list
+  */
+-static void tracked_request_begin(BdrvTrackedRequest *req,
+-                                  BlockDriverState *bs,
+-                                  int64_t offset,
+-                                  int64_t bytes,
+-                                  enum BdrvTrackedRequestType type)
++static void coroutine_fn tracked_request_begin(BdrvTrackedRequest *req,
++                                               BlockDriverState *bs,
++                                               int64_t offset,
++                                               int64_t bytes,
++                                               enum BdrvTrackedRequestType type)
+ {
+     bdrv_check_request(offset, bytes, &error_abort);
+ 
+@@ -794,7 +794,7 @@ static bool tracked_request_overlaps(BdrvTrackedRequest *req,
+ }
+ 
+ /* Called with self->bs->reqs_lock held */
+-static BdrvTrackedRequest *
++static coroutine_fn BdrvTrackedRequest *
+ bdrv_find_conflicting_request(BdrvTrackedRequest *self)
+ {
+     BdrvTrackedRequest *req;
+@@ -1644,10 +1644,10 @@ static bool bdrv_init_padding(BlockDriverState *bs,
+     return true;
+ }
+ 
+-static int bdrv_padding_rmw_read(BdrvChild *child,
+-                                 BdrvTrackedRequest *req,
+-                                 BdrvRequestPadding *pad,
+-                                 bool zero_middle)
++static coroutine_fn int bdrv_padding_rmw_read(BdrvChild *child,
++                                              BdrvTrackedRequest *req,
++                                              BdrvRequestPadding *pad,
++                                              bool zero_middle)
+ {
+     QEMUIOVector local_qiov;
+     BlockDriverState *bs = child->bs;
+@@ -3168,7 +3168,7 @@ out:
+     return ret;
+ }
+ 
+-int bdrv_co_ioctl(BlockDriverState *bs, int req, void *buf)
++int coroutine_fn bdrv_co_ioctl(BlockDriverState *bs, int req, void *buf)
+ {
+     BlockDriver *drv = bs->drv;
+     CoroutineIOCompletion co = {
 -- 
 2.37.3
 
