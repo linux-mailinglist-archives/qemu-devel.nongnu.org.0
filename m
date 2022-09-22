@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9F65E6F3B
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 00:00:34 +0200 (CEST)
-Received: from localhost ([::1]:33362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B756A5E6F43
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 00:03:04 +0200 (CEST)
+Received: from localhost ([::1]:42690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obUFF-0008FH-GC
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 18:00:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43470)
+	id 1obUHf-0001CM-OP
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 18:03:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1obUDW-000667-L4
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 17:58:46 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:34588)
+ id 1obUEC-0006e9-CZ
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 17:59:28 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:40635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1obUDU-0004Oe-RP
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 17:58:46 -0400
-Received: by mail-pg1-x534.google.com with SMTP id 3so10505199pga.1
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 14:58:44 -0700 (PDT)
+ id 1obUEA-0004Rr-QJ
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 17:59:28 -0400
+Received: by mail-pf1-x433.google.com with SMTP id b75so10590694pfb.7
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 14:59:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=lUVPh0YF5rXP10BK/aJ9DkQhGUYpq3ZT688Uk4UZrio=;
- b=GRVZHoeUDCV0fG+/+NHFKblFTlk6KOBERBAqNRiAcnJhmdIBjnCKBGYTAp/esSW7vu
- N4GM3ZEfV7U9AdMTvgWHF1yeK1INdPUEzaRAHNdE62IqMEralXZICEIQKSxmwmMabcEH
- NSBAJ/wgbH6SH0hYJQoKdo0l3A2/sSJ2dX6DoftWq9dAs2+QKyt/Det9r+iSNPz8EuA9
- muUAmc+ip2jqmKHLIIuSfmtfUd47i15Fp1N5yj9wQS3nAbbRn0R+kMk5CV/ng0cBDcd0
- YkmF2Huppyrig+5ZLuxeGARZCoQd35G44UUKgsmdO1lSOjdP1T3yzPoEtoOsbf+7zqBO
- vASw==
+ bh=V5SOIQGijA5cunScfvdV6Bx7kW/guRl1U8s2ItT4FaI=;
+ b=XYbUsiBYr4FueyDmuajld8F6sd5FJ8lH28bJDjTpVQrdi6OH6ZvQ2+VNc9c90Eyk46
+ hlMK9pLRci9LVm7f6D+z01dYjcnxOku0gSfI0iPsD/8AJltrji1FsSQQ/ys6lTXFdpU+
+ CJWg6yoelS7oiIOLohKpLAKKi62Z+01kV9vzepMIDE3p48TLdu8LFjNqTFZOsqzz2WL6
+ OgoDPiS/CmkDRBfVJ2ZNg7A9GByGZhlWrKZSPyyApi3TNTnYqqdAkwFHmSEpo888dny0
+ FO0aHycWg22jpnaroH4gSDA7TM3OkRqLydAC+2cRSK222klwb7sicmF1DiHjChoOnJDy
+ G16Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=lUVPh0YF5rXP10BK/aJ9DkQhGUYpq3ZT688Uk4UZrio=;
- b=0H2G5TcrWhyUd9IBgumTJuYzU/lB/l8vsX4YqlcSQcJv+4v1h/Dn+iKG/BtLf4Y+Pf
- MrIaxJcVDKILynUMP1T4pSA2pkZu4SK5kIN87lLs/72nEg8G3o2Lq2VCZtYSqC5yETS2
- UMUOllHP6guHjWf2AZ3FBz91H0JDm/Pu6nUMUX/4xEXp9zOXRRnS1yaqU4mmAfwcElOg
- mR7HVDNJ7y2tFsHs0NeiUPyDaqoxnRWFK0+powZgEwHp6tGY+027Xg3GOwV2aSsDv0gL
- pLiJYAXCvjEP5b5bjlbZwZBMiUjIC5wAB5nD7UYRC4EgLaOIVg0ZMDSMfTKsNUmXg10D
- Gg1Q==
-X-Gm-Message-State: ACrzQf2DGaWMtZOmWzByvGnH0jS0sWfxiMvbP8Snwm6/5o1kAOAA1oba
- 8J9oVmWp6Mu4rggPVAZlgKY=
-X-Google-Smtp-Source: AMsMyM7KxPzHPVEWyw6XnoKk4bMTawaJ+3H6NjpAEDGMCRncI4xbir+25Uf3AxfPdEUQY6CrPTj6vA==
-X-Received: by 2002:a05:6a00:b8b:b0:536:71f7:4ce3 with SMTP id
- g11-20020a056a000b8b00b0053671f74ce3mr5665136pfj.74.1663883923269; 
- Thu, 22 Sep 2022 14:58:43 -0700 (PDT)
+ bh=V5SOIQGijA5cunScfvdV6Bx7kW/guRl1U8s2ItT4FaI=;
+ b=VmWHU0Df6k7Anw3wFqqOat6ZMWcwqnUoOQuV/qIC6qoU1UAmgyszUBA233UhMRIBAr
+ pQsSZ+x9dMcolORAMIBGTyjqZopaywDpvMjtGFQAsSMx3A2pbooAAq5BIDg7ABENSAZc
+ SEwZWcUetBnhyHn4POGfF3T13tiU+O9IUNEp62I4T90dRKdSuKIJrKZqaxwzs8uTETgj
+ 0pRqL3C6g5hKEmTXn6n9m40YcaukD1s3upF3HcyYFYe93l4guGa3JRcTVvnOja0sS6tq
+ AXyvAG/3YwqSx2T9Nz962lSb2Pxfnk1EwxtQOYmX6rUw/oS5JP0CnEN1UvDAo/++76BF
+ wRYg==
+X-Gm-Message-State: ACrzQf3te//cKaJCM16mawaG51qi8VbMmrPdeWFwkRknrJcw+uiqKcPw
+ lxXPKnqk0+EAouUcQgfxwlI=
+X-Google-Smtp-Source: AMsMyM7ZM7uDvCj96ShjuOpVyh5EHZcPn7MmxH7sg5UpjF5HVcHRQ0ByQARWjWu4hYrZER80LvaEXQ==
+X-Received: by 2002:a05:6a00:1693:b0:554:e3e1:f357 with SMTP id
+ k19-20020a056a00169300b00554e3e1f357mr5606929pfc.55.1663883965536; 
+ Thu, 22 Sep 2022 14:59:25 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- s21-20020aa78bd5000000b00540c24ba181sm4823537pfd.120.2022.09.22.14.58.39
+ o1-20020a17090ad20100b00203c0a1d56bsm249010pju.35.2022.09.22.14.59.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Sep 2022 14:58:42 -0700 (PDT)
-Message-ID: <a6733ad5-cd30-0622-5423-a27ff3af8169@amsat.org>
-Date: Thu, 22 Sep 2022 23:58:37 +0200
+ Thu, 22 Sep 2022 14:59:25 -0700 (PDT)
+Message-ID: <4986b3c1-b524-197c-b836-e89edc69ada8@amsat.org>
+Date: Thu, 22 Sep 2022 23:59:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH v4 01/22] hw/virtio: incorporate backend features in
- features
+Subject: Re: [PATCH v4 02/22] hw/virtio: gracefully handle unset vhost_dev vdev
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
  stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org
 References: <20220802095010.3330793-1-alex.bennee@linaro.org>
- <20220802095010.3330793-2-alex.bennee@linaro.org>
-In-Reply-To: <20220802095010.3330793-2-alex.bennee@linaro.org>
+ <20220802095010.3330793-3-alex.bennee@linaro.org>
+In-Reply-To: <20220802095010.3330793-3-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
@@ -100,21 +99,15 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 2/8/22 11:49, Alex Bennée wrote:
-> There are some extra bits used over a vhost-user connection which are
-> hidden from the device itself. We need to set them here to ensure we
-> enable things like the protocol extensions.
+> I've noticed asserts firing because we query the status of vdev after
+> a vhost connection is closed down. Rather than faulting on the NULL
+> indirect just quietly reply false.
 > 
-> Currently net/vhost-user.c has it's own inscrutable way of persisting
-> this data but it really should live in the core vhost_user code.
-
-TIL inscrutable!
-
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Message-Id: <20220726192150.2435175-7-alex.bennee@linaro.org>
+> Message-Id: <20220726192150.2435175-8-alex.bennee@linaro.org>
 > ---
->   hw/virtio/vhost-user.c | 9 ++++++++-
->   1 file changed, 8 insertions(+), 1 deletion(-)
+>   hw/virtio/vhost.c | 10 +++++++---
+>   1 file changed, 7 insertions(+), 3 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
 
