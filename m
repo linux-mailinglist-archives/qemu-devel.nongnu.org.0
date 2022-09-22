@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A7A05E6EDB
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 23:51:57 +0200 (CEST)
-Received: from localhost ([::1]:46880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AE835E6EDE
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 23:52:50 +0200 (CEST)
+Received: from localhost ([::1]:40026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obU6u-0003PR-G2
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 17:51:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44992)
+	id 1obU7l-0004Ds-62
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 17:52:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1obU4d-000191-H1
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 17:49:35 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:36680)
+ id 1obU6D-000292-8Y
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 17:51:13 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:42706)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1obU4b-0006g5-KN
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 17:49:34 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id c24so10064820plo.3
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 14:49:33 -0700 (PDT)
+ id 1obU6B-00074T-KE
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 17:51:12 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id t190so10472029pgd.9
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 14:51:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=T+XRKCpg1B8aNlOY2e7DDXmhWthkytg/B3UerbZ/WHY=;
- b=MCWtKqspaNTzGw+DT/lAlTleDInBacSryLNglbVSklIFit2L30MvgTWXsOEsH/WpWA
- nE9grFkPrpbtlFX//l8VTg2QJzxuTFz9pCW8bSQkc66MqiOP/Dc8TkM+PDYrm2oca4GT
- zK++mgLEp8I+fTElnZhl3mMIp17FG1ren6Kl6xjz14bVNVq2U7MD8sSdZIUARRFBuG8Q
- x90RKBtimFYLtWUNxjz89CNpBgQSfWu/Yod6+JsHdTqYlSF8atW1wpfqgCAAjVYZnWqm
- lp0sYrmuXc9AKhtbAXoJPo6A1papse/Z2c1U4j0k13ldRIbLonUmFSdMzAVNkwoNjKVw
- qsXQ==
+ bh=iremm5+GR7vMaxyC6J6p602GyNU3K6bidlSrtGzKDis=;
+ b=QhtHQW4CXRoDZSDi35r9Wz5aA0HdmVTrwmVBJ8hsuEq1mZ/Gat8Y+hlIOdNCpGG38s
+ ao+gWU2W4jRBvEIg0wxt+OzOpyNe3ux31FI6Q8BfRfXT6vDjS0xkxqqTXLFCfKGPpOPD
+ +ALyWiWp7QYweCbdq8F7hCjeBtxHLItG0GTvDcZtBeqaEaasbX8CSOOt48zLBRxkecs+
+ PuJy7qg1OJIlTfQC6hHHvV0UsibR1EaG4hEgh6KiOuOrhoQud6d+MyveCwdkFREe57nY
+ cz+8Gi7xch/LIX1+6RDaqgUE/ROfhIPxUlNC5TksnjQCGkOpjK6ECgoAJ6py0mBDM5Kg
+ 3fgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=T+XRKCpg1B8aNlOY2e7DDXmhWthkytg/B3UerbZ/WHY=;
- b=YxAxiawN6I4dgyVFUkqnL5K/M/C+kgsq2rHa4iPMupwpEH6WT806nYiBkkCLZrAxjN
- W8iUt23tXhb4JnRRl/6i409T24iM+tDAQU2do25z5cR6W+BMwwy4lGxnyA1eztANgT83
- QL/6dHP34d9J2I4G/uddSHhf1TS5D5unyeGGrlmDf8MokSbyAobTtXGozOeAyk0cjI7S
- 72BRuNvL+bVmdYr1cZBo0mnEEIRpsFMY/mx7e1Z4sYAHexgLD2Jbo2eMW39Qzd1Uxgzd
- Z5P9mNQ2RH2ATWX5lxv7/v1AEg/VpUjaTS94UusmoasFFMM+1jPRVGVxDLOZ4s2pClq8
- xfJw==
-X-Gm-Message-State: ACrzQf0yNkUOZAY7AZNaf/Vk7pz8t9RdQz9EKMk72YEUpYCswHgCziE0
- LT/1+QvteeeXz5sJ7v+gTwc=
-X-Google-Smtp-Source: AMsMyM6PaI2xUaEhg4auT3D+s+S09Pb742J+KSzZgLMnvTGQ4OFt0InBpoQ+5wG0tu0dxSZPV85lAQ==
-X-Received: by 2002:a17:90b:17cd:b0:202:ee1c:9578 with SMTP id
- me13-20020a17090b17cd00b00202ee1c9578mr17652739pjb.87.1663883372199; 
- Thu, 22 Sep 2022 14:49:32 -0700 (PDT)
+ bh=iremm5+GR7vMaxyC6J6p602GyNU3K6bidlSrtGzKDis=;
+ b=tpqVPXQHVNnqHP9jfIRe+X7ru1iVqMnWvFZi/Z04w+m9S0WfpBkw7gkd7rkCkP0UyH
+ rmIuwuAym2Iro05wAXUo1Jyx2/boksw5R8r9h3oM8cSz8scBwLBfqGMwXI8s5fFl6yB2
+ iLx9T2SJ7IyHM+TXAAN8cDHcbWJfgfe1rzyCRuX7J+YDwiE1cO6WEgXYdRg6KrHM7F0w
+ KcBVLkZms9XaVQ8DrqsSyFbT1jbOxsXLqsdzEkuHiNv036wOBmJ6Ve0YV24xs9RUN1oP
+ DH9HzrvGYBwWlslf0vtwNq/5S/LylrS0gimFfe/iElwZ2Dne9BaOTsUSYTmRgBi/xnXw
+ gOcQ==
+X-Gm-Message-State: ACrzQf2VVRCe5vcprTexmeCvbSMsYcvcQFXwlegpuGUtlez2Woe3Gih8
+ In/R3iimzaW5cKZo++cxSEg=
+X-Google-Smtp-Source: AMsMyM5XFfEuYs8Nbw6H60koTskGA7B7IXH6EGem1q/oLl3sioGoLJHHbFCy/0Y0HzU9pjnfccHQHg==
+X-Received: by 2002:a65:60cd:0:b0:43c:403:9863 with SMTP id
+ r13-20020a6560cd000000b0043c04039863mr4841884pgv.106.1663883470248; 
+ Thu, 22 Sep 2022 14:51:10 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- pv7-20020a17090b3c8700b00203a4f70b90sm233145pjb.45.2022.09.22.14.49.29
+ b67-20020a621b46000000b0053e22c7f135sm4916512pfb.141.2022.09.22.14.51.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Sep 2022 14:49:31 -0700 (PDT)
-Message-ID: <e970fc04-600e-469d-e130-9f41fe87851f@amsat.org>
-Date: Thu, 22 Sep 2022 23:49:27 +0200
+ Thu, 22 Sep 2022 14:51:09 -0700 (PDT)
+Message-ID: <726982bc-3c26-2679-76ec-a51daf6f5b3d@amsat.org>
+Date: Thu, 22 Sep 2022 23:51:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH v1 7/9] gdbstub: move sstep flags probing into AccelClass
+Subject: Re: [PATCH v1 9/9] gdbstub: move guest debug support check to ops
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-Cc: mads@ynddal.dk, Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
+Cc: mads@ynddal.dk, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  "open list:Overall KVM CPUs" <kvm@vger.kernel.org>
 References: <20220922145832.1934429-1-alex.bennee@linaro.org>
- <20220922145832.1934429-8-alex.bennee@linaro.org>
-In-Reply-To: <20220922145832.1934429-8-alex.bennee@linaro.org>
+ <20220922145832.1934429-10-alex.bennee@linaro.org>
+In-Reply-To: <20220922145832.1934429-10-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
@@ -100,21 +100,23 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 22/9/22 16:58, Alex Bennée wrote:
-> The support of single-stepping is very much dependent on support from
-> the accelerator we are using. To avoid special casing in gdbstub move
-> the probing out to an AccelClass function so future accelerators can
-> put their code there.
+> This removes the final hard coding of kvm_enabled() in gdbstub and
+> moves the check to an AccelOps.
 > 
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > Cc: Mads Ynddal <mads@ynddal.dk>
 > ---
->   include/qemu/accel.h | 12 ++++++++++++
->   include/sysemu/kvm.h |  8 --------
->   accel/accel-common.c | 10 ++++++++++
->   accel/kvm/kvm-all.c  | 14 +++++++++++++-
->   accel/tcg/tcg-all.c  | 17 +++++++++++++++++
->   gdbstub/gdbstub.c    | 22 ++++------------------
->   6 files changed, 56 insertions(+), 27 deletions(-)
+>   accel/kvm/kvm-cpus.h       | 1 +
+>   gdbstub/internals.h        | 1 +
+>   include/sysemu/accel-ops.h | 1 +
+>   include/sysemu/kvm.h       | 7 -------
+>   accel/kvm/kvm-accel-ops.c  | 1 +
+>   accel/kvm/kvm-all.c        | 6 ++++++
+>   accel/tcg/tcg-accel-ops.c  | 6 ++++++
+>   gdbstub/gdbstub.c          | 5 ++---
+>   gdbstub/softmmu.c          | 9 +++++++++
+>   gdbstub/user.c             | 6 ++++++
+>   10 files changed, 33 insertions(+), 10 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
