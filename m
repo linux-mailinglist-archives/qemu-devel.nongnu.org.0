@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E005E6EE2
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 23:54:00 +0200 (CEST)
-Received: from localhost ([::1]:60304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9F65E6F3B
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 00:00:34 +0200 (CEST)
+Received: from localhost ([::1]:33362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obU8t-0005g5-7T
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 17:53:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37690)
+	id 1obUFF-0008FH-GC
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 18:00:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1obU7u-0004Kr-Fv
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 17:52:58 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:37639)
+ id 1obUDW-000667-L4
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 17:58:46 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:34588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1obU7s-0007DF-QO
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 17:52:58 -0400
-Received: by mail-pl1-x636.google.com with SMTP id d24so10067582pls.4
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 14:52:56 -0700 (PDT)
+ id 1obUDU-0004Oe-RP
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 17:58:46 -0400
+Received: by mail-pg1-x534.google.com with SMTP id 3so10505199pga.1
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 14:58:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=if6bmvSKsaBnNIktSsr9BygGiOGPcZLK2+qPWQY+I8Q=;
- b=pzrzZoZsjTwq0XNe56drHDqsxDp7gBfWdPbWC4rt2H5R39L+OGEj+zrr5t8Mq4IrxG
- Mt2/nnh5zDrJXCq8HjPdFJP3E/0LhfQs+UXWmpMiECR63NhfhMOCNbi3qC1lxT2g3nSb
- QtTAwyEe8SkY+f5ojGLzR8Mvfd/9lqBzpoqMjw0fiGZe7+ZZNwvv9B1TOtxBiBIpAXA1
- ZNUBxoSVtsIjhMdk30I3D67vJrsVP7294xM1/d7kPETtmPiK2ny5Wx0Kx6kbgE85MxH+
- y/rql3TyAvj5tXH6wvmJvMbHyEEXB3UNdN8R6B07ZEiIVzoAAdE1fwHH0PApALHIDhNO
- QRGQ==
+ bh=lUVPh0YF5rXP10BK/aJ9DkQhGUYpq3ZT688Uk4UZrio=;
+ b=GRVZHoeUDCV0fG+/+NHFKblFTlk6KOBERBAqNRiAcnJhmdIBjnCKBGYTAp/esSW7vu
+ N4GM3ZEfV7U9AdMTvgWHF1yeK1INdPUEzaRAHNdE62IqMEralXZICEIQKSxmwmMabcEH
+ NSBAJ/wgbH6SH0hYJQoKdo0l3A2/sSJ2dX6DoftWq9dAs2+QKyt/Det9r+iSNPz8EuA9
+ muUAmc+ip2jqmKHLIIuSfmtfUd47i15Fp1N5yj9wQS3nAbbRn0R+kMk5CV/ng0cBDcd0
+ YkmF2Huppyrig+5ZLuxeGARZCoQd35G44UUKgsmdO1lSOjdP1T3yzPoEtoOsbf+7zqBO
+ vASw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=if6bmvSKsaBnNIktSsr9BygGiOGPcZLK2+qPWQY+I8Q=;
- b=PzbDia/4Vuv+1DTYuzaCpovfqMa9ybaJm0vCroam+M/h1LM5xDLeNR+Fmj+NHakrBl
- wqGUxzRCq8QjW0OWbfdXiE74gIsZU2Mr3gDA+K0zvSRvOEGIx0/Bn7bp/0DBe1tA97ss
- 3GlILfKWyZYTzoUz86rT1Kt+MrFiKawrQL/Aq+ex8c4JB3Aj7enwfh1TY0syu83pXHUr
- Xn27ICpt1ZmC28pTVgiRIVlEE1Hs7Hat+7tBlQfrRAaByI98gdLvNQen14idVBXOtX4Y
- n3EMIshSzMzewalTuruU6KyTtM9jAJFPSGr/0j1okj4SSjcdNhKFnCU5CcCIm0h/FKLV
- oR1A==
-X-Gm-Message-State: ACrzQf2SXGsZjYDbsO5br60BiIQ+w9kWqK6Wtlts72OSD85w+lApeYVP
- wzuYvNO/ETIbK0AgD9OroZ8=
-X-Google-Smtp-Source: AMsMyM61hHVf6UplTn/7JYhhc7r+rMhb8XpkmmQ+vVzd3yKOgiQoftY3FYHMhBk81gBJikhJGcIwfQ==
-X-Received: by 2002:a17:90b:3b92:b0:203:a4c6:383c with SMTP id
- pc18-20020a17090b3b9200b00203a4c6383cmr5834697pjb.92.1663883575325; 
- Thu, 22 Sep 2022 14:52:55 -0700 (PDT)
+ bh=lUVPh0YF5rXP10BK/aJ9DkQhGUYpq3ZT688Uk4UZrio=;
+ b=0H2G5TcrWhyUd9IBgumTJuYzU/lB/l8vsX4YqlcSQcJv+4v1h/Dn+iKG/BtLf4Y+Pf
+ MrIaxJcVDKILynUMP1T4pSA2pkZu4SK5kIN87lLs/72nEg8G3o2Lq2VCZtYSqC5yETS2
+ UMUOllHP6guHjWf2AZ3FBz91H0JDm/Pu6nUMUX/4xEXp9zOXRRnS1yaqU4mmAfwcElOg
+ mR7HVDNJ7y2tFsHs0NeiUPyDaqoxnRWFK0+powZgEwHp6tGY+027Xg3GOwV2aSsDv0gL
+ pLiJYAXCvjEP5b5bjlbZwZBMiUjIC5wAB5nD7UYRC4EgLaOIVg0ZMDSMfTKsNUmXg10D
+ Gg1Q==
+X-Gm-Message-State: ACrzQf2DGaWMtZOmWzByvGnH0jS0sWfxiMvbP8Snwm6/5o1kAOAA1oba
+ 8J9oVmWp6Mu4rggPVAZlgKY=
+X-Google-Smtp-Source: AMsMyM7KxPzHPVEWyw6XnoKk4bMTawaJ+3H6NjpAEDGMCRncI4xbir+25Uf3AxfPdEUQY6CrPTj6vA==
+X-Received: by 2002:a05:6a00:b8b:b0:536:71f7:4ce3 with SMTP id
+ g11-20020a056a000b8b00b0053671f74ce3mr5665136pfj.74.1663883923269; 
+ Thu, 22 Sep 2022 14:58:43 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- a27-20020aa794bb000000b0052dbad1ea2esm4927259pfl.6.2022.09.22.14.52.53
+ s21-20020aa78bd5000000b00540c24ba181sm4823537pfd.120.2022.09.22.14.58.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Sep 2022 14:52:54 -0700 (PDT)
-Message-ID: <3220202f-40d4-fe47-d521-a804614d9390@amsat.org>
-Date: Thu, 22 Sep 2022 23:52:51 +0200
+ Thu, 22 Sep 2022 14:58:42 -0700 (PDT)
+Message-ID: <a6733ad5-cd30-0622-5423-a27ff3af8169@amsat.org>
+Date: Thu, 22 Sep 2022 23:58:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH] KVM: dirty ring: Add memory barrier when marking pfn
- collected
+Subject: Re: [PATCH v4 01/22] hw/virtio: incorporate backend features in
+ features
 Content-Language: en-US
-To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
-Cc: Marc Zyngier <maz@kernel.org>, Gavin Shan <gshan@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220922213522.68861-1-peterx@redhat.com>
-In-Reply-To: <20220922213522.68861-1-peterx@redhat.com>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
+ stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org
+References: <20220802095010.3330793-1-alex.bennee@linaro.org>
+ <20220802095010.3330793-2-alex.bennee@linaro.org>
+In-Reply-To: <20220802095010.3330793-2-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
@@ -97,36 +99,22 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 22/9/22 23:35, Peter Xu wrote:
-> Following commit 4802bf910eee9, add the other missing barrier when marking
-> the PFN as collected.  This will also be required just like 4802bf910eee9
-> on weak ordering architectures like aarch64.
+On 2/8/22 11:49, Alex Bennée wrote:
+> There are some extra bits used over a vhost-user connection which are
+> hidden from the device itself. We need to set them here to ensure we
+> enable things like the protocol extensions.
 > 
-> Cc: Marc Zyngier <maz@kernel.org>
-> Cc: Gavin Shan <gshan@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+> Currently net/vhost-user.c has it's own inscrutable way of persisting
+> this data but it really should live in the core vhost_user code.
+
+TIL inscrutable!
+
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Message-Id: <20220726192150.2435175-7-alex.bennee@linaro.org>
 > ---
->   accel/kvm/kvm-all.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> index 136c8eaed3..60a044048e 100644
-> --- a/accel/kvm/kvm-all.c
-> +++ b/accel/kvm/kvm-all.c
-> @@ -728,7 +728,11 @@ static bool dirty_gfn_is_dirtied(struct kvm_dirty_gfn *gfn)
->   
->   static void dirty_gfn_set_collected(struct kvm_dirty_gfn *gfn)
->   {
-> -    gfn->flags = KVM_DIRTY_GFN_F_RESET;
-> +    /*
-> +     * Write the flags after reading the entry.  Should pair with another
-> +     * smp_load_acquire() in KVM when reset dirty rings.
-> +     */
-> +    qatomic_store_release(&gfn->flags, KVM_DIRTY_GFN_F_RESET);
->   }
->   
->   /*
+>   hw/virtio/vhost-user.c | 9 ++++++++-
+>   1 file changed, 8 insertions(+), 1 deletion(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
 
