@@ -2,84 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29B2B5E6E73
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 23:37:06 +0200 (CEST)
-Received: from localhost ([::1]:47540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8F395E6EBF
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 23:48:23 +0200 (CEST)
+Received: from localhost ([::1]:41874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obTsW-0000ie-QR
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 17:37:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54110)
+	id 1obU3S-00083Z-Da
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 17:48:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1obTr2-0007gO-1n
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 17:35:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42441)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1obTqy-00046r-QA
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 17:35:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663882527;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=YZFOk4NIJg3hsU/+pc0pw+0lzx8dVPUm5b5PkVv3ets=;
- b=dR9prmHJMHzxry6yTSxjK2MH2d8r9+8Vzveq9pM4RGzGuSALnVGIs6I/zv9tKGpYDGLP8S
- tzkEGYNOEeFRpuN/wbsgux84K3auIHyt0CzDvfQ0zIiVnm14Y4cN9pGGuWaneolLeDURfN
- lAZ6FM6BMcMlIesZ6G0mzCWhcszhLw8=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-50-V7FsLVfbP4WYQeEIXodRpw-1; Thu, 22 Sep 2022 17:35:26 -0400
-X-MC-Unique: V7FsLVfbP4WYQeEIXodRpw-1
-Received: by mail-qv1-f69.google.com with SMTP id
- om32-20020a0562143da000b004ad858a5458so1648173qvb.22
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 14:35:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1obTzA-00059x-2z; Thu, 22 Sep 2022 17:43:56 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:40959)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1obTz8-0005v7-0m; Thu, 22 Sep 2022 17:43:55 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ q9-20020a17090a178900b0020265d92ae3so3778270pja.5; 
+ Thu, 22 Sep 2022 14:43:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc:subject:date;
+ bh=k02a6Lo3wuit00bVjKHDmvwY5JdtCyOYdMTc3iDxfTY=;
+ b=fzAUmSqR48QFKVjbQh8PEHyaqrCQW6MYur7bnyo+7UBxqFRf50I/LWzzjWEB7GPdfS
+ OVzOKY1VZD4ukY6M0ECPIpo73Xcksmp/4q5R9MnqaO3BnylDjSYasZU6j12GdXIb6wxf
+ vG4D7PLl+iAa6BSBc+hZLIfX5oCsUxEGx/KCP+uPDoNgnOMnHGSoqh+ImzvGbJbKn6Ya
+ rtGikv271XpA2t0LO5d4aw9h1IbtfVa136UAttZ3E3bn6UB6jy4FaE4F6TeLcuFBRpPv
+ oNJrZGfadi7TTZQtS8iqFGh0AD3TiLhVZ9EcOw6kz2z4IZCithL3m0tDz0q6Yn4W8STC
+ Wpwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=YZFOk4NIJg3hsU/+pc0pw+0lzx8dVPUm5b5PkVv3ets=;
- b=wQS+v8D79aa2dJkg+e8SaEl3L5lW1xD+mFhvbHSa2Su6iA3/h8KrKuejEpeNn4mEhI
- halSp9u3XF9CJTdogvH6ydRn5hDs7H8mlgBs8Jr8SuWQt7HNEBCtnJZ+xvahqRH6+1qp
- 8ze++520Smcz/h1SdNZfaxng4oKh2YNGm5gOUB2TkAwNp+dO8tJeYHiQFP1vomb5UlZf
- ZQj1ekzrlsWEAqLrXwhwkLleMk3aZPxLxuZ1PoC8udniCU7yND+MLNccWMFLjA1N8ad1
- vKMScSTb+M5DAWBLpyeUmk2ojEC5Zokw2pud+nKHlKd2ndsVfenByJDHL4cff7RwLWfU
- 5JjA==
-X-Gm-Message-State: ACrzQf0UgNJvz0vykMFKqugG+Echclprpl6uJEOD/h0ABtkZ2BDymG9m
- Tj05aO3YlFakAjkpw6/4Qsuhw+/B9TjOoZCgyrqysMUeHSeKn91IKZsDBMtozy+SGSMn61hR5OG
- jOIZqvA16NQNfOq1yLum77fvi0HPrfXGHXOpC7DJCpS0/xCPihS+z35y3SoVvLy77
-X-Received: by 2002:ac8:4e90:0:b0:35d:4c5:7e4e with SMTP id
- 16-20020ac84e90000000b0035d04c57e4emr4590684qtp.117.1663882524739; 
- Thu, 22 Sep 2022 14:35:24 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4v2gv7fdkSbB7tvzIY9iuFTg4xn9XcDgpAQTlUshbFB/hWD+/S6kscKDCPE+sX/ErArDeXEA==
-X-Received: by 2002:ac8:4e90:0:b0:35d:4c5:7e4e with SMTP id
- 16-20020ac84e90000000b0035d04c57e4emr4590665qtp.117.1663882524491; 
- Thu, 22 Sep 2022 14:35:24 -0700 (PDT)
-Received: from localhost.localdomain
- (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca. [70.31.27.79])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc:subject:date;
+ bh=k02a6Lo3wuit00bVjKHDmvwY5JdtCyOYdMTc3iDxfTY=;
+ b=08uhRap9ub4/aLeyZP0kT47+yUAI3iHfp1N29qEft9KOC6WF1d8iK0JYiCcr4OPgZY
+ BCG7DOYbB5K4afKgEnkKWCdNPQ/D509zAXUxAByQeYQdPOtQ7LJOGq3vEGPj4vwiHicR
+ F4M7eLztw2OvEapgNV8NXXW6RacSXs/O0Lu0y+roazPt34ylYkbO2EofPda3nEhar0MO
+ Ncjo7UhobeQhpnFZOUX/03r47bGUrvTnXGxi8mtnThRaFIFweZnifeNElNa8ZaS87uS0
+ z9bHH0MS0In1v2hTalGRlGLZYmYIe0Z43bmSiZp4kMuVPdoLlt6Fotbor1HVpeGLcF+l
+ w0aw==
+X-Gm-Message-State: ACrzQf3T9OWiHgkNIWhUoZZCWm90GkjptHcPvksoRJlDeb8/SgtJcJju
+ RRbHmJixejDo+fKidmYbBak=
+X-Google-Smtp-Source: AMsMyM55TzL0060qs9UXHeZCPuErVpHrwXjCVgMqriASU8KUkQ07YVq1yrVn/uDAlA5Pe7F7WDpMXw==
+X-Received: by 2002:a17:902:d143:b0:178:456b:8444 with SMTP id
+ t3-20020a170902d14300b00178456b8444mr5352655plt.137.1663883031081; 
+ Thu, 22 Sep 2022 14:43:51 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- s2-20020a05620a0bc200b006ce7d9dea7asm4431421qki.13.2022.09.22.14.35.22
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 22 Sep 2022 14:35:23 -0700 (PDT)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: peterx@redhat.com, Marc Zyngier <maz@kernel.org>,
- Gavin Shan <gshan@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH] KVM: dirty ring: Add memory barrier when marking pfn collected
-Date: Thu, 22 Sep 2022 17:35:22 -0400
-Message-Id: <20220922213522.68861-1-peterx@redhat.com>
-X-Mailer: git-send-email 2.32.0
+ q12-20020a170902dacc00b0016c50179b1esm4640156plx.152.2022.09.22.14.43.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Sep 2022 14:43:50 -0700 (PDT)
+Message-ID: <94d79c16-3777-b80e-3e4f-70bf256d3707@amsat.org>
+Date: Thu, 22 Sep 2022 23:43:44 +0200
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.1
+Subject: Re: [PATCH v2 2/3] hw/intc: sifive_plic.c: Fix interrupt priority
+ index.
+Content-Language: en-US
+To: Tyler Ng <tkng@rivosinc.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Laurent Vivier <lvivier@redhat.com>
+References: <CAB88-qNFw_xOA0KB9rrr0pD30xFjFd6TRGX6M3TEEbZjVEEAwA@mail.gmail.com>
+In-Reply-To: <CAB88-qNFw_xOA0KB9rrr0pD30xFjFd6TRGX6M3TEEbZjVEEAwA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.893,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,37 +96,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Following commit 4802bf910eee9, add the other missing barrier when marking
-the PFN as collected.  This will also be required just like 4802bf910eee9
-on weak ordering architectures like aarch64.
+On 22/9/22 17:58, Tyler Ng wrote:
+> Fixes a bug in which the index of the interrupt priority is off by 1.
+> 
+> For example, using an IRQ number of 3 with a priority of 1 is supposed to set
+> plic->source_priority[2] = 1, but instead it sets
+> plic->source_priority[3] = 1. When an interrupt is claimed to be
+> serviced, it checks the index 2 instead of 3.
+> 
+> Found when testing the OpenTitan Always-On watchdog bark interrupt on ZephyrOS.
+> 
+> Fixes: 0feb4a7129eb4f120c75849ddc9e50495c50cb63
+> 
+> Signed-off-by: Tyler Ng <tkng@rivosinc.com>
+> ---
+>   hw/intc/sifive_plic.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+> index af4ae3630e..1734e76aef 100644
+> --- a/hw/intc/sifive_plic.c
+> +++ b/hw/intc/sifive_plic.c
+> @@ -131,7 +131,7 @@ static uint64_t sifive_plic_read(void *opaque,
+> hwaddr addr, unsigned size)
+>       SiFivePLICState *plic = opaque;
+> 
+>       if (addr_between(addr, plic->priority_base, plic->num_sources << 2)) {
+> -        uint32_t irq = ((addr - plic->priority_base) >> 2) + 1;
+> +        uint32_t irq = ((addr - plic->priority_base) >> 2) + 0;
+> 
+>           return plic->source_priority[irq];
+>       } else if (addr_between(addr, plic->pending_base,
+> plic->num_sources >> 3)) {
+> @@ -178,7 +178,7 @@ static void sifive_plic_write(void *opaque, hwaddr
+> addr, uint64_t value,
+>       SiFivePLICState *plic = opaque;
+> 
+>       if (addr_between(addr, plic->priority_base, plic->num_sources << 2)) {
+> -        uint32_t irq = ((addr - plic->priority_base) >> 2) + 1;
+> +        uint32_t irq = ((addr - plic->priority_base) >> 2) + 0;
 
-Cc: Marc Zyngier <maz@kernel.org>
-Cc: Gavin Shan <gshan@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- accel/kvm/kvm-all.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 136c8eaed3..60a044048e 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -728,7 +728,11 @@ static bool dirty_gfn_is_dirtied(struct kvm_dirty_gfn *gfn)
- 
- static void dirty_gfn_set_collected(struct kvm_dirty_gfn *gfn)
- {
--    gfn->flags = KVM_DIRTY_GFN_F_RESET;
-+    /*
-+     * Write the flags after reading the entry.  Should pair with another
-+     * smp_load_acquire() in KVM when reset dirty rings.
-+     */
-+    qatomic_store_release(&gfn->flags, KVM_DIRTY_GFN_F_RESET);
- }
- 
- /*
--- 
-2.32.0
-
+Maybe we can remove the ( ... ) + 0;
 
