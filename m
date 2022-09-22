@@ -2,78 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1EFC5E6909
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 19:02:05 +0200 (CEST)
-Received: from localhost ([::1]:38122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B39B95E68E7
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 18:57:00 +0200 (CEST)
+Received: from localhost ([::1]:60002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obPaO-0004s7-HC
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 13:02:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48072)
+	id 1obPVT-0005IT-Qg
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 12:56:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1obNsN-0008Ud-3V
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:12:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40282)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1obNsL-0007bG-13
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:12:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663859546;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obO1w-0002Ni-Vq
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:22:26 -0400
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c]:45658)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obO1l-0000tH-PJ
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:22:15 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 33A2C218FF;
+ Thu, 22 Sep 2022 15:22:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1663860132; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eZJlmhzpgBeUOEM9vdJKbW75DmcemhF66/Lii1oF1S8=;
- b=CV7bkuijV4ntxK/He1VKfIlrNqw+fIRSwPUBy8HzSalFk5xwNvwtRVVYTGaDoEgb/ny0lT
- eBmCU28f6X6p7jDjSp7QgXzVnBU3EaXOuV8Z/arQH0mJIc2ar2RP38ojaw3FZTLOYY419Z
- oiobooKk1U56EXLZdjyN53foPSy/00Y=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-554-aJMw_8gDM6iLHExcXQHV-g-1; Thu, 22 Sep 2022 11:12:24 -0400
-X-MC-Unique: aJMw_8gDM6iLHExcXQHV-g-1
-Received: by mail-io1-f69.google.com with SMTP id
- l84-20020a6b3e57000000b006a3fe90910cso846503ioa.16
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 08:12:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=eZJlmhzpgBeUOEM9vdJKbW75DmcemhF66/Lii1oF1S8=;
- b=cS7eEIGvDJSB9y94I96MRqkyo2aAz9ocTYevGl6p7lrWZdhpeCcxgyYhq20uScnV5g
- SbGv7bUWFzSH1zfl0PqX072qel0OiioAkl8bCthYASDOwU3EdjrFCeKUwlVNJLoLbpKN
- Vs2DThNjZgTbSEW8hJbfdKNsGL0I4Vbopn0GTxtOC0IVPYCQ0AlNPL2ejFJxZAdlkqM6
- hZa0AVjxtkg3gaZpkfGi9OS6zk0UY4QCHikyfbLMw836OPwuDEnks8Caby/OFyIT9SBX
- aGzIl+D19Kn4pzNBKYyJPWsVSgVp1lv8916W3ZeS672bjDLHtdfWF3wfqhgttcgXZhzO
- qSkQ==
-X-Gm-Message-State: ACrzQf0BGck79Ubz0ntMRfYXRDAP6OJgO14MytB5udcbsLnxzI/Fw9OH
- FPYJVZ73NS8XRhVeSBcxDGMOyTJJM8KTCr9Yt6Ovp7X7wXOOtHnePgPna2hliUuaf/VroxqTBoJ
- crTP5Mz0CyHEn9hDDsqL/gtprPgOC7vc=
-X-Received: by 2002:a05:6638:c48:b0:35a:3f5f:d382 with SMTP id
- g8-20020a0566380c4800b0035a3f5fd382mr2301929jal.6.1663859541574; 
- Thu, 22 Sep 2022 08:12:21 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4HnsI+eNMzqqth12QxyBHrRaU9ENLLbNb35D4+bbiWgUtBzxuK/QS1QlYWzOjQnyz9KqFdoLhhFekYANf0vps=
-X-Received: by 2002:a05:6638:c48:b0:35a:3f5f:d382 with SMTP id
- g8-20020a0566380c4800b0035a3f5fd382mr2301919jal.6.1663859541417; Thu, 22 Sep
- 2022 08:12:21 -0700 (PDT)
+ bh=3HTitKtkld14jAdPXjqLA7mKLdGN8yG/fKzq85Pox0M=;
+ b=rF+oZi+aMqKQ8xKeGSqqOfuIi6UqRrZU2+5iTPvtoSNyr4aCNmplJSD/Q0nhg8kcK8sHOE
+ kpjNmt/n1V2QhmWmsCS+Dkmyn6ys3Ik8Y47gNpIXaZUSDpIUq1IL9IC7CLWCAMWszUD+XU
+ aWCbbHDM4txq/er9HlpNybk5Gnwso9U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1663860132;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3HTitKtkld14jAdPXjqLA7mKLdGN8yG/fKzq85Pox0M=;
+ b=tImHwh6G3YivbllnZRGIoCPjzsXGSEIl6mjL7UdGHCVL+qoW7mrpRTryh39IC51BtB4xwA
+ uBvc7+ugCOgpdeDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DA8D21346B;
+ Thu, 22 Sep 2022 15:22:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id bf/ZM6N9LGMMLgAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 22 Sep 2022 15:22:11 +0000
+Message-ID: <a30470e4-a861-c88e-e1ef-dfeae3352ad6@suse.de>
+Date: Thu, 22 Sep 2022 17:22:11 +0200
 MIME-Version: 1.0
-References: <20220922084924.201610-1-pbonzini@redhat.com>
- <20220922084924.201610-3-pbonzini@redhat.com>
-In-Reply-To: <20220922084924.201610-3-pbonzini@redhat.com>
-From: Alberto Campinho Faria <afaria@redhat.com>
-Date: Thu, 22 Sep 2022 16:11:45 +0100
-Message-ID: <CAELaAXwqcWz4uh0OroLOm7F1Jx7Z9MvQCh_+QjxEgKPf11Xp7g@mail.gmail.com>
-Subject: Re: [PATCH 02/26] block: add missing coroutine_fn annotations
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v4 2/3] module: add Error arguments to module_load_one and
+ module_load_qom_one
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, dinechin@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20220908183012.17667-1-cfontana@suse.de>
+ <20220908183012.17667-3-cfontana@suse.de> <877d23ekj0.fsf@pond.sub.org>
+ <76775f64-e49a-1c3c-0d73-10d93eff34e4@amsat.org>
+ <87y1ucdirx.fsf@pond.sub.org> <cc2c5e14-f0a0-4415-9fe1-d7811ee27850@suse.de>
+ <878rmc54cw.fsf@pond.sub.org> <Yywcs7CpKDxahOSM@redhat.com>
+ <87leqb4ul9.fsf@pond.sub.org> <5f5921fe-6d4f-490b-4328-702a45973bbc@suse.de>
+ <87bkr7mvgr.fsf@pond.sub.org> <4a656f0f-1497-5569-e562-f537b115daf3@suse.de>
+ <87r103lf4y.fsf@pond.sub.org> <f7650e0c-1e18-31ac-4ed5-49777a69ba64@suse.de>
+ <87leqbjx28.fsf@pond.sub.org>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <87leqbjx28.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1c;
+ envelope-from=cfontana@suse.de; helo=smtp-out1.suse.de
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.893,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,38 +103,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 22, 2022 at 9:49 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
-> Callers of coroutine_fn must be coroutine_fn themselves, or the call
-> must be within "if (qemu_in_coroutine())".  Apply coroutine_fn to
-> functions where this holds.
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  block.c               |  6 +++---
->  block/block-backend.c | 10 +++++-----
->  block/io.c            | 22 +++++++++++-----------
->  3 files changed, 19 insertions(+), 19 deletions(-)
->
-> diff --git a/block.c b/block.c
-> index bc85f46eed..5c34ada53f 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -631,9 +631,9 @@ static int64_t create_file_fallback_truncate(BlockBackend *blk,
->   * Helper function for bdrv_create_file_fallback(): Zero the first
->   * sector to remove any potentially pre-existing image header.
->   */
-> -static int create_file_fallback_zero_first_sector(BlockBackend *blk,
-> -                                                  int64_t current_size,
-> -                                                  Error **errp)
-> +static int coroutine_fn create_file_fallback_zero_first_sector(BlockBackend *blk,
-> +                                                               int64_t current_size,
-> +                                                               Error **errp)
+On 9/22/22 16:36, Markus Armbruster wrote:
+> Claudio Fontana <cfontana@suse.de> writes:
+> 
+>> On 9/22/22 15:20, Markus Armbruster wrote:
+>>> Claudio Fontana <cfontana@suse.de> writes:
+>>>
+>>> [...]
+>>>
+>>>> I think it would be better to completely make the return value separate from the Error,
+>>>> and really treat Error as an exception and not mix it up with the regular execution,
+>>>>
+>>>> but if it is the general consensus that I am the only one seeing this conflation problem we can model it this way too.
+>>>
+>>> It's a matter of language pragmatics.  In Java, you throw an exception
+>>> on error.  In C, you return an error value.
+>>>
+>>> Trying to emulate exceptions in C might be even more unadvisable than
+>>> trying to avoid them in Java.  Best to work with the language, not
+>>> against it.
+>>>
+>>> Trouble is the error values we can conveniently return in C can't convey
+>>> enough information.  So we use Error for that.  Just like GLib uses
+>>
+>> Right, we use Error for that and that's fine, but we should use it _only Error_ for that.
+>>
+>> Ie map the Exceptions directly to Error.
+>>
+>> So:
+>>
+>> try {
+>>
+>>   rv = function_call(...);
+>>
+>>   use_return_value(rv);
+>>
+>> } catch (Exception e) {
+>>
+>>   /* handle exceptional case */
+>>
+>> }
+>>
+>> becomes
+>>
+>> rv = function_call(..., Error **errp);
+>>
+>> if (errp) {
+>>   /* handle exceptional case */
+>> }
+>>
+>> use_return_value(rv);
+> 
+> This is simply not the intended use of Error.
+> 
+> Also, "trying to emulate exceptions in C might be even more unadvisable
+> than trying to avoid them in Java."
+> 
+>> Instead we mix up the Exception code path and the regular code path, by having rv carry a mix of the Exception and regular return value,
+>> and this creates problems and confusion.
+> 
+> "In C, you return an error value."
+> 
+>> If we put a hard line between the two, I think more clarity emerges.
+> 
+> Maybe, but consistency matters.  Clarity doesn't emerge in isolation.  
+> Deviating from prevailing usage tends to confuse.
+> 
+>>> GError.
+>>>
+>>> More modern languages do "return error value" much better than C can.  C
+>>> is what it is.
+>>>
+>>> We could certainly argue how to do better than we do now in QEMU's C
+>>> code.  However, the Error API is used all over the place, which makes
+>>> changing it expensive.  "Rethinking the whole Error API" (your words)
+>>> would have to generate benefits worth this expense.  Which seems
+>>> unlikely.
+>>>
+>>> [...]
+>>>
+>>
+>> This is all fine, the problem is how we remodel this in C.
+>>
+>> This is how I see the next steps to clarify my position:
+>>
+>> short term:
+>>
+>> - keep the existing API with the existing assumptions, use a separate argument to carry the pointer to the actual return value (where the function return value as provided by the language is used to return if an exception was generated or not, as we assume today).
+> 
+> We don't actually need separate values for "actual return value" and
+> "success vs. failure" here.  We can easily encode them in a single
 
-Why mark this coroutine_fn? Maybe the intention was to also replace
-the call to blk_pwrite_zeroes() with blk_co_pwrite_zeroes()?
+Yes, we do, it would avoid the confusion that we see as soon as people look at the module_load_one code the first time.
 
-Regardless:
+> return value.  This is *common* in C, for better or worse.
 
-Reviewed-by: Alberto Faria <afaria@redhat.com>
+We make our own life difficult, by wasting the very precious space of the return value that should be used to provide the meaning of the function,
 
+and using it to provide a completely useless and redundant bool return value, that by your own definition,
+is just "errp != NULL".
+
+The very precious and scarce return value of the C function is completely wasted.
+
+> 
+> For instance, read() returns -1 on error, 0 on EOF (which is not an
+> error), and a positive value on actual read.  On error, @errno is set,
+> which is a bit awkward (we wouldn't design that way today, I hope).
+> 
+> The interface I proposed is similar: return -1 on error, 0 on not found
+> (which is not an error), and 1 on successful load.  On error, an Error
+> is set via @errp.  With a name that makes it obvious that "not found" is
+> not an error, there's nothing that should surprise someone
+> passingly familiar with QEMU code.
+
+This is fine too, we can do -1 on error, 0 on not found and 1 (and errp set) on Error,
+
+especially if the long term goal of actually fixing the high level problem in the Error API (separating it from the return value, leaving it free for meaningful return values for the ordinary case)
+is not agreed on.
+
+> 
+>> - long term (maybe): fix the existing API by detaching completely the return value from the exception.
+> 
+> As I wrote, this seems unlikely to be worth its considerable expense.
+
+In this case, something like your suggestion would be the second best option in my view.
+
+C
 
