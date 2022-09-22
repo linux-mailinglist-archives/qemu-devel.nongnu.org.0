@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11DAD5E5DF4
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 10:52:44 +0200 (CEST)
-Received: from localhost ([::1]:57990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAA7E5E5E00
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 10:54:57 +0200 (CEST)
+Received: from localhost ([::1]:60164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obHwo-00063a-Dl
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 04:52:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35766)
+	id 1obHyy-0007PV-OF
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 04:54:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tommy.wu@sifive.com>)
- id 1obHlv-00083B-QG
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 04:41:27 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:41633)
+ id 1obHly-00083w-2A
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 04:41:30 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:39447)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <tommy.wu@sifive.com>)
- id 1obHlr-0000PH-W8
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 04:41:27 -0400
-Received: by mail-pl1-x633.google.com with SMTP id d11so723083pll.8
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 01:41:22 -0700 (PDT)
+ id 1obHls-0000PV-O6
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 04:41:29 -0400
+Received: by mail-pg1-x533.google.com with SMTP id b5so303882pgb.6
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 01:41:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=4BjXTJQeqxBw/YQt7EauQLCNg+bbYoI2T6boosefcnI=;
- b=UpgjIeNU16Wbs0q+bkTg1aT+qDkbuYsvWh9BU+VwKKICtF7RdMU9G6+CXY8WD8mqbw
- Bsht5ntN6nWcgFfqGFlKflGAGSgzKbgOTWJayAmu/BC1tvCerolhf9gu/9E96YkecwgK
- jTqOVBS9yKhY1k1eFVwyUpBVE7SM/ZuvR2M6yGlpXmEE1Veem7cj+7kEbGUHCyJWfA4X
- ukwhO5qaU+dhdVUlFRdsTrYnVH1MwU6eVIwfbOt/zRNtSD6K4J0R5D+bOWYez+QcktOk
- qmR4esMiiNFrfz/Oy3RNSk9fDkC7SWn5JbND+bk2c/LMwiHI8uOEoG5AOLj5I77CWy43
- w6Jg==
+ bh=HvuMTW94+hFSQqzauz4aeVbKjUjPDqFiwXpARMEgMMY=;
+ b=JSLWeu1CVqE96Twxs7Wxo8zCKgsuEuMPm8+jiBJn+HXBpNXXQiCcsFuMmgpSGNnPDR
+ Fgcqa0APPsN1D1+h71D5LEnUNfSr2PTMCZTujNiAPKNOk0+q6XLw4ar1FVsYFwiTYbK6
+ NTDFOMUjbqugYdqDpvgn35kJEsk2j4Fe8uNCIP3C3Yy2ik+Dg+UqWObRjYqN1egghwMW
+ tu6tMtIee0Z/xMOVnr/Vtln6RDhTqcWloIpHrTqR789QH86zQN+AA3ER4OkUaxA2NNgS
+ JaV2LjIlkBVyhYfRLYQf4QjbFsnVNrR+3tco4cF1XfkWP1BZXXX0WcJ89mQUyN5JAP+6
+ 5Olg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=4BjXTJQeqxBw/YQt7EauQLCNg+bbYoI2T6boosefcnI=;
- b=7wcDt8+b6OrepHcLBIa8nSsMlfcduIZBnxmzhni2QM5t71ngHfI6P/3ODAoRWDrk0V
- UnKFK9wB/Az8Da1yiK048C2NcsJlI75m2yjA7gBfYaQEttkByWj+j77pJnTl5ewHA9UK
- xbE8hK5ahm/HzIpMNez/c9v4zrT0mdtgTEmJL4j6iMAexY29PqTs49Ubsvou3eLGKOrD
- OyRihHfu1OVbjRuKWBHl1019aeXSK8/reZVrb9Su7NewsbLXoW6XJ/FRLd92JLzKsRdD
- XZa9FIc5iJJF24N2X68Lt1Em3ujNBCYwjzZtvJm/XXx6X8qIcNjxNmEj+nWQOxfUFfwF
- c7cA==
-X-Gm-Message-State: ACrzQf12uCW/4VA5wz2R/egd9MVsf5FLIapOA+8A2s+EUj+1FCjoBFb1
- VWWQL7byqfj4r7xSjm/+FuYA6BRx9Utv2aGDBLDyELGtMGWkt1u7uNMQtDT9zuDfGtSIvwPIWwf
- JZduRdAC/t4rbTHxc4crHmCZL19mTsJ001cmNNxLl+v6sCPoX2TH5AupGd1AJs/Z2xFlI5uI=
-X-Google-Smtp-Source: AMsMyM5w5Qvmbrt0RNr8aAsAnFMOCO/fD/kDkd77lRPmSHO8/X466dZLYU79dx/DFXiVvcN8gdNYeA==
-X-Received: by 2002:a17:903:41c2:b0:178:5ddd:c75b with SMTP id
- u2-20020a17090341c200b001785dddc75bmr2388882ple.22.1663836081101; 
- Thu, 22 Sep 2022 01:41:21 -0700 (PDT)
+ bh=HvuMTW94+hFSQqzauz4aeVbKjUjPDqFiwXpARMEgMMY=;
+ b=y3Aee3fWghUpGQ0OIoblFwhseHDaBZ1tMaDpgDgs5D38/2S4F2e1AtxLP1eoScFwjo
+ h0n5hdH0+6NLT9ohQ7EXpeFiCQ6P7cd35sdhXkYaHLk/OzM9fxvjKZwkyTm0gX3voKUx
+ i+pnqswLH+cGiV5kd0JehESD/4yVH2+X+qCJdzNfVFSF83u+7lBu8vEhaMIXoE4vrlnC
+ YwlilvaxYZMA7XZet77F162oRLHVWKJYxp6JPNXHv35UHpSb8XL430gNZZlWlpr8ihHp
+ 2ji5i++rOIOzr7eNmNe0zNRD54VVd196tHVsH7nvOQ370QJ4+PhU6bcu4EC046heCXDq
+ YoWg==
+X-Gm-Message-State: ACrzQf23E7J5053QF3ZawlnRbLKDSmlcYx1qX0gFxR7bHz/VjVz8uaTc
+ l5xCvqlo5tbd5dYKq8kN+RZX3cpwQqszsYQf4DjRBts+9zL5e0p4NtseZAZgX2fIXlV84tsYfPz
+ WuhRD6D78BGFV5wQzQrpFYiLGclN9Pc6+fy30/t3kQqmSbYcTdUBBSt5a1W0y8J84EtC7xlU=
+X-Google-Smtp-Source: AMsMyM4r5bGfiM7j0M51h2Kyokh3JWWZX6fBAPCKLGAdnvdEzdcTc06TXoN2NwNW/TdyuegtDsc1uw==
+X-Received: by 2002:a05:6a00:1946:b0:54d:bdea:e159 with SMTP id
+ s6-20020a056a00194600b0054dbdeae159mr2538828pfk.47.1663836082911; 
+ Thu, 22 Sep 2022 01:41:22 -0700 (PDT)
 Received: from sw06.internal.sifive.com ([64.62.193.194])
  by smtp.gmail.com with ESMTPSA id
- x2-20020a17090a1f8200b0020379616053sm3239202pja.57.2022.09.22.01.41.19
+ x2-20020a17090a1f8200b0020379616053sm3239202pja.57.2022.09.22.01.41.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 01:41:20 -0700 (PDT)
+ Thu, 22 Sep 2022 01:41:22 -0700 (PDT)
 From: Tommy Wu <tommy.wu@sifive.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
 Cc: alistair.francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com,
  jim.shu@sifive.com, frank.chang@sifive.com, Tommy Wu <tommy.wu@sifive.com>
-Subject: [PATCH 2/3] hw/riscv: sifive_e: Support the watchdog timer of HiFive
- 1 rev b.
-Date: Thu, 22 Sep 2022 01:41:06 -0700
-Message-Id: <20220922084107.2834285-3-tommy.wu@sifive.com>
+Subject: [PATCH 3/3] tests/qtest: sifive-e-aon-watchdog-test.c : Add QTest of
+ watchdog of sifive_e
+Date: Thu, 22 Sep 2022 01:41:07 -0700
+Message-Id: <20220922084107.2834285-4-tommy.wu@sifive.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220922084107.2834285-1-tommy.wu@sifive.com>
 References: <20220922084107.2834285-1-tommy.wu@sifive.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=tommy.wu@sifive.com; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=tommy.wu@sifive.com; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,70 +93,436 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create the AON device when we realize the sifive_e machine.
-This patch only implemented the functionality of the watchdog timer,
-not all the functionality of the AON device.
+Add some simple tests of the watchdog timer in the always-on domain device
+of HiFive 1 rev b.
 
 Signed-off-by: Tommy Wu <tommy.wu@sifive.com>
 ---
- hw/riscv/Kconfig            | 1 +
- hw/riscv/sifive_e.c         | 5 +++--
- include/hw/riscv/sifive_e.h | 7 ++++---
- 3 files changed, 8 insertions(+), 5 deletions(-)
+ tests/qtest/meson.build                  |   3 +
+ tests/qtest/sifive-e-aon-watchdog-test.c | 400 +++++++++++++++++++++++
+ 2 files changed, 403 insertions(+)
+ create mode 100644 tests/qtest/sifive-e-aon-watchdog-test.c
 
-diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index 79ff61c464..50890b1b75 100644
---- a/hw/riscv/Kconfig
-+++ b/hw/riscv/Kconfig
-@@ -59,6 +59,7 @@ config SIFIVE_E
-     select SIFIVE_PLIC
-     select SIFIVE_UART
-     select SIFIVE_E_PRCI
-+    select SIFIVE_E_AON
-     select UNIMP
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index e910cb32ca..446115ea34 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -234,6 +234,9 @@ qtests_s390x = \
+    'cpu-plug-test',
+    'migration-test']
  
- config SIFIVE_U
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index d65d2fd869..f9c05cfd3a 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -45,6 +45,7 @@
- #include "hw/intc/riscv_aclint.h"
- #include "hw/intc/sifive_plic.h"
- #include "hw/misc/sifive_e_prci.h"
++qtests_riscv32 = \
++  (config_all_devices.has_key('CONFIG_SIFIVE_E_AON') ? ['sifive-e-aon-watchdog-test'] : [])
++
+ qos_test_ss = ss.source_set()
+ qos_test_ss.add(
+   'ac97-test.c',
+diff --git a/tests/qtest/sifive-e-aon-watchdog-test.c b/tests/qtest/sifive-e-aon-watchdog-test.c
+new file mode 100644
+index 0000000000..a583539346
+--- /dev/null
++++ b/tests/qtest/sifive-e-aon-watchdog-test.c
+@@ -0,0 +1,400 @@
++#include "qemu/osdep.h"
++#include "qemu/timer.h"
++#include "qemu/bitops.h"
++#include "libqtest-single.h"
 +#include "hw/misc/sifive_e_aon.h"
- #include "chardev/char.h"
- #include "sysemu/sysemu.h"
- 
-@@ -222,8 +223,8 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
-         RISCV_ACLINT_DEFAULT_MTIMER_SIZE, 0, ms->smp.cpus,
-         RISCV_ACLINT_DEFAULT_MTIMECMP, RISCV_ACLINT_DEFAULT_MTIME,
-         RISCV_ACLINT_DEFAULT_TIMEBASE_FREQ, false);
--    create_unimplemented_device("riscv.sifive.e.aon",
--        memmap[SIFIVE_E_DEV_AON].base, memmap[SIFIVE_E_DEV_AON].size);
-+    sifive_e_aon_create(sys_mem, memmap[SIFIVE_E_DEV_AON].base,
-+        qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_E_AON_WDT_IRQ));
-     sifive_e_prci_create(memmap[SIFIVE_E_DEV_PRCI].base);
- 
-     /* GPIO */
-diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
-index 83604da805..7de2221564 100644
---- a/include/hw/riscv/sifive_e.h
-+++ b/include/hw/riscv/sifive_e.h
-@@ -75,9 +75,10 @@ enum {
- };
- 
- enum {
--    SIFIVE_E_UART0_IRQ  = 3,
--    SIFIVE_E_UART1_IRQ  = 4,
--    SIFIVE_E_GPIO0_IRQ0 = 8
-+    SIFIVE_E_AON_WDT_IRQ  = 1,
-+    SIFIVE_E_UART0_IRQ    = 3,
-+    SIFIVE_E_UART1_IRQ    = 4,
-+    SIFIVE_E_GPIO0_IRQ0   = 8
- };
- 
- #define SIFIVE_E_PLIC_HART_CONFIG "M"
++
++#define WDOG_BASE (0x10000000)
++#define WDOGCFG (0x0)
++#define WDOGCOUNT (0x8)
++#define WDOGS (0x10)
++#define WDOGFEED (0x18)
++#define WDOGKEY (0x1c)
++#define WDOGCMP0 (0x20)
++
++#define SIFIVE_E_AON_WDOGKEY (0x51F15E)
++#define SIFIVE_E_AON_WDOGFEED (0xD09F00D)
++#define SIFIVE_E_LFCLK_DEFAULT_FREQ (32768)
++
++static void test_init(void)
++{
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCOUNT, 0);
++
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCFG, 0);
++
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCMP0, 0xBEEF);
++}
++
++static void test_wdogcount(void)
++{
++    test_init();
++
++    uint64_t tmp;
++    tmp = readl(WDOG_BASE + WDOGCOUNT);
++    writel(WDOG_BASE + WDOGCOUNT, 0xBEEF);
++    g_assert(readl(WDOG_BASE + WDOGCOUNT) == tmp);
++
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCOUNT, 0xBEEF);
++    g_assert(0xBEEF == readl(WDOG_BASE + WDOGCOUNT));
++
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCOUNT, 0xAAAAAAAA);
++    g_assert(0x2AAAAAAA == readl(WDOG_BASE + WDOGCOUNT));
++
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGFEED, 0xAAAAAAAA);
++    g_assert(0x2AAAAAAA == readl(WDOG_BASE + WDOGCOUNT));
++
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGFEED, SIFIVE_E_AON_WDOGFEED);
++    g_assert(0 == readl(WDOG_BASE + WDOGCOUNT));
++}
++
++static void test_wdogcfg(void)
++{
++    test_init();
++
++    wdogcfg_s tmp;
++    tmp.value = readl(WDOG_BASE + WDOGCFG);
++    writel(WDOG_BASE + WDOGCFG, 0xFFFFFFFF);
++    g_assert(readl(WDOG_BASE + WDOGCFG) == tmp.value);
++
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCFG, 0xFFFFFFFF);
++    g_assert(0xFFFFFFFF == readl(WDOG_BASE + WDOGCFG));
++
++    tmp.value = readl(WDOG_BASE + WDOGCFG);
++    g_assert(15 == tmp.wdogscale);
++    g_assert(1 == tmp.wdogrsten);
++    g_assert(1 == tmp.wdogzerocmp);
++    g_assert(1 == tmp.wdogenalways);
++    g_assert(1 == tmp.wdogencoreawake);
++    g_assert(1 == tmp.wdogip0);
++
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCFG, 0);
++    g_assert(0 == readl(WDOG_BASE + WDOGCFG));
++
++    tmp.value = readl(WDOG_BASE + WDOGCFG);
++    g_assert(0 == tmp.wdogscale);
++    g_assert(0 == tmp.wdogrsten);
++    g_assert(0 == tmp.wdogzerocmp);
++    g_assert(0 == tmp.wdogenalways);
++    g_assert(0 == tmp.wdogencoreawake);
++    g_assert(0 == tmp.wdogip0);
++}
++
++static void test_wdogcmp0(void)
++{
++    test_init();
++
++    wdogcfg_s tmp;
++    tmp.value = readl(WDOG_BASE + WDOGCMP0);
++    writel(WDOG_BASE + WDOGCMP0, 0xBEEF);
++    g_assert(readl(WDOG_BASE + WDOGCMP0) == tmp.value);
++
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCMP0, 0xBEEF);
++    g_assert(0xBEEF == readl(WDOG_BASE + WDOGCMP0));
++}
++
++static void test_wdogkey(void)
++{
++    test_init();
++
++    g_assert(0 == readl(WDOG_BASE + WDOGKEY));
++
++    writel(WDOG_BASE + WDOGKEY, 0xFFFF);
++    g_assert(0 == readl(WDOG_BASE + WDOGKEY));
++
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    g_assert(1 == readl(WDOG_BASE + WDOGKEY));
++
++    writel(WDOG_BASE + WDOGFEED, 0xAAAAAAAA);
++    g_assert(0 == readl(WDOG_BASE + WDOGKEY));
++}
++
++static void test_wdogfeed(void)
++{
++    test_init();
++
++    g_assert(0 == readl(WDOG_BASE + WDOGFEED));
++
++    writel(WDOG_BASE + WDOGFEED, 0xFFFF);
++    g_assert(0 == readl(WDOG_BASE + WDOGFEED));
++}
++
++static void test_scaled_wdogs(void)
++{
++    test_init();
++
++    wdogcfg_s cfg;
++    uint32_t fake_count = 0x12345678;
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCOUNT, fake_count);
++    g_assert(readl(WDOG_BASE + WDOGCOUNT) == fake_count);
++    g_assert((uint16_t)readl(WDOG_BASE + WDOGS) ==
++             (uint16_t)fake_count);
++
++    for (int i = 0; i < 16; i++) {
++        cfg.value = readl(WDOG_BASE + WDOGCFG);
++        cfg.wdogscale = i;
++        writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++        writel(WDOG_BASE + WDOGCFG, cfg.value);
++        g_assert((uint16_t)readl(WDOG_BASE + WDOGS) ==
++                 (uint16_t)(fake_count >> cfg.wdogscale));
++    }
++}
++
++static void test_watchdog(void)
++{
++    test_init();
++
++    wdogcfg_s cfg;
++
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCMP0, SIFIVE_E_LFCLK_DEFAULT_FREQ);
++
++    cfg.value = readl(WDOG_BASE + WDOGCFG);
++    cfg.wdogscale = 0;
++    cfg.wdogenalways = 1;
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCFG, cfg.value);
++
++    clock_step(NANOSECONDS_PER_SECOND);
++
++    g_assert(readl(WDOG_BASE + WDOGCOUNT) ==
++             SIFIVE_E_LFCLK_DEFAULT_FREQ);
++
++    g_assert(readl(WDOG_BASE + WDOGS) ==
++             SIFIVE_E_LFCLK_DEFAULT_FREQ);
++
++    cfg.value = readl(WDOG_BASE + WDOGCFG);
++    g_assert(0 == cfg.wdogscale);
++    g_assert(0 == cfg.wdogrsten);
++    g_assert(0 == cfg.wdogzerocmp);
++    g_assert(1 == cfg.wdogenalways);
++    g_assert(0 == cfg.wdogencoreawake);
++    g_assert(1 == cfg.wdogip0);
++
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCOUNT, 0);
++    cfg.wdogip0 = 0;
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCFG, cfg.value);
++    cfg.value = readl(WDOG_BASE + WDOGCFG);
++    g_assert(0 == cfg.wdogip0);
++}
++
++static void test_scaled_watchdog(void)
++{
++    test_init();
++
++    wdogcfg_s cfg;
++
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCMP0, 10);
++
++    cfg.value = readl(WDOG_BASE + WDOGCFG);
++    cfg.wdogscale = 15;
++    cfg.wdogenalways = 1;
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCFG, cfg.value);
++
++    clock_step(NANOSECONDS_PER_SECOND * 10);
++
++    g_assert(readl(WDOG_BASE + WDOGCOUNT) ==
++             SIFIVE_E_LFCLK_DEFAULT_FREQ * 10);
++
++    g_assert(10 == readl(WDOG_BASE + WDOGS));
++
++    cfg.value = readl(WDOG_BASE + WDOGCFG);
++    g_assert(15 == cfg.wdogscale);
++    g_assert(0 == cfg.wdogrsten);
++    g_assert(0 == cfg.wdogzerocmp);
++    g_assert(1 == cfg.wdogenalways);
++    g_assert(0 == cfg.wdogencoreawake);
++    g_assert(1 == cfg.wdogip0);
++
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCOUNT, 0);
++    cfg.wdogip0 = 0;
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCFG, cfg.value);
++    cfg.value = readl(WDOG_BASE + WDOGCFG);
++    g_assert(0 == cfg.wdogip0);
++}
++
++static void test_periodic_int(void)
++{
++    test_init();
++
++    wdogcfg_s cfg;
++
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCMP0, SIFIVE_E_LFCLK_DEFAULT_FREQ);
++
++    cfg.value = readl(WDOG_BASE + WDOGCFG);
++    cfg.wdogscale = 0;
++    cfg.wdogzerocmp = 1;
++    cfg.wdogenalways = 1;
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCFG, cfg.value);
++
++    clock_step(NANOSECONDS_PER_SECOND);
++
++    g_assert(0 == readl(WDOG_BASE + WDOGCOUNT));
++
++    g_assert(0 == readl(WDOG_BASE + WDOGS));
++
++    cfg.value = readl(WDOG_BASE + WDOGCFG);
++    g_assert(0 == cfg.wdogscale);
++    g_assert(0 == cfg.wdogrsten);
++    g_assert(1 == cfg.wdogzerocmp);
++    g_assert(1 == cfg.wdogenalways);
++    g_assert(0 == cfg.wdogencoreawake);
++    g_assert(1 == cfg.wdogip0);
++
++    cfg.wdogip0 = 0;
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCFG, cfg.value);
++    cfg.value = readl(WDOG_BASE + WDOGCFG);
++    g_assert(0 == cfg.wdogip0);
++
++    clock_step(NANOSECONDS_PER_SECOND);
++
++    g_assert(0 == readl(WDOG_BASE + WDOGCOUNT));
++
++    g_assert(0 == readl(WDOG_BASE + WDOGS));
++
++    cfg.value = readl(WDOG_BASE + WDOGCFG);
++    g_assert(0 == cfg.wdogscale);
++    g_assert(0 == cfg.wdogrsten);
++    g_assert(1 == cfg.wdogzerocmp);
++    g_assert(1 == cfg.wdogenalways);
++    g_assert(0 == cfg.wdogencoreawake);
++    g_assert(1 == cfg.wdogip0);
++
++    cfg.wdogip0 = 0;
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCFG, cfg.value);
++    cfg.value = readl(WDOG_BASE + WDOGCFG);
++    g_assert(0 == cfg.wdogip0);
++}
++
++static void test_enable_disable(void)
++{
++    test_init();
++
++    wdogcfg_s cfg;
++
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCMP0, 10);
++
++    cfg.value = readl(WDOG_BASE + WDOGCFG);
++    cfg.wdogscale = 15;
++    cfg.wdogenalways = 1;
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCFG, cfg.value);
++
++    clock_step(NANOSECONDS_PER_SECOND * 2);
++
++    g_assert(readl(WDOG_BASE + WDOGCOUNT) ==
++             SIFIVE_E_LFCLK_DEFAULT_FREQ * 2);
++
++    g_assert(2 == readl(WDOG_BASE + WDOGS));
++
++    cfg.value = readl(WDOG_BASE + WDOGCFG);
++    g_assert(15 == cfg.wdogscale);
++    g_assert(0 == cfg.wdogrsten);
++    g_assert(0 == cfg.wdogzerocmp);
++    g_assert(1 == cfg.wdogenalways);
++    g_assert(0 == cfg.wdogencoreawake);
++    g_assert(0 == cfg.wdogip0);
++
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    cfg.wdogenalways = 0;
++    writel(WDOG_BASE + WDOGCFG, cfg.value);
++
++    clock_step(NANOSECONDS_PER_SECOND * 8);
++
++    g_assert(readl(WDOG_BASE + WDOGCOUNT) ==
++             SIFIVE_E_LFCLK_DEFAULT_FREQ * 2);
++
++    g_assert(2 == readl(WDOG_BASE + WDOGS));
++
++    cfg.value = readl(WDOG_BASE + WDOGCFG);
++    g_assert(15 == cfg.wdogscale);
++    g_assert(0 == cfg.wdogrsten);
++    g_assert(0 == cfg.wdogzerocmp);
++    g_assert(0 == cfg.wdogenalways);
++    g_assert(0 == cfg.wdogencoreawake);
++    g_assert(0 == cfg.wdogip0);
++
++    cfg.wdogenalways = 1;
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCFG, cfg.value);
++
++    clock_step(NANOSECONDS_PER_SECOND * 8);
++
++    g_assert(readl(WDOG_BASE + WDOGCOUNT) ==
++             SIFIVE_E_LFCLK_DEFAULT_FREQ * 10);
++
++    g_assert(10 == readl(WDOG_BASE + WDOGS));
++
++    cfg.value = readl(WDOG_BASE + WDOGCFG);
++    g_assert(15 == cfg.wdogscale);
++    g_assert(0 == cfg.wdogrsten);
++    g_assert(0 == cfg.wdogzerocmp);
++    g_assert(1 == cfg.wdogenalways);
++    g_assert(0 == cfg.wdogencoreawake);
++    g_assert(1 == cfg.wdogip0);
++
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCOUNT, 0);
++    cfg.wdogip0 = 0;
++    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
++    writel(WDOG_BASE + WDOGCFG, cfg.value);
++    cfg.value = readl(WDOG_BASE + WDOGCFG);
++    g_assert(0 == cfg.wdogip0);
++}
++
++int main(int argc, char *argv[])
++{
++    int r;
++
++    g_test_init(&argc, &argv, NULL);
++
++    qtest_start("-machine sifive_e");
++
++    qtest_add_func("/sifive-e-aon-watchdog-test/wdogcount",
++                   test_wdogcount);
++    qtest_add_func("/sifive-e-aon-watchdog-test/wdogcfg",
++                   test_wdogcfg);
++    qtest_add_func("/sifive-e-aon-watchdog-test/wdogcmp0",
++                   test_wdogcmp0);
++    qtest_add_func("/sifive-e-aon-watchdog-test/wdogkey",
++                   test_wdogkey);
++    qtest_add_func("/sifive-e-aon-watchdog-test/wdogfeed",
++                   test_wdogfeed);
++    qtest_add_func("/sifive-e-aon-watchdog-test/scaled_wdogs",
++                   test_scaled_wdogs);
++    qtest_add_func("/sifive-e-aon-watchdog-test/watchdog",
++                   test_watchdog);
++    qtest_add_func("/sifive-e-aon-watchdog-test/scaled_watchdog",
++                   test_scaled_watchdog);
++    qtest_add_func("/sifive-e-aon-watchdog-test/periodic_int",
++                   test_periodic_int);
++    qtest_add_func("/sifive-e-aon-watchdog-test/enable_disable",
++                   test_enable_disable);
++
++    r = g_test_run();
++
++    qtest_end();
++
++    return r;
++}
 -- 
 2.27.0
 
