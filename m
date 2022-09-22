@@ -2,88 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE5985E5EDC
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 11:47:06 +0200 (CEST)
-Received: from localhost ([::1]:60668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32B185E5F19
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 11:56:37 +0200 (CEST)
+Received: from localhost ([::1]:40450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obInR-0001jC-UI
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 05:47:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57188)
+	id 1obIwd-0000Ng-Lr
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 05:56:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obIbI-0008Pq-6R
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 05:34:32 -0400
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d]:38952)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obIbB-0000jk-Nc
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 05:34:30 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 7CF361F85D;
- Thu, 22 Sep 2022 09:34:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1663839263; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1obIe0-0001ye-Px
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 05:37:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27197)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1obIdw-0001Xt-P0
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 05:37:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663839436;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=hUDd9KhwaAZzgk1F2Hnl4qFr5fXu35/7BHQqyMxSXKY=;
- b=ScFda01EkQybILEAC/rTJXYsc+2RDJBsSycamB1L/j5qHyPvhKQdJv0GRxR01pKHXs1NqR
- CBmq8YMF1J4mYiuh/OB5FhTRohnGBrUqKfDs9C4K7LbvHlNhakpQvvDhfuzG3XtoV0ey69
- 6HnuMp9g/vuaU39vPsRedbSkBEN+7lk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1663839263;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hUDd9KhwaAZzgk1F2Hnl4qFr5fXu35/7BHQqyMxSXKY=;
- b=2njsuJ2rp1a5xz3zwPs36xhR9dWSg8Rnkg+BxUgnEbi42+f6wq90FHASqoQjbOLPZBXRFK
- 2Jv1xduf23azrPDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=7oj+2jI4YoPXJ6AGpx0nxqfwe010tlDa7ZqwHb2xxQ0=;
+ b=XPJ61wDh9ZCq2P/yWNIdscfx3Y3R+XYGXO/8u8QuPkE+jUL2rOM7bHLQPoIO6TPFBTJa0k
+ QO0A9kZeBeuDBYXCFAXgGeSOZHGh7+yWdlPX6BVjkHsWTWs647IbaRhwN4r1JwxcJyI99B
+ EsvaKN/HWB+zx7ZZkB/5Fat13UxQ9kc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-413-0vaBM6gePO25M4Y0MC3gcg-1; Thu, 22 Sep 2022 05:37:12 -0400
+X-MC-Unique: 0vaBM6gePO25M4Y0MC3gcg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 360211346B;
- Thu, 22 Sep 2022 09:34:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id vwnACx8sLGO0AwAAMHmgww
- (envelope-from <cfontana@suse.de>); Thu, 22 Sep 2022 09:34:23 +0000
-Message-ID: <df4c09e9-addf-c643-6da0-62a6cf94b349@suse.de>
-Date: Thu, 22 Sep 2022 11:34:22 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v4 2/3] module: add Error arguments to module_load_one and
- module_load_qom_one
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 64E2A294EDF2;
+ Thu, 22 Sep 2022 09:37:12 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1BD86C15BA8;
+ Thu, 22 Sep 2022 09:37:12 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id C22C91800084; Thu, 22 Sep 2022 11:37:10 +0200 (CEST)
+Date: Thu, 22 Sep 2022 11:37:10 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Sergio Lopez <slp@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, dinechin@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20220908183012.17667-1-cfontana@suse.de>
- <20220908183012.17667-3-cfontana@suse.de> <877d23ekj0.fsf@pond.sub.org>
- <76775f64-e49a-1c3c-0d73-10d93eff34e4@amsat.org>
- <87y1ucdirx.fsf@pond.sub.org> <cc2c5e14-f0a0-4415-9fe1-d7811ee27850@suse.de>
- <878rmc54cw.fsf@pond.sub.org> <Yywcs7CpKDxahOSM@redhat.com>
- <5e6d958d-3b69-1472-b1b8-3a63186f0c5b@suse.de> <YywraWlVnJoy6ypN@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <YywraWlVnJoy6ypN@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d;
- envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.702,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ Marcelo Tosatti <mtosatti@redhat.com>, kvm@vger.kernel.org,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v3] x86: add etc/phys-bits fw_cfg file
+Message-ID: <20220922093710.q3pxbxljdhu4a4yw@sirius.home.kraxel.org>
+References: <20220922084356.878907-1-kraxel@redhat.com>
+ <20220922044906-mutt-send-email-mst@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220922044906-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,38 +84,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/22/22 11:31, Daniel P. Berrangé wrote:
-> On Thu, Sep 22, 2022 at 11:20:07AM +0200, Claudio Fontana wrote:
->> On 9/22/22 10:28, Daniel P. Berrangé wrote:
->>>
->>>> Another interface that does: return -1 for error, 0 for module not found
->>>> (no error), and 1 for loaded.
->>>
->>> IMHO this pattern is generally easier to understand when looking at
->>> the callers, as the fatal error scenario is always clear.
->>>
->>> That said I would suggest neither approach as the public facing
->>> API. Rather stop trying to overload 3 states onto an error reporting
->>> pattern that inherantly wants to be 2 states. Instead just have
->>> distinct methods
->>>
->>>   bool module_load_one(const char *prefix, const char *name, Error *errp)
->>>   bool module_try_load_one(const char *prefix, const char *name, Error *errp)
->>
->>
->> Here we are murking again the normal behavior and the error path.
->>
->> What is the meaning of try? It's not as though we would error out inside the function module_load_one,
->> it's the _caller_ that needs to decide how to treat a return value of found/not found, and the exception (Error).
+On Thu, Sep 22, 2022 at 04:55:16AM -0400, Michael S. Tsirkin wrote:
+> On Thu, Sep 22, 2022 at 10:43:56AM +0200, Gerd Hoffmann wrote:
+> > In case phys bits are functional and can be used by the guest (aka
+> > host-phys-bits=on) add a fw_cfg file carrying the value.  This can
+> > be used by the guest firmware for address space configuration.
+> > 
+> > This is only enabled for 7.2+ machine types for live migration
+> > compatibility reasons.
+> > 
+> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > 
-> I suggested "try" as in the  g_malloc vs g_try_malloc API naming pattern,
-> where the latter ignores the OOM error condition.
+> I'm curious why you decided to switch from a cpuid flag to fw cfg.
+
+The kernel people didn't like the cpuid approach.
+
+> I guess firmware reads fw cfg anyway.
+
+Correct.
+
+> But would the guest kernel then need to load a fw cfg driver very
+> early to detect this, too?
+
+Nope, the guest kernel can just work with the address space layout
+created by the firmware.  The firmware can for example reserve a
+larger 64-bit mmio window in case there is enough address space for
+that.  So it programs the bridge windows etc accordingly, qemu
+generates matching acpi tables and the kernel picks up the changes
+via _CRS.
+
+> > +void fw_cfg_phys_bits(FWCfgState *fw_cfg)
+> > +{
+> > +    X86CPU *cpu = X86_CPU(first_cpu);
+> > +    uint64_t phys_bits = cpu->phys_bits;
+> > +
+> > +    if (cpu->host_phys_bits) {
+> > +        fw_cfg_add_file(fw_cfg, "etc/phys-bits",
+> > +                        g_memdup2(&phys_bits, sizeof(phys_bits)),
+> > +                        sizeof(phys_bits));
+> > +    }
+> > +}
 > 
-> So in this case 'try' means try to load the module, but don't fail if
-> the module is missing on disk.
+> So, this allows a lot of flexibility, any phys_bits value at all can now
+> be used. Do you expect a use-case for such a flexible mechanism?  If
+> this ends up merely repeating CPUID at all times then we are just
+> creating confusion.
 
-I understand what you mean, but this is wrong in this case.
+Yes, it'll just repeat CPUID.  Advantage is that the guest gets the
+information it needs right away.
 
-We _do not fail_ in module_load_one, whether an error is present or not, whether a module is found or not.
+Alternatively I could create a "etc/reliable-phys-bits" bool.
+The firmware must consult both fw_cfg and cpuid then.
+
+take care,
+  Gerd
 
 
