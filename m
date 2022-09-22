@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C746B5E6B2F
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 20:44:54 +0200 (CEST)
-Received: from localhost ([::1]:55898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D2B5E6B40
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 20:50:34 +0200 (CEST)
+Received: from localhost ([::1]:60302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obRBt-0001DQ-Te
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 14:44:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41224)
+	id 1obRHN-0006M1-O2
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 14:50:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obPBK-0002GB-Pf
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:36:14 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:46001)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obPBG-0005Tz-Ar
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:36:09 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id n10so16378754wrw.12
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 09:36:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date;
- bh=L95wwHp5RV6cXArMSmbL8Hcv0LZd0gpd8eOHxANOlTY=;
- b=T4WuxWu4T+efzCv8zFpGd9SXJYRNyS4n/SHP63xgXMNVFMseumXdX9Nf5DLrYgaUO2
- YNAhg3/hx4CyD4jfWNXyP3VrtvPfMMrytVVrLb/oIxaiY5D16Zt3IbLCFUDS8/JAgFoU
- 2gHdQtcEBffmN/SJ+ZkSXZhHRagOhIFSnFsuFCD1q/rJi44V/E7uW0Un89i/eJFfZ0Kq
- NZGb1palhVXFA0a1kTn443iFzp/OK1Soq4srk58bLMxFjrM4FdToG83N6unAkZficdrR
- 3UwmW4Zxd1zKnKMuaOR5uh1F1EJMSejbeRXYZ+SLBisVsbD6W4xwuQICrrOA4N7fXOw3
- yrFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=L95wwHp5RV6cXArMSmbL8Hcv0LZd0gpd8eOHxANOlTY=;
- b=zD9kH0dEdLyDKlssp1IjY1HlTj504Ye8kVlQbA4ZUz2zPXO53qgAvTBTPvclYXptAX
- XlBxR8nO+UYmwHZAT/RivySZLLP3o9MwWG6x/N77YgWZKiOX+qdovrZbSCfNS/LXkfp0
- VrfQj0uQsu4z4+PXSC5TCb4KiVd4TMgIZbJNx7sLiS8UcWHJRyphU0AuN4gsiirLUJ8R
- YiDSONbURExizCcIV/TbaMp+OTkwYJ9J5rZliFpmxNBUsbLpEgwDG6zN2sIsj2rKG+ep
- dgFNJJYy0hbvX58niHAlVmO2BpwZDfvLJaUREQgSe1OVxpaXIWIlkujcnpZLKXKJEJUm
- ZnBw==
-X-Gm-Message-State: ACrzQf2BTaR9F279PpU/UyRVsZwWby01gZrlrzZkUSHcg1Kg1H6yAV9K
- Og+KAwGPc8I5SQ5Xe7eN2HPXXINLk8jK1g==
-X-Google-Smtp-Source: AMsMyM51kCNrvJnki77/fN9l29E7SC+ux30KrKSEIGsoniec5WL7nGuzrZp0QBuqYt9mq3LlQKnc7g==
-X-Received: by 2002:adf:a50e:0:b0:22a:ede1:57e with SMTP id
- i14-20020adfa50e000000b0022aede1057emr2542517wrb.63.1663864563111; 
- Thu, 22 Sep 2022 09:36:03 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- iw1-20020a05600c54c100b003b3401f1e24sm6452599wmb.28.2022.09.22.09.36.02
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 09:36:02 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 39/39] configure: Avoid use of 'local' as it is non-POSIX
-Date: Thu, 22 Sep 2022 17:35:36 +0100
-Message-Id: <20220922163536.1096175-40-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220922163536.1096175-1-peter.maydell@linaro.org>
-References: <20220922163536.1096175-1-peter.maydell@linaro.org>
+ (Exim 4.90_1)
+ (envelope-from <SRS0=dGS3=ZZ=zx2c4.com=Jason@kernel.org>)
+ id 1obPBT-0002OY-UU; Thu, 22 Sep 2022 12:36:20 -0400
+Received: from sin.source.kernel.org ([2604:1380:40e1:4800::1]:38858)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=dGS3=ZZ=zx2c4.com=Jason@kernel.org>)
+ id 1obPBO-0005Vn-8W; Thu, 22 Sep 2022 12:36:18 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 77383CE22B7;
+ Thu, 22 Sep 2022 16:36:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACBA4C433D6;
+ Thu, 22 Sep 2022 16:36:08 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="mTIp5zLM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1663864566;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=O5btsL7T9dzOBYg12OD1NNGxACn1Aa20hqoQLedh7ts=;
+ b=mTIp5zLMYWUTBoPfaNska+0keHYvIpEWCr6Hor6+KpJxhc9mJhP8XPRAAML6yuBdu/2xd4
+ qh6MaUf8fDdvT8fTYMymy4qi0F5EhpYLt3uoDQf++llSRO/+51BK3XN531wv/7r9n1OMmf
+ hhB9zWsZOV5byBMLnHcJDZS5qJ2U6qY=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 0bb110e7
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Thu, 22 Sep 2022 16:36:06 +0000 (UTC)
+Received: by mail-ua1-f41.google.com with SMTP id z14so3871099uam.10;
+ Thu, 22 Sep 2022 09:36:06 -0700 (PDT)
+X-Gm-Message-State: ACrzQf0az/4h31tNEakP6wrZh5h7aecJjJjKEapp30ddcqqwIH6+xc7o
+ G5RR5kJGFDb4we8QZ1w6r6mJyxP4tx0mEejcksQ=
+X-Google-Smtp-Source: AMsMyM6yUllYIOSO3bLtXGcQ0Kz9vqipnI9N/e+8nKlSWJG0SaXPjbIunboT2l/+PFU3OAvDXvknDlOqrbSAdGzY6Y0=
+X-Received: by 2002:ab0:6035:0:b0:3bf:2e26:699 with SMTP id
+ n21-20020ab06035000000b003bf2e260699mr1916590ual.102.1663864565240; Thu, 22
+ Sep 2022 09:36:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20220921100729.2942008-1-Jason@zx2c4.com>
+ <20220922153820.221811-1-david@redhat.com>
+ <abf6fbb6-14f4-8c65-f5ac-a75b9c8931dd@redhat.com>
+In-Reply-To: <abf6fbb6-14f4-8c65-f5ac-a75b9c8931dd@redhat.com>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Thu, 22 Sep 2022 18:35:53 +0200
+X-Gmail-Original-Message-ID: <CAHmME9pqFvYfat1yki86_x1k0A7x4eA0f9q=UeLaf+AOGV=Taw@mail.gmail.com>
+Message-ID: <CAHmME9pqFvYfat1yki86_x1k0A7x4eA0f9q=UeLaf+AOGV=Taw@mail.gmail.com>
+Subject: Re: [PATCH v8.1 1/2] target/s390x: support SHA-512 extensions
+To: Thomas Huth <thuth@redhat.com>
+Cc: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>, 
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Holger Dengler <dengler@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2604:1380:40e1:4800::1;
+ envelope-from=SRS0=dGS3=ZZ=zx2c4.com=Jason@kernel.org;
+ helo=sin.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,58 +92,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We use the non-POSIX 'local' keyword in just two places in configure;
-rewrite to avoid it.
+On Thu, Sep 22, 2022 at 5:55 PM Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 22/09/2022 17.38, David Hildenbrand wrote:
+> > From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+> >
+> > In order to fully support MSA_EXT_5, we have to support the SHA-512
+> > special instructions. So implement those.
+> >
+> > The implementation began as something TweetNacl-like, and then was
+> > adjusted to be useful here. It's not very beautiful, but it is quite
+> > short and compact, which is what we're going for.
+> ...
+> > @@ -52,6 +278,9 @@ uint32_t HELPER(msa)(CPUS390XState *env, uint32_t r1, uint32_t r2, uint32_t r3,
+> >               cpu_stb_data_ra(env, param_addr, subfunc[i], ra);
+> >           }
+> >           break;
+> > +    case 3: /* CPACF_*_SHA_512 */
+> > +        return cpacf_sha512(env, ra, env->regs[1], &env->regs[r2],
+> > +                            &env->regs[r2 + 1], type);
+>
+> I have to say that I liked Jason's v8 better here. Code 3 is also used for
+> other instructions with completely different meaning, e.g. PCKMO uses 3 for
+> TDEA-192 ... so having the "type" check here made more sense.
+> (meta comment: maybe we should split up the msa function and stop using just
+> one function for all crypto/rng related instructions? ... but that's of
+> course something for a different patch series)
 
-In do_compiler(), just drop the 'local' keyword.  The variable
-'compiler' is only used elsewhere in the do_compiler_werror()
-function, which already uses the variable as a normal non-local one.
+Maybe just commit my v8, and then David's changes can layer on top as
+follow ups? Checking len alignment, for example, is a separate patch
+from the rest.
 
-In probe_target_compiler(), $try and $t are both local; make them
-normal variables and use a more obviously distinct variable name
-for $t.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20220825150703.4074125-8-peter.maydell@linaro.org
----
- configure | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
-
-diff --git a/configure b/configure
-index b39561b2ed7..cc4ecd6008b 100755
---- a/configure
-+++ b/configure
-@@ -110,7 +110,7 @@ error_exit() {
- do_compiler() {
-   # Run the compiler, capturing its output to the log. First argument
-   # is compiler binary to execute.
--  local compiler="$1"
-+  compiler="$1"
-   shift
-   if test -n "$BASH_VERSION"; then eval '
-       echo >>config.log "
-@@ -2065,7 +2065,6 @@ probe_target_compiler() {
-     : ${container_cross_strip:=${container_cross_prefix}strip}
-   done
- 
--  local t try
-   try=cross
-   case "$target_arch:$cpu" in
-     aarch64_be:aarch64 | \
-@@ -2078,8 +2077,8 @@ probe_target_compiler() {
-       try='native cross' ;;
-   esac
-   eval "target_cflags=\${cross_cc_cflags_$target_arch}"
--  for t in $try; do
--    case $t in
-+  for thistry in $try; do
-+    case $thistry in
-     native)
-       target_cc=$cc
-       target_ccas=$ccas
--- 
-2.25.1
-
+Jason
 
