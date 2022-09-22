@@ -2,72 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A1D5E6C17
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 21:53:02 +0200 (CEST)
-Received: from localhost ([::1]:48824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0523A5E6C23
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 21:53:57 +0200 (CEST)
+Received: from localhost ([::1]:47338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obSFp-0001AP-By
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 15:53:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50176)
+	id 1obSGh-0002Ve-Sj
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 15:53:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1obSAw-0004hW-Fh; Thu, 22 Sep 2022 15:48:00 -0400
-Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f]:39724)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1obSCN-0005fv-3b
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 15:49:28 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:43539)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1obSAu-0001BQ-Fo; Thu, 22 Sep 2022 15:47:58 -0400
-Received: by mail-lf1-x12f.google.com with SMTP id a2so16413534lfb.6;
- Thu, 22 Sep 2022 12:47:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=eWRnJn6q8+5p0Mcf5ubyq3uGmjuUPhviH7YFd826Jb0=;
- b=G2hMRFSmcvcUKH1Q8iyCUo8vCnIl9cbFxcqvtTa1AcWsADvX6eWBjOKyIBlmNMjb6b
- P6FPa+W4WK9SkMgBGr3QExud5KkjR34X38/LfmQlcLKE5BfFo9HTCspVeN/rSmJMrwqy
- fNttxkikRv3yF978Mk5sX/1y/Pv+xRpKNcwltG6ljJm+sF+3v4qEVLcMJ+E2K7tj1+Qz
- QVRZ9GkuiWg8wZCJbsbGxDfFnB6eqAvnPUV0N4rZo3JWII/6zEen3l4bjwTo1EmIiwwl
- bh7vwXiqqBRxgA9+E3Bh2vD+WWX39aVS5oLaFNWfgoa0VPVzYj3wHyZjhoKlphTcSX6+
- W9KA==
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1obSCL-0001S9-0i
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 15:49:26 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ g1-20020a17090a708100b00203c1c66ae3so3261248pjk.2
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 12:49:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=AOIMXA4PI9BYXrk6/Ja2mOKlrFIROrj5K/ieUQQwXS4=;
+ b=h1quGJbzNcYbvksztMmJbAj4021+BcmdngI9oVLKqryAXjZOZrGY+bZOFcLzMWlozZ
+ LAcA23Adi1Jic4pRnJCptlWTG4EcoRJkXHfvedp0K1HaJOCXyEXxuhzgdof/jPIDOZEe
+ ebqjyLF5ANcpzYiinKi6eaQnqth3W4n2V8+InjN4EWNaK7npJ/bYc7FhRS+iyNb4HHPb
+ Efk7QXZ7wTcSNyFHTH7NWGDPMQ4YLD125sVU1j3HVB2TkIAvgthLngw1wMrAfORH5ZfR
+ U8+tmRxUsuSWAVFhBHQcUHbhvue7DyoPTDpJKMkc7xktoeaZV8RiJlYUMocHTDHlXZyf
+ XJ3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=eWRnJn6q8+5p0Mcf5ubyq3uGmjuUPhviH7YFd826Jb0=;
- b=hIfyYFDPR0ffAOAFP5Timjtn0XWnm80UZMaKM01Ca9z3Q+f0fbEIRLoJKFMcwv5VQb
- XNmem6KufQWeSnOCusVgGBw+LvqUt/vj6OArg8jzxtlnJoQTgYkAZeptz5hnH4jbwcxR
- 09bZqMhlcdXdxvhKtoR1S2a7YsGb3wQfrjoIaevSy570GEKveIdrQIrGb+ruMXHuRmQ8
- tR2vxqlfB1GRom5rHUhEsRfgfRO1v5CzdRc/hhjZKzt6Hdmu+X/Zv+RBgcOwhCaPScgo
- NJfosxiIJJQWV8FBdigp6jozuUNc0hWNPjdwjULUqsRTVgI7ss/QAkVSnl/i0lgTRTxx
- 5K0A==
-X-Gm-Message-State: ACrzQf0qIgBzMR5Wu+INyNFNIUfTfwz60J5gxiRUlQud99y9ahkuI6va
- N122vMHi4Tymw83ha/p+ZjNOPux3P/V3ZOa6x5Q=
-X-Google-Smtp-Source: AMsMyM4a5LkAVzleoipY3gSGkA5ZeioDTmAkJMgWRK90nQTLo0BDiGQwo/JLQjLFZsF28KwPtRRAlNjkAFBFwoAjhGc=
-X-Received: by 2002:ac2:5e66:0:b0:49e:bce2:3df5 with SMTP id
- a6-20020ac25e66000000b0049ebce23df5mr1825568lfr.362.1663876074638; Thu, 22
- Sep 2022 12:47:54 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=AOIMXA4PI9BYXrk6/Ja2mOKlrFIROrj5K/ieUQQwXS4=;
+ b=INPcTCaYI4JGmZeInwaVRRivHFHFbO6Ip/T8xwSBoA/O0TONxfhlaLGWmBJMHryx9A
+ 8u6tVp8JNbexjPpAtgx9SJKeuDzbfyi4CRSfPw3irA8qgh26OoKB5LX7MEpWdOZnwZqk
+ KPIwR4QihFvWPkmPvU20pEcUP1uLD4kfNFFX806MqtiLxlPi2vnI2e2jUENW8DASmS4J
+ oRnDogow7bmuzxiv8q0yVKyFno6VNP2EHvoVXDrAakVeYk3Km+mm/YSlM/rEUdgfsL95
+ s/JnsOVdEs66V4cjZ0KZSbpoREn+9mQZnYNSbiyeDJsHygF+qkHJkxDIcUqYpjBcIWPq
+ 42Rg==
+X-Gm-Message-State: ACrzQf0j3I+NVMvsMgptTs6JT80WNDMUCknmt8oGrNdP1J6DbBxygoOz
+ QitVuQgvbTXYesorkkylGt0KuA==
+X-Google-Smtp-Source: AMsMyM7xkIpUg/GEtYg3CdJDso/M2NS+vljJqn+Iz/Og0ecRlPYRkH7bufKUsfNRGuIjAMJq7OVhXg==
+X-Received: by 2002:a17:90a:644e:b0:200:422c:6b1 with SMTP id
+ y14-20020a17090a644e00b00200422c06b1mr5394594pjm.183.1663876162098; 
+ Thu, 22 Sep 2022 12:49:22 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com.
+ [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
+ a10-20020a170902ecca00b00172897952a0sm4576315plh.283.2022.09.22.12.49.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Sep 2022 12:49:21 -0700 (PDT)
+Date: Thu, 22 Sep 2022 19:49:18 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: "Wang, Wei W" <wei.w.wang@intel.com>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ "x86@kernel.org" <x86@kernel.org>,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ "Lutomirski, Andy" <luto@kernel.org>,
+ "Nakajima, Jun" <jun.nakajima@intel.com>,
+ "Hansen, Dave" <dave.hansen@intel.com>,
+ "ak@linux.intel.com" <ak@linux.intel.com>,
+ "david@redhat.com" <david@redhat.com>,
+ "aarcange@redhat.com" <aarcange@redhat.com>,
+ "ddutile@redhat.com" <ddutile@redhat.com>,
+ "dhildenb@redhat.com" <dhildenb@redhat.com>,
+ Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
+ "Hocko, Michal" <mhocko@suse.com>, Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+Message-ID: <Yyy8Pp0Y4NRzIzNw@google.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+ <DS0PR11MB63734D4DF4C4F368805EC97DDC4E9@DS0PR11MB6373.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-References: <20220920103159.1865256-1-bmeng.cn@gmail.com>
- <20220920103159.1865256-9-bmeng.cn@gmail.com>
-In-Reply-To: <20220920103159.1865256-9-bmeng.cn@gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 22 Sep 2022 21:47:42 +0200
-Message-ID: <CAJ+F1C+1majePa1GL-VmTLYFAy_ADCcvfxHr-sxuZCF9UpXckw@mail.gmail.com>
-Subject: Re: [PATCH v2 08/39] block/vvfat: Unify the mkdir() call
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
- Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org
-Content-Type: multipart/alternative; boundary="00000000000061125205e9495653"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DS0PR11MB63734D4DF4C4F368805EC97DDC4E9@DS0PR11MB6373.namprd11.prod.outlook.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=seanjc@google.com; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,144 +123,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000061125205e9495653
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, Sep 22, 2022, Wang, Wei W wrote:
+> On Thursday, September 15, 2022 10:29 PM, Chao Peng wrote:
+> > +int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
+> > +			 int *order)
+> 
+> Better to remove "order" from this interface?
 
-On Tue, Sep 20, 2022 at 2:58 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+Hard 'no'.
 
-> From: Bin Meng <bin.meng@windriver.com>
->
-> There is a difference in the mkdir() call for win32 and non-win32
-> platforms, and currently is handled in the codes with #ifdefs.
->
-> glib provides a portable g_mkdir() API and we can use it to unify
-> the codes without #ifdefs.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
->
+> Some callers only need to get pfn, and no need to bother with
+> defining and inputting something unused. For callers who need the "order",
+> can easily get it via thp_order(pfn_to_page(pfn)) on their own.
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+That requires (a) assuming the pfn is backed by struct page, and (b) assuming the
+struct page is a transparent huge page.  That might be true for the current
+implementation, but it most certainly will not always be true.
 
-
-> ---
->
-> Changes in v2:
-> - Change to use g_mkdir()
->
->  block/vvfat.c | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
->
-> diff --git a/block/vvfat.c b/block/vvfat.c
-> index d6dd919683..723beef025 100644
-> --- a/block/vvfat.c
-> +++ b/block/vvfat.c
-> @@ -25,6 +25,7 @@
->
->  #include "qemu/osdep.h"
->  #include <dirent.h>
-> +#include <glib/gstdio.h>
->  #include "qapi/error.h"
->  #include "block/block_int.h"
->  #include "block/qdict.h"
-> @@ -2726,13 +2727,9 @@ static int
-> handle_renames_and_mkdirs(BDRVVVFATState* s)
->              mapping_t* mapping;
->              int j, parent_path_len;
->
-> -#ifdef __MINGW32__
-> -            if (mkdir(commit->path))
-> +            if (g_mkdir(commit->path, 0755)) {
->                  return -5;
-> -#else
-> -            if (mkdir(commit->path, 0755))
-> -                return -5;
-> -#endif
-> +            }
->
->              mapping =3D insert_mapping(s, commit->param.mkdir.cluster,
->                      commit->param.mkdir.cluster + 1);
-> --
-> 2.34.1
->
->
->
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---00000000000061125205e9495653
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 20, 2022 at 2:58 PM Bin M=
-eng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Bin M=
-eng &lt;<a href=3D"mailto:bin.meng@windriver.com" target=3D"_blank">bin.men=
-g@windriver.com</a>&gt;<br>
-<br>
-There is a difference in the mkdir() call for win32 and non-win32<br>
-platforms, and currently is handled in the codes with #ifdefs.<br>
-<br>
-glib provides a portable g_mkdir() API and we can use it to unify<br>
-the codes without #ifdefs.<br>
-<br>
-Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" targe=
-t=3D"_blank">bin.meng@windriver.com</a>&gt;<br></blockquote><div><br></div>=
-<div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lu=
-reau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div>=C2=A0<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-<br>
-Changes in v2:<br>
-- Change to use g_mkdir()<br>
-<br>
-=C2=A0block/vvfat.c | 9 +++------<br>
-=C2=A01 file changed, 3 insertions(+), 6 deletions(-)<br>
-<br>
-diff --git a/block/vvfat.c b/block/vvfat.c<br>
-index d6dd919683..723beef025 100644<br>
---- a/block/vvfat.c<br>
-+++ b/block/vvfat.c<br>
-@@ -25,6 +25,7 @@<br>
-<br>
-=C2=A0#include &quot;qemu/osdep.h&quot;<br>
-=C2=A0#include &lt;dirent.h&gt;<br>
-+#include &lt;glib/gstdio.h&gt;<br>
-=C2=A0#include &quot;qapi/error.h&quot;<br>
-=C2=A0#include &quot;block/block_int.h&quot;<br>
-=C2=A0#include &quot;block/qdict.h&quot;<br>
-@@ -2726,13 +2727,9 @@ static int handle_renames_and_mkdirs(BDRVVVFATState*=
- s)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mapping_t* mapping;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int j, parent_path_len;<br>
-<br>
--#ifdef __MINGW32__<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (mkdir(commit-&gt;path))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (g_mkdir(commit-&gt;path, 075=
-5)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -5;<br=
->
--#else<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (mkdir(commit-&gt;path, 0755)=
-)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -5;<br>
--#endif<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mapping =3D insert_mapping(=
-s, commit-&gt;param.mkdir.cluster,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0commit-&gt;param.mkdir.cluster + 1);<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---00000000000061125205e9495653--
+KVM originally did things like this, where there was dedicated code for THP vs.
+HugeTLB, and it was a mess.  The goal here is very much to avoid repeating those
+mistakes.  Have the backing store _tell_ KVM how big the mapping is, don't force
+KVM to rediscover the info on its own.
 
