@@ -2,57 +2,182 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E665E64CF
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 16:12:11 +0200 (CEST)
-Received: from localhost ([::1]:34380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA2005E6646
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 16:58:00 +0200 (CEST)
+Received: from localhost ([::1]:54516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obMvy-00011b-Jv
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 10:12:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35360)
+	id 1obNeJ-0000GF-TQ
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 10:57:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1obMCM-0003jx-RY; Thu, 22 Sep 2022 09:25:04 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:59419)
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1obMEK-00050S-Op
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 09:27:05 -0400
+Received: from mga12.intel.com ([192.55.52.136]:64362)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1obMCJ-0007m8-M5; Thu, 22 Sep 2022 09:25:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=2ydtKsUcxkENSQGvfxMm2yqaEGziF4J27TdtjBVOThs=; b=xFk6QfbN56MjdSjjuEkBri2d0w
- lT4pKTO7gaHt9Q8D3i2MmMI10r3XLgLt5vqLm3QZm++3HVerwyBmzKnIUr+yFwejXU6pS7YqbuoiW
- cE2ukQzzqzNsXaoVENffRTHOw0Q/G/OSA0FqUmAyz8irSFq/g7Bkob+LphdVzdyH1UbDglWFYMsz4
- uWcjdWnlyUVSh3FDyrjKCjp2vE7HPdAje5owSWoYIEYeIJWlWxEg6w4191w1tlfGejCwqaAq7WNDu
- cNz/Eb0j/dJho6adRwkQ5GDTAGEY/QxcqDjfasfR4ptE5YUV2kUYLZHGyLpVdZ0hC6akLAc7skqqA
- MQ+fEe44XMc3WVFdeNIGNkS2/d7ebgfZhbxrE7aei1WdcFTVGMCjju/MHZg0tm3Lbktvw4sJnsrml
- f4jSl0t0Djyw5ZxQdj7YvCLmL2in3WJajmuXRrkHP5vbWlEvZzOi2Qb+PEv9CiUWTx7UnoHK/ULVr
- gbCTerALyrleT7yqfsLXDlRhEPoprt2CMCNUhYtzb/EwVWdk9526HvCuZ8kYpupTDWGroIxJCch4+
- iwlO+w7eZouqOlZgVtc9hOc0gHdtRBGT7POAaX6GcDXuu1NGLZXEKg72gRU9I1Xfi6FXaqrL5PI5l
- 7P92KELKz11PhZmb4k93xyBiparD9k1SoEFfI4aNA=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Qemu-block <qemu-block@nongnu.org>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
- Daniel P =?ISO-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Greg Kurz <groug@kaod.org>, Linus Heckemann <git@sphalerite.org>
-Subject: Re: [PATCH v3] 9pfs: use GHashTable for fid table
-Date: Thu, 22 Sep 2022 15:24:53 +0200
-Message-ID: <18285609.CZGQWmveTA@silver>
-In-Reply-To: <yga7d1vy6pv.fsf@localhost>
-References: <20220908112353.289267-1-git@sphalerite.org>
- <1754509.KvSVDBIHpc@silver> <yga7d1vy6pv.fsf@localhost>
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1obMEI-0008LE-O9
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 09:27:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663853222; x=1695389222;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=A1WiwNbsKdSmcDRyoGbP9I29qWo1Kpwcr563tFlwFVg=;
+ b=nnU9BvmMD/WFbDHO2uh+b50vUcFgYz9dO2jfrFZNffySXW1wOA0yiWSA
+ qCzyAqrHiYA28tafty7y1Q/cClifBnT7Li9dEatwQIBJwLOV24iHOulD/
+ r5Iwy0ofZ+whP7TuskcUjnIvEJD8DTxTVQf36KGbucjoI5nXk+d73cxU4
+ 2jPTj/k3Jk8JrRLFf3ZGtHOn6BP5kYueJDnAoEi2KisR0VeGMvsxyzLXw
+ JrL4mfdLMjBjGjPaqkM3bvwOTAQgCBiilH0GOPvkkz13/nsXuPXThNuYw
+ o+lXzR4WQpRx9tfdmkYOW1h3nEgi7kgwWv3uT2ZCbpSvUUS6wfiVSLqaw Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="280013686"
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="280013686"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2022 06:26:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="570960833"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orsmga003.jf.intel.com with ESMTP; 22 Sep 2022 06:26:57 -0700
+Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 22 Sep 2022 06:26:56 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Thu, 22 Sep 2022 06:26:56 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.107)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Thu, 22 Sep 2022 06:26:56 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U3yqmUEhF9Q30rBhgtVM67xZBMyelx+lXuALKE4Fi72w1JLx0/VkeCOFTUG2MFw545l7LSfmhPmNeHJmTwUFsE/2IKeCXbcf1jbeBoW/TJ5L72fLJ5diGKaN5rsi1HxwGMeEsI9QsKtPlj/oNetWkg2fbQxSN+k6MTeQOvJtBvmMYFPA1qPepVTkkUXW2Mz+iWf1L6DAsI9hluw1A08Z4I9SPpoMdEarIVhMJDVruHwglS9CgHBLBJbfBNJv3wb9V4Si/f7KEL9nXLProQ1iQy+LHH9Pc6F6bQpsFwtvMXCu1Ko3/dzgD7r7+0FRwJ/ZvP9OjvMffGCxvs2c26LTHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/V/BpM80Wz3RlG2xGRwHzb4fAHR5QkpKI2TwgGYIN9k=;
+ b=VctWu7z48TmuGXY7pTyq1sHjhi21HSObfklAkb+frGe4NxGvHD6ZwHx/s9nj3+y2EwyBoikN8SA0sCPNIgvaxOrsB1dAfNcaXU62uIEajAW+iqesNkMWF+cFIelSLyu8MRzZKK+CalemNEhibY+0MO7rQpU5SKG8f1WZifGNBO6BLb0JuIeVN9iavykL9kBH4PucYSTfuX2Kthrl28aQdBKBznNWUJRFsSEOA0fBDKSBOSUsPqlw/6dvk528hUjIIfMbgEsnDQzek7ah7iNVLWN9jrryoYH8xmkTfMGln7x3ixdTfqr5oZp5/araBZsMiESJZf5ziU0RaZ13BBkarw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DS0PR11MB6373.namprd11.prod.outlook.com (2603:10b6:8:cb::20) by
+ SN7PR11MB6797.namprd11.prod.outlook.com (2603:10b6:806:263::6) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5654.18; Thu, 22 Sep 2022 13:26:47 +0000
+Received: from DS0PR11MB6373.namprd11.prod.outlook.com
+ ([fe80::817a:fd68:f270:1ea0]) by DS0PR11MB6373.namprd11.prod.outlook.com
+ ([fe80::817a:fd68:f270:1ea0%7]) with mapi id 15.20.5654.016; Thu, 22 Sep 2022
+ 13:26:47 +0000
+From: "Wang, Wei W" <wei.w.wang@intel.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>, "kvm@vger.kernel.org"
+ <kvm@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ "Christopherson,, Sean" <seanjc@google.com>, Vitaly Kuznetsov
+ <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, Jim Mattson
+ <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, Thomas Gleixner
+ <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+ <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>, "H . Peter Anvin"
+ <hpa@zytor.com>, Hugh Dickins <hughd@google.com>, Jeff Layton
+ <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>, "Andrew
+ Morton" <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, "Mike
+ Rapoport" <rppt@kernel.org>, Steven Price <steven.price@arm.com>, "Maciej S .
+ Szmigiero" <mail@maciej.szmigiero.name>, Vlastimil Babka <vbabka@suse.cz>,
+ Vishal Annapurve <vannapurve@google.com>, Yu Zhang
+ <yu.c.zhang@linux.intel.com>, "Kirill A . Shutemov"
+ <kirill.shutemov@linux.intel.com>, "Lutomirski, Andy" <luto@kernel.org>,
+ "Nakajima, Jun" <jun.nakajima@intel.com>, "Hansen, Dave"
+ <dave.hansen@intel.com>, "ak@linux.intel.com" <ak@linux.intel.com>,
+ "david@redhat.com" <david@redhat.com>, "aarcange@redhat.com"
+ <aarcange@redhat.com>, "ddutile@redhat.com" <ddutile@redhat.com>,
+ "dhildenb@redhat.com" <dhildenb@redhat.com>, Quentin Perret
+ <qperret@google.com>, Michael Roth <michael.roth@amd.com>, "Hocko, Michal"
+ <mhocko@suse.com>, Muchun Song <songmuchun@bytedance.com>
+Subject: RE: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+Thread-Topic: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+Thread-Index: AQHYyRA+DGITW09wp06ZhgFK30MXVK3mRmjw
+Date: Thu, 22 Sep 2022 13:26:47 +0000
+Message-ID: <DS0PR11MB63734D4DF4C4F368805EC97DDC4E9@DS0PR11MB6373.namprd11.prod.outlook.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+In-Reply-To: <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.500.17
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS0PR11MB6373:EE_|SN7PR11MB6797:EE_
+x-ms-office365-filtering-correlation-id: 2b8b7c74-24b5-41c6-847a-08da9c9e199d
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: NhzEwMN5COxOHRfOeGkCdKBevsmeRgcD7O1QrWr5bdmTvpnXfgo+ubTNzNvCoeB8aMYGFeVWNFRzvjIXPo2PQYpSmYpZ4fYsQdoRUmDA3K/ZoWWQ6+0fWPT0d662FuOVMBrwQmAQuVtmI8C/6wvKQKSG13qwztkIniszXKyZd1F1iii06q76mheWSDsdPnz6dGvQHKJ9LMydO7CaydTVe7Y8UEVD+Vtr/iBJvC2f8xd0sknScUsWEJcTjkHQby+nWMw92dScWzqLTikNmvNJhItE+ZMFrA2G6qLgW882R6kchIEN01IifT5bISIFdyOW4s90uxKkA5CrOV6uR5CAtVQl5A7MtT/lINtMHnIJ1/rc0anhPMVEdYTGxw0gzCkdtOm2w1dlkh7B/v2CMyut1jVeAo5qCBZzrDBUHqC9AQd12iDq0anTaqvv+8cxZQbx8/1uC15P0MRuGKtIbSkUTXEytdSfSxy9oGjYHoDitsnpa9fHQMB+/8hmazpTVZMeC6u6hHZFgjxeDIUAg5gThB7BcVRwWD1tsGxtHutj2KAVVFAO7/iZo38EhJTnGqDAqD3CJzDuea8GOoEzfo1GUN+phQLw5o2veBjiRxWk+dUj/6+BP+xrEg/O7HWg2yvE9LrfKnytwTz1ULYMPZzHRmz9q6xl/+alh7wcCj40tMTBxyfpZnm5+w6y7KtJqjkP97G4RwaoDZOs3zYvbc2mNqvbrgufPdzZUOa9WWfEFSYpJRkKjau9+ew3JHV+eFK8BnQtjipuWL4VggXfgHOZOA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR11MB6373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(39860400002)(346002)(376002)(396003)(366004)(136003)(451199015)(83380400001)(122000001)(5660300002)(8676002)(64756008)(66446008)(66476007)(66556008)(66946007)(76116006)(316002)(4326008)(41300700001)(2906002)(8936002)(7406005)(7416002)(4744005)(478600001)(9686003)(52536014)(55016003)(7696005)(26005)(53546011)(6506007)(186003)(54906003)(110136005)(71200400001)(86362001)(33656002)(38100700002)(38070700005)(82960400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?58l9LnLH13RvsLPyTi5ybfZN/nsHEy9xWnbf+HfclZpSsa/V24E0MnThuvAZ?=
+ =?us-ascii?Q?Hyw255rBOagDttJMMH22wfpqTx4R8CkPg05ZhnwNdHfedFyB6i8JhhDcU2m9?=
+ =?us-ascii?Q?U1dgqm4phIL2ofrR4sFfYt0Jt67AcKyYSfRlL7sJDxE7h4rcFf2DjgwPl0Fw?=
+ =?us-ascii?Q?M1kTuAojgjuohuR6cqjEJxALLoThkeXwh6ykDZ2yE+R3ou+cqwOKTQS2vqZI?=
+ =?us-ascii?Q?bMMSJFvak9RDPAUwgd7m5fpzxbXpLXc7eo2pD6DkCLkR+IcMzm8qA07wP3/I?=
+ =?us-ascii?Q?mG5T8GlKsDJJSMaDXIxqzaG2eKVI+aFZw0rOSiQXrgfl3xsbT9C8bHdDT/mk?=
+ =?us-ascii?Q?GSTS9AwuSMFdRH5V2bVeubr6RO1RK2/aB6m2i4ZFRXXe2sma3yA3yuCAy37j?=
+ =?us-ascii?Q?luPL4B9PBYeKnlxrP1BqqxYU+jX+irj+1yzRpzGSUaI6ZlJUiEy178UkIqAS?=
+ =?us-ascii?Q?DiP+VCIXJ3HsUWl0/Vdk2Wb7nSWbrRn73UwrwJkUUpAMtDAL4pe98kIPS5K0?=
+ =?us-ascii?Q?jG/vKMnslebubdbbEwWORJ/0dZmws0Uh45n6caWb5GZaMmLohfibUYH/zUMr?=
+ =?us-ascii?Q?Nd5jzP8RdDAcvj2yb3JdKGoMlqZV3vM5F/BDhZERFgsFz7Pw8lOaNwRegASS?=
+ =?us-ascii?Q?bQq/fJq3g2pD9pDGCRBV8dALtd9qsQ74raDNMZBc8JLbbZaxAAxlOtLw5PHC?=
+ =?us-ascii?Q?ain5el9zgdY1lkpd09j1N54AOEX2aQR+CSLo3MWv5kT2S4WRWNF1IMVVbemW?=
+ =?us-ascii?Q?bK4bn2DLvZvW6olOQNA8yUzxb+f3O4tBp+XEBbVMrc8KLUAe8dZJay/Kv5AV?=
+ =?us-ascii?Q?V4ypi2bSNoBa3JLVZPMezvU44PSHFVj6EGRS3Mpuy06yAbTJcJuVdcj42gXB?=
+ =?us-ascii?Q?1i600FrdR+RDkmkjwNsbgVJ8xIPK5CAdOjvt9F074lYJ1PVUibyBQejpHHDG?=
+ =?us-ascii?Q?NBtBh1jVsAsflSpT+UZ6K0W76PPiHk5/v9EER/jIT/8jfYGQH9lvTA9RTyAo?=
+ =?us-ascii?Q?4rADDsfsOmA0Gafo8fCDa7pVi2F0pfHbrEtOWv3Mlup4jEcgaxqEYKE+vsmZ?=
+ =?us-ascii?Q?evv2bepWOMqI255F5pmRqgwqdNLgy3JLsSXTHYLYnxb0QJTPbGOEp/RIRepk?=
+ =?us-ascii?Q?Z/vaZB8tug8R4t9NAsgUwRT8iN1pF4Hh3jLeqhKnrqR+ng0asvbfXADHUv/Z?=
+ =?us-ascii?Q?OxCr+7sGTVOHIRKVsl2jwgrQcQizD1+mOray53N8TamI2jXbkTy4xc3PHL2X?=
+ =?us-ascii?Q?M25my5JKBY4prK8tAG+jVxu4Hln7mzgAqoNbjZTsk4Mlvsbp3DdcjckI59Pz?=
+ =?us-ascii?Q?1ll6JLpX01weEHQcWYeoz7Yeaacquu3JALXA2DH/KrxjHeIDKyVoLTkP06Ex?=
+ =?us-ascii?Q?SssHOxWOCAV03i7Yqmiq86/5hnV+9D752fC67AR13sIqAhu7Ty4BiC9UiEu2?=
+ =?us-ascii?Q?A7Q3ZmK0rgYwSCo+FrgNar76++rl7NbHUiBHXr3rjBmCQtfuEm9s3wpyYR3d?=
+ =?us-ascii?Q?9Wr5aUpcGLPvl6POxlmgq3TSxcIhTXM9xZxG6ciB7LmfKkVXEH14dQpZ8CrA?=
+ =?us-ascii?Q?i8nnSVYWoQOhBnEc8wTIZRT/G/RMeOuYAgfcAl+m?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6373.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b8b7c74-24b5-41c6-847a-08da9c9e199d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Sep 2022 13:26:47.4397 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zJ1bT3jrDR5NTf6cEgGfc0Ajzx9DHFyx4rO3H+oGMILcO56mnBJjDLrOkC5IQrwAZAe8nhAzCfuFTe8c+Q2gSQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6797
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=wei.w.wang@intel.com;
+ helo=mga12.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,174 +194,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 22. September 2022 13:43:56 CEST Linus Heckemann wrote:
-> Christian Schoenebeck <qemu_oss@crudebyte.com> writes:
-> > On Freitag, 9. September 2022 15:10:48 CEST Christian Schoenebeck wrote:
-> >> On Donnerstag, 8. September 2022 13:23:53 CEST Linus Heckemann wrote:
-> >> > The previous implementation would iterate over the fid table for
-> >> > lookup operations, resulting in an operation with O(n) complexity on
-> >> > the number of open files and poor cache locality -- for every open,
-> >> > stat, read, write, etc operation.
-> >> >=20
-> >> > This change uses a hashtable for this instead, significantly improvi=
-ng
-> >> > the performance of the 9p filesystem. The runtime of NixOS's simple
-> >> > installer test, which copies ~122k files totalling ~1.8GiB from 9p,
-> >> > decreased by a factor of about 10.
-> >> >=20
-> >> > Signed-off-by: Linus Heckemann <git@sphalerite.org>
-> >> > Reviewed-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-> >> > Reviewed-by: Greg Kurz <groug@kaod.org>
-> >> > ---
-> >>=20
-> >> Queued on 9p.next:
-> >> https://github.com/cschoenebeck/qemu/commits/9p.next
-> >>=20
-> >> I retained the BUG_ON() in get_fid(), Greg had a point there that
-> >> continuing to work on a clunked fid would still be a bug.
-> >>=20
-> >> I also added the suggested TODO comment for
-> >> g_hash_table_steal_extended(),
-> >> the actual change would be outside the scope of this patch.
-> >>=20
-> >> And finally I gave this patch a whirl, and what can I say: that's just
-> >> sick! Compiling sources with 9p is boosted by around factor 6..7 here!
-> >> And running 9p as root fs also no longer feels sluggish as before. I
-> >> mean I knew that this fid list traversal performance issue existed and
-> >> had it on my TODO list, but the actual impact exceeded my expectation =
-by
-> >> far.>=20
-> > Linus, there is still something cheesy. After more testing, at a certain
-> > point>=20
-> > running the VM, the terminal is spilled with this message:
-> >   GLib: g_hash_table_iter_next: assertion 'ri->version =3D=3D
-> >   ri->hash_table->version' failed>=20
-> > Looking at the glib sources, I think this warning means the iterator got
-> > invalidated. Setting a breakpoint at glib function
-> > g_return_if_fail_warning I>=20
-> > got:
-> >   Thread 1 "qemu-system-x86" hit Breakpoint 1, 0x00007ffff7aa9d80 in
-> >   g_return_if_fail_warning () from /lib/x86_64-linux-gnu/libglib-2.0.so=
-=2E0
-> >   (gdb) bt
-> >   #0  0x00007ffff7aa9d80 in g_return_if_fail_warning () at
-> >   /lib/x86_64-linux-gnu/libglib-2.0.so.0 #1  0x00007ffff7a8ea18 in
-> >   g_hash_table_iter_next () at /lib/x86_64-linux-gnu/libglib-2.0.so.0 #=
-2=20
-> >   0x0000555555998a7a in v9fs_mark_fids_unreclaim (pdu=3D0x555557a34c90,
-> >   path=3D0x7ffba8ceff30) at ../hw/9pfs/9p.c:528 #3  0x000055555599f7a0 =
-in
-> >   v9fs_unlinkat (opaque=3D0x555557a34c90) at ../hw/9pfs/9p.c:3170 #4=20
-> >   0x000055555606dc4b in coroutine_trampoline (i0=3D1463900480, i1=3D218=
-45) at
-> >   ../util/coroutine-ucontext.c:177 #5  0x00007ffff7749d40 in
-> >   __start_context () at /lib/x86_64-linux-gnu/libc.so.6 #6=20
-> >   0x00007fffffffd5f0 in  ()
-> >   #7  0x0000000000000000 in  ()
-> >   (gdb)
-> >=20
-> > The while loop in v9fs_mark_fids_unreclaim() holds the hash table itera=
-tor
-> > while the hash table is modified during the loop.
-> >=20
-> > Would you please fix this? If you do, please use my already queued patch
-> > version as basis.
-> >=20
-> > Best regards,
-> > Christian Schoenebeck
->=20
-> Hi Christian,
->=20
-> Thanks for finding this!
->=20
-> I think I understand the problem, but I can't reproduce it at all (I've
-> been trying by hammering the filesystem with thousands of opens/closes
-> across several processes). Do you have a reliable way?
+On Thursday, September 15, 2022 10:29 PM, Chao Peng wrote:
+> +int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
+> +			 int *order)
 
-I also didn't hit this issue in my initial tests. I do hit this after about=
-=20
-just a minute though when running 9p as root fs [1] and then starting to=20
-compile KDE [2] inside the VM.
-
-[1] https://wiki.qemu.org/Documentation/9p_root_fs
-[2] https://community.kde.org/Get_Involved/development
-
-Independent of reproduction, let me elaborate what's going on, as this issu=
-e=20
-is probably not that obvious:
-
-1.) Like with any ordered container, the glib hash iterator becomes invalid=
- as=20
-soon as the hash table got modified.
-
-=46ortunately glib detects this case by maintaining a "version" field on th=
-e=20
-hash table which is bumped whenever the hash table was modified, and likewi=
-se=20
-a "version" field on the iterator structure and detecting an invalid iterat=
-or=20
-by comparing [3] the two "version" fields when calling=20
-g_hash_table_iter_next() for instance:
-
-  g_return_val_if_fail (ri->version =3D=3D ri->hash_table->version, FALSE);
-
-and the g_return_val_if_fail() macro calls g_return_if_fail_warning() to pr=
-int=20
-the warning message in this case and then just immediately returns from=20
-g_hash_table_iter_next().
-
-So this is not nitpicking, it will actually start severe 9p server=20
-misbehaviour at this point.
-
-[3] https://github.com/GNOME/glib/blob/main/glib/ghash.c#L1182
-
-2.) The hash table loop inside v9fs_mark_fids_unreclaim() does not directly=
-=20
-modify the "fids" hash table. But inside that loop we get contention, becau=
-se=20
-even though basically everything inside 9p.c is executed on QEMU main threa=
-d=20
-only, all the 9p filesystem driver calls are dispatched [4] to a worker thr=
-ead=20
-and then after fs driver task completion, dispatched back to main thread. A=
-nd=20
-specifically in v9fs_mark_fids_unreclaim() these are the two functions=20
-put_fid() and v9fs_reopen_fid() that are endangered to this possibility (i.=
-e.=20
-those two may "yield" [4] the coroutine).
-
-So what happens is, the coroutine is dispatched to the fs worker thread=20
-(inside those two functions), in the meantime main thread picks & continues=
- to=20
-run another coroutine (i.e. processes another active 9p request), and that =
-in=20
-turn might of course modify the 'fids' hash table, depending on what kind o=
-f=20
-9p request that is. Then main thread gets back to the original couroutine=20
-inside 9fs_mark_fids_unreclaim(), and eventually continues the hash table l=
-oop=20
-there, and bam.
-
-[4] https://wiki.qemu.org/Documentation/9p#Coroutines
-
-=2D--
-
-As for a solution: in contrast to the previous list based implementation, I=
-=20
-think we can't (or shouldn't) recover from an invalidated hash table iterat=
-or,=20
-even though we could detect this case by checking the return value of=20
-g_hash_table_iter_next().
-
-I think it would make sense instead to first collect the respective fids=20
-inside that loop with a local container (e.g. a local list on the stack), a=
-nd=20
-then putting the fids subsequently in a separate loop below.
-
-Does this make sense?
-
-Best regards,
-Christian Schoenebeck
-
-
+Better to remove "order" from this interface?
+Some callers only need to get pfn, and no need to bother with
+defining and inputting something unused. For callers who need the "order",
+can easily get it via thp_order(pfn_to_page(pfn)) on their own.
 
