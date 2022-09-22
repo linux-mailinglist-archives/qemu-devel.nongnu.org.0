@@ -2,57 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD0245E677D
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 17:47:00 +0200 (CEST)
-Received: from localhost ([::1]:36344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55B275E6793
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 17:51:34 +0200 (CEST)
+Received: from localhost ([::1]:51454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obOPk-00077u-0g
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 11:47:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58176)
+	id 1obOU9-0003UA-Ep
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 11:51:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1obNsB-0008KR-Te
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:12:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50703)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1obO5E-0005nN-GQ
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:25:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49526)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1obNsA-0007aZ-F6
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:12:19 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1obO5B-0001Xi-3t
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:25:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663859537;
+ s=mimecast20190719; t=1663860342;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=1MVJkGVtmd0BxIhNRUcsYjeVc2MouJmgy7qUeKZ203U=;
- b=INXXlp/Ixl7GtFFzC33aYMpfPdcB0bufGni82MzMEk/P33V4GuaPR3WJcLSxSvzegIC77K
- yLAR0pDhkOC3D+WugAniDA7WtB5NeWr7WWvDneE+0Kx55T3MrBHN3pvbRU/B5QWZkdZnxZ
- DTnAeaqGAjRNzngnzshGay/jEThpEwc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-154-v0ZgiCnIOvSBlEWo_gd2NQ-1; Thu, 22 Sep 2022 11:12:15 -0400
-X-MC-Unique: v0ZgiCnIOvSBlEWo_gd2NQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D4A8881B709;
- Thu, 22 Sep 2022 15:12:12 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.156])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6071640C2066;
- Thu, 22 Sep 2022 15:12:12 +0000 (UTC)
-Date: Thu, 22 Sep 2022 17:12:11 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: songlinfeng <slf553@126.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] try to find out which cluster allocated in qcow2
-Message-ID: <Yyx7S2DzzDrmY0ky@redhat.com>
-References: <1663747050-122900-1-git-send-email-slf553@126.com>
+ bh=LJQkcwyHVghNYKi+YLT0d6Wbdilwg7B6IloNbdWyHlY=;
+ b=NhVVnsAdBLlJ9ORR++u0eU9NyB+oykmO30zsjfZ2rFcOFB0JmMuzBfMi9Pr/7STSSj8IJg
+ z29OQ95i4aSTpIflVDkt781Le1vpDm6Vdgg9N0M35FJUFrwglBj1A8Ey1SLHRNwX0oEjP4
+ Xluqlkb9MsKMKlcGkPnkrQlts1QiqCQ=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-425-AUTYbBw3NL-HCyGrh1m23w-1; Thu, 22 Sep 2022 11:25:40 -0400
+X-MC-Unique: AUTYbBw3NL-HCyGrh1m23w-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ h7-20020ac85047000000b0035a6794699bso6610373qtm.3
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 08:25:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=LJQkcwyHVghNYKi+YLT0d6Wbdilwg7B6IloNbdWyHlY=;
+ b=uT9unhWz0kyhzj2LmJB1fnry9oOipVd5y0afAciAYV0noz7Y9Q2TUbSJ1kBdnntcxs
+ YVfOeh57avCugEBqQBmAOM9xLbDfpkwz3RXlc+sDoOSkfgLytfyecB4HEBueKDsFlXjp
+ Sy1KgiYFOR2O5xjCxvB0tRcaoVyX324QXLV/j9C7RR71mJdHKPNSDKtGR2MFmisOwB+d
+ Kid/12w3D1ORa4TbGjLG0hhpeGhVqYuho0InELC22Yo9O+zfx3fUu3jToslBaevsdRnA
+ /VPW87YS0py0kwwgUFee+HL8JfPsA+cWN7V9GQ9zWo5Lp2gNc3U13EH8YvHCrQWv1mmt
+ /Ekg==
+X-Gm-Message-State: ACrzQf12fuk2kegj3GX19oUPpCRCdgiPBPDpseubUvdcC2E6qT+FFL5y
+ X034M79oMMq2X3UkfTf0nmyTSPDipvFGKtvd10CZNASNEQ2SnG+32T75iRJLHlBMOL9nXNqzLfs
+ 9BrX6R0kpq4gLaoc=
+X-Received: by 2002:a05:620a:14aa:b0:6cb:e3a2:311b with SMTP id
+ x10-20020a05620a14aa00b006cbe3a2311bmr2511239qkj.266.1663860340445; 
+ Thu, 22 Sep 2022 08:25:40 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7lfircyBki5AC2pEL1/cvbF/QmRbM5DLjNhRSEsRdJxqEDCCRWm5/U7Rs3pYLSbvT4IeQmeg==
+X-Received: by 2002:a05:620a:14aa:b0:6cb:e3a2:311b with SMTP id
+ x10-20020a05620a14aa00b006cbe3a2311bmr2511223qkj.266.1663860340210; 
+ Thu, 22 Sep 2022 08:25:40 -0700 (PDT)
+Received: from xz-m1.local
+ (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca. [70.31.27.79])
+ by smtp.gmail.com with ESMTPSA id
+ de4-20020a05620a370400b006bbb07ebd83sm4079914qkb.108.2022.09.22.08.25.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Sep 2022 08:25:39 -0700 (PDT)
+Date: Thu, 22 Sep 2022 11:25:38 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, "Daniel P . Berrange" <berrange@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH 1/5] migration: Fix possible deadloop of ram save process
+Message-ID: <Yyx+cs9ihNx+WE6G@xz-m1.local>
+References: <20220920223800.47467-1-peterx@redhat.com>
+ <20220920223800.47467-2-peterx@redhat.com>
+ <Yyx2An+YcgYCbsDx@work-vm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1663747050-122900-1-git-send-email-slf553@126.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+In-Reply-To: <Yyx2An+YcgYCbsDx@work-vm>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -76,22 +100,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 21.09.2022 um 09:57 hat songlinfeng geschrieben:
-> In our project,we want to full backup a disk only allocated area,but
-> qmp block-dity-block-add can create a bitmap with all zero,so we can't
-> find out which cluster is allocated.in qcow2,I think l2_table can help
-> me find out which cluster should be backup.
+On Thu, Sep 22, 2022 at 03:49:38PM +0100, Dr. David Alan Gilbert wrote:
+> * Peter Xu (peterx@redhat.com) wrote:
+> > When starting ram saving procedure (especially at the completion phase),
+> > always set last_seen_block to non-NULL to make sure we can always correctly
+> > detect the case where "we've migrated all the dirty pages".
+> > 
+> > Then we'll guarantee both last_seen_block and pss.block will be valid
+> > always before the loop starts.
+> > 
+> > See the comment in the code for some details.
+> > 
+> > Signed-off-by: Peter Xu <peterx@redhat.com>
 > 
-> Signed-off-by: songlinfeng <slf553@126.com>
+> Yeh I guess it can currently only happen during restart?
 
-You're just adding a new function without any callers. This would be
-dead code. We don't generally commit dead code except as part of a
-series where a later patch makes use of it.
+There're only two places to clear last_seen_block:
 
-Either way, since you just seem to print allocation status to stdout,
-maybe 'qemu-img map' is actually the right tool for what you are
-trying to do?
+ram_state_reset[2683]          rs->last_seen_block = NULL;
+ram_postcopy_send_discard_bitmap[2876] rs->last_seen_block = NULL;
 
-Kevin
+Where for the reset case:
+
+ram_state_init[2994]           ram_state_reset(*rsp);
+ram_state_resume_prepare[3110] ram_state_reset(rs);
+ram_save_iterate[3271]         ram_state_reset(rs);
+
+So I think it can at least happen in two places, either (1) postcopy just
+started (assume when postcopy starts accidentally when all dirty pages were
+migrated?), or (2) postcopy recover from failure.
+
+In my case I triggered this deadloop when I was debugging the other bug
+fixed by the next patch where it was postcopy recovery (on tls), but only
+once..  So currently I'm still not 100% sure whether this is the same
+problem, but logically it could trigger.
+
+I also remember I used to hit very rare deadloops before too, maybe they're
+the same thing because I did test recovery a lot.
+
+> 
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+Thanks!
+
+-- 
+Peter Xu
 
 
