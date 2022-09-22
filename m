@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C75425E601C
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 12:43:11 +0200 (CEST)
-Received: from localhost ([::1]:59192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E5395E6025
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 12:44:27 +0200 (CEST)
+Received: from localhost ([::1]:33724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obJfi-0004SH-N2
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 06:43:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60244)
+	id 1obJgv-0005u2-Vd
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 06:44:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1obJa7-00073S-39
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 06:37:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53168)
+ id 1obJcd-0000D2-8t
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 06:40:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24398)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1obJa4-0007Cg-AL
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 06:37:21 -0400
+ id 1obJcY-0008HR-LL
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 06:39:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663843038;
+ s=mimecast20190719; t=1663843193;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vWmp2KIjvQ07Zt18EhbBcK6a+wQHyD18ARR2FqaPmTA=;
- b=Fb3j6eMCjL33U+vY0FrS1rwGz6yqbcpr+1kSv1VEMBZJcyZy/p7kmUjEjGB3lQ7sjj9+8E
- Mc2Y83As2WDmM3wuzIr6rsRvyxeHUdxE5lrXkj+iRFdidr1xvHsAhr7nEmFekpkVvfs6nU
- aZ4eIE4bVGKZh/GiQc3owbBwVSNNfAQ=
+ bh=llkzwBio9YznelJyNEHBXomhNnIZvzzCthmK4+xY4ps=;
+ b=U37orUzlXHHNJkZntxHEJ1gZT0OdAIW2AbypDR3ebhbm0kx00U7c7UBJVR2i+msvonYXfq
+ ESMsf8asvFwVQy2Ci6kxQx39KF+NZRv3I2p2GBSrKd4pzwxBEGwIGaawcM7VFhTqgjZUGI
+ 0qNXxufED6PLga0Ma5rSyHriG3dg27c=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-193-UJFvsDD4Pm6_KB0zM5Poyg-1; Thu, 22 Sep 2022 06:37:13 -0400
-X-MC-Unique: UJFvsDD4Pm6_KB0zM5Poyg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-140--xX6WDDiNku-tbpQFhkPuQ-1; Thu, 22 Sep 2022 06:39:52 -0400
+X-MC-Unique: -xX6WDDiNku-tbpQFhkPuQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 346AB1C05AA7;
- Thu, 22 Sep 2022 10:37:13 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7564F3C0D863;
+ Thu, 22 Sep 2022 10:39:52 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.120])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C5890C15BA5;
- Thu, 22 Sep 2022 10:37:10 +0000 (UTC)
-Date: Thu, 22 Sep 2022 11:37:08 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D10B2024CBE;
+ Thu, 22 Sep 2022 10:39:51 +0000 (UTC)
+Date: Thu, 22 Sep 2022 11:39:48 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Cc: Markus Armbruster <armbru@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- dinechin@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH v4 2/3] module: add Error arguments to module_load_one
- and module_load_qom_one
-Message-ID: <Yyw61MdawM2wkfiQ@redhat.com>
-References: <20220908183012.17667-3-cfontana@suse.de>
- <877d23ekj0.fsf@pond.sub.org>
- <76775f64-e49a-1c3c-0d73-10d93eff34e4@amsat.org>
- <87y1ucdirx.fsf@pond.sub.org>
- <cc2c5e14-f0a0-4415-9fe1-d7811ee27850@suse.de>
- <878rmc54cw.fsf@pond.sub.org> <Yywcs7CpKDxahOSM@redhat.com>
- <5e6d958d-3b69-1472-b1b8-3a63186f0c5b@suse.de>
- <YywraWlVnJoy6ypN@redhat.com>
- <df4c09e9-addf-c643-6da0-62a6cf94b349@suse.de>
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Juan Quintela <quintela@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2 35/39] tests/qtest: migration-test: Skip running some
+ TLS cases for win32
+Message-ID: <Yyw7dFEWACkGCoNP@redhat.com>
+References: <20220920103159.1865256-1-bmeng.cn@gmail.com>
+ <20220920103159.1865256-36-bmeng.cn@gmail.com>
+ <YytBFdDoLVgkgqIX@work-vm> <YytIkiMEC/KHL/9p@redhat.com>
+ <CAEUhbmVSBhD5tS_Y4E9CrhxHQd43Lnwbwg5K07SKMm0gmsLxnw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <df4c09e9-addf-c643-6da0-62a6cf94b349@suse.de>
+In-Reply-To: <CAEUhbmVSBhD5tS_Y4E9CrhxHQd43Lnwbwg5K07SKMm0gmsLxnw@mail.gmail.com>
 User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -98,50 +91,92 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 22, 2022 at 11:34:22AM +0200, Claudio Fontana wrote:
-> On 9/22/22 11:31, Daniel P. Berrangé wrote:
-> > On Thu, Sep 22, 2022 at 11:20:07AM +0200, Claudio Fontana wrote:
-> >> On 9/22/22 10:28, Daniel P. Berrangé wrote:
-> >>>
-> >>>> Another interface that does: return -1 for error, 0 for module not found
-> >>>> (no error), and 1 for loaded.
-> >>>
-> >>> IMHO this pattern is generally easier to understand when looking at
-> >>> the callers, as the fatal error scenario is always clear.
-> >>>
-> >>> That said I would suggest neither approach as the public facing
-> >>> API. Rather stop trying to overload 3 states onto an error reporting
-> >>> pattern that inherantly wants to be 2 states. Instead just have
-> >>> distinct methods
-> >>>
-> >>>   bool module_load_one(const char *prefix, const char *name, Error *errp)
-> >>>   bool module_try_load_one(const char *prefix, const char *name, Error *errp)
-> >>
-> >>
-> >> Here we are murking again the normal behavior and the error path.
-> >>
-> >> What is the meaning of try? It's not as though we would error out inside the function module_load_one,
-> >> it's the _caller_ that needs to decide how to treat a return value of found/not found, and the exception (Error).
-> > 
-> > I suggested "try" as in the  g_malloc vs g_try_malloc API naming pattern,
-> > where the latter ignores the OOM error condition.
-> > 
-> > So in this case 'try' means try to load the module, but don't fail if
-> > the module is missing on disk.
+On Thu, Sep 22, 2022 at 10:47:26AM +0800, Bin Meng wrote:
+> On Thu, Sep 22, 2022 at 1:23 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
+> >
+> > On Wed, Sep 21, 2022 at 05:51:33PM +0100, Dr. David Alan Gilbert wrote:
+> > > * Bin Meng (bmeng.cn@gmail.com) wrote:
+> > > > From: Bin Meng <bin.meng@windriver.com>
+> > > >
+> > > > Some migration test cases use TLS to communicate, but they fail on
+> > > > Windows with the following error messages:
+> > > >
+> > > >   qemu-system-x86_64: TLS handshake failed: Insufficient credentials for that request.
+> > > >   qemu-system-x86_64: TLS handshake failed: Error in the pull function.
+> > > >   query-migrate shows failed migration: TLS handshake failed: Error in the pull function.
+> > > >
+> > > > Disable them temporarily.
+> > > >
+> > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > > > ---
+> > > > I am not familar with the gnutls and simply enabling the gnutls debug
+> > > > output does not give me an immedidate hint on why it's failing on
+> > > > Windows. Disable these cases for now until someone or maintainers
+> > > > who may want to test this on Windows.
+> > >
+> > > Copying in Dan Berrange, he's our expert on weird TLS failures.
+> >
+> > Seems to match this:
+> >
+> >    https://gnutls.org/faq.html#key-usage-violation2
+> >
+> > which suggests we have a configuration mis-match.
+> >
+> > I'm surprised to see you are only needing to disable the TLS PSK tests,
+> > not the TLS x509 tests.
 > 
-> I understand what you mean, but this is wrong in this case.
+> The TLS x509 qtests all passed.
 > 
-> We _do not fail_ in module_load_one, whether an error is present
-> or not, whether a module is found or not.
+> >
+> > I'd like to know if tests/unit/test-crypto-tlssession passes.
+> 
+> These unit tests currently are not built on Windows as they simply
+> don't build due to usage of socketpair().
 
-Looking at the callers though, AFAIK there are only two patterns
-that we need. All callers should report a fatal error if the module
-exists and loading it failed eg module is from mis-matched build.
+Doh, yes, that's rather annoying, as debugging this problem in the
+unit tests would be easier than in qtests.
 
-Some callers also want a failure if the module doesn't exist on
-disk (module_load_one can be made todo this), but most callers
-are happy to carry on if the module doesn't exist (module_try_load_one
-can simply return success status if it doesn't exist).
+> > If so, it might suggest we are missing 'priority: NORMAL' property
+> > when configuring TLS creds for the migration test.
+> 
+> I did the following changes but the error is still the same:
+
+> 
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index dbee9b528a..c1e3f11873 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -788,7 +788,8 @@ test_migrate_tls_psk_start_common(QTestState *from,
+> " 'id': 'tlscredspsk0',"
+> " 'endpoint': 'client',"
+> " 'dir': %s,"
+> - " 'username': 'qemu'} }",
+> + " 'username': 'qemu',"
+> + " 'priority': 'NORMAL'} }",
+> data->workdir);
+> qobject_unref(rsp);
+> @@ -797,7 +798,8 @@ test_migrate_tls_psk_start_common(QTestState *from,
+> " 'arguments': { 'qom-type': 'tls-creds-psk',"
+> " 'id': 'tlscredspsk0',"
+> " 'endpoint': 'server',"
+> - " 'dir': %s } }",
+> + " 'dir': %s,"
+> + " 'priority': 'NORMAL'} }",
+> mismatch ? data->workdiralt : data->workdir);
+> qobject_unref(rsp);
+> 
+> I am not sure whether I did the right changes.
+
+
+That ought to have been sufficient, if priority strings were the
+problem.
+
+
+I think we'd need the debug output from gnutls - could you edit crypto/init.c
+and uncomment the '#define DEBUG_GNUTLS' line near the top.
+
+If you can post the output you get from a single migration-test test case
+involving PSK, it might be enough to diagnose why gnutls is failing.
 
 With regards,
 Daniel
