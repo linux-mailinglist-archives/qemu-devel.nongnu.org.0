@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05D2A5E5ED9
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 11:46:09 +0200 (CEST)
-Received: from localhost ([::1]:56606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBBE65E5E61
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 11:20:59 +0200 (CEST)
+Received: from localhost ([::1]:59796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obImW-0000vn-44
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 05:46:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53976)
+	id 1obIOA-000451-6L
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 05:20:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1obHuO-0004YJ-4B
+ id 1obHuO-0004YK-51
  for qemu-devel@nongnu.org; Thu, 22 Sep 2022 04:50:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43156)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25385)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1obHuK-0003Se-6X
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 04:50:10 -0400
+ id 1obHuJ-0003Sh-Mz
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 04:50:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663836606;
+ s=mimecast20190719; t=1663836607;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lQfYt/ZXJmjE1TcR1De7ZzjZEgfz0xSkkoMH4Gfc/48=;
- b=WRqRZfhQSzRWbsXQ073f4d45ZbhEvBqP7SDjtViiWfMkhDF5Iv06bgHP6VQf2Xjyydh/R0
- vlgGg0D5RD+TBKQG+3rYutUsRw0uk4S0+2OfBb+MW0ZOotM6nqq2ynUxaoLdmJKrS+DYO7
- R1FkBAzQt0zxJ1pdCqc5qQbIF6HSh00=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uuN0RvFNXbfYw9v0uWvsWxRBJlewlxQT5whcowWTn1k=;
+ b=WGvq/u8TOlyvL5vaoUjbs7C5IbisbT4aVMiFLHxW2KxS1Vt9rJGTydvdPdybs8P0fwTLqx
+ eWLXe8kV01Ogl44n4G1vaa78vsTM4j4po2x6ZHMzQ9fClR5uRNXz/4YGHcC1YTybbrS5T0
+ 0m6b7yZHDaOLKJsUpjqDig3puZF850k=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-399-6Pm6RV2YNZqY1OZR1hcA_Q-1; Thu, 22 Sep 2022 04:50:04 -0400
-X-MC-Unique: 6Pm6RV2YNZqY1OZR1hcA_Q-1
-Received: by mail-ed1-f69.google.com with SMTP id
- y1-20020a056402358100b00451b144e23eso6149170edc.18
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 01:50:04 -0700 (PDT)
+ us-mta-657-dNpzcFBzO0aqzPtIMnov-w-1; Thu, 22 Sep 2022 04:50:06 -0400
+X-MC-Unique: dNpzcFBzO0aqzPtIMnov-w-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ sg44-20020a170907a42c00b007822e506a4fso1424923ejc.16
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 01:50:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=lQfYt/ZXJmjE1TcR1De7ZzjZEgfz0xSkkoMH4Gfc/48=;
- b=4GmYFF5euQ5KVx2YRlijliph1g0HDDieyWe5sHO5OlD5QCSsE36LRBcvsGUKVfbqNt
- aQeDTXpbW5O+7HKoT39d7SHCyL22O2yhQqu3rB4JDLbh5e82BNerWpilQx2Qx0iWfAgv
- TNiwvOz4whN4q9kFrdXpN5DonX1W4qXlzFTGMCoN3uZr7+u4i/ocLOJpX3LckxJ28BIh
- btTN269HtT6VysqXUCEVrHACsu0S4SZh8HnSx2xjFOmNqRN2nl0mfRSp+iqps4aXMQxm
- DuF0qilgbT2FwhNYQ0354JsTmbC/gBoS7pDYIRUW3Qq04/cJPIWvHySX/B6G7R+wY6wQ
- t7Fg==
-X-Gm-Message-State: ACrzQf3H9RTLaa/ooeftKoSrncJvHUk0wgMQtYeEEcpFHSAduVMb03em
- OdZi3skWNkKilxV1eqEfW3ZdMV7zsJWWoU2Fnbz4vJJfLmnSIRCQ3mw0LfucwVhcWsZZx143XpA
- qcE3ho1Bd/jlVs5OImW5yF+eMkoDD2gHL0aHa44bVtcr6yAqPTafAD8nHuAcvpYPsUq4=
-X-Received: by 2002:a17:907:948f:b0:780:4c66:6689 with SMTP id
- dm15-20020a170907948f00b007804c666689mr1840395ejc.401.1663836603506; 
- Thu, 22 Sep 2022 01:50:03 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7cJFxX8uyRf4ElbdYuY46kfVx6+c7+iQ+tOGc0cr92qLsr2o7YirK1G8Ds2gzivpJ7M4cCUQ==
-X-Received: by 2002:a17:907:948f:b0:780:4c66:6689 with SMTP id
- dm15-20020a170907948f00b007804c666689mr1840373ejc.401.1663836603282; 
- Thu, 22 Sep 2022 01:50:03 -0700 (PDT)
+ bh=uuN0RvFNXbfYw9v0uWvsWxRBJlewlxQT5whcowWTn1k=;
+ b=KuCJ9BNKae6U8rUupCrIf8bmrf0cPdRjY1UWFVyG8r6ALT3vRYj/R4BYyFPOmu6UMK
+ gWH0b3vevHDgSQ8r4ngbDXVvlkKPxlXaS9mwNSkm+Kg8o08RSwp5tgdVW9iiSGseyEdf
+ PGB9s5Aryse8bRkWvewdCwkYPNe660Hq9aepKDiu+s+yDqF8WJUCBmUfY0n/LrQ3Baeo
+ YUYOypQn8cjXtYLGWC8v219C/df3S2H3gNtXBXI7Ri4be9ZhJ1Bbub7usbDLORl2ixm8
+ w+HyNTPfrMB8/Cyaf1I4kAWsZ/BiueXVWjqueRf7CqSQ+CZfv5Bx9m76iaRy5VHB+RAo
+ aQhg==
+X-Gm-Message-State: ACrzQf2e8nlULkYWE4xUspsROjVG7Zz0q/Nrb8nUSLYEpHl+5HVOqTH8
+ E/fUWOFNvklGL/1XbBjYcijILPhFbZsLhAdTBv/ldksAcHdGpnhsVGKVB4iJeSJGmiUknijHzXu
+ zjtx6sQM/9f8pol4DfaPOnmKNkXOvToU406dWrfuB8yRaZtS5YG6hc2GR2Oy+eN+LMV8=
+X-Received: by 2002:aa7:cc8a:0:b0:446:7668:2969 with SMTP id
+ p10-20020aa7cc8a000000b0044676682969mr2174205edt.206.1663836604751; 
+ Thu, 22 Sep 2022 01:50:04 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7pLAvwf+3SaacD/apDxGVUbFaLB4YCRVvPm98M6zxzUTlF3+yMoHngapqE8s2NTcDXGaEuHQ==
+X-Received: by 2002:aa7:cc8a:0:b0:446:7668:2969 with SMTP id
+ p10-20020aa7cc8a000000b0044676682969mr2174187edt.206.1663836604533; 
+ Thu, 22 Sep 2022 01:50:04 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- j12-20020aa7c0cc000000b00445e1489313sm3202658edp.94.2022.09.22.01.50.02
+ ay21-20020a056402203500b0044e9601e53fsm3245515edb.19.2022.09.22.01.50.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 01:50:02 -0700 (PDT)
+ Thu, 22 Sep 2022 01:50:04 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: kwolf@redhat.com, qemu-block@nongnu.org, afaria@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH 25/26] migration: add missing coroutine_fn annotations
-Date: Thu, 22 Sep 2022 10:49:23 +0200
-Message-Id: <20220922084924.201610-26-pbonzini@redhat.com>
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PATCH 26/26] test-coroutine: add missing coroutine_fn annotations
+Date: Thu, 22 Sep 2022 10:49:24 +0200
+Message-Id: <20220922084924.201610-27-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220922084924.201610-1-pbonzini@redhat.com>
 References: <20220922084924.201610-1-pbonzini@redhat.com>
@@ -110,28 +109,25 @@ must be within "if (qemu_in_coroutine())".  Apply coroutine_fn to
 functions where this holds.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Alberto Faria <afaria@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- migration/migration.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ tests/unit/test-coroutine.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index bb8bbddfe4..739bb683f3 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -574,7 +574,8 @@ static void process_incoming_migration_bh(void *opaque)
-     migration_incoming_state_destroy();
+diff --git a/tests/unit/test-coroutine.c b/tests/unit/test-coroutine.c
+index aa77a3bcb3..e16b80c245 100644
+--- a/tests/unit/test-coroutine.c
++++ b/tests/unit/test-coroutine.c
+@@ -610,7 +610,7 @@ static void perf_baseline(void)
+     g_test_message("Function call %u iterations: %f s", maxcycles, duration);
  }
  
--static void process_incoming_migration_co(void *opaque)
-+static void coroutine_fn
-+process_incoming_migration_co(void *opaque)
+-static __attribute__((noinline)) void perf_cost_func(void *opaque)
++static __attribute__((noinline)) void coroutine_fn perf_cost_func(void *opaque)
  {
-     MigrationIncomingState *mis = migration_incoming_get_current();
-     PostcopyState ps;
+     qemu_coroutine_yield();
+ }
 -- 
 2.37.3
 
