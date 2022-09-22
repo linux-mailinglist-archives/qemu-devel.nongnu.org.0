@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1FB45E56D7
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 01:49:29 +0200 (CEST)
-Received: from localhost ([::1]:52738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1EAC5E57F8
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 03:24:34 +0200 (CEST)
+Received: from localhost ([::1]:39894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ob9T6-0000Fu-Ho
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 19:49:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41946)
+	id 1obAx7-0002IR-Bt
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 21:24:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3aqIrYwcKCn0wfouvsfhpphmf.dpnrfnv-efwfmopohov.psh@flex--venture.bounces.google.com>)
- id 1ob9Qe-0006XG-0j
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 19:46:56 -0400
-Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:35833)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3aqIrYwcKCn0wfouvsfhpphmf.dpnrfnv-efwfmopohov.psh@flex--venture.bounces.google.com>)
- id 1ob9Qc-0002ck-Ba
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 19:46:55 -0400
-Received: by mail-yb1-xb4a.google.com with SMTP id
- n85-20020a254058000000b006b0148d96f7so6577338yba.2
- for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 16:46:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date; bh=9tiIReuaymRKZMv5ofYH6sbg0oQrV3s+sRPgy/cw9LQ=;
- b=l99SFjWSaAothBVKntzAfERVNRHY/Th2RCcgcmq4zf/tJWFJ1a7rTXW9gN/uyYy1cB
- B1VTeYagMBROpdCTkW80EzC1XZoP4lKgR5SNM8VsHqdoa2c6oc6jrCQUTCPTzdzB1W7n
- 38FD/WkdNya1o6OKGJ1/5F65MfICzA7l3IRW9FVzgS8h9a9tNshU6g2ZsEnW2O0vAvmG
- HOcBzLWZ07H4bxMGOq2ejg82WR2JZKT0C8PRWTPaePsSMsp5Ov3pD8fzof3dPkbwCf7/
- w3salKDyNSFOE9MtqK8pBH1MYCUJPYuLA2VVXp+5JJ03EKbi4BeJdqZDMasYdm5m0MvX
- D2Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date;
- bh=9tiIReuaymRKZMv5ofYH6sbg0oQrV3s+sRPgy/cw9LQ=;
- b=BS1gghwkDCEK+WaYgC1o79bm3wqeN395fPn0Z5SHinVa9WHUSjNgm70fm7Ni8Lcdjy
- W6/QXJBWgqhrklsufNPqItYOnv3eOm5oeF4mH7WRJ+QR7C96x1xnpFHZ5wcY11+1SSOo
- ES1QDUTRDBsKAeYIAiVvSwpUAPVDGlzt2oZW627NKBR+Gk4/eNAO5Y70EyoFq4+glTCV
- S4PDSC5kdY6t6Q4ngp5hhEn+OS77vfc4T+2PGv8ifPUpHxQiCv1pM45nYy3T43FQmniG
- BWr1YnX+1CYq2/2gDjWxwEA4t6sIGTQ1o0Lq9A1fZ9yCiPpskA4fIzcb9W01X22uawDv
- z5Ww==
-X-Gm-Message-State: ACrzQf2D0AD38R0BRxRb3XPpVqv5uv1GDz60gr4613KvqAKEXY+J7cZ0
- Yoypl81KOhhtTs6DBmes7MlPyhJyK8YY
-X-Google-Smtp-Source: AMsMyM4pM2RMbKaUl1IolC4zx2FyuoS92ASol7bMiH6qo91HUPRg3brHKv7UckgsJm2efgFEcjpZ08v5MeRB
-X-Received: from venture.svl.corp.google.com
- ([2620:15c:2a3:201:cdb2:c21d:9e12:1a22])
- (user=venture job=sendgmr) by 2002:a81:118c:0:b0:346:f0d9:bf51 with SMTP id
- 134-20020a81118c000000b00346f0d9bf51mr685723ywr.288.1663804010758; Wed, 21
- Sep 2022 16:46:50 -0700 (PDT)
-Date: Wed, 21 Sep 2022 16:46:46 -0700
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.37.3.998.g577e59143f-goog
-Message-ID: <20220921234646.949273-1-venture@google.com>
-Subject: [PATCH] hw/net: npcm7xx_emc: set MAC in register space
-From: Patrick Venture <venture@google.com>
-To: hskinnemoen@google.com, kfting@nuvoton.com
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Patrick Venture <venture@google.com>, Hao Wu <wuhaotsh@google.com>
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1obAvU-0000ea-8s
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 21:22:52 -0400
+Received: from mga11.intel.com ([192.55.52.93]:59410)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1obAvR-0003OO-Ky
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 21:22:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663809769; x=1695345769;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=wFdk/RL3u+55HbD75ch9sUUEqvIR4qO9wf3g8ClY4bI=;
+ b=Is+cFfPfokMuZxRb3shdg+fjmHeGQIJ+WG6lgYIVUN6x4bRWoTIXhbNt
+ +6UzQ9JM2/fyxCoNn+DyE7DGRndOEN4+97SWkwGSnlIwHiVOYTJoRPRZ4
+ cAixz5Xrz6nNQgXNIqSkuxutDvJ+T/3yfNehmQ4HqbuVSLPX2d2gbWH5f
+ VRI7bJtDaACV1PaDX8NfzboSuYFEUvnElh+4sAOxjR0qrrMLiBNzp+zBx
+ QEVPpM3gCOgFX/RoaZz0ACdRFtoh//6Q6YNInbsuyKX6ICWjh1fpMVB6/
+ lgq1Vgat5oFUJlet1XoUbertg1ZM6XQLA3U/qDv94CCq0S146+I+JXNVB w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10477"; a="297768322"
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="297768322"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2022 18:22:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; d="scan'208";a="682010582"
+Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
+ ([10.239.48.212])
+ by fmsmga008.fm.intel.com with ESMTP; 21 Sep 2022 18:22:38 -0700
+Message-ID: <d10d80ddce9a193eeb0dd4cd8fb7a5b2dc519f54.camel@linux.intel.com>
+Subject: Re: [PATCH v3 4/5] acpi/nvdimm: Implement ACPI NVDIMM Label Methods
+From: Robert Hoo <robert.hu@linux.intel.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: mst@redhat.com, xiaoguangrong.eric@gmail.com, ani@anisinha.ca, 
+ dan.j.williams@intel.com, jingqi.liu@intel.com, qemu-devel@nongnu.org, 
+ robert.hu@intel.com
+Date: Thu, 22 Sep 2022 09:22:37 +0800
+In-Reply-To: <20220921152927.03973518@redhat.com>
+References: <20220901032721.1392482-1-robert.hu@linux.intel.com>
+ <20220901032721.1392482-5-robert.hu@linux.intel.com>
+ <20220909153910.557fdbe7@redhat.com>
+ <78f021195335f1cc9d01071db58a51539f29c597.camel@linux.intel.com>
+ <20220916093757.689a939f@redhat.com>
+ <80b09055416c790922c7c3db60d2ba865792d1b0.camel@linux.intel.com>
+ <20220920111302.0c1716af@redhat.com>
+ <79e4c6a123e5b1edfaaa88f6ea12facedbaf5711.camel@linux.intel.com>
+ <20220921152927.03973518@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=3aqIrYwcKCn0wfouvsfhpphmf.dpnrfnv-efwfmopohov.psh@flex--venture.bounces.google.com;
- helo=mail-yb1-xb4a.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+X-Mailer: Evolution 3.28.5 (3.28.5-10.el7) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=192.55.52.93;
+ envelope-from=robert.hu@linux.intel.com; helo=mga11.intel.com
+X-Spam_score_int: -69
+X-Spam_score: -7.0
+X-Spam_bar: -------
+X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,48 +86,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MAC address set from Qemu wasn't being saved into the register space.
+On Wed, 2022-09-21 at 15:29 +0200, Igor Mammedov wrote:
+> On Tue, 20 Sep 2022 20:28:31 +0800
+> Robert Hoo <robert.hu@linux.intel.com> wrote:
+> 
+> > On Tue, 2022-09-20 at 11:13 +0200, Igor Mammedov wrote:
+> > > On Fri, 16 Sep 2022 21:15:35 +0800
+> > > Robert Hoo <robert.hu@linux.intel.com> wrote:
+> > >   
+> > > > On Fri, 2022-09-16 at 09:37 +0200, Igor Mammedov wrote:
+> > > >   
+> > > > > > Fine, get your point now.
+> > > > > > In ASL it will look like this:
+> > > > > >                     Local1 = Package (0x3) {STTS, SLSA,
+> > > > > > MAXT}
+> > > > > >                     Return (Local1)    
+> > > > > 
+> > > > >     
+> > > > > > 
+> > > > > > But as for 
+> > > > > >                     CreateDWordField (Local0, Zero,
+> > > > > > STTS)  //
+> > > > > > Status
+> > > > > >                     CreateDWordField (Local0, 0x04,
+> > > > > > SLSA)  //
+> > > > > > SizeofLSA
+> > > > > >                     CreateDWordField (Local0, 0x08,
+> > > > > > MAXT)  //
+> > > > > > Max
+> > > > > > Trans
+> > > > > > 
+> > > > > > I cannot figure out how to substitute with LocalX. Can you
+> > > > > > shed
+> > > > > > more
+> > > > > > light?    
+> > > > > 
+> > > > > Leave this as is, there is no way to make it anonymous/local
+> > > > > with
+> > > > > FooField.
+> > > > > 
+> > > > > (well one might try to use Index and copy field's bytes into
+> > > > > a
+> > > > > buffer
+> > > > > and
+> > > > > then explicitly convert to Integer, but that's a rather
+> > > > > convoluted
+> > > > > way
+> > > > > around limitation so I'd not go this route)
+> > > > >     
+> > > > 
+> > > > OK, pls. take a look, how about this?
+> > > > 
+> > > > Method (_LSI, 0, Serialized)  // _LSI: Label Storage
+> > > > Information
+> > > > {   
+> > > >     Local0 = NCAL (ToUUID("4309ac30-0d11-11e4-9191-
+> > > > 0800200c9a66"),
+> > > > 0x02, 0x04, Zero, One)    // Buffer
+> > > >     CreateDWordField (Local0, Zero, STTS)  // Status
+> > > >     CreateDWordField (Local0, 0x04, SLSA)  // Size of LSA
+> > > >     CreateDWordField (Local0, 0x08, MAXT)  // Max Transfer Size
+> > > >     Local1 = Package (0x3) {STTS, SLSA, MAXT}
+> > > >     Return (Local1)
+> > > > }
+> > > > 
+> > > > Method (_LSR, 2, Serialized)  // _LSR: Label Storage Read
+> > > > {
+> > > >     Name (INPT, Buffer(8) {})
+> > > >     CreateDWordField (INPT, Zero, OFST);
+> > > >     CreateDWordField (INPT, 4, LEN);  
+> > > 
+> > > why do you have to create and use INPT, wouldn't local be enough
+> > > to
+> > > keep the buffer?  
+> > 
+> > If substitute INPT with LocalX, then later
+> > Local0 = Package (0x01) {LocalX} isn't accepted.
+> > 
+> > PackageElement :=
+> > DataObject | NameString
+> 
+> ok, then respin series and lets get it some testing.
 
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
-Signed-off-by: Patrick Venture <venture@google.com>
----
- hw/net/npcm7xx_emc.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+Sure. I'd also like it to go through your tests, though I had done some
+ordinary tests like guest create/delete/init-labels on vNVDIMM.
 
-diff --git a/hw/net/npcm7xx_emc.c b/hw/net/npcm7xx_emc.c
-index 7c86bb52e5..6be1008529 100644
---- a/hw/net/npcm7xx_emc.c
-+++ b/hw/net/npcm7xx_emc.c
-@@ -96,6 +96,9 @@ static const char *emc_reg_name(int regno)
- #undef REG
- }
- 
-+static void npcm7xx_emc_write(void *opaque, hwaddr offset,
-+                              uint64_t v, unsigned size);
-+
- static void emc_reset(NPCM7xxEMCState *emc)
- {
-     trace_npcm7xx_emc_reset(emc->emc_num);
-@@ -112,6 +115,18 @@ static void emc_reset(NPCM7xxEMCState *emc)
- 
-     emc->tx_active = false;
-     emc->rx_active = false;
-+
-+    /* Set the MAC address in the register space. */
-+    uint32_t value = (emc->conf.macaddr.a[0] << 24) |
-+        (emc->conf.macaddr.a[1] << 16) |
-+        (emc->conf.macaddr.a[2] << 8) |
-+        emc->conf.macaddr.a[3];
-+    npcm7xx_emc_write(emc, REG_CAMM_BASE * sizeof(uint32_t), value,
-+                      sizeof(uint32_t));
-+
-+    value = (emc->conf.macaddr.a[4] << 24) | (emc->conf.macaddr.a[5] << 16);
-+    npcm7xx_emc_write(emc, REG_CAML_BASE * sizeof(uint32_t), value,
-+                      sizeof(uint32_t));
- }
- 
- static void npcm7xx_emc_reset(DeviceState *dev)
--- 
-2.37.3.998.g577e59143f-goog
+> 
+> BTW:
+> it looks like Windows Server starting from v2019 has support for
+> NVDIMM-P devices which came with 'Optane DC Persistent Memory
+> Modules'
+> but it fails to recognize NVDIMMs in QEMU (complaining something
+> about
+> wrong target). Perhaps you can reach someone with Optane/ACPI
+> expertise within your org and try to fix QEMU side.
+
+Yes, it's a known gap there. I will try that once I had some time and
+resource.
+> 
+> > >   
+> > > >     OFST = Arg0
+> > > >     LEN = Arg1
+> > > >     Local0 = Package (0x01) {INPT}
+> > > >     Local3 = NCAL (ToUUID("4309ac30-0d11-11e4-9191-
+> > > > 0800200c9a66"),
+> > > > 0x02, 0x05, Local0, One)
+> > > >     CreateDWordField (Local3, Zero, STTS)
+> > > >     CreateField (Local3, 32, LEN << 3, LDAT)
+> > > >     Local1 = Package (0x2) {STTS, toBuffer(LDAT)}
+> > > >     Return (Local1)
+> > > > }
+> > > > 
+> > > > Method (_LSW, 3, Serialized)  // _LSW: Label Storage Write
+> > > > {
+> > > >     Local2 = Arg2
+> > > >     Name (INPT, Buffer(8) {})  
+> > > 
+> > > ditto
+> > >   
+> > > >     CreateDWordField (INPT, Zero, OFST);
+> > > >     CreateDWordField (INPT, 4, TLEN);
+> > > >     OFST = Arg0
+> > > >     TLEN = Arg1
+> > > >     Concatenate(INPT, Local2, INPT)
+> > > >     Local0 = Package (0x01)
+> > > >     {
+> > > >         INPT
+> > > >     }
+> > > >     Local3 = NCAL (ToUUID ("4309ac30-0d11-11e4-9191-
+> > > > 0800200c9a66"),
+> > > > 0x02, 0x06, Local0, One)
+> > > >     CreateDWordField (Local3, 0, STTS)
+> > > >     Return (STTS)
+> > > > }  
+> > 
+> > 
+> 
+> 
 
 
